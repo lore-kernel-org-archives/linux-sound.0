@@ -1,7 +1,7 @@
-From: Alamais <alamais@softhome.net>
-Date: Fri, 18 Sep 1998 04:03:02 +0000
+From: Tuukka Toivonen <tuukkat@ees2.oulu.fi>
+Date: Fri, 18 Sep 1998 09:19:57 +0000
 Subject: Re: gmod and xmp, cannot open /dev/sequencer !
-Message-Id: <marc-linux-sound-90610241723334@msgid-missing>
+Message-Id: <marc-linux-sound-90611179126582@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90586345324981@msgid-missing>
 In-Reply-To: <marc-linux-sound-90586345324981@msgid-missing>
@@ -10,21 +10,21 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Alexis DOMJAN wrote:
-> 
-> Hello,
-> 
-> I have an AWE32 properly configured. I can play the midi files using
-> the wavetable without any problem. However if I try to use gmod or xmp
-> modules players they cannot open /dev/sequencer. However the device
-> can be opened with drvmidi to play the midi files. Exactly it says:
-> ...
+On Fri, 18 Sep 1998, Alamais wrote:
 
-mod,xm,s3m,etc files include their own samples, 
-and [do not/should not] use the midi sequencer. 
-The players should be trying to open /dev/dsp, 
-or whatever the AWE32 uses for wave audio.
+>mod,xm,s3m,etc files include their own samples, 
+>and [do not/should not] use the midi sequencer. 
 
--- 
-Alamais -> alamais@softhome.net
-Don't just do something, stand there and ponder!
+I don't know if awe drivers support it (but I assume they do) -- but at
+least with GUS this is completely wrong way to play modules. Using /dev/dsp
+eats CPU time since the processor has to mix the samples. With proper sound
+card (ie. GUS) the sample are downloaded to the soundcard memory and the
+player just says "play this sample with this pitch". Eats practically 0%
+CPU time. And this is where to use /dev/sequencer.
+
+--
+| Tuukka Toivonen <tuukkat@ee.oulu.fi>       [PGP public key
+| Homepage: http://www.ee.oulu.fi/~tuukkat/       available]
+| Try also finger -l tuukkat@ee.oulu.fi
+| Studying information engineering at the University of Oulu
++-----------------------------------------------------------
