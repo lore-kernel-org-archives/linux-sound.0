@@ -1,30 +1,35 @@
-From: Thomas Sailer <sailer@scs.ch>
-Date: Tue, 17 Jun 2003 18:28:52 +0000
-Subject: Re: S3 Sonic Vibes Linux driver
-Message-Id: <marc-linux-sound-105587519706906@msgid-missing>
+From: "Adam J. Richter" <adam@yggdrasil.com>
+Date: Fri, 06 Jun 2003 01:50:49 +0000
+Subject: Patch: linux-2.5.70-bk10/sound/usb/audio.c fix
+Message-Id: <marc-linux-sound-105486422005785@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-105580909208205@msgid-missing>
-In-Reply-To: <marc-linux-sound-105580909208205@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, 2003-06-17 at 02:17, Jonathon Horsman wrote:
+[Earlier today, I sent this message to tiwai@suse.de and meant to cc
+it to linux-sound, but accidentally cc'ed it to the invalid email
+address linux-audio.  --Adam Richter]
 
-> kernel: sv: version v0.31 time 12:14:29 Jun 17 2003
-> kernel: PCI: Found IRQ 12 for device 02:00.0
-> kernel: PCI: Failed to allocate resource 7(0-1f) for 02:00.0
-> kernel: sv: cannot allocate DDMA controller io ports
+        linux-2.5.70-bk10/sound/usb/audio.c does not compile, due to a
+debugging statement.  Here is a proposed patch.  If this looks good
+to you, could you please approve it and submit it to Linus?
 
-The kernel proper wasn't able to allocate IO addresses for the DDMA
-controllers.
+Adam J. Richter     __     ______________   575 Oroville Road
+adam@yggdrasil.com     \ /                  Miplitas, California 95035
++1 408 309-6081         | g g d r a s i l   United States of America
+                         "Free Software For The Rest Of Us."
 
-> Your site gives a command line option: dmaio=x
-> However I'm uncertain what parameter should be passed here.
-
-This parameter no longer exists for eons, DDMA address allocation should
-be automatic.
-
-Tom
+--- linux-2.5.70-bk10/sound/usb/usbaudio.c      2003-06-05 12:18:06.000000000 -0700
++++ linux/sound/usb/usbaudio.c  2003-06-05 15:24:41.000000000 -0700
+@@ -1944,7 +1944,7 @@
+        switch (format) {
+        case 0: /* some devices don't define this correctly... */
+                snd_printdd(KERN_INFO "%d:%u:%d : format type 0 is detected, processed as PCM\n",
+-                           dev->devnum, iface_no, altno);
++                           dev->devnum, fp->iface, fp->altsetting);
+                /* fall-through */
+        case USB_AUDIO_FORMAT_PCM:
+                if (sample_width > sample_bytes * 8) {
 
