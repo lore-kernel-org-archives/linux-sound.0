@@ -1,18 +1,26 @@
-From: Josh Estelle <jje7@cornell.edu>
-Date: Wed, 01 Dec 1999 16:28:26 +0000
-Subject: Re: Crystal cs4236: clicking noise
-Message-Id: <marc-linux-sound-94406620608732@msgid-missing>
+From: David Limon Romero <dlr@bret.com.mx>
+Date: Tue, 21 Dec 1999 16:54:03 +0000
+Subject: crystal pci
+Message-Id: <marc-linux-sound-94580082725969@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94390730003207@msgid-missing>
-In-Reply-To: <marc-linux-sound-94390730003207@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-> Well, I don't know what your problem is. I know there is some trouble with the
-> CS423x driver (OSS-lite), which causes it to produce a horrible "click" at the
-> start of each digital sound output. Anybody knows about a fix for this ?
+Hi all.
 
-i have this problem and would love if someone could explain a fix to it.
-josh
+I got a new machine, it has an onboard sound card, windows98 identifies it
+as: "Crystal Soundfusion PCI Audio Accelerator", it works with alsa?,
+which module I have to use?
+
+Thanks
+David
+--
+David Lim=F3n Romero			|=20
+dlr@bret.com.mx				|=20
+Grupo Embotellador BRET			| Software is like sex...
+Tel: 2-2291100 Ext. 2308		| 	Is better when it's free!
+Puebla, Pue. M=E9xico.			|
+http://cuates.pue.upaep.mx/~dlr/	|
+ICQ: 20804046				|
