@@ -1,26 +1,25 @@
-From: "Nerijus" <nerijus@sat.lt>
-Date: Sun, 13 Feb 2000 13:08:51 +0000
-Subject: MPEG players
-Message-Id: <marc-linux-sound-95044790827846@msgid-missing>
+From: Jeff McBride <trep@trep.dhs.org>
+Date: Fri, 03 Mar 2000 00:36:21 +0000
+Subject: Playing Multiple Audio streams
+Message-Id: <marc-linux-sound-95205421910517@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> I'm able to get the codecs for xanim to show me .avi files, but .mpg's
-> play dreadfully.  Can anyone point me in the right direction as to how
-> to get these to work as they should?
+Hello,
 
-MPEG-1/VCD players:
 
-mpegtv (shareware) http://www.mpegtv.com
+Are there any good ways to play several audio sources simultaneously? If
+an application wants to be playing say, several wave files overtop of each
+other, does it have to mix them itself and then play one stream. Or are
+there other drives, or possibly a daemon of some kind to do it? 
 
-smpeg http://www.lokigames.com/development/smpeg.php3
-and its various frontends (search in http://freshmeat.net)
+And how about multiple applications that are unaware of each other playing
+at the same time? 
 
-kmpg http://www.rhrk.uni-kl.de/~mvogt/linux/kmpg/index.html
 
-MPEG-2/DVD player:
+Thanks for any help,
 
-XMovie http://heroine.linuxbox.com/
+Jeff
