@@ -1,38 +1,40 @@
-From: "paco@hydrofunk.org" <paco@hydrofunk.org>
-Date: Tue, 20 Jun 2000 17:08:54 +0000
-Subject: Re: Multimedia compression
-Message-Id: <marc-linux-sound-96200429928835@msgid-missing>
+From: "Dr. Michael Weller" <eowmob@exp-math.uni-essen.de>
+Date: Fri, 09 Jun 2000 11:42:45 +0000
+Subject: ESS Maestro 3i support status
+Message-Id: <marc-linux-sound-96055090722587@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-96119149930040@msgid-missing>
-In-Reply-To: <marc-linux-sound-96119149930040@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Dear List,
 
-On Sat, 17 Jun 2000, Benno Senoner wrote:
+I've a Dell Laptop here with an ESS Maestro 3i Sound card build in. I
+cannot get the card to work. The card seems to be sb compatible
+(iobase 0x220, irq 5, dma 1, 0x388 for adlib emulation, no 16bit dma).
+The BIOS even prints these settings during boot as used for DOS sound
+support.
 
-> I tried shorten some time ago:
-> 
-> OTOH, when using lossless compression the gain is sometime minimal,
-> only 20% if you are unlucky.
-> Not much for my taste.
+I had to modify the pcmcia setup to not claim the ioports as used and
+since then the sb driver does not whine about their missing.
 
-I find this very hard to believe.  Speaking from my own experience, I've
-had nothing but outstanding results with SHORTEN.
+However, it cannot initialize the card. All I get is a message the sb
+module fails to reset the dsp. Then EBUSY error from insmod (I would have
+found ENODEV more intuitive, btw.) 
 
-I collect live concert bootlegs; recorded on DAT, dumped down onto the
-HDD as WAVs, compressed to SHNs, and burned onto CDs that I listen to.
-I've got nearly 100 such CDs sitting here at my side, and here's the
-stats based on those live concert CDs.
+Now, question: Is this a configuration problem (and how can I fix it) or
+is the card simply incompatible and their is no chance to make it work.
+The ess137[01] drivers did also fail but made no comment about the
+reasons, BTW.
 
-My average song compression		52% savings
-My worst single-song comression		35% savings
-My best single-song compression		60% savings
+All this is with kernel 2.2.14, btw.
 
-The main thing I wanted to point out is that I've never had a something
-compress less than 35%.
+Any comments are appreciated, thank you in advance,
+Michael.
 
-peace,
--Paco
+--
+
+Michael Weller: eowmob@exp-math.uni-essen.de, eowmob@ms.exp-math.uni-essen.de,
+or even mat42b@spi.power.uni-essen.de. If you encounter an eowmob account on
+any machine in the net, it's very likely it's me.
