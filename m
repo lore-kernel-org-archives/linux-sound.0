@@ -1,24 +1,24 @@
-From: Peter Rasmussen <plr@isgtec.com>
-Date: Tue, 06 Jul 1999 13:36:15 +0000
-Subject: What sound card for recording?
-Message-Id: <marc-linux-sound-93126937020928@msgid-missing>
+From: flatmax <flatmax@cse.unsw.EDU.AU>
+Date: Tue, 06 Jul 1999 14:20:13 +0000
+Subject: Re: What sound card for recording?
+Message-Id: <marc-linux-sound-93127103122601@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-93126937020928@msgid-missing>
+In-Reply-To: <marc-linux-sound-93126937020928@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I am thinking about buying a new sound card and this time I would like to get
-one that besides from working with Linux also has good quality on the recording
-side of it. It could be OK to just have it on the line-input, but if also the
-mike-input is of high quality that would be great. Less external devices makes
-it easier to deal with :-)
+someone forward .... http address for online linux hardware databases
+(you can find info on different models there)
 
-So, it is high-quality sound for recording my own stuff I am looking for.
+In my opinion ...
+I suggest a 24 in/out, 96 KHz, 24 bit version.
 
-In the true spirit of Free Software a closed-source, binary-only driver isn't
-acceptable for me.
-
-Thanks for any pointers you can give me.
-
-Peter
+Matt
+__________
+reverse ...
+backwards needs forwards
+want backwards - first go forwards
+viva
