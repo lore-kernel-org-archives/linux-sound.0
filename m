@@ -1,8 +1,10 @@
 From: Ishaaq Chandy <kuru@lw1.vsnl.net.in>
 Date: Sat, 03 Oct 1998 14:07:18 +0000
 Subject: How do I use isapnp?
-Message-Id: <marc-linux-sound-90742331706312@msgid-missing>
+Message-Id: <marc-linux-sound-90742340606348@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-90742331706312@msgid-missing>
+In-Reply-To: <marc-linux-sound-90742331706312@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
