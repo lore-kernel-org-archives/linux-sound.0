@@ -1,21 +1,23 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Tue, 16 Feb 1999 01:34:24 +0000
-Subject: Re: help set up AWE64G isapnp?
-Message-Id: <marc-linux-sound-91915418908506@msgid-missing>
+From: Raymond J Huber <rhuber@net-gate.com>
+Date: Sat, 06 Feb 1999 00:05:41 +0000
+Subject: Two Mixers
+Message-Id: <marc-linux-sound-91825947820937@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91915418808497@msgid-missing>
-In-Reply-To: <marc-linux-sound-91915418808497@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Josh Steiner (jsteiner@antioch-college.edu) said: 
-> Script started on Mon Feb 15 20:10:26 1999
-> [root@bw66 .netscape]# modprobe -a sound
-> /lib/modules/2.2.1/misc/sb.o: too many values for dma (max 1)
+Hello,
 
-Replace the 'dma=1,5' in /etc/conf.modules with
-'dma=1 dma16=5'.
+I installed two SoundBlaster compatible sound cards in my RedHat 2.0.34
+machine.  Sound plays correctly to either card using cat soundfile >>
+/dev/audio or cat soundfile >> /dev/audio1.  The problem is is that when
+trying to access the mixer device file for the second card, /dev/mixer1,
+I get a device not configured error.  I have tried reversing the order
+of the cards, and I get the same problem, so I don't think there is any
+hardware problem.  What needs to be done to get the second mixer
+configured.  Are two mixers even supported?
 
-Bill
+Thank you,
+Raymond Huber
