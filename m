@@ -1,23 +1,30 @@
-From: Michele Bini <mibin@tin.it>
-Date: Fri, 14 May 1999 13:50:43 +0000
-Subject: Re: SB16
-Message-Id: <marc-linux-sound-92678099125197@msgid-missing>
+From: Alexis DOMJAN <disco@igaia.ch>
+Date: Sat, 01 May 1999 21:26:08 +0000
+Subject: Neomagic MagicMedia sound card
+Message-Id: <marc-linux-sound-92568050317138@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92661039616424@msgid-missing>
-In-Reply-To: <marc-linux-sound-92661039616424@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, May 13, 1999 at 11:48:20AM +0800, hcchin@strd.csam.com.my wrote:
->     (One thing good with Windows'95, the driver is really easy to 
-> install, linux must improve with these)
+Hello,
 
-Then you could have choosen a more user-friendly distribution
-than Slackware.
+A friend of mine got an Acer Travelmate 720TX laptop, and we installed Linux successfully.
 
-The ALSA project has also improved the simplicity of configuration
-(including isapnp autoconfiguration).
+Anyway we've a problem with the sound card. It's described as a Sound Blaster Compatible
+sound card. And it is... but it's only compatible as a Sound Blaster Pro 8 bit sound card.
 
--Michele
+When loading sb module we get the following text in the logs:
+
+SB 3.01 Detected OK (220)
+SB DSP version is just 3.01 which means that your card is
+several years old (8 bit only device) or alternatively the sound
+driver is incorrectly configured.
+
+The sound card is named as MagicMedia 256AV, from NeoMagic. Do you 
+know if it's possible to use 16 bits with this sound card ?
+
+Thanks in advance for your help
+-- 
+Alexis Domjan <adomjan@horus.ch>
