@@ -1,8 +1,10 @@
 From: Christoph Hellwig <chhellwig@gmx.net>
-Date: Thu, 09 Mar 2000 14:07:51 +0000
+Date: Thu, 09 Mar 2000 14:08:03 +0000
 Subject: Re: mad16 & ad1848 problems in kernel 2.3.50.
-Message-Id: <marc-linux-sound-95261137204527@msgid-missing>
+Message-Id: <marc-linux-sound-95261157404730@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95261137204527@msgid-missing>
+In-Reply-To: <marc-linux-sound-95261137204527@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
