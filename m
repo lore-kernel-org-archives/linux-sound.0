@@ -1,30 +1,36 @@
-From: =?iso-8859-1?Q?Richard_Fr=F6hning?= <richard@ecomp.net>
-Date: Fri, 23 Apr 1999 07:17:24 +0000
-Subject: RE: mp3 encoder
-Message-Id: <marc-linux-sound-92485193924332@msgid-missing>
+From: "Nishikant Kapoor (H)" <nkapoor@c3ipros.com>
+Date: Sun, 04 Apr 1999 15:04:48 +0000
+Subject: How to load sound modules ?
+Message-Id: <marc-linux-sound-92324572410041@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91076132826644@msgid-missing>
-In-Reply-To: <marc-linux-sound-91076132826644@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-There is another MP3-encoder, its calles bladeenc
+Hi all
 
-http://home.swipnet.se/~w-82625/
+I've managed to get my ESS1868 working with 2.2.2 on RedHat 5.1 but I'm
+having problem loading it through /etc/conf.modules. I'd appreciate any
+help on this.
 
-or
+/etc/conf.modules:
+-------
+alias char-major-14 sb
+post-install sb /sbin/modprobe "-k" "adlib_card"
+alias sound sb
+options -k sb io=0x220 irq=5 dma=1 dma16=-1
+alias sequencer uart401
+options -k uart401 io=0x330
+alias midi opl3
+options -k opl3 io=0x388
 
-www.bladeenc.cjb.net
+Loading all these modules at the prompt works fine though.
+------------------------------------
+/sbin/insmod sb io=0x220 irq=5 dma=1 dma16=-1
+/sbin/insmod mpu401 io=0x330
+/sbin/insmod opl3 io=0x388
+/sbin/insmod v_midi
 
-Its quite fast and has good quality.
-
-regards,
-Richard
-
--- 
-| Richard Froehning               e.comp Engineering GmbH   
-| R.Froehning@ecomp.net           Bismarckstrasse 59              
-| http://www.ecomp.net            D-64293 Darmstadt              
-| Tel:+ 49 6151-88008-0           Fax:+49 6151-88008-14
+Thanks
+Nishi
