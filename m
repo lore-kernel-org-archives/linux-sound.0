@@ -1,7 +1,7 @@
-From: Kadinger Andras <bandit@freeside.elte.hu>
-Date: Sun, 29 Nov 1998 13:32:52 +0000
+From: Jason Wilfred Woodford <jwoodfd@kelvin.physics.mun.ca>
+Date: Sun, 29 Nov 1998 18:13:49 +0000
 Subject: Re: equalizer application in software?
-Message-Id: <marc-linux-sound-91234750129748@msgid-missing>
+Message-Id: <marc-linux-sound-91237460010100@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91233787226861@msgid-missing>
 In-Reply-To: <marc-linux-sound-91233787226861@msgid-missing>
@@ -10,7 +10,6 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello Derrick,
 
 On Sat, 28 Nov 1998, Derrick J Brashear wrote:
 
@@ -21,17 +20,31 @@ On Sat, 28 Nov 1998, Derrick J Brashear wrote:
 > functionality.
 > 
 > (I assume no such application exists)
+> 
+> -D
+> 
+> 
+> 
 
-I think there might be some audio multiplexing libraries (that takes
-audio output of different apps and mixes them together into one stream to 
-send to the audio hardware); GNOME/Enlightement at least has one, called
-esd or esound I think. Since audio multiplexing is a very good feature, so
-is an equalizer, therefore I think building the two together (or at least
-making connecting them together simple) is worth the effort.
+Hummm..... lemme think.
 
-They also have a wrapper library one can preload to provide this
-functionality to 'normal' apps.
+I know there is a program available somewhere to do a FFT (Fast Fourier
+Transform) on a live real-time audio input. Perhaps if you take the
+frequency spectrum from the FFT ( it looks like a really high definition
+equalizer spectrum...... cool to watch), increase or decrease the
+intensity of the frequency components according to your equalizer's band
+settings, then recombine the components (a sort of reverse FFT), then you
+get the original waveform, except it has been equalized.
 
-Sincerely,
-Andras Kadinger
-bandit@freeside.elte.hu
+What do we think??
+
+Sounds like project..... Where is the prog. to do the FFT? On sunsite?
+
+Feedback appreciated.
+
+
+-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-/|\-
+Jason Woodford                  Faculty of Education
+Home: 579-2079 Office: 749-7503	Memorial University of Newfoundland
+jwoodfd@kelvin.physics.mun.ca	St. John's, NF, CANADA
+====================================
