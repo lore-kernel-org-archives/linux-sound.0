@@ -1,35 +1,42 @@
-From: Tony Nugent <Tony.Nugent@usq.edu.au>
-Date: Tue, 29 Dec 1998 07:03:30 +0000
-Subject: problems with cdda2wav and other audio CDROM ripping software
-Message-Id: <marc-linux-sound-91491718927482@msgid-missing>
+From: Sven Dummer <sdummer1@linux01.gwdg.de>
+Date: Wed, 30 Dec 1998 10:10:19 +0000
+Subject: Re: problems with cdda2wav and other audio CDROM ripping software
+Message-Id: <marc-linux-sound-91502605803480@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91491718927482@msgid-missing>
+In-Reply-To: <marc-linux-sound-91491718927482@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-For the life of me I just can't get cdda2wav to work on my RH5.1/5.2
-box!
+Tony Nugent wrote:
+> 
+> For the life of me I just can't get cdda2wav to work on my RH5.1/5.2
+> box!
+> 
+> % cdda2wav -q -e -t2 -d0 -N -D /dev/cdrom
+> 
+> (and lots of variants) just produces ugly noise.  Same for cdparanoia
+> - the wav files it creates sound like a ham radio between signals :)
 
-% cdda2wav -q -e -t2 -d0 -N -D /dev/cdrom
+I guess you need to to swap the word-order in your wav files. You can
+do so by converting the files using the "sox" utility, using the -x
+option (see http://home.sprynet.com/sprynet/cbagwell/projects.html or
+the sox man page if you already have it). I think, cdda2wav also has
+an option for byte-swapping, see the man page (I haven't got it on
+my machine here at home...)
 
-(and lots of variants) just produces ugly noise.  Same for cdparanoia
-- the wav files it creates sound like a ham radio between signals :)
+E.g. using cdda2wav with HP CD-writers may produce wav-files that just
+sound noisy. If you do a "sox -x file.wav file_new.wav" the result
+should be okay (but if you want to burn it on a CD-R using the HP
+recorder again, you'll have only noise on your CD, because the HP
+needs the other byte-order!).
 
-And I can't get 8hz-mp3 to compile (there's a bunch of missing
-ieee*.h header files).  So "ripperX" is useless.
 
-I'd really like to do some audio cdrom ripping (to do audio cdrom
-copies and to make some mp3 disks), but I'm at a loss to know what to
-use.
+Regards,
+Sven
 
-Can anyone point me in the direction of something (anything!!) that
-*works* ??
-
-(rpm format would be ideal, but I'll use anything - just as long as it
-works :)
-
-Many thanks.
-
-Cheers
-Tony
+-- 
+Sven Dummer - sdummer@gwdg.de
+---------------------------------
