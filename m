@@ -1,7 +1,7 @@
-From: Nerijus Baliunas <nerijus@users.sourceforge.net>
-Date: Thu, 28 Oct 2004 22:27:06 +0000
+From: John Zoetebier <john.zoetebier@transparent.co.nz>
+Date: Thu, 28 Oct 2004 23:12:42 +0000
 Subject: Re: Is there a reliable sound card for IP telephony ?
-Message-Id: <20041028222844.7A0735085A7@mx.ktv.lt>
+Message-Id: <clrui0$4gp$2@sea.gmane.org>
 List-Id: <linux-sound.vger.kernel.org>
 References: <cll7t0$b42$1@sea.gmane.org>
 In-Reply-To: <cll7t0$b42$1@sea.gmane.org>
@@ -10,12 +10,30 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Wed, 27 Oct 2004 11:36:46 +1300 John Zoetebier <john.zoetebier@transparent.co.nz> wrote:
+Nerijus Baliunas wrote:
 
-> My local retailer has a Creative Sounblaster Live V5.1
-> Will it do the job ?
+> On Wed, 27 Oct 2004 11:36:46 +1300 John Zoetebier
+> <john.zoetebier@transparent.co.nz> wrote:
+> 
+>> My local retailer has a Creative Sounblaster Live V5.1
+>> Will it do the job ?
+> 
+> It should. I used such card with IP telephony successfully.
+> 
+> Regards,
+> Nerijus
 
-It should. I used such card with IP telephony successfully.
+I actually installed sound card Creative Sounblaster Live V5.1.
+It works great.
 
-Regards,
-Nerijus
+Mandrake 10.0 caveat warning !
+There is a caveat installing a sound card under Mandrake 10.0
+Mandrake keeps a cache of all previously installed drivers and will install
+ALL of them in modprobe.conf.
+You have to remove them manaully and the reboot your PC.
+
+-- 
+John Zoetebier
+Web site: http://www.transparent.co.nz
+
+
