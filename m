@@ -1,31 +1,28 @@
-From: flatmax <flatmax@lake.com.au>
-Date: Mon, 01 Feb 1999 00:34:54 +0000
-Subject: ropen : was (Re: Is there any reason rvplayer5.0 wouldn't work with PPP
-Message-Id: <marc-linux-sound-91782575429428@msgid-missing>
+From: "Martin Adler" <Martin.Adler@gmx.net>
+Date: Sun, 28 Mar 1999 14:06:06 +0000
+Subject: Anyone got the SB Live working???
+Message-Id: <marc-linux-sound-92265645206561@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Give us the blow by blow on "ropen" onesome ...
+Ich have the pleasure of enjoying the sound quality of a Soundblaster Live!.
+But that only under M$ Windows NT.
+Since I want to completely switch to Linux (the only thing holding me back
+is this problem) I would like to get the card to work under Linux. I have
+tried to compile a kernel with the SB16 drives and the correct settings. The
+compile was fine, but there was no sound. I am either using kernel 2.2.3 or
+2.0.36. The problem I have is that I can't include the complete I/O range
+that the card uses (or I don't know how). If someone could tell me how to
+include a range from the PCI slot, that might help me. If someone has found
+an easier way to get the card to work I would be happy to know.
 
-Bill Nottingham wrote:
-
->    as well.  Alternately, download rpopen from
-> http://onramp.i2k.com/~jeffd/rpopen/ and pre-load it before you run
-> rvplayer (it's a shared object which blocks rvplayer from doing the
-> NONBLOCKing open of /dev/dsp).
-> 
-> Hope that helps!
-> 
-> Bill
-
--- 
-Matt
-____________________________
-Is anya disna an' ya wanna say - eh.
-'s anya disna an' ya videeaaaha
-	....
-Postgrad candidate: CSE UNSW <http://www.cse.unsw.edu.au/~flatmax>
-Engineer Academi'c: Lake DSP <http://www.lake.com>
+Well thanx ahead,
+=A0
+Martin Adler
+********************************************
+*Martin Adler                  ICQ:16407664*
+*Martin.Adler@gmx.net                      *
+********************************************
