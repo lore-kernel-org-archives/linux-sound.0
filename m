@@ -1,7 +1,7 @@
 From: Chad Paco Walker <walker@hermes.noses.org>
-Date: Tue, 27 Apr 1999 16:37:21 +0000
+Date: Tue, 27 Apr 1999 17:04:17 +0000
 Subject: Re: sound cards for linux
-Message-Id: <marc-linux-sound-92523075618453@msgid-missing>
+Message-Id: <marc-linux-sound-92523254620375@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92518713312599@msgid-missing>
 In-Reply-To: <marc-linux-sound-92518713312599@msgid-missing>
@@ -10,28 +10,32 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Zack,
+Hi, again...
 
-There is an excellent piece of information about the AWE64 that clears
-your problem up.  (I'm looking for it now.)
+Here's the info I was mentioning in my last post.  Make sure your section
+of the isapnp.dump that sets up the AWE64 wavetable looks like this:
 
-This is a bug in the hardware design of the AWE64 that causes it to not
-report all information back when you do a pnpdump. Specifically, it
-doesn't report all the I/O bases for (you guessed it...) the wave
-table.
+(CONFIGURE CTL0048/58128 (LD 2
+#     ANSI string -->WaveTable<--
 
-I'll see if I can dig up what you need and post it to the list.
+  (IO 0 (BASE 0x0620))
+  (IO 1 (BASE 0x0A20))
+  (IO 2 (BASE 0x0E20))
 
-You simply need to add three lines to the isapnp.conf file and everything
-will be just fine.  (I have an AWE64 in my machine, and already went
-through this).
+  (ACT Y)
+))
 
-As for the distortion, get a UPS.  You'll remove your self from the
-increasingly noisey power lines in your house/apartment (apartments are
-worse) and you'll get a super clean signal through the bettery in the UPS.
 
-regards,
-Chad Walker
+Currently (due to the hardware bug) you probably only have the "IO 0" line
+defined.  Add the others and reboot.  It'll be working.
+
+Also, refer to http://metalab.unc.edu/mdw/HOWTO/mini/Soundblaster-AWE.html
+for any other problems.
+
+Hope this helps,
+Walker
+
+On Mon, 26 Apr 1999, Zack Smith wrote:
 
 > 
 > Hi,
