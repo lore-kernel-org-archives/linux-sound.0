@@ -1,33 +1,43 @@
-From: Jeff Garzik <jgarzik@mandrakesoft.com>
-Date: Mon, 01 Jul 2002 16:15:22 +0000
-Subject: Re: [PATCH] 2.4.18 linux/drivers/maestro.c dev_audio flaw
-Message-Id: <marc-linux-sound-102554037208993@msgid-missing>
+From: Neale Banks <neale@lowendale.com.au>
+Date: Wed, 10 Jul 2002 08:49:37 +0000
+Subject: Status of ALi5451(trident)?
+Message-Id: <marc-linux-sound-102629084116513@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-102550820111554@msgid-missing>
-In-Reply-To: <marc-linux-sound-102550820111554@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Zach Brown wrote:
->>It seems that the value of ess->dev_audio is wrongly interpreted. 
-> 
-> 
-> Thanks for attacking this driver, Samuel.  Your patches have looked good
-> so far.  I'm sorry I'm not more involved; its been quite a while since
-> I've futzed about with the maestro(s).
+Greetings,
 
+What is the status (e.g. supposedly working, supported and maintained?)
+of the Trident driver with the Ali5451 chipset (both regular audio and
+MIDI synth)?
 
+Issues I have on the Toshiba Satellite 1800[1] include:
 
-I'm afraid I missed the original patches :(
+1) not working[2] with 2.2.21
+2) MIDI not working with 2.2.21 or 2.4.18
+3) MIDI code appears to be removed in 2.4.17 source (is this a sign?)
+4) Lack of findable documentation on what's supposed to work and how (yes,
+I'm prepared to collate something for linux/Documentation/sound/)
 
-But I am willing to review and apply drivers/sound [sound/oss in 2.5] 
-patches, if no one else (Alan?) does so.
+Thanks,
+Neale.
 
-Regards,
+[1] The Toshi 1800's lspci -v output includes:
 
-	Jeff
+00:06.0 Multimedia audio controller: Acer Laboratories Inc. [ALi] M5451 PCI South Bridge Audio (rev 01)
+        Subsystem: Toshiba America Info Systems: Unknown device 0001
+        Flags: bus master, medium devsel, latency 64, IRQ 11
+        I/O ports at ed00
+        Memory at f7efe000 (32-bit, non-prefetchable)
+        Capabilities: [dc] Power Management version 2
 
+[2] OK, "not working" isn't really a proper report.  I get this logged
+when something tries to open the audio:
 
+kernel: trident: drain_dac, dma timeout?
+
+What else should I be reporting about this?
 
