@@ -1,7 +1,7 @@
-From: "Benno Senoner" <sbenno@gardena.net>
-Date: Tue, 20 Jun 2000 11:54:03 +0000
+From: "Dustin Barlow" <dbarlow@omnids.com>
+Date: Tue, 20 Jun 2000 22:28:35 +0000
 Subject: Re: [linux-audio-dev] Re: Multimedia compression
-Message-Id: <marc-linux-sound-96200429928834@msgid-missing>
+Message-Id: <marc-linux-sound-96200429928836@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96126686903146@msgid-missing>
 In-Reply-To: <marc-linux-sound-96126686903146@msgid-missing>
@@ -11,58 +11,60 @@ Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
-On Mon, 19 Jun 2000, Juhana Sadeharju wrote:
-> >From:	Benno Senoner <sbenno@gardena.net>
+I will second Paco's synopsis of Shorten.
+
+I have close to 100 concerts that were compressed using the lossless setting
+in Shorten, and they are *exact* copies of the original when decompressed.
+You can do an md5sum of the wav file prior to compressing it and it will
+match after it is uncompressed later on.
+
+I can typically cut a wave file size in half and it is lossless...I don't
+think you
+can ask for more then that...at least not yet anyway.  I have not tried to
+do lossy compression with Shorten so I cannot comment on it's performance
+in the lossy realm...
+
+Another thing is that WinShorten *will* stream shorten files so that you do
+not have to convert them to wav to listen to them.  I setup a machine to
+do that very thing so that I didn't have to burn my extensive SHN library
+to audio CDR or wav file prior to listening.  I haven't found a streaming
+version of Shorten for linux, so I grabbed the source code the other day
+and am looking into what it would take to do it...shouldn't be to difficult.
+
+~Db
+
+----- Original Message -----
+From: <paco@hydrofunk.org>
+To: Benno Senoner <sbenno@gardena.net>
+Cc: Sergey <harlot@mail.ru>; <linux-sound@vger.rutgers.edu>;
+<linux-audio-dev@ginette.musique.umontreal.ca>; John Lazzaro
+<lazzaro@CS.Berkeley.EDU>
+Sent: Tuesday, June 20, 2000 12:08 PM
+Subject: [linux-audio-dev] Re: Multimedia compression
+
+
+> On Sat, 17 Jun 2000, Benno Senoner wrote:
+>
+> > I tried shorten some time ago:
 > >
-> >I prefer to use MPEG Layer 2 ( MP2) at 384kbit (lossy) which outperforms all
-> >MP3 based codecs even 320kbit. 
-> 
-> How do you know it? Where I could read tests about it?
-> I have used layer 3 with 320 kbps for compressing radio and cassette
-> recordings (both music and sound samples snipped from them), so, most
-> probably I have used the right compressor. But is layer 3 with 320 kbps
-> somehow not enough for studio mikes (voice, guitar, etc.) or for digital
-> synth tracks?
-> 
-> Of course, for compressing the final mix (20-bit or greater) of studio work,
-> the 16-bit MP3 is not enough. But 16-bit could be enough for individual
-> sounds, vocals, etc. However, I would not use any MP3 compression for even
-> those because I would record only with 20-bit A/Ds in studio. I have used
-> MP3 only because I have nothing better than 16-bit A/Ds. So, what compressor
-> I could use for 20- or 24-bit material? Should we look at ourself for
-> 20- or 24-bit compressor or can MP3 or AAC handle them (similarly than JPEG
-> can handle 16-bit/channel images)?
-
-I think Philips MPEGLIB  can encode 24bit files, their MP2 software encoder is
-the same used in DMX SAT radio encoders , and other DSP platform.
-
-I say I would prefer MP2 over MP3, because MP3 *WAS DESIGNED* for lower
-bitrates. ( 128-192kbit).
-
-Plus consider the fact that MP2 has better random-seek properties
-(no long frame dependencies), not to mention higher speed when encoding/decoding
-material.
-
-If you ask me, if I were designing a system with the best possible audio
-quality  while achieving 1:4 compression I would chose MP2 or alternatively
-APT-X  ( http://www.aptx.com/ ) 
-Unfortunately APT-X is not available as a software-only CODEC,
-it is used in some cinema audio systems (DTS) , and doesn't use perceptual
-coding, and has an amazing 2.9ms codec delay at 44.1kHz.
-The granularity of editable regions is 80usecs = 2 samples, that means
-you can edit an APT-X file with almost the same precision as a PCM file.
-ATPX is some kind of ADPCM but which encodes subbands with different
-precision to reflect the frequency resolution of the ear.
-
-> Note that 16-bit is most probably enough for mic recordings, but the
-> extra bits are needed for having extra room. I would not want to dither
-> 20-bit recording down to 16-bit even it would fit very well.
-> 
-> Juhana
-
-But I guess you are looking at a totally free codec  :-)
-therefore there is only MP3 , ISO MP2 encoder and perhaps a good 
-VORBIS (the patent-free audio codec which matches MP3 quality)
-
-
-Benno.
+> > OTOH, when using lossless compression the gain is sometime minimal,
+> > only 20% if you are unlucky.
+> > Not much for my taste.
+>
+> I find this very hard to believe.  Speaking from my own experience, I've
+> had nothing but outstanding results with SHORTEN.
+>
+> I collect live concert bootlegs; recorded on DAT, dumped down onto the
+> HDD as WAVs, compressed to SHNs, and burned onto CDs that I listen to.
+> I've got nearly 100 such CDs sitting here at my side, and here's the
+> stats based on those live concert CDs.
+>
+> My average song compression 52% savings
+> My worst single-song comression 35% savings
+> My best single-song compression 60% savings
+>
+> The main thing I wanted to point out is that I've never had a something
+> compress less than 35%.
+>
+> peace,
+> -Paco
