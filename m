@@ -1,59 +1,65 @@
-From: =?iso-8859-1?q?Lars=20Joas?= <ljoas@yahoo.com>
-Date: Sun, 15 Jul 2001 12:13:32 +0000
-Subject: [PATCH] Sound recording with OPL3SA2
-Message-Id: <marc-linux-sound-99519931815581@msgid-missing>
+From: Scott Murray <scott@spiteful.org>
+Date: Sun, 15 Jul 2001 20:36:27 +0000
+Subject: Re: [PATCH] Sound recording with OPL3SA2
+Message-Id: <marc-linux-sound-99523125312133@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-99519931815581@msgid-missing>
+In-Reply-To: <marc-linux-sound-99519931815581@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi.
+On Sun, 15 Jul 2001, Lars Joas wrote:
 
-I got this message in the log when I tried to do sound recording:
+> Hi.
+>
+> I got this message in the log when I tried to do sound recording:
+>
+> "Sound: DMA (input) timed out - IRQ/DRQ config error?"
+>
+> After some investigations I found a bug in the opl3sa2 driver. I have
+> sent this patch to Scott Murray (scott@spiteful.org), but received no
+> answer. And the bug is still in kernel 2.4.6.
+>
+> So now I escalate the issue to the linux-sound mailing list....
+>
+> In the attach_opl3sa2() function we look at the dma values to see if we
+> are using two or one channel, and configure the chip accordingly.
+> Unfortunately the dma values are not set in the structure we look at.
 
-"Sound: DMA (input) timed out - IRQ/DRQ config error?"
+I apologize for not getting back to you earlier.  I've been extremely
+busy at the startup I work for, and on top of that, I recently lost a
+bunch of mail.  There's a reason why linux-sound is listed in my
+MAINTAINERS entry, posting to it gets me off my butt. :)
 
-After some investigations I found a bug in the opl3sa2 driver. I have
-sent this patch to Scott Murray (scott@spiteful.org), but received no
-answer. And the bug is still in kernel 2.4.6.
+Anyways, after looking at this, I prefer this IMO more correct fix:
 
-So now I escalate the issue to the linux-sound mailing list....
+--- linux-2.4.6/drivers/sound/opl3sa2.c	Fri Mar  2 21:38:39 2001
++++ linux/drivers/sound/opl3sa2.c	Sun Jul 15 16:28:38 2001
+@@ -861,8 +861,8 @@
+ 	/* Our own config: */
+ 	hw_cfg->io_base = dev->resource[4].start;
+ 	hw_cfg->irq     = 0;
+-	hw_cfg->dma     = -1;
+-	hw_cfg->dma2    = -1;
++	hw_cfg->dma     = dev->dma_resource[0].start;
++	hw_cfg->dma2    = dev->dma_resource[1].start;
 
-In the attach_opl3sa2() function we look at the dma values to see if we
+ 	/* The MSS config: */
+ 	mss_cfg->io_base      = dev->resource[1].start;
 
-are using two or one channel, and configure the chip accordingly.
-Unfortunately the dma values are not set in the structure we look at.
+Lars, could you try this out and see if it works for you?
 
-Please CC any comments to me, ljoas@yahoo.com, thanks.
-
-Patch:
-
---- linux-2.4.6.org/drivers/sound/opl3sa2.c     Sun Jun 24 11:31:24
-2001
-+++ linux-2.4.6/drivers/sound/opl3sa2.c Sun Jun 24 11:32:47 2001
-@@ -703,7 +703,7 @@
-       opl3sa2_write(hw_config->io_base, OPL3SA2_IRQ_CONFIG, 0x0d);
-
-       /* Initialize DMA configuration */
--       if(hw_config->dma2 = hw_config->dma) {
-+       if(cfg_mss[card].dma2 = cfg_mss[card].dma) {
-               /* Want DMA configuration DMA-B: -, DMA-A: WSS-P+WSS-R
-*/
-               opl3sa2_write(hw_config->io_base, OPL3SA2_DMA_CONFIG,
-0x03);
-       }
+Scott
 
 
+-- 
+======================================Scott Murray                                        email: scott@spiteful.org
+http://www.spiteful.org (coming soon)                 ICQ: 10602428
+-----------------------------------------------------------------------------
+     "Good, bad ... I'm the guy with the gun." - Ash, "Army of Darkness"
 
-/L
-
-
-
-____________________________________________________________
-Do You Yahoo!?
-Get your free @yahoo.co.uk address at http://mail.yahoo.co.uk
-or your free @yahoo.ie address at http://mail.yahoo.ie
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
