@@ -1,30 +1,37 @@
-From: Dave Caswell <davec@asylum.apocalypse.org>
-Date: Sat, 18 Mar 2000 06:01:58 +0000
-Subject: sound fails after suspend  2.3.99-pre1
-Message-Id: <marc-linux-sound-95338768517804@msgid-missing>
+From: Alessandro Zummo <azummo@ita.flashnet.it>
+Date: Sun, 12 Mar 2000 09:37:44 +0000
+Subject: [PROPOSED PATCH] sb_card.c
+Message-Id: <marc-linux-sound-95286073029276@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+ I'm going to make a patch for sb_card.c with the following cahnges.
+ I'd like to have some comments on it.
+
+ - Support for AWE will be droppen and moved to the
+ awe_wave driver.
+
+ - Support for joystick initialization will be dropped
+ since the joystick maintainer told me he's working
+ on a PNP implementation for joystick devices.
+
+ - If a device is already active before the
+ driver is loaded then it's current settings will
+ be used. this will allow the user to manually configure
+ each card via the /proc/isapnp interface if needed.
+
+ - What about if i leave the card active when
+ the driver is unloaded? Could this cause any trouble
+ somewhere else?
+ 
 
 
 
-Playing a sound works fine just after I re-boot with kernel
-2.3.99-pre1, but after a suspend-resume I don't have any sound
-anymore.
+-- 
 
-The only lines I found in the logs related to sound are:
+   - *Alex* -
 
-Mar 17 22:17:08 krypton kernel: ad1848/cs4248 codec driver Copyright (C) by Hannu Savolainen 1993-1996 
-Mar 17 22:17:08 krypton kernel: Found OPL3-SA3 (YMF715) 
-Mar 17 22:17:08 krypton kernel: <MS Sound System (CS4231)> at 0x534 irq 5 dma 1,0 
-Mar 17 22:17:08 krypton kernel: <MPU-401 0.0  Midi interface #1> at 0x330 irq 5 dma 1,0 
-
-
-gom still shows the mixer controls, but tweaking them produces no
-changes.
-
-Thanks,
-	davec
+  http://freepage.logicom.it/azummo/
