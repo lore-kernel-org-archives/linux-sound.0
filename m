@@ -1,26 +1,27 @@
-From: Deirdre Saoirse <deirdre@deirdre.net>
-Date: Fri, 26 Mar 1999 09:18:54 +0000
-Subject: Re: Diamond Rio
-Message-Id: <marc-linux-sound-92244029131004@msgid-missing>
+From: Rico Dreier <rdreier@fzi.de>
+Date: Fri, 12 Mar 1999 14:17:12 +0000
+Subject: Vibra 16V PnP <-> SuSE 5.3 ?
+Message-Id: <marc-linux-sound-92124872211270@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92243378027339@msgid-missing>
-In-Reply-To: <marc-linux-sound-92243378027339@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Yes. Look on www.freshmeat.net and search on "rio"
+Hello,
 
-On Fri, 26 Mar 1999, Traci Collins wrote:
+I'm trying to activate a Vibra 16C PnP under SuSE 5.3. Independent of the selected
+Interrupt 5 or 7 an error occurs during the boot process saying that the interrupt
+test failed (no other devices use INT5/7 -> /proc/interrupts). The soundcard can
+not be configured by using YaST since it is not possible to reach the respective
+menu entry.
 
-> Has anyone written software to download MP3 files to the Diamond Rio
-> from Linux? The Eiger Labs MPMan? I am interested in acquiring one
-> of these portable MP3 players but I would like it to be able to
-> interoperate with Linux. If the program exists I would appreciate a
-> pointer to the appropriate web page. Thanks.
+The kernel is compiled with audio support etc. selected, but I'm not sure if all
+the sound options are set correctly :-/  Does the card only work by using the
+isapnp tool, and does anybody have a valid isapnp.conf file for SoundBlaster Vibra
+16C or 16X?
 
-_Deirdre   *   http://www.linuxcabal.org   *   http://www.deirdre.net
-"During my service in the United States Congress, I took the initiative in
-creating the Internet." -- Al Gore
-"If Al Gore invented the internet, I invented spell check." -- Dan Quayle
+Inserting the sound module with insmod or modprobe leads to unresolved symbols.
+
+Thanks for every hint,
+Bye, Rico
