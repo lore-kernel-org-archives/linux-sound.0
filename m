@@ -1,26 +1,26 @@
-From: hines_j@iolinc.net (Hines, Jim)
-Date: Sun, 04 Jul 1999 20:30:16 +0000
-Subject: New Linux commercial Xing MP3 encoder
-Message-Id: <marc-linux-sound-93112048607224@msgid-missing>
+From: Dan Noe <dan@resonator.physics.sunysb.edu>
+Date: Thu, 01 Jul 1999 15:16:15 +0000
+Subject: 
+Message-Id: <marc-linux-sound-93084248519070@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi all,
-I recently bought the new xing mp3 encoder for Linux. However, there seems to
-be a major problem: It apparently does not support batch processing of any type.
+I have a "DCS S613" sound card that I wish to get running 
+When running sndconfig under RedHat 5.2, I receive the error "
+/lib/modules/preferred/misc/sb.o:  
+                   init_module: Device or resource busy  
+                    sound: Device or resource busy      "
+Is this a kernel/filesystem/module/soundcard problem?
+What can I do to get this card working? ( providing that this is a compatible
+card)
+  
 
-I have twice written to Xing about this with no reply to date. 
+Dan Noe
+Dept. of Physics at SUNY Stony Brook
 
-Does anyone know how to batch process using this encoder, or if it is even
-possible? I have been writing scripts to work past this problem but writing
-scripts for my entire 150+ CD collection is getting kinda old. Any suggestions
-anyone?
-
-good day,
---
-Jim Hines
-400mhz AMDk6-2 98mb
-RedHat 5.2 (2.0.36)
+	>Ever heard of .cshrc?
+	That's a city in Bosnia.  Right?
+	(Discussion in comp.os.linux.misc on the intuitiveness of commands.)
