@@ -1,7 +1,7 @@
 From: Jeffrey Voorhaar <psycho@xdnet.net>
-Date: Fri, 12 Mar 1999 16:06:41 +0000
+Date: Fri, 12 Mar 1999 16:19:09 +0000
 Subject: Re: Soundblaster Live!
-Message-Id: <marc-linux-sound-92125535517980@msgid-missing>
+Message-Id: <marc-linux-sound-92125592418459@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92124977612119@msgid-missing>
 In-Reply-To: <marc-linux-sound-92124977612119@msgid-missing>
@@ -9,6 +9,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+
+Ehmm.. my previous mail didn't have any body did it? =)
+Retry: Do you have any website or something with info on this issue? I would
+like to know more, i've been without sound long enough now =)
 
 Johannes Erdfelt sounded lame on Fri, 12 Mar 1999 by saying:
 > They recently hired someone their selves to code a Linux driver. I wouldn't
