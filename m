@@ -1,29 +1,26 @@
 From: Paul Barton-Davis <pbd@Op.Net>
-Date: Mon, 01 May 2000 00:46:14 +0000
+Date: Mon, 01 May 2000 00:48:59 +0000
 Subject: Re: [alsa-devel] Re: midi controllers + laptop
-Message-Id: <marc-linux-sound-95714240903878@msgid-missing>
+Message-Id: <marc-linux-sound-95714255003960@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95714240903878@msgid-missing>
+In-Reply-To: <marc-linux-sound-95714240903878@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
->ALSA folks, would it be possible to redirect the ALSA sequencer
->output to a serial MIDI device ? If yes what are the right
->steps to do this ?
+>/dev/midi00 behaves like a std serial device except athat it runs 
+>always at 31250bps.
 
-best way: write a kernel module that sets itself up as a client of the
-sequencer. The module is simple: it just forwards the data (post
-transformation from sequencer events to actual MIDI) on to the real
-serial driver for the serial MIDI interface. Its not obvious how to do
-this at first sight, but I recall find examples of other "pseudo
-drivers" in the kernel that do such forwarding.
+not true. /dev/midiNN does not support any (or certainly not most) of
+the serial-specific ioctl's that can be used to configure a real
+serial port. i've seen some amazing code that attempt to set the
+VBREAK character for the MIDI port :) duh ...
 
-easiest way: write a user-space app that registers as a client of the
-sequencer and forwards all data (post-transformation from sequencer
-events to actual MIDI) to an open file descriptor that results from
-opening the serial MIDI device.
+also, the buffering of the OSS /dev/midi device is completely
+different from that done by the serial driver. its also not very good :)
 
-'nuff said ?
+as ever: use ALSA.
 
 --p
