@@ -1,7 +1,7 @@
-From: llornkcor <llornkcor@llornkcor.com>
-Date: Tue, 12 Oct 1999 04:18:33 +0000
+From: Meelis Roos <mroos@tartu.cyber.ee>
+Date: Tue, 12 Oct 1999 13:31:24 +0000
 Subject: Re: No CD audio with Gnome and Ensoniz es1370 driver RH6.0
-Message-Id: <marc-linux-sound-93970210315350@msgid-missing>
+Message-Id: <marc-linux-sound-93973514509902@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93969945213465@msgid-missing>
 In-Reply-To: <marc-linux-sound-93969945213465@msgid-missing>
@@ -10,30 +10,10 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Is the connection from the cd rom to the sound card attached?
+I had very similar problem with the same driver (but with KDE, I think,
+but I'm not sure. At least I was in KDE when I got it working). The
+solution was to take the balance slider and drag it to the left and then
+to the right and then to the center again and cd sound started working.
 
-On Mon, 11 Oct 1999, Gerald J. Puhl wrote:
-> I have tried things that people have said:
-> 
-> 	1. Update gnome to laster release
-> 	2. aumix -c R
-> 
-> Still no sound from CD player.  Does the aumix command need to be placed
-> somewhere in a startup script before Gnome starts?  Any other ideas to
-> help would be appreciated.
-> 
-> Thanx!
-> 
-> ---------------------------------------------------------------------------
-> Gerald J. Puhl (garyp@jppattern.com)
-> Systems Manager
-> J. P. Pattern Inc.
-> 
-> for more information about JP Pattern please visit our Web site at:
-> 
-> 	www.jppattern.com	or	www.execpc.com/~jppat
-> ---------------------------------------------------------------------------
---
-llornkcor rocknroll
-SpiritShip MultiMedia Recording Studio
-http://www.llornkcor.com
+-- 
+Meelis Roos (mroos@tartu.cyber.ee)
