@@ -1,144 +1,58 @@
-From: HvR <hvrietsc@yahoo.com>
-Date: Tue, 28 Mar 2000 05:51:36 +0000
-Subject: Re: Sound problem after suspend.  Kernel version 2.3.99-pre3
-Message-Id: <marc-linux-sound-95422288524824@msgid-missing>
+From: Alessandro Zummo <azummo@ita.flashnet.it>
+Date: Mon, 27 Mar 2000 15:08:23 +0000
+Subject: Re: sb_card.c cleanup
+Message-Id: <marc-linux-sound-95417089715481@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95419175303519@msgid-missing>
-In-Reply-To: <marc-linux-sound-95419175303519@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-i had the same problems with 2.2.15 i needed the
-following presuspend script:
+ On 27-Mar-00 at 12:19:17,
+  Paul Laufer <pelaufer@csupomona.edu> wrote:
 
-#!/bin/sh
-# need to unload sound modules before suspend
-# kill any sound makers
-killall -9 xmms
-killall -9 mpg123
-killall -9 mixer_applet
-#/usr/bin/esdplay /etc/sysconfig/sounds/presuspend.wav
-# kill mouse to quiet sound, seriously
-killall -9 gpm
-# save soundlevels
-/usr/bin/aumix -f /etc/.aumixrc -S
-/sbin/ifdown eth0       # free card
-/sbin/cardctl eject
-/sbin/rmmod opl3
-/sbin/rmmod opl3sa2 
-/sbin/rmmod mpu401
-/sbin/rmmod ad1848
-/sbin/rmmod sound
-/sbin/rmmod soundcore
-/sbin/rmmod soundlow
-/sbin/rmmod -as
 
-the gpm killing is really necessary without this the
-sound module will not unload!!!
+> Overview: After Alex's last patch the various sb_init_* functions were
+> quite redundant, so I've written a generic sb_init function.  I also
+> reorganized sb_isapnp_list.  I raided the ALSA drivers for all the ISAPnP
+> codes for CTL and ESS chips and added them to the table (as I believe Alan
+> suggested). Also returns the 2.3.99pre2 dev->active behavior, which was
 
-then my postsuspend script is:
-#!/bin/sh
-# what we do after we get back from suspend
-/sbin/cardctl insert
-/sbin/rmmod opl3 2>/dev/null
-/sbin/rmmod opl3sa2  2>/dev/null
-/sbin/rmmod mpu401 2>/dev/null
-/sbin/rmmod ad1848 2>/dev/null
-/sbin/rmmod sound 2>/dev/null
-/sbin/rmmod soundcore 2>/dev/null
-/sbin/rmmod soundlow 2>/dev/null
-# ok now put sound back
-modprobe sound
-/usr/bin/aumix -f /etc/.aumixrc -L > /dev/null
-#/usr/bin/esdplay
-/etc/sysconfig/sounds/postsuspend.wav
-# restart at daemon it might have lost time
-/etc/rc.d/init.d/atd restart
-# put 2 button mouse back
-/usr/sbin/gpm -t ps/2
+[...] Well done Paul, but i have some comments...
 
-good luck...
---- Dave Caswell <davec@apocalypse.org> wrote:
-> With kernel version 2.3.99-pre3 sound words until I
-> suspend my Toshiba
-> Satellite Pro 445CDX, but after resuming it will
-> produce no sound.
-> This problem came in with the sound clean-ups after
-> version 2.3.49.  
-> 
-> I've appended what sound related information I've
-> got to the end of
-> this message.
-> 
-> Thanks,
-> 	davec
-> 
-> Append line in lilo.conf:
-> append = "ppa=0x378 parport=0x378,7,3
-> opl3sa2=0x370,5,1,0,0x530,0x330 "
-> 
-> Log entries:
-> 
-> Mar 26 14:17:52 krypton kernel: ad1848/cs4248 codec
-> driver Copyright (C) by Hannu Savolainen 1993-1996 
-> Mar 26 14:17:52 krypton kernel: Found OPL3-SA3
-> (YMF715) 
-> Mar 26 14:17:52 krypton kernel: <MS Sound System
-> (CS4231)> at 0x534 irq 5 dma 1,0 
-> Mar 26 14:17:52 krypton kernel: <MPU-401 0.0  Midi
-> interface #1> at 0x330 irq 5 dma 1,0 
-> 
-> 
-> Config File set-up
-> #
-> # Sound
-> #
-> CONFIG_SOUND=y
-> # CONFIG_SOUND_CMPCI is not set
-> # CONFIG_SOUND_ES1370 is not set
-> # CONFIG_SOUND_ES1371 is not set
-> # CONFIG_SOUND_ESSSOLO1 is not set
-> # CONFIG_SOUND_MAESTRO is not set
-> # CONFIG_SOUND_SONICVIBES is not set
-> # CONFIG_SOUND_TRIDENT is not set
-> # CONFIG_SOUND_MSNDCLAS is not set
-> # CONFIG_SOUND_MSNDPIN is not set
-> CONFIG_SOUND_OSS=y
-> CONFIG_SOUND_TRACEINIT=y
-> CONFIG_SOUND_DMAP=y
-> # CONFIG_SOUND_AD1816 is not set
-> # CONFIG_SOUND_SGALAXY is not set
-> # CONFIG_SOUND_ADLIB is not set
-> # CONFIG_SOUND_ACI_MIXER is not set
-> # CONFIG_SOUND_CS4232 is not set
-> # CONFIG_SOUND_SSCAPE is not set
-> # CONFIG_SOUND_GUS is not set
-> # CONFIG_SOUND_VMIDI is not set
-> # CONFIG_SOUND_TRIX is not set
-> # CONFIG_SOUND_MSS is not set
-> # CONFIG_SOUND_MPU401 is not set
-> # CONFIG_SOUND_NM256 is not set
-> # CONFIG_SOUND_MAD16 is not set
-> # CONFIG_SOUND_PAS is not set
-> # CONFIG_PAS_JOYSTICK is not set
-> # CONFIG_SOUND_PSS is not set
-> # CONFIG_SOUND_SOFTOSS is not set
-> # CONFIG_SOUND_SB is not set
-> # CONFIG_SOUND_AWE32_SYNTH is not set
-> # CONFIG_SOUND_WAVEFRONT is not set
-> # CONFIG_SOUND_MAUI is not set
-> # CONFIG_SOUND_VIA82CXXX is not set
-> # CONFIG_SOUND_YM3812 is not set
-> # CONFIG_SOUND_OPL3SA1 is not set
-> CONFIG_SOUND_OPL3SA2=y
-> # CONFIG_SOUND_UART6850 is not set
-> # CONFIG_SOUND_AEDSP16 is not set
-> 
-> 
+ first, now that we use find_card instead of find_dev
+ we loose some automagic compatibility .. i.e. any
+ sb "compatible" card not listed in the table but
+ with a know logical device id will not work as before.
 
-__________________________________________________
-Do You Yahoo!?
-Talk to your friends online with Yahoo! Messenger.
-http://im.yahoo.com
+ second, the "already active thing". This was done
+ to allow the user to setup manually it's card via
+ the /proc/isapnp interface. 
+
+ Obviously the second instance of the driver
+ will get in the same card. There's no easy solution
+ to this, but  you perfectly know how to solve this:    
+
+:-)
+
+ Do you remember your patch for multiple detection
+ in a round? I think it's time to merge it in.
+
+ Then you could also take in account
+ if the card has been initialized by the driver
+ or not.
+
+ There's still the problem with ALS007 type
+ card which obviously won't work....
+ btw the card was no more in my -pre3
+ kernel.. maybe i've removed it by a mistake.. :-/
+
+ I also sent a patch to Linus a few hours ago.. 
+ but it should apply with some fuzz...sorry.
+ 
+
+-- 
+
+   - *Alex* -
+
+  http://freepage.logicom.it/azummo/
