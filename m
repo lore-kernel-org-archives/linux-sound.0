@@ -1,66 +1,57 @@
-From: Can Bican <bican@metu.edu.tr>
-Date: Fri, 21 Jan 2000 11:11:58 +0000
-Subject: Re: Some kind of ESS chip
-Message-Id: <marc-linux-sound-94848569109455@msgid-missing>
+From: "Pierre Hanna" <hanna@labri.u-bordeaux.fr>
+Date: Tue, 25 Jan 2000 14:15:38 +0000
+Subject: JIM 2000
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="----=_NextPart_000_0071_01BF6747.092DD200"
+Message-Id: <marc-linux-sound-94881000217410@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94709023919904@msgid-missing>
-In-Reply-To: <marc-linux-sound-94709023919904@msgid-missing>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+This is a multi-part message in MIME format.
 
-	Hello,
+------=_NextPart_000_0071_01BF6747.092DD200
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-	Something new: sndconfig of Mandrake 7.0 says that it is not
-supported. By the way, I also tried those (ES1938) drivers, but
-frustration. As long as I know, this computer is a low cost promotion-type
-computer of IBM, and if I am not wrong (that this card is not supported),
-you should plug another PCI sound card to this to make sound in Linux. It
-even hasn't got an ISA slot!
-	Anyway, I'll try once more ES1938, but it hadn't worked...
+The Journees d'Informatique Musicale is an annual meeting of
+researchers in computer music and musicians who use the computer as a
+means of expression or as a tool for composition. This year, the
+seventh edition of this meeting will occur may 15-18 at Bordeaux.
 
-	Regards.
+PAPER SUBMISSION DEADLINE: February the 15th
+INTERNATIONAL COMPETITION ACOUSMATIC MUSIC : March the 15th
 
-On Fri, 21 Jan 2000 bizjak@rd.iskraemeco.si wrote:
+Visit our site for more information:
+http://www.scrime.u-bordeaux.fr/JIM2000
 
-> Date: Fri, 21 Jan 2000 11:02:05 +0100
-> From: bizjak@rd.iskraemeco.si
-> To: bican@metu.edu.tr
-> Subject: Some kind of ESS chip
-> 
-> Hello!
-> 
->         I have an IBM PC 300 GL, with Mandrake 6.1 installed. It has an
->         on-board kind of sound chip, and the pre-installed Windows 98
-> was using a
->         kind of ESS driver for this. On the chip, exactly the following
-> is
->         printed:
->                 ESS
->                 ES1930S F439
->                 TTUB3265V
->                 (P)4, 214, 125 (C)
->                 
->                 Ok, granted, it's an ESS, but what about 1930S? I
-> haven't happened
->         to such a chipset anywhere. Expectedly, I've not been able to
-> get it to
->         work, tried all ess modules along with sb and mss modules. I
-> wonder if it
->         is really a new (or odd) chipset that no drivers for Linux
-> exist, or am I
->         missing something?
-> 
->   I'm not aware of ES1930, but there is ES1938, which is ESS Solo-1 PCI
-> chip. This chip is supported by ALSA (please check
-> http://www.alsa-project.org on how to download and install drivers).
-> -- 
-> 	Uros.
-> 
 
------
-Can Bican
-Bilgi Islem Daire Baskanligi, ODTU
-METU Computer Center
+------=_NextPart_000_0071_01BF6747.092DD200
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD W3 HTML//EN">
+<HTML>
+<HEAD>
+
+<META content=3Dtext/html;charset=3Diso-8859-1 =
+http-equiv=3DContent-Type>
+<META content=3D'"MSHTML 4.72.3110.7"' name=3DGENERATOR>
+</HEAD>
+<BODY bgColor=3D#ffffff>
+<DIV>The Journees d'Informatique Musicale is an annual meeting =
+of<BR>researchers=20
+in computer music and musicians who use the computer as a<BR>means of =
+expression=20
+or as a tool for composition. This year, the<BR>seventh edition of this =
+meeting=20
+will occur may 15-18 at Bordeaux.<BR><BR>PAPER SUBMISSION DEADLINE: =
+February the=20
+15th<BR>INTERNATIONAL COMPETITION ACOUSMATIC MUSIC : March the =
+15th<BR><BR>Visit=20
+our site for more information:<BR><A=20
+href=3D"http://www.scrime.u-bordeaux.fr/JIM2000">http://www.scrime.u-bord=
+eaux.fr/JIM2000</A><BR></DIV></BODY></HTML>
+
+------=_NextPart_000_0071_01BF6747.092DD200--
