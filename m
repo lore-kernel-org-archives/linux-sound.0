@@ -1,7 +1,7 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Wed, 21 Oct 1998 09:56:24 +0000
-Subject: Re: soundcard confusion
-Message-Id: <marc-linux-sound-90897754002457@msgid-missing>
+From: Etienne Grossmann <etienne@anonimo.isr.ist.utl.pt>
+Date: Sat, 24 Oct 1998 18:56:47 +0000
+Subject: re: soundcard confusion
+Message-Id: <marc-linux-sound-90925850915034@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90887944325515@msgid-missing>
 In-Reply-To: <marc-linux-sound-90887944325515@msgid-missing>
@@ -10,57 +10,44 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-'Terra NovA' B. Loeding wrote:
 
-> Ok. First question. I've got a SB Awe64PCI.
-> What is the difference between the es1370 driver
-> and the es1371 driver?
 
-One driver is for the ES1370 ASIC and the other
-one for the ES1371 ASIC :-)  The main difference
-between these chips is the codec interface.
+  Hello,
 
-The latter supports the generic AC97 interface,
-which means it has to have built in sample
-rate converters.
+  sorry, I don't have many answers :
 
-> and I have sound... kind of. I can play audio CD's
-> fine but the volume is so low I can barely hear it.
-> The same goes for sound samples but I also find a
-> large drop in sound quality too.
+> Well, I compiled the es1370 driver into my kernel
 
-use a tool like xmixer to increase the volume.
-Also enable CD as a recording source.
+  Wasn't there a SB-specific option to set when you configured the
+kernel? What did you configure your kernel with? "make menuconfig"?
+
 
 > What's the difference between /dev/audio and /dev/dsp?
 
-The default sample format for /dev/audio is ALAW (or was
-it ULAW?), which is not supported by the es137* drivers.
-/dev/dsp's default is linear 8bit.
+  I'm not sure, but for me, doing :
+   
+       cat ~/ftp/sndkit/dsp/endoftheworld > /dev/dsp
 
-> Why do most command line sound programs want to output
-> to /dev/audio by default?
+  does some normal quality sound, whereas 
 
-Maybe inherited from old Sun audio hardware.
+       cat ~/ftp/sndkit/dsp/endoftheworld > /dev/audio
+
+  does some noise vaguely reminiscent of what the original sound was.
 
 > Why I'm I not getting any sound from /dev/dsp?
 
-maybe because the mixer volume is too low?
-
-> Why is the lineout channel (dsp1) so low on volume?
-
-Same as above probably
-
-> How do I tell the es1370 driver to have the joystick port
-> ON by default?
-
-Joystick might be a bit of a problem currently, you might
-need to delete the request_region for the joystick ports
+  None none? Turned the volume up?
 
 > How do I use /dev/midi? Nothing seems to work.
 
-/dev/midi is possibly not what you want, it is a
-raw interface to the MIDI UART. If you just want
-to play midi files, use eg. timidity.
+  Did you try the program called "playmidi" ?
 
-Tom
+
+  As you see, I haven't been of much help. 
+
+  There seems to be many questions, on this list but few answers.
+
+
+  Good luck, and don't hesitate to ask more questions.
+
+  Etienne
