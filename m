@@ -1,21 +1,21 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Fri, 14 May 1999 10:13:18 +0000
-Subject: Re: Bidirectionnal sound card
-Message-Id: <marc-linux-sound-92671669928159@msgid-missing>
+From: qozmo x xx <qozm0@juno.com>
+Date: Fri, 21 May 1999 20:35:17 +0000
+Subject: mp3 encoders
+Message-Id: <marc-linux-sound-92749517814986@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92652008522117@msgid-missing>
-In-Reply-To: <marc-linux-sound-92652008522117@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-ljp wrote:
-> 
-> You will need to buy the OSS sound driver for bi-directional
-> sound... The free one does not have support for that. :o(
+can anybody point me to a good (and free) mp3 encoder
+for linux?
+thanx,
+qozmo
 
-Wrong. Try looking at the code. The CS423x, es137x, sonicvibes
-drivers can do full duplex
-
-Tom
+sorry if i've sent this message twice, it didn't seem
+the first one reached the list
+___________________________________________________________________
+You don't need to buy Internet access to use free Internet e-mail.
+Get completely free e-mail from Juno at http://www.juno.com/getjuno.html
+or call Juno at (800) 654-JUNO [654-5866]
