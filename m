@@ -1,32 +1,65 @@
-From: Hamish Moffatt <moffatt@cs.rmit.edu.au>
-Date: Sat, 19 Sep 1998 13:01:06 +0000
-Subject: Re: AWE64 initial questions
-Message-Id: <marc-linux-sound-90621003526488@msgid-missing>
+From: CaT <cat@zip.com.au>
+Date: Mon, 14 Sep 1998 02:04:31 +0000
+Subject: Desperately Seeking *#$^@^@% AWE64 Help :)
+Message-Id: <marc-linux-sound-90573905510932@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90515879913606@msgid-missing>
-In-Reply-To: <marc-linux-sound-90515879913606@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sat, Sep 12, 1998 at 12:54:21PM -0700, rtlynch@aracnet.com wrote:
-> I would like to work on this.  I've been running linux for a while now but
-> never have bothered with sound. The last time I compiled my kernel I
-> included sound as a module but haven't made time to play around with
-> getting the plug-n-prey to work.  This would be good experience for me as
-> well as force me to finish my system setup :->
-> 
-> I was thinking of just implementing the script with perl. (Seems easy
-> anough.)  Are there any common pit falls that anyone can think of?  
 
-perl is where I'd start too. No pitfalls that I know of, but I haven't
-done a lot of perl myself either.
+Well I've read every document I can find on installing the AWE64.
 
+I've gone to the awedrv website.
 
-Hamish
+I've spent close to 20hrs on #linux asking for help, getting it and
+trying to get the SOB working.
+
+I tried the OSS drivers with 2.0.35.
+
+I've installed 2.1.121 to try to get it working.
+
+I told it I would wish cancer on it if it didn't start to work.
+
+I contemplating sacraficing a goat...
+
+And yet still the damned thing doesn't work and so now I'm going
+for what is my avenue of last resort. This list. Did I miss something
+important? Am I just a clueless git? (DON'T answer that. :) Is reality
+against me? Help.
+
+My config as it stands (more or less. I'll spam with more detail if
+requested)
+
+In the kernel compile all options are set as module. Sound, old fm stuff
+(typing this from memory), oss dirvers and the lowlevel driver.
+
+pnp configured by changing the dump of pnpdump and uncommenting the right
+lines plus adding 2 for the wavetable stuff. isapnp is seemingly happy and
+gives me a single line responce with a bunch of hex numbers and so on.
+
+modprobe sound seems to work. it doesn't whine but neither does it produce
+any output.
+
+insmod iso406 (I think that's the right number. again, doing it from
+memory) barfs, pukes and generally paints the screen technicolour with
+error msgs about not being able to find internal labels. ie it finds
+it but when it tries to deal with it it cannot figure out where to point
+stuff.
+
+same with sb and the others (as stated in the HOWTO on AWE32 in the
+kernel distrib. I think. I've read so many I'm losing count).
+
+I know there's not much info here but if someone expresses interest
+in helping out I'll go to the hassle of getting whatever data is req
+when I get home tonight.
+
+Thanks muchly.
+
 -- 
-Hamish Moffatt, StudIEAust              hamish@debian.org, hamish@moffatt.nu
-Student, computer science & computer systems engineering.    4th year, RMIT.
-http://hamish.home.ml.org/ (PGP key here)             CPOM: [*******   ] 73%
-Matter cannot be created or destroyed, nor returned without a receipt.
+CaT (cat@zip.net.au)                       URL: http://www.zip.com.au/dev/null
+
+    There was farting in the air that night,
+        It lit so bright,
+            Fernando...
