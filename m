@@ -1,21 +1,24 @@
-From: Alan Cox <alan@redhat.com>
-Date: Wed, 05 Apr 2000 21:56:06 +0000
-Subject: Re: Is SoundBlaster Live! support going into the 2.4 kernel?
-Message-Id: <marc-linux-sound-95497205613298@msgid-missing>
+From: Paco <paco@OhKeePa.Net>
+Date: Thu, 06 Apr 2000 01:03:22 +0000
+Subject: New problem...
+Message-Id: <marc-linux-sound-95498321922404@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95491930029240@msgid-missing>
-In-Reply-To: <marc-linux-sound-95491930029240@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> I've found the Creative Open Source website where the
-> EMU10K1 driver source can be found.  However, I'd 
-> really like to see this driver live with the other
-> sound drivers in the kernel source tree.  Is this
-> going to happen?
+Me again...
 
-Soon
+After I finally got my SB-PCI512 working, I've now
+discovered that when I start up "gmix" to adjust the
+mixer levels, something happens to the emu10k1 module
+that prevents me from playing or recording from that
+point on.  Basically "gmix" kills my card.
 
-> 
+The only way to get it working again is to "rmmod"
+followed by "modprobe" for the emu10k1.
+
+Anybody else experienced anything like this?
+
+-Paco
