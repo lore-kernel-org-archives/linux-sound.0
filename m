@@ -1,42 +1,22 @@
-From: Martin Adler <rockshox@web-regional.net>
-Date: Sun, 20 Jun 1999 11:00:11 +0000
-Subject: 
-Message-Id: <marc-linux-sound-93038866401409@msgid-missing>
+From: Kim-Ee Yeoh <yeoh@cs.wisc.edu>
+Date: Fri, 04 Jun 1999 23:01:27 +0000
+Subject: Where to get Hoontech/Trident 4dwave NX (was Re: High Quality Sound Cards?)
+Message-Id: <marc-linux-sound-92853647921694@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Got the following problem with the SBLive 0.2b driver under SuSE 6.0 with Kernel 2.2.10:
+> The Hoontech card is wonderful.  The
+> sound quality beats the pants off my SB 64 Gold, for about $45 shipped from
+> Korea.  I'm not sure what the digital input bracket costs though.  Mine
+> just came with digital (RCA & Toslink) output.  www.hoontech.com.
 
-adler-martin-lnx:~ # insmod -f sblive
-Warning: kernel-module version mismatch
-        /lib/modules/2.2.10/misc/sblive.o was compiled for kernel version 2.2.5
-        while this kernel is version 2.2.10
-
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_dsp
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_midi
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_dsp
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_mixer
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_mixer
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_special
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_special
-/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_midi
-adler-martin-lnx:~ #
-
-I followed all the procedures in the readme file. Anyone have a solutions.
+I did consider getting a Hoontech at some point, so a websearch revealed a
+US distributor/retailer at http://www.audiencedp.com/.  Price seems
+reasonable at $39 for the bare card alone.  At least one doesn't have to
+mess around with int'l shipping -- always an iffy thing. 
 
 
-Thanx alot,
-
-Martin
-
----------------------------------------------
-| Martin Adler ~~ rockshox@web-regional.net |
-|                                           |
-| LAN-Administration ~~~~~~~~~ CSC Ploenzke |
----------------------------------------------
-|           Let Linux kill NT!!             |
-|        Drive it like you stole it!!       |
----------------------------------------------
+-- Kim-Ee
