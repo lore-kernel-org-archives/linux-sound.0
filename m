@@ -1,33 +1,44 @@
-From: "moc liamtoh" <mackilla@hotmail.com>
-Date: Sun, 13 Dec 1998 22:40:25 +0000
-Subject: cs4235 chips....
-Message-Id: <marc-linux-sound-91361788008036@msgid-missing>
+From: Roberto Pavan <rpavan@physics.ubc.ca>
+Date: Fri, 04 Dec 1998 08:01:21 +0000
+Subject: OPTi 925 PnP
+Message-Id: <marc-linux-sound-91279517822515@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-well i have tried some different things using kernel 2.0.34...i ended up 
-getting the oss drivers (the free download) and installing them. i then 
-used the info i got from cat /proc/snd i believe or something close to 
-this...and then configured the kernel driver to reflect the same and 
-recompiled...SOUND WORKED!!! so left it and removed the oss and alsa and 
-everything else....as i continued to use the sound however i notice that 
-it is very crappy. =) the only things i am running is an extremely basic 
-system and an lcd display manager program...(this computer is for a car 
-mp3 player) and yet i still get static when the hard drive is used. the 
-more processor i try to use the more static i get.... that is when i try 
-to run a couple medium size commands and sometimes multiple instances, i 
-get more static that if i just have the display running...and this is 
-the type of static that is not from interference from the HD, but the 
-type of static that results because the resources are not available (the 
-sound file starts to slow down and distort...) i am currently upgrading 
-to 2.0.36 so that i can also have better apm support so as to turn off 
-after a halt and i am trying to install the alsa sound drivers....i have 
-two problems that i will ask about in the next mail....
+I'm not a subscriber to this list, so I'd appreciate receiving a direct
+response if anyone would like to help me.
 
-josh
+I'm having a little trouble getting my OPTi 925 PnP working under OSS
+Free.
 
-______________________________________________________
-Get Your Private, Free Email at http://www.hotmail.com
+After setting up its resources with isapnptools, I noticed at boot that
+OSS was loading the ad1848 and uart401 modules, so I set about trying to
+configure them in /etc/conf.modules:
+
+alias sound ad1848
+alias midi uart401
+options ad1848 io=0x0220 irq=5 dma=0 dma2=1
+options uart401 io=0x300 irq=9
+
+The uart module loads up just fine, but I get an error with the ad1848
+at boot:
+/lib/modules/preferred/misc/ad1848.0:  init_module: Device or resource
+busy
+sound:  device or resource busy
+
+In fact, if I remove all sound modules, and try to load in the ad1848
+with modprobe, I get the same error.
+
+But  /cat/proc/interrupts / dma / ioports      don't show any
+conflcts.   These are the same resources used by the card in Win98 on
+the same machine.  Am I missing something?  I'm not sure of the syntax
+for the conf.modules file.  I lifted it from another machine using an
+SB16.
+--
+Your faithful narrator,
+Roberto Pavan rpavan@physics.ubc.ca
+
+In some countries what I do is considered normal.
