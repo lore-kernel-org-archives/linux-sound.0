@@ -1,38 +1,33 @@
-From: Derrick J Brashear <shadow@dementia.org>
-Date: Thu, 31 Dec 1998 00:43:18 +0000
-Subject: Re: problems with cdda2wav and other audio CDROM ripping software
-Message-Id: <marc-linux-sound-91511049901013@msgid-missing>
+From: benoit.rouits@lemel.fr (Benoit Rouits)
+Date: Sun, 06 Dec 1998 02:19:33 +0000
+Subject: GUS MAX problem
+Message-Id: <marc-linux-sound-91295518418565@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91491718927482@msgid-missing>
-In-Reply-To: <marc-linux-sound-91491718927482@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, 29 Dec 1998, Tony Nugent wrote:
+Hello,
+(I'm not subscribed, please use reply)
 
-> (and lots of variants) just produces ugly noise.  Same for cdparanoia
-> - the wav files it creates sound like a ham radio between signals :)
-> 
-> And I can't get 8hz-mp3 to compile (there's a bunch of missing
-> ieee*.h header files).  So "ripperX" is useless.
->
-> I'd really like to do some audio cdrom ripping (to do audio cdrom
-> copies and to make some mp3 disks), but I'm at a loss to know what to
-> use.
-> 
-> Can anyone point me in the direction of something (anything!!) that
-> *works* ??
+I've got a problem with my 2.0.31 kernel
+ and standard driver for GUS that is :
 
-I've given up on cdda2wav and am using cdparanoia 
-(http://www.mit.edu/afs/sipb/user/xiphmont/cdparanoia/index.html) and also
-I've started using the "lamer" patches to the dist10 mp3 encoder in
-preference to 8hz-mp3, but that pointer I don't have handy.
+-When i use MIDI player first time, i get a segmentation fault. At the 
+second time, the /dev/sequencer is said BUSY.But when i CAT foo.bar in /dev/
+sequencer
+, I can "hear" some midi message.(unsynchrnised of course) What's the 
+problem?
 
-Both work on my RH 5.1 laptop, but cdparanoia needed work (which is now
-integrated) to override the default read size since the automatic
-optimization didn't work with the cdrom drive in my laptop.... which has 2
-different jitter peaks, apparently. 
+- Secondly, wave sound works well but sometimes i get a big BUZZ when 
+playing some file. I'm forced to reboot to get good sound again.
 
--D
+Any suggestion?
+
+Thank's a lot .
+
+P.S: My GUS MAX is an ISA one and works
+ well under Micro$oft and I'm sure to not have any irq or dma conflicts.
+
+Benoit Rouits
