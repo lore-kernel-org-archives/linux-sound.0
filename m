@@ -1,25 +1,28 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Thu, 22 Apr 1999 03:35:41 +0000
+From: Simon Kagedal <simon@sdf.se>
+Date: Sun, 25 Apr 1999 17:34:36 +0000
 Subject: Re: /dev/midi apps
-Message-Id: <marc-linux-sound-92475265311807@msgid-missing>
+Message-Id: <marc-linux-sound-92506176118717@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92462758903047@msgid-missing>
 In-Reply-To: <marc-linux-sound-92462758903047@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Bertrand Lee (bertrand@ieee.org) said: 
+On Tue, Apr 20, 1999 at 09:45:07AM -0700, Bertrand Lee wrote:
 > Are there any apps that use /dev/midi for playback/recording?
-
-If you mean the external midi/MPU401 device, playmidi supports
-playback to it via the -e switch. Recording I'm not sure about.
-
+>=20
 > All the apps that I have come across (rosegarden, playmidi, etc.) seem to
 > use /dev/sequencer, which my soundcard (es1370) does not support.
+>=20
+> Appreciate any pointers!
 
-Yup, the es137x do not have a hardware midi sequencer. To play
-files, you'd most likely have to use something like timidity.
+`midid' can do that, it handles timing of events itself w/o using
+/dev/sequencer.  It has a midifile player app but no app for recording,
+IIRC. =20
 
-Bill
+http://www.umr.edu/~johns/projects/midid/
+
+--=20
+Simon K=E5gedal <simon@sdf.se> - Homepage: http://www.sdf.se/~simon/
