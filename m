@@ -1,35 +1,32 @@
-From: Kai Vehmanen <kaiv@wakkanet.fi>
-Date: Fri, 04 Jun 1999 22:12:23 +0000
-Subject: ecasound (was: Re: best mp3 players?)
-Message-Id: <marc-linux-sound-92853399918932@msgid-missing>
+From: Keith Duthie <psycho@albatross.co.nz>
+Date: Sat, 05 Jun 1999 14:47:42 +0000
+Subject: Re: ecasound (was: Re: best mp3 players?)
+Message-Id: <marc-linux-sound-92859312417844@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92853399918932@msgid-missing>
+In-Reply-To: <marc-linux-sound-92853399918932@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, 4 Jun 1999, Dan Boger wrote:
+On Sat, 5 Jun 1999, Kai Vehmanen wrote:
 
->> Btw; I added mpg123 support for my not-yet-released hard-disk
-recording 
->> software and it can now use mp3 files as inputs. The fun part is that 
-> yes, I'm quite interested in a way to edit mp3 files - snip parts, or
-> remove blanks... or most importantly, change voliume (equalize songs).
-	
-Currently only mp3 input is supported. Of course you can 
-encode the edited files back to mp3 manually, but this is a bit
-laboursome... Does anyone on the list happen to know, whether 
-any of the freeware mp3 encoders support reading from standard
-input? 
+> Currently only mp3 input is supported. Of course you can 
+> encode the edited files back to mp3 manually, but this is a bit
+> laboursome... Does anyone on the list happen to know, whether 
+> any of the freeware mp3 encoders support reading from standard
+> input? 
 
-> how do I get your prog?
+loki:~$ mpg123 -
+High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3.
+Version 0.59q (1999/Jan/26). Written and copyrights by Michael Hipp.
+Uses code from various people. See 'README' for more!
+THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN
+RISK!
 
-Well it's still unreleased. I'm currently doing a major 
-rewrite, so it may take some time. But as there seems
-to be some interest, I'll try put together a web site for it.
+Playing MPEG stream from standard input ...
 
---
-Kai Vehmanen ----------------------------- CS, University of Turku, Finland
- : email                       mailto:kaiv@wakkanet.fi
- : projects, home page, etc    http://www.wakkanet.fi/~kaiv/
- : ambient-idm-rock-... mp3/ra http://www.wakkanet.fi/~kaiv/sculpscape.html
+-- 
+Understanding is a three edged sword. Do you *want* to get the point?
+         http://www.albatross.co.nz/~psycho/        O-
