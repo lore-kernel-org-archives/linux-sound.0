@@ -1,7 +1,7 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Thu, 13 May 1999 02:28:56 +0000
+From: lconrad@world.std.com
+Date: Thu, 13 May 1999 10:37:11 +0000
 Subject: Re: Bidirectionnal sound card
-Message-Id: <marc-linux-sound-92660876515076@msgid-missing>
+Message-Id: <marc-linux-sound-92662274727762@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92652008522117@msgid-missing>
 In-Reply-To: <marc-linux-sound-92652008522117@msgid-missing>
@@ -10,25 +10,20 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Marc SCHAEFER (schaefer@alphanet.ch) said: 
-> I would like to buy a bidirectionnal sound card, able to record
-> and play at the same time. Someone told me that the
-> SoundBlaster 128 PCI was hardware-wise able to do that, and
-> also Linux supported with this feature.
+Marc SCHAEFER <schaefer@alphanet.ch> writes:
 
-If you want to do true full-duplex, you should be able to use
-(unless I'm horribly mistaken):
+> On Wed, 12 May 1999, ljp wrote:
+> 
+> > You will need to buy the OSS sound driver for bi-directional
+> > sound... The free one does not have support for that. :o(
+> 
+> But, do they offer source code, or it's binary-only ?  And if it's binary
+> only, do they offer free upgrade for, say, 5 years kernel releases ?
 
-- Ensoniq ES1370/1371 (Sound Blaster PCI64/128, AudioPCI)
-- S3 SonicVibes (not recommended)
-- Trident 4DWave DX/NX
-- CS423x based cards
+It is binary only, but you can upgrade free for 5 years of kernel
+releases.
 
-> What driver is to be used, BTW ?  Is there any open-source (no cost
-> or not) driver fulfilling my needs ?
-
-For the Trident 4DWave cards, you'd need to use the ALSA drivers
-(http://alsa.jcu.cz/), for the other cards you can use either
-ALSA drivers or the standard kernel drivers.
-
-Bill
+-- 
+Laura (mailto:lconrad@world.std.com , http://www.world.std.com/~lconrad/ )
+(617) 661-8097	 
+233 Broadway, Cambridge, MA 02139
