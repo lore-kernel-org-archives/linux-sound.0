@@ -1,38 +1,40 @@
-From: Ian and Iris <brooke@jump.net>
-Date: Tue, 30 May 2000 06:41:12 +0000
-Subject: Patch for Sound Makefile
-Message-Id: <marc-linux-sound-95966907612502@msgid-missing>
+From: Miles Lane <miles@speakeasy.org>
+Date: Wed, 03 May 2000 06:55:24 +0000
+Subject: 2.3.99-pre7-2 -- Cannot load cs4232 when built as module
+Message-Id: <marc-linux-sound-95733742919067@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have an MSS compatible sound system.
+I get this error when I attempt to load the driver.
 
-Actually it is a Media-Magic ISP-16 two-mode sound card once popular on "Austin"
-brand computers. There were never any win95 drivers written for it. I put it in
-MSS-compatibility mode with the dos utility prior to running loadlin to start an
-actual operating system.
+May  2 16:13:10 spot kernel: ad1848/cs4248 codec driver Copyright (C) by
+Hannu Savolainen 1993-1996 
+May  2 16:13:10 spot kernel: cs4232.c: I/O port 0xffffffff not free 
 
-To get a mixer operational, I had to make the patch below.
+cat /proc/iomem shows:
 
-This is on devices/sound/Makefile on version 2.3.99-pre9
-
-(Pre-8 worked.)
-
-This is for a modular sound system. I have not tried compiling this in, so I do
-not know if the link order issues referred to in the makefile would affect this.
-
-narcissus:/tmp$ cat sound-diffs 
---- Makefile~   Tue May 30 01:24:22 2000
-+++ Makefile    Tue May 30 01:24:22 2000
-@@ -48,7 +48,7 @@
- obj-$(CONFIG_SOUND_MAD16)      += mad16.o ad1848.o sb_lib.o uart401.o
- obj-$(CONFIG_SOUND_CS4232)     += cs4232.o uart401.o
- obj-$(CONFIG_SOUND_OPL3SA2)    += opl3sa2.o ad1848.o uart401.o mpu401.o
--obj-$(CONFIG_SOUND_MSS)                += ad1848.o
-+obj-$(CONFIG_SOUND_MSS)                += ad1848.o cs4232.o uart401.o
- obj-$(CONFIG_SOUND_PAS)                += pas2.o sb_lib.o uart401.o
- obj-$(CONFIG_SOUND_SB)         += sb.o sb_lib.o uart401.o
- obj-$(CONFIG_SOUND_WAVEFRONT)  += wavefront.o
+00000000-0009f7ff : System RAM
+0009f800-0009ffff : reserved
+000a0000-000bffff : Video RAM area
+000c0000-000c7fff : Video ROM
+000f0000-000fffff : System ROM
+00100000-04ffffff : System RAM
+00100000-0021a09f : Kernel code
+0021a0a0-00230cbb : Kernel data
+10000000-10000fff : Texas Instruments PCI1131
+10001000-10001fff : Texas Instruments PCI1131 (#2)
+10400000-107fffff : PCI CardBus #01
+10400000-1041ffff : PCI device 10b7:5157
+10800000-10bfffff : PCI CardBus #01
+10800000-1080007f : PCI device 10b7:5157
+10800080-108000ff : PCI device 10b7:5157
+10c00000-10ffffff : PCI CardBus #03
+11000000-113fffff : PCI CardBus #03
+a0000000-a0000fff : card services
+fd000000-fdffffff : Neomagic Corporation NM2160 [MagicGraph 128XD]
+fea00000-febfffff : Neomagic Corporation NM2160 [MagicGraph 128XD]
+fed00000-fedfffff : Neomagic Corporation NM2160 [MagicGraph 128XD]
+ffff0000-ffffffff : reserved
