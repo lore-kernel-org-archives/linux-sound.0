@@ -1,115 +1,68 @@
-From: Gerald Teschl <gerald.teschl@univie.ac.at>
-Date: Mon, 03 Jun 2002 18:47:53 +0000
-Subject: Re: isapnp problems with opl3sa2
-Message-Id: <marc-linux-sound-102313010816380@msgid-missing>
+From: Zwane Mwaikambo <zwane@linux.realnet.co.sz>
+Date: Tue, 04 Jun 2002 15:42:35 +0000
+Subject: Re: [PATCH] opl3sa2 isapnp activation fix
+Message-Id: <marc-linux-sound-102320707510070@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-102310582924862@msgid-missing>
-In-Reply-To: <marc-linux-sound-102310582924862@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Zwane Mwaikambo wrote:
+On Tue, 4 Jun 2002, Gerald Teschl wrote:
 
->You should be able to load it without any parameters with ISAPNP, i have a 
->box at home with that card which only requires a modprobe opl3sa2. Could 
->you show me how you're loading it as well as dmesg and /proc/isapnp output 
->after loading.
->
-I use redhat-7.3 (kernel-2.4.18-4) and this is an ASUS L7300 laptop.
-In /etc/modules.conf I have
+> --- linux-2.4.18-4/drivers/sound/opl3sa2.c.orig    Thu May  2 23:36:45 2002
+> +++ linux-2.4.18-4/drivers/sound/opl3sa2.c    Tue Jun  4 16:09:50 2002
+> @@ -57,6 +57,7 @@
+>   *                         (Jan 7, 2001)
+>   * Zwane Mwaikambo       Added PM support. (Dec 4 2001)
+>   * Zwane Mwaikambo       Code, data structure cleanups. (Feb 15 2002)
+> + * Gerald Teschl       Fixed ISA PnP activate. (Jun 02 2002)
+>   *
+>   */
+>  
+> @@ -869,10 +870,24 @@
+>      }
+>      else {
+>          if(dev->activate(dev) < 0) {
+> -            printk(KERN_WARNING PFX "ISA PnP activate failed\n");
+> -            opl3sa2_state[card].activated = 0;
+> -            return -ENODEV;
+> +            /*
+> +             * isapnp.c disallows dma=0 but some opl3sa2 cards need it.
+> +             * So we set dma by hand and try again
+> +             */
+> +            if (dma < 0 || dma > 7)
+> +                dma= 0;
+> +            if (dma2 < 0 || dma2 >7)
+> +                dma2= 1;
 
-alias sound-slot-0 opl3sa2
-options sound dmabuf=1
-alias synth0 opl3
-options opl3 io=0x388
-options opl3sa2 ymode=2 isapnp=1
+Oops, that won't work on isapnp since dma = dma2 = -1 at this stage, how 
+about;
 
-and /proc/isapnp looks like
--------------------------------------------------
-Card 1 'YMH0800:YAMAHA OPL3-SAx Audio System' PnP version 1.0
-  Logical device 0 'YMH0021:Unknown'
-    Device is not active
-    Active DMA 0,0
-    Resources 0
-      Priority preferred
-      Port 0x220-0x220, align 0xf, size 0x10, 16-bit address decoding
-      Port 0x530-0x530, align 0x7, size 0x8, 16-bit address decoding
-      Port 0x388-0x388, align 0x7, size 0x8, 16-bit address decoding
-      Port 0x330-0x330, align 0x1, size 0x2, 16-bit address decoding
-      Port 0x370-0x370, align 0x1, size 0x2, 16-bit address decoding
-      IRQ 5 High-Edge
-      DMA 0 8-bit byte-count type-A
-      DMA 1 8-bit byte-count type-A
-      Alternate resources 0:1
-      ...........
----------------------------------------------
-before inserting the module. If I insert the (original) module using 
-"modporbe opl3sa2" dmesg read:
+if ((dma != -1) && (dma2 != -1)) frob();
 
-ad1848/cs4248 codec driver Copyright (C) by Hannu Savolainen 1993-1996
-ad1848: No ISAPnP cards found, trying standard ones...
-opl3sa2: ISA PnP activate failed
-opl3sa2: No PnP cards found
-opl3sa2: 0 PnP card(s) found.
+you shouldn't hard set 0,1
 
-and /proc/isapnp looks as before. My investigations showed that the 
-error occures in
-isapnp_valid_dma() invoked from isapnp_config_activate() in isapnp.c.
+> +            isapnp_resource_change(&dev->dma_resource[0], dma, 1);
+> +            isapnp_resource_change(&dev->dma_resource[1], dma2, 1);
+>          }
+> +        if(!dev->active)
+> +           if (dev->activate(dev) < 0) {
+> +                printk(KERN_WARNING PFX "ISA PnP activate failed.\n");
+> +                opl3sa2_state[card].activated = 0;
+> +                return -ENODEV;
+> +            }
+> +        opl3sa2_state[card].activated = 1;
+>  
+>          printk(KERN_DEBUG
+>                 PFX "Activated ISA PnP card %d (active=%d)\n",
 
-If I insert my patched module I get
+The rest looks ok.
 
-opl3sa2: Activated ISA PnP card 0 (active=1)
-opl3sa2: chipset version = 0x4
-opl3sa2: Found OPL3-SA3 (YMF715E or YMF719E)
-ad1848: Interrupt test failed (IRQ5)
-opl3sa2: 1 PnP card(s) found.
+Cheers,
+	Zwane
+-- 
+http://function.linuxpower.ca
+		
 
-and /proc/isapnp looks like
--------------------------------------------
-Card 1 'YMH0800:YAMAHA OPL3-SAx Audio System' PnP version 1.0
-  Logical device 0 'YMH0021:Unknown'
-    Device is active
-    Active port 0x220,0x530,0x388,0x330,0x370
-    Active IRQ 5 [0x2]
-    Active DMA 0,1
-    Resources 0
-    .................
--------------------------------------------
-
->
->
->>A few further remarks concerning my patch:
->>*) The patch also adds a line "opl3sa2_state[card].activated = 1" which 
->>is an obvious omission in the original driver.
->>
->
->Thanks, put it right at the end before the return and i'll be happy.
->
-Yes, you are right, probably more readable.
-
->
->
->>*) I have to force the driver to use both dma=0 and dma2=1. From what I
->>understand dma=0 should be sufficient, but this will not work. Looks like
->>a bug in isapnp.c to me. However, this should do no harm since according
->>to /proc/isapnp, the card only offers these values anyway.
->>
->
->isapnp.c is fine
->
-I still think this might affect other hardware as well. Does your card 
-use the same
-irq/prot/dma settings? Does your /proc/isapnp look the same as mine? I don't
-quite understand why it works for you. 
-
->When you rediff, can you diff so that the patch can be applied with a 
->strip of '1' ie diff -u linux/drivers...
->
-No problem.
-
-Thanks for your help!
-
-Gerald
 
