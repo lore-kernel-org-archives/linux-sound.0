@@ -1,31 +1,43 @@
-From: "Dagan Sgiath" <DaganSg@the.net.nz>
-Date: Tue, 23 Mar 1999 14:22:54 +0000
-Subject: [Newbie] New PCI sound cards...
-Message-Id: <marc-linux-sound-92219938312654@msgid-missing>
+From: Zack Smith <zts2@axe.humboldt.edu>
+Date: Tue, 27 Apr 1999 04:23:22 +0000
+Subject: sound cards for linux
+Message-Id: <marc-linux-sound-92518713312599@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
- Hello (c:
 
- I'm about to buy a new computer. I have been looking at getting one of the 
-MX300 soundcards, with 3D sound on it.
+Hi,
 
- The question I have is... do any of these cards have support under Linux as 
-yet ? I know that Linux supports SB legacy cards... but this card isn't one of 
-them (c:
+I recently had an aweful experience trying to get an AWE-64 card
+to work on my system. This was a PnP ISA card, and the isapnptools
+could only recognize the SB16 registers and not the wave table,
+joystick etc. And SB16 performance was plagued by distortion.
 
- Would I be better of using a SB AWE32 in Linux instead ?
+I have been trying to find a sound card for my system which is not
+plug and play, but I have had no luck. Every vendor I go to
+says they no longer sell sound cards which are not PnP.
+Can you perhaps tell me if being plug and play is really 
+the kiss of death as far as Linux goes? It certainly was
+in the case of my AWE64.
 
- 
- DaganSg
+Mind you I prefer to boot up as Linux with LILO, so I am not
+intersted in booting under DOS to get the sound function to work.
 
- ([XXH<>()<>HXX])==============
- "I've never had a humble opinion. If you've got an opinion, why be humble about it."
+Another question: Would a PCI card work alright despite being PnP? 
 
- What ?! You don't use Kali ?! 
- Get it today =>> http://www.Kali.net 
- You use Kali ? Put your profile up in the Kali Gallery 
- =>> http://www.sllik.com/KaliG/ 
+Also, I would like to have access to an FM synthesizer and
+a MIDI emulator chip for playing MIDI files. Is there a
+good card for that as well which will definitely work with
+Linux?
+
+One last question: I once read in a newsgroup that there was
+interest in creating a generic interface for sound software
+which would look the same regardless of the card. Has this
+been accomplished yet?
+
+Thanks for any info.
+
+Zack Smith
