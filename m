@@ -1,176 +1,53 @@
-From: Aki M Laukkanen <amlaukka@cc.helsinki.fi>
-Date: Tue, 28 Mar 2000 12:45:02 +0000
-Subject: [RFT/PATCH] Re: Sound problem after suspend.  Kernel version
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="0-200429489-954247502=:18723"
-Message-Id: <marc-linux-sound-95424773409649@msgid-missing>
+From: Jeff Garzik <jgarzik@mandrakesoft.com>
+Date: Tue, 28 Mar 2000 16:55:00 +0000
+Subject: Re: [RFT/PATCH] Re: Sound problem after suspend.  Kernel
+Message-Id: <marc-linux-sound-95426323324069@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95424773409649@msgid-missing>
+In-Reply-To: <marc-linux-sound-95424773409649@msgid-missing>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-  Send mail to mime@docserver.cac.washington.edu for more info.
+Aki M Laukkanen wrote:
+> 
+> On Mon, 27 Mar 2000, HvR wrote:
+> > the gpm killing is really necessary without this the
+> > sound module will not unload!!!
+> 
+> Really? That seems odd.
+> 
+> > > With kernel version 2.3.99-pre3 sound words until I
+> > > suspend my Toshiba
+> > > Satellite Pro 445CDX, but after resuming it will
+> > > produce no sound.
+> > > This problem came in with the sound clean-ups after
+> > > version 2.3.49.
+> 
+> I have a Toshiba Satellite 220CS laptop which has a OPL3-SA1 sound
+> chip. However I've never gotten the opl3sa1 driver to recognise it as such
+> so I've used the bare ad1848 (MS Sound System) driver instead. Unlike in
+> the case above I've never had working sound after suspend.
+> 
+> This is an experimental patch which fixes the suspend problem for me and
+> I'd appreciate if people would test it.
+> 
+>   ------------------------------------------------------------------------
+>                            Name: ad1848-suspend.patch
+>    ad1848-suspend.patch    Type: Plain Text (TEXT/PLAIN)
+>                        Encoding: BASE64
 
---0-200429489-954247502=:18723
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Nice, looks good to me.
 
-On Mon, 27 Mar 2000, HvR wrote:
-> the gpm killing is really necessary without this the
-> sound module will not unload!!!
+A lot of drivers need to move in this direction... :)  Thanks for
+posting the patch.
 
-Really? That seems odd.
-
-> > With kernel version 2.3.99-pre3 sound words until I
-> > suspend my Toshiba
-> > Satellite Pro 445CDX, but after resuming it will
-> > produce no sound.
-> > This problem came in with the sound clean-ups after
-> > version 2.3.49.  
-
-I have a Toshiba Satellite 220CS laptop which has a OPL3-SA1 sound
-chip. However I've never gotten the opl3sa1 driver to recognise it as such
-so I've used the bare ad1848 (MS Sound System) driver instead. Unlike in
-the case above I've never had working sound after suspend.
-
-This is an experimental patch which fixes the suspend problem for me and
-I'd appreciate if people would test it.
+	Jeff
 
 
---0-200429489-954247502=:18723
-Content-Type: TEXT/PLAIN; charset=US-ASCII; name="ad1848-suspend.patch"
-Content-Transfer-Encoding: BASE64
-Content-ID: <Pine.OSF.4.20.0003281545020.18723@sirppi.helsinki.fi>
-Content-Description: 
-Content-Disposition: attachment; filename="ad1848-suspend.patch"
 
-LS0tIGxpbnV4L2RyaXZlcnMvc291bmQvYWQxODQ4LmMuYmFrCU1vbiBNYXIg
-MjAgMjM6NTY6NDEgMjAwMA0KKysrIGxpbnV4L2RyaXZlcnMvc291bmQvYWQx
-ODQ4LmMJVHVlIE1hciAyMSAxMDowOTowNCAyMDAwDQpAQCAtMjcsNiArMjcs
-NyBAQA0KICAqIEFsYW4gQ294CQk6IHJlZm9ybWF0dGVkLiBGaXhlZCBTTVAg
-YnVncy4gTW92ZWQgdG8ga2VybmVsIGFsbG9jL2ZyZWUNCiAgKgkJICAgICAg
-ICAgIG9mIGlycXMuIFVzZSBkZXZfaWQuDQogICogQ2hyaXN0b3BoIEhlbGx3
-aWcJOiBhZGFwdGVkIHRvIG1vZHVsZV9pbml0L21vZHVsZV9leGl0DQorICog
-QWtpIExhdWtrYW5lbgk6IGFkZGVkIHBvd2VyIG1hbmFnZW1lbnQgc3VwcG9y
-dA0KICAqDQogICogU3RhdHVzOg0KICAqCQlUZXN0ZWQuIEJlbGlldmVkIGZ1
-bGx5IGZ1bmN0aW9uYWwuDQpAQCAtMzYsNiArMzcsNyBAQA0KICNpbmNsdWRl
-IDxsaW51eC9pbml0Lmg+DQogI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0K
-ICNpbmNsdWRlIDxsaW51eC9zdGRkZWYuaD4NCisjaW5jbHVkZSA8bGludXgv
-cG0uaD4NCiANCiAjaW5jbHVkZSAic291bmRtb2R1bGUuaCINCiANCkBAIC01
-Miw2ICs1NCw3IEBADQogCWludCAgICAgICAgICAgICBpcnE7DQogCWludCAg
-ICAgICAgICAgICBkbWExLCBkbWEyOw0KIAlpbnQgICAgICAgICAgICAgZHVh
-bF9kbWE7CS8qIDEsIHdoZW4gdHdvIERNQSBjaGFubmVscyBhbGxvY2F0ZWQg
-Ki8NCisJaW50IAkJc3VidHlwZTsNCiAJdW5zaWduZWQgY2hhciAgIE1DRV9i
-aXQ7DQogCXVuc2lnbmVkIGNoYXIgICBzYXZlZF9yZWdzWzMyXTsNCiAJaW50
-ICAgICAgICAgICAgIGRlYnVnX2ZsYWc7DQpAQCAtODcsNiArOTAsOSBAQA0K
-IAlpbnQgICAgICAgICAgICAgaXJxX29rOw0KIAltaXhlcl9lbnRzICAgICAq
-bWl4X2RldmljZXM7DQogCWludCAgICAgICAgICAgICBtaXhlcl9vdXRwdXRf
-cG9ydDsNCisNCisJLyogUG93ZXIgbWFuYWdlbWVudCAqLw0KKwlzdHJ1Y3QJ
-CXBtX2RldiAqcG1kZXY7DQogfSBhZDE4NDhfaW5mbzsNCiANCiB0eXBlZGVm
-IHN0cnVjdCBhZDE4NDhfcG9ydF9pbmZvDQpAQCAtMTAwLDcgKzEwNiw5IEBA
-DQogfQ0KIGFkMTg0OF9wb3J0X2luZm87DQogDQorc3RhdGljIHN0cnVjdCBh
-ZGRyZXNzX2luZm8gY2ZnOw0KIHN0YXRpYyBpbnQgbnJfYWQxODQ4X2RldnMg
-PSAwOw0KKw0KIGludCBkZXNrcHJvX3hsID0gMDsNCiBpbnQgZGVza3Byb19t
-ID0gMDsNCiBpbnQgc291bmRwcm8gPSAwOw0KQEAgLTE2MywxMSArMTcxLDEx
-IEBADQogc3RhdGljIHZvaWQgICAgIGFkMTg0OF9oYWx0X2lucHV0KGludCBk
-ZXYpOw0KIHN0YXRpYyB2b2lkICAgICBhZDE4NDhfaGFsdF9vdXRwdXQoaW50
-IGRldik7DQogc3RhdGljIHZvaWQgICAgIGFkMTg0OF90cmlnZ2VyKGludCBk
-ZXYsIGludCBiaXRzKTsNCitzdGF0aWMgaW50CWFkMTg0OF9wbV9jYWxsYmFj
-ayhzdHJ1Y3QgcG1fZGV2ICpkZXYsIHBtX3JlcXVlc3RfdCBycXN0LCB2b2lk
-ICpkYXRhKTsNCiANCiAjaWZuZGVmIEVYQ0xVREVfVElNRVJTDQogc3RhdGlj
-IGludCBhZDE4NDhfdG1yX2luc3RhbGwoaW50IGRldik7DQogc3RhdGljIHZv
-aWQgYWQxODQ4X3Rtcl9yZXByb2dyYW0oaW50IGRldik7DQotDQogI2VuZGlm
-DQogDQogc3RhdGljIGludCBhZF9yZWFkKGFkMTg0OF9pbmZvICogZGV2Yywg
-aW50IHJlZykNCkBAIC0xNDE1LDcgKzE0MjMsNyBAQA0KIAkJaWYgKGRldmMt
-Pm1vZGVsID09IE1EX0lXQVZFKQ0KIAkJCWFkX3dyaXRlKGRldmMsIDEyLCAw
-eDZjKTsJLyogU2VsZWN0IGNvZGVjIG1vZGUgMyAqLw0KIA0KLQkJaWYgKGRl
-dmMtPiBtb2RlbCAhPSBNRF8xODQ1X1NTQ0FQRSkNCisJCWlmIChkZXZjLT5t
-b2RlbCAhPSBNRF8xODQ1X1NTQ0FQRSkNCiAJCQlmb3IgKGkgPSAxNjsgaSA8
-IDMyOyBpKyspDQogCQkJCWFkX3dyaXRlKGRldmMsIGksIGluaXRfdmFsdWVz
-W2ldKTsNCiANCkBAIC0xODQ5LDcgKzE4NTcsNiBAQA0KIAkgKiAgIFRoZSBh
-Y3R1YWxseSB1c2VkIElSUSBpcyBBQlMoaXJxKS4NCiAJICovDQogDQotDQog
-CWludCBteV9kZXY7DQogCWNoYXIgZGV2X25hbWVbMTAwXTsNCiAJaW50IGU7
-DQpAQCAtMTg2Myw2ICsxODcwLDcgQEANCiAJZGV2Yy0+dGltZXJfdGlja3Mg
-PSAwOw0KIAlkZXZjLT5kbWExID0gZG1hX3BsYXliYWNrOw0KIAlkZXZjLT5k
-bWEyID0gZG1hX2NhcHR1cmU7DQorCWRldmMtPnN1YnR5cGUgPSBjZmcuY2Fy
-ZF9zdWJ0eXBlOw0KIAlkZXZjLT5hdWRpb19mbGFncyA9IERNQV9BVVRPTU9E
-RTsNCiAJZGV2Yy0+cGxheWJhY2tfZGV2ID0gZGV2Yy0+cmVjb3JkX2RldiA9
-IDA7DQogCWlmIChuYW1lICE9IE5VTEwpDQpAQCAtMTkxNSw2ICsxOTIzLDEw
-IEBADQogDQogCW5yX2FkMTg0OF9kZXZzKys7DQogDQorCWRldmMtPnBtZGV2
-ID0gcG1fcmVnaXN0ZXIoUE1fSVNBX0RFViwgbXlfZGV2LCBhZDE4NDhfcG1f
-Y2FsbGJhY2spOw0KKwlpZiAoZGV2Yy0+cG1kZXYpDQorCQlkZXZjLT5wbWRl
-di0+ZGF0YSA9IGRldmM7DQorDQogCWFkMTg0OF9pbml0X2h3KGRldmMpOw0K
-IA0KIAlpZiAoaXJxID4gMCkNCkBAIC0xOTUwLDcgKzE5NjIsNyBAQA0KIAkJ
-CQlkZXZjLT5pcnFfb2sgPSAxOw0KIAkJCX0NCiAjZWxzZQ0KLQkJCWRldmMt
-PmlycV9vaz0xOw0KKwkJCWRldmMtPmlycV9vayA9IDE7DQogI2VuZGlmCQkJ
-DQogCQl9DQogCQllbHNlDQpAQCAtMjA3Niw2ICsyMDg4LDkgQEANCiAJCWlm
-KG1peGVyPj0wKQ0KIAkJCXNvdW5kX3VubG9hZF9taXhlcmRldihtaXhlcik7
-DQogDQorCQlpZiAoZGV2Yy0+cG1kZXYpDQorCQkJcG1fdW5yZWdpc3Rlcihk
-ZXZjLT5wbWRldik7DQorDQogCQlucl9hZDE4NDhfZGV2cy0tOw0KIAkJZm9y
-ICggOyBpIDwgbnJfYWQxODQ4X2RldnMgOyBpKyspDQogCQkJYWRldl9pbmZv
-W2ldID0gYWRldl9pbmZvW2krMV07DQpAQCAtMjUwNyw3ICsyNTIyLDggQEAN
-CiAJCWh3X2NvbmZpZy0+c2xvdHNbMF0gPSBhZDE4NDhfaW5pdCgiTVMgU291
-bmQgU3lzdGVtIiwgaHdfY29uZmlnLT5pb19iYXNlICsgNCwNCiAJCQkJCQkg
-ICAgaHdfY29uZmlnLT5pcnEsDQogCQkJCQkJICAgIGh3X2NvbmZpZy0+ZG1h
-LA0KLQkJCQkgICAgIGh3X2NvbmZpZy0+ZG1hMiwgMCwgaHdfY29uZmlnLT5v
-c3ApOw0KKwkJCQkJCSAgICBod19jb25maWctPmRtYTIsIDAsIA0KKwkJCQkJ
-CSAgICBod19jb25maWctPm9zcCk7DQogCQlyZXF1ZXN0X3JlZ2lvbihod19j
-b25maWctPmlvX2Jhc2UsIDQsICJXU1MgY29uZmlnIik7DQogCQlyZXR1cm47
-DQogCX0NCkBAIC0yNTYyLDEwICsyNTc4LDkgQEANCiANCiAJb3V0YigoYml0
-cyB8IGRtYV9iaXRzW2RtYV0gfCBkbWEyX2JpdCksIGNvbmZpZ19wb3J0KTsJ
-LyogV3JpdGUgSVJRK0RNQSBzZXR1cCAqLw0KIA0KLQlod19jb25maWctPnNs
-b3RzWzBdID0gYWQxODQ4X2luaXQoIk1TUyBhdWRpbyBjb2RlYyIsIGh3X2Nv
-bmZpZy0+aW9fYmFzZSArIDQsDQorCWh3X2NvbmZpZy0+c2xvdHNbMF0gPSBh
-ZDE4NDhfaW5pdCgiTVMgU291bmQgU3lzdGVtIiwgaHdfY29uZmlnLT5pb19i
-YXNlICsgNCwNCiAJCQkJCSAgaHdfY29uZmlnLT5pcnEsDQotCQkJCQkgIGRt
-YSwNCi0JCQkJCSAgZG1hMiwgMCwNCisJCQkJCSAgZG1hLCBkbWEyLCAwLA0K
-IAkJCQkJICBod19jb25maWctPm9zcCk7DQogCXJlcXVlc3RfcmVnaW9uKGh3
-X2NvbmZpZy0+aW9fYmFzZSwgNCwgIldTUyBjb25maWciKTsNCiB9DQpAQCAt
-MjY5Miw2ICsyNzA3LDgzIEBADQogfQ0KICNlbmRpZiAvKiBFWENMVURFX1RJ
-TUVSUyAqLw0KIA0KK3N0YXRpYyBpbnQgYWQxODQ4X3N1c3BlbmQoYWQxODQ4
-X2luZm8gKmRldmMpDQorew0KKwl1bnNpZ25lZCBsb25nIGZsYWdzOw0KKw0K
-KwlzYXZlX2ZsYWdzKGZsYWdzKTsNCisJY2xpKCk7DQorDQorCWFkX211dGUo
-ZGV2Yyk7DQorCQ0KKwlyZXN0b3JlX2ZsYWdzKGZsYWdzKTsNCisJcmV0dXJu
-IDA7DQorfQ0KKw0KK3N0YXRpYyBpbnQgYWQxODQ4X3Jlc3VtZShhZDE4NDhf
-aW5mbyAqZGV2YykNCit7DQorCXVuc2lnbmVkIGxvbmcgZmxhZ3M7DQorCWlu
-dCBtaXhlcl9sZXZlbHNbMzJdLCBpOw0KKw0KKwlzYXZlX2ZsYWdzKGZsYWdz
-KTsNCisJY2xpKCk7DQorDQorCS8qIHN0b3JlIG9sZCBtaXhlciBsZXZlbHMg
-Ki8NCisJbWVtY3B5KG1peGVyX2xldmVscywgZGV2Yy0+bGV2ZWxzLCBzaXpl
-b2YgKG1peGVyX2xldmVscykpOyAgDQorCWFkMTg0OF9pbml0X2h3KGRldmMp
-Ow0KKw0KKwkvKiByZXN0b3JlIG1peGVyIGxldmVscyAqLw0KKwlmb3IgKGkg
-PSAwOyBpIDwgMzI7IGkrKykNCisJCWFkMTg0OF9taXhlcl9zZXQoZGV2Yywg
-ZGV2Yy0+ZGV2X25vLCBtaXhlcl9sZXZlbHNbaV0pOw0KKw0KKwlpZiAoIWRl
-dmMtPnN1YnR5cGUpIHsNCisJCXN0YXRpYyBzaWduZWQgY2hhciBpbnRlcnJ1
-cHRfYml0c1sxMl0gPSB7IC0xLCAtMSwgLTEsIC0xLCAtMSwgMHgwMCwgLTEs
-IDB4MDgsIC0xLCAweDEwLCAweDE4LCAweDIwIH07DQorCQlzdGF0aWMgY2hh
-ciBkbWFfYml0c1s0XSA9IHsgMSwgMiwgMCwgMyB9Ow0KKw0KKwkJc2lnbmVk
-IGNoYXIgYml0czsNCisJCWNoYXIgZG1hMl9iaXQgPSAwOw0KKw0KKwkJaW50
-IGNvbmZpZ19wb3J0ID0gZGV2Yy0+YmFzZSArIDA7DQorDQorCQliaXRzID0g
-aW50ZXJydXB0X2JpdHNbZGV2Yy0+aXJxXTsNCisJCWlmIChiaXRzID09IC0x
-KSB7DQorCQkJcHJpbnRrKEtFUk5fRVJSICJNU1M6IEJhZCBJUlEgJWRcbiIs
-IGRldmMtPmlycSk7DQorCQkJcmV0dXJuIC0xOw0KKwkJfQ0KKw0KKwkJb3V0
-YigoYml0cyB8IDB4NDApLCBjb25maWdfcG9ydCk7IA0KKw0KKwkJaWYgKGRl
-dmMtPmRtYTIgIT0gLTEgJiYgZGV2Yy0+ZG1hMiAhPSBkZXZjLT5kbWExKQ0K
-KwkJCWlmICggKGRldmMtPmRtYTEgPT0gMCAmJiBkZXZjLT5kbWEyID09IDEp
-IHx8DQorCQkJICAgICAoZGV2Yy0+ZG1hMSA9PSAxICYmIGRldmMtPmRtYTIg
-PT0gMCkgfHwNCisJCQkgICAgIChkZXZjLT5kbWExID09IDMgJiYgZGV2Yy0+
-ZG1hMiA9PSAwKSkNCisJCQkJZG1hMl9iaXQgPSAweDA0Ow0KKw0KKwkJb3V0
-YigoYml0cyB8IGRtYV9iaXRzW2RldmMtPmRtYTFdIHwgZG1hMl9iaXQpLCBj
-b25maWdfcG9ydCk7DQorCX0NCisNCisJcmVzdG9yZV9mbGFncyhmbGFncyk7
-DQorICAgICAgCXJldHVybiAwOw0KK30NCisNCitzdGF0aWMgaW50IGFkMTg0
-OF9wbV9jYWxsYmFjayhzdHJ1Y3QgcG1fZGV2ICpkZXYsIHBtX3JlcXVlc3Rf
-dCBycXN0LCB2b2lkICpkYXRhKSANCit7DQorCWFkMTg0OF9pbmZvICpkZXZj
-ID0gZGV2LT5kYXRhOw0KKwlpZiAoZGV2Yykgew0KKwkJREVCKHByaW50aygi
-YWQxODQ4OiBwbSBldmVudCByZWNlaXZlZDogMHgleFxuIiwgcnFzdCkpOw0K
-Kw0KKwkJc3dpdGNoIChycXN0KSB7DQorCQljYXNlIFBNX1NVU1BFTkQ6DQor
-CQkJYWQxODQ4X3N1c3BlbmQoZGV2Yyk7DQorCQkJYnJlYWs7DQorCQljYXNl
-IFBNX1JFU1VNRToNCisJCQlhZDE4NDhfcmVzdW1lKGRldmMpOw0KKwkJCWJy
-ZWFrOw0KKwkJfQ0KKwl9DQorCXJldHVybiAwOw0KK30NCisNCiANCiBFWFBP
-UlRfU1lNQk9MKGFkMTg0OF9kZXRlY3QpOw0KIEVYUE9SVF9TWU1CT0woYWQx
-ODQ4X2luaXQpOw0KQEAgLTI3MDcsOCArMjc5OSw2IEBADQogc3RhdGljIGlu
-dCBfX2luaXRkYXRhIGRtYSA9IC0xOw0KIHN0YXRpYyBpbnQgX19pbml0ZGF0
-YSBkbWEyID0gLTE7DQogc3RhdGljIGludCBfX2luaXRkYXRhIHR5cGUgPSAw
-Ow0KLQ0KLXN0YXRpYyBzdHJ1Y3QgYWRkcmVzc19pbmZvIGNmZzsNCiANCiBN
-T0RVTEVfUEFSTShpbywgImkiKTsgICAgICAgICAgICAgICAgICAgLyogSS9P
-IGZvciBhIHJhdyBBRDE4NDggY2FyZCAqLw0KIE1PRFVMRV9QQVJNKGlycSwg
-ImkiKTsgICAgICAgICAgICAgICAgICAvKiBJUlEgdG8gdXNlICovDQo=
---0-200429489-954247502=:18723--
+-- 
+Jeff Garzik              | Tact is the ability to tell a man 
+Building 1024            | he has an open mind when he has a
+MandrakeSoft, Inc.       | hole in his head.  (-random fortune)
