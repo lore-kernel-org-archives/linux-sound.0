@@ -1,12 +1,17 @@
-From: Olaf Stetzer <ostetzer@mail.Uni-Mainz.de>
-Date: Wed, 28 Apr 1999 13:26:06 +0000
+From: flatmax <flatmax@cse.unsw.EDU.AU>
+Date: Wed, 28 Apr 1999 13:32:46 +0000
 Subject: Re: speech recognition software?
-Message-Id: <marc-linux-sound-92530605529738@msgid-missing>
+Message-Id: <marc-linux-sound-92530663730120@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92530605529738@msgid-missing>
+In-Reply-To: <marc-linux-sound-92530605529738@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+
+IBM has something called vai voice check their web site, or the slug
+(www.slug.org.au) mail archive from this/last week.
 
 On Wed, 28 Apr 1999, qozmo x xx wrote:
 
@@ -15,20 +20,15 @@ On Wed, 28 Apr 1999, qozmo x xx wrote:
 > just command input at a distance.
 > thanx for any pointers,
 > qozmo
+> ___________________________________________________________________
+> You don't need to buy Internet access to use free Internet e-mail.
+> Get completely free e-mail from Juno at http://www.juno.com/getjuno.html
+> or call Juno at (800) 654-JUNO [654-5866]
+> 
 
-IBM just released their ViaVoice for Linux. Have a look at:
-
-http://www.software.ibm.com/is/voicetype/dev_linux.html
-
-
-Bye,
-
-Olaf
-
-
-----------------------------------------------------------------------
---   Olaf Stetzer  --  EC/JRC/Institute for Transuranium Elements   --
--   email to: stetzer@itu.fzk.de   or   ostetzer@mail.uni-mainz.de   - 
--            concerning debian GNU/Linux: stetzer@debian.org         -
---      "Jazz is not dead, it just smells funny."  Frank Zappa      --
-----------------------------------------------------------------------
+Matt
+__________
+reverse ...
+backwards needs forwards
+want backwards - first go forwards
+viva
