@@ -1,7 +1,7 @@
-From: jhall@UU.NET (Jeremy Hall)
-Date: Sun, 13 Feb 2000 01:38:51 +0000
+From: Kai Vehmanen <kaiv@wakkanet.fi>
+Date: Sun, 13 Feb 2000 14:21:10 +0000
 Subject: Re: best sound format and app. for recording voice.
-Message-Id: <marc-linux-sound-95040832814836@msgid-missing>
+Message-Id: <marc-linux-sound-95046132900216@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95028036700135@msgid-missing>
 In-Reply-To: <marc-linux-sound-95028036700135@msgid-missing>
@@ -10,46 +10,33 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-oh good grief.
+On Sat, 12 Feb 2000, Benno Senoner wrote:
 
-well that might work over a 2400 modem.
-
-I remember a Linux encoder from long ago, I still have the files if
-there's interest.  Microsoft has not seemed interested in providing a
-product for Linux, their mediaplayer doesn't work for Linux, forcing us to
-use mp3 to encode our audio.
-
-_J
-
-In the new year, Benno Senoner wrote:
-> On Fri, 11 Feb 2000, Kai Vehmanen wrote:
-> > On Fri, 11 Feb 2000, Benno Senoner wrote:
-> > 
-> > > I think Realaudio isn't that bad for this purpose (windows and linux encoder
-> > > exists).
-> > 
-> > Where!?! Linux RA-player has been around for quite some time now, but I've
-> > never heard about a RA-encoder for Linux! :o
-> > 
-> 
-> Arg, I think I am wrong,
-> I heard about Realserver for Linux, but I am not sure if it includes an
 > encoder. Anyway I try to avoid proprietary codecs.
 > ( Realnetworks still not able to deliver a decent realplayer for linux,
 > my guess is that if they do not open their protocols , Microsoft will kill
 > them just like they did with Nescape
-> .. hopefully there will be a Mozilla-of-the-streaming-protocols :-) )
-> 
-> 
+
+It's interesting to see, what RealNetworks is going to do in the 
+near future. IMHO RN should open-source all their players and
+encoders, and for all platforms. And they should do it now. This would 
+have quite an impact. As mp3 suffers from licensing problems, many
+people would prefer a GPL'ed RA-de/encoder. Let's hope this happens.
+
 > But as Artur pointed out, GSM isn't that bad at 12kbit/sec,
-> plu when searching around the net I found a voice coder which runs
-> at about 4.8kbit/sec .
-> 
+[...]
 > or if you want extreme low bit rates use the LPC-10 code , down to 2.4kbit/sec,
 > = 1.1MB/hour  :-)
-> 
+[...]
 > But I don't know if the quality high enough for you
 > http://www.arl.wustl.edu/~jaf/lpc/
-> 
-> Benno.
-> 
+
+Yep, there are plenty of encoders out there, but when distributing
+your music (or some other "popular" activity), ease of use and
+availability are crucial. And RealAudio is easy to use and it is 
+widely spread.
+
+-- 
+Kai Vehmanen <kaiv@wakkanet.fi> -------- CS, University of Turku, Finland
+ . http://www.wakkanet.fi/ecasound/ - linux multitrack audio processing
+ . http://www.wakkanet.fi/sculpscape/ - ambient-idm-rock-... mp3/ra/wav
