@@ -1,50 +1,99 @@
-From: Gerald Teschl <gerald.teschl@univie.ac.at>
-Date: Fri, 07 Jun 2002 07:54:50 +0000
-Subject: Re: [PATCH] unregister YMH0021 from ad1848
-Message-Id: <marc-linux-sound-102343653810847@msgid-missing>
+From: Samuel Thibault <Samuel.Thibault@ens-lyon.fr>
+Date: Sun, 30 Jun 2002 21:49:19 +0000
+Subject: [PATCH] 2.4.18 linux/drivers/maestro.c dev_audio flaw
+Message-Id: <marc-linux-sound-102550820111554@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-102339013507846@msgid-missing>
-In-Reply-To: <marc-linux-sound-102339013507846@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Zwane Mwaikambo wrote:
+Hi !
 
->Hi Gerald,
->  
->
->I don't have it uncommented, this is what i get;
->
->ad1848/cs4248 codec driver Copyright (C) by Hannu Savolainen 1993-1996
->ad1848: OPL3-SA2 WSS mode detected
->ad1848: ISAPnP reports 'OPL3-SA2 WSS mode' at i/o 0xe80, irq 5, dma 1, 3
->opl3sa2: chipset version = 0x3
->opl3sa2: Found OPL3-SA3 (YMF715B or YMF719B)
-><OPL3-SA3> at 0x100 irq 5 dma 1,3
-><MS Sound System (CS4231)> at 0xe84 irq 5 dma 1,3
-><MPU-401 0.0  Midi interface #1> at 0x300 irq 5
->opl3sa2: 1 PnP card(s) found.
->
->Did you try a more recent -ac kernel? Because i sent a patch for this 
->about 2 months back.
->
->  
->
-This is a kernel which has your patch included. Otherwise it will say
-"ad1848: No ISAPnP card(s) found";-) BTW, everything seems to work
-fine even without your patch.
+It seems that the value of ess->dev_audio is wrongly interpreted. Here's
+its only initialization :
+(maestro.c:3473)
 
-Even with your patch, if I just load the ad1848 module (which is what 
-sndconfig
-will set up for you -- you can find several users reporting this problem 
-if you search
-the mailing lists) sound will not work! So if I understand this 
-correctly, this implies
-that the YMH0021 entry should be removed from the MODULE_DEVICE_TABLE
-in ad1848 since it is not a driver for this device.
+		if ((s->dev_audio = register_sound_dsp(&ess_audio_fops, -1)) < 0)
 
-Gerald
+register_sound_dsp can return -ENOMEM for instance, so checking whether < 0
+is mandatory. However, in (almost) the rest of the file, only = -1 is
+tested, so here's a patch.
+
+Furthermore, printing some error message may sometimes be handy, such as when
+-ENOENT is returned (no hole was found for the driver), just to understand why
+the device was probed, but isn't actually accessible.
+
+Best regards,
+
+Samuel Thibault
+
+diff -urN linux-2.4.18-cor/drivers/sound/maestro.c linux-2.4.18-cor2/drivers/sound/maestro.c
+--- linux-2.4.18-cor/drivers/sound/maestro.c	Sun Jun 30 22:02:11 2002
++++ linux-2.4.18-cor2/drivers/sound/maestro.c	Sun Jun 30 23:34:26 2002
+@@ -1963,7 +1963,7 @@
+ 	for(i=0;i<NR_DSPS;i++)
+ 	{
+ 		s=&c->channels[i];
+-		if(s->dev_audio = -1)
++		if(s->dev_audio < 0)
+ 			break;
+ 		spin_lock(&s->lock);
+ 		ess_update_ptr(s);
+@@ -2917,7 +2917,7 @@
+ 	for(i=0;i<NR_DSPS;i++) {
+ 		struct ess_state *ess = &s->card->channels[i];
+
+-		if(ess->dev_audio = -1)
++		if(ess->dev_audio < 0)
+ 			continue;
+
+ 		ess->dma_dac.ready = s->dma_dac.mapped = 0;
+@@ -3480,7 +3480,7 @@
+ 	for(;i<NR_DSPS;i++)
+ 	{
+ 		struct ess_state *s=&card->channels[i];
+-		s->dev_audio = -1;
++		s->dev_audio = -ENODEV;
+ 	}
+
+ 	ess = &card->channels[0];
+@@ -3541,7 +3541,7 @@
+ 		for(i=0;i<NR_DSPS;i++)
+ 		{
+ 			struct ess_state *s = &card->channels[i];
+-			if(s->dev_audio != -1)
++			if(s->dev_audio >= 0)
+ 				unregister_sound_dsp(s->dev_audio);
+ 		}
+ 		release_region(card->iobase, 256);
+@@ -3586,7 +3586,7 @@
+ 	for(i=0;i<NR_DSPS;i++)
+ 	{
+ 		struct ess_state *ess = &card->channels[i];
+-		if(ess->dev_audio != -1)
++		if(ess->dev_audio >= 0)
+ 			unregister_sound_dsp(ess->dev_audio);
+ 	}
+ 	/* Goodbye, Mr. Bond. */
+@@ -3690,7 +3690,7 @@
+ 	for(i=0;i<NR_DSPS;i++) {
+ 		struct ess_state *s = &card->channels[i];
+
+-		if(s->dev_audio = -1)
++		if(s->dev_audio < 0)
+ 			continue;
+
+ 		M_printk("maestro: stopping apus for device %d\n",i);
+@@ -3743,7 +3743,7 @@
+ 		struct ess_state *s = &card->channels[i];
+ 		int chan,reg;
+
+-		if(s->dev_audio = -1)
++		if(s->dev_audio < 0)
+ 			continue;
+
+ 		for(chan = 0 ; chan < 6 ; chan++) {
+
 
 
