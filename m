@@ -1,7 +1,7 @@
-From: Billy Biggs <vektor@div8.net>
-Date: Thu, 28 Oct 1999 13:47:52 +0000
+From: Paul Barton-Davis <pbd@Op.Net>
+Date: Thu, 28 Oct 1999 14:45:09 +0000
 Subject: Re: Sync Issues (was Re: External MIDI Sync using OSS/Free)
-Message-Id: <marc-linux-sound-94111859014288@msgid-missing>
+Message-Id: <marc-linux-sound-94112190919473@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94097346918347@msgid-missing>
 In-Reply-To: <marc-linux-sound-94097346918347@msgid-missing>
@@ -10,61 +10,37 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Benno, you kick ass,
+>  What lowlatency patches??  kernel patches??  That's just ugly.  Where
+>can I get them?
 
-> >   I was using O_RDWR | O_NONBLOCK, under a 2.2 kernel.  I was trying to do
-> > drumrolls, 16th notes, at 140bpm or 150bpm.  It was no good.
-> 
-> hmmm, really strange:
-> I wrote a little util called mididelay, which writes a note-on MIDI message on
-> the midi-out port reads back the message and measures the delay.
+not ugly! the kernel folks, well Ingo Molnar in particular, recognized
+that the kernel wasn't well tuned for low latency requirements. Ingo
+believes that his patches will be in kernel 2.4.
 
-  Can I get a copy of this program?  Are you just using gettimeofday()
-before and after, or are you using ptrace or some other hackery?
+look at http://www.gardena.net/benno/linux/audio for more details.
 
-> BTW: which card are you using ?
+>  How can you tell if you've underrun under OSS?  Using ALSA, I guess you
+>can use it's time stuff to calculate if you've missed a frame, but even
+>that seems hacky.
 
-  For MIDI I'm using a Roland MPU-IPC-T card.  MPU-401.
+no, ALSA has an ioctl to tell you if had underruns or overruns. its
+The Right Way (TM). OTOH, i haven't written any audio programs that
+ever use it, because I write them so that if I did have an
+{over,under}run, it would mean that some totally catastrophic has
+happened. maybe i don't write the right kinds of applications :)
 
-> >   One requirement for ttrk was that it be able to trigger samples on beat,
-> 
-> I'd suggest to use the raw /dev/dsp and the raw /dev/midi interface:
-> [...]
+>  I don't like using one dsp as the sync master since I always want to be
+>able to sync to something external, like MIDI.
 
-  Thanks for your suggestions.  I'm hacking at it now...
+if you mean MTC, this simply isn't accurate enough for syncing
+soundcards. you can use MTC as a master clock for tempo, but between
+MIDI clock messages you will still have to be prepared to do the
+actual syncing of soundcards. Given that a MTC messages take on the
+order of 1ms to arrive (!), its not a high-quality sync source.
 
-> Do not forget to apply the lowlatency patches, or your timing will
-> simply suck ! even an untuned IDE disk, when it reads/writes a small
-> amount of data from/to the disk, could cause 20-50ms delay in your app
-> and this is very bad for MIDI. ( see my tests , especially the non DMA
-> ones = horrible :-)  )
+so, i don't think you can "sync soundcards" from MIDI. You can use MTC
+to help inform your own sense of the forward passage of time and to
+dictate MIDI-related tempo, but thats not the same thing that Benno
+was talking about.
 
-  What lowlatency patches??  kernel patches??  That's just ugly.  Where
-can I get them?
-
-> > > >  What about syncing multiple soundcards?
-> 
-> yes, this is far from trivial, but we will try to provide some usable
-> solution: mainly activating the cards by using DSP_SET_TRIGGER (if
-> supported, otherwise it's a real pain), to minimize starting delays,
-> and then use one of the soundcards as source (or alternatively other
-> timer sources), and put the remaining cards into a "slave" mode, where
-> you measure the sample differences in audio buffers, and insert
-> additional or drop samples to keep things in sync.
-
-  How can you tell if you've underrun under OSS?  Using ALSA, I guess you
-can use it's time stuff to calculate if you've missed a frame, but even
-that seems hacky.
-
-  Do you just always use gettimeofday() math to keep track of how much
-stuff you've written, and when skips have occured?
-
-  I don't like using one dsp as the sync master since I always want to be
-able to sync to something external, like MIDI.
-
-  So, the problem becomes, how do you sync many soundcards and have it all
-synced off external MIDI. :)
-
---
-Billy Biggs                         vektor@div8.net
-http://www.div8.net/billy       wbiggs@uwaterloo.ca
+--p
