@@ -1,37 +1,19 @@
-From: "Joe T." <auximini@yahoo.com>
-Date: Mon, 01 May 2000 02:26:42 +0000
-Subject: Re: wav rates
-Message-Id: <marc-linux-sound-95715463510988@msgid-missing>
+From: Dave Mielke <dave@mielke.cc>
+Date: Mon, 22 May 2000 21:39:08 +0000
+Subject: OSS/Free /dev/audio full duplex sound format.
+Message-Id: <marc-linux-sound-95903210912907@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95714288704119@msgid-missing>
-In-Reply-To: <marc-linux-sound-95714288704119@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> Try putting -r 44100 before /dev/audio as well so
-> that that's how /dev/audio
-> will be opened. Then sox won't need to do any
-> conversion.
+When /dev/audio is opened, it's supposed to start with the sound format set to
+mulaw (Sun .snd format). When I open it for read/write (O_RDWR), however, it
+appears that it switches to unsigned 8-bit linear. Does anyone know what the
+cause of this switch in format is, and how, if at all, it can be worked around?
 
-I've tried that.. its not the problem.
-
-If i dont include the rate argument at all, sox will
-record it at a very low rate (i cant remember off hand
-what rate)
-
-but by using the 44100, it records it at the different
-rate.. but i guess it just doesnt record *exactly*
-44100..  :P
-
-==Joe Topjian
-auximini@yahoo.com
-http://auximini.cjb.net
-
-Even a stopped clock gives the right time twice a day
-
-__________________________________________________
-Do You Yahoo!?
-Talk to your friends online and get email alerts with Yahoo! Messenger.
-http://im.yahoo.com/
+-- 
+Dave Mielke           | 856 Grenon Avenue | I believe that the Bible is the
+Phone: 1-613-726-0014 | Ottawa, Ontario   | Word of God. Please contact me
+EMail: dave@mielke.cc | Canada  K2B 6G3   | if you're concerned about Hell.
