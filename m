@@ -1,32 +1,43 @@
-From: Billy Biggs <vektor@div8.net>
-Date: Sat, 30 Oct 1999 18:12:17 +0000
-Subject: Re: Sync Issues (was Re: External MIDI Sync using OSS/Free)
-Message-Id: <marc-linux-sound-94130749323480@msgid-missing>
+From: Benno Senoner <sbenno@gardena.net>
+Date: Mon, 11 Oct 1999 15:45:29 +0000
+Subject: Re: [linux-audio-dev] full-duplex
+Message-Id: <marc-linux-sound-93968252431691@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94097346918347@msgid-missing>
-In-Reply-To: <marc-linux-sound-94097346918347@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sat, 30 Oct 1999, Jaroslav Kysela wrote:
-
-> On Fri, 29 Oct 1999, Benno Senoner wrote:
+On Mon, 11 Oct 1999, Paul Barton-Davis wrote:
+> >ALSA:
+> >Won't compile with gcc-2.95 but it's probably similar to OSS/Free.
 > 
-> > >   For MIDI I'm using a Roland MPU-IPC-T card.  MPU-401.
-> > 
-> > Jaroslav do you know if there are similar problems on this card with
-> > too little MIDI TX/RX FIFO size, and/or lack of an IRQ connected to
-> > it ? 
+> ALSA:
+> 1) open the device O_RDWR. then use it the way you'd expect,
+>    independent of the card type or anything else.
 > 
-> Yes, the problem is in the MPU-401 hardware specification. This hardware
-> haven't the TX interrupt. Every soundcard with the standard MPU-401
-> emulation has this problem.
+> OSS/Free or OSS/Commercial:
+> 1) forget about it for full-duplex. its just not reliable and/or too
+> card dependent.
+> 
+> --p
 
-  What card would you recommend for responsive MIDI then?  Or, should I
-not care, and just make sure I code to be as low-latency as possible?
+Hi,
+Paul gave me a code fragment to use the soundcard in fullduplex mode,
+(My old code were not able to perform DSP_SET_FRAGMENT, because
+of wrong order of soundcard initialization).
 
---
-Billy Biggs                         vektor@div8.net
-http://www.div8.net/billy       wbiggs@uwaterloo.ca
+But my Turtlebeach on my P133 with Tyan Tomcat motherboard (HX)
+locks up the kernel some times.
+( I tried 2.2.5 and 2.2.10 )
+
+Is this due to a hw problem of buggy mainboards (from the Audio-quality HOWTO
+:-) )  ?
+
+Is there a workaround for OSS/Free ?
+Does have ALSA the same problems ?
+
+thanks for infos.
+
+regards,
+Benno.
