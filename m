@@ -1,7 +1,7 @@
-From: Hamish Moffatt <moffatt@cs.rmit.edu.au>
-Date: Sat, 19 Sep 1998 13:02:56 +0000
+From: Tuukka Toivonen <tuukkat@ees2.oulu.fi>
+Date: Mon, 21 Sep 1998 10:51:57 +0000
 Subject: Re: gmod and xmp, cannot open /dev/sequencer !
-Message-Id: <marc-linux-sound-90621003326481@msgid-missing>
+Message-Id: <marc-linux-sound-90638284808293@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90586345324981@msgid-missing>
 In-Reply-To: <marc-linux-sound-90586345324981@msgid-missing>
@@ -10,26 +10,23 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, Sep 18, 1998 at 12:19:57PM +0300, Tuukka Toivonen wrote:
-> On Fri, 18 Sep 1998, Alamais wrote:
-> >mod,xm,s3m,etc files include their own samples, 
-> >and [do not/should not] use the midi sequencer. 
-> 
-> I don't know if awe drivers support it (but I assume they do) -- but at
-> least with GUS this is completely wrong way to play modules. Using /dev/dsp
-> eats CPU time since the processor has to mix the samples. With proper sound
-> card (ie. GUS) the sample are downloaded to the soundcard memory and the
-> player just says "play this sample with this pitch". Eats practically 0%
-> CPU time. And this is where to use /dev/sequencer.
+On Sat, 19 Sep 1998, Hamish Moffatt wrote:
 
-That's a loaded statement if ever there was one. If the GUS was
-such a great sound card, surely Gravis would still be in business? :-)
+>That's a loaded statement if ever there was one. If the GUS was
+>such a great sound card, surely Gravis would still be in business? :-)
 
+Nope. Very often in business the great inventions lose and poor technology
+wins. See what has happened to M$ (vs. OS/2, for example). See what
+happened to Amiga. Still another example I've heard was Beta vs. VHS
+videorecorders. Beta system was superior -- and guess which one we nowadays
+use? VHS.
 
+Rather the poor technology tends to win. I hope this will change with free
+world, ie. Linux.
 
-Hamish
--- 
-Hamish Moffatt, StudIEAust              hamish@debian.org, hamish@moffatt.nu
-Student, computer science & computer systems engineering.    4th year, RMIT.
-http://hamish.home.ml.org/ (PGP key here)             CPOM: [*******   ] 73%
-Get a stable, reliable &  upgradable operating system free at www.debian.org
+--
+| Tuukka Toivonen <tuukkat@ee.oulu.fi>       [PGP public key
+| Homepage: http://www.ee.oulu.fi/~tuukkat/       available]
+| Try also finger -l tuukkat@ee.oulu.fi
+| Studying information engineering at the University of Oulu
++-----------------------------------------------------------
