@@ -1,26 +1,28 @@
-From: Bryan Bolden <bbolden@UU.NET>
-Date: Tue, 15 Feb 2000 18:09:36 +0000
-Subject: line-in input doesn't record
-Message-Id: <marc-linux-sound-95064847827665@msgid-missing>
+From: Dave Mielke <dave@mielke.cc>
+Date: Tue, 15 Feb 2000 18:52:48 +0000
+Subject: Re: line-in input doesn't record
+Message-Id: <marc-linux-sound-95064849627819@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95064847827665@msgid-missing>
+In-Reply-To: <marc-linux-sound-95064847827665@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-hello all!!  I am trying to begin recording/sampling of voice coming in
-from my line-in jack.  I have a tape recorder connected (through the tape
-recorder' s earphone jack) to the line-in of my sound card (is that right).
- now when I press play on the tape I do hear the voices on tape through my
-external spekers but when I test the recording with :
+[quoted lines by Bryan Bolden on February 15, 2000, at 13:09]
 
-dd if=/dev/audio of=/tmp/audio_test
-and then:
-cat /tmp/audio_test >/dev/dsp
+>I have a tape recorder connected (through the tape
+>recorder' s earphone jack) to the line-in of my sound card (is that right).
+> now when I press play on the tape I do hear the voices on tape through my
+>external spekers but when I test the recording 
 
-all I hear is the sound from the mic input.  I have adjusted the line-input
-sound level through a mixer at a higher leven that the mic's level but I
-don't hear anything from the sampled audio from the tape despite hearing it
-from my external speakers.  any suggestions?
+If you do "aumix -q", you'll notice a "P" beside your current line-in setting.
+This means that you can play, but that you cannot record, via that input. You
+need to switch this "P" to "R", which means that you can both play and record
+via the input. To do this, use a command like "aumix -i R".
 
-thanks!
+-- 
+Dave Mielke           | 856 Grenon Avenue | I believe that the Bible is the
+Phone: 1-613-726-0014 | Ottawa, Ontario   | Word of God. Please contact me
+EMail: dave@mielke.cc | Canada  K2B 6G3   | if you're concerned about Hell.
