@@ -1,60 +1,59 @@
-From: Jarek Luberek <jarek@swipnet.se>
-Date: Fri, 18 Feb 2000 03:46:11 +0000
-Subject: es1371 oops (corrected). Sorry for the mess
-Message-Id: <marc-linux-sound-95088808210646@msgid-missing>
+From: Ari Pollak <compwiz@bigfoot.com>
+Date: Tue, 15 Feb 2000 01:38:36 +0000
+Subject: [2.3.36pre1] Still problems with es1371/ac97_codec
+Message-Id: <marc-linux-sound-95058676818812@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-U29ycnkgZm9yIHJlcG9zdGluZyB0aGlzIG9vcHMgcmVwb3J0IGJ1dCB0aGUgcHJldmlvdXMgb25l
-CndhcyBvYnZpb3VzbHkgd3JvbmcgKGJlZ2lubmVyIHlvdSBrbm93KS4gSGVyZSBnb2VzIGFnYWlu
-LgoKU3lzdGVtIGlzIGEgZHVhbCBQSUlJIDQ1MCAoU01QKS4gCkNvbXBpbGVyOiBlZ2NzLTIuOTEu
-NjYgCkdsaWJjOiAyLjEuMSAocmVkaGF0IDYuMSkuCktlcm5lbDogMi4zLjQ2CgpSdW5uaW5nIGtt
-aXggb3IgZ21peCBjYXVzZXMgYSBzaWcxMSBpbgppb2N0bC4KCmlvY3RsKDQsIDB4ODAwNDRkNzYs
-IDB4YmZmZmY5ODApICAgICAgICA9IDAKaW9jdGwoNCwgMHg4MDVjNGQ2NSwgMHg4MDhjYmM0KSAg
-ICAgICAgID0gMAppb2N0bCg0LCBTT1VORF9NSVhFUl9SRUFEX0RFVk1BU0ssIDB4ODA4Y2MyNCkg
-PSAwCmlvY3RsKDQsIFNPVU5EX01JWEVSX1JFQURfUkVDTUFTSywgMHg4MDhjYzI4KSA9IDAKaW9j
-dGwoNCwgU09VTkRfTUlYRVJfUkVBRF9SRUNTUkMsIDB4ODA4Y2MyMCkgPSAwCmlvY3RsKDQsIFNP
-VU5EX01JWEVSX1JFQURfU1RFUkVPREVWUywgMHg4MDhjYzJjKSA9IDAKaW9jdGwoNCwgU09VTkRf
-TUlYRVJfUkVBRF9DQVBTLCAweDgwOGNjMzApID0gMAppb2N0bCg0LCBTT1VORF9NSVhFUl9SRUFE
-X1ZPTFVNRSwgMHhiZmZmZjk3YykgPSAwCmlvY3RsKDQsIFNPVU5EX01JWEVSX1JFQURfU1lOVEgg
-PHVuZmluaXNoZWQgLi4uPgorKysga2lsbGVkIGJ5IFNJR1NFR1YgKysrICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIAoKYW5kIG91dHV0IGZyb20ga3N5bW9vcHMtMi4zLjMgOikKCkNQ
-VTogICAgMApFSVA6ICAgIDAwMTA6WzxjODgyNjBjND5dClVzaW5nIGRlZmF1bHRzIGZyb20ga3N5
-bW9vcHMgLXQgZWxmMzItaTM4NiAtYSBpMzg2CkVGTEFHUzogMDAwMTAyOTIKZWF4OiAwMDAwMTkw
-MCAgIGVieDogMDAwMDE5MDAgICBlY3g6IDAwMDAwMDY5ICAgZWR4OiAwMDAwMDAwMAplc2k6IDAw
-MDAwMDAwICAgZWRpOiAwMDAwMDAwMyAgIGVicDogMDAwMDAwNDAgICBlc3A6IGMxNzhiZWE4CmRz
-OiAwMDE4ICAgZXM6IDAwMTggICBzczogMDAxOApQcm9jZXNzIGdtaXggKHBpZDogMTU0Mywgc3Rh
-Y2twYWdlwTc4YjAwMCkKU3RhY2s6IDAwMDAwMDAzIDAwMDAwMDAzIGZmZmZmZmU3IGJmZmZmOTdj
-IDAwMDAwMDNmIGM4ODI2NjRhIGMxMzVlMDMwCjAwMDAwMDAzCiAgICAgICBjMWU0ZDQ0MCBiZmZm
-Zjk3YyBmZmZmZmZlNyBjMTc4YTAwMCBjMTc3YTAwMCBjM2Q2YjM0MCBjODgyNjA1MAowMDAwMDAw
-MgogICAgICAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDIgMDAwMDAwMDEgYzE3
-N2EwYTAgYzE3N2EwYTAKMDAwMDAyODIKQ2FsbCBUcmFjZTogWzxjODgyNjY0YT5dIFs8Yzg4MjYw
-NTA+XSBbPGMwMTE3YzliPl0gWzxjMDExOWRiNT5dCls8YzAyMGUyZTE+XSBbPGMwMTNkNmVhPl0g
-WzxjODgyZDk1Mj5dCiAgICAgICBbPGMwMTRkZjQ3Pl0gWzxjMDEwYzE0Mz5dCkNvZGU6IGY3IGZl
-IDg5IDc0IDI0IDEwIDg5IGMzIGJlIDY0IDAwIDAwIDAwIDg5IGY1IDI5IGRkIDZiIGM5IDY0Cgo+
-PkVJUDsgYzg4MjYwYzQgPFthYzk3X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3NC8xMTQ+ICAgPD09
-VHJhY2U7IGM4ODI2NjRhIDxbYWM5N19jb2RlY11hYzk3X21peGVyX2lvY3RsKzIwNi8yYzQ+ClRy
-YWNlOyBjODgyNjA1MCA8W2FjOTdfY29kZWNdYWM5N19yZWFkX21peGVyKzAvMTE0PgpUcmFjZTsg
-YzAxMTdjOWIgPG5vdGlmeV9wYXJlbnQrYzMvZDA+ClRyYWNlOyBjMDExOWRiNSA8c2NoZWR1bGUr
-NGM1L2I1ND4KVHJhY2U7IGMwMjBlMmUxIDx0dmVjcys0NGY5LzczNTg+ClRyYWNlOyBjMDEzZDZl
-YSA8Y2hyZGV2X29wZW4rM2UvNGM+ClRyYWNlOyBjODgyZDk1MiA8W3NvdW5kY29yZV1tb2RfZmly
-bXdhcmVfbG9hZCs0MDU2L2Q0YzQ+ClRyYWNlOyBjMDE0ZGY0NyA8c3lzX2lvY3RsKzI2Yi8zMjQ+
-ClRyYWNlOyBjMDEwYzE0MyA8dHJhY2VzeXMrMWYvMjM+CkNvZGU7ICBjODgyNjBjNCA8W2FjOTdf
-Y29kZWNdYWM5N19yZWFkX21peGVyKzc0LzExND4KMDAwMDAwMDAgPF9FSVA+OgpDb2RlOyAgYzg4
-MjYwYzQgPFthYzk3X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3NC8xMTQ+ICAgPD09ICAgMDogICBm
-NyBmZSAgICAgICAgICAgICAgICAgICAgIGlkaXZsICAlZXNpLCVlYXggICA8PT1Db2RlOyAgYzg4
-MjYwYzYgPFthYzk3X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3Ni8xMTQ+CiAgIDI6ICAgODkgNzQg
-MjQgMTAgICAgICAgICAgICAgICBtb3ZsICAgJWVzaSwweDEwKCVlc3AsMSkKQ29kZTsgIGM4ODI2
-MGNhIDxbYWM5N19jb2RlY11hYzk3X3JlYWRfbWl4ZXIrN2EvMTE0PgogICA2OiAgIDg5IGMzICAg
-ICAgICAgICAgICAgICAgICAgbW92bCAgICVlYXgsJWVieApDb2RlOyAgYzg4MjYwY2MgPFthYzk3
-X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3Yy8xMTQ+CiAgIDg6ICAgYmUgNjQgMDAgMDAgMDAgICAg
-ICAgICAgICBtb3ZsICAgJDB4NjQsJWVzaQpDb2RlOyAgYzg4MjYwZDEgPFthYzk3X2NvZGVjXWFj
-OTdfcmVhZF9taXhlcis4MS8xMTQ+CiAgIGQ6ICAgODkgZjUgICAgICAgICAgICAgICAgICAgICBt
-b3ZsICAgJWVzaSwlZWJwCkNvZGU7ICBjODgyNjBkMyA8W2FjOTdfY29kZWNdYWM5N19yZWFkX21p
-eGVyKzgzLzExND4KICAgZjogICAyOSBkZCAgICAgICAgICAgICAgICAgICAgIHN1YmwgICAlZWJ4
-LCVlYnAKQ29kZTsgIGM4ODI2MGQ1IDxbYWM5N19jb2RlY11hYzk3X3JlYWRfbWl4ZXIrODUvMTE0
-PgogIDExOiAgIDZiIGM5IDY0ICAgICAgICAgICAgICAgICAgaW11bGwgICQweDY0LCVlY3gsJWVj
-eAo=
+OK, brief specs: ES1373 chip, running the es1371 driver, on 2.3.36pre1,
+with the sound drivers loaded as modules.=20
+Loading the es1371 module is fine, but as soon as I try to change the
+mixer settings with some kind of OSS mixer (aumix, gmix, etc.) I get the
+following panic:
+
+CPU:    0
+EIP:    0010:[<c40400f6>]
+Using defaults from ksymoops -t elf32-i386 -a i386
+EFLAGS: 00010293
+eax: 00000000   ebx: 00000000   ecx: 00000000   edx: 00000000
+esi: 00000000   edi: 00000000   ebp: 00000003   esp: c2c7beb4
+ds: 0018   es: 0018   ss: 0018
+Process gmix (pid: 1785, stackpage=C2c7b000)
+Stack: 00000003 00000003 80044d03 bffff92c 00000000 00000000 c40406a9 c360e=
+830
+       00000003 c3378680 ffffffe7 80044d03 c4044420 c2c7bf24 c0138778 c4040=
+050
+       c3d7c7e0 00000001 c2c7a000 c3d7c760 c0149de7 c3d7c760 c11250e0 00000=
+001
+Call Trace: [<c40406a9>] [<c4044420>] [vfs_follow_link+44/68] [<c4040050>] =
+[ext2_follow_link+27/36] [do_follow_link+93/128] [tvecs+14813/23932] [chrde=
+v_open+62/76] [<c4044438>] [sys_ioctl+414/468] [system_call+52/56]
+Code: f7 ff 89 c7 bb 64 00 00 00 89 d9 29 f9 8d 34 b6 89 74 24 14
+
+>>EIP; c40400f6 <[ac97_codec]ac97_read_mixer+a6/15c>   <=3D=3DTrace; c40406=
+a9 <[ac97_codec]ac97_mixer_ioctl+209/2c8>
+Trace; c4044420 <[es1371]es1371_ioctl_mixdev+0/1c>
+Code;  c40400f6 <[ac97_codec]ac97_read_mixer+a6/15c>
+00000000 <_EIP>:
+Code;  c40400f6 <[ac97_codec]ac97_read_mixer+a6/15c>   <=3D=3D   0:   f7 ff=
+                     idivl  %edi,%eax   <=3D=3DCode;  c40400f8 <[ac97_codec=
+]ac97_read_mixer+a8/15c>
+   2:   89 c7                     movl   %eax,%edi
+Code;  c40400fa <[ac97_codec]ac97_read_mixer+aa/15c>
+   4:   bb 64 00 00 00            movl   $0x64,%ebx
+Code;  c40400ff <[ac97_codec]ac97_read_mixer+af/15c>
+   9:   89 d9                     movl   %ebx,%ecx
+Code;  c4040101 <[ac97_codec]ac97_read_mixer+b1/15c>
+   b:   29 f9                     subl   %edi,%ecx
+Code;  c4040103 <[ac97_codec]ac97_read_mixer+b3/15c>
+   d:   8d 34 b6                  leal   (%esi,%esi,4),%esi
+Code;  c4040106 <[ac97_codec]ac97_read_mixer+b6/15c>
+  10:   89 74 24 14               movl   %esi,0x14(%esp,1)
+
+
+1 warning issued.  Results may not be reliable.
+
+	Ari
