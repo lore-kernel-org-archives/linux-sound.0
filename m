@@ -1,7 +1,7 @@
 From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
 Date: Sun, 16 Jan 2000 17:49:01 +0000
 Subject: Re: es1371 PCI 128 trouble :-(
-Message-Id: <marc-linux-sound-94805625726190@msgid-missing>
+Message-Id: <marc-linux-sound-94807565304534@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94800632902814@msgid-missing>
 In-Reply-To: <marc-linux-sound-94800632902814@msgid-missing>
