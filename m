@@ -1,7 +1,7 @@
-From: Udo.Nettingsmeier@t-online.de.=?ISO-8859-1?Q? (J=F6rn?= Nettingsmeier)
-Date: Sun, 23 Apr 2000 11:26:06 +0000
+From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
+Date: Sun, 23 Apr 2000 20:08:01 +0000
 Subject: Re: archive URL ?
-Message-Id: <marc-linux-sound-95648944127111@msgid-missing>
+Message-Id: <marc-linux-sound-95652048108928@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95633690021547@msgid-missing>
 In-Reply-To: <marc-linux-sound-95633690021547@msgid-missing>
@@ -10,29 +10,44 @@ Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-dear dave !
+rats !
 
-the primary site for the archive is kai's domain
-http://eca.cx/lad/  .
-it can also be accessed via a search form on the LAD
-homepage at
-http://audio.netpedia.net/lad/  .
-
-regards,
-
-j=F6rn
+i got no mail filters on my father's box here (home for easter...),
+so i mixed up the lists.
+sorry for the spam, folks  !  ~%-]
 
 
-Dave Phillips schrieb:
+
+"J=F6rn Nettingsmeier" wrote:
 >=20
-> Greetings:
+> dear dave !
 >=20
->   Is there a new URL for the linux-sound mail-list archive ? I need to
-> update it on the Linux soundapps site. TIA !
+> the primary site for the archive is kai's domain
+> http://eca.cx/lad/  .
+> it can also be accessed via a search form on the LAD
+> homepage at
+> http://audio.netpedia.net/lad/  .
 >=20
-> Best regards,
+> regards,
 >=20
-> =3D Dave Phillips
+> j=F6rn
 >=20
->         http://www.bright.net/~dlphilp/index.html
->         http://www.bright.net/~dlphilp/linuxsound/
+> Dave Phillips schrieb:
+> >
+> > Greetings:
+> >
+> >   Is there a new URL for the linux-sound mail-list archive ? I need to
+> > update it on the Linux soundapps site. TIA !
+> >
+> > Best regards,
+> >
+> > =3D Dave Phillips
+> >
+> >         http://www.bright.net/~dlphilp/index.html
+> >         http://www.bright.net/~dlphilp/linuxsound/
+
+--=20
+J=F6rn Nettingsmeier    =20
+Kurf=FCrstenstr. 49       =20
+45138 Essen, Germany     =20
+http://www.folkwang.uni-essen.de/~nettings/
