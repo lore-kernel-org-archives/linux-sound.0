@@ -1,7 +1,7 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Thu, 11 Mar 1999 17:09:23 +0000
+From: Dan Boger <dan@giccs.georgetown.edu>
+Date: Thu, 11 Mar 1999 18:21:38 +0000
 Subject: Re: solo-1 chip
-Message-Id: <marc-linux-sound-92117253720489@msgid-missing>
+Message-Id: <marc-linux-sound-92117683624896@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92066824429576@msgid-missing>
 In-Reply-To: <marc-linux-sound-92066824429576@msgid-missing>
@@ -10,15 +10,20 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Bill Nottingham wrote:
-
+On Thu, 11 Mar 1999 01:10:13 -0500 Bill Nottingham <notting@redhat.com> wrote
+ concerning 'Re: solo-1 chip':
+> 
 > To get native ESS Solo support ATM, you'd either have to use the
 > 2.2.*-ac patches (ftp.linux.org.uk:/pub/linux/alan/2.2), or ALSA
 > (http://alsa.jcu.cz/)
 
-AFAIK, the -ac - patches contain initialisation code for the
-ESS Maestro2, not the Solo. 
+Great!  So I download the alsa driver install it.  But when I try to
+modprobe it says that the device is already in use.  I look at
+proc/modules, it did load a bunch of stuff, but still no sound.  Do I
+need to edit my /etc/conf.modules for options?  The solo1 isn't
+mentioned in any of the documents - how do I know the name of the
+options?
 
-And the ALSA driver only supports playback at the moment.
+Thanks,
 
-Tom
+  Dan
