@@ -1,36 +1,30 @@
-From: Britton <fsblk@aurora.alaska.edu>
-Date: Wed, 10 Feb 1999 17:20:18 +0000
-Subject: Re: mpeg2 support in kernel?
-Message-Id: <marc-linux-sound-91866739517872@msgid-missing>
+From: Deirdre Saoirse <deirdre@deirdre.net>
+Date: Mon, 22 Feb 1999 04:33:29 +0000
+Subject: Laptop Sound?
+Message-Id: <marc-linux-sound-91965800932306@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91863075621412@msgid-missing>
-In-Reply-To: <marc-linux-sound-91863075621412@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+I have a Compaq Presario 1625 and, using SuSE 5.3, it has OpenSound
+3.7.1z, which I installed. The chipset for the motherboard is an ESS
+chipset (can't remember which one offhand), but OSS seemed to find it
+fine.
 
-On Wed, 10 Feb 1999, Erik de Castro Lopo wrote:
+However, it chops up mp3s *horribly*. I used to use amp (which I lost in a
+hardware malfunction) on my desktop. I now use xaudio and mpg123, both of
+which work fine on my desktop but give EXTREMELY choppy audio on the
+laptop. Both the desktop and the laptop are K6/266.
 
-> Britton wrote:
-> > 
-> > I see the following snipet of code in the O'Reilly Linux Multimedia Guide:
-> > 
-> > if (formats & AFMT_MPEG) {
-> >   printf("  MPEG 2");
-> >   (deffmt = AFMT_MPEG) ? printf(" (default)\n") : printf("\n");
-> > }
-> > 
-> > Is there something you can compile into the kernel that will let the "dsp"
-> > produce mpeg 2 encoded stuff?  If so I'd love to know about it.
-> 
-> MPEG encoding/decoding does not belong in the kernel but in a 
-> user space program or library. The libary option is probably
-> best.
+Thinking I might try something less dramatic than mp3s, I tried playing
+CDs from the console, which works fine. However, I don't know if that's
+going through the sound driver or what (I have no kernel sound support).
 
-That's what I'd have thought.  So the above snipet of code is testing for
-that support in one of the included files?
+Any ideas? Thanks.
 
-
-Britton Kerin
+_Deirdre  *  http://disclaimer.deirdre.org  *  http://www.deirdre.net
+"I would rather choose to have my leg bitten off than to buy NT"
+Rob Narberes, Information Systems Manager, DNA Plant Technologies Corp
+as quoted in (!) Computerworld
