@@ -1,26 +1,33 @@
-From: " Raymond A. Ingles" <inglesra@frc.com>
-Date: Fri, 11 Jun 1999 17:24:57 +0000
-Subject: Trident 4DWave sound cards - any good?
-Message-Id: <marc-linux-sound-92912132112158@msgid-missing>
+From: "defcon maillinglists" <defcon@sap-ag.de>
+Date: Tue, 15 Jun 1999 13:50:27 +0000
+Subject: Intellistation MPRO and CS4232
+Message-Id: <marc-linux-sound-92945631502471@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
+Hi,
+I have a problem with an Intellistation MPRO and CS4232.
+I can configure the onboard Soundcard (irq 5 io 534 dma 1,3 mpuirq 9 mpuio
+330).
+The soundcard works fine for 5 til 10 minutes and the stops playing. Someti=
+mes
+in the syslog you can see the message could=B4nt allocate DMA buffer. Somet=
+imes
+nothing and somtimes DMA buffer overrun.
 
- I like to vote with my dollars when possible, and since Trident wrote and
-released an ALSA driver it seems like they'd be a good choice. I'm just
-wondering how good they are. Boy are they cheap at onsale.com.
+It is impossible to use the card after this crash. (Allocating memory with a
+big program and then freeing the allocate memory is also useless).
 
- I'm not a huge audiophile, so extreme quality isn't important. I can tell
-the difference between mp3's and CDs but it doesn't bother me. Can I
-expect decent sound without too much noise out of one of these cards? How
-would they compare the the SB16 and SB32 I've been using?
+So my question, has any one sucessful configured this card on an intellisat=
+ion.
+What can I do (by the way I use kernel 2.2.9).
 
- Sincerely,
+Please help. I think it should not be possible to say this intellistation w=
+orks
+better under M$. Everything else works great under linux.
 
- Ray Ingles       (248) 377-7735        ray.ingles@fanucrobotics.com
-
-    "Monkeys would be harder on equipment than college students,
-          but only because they're stronger." - Jim Ingles
+Cheers
+ David Conner
