@@ -1,32 +1,25 @@
-From: "Ravi K. Swamy" <rks@rtp.mea.com>
-Date: Mon, 01 Nov 1999 15:33:29 +0000
-Subject: Re: Problem with ESS Solo1
-Message-Id: <marc-linux-sound-94147611431932@msgid-missing>
+From: Chris HOOVER <revoohc@yahoo.com>
+Date: Wed, 17 Nov 1999 20:29:50 +0000
+Subject: de-mixing songs
+Message-Id: <marc-linux-sound-94287188013535@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94131439128758@msgid-missing>
-In-Reply-To: <marc-linux-sound-94131439128758@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, 1 Nov 1999, Thomas Sailer wrote:
+Sorry if this is off topic, but I was wondering if
+there are any tools in linux that I can use to remove
+items from songs.  I have some songs that I'd like to
+romove the vocals and/or guitar(s) from.  Is there
+anything that will let me do this?
 
-> > When playing realaudio files with the new g2 player it sounds like the
-> > sound is played back 1000 times faster than it should be, none of the
-> 
-> It looks like it's the same thing as with the older real players that's
-> documented in Documentation/Changes. So you either need to find
-> the place to patch g2 or use the LD_PRELOAD trick...
-> 
-> Tom
+thanks,
 
-I have seen the bug in the old real players and this is nothing like the
-previous one.  The old bug was that the sound would play *normally* and
-then all of a sudden stop.  What I am seeing is nothing at all like the
-old bug.  The old bug is described quite well at
-http://onramp.i2k.com/~jeffd/rpopen/  but this problem I am seeing seems
-to be very specific to the ESS Solo1 card.  The G2 player and Unreal Tournament
-work fine on my old SB 32, Ensoniq 1371, and ESS 16xx.
+chris
 
-Ravi
+
+==
+__________________________________________________
+Do You Yahoo!?
+Bid and sell for free at http://auctions.yahoo.com
