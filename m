@@ -1,51 +1,57 @@
-From: Karim Yaghmour <karym@info.polymtl.ca>
-Date: Fri, 14 May 1999 04:25:02 +0000
-Subject: SB PRo compatible with no valid driver
-Message-Id: <marc-linux-sound-92672963004016@msgid-missing>
+From: LuftHans <LuftHans@asu.edu>
+Date: Mon, 17 May 1999 01:05:54 +0000
+Subject: Re: SB PRo compatible with no valid driver
+Message-Id: <marc-linux-sound-92693638704851@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92672963004016@msgid-missing>
+In-Reply-To: <marc-linux-sound-92672963004016@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello,
+On Fri, 14 May 1999, Karim Yaghmour wrote:
 
-I just got a notebook that has SB Pro compatible card
-(Don't they all :) ). To make long stories short, it
-doesn't work with any driver configuration I've seen
-on the linux laptop pages or in
-linux/Documentation/sound/
-In windows it says that it's Sound Blaster Pro
-compatible at 0x220 with irq 5. I also know that
-there's a yamaha synthesizer chip (read OPL3 compatible).
+> Hello,
+> 
+> I just got a notebook that has SB Pro compatible card
+> (Don't they all :) ). To make long stories short, it
+> doesn't work with any driver configuration I've seen
+> on the linux laptop pages or in
+> linux/Documentation/sound/
+> In windows it says that it's Sound Blaster Pro
+> compatible at 0x220 with irq 5. I also know that
+> there's a yamaha synthesizer chip (read OPL3 compatible).
+> 
+> Now, even if I load only the uart401 and sb with
+> the right paraemeters, I always get :
+> ... 'dev/dsp': Device or resource busy
 
-Now, even if I load only the uart401 and sb with
-the right paraemeters, I always get :
-... 'dev/dsp': Device or resource busy
-when I try to write. And when I try to read using:
-more /dev/dsp
-I get :
-Sound: DMA (input) timed out - ....
+Karim,
 
-I've tried all sort of things but nothing works.
-I know that previous models of the notebook used
-the YMF715. That means I should use OPL3-SA2,
-but that doesn't work. It actually detects one,
-but when it tries to check some stuff, it fails
-in step B of ad1848_detect. I get :
-ad1848 detect error - step B (ff/ff)
-when loading it at 0x220 (if I try any other
-address it fails at step A).
+this is the error I kept getting due to bios not making the irq available. Try
+loading the module with an irq above those being used. I moved mine to 9 and
+haven't had that problem since then.
 
-Anyways, does anyone has an idea on how to solve
-this or even where to start in order to investigate
-on whether this is a new "unknown" card?
+ciao,
 
-Thanx in advance!
+der.hans
 
-=======================
-              Karim Yaghmour
-          karym@info.polymtl.ca
-            Computer Engineer
-      Ecole Polytechnique de Montreal
-=======================
+<schnipp, schnapp>
+
+> Thanx in advance!
+> 
+> =======================
+>               Karim Yaghmour
+>           karym@info.polymtl.ca
+>             Computer Engineer
+>       Ecole Polytechnique de Montreal
+> =======================
+> 
+
+# +++++++++++=================+++++++++++ #
+#                   LuftHans@asu.edu                      #
+#            http://home.pages.de/~lufthans/              #
+#             I've got a photographic memory,             #
+#         but I'm lousy photographer. - der.hans          #
+# ======+++++++++++++++++++++++++++++++++====== #
