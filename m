@@ -1,28 +1,43 @@
-From: John Starkey <jstarkey@polaris.umuc.edu>
-Date: Tue, 08 Feb 2000 21:28:58 +0000
-Subject: ESS 1868 sound card problem.
-Message-Id: <marc-linux-sound-95005383020180@msgid-missing>
+From: "Nerijus" <nerijus@sat.lt>
+Date: Wed, 16 Feb 2000 22:38:10 +0000
+Subject: FW: Updated PC speaker driver for 2.3.45
+Message-Id: <marc-linux-sound-95074391904897@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hi. I'm new to this group. I've been on linux-newbie for a couple months
-trying to set up my first linux box. I also convinced my girlfriend that
-Linux would eliminate her blue-screen problem and am now setting hers
-up.
 
-She's a pianist and needs sound capability on her HP 4440 (Red Hat 6.1).
-I installed an old ESS Audiodrive 1868F in her HP and am trying to get
-it working. I d-loaded ALSA last night and followed all the directions
-in the HOWTO but still nothing. I tried sndconfig this morning and went
-ok until it tried to open /dev/audio, states error trying to open, no
-other info, kinda vague. I rm'd it and re-created another /dev/audio
-(not sure if it would work), still nothing.
 
-Is there anyone thart can help me here?
+-----Original Message-----
+From: owner-linux-kernel@vger.rutgers.edu
+[mailto:owner-linux-kernel@vger.rutgers.edu] On Behalf Of Erik Inge
+Bols=F8
+Sent: Wednesday, February 16, 2000 7:18 PM
+To: Linux Kernel Mailing List
+Cc: knan@mo.himolde.no
+Subject: Updated PC speaker driver for 2.3.45
 
-TIA,
 
-John
+Greets, everyone.
+
+For my own benefit, I've updated Michael Beck and David Woodhouse's PC
+speaker driver to compile and work on 2.3.45. The 16 bit stereo 44khz
+emulation works well, and is useful for listening to mp3's when you have
+no space for a soundcard inside the machine.
+
+The patch is downloadable from here:
+http://www.mo.himolde.no/~knan/linux.html
+
+Please CC: any replies and comments to me personally.
+
+--
+Erik I. Bolsu <knan at mo.himolde.no> | <eriki at himolde.no>
+.. student of IT administration at Molde College, Norway.
+
+
+-
+To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+the body of a message to majordomo@vger.rutgers.edu
+Please read the FAQ at http://www.tux.org/lkml/
