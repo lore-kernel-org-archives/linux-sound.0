@@ -1,7 +1,7 @@
-From: Andrew Ryan <genanr@emsphone.com>
-Date: Fri, 14 Jul 2000 15:23:35 +0000
+From: Benno Senoner <sbenno@em.gardena.net>
+Date: Fri, 14 Jul 2000 16:46:57 +0000
 Subject: Re: Midi / SysEx - Dump / Linux?
-Message-Id: <marc-linux-sound-96358851425440@msgid-missing>
+Message-Id: <marc-linux-sound-96359752812477@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96349816311777@msgid-missing>
 In-Reply-To: <marc-linux-sound-96349816311777@msgid-missing>
@@ -10,24 +10,55 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, Jul 14, 2000 at 11:01:40AM -0400, Dave Phillips wrote:
-> On Thu, 13 Jul 2000, Andrew Ryan wrote:
 > 
-> > I have written a library for the Bruce James' RPEdit program.  It can send
-> > and receive sysex messages.  The code seems to work, which reminds me that I
-> > really need to send my updates to Bruce.  I could send you (and steve) the
-> > code if you want, I don't have it on the machine I'm at right now though.
+> --- Benno Senoner <sbenno@gardena.net> wrote :
+> [snip]
+> > I am not sure if it works but you could try to do
+> > the following:
 > > 
-> > RPedit: http://www.voyager.co.nz/~bjames/RPEdit.html  
+> > cat /dev/midi00 >dumpfile
+> > 
+> > start the sysex transfer
+> > 
+> > when finished
+> > press CTRL-C
+> > the dumpfile will contain the dumped data.
 > 
-> Say, is this editor available for Linux ? I read on the page that it's a
-> Tcl/Tk design, perhaps it could be ported without terrible difficulty ??
-> 
-This editor does work under linux, I've used it.  I have not tried the
-newest version, but I don't see why it would not work.  The only thing is
-that Bruce now only puts up a windozs install EXE file that needs to be run
-under windows to extract the files.  Once extracted the files can be copied
-to linux.  I'm going to ask Bruce to put up a normal zip file version of it
-on his web page.
+> O-me-god, it seems to work...! I got what seems to be
+> the sysex dump I needed... What a wonderful OS!
+> Thanks, Benno.
 
-Andy
+hehe , that's the advantage of of the "everything is a file in UNIX"
+ concept.
+:-)
+
+> 
+> > then to playback the data
+> > first start sysex receive on your midi module
+> > then do
+> > cat dumpfile >/dev/midi00
+> > 
+> > which should send back the data to the midi port.
+> 
+> Could anyone confirm that? I've got an Elektron
+> SIDStation and there is no other way to save custom
+> programs than via MIDI/sysex. So if this does not
+> work, I'll lose all my carefully crafted custom
+> programs.
+> Thanks a lot in advance.
+>  - eric -
+
+I do not want to be responsible for your data losses,
+all my hints are without WARRANTY.
+:-)
+
+For example recodring a MIDI-song via cat will not work
+since it is a stream of bytes without any timing information.
+But in the sysex case there is no timing concept since it
+is a raw data dump.
+I am sorry that I can not try the reverse cat dumpfile >/dev/midi00
+because of the lack of HW here.
+
+it should work, but wait for someone confirming this.
+
+Benno.
