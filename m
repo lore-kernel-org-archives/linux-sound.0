@@ -1,127 +1,84 @@
-From: A Shadow In the Dark <marlowe@alfheim.net>
-Date: Fri, 27 Nov 1998 12:07:19 +0000
-Subject: Re: MSS/WSS
-Message-Id: <marc-linux-sound-91217184400391@msgid-missing>
+From: Nerijus Baliunas <Nerijus@Prototechnika.lt>
+Date: Fri, 13 Nov 1998 18:20:54 +0000
+Subject: sound blaster awe64 and "mod_firmware_load"
+Message-Id: <marc-linux-sound-91098502923768@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91181534303435@msgid-missing>
-In-Reply-To: <marc-linux-sound-91181534303435@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Shoulnd't have gotten a Compaq, Compaq's suck.
+I am having a problem with sound in kernel 2.1.127. I have also tried
+kernels 112, 125.
+I have SB AWE64 plug and play. Kernel is compiled with sound module support.
+When I boot I get message:
+/lib/modules/2.1.127/misc/sb.o: unresolved symbol mod_firmware_load
+sound: Device or resource busy
 
-On Fri, 27 Nov 1998 root@styx.bibnat.ro wrote:
+My /etc/conf.modules:
+alias sound sb
+options -k sb io=0x220 irq=5 dma=1 dma16=5 mpu_io=0x330
 
-> Pleease someone help me!
-> 
-> I have a Compaq Deskpro XL and i simply cannot persuade it to work
-> correctly under linux - more precisely, the sound card doesn't work... all
-> the other hardware is working properly (i guess).
-> Yes, i installed OSS free...
-> 
-> Ok, here's what i'm talking about:
-> 
-> ==Current config:
->  - Slackware 3.6
->  - kernel 2.0.36
-> 
-> ==What windoze95 says: I/O 530, IRQ 9, DMA 3
-> ==What the BIOS says: I/O 530, IRQ 9, DMA 3
-> ==What the /dev/sndstat says after insmod sound:
-> 
-> Kernel: Linux corson 2.0.36 #4 Mon Nov 23 13:22:58 EET 1998 i586
-> Config options: 0
-> 
-> Installed drivers:
-> Type 10: MS Sound System
-> Type 24: MS Sound System (AXP)
-> Type 27: Compaq Deskpro XL
-> Type 1: OPL-2/OPL-3 FM
-> 
-> Card config:
-> MS Sound System at 0x530 irq 9 drq 3
-> OPL-2/OPL-3 FM at 0x388 drq 0
-> 
-> Audio devices:
-> 0: MSS audio codec (82C930)
-> 
-> Synth devices:
-> 0: Yamaha OPL-3
-> 
-> Midi devices:
-> 
-> Timers:
-> 0: System clock
-> 1: MSS audio codec (82C930)
-> 
-> Mixers:
-> 0: MSS audio codec (82C930)
-> 
-> ==What happens after cat endoftheworld > /dev/dsp: after playing for
-> about 5 seconds - Sound: DMA (output) timed out - IRQ/DRQ config error?
-> 
-> ....rmmod sound
-> ....soundconf (from OSS), 
->   which has a card named Compaq Deskpro XL integrated Business Audio 
-> 
-> ==What the OSS configuration says: 
-> Card: Compaq Deskpro XL integrated Business Audio
-> Device: Windows Sound System (enabled)
-> I/O port = 530
-> IRQ      = 9
-> DMA (A)  = 0
-> DMA (B)  = 1   ## i couldn't persuade OSS to set DMA 3
-> Device: Yamaha OPL2/OPL3 FM synthesizer chip (enabled)
-> I/O port = 388
-> 
-> ==What /dev/sndstat says after soundconf and soundon:
-> 
-> License serial number: E00000008
-> Open Sound System is licensed for evaluation purposes only.
-> License will expire after: 05/1999
-> Options: ALL
-> 
-> Kernel: Linux corson 2.0.36 #4 Mon Nov 23 13:22:58 EET 1998 i586
-> Build: 2.0.36
-> 
-> Card config:
-> Compaq Deskpro XL at 0x530 irq 9 drq 0,1
-> OPL-2/OPL-3 FM at 0x388
-> 
-> Audio devices:
-> 0: MSS audio codec (82C930) (DUPLEX)
-> 1: Shadow of audio device #0 (DUPLEX)
-> 
-> Synth devices:
-> 0: Yamaha OPL-3
-> 
-> Midi devices:
-> 
-> Timers:
-> 0: System clock
-> 
-> Mixers:
-> 0: MSS audio codec (82C930)
-> 
-> ==What happens when doing cat endoftheworld > /dev/dsp: doesn't play at
-> all and just exits with : "Sound: DMA (output) timed out - IRQ/DRQ config
-> error?"
-> 
-> 
-> Please look over this stuff and tell me whether you need more information
-> (in case you think the problem can be solved and you know how).
-> 
-> I'm _very_ upset cause the damn 95 works just fine with the
-> (integrated) soundcard in my (pain-in-the-ass) Deskpro, and Linux doesn't.
-> 
-> Thank you in advance.
-> 
-> 
-> Paul <root@bibnat.ro>, rather hopeless and definetely annoyed.
-> 
-> 
-> 
-> 
-> 
+When in /usr/src/linux/drivers/sound/sb_common.c
+I comment lines between #ifdef and #endif, sound works:
+#ifdef MODULE
+/*	if (!smw_ucode)
+	{
+		extern void *smw_free;
+
+		smw_ucodeLen = mod_firmware_load("/etc/sound/midi0001.bin",
+(void *) &smw_ucode);
+		smw_free = smw_ucode;
+	}
+*/	
+#endif
+
+
+Also there is a newer awe lowlevel driver ver.0.4.2d in
+http://bahamut.mm.t.u-tokyo.ac.jp/~iwai/awedrv/index.html
+Why isn't it included in kernel source?
+
+
+My kernel .config:
+
+#
+# Sound
+#
+CONFIG_SOUND=y
+# CONFIG_SOUND_ES1370 is not set
+# CONFIG_SOUND_ES1371 is not set
+# CONFIG_SOUND_SONICVIBES is not set
+# CONFIG_SOUND_MSNDCLAS is not set
+# CONFIG_SOUND_MSNDPIN is not set
+CONFIG_SOUND_OSS=m
+# CONFIG_SOUND_PAS is not set
+CONFIG_SOUND_SB=m
+CONFIG_SOUND_ADLIB=m
+# CONFIG_SOUND_GUS is not set
+# CONFIG_SOUND_MPU401 is not set
+# CONFIG_SOUND_PSS is not set
+# CONFIG_SOUND_MSS is not set
+# CONFIG_SOUND_SSCAPE is not set
+# CONFIG_SOUND_TRIX is not set
+# CONFIG_SOUND_MAD16 is not set
+# CONFIG_SOUND_WAVEFRONT is not set
+# CONFIG_SOUND_CS4232 is not set
+# CONFIG_SOUND_OPL3SA2 is not set
+# CONFIG_SOUND_MAUI is not set
+# CONFIG_SOUND_SGALAXY is not set
+# CONFIG_SOUND_OPL3SA1 is not set
+# CONFIG_SOUND_SOFTOSS is not set
+CONFIG_SOUND_YM3812=m
+# CONFIG_SOUND_VMIDI is not set
+# CONFIG_SOUND_UART6850 is not set
+
+#
+# Additional low level sound drivers
+#
+CONFIG_LOWLEVEL_SOUND=y
+# CONFIG_ACI_MIXER is not set
+CONFIG_AWE32_SYNTH=m
+
+
+regards,
+Nerijus
