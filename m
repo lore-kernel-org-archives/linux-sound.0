@@ -1,18 +1,36 @@
 From: Jeffrey Voorhaar <psycho@xdnet.net>
-Date: Fri, 12 Mar 1999 14:35:04 +0000
-Subject: Soundblaster Live!
-Message-Id: <marc-linux-sound-92124977612119@msgid-missing>
+Date: Fri, 12 Mar 1999 15:06:10 +0000
+Subject: RE: Soundblaster Live!
+Message-Id: <marc-linux-sound-92125159513827@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92124977612119@msgid-missing>
+In-Reply-To: <marc-linux-sound-92124977612119@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hey,
-
-Does anyone know when the Soundblaster Live! will be supported or if there's
-another way to get sound with it unsupported?
-
-Thanks in advance,
+Ehm.... if that's so, why don't they do that? Do they want Linux-users to go
+and use another card? Not really a way to deal with your customers imho.
 
 Jeffrey
+
+
+You wrote the following bullshit to me on Fri, 12 Mar 1999:
+> I believe that Creative Labs is not releasing driver information to this card. That is the reason that alot
+> of sound cards are not supported.
+> LP
+> 
+> 
+> < Hey,
+> > 
+> > Does anyone know when the Soundblaster Live! will be supported or if there's
+> > another way to get sound with it unsupported?
+> > 
+> > Thanks in advance,
+> > 
+> > Jeffrey
+> 
+> llornkcor rocknroll
+> SpiritShip Recording Studio
+> www.llornkcor.com
