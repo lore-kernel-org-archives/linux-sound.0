@@ -1,62 +1,39 @@
-From: Paul Laufer <pelaufer@csupomona.edu>
-Date: Wed, 12 Apr 2000 00:44:48 +0000
-Subject: Re: Soundblaster driver
-Message-Id: <marc-linux-sound-95550502210496@msgid-missing>
+From: "Joe T." <auximini@yahoo.com>
+Date: Sat, 29 Apr 2000 18:32:22 +0000
+Subject: Getting good sound input
+Message-Id: <marc-linux-sound-95703433918558@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95540038226444@msgid-missing>
-In-Reply-To: <marc-linux-sound-95540038226444@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, 10 Apr 2000, Torsten Werner wrote:
+Hello
+Im currently using an ESS1869 soundcard on Slackware7
+with the OSS kernel modules.
+Im trying to get some input from a cassette to wav,
+but i'm having a lot of difficulty.
 
-> Hi Paul,
-> 
-> On Mon, Apr 10, 2000 at 02:05:32AM -0700, Paul Laufer wrote:
-> > Please test this if you use the Soundblaster driver. This is a rather
-> > large patch that touches most of sb_card.c. If there are no problems I
-> > will submit this to Linus.
-> 
-> There are two problems:
-> 
-> +       {"Diamond DT0197H",
-> +               ISAPNP_VENDOR('R','W','B'), ISAPNP_DEVICE(0x1688),
-> +               ISAPNP_VENDOR('@','@','@'), ISAPNP_FUNCTION(0x0001),
-> +               ISAPNP_VENDOR('@','X','@'), ISAPNP_FUNCTION(0x0001),
-> +               0,-1,0,-1},
-> 
-> should really be:
-> 
-> +       {"Diamond DT0197H",
-> +               ISAPNP_VENDOR('R','W','B'), ISAPNP_DEVICE(0x1688),
-> +               ISAPNP_VENDOR('@','@','@'), ISAPNP_FUNCTION(0x0001),
-> +               ISAPNP_VENDOR('@','X','@'), ISAPNP_FUNCTION(0x0001),
-> +               0,-1,0,0},
-> 
-> note the last 0 like in the ALS007 entry. The opl3 driver does not work
-> anymore because it is not activated. What is the reason for that?
-> 
-> Torsten
-> -- 
-> Torsten Werner                          Dresden University of Technology
-> email: twerner@intercomm.de                phone/fax: +49 3501 530061/11
-> Homepage:                              http://www.phy.tu-dresden.de/apg/
+I've tried using sox, kwave, sound-recorder and
+cat /dev/audio or /dev/dsp > blah.au.
 
-I had to guess on that one. The sb_init_diamond() function does not assign
-mpu_config->irq and I don't have a printout of /proc/isapnp for this card,
-so I guessed and asked for people to test it :-)
+When i record from the input port, i get nothing.
+When i record from the mic port, it sounds horrid.
 
-The mpu is no longer activated by default on cards with a mpu isapnp
-device separate from the audio isapnp device. Reason being most people
-don't use midi devices and so the IRQ taken up by them is wasted. To
-configure the mpu device on such clones you must pass the module option
-"mpu=1".  I've recently changed the name of that option to "uart401".
+Does anyone know what the problem could be and how to
+solve it?  Are there any special modules in the kernel
+I have to enable to get good input sound?
 
-Thank you for testing and the correction! Could you please send me a copy
-of your /proc/isapnp for this card? I'd like to add it to my growing
-collection.
+I used this card with freebsd and the commercial OSS
+drivers. Using Sound Studio, I was able to get perfect sound..
 
-Thank you for your time,
-Paul Laufer
+==Joe Topjian
+auximini@yahoo.com
+http://auximini.cjb.net
+
+Even a stopped clock gives the right time twice a day
+
+__________________________________________________
+Do You Yahoo!?
+Talk to your friends online and get email alerts with Yahoo! Messenger.
+http://im.yahoo.com/
