@@ -1,19 +1,31 @@
-From: Thomas Schmegg <tschmegg.mlist@gmx.de>
-Date: Fri, 26 Feb 1999 02:40:36 +0000
-Subject: Diamond Sonic Impact
-Message-Id: <marc-linux-sound-92010166715159@msgid-missing>
+From: flatmax <flatmax@lake.com.au>
+Date: Mon, 01 Feb 1999 00:34:54 +0000
+Subject: ropen : was (Re: Is there any reason rvplayer5.0 wouldn't work with PPP
+Message-Id: <marc-linux-sound-91782575429428@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi !
+Give us the blow by blow on "ropen" onesome ...
 
-Is there a way to run my Diamond Sonic Impact (PCI) ?
-It is "not supported yet" by OSS (Kernel too).
-So are there any other SoundDrivers (like OSS) for it
-or ideas to run it (may be switch in SB-Mode in DOS and
-start Linux via LoadLin, Kernel->SB16 ??)
+Bill Nottingham wrote:
 
-OK - thanks ..
+>    as well.  Alternately, download rpopen from
+> http://onramp.i2k.com/~jeffd/rpopen/ and pre-load it before you run
+> rvplayer (it's a shared object which blocks rvplayer from doing the
+> NONBLOCKing open of /dev/dsp).
+> 
+> Hope that helps!
+> 
+> Bill
+
+-- 
+Matt
+____________________________
+Is anya disna an' ya wanna say - eh.
+'s anya disna an' ya videeaaaha
+	....
+Postgrad candidate: CSE UNSW <http://www.cse.unsw.edu.au/~flatmax>
+Engineer Academi'c: Lake DSP <http://www.lake.com>
