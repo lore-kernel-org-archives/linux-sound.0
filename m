@@ -1,29 +1,30 @@
-From: Scott Murray <scott@spiteful.org>
-Date: Fri, 18 Feb 2000 05:42:29 +0000
-Subject: Re: Yamaha 724 DS-1 Chipset
-Message-Id: <marc-linux-sound-95088054103975@msgid-missing>
+From: Alessandro Zummo <azummo@ita.flashnet.it>
+Date: Sun, 06 Feb 2000 16:52:05 +0000
+Subject: PnP support
+Message-Id: <marc-linux-sound-94986272808065@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95083407309137@msgid-missing>
-In-Reply-To: <marc-linux-sound-95083407309137@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 17 Feb 2000, Spectral Composer wrote:
 
-> So I just configured a beautiful Dell Dimension.  She runs beautifully
-> except the afforementioned sound card isn't recognized by the sb
-> modules.  Any idea which modules I should be loading?
+ I started adding PnP support for Soundblaster compatible
+ soundcards.. i.e. the cards that works with the sb driver.
 
-I believe you're out of luck, as Yamaha have not released enough
-programming information for anyone to write a driver.
+ Latest additions include CMI8330 and SoundBlaster AWE64 PnP.
 
-Scott
+ If you have any sb PnP card which is still not supported, please
+ mail me the output of the following command(s):
+
+ isapnpdump
+ cat /proc/isapnp
+
+
 
 
 -- 
-======================================Scott Murray                                        email: scott@spiteful.org
-http://www.interlog.com/~scottm                       ICQ: 10602428
------------------------------------------------------------------------------
-     "Good, bad ... I'm the guy with the gun." - Ash, "Army of Darkness"
+
+   - *Alex* -
+
+  http://freepage.logicom.it/azummo/
