@@ -1,7 +1,7 @@
 From: "llornkcor" <llornkcor@llornkcor.com>
-Date: Fri, 22 Oct 1999 16:18:11 +0000
+Date: Fri, 22 Oct 1999 16:18:56 +0000
 Subject: Re: SB PCI128 mixer problems ( can't deactivate input passthru)
-Message-Id: <marc-linux-sound-94061299013727@msgid-missing>
+Message-Id: <marc-linux-sound-94061298413715@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94060417102142@msgid-missing>
 In-Reply-To: <marc-linux-sound-94060417102142@msgid-missing>
@@ -10,8 +10,13 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I also use ossmixer, which allows you to select the input or mute it. If you
-right click on the kmix channel, you can do the same, I think.
+
+----- Original Message -----
+From: Benno Senoner <sbenno@gardena.net>
+To: <linux-sound@vger.rutgers.edu>
+Sent: Friday, October 22, 1999 7:48 AM
+Subject: SB PCI128 mixer problems ( can't deactivate input passthru)
+
 
 | Hi,
 | I'm running the a Redhat 6.1 box with Soundblaster PCI128,
