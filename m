@@ -1,7 +1,7 @@
-From: Keith Duthie <psycho@albatross.co.nz>
-Date: Wed, 17 Feb 1999 14:03:34 +0000
+From: Rodrigo Castro <rcastro@linux.ime.usp.br>
+Date: Wed, 17 Feb 1999 14:39:31 +0000
 Subject: Re: Sound Card Problems
-Message-Id: <marc-linux-sound-91926558702545@msgid-missing>
+Message-Id: <marc-linux-sound-91926560102611@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91922152200751@msgid-missing>
 In-Reply-To: <marc-linux-sound-91922152200751@msgid-missing>
@@ -10,19 +10,23 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Here's a new track: make sure you have the AWE32 low level sound module
-built. Revert dma16 to 5.
+On Thu, 18 Feb 1999, Keith Duthie wrote:
 
-Unload all sound modules, then try the following:
-modprobe sound
-insmod uart401
-insmod sb io=0x220 irq=5 dma=1 dma16=5 mpu_io=0x330
-insmod awe_wave
+> ps did the esstype88 do anything?
+> pps try uncommenting   options sound dmabuf=1   in your conf.modules
+> -- 
 
-*NOTE* There seems to be a mini-howto on the SB-AWE, and there are a
-couple of SB-32/AWE-32 related documents in /usr/src/linux/Documentation/sound
+Tried everything. Not working. I don't even know if you have any more idea
+about what may be the problem. My motherboard chipset is VIA and I read
+something about a conflict between some VIA chipsets and sound cards. I
+sent a message to linux-kernel list. Let's see if someone there gives us a
+tip of what may not be working.
+The worst thing is that it used to work in 2.0.36, but nowadays when I try
+to revert to 2.0.36 kernel, it does not work more (with isapnptools). The
+only way I found that works is initializing my card with a kernel patch in
+a 2.0.* kernel.
 
-ps did the esstype88 do anything?
-pps try uncommenting   options sound dmabuf=1   in your conf.modules
--- 
-.sig under deconstruction. Please watch out for falling stars.
+[]'s
+Rodrigo Castro   <rcastro@linux.ime.usp.br>
+Computer Science undergraduate student - University of Sao Paulo
+Rudeness is a weak man's imitation of strength.
