@@ -1,41 +1,43 @@
-From: Felipe Alfaro Solana <felipe_alfaro@linuxmail.org>
-Date: Wed, 13 Aug 2003 13:34:18 +0000
-Subject: Re: OPL3SA2: spin_is_locked on uninitialized spinlock
-Message-Id: <marc-linux-sound-106078171024874@msgid-missing>
+From: Vinay K Nallamothu <vinay-rc@naturesoft.net>
+Date: Sun, 10 Aug 2003 15:51:42 +0000
+Subject: [PATCH 2.6.0-test3][OSS] nec_vrc5477.c: incorrect use of __devinit
+Message-Id: <marc-linux-sound-106052885908280@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-106077529618070@msgid-missing>
-In-Reply-To: <marc-linux-sound-106077529618070@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Wed, 2003-08-13 at 14:04, Andrew Morton wrote:
-> Felipe Alfaro Solana <felipe_alfaro@linuxmail.org> wrote:
-> >
-> > I've found a lot of errors like this when loading the OPL3SA2 sound
-> >  driver on my old Intel AL440LX computer, running 2.6.0-test3-mm1:
-> > 
-> >  sound/isa/opl3sa2.c:204: spin_is_locked on uninitialized spinlock
-> >  d6200034.
-> 
-> Does this help?
-> 
-> diff -puN sound/isa/opl3sa2.c~opl3sa2-lock-init-fix sound/isa/opl3sa2.c
-> --- 25/sound/isa/opl3sa2.c~opl3sa2-lock-init-fix	2003-08-13 05:03:32.000000000 -0700
-> +++ 25-akpm/sound/isa/opl3sa2.c	2003-08-13 05:04:06.000000000 -0700
-> @@ -752,6 +752,7 @@ static int __devinit snd_opl3sa2_probe(i
->  		err = -ENOMEM;
->  		goto __error;
->  	}
-> +	spin_lock_init(&chip->reg_lock);
->  	chip->irq = -1;
->  	if ((err = snd_device_new(card, SNDRV_DEV_LOWLEVEL, chip, &ops)) < 0)
->  		goto __error;
-> 
-> _
-> 
+sound/oss/nec_vrc5477.c: __devinit is incorrectly used on the device
+unloading function. This patch replaces it with __devexit.
 
-Yes, it does...
-Thanks!
+--- linux-2.6.0-test3/sound/oss/nec_vrc5477.c	2003-08-09 12:11:40.000000000 +0530
++++ linux-2.6.0-test3-nvk/sound/oss/nec_vrc5477.c	2003-08-10 20:24:47.000000000 +0530
+@@ -61,6 +61,7 @@
+  *    02.08.2001  0.1   Initial release
+  */
+ 
++#include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/string.h>
+ #include <linux/kernel.h>
+@@ -1965,7 +1966,7 @@
+ 	return -1;
+ }
+ 
+-static void __devinit vrc5477_ac97_remove(struct pci_dev *dev)
++static void __devexit vrc5477_ac97_remove(struct pci_dev *dev)
+ {
+ 	struct vrc5477_ac97_state *s = pci_get_drvdata(dev);
+ 
+@@ -2001,7 +2002,7 @@
+ 	.name		= VRC5477_AC97_MODULE_NAME,
+ 	.id_table	= id_table,
+ 	.probe		= vrc5477_ac97_probe,
+-	.remove		= vrc5477_ac97_remove,
++	.remove		= __devexit_p(vrc5477_ac97_remove)
+ };
+ 
+ static int __init init_vrc5477_ac97(void)
+
 
