@@ -1,28 +1,21 @@
-From: "=?gb2312?B?s8LSq8P3?=" <cim@188.net>
-Date: Fri, 22 Jan 1999 03:25:36 +0000
-Subject: Yamaha 724 PCI without PC/PCI link
-Message-Id: <marc-linux-sound-91710095802713@msgid-missing>
+From: Dan Hollis <goemon@sasami.anime.net>
+Date: Mon, 25 Jan 1999 12:08:05 +0000
+Subject: Re: Yamaha 724 PCI without PC/PCI link
+Message-Id: <marc-linux-sound-91726616500832@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91710095802713@msgid-missing>
+In-Reply-To: <marc-linux-sound-91710095802713@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-TXkgc291bmQgY2FyZCBpcyBZYW1haGEgNzI0IFBDSSB3aXRob3V0IFBDL1BDSSBpbnRlcmZhY2UK
-b24gbXkgbW90aGVyIGJvYXJkLiBMaW51eCBrZXJuZWwgaXMgMi4xLjEzMi4gVGhlIHBjaXV0aWxz
-CmlzIDEuMDkuCgpXaGVuIEkgYm9vdCB0byBET1MgZmlyc3QgYW5kIGluaXRpYWxpemUgaXQgaW4g
-RE9TLCB0aGVuCmxvYWRsaW4gbGludXgsIHRoZSBzb3VuZCBjYXJkIGNhbiBzb3VuZCA4Yml0IHNv
-dW5kcy4gSSB1c2VkCmxzcGNpIGFuZCBzZXRwY2kgdG8gY2hlY2sgaXRzIGNvbmZpZ3VyYXRpb24g
-cmVnaXN0ZXJzLCBmb3VuZAo0MC5sIGlzIDB4OTAwMDNmNWYgYW5kIDRjLncgaXMgMHg4MDExIGFn
-YWluc3QgdGhlIGRlZmF1bHRzLgpNeSAvZXRjL2NvbmYubW9kdWxlcyBsb29rcyBsaWtlIHRoZSBm
-b2xsb3dpbmc6CgpwcmUtaW5zdGFsbCBzYiAvc2Jpbi9zZXRwY2kgLWQgMTA3MzowMDA0IDQwLmyQ
-MDAzZjVmCnByZS1pbnN0YWxsIHNiIC9zYmluL3NldHBjaSAtZCAxMDczOjAwMDQgNGMud4AxMQph
-bGlhcyBzb3VuZCBzYgpvcHRpb25zIHNiIC1rIGlvPTB4MjIwIGlycRAgZG1hPTEgdHlwZT00CmFs
-aWFzIG1pZGkgb3BsMwpvcHRpb25zIG9wbDMgLWsgaW89MHgzODgKCkJ1dCB3aGVuIEkgYm9vdCBs
-aW51eCBkaXJlY3RseSwgdGhlIG1vZHVsZXMgY2FuIGJlIGxvYWRlZCwKYnV0IG5vIHNvdW5kLiBJ
-IHRoaW5rIHRoZXJlIG11c3QgcmVxdWlyZSBzb21lIGFkZGl0aW9uYWwKaW5pdCBjb21tYW5kcy4g
-Q291bmQgYW55b25lIGdpdmUgbWUgc29tZSBpbXBsaWNhdGlvbj8KCllhb21pbmcgQ2hlbgo9PT09
-PT09PT09PT09PT09PT09TXIuIFlhb21pbmcgQ2hlbgpEYSBUYW5nIFRlbGVjb21tdW5pY2F0aW9u
-IENvcnAuIENoZW5nZHUKTm8uIDIyIERhY2lzaSBBdmVudWUKQ2hlbmdkdSwgU2ljaHVhbgo2MTAw
-NjIsIENoaW5hCgpUZWw6IDI4LTY3NjM1NTIKRmF4OiAyOC02NzYzNTU1CgpIb21lIHBhZ2U6IGh0
-dHA6Ly93d3cudGlhbmZ1Lm5ldC9+bWluZy8KPT09PT09PT09PT09PT09PT09PQ==
+On Fri, 22 Jan 1999, [gb2312] =B3=C2=D2=AB=C3=F7 wrote:
+> But when I boot linux directly, the modules can be loaded,
+> but no sound. I think there must require some additional
+> init commands. Cound anyone give me some implication?
+
+Probably requires some firmware upload or other initialization.
+The only way to be sure is to trace the DOS initialization program.
+
+-Dan
