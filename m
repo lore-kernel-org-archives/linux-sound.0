@@ -1,82 +1,95 @@
-From: "Rus V. Brushkoff" <rus@Chernomor.Odessa.UA>
-Date: Wed, 29 Aug 2001 18:03:02 +0000
-Subject: Re: Maybe a emu10k1 memory leak
-Message-Id: <marc-linux-sound-99910822126601@msgid-missing>
+From: Chris Rankin <rankinc@pacbell.net>
+Date: Wed, 01 Aug 2001 07:46:59 +0000
+Subject: [PATCH] Who is the maintainer for soundcore.o in 2.4, please?
+Message-Id: <marc-linux-sound-99665205708415@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-99875245012588@msgid-missing>
-In-Reply-To: <marc-linux-sound-99875245012588@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Wed, 29 Aug 2001 rui.p.m.sousa@clix.pt wrote:
+Hi,
 
-: Can you send me the output of free before and after this test?
-:
+I have noticed that the register_sound_special() function trips up
+when asked to allocate a device for a minor number > 15. This is
+unfortunate because some sound modules use this function to allocate
+all of their device nodes, which spells "disaster" on machines with
+more that one sound device (i.e. mine...).
 
-.......
+Any feedback on this patch would be welcome.
 
-             total       used       free     shared    buffers     cached
-Mem:        255836      72340     183496          0       1724      51548
--/+ buffers/cache:      19068     236768
-Swap:       168672          0     168672
-[Alice]:root:~ # free
+Cheers,
+Chris
 
-> rmmod emu10k1; insmod emu10k1
-
-             total       used       free     shared    buffers     cached
-Mem:        255836      72444     183392          0       1724      51548
--/+ buffers/cache:      19172     236664
-Swap:       168672          0     168672
-[Alice]:root:~ # free
-
-> rmmod emu10k1; insmod emu10k1
-
-             total       used       free     shared    buffers     cached
-Mem:        255836      72448     183388          0       1724      51548
--/+ buffers/cache:      19176     236660
-Swap:       168672          0     168672
-[Alice]:root:~ # free
-
-> rmmod emu10k1; insmod emu10k1
-
-             total       used       free     shared    buffers     cached
-Mem:        255836      72452     183384          0       1724      51548
--/+ buffers/cache:      19180     236656
-Swap:       168672          0     168672
-[Alice]:root:~ #
-
-.......
-
-As I see the leak is 4k size. Do you see the same or I have a wrong kernel ?
-
-My setup : Soltek SL-75KAV-X MB with 1GHz Athlon, emu10k1 -
-
-emu10k1: EMU10K1 rev 8 model 0x8027 found, IO at 0xdc00-0xdc1f, IRQ 10
-ac97_codec: AC97 Audio codec, id: 0x8384:0x7609 (SigmaTel STAC9721/23)
-
-Kernel 2.4.9 compiled with gcc-3.0.1/binutils 2.11.90.0.24. Glibc - v2.2.4
-
-lspci output :
-
-00:00.0 Host bridge: VIA Technologies, Inc.: Unknown device 0305 (rev 03)
-00:01.0 PCI bridge: VIA Technologies, Inc.: Unknown device 8305
-00:07.0 ISA bridge: VIA Technologies, Inc. VT82C686 [Apollo Super] (rev 40)
-00:07.1 IDE interface: VIA Technologies, Inc. VT82C586 IDE [Apollo] (rev 06)
-00:07.2 USB Controller: VIA Technologies, Inc. VT82C586B USB (rev 16)
-00:07.3 USB Controller: VIA Technologies, Inc. VT82C586B USB (rev 16)
-00:07.4 Bridge: VIA Technologies, Inc. VT82C686 [Apollo Super ACPI] (rev 40)
-00:07.5 Multimedia audio controller: VIA Technologies, Inc. VT82C686
-[Apollo Super AC97/Audio] (rev 50)
-00:0a.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL-8139 (rev 10)
-00:0c.0 Multimedia audio controller: Creative Labs SB Live! EMU10000 (rev 08)
-00:0c.1 Input device controller: Creative Labs SB Live! (rev 08)
-01:00.0 VGA compatible controller: nVidia Corporation GeForce 256 (rev 10)
-
-:
-:
-
-		Rus
+P.S. Note that I have also renamed "sequencer2" to "music" to avoid a
+name-clash between devices (14,8) and (14,33), and have renamed
+"midi00" to "midi" to be consistent with register_sound_midi().
 
 
+--- drivers/sound/sound_core.c.orig	Tue Jul 31 18:26:12 2001
++++ drivers/sound/sound_core.c	Tue Jul 31 18:41:45 2001
+@@ -17,7 +17,7 @@
+  *	plug into this. The fact they dont all go via OSS doesn't mean 
+  *	they don't have to implement the OSS API. There is a lot of logic
+  *	to keeping much of the OSS weight out of the code in a compatibility
+- *	module, but its up to the driver to rember to load it...
++ *	module, but its up to the driver to remember to load it...
+  *
+  *	The code provides a set of functions for registration of devices
+  *	by type. This is done rather than providing a single call so that
+@@ -173,10 +173,10 @@
+ 		return r;
+ 	}
+ 	
+-	if (r = low)
++	if ( r < SOUND_STEP )
+ 		sprintf (name_buf, "%s", name);
+ 	else
+-		sprintf (name_buf, "%s%d", name, (r - low) / SOUND_STEP);
++		sprintf (name_buf, "%s%d", name, (r / SOUND_STEP));
+ 	s->de = devfs_register (devfs_handle, name_buf,
+ 				DEVFS_FL_NONE, SOUND_MAJOR, s->unit_minor,
+ 				S_IFCHR | mode, fops, NULL);
+@@ -231,9 +231,10 @@
+  
+ int register_sound_special(struct file_operations *fops, int unit)
+ {
+-	char *name;
++	const int chain = (unit & 0x0F);
++	const char *name;
+ 
+-	switch (unit) {
++	switch (chain) {
+ 	    case 0:
+ 		name = "mixer";
+ 		break;
+@@ -241,7 +242,7 @@
+ 		name = "sequencer";
+ 		break;
+ 	    case 2:
+-		name = "midi00";
++		name = "midi";
+ 		break;
+ 	    case 3:
+ 		name = "dsp";
+@@ -259,7 +260,7 @@
+ 		name = "unknown7";
+ 		break;
+ 	    case 8:
+-		name = "sequencer2";
++		name = "music";
+ 		break;
+ 	    case 9:
+ 		name = "dmmidi";
+@@ -283,7 +284,7 @@
+ 		name = "unknown";
+ 		break;
+ 	}
+-	return sound_insert_unit(&chains[unit&15], fops, -1, unit, unit+1,
++	return sound_insert_unit(&chains[chain], fops, -1, unit, chain+128,
+ 				 name, S_IRUSR | S_IWUSR);
+ }
+  
+-
+To unsubscribe from this list: send the line "unsubscribe linux-sound" in
+the body of a message to majordomo@vger.kernel.org
