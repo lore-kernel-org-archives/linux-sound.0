@@ -1,50 +1,75 @@
-From: "Nerijus" <nerijus@sat.lt>
-Date: Sat, 13 May 2000 11:02:15 +0000
-Subject: FW: Announce:  Updated Via 686A audio driver
-Message-Id: <marc-linux-sound-95821965608986@msgid-missing>
+From: Benno Senoner <sbenno@em.gardena.net>
+Date: Mon, 01 May 2000 00:17:52 +0000
+Subject: Re: midi controllers + laptop
+Message-Id: <marc-linux-sound-95714035902810@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
------Original Message-----
-From: owner-linux-kernel@vger.rutgers.edu
-[mailto:owner-linux-kernel@vger.rutgers.edu]On Behalf Of Jeff Garzik
-Sent: Wednesday, May 10, 2000 9:26 PM
-To: Linux Kernel Mailing List; linux-via@gtf.org
-Subject: Announce: Updated Via 686A audio driver
+Hi,
 
+assumption 1:
+you have a dumb MIDI interface which is a cable from serial port
+to DIN connector, and requires that you run at 31250bps,
+this will simply not work on a PC independently of the OS,
+because the UARTS found in PC hardware simply do not support
+the 31250 baudrate since the baudrate has to be an integer divisor
+of 4*115200 , and unfortunately this is not possible for 31250.
+(the AMIGA serial port was able to use the 31250bps rate, therefore
+the MIDI interface was really cheap to implement)
 
-The first development release of the 'native' Via 686A OSS-compatible
-audio driver has been posted at
+assumption 2:
+you have a true serial to MIDI interface
+(like this one http://www.maxmidi.com/diy/serial/index.html)
+which runs the PC to midi box at standard baudrates
+(38400,57600 etc) and the MIDI part at 31250bps then
+it sould be quite easy to support serial MIDI interfaces.
 
-	http://gtf.org/garzik/drivers/
+/dev/midi00 behaves like a std serial device except athat it runs 
+always at 31250bps.
 
-This driver only supports audio playback at present -- recording and
-MIDI support[1] are not included at the moment.  Also included is a
-diagnostic program which allows developers and hackers to examine the
-chip's registers.
+Therefore the trick would be to run your app using the 
+LD_PRELOAD trick which overloads the open() syscall. 
+(implementing the LD_PRELOAD wrapper should be really trivial,
+but I have not that kind of hardware here to test that kind
+of program)
 
-Test away, and please report bugs to linux-via mailing list.
+The wrapper simply has to check if the opening of /dev/midi00
+has been requested, then if yes open
+/dev/ttyS0 (or S1) instead, set the the serial port in RAW mode
+and baudrate to 38400 (or higher) and return the filedescriptor.
 
-Known bugs:  volume may be -very- low on some motherboards, and needs to
-be adjusted
+at this point apps using RAW MIDI I/O should work ok
+(like Softwerk for example).
 
-	Jeff
+Notice that there are some apps which use the OSS or ALSA sequencer,
+therefore this trick would not work.
+But there seem to be solutions to this problem.
+(alsa virtual MIDI port, and similar module for OSS)
+(please look at the linux-audio-dev and alsa-devel archives of
+the last two weeks )
 
+ALSA folks, would it be possible to redirect the ALSA sequencer
+output to a serial MIDI device ? If yes what are the right
+steps to do this ?
 
+Benno.
 
-
-[1] Via chips don't include MIDI hardware, so this merely involves
-setting up a 'virtual MIDI' interface.
-
---
-Jeff Garzik              | ILOVEYOU, Linux.
-Building 1024            |
-MandrakeSoft, Inc.       |
-
--
-To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-the body of a message to majordomo@vger.rutgers.edu
-Please read the FAQ at http://www.tux.org/lkml/
+> hi,
+> 
+> i can't seem to find any info about using external midi interfaces with
+> linux. i'm using a laptop (dell inspiron 7500, which works very well
+> with linux!) so my soundcard (maestro IIe) doesn't have a midi port on
+> it...i use a number of midi controllers (like the peavey pc1600 fader
+> box) when performing, and i'd love to move some of my software over to
+> linux...
+> 
+> so can i just get a standard midi interface and hook it up to my serial
+> port? i can't find any info at all on this, all i'm finding is "how to
+> play midi files using your soundcard type stuff."
+> 
+> thanks,
+> douglas
+> 
