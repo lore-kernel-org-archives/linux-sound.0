@@ -1,7 +1,7 @@
-From: Peter Monta <pmonta@halibut.imedia.com>
-Date: Mon, 23 Aug 1999 17:06:43 +0000
+From: Linus Torvalds <torvalds@transmeta.com>
+Date: Mon, 23 Aug 1999 17:25:35 +0000
 Subject: Re: Streaming disk I/O kills file buffering and makes Linux unusable
-Message-Id: <marc-linux-sound-93542839103812@msgid-missing>
+Message-Id: <marc-linux-sound-93543017806245@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93541443318803@msgid-missing>
 In-Reply-To: <marc-linux-sound-93541443318803@msgid-missing>
@@ -10,23 +10,22 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> Will future kernels ave an O_DIRECT like flag to avoid caching ?
 
-Stephen Tweedie has written a patch for unbuffered I/O; the URL I have
-from some time ago is
 
-ftp://ftp.linux.org.uk/pub/linux/sct/fs/raw-io
+On Mon, 23 Aug 1999, Peter Monta wrote:
+> 
+> > I think without some buffer-cache usage limiting, or buffering disabling,
+> > Linux is actually UNSUITABLE for streaming applications which do run
+> > concurrently with other apps.
+> 
+> I agree; the raw-io system will make this much more pleasant.
 
-though this host doesn't seem to respond at the moment.  I believe
-Stephen has mentioned that this will go into the main tree at some point.
-(Possibly it's already in 2.3.x---I haven't looked recently.)
+Why do you think so?
 
-> I think without some buffer-cache usage limiting, or buffering disabling,
-> Linux is actually UNSUITABLE for streaming applications which do run
-> concurrently with other apps.
+IO is IO, whether it is raw or not. And it will eat up resources from
+everybody else trying to do IO.
 
-I agree; the raw-io system will make this much more pleasant.
+I think this is a case of believing in magic cures and supernatural
+beings.
 
-Cheers,
-Peter Monta   pmonta@imedia.com
-Imedia Corp.
+		Linus
