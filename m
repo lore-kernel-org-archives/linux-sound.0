@@ -1,34 +1,37 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Fri, 06 Nov 1998 17:39:21 +0000
-Subject: Re: pci soundcard
-Message-Id: <marc-linux-sound-91037378802959@msgid-missing>
+From: Tony Nugent <Tony.Nugent@usq.edu.au>
+Date: Mon, 23 Nov 1998 11:54:35 +0000
+Subject: sound driver for Dell Latitude CP (and other laptops)
+Message-Id: <marc-linux-sound-91182489707241@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91035185025862@msgid-missing>
-In-Reply-To: <marc-linux-sound-91035185025862@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Andreas Jellinghaus (aj@dungeon.inka.de) said: 
-> i'm sick of isa and pnp, so i think of replaceing my soundcard.
-> is there a working pci sound card for linux (not too expensive) ?
-> for example what about the soundblaster 128 pci ?
+Is it possible to get the sound card working on laptops?
 
-Supported PCI sound cards in the kernel are:
+What I have here is a Dell Latitude CP, but the docs for the hardware have
+been lost or misplaced.  I have absolutely no idea what sort of sound card
+it has :-(
 
-- Ensoniq ES1370
- (this includes the Sound Blaster PCI 64/128)
-- Creative/Ensoniq ES1371
-- S3 SonicVibes
+The windoze setup on it mentions the following:
+	Crystal PnP Audio System CODEC
+	YAMAHA SXG50C Driver
+	WaveStream Music Synthesizer
 
-Drivers for these are available at
- http://www.ife.ee.ethz.ch/~sailer/linux/pciaudio.html
+I've tried several things to get the sound working on it, but to no avail.
+The Crystal chip mentioned with the RedHat sound config utility (v0.27 with
+RH5.2) hasn't been successful.
 
-They're include in 2.1.109+, and Alan Cox's sound backport
-to 2.0.x.
+I also have (not with me at the moment) an older 486-100 Osborne that I'd
+also like to get the sound working on with linux.
 
-If you're willing to pay for drivers, OSS may have support
-for other PCI cards (see http://www.opensound.com/osshw.html).
+Any hits would be appreciated.
 
-Bill
+Cheers
+Tony
+ -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
+  Tony Nugent <Tony.Nugent@usq.edu.au>           <linux@usq.edu.au>
+  Computer Support Officer                       Faculty of Science
+  University of Southern Queensland, Toowoomba Oueensland Australia
+ -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
