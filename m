@@ -1,26 +1,72 @@
-From: Deirdre Saoirse <deirdre@deirdre.net>
-Date: Thu, 27 May 1999 03:15:58 +0000
-Subject: Re: good (and free) mp3 encoders?
-Message-Id: <marc-linux-sound-92799475904447@msgid-missing>
+From: hcchin@strd.csam.com.my
+Date: Thu, 13 May 1999 03:48:20 +0000
+Subject: SB16
+Message-Id: <marc-linux-sound-92661039616424@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92733463802226@msgid-missing>
-In-Reply-To: <marc-linux-sound-92733463802226@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, 24 May 1999, Michael Hoefling wrote:
+Hi all,
 
-> There IS an free mp3 player for linux!!!!
-> It=B4s called FREEAMP!!
-> I use it!!!
-> It=B4s on the SuSE 6.1 cds!!
+    I am still having problems with configuring my SB16 sound card. 
+    I am using Slakware with kernal 2.0.30. I compile the kernal with 
 
-Well, the problem is that most of the mp3 players aren't distributed as
-source, thus if you have odd hardware (I have MOSTLY odd hardware) they
-won't run. I use mpg123 myself.
+    Sound ? M
+    support for /dev/dsp and /dev/audio ? Y
 
-_Deirdre   *   http://www.linuxcabal.org   *   http://www.deirdre.net
-"Perl is just not the answer to all problems. If all you have is a hammer,
-the whole world looks like your thumb." George Bonser on Python
+    Other I put N. I use the isapnptools_1.17 to configure, I read the 
+manual, readme, and HOW-TO, tring a few times. Still unable to setup my 
+sound card. 
+
+    (One thing good with Windows'95, the driver is really easy to 
+install, linux must improve with these)
+
+    Nottingham said that my dirver(Sound Driver:3.5.4-960630) is the old 
+one, will this old one work with SB16? Or how could I get the new sound 
+driver? 
+
+    The below that show on my Linux:-
+
+% isapnp /etc/isapnp.conf
+
+Board 1 has Identity d7 00 00 15 f5 24 00 8c 0e:  CTL0024 Serial No 5621 
+[checksum d7]
+CTL0024/5621[0]{Audio               }: Ports 0x220 0x330 0x388; IRQ5 DMA1 
+DMA5 --- Enabled OK
+
+% insmod sound
+(I did check sound module was not loaded before this)
+
+% lsmod 
+
+Module:        #pages:  Used by:
+sound             10		0
+ppp                5		0
+slip               2		0
+slhc               2	[ppp slip]	0
+lp                 2		0
+
+BUT
+% cat /dev/sndstat
+
+Sound Driver:3.5.4-960630 (Tue Mar 2 05:22:12 SGT 1999 root,
+
+Config options: 0
+
+Installed drivers: 
+
+Card config: 
+
+Audio devices:
+
+Synth devices: NOT ENABLED IN CONFIG
+
+Midi devices: NOT ENABLED IN CONFIG
+
+Timers:
+
+Mixers:
+
+So I can't use the device, what is going wrong?
