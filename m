@@ -1,38 +1,30 @@
-From: "David Mansell" <david@manpart.co.uk>
-Date: Wed, 23 Dec 1998 13:42:12 +0000
-Subject: Re: Chip SoundPro CMI8330
-Message-Id: <marc-linux-sound-91442420222730@msgid-missing>
+From: Steve Jenson <stevej@atdt.com>
+Date: Thu, 24 Dec 1998 04:44:53 +0000
+Subject: WaveMaster 32FGP
+Message-Id: <marc-linux-sound-91448616013640@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91438886210806@msgid-missing>
-In-Reply-To: <marc-linux-sound-91438886210806@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Does anyone know whether or not the WaveMaster 32 PnP soundcard is useable
+under Linux. The only other thing I know about it is that it's able
+to make it non-plug-and-play (which sounds like a good idea) but there
+are no other jumpers.
 
-> ---gonzal <gonzal@unicamp.br> wrote:
-> >
-> > I have um sound chip on board SoundPro,  CMI8330, and I want
-> > to install the sound driver.
-> > 
-> > What is the best, the driver of the kernel ditribution or
-> > someone else (4front-tech, etc)?
-> > 
-> > Does somebody know this chip?
 
-> I have this sound chip too. It's actually a PCI bus sound chip
-> usually built on the motherboard. I don't know any linux sound
-> driver that supports this sound chip. I'm still looking forward for
-> it. Just want to let you know that you're not alone. 
+Does anyone have any information?
 
-I have one on my motherboard and it works fine using the ALSA 
-SB16 drivers (http://alsa.jcu.cz/)
+TIA,
 
--D
+--stevej--
 
--- 
-David Mansell at home: david@manpart.co.uk
-http://ban.joh.cam.ac.uk/  +44 1291 690136
-
-'I'd LOVE to go out with you, but I'm teaching my ferret to yodel'
+--
+        ---------------------------------------------------------
+       | Steve Jenson                 :                   Linux: |
+       |   stevej@atdt.com            :          The choice of   |
+       |     http://www.atdt.com/     :    the GNU generation    |
+       |---------------------------------------------------------|
+       |          %gui =~ tr/MS/X/s;  :  Simple is elegant       |
+        ---------------------------------------------------------
