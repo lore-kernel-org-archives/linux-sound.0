@@ -1,27 +1,32 @@
-From: "octavio" <first21suzuki@hotmail.com>
-Date: Fri, 05 Mar 2004 06:32:49 +0000
-Subject: Virility patch, will help you amaze girls!
-Message-Id: <1078468369-29680@excite.com>
+From: "Corporate Jobs" <jobs@TurnAroundStrategies.com>
+Date: Sun, 28 Mar 2004 19:11:41 +0000
+Subject: Linux Kernel Programmers
+Message-Id: <047b01c414f8$810cc840$3a4a3842@comcast.net>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
-Publications such as Maxim, GQ and Stuff have written about the all new Virility Patch RX which is the first high-tech patch designed to dramatically increase both penis size and male potency. No other male erectile growth formula works faster, is more effective or is easier to use than Virility Patch RX.
-
-Learn more about it here: http://drugsbusiness.com/pp/index.php?pid=eph9106
-
-
-
+We are building a small benchmarking team for the following project in Bay
+Area, CA. This is Linux kernel level work. Interested people should email
+their RESUMEs to
+Jobs@TurnAroundStrategies.com
 
 
+Position 1) Skills Required: In-depth knowledge in and experience with the
+Linux kernel
+(particularly the I/O subsystem), filesystems, Oracle and TPC benchmarking.
+
+Location: Bay Area, CA
 
 
+Position 2) Skills Required:  System level programmers for device drivers on
+Linux.
+
+Location: Bay Area, CA
 
 
-andre beautifuasterix chiquita lucas mars fozzie goat 
-orchid sallyjordan23 shelley amelie
-fiona benoit volley 
+Strategic Talent Acquisition and Retention ( STAR) Team
+New Business Strategies Corporation
 
-Get off this list by going here: http://drugsbusiness.com/pp/applepie.php
