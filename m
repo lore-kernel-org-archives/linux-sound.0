@@ -1,130 +1,47 @@
-From: Dennis Newbold <dennisn@pe.net>
-Date: Fri, 05 Dec 2003 00:36:33 +0000
-Subject: AC97 Mic Boost Bit
+From: "info2" <info2@ecom-universe.net>
+Date: Sun, 25 Jan 2004 09:39:32 +0000
+Subject: Number one internet business - NO selling... rfhyuo
+Message-Id: <cvlda8-gmw87$6$79@7a4u.l51wf.ls>
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="-559023410-851401618-1070584593=:12401"
-Message-Id: <marc-linux-sound-107058469315406@msgid-missing>
+Content-Type: multipart/mixed; boundary="BE___D6.9BB_C.5173_2F"
 List-Id: <linux-sound.vger.kernel.org>
 To: linux-sound@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-  Send mail to mime@docserver.cac.washington.edu for more info.
 
----559023410-851401618-1070584593=:12401
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+--BE___D6.9BB_C.5173_2F
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-Dear Kernel developers,
+Are interested in Working Full time at home?
 
-     Please ignore the incorrect patch file sent in my previous email,
-and refer to the attached patch file instead.  All other comments in
-my previous email still apply.  Thanks again.
 
-Dennis Newbold
-dennisn@pe.net
+If so just take one moment to see how you can start today.
 
----------------------------------------------
-|                                           |
-|     The way to be happy is to be good     |
-|                                           |
----------------------------------------------
+http://www.ecom-universe.net/splash1/FF.htm
+- No cold calling - No sales calls
+- Put your computer to work
+- No Boring Meetings to Attend.
+- A Simple Turnkey System.
+- You Can Earn Money Quickly.
+- You will GET RESIDUAL INCOME Over And Over.
+- Plus Great Support and Training.
 
----559023410-851401618-1070584593=:12401
-Content-Type: TEXT/PLAIN; charset=US-ASCII; name=ac97_codec_patch2
-Content-Transfer-Encoding: BASE64
-Content-ID: <Pine.GSO.3.96.1031204163633.12401B@shell2>
-Content-Description: 
+This system really works..thousands are cashing in and you can to.
 
-LS0tIGFjOTdfY29kZWMuYwlUaHUgRGVjIDA0IDE1OjUzOjEyIDIwMDMNDQor
-KysgbGludXgtMi40LjIzL2RyaXZlcnMvc291bmQvYWM5N19jb2RlYy5jCVRo
-dSBEZWMgMDQgMTY6MzA6MDggMjAwMw0NCkBAIC0zMCw2ICszMCw5IEBADQ0K
-ICAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0NCiAgKg0NCiAgKiBI
-aXN0b3J5DQ0KKyAqIERlYyAwNCwgMjAwMyBEZW5uaXMgTmV3Ym9sZCA8ZGVu
-bmlzbkBwZS5uZXQ+DQ0KKyAqICAgQWRkZWQgbG9naWMgdG8gdXNlIHRoZSBN
-SUNCT09TVCBiaXQgd2hlbiB3cml0aW5nIG9yIHJlYWRpbmcgdGhlDQ0KKyAq
-ICAgU09VTkRfTUlYRVJfTUlDIGNoYW5uZWwuDQ0KICAqIE1heSAwMiwgMjAw
-MyBMaWFtIEdpcmR3b29kIDxsaWFtLmdpcmR3b29kQHdvbGZzb25taWNyby5j
-b20+DQ0KICAqCVJlbW92ZWQgbm9uIGV4aXN0YW50IFdNOTcwMA0NCiAgKglB
-ZGRlZCBzdXBwb3J0IGZvciBXTTk3MDUsIFdNOTcwOCwgV005NzA5LCBXTTk3
-MTAsIFdNOTcxMQ0NCkBAIC0yNDAsNiArMjQzLDI2IEBADQ0KIAl7LTEsMH0N
-DQogfTsNDQogDQ0KKy8qIE5vdGUgdGhhdCBzY2FsZSBmb3IgU09VTkRfTUlY
-RVJfTUlDIGlzIHNldCB0byA0NiByYXRoZXIgdGhhbiAzMi4gIFRoaXMgaXMN
-DQorICogdG8gaW5jbHVkZSB0aGUgbG93ZXIgdm9sdW1lIERCIHZhbHVlcyB0
-aGF0IGRvIG5vdCB1c2UgdGhlIEFDOTdfTUlDQk9PU1QNDQorICogYml0LiAg
-VGhlcmUgaXMgYSBzbWFsbCBnbGl0Y2ggaW4gdGhlIHNjYWxpbmcgaW4gdGhh
-dCB0aGUgbGFzdCB2YWx1ZSB0byB1c2UNDQorICogdGhlIGJvb3N0IGJpdCBp
-cyAzMSwgd2hpY2ggdHJhbnNsYXRlcyB0byAtMTQuNSBkQiwgYW5kIHRoZSBu
-ZXh0IGxvd2VyIHZhbHVlLA0NCisgKiB3aGljaCBkb2VzIG5vdCB1c2UgdGhl
-IGJvb3N0IGJpdCBpcyAzMiwgd2hpY2ggaXMgY29udmVydGVkIHRvIDE4LCB3
-aGljaA0NCisgKiB0cmFuc2xhdGVzIHRvIC0xNSBkQiwgYSBkaWZmZXJlbmNl
-IG9mIG9ubHkgMC41IGRCLiAgQWxsIG90aGVyIGdhaW4gdmFsdWVzDQ0KKyAq
-ICBkaWZmZXIgYnkgMS41IGRCLiAgVGhpcyBpcyBjb25zaWRlcmVkIGFjY2Vw
-dGFibGUgYmVjYXVzZSBpdCBoYXBwZW5zIG9ubHkNDQorICogIGF0IGFuIGV4
-dHJlbWVseSBsb3cgdm9sdW1lLCB3aGljaCBtb3N0IHVzZXJzIHdpbGwgbm90
-IGJlIGludGVyZXN0ZWQgaW4uDQ0KKyAqICAtZGxuLSAqLw0NCisNDQorLyog
-TUlDX05BVFVSQUxfU0NBTEUgaXMgdGhlIG5vLiBvZiBkaWZmZXJlbnQgZ2Fp
-biBzZXR0aW5ncyB0aGF0IHdpbGwgZml0IGluDQ0KKyAqIHRoZSBNSUMgVm9s
-dW1lIEdhaW4gUmVnaXN0ZXIuICBDb21wdXRlZCBnYWluIHZhbHVlcyB3aGlj
-aCBmYWxsIHdpdGhpbiB0aGlzDQ0KKyAqIHJhbmdlIG9wZXJhdGUgd2l0aCB0
-aGUgQUM5N19NSUNCT09TVCBiaXQgZW5hYmxlZC4gIENvbXB1dGVkIHZhbHVl
-cyBvdXRzaWRlDQ0KKyAqIG9mIHRoaXMgcmFuZ2UgYXJlIGZvcmNlZCBiYWNr
-IGludG8gdGhpcyByYW5nZSwgYnV0IHdpdGggdGhlIEFDOTdfTUlDQk9PU1QN
-DQorICogYml0IHR1cm5lZCBvZmYuICBUaGlzIGFsbG93cyBhY2Nlc3MgdG8g
-dGhlIHZlcnkgbG93IGRCIHJhbmdlIHNjYWxlIG9mIHRoZQ0NCisgKiBBQzk3
-IGNvZGVjLCB3aGljaCBjYW5ub3QgYmUgYWNjZXNzZWQgd2l0aCB0aGUgTUlD
-Qk9PU1QgYml0IGVuYWJsZWQuIC1kbG4tDQ0KKyAqLw0NCisNDQorI2RlZmlu
-ZSBNSUNfTkFUVVJBTF9TQ0FMRSAgICAoMzIpDQ0KKw0NCiAvKiB0YWJsZSB0
-byBzY2FsZSBzY2FsZSBmcm9tIE9TUyBtaXhlciB2YWx1ZSB0byBBQzk3IG1p
-eGVyIHJlZ2lzdGVyIHZhbHVlICovCQ0NCiBzdGF0aWMgc3RydWN0IGFjOTdf
-bWl4ZXJfaHcgew0NCiAJdW5zaWduZWQgY2hhciBvZmZzZXQ7DQ0KQEAgLTI1
-MSw3ICsyNzQsNyBAQA0NCiAJW1NPVU5EX01JWEVSX1BDTV0JPQl7QUM5N19Q
-Q01PVVRfVk9MLAkzMn0sDQ0KIAlbU09VTkRfTUlYRVJfU1BFQUtFUl0JPQl7
-QUM5N19QQ0JFRVBfVk9MLAkxNn0sDQ0KIAlbU09VTkRfTUlYRVJfTElORV0J
-PQl7QUM5N19MSU5FSU5fVk9MLAkzMn0sDQ0KLQlbU09VTkRfTUlYRVJfTUlD
-XQk9CXtBQzk3X01JQ19WT0wsCQkzMn0sDQ0KKwlbU09VTkRfTUlYRVJfTUlD
-XQk9CXtBQzk3X01JQ19WT0wsCQk0Nn0sDQ0KIAlbU09VTkRfTUlYRVJfQ0Rd
-CT0Je0FDOTdfQ0RfVk9MLAkJMzJ9LA0NCiAJW1NPVU5EX01JWEVSX0FMVFBD
-TV0JPQl7QUM5N19IRUFEUEhPTkVfVk9MLAk2NH0sDQ0KIAlbU09VTkRfTUlY
-RVJfSUdBSU5dCT0Je0FDOTdfUkVDT1JEX0dBSU4sCTE2fSwNDQpAQCAtMzAy
-LDcgKzMyNSw3IEBADQ0KICAgIGFib3V0IHRoYXQgZ2l2ZW4gbWl4ZXIsIGFu
-ZCBzaG91bGQgYmUgaG9sZGluZyBhIHNwaW5sb2NrIGZvciB0aGUgY2FyZCAq
-Lw0NCiBzdGF0aWMgaW50IGFjOTdfcmVhZF9taXhlcihzdHJ1Y3QgYWM5N19j
-b2RlYyAqY29kZWMsIGludCBvc3NfY2hhbm5lbCkgDQ0KIHsNDQotCXUxNiB2
-YWw7DQ0KKwl1MTYgdmFsLCB0Ow0NCiAJaW50IHJldCA9IDA7DQ0KIAlpbnQg
-c2NhbGU7DQ0KIAlzdHJ1Y3QgYWM5N19taXhlcl9odyAqbWggPSAmYWM5N19o
-d1tvc3NfY2hhbm5lbF07DQ0KQEAgLTM0MCw3ICszNjMsMTAgQEANDQogCQlz
-Y2FsZSA9ICgxIDw8IGNvZGVjLT5iaXRfcmVzb2x1dGlvbik7DQ0KIAkJcmV0
-ID0gMTAwIC0gKCgodmFsICYgMHgxZikgKiAxMDApIC8gc2NhbGUpOw0NCiAJ
-fSBlbHNlIGlmIChvc3NfY2hhbm5lbCA9PSBTT1VORF9NSVhFUl9NSUMpIHsN
-DQotCQlyZXQgPSAxMDAgLSAoKCh2YWwgJiAweDFmKSAqIDEwMCkgLyBtaC0+
-c2NhbGUpOw0NCisJCXQgPSB2YWwgJiAoTUlDX05BVFVSQUxfU0NBTEUgLSAx
-KTsNDQorCQlpZiAoISh2YWwgJiBBQzk3X01JQ0JPT1NUKSkNDQorCQkJdCAr
-PSAobWgtPnNjYWxlIC0gTUlDX05BVFVSQUxfU0NBTEUpOw0NCisJCXJldCA9
-IDEwMCAtICgodCAqIDEwMCkgLyBtaC0+c2NhbGUtMSk7DQ0KIAkJLyogIHRo
-ZSBsb3cgYml0IGlzIG9wdGlvbmFsIGluIHRoZSB0b25lIHNsaWRlcnMgYW5k
-IG1hc2tpbmcNDQogCQkgICAgaXQgbGV0cyB1cyBhdm9pZCB0aGUgMHhmICdi
-eXBhc3MnLi4gKi8NDQogCX0gZWxzZSBpZiAob3NzX2NoYW5uZWwgPT0gU09V
-TkRfTUlYRVJfQkFTUykgew0NCkBAIC00MjcsNyArNDUzLDcgQEANDQogCQls
-ZWZ0ID0gKCgxMDAgLSBsZWZ0KSAqIG1oLT5zY2FsZSkgLyAxMDA7DQ0KIAkJ
-aWYgKGxlZnQgPj0gbWgtPnNjYWxlKQ0NCiAJCQlsZWZ0ID0gbWgtPnNjYWxl
-LTE7DQ0KLQkJdmFsID0gbGVmdDsNDQorCXZhbCA9IGxlZnQ7DQ0KIAl9IGVs
-c2UgaWYgKG9zc19jaGFubmVsID09IFNPVU5EX01JWEVSX1BIT05FT1VUKSB7
-DQ0KIAkJc2NhbGUgPSAoMSA8PCBjb2RlYy0+Yml0X3Jlc29sdXRpb24pOw0N
-CiAJCWxlZnQgPSAoKDEwMCAtIGxlZnQpICogc2NhbGUpIC8gMTAwOw0NCkBA
-IC00MzYsMTMgKzQ2MiwxNyBAQA0NCiAJCXZhbCA9IGxlZnQ7DQ0KIAl9IGVs
-c2UgaWYgKG9zc19jaGFubmVsID09IFNPVU5EX01JWEVSX01JQykgew0NCiAJ
-CXZhbCA9IGNvZGVjLT5jb2RlY19yZWFkKGNvZGVjICwgbWgtPm9mZnNldCkg
-JiB+MHg4MDFmOw0NCi0JCWxlZnQgPSAoKDEwMCAtIGxlZnQpICogbWgtPnNj
-YWxlKSAvIDEwMDsNDQorCQlsZWZ0ID0gKCgxMDAgLSBsZWZ0KSAqIG1oLT5z
-Y2FsZS0xKSAvIDEwMDsNDQogCQlpZiAobGVmdCA+PSBtaC0+c2NhbGUpDQ0K
-LQkJCWxlZnQgPSBtaC0+c2NhbGUtMTsNDQorCQkJbGVmdCA9IG1oLT5zY2Fs
-ZS0xDQ0KKwkJaWYgKGxlZnQgPCBNSUNfTkFUVVJBTF9TQ0FMRSkNDQorCQkJ
-bGVmdCB8PSBBQzk3X01JQ0JPT1NUOw0NCisJCWVsc2UNDQorCQkJbGVmdCAt
-PSAobWgtPnNjYWxlIC0gTUlDX05BVFVSQUxfU0NBTEUpOw0NCiAJCXZhbCB8
-PSBsZWZ0Ow0NCiAJCS8qICB0aGUgbG93IGJpdCBpcyBvcHRpb25hbCBpbiB0
-aGUgdG9uZSBzbGlkZXJzIGFuZCBtYXNraW5nDQ0KIAkJICAgIGl0IGxldHMg
-dXMgYXZvaWQgdGhlIDB4ZiAnYnlwYXNzJy4uICovDQ0KLQl9DQ0KKwkNDQog
-I2lmZGVmIERFQlVHDQ0KIAlwcmludGsoIiAweCUwNHgiLCB2YWwpOw0NCiAj
-ZW5kaWYNDQo=
----559023410-851401618-1070584593=:12401--
+If this is something you have been wanting to do just take the test drive.=
+
+
+http://www.ecom-universe.net/splash1/FF.htm
+
+P.S. If I sent this to you by mistake just shoot me back an email and I wi=
+ll take you off the list...but please remember we only make money if you d=
+o and we NEED to make this work for you...let us know how we can help.
+
+Best Regards,
+
+Steve S.llb xtz rocje k
+xwe n 
+gwvh v euveffc fspadg  yx vsvrof
+
+--BE___D6.9BB_C.5173_2F--
+
