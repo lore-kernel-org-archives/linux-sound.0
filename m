@@ -1,21 +1,29 @@
-From: Michael.Homsey@csiro.au
-Date: Sat, 29 Jun 2002 03:21:57 +0000
-Subject: any drivers for Dell GX260 soundMAX
-Message-Id: <marc-linux-sound-102532093814112@msgid-missing>
+From: <benjamin@hot-shot.com>
+Date: Wed, 12 Jun 2002 11:56:20 +0000
+Subject: 2 messages 0621DbFD0--9
+Message-Id: <marc-linux-sound-102391268928936@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Dear all,
-Sorry if this has been answered, I have just joined this list to find out if
-a device driver has been written for the sound chip in the DELL GX260 which
-appears to have an AD 1982 on the main board. Any clues/hints would be
-appreciated.
-
-Michael Homsey
-Telecommunications and Industrial Physics
-CSIRO, Australia
+------=_NextPart_000_00D1_58A83C8B.A1657E81
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: base64
 
 
+c2FsdXQNCmhpDQoNCkonYWkgcmVncm91cGUgc3VyIHVuIHNpdGUgbGVzIG1l
+aWxsZXVycyBzaXRlcyB4IGdyYXR1aXRzIHF1ZSBqJ2FpIHB1IHRyb3V2ZXIN
+CmVuIDUgYW5zIGRlIHN1cmYhDQoNCkkndmUgcmVncm91cCBoZXJlIHRoZSBi
+ZXN0IGZyZWUgYWR1bHQgc2l0ZXMgaSd2ZSBmaW5kIG9uIHRoZSB3ZWIgZHVy
+aW5nIDUgeWVhcnMgb2Ygc3VyZiENCg0KbCdhZHJlc3NlICh0aGUgYWRkcmVz
+cykgOg0KDQpodHRwOi8vd3d3LnRoZXpzLmNvbS8wMDMwDQoNCnZpc2l0ZXog
+bW9uIHNwb25zb3IgcG91ciBtJ2FpZGVyIQ0KUGxlYXNlIHZpc2l0IG15IHNw
+b25zb3IgdG8gaGVscCBtZSENCg0KUG91ciBuZSBwbHVzIHJlY2V2b2lyIGQn
+ZW1haWwgZWNyaXZleiBtb2kg4CByZW1vdmVAcmVtb3ZlLXRvcC5jb20gYXZl
+YyBjb21tZSBzdWpldCByZW1vdmUNCklmIHlvdSB3YW50IHRvIHN0b3AgdG8g
+cmVjZWl2ZSBtYWlscyBlbWFpbCBtZSBhdCAgcmVtb3ZlQHJlbW92ZS10b3Au
+Y29tIHdpdGggdGhlIHN1YmplY3QgcmVtb3ZlDQoNCjINCg0KIA0KMzEwNE1p
+YUY2LTMwNktUR2UwMTg3dE1wTDYtNzE2Skx2bjQ5MzhDb2ZLOS05OTBobHVU
+OTE5M2FaekUyLTg2OWV1THAwMTMxS2w2OQ=
