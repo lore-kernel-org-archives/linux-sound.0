@@ -1,99 +1,33 @@
-From: Samuel Thibault <Samuel.Thibault@ens-lyon.fr>
-Date: Sun, 30 Jun 2002 21:49:19 +0000
-Subject: [PATCH] 2.4.18 linux/drivers/maestro.c dev_audio flaw
-Message-Id: <marc-linux-sound-102550820111554@msgid-missing>
+From: Gerald Teschl <gerald.teschl@univie.ac.at>
+Date: Wed, 05 Jun 2002 15:34:33 +0000
+Subject: ad1848 driver and opl3sa2 cards
+Message-Id: <marc-linux-sound-102329130416241@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi !
+Hi,
 
-It seems that the value of ess->dev_audio is wrongly interpreted. Here's
-its only initialization :
-(maestro.c:3473)
+Why does the ad1848 driver try to use the opl3s2 sound card. Is the card 
+supposed to
+work with this driver as well? Here it does not work since it fails to 
+find the card
+(isapnp_find_card returns null). Where this is no big deal (one working 
+driver is
+sufficien;-),  it still causes problems since automatic configuration 
+tools like sndconfig
+from RedHat will fail, since they use the ad1848 which is the first one 
+listed in
+modules.isapnpmap:
 
-		if ((s->dev_audio = register_sound_dsp(&ess_audio_fops, -1)) < 0)
+[gerald@keen gerald]$ cat /lib/modules/2.4.18-4/modules.isapnpmap |grep 
+0xa865
+ad1848               0xffff     0xffff     0x00000000  0xa865     0x2100
+opl3sa2              0xffff     0xffff     0x00000000  0xa865     0x2100
 
-register_sound_dsp can return -ENOMEM for instance, so checking whether < 0
-is mandatory. However, in (almost) the rest of the file, only = -1 is
-tested, so here's a patch.
+Any ideas? Should the device be removed from ad1848.c?
 
-Furthermore, printing some error message may sometimes be handy, such as when
--ENOENT is returned (no hole was found for the driver), just to understand why
-the device was probed, but isn't actually accessible.
-
-Best regards,
-
-Samuel Thibault
-
-diff -urN linux-2.4.18-cor/drivers/sound/maestro.c linux-2.4.18-cor2/drivers/sound/maestro.c
---- linux-2.4.18-cor/drivers/sound/maestro.c	Sun Jun 30 22:02:11 2002
-+++ linux-2.4.18-cor2/drivers/sound/maestro.c	Sun Jun 30 23:34:26 2002
-@@ -1963,7 +1963,7 @@
- 	for(i=0;i<NR_DSPS;i++)
- 	{
- 		s=&c->channels[i];
--		if(s->dev_audio = -1)
-+		if(s->dev_audio < 0)
- 			break;
- 		spin_lock(&s->lock);
- 		ess_update_ptr(s);
-@@ -2917,7 +2917,7 @@
- 	for(i=0;i<NR_DSPS;i++) {
- 		struct ess_state *ess = &s->card->channels[i];
-
--		if(ess->dev_audio = -1)
-+		if(ess->dev_audio < 0)
- 			continue;
-
- 		ess->dma_dac.ready = s->dma_dac.mapped = 0;
-@@ -3480,7 +3480,7 @@
- 	for(;i<NR_DSPS;i++)
- 	{
- 		struct ess_state *s=&card->channels[i];
--		s->dev_audio = -1;
-+		s->dev_audio = -ENODEV;
- 	}
-
- 	ess = &card->channels[0];
-@@ -3541,7 +3541,7 @@
- 		for(i=0;i<NR_DSPS;i++)
- 		{
- 			struct ess_state *s = &card->channels[i];
--			if(s->dev_audio != -1)
-+			if(s->dev_audio >= 0)
- 				unregister_sound_dsp(s->dev_audio);
- 		}
- 		release_region(card->iobase, 256);
-@@ -3586,7 +3586,7 @@
- 	for(i=0;i<NR_DSPS;i++)
- 	{
- 		struct ess_state *ess = &card->channels[i];
--		if(ess->dev_audio != -1)
-+		if(ess->dev_audio >= 0)
- 			unregister_sound_dsp(ess->dev_audio);
- 	}
- 	/* Goodbye, Mr. Bond. */
-@@ -3690,7 +3690,7 @@
- 	for(i=0;i<NR_DSPS;i++) {
- 		struct ess_state *s = &card->channels[i];
-
--		if(s->dev_audio = -1)
-+		if(s->dev_audio < 0)
- 			continue;
-
- 		M_printk("maestro: stopping apus for device %d\n",i);
-@@ -3743,7 +3743,7 @@
- 		struct ess_state *s = &card->channels[i];
- 		int chan,reg;
-
--		if(s->dev_audio = -1)
-+		if(s->dev_audio < 0)
- 			continue;
-
- 		for(chan = 0 ; chan < 6 ; chan++) {
-
-
+Gerald
 
