@@ -1,57 +1,76 @@
-From: David Forrest <drf5n@mug.sys.virginia.edu>
-Date: Sat, 25 Mar 2000 20:07:50 +0000
-Subject: Re: news on ALS sound cards ?
-Message-Id: <marc-linux-sound-95401576500060@msgid-missing>
+From: Dave Caswell <davec@asylum.apocalypse.org>
+Date: Mon, 27 Mar 2000 00:02:26 +0000
+Subject: Sound stops working after a suspend/resume.  kernal 2.3.99-pre3
+Message-Id: <marc-linux-sound-95444250608708@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-hello,
-  Unfortunately, I didn't really do any real work on the linux ALS driver,
-I just noticed that the sb.o module seemed to work with my ALS200 card,
-and updated the documentation a bit.
 
-Since Avance does not have support, (per http://avance.com/avance/faq.htm
-) nor does it publish sufficient data on its chips, development on newer
-linux drivers for this company's chips are very slow.  I myself have
-recently bought a soundblaster card since the linux support is much
-better.
+With kernel version 2.3.99-pre3 sound words until I suspend my Toshiba
+Satellite Pro 445CDX, but after resuming it will produce no sound.
+This problem came in with the sound clean-ups after version 2.3.49.  
 
-You could try using the OSS sound driver ( http://www.opensound.com/ ),
-which looks like it has developed one, (
-http://www.opensound.com/osshw.html ) or try a different sound
-card.   The cheapest and quickest option would be to use the OSS
-driver.  However, if you want to support companies who acknowledge linux,
-return your Avance card and get a friendlier chip.
+I've appended what sound related information I've got to the end of
+this message.
 
-Also ALSA looks like it could develop one for the ALS4000, but hasn't yet:
-( http://www.alsa-project.org/~goemon/ )
+Thanks,
+	davec
 
-Dave.
+Append line in lilo.conf:
+append = "ppa=0x378 parport=0x378,7,3 opl3sa2=0x370,5,1,0,0x530,0x330 "
+
+Log entries:
+
+Mar 26 14:17:52 krypton kernel: ad1848/cs4248 codec driver Copyright (C) by Hannu Savolainen 1993-1996 
+Mar 26 14:17:52 krypton kernel: Found OPL3-SA3 (YMF715) 
+Mar 26 14:17:52 krypton kernel: <MS Sound System (CS4231)> at 0x534 irq 5 dma 1,0 
+Mar 26 14:17:52 krypton kernel: <MPU-401 0.0  Midi interface #1> at 0x330 irq 5 dma 1,0 
 
 
-On Sat, 25 Mar 2000 kgt@free.fr wrote:
-
-> Hi,
-> 
-> Congratulation for your work, it's nice to see things are going on. I've
-> just downloaded the 2.3.99-pre3 kernel and saw that the ALS100 and
-> ALS200 chips are now supported :-)
-> 
-> Unfornutaly for me, I have just bought an ALS4000 chip based soundcard
-> (Asound Express) and I think I have seen enough web pages to say that
-> it's not supported yet (well, I've also tried to make it work by myself,
-> but that's not a criteria:).
-> So maybe you know something of the future for this card's support and
-> could tell me whether I should buy a anotherone or wait a bit  ?
-> 
-> Thank you in advance,
-> 
-> Benatoll
-> 
-
--- 
- Dave Forrest                                dforrest@virginia.edu
- (804)296-7283h 924-3954w      http://mug.sys.virginia.edu/~drf5n/
+Config File set-up
+#
+# Sound
+#
+CONFIG_SOUND=y
+# CONFIG_SOUND_CMPCI is not set
+# CONFIG_SOUND_ES1370 is not set
+# CONFIG_SOUND_ES1371 is not set
+# CONFIG_SOUND_ESSSOLO1 is not set
+# CONFIG_SOUND_MAESTRO is not set
+# CONFIG_SOUND_SONICVIBES is not set
+# CONFIG_SOUND_TRIDENT is not set
+# CONFIG_SOUND_MSNDCLAS is not set
+# CONFIG_SOUND_MSNDPIN is not set
+CONFIG_SOUND_OSS=y
+CONFIG_SOUND_TRACEINIT=y
+CONFIG_SOUND_DMAP=y
+# CONFIG_SOUND_AD1816 is not set
+# CONFIG_SOUND_SGALAXY is not set
+# CONFIG_SOUND_ADLIB is not set
+# CONFIG_SOUND_ACI_MIXER is not set
+# CONFIG_SOUND_CS4232 is not set
+# CONFIG_SOUND_SSCAPE is not set
+# CONFIG_SOUND_GUS is not set
+# CONFIG_SOUND_VMIDI is not set
+# CONFIG_SOUND_TRIX is not set
+# CONFIG_SOUND_MSS is not set
+# CONFIG_SOUND_MPU401 is not set
+# CONFIG_SOUND_NM256 is not set
+# CONFIG_SOUND_MAD16 is not set
+# CONFIG_SOUND_PAS is not set
+# CONFIG_PAS_JOYSTICK is not set
+# CONFIG_SOUND_PSS is not set
+# CONFIG_SOUND_SOFTOSS is not set
+# CONFIG_SOUND_SB is not set
+# CONFIG_SOUND_AWE32_SYNTH is not set
+# CONFIG_SOUND_WAVEFRONT is not set
+# CONFIG_SOUND_MAUI is not set
+# CONFIG_SOUND_VIA82CXXX is not set
+# CONFIG_SOUND_YM3812 is not set
+# CONFIG_SOUND_OPL3SA1 is not set
+CONFIG_SOUND_OPL3SA2=y
+# CONFIG_SOUND_UART6850 is not set
+# CONFIG_SOUND_AEDSP16 is not set
