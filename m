@@ -1,7 +1,7 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Wed, 16 Sep 1998 01:39:17 +0000
+From: Hamish Moffatt <moffatt@cs.rmit.edu.au>
+Date: Sat, 19 Sep 1998 12:59:42 +0000
 Subject: Re: AWE64 initial questions
-Message-Id: <marc-linux-sound-90591398514674@msgid-missing>
+Message-Id: <marc-linux-sound-90620973826420@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90515879913606@msgid-missing>
 In-Reply-To: <marc-linux-sound-90515879913606@msgid-missing>
@@ -10,41 +10,31 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Dave Wreski (dave@nic.com) said: 
+On Mon, Sep 14, 1998 at 04:09:04PM -0400, Dave Wreski wrote:
+> > > Guys, while I think this is a good idea, and something that surely can help a
+> > > lot of people, perhaps your efforts would be better applied if you focused on
+> > > the sndconfig utility that already has a moderately-working implementation.
 > Check out:
-> 
 > ftp://ftp.redhat.com/pub/sound/sndconfig
 > 
 > It seems to be able to probe your system for PnP sound cards.  Actually,
 > I'm not sure if it's capable of probing for more than just SB cards.
 > Also, I think it's configured to use the new sound modules available in
 > the development kernels, and a patch to 2.0.35.
-> 
-> Perhaps the gentleman from RH can respond?
 
-While I have no idea who this gentleman is you speak of...
+But that's sound configuration -- I think we are talking about
+a generic PnP utility to handle sound, modems, network cards etc.
+I certainly was.
 
-sndconfig is more or less (for PnP cards) a wrapper that
-reads the output of pnpdump and writes an isapnp.conf file.
-Currently (i.e., the beta version in /pub/sound/sndconfig)
-it recognizes SB, ESS, GUS, Ensoniq SoundScape,
-CS4232 & (one) Turtle Beach PnP cards through a verrrry
-simple algorithm. It takes advantage of the '--config' option
-of pnpdump to attempt to autoconfigure PnP cards - this option
-tells pnpdump to attempt to find nonconflicting values
-(via looking at /proc/interrupts, etc.). What it notably *doesn't*
-do is actually read the pnpdump output to determine the ranges
-of settings to use; the choices available are hardcoded if the user
-is inputting them. It probably should be changed to do this.
-It also may not quite configure all the cards that it tries
-to correctly, as we don't have all of them to test. :)
+Last time I looked at sndconfig (a while back) it did not use
+the new sound modules, but some Redhat-specific sound modularization
+patches. Hence it did not work for me on my Debian system; otherwise
+we would probably have a Debian package of it.
 
-Yes, it does require the sound drivers from either a 2.1.late
-kernel, or Alan's sound patches.
 
-Of course, if anyone wants to use this as a base point for
-a generic PnP configuration utility, they can. It certainly
-isn't a particularly complicated program/idea; there's probably
-quite a few ways to do the same thing.
-
-Bill
+Hamish
+-- 
+Hamish Moffatt, StudIEAust              hamish@debian.org, hamish@moffatt.nu
+Student, computer science & computer systems engineering.    4th year, RMIT.
+http://hamish.home.ml.org/ (PGP key here)             CPOM: [*******   ] 73%
+"Note that in C++, as in life, friendship is not transitive" -- TC++3 manual
