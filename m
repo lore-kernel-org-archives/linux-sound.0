@@ -1,20 +1,28 @@
-From: Santos Halpar <sjhalpar@yahoo.com>
-Date: Thu, 24 Jun 1999 16:05:41 +0000
-Subject: Re: ES1371 problems
-Message-Id: <marc-linux-sound-93024682318727@msgid-missing>
+From: douglas irving repetto <glmrboy@shoko.calarts.edu>
+Date: Wed, 23 Jun 1999 22:20:45 +0000
+Subject: burning CDs with an IDE CDR drive
+Message-Id: <marc-linux-sound-93017612704123@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93017242300244@msgid-missing>
-In-Reply-To: <marc-linux-sound-93017242300244@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I got and installed ALSA.  It works fine.  If someone out there
-wants to me to try anything else with the regular kernel drivers
-to get them working, let me know.  Otherwise, I'm happy with ALSA.
+hi,
 
---Sumner
-_________________________________________________________
-Do You Yahoo!?
-Get your free @yahoo.com address at http://mail.yahoo.com
+has anyone managed to burn CDs using an ATAPI/IDE drive? i've just
+installed RH6.0, and i've found several docs that mention that it's
+possible if you use IDE-SCSI emulation. but i can't seem to figure out how
+to get it to work.
+
+thanks,
+
+douglas
+
+
+--------------------------------------------------------------------------
+douglas irving repetto nee irving bellemead
+http://music.dartmouth.edu/~douglas
+music-dsp mailing list web site:
+http://shoko.calarts.edu/~glmrboy/musicdsp
+--------------------------------------------------------------------------
