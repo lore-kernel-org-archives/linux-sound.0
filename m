@@ -1,29 +1,29 @@
-From: "Shawn Latimer" <sickboy@discover.net>
-Date: Fri, 25 Sep 1998 04:40:33 +0000
-Subject: Re: No subject given
-Message-Id: <marc-linux-sound-90671327906039@msgid-missing>
+From: Karsten Patzwaldt <kpa@gmx.net>
+Date: Mon, 07 Sep 1998 17:26:03 +0000
+Subject: second dma
+Message-Id: <marc-linux-sound-90519114625121@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90670206002828@msgid-missing>
-In-Reply-To: <marc-linux-sound-90670206002828@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+hi!
 
->I am looking for software that will accept voice command input and will
->execute code under Linux (in or out of X).  Please point in the
->direction of the how-to or the location of the daemon/information
->for...(if it exists).
->
+when configuring the soundcard in the kernel-setup, the config-program
+tells me that i can choose whether i my card uses 5, 6 or 7 as 2nd
+dma-channel. but with my sb16-card, i have to use channel 1 there. it took
+me a long time to figure it out (maybe my way of figuring it out was too
+silly :) ), maybe this should be changed in future releases. i use 2.0.33,
+sorry if this is updated in 2.0.34 oder the 2.1.x-series.
 
+and: what about a simple hardware-detection in the kernel-config? this is
+very off-topic, but this idea was born when i got angrier and angrier and
+then used pnpdump to get the dma and irq and so on of the card...
 
-Check today's freshmeat.net, there's a app called KVoice or somesuch.
-Haven't tried it yet, but sounds like what you're looking for.
+if there are any questions, please contact me directly, i'm not on this
+list...
 
-Shawn
---
-Shawn Latimer          |Does narcissism count as a hobby?
-PFY & protoBOFH        |---------------------------------
-bofh@hadleys.com       |  #include <std_disclaimer.h>
-'s/encryption/lame bit shuffling/' -O. Galibert in ASR
+--- 
+Karsten Patzwaldt             http://kpa.notrix.de              kpa@gmx.net
+                        "Wisdom is earned... not given."
