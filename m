@@ -1,26 +1,26 @@
-From: christian <crr@freemail.com.br>
-Date: Mon, 17 May 1999 18:47:04 +0000
-Subject: Dynamic module loading
-Message-Id: <marc-linux-sound-92702382006840@msgid-missing>
+From: est@hyperreal.org
+Date: Sun, 23 May 1999 22:16:23 +0000
+Subject: announcing oolaboola-0.2.0 linux dj tool
+Message-Id: <marc-linux-sound-92755134814708@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hello, People :)
 
-I'm getting the (now-common) sound-slot-? and sound-service-?-? messages
-in my /var/adm/messages. Is there a place where I can look up the
-appropriate mappings? Is there a central repository where I can look up
-the appropriate aliases for a soundblaster, tropez and etc? In what
-sourcefile are the services and slots listed or kept in? None?
+I've released a GPLed program that does mixing of .wav files with
+adjustable rate of play, levels, etc.  It's a digital DJ tool or
+cyber-shamanic noise-maker!
 
-In a related note, I once saw a conf.modules model that had multiple
-aliases - for example,
+This is a hacker-grade release that I'd appreciate feedback on.  It's
+available at:
 
- block-major-8  sd_mod ppa
+http://www.hyperreal.org/~est/oolaboola
+ or
+http://www.metalab.unc.edu/pub/Linux/apps/sound/mixers/oolaboola-0.2.0.tar.gz
 
-which is exactly what I'd desire - since I need both to be loaded. Does
-this work now (2.2.9?) I'm sure it didn't in 2.2.2.
+Have an oolaboola day! :)
 
-cr
+Eric
