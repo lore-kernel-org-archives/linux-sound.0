@@ -1,37 +1,22 @@
-From: Benno Senoner <sbenno@em.gardena.net>
-Date: Mon, 22 Nov 1999 13:50:21 +0000
-Subject: Re: AC97 codec on asus k7m?
-Message-Id: <marc-linux-sound-94327882018416@msgid-missing>
+From: Thomas Sailer <sailer@ife.ee.ethz.ch>
+Date: Mon, 01 Nov 1999 10:24:19 +0000
+Subject: Re: Problem with ESS Solo1
+Message-Id: <marc-linux-sound-94145592308258@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94322145708503@msgid-missing>
-In-Reply-To: <marc-linux-sound-94322145708503@msgid-missing>
+References: <marc-linux-sound-94131439128758@msgid-missing>
+In-Reply-To: <marc-linux-sound-94131439128758@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> 
-> Dan Hollis (goemon@sasami.anime.net) said: 
-> > On Sun, 21 Nov 1999 buddy@dookie.net wrote:
-> > > 00:04.5 Multimedia audio controller: VIA Technologies, Inc.: Unknown device 3058 (rev 21)
-> > 
-> > MVP4 Audio Codec
-> 
-> ... which may supported by the VIA 82cxxx driver, in the later 2.2.x kernels.
-> 
-> Bill
-> 
-Does anyone know about the status of the AC97 codec found in
-Intel i810 chipset based mainboards like the supermicro 370SWD ones ?
+"Ravi K. Swamy" wrote:
 
-X11 is supported by the Precision Insight drivers,
-now what's missing is sound, since I want to use these boxes as
-thin multimedia clients.
+> When playing realaudio files with the new g2 player it sounds like the
+> sound is played back 1000 times faster than it should be, none of the
 
-I remember that Alan Cox said on linux-kernel that enough
-specs are available to write a driver, but I'm not aware of a
-working driver. ( 4Front seems to support the i810 sound
-in their commercial OSS) 
+It looks like it's the same thing as with the older real players that's
+documented in Documentation/Changes. So you either need to find
+the place to patch g2 or use the LD_PRELOAD trick...
 
-regards,
-Benno.
+Tom
