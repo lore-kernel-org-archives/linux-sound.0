@@ -1,55 +1,40 @@
-From: William Salvino <ws@his.com>
-Date: Fri, 02 Apr 1999 00:33:38 +0000
-Subject: Real Player
-Message-Id: <marc-linux-sound-92301376901427@msgid-missing>
+From: William Chen <wlchen@bbti.com.cn>
+Date: Thu, 15 Apr 1999 03:30:46 +0000
+Subject: noise and how to share /dev/audio?
+Message-Id: <marc-linux-sound-92415152818899@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hi all,
 
-I recently upgraded from RedHat 5.1 to RedHat 5.2. The Real Player
-application has ceased to function returning the error message "General
-Error."
+1.When I play wav or mp3 files, it will give me
+some chachacha noise, but when i downsample
+from 44KHz to 11Khz, the noise disappears.
 
-I installed and had working rvplayer from the Official RedHat 5.1
-installation cd-rom. The rpm rvplayer-5.0.1.i386.rpm is on this disk in
-the rpm subdirectory. The Official RedHat 5.2 cd-rom contains *no* rpm
-for the Real Player application. Does this mean that the Real Player is
-not supported by the current release of RedHat 5.2? Is Real Player
-broken with respect to the off the shelf out of the box Official Red Hat
-5.2 distribution?
+I used Redhat 5.1 & creative oem 16bit sbpro.
+Cyrix Gx 166 and 16M mem.
 
-I tried the patch at http://www.i2k.com/~jeffd/rpopen but it did not
-work with my version of the Real Player which is 5.0.0.35. I have been
-told that I need version 5.0.0.45 or version 5.0.0.55 to make this patch
-work but I have not found them; If anyone knows where I can find these
-versions of the Real Player please let me know. I have installed, setup,
-and configured, applied above patch to and subsequently uninstalled three
-separate Real Player packages:the one on the Official RedHat 5.1 installation
-disk, the ELF package onthe  Real download site, and a Real Player package
-from the Rufus ftp site in the contrib i386 area.
+2.how to let a remote program to give the sound
+to local /dev/audio or local win95 sb driver?
 
-There is a document at the Real site which appears when the knowledge
-base there is searched for "linux." The URL of the document is
-http://service2.real.com/solutions/RAP01014.HTM -which I could access
-with Netscape but not with IE. The substance of this article:
+3.after i play the sound to
+/dev/audio, netaudio -b </dev/audio tell me
+it is locked?
 
-"Customers with the RealPlayer 5.0 for Linux on a system with the newer
-Linux 2.1 or 2.2 kernels will experience a "General error. An error
-occurred: Error 1; audio write: Errno" error message. The current Linux
-2.1, and 2.2 kernels contain a modification to the audio device that
-crashes the 5.0 Linux player."
+4. is netaudio ported to win95?
 
-Is there an authoritative explanation from RedHat somewhere which
-details the problems and solutions for the Real Player?
+5. can i let the sound apps such as mpg123 redirect the sound
+output?
 
-If I am asking these questions on the wrong list please advise me to which
-list I should post these questions.
+btw, pls cc to wlchen@bbti.com.cn
+Thanks,
 
-TIA
-
-Sincerely,
-Bill Salvino
-e-mail: ws@his.com
+-- 
+William Chen - Compiler ToolChain (ILP Now)              BBTI (HSA-CDC)
+wlchen@bbti.com.cn                  file://CC21/~WilliamChen/index.html
+"A man without an education,many of us believe,is an unfortunate victim
+of adverse circumstances deprived of one of the greatest twenty-century
+opportunities."
