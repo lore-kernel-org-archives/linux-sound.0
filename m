@@ -1,7 +1,7 @@
-From: flatmax <flatmax@lake.com.au>
-Date: Wed, 13 Jan 1999 01:34:08 +0000
+From: Raoul Boenisch <st0136@hrz.uni-essen.de>
+Date: Sat, 16 Jan 1999 00:48:07 +0000
 Subject: Re: recording with Microphone
-Message-Id: <marc-linux-sound-91619303917866@msgid-missing>
+Message-Id: <marc-linux-sound-91644419907849@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91612993715069@msgid-missing>
 In-Reply-To: <marc-linux-sound-91612993715069@msgid-missing>
@@ -10,47 +10,26 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-how about :
-cat /dev/dsp > microphone.raw
 
-Erik de Castro Lopo wrote:
+On Mon, 11 Jan 1999, Georg Wendt wrote:
+
+> im looking for a simple tool, that allows me to record voice using a
 > 
-> Georg Wendt wrote:
-> >
-> > Hi,
-> >
-> > im looking for a simple tool, that allows me to record voice using a
-> >
-> > Microphone plugged into the Soundcard.
-> >
-> > Best with Program-Code...
+> Microphone plugged into the Soundcard.
 > 
-> Both sox and wavplay will do that. Have  look for them at:
+> Best with Program-Code...
 > 
->         http://sound.lovebead.com/
-> 
-> >
-> > BTW, is there anything, I should especially take care of?
-> 
-> Yeah, take care care not to eat that yellow snow.
-> 
-> Erik
-> --
-> +-------------------------------------------------+
->      Erik de Castro Lopo     erikd@zip.com.au
-> +-------------------------------------------------+
-> Everything that I've learned about computers I have boiled
-> down into three principles:
->   Unix: You think it won't work, but if you find the right
->         guru, you can make it work.
->   Macintosh: You think it will work, but it won't.
->   PC/Windows: You think it won't work, and it won't.
+> BTW, is there anything, I should especially take care of?
+
+Here is a solution with fixed sample length:
+
+# Record <count> seconds of audio from microphone
+dd bs=8k count=4 < /dev/audio > sample.au
+
+# Play back sound
+cat sample.au > /dev/audio
 
 -- 
-Matt
-____________________________
-Is anya disna an' ya wanna say - eh.
-'s anya disna an' ya videeaaaha
-	....
-Postgrad candidate: CSE UNSW <http://www.cse.unsw.edu.au/~flatmax>
-Engineer Academi'c: Lake DSP <http://www.lake.com>
+Raoul Boenisch, Winkhauser Talweg 165, 45473 Muelheim an der Ruhr, Germany
+homepage: http://www.raoul.home.pages.de/       home phone: +49 208 764257
+Reply-To: st0136@hrz.uni-essen.de
