@@ -1,26 +1,130 @@
-From: "Ken Bradshaw" <lickety@baloney.dyndns.org>
-Date: Sat, 27 Dec 2003 22:53:11 +0000
-Subject: opl3sa2
-Message-Id: <marc-linux-sound-107258739424864@msgid-missing>
+From: Dennis Newbold <dennisn@pe.net>
+Date: Fri, 05 Dec 2003 00:36:33 +0000
+Subject: AC97 Mic Boost Bit
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="-559023410-851401618-1070584593=:12401"
+Message-Id: <marc-linux-sound-107058469315406@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have a yamaha ISA sound card that uses the opl3sa2 module.  This card is
-(still!) operational.  The module in 2.4.x works fine.  I haven't attempted
-to update to alsa and probably won't anytime soon.  Everything works fine in
-2.6.0 save this one module.  Here is the relevant dmesg info.. 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+  Send mail to mime@docserver.cac.washington.edu for more info.
 
-ad1848/cs4248 codec driver Copyright (C) by Hannu Savolainen 1993-1996
-pnp: Device 00:01.00 activated.
-ad1848: PnP reports 'OPL3-SAX Sound Board' at i/o 0x530, irq 5, dma 0, 1
-opl3sa2: probe of 00:01.00 failed with error -16
-opl3sa2: No PnP cards found
-pnp: Device 00:01.01 activated.
+---559023410-851401618-1070584593=:12401
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Thanks for any help you can provide.
+Dear Kernel developers,
 
-Ken
+     Please ignore the incorrect patch file sent in my previous email,
+and refer to the attached patch file instead.  All other comments in
+my previous email still apply.  Thanks again.
 
+Dennis Newbold
+dennisn@pe.net
+
+---------------------------------------------
+|                                           |
+|     The way to be happy is to be good     |
+|                                           |
+---------------------------------------------
+
+---559023410-851401618-1070584593=:12401
+Content-Type: TEXT/PLAIN; charset=US-ASCII; name=ac97_codec_patch2
+Content-Transfer-Encoding: BASE64
+Content-ID: <Pine.GSO.3.96.1031204163633.12401B@shell2>
+Content-Description: 
+
+LS0tIGFjOTdfY29kZWMuYwlUaHUgRGVjIDA0IDE1OjUzOjEyIDIwMDMNDQor
+KysgbGludXgtMi40LjIzL2RyaXZlcnMvc291bmQvYWM5N19jb2RlYy5jCVRo
+dSBEZWMgMDQgMTY6MzA6MDggMjAwMw0NCkBAIC0zMCw2ICszMCw5IEBADQ0K
+ICAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0NCiAgKg0NCiAgKiBI
+aXN0b3J5DQ0KKyAqIERlYyAwNCwgMjAwMyBEZW5uaXMgTmV3Ym9sZCA8ZGVu
+bmlzbkBwZS5uZXQ+DQ0KKyAqICAgQWRkZWQgbG9naWMgdG8gdXNlIHRoZSBN
+SUNCT09TVCBiaXQgd2hlbiB3cml0aW5nIG9yIHJlYWRpbmcgdGhlDQ0KKyAq
+ICAgU09VTkRfTUlYRVJfTUlDIGNoYW5uZWwuDQ0KICAqIE1heSAwMiwgMjAw
+MyBMaWFtIEdpcmR3b29kIDxsaWFtLmdpcmR3b29kQHdvbGZzb25taWNyby5j
+b20+DQ0KICAqCVJlbW92ZWQgbm9uIGV4aXN0YW50IFdNOTcwMA0NCiAgKglB
+ZGRlZCBzdXBwb3J0IGZvciBXTTk3MDUsIFdNOTcwOCwgV005NzA5LCBXTTk3
+MTAsIFdNOTcxMQ0NCkBAIC0yNDAsNiArMjQzLDI2IEBADQ0KIAl7LTEsMH0N
+DQogfTsNDQogDQ0KKy8qIE5vdGUgdGhhdCBzY2FsZSBmb3IgU09VTkRfTUlY
+RVJfTUlDIGlzIHNldCB0byA0NiByYXRoZXIgdGhhbiAzMi4gIFRoaXMgaXMN
+DQorICogdG8gaW5jbHVkZSB0aGUgbG93ZXIgdm9sdW1lIERCIHZhbHVlcyB0
+aGF0IGRvIG5vdCB1c2UgdGhlIEFDOTdfTUlDQk9PU1QNDQorICogYml0LiAg
+VGhlcmUgaXMgYSBzbWFsbCBnbGl0Y2ggaW4gdGhlIHNjYWxpbmcgaW4gdGhh
+dCB0aGUgbGFzdCB2YWx1ZSB0byB1c2UNDQorICogdGhlIGJvb3N0IGJpdCBp
+cyAzMSwgd2hpY2ggdHJhbnNsYXRlcyB0byAtMTQuNSBkQiwgYW5kIHRoZSBu
+ZXh0IGxvd2VyIHZhbHVlLA0NCisgKiB3aGljaCBkb2VzIG5vdCB1c2UgdGhl
+IGJvb3N0IGJpdCBpcyAzMiwgd2hpY2ggaXMgY29udmVydGVkIHRvIDE4LCB3
+aGljaA0NCisgKiB0cmFuc2xhdGVzIHRvIC0xNSBkQiwgYSBkaWZmZXJlbmNl
+IG9mIG9ubHkgMC41IGRCLiAgQWxsIG90aGVyIGdhaW4gdmFsdWVzDQ0KKyAq
+ICBkaWZmZXIgYnkgMS41IGRCLiAgVGhpcyBpcyBjb25zaWRlcmVkIGFjY2Vw
+dGFibGUgYmVjYXVzZSBpdCBoYXBwZW5zIG9ubHkNDQorICogIGF0IGFuIGV4
+dHJlbWVseSBsb3cgdm9sdW1lLCB3aGljaCBtb3N0IHVzZXJzIHdpbGwgbm90
+IGJlIGludGVyZXN0ZWQgaW4uDQ0KKyAqICAtZGxuLSAqLw0NCisNDQorLyog
+TUlDX05BVFVSQUxfU0NBTEUgaXMgdGhlIG5vLiBvZiBkaWZmZXJlbnQgZ2Fp
+biBzZXR0aW5ncyB0aGF0IHdpbGwgZml0IGluDQ0KKyAqIHRoZSBNSUMgVm9s
+dW1lIEdhaW4gUmVnaXN0ZXIuICBDb21wdXRlZCBnYWluIHZhbHVlcyB3aGlj
+aCBmYWxsIHdpdGhpbiB0aGlzDQ0KKyAqIHJhbmdlIG9wZXJhdGUgd2l0aCB0
+aGUgQUM5N19NSUNCT09TVCBiaXQgZW5hYmxlZC4gIENvbXB1dGVkIHZhbHVl
+cyBvdXRzaWRlDQ0KKyAqIG9mIHRoaXMgcmFuZ2UgYXJlIGZvcmNlZCBiYWNr
+IGludG8gdGhpcyByYW5nZSwgYnV0IHdpdGggdGhlIEFDOTdfTUlDQk9PU1QN
+DQorICogYml0IHR1cm5lZCBvZmYuICBUaGlzIGFsbG93cyBhY2Nlc3MgdG8g
+dGhlIHZlcnkgbG93IGRCIHJhbmdlIHNjYWxlIG9mIHRoZQ0NCisgKiBBQzk3
+IGNvZGVjLCB3aGljaCBjYW5ub3QgYmUgYWNjZXNzZWQgd2l0aCB0aGUgTUlD
+Qk9PU1QgYml0IGVuYWJsZWQuIC1kbG4tDQ0KKyAqLw0NCisNDQorI2RlZmlu
+ZSBNSUNfTkFUVVJBTF9TQ0FMRSAgICAoMzIpDQ0KKw0NCiAvKiB0YWJsZSB0
+byBzY2FsZSBzY2FsZSBmcm9tIE9TUyBtaXhlciB2YWx1ZSB0byBBQzk3IG1p
+eGVyIHJlZ2lzdGVyIHZhbHVlICovCQ0NCiBzdGF0aWMgc3RydWN0IGFjOTdf
+bWl4ZXJfaHcgew0NCiAJdW5zaWduZWQgY2hhciBvZmZzZXQ7DQ0KQEAgLTI1
+MSw3ICsyNzQsNyBAQA0NCiAJW1NPVU5EX01JWEVSX1BDTV0JPQl7QUM5N19Q
+Q01PVVRfVk9MLAkzMn0sDQ0KIAlbU09VTkRfTUlYRVJfU1BFQUtFUl0JPQl7
+QUM5N19QQ0JFRVBfVk9MLAkxNn0sDQ0KIAlbU09VTkRfTUlYRVJfTElORV0J
+PQl7QUM5N19MSU5FSU5fVk9MLAkzMn0sDQ0KLQlbU09VTkRfTUlYRVJfTUlD
+XQk9CXtBQzk3X01JQ19WT0wsCQkzMn0sDQ0KKwlbU09VTkRfTUlYRVJfTUlD
+XQk9CXtBQzk3X01JQ19WT0wsCQk0Nn0sDQ0KIAlbU09VTkRfTUlYRVJfQ0Rd
+CT0Je0FDOTdfQ0RfVk9MLAkJMzJ9LA0NCiAJW1NPVU5EX01JWEVSX0FMVFBD
+TV0JPQl7QUM5N19IRUFEUEhPTkVfVk9MLAk2NH0sDQ0KIAlbU09VTkRfTUlY
+RVJfSUdBSU5dCT0Je0FDOTdfUkVDT1JEX0dBSU4sCTE2fSwNDQpAQCAtMzAy
+LDcgKzMyNSw3IEBADQ0KICAgIGFib3V0IHRoYXQgZ2l2ZW4gbWl4ZXIsIGFu
+ZCBzaG91bGQgYmUgaG9sZGluZyBhIHNwaW5sb2NrIGZvciB0aGUgY2FyZCAq
+Lw0NCiBzdGF0aWMgaW50IGFjOTdfcmVhZF9taXhlcihzdHJ1Y3QgYWM5N19j
+b2RlYyAqY29kZWMsIGludCBvc3NfY2hhbm5lbCkgDQ0KIHsNDQotCXUxNiB2
+YWw7DQ0KKwl1MTYgdmFsLCB0Ow0NCiAJaW50IHJldCA9IDA7DQ0KIAlpbnQg
+c2NhbGU7DQ0KIAlzdHJ1Y3QgYWM5N19taXhlcl9odyAqbWggPSAmYWM5N19o
+d1tvc3NfY2hhbm5lbF07DQ0KQEAgLTM0MCw3ICszNjMsMTAgQEANDQogCQlz
+Y2FsZSA9ICgxIDw8IGNvZGVjLT5iaXRfcmVzb2x1dGlvbik7DQ0KIAkJcmV0
+ID0gMTAwIC0gKCgodmFsICYgMHgxZikgKiAxMDApIC8gc2NhbGUpOw0NCiAJ
+fSBlbHNlIGlmIChvc3NfY2hhbm5lbCA9PSBTT1VORF9NSVhFUl9NSUMpIHsN
+DQotCQlyZXQgPSAxMDAgLSAoKCh2YWwgJiAweDFmKSAqIDEwMCkgLyBtaC0+
+c2NhbGUpOw0NCisJCXQgPSB2YWwgJiAoTUlDX05BVFVSQUxfU0NBTEUgLSAx
+KTsNDQorCQlpZiAoISh2YWwgJiBBQzk3X01JQ0JPT1NUKSkNDQorCQkJdCAr
+PSAobWgtPnNjYWxlIC0gTUlDX05BVFVSQUxfU0NBTEUpOw0NCisJCXJldCA9
+IDEwMCAtICgodCAqIDEwMCkgLyBtaC0+c2NhbGUtMSk7DQ0KIAkJLyogIHRo
+ZSBsb3cgYml0IGlzIG9wdGlvbmFsIGluIHRoZSB0b25lIHNsaWRlcnMgYW5k
+IG1hc2tpbmcNDQogCQkgICAgaXQgbGV0cyB1cyBhdm9pZCB0aGUgMHhmICdi
+eXBhc3MnLi4gKi8NDQogCX0gZWxzZSBpZiAob3NzX2NoYW5uZWwgPT0gU09V
+TkRfTUlYRVJfQkFTUykgew0NCkBAIC00MjcsNyArNDUzLDcgQEANDQogCQls
+ZWZ0ID0gKCgxMDAgLSBsZWZ0KSAqIG1oLT5zY2FsZSkgLyAxMDA7DQ0KIAkJ
+aWYgKGxlZnQgPj0gbWgtPnNjYWxlKQ0NCiAJCQlsZWZ0ID0gbWgtPnNjYWxl
+LTE7DQ0KLQkJdmFsID0gbGVmdDsNDQorCXZhbCA9IGxlZnQ7DQ0KIAl9IGVs
+c2UgaWYgKG9zc19jaGFubmVsID09IFNPVU5EX01JWEVSX1BIT05FT1VUKSB7
+DQ0KIAkJc2NhbGUgPSAoMSA8PCBjb2RlYy0+Yml0X3Jlc29sdXRpb24pOw0N
+CiAJCWxlZnQgPSAoKDEwMCAtIGxlZnQpICogc2NhbGUpIC8gMTAwOw0NCkBA
+IC00MzYsMTMgKzQ2MiwxNyBAQA0NCiAJCXZhbCA9IGxlZnQ7DQ0KIAl9IGVs
+c2UgaWYgKG9zc19jaGFubmVsID09IFNPVU5EX01JWEVSX01JQykgew0NCiAJ
+CXZhbCA9IGNvZGVjLT5jb2RlY19yZWFkKGNvZGVjICwgbWgtPm9mZnNldCkg
+JiB+MHg4MDFmOw0NCi0JCWxlZnQgPSAoKDEwMCAtIGxlZnQpICogbWgtPnNj
+YWxlKSAvIDEwMDsNDQorCQlsZWZ0ID0gKCgxMDAgLSBsZWZ0KSAqIG1oLT5z
+Y2FsZS0xKSAvIDEwMDsNDQogCQlpZiAobGVmdCA+PSBtaC0+c2NhbGUpDQ0K
+LQkJCWxlZnQgPSBtaC0+c2NhbGUtMTsNDQorCQkJbGVmdCA9IG1oLT5zY2Fs
+ZS0xDQ0KKwkJaWYgKGxlZnQgPCBNSUNfTkFUVVJBTF9TQ0FMRSkNDQorCQkJ
+bGVmdCB8PSBBQzk3X01JQ0JPT1NUOw0NCisJCWVsc2UNDQorCQkJbGVmdCAt
+PSAobWgtPnNjYWxlIC0gTUlDX05BVFVSQUxfU0NBTEUpOw0NCiAJCXZhbCB8
+PSBsZWZ0Ow0NCiAJCS8qICB0aGUgbG93IGJpdCBpcyBvcHRpb25hbCBpbiB0
+aGUgdG9uZSBzbGlkZXJzIGFuZCBtYXNraW5nDQ0KIAkJICAgIGl0IGxldHMg
+dXMgYXZvaWQgdGhlIDB4ZiAnYnlwYXNzJy4uICovDQ0KLQl9DQ0KKwkNDQog
+I2lmZGVmIERFQlVHDQ0KIAlwcmludGsoIiAweCUwNHgiLCB2YWwpOw0NCiAj
+ZW5kaWYNDQo=
+---559023410-851401618-1070584593=:12401--
