@@ -1,8 +1,10 @@
-From: "Nishikant Kapoor (H)" <nkapoor@c3ipros.com>
-Date: Sun, 04 Apr 1999 15:04:48 +0000
+From: "Kapoor, Nishikant X" <Nishikant.X.Kapoor@nspco.com>
+Date: Mon, 12 Apr 1999 16:37:26 +0000
 Subject: How to load sound modules ?
-Message-Id: <marc-linux-sound-92324572410041@msgid-missing>
+Message-Id: <marc-linux-sound-92395518327416@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92324572410041@msgid-missing>
+In-Reply-To: <marc-linux-sound-92324572410041@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
