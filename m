@@ -1,29 +1,60 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Thu, 04 Mar 1999 18:32:19 +0000
-Subject: Re: Full Duplex (Play + Record simultaniously)
-Message-Id: <marc-linux-sound-92057302819532@msgid-missing>
+From: Silvia_Brown6@gte.net
+Date: Sun, 21 Mar 1999 20:17:31 +0000
+Subject: Find Out What The Future Holds For You?
+Message-Id: <marc-linux-sound-92207825201193@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92048039409666@msgid-missing>
-In-Reply-To: <marc-linux-sound-92048039409666@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-"Eric B. Mitchell" wrote:
+  LIVE PERSONAL PSYCHIC!     (as seen on T.V.)                                                                                                                                                                                                                                                                                                           
 
-> The OSS drivers allow full duplex operation on some sound cards.
-> My SB AWE 32 works great for it.  EsounD will use it if it's
-> available, but I'm not sure how robust the error handling is
-> should the full duplex operation fail (haven't had the problem
-> myself =).
+                                                                                                                                                                                                        
+  LEARN TODAY WHAT YOUR FUTURE HOLDS                                                                                                                      
+  FOR LOVE, FAMILY, AND MONEY.                                                                                                                                       
+                                                                                                                                                                                                                                   
 
-You've got the source for EsounD, you can improve the situtation 8-)
+  ASTROLOGY   CLAIRVOYANCY          
+  NUMBEROLOGY   TAROT             
+  
+  ALL QUESTIONS ANSWERED IMMEDIATELY! 
 
-> plesiochronous? i assumes that translates roughly into "skewed data"?
+  REALIZE YOUR DESTINY! CALL RIGHT NOW!
 
-The sampling rates are slightly different, thus sliding about each
-other. If you don't do any corrective measures, you'll either
-get buffer overruns or underruns.
+  1-900-226-4140 or 1-800-372-3384 for VISA, MC   
 
-Tom
+  (These are not sex lines!)                            
+
+This message is intended for Psychic Readers, Psychic Users and people who are involved in the $1 Billion Dollar a year Psychic Industry. If this his message has reached you in error, please disregard it and accept our apoligies. To be removed from this list, please respond with the subject  "remove". Thank You. 
+
+Stop Unsolicited Commercial Email - join CAUCE
+(http://www.cauce.org) 
+Support HR 1748, the anti-spam bill.                                  
+
+
+
+                                                                                                                                                                                                                                                                                                                                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  LIVE PERSONAL PSYCHIC!     (as seen on T.V.)                                                                                                                                                                                                                                                                                                           
+
+
+                                                                                                                                                                                                       
+
+ LEARN TODAY WHAT YOUR FUTURE HOLDS                                                                                                                      
