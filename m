@@ -1,7 +1,7 @@
 From: Paco <paco@OhKeePa.Net>
-Date: Fri, 19 Nov 1999 18:57:22 +0000
+Date: Fri, 19 Nov 1999 18:58:46 +0000
 Subject: Re: AWE64
-Message-Id: <marc-linux-sound-94303838524804@msgid-missing>
+Message-Id: <marc-linux-sound-94303838524811@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91965172830159@msgid-missing>
 In-Reply-To: <marc-linux-sound-91965172830159@msgid-missing>
@@ -9,6 +9,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+
+Nevermind... I guess someone at redhat.com would know a little more than
+me.
+
+peace,
+-Paco
 
 On Fri, 19 Nov 1999, Bill Nottingham wrote:
 
@@ -20,15 +26,5 @@ On Fri, 19 Nov 1999, Bill Nottingham wrote:
 > Umm.... no. Unless OSS is shipping something else that happens to
 > have the same name, which is entirely possible.
 > 
-
-I think that RedHat just includes the OSS drivers with it's distribution,
-and uses them as the default drivers instead of the (inferior) kernel
-"standard" drivers.
-
-My roommate uses RH6.1, and his "sndconfig" utility looks and functions
-exactly like the "sndconfig" utility that comes with OSS.
-
-Just my observations...
-
-peace,
--Paco
+> Bill
+> 
