@@ -1,37 +1,39 @@
-From: "lokesh setia" <lokesh_setia@hotmail.com>
-Date: Wed, 03 Mar 1999 22:34:07 +0000
-Subject: high dma not working in Creative VibraX16 PnP
-Message-Id: <marc-linux-sound-92052951315049@msgid-missing>
+From: ali <faali@mweb.co.za>
+Date: Sun, 28 Mar 1999 06:55:30 +0000
+Subject: Re: AWE64 and RH5.2
+Message-Id: <marc-linux-sound-92260464420847@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello,
+Hi!!
 
-We have a creative VibraX pnp sound card (compatible with sb16).
-After configuring it as sb from sndconfig as well as manually from 
-modprobe, we have only been able to get it working in 8-bit mode.
+I also have the AWE64 and finally got (most) of it to work.
+sndconfig wasn't much help on my machine either but here's what I did:
 
-Trying to play in 16 bit mode gives:
+- Download the latest SB AWE64 driver from http://bahamut.mm.t.u-tokyo.ac.jp/~iwai/awedrv/
+- Read the documentation - It tells almost everything you need to know
+- Also, There's documentation in ./.../kernel_source_code/Documentation/sound/ 
+- The AWE64 mini-HOWTO is also really useful
 
-dma timed out: irq/dma conflict.
+Some quick steps if you don't want to do a lot of reading...
 
-We have tried dma16 to be 5,6, and 7, but none works.
+- Get the driver
+- At the very least, read the INSTALL.awe file.
+- Install it. Recompile the kernel. (I compile everything as modules) 
+- Go to Windows and copy down all info relevant to the soundcard eg. io, irq's
+- run 'pnpdump' - Edit the /etc/isapnp.conf file to suit your card. There's a
+description of  how to do this in the AWE64 driver documentation  
+- restart the machine and load the modules with all parameters ie io, irq
+etc. as described in AWE64 documentation 
+- ...And ...as if by magic ...Your sound card works!!!!
 
-In dos too, the card does not work in 5,6,7 dma but we have to give a 
-high dma=low dma (i.e. 1) . 
+On mine, everything except midi works ie I can play .wav and .mp3 files and all
+but with midi, for some reason, even though the midi file is playing, I don't
+hear any sound. If you have better results, let me know.
 
-but in modprobe we are not able to give high dma=1
+See ya
 
-modprobe io=0x240 irq=5 dma=1 dma16=1
-error: dma16 not valid.
-
-Any clues to get this card working in 16-bit mode.
-
-Thanks,
-Lokesh
-
-______________________________________________________
-Get Your Private, Free Email at http://www.hotmail.com
+ali
