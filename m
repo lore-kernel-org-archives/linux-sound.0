@@ -1,29 +1,20 @@
-From: "m." <michal017@centrum.sk>
-Date: Wed, 22 Jan 2003 08:36:37 +0000
-Subject: 2.4.19 and es1371 problem
-Message-Id: <marc-linux-sound-104322450507781@msgid-missing>
+From: Thomas Sailer <sailer@scs.ch>
+Date: Wed, 22 Jan 2003 16:06:45 +0000
+Subject: Re: 2.4.19 and es1371 problem
+Message-Id: <marc-linux-sound-104325161907338@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-104322450507781@msgid-missing>
+In-Reply-To: <marc-linux-sound-104322450507781@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have trouble playing sounds on my Linux box, it's a Mandrake 9.0 with
-2.4.19 kernel.
-My sound card is Creative SB 128 PCI, using es1371 kernel module.
-There are no error messages in logs or dmesg.
+On Wed, 2003-01-22 at 09:36, m. wrote:
 
-I tried playing some mp3 files using xmms, but all I get is strange
-distorted beeps.  What's even stranger, the xmms time display was not
-displaying seconds, it stayed at 0:00 for a long time..
-I tried using 'play' on some wav files, the output was the same.
+> What could be the problem?
 
-I tried ALSA drivers also (switched using harddrake), but it did not
-help at all..
+Interrupt problem?
 
-The sound card works OK with windows on the same machine, and it was
-working on previous linux that I had, that was RH 7.0.
+Tom
 
-What could be the problem?
-Thanks..
-michael
