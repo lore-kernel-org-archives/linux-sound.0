@@ -1,7 +1,7 @@
-From: Keith Duthie <psycho@stonebow.otago.ac.nz>
+From: Keith Duthie <keith.duthie@stonebow.otago.ac.nz>
 Date: Wed, 16 Dec 1998 06:26:19 +0000
 Subject: Re: help needed for cs423x chips
-Message-Id: <marc-linux-sound-91379262629036@msgid-missing>
+Message-Id: <marc-linux-sound-91379696430714@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91325015828495@msgid-missing>
 In-Reply-To: <marc-linux-sound-91325015828495@msgid-missing>
