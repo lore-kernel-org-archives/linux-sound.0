@@ -1,23 +1,24 @@
-From: Chris Ison <cisos@bigpond.net.au>
-Date: Tue, 19 Nov 2002 06:22:11 +0000
-Subject: why no floats in kernel?
-Message-Id: <marc-linux-sound-103768733630620@msgid-missing>
+From: Colin Cotter <colin.cotter@ic.ac.uk>
+Date: Mon, 11 Nov 2002 14:10:17 +0000
+Subject: struggling with gnome-sound-recorder...
+Message-Id: <marc-linux-sound-103702372604923@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I was wondering why floats cannot be used in the kernel, I did read it
-some where, but I also notice befs and some other driver does use
-floats.
+...and indeed rec and record also don't work. All three of these record 
+nothing, and the text vu meter doesn't move in record - although I can 
+play sound through the sound card.
+gnome-sound-recorder gives the error message
+Audio File Library: warning: opening file for read access: ignoring file 
+setup with non-raw file format [error 23]
+when I try to play or press stop after recording.
 
-anyways, the problem is, I need to know how to turn this math into ints,
-yes I know I can bit shift but it doesn't help initially till I get
-around the floating point result.
+Can anybody suggest what is going wrong, or suggest some diagnostic test?
 
-( sound rate / sample rate ) * (note freq / sample freq)
+-Cheers
+	Colin
 
 
-Thanks in advance
-Chris Ison
