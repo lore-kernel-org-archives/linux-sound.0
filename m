@@ -1,7 +1,7 @@
-From: Erik de Castro Lopo <erikd@zip.com.au>
-Date: Sun, 14 Mar 1999 20:05:46 +0000
+From: Hannu Savolainen <hannu@opensound.com>
+Date: Sun, 14 Mar 1999 21:26:56 +0000
 Subject: Re: awe64 not initializing on 2.2.2
-Message-Id: <marc-linux-sound-92144227622558@msgid-missing>
+Message-Id: <marc-linux-sound-92144914027701@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92139407200837@msgid-missing>
 In-Reply-To: <marc-linux-sound-92139407200837@msgid-missing>
@@ -10,30 +10,22 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Eric Tork wrote:
-> 
-> As luck would have it, that did the trick.  The module loads, and all
-> is fine.......but one problem remains.  /dev/audio outputs garble when I
-> send something to it, like a wav file.  KDE's systems sounds all come
-> through clear, so I assume that it sends its output through something
-> else?  Is there something that needs to be done with /dev/audio?
-> 
->   btw, this is a redhat 5.1 box with an isa pnp soundblaster 64.
+On Mon, 15 Mar 1999, Erik de Castro Lopo wrote:
 
-/dev/audio is for Sun .au format files only.
+> /dev/audio is for Sun .au format files only.
+Actually /dev/audio doesn't know anything about .au format. Most (older)
+.au files just happen to be recorded using the right format (because it
+was the only format possible with oldest Sparc machines). However there
+are lot of .au files that don't play properly when catting them to
+/dev/audio.
 
-To play .wav files you must use a player such as the one that comes
-with SoX or wavplay. Have a look at:
+So the proper solution for .au files too is using a player program that
+understand the format.  
 
-http://www.bright.net/~dlphilp/linux_soundapps.html
+Best regards,
 
-These players all use /dev/dsp for outputing audio.
-
-Hope this helps,
-Erik
--- 
-+-------------------------------------------------+
-     Erik de Castro Lopo     erikd@zip.com.au
-+-------------------------------------------------+
-The difference between a violin and a viola is that a viola 
-burns longer.
+Hannu
+-----
+Hannu Savolainen (hannu@opensound.com)
+http://www.opensound.com (Open Sound System (OSS))
+http://www.opensound.com/ossfree (OSS/Free)
