@@ -1,29 +1,36 @@
-From: Bill Davidsen <davidsen@tmr.com>
-Date: Tue, 25 Jan 2005 14:13:14 +0000
-Subject: Re: Using more than 2 channels with i810
-Message-Id: <41F653FA.7060000@tmr.com>
+From: Hal MacArgle <haltec@kvinet.com>
+Date: Sun, 06 Feb 2005 15:55:12 +0000
+Subject: Digital Sound - Recording Vol Control??
+Message-Id: <20050206155512.GA693@lnx2.w8mch.ampr.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Bill Davidsen wrote:
-> I would have sworn there was a module load parameter to use more than 
-> two channels on this chip, but the only way I see in the source is to 
-> use an ioctl which doesn't seem to be available in any common software. 
-> Much as I would like to get another user to move from Windows to Linux, 
-> I'm not going to hack one of the mixer programs for him to use all the 
-> channels.
-> 
-> Any thoughts?
-> 
-> ASUS P4P800, i82801EB/ER chipset AC97, i810_audio driver in FC1 (2.4.22 
-> base).
-> 
-Does anyone use this list other than spammers?
 
+Greetings: All my life in the Sound Recording business, analog only,
+retired 20 years, I've just started to learn digital sound..
+
+So far I've been able to copy disks, tapes and LP's to files, then
+burn CD's but it's been empirical as far as "setting" the proper
+volume or recording gain..
+
+Using Slackware 9.1, bare.i, kernel 2.4.22, all CLI; play; rec;
+rexima, as the mixer, it's been trial and error, with the final
+product satisfactory.. However, I miss the former familiar VI, VU,
+Nixie, Oscilloscope, Dot/Bar Display, LED, LCD, etc volume
+indicators..
+
+I fetched the only sound package that mentions a VU meter, SLab, but
+it's GUI and requires a Tcl/Tk package version I don't have yet.. It,
+also, seems to be more powerful than I require..
+
+I thought I'd query the list for some pointers for further learning
+or, possibly, some valid suggestions... Is it possible the dynamic
+range of digital is so wide that a "speedometer" is not needed?? From
+the sound levels heard on present TV that might be the case. <grin>
 -- 
-bill davidsen <davidsen@tmr.com>
-   CTO TMR Associates, Inc
-   Doing interesting things with small computers since 1979
+
+    Hal - in Terra Alta, WV - Slackware GNU/Linux 9.0   (2.4.20-1)
+.
