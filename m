@@ -1,122 +1,86 @@
-From: Rolf Fokkens <rolf@flits102-126.flits.rug.nl>
-Date: Thu, 02 Dec 1999 16:51:11 +0000
-Subject: PATCH: Silly bug in sb_ess.c in 2.3.29
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="Boundary-=_nWlrBbmQBhCDarzOwKkYHIDdqSCD"
-Message-Id: <marc-linux-sound-94415205430780@msgid-missing>
+From: Benno Senoner <sbenno@gardena.net>
+Date: Fri, 17 Dec 1999 13:47:34 +0000
+Subject: Re:
+Message-Id: <marc-linux-sound-94544453303571@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+On Thu, 16 Dec 1999, cmayes wrote:
+> Hello, everyone. I have a ton of questions. 
+>I'll keep this intro message relatively short to increase the possibility of
+>someone actually reading it :-)  Plus, much of this may be off-topic. 
+>If any of you can think of a better forum for my questions, please let me
+>know. 
 
---Boundary-=_nWlrBbmQBhCDarzOwKkYHIDdqSCD
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
+> 
+> Recently, I've been hired at Magnitude Network, a company that provides streaming audio services for radio stations in Canada
+>and the U.S. Upon my hiring I found, much to my dismay, 
+>that the company was switching their Linux encoders (using real 5) to NT
+>encoders! 
+>The execs had decided to support Windows Media format, 
+>which (for obvious reasons) was not readily available on the Linux platform. 
 
-Kernel maintainers,
+I'm thinking about if M$ will EVER release window media support for linux.
+Consider that M$ is investing heavily in media technologies and cable
+companies in order to keep their monopoly.
+It's very simple: "if you don't run Windows you can't enjoy windows media etc)
 
-Cvetan Ivanov pointed out I made a silly programming error in sb_ess.c.  In
-2.2 this has been taken care of, it hasn't been taken care of in 2.3. I attached
-the patch. 
+Here in italy most Raido stations switched to windows media, and I'm sure
+M$ paid them to switch to from realaudio to windows media.
+scary !!
 
-The bug is probably harmfull for machines that don't have a BIOS which
-initializes the chip. In these cases non ES1887 chips will have no
-initialization for their DMA channel at all.
+What we need is some free working audio streaming alternative or
+RealNetworks opening up their specs.
 
-I've seen previous problem reports that might be related to this bug as well.
+Or we will really land into the same  IExplorer vs Netscape scenario. 
 
-Rolf.
 
---Boundary-=_nWlrBbmQBhCDarzOwKkYHIDdqSCD
-Content-Type: text/english;
-  name="sb_ess.c-2.3.29.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="sb_ess.c-2.3.29.patch"
+> 
+> Recently (yesterday), I heard that some potential clients mentioned wanting to run Linux encoders rather than NT. 
+>Although there aren't any definite plans, 
+>I'd like to look into the possibility of setting up a Linux-based encoder that
+>can:  
+> - Run multiple encoders for a single audio source, possibly: 
+> - mp3 
+> - real 
+> - Windows Media (possible WINE support?) 
+> 
+> I have a few ideas about this, but I am trying to keep this message concise ;-) 
+> Would esd work in reverse (i.e. one input, multiple output), or is there a
+> better/easier way?
 
-LS0tIC4uL25ldy9saW51eC0yLjMuMjkvZHJpdmVycy9zb3VuZC9zYl9lc3MuYwlTYXQgT2N0ICAy
-IDE2OjQ5OjMwIDE5OTkKKysrIGxpbnV4L2RyaXZlcnMvc291bmQvc2JfZXNzLmMJV2VkIE9jdCAy
-NyAyMjoyNzowMSAxOTk5CkBAIC0xMCwyOSArMTAsMjkgQEAKICAqCiAgKiBIaXN0b3J5OgogICoK
-LSAqIFJvbGYgRm9ra2VucwkoRGVjIDIwIDE5OTgpOglFUzE4OHggcmVjb3JkaW5nIGxldmVsIHN1
-cHBvcnQgb24gYSBwZXIKKyAqIFJvbGYgRm9ra2VucwkgKERlYyAyMCAxOTk4KToJRVMxODh4IHJl
-Y29yZGluZyBsZXZlbCBzdXBwb3J0IG9uIGEgcGVyCiAgKiBmb2trZW5zckB2ZXJ0aXMubmwJCQlp
-bnB1dCBiYXNpcy4KLSAqCQkJCShEZWMgMjQgMTk5OCk6CVJlY29nbml0aW9uIG9mIEVTMTc4OCwg
-RVMxODg3LCBFUzE4ODgsCisgKgkJCQkgKERlYyAyNCAxOTk4KToJUmVjb2duaXRpb24gb2YgRVMx
-Nzg4LCBFUzE4ODcsIEVTMTg4OCwKICAqCQkJCQkJCQlFUzE4NjgsIEVTMTg2OSBhbmQgRVMxODc4
-LiBDb3VsZCBiZSB1c2VkIGZvcgogICoJCQkJCQkJCXNwZWNpZmljIGhhbmRsaW5nIGluIHRoZSBm
-dXR1cmUuIEFsbCBleGNlcHQKICAqCQkJCQkJCQlFUzE4ODcgYW5kIEVTMTg4OCBhbmQgRVM2ODgg
-YXJlIGhhbmRsZWQgbGlrZQogICoJCQkJCQkJCUVTMTY4OC4KLSAqCQkJCShEZWMgMjcgMTk5OCk6
-CVJFQ0xFViBmb3IgYWxsICg/KSBFUzE2ODgrIGNoaXBzLiBFUzE4OHggbm93CisgKgkJCQkgKERl
-YyAyNyAxOTk4KToJUkVDTEVWIGZvciBhbGwgKD8pIEVTMTY4OCsgY2hpcHMuIEVTMTg4eCBub3cK
-ICAqCQkJCQkJCQloYXZlIHRoZSAiRGVjIDIwIiBzdXBwb3J0ICsgUkVDTEVWCi0gKgkJCQkoSmFu
-ICAyIDE5OTkpOglQcmVwYXJhdGlvbiBmb3IgRnVsbCBEdXBsZXguIFRoaXMgbWVhbnMKKyAqCQkJ
-CSAoSmFuICAyIDE5OTkpOglQcmVwYXJhdGlvbiBmb3IgRnVsbCBEdXBsZXguIFRoaXMgbWVhbnMK
-ICAqCQkJCQkJCQlBdWRpbyAyIGlzIG5vdyB1c2VkIGZvciBwbGF5YmFjayB3aGVuIGRtYTE2CiAg
-KgkJCQkJCQkJaXMgc3BlY2lmaWVkLiBUaGUgbmV4dCBzdGVwIHdvdWxkIGJlIHRvIHVzZQogICoJ
-CQkJCQkJCUF1ZGlvIDEgYW5kIEF1ZGlvIDIgYXQgdGhlIHNhbWUgdGltZS4KLSAqCQkJCShKYW4g
-IDkgMTk5OSk6CVB1dCBhbGwgRVNTIHN0dWZmIGludG8gc2JfZXNzLltjaF0sIHRoaXMKKyAqCQkJ
-CSAoSmFuICA5IDE5OTkpOglQdXQgYWxsIEVTUyBzdHVmZiBpbnRvIHNiX2Vzcy5bY2hdLCB0aGlz
-CiAgKgkJCQkJCQkJaW5jbHVkZXMgYm90aCB0aGUgRVNTIHN0dWZmIHRoYXQgaGFzIGJlZW4gaW4K
-ICAqCQkJCQkJCQlzYl8qW2NoXSBiZWZvcmUgSSB0b3VjaGVkIGl0IGFuZCB0aGUgRVNTIHN1cHBv
-cnQKICAqCQkJCQkJCQlJIGFkZGVkIGxhdGVyCi0gKgkJCQkoSmFuIDIzIDE5OTkpOglGdWxsIER1
-cGxleCBzZWVtcyB0byB3b3JrLiBJIHdyb3RlIGEgc21hbGwKKyAqCQkJCSAoSmFuIDIzIDE5OTkp
-OglGdWxsIER1cGxleCBzZWVtcyB0byB3b3JrLiBJIHdyb3RlIGEgc21hbGwKICAqCQkJCQkJCQl0
-ZXN0IHByb2dneSB3aGljaCB3b3JrcyBPSy4gSGF2ZW4ndCBmb3VuZAogICoJCQkJCQkJCWFueSBh
-cHBsaWNhdGlvbnMgdG8gdGVzdCBpdCB0aG91Z2guIFNvIHdoeSBkaWQKICAqCQkJCQkJCQlJIGJv
-dGhlciB0byBjcmVhdGUgaXQgYW55d2F5Pz8gOikgSnVzdCBmb3IKICAqCQkJCQkJCQlmdW4uCi0g
-KgkJCQkoTWF5ICAyIDE5OTkpOglJIHRyaWVkIHRvIGJlIHRvbyBzbWFydCBieSAiaW50cm9kdWNp
-bmciCisgKgkJCQkgKE1heSAgMiAxOTk5KToJSSB0cmllZCB0byBiZSB0b28gc21hcnQgYnkgImlu
-dHJvZHVjaW5nIgogICoJCQkJCQkJCWVzc19jYWxjX2Jlc3Rfc3BlZWQgKCkuIFRoZSBpZGVhIHdh
-cyB0aGF0IHR3bwogICoJCQkJCQkJCWRpdmlkZXJzIGNvdWxkIGJlIHVzZWQgdG8gc2V0dXAgYSBz
-YW1wbGVyYXRlLAogICoJCQkJCQkJCWVzc19jYWxjX2Jlc3Rfc3BlZWQgKCkgd291bGQgY2hvb3Nl
-IHRoZSBiZXN0LgpAQCAtNDAsMTAgKzQwLDEyIEBACiAgKgkJCQkJCQkJcmVjb3JkaW5nIHByb2Js
-ZW1zIGZvciBoaWdoIHNhbXBsZXJhdGVzLiBJCiAgKgkJCQkJCQkJZml4ZWQgdGhpcyBieSByZW1v
-dmluZyBlc3NfY2FsY19iZXN0X3NwZWVkICgpCiAgKgkJCQkJCQkJYW5kIGp1c3QgZG9pbmcgd2hh
-dCB0aGUgZG9jdW1lbnRhdGlvbiBzYXlzLiAKLSAqIEFuZHkgU2xvYW5lICAoSnVuZSA0IDE5OTkp
-OiAgU3RvbGUgc29tZSBjb2RlIGZyb20gQUxTQSB0byBmaXggdGhlIHBsYXliYWNrCisgKiBBbmR5
-IFNsb2FuZSAgIChKdW4gIDQgMTk5OSk6IFN0b2xlIHNvbWUgY29kZSBmcm9tIEFMU0EgdG8gZml4
-IHRoZSBwbGF5YmFjawogICogYW5keUBndWlsZHNvZnR3YXJlLmNvbQkJc3BlZWQgb24gRVMxODY5
-LCBFUzE4NzksIEVTMTg4NywgYW5kIEVTMTg4OC4KICAqIAkJCQkJCQkJMTg3OSdzIHdlcmUgcHJl
-dmlvdXNseSBpZ25vcmVkIGJ5IHRoaXMgZHJpdmVyOwogICogCQkJCQkJCQlhZGRlZCAodW50ZXN0
-ZWQpIHN1cHBvcnQgZm9yIHRob3NlLgorICogQ3ZldGFuIEl2YW5vdiAoT2N0IDI3IDE5OTkpOiBG
-aXhlZCBlc3NfZHNwX2luaXQgdG8gY2FsbCBlc3Nfc2V0X2RtYV9odyBmb3IKKyAqIHplem9AaW5l
-dC5iZwkJCQkJX0FMTF8gRVNTIG1vZGVscywgbm90IG9ubHkgRVMxODg3CiAgKgogICogVGhpcyBm
-aWxlcyBjb250YWlucyBFU1MgY2hpcCBzcGVjaWZpY3MuIEl0J3MgYmFzZWQgb24gdGhlIGV4aXN0
-aW5nIEVTUwogICogaGFuZGxpbmcgYXMgaXQgcmVzaWRlZCBpbiBzYl9jb21tb24uYywgc2JfbWl4
-ZXIuYyBhbmQgc2JfYXVkaW8uYy4gVGhpcwpAQCAtNTIsNyArNTQsNyBAQAogICogLSBSRUNMRVYg
-c3VwcG9ydCBmb3IgRVMxNjg4IGFuZCBsYXRlcgogICogLSA2IGJpdHMgcGxheWJhY2sgbGV2ZWwg
-c3VwcG9ydCBjaGlwcyBsYXRlciB0aGFuIEVTMTY4OAogICogLSBSZWNvcmRpbmcgbGV2ZWwgc3Vw
-cG9ydCBvbiBhIHBlci1kZXZpY2UgYmFzaXMgZm9yIEVTMTg4NwotICogLSBGdWxsLUR1cGxleCBm
-b3IgRVMxODg3ICh1bmRlciBkZXZlbG9wbWVudCkKKyAqIC0gRnVsbC1EdXBsZXggZm9yIEVTMTg4
-NwogICoKICAqIEZ1bGwgZHVwbGV4IGlzIGVuYWJsZWQgYnkgc3BlY2lmeWluZyBkbWExNi4gV2hp
-bGUgdGhlIG5vcm1hbCBkbWEgbXVzdAogICogYmUgb25lIG9mIDAsIDEgb3IgMywgZG1hMTYgY2Fu
-IGJlIG9uZSBvZiAwLCAxLCAzIG9yIDUuIERNQSA1IGlzIGEgMTYgYml0CkBAIC0xMDAsNyArMTAy
-LDcgQEAKICAqIG9mIHdyaXRpbmcgMHgwMCB0byAweDdmICh3aGljaCBzaG91bGQgYmUgZG9uZSBi
-eSByZXNldCk6IFRoZSBFUzE4ODcgbW92ZXMKICAqIGludG8gRVMxODg4IG1vZGUuIFRoaXMgbWVh
-bnMgdGhhdCBpdCBjbGFpbXMgSVJRIDExLCB3aGljaCBoYXBwZW5zIHRvIGJlIG15CiAgKiBJU0RO
-IGFkYXB0ZXIuIE5lZWRsZXNzIHRvIHNheSBpdCBubyBsb25nZXIgd29ya2VkLiBJIG5vdyB1bmRl
-cnN0YW5kIHdoeQotICogYWZ0ZXIgcmVib290aW5nIDB4N2YgYWxyZWFkeSB3YXMgMHgwNSwgdGhl
-IHZhbHVlIG9mIG15IGNob2lzZTogdGhlIEJJT1MKKyAqIGFmdGVyIHJlYm9vdGluZyAweDdmIGFs
-cmVhZHkgd2FzIDB4MDUsIHRoZSB2YWx1ZSBvZiBteSBjaG9pY2U6IHRoZSBCSU9TCiAgKiBkaWQg
-aXQuCiAgKgogICogT2gsIGFuZCB0aGlzIGlzIGFub3RoZXIgdHJhcDogaW4gRVMxODg3IGRvY3Mg
-bWl4ZXIgcmVnaXN0ZXIgMHg3MCBpcyBkZWNyaWJlZApAQCAtMTIwMCwxMCArMTIwMiwxMCBAQAog
-CiAJLyogQUFTOiBpbmZvIHN0b2xlbiBmcm9tIEFMU0E6IHRoZXNlIGJvYXJkcyBoYXZlIGRpZmZl
-cmVudCBjbG9ja3MgKi8KIAlzd2l0Y2goZGV2Yy0+c3VibW9kZWwpIHsKLS8qIEFQUEFSRU5UTFkg
-Tk9UIDE4NjkgCisvKiBBUFBBUkVOVExZIE5PVCAxODY5IEFORCAxODg3CiAJCWNhc2UgU1VCTURM
-X0VTMTg2OToKLSovCQkKIAkJY2FzZSBTVUJNRExfRVMxODg3OgorKi8JCQogCQljYXNlIFNVQk1E
-TF9FUzE4ODg6CiAJCQlkZXZjLT5jYXBzIHw9IFNCX0NBUF9FUzE4WFhfUkFURTsKIAkJCWJyZWFr
-OwpAQCAtMTMwNSw2ICsxMzA3LDEzIEBACiBpbnQgZXNzX2RzcF9pbml0IChzYl9kZXZjICpkZXZj
-LCBzdHJ1Y3QgYWRkcmVzc19pbmZvICpod19jb25maWcpCiB7CiAJLyoKKwkgKiBDYWxsZXIgYWxz
-byBjaGVja3MgdGhpcywgYnV0IGFueXdheQorCSAqLworCWlmIChkZXZjLT5tb2RlbCAhPSBNRExf
-RVNTKSB7CisJCXByaW50ayAoS0VSTl9JTkZPICJlc3NfZHNwX2luaXQgZm9yIG5vbiBFU1MgY2hp
-cFxuIik7CisJCXJldHVybiAxOworCX0KKwkvKgogCSAqIFRoaXMgZm9yIEVTMTg4NyB0byBydW4g
-RnVsbCBEdXBsZXguIEFjdHVhbGx5IEVTMTg4OAogCSAqIGlzIGFsbG93ZWQgdG8gZG8gc28gdG9v
-LiBJIGhhdmUgbm8gaWRlYSB5ZXQgaWYgdGhpcwogCSAqIHdpbGwgd29yayBmb3IgRVMxODg4IGhv
-d2V2ZXIuCkBAIC0xMzI0LDE1ICsxMzMzLDEyIEBACiAJCWlmIChkZXZjLT5kbWE4ICE9IGRldmMt
-PmRtYTE2ICYmIGRldmMtPmRtYTE2ICE9IC0xKSB7CiAJCQlkZXZjLT5kdXBsZXggPSAxOwogCQl9
-Ci0KLQkJaWYgKCFlc3Nfc2V0X2RtYV9odyAoZGV2YykpIHsKLQkJCWZyZWVfaXJxKGRldmMtPmly
-cSwgZGV2Yyk7Ci0JCQlyZXR1cm4gMDsKLQkJfQotCQlyZXR1cm4gMTsKLQl9IGVsc2UgewotCQly
-ZXR1cm4gLTE7CiAJfQorCWlmICghZXNzX3NldF9kbWFfaHcgKGRldmMpKSB7CisJCWZyZWVfaXJx
-KGRldmMtPmlycSwgZGV2Yyk7CisJCXJldHVybiAwOworCX0KKwlyZXR1cm4gMTsKIH0KIAogLyoq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioK
+I'm not sure but it could work, just run your multiple clients using
+esddsp YOURAUDIOAPP
 
---Boundary-=_nWlrBbmQBhCDarzOwKkYHIDdqSCD--
+if it doesn't work ,
+use the named pipes ( FIFO)
+ just write a little app which does the following
+
+while()
+{
+  read() from /dev/dsp
+  write() to pipe1
+  write() to pipe2
+  .
+  .
+}
+
+and then run:
+mp3encoder <pipe1
+realencoder <pipe2
+etc.
+
+  
+> I'd really like to get this setup to work (reliably). It goes without saying that I'd very much prefer working with Linux 
+>(or anything that's not MS-based, really). Plus, I won't have to keep
+>installing and remotely maintaining (bleah!)  >NT on 80+ (and growing quickly)
+>boxen across North America (excluding Mexico ATM).
+>That would rule.  
+> TIA, 
+> 
+> -Chris 
+
+Benno.
