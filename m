@@ -1,34 +1,27 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Sun, 25 Apr 1999 19:43:08 +0000
-Subject: Re: why no midi?
-Message-Id: <marc-linux-sound-92507009223716@msgid-missing>
+From: Eduardo Trettel <trettel@dt.fee.unicamp.br>
+Date: Mon, 26 Apr 1999 15:29:15 +0000
+Subject: 3D Soundpro PCI
+Message-Id: <marc-linux-sound-92514107603834@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92467332609462@msgid-missing>
-In-Reply-To: <marc-linux-sound-92467332609462@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-qozmo x xx (qozm0@juno.com) said: 
-> >cd /etc/midi
-> >for foo in *; do ln -s midi/$foo ../$foo ; done
-> >
-> >That should fix the problem.
-> >
-> >Bill
-> >
-> 
-> ok, i did try that command, and it worked, now i can play midi.
-> what exactly did this command line do (and what is foo?)?
-> thanx for the help,
 
-foo is just a variable name. Basically, it just makes symlinks
-for some playmidi files (drums.o3/sb, std.o3/sb) from /etc
-(where playmidi is incorrectly looking for them) into /etc/midi
-(where they actually are). The correct fix is to build playmidi
-with the proper paths, but this works.
+Hi:
+	Has someone managed to get the "3D SoundPro PCI" card (based
+on the CMI-8338 chipset) that comes with some motherboards to work? 
 
-Bill
+						Thanks in advance,
+						Trettel
+          
+======================================
+E. Trettel <trettel@dt.fee.unicamp.br>
+Network Manager  
 
- 
+Depto. de Telematica - FEEC - UNICAMP
+Bloco B - LB 16
+Fone: (019) 788-3849   
+Campinas - SP - Brasil
+======================================
