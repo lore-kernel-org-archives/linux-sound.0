@@ -1,57 +1,65 @@
-From: "Pierre Hanna" <hanna@labri.u-bordeaux.fr>
-Date: Tue, 25 Jan 2000 14:15:38 +0000
-Subject: JIM 2000
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="----=_NextPart_000_0071_01BF6747.092DD200"
-Message-Id: <marc-linux-sound-94881000217410@msgid-missing>
+From: SkyViper <skvpr@earthlink.net>
+Date: Mon, 24 Jan 2000 12:07:24 +0000
+Subject: es1370 in Kern 2.2.14
+Message-Id: <marc-linux-sound-94871729216562@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
+When I boot I get a very high static sound.
+This static sounds like my card is being over driven. Quieter sounds are
+discernable, but masked with static.The problem is intermittent in that
+it does not occur on every boot, and follows no pattern.
+If the boot is good, then restarting X has no ill effect. If the boot is
+bad, restarting X does not correct the problem. The card still works
+fine in Kernel 2.2.11 using insmod es1370, but I will try 2.2.13 and
+2.2.12.
 
-------=_NextPart_000_0071_01BF6747.092DD200
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+I used xconfig to set the Kernel, and configured it to use sound and the
+es1370 and Joystick. (By the way, I don't think the joystick works, but
+I am not sure)
 
-The Journees d'Informatique Musicale is an annual meeting of
-researchers in computer music and musicians who use the computer as a
-means of expression or as a tool for composition. This year, the
-seventh edition of this meeting will occur may 15-18 at Bordeaux.
+I am running Red Hat 6.1
+Hardware list:
+Asus P5AB
+Motherboard = AMD K6-2 400 (OC to 450)
+Sound Card = PCI SRS727 (Ensoniq es1370)
+Video Adapter = PCI 3Dfx Voodoo3 2000
+Modem = ISA Motorola Voice Surfer 56K V90 (firmware Upgradded from
+KFlex)
+Hard drives = Maxtor 850, Samsung 2.1, Fuji 10.2 Partitioned by
+Partition Magic 5.0
+ Linux is on one of these parts.
+RAM = 64M PC 100 single stick
+Mouse = MS Intellmouse 1.1a
+Keyboard = MS Natural
+Joystick = CH F16 Fighterstick, CH Throttle, CH Pro Pedals
 
-PAPER SUBMISSION DEADLINE: February the 15th
-INTERNATIONAL COMPETITION ACOUSMATIC MUSIC : March the 15th
+Known Running Server/Module items:
+XFree 3.3.5, Gnome, KDE
+Glide 2 and 3 loaded per 3Dfx sight
+Modules:
+3dfx on the 3.3.5 server
 
-Visit our site for more information:
-http://www.scrime.u-bordeaux.fr/JIM2000
 
 
-------=_NextPart_000_0071_01BF6747.092DD200
-Content-Type: text/html;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD W3 HTML//EN">
-<HTML>
-<HEAD>
+OUTPUT from sh scripts/ver_linux :
+Linux localhose.localdomain 2.2.14 #9 Sat Jan 22 17:09:25 EST 2000 i586
+unknown
+Kernel modules   2.1.121
+Gnu C  egcs-2.91.66
+Binutils   2.9.1.-.24
+Linux C Library   2.1.2
+Dynamic linker   ldd (GNU libc) 2.1.2
+Procps   2.0.4
+Mount   2.9u
+Net-tools   1.53
+Console-tools   199.03.02
+Sh-utils   2.0
+Modules Loaded    3dfx
 
-<META content=3Dtext/html;charset=3Diso-8859-1 =
-http-equiv=3DContent-Type>
-<META content=3D'"MSHTML 4.72.3110.7"' name=3DGENERATOR>
-</HEAD>
-<BODY bgColor=3D#ffffff>
-<DIV>The Journees d'Informatique Musicale is an annual meeting =
-of<BR>researchers=20
-in computer music and musicians who use the computer as a<BR>means of =
-expression=20
-or as a tool for composition. This year, the<BR>seventh edition of this =
-meeting=20
-will occur may 15-18 at Bordeaux.<BR><BR>PAPER SUBMISSION DEADLINE: =
-February the=20
-15th<BR>INTERNATIONAL COMPETITION ACOUSMATIC MUSIC : March the =
-15th<BR><BR>Visit=20
-our site for more information:<BR><A=20
-href=3D"http://www.scrime.u-bordeaux.fr/JIM2000">http://www.scrime.u-bord=
-eaux.fr/JIM2000</A><BR></DIV></BODY></HTML>
 
-------=_NextPart_000_0071_01BF6747.092DD200--
+Tom H.
