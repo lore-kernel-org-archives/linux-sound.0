@@ -1,41 +1,72 @@
-From: Mihai Badila <dx@mdk.c7.utcluj.ro>
-Date: Fri, 27 Nov 1998 17:46:42 +0000
-Subject: Shadows...
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="------------E9C11B796F572635B9C3F699"
-Message-Id: <marc-linux-sound-91219190310288@msgid-missing>
+From: Mike <cekim@ix.netcom.com>
+Date: Sun, 08 Nov 1998 18:26:26 +0000
+Subject: full-duplex
+Message-Id: <marc-linux-sound-91054699525706@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------E9C11B796F572635B9C3F699
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+I have been working with this off and on for some time now and with the
+release of 2.1.126, there seems to be some light at the end of the
+tunnel:
 
-   Your IQ needs x2 or x4 (multiplier) to get to 3 (three) numbers?...
+System:
+Alpha 164LX RH 5.1 2.1.126 sound - 82c931
 
---
-/Dx
+I can now assign two seperate DMAs to the card and play/record without
+overruns.
+
+But I cannot play and record at the same time.  It returns a device busy
+warning.
+
+"sox: Can't open output file '/dev/dsp': Device or resource busy"
+
+To record I use:
+[root@Z speak_freely-6.1c]# dd bs=8k count8 </dev/audio >sample.au
+128+0 records in
+128+0 records out
+
+to play I am using:
+play -t ul -r 8000 sample.au 
+
+Although I can record a sample and play it back correctly in
+soundstudio, "dd" results in loud static being recorded.  I assume that
+is a format problem so I am not worried about it.  But it is the same
+noise I hear when I try to transmit sound over a network via
+speakfreely.
+
+Any thoughts?
+
+/Mike
+
+info below:
 
 
---------------E9C11B796F572635B9C3F699
-Content-Type: text/x-vcard; charset=us-ascii; name="vcard.vcf"
-Content-Transfer-Encoding: 7bit
-Content-Description: Card for Badila Mihai
-Content-Disposition: attachment; filename="vcard.vcf"
+[root@Z /proc]# m dma
+ 0: MAD16 WSS
+ 1: MAD16 WSS
+ 4: cascade
 
-begin:          vcard
-fn:             Badila Mihai
-n:              Mihai;Badila
-org:            SPiN Logic Ltd.
-adr:            Str. Observatorului, Nr. 34, C7, 419;;;Cluj Napoca;Cluj;;Romania
-email;internet: dx@mdk.c7.utcluj.ro
-title:          Linux Hacker
-tel;home:       +40-58-830341
-x-mozilla-cpt:  ;0
-x-mozilla-html: FALSE
-version:        2.1
-end:            vcard
+[root@Z /proc]# m /dev/sndstat 
+at Nov 7 14:17:37 EST 1998 alpha
+Config options: 0
 
+Installed drivers: 
 
---------------E9C11B796F572635B9C3F699--
+Card config: 
+
+Audio devices:
+0: MAD16 WSS (82C930) (DUPLEX)
+
+Synth devices:
+
+Midi devices:
+0: Mad16/Mozart
+
+Timers:
+0: System clock
+
+Mixers:
+0: MAD16 WSS (82C930)
