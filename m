@@ -1,55 +1,69 @@
-From: Tony Nugent <tony@growzone.com.au>
-Date: Fri, 09 Mar 2001 09:27:48 +0000
-Subject: Re: How to configure a SB PCI128?
-Message-Id: <marc-linux-sound-98413005828397@msgid-missing>
+From: Lee Leahu <lee@ricis.com>
+Date: Fri, 06 Apr 2001 17:44:23 +0000
+Subject: please help me with my ibm 600E
+Message-Id: <marc-linux-sound-98657921629218@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon Feb 26 2001 at 12:38, ZYSERMAN Fabio wrote:
+hello everyone
 
-> Hi, I apologize if the request has
-> already been answered, but I am new to this list!
-> 
-> I have a Sound Blaster PCI128,
-> could someone help me with the steps
-> necessary to get it to work?
-> 
-> Thank you all in advance!
+i have an IBM 600E laptop with SuSE 7.1 kernel 2.4.0-4GB installed.
+i want to get my soundcard working, but am having troubles.
 
-Short answer:
+i went to the ibm website and they say to use the cs4232 modules for sound.
+SuSE detects a cs4610 and wants to use a cs461x sound moudles.
+others have said to use the cs4239 module.
 
-	modprobe es1371
+i've decided to go with ibm's recommendation - they built this machine.
 
-If that doesn't work, and es1371.o does not exist in your
-/lib/modules/* tree for the kernel you are running, then you are
-either in trouble, or this sound driver has been compiled into the
-kernel itself (which is not recommended).
+when i try to do a modprobe snd-card-cs4232 this is what i get:
 
-Long answer:
+-- (snip) --
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: init_module: No such device
+Hint: insmod errors can be caused by incorrect module parameters, including invalid IO or IRQ parameters
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: insmod /lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o failed
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: insmod snd-card-cs4232 failed
+-- (snip) --
 
-If you have a redhat box, simply run the sndconfig utility, which
-puts an alias into /etc/modules.conf (or /etc/conf.modules) that
-specifies an alias for the module.
 
-On my redhat 7.0 box (with a 2.4.x kernel and the same sound card),
-I have:
+now when i do a insmod snd-card-cs4232 then i get this:
 
-alias sound-slot-0	es1371
+-- (snip) --
+Using /lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol isapnp_resource_change
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_card_unregister
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_register_interrupt
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_register_ioport
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_kcalloc
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_register_dma_channel
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol isapnp_find_card
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_opl3_new
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_unregister_ioports
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_mpu401_uart_interrupt
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol isapnp_find_dev
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol _snd_kfree
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_card_register
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_cs4231_new_pcm
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_cs4231_interrupt
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_cs4231_new_mixer
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_card_free
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_card_new
+/lib/modules/2.4.0-4GB/misc/snd-card-cs4232.o: unresolved symbol snd_mpu401_uart_new   
+-- (snip) --
 
-Other distributions might have different mechanisms for setting this
-up.  The alias name is also different ("alias sound es1371", IIRC)
-in earlier distributions (kernel version dependent).
+i don't know what to do - can somebody please help me?
 
-Cheers
-Tony
- -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
-  Tony Nugent <Tony@growzone.com.au>    Systems Administrator, RHCE
-  LinuxWorks - PO Box 5747 Gold Coast MC Queensland Australia  9726
-  Ph: (07) 5526 8020                           Mobile: 0408 066 336
- -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
+thanx in advance,
+-- 
+Lee Leahu <lee@ricis.com>,
+System Admin,
+Web Developer,
+RICIS Inc,
+(708) 444-2690 (Work)
+(708) 467-2044 (Pager)
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
