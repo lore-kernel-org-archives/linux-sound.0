@@ -1,31 +1,31 @@
-From: Guenther Sohler <guenther.sohler@newlogic.at>
-Date: Tue, 11 Jan 2000 14:31:53 +0000
-Subject: recognizing sounds
-Message-Id: <marc-linux-sound-94761525425608@msgid-missing>
+From: taras_g@mail.ru
+Date: Wed, 05 Jan 2000 05:50:46 +0000
+Subject: 
+Message-Id: <marc-linux-sound-94705148424936@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello list,
+Wed, 05 jan 2000 05: 52:41 GMT
+Date: Wed, 5 Jan 2000 08:52:41 +0300
+From: taras@flex.dorms.msu.ru
+To: linux-sound@vger.rutgers.edu
+Subject: MIDI Keyboards
+Message-Id: <20000105085241.A20444@flex.dorms.msu.ru>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+X-Mailer: Mutt 0.95.1i
 
-I am currently writing a tool 'wav2mid' , which should be capable of
-recognizing tunes in wave files.
-This works quite well
+	Hi!
 
-*       Wenn I just recognize the synthesizer's output read through dsp
-*       When these are easy voices like flute, saxophon, whistle, ...
-*       I achieved all tunes(and accords) of the song 'silent night, holy
-night' to be recognized correctly. It is a 2 sound saxophone melody.
-        The only tiny error at the moment is, that two equal tunes next to each
-other will be recognized as a longer tune.
+	I'm sorry for disturbing silence in this mailing list and for asking
+faqs (I'm just a novice in this domain and need help). I've recently bought a
+MIDI keyboard and now I'm trying to get it working under linux. Can anyone tell
+me how one can test keyboard fast (something that looks like cat /dev/midi > /dev/sequencer ?). What do all these devices do and what are they responsible for:
+/dev/midi*, /dev/music, /dev/sequencer? Which may be read and which may be written? Does there exist any OSS API description and/or hopefully an example of a 
+non-trivial MIDI program (not MIDI player)? Any help would be appreciated.
 
-My problem is following: Recognizing the sound of strings(like the violin) is
-very difficult as every period in time domain looks remarkably different from
-each other. So also all the spikes in frequency domain change their amplitude
-rapidely
-
-Does somebody of you have experience in this topic ?
-
-Thank you in advance.
+	Thanks
+	Taras
