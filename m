@@ -1,7 +1,7 @@
-From: douglas irving repetto <douglas@roar.music.columbia.edu>
-Date: Mon, 29 May 2000 23:16:12 +0000
+From: robert.butora@hut.fi
+Date: Tue, 30 May 2000 08:42:59 +0000
 Subject: Re: External Midi Interface
-Message-Id: <marc-linux-sound-95964292229870@msgid-missing>
+Message-Id: <marc-linux-sound-95967636617865@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95935805013460@msgid-missing>
 In-Reply-To: <marc-linux-sound-95935805013460@msgid-missing>
@@ -10,8 +10,18 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-"D. Marcus Johnson" wrote:
-> 
+
+
+see also: 'Portman PC/S' product of Midiman, www.midiman.com
+
+ALSA has general serial-midi Linux-driver 
+(I think also OSS).
+
+
+
+
+On Fri, 26 May 2000, D. Marcus Johnson wrote:
+
 > Hi,
 > 
 > Has anyone got an external midi adapter, that uses the
@@ -21,32 +31,10 @@ To: linux-sound@vger.kernel.org
 > 
 > Thanks
 > 
-
-
-
-i just recently got a midiator ms-124w (the w is important!) to work
-using hacked up drivers that david topper has been working on.
-
-
-http://www.midiator.com
-
-
-driver:
-ftp://presto.music.virginia.edu/pub/midiator
-
-
-
-i'm using it with a dell inspiron 7500 laptop, and it works well. of
-course it's a custom driver, so it doesn't work with any of the existing
-sound/midi APIs at this point. i think dave is talking to people to get
-this driver folded into some source trees.
-
-douglas
-
-
-
--- 
-                        douglas irving repetto 
-                  http://music.columbia.edu/~douglas 
-                the music-dsp mailing list and website:
-                  http://shoko.calarts.edu/musicdsp
+> 
+> 
+> __________________________________________________
+> Do You Yahoo!?
+> Kick off your party with Yahoo! Invites.
+> http://invites.yahoo.com/
+> 
