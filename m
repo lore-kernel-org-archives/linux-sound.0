@@ -1,7 +1,7 @@
-From: John Zoetebier <john.zoetebier@transparent.co.nz>
-Date: Tue, 26 Oct 2004 22:36:46 +0000
-Subject: Is there a reliable sound card for IP telephony ?
-Message-Id: <clmjmt$6gc$1@sea.gmane.org>
+From: Nerijus Baliunas <nerijus@users.sourceforge.net>
+Date: Thu, 28 Oct 2004 22:27:06 +0000
+Subject: Re: Is there a reliable sound card for IP telephony ?
+Message-Id: <20041028222844.7A0735085A7@mx.ktv.lt>
 List-Id: <linux-sound.vger.kernel.org>
 References: <cll7t0$b42$1@sea.gmane.org>
 In-Reply-To: <cll7t0$b42$1@sea.gmane.org>
@@ -10,23 +10,12 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have no luck getting the microphone to work with nForce3 250.
-Codec manufacturer: Realtek ALC850
-Installed the latest driver from NVIDIA, but simply can;t get the microphone
-working.
+On Wed, 27 Oct 2004 11:36:46 +1300 John Zoetebier <john.zoetebier@transparent.co.nz> wrote:
 
-Bought a C-Media CM8737.
-Got microphone working, but when other party starts talking the sound locks
-up (and sometime my network or even the home partition).
+> My local retailer has a Creative Sounblaster Live V5.1
+> Will it do the job ?
 
-Before I buy yet an other sound card I would like to know if someone has
-actually a sound working reliably for IP telephony like Skype ?
+It should. I used such card with IP telephony successfully.
 
-My local retailer has a Creative Sounblaster Live V5.1
-Will it do the job ?
-
--- 
-John Zoetebier
-Web site: http://www.transparent.co.nz
-
-
+Regards,
+Nerijus
