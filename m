@@ -1,8 +1,10 @@
 From: Benno Senoner <sbenno@gardena.net>
 Date: Thu, 16 Sep 1999 21:03:31 +0000
 Subject: latencytests results on a Pentium133, again EXCELLENT, 2.1ms.:-)
-Message-Id: <marc-linux-sound-93751869030865@msgid-missing>
+Message-Id: <marc-linux-sound-93752039832432@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-93751869030865@msgid-missing>
+In-Reply-To: <marc-linux-sound-93751869030865@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: quoted-printable
