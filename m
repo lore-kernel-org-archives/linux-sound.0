@@ -1,55 +1,30 @@
-From: "Gerald J. Puhl" <garyp@jppattern.com>
-Date: Tue, 12 Oct 1999 20:42:02 +0000
-Subject: Re: No CD audio with Gnome and Ensoniz es1370 driver RH6.0
-Message-Id: <marc-linux-sound-93976030110141@msgid-missing>
+From: "Ravi K. Swamy" <rks@rtp.mea.com>
+Date: Sat, 30 Oct 1999 20:04:53 +0000
+Subject: Problem with ESS Solo1
+Message-Id: <marc-linux-sound-94131439128758@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93969945213465@msgid-missing>
-In-Reply-To: <marc-linux-sound-93969945213465@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hello,
+   I've noticed a possible bug when playing realaudio files or the new
+game Unreal Tournament.  I have an ESS Solo1 card, lspci shows it as:
 
-Yes! The CD player works fine under win95.
+00:0d.0 Multimedia audio controller: ESS Technology ESS 1969 (rev 01)
 
----------------------------------------------------------------------------
-Gerald J. Puhl (garyp@jppattern.com)
-Systems Manager
-J. P. Pattern Inc.
+I've tried out both 2.2.12 and 2.3.24, and SMP and non-SMP on two different
+machines and noticed the same thing.  
 
-for more information about JP Pattern please visit our Web site at:
+When playing realaudio files with the new g2 player it sounds like the
+sound is played back 1000 times faster than it should be, none of the
+options in the player seem to help.  The same thing happens to sounds
+in Unreal Tournament.  Most sound programs work fine, x11amp/xmms, mpg123,
+sox/play for wav files, q3test, all work fine.
 
-	www.jppattern.com	or	www.execpc.com/~jppat
----------------------------------------------------------------------------
+Is this a known bug?  I know that the realaudio player for linux has been
+quite buggy and unreal tournament is still just a demo but I thought I would
+ask if anyone has seen this behavior before.
 
-On Mon, 11 Oct 1999, llornkcor wrote:
-
-> Is the connection from the cd rom to the sound card attached?
-> 
-> On Mon, 11 Oct 1999, Gerald J. Puhl wrote:
-> > I have tried things that people have said:
-> > 
-> > 	1. Update gnome to laster release
-> > 	2. aumix -c R
-> > 
-> > Still no sound from CD player.  Does the aumix command need to be placed
-> > somewhere in a startup script before Gnome starts?  Any other ideas to
-> > help would be appreciated.
-> > 
-> > Thanx!
-> > 
-> > ---------------------------------------------------------------------------
-> > Gerald J. Puhl (garyp@jppattern.com)
-> > Systems Manager
-> > J. P. Pattern Inc.
-> > 
-> > for more information about JP Pattern please visit our Web site at:
-> > 
-> > 	www.jppattern.com	or	www.execpc.com/~jppat
-> > ---------------------------------------------------------------------------
-> --
-> llornkcor rocknroll
-> SpiritShip MultiMedia Recording Studio
-> http://www.llornkcor.com
-> 
+Ravi Swamy
