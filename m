@@ -1,28 +1,34 @@
-From: Simon Kagedal <simon@sdf.se>
-Date: Sun, 25 Apr 1999 17:34:36 +0000
-Subject: Re: /dev/midi apps
-Message-Id: <marc-linux-sound-92506176118717@msgid-missing>
+From: Olaf Stetzer <ostetzer@mail.Uni-Mainz.de>
+Date: Wed, 28 Apr 1999 13:26:06 +0000
+Subject: Re: speech recognition software?
+Message-Id: <marc-linux-sound-92530605529738@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92462758903047@msgid-missing>
-In-Reply-To: <marc-linux-sound-92462758903047@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, Apr 20, 1999 at 09:45:07AM -0700, Bertrand Lee wrote:
-> Are there any apps that use /dev/midi for playback/recording?
->=20
-> All the apps that I have come across (rosegarden, playmidi, etc.) seem to
-> use /dev/sequencer, which my soundcard (es1370) does not support.
->=20
-> Appreciate any pointers!
+On Wed, 28 Apr 1999, qozmo x xx wrote:
 
-`midid' can do that, it handles timing of events itself w/o using
-/dev/sequencer.  It has a midifile player app but no app for recording,
-IIRC. =20
+> anyone know of any good (and free) speech recognition software out there?
+> not necessarily anything fancy, i'm not thinking dictation as much as
+> just command input at a distance.
+> thanx for any pointers,
+> qozmo
 
-http://www.umr.edu/~johns/projects/midid/
+IBM just released their ViaVoice for Linux. Have a look at:
 
---=20
-Simon K=E5gedal <simon@sdf.se> - Homepage: http://www.sdf.se/~simon/
+http://www.software.ibm.com/is/voicetype/dev_linux.html
+
+
+Bye,
+
+Olaf
+
+
+----------------------------------------------------------------------
+--   Olaf Stetzer  --  EC/JRC/Institute for Transuranium Elements   --
+-   email to: stetzer@itu.fzk.de   or   ostetzer@mail.uni-mainz.de   - 
+-            concerning debian GNU/Linux: stetzer@debian.org         -
+--      "Jazz is not dead, it just smells funny."  Frank Zappa      --
+----------------------------------------------------------------------
