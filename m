@@ -1,26 +1,24 @@
-From: "Bungle" <back.stage@virgin.net>
-Date: Fri, 24 Mar 2000 10:41:19 +0000
-Subject: Clicking Crystal
-Message-Id: <marc-linux-sound-95389484719205@msgid-missing>
+From: Jean-Daniel Pauget <jd@univ-lyon1.fr>
+Date: Fri, 24 Mar 2000 14:26:53 +0000
+Subject: Re: Clicking Crystal
+Message-Id: <marc-linux-sound-95391503502898@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95389484719205@msgid-missing>
+In-Reply-To: <marc-linux-sound-95389484719205@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hi.
-I have a Dell pc with on-board sound card in the form of Crystal CS4236 chips. I get a 
-clicking noise at the beginning of sounds. Not allways - only if there is a period of silence 
-first. For instance, if I am playing an MP3 and I do something in X that generates a sound 
-event, the sound is hear fine with no clicking. But if there is no sound playing and a new 
-sound is played, you get a click whose volume is proportionsal to the amount of time it's 
-been silent for - ie longer silence gives a louder click.
+On Fri, 24 Mar 2000, Bungle wrote:
 
-If it was an analogue device, I would suspect a faulty decoupling capacitor, causing DC to 
-build up on the output. But it's digital and only happens in Linux (not Windoze). This implies 
-it is a driver thing.
+> been silent for - ie longer silence gives a louder click.
+> Does anyone know a fix for this?
+    I know a bug involved with latest drivers, which kernel do you use,
+    and can you fetch the line where your soundcard is recognised
+    with dmsg ?
 
-Does anyone know a fix for this?
-Paul
-Unix techy
-Walton
+--
+  Jean-Daniel Pauget         T=E9l: +33(0)478930000 Fax: +33(0)478930099
+  ASI, acc=E8s et solutions internet                           Completel
+  http://www.asi.fr/                          http://www.completel.fr/
