@@ -1,41 +1,56 @@
 From: "Nerijus" <nerijus@sat.lt>
-Date: Wed, 16 Feb 2000 22:38:10 +0000
-Subject: FW: Updated PC speaker driver for 2.3.45
-Message-Id: <marc-linux-sound-95074391904897@msgid-missing>
+Date: Sun, 13 Feb 2000 00:57:38 +0000
+Subject: FW: Linux K7M Soundrivers found on ASUS CD
+Message-Id: <marc-linux-sound-95040520613417@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
 
 -----Original Message-----
 From: owner-linux-kernel@vger.rutgers.edu
-[mailto:owner-linux-kernel@vger.rutgers.edu] On Behalf Of Erik Inge
-Bols=F8
-Sent: Wednesday, February 16, 2000 7:18 PM
-To: Linux Kernel Mailing List
-Cc: knan@mo.himolde.no
-Subject: Updated PC speaker driver for 2.3.45
+[mailto:owner-linux-kernel@vger.rutgers.edu] On Behalf Of Jeff Garzik
+Sent: Saturday, February 12, 2000 10:16 PM
+To: linux-via@gtf.org
+Cc: Linux Kernel List
+Subject: Re: Linux K7M Soundrivers found on ASUS CD
 
 
-Greets, everyone.
+rolf@max.lui.uni-tuebingen.de wrote:
+> 
+> Hello
+> 
+> Maybe you are as Surprised a i was but...
+> 
+> There are Sounddrivers on the CD that came with my Asus K7M
+> there are two Versions /cdrom/Audio/LINUX/CALDERA/  and
+> /cdrom/Audio/LINUX/REDHAT/
+> 
+> They basically contain the same.
+> 
+> The Sound Drivers are Compiled for Kernel Version 2.2.5
+> To try them on a different Kernel you have to modify the
+> vinstall script by replacing all occurences of 2.2.5 with
+> your Kernel Version for example with 2.2.14
 
-For my own benefit, I've updated Michael Beck and David Woodhouse's PC
-speaker driver to compile and work on 2.3.45. The 16 bit stereo 44khz
-emulation works well, and is useful for listening to mp3's when you have
-no space for a soundcard inside the machine.
 
-The patch is downloadable from here:
-http://www.mo.himolde.no/~knan/linux.html
+Thanks to Rolf for posting this, I didn't know this either.
 
-Please CC: any replies and comments to me personally.
+These drivers are the ones for which I have source code (under NDA), and
+are the basis for the upcoming open source "native" via sound driver.
 
---
-Erik I. Bolsu <knan at mo.himolde.no> | <eriki at himolde.no>
-.. student of IT administration at Molde College, Norway.
+It should also be noted that the Via sound chip does not have 100%
+hardware MIDI, but merely an additional PCM channel for which MIDI data
+can be piped.  You would need to use a userspace solution, or perhaps
+the SoftOSS wave table engine, in order to get MIDI support.
 
+-- 
+Jeff Garzik         | "Vegetarian" is the Indian word
+Building 1024       | for 'lousy hunter.'
+MandrakeSoft, Inc.  |
 
 -
 To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
