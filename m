@@ -1,52 +1,66 @@
-From: Dirk Nehring <dnehring@telemedia.de>
-Date: Fri, 01 Jan 1999 18:06:24 +0000
-Subject: Re: AWE32 PNP not working with 2.1.13x/2.2.0-prex
-Message-Id: <marc-linux-sound-91521608300406@msgid-missing>
+From: root <root@sciencenet.net>
+Date: Tue, 26 Jan 1999 06:01:07 +0000
+Subject: Kernel Compiling Error
+Message-Id: <marc-linux-sound-91733068905804@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Wed, Dec 30, 1998 at 11:51:22PM +0100, Dirk Nehring wrote:
-> Hi,
->
-> it is impossible to run my AWE32 PNP with a prestine 2.1.13x or higher
-> kernel. It works flawlessly under 2.0 and 2.0 with the commercial OSS
-> drivers. I use the same settings under 2.1, but it failed:
->
-> root@titan:~$ modprobe sb
-> SB 4.13 detected OK (220)
-> sb: Interrupt test on IRQ5 failed - Probable IRQ conflict
->
-> isapnp.conf is correct:
->
-> [...]
-> #     ANSI string -->Creative SB AWE32 PnP<--
-> (CONFIGURE CTL0043/80381 (LD 1
-> #     ANSI string -->Audio<--
->  (INT 0 (IRQ 5 (MODE +E)))
->  (DMA 0 (CHANNEL 1))
->  (DMA 1 (CHANNEL 5))
->  (IO 0 (BASE 0x0220))
->  (IO 1 (BASE 0x0330))
->  (IO 2 (BASE 0x0388))
->  (ACT Y)
-> ))
-> [...]
->
-> It also doesn't work with other tested interrupts.
->
-> Do anyone have an idea?
+make[1]: Leaving directory `/usr/src/linux-2.2.0/arch/i386/lib'
+ld -m elf_i386 -T /usr/src/linux-2.2.0/arch/i386/vmlinux.lds -e stext
+arch/i386/kernel/head.o arch/i386/kernel/init_task.o init/main.o
+init/version.o \
+        --start-group \
+        arch/i386/kernel/kernel.o arch/i386/mm/mm.o kernel/kernel.o
+mm/mm.o fs/fs.o ipc/ipc.o \
+        fs/filesystems.a \
+        net/network.a \
+        drivers/block/block.a drivers/char/char.a drivers/misc/misc.a
+drivers/net/net.a drivers/scsi/scsi.a drivers/cdrom/cdrom.a
+drivers/sound/sound.a drivers/pci/pci.a drivers/pnp/pnp.a
+drivers/video/video.a \
+        /usr/src/linux-2.2.0/arch/i386/lib/lib.a
+/usr/src/linux-2.2.0/lib/lib.a /usr/src/linux-2.2.0/arch/i386/lib/lib.a \
+        --end-group \
+        -o vmlinux
+drivers/sound/sound.a(sb_ess.o): In function `ess_init':
+sb_ess.o(.text+0xde2): undefined reference to `esstype'
+sb_ess.o(.text+0xe77): undefined reference to `esstype'
+make: *** [vmlinux] Error 1
 
-I've found the bug: pnpdump 1.15 from RedHat 5.2 is broken (doesn't
-reset the LD counters for new cards). I upgraded to 1.17 and it
-magically works. Something for the FAQ?
+I get this when running make bzImage in 2.2.0
 
-Dirk
+[root@nuclear /usr/src/linux]# cat /proc/cpuinfo 
+processor       : 0
+cpu             : 586
+model           : Pentium 75+
+vendor_id       : GenuineIntel
+stepping        : 12
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : yes
+fpu             : yes
+fpu_exception   : yes
+cpuid           : yes
+wp              : yes
+flags           : fpu vme de pse tsc msr mce cx8
+bogomips        : 66.56
 
---
-Dirk Nehring                 | Phone: +49 5241 80-<censored>
-Telemedia Bertelsmann AG     | Fax:   +49 5241 80-9518
-Carl-Bertelsmann-Str. 161 I  | E-Mail: dnehring @ telemedia.de
-33311 G=FCtersloh              |
+CPU info if it matters
+
+[root@nuclear /usr/src/linux/scripts]# ./ver_linux 
+-- Versions installed: (if some fields are empty or looks
+-- unusual then possibly you have very old versions)
+Linux nuclear 2.0.36 #2 Thu Jan 21 17:40:27 EST 1999 i586 unknown
+Kernel modules         2.1.121
+Gnu C                  2.7.2.3
+Binutils               2.9.1.0.19
+Linux C Library        2.0.7
+Dynamic linker         ldd: version 1.9.10
+Procps                 1.2.9
+Mount                  2.9g
+Net-tools              (1998-03-02)
+Kbd                    0.96
+Sh-utils               1.16
