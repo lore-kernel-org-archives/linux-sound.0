@@ -1,31 +1,22 @@
-From: Katharine Norman <K.Norman@gold.ac.uk>
-Date: Wed, 16 Feb 2000 10:58:22 +0000
-Subject: newbie soundcard driver question...
-Message-Id: <marc-linux-sound-95069901731318@msgid-missing>
+From: "James Hamilton" <felix@intrstar.net>
+Date: Wed, 16 Feb 2000 04:22:24 +0000
+Subject: Dell Laptop Latitude LM
+Message-Id: <marc-linux-sound-95067644918093@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I've installed linux (mandrake) on a PC with KORG 1212 soundcard (PCI).
-Does anyone know of a driver that will work with this card? I'm having no
-luck with any I've tried...
+I have RH6.1 installed. I want to configure my laptop
+for sound. I opened GnoRMP and verified and queried
+sndconfig-0.38-1 and got no problems. I read the man8
+page and have been reading the list mail. Yet, when I
+type sndconfig I get the response, Bash: no such
+command.
 
-thanks,
+Could somebody give me a clue as to how I get sndconfig
+to boot up?
 
-Katharine
-
-
-*****
-Dr Katharine Norman
-Director
-Electronic Music Studios
-Goldsmiths College, University of London
-London SE14 6NW
-
-+44 (0)171 919 7986 (direct) +44 (0)171 919 7643 (studio)
-+44 (0)171 919 7640 (music dept office)
-fax (0)171 919 7644 email: K.Norman@gold.ac.uk
-http://musicinfo.gold.ac.uk/music/staff/norman.html
-*****
+TIA
+James
