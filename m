@@ -1,7 +1,7 @@
-From: Bryan Scaringe <bscaring@sels.rsc.raytheon.com>
-Date: Wed, 12 Jan 2000 19:25:19 +0000
+From: David Olofson <audiality@swipnet.se>
+Date: Thu, 13 Jan 2000 04:05:16 +0000
 Subject: Re: Problems with X11Amp
-Message-Id: <marc-linux-sound-94772781406250@msgid-missing>
+Message-Id: <marc-linux-sound-94774998419683@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94767267915863@msgid-missing>
 In-Reply-To: <marc-linux-sound-94767267915863@msgid-missing>
@@ -10,19 +10,31 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-1) Use XMMS instead. X11Amp became XMMS, and X11Amp is no longer supported.
-2) It takes a lot of CPU cycles to decode MP3's.  If you run a lot of
-   stuff while listening to an MP3, it's going to sound horrible.
+On Wed, 12 Jan 2000, Bryan Scaringe wrote:
+> 2) It takes a lot of CPU cycles to decode MP3's.  If you run a lot of
+>    stuff while listening to an MP3, it's going to sound horrible.
+
+...unless you use Linux 2.2 + the lowlatency patch, and sets the mp3
+player thead to SCHED_FIFO. That makes the player run as a true hard
+real time task, ie it will never drop-out, and it'll just take the
+CPU time it needs. (Provided your CPU is fast enough, obviously! :-)
+
+In case you have missed it, see
+
+	http://matrix.crosswinds.net/~linuxmusic/lowlatency.html
+
+It seems like a refined version of the lowlatency patch is going into
+the mainstream 2.4 kernels... (Cutting scheduling latencies does
+bring advantages in other areas than real time processing as well.)
 
 
+//David
 
-> I have been trying to use X11Amp as MP3 player. When my machine is under little or no load, the player works fine, but when it is under high load, the player seems to lost syncronism, and starts to make noise like that of a radio when no station is tuned on. To make it start again, I have to try to play the osng again many times until it works back again. Can some one tell me what is going on?? Can I prevent this??
-> 
-> Thanks for your help, and sorry for my english
-> 
-> Ricardo Amizquita
-> 
-> 
-> LYCOShop is now open. On your mark, get set, SHOP!!!
-> http://shop.lycos.com/
-> 
+
+.- M u C o S -------------------. .- A u d i a l i t y ----------------.
+| A Free/Open Multimedia        | | Rock Solid, Hard Real Time,        |
+| Plugin & Integration Standard | | Low Latency Signal Processing      |
+`------> www.linuxdj.com/mucos -' `--> www.angelfire.com/or/audiality -'
+.- D a v i d   O l o f s o n ------------------------------------------.
+| Audio Hacker, Linux Advocate, Open Source Advocate, Singer/Composer  |
+`----------------------------------------------> audiality@swipnet.se -'
