@@ -1,118 +1,65 @@
-From: Gerald Teschl <gerald@esi.ac.at>
-Date: Thu, 06 Jun 2002 18:30:28 +0000
-Subject: [PATCH] isapnp_dma0.patch
-Message-Id: <marc-linux-sound-102338865605959@msgid-missing>
+From: Samuel Thibault <Samuel.Thibault@ens-lyon.fr>
+Date: Sun, 30 Jun 2002 20:33:43 +0000
+Subject: [PATCH] 2.4.18 drivers/sound/maestro.c
+Message-Id: <marc-linux-sound-102546924217499@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-When trying to fix the isapnp activation problem of the OPL3Sa4 card Zwane 
-Mwaikambo and I now agree
-that the proper way to fix this is by changing isapnp.c and making the use 
-of the dma channel 0
-configurable. If a box works fine with dma 0 the user should be able to 
-tell isapnp to use it.
 
-The patch below makes the use of the dma channel 0 configurable via 
-/proc/isapnp or via the
-module option "isapnp_allow_dma0=0|1". The default behaviour is not to 
-accept dma 0. It is
-againts 2.4.19-pre10 and I have tested it on three different boxes.
+Hi !
 
-Gerald
+maestro.c:3537 takes care about volume button pressing when requesting irq
+(maestro_probe) :
 
+	if((ret=request_irq(card->irq, ess_interrupt, SA_SHIRQ, card_names[card_type], card)))
+	{
+		<snipped>
+	}
 
----------------------------------
---- linux.orig/drivers/pnp/isapnp.c	Thu Jun  6 18:04:43 2002
-+++ linux/drivers/pnp/isapnp.c	Thu Jun  6 18:22:56 2002
-@@ -28,6 +28,8 @@
-  *  2001-11-07  Added isapnp_{,un}register_driver calls along the lines
-  *              of the pci driver interface
-  *              Kai Germaschewski <kai.germaschewski@gmx.de>
-+ *  2002-06-06  Made the use of dma channel 0 configurable 
-+ *              Gerald Teschl <gerald.teschl@univie.ac.at>
-  */
- 
- #include <linux/config.h>
-@@ -59,6 +61,7 @@
- int isapnp_disable;			/* Disable ISA PnP */
- int isapnp_rdp;				/* Read Data Port */
- int isapnp_reset = 1;			/* reset all PnP cards (deactivate) */
-+int isapnp_allow_dma0 = -1;		/* allow dma 0 during auto activation: -1=off (:default), 0=off (set by user), 1=on */
- int isapnp_skip_pci_scan;		/* skip PCI resource scanning */
- int isapnp_verbose = 1;			/* verbose mode */
- int isapnp_reserve_irq[16] = { [0 ... 15] = -1 };	/* reserve (don't use) some IRQ */
-@@ -74,6 +77,8 @@
- MODULE_PARM_DESC(isapnp_rdp, "ISA Plug & Play read data port");
- MODULE_PARM(isapnp_reset, "i");
- MODULE_PARM_DESC(isapnp_reset, "ISA Plug & Play reset all cards");
-+MODULE_PARM(isapnp_allow_dma0, "i");
-+MODULE_PARM_DESC(isapnp_allow_dma0, "Allow dma value 0 during auto activation");
- MODULE_PARM(isapnp_skip_pci_scan, "i");
- MODULE_PARM_DESC(isapnp_skip_pci_scan, "ISA Plug & Play skip PCI resource scanning");
- MODULE_PARM(isapnp_verbose, "i");
-@@ -1750,13 +1755,14 @@
- 
- static int isapnp_check_dma(struct isapnp_cfgtmp *cfg, int dma, int idx)
- {
--	int i;
-+	int i, mindma =1;
- 	struct pci_dev *dev;
- 
- 	/* Some machines allow DMA 0, but others don't. In fact on some 
- 	   boxes DMA 0 is the memory refresh. Play safe */
--	   
--	if (dma < 1 || dma = 4 || dma > 7)
-+	if (isapnp_allow_dma0 = 1)
-+		mindma = 0;
-+	if (dma < mindma || dma = 4 || dma > 7)
- 		return 1;
- 	for (i = 0; i < 8; i++) {
- 		if (isapnp_reserve_dma[i] = dma)
---- linux.orig/drivers/pnp/isapnp_proc.c	Wed Jan 17 22:29:14 2001
-+++ linux/drivers/pnp/isapnp_proc.c	Thu Jun  6 18:07:20 2002
-@@ -944,6 +944,22 @@
- 	res->start = res->end = dma;
- 	res->flags = IORESOURCE_DMA;
- }
+	/* Turn on hardware volume control interrupt.
+	   This has to come after we grab the IRQ above,
+	   or a crash will result on installation if a button has been pressed,
+	   because in that case we'll get an immediate interrupt. */
+	n = inw(iobase+0x18);
+	n|=(1<<6);
+	outw(n, iobase+0x18);
+
+but not when unloading module : in fact, this bit is never cleared.
+Indeed, loading the module, unloading it, and pressing a volume button
+immediately crashes.
+
+This cures the problem :
+
+diff -urN linux-2.4.18/drivers/sound/maestro.c linux-2.4.18-cor/drivers/sound/maestro.c
+--- linux-2.4.18/drivers/sound/maestro.c	Sun Jun 30 22:00:22 2002
++++ linux-2.4.18-cor/drivers/sound/maestro.c	Sun Jun 30 22:02:11 2002
+@@ -3569,9 +3569,18 @@
+ static void maestro_remove(struct pci_dev *pcidev) {
+ 	struct ess_card *card = pci_get_drvdata(pcidev);
+ 	int i;
++	u32 n;
+
+ 	/* XXX maybe should force stop bob, but should be all
+ 		stopped by _release by now */
 +
-+extern int isapnp_allow_dma0;
-+static int isapnp_set_allow_dma0(char *line)
-+{
-+	int i;
-+	char value[32];
++	/* Turn off hardware volume control interrupt.
++	   This has to come before we leave the IRQ below,
++	   or a crash results if a button is pressed ! */
++	n = inw(card->iobase+0x18);
++	n&=~(1<<6);
++	outw(n, card->iobase+0x18);
 +
-+	isapnp_get_str(value, line, sizeof(value));
-+	i = simple_strtoul(value, NULL, 0);
-+	if (i < 0 || i > 1) {
-+		printk("isapnp: wrong value %i for allow_dma0\n", i);
-+		return 1;
-+	}
-+	isapnp_allow_dma0 = i;
-+	return 0;
-+}
-  
- static int isapnp_set_dma(char *line)
- {
-@@ -1030,6 +1046,8 @@
- 	char cmd[32];
- 
- 	line = isapnp_get_str(cmd, line, sizeof(cmd));
-+	if (!strcmp(cmd, "allow_dma0"))
-+		return isapnp_set_allow_dma0(line);
- 	if (!strcmp(cmd, "card"))
- 		return isapnp_set_card(line);
- 	if (!strcmp(cmd, "csn"))
---- linux.orig/Documentation/isapnp.txt	Wed Apr 18 20:49:11 2001
-+++ linux/Documentation/isapnp.txt	Thu Jun  6 18:17:55 2002
-@@ -29,6 +29,7 @@
- poke <reg> <value>	- poke configuration byte to selected register
- pokew <reg> <value>	- poke configuration word to selected register
- poked <reg> <value>	- poke configuration dword to selected register
-+allow_dma0 <value>	- allow dma channel 0 during auto activation: 0=off, 1=on
- 
- Explanation:
- 	- variable <idx> begins with zero
+ 	free_irq(card->irq, card);
+ 	unregister_sound_mixer(card->dev_mixer);
+ 	for(i=0;i<NR_DSPS;i++)
+
+This patch also apply to 2.5 series (tested on 2.5.24) in linux/sound/oss
+by using -p3.
+
+Best regards,
+
+Samuel Thibault
 
