@@ -1,33 +1,42 @@
-From: RavindranathReddy@lntinfotech.com
-Date: Mon, 01 Apr 2002 13:25:12 +0000
-Subject: problem in playing the sound recorded in different card.
-Message-Id: <marc-linux-sound-101766665601755@msgid-missing>
+From: gumble <gumble@gmx.li>
+Date: Wed, 10 Apr 2002 13:47:35 +0000
+Subject: [linux-sound] typo in alsa sound system upto kernel 2.5.8pre2
+Message-Id: <marc-linux-sound-101844707210313@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-hi,
+hi 
+i found a bug, or better a typo in the alsa drivers in the 2.5.x kernels
 
-i have problem in playing the sound recorded in one sound card does not
-play in different sound card.
-
-this is the way i tried.
-i used the command on the prompt "cat  /dev/dsp > raw" to read the voice
-data and store to a file, and this PC has YAMAHA YMF740 sound card.
-
-i copied the same file to the different PC which has Intel sound card and
-played by using "cat raw > /cat/dsp" and it does not play.
-
-please help me in this.
+compiling a 2.5.8pre2 with alsa support for my sb16 isa :) i got this message
 
 
-regards,
-Ravindranath Reddy K
-L&T infotech (Communications and Embedded System)
-KIADB Industrial Estate - HOOTAGALLI- MYSORE
-KARNATAKA-571186
-PhoneNo:91-821-402561  Ext:2609
-Fax: 91-821-402813 / 468
+sound/sound.o: In function `snd_opl3_hwdep_new':
+sound/sound.o(.text+0x2b74c): undefined reference to `snd_hwdep_new'
+make: *** [vmlinux] Error 1
 
+
+so i googled around and didnt find anything ....
+later i got the idea to grep the srces
+and i found a typo in 
+
+linux/sound/drivers/opl3/opl3_lib.c
+line 492
+
+if ((err = snd_hwdep_new(card, "OPL2/OPL3", device, &hw)) < 0) {
+
+-->
+
+if ((err = snd_opl3_hwdep_new(card, "OPL2/OPL3", device, &hw)) < 0) {
+
+and the kernel can be compiled
+
+i hope it's correct or does not produce new bugs at least 
+
+
+
+mfg
+gumble
