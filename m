@@ -1,21 +1,34 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Mon, 26 Jul 1999 21:01:21 +0000
-Subject: Re: Ensoniq Audio PCI ES1370- no CD-Audio !
-Message-Id: <marc-linux-sound-93302376610530@msgid-missing>
+From: Abe Smith <abe@execpc.com>
+Date: Fri, 23 Jul 1999 02:24:18 +0000
+Subject: setting up sblive
+Message-Id: <marc-linux-sound-93269644400113@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93302376110504@msgid-missing>
-In-Reply-To: <marc-linux-sound-93302376110504@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-David Jander (djander@alumnos.utfsm.cl) said: 
-> 1.- CD-audio does not sound: Apparently the mixer DOS not support the CD-audio
-> channel correctly, is that true ? Anybody knows about this issue ? Any
-> newer kernel/driver version fixes this ? Maybe ALSA ? 
+I apologize in advance for the foolishness of this question:
 
-Set the CD audio as the recording source - that should cause it
-to work (this is fixed under ALSA, IIRC.)
 
-Bill
+I'm trying to use an SB Live! on a P133 with 128M running redhat 5.2
+(kernel 2.0.36-0.7)
+I was previously using a quirky sb16
+
+I'm trying to get Creative's v0.2 beta driver to work, and the install
+process claims to work, and have tried the "manual" method as well (as
+per the INSTALL file).  The card doesn't even seem to be recognized on
+boot, and of course, none of the audio devices work.  
+
+are there any thing obvious that I'm missing?
+I've neve really dealt with modular kernels before.. anything I'm
+missing there?
+might the v0.3 driver work, even with my slower CPU, etc?
+
+
+thanks
+
+
+-- 
+Abraham D. Smith   <abesmith@execpc.com>  Wisconsin, USA
+--------------------------------------------------------
