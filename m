@@ -1,21 +1,28 @@
-From: Dan Hollis <goemon@sasami.anime.net>
-Date: Tue, 22 Jun 1999 00:41:38 +0000
-Subject: Re: SB-Live!
-Message-Id: <marc-linux-sound-93001103221955@msgid-missing>
+From: Carsten Friebel <carsten_friebel@gmx.net>
+Date: Thu, 10 Jun 1999 23:35:36 +0000
+Subject: SB32 Suse6.1
+Message-Id: <marc-linux-sound-92906274826363@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92982369020576@msgid-missing>
-In-Reply-To: <marc-linux-sound-92982369020576@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, 21 Jun 1999, Thomas C Sobczynski wrote:
-> Most importantly, does Digital I/O work?  (I'm eyeing my MiniDisc...)
+Hello,
 
-Digital i/o works on Trident 4dwave-NX cards. And the alsa driver works
-nice too. Get an NX card from www.hoontech.com
+I got aproblem with an original SB32. I have done the pnpdump and isapnp
+thing and it works like shown in the book.
 
-I use it with my minidisc recorder and it works great 8)
+isapnp isapnp.conf shows 4 devices (Audio, Game, wavetable, IDE).
 
--Dan
+I tried to load the sb modul with
+
+modprobe sb io=0x0220 irq=5 dma=1 dma16=5 mpu_io=0x0330
+
+but an lsmod didn't show the correct answer.
+
+any hints for me
+
+
+Carsten Friebel
+Berlin, Germany
