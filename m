@@ -1,63 +1,45 @@
-From: Omachonu Ogali <omachonu.ogali@softhome.net>
-Date: Thu, 18 Feb 1999 09:58:29 +0000
-Subject: Re: Players....
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="------------ADA4BC968DAC071106349658"
-Message-Id: <marc-linux-sound-91933142428438@msgid-missing>
+From: Conde Martinez Rodolfo <rconde@ada.fciencias.unam.mx>
+Date: Mon, 22 Feb 1999 02:37:15 +0000
+Subject: AWE64
+Message-Id: <marc-linux-sound-91965172830159@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91926553102192@msgid-missing>
-In-Reply-To: <marc-linux-sound-91926553102192@msgid-missing>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------ADA4BC968DAC071106349658
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
 
-Steve Nickels wrote:
-> 
-> Hi there. Can anyone recommend linux audio players for cd, mp3, midi, etc?
-> I finally got my awe64 to work and I need something to do with it. :)
-> 
-> Thanks!
-> --Steve
+	Hi all, i'm new here, heard about the list and here i'm with a
+problem with SB AWE64 PnP (i guess i'm not the first one to ask about it) 
 
-A good Mp3 I would recommend to you is X11Amp
-(http://www.x11amp.bz.nu), it is based off of
-OSS (Open Sound System), so it has no compa-
-tibility problems with Linux. I chose it for
-its graphical interface and status monitoring.
+	With my SB AWE64, i haven't been able to make the
+Awe wave table work, awe_wave says it doesn't dettect it and i tried
+uncommenting the lines in awe_config.h about the base io address and the
+DRAM size, it prints <SoundBlaster EMU..blabla> then i load a font with
+sfxload and try drvmidi but there isn't any sound, playmidi says something
+like no playback device found aborting.....What can it be ??...the other
+modules load well and detect the card, Could it be that the card has
+enabled the mpu-401 uart, i read in the manuall that it's disabled setting
+a jumpper ??? Acording to OSS/Comercial my card is a Creative SB AWE64 PnP
+type 4
 
-Workman is an excellent CD player for Linux,
-it meets up to needs of a standard CD player,
-pay, skip, search, etc. 
 
-Right now, I cannot remember anymore audio
-playing utilities for Linux, but I'll give
-you a shout when I can.
+	About the PnP think i have used first the bios to configure
+devices, it works ok with the modem know, and with the Sb it configures it
+too....supposed because everythink works but the wave table, and then i
+tried isapnptools with the three io's required for the table but didn't
+work :( Any ideas would be apreciated.....
 
-Sincerely, 
-Omachonu Ogali...omachonu.ogali@softhome.net
----
-What's soft, furry, and bites? It sure ain't no penguin...
---------------ADA4BC968DAC071106349658
-Content-Type: text/x-vcard; charset=us-ascii;
- name="omachonu.ogali.vcf"
-Content-Transfer-Encoding: 7bit
-Content-Description: Card for Omachonu Ogali
-Content-Disposition: attachment;
- filename="omachonu.ogali.vcf"
+ 
 
-begin:vcard 
-n:Ogali;Omachonu
-x-mozilla-html:FALSE
-org:Intranova Networking Group;Internet Services Division
-adr:;;;;;;
-version:2.1
-email;internet:omachonu.ogali@softhome.net
-title:Network Administrator
-x-mozilla-cpt:;0
-fn:Omachonu Ogali
-end:vcard
+	Thanks for your answers !!!!!
 
---------------ADA4BC968DAC071106349658--
+
+
+-------------------------------------------------------------------------------
+| Rodolfo Conde Mtz                   Universidad Nacional Autonoma de Mexico |
+| ICQ      14757500                   Facultad de Ciencias                    |
+| e-mails:                            Ciencias de la Computacion              |
+| rconde@ada.fciencias.unam.mx                                                |
+| conderodolfo@usa.net                                                        |
+-------------------------------------------------------------------------------
