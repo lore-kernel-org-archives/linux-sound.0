@@ -1,7 +1,7 @@
-From: Itai Nahshon <nahshon@actcom.co.il>
-Date: Sun, 04 Oct 1998 00:52:25 +0000
+From: Ishaaq Chandy <kuru@lw1.vsnl.net.in>
+Date: Sun, 04 Oct 1998 15:50:45 +0000
 Subject: Re: How do I use isapnp?
-Message-Id: <marc-linux-sound-90746568019702@msgid-missing>
+Message-Id: <marc-linux-sound-90751757632230@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90742331706312@msgid-missing>
 In-Reply-To: <marc-linux-sound-90742331706312@msgid-missing>
@@ -10,56 +10,33 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Ishaaq Chandy wrote:
+Mike wrote:
 > 
-> Hi,
+> I have this card running in that I can play and record, but not at the
+> same time :)
 > 
-> I've been trying to get my PnP OPTi931 card (supposedly Soundblaster Pro
-> compatible) to work. Finally I managed to get it working by setting it
-> to IO 0x0220, DMA 1, IRQ 7 in DOS and then using Loadlin to load Linux.
+> I had some problems with pnpdump on an alpha with the 1.13 version of
+> isapnptools.  It would find the card, but the resulting file would fail
+> when I used
 > 
-> However as the sound quality is awful and I prefer using LILO I am quite
-> unsatisfied with this compromise.
+> ./isapnp isapnp.conf
 > 
+> You may or may not have this problem if you are using an intel based
+> machine, I do not know, but if you do, I recommend the newer version, it
+> works correctly.
 
-You should not use that card in the Soundblaster pro mode. This gives
-you only limited 8 bit sound. Better use the WSS driver with that card.
+ I am using an intel based system, a Pentium 200MMX. Your setup works
+fine. Thanks a ton for the trouble taken. However it only works so far
+as isapnp recognising the soundcard. I still get "sb: dsp reset failed"
+messages! The only way I have been able to avoid this is by using
+Dos->Loadlin->Linux (a highly distasteful method I admit!)
 
-> I heard that one can get the card working by using pnpdump, configuring
-> its output and lastly using isapnp on the configured output. I tried
-> this but pnpdump's output goes way above my head. Can someone help?
-> 
+I failed to mention that pnpprobe can't seem to find the card, what I
+don't understand is the fact that I have to go through all this headache
+even though my BIOS is PnP aware and must have already found the card.
 
-a. That's right. b. You have no reason at all to boot to Dos, isapnp
-   and the sound driver will overwrite the dos settings anyway.
+Thanks again for the trouble, I personaly feel that no matter what
+Linux's other great qualities are, one of its best is the ever-helpful
+Linux community.
 
-However, what you really need to do depends on the kernel
-that you use and also on your bios.
-
-The free driver for the OPTi 82C931 is using the card in it's non-PnP
-mode. 
-
-With older sound driver:
-(Linux 2.0.34 and older. I'm not sure about 2.0.35).
-There are several web sits that tell you how to set-up this card.
-You need to set isapnp in a way that will disable PnP for the card.
-Then, there is a user-mode program that patches some registers
-and then you can use the card as if it were a 82C931.
-
-With newer sound driver:
-(recent development kernels, possibly 3.0.35 or patches available
-from Alan Cox). Everything needed for configuration in the mad16 driver.
-(actual sound processing is in the ad1848 driver).
-Modularized sound driver is recommended. You may need to run isapnp
-but later when the sound driver is loaded it reinitializes the card
-with its own settings. Isapnp is needed to resolve the card only if
-you do not have a PnP bios.
-
-Write to me directly if you still have problems. Please give an exact
-description of your hardware, which system you use, do you have any
-experience with patching/configuring/compiling the Linux kernel?
-
-Itai
--- 
-Itai Nahshon   nahshon@actcom.co.il
-        Also   nahshon@vnet.ibm.com
+Ishaaq Chandy
