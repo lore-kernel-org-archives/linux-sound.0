@@ -1,27 +1,26 @@
-From: David Luyer <luyer@ucs.uwa.edu.au>
-Date: Mon, 14 Jun 1999 00:29:14 +0000
-Subject: Re: Module vs INTO KERNEL ?
-Message-Id: <marc-linux-sound-92931923926223@msgid-missing>
+From: DAVID BALAZIC <david.balazic@uni-mb.si>
+Date: Tue, 01 Jun 1999 16:10:39 +0000
+Subject: Help with SoftOSS
+Message-Id: <marc-linux-sound-92825235904179@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92911616207004@msgid-missing>
-In-Reply-To: <marc-linux-sound-92911616207004@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> Sound is best left as a module.  There is no reason to include it and it will
-> likely help make your kernel too large to compile.  Modules are your friend.
+Hi!
 
-They might be your friend, but they're not mine :P  There are many reasons 
-people might not want to use modules, see many other threads here.  And 
-modules actually take more RAM than building into the kernel if you actually
-use them, as well as increasing security issues and having some cost in terms
-of TLBs, etc.
+I'm trying to use SoftOSS ( kernel 2.2.9 ), but with no
+success yet. The kernel docs are pretty useless.
 
-Non-modular kernels are your friends.
+Is there any FAQ/HOWTO/whatever, that can help ?
+Anyone actually using it ?
 
-As to the first question, I'll send the person a copy of my non-modular OPL3SA2
-patch.
+10x in advance
 
-David.
+--
+David Balazic , student
+E-mail   : 1stein@writeme.com     |     living in  sLOVEnija
+home page: http://surf.to/stein
+Computer: Amiga 1200 + Quantum LPS-340AT
+--
