@@ -1,35 +1,22 @@
-From: Raoul Boenisch <st0136@hrz.uni-essen.de>
-Date: Sat, 16 Jan 1999 00:48:07 +0000
-Subject: Re: recording with Microphone
-Message-Id: <marc-linux-sound-91644419907849@msgid-missing>
+From: Lex Teba <elte@mathematik.hu-berlin.de>
+Date: Mon, 11 Jan 1999 20:18:19 +0000
+Subject: cmi8330
+Message-Id: <marc-linux-sound-91611412508779@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91612993715069@msgid-missing>
-In-Reply-To: <marc-linux-sound-91612993715069@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
+Hallo,
 
-On Mon, 11 Jan 1999, Georg Wendt wrote:
+I=B4m a Linux user and heard of this Mailing-list from the isapnp-tools.
+I=B4ve got a sound chip on board. It=B4s the cmi8330 (
+http://www.cmedia.com.tw ) Sound pro. It is WSS and SBPro compatible.
+Unfortunately I couldn=B4t find a full duplex sound driver for this card.
+Please help me to find information to let the ALSA project (
+http://alsa.jcu.cz ) be able to write a driver for me. Maybe I=B4m only to
+stupid to initialize the sound chip with the isapnp-tools.
 
-> im looking for a simple tool, that allows me to record voice using a
-> 
-> Microphone plugged into the Soundcard.
-> 
-> Best with Program-Code...
-> 
-> BTW, is there anything, I should especially take care of?
-
-Here is a solution with fixed sample length:
-
-# Record <count> seconds of audio from microphone
-dd bs=8k count=4 < /dev/audio > sample.au
-
-# Play back sound
-cat sample.au > /dev/audio
-
--- 
-Raoul Boenisch, Winkhauser Talweg 165, 45473 Muelheim an der Ruhr, Germany
-homepage: http://www.raoul.home.pages.de/       home phone: +49 208 764257
-Reply-To: st0136@hrz.uni-essen.de
+Thankful for any help
+Lex
