@@ -1,30 +1,40 @@
-From: "Ravi K. Swamy" <rks@rtp.mea.com>
-Date: Sat, 30 Oct 1999 20:04:53 +0000
-Subject: Problem with ESS Solo1
-Message-Id: <marc-linux-sound-94131439128758@msgid-missing>
+From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
+Date: Fri, 29 Oct 1999 20:34:28 +0000
+Subject: please end crossposting !
+Message-Id: <marc-linux-sound-94124258413905@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-9"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hello,
-   I've noticed a possible bug when playing realaudio files or the new
-game Unreal Tournament.  I have an ESS Solo1 card, lspci shows it as:
+hello everybody !
 
-00:0d.0 Multimedia audio controller: ESS Technology ESS 1969 (rev 01)
+i'm one of the poor lads who are subscribed to *both* l-a-d and l-s.
+somehow it seems to have become fashionable to crosspost everything.
+but this is not usenet, most mail readers *do not* erase duplicates,
+and each messages is actually carried and displayed twice.
+moreover, it works around my mail filters and makes my folders go
+haywire !
+this is really a drag, apart from being a huge waste of bandwidth.
 
-I've tried out both 2.2.12 and 2.3.24, and SMP and non-SMP on two different
-machines and noticed the same thing.  
+imho, crossposting is inappropriate for the majority of messages
+that showed up lately.
+if you definitely think your message has to go to both groups,
+specify *one* return address in your initial posting and carry on
+with the discussion in either group, but not both !
 
-When playing realaudio files with the new g2 player it sounds like the
-sound is played back 1000 times faster than it should be, none of the
-options in the player seem to help.  The same thing happens to sounds
-in Unreal Tournament.  Most sound programs work fine, x11amp/xmms, mpg123,
-sox/play for wav files, q3test, all work fine.
+please think about this.
 
-Is this a known bug?  I know that the realaudio player for linux has been
-quite buggy and unreal tournament is still just a demo but I thought I would
-ask if anyone has seen this behavior before.
+yours
 
-Ravi Swamy
+j=F6rn
+
+ps: forgive me this one time. i know i have sinned. i shall never
+cc: again.  >;->
+
+
+--=20
+J=F6rn Nettingsmeier    =20
+Kurf=FCrstenstr. 49       =20
+45138 Essen, Germany
