@@ -1,54 +1,74 @@
-From: Radu Raduta <radu@mail.dnttm.ro>
-Date: Tue, 12 Jan 1999 15:13:11 +0000
-Subject: You question about drivers for Linux (fwd)
-Message-Id: <marc-linux-sound-91615853230617@msgid-missing>
+From: Greg Wooledge <wooledge@kellnet.com>
+Date: Wed, 13 Jan 1999 00:33:49 +0000
+Subject: Re: SB16 problem
+Message-Id: <marc-linux-sound-91619197817330@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Thanks for the responses, everyone!  I'll only point out the most
+interesting comments here, and remove the attributions to preserve a
+bit of anonymity.
 
- as this was originally only posted to linux-kernel, i took myself the
-liberty of forwarding here also. hope it helps.
+> No. Sad to say, but it is really 8 bit DMA channel.
+> I heard that Vibra does not have 16 bit DMA.
+> 
+> Hence the error.
 
----------- Forwarded message ----------
-Date: Mon, 11 Jan 1999 19:25:02 -0800
-From: Jacob Hawley <jhawley@creaf.com>
-To: emarshal@logic.net
-Cc: "Linux (Kernel Reflector)" <linux-kernel@vger.rutgers.edu>
-Subject: You question about drivers for Linux
+This unfortunately matches what the manual hints at (but doesn't
+say outright).  In the "BLASTER environment variable" section, it says:
 
-Creative intends to put out two equally important pieces for the Linux
-community.
+Parameter   Description
+----------+----------------------------------------------------------------
+  Hx      | High DMA channel used by the audio interface.  x defaults to 5.
+          | Sound Blaster 16 model CT4181 only.
 
-1) An OSS Binary driver that can be used in the next few months from a company
-called 4Front.  This will allow Linux users to begin using their SB-Lives
-immediately, while Creative becomes more familiar with Linux.  This solves the
-immediate issue of a SB-Live working on Linux.
+> It's correct however - you don't (most probably) have 16 bit sound working.
+> Only 8bit. Try realplayer and you'll find that out!
 
-2) Longer term we will produce a library(.LIB) that can be linked into ALSA,
-OSS, or what ever.  This library will expose the features of the chip and will
-allow for additional functionality to be added.  I suspect this is what most
-people are actually asking for.  In addition, we will write some form of
-programmers reference guide to the chip so that anyone not interested in using
-the library can program their own driver.  We will likely put this out as a SDK,
-which will include some sample source code for initializing the chip.
+Under my original settings, I had to check the 'Disable 16-bit sound'
+box in rvplayer.  However, under my current settings I can hear sounds
+with the box checked or un-checked.  I'm leaving it un-checked.
 
-The timing on item #1 is as soon as possible (probably in the next few months),
-and the timing on item #2 is probably 6-9 months, depending on how long it takes
-me to hire engineers that are proficient at Linux & audio.
+> I think the vibra cards need a little tweak to the sound driver. I haven't had
+> time to look. Can you check out a recent driver?
 
-I have added myself to this reflector so please feel free to contact me through
-that or through jacob_hawley@msn.com
+I've also downloaded and tried the OSS commercial driver (demo), version
+osslinux392pre-glibc-220-pre6-UP.tar.gz, with 2.2.0-pre6.  I get very
+similar results -- there appears to be no 16-bit DMA channel.
 
-Jacob Hawley
-Sr. Manager, Custom Engineering
-Creative Labs, Inc.
-www.soundblaster.com
+(It would have been nice if the OSS pages had told me in advance that
+I'd have to use CONFIG_MODVERSIONS in my kernel for their driver to work.
+It would have saved me an extra kernel build.  Oh, well.)
+
+> (I moved the vibra that came with my new machine to somewhere else and hung
+> on to my classic sb16, which works nicely thank you).
+
+My other soundcard is an sb8. :-(  (It's still in my old machine, which
+is now an IP-masq gateway and NFS server.)
+
+> (DMA 1 (CHANNEL 5))
+> 
+> options sb io=0x220 irq=5 dma=1 dma16=5 mpu_io=0x330
+> 
+> Could you let me know if this works on your setup?
+
+Those are (some of) the lines I had.  They do not work with the ViBRA
+card.  I get the same problem I had originally -- no sound when using
+/dev/dsp, and error messages in dmesg.
 
 
--
-To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-the body of a message to majordomo@vger.rutgers.edu
-Please read the FAQ at http://www.tux.org/lkml/
+
+
+In summary, it seems I can get the ViBRA to play 16-bit sounds, but
+not through a 16-bit DMA channel.  I'm getting the "best" results with
+"options sb io=0x220 irq=5 dma=1 dma16=3 mpu_io=0x330" and the first
+("preferred") section in /etc/isapnp.conf.  I've successfully played .au,
+.wav, .mp3 and .ra sound files, so I'm pretty content.
+
+-- 
+Greg Wooledge                    | Distributed.NET http://www.distributed.net/
+wooledge@kellnet.com             | because a CPU is a terrible thing to waste.
+http://www.kellnet.com/wooledge/ |
