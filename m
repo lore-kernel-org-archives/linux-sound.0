@@ -1,26 +1,23 @@
-From: Daniel Manley <tubadanm@MailAndNews.com>
-Date: Sat, 27 May 2000 23:43:00 +0000
-Subject: Tips for a newbie
-Message-Id: <marc-linux-sound-95947127615905@msgid-missing>
+From: Raymond Hall <ray@kova.net>
+Date: Mon, 29 May 2000 19:14:52 +0000
+Subject: sound pro
+Message-Id: <marc-linux-sound-95962864118005@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
-Would anyone have any tips for a newbie Linux sound programmer?  I want to be 
-able to produce harmonic music (i.e. multi-voice).  Any online (or offline) 
-documentation I should read -- even on the concepts of sound and computers?  
-Should I develop for ALSA, OSS, Esound...?  Does that question even make 
-sense?
+Hello,
 
-Any help anyone could provide would be greatly appreciated!
+I have coma across several mainboards with an integrated sound-modem
+chip. Its a Sound Pro model. HT873/AM - PCI
+I'd appreciate any pointers to information on driver development for
+such chip.
+Thanx,
+Raymond
 
-Thanks,
-Dan
-
-======
-Dan Manley
-Toronto, Ontario, Canada
-tubadanm@mailandnews.com
+--
+Raymond Hall
+http://www.kova.net
+74 500C13d4d n0 35t4 4un 10 5uf1c13nt3m3nt3 cu3rd4 c0m0 p4r4 p3rm1t1r53 14 10cur4
