@@ -1,55 +1,51 @@
-From: Rainer Wiener <rainer@konqui.de>
-Date: Fri, 16 Jun 2000 05:16:35 +0000
-Subject: Re: no sound
-Message-Id: <marc-linux-sound-96113293809556@msgid-missing>
+From: "Nerijus" <nerijus@sat.lt>
+Date: Sun, 11 Jun 2000 14:12:49 +0000
+Subject: FW: Announce: Via 686 driver version 1.1.8 released
+Message-Id: <marc-linux-sound-96073704225517@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-96112557801963@msgid-missing>
-In-Reply-To: <marc-linux-sound-96112557801963@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi wackode!
 
-On Thu, 15 Jun 2000, wackode .....! wrote:
-
-> Hello list:
->=20
->    I have a laptop toshiba satellite 2540CDS which uses a yamaha opl3-sax=
-=20
-> wdm sound card, how can i make it works?
->=20
-> I have linux redhat 6.2.
->=20
-> I=B4ve tried with oss, but isn=B4t supported.
-
-Try the following in the kernel:
-
-<M> Sound card support
-<M> OSS sound modules
-<M> MPU-401 support (NOT for SB16)
-<M> Microsoft Sound System support
-<M> Support for Yamaha OPL3-SA2, SA3, and SAx based PnP cards
-<M> Yamaha OPL3-SA1 audio controller
-<M> FM synthesizer (YM3812/OPL-3) support
-
-and put this lines into the /etc/modules.conf file:
-
-alias sound-slot-0 ad1848
-alias sound-slot-0 opl3sa2
-options sound dmabuf=3D1
-alias midi opl3
-options opl3 io=3D0x388
-options opl3sa2 mss_io=3D0x530 irq=3D9 dma=3D1 dma2=3D0 mpu_io=3D0x330 io=
-=3D0x370
+-----Original Message-----
+From: owner-linux-kernel@vger.rutgers.edu
+[mailto:owner-linux-kernel@vger.rutgers.edu]On Behalf Of Jeff Garzik
+Sent: Sunday, June 11, 2000 8:12 AM
+To: linux-via@havoc.gtf.org; Linux Kernel Mailing List
+Subject: Announce: Via 686 driver version 1.1.8 released
 
 
-It could be that you must set the irq and dma in your BIOS.
+The latest Linux kernel driver for Via 686-based audio chips,
+development version 1.1.8, was just posted at
 
-Cu
-Rainer
+	http://gtf.org/garzik/drivers/via82cxxx/
 
-PS: Also have a look at my Homepage http://www.konqui.de
---=20
- http://www.konqui.de ** PGP PUBLIC KEY AVAILABLE ON REQUEST=20
+It is also available in kernel version 2.4.0-test1-ac11 or later.
+
+Version 1.1.8 should round out playback support quite well, fixing a
+couple bugs as well as introducing spiffy new DocBook-based PDF
+documentation.  Let me know if any problems with playback persist.
+
+Specific changes are:
+
+* Fix K7M/K7V problems related to touching the SB legacy settings
+register.
+* Fix "unhandled interrupt" messages.
+* Make interrupt routine a bit smaller.
+* PDF and inline docs
+
+As usual, since this is a development version, the usual disclaimers
+apply -- don't use it on a production system, don't assume its stable,
+don't feed it to your cat, etc.
+
+--
+Jeff Garzik              | Liberty is always dangerous, but
+Building 1024            | it is the safest thing we have.
+MandrakeSoft, Inc.       |      -- Harry Emerson Fosdick
+
+-
+To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+the body of a message to majordomo@vger.rutgers.edu
+Please read the FAQ at http://www.tux.org/lkml/
