@@ -1,7 +1,7 @@
-From: Wima Sangga Yudanto <wima@telkom.net>
-Date: Wed, 24 Feb 1999 23:47:53 +0000
+From: Adam Crews <doo@shroom.com>
+Date: Thu, 25 Feb 1999 02:30:51 +0000
 Subject: Re: Yamaha OPL3-Sax sound card
-Message-Id: <marc-linux-sound-91990724818355@msgid-missing>
+Message-Id: <marc-linux-sound-91991002220049@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91989263906824@msgid-missing>
 In-Reply-To: <marc-linux-sound-91989263906824@msgid-missing>
@@ -10,26 +10,41 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I use 2.0.36 kernel on my satellite 2500cds, its works fine. And i use it
-too on my desktop with opl3-sax.
 
-Don't configure it as SB, it will not working properly, but configure as
-MSS/WSS will do much better.
+On my Tecra 8000, the manual says that it is a OPL3-SAx card, but the
+sound modules that seems to power it is the MSS module.
 
-if pnpdump don't recognize your sc, try to force it. 
-boot your system in DOS and run your sc configuration, write down the io,
-irq, dma, etc. and then instal the modules.
+I havent played with it too much, but I do know that the MSS module does
+play 16bit sound through the card.
+
+-Adam
 
 On Wed, 24 Feb 1999, Ramon Nieto wrote:
 
-> i have a Yamaha OPL3-SAx sound card on a toshiba satellite 2500cds. 
-> i instaled linux red hat 5.1 and i know this can't recognize the sound
-> card i tried to configure it as a sound blaster but it only play in 8
-> bits mode, the sound card support 16 bit mode.
-> 
-> BTW the isapnptools don't recognize the sound card as a PnP card.
-
-
-Wima Sangga Y.
---------------
-Engineering Physics - ITS
+  | Date: Wed, 24 Feb 1999 08:46:29 -0800 (PST)
+  | From: Ramon Nieto <ramon_nieto@yahoo.com>
+  | To: linux-sound@vger.rutgers.edu
+  | Cc: linux-laptop@vger.rutgers.edu
+  | Subject: Yamaha OPL3-Sax sound card
+  | 
+  | i have a Yamaha OPL3-SAx sound card on a toshiba satellite 2500cds. 
+  | i instaled linux red hat 5.1 and i know this can't recognize the sound
+  | card i tried to configure it as a sound blaster but it only play in 8
+  | bits mode, the sound card support 16 bit mode.
+  | 
+  | So i compiled the 2.2.0 kernel with all the support for sound card as
+  | modules. but i can't configure the sound card yet.
+  | 
+  | anybody knows what to do? what can i write in the conf.modules? how
+  | can i use the OSS modules?
+  | 
+  | 
+  | BTW the isapnptools don't recognize the sound card as a PnP card.
+  | 
+  | 
+  | 
+  | 
+  | _________________________________________________________
+  | DO YOU YAHOO!?
+  | Get your free @yahoo.com address at http://mail.yahoo.com
+  | 
