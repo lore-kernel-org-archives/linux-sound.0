@@ -1,47 +1,35 @@
-From: llornkcor <llornkcor@llornkcor.com>
-Date: Thu, 08 Jul 1999 22:47:56 +0000
-Subject: Re: Low-level noise problem.
-Message-Id: <marc-linux-sound-93147488008861@msgid-missing>
+From: David Jander <djander@alumnos.utfsm.cl>
+Date: Mon, 26 Jul 1999 20:59:03 +0000
+Subject: Ensoniq Audio PCI ES1370- no CD-Audio !
+Message-Id: <marc-linux-sound-93302376110504@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93146899103709@msgid-missing>
-In-Reply-To: <marc-linux-sound-93146899103709@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
-hmm good question, I have noticed this also....
+Hi all,
+
+A friend recently installed Red-Hat 6.0, and since he is a newbie, I helped him
+configuring the sound-card, an Ensoniq Audio PCI ES-1370
+I compiled the kernel (2.2.5) with support for the ES-1370, and everything
+worked fine, except for some "details":
+
+1.- CD-audio does not sound: Apparently the mixer DOS not support the CD-audio
+channel correctly, is that true ? Anybody knows about this issue ? Any
+newer kernel/driver version fixes this ? Maybe ALSA ? 
+Under Windoze, it works fine, i.e. you can hear CD-audio and control the
+volume with the mixer, but in linux... silence (well... noise actually) !
+
+2.- Sound output has a constant background noise, just as if one mixer channel
+(with noise) was wide open, when all mixer sliders are at zero position. This
+also does not occur under Windoze.
+
+Thanks for any advice ...
 
 
-On Thu, 08 Jul 1999, Dave Mielke wrote:
-> Hi:
-> 
-> If this is the wrong list for the following question, would someone please let
-> me know the correct forum in which to ask it.
-> 
-> I am using the 2.0.36 kernel with a SoundBlaster AWE64 card. When the sound
-> level is very low I can hear quite a noticeable flickering. It is as though
-> some channel within the card is quickly toggling on and off as the
-> instantaneous signal level hovers just above and just below some threshold.
-> This does not happen on Win95, so I'm wondering if it has something to do with
-> the card's default configuration and/or Linux's method of initializing it. Does
-> anyone know what might be behind this problem, and what I might do to solve it?
-> 
-> Thanks.
-> 
-> -- 
-> Dave Mielke           | 856 Grenon Avenue | I believe that the Bible is the
-> Phone: 1-613-726-0014 | Ottawa, Ontario   | Word of God. Please contact me
-> EMail: dave@mielke.cc | Canada  K2B 6G3   | if you're concerned about Hell.
---
-llornkcor rocknroll
-SpiritShip MultiMedia Recording Studio
-www.llornkcor.com
-			        (0 0)
-+============----oOO--(_)--OOo----=============+
-   __   _
-  / /  (_)__  __ ____  __    
- / /__/ / _ \/ // /\ \/ /  
-/____/_/_//_/\_,_/ /_/\_\
-    The choice of a GNU generation...
+---------------------------------------------------------------------
+David Jander J.                   | "M$-Windows sux, Linux Rulez !  
+Electronics Student, UTFSM, Chile |  That's it !"
+E-Mail : djander@alumnos.utfsm.cl |               -Me
