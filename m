@@ -1,7 +1,7 @@
-From: Michael Stutz <stutz@dsl.org>
-Date: Mon, 24 May 1999 16:13:35 +0000
+From: Dan Hollis <goemon@sasami.anime.net>
+Date: Mon, 24 May 1999 18:04:01 +0000
 Subject: Re: good (and free) mp3 encoders?
-Message-Id: <marc-linux-sound-92778042208069@msgid-missing>
+Message-Id: <marc-linux-sound-92781752513268@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92733463802226@msgid-missing>
 In-Reply-To: <marc-linux-sound-92733463802226@msgid-missing>
@@ -10,11 +10,15 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, 25 May 1999, Keith Duthie wrote:
+On Sat, 22 May 1999, Michael Stutz wrote:
+> On Thu, 20 May 1999, qozmo x xx wrote:
+> > hey, can anybody point me toward a good, free mp3 encoder for
+> > linux that is not a trial version??
+> IIRC there can't be an mp3 encoder that is free software because of patent
+> problems;
 
-> Bladeenc is going to be released with source[1] if and when some patent
-> issues are dealt with.
+Wrong. There are countries where they (rightly) do not recognize patents
+on algorithms. One of the free mp3 encoders was written there, where
+Fraunhofer cannot touch them.
 
-Do you know when this might happen, and if the source code will be open
-source/free software when it is released? Unless I missed it, the Bladeenc
-site doesn't seem to mention anything about this.
+-Dan
