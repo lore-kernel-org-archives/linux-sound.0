@@ -1,40 +1,36 @@
-From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
-Date: Fri, 29 Oct 1999 20:34:28 +0000
-Subject: please end crossposting !
-Message-Id: <marc-linux-sound-94124258413905@msgid-missing>
+From: Billy Biggs <vektor@div8.net>
+Date: Sat, 30 Oct 1999 18:21:12 +0000
+Subject: Re: please end crossposting !
+Message-Id: <marc-linux-sound-94130787723680@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-94124258413905@msgid-missing>
+In-Reply-To: <marc-linux-sound-94124258413905@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-9"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-hello everybody !
+[ I nuked L-A-D from this message ]
 
-i'm one of the poor lads who are subscribed to *both* l-a-d and l-s.
-somehow it seems to have become fashionable to crosspost everything.
-but this is not usenet, most mail readers *do not* erase duplicates,
-and each messages is actually carried and displayed twice.
-moreover, it works around my mail filters and makes my folders go
-haywire !
-this is really a drag, apart from being a huge waste of bandwidth.
+On Fri, 29 Oct 1999, [iso-8859-1] J=F6rn Nettingsmeier wrote:
 
-imho, crossposting is inappropriate for the majority of messages
-that showed up lately.
-if you definitely think your message has to go to both groups,
-specify *one* return address in your initial posting and carry on
-with the discussion in either group, but not both !
+> i'm one of the poor lads who are subscribed to *both* l-a-d and l-s.
+> somehow it seems to have become fashionable to crosspost everything.
 
-please think about this.
+  I'm having a bit of a dillema.  Linux-sound and LAD both seem to have
+the same mandate, no?  I guess LAD is more for discussion of dev issues...
 
-yours
+  In my case, I see linux-sound as having the critical feature of being
+well hosted.  It's a responsive list, and most importantly, is web
+archived.
 
-j=F6rn
+  However, LAD seems to have a very good reader base, possibly better than
+linux-sound.  So, I don't want to not include it in messages.
 
-ps: forgive me this one time. i know i have sinned. i shall never
-cc: again.  >;->
+  What's the solution?  Get linux-audio-dev better hosted, and ditch
+linux-sound for app-dev related issues?  Wait until I stop posting so many
+messages?  I'm not sure.  Thoughts?
 
-
---=20
-J=F6rn Nettingsmeier    =20
-Kurf=FCrstenstr. 49       =20
-45138 Essen, Germany
+--
+Billy Biggs                         vektor@div8.net
+http://www.div8.net/billy       wbiggs@uwaterloo.ca
