@@ -1,76 +1,69 @@
-From: Tim Koopman <tkoopman@email.com>
-Date: Sun, 04 Apr 1999 21:34:12 +0000
-Subject: Setting up a sound card (PCI 368 DSP Thunderbird)
-Message-Id: <marc-linux-sound-92326198517795@msgid-missing>
+From: Raimi <raimi@lkcc.org>
+Date: Fri, 09 Apr 1999 20:45:00 +0000
+Subject: ViperMax (ESS + GUS) / GUS Volume
+Message-Id: <marc-linux-sound-92368213931275@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
 
-I have a PCI 368DSP sound card.  I have never set any type of sound card
+Hello all!
 
-up in linux before (Well, I am actually new to linux), so I would like
-some help in doing so.
-Can any please email me where I can find out what IRQ & I/Os the sound
-card is on and anything else I might need to know.  I think the IRQ is 9
+I have  Souncard called ViperMax produced by the long-gone company
+Synergy.
 
-but I am not sure on the I/Os.  I have the /proc/pci file append on the
-end if that helps.
+Furthermore I am talking about a Vanilla 2.2.5 kernel in x86 Linux.
 
-Thanks Tim.
+The ViperMax is basically an ESS ES1688 Audiodrive and a Gravis
+Ultrasound Max. Unfortunately they left out the CS4231 which
+is the mixer, I believe.
 
-PCI devices found:
-  Bus  0, device   0, function  0:
-    Host bridge: Intel 440LX - 82443LX PAC Host (rev 3).
-      Medium devsel.  Fast back-to-back capable.  Master Capable.
-Latency2.
-      Prefetchable 32 bit memory at 0xf0000000 [0xf0000008].
-  Bus  0, device   1, function  0:
-    PCI bridge: Intel 440LX - 82443LX PAC AGP (rev 3).
-      Medium devsel.  Fast back-to-back capable.  Master Capable.
-Latencyd.  Min Gnt.
-  Bus  0, device   7, function  0:
-    ISA bridge: Intel 82371AB PIIX4 ISA (rev 1).
-      Medium devsel.  Fast back-to-back capable.  Master Capable.  No
-bursts.
-  Bus  0, device   7, function  1:
-    IDE interface: Intel 82371AB PIIX4 IDE (rev 1).
-      Medium devsel.  Fast back-to-back capable.  Master Capable.
-Latency2.
-      I/O at 0xfff0 [0xfff1].
-  Bus  0, device   7, function  2:
-    USB Controller: Intel 82371AB PIIX4 USB (rev 1).
-      Medium devsel.  Fast back-to-back capable.  Master Capable.
-LatencyH.
-      I/O at 0x5800 [0x5801].
-  Bus  0, device   7, function  3:
-    Bridge: Intel 82371AB PIIX4 ACPI (rev 1).
-      Medium devsel.  Fast back-to-back capable.
-  Bus  0, device  20, function  0:
-    Multimedia audio controller: VLSI Unknown device (rev 25).
-      Vendor id04. Device id04.
-      Medium devsel.  Fast back-to-back capable.  IRQ 9.  Master
-Capable.  Latencyr.  Min Gnt=9.Max Lat@.
-      I/O at 0x7c00 [0x7c01].
-      I/O at 0x6c70 [0x6c71].
-      I/O at 0x6c54 [0x6c55].
-      I/O at 0x6c58 [0x6c59].
-  Bus  0, device  20, function  1:
-    Input device controller: VLSI Unknown device (rev 25).
-      Vendor id04. Device id05.
-      Medium devsel.  Fast back-to-back capable.
-      I/O at 0x6c60 [0x6c61].
-  Bus  0, device  20, function  2:
-    Serial controller: VLSI Unknown device (rev 25).
-      Vendor id04. Device id06.
-      Medium devsel.  Fast back-to-back capable.
-      I/O at 0x6c68 [0x6c69].
-  Bus  1, device   0, function  0:
-    VGA compatible controller: Cirrus Logic GD 5465 (rev 3).
-      Medium devsel.  Fast back-to-back capable.  IRQ 9.  Master
-Capable.  Latency8.  Min Gnt.Max Lat.
-      Non-prefetchable 32 bit memory at 0xf6000000 [0xf6000000].
-      Non-prefetchable 32 bit memory at 0xf5ff0000 [0xf5ff0000].
+Thus my dmesg says: ----------------------------------------------
+Sound initialization started
+<ESS ES1688 AudioDrive (rev 11) (3.1)> at 0x220 irq 7 dma 1,5
+<ESS ES1688> at 0x330 irq 7 dma 0
+GUS: No CS4231 ??<Gravis UltraSound MAX (1024k)> at 0x240 irq 5 dma 3,3
+<Yamaha OPL3> at 0x388
+Sound initialization complete
+------------------------------------------------------------------
+
+First 'bug': No \n in the 'GUS: No CS4231 ??' message generated in
+line 3064 of drivers/sound/gus_wave.c
+
+Well, the Audiodrive is /dev/audio which works just fine. The
+Ultrasound is /dev/audio1 which works (it seems) but is far too
+silent (no volume). I dunno if the sound is correct, I have to
+turn up my stereo quite a bit to hear something. There might be
+electronic noise disturbing the signal.
+
+Real bug:
+I used aumix and cam to turn up the volume of the Ultrasound
+part. They both list it as "Line2" (for info: the Windows ESS driver's
+mixer calls it AuxB, controlling GUS' volume perfectly).
+Well, Line2 controlls the volume, but even if I turn it to
+the maximum, it is still not loud enough.
+
+Questions:
+ - Does the ultrasound code work even if it doesn't find the CS4231 ?
+   ( My impression while reading the sources was that it doesn't care
+     after the init )
+ - Is the ESS mixer code to be fixed? If so, who does it?
+
+I am not quite a kernel hacker but I will do my best if someone just
+could tell me what to do... Or where to start.
+
+Contact me for further info or if you have something I should check for
+you.
+
+Thanks in advance,
+    Raimi
+
+--
+      __/\     _/\    _____/\____/\
+     /   /    /  /___/   ____/  __/\     Name    : Raimi
+    /   /  __/    __/   / __/  / _\/     Contact : raimi@lkcc.org
+   /   /__/ /     \/   /_/_/  /_/        Visit   : http://www.lkcc.org
+  /________/___/\__\______/_____/\       3.141592653589793238462643383
+  \________\___\/__/\_____\_____\/       27950288419716939937510582097
