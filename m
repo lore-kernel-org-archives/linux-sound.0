@@ -1,29 +1,32 @@
-From: micromysore <micromysore@yahoo.com>
-Date: Tue, 11 Jul 2000 18:52:56 +0000
-Subject: writing sound into socket (micromysore)
-Message-Id: <marc-linux-sound-96334180005293@msgid-missing>
+From: Roland =?ISO-8859-1?Q?H=E4der?= <Quixy_man@gmx.net>
+Date: Tue, 11 Jul 2000 19:36:57 +0000
+Subject: RE: writing sound into socket (micromysore)
+Message-Id: <marc-linux-sound-96334443309804@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-96334180005293@msgid-missing>
+In-Reply-To: <marc-linux-sound-96334180005293@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-hi,
+Hi!
 
-1>Is there any program that can directly write real
-time sound into the socket with minimum delay ...
-2>are there any command line mp3 players with option
-of writing the the ouput not only to audio device but
-also to socket
+For the 2nd point:
 
-Any help in this regard would be sincerely
-acknowledged
+You can have a look at www.linuxapps.com and select the Multimedia section
 
-Thanking u
-Micromysore
+There you will find players. Or enter a word iin the search panel (top
+right in your browser).
 
+May this will help you.
 
-__________________________________________________
-Do You Yahoo!?
-Get Yahoo! Mail =96 Free email you can access from anywhere!
-http://mail.yahoo.com/
+Regards,
+  Roland Haeder
+
+-- 
+------------------
+Have a nice day!
+www.autoinstaller.de (DOS based program)
+
+Sent through Global Message Exchange - http://www.gmx.net
