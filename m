@@ -1,32 +1,19 @@
-From: Tuukka Toivonen <tuukkat@ees2.oulu.fi>
-Date: Mon, 21 Sep 1998 10:51:57 +0000
-Subject: Re: gmod and xmp, cannot open /dev/sequencer !
-Message-Id: <marc-linux-sound-90638284808293@msgid-missing>
+From: Russell Wecker <rwecker@ssd.org>
+Date: Wed, 16 Sep 1998 07:47:50 +0000
+Subject: Audio PCI64
+Message-Id: <marc-linux-sound-90593488120863@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90586345324981@msgid-missing>
-In-Reply-To: <marc-linux-sound-90586345324981@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sat, 19 Sep 1998, Hamish Moffatt wrote:
+Hello 
 
->That's a loaded statement if ever there was one. If the GUS was
->such a great sound card, surely Gravis would still be in business? :-)
 
-Nope. Very often in business the great inventions lose and poor technology
-wins. See what has happened to M$ (vs. OS/2, for example). See what
-happened to Amiga. Still another example I've heard was Beta vs. VHS
-videorecorders. Beta system was superior -- and guess which one we nowadays
-use? VHS.
+I am running RH5.1 and was wondering if there is a module for the kernel
+2.0.35.   I have downloaded the 2.0.34-modular-3.patch but can not seem to
+get the driver to compile. i have the es1370.c file for 2.0.34 but how do
+i compile it or where can i get an update
 
-Rather the poor technology tends to win. I hope this will change with free
-world, ie. Linux.
-
---
-| Tuukka Toivonen <tuukkat@ee.oulu.fi>       [PGP public key
-| Homepage: http://www.ee.oulu.fi/~tuukkat/       available]
-| Try also finger -l tuukkat@ee.oulu.fi
-| Studying information engineering at the University of Oulu
-+-----------------------------------------------------------
+	Russell 
