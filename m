@@ -1,218 +1,70 @@
-From: "Ezhik Lesnoy" <ezhik@hotbox.ru>
-Date: Thu, 28 Feb 2002 16:59:41 +0000
-Subject: SiS 7018 audio problem
-Message-Id: <marc-linux-sound-101491818427524@msgid-missing>
+From: Stephen Cope <mail@unsolicited.kimihia.org.nz>
+Date: Sat, 09 Feb 2002 08:28:59 +0000
+Subject: Patch for ES1371 documentation
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="3uo+9/B/ebqu+fSQ"
+Message-Id: <marc-linux-sound-101324335823044@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello everybody!
-I have a laptop computer with SiS 630 chipset.
-My audio card is PCI SiS 7018, integrated in this chipset.
-I've tried very hard to get it working, but all in vain.
-I would be very grateful if someone helps me to solve this problem...
 
-Card specifications:
+--3uo+9/B/ebqu+fSQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-/proc/pci:
-  Bus  0, device   1, function  4:
-    Multimedia audio controller: Silicon Integrated Systems [SiS] SiS PCI
-Audio Accelerator (rev 1).
-      IRQ 5.
-      Master Capable.  Latency8.  Min Gnt=2.Max Lat$.
-      I/O at 0x1000 [0x10ff].
-      Non-prefetchable 32 bit memory at 0x38003000 [0x38003fff].
+Just an update on the listed URLs in the documentation. The ones
+currently listed have expired, or in the case of Sox a more direct URL
+is available.
 
-scanpci:
-pci bus 0x0000 cardnum 0x01 function 0x04: vendor 0x1039 device 0x7018
- SiS  Device unknown
+Thanks.
 
-Linux initialization information:
+--=20
+Stephen Cope - http://sdc.org.nz/
 
-...
-PCI: Cannot allocate resource region 0 of device 00:01.4
-...
-PCI: Found IRQ 5 for device 00:01.6
-PCI: Sharing IRQ 5 with 00:01.4
-PCI: Sharing IRQ 5 with 00:0c.1
-...
+Updates URLs listed.
 
-It shares IRQ with WinModem and with "CardBus bridge: Texas Instruments
-PCI1420".
+--- Documentation/sound/es1371.orig	Sat Feb  9 21:17:34 2002
++++ Documentation/sound/es1371	Sat Feb  9 21:21:46 2002
+@@ -26,7 +26,7 @@
+ below) to play many different audio file formats.
+ The script automatically determines the audio format
+ and does do audio conversions if necessary.
+-http://home.sprynet.com/sprynet/cbagwell/projects.html
++http://home.sprynet.com/~cbagwell/sox.html
+=20
+=20
+ Blocking vs. nonblocking IO
+@@ -36,7 +36,7 @@
+ not only during open, but also during read and write.
+ This is an effort to make the sound driver interface more
+ regular. Timidity has problems with this; a patch
+-is available from http://www.ife.ee.ethz.ch/~sailer/linux/pciaudio.html.
++is available from http://www.baycom.org/~tom/linux/pciaudio.html.
+ (Timidity patched will also run on OSS/Free).
+=20
+=20
+@@ -56,7 +56,7 @@
+=20
+ There is a freely available software package that allows
+ MIDI file playback on this soundcard called Timidity.
+-See http://www.cgs.fi/~tt/timidity/.
++See http://www.goice.co.jp/member/mo/timidity/.
+=20
+=20
+=20
 
-My kernel is  2.4.17, I recompiled sound modules with a lot of debug output.
-When I use trident kernel module, it loads correctly, but the card is
-absolutely silent.
-Output from dmesg is as follows:
+--3uo+9/B/ebqu+fSQ
+Content-Type: application/pgp-signature
+Content-Disposition: inline
 
-Trident 4DWave/SiS 7018/ALi 5451,Tvia CyberPro 5050 PCI Audio, version
-0.14.9d, 23:57:36 Feb 24 2002
-PCI: Found IRQ 5 for device 00:01.4
-PCI: Sharing IRQ 5 with 00:01.6
-PCI: Sharing IRQ 5 with 00:0c.1
-trident: SiS 7018 PCI Audio found at IO 0x1000, IRQ 5
-ac97_codec: AC97  codec, id: 0x0000:0x0000 (Unknown)
-...
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.0.6 (GNU/Linux)
+Comment: See http://sdc.org.nz/email for more detail
 
-When I copy  .au file to /dev/dsp  or  'play' .wav file, it does not produce
-any sound, writes a lot of debug information. I placed it at the end of my
-message.
+iEYEARECAAYFAjxk3csACgkQ4Bjb33S48hZSFQCggbdQDrdL2kWlN+G9z98uClF6
+OvgAoLQ/8QuoNIpxv3qZH7ph+fOIJX/n
+=zeOQ
+-----END PGP SIGNATURE-----
 
-A few things to add:
-  I had the Red Hat 7.0 and Mandrake 8.0, but their precompiled kernels and
-sound setup utilities never worked too.
-  I tried to use different Alsa trident modules, but they could not even
-detect my sound card - very strange.
-
-
-Full output from dmesg when I
-1) modprobe trident module
-2) copy  .au  file to /dev/dsp
-3) play  .wav file with "play"
-
-Trident 4DWave/SiS 7018/ALi 5451,Tvia CyberPro 5050 PCI Audio, version
-0.14.9d, 23:57:36 Feb 24 2002
-PCI: Found IRQ 5 for device 00:01.4
-PCI: Sharing IRQ 5 with 00:01.6
-PCI: Sharing IRQ 5 with 00:0c.1
-trident: SiS 7018 PCI Audio found at IO 0x1000, IRQ 5
-ac97_codec: AC97  codec, id: 0x0000:0x0000 (Unknown)
-ac97_codec: wrote OSS mixer  0 (Primary ac97 register 0x02), left vol:67,
-right vol:67: 0x1515 -> 0x0000
-ac97_codec: wrote OSS mixer  4 (Primary ac97 register 0x18), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer  5 (Primary ac97 register 0x0a), left vol:67,
-right vol:67: 0x000a -> 0x0000
-ac97_codec: wrote OSS mixer  6 (Primary ac97 register 0x10), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer  7 (Primary ac97 register 0x0e), left vol: 0,
-right vol: 0: 0x8000 -> 0x0000
-ac97_codec: wrote OSS mixer  8 (Primary ac97 register 0x12), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer 12 (Primary ac97 register 0x1c), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer 14 (Primary ac97 register 0x16), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer 20 (Primary ac97 register 0x0c), left vol:67,
-right vol:67: 0x000a -> 0x0000
-ac97_codec: wrote OSS mixer 21 (Primary ac97 register 0x06), left vol:67,
-right vol:67: 0x0015 -> 0x0000
-ac97_codec: wrote OSS mixer 22 (Primary ac97 register 0x14), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: AC97  codec, id: 0x0000:0x0000 (Unknown)
-ac97_codec: wrote OSS mixer  0 (Secondary ac97 register 0x02), left vol:67,
-right vol:67: 0x1515 -> 0x0000
-ac97_codec: wrote OSS mixer  4 (Secondary ac97 register 0x18), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer  5 (Secondary ac97 register 0x0a), left vol:67,
-right vol:67: 0x000a -> 0x0000
-ac97_codec: wrote OSS mixer  6 (Secondary ac97 register 0x10), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer  7 (Secondary ac97 register 0x0e), left vol: 0,
-right vol: 0: 0x8000 -> 0x0000
-ac97_codec: wrote OSS mixer  8 (Secondary ac97 register 0x12), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer 12 (Secondary ac97 register 0x1c), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer 14 (Secondary ac97 register 0x16), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-ac97_codec: wrote OSS mixer 20 (Secondary ac97 register 0x0c), left vol:67,
-right vol:67: 0x000a -> 0x0000
-ac97_codec: wrote OSS mixer 21 (Secondary ac97 register 0x06), left vol:67,
-right vol:67: 0x0015 -> 0x0000
-ac97_codec: wrote OSS mixer 22 (Secondary ac97 register 0x14), left vol:67,
-right vol:67: 0x0a0a -> 0x0000
-trident: Enable Loop Interrupts, globctl = 0x10000000
-trident: called trident_set_dac_rate : rate = 8000
-trident: open virtual channel 0, hard channel 63
-trident: trident_write called, count = 4096
-trident: allocated 32768 (order = 3) bytes at c0228000
-trident: trident_play_setup, LBA = 0x00228000, Delta = 0x000002ab, ESO 0x00007fff, Control = 0x00001000
-trident: prog_dmabuf(63), sample rate = 8000, format = 0, numfrag = 4,
-fragsize = 8192 dmasize = 32768
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 4096
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: closing virtual channel 0, hard channel 63
-trident: stop voice on channel 63, STOP_B = 0x00000000(addr:B8)
-trident: disabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: called trident_set_dac_rate : rate = 8000
-trident: open virtual channel 0, hard channel 63
-trident: trident_ioctl, command =  1, arg = 0x4005f3f9
-trident: trident_ioctl, command =  0, arg = 0x00000000
-trident: stop voice on channel 63, STOP_B = 0x00000000(addr:B8)
-trident: disabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: trident_ioctl, command =  4, arg = 0x00000000
-trident: allocated 32768 (order = 3) bytes at c0228000
-trident: trident_play_setup, LBA = 0x00228000, Delta = 0x000002ab, ESO 0x00007fff, Control = 0x00001000
-trident: prog_dmabuf(63), sample rate = 8000, format = 0, numfrag = 4,
-fragsize = 8192 dmasize = 32768
-trident: trident_ioctl, command =  1, arg = 0x00000000
-trident: trident_ioctl, command =  5, arg = 0x00000008
-trident: stop voice on channel 63, STOP_B = 0x00000000(addr:B8)
-trident: disabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: trident_ioctl, command =  3, arg = 0x00000000
-trident: stop voice on channel 63, STOP_B = 0x00000000(addr:B8)
-trident: disabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: trident_ioctl, command =  2, arg = 0x00005622
-trident: stop voice on channel 63, STOP_B = 0x00000000(addr:B8)
-trident: disabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: called trident_set_dac_rate : rate = 22050
-trident: trident_write called, count = 8192
-trident: trident_play_setup, LBA = 0x00228000, Delta = 0x0000075a, ESO 0x00007fff, Control = 0x00001000
-trident: prog_dmabuf(63), sample rate = 22050, format = 0, numfrag = 4,
-fragsize = 8192 dmasize = 32768
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 8192
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 8192
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 8192
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: trident_write called, count = 8192
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: playback schedule timeout, dmasz 32768 fragsz 8192 count 32768
-hwptr 0 swptr 0
-trident: enabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-trident: start voice on channel 63, START_B = 0x00000000(addr:B4)
-trident: closing virtual channel 0, hard channel 63
-trident: stop voice on channel 63, STOP_B = 0x00000000(addr:B8)
-trident: disabled IRQ on channel 63, AINTEN_B = 0x00000000(addr:DC)
-
-
-
-That seems to be it. May be you could give me some advise.
-Good-bye!
-
-
-
+--3uo+9/B/ebqu+fSQ--
