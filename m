@@ -1,32 +1,21 @@
-From: Nacho Lustres <lustres@yahoo.com>
-Date: Tue, 30 Mar 1999 16:08:54 +0000
-Subject: What the damn...?
-Message-Id: <marc-linux-sound-92281117717027@msgid-missing>
+From: i.esten@ic.ac.uk
+Date: Fri, 12 Mar 1999 16:31:44 +0000
+Subject: advice please!
+Message-Id: <marc-linux-sound-92125654418964@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-If somebody is the owner of a Maxi Sound Home Studio Pro working under
-Linux and he has a little time to spend then... =A1PLEASE HELP!
-
-Mine works all the fine it can be under Win9x (not much). Under Linux is
-detected, the modules are loaded, but I hear absolutely nothing.=20
-
-I tried several kernels, from 2.0.35 to 2.2.1, and several
-distributions: RedHat, Caldera...
-
-And, after all this time I'm completely lost.
-
-I think I tried all possibilities but surely there's one more that I
-don't tried. Do you know what it is?
-
-Thank you.
-
-
-
-
-_________________________________________________________
-Do You Yahoo!?
-Get your free @yahoo.com address at http://mail.yahoo.com
+hi all.
+	I'm having a little trouble deciding what soundcard to buy...
+basically, i need something that works with linux. more specifically,
+i'd like a card priced around $250 (~150 uk pounds) aimed at the lower
+end of the pro audio market. features i would want are standard synth
+stuff, midi, and ideally a dsp chip. it would also be nice to be able
+to have a LOT of control over the dsp chip, but not necessary...
+cards i've had a look at are the mediatrix 3d-xg (allthough i have no
+idea of its price) and one of the TB cards. any advice would be greatly
+appreciated!
+thanks, ian
