@@ -1,20 +1,30 @@
-From: Abe Smith <abe@execpc.com>
-Date: Sat, 24 Jul 1999 19:18:32 +0000
-Subject: (off topic) video question
-Message-Id: <marc-linux-sound-93284410113035@msgid-missing>
+From: Benno Senoner <sbenno@gardena.net>
+Date: Tue, 06 Jul 1999 22:14:41 +0000
+Subject: latencytest 0.41 released
+Message-Id: <marc-linux-sound-93129256014562@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-first: so I don't annoy all you with more off-topic questions, could
-someone direct me to a linux video discussion group?
+Hi,
 
-anyone tried the creative labs 3D Blaster Savage4 driver?
-how compatible is it with x11r6?
+I released some new audio-latency testresults,
+and a new version of my latency benchmark 0.41,
 
+you can get it at :
 
--- 
-Abraham D. Smith   <abesmith@execpc.com>  Wisconsin, USA
---------------------------------------------------------
+http://www.gardena.net/benno/linux/audio
+
+I'm interested of results of non-Intel hardware (ALPHA,SPARC,PPC),
+
+If someone has such a machine,
+please run the benchmark and mail me the results,
+so I will publish them on my audio page for comparison.
+
+questions, comments, suggestions ?
+
+ciao,
+Benno.
+ 
