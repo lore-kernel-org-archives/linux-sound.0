@@ -1,7 +1,7 @@
-From: Meelis Roos <mroos@linux.ee>
-Date: Tue, 15 Feb 2000 16:55:55 +0000
-Subject: Re: /dev/audio, /dev/dsp not running for an es1371
-Message-Id: <marc-linux-sound-95064680124441@msgid-missing>
+From: Jean Francois Ortolo <ortolojf@cybercable.fr>
+Date: Tue, 15 Feb 2000 20:20:09 +0000
+Subject: Re: /dev/audio, /dev/dsp not running for an es1371 (fwd)
+Message-Id: <marc-linux-sound-95065005130159@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95060250626587@msgid-missing>
 In-Reply-To: <marc-linux-sound-95060250626587@msgid-missing>
@@ -9,6 +9,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+
+You are right
+  I just didn't set the Mic input to "R" with aumix...
+  All right now, all works well.
+  Thank you very very much.
+
+  Jean Francois
+
+---------- Forwarded message ----------
+Date: Tue, 15 Feb 2000 18:55:55 +0200
+From: Meelis Roos <mroos@linux.ee>
+To: linux-sound@vger.rutgers.edu
+Subject: Re: /dev/audio, /dev/dsp not running for an es1371
 
 JFO>   The sndconfig detects an Ensoniq card, for which it
 JFO> installs an es1371 module in /etc/conf.modules
