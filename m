@@ -1,72 +1,36 @@
-From: Simon Huggins <huggie@dial.pipex.com>
-Date: Sun, 04 Apr 1999 11:17:09 +0000
-Subject: No MIDI with Ensoniq Soundscape
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="azLHFNyN32YCQGCU"
-Message-Id: <marc-linux-sound-92322503500870@msgid-missing>
+From: Kristian Soerensen <elof@image.dk>
+Date: Fri, 02 Apr 1999 14:21:07 +0000
+Subject: getting Digital Audio (Toslink) into a PC Linux box
+Message-Id: <marc-linux-sound-92306317625524@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
---azLHFNyN32YCQGCU
-Content-Type: text/plain; charset=us-ascii
+Hi
 
-Hi,
+I'm toying with the idea of converting my vinyl records and casette tapes
+into mp3 files for easier playback, easier browsing and all the other
+usual benefits.
 
-I've managed (with help from Eric Augustus) to get my Ensoniq Soundscape
-working with 2.2.x and the new modular sound bits and bobs.
+I have an older JVC HiFi integrated amp with a pretty good AD/DA
+converter and consumer grade Toslink coax output. 
 
-I've not ever been able to get it working with MIDI though.
+The big question is, how do I get that Toslink signal into my Linux box?
 
-Attached are:
-cat /dev/sndstat
-playmidi a_random_midifile.mid
 
-It says it can't find a module called synth0 (and there isn't one).
 
-I tried aliasing it to sscape but that didn't seem to help. Any ideas?
+BTW. I have succesfully ran a fiber from the digital output of a pioneer
+CDROM drive to that amplifier. The idea is that the DA in a CDROM drive is
+crap, but the mechanical parts and the error correction has to be damn
+good to deliver up to 32x read operations, so by tapping the digital
+signal and running it to some decent HiFi grade DA one gets a really nice
+quality CD player with an X11 GUI ;-)
 
--- 
-Simon                           oOoOo "This baby's got a few surprises  oOoOo  
-huggie@dial.pipex.com            oOoOo left in her, sweetheart." - Han oOoOo  
-http://ds.dial.pipex.com/huggie/  oOoOo             Solo              oOoOo  
 
---azLHFNyN32YCQGCU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=sndstat
 
-OSS/Free:3.8s2++-971130
-Load type: Driver loaded as a module
-Kernel: Linux boing 2.2.5 #11 Mon Mar 29 20:41:28 BST 1999 i586
-Config options: 0
-
-Installed drivers: 
-
-Card config: 
-
-Audio devices:
-0: SoundScape (AD1845)
-
-Synth devices:
-
-Midi devices:
-0: SoundScape (MPU401)
-
-Timers:
-0: System clock
-1: SoundScape (AD1845)
-
-Mixers:
-0: SoundScape (AD1845)
-
---azLHFNyN32YCQGCU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=playmidi
-
-Playmidi 2.4 Copyright (C) 1994-1997 Nathan I. Laredo, AWE32 by Takashi Iwai
-This is free software with ABSOLUTELY NO WARRANTY.
-For details please see the file COPYING.
-modprobe: can't locate module synth0
-playmidi: No playback device found.
-
---azLHFNyN32YCQGCU--
+--------------------------------------------------------------
+The Linux Resource Exchange             http://www.linuxrx.com
+Kristian Elof Soerensen    elof@image.dk     (+45) 45 93 92 02 
