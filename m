@@ -1,26 +1,29 @@
 From: Zwane Mwaikambo <zwane@linuxpower.ca>
-Date: Sat, 24 May 2003 22:06:19 +0000
-Subject: Re: alsa-0.9.3a - kernel panic
-Message-Id: <marc-linux-sound-105381474707510@msgid-missing>
+Date: Sat, 24 May 2003 22:03:37 +0000
+Subject: Re: azt1008 on HP Vectra
+Message-Id: <marc-linux-sound-105381443007337@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-105329915731842@msgid-missing>
-In-Reply-To: <marc-linux-sound-105329915731842@msgid-missing>
+References: <marc-linux-sound-104912330303494@msgid-missing>
+In-Reply-To: <marc-linux-sound-104912330303494@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, 19 May 2003, Iqbal Maraqa wrote:
+On Tue, 1 Apr 2003, W. L. Estes wrote:
 
-> Hi,
-> i have a problem with my ens1371 and i hope u can help me. I'm runing
-> a 2.4.20 kernel compiled with gcc-2.95.3. I compiled and tried the last
-> 3 releases of the alsa driver, lib and utils and i get always the same 
-> kernel panic. My lsmod says :
+> I was looking through the linux-sound mail archives and saw a patch
+> posted for the azt1008 against linux kernel 2.4.20-rc1-ac4. That patch
+> didn't apply against kernel sources that I had (which isn't
+> surprising). It would seem like this problem has already been solved
+> so I was hoping that I could get the patch posted against 2.4.20 or
+> similar. The post I'm referring to is:
+> 
+> http://marc.theaimsgroup.com/?l=linux-sound&m3835842003582&w=2
 
-Could you send this to alsa-devel@lists.sourceforge.net
+For a quick test you can send me your drivers/sound/ad1848.c and i'll send 
+you back a patched one.
 
-Thanks,
 	Zwane
 -- 
 function.linuxpower.ca
