@@ -1,32 +1,40 @@
-From: Rainer Wiener <rainer@konqui.de>
-Date: Sun, 16 Jul 2000 16:56:19 +0000
+From: I.S.Wolfe@happy-man.com
+Date: Sun, 16 Jul 2000 18:17:18 +0000
 Subject: Re: "noise" while recording with an OPL3SAx
-Message-Id: <marc-linux-sound-96376667928128@msgid-missing>
+Message-Id: <marc-linux-sound-96377185100592@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96376558726822@msgid-missing>
 In-Reply-To: <marc-linux-sound-96376558726822@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-9"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi J=E9r=F4me!
+> I tried Alsa and I noticed that with Alsa there
+> is no more noise but If I boot again with OSS the
+> noise is back when recording.  I also noticed that
+> the noise disappear when using OSS after unloading
+> Alsa modules. 
 
-On Sun, 16 Jul 2000, J=E9r=F4me Aug=E9 wrote:
+I'm unfamiliar with both your Satellite and your
+Red Hat, so perhaps I should keep my mouth shut. 
+But the combination you describe makes me think of
+how Alsa mutes the mike (and everything else) and
+OSS (I think) doesn't, so if your machine has a
+built-in mike, you may be mixing in computer and
+other background noises without realizing it, until
+you run Alsa and it mutes the mike.  If I'm write,
+setting a mute mike with aumix, say, doing a save
+there, and then running aumix -L when you log in,
+might solve the problem.
 
-> So I've made a patch for OSS (by looking at Alsa driver source) that fix
-> this noise but before posting the patch I'd like to know if someone else
-> noticed this noise with OSS or if it occurs only with me ?
+Regards,
+ - Irving
+-
+ Irving_Wolfe@Happy-Man.com   Happy Man Corporation
+ +1 206 463 9399, ext. 101    4410 SW Pt Robinson Rd
+      fax: +1 209 463 9255    Vashon, WA  98070  USA
 
-I use the Toshiba Satellite 300CDS with a OPL3SAx and I have the same noice.
-If I want to record something over my mic I have it but I have it also when
-I use the inline. So please send me the patch.
-
-> P.S. I'm using RH6.2 kernel 2.2.14-5.0 and 2.4.0-test4
-I use RH6.1beta kernel 2.2.16
-
-Cu
-Rainer
-
---=20
-Computer programmers do it byte by byte.
+ Solid Value Investment Letter -- more than 14 years
+ safely outperforming the stock market through wise,
+ conservative selection: http://www.solid-value.com/
