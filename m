@@ -1,13 +1,14 @@
 From: Karim Yaghmour <karym@info.polymtl.ca>
-Date: Wed, 19 May 1999 00:28:07 +0000
+Date: Tue, 25 May 1999 18:26:17 +0000
 Subject: Support for YMF744???
-Message-Id: <marc-linux-sound-92718939801567@msgid-missing>
+Message-Id: <marc-linux-sound-92782912627646@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92718939801567@msgid-missing>
+In-Reply-To: <marc-linux-sound-92718939801567@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
-
 
 Does anyone have an idea if there is someone working
 on a driver for Yamaha's DS stuff? If not, does
@@ -22,7 +23,7 @@ Hacking is not a problem ... I just need someone to
 tell me where to start digging.
 
 Thanx.
- 
+
 =======================
               Karim Yaghmour
           karym@info.polymtl.ca
