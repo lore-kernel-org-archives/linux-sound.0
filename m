@@ -1,29 +1,15 @@
-From: <benjamin@hot-shot.com>
-Date: Wed, 12 Jun 2002 11:56:20 +0000
-Subject: 2 messages 0621DbFD0--9
-Message-Id: <marc-linux-sound-102391268928936@msgid-missing>
+From: chuckw@ieee.org
+Date: Sat, 15 Jun 2002 18:44:18 +0000
+Subject: SIGIO and soundcards
+Message-Id: <marc-linux-sound-102416812825566@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-------=_NextPart_000_00D1_58A83C8B.A1657E81
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: base64
+Will sound cards raise SIGIO when there is enough room in the
+buffer for reading or writing?
 
-
-c2FsdXQNCmhpDQoNCkonYWkgcmVncm91cGUgc3VyIHVuIHNpdGUgbGVzIG1l
-aWxsZXVycyBzaXRlcyB4IGdyYXR1aXRzIHF1ZSBqJ2FpIHB1IHRyb3V2ZXIN
-CmVuIDUgYW5zIGRlIHN1cmYhDQoNCkkndmUgcmVncm91cCBoZXJlIHRoZSBi
-ZXN0IGZyZWUgYWR1bHQgc2l0ZXMgaSd2ZSBmaW5kIG9uIHRoZSB3ZWIgZHVy
-aW5nIDUgeWVhcnMgb2Ygc3VyZiENCg0KbCdhZHJlc3NlICh0aGUgYWRkcmVz
-cykgOg0KDQpodHRwOi8vd3d3LnRoZXpzLmNvbS8wMDMwDQoNCnZpc2l0ZXog
-bW9uIHNwb25zb3IgcG91ciBtJ2FpZGVyIQ0KUGxlYXNlIHZpc2l0IG15IHNw
-b25zb3IgdG8gaGVscCBtZSENCg0KUG91ciBuZSBwbHVzIHJlY2V2b2lyIGQn
-ZW1haWwgZWNyaXZleiBtb2kg4CByZW1vdmVAcmVtb3ZlLXRvcC5jb20gYXZl
-YyBjb21tZSBzdWpldCByZW1vdmUNCklmIHlvdSB3YW50IHRvIHN0b3AgdG8g
-cmVjZWl2ZSBtYWlscyBlbWFpbCBtZSBhdCAgcmVtb3ZlQHJlbW92ZS10b3Au
-Y29tIHdpdGggdGhlIHN1YmplY3QgcmVtb3ZlDQoNCjINCg0KIA0KMzEwNE1p
-YUY2LTMwNktUR2UwMTg3dE1wTDYtNzE2Skx2bjQ5MzhDb2ZLOS05OTBobHVU
-OTE5M2FaekUyLTg2OWV1THAwMTMxS2w2OQ=
+Thanks,
+Chuck
