@@ -1,22 +1,40 @@
-From: SRV <amazonlodge@yahoo.com>
-Date: Mon, 20 Mar 2000 02:37:06 +0000
-Subject: Cristal Sound Card
-Message-Id: <marc-linux-sound-95352373704526@msgid-missing>
+From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
+Date: Thu, 02 Mar 2000 18:15:19 +0000
+Subject: [Fwd: Sound with different users]
+Message-Id: <marc-linux-sound-95202274013398@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-9"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hello,
-I am planning to buy a new Sound Card, and one of the options that are
-available from my local Computer dealer is an ISA card that uses the chip
-Cristal CX4235
-I want to know if this model is supported under Linux.
-Currently, I am using Slackware 4, with kernel 2.2.6, and soon I will
-upgrade to Mandrake 7.0 with kernel 2.2.14 
+J=F6rn Nettingsmeier wrote:
+>=20
+> are you using alsa or standard kernel drivers ?
+>=20
+> with the kernel drivers, set the file permissions of /dev/mixer*,
+> /dev/dsp* etc. to 666.
+>=20
+> hih
+>=20
+> j=F6rn
+>=20
+> Martin Schmiedel wrote:
+> >
+> > I'm having a strange problem; when I login with root, the sound card wo=
+rks
+> > perfectly, but when I login as another user, Enlightenment sends me a
+> > message telling me that the sound module cannot be found. How can I make
+> > sound work for any user?
+> >
+> > Regards... Martin Schmiedel
+>=20
+> --
+> J=F6rn Nettingsmeier
+> Kurf=FCrstenstr. 49
+> 45138 Essen, Germany
 
-thanks, bye.
-
----
-Herman
+--=20
+J=F6rn Nettingsmeier    =20
+Kurf=FCrstenstr. 49       =20
+45138 Essen, Germany
