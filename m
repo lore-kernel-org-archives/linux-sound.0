@@ -1,27 +1,22 @@
-From: Bill Nottingham <notting@redhat.com>
-Date: Mon, 05 Oct 1998 20:56:50 +0000
-Subject: Re: ESS 488 and 688
-Message-Id: <marc-linux-sound-90762810108936@msgid-missing>
+From: Stuart Felenstein <stuartf@dimensional.com>
+Date: Sat, 24 Oct 1998 17:10:01 +0000
+Subject: Question:ESS Sound Card
+Message-Id: <marc-linux-sound-90925336113724@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90738040829096@msgid-missing>
-In-Reply-To: <marc-linux-sound-90738040829096@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Matthew Kirkwood (weejock@ferret.lmh.ox.ac.uk) said: 
-> On Mon, 5 Oct 1998, Thomas Sailer wrote:
-> 
-> > Newer ESS chips like the 1688 have their own 16bit mode,
-> > which should be supported by Linux (haven't tried for quite some
-> > time tough).
-> 
-> Out of curiousity, should an ESS1868 work?  I've never had any success,
-> with mine but then I didn't bother configuring it with isapnptools.
+I have a sound card, manufacturer Shark.  I don't really have much specs
+on it, well I know it's 16bit.
+The driver is ESS1681.  I'm wondering what kind of problems I'll
+encounter and if it's at all possible to even get this card working.
 
-Ah - there's your problem. Assuming you use isapnptools to
-configure it to something sane, it should work pretty much
-out of the box with the SB driver.
+I'll probably try the OSS (4 Front) drivers since they seem the most
+stable , at least from what I've read.
 
-Bill
+Anyone ever tried this type of card? Any suggestions?  Any help?
+
+Thank you
+Stuart Felenstein
