@@ -1,41 +1,65 @@
-From: Peter Rasmussen <plr@isgtec.com>
-Date: Fri, 25 Jun 1999 12:59:27 +0000
-Subject: Also problems with SB16 (Linux hangs)
-Message-Id: <marc-linux-sound-93031672911113@msgid-missing>
+From: "Soulier, Frederic" <Frederic.P.Soulier@British-Airways.com>
+Date: Fri, 04 Jun 1999 10:07:09 +0000
+Subject: AWE64 midi sound
+Message-Id: <marc-linux-sound-92849162911089@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have a SB16 (PNP) that I have used sucecssfully for a while. However, now
-when I load the last 'sb' module my machine freezes totally.
+Steve wrote:
+>Hi Fred
+>This probably isn't the answer you are after but at least you should get
+>sounds. I use the same soundcard, you might try launching KMid which is the
+>Midi/Karaoke Player then from Options - Midi Setup choose which ever option
+>gives you the best sound quality, AWE Midi Emu - External Midi Port or
+>AWE32-0.4.3 (RAM4096k) and use that. I haven't got kmidi to work yet. In that
+>KMid will happily play a mid song for me but kmidi will refuse to play the
+>exact same song. I think it might be a sound font issue, but I'm not sure.
+>
+>If you want to see the exact details of my setup:
+>
+>http://www.dialspace.dial.pipex/town/parade/fe88/awe64config.shtml
+>
+>Let me know how you get on.
 
-I had Slackware 3.1 with updates until recently, but now installed 4.0 to see
-if it would help, but it didn't.
 
-I can run isapnp and it seems to be as successful as before. I then load the 
-modules soundcore, sound, opl3, uart401 successfully (I have also tried to load
-soundlow, but I can't see any difference). Until now I have always used insmod,
-but now tried modprobe, however that one doesn't seem to actually load the
-modules?
+o I tried KMid with the "AWE Midi Emu - External Midi Port" option and I
+  do not get any sound at all!
+  note: whatever the option is for midi, I do not get any sound..
 
-When I finally do: insmod sb io=0x220 irq=5 dma=0 dma16=6
-(and yes, /etc/isapnp.conf is configured accordingly)
+doing #cat /dev/sndstat shows:
 
-My system hangs and I can only reset it with the big red button.
+OSS/Free:3.8s2++-971130
+Load type: Driver loaded as a module
+Kernel: Linux wallaby 2.2.5 #1 Sun May 30 17:46:47 BST 1999 i686
+Config options: 0
 
-This is with kernel version 2.2.9 and I am not able to find any clues in the
-kernel source Documentation/soundblaster or in the Sound-HOWTO so I am now
-turning to you guys.
+Installed drivers: 
 
-I hadn't used the card for a while (I don't play games so it is only for other
-experimental purposes :-) and I now wonder if the hardware has failed? The
-isapnp tool seems to work fine, but that doesn't 100% exclude a hw-failure I
-suppose, so if anyone has any way to figure that out I would appreciate it. Then
-I would have a good excuse to go out and buy a new soundcard (should that be a
-SB Live? :-)
+Card config: 
 
-Thank you very much,
+Audio devices:
+0: Sound Blaster 16 (4.16) (DUPLEX)
 
-Peter
+Synth devices:
+0: Yamaha OPL3
+1: AWE32-0.4.3 (RAM512k)
+
+Midi devices:
+0: Sound Blaster 16
+1: AWE Midi Emu
+
+Timers:
+0: System clock
+
+Mixers:
+0: Sound Blaster
+
+o also I cannot access your www site, Netscape says it cannot access
+  the server.
+
+
+Ciao
+Fred
