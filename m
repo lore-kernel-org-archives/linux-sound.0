@@ -1,7 +1,7 @@
-From: David Olofson <audiality@swipnet.se>
-Date: Tue, 26 Oct 1999 00:33:34 +0000
-Subject: Re: [linux-audio-dev] Re: streaming from disk to terminatorX added (via mmap)
-Message-Id: <marc-linux-sound-94089946630917@msgid-missing>
+From: Alexander =?iso-8859-1?Q?K=F6nig?= <alex@rhlx01.fht-esslingen.de>
+Date: Tue, 26 Oct 1999 05:11:45 +0000
+Subject: Re: [linux-audio-dev] Re: streaming from disk to terminatorX added (via
+Message-Id: <marc-linux-sound-94091470511976@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94081664808533@msgid-missing>
 In-Reply-To: <marc-linux-sound-94081664808533@msgid-missing>
@@ -10,112 +10,100 @@ Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-On Mon, 25 Oct 1999, Benno Senoner wrote:
-> David, your solution looks nicely,
-> but I'm more for a plug-n-play solution:
+First of: thanks for explaining all of this... I was looking through the
+"api-glasses" and not at what *really* happens (at pageing level) I
+guess.
+
+Paul Barton-Davis wrote:
+<..>
+[byteswapping]
+> on an LE machine, this is just:
 >=20
-> 2 turntable players
-> 2 soundcards
-> 1 PC loaded with mp3
+>        foo =3D *((int16 *) p);
 >=20
-> use the 2 soundcard's inputs to detect turntable speed (py playing the st=
-atic
-> waves on the turntable),
-> use the 2 audio outputs for the mix and prelisten (phones) channel.
+> on a BE machine, its a bit more complex.
 >=20
-> IMHO the precision provided by sampling the turnables's static waves
-> is enough to get decent scratches, and the use of a "noise gate" when
-> the turntable is rotating at default speed will give you the final touch =
-of
-> perfection.
-> :-)
+> the first case is what i meant by a "noop", not a literal NOOP.
 
-Well, decoding "audio style" signals into speed (or ratherposition) is
-*exactly* what my decoding method does. Only, in this case it can
-be simplified quite a bit. :-) (I have a carrier frequency to deal
-with, and *very* high precision is required. Nice collection of
-signal enhacers and trackers already, and I'm still working on it...)
+Yeah well was thinking "BE" when I said that would need a little more
+work. You know currently (on BE machines) tX byteswaps the (whole) data
+while loading. Now this of course is not possible with mmap(). This
+means the loop that has to be done in realtime looks like this:
+with malloc()/read():=20
+	- process_sample
+	- bytes_swap_sample // for audiodevice
+with mmap():
+	- bytes_swap_sample //from wav=20
+	- process_sample=20
+	- byte_swap_sample // for audiodevice
 
-> David, I'cant remember but what would be the optimal method to detect
-> the speed of the turntables via audio input ?
+Well, after considering what "process_sample" actually means (a LOT of
+code ;) you are right: byteswapping is nearly a noop, even on BE
+machines...
+
+<..>
+> >the samples COMPLETELY in RAM so there is no disk-activity at all while
+> >playing....
 >=20
-> form of the wave ?
-> SAW WAVE , which frequency ?
+> not so, unless you use mlockall. you mean, completely in VM. not quite
+> the same thing.
 
-Two alternatives I can think of right now;
+Yes, Sorry :)
 
-1) A "ramp" (saw) wave.
+<..>
+> unless you mlock(all) the pages on which your soundfile lives, there
+> is no reason why the CPU has to do anymore work in the mmap(2) case
+> than in the "malloc(3); read (2)" case, assuming that after mmap() you
+> touch every page of the mmapped-file (this makes it equivalent to the
+> "read" case, since there, the reading-in touched very page of the data
+> too). in both cases, a page may be paged out, and cause a page fault,
+> requiring the CPU to initiate a fetch. if its not paged out, no extra
+> cost either way.
 
-2) Two sine waves (stereo), 90 degrees out of phase.
+Yes! Thanks.
 
-> and then the algorithm ?
+So that means:
 
-1) Phase lock to the zero crossings.
+- Let's say I have a machine that can easily store a certain
+sample-setup completely without swapping in memory (with malloc/read).
+Now let's say instead of malloc/read I mmap() and "read" through the
+whole file before playing the first time (to display the data). Then the
+complete file will be in memory just like with malloc/read (still
+assuming it fits in memory). This way there will be no disk-activity
+while playing, either way, right?
 
-2) "angle" =3D atan(left/right). Phase lock and count quadrant.
+- to get that more precise: The swap-out criteria for a mmap()'ed page
+and a malloced()-page (not mlocked()) are the same, right?
 
-> couting the number of zero crosses/sign changes ?
+Then I agree: mmap()ing wav-files is definitely the better way of doing
+it. Thanks for makeing that clear. Still there are those other problems
+that would keep me (for now!) from using the mmap-way as the default
+way:
+- I would have to drop sox/mpg123 (unmapable ;) which would really annoy
+a lot of people. Although that could be helped by somehow including
+Andy's "magic" mp3-decoding - but I have no idea how complex this would
+be.
+- And I have no idea wether mmap()ing files is available on other
+platforms (where tX will be ported to) - this is of course just a lack
+of knowledge
+- The "builtin" wav-header analyzing routines are based on wavtools and
+they are somewhat problematic. Or no they're not but they force you to
+use 16Bit/44Khz/Mono Wav files only and that's a little bit annoying
+which is why I went on an used sox... Btw could give me a link to your
+libsoundfile?
 
-1) Yes. (That's about all you can do in any easy way, due to
-   the effect the analog cicuitry has on the saw wave...)
+Well there are solutions to all of these points I guess. We'll see.
+Thanks again!
 
-2) Yes, for the phase locking. The atan() gives the current
-   position within the current quadrant, so you can use a low
-   frequency waveform =3D> very high upper speed limit.
+Bye, Alex
+--=20
+_______________________________________________________________________
+                            Alexander K=F6nig - alex@42.fht-esslingen.de
+                                                  http://termX.cjb.net
 
-> how o detect motion inversion ?
+[From the Homer Quotables:]
+=20
+Twenty of the suckiest minutes of my life.
 
-1) Check the ramp climb/fall tendency around the zero
-   crossing. Be aware that the signal may not look all that
-   much like a saw wave at high speeds!
-
-2) The atan() fixes the high precision part. Check the
-   right/left relation to see if you should count up or down
-   in the zero crossings. (Note: The zero crossings are
-   alternating between left and right; one for each quadrant
-   crossing.) A simpler way (if you have nice signals) is to
-   just check which one of +90 or -90 degrees places the new
-   reading closest to the previous one.
-
-> through looking at the resulting waveform ? :
-> if the next value is less than the previous=20
-> AND you are not at end of the period (the jump is too big),
-> then you detected motion inversion.
-> right ?
-
-Yes, but you'd better integrate some (reset when the "jump" is
-detected!), or you may not get the result you expect. Next problem;
-the jump won't be anything like sharp and easy to detect in real
-life, at least not if you're looking for changes in the signal on "DC
-dynamis level" at the same time...
-
-> The finalscratch people seemed wrong to think that only BeOS can provide
-> the horsepower to run a scratch-mp3s-on-turntable engine.
-
-Hmm... The horsepower is in the *box*. Real time support is the
-"only" special feature needed for this - and we're probably beating
-them on that by now.
-
-> Seems that linux , will soon even begin to eat marketshare into the DJ se=
-ctor.
-> :-)
-> ( As David said: your next console could be powered by a GPLed audio engi=
-ne
-> running Linux  :-)  )
-
-Why not? As far as I can see, it's really more about performance and
-being able to do it reliably, than about tons of features that will
-take years to hack. That is, no one without a real OS performance
-edge can compete. Go for it! :-)
-
-
-//David
-
-
- =B7A=B7U=B7D=B7I=B7A=B7L=B7I=B7T=B7Y=B7   P r o f e s s i o n a l   L i n =
-u x   A u d i o
--  - ------------------------------------------------------------- -  -
-    =B7Rock Solid                                      David Olofson:
-    =B7Low Latency    www.angelfire.com/or/audiality   =B7Audio Hacker
-    =B7Plug-Ins            audiality@swipnet.se        =B7Linux Advocate
-    =B7Open Source                                     =B7Singer/Composer
+		-- Homer Simpson
+		   Burns, Baby Burns
