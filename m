@@ -1,8 +1,10 @@
 From: John Zoetebier <john.zoetebier@transparent.co.nz>
-Date: Tue, 26 Oct 2004 10:09:03 +0000
+Date: Tue, 26 Oct 2004 22:36:46 +0000
 Subject: Is there a reliable sound card for IP telephony ?
-Message-Id: <cll7t0$b42$1@sea.gmane.org>
+Message-Id: <clmjmt$6gc$1@sea.gmane.org>
 List-Id: <linux-sound.vger.kernel.org>
+References: <cll7t0$b42$1@sea.gmane.org>
+In-Reply-To: <cll7t0$b42$1@sea.gmane.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
