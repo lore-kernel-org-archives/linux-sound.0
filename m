@@ -1,32 +1,21 @@
-From: "Corporate Jobs" <jobs@TurnAroundStrategies.com>
-Date: Sun, 28 Mar 2004 19:11:41 +0000
-Subject: Linux Kernel Programmers
-Message-Id: <047b01c414f8$810cc840$3a4a3842@comcast.net>
+From: "am ku" <amit_kulkarni@fastermail.com>
+Date: Sat, 10 Jul 2004 18:33:51 +0000
+Subject: please help me in my sound card driver
+Message-Id: <20040710183351.7439123EE71@ws5-4.us4.outblaze.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-We are building a small benchmarking team for the following project in Bay
-Area, CA. This is Linux kernel level work. Interested people should email
-their RESUMEs to
-Jobs@TurnAroundStrategies.com
+dear all,
 
+as i was going thru mailing lists, i got your ids. i wanted to configure my linux system for sound. its for yamaha opl3 sound driver. can you help me in this regard.
 
-Position 1) Skills Required: In-depth knowledge in and experience with the
-Linux kernel
-(particularly the I/O subsystem), filesystems, Oracle and TPC benchmarking.
+thanks and regards,
+amit
+-- 
+_______________________________________________
+Get your free email from http://fastermail.com
 
-Location: Bay Area, CA
-
-
-Position 2) Skills Required:  System level programmers for device drivers on
-Linux.
-
-Location: Bay Area, CA
-
-
-Strategic Talent Acquisition and Retention ( STAR) Team
-New Business Strategies Corporation
-
+Powered by Outblaze
