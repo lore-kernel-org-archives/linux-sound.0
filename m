@@ -1,31 +1,29 @@
-From: "17.hzV.tRL.478" <opt@web.fm>
-Date: Sun, 06 Jun 1999 20:17:10 +0000
-Subject: Re: real-time software synths
-Message-Id: <marc-linux-sound-92870053311911@msgid-missing>
+From: Etienne Grossmann <etienne@isr.isr.ist.utl.pt>
+Date: Mon, 07 Jun 1999 20:04:06 +0000
+Subject: Re:  real-time software synths
+Message-Id: <marc-linux-sound-92878635814031@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92870053311911@msgid-missing>
+In-Reply-To: <marc-linux-sound-92870053311911@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+  Hello,
 
-http://gige.epy.co.at/pd/pd.html  ?
+  this is a bit of a hack, but I patched playmidi-2.3 so that when
+it receives a SIGUSR signal, it starts playing a file (whose name
+is specified on the command line). 
 
-On Sun, 6 Jun 1999 est@hyperreal.org wrote:
+  So a "client" program can write the file, send a signal, and the 
+file will get played. 
 
-|-<I'm looking for a real-time software synthesis package for linux that
-|-<can handle streaming midi (or sequencer messages or, really any
-|-<format) input.
-|-<
-|-<I know that a number are listed on the Linux MIDI & Sound Apps page,
-|-<but I haven't had luck with them..and I tried *very* hard (including
-|-<writing a script to interact with TiMidity++ in its server mode and
-|-<hackin its sources to bits..no luck).
-|-<
-|-<So, I'm curious what packages people actually have working.
-|-<Opensource is always a plus of course. :)
-|-<
-|-<Thanks in advance,
-|-<
-|-<Eric
-|-<
+  If this can be of any help for you, just ask for the patch. I use it
+for a little musical game in perl.
+
+
+  Cheers,
+
+
+  Etienne
