@@ -1,57 +1,72 @@
-From: "Thomas T. Veldhouse" <veldy@visi.com>
-Date: Thu, 07 Oct 1999 01:20:49 +0000
-Subject: Yamaha SA3 onboard sound?
-Message-Id: <marc-linux-sound-93925942527736@msgid-missing>
+From: Roger Larsson <roger.larsson@skelleftea.mail.telia.com>
+Date: Fri, 29 Oct 1999 20:16:19 +0000
+Subject: Re: [linux-audio-dev] Re: Sync Issues (was Re: External MIDI Sync using
+Message-Id: <marc-linux-sound-94123706608962@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hello,
 
-    I have the AL440LX motherboard with onboard sound.  The sound card is a
-Yamaha SA3.  I know that the 2.2.12 kernel supports this card.  I was
-wondering if anybody has had any luck setting this card up - and if so, how
-did you do it?  I have been unable to find adequate docs for isapnp tool,
-but then, I haven't really tried it because I am not sure that is the proper
-route.  Here is the configuration I use:
 
-### Sound support ###
-/sbin/modprobe mpu401
-/sbin/modprobe ad1848
-/sbin/modprobe opl3sa2 io=0x370 mss_io=0x530 mpu_io=0x330 irq=5 dma=1 dma2=0
-/sbin/modprobe opl3 io=0x388
-/sbin/modprobe sound
+Benno Senoner wrote:
+>=20
+> On Thu, 28 Oct 1999, Paul Barton-Davis wrote:
 
-And here is my output from /dev/sndstat:
+> > to an old ISA-based Diamond Speedstar, the performance of my audio
+> > stuff has gone down the tubes. i can't do *anything* with X and hope
+> > to not get dropouts. this never happened with the Matrox card, and i
+> > am very confident that as soon as Matrox ships me a new one, the
+> > problem will go away.
+> >
+> > right now, my system is essentially useless for audio work unless you
+> > avoid using X. totally useless. i can't even play WAV files without
+> > *huge* dropouts, and thats on a *dual* PII-450 !
+>=20
+> Yes,
+>=20
+> the idiotproof test is the following:
+> install 2.2.10 + lowlatency patch  ( not SMP !),
+> tune the IDE diskas as described in the README
+> and run a testsession
+> if the GFX stress graph is the only bad graph,
+> then I'm sorry but you have to throw away your videocard if you want
+> to do reliable low latency stuff.
+> :-)
+>=20
 
-OSS/Free:3.8s2++-971130
-Load type: Driver loaded as a module
-Kernel: Linux barley 2.2.12 #3 Wed Oct 6 17:45:31 CDT 1999 i686
-Config options: 0
-Installed drivers:
-Card config:
-Audio devices:
-0: MS Sound System (CS4231) (DUPLEX)
-Synth devices:
-0: Yamaha OPL2
-Midi devices:
-0: MPU-401 0.0 Midi interface #1
-Timers:
-0: System clock
-1: MS Sound System (CS4231)
-Mixers:
-0: OPL3-SA3 and AD1848 (through MSS)
-1: MS Sound System (CS4231)
+Or you can try to find out what part of your video card driver that
+destroys latency and correct that.
 
-Can anybody help me out?
+You can find out the problematic spot with my patch:
+ latency-profiling-2.2.10-r6.patch [for Linux 2.2.10]
+I will put it on some own web page at the moment you could get it from:
 
-Thanks,
+http://www.gardena.net/benno/linux/audio/patches/latency-profiling-2.2.10-r=
+5.patch
 
-Tom Veldhouse
-veldy@visi.com
+And remove this part of the patch since it is not correct...
+(you should not be tempted to improve things in an instrumentation
+patch...)
+=20
+-       if (tq_scheduler)
++       //RL latency improvement, correct?
++       //RL skip if forced reschedule (a normal will arrive soon...)
++       if (!current->need_resched &&=20
++           tq_scheduler)
 
-P.S. The 4-front drivers work great, but I don't like the hassle with
-loading and unloading them everytime I upgrade the kernel.  I also like
-using the open drivers if at all possible.
+The results are messages in 'dmesg', latency time and instruction
+pointers
+are printed. You then decode the instruction pointers to routine name.
+=20
+/RogerL
+
+--=20
+
+The Internet interprets Windows as damage,=20
+             and routes around it.
+
+Roger Larsson
+Skellefte=E5
+Sweden
