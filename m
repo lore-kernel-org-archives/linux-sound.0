@@ -1,47 +1,33 @@
-From: "Kevin J. Cummings" <kcummings@clariion.com>
-Date: Mon, 30 Aug 1999 17:40:10 +0000
-Subject: Re: IRQs for sb_common.c
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="------------D2D1FB67B3C6DB1F90A48539"
-Message-Id: <marc-linux-sound-93603608217960@msgid-missing>
+From: Paul Barton-Davis <pbd@Op.Net>
+Date: Fri, 27 Aug 1999 00:24:06 +0000
+Subject: Re: [alsa-devel] Re: Bad MIDI performance : 10ms latency instead of the expected 1-1.5ms
+Message-Id: <marc-linux-sound-93571438020118@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93603005910800@msgid-missing>
-In-Reply-To: <marc-linux-sound-93603005910800@msgid-missing>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------D2D1FB67B3C6DB1F90A48539
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+>200bytes/sec is just rudiculous , how do you plan to drive an external synth
+>with that little MIDI bandwidth ?
 
-Ravi Kishore Terala wrote:
-> 
-> Hello,
-> 
-> I noticed that the IRQs used by sb module can only be
-> 5, 7, 9, 10. Is this a hardware restriction?
+check with creative that they actually intend this as a use of the
+card :)
 
-I beleive that these are the only IRQs supported by the Creative Labs
-SBPro boards.
-I know my (original) SB16 could only use these IRQs.  I don't know about
-the newer PCI or PnP SBPro compatibles.
---------------D2D1FB67B3C6DB1F90A48539
-Content-Type: text/x-vcard; charset=us-ascii;
- name="kcummings.vcf"
-Content-Transfer-Encoding: 7bit
-Content-Description: Card for Kevin J. Cummings
-Content-Disposition: attachment;
- filename="kcummings.vcf"
+but seriously, Benno you know the difference between a system in which
+a single application can take full control of the machine by having a
+callback run in interrupt context and one like Linux. with the former
+system, the 2 byte FIFO isn't a problem, or rather, it isn't much of a
+problem. 
 
-begin:vcard 
-n:Cummings;Kevin
-x-mozilla-html:FALSE
-org:Clariion Advanced Storage Division of Data General Corporation;Soon to be EMC
-adr:;;;;;;
-version:2.1
-email;internet:kcummings@clariion.com
-x-mozilla-cpt:;-13408
-fn:Kevin Cummings
-end:vcard
+>If this is true, then I will throw away my AWE64 and buy an AudioPCI :-)
 
---------------D2D1FB67B3C6DB1F90A48539--
+Yes, basically all your problems arise from using consumer
+hardware. In particular, consumer hardware that isn't designed to work
+correctly in (1) a multi-user, multitasking, virtual memory OS and (2)
+isn't really intended to do much more than make noise for games and
+sound effects.
+
+As I never tire of saying, Hoontech's card is $39 and its hard to beat.
+
+--p
