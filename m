@@ -1,38 +1,51 @@
-From: Scott Murray <scott@spiteful.org>
-Date: Wed, 19 Jul 2000 13:13:04 +0000
-Subject: Re: "noise" while recording with an OPL3SAx
-Message-Id: <marc-linux-sound-96401244204131@msgid-missing>
+From: Dan_Lasley@hilton.com
+Date: Tue, 11 Jul 2000 14:37:19 +0000
+Subject: Ensonic AudioPCI sound card problems
+Message-Id: <marc-linux-sound-96332630904955@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-96376558726822@msgid-missing>
-In-Reply-To: <marc-linux-sound-96376558726822@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sun, 16 Jul 2000, Jirtme Augi wrote:
-
-[snip]
-> I tried Alsa and I noticed that with Alsa there is no more noise but If
-> I boot again with OSS the noise is back when recording. I also noticed
-> that the noise disappear when using OSS after unloading Alsa modules.
-> So I've made a patch for OSS (by looking at Alsa driver source) that fix
-> this noise but before posting the patch I'd like to know if someone else
-> noticed this noise with OSS or if it occurs only with me ?
-
-I'm currently at OLS, but I'll look at the patch in more detail when
-I get home.  When I pieced together the OSS OPL3-SAx driver that's in
-the kernel I assumed that the recording limitations were in the under-
-lying ad1848 code, but obviously I missed something in Yamaha's docs.
-I'm planning on sending a patch for 2.4.0-test to Linus/Alan soon after
-OLS, as a couple of people have sent me PnP integration code that I need
-to merge and test.
-
-Scott
 
 
--- 
-======================================Scott Murray                                        email: scott@spiteful.org
-http://www.interlog.com/~scottm                       ICQ: 10602428
------------------------------------------------------------------------------
-     "Good, bad ... I'm the guy with the gun." - Ash, "Army of Darkness"
+I have an old, scrounged Aztec ISA sound card that works just fine in a
+Gateway P5-133.  I bought an Ensoniq AudioPCI and I can't make it
+work!
+
+I'm using Red Hat Linux 6.0 and I'm trying to install the sound card
+with "sndconfig".  sndconfig worked like a charm for the old sound
+card, but I've tried the following configurations with the new card
+and neither will work:
+
+     Ensoniq AudioPCI 1370 (SoundBlaster 64/128 PCI)
+
+     Creative/Ensoniq AudioPCI 1371
+
+I get this error for the first:
+
+     The following error occurred running the modprobe program:
+     /lib/modules/2.2.5-15/misc/es1370.o:
+     init_module: Device or resource busy
+
+And this error for the second:
+
+     The following error occurred running the modprobe program:
+     /lib/modules/2.2.5-15/misc/es1371.o:
+     init_module: Device or resource busy
+
+I don't find any other information in /var/log/messages.
+
+I am using the kernel which comes with Red Hat 6.0, so it should have
+support for all known sound cards.  Again, I had *no* problems in
+configuring and running another sound card in this system.
+
+I've checked /usr/src/linux/Documentation/sound/* and I found no
+help on this particular sound card.
+
+Can anyone furnish a clue?
+
+Thanks.
+
+Dan
