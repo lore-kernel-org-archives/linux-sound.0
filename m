@@ -1,26 +1,29 @@
-From: Paul Barton-Davis <pbd@Op.Net>
-Date: Mon, 01 May 2000 00:48:59 +0000
-Subject: Re: [alsa-devel] Re: midi controllers + laptop
-Message-Id: <marc-linux-sound-95714255003960@msgid-missing>
+From: Spectral Composer <ghstwrtr@evilgenius.net>
+Date: Mon, 29 May 2000 22:25:02 +0000
+Subject: MIDI for Linux
+Message-Id: <marc-linux-sound-95964463730951@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95714240903878@msgid-missing>
-In-Reply-To: <marc-linux-sound-95714240903878@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
->/dev/midi00 behaves like a std serial device except athat it runs 
->always at 31250bps.
+Second question today!  ;-)
 
-not true. /dev/midiNN does not support any (or certainly not most) of
-the serial-specific ioctl's that can be used to configure a real
-serial port. i've seen some amazing code that attempt to set the
-VBREAK character for the MIDI port :) duh ...
+My boss was talking to me about wanting to develop MIDI applications for
+Linux.  My question is, what interface would you recommend popping into my
+puter for use with Linux, what apps currently exist for linux (wave
+editing, sequencing, etc) and most importantly, what needs exist for the
+platform.  I COULD do extensive web research on this to answer these
+questions, but I'm really excited to get started on this project.
 
-also, the buffering of the OSS /dev/midi device is completely
-different from that done by the serial driver. its also not very good :)
+The whole thing will be made available under copyleft, as this is
+basically a selfish project of ours in that we just want to set up our
+keyboards as cheaply as possible, and thus, profit is not our motivation
+here.  I'll definitely keep the list apprised as we start to get things
+up.
 
-as ever: use ALSA.
+-Ron
 
---p
+"We've secretly replaced the Garcia-Vidal's cat with a crazed wolverine.
+Let's see if they'll notice"
