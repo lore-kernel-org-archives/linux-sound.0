@@ -1,50 +1,31 @@
-From: Brian Sanderson <brian@ccat.co.uk>
-Date: Thu, 06 Jan 2000 10:52:15 +0000
-Subject: Genius SoundMaker
-Message-Id: <marc-linux-sound-94715559206285@msgid-missing>
+From: Guenther Sohler <guenther.sohler@newlogic.at>
+Date: Tue, 11 Jan 2000 14:31:53 +0000
+Subject: recognizing sounds
+Message-Id: <marc-linux-sound-94761525425608@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Help!
+Hello list,
 
-I have recently installed Red Hat 6.0 (kernel version 2.2.5-22) as a duel
-boot system alongside Windoze 95 on an Intel PC.
+I am currently writing a tool 'wav2mid' , which should be capable of
+recognizing tunes in wave files.
+This works quite well
 
-I can get everything working except the soundcard (which works perfectly
-well under 95).
+*       Wenn I just recognize the synthesizer's output read through dsp
+*       When these are easy voices like flute, saxophon, whistle, ...
+*       I achieved all tunes(and accords) of the song 'silent night, holy
+night' to be recognized correctly. It is a 2 sound saxophone melody.
+        The only tiny error at the moment is, that two equal tunes next to each
+other will be recognized as a longer tune.
 
-The card is a 'Genius SoundMaker', the drivers supplied for Windoze are
-'Yamaha OPL3-SAx Sound System' which seems to work quite nicely.
+My problem is following: Recognizing the sound of strings(like the violin) is
+very difficult as every period in time domain looks remarkably different from
+each other. So also all the spikes in frequency domain change their amplitude
+rapidely
 
-When I try to use sndconfig it probes for the card then reports,
+Does somebody of you have experience in this topic ?
 
-+--------------PnP Probe Results-------------+
-| A PnP sound card was found in your   |
-| system. The details are:                     |
-|      Model: OPL3-SAX Sound Board     |
-+-------------------------------------------------------+
-
-When I first ran sndconfig, the next step tried to play a sound but nothing
-came out of the speakers.
-When I told sndconfig that I had not heard the sound it allowed me to change
-values and try again, however the values looked correct (as far as I could
-see) and no matter what I tried to change nothing made any difference.
-
-However, now when I attempt to run sndconfig when I press OK to dismiss the
-PnP Probe Results box shown above sndconfig locks up. I cannot do anything
-to stop it, I can switch to another virtual terminal but cannot type
-anything into it. The only way I can get out of it is to reset the PC.
-
-My questions are,
-
-1) How can I remove the settings already saved so I can start from a clean
-sheet, what files do I need to edit/remove?
-
-2) Has anyone heard of or had any experience with this kind of card before?
-
-Any help will be greatly appreciated.
-
-Brian Sanderson.
+Thank you in advance.
