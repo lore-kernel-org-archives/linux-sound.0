@@ -1,67 +1,46 @@
 From: David Jander <djander@alumnos.utfsm.cl>
-Date: Thu, 02 Dec 1999 15:20:57 +0000
+Date: Thu, 02 Dec 1999 15:57:39 +0000
 Subject: Re: Linux Equavalent - Fast Tracker 2
-Message-Id: <marc-linux-sound-94414934628319@msgid-missing>
+Message-Id: <marc-linux-sound-94415092729719@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94335078501128@msgid-missing>
 In-Reply-To: <marc-linux-sound-94335078501128@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-On Thu, 02 Dec 1999, Clive Crous wrote:
->David Jander :
->>>On Tue, 23 Nov 1999, Clive Crous wrote:
->>>>I ma desperately looking for a linux equivalent of Fast Tracker 2 ( by
->triton) or even better, a port of this >>great xm tracker.
+On Wed, 01 Dec 1999, Kai Vehmanen wrote:
+>On Wed, 1 Dec 1999, David Jander wrote:
 >
->The greatest ever ;-)
-
-You say it :-)
-
->What has happenned to triton ? that's easy, check out
->http://www.starbreeze.com
-
-Wow ! Finally I fond them (one of them ... Vogue)
-I'll contact him. In the FT2 page, he says that they are already considering an
-open-source release ! So I'll be contacting him, to see if he is alright with
-the idea that a couple of guys (who else wants to join ?) take on their project.
-
->If you check out the webpage, you'll see thay've stopped development
->completely on FT2 :(
-
-I thought so ! But maybe this means, they might let someone else continue
-develpment.... asking them won't hurt :-)
-
->>>Anybody else interested ?
+>> I would be very interesting in doing a port to linux, although, as I kno=
+w FT2
+>> is written in Borland-Pascal with tons of assembly code inside (hard to =
+port !!)
 >
->Yes, Yes, and Yes again :-)
->I've done a lot of DOS pascal & asm coding in the past including my own
->xm/mod/s3m player.
+>I think a better (=FAster) way to do this is to join some existing Linux=20
+>tracker project and start contributing. I'm a huge FT2 fan myself=20
+>(I used it extensively when recording my first demo-CD!), but I don't
+>really need it anymore. I'm quite happy with Michael Krause's=20
+>SoundTracker (for Linux, of course). It's not perfect, but it's
+>open-source! If you need some feature or something isn't working, you
+>can add/fix it yourself.
 
-Yup. Good news. I never did a player, but a XM to MIDI converter (in
-Turbo-Pascal :-)
+I had a look at it (the screenshots) and am currently downloading it.
+Unfortunately my workstation doesn't have a sound device, so I'll have to t=
+ake
+it home before I can give it a try :-)
+Screenshots look very neat. It remembers me of FT2 ! It really seems a
+project worth contributing to.=20
+Also, I checked out the FT2 web page, and it says that Magnus (one of the g=
+uys
+who did that thing) is considering an open-source release of FT2... interes=
+ting
+too, don't you think.
 
->Unfortunately I'm only a newish convert to c and i might be a bit slow
->there, but converting pas/asm -> c shouldn't be a problem.
-
-Exactly the same case as with me. I'm a Borland-Pascal coder who moved to
-Linux/C/CPP a while ago, but I'm still faster in Pascal than in C :-)
-p2c turned out to be a VERY neat tool !
-
->I would love to help with a port, in fact I was planning on writing an
->editor myself from scratch using svgalib as the music partner in my demo
->group was complaining about the current linux-sound-editors.
-
-I am complaining about linux sound drivers, editors and midi-sequencers.
-So I think it's time to do something about it. Sound is still one of the very
-underdeveloped items in linux... *sigh !
-I'll let you know if I have news from Magnus "Vogue".
-
-regards...
+Greetz...
 
 ---------------------------------------------------------------------
-David Jander J.                   | "M$-Windows sux, Linux Rulez !  
+David Jander J.                   | "M$-Windows sux, Linux Rulez ! =20
 Electronics Student, UTFSM, Chile |  That's it !"
 E-Mail : djander@alumnos.utfsm.cl |               -Me
