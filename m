@@ -1,35 +1,29 @@
-From: Myriam DESAINTE-CATHERINE <Myriam.Braquelaire@labri.u-bordeaux.fr>
-Date: Mon, 29 Nov 1999 15:46:54 +0000
-Subject: CFP: Computer Music Conference in France
-Message-Id: <marc-linux-sound-94389411624676@msgid-missing>
+From: OHPC <ohpc@mii.zaz.com.br>
+Date: Wed, 24 Nov 1999 22:04:54 +0000
+Subject: Help me please anybody
+Message-Id: <marc-linux-sound-94348199212739@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hello everybody on the list.
+First of all, I am a newbie to Linux, but I use computers for 15 years, 
+since the days of ZX Spectrum. I use M$-Dos and M$ Windoze for more than 5 
+years, but I would appreciate any help with Linux.
+I have a Pentium III, with Riva TNT2 32 Mb graphics card, 128Mb Ram and Red 
+Hat Linux (it seems to be a special edition of Red Hat 6.1, I am not sure, 
+since it is translated and adapted to Portuguese).
+I am not able to use my Sound Blaster PCI 512, and I found some information 
+about new drivers released by Creative Labs for the SB Live!. Since I heard 
+they use the same chipset, did anybody have success in making the SB PCI 
+512 work with the drivers of the SB Live! ?
+Does anybody have a solution for making this soundboard work? I would thank 
+any help you could provide, because I was not able to find anywhere the 
+information I wanted.
+If somebody knows, please help me.
 
+Thanks in advance.
 
-Les Journees d'Informatique Musicale reunissent chaque annee des
-chercheurs en Informatique Musicale et differents acteurs de la vie
-musicale utilisant l'informatique comme moyen d'expression ou comme
-aide a la composition.  Cette annee, ces septiemes Journees se
-derouleront du 15 au 18 mai a Bordeaux (33). Les JIM 2000 sollicitent
-des articles et des oeuvres musicales.
-
-Visitez notre site pour plus d'information :
-	http://www.scrime.u-bordeaux.fr/JIM2000
-
-The Journees d'Informatique Musicale is an annual meeting of
-researchers in computer music and musicians who use the computer as a
-means of expression or as a tool for composition.  This year, the
-seventh edition of this meeting will occur may 15-18 at Bordeaux. JIM
-2000 is now requesting papers and musical works to be submitted for
-review
-
-Visit our site for more information:
-	http://www.scrime.u-bordeaux.fr/JIM2000
-
--
-Myriam 	DESAINTE-CATHERINE 
-http://www.labri.u-bordeaux.fr/~myriam
+Oto Pintiaski 
