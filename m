@@ -1,7 +1,7 @@
-From: Keith Duthie <psycho@albatross.co.nz>
-Date: Fri, 12 Mar 1999 07:12:40 +0000
+From: Alo Eenmae <alo@rrg.edu.ee>
+Date: Fri, 12 Mar 1999 10:56:57 +0000
 Subject: Re: ESS Maestro-1 PCI (ES1948F chip)
-Message-Id: <marc-linux-sound-92122292627947@msgid-missing>
+Message-Id: <marc-linux-sound-92123647203612@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92122037726687@msgid-missing>
 In-Reply-To: <marc-linux-sound-92122037726687@msgid-missing>
@@ -10,13 +10,16 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, 12 Mar 1999, Alo Eenmae wrote:
+On Fri, 12 Mar 1999, Keith Duthie wrote:
 
-> Anyone have any luck configure kernel 2.2.2 to work with the Maestro-1 PCI
-> (ES1948F chip)??? 
-To get minimal support for the Maestro, I think you need to try an ac
-kernel.
+> On Fri, 12 Mar 1999, Alo Eenmae wrote:
+> 
+> > Anyone have any luck configure kernel 2.2.2 to work with the Maestro-1 PCI
+> > (ES1948F chip)??? 
+> To get minimal support for the Maestro, I think you need to try an ac
+> kernel.
 
--- 
-.sig under deconstruction. Please watch out for falling stars.
-           +++ATL3           O-        +++ATM2
+I have kernel 2.2.2-ac7 but nothing:(( ac7 support Maestro-2 but Maesto-1
+not supported i think..
+
+		aLo
