@@ -1,92 +1,50 @@
-From: "D. Marcus Johnson" <schwaahed@yahoo.com>
-Date: Tue, 11 Jul 2000 19:01:14 +0000
+From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
+Date: Tue, 11 Jul 2000 19:10:58 +0000
 Subject: Re: Ensonic AudioPCI sound card problems
-Message-Id: <marc-linux-sound-96334256006442@msgid-missing>
+Message-Id: <marc-linux-sound-96334265806594@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96332630904955@msgid-missing>
 In-Reply-To: <marc-linux-sound-96332630904955@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hi I have ALSA 0.5.7 with my EnsoniqAudioPCI(1371). It
-works like a charm for me. The set up is similar to
-get a (1370) type card,*So I've Heard*!
-     If I we're you I would check the alsa user list
-archives. It should get you set along with the
-included documentation if you choose to install the
-ALSA drivers.
-    *Warning* the hardest parts for me was you will
-need to compile a Kernel with *Only* sound support and
-no other audio options for the drivers compiled in. In
-addition the configuration file--> /etc/modules.conf
-confused the hell out of me, but I beleive there is an
-ens1370 or 1371 HOWTO in the list archives that will
-lead you through the process step by step.
+audiopci works perfectly with alsa.
+make sure to determine the correct chip, there are es1370 and es1371
+versions which need different drivers.
+see alsa-user archives for details:
+http://www.alsa-project.org/
 
--Good Luck
-Darwin
+regards,
 
---- Dan_Lasley@hilton.com wrote:
->=20
->=20
-> I have an old, scrounged Aztec ISA sound card that
-> works just fine in a
-> Gateway P5-133.  I bought an Ensoniq AudioPCI and I
-> can't make it
-> work!
->=20
-> I'm using Red Hat Linux 6.0 and I'm trying to
-> install the sound card
-> with "sndconfig".  sndconfig worked like a charm for
-> the old sound
-> card, but I've tried the following configurations
-> with the new card
-> and neither will work:
->=20
->      Ensoniq AudioPCI 1370 (SoundBlaster 64/128 PCI)
->=20
->      Creative/Ensoniq AudioPCI 1371
->=20
-> I get this error for the first:
->=20
->      The following error occurred running the
-> modprobe program:
->      /lib/modules/2.2.5-15/misc/es1370.o:
->      init_module: Device or resource busy
->=20
-> And this error for the second:
->=20
->      The following error occurred running the
-> modprobe program:
->      /lib/modules/2.2.5-15/misc/es1371.o:
->      init_module: Device or resource busy
->=20
-> I don't find any other information in
-> /var/log/messages.
->=20
-> I am using the kernel which comes with Red Hat 6.0,
-> so it should have
-> support for all known sound cards.  Again, I had
-> *no* problems in
-> configuring and running another sound card in this
-> system.
->=20
-> I've checked /usr/src/linux/Documentation/sound/*
-> and I found no
-> help on this particular sound card.
->=20
-> Can anyone furnish a clue?
->=20
-> Thanks.
->=20
-> Dan
->=20
->=20
+j=F6rn
 
 
-__________________________________________________
-Do You Yahoo!?
-Get Yahoo! Mail =96 Free email you can access from anywhere!
-http://mail.yahoo.com/
+
+Jay Ts wrote:
+>=20
+> > I bought an Ensoniq AudioPCI and I can't make it work!
+> >
+> > I'm using Red Hat Linux 6.0 and I'm trying to install the sound card
+> > with "sndconfig".
+>=20
+> I have an AudioPCI and I like it very much.  Since I already had the
+> 4Front (commercial) driver, I skipped the free drivers included with
+> Linux and after paying 4Front another $10 for the AudioPCI support,
+> I've been using their driver without problems.
+>=20
+> Another possibility is to try the ALSA driver; I read on the web that
+> it supports the AudioPCI.  Anyone want to comment on that?
+>=20
+> I don't know if it's possible to use the free OSS Linux driver; I'm
+> just responding because I have an AudioPCI, and I want to say what
+> works for me so far.
+>=20
+> - Jay Ts
+
+--=20
+J=F6rn Nettingsmeier    =20
+Kurf=FCrstenstr. 49       =20
+45138 Essen, Germany     =20
+http://www.folkwang.uni-essen.de/~nettings/
