@@ -1,75 +1,87 @@
-From: DFalt <jiann@vcu.edu>
-Date: Thu, 10 Sep 1998 02:01:14 +0000
-Subject: Re: Yamaha opl3
-Message-Id: <marc-linux-sound-90540059504086@msgid-missing>
+From: Dominik Stadler <Dominik.Stadler@apertum.de>
+Date: Tue, 01 Sep 1998 16:48:52 +0000
+Subject: General question about sound-tools and how to do things
+Message-Id: <marc-linux-sound-90468993125457@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90522162401464@msgid-missing>
-In-Reply-To: <marc-linux-sound-90522162401464@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-i have the yamaha opl3sax on a gw2k 9100 xl laptop and my card works whenever i
-warm boot from win/dos into linux...this can be accomplished via lilo or loadlin
-but with this procedure the i/o 'defaults' are kept the same...and oss or any of
-that other shit to let u do what u should be able to do is not necessary   cause
-linux wants to send the irq number to a different number(my os's r gaywin95/gaynt
-4/ and linux)
+Hi all linux-soundies, 
 
-zewei chen wrote:
+If this is the wrong place to ask, I apologize for loading this list and
+ask you to direct me to another place, apropriate for such questions..
 
-> I'm not sure this helps, but I had the same problem a while ago.
-> Not quite resolved, yet.  Here's my experience (in the hopes of
-> helping Catalin gather some data, and soliciting some insight
-> for my own situation) -
->
-> pnpdump detected nothing.  may I assume the card is not plug-n-play?
->
-> I created a file /etc/conf.modules, following some instructions
-> from one of the FAQ/HOW-TOs, with these lines (parameters
-> copied from Win95 - yes the card works there):
->
-> alias sound sb
-> options -k sb io=0x220 irq=5 dma=0,5
-> alias midi opl3
-> options -k opl3 io=0x388
->
-> loaded the sound module by hand, now lsmod shows:
->
-> # lsmod
-> Module         Pages    Used by
-> 3c589_cs           2            1
-> ds                 2    [3c589_cs]      3
-> i82365             4            2
-> pcmcia_core        8    [3c589_cs ds i82365]    4
-> opl3               3            0
-> sb                 6            0
-> uart401            2    [sb]    0
-> sound             16    [opl3 sb uart401]       0
->
-> I was able to play some mpeg sound files, though the sound
-> was terrible.  When I tried to play some sound files in another
-> format using our own software, I get "can't open wave dev, -1"
-> as an error message.  doing an strace on it shows:
->
-> open("/dev/dsp", O_WRONLY)              = 3
-> ioctl(3, SOUND_PCM_WRITE_CHANNELS, 0xbfffd3e0) = 0
-> ioctl(3, SNDCTL_DSP_SETFMT, 0xbfffd3dc) = 0
-> write(2, "cant open wave dev, err -1\n", 27cant open wave dev, err -1
-> ) = 27
->
-> Well, it seems that one of the ioctl syscall did not get the right value back.
-> perhaps I'm missing some sound drivers?
->
-> Would appreciate some insight.
->
-> Zewei
->
-> Catalin Marinescu wrote:
->
-> >     Hi all !
-> >     I have a sound card Yamaha opl3 and I can't make it work on my linux
-> > system.
-> >     If anyone knows how can I fix this please help me.
-> > Thanks.
+I'm interested to hear the experience with various sound-tools from
+people using them.
+I'm doing some sound-processing with my linux-2.0.35/36pre6-box and my
+SB-64AWE-PNP and would like to get an overview of the tools other people
+use. I'm aware that I could dig through all available tools at "Linux
+Sound & Mid Applications" at
+http://www.bright.net/~dlphilp/linux_soundapps.html, and I did already
+for some of them, also I read the sound-howtos, but I would like to do
+the following tasks and think some of you will be so kind and give me
+some hints on them
+
+1. Which tool (command line or X) is well suited to record sound from
+line-in like a radio broadcasting or from tape or from microphone to wav
+files
+
+2. I'm also interested if it is possible to record directly from line-in
+or microphone to cd with my teac-cdr55s-burner, especially is it
+possible to have tracks on the cd either with fixed length, e.g. 5
+minutes or to switch to the next track by keypress?
+
+3. sometimes I have one large audio-file (sometimes over 1,5 Gig) and I
+don't like that I'm forced to have much addittional free space to split
+it in parts (currently I need the size of the file of free space again,
+that is 2 Gig for storing and splitting a 1 Gig-File). Is it possible to
+split it in-place, that means without need for much more space? Is this
+theorethically possible under Linux (to split or shrink a file)?
+I think of the following way:
+I have a 1GB-File and want to split it in two parts, each 500MB, If it
+is possible, the function/programm/tool should step through the file and
+extract smaller parts (e.g. 1MB) from the Source-File, write it to the
+Destination and shrink the first file and make it 1023MB, then the next
+1MB-chunk, and so on...
+It could be very slow or very disk-intensive to do so? or is there a
+better way, like splitting the whole file and writing a new header to
+the two files?
+
+4. Which tool use people in linux-land to manipulate their sound-files
+(cut out wrong parts, apply some effects or filters, ..)?
+
+5. Another point I would like to address is mixing of two or more
+audio-files, especially can I fade from one to another in a comfortable
+way?
+
+6. aditionally I would like to retrieve the BPM (Beats Per Minute)-Count
+of some of the audio-files, is there an application, plug-in,
+source-code-library, example-file or other tool to get this piece of
+information?
+
+7. Although not closely related to linux-sound, but which options and
+parameters do I have to give to cdda2wav and cdrecord to persuade them
+to copy an audio-cd on-the-fly (apart from possible
+performance-problems)
+
+
+At the moment, I'm using the standard sound driver with 2.0.35,
+AFsp-v4.0, sox, xwave, kmix under kde, cdda2wav, cdrecord, mkisofs  to
+do some of the jobs, but I think, there could be some tools better
+suited for my requirements because I got to some borders and I like to
+ask for other solutions before digging into the source-code?
+
+Also I thought about changing to ALSA or the latest OSSFree 3.8b9 (I
+tried to install it, but I couldn't get it work properly), but this
+would only make my currently working sound-setup unstable?
+
+
+I'm planning to gather the responses and submit interesting parts to one
+of the sound-playing/writing/..-HOWTOs!
+
+
+Thank you in advance (I wonder if anybody will read this far??)
+
+Dschau.. Dominik
