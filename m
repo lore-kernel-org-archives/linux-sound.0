@@ -1,41 +1,63 @@
-From: "Stephen C. Tweedie" <sct@redhat.com>
-Date: Mon, 30 Aug 1999 11:13:02 +0000
-Subject: Re: [rtl] Low-latency patches working GREAT (<2.9ms audio latency), see testresults ,but ISDN troubl
-Message-Id: <marc-linux-sound-93601180925552@msgid-missing>
+From: Benno Senoner <sbenno@gardena.net>
+Date: Thu, 26 Aug 1999 17:34:03 +0000
+Subject: Bad MIDI performance : 10ms latency instead of the expected 1-1.5ms
+Message-Id: <marc-linux-sound-93568883025986@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93588421815439@msgid-missing>
-In-Reply-To: <marc-linux-sound-93588421815439@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
+Hi folks,
 
-On Mon, 30 Aug 1999 00:09:51 -0600, yodaiken@chelm.cs.nmt.edu said:
+I finished my MIDI performance tests:  ( DISAPPOINTING  :-(  )
 
-> I don't see how your code avoids reschedules from non SCHED_FIFO/RR 
-> processes. And I'm not convinced tha even then, it is reasonable to 
-> allow this. But first explain why a screen saver will not trigger
-> the same behavior. The screen saver will do fast writes to the screen,
-> and these will trigger io for X and for the saver itself. Both operations
-> will set needs_resched. So we expect io performance to get worse 
-> in this case. Right?
+I did basically the following:
+connected the external MIDI-out of my AWE64 to the MIDI-in port with a MIDI
+cable.
+Then I wrote a little app which opens the midi device in O_RDWR mode
+and then does
+time1=gettime() 
+- write 3 bytes to the midi device ( to simulate a Note-on cmd)
+- read back the data
+time2=gettime()
+prints out the timediff
 
-Is the screensaver consuming significant CPU time?  If so, it is running
-with fewer scheduling credits than (say) the bdflush code.  A wakeup of
-the screensaver will not cause need_resched to be set (reschedule_idle
-doesn't set need_resched unless the woken process has significantly more
-scheduling credits than the running task).
+I tested both a 2.2.5 and a 2.2.10 kernel , same results.
 
-Is the screensaver using even less CPU than bdflush?  In that case, it
-is assumed to be a more latency-critical task, and if woken up, it will
-set need_resched.  With Ingo's diff, the only change here is that the
-reschedule will now occur sooner rather than later, which is exactly
-correct for a mostly-idle task.  If the screensaver is in fact waking up
-like this all the time, then it should rapidly consume enough scheduling
-credits to fall below the bdflush priority and to stop preempting.
+I wrote this to measure the MIDI output-to-input delay.
+I tried both with blocking I/O and non-blocking I/O.
+Unfortunately I get bad values in both modes:
+about 11.5ms , and this is exactly the MIDI transfer time (1.3ms) plus
+10ms = 1 jiffie.
+If I run the test on a HZ00 kernel I get about 2ms.
 
-I don't understand why this behaviour is undesirable.
+11ms is not acceptable to implement realtime MIDI processing apps,
+like soft-synths, virtual midi-thru boxes (or via sequencers), midi-filters etc.
 
---Stephen
+
+Does anyone know if there is a way to get the values down to the effective
+transfer time. ?
+
+ ( are there lowlatency serial flags similar to those of the
+regular serial devices ?)
+
+You can get my mididelay benchmark here:
+
+http://www.gardena.net/benno/linux/audio/mididelay0.1.tgz
+
+Do you get better values on ALSA ?
+
+comments ?
+
+PS: Paul: I was wrong about not being able to open the midi device in
+O_NONBLOCK.
+
+
+regards,
+Benno.
+
+Benno Senoner
+E-Mail: sbenno@gardena.net
+Linux scheduling latency benchmarks
+http://www.gardena.net/benno/linux/audio
