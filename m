@@ -1,35 +1,61 @@
-From: Hamish Moffatt <moffatt@cs.rmit.edu.au>
-Date: Sat, 19 Sep 1998 13:06:10 +0000
-Subject: Re: CW-7502 -> cdda2wav -> zeroes
-Message-Id: <marc-linux-sound-90621010026505@msgid-missing>
+From: "dlock@acs.itd.uts.edu.au" <dlock@acs.itd.uts.edu.au>
+Date: Tue, 08 Sep 1998 03:35:48 +0000
+Subject: Linux cecilia/csound
+Message-Id: <marc-linux-sound-90523275804472@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90607851214906@msgid-missing>
-In-Reply-To: <marc-linux-sound-90607851214906@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, Sep 17, 1998 at 01:14:21PM -0700, Mike "Ford" Ditto wrote:
-> I am trying to use Cdda2wav version 0.8 to read audio tracks from a
-> Panasonic CW-7502 (which is widely reported to have good CDDA reading
-> capability).  The program can read and display the TOC correctly and it
-> writes the correct number of bytes into the output file, but all of the
-> audio samples are zero (total silence).
-
-That happens here too; I was trying to do it earlier with xcdroast.
-First it told me it couldn't tell the drive type; then I picked
-SCSI-3/mmc and got huge sound files containing null data,  which isn't
-surprising since it didn't actually use the drive to do the extraction.
-
-I don't know what the fix is. I extracted the stuff on my CR-585 reader
-instead. For some reason xcdroast thinks it can't extract audio from IDE,
-even though cdda2wav can do it just fine.
 
 
-Hamish
--- 
-Hamish Moffatt, StudIEAust              hamish@debian.org, hamish@moffatt.nu
-Student, computer science & computer systems engineering.    4th year, RMIT.
-http://hamish.home.ml.org/ (PGP key here)             CPOM: [*******   ] 73%
-Nondeterminism means never having to say you are wrong.
+g'day there- ive been running cecilia  on my linux box
+with great success, and now im moving towards a real time application of
+cecilia (live dsp).
+
+ive got a couple of questions relating to the Audio-in function.
+I can write to the DACs no problem, but when i attempt to read audio from
+the soundcard and write to the DACS, problems arise.
+ie : i run this simple orc/sco (in csound alone)
+
+/usr/Csound-3.47/ csound  -o /dev/audio1 -L stdin  -i /dev/audio0
+rtinu.orc rtinu.sco 
+
+I get a short looping buffer of ambient sound. The orc/sco compiles no
+problem (and does work properlly on a mac). It may have somthing to do
+with the command line. Here is the output:
+
+Csound Version  v3.485.0b (Aug 27 1998)
+orchname:  rtinu.orc
+scorename: rtinu.sco
+sorting score ...
+        ... done
+orch compiler:
+ 26 lines read
+        instr   31
+MIT Csound:  v3.485.0b (Aug 27 1998)
+orch now loaded
+stdmode = 00000002 Linefd = 0
+audio buffered in 1024 sample-frame blocks
+WARNING: /dev/audio0 has no soundfile header, assuming shorts
+reading 4096-byte blks of shorts from /dev/audio0 
+writing 4096-byte blks of shorts to /dev/audio1 (IRCAM)
+SECTION 1:
+new alloc for instr 31:
+
+
+The other question relates to cecilia.
+When i select preview command and/or opoen cecilia window, csound does not
+compile (doesnt initiate compilation) and cecilia just hangs (until i
+reinit module).
+This in itself isnt such a big problem, but how does one change the
+command line options (ie audio devices) without this previewer- (where is
+the default file kept?)
+
+I also (on occasion) get the following error message when atempting to
+preview the command....
+
+grab failed window not viewable
+
+Any ideas would be appreciated....
