@@ -1,66 +1,46 @@
-From: Jonathan Oppenheim <jono@Phys.UAlberta.CA>
-Date: Wed, 12 Apr 2000 00:35:56 +0000
-Subject: Re: no recording w/ emu10k1 (SBLive! and SBPCI512)
-Message-Id: <marc-linux-sound-95550481610388@msgid-missing>
+From: Peter Leif Rasmussen <plr@cedara.com>
+Date: Tue, 18 Apr 2000 13:52:01 +0000
+Subject: Missing 16bit DMA channel
+Message-Id: <marc-linux-sound-95606803212331@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95495756630733@msgid-missing>
-In-Reply-To: <marc-linux-sound-95495756630733@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-just an update on the SBLive driver, since a number of
-people emailed me and had similar problems.
+I have mentioned this before and I'm sure you are sick of it, but having
+investigated some more I am actually more confused about this issue than ever.
 
-It seems to record fine now with the CVS driver (available
-at www.opensource.com)
+It seems to me from reading documentation, linux/Documentation/sound files
+and the sound HOWTO, and reading posts on this list that sound cards are
+supposed to have one 8bit DMA channel and one 16bit if it has two DMA channels
+and all drivers expect that?
 
-recording with SLab works (if you run SLab as root!)
+As I am unfortunate enough to have a Socket7 mobo with a SB Vibra 16 chip on
+it, which I can't disable, and that chip has two 8bit DMA channels instead of
+one 8bit and one 16bit, I looked if I could get it to work with another
+soundcard.
 
-i have not yet got kvoice to work, but understand that
-other people (with different soundcards) get similar error
-messages, so it may just be a bad program (i heard that it is
-no longer supported).
+I found in my pile of stuff an ESS1868 soundcard, which should be very SB
+compatible and an Opti925 soundcard. They are both ISA PNP cards. I also found
+that those two only have two 8bit DMA channels as well and I had some problems
+getting them to work on the mentioned mobo (using module sound drivers and the
+isapnp tool or letting the kernel ISA PNP module take care of things, which it
+didn't seem to really be able to).
 
-if anyone knows what permissions to change to get SLab to
-work without being root, please let me know.
+In any case this has got to mean that there are lots of sound cards out there
+that only have 8bit DMA channels, and not only the SB16 Vibra as I once thought,
+so why is the design of the Linux sound subsystem made to expect 16bit for the
+second DMA channel? At least that is what it looks like to me?
 
-thanks for the help,
-jonathan
+I could get the kernel (2.3.99-pre5) to detect the Opti925 card upon bootup,
+with the drivers mentioned in the "sound/Opti" file compiled in and ISA PNP
+also compiled in, but after that there was nothing that showed that there was
+a sound device (/proc/dma, /proc/interrupts, /proc/ioports) even though
+/proc/isapnp showed the presence of the Opti card.
 
+Could someone please tell me what I am missing here?
 
+Thank you very much,
 
-
-
-
-
-
-
-On Wed, 5 Apr 2000, Paco wrote:
-
-Hello...
-
-I've spoken with the CEO of 4front technologies about my recording
-problems using OSS/Commercial with the SBPCI512 card.  (Some one else
-posted recoding problems with the Live! yesterday, too.)
-
-He has informed me that there *is* a bug in the recording code for these
-two cards, and recording is absolutely not possible unless you download
-the emo10k1 driver from creative labs' website.
-
-They have no plans to fix this bug until sometime in the summer.
-
-peace,
--Paco
-
-
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: 2.6.2
-
-mQCNAzc5/rwAAAEEALGi/cKupURWMeRs3xKx7+3PHi1hqfswOuM5suJhTEJZiR+p
-xYsVYB/B/uNwrr+m+Rzd8sEJlB2D/JkkCHMUplDR2OC0hfUYmQGIXEg9kShudRsO
-E+1oVFFevj6MTgIY6c5nSWvz3n+zLHrcHk/k8pLDpI6qcIGqrAEcX2GVzVwNAAUR
-tARqb25vtBU8am9ub0BwaHlzaWNzLnViYy5jYT4=FDxR
------END PGP PUBLIC KEY BLOCK-----
+Peter
