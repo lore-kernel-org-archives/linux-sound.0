@@ -1,33 +1,64 @@
-From: Rainer Wiener <rainerwiener@gmx.de>
-Date: Sun, 06 Jun 1999 20:55:18 +0000
-Subject: Soundcard Database
-Message-Id: <marc-linux-sound-92870207213099@msgid-missing>
+From: Abe Smith <abe@execpc.com>
+Date: Mon, 07 Jun 1999 14:21:46 +0000
+Subject: Re: Soundcard Database
+Message-Id: <marc-linux-sound-92878523612879@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92870207213099@msgid-missing>
+In-Reply-To: <marc-linux-sound-92870207213099@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQoKSGVsbG8sCgpJIHdhbnQgdG8gY3Jl
-YXRlIGEgU291bmRjYXJkIERhdGFiYXNlLCB3aGVyZSBpcyByZWdpc3RlcmVkIGhvdyB0bwpjb25m
-aWd1cmUgZXZlcnkgU291bmRjYXJkIHVuZGVyIExpbnV4LiBTbyBpZiB5b3UgaGF2ZSBhIGNvbmZp
-Z3VyZSBvZiB5b3VyClNvdW5kY2FyZCBpbiB0aGUgV2ViLCBwbGVhc2Ugc2VuZCBtZSB0aGUgbGlu
-ayB0byB0aGlzIHNpdGUgYW5kIHRoZW4gSSB3YW50IHB1dAppdCBvbiBteSBIb21lcGFnZS4gSWYg
-eW91IGhhdmVuJ3QgcHV0IGl0IGluIHRoZSB3ZWIsIHBsZWFzZSBzZW5kIG1lIGEgZGV0YWlsCk1h
-aWwgbGlrZSB5b3UgaGF2ZSBjb25maWd1cmUgaXQgdW5kZXIgTGludXggYW5kIEkgYWxzbyBwdXQg
-aXQgb24gbXkgSG9tZXBhZ2UuCgpJIGhvcGUgdGhhdCB0aGlzIHdvdWxkIGhlbHAgc29tZSBwZW9w
-bGUgaW4gdGhlIGZ1dHVyZS4KCi0tCmN1CiAgUmFpbmVyIFdpZW5lcgoKLS0tLS0tLS0tLS0tLS0t
-LS0tCiJXZW5uIER1IGZlc3QgZGFyYW4gZ2xhdWJzdCwgaXN0IGFsbGVzIG32Z2xpY2giCi0tLS0t
-LS0tLS0tLS0tLS0tLQplLW1haWwgICAtLS0tPiB3aWVuZXJAYmlnZm9vdC5kZSAKb3IgICAgICAg
-LS0tLT4gcmFpbmVyQGNjby1vbmxpbmUuZGUKSG9tZXBhZ2UgLS0tLT4gaHR0cDovL3d3dy5saW51
-eHN0YXJ0LmNvbS9+cmFpbmVyLwotLS0tLS0tLS0tLS0tLS0tLS0KR2V0IHRoZSBQR1AtS2V5IGZy
-b20gaHR0cDovL21lbWJlcnMudHJpcG9kLmRlL3dpZW5lci8Kb3Igc2VuZCBhIGUtbWFpbCB0byBw
-Z3AtcHVibGljLWtleXNAdW5pLXBhZGVyYm9ybi5kZSB3aXRoIEdFVCBSYWluZXIgV2llbmVyCmFz
-IHN1YmplY3QuCktleSBmaW5nZXJwcmludCA9IDVCIDIxIDFBIDQxIEI2IDNBIEQ4IDg4ICA4RiAz
-RCAzQSBDQyBGOSA4MSBCNiA5NwoKLS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KVmVyc2lv
-bjogUEdQZnJlZXdhcmUgNS4waSBmb3Igbm9uLWNvbW1lcmNpYWwgdXNlCk1lc3NhZ2VJRDogZUp4
-bG1FZ3FKOVJxZ216L20wSzNacTZjSXFkcjg2KzAKCmlRQ1ZBd1VBTjFxU2h3NnAwTTM0dnI5aEFR
-RkIyUVArTHFDcktEbmRsdUVZbk9RTXR3OHdWZnc1MUZrMnh3NnoKMDhHN0xVOTUrVkszeHVETE91
-OFptNkNjVlBFb25MbjExSCtzdHJSNDRxREsySUJ4em03RlBxUXRlM24wTXdJdQpCOGl1ZTh3VWRt
-dGQzSzkyTTBaSUNIQlhpZnJJNE5mOXlUc1NWSktkWHIvRjkzM0NiaTcvMEsxM2RlVnBRWU5nClBo
-UktGUUVoRnJF6FlPCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQo=
+This would be great!
+
+It'd also be good to add which kernel, vendor, cpu, are used too...
+those can often lead to... irregular... bugs.
+
+
+On Sun, Jun 06, 1999 at 10:55:18PM +0200, Rainer Wiener wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+>=20
+> Hello,
+>=20
+> I want to create a Soundcard Database, where is registered how to
+> configure every Soundcard under Linux. So if you have a configure of your
+> Soundcard in the Web, please send me the link to this site and then I wan=
+t put
+> it on my Homepage. If you haven't put it in the web, please send me a det=
+ail
+> Mail like you have configure it under Linux and I also put it on my Homep=
+age.
+>=20
+> I hope that this would help some people in the future.
+>=20
+> --
+> cu
+>   Rainer Wiener
+>=20
+> ------------------
+> "Wenn Du fest daran glaubst, ist alles m=F6glich"
+> ------------------
+> e-mail   ----> wiener@bigfoot.de=20
+> or       ----> rainer@cco-online.de
+> Homepage ----> http://www.linuxstart.com/~rainer/
+> ------------------
+> Get the PGP-Key from http://members.tripod.de/wiener/
+> or send a e-mail to pgp-public-keys@uni-paderborn.de with GET Rainer Wien=
+er
+> as subject.
+> Key fingerprint =3D 5B 21 1A 41 B6 3A D8 88  8F 3D 3A CC F9 81 B6 97
+>=20
+> -----BEGIN PGP SIGNATURE-----
+> Version: PGPfreeware 5.0i for non-commercial use
+> MessageID: eJxlmEgqJ9Rqgmz/m0K3Zq6cIqdr86+0
+>=20
+> iQCVAwUAN1qShw6p0M34vr9hAQFB2QP+LqCrKDndluEYnOQMtw8wVfw51Fk2xw6z
+> 08G7LU95+VK3xuDLOu8Zm6CcVPEonLn11H+strR44qDK2IBxzm7FPqQte3n0MwIu
+> B8iue8wUdmtd3K92M0ZICHBXifrI4Nf9yTsSVJKdXr/F933Cbi7/0K13deVpQYNg
+> PhRKFQEhFrE> =E8YO
+> -----END PGP SIGNATURE-----
+
+--=20
+Abraham D. Smith   <abesmith@execpc.com>  Wisconsin, USA
+--------------------------------------------------------
