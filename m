@@ -1,24 +1,29 @@
-From: The Fresh Prince of Darkness <ghstwrtr@evilgenius.net>
-Date: Wed, 03 May 2000 14:22:28 +0000
-Subject: MP3 to AIFF
-Message-Id: <marc-linux-sound-95736435308653@msgid-missing>
+From: "Adam M. Costello" <amc@cs.berkeley.edu>
+Date: Thu, 04 May 2000 00:45:17 +0000
+Subject: Re: MP3 to AIFF
+Message-Id: <marc-linux-sound-95740649719599@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95736435308653@msgid-missing>
+In-Reply-To: <marc-linux-sound-95736435308653@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Our CD burner @ work is hooked up to a Mac and Adaptec Toast only does
-conversion to CDDA from AIFF files.  Does anyone have a good linux app for
-converting MP3s to AIFF?
+The Fresh Prince of Darkness <ghstwrtr@evilgenius.net> wrote:
 
-Thanks
--Ron
-Ghostwriter
-ghstwrtr@evilgenius.net (Note new address)
-http://www.evilgenius.net/ghstwrtr
-=====================================I find it ironic that I now make a living (and a good one) doing the very
-thing I used to do INSTEAD of my school work. --Nancy Garcia-Vidal
-=====================================I've seen life on this planet Scully, and that's exactly why I'm looking
-elsewhere.
-	-Fox Mulder
+> Does anyone have a good linux app for converting MP3s to AIFF?
+
+mpg123 is a good MP3 decoder:
+http://www.mpg123.de/
+
+mp3info is a good MP3 inspection tool:
+ftp://bimbo.hive.no/pub/mp3info/
+
+sox is a good non-MP3 audio format converter:
+http://home.sprynet.com/~cbagwell/sox.html
+
+Here's a script for gluing them together:
+http://www.cs.berkeley.edu/~amc/utils/#mp3to
+
+AMC
