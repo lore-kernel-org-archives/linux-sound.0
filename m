@@ -1,341 +1,298 @@
-From: Linus Torvalds <torvalds@osdl.org>
-Date: Mon, 08 Nov 2004 18:13:29 +0000
+From: Pekka Enberg <penberg@gmail.com>
+Date: Mon, 08 Nov 2004 18:44:37 +0000
 Subject: Re: Oops in 2.6.10-rc1
-Message-Id: <Pine.LNX.4.58.0411080951390.2301@ppc970.osdl.org>
+Message-Id: <84144f0204110810444400761f@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <4180F026.9090302@g-house.de> <Pine.LNX.4.58.0410281526260.31240@pnote.perex-int.cz>
- <4180FDB3.8080305@g-house.de> <418A47BB.5010305@g-house.de>
- <418D7959.4020206@g-house.de> <Pine.LNX.4.58.0411062244150.2223@ppc970.osdl.org>
- <20041107130553.M49691@g-house.de> <418E4705.5020001@g-house.de>
- <Pine.LNX.4.58.0411070831200.2223@ppc970.osdl.org> <20041107182155.M43317@g-house.de>
- <418EB3AA.8050203@g-house.de> <Pine.LNX.4.58.0411071653480.24286@ppc970.osdl.org>
- <418F6E33.8080808@g-house.de>
+References: <4180F026.9090302@g-house.de> <418D7959.4020206@g-house.de>
+	 <Pine.LNX.4.58.0411062244150.2223@ppc970.osdl.org>
+	 <20041107130553.M49691@g-house.de> <418E4705.5020001@g-house.de>
+	 <Pine.LNX.4.58.0411070831200.2223@ppc970.osdl.org>
+	 <20041107182155.M43317@g-house.de> <418EB3AA.8050203@g-house.de>
+	 <Pine.LNX.4.58.0411071653480.24286@ppc970.osdl.org>
+	 <418F6E33.8080808@g-house.de>
 In-Reply-To: <418F6E33.8080808@g-house.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: quoted-printable
 To: Christian Kujau <evil@g-house.de>
-Cc: Kernel Mailing List <linux-kernel@vger.kernel.org>, alsa-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, Greg KH <greg@kroah.com>
+Cc: Kernel Mailing List <linux-kernel@vger.kernel.org>, Linus Torvalds <torvalds@osdl.org>, alsa-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, Greg KH <greg@kroah.com>, penberg@cs.helsinki.fi
+
+Hi Christian,
+
+On Mon, 08 Nov 2004 14:01:39 +0100, Christian Kujau <evil@g-house.de> wrote:
+> i've put everthing on http://www.nerdbynature.de/bits/prinz/2.6.10-rc1/
+> the .configs, the oopses are there. i've double checked a kernel built
+> from "bk -a a1.2000.7.2" yesterday but the result was the same (no oops)
+
+Just to update, I cannot reproduce the oops with your config (nor
+mine) on my machine running 2.6.10-rc1-bk14.
+
+                       Pekka
+
+0000:00:00.0 Host bridge: VIA Technologies, Inc. VT8363/8365
+[KT133/KM133] (rev 03)
+        Subsystem: ASUSTeK Computer Inc. A7V133/A7V133-C Mainboard
+        Flags: bus master, medium devsel, latency 8
+        Memory at e7000000 (32-bit, prefetchable)
+        Capabilities: [a0] AGP version 2.0
+        Capabilities: [c0] Power Management version 2
+
+0000:00:01.0 PCI bridge: VIA Technologies, Inc. VT8363/8365
+[KT133/KM133 AGP] (prog-if 00 [Normal decode])
+        Flags: bus master, 66Mhz, medium devsel, latency 0
+        Bus: primary=00, secondary=01, subordinate=01, sec-latency=3D0
+        I/O behind bridge: 0000d000-0000dfff
+        Memory behind bridge: d7000000-d7efffff
+        Prefetchable memory behind bridge: d7f00000-e6ffffff
+        Expansion ROM at 0000d000 [disabled] [size=3D4K]
+        Capabilities: [80] Power Management version 2
+
+0000:00:04.0 ISA bridge: VIA Technologies, Inc. VT82C686 [Apollo Super
+South] (rev 40)
+        Subsystem: ASUSTeK Computer Inc. A7V133/A7V133-C Mainboard
+        Flags: bus master, stepping, medium devsel, latency 0
+        Capabilities: [c0] Power Management version 2
+
+0000:00:04.1 IDE interface: VIA Technologies, Inc.
+VT82C586A/B/VT82C686/A/B/VT823x/A/C PIPC Bus Master IDE (rev 06)
+(prog-if
+ 8a [Master SecP PriP])
+        Flags: bus master, medium devsel, latency 32
+        I/O ports at b800 [size=16]
+        Capabilities: [c0] Power Management version 2
+
+0000:00:04.2 USB Controller: VIA Technologies, Inc. VT82xxxxx UHCI USB
+1.1 Controller (rev 16) (prog-if 00 [UHCI])
+        Subsystem: VIA Technologies, Inc. (Wrong ID) USB Controller
+        Flags: bus master, medium devsel, latency 32, IRQ 10
+        I/O ports at b400 [size2]
+        Capabilities: [80] Power Management version 2
+
+0000:00:04.3 USB Controller: VIA Technologies, Inc. VT82xxxxx UHCI USB
+1.1 Controller (rev 16) (prog-if 00 [UHCI])
+        Subsystem: VIA Technologies, Inc. (Wrong ID) USB Controller
+        Flags: bus master, medium devsel, latency 32, IRQ 10
+        I/O ports at b000 [size2]
+        Capabilities: [80] Power Management version 2
+
+0000:00:04.4 Bridge: VIA Technologies, Inc. VT82C686 [Apollo Super
+ACPI] (rev 40)
+        Subsystem: ASUSTeK Computer Inc. A7V133/A7V133-C Mainboard
+        Flags: medium devsel, IRQ 9
+        Capabilities: [68] Power Management version 2
+
+0000:00:09.0 Ethernet controller: Realtek Semiconductor Co., Ltd.
+RTL-8139/8139C/8139C+ (rev 10)
+        Subsystem: Realtek Semiconductor Co., Ltd. RT8139
+        Flags: bus master, medium devsel, latency 32, IRQ 10
+        I/O ports at 9400
+        Memory at d6800000 (32-bit, non-prefetchable) [size%6]
+        Capabilities: [50] Power Management version 2
+
+0000:00:0a.0 Multimedia audio controller: Ensoniq 5880 AudioPCI (rev 04)
+        Subsystem: Ensoniq Sound Blaster 16PCI 4.1ch
+        Flags: bus master, slow devsel, latency 32, IRQ 11
+        I/O ports at 9000
+        Capabilities: [dc] Power Management version 2
+
+0000:00:0d.0 Ethernet controller: Realtek Semiconductor Co., Ltd.
+RTL-8139/8139C/8139C+ (rev 10)
+        Subsystem: Realtek Semiconductor Co., Ltd. RT8139
+        Flags: bus master, medium devsel, latency 32, IRQ 10
+        I/O ports at 8800
+        Memory at d6000000 (32-bit, non-prefetchable) [size%6]
+        Capabilities: [50] Power Management version 2
+
+0000:01:00.0 VGA compatible controller: ATI Technologies Inc Radeon
+RV100 QY [Radeon 7000/VE] (prog-if 00 [VGA])
+        Subsystem: Hightech Information System Ltd.: Unknown device 0f02
+        Flags: bus master, stepping, 66Mhz, medium devsel, latency 64
+        Memory at d8000000 (32-bit, prefetchable) [size=D7fe0000]
+        I/O ports at d800 [size%6]
+        Memory at d7000000 (32-bit, non-prefetchable) [sizedK]
+        Expansion ROM at 00020000 [disabled]
+        Capabilities: [58] AGP version 2.0
+        Capabilities: [50] Power Management version 2
 
 
 
-On Mon, 8 Nov 2004, Christian Kujau wrote:
->=20
-> > Anyway, now that the _other_ driver also oopses, and with a very simila=
-r=20
-> > oops too, so it looks like they both depended on some undocumented (or =
-
-> > changed) detail in the PCI layer. Next step would be to see if the thin=
-g=20
-> > that breaks is this merge:
->=20
-> may i ask how you come to this conclusion? by technical knowledge or could
-> this be deduced by some bk magic too?
-
-No, just gut feel. If the pre-merge ALSA works, and the post-merge one=20
-doesn't, and the oops in both cases happen somewhere close to where it=20
-does "pci_enable_device()", there's not a lot left. There are interrupts,=20
-and there is the PCI layer...
-
-> > 	ChangeSet@1.2463, 2004-11-04 17:07:16-08:00, torvalds@ppc970.osdl.org
-> > 	  Merge bk://kernel.bkbits.net/gregkh/linux/driver-2.6
-> > 	  into ppc970.osdl.org:/home/torvalds/v2.6/linux
-> >=20
-> > which merges Greg's PCI/driver model changes.
-> >=20
-> > It's all the same steps you took with the ALSA merge, you're a
-> > professional by now ;)
->=20
-> i did "bk undo -a1.2463" from a current -BK tree and it oopses:
-
-Note that "bk undo -axxx" will _leave_ xxx in place, and undo everything=20
-after.=20
-
-So what you did still has the merge in the tree, and that it still oopses=20
-is thus to be expected. BUT, we're getting closer.
-
-> next i wanted to do "bk undo -r1.2463" now to see if it does *not* break
-> without this ChangeSet (because i already know it *breaks* with this
-> ChangeSet) but that would leave some parentless child deltas. i read in
-> the BK docs that "bk cset -x<version>" would help here. but "bk cset
-> - -x1.2463" aborts:
-
-"cset -x" only works on patches, not on complex operations. You still want =
-
-"bk undo", but you want to use "bk revtool" to see what the merge point=20
-was, and tell _which_ of the merged top-of-trees you want to get to.=20
-
-In other words, you can't just undo a merge, you need to tell which _way_
-to undo it. See? It does actually make sense, and "bk revtool" will show=20
-you the relationships of merges (at least if the time range is big enough=20
-to show enough info).
-
-Anyway, if you have the top-of-tree-is-1.2463, then go to "bk revtool",=20
-and select that node in the graph by clicking on it. Notice how those=20
-edges turned white, and you can now easily see which children were=20
-pre-merge.
-
-In this case, the top-of-tree tree _without_ the PCI merge is 1.2642:
-
-	ChangeSet@1.2462, 2004-11-04 17:06:13-08:00, torvalds@ppc970.osdl.org
-	  Merge bk://kernel.bkbits.net/gregkh/linux/usb-2.6
-	  into ppc970.osdl.org:/home/torvalds/v2.6/linux
-
-(you won't see it in "bk changes", since it's a trivial merge: use "bk=20
-changes -a" to see it). So just before I merged Greg's PCI changes, I=20
-merged his USB changes.
-
-Now, that's fine - the USB merge is likely to be ok, so try doing
-
-	bk undo -a1.2462
-
-and you will now have a tree that is exactly the same as before, except it =
-
-does _not_ have the PCI merge from Greg.
-
-And if this one does not oops, you can now officially blame Greg.
-
-Now, if you want to get _really_ fancy, you can now look at each changeset =
-
-that differed, with something like
-
-	bk set -n -d -r1.2462 -r1.2463 | bk -R prs -h -d'<:P:@:HOST:>\n$each(:C:){=
-\t(:C:)\n}\n' -
-
-which is black magic that does a set operation and shows all the changes=20
-in between the sets of "bk at 1.2462" and "bk at 1.2463".
-
-(This is _not_ the same as "bk changes -r1.2462..1.2463", because that one =
-
-just shows the single merge change that is on the direct _path_ from one=20
-changeset to another. The black magic thing shows the set difference of=20
-changesets that comes from the full graph at two points).
-
-Then you can look at each change individually and see if they matter.
-
-And once you can do the set operations, you're officially a BK poweruser.  =
-
-Me, I just have a script, I'm a BK dabbler.
-
-Looking at the list (appended), I don't see anything obvious, but hey, if=20
-it was obvious it wouldn't have been merged in the first place.=20
-
-Thanks for your willingness to pursue this thing,
-
-		Linus
-
------
-<maneesh@in.ibm.com>
-	[PATCH] sysfs: fix sysfs backing store error path confusion
-=09
-	o sysfs_new_dirent to retrun 0 if kmalloc fails. Thanks to Milton Miller
-	  for spotting this.
-=09
-	Signed-off-by: Maneesh Soni <maneesh@in.ibm.com>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<bunk@stusta.de>
-	[PATCH] small sysfs cleanups
-=09
-	The patch below does the following cleanups for the sysfs code:
-	- remove the unused global function sysfs_mknod
-	- make some structs and functions static
-=09
-	Please check whether this patch is correct, or whether some of the
-	things I made static should be used globally in the forseeable future.
-=09
-=09
-	Signed-off-by: Adrian Bunk <bunk@stusta.de>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<kay.sievers@vrfy.org>
-	[PATCH] add the physical device and the bus to the hotplug environment
-=09
-	Add the sysfs path of the physical device to the hotplug event of class
-	and block devices. This should solve the userspace issue not to know if
-	the device is a virtual one and the "device" symlink will never be created,
-	but we sit there and wait for it to show up not knowing when we should
-	give up.
-=09
-	Also the bus name is added to the hotplug event, so we don't need to
-	reverse lookup in the /sys/bus/* directory which bus our physical
-	device belongs to. This is e.g. the value matched against the BUS=3D key,
-	that may be used in an udev rule.
-=09
-	This is a PCI network card:
-	  ACTION=ADd
-	  SUBSYSTEM=3Dnet
-	  DEVPATH=3D/class/net/eth0
-	  PHYSDEVPATH=3D/devices/pci0000:00/0000:00:1e.0/0000:02:01.0
-	  PHYSDEVBUS=3Dpci
-	  INTERFACE=3Deth0
-	  SEQNUM=827
-	  PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
-	  HOME=3D/
-=09
-	This is a IDE CDROM:
-	  ACTION=ADd
-	  SUBSYSTEM=3Dblock
-	  DEVPATH=3D/block/hdc
-	  PHYSDEVPATH=3D/devices/pci0000:00/0000:00:1f.1/ide1/1.0
-	  PHYSDEVBUS=3Dide
-	  SEQNUM=1017
-	  PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
-	  HOME=3D/
-=09
-	This is an USB-stick partition:
-	  ACTION=ADd
-	  SUBSYSTEM=3Dblock
-	  DEVPATH=3D/block/sda/sda1
-	  PHYSDEVPATH=3D/devices/pci0000:00/0000:00:1d.1/usb3/3-1/3-1:1.0/host1/ta=
-rget1:0:0/1:0:0:0
-	  PHYSDEVBUS=3Dscsi
-	  SEQNUM=1032
-	  PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
-	  HOME=3D/
-=09
-=09
-	Signed-off-by: Kay Sievers <kay.sievers@vrfy.org>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<tj@home-tj.org>
-	[PATCH] driver-model: comment fix in bus.c
-=09
-	 df_01_driver_attach_comment_fix.patch
-=09
-	bus_match() was renamed to driver_probe_device() but the comment for
-	device_attach() wasn't updated.  This patch updates it.
-=09
-=09
-	Signed-off-by: Tejun Heo <tj@home-tj.org>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<tj@home-tj.org>
-	[PATCH] driver-model: bus_recan_devices() locking fix
-=09
-	 df_02_bus_rescan_devcies_fix.patch
-=09
-	 bus_rescan_devices() eventually calls device_attach() and thus
-	requires write locking the corresponding bus.  The original code just
-	called bus_for_each_dev() which only read locks the bus.  This patch
-	separates __bus_for_each_dev() and __bus_for_each_drv(), which don't
-	do locking themselves, out from the original functions and call them
-	with read lock in the original functions and with write lock in
-	bus_rescan_devices().
-=09
-=09
-	Signed-off-by: Tejun Heo <tj@home-tj.org>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<tj@home-tj.org>
-	[PATCH] driver-model: sysfs_release() dangling pointer reference fix
-=09
-	 df_03_sysfs_release_fix.patch
-=09
-	Some attributes are allocated dynamically (e.g. module and device
-	parameters) and are usually deallocated when the assoicated kobject is
-	released.  So, it's not safe to access attr after putting the kobject.
-=09
-=09
-	Signed-off-by: Tejun Heo <tj@home-tj.org>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<tj@home-tj.org>
-	[PATCH] driver-model: kobject_add() error path reference counting fix
-=09
-	 df_04_kobject_add_ref_fix.patch
-=09
-	In kobject_add(), @kobj wasn't put'd properly on error path.  This
-	patch fixes it.
-=09
-=09
-	Signed-off-by: Tejun Heo <tj@home-tj.org>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<tj@home-tj.org>
-	[PATCH] driver-model: device_add() error path reference counting fix
-=09
-	 df_05_device_add_ref_fix.patch
-=09
-	 In device_add(), @dev wan't put'd properly when it has zero length
-	bus_id (error path).  Fixed.
-=09
-=09
-	Signed-off-by: Tejun Heo <tj@home-tj.org>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<greg@kroah.com>
-	kevent: fix build error if CONFIG_KOBJECT_UEVENT is not selected.
-=09
-	Thanks to Serge Hallyn <serue@us.ibm.com> for pointing this out.
-=09
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<rml@novell.com>
-	[PATCH] kobject_uevent: fix init ordering
-=09
-	Looks like kobject_uevent_init is executed before netlink_proto_init and
-	consequently always fails.  Not cool.
-=09
-	Attached patch switches the initialization over from core_initcall (init
-	level 1) to postcore_initcall (init level 2).  Netlink's initialization
-	is done in core_initcall, so this should fix the problem.  We should be
-	fine waiting until postcore_initcall.
-=09
-	Also a couple white space changes mixed in, because I am anal.
-=09
-	Signed-Off-By: Robert Love <rml@novell.com>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<rml@novell.com>
-	[PATCH] kobject_uevent: add MAINTAINER entry
-=09
-	Attached patch adds a MAINTAINER entry for the kernel event layer.
-=09
-=09
-	Signed-Off-By: Robert Love <rml@novell.com>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<greg@kroah.com>
-	Merge kroah.com:/home/greg/linux/BK/bleed-2.6
-	into kroah.com:/home/greg/linux/BK/driver-2.6
-
-<maneesh@in.ibm.com>
-	[PATCH] fix kernel BUG at fs/sysfs/dir.c:20!
-=09
-	On Thu, Nov 04, 2004 at 12:52:38PM -0800, Greg KH wrote:
-	> Hi,
-	>
-	> I get the following BUG in the sysfs code when I do:
-	> 	- plug in a usb-serial device.
-	> 	- open the port with 'cat /dev/ttyUSB0'
-	> 	- unplug the device.
-	> 	- stop the 'cat' process with control-C
-	>
-	> This used to work just fine before your big sysfs changes.
-=09
-	There is a similar problem reported by s390 people where we see parent
-	kobject (directory) going away before child kobject (sub-directory). It
-	seems kobject code is able to handle this, but not the sysfs. What could
-	be happening that in sysfs_remove_dir() of parent directory, we try to
-	remove its contents. It works well with the regular files as it is the
-	final removal for sysfs_dirent corresponding to the files. But in case
-	of sub-directory we are doing an extra sysfs_put().  Once while removing
-	parent and the other one being the one from when sysfs_remove_dir() is
-	called for the child.
-=09
-	The following patch worked for the s390 people, I hope same will work in
-	this case also.
-=09
-=09
-	o Do not remove sysfs_dirents corresponding to the sub-directory in
-	  sysfs_remove_dir(). They will be removed in the sysfs_remove_dir() call
-	  for the specific sub-directory.
-=09
-	Signed-off-by: Maneesh Soni <maneesh@in.ibm.com>
-	Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
-
-<torvalds@ppc970.osdl.org>
-	Merge bk://kernel.bkbits.net/gregkh/linux/driver-2.6
-	into ppc970.osdl.org:/home/torvalds/v2.6/linux
-
+Linux version 2.6.10-rc1-bk14 (root@cherry) (gcc version 3.4.2 (Gentoo
+Linux 3.4.2-r2, ssp-3.4.1-1, pie-8.7.6.5)) #8 Mon Nov 8 20:18:45 EET
+2004
+BIOS-provided physical RAM map:
+ BIOS-e820: 0000000000000000 - 000000000009fc00 (usable)
+ BIOS-e820: 000000000009fc00 - 00000000000a0000 (reserved)
+ BIOS-e820: 00000000000f0000 - 0000000000100000 (reserved)
+ BIOS-e820: 0000000000100000 - 000000003ffec000 (usable)
+ BIOS-e820: 000000003ffec000 - 000000003ffef000 (ACPI data)
+ BIOS-e820: 000000003ffef000 - 000000003ffff000 (reserved)
+ BIOS-e820: 000000003ffff000 - 0000000040000000 (ACPI NVS)
+ BIOS-e820: 00000000ffff0000 - 0000000100000000 (reserved)
+127MB HIGHMEM available.
+896MB LOWMEM available.
+On node 0 totalpages: 262124
+  DMA zone: 4096 pages, LIFO batch:1
+  Normal zone: 225280 pages, LIFO batch:16
+  HighMem zone: 32748 pages, LIFO batch:7
+DMI 2.3 present.
+ACPI: RSDP (v000 ASUS                                  ) @ 0x000f6a80
+ACPI: RSDT (v001 ASUS   A7V133-C 0x30303031 MSFT 0x31313031) @ 0x3ffec000
+ACPI: FADT (v001 ASUS   A7V133-C 0x30303031 MSFT 0x31313031) @ 0x3ffec080
+ACPI: BOOT (v001 ASUS   A7V133-C 0x30303031 MSFT 0x31313031) @ 0x3ffec040
+ACPI: DSDT (v001   ASUS A7V133-C 0x00001000 MSFT 0x0100000b) @ 0x00000000
+ACPI: PM-Timer IO Port: 0xe408
+Built 1 zonelists
+Kernel command line: root=3D/dev/ram0 init=3D/linuxrc real_root=3D/dev/hda3=
+ acpi=3Dforce
+No local APIC present or hardware disabled
+Initializing CPU#0
+PID hash table entries: 4096 (order: 12, 65536 bytes)
+Detected 1009.328 MHz processor.
+Using pmtmr for high-res timesource
+Console: colour VGA+ 80x25
+Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 1034128k/1048496k available (2582k kernel code, 13664k
+reserved, 770k data, 148k init, 130992k highmem)
+Checking if this processor honours the WP bit even in supervisor mode... Ok.
+Calibrating delay loop... 1998.84 BogoMIPS (lpj=999424)
+Mount-cache hash table entries: 512 (order: 0, 4096 bytes)
+CPU: After generic identify, caps: 0383f9ff c1c7f9ff 00000000 00000000
+CPU: After vendor identify, caps:  0383f9ff c1c7f9ff 00000000 00000000
+CPU: L1 I Cache: 64K (64 bytes/line), D cache 64K (64 bytes/line)
+CPU: L2 Cache: 64K (64 bytes/line)
+CPU: After all inits, caps:        0383f9ff c1c7f9ff 00000000 00000020
+CPU: AMD Duron(tm) Processor stepping 00
+Enabling fast FPU save and restore... done.
+Enabling unmasked SIMD FPU exception support... done.
+Checking 'hlt' instruction... OK.
+ACPI: IRQ9 SCI: Edge set to Level Trigger.
+checking if image is initramfs...it isn't (no cpio magic); looks like an in=
+itrd
+Freeing initrd memory: 885k freed
+kobject_uevent: unable to create netlink socket!
+NET: Registered protocol family 16
+PCI: PCI BIOS revision 2.10 entry at 0xf1180, last bus=3D1
+PCI: Using configuration type 1
+mtrr: v2.0 (20020519)
+ACPI: Subsystem revision 20040816
+ACPI: Interpreter enabled
+ACPI: Using PIC for interrupt routing
+ACPI: PCI Interrupt Link [LNKA] (IRQs 3 4 5 6 7 9 10 11 12 14 15) *0, disab=
+led.
+ACPI: PCI Interrupt Link [LNKB] (IRQs 3 4 5 6 7 9 10 11 12 14 15) *0, disab=
+led.
+ACPI: PCI Interrupt Link [LNKC] (IRQs 3 4 5 6 7 9 10 11 12 14 15) *0, disab=
+led.
+ACPI: PCI Interrupt Link [LNKD] (IRQs 3 4 5 6 7 9 *10 11 12 14 15)
+ACPI: PCI Root Bridge [PCI0] (00:00)
+PCI: Probing PCI hardware (bus 00)
+ACPI: PCI Interrupt Routing Table [\_SB_.PCI0._PRT]
+PCI: Using ACPI for IRQ routing
+ACPI: PCI Interrupt Link [LNKD] enabled at IRQ 10
+ACPI: PCI interrupt 0000:00:04.2[D] -> GSI 10 (level, low) -> IRQ 10
+ACPI: PCI interrupt 0000:00:04.3[D] -> GSI 10 (level, low) -> IRQ 10
+ACPI: PCI interrupt 0000:00:09.0[A] -> GSI 10 (level, low) -> IRQ 10
+ACPI: PCI Interrupt Link [LNKC] enabled at IRQ 11
+ACPI: PCI interrupt 0000:00:0a.0[A] -> GSI 11 (level, low) -> IRQ 11
+ACPI: PCI interrupt 0000:00:0d.0[A] -> GSI 10 (level, low) -> IRQ 10
+Simple Boot Flag at 0x3a set to 0x1
+highmem bounce pool size: 64 pages
+devfs: 2004-01-31 Richard Gooch (rgooch@atnf.csiro.au)
+devfs: boot_options: 0x0
+SGI XFS with ACLs, realtime, no debug enabled
+SGI XFS Quota Management subsystem
+Applying VIA southbridge workaround.
+PCI: Disabling Via external APIC routing
+Real Time Clock Driver v1.12
+serio: i8042 AUX port at 0x60,0x64 irq 12
+serio: i8042 KBD port at 0x60,0x64 irq 1
+io scheduler noop registered
+io scheduler anticipatory registered
+io scheduler deadline registered
+io scheduler cfq registered
+RAMDISK driver initialized: 16 RAM disks of 8192K size 1024 blocksize
+Equalizer2002: Simon Janes (simon@ncm.com) and David S. Miller
+(davem@redhat.com)
+Uniform Multi-Platform E-IDE driver Revision: 7.00alpha2
+ide: Assuming 33MHz system bus speed for PIO modes; override with idebus=3D=
+xx
+VP_IDE: IDE controller at PCI slot 0000:00:04.1
+VP_IDE: chipset revision 6
+VP_IDE: not 100% native mode: will probe irqs later
+VP_IDE: VIA vt82c686b (rev 40) IDE UDMA100 controller on pci0000:00:04.1
+    ide0: BM-DMA at 0xb800-0xb807, BIOS settings: hda:DMA, hdb:pio
+    ide1: BM-DMA at 0xb808-0xb80f, BIOS settings: hdc:DMA, hdd:pio
+Probing IDE interface ide0...
+hda: Maxtor 4D060H3, ATA DISK drive
+elevator: using anticipatory as default io scheduler
+ide0 at 0x1f0-0x1f7,0x3f6 on irq 14
+Probing IDE interface ide1...
+hdc: Hewlett-Packard CD-Writer Plus 8200a, ATAPI CD/DVD-ROM drive
+ide1 at 0x170-0x177,0x376 on irq 15
+Probing IDE interface ide2...
+ide2: Wait for ready failed before probe !
+Probing IDE interface ide3...
+ide3: Wait for ready failed before probe !
+Probing IDE interface ide4...
+ide4: Wait for ready failed before probe !
+Probing IDE interface ide5...
+ide5: Wait for ready failed before probe !
+hda: max request size: 128KiB
+hda: 120069936 sectors (61475 MB) w/2048KiB Cache, CHSe535/16/63, UDMA(100)
+hda: cache flushes not supported
+ /dev/ide/host0/bus0/target0/lun0: p1 p2 p3
+hdc: ATAPI 32X CD-ROM CD-R/RW drive, 4096kB Cache, UDMA(33)
+Uniform CD-ROM driver Revision: 3.20
+ide-floppy driver 0.99.newide
+mice: PS/2 mouse device common for all mice
+input: AT Translated Set 2 keyboard on isa0060/serio0
+input: ImPS/2 Logitech Wheel Mouse on isa0060/serio1
+NET: Registered protocol family 2
+IP: routing cache hash table of 8192 buckets, 64Kbytes
+TCP: Hash tables configured (established 262144 bind 65536)
+NET: Registered protocol family 1
+NET: Registered protocol family 10
+IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+ACPI: (supports S0 S1 S4 S5)
+ACPI wakeup devices:
+PWRB PCI0 UAR1 UAR2 USB0 USB1
+RAMDISK: Compressed image found at block 0
+VFS: Mounted root (ext2 filesystem) readonly.
+Freeing unused kernel memory: 148k freed
+usbcore: registered new driver usbfs
+usbcore: registered new driver hub
+usbcore: registered new driver usbhid
+drivers/usb/input/hid-core.c: v2.0:USB HID core driver
+SCSI subsystem initialized
+Initializing USB Mass Storage driver...
+usbcore: registered new driver usb-storage
+USB Mass Storage support registered.
+ohci_hcd: 2004 Feb 02 USB 1.1 'Open' Host Controller (OHCI) Driver (PCI)
+ReiserFS: hda3: warning: sh-2021: reiserfs_fill_super: can not find
+reiserfs on hda3
+kjournald starting.  Commit interval 5 seconds
+EXT3 FS on hda3, internal journal
+EXT3-fs: mounted filesystem with ordered data mode.
+Adding 2040244k swap on /dev/hda2.  Priority:-1 extents:1
+EXT3 FS on hda3, internal journal
+8139too Fast Ethernet driver 0.9.27
+PCI: Enabling device 0000:00:09.0 (0004 -> 0007)
+ACPI: PCI interrupt 0000:00:09.0[A] -> GSI 10 (level, low) -> IRQ 10
+eth0: RealTek RTL8139 at 0xf8814000, 00:06:4f:01:66:57, IRQ 10
+eth0:  Identified 8139 chip type 'RTL-8139C'
+PCI: Enabling device 0000:00:0d.0 (0004 -> 0007)
+ACPI: PCI interrupt 0000:00:0d.0[A] -> GSI 10 (level, low) -> IRQ 10
+eth1: RealTek RTL8139 at 0xf8816000, 00:06:4f:01:66:58, IRQ 10
+eth1:  Identified 8139 chip type 'RTL-8139C'
+eth0: link up, 100Mbps, full-duplex, lpa 0x45E1
+[drm] Initialized radeon 1.11.0 20020828 on minor 0: ATI Technologies
+Inc Radeon RV100 QY [Radeon 7000/VE]
+[drm:radeon_cp_init] *ERROR* radeon_cp_init called without lock held
+[drm:radeon_unlock] *ERROR* Process 6283 using kernel context 0
+inserting floppy driver for 2.6.10-rc1-bk14
+Floppy drive(s): fd0 is 1.44M
+FDC 0 is a post-1991 82077
+PCI: Enabling device 0000:00:0a.0 (0004 -> 0005)
+ACPI: PCI interrupt 0000:00:0a.0[A] -> GSI 11 (level, low) -> IRQ 11
