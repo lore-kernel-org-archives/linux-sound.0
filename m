@@ -1,102 +1,104 @@
-From: "Nerijus" <nerijus@prototechnika.lt>
-Date: Tue, 17 Nov 1998 18:56:42 +0000
-Subject: RE: sound blaster awe64 and "mod_firmware_load"
-Message-Id: <marc-linux-sound-91139174417190@msgid-missing>
+From: <markoni@otenet.gr>
+Date: Thu, 12 Nov 1998 18:23:04 +0000
+Subject: Soundcard problem!
+Message-Id: <marc-linux-sound-91089445817213@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91098502923768@msgid-missing>
-In-Reply-To: <marc-linux-sound-91098502923768@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Thanks for Mr. Yun YoungSun who helped:
+Hi, 
 
-I had the same problem in 2.1.127, 128.
-As you know, sb.o is called by kmod utility for enabling sound card.
-I found that in Makefile, if CONFIG_SOUND=y (not module), then soundcore.o
-isn't created.
-But if the CONFIG_SOUND=m, then everything is fine.
+I have a serious problem with my soundcard which persistently 
+refuses to cooperate with my Linux system. The processor is a
+PII on an ASUS P2B-DS motherboard. My kernel is brand new:
+version 2.1.125, but it seems to work fine so far for anything 
+else but sound. The sound card is a vibra16pnp (by Creative Labs).
+
+Whenever I attempted to use sndconfig, for whichever setup I have chosen,
+the result was anticipated: A problem appears with modprobe.
+
+Furthermore, when I type: "modprobe sb.o" the answer is:
+
+/lib/modules/2.1.125/misc/sb.o: too many values for dma (max 1)
+
+Has anybody out there seen this attitude before?
+
+I suspect the following details might be useful:
+
+	IRQ = 5
+	I/O range = 0220 - 0223, DMA = 05
+	I/O range = 0224 - 022F, DMA = 01
+
+I obtained these data using NT diagnostics, so I do cannot be 100% sure 
+that one could rely on them. :-)
+(Afterall, I have deleted Microsoft from my computer!)
+
+When I use  "pnpdump -c -script=out", the file "out" contains the following
+information:
 
 
------Original Message-----
-From: Nerijus Baliunas
-Sent: Friday, November 13, 1998 7:05 PM
-To: 'linux-sound@vger.rutgers.edu'
-Subject: sound blaster awe64 and "mod_firmware_load"
 
+	#!/bin/sh
+	prefixes="/etc/pnp/config-scripts/isa /usr/share/pnp/config-scripts/isa"
 
-I am having a problem with sound in kernel 2.1.127. I have also tried
-kernels 112, 125.
-I have SB AWE64 plug and play. Kernel is compiled with sound module support.
-When I boot I get message:
-/lib/modules/2.1.127/misc/sb.o: unresolved symbol mod_firmware_load
-sound: Device or resource busy
-
-My /etc/conf.modules:
-alias sound sb
-options -k sb io=0x220 irq=5 dma=1 dma16=5 mpu_io=0x330
-
-When in /usr/src/linux/drivers/sound/sb_common.c
-I comment lines between #ifdef and #endif, sound works:
-#ifdef MODULE
-/*	if (!smw_ucode)
-	{
-		extern void *smw_free;
-
-		smw_ucodeLen = mod_firmware_load("/etc/sound/midi0001.bin",
-(void *) &smw_ucode);
-		smw_free = smw_ucode;
+	function pnp_isa_configure {
+    		local i id dir found_it
+    		i=0
+    		while [ "${dev_ids[$i]}" != "" ] ; do
+        		id="${dev_ids[$i]}"
+			for dir in $prefixes ; do
+				if [ -r $dir/$id ] ; then
+					source $dir/$id
+					return $?
+	    			fi
+			done
+			i=`expr $i + 1`
+    		done
+	# Failed to find anything
+	return 1
 	}
-*/
-#endif
+	unset irq irq_flags dma dma_flags io_start io_len io_flags
+	unset mem_start mem_len mem_flags dev_ids
+	board_id=CTL0070
+	dev_ids[0]=CTL0001
+	irq[0]=5 ; irq_flags[0]=0x00
+	dma[0]=1 ; dma_flags[0]=0x08
+	dma[1]=5 ; dma_flags[1]=0x12
+	io_start[0]=0x0220 ; io_len[0] ; io_flags[0]=0x01
+	io_start[1]=0x0330 ; io_len[1]=2  ; io_flags[1]=0x01
+	io_start[2]=0x0388 ; io_len[2]=4  ; io_flags[2]=0x01
+	pnp_isa_configure
+	
+	unset irq irq_flags dma dma_flags io_start io_len io_flags
+	unset mem_start mem_len mem_flags dev_ids
+	board_id=CTL0070
+	dev_ids[0]=CTL7001
+	dev_ids[2]=PNPb02f
+	io_start[0]=0x0200 ; io_len[0]=8  ; io_flags[0]=0x01
+	pnp_isa_configure
 
 
-Also there is a newer awe lowlevel driver ver.0.4.2d in
-http://bahamut.mm.t.u-tokyo.ac.jp/~iwai/awedrv/index.html
-Why isn't it included in kernel source?
 
+Strangely enough, the file /etc/modules.conf contains:
 
-My kernel .config:
+	alias sound sb
+	options -k sb io=0x220 irq=7 dma=3,5
+	alias midi opl3
+	options -k opl3 io=0x388
 
-#
-# Sound
-#
-CONFIG_SOUND=y
-# CONFIG_SOUND_ES1370 is not set
-# CONFIG_SOUND_ES1371 is not set
-# CONFIG_SOUND_SONICVIBES is not set
-# CONFIG_SOUND_MSNDCLAS is not set
-# CONFIG_SOUND_MSNDPIN is not set
-CONFIG_SOUND_OSS=m
-# CONFIG_SOUND_PAS is not set
-CONFIG_SOUND_SB=m
-CONFIG_SOUND_ADLIB=m
-# CONFIG_SOUND_GUS is not set
-# CONFIG_SOUND_MPU401 is not set
-# CONFIG_SOUND_PSS is not set
-# CONFIG_SOUND_MSS is not set
-# CONFIG_SOUND_SSCAPE is not set
-# CONFIG_SOUND_TRIX is not set
-# CONFIG_SOUND_MAD16 is not set
-# CONFIG_SOUND_WAVEFRONT is not set
-# CONFIG_SOUND_CS4232 is not set
-# CONFIG_SOUND_OPL3SA2 is not set
-# CONFIG_SOUND_MAUI is not set
-# CONFIG_SOUND_SGALAXY is not set
-# CONFIG_SOUND_OPL3SA1 is not set
-# CONFIG_SOUND_SOFTOSS is not set
-CONFIG_SOUND_YM3812=m
-# CONFIG_SOUND_VMIDI is not set
-# CONFIG_SOUND_UART6850 is not set
+The technical values from these two files are not so consistent, are they? :-)
 
-#
-# Additional low level sound drivers
-#
-CONFIG_LOWLEVEL_SOUND=y
-# CONFIG_ACI_MIXER is not set
-CONFIG_AWE32_SYNTH=m
-
-
-regards,
-Nerijus
+I will be very grateful for any hint which may help.
+Thanks in advance, and sorry for the length of this mail.
+--
+___________________________________________________________
+   ,-~~-.___.      _____      |
+  / |  '     \    /     \     |  Dr. Nikolaos A. Margaritis
+ (  )         0   |      \    |  Agias Marinis 40
+  \_/-, ,----'    | UNIX  |   |  Larissa 41221
+     ==         \______/    |  Hellas (Greece)
+    /  \-'~;       __|_|__    |
+   /  __/~|  ___  |       |   |  
+ =(  _____| (___)_|_______|   |  email: markoni@otenet.gr
