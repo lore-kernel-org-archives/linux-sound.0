@@ -1,7 +1,7 @@
-From: Steve Crowder <fe88@dial.pipex.com>
-Date: Sun, 07 May 2000 19:47:17 +0000
-Subject: HOWTO's
-Message-Id: <marc-linux-sound-95772883709878@msgid-missing>
+From: Miles Lane <miles@speakeasy.org>
+Date: Wed, 24 May 2000 00:40:20 +0000
+Subject: 2.3.99-pre9 -- cs4232.o fails to load.  Error is "I/O port 0xffffffff
+Message-Id: <marc-linux-sound-95912900201857@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -9,38 +9,15 @@ Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
-Hi All
+Hi,
 
-I've added some more sound related HOWTO's for different cards/chipsets on my 
-site. Here's the full list:
+I just built the latest development kernel (2.3.99-pre9).
+I can get soundcore, sound, ad1848 and uart401 to load, but
+when I try to load cs4232, I get an error.  Any ideas how
+I should work around this?  
 
-ALSA SB AWE64 Gold
-http://www.fe88.dial.pipex.com/alsaawe64config.shtml
+The weird thing is that I haven't gotten this error loading
+the sound modules in the past.
 
-OSS/Free SB AWE64 Gold
-http://www.fe88.dial.pipex.com/awe64config.shtml
-
-ALSA cs461x
-http://www.fe88.dial.pipex.com/alsacs461xconfig.shtml
-
-OSS/Free cs4232
-http://www.fe88.dial.pipex.com/cs4232config.shtml
-
-ALSA cs4231
-http://www.fe88.dial.pipex.com/alsacs4231config.shtml
-
-A navigation page for all HOWTO's
-http://www.fe88.dial.pipex.com/shnav.shtml
-
-Hope these are of some use to people.
-
-Regards
-
-Steve
-
-
--- 
-Steve Crowder 
-SMP Linux 2.2.14 RedHat 6.2
-Email: fe88@dial.pipex.com
-WWW: http://www.fe88.dial.pipex.com/
+Many thanks,
+	Miles
