@@ -1,7 +1,7 @@
 From: OHPC <ohpc@mii.zaz.com.br>
-Date: Wed, 24 Nov 1999 22:04:54 +0000
-Subject: Help me please anybody
-Message-Id: <marc-linux-sound-94348199212739@msgid-missing>
+Date: Mon, 22 Nov 1999 22:12:45 +0000
+Subject: Sound Blaster PCI 512
+Message-Id: <marc-linux-sound-94330914830528@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -26,4 +26,4 @@ If somebody knows, please help me.
 
 Thanks in advance.
 
-Oto Pintiaski 
+Oto Pintiaski
