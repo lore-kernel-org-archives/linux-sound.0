@@ -1,134 +1,326 @@
-From: Alessandro Zummo <azummo@ita.flashnet.it>
-Date: Wed, 16 Feb 2000 09:18:40 +0000
-Subject: SB, PNP, kernel, etc.
+From: Christoph Hellwig <chhellwig@gmx.net>
+Date: Sun, 27 Feb 2000 17:12:05 +0000
+Subject: [PATCH] Yet another sound/oss cleanup
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="BOUNDARY.145985592.1"
-Message-Id: <marc-linux-sound-95069788330694@msgid-missing>
+Content-Type: multipart/mixed; boundary="opJtzjQTFsWo+cga"
+Message-Id: <marc-linux-sound-95168245928396@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95071956214609@msgid-missing>
-In-Reply-To: <marc-linux-sound-95071956214609@msgid-missing>
 To: linux-sound@vger.kernel.org
 
-Warning: This is a message in MIME format. Your mail reader does not
-support MIME. Some parts of this message will be readable as plain text.
-To see the rest, you will need to upgrade your mail reader. Following are
-some URLs where you can find MIME-capable mail programs for common platforms:
 
-  Amiga............: YAM          http://www.yam.ch/
-  Unix.............: Metamail     ftp://ftp.bellcore.com/nsb/
-  Windows/Macintosh: Eudora       http://www.qualcomm.com/
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
 
-General info about MIME can be found at:
+After I've removed the legacy defines of the old oss code, this is another step towards a clean
+sound code.
 
-http://www.cis.ohio-state.edu/hypertext/faq/usenet/mail/mime-faq/top.html
+This patch is at this time only for one sound card (ad1816), but if gets accepted I'll patch
+all sound cards in this way.
 
+It removes the need to put each soundcard in the ugly sound_drivers[] array in dev_table.h and
+now you don't have to compile the irq/io/dma values into the kernel image. Instead they can be
+specified on the kernel comandline using soundcard=<io>,<irq>,<dma>,<dma2>.
 
---BOUNDARY.145985592.1
-Content-Type: text/plain
-
-
- This one should _really_ work.
+Christoph
 
 -- 
+Always remember that you are unique.  Just like everyone else.
 
-   - *Alex* -
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="sound-4b.diff"
 
-  http://freepage.logicom.it/azummo/
+diff -rNu --exclude-from=/usr/src/exclude linux.orig/drivers/sound/Config.in linux/drivers/sound/Config.in
+--- linux.orig/drivers/sound/Config.in	Sun Feb 27 17:42:11 2000
++++ linux/drivers/sound/Config.in	Sun Feb 27 18:10:54 2000
+@@ -87,13 +87,6 @@
+ 
+    if [ "$CONFIG_EXPERIMENTAL" = "y" ]; then
+       dep_tristate '    AD1816(A) based cards (EXPERIMENTAL)' CONFIG_SOUND_AD1816 $CONFIG_SOUND
+-      if [ "$CONFIG_SOUND_AD1816" = "y" ]; then
+-	 hex 'AD1816 audio I/O base 530, 604, E80 or F40' CONFIG_AD1816_BASE 530
+-	 int 'AD1816 audio IRQ 5, 7, 9, 11, 12 or 15' CONFIG_AD1816_IRQ 7
+-	 int 'AD1816 audio DMA 0, 1 or 3' CONFIG_AD1816_DMA 0
+-	 int 'AD1816 second (duplex) DMA 0, 1 or 3' CONFIG_AD1816_DMA2 3
+-	 int 'AD1816 clock chip frequency' CONFIG_AD1816_CLOCK 33000
+-      fi
+    fi
+ 
+    dep_tristate '    Aztech Sound Galaxy (non-PnP) cards' CONFIG_SOUND_SGALAXY $CONFIG_SOUND_OSS
+diff -rNu --exclude-from=/usr/src/exclude linux.orig/drivers/sound/ad1816.c linux/drivers/sound/ad1816.c
+--- linux.orig/drivers/sound/ad1816.c	Sun Feb 27 17:44:17 2000
++++ linux/drivers/sound/ad1816.c	Sun Feb 27 17:47:20 2000
+@@ -53,9 +53,9 @@
+ 	
+ */
+ 
+-#include <linux/config.h>
+ #include <linux/module.h>
+ #include <linux/stddef.h>
++#include <linux/init.h>
+ #include "soundmodule.h"
+ #include "sound_config.h"
+ 
+@@ -97,9 +97,7 @@
+ 	int            irq_ok;
+ 	int            *osp;
+   
+-}
+-
+-ad1816_info;
++} ad1816_info;
+ 
+ static int  nr_ad1816_devs = 0;
+ 
+@@ -1098,7 +1096,6 @@
+ 	int tmp;
+ 	
+ 	printk("ad1816: AD1816 sounddriver Copyright (C) 1998 by Thorsten Knabe\n");
+-	printk("ad1816: $Header: /home/tek/CVSROOT/sound22/ad1816.c,v 1.3 1999/04/18 16:41:41 tek Exp $\n");
+ 	printk("ad1816: io=0x%x, irq=%d, dma=%d, dma2=%d, clockfreq=%d, options=%d isadmabug=%d\n",
+ 	       hw_config->io_base,
+ 	       hw_config->irq,
+@@ -1308,6 +1305,7 @@
+ 				       devc)) >= 0) {
+ 		audio_devs[my_dev]->min_fragment = 0;
+ 	}
++	SOUND_LOCK;
+ }
+ 
+ void unload_card(ad1816_info *devc)
+@@ -1344,52 +1342,11 @@
+ 	}
+ }
+ 
+-void unload_ad1816 (struct address_info *hw_config)
+-{
+-	int          i;
+-	ad1816_info  *devc = NULL;
+-  
+-	/* remove any soundcard */
+-	if (hw_config==NULL) {
+-		for (i = 0;  i < nr_ad1816_devs; i++) {
+-			devc = &dev_info[i];
+-			unload_card(devc);
+-		}     
+-		nr_ad1816_devs=0;
+-	} else { 
+-		/* remove specified soundcard */
+-		for (i = 0; i < nr_ad1816_devs; i++) {
+-		        int j;
+-			
+-			if (dev_info[i].base == hw_config->io_base) {
+-				devc = &dev_info[i];
+-				unload_card(devc);
+-				nr_ad1816_devs--;
+-				for ( j=i; j < nr_ad1816_devs ; j++) {
+-					dev_info[j] = dev_info[j+1];
+-				}
+-				i--;
+-			}
+-		}
+-	}
+-}
+-
+-
+-/* ----------------------------- 2.1.xxx module stuff ----------------- */
+-
+-EXPORT_SYMBOL(ad1816_interrupt);
+-EXPORT_SYMBOL(probe_ad1816);
+-EXPORT_SYMBOL(attach_ad1816);
+-EXPORT_SYMBOL(unload_ad1816);
+-
+-
+ #ifdef MODULE
+-
+ int             io = -1;
+ int             irq = -1;
+ int             dma = -1;
+ int             dma2 = -1;
+-
+ MODULE_PARM(io,"i");
+ MODULE_PARM(irq,"i");
+ MODULE_PARM(dma,"i");
+@@ -1397,33 +1354,41 @@
+ MODULE_PARM(ad1816_clockfreq,"i");
+ MODULE_PARM(options,"i");
+ 
+-struct address_info cfg;
+-
+-
+ int init_module(void)
+ {
+-        if (io == -1 || irq == -1 || dma == -1 || dma2 == -1) {
+-		printk("ad1816: dma, dma2, irq and io must be set.\n");
+-                return -EINVAL;
+-        }
+-        cfg.io_base = io;
+-        cfg.irq = irq;
+-        cfg.dma = dma;
+-        cfg.dma2 = dma2;
++	if (io == -1 || irq == -1 || dma == -1 || dma2 == -1) {
++		printk(KERN_INFO "ad1816: dma, dma2, irq and io must be set.\n");
++		return -EINVAL;
++	}
+ 	
+-        if (probe_ad1816(&cfg) == 0) {
+-                return -ENODEV;
++	cfg.io_base     = io;
++	cfg.irq         = irq;
++	cfg.dma         = dma;
++	cfg.dma2        = dma2;
++
++	if (probe_ad1816(&cfg) == 0) {
++		return -ENODEV;
+ 	}
+-        attach_ad1816(&cfg);
+-        SOUND_LOCK;
+-        return 0;
++	
++	attach_ad1816(&cfg);
+ }
+ 
+-
+-void cleanup_module(void)
++void cleanup_module (void)
+ {
+-        unload_ad1816(NULL);
+-        SOUND_LOCK_END;
++	int          i;
++	ad1816_info  *devc = NULL;
++  
++	/* remove any soundcard */
++	for (i = 0;  i < nr_ad1816_devs; i++) {
++		devc = &dev_info[i];
++		unload_card(devc);
++	}     
++	nr_ad1816_devs=0;
++
++	SOUND_LOCK_END;
+ }
++#endif
+ 
+-#endif /* MODULE */
++EXPORT_SYMBOL(ad1816_interrupt);
++EXPORT_SYMBOL(probe_ad1816);
++EXPORT_SYMBOL(attach_ad1816);
+diff -rNu --exclude-from=/usr/src/exclude linux.orig/drivers/sound/dev_table.c linux/drivers/sound/dev_table.c
+--- linux.orig/drivers/sound/dev_table.c	Sun Feb 27 17:44:17 2000
++++ linux/drivers/sound/dev_table.c	Sun Feb 27 17:32:01 2000
+@@ -15,13 +15,13 @@
+ #include <linux/config.h>
+ #include <linux/init.h>
+ 
+-
+ #define _DEV_TABLE_C_
+ #include "sound_config.h"
+ 
+ int softoss_dev = 0;
+ int sound_started = 0;
+ int sndtable_get_cardcount(void);
++struct address_info cfg;
+ 
+ int snd_find_driver(int type)
+ {
+@@ -71,6 +71,10 @@
+ 		sound_preinit_lowlevel_drivers();
+ 	}
+ #endif
++#ifdef CONFIG_SOUND_AD1816
++	if (probe_ad1816(&cfg))
++		attach_ad1816(&cfg);
++#endif
+ 
+ /*
+  * Check the number of cards actually defined in the table
+@@ -620,3 +624,25 @@
+ 		sound_timer_devs[dev] = NULL;
+ }
+ 
++#ifndef MODULE
++void soundcard_setup(char *str)
++{
++	/* io, irq, dma, dma2 */
++	int ints[5];
++	str = get_options(str, ARRAY_SIZE(ints), ints);
++
++	cfg.io_base = ints[1];
++	cfg.irq     = ints[2];
++	cfg.dma     = ints[3];
++	cfg.dma2    = ints[4];
++
++	printk("soundcard: io=%x, irq=%d, dma=%d, dma2=%d\n",
++
++	cfg.io_base,
++	cfg.irq,
++	cfg.dma,
++	cfg.dma2);
++}
++
++__setup("soundcard=", soundcard_setup);
++#endif
+diff -rNu --exclude-from=/usr/src/exclude linux.orig/drivers/sound/dev_table.h linux/drivers/sound/dev_table.h
+--- linux.orig/drivers/sound/dev_table.h	Sun Feb 27 17:44:17 2000
++++ linux/drivers/sound/dev_table.h	Sun Feb 27 17:31:14 2000
+@@ -418,11 +418,6 @@
+ 	{"SGALAXY", 0, SNDCARD_SGALAXY,	"Sound Galaxy WSS",		attach_sgalaxy, probe_sgalaxy, unload_sgalaxy},
+ #endif
+ 
+-#ifdef CONFIG_SOUND_AD1816
+-        {"AD1816", 0, SNDCARD_AD1816,   "AD1816",               attach_ad1816, 
+-probe_ad1816, unload_ad1816},
+-#endif
+-
+ #ifdef CONFIG_SOUND_YM3812
+ 	{"OPL3", 0, SNDCARD_ADLIB,	"OPL-2/OPL-3 FM",		attach_adlib_card, probe_adlib, unload_adlib},
+ #endif
+diff -rNu --exclude-from=/usr/src/exclude linux.orig/drivers/sound/soundcard.c linux/drivers/sound/soundcard.c
+--- linux.orig/drivers/sound/soundcard.c	Sun Feb 27 17:44:17 2000
++++ linux/drivers/sound/soundcard.c	Sun Feb 27 17:36:32 2000
+@@ -484,10 +484,8 @@
+ 	}
+ 	in_use++;
+ 
+-#ifdef CONFIG_MODULES
+ 	notifier_call_chain(&sound_locker, 1, 0);
+ 	lock_depth++;
+-#endif
+ 
+ 	return 0;
+ }
+@@ -522,10 +520,8 @@
+ 	}
+ 	in_use--;
+ 
+-#ifdef CONFIG_MODULES
+ 	notifier_call_chain(&sound_locker, 0, 0);
+ 	lock_depth--;
+-#endif
+ 
+ 	return 0;
+ }
+diff -rNu --exclude-from=/usr/src/exclude linux.orig/drivers/sound/soundmodule.h linux/drivers/sound/soundmodule.h
+--- linux.orig/drivers/sound/soundmodule.h	Thu May 14 19:33:17 1998
++++ linux/drivers/sound/soundmodule.h	Sun Feb 27 17:36:47 2000
+@@ -2,12 +2,11 @@
+ #define _SOUNDMODULE_H
+ 
+ #include <linux/notifier.h>
++#include <linux/module.h>
+ 
+ extern struct notifier_block *sound_locker;
+ extern void sound_notifier_chain_register(struct notifier_block *);
+ 
+-#ifdef MODULE
+-
+ #define SOUND_LOCK		sound_notifier_chain_register(&sound_notifier); 
+ #define SOUND_LOCK_END		notifier_chain_unregister(&sound_locker, &sound_notifier)
+ 
+@@ -27,5 +26,4 @@
+ 	0
+ };
+ 
+-#endif
+ #endif
 
---BOUNDARY.145985592.1
-Content-Type: application/octet-stream; name="sb_patch.2.3.45.gz"
-Content-Disposition: attachment; filename="sb_patch.2.3.45.gz"
-Content-Transfer-Encoding: base64
-
-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
-KnccKsrFCDZz3YHr838BBBLDIxFXAAA=
-
---BOUNDARY.145985592.1--
+--opJtzjQTFsWo+cga--
