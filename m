@@ -1,20 +1,18 @@
-From: Ricard Kelly <kellyr@lanscape.co.nz>
-Date: Thu, 01 Oct 1998 04:28:21 +0000
-Subject: RE: PCI Soundcards???
-Message-Id: <marc-linux-sound-90721572122495@msgid-missing>
+From: Alexis DOMJAN <adomjan@horus.horus.ch>
+Date: Mon, 26 Oct 1998 08:02:26 +0000
+Subject: MP3 encoder under Linux
+Message-Id: <marc-linux-sound-90938899516313@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90717751403473@msgid-missing>
-In-Reply-To: <marc-linux-sound-90717751403473@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> Not that I've heard of, although I could be mistaken. I would
-> guess that the OSS commercial drivers will support it before
-> a freely available driver will, though. (http://www.opensound.com/)
+Hello,
 
-I contacted OSS about this yesterday and they said then that they
-expect to have the docs from Creative some time in Dec this year.
+I tried some MP3 encoders, but they are quite slow (about 1:10-1:16 on my P166)
+So I just post this message to know if someone know an MP3 encoder that record
+fast :)
 
-Ricard
+Thanks in advance,
+Alexis
