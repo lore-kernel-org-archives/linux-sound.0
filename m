@@ -1,39 +1,22 @@
-From: Dominik Stadler <Dominik.Stadler@apertum.de>
-Date: Tue, 15 Dec 1998 11:27:43 +0000
-Subject: AW: I'm looking for oscope and RTA apps
-Message-Id: <marc-linux-sound-91372370524169@msgid-missing>
+From: Eric Barendt <ebarendt@speedchoice.com>
+Date: Tue, 12 Jan 1999 05:36:27 +0000
+Subject: Yamaha opl3
+Message-Id: <marc-linux-sound-91613601817912@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-90522162401464@msgid-missing>
+In-Reply-To: <marc-linux-sound-90522162401464@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-9"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Ok... I've been fighting with this on-board sound card since I installed
+linux a few months ago.. It's on my Tyan 1696 motherboard.  What do I
+need to do to get this sound card working? I've found things about
+compiling the opti something or other drivers into the kernel, but that
+didn't work (unless I did it wrong).  I also had some 3rd party
+software, which worked.. but I'd prefer to just have the kernel control
+everything.
 
-you can check the "Sound & MIDI Software For Linux"-Page at
-http://www.bright.net/~dlphilp/linux_soundapps.html
-
-it contains lots of links to all sorts of sound-applications
-
-hth
-
-Dschau.. Dominik
-
-> -----Urspr=FCngliche Nachricht-----
-> Von:	Jeremy Hansen [SMTP:jeremy@xxedgexx.com]
-> Gesendet am:	Dienstag, 15. Dezember 1998 03:03
-> An:	Linux Sound Email List
-> Cc:	linux-laptop@vger.rutgers.edu
-> Betreff:	I'm looking for oscope and RTA apps
->=20
->=20
-> I'm looking for ANYTHING dealing with oscopes and R.eal T.ime A.nalyzing
-> that works well in Linux.
->=20
-> Basically I'm trying to find the best sound apps that will work on a
-> laptop so I can do analysis for car audio systems.
->=20
-> Anyone have experience using Linux in this situation?
->=20
-> Thanks for any suggestions.
->=20
-> -jeremy
+Please help!
+Eric
