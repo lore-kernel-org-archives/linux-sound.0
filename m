@@ -1,28 +1,28 @@
-From: Dave Phillips <dlphilp@bright.net>
-Date: Tue, 18 Apr 2000 13:10:48 +0000
-Subject: [OT] MQX-32M info needed !
-Message-Id: <marc-linux-sound-95606326007317@msgid-missing>
+From: Jonathan Oppenheim <jono@Phys.UAlberta.CA>
+Date: Sun, 30 Apr 2000 17:22:52 +0000
+Subject: syncing problems with SLab
+Message-Id: <marc-linux-sound-95711574421925@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Greetings:
+I have been trying to record using SLab, 
+and find that when i play back the tracks they
+are about a 1/2 second out of sync.
+i have been told this may have to do with the fact
+that SLab tries to use the trigger option,
+and this may not be supported by my card (SBLive!)
+but i am not sure.
 
-  I apologize for the cross-posting, but I'm in dire need of the tech
-specs for the Music Quest MQX-32M stand-alone MIDI interface card.
-Opcode Systems recently carried the MQ cards, but it appears that's no
-longer the case. I wrote to Opcode already but have received no reply.
+quite a few others seem to have this problem judging from the SLab
+Forum, but some people (with the SBLive) do not seem to
+have this problem.
 
-  So, can anyone direct me to an on-line copy of the manual/datasheets ?
-HTML, plain text, PDF, PS, even DOC would be fine. TIA !!
+I really like the package, and would hate to have to give up on it.
 
-  Again, my apologies for the cross-posting.
-  
-Best regards,
+Anyone have any suggestions?
 
-= Dave Phillips
-
-	http://www.bright.net/~dlphilp/index.html
-	http://www.bright.net/~dlphilp/linuxsound/
+Thanks, 
+Jonathan
