@@ -1,36 +1,31 @@
-From: Billy Biggs <vektor@div8.net>
-Date: Sat, 30 Oct 1999 18:21:12 +0000
-Subject: Re: please end crossposting !
-Message-Id: <marc-linux-sound-94130787723680@msgid-missing>
+From: Zach Brown <zab@redhat.com>
+Date: Fri, 29 Oct 1999 15:02:38 +0000
+Subject: next to last maestro update? (fwd)
+Message-Id: <marc-linux-sound-94122443129261@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94124258413905@msgid-missing>
-In-Reply-To: <marc-linux-sound-94124258413905@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-[ I nuked L-A-D from this message ]
 
-On Fri, 29 Oct 1999, [iso-8859-1] J=F6rn Nettingsmeier wrote:
+oh my goodness guys, I'm such a dork for not sending this your way...
 
-> i'm one of the poor lads who are subscribed to *both* l-a-d and l-s.
-> somehow it seems to have become fashionable to crosspost everything.
+---------- Forwarded message ----------
+Date: Fri, 29 Oct 1999 09:40:59 -0400 (EDT)
+From: Zach Brown <zab@redhat.com>
+To: linux-kernel@vger.rutgers.edu
+Subject: next to last maestro update?
 
-  I'm having a bit of a dillema.  Linux-sound and LAD both seem to have
-the same mandate, no?  I guess LAD is more for discussion of dev issues...
+Good morning audible primates.
 
-  In my case, I see linux-sound as having the critical feature of being
-well hosted.  It's a responsive list, and most importantly, is web
-archived.
+v0.10 of the OSS maestro driver is on http://people.redhat.com/zab/maestro
 
-  However, LAD seems to have a very good reader base, possibly better than
-linux-sound.  So, I don't want to not include it in messages.
+it finally fixes the memory scribbling, I hope.  It also has some minor
+fixes that made it work on some laptops.  Please do give this one a spin,
+it should be stable.
 
-  What's the solution?  Get linux-audio-dev better hosted, and ditch
-linux-sound for app-dev related issues?  Wait until I stop posting so many
-messages?  I'm not sure.  Thoughts?
+the next hurdle is to fix up the proper LRLR support so that mmap() (read:
+quake) works :)
 
---
-Billy Biggs                         vektor@div8.net
-http://www.div8.net/billy       wbiggs@uwaterloo.ca
+Zach Brown <zab@redhat.com> -- Software Princess
