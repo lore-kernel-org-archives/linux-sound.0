@@ -1,62 +1,42 @@
-From: Bryan Scaringe <bscaring@slpmbo.ed.ray.com>
-Date: Thu, 24 Jun 1999 14:45:22 +0000
-Subject: Re: burning CDs with an IDE CDR drive
-Message-Id: <marc-linux-sound-93024469714596@msgid-missing>
+From: Martin Adler <rockshox@web-regional.net>
+Date: Sun, 20 Jun 1999 11:00:11 +0000
+Subject: SB Live Driver 0.2b under 2.2.10 and 2.0.36
+Message-Id: <marc-linux-sound-93038871301423@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93017612704123@msgid-missing>
-In-Reply-To: <marc-linux-sound-93017612704123@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Here's what I did, from memory:
+Got the following problem with the SBLive 0.2b driver under SuSE 6.0 with Kernel 2.2.10 and 2.0.36:
 
-I have IDE CD Drives:  a CD-ROM and a CD-RW
-/dev/hdc is the CD-ROM
-/dev/hdd is the CD-RW
+adler-martin-lnx:~ # insmod -f sblive
+Warning: kernel-module version mismatch
+        /lib/modules/2.2.10/misc/sblive.o was compiled for kernel version 2.2.5
+        while this kernel is version 2.2.10
 
-Compile the kernel with:
-	SCSI Support: built in
-	SCSI CD-ROM support: built in
-	SCSI Generic Support (sg): built in
- 	SCSI Emulation (ide-scsi): as module
-	IDE-CDROM support (ide-cd): as module
-	LOOPBACK device: as module
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_dsp
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_midi
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_dsp
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_mixer
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_mixer
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_special
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_special
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_midi
+adler-martin-lnx:~ #
 
-I chose to build ide-scsi as a module so that I could still
-use my CD-ROM as an IDE device.  Here's what I added to 
-conf.modules:
-	options ide-scsi ignore=hdc
-	options ide-cd ignore=hdd
-
-and to lilo.conf:
-	append="hdc=ide-cd hdd=ide-scsi"
-
-I need these since whichever of the modules (ide-scsi or ide-cd)
-loads first, will attempt to control both drives.  The second
-module gets squat.  If you don't mind having both drives under
-SCSI emulation, then don't build ide-scsi support at all, and
-build SCSI emulation directly into the kernel.
-
-Again, this is from memory.  The thing that screwed me up
-was that I was building some of the items like SCSI-generic
-as modules, when support needed to be there during booting
-process.  Loading sg as a module won't work.  The CD-Writing
-HOWTO is (I believe) wrong in this case.                      
+I followed all the procedures in the readme file. Anyone have a solutions.
 
 
-Bryan
+Thanx alot,
 
+Martin
 
-> hi,
-> 
-> has anyone managed to burn CDs using an ATAPI/IDE drive? i've just
-> installed RH6.0, and i've found several docs that mention that it's
-> possible if you use IDE-SCSI emulation. but i can't seem to figure out how
-> to get it to work.
-> 
-> thanks,
-> 
-> douglas
-> 
+---------------------------------------------
+| Martin Adler ~~ rockshox@web-regional.net |
+|                                           |
+| LAN-Administration ~~~~~~~~~ CSC Ploenzke |
+---------------------------------------------
+|           Let Linux kill NT!!             |
+|        Drive it like you stole it!!       |
+---------------------------------------------
