@@ -1,31 +1,25 @@
-From: est@hyperreal.org
-Date: Thu, 27 May 1999 14:21:33 +0000
-Subject: latency killers..devourers of cpus
-Message-Id: <marc-linux-sound-92799469503865@msgid-missing>
+From: fe88 <fe88@dial.pipex.com>
+Date: Mon, 31 May 1999 01:42:57 +0000
+Subject: AWE64 Gold and SMP
+Message-Id: <marc-linux-sound-92813984402042@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Greetings!
+Hi Folks,
+You may remember I sent a post to this listing earlier this month saying I was 
+having no joy getting my AWE64 and 2.2.9 SMP to work, well after several 
+distractions along the way I've finally had a chance to have another look at 
+this again and yup got it to work :) Just like to say many thanks to those who 
+kindly did reply to my original post, ljp, Georg Funke, Chad Paco Walker and 
+Xavyer in particular. I thought I'd chip in my tuppence worth at:
 
-I was wondering what the collective wisdom was about what things in
-linux can monopolize the cpu for unpleasant periods of time.
-Obviously such things are unpleasant for responsive sound software.
-I'm particularly interested in things which can preempt even POSIX
-`real-time' processes.  These would probably be things happening in
-the kernel that aren't owned by any particular process.
+http://www.dialspace.dial.pipex.com/town/parade/fe88/awe64config.shtml
 
-Two examples that I've confirmed are:
 
-* IDE drives..just forget it.
+Cheers
 
-* Access to the /proc file-system, such as is done by ps(1) and
-  top(1)..this is definitely a back-door to denial-of-cpu.
-
-Also, does anyone know of good places to post this query?
-
-Many thanks in advance! :)
-
-E
+-- 
+Steve Crowder clerk.kant@dial.pipex.com
