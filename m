@@ -1,7 +1,7 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Thu, 05 Aug 1999 17:04:59 +0000
+From: Hannu Savolainen <hannu@opensound.com>
+Date: Thu, 05 Aug 1999 19:12:14 +0000
 Subject: Re: MPEG Support
-Message-Id: <marc-linux-sound-93387262113707@msgid-missing>
+Message-Id: <marc-linux-sound-93388116522557@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93371079221997@msgid-missing>
 In-Reply-To: <marc-linux-sound-93371079221997@msgid-missing>
@@ -10,23 +10,21 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-sbenno@gardena.net wrote:
+On Thu, 5 Aug 1999, Kurt Wall wrote:
 
-> Tom, could you please explain why we can't use these instructions in kernel
-> mode ?
-> I thougth that Linux don't use FP due to performance reasons, but not
-> because it's not allowed.
-> RT Linux seems to have some FP restrictions as well, but I think this is
-> due to the fact that FP instructions could cause exceptions, which might
-> ruin RT responsiveness by a few usecs.
-> :-)
+> The original question I asked was simply if MPEG support had ever been added
+> to the <linux/soundcard.h>, as some of the declarations therein seemed to
+> suggest that such support would be added.  I didn't ask for a lecture on
+> whether or not it is appropriate to add such to the kernel
+The define for MPEG audio was added there for cards with hardware MPEG
+audio capability. At that time (good old 486 days) software MPEG in kernel
+simply was not possible. The definition was added just for future
+purposes.
 
-Exceptions are one thing, the other is that the kernel doesn't save FPU
-state
-in the normal case (it does so lazily when switching user space apps).
+Best regards,
 
-You could do fsave;fninit by hand, but that would be unportable to other
-archs and depending on where you do it would ruin some fast paths
-(like lazy FPU switching 8-)). And fsave/frestore is expensive.
-
-Tom
+Hannu
+-----
+Hannu Savolainen (hannu@opensound.com)
+http://www.opensound.com (Open Sound System (OSS))
+http://www.compusonic.fi (Finnish OSS pages)
