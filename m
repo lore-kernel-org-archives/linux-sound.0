@@ -1,7 +1,7 @@
-From: Adam Wiggins <adam@angel.com>
-Date: Tue, 22 Sep 1998 00:05:13 +0000
+From: David Manifold <dem@pacificrim.net>
+Date: Tue, 22 Sep 1998 00:32:12 +0000
 Subject: Re: How to create .mod files?
-Message-Id: <marc-linux-sound-90642842229258@msgid-missing>
+Message-Id: <marc-linux-sound-90642886929392@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90642111226910@msgid-missing>
 In-Reply-To: <marc-linux-sound-90642111226910@msgid-missing>
@@ -11,16 +11,32 @@ Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 On Tue, 22 Sep 1998, Ow W K Danny wrote:
+
+> Hi,
+> 
 > I've a couple of .mod files and the sound produced with this format is
 > very good. Is there anyway to create or convert sound from CD into this
 > format under Linux? 
 
-If you mean recording them from an existing song that's on CD, forget it.
-MOD files originated on the Amiga long before being able to just take long
-samples of music was feasible; instead it's a sort of bare-bones MIDI
-format which relies completely on fixed samples.  You'd have about as much
-luck trying to convert a CD track to a .mid file.
+MOD files consist of individual instrument samples (small WAV files),
+along with when to play which instruments, at what frequency, and with
+what special effects.  This allows an extensive musical score to be made
+of a small number of samples, reducing size.  CD audio is a continuous
+stream of digital frequencies, basically one huge sample.  To convert from
+CD to MOD, then, requires advanced AI to separate the sound into
+individual notes, individual instruments, and their pitch.  This kind of
+conversion cannot be done automatically with the current level of
+technology (as far as I know), so making MOD compositions remains an art
+for human techno-musicians.  It would be possible to create a file in
+valid MOD format from a CD, but it would be very large (basically putting
+the whole song into one instrument and saying to play a single note) and
+defeat the purpose of the MOD format.
 
-There are a ton of mod players and probably some composers (known as
-'trackers') availible for Linux.  Do a search on freshmeat or linuxapps
-for "s3m", "mod", "tracker", or "xm".
+If you are interested in CD quality digital audio, look at MP3 at
+http://www.mp3.com or the new upcoming VQF at http://www.vqf.com.
+Unfortunately these are both lossy compression formats, so you lose some
+sound quality, and they have software patents, so it is hard to find free
+encoders.  K-jofol is a free MP3 and VQF player for Win32 that is being
+ported to Linux soon.
+
+David Manifold <dem@tunes.org>
