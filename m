@@ -1,175 +1,32 @@
-From: Roger Larsson <roger.larsson@norran.net>
-Date: Sat, 01 Jul 2000 02:06:04 +0000
-Subject: [PATCH] latency improvements, one reschedule moved
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="------------2F7D4E7FA7846DC9387A6BC9"
-Message-Id: <marc-linux-sound-96241827428163@msgid-missing>
+From: Paul <pelaufer@csupomona.edu>
+Date: Sat, 01 Jul 2000 07:52:33 +0000
+Subject: Re: is it true ?
+Message-Id: <marc-linux-sound-96243802511579@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------2F7D4E7FA7846DC9387A6BC9
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+It is true that the Vibra16X is NOT supported in full-duplex mode in Linux,
+*BSD, or OSS commercial. This is because the Vibra16X is a strange cookie and
+Creative Labs doesn't even appear to have documentation for this card (how the
+hell they wrote a windows driver I don't know - Alan had a contact in C.L. a
+few years ago and that guy couldn't find the needed docs). So we're SOL on
+that
+front. I've recently recieved one of these cards from a fellow Linux user in
+Canada for the purpose of attempting to figure out full-duplex operation of
+the
+card and implementing it in Linux. I am currently (with some success) reverse
+engineering the windows driver to figure out how it ticks. I'm keeping a
+journal of my progress and will post to this list when I have something worth
+talking about :)
 
-Hi Linus, Paul, Benno, ...,
+Paul Laufer
 
-[patch against  linux-2.4.0-test3-pre2]
-
-I cleaned up kswapd and moved its reschedule point.
-Disk performance is close to the same.
-Latencies have improved a lot (tested with Bennos latencytest)
-
-* sync is still problematic
-* mmap002 (Quintinela) still gives a 212 ms latency 
-  (compared to 423 ms for the unpatched...)
-* other disk related latencies are down under 30 ms.
-  (streaming read, copy, write)
-* the number of overruns has dropped considerably!
-  (running 4 buffers with a deadline of 23 ms)
-
-/RogerL
-
---
-Home page:
-  http://www.norran.net/nra02596/
---------------2F7D4E7FA7846DC9387A6BC9
-Content-Type: text/plain; charset=us-ascii;
- name="patch-2.4.0-test3-pre2-vmscan.latency.2"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="patch-2.4.0-test3-pre2-vmscan.latency.2"
-
---- linux/mm/vmscan.c.orig	Wed May 31 20:13:37 2000
-+++ linux/mm/vmscan.c	Sat Jul  1 03:29:00 2000
-@@ -419,6 +419,48 @@
- }
- 
- /*
-+ * Check if there is any memory pressure (free_pages < pages_low)
-+ */
-+static inline int memory_pressure(void)
-+{
-+	pg_data_t *pgdat = pgdat_list;
-+
-+	do {
-+		int i;
-+		for(i = 0; i < MAX_NR_ZONES; i++) {
-+			zone_t *zone = pgdat->node_zones+ i;
-+			if (!zone->size &&
-+			    zone->free_pages < zone->pages_low)
-+				return 1;
-+		}
-+		pgdat = pgdat->node_next;
-+	} while (pgdat);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Check if there is any memory pressure (free_pages < pages_low)
-+ */
-+static inline int keep_kswapd_awake(void)
-+{
-+	pg_data_t *pgdat = pgdat_list;
-+
-+	do {
-+		int i;
-+		for(i = 0; i < MAX_NR_ZONES; i++) {
-+			zone_t *zone = pgdat->node_zones+ i;
-+			if (!zone->size &&
-+			    zone->zone_wake_kswapd)
-+				return 1;
-+		}
-+		pgdat = pgdat->node_next;
-+	} while (pgdat);
-+
-+	return 0;
-+}
-+
-+/*
-  * We need to make the locks finer granularity, but right
-  * now we need this so that we can do page allocations
-  * without holding the kernel lock etc.
-@@ -442,7 +484,20 @@
- 
- 	priority = 64;
- 	do {
-+		/* should __GFP_WAIT be checked? 
-+		 * assume not - not WAITING for a free page
-+		 * let more important task execute before
-+		 * continuing (Note: kswapd does not use it).
-+		 */
-+	        if (current->need_resched) {
-+		  schedule();
-+		  /* time has passed - pressure too? */
-+		  if (!memory_pressure())
-+		      goto done;
-+		}
-+
- 		while (shrink_mmap(priority, gfp_mask)) {
-+		        /* check __GFP_WAIT ? see below */
- 			if (!--count)
- 				goto done;
- 		}
-@@ -477,16 +532,21 @@
- 			if (--swap_count < 0)
- 				break;
- 
--	} while (--priority >= 0);
-+		priority--;
-+	} while (priority >= 0);
- 
- 	/* Always end on a shrink_mmap.. */
- 	while (shrink_mmap(0, gfp_mask)) {
-+		if (current->need_resched)
-+			schedule();
-+		if (!memory_pressure())
-+			return 1;
- 		if (!--count)
- 			goto done;
- 	}
- 	/* We return 1 if we are freed some page */
- 	return (count != FREE_COUNT);
--
-+ 
- done:
- 	return 1;
- }
-@@ -530,29 +590,12 @@
- 	tsk->flags |= PF_MEMALLOC;
- 
- 	for (;;) {
--		pg_data_t *pgdat;
--		int something_to_do = 0;
--
--		pgdat = pgdat_list;
--		do {
--			int i;
--			for(i = 0; i < MAX_NR_ZONES; i++) {
--				zone_t *zone = pgdat->node_zones+ i;
--				if (tsk->need_resched)
--					schedule();
--				if (!zone->size || !zone->zone_wake_kswapd)
--					continue;
--				if (zone->free_pages < zone->pages_low)
--					something_to_do = 1;
--				do_try_to_free_pages(GFP_KSWAPD);
--			}
--			pgdat = pgdat->node_next;
--		} while (pgdat);
--
--		if (!something_to_do) {
--			tsk->state = TASK_INTERRUPTIBLE;
--			interruptible_sleep_on(&kswapd_wait);
-+	        if (!keep_kswapd_awake()) {
-+		  tsk->state = TASK_INTERRUPTIBLE;
-+		  interruptible_sleep_on(&kswapd_wait);
- 		}
-+
-+		do_try_to_free_pages(GFP_KSWAPD);
- 	}
- }
- 
-
---------------2F7D4E7FA7846DC9387A6BC9--
+On Fri, 30 Jun 2000 08:05:56 Gianmaria Collazuol wrote:
+> is it true that the sb model Creative ViBRA16X PnP is only partially 
+> supported within linux and cannot work with 16 bits ? i.e. i'll 
+> never exploit full-duplex stuff !
+> thanks in advance for answers, cheers,
+> gianmaria
