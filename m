@@ -1,38 +1,57 @@
-From: Benno Senoner <sbenno@gardena.net>
-Date: Fri, 29 Oct 1999 00:02:09 +0000
-Subject: Re: [linux-audio-dev] Re: HZ > 100 overhead
-Message-Id: <marc-linux-sound-94118118519929@msgid-missing>
+From: "Thomas T. Veldhouse" <veldy@visi.com>
+Date: Thu, 07 Oct 1999 01:20:49 +0000
+Subject: Yamaha SA3 onboard sound?
+Message-Id: <marc-linux-sound-93925942527736@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94113791209316@msgid-missing>
-In-Reply-To: <marc-linux-sound-94113791209316@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 28 Oct 1999, Paul Barton-Davis wrote:
-> 
-> take a system in which, say, Quasimodo was running through the server
-> or was the server and SoftWerk ran along side it. SoftWerk doesn't
-> talk to the audio h/w at all, but it wants timing from the RTC. the
-> server might want timing from the RTC. a 3rd program runs and wants to
-> to use the RTC for something completely non-audio related.
-> 
-> in these kinds of situations, you don't want to have merged RTC
-> service into an "multimedia server" - someone who wants to use the RTC
-> for something completely different is going to be unhappy at being
-> forced to connect to the multimedia server if the server is running
-> (and thus owns the RTC).
+Hello,
 
+    I have the AL440LX motherboard with onboard sound.  The sound card is a
+Yamaha SA3.  I know that the 2.2.12 kernel supports this card.  I was
+wondering if anybody has had any luck setting this card up - and if so, how
+did you do it?  I have been unable to find adequate docs for isapnp tool,
+but then, I haven't really tried it because I am not sure that is the proper
+route.  Here is the configuration I use:
 
-> 
-> that's why I think that the RTC *must* be considered a standalone
-> system utilized either by a single (greedy) application, or by a
-> server *that does nothing else* but distribute timing info to clients.
+### Sound support ###
+/sbin/modprobe mpu401
+/sbin/modprobe ad1848
+/sbin/modprobe opl3sa2 io=0x370 mss_io=0x530 mpu_io=0x330 irq=5 dma=1 dma2=0
+/sbin/modprobe opl3 io=0x388
+/sbin/modprobe sound
 
-You convinced me  :-) 
-Agreed, rtcd will run as standalone app and 
-the multimedia API will provide a timerwrapper which connects
-to rtcd if requested , ok ?
+And here is my output from /dev/sndstat:
 
-Benno.
+OSS/Free:3.8s2++-971130
+Load type: Driver loaded as a module
+Kernel: Linux barley 2.2.12 #3 Wed Oct 6 17:45:31 CDT 1999 i686
+Config options: 0
+Installed drivers:
+Card config:
+Audio devices:
+0: MS Sound System (CS4231) (DUPLEX)
+Synth devices:
+0: Yamaha OPL2
+Midi devices:
+0: MPU-401 0.0 Midi interface #1
+Timers:
+0: System clock
+1: MS Sound System (CS4231)
+Mixers:
+0: OPL3-SA3 and AD1848 (through MSS)
+1: MS Sound System (CS4231)
+
+Can anybody help me out?
+
+Thanks,
+
+Tom Veldhouse
+veldy@visi.com
+
+P.S. The 4-front drivers work great, but I don't like the hassle with
+loading and unloading them everytime I upgrade the kernel.  I also like
+using the open drivers if at all possible.
