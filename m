@@ -1,32 +1,39 @@
-From: Britton <fsblk@aurora.uaf.edu>
-Date: Tue, 30 May 2000 20:08:20 +0000
-Subject: Re: major problems with ensoniq 1371 (rev 7)
-Message-Id: <marc-linux-sound-95971952132441@msgid-missing>
+From: "Joe T." <auximini@yahoo.com>
+Date: Mon, 01 May 2000 00:54:07 +0000
+Subject: wav rates
+Message-Id: <marc-linux-sound-95714288704119@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95965002201217@msgid-missing>
-In-Reply-To: <marc-linux-sound-95965002201217@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+OK, thanks for all the help with the sound input
+problem.. but now ive got another road block:
 
-Try the 1370 driver instead.
+I recorded the wav using sox:
+sox -t ossdsp -w -s /dev/audio -r 44100 -c 2 blah.wav
 
-Britton Kerin
-__
-GNU GPL: "The Source will be with you... always."
+I used 44100 because CDRDAO (the cdr program i use)
+will not let me burn it to cd unless it is that.
+But!
+using sox, the file is actually 44192, not 44100.. it
+still wont let me burn.
+so? just use sox to convert it, right? nah..
+I do that, and get stupid/weird scratching noises..
 
-On Mon, 29 May 2000, Ryan Speed wrote:
+so...does anyone have any ideas to get it right on the
+notch at 44100?
 
-> Ok, after a week of trying anything and everything its time to seek help.
-> No matter what I do I cannot make the record device linein, it is stuck on
-> mic, and no matter what software/kernel I try I can't change it.  The only
-> time it does switch is if I use ALSA, this would be fine if in fact
-> realproducer supported ALSA which it doesn't.  If anyone can provide me with
-> some insight it would be more than appreciated, I've got deadlines to meet
-> and there are currently 30 machine with this smae problem.
-> 
-> please help,
-> Ryan Speed
-> 
+thanks
+
+==Joe Topjian
+auximini@yahoo.com
+http://auximini.cjb.net
+
+Even a stopped clock gives the right time twice a day
+
+__________________________________________________
+Do You Yahoo!?
+Talk to your friends online and get email alerts with Yahoo! Messenger.
+http://im.yahoo.com/
