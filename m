@@ -1,7 +1,7 @@
-From: Benno Senoner <sbenno@gardena.net>
-Date: Fri, 29 Oct 1999 00:06:37 +0000
+From: Jaroslav Kysela <perex@suse.cz>
+Date: Sat, 30 Oct 1999 16:06:32 +0000
 Subject: Re: Sync Issues (was Re: External MIDI Sync using OSS/Free)
-Message-Id: <marc-linux-sound-94117721316350@msgid-missing>
+Message-Id: <marc-linux-sound-94130036217368@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94097346918347@msgid-missing>
 In-Reply-To: <marc-linux-sound-94097346918347@msgid-missing>
@@ -10,34 +10,22 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 28 Oct 1999, Paul Barton-Davis wrote:
+On Fri, 29 Oct 1999, Benno Senoner wrote:
+
+> > > BTW: which card are you using ?
+> > 
+> >   For MIDI I'm using a Roland MPU-IPC-T card.  MPU-401.
 > 
-> *smile* you've got a hardware problem. i know this because i have too :)
-> 
-> when i had to switch (temporarily) from my Matrix G200 AGP video card
-                                                              ^^^^^^^^^^^
-I didn't know that "The Matrix" was developed by Matrox.
-:-)
+> Jaroslav do you know if there are similar problems on this card with too little
+> MIDI TX/RX FIFO size  , and/or lack of an IRQ connected to it ?
 
-> to an old ISA-based Diamond Speedstar, the performance of my audio
-> stuff has gone down the tubes. i can't do *anything* with X and hope
-> to not get dropouts. this never happened with the Matrox card, and i
-> am very confident that as soon as Matrox ships me a new one, the
-> problem will go away.
-> 
-> right now, my system is essentially useless for audio work unless you
-> avoid using X. totally useless. i can't even play WAV files without
-> *huge* dropouts, and thats on a *dual* PII-450 !
+Yes, the problem is in the MPU-401 hardware specification. This hardware
+haven't the TX interrupt. Every soundcard with the standard MPU-401
+emulation has this problem.
 
-Yes,
+							Jaroslav
 
-the idiotproof test is the following:
-install 2.2.10 + lowlatency patch  ( not SMP !), 
-tune the IDE diskas as described in the README
-and run a testsession
-if the GFX stress graph is the only bad graph,
-then I'm sorry but you have to throw away your videocard if you want
-to do reliable low latency stuff.
-:-)
-
-Benno.
+-----
+Jaroslav Kysela <perex@suse.cz>
+SuSE Linux    http://www.suse.com
+ALSA project  http://www.alsa-project.org
