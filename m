@@ -1,63 +1,88 @@
-From: Tim Schmielau <tim@physik3.uni-rostock.de>
-Date: Sun, 22 Sep 2002 11:45:50 +0000
-Subject: [patch] fix compares of jiffies
-Message-Id: <marc-linux-sound-103269521400485@msgid-missing>
+From: Rusty Trivial Russell <rusty@rustcorp.com.au>
+Date: Tue, 10 Sep 2002 09:14:45 +0000
+Subject: [TRIVIAL] designated initializer patches for include_sound
+Message-Id: <marc-linux-sound-103165003521077@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Dear Linux kernel code maintainer,
+[ Not sure who the maintainer for this/these is/are.  Please apply and forward to Linus ]
 
-on rechecking the current stable kernel code, I found some places where jiffies
-were compared in a way that seems to break when they wrap. For these,
-I made up patches to use the macros "time_before()" or "time_after()"
-that are supposed to handle wraparound correctly.
+From:  Art Haas <ahaas@neosoft.com>
 
-For a small part of the patches, I believe you to be the relevant kernel code
-maintainer. Appended to this email you will find some lines explaining
-why I decided to mail or cc: you on this (an extract of the copyright notice
-or the MAINTAINERS file), followed by the patch itself. If I mailed you
-in error, please drop me a short note.
+  Here are two patches for C99 designated initializers for
+  files in include/sound. The patches are against 2.5.31.
+  
+  Art Haas
+  -- 
+  They that can give up essential liberty to obtain a little temporary
+  safety deserve neither liberty nor safety.
+   -- Benjamin Franklin, Historical Review of Pennsylvania, 1759
 
-I kindly ask you to approve the correctness of the patch, and pass it on to
-the relevant people for inclusion into the mainline kernel.
-
-Thanks,
-Tim Schmielau (tim@physik3.uni-rostock.de)
-
-
-
- * 04-07-1999: Anthony Barbachan <barbcode@xmen.cis.fordham.edu>
- *          Added module parameter pss_firmware to allow the user to tell 
- *          the driver where the fireware file is located.  The default 
- *          setting is the previous hardcoded setting "/etc/sound/pss_synth".
-
-
---- linux-2.4.20-pre6/drivers/sound/pss.c	Wed Sep 11 13:36:53 2002
-+++ linux-2.4.20-pre6-jfix/drivers/sound/pss.c	Wed Sep 11 12:58:44 2002
-@@ -263,7 +263,7 @@
- 	unsigned long   i, limit = jiffies + HZ/10;
+--- trivial-2.5.34/include/sound/ad1848.h.orig	2002-09-10 19:10:41.000000000 +1000
++++ trivial-2.5.34/include/sound/ad1848.h	2002-09-10 19:10:41.000000000 +1000
+@@ -166,20 +166,20 @@
+ void snd_ad1848_interrupt(int irq, void *dev_id, struct pt_regs *regs);
  
- 	outw(0x2000, REG(PSS_CONTROL));
--	for (i = 0; i < 32768 && (limit-jiffies >= 0); i++)
-+	for (i = 0; i < 32768 && time_before_eq(jiffies, limit); i++)
- 		inw(REG(PSS_CONTROL));
- 	outw(0x0000, REG(PSS_CONTROL));
- 	return 1;
-@@ -362,11 +362,11 @@
- 		outw(0, REG(PSS_DATA));
+ #define AD1848_SINGLE(xname, xindex, reg, shift, mask, invert) \
+-{ iface: SNDRV_CTL_ELEM_IFACE_MIXER, name: xname, index: xindex, \
+-  info: snd_ad1848_info_single, \
+-  get: snd_ad1848_get_single, put: snd_ad1848_put_single, \
+-  private_value: reg | (shift << 8) | (mask << 16) | (invert << 24) }
++{ .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, .index = xindex, \
++  .info = snd_ad1848_info_single, \
++  .get = snd_ad1848_get_single, .put = snd_ad1848_put_single, \
++  .private_value = reg | (shift << 8) | (mask << 16) | (invert << 24) }
  
- 		limit = jiffies + HZ/10;
--		for (i = 0; i < 32768 && (limit - jiffies >= 0); i++)
-+		for (i = 0; i < 32768 && time_before_eq(jiffies, limit); i++)
- 			val = inw(REG(PSS_STATUS));
+ int snd_ad1848_info_single(snd_kcontrol_t *kcontrol, snd_ctl_elem_info_t * uinfo);
+ int snd_ad1848_get_single(snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
+ int snd_ad1848_put_single(snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
  
- 		limit = jiffies + HZ/10;
--		for (i = 0; i < 32768 && (limit-jiffies >= 0); i++)
-+		for (i = 0; i < 32768 && time_before_eq(jiffies, limit); i++)
- 		{
- 			val = inw(REG(PSS_STATUS));
- 			if (val & 0x4000)
-
+ #define AD1848_DOUBLE(xname, xindex, left_reg, right_reg, shift_left, shift_right, mask, invert) \
+-{ iface: SNDRV_CTL_ELEM_IFACE_MIXER, name: xname, index: xindex, \
+-  info: snd_ad1848_info_double, \
+-  get: snd_ad1848_get_double, put: snd_ad1848_put_double, \
+-  private_value: left_reg | (right_reg << 8) | (shift_left << 16) | (shift_right << 19) | (mask << 24) | (invert << 22) }
++{ .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, .index = xindex, \
++  .info = snd_ad1848_info_double, \
++  .get = snd_ad1848_get_double, .put = snd_ad1848_put_double, \
++  .private_value = left_reg | (right_reg << 8) | (shift_left << 16) | (shift_right << 19) | (mask << 24) | (invert << 22) }
+ 
+ int snd_ad1848_info_double(snd_kcontrol_t *kcontrol, snd_ctl_elem_info_t * uinfo);
+ int snd_ad1848_get_double(snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
+--- trivial-2.5.34/include/sound/cs4231.h.orig	2002-09-10 19:10:41.000000000 +1000
++++ trivial-2.5.34/include/sound/cs4231.h	2002-09-10 19:10:41.000000000 +1000
+@@ -298,20 +298,20 @@
+  */
+ 
+ #define CS4231_SINGLE(xname, xindex, reg, shift, mask, invert) \
+-{ iface: SNDRV_CTL_ELEM_IFACE_MIXER, name: xname, index: xindex, \
+-  info: snd_cs4231_info_single, \
+-  get: snd_cs4231_get_single, put: snd_cs4231_put_single, \
+-  private_value: reg | (shift << 8) | (mask << 16) | (invert << 24) }
++{ .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, .index = xindex, \
++  .info = snd_cs4231_info_single, \
++  .get = snd_cs4231_get_single, .put = snd_cs4231_put_single, \
++  .private_value = reg | (shift << 8) | (mask << 16) | (invert << 24) }
+ 
+ int snd_cs4231_info_single(snd_kcontrol_t *kcontrol, snd_ctl_elem_info_t * uinfo);
+ int snd_cs4231_get_single(snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
+ int snd_cs4231_put_single(snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
+ 
+ #define CS4231_DOUBLE(xname, xindex, left_reg, right_reg, shift_left, shift_right, mask, invert) \
+-{ iface: SNDRV_CTL_ELEM_IFACE_MIXER, name: xname, index: xindex, \
+-  info: snd_cs4231_info_double, \
+-  get: snd_cs4231_get_double, put: snd_cs4231_put_double, \
+-  private_value: left_reg | (right_reg << 8) | (shift_left << 16) | (shift_right << 19) | (mask << 24) | (invert << 22) }
++{ .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, .index = xindex, \
++  .info = snd_cs4231_info_double, \
++  .get = snd_cs4231_get_double, .put = snd_cs4231_put_double, \
++  .private_value = left_reg | (right_reg << 8) | (shift_left << 16) | (shift_right << 19) | (mask << 24) | (invert << 22) }
+ 
+ int snd_cs4231_info_double(snd_kcontrol_t *kcontrol, snd_ctl_elem_info_t * uinfo);
+ int snd_cs4231_get_double(snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
+-- 
+  Don't blame me: the Monkey is driving
+  File: Art Haas <ahaas@neosoft.com>: [PATCH] designated initializer patches for include_sound
