@@ -1,29 +1,185 @@
-From: =?iso-8859-1?Q?J=E9r=F4me=20Aug=E9?= <jauge@club-internet.fr>
-Date: Sat, 30 Jun 2001 12:02:02 +0000
-Subject: Re: Strange issue with opl3sa2 driver under linux 2.4.4
-Message-Id: <marc-linux-sound-99390249908901@msgid-missing>
+From: Alexandra Walford <chroma@delusion.de>
+Date: Fri, 29 Jun 2001 13:16:13 +0000
+Subject: ES1371 sound blackouts
+Message-Id: <marc-linux-sound-99382032719702@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-99375164302844@msgid-missing>
-In-Reply-To: <marc-linux-sound-99375164302844@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-David Nedved wrote:
-> [...]
->=20
-> 2.) any ideas how to avoid the "opl3sa2: Control I/O port 0x370 is not fr=
-ee"
->     messages since they are apparently bogus?
->=20
+Hi there,
 
-Now I remenber ... try to use the isapnp=3D0 parameter to disable PnP
-detection and it should remove those messages when inserting the module.
+[Please CC replies to me as I'm not subscribed to the list]
 
---=20
-J=E9r=F4me Aug=E9
-echo cdqgm@vnqb-hklmpkml.yp | tr khplmndvqyc nirtelacufj
+I'm using an Ensoniq ES1371 chip, with an unpatched linux-2.4.5 kernel and 
+the es1371 driver.  When using XMMS (for example; the same thing occurs in 
+other applications), sound will run fine for anything between a couple of 
+seconds and many hours continuously, but then stops (sometimes locking up the 
+application that had been playing the sound).  Subsequently, no sound is 
+available from any application.  The only way to get sound back is by 
+rebooting the machine.
+
+Following is 'cat /proc/es1371' BEFORE using XMMS (while sound is still 
+working):
+
+                Creative ES137x Debug Dump-o-matic
+AC97 CODEC state
+reg:0x00  val:0x6940
+reg:0x02  val:0x0e0e
+reg:0x04  val:0x8000
+reg:0x06  val:0x000b
+reg:0x08  val:0x0000
+reg:0x0a  val:0x0014
+reg:0x0c  val:0x8000
+reg:0x0e  val:0x0000
+reg:0x10  val:0x8000
+reg:0x12  val:0x0606
+reg:0x14  val:0x8000
+reg:0x16  val:0x1414
+reg:0x18  val:0x1414
+reg:0x1a  val:0x0000
+reg:0x1c  val:0x0f0f
+reg:0x1e  val:0x0000
+reg:0x20  val:0x0000
+reg:0x22  val:0x0000
+reg:0x24  val:0x0000
+reg:0x26  val:0x000f
+reg:0x28  val:0x0200
+reg:0x2a  val:0x0080
+reg:0x2c  val:0x0000
+reg:0x2e  val:0x0000
+reg:0x30  val:0x0000
+reg:0x32  val:0x0000
+reg:0x34  val:0x0000
+reg:0x36  val:0x0000
+reg:0x38  val:0x0000
+reg:0x3a  val:0x0000
+reg:0x3c  val:0x0000
+reg:0x3e  val:0x0000
+reg:0x40  val:0x0000
+reg:0x42  val:0x0000
+reg:0x44  val:0x0000
+reg:0x46  val:0x0000
+reg:0x48  val:0x0000
+reg:0x4a  val:0x0000
+reg:0x4c  val:0x0000
+reg:0x4e  val:0x0000
+reg:0x50  val:0x0000
+reg:0x52  val:0x0000
+reg:0x54  val:0x0000
+reg:0x56  val:0x0000
+reg:0x58  val:0x0000
+reg:0x5a  val:0x0000
+reg:0x5c  val:0x0000
+reg:0x5e  val:0x0000
+reg:0x60  val:0x0000
+reg:0x62  val:0x0000
+reg:0x64  val:0x0000
+reg:0x66  val:0x0000
+reg:0x68  val:0x0000
+reg:0x6a  val:0x0000
+reg:0x6c  val:0x00c3
+reg:0x6e  val:0x0000
+reg:0x70  val:0x0000
+reg:0x72  val:0x0000
+reg:0x74  val:0x0380
+reg:0x76  val:0x0000
+reg:0x78  val:0x8380
+reg:0x7a  val:0x0000
+reg:0x7c  val:0x8384
+reg:0x7e  val:0x7609
+
+Following is 'cat /proc/es1371' AFTER sound has died (after playing approx. 
+3m30s of sound in XMMS):
+
+                Creative ES137x Debug Dump-o-matic
+AC97 CODEC state
+reg:0x00  val:0x6940
+reg:0x02  val:0x0e0e
+reg:0x04  val:0x8000
+reg:0x06  val:0x000b
+reg:0x08  val:0x0000
+reg:0x0a  val:0x0014
+reg:0x0c  val:0x8000
+reg:0x0e  val:0x0000
+reg:0x10  val:0x8000
+reg:0x12  val:0x0606
+reg:0x14  val:0x8000
+reg:0x16  val:0x1414
+reg:0x18  val:0x1d1d
+reg:0x1a  val:0x0000
+reg:0x1c  val:0x0f0f
+reg:0x1e  val:0x0000
+reg:0x20  val:0x0000
+reg:0x22  val:0x0000
+reg:0x24  val:0x0000
+reg:0x26  val:0x000f
+reg:0x28  val:0x0200
+reg:0x2a  val:0x0080
+reg:0x2c  val:0x0000
+reg:0x2e  val:0x0000
+reg:0x30  val:0x0000
+reg:0x32  val:0x0000
+reg:0x34  val:0x0000
+reg:0x36  val:0x0000
+reg:0x38  val:0x0000
+reg:0x3a  val:0x0000
+reg:0x3c  val:0x0000
+reg:0x3e  val:0x0000
+reg:0x40  val:0x0000
+reg:0x42  val:0x0000
+reg:0x44  val:0x0000
+reg:0x46  val:0x0000
+reg:0x48  val:0x0000
+reg:0x4a  val:0x0000
+reg:0x4c  val:0x0000
+reg:0x4e  val:0x0000
+reg:0x50  val:0x0000
+reg:0x52  val:0x0000
+reg:0x54  val:0x0000
+reg:0x56  val:0x0000
+reg:0x58  val:0x0000
+reg:0x5a  val:0x0000
+reg:0x5c  val:0x0000
+reg:0x5e  val:0x0000
+reg:0x60  val:0x0000
+reg:0x62  val:0x0000
+reg:0x64  val:0x0000
+reg:0x66  val:0x0000
+reg:0x68  val:0x0000
+reg:0x6a  val:0x0000
+reg:0x6c  val:0x00c3
+reg:0x6e  val:0x0000
+reg:0x70  val:0x0000
+reg:0x72  val:0x0000
+reg:0x74  val:0x0380
+reg:0x76  val:0x0000
+reg:0x78  val:0x8380
+reg:0x7a  val:0x0000
+reg:0x7c  val:0x8384
+reg:0x7e  val:0x7609
+
+Following is the relevant section of 'lspci -vvvvv':
+
+00:0c.0 Multimedia audio controller: Ensoniq ES1371 [AudioPCI-97] (rev 07)
+        Subsystem: Ensoniq Creative Sound Blaster AudioPCI64V, AudioPCI128
+        Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- 
+Stepping- SERR- FastB2B-
+        Status: Cap+ 66Mhz- UDF- FastB2B- ParErr- DEVSEL=slow >TAbort- 
+<TAbort- <MAbort+ >SERR- <PERR-
+        Latency: 64 (3000ns min, 32000ns max)
+        Interrupt: pin A routed to IRQ 11
+        Region 0: I/O ports at e000 [sized]
+        Capabilities: [dc] Power Management version 1
+                Flags: PMEClk- DSI+ D1- D2+ AuxCurrent=0mA 
+PME(D0-,D1-,D2-,D3hot-,D3cold-)
+                Status: D0 PME-Enable- DSel=0 DScale=0 PME-
+
+
+Are you able to tell me what might be going on here?  Thanks for your time.
+
+Alex
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
