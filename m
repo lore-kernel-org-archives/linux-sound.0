@@ -1,23 +1,18 @@
-From: Keith Duthie <psycho@albatross.co.nz>
-Date: Sun, 28 Mar 1999 14:45:13 +0000
-Subject: Re: Anyone got the SB Live working???
-Message-Id: <marc-linux-sound-92265646206671@msgid-missing>
+From: Jeffrey Voorhaar <psycho@xdnet.net>
+Date: Fri, 12 Mar 1999 14:35:04 +0000
+Subject: Soundblaster Live!
+Message-Id: <marc-linux-sound-92124977612119@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92265645206561@msgid-missing>
-In-Reply-To: <marc-linux-sound-92265645206561@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sun, 28 Mar 1999, Martin Adler wrote:
+Hey,
 
-> Ich have the pleasure of enjoying the sound quality of a Soundblaster Live!.
-> But that only under M$ Windows NT.
-Creative Labs have yet to release any info on the Soundblaster Live to
-developers. Apparently they are working on a linux driver themselves,
-though.
+Does anyone know when the Soundblaster Live! will be supported or if there's
+another way to get sound with it unsupported?
 
--- 
-.sig under deconstruction. Please watch out for falling stars.
-                         O-        +++ATM2
+Thanks in advance,
+
+Jeffrey
