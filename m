@@ -1,199 +1,412 @@
-From: Zwane Mwaikambo <zwane@linux.realnet.co.sz>
-Date: Fri, 07 Dec 2001 08:10:08 +0000
-Subject: [PATCH] PM support for opl3sa2.c #3
-Message-Id: <marc-linux-sound-100771245314080@msgid-missing>
+From: "Adam J. Richter" <adam@yggdrasil.com>
+Date: Sat, 05 Jan 2002 11:49:57 +0000
+Subject: Patch: linux-2.5.2-pre8/drivers/sound compilation fixes: MINOR-->minor
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="bg08WKrSYDhXBjb5"
+Message-Id: <marc-linux-sound-101023153926621@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This should be the last one, i made a mistake over the control
-register index on the previous ones ;)
 
-Will apply on 2.5.1-pre5+ and 2.4.17-pre3+ (mostly due to the ISAPNP
-changes)
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---- linux-2.5.1-pre1-preempt/drivers/sound/opl3sa2.c	Fri Dec  7 09:15:14 2001
-+++ linux-2.4.17-pre2-rml/drivers/sound/opl3sa2.c	Fri Dec  7 09:17:34 2001
-@@ -55,6 +55,7 @@
-  *                         sb_card.c and awe_wave.c. (Dec 12, 2000)
-  * Scott Murray            Some small cleanups to the init code output.
-  *                         (Jan 7, 2001)
-+ * Zwane Mwaikambo	   Added PM support. (Dec 4 2001)
-  *
-  */
+	Doing a global replace of "MINOR(" with "minor(" in all
+.c files in linux/drivers/sound allows all of the sound drivers
+to compile (at least as modules on x86).  This reflect the
+changes in kdev_t introduced in linux-2.5.2-pre6.  You can do this
+by applying the following patch *or* by the following shell command
+(which is how I did it in the first place):
 
-@@ -62,13 +63,14 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/isapnp.h>
--
-+#include <linux/pm.h>
- #include "sound_config.h"
+for file in $(find linux/drivers/sound -name '*.c' | xargs egrep -l 'MINOR\(' ) ; do
+ed $file << DONE ; done
+%s/MINOR(/minor(/g
+DONE
 
- #include "ad1848.h"
- #include "mpu401.h"
+	One note about this: this resulted in some drivers that
+made the following rather obscure looking declarations:
 
- /* Useful control port indexes: */
-+#define OPL3SA2_PM	     0x01
- #define OPL3SA2_SYS_CTRL     0x02
- #define OPL3SA2_IRQ_CONFIG   0x03
- #define OPL3SA2_DMA_CONFIG   0x06
-@@ -86,6 +88,11 @@
- #define DEFAULT_MIC    50
- #define DEFAULT_TIMBRE 0
+	{
+		int minor = minor(dev);
+		...
+	}
 
-+/* Power saving modes */
-+#define OPL3SA2_PM_MODE1	0x05
-+#define OPL3SA2_PM_MODE2	0x04
-+#define OPL3SA2_PM_MODE3	0x03
-+
- /* For checking against what the card returns: */
- #define VERSION_UNKNOWN 0
- #define VERSION_YMF711  1
-@@ -121,6 +128,10 @@
- typedef struct opl3sa2_mixerdata_tag {
- 	unsigned short cfg_port;
- 	unsigned short padding;
-+	unsigned char  reg;
-+	unsigned int   in_suspend;
-+	struct pm_dev  *pmdev;
-+	unsigned int   card;
- 	unsigned int   volume_l;
- 	unsigned int   volume_r;
- 	unsigned int   mic;
-@@ -328,6 +339,20 @@
- }
+	Apparently, the variable being declared is not in the scope
+of its initialization value.  So, the code works, but it's not as
+clear as could be.  I could rename the effected variables if need
+be, although I that is something that individual device driver
+maintainers could deal with at "leisure" just as well.
 
+	I have not tested these changes.  I only know that they
+make the sound drivers compile.
 
-+static void opl3sa2_mixer_restore(opl3sa2_mixerdata* devc, int card)
-+{
-+	if (devc) {
-+		opl3sa2_set_volume(devc, devc->volume_l, devc->volume_r);
-+		opl3sa2_set_mic(devc, devc->mic);
-+
-+		if (chipset[card] = CHIPSET_OPL3SA3) {
-+			opl3sa3_set_bass(devc, devc->bass_l, devc->bass_r);
-+			opl3sa3_set_treble(devc, devc->treble_l, devc->treble_r);
-+		}
-+	}
-+}
-+
-+
- static inline void arg_to_vol_mono(unsigned int vol, int* value)
+-- 
+Adam J. Richter     __     ______________   4880 Stevens Creek Blvd, Suite 104
+adam@yggdrasil.com     \ /                  San Jose, California 95129-1034
++1 408 261-6630         | g g d r a s i l   United States of America
+fax +1 408 261-6631      "Free Software For The Rest Of Us."
+
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="sound.diffs"
+
+diff -u -r linux-2.5.2-pre8/drivers/sound/btaudio.c linux/drivers/sound/btaudio.c
+--- linux-2.5.2-pre8/drivers/sound/btaudio.c	Wed Oct 17 14:19:20 2001
++++ linux/drivers/sound/btaudio.c	Sat Jan  5 03:29:11 2002
+@@ -300,7 +300,7 @@
+ 
+ static int btaudio_mixer_open(struct inode *inode, struct file *file)
  {
- 	int left;
-@@ -892,6 +917,77 @@
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct btaudio *bta;
+ 
+ 	for (bta = btaudios; bta != NULL; bta = bta->next)
+@@ -459,7 +459,7 @@
+ 
+ static int btaudio_dsp_open_digital(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct btaudio *bta;
+ 
+ 	for (bta = btaudios; bta != NULL; bta = bta->next)
+@@ -475,7 +475,7 @@
+ 
+ static int btaudio_dsp_open_analog(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct btaudio *bta;
+ 
+ 	for (bta = btaudios; bta != NULL; bta = bta->next)
+diff -u -r linux-2.5.2-pre8/drivers/sound/cmpci.c linux/drivers/sound/cmpci.c
+--- linux-2.5.2-pre8/drivers/sound/cmpci.c	Sun Nov 25 10:17:47 2001
++++ linux/drivers/sound/cmpci.c	Sat Jan  5 03:29:11 2002
+@@ -1440,7 +1440,7 @@
+ 
+ static int cm_open_mixdev(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct cm_state *s = devs;
+ 
+ 	while (s && s->dev_mixer != minor)
+@@ -2190,7 +2190,7 @@
+ 
+ static int cm_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct cm_state *s = devs;
+ 	unsigned char fmtm = ~0, fmts = 0;
+ 
+@@ -2445,7 +2445,7 @@
+ 
+ static int cm_midi_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct cm_state *s = devs;
+ 	unsigned long flags;
+ 
+@@ -2662,7 +2662,7 @@
+ 
+ static int cm_dmfm_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct cm_state *s = devs;
+ 
+ 	while (s && s->dev_dmfm != minor)
+diff -u -r linux-2.5.2-pre8/drivers/sound/dmasound/dmasound_core.c linux/drivers/sound/dmasound/dmasound_core.c
+--- linux-2.5.2-pre8/drivers/sound/dmasound/dmasound_core.c	Thu Oct 25 13:53:52 2001
++++ linux/drivers/sound/dmasound/dmasound_core.c	Sat Jan  5 03:29:11 2002
+@@ -845,11 +845,11 @@
+ 
+ 	if (dmasound.mach.sq_open)
+ 	    dmasound.mach.sq_open();
+-	dmasound.minDev = MINOR(inode->i_rdev) & 0x0f;
++	dmasound.minDev = minor(inode->i_rdev) & 0x0f;
+ 	dmasound.soft = dmasound.dsp;
+ 	dmasound.hard = dmasound.dsp;
+ 	sound_init();
+-	if ((MINOR(inode->i_rdev) & 0x0f) == SND_DEV_AUDIO) {
++	if ((minor(inode->i_rdev) & 0x0f) == SND_DEV_AUDIO) {
+ 		sound_set_speed(8000);
+ 		sound_set_stereo(0);
+ 		sound_set_format(AFMT_MU_LAW);
+Only in linux/drivers/sound/emu10k1: CVS
+diff -u -r linux-2.5.2-pre8/drivers/sound/emu10k1/audio.c linux/drivers/sound/emu10k1/audio.c
+--- linux-2.5.2-pre8/drivers/sound/emu10k1/audio.c	Tue Oct  9 10:53:17 2001
++++ linux/drivers/sound/emu10k1/audio.c	Sat Jan  5 03:29:11 2002
+@@ -1098,7 +1098,7 @@
+ 
+ static int emu10k1_audio_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct emu10k1_card *card = NULL;
+ 	struct list_head *entry;
+ 	struct emu10k1_wavedevice *wave_dev;
+diff -u -r linux-2.5.2-pre8/drivers/sound/emu10k1/midi.c linux/drivers/sound/emu10k1/midi.c
+--- linux-2.5.2-pre8/drivers/sound/emu10k1/midi.c	Tue Oct  9 10:53:18 2001
++++ linux/drivers/sound/emu10k1/midi.c	Sat Jan  5 03:29:11 2002
+@@ -87,7 +87,7 @@
+ 
+ static int emu10k1_midi_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct emu10k1_card *card = NULL;
+ 	struct emu10k1_mididevice *midi_dev;
+ 	struct list_head *entry;
+diff -u -r linux-2.5.2-pre8/drivers/sound/emu10k1/mixer.c linux/drivers/sound/emu10k1/mixer.c
+--- linux-2.5.2-pre8/drivers/sound/emu10k1/mixer.c	Tue Oct  9 10:53:18 2001
++++ linux/drivers/sound/emu10k1/mixer.c	Sat Jan  5 03:29:11 2002
+@@ -640,7 +640,7 @@
+ 
+ static int emu10k1_mixer_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct emu10k1_card *card = NULL;
+ 	struct list_head *entry;
+ 
+diff -u -r linux-2.5.2-pre8/drivers/sound/gus_midi.c linux/drivers/sound/gus_midi.c
+--- linux-2.5.2-pre8/drivers/sound/gus_midi.c	Tue Mar  6 19:28:32 2001
++++ linux/drivers/sound/gus_midi.c	Sat Jan  5 03:29:11 2002
+@@ -21,6 +21,8 @@
+ #include "gus.h"
+ #include "gus_hw.h"
+ 
++#include <linux/init.h>
++
+ static int      midi_busy = 0, input_opened = 0;
+ static int      my_dev;
+ static int      output_used = 0;
+diff -u -r linux-2.5.2-pre8/drivers/sound/ite8172.c linux/drivers/sound/ite8172.c
+--- linux-2.5.2-pre8/drivers/sound/ite8172.c	Thu Oct 25 13:53:52 2001
++++ linux/drivers/sound/ite8172.c	Sat Jan  5 03:29:11 2002
+@@ -832,7 +832,7 @@
+ 
+ static int it8172_open_mixdev(struct inode *inode, struct file *file)
+ {
+-    int minor = MINOR(inode->i_rdev);
++    int minor = minor(inode->i_rdev);
+     struct list_head *list;
+     struct it8172_state *s;
+ 
+@@ -1543,7 +1543,7 @@
+ 
+ static int it8172_open(struct inode *inode, struct file *file)
+ {
+-    int minor = MINOR(inode->i_rdev);
++    int minor = minor(inode->i_rdev);
+     DECLARE_WAITQUEUE(wait, current);
+     unsigned long flags;
+     struct list_head *list;
+Only in linux/drivers/sound/: lowlevel
+diff -u -r linux-2.5.2-pre8/drivers/sound/msnd_pinnacle.c linux/drivers/sound/msnd_pinnacle.c
+--- linux-2.5.2-pre8/drivers/sound/msnd_pinnacle.c	Sun Sep 30 12:26:08 2001
++++ linux/drivers/sound/msnd_pinnacle.c	Sat Jan  5 03:29:11 2002
+@@ -639,9 +639,9 @@
+ 	return -EINVAL;
+ }
+ 
+ static int dev_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsigned long arg)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 
+ 	if (cmd == OSS_GETVERSION) {
+ 		int sound_version = SOUND_VERSION;
+@@ -751,9 +751,9 @@
+ 	set_default_rec_audio_parameters();
+ }
+ 
+ static int dev_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	int err = 0;
+ 
+ 	if (minor == dev.dsp_minor) {
+@@ -786,9 +786,9 @@
+ 	return err;
+ }
+ 
+ static int dev_release(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	int err = 0;
+ 
+ 	lock_kernel();
+@@ -976,18 +976,18 @@
+ 	return len - count;
+ }
+ 
+ static ssize_t dev_read(struct file *file, char *buf, size_t count, loff_t *off)
+ {
+-	int minor = MINOR(file->f_dentry->d_inode->i_rdev);
++	int minor = minor(file->f_dentry->d_inode->i_rdev);
+ 	if (minor == dev.dsp_minor)
+ 		return dsp_read(buf, count);
+ 	else
+ 		return -EINVAL;
+ }
+ 
+ static ssize_t dev_write(struct file *file, const char *buf, size_t count, loff_t *off)
+ {
+-	int minor = MINOR(file->f_dentry->d_inode->i_rdev);
++	int minor = minor(file->f_dentry->d_inode->i_rdev);
+ 	if (minor == dev.dsp_minor)
+ 		return dsp_write(buf, count);
+ 	else
+diff -u -r linux-2.5.2-pre8/drivers/sound/nec_vrc5477.c linux/drivers/sound/nec_vrc5477.c
+--- linux-2.5.2-pre8/drivers/sound/nec_vrc5477.c	Thu Oct 25 13:53:52 2001
++++ linux/drivers/sound/nec_vrc5477.c	Sat Jan  5 03:29:11 2002
+@@ -813,7 +813,7 @@
+ 
+ static int vrc5477_ac97_open_mixdev(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct list_head *list;
+ 	struct vrc5477_ac97_state *s;
+ 
+@@ -1529,7 +1529,7 @@
+ 
+ static int vrc5477_ac97_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	DECLARE_WAITQUEUE(wait, current);
+ 	unsigned long flags;
+ 	struct list_head *list;
+--- linux-2.5.2-pre8/drivers/sound/rme96xx.c	Thu Oct 25 13:53:52 2001
++++ linux/drivers/sound/rme96xx.c	Sat Jan  5 03:29:11 2002
+@@ -1162,7 +1162,7 @@
+ 
+ static int rme96xx_open(struct inode *in, struct file *f)
+ {
+-	int minor = MINOR(in->i_rdev);
++	int minor = minor(in->i_rdev);
+ 	struct list_head *list;
+ 	int devnum = ((minor-3)/16) % devices; /* default = 0 */
+ 	rme96xx_info *s;
+@@ -1490,7 +1490,7 @@
+ 
+ static int rme96xx_mixer_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct list_head *list;
+ 	rme96xx_info *s;
+ 
+diff -u -r linux-2.5.2-pre8/drivers/sound/sonicvibes.c linux/drivers/sound/sonicvibes.c
+--- linux-2.5.2-pre8/drivers/sound/sonicvibes.c	Sun Sep 30 12:26:08 2001
++++ linux/drivers/sound/sonicvibes.c	Sat Jan  5 03:29:11 2002
+@@ -1235,7 +1235,7 @@
+ 
+ static int sv_open_mixdev(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct list_head *list;
+ 	struct sv_state *s;
+ 
+@@ -1893,7 +1893,7 @@
+ 
+ static int sv_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	DECLARE_WAITQUEUE(wait, current);
+ 	unsigned char fmtm = ~0, fmts = 0;
+ 	struct list_head *list;
+@@ -2142,7 +2142,7 @@
+ 
+ static int sv_midi_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	DECLARE_WAITQUEUE(wait, current);
+ 	unsigned long flags;
+ 	struct list_head *list;
+@@ -2364,7 +2364,7 @@
+ 
+ static int sv_dmfm_open(struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	DECLARE_WAITQUEUE(wait, current);
+ 	struct list_head *list;
+ 	struct sv_state *s;
+diff -u -r linux-2.5.2-pre8/drivers/sound/trident.c linux/drivers/sound/trident.c
+--- linux-2.5.2-pre8/drivers/sound/trident.c	Tue Nov 13 09:19:41 2001
++++ linux/drivers/sound/trident.c	Sat Jan  5 03:29:11 2002
+@@ -2555,7 +2555,7 @@
+ static int trident_open(struct inode *inode, struct file *file)
+ {
+ 	int i = 0;
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct trident_card *card = devs;
+ 	struct trident_state *state = NULL;
+ 	struct dmabuf *dmabuf = NULL;
+@@ -3750,7 +3750,7 @@
+ static int trident_open_mixdev(struct inode *inode, struct file *file)
+ {
+ 	int i = 0;
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct trident_card *card = devs;
+ 
+ 	for (card = devs; card != NULL; card = card->next)
+diff -u -r linux-2.5.2-pre8/drivers/sound/via82cxxx_audio.c linux/drivers/sound/via82cxxx_audio.c
+--- linux-2.5.2-pre8/drivers/sound/via82cxxx_audio.c	Mon Dec 10 10:39:20 2001
++++ linux/drivers/sound/via82cxxx_audio.c	Sat Jan  5 03:29:11 2002
+@@ -1358,7 +1358,7 @@
+ 
+ static int via_mixer_open (struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct via_info *card;
+ 	struct pci_dev *pdev;
+ 	struct pci_driver *drvr;
+@@ -2974,7 +2974,7 @@
+ 
+ static int via_dsp_open (struct inode *inode, struct file *file)
+ {
+-	int minor = MINOR(inode->i_rdev);
++	int minor = minor(inode->i_rdev);
+ 	struct via_info *card;
+ 	struct pci_dev *pdev;
+ 	struct via_channel *chan;
+diff -u -r linux-2.5.2-pre8/drivers/sound/vwsnd.c linux/drivers/sound/vwsnd.c
+--- linux-2.5.2-pre8/drivers/sound/vwsnd.c	Fri Nov  9 14:07:41 2001
++++ linux/drivers/sound/vwsnd.c	Sat Jan  5 03:29:11 2002
+@@ -2907,7 +2907,7 @@
+ static int vwsnd_audio_open(struct inode *inode, struct file *file)
+ {
+ 	vwsnd_dev_t *devc;
+-	dev_t minor = MINOR(inode->i_rdev);
++	dev_t minor = minor(inode->i_rdev);
+ 	int sw_samplefmt;
+ 
+ 	DBGE("(inode=0x%p, file=0x%p)\n", inode, file);
+@@ -3054,7 +3054,7 @@
+ 
+ 	INC_USE_COUNT;
+ 	for (devc = vwsnd_dev_list; devc; devc = devc->next_dev)
+-		if (devc->mixer_minor == MINOR(inode->i_rdev))
++		if (devc->mixer_minor == minor(inode->i_rdev))
+ 			break;
+ 
+ 	if (devc == NULL) {
 
- /* End of component functions */
-
-+/* Power Management support functions */
-+static int opl3sa2_suspend(struct pm_dev *pdev, unsigned char pm_mode)
-+{
-+	unsigned long flags;
-+	opl3sa2_mixerdata *p;
-+
-+	if (!pdev)
-+		return -EINVAL;
-+
-+	save_flags(flags);
-+	cli();
-+
-+	p = (opl3sa2_mixerdata *) pdev->data;
-+	p->in_suspend = 1;
-+	switch (pm_mode) {
-+	case 1:
-+		pm_mode = OPL3SA2_PM_MODE1;
-+		break;
-+	case 2:
-+		pm_mode = OPL3SA2_PM_MODE2;
-+		break;
-+	case 3:
-+		pm_mode = OPL3SA2_PM_MODE3;
-+		break;
-+	default:
-+		pm_mode = OPL3SA2_PM_MODE3;
-+		break;
-+	}
-+
-+	/* its supposed to automute before suspending, so we wont bother */
-+	opl3sa2_read(p->cfg_port, OPL3SA2_PM, &p->reg);
-+	opl3sa2_write(p->cfg_port, OPL3SA2_PM, p->reg | pm_mode);
-+
-+	restore_flags(flags);
-+	return 0;
-+}
-+
-+static int opl3sa2_resume(struct pm_dev *pdev)
-+{
-+	unsigned long flags;
-+	opl3sa2_mixerdata *p;
-+
-+	if (!pdev)
-+		return -EINVAL;
-+
-+	p = (opl3sa2_mixerdata *) pdev->data;
-+	save_flags(flags);
-+	cli();
-+
-+	/* I don't think this is necessary */
-+	opl3sa2_write(p->cfg_port, OPL3SA2_PM, p->reg);
-+	opl3sa2_mixer_restore(p, p->card);
-+	p->in_suspend = 0;
-+
-+	restore_flags(flags);
-+	return 0;
-+}
-+
-+static int opl3sa2_pm_callback(struct pm_dev *pdev, pm_request_t rqst, void *data)
-+{
-+	unsigned char mode = (unsigned  char)data;
-+
-+	switch (rqst) {
-+		case PM_SUSPEND:
-+			return opl3sa2_suspend(pdev, mode);
-+
-+		case PM_RESUME:
-+			return opl3sa2_resume(pdev);
-+	}
-+	return 0;
-+}
-
- /*
-  * Install OPL3-SA2 based card(s).
-@@ -980,7 +1076,7 @@
- 				       " of the ISA PNP cards, continuing\n");
- 				opl3sa2_cards_num--;
- 				continue;
--			} else
-+			} else
- 				return -ENODEV;
- 		}
-
-@@ -988,7 +1084,13 @@
- 		conf_printf(chipset_name[card], &cfg[card]);
- 		attach_opl3sa2_mss(&cfg_mss[card]);
- 		attach_opl3sa2_mixer(&cfg[card], card);
--
-+
-+		opl3sa2_data[card].card = card;
-+		/* register our power management capabilities */
-+		opl3sa2_data[card].pmdev = pm_register(PM_ISA_DEV, card, opl3sa2_pm_callback);
-+		if (opl3sa2_data[card].pmdev)
-+			opl3sa2_data[card].pmdev->data = &opl3sa2_data[card];
-+
- 		/*
- 		 * Set the Yamaha 3D enhancement mode (aka Ymersion) if asked to and
- 		 * it's supported.
-@@ -1033,6 +1135,9 @@
- 	int card;
-
- 	for(card = 0; card < opl3sa2_cards_num; card++) {
-+		if (opl3sa2_data[card].pmdev)
-+			pm_unregister(opl3sa2_data[card].pmdev);
-+
- 	        if(cfg_mpu[card].slots[1] != -1) {
- 			unload_opl3sa2_mpu(&cfg_mpu[card]);
- 		}
-
+--bg08WKrSYDhXBjb5--
