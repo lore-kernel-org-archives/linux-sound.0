@@ -1,22 +1,41 @@
-From: Alo Eenmae <alo@rrg.edu.ee>
-Date: Fri, 12 Mar 1999 12:39:55 +0000
-Subject: Re: ESS Maestro-1 PCI (ES1948F chip)
-Message-Id: <marc-linux-sound-92124270907150@msgid-missing>
+From: Bob Miller <kbob@jogger-egg.engr.sgi.com>
+Date: Tue, 16 Mar 1999 22:57:05 +0000
+Subject: Driver Writer's Questions
+Message-Id: <marc-linux-sound-92163226831993@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92122037726687@msgid-missing>
-In-Reply-To: <marc-linux-sound-92122037726687@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-> On Fri, 12 Mar 1999, Alo Eenmae wrote:
-> 
-> > I have kernel 2.2.2-ac7 but nothing:(( ac7 support Maestro-2 but Maesto-1
-> > not supported i think..
-> See if the OSS or ALSA drivers support it. If not, then you'll have to
-> wait, probably. Thems the breaks.
-> 
-> ps you do have experimental/incomplete enabled don't you?
+Hi.  I am trying to write a Linux sound driver.  I have some questions
+that I hope someone here can answer.
 
-Have..
+1. (the big question) This device requires a single DMA buffer of up
+   to 8 Kb in main memory.  It reads/writes the buffer circularly.  It
+   can't chain buffers.  Can I use the OSS DMA routines to set that
+   up somehow (how?), or do I have to write a non-OSS driver?
+   What does this imply for mmap?
+   
+2. This device is capable of telling how many samples it has
+   read/written, with an accuracy of 1 sample.  I'd like to export
+   that via the SNDCTL_DSP_GET{I,O}PTR, ioctls, but I can't see how
+   my driver can get control on those ioctls.
+
+3. This device has memory-mapped registers.  I want to write a probe
+   routine that can verify that the device is there at the address
+   it's supposed to be.  Is there a Linux routine to "read memory and
+   trap any fault"?
+
+4. The mixer doesn't have a capability that corresponds to
+   SOUND_MIXER_VOLUME.  If I don't implement SOUND_MIXER_VOLUME, will
+   I be incompatible with 99% of the apps?  If I have to, I can fake
+   it -- maintain a SW volume setting and merge it into the level
+   I send to all the other faders...
+
+That's enough questions for now.  Hopefully, these are easy for
+someone who's familiar with the Linux sound architecture.
+
+Thanks for any help.
+
+					K<bob>
