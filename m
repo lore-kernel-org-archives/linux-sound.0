@@ -1,31 +1,26 @@
-From: flatmax <flatmax@cse.unsw.EDU.AU>
-Date: Wed, 26 May 1999 22:12:33 +0000
+From: Deirdre Saoirse <deirdre@deirdre.net>
+Date: Thu, 27 May 1999 03:15:58 +0000
 Subject: Re: good (and free) mp3 encoders?
-Message-Id: <marc-linux-sound-92792586413391@msgid-missing>
+Message-Id: <marc-linux-sound-92799475904447@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92733463802226@msgid-missing>
 In-Reply-To: <marc-linux-sound-92733463802226@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-On Mon, 24 May 1999, Michael Stutz wrote:
-> On Mon, 24 May 1999, Dan Hollis wrote:
-> > There are countries where they (rightly) do not recognize patents
-> > on algorithms. One of the free mp3 encoders was written there, where
-> > Fraunhofer cannot touch them.
-> 
-> Which encoder is that?
+On Mon, 24 May 1999, Michael Hoefling wrote:
 
-As I understand it, if patents are not filed within the countries which
-code the mp3 codecs, then there are no patents to recognise !
-Often this would be countries which will result in sales which are to few
-to warrent the cost of the patenting process.
+> There IS an free mp3 player for linux!!!!
+> It=B4s called FREEAMP!!
+> I use it!!!
+> It=B4s on the SuSE 6.1 cds!!
 
-Matt
-__________
-reverse ...
-backwards needs forwards
-want backwards - first go forwards
-viva
+Well, the problem is that most of the mp3 players aren't distributed as
+source, thus if you have odd hardware (I have MOSTLY odd hardware) they
+won't run. I use mpg123 myself.
+
+_Deirdre   *   http://www.linuxcabal.org   *   http://www.deirdre.net
+"Perl is just not the answer to all problems. If all you have is a hammer,
+the whole world looks like your thumb." George Bonser on Python
