@@ -1,7 +1,7 @@
 From: "Randy.Dunlap" <rddunlap@osdl.org>
-Date: Sat, 05 Mar 2005 05:58:43 +0000
-Subject: [PATCH] oss/sscape: fix section references
-Message-Id: <20050304215843.3a111600.rddunlap@osdl.org>
+Date: Sat, 05 Mar 2005 05:53:06 +0000
+Subject: [PATCH] oss/cs4281: fix initdata section references
+Message-Id: <20050304215306.1f92e87b.rddunlap@osdl.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -10,27 +10,31 @@ To: linux-sound@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
 Cc: torvalds <torvalds@osdl.org>, akpm <akpm@osdl.org>
 
 
-oss/sscape: fix initdata reference used in exit:
+oss/cs4281: fix initdata section references:
 
-Error: ./sound/oss/sscape.o .exit.text refers to 000000000000007d R_X86_64_PC32     .init.data+0x0000000000000003
+Error: ./sound/oss/cs4281/cs4281.o .text refers to 0000000000006dae R_X86_64_32S      .init.data+0x0000000000000004
+Error: ./sound/oss/cs4281/cs4281.o .text refers to 0000000000006db6 R_X86_64_32S      .init.data
+Error: ./sound/oss/cs4281/cs4281m.o .text refers to 0000000000006dae R_X86_64_32S      .init.data+0x0000000000000004
+Error: ./sound/oss/cs4281/cs4281m.o .text refers to 0000000000006db6 R_X86_64_32S      .init.data
 
 Signed-off-by: Randy Dunlap <rddunlap@osdl.org>
 
-diffstat: sound/oss/sscape.c |    2 +-
+diffstat: sound/oss/cs4281/cs4281m.c |    2 +-
  1 files changed, 1 insertion(+), 1 deletion(-)
 
-diff -Naurp ./sound/oss/sscape.c~oss_sscape_sections ./sound/oss/sscape.c
---- ./sound/oss/sscape.c~oss_sscape_sections	2005-03-01 23:38:12.000000000 -0800
-+++ ./sound/oss/sscape.c	2005-03-04 21:32:05.000000000 -0800
-@@ -1393,7 +1393,7 @@ static struct address_info cfg;
- static struct address_info cfg_mpu;
+diff -Naurp ./sound/oss/cs4281/cs4281m.c~oss_cs4281_sections ./sound/oss/cs4281/cs4281m.c
+--- ./sound/oss/cs4281/cs4281m.c~oss_cs4281_sections	2005-03-01 23:38:33.000000000 -0800
++++ ./sound/oss/cs4281/cs4281m.c	2005-03-04 21:35:51.000000000 -0800
+@@ -4096,7 +4096,7 @@ static /*const */ struct file_operations
+ static struct initvol {
+ 	int mixch;
+ 	int vol;
+-} initvol[] __initdata = {
++} initvol[] __devinitdata = {
  
- static int __initdata spea = -1;
--static int __initdata mss = 0;
-+static int mss = 0;
- static int __initdata dma = -1;
- static int __initdata irq = -1;
- static int __initdata io = -1;
-
+ 	{
+ 	SOUND_MIXER_WRITE_VOLUME, 0x4040}, {
 
 ---
+---
+~Randy
