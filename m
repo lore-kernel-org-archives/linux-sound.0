@@ -1,23 +1,16 @@
-From: Jeffrey Voorhaar <psycho@xdnet.net>
-Date: Sat, 13 Mar 1999 17:56:34 +0000
-Subject: Re: Soundblaster Live!
-Message-Id: <marc-linux-sound-92134815309347@msgid-missing>
+From: "Ted G. Freitas" <ted@techienet.com>
+Date: Mon, 29 Mar 1999 06:29:15 +0000
+Subject: Re: Sound Blaster Live
+Message-Id: <marc-linux-sound-92268890429422@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92124977612119@msgid-missing>
-In-Reply-To: <marc-linux-sound-92124977612119@msgid-missing>
+References: <marc-linux-sound-91601800923989@msgid-missing>
+In-Reply-To: <marc-linux-sound-91601800923989@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Merci. Helped me a lot.
+I was wondering has anyone gotten a SoundBlaster Live! to work under
+Linux?
 
-You wrote the following bullshit to me on Sat, 13 Mar 1999:
-> Jeffrey Voorhaar wrote:
-> >=20
-> > Retry: Do you have any website or something with info on this issue? I =
-would
-> > like to know more, i've been without sound long enough now =3D)
->=20
-> http://www.progressive-comp.com/Lists/?l=3Dlinux-ggi&m=91750053603759&w=
-=3D2
+Ted Freitas
