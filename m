@@ -1,68 +1,55 @@
-From: James Moody <jemoody@home.com>
-Date: Thu, 22 Mar 2001 23:01:34 +0000
-Subject: es1371 initialization question
-Message-Id: <marc-linux-sound-98530293217833@msgid-missing>
+From: Tony Nugent <tony@growzone.com.au>
+Date: Fri, 09 Mar 2001 09:27:48 +0000
+Subject: Re: How to configure a SB PCI128?
+Message-Id: <marc-linux-sound-98413005828397@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi all,
+On Mon Feb 26 2001 at 12:38, ZYSERMAN Fabio wrote:
 
-I fear I'm missing something trivial. I'm using es1371 in 2.4.2-ac20 as
-a module. 
+> Hi, I apologize if the request has
+> already been answered, but I am new to this list!
+> 
+> I have a Sound Blaster PCI128,
+> could someone help me with the steps
+> necessary to get it to work?
+> 
+> Thank you all in advance!
 
-Short question: How can I get it to automatically obtain an IRQ for my
-soundcard upon initialization? It doesn't seem to do that automatically.
+Short answer:
 
-Long story:
+	modprobe es1371
 
-It's an Ensoniq 5880 AudioPCI. ASUS CUSL-2 motherboard. There is no option
-in the bios regarding a PNP-aware OS.
+If that doesn't work, and es1371.o does not exist in your
+/lib/modules/* tree for the kernel you are running, then you are
+either in trouble, or this sound driver has been compiled into the
+kernel itself (which is not recommended).
 
-I have the following PNP devices that work fine as modules:
--ATI Rage 128
--D-Link 538
+Long answer:
 
-By 'work fine' I mean that before loading their respective modules,
-lspci -vv shows, for each of them,
-	Interrupt: pin A routed to IRQ 0
+If you have a redhat box, simply run the sndconfig utility, which
+puts an alias into /etc/modules.conf (or /etc/conf.modules) that
+specifies an alias for the module.
 
-but during module load I see messages like
-PCI: Enabling device 02:09.0 (0004 -> 0007)
-PCI: Assigned IRQ 5 for device 02:09.0
-PCI: Setting latency timer of device 02:09.0 to 64
+On my redhat 7.0 box (with a 2.4.x kernel and the same sound card),
+I have:
 
-and the module loads great, and henceforth lspci -vv shows, e.g.,
-	Interrupt: pin A routed to IRQ 5.
+alias sound-slot-0	es1371
 
-Perfect.
+Other distributions might have different mechanisms for setting this
+up.  The alias name is also different ("alias sound es1371", IIRC)
+in earlier distributions (kernel version dependent).
 
-This does not work with the sound card. modprobe es1371 fails, saying it
-can't find the sound card. Trying to specify "irq=" doesn't help matters
-(invalid parm_irq). lspci -vv always reports IRQ 0, so it's obvious that
-the IRQ isn't being obtained.
-
-
-HOWEVER:
-
-I used to use ALSA, and everything worked fine with ALSA's snd-ens1371
-module. It prints the requisite
-
-PCI: Enabling device 02:0c.0 (0004 -> 0005)
-PCI: Assigned IRQ 10 for device 02:0c.0
-PCI: Setting latency timer of device 02:0c.0 to 64
-
-upon loading, and works fine. If, at this point, I unload the alsa modules
-and load the standard kernel es1371 module, EVERYTHING IS FINE because
-the alsa module already got me an IRQ.
-
-What am I missing? Why won't the es1371 module obtain an IRQ for me?
-
-Thanks a lot for any help,
-
-james
+Cheers
+Tony
+ -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
+  Tony Nugent <Tony@growzone.com.au>    Systems Administrator, RHCE
+  LinuxWorks - PO Box 5747 Gold Coast MC Queensland Australia  9726
+  Ph: (07) 5526 8020                           Mobile: 0408 066 336
+ -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
