@@ -1,19 +1,34 @@
-From: Prasanna Subash <Psubash@manh.com>
-Date: Wed, 01 Sep 1999 13:37:04 +0000
-Subject: PCI Soundcard - Can I get it to work ?
-Message-Id: <marc-linux-sound-93619297713685@msgid-missing>
+From: Kai Vehmanen <kaiv@wakkanet.fi>
+Date: Wed, 01 Sep 1999 12:00:33 +0000
+Subject: Re: [linux-audio-dev] Re: loopback in action!
+Message-Id: <marc-linux-sound-93618901309007@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have a HP Pavilion with some Rockwell ( Riptide ) PCI soundcard. The port
-is 220h irq is 5 and dma channel is 0. 
-I am running redhat 5.2 and sndconfig detects a pci soundcard in the first
-step and later says its not able to detect and pnp or pci soundcard.
-Selecting SoundBlaster in the menu pops up a message that sb.o resource is
-busy or something like that.
-Just how do I get it to work ?
+Hello,
 
-Prasanna Subash
+On Tue, 31 Aug 1999, Bill wrote:
+
+> 	I recently had a customer who has a hearing disability and uses
+> voice emulation and we were in need of driver that would eliminate
+> the POP that he was experiencing during .wav, .au, and .voc files,
+> not .midi though.
+[...]
+> 	He has an on-board Crystal Sound chip set. I can't recall the exact
+> chip but it was mentioned on the ALSA page, in the howto's. We ended
+> up using OSS. Any input on this would be appreciated for you seem to
+> be doing some good work from what I read. Thanks.
+
+If problems appeared when starting to play audio and not during 
+actual playback, if might be caused by ALSA buffering 
+parameters. Raising the minimum fragments value for ALSA playback
+should help in this case.
+
+-- 
+Kai Vehmanen ----------------------------- CS, University of Turku, Finland
+ : email                                 mailto:kaiv@wakkanet.fi
+ : audio processing for linux            http://www.wakkanet.fi/ecasound/
+ : my music (ambient-idm-rock-...mp3/ra) http://www.wakkanet.fi/sculpscape/
