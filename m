@@ -1,56 +1,59 @@
-From: Jim Jackson <jj@scs.leeds.ac.uk>
-Date: Wed, 16 Feb 2000 09:13:42 +0000
-Subject: Re: documentation on SNDCTL_DSP_SETFRAGMENT exist?
-Message-Id: <marc-linux-sound-95069272427405@msgid-missing>
+From: Jarek Luberek <jarek@swipnet.se>
+Date: Thu, 17 Feb 2000 20:14:49 +0000
+Subject: es1371 oops (i think)
+Message-Id: <marc-linux-sound-95082380432757@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95065201132560@msgid-missing>
-In-Reply-To: <marc-linux-sound-95065201132560@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="macroman"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-
-There's not much to cover. It is used to set the size of the buffer
-fragments and how many of them you want. The only complication is 
-is that the fragment size is specified as the power of 2 of the size of
-the fragment - e.g. for 1024byte frags the value 10 is used, 1024=2^10.
-The number of buffers is held in the top 16bits of an int and the 
-power of 2 of the buffer fragment in the bottom 16 bits.
-
-If /dev/dsp is open on fd, N is the number of fragments, and E is the
-power of 2 of the fragment size....
-
-   int fr=(N<<16)+E;
-   if (ioctl(fd, SNDCTL_DSP_SETFRAGMENT , &fr) < 0) {
-      Error_Stuff;
-   }
-
-
-Choosing a fragment size depends on the application. If you have somesort
-of "interactive" app generating audio samples then you probably want
-smallish fragments holding somewhere between 10 or 100 millisecs of
-samples (depending on what you concept of interactive is :-) and as few as
-possible so you don't have too much buffered ahead, yet have enough
-samples buffered so you don't get breakup due to running out of samples.
-If there is no "interactive" element, often a few large fragments will
-suffice.
-
-
-
-On Tue, 15 Feb 2000, Eric Mitchell wrote:
-
-> 
-> http://www.4front-tech.com/pguide/audio2.html
-> 
-> see the section, "Selecting buffering parameters"
-> 
-> Britton Leo Kerin wrote:
-> > 
-> > Does anyone know of any documentation of any kind (book, howto,
-> > anything) out there which covers this feature?
-> > 
-> > Thanks,
-> > Britton Kerin
-> 
-> 
+SGksCgpJIGhvcGUgdGhpcyBoZWxwcy4gIApTeXN0ZW0gaXMgYSBkdWFsIFBJSUkgNDUwIChTTVAp
+LiAKQ29tcGlsZXI6IGVnY3MtMi45MS42NiAKR2xpYmM6IDIuMS4xIChyZWRoYXQgNi4xKS4KS2Vy
+bmVsOiAyLjMuNDYKClJ1bm5pbmcga21peCBvciBnbWl4IGNhdXNlcyBhIHNpZzExIGluCmlvY3Rs
+LgoKaW9jdGwoNCwgMHg4MDA0NGQ3NiwgMHhiZmZmZjk4MCkgICAgICAgID0gMAppb2N0bCg0LCAw
+eDgwNWM0ZDY1LCAweDgwOGNiYzQpICAgICAgICAgPSAwCmlvY3RsKDQsIFNPVU5EX01JWEVSX1JF
+QURfREVWTUFTSywgMHg4MDhjYzI0KSA9IDAKaW9jdGwoNCwgU09VTkRfTUlYRVJfUkVBRF9SRUNN
+QVNLLCAweDgwOGNjMjgpID0gMAppb2N0bCg0LCBTT1VORF9NSVhFUl9SRUFEX1JFQ1NSQywgMHg4
+MDhjYzIwKSA9IDAKaW9jdGwoNCwgU09VTkRfTUlYRVJfUkVBRF9TVEVSRU9ERVZTLCAweDgwOGNj
+MmMpID0gMAppb2N0bCg0LCBTT1VORF9NSVhFUl9SRUFEX0NBUFMsIDB4ODA4Y2MzMCkgPSAwCmlv
+Y3RsKDQsIFNPVU5EX01JWEVSX1JFQURfVk9MVU1FLCAweGJmZmZmOTdjKSA9IDAKaW9jdGwoNCwg
+U09VTkRfTUlYRVJfUkVBRF9TWU5USCA8dW5maW5pc2hlZCAuLi4+CisrKyBraWxsZWQgYnkgU0lH
+U0VHViArKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCgpJIHRyaWVkIHRvIGNv
+bGxlY3Qgc29tZXRoaW5nIHVzaW5nIGtzeW9vcHMuIFRoaXMgaXMgdGhlIGZpcnN0IHRpbWUKdGhv
+dWdoIHNvIEkgbWFrZSBoYXZlIG1lc3NlZCBpdCB1cC4gSWYgdGhpcyBpcyB3cm9uZyBJJ2xsIHRy
+eQphZ2FpbiA6KQoKLS0tLS0tLS0tLS0tLSBrc3ltb29wcyBvdXRwdXQgLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQoKT3B0aW9ucyB1c2VkOiAtViAtTyAtayAvcHJvYy9rc3ltcyAtbCAvcHJvYy9tb2R1
+bGVzIC1NCgpDUFU6ICAgIDEKRUlQOiAgICAwMDEwOls8Yzg4MjYwYzQ+XQpFRkxBR1M6IDAwMDEw
+MjkyCmVheDogMDAwMDE5MDAgICBlYng6IDAwMDAxOTAwICAgZWN4OiAwMDAwMDA2OSAgIGVkeDog
+MDAwMDAwMDAKZXNpOiAwMDAwMDAwMCAgIGVkaTogMDAwMDAwMDMgICBlYnA6IDAwMDAwMDQwICAg
+ZXNwOiBjMDM5MWVhOApkczogMDAxOCAgIGVzOiAwMDE4ICAgc3M6IDAwMTgKUHJvY2VzcyBnbWl4
+IChwaWQ6IDE0MTgsIHN0YWNrcGFnZcAzOTEwMDApClN0YWNrOiAwMDAwMDAwMyAwMDAwMDAwMyBm
+ZmZmZmZlNyBiZmZmZjk3YyAwMDAwMDAzZiBjODgyNjY0YSBjMTM1ZTAzMAowMDAwMDAwMwogICAg
+ICAgYzNmMzE0ZTAgYmZmZmY5N2MgZmZmZmZmZTcgYzAzOTAwMDAgYzdjYWMwMDAgYzRhYjRiNjAg
+Yzg4MjYwNTAKMDAwMDAwMDIKICAgICAgIDAwMDAwMDIwIDAwMDAwMDAxIDAwMDAwMDAxIDAwMDAw
+MDAyIDAwMDAwMDAxIGM3Y2FjMGEwIGM3Y2FjMGEwCjAwMDAwMjgyCkNhbGwgVHJhY2U6IFs8Yzg4
+MjY2NGE+XSBbPGM4ODI2MDUwPl0gWzxjMDExN2M5Yj5dIFs8YzAxMTlkYjU+XQpbPGMwMjBlMmUx
+Pl0gWzxjCjAxM2Q2ZWE+XSBbPGM4ODJkOTUyPl0KICAgICAgIFs8YzAxNGRmNDc+XSBbPGMwMTBj
+MTQzPl0KQ29kZTogZjcgZmUgODkgNzQgMjQgMTAgODkgYzMgYmUgNjQgMDAgMDAgMDAgODkgZjUg
+MjkgZGQgNmIgYzkgNjQKCj4+RUlQOiBjODgyNjBjNCA8RU5EX09GX0NPREUrODUyMDNjNC8/Pz8/
+PgpUcmFjZTogYzg4MjY2NGEgPEVORF9PRl9DT0RFKzg1MjA5NGEvPz8/Pz4KVHJhY2U6IGM4ODI2
+MDUwIDxFTkRfT0ZfQ09ERSs4NTIwMzUwLz8/Pz8+ClRyYWNlOiBjMDExN2M5YiA8bm90aWZ5X3Bh
+cmVudF9Sc21wXzY2ZTRkOGNjK2MzLzEyNWM+ClRyYWNlOiBjMDExOWRiNSA8c2NoZWR1bGVfUnNt
+cF80MjkyMzY0Yys0YzUvYjU0PgpUcmFjZTogYzAyMGUyZTEgPHNwcmludGZfUnNtcF8zYzJjNWFm
+NSsxNmQ4ZC80ZDVjYz4KVHJhY2U6IGMwMTNkNmVhIDx1bnJlZ2lzdGVyX2NocmRldl9Sc21wX2Mx
+OTJkNDkxK2FhL2I4PgpUcmFjZTogYzg4MmQ5NTIgPEVORF9PRl9DT0RFKzg1MjdjNTIvPz8/Pz4K
+VHJhY2U6IGMwMTRkZjQ3IDxraWxsX2Zhc3luY19Sc21wXzllMTA0NzA1KzNkYi9kOGM+ClRyYWNl
+OiBjMDEwYzE0MyA8X19yZWFkX2xvY2tfZmFpbGVkKzE0Y2YvMmUwND4KQ29kZTogIGM4ODI2MGM0
+IDxFTkRfT0ZfQ09ERSs4NTIwM2M0Lz8/Pz8+ICAgICAwMDAwMDAwMCA8X0VJUD46CkNvZGU6ICBj
+ODgyNjBjNCA8RU5EX09GX0NPREUrODUyMDNjNC8/Pz8/PiAgICAgICAgMDogICAgZjcgZmUKaWRp
+dmwgICVlc2ksJWVheApDb2RlOiAgYzg4MjYwYzYgPEVORF9PRl9DT0RFKzg1MjAzYzYvPz8/Pz4g
+ICAgICAgIDI6ICAgIDg5IDc0IDI0IDEwCm1vdmwgICAlZXNpLDB4MTAoJWVzcCwxKQpDb2RlOiAg
+Yzg4MjYwY2EgPEVORF9PRl9DT0RFKzg1MjAzY2EvPz8/Pz4gICAgICAgIDY6ICAgIDg5IGMzCm1v
+dmwgICAlZWF4LCVlYngKQ29kZTogIGM4ODI2MGNjIDxFTkRfT0ZfQ09ERSs4NTIwM2NjLz8/Pz8+
+ICAgICAgICA4OiAgICBiZSA2NCAwMCAwMCAwMAptb3ZsICAgJDB4NjQsJWVzaQpDb2RlOiAgYzg4
+MjYwZDEgPEVORF9PRl9DT0RFKzg1MjAzZDEvPz8/Pz4gICAgICAgIGQ6ICAgIDg5IGY1Cm1vdmwg
+ICAlZXNpLCVlYnAKQ29kZTogIGM4ODI2MGQzIDxFTkRfT0ZfQ09ERSs4NTIwM2QzLz8/Pz8+ICAg
+ICAgICBmOiAgICAyOSBkZApzdWJsICAgJWVieCwlZWJwCkNvZGU6ICBjODgyNjBkNSA8RU5EX09G
+X0NPREUrODUyMDNkNS8/Pz8/PiAgICAgICAxMTogICAgNmIgYzkgNjQKaW11bGwgICQweDY0LCVl
+Y3gsJWVjeAo=
