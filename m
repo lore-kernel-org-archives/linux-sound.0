@@ -1,31 +1,31 @@
-From: Karim Yaghmour <karym@info.polymtl.ca>
-Date: Tue, 18 May 1999 16:11:24 +0000
-Subject: Re: SB PRo compatible with no valid driver
-Message-Id: <marc-linux-sound-92714134930063@msgid-missing>
+From: David Jander <djander@alumnos.utfsm.cl>
+Date: Mon, 17 May 1999 18:45:13 +0000
+Subject: Specs for Aureal Vortex AU8820 (TB-Montego) ...
+Message-Id: <marc-linux-sound-92701968704084@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92672963004016@msgid-missing>
-In-Reply-To: <marc-linux-sound-92672963004016@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-LuftHans wrote:
-> Karim,
-> 
-> this is the error I kept getting due to bios not making the irq available. Try
-> loading the module with an irq above those being used. I moved mine to 9 and
-> haven't had that problem since then.
-> 
 
-I did try this, among many other things, but it seems that the BIOS simply
-doesn't give anything for the sound card. Supposedly it's a Plug-and-Play
-so I tried "pnpdump" but that doesn't find anything at all. What bewilders
-me is the fact that windows has no problem with the card!
+Hi all,
 
-=======================
-              Karim Yaghmour
-          karym@info.polymtl.ca
-            Computer Engineer
-      Ecole Polytechnique de Montreal
-=======================
+I have a Turtle-Beach Montego sound card, and as I know there is only one
+driver available for it by now: OSS-v3.9.1 which has several problems:
+- DSP sounds ugly (Guess this is while the driver is in early Beta-stages)
+- Not many functions supported (yet ?).
+- It's a commercial driver (I like to look at the source-code, and I don't want
+to pay for a badly written driver :-)
+- OSS does not fully support my second Sound Card : a Crystal CS4237, so I need
+to be able to run OSS and ALSA together (not a good idea if at all possible)
+
+Does anyone know if the specs for this sound card (Chip) are publicly
+available, or if there is any other driver available (or in the works) ?
+
+Thanks in advance for any information ....
+
+-----------------------------------
+David Jander J.                   |
+Electronics Student, UTFSM, Chile | 
+E-Mail : djander@alumnos.utfsm.cl |           
