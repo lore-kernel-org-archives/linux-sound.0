@@ -1,7 +1,7 @@
 From: Ingo Molnar <mingo@chiara.csoma.elte.hu>
-Date: Mon, 30 Aug 1999 06:55:45 +0000
+Date: Mon, 30 Aug 1999 07:30:04 +0000
 Subject: Re: [rtl] Low-latency patches working GREAT (<2.9ms audio latency), see testresults ,but ISDN troubl
-Message-Id: <marc-linux-sound-93599658113382@msgid-missing>
+Message-Id: <marc-linux-sound-93599790014265@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93588421815439@msgid-missing>
 In-Reply-To: <marc-linux-sound-93588421815439@msgid-missing>
@@ -11,32 +11,34 @@ Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
-On Sun, 29 Aug 1999 yodaiken@chelm.cs.nmt.edu wrote:
+On Mon, 30 Aug 1999 yodaiken@chelm.cs.nmt.edu wrote:
 
-> > there are _no_ extra calls to schedule, only if necessery. Zero, nil,
-> 
-> Tell me what I misunderstood. As far as I can tell, pre patch behavior
-> involves many fewer calls to schedule, post patch behavior for a write, for
-> example, can make at least one extra call to the scheduler for every block
-> copied. [...]
+> I don't see how your code avoids reschedules from non SCHED_FIFO/RR
+> processes. [...]
 
-the thing is, we are simply getting what we asked for. In that benchmark
-we have a soundcard-using RT program that gets ~1000 reschedules a second
-and 'wastes' CPU cycles (artificially) after every reschedule. The first
-benchmark config used an unmodified kernel that has simply violated the
-(very tight, 1msec) RT constraints of the RT process. Then we had a kernel
-modified by lowlatency-N6+patches, which kernel correctly satisfied the RT
-process' requests and rescheduled to it (and away from it) about every
-msec or so. No wonder IMO that disk performance might suffer if such tight
-RT constraints are satisfied accurately. Do you see my point? Disk
-performance does not suffer if 'simple' CPU-using processes are running. 
+i dont really understand your point. _if_ current->need_resched is set we
+should reschedule ASAP - thats all. Thats a generic kernel rule - it's up
+to the scheduling code to balance timeslices and priorities properly. The
+patch is only enforcing this rule more accurately than old kernels. But if
+you think this is something new then you are wrong.
 
->                                                     [...] New
-> behavior: a screen saver, which is small i/o bound, causes needs resched
-> to be set continually, and the write is segmented into many smaller writes.
+>              [...] But first explain why a screen saver will not trigger
+> the same behavior. The screen saver will do fast writes to the screen,
+> and these will trigger io for X and for the saver itself. Both operations
+> will set needs_resched. So we expect io performance to get worse 
+> in this case. Right?
 
-do you see where you missed the point? We are talking about _RT, CPU-using
-high-frequency rescheduling_ processes that cause a measured bandwith
-difference. Not screen savers. Not 'simple' CPU hogs. RT processes.
+wrong. The behavior of X & screensaver does not change the slightest from
+current kernels. The patch adds no additional behavior! We check for
+need_resched at _every_ system-call return (or IRQ return to user-space,
+or signal delivery) anyway. The patch only shortens certain longer
+'scheduling atoms' by either splitting them up into smaller pieces or by
+redesigning them. But this does not cause any macro-effect - apart from
+situations of course which are now behaving correctly.
+
+[btw. 99% of the time the X client gets rescheduled is not due to
+need_resched but due to the unix-domain socket buffer running out of write
+space. And this is true globally, need_resched itself is resposible for a
+small fraction of reschedules only.]
 
 -- mingo
