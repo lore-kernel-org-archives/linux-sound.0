@@ -1,62 +1,51 @@
-From: Robert Jonsson <ddskrjo@dataductus.se>
-Date: Tue, 30 May 2000 06:34:49 +0000
-Subject: Re: MIDI for Linux
-Message-Id: <marc-linux-sound-95966907712508@msgid-missing>
+From: Craig Wright <spiral@cs.unm.edu>
+Date: Tue, 02 May 2000 23:33:12 +0000
+Subject: Sound devices in /dev/
+Message-Id: <marc-linux-sound-95731069101401@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95964463730951@msgid-missing>
-In-Reply-To: <marc-linux-sound-95964463730951@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
-
-I'd definately look at http://www.bright.net/~dlphilp/linuxsound/ best site to
-get up to par with what applications are available. As far as needs are
-concerned this isn't an easy question to answer, I won't even try.... Lets just
-say, there isn't as many apps as under Windows, more apps are always better.
-Most of the apps available under linux still have some way to go before they can
-be considered stable, this may be the biggest need. This isn't very surprising
-since the whole Linux-audio scene is relatively new.
-
-Linux ships with sounddrivers for most "normal" soundcards, developed by
-www.opensound.com. For a bit more PRO oriented drivers have a look at
-www.alsa-project.org. They have support for lots of pro hardware, though they
-are currently a bit away from a 1.0 release, which means there are things still
-changing in their api's.
-
-As far as midi interfaces, I'm sorry to say I really don't have a good idea, I
-use the soundcards built in, but since I'm not a professional that is good
-enough for me...
-
-Just my 2 cents
-
-/Robert
-
-If you are serious remember to subscribe to linux-audio-dev.
-http://www.bright.net/~dlphilp/lad.html
 
 
+Hi, 
 
-Spectral Composer wrote:
+I just got a soundblaster 16 pci and after some trouble got it working a 
+little bit.  I can play CD's with workman and the sound comes out of the
+card.  That's good :), but I'm missing /dev/audio and /dev/sndstat and any
+other sound device that I may need.  (I don't know what the others may
+be, /dev/dsp?)  Anyway I've run /dev/MAKEDEV and nothing new is created.
+I'm at a hurdle I can't jump by myself.  Can anyone help me?  I've tried
+using mknod myself, but don't know why they mean by minor and major device
+numbers mean.  
 
-> Second question today!  ;-)
->
-> My boss was talking to me about wanting to develop MIDI applications for
-> Linux.  My question is, what interface would you recommend popping into my
-> puter for use with Linux, what apps currently exist for linux (wave
-> editing, sequencing, etc) and most importantly, what needs exist for the
-> platform.  I COULD do extensive web research on this to answer these
-> questions, but I'm really excited to get started on this project.
->
-> The whole thing will be made available under copyleft, as this is
-> basically a selfish project of ours in that we just want to set up our
-> keyboards as cheaply as possible, and thus, profit is not our motivation
-> here.  I'll definitely keep the list apprised as we start to get things
-> up.
->
-> -Ron
->
-> "We've secretly replaced the Garcia-Vidal's cat with a crazed wolverine.
-> Let's see if they'll notice"
+Here is the output from the kernel on bootup:
+
+es1371: version v0.19 time 00:44:39 May  1 2000
+es1371: found adapter at io 0xe000 irq 5
+es1371: features: joystick 0x200
+es1371: codec vendor CRY revision 19
+es1371: codec features Headphone out 20bit DAC 18bit ADC
+es1371: stereo enhancement: Crystal Semiconductor 3D Stereo Enhancement
+
+and here is the output from lspci.  
+
+
+00:00.0 Host bridge: Acer Laboratories Inc. [ALi] M1541 (rev 04)
+00:01.0 PCI bridge: Acer Laboratories Inc. [ALi] M5243 (rev 04)
+00:02.0 USB Controller: Acer Laboratories Inc. [ALi] M5237 USB (rev 03)
+00:07.0 ISA bridge: Acer Laboratories Inc. [ALi] M1533 PCI to ISA Bridge [Aladdin IV] (rev c3)
+00:08.0 Multimedia audio controller: Ensoniq ES1371 [AudioPCI-97] (rev 08)
+00:0a.0 VGA compatible controller: S3 Inc. 86c325 [ViRGE] (rev 06)
+00:0f.0 IDE interface: Acer Laboratories Inc. [ALi] M5229 IDE (rev c1)
+
+
+I think this is all relevant, but I don't know for sure.  Can anyone help?
+
+Thanks in advance, 
+
+-- 
+Craig             
+<spiral@cs.unm.edu>
