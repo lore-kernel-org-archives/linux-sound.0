@@ -1,39 +1,24 @@
-From: est@hyperreal.org
-Date: Wed, 27 Oct 1999 21:15:21 +0000
-Subject: Re: mmap()/mlockall()/read()
-Message-Id: <marc-linux-sound-94105904620235@msgid-missing>
+From: Benno Senoner <sbenno@gardena.net>
+Date: Fri, 22 Oct 1999 13:48:20 +0000
+Subject: SB PCI128 mixer problems ( can't deactivate input passthru)
+Message-Id: <marc-linux-sound-94060417102142@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94095888330340@msgid-missing>
-In-Reply-To: <marc-linux-sound-94095888330340@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Benno Senoner discourseth:
-> 
-> I think the best fallback solution is the following (but not 100% reliable
-> in the case of syscalls):
-> mlock(MCL_CURRENT);
-> mlock() malloec()ed aread
+Hi,
+I'm running the a Redhat 6.1 box with Soundblaster PCI128,
 
-Hmm, I remain sceptical that I'll see large apps using this.  Using
-other-people's-libraries is common after all.  It would mean a lot of
-work that doesn't seem worth the benefit to me.  However, it would be
-pleasant if people proved me wrong. :)
+PCM input/output works well,
+except that I am unable to deactivate microphone input passthru on the output,
+ that means when record from the MIC I can always hear the dry signal on the
+output which is very disturbing , especially when doing realtime processing.
 
-> but strange,
-> MAP_UNLOCKED seems to not exist on my 2.2.12 kernel !!
+I tried with both xmixer and kmix, no luck !
 
-It doesn't exist..I made it up! :)
+any advice ?
 
-I think it would be A Good Idea, and it looks easy to add.
-
-> > Eric is hard to satisfy. :)
-> 
-> You are not the only !
-> :-)
-
-Thence comes progress.
-
-Eric
+regards,
+Benno.
