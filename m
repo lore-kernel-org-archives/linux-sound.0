@@ -1,37 +1,206 @@
-From: "Kris.Vissenberg" <vissenbe@uia.ua.ac.be>
-Date: Tue, 15 Feb 2000 08:38:51 +0000
-Subject: ESS Maestro 2E
-Message-Id: <marc-linux-sound-95060417827374@msgid-missing>
+From: John Summerfield <summer@OS2.ami.com.au>
+Date: Fri, 18 Feb 2000 12:32:19 +0000
+Subject: Error building 2.3.45 sound
+Message-Id: <marc-linux-sound-95089288015184@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Dear all,
+Building kernel 2.3.45 with the following configuration fails:
 
-I have a Dell Latitude CPt V466GT and I'm trying to install the soundcard.
-I found from OSS that they don't support this card. I installed the driver
-from DELLs homepage but still I'm unable to hear some music. Can anybody
-help? Currently I'm using SuSe linux 6.1, and I'm very new to linux.
+make -C sound modules
+make[2]: Entering directory `/usr/src/linux-2.3/drivers/sound'
+gcc -D__KERNEL__ -I/usr/src/linux/include -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -fno-strict-aliasing -pipe   -DCPUh6 -march=i686 -DMODULE   -DEXPORT_SYMTAB -c ac97_codec.c
+ac97_codec.c: In function `ac97_mixer_ioctl':
+ac97_codec.c:383: `card' undeclared (first use in this function)
+ac97_codec.c:383: (Each undeclared identifier is reported only once
+ac97_codec.c:383: for each function it appears in.)
+ac97_codec.c: In function `ac97_probe_codec':
+ac97_codec.c:499: warning: implicit declaration of function `arraysize'
+ac97_codec.c: At top level:
+ac97_codec.c:547: warning: `sigmatel_init' defined but not used
+make[2]: *** [ac97_codec.o] Error 1
+make[2]: Leaving directory `/usr/src/linux-2.3/drivers/sound'
+make[1]: *** [_modsubdir_sound] Error 2
+make[1]: Leaving directory `/usr/src/linux-2.3/drivers'
+make: *** [_mod_drivers] Error 2
+[summer@possum linux]$ 
 
 
-Best wishes,
+I turned off CONFIG_SOUND_ES1371 and was able to build me a kernel. _ don't
+need the CONFIG_SOUND_ES1371 just now; CU.
 
 
-Kris
 
----------------------------------------------------------------------------
-Kris Vissenberg                       _/      _/    _/     _/_/_/_/
-PhD-Student                          _/      _/          _/      _/
-Dept.Biology (C 0.24)               _/      _/    _/    _/      _/
-Plant Physiology / Morphology      _/      _/    _/    _/      _/
-University of Antwerp (UIA)       _/      _/    _/    _/_/_/_/_/
-Universiteitsplein 1             _/      _/    _/    _/      _/
-B - 2610 Wilrijk (Antwerpen)    _/      _/    _/    _/      _/
-Belgium                          _/_/_/_/    _/    _/      _/
 
-Phone :+32-3-820.22.58
-Fax n=B0:+32-3-820.22.71
-E-mail:vissenbe@uia.ua.ac.be
----------------------------------------------------------------------------
+CONFIG_X86=y
+CONFIG_ISA=y
+CONFIG_UID16=y
+CONFIG_EXPERIMENTAL=y
+CONFIG_M686=y
+CONFIG_X86_WP_WORKS_OK=y
+CONFIG_X86_INVLPG=y
+CONFIG_X86_BSWAP=y
+CONFIG_X86_POPAD_OK=y
+CONFIG_X86_TSC=y
+CONFIG_X86_GOOD_APIC=y
+CONFIG_X86_PGE=y
+CONFIG_NOHIGHMEM=y
+CONFIG_MTRR=y
+CONFIG_MODULES=y
+CONFIG_KMOD=y
+CONFIG_NET=y
+CONFIG_PCI=y
+CONFIG_PCI_GOANY=y
+CONFIG_PCI_BIOS=y
+CONFIG_PCI_DIRECT=y
+CONFIG_PCI_NAMES=y
+CONFIG_HOTPLUG=y
+CONFIG_SYSVIPC=y
+CONFIG_BSD_PROCESS_ACCT=y
+CONFIG_SYSCTL=y
+CONFIG_KCORE_ELF=y
+CONFIG_BINFMT_ELF=y
+CONFIG_BINFMT_MISC=m
+CONFIG_PARPORT=y
+CONFIG_PARPORT_PC=y
+CONFIG_PARPORT_PC_FIFO=y
+CONFIG_PARPORT_1284=y
+CONFIG_ACPI=y
+CONFIG_ACPI_S1_SLEEP=y
+CONFIG_PNP=y
+CONFIG_ISAPNP=y
+CONFIG_BLK_DEV_FD=y
+CONFIG_BLK_DEV_IDE=y
+CONFIG_BLK_DEV_IDEDISK=y
+CONFIG_IDEDISK_MULTI_MODE=y
+CONFIG_BLK_DEV_IDECD=y
+CONFIG_BLK_DEV_IDEPCI=y
+CONFIG_BLK_DEV_IDEDMA_PCI=y
+CONFIG_IDEDMA_PCI_AUTO=y
+CONFIG_IDEDMA_PCI_EXPERIMENTAL=y
+CONFIG_BLK_DEV_PIIX=y
+CONFIG_BLK_DEV_PIIX_TUNING=y
+CONFIG_BLK_DEV_IDEDMA=y
+CONFIG_IDEDMA_AUTO=y
+CONFIG_BLK_DEV_LOOP=m
+CONFIG_BLK_DEV_RAM=y
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_PARIDE=y
+CONFIG_PARIDE_PARPORT=y
+CONFIG_BLK_DEV_IDE_MODES=y
+CONFIG_PACKET=y
+CONFIG_NETLINK=y
+CONFIG_RTNETLINK=y
+CONFIG_NETFILTER=y
+CONFIG_FILTER=y
+CONFIG_UNIX=y
+CONFIG_INET=y
+CONFIG_IP_ADVANCED_ROUTER=y
+CONFIG_RTNETLINK=y
+CONFIG_NETLINK=y
+CONFIG_IP_MULTIPLE_TABLES=y
+CONFIG_IP_ROUTE_FWMARK=y
+CONFIG_IP_ROUTE_NAT=y
+CONFIG_IP_ROUTE_TOS=y
+CONFIG_IP_ROUTE_VERBOSE=y
+CONFIG_NET_IPIP=m
+CONFIG_NET_IPGRE=m
+CONFIG_IP_ALIAS=y
+CONFIG_SYN_COOKIES=y
+CONFIG_SKB_LARGE=y
+CONFIG_SCSI=m
+CONFIG_BLK_DEV_SD=m
+CONFIG_SD_EXTRA_DEVS@
+CONFIG_ST_EXTRA_DEVS=2
+CONFIG_BLK_DEV_SR=m
+CONFIG_SR_EXTRA_DEVS=2
+CONFIG_CHR_DEV_SG=m
+CONFIG_SCSI_DEBUG_QUEUES=y
+CONFIG_SCSI_MULTI_LUN=y
+CONFIG_SCSI_CONSTANTS=y
+CONFIG_SCSI_AIC7XXX=m
+CONFIG_AIC7XXX_CMDS_PER_DEVICE=8
+CONFIG_AIC7XXX_PROC_STATS=y
+CONFIG_AIC7XXX_RESET_DELAY=5
+CONFIG_SCSI_NCR53C8XX=m
+CONFIG_SCSI_NCR53C8XX_DEFAULT_TAGS=4
+CONFIG_SCSI_NCR53C8XX_MAX_TAGS2
+CONFIG_SCSI_NCR53C8XX_SYNC 
+CONFIG_NETDEVICES=y
+CONFIG_DUMMY=m
+CONFIG_NET_ETHERNET=y
+CONFIG_NET_PCI=y
+CONFIG_EPIC100=y
+CONFIG_PPP=m
+CONFIG_PPP_ASYNC=m
+CONFIG_PPP_DEFLATE=m
+CONFIG_PPP_BSDCOMP=m
+CONFIG_VT=y
+CONFIG_VT_CONSOLE=y
+CONFIG_SERIAL=y
+CONFIG_UNIX98_PTYS=y
+CONFIG_UNIX98_PTY_COUNT%6
+CONFIG_PRINTER=m
+CONFIG_MOUSE=y
+CONFIG_PSMOUSE=y
+CONFIG_AGP=m
+CONFIG_AGP_INTEL=y
+CONFIG_USB=m
+CONFIG_USB_UHCI=m
+CONFIG_USB_DEVICEFS=y
+CONFIG_USB_PRINTER=m
+CONFIG_USB_SCANNER=m
+CONFIG_USB_AUDIO=m
+CONFIG_USB_ACM=m
+CONFIG_USB_CPIA=m
+CONFIG_INPUT_KEYBDEV=m
+CONFIG_INPUT_MOUSEDEV=m
+CONFIG_QUOTA=y
+CONFIG_AUTOFS_FS=y
+CONFIG_AUTOFS4_FS=y
+CONFIG_FAT_FS=m
+CONFIG_MSDOS_FS=m
+CONFIG_VFAT_FS=m
+CONFIG_ISO9660_FS=m
+CONFIG_JOLIET=y
+CONFIG_NTFS_FS=m
+CONFIG_HPFS_FS=m
+CONFIG_PROC_FS=y
+CONFIG_DEVPTS_FS=y
+CONFIG_EXT2_FS=y
+CONFIG_NFS_FS=y
+CONFIG_NFSD=y
+CONFIG_SUNRPC=y
+CONFIG_LOCKD=y
+CONFIG_SMB_FS=m
+CONFIG_MSDOS_PARTITION=y
+CONFIG_NLS=y
+CONFIG_NLS_CODEPAGE_437=m
+CONFIG_NLS_CODEPAGE_850=m
+CONFIG_NLS_ISO8859_1=m
+CONFIG_NLS_ISO8859_2=m
+CONFIG_VGA_CONSOLE=y
+CONFIG_VIDEO_SELECT=y
+CONFIG_FB=y
+CONFIG_DUMMY_CONSOLE=y
+CONFIG_FB_VESA=y
+CONFIG_FB_VGA16=y
+CONFIG_VIDEO_SELECT=y
+CONFIG_FBCON_CFB8=y
+CONFIG_FBCON_CFB16=y
+CONFIG_FBCON_CFB24=y
+CONFIG_FBCON_CFB32=y
+CONFIG_FBCON_VGA_PLANES=y
+CONFIG_FBCON_FONTS=y
+CONFIG_FONT_8x8=y
+CONFIG_FONT_8x16=y
+CONFIG_SOUND=m
+CONFIG_SOUND_ES1371=m
+CONFIG_SOUND_OSS=m
+CONFIG_SOUND_VMIDI=m
+CONFIG_SOUND_MSS=m
+CONFIG_SOUND_SB=m
+CONFIG_MAGIC_SYSRQ=y
