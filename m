@@ -1,41 +1,42 @@
-From: Paco <paco@OhKeePa.Net>
-Date: Wed, 23 Jun 1999 18:35:10 +0000
-Subject: Re: Reducing "noise" from output
-Message-Id: <marc-linux-sound-93016573325640@msgid-missing>
+From: Martin Adler <rockshox@web-regional.net>
+Date: Sun, 20 Jun 1999 11:00:11 +0000
+Subject: 
+Message-Id: <marc-linux-sound-93038866401409@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93007835614102@msgid-missing>
-In-Reply-To: <marc-linux-sound-93007835614102@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Wed, 23 Jun 1999, Bryan Scaringe wrote:
+Got the following problem with the SBLive 0.2b driver under SuSE 6.0 with Kernel 2.2.10:
 
-> So:  What is the difference between line-out and speaker-out,
-> specificly from a functional standpoint.  Is line-out expected to
-> be sent to an amplifier that will control bass/treble/vol?
+adler-martin-lnx:~ # insmod -f sblive
+Warning: kernel-module version mismatch
+        /lib/modules/2.2.10/misc/sblive.o was compiled for kernel version 2.2.5
+        while this kernel is version 2.2.10
 
-Exactly.  For line-out, you have minimal control over the amplitude of the
-signal.  "Line-level" voltage is (I believe) 2.2V, peak-to-peak.  Volume
-control of line-out allows you to change this peak-to-peak value, but not
-significantly.
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_dsp
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_midi
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_dsp
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_mixer
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_mixer
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol unregister_sound_special
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_special
+/lib/modules/2.2.10/misc/sblive.o: unresolved symbol register_sound_midi
+adler-martin-lnx:~ #
 
-Line-out signals are meant to go to another device which will control the
-bass/treble/volume.  (ie, your stereo)
+I followed all the procedures in the readme file. Anyone have a solutions.
 
-Speaker-out signals are amplified *on-the-card* and provide enough juice
-to power speakers themselves.  This on-card amplification may be the cause
-of your hiss.  (I'm not too sure if the on-card amplifiers are very
-high-quality on an AWE64.)
 
-> Is this why line-out is less responsive to bass/treble changes
-> using "aumix" than speaker-out?
+Thanx alot,
 
-BINGO!  Bass and treble controls function just like the volume control for
-line-out; they *do* cause changes in the signal, but not significant ones.
-You can think of bass and treble controls as "turning up the volume" of
-the low or high EQ bands.
+Martin
 
-regards,
-Chad "Paco" Walker
+---------------------------------------------
+| Martin Adler ~~ rockshox@web-regional.net |
+|                                           |
+| LAN-Administration ~~~~~~~~~ CSC Ploenzke |
+---------------------------------------------
+|           Let Linux kill NT!!             |
+|        Drive it like you stole it!!       |
+---------------------------------------------
