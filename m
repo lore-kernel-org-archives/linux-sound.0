@@ -1,57 +1,80 @@
-From: "Noah M. Zigas" <noahz@stny.rr.com>
-Date: Sun, 04 Jul 1999 13:12:49 +0000
-Subject: no installed driver
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="------------329AC9DB58D7587921650A61"
-Message-Id: <marc-linux-sound-93109408621687@msgid-missing>
+From: Francois Dechelle <dechelle@linotte.ircam.fr>
+Date: Tue, 20 Jul 1999 14:00:57 +0000
+Subject: [ANNOUNCE] Ircam releases jMax under GNU's General Public License
+Message-Id: <marc-linux-sound-93247997625720@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------329AC9DB58D7587921650A61
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
 
+Ircam releases jMax under GNU's General Public License
 
+Paris, France (July 20, 1999) -- IRCAM announces the distribution of jMax,
+its software environment for music performance and real time digital audio
+processing, as free software under the GNU General Public License.
 
---------------329AC9DB58D7587921650A61
-Content-Type: message/rfc822
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Since its first public release for the SGI and Linux platforms in early
+1999, jMax has reached several hundred users that expressed high interest in
+the product and its development. This interest, added to the rapid growth of
+the Linux operating system and the effectiveness of the open development
+model, created the conditions for an opening of the jMax development.
 
-X-Mozilla-Status2: 00000000
-Message-ID: <377F5D00.F9DC2967@stny.rr.com>
-Date: Sun, 04 Jul 1999 09:09:20 -0400
-From: "Noah M. Zigas" <noahz@stny.rr.com>
-X-Mailer: Mozilla 4.51 [en] (X11; I; Linux 2.2.10 i686)
-X-Accept-Language: en
-MIME-Version: 1.0
-To: linux-sound@vgers.rutgers.edu
-Subject: no installed driver
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+By releasing jMax under GNU's General Public License, IRCAM brings a key
+contribution to the computer music community and to the adoption of Linux
+for the multimedia market.
 
-Hi,
-I've got a strange problem I hope somebody can help me with...
+jMax is the new generation of real time systems at IRCAM, designed to
+replace the Ircam Signal Processing Workstation. Based on a client/server
+architecture, wherein the two components are the C written real-time engine
+already known as FTS and a Java graphical user interface, jMax features a
+high portability level.
 
-I've followed all the FAQ's and HOWTO's that I can find to set up my
-soundcard.  It's an onboard OPL-3SA.  I use isapnp to configure it.
-Everything seems to work fine except RealAudio.  I keep getting a write
-error when I exit.
+jMax is currently supported on SGI workstations and on Linux for
+Intel-compatible processors. Porting to other platforms are under
+development, including Alpha-Linux, Linux-PPC, Solaris, Apple MacOS X and
+Microsoft's Windows. Compatibilities with Max/MSP (IRCAM/Opcode/Cycling'74)
+currently running on MacOS will be pursued.
 
-All my devices seem to be loaded, and I can cat *.au > /dev/audio just
-fine.  The Enlightenment Souud Daemon works and I get sound.
+Support, documentation, tutorials, CDROMs and musical applications for jMax
+will be provided by the IRCAM Forum, the IRCAM user group accessible via a
+yearly subscription. IRCAM Forum can be reached at
+http://www.ircam.fr/departements/valorisation/forum/index-e.html.
 
-But if I do a cat /dev/sndstat I don't have anything under the
-'Installed drivers:' section.  All the device sections have at least one
-entry.
+jMax is currently being developed at IRCAM by the Real Time Systems team,
+lead by Fran=E7ois D=E9chelle, with Maurizio de Cecco, Enzo Maggi and Norbe=
+rt
+Schnell.
 
-Any idea what might be going on here?  I seemed to have the same problem
-with the ALSA sound drivers.  All the devices would load, but no
-Installed driver.
+jMax is currently used in concert and in studio, at Ircam and on
+international tours, for productions featuring real time audio synthesis and
+processing, as well as for virtual reality interactive installations that
+combine image and sound synthesis.
 
-TIA,
-Noah
+For more information and download, please visit IRCAM's Web site at :
+http://www.ircam.fr/jmax/
 
+IRCAM (Institut de Recherche et de Coordination Acoustique/ Musique) is a
+non-profit organization associated with the Georges Pompidou National Center
+of Art and Culture, Paris, France. Since its foundation in 1969 by the
+French composer and conductor Pierre Boulez, IRCAM has always been a pioneer
+in designing real time systems for live interaction between instruments and
+computers. The first generation of systems lead in 1981 to the 4X processor,
+designed at IRCAM by Giuseppe Di Giugno. In the 80s, Miller Puckette started
+developing at IRCAM the Max software, a visual language that brought a new
+concept in musical interaction. Max, licensed to Opcode Systems Inc., CA,
+has reached a wide audience in the computer music community. The IRCAM
+Signal Processing Workstation, designed in 1989 at IRCAM by a team leaded by
+Eric Lindemann, has been adopted by a large number of composers as a choice
+platform for real time interactive musical pieces.
 
---------------329AC9DB58D7587921650A61--
+Contact : Fran=E7ois D=E9chelle IRCAM 1, place Igor Stravinsky F-75004 PARIS
+FRANCE
+
+Fax : +33 1 44 78 15 40 email : jmax-info@ircam.fr
+
+----------------------------------------------------------------------------
+(C) Copyright IRCAM-Centre Georges Pompidou 1999, All Rights Reserved
+Max, jMax and FTS are registered trademarks of IRCAM
+All other trademarks are the property of their respective owners.
