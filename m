@@ -1,8 +1,10 @@
-From: Silvia_Brown6@gte.net
+From: Silvia_Brown1@gte.net
 Date: Sun, 21 Mar 1999 20:17:31 +0000
 Subject: Find Out What The Future Holds For You?
-Message-Id: <marc-linux-sound-92207825201193@msgid-missing>
+Message-Id: <marc-linux-sound-92208198602883@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92207825201193@msgid-missing>
+In-Reply-To: <marc-linux-sound-92207825201193@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -48,13 +50,4 @@ Support HR 1748, the anti-spam bill.
 
 
 
-
-
-
-
   LIVE PERSONAL PSYCHIC!     (as seen on T.V.)                                                                                                                                                                                                                                                                                                           
-
-
-                                                                                                                                                                                                       
-
- LEARN TODAY WHAT YOUR FUTURE HOLDS                                                                                                                      
