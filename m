@@ -1,21 +1,26 @@
-From: Dave Mielke <dave@mielke.cc>
-Date: Mon, 30 Aug 1999 22:49:32 +0000
-Subject: Playing midi files with 2.0.38 kernel.
-Message-Id: <marc-linux-sound-93605417803976@msgid-missing>
+From: Jonathan Masters <mastersj@periscope-systems.freeserve.co.uk>
+Date: Thu, 19 Aug 1999 04:47:57 +0000
+Subject: FIXED
+Message-Id: <marc-linux-sound-93506414424969@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi:
+Hi,
+    You know that little sound problem from ealier on? well, it turns
+out that all I needed to do was symlink the sound modules to any
+different name and then load them twice with the appropriate parameters.
+It's *very* cool now that I've got two sbs working together. Will get
+midi working on the second card when I've got some time.....
 
-The 2.0.38 kernel, with no modifications, defines MAX_MIDI_DEV to be 6. Ioctl
-of SNDCTL_SEQ_NRMIDIS, however, returns 0. Does anyone know what, if any,
-special parameters/configurations I need to do so that midi files can be played
-with the 2.0.38 kernel?
+I find "cat /dev/audio > /dev/audio1" to give some kind of strange
+satisfaction - now that just says thatI'm far too tired and just plain
+odd, etc.... :)
 
--- 
-Dave Mielke           | 856 Grenon Avenue | I believe that the Bible is the
-Phone: 1-613-726-0014 | Ottawa, Ontario   | Word of God. Please contact me
-EMail: dave@mielke.cc | Canada  K2B 6G3   | if you're concerned about Hell.
+--
+Jonathan C. Masters (jonathan@oxlug.org) PGP: www.brookes.ac.uk/~95227860/KEY
+
+"Upon this rock I will build my church
+and the gates of hell shall not prevail against it". -- Matthew 16, 17-18
