@@ -1,7 +1,7 @@
 From: ljp <llornkcor@llornkcor.com>
-Date: Sun, 16 May 1999 05:43:14 +0000
+Date: Sun, 16 May 1999 05:50:02 +0000
 Subject: Re: Sound Blaster AWE64 Gold
-Message-Id: <marc-linux-sound-92687887905966@msgid-missing>
+Message-Id: <marc-linux-sound-92688577709870@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92682907516413@msgid-missing>
 In-Reply-To: <marc-linux-sound-92682907516413@msgid-missing>
@@ -10,7 +10,7 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Oki, here ya go- :o)
+Ok, here ya go-
 
 # Sound
 #
@@ -50,7 +50,6 @@ CONFIG_LOWLEVEL_SOUND=y
 CONFIG_AWE32_SYNTH=m
 # CONFIG_AEDSP16 is not set
 
-#
 
 On Sat, 15 May 1999, Buffy wrote:
 > Hi all,
