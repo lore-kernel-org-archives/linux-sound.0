@@ -1,27 +1,53 @@
-From: Pavel Machek <pavel@bug.ucw.cz>
-Date: Fri, 18 Jun 1999 10:00:01 +0000
-Subject: Re: New scheduling latencies during audio playing + heavy disk I/O on various kernels
-Message-Id: <marc-linux-sound-92978831031506@msgid-missing>
+From: Corris Randall <corris@acc.com>
+Date: Tue, 22 Jun 1999 23:57:49 +0000
+Subject: Sound problems...
+Message-Id: <marc-linux-sound-93009931600847@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92948447502258@msgid-missing>
-In-Reply-To: <marc-linux-sound-92948447502258@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi!
+
+I have a Omnibook 5500CS with RedHad 6.0 on it and I want to be able to
+play mp3's with mpg123.  
+
+Here are what windows reports as the settings:
+
+DMA	01	Play
+DMA	00	Capture
+IRQ	05
+
+IO	4232	0534-0537
+IO	OPL	0388-038B
+IO	SB	0220-022F
 
 
-> > what if the note is read from a MIDI interface connected to a standard serial
-> > port ? ( are there some disadvantages over the soundcard's own MIDI port ?)
-> 
-> You would want to set the low latency flags on the serial port. The serial
-> code by default does processing 100 times a second in batches
+MPU-401
 
-Well - other possibility is to set HZ to 1000 ;-).
+IRQ	09
+IO	0330-0331
 
-									Pavel
--- 
-I'm really pavel@ucw.cz. Look at http://195.113.31.123/~pavel.  Pavel
-Hi! I'm a .signature virus! Copy me into your ~/.signature, please!
+Here is my conf.modules:
+
+alias sound cs4232
+pre-install	sound	insmod	sound	dmabuf=1
+alias	midi	opl3
+options opl3	io=0x388
+opeions	cs4232	io=0x534 irq=5 dma=1 dma2=0 mpuio=0x0330 mpuirq=9
+synthirq=-1 synthio=-1
+
+It just doesn't do anything when I try to play something, and when I do
+sndconfig, it freezes everything up...
+
+anyone?
+
+-Corris
+
+--
+Corris Randall
+UNIX Systems Administrator
+Ericsson, Datacom Networks and IP Services
+Access Product Unit
+805-961-0654
+--
