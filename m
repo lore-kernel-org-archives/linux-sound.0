@@ -1,7 +1,7 @@
 From: Hamish Moffatt <moffatt@cs.rmit.edu.au>
-Date: Sat, 19 Sep 1998 12:59:42 +0000
+Date: Sat, 19 Sep 1998 13:01:06 +0000
 Subject: Re: AWE64 initial questions
-Message-Id: <marc-linux-sound-90620973826420@msgid-missing>
+Message-Id: <marc-linux-sound-90621003526488@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90515879913606@msgid-missing>
 In-Reply-To: <marc-linux-sound-90515879913606@msgid-missing>
@@ -10,26 +10,18 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, Sep 14, 1998 at 04:09:04PM -0400, Dave Wreski wrote:
-> > > Guys, while I think this is a good idea, and something that surely can help a
-> > > lot of people, perhaps your efforts would be better applied if you focused on
-> > > the sndconfig utility that already has a moderately-working implementation.
-> Check out:
-> ftp://ftp.redhat.com/pub/sound/sndconfig
+On Sat, Sep 12, 1998 at 12:54:21PM -0700, rtlynch@aracnet.com wrote:
+> I would like to work on this.  I've been running linux for a while now but
+> never have bothered with sound. The last time I compiled my kernel I
+> included sound as a module but haven't made time to play around with
+> getting the plug-n-prey to work.  This would be good experience for me as
+> well as force me to finish my system setup :->
 > 
-> It seems to be able to probe your system for PnP sound cards.  Actually,
-> I'm not sure if it's capable of probing for more than just SB cards.
-> Also, I think it's configured to use the new sound modules available in
-> the development kernels, and a patch to 2.0.35.
+> I was thinking of just implementing the script with perl. (Seems easy
+> anough.)  Are there any common pit falls that anyone can think of?  
 
-But that's sound configuration -- I think we are talking about
-a generic PnP utility to handle sound, modems, network cards etc.
-I certainly was.
-
-Last time I looked at sndconfig (a while back) it did not use
-the new sound modules, but some Redhat-specific sound modularization
-patches. Hence it did not work for me on my Debian system; otherwise
-we would probably have a Debian package of it.
+perl is where I'd start too. No pitfalls that I know of, but I haven't
+done a lot of perl myself either.
 
 
 Hamish
@@ -37,4 +29,4 @@ Hamish
 Hamish Moffatt, StudIEAust              hamish@debian.org, hamish@moffatt.nu
 Student, computer science & computer systems engineering.    4th year, RMIT.
 http://hamish.home.ml.org/ (PGP key here)             CPOM: [*******   ] 73%
-"Note that in C++, as in life, friendship is not transitive" -- TC++3 manual
+Matter cannot be created or destroyed, nor returned without a receipt.
