@@ -1,59 +1,26 @@
-From: Jean Francois Ortolo <ortolojf@cybercable.fr>
-Date: Tue, 15 Feb 2000 20:20:09 +0000
-Subject: Re: /dev/audio, /dev/dsp not running for an es1371 (fwd)
-Message-Id: <marc-linux-sound-95065005130159@msgid-missing>
+From: Bryan Bolden <bbolden@UU.NET>
+Date: Tue, 15 Feb 2000 18:09:36 +0000
+Subject: line-in input doesn't record
+Message-Id: <marc-linux-sound-95064847827665@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95060250626587@msgid-missing>
-In-Reply-To: <marc-linux-sound-95060250626587@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-You are right
-  I just didn't set the Mic input to "R" with aumix...
-  All right now, all works well.
-  Thank you very very much.
+hello all!!  I am trying to begin recording/sampling of voice coming in
+from my line-in jack.  I have a tape recorder connected (through the tape
+recorder' s earphone jack) to the line-in of my sound card (is that right).
+ now when I press play on the tape I do hear the voices on tape through my
+external spekers but when I test the recording with :
 
-  Jean Francois
+dd if=/dev/audio of=/tmp/audio_test
+and then:
+cat /tmp/audio_test >/dev/dsp
 
----------- Forwarded message ----------
-Date: Tue, 15 Feb 2000 18:55:55 +0200
-From: Meelis Roos <mroos@linux.ee>
-To: linux-sound@vger.rutgers.edu
-Subject: Re: /dev/audio, /dev/dsp not running for an es1371
+all I hear is the sound from the mic input.  I have adjusted the line-input
+sound level through a mixer at a higher leven that the mic's level but I
+don't hear anything from the sampled audio from the tape despite hearing it
+from my external speakers.  any suggestions?
 
-JFO>   The sndconfig detects an Ensoniq card, for which it
-JFO> installs an es1371 module in /etc/conf.modules
-
-Correct, This card uses an Ensoniq chip. Creative bought Ensoniq to get
-a PCI card out quickly.
-
-JFO>   However, a 'cat /dev/sndstat' then reports
-JFO> "no device with this type", and the /dev/audio0
-JFO> and /dev/dsp0 don't appear in their directory.
-
-/dev/sndstat only works for drivers that use the OSS API. Newer cards
-(esp. PCI) us a more low-level API (sound_core) and so it's normal that
-sndstat doesn't know about them.
-
-JFO>   So, a try for reading from anyone either of the 
-JFO> /dev/audio or /dev/dsp with the command:
-JFO>  'dd bs=8k count=5 </dev/audio > sample.au'
-JFO> or the same with /dev/dsp... It doesn't read
-JFO> anything, such that the sample.au file
-JFO> contains always the same character, indicating
-JFO> that there is only a silence.
-
-Beware that this card may need a different type of microphone. Our
-1371's down't work with the old microphones that we use with SB16.
-
-JFO>   Although, under the Gnome Windows Manager,
-JFO> the sounds appear fine for any events they
-JFO> are set up for.
-
-So it probably just works as much as it is supposed to. Read the docs
-about ES137* drivers!
-
--- 
-Meelis Roos (mroos@tartu.cyber.ee)
+thanks!
