@@ -1,27 +1,39 @@
-From: Remo Strotkamp <remo@ccrl.nj.nec.com>
-Date: Fri, 26 Feb 1999 17:08:02 +0000
-Subject: sound and 2.2.2  hear interupts I think...
-Message-Id: <marc-linux-sound-92005046515770@msgid-missing>
+From: Leonard Michlmayr <lmichlma@radon.mat.univie.ac.at>
+Date: Wed, 24 Feb 1999 08:30:33 +0000
+Subject: MSS / wrong device in `/dev/sndstat' ?
+Message-Id: <marc-linux-sound-91984539403691@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
 
-got a problem with my sound in kernel 2.2.2.
-I compiled the sound into the kernel this time, and when I play a wav file
-I can hear annoying beeps, which I suspect to be interrupts....
+ After many trials i didn't bring sound to work. I hope that someone is
+able to help me.
 
-I had alook at the kmesg and saw that there were a couple of lines indicating
+ I have a Microsoft Windows Sound System card *ducks* and i cannot play
+any sounds by piping something to /dev/audio and i hear some very silent
+noise if i pipe soume sound to /dev/dsp.
 
-some IRQ/DRQ interrupt timeouts   or sth like this....
+ Did i miss something about configuring the volume, or did something else
+go wrong ?
 
+Details:
+--------
 
-what happened???
+ I have compiled the 2.2.2 kernel without module support and with the
+MSS/WSS support enabled (0x530, IRQ 10, DMA 1, secondary DMA 0)
+(using `make xconfig')
 
-thanks in advance
+ When booting the kernel reports to detect MSS at 0x534, but /dev/sndstat
+reports a Compaq Deskpro XL at 0x530 irq 10 drq 1,1
 
+ Recording sound with `dd bs=8k count=4 if=/dev/audio of=test.au' works,
+as far as i can say without hearing test.au
 
-remo
+ Sound works fine with Windows.
+
+Thank You !
+
+Leonard Michlmayr
