@@ -1,41 +1,40 @@
 From: Neale Banks <neale@lowendale.com.au>
-Date: Wed, 17 Jul 2002 05:36:37 +0000
-Subject: Re: Status of ALi5451(trident)?
-Message-Id: <marc-linux-sound-102688469508103@msgid-missing>
+Date: Wed, 17 Jul 2002 02:51:49 +0000
+Subject: Ali5451 and MIDI synth
+Message-Id: <marc-linux-sound-102687407901788@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-102629084116513@msgid-missing>
-In-Reply-To: <marc-linux-sound-102629084116513@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi j=F6rn,
 
-> alsa is widely used for 2.2 and 2.4, only you have to compile the
-> modules yourself (they are not shipped and built along with the kernel).
+I'm trying to get MIDI synth happening with the Ali M5451 audio chipset
+(as found in the Toshiba 1800 notebook).
 
-OK, it wasn't too painful to compile (only one source tweak).
+So far, it appears to me that:
 
-But I'm still coming to grips with the requirements for "configuring ALSA"
-(ALSA may indeed be superior in its capabilities and flexibility, but OSS
-is sure nice in its simplicity - just modprobe for your card).
+* linux-2.2 has MIDI support in the code (v0.14.5c of trident.c) - but
+this driver (a) doesn't work for basic audio[1] and (b) doesn't register a
+MIDI synth device (and MIDI players complain of no device).
 
-> > I'm somewhat astonished that (a) OSS sound doesn't want to work for me =
-in
-> > 2.2 and (b) MIDI code appears to be missing from the OSS driver in 2.4.
->=20
-> alsa's midi sequencer is really very nice. you can hook just about
-> anything together that speaks alsa-seq. check out the kaconnect alsa
-> midi patchbay, for instance (suse.de/~mana iirc).
->=20
-> give it a try. from your past experience, it can be any worse :)
+* linux-2.4 has no MIDI support in the code (v0.14.9d of trident.c) - this
+driver works OK for basic audio.  Oddly, I can't see any mention of the
+MIDI code removal in the driver's history.
 
-As you can se from my other post, the problem is that I don't get a MIDI
-synth with either OSS or ALSA :-(
+* ALSA-0.9 - no MIDI support in the code (alsa-kernel/pci/ali5451/*).
 
-Hopefully I've missed something *really* basic.
+Have I missed something here?
 
 Thanks,
 Neale.
+
+[1] "doesn't work for basic audio" includes this being logged to kern.log:
+
+	trident: drain_dac, dma timeout?
+
+Interestingly, I can make this go away by first loading and unloading the
+ALSA drivers then loading the OSS drivers.  This makes me suspicious that
+linux-2.2's OSS driver is missing something in the initialisation.
+
 
