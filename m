@@ -1,8 +1,10 @@
 From: Billy Biggs <vektor@div8.net>
-Date: Tue, 26 Oct 1999 21:06:01 +0000
-Subject: Sync Issues (was Re: External MIDI Sync using OSS/Free)
-Message-Id: <marc-linux-sound-94097346918347@msgid-missing>
+Date: Tue, 26 Oct 1999 23:21:12 +0000
+Subject: Re: Sync Issues (was Re: External MIDI Sync using OSS/Free)
+Message-Id: <marc-linux-sound-94098009026124@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-94097346918347@msgid-missing>
+In-Reply-To: <marc-linux-sound-94097346918347@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -10,55 +12,68 @@ To: linux-sound@vger.kernel.org
 
 On Tue, 26 Oct 1999, Paul Barton-Davis wrote:
 
-> >> advice #1: do not use /dev/sequencer, solution, use /dev/midi*
-> >
-> >  This is pretty useless IMHO.  My sequencer started off writing out
-> >/dev/midi, and it was consistently off-sync.  Badly off sync.
+> >  I was using O_RDWR | O_NONBLOCK, under a 2.2 kernel.  I was trying to do
+> >drumrolls, 16th notes, at 140bpm or 150bpm.  It was no good.
 > 
-> did you open it O_NONBLOCK, and which kernel were you using ?
+> hmm. i should try some stuff like this myself, but i haven't written
+> an audio sequencer yet :)
 
-  I was using O_RDWR | O_NONBLOCK, under a 2.2 kernel.  I was trying to do
-drumrolls, 16th notes, at 140bpm or 150bpm.  It was no good.
+  I'm sorry, you have me confused.  This was using /dev/midi, only
+outputting MIDI notes.
 
-  Well, I recorded some songs using it, but I had to avoid playing too
-many notes in rapid succession on any one track, and damned if I trigger
-drums with it.
+> let me just clarify one thing: so ttrk is an audio+MIDI sequencer ? it
+> does output audio as well as MIDI (or just audio ?)
 
-> personally, most of my current applications are so phase-locked to a
-> soundcard DAC that i can get "perfect" sync timing from that. some
-> applications (and MIDI-only sequencers are a very good example of
-> them) are not like this, however, since they do no audio output :)
+  ttrk is currently only useful as a MIDI sequencer, but it happily opens
+all audio devices available and will attempt to play samples on beat.
 
-  One requirement for ttrk was that it be able to trigger samples on beat,
-in sync with incomming MIDI.  This is a pain in the ass, since I have to
-know exactly where in the audio output I am in order to do the prediction
-correctly.  The clock on (at least the OSS) /dev/dsp is no good, since it
-gives you no indication of when underruns occur.
-
-  Damn annoying.
-
-  I currently have ttrk setup to just 'turn on' the sample as soon as it
-sees the corresponding MIDI sync tick.  It's no good for drum samples or
-loops or anything, but I can trigger cheezy sci-fi samples and they don't
-sound _too_ out of place.  Ugh.
-
-> >  What about syncing multiple soundcards?  I've found this to be next to
-> >impossible under thud using OSS.
+>      * soundcard has N fragments "queued" in its hardware buffer by 
+>        the driver
+>      * you're about to assemble the audio data for the next fragment
+>      * you check for MIDI data
+>      * MIDI data is here - you decide to include sample X in the next
+>        fragment (and future ones too, most likely, since most samples
+>        last longer than the fragment size).
 > 
-> as has been discussed here a number of times, this is far from
-> trivial. clock rates from card to card, even the same brand, and even
-> from (warm) day to (cold) day vary, so its not just a matter of
-> finding a way to get them to all start at the same time. 
+> where is the timing problem ? i am sure i am missing something, given
+> that my MIDI related work has been almost entirely MIDI-only.
 
-  Yes, it is a pain, but there should be a better hacked job at least of
-doing it.  When I still had Windows around, Sonic Foundry ACID had no
-trouble at least faking some sync between my two AudioPCI cards.  I can't
-get it as good as they did. :/
+  Here's one algorithm I tried to use for a while, you'll see the problem:
 
-  There should also be API support for it.  I hope to soon (within the
-next year) get a soundcard that has multiple dsps inside it, for
-outputting multi-track stuff.  I'm really worried about how much I'm going
-to have to code myself though.....
+   - There are N fragments "queued" by the hardware buffer in the
+     soundcard
+   - I check to see if i'm at the start of a new beat, if I am then
+     - If there are samples to play, start playing them in this fragment
+     - If there are MIDI notes to play, queue them to be played at
+       time per fragment * N in the future
+
+  The sync problem comes from not getting swapped in enough such that
+you'll send out the MIDI data at the instant that the audio out the
+soundcard actually gets played.
+
+  This all gets worse once you have to know more about the audio buffer
+location, for example, when you're trying to sync to an external MIDI
+source, and already have alot of error due to your estimates about the
+external sync's tempo and your predicted next beat.
+
+  These days, I'm using three threads.  One for midi, one for audio, and
+one for the GUI.
+
+> >  There should also be API support for it.  I hope to soon (within the
+> >next year) get a soundcard that has multiple dsps inside it, for
+> 
+> do you really mean DSP's ? the only cards I know like this are things
+> like the Creamware Pulsar and SCOPE, and the Yamaha DSP Factory. Linux
+> support for these is not likely to be forthcoming (though I may write
+> the drivers for Creamware).
+
+  Drivers had better be forthcomming.  Yes, I'm talking about cards like
+those, such as the Event Layla and Darla, etc.  Without them, it makes
+Linux pretty useless as a multitrack platform...
+
+  Well, at least pretty annoying.  Personally, I have two AudioPCI cards
+and a dedicated MPU-401 card for MIDI.  Each of the AudioPCI cards have
+two dsps, giving me four /dev/dsp devices.
 
 --
 Billy Biggs                         vektor@div8.net
