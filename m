@@ -1,7 +1,7 @@
-From: Ingo Molnar <mingo@chiara.csoma.elte.hu>
-Date: Mon, 30 Aug 1999 09:45:54 +0000
+From: "Stephen C. Tweedie" <sct@redhat.com>
+Date: Mon, 30 Aug 1999 11:13:02 +0000
 Subject: Re: [rtl] Low-latency patches working GREAT (<2.9ms audio latency), see testresults ,but ISDN troubl
-Message-Id: <marc-linux-sound-93600685521183@msgid-missing>
+Message-Id: <marc-linux-sound-93601180925552@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93588421815439@msgid-missing>
 In-Reply-To: <marc-linux-sound-93588421815439@msgid-missing>
@@ -10,60 +10,32 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hi,
 
-On Mon, 30 Aug 1999 yodaiken@chelm.cs.nmt.edu wrote:
+On Mon, 30 Aug 1999 00:09:51 -0600, yodaiken@chelm.cs.nmt.edu said:
 
-> It absolutely is something new. In the current kernel, we check for
-> preemption only at points where we are about to do a context
-> switch anyways [...]
+> I don't see how your code avoids reschedules from non SCHED_FIFO/RR 
+> processes. And I'm not convinced tha even then, it is reasonable to 
+> allow this. But first explain why a screen saver will not trigger
+> the same behavior. The screen saver will do fast writes to the screen,
+> and these will trigger io for X and for the saver itself. Both operations
+> will set needs_resched. So we expect io performance to get worse 
+> in this case. Right?
 
-huh? We have a preemption point after every system call. Typically we
-execute tens of thousands of system calls per second on a moderately
-loaded system, and only tens/hundreds of context switches per second. A
-system call is not a context switch. I dont really see where this
-discussion is going to. If you believe there is something weird going on,
-please download the patch and prove it. The only thing that 'changed' is
-the behavior of high-frequency-rescheduling RT tasks, but this is very
-much intended.
+Is the screensaver consuming significant CPU time?  If so, it is running
+with fewer scheduling credits than (say) the bdflush code.  A wakeup of
+the screensaver will not cause need_resched to be set (reschedule_idle
+doesn't set need_resched unless the woken process has significantly more
+scheduling credits than the running task).
 
-> That is the logic is:
->                      before commit to a switch to user, see
->                      if there is a hint to call the scheudler
+Is the screensaver using even less CPU than bdflush?  In that case, it
+is assumed to be a more latency-critical task, and if woken up, it will
+set need_resched.  With Ingo's diff, the only change here is that the
+reschedule will now occur sooner rather than later, which is exactly
+correct for a mostly-idle task.  If the screensaver is in fact waking up
+like this all the time, then it should rapidly consume enough scheduling
+credits to fall below the bdflush priority and to stop preempting.
 
-sorry, a switch to user-space is nowhere near a context switch. A context
-switch is when we schedule from one process (thread) to another one. There
-is about an order of magnitude between the cost of them, and about two
-orders of magnitude between the typical frequency of them. (user-kernel
-entries being much cheaper and much more frequent)
+I don't understand why this behaviour is undesirable.
 
-> This is not the same as
->                      before copy a block check to see if there
->                      is a hint to call the scheduler.
-
-we have thousands of system calls executed between every typical
-reschedule. Go check it yourself. So wether one out of those final system
-calls is 'partial' or not makes no difference. If it makes a difference
-then the patch has unearthed some kernel bug which we want to fix anyway.
-
-> > [btw. 99% of the time the X client gets rescheduled is not due to
-> > need_resched but due to the unix-domain socket buffer running out of write
-> > space. And this is true globally, need_resched itself is resposible for a
-> > small fraction of reschedules only.]
-> 
-> In the current system, yes. After your patch, it is not at all clear.
-
-huh? it is absolutely true both for the current kernel and for the patched
-kernel. The patch does not generate _any_ new need_resched 'events'. It
-only shortens the time we 'respond' to need_resched, thats all. 
-need_resched is rarely used in a typical (or benchmarked) system, whenever
-some process is trying to naturally preempt a currently running process.
-
-if you think about it, many 'need_resched events' can happen at a large
-scale only if there is a higher-statical-priority (not necesserily RT)
-process around that does high frequency rescheduling. Nothing in a typical
-system does that - and if it does than the priority difference very much
-mandates the kernel to reschedule ASAP. In fact, with the patch i see much
-better interactive behavior under X when i load the system, interactive
-events (which have higher priority) get executed much faster.
-
--- mingo
+--Stephen
