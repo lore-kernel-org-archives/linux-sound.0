@@ -1,25 +1,17 @@
-From: est@hyperreal.org
-Date: Sun, 06 Jun 1999 20:12:11 +0000
-Subject: real-time software synths
-Message-Id: <marc-linux-sound-92869911410888@msgid-missing>
+From: jlexus@calweb.com
+Date: Tue, 15 Jun 1999 05:24:21 +0000
+Subject: Yamaha WF192XG
+Message-Id: <marc-linux-sound-92942397210772@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I'm looking for a real-time software synthesis package for linux that
-can handle streaming midi (or sequencer messages or, really any
-format) input.
+Will this card work in 2.0.36 or do i need to upgrade
+to 2.2 kernel ? 
 
-I know that a number are listed on the Linux MIDI & Sound Apps page,
-but I haven't had luck with them..and I tried *very* hard (including
-writing a script to interact with TiMidity++ in its server mode and
-hackin its sources to bits..no luck).
-
-So, I'm curious what packages people actually have working.
-Opensource is always a plus of course. :)
-
-Thanks in advance,
-
-Eric
+thanks
+--
+E m a i l  :  jlexus@calweb(dot)com
+P o w e r e d   b y  Linux   2.0.35
