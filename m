@@ -1,74 +1,83 @@
-From: Linus Torvalds <torvalds@osdl.org>
-Date: Mon, 08 Nov 2004 01:16:43 +0000
+From: Christian Kujau <evil@g-house.de>
+Date: Mon, 08 Nov 2004 13:01:39 +0000
 Subject: Re: Oops in 2.6.10-rc1
-Message-Id: <Pine.LNX.4.58.0411071653480.24286@ppc970.osdl.org>
+Message-Id: <418F6E33.8080808@g-house.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <4180F026.9090302@g-house.de> <Pine.LNX.4.58.0410281526260.31240@pnote.perex-int.cz>
- <4180FDB3.8080305@g-house.de> <418A47BB.5010305@g-house.de>
- <418D7959.4020206@g-house.de> <Pine.LNX.4.58.0411062244150.2223@ppc970.osdl.org>
- <20041107130553.M49691@g-house.de> <418E4705.5020001@g-house.de>
- <Pine.LNX.4.58.0411070831200.2223@ppc970.osdl.org> <20041107182155.M43317@g-house.de>
- <418EB3AA.8050203@g-house.de>
-In-Reply-To: <418EB3AA.8050203@g-house.de>
+References: <4180F026.9090302@g-house.de> <Pine.LNX.4.58.0410281526260.31240@pnote.perex-int.cz> <4180FDB3.8080305@g-house.de> <418A47BB.5010305@g-house.de> <418D7959.4020206@g-house.de> <Pine.LNX.4.58.0411062244150.2223@ppc970.osdl.org> <20041107130553.M49691@g-house.de> <418E4705.5020001@g-house.de> <Pine.LNX.4.58.0411070831200.2223@ppc970.osdl.org> <20041107182155.M43317@g-house.de> <418EB3AA.8050203@g-house.de> <Pine.LNX.4.58.0411071653480.24286@ppc970.osdl.org>
+In-Reply-To: <Pine.LNX.4.58.0411071653480.24286@ppc970.osdl.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Christian Kujau <evil@g-house.de>
-Cc: Kernel Mailing List <linux-kernel@vger.kernel.org>, alsa-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, Greg KH <greg@kroah.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+To: Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Linus Torvalds <torvalds@osdl.org>, alsa-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, Greg KH <greg@kroah.com>
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
+Linus Torvalds schrieb:
+>=20
+> Not your fault. Think of this as a learning experience ;)
 
-On Mon, 8 Nov 2004, Christian Kujau wrote:
-> 
-> what i did not expect is that this ChangeSet is now *not* the culprit,
-> because there is no oops. am i right? [1]
+it definitely is, yes.
 
-Yes.
+> Anyway, now that the _other_ driver also oopses, and with a very similar =
 
-So now I'd like to know _where_ the culprit is, since it turned out to be 
-not the ALSA code. 
+> oops too, so it looks like they both depended on some undocumented (or=20
+> changed) detail in the PCI layer. Next step would be to see if the thing =
 
-> i did another thing: i enabled the (deprecated) OSS driver (es1371.ko)
-> tried to load this thing:
-> 
-> http://www.nerdbynature.de/bits/prinz/2.6.10-rc1/dmesg-debug_oops-OSS.txt
-> 
-> it oopses.
->  - you said it's not a b0rken pci thingy
->  - i have to assume now that it's not an ALSA issue (since oss oopses too)
->  - it is OSS? the driver? i've CC'ed linux-sound...
+> that breaks is this merge:
 
-Sounds like something else changed, and likely the ALSA _and_ the OSS 
-driver both broke. Which is not all that unlikely, since I suspect they 
-share a lot of history.
+may i ask how you come to this conclusion? by technical knowledge or could
+this be deduced by some bk magic too?
 
-> yes, like Documentation/BUG-HUNTING says. but i seem to have difficulties
-> in using my tools (bk). sorry for that.
+>=20
+> 	ChangeSet@1.2463, 2004-11-04 17:07:16-08:00, torvalds@ppc970.osdl.org
+> 	  Merge bk://kernel.bkbits.net/gregkh/linux/driver-2.6
+> 	  into ppc970.osdl.org:/home/torvalds/v2.6/linux
+>=20
+> which merges Greg's PCI/driver model changes.
+>=20
+> It's all the same steps you took with the ALSA merge, you're a
+> professional by now ;)
 
-Not your fault. Think of this as a learning experience ;)
+i did "bk undo -a1.2463" from a current -BK tree and it oopses:
 
-Anyway, now that the _other_ driver also oopses, and with a very similar 
-oops too, so it looks like they both depended on some undocumented (or 
-changed) detail in the PCI layer. Next step would be to see if the thing 
-that breaks is this merge:
+http://www.nerdbynature.de/bits/prinz/2.6.10-rc1/dmesg-debug_oops-a1.2463.t=
+xt
 
-	ChangeSet@1.2463, 2004-11-04 17:07:16-08:00, torvalds@ppc970.osdl.org
-	  Merge bk://kernel.bkbits.net/gregkh/linux/driver-2.6
-	  into ppc970.osdl.org:/home/torvalds/v2.6/linux
+(i've booted with different boot options this time, because i noticed that
+i always booted with "acpi=3Dforce". changing this did not help either.)
 
-which merges Greg's PCI/driver model changes.
+next i wanted to do "bk undo -r1.2463" now to see if it does *not* break
+without this ChangeSet (because i already know it *breaks* with this
+ChangeSet) but that would leave some parentless child deltas. i read in
+the BK docs that "bk cset -x<version>" would help here. but "bk cset
+- -x1.2463" aborts:
 
-It's all the same steps you took with the ALSA merge, you're a
-professional by now ;)
+- ---------------------
+evil@atlant:~/kernel/linux-2.6-BK$ bk changes | head -n3
+ChangeSet@1.2463, 2004-11-04 17:07:16-08:00, torvalds@ppc970.osdl.org
+  Merge bk://kernel.bkbits.net/gregkh/linux/driver-2.6
+  into ppc970.osdl.org:/home/torvalds/v2.6/linux
 
-Greg, have you followed this thread?
+evil@atlant:~/kernel/linux-2.6-BK$ bk cset -x1.2463
+cset: Merge cset found in revision list: (1.2463).  Aborting. (cset1)
+- ---------------------
 
-> (whose only wish these days is to get over this strange thing and not
-> wasting peoples precious time with a "sound driver". hey, at least  the
-> box is booting...)
+i've put everthing on http://www.nerdbynature.de/bits/prinz/2.6.10-rc1/
+the .configs, the oopses are there. i've double checked a kernel built
+from "bk -a a1.2000.7.2" yesterday but the result was the same (no oops)
 
-Hey, sound is important. And especially if you somehow found something 
-non-sound that just broke sound by mistake, all the more important to fix 
-it.
+thank you,
+Christian.
+- --
+BOFH excuse #121:
 
-		Linus
+halon system went off and killed the operators.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.2.5 (GNU/Linux)
+Comment: Using GnuPG with Thunderbird - http://enigmail.mozdev.org
+
+iD8DBQFBj24z+A7rjkF8z0wRAu0tAJ9g7mfG0iz/LvSAafD7LWKNu9qvLQCg3fjW
+1oMRRK8oSqH5oZsudyIQVtw=F8CQ
+-----END PGP SIGNATURE-----
