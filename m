@@ -1,60 +1,39 @@
-From: Paco <paco@OhKeePa.Net>
-Date: Fri, 07 Apr 2000 20:14:41 +0000
-Subject: Re: NEVERMIND! Re: can't compile emu10k1 drivers
-Message-Id: <marc-linux-sound-95513848112670@msgid-missing>
+From: Jonathan Oppenheim <jono@Phys.UAlberta.CA>
+Date: Tue, 04 Apr 2000 00:03:04 +0000
+Subject: Recording with anything?
+Message-Id: <marc-linux-sound-95480718509450@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95498277922101@msgid-missing>
-In-Reply-To: <marc-linux-sound-95498277922101@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, 7 Apr 2000, Rui Sousa wrote:
+i cannot record anything, although no trouble
+hearing sound through both the mike and line in.
 
-> Paco wrote:
-> > 
-> > I had to hack the Makefiles a bit, but I finally got the drivers
-> > compiled and working.
-> > 
-> 
-> What was the problem? So that I can fix it in CVS...
-> 
-> Rui Sousa
-> 
+no program seems to want to bother even trying to record.
 
-Rui,
+for example, SLAB, just sits there, with the counter stopped
+at 0 after pushing the REC PAUSE and then the PLAY button.
+I can hear myself play, but it makes no attempt to record any sound.
 
-The first problem was that gcc kept complaining about "malformed options"
-when trying to compile the driver for my Athlon.  The second problem was
-the compilers inablility to find emu_wrapper.h .
+Likewise, using kvoice, i push record, in the new greeting dialogue
+box, and the new greeting message window just disappears, and that's it.
 
-To fix problem (1)
------------------
-In the Makefile.i386 (for 2.4), I had to modify the following line:
+i also try typing "dd bs=8k cound=4 </dev/audio > sample.au"
 
-CFLAGS := $(CFLAGS) -DCPUh6 -march=pentiumpro -mpentiumpro
--malign-functions=4 -fschedule-insns2 -mwide-multiply
--fexpensive-optimizations
+this creates the file sample.au but the file is empty
+(at least, i see nothing when i type "more sample.au" or "kedit
+sample.au", but it must have something in it, because it is 32768 bytes
+long)
 
-to read
+i have a soundblaster live! card, under mandrake 7.0
+when i configured the card (using sndconfig) it found
+the card without any problem.
 
-CFLAGS := $(CFLAGS) -DCPU 686
+perhaps an interupt problem??
 
-I probably could have left most of these options alone.  Only the 
-"pentiumpro" stuff was causing me problems.
+any help would be appreciated.
 
-
-To fix problem (2)
------------------
-Changed all lines like this:
-
-#include <emu_wrapper.h>
-
-to read
-
-#include "emu_wrapper.h"
-
-
-regards,
-Chad
+thanks,
+jonathan
