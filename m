@@ -1,19 +1,67 @@
-From: Joshua Lee <yid@softhome.net>
-Date: Mon, 04 Nov 2002 07:33:07 +0000
-Subject: Realplayer, xmms shoutcast on Debian 3
-Message-Id: <marc-linux-sound-103639523609821@msgid-missing>
+From: Lee Leahu <lee@ricis.com>
+Date: Fri, 22 Nov 2002 19:20:38 +0000
+Subject: snd-emu10k1.o
+Message-Id: <marc-linux-sound-103799284526809@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I've gotten RealPlayer working fine on another distro and even BSD,
-but for some reason although audio files work video files are silent.
-My audio hardware is apparantly a combination of intel i810 and AC'97,
-so I've enabled the relevant modules. 
 
-A second, perhaps related, problem. xmms plays fine an mp3 on disk
-but quickly appears and disappears when I try to open a shoutcast
-stream with it using mozilla. I use the settings for netscape described
-in the manual, and these settings worked on other distributions(tm).
+can anyone on the linux-sound mailing list help me with this?
+
+
+
+this will be the first time working with the alsa package.
+could you provide some instructions to build the snd-emu10k1.o kernel module?
+
+i have checked for the alsa and alsa-dev package, and re-installed them using suse's yast2 interface.
+
+
+
+Geller Sandor <wildy@petra.hos.u-szeged.hu> scribbled something about Re: snd-emu10k1.o:
+
+> On Fri, 22 Nov 2002, Lee Leahu wrote:
+> 
+> > i rebuilt my kernel to be 2.4.18-4GB-SMP.  in my new
+> > /lib/modules/2.4.18-4GB-SMP/ directory, i no longer have the
+> > snd-emu10k1.o module.
+> >
+> > i searched with the command 'find /usr/src/ -name "snd-*"' , but there
+> > were no files found.
+> 
+> This module is from the ALSA driver package.
+> 
+>   Geller Sandor <wildy@petra.hos.u-szeged.hu>
+> 
+> -
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+> 
+
+
+-- 
++----------------------------------+---------------------------------+
+| Lee Leahu                        | voice -> 708-444-2690           |
+| Internet Technology Specialist   | fax -> 708-444-2697             |
+| RICIS, Inc.                      | email -> lee@ricis.com          |
++----------------------------------+---------------------------------+
+| I cannot conceive that anybody will require multiplications at the |
+| rate of 40,000 or even 4,000 per hour ...                          |
+|		-- F. H. Wales (1936)                                |
++--------------------------------------------------------------------+
+
+
+-- 
++----------------------------------+---------------------------------+
+| Lee Leahu                        | voice -> 708-444-2690           |
+| Internet Technology Specialist   | fax -> 708-444-2697             |
+| RICIS, Inc.                      | email -> lee@ricis.com          |
++----------------------------------+---------------------------------+
+| I cannot conceive that anybody will require multiplications at the |
+| rate of 40,000 or even 4,000 per hour ...                          |
+|		-- F. H. Wales (1936)                                |
++--------------------------------------------------------------------+
