@@ -1,41 +1,28 @@
-From: Bill <Bill@wiliweld.com>
-Date: Tue, 31 Aug 1999 11:58:04 +0000
-Subject: Re: loopback in action!
-Message-Id: <marc-linux-sound-93610068416520@msgid-missing>
+From: Alan Cox <alan@lxorguk.ukuu.org.uk>
+Date: Wed, 25 Aug 1999 14:21:08 +0000
+Subject: Re: mmap() better than read() fro streaming, Was: Re: Streaming disk I/O kills file buffering and ma
+Message-Id: <marc-linux-sound-93559158330469@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93608813328397@msgid-missing>
-In-Reply-To: <marc-linux-sound-93608813328397@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Kai Vehmanen wrote:
-> 
-> ALSA kicks ass! :) Seriously, I'm currently writing a ALSA plugin
-> for Michael Krause's soundtracker. It's still in early beta (output
-> only, scopes aren't working, etc), but simple module playback works
-> nicely. Anyway, I decided to finally do some real testing with ALSA
-> pcm-loopback and it proved to work amazingly well...
+> As you suggested I do basically the following:
+> - ptr=mmap() at current offset with lenQ2k
+> - memcpy(targetbuffer,ptr,len)   (I must use the memcpy since targetbuffer has
+> to   be mlocked() since the audio-playing thread can't tolerate pagefaults
+> because   it runs in a low-latency cycle.
+> - munmap(ptr,len)
 
-Kai,
+You can do 
+	ptr=mmap(blah)
+	mlock(ptr, ...)
+	munmap(ptr, len)
 
-	I recently had a customer who has a hearing disability and uses
-voice emulation and we were in need of driver that would eliminate
-the POP that he was experiencing during .wav, .au, and .voc files,
-not .midi though.
+> Does anyone know if there it/will be a way to do unbuffered mmap()  ?
+> I think streaming apps would benefit quite a bit from this.
 
-	He has an on-board Crystal Sound chip set. I can't recall the exact
-chip but it was mentioned on the ALSA page, in the howto's. We ended
-up using OSS. Any input on this would be appreciated for you seem to
-be doing some good work from what I read. Thanks.
-
--- 
-
-
-                     " vivit post funera virtus "
-                                 
-                  Linuxcare, At the center of Linux.
-                      http://www.linuxcare.com                    
-                                                     
-             Bill Schoolcraft    http://www.wiliweld.com
+mmap requires buffering - you are sharing the page with the system page
+cache. If you mean you want an mgoaway() to go with munmap() thats what
+madvise() provides on some other systems but not Linux yet
