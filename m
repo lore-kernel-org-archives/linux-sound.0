@@ -1,7 +1,7 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Thu, 05 Aug 1999 13:06:21 +0000
+From: Kurt Wall <kwall@xmission.com>
+Date: Thu, 05 Aug 1999 13:18:49 +0000
 Subject: Re: MPEG Support
-Message-Id: <marc-linux-sound-93385829528821@msgid-missing>
+Message-Id: <marc-linux-sound-93388118122590@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93371079221997@msgid-missing>
 In-Reply-To: <marc-linux-sound-93371079221997@msgid-missing>
@@ -10,26 +10,24 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-"Jonathan C. Masters" wrote:
+Also sprach Hannu Savolainen:
+> On Thu, 5 Aug 1999, Kurt Wall wrote:
 > 
-> I have to disagree with you here. I believe that MPEG audio decoding/encoding
-> and MPEG video decoding/encoding optional devices such as /dev/mpad /dev/mpae
-> /dev/mpvd /dev/mpve would be emensely useful. It would save so much rewritten
-> code (libraries are never quite as good as they sound) and my programs would
+> > The original question I asked was simply if MPEG support had ever been added
+> > to the <linux/soundcard.h>, as some of the declarations therein seemed to
+> > suggest that such support would be added.  I didn't ask for a lecture on
+> > whether or not it is appropriate to add such to the kernel
+> The define for MPEG audio was added there for cards with hardware MPEG
+> audio capability. At that time (good old 486 days) software MPEG in kernel
+> simply was not possible. The definition was added just for future
+> purposes.
 
-Why should a library be worse than kernel code?
+Well, da man hisself, he done said it.  Thread closed. :-)
 
-Furthermore, in the kernel, you can't use:
-- MMX
-- Floating point
-- KNI or ISSE or 3dNOW.
-
-So kernel code will be slower than usermode code.
-
-> instantaneously become much more enhanced. Besides, since MPEG decoding/encoding
-> cards are popular these days, you begin to see the speed required (so much so
-
-Please name one that does MPEG _AUDIO_, I don't know one. (I know
-about MPEG video cards...)
-
-Tom
+Kurt
+-- 
+Didja' ever have to make up your mind,
+Pick up on one and leave the other behind,
+It's not often easy, and it's not often kind,
+Didja' ever have to make up your mind?
+		-- Lovin' Spoonful
