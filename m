@@ -1,8 +1,10 @@
 From: Guenther Sohler <guenther.sohler@newlogic.at>
-Date: Wed, 12 Jan 2000 06:25:30 +0000
+Date: Wed, 12 Jan 2000 13:31:11 +0000
 Subject: wav2mid again
-Message-Id: <marc-linux-sound-94768726627799@msgid-missing>
+Message-Id: <marc-linux-sound-94770980621156@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-94768726627799@msgid-missing>
+In-Reply-To: <marc-linux-sound-94768726627799@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
