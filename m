@@ -1,58 +1,60 @@
-From: "Nerijus" <nerijus@sat.lt>
-Date: Sun, 13 Feb 2000 00:57:38 +0000
-Subject: FW: Linux K7M Soundrivers found on ASUS CD
-Message-Id: <marc-linux-sound-95040520613417@msgid-missing>
+From: Jarek Luberek <jarek@swipnet.se>
+Date: Fri, 18 Feb 2000 03:46:11 +0000
+Subject: es1371 oops (corrected). Sorry for the mess
+Message-Id: <marc-linux-sound-95088808210646@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="macroman"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-
-
------Original Message-----
-From: owner-linux-kernel@vger.rutgers.edu
-[mailto:owner-linux-kernel@vger.rutgers.edu] On Behalf Of Jeff Garzik
-Sent: Saturday, February 12, 2000 10:16 PM
-To: linux-via@gtf.org
-Cc: Linux Kernel List
-Subject: Re: Linux K7M Soundrivers found on ASUS CD
-
-
-rolf@max.lui.uni-tuebingen.de wrote:
-> 
-> Hello
-> 
-> Maybe you are as Surprised a i was but...
-> 
-> There are Sounddrivers on the CD that came with my Asus K7M
-> there are two Versions /cdrom/Audio/LINUX/CALDERA/  and
-> /cdrom/Audio/LINUX/REDHAT/
-> 
-> They basically contain the same.
-> 
-> The Sound Drivers are Compiled for Kernel Version 2.2.5
-> To try them on a different Kernel you have to modify the
-> vinstall script by replacing all occurences of 2.2.5 with
-> your Kernel Version for example with 2.2.14
-
-
-Thanks to Rolf for posting this, I didn't know this either.
-
-These drivers are the ones for which I have source code (under NDA), and
-are the basis for the upcoming open source "native" via sound driver.
-
-It should also be noted that the Via sound chip does not have 100%
-hardware MIDI, but merely an additional PCM channel for which MIDI data
-can be piped.  You would need to use a userspace solution, or perhaps
-the SoftOSS wave table engine, in order to get MIDI support.
-
--- 
-Jeff Garzik         | "Vegetarian" is the Indian word
-Building 1024       | for 'lousy hunter.'
-MandrakeSoft, Inc.  |
-
--
-To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-the body of a message to majordomo@vger.rutgers.edu
-Please read the FAQ at http://www.tux.org/lkml/
+U29ycnkgZm9yIHJlcG9zdGluZyB0aGlzIG9vcHMgcmVwb3J0IGJ1dCB0aGUgcHJldmlvdXMgb25l
+CndhcyBvYnZpb3VzbHkgd3JvbmcgKGJlZ2lubmVyIHlvdSBrbm93KS4gSGVyZSBnb2VzIGFnYWlu
+LgoKU3lzdGVtIGlzIGEgZHVhbCBQSUlJIDQ1MCAoU01QKS4gCkNvbXBpbGVyOiBlZ2NzLTIuOTEu
+NjYgCkdsaWJjOiAyLjEuMSAocmVkaGF0IDYuMSkuCktlcm5lbDogMi4zLjQ2CgpSdW5uaW5nIGtt
+aXggb3IgZ21peCBjYXVzZXMgYSBzaWcxMSBpbgppb2N0bC4KCmlvY3RsKDQsIDB4ODAwNDRkNzYs
+IDB4YmZmZmY5ODApICAgICAgICA9IDAKaW9jdGwoNCwgMHg4MDVjNGQ2NSwgMHg4MDhjYmM0KSAg
+ICAgICAgID0gMAppb2N0bCg0LCBTT1VORF9NSVhFUl9SRUFEX0RFVk1BU0ssIDB4ODA4Y2MyNCkg
+PSAwCmlvY3RsKDQsIFNPVU5EX01JWEVSX1JFQURfUkVDTUFTSywgMHg4MDhjYzI4KSA9IDAKaW9j
+dGwoNCwgU09VTkRfTUlYRVJfUkVBRF9SRUNTUkMsIDB4ODA4Y2MyMCkgPSAwCmlvY3RsKDQsIFNP
+VU5EX01JWEVSX1JFQURfU1RFUkVPREVWUywgMHg4MDhjYzJjKSA9IDAKaW9jdGwoNCwgU09VTkRf
+TUlYRVJfUkVBRF9DQVBTLCAweDgwOGNjMzApID0gMAppb2N0bCg0LCBTT1VORF9NSVhFUl9SRUFE
+X1ZPTFVNRSwgMHhiZmZmZjk3YykgPSAwCmlvY3RsKDQsIFNPVU5EX01JWEVSX1JFQURfU1lOVEgg
+PHVuZmluaXNoZWQgLi4uPgorKysga2lsbGVkIGJ5IFNJR1NFR1YgKysrICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIAoKYW5kIG91dHV0IGZyb20ga3N5bW9vcHMtMi4zLjMgOikKCkNQ
+VTogICAgMApFSVA6ICAgIDAwMTA6WzxjODgyNjBjND5dClVzaW5nIGRlZmF1bHRzIGZyb20ga3N5
+bW9vcHMgLXQgZWxmMzItaTM4NiAtYSBpMzg2CkVGTEFHUzogMDAwMTAyOTIKZWF4OiAwMDAwMTkw
+MCAgIGVieDogMDAwMDE5MDAgICBlY3g6IDAwMDAwMDY5ICAgZWR4OiAwMDAwMDAwMAplc2k6IDAw
+MDAwMDAwICAgZWRpOiAwMDAwMDAwMyAgIGVicDogMDAwMDAwNDAgICBlc3A6IGMxNzhiZWE4CmRz
+OiAwMDE4ICAgZXM6IDAwMTggICBzczogMDAxOApQcm9jZXNzIGdtaXggKHBpZDogMTU0Mywgc3Rh
+Y2twYWdlwTc4YjAwMCkKU3RhY2s6IDAwMDAwMDAzIDAwMDAwMDAzIGZmZmZmZmU3IGJmZmZmOTdj
+IDAwMDAwMDNmIGM4ODI2NjRhIGMxMzVlMDMwCjAwMDAwMDAzCiAgICAgICBjMWU0ZDQ0MCBiZmZm
+Zjk3YyBmZmZmZmZlNyBjMTc4YTAwMCBjMTc3YTAwMCBjM2Q2YjM0MCBjODgyNjA1MAowMDAwMDAw
+MgogICAgICAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDIgMDAwMDAwMDEgYzE3
+N2EwYTAgYzE3N2EwYTAKMDAwMDAyODIKQ2FsbCBUcmFjZTogWzxjODgyNjY0YT5dIFs8Yzg4MjYw
+NTA+XSBbPGMwMTE3YzliPl0gWzxjMDExOWRiNT5dCls8YzAyMGUyZTE+XSBbPGMwMTNkNmVhPl0g
+WzxjODgyZDk1Mj5dCiAgICAgICBbPGMwMTRkZjQ3Pl0gWzxjMDEwYzE0Mz5dCkNvZGU6IGY3IGZl
+IDg5IDc0IDI0IDEwIDg5IGMzIGJlIDY0IDAwIDAwIDAwIDg5IGY1IDI5IGRkIDZiIGM5IDY0Cgo+
+PkVJUDsgYzg4MjYwYzQgPFthYzk3X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3NC8xMTQ+ICAgPD09
+VHJhY2U7IGM4ODI2NjRhIDxbYWM5N19jb2RlY11hYzk3X21peGVyX2lvY3RsKzIwNi8yYzQ+ClRy
+YWNlOyBjODgyNjA1MCA8W2FjOTdfY29kZWNdYWM5N19yZWFkX21peGVyKzAvMTE0PgpUcmFjZTsg
+YzAxMTdjOWIgPG5vdGlmeV9wYXJlbnQrYzMvZDA+ClRyYWNlOyBjMDExOWRiNSA8c2NoZWR1bGUr
+NGM1L2I1ND4KVHJhY2U7IGMwMjBlMmUxIDx0dmVjcys0NGY5LzczNTg+ClRyYWNlOyBjMDEzZDZl
+YSA8Y2hyZGV2X29wZW4rM2UvNGM+ClRyYWNlOyBjODgyZDk1MiA8W3NvdW5kY29yZV1tb2RfZmly
+bXdhcmVfbG9hZCs0MDU2L2Q0YzQ+ClRyYWNlOyBjMDE0ZGY0NyA8c3lzX2lvY3RsKzI2Yi8zMjQ+
+ClRyYWNlOyBjMDEwYzE0MyA8dHJhY2VzeXMrMWYvMjM+CkNvZGU7ICBjODgyNjBjNCA8W2FjOTdf
+Y29kZWNdYWM5N19yZWFkX21peGVyKzc0LzExND4KMDAwMDAwMDAgPF9FSVA+OgpDb2RlOyAgYzg4
+MjYwYzQgPFthYzk3X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3NC8xMTQ+ICAgPD09ICAgMDogICBm
+NyBmZSAgICAgICAgICAgICAgICAgICAgIGlkaXZsICAlZXNpLCVlYXggICA8PT1Db2RlOyAgYzg4
+MjYwYzYgPFthYzk3X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3Ni8xMTQ+CiAgIDI6ICAgODkgNzQg
+MjQgMTAgICAgICAgICAgICAgICBtb3ZsICAgJWVzaSwweDEwKCVlc3AsMSkKQ29kZTsgIGM4ODI2
+MGNhIDxbYWM5N19jb2RlY11hYzk3X3JlYWRfbWl4ZXIrN2EvMTE0PgogICA2OiAgIDg5IGMzICAg
+ICAgICAgICAgICAgICAgICAgbW92bCAgICVlYXgsJWVieApDb2RlOyAgYzg4MjYwY2MgPFthYzk3
+X2NvZGVjXWFjOTdfcmVhZF9taXhlcis3Yy8xMTQ+CiAgIDg6ICAgYmUgNjQgMDAgMDAgMDAgICAg
+ICAgICAgICBtb3ZsICAgJDB4NjQsJWVzaQpDb2RlOyAgYzg4MjYwZDEgPFthYzk3X2NvZGVjXWFj
+OTdfcmVhZF9taXhlcis4MS8xMTQ+CiAgIGQ6ICAgODkgZjUgICAgICAgICAgICAgICAgICAgICBt
+b3ZsICAgJWVzaSwlZWJwCkNvZGU7ICBjODgyNjBkMyA8W2FjOTdfY29kZWNdYWM5N19yZWFkX21p
+eGVyKzgzLzExND4KICAgZjogICAyOSBkZCAgICAgICAgICAgICAgICAgICAgIHN1YmwgICAlZWJ4
+LCVlYnAKQ29kZTsgIGM4ODI2MGQ1IDxbYWM5N19jb2RlY11hYzk3X3JlYWRfbWl4ZXIrODUvMTE0
+PgogIDExOiAgIDZiIGM5IDY0ICAgICAgICAgICAgICAgICAgaW11bGwgICQweDY0LCVlY3gsJWVj
+eAo=
