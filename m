@@ -1,60 +1,29 @@
-From: Nick Fells <N.Fells@music.gla.ac.uk>
-Date: Thu, 06 Jan 2000 14:57:15 +0000
-Subject: Re: another card question...
-Message-Id: <marc-linux-sound-94717103418330@msgid-missing>
+From: Luis Pablo Gasparotto <luispagasparotto@yahoo.com>
+Date: Fri, 07 Jan 2000 18:22:08 +0000
+Subject: Multitrack recorder for Fiji
+Message-Id: <marc-linux-sound-94727457809496@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94710949509925@msgid-missing>
-In-Reply-To: <marc-linux-sound-94710949509925@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hi,
+Hi Nick,
 
-I use a TB Fiji with digital in and out, which seems to do pretty well
-(although there are some quirks). I don't really use it for
-multitracking; the only mt application I've managed to get to work is
-SLab, and though I think that's a great piece of software, it's more
-geared to recording sessions than to the kind of compositional
-multitracking I want to do (in the manner of ProTools, Cool Edit Pro
-etc, i.e. with lots of editing over many tracks).
+I have a Turtle Beach Fiji soundcard like you have and I=B4m looking for a
+multitrack recorder for this card. Do you know one? I have SLab, it=B4s a
+very nice recorder but I can=B4t use it with my sound card. Also I have
+Multitrack 2.2 but I can=B4t use it.
 
-But I have used it for development work with Miller Puckette's PD, and
-for this it does full duplex at 16bit 44.1k with no problems. The only
-drawbacks with the card and its Linux drivers I would say are: 1) MIDI
-input/output seems to work for a while, then gives up; 2) I'd like a
-mixer application which lets me switch between digi and non-digi input,
-and also which lets me set the sample rate - I have to use a couple of
-little self-hashed scripts and programmes to do these things. I suppose
-I should write a mixer app myself!(oh to have the time).
+Why don=B4t you use Fiji for multitrack recording? Is there some problem?
 
-Hope this helps,
-Nick
+Thank you very much in advance.
 
-Paco wrote:
-> 
-> Hello, again...
-> 
-> Yesterday, I asked for opinions on the SB Live! card.  *Lots* of negative
-> feedback on that one, so I'm still looking for a card for my new machine.
-> 
-> Any thoughts on the Turtle Beach cards?
-> 
-> For background information:  I use my machine to do multi-track recording
-> under Linux.  My recordings are later burned to CD, so I'm in no need of
-> fancy digital outputs on the card or anything.  I just need a nice clean
-> input, don't really need MIDI at all, and want the capability to do good
-> full duplex operations.  I had been using an AWE64 previously, but didn't
-> like the scratchy quality of the 8-bit playback I got while recording
-> 16-bit input during a mutlitracking session.
-> 
-> TIA,
-> -Paco
+Luis Pablo Gasparotto
 
--- 
-Dr Nick Fells,	
-Music Department,
-University of Glasgow,		Tel: +44 (0) 141-330 4096/6065
-Glasgow G12 8QQ			Fax: +44 (0) 141-330 3518
-UK.				http://www.music.gla.ac.uk/~nick
+
+
+__________________________________________________
+Do You Yahoo!?
+Talk to your friends online with Yahoo! Messenger.
+http://im.yahoo.com
