@@ -1,22 +1,37 @@
-From: "Simeon ben Nevel" <snevel@sonic.net>
-Date: Tue, 16 Mar 1999 22:32:41 +0000
-Subject: Where are the archives
-Message-Id: <marc-linux-sound-92163377832721@msgid-missing>
+From: "lokesh setia" <lokesh_setia@hotmail.com>
+Date: Wed, 03 Mar 1999 22:34:07 +0000
+Subject: high dma not working in Creative VibraX16 PnP
+Message-Id: <marc-linux-sound-92052951315049@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi All!
+Hello,
 
-Before I start asking dumb questions, can anyone point me at
-a searchable archive of this list?
+We have a creative VibraX pnp sound card (compatible with sb16).
+After configuring it as sb from sndconfig as well as manually from 
+modprobe, we have only been able to get it working in 8-bit mode.
 
-I'd appreciate it muchly.
+Trying to play in 16 bit mode gives:
 
-Simeon
---
-snevel@sonic.net      =-=-=-=-=   A rabbit is just an angel with big ears!
-Send mail to snevel@sonic.net with Subject: send index to get a listing of
-files available from my e-mail robot.  <*>
+dma timed out: irq/dma conflict.
+
+We have tried dma16 to be 5,6, and 7, but none works.
+
+In dos too, the card does not work in 5,6,7 dma but we have to give a 
+high dma=low dma (i.e. 1) . 
+
+but in modprobe we are not able to give high dma=1
+
+modprobe io=0x240 irq=5 dma=1 dma16=1
+error: dma16 not valid.
+
+Any clues to get this card working in 16-bit mode.
+
+Thanks,
+Lokesh
+
+______________________________________________________
+Get Your Private, Free Email at http://www.hotmail.com
