@@ -1,29 +1,31 @@
-From: " Raymond A. Ingles" <inglesra@frc.com>
-Date: Tue, 15 Jun 1999 12:47:58 +0000
-Subject: Re: Free OSS Problems
-Message-Id: <marc-linux-sound-92945015129434@msgid-missing>
+From: "17.hzV.tRL.478" <opt@web.fm>
+Date: Sun, 06 Jun 1999 20:17:10 +0000
+Subject: Re: real-time software synths
+Message-Id: <marc-linux-sound-92870053311911@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92940355631769@msgid-missing>
-In-Reply-To: <marc-linux-sound-92940355631769@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, 15 Jun 1999, Trevor Johnston wrote:
 
-> Thinking the card to simply be incompatible with Linux I got a Genius
-> Sound Maker 3DX2 which has a Crystal CS4236 chip.
+http://gige.epy.co.at/pd/pd.html  ?
 
- This card is apparently supported by ALSA, the Advanced Linux Sound
-Architecture. This is another GPL'd sound library (that is compatible with
-OSS). It's at "http://www.alsa-project.org/".
+On Sun, 6 Jun 1999 est@hyperreal.org wrote:
 
- You might have better luck with that...
-
- Sincerely,
-
- Ray Ingles       (248) 377-7735        ray.ingles@fanucrobotics.com
-
-    "Many people would sooner die than think. In fact, they do."
-                       - Bertrand Russell
+|-<I'm looking for a real-time software synthesis package for linux that
+|-<can handle streaming midi (or sequencer messages or, really any
+|-<format) input.
+|-<
+|-<I know that a number are listed on the Linux MIDI & Sound Apps page,
+|-<but I haven't had luck with them..and I tried *very* hard (including
+|-<writing a script to interact with TiMidity++ in its server mode and
+|-<hackin its sources to bits..no luck).
+|-<
+|-<So, I'm curious what packages people actually have working.
+|-<Opensource is always a plus of course. :)
+|-<
+|-<Thanks in advance,
+|-<
+|-<Eric
+|-<
