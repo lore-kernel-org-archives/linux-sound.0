@@ -1,57 +1,27 @@
-From: "=?iso-8859-1?B?RnLpZOlyaWMgVmFubW9s?=" <doxg@usa.net>
-Date: Mon, 15 Feb 1999 12:13:57 +0000
-Subject: Philips Soundcard
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="----=_NextPart_000_0015_01BE58E5.0B6CB020"
-Message-Id: <marc-linux-sound-91908069900666@msgid-missing>
+From: Remo Strotkamp <remo@ccrl.nj.nec.com>
+Date: Fri, 26 Feb 1999 17:08:02 +0000
+Subject: sound and 2.2.2  hear interupts I think...
+Message-Id: <marc-linux-sound-92005046515770@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
+Hi,
 
-------=_NextPart_000_0015_01BE58E5.0B6CB020
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+got a problem with my sound in kernel 2.2.2.
+I compiled the sound into the kernel this time, and when I play a wav file
+I can hear annoying beeps, which I suspect to be interrupts....
 
-I have a recent Philips soundcard with wavetable support. I try to =
-compile it into the kernel, but it doesn't seem to be supported.
-In Windows it is installed at 0x220 and 0x530, meaning Soundblaster and =
-Windows Sound System.
-Does anyone know what kind of soundcard driver I need ?
+I had alook at the kmesg and saw that there were a couple of lines indicating
 
-Fr=E9d=E9ric Vanmol
-doxg@usa.net
+some IRQ/DRQ interrupt timeouts   or sth like this....
 
-------=_NextPart_000_0015_01BE58E5.0B6CB020
-Content-Type: text/html;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD W3 HTML//EN">
-<HTML>
-<HEAD>
+what happened???
 
-<META content=3Dtext/html;charset=3Diso-8859-1 =
-http-equiv=3DContent-Type>
-<META content=3D'"MSHTML 4.72.2106.6"' name=3DGENERATOR>
-</HEAD>
-<BODY bgColor=3D#ffffff>
-<DIV><FONT color=3D#000000 size=3D2>I have a recent Philips soundcard =
-with wavetable=20
-support. I try to compile it into the kernel, but it doesn't seem to be=20
-supported.</FONT></DIV>
-<DIV><FONT color=3D#000000 size=3D2></FONT><FONT size=3D2>In Windows it =
-is installed=20
-at 0x220 and 0x530, meaning Soundblaster and Windows Sound =
-System.</FONT></DIV>
-<DIV><FONT color=3D#000000 size=3D2>Does anyone know what kind of =
-soundcard driver I=20
-need ?</FONT></DIV>
-<DIV><FONT color=3D#000000 size=3D2></FONT>&nbsp;</DIV>
-<DIV><FONT color=3D#000000 size=3D2>Fr&eacute;d&eacute;ric =
-Vanmol</FONT></DIV>
-<DIV><FONT color=3D#000000 =
-size=3D2>doxg@usa.net</FONT></DIV></BODY></HTML>
+thanks in advance
 
-------=_NextPart_000_0015_01BE58E5.0B6CB020--
+
+remo
