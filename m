@@ -1,8 +1,10 @@
 From: "moc liamtoh" <mackilla@hotmail.com>
-Date: Tue, 08 Dec 1998 23:49:41 +0000
+Date: Wed, 09 Dec 1998 00:12:38 +0000
 Subject: help needed for cs423x chips
-Message-Id: <marc-linux-sound-91325015828495@msgid-missing>
+Message-Id: <marc-linux-sound-91325090028859@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91325015828495@msgid-missing>
+In-Reply-To: <marc-linux-sound-91325015828495@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
