@@ -1,32 +1,44 @@
-From: Paul Barton-Davis <pbd@Op.Net>
-Date: Sat, 18 Sep 1999 22:44:05 +0000
-Subject: Re: [alsa-devel] Re: Bad MIDI performance : 10ms latency instead of the expected 1-1.5ms
-Message-Id: <marc-linux-sound-93769443822861@msgid-missing>
+From: Benno Senoner <sbenno@gardena.net>
+Date: Thu, 16 Sep 1999 21:03:31 +0000
+Subject: latencytests results on a Pentium133, again EXCELLENT, 2.1ms.:-)
+Message-Id: <marc-linux-sound-93751869030865@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93571438020118@msgid-missing>
-In-Reply-To: <marc-linux-sound-93571438020118@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
->Im the only one that have problems with perfomance while receiving
->midi data ?  It is droping a lot of events. Oss don't drop so mush,
->but alsa is useless. Is it SMP problem ? Low irq responce times ? I
->have a SB PCI 128 and a hoontech and have the same problem with
->both. (The hoontech is only avalible with alsa driver)
+Hi, folks,
+I performed more latency benchmarks on an old Pentium box:
+P133 , mainboard Tyan Tomcat HX, 64MB RAM, harddisk IBM EIDE 6GB,
+ Soundcard TB Tropez plus, videocard S3 PCI.
 
-I don't know if you're the only one, but certainly not all people with
-the hoontech's have this problem, even with SMP systems. I have a
-Hoontech 4D-NX and a Tropez+, and my MIDI response and functionality
-is as good as any MIDI hardware makes possible. I lose no events, even
-in the face of a lot of MIDI data transmission (e.g. a MIDI fader box
-being actively manipulated at the same time as a MIDI h/w sequencer
-and an external synth that sends active sense bytes every few msecs).
+To my surprise the results were excellent,  2.1ms !  ( 3x128 bytes audio bu=
+ffer)
+(even if the jitter is a bit higher than on a PII400 , but anyway very good=
+ !)
 
-You may have a bigger potential problem right now in terms of quoting
-irrelevant messages in their entirety and sending MIME-based mail to
-various email lists which have a majority of members who don't like
-it.
+I lowered the CPU load to 60% since cpuload=80% made the box quite unusable
+(it's like running on a Pentium with 20-25Mhz  :-))
 
---p
+look at the results here:
+
+http://www.gardena.net/benno/linux/audio/2.2.10-p133-3x128/3x128.html
+
+Seems that Benjamin was right: a P166MMX Laptop can deliver the 3-4ms laten=
+cy.
+:-)
+
+PS: I noticed that the TB Tropez plus, takes a few msecs to startup,
+(after the first write() call) therefore just write an empty audio buffer
+before entering the main loop.
+
+regards,
+Benno.
+
+--
+Benno Senoner
+E-Mail: sbenno@gardena.net
+Linux low latency audio / scheduling latency benchmarks:
+http://www.gardena.net/benno/linux/audio
+=20
