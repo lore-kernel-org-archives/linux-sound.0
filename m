@@ -1,616 +1,155 @@
-From: Alessandro Zummo <azummo@ita.flashnet.it>
-Date: Mon, 13 Mar 2000 19:57:17 +0000
-Subject: [PATCH] sb_card.c
+From: Paul Laufer <pelaufer@csupomona.edu>
+Date: Wed, 29 Mar 2000 09:40:24 +0000
+Subject: [Patch] sb_card.c cleanup, take 4
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="BOUNDARY.145392192.4"
-Message-Id: <marc-linux-sound-95310700302429@msgid-missing>
+Content-Type: multipart/mixed; boundary="1199987260-1794783271-954322824=:239"
+Message-Id: <marc-linux-sound-95432292704574@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 To: linux-sound@vger.kernel.org
 
-Warning: This is a message in MIME format. Your mail reader does not
-support MIME. Some parts of this message will be readable as plain text.
-To see the rest, you will need to upgrade your mail reader. Following are
-some URLs where you can find MIME-capable mail programs for common platforms:
-
-  Amiga............: YAM          http://www.yam.ch/
-  Unix.............: Metamail     ftp://ftp.bellcore.com/nsb/
-  Windows/Macintosh: Eudora       http://www.qualcomm.com/
-
-General info about MIME can be found at:
-
-http://www.cis.ohio-state.edu/hypertext/faq/usenet/mail/mime-faq/top.html
-
-
---BOUNDARY.145392192.4
-Content-Type: text/plain
-
-
- Here is the announced patch.
-
- Changes:
-
- - Dropped support for AWE wavetable. The new awe_wave driver
-  (0.4.4) supports pnp itself. I hope it will be included in the kernel.
-
- - Support for joystick dropped, it's not the place for it.
-
- - If a device is already active before the
- driver is loaded then it's current settings will
- be used. this will allow the user to manually configure
- each card via the /proc/isapnp interface if needed.
-
- - The card is leaved in an active state if it was already
-active when the module was loaded.
- 
-We still have a problem when sb.o module isinserted/removed 
-many times without removing sb_lib.o too: i get
-the message too many mixer devices or something similar,
-i hadn't the time to check it. 
-
-Christoph, could you please check?
-
-
--- 
-
-   - *Alex* -
-
-  http://freepage.logicom.it/azummo/
-
--
-To unsubscribe: mail -s unsubscribe sound-hackers-request@zabbo.net < /dev/null
-
-*** End of forwarded message ***
-
--- 
-
-   - *Alex* -
-
-  http://freepage.logicom.it/azummo/
-
---BOUNDARY.145392192.4
-Content-Type: text/plain; charset=iso-8859-1; name="sb_patch.2.3.51"
-Content-Disposition: attachment; filename="sb_patch.2.3.51"
-Content-Transfer-Encoding: quoted-printable
-
---- linux/drivers/sound/sb_card.c	Sat Mar 11 16:00:13 2000
-+++ sb-linux/drivers/sound/sb_card.c	Mon Mar 13 22:48:46 2000
-@@ -29,6 +29,10 @@
-  * 13-02-2000 Hopefully fixed awe/sb16 related bugs, code cleanup
-  *  Alessandro Zummo <azummo@ita.flashnet.it>
-  *
-+ * 13-03-2000 Added some more cards, thanks to Torsten Werner.
-+ *  Removed joystick and wavetable code, there are better places for the=
-m.
-+ *  Code cleanup plus some fixes. =
-
-+ *
-  */
- =
-
- #include <linux/config.h>
-@@ -145,10 +149,7 @@
- static struct address_info cfg_mpu;
- =
-
- struct pci_dev 	*sb_dev 	=3D NULL, =
-
--		*wss_dev	=3D NULL, =
-
--		*jp_dev		=3D NULL,
--		*mpu_dev	=3D NULL, =
-
--		*wt_dev		=3D NULL;
-+		*mpu_dev	=3D NULL;
- /*
-  *    Note DMA2 of -1 has the right meaning in the SB16 driver as well
-  *    as here. It will cause either an error if it is needed or a fallba=
-ck
-@@ -166,10 +167,9 @@
- #if defined CONFIG_ISAPNP || defined CONFIG_ISAPNP_MODULE
- static int isapnp	=3D 1;
- static int isapnpjump	=3D 0;
--static int nosbwave	=3D 0;	/* This option will be removed when the new a=
-we_wave driver will be
--				   in the kernel tree */
-+static int activated	=3D 1;
- #else
--int isapnp	=3D 0;
-+static int isapnp	=3D 0;
- #endif
- =
-
- MODULE_DESCRIPTION("Soundblaster driver");
-@@ -187,10 +187,8 @@
- #if defined CONFIG_ISAPNP || defined CONFIG_ISAPNP_MODULE
- MODULE_PARM(isapnp,	"i");
- MODULE_PARM(isapnpjump,	"i");
--MODULE_PARM(nosbwave,	"i");
- MODULE_PARM_DESC(isapnp,	"When set to 0, Plug & Play support will be dis=
-abled");
- MODULE_PARM_DESC(isapnpjump,	"Jumps to a specific slot in the driver's P=
-nP table. Use the source, Luke.");
--MODULE_PARM_DESC(nosbwave,	"Disable SB AWE 32/64 Wavetable initializatio=
-n. Use this option with the new awe_wave driver.");
- #endif
- =
-
- MODULE_PARM_DESC(io,		"Soundblaster i/o base address (0x220,0x240,0x260,=
-0x280)");
-@@ -213,12 +211,13 @@
- {
- 	int err;
- =
-
-+	/* Device already active? Let's use it */
-+
- 	if(dev->active)
- 	{
--		printk(KERN_INFO "sb: %s %s already in use\n", devname, resname);
--		return(NULL);
-+		activated =3D 0;
-+		return(dev);
- 	}
--
- 	if((err =3D dev->activate(dev)) < 0)
- 	{
- 		printk(KERN_ERR "sb: %s %s config failed (out of resources?)[%d]\n", d=
-evname, resname, err);
-@@ -324,42 +323,6 @@
- 	else
- 		printk(KERN_ERR "sb: CMI8330 panic: mpu not found\n");
- =
-
--
--	/*  @P@:Gameport
--	 */
--
--	if((jp_dev =3D isapnp_find_dev(bus,
--		ISAPNP_VENDOR('@','P','@'), ISAPNP_FUNCTION(0x0001), NULL)))
--	{
--		jp_dev->prepare(jp_dev);
--
--		if((jp_dev =3D activate_dev("CMI8330", "gameport", jp_dev)))
--			show_base("CMI8330", "gameport", &jp_dev->resource[0]);
--	}
--	else
--		printk(KERN_ERR "sb: CMI8330 panic: gameport not found\n");
--
--	/*  @@@0001:OPL3 =
-
--	 */
--
--#if defined(CONFIG_SOUND_YM3812) || defined(CONFIG_SOUND_YM3812_MODULE)
--	if((wss_dev =3D isapnp_find_dev(bus,
--		ISAPNP_VENDOR('@','@','@'), ISAPNP_FUNCTION(0x0001), NULL)))
--	{
--		wss_dev->prepare(wss_dev);
--
--		/* Let's disable IRQ and DMA for WSS device */
--
--		wss_dev->irq_resource[0].flags =3D 0;
--		wss_dev->dma_resource[0].flags =3D 0;
--
--		if((wss_dev =3D activate_dev("CMI8330", "opl3", wss_dev)))
--			show_base("CMI8330", "opl3", &wss_dev->resource[1]);
--	}
--	else
--		printk(KERN_ERR "sb: CMI8330 panic: opl3 not found\n");
--#endif
--
- 	printk(KERN_INFO "sb: CMI8330 mail reports to Alessandro Zummo <azummo@=
-ita.flashnet.it>\n");
- =
-
- 	return(sb_dev);
-@@ -391,7 +354,6 @@
- 		}
- =
-
- 		if(!sb_dev) return(NULL);
--
- 	}
- 	else
- 		printk(KERN_ERR "sb: DT0197H panic: sb base not found\n");
-@@ -399,7 +361,6 @@
- 	/*  @X@0001:mpu
- 	 */
- =
-
--#ifdef CONFIG_MIDI
- 	if((mpu_dev =3D isapnp_find_dev(bus,
- 				ISAPNP_VENDOR('@','X','@'), ISAPNP_FUNCTION(0x0001), NULL)))
- 	{
-@@ -413,171 +374,100 @@
- 	}
- 	else
- 		printk(KERN_ERR "sb: DT0197H panic: mpu not found\n");
--#endif
--
--
--	/*  @P@:Gameport
--	 */
--
--	if((jp_dev =3D isapnp_find_dev(bus,
--				ISAPNP_VENDOR('@','P','@'), ISAPNP_FUNCTION(0x0001), NULL)))
--	{
--		jp_dev->prepare(jp_dev);
--
--		if((jp_dev =3D activate_dev("DT0197H", "gameport", jp_dev)))
--			show_base("DT0197H", "gameport", &jp_dev->resource[0]);
--	}
--	else
--		printk(KERN_ERR "sb: DT0197H panic: gameport not found\n");
--
--	/*  @H@0001:OPL3 =
-
--	 */
--
--#if defined(CONFIG_SOUND_YM3812) || defined(CONFIG_SOUND_YM3812_MODULE)
--	if((wss_dev =3D isapnp_find_dev(bus,
--				ISAPNP_VENDOR('@','H','@'), ISAPNP_FUNCTION(0x0001), NULL)))
--	{
--		wss_dev->prepare(wss_dev);
--
--		/* Let's disable IRQ and DMA for WSS device */
--
--		wss_dev->irq_resource[0].flags =3D 0;
--		wss_dev->dma_resource[0].flags =3D 0;
--
--		if((wss_dev =3D activate_dev("DT0197H", "opl3", wss_dev)))
--			show_base("DT0197H", "opl3", &wss_dev->resource[0]);
--	}
--	else
--		printk(KERN_ERR "sb: DT0197H panic: opl3 not found\n");
--#endif
- =
-
- 	printk(KERN_INFO "sb: DT0197H mail reports to Torsten Werner <twerner@i=
-ntercomm.de>\n");
- =
-
- 	return(sb_dev);
- }
- =
-
--/* Specific support for awe will be dropped when:
-- * a) The new awe_wawe driver with PnP support will be introduced in the=
- kernel
-- * b) The joystick driver will support PnP - a little patch is available=
- from me....hint, hint :-)
-- */
--
--static struct pci_dev *sb_init_awe(struct pci_bus *bus, struct pci_dev *=
-card, struct address_info *hw_config, struct address_info *mpu_config)
-+static struct pci_dev *sb_init_als(struct pci_bus *bus, struct pci_dev *=
-card, struct address_info *hw_config, struct address_info *mpu_config)
- {
--	/*  CTL0042:Audio SB64
--	 *  CTL0031:Audio SB32
--	 *  CTL0045:Audio SB64
-+	/* =
-
-+	 * ALS 100
-+	 * very similar to both ones above
-+	 */
-+
-+	/*  @@@0001:Soundblaster.
- 	 */
- =
-
--	if(	(sb_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP=
-_FUNCTION(0x0042), NULL)) || =
-
--		(sb_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP_FU=
-NCTION(0x0031), NULL)) ||
--		(sb_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP_FU=
-NCTION(0x0045), NULL))	)
-+	if((sb_dev =3D isapnp_find_dev(bus,
-+				ISAPNP_VENDOR('@','@','@'), ISAPNP_FUNCTION(0x0001), NULL)))
- 	{
- 		sb_dev->prepare(sb_dev);
- 		=
-
--		if((sb_dev =3D activate_dev("AWE", "sb", sb_dev)))
-+		if((sb_dev =3D activate_dev("ALS100", "sb", sb_dev)))
- 		{
- 			hw_config->io_base 	=3D sb_dev->resource[0].start;
- 			hw_config->irq 		=3D sb_dev->irq_resource[0].start;
--			hw_config->dma 		=3D sb_dev->dma_resource[0].start;
--			hw_config->dma2 	=3D sb_dev->dma_resource[1].start;
--
--			mpu_config->io_base	=3D sb_dev->resource[1].start;
-+			hw_config->dma 		=3D sb_dev->dma_resource[1].start;
-+			hw_config->dma2 	=3D sb_dev->dma_resource[0].start;
- =
-
--			show_base("AWE", "sb",		&sb_dev->resource[0]);
--			show_base("AWE", "mpu", 	&sb_dev->resource[1]);
--			show_base("AWE", "opl3",	&sb_dev->resource[2]);
-+			show_base("ALS100", "sb", &sb_dev->resource[0]);
- 		}
--		else
--			return(NULL);
--	}
--	else
--		printk(KERN_ERR "sb: AWE panic: sb base not found\n");
--
- =
-
--	/*  CTL7002:Game SB64
--	 *  CTL7001:Game SB32
--	 */
--
--	if(	(jp_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP=
-_FUNCTION(0x7002), NULL)) ||
--		(jp_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP_FU=
-NCTION(0x7001), NULL)) )
--	{
--		jp_dev->prepare(jp_dev);
--		=
-
--		if((jp_dev =3D activate_dev("AWE", "gameport", jp_dev)))
--			show_base("AWE", "gameport", &jp_dev->resource[0]);
-+		if(!sb_dev) return(NULL);
- 	}
- 	else
--		printk(KERN_ERR "sb: AWE panic: gameport not found\n");
--
-+		printk(KERN_ERR "sb: ALS100 panic: sb base not found\n");
- =
-
--	/*  CTL0022:WaveTable SB64
--	 *  CTL0021:WaveTable SB32
--	 *  CTL0023:WaveTable Sb64
-+	/*  @X@0001:mpu
- 	 */
- =
-
--	if( nosbwave =3D=3D 0 &&
--   	( ( wt_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAP=
-NP_FUNCTION(0x0023), NULL)) ||
--	  ( wt_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP_=
-FUNCTION(0x0022), NULL)) ||
--	  ( wt_dev =3D isapnp_find_dev(bus, ISAPNP_VENDOR('C','T','L'), ISAPNP_=
-FUNCTION(0x0021), NULL)) ))
-+	if((mpu_dev =3D isapnp_find_dev(bus,
-+				ISAPNP_VENDOR('@','X','@'), ISAPNP_FUNCTION(0x0001), NULL)))
- 	{
--		wt_dev->prepare(wt_dev);
--		=
-
--		if((wt_dev =3D activate_dev("AWE", "wavetable", wt_dev)))
-+		mpu_dev->prepare(mpu_dev);
-+
-+		if((mpu_dev =3D activate_dev("ALS100", "mpu", mpu_dev)))
- 		{
--			show_base("AWE", "wavetable", &wt_dev->resource[0]);
--			show_base("AWE", "wavetable", &wt_dev->resource[1]);
--			show_base("AWE", "wavetable", &wt_dev->resource[2]);
-+			show_base("ALS100", "mpu", &mpu_dev->resource[0]);
-+			mpu_config->io_base =3D mpu_dev->resource[0].start;
- 		}
- 	}
- 	else
--		printk(KERN_ERR "sb: AWE panic: wavetable not found\n");
-+		printk(KERN_ERR "sb: ALS100 panic: mpu not found\n");
- =
-
--	printk(KERN_INFO "sb: AWE mail reports to Alessandro Zummo <azummo@ita.=
-flashnet.it>\n");
-+	printk(KERN_INFO "sb: ALS100 mail reports to Torsten Werner <twerner@in=
-tercomm.de>\n");
- =
-
- 	return(sb_dev);
- }
- =
-
--#define SBF_DEV	0x01
--
-+#define SBF_DEV	0x01 /* Please notice that cards without this flag set a=
-re on top in the list */
- =
-
- static struct { unsigned short vendor, function, flags; struct pci_dev *=
- (*initfunc)(struct pci_bus *, struct pci_dev *, struct address_info *, s=
-truct address_info *); char *name; }
--isapnp_sb_list[] __initdata =3D {
-+sb_isapnp_list[] __initdata =3D {
-+	{ISAPNP_VENDOR('C','M','I'), ISAPNP_FUNCTION(0x0001), 0,	&sb_init_cmi,	=
-	"CMI 8330 SoundPRO" },
-+	{ISAPNP_VENDOR('R','W','B'), ISAPNP_FUNCTION(0x1688), 0,	&sb_init_diamo=
-nd,	"Diamond DT0197H" },
-+	{ISAPNP_VENDOR('A','L','S'), ISAPNP_FUNCTION(0x0001), 0,	&sb_init_als,	=
-	"ALS 100" },
- 	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0001), SBF_DEV,	&sb_init=
-_generic,	"Sound Blaster 16" },
- 	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0031), SBF_DEV,	&sb_init=
-_generic,	"Sound Blaster 16" },
- 	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0041), SBF_DEV,	&sb_init=
-_generic,	"Sound Blaster 16" },
- 	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0042), SBF_DEV,	&sb_init=
-_generic,	"Sound Blaster 16" },
- 	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0043), SBF_DEV,	&sb_init=
-_generic,	"Sound Blaster 16" },
- 	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0045), SBF_DEV,	&sb_init=
-_generic,	"Sound Blaster 16" },
--	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0044), 0,	&sb_init_awe,	=
-	"Sound Blaster 32" },
--	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0039), 0,	&sb_init_awe,	=
-	"Sound Blaster AWE 32" },
--	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x009D), 0,	&sb_init_awe,	=
-	"Sound Blaster AWE 64" },
--	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x00C5), 0,	&sb_init_awe,	=
-	"Sound Blaster AWE 64" },
--	{ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x00E4), 0,	&sb_init_awe,	=
-	"Sound Blaster AWE 64" },
- 	{ISAPNP_VENDOR('E','S','S'), ISAPNP_FUNCTION(0x0968), SBF_DEV,	&sb_init=
-_ess,		"ESS 1688" },
- 	{ISAPNP_VENDOR('E','S','S'), ISAPNP_FUNCTION(0x1868), SBF_DEV,	&sb_init=
-_ess,		"ESS 1868" },
- 	{ISAPNP_VENDOR('E','S','S'), ISAPNP_FUNCTION(0x8611), SBF_DEV,	&sb_init=
-_ess,		"ESS 1868" },
- 	{ISAPNP_VENDOR('E','S','S'), ISAPNP_FUNCTION(0x1869), SBF_DEV,	&sb_init=
-_ess,		"ESS 1869" },
- 	{ISAPNP_VENDOR('E','S','S'), ISAPNP_FUNCTION(0x1878), SBF_DEV,	&sb_init=
-_ess,		"ESS 1878" },
- 	{ISAPNP_VENDOR('E','S','S'), ISAPNP_FUNCTION(0x1879), SBF_DEV,	&sb_init=
-_ess,		"ESS 1879" },
--	{ISAPNP_VENDOR('C','M','I'), ISAPNP_FUNCTION(0x0001), 0,	&sb_init_cmi,	=
-	"CMI 8330 SoundPRO" },
--	{ISAPNP_VENDOR('R','W','B'), ISAPNP_FUNCTION(0x1688), 0,	&sb_init_diamo=
-nd,	"Diamond DT0197H" },
- 	{0}
- };
- =
-
--static int __init sb_init_isapnp(struct address_info *hw_config, struct =
-address_info *mpu_config, struct pci_bus *bus, struct pci_dev *card, int =
-slot)
-+static int __init sb_isapnp_init(struct address_info *hw_config, struct =
-address_info *mpu_config, struct pci_bus *bus, struct pci_dev *card, int =
-slot)
- {
- 	struct pci_dev *idev =3D NULL;
- =
-
- 	/* You missed the init func? That's bad. */
--	if(isapnp_sb_list[slot].initfunc)
-+	if(sb_isapnp_list[slot].initfunc)
- 	{
--		char *busname =3D bus->name[0] ? bus->name : isapnp_sb_list[slot].name=
-;
-+		char *busname =3D bus->name[0] ? bus->name : sb_isapnp_list[slot].name=
-;
- =
-
- 		printk(KERN_INFO "sb: %s detected\n", busname); =
-
- =
-
- 		/* Initialize this baby. */
- =
-
--		if((idev =3D isapnp_sb_list[slot].initfunc(bus, card, hw_config, mpu_c=
-onfig)))
-+		if((idev =3D sb_isapnp_list[slot].initfunc(bus, card, hw_config, mpu_c=
-onfig)))
- 		{
- 			/* We got it. */
- =
-
-@@ -602,12 +492,12 @@
-    Should this be fixed? - azummo
- */
- =
-
--int __init sb_probe_isapnp(struct address_info *hw_config, struct addres=
-s_info *mpu_config) =
-
-+int __init sb_isapnp_probe(struct address_info *hw_config, struct addres=
-s_info *mpu_config) =
-
- {
- 	int i;
- =
-
--	/* Count entries in isapnp_sb_list */
--	for (i =3D 0; isapnp_sb_list[i].vendor !=3D 0; i++);
-+	/* Count entries in sb_isapnp_list */
-+	for (i =3D 0; sb_isapnp_list[i].vendor !=3D 0; i++);
- =
-
- 	/* Check and adjust isapnpjump */
- 	if( isapnpjump < 0 || isapnpjump > ( i - 1 ) )
-@@ -616,18 +506,18 @@
- 		isapnpjump =3D 0;
- 	}
- 	=
-
--	for (i =3D isapnpjump; isapnp_sb_list[i].vendor !=3D 0; i++) {
-+	for (i =3D isapnpjump; sb_isapnp_list[i].vendor !=3D 0; i++) {
- =
-
--		if(!(isapnp_sb_list[i].flags & SBF_DEV))
-+		if(!(sb_isapnp_list[i].flags & SBF_DEV))
- 		{
- 			struct pci_bus *bus =3D NULL;
- 				=
-
- 			while ((bus =3D isapnp_find_card(
--					isapnp_sb_list[i].vendor,
--					isapnp_sb_list[i].function,
-+					sb_isapnp_list[i].vendor,
-+					sb_isapnp_list[i].function,
- 					bus))) {
- 	=
-
--				if(sb_init_isapnp(hw_config, mpu_config, bus, NULL, i))
-+				if(sb_isapnp_init(hw_config, mpu_config, bus, NULL, i))
- 					return 0;
- 			}
- 		}
-@@ -637,18 +527,18 @@
- 	 *  that matches any entry marked with SBF_DEV in the table.
- 	 */
- =
-
--	for (i =3D isapnpjump; isapnp_sb_list[i].vendor !=3D 0; i++) {
-+	for (i =3D isapnpjump; sb_isapnp_list[i].vendor !=3D 0; i++) {
- =
-
--		if(isapnp_sb_list[i].flags & SBF_DEV)
-+		if(sb_isapnp_list[i].flags & SBF_DEV)
- 		{
- 			struct pci_dev *card =3D NULL;
- =
-
- 			while ((card =3D isapnp_find_dev(NULL,
--					isapnp_sb_list[i].vendor,
--					isapnp_sb_list[i].function,
-+					sb_isapnp_list[i].vendor,
-+					sb_isapnp_list[i].function,
- 					card))) {
- =
-
--				if(sb_init_isapnp(hw_config, mpu_config, card->bus, card, i))
-+				if(sb_isapnp_init(hw_config, mpu_config, card->bus, card, i))
- 					return 0;
- 			}
- 		}
-@@ -667,7 +557,7 @@
- 	*/
- =
-
- #if defined CONFIG_ISAPNP || defined CONFIG_ISAPNP_MODULE			=
-
--	if(isapnp && (sb_probe_isapnp(&cfg, &cfg_mpu) < 0) ) {
-+	if(isapnp && (sb_isapnp_probe(&cfg, &cfg_mpu) < 0) ) {
- 		printk(KERN_NOTICE "sb_card: No ISAPnP cards found, trying standard on=
-es...\n");
- 		isapnp =3D 0;
- 	}
-@@ -709,11 +599,13 @@
- 		unload_sbmpu(&cfg_mpu);
- 	SOUND_LOCK_END;
- =
-
--	if(sb_dev)	sb_dev->deactivate(sb_dev);
--	if(jp_dev)	jp_dev->deactivate(jp_dev);
--	if(wt_dev)	wt_dev->deactivate(wt_dev);
--	if(mpu_dev)	mpu_dev->deactivate(mpu_dev);
--	if(wss_dev)	wss_dev->deactivate(wss_dev);
-+#if defined CONFIG_ISAPNP || defined CONFIG_ISAPNP_MODULE			=
-
-+	if(activated)
-+	{
-+		if(sb_dev) 	sb_dev->deactivate(sb_dev);
-+		if(mpu_dev) 	mpu_dev->deactivate(mpu_dev);
-+	}
-+#endif
- }
- =
-
- module_init(init_sb);
-
---BOUNDARY.145392192.4--
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+  Send mail to mime@docserver.cac.washington.edu for more info.
+
+--1199987260-1794783271-954322824=:239
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+
+Ok, this patch is against 2.3.99pre4-1. Other than that no additional
+changes have been made versus the take-3 version posted yesterday, because
+nobody gave me any feedback.
+
+Please test and/or send feedback.
+
+Thanks again,
+Paul Laufer
+
+--1199987260-1794783271-954322824=:239
+Content-Type: APPLICATION/octet-stream; name="sb_card.99pre4-1.patch.gz"
+Content-Transfer-Encoding: BASE64
+Content-ID: <Pine.LNX.4.10.10003290140240.239@hal9000.booga.org>
+Content-Description: 
+Content-Disposition: attachment; filename="sb_card.99pre4-1.patch.gz"
+
+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
+WSGoSEkWf6xBrACkp4zt/wMq805WWGYAAA==
+--1199987260-1794783271-954322824=:239--
