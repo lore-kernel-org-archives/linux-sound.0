@@ -1,23 +1,24 @@
-From: "George A. Michalopoulos" <george@michalopoulos.gr>
-Date: Tue, 06 Oct 1998 17:56:30 +0000
-Subject: OPTI 82c931
-Message-Id: <marc-linux-sound-90770044004640@msgid-missing>
+From: Balazs Nagy <julian7@kva.hu>
+Date: Fri, 09 Oct 1998 17:11:49 +0000
+Subject: Re: OPTI 82c931
+Message-Id: <marc-linux-sound-90796126919102@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-90770044004640@msgid-missing>
+In-Reply-To: <marc-linux-sound-90770044004640@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-7"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-aGVsbG8gYWxsLAoKY2FuIGFueW9uZSBkZXNjcmliZSB0aGUgZXhhY3Qgc3RlcHMgb24gaG93IGNh
-biBpIGluc3RhbGwgT1BUSSA4MmM5MzEgb24gbXkKc3lzdGVtID8KSSBrbm93IGFsbCBjYXJkIHJl
-c291cmNlcyAoaXJxLCBpbywgZXRjKSwgYW5kIGknbSBub3QgaW50ZXJlc3RlZCB0byBpbnN0YWxs
-Cml0IGFzIGEgbW9kdWxlLgpJIHVzZSBrZXJuZWwgMi4wLjM1IAoKCnRoYW5rIHlvdSBpbiBhZHZh
-bmNlCiAKCgoKR2VvcmdlIEEuIE1pY2hhbG9wb3Vsb3MKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwoiw+nh9N8g5ezl3/Ig5OXtIPTx4ePv9eTc7OUK4+ncIO3h
-IO7l9/nx3/Pv9ezlLCDh5OXr9t0g7O/1LCDh8Ccg9O/tIOr88+zvCsXs5d/yIPTx4ePv9eTc7OUg
-4+nhIO3hIPPs3+7v9ezlIPTv7SDq/PPs7yIgCgrD6dzt7efyINHf9PPv8gpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KCmdlb3JnZUBtaWNoYWxvcG91bG9zLmdy
-Cmh0dHA6Ly93d3cubWljaGFsb3BvdWxvcy5ncgoKMyBIaWxvbm9zIFN0ci4gLSA1NDYgNDUgLSBU
-aGVzc2Fsb25pa2kgLSBHUkVFQ0UKVGVsLiArKzMwICgzMSkgMjU2Mzk0ClRlbC4gKyszMCAoMzEp
-IDg2ODQxNCAoaG9tZSkKRmF4ICsrMzAgKDMxKSA4NDg3NzAgKGRhdGEgYWxzbykKSUNROiAzNTE1
-NDg0Cg==
+On Tue, 6 Oct 1998, George A. Michalopoulos wrote:
+
+> hello all,
+> 
+> can anyone describe the exact steps on how can i install OPTI 82c931 on my
+> system ?
+
+Use the modular sound patch from Alan.  I think RedHat's kernel source
+package contains this.
+-- 
+   Linux Supporting Center -- Red Hat Qmail packages -- http://lsc.kva.hu
+      PGP 0x1DE3631D / A8 B4 92 EE 1F 55 27 C8  86 64 9C 42 41 A4 BD B8
