@@ -1,34 +1,57 @@
-From: Keith Duthie <psycho@albatross.co.nz>
-Date: Fri, 26 Feb 1999 21:58:15 +0000
-Subject: Re: Can anyone help me with the Sound Blaster 64 PCI?
-Message-Id: <marc-linux-sound-92000185418897@msgid-missing>
+From: "=?iso-8859-1?B?RnLpZOlyaWMgVmFubW9s?=" <doxg@usa.net>
+Date: Mon, 15 Feb 1999 12:13:57 +0000
+Subject: Philips Soundcard
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="----=_NextPart_000_0015_01BE58E5.0B6CB020"
+Message-Id: <marc-linux-sound-91908069900666@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, 26 Feb 1999, Eduardo Rodriguez Esteban wrote:
+This is a multi-part message in MIME format.
 
-> 	I'm trying to configure my SB 64 PCI but have not managed it yet.
-> I've compiled my kernel with sound support, when booting I can read
-> something like "sound started" and "sound completed" but I'm not able to
-> hear anything.
-Minor problem. When you don't know how to configure a sound card, its
-better to compile sound support as a module, because then you don't need
-to recompile for every change in configuration.
+------=_NextPart_000_0015_01BE58E5.0B6CB020
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-> 	I've cat a .au to /dev/dsp and /dev/audio but everything appears in
-> my screen and then a message "/dev/dsp: not Configured"  :(  Could any of
-> you help me, please? 
-You don't have your sound card configured right.
+I have a recent Philips soundcard with wavetable support. I try to =
+compile it into the kernel, but it doesn't seem to be supported.
+In Windows it is installed at 0x220 and 0x530, meaning Soundblaster and =
+Windows Sound System.
+Does anyone know what kind of soundcard driver I need ?
 
-First of all, the list you probably should have emailed is linux-sound.
-Secondly, you can find out your sound card's irq and io-port by doing
-cat /proc/pci
-Thirdly, if you compile sound as a module, make sure you add to the module
-configuration file (either /etc/modules.conf or /etc/conf.modules)
-options sound traceinit=1
--- 
-.sig under deconstruction. Please watch out for falling stars.
-     +++ATM2           O-        +++ATL3           +++ATM1
+Fr=E9d=E9ric Vanmol
+doxg@usa.net
+
+------=_NextPart_000_0015_01BE58E5.0B6CB020
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD W3 HTML//EN">
+<HTML>
+<HEAD>
+
+<META content=3Dtext/html;charset=3Diso-8859-1 =
+http-equiv=3DContent-Type>
+<META content=3D'"MSHTML 4.72.2106.6"' name=3DGENERATOR>
+</HEAD>
+<BODY bgColor=3D#ffffff>
+<DIV><FONT color=3D#000000 size=3D2>I have a recent Philips soundcard =
+with wavetable=20
+support. I try to compile it into the kernel, but it doesn't seem to be=20
+supported.</FONT></DIV>
+<DIV><FONT color=3D#000000 size=3D2></FONT><FONT size=3D2>In Windows it =
+is installed=20
+at 0x220 and 0x530, meaning Soundblaster and Windows Sound =
+System.</FONT></DIV>
+<DIV><FONT color=3D#000000 size=3D2>Does anyone know what kind of =
+soundcard driver I=20
+need ?</FONT></DIV>
+<DIV><FONT color=3D#000000 size=3D2></FONT>&nbsp;</DIV>
+<DIV><FONT color=3D#000000 size=3D2>Fr&eacute;d&eacute;ric =
+Vanmol</FONT></DIV>
+<DIV><FONT color=3D#000000 =
+size=3D2>doxg@usa.net</FONT></DIV></BODY></HTML>
+
+------=_NextPart_000_0015_01BE58E5.0B6CB020--
