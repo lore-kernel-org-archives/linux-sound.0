@@ -1,52 +1,50 @@
-From: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
-Date: Fri, 03 May 2002 12:17:37 +0000
-Subject: [ANN] new linux-audio-announce list...
-Message-Id: <marc-linux-sound-102043614813777@msgid-missing>
+From: Gerald Teschl <gerald@esi.ac.at>
+Date: Thu, 06 Jun 2002 19:01:17 +0000
+Subject: [PATCH] unregister YMH0021 from ad1848
+Message-Id: <marc-linux-sound-102339013507846@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-hello everyone !
 
-we have created a new mailing list for linux audio announcements.=20
-it is moderated, and will be low-volume.=20
+This is the last of my patches which ensure that an opl3sax
+based sound card will work out of the box on a fresh
+linux installation:
 
-typical announcements might be:
- * releases of audio applications or new drivers
- * releases of documentation
- * latency or scheduling-related kernel patches
- * conferences, events, meetings related to linux audio
- * job advertisements (don't laugh, we've had a few on
-    linux-audio-dev)
+Since the main driver for opl3sax cards (YMH0021) is opl3sa2
+I have commented the YMH0021 entry in the MODULE_DEVICE_TABLE
+in ad1848.c. Otherwise both ad1848 and opl3sa2 will be listed
+in modules.isapnpmap and tools like sndconfig will setup the
+card using ad1848 instead of opl3sa2.
 
-the list will be advertised to editors of major linux news sites and
-printed publications, so that they have an easy, centralized news
-feed and you can reach a wide audience with your announcements.
 
-to make this work, please copy all major release announcements and
-other appropriate messages to this new list. (by "major" i mean
-tarball releases, as opposed to daily cvs commits. ;)
+I have tested this and it causes no problems (this is the output
+when using all patches together):
 
-the address is =09
+isapnp: Scanning for PnP cards...
+isapnp: opl3sa4 quirk: Allowing dma 0.
+isapnp: Card 'YAMAHA OPL3-SAx Audio System'
+isapnp: 1 Plug & Play card detected total
+ad1848/cs4248 codec driver Copyright (C) by Hannu Savolainen 1993-1996
+ad1848: OPL3-SA2 WSS mode detected
+ad1848: ISAPnP reports 'OPL3-SA2 WSS mode' at i/o 0x530, irq 5, dma 0, 1
+opl3sa2: chipset version = 0x4
+opl3sa2: Found OPL3-SA3 (YMF715E or YMF719E)
+opl3sa2: 1 PnP card(s) found.
 
-	linux-audio-announce@music.columbia.edu
-=20
-you do not need to be subscribed to be able to post.=20
+--- linux.orig/drivers/sound/ad1848.c	Thu Jun  6 18:04:44 2002
++++ linux/drivers/sound/ad1848.c	Thu Jun  6 20:09:32 2002
+@@ -2979,8 +2979,10 @@
+ 		ISAPNP_VENDOR('C','S','C'), ISAPNP_FUNCTION(0x0000), 0 },
+         {       ISAPNP_ANY_ID, ISAPNP_ANY_ID,
+ 		ISAPNP_VENDOR('C','S','C'), ISAPNP_FUNCTION(0x0100), 0 },
++/*	The main driver for this card is opl3sa2
+         {       ISAPNP_ANY_ID, ISAPNP_ANY_ID,
+ 		ISAPNP_VENDOR('Y','M','H'), ISAPNP_FUNCTION(0x0021), 0 },
++*/
+ 	{0}
+ };
+ 
 
-no discussions should take place on the list. if you want to
-encourage public feedback, please cc: an appropriate other audio
-forum, such as linux-audio-user@music.columbia.edu.
-
-please visit http://www.linuxdj.com/audio/lad/subscribelaa.php3 for
-further information.
-
-best,
-
-j=F6rn
-
-please direct replies to my private address to keep the noise on the
-lists down.
-you are welcome to forward this announcement to other related
-mailing lists or interested individuals if appropriate.
