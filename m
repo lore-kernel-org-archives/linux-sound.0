@@ -1,75 +1,70 @@
-From: Benno Senoner <sbenno@em.gardena.net>
-Date: Mon, 01 May 2000 00:17:52 +0000
-Subject: Re: midi controllers + laptop
-Message-Id: <marc-linux-sound-95714035902810@msgid-missing>
+From: Anthony Beurive <anthony.beurive@labri.u-bordeaux.fr>
+Date: Fri, 05 May 2000 13:26:47 +0000
+Subject: JIM 2000 - 2d Call for Participation
+Message-Id: <marc-linux-sound-95753398723445@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hi,
+(english version first -- la version francaise se trouve plus loin)
+----------------------------------------------------------------------
+JIM 2000
+Journees d'Informatique Musicale
+Bordeaux, France, May 15-18, 2000
 
-assumption 1:
-you have a dumb MIDI interface which is a cable from serial port
-to DIN connector, and requires that you run at 31250bps,
-this will simply not work on a PC independently of the OS,
-because the UARTS found in PC hardware simply do not support
-the 31250 baudrate since the baudrate has to be an integer divisor
-of 4*115200 , and unfortunately this is not possible for 31250.
-(the AMIGA serial port was able to use the 31250bps rate, therefore
-the MIDI interface was really cheap to implement)
+2d CALL FOR PARTICIPATION
 
-assumption 2:
-you have a true serial to MIDI interface
-(like this one http://www.maxmidi.com/diy/serial/index.html)
-which runs the PC to midi box at standard baudrates
-(38400,57600 etc) and the MIDI part at 31250bps then
-it sould be quite easy to support serial MIDI interfaces.
+IMPORTANT!
 
-/dev/midi00 behaves like a std serial device except athat it runs 
-always at 31250bps.
+We ask the participants to pre-register on our web site.  That will
+help us to determine the number of participants to the conference,
+excursion and banquet.  If you already pre-registered, thank you!
 
-Therefore the trick would be to run your app using the 
-LD_PRELOAD trick which overloads the open() syscall. 
-(implementing the LD_PRELOAD wrapper should be really trivial,
-but I have not that kind of hardware here to test that kind
-of program)
+http://www.scrime.u-bordeaux.fr/JIM2000/registration.html
 
-The wrapper simply has to check if the opening of /dev/midi00
-has been requested, then if yes open
-/dev/ttyS0 (or S1) instead, set the the serial port in RAW mode
-and baudrate to 38400 (or higher) and return the filedescriptor.
 
-at this point apps using RAW MIDI I/O should work ok
-(like Softwerk for example).
+The "Journees d'Informatique Musicale" is an annual meeting of
+researchers in computer music and musicians who use the computer as a
+means of expression or as a tool for composition. This year, the
+seventh edition of JIM will be held in Bordeaux, France, on May 15-18.
 
-Notice that there are some apps which use the OSS or ALSA sequencer,
-therefore this trick would not work.
-But there seem to be solutions to this problem.
-(alsa virtual MIDI port, and similar module for OSS)
-(please look at the linux-audio-dev and alsa-devel archives of
-the last two weeks )
+Visit our web site:
 
-ALSA folks, would it be possible to redirect the ALSA sequencer
-output to a serial MIDI device ? If yes what are the right
-steps to do this ?
+http://www.scrime.u-bordeaux.fr/JIM2000
 
-Benno.
+----------------------------------------------------------------------
+JIM 2000
+Journees d'Informatique Musicale
+Bordeaux, 15-18 mai 2000
 
-> hi,
-> 
-> i can't seem to find any info about using external midi interfaces with
-> linux. i'm using a laptop (dell inspiron 7500, which works very well
-> with linux!) so my soundcard (maestro IIe) doesn't have a midi port on
-> it...i use a number of midi controllers (like the peavey pc1600 fader
-> box) when performing, and i'd love to move some of my software over to
-> linux...
-> 
-> so can i just get a standard midi interface and hook it up to my serial
-> port? i can't find any info at all on this, all i'm finding is "how to
-> play midi files using your soundcard type stuff."
-> 
-> thanks,
-> douglas
-> 
+2eme APPEL A PARTICIPATION
+
+IMPORTANT !
+
+Nous demandons aux eventuels participants d'effectuer une
+pre-inscription sur le site web.  Ceci nous permettra de d=E9terminer un
+nombre approximatif de participants =E0 la conf=E9rence, aux d=E9jeuners, =
+=E0
+l'excursion et au banquet.  Si vous vous etes deja pre-inscrits, merci !
+
+http://www.scrime.u-bordeaux.fr/JIM2000/inscription.html
+
+
+Les Journees d'Informatique Musicale reunissent chaque annee des
+chercheurs en informatique musicale et differents acteurs de la vie
+musicale utilisant l'informatique comme moyen d'expression ou comme
+aide a la composition. Cette annee, les septiemes JIM se derouleront
+du 15 au 18 mai a Bordeaux.
+
+Visitez notre site :
+
+http://www.scrime.u-bordeaux.fr/JIM2000
+
+----------------------------------------------------------------------
+
+--=20
+              ,
+Anthony BEURIVE
+SCRIME, LaBRI, Universite Bordeaux 1
