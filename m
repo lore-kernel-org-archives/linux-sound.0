@@ -1,36 +1,40 @@
-From: "W. L. Estes" <wlestes@uncg.edu>
-Date: Mon, 26 May 2003 12:26:00 +0000
-Subject: Re: azt1008 on HP Vectra
-Message-Id: <marc-linux-sound-105395227224931@msgid-missing>
+From: Gabor Halaszvari <fire@3hacker.hu>
+Date: Fri, 02 May 2003 10:31:07 +0000
+Subject: sb audigy
+Message-Id: <marc-linux-sound-105187115217371@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-104912330303494@msgid-missing>
-In-Reply-To: <marc-linux-sound-104912330303494@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Saturday, 24 May 2003,18:03 -0400, Zwane Mwaikambo wrote:
+Hi,
 
-> On Tue, 1 Apr 2003, W. L. Estes wrote:
-> 
-> > I was looking through the linux-sound mail archives and saw a patch
-> > posted for the azt1008 against linux kernel 2.4.20-rc1-ac4. That patch
-> > didn't apply against kernel sources that I had (which isn't
-> > surprising). It would seem like this problem has already been solved
-> > so I was hoping that I could get the patch posted against 2.4.20 or
-> > similar. The post I'm referring to is:
-> > 
-> > http://marc.theaimsgroup.com/?l=linux-sound&m3835842003582&w=2
-> 
-> For a quick test you can send me your drivers/sound/ad1848.c and i'll send 
-> you back a patched one.
+I have a SB Audigy with a 4.1 speaker set which is connected to the front and 
+rear output of the soundcard, and I'm using SuSE 8.1 (2.4.19, alsa-0.9.0).
 
-Thanks, but I realized that the problem was my web browser had gotten
-overly generous on the formatting for me so the white space was off in
-the patch and I didn't think to tell diff to ignore the differences in
-whitespace.
+I experienced some strange thing:
 
-Thanks, all, for your time.
+The channel names in the mixer are not correct (it's not a problem, but I 
+don't know if it can be changed).
 
---Will
+If I'm adjusting the front and rear volume in some position, the bass speaker 
+is louder or quieter. I think it comes from, that the front and rear waves 
+compensate each other, because there is an inverted wave on one of the 
+outputs. Is this normal? How can I fix this?
+
+If you know this problems (and the answers), please help me.
+
+I know that the Audigy driver is not in finished state, I'm programming in C 
+language, but I have never written drivers yet. So if this problem can be 
+solved with developing the driver, and if there are more people, who have 
+this problems and can help to develop, we can start it.
+
+Another topic. I used lots of midi software with VSTi support (under Windows - 
+in the dark ages), do you know linux software like that? I'm interested in 
+analog synths, sequencers... (like Reason, Rebirth, Cakewalk).
+
+Best regards,
+Gabor Halaszvari
+
+
