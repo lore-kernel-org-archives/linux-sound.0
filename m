@@ -1,34 +1,54 @@
-From: "Axel Eble" <AEBLE@controlware.de>
-Date: Mon, 05 Oct 1998 16:03:29 +0000
-Subject: Antw: Re: ESS 488 and 688
-Message-Id: <marc-linux-sound-90761415702268@msgid-missing>
+From: John Christer Wickman <christer.wickman@swipnet.se>
+Date: Sat, 24 Oct 1998 17:54:45 +0000
+Subject: TB Tropez Rev. 2
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="------------4F3FE8752E8280429D7EE60A"
+Message-Id: <marc-linux-sound-90925121013266@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
->On Mon, 5 Oct 1998, Thomas Sailer wrote:
->
->> Newer ESS chips like the 1688 have their own 16bit mode,
->> which should be supported by Linux (haven't tried for quite some
->> time tough).
->
->Out of curiousity, should an ESS1868 work?  I've never had any success,
->with mine but then I didn't bother configuring it with isapnptools.
+This is a multi-part message in MIME format.
+--------------4F3FE8752E8280429D7EE60A
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-yes. If you configure it with isapnp
+How can I get my Turtle Beach Tropez Rev. 2, soundcard to work under
+RH5.0 ( kernel 2.0.31). I have tried to configure the card as a MAD16
+card, SB clones and MSS. But not a sound through /dev/audio.
+I had an old version of Linux, I think it was kernel 1.2.x, 1.3.x  or
+something then the card worked. Perhaps it may not help you (especially
+when I can't remember exactly what kernel I used), but might there have
+been some changes in the driver that reject my soundcard.
 
->If not, how hard is it to acquire documentation for said chipset?
+Onboard chips:
 
-http://www.esstech.com/
+codec:                             CS4231A (Crystal Semiconductor)
+audio interface chip:    82C929 (OPTi)
+MPU-401
+OPL3
+ICS WaveFront synthesizer
 
->
->Matthew.
->
 
+Thanks in advance,
 
+Christer Wickman
 
--- 
-Axel Eble * Controlware GmbH * Professional Services * aeble@controlware.de
-Waldstr. 92 * 63128 Dietzenbach * 06074 858 328
+--------------4F3FE8752E8280429D7EE60A
+Content-Type: text/x-vcard; charset=us-ascii;
+ name="christer.wickman.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for John Christer Wickman
+Content-Disposition: attachment;
+ filename="christer.wickman.vcf"
+
+begin:vcard 
+n:Wickman;Christer
+x-mozilla-html:FALSE
+adr:;;;;;;
+version:2.1
+email;internet:christer.wickman@swipnet.se
+x-mozilla-cpt:;-21824
+fn:Christer Wickman
+end:vcard
+
+--------------4F3FE8752E8280429D7EE60A--
