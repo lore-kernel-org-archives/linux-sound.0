@@ -1,37 +1,38 @@
-From: Tony Nugent <Tony.Nugent@usq.edu.au>
-Date: Mon, 23 Nov 1998 11:54:35 +0000
-Subject: sound driver for Dell Latitude CP (and other laptops)
-Message-Id: <marc-linux-sound-91182489707241@msgid-missing>
+From: Derrick J Brashear <shadow@DEMENTIA.ORG>
+Date: Sun, 29 Nov 1998 02:19:05 +0000
+Subject: Re: sound driver for Dell Latitude CP (and other laptops)
+Message-Id: <marc-linux-sound-91233752326767@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91182489707241@msgid-missing>
+In-Reply-To: <marc-linux-sound-91182489707241@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Is it possible to get the sound card working on laptops?
+I have a Dell Latitude CPi; Based on what you said I assume the audio is
+the same. I'm ucrrently using ALSA with the following configuration:
+add to /etc/conf.modules:
+alias char-major-14 snd
+alias snd-minor-oss-0 snd-card-cs4232
+alias snd-minor-oss-3 snd-pcm1-oss
+alias snd-minor-oss-4 snd-pcm1-oss
+alias snd-minor-oss-5 snd-pcm1-oss
+alias snd-minor-oss-12 snd-pcm1-oss
+alias snd-card-0 snd-card-cs4232
+options snd snd_major snd_cards_limit=1
+options snd-card-cs4232 snd_index=1 snd_port=0x530 snd_irq=5 snd_dma1=1 snd_dma2=0
 
-What I have here is a Dell Latitude CP, but the docs for the hardware have
-been lost or misplaced.  I have absolutely no idea what sort of sound card
-it has :-(
+Then:
+modprobe snd-card-0
 
-The windoze setup on it mentions the following:
-	Crystal PnP Audio System CODEC
-	YAMAHA SXG50C Driver
-	WaveStream Music Synthesizer
+Then go; You will need to unmute the sound card before you can use it; 
+cat /proc/asound/0/mixer0 | sed s/mute// > /proc/asound/0/mixer0
 
-I've tried several things to get the sound working on it, but to no avail.
-The Crystal chip mentioned with the RedHat sound config utility (v0.27 with
-RH5.2) hasn't been successful.
+Note that I needed to configure e.g. the parallel port from within windows
+to be not ECPP or something like that; Basically, if Windows can do duplex
+audio, this will work, otherwise there are 3 things you must pick from,
+which are ECPP, duplex audio, and something else, and I don't remember how
+I discovered what was what.
 
-I also have (not with me at the moment) an older 486-100 Osborne that I'd
-also like to get the sound working on with linux.
-
-Any hits would be appreciated.
-
-Cheers
-Tony
- -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
-  Tony Nugent <Tony.Nugent@usq.edu.au>           <linux@usq.edu.au>
-  Computer Support Officer                       Faculty of Science
-  University of Southern Queensland, Toowoomba Oueensland Australia
- -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
+-D
