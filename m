@@ -1,7 +1,7 @@
-From: Paul Barton-Davis <pbd@Op.Net>
-Date: Wed, 27 Oct 1999 02:16:43 +0000
+From: Benno Senoner <sbenno@gardena.net>
+Date: Thu, 28 Oct 1999 09:22:50 +0000
 Subject: Re: Sync Issues (was Re: External MIDI Sync using OSS/Free)
-Message-Id: <marc-linux-sound-94099060303318@msgid-missing>
+Message-Id: <marc-linux-sound-94111760112746@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94097346918347@msgid-missing>
 In-Reply-To: <marc-linux-sound-94097346918347@msgid-missing>
@@ -10,85 +10,106 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
->  Here's one algorithm I tried to use for a while, you'll see the problem:
->
->   - There are N fragments "queued" by the hardware buffer in the
->     soundcard
->   - I check to see if i'm at the start of a new beat, if I am then
->     - If there are samples to play, start playing them in this fragment
->     - If there are MIDI notes to play, queue them to be played at
->       time per fragment * N in the future
->
->  The sync problem comes from not getting swapped in enough such that
->you'll send out the MIDI data at the instant that the audio out the
->soundcard actually gets played.
+On Tue, 26 Oct 1999, Billy Biggs wrote:
+> On Tue, 26 Oct 1999, Paul Barton-Davis wrote:
+>   I was using O_RDWR | O_NONBLOCK, under a 2.2 kernel.  I was trying to do
+> drumrolls, 16th notes, at 140bpm or 150bpm.  It was no good.
 
-right, and the (or at least, *a*) solution (used in SoftWerk) is easy:
-don't do forward queuing of MIDI data in /dev/sequencer. just output
-it at the right time yourself, along with the audio data. the swapping
-in/out problem is a separate issue - you may need to mlock() some of
-the critical data in place. 
+hmmm, really strange:
+I wrote a little util called mididelay, which writes a note-on MIDI message on
+the midi-out port reads back the message and measures the delay.
+Paul got about 1.1ms delay ( = MIDI wire speed = 3 bytes x 350usecs )
+on his box:  soundcard 4DNx + ALSA drivers)
+I got a bad 11ms on my SB AWE64, and that is because the AWE64 doesn't
+have a TX irq and ad FIFO of only 2byte = driver wroks in polling mode
+ bad response times + high CPU usage, that means
+forget this card for outputting dense MIDI streams.
 
-[ as an aside: a pet peeve: very few linux systems these days ever
-swap. they do paging all the time, but thats different, well, sort
-of. ]
+BTW: which card are you using ?
 
-your time resolution will be dictated by the fragment size used by the
-soundcard driver/soundcard h/w, and it will way better than the kernel
-sequencer offers, since its based on the timer interrupt (20ms typically).
+>   One requirement for ttrk was that it be able to trigger samples on beat,
+> in sync with incomming MIDI.  This is a pain in the ass, since I have to
+> know exactly where in the audio output I am in order to do the prediction
+> correctly.  The clock on (at least the OSS) /dev/dsp is no good, since it
+> gives you no indication of when underruns occur.
 
-SoftWerk's problem is even more acute: because one MIDI track can
-control another's output data (e.g. one track controls the volume for
-another track's NoteOn messages), and because the tracks run at
-different speeds and may not ever be in sync, it is *impossible* to
-use any kernel sequencer for any useful work. why ? because until time
-T arrives, its impossible to compute what should actually be
-sent. this means that you can't queue anything in the kernel
-sequencer: you just have to wait for the "tick" to come around, and
-compute what MIDI data should be sent (if any) on that tick.
+I'd suggest to use the raw /dev/dsp and the raw /dev/midi interface:
+use 2 threads: higher pri for audio, lower pri for midi
+use a small fragmentsize x fragmentnum ,
+( for example 3 x 256bytes = 4.3ms audio buffer)
+then use the PCM playing thread as timer source ( 1.45ms accuracy in this case)
+and simply wakeup the MIDI thread (via fifos/semaphore/msgqueues etc) from
+the audio theread when you want to send data to MIDI out.
+When data comes from MIDI in, put this in a queue ( msgsnd() , or use shmem )
+and let the audio thread react on this on the next fragment,
+(if you need sample accurate MIDI/audio sync, that is another story .. ).
 
-in SoftWerk's case, because it doesn't process audio data in any way,
-I use sigitimer(2) to give me a periodic async signal every so often
-(typically 20-100ms: its controllable in the UI). i use this to
-measure the passage of time, and compute when a beat/tick is
-happening.  soon, i will use the RTC with select(2), which will be
-more accurate and permit much faster tempos than sigitimer can.
+Do not forget to apply the lowlatency patches, or your timing will simply suck !
+even an untuned IDE disk, when it reads/writes a small amount of data from/to
+the disk, could cause 20-50ms delay in your app and this is very bad
+for MIDI.
+( see my tests , especially the non DMA ones = horrible  :-)   ) 
 
-if SoftWerk *did* handle audio data (which i hope it never does!), it
-could use the timing from the soundcard DAC (or ADC) to get much more
-precise timing. in such a system, external MIDI clock would just be
-used as a master sync for tempo - i.e. each interval between 2 MIDI
-clocks byte represents 1/24 (is that right ?) of a 1/4 beat.  we can
-measure the time interval, and continue on with that tempo for our
-calculations until the time between two MIDI clock bytes
-changes. meanwhile, all actual scheduling of MIDI output data would be
-done from the timebase of the soundcard DAC.
+> 
+>   Damn annoying.
 
-well, that's my approach anyway.
+I think our collective timing/latency annoyance will go away with kernel 2.4,
+mainly thanks to Ingo for his excellent work !
+:-)
 
->  These days, I'm using three threads.  One for midi, one for audio, and
->one for the GUI.
+> 
+>   I currently have ttrk setup to just 'turn on' the sample as soon as it
+> sees the corresponding MIDI sync tick.  It's no good for drum samples or
+> loops or anything, but I can trigger cheezy sci-fi samples and they don't
+> sound _too_ out of place.  Ugh.
 
-sounds about right, although given the low speed of MIDI data, and the
-fact that you can really only sensibly check for it between processing
-audio fragments, you might be able to get away with just two.
+That is the precise reason why we are trying to put toghether the
+realtime multimedia API (provided that the kernel delivers good timing
+out of the box = kernel 2.4).
+No worries anymore, and the system will always choose the optimal
+way to transfer data/provide timing information and minimize scheduling
+overhead.
 
->  Drivers had better be forthcomming.  Yes, I'm talking about cards like
->those, such as the Event Layla and Darla, etc.  Without them, it makes
->Linux pretty useless as a multitrack platform...
+> 
+> > >  What about syncing multiple soundcards?  I've found this to be next to
+> > >impossible under thud using OSS.
+> > 
+> > as has been discussed here a number of times, this is far from
+> > trivial. clock rates from card to card, even the same brand, and even
+> > from (warm) day to (cold) day vary, so its not just a matter of
+> > finding a way to get them to all start at the same time. 
 
-the manufacturers of such cards don't have much of an interest in
-Linux. i did a little work at AES to try to change that, but its going
-to be a long uphill battle.
+yes, this is far from trivial, but we will try to provide some usable solution:
+mainly activating the cards by using DSP_SET_TRIGGER (if supported,
+otherwise it's a real pain),  to minimize starting delays,
+and then use one of the soundcards as source (or alternatively other
+timer sources), and put the remaining cards into a "slave" mode,
+where you measure the sample differences in audio buffers, and
+insert additional or drop samples to keep things in sync.
 
->  Well, at least pretty annoying.  Personally, I have two AudioPCI cards
->and a dedicated MPU-401 card for MIDI.  Each of the AudioPCI cards have
->two dsps, giving me four /dev/dsp devices.
+> 
+>   Yes, it is a pain, but there should be a better hacked job at least of
+> doing it.  When I still had Windows around, Sonic Foundry ACID had no
+> trouble at least faking some sync between my two AudioPCI cards.  I can't
+> get it as good as they did. :/
 
-if you had 2 4D-NX's, you'd have 64 openable (mono) channels for
-playback (*)...  is that enough for you ? :))) total cost $78+postage,
-plus you'd have two excellent MIDI interfaces as well.
+You will
+> 
+>   There should also be API support for it.  I hope to soon (within the
+> next year) get a soundcard that has multiple dsps inside it, for
+> outputting multi-track stuff.  I'm really worried about how much I'm going
+> to have to code myself though.....
 
-(*) but just 4 mono channels for recording, sigh.
+Agreed,
+I hope that an usable API/engine shows up during the next 6-9months.
 
---p
+I tested the peroformace of most subsystems of linux (involved in realtime
+multimedia), and it seems that it is ready for our highend requirements.
+
+Benno.
+
+
+> 
+> --
+> Billy Biggs                         vektor@div8.net
+> http://www.div8.net/billy       wbiggs@uwaterloo.ca
