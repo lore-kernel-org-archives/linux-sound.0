@@ -1,39 +1,31 @@
-From: Erik de Castro Lopo <erikd@zip.com.au>
-Date: Sun, 14 Mar 1999 20:10:20 +0000
-Subject: WAV players (was Re: awe64 not initializing on 2.2.2)
-Message-Id: <marc-linux-sound-92144274022938@msgid-missing>
+From: "Dagan Sgiath" <DaganSg@the.net.nz>
+Date: Tue, 23 Mar 1999 14:22:54 +0000
+Subject: [Newbie] New PCI sound cards...
+Message-Id: <marc-linux-sound-92219938312654@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Michael B. Trausch wrote:
-> 
-> Some .WAV files (most notably any that were introduced in the Windows 95
-> era) don't play at all-- they're just garble.
+ Hello (c:
 
-There are over thirty different kinds of .wav files. Utilities like
-wavplay can only play the PCM encoded type (fortunately the most 
-common). The palyer included with SoX can also play ADPCM encoded 
-wav files.
+ I'm about to buy a new computer. I have been looking at getting one of the 
+MX300 soundcards, with 3D sound on it.
 
-> 
-> And many, if they're not garble, they play at 1/2 the speed of normal
-> playback.  Solution:  Get a program that supports these files.
+ The question I have is... do any of these cards have support under Linux as 
+yet ? I know that Linux supports SB legacy cards... but this card isn't one of 
+them (c:
 
-Yep. I do recomend the player that comes with SoX.
-See : http://home.sprynet.com/~cbagwell/sox.html
+ Would I be better of using a SB AWE32 in Linux instead ?
 
-> I'm not sure where to look, but I'm sure that Freshmeat wouldn't be a bad
-> place to start.
+ 
+ DaganSg
 
-http://www.bright.net/~dlphilp/linux_soundapps.html is even better for audio 
-stuff.
+ ([XXH<>()<>HXX])==============
+ "I've never had a humble opinion. If you've got an opinion, why be humble about it."
 
-Erik
--- 
-+-------------------------------------------------+
-     Erik de Castro Lopo     erikd@zip.com.au
-+-------------------------------------------------+
-"640K ought to be enough for anybody."  -- Bill Gates, 1981
+ What ?! You don't use Kali ?! 
+ Get it today =>> http://www.Kali.net 
+ You use Kali ? Put your profile up in the Kali Gallery 
+ =>> http://www.sllik.com/KaliG/ 
