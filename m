@@ -1,7 +1,7 @@
 From: David Jander <djander@alumnos.utfsm.cl>
-Date: Wed, 01 Dec 1999 15:34:49 +0000
+Date: Wed, 01 Dec 1999 16:31:26 +0000
 Subject: Re: Linux Equavalent - Fast Tracker 2
-Message-Id: <marc-linux-sound-94406298605710@msgid-missing>
+Message-Id: <marc-linux-sound-94406620508723@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94335078501128@msgid-missing>
 In-Reply-To: <marc-linux-sound-94335078501128@msgid-missing>
@@ -10,22 +10,41 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, 23 Nov 1999, Clive Crous wrote:
->I ma desperately looking for a linux equivalent of Fast Tracker 2 ( by triton) or even better, a port of this great xm tracker.
+On Wed, 01 Dec 1999, you wrote:
+>What is fast tracker exactly - Is it a wave file editor ?
+>Wwhat is fasttracker capable off ?
 
-FT2 is surely by far the best tracker I have seen !
-I had been using FT2 for a long time before I abandoned DOS/Windows and turned
-towards linux. I don't have any idea about what happened to the guys from
-triton. Do you have any e-mail adress ? 
-I would be very interesting in doing a port to linux, although, as I know FT2
-is written in Borland-Pascal with tons of assembly code inside (hard to port !!)
-Anyway, if there is interest, I'd try to talk the guys from triton into giving
-away the sources, or even better, helping in doing this. I don't think they
-have any plans for porting it to Window$. They are not the kind of guys who
-like the windows platform very much I guess, so ... maybe linux is an option to
-them ... who knows ?
+Well, FastTracker 2 is an astonishing piece of art for a program.
+It all dates back to 1992 (the M$-DOS era). 
+Do you know the .mod file format ? It was invented on the Commodore-Amiga
+computer, for storing music. It is basically a set of digital sound samples,
+and an arrangement (just like a midi sequence). The standard MOD format
+considered 8 bit samples, 4 tracks (i.e. max. 4 samples playing at a time) and
+an acceptable set of special effects (like tremolo, arpeggiator, pitch pend,
+volume, loops, etc...). The guys from triton did their FastTracker 1,
+supporting the MOD format only (with 6 and 8 track variants). This program
+alone was astonishing: Small, extremely fast and very flexible. You could even
+produce stereo sound on a little stereo-DAC conected to your parallel port (a
+cheap alternative when sound-cards were very expensive).
+In 1993 they did FastTracker2, which knocked me right off my seat. I did not
+imagine the computing power inside my old 386 until I saw this program. It
+supported the new .XM (eXtended Module) format, which upgraded to 16 bit
+samples, up to 32 tracks (voices), advanced wavetable synthesis capabilities
+like complex envelopes for volume and panning, complete sample-editor/CD audio
+ripper, midi sequencer (for editing with a midi keyboard), tons of new effects,
+and a blazing fast GUI with oscilloscopes for each channel. Imagine this
+(software-wavetable synthesis) running along with fast graphic displays
+(vertical scroll + the scopes) on a 386 !!!!! Amazing !
+All these features made FT2 the ultimate music composition utility.
+Many techno-style soundtracks from not-so-old DOS computer games are made of
+.MOD files.
+We never heared again from the mythical Mr. H from Triton productions since
+their last release of FT2 (version 2.06 is the last one I know of).
+FT2, btw, is shareware, and contains a complete description of the .XM
+file-format (in case someone wants to write a player for this). This is why
+prgrams like Winamp (and XMMS ?) can read this file format.
 
-Anybody else interested ?
+Sincerely...
 
 ---------------------------------------------------------------------
 David Jander J.                   | "M$-Windows sux, Linux Rulez !  
