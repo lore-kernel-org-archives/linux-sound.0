@@ -1,59 +1,25 @@
-From: Idris Samawi Hamid <ishamid@acsu.buffalo.edu>
-Date: Sat, 27 Mar 1999 14:32:41 +0000
-Subject: Soundblaster AWE64 and RedHat 5.2
-Message-Id: <marc-linux-sound-92254564325852@msgid-missing>
+From: "Nicholas Waltham" <nwaltham@email.com>
+Date: Wed, 17 Mar 1999 21:33:53 +0000
+Subject: Trouble with ESS 1888 on Compaq 3060 /Kernel 2.0.36 and 2.2.3
+Message-Id: <marc-linux-sound-92172492401284@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Greetings:
+Heres my experience with the ESS 1888. I have a Compaq Presario 3060. I can
+set up the BIOS to use IRQ 7 for the printer and IRQ 5 for the ESS. If I boot
+Windows 98, it runs just fine, and Windows 98 tells me thats where it is - on
+IRQ 5.
 
-I bought, from a linux systems distributor, a SoundBlaster AWE64
-soundcard. I cannot
-get it to work. I use Linux Mandrake 5.3 (RedHat 5.2).
+Now if I try and configure ESS 1888 as a SB under Linux 2.0.36 or 2.2.3 if I
+tell it to use IRQ 5, the driver gives an error immediately and says the IRQ
+test failed. Now if I for example give IRQ 7, it loads fine, and works for a
+while and then dies, with a DMA timout message. I have played with this for a
+while - I have noticed that I can tell the sb driver to load using a number of
+different interrupts and it works in the way you describe. But it never works
+if I give it the interrupt it really is.
 
-I ran sndconfig but it failed to set up sound (although my card is
-listed in the soundcard list). I tried again and sndconfig would just
-freeze, forcing me to have to kill kvt. This happened a number of times.
-
-dmesg gives me
-------
-Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
-sb: dsp reset failed.
-AWE32: not detected
-------
-My old RedHat 5.0 Installation guide says that the AWE64 only works in
-SB-16 mode. Isthis related to the [sound] problem?
-
-I tried sndconfig --noprobe (this option somehow does not cause
-sndconfig to freeze). Based on info in the second and smaller SB booklet
-
-that came with the soundcard, I changed the settings as follows:
-
-I/O PORT   IRQ   DMA 1   DMA 2   MPU I/O       x
-  0x220    [5]     0       0     [0x330]       x
-  0x240     7     [1]      1      0x300        x
-  0x260     9      3       3                   x
-  0x280    10             [5]                  x
-
-But it still does not work! I checked my Win95 partition and the sound
-card is indeed installed on irq5 (where it works just fine).
-
-I checked /proc/interrupts:
-
-/proc]# more interrupts
- 0:      45539   timer
- 1:        282   keyboard
- 2:          0   cascade
- 3:       1988 + serial
- 8:          1 + rtc
-13:          0   math error
-14:      63529 + ide0
-15:          0 + ide1
-
-Any advice is greatly appreciated
-
-Thank you in advance
-Idris
+Best Regards,
+Nick
