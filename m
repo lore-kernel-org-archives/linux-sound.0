@@ -1,60 +1,49 @@
-From: Paul Barton-Davis <pbd@Op.Net>
-Date: Tue, 26 Oct 1999 17:11:35 +0000
+From: Billy Biggs <vektor@DIV8.NET>
+Date: Tue, 26 Oct 1999 18:49:44 +0000
 Subject: Re: [linux-audio-dev] External MIDI Sync using OSS/Free
-Message-Id: <marc-linux-sound-94095789529102@msgid-missing>
+Message-Id: <marc-linux-sound-94096626707777@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-94095789529102@msgid-missing>
+In-Reply-To: <marc-linux-sound-94095789529102@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
->  My sequencer (http://www.div8.net/ttrk) mainly runs off of external MIDI
->sync, and drives a mess of synths and stuff.  I use /dev/sequencer for
->MIDI input and output.
+On Tue, 26 Oct 1999, Paul Barton-Davis wrote:
 
-advice #1: do not use /dev/sequencer
+> advice #1: do not use /dev/sequencer
+[ solution, use /dev/midi* ]
 
-two reasons. it doesn't exist in ALSA, which will (soon-ish) be the
-default sound driver system for Linux. but more importantly, its a
-horrible system. i won't list the problems with it here, but there are
-many. 
+  This is pretty useless IMHO.  My sequencer started off writing out
+/dev/midi, and it was consistently off-sync.  Badly off sync.  Up to half
+a second off sync.  I don't know if you have a significantly better box
+than I do, but mine just puked.
 
-instead, just let the user specify the MIDI device files to use, and
-then use them as "raw" read(2)/write(2) files. this works with OSS,
-ALSA, Solaris and a number of other systems. then do most of your
-timing stuff at user level. i don't know what your resolution needs to
-be, but my "analog MIDI sequencer" program SoftWerk does all its
-timing in user space (it has too - it doesn't know what to send to the
-MIDI interface until its actually time to send it) and is accurate
-down to about 20ms without any special priviledges. it can get a lot
-more accurate than that if it needs to. OTOH, SoftWerk is an "old
-school" sequencer, from back before the days of the first digital
-sequencers. it has a fixed number of event steps per fixed number of
-event steps, which is not what most people these days mean by "sequencer".
+  Oh yeah, and I got flamed real bad by diz. :)
 
-advice #2: if you really have external MIDI sync (do you mean MIDI clock,
-or other stuff ?), then just use that to provide timing for your
-application. if you have sensible hardware for your MIDI interface,
-then your application will be woken up very rapidly (at least if it
-runs SCHED_FIFO) after the MIDI clock byte (or any other MIDI message)
-is ready to read.
+  Trying to up the priority on the process helped significantly, but a
+simple switch to /dev/sequencer let my app stay usermode and still be
+reasonably responsive.
 
-if you don't have external clock, then you'd be better off using the
-real time clock for timing. 
+  I wish there were a better way to sync audio though, specifically sync
+of audio to MIDI.  /dev/dsp has a crappy interface to this.  Does ALSA
+provide any reasonable mechanism of syncing different inferfaces?
 
-advice 3: install ALSA, and use the ALSA sequencer. its a vastly more
-evolved kernel sequencer system, though its still going through some
-beta-testing. we would welcome your involvement in that process.
+  In OSS, the clock between outgoing and incomming MIDI aren't the same.
+In ALSA, I'd hope that would be fixed.  Does audio and sequencer also have
+the same clock?
 
->  Is there a way that I could do this more efficiently?  Since my app
->might not get swapped in until late after the start arrived, and then I
->have to call the ioctl.  This error then remains for the entire duration
->of the song.
+  What about syncing multiple soundcards?  I've found this to be next to
+impossible under thud using OSS.
 
-use SCHED_FIFO if you can. the only downside is that it does require
-that either your program, or a "helper/starter" program run setuid
-root. this will reduce to the delay between your program being "ready
-to run because MIDI data is available" and "running" to a virtually
-insignificant time.
+> advice 3: install ALSA, and use the ALSA sequencer. its a vastly more
+> evolved kernel sequencer system, though its still going through some
+> beta-testing. we would welcome your involvement in that process.
 
---p
+  I know that I should definitely look into this.  Promise I will.
+Honest.
+
+--
+Billy Biggs                         vektor@div8.net
+http://www.div8.net/billy       wbiggs@uwaterloo.ca
