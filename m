@@ -1,33 +1,32 @@
-From: Andy Lo A Foe <andy@alsa-project.org>
-Date: Tue, 26 Oct 1999 06:59:40 +0000
-Subject: Re: [linux-audio-dev] streaming from disk to terminatorX added (via
-Message-Id: <marc-linux-sound-94092126618198@msgid-missing>
+From: Ac <u98101@cs.unipune.ernet.in>
+Date: Wed, 13 Oct 1999 07:16:29 +0000
+Subject: Yamaha OPL3-Sax support for RH 6.0 kernel=2.2.5-15
+Message-Id: <marc-linux-sound-93979856809463@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94078505714168@msgid-missing>
-In-Reply-To: <marc-linux-sound-94078505714168@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Mon, 25 Oct 1999, Benno Senoner wrote:
+Hi all,
+	I'm trying to recompile my kernel (RH 6.0, 2.2.5-15) with Yamaha
+OPL3-Sax support built in. I want to know what options to give in
+make - xconfig/config/menuconfig, since after compilation
+(make dep,make clean, make bzImage, make modules), when I try to run 
+'sndconfig' or even 'setup' to configure sound, Tux just freezes and I 
+have to do a cold-boot, which is irritating due to the check-forced 
+mounting I must go through when it boots next time.
 
-> I doubt it that a CDROM drive can keep up with a nervous scratcher.
-> :-)
+	I'm sure the problem lies with IRQ's and DMA settings. Also I'm 
+confused whether to use the MPU-401 during compilation or not.
 
-Well, my Hitachi DVD-ROM does very well. I can get sustained playback 
-at 500% (that's like ripping at 5 speed). Reverse playback works at up to
--400% reliably, that's enough for most 'scratching' purposes, unless the
-DJs speed their records up 10x for a period of a few seconds :)
+	My computer specs are P-II Celeron 333, 64MB RAM, running Win98 and 
+loadlin to boot Linux. (and I do copy the updated bzImage to my c: 
+drive to use with loadlin.). There are no IRQ clashes in Win98, since I'm 
+really using no devices not even a modem.
 
-> The only solution is to keep in memory 100-200k samples before and past the
-> actual playing position, but I think reading backwards from a CDROM drive sucks
-> a lot.
+	Hoping some of you out there can help me, so thx. in advance and 
+peace on this bandwidth.
 
-Oh, actually I never read 'backwards' from a CD, or for that matter decode
-an mp3 backwards. The ringbuffer is about 300K so that's enough for about
-2 seconds of music.
-
-Andy
---
-AlsaPlayer, http://www.alsa-project.org/~andy/
+Bye,
+Ac.
