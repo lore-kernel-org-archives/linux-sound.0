@@ -1,12 +1,18 @@
-From: Shaleh <shaleh@livenet.net>
-Date: Fri, 26 Feb 1999 19:30:07 +0000
-Subject: Kernel 2.2, VAIO 505f, and sound
-Message-Id: <marc-linux-sound-92005871823690@msgid-missing>
+From: mx300@iname.com
+Date: Fri, 12 Feb 1999 09:43:04 +0000
+Subject: Diamond MX300
+Message-Id: <marc-linux-sound-91881274617651@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have a Sony VAIO 505f running 2.0.x beautifully.  However I can not get 2.2
-sound to work.  What modules do I need?
+Does anybody know, is there any chance and way to get a driver for this vortex2-based card?
+Anyway, could anybody explain how to get it worked
+with linux-2.2.1? I've tried with SB compatible, some other drivers, but without success.
+
+Thanks in advance, Dmitry.
+
+---------------------------------------------------
+Get free personalized email at http://www.iname.com
