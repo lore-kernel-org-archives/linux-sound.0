@@ -1,28 +1,37 @@
-From: "Fernandez, Richard" <fernandez@hazeltine.com>
-Date: Mon, 29 Nov 1999 20:24:53 +0000
-Subject: Crystal cs4236: clicking noise
-Message-Id: <marc-linux-sound-94390730003207@msgid-missing>
+From: Rolf Fokkens <FokkensR@vertis.nl>
+Date: Fri, 19 Nov 1999 11:50:43 +0000
+Subject: RE: ESS1938/ESS1941 etc
+Message-Id: <marc-linux-sound-94301828331968@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello,
+Hi Dirk,
 
-I have a Quantex H-1331 notebook running RH6.1
+This is a PCI chip. The ess support in the Soundblaster driver only
+focuses on ISA chips. There might be a driver now....
 
-I have sound up and running; I can play both music CD's and digital sound
-files.
+btw. I Cc'd this to the linux-sound mailing list.
 
-The problem is that when I play a sound file, in addition to the sound in
-the file, I also get a steady clicking noise. It sounds sort of like the
-popping noise you hear when you play old LP's.
+Rolf
 
-CD's play fine. The problem is only with files like .wav files.
+-----Original Message-----
+From: Dirk Laurie [mailto:dirk@calvyn.puk.ac.za]
+Sent: Friday, November 19, 1999 12:17 PM
+To: fokkensr@vertis.nl
+Subject: ESS1938/ESS1941 etc
 
-I'm not sure what other information would be helpful to include...
 
-Thanks in advance for you help!
+Dag Rolf:
 
---Rich
+I recently acquired a notebook which has (aacording to the
+documentation of its NT driver) an ESS 1938/1941/... AudioSound
+card.  This is not recognized by ess_sb in the 2.2.5 kernel,
+and if I manually choose ESS1868 from the sndconfig menu, the
+sound daemon fails to start with "Device or resource busy".
+
+Is there a more recent version of the driver that I might try?
+
+Dirk Laurie
