@@ -1,19 +1,27 @@
-From: Thomas Sailer <sailer@scs.ch>
-Date: Sun, 15 Feb 2004 10:07:23 +0000
-Subject: Re: es1371 microphone volume problems
-Message-Id: <402F44DB.5090107@scs.ch>
+From: "octavio" <first21suzuki@hotmail.com>
+Date: Fri, 05 Mar 2004 06:32:49 +0000
+Subject: Virility patch, will help you amaze girls!
+Message-Id: <1078468369-29680@excite.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: linux-kernel@vger.kernel.org
 
-Kevin Page wrote:
+Publications such as Maxim, GQ and Stuff have written about the all new Virility Patch RX which is the first high-tech patch designed to dramatically increase both penis size and male potency. No other male erectile growth formula works faster, is more effective or is easier to use than Virility Patch RX.
 
-> At first I thought there was no sound input through the microphone at
-> all, but then I found if I tapped the mic (prety hard) then that got
-> picked up - but certainly nothing if I were speaking.
+Learn more about it here: http://drugsbusiness.com/pp/index.php?pid=eph9106
 
-Sounds like your microphone needs bias - enable with "options es1371 
-micbias=1" in /etc/modules.conf
 
+
+
+
+
+
+
+
+andre beautifuasterix chiquita lucas mars fozzie goat 
+orchid sallyjordan23 shelley amelie
+fiona benoit volley 
+
+Get off this list by going here: http://drugsbusiness.com/pp/applepie.php
