@@ -1,7 +1,7 @@
-From: Dave Phillips <dlphilp@bright.net>
-Date: Thu, 13 Jul 2000 15:14:15 +0000
+From: Andrew Ryan <genanr@emsphone.com>
+Date: Thu, 13 Jul 2000 15:33:50 +0000
 Subject: Re: Midi / SysEx - Dump / Linux?
-Message-Id: <marc-linux-sound-96350161618831@msgid-missing>
+Message-Id: <marc-linux-sound-96356003609947@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96349816311777@msgid-missing>
 In-Reply-To: <marc-linux-sound-96349816311777@msgid-missing>
@@ -10,27 +10,16 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 13 Jul 2000, Steve Netting wrote:
+> On Thu, Jul 13, 2000 at 04:42:42PM +0200, Eric Brunel wrote:
+> > Good question. I'm looking for one too...
+> > Thanks,
+> >
 
->  Can anyone tell me if a utility for Linux exists which allows me
->  to receive midi bulk-dumps (AKA Sys-Ex messages) from external 
->  equipment, and then restore these later (ie, squirt them back
->  out of via midi).
-> 
->  Several progs exist for DOS - but I really don't want all the 
->  hassle of dual-booting a machine purely for this ...
+I have written a library for the Bruce James' RPEdit program.  It can send
+and receive sysex messages.  The code seems to work, which reminds me that I
+really need to send my updates to Bruce.  I could send you (and steve) the
+code if you want, I don't have it on the machine I'm at right now though.
 
-Steve, you might try hacking Glib, it's here:
+RPedit: http://www.voyager.co.nz/~bjames/RPEdit.html  
 
-	http://www.nosuch.com/glib/
-
-You could also try running your DOS editor/librarians under 
-DSOemu. It's very stable these days, I use it with various
-DOS MIDI software from Voyetra.
-
-Best regards,
-
-= Dave Phillips
-
-	http://www.bright.net/~dlphilp/index.html
-	http://www.bright.net/~dlphilp/linuxsound/
+Andy
