@@ -1,37 +1,46 @@
-From: "Adam M. Costello" <amc@cs.berkeley.edu>
-Date: Sun, 12 Mar 2000 04:20:17 +0000
-Subject: Does an SB16 have 32 volume levels or 8?
-Message-Id: <marc-linux-sound-95283558718384@msgid-missing>
+From: Catalin Bucur <cata@cce.sidex.ro>
+Date: Mon, 13 Mar 2000 07:17:18 +0000
+Subject: VIA Sound
+Message-Id: <marc-linux-sound-95293442407098@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Anyone who has some flavor of SoundBlaster 16, especially a Vibra 16C,
-could you please try the following simple experiment for me?
+Hello,
 
-Adjust the PCM volume level from 0 to 100 (I use aumix -w), and count
-how many distinct levels you hear.
+I have an Epox motherboard (3VBM) with sound on board (chipset VIA
+82C686). I saw that in kernel 2.2.14 there is a driver for this chipset,
+so I tried it. I compiled my kernel with the following options:
+#
+# Sound
+#
+CONFIG_SOUND=m
+CONFIG_SOUND_OSS=m
+CONFIG_SOUND_VIA82CXXX=m
+CONFIG_SOUND_YM3812=m
+CONFIG_SOUND_VMIDI=m
+#The rest is _not_ set
 
-When I do this, there are only 8 levels, one of which is silent.  The
-constant ranges are 0-11, 12-24, 25-37, 38-49, 50-62, 63-75, 76-88,
-89-100.
+In /etc/conf.modules I have:
+alias sound via82cxxx
+options sb io=0x220 irq=5 dma=1 mpu_io=0x330 support=1
+pre-install sound insmod sound
+alias midi opl3
+options opl3 io=0x388
 
-Various documents and code that I've poked around in say that there are
-supposed to be 32 levels with SB16 hardware.
+At boot time everything works fine, the modules are loaded, but when I
+play a sound (wav, au, mp3) I hear nothing (but the sounds are playing
+and I have no error messages). If I unload the modules from memory and
+put an OSS sound driver (evaluation) I can hear the sounds. 
+Anyone has had similar problems?
 
-Does anyone know the true story?  Also, does anyone know how these
-levels are supposed to map to amplitude or dB?
+Thanks in advance.
 
-I'm using Linux 2.2.14, with the following aliases set in modutils.conf:
+P.S. I have RedHat 6.1.
 
-alias char-major-14     soundcore  # basic sound capabilities
-alias sound-slot-0      sb         # main sound card hardware driver
-alias sound-service-0-0 sound      # mixer taken care of by sound.o
-alias sound-service-0-2 sb         # uart support part of sb
-alias sound-service-0-3 sound      # /dev/dsp & /dev/audio support in sound.o
-alias sound-service-0-6 sound      # /dev/sndstat support in sound.o
-
-Thanks,
-AMC
+-- 
+Catalin Bucur            mailto:cata@cce.sidex.ro
+Hardware Engineer - Electronic  Computing  Centre
+		    Sidex S.A. - Galati - Romania
