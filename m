@@ -1,34 +1,37 @@
-From: Benno Senoner <sbenno@gardena.net>
-Date: Thu, 11 Nov 1999 15:25:01 +0000
-Subject: Re: Sound newbie
-Message-Id: <marc-linux-sound-94233467219049@msgid-missing>
+From: buddy@dookie.net
+Date: Sun, 21 Nov 1999 21:56:06 +0000
+Subject: AC97 codec on asus k7m?
+Message-Id: <marc-linux-sound-94322145708503@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94233079313166@msgid-missing>
-In-Reply-To: <marc-linux-sound-94233079313166@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 11 Nov 1999, jonathan.naylor@socgen.com wrote:
-> Hello All
-> 
-> Is this the correct list for asking questions about user level programming of
-> sound cards ? Is there an FAQ ? and is there any definitive API documentation
-> anywhere.
-> 
-> I have some specific questions that I would like to get some answers too.
-> 
-> Jonathan
+Is there any support for the 'AC97' codec on the Asus K7M athlon
+motherboard?
 
-You can get some programming info at the opensound ( 4front tech) site:
+I can't get it going, not even with OSS commercial...
 
-http://www.opensound.com/pguide/index.html
+Any suggestions are appreciated.
 
-if you want to code ALSA applications look at:
+lspci shows that it is some kind of VIA chipset...
 
-http://www.alsa-project.org
+foobar:~$ /sbin/lspci
 
-hope this helps,
+00:00.0 Host bridge: Advanced Micro Devices: Unknown device 7006 (rev 23)
+00:01.0 PCI bridge: Advanced Micro Devices: Unknown device 7007 (rev 01)
+00:04.0 ISA bridge: VIA Technologies, Inc.: Unknown device 0686 (rev 1b)
+00:04.1 IDE interface: VIA Technologies, Inc. VT82C586 IDE [Apollo] (rev
+06)
+00:04.4 Class 0c05: VIA Technologies, Inc.: Unknown device 3057 (rev 20)
+00:04.5 Multimedia audio controller: VIA Technologies, Inc.: Unknown
+device 3058 (rev 21)
+00:0d.0 VGA compatible controller: Nvidia Corporation Riva TNT (rev 04)
+00:0e.0 Ethernet controller: Digital Equipment Corporation DECchip 21140
+[FasterNet] (rev 22)
 
-Benno.
+
+Thanks for any help
+
+--buddy smith
