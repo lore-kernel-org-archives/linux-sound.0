@@ -1,7 +1,7 @@
-From: Mike Hakes <mhakes@parlorcity.com>
-Date: Fri, 16 Apr 1999 21:35:32 +0000
-Subject: Re: Want legacy SB-16 card.
-Message-Id: <marc-linux-sound-92429950907722@msgid-missing>
+From: jason@whizzird.net
+Date: Fri, 16 Apr 1999 22:57:59 +0000
+Subject: RE: Want legacy SB-16 card.
+Message-Id: <marc-linux-sound-92430640412098@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92429795106517@msgid-missing>
 In-Reply-To: <marc-linux-sound-92429795106517@msgid-missing>
@@ -10,11 +10,13 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+if you're just looking for a good sound card for linux and don't have your
+heart set on a soundblaster, try a creative/ensoniq es1371 based card. mine
+works great with x11amp, games like x-galaga, and the gnome sounds (the only
+things i use with sound, so 100%). and the cards are only $30 or so on
+www.pricewatch.com.
 
-I was told, by a vendor, they were all PnP.
-
-On Fri, 16 Apr 1999, Hal MacArgle wrote:
-
+On 16-Apr-99 Hal MacArgle typed:
 > Greetings:
 > 
 > Does anyone have a Creative SB16 sound card in legacy format that has
@@ -29,12 +31,7 @@ On Fri, 16 Apr 1999, Hal MacArgle wrote:
 >           email:           haltec@wvadventures.net 
 > ax25: w8mch@n8tjd.wv.usa.na   tcp/ip: w8mch@marion.n8tjd.ampr.org 
 > .
-> 
 
-===================================== Mike Hakes                Tx: 219-724-4689
- 2939 East 900 North       Email: mhakes@parlorcity..com
- Decatur, In.  46733       WWW: www.parlorcity.com/mhakes
-=====================================      God help us, if we ever give them the vote. -- Rooster Cogburn
-=====================================    "Those who give up freedom in order to obtain a little security,
-       deserve neither freedom nor security." --Benjamin Franklin
-=====================================
+jason majors
+jason@whizzird.net
+http://www.whizzird.net
