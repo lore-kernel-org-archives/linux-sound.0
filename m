@@ -1,70 +1,35 @@
-From: Keith Duthie <psycho@stonebow.otago.ac.nz>
-Date: Thu, 26 Nov 1998 04:20:45 +0000
-Subject: 2.1.129, cs4232, /dev/sequencer: No such device
-Message-Id: <marc-linux-sound-91208518032495@msgid-missing>
+From: Tony Nugent <Tony.Nugent@usq.edu.au>
+Date: Tue, 29 Dec 1998 07:03:30 +0000
+Subject: problems with cdda2wav and other audio CDROM ripping software
+Message-Id: <marc-linux-sound-91491718927482@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi, I've just upgraded to 2.1.129 from 2.0.36, and I'm finding a few
-things a little strange. I can't seem to play midi files because the
-sequencer device isn't set up properly. Any help is welcome (including
-messages telling me I'm too thick to live, IF they also tell me what I'm
-doing wrong).
+For the life of me I just can't get cdda2wav to work on my RH5.1/5.2
+box!
 
-My sound device is a WaveX 32 Pro. ie a cs4237b pnp isa card.
+% cdda2wav -q -e -t2 -d0 -N -D /dev/cdrom
 
-crw-rw-rw-   1 root     root      14,   1 Nov 24 22:22 /dev/sequencer
+(and lots of variants) just produces ugly noise.  Same for cdparanoia
+- the wav files it creates sound like a ham radio between signals :)
 
-.config:
-CONFIG_SOUND=y
-CONFIG_SOUND_OSS=m
-CONFIG_SOUND_ADLIB=m
-CONFIG_SOUND_CS4232=m
-CONFIG_SOUND_SOFTOSS=m
-CONFIG_SOUND_YM3812=m
-CONFIG_SOUND_VMIDI=m
+And I can't get 8hz-mp3 to compile (there's a bunch of missing
+ieee*.h header files).  So "ripperX" is useless.
 
-/etc/modules.conf:
-options cs4232 io=0x534 irq=5 dma=1 dma2=0 mpuirq=9 mpuio=0x330
-options opl3 io=0x388
+I'd really like to do some audio cdrom ripping (to do audio cdrom
+copies and to make some mp3 disks), but I'm at a loss to know what to
+use.
 
-isapnp.conf:
-(READPORT 0x0203)
-(ISOLATE)
-(IDENTIFY *)
-(CONFIGURE CSC4237/-1 (LD 0
- (DMA 0 (CHANNEL 1))
- (DMA 1 (CHANNEL 0))
- (INT 0 (IRQ 5 (MODE +E)))
- (IO 0 (BASE 0x0534))
- (IO 1 (BASE 0x0388))
- (IO 2 (BASE 0x0220))
- (ACT Y)
-))
-(CONFIGURE CSC4237/-1 (LD 1
- (IO 0 (BASE 0x0200))
- (ACT Y)
-))
-(CONFIGURE CSC4237/-1 (LD 2
- (IO 0 (BASE 0x0120))
- (ACT Y)
-))
-(CONFIGURE CSC4237/-1 (LD 3
- (INT 0 (IRQ 9 (MODE +E)))
- (IO 0 (BASE 0x0330))
- (ACT Y)
-))
-(WAITFORKEY)
+Can anyone point me in the direction of something (anything!!) that
+*works* ??
 
+(rpm format would be ideal, but I'll use anything - just as long as it
+works :)
 
- -- 
-     |                   Keith Duthie      O-               | 
-     +         Don't call me, I'll call you.  Maybe.        +
-     |           keith.duthie@stonebow.otago.ac.nz          |
-   __   _
-  / /  (_)__  __ ____  __
- / /__/ / _ \/ // /\ \/ /  . . .  t h e   c h o i c e   o f   a
-/____/_/_//_/\_,_/ /_/\_\              G N U   g e n e r a t i o n . . .
+Many thanks.
+
+Cheers
+Tony
