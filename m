@@ -1,27 +1,38 @@
-From: Dave Wreski <dave@nic.com>
-Date: Tue, 15 Sep 1998 00:16:17 +0000
-Subject: RE: Archive?
-Message-Id: <marc-linux-sound-90583001813548@msgid-missing>
+From: Florin Andrei <florin@expert.ro>
+Date: Thu, 17 Sep 1998 09:13:16 +0000
+Subject: rplay
+Message-Id: <marc-linux-sound-90602476925576@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90576201316825@msgid-missing>
-In-Reply-To: <marc-linux-sound-90576201316825@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+I really don't like to push, but i'm in a big hurry, so please answer
+quick! :-)
 
-On 14-Sep-98 Fran Boon wrote:
-> Does this list get archives on the web anywhere?
-> Or in any other format?
-> 
-> Thanks for your help :)
+	I'm doing some experiments with rplay-rplayd. Locally (on one single
+computer) i can play .au files and also audio CD's ("rplay cdrom:").
+Over a network i managed somehow to play sound files ("rplay
+--host=my.sound.server sample.au") but that's all.
+	I wanna play live sound over a network, i.e. with two computers, no.1
+having a sound source plugged into "line in" or "mic", no.2 having "line
+out" plugged into an amplifier. How can i do that?
+	I tried to read /dev/dsp as sound source, but rplayd seems not to read
+it. When i compiled rplayd, i didn't put /dev as a forbidden directory
+(as opposed to the default setting).
+	I also failed to play audio CDs over the net (having CD in one computer
+and listening it on another). How can i do that?
 
-These should help:
+	The rplay documentation is really weak. It says it can play live sounds
+over a network, but there is no example! Only that stuff with the .au
+files.
 
-http://www.dejanews.com            # search engine across all of usenet and
-                                   #  mailing lists
-http://linux-list.home.ml.org/     # a list of linux lists
-http://www.linuxhq.com/lnxlists/   # start at this one first
+	Please, if you have any solutions, send them quickly, i'm in a sort of
+trouble. I'll also appreciate any solution other than rplay to send
+sound over the net at a quality higher than RealAudio (i actually need
+an almost FM quality, or something that sounds like that for an
+unexperienced listener).
+	Thanks.
 
-Dave
+							Florin Andrei
