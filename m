@@ -1,58 +1,27 @@
-From: Dominik Stadler <Dominik.Stadler@apertum.de>
-Date: Wed, 09 Sep 1998 09:03:43 +0000
-Subject: AW: record overrun
-Message-Id: <marc-linux-sound-90534379411786@msgid-missing>
+From: "Richard L. Goerwitz III" <richard@goon.stg.brown.edu>
+Date: Thu, 17 Sep 1998 12:13:07 +0000
+Subject: Linux sound: presumptuousness (was: rplay)
+Message-Id: <marc-linux-sound-90603603229024@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+> I really don't like to push, but i'm in a big hurry, so please answer
+> quick! :-)
 
-Hi!
+No matter how it is couched, this way of asking for help is always a breach
+of etiquette in the Linux community.  Nobody out here is being paid to read
+this group; nobody is under any obligation to answer you at all (still less
+in a hurry).
 
-I'm not an insider in sound-driver-stuff, but as far as I know, you can
-specify a certain amount of memory as DMA-Buffer (in sound-config during
-kernel-configuration).
+In fact, you probably will get your answer (if I had one, I'd give it to you
+myself).  That's the great thing about this community.
 
-This amount of memory is used to store incoming sound until it is
-written to disk.
+Despite the responsiveness of the Linux community, though, you should never
+ever tell them to "hurry" or "answer quick", or say things like "I don't like
+to push [BUT...]."  It's just so unappealing and presumptuous.
 
-Obviously if your hard-disk is too slow or your machine is too much
-stressed, the buffer will be too small and will overrun, causing it to
-be emptied and leave a crack in the sound.=20
-
-You should check if your DMA-Buffer is set to the maximum amount (I
-think for 2.0.xx no more than 65536 Bytes), and try to decrease the load
-of your machine during recording. If this doesn't help, your machine is
-too slow for the desired sampling parameters (sampling rate, number of
-channels, ..) and therefore you could decrease the quality of your
-recording to avoid overruns.
-
-Dschau.. Dominik
-
-
-	-----Urspr=FCngliche Nachricht-----
-	Von:	Karsten Patzwaldt [SMTP:kpa@gmx.net]
-	Gesendet am:	Dienstag, 8. September 1998 17:16
-	An:	linux-sound@vger.rutgers.edu
-	Betreff:	record overrun
-
-	hi!
-
-	when i try to record something with my sb16, the kernel gives me
-'Sound:
-	Recording overrun' messages. this happens with the 'normal'
-sb-driver as
-	well as with the oss/free. i use linux 2.0.33, oss/free 3.8 and
-a normal
-	sb16. please tell me what this means, it sounds terrible when
-this
-	occurs...
-
-	thanks in advance,
-
-	---=20
-	Karsten Patzwaldt             http://kpa.notrix.de
-kpa@gmx.net
-	                        "Wisdom is earned... not given."
+Richard Goerwitz
+Brown University
