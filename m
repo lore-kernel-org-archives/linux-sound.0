@@ -1,58 +1,42 @@
-From: Etienne Grossmann <etienne@anonimo.isr.ist.utl.pt>
-Date: Fri, 04 Dec 1998 18:34:16 +0000
-Subject: Announce: alpha silly sound game
-Message-Id: <marc-linux-sound-91285080814759@msgid-missing>
+From: "moc liamtoh" <mackilla@hotmail.com>
+Date: Sun, 13 Dec 1998 22:59:04 +0000
+Subject: cs4235 chips again...
+Message-Id: <marc-linux-sound-91361897708466@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+in trying to find out about the alsa drivers i have come up against two 
+problems...
 
+1) that i have found differing instructions for installation...
+(those being different ones through this list and the link to 
+http://www.levien.com/tp600.html
+i have tried a few but they dont seem to work which leads me to the next 
+point...
+2) when i try the alsa drivers and editing the conf.modules (in /etc...i 
+also tried two or three different configs presented to the list in 
+replies to my first msg...) i have not been able to get it to recognize 
+anything. it installs and when i try to load the module it says cant 
+find it...i tried different variations, the ones suggested in the 
+replies to this list and some of my own guesses, and the only thing that 
+reported anything was modprobe snd which gave an error of which i do not 
+remember and my linux is currently apart =)
 
-  Hello,
+any help to this would be appreciated...
 
-  I have written a musical "game".
-                              \_ with  quotes, because it isn't 
-                                 very much fun.
+incase it helps:
 
- The rules are : the computer plays a succession of chords, and for
-each, the player should say if the chord was a minor or a major. Good
-answers give points, bad ones remove a "life" (you start with 3). 
+aopen mx58+   MB (http://www.aopenusa.com/products/mb/mx58plus.htm)
+ibm dtta-351010  HD  (10 gig) OEM
+intel pentium 233 MMX  retail
+1-32dimm
+linux slackware 3.6.0 (kernel 2.0.36)
 
-  The chords are played within a single key, so it is (theoretically)
-possible for the hearer to say the height (from 1 to 7) of the chord
-in that scale. If the player guesses rightly the height, he gets
-rewarded (and he loses a life he guesses wrongly).
+thanx 
+josh
 
-  Now and then, the key changes, and if the hearer hears it, he can
-say it too.
-
-  There are a GTK and a plain terminal interface.
-
-
-  On the "install" side, it may requires some work : it needs the
-following programs
-
-- abc2midi, in a version that allows it to take input from stdin. The
-  authors of abc2midi make that feature available simply by commenting
-  2 lines of code, in the 1.6 release. I know the "Debian 2.0"
-  abc2midi does not have this feature. It should be at :
-  http://perun.hscs.wmin.ac.uk/~jra/abcMIDI/ 
-  
-- playmidi : I use 2.3. The standard version should be ok, but the
-  sound seems better with a home-patched version (this may depend on
-  my sound setup, though).
-
-- Perl, with module "Time::HiRes" installed; module "Gtk" is needed
-  for the Gtk interface. 
-
-
-  If anyone is interested, I'd be glad to put it all in a tarball for
-him/her to try it out
-
-
-  Cheers,
-
-
-  Etienne
+______________________________________________________
+Get Your Private, Free Email at http://www.hotmail.com
