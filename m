@@ -1,37 +1,32 @@
-From: "Randy.Dunlap" <rddunlap@osdl.org>
-Date: Sat, 05 Mar 2005 05:54:35 +0000
-Subject: [PATCH] oss/es1370: fix initdata section references
-Message-Id: <20050304215435.7e18b830.rddunlap@osdl.org>
+From: Patricia Boone <celyhimiz@sesmail.com>
+Date: Fri, 25 Mar 2005 14:00:44 +0000
+Subject: V2: Logos, letterheads, business cards, envelops
+Message-Id: <305689805210.5321685064960@[201.15.164.252]>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Cc: torvalds <torvalds@osdl.org>, akpm <akpm@osdl.org>
+To: linux-sound@vger.kernel.org
+
+Your business lacks visual identity?
+
+Marketing efforts falling short?
+
+Invisible among a sea of competitors?
+
+You're on the right track for a solution - keep reading...
+Our professional designers specialize in the creation of custom logos and business/corporate identities. Our design needs to be seen only once to gain customer attention and recognition. With one of our unique, eye-catching mages you'll never have to introduce yourself twice!
+We promise fast turnaround and 100% customer satisfaction. Choose from as any design ideas as necessary, select as many colors as you wish, order any modifications you like, and request any format. Our prices are affordable for any size of business, and get this: there are no hidden fees.
+
+Follow the link below to browse our portfolio and check out our Sweet Deals.
+Wipe the "in" from "invisible" in just a few days - with us!
+http://www.innerlogos.com/
+
+Sincerely,
+Patricia Boone
 
 
-oss/es1370: fix initdata section reference:
 
-Error: ./sound/oss/es1370.o .text refers to 00000000000042bd R_X86_64_32S      .init.data+0x0000000000000024
-Error: ./sound/oss/es1370.o .text refers to 00000000000042c5 R_X86_64_32S      .init.data+0x0000000000000020
-
-Signed-off-by: Randy Dunlap <rddunlap@osdl.org>
-
-diffstat: sound/oss/es1370.c |    2 +-
- 1 files changed, 1 insertion(+), 1 deletion(-)
-
-diff -Naurp ./sound/oss/es1370.c~oss_es1370_sections ./sound/oss/es1370.c
---- ./sound/oss/es1370.c~oss_es1370_sections	2005-03-01 23:38:33.000000000 -0800
-+++ ./sound/oss/es1370.c	2005-03-04 21:17:17.000000000 -0800
-@@ -2540,7 +2540,7 @@ MODULE_LICENSE("GPL");
- static struct initvol {
- 	int mixch;
- 	int vol;
--} initvol[] __initdata = {
-+} initvol[] __devinitdata = {
- 	{ SOUND_MIXER_WRITE_VOLUME, 0x4040 },
- 	{ SOUND_MIXER_WRITE_PCM, 0x4040 },
- 	{ SOUND_MIXER_WRITE_SYNTH, 0x4040 },
-
-
----
+===
+Cancel this mailings:
+http://www.innerlogos.com/u.php
