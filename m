@@ -1,7 +1,7 @@
-From: =?iso-8859-1?Q?J=F6rn?= Nettingsmeier
-Date: Mon, 18 Feb 2002 19:48:02 +0000
+From: Zwane Mwaikambo <zwane@linux.realnet.co.sz>
+Date: Tue, 19 Feb 2002 07:45:57 +0000
 Subject: Re: Need info on G.723.1 .wav format
-Message-Id: <marc-linux-sound-101406191501883@msgid-missing>
+Message-Id: <marc-linux-sound-101410536701730@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-101405687018962@msgid-missing>
 In-Reply-To: <marc-linux-sound-101405687018962@msgid-missing>
@@ -10,8 +10,8 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Devendra Jalihal wrote:
-> 
+On Mon, 18 Feb 2002, Devendra Jalihal wrote:
+
 > I am sorry for sending this mail to linux-sound group. It is not very
 > pertinent to this group. But, I don't know where to send it. So, here it
 > goes.
@@ -22,18 +22,12 @@ Devendra Jalihal wrote:
 > can get info about .wav in general and specifically about G.723.1 based
 > .wav? Is there an IETF recommendation on .wav? An RFC? Where can I get
 > info about .wav? Which body  makes the .wav standard?
-> 
 
-afaik, it's not a standard at all. it's what microsoft uses, so
-everyone has to use it, too.
-chris bagwell's audio file format faq should be useful:
-http://home.sprynet.com/~cbagwell/audio.html
+I appreciate that you're looking for any help possible, but it is somewhat 
+of an insult to email an open source project mailling list requesting for 
+help regarding a proprietory project you're working on. Perhaps you'd be 
+better off using your company's resources to acquire said information.
 
+Regards,
+	Zwane Mwaikambo
 
-
--- 
-Computer Science is no more about computers than
-astronomy is about telescopes.
-	- Edsger W. Dijkstra
-Sigh.
-	- me
