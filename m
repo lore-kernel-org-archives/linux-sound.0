@@ -1,110 +1,123 @@
-From: Brian Craft <bcboy@dorothy.wanglab.brandeis.edu>
-Date: Sun, 31 Jan 1999 21:03:36 +0000
-Subject: rvplayer
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="0OAP2g/MAC+5xKAE"
-Message-Id: <marc-linux-sound-91781709325641@msgid-missing>
+From: Greg Wooledge <wooledge@kellnet.com>
+Date: Sun, 10 Jan 1999 16:48:32 +0000
+Subject: problem solved (Re: 2.2.0-pre5 SB16 problem: /dev/dsp does not work (DMA problem?))
+Message-Id: <marc-linux-sound-91602184825333@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Oleg Drokin (green@ccssu.ccssu.crimea.ua) wrote:
 
---0OAP2g/MAC+5xKAE
-Content-Type: text/plain; charset=us-ascii
-
-Miles --
-(is this really the right email address? :)
-
-re: your post on linux-sound, i just spent a week getting
-rvplayer to work. it was quite a chore.
-
-to expand on the posted reply, you can preload a lib which redefines
-open() & fixes the NONBLOCK problem. two quick ways to do that: you can
-cut & paste the code in the email i'm attaching (change "flags" as
-documented) or you can just download the rvplayer rpm at rufus, which
-includes the fix: http://rufus.w3.org/linux/RPM/RByName.html
-
-this rpm does one annoying thing: it puts the LD_LIBRARY_PATH settings
-in the global configuration, in /etc/profile.d. this is pretty lame &
-it's better to delete these two files & add the lines to 
-/usr/bin/rvplayer:
-
-batduck 3 /home/bcboy> cat `which rvplayer`
-#!/bin/sh
-LD_LIBRARY_PATH=/usr/lib/rvplayer
-export LD_LIBRARY_PATH
-LD_PRELOAD=/usr/lib/rvplayer/libnblock.so
-export LD_PRELOAD
-exec /usr/lib/rvplayer/rvplayer "$@"
-
-
-there are two other things to watch for:
-1) if you're behind a firewall, the default settings will fail,
-as they require the ability for the server to initiate a udp
-connection with your client (kinda like active mode ftp). the
-solution is to view preferences & turn off *all* the udp options
-& turn on the "always use tcp" option (under "transport").
-
-the windows version can successfully negotiate this setting with
-the server without this step, but for some reason the linux version
-is unable to. it will sit there munching cpu trying to read a dead
-udp socket. (the binary isn't stripped, so you can run gdb on it &
-see this happening).
-
-
-2) i found that using the file->open command did not work. using
-the same file/url on the command line did. this works fine with
-netscape, as you set it up to run rvplayer as "rvplayer %s" and
-everything is happy.
-
-b.c.
-
---0OAP2g/MAC+5xKAE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=ra1
-
-
-Message-ID: <19981119112456.B7554@tantalophile.demon.co.uk>
-Date: 	Thu, 19 Nov 1998 11:24:56 +0000
-From: Jamie Lokier <lkd@tantalophile.demon.co.uk>
-To: linux-kernel@vger.rutgers.edu
-Subject: Re: a ld_preload to get rvplayer working
-
-On Wed, Nov 18, 1998 at 09:06:33AM +0000, Paul wrote:
-> #define O_NONBLOCK       04000
-> extern int libc_open(const char *, int);
-> int open(const char *pathname, int flags)
-> {
->  if (flags & O_NONBLOCK)
->   flags &= ~O_NONBLOCK;
->  return(__open(pathname, flags));
-> }
+> GW> (INT 0 (IRQ 5 (MODE +E)))
+> GW> (DMA 0 (CHANNEL 1))
+> GW> (DMA 1 (CHANNEL 3))
+> Perhaps this it is, but I may be wrong.
 > 
-> Compile it with "gcc -c open.c -o open.o ; ld -shared open.o -o open.so"
-> Then run run rvplayer with "LD_PRELOAD=/path/open.so /path/rvplayer"
-> Works for me anyway, and I don't have to reboot to listen to broadcasts.
+> GW> options sb io=0x220 irq=5 dma=1 dma16=5 mpu_io=0x330
+> Aha, you have it, then it might be the case, that your sb's 16 bit dma
+> is not on channel 5.
 
-Fine, but a bit of potential for some other bug do to always unmasking
-O_NONBLOCK, don't you think?
+/me feels stupid
 
-I use this one, compile in much the same way:
+I made the mistake of reading the comments in the isapnp.conf file.  I'll
+know not to do that next time.  They only served to confuse me.
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <string.h>
-#define open __not_open
-#include <fcntl.h>
-#undef open
+Changing the /etc/conf.modules line to read
 
-/* Change open("/dev/dsp", O_WRONLY|O_NONBLOCK) for RealAudio and Linux 2.1.x.
-   Change open("/dev/dsp", O_RDWR|O_NONBLOCK) for Timidity 0.2i.
-   Change open("/dev/dsp", O_RDWR) for Quake and Linux 2.1.x. */
+options sb io=0x220 irq=5 dma=1 dma16=3 mpu_io=0x330 
 
-int open (const char * pathname, int flags, mode_t mode)
-{
-  if (!strcmp (pathname, "/dev/dsp") && (flags &= ~O_NONBLOCK) == O_RDWR)
-    flags = O_WRONLY;
-  return __open (pathname, flags, mode);
-}
+fixed my problem.  I can now play sounds on /dev/dsp with 2.2.0-pre5.
+Sounds great, actually (taking into account the quality of my speakers).
+:-)
 
+For the benefit of anyone who, like me, is searching through the
+linux-kernel mailing list archives for answers to problems, let me
+summarize my understanding of the /etc/isapnp.conf stuff:
 
---0OAP2g/MAC+5xKAE--
+0) (Search fodder....)  The problem: dmesg used to say this whenever I
+   tried to use /dev/dsp:
+
+      Sound: DMA (output) timed out - IRQ/DRQ config error?
+
+1) Run pnpdump >/etc/isapnp.conf to generate the template file.  This
+   will contain a bunch of lines for the PnP card.
+
+2) The isapnp.conf file will contain this comment:
+
+      # Multiple choice time, choose one only !
+
+   This does not mean "choose one line".  It means "choose one section".
+   You need to uncomment all the LISP-like lines of the section you choose,
+   not just one line.
+
+3) The isapnp.conf file will contain this comment:
+
+      # Don't forget to uncomment the activate (ACT Y) when happy
+
+   This one is valid.
+
+4) For a Soundblaster ViBRA16, the isapnp.conf file contains:
+
+      #       Next DMA channel 3.
+      #             8 bit DMA only
+      #             Logical device is not a bus master
+      #             DMA may execute in count by byte mode
+      #             DMA may not execute in count by word mode
+      #             DMA channel speed in compatible mode
+      (DMA 1 (CHANNEL 3))
+
+   This is what screwed me up.  The "DMA 1" channel (3) is what I had to
+   put in as the "dma16" parameter to the sb module in /etc/conf.modules.
+   To me, this means that it's really a 16-bit DMA channel, not an 8-bit
+   channel (but see the message below...).
+
+5) Final working configuration:
+
+   In /etc/isapnp.conf:
+
+     (READPORT 0x0203)
+     (ISOLATE PRESERVE)
+     (IDENTIFY *)
+     (VERBOSITY 2)
+     (CONFLICT (IO FATAL)(IRQ FATAL)(DMA FATAL)(MEM FATAL)) # or WARNING
+     (CONFIGURE CTL00f0/-1 (LD 0
+      (INT 0 (IRQ 5 (MODE +E)))
+      (DMA 0 (CHANNEL 1))
+      (DMA 1 (CHANNEL 3))
+      (IO 0 (SIZE 16) (BASE 0x0220))
+      (IO 1 (SIZE 2) (BASE 0x0330))
+      (IO 2 (SIZE 4) (BASE 0x0388))
+      (NAME "CTL00f0/-1[0]{Audio               }")
+      (ACT Y)
+     ))
+     (CONFIGURE CTL00f0/-1 (LD 1
+      (NAME "CTL00f0/-1[1]{Game                }")
+     ))
+     (WAITFORKEY)
+
+   In /etc/conf.modules (among other things):
+
+     alias sound sb
+     alias midi opl3
+     options opl3 io=0x388 
+     options sb io=0x220 irq=5 dma=1 dma16=3 mpu_io=0x330 
+
+I don't know whether the MIDI options are correct -- I don't have any
+MIDI files to test at this point.
+
+I am getting one error message in dmesg:
+
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+SB 4.16 detected OK (220)
+SB16: Bad or missing 16 bit DMA channel
+
+However, since sound works at this point, and all my attempts to change
+the configuration to eliminate this error only made things worse, I'm
+going to ignore this message.
+
+-- 
+Greg Wooledge                    | Distributed.NET http://www.distributed.net/
+wooledge@kellnet.com             | because a CPU is a terrible thing to waste.
+http://www.kellnet.com/wooledge/ |
