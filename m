@@ -1,164 +1,60 @@
-From: Zwane Mwaikambo <zwane@linux.realnet.co.sz>
-Date: Wed, 05 Dec 2001 09:23:11 +0000
-Subject: [TESTING-PATCH] PM support for opl3sa2.c #2
-Message-Id: <marc-linux-sound-100754383604806@msgid-missing>
+From: Gael Queri <gael@abul.org>
+Date: Sun, 09 Dec 2001 22:28:46 +0000
+Subject: patch for detection of another SB Vibra 16C brand
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="h31gzZEtNLTqOjlF"
+Message-Id: <marc-linux-sound-100793706908637@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Diffed against 2.4.17-pre2 and 2.5.1-pre5
 
---- linux-2.5.0/drivers/sound/opl3sa2.c	Wed Dec  5 11:16:35 2001
-+++ linux-2.5.0-test/drivers/sound/opl3sa2.c	Wed Dec  5 11:17:07 2001
-@@ -55,6 +55,7 @@
-  *                         sb_card.c and awe_wave.c. (Dec 12, 2000)
-  * Scott Murray            Some small cleanups to the init code output.
-  *                         (Jan 7, 2001)
-+ * Zwane Mwaikambo	   Added PM support. (Dec 4 2001)
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hello, here is a patch to enable sb_card.c to recognize another
+vibra 16 card. (This was tested with 2.4.16)
+
+Regards, Gael
+
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: attachment; filename=patch-v16c
+Content-Transfer-Encoding: quoted-printable
+
+--- drivers/sound/sb_card.c.old	Thu Oct 11 18:43:30 2001
++++ drivers/sound/sb_card.c	Sun Dec  9 23:26:22 2001
+@@ -56,6 +56,9 @@
   *
+  * 01-10-2001 Added a new flavor of Creative SB AWE64 PnP (CTL00E9).
+  *      Jerome Cornet <jcornet@free.fr>
++ *
++ * 09-12-2001 Added a new flavor of Creative SB Vibra 16C (CTL0072).
++ *      Ga=EBl Qu=E9ri <gael@lautre.net>=20
   */
+=20
+ #include <linux/config.h>
+@@ -337,6 +340,11 @@
+ 		ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0001),
+ 		0,0,0,0,
+ 		0,1,1,-1},
++	{"Sound Blaster Vibra16C",
++		ISAPNP_VENDOR('C','T','L'), ISAPNP_DEVICE(0x0072),
++		ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0001),
++		0,0,0,0,
++		0,1,1,-1},
+ 	{"Sound Blaster Vibra16CL",=20
+ 		ISAPNP_VENDOR('C','T','L'), ISAPNP_DEVICE(0x0080),=20
+ 		ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0041),
+@@ -572,6 +580,9 @@
+ 		ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0001), 0 },
+=20
+ 	{	ISAPNP_VENDOR('C','T','L'), ISAPNP_DEVICE(0x0070),=20
++		ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0001), 0 },
++
++	{	ISAPNP_VENDOR('C','T','L'), ISAPNP_DEVICE(0x0072),
+ 		ISAPNP_VENDOR('C','T','L'), ISAPNP_FUNCTION(0x0001), 0 },
+=20
+ 	{	ISAPNP_VENDOR('C','T','L'), ISAPNP_DEVICE(0x0080),=20
 
-@@ -62,7 +63,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/isapnp.h>
--
-+#include <linux/pm.h>
- #include "sound_config.h"
-
- #include "ad1848.h"
-@@ -86,6 +87,11 @@
- #define DEFAULT_MIC    50
- #define DEFAULT_TIMBRE 0
-
-+/* Power saving modes */
-+#define OPL3SA2_PM_MODE1	0x05
-+#define OPL3SA2_PM_MODE2	0x04
-+#define OPL3SA2_PM_MODE3	0x03
-+
- /* For checking against what the card returns: */
- #define VERSION_UNKNOWN 0
- #define VERSION_YMF711  1
-@@ -121,6 +127,9 @@
- typedef struct opl3sa2_mixerdata_tag {
- 	unsigned short cfg_port;
- 	unsigned short padding;
-+	unsigned char  reg;
-+	unsigned int   in_suspend;
-+	struct pm_dev  *pmdev;
- 	unsigned int   volume_l;
- 	unsigned int   volume_r;
- 	unsigned int   mic;
-@@ -892,6 +901,79 @@
-
- /* End of component functions */
-
-+/* Power Management support functions */
-+static int opl3sa2_suspend(struct pm_dev *pdev, unsigned char pm_mode)
-+{
-+	unsigned long flags;
-+	opl3sa2_mixerdata *p;
-+
-+	if (!pdev)
-+		return -EINVAL;
-+
-+	save_flags(flags);
-+	cli();
-+
-+	p = (opl3sa2_mixerdata *) pdev->data;
-+	p->in_suspend = 1;
-+	switch (pm_mode) {
-+	case 1:
-+		pm_mode = OPL3SA2_PM_MODE1;
-+		break;
-+	case 2:
-+		pm_mode = OPL3SA2_PM_MODE2;
-+		break;
-+	case 3:
-+		pm_mode = OPL3SA2_PM_MODE3;
-+		break;
-+	default:
-+		pm_mode = OPL3SA2_PM_MODE3;
-+		break;
-+	}
-+
-+	opl3sa2_read(p->cfg_port, OPL3SA2_SYS_CTRL, &p->reg);
-+	opl3sa2_write(p->cfg_port, OPL3SA2_SYS_CTRL, p->reg | pm_mode);
-+
-+	restore_flags(flags);
-+	return 0;
-+}
-+
-+static int opl3sa2_resume(struct pm_dev *pdev)
-+{
-+	unsigned long flags;
-+	opl3sa2_mixerdata *p;
-+
-+	if (!pdev)
-+		return -EINVAL;
-+
-+	p = (opl3sa2_mixerdata *) pdev->data;
-+	save_flags(flags);
-+	cli();
-+
-+	/* I don't think this is necessary */
-+	opl3sa2_write(p->cfg_port, OPL3SA2_SYS_CTRL, p->reg);
-+	p->in_suspend = 0;
-+
-+	/* The volume is muted on suspend, but ad1848 seems to handle the
-+	 * restoring of mixer levels.
-+	 */
-+
-+	restore_flags(flags);
-+	return 0;
-+}
-+
-+static int opl3sa2_pm_callback(struct pm_dev *pdev, pm_request_t rqst, void *data)
-+{
-+	unsigned char mode = (unsigned  char)data;
-+
-+	switch (rqst) {
-+		case PM_SUSPEND:
-+			return opl3sa2_suspend(pdev, mode);
-+
-+		case PM_RESUME:
-+			return opl3sa2_resume(pdev);
-+	}
-+	return 0;
-+}
-
- /*
-  * Install OPL3-SA2 based card(s).
-@@ -980,7 +1062,7 @@
- 				       " of the ISA PNP cards, continuing\n");
- 				opl3sa2_cards_num--;
- 				continue;
--			} else
-+			} else
- 				return -ENODEV;
- 		}
-
-@@ -989,6 +1071,11 @@
- 		attach_opl3sa2_mss(&cfg_mss[card]);
- 		attach_opl3sa2_mixer(&cfg[card], card);
-
-+		/* register our power management capabilities */
-+		opl3sa2_data[card].pmdev = pm_register(PM_ISA_DEV, card, opl3sa2_pm_callback);
-+		if (opl3sa2_data[card].pmdev)
-+			opl3sa2_data[card].pmdev->data = &opl3sa2_data[card];
-+
- 		/*
- 		 * Set the Yamaha 3D enhancement mode (aka Ymersion) if asked to and
- 		 * it's supported.
-@@ -1033,6 +1120,8 @@
- 	int card;
-
- 	for(card = 0; card < opl3sa2_cards_num; card++) {
-+		if (opl3sa2_data[card].pmdev)
-+			pm_unregister(opl3sa2_data[card].pmdev);
- 	        if(cfg_mpu[card].slots[1] != -1) {
- 			unload_opl3sa2_mpu(&cfg_mpu[card]);
- 		}
-
+--h31gzZEtNLTqOjlF--
