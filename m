@@ -1,56 +1,41 @@
-From: Radu Raduta <radu@mail.dnttm.ro>
-Date: Sun, 08 Nov 1998 21:36:33 +0000
-Subject: 2.1.127 opl3sa2 Yamaha OPL3SAx driver works?
-Message-Id: <marc-linux-sound-91056036830091@msgid-missing>
+From: Mihai Badila <dx@mdk.c7.utcluj.ro>
+Date: Fri, 27 Nov 1998 17:46:42 +0000
+Subject: Shadows...
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="------------E9C11B796F572635B9C3F699"
+Message-Id: <marc-linux-sound-91219190310288@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-SGkgYWxsIQpGaXJzdCBvZiBhbGwsIGknZCBsaWtlIHRvIGtub3cgaWYgdGhpcyBkcml2ZXIgKG9w
-bDNzYTIgZnJvbSAyLjEuMTI3CnZlcnNpb24ga2VybmVsKSBpcyBvcGVyYXRpb25hbCwgYmVjb3Vz
-ZSBpIGNvdWxkbid0IG1ha2UgaXQgd29yaywgbmVpdGhlciAKYXMgYSBtb2R1bGUsIG9yIGFzIGEg
-YnVpbHQtaW4gZHJpdmVyLgoKTXkgY29uZmlndXJhdGlvbiBpcyBhbiBPUEwzLVNBMyAoaSB0aGlu
-ay4uLiksIGFuZCBpdCB3b3JrcyB3aXRoIGlzYXBucCAmCldTUytPUEwzK01QVTQwMSBkcml2ZXJz
-LiBTdGlsbCwgaSdkIGxpa2UgdG8gc2VlIGEgbW9yZSBzcGVjaWZpYyBkcml2ZXIsCm9uZSB0aGF0
-IHdpbGwgYXQgbGVhc3QgY29uZmlndXJlIG15IG1peGVyIHJpZ2h0LiAKCkkgd291bGQgbGlrZSB0
-byBrbm93IGlmIGFueW9uZSBzdWNjZXNmdWxseSBpbnN0YWxsZWQgdGhlIG1lbnRpb25lZCBkcml2
-ZXIsCmFuZCBob3cuIEl0IHdhbnRzIHNldmVyYWwgcGFyYW1ldGVyczogCj09PT09PT09PT09PT0K
-aW8gPSAweDM3MAk6IGkgdXNlZCB3aGF0IHRoZSAiU0VUVVBTQS5FWEUiIHByb2dyYW0gcmVwb3J0
-cyBmb3IgQ1RSTAoJCSAgd2ljaCBpcyBjb25maWd1cmVkIGluIHRoZSBpc2FwbnAuY29uZiBmaWxl
-IGFzICJJTyA0IiBmb3IKCQkgIGxvZ2ljYWwgZGV2aWNlIDAgKGlzIHRoYXQgd2hhdCBMRCBzdGFu
-ZHMgZm9yID8pIAptc3NfaW8gPSAweDUzMAk6IHRoaXMgaXMgdGhlIFdTUy9NU1MgaW8gLSBjb25m
-aWd1cmVkIGFzIElPIDEgb24gTEQgMCAKCQkgIGJ5IGlzYXBucAptcHVfaW8gPSAweDMzMCAgOiB0
-aGUgTVBVNDAxIGlvIHBvcnQgLSBjb25maWd1cmVkIGFzIElPIDMgb24gTEQgMAppcnEgPSA1CQk6
-IHRoZSBjYXJkJ3MgaXJxIC0gSU5UIDAgZm9yIExEIDAKZG1hID0gMAkJOiBETUEgMCBmb3IgTEQg
-MCBjb25maWd1cmVkIGFzIENIQU5ORUwgMApkbWEyPSAxCQk6IERNQSAxIGZvciBMRCAwIGNvbmZp
-Z3VyZWQgYXMgQ0hBTk5FTCAxCj09PT09PT09PT09PT0KCk9uIG1vZHByb2JlIG9wbDNzYTIgd2l0
-aCBwYXJhbWV0ZXJzIGluIC9ldGMvY29uZmlnLm1vZHVsZXMgaXQgb3V0cHV0czoKCj09PT09PT09
-PT09PT0KYWQxODQ4L2NzNDI0OCBjb2RlYyBkcml2ZXIgQ29weXJpZ2h0IChDKSBieSBIYW5udSBT
-YXZvbGFpbmVuIDE5OTMtMTk5Ngpkb25lIGVtcHR5aW5nIHNsb3RzCm9wbDNzYTIuYzogQ29udHJv
-bCB1c2luZyBJL08gcG9ydCAweDM3MApvcGwzc2EyLmM6IHRyeWluZyB0byBpbml0IQpvcGwzc2Ey
-IGZvdW5kIGFuZCBhdHRhY2hlZApNU1M6IEkvTyBwb3J0IGNvbmZsaWN0Cm1zcyBub3QgZm91bmQh
-Ci9saWIvbW9kdWxlcy8yLjEuMTI3L21pc2Mvb3BsM3NhMi5vOiBpbml0X21vZHVsZTogRGV2aWNl
-IG9yIHJlc291cmNlIGJ1c3kKc291bmQ6IERldmljZSBvciByZXNvdXJjZSBidXN5Cj09PT09PT09
-PT09PT0KCk5vdGUgdGhhdCBzb21lIG9mIHRoZSBtZXNhZ2VzIGFyZSAiaG9tZS1tYWRlIiAtIHVz
-ZWQgcHJpbnRrIGluIHRoZSBzb3VyY2UKdG8gc2VlIHRoZSBwcm9ncmFtIGZsb3cuCgpBZnRlciBj
-cmFzaGluZywgaXQgbGVhdmVzIHRoZSBtcHU0MDEsIHNvdW5kIGFuZCBzb3VuZGNvcmUgbW9kdWxl
-cwppbnN0YWxsZWQsIGJ1dCBhbgogICAgICAgIGBjYXQgL3Byb2MvaW9wb3J0c2AgCmdpdmVzIDoK
-PT09PT09PT09PT09ClVuYWJsZSB0byBoYW5kbGUga2VybmVsIHBhZ2luZyByZXF1ZXN0IGF0IHZp
-cnR1YWwgYWRkcmVzcyBjMTg0MTRjOApjdXJyZW50LT50c3MuY3IzID0gMDAzY2MwMDAsICVjcjMg
-PSAwMDNjYzAwMAoqcGRlID0gMDBlYzAwNjMKKnB0ZSA9IDAwMDAwMDAwCk9vcHM6IDAwMDAKQ1BV
-OiAgICAwCkVJUDogICAgMDAxMDpbPGMwMWI4YzZiPl0KRUZMQUdTOiAwMDAxMDI5NwplYXg6IGMx
-ODQxNGM4ICAgZWJ4OiBmZmZmZmZmZiAgIGVjeDogYzE4NDE0YzggICBlZHg6IGZmZmZmZmZlCmVz
-aTogZmZmZmZmZmYgICBlZGk6IGMwZGI5MTA0ICAgZWJwOiAwMDAwMDAwMCAgIGVzcDogYzBjNDFl
-ZWMKZHM6IDAwMTggICBlczogMDAxOCAgIHNzOiAwMDE4ClByb2Nlc3MgY2F0IChwaWQ6IDQyMywg
-cHJvY2VzcyBucjogMjgsIHN0YWNrcGFnZcBjNDEwMDApClN0YWNrOiBjMGRiOTAwMCAwMDAwMGMw
-MCBjMDNjYjEyYyAwMDAwMDAwMSAwMDAwMDAwMSBmZmZmZmZmZiAwMDAwMDAxYgpjMDNjYjEyYwog
-ICAgICAgYzAxYjhlNTQgYzBkYjkwZjggYzAxYmY3MDggYzBjNDFmMzQgYzAxMWFkNjggYzBkYjkw
-ZjggYzAxYmY2ZjkKMDAwMDAzNzAKICAgICAgIDAwMDAwMzcxIGMxODQxNGM4IDAwMDAwMDAwIGMw
-YzQxZjkwIGMwYWMyZDljIGMwMTRjMjU2IGMwZGI5MDAwCmMwZGI5MDAwCkNhbGwgVHJhY2U6IFs8
-YzAxYjhlNTQ+XSBbPGMwMWJmNzA4Pl0gWzxjMDExYWQ2OD5dIFs8YzAxYmY2Zjk+XQpbPGMxODQx
-NGM4Pl0gWzxjMDE0YzI1Nj5dIFs8YzAxNGM0NWU+XQogICAgICAgWzxjMDEyOTY0Nj5dIFs8YzAx
-MDhkNTQ+XQpDb2RlOiA4MCAzOCAwMCA3NCAwNyA0MCA0YSA4MyBmYSBmZiA3NSBmNCAyOSBjOCA4
-OSBjNiBmNyBjNSAxMCAwMApTZWdtZW50YXRpb24gZmF1bHQKPT09PT09PT09PT09PQoKV2hhdCB0
-byBkbyA/IAoKVGhhbnggYWxvdCBmb3IgeW91ciB0aW1lLgoKUmFkdQo=
+This is a multi-part message in MIME format.
+--------------E9C11B796F572635B9C3F699
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+   Your IQ needs x2 or x4 (multiplier) to get to 3 (three) numbers?...
+
+--
+/Dx
+
+
+--------------E9C11B796F572635B9C3F699
+Content-Type: text/x-vcard; charset=us-ascii; name="vcard.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Description: Card for Badila Mihai
+Content-Disposition: attachment; filename="vcard.vcf"
+
+begin:          vcard
+fn:             Badila Mihai
+n:              Mihai;Badila
+org:            SPiN Logic Ltd.
+adr:            Str. Observatorului, Nr. 34, C7, 419;;;Cluj Napoca;Cluj;;Romania
+email;internet: dx@mdk.c7.utcluj.ro
+title:          Linux Hacker
+tel;home:       +40-58-830341
+x-mozilla-cpt:  ;0
+x-mozilla-html: FALSE
+version:        2.1
+end:            vcard
+
+
+--------------E9C11B796F572635B9C3F699--
