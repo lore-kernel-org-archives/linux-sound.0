@@ -1,34 +1,25 @@
-From: Vinay K Nallamothu <vinay.nallamothu@gsecone.com>
-Date: Sun, 21 Sep 2003 13:55:08 +0000
-Subject: [PATCH 2.6.0-test5][OSS] ac97_plugin_ad1980.c: add missing
-Message-Id: <marc-linux-sound-106415176126485@msgid-missing>
+From: "Mehmet Ceyran" <mceyran@web.de>
+Date: Tue, 02 Sep 2003 23:22:55 +0000
+Subject: Who maintains drivers/sound/i810_audio.c?
+Message-Id: <marc-linux-sound-106254482419009@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Fixes the following warning:
-sound/oss/ac97_plugin_ad1980.c:90: warning: initialization from incompatible pointer type
+Hello,
 
---- linux-2.6.0-test3/sound/oss/ac97_plugin_ad1980.c	2003-07-28 10:44:11.000000000 +0530
-+++ linux-2.6.0-test3-nvk/sound/oss/ac97_plugin_ad1980.c	2003-08-10 19:36:14.000000000 +0530
-@@ -28,6 +28,7 @@
- 
- */
- 
-+#include <linux/config.h>
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-@@ -45,7 +46,7 @@
-  *	use of the codec after the probe function.
-  */
-  
--static void ad1980_remove(struct ac97_codec *codec)
-+static void __devexit ad1980_remove(struct ac97_codec *codec, struct ac97_driver *driver)
- {
- 	/* Nothing to do in the simple example */
- }
+I found and fixed a little bug in the "Intel ICH (i8xx), SiS 7012,
+NVidia nForce Audio or AMD 768/811x" driver (kernel 2.4.23-pre2) that
+occured on my laptop with SiS 7012 onBoard sound and wanted to
+contribute it to the official kernel sources.
 
+In the maintainers file that came with the kernel I couldn't find the
+maintainer of that particular driver so I'd appreciate if someone lead
+me to the correct mailing list so I can post the bug and my patch to the
+right place.
+
+Best regards,
+Mehmet Ceyran
 
