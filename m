@@ -1,19 +1,24 @@
-From: "ArcadePreserv Center" <arcadepreserv@hotmail.com>
-Date: Thu, 08 Jun 2000 01:40:58 +0000
-Subject: Soundblaster AWE 64 problem
-Message-Id: <marc-linux-sound-96045383326984@msgid-missing>
+From: "Bernd Nowak @ Be In Now" <bnowak@gmx.net>
+Date: Wed, 14 Jun 2000 11:00:56 +0000
+Subject: Terratec EWS 64 And RedHat 6.2
+Message-Id: <marc-linux-sound-96098076227047@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-A friend of mine can not get his Soundblaster AWE 64 working with the 
-standard Mandrake 7.0 system, using soundconfig.
+Hello to all. I'm frustated. My EWS64 is working under Win98 but not under
+Redhat 6.2. I followed the configuration steps in sbartels document but the
+best result is that i can load sam9407 without any control on the volume. If
+i try to configure the card basically with sndconfig from redhat 6.2 it
+found my card via isapnp tools but thats all. I verified the
+/etc/isapnp.conf but i can't find the misstake in it. But there are many
+strange entrys in /etc/conf.modules when i try to configure the card with
+sndconfig. I'm getting the best result in deleting all sound entrys in
+/etc/conf.modules and restart my linux machine. Then did something with the
+sam9407 driver, test it under x with x9407, everything OK which means I have
+sound but can not control it. Shutdown X run sndconfig hear the first sample
+but then sndconfig breaks and thats it.
 
-Has anyone a clue ? Is it known to cause problem ?
-
-It *could* be because he has got several graphical accelerators in his box, 
-but of course he would like to get it to work in this setup.
-________________________________________________________________________
-Get Your Private, Free E-mail from MSN Hotmail at http://www.hotmail.com
+Bernd Nowak
