@@ -1,65 +1,80 @@
-From: Scott Murray <scott@spiteful.org>
-Date: Sun, 15 Jul 2001 20:36:27 +0000
-Subject: Re: [PATCH] Sound recording with OPL3SA2
-Message-Id: <marc-linux-sound-99523125312133@msgid-missing>
+From: Hal MacArgle <haltec@iceweb.net>
+Date: Mon, 16 Jul 2001 20:00:14 +0000
+Subject: SoundBlaster PCI128?
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="f2QGlHpHGjS2mn6Y"
+Message-Id: <marc-linux-sound-99531378505973@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-99519931815581@msgid-missing>
-In-Reply-To: <marc-linux-sound-99519931815581@msgid-missing>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sun, 15 Jul 2001, Lars Joas wrote:
 
-> Hi.
->
-> I got this message in the log when I tried to do sound recording:
->
-> "Sound: DMA (input) timed out - IRQ/DRQ config error?"
->
-> After some investigations I found a bug in the opl3sa2 driver. I have
-> sent this patch to Scott Murray (scott@spiteful.org), but received no
-> answer. And the bug is still in kernel 2.4.6.
->
-> So now I escalate the issue to the linux-sound mailing list....
->
-> In the attach_opl3sa2() function we look at the dma values to see if we
-> are using two or one channel, and configure the chip accordingly.
-> Unfortunately the dma values are not set in the structure we look at.
+--f2QGlHpHGjS2mn6Y
+Content-Type: text/plain; charset=us-ascii
 
-I apologize for not getting back to you earlier.  I've been extremely
-busy at the startup I work for, and on top of that, I recently lost a
-bunch of mail.  There's a reason why linux-sound is listed in my
-MAINTAINERS entry, posting to it gets me off my butt. :)
+Greetings: Read that Linux supports the SB PCI128 card but I'm stuck
+trying to install the driver modules.. sb.o - awe_wave.o - and several
+others won't "take."
 
-Anyways, after looking at this, I prefer this IMO more correct fix:
+I know about modinfo -p <driver> and cat /proc/sndstat for checking
+but the proper driver and parameters escape me.. Have no IRQ
+conflicts that I know of. <grin>
 
---- linux-2.4.6/drivers/sound/opl3sa2.c	Fri Mar  2 21:38:39 2001
-+++ linux/drivers/sound/opl3sa2.c	Sun Jul 15 16:28:38 2001
-@@ -861,8 +861,8 @@
- 	/* Our own config: */
- 	hw_cfg->io_base = dev->resource[4].start;
- 	hw_cfg->irq     = 0;
--	hw_cfg->dma     = -1;
--	hw_cfg->dma2    = -1;
-+	hw_cfg->dma     = dev->dma_resource[0].start;
-+	hw_cfg->dma2    = dev->dma_resource[1].start;
+I've attached an edited copy of dmesg pertaining to what was found. I
+have no previous experience with the report.. I need a helping hand..
 
- 	/* The MSS config: */
- 	mss_cfg->io_base      = dev->resource[1].start;
+TIA, 
+      Hal - in Terra Alta,  WV    A M$ Free Environment
+	       email:        haltec@iceweb.net
+.
 
-Lars, could you try this out and see if it works for you?
+--f2QGlHpHGjS2mn6Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="dmesg.txt"
 
-Scott
+Linux version 2.2.16 (root@bigkitty) (gcc version egcs-2.91.66 19990314/Linux (egcs-1.1.2 release)) #73 Fri Jun 16 18:48:22 PDT 2000
+Detected 233870 kHz processor.
+Console: colour VGA+ 80x25
+Calibrating delay loop... 466.94 BogoMIPS
+Memory: 386736k/393216k available (1640k kernel code, 416k reserved, 4188k data, 236k init)
+.................edited.....
+cat uses obsolete /proc/pci interface
+VFS: Disk change detected on device ide1(22,0)
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb_card: I/O, IRQ, and DMA are mandatory
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb: dsp reset failed.
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb: dsp reset failed.
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb_card: I/O, IRQ, and DMA are mandatory
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb_card: I/O, IRQ, and DMA are mandatory
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb: dsp reset failed.
+AWE32: not detected
+es1370: version v0.31 time 19:19:49 Jun 20 2000
+VFS: Disk change detected on device ide1(22,0)
+hdc: timeout waiting for DMA
+hdc: irq timeout: status=0xd0 { Busy }
+hdc: DMA disabled
+hdc: ATAPI reset complete
+ATAPI device hdc:
+  Error: Unit attention -- (Sense key=0x06)
+  Power on, reset or hardware reset occurred -- (asc=0x29, ascq=0x00)
+VFS: Disk change detected on device ide1(22,0)
+ISO 9660 Extensions: Microsoft Joliet Level 3
+ISOFS: changing to secondary root
+AWE32: not detected
+AWE32: not detected
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb: dsp reset failed.
+Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+sb: dsp reset failed.
+Turtle Beach WaveFront Driver
+Copyright (C) by Hannu Solvainen, Paul Barton-Davis 1993-1998.
+WaveFront: irq and io options must be set.
 
-
--- 
-======================================Scott Murray                                        email: scott@spiteful.org
-http://www.spiteful.org (coming soon)                 ICQ: 10602428
------------------------------------------------------------------------------
-     "Good, bad ... I'm the guy with the gun." - Ash, "Army of Darkness"
-
+--f2QGlHpHGjS2mn6Y--
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
