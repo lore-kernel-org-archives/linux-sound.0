@@ -1,7 +1,7 @@
 From: Christoph Hellwig <chhellwig@gmx.net>
-Date: Thu, 09 Mar 2000 14:08:06 +0000
+Date: Thu, 09 Mar 2000 14:08:34 +0000
 Subject: Re: mad16 & ad1848 problems in kernel 2.3.50.
-Message-Id: <marc-linux-sound-95261124204381@msgid-missing>
+Message-Id: <marc-linux-sound-95261121104347@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95261137204527@msgid-missing>
 In-Reply-To: <marc-linux-sound-95261137204527@msgid-missing>
@@ -12,7 +12,12 @@ To: linux-sound@vger.kernel.org
 
 _=?us-asc? =?us-ascii?Q?ii?Q?=3D5Fme=3D3D2C=3D5FI=3D3DB4m=3D5Fan=3D? =?us-ascii?Q?5Fu=3F=3D
 _=3D=3Fus-a?=
-_=?us-ascii?Q? =?us-ascii?Q??scii=3FQ=3Fseless=3D5Fheader=3D5F!=3D3F=3D3D? =?us-ascii?Q?=3F=3D?=?
+_=?us-ascii?Q? =?us-ascii?Q??scii=3FQ=3Fseless=3D5Fheader=3D5F!=3D3F=3D3D? =?us-ascii?Q?=3F=3D?=?X-Mutt-References: <200003091309.OAA19400@se1.emmenet.it>
+X-Mutt-Fcc: /home/toffi/Mail/sent
+Status: RO
+Content-Length: 1078
+Lines: 38
+
 On Thu, Mar 09, 2000 at 02:09:51PM +0100, Diego Liziero wrote:
 > 
 > Kernel 2.3.50
