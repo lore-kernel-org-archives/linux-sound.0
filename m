@@ -1,30 +1,30 @@
-From: David Nedved <dnedved@nuvox.net>
-Date: Thu, 12 Jul 2001 20:56:58 +0000
-Subject: How to set gain?
-Message-Id: <marc-linux-sound-99497172206206@msgid-missing>
+From: Hal MacArgle <haltec@iceweb.net>
+Date: Sun, 29 Jul 2001 18:32:59 +0000
+Subject: CDRW/cdrecord/multi-session???
+Message-Id: <marc-linux-sound-99643199925930@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi All,
+Greetings: Yamaha CRW8424S - cdrecord 1.81: Everything good so far
+except _data_ multi-session recording. (Is that the same as
+"multi-volume" recording?)
 
-Quick question: how do I set the gain on my sound system?  I'm using mpg123
-to play mp3's (in remote mode) and want to be able to vary the volume.  I
-think I see how to do it in the opl3sa2 driver code, but I would prefer an
-easier and more generic way (so that it will work with any sound card).
+Recording each file to individual "tracks" OK according to the
+cdrecord -toc flag, however, when mounting the disk I can only access
+the first track. How do I access track2 or trackN??
 
-I looked for a generic oss.c, oss.h, mixer.c, mixer.h file in the sound
-drivers directory of the kernel (2.4.4) but didn't see anything other than
-specific drivers for specific cards.  I'm looking for the cleanest most
-generic way that makes sense...
+I've been careful to burn the tracks with the -multi flag and then,
+when finished, the -fix flag to close the sessions..
 
-A pointer would be very helpful, a code snippet would be a gift from the gods!
+I've read all the mans and docs I can on the Web to no avail.. I must
+be missing something - somewhere... TIA,
 
-Thanks in advance,
-
-David
+      Hal - in Terra Alta,  WV    A M$ Free Environment
+	       email:        haltec@iceweb.net
+.
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
