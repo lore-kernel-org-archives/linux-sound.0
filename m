@@ -1,27 +1,24 @@
-From: jhall@UU.NET (Jeremy Hall)
-Date: Fri, 11 Jun 1999 16:35:26 +0000
+From: Kevin Turner <Kevin.Turner@oberlin.edu>
+Date: Fri, 11 Jun 1999 17:55:28 +0000
 Subject: Re: Sound Recoder Error: could not allocate DMA buffer
-Message-Id: <marc-linux-sound-92912084111654@msgid-missing>
+Message-Id: <marc-linux-sound-92912334014346@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92912084111654@msgid-missing>
+In-Reply-To: <marc-linux-sound-92912084111654@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I wonder if it is a dma/irq conflict with another device in your computer.
-Is the news in tact when it records, or does it skip or otherwise seem not
-to sound correct?
+See /usr/src/linux/Documentation/sound/README.modules.
+In brief, there are problems with ISA cards, DMA buffers, and machines
+with over 16M of memory.  Adding the option "dmabuf=1" to the sound
+module may help.
 
-_J
+On Tue, Jul 13, 1999 at 08:23:21AM -0400, Laurent POIROT wrote:
+> Error: could not allocate DMA buffer [...]
+> It works perfectly for a while until this error [...]
+> I use [...] a SoundBlaster Pro ISA.
 
-Laurent POIROT said:
-> After several recordings of wav files with wavrec, i have this Sound Recoder
-> Error: could not allocate DMA buffer that comes out. I have no idea when
-> this come from. I use a crontab to make a recording from that soundcard for
-> 5 minutes on a wav file and i do that every 30 minutes. It works perfectly
-> for a while until this error, if you have any idea, please let me know. I
-> use Linux Redhat 5.2 with a SoundBlaster Pro ISA. Do you think that changing
-> the sound card would change this problem ?
-> 
-> thanks
-> 
+-- 
+Kevin.Turner@oberlin.edu | OpenPGP encryption welcome here, see X-DSA-Key
