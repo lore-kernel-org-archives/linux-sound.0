@@ -1,27 +1,44 @@
-From: Chris Ison <cisos@bigpond.net.au>
-Date: Wed, 20 Nov 2002 03:44:51 +0000
-Subject: Software Midi Kernel Module
-Message-Id: <marc-linux-sound-103776440608180@msgid-missing>
+From: Clemens Ladisch <clemens@ladisch.de>
+Date: Thu, 28 Nov 2002 12:10:34 +0000
+Subject: [PATCH][2.2.x,2.4.x] OSS MIDI output loses data
+Message-Id: <marc-linux-sound-103848544518164@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-A GPL'd software midi kernel module is currently under development and
-is based on another small project on the net (not timidity). Initial
-tests have been successful with playmidi and rosegarden.
 
-What I am after is advice and feedback on how things should be done
-within a kernel module, also people who have delt with midi hardware
-drivers within the kernel and know what the driver is recieving.
+In the 2.1.6 kernel, the output loop in midi_poll() was changed to enable
+interrupts during the outputc() call. Unfortunately, the check whether the
+device has accepted the current byte ("ok") was moved behind the code
+which removes the byte from the output queue, so one byte would be lost
+every time the hardware FIFO is full.
 
-Also I am looking for someone who knows how alsa works, as I have only
-had oss experience and currently the project the driver is based on only
-deals with oss.
+-- 
+Clemens
 
-I also need to know, if possable, how to get a module to set the major
-number on a /dev, or how I can override existing drivers using the same
-major number but only on the midi devices.
 
-Anyone interested in getting involved are welcome to email me.
+--- linux-2.4.19/drivers/sound/midibuf.c	Wed Nov 27 12:34:56 2002
++++ linux/drivers/sound/midibuf.c	Wed Nov 27 16:32:31 2002
+@@ -129,15 +129,16 @@
+ 		for (dev = 0; dev < num_midis; dev++)
+ 			if (midi_devs[dev] != NULL && midi_out_buf[dev] != NULL)
+ 			{
+-				int ok = 1;
+-
+-				while (DATA_AVAIL(midi_out_buf[dev]) && ok)
++				while (DATA_AVAIL(midi_out_buf[dev]))
+ 				{
++					int ok;
+ 					int c = midi_out_buf[dev]->queue[midi_out_buf[dev]->head];
+
+ 					restore_flags(flags);	/* Give some time to others */
+ 					ok = midi_devs[dev]->outputc(dev, c);
+ 					cli();
++					if (!ok)
++						break;
+ 					midi_out_buf[dev]->head = (midi_out_buf[dev]->head + 1) % MAX_QUEUE_SIZE;
+ 					midi_out_buf[dev]->len--;
+ 				}
+
