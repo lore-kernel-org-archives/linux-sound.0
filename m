@@ -1,45 +1,59 @@
-From: Kevin Page <krp@ecs.soton.ac.uk>
-Date: Thu, 14 Jun 2001 21:49:36 +0000
-Subject: es1371 microphone volume problems
-Message-Id: <marc-linux-sound-99255566711868@msgid-missing>
+From: =?iso-8859-1?q?Lars=20Joas?= <ljoas@yahoo.com>
+Date: Sun, 15 Jul 2001 12:13:32 +0000
+Subject: [PATCH] Sound recording with OPL3SA2
+Message-Id: <marc-linux-sound-99519931815581@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hi.
 
-Hi,
+I got this message in the log when I tried to do sound recording:
 
-I've done a bit of trawling around, and it seems quite a few people
-have had problems with 'no sound' with the es1371 (in this case a SB
-PCI128), but I couldn't find a solution.
+"Sound: DMA (input) timed out - IRQ/DRQ config error?"
 
-I'm running linux 2.4.2 with redhat mods (i.e. stock RH7.1). The sound
-input is fine under windows.
-At first I thought there was no sound input through the microphone at
-all, but then I found if I tapped the mic (prety hard) then that got
-picked up - but certainly nothing if I were speaking.
+After some investigations I found a bug in the opl3sa2 driver. I have
+sent this patch to Scott Murray (scott@spiteful.org), but received no
+answer. And the bug is still in kernel 2.4.6.
 
-Then I played around with the mixer, and if I put the mic level, IGain
-and then main volume (for playback) up to their maximum values I could
-just make out recorded speech from the mic - but it was still pretty
-quiet.
+So now I escalate the issue to the linux-sound mailing list....
 
-Do I have any chance of getting this to work properly? (The main
-volume's a bit high for everyday use ;)
-I saw that the es1370 had a micgain option, but the es1371 doesn't -
-could it be the same sort of problem?
+In the attach_opl3sa2() function we look at the dma values to see if we
 
-Regards,
+are using two or one channel, and configure the chip accordingly.
+Unfortunately the dma values are not set in the structure we look at.
 
-kev
+Please CC any comments to me, ljoas@yahoo.com, thanks.
 
--- 
-Kevin Page                         Intelligence, Agents, Multimedia
-+44 (0) 23 80594490                Electronics and Computer Science
-krp@ecs.soton.ac.uk                   University of Southampton, UK
+Patch:
 
+--- linux-2.4.6.org/drivers/sound/opl3sa2.c     Sun Jun 24 11:31:24
+2001
++++ linux-2.4.6/drivers/sound/opl3sa2.c Sun Jun 24 11:32:47 2001
+@@ -703,7 +703,7 @@
+       opl3sa2_write(hw_config->io_base, OPL3SA2_IRQ_CONFIG, 0x0d);
+
+       /* Initialize DMA configuration */
+-       if(hw_config->dma2 = hw_config->dma) {
++       if(cfg_mss[card].dma2 = cfg_mss[card].dma) {
+               /* Want DMA configuration DMA-B: -, DMA-A: WSS-P+WSS-R
+*/
+               opl3sa2_write(hw_config->io_base, OPL3SA2_DMA_CONFIG,
+0x03);
+       }
+
+
+
+/L
+
+
+
+____________________________________________________________
+Do You Yahoo!?
+Get your free @yahoo.co.uk address at http://mail.yahoo.co.uk
+or your free @yahoo.ie address at http://mail.yahoo.ie
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
