@@ -1,24 +1,30 @@
-From: "Bernd Nowak @ Be In Now" <bnowak@gmx.net>
-Date: Wed, 14 Jun 2000 11:00:56 +0000
-Subject: Terratec EWS 64 And RedHat 6.2
-Message-Id: <marc-linux-sound-96098076227047@msgid-missing>
+From: Zach Brown <zab@zabbo.net>
+Date: Wed, 14 Jun 2000 18:57:50 +0000
+Subject: cute maestro tools
+Message-Id: <marc-linux-sound-96104846309639@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello to all. I'm frustated. My EWS64 is working under Win98 but not under
-Redhat 6.2. I followed the configuration steps in sbartels document but the
-best result is that i can load sam9407 without any control on the volume. If
-i try to configure the card basically with sndconfig from redhat 6.2 it
-found my card via isapnp tools but thats all. I verified the
-/etc/isapnp.conf but i can't find the misstake in it. But there are many
-strange entrys in /etc/conf.modules when i try to configure the card with
-sndconfig. I'm getting the best result in deleting all sound entrys in
-/etc/conf.modules and restart my linux machine. Then did something with the
-sam9407 driver, test it under x with x9407, everything OK which means I have
-sound but can not control it. Shutdown X run sndconfig hear the first sample
-but then sndconfig breaks and thats it.
+Hi folks.  My apologies for putting this on l-k, but until this mail
+that was my way of getting to maestro sound driver users.  No longer! :)
 
-Bernd Nowak
+There is now a nice shiny maestro-users mailing list:
+
+http://www.zabbo.net/mailman/listinfo/maestro-users/
+
+I will be announcing maestro driver fun there (including the m3 sb emul
+driver which will hopefully form soon!), and would appreciate all
+maestro loving discussion ending up there.
+
+We're also messing around with the cutest little support database:
+
+http://zope.zabbo.net/ZApp/
+
+I'm not sure its a good idea yet, but it seems fun, give it a spin if
+you have maestro hardware.
+
+-- 
+ zach
