@@ -1,7 +1,7 @@
 From: Jon Masters <jonathan@easypenguin.co.uk>
-Date: Fri, 16 Jun 2000 08:43:48 +0000
+Date: Fri, 16 Jun 2000 10:20:07 +0000
 Subject: Re: JAZZ GAME FURY 4.1 supported?
-Message-Id: <marc-linux-sound-96114544925603@msgid-missing>
+Message-Id: <marc-linux-sound-96115110301541@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96111337222342@msgid-missing>
 In-Reply-To: <marc-linux-sound-96111337222342@msgid-missing>
@@ -10,19 +10,13 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
-	The chipset details for this sound card (as written on the chip) are:
+Apologies for wasting anyone's time. After rechecking the alsa pages, I
+notice that the card is supported.
 
-audio excel
-cmi8738-pci
-hrtf audio com
-m9e38-033d
-9943uggd
+http://www.cmedia.com.tw/doc8738.htm
 
-It appears that older audio excell based cards were supported, but I
-cannot seem to see anything relevent on the 4 channel surround card.
-
-Any help is very much appreciated.
+Maybe one of these days I'll learn to read what's right in front of
+me...
 
 Jonathan.
 
