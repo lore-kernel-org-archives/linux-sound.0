@@ -1,7 +1,7 @@
-From: Pavel Machek <pavel@bug.ucw.cz>
-Date: Sun, 14 Feb 1999 19:15:04 +0000
+From: Keith Duthie <psycho@albatross.co.nz>
+Date: Tue, 16 Feb 1999 10:45:23 +0000
 Subject: Re: cs4237b sound
-Message-Id: <marc-linux-sound-91916735721402@msgid-missing>
+Message-Id: <marc-linux-sound-91916448819432@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-91874107830713@msgid-missing>
 In-Reply-To: <marc-linux-sound-91874107830713@msgid-missing>
@@ -10,21 +10,19 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi!
+On Sun, 14 Feb 1999, Pavel Machek wrote:
 
-> Hi, is anyone working on improved kernel support for the cs4237b sound
-> chip? If not, then is there anyone interested in working on improved
-> kernel support for the cs4237b?
-> 
-> Currently support is available in the form of the cs4232 module, but this
-> support seems to be, shall we say, lacking a bit.
-> 
-> (What looks like full documentation for the cs4237b is available in pdf
-> format if anyone is interested)
+> Just out of interest, what new features has cs4237b over 4232?
+To tell you the truth, I'm not entirely sure. I know that it's an
+extension of the cs4235, and that one of the enhancements is the 'srs' dsp 
+[srs=sound retrieval system], there is an interface for an external
+wavetable device, and, of course, there is a sound blaster interface
+(which is probably present in the cs4232 as well, but I've only got a
+list of differences between the cs4236 and the cs4237b).
 
-Just out of interest, what new features has cs4237b over 4232?
+I have full documentation available in pdf format if you're interested.
 
-									Pavel
+(Please note that I'm not a programmer, otherwise I'd be trying to write
+my own module).
 -- 
-I'm really pavel@atrey.karlin.mff.cuni.cz. 	   Pavel
-Look at http://atrey.karlin.mff.cuni.cz/~pavel/ ;-).
+.sig under deconstruction. Please watch out for falling stars.
