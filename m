@@ -1,8 +1,10 @@
-From: <markoni@otenet.gr>
-Date: Thu, 12 Nov 1998 18:23:04 +0000
+From: Nikolaos Margaritis <markoni@otenet.gr>
+Date: Thu, 12 Nov 1998 18:27:12 +0000
 Subject: Soundcard problem!
-Message-Id: <marc-linux-sound-91089445817213@msgid-missing>
+Message-Id: <marc-linux-sound-91089443717126@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91089445817213@msgid-missing>
+In-Reply-To: <marc-linux-sound-91089445817213@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
