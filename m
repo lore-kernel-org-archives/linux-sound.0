@@ -1,7 +1,7 @@
 From: Meelis Roos <mroos@linux.ee>
 Date: Tue, 15 Feb 2000 16:55:55 +0000
 Subject: Re: /dev/audio, /dev/dsp not running for an es1371
-Message-Id: <marc-linux-sound-95063495617197@msgid-missing>
+Message-Id: <marc-linux-sound-95064680124441@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95060250626587@msgid-missing>
 In-Reply-To: <marc-linux-sound-95060250626587@msgid-missing>
