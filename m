@@ -1,29 +1,39 @@
-From: David Olofson <audiality@swipnet.se>
-Date: Sat, 15 Jan 2000 02:38:13 +0000
+From: est@hyperreal.org
+Date: Sat, 15 Jan 2000 07:17:47 +0000
 Subject: Re: MIDI programming
-Message-Id: <marc-linux-sound-94797738622702@msgid-missing>
+Message-Id: <marc-linux-sound-94800580502574@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94791780628504@msgid-missing>
 In-Reply-To: <marc-linux-sound-94791780628504@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="koi8-r"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-T24gU2F0LCAxNSBKYW4gMjAwMCwg9MHSwdMg8C4KICAgICAgICDnwczY3sXOy88gd3JvdGU6Cj4g
-SGksCj4gCUNhbiBhbnlvbmUgZ2l2ZSBtZSBhIGhpbnQgYXQgd3JpdGluZyBhIHNpbXBsZQo+IHBy
-b2dyYW0gdG8gcmVhZCBNSURJIGtleWJvYXJkIGlucHV0PyBJIGRvbid0IHdhbnQgdG8gcGFyc2UK
-PiB0aGlzIGlucHV0LCBqdXN0IHRvIHRlc3QgdGhlIHByZXNlbmNlIG9mIHRoZSBrZXlib2FyZCB1
-bmRlcgo+IExpbnV4LgoKV2VsbCwgYWxsIHlvdSBkbyBpcwoKICBmaCA9IG9wZW4oIi9kZXYvbWlk
-aTAwIiwgT19SRE9OTFkpOyAgLy8gKFBvcnQgMDAgaGFyZGNvZGVkKQoKYW5kIHRoZW4geW91IHJl
-YWQoKSBhcyBmcm9tIGFueSBjaGFyYWN0ZXIgZGV2LiBjbG9zZShmaCkgd2hlbiBkb25lLgoKCi8v
-RGF2aWQKCgouLSBNIHUgQyBvIFMgLS0tLS0tLS0tLS0tLS0tLS0tLS4gLi0gQSB1IGQgaSBhIGwg
-aSB0IHkgLS0tLS0tLS0tLS0tLS0tLS4KfCBBIEZyZWUvT3BlbiBNdWx0aW1lZGlhICAgICAgICB8
-IHwgUm9jayBTb2xpZCwgSGFyZCBSZWFsIFRpbWUsICAgICAgICB8CnwgUGx1Z2luICYgSW50ZWdy
-YXRpb24gU3RhbmRhcmQgfCB8IExvdyBMYXRlbmN5IFNpZ25hbCBQcm9jZXNzaW5nICAgICAgfApg
-LS0tLS0tPiB3d3cubGludXhkai5jb20vbXVjb3MgLScgYC0tPiB3d3cuYW5nZWxmaXJlLmNvbS9v
-ci9hdWRpYWxpdHkgLScKLi0gRCBhIHYgaSBkICAgTyBsIG8gZiBzIG8gbiAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0uCnwgQXVkaW8gSGFja2VyLCBMaW51eCBBZHZv
-Y2F0ZSwgT3BlbiBTb3VyY2UgQWR2b2NhdGUsIFNpbmdlci9Db21wb3NlciAgfApgLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLT4gYXVkaWFsaXR5QHN3aXBuZXQu
-c2UgLScK
+> 	Can anyone give me a hint at writing a simple
+> program to read MIDI keyboard input? I don't want to parse
+> this input, just to test the presence of the keyboard under
+> Linux.
+> 
+> 	Taras
+
+dd bs=1 if=/dev/midi | od -t x1 --width=1
+
+..works for me.  I strike a key and get:
+
+0000000 fe
+*
+0000020 90
+0000021 5d
+0000022 35
+0000023 fe
+0000024 90
+0000025 5d
+0000026 00
+0000027 fe
+*
+
+which is a bunch of activie sensing bytes, a note-on/note-off pair and
+more active sensing bytes. :)
+
+E
