@@ -1,24 +1,23 @@
-From: Stefan Gartner <Stefan.Gartner@fhs-hagenberg.ac.at>
-Date: Fri, 02 Apr 1999 10:05:08 +0000
-Subject: re:real player
-Message-Id: <marc-linux-sound-92304829417577@msgid-missing>
+From: "William Chen" <wchen97@hotmail.com>
+Date: Wed, 21 Apr 1999 15:21:34 +0000
+Subject: Why only 11025Hz give correct sound?
+Message-Id: <marc-linux-sound-92467952513174@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I use realplayer 5.0.0.35 with RedHat 5.2 and kernel 2.2 and I have no problems
-with it.
-The patch at  http://www.i2k.com/~jeffd/rpopen includes a script (see below)
-which I saved as /usr/bin/rplayer. Instead of directly invoking rvplayer I
-execute this script and everything works fine.
-Stefan
+Hi all,
 
-----snip----
-#!/bin/ash
-dir=/usr/lib/Real
-export LD_LIBRARY_PATH=$dir LD_PRELOAD=$dir/open.so
-exec $dir/rvplayer "$@"
---
-chaos is the future and beyond it is freedom
+when i play 44100Hz wav or mp3 file, it will give me some noise,
+but if i downsample it to 11Khz, it is correct.
+
+rh5.1 creative oem sb16pro
+
+Thanks, pls cc to wlchen@bbti.com.cn
+William
+
+
+______________________________________________________
+Get Your Private, Free Email at http://www.hotmail.com
