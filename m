@@ -1,42 +1,23 @@
-From: Ishaaq Chandy <kuru@lw1.vsnl.net.in>
-Date: Sun, 04 Oct 1998 15:50:45 +0000
-Subject: Re: How do I use isapnp?
-Message-Id: <marc-linux-sound-90751757632230@msgid-missing>
+From: "George A. Michalopoulos" <george@michalopoulos.gr>
+Date: Tue, 06 Oct 1998 17:56:30 +0000
+Subject: OPTI 82c931
+Message-Id: <marc-linux-sound-90770044004640@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90742331706312@msgid-missing>
-In-Reply-To: <marc-linux-sound-90742331706312@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-7"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-Mike wrote:
-> 
-> I have this card running in that I can play and record, but not at the
-> same time :)
-> 
-> I had some problems with pnpdump on an alpha with the 1.13 version of
-> isapnptools.  It would find the card, but the resulting file would fail
-> when I used
-> 
-> ./isapnp isapnp.conf
-> 
-> You may or may not have this problem if you are using an intel based
-> machine, I do not know, but if you do, I recommend the newer version, it
-> works correctly.
-
- I am using an intel based system, a Pentium 200MMX. Your setup works
-fine. Thanks a ton for the trouble taken. However it only works so far
-as isapnp recognising the soundcard. I still get "sb: dsp reset failed"
-messages! The only way I have been able to avoid this is by using
-Dos->Loadlin->Linux (a highly distasteful method I admit!)
-
-I failed to mention that pnpprobe can't seem to find the card, what I
-don't understand is the fact that I have to go through all this headache
-even though my BIOS is PnP aware and must have already found the card.
-
-Thanks again for the trouble, I personaly feel that no matter what
-Linux's other great qualities are, one of its best is the ever-helpful
-Linux community.
-
-Ishaaq Chandy
+aGVsbG8gYWxsLAoKY2FuIGFueW9uZSBkZXNjcmliZSB0aGUgZXhhY3Qgc3RlcHMgb24gaG93IGNh
+biBpIGluc3RhbGwgT1BUSSA4MmM5MzEgb24gbXkKc3lzdGVtID8KSSBrbm93IGFsbCBjYXJkIHJl
+c291cmNlcyAoaXJxLCBpbywgZXRjKSwgYW5kIGknbSBub3QgaW50ZXJlc3RlZCB0byBpbnN0YWxs
+Cml0IGFzIGEgbW9kdWxlLgpJIHVzZSBrZXJuZWwgMi4wLjM1IAoKCnRoYW5rIHlvdSBpbiBhZHZh
+bmNlCiAKCgoKR2VvcmdlIEEuIE1pY2hhbG9wb3Vsb3MKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwoiw+nh9N8g5ezl3/Ig5OXtIPTx4ePv9eTc7OUK4+ncIO3h
+IO7l9/nx3/Pv9ezlLCDh5OXr9t0g7O/1LCDh8Ccg9O/tIOr88+zvCsXs5d/yIPTx4ePv9eTc7OUg
+4+nhIO3hIPPs3+7v9ezlIPTv7SDq/PPs7yIgCgrD6dzt7efyINHf9PPv8gpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KCmdlb3JnZUBtaWNoYWxvcG91bG9zLmdy
+Cmh0dHA6Ly93d3cubWljaGFsb3BvdWxvcy5ncgoKMyBIaWxvbm9zIFN0ci4gLSA1NDYgNDUgLSBU
+aGVzc2Fsb25pa2kgLSBHUkVFQ0UKVGVsLiArKzMwICgzMSkgMjU2Mzk0ClRlbC4gKyszMCAoMzEp
+IDg2ODQxNCAoaG9tZSkKRmF4ICsrMzAgKDMxKSA4NDg3NzAgKGRhdGEgYWxzbykKSUNROiAzNTE1
+NDg0Cg==
