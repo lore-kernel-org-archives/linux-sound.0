@@ -1,39 +1,38 @@
-From: "Joe T." <auximini@yahoo.com>
-Date: Sat, 29 Apr 2000 18:32:22 +0000
-Subject: Getting good sound input
-Message-Id: <marc-linux-sound-95703433918558@msgid-missing>
+From: Dave Mielke <dave@mielke.cc>
+Date: Sat, 29 Apr 2000 22:27:01 +0000
+Subject: Re: Getting good sound input
+Message-Id: <marc-linux-sound-95704760925645@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95703433918558@msgid-missing>
+In-Reply-To: <marc-linux-sound-95703433918558@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello
-Im currently using an ESS1869 soundcard on Slackware7
-with the OSS kernel modules.
-Im trying to get some input from a cassette to wav,
-but i'm having a lot of difficulty.
+[quoted lines by Joe T. on April 29, 2000, at 11:32]
 
-I've tried using sox, kwave, sound-recorder and
-cat /dev/audio or /dev/dsp > blah.au.
+Hi:
 
-When i record from the input port, i get nothing.
-When i record from the mic port, it sounds horrid.
+>When i record from the input port, i get nothing.
 
-Does anyone know what the problem could be and how to
-solve it?  Are there any special modules in the kernel
-I have to enable to get good input sound?
+Use "aumix -q" to see which of your input channels are set to "P" (play only)
+and and which are set to "R" (play and record). If an input channel is set to
+"P", then you'll hear it out of the speakers, but you won't be able to record
+from it. If it's set to "R", then you'll be able to do both.
 
-I used this card with freebsd and the commercial OSS
-drivers. Using Sound Studio, I was able to get perfect sound..
+My guess is that your "line in" is set to "P". You can change it with a command
+like "aumix -l R" (case is significant).
 
-==Joe Topjian
-auximini@yahoo.com
-http://auximini.cjb.net
+>When i record from the mic port, it sounds horrid.
 
-Even a stopped clock gives the right time twice a day
+The default in Linux is to use 8-bit sound, which intorduces a lot of low-level
+distortion because the granularity is just too low. Using basic commands like
+"cat" or "cp" will most definitely use the default, so they're not the best way
+to go. Use a command which lets you specify the sample size, and use at least
+16 bits.
 
-__________________________________________________
-Do You Yahoo!?
-Talk to your friends online and get email alerts with Yahoo! Messenger.
-http://im.yahoo.com/
+-- 
+Dave Mielke           | 856 Grenon Avenue | I believe that the Bible is the
+Phone: 1-613-726-0014 | Ottawa, Ontario   | Word of God. Please contact me
+EMail: dave@mielke.cc | Canada  K2B 6G3   | if you're concerned about Hell.
