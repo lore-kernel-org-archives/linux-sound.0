@@ -1,38 +1,45 @@
-From: Keith Owens <kaos@ocs.com.au>
-Date: Thu, 09 Aug 2001 23:58:52 +0000
-Subject: kbuild 2.5 sound testing required
-Message-Id: <marc-linux-sound-99740155926233@msgid-missing>
+From: otisg@ivillage.com
+Date: Fri, 07 Sep 2001 17:39:41 +0000
+Subject: SB16: Bad or missing 16 bit DMA channel
+Message-Id: <marc-linux-sound-99988458525824@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Kernel build 2.5 has been released.
+Hello,
 
-http://marc.theaimsgroup.com/?l=3Dlinux-kernel&m=99725412902968&w=3D2
+I have a SB sound card, model CT4170 plugged into an ISA slot of a Epox mother board, model EP-MVP3G5.
 
-I have tested this on the full kernel, with a few exceptions where I do
-not have the required files or hardware.  I could not test these sound
-options.
+Every hour or so I see this in /var/log/messages:
 
-# I don't have the required input files to build the sound firmware.
-# If anybody has them and can test, go for it.
-CONFIG_PSS_HAVE_BOOT=3Dn
-CONFIG_MAUI_HAVE_BOOT=3Dn
-CONFIG_TRIX_HAVE_BOOT=3Dn
+modprobe: modprobe: Can't locate module sound-service-0-0
+kernel: Soundblaster audio driver Copyright (C) by Hannu Savolainen 1993-1996
+kernel: sb: Creative ViBRA16X PnP detected
+kernel: sb: ISAPnP reports 'Creative ViBRA16X PnP' at i/o 0x220, irq 5, dma 1, 3
+kernel: SB 4.16 detected OK (220)
+kernel: SB16: Bad or missing 16 bit DMA channel
+kernel: sb: 1 Soundblaster PnP card(s) found.
 
-# _SOUND_MSNDCLAS=3Dy and _SOUND_MSNDPIN=3Dy insist on having firmware that
-# I don't have.
-CONFIG_SOUND_MSNDCLAS=3Dm
-CONFIG_SOUND_MSNDPIN=3Dm
 
-I would appreciate somebody testing kbuild 2.5 with these options, and
-letting me know if it works or not.  cc me please, I am not on the list.
+I'm wondering why the kernel needs sound-service-0-0 module, which fails to load, when my sound works just fine without it, apparently?
 
-CONFIG_PSS_HAVE_BOOT=3Dn
-CONFIG_MAUI_HAVE_BOOT=3Dy
-CONFIG_TRIX_HAVE_BOOT=3Dy
-ONFIG_SOUND_MSNDCLAS=3Dy
-CONFIG_SOUND_MSNDPIN=3Dy
+I am also wondering what is causing "SB16: Bad or missing 16 bit DMA channel" warnings?
 
+This is what I have in /etc/modules.conf:
+
+alias sound-slot-0 sb 
+post-install sound-slot-0 /bin/aumix-minimal -f /etc/.aumixrc -L >/dev/null 2>&1 || : 
+pre-remove sound-slot-0 /bin/aumix-minimal -f /etc/.aumixrc -S >/dev/null 2>&1 || :
+
+Should I remove or change this?
+I can't remember why I put this in modules.conf nor what it does, any more. :(
+
+Thanks,
+Otis
+
+_________________________________________________________________
+iVillage.com: Solutions for Your Life 
+Check out the most exciting women's community on the Web   
+http://www.ivillage.com
