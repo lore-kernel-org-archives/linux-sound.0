@@ -1,40 +1,27 @@
-From: Jia-Huang Chen <jiachen@indiana.edu>
-Date: Thu, 13 May 1999 21:42:27 +0000
-Subject: Another SB16
-Message-Id: <marc-linux-sound-92668919603329@msgid-missing>
+From: Michael Hoefling <michael.hoefling@gmx.net>
+Date: Sat, 08 May 1999 19:56:10 +0000
+Subject: ALSA, Kernel 2.2.5 and AudioPCI 97
+Message-Id: <marc-linux-sound-92619328927248@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
+Hi!!
 
-Hi,
+I need some help!!
+After I installed the newest ALSA drivers, the OSS support doesnt=B4t
+work.
+If I do "cat /proc/modules" I get this:
+"snd-pcm1-oss 13080 0 (autoclean) (unused)"
+Could anybody help me????
+My PC:
+Intel PII 350
+64 MB Sd-Ram (PC-100)
+8,1 GB and 6,4 GB Harddisc
+AudioPCI 97 with ESS1371 and OPL-SAx
+S.u.S.E. Linux 6.1 with Kernel 2.2.5 and KDE 1.1
 
-I'm going to replace my original setting in /etc/conf.modules :
-
-alias synth0 adlib_card
-options adlib_card io=0x388
-
-with
-
-alias midi opl3
-options opl3 io=0x388
-
-Will the new setup (opl3) work ?  And how to test it ?
-If both the setttings work, which one is better and why ?
-thanks,
-
-ps. My card is soundblaster 16 pnp.
-
-Jia
-
------BEGIN PGP SIGNATURE-----
-Version: 2.6.2
-
-iQCVAwUBNztHRIZ0EtYwdSKhAQERQwP/RPJOyt7YJjfSprq9Dq3y9BX5s0tAHhUm
-OYMV1WeiT0G54kqyU+S2EuaFCJ0LhHCabkpKMcT02HA/SaDDcVg89NX9eMJkAxbb
-f/Vo1dnh3Hm8XgfpyPuh/78obWOi26F7JQ4x48L0AesanzyRyKIURycgA/exThiT
-3HD0UlVsQx8=CioT
------END PGP SIGNATURE-----
+Bye
+Mike
