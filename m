@@ -1,21 +1,40 @@
-From: Dan Hollis <goemon@sasami.anime.net>
-Date: Mon, 25 Jan 1999 12:08:05 +0000
-Subject: Re: Yamaha 724 PCI without PC/PCI link
-Message-Id: <marc-linux-sound-91726616500832@msgid-missing>
+From: Erik de Castro Lopo <erikd@zip.com.au>
+Date: Tue, 12 Jan 1999 04:49:31 +0000
+Subject: Re: recording with Microphone
+Message-Id: <marc-linux-sound-91612993715069@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91710095802713@msgid-missing>
-In-Reply-To: <marc-linux-sound-91710095802713@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, 22 Jan 1999, [gb2312] =B3=C2=D2=AB=C3=F7 wrote:
-> But when I boot linux directly, the modules can be loaded,
-> but no sound. I think there must require some additional
-> init commands. Cound anyone give me some implication?
+Georg Wendt wrote:
+> 
+> Hi,
+> 
+> im looking for a simple tool, that allows me to record voice using a
+> 
+> Microphone plugged into the Soundcard.
+> 
+> Best with Program-Code...
 
-Probably requires some firmware upload or other initialization.
-The only way to be sure is to trace the DOS initialization program.
+Both sox and wavplay will do that. Have  look for them at:
 
--Dan
+	http://sound.lovebead.com/
+	
+> 
+> BTW, is there anything, I should especially take care of?
+
+Yeah, take care care not to eat that yellow snow.
+
+Erik
+-- 
++-------------------------------------------------+
+     Erik de Castro Lopo     erikd@zip.com.au
++-------------------------------------------------+
+Everything that I've learned about computers I have boiled 
+down into three principles:
+  Unix: You think it won't work, but if you find the right 
+        guru, you can make it work.
+  Macintosh: You think it will work, but it won't.
+  PC/Windows: You think it won't work, and it won't.
