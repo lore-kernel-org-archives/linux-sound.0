@@ -1,57 +1,38 @@
-From: Benno Senoner <sbenno@gardena.net>
-Date: Wed, 27 Oct 1999 20:10:34 +0000
-Subject: Re: streaming from disk to terminatorX added (via mmap)
-Message-Id: <marc-linux-sound-94105780118397@msgid-missing>
+From: est@hyperreal.org
+Date: Wed, 27 Oct 1999 16:33:14 +0000
+Subject: sequencer timing issues
+Message-Id: <marc-linux-sound-94104534231553@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94077890409185@msgid-missing>
-In-Reply-To: <marc-linux-sound-94077890409185@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Tue, 26 Oct 1999, Andy Lo A Foe wrote:
+Paul Barton-Davis discourseth:
+>
+> SoftWerk's problem is even more acute: because one MIDI track can
+> control another's output data (e.g. one track controls the volume for
+> another track's NoteOn messages), and because the tracks run at
+> different speeds and may not ever be in sync, it is *impossible* to
+> use any kernel sequencer for any useful work. why ? because until time
+> T arrives, its impossible to compute what should actually be
+> sent. this means that you can't queue anything in the kernel
+> sequencer: you just have to wait for the "tick" to come around, and
+> compute what MIDI data should be sent (if any) on that tick.
 
-> A segment holds a number of decoded frames (usually 2 or 3) and also
-> remembers the number of the first frame. So lets say we want to play 
-> a mp3 backwards starting at frame 1000. The tricky part is to keep the
-> ringbuffer full with the right frames all the time. As soon as one segment
-> is used up by the audio reader thread it releases a semaphore on which the
-> audio decoder thread is blocking on. The audio decoder thread wakes up and
-> check if there are any segments that needs to be filled. But wait you say,
-> what if you need to fill a segment with frames 1000 to 998? Decoding frame
-> 1000, then 999 and then 998 won't work because of the way mp3s are
-> encoded. What do you do then? You seek to frame 995 and start decoding
-> from there. You throw all data away up to and including frame 997. By this
-> time your mp3 decoding engine is recovered from the 'seek' operation. Now
-> you store the next 3 frames in your ringbuffer. The audio reader thread,
-> when detecting negative speed, simply reads a segment backwards so in
-> this case it starts at frame 1000. The segment before the current one
-> must contain frame 995 to 997 (first jump to frame 992, decode 3
-> frames and discard them, decode the needed data), and so on...
-> The decoder thread is also a couple of segments ahead of the reader
-> thread. So when you do rapid positive and negative speed switching
-> (scratching) the decoder thread is actually idling since none of the
-> segments get discarded. 
-> 
-> Comments? :)
+Hmm..sounds like you're already paying much of the price of the
+hyperseq approach..might as well go all the way. :)
 
-Ok, but what are then the general rule for decoding mp3 backwards: 
-assume that you are at frame n:
+> in SoftWerk's case, because it doesn't process audio data in any way,
+> I use sigitimer(2) to give me a periodic async signal every so often
+> (typically 20-100ms: its controllable in the UI). i use this to
+> measure the passage of time, and compute when a beat/tick is
+> happening.  soon, i will use the RTC with select(2), which will be
+> more accurate and permit much faster tempos than sigitimer can.
 
-point1:
-decode frames: n-5 , n-4 n-3 , n-2 , n-1 , n  ( 6 frames)
-throw away frames n-5,n-4,n-3
-fill buffers with frames n-2 , n-1 , n  (this is thwe usable data)
-n=n-3
-return to point 1
+Wouldn't you say that an HZ > 100 kernel is the cleanest solution?
 
-right ?
-(correct me pleasse if I'm wrong)
+Re RTC: I'm about to post (just to linux-audio-dev) an idea about how
+*you* can use it without stopping *my* app from using it. :)
 
-of course playing backward requires 2x the CPU horsepower, but with today's CPUs
-combined with optimized x86 assembly code like the mpg123's one , this is not a
-major problem except if you want to decode lots of tracks backwards.
-
-regards,
-Benno.
+Eric
