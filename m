@@ -1,28 +1,90 @@
-From: Jonathan Oppenheim <jono@Phys.UAlberta.CA>
-Date: Sun, 30 Apr 2000 17:22:52 +0000
-Subject: syncing problems with SLab
-Message-Id: <marc-linux-sound-95711574421925@msgid-missing>
+From: Anthony Beurive <anthony.beurive@labri.u-bordeaux.fr>
+Date: Tue, 18 Apr 2000 20:47:33 +0000
+Subject: JIM 2000 -- Call for Participation
+Message-Id: <marc-linux-sound-95609141505783@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-I have been trying to record using SLab, 
-and find that when i play back the tracks they
-are about a 1/2 second out of sync.
-i have been told this may have to do with the fact
-that SLab tries to use the trigger option,
-and this may not be supported by my card (SBLive!)
-but i am not sure.
+(english version first -- la version francaise se trouve plus loin)
+----------------------------------------------------------------------
+JIM 2000
+Journees d'Informatique Musicale
+Bordeaux, France, May 15-18, 2000
 
-quite a few others seem to have this problem judging from the SLab
-Forum, but some people (with the SBLive) do not seem to
-have this problem.
+The "Journees d'Informatique Musicale" is an annual meeting of
+researchers in computer music and musicians who use the computer as a
+means of expression or as a tool for composition. This year, the
+seventh edition of this meeting will be held in Bordeaux, France, on
+May 15-18.
 
-I really like the package, and would hate to have to give up on it.
 
-Anyone have any suggestions?
+CALL FOR PARTICIPATION
 
-Thanks, 
-Jonathan
+We ask the participants to pre-register on our web site:
+
+http://www.scrime.u-bordeaux.fr/JIM2000/registration.html
+
+
+PROGRAM
+
+The following theme will be developed during a special session:
+"Linux: a computer music platform."
+
+Another special session about psychoacoustic experimentation in
+musical perception is planned.
+
+Consult the program:
+
+http://www.scrime.u-bordeaux.fr/JIM2000/program.html
+
+
+Visit our web site for more information:
+
+http://www.scrime.u-bordeaux.fr/JIM2000
+
+----------------------------------------------------------------------
+JIM 2000
+Journees d'Informatique Musicale
+Bordeaux, 15-18 mai 2000
+
+Les Journees d'Informatique Musicale reunissent chaque annee des
+chercheurs en informatique musicale et differents acteurs de la vie
+musicale utilisant l'informatique comme moyen d'expression ou comme
+aide a la composition. Cette annee, ces septiemes Journees se
+derouleront du 15 au 18 mai a Bordeaux.
+
+
+APPEL A PARTICIPATION
+
+Nous demandons aux eventuels participants d'effectuer une
+pre-inscription sur le site web :
+
+http://www.scrime.u-bordeaux.fr/JIM2000/inscription.html
+
+
+PROGRAMME
+
+Le th=E8me suivant sera developpe lors d'une session speciale :=20
+<< Linux : plate-forme pour l'informatique musicale. >>
+
+Une autre session speciale sera consacree aux experimentations
+psychoacoustiques sur la perception musicale.
+
+Consultez le programme :
+
+http://www.scrime.u-bordeaux.fr/JIM2000/programme.html
+
+
+Visitez notre site pour plus d'information :
+
+http://www.scrime.u-bordeaux.fr/JIM2000
+
+----------------------------------------------------------------------
+
+--=20
+              ,
+Anthony BEURIVE
+SCRIME, LaBRI, Universite Bordeaux 1
