@@ -1,26 +1,34 @@
-From: "Mike Tavares" <vmiketa@ici.net>
-Date: Mon, 05 Oct 1998 23:22:09 +0000
-Subject: AWE 64
-Message-Id: <marc-linux-sound-90763624412506@msgid-missing>
+From: "Axel Eble" <AEBLE@controlware.de>
+Date: Mon, 05 Oct 1998 16:03:29 +0000
+Subject: Antw: Re: ESS 488 and 688
+Message-Id: <marc-linux-sound-90761415702268@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have installed Redhat version 5.1 and for the life of me can not get my
-AWE64 sound card to work with it. (the only thing left to figure out).
+>On Mon, 5 Oct 1998, Thomas Sailer wrote:
+>
+>> Newer ESS chips like the 1688 have their own 16bit mode,
+>> which should be supported by Linux (haven't tried for quite some
+>> time tough).
+>
+>Out of curiousity, should an ESS1868 work?  I've never had any success,
+>with mine but then I didn't bother configuring it with isapnptools.
 
-It's current config under windows 98 is   I/O 220, IRQ 5, DMA 1 (for 8bit)
-and DMA 5 (for 16 bit).
+yes. If you configure it with isapnp
 
-in Xwindows I run sndconfig, it detects it,  everything looks ok, sndconfig
-goes to play the test sound, it comes up with a sndprobe error.
+>If not, how hard is it to acquire documentation for said chipset?
 
-I have tried to fiddle with the setting on the card, but don't have to many
-options since this machine is stuffed with other hardware.
+http://www.esstech.com/
 
-any ideas would be appreciated.
+>
+>Matthew.
+>
 
 
--Mike
+
+-- 
+Axel Eble * Controlware GmbH * Professional Services * aeble@controlware.de
+Waldstr. 92 * 63128 Dietzenbach * 06074 858 328
