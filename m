@@ -1,39 +1,64 @@
-From: "Matthew B. Marlowe" <marlowe@alfheim.net>
-Date: Wed, 11 Nov 1998 12:16:41 +0000
-Subject: Re: mp3 encoder
-Message-Id: <marc-linux-sound-91080339910981@msgid-missing>
+From: Mike Wyer <mjw7@doc.ic.ac.uk>
+Date: Thu, 26 Nov 1998 12:06:18 +0000
+Subject: [Slightly off-topic] Re: Sound Blaster Live (heads up Alan)
+Message-Id: <marc-linux-sound-91209695505117@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91076132826644@msgid-missing>
-In-Reply-To: <marc-linux-sound-91076132826644@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-encoder works great for me.
-http://hardcore.iwh.net/files/encoder1.0.tar.gz
+On Tue, 24 Nov 1998, Trever Adams wrote:
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: 2.6.3i
+>I called Creative about the Live and got the run around.  When I became
+>frustrated I started pushing a bit harder.  This is unofficial, but I
+>never heard back from them, so I will speak what I was told.  Creative
+>bought out Emu.
+>
+>The Live has an Emu chip as it's main component.  One of the reasons at
+>the point of my call (in late Sept I think) that no driver info was
+>released was because Emu was still patenting parts of the chip.  The
+>person at Emu I heard this from suspected that info might be available
+>once the patents were filed.
+>
+>I hope this provides some useful background to whoever will contact
+>Creative.  Please note, I would give the name of the person I talked to,
+>but I do not have permission, and they probably aren't the place you
+>need to end up at.
+>
+>Trever Adams
+>
+>P.S. Tech support is not the place to call, they have NO info and might
+>not have functioning brains.
+>
+>-
 
-mQCNAzYHUrIAAAEEAMAXsThllSKVcUUK9VJWpf6zaJiSSbU2w8qxVGdNPTe1PWC8
-sGNCD+u13eLM6y+S+/RquJCTuRUQW3DKLfi7/NxaFvGqJi4/vr/XPOky2vDlZqm2
-wTk+/J7MgYtT7K2jawlEWW3HvDdJIPpSe8E8PcolX2Qz5aaLIHNiXOzrvTlJAAUR
-tChNYXR0aGV3IEIuIE1hcmxvd2UgPG1hcmxvd2VAYWxmaGVpbS5uZXQ+iQCUAwUQ
-NgdSsnNiXOzrvTlJAQHg5gP1EPvDIHqJZV771lhE1ZuPwkYTH2OQQp8lA9ezP+Rd
-2lMYvzqfIq4DcM5dGNuU3dYy9tZDsOpqdjzzyP3DPkJoDTT2AzX5gV8GX/HA+FBd
-BqdlXIU54BJbAo5RBmKqU8bq0KXPvlmnxYxhvze6UD/Ae6Qb12tR7OYmaC5659RF
-7Q=3D
-=C0yt
------END PGP PUBLIC KEY BLOCK-----
+As far as I was aware, Creative have always owned Emu. It was started up
+as the professional face of Creative Labs. The AWE64 has an Emu chip in
+it as well. BTW someone else mentioned S/PDIF- the AWE64 Gold has S/PDIF
+output, but I don't know whether or not it works under Linux, and I
+guess they might want digital-in so therefore the SBLive!. I believe the
+Terratec SW40-XL (or something, see www.terratec.de) also has a digital
+I/O system, and the new Yamaha board as well. As for Linux drivers for
+_those_ cards, I have no idea.
 
-On Tue, 10 Nov 1998, Stephan Herschel wrote:
+Creative seem to like their "privacy", but I guess they're not the only
+ones. It seems to be somewhat similar to the current video hardware
+market- the major players all desparately trying to get market share
+with their new-fangled chipsets, withholding the device specifications
+to use as a bargaining tool with the software houses. The amazing thing
+about the video situation was the way Linux enthusiasts persuaded Matrox
+to cooperate in developing an X server for the G200. If Creative could
+be persuaded that they were missing out on a huge number of sales, then
+just possibly they might lend a paw.
 
-> Hi ,
->=20
-> I am looking for an mp3 encoder for linux that works relatively=20
-> fast. Can somebody give me a hint?
->=20
-> Thanks,
-> Stephan
->=20
+Is there anyone with the resources and motivation to set up a petition,
+or is there already one? Maybe we can crack the Creative Labs nut.
+
+Cheers,
+Mike
+--
+          ///   Mike Wyer : <m.wyer@ic.ac.uk>   \\\
+         //\\___________________________________//\\
+      "I want to die in my sleep like my grandfather....
+ ...Not screaming and yelling like the passengers in his car."
