@@ -1,26 +1,34 @@
-From: Richard Verwayen <richard_verwayen@web.de>
-Date: Fri, 14 Sep 2001 06:25:17 +0000
-Subject: Errors Compiling Kernel 2.4.9 with support for ESSSolo1
-Message-Id: <marc-linux-sound-100044871328714@msgid-missing>
+From: "Adam Watson" <linuxacolyte@hotmail.com>
+Date: Sat, 20 Oct 2001 19:36:25 +0000
+Subject: Broken EMU10K1 Driver in 2.4.8+
+Message-Id: <marc-linux-sound-100360658701245@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I got errors when saying "make modules_install"!
-I wanted to insert it as a module and also tried to build it into the 
-kernel.
-When I call modules_install, an error occured.
+I noticed this around 2.4.8 but thought it to be just a glitch or that my 
+sound card had crapped out on me.  So I tested SBLive card under Windows and 
+it worked without a hitch.
 
-depmod : *** Unresolved symbols in 
-/lib/modules/2.4.9/kernel/drivers/sound/esssolo1.o
-depmod :        gameport_unregister_port_Rsmp_b8ce4307
-depmod :        gameport_register_port_Rsmp_f891976c
+My problem:
 
-I am using an ACER Travelmate, Celeron, Redhat 7.1.
+Kernel 2.4.12 recognizes the card but does not set the devices.  Following 
+the Sound-HOWTO, I ran every test that it requested.  It passed all except 
+when I would cat /dev/sndstat.
 
-If you need further information, please send an email to me
+Output:
 
-Thanks, Richard
+cat: /dev/sndstat: No such device
+
+All device files are present and showing the right permissions. And the 
+kernel recognizes the card at every boot up?  Has something changed recently 
+that I need to reconfigure in my kernel?
+
+Please help,
+Adam W.
+
+_________________________________________________________________
+Get your FREE download of MSN Explorer at http://explorer.msn.com/intl.asp
 
