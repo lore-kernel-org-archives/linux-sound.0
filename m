@@ -1,40 +1,54 @@
-From: Cornelius Creedon <neil@box1.staller.sunysb.edu>
-Date: Fri, 12 Mar 1999 00:05:02 +0000
-Subject: Re: solo-1 chip
-Message-Id: <marc-linux-sound-92119789313190@msgid-missing>
+From: Marshall Lake <mlake@melake.erols.com>
+Date: Fri, 19 Mar 1999 18:37:33 +0000
+Subject: Upgrading Linux, Sound is Gone
+Message-Id: <marc-linux-sound-92186963803929@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92066824429576@msgid-missing>
-In-Reply-To: <marc-linux-sound-92066824429576@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 11 Mar 1999, Dan Boger wrote:
 
-> On Thu, 11 Mar 1999 01:10:13 -0500 Bill Nottingham <notting@redhat.com> wrote
->  concerning 'Re: solo-1 chip':
-> > 
-> > To get native ESS Solo support ATM, you'd either have to use the
-> > 2.2.*-ac patches (ftp.linux.org.uk:/pub/linux/alan/2.2), or ALSA
-> > (http://alsa.jcu.cz/)
-> 
-> Great!  So I download the alsa driver install it.  But when I try to
-> modprobe it says that the device is already in use.  I look at
+I have an AOpen FX-3D sound board which I run in Sound Blaster emulation
+mode and it was working fine under Linux 2.0.34.  I upgraded Linux to
+2.0.36 and I can't get the sound to work.
 
-i have seen this error when trying to load the sb module and it seemed to
-happen simply because i did not specify enough or the right options.
+Trying to initializing the sound board gives me:
+sb: Interrupt test on IRQ7 failed - device disabled
 
-> proc/modules, it did load a bunch of stuff, but still no sound.  Do I
-> need to edit my /etc/conf.modules for options?  The solo1 isn't
-> mentioned in any of the documents - how do I know the name of the
-> options?
+I've tried fooling around with isapnptools but I don't get anywhere.
 
-i believe the names of the options are uniform, at least the generic ones.
-try io=0x... irq=... dma1=... and such.
+cat'ting /snd/sndstat gives:
+Sound Driver:3.5.4-960630 (Thu Mar 18 21:23:59 EST 1999 root,
+Linux melake 2.0.36 #2 Tue Mar 16 17:51:55 EST 1999 i686 unknown)
+Kernel: Linux melake 2.0.36 #6 Thu Mar 18 21:35:19 EST 1999 i686
+Config options: 880002
 
-you can supply these on the command line, until you get it working, then
-put the right values into your conf.modules
-ie 'modprobe ess-solo irq=x io=0xwhatever ...'
+Installed drivers: 
+Type 1: OPL-2/OPL-3 FM
+Type 2: Sound Blaster
 
--cc
+Card config: 
+Sound Blaster at 0x220 irq 7 drq 1,5
+(OPL-2/OPL-3 FM at 0x388 drq 0)
+
+Audio devices:
+
+Synth devices:
+
+Midi devices: NOT ENABLED IN CONFIG
+
+Timers:
+0: System clock
+
+Mixers:
+
+
+I had compiled 2.0.34 as i386.  I compiled 2.0.36 as i686.  Could that be
+making the difference?
+
+Does anyone have any suggestions short of going back to 2.0.34?
+
+
+Marshall Lake - mlake@melake.erols.com - http://melake.erols.com
+http://melake.erols.com/~the-beach       http://melake.erols.com/~genealogy
