@@ -3,7 +3,7 @@ Date: Thu, 09 Mar 2000 16:55:41 +0000
 Subject: Re: [PATCH] Fix for sound and xconfig problems in 2.3.50
 MIME-Version: 1
 Content-Type: multipart/mixed; boundary="1yeeQ81UyVL57Vl7"
-Message-Id: <marc-linux-sound-95262143415745@msgid-missing>
+Message-Id: <marc-linux-sound-95262228016818@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95261977313651@msgid-missing>
 In-Reply-To: <marc-linux-sound-95261977313651@msgid-missing>
