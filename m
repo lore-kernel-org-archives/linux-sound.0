@@ -1,30 +1,24 @@
-From: "David S. Miller" <davem@redhat.com>
-Date: Tue, 22 Aug 2000 01:09:14 +0000
-Subject: Vger lists have moved
-Message-Id: <marc-linux-sound-96691402311162@msgid-missing>
+From: ZYSERMAN Fabio <zyserman@venus.fisica.unlp.edu.ar>
+Date: Mon, 26 Feb 2001 15:38:00 +0000
+Subject: How to configure a SB PCI128?
+Message-Id: <marc-linux-sound-98320223418970@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hi, I apologize if the request has
+already been answered, but I am new to this list! 
 
-The old lists run at vger.rutgers.edu have been moved to
-vger.kernel.org due to an irrecoverable hard-disk failure of the old
-machine, the lists were planned to be moved anyways.
+I have a Sound Blaster PCI128,
+could someone help me with the steps
+necessary to get it to work?
 
-If you are receiving this email, it means you were subscribed to
-one of the vger Linux mailing lists as of the crash of the old
-system last week.
+Thank you all in advance!
 
-You are not subscribed to the new lists at vger.kernel.org, you will
-have to manually re-subscribe yourself.
+Fabio Zyserman
 
-The new site uses the same mailing list software, Majordomo.  So the
-subscription mechanism is the same as on the old system.
-
-Thanks for your patience and understanding.
-
-Later,
-David S. Miller
-davem@redhat.com
+-
+To unsubscribe from this list: send the line "unsubscribe linux-sound" in
+the body of a message to majordomo@vger.kernel.org
