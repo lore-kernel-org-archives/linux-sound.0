@@ -1,32 +1,31 @@
-From: "Soulier, Frederic" <Frederic.P.Soulier@British-Airways.com>
-Date: Wed, 16 Jun 1999 11:39:48 +0000
-Subject: AWE64 ISA - game port
-Message-Id: <marc-linux-sound-92953529008788@msgid-missing>
+From: Natanael Copa <nat@c2i.net>
+Date: Wed, 16 Jun 1999 18:02:50 +0000
+Subject: Re: AWE64 ISA - game port
+Message-Id: <marc-linux-sound-92955686232437@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-92953529008788@msgid-missing>
+In-Reply-To: <marc-linux-sound-92953529008788@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
+hi!
 
-A "pnpdump >/etc/isapnp.conf" reports:
-   LD0   audio
-   LD1   game
-   LD2   wave table
+Check in /proc/interrupts if something else is using port 0x200
 
-Activating the lines for LD0 & LD2 and doing an
-"isapnp /etc/isapnp.conf" works fine.
+Nat
 
-Activating the lines LD0, LD1 & LD2 and doing an
-"isapnp /etc/isapnp.conf" does not work.
-Is there anything wrong with activating the line for the game
-port?
+"Soulier, Frederic" wrote:
 
-note: only io=0x200 is given for the game port.
+> A "pnpdump >/etc/isapnp.conf" reports:
+>    LD0   audio
+>    LD1   game
+>    LD2   wave table
 
-I would like to give a try to the joystick code in Linux so any
-help would be much appreciated and welcomed.
-
-Ciao
-Fred
+> Activating the lines LD0, LD1 & LD2 and doing an
+> "isapnp /etc/isapnp.conf" does not work.
+> Is there anything wrong with activating the line for the game
+> port?
+>
+> note: only io=0x200 is given for the game port.
