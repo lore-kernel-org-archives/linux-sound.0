@@ -1,21 +1,25 @@
-From: "Yi-Guang Liu" <ygliu@gsc.ict.ac.cn>
-Date: Wed, 16 Sep 1998 10:20:26 +0000
-Subject: A question about SoundKin KCE-815
-Message-Id: <marc-linux-sound-90594187622920@msgid-missing>
+From: Niels Ott <niels@steinlachtal.de>
+Date: Thu, 10 Sep 1998 17:53:26 +0000
+Subject: just doesn't record
+Message-Id: <marc-linux-sound-90546055827651@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="macroman"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-Hi:
-    I have a Soundking KCE-815 card, it is sound blaster pro16 compatiable
-and OPL-3 compatiable, I am using RedHat 5.1 to probe it ,it is said Yamaha
-OPL-3.
-    I dl a oss-for-rh, it is said,must to recompile the kernel, I config the
-kernel with "make config", Set the sound card support to "n",I dealed with
-it followed the sequence of the /usr/src/linux/README.
-    When I using ./oss-install,it is said my kernel with a sound support,
-when typed the "cat /dev/sndstat",The sound card also exists.How can I deal
-with that?
-    Thanks.
+aGkgdGhlcmUhCgpzb3JyeSwgaSBkaWRuJ3Qgc2VhcmNoIGZvciBhIHNvbHV0aW9uIG9mIG15IHBy
+b2JsZW0gaW4gdGhlIGxpc3QKYXJjaGl2ZS4uCgppIHRoaW5rIHlvdSBjYW4gaGVscCBtZSA6LSkg
+Li4uLiBpIGNhbid0IHJlY29yZCBhbnl0aGluZyB3aXRoIG15IHNvdW5kCmNhcmQuCmknbSB1c2lu
+ZyBhIHNiMTYgKHdpdGhvdXQgcG5wKSBhbmQgdGhlIG5vcm1hbCBzb3VuZCBkcml2ZXJzIG9mIGtl
+cm5lbAoyLjAuMzUKCidyZWNvcmQnIHRlbGxzIG1lOgoiaW52YWxpZCBhdWRpbyBidWZmZXIgc2l6
+ZSIKCmFuZCB0aGUgaGQtcmVjb3JkaW5nIHN5c3RlbSAnbXVsdGl0cmFjaycgY3Jhc2hlcyB3aXRo
+CiJzZW1fc2V0KCkgZmFpbGVkOiBNYXRoIHJlc3VsdCBub3QgcmVwcmVzZW50YWJsZQpFcnJvcjog
+ZGV2aWNlIDogb3BlbmluZyBhdWRpbyBkZXZpY2UuCk11bHRpdHJhY2s6IENoaWxkIGV4aXRlZCBz
+aWduYWwgcmVjaWV2ZWQKR29vZGJ5ZS4iCgp3aGF0IGlzIHdyb25nPyAnY2F1c2UgMiBwcm9ncmFt
+cyBkb24ndCB3b3JrIGkgZ3Vlc3MgaXQncyBhIHByb2JsZW0gd2l0aAp0aGUgc291bmQgbW9kdWxl
+Lgpkb2VzIGFueW9uZSBrbm93IGEgc29sdXRpb24/CgpUSUEsCiAgbmllbHMKCnAucy46IHBsZWFz
+ZSB1c2UgQ2M6bmllbHNAc3RlaW5sYWNodGFsLmRlIC4uLiBpIGRpZG4ndCBqb2luIHRoZSBsaXN0
+LgoKLS0KT24gZHJpaGJhIGlzY2ggZHIgQUxESS1NYXJrdCwgbWl0IEhhc2NoaXNjaCwgR3JhcyBv
+bmQgTFNECkEgbmFja3RlIEZyYXUgZW0gU2NobGFtbWJhc2FoIHNjaHJlaXQgJ0FLVyBPbOkhJwog
+ICAoU2Nod29p32Z1Yd8pCg==
