@@ -1,18 +1,25 @@
-From: Dan Hollis <goemon@sasami.anime.net>
-Date: Fri, 06 Aug 1999 01:57:50 +0000
-Subject: Re: MPEG Support
-Message-Id: <marc-linux-sound-93390438310859@msgid-missing>
+From: Rui Sousa <rsousa@grad.physics.sunysb.edu>
+Date: Sun, 08 Aug 1999 23:48:54 +0000
+Subject: File descriptors and Sound
+Message-Id: <marc-linux-sound-93415570309034@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93371079221997@msgid-missing>
-In-Reply-To: <marc-linux-sound-93371079221997@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Wed, 4 Aug 1999, Jonathan C. Masters wrote:
-> Besides, since MPEG decoding/encoding cards are popular these days,
+Hi,
 
-But no vendor will release programming information for any of them.
+Can someone give me some pointers on how to get control
+over /dev/audio by two different applications?
 
--Dan
+I realized that it's not possible to open /dev/audio
+in two separate applications while trying to setup
+speakfreely...
+
+If the device is full-duplex how can I have one application
+reading it and another writing?
+
+Thanks in advance
+-- 
+Rui Sousa
