@@ -1,7 +1,7 @@
 From: "Petr Votruba" <pete.w@volny.cz>
 Date: Wed, 30 May 2001 17:41:54 +0000
 Subject: Re: [newbie] choosing a sound-card for GOOD output-only purposes
-Message-Id: <marc-linux-sound-99124519328546@msgid-missing>
+Message-Id: <marc-linux-sound-99124527729019@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-99117956009922@msgid-missing>
 In-Reply-To: <marc-linux-sound-99117956009922@msgid-missing>
