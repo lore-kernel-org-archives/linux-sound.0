@@ -1,24 +1,22 @@
-From: Mihai Badila <dx@mdk.c7.utcluj.ro>
-Date: Thu, 15 Apr 1999 00:10:55 +0000
-Subject: drivers 4 diamond mII
-Message-Id: <marc-linux-sound-92418230203697@msgid-missing>
+From: Derrick J Brashear <shadow@dementia.org>
+Date: Thu, 22 Apr 1999 04:46:19 +0000
+Subject: volume normalization with shuffled mp3s?
+Message-Id: <marc-linux-sound-92475638713852@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-  I've read a lot about SB Live! and Aureal Vortex so I've been thinking
-about buyin' a Diamond Monster CM300 A3D II (Aureal Vortex 2 inside :).
-Does anyone knows if there's a driver in linux 4 this board? Maybe a
-comercial OSS one?
-  All the best.
+Hi,
 
- Linux rules all OSes.
-"Hard work never killed anybody, but why take a chance?"
+I've digitized most of my music collection to make things easier when I
+listen at home; This condenses what would be dozens of CDs and hundreds of
+LPs into about 30 CDs of mp3s; However, the volume of each mp3 (or more
+realistically, each album's worth) is slightly different. One approach is 
+I'd run something over each file which would compute an average volume for
+the track, record that, and when shuffling read the info and adjust the
+volume accordingly; I'm open to ideas or suggestions of programs which
+would help; I suspect I could write a gain averager but I'd rather not.
 
---
- Mihai Badila                                   voice: +40-58-830341
- i^dx Research                            email: dx@mdk.c7.utcluj.ro
- Linux Hacker                                       mICQ:-) 32606339
----------------------------------------------------------------------
+-D
