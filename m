@@ -1,32 +1,32 @@
-From: Christoph Hellwig <c0hellwi@rks.harz.ni.schule.de>
-Date: Fri, 25 Feb 2000 07:50:51 +0000
-Subject: Re: [PATCH] removal of legacy sound defines
-Message-Id: <marc-linux-sound-95146779531327@msgid-missing>
+From: Jian Li <lijian@ele.uri.edu>
+Date: Tue, 22 Feb 2000 18:34:20 +0000
+Subject: C-MEDIA CMI8738 Sound dirver
+Message-Id: <marc-linux-sound-95125059015644@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95143229508229@msgid-missing>
-In-Reply-To: <marc-linux-sound-95143229508229@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Jeff Garzik wrote:
-> Christoph Hellwig wrote:
-> > 
-> > Hi, this patch removes all the sound (oss) legacy defines.
-> > Since Alan modularized the oss code, the semed to be no new free
-> > version of OSS, so it might be usefull to remove the legacy defines.
-> This doesn't look like a good idea to me....  Have you analyzed all the
-> paths and permutations for those config options you are chopping?
+Hi, All,
 
-Yes, it's ok, they are all defined in thenoe obsolete header legacy.h.
-Look at the file README.CONFIG that is removed by my patch.
+Greeting from Rhode Island!
 
-Btw. When I get some more old sound cards to test it, I'll try to clean up the oss mess even more
-and remove the compile-time selection of the resources.
+Anyone knows where to get a FREE driver for C-MEDIA CMI8738/C3DX PCI Audio
+Device?  I know that OpenSound.com only offer temperal evaluation driver
+for this chip.:-q  Pray for my dumb Linux machine....
 
-Christoph
+Thanks in advance.
 
+Best Regards,
 
--- 
-Always remember that you are unique.  Just like everyone else.
+Jian
+
+**********************************************
+Name:  Jian Li
+Addr:  2900 Kingstown Rd. Apt. 732
+       Kingston, RI 02881
+Tel:   401-782-8974(h)/874-4579(o)
+Email: lijian@ele.uri.edu/lijian@hotmail.com
+URL:   http://www.ele.uri.edu/~lijian
+**********************************************
