@@ -1,89 +1,39 @@
-From: John Lazzaro <lazzaro@CS.Berkeley.EDU>
-Date: Sat, 17 Jun 2000 18:33:03 +0000
+From: "Juhana Sadeharju" <kouhia@nic.funet.fi>
+Date: Mon, 19 Jun 2000 18:50:01 +0000
 Subject: Re: [linux-audio-dev] Re: Multimedia compression
-Message-Id: <marc-linux-sound-96126686903146@msgid-missing>
+Message-Id: <marc-linux-sound-96200429928831@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-96126686903146@msgid-missing>
+In-Reply-To: <marc-linux-sound-96126686903146@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
 
-> OTOH, one way to achieve great compression with little distorsion would be 
-> decomposing the audio stream in it's elementary "instruments", like
-> drumset , guitars ,violines , bass etc, and then code a sort of MIDI-like file
-> (very short) with the "samples" stored in the stream only once.
+>From:	Benno Senoner <sbenno@gardena.net>
 >
-> I think MP4-SAOL is a step in that direction.
+>I prefer to use MPEG Layer 2 ( MP2) at 384kbit (lossy) which outperforms all
+>MP3 based codecs even 320kbit. 
 
-Basically, there's two interrelated research agendas, both of which need
-to make it out of the lab for this sort of compression to make it to the
-real world: 
+How do you know it? Where I could read tests about it?
+I have used layer 3 with 320 kbps for compressing radio and cassette
+recordings (both music and sound samples snipped from them), so, most
+probably I have used the right compressor. But is layer 3 with 320 kbps
+somehow not enough for studio mikes (voice, guitar, etc.) or for digital
+synth tracks?
 
-[1] Doing the decomposition. The three major ways people are thinking about
-solving this problem right now are 
+Of course, for compressing the final mix (20-bit or greater) of studio work,
+the 16-bit MP3 is not enough. But 16-bit could be enough for individual
+sounds, vocals, etc. However, I would not use any MP3 compression for even
+those because I would record only with 20-bit A/Ds in studio. I have used
+MP3 only because I have nothing better than 16-bit A/Ds. So, what compressor
+I could use for 20- or 24-bit material? Should we look at ourself for
+20- or 24-bit compressor or can MP3 or AAC handle them (similarly than JPEG
+can handle 16-bit/channel images)?
 
-  [A] The mathematical approach -- in a nutshell "Let's separate out N 
-      signals from one, under the assumption that the best separation
-      makes each separated signal carry unique information. The best
-      starting point for understanding how these folks think about 
-      the problem is:
+Note that 16-bit is most probably enough for mic recordings, but the
+extra bits are needed for having extra room. I would not want to dither
+20-bit recording down to 16-bit even it would fit very well.
 
-      http://www.cnl.salk.edu/~tony/ica.html
-
-      While many of these papers think in terms of "N microphones to 
-      listen to a performance of N instrumentalists" as the starting
-      signal, this is just to make the math easier -- in practice the
-      ideas can be extended to the more general case.
-
-  [B] Auditory scene analysis -- in short, take the analogy from computer
-      vision, where raw camera (or retina) output gets broken up into 
-      different "maps" coding motion, color, shape, ect, and apply it 
-      to audition. These maps should (in theory) make the process of 
-      doing separation a lot easier. The good initial resource for
-      this approach is:
-
-      http://sound.media.mit.edu/~dpwe/AUDITORY/
-
-  [C] Get access to the 24-track master tapes (uh, I think I just dated
-      myself :-), and avoid the whole decomposition problem. Technically
-      easy, of course, but might not be practical.
-
-[2] Once you've done the decomposition, create encoders specialized for
-specific types of sounds. For certain types of specialized sounds, this
-field is very mature (i.e. spoken speech). For other types of sounds,
-though, you're basically going to have to
-
-   [1] Look at the best music synthesis algorithms for the sound type,
-       and see how easily the algorithm can be "inverted".
-
-   [2] Hope a speech codec works well on the sound (there are a few 
-       codecs specialized for singing voice that take this approach ...).
-
-   [3] Do original research on the problem.
-
-
-One big problem with a field like this is that its hard to get people
-motivated to work on the "little problems" described above, if its 
-unclear how success on the little problem is going to solve any big 
-problem. The hope with Structured Audio is to solve this "meta-problem" --
-by having a fielded platform out there, ready to support new approaches
-to sound encoding in pilot applications, SA will help motivate research
-in the whole area.
-
-In particular, the politics of MPEG is very different than the politics
-of IETF -- "joining the process" of creating a new coding standard is
-a deep committement of time and resources and money in MPEG-land (note
-that I'm not an MPEG member, so I'm outside the process, largely because
-of the committment it takes to meaningly participate). But implementing a
-new codec _in_ Structured Audio is a whole different ballgame -- you could
-get a team together under the rubric of the IETF, or you could just take
-the traditional Free Software approach and start a grass roots effort like
-LAD. You don't need anyone's permission to write a SAOL program ...
-
-									--jl
-
--------------------------------------------------------------------------
-John Lazzaro -- Research Specialist -- CS Division -- EECS -- UC Berkeley
-lazzaro [at] cs [dot] berkeley [dot] edu     www.cs.berkeley.edu/~lazzaro
--------------------------------------------------------------------------
+Juhana
