@@ -1,12 +1,30 @@
-From: Nerijus Baliunas <Nerijus@Prototechnika.lt>
-Date: Fri, 13 Nov 1998 18:20:54 +0000
-Subject: sound blaster awe64 and "mod_firmware_load"
-Message-Id: <marc-linux-sound-91098502923768@msgid-missing>
+From: "Nerijus" <nerijus@prototechnika.lt>
+Date: Tue, 17 Nov 1998 18:56:42 +0000
+Subject: RE: sound blaster awe64 and "mod_firmware_load"
+Message-Id: <marc-linux-sound-91139174417190@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91098502923768@msgid-missing>
+In-Reply-To: <marc-linux-sound-91098502923768@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+
+Thanks for Mr. Yun YoungSun who helped:
+
+I had the same problem in 2.1.127, 128.
+As you know, sb.o is called by kmod utility for enabling sound card.
+I found that in Makefile, if CONFIG_SOUND=y (not module), then soundcore.o
+isn't created.
+But if the CONFIG_SOUND=m, then everything is fine.
+
+
+-----Original Message-----
+From: Nerijus Baliunas
+Sent: Friday, November 13, 1998 7:05 PM
+To: 'linux-sound@vger.rutgers.edu'
+Subject: sound blaster awe64 and "mod_firmware_load"
+
 
 I am having a problem with sound in kernel 2.1.127. I have also tried
 kernels 112, 125.
@@ -30,7 +48,7 @@ I comment lines between #ifdef and #endif, sound works:
 (void *) &smw_ucode);
 		smw_free = smw_ucode;
 	}
-*/	
+*/
 #endif
 
 
