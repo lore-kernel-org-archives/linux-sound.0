@@ -1,41 +1,24 @@
-From: Rui Sousa <rsousa@grad.physics.sunysb.edu>
-Date: Fri, 07 Apr 2000 20:08:29 +0000
-Subject: Re: New problem...
-Message-Id: <marc-linux-sound-95513841312586@msgid-missing>
+From: Paco <paco@OhKeePa.Net>
+Date: Wed, 05 Apr 2000 17:59:27 +0000
+Subject: no recording w/ emu10k1 (SBLive! and SBPCI512)
+Message-Id: <marc-linux-sound-95495756630733@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95498321922404@msgid-missing>
-In-Reply-To: <marc-linux-sound-95498321922404@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Paco wrote:
-> 
-> Me again...
-> 
-> After I finally got my SB-PCI512 working, I've now
-> discovered that when I start up "gmix" to adjust the
-> mixer levels, something happens to the emu10k1 module
-> that prevents me from playing or recording from that
-> point on.  Basically "gmix" kills my card.
-> 
-> The only way to get it working again is to "rmmod"
-> followed by "modprobe" for the emu10k1.
-> 
-> Anybody else experienced anything like this?
-> 
-> -Paco
+Hello...
 
-You should be posting your questions at the emu10k1
-mailing list:
+I've spoken with the CEO of 4front technologies about my recording
+problems using OSS/Commercial with the SBPCI512 card.  (Some one else
+posted recoding problems with the Live! yesterday, too.)
 
-emu10k1-devel@opensource.creative.com
+He has informed me that there *is* a bug in the recording code for these
+two cards, and recording is absolutely not possible unless you download
+the emo10k1 driver from creative labs' website.
 
-and maybe subscribe to it. There are more people there that can
-help you and after all the driver isn't in the kernel, yet ;)
+They have no plans to fix this bug until sometime in the summer.
 
-As for your problem, edit the main Makefile, set DEBUG = y,
-and watch /var/log/messages for error messages...
-
-Rui Sousa
+peace,
+-Paco
