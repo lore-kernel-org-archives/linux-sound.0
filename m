@@ -1,46 +1,31 @@
-From: David Jander <djander@alumnos.utfsm.cl>
-Date: Mon, 06 Dec 1999 14:55:55 +0000
-Subject: Re: Linux Equavalent - Fast Tracker 2
-Message-Id: <marc-linux-sound-94449214919367@msgid-missing>
+From: OHPC <ohpc@mii.zaz.com.br>
+Date: Wed, 08 Dec 1999 12:10:32 +0000
+Subject: PCI 512 Working and printing problems
+Message-Id: <marc-linux-sound-94465556330841@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94335078501128@msgid-missing>
-In-Reply-To: <marc-linux-sound-94335078501128@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Fri, 03 Dec 1999, Kai Vehmanen wrote:
->On Thu, 2 Dec 1999, David Jander wrote:
->
->> Also, I checked out the FT2 web page, and it says that Magnus (one of the guys
->> who did that thing) is considering an open-source release of FT2... interesting
->> too, don't you think.
->
->This would be great. Of course, it might be more useful to just port
->some parts of FT2 and use them with existing Linux trackers. Porting 
->the whole FT2 would be a big project. And it's important to think 
->about the future of tracking. Modern computers are suitable for 
->direct-from-disk streaming, complex realtime effects, *big* samples,
->etc... Modern trackers should take advantage of this.
+I think I should share my experience with everybody.
+I am really a newbie to Linux, but have used computers everyday for 6 
+years, but my first computers were Apple II, Spectrum and MSX, so I am 
+pretty much accustomed to them.
+Linux is great, although a little difficult to use for newbies. But no 
+pain, no gain, right?
+I managed to use my SundBlaster PCI512 with my Linux (a Portuguese version 
+that has support for the RivaTNT2 - which version could it be really? A 
+port of the RH 6.1?) by compiling the SB Live! drivers.
+It was really difficult to compile, because I don't really know how to 
+compile anything (and of course I can't compile the kernel too), but I 
+managed after all and included some lines in the conf.modules.
+If anybody wants to use this soundboard, it will sure work with the SB Live 
+drivers.
+My printer, however, won't print anything. I have a HP820, tried to use the 
+HP 5XX and 6XX drivers, and use the lp port. But it will not print. Can 
+anybody help me?
 
-Of course, the goal would be to put a lot more things into it. The XM module
-format has to be extended, to include more effects. Sound-Tracker for example
-includes a global real-time reverb effect, which is neat so far, but the idea
-of including real-time effects into FT2 (making it FT3 maybe), would be
-something like effect-modules which could be connected to individual tracks,
-and effect controlers inside that track control the fx parameters. Effect
-modules could include reverb, chorus, delay and realtime filters for example.
-Imagine a techno-style bass made of a square wave signal, put through a
-controlled resonant low-pass filter ... great stuff !
-Maybe some (or all) of those effects should better be bound to individual
-instruments rather than a track. Filters would do better with an envelope
-generator.....
-Anyway, just a few thoughts for an ambitious project :-)
+Greetings to all!
 
-Sincerely
-
----------------------------------------------------------------------
-David Jander J.                   | "M$-Windows sux, Linux Rulez !  
-Electronics Student, UTFSM, Chile |  That's it !"
-E-Mail : djander@alumnos.utfsm.cl |               -Me
+OHPC
