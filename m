@@ -1,37 +1,32 @@
-From: ccrous@shoprite.co.za (Clive Crous)
-Date: Tue, 23 Nov 1999 09:42:06 +0000
-Subject: Linux Equavalent - Fast Tracker 2
-Message-Id: <marc-linux-sound-94335078501128@msgid-missing>
+From: Dave Mielke <dave@mielke.cc>
+Date: Thu, 18 Nov 1999 22:06:48 +0000
+Subject: Re: AWE64
+Message-Id: <marc-linux-sound-94296322115156@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91965172830159@msgid-missing>
+In-Reply-To: <marc-linux-sound-91965172830159@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I ma desperately looking for a linux equivalent of Fast Tracker 2 ( by triton) or even better, a port of this great xm tracker.
+[quoted lines by Great One on November 18, 1999, at 21:54]
 
-I have tried the following trackers and listed their problems...
+>i'm using Red Hat Linux 6.0
+>and i can't install sound blaster awe64 here
+>when i run kernel configuration everything
+>appears to be ok. the option creative sb awe32/64
+>is checked but it doesn't work.
+>
+>does anybody know how to solve this problem ?
 
-sound tracker - 
-slow, not enough pattern editing functionality ie copy paste tracks, patterns and/or single lines etc.
+Have you run the RedHat tool "sndconfig" yet? It'll put all the right stuff
+into "/etc/conf.modules", which you'll need or your sound card will not work.
+If you've done that already, then let me know and I'll help you check out your
+kernel configuration. Attaching a copy of your ".config" file to your next
+reply would be helpful.
 
-voodoo tracker -
-better, but once again not enough pattern editing functionality.
-
-both of the above do not have decent sample editors loaders. Cant load .SMP files ??????? why ?
-
-keg tracker -
-never managed to get it compiled, not due to lacking libraries though
-<---paste--->
-ktspinbutton.c: In function `kt_spin_button_insert_text': 
-ktspinbutton.c:1177: warning: passing arg 1 of `strchr' from incompatible pointer type 
-ktspinbutton.c:1178: warning: passing arg 1 of `strchr' from incompatible pointer type 
-ktspinbutton.c:1183: warning: passing arg 1 of `strchr' from incompatible pointer type 
-ktspinbutton.c:1183: invalid operands to binary - 
-make[2]: *** [ktspinbutton.o] Error 1 
-<---end paste--->
-
-any other ideas ????
-
-Thank you for your help
-     Clive Crous
+-- 
+Dave Mielke           | 856 Grenon Avenue | I believe that the Bible is the
+Phone: 1-613-726-0014 | Ottawa, Ontario   | Word of God. Please contact me
+EMail: dave@mielke.cc | Canada  K2B 6G3   | if you're concerned about Hell.
