@@ -1,50 +1,77 @@
-From: Bryan Scaringe <bscaring@slpmbo.ed.ray.com>
-Date: Thu, 23 Mar 2000 16:14:28 +0000
-Subject: Re: bladenc and sox
-Message-Id: <marc-linux-sound-95382854932533@msgid-missing>
+From: Simon Huggins <huggie@earth.li>
+Date: Sun, 12 Mar 2000 14:35:22 +0000
+Subject: [PATCH] Ensoniq SoundScape with 2.3.51 (mpu401 changes broke it)
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="zYM0uCDKw75PZbzx"
+Message-Id: <marc-linux-sound-95287201901215@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-95382554828854@msgid-missing>
-In-Reply-To: <marc-linux-sound-95382554828854@msgid-missing>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Does this, perhaps, have anything to do with the endianness of
-the wav?  have you actualy listened to the wav produced by sox,
-to verify that this isn't an issue with sox, rather than bladeenc?
 
-Bryan
+--zYM0uCDKw75PZbzx
+Content-Type: text/plain; charset=us-ascii
 
-> From owner-linux-sound-outgoing@vger.rutgers.edu Thu Mar 23 10:32 EST 2000
-> To: linux-sound@vger.rutgers.edu
-> Subject: bladenc and sox
-> X-Face: 	  #0j-Ll[fajrfupWYMv&wa\m7!Sh=&3;JE-_&M-L,ULz(aE8iu%m1SHa5wG.V{3B:Fdnd/T# <P<b~',,9%pqj#J'xeH2{~YMDq$F9i|daAfaCSlo)*ncgkI||wcci_q,RTdM_0y:&w5T4|OH-i{/>O -}0pPGYw%t1z`o&T_c=)p8l<!c+@Ih&mLQq7Q?o:{e'Jch`"Pb%DVQ&o+Pz>[}7R\={[@B*Jyj*.L4 hnJ*AXb
-> From: Laura Conrad <lconrad@world.std.com>
-> Date: 	23 Mar 2000 10:26:36 -0500
-> User-Agent: Gnus/5.0804 (Gnus v5.8.4) XEmacs/21.1 (20 Minutes to Nikko)
-> MIME-Version: 1.0
-> X-Loop: 	majordomo@vger.rutgers.edu
-> X-Orcpt: rfc822;linux-sound-outgoing
-> 
-> I was hoping that if I used sox to convert a .au file to a .wav file,
-> I could then use bladeenc to get an mp3 file.  Instead, I get:
-> 
-> acme47:(10:23:11):bladeenc greensleeves.wav                              ~/home
-> 
-> BladeEnc 0.82    (c) Tord Jansson       Homepage: http://www.bladeenc.cjb.net
-> =======================================> BladeEnc is free software, distributed under the Lesser General Public License.
-> See the file COPYING, BladeEnc's homepage or www.fsf.org for more details.
-> 
-> ERROR: Sample 'greensleeves.wav' is of an unknown subtype!
-> 
-> Does anyone know what to do about this?  
-> 
-> Thanks,
-> 
-> -- 
-> Laura (mailto:lconrad@world.std.com , http://www.world.std.com/~lconrad/ )
-> (617) 661-8097	fax: (801) 365-6574 
-> 233 Broadway, Cambridge, MA 02139
-> 
-> 
+Hi,
+
+Your patch to clean up the OSS stuff has broken the Ensoniq SoundScape.
+Reverting one small portion fixes it.
+Can you decide whether you want to wrap this in some magical #ifdef's
+and send it on to Linus?
+
+
+BTW, the documentation in Documentation/README.OSS suggests that this
+card cannot be used with isapnp?
+This is not my experience.
+See http://www.huggie.dial.pipex.com/linux/sound.shtml for how it Works
+For Me(TM).
+
+
+Also since I applied my patch, I get this when I modprobe -r:
+
+[root@byers /usr/src/linux/drivers/sound]# modprobe -r sscape
+Trying to free nonexistent resource <0000-0001>
+Sound device 2 went missing!
+kmem_free: Either bad obj addr or double free (objp=c61bd000,
+name=size-4096)
+
+I imagine this is because of the changes too?
+
+
+Simon.
+
+-- 
+"Now where did I put that magazine?" Tom asked periodically.                
+
+--zYM0uCDKw75PZbzx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="mpu401.diff"
+
+--- mpu401.c.old	Sun Mar 12 14:17:11 2000
++++ mpu401.c	Sun Mar 12 14:17:51 2000
+@@ -1726,18 +1726,14 @@
+ {
+ 	/* Can be loaded either for module use or to provide functions
+ 	   to others */
+-	cfg.irq = irq;
+-	cfg.io_base = io;
+-	
+-	if (cfg.io_base != -1 && cfg.irq != -1) {
+-		printk(KERN_WARNING "mpu401: need io and irq !");
+-		return -ENODEV;
++	if (io != -1 && irq != -1) {
++	        cfg.irq = irq;
++		cfg.io_base = io;
++		if (probe_mpu401(&cfg) == 0)
++			return -ENODEV;
++		attach_mpu401(&cfg);
+ 	}
+ 	
+-	if (probe_mpu401(&cfg) == 0)
+-		return -ENODEV;
+-	attach_mpu401(&cfg);
+-
+ 	SOUND_LOCK;
+ 	return 0;
+ }
+
+--zYM0uCDKw75PZbzx--
