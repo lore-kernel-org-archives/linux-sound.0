@@ -1,7 +1,7 @@
-From: Benno Senoner <sbenno@gardena.net>
-Date: Mon, 25 Oct 1999 14:32:02 +0000
+From: Andy Lo A Foe <andy@alsa-project.org>
+Date: Tue, 26 Oct 1999 07:50:37 +0000
 Subject: Re: streaming from disk to terminatorX added (via mmap)
-Message-Id: <marc-linux-sound-94089498426647@msgid-missing>
+Message-Id: <marc-linux-sound-94092433921273@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94077890409185@msgid-missing>
 In-Reply-To: <marc-linux-sound-94077890409185@msgid-missing>
@@ -10,59 +10,76 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sun, 24 Oct 1999, David Olofson wrote:
-> On Sun, 24 Oct 1999, Benno Senoner wrote:
-> > PS: Now if we could get one of these turntables recorded with special
-> > static waves (saw waves), we could add add turntable motion detection
-> > and get the same features as "finalscratch" on BeOS:
-> > scratching an audiofile in realtime using a real turntable.
-> > :-)
+On Mon, 25 Oct 1999, Benno Senoner wrote:
+
+> for mp3:
+> if this is really true that Andy has managed to play mp3s backwards *CORRECTLY*
+> without any distortion, then if I were You, I would include his mp3 code.
 > 
-> Uhm, I have just developed a sensor decoding method that could be
-> useful for this. It's probably overkill, as it's accurate to some 128
-> bits/period of the input signal with input signals of around that
-> resolution. It's just that I most probably can't release the
-> details... :-(
-> 
+> Andy are you saving filterstate information in your alsa player ?
 
-David, your solution looks nicely,
-but I'm more for a plug-n-play solution:
+No
 
-2 turntable players
-2 soundcards
-1 PC loaded with mp3
+> that means what happens if I play the file from the beginning to almost the end,
+> and then I reverse the playing direction and play the file until it reaches the
+> start ? Does all this process sound 100% correctly ?
 
-use the 2 soundcard's inputs to detect turntable speed (py playing the static
-waves on the turntable),
-use the 2 audio outputs for the mix and prelisten (phones) channel.
+Yes
 
-IMHO the precision provided by sampling the turnables's static waves
-is enough to get decent scratches, and the use of a "noise gate" when
-the turntable is rotating at default speed will give you the final touch of
-perfection.
-:-)
+> It would require to save the filter state of every played MPEG frame right ?
 
-David, I'cant remember but what would be the optimal method to detect
-the speed of the turntables via audio input ?
+It works like this: the ringbuffer I use is segmented;
 
-form of the wave ?
-SAW WAVE , which frequency ?
+		
+	disk/cdrom based mp3/cdda/wav/etc		
+		|
+		|
+	audio decoder thread
+	decodes mp3/cdda/wav/etc
+	fills the framebuffer segments
+		|
+		|
 
-and then the algorithm ?
-couting the number of zero crosses/sign changes ?
-how o detect motion inversion ?
-through looking at the resulting waveform ? :
-if the next value is less than the previous 
-AND you are not at end of the period (the jump is too big),
-then you detected motion inversion.
-right ?
+[|---------|---------|---------|----------|---------|] ringbuffer
+             segment			
+					|
+					|
+				audio reader thread
+				reads framebuffer segments
+				and feeds the soundcard
+					|
+					|
+				    soundcard	
 
-The finalscratch people seemed wrong to think that only BeOS can provide
-the horsepower to run a scratch-mp3s-on-turntable engine.
 
-Seems that linux , will soon even begin to eat marketshare into the DJ sector.
-:-)
-( As David said: your next console could be powered by a GPLed audio engine
-running Linux  :-)  )
+A segment holds a number of decoded frames (usually 2 or 3) and also
+remembers the number of the first frame. So lets say we want to play 
+a mp3 backwards starting at frame 1000. The tricky part is to keep the
+ringbuffer full with the right frames all the time. As soon as one segment
+is used up by the audio reader thread it releases a semaphore on which the
+audio decoder thread is blocking on. The audio decoder thread wakes up and
+check if there are any segments that needs to be filled. But wait you say,
+what if you need to fill a segment with frames 1000 to 998? Decoding frame
+1000, then 999 and then 998 won't work because of the way mp3s are
+encoded. What do you do then? You seek to frame 995 and start decoding
+from there. You throw all data away up to and including frame 997. By this
+time your mp3 decoding engine is recovered from the 'seek' operation. Now
+you store the next 3 frames in your ringbuffer. The audio reader thread,
+when detecting negative speed, simply reads a segment backwards so in
+this case it starts at frame 1000. The segment before the current one
+must contain frame 995 to 997 (first jump to frame 992, decode 3
+frames and discard them, decode the needed data), and so on...
+The decoder thread is also a couple of segments ahead of the reader
+thread. So when you do rapid positive and negative speed switching
+(scratching) the decoder thread is actually idling since none of the
+segments get discarded. 
 
-Benno.
+Comments? :)
+
+Andy
+
+PS. On my lowly PII 233 I can actually play quite a few mp3's (tested with
+7), each with different speed, simultaneously. This is with ALSA and a Trident
+4DWave NX card that does hardware mixing.
+--
+AlsaPlayer, http://www.alsa-project.org/~andy/
