@@ -1,66 +1,30 @@
-From: "Laurent POIROT" <Laurent@medianet-usa.com>
-Date: Thu, 30 Sep 1999 15:39:20 +0000
-Subject: I need a radio card working under linux
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="----=_NextPart_000_0006_01BF0B38.6F5B9410"
-Message-Id: <marc-linux-sound-93870632103988@msgid-missing>
+From: "Dagan Sgiath" <DaganSg@the.net.nz>
+Date: Mon, 13 Sep 1999 11:30:18 +0000
+Subject: MX300 support via Sound Blaster Pro emulation
+Message-Id: <marc-linux-sound-93722270601639@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-This is a multi-part message in MIME format.
+ Hello :o)
 
-------=_NextPart_000_0006_01BF0B38.6F5B9410
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+ I was wondering if anyone here had tried getting a MX300 working, using 
+Sound Blaster Pro emulation. AFAIK, the MX300 doesn't work natively (?).
 
-Hello,
+ Would the emulation of an SB Pro work in Linux at all ? What do I need to 
+setup to try this out ? I have Slackware 4 installed.
 
-I don't know if this is the right place to ask, so i'm sorry if it's not,
-but i need a Radio Card that would be working under Linux 6 redhat. I heard
-that there is a packard bell model that works. Do anybody have some advice
-to give me to choose the right product. I heard also that the ADS Cadet
-Radio Card have a driver for linux.
+ TIA!
 
-thanks 
 
-------=_NextPart_000_0006_01BF0B38.6F5B9410
-Content-Type: application/ms-tnef;
-	name="winmail.dat"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="winmail.dat"
+ DaganSg
 
-eJ8+IhQPAQaQCAAEAAAAAAABAAEAAQeQBgAIAAAA5AQAAAAAAADoAAEIgAcAGAAAAElQTS5NaWNy
-b3NvZnQgTWFpbC5Ob3RlADEIAQ2ABAACAAAAAgACAAEGgAMADgAAAM8HCQAeAAsAJwAAAAQAMwEB
-A5AGAEQGAAAlAAAACwACAAEAAAALACMAAAAAAAMAJgAAAAAACwApAAAAAAADADYAAAAAAB4AcAAB
-AAAAKAAAAEkgbmVlZCBhIHJhZGlvIGNhcmQgd29ya2luZyB1bmRlciBsaW51eAACAXEAAQAAABYA
-AAABvwtZ9mSo8tIHd0MR04oXABBLZNsRAAACAR0MAQAAAB4AAABTTVRQOkxBVVJFTlRATUVESUFO
-RVQtVVNBLkNPTQAAAAsAAQ4AAAAAQAAGDgBCROpZC78BAgEKDgEAAAAYAAAAAAAAAI5WuZ4569ER
-jboAEEtk2xHCgAAACwAfDgEAAAACAQkQAQAAAL8BAAC7AQAAWAIAAExaRnVCbnMhAwAKAHJjcGcx
-MjUWMgD4C2BuDhAwMzNPAfcCpAPjAgBjaArAc/BldDAgBxMCgwBQA1Q/EMkHbQKDDlAC8hKaYWgr
-A3ECgH0KgXYIkHdr6QuAZDQMYGMAUAsDC7XQIEhlbAkALAqiCoQzCoQLMHNiD0ABQHNhoRmhIEkg
-ZAIgJwVAGGtubwfgBpAgdGhPBAAbAAQgG0BlIAUQZxZoBUALUWMb4HRvIEBhc2ssIHMc0GlEJ20d
-MXJyeRsCaSx0JwQgGtB0HSBidW0FQGkegAngZBzgB/BhtGRpHNBDCxEbMWEFQGp3CGBsH3BiG+Ag
-sHIxFpFnIHUWsASQIEzhC4B1eCA2G/AJgCBx/i4aMRvQICcbwQlwG4IfkLkKsGNrICIhEBggIARi
-VwMgIGUhYHMjAEQc0W7aeQbgZB3wEPB2G+AdQJsHgBzgZBZQHJRnaSdh5yexHMEQ4G9vESAbugNg
-/mQW8CL5B0AdQSOmAzESEfUL8DQRYEQF8CAQAQAFQPcfuSdDH5BkBRAnYAXAAhC1BcBsIjIuGGog
-YW4mUOEUY3MxNyADMQvFGHMFFhEAMnAACwAAgAggBgAAAAAAwAAAAAAAAEYAAAAAA4UAAAAAAAAD
-AAKACCAGAAAAAADAAAAAAAAARgAAAAAQhQAAAAAAAAMABYAIIAYAAAAAAMAAAAAAAABGAAAAAFKF
-AAAnagEAHgAlgAggBgAAAAAAwAAAAAAAAEYAAAAAVIUAAAEAAAAEAAAAOS4wAAMAJoAIIAYAAAAA
-AMAAAAAAAABGAAAAAAGFAAAAAAAACwAvgAggBgAAAAAAwAAAAAAAAEYAAAAADoUAAAAAAAADADCA
-CCAGAAAAAADAAAAAAAAARgAAAAARhQAAAAAAAAMAMoAIIAYAAAAAAMAAAAAAAABGAAAAABiFAAAA
-AAAAHgBBgAggBgAAAAAAwAAAAAAAAEYAAAAANoUAAAEAAAABAAAAAAAAAB4AQoAIIAYAAAAAAMAA
-AAAAAABGAAAAADeFAAABAAAAAQAAAAAAAAAeAEOACCAGAAAAAADAAAAAAAAARgAAAAA4hQAAAQAA
-AAEAAAAAAAAACwDVgAggBgAAAAAAwAAAAAAAAEYAAAAABoUAAAAAAAALANmACCAGAAAAAADAAAAA
-AAAARgAAAACChQAAAQAAAAIB+A8BAAAAEAAAAI5WuZ4569ERjboAEEtk2xECAfoPAQAAABAAAACO
-VrmeOevREY26ABBLZNsRAgH7DwEAAACbAAAAAAAAADihuxAF5RAaobsIACsqVsIAAFBTVFBSWC5E
-TEwAAAAAAAAAAE5JVEH5v7gBAKoAN9luAAAASTpcV0lOTlRcUHJvZmlsZXNcQWRtaW5pc3RyYXRv
-ci4wMDFcTG9jYWwgU2V0dGluZ3NcQXBwbGljYXRpb24gRGF0YVxNaWNyb3NvZnRcT3V0bG9va1xv
-dXRsb29rLnBzdAAAAwD+DwUAAAADAA00/TcAAAIBfwABAAAAOAAAADxOQkJCSU5MS0lPRUdQQ1BL
-T0NQS0FFRUpEQUFBLkxhdXJlbnRAbWVkaWFuZXQtdXNhLmNvbT4AAwAGEHiclt0DAAcQDQEAAAMA
-EBAAAAAAAwAREAAAAAAeAAgQAQAAAGUAAABIRUxMTyxJRE9OVEtOT1dJRlRISVNJU1RIRVJJR0hU
-UExBQ0VUT0FTSyxTT0lNU09SUllJRklUU05PVCxCVVRJTkVFREFSQURJT0NBUkRUSEFUV09VTERC
-RVdPUktJTkdVTkRFAAAAAHZU
+ ([XXH<>%<>HXX])==============
+ "I've never had a humble opinion. If you've got an opinion, why be humble about it."
 
-------=_NextPart_000_0006_01BF0B38.6F5B9410--
+ What ?! You don't use Kali ?! 
+ Get it today =>> http://www.Kali.net 
+ You use Kali ? Put your profile up in the Kali Gallery 
+ =>> http://www.sllik.com/KaliG/ 
