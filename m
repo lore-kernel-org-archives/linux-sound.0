@@ -1,53 +1,159 @@
-From: "Nerijus" <nerijus@sat.lt>
-Date: Sun, 30 Jan 2000 17:36:02 +0000
-Subject: FW: power managing maestro.c 0.14 available.
-Message-Id: <marc-linux-sound-94925434115611@msgid-missing>
+From: Alessandro Zummo <azummo@ita.flashnet.it>
+Date: Tue, 18 Jan 2000 19:18:12 +0000
+Subject: sb_card.c fix
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="BOUNDARY.148276504.1"
+Message-Id: <marc-linux-sound-94823845329666@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
------Original Message-----
-From: owner-linux-kernel@vger.rutgers.edu
-[mailto:owner-linux-kernel@vger.rutgers.edu] On Behalf Of Zach Brown
-Sent: Friday, January 28, 2000 8:16 PM
-To: linux-kernel@vger.rutgers.edu
-Subject: power managing maestro.c 0.14 available.
+Warning: This is a message in MIME format. Your mail reader does not
+support MIME. Some parts of this message will be readable as plain text.
+To see the rest, you will need to upgrade your mail reader. Following are
+some URLs where you can find MIME-capable mail programs for common platforms:
+
+  Amiga............: YAM          http://www.yam.ch/
+  Unix.............: Metamail     ftp://ftp.bellcore.com/nsb/
+  Windows/Macintosh: Eudora       http://www.qualcomm.com/
+
+General info about MIME can be found at:
+
+http://www.cis.ohio-state.edu/hypertext/faq/usenet/mail/mime-faq/top.html
 
 
-Hello all you sound freaks.
+--BOUNDARY.148276504.1
+Content-Type: text/plain
 
-a new version of the maestro driver is on
-	http://people.redhat.com/zab/maestro/maestro-20000128.tar.gz
 
-It has some little things like larger pcm buffers, smarter
-behaviour on encountering ESS 1921 AC-97s, and unswapped
-left/right channels on stereo pcm playback.  ( insert
-head A into paper bag B ).  
+ Hi!
 
-The big new exciting feature is the concept of power managment
-in the driver.  The driver now keeps the chip in a lower
-power state while idle.  (it just keeps enough going to 
-keep the ac97 fed so things like the on board CD work.)
-It turns things on and off as /dev/dsp is accessed.  It also
-powers the chip down entirely when the module is removed.
+ Here's a little patch for sb_card.c. It's against 2.3.39.
 
-This marks a pretty big jump in functionality so I'd appreciate
-people beating on it pretty heavily before I push it into the
-kernel.  I'm _especially_ interested in reports of suspend and
-'shutdown -r' working after the driver has been inserted.
+ New features/fixes:
 
-All this power management stuff was needed because certain BIOS
-init code was hanging when it found an active maestro on bootup.
-Rather than guess just how it was confusing things, we just
-shut the chip down on reboot.  I want to make sure that I haven't
-just traded one confused set of BIOSen for another.
+ - ISAPnP fix
+ - CMI8330 support
+ - PnP initialization routines can now differs from card to card.
+
+ Patched files are:
+ - drivers/sound/sb_card.c
+ - Documentation/sound/CMI8330
+ - CREDITS 
+
+ The ISAPnP support was a buggy. As an example, the card was
+ not deactivated when the modules was unloaded.  
+
+ In 2.3.39 the isapnp option was also removed. 
+ This option is useful if you have a non PnP sound card
+  but still have some other PnP card plugged in.
+
+ Without it you are forced to have a PnP capable
+ sound card or to not have PnP cards at all.
+ 
+ IMHO this is bad. feel free to correct me if i'm wrong.
+
 
 -- 
-Zach Brown <zab@redhat.com> -- Software Princess
 
--
-To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-the body of a message to majordomo@vger.rutgers.edu
-Please read the FAQ at http://www.tux.org/lkml/
+   - *Alex* -
+
+  http://freepage.logicom.it/azummo/
+
+--BOUNDARY.148276504.1
+Content-Type: application/octet-stream; name="sb_patch.2.3.39.gz"
+Content-Disposition: attachment; filename="sb_patch.2.3.39.gz"
+Content-Transfer-Encoding: base64
+Content-Description: Alessandro Zummo <azummo@ita.flashnet.it>
+
+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
+
+--BOUNDARY.148276504.1--
