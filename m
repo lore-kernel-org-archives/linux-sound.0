@@ -1,19 +1,19 @@
-From: Karl B Werf <karwe939@student.liu.se>
-Date: Mon, 22 Mar 1999 12:32:37 +0000
-Subject: music in X
-Message-Id: <marc-linux-sound-92210651914895@msgid-missing>
+From: "Traci Collins" <tcollins@rof.net>
+Date: Fri, 26 Mar 1999 07:28:17 +0000
+Subject: Diamond Rio
+Message-Id: <marc-linux-sound-92243378027339@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92210900516388@msgid-missing>
-In-Reply-To: <marc-linux-sound-92210900516388@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have this problem with playing sound in X. Their seem to be some app
-that uses the sound device(Read as: if I try start e.g. x11amp it works
-fine until I press play, I can play music cd:s though). How can I find
-out which one and kill it?
+Has anyone written software to download MP3 files to the Diamond Rio
+from Linux? The Eiger Labs MPMan? I am interested in acquiring one
+of these portable MP3 players but I would like it to be able to
+interoperate with Linux. If the program exists I would appreciate a
+pointer to the appropriate web page. Thanks.
 
-//thanks on beforehand
-//Karl B Werf
+Traci
+Traci Collins, Professor of Computer Education
+Colorado Mountain College
