@@ -1,7 +1,7 @@
-From: Luis Pablo Gasparotto <luispagasparotto@yahoo.com>
-Date: Fri, 07 Jan 2000 18:22:08 +0000
+From: =?iso-8859-1?q?Luis=20Pablo=20Gasparotto?=
+Date: Fri, 07 Jan 2000 18:49:30 +0000
 Subject: Multitrack recorder for Fiji
-Message-Id: <marc-linux-sound-94737800913816@msgid-missing>
+Message-Id: <marc-linux-sound-94727375108574@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94727457809496@msgid-missing>
 In-Reply-To: <marc-linux-sound-94727457809496@msgid-missing>
@@ -10,14 +10,18 @@ Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
+
 Hi Nick,
 
-I have a Turtle Beach Fiji soundcard like you have and I=B4m looking for a
-multitrack recorder for this card. Do you know one? I have SLab, it=B4s a
-very nice recorder but I can=B4t use it with my sound card. Also I have
+I have a Turtle Beach Fiji soundcard like you have and
+I=B4m looking for a multitrack recorder for this card.
+Do you know one? I have SLab, it=B4s a very nice
+recorder but I can=B4t use it with my sound card. Also I
+have
 Multitrack 2.2 but I can=B4t use it.
 
-Why don=B4t you use Fiji for multitrack recording? Is there some problem?
+Why don=B4t you use Fiji for multitrack recording? Is
+there some problem?
 
 Thank you very much in advance.
 
@@ -25,7 +29,7 @@ Luis Pablo Gasparotto
 
 
 
-__________________________________________________
+_________________________________________________________
 Do You Yahoo!?
-Talk to your friends online with Yahoo! Messenger.
-http://im.yahoo.com
+Obtenga su direcci=F3n de correo-e gratis @yahoo.com
+en http://correo.espanol.yahoo.com
