@@ -1,32 +1,36 @@
-From: Patricia Boone <celyhimiz@sesmail.com>
-Date: Fri, 25 Mar 2005 14:00:44 +0000
-Subject: V2: Logos, letterheads, business cards, envelops
-Message-Id: <305689805210.5321685064960@[201.15.164.252]>
+From: "Randy.Dunlap" <rddunlap@osdl.org>
+Date: Sat, 05 Mar 2005 05:58:43 +0000
+Subject: [PATCH] oss/sscape: fix section references
+Message-Id: <20050304215843.3a111600.rddunlap@osdl.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
-
-Your business lacks visual identity?
-
-Marketing efforts falling short?
-
-Invisible among a sea of competitors?
-
-You're on the right track for a solution - keep reading...
-Our professional designers specialize in the creation of custom logos and business/corporate identities. Our design needs to be seen only once to gain customer attention and recognition. With one of our unique, eye-catching mages you'll never have to introduce yourself twice!
-We promise fast turnaround and 100% customer satisfaction. Choose from as any design ideas as necessary, select as many colors as you wish, order any modifications you like, and request any format. Our prices are affordable for any size of business, and get this: there are no hidden fees.
-
-Follow the link below to browse our portfolio and check out our Sweet Deals.
-Wipe the "in" from "invisible" in just a few days - with us!
-http://www.innerlogos.com/
-
-Sincerely,
-Patricia Boone
+To: linux-sound@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
+Cc: torvalds <torvalds@osdl.org>, akpm <akpm@osdl.org>
 
 
+oss/sscape: fix initdata reference used in exit:
 
-===
-Cancel this mailings:
-http://www.innerlogos.com/u.php
+Error: ./sound/oss/sscape.o .exit.text refers to 000000000000007d R_X86_64_PC32     .init.data+0x0000000000000003
+
+Signed-off-by: Randy Dunlap <rddunlap@osdl.org>
+
+diffstat: sound/oss/sscape.c |    2 +-
+ 1 files changed, 1 insertion(+), 1 deletion(-)
+
+diff -Naurp ./sound/oss/sscape.c~oss_sscape_sections ./sound/oss/sscape.c
+--- ./sound/oss/sscape.c~oss_sscape_sections	2005-03-01 23:38:12.000000000 -0800
++++ ./sound/oss/sscape.c	2005-03-04 21:32:05.000000000 -0800
+@@ -1393,7 +1393,7 @@ static struct address_info cfg;
+ static struct address_info cfg_mpu;
+ 
+ static int __initdata spea = -1;
+-static int __initdata mss = 0;
++static int mss = 0;
+ static int __initdata dma = -1;
+ static int __initdata irq = -1;
+ static int __initdata io = -1;
+
+
+---
