@@ -1,7 +1,7 @@
 From: Keith Duthie <psycho@albatross.co.nz>
-Date: Sat, 05 Jun 1999 14:47:42 +0000
+Date: Sat, 05 Jun 1999 15:38:22 +0000
 Subject: Re: ecasound (was: Re: best mp3 players?)
-Message-Id: <marc-linux-sound-92859312417844@msgid-missing>
+Message-Id: <marc-linux-sound-92859736720419@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92853399918932@msgid-missing>
 In-Reply-To: <marc-linux-sound-92853399918932@msgid-missing>
@@ -10,23 +10,19 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Sat, 5 Jun 1999, Kai Vehmanen wrote:
+On Sun, 6 Jun 1999, Keith Duthie wrote:
 
-> Currently only mp3 input is supported. Of course you can 
-> encode the edited files back to mp3 manually, but this is a bit
-> laboursome... Does anyone on the list happen to know, whether 
-> any of the freeware mp3 encoders support reading from standard
-> input? 
-
-loki:~$ mpg123 -
-High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3.
-Version 0.59q (1999/Jan/26). Written and copyrights by Michael Hipp.
-Uses code from various people. See 'README' for more!
-THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN
-RISK!
-
-Playing MPEG stream from standard input ...
-
+> loki:~$ mpg123 -
+> High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3.
+> Version 0.59q (1999/Jan/26). Written and copyrights by Michael Hipp.
+> Uses code from various people. See 'README' for more!
+> THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN
+> RISK!
+> 
+> Playing MPEG stream from standard input ...
+Oops. Brain malfunction. Pattern recognition failure. Caffeine levels
+dangerously low. mpg123 is a _de_coder, not an _en_coder. Excuse me while
+I headbutt the wall.
 -- 
-Understanding is a three edged sword. Do you *want* to get the point?
+Never settle with words what you can accomplish with a flame thrower.
          http://www.albatross.co.nz/~psycho/        O-
