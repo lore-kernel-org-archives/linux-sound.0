@@ -1,24 +1,26 @@
-From: Kevin Turner <Kevin.Turner@oberlin.edu>
-Date: Fri, 11 Jun 1999 17:55:28 +0000
-Subject: Re: Sound Recoder Error: could not allocate DMA buffer
-Message-Id: <marc-linux-sound-92912334014346@msgid-missing>
+From: Jeff Dairiki <dairiki@dairiki.org>
+Date: Thu, 03 Jun 1999 21:53:56 +0000
+Subject: High Quality Sound Cards?
+Message-Id: <marc-linux-sound-92844979414251@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92912084111654@msgid-missing>
-In-Reply-To: <marc-linux-sound-92912084111654@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-See /usr/src/linux/Documentation/sound/README.modules.
-In brief, there are problems with ISA cards, DMA buffers, and machines
-with over 16M of memory.  Adding the option "dmabuf=1" to the sound
-module may help.
+Hi!
 
-On Tue, Jul 13, 1999 at 08:23:21AM -0400, Laurent POIROT wrote:
-> Error: could not allocate DMA buffer [...]
-> It works perfectly for a while until this error [...]
-> I use [...] a SoundBlaster Pro ISA.
+I'm looking for a good soundcard to use for making high-quality
+("CD quality") digital recordings from analog source (under Linux,
+of course.)
 
--- 
-Kevin.Turner@oberlin.edu | OpenPGP encryption welcome here, see X-DSA-Key
+Any recommendations or pointers to FAQs?
+
+Are there any supported soundcards with >16 bit ADC's?
+
+How about using an external A/D converter connected via S/PDIF?  Are there
+any hardware combinations for this which will work under Linux?
+
+
+Thanks!
+ Jeff
