@@ -1,106 +1,99 @@
-From: Nerijus Baliunas <nerijus@users.sourceforge.net>
-Date: Thu, 02 Aug 2001 22:16:00 +0000
-Subject: Fw: PATCH: creating devices for multiple sound cards
-Message-Id: <marc-linux-sound-99679107423434@msgid-missing>
+From: <rui.p.m.sousa@clix.pt>
+Date: Fri, 31 Aug 2001 09:50:05 +0000
+Subject: Re: [Emu10k1-devel] Re: Maybe a emu10k1 memory leak
+Message-Id: <marc-linux-sound-99925149914477@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello,
+On Wed, 29 Aug 2001, Rus V. Brushkoff wrote:
 
-Why this patch was not applied (I checked 2.4.7)?
+> On Wed, 29 Aug 2001 rui.p.m.sousa@clix.pt wrote:
+>
+> : Can you send me the output of free before and after this test?
+> :
+>
+> .......
+>
+>              total       used       free     shared    buffers     cached
+> Mem:        255836      72340     183496          0       1724      51548
+> -/+ buffers/cache:      19068     236768
+> Swap:       168672          0     168672
+> [Alice]:root:~ # free
+>
+> > rmmod emu10k1; insmod emu10k1
+>
+>              total       used       free     shared    buffers     cached
+> Mem:        255836      72444     183392          0       1724      51548
+> -/+ buffers/cache:      19172     236664
+> Swap:       168672          0     168672
+> [Alice]:root:~ # free
+>
+> > rmmod emu10k1; insmod emu10k1
+>
+>              total       used       free     shared    buffers     cached
+> Mem:        255836      72448     183388          0       1724      51548
+> -/+ buffers/cache:      19176     236660
+> Swap:       168672          0     168672
+> [Alice]:root:~ # free
+>
+> > rmmod emu10k1; insmod emu10k1
+>
+>              total       used       free     shared    buffers     cached
+> Mem:        255836      72452     183384          0       1724      51548
+> -/+ buffers/cache:      19180     236656
+> Swap:       168672          0     168672
+> [Alice]:root:~ #
+>
+> .......
+>
+> As I see the leak is 4k size. Do you see the same or I have a wrong kernel ?
+		       ^^
 
------- Forwarded message ------
-From: Chris Rankin <rankinc@pacbell.net>
-Date: Sat, 14 Apr 2001 09:44:35 +0200
-Subject: PATCH: creating devices for multiple sound cards
-To: linux-sound@vger.kernel.org
+A page size... I will look into this but can you also try to compile your
+kernel and driver with a more "realiable" compiler i.e egcs-1.1.2 (gcc
+2.91.xx) and see if the problem still shows up.
 
-Hi,
-I have just installed a new sound card in my machine, and have left
-the built-in sound chip enabled despite the motherboard manufacturer's
-warning of Bad Things. The result is that I now have two sound devices
-in my machine - an ICH (i810_audio) and a Soundblaster Live! The Live!
-is device 0, of course. Anyway, I am using the ALSA drivers because
-the native i810_audio module caused a kernel panic (NULL pointer
-reference in an interrupt handler, I believe), and I have noticed that
-the ALSA drivers have difficulty creating OSS device nodes for both
-cards. I have traced the problem to the register_sound_special()
-function within Linux's soundcore.o module. Basically, ALSA uses this
-function to create OSS devices, but this function was never written
-with more than one sound device in mind. Until now.
+Thank you,
 
-A few points about this patch:
+Rui
 
-1. I have renamed "sequencer2" to "music" because of a potential naming
-conflict between devices 14,8 ("music" on card 0) and 14,33 ("sequencer"
-on card 2).
+>
+> My setup : Soltek SL-75KAV-X MB with 1GHz Athlon, emu10k1 -
+>
+> emu10k1: EMU10K1 rev 8 model 0x8027 found, IO at 0xdc00-0xdc1f, IRQ 10
+> ac97_codec: AC97 Audio codec, id: 0x8384:0x7609 (SigmaTel STAC9721/23)
+>
+> Kernel 2.4.9 compiled with gcc-3.0.1/binutils 2.11.90.0.24. Glibc - v2.2.4
+>
+> lspci output :
+>
+> 00:00.0 Host bridge: VIA Technologies, Inc.: Unknown device 0305 (rev 03)
+> 00:01.0 PCI bridge: VIA Technologies, Inc.: Unknown device 8305
+> 00:07.0 ISA bridge: VIA Technologies, Inc. VT82C686 [Apollo Super] (rev 40)
+> 00:07.1 IDE interface: VIA Technologies, Inc. VT82C586 IDE [Apollo] (rev 06)
+> 00:07.2 USB Controller: VIA Technologies, Inc. VT82C586B USB (rev 16)
+> 00:07.3 USB Controller: VIA Technologies, Inc. VT82C586B USB (rev 16)
+> 00:07.4 Bridge: VIA Technologies, Inc. VT82C686 [Apollo Super ACPI] (rev 40)
+> 00:07.5 Multimedia audio controller: VIA Technologies, Inc. VT82C686
+> [Apollo Super AC97/Audio] (rev 50)
+> 00:0a.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL-8139 (rev 10)
+> 00:0c.0 Multimedia audio controller: Creative Labs SB Live! EMU10000 (rev 08)
+> 00:0c.1 Input device controller: Creative Labs SB Live! (rev 08)
+> 01:00.0 VGA compatible controller: nVidia Corporation GeForce 256 (rev 10)
+>
+> :
+> :
+>
+> 		Rus
+>
+>
+>
+> _______________________________________________
+> Emu10k1-devel mailing list
+> Emu10k1-devel@opensource.creative.com
+> http://opensource.creative.com/mailman/listinfo/emu10k1-devel
+>
 
-2. I have renamed device "midi00" to "midi". "midi01" now becomes "midi1"
-as well, although I would also point out that this is now consistent with
-the behaviour of the register_sound_midi() function.
-
-Having applied this patch, ALSA gives me two mixer devices in /dev/sound,
-and I no longer get messages like these in my logs:
-
-Apr 12 01:36:54 (none) kernel: devfs: devfs_register(): device already registered: "unknown"
-
-Apr 12 01:40:04 (none) kernel: devfs: devfs_register(): device already registered: "mixer"
-Apr 12 01:40:04 (none) kernel: devfs: devfs_register(): device already registered: "dsp"
-
-Cheers,
-Chris
-
---- linux-2.4.3/drivers/sound/sound_core.c.orig        Fri Mar 16 23:00:44 2001
-+++ linux-2.4.3/drivers/sound/sound_core.c        Sat Apr 14 00:13:18 2001
-@@ -227,9 +227,10 @@
-  
- int register_sound_special(struct file_operations *fops, int unit)
- {
--        char *name;
-+        const char *name;
-+        const int minor = (unit & 15);
-
--        switch (unit) {
-+        switch (minor) {
-             case 0:
-                 name = "mixer";
-                 break;
-@@ -237,7 +238,7 @@
-                 name = "sequencer";
-                 break;
-             case 2:
--                name = "midi00";
-+                name = "midi";
-                 break;
-             case 3:
-                 name = "dsp";
-@@ -255,7 +256,7 @@
-                 name = "unknown7";
-                 break;
-             case 8:
--                name = "sequencer2";
-+                name = "music";
-                 break;
-             case 9:
-                 name = "dmmidi";
-@@ -279,7 +280,7 @@
-                 name = "unknown";
-                 break;
-         }
--        return sound_insert_unit(&chains[unit&15], fops, -1, unit, unit+1,
-+        return sound_insert_unit(&chains[minor], fops, -1, minor, minor+128,
-                                  name, S_IRUSR | S_IWUSR);
- }
-  
-
-To unsubscribe from this list: send the line "unsubscribe linux-sound" in
-the body of a message to majordomo@vger.kernel.org
-
--------- End of message -------
-
--
-To unsubscribe from this list: send the line "unsubscribe linux-sound" in
-the body of a message to majordomo@vger.kernel.org
