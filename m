@@ -1,27 +1,19 @@
-From: Mihai Ciocoiu <mihaic@wam.umd.edu>
-Date: Tue, 06 Jun 2000 21:56:05 +0000
-Subject: K7 + 2.2.13 + es1370 = crash?
-Message-Id: <marc-linux-sound-96033716114503@msgid-missing>
+From: "ArcadePreserv Center" <arcadepreserv@hotmail.com>
+Date: Thu, 08 Jun 2000 01:40:58 +0000
+Subject: Soundblaster AWE 64 problem
+Message-Id: <marc-linux-sound-96045383326984@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi all, 
+A friend of mine can not get his Soundblaster AWE 64 working with the 
+standard Mandrake 7.0 system, using soundconfig.
 
-I'm having trouble getting sound to work with my Abit KA7 mobo and
-soundblaster 64 PCI (ensoniq 1370) card. The distribution-supplied kernel
-drivers (Slakware 7, kernel 2.2.13) install fine, and recognize the sound
-card correclty, but when I try to access the audio device it works for 1-2
-sec, then the system freezes. 
+Has anyone a clue ? Is it known to cause problem ?
 
-I tried compiling the drivers in the kernel
-and as modules, I tried using the 2.2.15 kernel, I also tried the ALSA
-drivers and get the same results. 
-
-Has anyone seen/solved this? 
-Any suggestions about what else I could try? 
-
-Thanks,
-Mihai Ciocoiu
+It *could* be because he has got several graphical accelerators in his box, 
+but of course he would like to get it to work in this setup.
+________________________________________________________________________
+Get Your Private, Free E-mail from MSN Hotmail at http://www.hotmail.com
