@@ -1,7 +1,7 @@
 From: "James H. Cloos Jr." <cloos@jhcloos.com>
 Date: Thu, 08 Jul 1999 15:17:55 +0000
 Subject: Re: Microsoft RIFF, WAVE audio data, 1 bit, mono 8000 Hz
-Message-Id: <marc-linux-sound-93144986212152@msgid-missing>
+Message-Id: <marc-linux-sound-93272112227738@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93141454613681@msgid-missing>
 In-Reply-To: <marc-linux-sound-93141454613681@msgid-missing>
@@ -9,6 +9,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+
 
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
@@ -47,3 +48,8 @@ Comment: For info see http://www.gnupg.org
 iD8DBQE3hMEhmXqfF+19rqYRArOrAJ9/pstOEPVLKPO1dE9t97jvY8aUuACfZtV6
 EPoOAw6cgePRU4wzOLXAyuI=bxZ6
 -----END PGP SIGNATURE-----
+
+
+-- 
+         To unsubscribe: mail sound-list-request@redhat.com with 
+                       "unsubscribe" as the Subject.
