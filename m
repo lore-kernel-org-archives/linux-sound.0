@@ -1,37 +1,57 @@
-From: Alessandro Zummo <azummo@ita.flashnet.it>
-Date: Sun, 12 Mar 2000 09:37:44 +0000
-Subject: [PROPOSED PATCH] sb_card.c
-Message-Id: <marc-linux-sound-95286073029276@msgid-missing>
+From: David Forrest <drf5n@mug.sys.virginia.edu>
+Date: Sat, 25 Mar 2000 20:07:50 +0000
+Subject: Re: news on ALS sound cards ?
+Message-Id: <marc-linux-sound-95401576500060@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
- I'm going to make a patch for sb_card.c with the following cahnges.
- I'd like to have some comments on it.
+hello,
+  Unfortunately, I didn't really do any real work on the linux ALS driver,
+I just noticed that the sb.o module seemed to work with my ALS200 card,
+and updated the documentation a bit.
 
- - Support for AWE will be droppen and moved to the
- awe_wave driver.
+Since Avance does not have support, (per http://avance.com/avance/faq.htm
+) nor does it publish sufficient data on its chips, development on newer
+linux drivers for this company's chips are very slow.  I myself have
+recently bought a soundblaster card since the linux support is much
+better.
 
- - Support for joystick initialization will be dropped
- since the joystick maintainer told me he's working
- on a PNP implementation for joystick devices.
+You could try using the OSS sound driver ( http://www.opensound.com/ ),
+which looks like it has developed one, (
+http://www.opensound.com/osshw.html ) or try a different sound
+card.   The cheapest and quickest option would be to use the OSS
+driver.  However, if you want to support companies who acknowledge linux,
+return your Avance card and get a friendlier chip.
 
- - If a device is already active before the
- driver is loaded then it's current settings will
- be used. this will allow the user to manually configure
- each card via the /proc/isapnp interface if needed.
+Also ALSA looks like it could develop one for the ALS4000, but hasn't yet:
+( http://www.alsa-project.org/~goemon/ )
 
- - What about if i leave the card active when
- the driver is unloaded? Could this cause any trouble
- somewhere else?
- 
+Dave.
 
 
+On Sat, 25 Mar 2000 kgt@free.fr wrote:
+
+> Hi,
+> 
+> Congratulation for your work, it's nice to see things are going on. I've
+> just downloaded the 2.3.99-pre3 kernel and saw that the ALS100 and
+> ALS200 chips are now supported :-)
+> 
+> Unfornutaly for me, I have just bought an ALS4000 chip based soundcard
+> (Asound Express) and I think I have seen enough web pages to say that
+> it's not supported yet (well, I've also tried to make it work by myself,
+> but that's not a criteria:).
+> So maybe you know something of the future for this card's support and
+> could tell me whether I should buy a anotherone or wait a bit  ?
+> 
+> Thank you in advance,
+> 
+> Benatoll
+> 
 
 -- 
-
-   - *Alex* -
-
-  http://freepage.logicom.it/azummo/
+ Dave Forrest                                dforrest@virginia.edu
+ (804)296-7283h 924-3954w      http://mug.sys.virginia.edu/~drf5n/
