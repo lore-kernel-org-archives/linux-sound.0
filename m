@@ -1,7 +1,7 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Fri, 27 Aug 1999 12:31:05 +0000
+From: Benno Senoner <sbenno@gardena.net>
+Date: Fri, 27 Aug 1999 14:10:51 +0000
 Subject: Re: sound card overhead?
-Message-Id: <marc-linux-sound-93575780920189@msgid-missing>
+Message-Id: <marc-linux-sound-93576305126360@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-93574912312253@msgid-missing>
 In-Reply-To: <marc-linux-sound-93574912312253@msgid-missing>
@@ -10,17 +10,22 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-James Stevenson wrote:
-
+On Fri, 27 Aug 1999, James Stevenson wrote:
+> Hi
+> 
 > i was just wondering about this
 > how much difference will a sound card make
 > which seems to be generating 600/700 interuppts a second
 > to the rest of the system performance?
+> 
+> thanks
+> 	James
 
-The application can basically tune how many interrupts
-the soundcard will generate by setting the fragment size.
+I ran my stresstests with fragments of 1.5ms = about 600 interrupts/sec on
+my PII box + SB AWE64 , I can't feel a big system slowdown,
+it works just fine.
+(Maybe you can measure it, by running some CPU bound benchmark while
+playing audio)
 
-My drivers will allow only root to generate more than 100/s,
-and the default is somewhere between 50 and 100/s.
-
-Tom
+regards,
+Benno.
