@@ -1,54 +1,40 @@
 From: Simon Huggins <huggie@earth.li>
-Date: Sun, 12 Mar 2000 14:35:22 +0000
-Subject: [PATCH] Ensoniq SoundScape with 2.3.51 (mpu401 changes broke it)
+Date: Mon, 13 Mar 2000 17:18:33 +0000
+Subject: Re: [PATCH] Ensoniq SoundScape with 2.3.51 (mpu401 changes broke it)
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="zYM0uCDKw75PZbzx"
-Message-Id: <marc-linux-sound-95287201901215@msgid-missing>
+Content-Type: multipart/mixed; boundary="XsQoSWH+UP9D9v3l"
+Message-Id: <marc-linux-sound-95305880326891@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95287201901215@msgid-missing>
+In-Reply-To: <marc-linux-sound-95287201901215@msgid-missing>
 To: linux-sound@vger.kernel.org
 
 
---zYM0uCDKw75PZbzx
+--XsQoSWH+UP9D9v3l
 Content-Type: text/plain; charset=us-ascii
 
-Hi,
+On Sun, Mar 12, 2000 at 06:54:22PM +0100, Christoph Hellwig wrote:
+> > Can you decide whether you want to wrap this in some magical #ifdef's
+> > and send it on to Linus?
+> You can send it to Linus, the changes seem ok.
 
-Your patch to clean up the OSS stuff has broken the Ensoniq SoundScape.
-Reverting one small portion fixes it.
-Can you decide whether you want to wrap this in some magical #ifdef's
-and send it on to Linus?
+This is a better patch.  It now unloads cleanly too.
 
-
-BTW, the documentation in Documentation/README.OSS suggests that this
-card cannot be used with isapnp?
-This is not my experience.
-See http://www.huggie.dial.pipex.com/linux/sound.shtml for how it Works
-For Me(TM).
-
-
-Also since I applied my patch, I get this when I modprobe -r:
-
-[root@byers /usr/src/linux/drivers/sound]# modprobe -r sscape
-Trying to free nonexistent resource <0000-0001>
-Sound device 2 went missing!
-kmem_free: Either bad obj addr or double free (objp=c61bd000,
-name=size-4096)
-
-I imagine this is because of the changes too?
-
-
-Simon.
+Linus, please apply this to your tree.  It fixes mpu401.c for the
+Ensoniq SoundScape.
 
 -- 
-"Now where did I put that magazine?" Tom asked periodically.                
+Simon  [ huggie@earth.li ] *\                "Cockroaches!  They're  \**
+****** ]-+-+-+-+-+-+-+-+-[ **\            everywhere...uuugghh...I'm  \*
+****** [  Htag.pl 0.0.4  ] ***\                 surrounded!" - Mulder  \
 
---zYM0uCDKw75PZbzx
+--XsQoSWH+UP9D9v3l
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename="mpu401.diff"
 
 --- mpu401.c.old	Sun Mar 12 14:17:11 2000
-+++ mpu401.c	Sun Mar 12 14:17:51 2000
-@@ -1726,18 +1726,14 @@
++++ mpu401.c	Mon Mar 13 17:13:13 2000
+@@ -1726,25 +1726,24 @@
  {
  	/* Can be loaded either for module use or to provide functions
  	   to others */
@@ -73,5 +59,16 @@ Content-Disposition: attachment; filename="mpu401.diff"
  	SOUND_LOCK;
  	return 0;
  }
+ 
+ void cleanup_mpu401(void)
+ {
+-	unload_mpu401(&cfg);
++	if (io != -1 && irq != -1) {
++		/* Check for use by, for example, sscape driver */
++		unload_mpu401(&cfg);
++	}
+ 	SOUND_LOCK_END;
+ }
+ 
 
---zYM0uCDKw75PZbzx--
+--XsQoSWH+UP9D9v3l--
