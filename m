@@ -1,47 +1,52 @@
-From: =?iso-8859-1?q?Eric=20Brunel?= <eric_brunel@yahoo.fr>
-Date: Fri, 14 Jul 2000 17:03:22 +0000
+From: Steve Netting <steve@moonfoundation.co.uk>
+Date: Sat, 15 Jul 2000 14:52:27 +0000
 Subject: Re: Midi / SysEx - Dump / Linux?
-Message-Id: <marc-linux-sound-96359470206658@msgid-missing>
+Message-Id: <marc-linux-sound-96367272709995@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-96349816311777@msgid-missing>
 In-Reply-To: <marc-linux-sound-96349816311777@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
---- Benno Senoner <sbenno@gardena.net> wrote :
-[snip]
-> I am not sure if it works but you could try to do
-> the following:
->=20
-> cat /dev/midi00 >dumpfile
->=20
-> start the sysex transfer
->=20
-> when finished
-> press CTRL-C
-> the dumpfile will contain the dumped data.
+<Benno - if this doesn't make it out to the list - could
+ you forward it?   I've been having email noghtmares recently!>
 
-O-me-god, it seems to work...! I got what seems to be
-the sysex dump I needed... What a wonderful OS!
-Thanks, Benno.
+ < snip >
 
-> then to playback the data
-> first start sysex receive on your midi module
-> then do
-> cat dumpfile >/dev/midi00
->=20
-> which should send back the data to the midi port.
+> > Could anyone confirm that? I've got an Elektron
+> > SIDStation and there is no other way to save custom
+> > programs than via MIDI/sysex. So if this does not
+> > work, I'll lose all my carefully crafted custom
+> > programs.
+> > Thanks a lot in advance.
+> >  - eric -
 
-Could anyone confirm that? I've got an Elektron
-SIDStation and there is no other way to save custom
-programs than via MIDI/sysex. So if this does not
-work, I'll lose all my carefully crafted custom
-programs.
-Thanks a lot in advance.
- - eric -
+ <snip?
 
-___________________________________________________________
-Do You Yahoo!?
-Achetez, vendez! =C0 votre prix! Sur http://encheres.yahoo.fr
+> I am sorry that I can not try the reverse cat dumpfile >/dev/midi00
+> because of the lack of HW here.
+> 
+> it should work, but wait for someone confirming this.
+
+ Yes, does indeed work - tested using an Alesis MMT-8 sequencer
+ dumping it's memory via midi ... and a Korg N1 synth dumping all
+ it's programs settings etc.  All restores without any problems.
+
+ Thanks to all who replied!   I should have though of that myself,
+ but well... I really didn't think it was that easy.
+
+ I'll probably knock up a script to make the whole process more
+ user-friendly, and provide some sort of menus for dumping/
+ restoring data...
+
+
+Thanks again!
+
+
+Steve
+--
+http://www.moonfoundation.co.uk
+--
+- Steve Netting - Logica Aldiscon, Bristol, UK
