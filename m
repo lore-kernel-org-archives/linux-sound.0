@@ -1,97 +1,26 @@
-From: Christian Kujau <evil@g-house.de>
-Date: Mon, 08 Nov 2004 20:59:11 +0000
-Subject: Re: Oops in 2.6.10-rc1
-Message-Id: <418FDE1F.7060804@g-house.de>
+From: Bill Davidsen <davidsen@tmr.com>
+Date: Sun, 26 Dec 2004 00:31:02 +0000
+Subject: Using more than 2 channels with i810
+Message-Id: <cqkvii$bkj$1@gatekeeper.tmr.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <4180F026.9090302@g-house.de> <Pine.LNX.4.58.0410281526260.31240@pnote.perex-int.cz> <4180FDB3.8080305@g-house.de> <418A47BB.5010305@g-house.de> <418D7959.4020206@g-house.de> <Pine.LNX.4.58.0411062244150.2223@ppc970.osdl.org> <20041107130553.M49691@g-house.de> <418E4705.5020001@g-house.de> <Pine.LNX.4.58.0411070831200.2223@ppc970.osdl.org> <20041107182155.M43317@g-house.de> <418EB3AA.8050203@g-house.de> <Pine.LNX.4.58.0411071653480.24286@ppc970.osdl.org> <418F6E33.8080808@g-house.de> <Pine.LNX.4.58.0411080951390.2301@ppc970.osdl.org>
-In-Reply-To: <Pine.LNX.4.58.0411080951390.2301@ppc970.osdl.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Linus Torvalds <torvalds@osdl.org>, alsa-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, Greg KH <greg@kroah.com>
+To: linux-sound@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+I would have sworn there was a module load parameter to use more than 
+two channels on this chip, but the only way I see in the source is to 
+use an ioctl which doesn't seem to be available in any common software. 
+Much as I would like to get another user to move from Windows to Linux, 
+I'm not going to hack one of the mixer programs for him to use all the 
+channels.
 
-Linus Torvalds schrieb:
->
-> No, just gut feel. If the pre-merge ALSA works, and the post-merge one 
-> doesn't, and the oops in both cases happen somewhere close to where it 
-> does "pci_enable_device()", there's not a lot left. There are interrupts, 
-> and there is the PCI layer...
+Any thoughts?
 
-yes, makes sense.
+ASUS P4P800, i82801EB/ER chipset AC97, i810_audio driver in FC1 (2.4.22 
+base).
 
->>
->>i did "bk undo -a1.2463" from a current -BK tree and it oopses:
-> 
-> Note that "bk undo -axxx" will _leave_ xxx in place, and undo everything 
-> after. 
-> 
-> So what you did still has the merge in the tree, and that it still oopses 
-> is thus to be expected. BUT, we're getting closer.
-
-yes, i think i understood that. that's why i wanted to revert 1.2463 too.
-
-[...]
-
-> 
-> Now, that's fine - the USB merge is likely to be ok, so try doing
-> 
-> 	bk undo -a1.2462
-
-for now i appreciate your work here but i have to postpone the the "bk
-revtool" stuff because i have no X _and_ bk here. (but i'm a good student
-and will do my homework)
-
-> and you will now have a tree that is exactly the same as before, except it 
-> does _not_ have the PCI merge from Greg.
-> 
-> And if this one does not oops, you can now officially blame Greg.
-
-i can't wait... ;)
-
->> Now, if you want to get _really_ fancy, you can now look at each changeset 
-> that differed, with something like
-> 
-> 	bk set -n -d -r1.2462 -r1.2463 | bk -R prs -h -d'<:P:@:HOST:>\n$each(:C:){\t(:C:)\n}\n' -
-> 
-> which is black magic that does a set operation and shows all the changes 
-> in between the sets of "bk at 1.2462" and "bk at 1.2463".
-> 
-> (This is _not_ the same as "bk changes -r1.2462..1.2463", because that one 
-> just shows the single merge change that is on the direct _path_ from one 
-> changeset to another. The black magic thing shows the set difference of 
-> changesets that comes from the full graph at two points).
-> 
-> Then you can look at each change individually and see if they matter.
-
-will do, after the build
-
-> 
-> And once you can do the set operations, you're officially a BK poweruser.  
-> Me, I just have a script, I'm a BK dabbler.
-> 
-> Looking at the list (appended), I don't see anything obvious, but hey, if 
-> it was obvious it wouldn't have been merged in the first place. 
-> 
-> Thanks for your willingness to pursue this thing,
-
-hey, thanks to you and to the folks in the Cc: field to chase a bug which
-only _i_ encounter until now.
-
-/me is building now....
-thanks,
-Christian.
-- --
-BOFH excuse #111:
-
-The salesman drove over the CPU board.
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.2.5 (GNU/Linux)
-Comment: Using GnuPG with Thunderbird - http://enigmail.mozdev.org
-
-iD8DBQFBj94f+A7rjkF8z0wRAm/uAJ0eTBa20JnX+250GpFiSED4b+arQwCggSgo
-CO/MQ+1jeOOvb7WaJRKg7uY=Qlt1
------END PGP SIGNATURE-----
+-- 
+bill davidsen <davidsen@tmr.com>
+   CTO TMR Associates, Inc
+   Doing interesting things with small computers since 1979
