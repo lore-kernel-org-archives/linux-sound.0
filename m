@@ -1,30 +1,30 @@
-From: Paco <paco@OhKeePa.Net>
-Date: Fri, 19 Nov 1999 18:58:46 +0000
-Subject: Re: AWE64
-Message-Id: <marc-linux-sound-94303838524811@msgid-missing>
+From: jonathan.naylor@socgen.com
+Date: Thu, 11 Nov 1999 14:23:23 +0000
+Subject: Sound newbie
+Message-Id: <marc-linux-sound-94233079313166@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91965172830159@msgid-missing>
-In-Reply-To: <marc-linux-sound-91965172830159@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Nevermind... I guess someone at redhat.com would know a little more than
-me.
+Hello All
 
-peace,
--Paco
+Is this the correct list for asking questions about user level programming of
+sound cards ? Is there an FAQ ? and is there any definitive API documentation
+anywhere.
 
-On Fri, 19 Nov 1999, Bill Nottingham wrote:
+I have some specific questions that I would like to get some answers too.
 
-> Paco (paco@OhKeePa.Net) said: 
-> > Actually, the "sndconfig" is not a RedHat utility at all.  It's the
-> > configuration tool that comes with the OSS sound drivers, and it *does*
-> > recognize all the ports on the AWE64.
-> 
-> Umm.... no. Unless OSS is shipping something else that happens to
-> have the same name, which is entirely possible.
-> 
-> Bill
-> 
+Jonathan
+
+ **************************************************************************
+The information contained herein is confidential and is intended solely
+for the addressee(s).  It shall not be construed as a recommendation to
+buy or sell any security.  Any unauthorized access, use, reproduction,
+disclosure or dissemination is prohibited.
+
+Neither SOCIETE GENERALE nor any of its subsidiaries or affiliates
+shall assume any legal liability or responsibility for any incorrect,
+misleading or altered information contained herein.
+ **************************************************************************
