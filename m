@@ -1,44 +1,48 @@
-From: Roberto Pavan <rpavan@physics.ubc.ca>
-Date: Fri, 04 Dec 1998 08:01:21 +0000
-Subject: OPTi 925 PnP
-Message-Id: <marc-linux-sound-91279517822515@msgid-missing>
+From: Etienne Grossmann <etienne@anonimo.isr.ist.utl.pt>
+Date: Mon, 07 Dec 1998 20:02:29 +0000
+Subject: opening /dev/sequencer, in perl.
+Message-Id: <marc-linux-sound-91309805316908@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I'm not a subscriber to this list, so I'd appreciate receiving a direct
-response if anyone would like to help me.
 
-I'm having a little trouble getting my OPTi 925 PnP working under OSS
-Free.
 
-After setting up its resources with isapnptools, I noticed at boot that
-OSS was loading the ad1848 and uart401 modules, so I set about trying to
-configure them in /etc/conf.modules:
 
-alias sound ad1848
-alias midi uart401
-options ad1848 io=0x0220 irq=5 dma=0 dma2=1
-options uart401 io=0x300 irq=9
 
-The uart module loads up just fine, but I get an error with the ad1848
-at boot:
-/lib/modules/preferred/misc/ad1848.0:  init_module: Device or resource
-busy
-sound:  device or resource busy
+  Hello, I have been trying to open /dev/sequencer for writing : In C,
+I do :
 
-In fact, if I remove all sound modules, and try to load in the ad1848
-with modprobe, I get the same error.
+    fd = open("/dev/sequencer", O_WRONLY))
 
-But  /cat/proc/interrupts / dma / ioports      don't show any
-conflcts.   These are the same resources used by the card in Win98 on
-the same machine.  Am I missing something?  I'm not sure of the syntax
-for the conf.modules file.  I lifted it from another machine using an
-SB16.
---
-Your faithful narrator,
-Roberto Pavan rpavan@physics.ubc.ca
+and the filehandle can be manipulated (carefully) to produce sound. In
+perl, I have tried :
 
-In some countries what I do is considered normal.
+try1:
+		open(FD,">/dev/sequencer") or die "NOPE\n"; 
+		print FD "";
+
+try2:
+	  use IO::File; 
+		$fh = new IO::File "/dev/sequencer", O_WRONLY; 
+		print "NOPE\n" unless defined($fh);
+
+try3:
+    use Fcntl; 
+		sysopen(FD,"/dev/sequencer",O_WRONLY) ; 
+		print FD "" ;
+
+
+  but none of them work. 
+
+
+  Would anyone have an explanation to my troubles? 
+
+
+  Etienne
+
+
+ps : I use perl 5.005, Linux kernel is 2.0.34 (Debian 2.0). Sound card
+     is soundblaster compatible.
