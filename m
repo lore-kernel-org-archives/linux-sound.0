@@ -1,85 +1,68 @@
-From: Ivan Kalvatchev <iive@yahoo.com>
-Date: Wed, 14 Mar 2001 17:26:38 +0000
-Subject: Yamaha 719B 48kHz bug
-Message-Id: <marc-linux-sound-98459149230967@msgid-missing>
+From: James Moody <jemoody@home.com>
+Date: Thu, 22 Mar 2001 23:01:34 +0000
+Subject: es1371 initialization question
+Message-Id: <marc-linux-sound-98530293217833@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I am owner of a very old Yamaha719 ISA sound card. I
-found a very annoing bug, when playing wave with 48kHz
-(samples per second) the sample sounds as been playing
-faster. I thought that this is software bug, but after
+Hi all,
 
-digging in linux sound drivers it seems to be
-hardware.
+I fear I'm missing something trivial. I'm using es1371 in 2.4.2-ac20 as
+a module. 
 
-in kernel 2.4.1
-//ad1848.c
-...
-static int ad1848_set_speed(int dev, int arg)
-{
-...
-	/*
-	 * The sampling speed is encoded in the least
-significant nibble of I8. The
-	 * LSB selects the clock source (0$.576 MHz,
-1.9344 MHz) and other
-	 * three bits select the divisor (indirectly):
-...
-	 */
-	typedef struct	{
-		int             speed;
-		unsigned char   bits;
-	}speed_struct;
+Short question: How can I get it to automatically obtain an IRQ for my
+soundcard upon initialization? It doesn't seem to do that automatically.
 
-	static speed_struct speed_table[] 	{
-		{5510, (0 << 1) | 1},
-		{5510, (0 << 1) | 1},
-		{6620, (7 << 1) | 1},
-		{8000, (0 << 1) | 0},
-		{9600, (7 << 1) | 0},
-		{11025, (1 << 1) | 1},
-		{16000, (1 << 1) | 0},
-		{18900, (2 << 1) | 1},
-		{22050, (3 << 1) | 1},
-		{27420, (2 << 1) | 0},
-		{32000, (3 << 1) | 0},
-		{33075, (6 << 1) | 1},
-		{37800, (4 << 1) | 1},
-		{44100, (5 << 1) | 1},
-		{48000, (6 << 1) | 0}
-	};
-...
-// All modes that use Clock #0 are playing faster.
-After look at sound card i sow only one 33Mhz
-oscilator. I belive that clock #0 is 33Mhz and clock#1
-is half of clock#0, so when trying to play at 48000,
-and actualy get about 66150 (2*33075)
-The chip is detected as MD_4231. With hope that the
-chip is missdetected i forced it to be detected as
-MD_1845, then as MD4231A and some other, but it didn't
-work. 
-So the chip seems to be detected correctly. If You
-Could help me, give me some more specific
-instructions, and manuals.
-The "opl3sa2" detects card as "OPL3-SA3 (YMF715)", and
-version=3; 
-I am with kernel 2.4.1. I downloaded kernel 2.4.2 and
-read opl3sa2 txt in Doc. I am affraid that Ymh719 is
-WORSE than Ymh715. I still hope that there is fix for
-this, some hidden option ....
+Long story:
 
-P.S. in kernel 2.4.2 bass, treble and main volume are
-gone...
+It's an Ensoniq 5880 AudioPCI. ASUS CUSL-2 motherboard. There is no option
+in the bios regarding a PNP-aware OS.
+
+I have the following PNP devices that work fine as modules:
+-ATI Rage 128
+-D-Link 538
+
+By 'work fine' I mean that before loading their respective modules,
+lspci -vv shows, for each of them,
+	Interrupt: pin A routed to IRQ 0
+
+but during module load I see messages like
+PCI: Enabling device 02:09.0 (0004 -> 0007)
+PCI: Assigned IRQ 5 for device 02:09.0
+PCI: Setting latency timer of device 02:09.0 to 64
+
+and the module loads great, and henceforth lspci -vv shows, e.g.,
+	Interrupt: pin A routed to IRQ 5.
+
+Perfect.
+
+This does not work with the sound card. modprobe es1371 fails, saying it
+can't find the sound card. Trying to specify "irq=" doesn't help matters
+(invalid parm_irq). lspci -vv always reports IRQ 0, so it's obvious that
+the IRQ isn't being obtained.
 
 
-__________________________________________________
-Do You Yahoo!?
-Yahoo! Auctions - Buy the things you want at great prices.
-http://auctions.yahoo.com/
+HOWEVER:
+
+I used to use ALSA, and everything worked fine with ALSA's snd-ens1371
+module. It prints the requisite
+
+PCI: Enabling device 02:0c.0 (0004 -> 0005)
+PCI: Assigned IRQ 10 for device 02:0c.0
+PCI: Setting latency timer of device 02:0c.0 to 64
+
+upon loading, and works fine. If, at this point, I unload the alsa modules
+and load the standard kernel es1371 module, EVERYTHING IS FINE because
+the alsa module already got me an IRQ.
+
+What am I missing? Why won't the es1371 module obtain an IRQ for me?
+
+Thanks a lot for any help,
+
+james
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
