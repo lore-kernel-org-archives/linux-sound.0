@@ -1,38 +1,33 @@
-From: "Stephen C. Tweedie" <sct@redhat.com>
-Date: Thu, 26 Aug 1999 16:55:29 +0000
-Subject: Re: mmap() better than read() fro streaming, Was: Re: Streaming disk I/O kills file buffering and ma
-Message-Id: <marc-linux-sound-93569557801143@msgid-missing>
+From: llornkcor <llornkcor@llornkcor.com>
+Date: Sun, 08 Aug 1999 02:15:44 +0000
+Subject: Re: Sound Blasters
+Message-Id: <marc-linux-sound-93407865931316@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93559158330469@msgid-missing>
-In-Reply-To: <marc-linux-sound-93559158330469@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi,
+I use a plug-n-pray SB awe64, and it works fine. I also have a SB pci
+128 that works fine, except that realplayer g2 doesnt like the pci 128 card.
+dont let PNP discourage you from buying an inexpensive card. Just dont buy a
+'winsound card' if there is such a thing.
 
-Benno Senoner writes:
-
- > Yes, I run with mlockall(MCL_CURRENT|MCL_FUTURE)
- > I can confirm this now:
- > I just removed my memcpy()s for testing purposes, and the app loads the
- > data nicely.
-
-As it should be.  mlock/mlockall apply to _all_ pages which appear in
-your process' address space, regardless of whether they are page cache
-or local data pages.
-
- > Pratically this means that if you enabled MCL_FUTURE, mmap() will
- > return only after all the mapped segment of the file resides in
- > memory.  Correct me please if I am wrong.
-
-Yes.  If MCL_FUTURE is used then all future mmap()s are automatically
-marked as locked, and we do a make_pages_present() before returning
-from mmap.  This is exactly what mlockall is designed for: memory
-access should simply never page fault if you use MCL_CURRENT |
-MCL_FUTURE.  This is even true for writable MAP_PRIVATE pages: if you
-have full mlockall enabled, then the make_pages_present() will do a
-copy-on-write page fault for you.
-
---Stephen
+On Sat, 07 Aug 1999, Scorpion wrote:
+> I went down to a few computer stores to try and buy me a decent sound
+> card.  I've never been able to get my soundcard to work fully with Linux,
+> so I wanted to buy a new one.  One I knew would work with Linux.  I wanted
+> to get a Sound Blaster 16.  They had a few cards down there, but most
+> where over $100.  They had a Sound Blaster 16 pci there for $50, and I
+> almost bought it.  Started to read the package, and noticed it was plug
+> and play.  I put it back and left.  Would it be possible to get that thing
+> to work?  If not, got any suggestions for good quality lower priced sound
+> cards?  In case you need to know, I'm using the kernel 2.2.10.
+> 
+> Thanks.
+--
+ - "Peace cannot be kept by force. It can only be achieved by
+    understanding."
+ - "Whoever undertakes to set himself up as judge in the
+ field of truth and knowledge is shipwrecked by the
+ laughter of the Gods."        -A. Einstein
