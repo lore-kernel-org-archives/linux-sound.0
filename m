@@ -1,25 +1,23 @@
-From: Niels Ott <niels@steinlachtal.de>
-Date: Thu, 10 Sep 1998 17:53:26 +0000
-Subject: just doesn't record
-Message-Id: <marc-linux-sound-90546055827651@msgid-missing>
+From: Karsten Patzwaldt <kpa@gmx.net>
+Date: Tue, 08 Sep 1998 15:16:06 +0000
+Subject: record overrun
+Message-Id: <marc-linux-sound-90533108907718@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-aGkgdGhlcmUhCgpzb3JyeSwgaSBkaWRuJ3Qgc2VhcmNoIGZvciBhIHNvbHV0aW9uIG9mIG15IHBy
-b2JsZW0gaW4gdGhlIGxpc3QKYXJjaGl2ZS4uCgppIHRoaW5rIHlvdSBjYW4gaGVscCBtZSA6LSkg
-Li4uLiBpIGNhbid0IHJlY29yZCBhbnl0aGluZyB3aXRoIG15IHNvdW5kCmNhcmQuCmknbSB1c2lu
-ZyBhIHNiMTYgKHdpdGhvdXQgcG5wKSBhbmQgdGhlIG5vcm1hbCBzb3VuZCBkcml2ZXJzIG9mIGtl
-cm5lbAoyLjAuMzUKCidyZWNvcmQnIHRlbGxzIG1lOgoiaW52YWxpZCBhdWRpbyBidWZmZXIgc2l6
-ZSIKCmFuZCB0aGUgaGQtcmVjb3JkaW5nIHN5c3RlbSAnbXVsdGl0cmFjaycgY3Jhc2hlcyB3aXRo
-CiJzZW1fc2V0KCkgZmFpbGVkOiBNYXRoIHJlc3VsdCBub3QgcmVwcmVzZW50YWJsZQpFcnJvcjog
-ZGV2aWNlIDogb3BlbmluZyBhdWRpbyBkZXZpY2UuCk11bHRpdHJhY2s6IENoaWxkIGV4aXRlZCBz
-aWduYWwgcmVjaWV2ZWQKR29vZGJ5ZS4iCgp3aGF0IGlzIHdyb25nPyAnY2F1c2UgMiBwcm9ncmFt
-cyBkb24ndCB3b3JrIGkgZ3Vlc3MgaXQncyBhIHByb2JsZW0gd2l0aAp0aGUgc291bmQgbW9kdWxl
-Lgpkb2VzIGFueW9uZSBrbm93IGEgc29sdXRpb24/CgpUSUEsCiAgbmllbHMKCnAucy46IHBsZWFz
-ZSB1c2UgQ2M6bmllbHNAc3RlaW5sYWNodGFsLmRlIC4uLiBpIGRpZG4ndCBqb2luIHRoZSBsaXN0
-LgoKLS0KT24gZHJpaGJhIGlzY2ggZHIgQUxESS1NYXJrdCwgbWl0IEhhc2NoaXNjaCwgR3JhcyBv
-bmQgTFNECkEgbmFja3RlIEZyYXUgZW0gU2NobGFtbWJhc2FoIHNjaHJlaXQgJ0FLVyBPbOkhJwog
-ICAoU2Nod29p32Z1Yd8pCg==
+hi!
+
+when i try to record something with my sb16, the kernel gives me 'Sound:
+Recording overrun' messages. this happens with the 'normal' sb-driver as
+well as with the oss/free. i use linux 2.0.33, oss/free 3.8 and a normal
+sb16. please tell me what this means, it sounds terrible when this
+occurs...
+
+thanks in advance,
+
+--- 
+Karsten Patzwaldt             http://kpa.notrix.de              kpa@gmx.net
+                        "Wisdom is earned... not given."
