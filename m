@@ -1,33 +1,30 @@
-From: Paul Barton-Davis <pbd@Op.Net>
-Date: Tue, 12 Oct 1999 02:02:08 +0000
-Subject: Re: [linux-audio-dev] full-duplex
-Message-Id: <marc-linux-sound-93969408010112@msgid-missing>
+From: "Gerald J. Puhl" <garyp@jppattern.com>
+Date: Wed, 06 Oct 1999 17:17:36 +0000
+Subject: es1370 driver
+Message-Id: <marc-linux-sound-93923401100718@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-93968252431691@msgid-missing>
-In-Reply-To: <marc-linux-sound-93968252431691@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-   [ ... full duplex audio ... OSS ... ALSA ]
 
->But my Turtlebeach on my P133 with Tyan Tomcat motherboard (HX)
->locks up the kernel some times.
->( I tried 2.2.5 and 2.2.10 )
->
->Is this due to a hw problem of buggy mainboards (from the Audio-quality HOWTO
->:-) )  ?
->
->Is there a workaround for OSS/Free ?
->Does have ALSA the same problems ?
+Greetings!
 
-i have used ALSA in full duplex mode for very long periods, and it
-never locks up my 2.2.10 kernel, or any other kernel i have tried it
-with.
+I am new to linux sound (and have probably a dumb question). I have the
+es1370 driver loaded and I get sound on my machine but the cdplayer (RH6.0
+Gnome) doesn't output any sound. I is working because the tracks of the CD
+appears without a problem.  Am I missing something needed in the kernel
+or is this driver not capable of playing CDs?
 
-on the other hand, some time back, i thought i had done the same with
-OSS and not had problems either, so i don't know where the problem
-might be.
+Sincerely,
 
---p
+---------------------------------------------------------------------------
+Gerald J. Puhl (garyp@jppattern.com)
+Systems Manager
+J. P. Pattern Inc.
+
+for more information about JP Pattern please visit our Web site at:
+
+	www.jppattern.com	or	www.execpc.com/~jppat
+---------------------------------------------------------------------------
