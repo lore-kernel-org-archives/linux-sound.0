@@ -1,32 +1,25 @@
-From: Jonathan Pennington <jwp@awod.com>
-Date: Fri, 06 Nov 1998 00:26:08 +0000
-Subject: Re: Running kernel 2.1.x
-Message-Id: <marc-linux-sound-91032132115945@msgid-missing>
+From: Sven Geggus <sven@geggus.net>
+Date: Sat, 28 Nov 1998 18:05:09 +0000
+Subject: 2.0.36-modular-1.test.patch rejects on vanilla 2.0.36
+Message-Id: <marc-linux-sound-91233298225433@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91028632131119@msgid-missing>
-In-Reply-To: <marc-linux-sound-91028632131119@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Sangohn Christian wrote:
+Hello,
 
-> Hello Sound-Linuxers!
->
-> I'm looking for people running Kernel 2.1.x in order toshare experiences with them
-> for instance for sound.
->
-> Greetings
+I tried to apply Alans "2.0.36-modular-1.test.patch" modular sound patch to a
+vanilla 2.0.36 Kernel. This causes rejects on sb_common.c. Is there a fixed
+version around which does not cause rejects?
 
-I'm running RedHat 5.1 w/ kernel 2.1.125 and a SB64.
+TIA Info
 
---
-________________________________________
-Jonathan Pennington
--Student Anthropologist/Geologist
--Linux User and Advocate
--Bart Simpson Sympathizer
+Sven
 
-Email at jwp(at)awod.com
-_______________________________________
+-- 
+"Thinking of using NT for your critical apps?
+                                  Isn't there enough suffering in the world?"
+                   (Advertisement of Sun Microsystems in Wall Street Journal)
+/me is giggls@IRC, http://www.geggus.net/sven/ on the Web
