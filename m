@@ -1,30 +1,29 @@
-From: Deirdre Saoirse <deirdre@deirdre.net>
-Date: Mon, 22 Feb 1999 04:33:29 +0000
-Subject: Laptop Sound?
-Message-Id: <marc-linux-sound-91965800932306@msgid-missing>
+From: u81ib6r2@umail.furryterror.org (Zygo Blaxell)
+Date: Mon, 22 Feb 1999 17:02:22 +0000
+Subject: Re: Laptop Sound?
+Message-Id: <marc-linux-sound-91970328828850@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-91965800932306@msgid-missing>
+In-Reply-To: <marc-linux-sound-91965800932306@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have a Compaq Presario 1625 and, using SuSE 5.3, it has OpenSound
-3.7.1z, which I installed. The chipset for the motherboard is an ESS
-chipset (can't remember which one offhand), but OSS seemed to find it
-fine.
+In article <Pine.LNX.3.96.990221202945.6008I-100000@rockhopper.deirdre.org>,
+Deirdre Saoirse  <deirdre@deirdre.net> wrote:
+>Thinking I might try something less dramatic than mp3s, I tried playing
+>CDs from the console, which works fine. However, I don't know if that's
+>going through the sound driver or what (I have no kernel sound support).
 
-However, it chops up mp3s *horribly*. I used to use amp (which I lost in a
-hardware malfunction) on my desktop. I now use xaudio and mpg123, both of
-which work fine on my desktop but give EXTREMELY choppy audio on the
-laptop. Both the desktop and the laptop are K6/266.
+Playing a CD usually happens using the sound card's analog mixer, not with
+the sound output.
 
-Thinking I might try something less dramatic than mp3s, I tried playing
-CDs from the console, which works fine. However, I don't know if that's
-going through the sound driver or what (I have no kernel sound support).
-
-Any ideas? Thanks.
-
-_Deirdre  *  http://disclaimer.deirdre.org  *  http://www.deirdre.net
-"I would rather choose to have my leg bitten off than to buy NT"
-Rob Narberes, Information Systems Manager, DNA Plant Technologies Corp
-as quoted in (!) Computerworld
+My guess is that your laptop is using power-saving features including
+slowing down the CPU, and the MP3's aren't being decompressed fast enough.  
+But that's only a guess.
+-- 
+Zygo Blaxell, Linux Engineer, Corel Corporation, zygob@corel.ca (work),
+zblaxell@furryterror.org (play).  It's my opinion, I tell you! Mine! All MINE!
+Size of 'diff -Nurw [...] winehq corel' as of Mon Feb 22 11:14:00 EST 1999
+Lines/files:  In 2948 / 53, Out 29300 / 428, Both 31518 / 461
