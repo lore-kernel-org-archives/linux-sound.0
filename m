@@ -1,18 +1,17 @@
 From: Paco <paco@OhKeePa.Net>
-Date: Wed, 05 Jan 2000 00:00:16 +0000
-Subject: Buying a new card...
-Message-Id: <marc-linux-sound-94703041511956@msgid-missing>
+Date: Sun, 09 Jan 2000 01:41:09 +0000
+Subject: Newest OSS/Free ??
+Message-Id: <marc-linux-sound-94738206915650@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hello, everybody...
+Hi...
 
-I'm preparing to put together a new machine, and I was wondering what you
-all think of the SB Live card.  Any know issues/problems/bugs with this
-card under Linux?
+Can anyone tell me where I can find the latest version of the OSS/Free
+drivers?
 
 peace,
 -Paco
