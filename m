@@ -1,28 +1,63 @@
-From: jason@whizzird.net
-Date: Sun, 13 Jun 1999 07:16:52 +0000
-Subject: ensoniq  1371
-Message-Id: <marc-linux-sound-92925712923443@msgid-missing>
+From: hines_j@iolinc.net (Hines, Jim)
+Date: Thu, 24 Jun 1999 04:06:11 +0000
+Subject: Popping noise on OPL3 mp3s/wavs
+Message-Id: <marc-linux-sound-93019710717889@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-i have an ensoniq 1371 card that has in the past worked perfectly fine with
-RH5.2 and 6.0. i just downgraded from 6.0 to 5.2 for other reasons and when i
-run sndconfig i get:
-The following error occurred                                                   
-running the modprobe program:                                                  
-                              
-<it's blank>
-any ideas?
-is there a way to set it up manually. when i try the utility's "manual" mode i
-get the same error.
+I recently registered the OSS stuff. Very nice. However it did not clear up=
+ a
+problem I was having before getting OSS. Whenever I play any mp3 or wav fil=
+es,
+I always experience a popping or crackling sound at the very moment I click=
+ the
+play button.  This is becoming annoying as you might imagine. Here is my
+sndstat output:
 
-----------------------------------
-E-Mail: jason@whizzird.net
-Date: 13-Jun-99
-Time: 00:13:38
+Build: 2.0.36
 
-This message was sent by XFMail
-----------------------------------
+Card config:
+Software mixing (audio)
+Generic PnP support
+OPL-2/OPL-3 FM at 0x388
+SoundPort at 0x534 irq 5 drq 0,3
+MPU-401 (UART) at 0x330 irq 7
+
+Audio devices:
+0: BTC1815 V1.2 (AD1845) (DUPLEX)
+1: Shadow of audio device #0 (DUPLEX)
+2: SoftOSS v1.2 CH #0
+3: SoftOSS v1.2 CH #1
+4: SoftOSS v1.2 CH #2
+5: SoftOSS v1.2 CH #3
+6: SoftOSS v1.2 CH #4
+7: SoftOSS v1.2 CH #5
+8: SoftOSS v1.2 CH #6
+9: SoftOSS v1.2 CH #7
+
+Synth devices:
+0: SoftOSS v1.2
+                                                                           =
+                                                                  =D8=20
+Midi devices:
+0: BTC1815 V1.2
+=20
+Timers:
+0: System clock
+1: SoftOSS
+=20
+Mixers:
+0: BTC1815 V1.2 (AD1845)
+1: SoftOSS
+
+
+Does anyone have any ideas about this? Please help!
+
+Thanks,
+--
+Jim Hines
+400mhz AMDk6-2 98mb
+RedHat 5.2 (2.0.36)
