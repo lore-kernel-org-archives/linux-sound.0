@@ -1,7 +1,7 @@
-From: John Starkey <jstarkey@polaris.umuc.edu>
-Date: Fri, 11 Feb 2000 03:43:00 +0000
+From: jhall@UU.NET (Jeremy Hall)
+Date: Fri, 11 Feb 2000 06:11:20 +0000
 Subject: Re: best sound format and app.  for recording  voice.
-Message-Id: <marc-linux-sound-95025255213772@msgid-missing>
+Message-Id: <marc-linux-sound-95025483914990@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95023921806519@msgid-missing>
 In-Reply-To: <marc-linux-sound-95023921806519@msgid-missing>
@@ -10,20 +10,14 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Unless technology has skyrocketed since I last worked in recording (1995)
-you'll spend 10x more buying hard drives than you will tapes. I forget the
-formula but I think 1 sec on 1 track @ 44.1 samples per second equals a meg
-or so.
+You should be able to get pretty good compression by selecting mp3's and
+encoding mono at 56k.  That should help.
 
-I'm pretty sure that the memory usage (not the formula) is still the case.
-Compression may help.
+See http://www.sulaco.org/mp3 (I think /mp3) for lame
 
-Good luck,
+_J
 
-John
-
-Bryan Bolden wrote:
-
+In the new year, Bryan Bolden wrote:
 > I am in school and I tape my classes.  what I would like to do is to begin
 > to keep digital copies of the taped classes on my computer without taking
 > up so much disk space.  what I will do is have the output jack of the tape
@@ -32,6 +26,7 @@ Bryan Bolden wrote:
 > app) application that will allow me to make digital samples  with mono
 > recording and at least radio quality that will not take up a lot of space
 > for a taped class of about an hour.
->
+> 
 > I would prefer the application run on linux but I am open to a good M$
-> windows based sound application (please forgive me but I am desperate :)
+> windows based sound application (please forgive me but I am desperate :) 
+> 
