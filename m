@@ -1,7 +1,7 @@
-From: buddy@dookie.net
-Date: Mon, 22 Nov 1999 04:33:49 +0000
+From: Benno Senoner <sbenno@em.gardena.net>
+Date: Mon, 22 Nov 1999 13:50:21 +0000
 Subject: Re: AC97 codec on asus k7m?
-Message-Id: <marc-linux-sound-94324506025305@msgid-missing>
+Message-Id: <marc-linux-sound-94327882018416@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94322145708503@msgid-missing>
 In-Reply-To: <marc-linux-sound-94322145708503@msgid-missing>
@@ -21,9 +21,17 @@ To: linux-sound@vger.kernel.org
 > 
 > Bill
 > 
+Does anyone know about the status of the AC97 codec found in
+Intel i810 chipset based mainboards like the supermicro 370SWD ones ?
 
-This one locked the box up totally....
+X11 is supported by the Precision Insight drivers,
+now what's missing is sound, since I want to use these boxes as
+thin multimedia clients.
 
-:) (tried it yesterday when i saw the VIA stuff in the make menuconfig)
+I remember that Alan Cox said on linux-kernel that enough
+specs are available to write a driver, but I'm not aware of a
+working driver. ( 4Front seems to support the i810 sound
+in their commercial OSS) 
 
---buddy
+regards,
+Benno.
