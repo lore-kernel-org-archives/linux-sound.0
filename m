@@ -1,185 +1,277 @@
-From: Alexandra Walford <chroma@delusion.de>
-Date: Fri, 29 Jun 2001 13:16:13 +0000
-Subject: ES1371 sound blackouts
-Message-Id: <marc-linux-sound-99382032719702@msgid-missing>
+From: Norm Proffitt <normp@us.ibm.com>
+Date: Mon, 04 Jun 2001 21:05:49 +0000
+Subject: [PATCH] APM Support for 2.2.19 ad1848 driver
+Message-Id: <marc-linux-sound-99168883905117@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Hi there,
+This patch modifies drivers/sound/ad1848.c to provide APM suspend/resume
+support to the AD1848 driver in Linux 2.2.19.
 
-[Please CC replies to me as I'm not subscribed to the list]
+To apply this patch,
 
-I'm using an Ensoniq ES1371 chip, with an unpatched linux-2.4.5 kernel and 
-the es1371 driver.  When using XMMS (for example; the same thing occurs in 
-other applications), sound will run fine for anything between a couple of 
-seconds and many hours continuously, but then stops (sometimes locking up the 
-application that had been playing the sound).  Subsequently, no sound is 
-available from any application.  The only way to get sound back is by 
-rebooting the machine.
+        cd to the top linux source directory
 
-Following is 'cat /proc/es1371' BEFORE using XMMS (while sound is still 
-working):
+        patch --dry-run -p0 < this_file
 
-                Creative ES137x Debug Dump-o-matic
-AC97 CODEC state
-reg:0x00  val:0x6940
-reg:0x02  val:0x0e0e
-reg:0x04  val:0x8000
-reg:0x06  val:0x000b
-reg:0x08  val:0x0000
-reg:0x0a  val:0x0014
-reg:0x0c  val:0x8000
-reg:0x0e  val:0x0000
-reg:0x10  val:0x8000
-reg:0x12  val:0x0606
-reg:0x14  val:0x8000
-reg:0x16  val:0x1414
-reg:0x18  val:0x1414
-reg:0x1a  val:0x0000
-reg:0x1c  val:0x0f0f
-reg:0x1e  val:0x0000
-reg:0x20  val:0x0000
-reg:0x22  val:0x0000
-reg:0x24  val:0x0000
-reg:0x26  val:0x000f
-reg:0x28  val:0x0200
-reg:0x2a  val:0x0080
-reg:0x2c  val:0x0000
-reg:0x2e  val:0x0000
-reg:0x30  val:0x0000
-reg:0x32  val:0x0000
-reg:0x34  val:0x0000
-reg:0x36  val:0x0000
-reg:0x38  val:0x0000
-reg:0x3a  val:0x0000
-reg:0x3c  val:0x0000
-reg:0x3e  val:0x0000
-reg:0x40  val:0x0000
-reg:0x42  val:0x0000
-reg:0x44  val:0x0000
-reg:0x46  val:0x0000
-reg:0x48  val:0x0000
-reg:0x4a  val:0x0000
-reg:0x4c  val:0x0000
-reg:0x4e  val:0x0000
-reg:0x50  val:0x0000
-reg:0x52  val:0x0000
-reg:0x54  val:0x0000
-reg:0x56  val:0x0000
-reg:0x58  val:0x0000
-reg:0x5a  val:0x0000
-reg:0x5c  val:0x0000
-reg:0x5e  val:0x0000
-reg:0x60  val:0x0000
-reg:0x62  val:0x0000
-reg:0x64  val:0x0000
-reg:0x66  val:0x0000
-reg:0x68  val:0x0000
-reg:0x6a  val:0x0000
-reg:0x6c  val:0x00c3
-reg:0x6e  val:0x0000
-reg:0x70  val:0x0000
-reg:0x72  val:0x0000
-reg:0x74  val:0x0380
-reg:0x76  val:0x0000
-reg:0x78  val:0x8380
-reg:0x7a  val:0x0000
-reg:0x7c  val:0x8384
-reg:0x7e  val:0x7609
+If the patch program doesn't complain then use the command
 
-Following is 'cat /proc/es1371' AFTER sound has died (after playing approx. 
-3m30s of sound in XMMS):
+        patch -p0 < this_file
 
-                Creative ES137x Debug Dump-o-matic
-AC97 CODEC state
-reg:0x00  val:0x6940
-reg:0x02  val:0x0e0e
-reg:0x04  val:0x8000
-reg:0x06  val:0x000b
-reg:0x08  val:0x0000
-reg:0x0a  val:0x0014
-reg:0x0c  val:0x8000
-reg:0x0e  val:0x0000
-reg:0x10  val:0x8000
-reg:0x12  val:0x0606
-reg:0x14  val:0x8000
-reg:0x16  val:0x1414
-reg:0x18  val:0x1d1d
-reg:0x1a  val:0x0000
-reg:0x1c  val:0x0f0f
-reg:0x1e  val:0x0000
-reg:0x20  val:0x0000
-reg:0x22  val:0x0000
-reg:0x24  val:0x0000
-reg:0x26  val:0x000f
-reg:0x28  val:0x0200
-reg:0x2a  val:0x0080
-reg:0x2c  val:0x0000
-reg:0x2e  val:0x0000
-reg:0x30  val:0x0000
-reg:0x32  val:0x0000
-reg:0x34  val:0x0000
-reg:0x36  val:0x0000
-reg:0x38  val:0x0000
-reg:0x3a  val:0x0000
-reg:0x3c  val:0x0000
-reg:0x3e  val:0x0000
-reg:0x40  val:0x0000
-reg:0x42  val:0x0000
-reg:0x44  val:0x0000
-reg:0x46  val:0x0000
-reg:0x48  val:0x0000
-reg:0x4a  val:0x0000
-reg:0x4c  val:0x0000
-reg:0x4e  val:0x0000
-reg:0x50  val:0x0000
-reg:0x52  val:0x0000
-reg:0x54  val:0x0000
-reg:0x56  val:0x0000
-reg:0x58  val:0x0000
-reg:0x5a  val:0x0000
-reg:0x5c  val:0x0000
-reg:0x5e  val:0x0000
-reg:0x60  val:0x0000
-reg:0x62  val:0x0000
-reg:0x64  val:0x0000
-reg:0x66  val:0x0000
-reg:0x68  val:0x0000
-reg:0x6a  val:0x0000
-reg:0x6c  val:0x00c3
-reg:0x6e  val:0x0000
-reg:0x70  val:0x0000
-reg:0x72  val:0x0000
-reg:0x74  val:0x0380
-reg:0x76  val:0x0000
-reg:0x78  val:0x8380
-reg:0x7a  val:0x0000
-reg:0x7c  val:0x8384
-reg:0x7e  val:0x7609
+to really apply the patch.  Then issue
 
-Following is the relevant section of 'lspci -vvvvv':
+        make modules; make modules_install
 
-00:0c.0 Multimedia audio controller: Ensoniq ES1371 [AudioPCI-97] (rev 07)
-        Subsystem: Ensoniq Creative Sound Blaster AudioPCI64V, AudioPCI128
-        Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- 
-Stepping- SERR- FastB2B-
-        Status: Cap+ 66Mhz- UDF- FastB2B- ParErr- DEVSEL=slow >TAbort- 
-<TAbort- <MAbort+ >SERR- <PERR-
-        Latency: 64 (3000ns min, 32000ns max)
-        Interrupt: pin A routed to IRQ 11
-        Region 0: I/O ports at e000 [sized]
-        Capabilities: [dc] Power Management version 1
-                Flags: PMEClk- DSI+ D1- D2+ AuxCurrent=0mA 
-PME(D0-,D1-,D2-,D3hot-,D3cold-)
-                Status: D0 PME-Enable- DSel=0 DScale=0 PME-
+NOTES:
+        - OSS drivers support (together with the correct driver modules)
+          must be enabled in the kernel config.
 
+        - APM support must be enabled in the kernel config.
 
-Are you able to tell me what might be going on here?  Thanks for your time.
+        - This patch was developed for linux-2.2.19 although it should
+          apply to linux-2.2.14 through linux-2.2.19
 
-Alex
+        - There's absolutely no warranty of any kind.
+
+Please reply directly to normp@us.ibm.com since I'm not subscribed to
+the
+mailing list.
+
+Thanks,
+  Norm Proffitt
+
+--- drivers/sound/ad1848.c.org  Mon Mar 19 14:28:31 2001
++++ drivers/sound/ad1848.c      Wed Mar 21 15:07:14 2001
+@@ -26,6 +26,7 @@
+  *                  general sleep/wakeup clean up.
+  * Alan Cox       : reformatted. Fixed SMP bugs. Moved to kernel
+alloc/free
+  *                  of irqs. Use dev_id.
++ * Norm Proffitt   : backport Aki Laukkanen's power management support
+  *
+  * Status:
+  *             Tested. Believed fully functional.
+@@ -34,6 +35,9 @@
+ #include <linux/config.h>
+ #include <linux/module.h>
+ #include <linux/stddef.h>
++#ifdef CONFIG_APM
++#include <linux/apm_bios.h>
++#endif
+
+ #include "soundmodule.h"
+
+@@ -51,6 +55,7 @@
+        int             irq;
+        int             dma1, dma2;
+        int             dual_dma;       /* 1, when two DMA channels
+allocated */
++       int             subtype;
+        unsigned char   MCE_bit;
+        unsigned char   saved_regs[32];
+        int             debug_flag;
+@@ -99,6 +104,7 @@
+ }
+ ad1848_port_info;
+
++static struct address_info cfg;
+ static int nr_ad1848_devs = 0;
+ int deskpro_xl = 0;
+ int deskpro_m = 0;
+@@ -166,6 +172,7 @@
+ static void     ad1848_halt_input(int dev);
+ static void     ad1848_halt_output(int dev);
+ static void     ad1848_trigger(int dev, int bits);
++static int      ad1848_apm_callback(apm_event_t apm_event);
+
+ #if defined(CONFIG_SEQUENCER) && !defined(EXCLUDE_TIMERS)
+ static int ad1848_tmr_install(int dev);
+@@ -1866,6 +1873,7 @@
+        devc->timer_ticks = 0;
+        devc->dma1 = dma_playback;
+        devc->dma2 = dma_capture;
++       devc->subtype = cfg.card_subtype;
+        devc->audio_flags = DMA_AUTOMODE;
+        devc->playback_dev = devc->record_dev = 0;
+        if (name != NULL)
+@@ -1918,6 +1926,12 @@
+
+        nr_ad1848_devs++;
+
++#ifdef CONFIG_APM
++        if (apm_register_callback(ad1848_apm_callback))
++        {
++                printk(KERN_WARNING "ad1848: APM suspend might not
+work.\n");
++        }
++#endif
+        ad1848_init_hw(devc);
+
+        if (irq > 0)
+@@ -2079,6 +2093,13 @@
+                if(mixer>=0)
+                        sound_unload_mixerdev(mixer);
+
++#ifdef CONFIG_APM
++        if (apm_register_callback(ad1848_apm_callback))
++        {
++                printk(KERN_WARNING "ad1848: APM suspend might not
+work.\n");
++        }
++#endif
++
+                nr_ad1848_devs--;
+                for ( ; i < nr_ad1848_devs ; i++)
+                        adev_info[i] = adev_info[i+1];
+@@ -2695,6 +2716,104 @@
+ }
+ #endif
+
++#ifdef CONFIG_APM
++static int ad1848_suspend(ad1848_info * devc)
++{
++        unsigned long   flags;
++
++        save_flags(flags);
++        cli();
++
++        ad_mute(devc);
++
++        restore_flags(flags);
++        return 0;
++}
++
++static int ad1848_resume(ad1848_info * devc)
++{
++        unsigned long   flags;
++        int             mixer_levels[32], i;
++
++        save_flags(flags);
++        cli();
++
++        /* store old mixer levels */
++        memcpy(mixer_levels, devc->levels, sizeof(mixer_levels));
++        ad1848_init_hw(devc);
++
++        /* restore mixer levels */
++        for (i = 0; i < 32; i++)
++                ad1848_mixer_set(devc, devc->dev_no, mixer_levels[i]);
++
++        if (devc->subtype)
++        {
++                static signed char interrupt_bits[12] +                {
++                        -1, -1, -1, -1, -1, 0x00, -1, 0x08, -1, 0x10,
++                        0x18, 0x20
++                };
++                static char     dma_bits[4] +                {
++                        1, 2, 0, 3
++                };
++
++                signed char     bits;
++                char            dma2_bit = 0;
++                int             config_port = devc->base + 0;
++
++                bits = interrupt_bits[devc->irq];
++                if (bits = -1)
++                {
++                        printk(KERN_ERR "MSS: Bad IRQ %d\n",
+devc->irq);
++                        restore_flags(flags);
++                        return -1;
++                }
++
++                outb((bits | 0x40), config_port);
++
++                if (devc->dma2 != -1 && devc->dma2 != devc->dma1)
++                        if ((devc->dma1 = 0 && devc->dma2 = 1) ||
++                            (devc->dma1 = 1 && devc->dma2 = 0) ||
++                            (devc->dma1 = 3 && devc->dma2 = 0))
++                                dma2_bit = 0x04;
++
++                outb((bits | dma_bits[devc->dma1] | dma2_bit),
++                 config_port);
++        }
++
++        restore_flags(flags);
++        return 0;
++}
++
++static int ad1848_apm_callback(apm_event_t apm_event)
++{
++        int             n;
++
++        switch (apm_event)
++        {
++                case APM_SYS_SUSPEND:
++                case APM_CRITICAL_SUSPEND:
++                case APM_USER_SUSPEND:
++                        for (n = 0; n < nr_ad1848_devs; n++)
++                                ad1848_suspend(&adev_info[n]);
++                        break;
++
++                case APM_NORMAL_RESUME:
++                case APM_CRITICAL_RESUME:
++                case APM_STANDBY_RESUME:
++                        for (n = 0; n < nr_ad1848_devs; n++)
++                                ad1848_resume(&adev_info[n]);
++                        break;
++
++                default:
++                        break;
++        }
++
++        return 0;
++}
++
++#endif
+
+ EXPORT_SYMBOL(ad1848_detect);
+ EXPORT_SYMBOL(ad1848_init);
+@@ -2724,8 +2843,6 @@
+
+ static int loaded = 0;
+
+-struct address_info hw_config;
+-
+ int init_module(void)
+ {
+        printk(KERN_INFO "ad1848/cs4248 codec driver Copyright (C) by
+Hannu Savolainen 1993-1996\n");
+@@ -2736,14 +2853,14 @@
+                        printk(KERN_WARNING "ad1848: must give I/O , IRQ
+and DMA.\n");
+                        return -EINVAL;
+                }
+-               hw_config.irq = irq;
+-               hw_config.io_base = io;
+-               hw_config.dma = dma;
+-               hw_config.dma2 = dma2;
+-               hw_config.card_subtype = type;
+-               if(!probe_ms_sound(&hw_config))
++               cfg.irq = irq;
++               cfg.io_base = io;
++               cfg.dma = dma;
++               cfg.dma2 = dma2;
++               cfg.card_subtype = type;
++               if(!probe_ms_sound(&cfg))
+                        return -ENODEV;
+-               attach_ms_sound(&hw_config);
++               attach_ms_sound(&cfg);
+                loaded=1;
+        }
+        SOUND_LOCK;
+@@ -2754,7 +2871,7 @@
+ {
+        SOUND_LOCK_END;
+        if(loaded)
+-               unload_ms_sound(&hw_config);
++               unload_ms_sound(&cfg);
+ }
+
+ #endif
 -
 To unsubscribe from this list: send the line "unsubscribe linux-sound" in
 the body of a message to majordomo@vger.kernel.org
