@@ -1,7 +1,7 @@
-From: Itai Nahshon <nahshon@actcom.co.il>
-Date: Wed, 12 May 1999 17:59:17 +0000
+From: Cornelius Creedon <neil@box1.staller.sunysb.edu>
+Date: Wed, 12 May 1999 20:22:01 +0000
 Subject: Re: Playing a sine wave
-Message-Id: <marc-linux-sound-92657688928217@msgid-missing>
+Message-Id: <marc-linux-sound-92658974402117@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-92649832906805@msgid-missing>
 In-Reply-To: <marc-linux-sound-92649832906805@msgid-missing>
@@ -10,23 +10,24 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
->> Is it possible to use the sequencer stuff in the OSS sound driver
->> to let the sound card play a sine wave of a given frequency?
->In theory it's possible to play sine waves using the OPL3 FM synth chip
->available on most older (ISA) soundcards. However this is very inpractical
->way.
->
->A much easier way is using /dev/dsp. You only need to construct few cycles
->of sine wave at given frequency to a buffer. Then just keep writing this
->buffer to /dev/dsp as many times as you need. In fact it may even be
->possible that somebody has already written this kind of app (look at
->ftp://sunsite.unc.edu/pub/Linux/apps/sound).
 
-See
-   http://metalab.unc.edu/pub/Linux/apps/sound/dtmf-dial-0.2.tar.gz   
+hm. there is a package called siggen to do such things, dont know which
+devices it uses though...
 
-It combines two sine waves and outputs to /dev/dsp. You are
-welcome to hack on it. Internally it has the function to
-produce sine waves at any integer frequency and sampling rate.
+-cc
 
-Itai
+On Wed, 12 May 1999, Hrafnkell Eiriksson wrote:
+
+> Hi
+> 
+> Is it possible to use the sequencer stuff in the OSS sound driver
+> to let the sound card play a sine wave of a given frequency?
+> Any pointers to info on how to do that if it is possible?
+> 
+> -- 
+> //-----------------------//-------------------------------------------------
+> //  Hrafnkell Eiriksson  //  Student of Computer- and Electrical engineering
+> //  hkelle@rhi.hi.is     //  at the Univeristy of Iceland
+> //                       //  "Blessed are they who go around in circles,
+> //  Finger for PGP key   //   for they shall be known as Wheels"
+> 
