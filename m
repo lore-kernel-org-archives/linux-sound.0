@@ -1,25 +1,43 @@
-From: "Alexey" <sl@nikaa.dnttm.ru>
-Date: Fri, 25 Jan 2002 14:19:41 +0000
-Subject: CS4232 (Tropez plus)
-Message-Id: <marc-linux-sound-101196998312122@msgid-missing>
+From: "Hallie Eaton" <HallieEaton@mail.ru>
+Date: Tue, 01 Jan 2002 08:33:18 +0000
+Subject: Better Success, willy-willy
+Message-Id: <56019992.20020101042118@mail.ru>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I have a Tropez plus soundcard with Cs4232 chip.
-There is cs4232 kernel module for it. I followed all the instructions in
-HOWTOs, the module loads propertly, without any error message, but:
-xmms, for example, plays only one file and then my card keeps silent.
-A year ago I left this problem and succeeded in using ALSA drivers.
-After the Xfree 4.1.0 installation there appeared another bug: X mouse
-driver cannot be initialized when ALSA cs4232 module is loaded, so cursor
-hangs without any motion.
-I think, there is a kernel module bug.
-May be I'm to use some ISAPnP facilities, but I don't know, which of them.
-Please, help.
-Does anybody have Tropez plus? Your configuration files may be helpful.
-Thanks in advance.
-Alexey.
+Your cre dit doesn't matter to us! If you OWN real est ate
+and want IMMEDIATE6 cash to spend ANY way you like, or simply wish 
+to LOWER your monthly paym ents by a third or more, here are the dea ls
+we have TODAY (hurry, these ofers will expre TONIGHT):
 
+$488,000.00 at a 3.67,% fixed-rateP
+$372,000.00 at a 3.90,% variable-rateD
+$492,000.00 at a 3.21,% interest-only6
+$248,000.00 at a 3.36,% fixed-rateB
+$198,000.00 at a 3.55,% variable-rateH
+
+Hurry, when these deals are gone, they are gone Simply fill out this one-min ute form... 
+
+Don't worry about approval, your cre dit will not disqualify you! 
+
+http://1I39JB31.fortessed.com
+
+
+
+anything.  On the other hand, it doesn't matter. Getting up,  he winced: his
+began calling him Buzzard, before they used to call him Winner.
+
+     Arthur,  walking five paces  ahead,  wiped  the sweat  from  his  brow.
+     "It's  damp."  He  put away  the  flask, chose  a sandwich,  and set to
+artificial tone.
+
+merrily, as though the exhausting night, the nervous tension that still made
+Pretty  Boy, his  name was Dixon, but now they called him  Hamster. The only
+around  completely.  No, that  would  not  have happened  to  him, he was no
+sullen  face  of  Monkey, covered  with  coarse brown fur.  He  struggled to
+
+His dark raven hair,  like his sister's, bounced rhythmically.  He asked for
+winking among  yourselves, and leading me by  the nose, dragging me, hauling
