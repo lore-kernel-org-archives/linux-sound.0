@@ -1,85 +1,21 @@
-From: AJ Lewis <lewi0235@tc.umn.edu>
-Date: Mon, 24 Jan 2000 17:48:38 +0000
-Subject: Re: es1370 in Kern 2.2.14
-Message-Id: <marc-linux-sound-94873855503367@msgid-missing>
+From: =?ISO-8859-1?Q? "=12Ricardo?= Amezquita Orozco"
+Date: Tue, 11 Jan 2000 14:46:47 +0000
+Subject: Problems with X11Amp
+Message-Id: <marc-linux-sound-94767267915863@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94871729216562@msgid-missing>
-In-Reply-To: <marc-linux-sound-94871729216562@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Try running the K6-2 at the correct clock speed.  The K6-2 400 and 450
-have a tendency to run extremely hot.  The OC could cause erratic
-performance in all subsystems.
+Hello All
 
--- 
-AJ Lewis
-lewi0235@tc.umn.edu
+I have been trying to use X11Amp as MP3 player. When my machine is under little or no load, the player works fine, but when it is under high load, the player seems to lost syncronism, and starts to make noise like that of a radio when no station is tuned on. To make it start again, I have to try to play the osng again many times until it works back again. Can some one tell me what is going on?? Can I prevent this??
 
-"Now I consider the anti-Linux group at Microsoft to be just a Linux user 
-in disguise. They're trying to find the really bad problems in Linux. They 
-haven't produced much so far but I expect that we'll get some really good 
-bug reports from them..." 
- 	- Linus Thorvalds at the Linux BOF at the USENIX 1999
+Thanks for your help, and sorry for my english
 
-On Mon, 24 Jan 2000, SkyViper wrote:
+Ricardo Amizquita
 
-> When I boot I get a very high static sound.
-> This static sounds like my card is being over driven. Quieter sounds are
-> discernable, but masked with static.The problem is intermittent in that
-> it does not occur on every boot, and follows no pattern.
-> If the boot is good, then restarting X has no ill effect. If the boot is
-> bad, restarting X does not correct the problem. The card still works
-> fine in Kernel 2.2.11 using insmod es1370, but I will try 2.2.13 and
-> 2.2.12.
-> 
-> I used xconfig to set the Kernel, and configured it to use sound and the
-> es1370 and Joystick. (By the way, I don't think the joystick works, but
-> I am not sure)
-> 
-> I am running Red Hat 6.1
-> Hardware list:
-> Asus P5AB
-> Motherboard = AMD K6-2 400 (OC to 450)
-> Sound Card = PCI SRS727 (Ensoniq es1370)
-> Video Adapter = PCI 3Dfx Voodoo3 2000
-> Modem = ISA Motorola Voice Surfer 56K V90 (firmware Upgradded from
-> KFlex)
-> Hard drives = Maxtor 850, Samsung 2.1, Fuji 10.2 Partitioned by
-> Partition Magic 5.0
->  Linux is on one of these parts.
-> RAM = 64M PC 100 single stick
-> Mouse = MS Intellmouse 1.1a
-> Keyboard = MS Natural
-> Joystick = CH F16 Fighterstick, CH Throttle, CH Pro Pedals
-> 
-> Known Running Server/Module items:
-> XFree 3.3.5, Gnome, KDE
-> Glide 2 and 3 loaded per 3Dfx sight
-> Modules:
-> 3dfx on the 3.3.5 server
-> 
-> 
-> 
-> 
-> OUTPUT from sh scripts/ver_linux :
-> Linux localhose.localdomain 2.2.14 #9 Sat Jan 22 17:09:25 EST 2000 i586
-> unknown
-> Kernel modules   2.1.121
-> Gnu C  egcs-2.91.66
-> Binutils   2.9.1.-.24
-> Linux C Library   2.1.2
-> Dynamic linker   ldd (GNU libc) 2.1.2
-> Procps   2.0.4
-> Mount   2.9u
-> Net-tools   1.53
-> Console-tools   199.03.02
-> Sh-utils   2.0
-> Modules Loaded    3dfx
-> 
-> 
-> Tom H.
-> 
-> 
+
+LYCOShop is now open. On your mark, get set, SHOP!!!
+http://shop.lycos.com/
