@@ -1,24 +1,30 @@
-From: Peter Bortas <peter@idonex.se>
-Date: Fri, 30 Apr 1999 22:02:53 +0000
-Subject: Re: Montego A3D
-Message-Id: <marc-linux-sound-92550970522221@msgid-missing>
+From: "Robert B. Hamilton" <rbh041a@unix.tamu.edu>
+Date: Wed, 21 Apr 1999 19:46:20 +0000
+Subject: [RFD] Alternative PC speaker drivers?
+Message-Id: <marc-linux-sound-92472595425861@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-92548556830047@msgid-missing>
-In-Reply-To: <marc-linux-sound-92548556830047@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Mark Riehl <mriehl@sarnoff.mitre.org> writes:
+Just wondering: is anyone interested in exploring alternative methods
+for the pc speaker driver?
 
-> All,
-> 
-> I checked a few months ago and the Montego A3D card was not supported.
-> Anyone know if it supported yet?
+I've one idea, with some rudimentary code, thats been gathering dust for 
+a while. It uses the real time clock for timing, along with udelay.  
+It also has a (very) rudimentary soundcore interface. The only advantage 
+it would have as an alternative to the existing driver is that the only 
+kernel code it touches is in rtc.c, and then only to export a couple of 
+functions.  If I understand correctly the objections to the current driver, 
+this means it *might* have the potential to have an outside chance of getting 
+slipped into the cannonical kernel distribution.
 
-4front has a beta driver for the Montego now.
+Disadvantage: it sucks up cpu cycles like a black hole. One would need
+at least a 266 MHz processor, and even then not recommended on a heavily 
+loaded machine.  Sound quality is not quite as good as existing driver, 
+although I've gotten functional speech using rsynth, and can also tweak 
+Maelstrom, eg, to get reasonable sound.
 
--- 
-Peter Bortas                   http://peter.bortas.org
-Idonex AB                      http://www.idonex.com
+Any comments, discussion, helpful advice, would be much appreciated.
+                                                 --Robert
