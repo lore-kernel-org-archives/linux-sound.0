@@ -1,29 +1,34 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Mon, 17 Jan 2000 13:07:33 +0000
-Subject: Re: es1371 PCI 128 trouble :-(
-Message-Id: <marc-linux-sound-94811769228054@msgid-missing>
+From: Can Bican <bican@metu.edu.tr>
+Date: Wed, 05 Jan 2000 16:35:22 +0000
+Subject: Some kind of ESS chip
+Message-Id: <marc-linux-sound-94709023919904@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-94800632902814@msgid-missing>
-In-Reply-To: <marc-linux-sound-94800632902814@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Paul Novak wrote:
 
->         CREATIVE
->         CT5880-DBQ
->         9933H J074
->         Kor
+	Hello,
 
-Try either 2.3.39 or 2.2.15pre2
+	I have an IBM PC 300 GL, with Mandrake 6.1 installed. It has an
+on-board kind of sound chip, and the pre-installed Windows 98 was using a
+kind of ESS driver for this. On the chip, exactly the following is
+printed:
+	ESS
+	ES1930S	F439
+	TTUB3265V
+	(P)4, 214, 125 (C)
+	
+	Ok, granted, it's an ESS, but what about 1930S? I haven't happened
+to such a chipset anywhere. Expectedly, I've not been able to get it to
+work, tried all ess modules along with sb and mss modules. I wonder if it
+is really a new (or odd) chipset that no drivers for Linux exist, or am I
+missing something?
 
-> But if I try to 'cat /dev/sndstat', I get:
-> 
->         cat: /dev/sndstat: No such device
+	Regards...
 
-Not supported
-
-
-Tom
+-----
+Can Bican
+Bilgi Islem Daire Baskanligi, ODTU
+METU Computer Center
