@@ -1,98 +1,66 @@
-From: Guenther Sohler <guenther.sohler@newlogic.com>
-Date: Sat, 16 Nov 2002 10:42:39 +0000
-Subject: Re: creating a software driver
-Message-Id: <marc-linux-sound-103744337230076@msgid-missing>
+From: Ofer Achler <oachler@ucsd.edu>
+Date: Mon, 25 Nov 2002 18:37:57 +0000
+Subject: AZT1008 on HP Vectra VL6
+Message-Id: <marc-linux-sound-103825052826476@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-103742816723431@msgid-missing>
-In-Reply-To: <marc-linux-sound-103742816723431@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-A very tiny template of such a character device driver is
+I have a couple of old PII HP vectra machines with this sound card.
 
-#include <linux/module.h>
-
-#define MY_MOD_MAJOR    253
-
-
-static int my_mod_release (struct inode *inode, struct file *file);
-static int my_mod_open (struct inode *inode, struct file *file);
-static int my_mod_ioctl (struct inode *inode, struct file *file,
-                         unsigned int cmd, unsigned long arg);
+(Redhat 8.0)
+Sndconfig will see it but the kernel module will not admit that the card
+exists:
+Nov 25 10:32:19 newthird kernel: ad1848/cs4248 codec driver Copyright
+(C) by Hannu Savolainen 1993-1996
+Nov 25 10:32:19 newthird kernel: ad1848: No ISAPnP cards found, trying
+standard ones...
 
 
+I tried to manually set the configuration via /proc/isapnp and set the
+module parameters by hand via insmod (insmod ad1848 ioS4 irq=5 dma=1
+dma2=3), it doesnt work.
 
-static struct file_operations my_mod_fops = {
-  ioctl:my_mod_ioctl,
-  open:my_mod_open,
-  release:my_mod_release,
-};
+Tried via sndconfig, still doesnt work...
 
+Any ideas?
 
-static struct parport *pp_use;
-static unsigned char shadow[3];
+Here's the current output (after manually making the card activate in
+isapnp) of /proc/isapnp:
 
-
-static int
-my_mod_release (struct inode *inode, struct file *file)
-{
-  MOD_DEC_USE_COUNT;
-  return 0;
-}
-
-static int
-my_mod_open (struct inode *inode, struct file *file)
-{
-  MOD_INC_USE_COUNT;
-  return 0;
-}
-
-
-static int
-my_mod_ioctl (struct inode *inode, struct file *file, unsigned int cmd,
-              unsigned long arg)
-{
-  int byte, bit, val=0, i;
-  printk("%d %d\n",cmd,arg);
-  return 0;
-//or   return -EINVAL;
-}
-
-
-
-int
-init_module (void)
-{
-  register_chrdev (MY_MOD_MAJOR, "my_mod", &my_mod_fops);
-  printk("Init\n");
-  return 0;
-}
-
-void
-cleanup_module (void)
-{
-  printk("Release\n");
-  unregister_chrdev (MY_MOD_MAJOR, "my_mod");
-}
-
-I compile this with 
-
-gcc -D__KERNEL__ -I/usr/src/linux/include -Wall -Wstrict-prototypes -O2
--fomit-frame-pointer -fno-strict-aliasing -pipe -fno-strength-reduce 
--m486 -malign-loops=2 -malign-jumps=2 -malign-functions=2 -DCPUX6 -DMODULE  
--c -o  parbit.o parbit.c
-
-I dont know which options are really neccesary but for sure __KERNEL__ and
--MODULE
-
-Dont forget to create a character device with mknod
-
-
-Please tell me how it works for you
-
-
-rds Guenther
-
+Card 1 'AZT1008:AZT1008 PnP SOUND DEVICE' PnP version 1.0 Product
+version 0.3
+  Logical device 0 'AZT0500:IDE CDROM DISABLED'
+    Supported registers 0x2
+    Device is not active
+    Resources 0
+      Priority preferred
+      Port 0x0-0x0, align 0x7, size 0x0, 16-bit address decoding
+      Port 0x0-0x0, align 0x1, size 0x0, 16-bit address decoding
+      IRQ <none> High-Edge
+  Logical device 1 'AZT1008:AUDIO'
+    Supported registers 0x2
+    Device is active
+    Active port 0x220,0x388,0x534
+    Active IRQ 5 [0x2]
+    Active DMA 1,3
+    Resources 0
+      Priority preferred
+      Port 0x220-0x220, align 0xf, size 0x10, 16-bit address decoding
+      Port 0x388-0x388, align 0x7, size 0x8, 16-bit address decoding
+      Port 0x534-0x534, align 0x3, size 0x4, 16-bit address decoding
+      IRQ 5 High-Edge
+      DMA 1 8-bit byte-count compatible
+      DMA 3 8-bit byte-count compatible
+      Alternate resources 0:1
+        Priority acceptable
+        Port 0x220-0x240, align 0x1f, size 0x10, 16-bit address decoding
+        Port 0x388-0x388, align 0x7, size 0x8, 16-bit address decoding
+        Port 0x534-0x608, align 0xd3, size 0x4, 16-bit address decoding
+        IRQ 5,2/9,10 High-Edge
+        DMA 0,1,3 8-bit byte-count compatible
+        DMA 0,1,3 8-bit byte-count compatible
+      Alternate resources 0:2
 
