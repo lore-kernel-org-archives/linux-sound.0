@@ -1,7 +1,7 @@
-From: Paco <paco@OhKeePa.Net>
-Date: Tue, 14 Mar 2000 22:45:30 +0000
+From: Alih <alih@metaphysical.e-warfare.org>
+Date: Wed, 15 Mar 2000 02:50:49 +0000
 Subject: Re: VQF
-Message-Id: <marc-linux-sound-95314619800391@msgid-missing>
+Message-Id: <marc-linux-sound-95320279010461@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-95307003007758@msgid-missing>
 In-Reply-To: <marc-linux-sound-95307003007758@msgid-missing>
@@ -10,14 +10,11 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-You can use XMMS to play vqf files.  Try http://www.xmms.com.
+actully, VQF totally rapes the high frequencies, and hence does not at all
+sound as good as mp3.
 
-I read the page on this once (a few months ago), and I know you have do do
-some tricky stuff with WINE and the windows .dll's to get it working, but
-XmmS will definately play them.  (I haven't tried yet.)
-
-peace,
--Paco
+don'y believe the hype
+	- Jaymz
 
 On Mon, 13 Mar 2000, Sergey wrote:
 
