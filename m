@@ -1,47 +1,47 @@
-From: Jean Francois Ortolo <ortolojf@cybercable.fr>
-Date: Tue, 15 Feb 2000 08:10:14 +0000
-Subject: /dev/audio, /dev/dsp not running for an es1371
-Message-Id: <marc-linux-sound-95060250626587@msgid-missing>
+From: =?iso-8859-1?Q?Bj=F6rn?= =?iso-8859-1?Q?Lindstr=F6m?=
+Date: Tue, 15 Feb 2000 13:12:06 +0000
+Subject: Re: /dev/audio, /dev/dsp not running for an es1371
+Message-Id: <marc-linux-sound-95062032603921@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95060250626587@msgid-missing>
+In-Reply-To: <marc-linux-sound-95060250626587@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ibm855"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-Hello
-  I have Linux RedHat6.1 installed, with a Creative Lab
-SoundBlaster PCI 128 in the box. It's not a clone,
-the chip is a Creative Lab chip.
-
-  The sndconfig detects an Ensoniq card, for which it
-installs an es1371 module in /etc/conf.modules
-  While doing this, the generated speech is
-well heard by me, so I might believe that
-all is all right.
-
-  However, a 'cat /dev/sndstat' then reports
-"no device with this type", and the /dev/audio0
-and /dev/dsp0 don't appear in their directory.
-
-  So, a try for reading from anyone either of the 
-/dev/audio or /dev/dsp with the command:
- 'dd bs=8k count=5 </dev/audio > sample.au'
-or the same with /dev/dsp... It doesn't read
-anything, such that the sample.au file
-contains always the same character, indicating
-that there is only a silence.
-  So the command 'cat sample.au > /dev/audio'
-gives only a 5 seconds silence, the same
-with the /dev/dsp interface.
-
-  Although, under the Gnome Windows Manager,
-the sounds appear fine for any events they
-are set up for.
-  So I can't understand which way Gnome
-is successful with its sound managering,
-though the /dev/audio and /dev/dsp
-interfaces are not available yet.
-
-  Any help cheerfully welcome.
-
-  Jean Francois
+Ck9uIFR1ZSwgMTUgRmViIDIwMDAsIEplYW4gRnJhbmNvaXMgT3J0b2xvIHdyb3RlOgo+IEhlbGxv
+Cj4gICBJIGhhdmUgTGludXggUmVkSGF0Ni4xIGluc3RhbGxlZCwgd2l0aCBhIENyZWF0aXZlIExh
+Ygo+IFNvdW5kQmxhc3RlciBQQ0kgMTI4IGluIHRoZSBib3guIEl0J3Mgbm90IGEgY2xvbmUsCj4g
+dGhlIGNoaXAgaXMgYSBDcmVhdGl2ZSBMYWIgY2hpcC4KCnRoYXQncyBleGFjdGx5IG15IHNldHVw
+IGFzIGZhciBhcyB0aGF0IGdvZXMuCgo+ICAgVGhlIHNuZGNvbmZpZyBkZXRlY3RzIGFuIEVuc29u
+aXEgY2FyZCwgZm9yIHdoaWNoIGl0Cj4gaW5zdGFsbHMgYW4gZXMxMzcxIG1vZHVsZSBpbiAvZXRj
+L2NvbmYubW9kdWxlcwo+ICAgV2hpbGUgZG9pbmcgdGhpcywgdGhlIGdlbmVyYXRlZCBzcGVlY2gg
+aXMKPiB3ZWxsIGhlYXJkIGJ5IG1lLCBzbyBJIG1pZ2h0IGJlbGlldmUgdGhhdAo+IGFsbCBpcyBh
+bGwgcmlnaHQuCgpkaWRuJ3Qgd29yayBmb3IgbWUuIEkgY29tcGlsZWQgdGhlIGRyaXZlciBpbnRv
+IHRoZSBrZXJuZWwgaW5zdGVhZC4KCj4gICBIb3dldmVyLCBhICdjYXQgL2Rldi9zbmRzdGF0JyB0
+aGVuIHJlcG9ydHMKPiAibm8gZGV2aWNlIHdpdGggdGhpcyB0eXBlIiwgYW5kIHRoZSAvZGV2L2F1
+ZGlvMAo+IGFuZCAvZGV2L2RzcDAgZG9uJ3QgYXBwZWFyIGluIHRoZWlyIGRpcmVjdG9yeS4KCnlv
+dSBzaG91bGQgbm90IHdvcnJ5IGFib3V0IHRoYXQuIC9kZXYvc25kc3RhdCBpcyBhcyBmYXIgYXMg
+SSBjYW4gY29sbGVjdCwKY29uc2lkZXJlZCBkZXByZWNhdGVkLCBhbmQgbW9zdCBuZXcgZHJpdmVy
+cyBkb24ndCBzdXBwb3J0IGl0LgoKPiAgIFNvLCBhIHRyeSBmb3IgcmVhZGluZyBmcm9tIGFueW9u
+ZSBlaXRoZXIgb2YgdGhlIAo+IC9kZXYvYXVkaW8gb3IgL2Rldi9kc3Agd2l0aCB0aGUgY29tbWFu
+ZDoKPiAgJ2RkIGJzPThrIGNvdW50PTUgPC9kZXYvYXVkaW8gPiBzYW1wbGUuYXUnCj4gb3IgdGhl
+IHNhbWUgd2l0aCAvZGV2L2RzcC4uLiBJdCBkb2Vzbid0IHJlYWQKPiBhbnl0aGluZywgc3VjaCB0
+aGF0IHRoZSBzYW1wbGUuYXUgZmlsZQo+IGNvbnRhaW5zIGFsd2F5cyB0aGUgc2FtZSBjaGFyYWN0
+ZXIsIGluZGljYXRpbmcKPiB0aGF0IHRoZXJlIGlzIG9ubHkgYSBzaWxlbmNlLgo+ICAgU28gdGhl
+IGNvbW1hbmQgJ2NhdCBzYW1wbGUuYXUgPiAvZGV2L2F1ZGlvJwo+IGdpdmVzIG9ubHkgYSA1IHNl
+Y29uZHMgc2lsZW5jZSwgdGhlIHNhbWUKPiB3aXRoIHRoZSAvZGV2L2RzcCBpbnRlcmZhY2UuCgpp
+IGNpdGUgdGhlIGRvY3VtZW50YXRpb24gZm9yIHRoZSBkcml2ZXIgKGkga2VlcCBpdCBpbgovdXNy
+L3NyYy9saW51eC0yLjIuMTQvRG9jdW1lbnRhdGlvbi9zb3VuZC9lczEzNzEpOgoKIyBJbiBzaG9y
+dCwgcGxheWluZyBhIFN1biAuYXUgZmlsZSBhcyBmb2xsb3dzOgojIAojIGNhdCBteV9maWxlLmF1
+ID4gL2Rldi9kc3AKIyAKIyBkb2VzIG5vdCB3b3JrLiBJbnN0ZWFkLCB5b3UgbWF5IHVzZSB0aGUg
+cGxheSBzY3JpcHQgZnJvbQojIENocmlzIEJhZ3dlbGwncyBzb3gtMTIuMTQgcGFja2FnZSAoYXZh
+aWxhYmxlIGZyb20gdGhlIFVSTAojIGJlbG93KSB0byBwbGF5IG1hbnkgZGlmZmVyZW50IGF1ZGlv
+IGZpbGUgZm9ybWF0cy4KCnlvdSBzaG91bGQgcmVhZCB0aGUgd2hvbGUgZmluZSBtYW51YWwsIGFj
+dHVhbGx5LgoKt7e3Cgpub3cgaWYgc29tZW9uZSBjb3VsZCB0ZWxsIG1lIGhvdyB0byB1c2UgdGhl
+IGpveXN0aWNrIHBvcnQgZm9yIG1pZGkgb24gdGhpcwpjYXJkLCBldmVyeXRoaW5nIHdvdWxkIGJl
+IHBlcmZlY3QgOi0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaG9tZSBwYWdlIEAgLT0+IGh0dHA6Ly93
+d3cubW5mLm51L21hZ29nCmxpc3RlbmluZyB0byAwMi1HYXJ5X051bWFuLVRoZV9BaXJjcmFzaF9C
+dXJlYXUubXAzCntwdW5nIGdoYXAgSG9TLn0gLSBNZXJjeSBvciBwb3dlci4K
