@@ -1,43 +1,27 @@
-From: "Hallie Eaton" <HallieEaton@mail.ru>
-Date: Tue, 01 Jan 2002 08:33:18 +0000
-Subject: Better Success, willy-willy
-Message-Id: <56019992.20020101042118@mail.ru>
+From: Devendra Jalihal <dj@tenet.res.in>
+Date: Mon, 18 Feb 2002 08:20:48 +0000
+Subject: Need info on G.723.1 .wav format
+Message-Id: <marc-linux-sound-101405687018962@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Your cre dit doesn't matter to us! If you OWN real est ate
-and want IMMEDIATE6 cash to spend ANY way you like, or simply wish 
-to LOWER your monthly paym ents by a third or more, here are the dea ls
-we have TODAY (hurry, these ofers will expre TONIGHT):
+I am sorry for sending this mail to linux-sound group. It is not very
+pertinent to this group. But, I don't know where to send it. So, here it
+goes.
 
-$488,000.00 at a 3.67,% fixed-rateP
-$372,000.00 at a 3.90,% variable-rateD
-$492,000.00 at a 3.21,% interest-only6
-$248,000.00 at a 3.36,% fixed-rateB
-$198,000.00 at a 3.55,% variable-rateH
+We have our own implementation of G.723.1 speech compression @ 6.3 kbps
+(it is a licenced codec and not a free one). I would like to output the
+compressed bits in .wav format. Can somebody direct me to the site where I
+can get info about .wav in general and specifically about G.723.1 based
+.wav? Is there an IETF recommendation on .wav? An RFC? Where can I get
+info about .wav? Which body  makes the .wav standard?
 
-Hurry, when these deals are gone, they are gone Simply fill out this one-min ute form... 
+I would really appreciate any info that you can give me.
 
-Don't worry about approval, your cre dit will not disqualify you! 
-
-http://1I39JB31.fortessed.com
-
+Devendra Jalihal
+dj@tenet.res.in
 
 
-anything.  On the other hand, it doesn't matter. Getting up,  he winced: his
-began calling him Buzzard, before they used to call him Winner.
-
-     Arthur,  walking five paces  ahead,  wiped  the sweat  from  his  brow.
-     "It's  damp."  He  put away  the  flask, chose  a sandwich,  and set to
-artificial tone.
-
-merrily, as though the exhausting night, the nervous tension that still made
-Pretty  Boy, his  name was Dixon, but now they called him  Hamster. The only
-around  completely.  No, that  would  not  have happened  to  him, he was no
-sullen  face  of  Monkey, covered  with  coarse brown fur.  He  struggled to
-
-His dark raven hair,  like his sister's, bounced rhythmically.  He asked for
-winking among  yourselves, and leading me by  the nose, dragging me, hauling
