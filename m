@@ -3,8 +3,10 @@ Date: Mon, 13 Mar 2000 19:48:13 +0000
 Subject: Sound/OSS cleanups
 MIME-Version: 1
 Content-Type: multipart/mixed; boundary="17pEHd4RhPHOinZp"
-Message-Id: <marc-linux-sound-95301462115883@msgid-missing>
+Message-Id: <marc-linux-sound-95304798412304@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-95301462115883@msgid-missing>
+In-Reply-To: <marc-linux-sound-95301462115883@msgid-missing>
 To: linux-sound@vger.kernel.org
 
 
