@@ -1,23 +1,15 @@
-From: "Raimonds Cicans" <RACI@ccf.lkb.bkc.lv>
-Date: Wed, 16 Sep 1998 12:06:35 +0000
-Subject: Re: Audio PCI64
-Message-Id: <marc-linux-sound-90593659621364@msgid-missing>
+From: "'Terra NovA' B. Loeding" <bloeding@u.washington.edu>
+Date: Wed, 30 Sep 1998 17:36:42 +0000
+Subject: PCI Soundcards???
+Message-Id: <marc-linux-sound-90717751403473@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-90593488120863@msgid-missing>
-In-Reply-To: <marc-linux-sound-90593488120863@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On 16 Sep 98 at 15:47, Russell Wecker <rwecker@ssd.org> wrote:
+Ok. Anyone out there know if there are any kernal patches for PCI
+soundcards yet? ie. the SoundBlaster PCI64... If not, can anyone
+comment on any projects or plans to create these drivers?
 
-> I am running RH5.1 and was wondering if there is a module for the kernel
-> 2.0.35.   I have downloaded the 2.0.34-modular-3.patch but can not seem to
-> get the driver to compile. i have the es1370.c file for 2.0.34 but how do
-> i compile it or where can i get an update
-
-      Look at es1370, es1371, SonicVibes drivers' homepage :
-      
-          http://www.ife.ee.ethz.ch/~sailer/linux/pciaudio.html
-    
+Thanx!
