@@ -1,18 +1,30 @@
-From: mx300@iname.com
-Date: Fri, 12 Feb 1999 09:43:04 +0000
-Subject: Diamond MX300
-Message-Id: <marc-linux-sound-91881274617651@msgid-missing>
+From: Britton Kerin <bkerin@best.com>
+Date: Thu, 25 Feb 1999 03:19:46 +0000
+Subject: semop() SEMMSL constant gone?
+Message-Id: <marc-linux-sound-91991323821903@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Does anybody know, is there any chance and way to get a driver for this vortex2-based card?
-Anyway, could anybody explain how to get it worked
-with linux-2.2.1? I've tried with SB compatible, some other drivers, but without success.
 
-Thanks in advance, Dmitry.
+I'm trying to compile a SEMOP intensive program and am wondering what
+happened to this constant if anything, or if it's just me.  Mayby I'm
+leaving out a critical header?  Here are the ones I'm using.
 
----------------------------------------------------
-Get free personalized email at http://www.iname.com
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <sys/shm.h>
+#include <sys/wait.h>
+
+Any help or advice greatly appreciated.
+
+Britton Kerin
