@@ -1,21 +1,35 @@
-From: Peter Leif Rasmussen <plr@cedara.com>
-Date: Wed, 17 Nov 1999 21:10:27 +0000
-Subject: CS4231A on RH5.2
-Message-Id: <marc-linux-sound-94287403316699@msgid-missing>
+From: Myriam DESAINTE-CATHERINE <Myriam.Braquelaire@labri.u-bordeaux.fr>
+Date: Mon, 29 Nov 1999 15:46:54 +0000
+Subject: CFP: Computer Music Conference in France
+Message-Id: <marc-linux-sound-94389411624676@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-I was wondering if anyone here have tried and successfully gotten sound
-to work when having a CS4231A sound chip and running RedHat 5.2?
-I tried and was successful with RedHat 6.0, but because of some problems
-I had to try out RH5.2, which runs well except for sound :-)
 
-Incidentally this is an Alpha Multia, but I don't know that that should
-matter.
 
-Thanks,
+Les Journees d'Informatique Musicale reunissent chaque annee des
+chercheurs en Informatique Musicale et differents acteurs de la vie
+musicale utilisant l'informatique comme moyen d'expression ou comme
+aide a la composition.  Cette annee, ces septiemes Journees se
+derouleront du 15 au 18 mai a Bordeaux (33). Les JIM 2000 sollicitent
+des articles et des oeuvres musicales.
 
-Peter
+Visitez notre site pour plus d'information :
+	http://www.scrime.u-bordeaux.fr/JIM2000
+
+The Journees d'Informatique Musicale is an annual meeting of
+researchers in computer music and musicians who use the computer as a
+means of expression or as a tool for composition.  This year, the
+seventh edition of this meeting will occur may 15-18 at Bordeaux. JIM
+2000 is now requesting papers and musical works to be submitted for
+review
+
+Visit our site for more information:
+	http://www.scrime.u-bordeaux.fr/JIM2000
+
+-
+Myriam 	DESAINTE-CATHERINE 
+http://www.labri.u-bordeaux.fr/~myriam
