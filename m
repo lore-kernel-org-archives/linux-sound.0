@@ -1,36 +1,55 @@
-From: llornkcor <llornkcor@llornkcor.com>
-Date: Wed, 27 Oct 1999 00:50:23 +0000
+From: David Olofson <audiality@swipnet.se>
+Date: Wed, 27 Oct 1999 02:03:38 +0000
 Subject: Re: pci128 line-in help
-Message-Id: <marc-linux-sound-94098612031968@msgid-missing>
+Message-Id: <marc-linux-sound-94099053303283@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-94098365529736@msgid-missing>
 In-Reply-To: <marc-linux-sound-94098365529736@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-I have a pci 128, and the mic input is the default, so you'll have to make sure
-to select the line input using a mixer. If you've already done that, try
-looking at /dev/dsp, or /dev/dsp1. If you are trying to listen to something and
-record at the same time (full-duplex) the OSS driver that comes with the kernel
-doesn't support it. So, if the line out is open, it won't record anything.
-Sometimes, some sound apps don't close /dev/dsp correctly.Try ALSA or the
-commercial OSS driver from 4front. 
-
-On Tue, 26 Oct 1999, est@hyperreal.org wrote:
+On Wed, 27 Oct 1999, est@hyperreal.org wrote:
 > I can't seem to get my pci128 line-in to work.  This is using the
 > (es1370) OSS driver distributed with the 2.2.7 kernel.  I've tried all
 > the obvious mixer settings as well as all the private ioctl()s the
 > driver has, checked my hardware, etc.  Can anyone think of anything I
 > might be missing?
-> 
-> Thanks,
-> 
-> Eric
--- 
-"When the doors of perception are cleansed everything appears as it truly is - infinite."   - William Blake 
 
-llornkcor rocknroll 
-SpiritShip MultiMedia Recording Studio
-http://www.llornkcor.com
+What version of the card do you have?
+
+There seems to be two versions, as far as the connectors are
+concerned; one that looks like in "Getting started" (that you get
+with OEM cards, at least), and one with a much smarter design.
+
+The older (?) ones have Aux In and Rear Out in the same jack, and the
+"lineout=3D1" option swithes it from Line In to Rear Out.
+
+On the new (?) one (that I have), the "Speaker Out" has turned into
+"Front Out", and can be changed between line/speaker with two jumpers
+on the card. There is a Line In where the Speaker Out jack used to
+be, and yes, it works in full duplex with the two Line Outs. :-) On
+this card, "lineout=3D1" only enables the output from the jack that is
+now ony Rear Out. AFAIK, the new Rear Out jack has no other function.
+
+If your card is of the latter kind, your problem might be that the
+Line In is actually where the "manual" says Speaker Out is; that is,
+the 4'th (last) jack counting from the one closest to the
+joystick/MIDI port. Check the card.
+
+If it's the "old" card, make sure you do *not* use "lineout=3D1". Also
+experiment some with the mixer. Mine seems a bit dodgy with the
+kernel driver... (Works great with ALSA, though.)
+
+
+//David
+
+
+ =B7A=B7U=B7D=B7I=B7A=B7L=B7I=B7T=B7Y=B7   P r o f e s s i o n a l   L i n =
+u x   A u d i o
+-  - ------------------------------------------------------------- -  -
+    =B7Rock Solid                                      David Olofson:
+    =B7Low Latency    www.angelfire.com/or/audiality   =B7Audio Hacker
+    =B7Plug-Ins            audiality@swipnet.se        =B7Linux Advocate
+    =B7Open Source                                     =B7Singer/Composer
