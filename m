@@ -1,34 +1,38 @@
-From: Jeff Garzik <jgarzik@mandrakesoft.com>
-Date: Sat, 27 May 2000 17:31:45 +0000
-Subject: Request for testing - nm256 and maestro audio updates
-Message-Id: <marc-linux-sound-95944908801596@msgid-missing>
+From: Jon Masters <jonathan@easypenguin.co.uk>
+Date: Thu, 15 Jun 2000 23:44:01 +0000
+Subject: JAZZ GAME FURY 4.1 supported?
+Message-Id: <marc-linux-sound-96111337222342@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-At the following URL are updates to nm256 and maestro sound drivers,
-against Alan Cox's 2.4.0-test1-ac2 patch set.  Would it be possible for
-nm256 and maestro owners (nm256 especially) to give the following patch
-a test, and an 'ok/not ok' ?
+Hi,
+	I'm considering ordering a set of GAME FURY 4.1 Dolby Digital surround
+speakers with accompanying sound card for my new machine.
 
-http://gtf.org/garzik/kernel/files/patches/2.4/2.4.0-test1-ac2/nm256-and-maestro-2.4.0.1.ac2.patch.gz
+I do not have the chipset information of the accompanying card, but I
+can probably ask the shop staff to open a box up for me and tell me.
 
-The main changes in both cases are changes in mixer code, so be sure to
-play with your mixer settings using "xmixer" or similar to make sure
-everything is working.
+I'm basically wondering if anyone here already has one of these and if
+they are able to get it working. If you have got it working please tell
+me which chipset is used on the 4 channel card and which kernel driver I
+ought to use.
 
-Kudos to Zabbo for his continued support and Eric for his continued
-testing.
+The kit is from http://www.jazzspeakers.com
+
+P.S. If you _do_ know about this particular kit and think that I ought
+to get an SB Live (or equilavent) card instead for any particular
+reason, please let me know as I can order a kit that costs less and
+comes without the card and (useless) windoze PowerDVD software (still
+waiting for Livid to offer 29fps on a PII400... and yes, I do know about
+LinDVD)
 
 Thanks,
-
-	Jeff
-
-
+	Jonathan.
 
 -- 
-Jeff Garzik              | Liberty is always dangerous, but
-Building 1024            | it is the safest thing we have.
-MandrakeSoft, Inc.       |      -- Harry Emerson Fosdick
+Jonathan C. Masters             PGP&GeekCode available on request
+jonathan@easypenguin.co.uk      SMS: mastersj@sms.genie.co.uk
+Mobile: +44 777 61 31337        Hate Life? Call +44 870 60 10100
