@@ -1,81 +1,70 @@
-From: Greg Ward <gward-work@python.net>
-Date: Fri, 24 Oct 2003 22:07:03 +0000
-Subject: Kernel panic writing to /dev/dsp with cmpci driver
-Message-Id: <marc-linux-sound-106703419820377@msgid-missing>
+From: Greg Ward <gward@intelerad.com>
+Date: Fri, 24 Oct 2003 22:58:41 +0000
+Subject: Re: Kernel panic writing to /dev/dsp with cmpci driver
+Message-Id: <marc-linux-sound-106703691722724@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
+References: <marc-linux-sound-106703419820377@msgid-missing>
+In-Reply-To: <marc-linux-sound-106703419820377@msgid-missing>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="macroman"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-[cc'ing python-dev because there might be something funny in the
-ossaudiodev module -- but some of you already know that!]
-
-I've just upgraded to Linux 2.4.23-pre8 + RML's preemptible kernel
-patch, and I have a pretty reproducible panic when writing to /dev/dsp.
-Here's what lspci reports about the sound hardware:
-
-02:03.0 Multimedia audio controller: C-Media Electronics Inc CM8738 (rev 10)
-
-I'm using the cmpci driver.  Oddly, the panic only happens when using
-Python 2.3's ossaudiodev module, which is a fairly thin wrapper around
-the OSS API.  Here's a script that crashes my machine every time:
-
-"""
-#!/usr/bin/python2.3
-
-import sys
-import ossaudiodev
-
-random = open("/dev/urandom", "r")
-dsp = ossaudiodev.open("w")
-while 1:
-    sys.stdout.write("."); sys.stdout.flush()
-    dsp.write(random.read(4096))
-"""
-
-(I'm quite sure that the panic has nothing to do with /dev/urandom,
-since I discovered the it by playing Ogg Vorbis files, not by playing
-white noise.)  The crash happens after about 10-12 dots have appeared,
-ie. 10-12 4k blocks have been written.
-
-Here's a C version of that script that does *not* crash my system:
-
-"""
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/soundcard.h>
-
-#define BUF_SIZE 4096
-
-int main(int argc, char ** argv)
-{
-   int nbytes;
-   char data[BUF_SIZE];
-   int source, dsp;		       /* input, output FDs */
-
-   source = open("/dev/urandom", O_RDONLY);
-   dsp = open("/dev/dsp", O_WRONLY);
-   printf("source fd=%d, dsp fd=%d\n", source, dsp);
-   
-   while (1) {
-      printf("."); fflush(stdout);
-      nbytes = read(source, data, BUF_SIZE);
-      write(dsp, data, nbytes);
-   }
-}
-"""
-
-Just wondering if anyone else has seen something like this in
-2.4.23-pre8, either with or without the preemptible kernel patch.  I'm
-going to try backing out that patch to see if the problem persists; if
-so, I'll report back here with more details on the panic.
-
-Oh yeah, this is a Red Hat 9 system -- the sound driver worked perfectly
-with Red Hat's 2.4.20-20.9 kernel (which, from the source RPM, appears
-to be 2.4.21-pre3 plus a bunch of Red Hat patches).
-
-        Greg
+T24gMjQgT2N0b2JlciAyMDAzLCBJIHNhaWQ6Cj4gSSdtIGdvaW5nIHRvIHRyeSBiYWNraW5nIG91
+dCB0aGF0IHBhdGNoIHRvIHNlZSBpZiB0aGUgcHJvYmxlbQo+IHBlcnNpc3RzOyBpZiBzbywgSSds
+bCByZXBvcnQgYmFjayBoZXJlIHdpdGggbW9yZSBkZXRhaWxzIG9uIHRoZSBwYW5pYy4KCk9LLCBJ
+IHRyaWVkIGl0IHdpdGggYSB2YW5pbGxhIDIuNC4yMy1wcmU4LiAgVGhlIHBhbmljIGlzIHN0aWxs
+IHRoZXJlLAphbmQgbm93IEkgY2FuIHJlcHJvZHVjZSBpdCB3aXRoIG15IEMgcHJvZ3JhbS4gIChI
+b3dldmVyLCBJIGhhZCB0byBydW4gaXQKdHdpY2UuICBJJ20gZ3Vlc3NpbmcgdGhhdCBpZiBJIGhh
+ZCBydW4gaXQgdHdpY2UgdW5kZXIgdGhlIHByZWVtcHRpYmxlCmtlcm5lbCwgaXQgd291bGQgaGF2
+ZSBjcmFzaGVkIHRoZW4gdG9vLikKClNvIGl0IGxvb2tzIGxpa2UgdGhpcyBpcyBkZWZpbml0ZWx5
+IGEga2VybmVsIGJ1ZywgdGhlIFB5dGhvbiBvc3NhdWRpb2Rldgpkcml2ZXIgaXMgbm90IGRvaW5n
+IGFueXRoaW5nIHRvbyBwZXJ2ZXJzZSwgYW5kIFJNTCdzIHByZWVtcHRpYmxlIGtlcm5lbApwYXRj
+aCBpcyBub3QgdG8gYmxhbWUuICBTbyBoZXJlJ3MgdGhlIGtzeW1vb3BzIG91dHB1dDoKCiIiIgpr
+c3ltb29wcyAyLjQuOSBvbiBpNjg2IDIuNC4yMy1wcmU4LWd3Mi4gIE9wdGlvbnMgdXNlZAogICAg
+IC1WIChkZWZhdWx0KQogICAgIC1rIC9wcm9jL2tzeW1zIChkZWZhdWx0KQogICAgIC1sIC9wcm9j
+L21vZHVsZXMgKGRlZmF1bHQpCiAgICAgLW8gL2xpYi9tb2R1bGVzLzIuNC4yMy1wcmU4LWd3Mi8g
+KGRlZmF1bHQpCiAgICAgLW0gL2Jvb3QvU3lzdGVtLm1hcC0yLjQuMjMtcHJlOC1ndzIgKHNwZWNp
+ZmllZCkKCmMwMTEyNGQzCipwZGUgPSAwMDAwMDAwMApPb3BzOiAwMDAwCkNQVTogICAgMApFSVA6
+ICAgIDAwMTA6WzxjMDExMjRkMz5dICAgIE5vdCB0YWludGVkClVzaW5nIGRlZmF1bHRzIGZyb20g
+a3N5bW9vcHMgLXQgZWxmMzItaTM4NiAtYSBpMzg2CkVGTEFHUzogMDAwMTAwMTMKZWF4OiA3Mjc1
+NmYyZSAgIGVieDogNDAwMTcwMDAgICBlY3g6IDAwMDAwMDAwICAgZWR4OiA3Mjc1NmYyZQplc2k6
+IGRmNTJjNGFjICAgZWRpOiAwMDAwMDAwMyAgIGVicDogZGQ5YWRkNTggICBlc3A6IGRkOWFkZDNj
+CmRzOiAwMDE4ICAgZXM6IDAwMTggICBzczogMDAxOApQcm9jZXNzIGNyYXNoZXIgKHBpZDogMTg0
+Niwgc3RhY2twYWdl3TlhZDAwMCkKU3RhY2s6IApDYWxsIHRyYWNlOiAgICBbPGMwMTA4OTQ1Pl0g
+WzxjMDEwOGFjND5dIFs8YzAxMGIxNjg+XSBbPGMwMWEzOGRjPl0gWzxjMDFhM2JiZT5dIFs8YzAx
+MzYwYjM+XSBbPGMwMTA3NDBmPl0KQ29kZTogOGIgMDEgODUgYzYgNzUgMTkgOGIgMDIgODkgZDMg
+ODkgYzIgMGYgMTggMDAgMzkgZjMgNzUgZWEgZmYKCgo+PkVJUDsgYzAxMTI0ZDMgPF9fd2FrZV91
+cCszMy84MD4gICA8PT0KPj5lc2k7IGRmNTJjNGFjIDxfZW5kKzFmMjE1MTI4LzIwNGZlY2RjPgo+
+PmVicDsgZGQ5YWRkNTggPF9lbmQrMWQ2OTY5ZDQvMjA0ZmVjZGM+Cj4+ZXNwOyBkZDlhZGQzYyA8
+X2VuZCsxZDY5NjliOC8yMDRmZWNkYz4KClRyYWNlOyBjMDEwODk0NSA8aGFuZGxlX0lSUV9ldmVu
+dCs0NS83MD4KVHJhY2U7IGMwMTA4YWM0IDxkb19JUlErNjQvYTA+ClRyYWNlOyBjMDEwYjE2OCA8
+Y2FsbF9kb19JUlErNS9kPgpUcmFjZTsgYzAxYTM4ZGMgPFNIQVRyYW5zZm9ybSthYy8xNTA+ClRy
+YWNlOyBjMDFhM2JiZSA8ZXh0cmFjdF9lbnRyb3B5KzIzZS8zNjA+ClRyYWNlOyBjMDEzNjBiMyA8
+c3lzX3JlYWQrYTMvMTQwPgpUcmFjZTsgYzAxMDc0MGYgPHN5c3RlbV9jYWxsKzMzLzM4PgoKQ29k
+ZTsgIGMwMTEyNGQzIDxfX3dha2VfdXArMzMvODA+CjAwMDAwMDAwIDxfRUlQPjoKQ29kZTsgIGMw
+MTEyNGQzIDxfX3dha2VfdXArMzMvODA+ICAgPD09ICAgMDogICA4YiAwMSAgICAgICAgICAgICAg
+ICAgICAgIG1vdiAgICAoJWVjeCksJWVheCAgIDw9PUNvZGU7ICBjMDExMjRkNSA8X193YWtlX3Vw
+KzM1LzgwPgogICAyOiAgIDg1IGM2ICAgICAgICAgICAgICAgICAgICAgdGVzdCAgICVlYXgsJWVz
+aQpDb2RlOyAgYzAxMTI0ZDcgPF9fd2FrZV91cCszNy84MD4KICAgNDogICA3NSAxOSAgICAgICAg
+ICAgICAgICAgICAgIGpuZSAgICAxZiA8X0VJUCsweDFmPgpDb2RlOyAgYzAxMTI0ZDkgPF9fd2Fr
+ZV91cCszOS84MD4KICAgNjogICA4YiAwMiAgICAgICAgICAgICAgICAgICAgIG1vdiAgICAoJWVk
+eCksJWVheApDb2RlOyAgYzAxMTI0ZGIgPF9fd2FrZV91cCszYi84MD4KICAgODogICA4OSBkMyAg
+ICAgICAgICAgICAgICAgICAgIG1vdiAgICAlZWR4LCVlYngKQ29kZTsgIGMwMTEyNGRkIDxfX3dh
+a2VfdXArM2QvODA+CiAgIGE6ICAgODkgYzIgICAgICAgICAgICAgICAgICAgICBtb3YgICAgJWVh
+eCwlZWR4CkNvZGU7ICBjMDExMjRkZiA8X193YWtlX3VwKzNmLzgwPgogICBjOiAgIDBmIDE4IDAw
+ICAgICAgICAgICAgICAgICAgcHJlZmV0Y2hudGEgKCVlYXgpCkNvZGU7ICBjMDExMjRlMiA8X193
+YWtlX3VwKzQyLzgwPgogICBmOiAgIDM5IGYzICAgICAgICAgICAgICAgICAgICAgY21wICAgICVl
+c2ksJWVieApDb2RlOyAgYzAxMTI0ZTQgPF9fd2FrZV91cCs0NC84MD4KICAxMTogICA3NSBlYSAg
+ICAgICAgICAgICAgICAgICAgIGpuZSAgICBmZmZmZmZmZCA8X0VJUCsweGZmZmZmZmZkPgpDb2Rl
+OyAgYzAxMTI0ZTYgPF9fd2FrZV91cCs0Ni84MD4KICAxMzogICBmZiAwMCAgICAgICAgICAgICAg
+ICAgICAgIGluY2wgICAoJWVheCkKIiIiCgooRXJyLCB0aGUgIi1ndzIiIHZlcnNpb24gbnVtYmVy
+IGlzIGEgcmVkIGhlcnJpbmcgLS0gdGhpcyByZWFsbHkgaXMgYW4KdW5wYXRjaGVkIDIuNC4yMy1w
+cmU4LCBJIHN3ZWFyISkKCklzIHRoYXQgZW5vdWdoIGluZm8gZm9yIGEgcmVhbCBrZXJuZWwgaGFj
+a2VyIHRvIHRyYWNrIHRoaXMgZG93bj8gIEknbQpub3QgdmVyeSBleHBlcmllbmNlZCB3aXRoIGtl
+cm5lbCBwYW5pY3MsIHNvIEknbSBub3Qgc3VyZSBpZiB0aGlzIGlzIGFsbAp5b3UgbmVlZC4gIExl
+dCBtZSBrbm93IGlmIEkgY2FuIHByb3ZpZGUgbW9yZSBpbmZvLgoKICAgICAgICBHcmVnCi0KVG8g
+dW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxp
+bnV4LXNvdW5kIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2Vy
+bmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21h
+am9yZG9tby1pbmZvLmh0bWw=
