@@ -1,20 +1,30 @@
-From: Thomas Sailer <sailer@ife.ee.ethz.ch>
-Date: Fri, 19 Feb 1999 14:30:27 +0000
-Subject: Re: SB live and linux
-Message-Id: <marc-linux-sound-91943488912660@msgid-missing>
+From: Ramon Nieto <ramon_nieto@yahoo.com>
+Date: Wed, 24 Feb 1999 16:46:29 +0000
+Subject: Yamaha OPL3-Sax sound card
+Message-Id: <marc-linux-sound-91989263906824@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91935954530270@msgid-missing>
-In-Reply-To: <marc-linux-sound-91935954530270@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Anders Henriksson wrote:
-> 
-> Have anyone made the SB live work under linux?
+i have a Yamaha OPL3-SAx sound card on a toshiba satellite 2500cds. 
+i instaled linux red hat 5.1 and i know this can't recognize the sound
+card i tried to configure it as a sound blaster but it only play in 8
+bits mode, the sound card support 16 bit mode.
 
-No because Creative has refused to release programming
-info. They are however working on their own Linux drivers.
+So i compiled the 2.2.0 kernel with all the support for sound card as
+modules. but i can't configure the sound card yet.
 
-Tom
+anybody knows what to do? what can i write in the conf.modules? how
+can i use the OSS modules?
+
+
+BTW the isapnptools don't recognize the sound card as a PnP card.
+
+
+
+
+_________________________________________________________
+DO YOU YAHOO!?
+Get your free @yahoo.com address at http://mail.yahoo.com
