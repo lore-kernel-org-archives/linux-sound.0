@@ -1,25 +1,24 @@
-From: Deirdre Saoirse <deirdre@deirdre.net>
-Date: Fri, 15 Jan 1999 03:01:35 +0000
-Subject: Re: Looking for a good Sound Card
-Message-Id: <marc-linux-sound-91637046005167@msgid-missing>
+From: Dominik Stadler <Dominik.Stadler@apertum.de>
+Date: Fri, 08 Jan 1999 14:14:52 +0000
+Subject: Which CD-Drive for fast audio ripping
+Message-Id: <marc-linux-sound-91590740116404@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
-References: <marc-linux-sound-91636843104463@msgid-missing>
-In-Reply-To: <marc-linux-sound-91636843104463@msgid-missing>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-On Thu, 14 Jan 1999, Ryan Finnesey wrote:
->Right now I use a Sound Blaster PCI 64.
 
-There's nothing wrong with that card.
+Hi, 
 
-I pick up the AWE 64 Value cards at a swap meet (OEM version) for around $36.
+I have my eye on a new SCSI-CD-Drive for playing and ripping audio-data and
+I'm wondering which one would be best, respectively fastest. So it would be
+great if anybody could give me some hints about which I should prefer or
+some pointers to www-sites...
 
---
-_Deirdre   *   #include <disclaimer.deirdre.org>   *   http://www.deirdre.net
-"The program installed quickly...then, of course, a reboot was required. I
-got my first sense of trouble when my system started spewing GPFs...this
-new beta shows some great features we are all sure to like in the final
-version." -- Elizabeth Powell Crowe, review of IE 5.0 Beta 2
+
+My System is SCSI-only NCR53c810A, Kernel 2.0.36
+
+
+
+Dschau.. Dominik
