@@ -1,7 +1,7 @@
-From: <rtlynch@aracnet.com>
-Date: Tue, 15 Sep 1998 15:14:22 +0000
+From: Bill Nottingham <notting@redhat.com>
+Date: Wed, 16 Sep 1998 01:39:17 +0000
 Subject: Re: AWE64 initial questions
-Message-Id: <marc-linux-sound-90590948413161@msgid-missing>
+Message-Id: <marc-linux-sound-90591398514674@msgid-missing>
 List-Id: <linux-sound.vger.kernel.org>
 References: <marc-linux-sound-90515879913606@msgid-missing>
 In-Reply-To: <marc-linux-sound-90515879913606@msgid-missing>
@@ -10,27 +10,7 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Just this last weekend I was looking at the source code for sndconfig.  As
-far as the probing sound cards go, sndconfig just runs pnpdump and then
-parses through the output looking for sound blaster entries. If there are
-no sound blaster entries then your out of luck.  Adding other sound cards
-doesn't look like it would be to hard to do.
-
-Although, I found that my CS4236B ANSI entries from pnpdump has a nasty
-habit of sticking a null on the end.  When sndconfig parses through the
-pnpdump output, it dumps out as soon as it comes across the CS4236B entry.
-Has anyone else seen pnp sound cards that stick null's within pnpdump's
-output? 
-
-On Mon, 14 Sep 1998, Dave Wreski wrote:
-
-> 
-> > > Guys, while I think this is a good idea, and something that surely can help a
-> > > lot of people, perhaps your efforts would be better applied if you focused on
-> > > the sndconfig utility that already has a moderately-working implementation.
-> > 
-> > Enlighten us, then.  What is sndconfig and where can we find a copy?
-> 
+Dave Wreski (dave@nic.com) said: 
 > Check out:
 > 
 > ftp://ftp.redhat.com/pub/sound/sndconfig
@@ -41,7 +21,30 @@ On Mon, 14 Sep 1998, Dave Wreski wrote:
 > the development kernels, and a patch to 2.0.35.
 > 
 > Perhaps the gentleman from RH can respond?
-> 
-> Dave
-> 
-> 
+
+While I have no idea who this gentleman is you speak of...
+
+sndconfig is more or less (for PnP cards) a wrapper that
+reads the output of pnpdump and writes an isapnp.conf file.
+Currently (i.e., the beta version in /pub/sound/sndconfig)
+it recognizes SB, ESS, GUS, Ensoniq SoundScape,
+CS4232 & (one) Turtle Beach PnP cards through a verrrry
+simple algorithm. It takes advantage of the '--config' option
+of pnpdump to attempt to autoconfigure PnP cards - this option
+tells pnpdump to attempt to find nonconflicting values
+(via looking at /proc/interrupts, etc.). What it notably *doesn't*
+do is actually read the pnpdump output to determine the ranges
+of settings to use; the choices available are hardcoded if the user
+is inputting them. It probably should be changed to do this.
+It also may not quite configure all the cards that it tries
+to correctly, as we don't have all of them to test. :)
+
+Yes, it does require the sound drivers from either a 2.1.late
+kernel, or Alan's sound patches.
+
+Of course, if anyone wants to use this as a base point for
+a generic PnP configuration utility, they can. It certainly
+isn't a particularly complicated program/idea; there's probably
+quite a few ways to do the same thing.
+
+Bill
