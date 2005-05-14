@@ -1,32 +1,36 @@
-From: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
-Date: Sun, 22 May 2005 09:19:55 +0000
-Subject: Re: ALSA and Rexima/Aumix??
-Message-Id: <42904EBB.3050305@folkwang-hochschule.de>
+From: Tobias Klauser <tklauser@nuerscht.ch>
+Date: Sat, 14 May 2005 18:24:57 +0000
+Subject: [PATCH 2/4] sound/oss/es1370: Use the DMA_32BIT_MASK constant
+Message-Id: <20050514182457.GB14294@neon>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050521183715.GA750@lnx2.w8mch.ampr.org>
-In-Reply-To: <20050521183715.GA750@lnx2.w8mch.ampr.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: kernel-janitors@vger.kernel.org
 
-Hal MacArgle wrote:
-> Greetings: In the process of changing over my Slack9.1 machines from
-> default OSS to ALSA I find I lose two of my favourite Mixers; Rexima
-> and Aumix.. 
-> 
-> I've been using alsamixer but it's too powerful for simple quick
-> volume adjustments, etc.. I would like to use a simple/lean mixer...
-> 
-> I've installed all four ALSA packages: alsa-driver/lib/oss/utils but
-> I still get a "rexima: couldn't open /dev/mixer" when invoked.. Same
-> thing with Aumix..
+Use the DMA_32BIT_MASK constant from dma-mapping.h
+when calling pci_set_dma_mask() or pci_set_consistent_dma_mask()
+See http://marc.theaimsgroup.com/?t8001993000001&r=1&w=2 for details
 
-modprobe snd_mixer_oss
+Signed-off-by: Tobias Klauser <tklauser@nuerscht.ch>
 
-will install the oss mixer api compatibility module. you can then use 
-any oss-based mixer to access the basic mixing capabilities of most 
-consumer soundcards.
-
-
-
+diff -urpN -X dontdiff linux-2.6.12-rc4/sound/oss/es1370.c linux-2.6.12-rc4-tk/sound/oss/es1370.c
+--- linux-2.6.12-rc4/sound/oss/es1370.c	2005-05-07 21:56:52.000000000 +0200
++++ linux-2.6.12-rc4-tk/sound/oss/es1370.c	2005-05-07 21:57:01.000000000 +0200
+@@ -156,6 +156,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/gameport.h>
+ #include <linux/wait.h>
++#include <linux/dma-mapping.h>
+ 
+ #include <asm/io.h>
+ #include <asm/page.h>
+@@ -2569,7 +2570,7 @@ static int __devinit es1370_probe(struct
+ 		return -ENODEV;
+ 	if (pcidev->irq = 0) 
+ 		return -ENODEV;
+-	i = pci_set_dma_mask(pcidev, 0xffffffff);
++	i = pci_set_dma_mask(pcidev, DMA_32BIT_MASK);
+ 	if (i) {
+ 		printk(KERN_WARNING "es1370: architecture does not support 32bit PCI busmaster DMA\n");
+ 		return i;
