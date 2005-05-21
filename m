@@ -1,36 +1,34 @@
-From: "Randy.Dunlap" <rddunlap@osdl.org>
-Date: Sat, 05 Mar 2005 05:56:55 +0000
-Subject: [PATCH] oss/nm256: fix section references
-Message-Id: <20050304215655.0987a017.rddunlap@osdl.org>
+From: Hal MacArgle <haltec@kvinet.com>
+Date: Sat, 21 May 2005 18:37:15 +0000
+Subject: ALSA and Rexima/Aumix??
+Message-Id: <20050521183715.GA750@lnx2.w8mch.ampr.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Cc: torvalds <torvalds@osdl.org>, akpm <akpm@osdl.org>
+To: linux-sound@vger.kernel.org
 
 
-oss/nm256_audio: fix init text section reference:
+Greetings: In the process of changing over my Slack9.1 machines from
+default OSS to ALSA I find I lose two of my favourite Mixers; Rexima
+and Aumix.. 
 
-Error: ./sound/oss/nm256_audio.o .text refers to 0000000000001847 R_X86_64_PC32     .init.text+0x0000000000000018
+I've been using alsamixer but it's too powerful for simple quick
+volume adjustments, etc.. I would like to use a simple/lean mixer...
 
-Signed-off-by: Randy Dunlap <rddunlap@osdl.org>
+I've installed all four ALSA packages: alsa-driver/lib/oss/utils but
+I still get a "rexima: couldn't open /dev/mixer" when invoked.. Same
+thing with Aumix..
 
-diffstat: sound/oss/nm256_audio.c |    2 +-
- 1 files changed, 1 insertion(+), 1 deletion(-)
+I know both those mixers were written during OSS days but was
+wondering if anyone figured out how to run them on an ALSA machine..
+I've written a script to rmmod all the 13 Alsa modules but it would
+be nice to not have to do that since ALSA is now my "standard." It's
+obvious that only one scheme can be used at a time; at least with me.
+<grin>
 
-diff -Naurp ./sound/oss/nm256_audio.c~oss_nm256_sections ./sound/oss/nm256_audio.c
---- ./sound/oss/nm256_audio.c~oss_nm256_sections	2005-03-01 23:38:08.000000000 -0800
-+++ ./sound/oss/nm256_audio.c	2005-03-04 21:25:20.000000000 -0800
-@@ -1047,7 +1047,7 @@ nm256_peek_for_sig (struct nm256_info *c
-  * VERSTR is a human-readable version string.
-  */
- 
--static int __init
-+static int __devinit
- nm256_install(struct pci_dev *pcidev, enum nm256rev rev, char *verstr)
- {
-     struct nm256_info *card;
+TIA and Cheers,
+-- 
 
-
----
+    Hal - in Terra Alta, WV - Slackware GNU/Linux 9.1  (2.4.22)
+.
