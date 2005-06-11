@@ -1,36 +1,64 @@
-From: Jesper Juhl <juhl-lkml@dif.dk>
-Date: Thu, 30 Jun 2005 20:34:45 +0000
-Subject: [PATCH] vfree cleanup for sound/oss/sb_card.c
-Message-Id: <Pine.LNX.4.62.0506302230450.2858@dragon.hyggekrogen.localhost>
+From: Pariah Dog <kevin@efn.org>
+Date: Sat, 11 Jun 2005 17:44:41 +0000
+Subject: Linux and integrated ES1869 audio controller
+Message-Id: <Xns967283AB9CEF9MisterFluffy@80.91.229.5>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel <linux-kernel@vger.kernel.org>
-Cc: linux-sound@vger.kernel.org, Paul Laufer <paul@laufernet.com>, Hannu Savolainen <hannu@opensound.com>, akpm@osdl.org
+To: linux-sound@vger.kernel.org
 
-vfree can take a NULL pointer, no point in checking.
+Linux is unable to see my "sound card" 
 
-Signed-off-by: Jesper Juhl <jesper.juhl@gmail.com>
----
+I'm running Debian 3.1, "Sarge" on an old Compaq Presario 5220. The
+so-called "sound card" is one of those damnable integrated ES1869 audio
+controllers rather than a real sound card. 
 
- sound/oss/sb_card.c |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+Needless to say, I've got sound under WiNdOwS/MSDOG, but Linux isn't
+able to even see that the sound card is there. 
 
---- linux-2.6.13-rc1-orig/sound/oss/sb_card.c	2005-06-17 21:48:29.000000000 +0200
-+++ linux-2.6.13-rc1/sound/oss/sb_card.c	2005-06-30 22:29:46.000000000 +0200
-@@ -337,10 +337,8 @@ static void __exit sb_exit(void)
- 	pnp_unregister_card_driver(&sb_pnp_driver);
- #endif
- 
--	if (smw_free) {
--		vfree(smw_free);
--		smw_free = NULL;
--	}
-+	vfree(smw_free);
-+	smw_free = NULL;
- }
- 
- module_init(sb_init);
+Here is what I've tried, thus far: 
 
+*: pnpdump can't see a thing, so I have nothing to feed to isapnp 
+
+*: discover can't see a soundcard, but I do get 5 lines of: 
+   "unknown unknown" 
+
+*: dmesg shows nothing useful 
+
+*: "modprobe sb <various parameters>" 
+   gives me "Error inserting sb (/lib/.../sb.ko): No such device" 
+
+*: "modprobe snd-es18xx <various parameters>" 
+   gives me "Error inserting sb (/lib/.../snd-es18xx.ko): No such
+   device" 
+
+*: Hell, in desparation, I even ran a for loop on all the .ko files 
+   under the /lib/modules/.../sound/ subdirectory in the hopes that 
+   something would work. nothing worked 
+
+*: no such file as /dev/sndstat 
+
+*: alsaconf didn't find a sound card 
+
+*: From what I can tell, nothing of any use in the output of hwinfo 
+
+*: lspci... nope 
+
+*: modinfo soundcore... yup, I have the soundcore module loaded 
+
+One final note. 
+
+I used wine to run the MSDOG esscfg.exe command with the same parameters
+that I have in my autoexec.bat file from that side of the computer.  The
+next time I entered KDE, I had a popup message telling me that it wasn't
+able to detect a sound card.  Now, I had disabled this popup window
+before, so I suspect that my running esscfg.exe under wine might have
+convinced something that something resembling a soundcard might need to
+be checked again. 
+
+Can anyone offer me any further advice. I know that since this *is* an
+integrated audio controller, there really is no soundcard, but I figure
+that since WiNdOwS/MSDOG can see the thing, I should be able to convince
+Linux to see it. 
 
