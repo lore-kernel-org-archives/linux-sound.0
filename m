@@ -1,43 +1,33 @@
 From: Jesper Juhl <juhl-lkml@dif.dk>
-Date: Thu, 30 Jun 2005 20:28:27 +0000
-Subject: [PATCH] vfree cleanup for sound/oss/sequencer.c
-Message-Id: <Pine.LNX.4.62.0506302223340.2858@dragon.hyggekrogen.localhost>
+Date: Thu, 30 Jun 2005 20:45:29 +0000
+Subject: [PATCH] cleanup NULL pointer check before vfree in sound/oss/maestro3.c
+Message-Id: <Pine.LNX.4.62.0506302241251.2858@dragon.hyggekrogen.localhost>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel <linux-kernel@vger.kernel.org>
-Cc: Hannu Savolainen <hannu@opensound.com>, linux-sound <linux-sound@vger.kernel.org>, akpm@osdl.org
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Zach Brown <zab@zabbo.net>, linux-sound@vger.kernel.org, akpm@osdl.org
 
-Don't bother checking for NULL, vfree can handle it.
+vfree() can take a NULL pointer so don't waste time checking first.
 
-Signed-off-by: Jesper Juhl <jesper.juhl@gmail.com>
----
+ sound/oss/maestro3.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
- sound/oss/sequencer.c |   14 ++++----------
- 1 files changed, 4 insertions(+), 10 deletions(-)
-
---- linux-2.6.13-rc1-orig/sound/oss/sequencer.c	2005-06-17 21:48:29.000000000 +0200
-+++ linux-2.6.13-rc1/sound/oss/sequencer.c	2005-06-30 22:21:49.000000000 +0200
-@@ -1671,14 +1671,8 @@ void sequencer_init(void)
+--- linux-2.6.13-rc1-orig/sound/oss/maestro3.c	2005-06-17 21:48:29.000000000 +0200
++++ linux-2.6.13-rc1/sound/oss/maestro3.c	2005-06-30 22:40:42.000000000 +0200
+@@ -2580,10 +2580,10 @@ static int alloc_dsp_suspendmem(struct m
  
- void sequencer_unload(void)
- {
--	if(queue)
--	{
--		vfree(queue);
--		queue=NULL;
--	}
--	if(iqueue)
--	{
--		vfree(iqueue);
--		iqueue=NULL;
--	}
-+	vfree(queue);
-+	queue = NULL;
-+	vfree(iqueue);
-+	iqueue = NULL;
+     return 0;
  }
-
++
+ static void free_dsp_suspendmem(struct m3_card *card)
+ {
+-   if(card->suspend_mem)
+-       vfree(card->suspend_mem);
++	vfree(card->suspend_mem);
+ }
+ 
+ #else
 
 
