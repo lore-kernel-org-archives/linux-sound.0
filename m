@@ -1,28 +1,34 @@
-From: Zach Brown <zab@zabbo.net>
-Date: Tue, 26 Jul 2005 16:27:07 +0000
+From: Adrian Bunk <bunk@stusta.de>
+Date: Tue, 26 Jul 2005 16:30:13 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <42E6645B.30206@zabbo.net>
+Message-Id: <20050726163013.GW3160@stusta.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>
-In-Reply-To: <20050726150837.GT3160@stusta.de>
+References: <20050726150837.GT3160@stusta.de> <1122393073.18884.29.camel@mindpipe>
+In-Reply-To: <1122393073.18884.29.camel@mindpipe>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Adrian Bunk <bunk@stusta.de>
-Cc: linux-kernel@vger.kernel.org, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com
+To: Lee Revell <rlrevell@joe-job.com>
+Cc: linux-kernel@vger.kernel.org, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com
 
-Adrian Bunk wrote:
-> This patch schedules obsolete OSS drivers (with ALSA drivers that 
-> support the same hardware) for removal.
+On Tue, Jul 26, 2005 at 11:51:13AM -0400, Lee Revell wrote:
+> On Tue, 2005-07-26 at 17:08 +0200, Adrian Bunk wrote:
+> > This patch schedules obsolete OSS drivers (with ALSA drivers that 
+> > support the same hardware) for removal.
+> 
+> How many non-obsolete OSS drivers were there?
 
-> I've Cc'ed the people listed in MAINTAINERS as being responsible for one 
-> or more of these drivers, and I've also Cc'ed the ALSA people.
+I haven't counted them, but there are still many.
 
-I haven't touched the maestro drivers in so long (for near-total lack of
-docs, etc.) that I can't be considered authoritative for approving it's
-removal.  If people are relying on it I certainly don't know who they
-are.  In better news, Takashi should now have the pile of maestro
-hardware that I used in the first pass to help him maintain the ALSA
-driver..
+> Lee
 
-- z
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
