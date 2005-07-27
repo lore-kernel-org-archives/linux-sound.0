@@ -1,34 +1,44 @@
-From: Zoran Dzelajlija <jelly+news@srk.fer.hr>
-Date: Tue, 26 Jul 2005 23:38:37 +0000
+From: Adrian Bunk <bunk@stusta.de>
+Date: Wed, 27 Jul 2005 18:24:28 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20050726233837.459A.3.NOFFLE@islands.iskon.hr>
+Message-Id: <20050727182427.GH3160@stusta.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <42E6645B.30206@zabbo.net>
+References: <20050726150837.GT3160@stusta.de> <1122393073.18884.29.camel@mindpipe> <42E65D50.3040808@pobox.com>
+In-Reply-To: <42E65D50.3040808@pobox.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
+To: Jeff Garzik <jgarzik@pobox.com>
+Cc: Lee Revell <rlrevell@joe-job.com>, linux-kernel@vger.kernel.org, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com
 
-Zach Brown <zab@zabbo.net> wrote:
-> Adrian Bunk wrote:
-> > This patch schedules obsolete OSS drivers (with ALSA drivers that 
-> > support the same hardware) for removal.
+On Tue, Jul 26, 2005 at 11:57:04AM -0400, Jeff Garzik wrote:
+> Lee Revell wrote:
+> >On Tue, 2005-07-26 at 17:08 +0200, Adrian Bunk wrote:
+> >
+> >>This patch schedules obsolete OSS drivers (with ALSA drivers that 
+> >>support the same hardware) for removal.
+> >
+> >
+> >How many non-obsolete OSS drivers were there?
+> 
+> someone needs to test the remaining PCI ID(s) that are in i810_audio but 
+> not ALSA.
 
-> > I've Cc'ed the people listed in MAINTAINERS as being responsible for one 
-> > or more of these drivers, and I've also Cc'ed the ALSA people.
+I've grep'ed a second time for every single PCI ID in the OSS 
+i810_audio, and I still haven't found WTF you are talking about.
 
-> I haven't touched the maestro drivers in so long (for near-total lack of
-> docs, etc.) that I can't be considered authoritative for approving it's
-> removal. If people are relying on it I certainly don't know who they
-> are.  In better news, Takashi should now have the pile of maestro
-> hardware that I used in the first pass to help him maintain the ALSA
-> driver..
+Once again my question:
 
-The OSS maestro driver works better on my old Armada E500 laptop.  I tried
-ALSA after switching to 2.6, but the computer hung with 2.6.8.1 or 2.6.10 if
-I touched the volume buttons.  With OSS they just work.  The four separate
-dsp devices also look kind of more useful.
+I though I found every single PCI ID from this driver in ALSA.
+Which PCI IDs did I miss?
 
-Zoran
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
