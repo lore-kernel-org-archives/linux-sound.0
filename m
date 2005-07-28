@@ -1,33 +1,31 @@
-From: Jesper Juhl <juhl-lkml@dif.dk>
-Date: Thu, 30 Jun 2005 20:39:01 +0000
-Subject: [PATCH] vfree can handle NULL (sound/oss/msnd.c)
-Message-Id: <Pine.LNX.4.62.0506302236250.2858@dragon.hyggekrogen.localhost>
+From: Lee Revell <rlrevell@joe-job.com>
+Date: Thu, 28 Jul 2005 18:33:26 +0000
+Subject: Re: [Alsa-devel] Re: [2.6 patch] schedule obsolete OSS drivers for
+Message-Id: <1122575607.2772.2.camel@mindpipe>
 List-Id: <linux-sound.vger.kernel.org>
+References: <20050726150837.GT3160@stusta.de>
+	 <Pine.LNX.4.61.0507281636040.20815@tek01.intern.thorsten-knabe.de>
+In-Reply-To: <Pine.LNX.4.61.0507281636040.20815@tek01.intern.thorsten-knabe.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org
-Cc: Andrew Veliath <andrewtv@usa.net>, linux-sound@vger.kernel.org, akpm@osdl.org
+To: Thorsten Knabe <linux@thorsten-knabe.de>
+Cc: Adrian Bunk <bunk@stusta.de>, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-Nothing wrong in handing vfree a NULL pointer.
+On Thu, 2005-07-28 at 17:04 +0200, Thorsten Knabe wrote:
+> I'm the maintainer of the OSS AD1816 sound driver. I'm aware of two 
+> problems of the ALSA AD1816 driver, that do not show up with the OSS 
+> driver:
+> - According to my own experience and user reports audio is choppy with 
+> some VoIP Softphones like gnophone at least when used with the ALSA OSS 
+> emulation layer, whereas the OSS driver is crystal clear.
+> - Users reported, that on some HP Kayak systems the on-board AD1816A 
+> was not properly detected by the ALSA driver or was detected, but 
+> there was no audio output. I'm not sure if the problem is still present in 
+> the current ALSA driver, as I do not own such a system.
 
- sound/oss/msnd.c |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+What are the bug id #s in the ALSA BTS?  If it's not in the bug tracker
+it's never going to get fixed.
 
---- linux-2.6.13-rc1-orig/sound/oss/msnd.c	2005-06-17 21:48:29.000000000 +0200
-+++ linux-2.6.13-rc1/sound/oss/msnd.c	2005-06-30 22:35:41.000000000 +0200
-@@ -96,10 +96,8 @@ void msnd_fifo_init(msnd_fifo *f)
- 
- void msnd_fifo_free(msnd_fifo *f)
- {
--	if (f->data) {
--		vfree(f->data);
--		f->data = NULL;
--	}
-+	vfree(f->data);
-+	f->data = NULL;
- }
- 
- int msnd_fifo_alloc(msnd_fifo *f, size_t n)
-
+Lee
 
