@@ -1,21 +1,44 @@
-From: Randolph Chung <randolph@tausq.org>
-Date: Thu, 28 Jul 2005 03:01:34 +0000
-Subject: Re: [parisc-linux] Re: [2.6 patch] schedule obsolete OSS drivers
-Message-Id: <42E84A8E.2080309@tausq.org>
+From: Takashi Iwai <tiwai@suse.de>
+Date: Thu, 28 Jul 2005 08:09:19 +0000
+Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
+Message-Id: <s5hpst3tkr4.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <20050727183942.GA2964@roadwarrior.mcmartin.ca>
-In-Reply-To: <20050727183942.GA2964@roadwarrior.mcmartin.ca>
+References: <20050726150837.GT3160@stusta.de>
+	<42E6645B.30206@zabbo.net>
+	<20050726233837.459A.3.NOFFLE@islands.iskon.hr>
+In-Reply-To: <20050726233837.459A.3.NOFFLE@islands.iskon.hr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Kyle McMartin <kyle@parisc-linux.org>
-Cc: Adrian Bunk <bunk@stusta.de>, alsa-devel@alsa-project.org, zaitcev@yahoo.com, zwane@commfireservices.com, James@superbug.demon.co.uk, Thorsten Knabe <linux@thorsten-knabe.de>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, sailer@ife.ee.ethz.ch, parisc-linux@lists.parisc-linux.org, zab@zabbo.net, jgarzik@pobox.com, perex@suse.cz
+To: Zoran Dzelajlija <jelly+news@srk.fer.hr>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 
-> Stuart, Randolph, comments?
+At Wed, 27 Jul 2005 01:38:37 +0200,
+Zoran Dzelajlija wrote:
 > 
-> 1. http://cvs.parisc-linux.org/linux-2.6/sound/pci/ad1889.c?rev=1.30&view=markup
+> Zach Brown <zab@zabbo.net> wrote:
+> > Adrian Bunk wrote:
+> > > This patch schedules obsolete OSS drivers (with ALSA drivers that 
+> > > support the same hardware) for removal.
+> 
+> > > I've Cc'ed the people listed in MAINTAINERS as being responsible for one 
+> > > or more of these drivers, and I've also Cc'ed the ALSA people.
+> 
+> > I haven't touched the maestro drivers in so long (for near-total lack of
+> > docs, etc.) that I can't be considered authoritative for approving it's
+> > removal. If people are relying on it I certainly don't know who they
+> > are.  In better news, Takashi should now have the pile of maestro
+> > hardware that I used in the first pass to help him maintain the ALSA
+> > driver..
+> 
+> The OSS maestro driver works better on my old Armada E500 laptop.  I tried
+> ALSA after switching to 2.6, but the computer hung with 2.6.8.1 or 2.6.10 if
+> I touched the volume buttons.  With OSS they just work.  The four separate
+> dsp devices also look kind of more useful.
 
-sure, kill the OSS ad1889 driver.
+The bug around h/w volume control should have been fixed in the recent
+version of ALSA drivers.  Hopefully everything will get merged into
+2.6.13...
 
-randolph
 
+Takashi
