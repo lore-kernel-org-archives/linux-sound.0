@@ -1,44 +1,41 @@
-From: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 28 Jul 2005 14:15:21 +0000
+From: Thorsten Knabe <linux@thorsten-knabe.de>
+Date: Thu, 28 Jul 2005 15:04:20 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20050728141521.GI3528@stusta.de>
+Message-Id: <Pine.LNX.4.61.0507281636040.20815@tek01.intern.thorsten-knabe.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <1122393073.18884.29.camel@mindpipe> <42E65D50.3040808@pobox.com> <20050727182427.GH3160@stusta.de> <20050727203150.GF22686@tuxdriver.com> <42E7F1F9.2050105@pobox.com> <1122559208.32126.8.camel@localhost.localdomain> <Pine.LNX.4.61.0507281542420.8458@tm8103.perex-int.cz>
-In-Reply-To: <Pine.LNX.4.61.0507281542420.8458@tm8103.perex-int.cz>
+References: <20050726150837.GT3160@stusta.de>
+In-Reply-To: <20050726150837.GT3160@stusta.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jaroslav Kysela <perex@suse.cz>
-Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Jeff Garzik <jgarzik@pobox.com>, "John W. Linville" <linville@tuxdriver.com>, Lee Revell <rlrevell@joe-job.com>, LKML <linux-kernel@vger.kernel.org>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, Takashi Iwai <tiwai@suse.de>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-On Thu, Jul 28, 2005 at 03:43:49PM +0200, Jaroslav Kysela wrote:
-> On Thu, 28 Jul 2005, Alan Cox wrote:
-> 
-> > On Mer, 2005-07-27 at 16:43 -0400, Jeff Garzik wrote:
-> > > ISTR Alan saying there was some ALi hardware that either wasn't in ALSA, 
-> > > or most likely didn't work in ALSA.  If Alan says I'm smoking crack, 
-> > > then you all can ignore me :)
-> > 
-> > The only big thing I know that still needed OSS (and may still do so) is
-> > the support for AC97 wired touchscreens and the like. Has that been
-> > ported to ALSA ?
-> 
-> We're working on this issue right now.
+On Tue, 26 Jul 2005, Adrian Bunk wrote:
 
-Does "right now" mean it will be done in a few days or a few months?
+> This patch schedules obsolete OSS drivers (with ALSA drivers that
+> support the same hardware) for removal.
 
-I'm asking because in the latter case I'll remove the driver from my 
-current "scheduled for removal" list.
+Hello Adrian.
 
-> 						Jaroslav
+I'm the maintainer of the OSS AD1816 sound driver. I'm aware of two 
+problems of the ALSA AD1816 driver, that do not show up with the OSS 
+driver:
+- According to my own experience and user reports audio is choppy with 
+some VoIP Softphones like gnophone at least when used with the ALSA OSS 
+emulation layer, whereas the OSS driver is crystal clear.
+- Users reported, that on some HP Kayak systems the on-board AD1816A 
+was not properly detected by the ALSA driver or was detected, but 
+there was no audio output. I'm not sure if the problem is still present in 
+the current ALSA driver, as I do not own such a system.
 
-cu
-Adrian
+Maybe the OSS driver should stay in the kernel, until those problems are 
+fixed in the ALSA driver.
+
+Regards
+Thorsten
 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+___
+  |        | /                 E-Mail: linux@thorsten-knabe.de
+  |horsten |/\nabe                WWW: http://linux.thorsten-knabe.de
