@@ -1,44 +1,35 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Thu, 28 Jul 2005 08:09:19 +0000
+From: Jaroslav Kysela <perex@suse.cz>
+Date: Thu, 28 Jul 2005 13:43:49 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <s5hpst3tkr4.wl%tiwai@suse.de>
+Message-Id: <Pine.LNX.4.61.0507281542420.8458@tm8103.perex-int.cz>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>
-	<42E6645B.30206@zabbo.net>
-	<20050726233837.459A.3.NOFFLE@islands.iskon.hr>
-In-Reply-To: <20050726233837.459A.3.NOFFLE@islands.iskon.hr>
+References: <20050726150837.GT3160@stusta.de>  <1122393073.18884.29.camel@mindpipe>
+ <42E65D50.3040808@pobox.com>  <20050727182427.GH3160@stusta.de>
+ <20050727203150.GF22686@tuxdriver.com>  <42E7F1F9.2050105@pobox.com>
+ <1122559208.32126.8.camel@localhost.localdomain>
+In-Reply-To: <1122559208.32126.8.camel@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Zoran Dzelajlija <jelly+news@srk.fer.hr>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+To: Alan Cox <alan@lxorguk.ukuu.org.uk>
+Cc: Jeff Garzik <jgarzik@pobox.com>, "John W. Linville" <linville@tuxdriver.com>, Adrian Bunk <bunk@stusta.de>, Lee Revell <rlrevell@joe-job.com>, LKML <linux-kernel@vger.kernel.org>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, Takashi Iwai <tiwai@suse.de>
 
-At Wed, 27 Jul 2005 01:38:37 +0200,
-Zoran Dzelajlija wrote:
-> 
-> Zach Brown <zab@zabbo.net> wrote:
-> > Adrian Bunk wrote:
-> > > This patch schedules obsolete OSS drivers (with ALSA drivers that 
-> > > support the same hardware) for removal.
-> 
-> > > I've Cc'ed the people listed in MAINTAINERS as being responsible for one 
-> > > or more of these drivers, and I've also Cc'ed the ALSA people.
-> 
-> > I haven't touched the maestro drivers in so long (for near-total lack of
-> > docs, etc.) that I can't be considered authoritative for approving it's
-> > removal. If people are relying on it I certainly don't know who they
-> > are.  In better news, Takashi should now have the pile of maestro
-> > hardware that I used in the first pass to help him maintain the ALSA
-> > driver..
-> 
-> The OSS maestro driver works better on my old Armada E500 laptop.  I tried
-> ALSA after switching to 2.6, but the computer hung with 2.6.8.1 or 2.6.10 if
-> I touched the volume buttons.  With OSS they just work.  The four separate
-> dsp devices also look kind of more useful.
+On Thu, 28 Jul 2005, Alan Cox wrote:
 
-The bug around h/w volume control should have been fixed in the recent
-version of ALSA drivers.  Hopefully everything will get merged into
-2.6.13...
+> On Mer, 2005-07-27 at 16:43 -0400, Jeff Garzik wrote:
+> > ISTR Alan saying there was some ALi hardware that either wasn't in ALSA, 
+> > or most likely didn't work in ALSA.  If Alan says I'm smoking crack, 
+> > then you all can ignore me :)
+> 
+> The only big thing I know that still needed OSS (and may still do so) is
+> the support for AC97 wired touchscreens and the like. Has that been
+> ported to ALSA ?
 
+We're working on this issue right now.
 
-Takashi
+						Jaroslav
+
+-----
+Jaroslav Kysela <perex@suse.cz>
+Linux Kernel Sound Maintainer
+ALSA Project, SUSE Labs
