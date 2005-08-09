@@ -1,54 +1,45 @@
-From: Thorsten Knabe <linux@thorsten-knabe.de>
-Date: Tue, 02 Aug 2005 15:55:12 +0000
-Subject: Re: [Alsa-devel] Re: [2.6 patch] schedule obsolete OSS drivers for
-Message-Id: <Pine.LNX.4.61.0508021741260.22453@tek01.intern.thorsten-knabe.de>
+From: Lee Revell <rlrevell@joe-job.com>
+Date: Tue, 09 Aug 2005 17:13:51 +0000
+Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal (version
+Message-Id: <1123607633.5601.7.camel@mindpipe>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> 
- <Pine.LNX.4.61.0507281636040.20815@tek01.intern.thorsten-knabe.de> 
- <Pine.LNX.4.61.0507290849050.8400@tm8103.perex-int.cz> 
- <Pine.LNX.4.61.0507291735500.31150@tek01.intern.thorsten-knabe.de> 
- <20050731193922.GI3608@stusta.de> <105c793f0508010726dc12bc7@mail.gmail.com>
- <Pine.LNX.4.61.0508020110050.13611@tek01.intern.thorsten-knabe.de>
-In-Reply-To: <Pine.LNX.4.61.0508020110050.13611@tek01.intern.thorsten-knabe.de>
+References: <20050729153226.GE3563@stusta.de>
+In-Reply-To: <20050729153226.GE3563@stusta.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Thorsten Knabe <linux@thorsten-knabe.de>
-Cc: Andrew Haninger <ahaning@gmail.com>, Adrian Bunk <bunk@stusta.de>, Jaroslav Kysela <perex@suse.cz>, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Andrew Morton <akpm@osdl.org>, linux-kernel@vger.kernel.org, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zaitcev@yahoo.com, Christoph Eckert <ce@christeck.de>
 
-Hello.
+On Fri, 2005-07-29 at 17:32 +0200, Adrian Bunk wrote:
+> This patch schedules obsolete OSS drivers (with ALSA drivers that 
+> support the same hardware) for removal.
+> 
+> Scheduling the via82cxxx driver for removal was ACK'ed by Jeff Garzik.
+> 
 
-Here are the bug id's for the various issues from the ALSA bugtracking 
-system:
+Someone on linux-audio-user just pointed out that the OSS USB audio and
+midi modules were never deprecated, much less scheduled to be removed.
 
-On Tue, 2 Aug 2005, Thorsten Knabe wrote:
-> On vanilla Linux 2.6.12.3 and 2.6.13-rc4 modprobe hangs in D-state when 
-> loading the snd-ad1816a module. No messages have been logged to the syslog 
-> and the system is otherwise stable. Of course the sound card is unusable.
+Maybe the best way to deprecate them is to move them to Sound -> OSS,
+that's where they belong anyway.
 
-#1300: modprobe goes into D-state when inserting snd-ad1816a
+Lee
 
-> Using OSS emulation with one of the VoIP 
-> phones, playback and recording stop a few seconds after the call is started. 
-> Using the ALSA interface with kphone works, but there is a continuous 
-> clicking approximately 3 times per second. Also audio latency is poor 
-> compared to the OSS driver.
+On Tue, 2005-08-09 at 18:42 +0200, Christoph Eckert wrote: 
+> > Recompile the kernel with USB audio support.
+> 
+> Please ensure that you *disable* => Devioce drivers => USB => 
+> USB audio and USB Midi.
+> 
+> Both are OSS modules and caused a lot of trouble here when 
+> used in conjunction with the ALSA module
+> 
+> => Sound => ALSA => USB devices => USB Audio/MIDI driver
+> 
+> 
+> BTW: OSS is marked as deprecated, but not the two OSS modules 
+> mentioned above. Couldn't this get set or at least some info 
+> that these modules belong to OSS?
 
-#1301: Kernel OSS emulation stops working after a few seconds when used 
-with VoIP softphones
 
-#1302: Clicking noise when using kphone with the ALSA AD1816A sound driver
-
-> Also the ALSA driver does not have an equivalent for the "ad1816_clockfreq" 
-> option of the OSS driver.
-
-#1303: AD1816A sound driver has no parameter to adjust reference clock 
-frequency
-
-Regards
-Thorsten
-
--- 
-___
-  |        | /                 E-Mail: linux@thorsten-knabe.de
-  |horsten |/\nabe                WWW: http://linux.thorsten-knabe.de
