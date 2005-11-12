@@ -1,26 +1,24 @@
-From: Zach Brown <zab@zabbo.net>
-Date: Sat, 12 Nov 2005 01:30:39 +0000
-Subject: Re: [4/6] Remove old PM interface from maestro driver
-Message-Id: <437545BF.3080506@zabbo.net>
+From: "Leila Berger" <l_bergeraj@icaprealty.com>
+Date: Sat, 12 Nov 2005 23:27:42 +0000
+Subject: =?ISO-8859-1?b?RWZmb3J0bGVzcyBNZWRzIE9mZmVyaW5ncw==?=
+Message-Id: <43767A6E.235D04A2@icaprealty.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20051109164503.GG14134@linux.intel.com>
-In-Reply-To: <20051109164503.GG14134@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Patrick Mochel <mochel@linux.intel.com>
-Cc: akpm@osdl.org, linux-sound@vger.kernel.org, linux-pm@lists.osdl.org, linux-kernel@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
+Good Evening
 
-> Author: Patrick Mochel <mochel@linux.intel.com>
-> Date:   Wed Nov 9 08:15:40 2005 -0800
-> 
->     [OSS] Remove old PM interface from maestro driver.
+All our items are on special this week only
 
->     
->     Signed-off-by: Patrick Mochel <mochel@linux.intel.com>
+Unmatched pricing on a wide selection
 
-Acked-by: Zach Brown <zab@zabbo.net>
+November is the month to save 80%+ on all products
 
-- z
-(boy, that takes me back!)
+Will never need a perscription
+
+http://uk.geocities.com/grgphylls/
+
+Support at WorldwidePharm
+
