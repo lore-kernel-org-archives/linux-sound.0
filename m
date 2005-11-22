@@ -1,175 +1,107 @@
-From: Patrick Mochel <mochel@digitalimplant.org>
-Date: Wed, 23 Nov 2005 20:23:28 +0000
-Subject: [Patch 1/6] [OSS] Remove deprecated PM interface from ad1848 driver.
-Message-Id: <Pine.LNX.4.50.0511231215370.16769-100000@monsoon.he.net>
+From: Sebastian Reichelt <SebastianR@gmx.de>
+Date: Tue, 22 Nov 2005 00:14:37 +0000
+Subject: Intel HDA/AD1986A without surround
+Message-Id: <20051122011437.2eb8d7c9.SebastianR@gmx.de>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+To: linux-sound@vger.kernel.org
+
+This is a multi-part message in MIME format.
+
+--Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org, linux-pm@lists.osdl.org, linux-sound@vger.kernel.org
-Cc: akpm@osdl.org
 
+Hello!
 
-diff-tree ce8c2299f594d1d1c115b629e541208919be9b3f (from 2d0ebb36038c0626cde662a3b06da9787cfb68c3)
-Author: Patrick Mochel <mochel@linux.intel.com>
-Date:   Wed Nov 23 11:43:46 2005 -0800
+It seems the AD1986A patch (file sound/pci/hda/patch_analog.c) does not 
+provide the AD1986A_SURR_DAC and AD1986A_CLFE_DAC channels on my 
+laptop, where /proc/asound/Intel/codec#0 gives the following info:
+Codec: Analog Devices AD1986A
+Address: 0
+Vendor Id: 0x11d41986
+Subsystem Id: 0x0
+Revision Id: 0x100400
 
-    [OSS] Remove deprecated PM interface from ad1848 driver.
+Playing sound usually fails completely (in 2.6.12 up to 2.6.14 kernels) 
+but works with the attached patch, which simply disables the two 
+surround channels. This has been tested by at least three persons 
+around the net who own the "Amilo Pro V2040" laptop.
 
-    This change removes the old, deprecated interface from the
-    ad1848 driver, including the pm_{,un}register() calls, the
-    local storage of the pmdev object and the reference to the
-    old header files. This change is done to assist in eradicating
-    the users of the legacy interface so as to help facilitate
-    the removal of the interface itself.
+Of course, this patch can not be included in the kernel as-is. I guess 
+there are basically two options:
+* turn support for the two extra channels into a config and module 
+option, or
+* somehow detect whether a given patch supports them.
+The second option is probably the better, but unfortunately I don't 
+know how to detect it. (Maybe the numbers above help?) In my opinion at 
+least stereo sound should work out of the box, but surround sound does 
+not necessarily have to. If you need more information on this, please 
+tell me (cc please; I'm not subscribed).
 
-    Signed-off-by: Patrick Mochel <mochel@linux.intel.com>
+Thank you.
 
-:040000 040000 1372bdfc1c79b8bb6b5669fef7d00995eec4ed00 90c9c18df1a44670e4d5c9777ba3abde96ffb73d M	sound
+P.S.: This is the relevant entry given by lspci -vvv:
+0000:00:1b.0 0403: Intel Corporation 82801FB/FBM/FR/FW/FRW (ICH6 
+Family) High Definition Audio Controller (rev 04)
+        Subsystem: Wistron Corp.: Unknown device 2017
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- 
+ParErr- Stepping- SERR- FastB2B-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- 
+<TAbort- <MAbort- >SERR- <PERR-
+        Latency: 0, Cache Line Size: 0x08 (32 bytes)
+        Interrupt: pin A routed to IRQ 22
+        Region 0: Memory at b0000000 (64-bit, non-prefetchable) 
+[size=16K]
+        Capabilities: [50] Power Management version 2
+                Flags: PMEClk- DSI- D1- D2- AuxCurrent=55mA PME(D0
++,D1-,D2-,D3hot+,D3cold+)
+                Status: D0 PME-Enable- DSel=0 DScale=0 PME-
+        Capabilities: [60] Message Signalled Interrupts: 64bit+ 
+Queue=0/0 Enable-
+                Address: 0000000000000000  Data: 0000
+        Capabilities: [70] #10 [0091]
 
-diffstat:
+-- 
+Sebastian Reichelt
 
- sound/oss/ad1848.c |   92 -----------------------------------------------------
- 1 files changed, 92 deletions(-)
+--Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D
+Content-Type: text/plain;
+ name="hda_codec.diff"
+Content-Disposition: attachment;
+ filename="hda_codec.diff"
+Content-Transfer-Encoding: 7bit
 
----
-
-ce8c2299f594d1d1c115b629e541208919be9b3f
-diff --git a/sound/oss/ad1848.c b/sound/oss/ad1848.c
-index 3f30c57..49796be 100644
---- a/sound/oss/ad1848.c
-+++ b/sound/oss/ad1848.c
-@@ -46,8 +46,6 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/stddef.h>
--#include <linux/pm.h>
--#include <linux/pm_legacy.h>
- #include <linux/isapnp.h>
- #include <linux/pnp.h>
- #include <linux/spinlock.h>
-@@ -105,9 +103,6 @@ typedef struct
- 	int             irq_ok;
- 	mixer_ents     *mix_devices;
- 	int             mixer_output_port;
--
--	/* Power management */
--	struct		pm_dev *pmdev;
- } ad1848_info;
-
- typedef struct ad1848_port_info
-@@ -201,7 +196,6 @@ static void     ad1848_halt(int dev);
- static void     ad1848_halt_input(int dev);
- static void     ad1848_halt_output(int dev);
- static void     ad1848_trigger(int dev, int bits);
--static int	ad1848_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *data);
-
- #ifndef EXCLUDE_TIMERS
- static int ad1848_tmr_install(int dev);
-@@ -2027,10 +2021,6 @@ int ad1848_init (char *name, struct reso
-
- 	nr_ad1848_devs++;
-
--	devc->pmdev = pm_register(PM_ISA_DEV, my_dev, ad1848_pm_callback);
--	if (devc->pmdev)
--		devc->pmdev->data = devc;
--
- 	ad1848_init_hw(devc);
-
- 	if (irq > 0)
-@@ -2197,9 +2187,6 @@ void ad1848_unload(int io_base, int irq,
- 		if(mixer>=0)
- 			sound_unload_mixerdev(mixer);
-
--		if (devc->pmdev)
--			pm_unregister(devc->pmdev);
--
- 		nr_ad1848_devs--;
- 		for ( ; i < nr_ad1848_devs ; i++)
- 			adev_info[i] = adev_info[i+1];
-@@ -2811,85 +2798,6 @@ static int ad1848_tmr_install(int dev)
+--- sound/pci/hda/hda_codec.c.old	2005-11-17 07:08:51.000000000 +0100
++++ sound/pci/hda/hda_codec.c	2005-11-17 07:21:05.000000000 +0100
+@@ -1704,15 +1704,6 @@
+ 	if (mout->hp_nid)
+ 		/* headphone out will just decode front left/right (stereo) */
+ 		snd_hda_codec_setup_stream(codec, mout->hp_nid, stream_tag, 0, format);
+-	/* surrounds */
+-	for (i = 1; i < mout->num_dacs; i++) {
+-		if (chs >= (i + 1) * 2) /* independent out */
+-			snd_hda_codec_setup_stream(codec, nids[i], stream_tag, i * 2,
+-						   format);
+-		else /* copy front */
+-			snd_hda_codec_setup_stream(codec, nids[i], stream_tag, 0,
+-						   format);
+-	}
+ 	return 0;
  }
- #endif /* EXCLUDE_TIMERS */
+ 
+@@ -1724,10 +1715,9 @@
+ 	hda_nid_t *nids = mout->dac_nids;
+ 	int i;
+ 
+-	for (i = 0; i < mout->num_dacs; i++)
+-		snd_hda_codec_setup_stream(codec, nids[i], 0, 0, 0);
+ 	if (mout->hp_nid)
+ 		snd_hda_codec_setup_stream(codec, mout->hp_nid, 0, 0, 0);
++	snd_hda_codec_setup_stream(codec, nids[HDA_FRONT], 0, 0, 0);
+ 	down(&codec->spdif_mutex);
+ 	if (mout->dig_out_nid && mout->dig_out_used == HDA_DIG_ANALOG_DUP) {
+ 		snd_hda_codec_setup_stream(codec, mout->dig_out_nid, 0, 0, 0);
 
--static int ad1848_suspend(ad1848_info *devc)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&devc->lock,flags);
--
--	ad_mute(devc);
--
--	spin_unlock_irqrestore(&devc->lock,flags);
--	return 0;
--}
--
--static int ad1848_resume(ad1848_info *devc)
--{
--	int mixer_levels[32], i;
--
--	/* Thinkpad is a bit more of PITA than normal. The BIOS tends to
--	   restore it in a different config to the one we use.  Need to
--	   fix this somehow */
--
--	/* store old mixer levels */
--	memcpy(mixer_levels, devc->levels, sizeof (mixer_levels));
--	ad1848_init_hw(devc);
--
--	/* restore mixer levels */
--	for (i = 0; i < 32; i++)
--		ad1848_mixer_set(devc, devc->dev_no, mixer_levels[i]);
--
--	if (!devc->subtype) {
--		static signed char interrupt_bits[12] = { -1, -1, -1, -1, -1, 0x00, -1, 0x08, -1, 0x10, 0x18, 0x20 };
--		static char dma_bits[4] = { 1, 2, 0, 3 };
--		unsigned long flags;
--		signed char bits;
--		char dma2_bit = 0;
--
--		int config_port = devc->base + 0;
--
--		bits = interrupt_bits[devc->irq];
--		if (bits = -1) {
--			printk(KERN_ERR "MSS: Bad IRQ %d\n", devc->irq);
--			return -1;
--		}
--
--		spin_lock_irqsave(&devc->lock,flags);
--
--		outb((bits | 0x40), config_port);
--
--		if (devc->dma2 != -1 && devc->dma2 != devc->dma1)
--			if ( (devc->dma1 = 0 && devc->dma2 = 1) ||
--			     (devc->dma1 = 1 && devc->dma2 = 0) ||
--			     (devc->dma1 = 3 && devc->dma2 = 0))
--				dma2_bit = 0x04;
--
--		outb((bits | dma_bits[devc->dma1] | dma2_bit), config_port);
--		spin_unlock_irqrestore(&devc->lock,flags);
--	}
--
--	return 0;
--}
--
--static int ad1848_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *data)
--{
--	ad1848_info *devc = dev->data;
--	if (devc) {
--		DEB(printk("ad1848: pm event received: 0x%x\n", rqst));
--
--		switch (rqst) {
--		case PM_SUSPEND:
--			ad1848_suspend(devc);
--			break;
--		case PM_RESUME:
--			ad1848_resume(devc);
--			break;
--		}
--	}
--	return 0;
--}
--
--
- EXPORT_SYMBOL(ad1848_detect);
- EXPORT_SYMBOL(ad1848_init);
- EXPORT_SYMBOL(ad1848_unload);
+--Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D--
