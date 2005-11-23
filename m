@@ -1,107 +1,230 @@
-From: Sebastian Reichelt <SebastianR@gmx.de>
-Date: Tue, 22 Nov 2005 00:14:37 +0000
-Subject: Intel HDA/AD1986A without surround
-Message-Id: <20051122011437.2eb8d7c9.SebastianR@gmx.de>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D"
+From: Patrick Mochel <mochel@digitalimplant.org>
+Date: Wed, 23 Nov 2005 20:23:36 +0000
+Subject: [Patch 4/6] [OSS] Remove deprecated PM interface from maestro driver.
+Message-Id: <Pine.LNX.4.50.0511231220440.16769-100000@monsoon.he.net>
 List-Id: <linux-sound.vger.kernel.org>
-To: linux-sound@vger.kernel.org
-
-This is a multi-part message in MIME format.
-
---Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+To: linux-kernel@vger.kernel.org, linux-pm@lists.osdl.org, linux-sound@vger.kernel.org
+Cc: akpm@osdl.org
 
-Hello!
 
-It seems the AD1986A patch (file sound/pci/hda/patch_analog.c) does not 
-provide the AD1986A_SURR_DAC and AD1986A_CLFE_DAC channels on my 
-laptop, where /proc/asound/Intel/codec#0 gives the following info:
-Codec: Analog Devices AD1986A
-Address: 0
-Vendor Id: 0x11d41986
-Subsystem Id: 0x0
-Revision Id: 0x100400
+diff-tree d4637f6330e57390156e151d15c06247cca7c78f (from 879a82d748d397be6dce2d4cafaa98c06a71acf2)
+Author: Patrick Mochel <mochel@linux.intel.com>
+Date:   Wed Nov 23 11:54:22 2005 -0800
 
-Playing sound usually fails completely (in 2.6.12 up to 2.6.14 kernels) 
-but works with the attached patch, which simply disables the two 
-surround channels. This has been tested by at least three persons 
-around the net who own the "Amilo Pro V2040" laptop.
+    [OSS] Remove deprecated PM interface from maestrodriver.
 
-Of course, this patch can not be included in the kernel as-is. I guess 
-there are basically two options:
-* turn support for the two extra channels into a config and module 
-option, or
-* somehow detect whether a given patch supports them.
-The second option is probably the better, but unfortunately I don't 
-know how to detect it. (Maybe the numbers above help?) In my opinion at 
-least stereo sound should work out of the box, but surround sound does 
-not necessarily have to. If you need more information on this, please 
-tell me (cc please; I'm not subscribed).
+    This change removes the old, deprecated interface from the
+    maestro driver, including the pm_{,un}register() calls, the
+    local storage of the pmdev object and the reference to the
+    old header files. This change is done to assist in eradicating
+    the users of the legacy interface so as to help facilitate
+    the removal of the interface itself.
 
-Thank you.
+    The check_suspend() function and associated logic was not
+    removed, even though it is now unnecessary.
 
-P.S.: This is the relevant entry given by lspci -vvv:
-0000:00:1b.0 0403: Intel Corporation 82801FB/FBM/FR/FW/FRW (ICH6 
-Family) High Definition Audio Controller (rev 04)
-        Subsystem: Wistron Corp.: Unknown device 2017
-        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- 
-ParErr- Stepping- SERR- FastB2B-
-        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- 
-<TAbort- <MAbort- >SERR- <PERR-
-        Latency: 0, Cache Line Size: 0x08 (32 bytes)
-        Interrupt: pin A routed to IRQ 22
-        Region 0: Memory at b0000000 (64-bit, non-prefetchable) 
-[size=16K]
-        Capabilities: [50] Power Management version 2
-                Flags: PMEClk- DSI- D1- D2- AuxCurrent=55mA PME(D0
-+,D1-,D2-,D3hot+,D3cold+)
-                Status: D0 PME-Enable- DSel=0 DScale=0 PME-
-        Capabilities: [60] Message Signalled Interrupts: 64bit+ 
-Queue=0/0 Enable-
-                Address: 0000000000000000  Data: 0000
-        Capabilities: [70] #10 [0091]
+    Note that this driver has been obsoleted by an ALSA equivalent.
 
--- 
-Sebastian Reichelt
+    Acked-By Zach Brown <zab@zabbo.net>
+    Signed-off-by: Patrick Mochel <mochel@linux.intel.com>
 
---Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D
-Content-Type: text/plain;
- name="hda_codec.diff"
-Content-Disposition: attachment;
- filename="hda_codec.diff"
-Content-Transfer-Encoding: 7bit
+:040000 040000 6820ab87e68259b3602ecd3290fad6d7960b12bc 87f4944625899f3a0bbd1656f1ca1546ef304b29 M	sound
 
---- sound/pci/hda/hda_codec.c.old	2005-11-17 07:08:51.000000000 +0100
-+++ sound/pci/hda/hda_codec.c	2005-11-17 07:21:05.000000000 +0100
-@@ -1704,15 +1704,6 @@
- 	if (mout->hp_nid)
- 		/* headphone out will just decode front left/right (stereo) */
- 		snd_hda_codec_setup_stream(codec, mout->hp_nid, stream_tag, 0, format);
--	/* surrounds */
--	for (i = 1; i < mout->num_dacs; i++) {
--		if (chs >= (i + 1) * 2) /* independent out */
--			snd_hda_codec_setup_stream(codec, nids[i], stream_tag, i * 2,
--						   format);
--		else /* copy front */
--			snd_hda_codec_setup_stream(codec, nids[i], stream_tag, 0,
--						   format);
--	}
- 	return 0;
+diffstat:
+
+ sound/oss/maestro.c |  149 ----------------------------------------------------
+ 1 files changed, 149 deletions(-)
+
+---
+
+d4637f6330e57390156e151d15c06247cca7c78f
+diff --git a/sound/oss/maestro.c b/sound/oss/maestro.c
+index 3abd354..f9ac5b1 100644
+--- a/sound/oss/maestro.c
++++ b/sound/oss/maestro.c
+@@ -230,10 +230,6 @@
+ #include <asm/page.h>
+ #include <asm/uaccess.h>
+
+-#include <linux/pm.h>
+-#include <linux/pm_legacy.h>
+-static int maestro_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *d);
+-
+ #include "maestro.h"
+
+ static struct pci_driver maestro_pci_driver;
+@@ -3404,7 +3400,6 @@ maestro_probe(struct pci_dev *pcidev,con
+ 	int i, ret;
+ 	struct ess_card *card;
+ 	struct ess_state *ess;
+-	struct pm_dev *pmdev;
+ 	int num = 0;
+
+ /* when built into the kernel, we only print version if device is found */
+@@ -3450,11 +3445,6 @@ maestro_probe(struct pci_dev *pcidev,con
+ 	memset(card, 0, sizeof(*card));
+ 	card->pcidev = pcidev;
+
+-	pmdev = pm_register(PM_PCI_DEV, PM_PCI_ID(pcidev),
+-			maestro_pm_callback);
+-	if (pmdev)
+-		pmdev->data = card;
+-
+ 	card->iobase = iobase;
+ 	card->card_type = card_type;
+ 	card->irq = pcidev->irq;
+@@ -3670,7 +3660,6 @@ static int maestro_notifier(struct notif
+ static void cleanup_maestro(void) {
+ 	M_printk("maestro: unloading\n");
+ 	pci_unregister_driver(&maestro_pci_driver);
+-	pm_unregister_all(maestro_pm_callback);
+ 	unregister_reboot_notifier(&maestro_nb);
  }
- 
-@@ -1724,10 +1715,9 @@
- 	hda_nid_t *nids = mout->dac_nids;
- 	int i;
- 
--	for (i = 0; i < mout->num_dacs; i++)
--		snd_hda_codec_setup_stream(codec, nids[i], 0, 0, 0);
- 	if (mout->hp_nid)
- 		snd_hda_codec_setup_stream(codec, mout->hp_nid, 0, 0, 0);
-+	snd_hda_codec_setup_stream(codec, nids[HDA_FRONT], 0, 0, 0);
- 	down(&codec->spdif_mutex);
- 	if (mout->dig_out_nid && mout->dig_out_used == HDA_DIG_ANALOG_DUP) {
- 		snd_hda_codec_setup_stream(codec, mout->dig_out_nid, 0, 0, 0);
 
---Multipart=_Tue__22_Nov_2005_01_14_37_+0100_Yn.ikSHFBOB9G6+D--
+@@ -3691,143 +3680,5 @@ check_suspend(struct ess_card *card)
+ 	current->state = TASK_RUNNING;
+ }
+
+-static int
+-maestro_suspend(struct ess_card *card)
+-{
+-	unsigned long flags;
+-	int i,j;
+-
+-	spin_lock_irqsave(&card->lock,flags); /* over-kill */
+-
+-	M_printk("maestro: apm in dev %p\n",card);
+-
+-	/* we have to read from the apu regs, need
+-		to power it up */
+-	maestro_power(card,ACPI_D0);
+-
+-	for(i=0;i<NR_DSPS;i++) {
+-		struct ess_state *s = &card->channels[i];
+-
+-		if(s->dev_audio = -1)
+-			continue;
+-
+-		M_printk("maestro: stopping apus for device %d\n",i);
+-		stop_dac(s);
+-		stop_adc(s);
+-		for(j=0;j<6;j++)
+-			card->apu_map[s->apu[j]][5]=apu_get_register(s,j,5);
+-
+-	}
+-
+-	/* get rid of interrupts? */
+-	if( card->dsps_open > 0)
+-		stop_bob(&card->channels[0]);
+-
+-	card->in_suspend++;
+-
+-	spin_unlock_irqrestore(&card->lock,flags);
+-
+-	/* we trust in the bios to power down the chip on suspend.
+-	 * XXX I'm also not sure that in_suspend will protect
+-	 * against all reg accesses from here on out.
+-	 */
+-	return 0;
+-}
+-static int
+-maestro_resume(struct ess_card *card)
+-{
+-	unsigned long flags;
+-	int i;
+-
+-	spin_lock_irqsave(&card->lock,flags); /* over-kill */
+-
+-	card->in_suspend = 0;
+-
+-	M_printk("maestro: resuming card at %p\n",card);
+-
+-	/* restore all our config */
+-	maestro_config(card);
+-	/* need to restore the base pointers.. */
+-	if(card->dmapages)
+-		set_base_registers(&card->channels[0],card->dmapages);
+-
+-	mixer_push_state(card);
+-
+-	/* set each channels' apu control registers before
+-	 * restoring audio
+-	 */
+-	for(i=0;i<NR_DSPS;i++) {
+-		struct ess_state *s = &card->channels[i];
+-		int chan,reg;
+-
+-		if(s->dev_audio = -1)
+-			continue;
+-
+-		for(chan = 0 ; chan < 6 ; chan++) {
+-			wave_set_register(s,s->apu[chan]<<3,s->apu_base[chan]);
+-			for(reg = 1 ; reg < NR_APU_REGS ; reg++)
+-				apu_set_register(s,chan,reg,s->card->apu_map[s->apu[chan]][reg]);
+-		}
+-		for(chan = 0 ; chan < 6 ; chan++)
+-			apu_set_register(s,chan,0,s->card->apu_map[s->apu[chan]][0] & 0xFF0F);
+-	}
+-
+-	/* now we flip on the music */
+-
+-	if( card->dsps_open <= 0) {
+-		/* this card's idle */
+-		maestro_power(card,ACPI_D2);
+-	} else {
+-		/* ok, we're actually playing things on
+-			this card */
+-		maestro_power(card,ACPI_D0);
+-		start_bob(&card->channels[0]);
+-		for(i=0;i<NR_DSPS;i++) {
+-			struct ess_state *s = &card->channels[i];
+-
+-			/* these use the apu_mode, and can handle
+-				spurious calls */
+-			start_dac(s);
+-			start_adc(s);
+-		}
+-	}
+-
+-	spin_unlock_irqrestore(&card->lock,flags);
+-
+-	/* all right, we think things are ready,
+-		wake up people who were using the device
+-		when we suspended */
+-	wake_up(&(card->suspend_queue));
+-
+-	return 0;
+-}
+-
+-int
+-maestro_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *data)
+-{
+-	struct ess_card *card = (struct ess_card*) dev->data;
+-
+-	if ( ! card ) goto out;
+-
+-	M_printk("maestro: pm event 0x%x received for card %p\n", rqst, card);
+-
+-	switch (rqst) {
+-		case PM_SUSPEND:
+-			maestro_suspend(card);
+-		break;
+-		case PM_RESUME:
+-			maestro_resume(card);
+-		break;
+-		/*
+-		 * we'd also like to find out about
+-		 * power level changes because some biosen
+-		 * do mean things to the maestro when they
+-		 * change their power state.
+-		 */
+-        }
+-out:
+-	return 0;
+-}
+-
+ module_init(init_maestro);
+ module_exit(cleanup_maestro);
