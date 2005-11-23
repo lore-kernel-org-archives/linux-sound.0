@@ -1,7 +1,7 @@
 From: Patrick Mochel <mochel@digitalimplant.org>
-Date: Wed, 23 Nov 2005 20:23:39 +0000
-Subject: [Patch 5/6] [OSS] Remove deprecated PM interface from nm256 driver.
-Message-Id: <Pine.LNX.4.50.0511231221290.16769-100000@monsoon.he.net>
+Date: Wed, 23 Nov 2005 20:23:30 +0000
+Subject: [Patch 2/6] [OSS] Remove deprecated PM interface from cs4281 driver.
+Message-Id: <Pine.LNX.4.50.0511231218220.16769-100000@monsoon.he.net>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -10,14 +10,14 @@ To: linux-kernel@vger.kernel.org, linux-pm@lists.osdl.org, linux-sound@vger.kern
 Cc: akpm@osdl.org
 
 
-diff-tree a653f4aea340869b6482dce578901c2d40c95912 (from d4637f6330e57390156e151d15c06247cca7c78f)
+diff-tree aa92446260fcefe1a74c849e55f19d219f78f563 (from ce8c2299f594d1d1c115b629e541208919be9b3f)
 Author: Patrick Mochel <mochel@linux.intel.com>
-Date:   Wed Nov 23 11:56:13 2005 -0800
+Date:   Wed Nov 23 11:49:00 2005 -0800
 
-    [OSS] Remove deprecated PM interface from nm256 driver.
+    [OSS] Remove deprecated PM interface from cs4281 driver.
 
     This change removes the old, deprecated interface from the
-    nm256 driver, including the pm_{,un}register() calls, the
+    cs4281 driver, including the pm_{,un}register() calls, the
     local storage of the pmdev object and the reference to the
     old header files. This change is done to assist in eradicating
     the users of the legacy interface so as to help facilitate
@@ -25,112 +25,129 @@ Date:   Wed Nov 23 11:56:13 2005 -0800
 
     Note that this driver has been obsoleted by an ALSA equivalent.
 
+    Note that this driver has hooks for PCI power management,
+    but does not implement the ->suspend()/->resume() methods.
+
     Signed-off-by: Patrick Mochel <mochel@linux.intel.com>
 
-:040000 040000 87f4944625899f3a0bbd1656f1ca1546ef304b29 22cf5552bbabece21464a9c3e27a05412fce6418 M	sound
+:040000 040000 90c9c18df1a44670e4d5c9777ba3abde96ffb73d a8246728e19c02094c7d8150836f7c0f7b9a1d02 M	sound
 
 diffstat:
 
- sound/oss/nm256_audio.c |   47 -----------------------------------------------
- 1 files changed, 47 deletions(-)
+ sound/oss/cs4281/cs4281m.c     |   21 +--------------------
+ sound/oss/cs4281/cs4281pm-24.c |   39 ---------------------------------------
+ 2 files changed, 1 insertion(+), 59 deletions(-)
 
 ---
 
-a653f4aea340869b6482dce578901c2d40c95912
-diff --git a/sound/oss/nm256_audio.c b/sound/oss/nm256_audio.c
-index 0ce2c40..42d8f05 100644
---- a/sound/oss/nm256_audio.c
-+++ b/sound/oss/nm256_audio.c
-@@ -24,8 +24,6 @@
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/pm.h>
+aa92446260fcefe1a74c849e55f19d219f78f563
+diff --git a/sound/oss/cs4281/cs4281m.c b/sound/oss/cs4281/cs4281m.c
+index adc6896..46dd41d 100644
+--- a/sound/oss/cs4281/cs4281m.c
++++ b/sound/oss/cs4281/cs4281m.c
+@@ -298,7 +298,6 @@ struct cs4281_state {
+ 	struct cs4281_pipeline pl[CS4281_NUMBER_OF_PIPELINES];
+ };
+
 -#include <linux/pm_legacy.h>
- #include <linux/delay.h>
- #include <linux/spinlock.h>
- #include "sound_config.h"
-@@ -49,7 +47,6 @@ static int nm256_grabInterrupt (struct n
- static int nm256_releaseInterrupt (struct nm256_info *card);
- static irqreturn_t nm256_interrupt (int irq, void *dev_id, struct pt_regs *dummy);
- static irqreturn_t nm256_interrupt_zx (int irq, void *dev_id, struct pt_regs *dummy);
--static int handle_pm_event (struct pm_dev *dev, pm_request_t rqst, void *data);
+ #include "cs4281pm-24.c"
 
- /* These belong in linux/pci.h. */
- #define PCI_DEVICE_ID_NEOMAGIC_NM256AV_AUDIO 0x8005
-@@ -992,15 +989,6 @@ nm256_install_mixer (struct nm256_info *
-     return 0;
- }
-
--/* Perform a full reset on the hardware; this is invoked when an APM
--   resume event occurs.  */
--static void
--nm256_full_reset (struct nm256_info *card)
--{
--    nm256_initHw (card);
--    ac97_reset (&(card->mdev));
--}
--
- /*
-  * See if the signature left by the NM256 BIOS is intact; if so, we use
-  * the associated address as the end of our audio buffer in the video
-@@ -1053,7 +1041,6 @@ static int __devinit
- nm256_install(struct pci_dev *pcidev, enum nm256rev rev, char *verstr)
+ #if CSDEBUG
+@@ -4256,9 +4255,6 @@ static void __devinit cs4281_InitPM(stru
+ static int __devinit cs4281_probe(struct pci_dev *pcidev,
+ 				  const struct pci_device_id *pciid)
  {
-     struct nm256_info *card;
--    struct pm_dev *pmdev;
-     int x;
-
-     if (pci_enable_device(pcidev))
-@@ -1234,43 +1221,10 @@ nm256_install(struct pci_dev *pcidev, en
-
-     nm256_install_mixer (card);
-
--    pmdev = pm_register(PM_PCI_DEV, PM_PCI_ID(pcidev), handle_pm_event);
--    if (pmdev)
--        pmdev->data = card;
--
-     return 1;
- }
-
-
--/*
-- * PM event handler, so the card is properly reinitialized after a power
-- * event.
-- */
--static int
--handle_pm_event (struct pm_dev *dev, pm_request_t rqst, void *data)
--{
--    struct nm256_info *crd = (struct nm256_info*) dev->data;
--    if (crd) {
--        switch (rqst) {
--	case PM_SUSPEND:
--	    break;
--	case PM_RESUME:
--            {
--                int playing = crd->playing;
--                nm256_full_reset (crd);
--                /*
--                 * A little ugly, but that's ok; pretend the
--                 * block we were playing is done.
--                 */
--                if (playing)
--                    DMAbuf_outputintr (crd->dev_for_play, 1);
--            }
--	    break;
+-#ifndef NOT_CS4281_PM
+-	struct pm_dev *pmdev;
+-#endif
+ 	struct cs4281_state *s;
+ 	dma_addr_t dma_mask;
+ 	mm_segment_t fs;
+@@ -4374,19 +4370,7 @@ static int __devinit cs4281_probe(struct
+ 	}
+ #ifndef NOT_CS4281_PM
+ 	cs4281_InitPM(s);
+-	pmdev = cs_pm_register(PM_PCI_DEV, PM_PCI_ID(pcidev), cs4281_pm_callback);
+-	if (pmdev)
+-	{
+-		CS_DBGOUT(CS_INIT | CS_PM, 4, printk(KERN_INFO
+-			 "cs4281: probe() pm_register() succeeded (%p).\n", pmdev));
+-		pmdev->data = s;
 -	}
--    }
--    return 0;
+-	else
+-	{
+-		CS_DBGOUT(CS_INIT | CS_PM | CS_ERROR, 0, printk(KERN_INFO
+-			 "cs4281: probe() pm_register() failed (%p).\n", pmdev));
+-		s->pm.flags |= CS4281_PM_NOT_REGISTERED;
+-	}
++	s->pm.flags |= CS4281_PM_NOT_REGISTERED;
+ #endif
+
+ 	pci_set_master(pcidev);	// enable bus mastering
+@@ -4487,9 +4471,6 @@ static int __init cs4281_init_module(voi
+ static void __exit cs4281_cleanup_module(void)
+ {
+ 	pci_unregister_driver(&cs4281_pci_driver);
+-#ifndef NOT_CS4281_PM
+-	cs_pm_unregister_all(cs4281_pm_callback);
+-#endif
+ 	CS_DBGOUT(CS_INIT | CS_FUNCTION, 2,
+ 		  printk(KERN_INFO "cs4281: cleanup_cs4281() finished\n"));
+ }
+diff --git a/sound/oss/cs4281/cs4281pm-24.c b/sound/oss/cs4281/cs4281pm-24.c
+index d2a453a..90cbd76 100644
+--- a/sound/oss/cs4281/cs4281pm-24.c
++++ b/sound/oss/cs4281/cs4281pm-24.c
+@@ -27,9 +27,6 @@
+ #ifndef NOT_CS4281_PM
+ #include <linux/pm.h>
+
+-#define cs_pm_register(a, b, c) pm_register((a), (b), (c));
+-#define cs_pm_unregister_all(a) pm_unregister_all((a));
+-
+ static int cs4281_suspend(struct cs4281_state *s);
+ static int cs4281_resume(struct cs4281_state *s);
+ /*
+@@ -41,42 +38,6 @@ static int cs4281_resume(struct cs4281_s
+ #define CS4281_SUSPEND_TBL cs4281_suspend_null
+ #define CS4281_RESUME_TBL cs4281_resume_null
+
+-static int cs4281_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *data)
+-{
+-	struct cs4281_state *state;
+-
+-	CS_DBGOUT(CS_PM, 2, printk(KERN_INFO
+-		"cs4281: cs4281_pm_callback dev=%p rqst=0x%x state=%p\n",
+-			dev,(unsigned)rqst,data));
+-	state = (struct cs4281_state *) dev->data;
+-	if (state) {
+-		switch(rqst) {
+-			case PM_SUSPEND:
+-				CS_DBGOUT(CS_PM, 2, printk(KERN_INFO
+-					"cs4281: PM suspend request\n"));
+-				if(cs4281_suspend(state))
+-				{
+-				    CS_DBGOUT(CS_ERROR, 2, printk(KERN_INFO
+-					"cs4281: PM suspend request refused\n"));
+-					return 1;
+-				}
+-				break;
+-			case PM_RESUME:
+-				CS_DBGOUT(CS_PM, 2, printk(KERN_INFO
+-					"cs4281: PM resume request\n"));
+-				if(cs4281_resume(state))
+-				{
+-				    CS_DBGOUT(CS_ERROR, 2, printk(KERN_INFO
+-					"cs4281: PM resume request refused\n"));
+-					return 1;
+-				}
+-				break;
+-		}
+-	}
+-
+-	return 0;
 -}
 -
- static int __devinit
- nm256_probe(struct pci_dev *pcidev,const struct pci_device_id *pciid)
- {
-@@ -1696,7 +1650,6 @@ static int __init do_init_nm256(void)
- static void __exit cleanup_nm256 (void)
- {
-     pci_unregister_driver(&nm256_pci_driver);
--    pm_unregister_all (&handle_pm_event);
- }
-
- module_init(do_init_nm256);
+ #else /* CS4281_PM */
+ #define CS4281_SUSPEND_TBL cs4281_suspend_null
+ #define CS4281_RESUME_TBL cs4281_resume_null
