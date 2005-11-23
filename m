@@ -1,27 +1,163 @@
-From: Pavel Machek <pavel@suse.cz>
-Date: Wed, 23 Nov 2005 22:58:14 +0000
-Subject: Re: [Patch 0/6] Remove Deprecated PM Interface from Obsolete Sound Drivers
-Message-Id: <20051123225814.GF24220@elf.ucw.cz>
+From: Patrick Mochel <mochel@digitalimplant.org>
+Date: Wed, 23 Nov 2005 20:23:33 +0000
+Subject: [Patch 3/6] [OSS] Remove deprecated PM interface from cs46xx driver.
+Message-Id: <Pine.LNX.4.50.0511231219180.16769-100000@monsoon.he.net>
 List-Id: <linux-sound.vger.kernel.org>
-References: <Pine.LNX.4.50.0511231114340.14446-100000@monsoon.he.net>
-In-Reply-To: <Pine.LNX.4.50.0511231114340.14446-100000@monsoon.he.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Patrick Mochel <mochel@digitalimplant.org>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, linux-pm@lists.osdl.org, akpm@osdl.org
+To: linux-kernel@vger.kernel.org, linux-pm@lists.osdl.org, linux-sound@vger.kernel.org
+Cc: akpm@osdl.org
 
-Hi!
 
-> This is a series of 6 patches that remove the old, deprecated power
-> management interface from a variety of old OSS drivers, most of them
-> marked OBSOLETE and scheduled for removal in January 2006.
+diff-tree 879a82d748d397be6dce2d4cafaa98c06a71acf2 (from aa92446260fcefe1a74c849e55f19d219f78f563)
+Author: Patrick Mochel <mochel@linux.intel.com>
+Date:   Wed Nov 23 11:51:41 2005 -0800
 
-It may be nice to develop some macros/tricks to convert those into
-platform devices quickly. This would actually have chance of not
-breaking suspend/resume on affected drivers. (Not that it matters for
-these).
+    [OSS] Remove deprecated PM interface from cs46xx driver.
 
-								Pavel
--- 
-Thanks, Sharp!
+    This change removes the old, deprecated interface from the
+    cs46xx driver, including the pm_{,un}register() calls, the
+    local storage of the pmdev object and the reference to the
+    old header files. This change is done to assist in eradicating
+    the users of the legacy interface so as to help facilitate
+    the removal of the interface itself.
+
+    Note this driver has PCI PM hooks which are set properly.
+    It also has the ability to trigger suspend/resume from an
+    ioctl. This functionality was not touched, though it could
+    use a serious review if this driver continues to persist
+    in the mainline tree..
+
+    Note that this driver has been obsoleted by an ALSA equivalent.
+
+    Signed-off-by: Patrick Mochel <mochel@linux.intel.com>
+
+:040000 040000 a8246728e19c02094c7d8150836f7c0f7b9a1d02 6820ab87e68259b3602ecd3290fad6d7960b12bc M	sound
+
+diffstat:
+
+ sound/oss/cs46xx.c      |   60 ------------------------------------------------
+ sound/oss/cs46xxpm-24.h |    4 ---
+ 2 files changed, 64 deletions(-)
+
+---
+
+879a82d748d397be6dce2d4cafaa98c06a71acf2
+diff --git a/sound/oss/cs46xx.c b/sound/oss/cs46xx.c
+index cb998e8..0da4d93 100644
+--- a/sound/oss/cs46xx.c
++++ b/sound/oss/cs46xx.c
+@@ -391,10 +391,6 @@ static void cs461x_clear_serial_FIFOs(st
+ static int cs46xx_suspend_tbl(struct pci_dev *pcidev, pm_message_t state);
+ static int cs46xx_resume_tbl(struct pci_dev *pcidev);
+
+-#ifndef CS46XX_ACPI_SUPPORT
+-static int cs46xx_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *data);
+-#endif
+-
+ #if CSDEBUG
+
+ /* DEBUG ROUTINES */
+@@ -5320,7 +5316,6 @@ static const char fndmsg[] = KERN_INFO "
+ static int __devinit cs46xx_probe(struct pci_dev *pci_dev,
+ 				  const struct pci_device_id *pciid)
+ {
+-	struct pm_dev *pmdev;
+ 	int i,j;
+ 	u16 ss_card, ss_vendor;
+ 	struct cs_card *card;
+@@ -5530,22 +5525,6 @@ static int __devinit cs46xx_probe(struct
+ 	PCI_SET_DMA_MASK(pci_dev, dma_mask);
+ 	list_add(&card->list, &cs46xx_devs);
+
+-	pmdev = cs_pm_register(PM_PCI_DEV, PM_PCI_ID(pci_dev), cs46xx_pm_callback);
+-	if (pmdev)
+-	{
+-		CS_DBGOUT(CS_INIT | CS_PM, 4, printk(KERN_INFO
+-			 "cs46xx: probe() pm_register() succeeded (%p).\n",
+-				pmdev));
+-		pmdev->data = card;
+-	}
+-	else
+-	{
+-		CS_DBGOUT(CS_INIT | CS_PM | CS_ERROR, 2, printk(KERN_INFO
+-			 "cs46xx: probe() pm_register() failed (%p).\n",
+-				pmdev));
+-		card->pm.flags |= CS46XX_PM_NOT_REGISTERED;
+-	}
+-
+ 	CS_DBGOUT(CS_PM, 9, printk(KERN_INFO "cs46xx: pm.flags=0x%x card=%p\n",
+ 		(unsigned)card->pm.flags,card));
+
+@@ -5727,7 +5706,6 @@ static int __init cs46xx_init_module(voi
+ static void __exit cs46xx_cleanup_module(void)
+ {
+ 	pci_unregister_driver(&cs46xx_pci_driver);
+-	cs_pm_unregister_all(cs46xx_pm_callback);
+ 	CS_DBGOUT(CS_INIT | CS_FUNCTION, 2,
+ 		  printk(KERN_INFO "cs46xx: cleanup_cs46xx() finished\n"));
+ }
+@@ -5735,44 +5713,6 @@ static void __exit cs46xx_cleanup_module
+ module_init(cs46xx_init_module);
+ module_exit(cs46xx_cleanup_module);
+
+-#ifndef CS46XX_ACPI_SUPPORT
+-static int cs46xx_pm_callback(struct pm_dev *dev, pm_request_t rqst, void *data)
+-{
+-	struct cs_card *card;
+-
+-	CS_DBGOUT(CS_PM, 2, printk(KERN_INFO
+-		"cs46xx: cs46xx_pm_callback dev=%p rqst=0x%x card=%p\n",
+-			dev,(unsigned)rqst,data));
+-	card = (struct cs_card *) dev->data;
+-	if (card) {
+-		switch(rqst) {
+-			case PM_SUSPEND:
+-				CS_DBGOUT(CS_PM, 2, printk(KERN_INFO
+-					"cs46xx: PM suspend request\n"));
+-				if(cs46xx_suspend(card, PMSG_SUSPEND))
+-				{
+-				    CS_DBGOUT(CS_ERROR, 2, printk(KERN_INFO
+-					"cs46xx: PM suspend request refused\n"));
+-					return 1;
+-				}
+-				break;
+-			case PM_RESUME:
+-				CS_DBGOUT(CS_PM, 2, printk(KERN_INFO
+-					"cs46xx: PM resume request\n"));
+-				if(cs46xx_resume(card))
+-				{
+-				    CS_DBGOUT(CS_ERROR, 2, printk(KERN_INFO
+-					"cs46xx: PM resume request refused\n"));
+-					return 1;
+-				}
+-				break;
+-		}
+-	}
+-
+-	return 0;
+-}
+-#endif
+-
+ #if CS46XX_ACPI_SUPPORT
+ static int cs46xx_suspend_tbl(struct pci_dev *pcidev, pm_message_t state)
+ {
+diff --git a/sound/oss/cs46xxpm-24.h b/sound/oss/cs46xxpm-24.h
+index e220bd7..ad82db8 100644
+--- a/sound/oss/cs46xxpm-24.h
++++ b/sound/oss/cs46xxpm-24.h
+@@ -38,13 +38,9 @@
+ */
+ static int cs46xx_suspend_tbl(struct pci_dev *pcidev, pm_message_t state);
+ static int cs46xx_resume_tbl(struct pci_dev *pcidev);
+-#define cs_pm_register(a, b, c)  NULL
+-#define cs_pm_unregister_all(a)
+ #define CS46XX_SUSPEND_TBL cs46xx_suspend_tbl
+ #define CS46XX_RESUME_TBL cs46xx_resume_tbl
+ #else
+-#define cs_pm_register(a, b, c) pm_register((a), (b), (c));
+-#define cs_pm_unregister_all(a) pm_unregister_all((a));
+ #define CS46XX_SUSPEND_TBL cs46xx_null
+ #define CS46XX_RESUME_TBL cs46xx_null
+ #endif
