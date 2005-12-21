@@ -1,17 +1,14 @@
-From: "Brice" <scottve@aliant.net>
-Date: Tue, 27 Dec 2005 20:16:59 +0000
-Subject: Rare Narcotic Professionals dn
-Message-Id: <200512272016.jBRKGMVA012926@zeus2.kernel.org>
+From: "Forest" <robbr@aliant.net>
+Date: Wed, 21 Dec 2005 13:08:15 +0000
+Subject: Effortless ED Advisers rq
+Message-Id: <200512211308.jBLD7kg7030237@zeus2.kernel.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-SGF2ZSBhIGxvb2sgYXQgb3VyIG5ldyB3ZWIgUGhAcm3BY3kgYW5kIHdpdGhob2xkIHVwIHRvIDg1
-JQoKSHVuZHJlZHMgb2YgUHJvZHVjdHMgdG8gU2VsZWN0CgpodHRwOi8vdWsuZ2VvY2l0aWVzLmNv
-bS9TaGFycm9uVmVudHVyYTg5MS8KCldlIGFyZSB5b3VyIE9uZSBTdG9wIFNob3AgZm9yIEV4dGVu
-c2l2ZSBEZWFscwoKCi0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
-bmUgInVuc3Vic2NyaWJlIGxpbnV4LXNvdW5kIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8g
-bWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8v
-dmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWw=
+We are your solution for Considerable Soft Tab ~ \/1@GRA Savings
+
+http://uk.geocities.com/TerraKlein2220/
+
