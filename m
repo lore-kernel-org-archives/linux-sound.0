@@ -1,17 +1,14 @@
-From: "Deanna" <Gordonns@aliant.net>
-Date: Tue, 27 Dec 2005 10:15:06 +0000
-Subject: Effortless Narcotic Offerings pi
-Message-Id: <200512271014.jBRAEkSL012791@zeus2.kernel.org>
+From: "Gregg" <jameslx@aliant.net>
+Date: Thu, 22 Dec 2005 17:36:15 +0000
+Subject: Flawless Generic Professionals am
+Message-Id: <200512221736.jBMHa6Xg028208@zeus2.kernel.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Q2hlY2sgT3V0IG91ciBuZXcgd2ViIFBowXJtwWN5IGFuZCBTwVZFIHVwIHRvIDg1JQoKRG96ZW5z
-IG9mIFBpbGxzIHRvIENoZWNrIG91dAoKaHR0cDovL3VrLmdlb2NpdGllcy5jb20vTHVjaWxlU3Vt
-bmVyMzUwLwoKV2UgYXJlIHlvdXIgc29sdXRpb24gZm9yIEV4dGVuc2l2ZSBTYXZpbmdzCgotClRv
-IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBs
-aW51eC1zb3VuZCIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtl
-cm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9t
-YWpvcmRvbW8taW5mby5odG1s
+We are your source for Extensive C1@|is ST Deals
+
+http://uk.geocities.com/TerraKlein2220/
+
