@@ -1,23 +1,17 @@
-From: "Jefferey Sutton" <yjiim@msn.com>
-Date: Tue, 27 Dec 2005 01:44:25 +0000
-Subject: Pay Less For Branded Watches T8dM2
-Message-Id: <CFE3.9A5.3074798B8C@mopalinux.com>
+From: "Deanna" <Gordonns@aliant.net>
+Date: Tue, 27 Dec 2005 10:15:06 +0000
+Subject: Effortless Narcotic Offerings pi
+Message-Id: <200512271014.jBRAEkSL012791@zeus2.kernel.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="macroman"
+Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-
-World Top10 Branded Watches at 90% off 
-the original price. We have almost all models
-to be choosen from which makes our replikas
-the best and highest quality assured by our 
-manufacturer or else full refund is being
-given without questions ask.
-
-Check us out toooday..
-http://043.bubbleenveloppe.com
-
-
-jzh
+Q2hlY2sgT3V0IG91ciBuZXcgd2ViIFBowXJtwWN5IGFuZCBTwVZFIHVwIHRvIDg1JQoKRG96ZW5z
+IG9mIFBpbGxzIHRvIENoZWNrIG91dAoKaHR0cDovL3VrLmdlb2NpdGllcy5jb20vTHVjaWxlU3Vt
+bmVyMzUwLwoKV2UgYXJlIHlvdXIgc29sdXRpb24gZm9yIEV4dGVuc2l2ZSBTYXZpbmdzCgotClRv
+IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBs
+aW51eC1zb3VuZCIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtl
+cm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9t
+YWpvcmRvbW8taW5mby5odG1s
