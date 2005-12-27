@@ -1,17 +1,17 @@
-From: "Juana" <stevesi@aliant.net>
-Date: Tue, 27 Dec 2005 00:45:45 +0000
-Subject: Flawless Generic Professionals wl
-Message-Id: <200512270045.jBR0jgjp013988@zeus2.kernel.org>
+From: "Brice" <scottve@aliant.net>
+Date: Tue, 27 Dec 2005 20:16:59 +0000
+Subject: Rare Narcotic Professionals dn
+Message-Id: <200512272016.jBRKGMVA012926@zeus2.kernel.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="macroman"
 Content-Transfer-Encoding: base64
 To: linux-sound@vger.kernel.org
 
-Q2hlY2sgT3V0IG91ciBuZXcgd2ViIFBowXJtwWN5IGFuZCB3aXRoaG9sZCB1cCB0byA4NSUKClBs
-ZW55IG9mIEJyYW5kcyB0byBTZWxlY3QKCmh0dHA6Ly91ay5nZW9jaXRpZXMuY29tL0VzcGVyYW56
-YU1jZmFybGFuZDYwMDkvCgpXZSBhcmUgeW91ciBPbmUgU3RvcCBTaG9wIGZvciBFeHRlbnNpdmUg
-RGVhbHMKCgotClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1
-bnN1YnNjcmliZSBsaW51eC1zb3VuZCIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9y
-ZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIu
-a2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+SGF2ZSBhIGxvb2sgYXQgb3VyIG5ldyB3ZWIgUGhAcm3BY3kgYW5kIHdpdGhob2xkIHVwIHRvIDg1
+JQoKSHVuZHJlZHMgb2YgUHJvZHVjdHMgdG8gU2VsZWN0CgpodHRwOi8vdWsuZ2VvY2l0aWVzLmNv
+bS9TaGFycm9uVmVudHVyYTg5MS8KCldlIGFyZSB5b3VyIE9uZSBTdG9wIFNob3AgZm9yIEV4dGVu
+c2l2ZSBEZWFscwoKCi0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
+bmUgInVuc3Vic2NyaWJlIGxpbnV4LXNvdW5kIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8g
+bWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8v
+dmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWw=
