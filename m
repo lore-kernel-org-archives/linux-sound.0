@@ -1,35 +1,59 @@
-From: David Lang <dlang@digitalinsight.com>
-Date: Tue, 03 Jan 2006 13:58:23 +0000
+From: Alistair John Strachan <s0348365@sms.ed.ac.uk>
+Date: Tue, 03 Jan 2006 14:01:40 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <Pine.LNX.4.62.0601030556370.30559@qynat.qvtvafvgr.pbz>
+Message-Id: <200601031401.40509.s0348365@sms.ed.ac.uk>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <p7364p1jvkx.fsf@verdi.suse.de>
- <200601031347.19328.s0348365@sms.ed.ac.uk> <200601031452.10855.ak@suse.de>
+References: <20050726150837.GT3160@stusta.de> <200601031347.19328.s0348365@sms.ed.ac.uk> <200601031452.10855.ak@suse.de>
 In-Reply-To: <200601031452.10855.ak@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Andi Kleen <ak@suse.de>
-Cc: Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+Cc: Adrian Bunk <bunk@stusta.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Tue, 3 Jan 2006, Andi Kleen wrote:
+On Tuesday 03 January 2006 13:52, Andi Kleen wrote:
+> On Tuesday 03 January 2006 14:47, Alistair John Strachan wrote:
+> > It strikes me that it's a bit of a chicken and egg problem. Vendors are
+> > still releasing applications on Linux that support only OSS, partly due
+> > to ignorance, but mostly because ALSA's OSS compatibility layer allows
+> > them to lazily ignore the ALSA API and target all cards, old and new.
+>
+> As long as it works why is that a bad thing? OSS API works just fine
+> for most sound needs. If you want to do high end sound you can still
+> use ALSA.
 
->> Even if Adrian's not trying to make this point (he's just removing duplicate
->> drivers, and opting for the newer ones), we accepted ALSA into the kernel.
->> It's probably about time we let OSS die properly, for sanity purposes.
+Is multiple-source mixing really a "high end" requirement? When I last 
+checked, the OSS driver didn't support multiple applications claiming it at 
+once, thus requiring you to use "more bloat" like esound, arts, or some other 
+crap to access your soundcard more than once at any given time.
+
+I think when you consider other modern sound architectures across many 
+operating systems have supported this fundamentally basic feature for a long 
+time, it's important to the majority of end users.
+
+> > Additionally, we can't get rid of OSS compatibility until pretty much all
+> > hardware has an ALSA driver, and (inferred from your comment) we can't
+> > get rid of OSS drivers until nothing supports OSS, because the whole of
+> > the ALSA stuff is a bit larger...
+>
+> We can never get rid of it.
+> Linux doesn't break widely used application interfaces.
+
+Okay, fair point.
+
+> > Even if Adrian's not trying to make this point (he's just removing
+> > duplicate drivers, and opting for the newer ones), we accepted ALSA into
+> > the kernel. It's probably about time we let OSS die properly, for sanity
+> > purposes.
 >
 > Avoiding bloat is more important.
 
-given that the ALSA drivers are not going to be removed, isn't it bloat to 
-have two drivers for the same card?
-
-yes, an individual compiled kernel may be slightly smaller by continueing 
-to support the OSS driver, but the source (and the maintinance) are 
-significantly worse by haveing two drivers instead of just one.
-
-David Lang
+I can't agree with that.
 
 -- 
-There are two ways of constructing a software design. One way is to make it so simple that there are obviously no deficiencies. And the other way is to make it so complicated that there are no obvious deficiencies.
-  -- C.A.R. Hoare
+Cheers,
+Alistair.
 
+'No sense being pessimistic, it probably wouldn't work anyway.'
+Third year Computer Science undergraduate.
+1F2 55 South Clerk Street, Edinburgh, UK.
