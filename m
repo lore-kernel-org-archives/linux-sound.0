@@ -1,47 +1,18 @@
-From: Mr Chang Lee <mrchanglee14@msn.com>
-Date: Fri, 27 Jan 2006 17:00:27 +0000
-Subject: Business Proposal!
-Message-Id: <E1F2WxX-00045b-Po@dover.micfo.com>
+From: "Josephine" <Nicholascr@aci.on.ca>
+Date: Wed, 04 Jan 2006 04:12:13 +0000
+Subject: Effortless Medicine Solutions ao
+Message-Id: <200601040412.k044Bdft002420@zeus1.kernel.org>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Dear Intended partner, 
+Have a look at our new web Ph@rmacy and S=C1VE up to 85%
 
-On behalf of China HuaMao Arts & Crafts  Organisation, its our pleasure to  introduce to you 
+Tons of Pills to Browse
 
-our new sales/marketing  initiative as we are world leading producer  and export of artificial 
+http://uk.geocities.com/PeggyPitts7145/
 
-arts and  crafts.  The company maintains a comprehensive  database of inter-national trade in  
-
-artificial arts and  crafts, we export into   Canada/America and some parts of Europe. 
-
-We are suffering for genuine and honest  agents who are capable of sales and  marketing of our 
-
-goods and services in what  ever location they are. 
-
-Our motive is to start off from collections  of outstanding accounts owed by various  customers 
-
-willing to make out payments now  after which  agents shall be promoted to  sales/marketing 
-
-section of this programme  based on their  credibilities/accountabilities of accounts  
-
-collected/retrieved. 
-
-Please if you are interested reply by email with  your phone/fax  number and your full contact  
-
-addresses and note,there is no obligation  whatsoever. 
-
-A remuneration can be worked out for your  services as our overseas representative. We  
-
-anticipate your earliest response in this  regard. 
-Mr Chang Lee
-mrchanglee_11@yahoo.com.cn 
-CEO HuaMao Arts & Crafts 
-No.46 Shangnan Road, Shanggan Town 
-Minhou County Fujian,China
-
-
+We are your solution for Astronomical Dicounts
 
