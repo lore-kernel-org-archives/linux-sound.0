@@ -1,46 +1,82 @@
-From: Jaroslav Kysela <perex@suse.cz>
-Date: Wed, 04 Jan 2006 11:16:18 +0000
+From: Takashi Iwai <tiwai@suse.de>
+Date: Wed, 04 Jan 2006 11:46:00 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <Pine.LNX.4.61.0601041214050.9321@tm8103.perex-int.cz>
+Message-Id: <s5hpsn8md1j.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601031347.19328.s0348365@sms.ed.ac.uk>
- <200601031452.10855.ak@suse.de> <mailman.1136300646.6679.linux-kernel2news@redhat.com>
- <20060104031300.270541d9.zaitcev@redhat.com>
-In-Reply-To: <20060104031300.270541d9.zaitcev@redhat.com>
+References: <20050726150837.GT3160@stusta.de>
+	<200601031522.06898.s0348365@sms.ed.ac.uk>
+	<20060103160502.GB5262@irc.pl>
+	<200601031629.21765.s0348365@sms.ed.ac.uk>
+	<20060103170316.GA12249@dspnet.fr.eu.org>
+	<s5h1wzpnjrx.wl%tiwai@suse.de>
+	<20060103203732.GF5262@irc.pl>
+	<s5hvex1m472.wl%tiwai@suse.de>
+	<9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+	<20060103215654.GH3831@stusta.de>
+	<9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com>
+In-Reply-To: <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Pete Zaitcev <zaitcev@redhat.com>
-Cc: Alistair John Strachan <s0348365@sms.ed.ac.uk>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+To: Jesper Juhl <jesper.juhl@gmail.com>
+Cc: Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Wed, 4 Jan 2006, Pete Zaitcev wrote:
-
-> On Tue, 3 Jan 2006 14:01:40 +0000, Alistair John Strachan <s0348365@sms.ed.ac.uk> wrote:
+At Tue, 3 Jan 2006 23:11:47 +0100,
+Jesper Juhl wrote:
 > 
-> > Is multiple-source mixing really a "high end" requirement? When I last 
-> > checked, the OSS driver didn't support multiple applications claiming it at 
-> > once, thus requiring you to use "more bloat" like esound, arts, or some other 
-> > crap to access your soundcard more than once at any given time.
+> On 1/3/06, Adrian Bunk <bunk@stusta.de> wrote:
+> > On Tue, Jan 03, 2006 at 09:56:20PM +0100, Jesper Juhl wrote:
+> > > On 1/3/06, Takashi Iwai <tiwai@suse.de> wrote:
+> > > > At Tue, 3 Jan 2006 21:37:32 +0100,
+> > > > Tomasz Torcz wrote:
+> > > > >
+> > > > > On Tue, Jan 03, 2006 at 09:22:58PM +0100, Takashi Iwai wrote:
+> > > > > > At Tue, 3 Jan 2006 18:03:16 +0100,
+> > > > > > Olivier Galibert wrote:
+> > > > > > >
+> > > > > > > > This is exactly why the OSS emulation option in ALSA is really a last resort
+> > > > > > > > and should not be an excuse for people to ignore implementing ALSA support
+> > > > > > > > directly. More so, it is very good justification for ditching "everything
+> > > > > > > > OSS" as soon as possible, at least in new software.
+> > > > > > >
+> > > > > > > Actually the crappy state of OSS emulation is a good reason to ditch
+> > > > > > > ALSA in its current implementation.  As Linus reminded not so long
+> > > > > > > ago, backwards compatibility is extremely important.
+> > > > > >
+> > > > > > Well, we keep the compatibility exactly -- OSS drivers don't support
+> > > > > > software mixing in the kernel, too :)
+> > > > >
+> > > > >  OSS will support software mixing. In kernel. On NetBSD.
+> > > > > http://kerneltrap.org/node/4388
+> > > >
+> > > > Why do we need to keep the compatibility with NetBSD?
+> > > >
+> > > Software mixing is a really nice feature for people with soundscards
+> > > that can't do hardware mixing, so if the OSS compatibility could
+> > > transparently do software mixing for apps using OSS api that would be
+> > > a very nice extension for a lot of people - I'd say that if NetBSD do
+> > > that they've got the right idea.
+> >
+> > The OSS compatibility in ALSA is only a legacy API for applications not
+> > yet converted to use the ALSA API.
+> >
 > 
-> If ALSA's OSS emulator does not support mixing properly, it's a bug
-> in ALSA, clearly, because real OSS in 2.4 allowed for mixing, as long
-> as the hardware supported it. I played Doom while listening to MP3s on
-> ymfpci (which, in fact, was a copy of ALSA's ymfpci with OSS API on top).
-> 
-> If ALSA developers wanted, they could have supported mixing in their OSS
-> emulator. They intentionally chose not to, in order to create an incentive
-> for developers to program in native ALSA.
+> Still would be nice if users of ALSA who have the OSS backwards compat
+> enabled would thus also get transparent software mixing for all apps
+> using the OSS API.
+> not crucial, that's not what I'm saying, just nice if it would be possible.
 
-You're in a mistake. ALSA supported multi-open feature for the hardware 
-capable devices as first before any OSS drivers and it's available for the 
-OSS emulation, too.
+Technicall it's trivial to implement the soft-mixing in the kernel.
+The question is whether it's the right implementation.
+We have a user-space softmix for ALSA, and aoss wrapper for OSS using
+it.  (I know aoss still has some problems that should be fixed,
+though.)
 
-The thread is about simple hardware without this capability, so the mixing 
-must be processed in software.
 
-						Jaroslav
+Anyway, the softmix problem has no relation with the deprecation of
+OSS drivers in Linux kernel tree.  They don't do softmix.  So,
+comparing with NetBSD or claiming the unimplemented feature is
+irrelevant with $SUBJECT.
 
------
-Jaroslav Kysela <perex@suse.cz>
-Linux Kernel Sound Maintainer
-ALSA Project, SUSE Labs
+
+Takashi
