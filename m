@@ -1,39 +1,91 @@
-From: Olivier Galibert <galibert@pobox.com>
-Date: Wed, 04 Jan 2006 01:48:15 +0000
+From: =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
+Date: Wed, 04 Jan 2006 02:51:09 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20060104014814.GA64416@dspnet.fr.eu.org>
+Message-Id: <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="0-826484282-1136340077=:29027"
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601031629.21765.s0348365@sms.ed.ac.uk> <20060103170316.GA12249@dspnet.fr.eu.org> <200601031716.13409.s0348365@sms.ed.ac.uk> <20060103192449.GA26030@dspnet.fr.eu.org> <20060103193736.GG3831@stusta.de> <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl> <1136334807.4106.51.camel@unreal>
-In-Reply-To: <1136334807.4106.51.camel@unreal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Thomas Sailer <sailer@sailer.dynip.lugs.ch>
-Cc: Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, linux-kernel@vger.kernel.org, zaitcev@yahoo.com, zwane@commfireservices.com, Thorsten Knabe <linux@thorsten-knabe.de>, jgarzik@pobox.com, parisc-linux@lists.parisc-linux.org, kyle@parisc-linux.org, zab@zabbo.net, linux-sound@vger.kernel.org, sailer@ife.ee.ethz.ch, James@superbug.demon.co.uk, alsa-devel@alsa-project.org, perex@suse.cz, Andi Kleen <ak@suse.de>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Tomasz Torcz <zdzichu@irc.pl>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>
+References: <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl>
+ <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+ <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl>
+ <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+ <20060104000344.GJ3831@stusta.de> <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
+ <20060104010123.GK3831@stusta.de>
+In-Reply-To: <20060104010123.GK3831@stusta.de>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Wed, Jan 04, 2006 at 01:33:27AM +0100, Thomas Sailer wrote:
-> On Wed, 2006-01-04 at 00:10 +0100, Tomasz K?oczko wrote:
-> 
-> > 1) ALSA API forces not use devices files and many things on sound managing
-> >    level are handled on user space library. This dissallow civilized
-> 
-> Huh? Why's that? Actually, I welcome that ALSA does quite a lot in
-> userspace, it could even do more. The whole format conversion and
-> sampling rate conversion has no business in the kernel, IMO.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Doing things in userspace does not necessarily mean doing them in a
-library, especially when it is required that the library be shared,
-also known as "things _will_ break".
+--0-826484282-1136340077=:29027
+Content-Type: TEXT/PLAIN; charset="iso-8859-2"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <Pine.BSO.4.63.0601040304111.29027@rudy.mif.pg.gda.pl>
 
-Especially since it tends to hide the real, user-accessible kernel
-interface which has very, very annoying security implications.  At
-that point, the ALSA kernel-userspace interface seems entirely
-un-reviewed by the kernel people who have an eye for race conditions,
-wandering userland pointers, information leaks, out-of-range accesses
-and this kind of things (no patches from Al Viro on alsa?) and that
-does not really give me a warm and fuzzy feeling.  And even if it is
-reviewed at time t, it looks like it may change anytime a driver
-author thinks it would help.  Not good at all.
+On Wed, 4 Jan 2006, Adrian Bunk wrote:
 
-  OG.
+> On Wed, Jan 04, 2006 at 01:46:08AM +0100, Tomasz K?oczko wrote:
+>> On Wed, 4 Jan 2006, Adrian Bunk wrote:
+>> [..]
+>>>> Solaris, AIX ..
+>>>> Full list is avalaible in "Operating System" listbox on
+>>>> http://www.4front-tech.com/download.cgi
+>>>
+>>> As I said in footnote 1 of my email, this has little value for
+>>> application developers since only few users on these systems use this
+>>> commercial sound system.
+>>
+>> You are wrong using pejorative labeling "commercial sound system" for
+>> this. Comercial is implementation. OSS is defined by user space API.
+>> This is all what was neccessary on implemting this in for Linux.
+>
+> The question is simple:
+>
+> How many percent of the Solaris or AIX users are actually using any
+> sound system implementing the OSS API?
 
+First try answer on: if OSS specyfications is complet, easy to use in=20
+applications and generaly compact why reinventing all from this level to=20
+above on Linux ? why ?
+If you answer first on this question you will see: answer=20
+on your questions do not have sense.
+
+Be compliant with OSS specyfication allow save many time on applications=20
+development level by consume (in good sense) time spend on this=20
+applications by *BSD, Solaris and other systems developers (even on not=20
+open source applications).
+After four years ALSA development quality of sound support in Linux is IMO =
+
+on the ~same (still bad) level as four years ago. Still to complicated=20
+but now more bloated and additionaly not ready for handle fancy gadgets=20
+like BT headsets.
+On other systems (MOX, Win*, Solaris ..) on handle sound situations is now =
+
+better than four years ago. IMO this allow form conclution: generaly=20
+current ALSA is step back compare to other systems and probaly Linux need=20
+some deeper work then simple polishing sound device drivers.
+
+More than year Linux in many publications is described as "excelent=20
+system for mobile gadgets". All waits for this ..
+Most of this gadgets want uses sound. Force using ALSA in this are makes=20
+nightmares not only for drivers developers but also for user space=20
+applications developers.
+
+(IMO in comming year or two if nothing will change Linux can be visable=20
+marginalized/can loose current possition .. not because in this period=20
+Linux will be worse compare to now but because other systems like Solaris, =
+
+MOX and also Win* can pass in this period better progress on bringing some =
+
+valuable functionalities in usable/simpler form for joe-like users ..=20
+remember: sound support in Linux isn't for data centers/big-ass-machines :)
+
+kloczek
+--=20
+-----------------------------------------------------------
+*Ludzie nie maj=B1 problem=F3w, tylko sobie sami je stwarzaj=B1*
+-----------------------------------------------------------
+Tomasz K=B3oczko, sys adm @zie.pg.gda.pl|*e-mail: kloczek@rudy.mif.pg.gda.p=
+l*
+--0-826484282-1136340077=:29027--
