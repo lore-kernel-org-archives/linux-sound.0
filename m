@@ -1,64 +1,54 @@
-From: Stefan Smietanowski <stesmi@stesmi.com>
-Date: Wed, 04 Jan 2006 00:28:48 +0000
+From: Thomas Sailer <sailer@sailer.dynip.lugs.ch>
+Date: Wed, 04 Jan 2006 00:33:27 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <43BB16C0.3080308@stesmi.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="------------enig1F25B72B6293A27AFC6A6A12"
+Message-Id: <1136334807.4106.51.camel@unreal>
 List-Id: <linux-sound.vger.kernel.org>
-References: <200601031522.06898.s0348365@sms.ed.ac.uk> <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk> <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl> <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-In-Reply-To: <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-To: =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
-Cc: Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
-
-This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
---------------enig1F25B72B6293A27AFC6A6A12
-Content-Type: text/plain; charset=ISO-8859-2
+References: <20050726150837.GT3160@stusta.de>
+	 <200601031629.21765.s0348365@sms.ed.ac.uk>
+	 <20060103170316.GA12249@dspnet.fr.eu.org>
+	 <200601031716.13409.s0348365@sms.ed.ac.uk>
+	 <20060103192449.GA26030@dspnet.fr.eu.org> <20060103193736.GG3831@stusta.de>
+	 <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+In-Reply-To: <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+To: Tomasz =?iso-8859-2?Q?K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
+Cc: linux-kernel@vger.kernel.org, zaitcev@yahoo.com, zwane@commfireservices.com, Thorsten Knabe <linux@thorsten-knabe.de>, jgarzik@pobox.com, parisc-linux@lists.parisc-linux.org, kyle@parisc-linux.org, zab@zabbo.net, linux-sound@vger.kernel.org, sailer@ife.ee.ethz.ch, James@superbug.demon.co.uk, alsa-devel@alsa-project.org, perex@suse.cz, Andi Kleen <ak@suse.de>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Tomasz Torcz <zdzichu@irc.pl>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Olivier Galibert <galibert@pobox.com>, Adrian Bunk <bunk@stusta.de>
 
-Tomasz K=B3oczko wrote:
-> On Wed, 4 Jan 2006, Adrian Bunk wrote:
-> [..]
->=20
->>>   OSS is universal cross-unix API. ALSA is Linux-only.
->>
->>
->> How "universal cross-unix" is the OSS API really?
->>
->> Which operating systems besides Linux have a native sound system
->> supporting the OSS API [1]?
->>
->> I know about FreeBSD and partial support in NetBSD.
->>
->> Are there any other [2]?
->=20
->=20
-> Solaris, AIX ..
-> Full list is avalaible in "Operating System" listbox on
-> http://www.4front-tech.com/download.cgi
+On Wed, 2006-01-04 at 00:10 +0100, Tomasz K=B3oczko wrote:
 
-Are all those Operatings Systems that include OSS per default, no
-additional download required? Because that's what he's asking for,
-not what you can get OSS for.
+> 1) ALSA API forces not use devices files and many things on sound managing
+>    level are handled on user space library. This dissallow civilized
 
-Since that link is a _download page_ it makes me think that it's
-an _additional download_ to get OSS support on those (or some of
-those) operating systems.
+Huh? Why's that? Actually, I welcome that ALSA does quite a lot in
+userspace, it could even do more. The whole format conversion and
+sampling rate conversion has no business in the kernel, IMO.
 
-// Stefan
+> 2) ALSA API is to complicated: most applications opens single sound
+>    stream.
+
+Agreed. It took me quite some time to get my app ported, even though I
+had lots of documentation and sample code...
 
 
---------------enig1F25B72B6293A27AFC6A6A12
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+> 3) ALSA kernel architecture is to complicated. This main reason why
+>    configuring sound on Linux is SO COMPLICATED. From my system:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.1 (GNU/Linux)
-Comment: Using GnuPG with Fedora - http://enigmail.mozdev.org
+Also agreed. It is IMO the hardest kernel subsystem to read. Instead of
+having control passing from VFS to driver and the driver calling core
+library routines, control passes from VFS to alsa core, which is calling
+lots of callbacks. It's a coding style that should be avoided, it makes
+reading and understanding code extremely hard.
 
-iD8DBQFDuxbDBrn2kJu9P78RAwE7AKCgTBbZkoLq4hWR3SUXAciDkiqKqACfdsYY
-+0244RzwsL+xQbQtUbjm+Tg=
-=AOSw
------END PGP SIGNATURE-----
+> 4) ALSA mixing model is UNSECURE by design because all mixing sound
+>    streams (for example with diffrent sampling rates) are performed
+>    in user space.
 
---------------enig1F25B72B6293A27AFC6A6A12--
+Why is that? Even with kernel space mixing, any application having
+access to the soundcard can fuck up the output, so I don't see why the
+user space solution is less secure than a kernel solution.
+
+Tom
+
+
