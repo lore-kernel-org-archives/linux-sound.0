@@ -1,42 +1,51 @@
 From: Takashi Iwai <tiwai@suse.de>
-Date: Wed, 04 Jan 2006 17:48:28 +0000
+Date: Wed, 04 Jan 2006 17:54:48 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <s5hu0cj995f.wl%tiwai@suse.de>
+Message-Id: <s5hsls398uv.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>
-	<20060104123538.GE7222@wotan.suse.de>
-	<Pine.LNX.4.61.0601041337340.9321@tm8103.perex-int.cz>
-	<200601041731.18344.s0348365@sms.ed.ac.uk>
-In-Reply-To: <200601041731.18344.s0348365@sms.ed.ac.uk>
+References: <s5h1wzpnjrx.wl%tiwai@suse.de>
+	<20060103203732.GF5262@irc.pl>
+	<s5hvex1m472.wl%tiwai@suse.de>
+	<9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+	<20060103215654.GH3831@stusta.de>
+	<20060103221314.GB23175@irc.pl>
+	<20060103231009.GI3831@stusta.de>
+	<Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+	<20060104000344.GJ3831@stusta.de>
+	<Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
+	<20060104010123.GK3831@stusta.de>
+	<Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
+	<20060104113726.3bd7a649@mango.fruits.de>
+In-Reply-To: <20060104113726.3bd7a649@mango.fruits.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alistair John Strachan <s0348365@sms.ed.ac.uk>
-Cc: Jaroslav Kysela <perex@suse.cz>, Andi Kleen <ak@suse.de>, Joern Nettingsmeier <nettings@folkwang-hochschule.de>, Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Olivier Galibert <galibert@pobox.com>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: mista.tapas@gmx.net
+Cc: Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-At Wed, 4 Jan 2006 17:31:18 +0000,
-Alistair John Strachan wrote:
+At Wed, 4 Jan 2006 11:37:26 +0100,
+tapas wrote:
 > 
-> On Wednesday 04 January 2006 12:41, Jaroslav Kysela wrote:
-> > On Wed, 4 Jan 2006, Andi Kleen wrote:
-> > > > this is like whining about the oh so complex networking infrastructure
-> > > > and iptables and constantly reminiscing how simple it used to be to set
-> > > > up a modem on /dev/ttyS0.
-> > >
-> > > Can be nearly all CONFIGured out. With the removal of the sane
-> > > sound drivers that would be impossible though.
-> >
-> > The code reduction is possible also for the ALSA midlevel code.
-> > For example, removing the verbose /proc support might save some bytes and
-> > so on.
+> -- ALSA's default open mode is "blocking". But the ALSA API uses the
+> term blocking in two meanings and throws them together into the open
+> mode of a pcm device. Normally on device files, blocking access means a
+> read()/write() returns, when there's data which has actually been
+> read/written to the device. nonblocking access means, read()/write()
+> return immediately. In ALSA blocking mode means above _plus_ that the
+> open call will only immediately return (in case of contention) when the
+> previous user of the audio device has given it up. 
 > 
-> But can more be done? Andi's not pointed anything out in particular (unless I 
-> am mistaken), but could more of ALSA be configurable, even if it is at the 
-> expense of userspace API features?
+> The combination of the last two is deadly :) It leaves users with
+> nonfunctional sound plus seemingly hanging apps when their soundcard is
+> not hardware mixing capable. So IMHO, to fix these two issues really is
+> the most pressing matter of all, but like i said, sadly ALSA devs seem
+> to disagree (i haven't followed ALSA development that closely lately
+> though).
 
-For example, we can make supported ac97 codecs selectable so that not
-all codes are compiled in.  The middle layer may contain functions
-which are not used by your drivers.  They can be reduced, too.
+Note that as of OSS emulation, this is no longer true.  The OSS
+devices are opened as "non-blocking" per default.  ALSA native devices
+are opened as "blocking" just to keep the compatible behavior,
+though.
 
 
 Takashi
