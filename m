@@ -1,75 +1,36 @@
-From: Adrian Bunk <bunk@stusta.de>
-Date: Wed, 04 Jan 2006 14:41:37 +0000
+From: Jan Engelhardt <jengelh@linux01.gwdg.de>
+Date: Wed, 04 Jan 2006 14:46:43 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20060104144137.GM3831@stusta.de>
+Message-Id: <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl> <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl> <20060104000344.GJ3831@stusta.de> <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl> <20060104010123.GK3831@stusta.de> <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl> <1136364634.22598.70.camel@localhost.localdomain> <20060104132139.GA5753@athame.dynamicro.on.ca>
-In-Reply-To: <20060104132139.GA5753@athame.dynamicro.on.ca>
+References: <20050726150837.GT3160@stusta.de> <200601031522.06898.s0348365@sms.ed.ac.uk>
+ <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk>
+ <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de>
+ <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de>
+ <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+ <20060103215654.GH3831@stusta.de> <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com>
+ <s5hpsn8md1j.wl%tiwai@suse.de>
+In-Reply-To: <s5hpsn8md1j.wl%tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Wed, Jan 04, 2006 at 08:21:39AM -0500, Greg Louis wrote:
-> On 20060104 (Wed) at 0850:34 +0000, Alan Cox wrote:
-> > On Mer, 2006-01-04 at 03:51 +0100, Tomasz K??oczko wrote:
-> > > Be compliant with OSS specyfication allow save many time on applications 
-> > > development level by consume (in good sense) time spend on this 
-> > > applications by *BSD, Solaris and other systems developers (even on not 
-> > > open source applications).
-> > 
-> > Both Solaris and FreeBSD contain Linux emulation code so in that sense
-> > they admitted 'defeat' long ago.
-> > 
-> > > valuable functionalities in usable/simpler form for joe-like users .. 
-> > > remember: sound support in Linux isn't for data centers/big-ass-machines :)
-> > 
-> > And distributions nowdays ship with ALSA by default, which is giving
-> > users far better audio timing behaviour, mixing they want, digital and
-> > analogue 5.1 outputs. OSS really isn't ideal for serious "end user"
-> > applications like video playback
-> > 
-> Ok, so I'm not serious :) just wanna do fairly standard audio things.
-> 
-> - ALSA doesn't (AFAIK, haven't checked for a few months) support my old
->   Audiotrix sound card -- bye, machine 1
+>> Still would be nice if users of ALSA who have the OSS backwards compat
+>> enabled would thus also get transparent software mixing for all apps
+>> using the OSS API.
+>> not crucial, that's not what I'm saying, just nice if it would be possible.
+>
+>Technicall it's trivial to implement the soft-mixing in the kernel.
+>The question is whether it's the right implementation.
+>We have a user-space softmix for ALSA, and aoss wrapper for OSS using
+>it.  (I know aoss still has some problems that should be fixed,
+>though.)
+>
+Software mixing in the kernel is like FPU ops in the kernel...
 
-Noone wants to remove the drivers for hardware not supported by ALSA 
-from OSS.
 
-After 4 years of ALSA in the kernel we are starting to remove the OSS 
-drivers from the kernel where ALSA drives the same hardware.
 
-We might end up with a handful of OSS drivers for some ancient 
-soundcards without ALSA support and keep them similar to the old CD-ROM 
-drivers under drivers/cdrom/ (or someone might write ALSA drivers for 
-such hardware), but we don't need two drivers for the same hardware.
-
-> - ALSA can't be persuaded (not by me, anyway) to drive my VIA
->   ac97_codec onboard sound hardware -- everything works fine except
->   unmuting ;) -- bye, machine 2
-
-Can you give me a bug number in the ALSA bug tracking system for this 
-issue to track it?
-
-> - ALSA does suport my i810_audio ac97_codec laptop, but so does OSS,
->   equally well (for my unsophisticated needs) and with a far less
->   elephantine footprint in memory. -- strike 3, ALSA out.
->...
-
-How much RAM does your system have that this is really an issue for you?
-
-Sure, it would be possible to make ALSA a bit slimmer, but if you are 
-running something like KDE or Mozilla or OpenOffice on your Laptop the 
-size of the kernel shouldn't be a real issue.
-
-cu
-Adrian
-
+Jan Engelhardt
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
