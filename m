@@ -1,7 +1,7 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Wed, 04 Jan 2006 17:54:48 +0000
+From: Florian Schmidt <tapas@affenbande.org>
+Date: Wed, 04 Jan 2006 18:17:50 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <s5hsls398uv.wl%tiwai@suse.de>
+Message-Id: <20060104191750.798af1da@mango.fruits.de>
 List-Id: <linux-sound.vger.kernel.org>
 References: <s5h1wzpnjrx.wl%tiwai@suse.de>
 	<20060103203732.GF5262@irc.pl>
@@ -16,36 +16,38 @@ References: <s5h1wzpnjrx.wl%tiwai@suse.de>
 	<20060104010123.GK3831@stusta.de>
 	<Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
 	<20060104113726.3bd7a649@mango.fruits.de>
-In-Reply-To: <20060104113726.3bd7a649@mango.fruits.de>
+	<s5hsls398uv.wl%tiwai@suse.de>
+In-Reply-To: <s5hsls398uv.wl%tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: mista.tapas@gmx.net
+To: Takashi Iwai <tiwai@suse.de>
 Cc: Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-At Wed, 4 Jan 2006 11:37:26 +0100,
-tapas wrote:
-> 
-> -- ALSA's default open mode is "blocking". But the ALSA API uses the
-> term blocking in two meanings and throws them together into the open
-> mode of a pcm device. Normally on device files, blocking access means a
-> read()/write() returns, when there's data which has actually been
-> read/written to the device. nonblocking access means, read()/write()
-> return immediately. In ALSA blocking mode means above _plus_ that the
-> open call will only immediately return (in case of contention) when the
-> previous user of the audio device has given it up. 
-> 
-> The combination of the last two is deadly :) It leaves users with
-> nonfunctional sound plus seemingly hanging apps when their soundcard is
-> not hardware mixing capable. So IMHO, to fix these two issues really is
-> the most pressing matter of all, but like i said, sadly ALSA devs seem
-> to disagree (i haven't followed ALSA development that closely lately
-> though).
+On Wed, 04 Jan 2006 18:54:48 +0100
+Takashi Iwai <tiwai@suse.de> wrote:
 
-Note that as of OSS emulation, this is no longer true.  The OSS
-devices are opened as "non-blocking" per default.  ALSA native devices
-are opened as "blocking" just to keep the compatible behavior,
-though.
+> Note that as of OSS emulation, this is no longer true.  The OSS
+> devices are opened as "non-blocking" per default.  ALSA native devices
+> are opened as "blocking" just to keep the compatible behavior,
+> though.
 
+Hi Takashi,
 
-Takashi
+do you know of _any_ app relying on this behaviour? If not, make
+blocking open and blocking read/write different things (as they really
+are different things). Maybe create a /proc control, so users can revert
+to the olde behaviour if there really is any need.
+
+I simply cannot imagine that any ALSA app relies on this weird
+behaviour. I only ever hear how it confuses people [Hang out a bit on
+#alsa on irc.freenode.org: "my alsa driver is broken as this and that
+app hangs!!!" - "no it's expected behaviour" - "WTF!!!?" ;) <- smiley].
+It is also still quite a common case i suppose as when an OSS app has a
+device open, the ALSA apps trying to open it in blocking mode will again
+hang. Or so i'd think. My soundcard is hw mixing capable (thank god ;)),
+so i don't really know, and it's been a while since i hang out regularly
+on that channel. If i talk out of my ass, let me know.
+
+Regards,
+Flo
