@@ -1,72 +1,95 @@
-From: Jan Engelhardt <jengelh@linux01.gwdg.de>
-Date: Wed, 04 Jan 2006 09:03:12 +0000
+From: Stefan Smietanowski <stesmi@stesmi.com>
+Date: Wed, 04 Jan 2006 09:48:59 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <Pine.LNX.4.61.0601040956270.29257@yvahk01.tjqt.qr>
+Message-Id: <43BB9A0B.3010209@stesmi.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="------------enigB3AE9567E1FF9CF06A86C72E"
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601031629.21765.s0348365@sms.ed.ac.uk>
- <20060103170316.GA12249@dspnet.fr.eu.org> <200601031716.13409.s0348365@sms.ed.ac.uk>
- <20060103192449.GA26030@dspnet.fr.eu.org> <20060103193736.GG3831@stusta.de>
- <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
-In-Reply-To: <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+References: <200601031522.06898.s0348365@sms.ed.ac.uk> <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk> <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl> <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl> <43BB16C0.3080308@stesmi.com> <Pine.BSO.4.63.0601040146540.29027@rudy.mif.pg.gda.pl>
+In-Reply-To: <Pine.BSO.4.63.0601040146540.29027@rudy.mif.pg.gda.pl>
 To: =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
-Cc: Adrian Bunk <bunk@stusta.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Tomasz Torcz <zdzichu@irc.pl>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+Cc: Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+
+This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
+--------------enigB3AE9567E1FF9CF06A86C72E
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: quoted-printable
+
+Tomasz K=B3oczko wrote:
+> On Wed, 4 Jan 2006, Stefan Smietanowski wrote:
+> [..]
+>=20
+>>> Solaris, AIX ..
+>>> Full list is avalaible in "Operating System" listbox on
+>>> http://www.4front-tech.com/download.cgi
+>>
+>>
+>> Are all those Operatings Systems that include OSS per default, no
+>> additional download required? Because that's what he's asking for,
+>> not what you can get OSS for.
+>>
+>> Since that link is a _download page_ it makes me think that it's
+>> an _additional download_ to get OSS support on those (or some of
+>> those) operating systems.
+>=20
+>=20
+> So start another "it makes me think" and imagine that in Solaris case
+> using drivers not provided directly on distribution level is NORMAL
+> habit. Why ? Bacause Solaris have well defined kernel API (from many
+> years in some common areas it is constants which makes
+> Documentation/stable_api_nonsense.txt from Linux tree piece of crap).
+> This allow use device drivers prepared first for example for older
+> kernels (8,9) on latest (10). I.e.: Solaris 10 inroduces stop supportin=
+g
+> some older network cards (IIRC for old SMC cards). I know people which
+> still uses this cards on Sol10 by using binary drivers prepared for
+> older Solarises without visable problems. Also many device drivers have=
+
+> double versions (one from distribution resouurces and second provided b=
+y
+> device vendor).
+>=20
+> Summarize: stop looking on sound subsystem problems as Linux specyfic
+> and assume that THE SAME problems exists on other unices in so simillar=
+
+> form
+> so is possible thinking on OSS support on kernel level details in the
+> same forms as on other unices. Linux case isn't so unusual in this area=
+
+> .. it is VERY typical :>
+> If you will take this as true you can start looking on OSS API on Linux=
+
+> from correct point of view.
+> And start asking ALSA people: why using OSS API in other unices simple
+> works and it ins't problem and on Linux "it was so big problem that
+> reinventing sound support in ALSA form was neccessary" ?
+>=20
+> kloczek
+
+So if I buy $COMMERCIAL_PROGRAM for say Solaris, AIX or anything else
+it REQUIRES me to download (before: buy) $COMMERCIAL_SOUNDSYSTEM?
+
+"In order to use this program you need to have OSS installed."
+
+That sounds insane to say the least.
+
+// Stefan
+
+download $COMMERCIAL_SOUNDSYSTEM ins
 
 
-> 2) ALSA API is to complicated: most applications opens single sound
-> stream.
+--------------enigB3AE9567E1FF9CF06A86C72E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Seconded.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.1 (GNU/Linux)
+Comment: Using GnuPG with Fedora - http://enigmail.mozdev.org
 
-> 3) ALSA kernel architecture is to complicated. This main reason why
-> configuring sound on Linux is SO COMPLICATED. From my system:
->
-> # lsmod | grep ^snd | wc -l
-> 19
->
+iD8DBQFDu5oPBrn2kJu9P78RA0f8AJ45WPcjZMbQdrhJmkYFuhgVvOQmtwCeN8zQ
+xb+DmfKBUY/kjI3lvqceCtY=
+=Pq+J
+-----END PGP SIGNATURE-----
 
-Why would you, or the "Desktop User Joe" using Torvalds-advertised KDE,
-care about how many modules are loaded?
-
-Splitting code up to make things more modular is A Good Choice most
-of the times. There is, however, one point in which you have reason:
-if the overall modular structure is bigger than a mono one, then it's
-indeed "complicated".
-
-> ALSA is also requires much more bigger code size than OSS variant
-> (count all snd* modules size, jackd and libasound and compare this with
-> OSS modules and user space OSS library size). Simillar is on allocated
-> memory in all system sound components.
->
-jackd does not count - ALSA works without it.
-
-> Many task switches incurred by the current ALSA architecture
-> add quickly up to perceivalble deleys during processing. In many cases
-> sound must be handled with RT piorites so all code sise must possible
-> small for handle this with minimal latency.
->
-> 4) ALSA mixing model is UNSECURE by design because all mixing sound
-> streams (for example with diffrent sampling rates) are performed
-> in user space.
->
-I'd rather have libasound segfault rather than my kernel oopsing, in case
-someone forgot a NULL check.
-
-> Also using jackd also "creates problems" with RTing this proccess and
-> much more bigger problems on configure stage (for joe user).
-> All this can be handled in secure and proprer RT prioprities
-> ONLY on kernel space (so all gaming mith jackd or so is plain waste
-> of time). Only on kernel level is possible correctly handle all this.
-> With ALSA you can't extend in esy way for example SELinux for prevent
-> intercept sound streem from microphone by remote user. Current OSS API
-> is much more better for SELinux.
-> Why ? because all mixing on OSS is performed on kernel level.
->
-AFAICS, OSS does not do mixing at all in its current state.
-
-
-
-Jan Engelhardt
--- 
+--------------enigB3AE9567E1FF9CF06A86C72E--
