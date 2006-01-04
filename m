@@ -1,36 +1,48 @@
-From: Jaroslav Kysela <perex@suse.cz>
-Date: Wed, 04 Jan 2006 12:41:41 +0000
+From: Greg Louis <glouis@dynamicro.on.ca>
+Date: Wed, 04 Jan 2006 13:21:39 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <Pine.LNX.4.61.0601041337340.9321@tm8103.perex-int.cz>
+Message-Id: <20060104132139.GA5753@athame.dynamicro.on.ca>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601031629.21765.s0348365@sms.ed.ac.uk>
- <20060103170316.GA12249@dspnet.fr.eu.org> <200601031716.13409.s0348365@sms.ed.ac.uk>
- <20060103192449.GA26030@dspnet.fr.eu.org> <20060103193736.GG3831@stusta.de>
- <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
- <43BBBBFF.5020209@folkwang-hochschule.de> <20060104123538.GE7222@wotan.suse.de>
-In-Reply-To: <20060104123538.GE7222@wotan.suse.de>
+References: <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl> <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl> <20060104000344.GJ3831@stusta.de> <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl> <20060104010123.GK3831@stusta.de> <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl> <1136364634.22598.70.camel@localhost.localdomain>
+In-Reply-To: <1136364634.22598.70.camel@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Andi Kleen <ak@suse.de>
-Cc: Joern Nettingsmeier <nettings@folkwang-hochschule.de>, Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Wed, 4 Jan 2006, Andi Kleen wrote:
-
-> > this is like whining about the oh so complex networking infrastructure 
-> > and iptables and constantly reminiscing how simple it used to be to set 
-> > up a modem on /dev/ttyS0.
+On 20060104 (Wed) at 0850:34 +0000, Alan Cox wrote:
+> On Mer, 2006-01-04 at 03:51 +0100, Tomasz K??oczko wrote:
+> > Be compliant with OSS specyfication allow save many time on applications 
+> > development level by consume (in good sense) time spend on this 
+> > applications by *BSD, Solaris and other systems developers (even on not 
+> > open source applications).
 > 
-> Can be nearly all CONFIGured out. With the removal of the sane
-> sound drivers that would be impossible though.
+> Both Solaris and FreeBSD contain Linux emulation code so in that sense
+> they admitted 'defeat' long ago.
+> 
+> > valuable functionalities in usable/simpler form for joe-like users .. 
+> > remember: sound support in Linux isn't for data centers/big-ass-machines :)
+> 
+> And distributions nowdays ship with ALSA by default, which is giving
+> users far better audio timing behaviour, mixing they want, digital and
+> analogue 5.1 outputs. OSS really isn't ideal for serious "end user"
+> applications like video playback
+> 
+Ok, so I'm not serious :) just wanna do fairly standard audio things.
 
-The code reduction is possible also for the ALSA midlevel code.
-For example, removing the verbose /proc support might save some bytes and 
-so on.
+- ALSA doesn't (AFAIK, haven't checked for a few months) support my old
+  Audiotrix sound card -- bye, machine 1
+- ALSA can't be persuaded (not by me, anyway) to drive my VIA
+  ac97_codec onboard sound hardware -- everything works fine except
+  unmuting ;) -- bye, machine 2
+- ALSA does suport my i810_audio ac97_codec laptop, but so does OSS,
+  equally well (for my unsophisticated needs) and with a far less
+  elephantine footprint in memory. -- strike 3, ALSA out.
 
-						Jaroslav
+So even if sound support in Linux _is_ for "big-ass" studio work, it
+would be nice if little guys didn't get abandoned along the way, IMHO.
 
------
-Jaroslav Kysela <perex@suse.cz>
-Linux Kernel Sound Maintainer
-ALSA Project, SUSE Labs
+-- 
+| G r e g  L o u i s         | gpg public key: 0x400B1AA86D9E3E64 |
+|  http://www.bgl.nu/~glouis |   (on my website or any keyserver) |
+|  http://wecanstopspam.org in signatures helps fight junk email. |
