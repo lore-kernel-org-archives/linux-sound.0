@@ -1,54 +1,54 @@
-From: Thomas Sailer <sailer@sailer.dynip.lugs.ch>
-Date: Wed, 04 Jan 2006 00:33:27 +0000
+From: =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
+Date: Wed, 04 Jan 2006 00:46:08 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <1136334807.4106.51.camel@unreal>
+Message-Id: <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="0-644871101-1136335568=:29027"
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>
-	 <200601031629.21765.s0348365@sms.ed.ac.uk>
-	 <20060103170316.GA12249@dspnet.fr.eu.org>
-	 <200601031716.13409.s0348365@sms.ed.ac.uk>
-	 <20060103192449.GA26030@dspnet.fr.eu.org> <20060103193736.GG3831@stusta.de>
-	 <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
-In-Reply-To: <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+References: <200601031629.21765.s0348365@sms.ed.ac.uk>
+ <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de>
+ <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de>
+ <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+ <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl>
+ <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+ <20060104000344.GJ3831@stusta.de>
+In-Reply-To: <20060104000344.GJ3831@stusta.de>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--0-644871101-1136335568=:29027
+Content-Type: TEXT/PLAIN; charset="iso-8859-2"; format="flowed"
 Content-Transfer-Encoding: quoted-printable
-To: Tomasz =?iso-8859-2?Q?K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
-Cc: linux-kernel@vger.kernel.org, zaitcev@yahoo.com, zwane@commfireservices.com, Thorsten Knabe <linux@thorsten-knabe.de>, jgarzik@pobox.com, parisc-linux@lists.parisc-linux.org, kyle@parisc-linux.org, zab@zabbo.net, linux-sound@vger.kernel.org, sailer@ife.ee.ethz.ch, James@superbug.demon.co.uk, alsa-devel@alsa-project.org, perex@suse.cz, Andi Kleen <ak@suse.de>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Tomasz Torcz <zdzichu@irc.pl>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Olivier Galibert <galibert@pobox.com>, Adrian Bunk <bunk@stusta.de>
 
-On Wed, 2006-01-04 at 00:10 +0100, Tomasz K=B3oczko wrote:
+On Wed, 4 Jan 2006, Adrian Bunk wrote:
+[..]
+>> Solaris, AIX ..
+>> Full list is avalaible in "Operating System" listbox on
+>> http://www.4front-tech.com/download.cgi
+>
+> As I said in footnote 1 of my email, this has little value for
+> application developers since only few users on these systems use this
+> commercial sound system.
 
-> 1) ALSA API forces not use devices files and many things on sound managing
->    level are handled on user space library. This dissallow civilized
+You are wrong using pejorative labeling "commercial sound system" for=20
+this. Comercial is implementation. OSS is defined by user space API.
+This is all what was neccessary on implemting this in for Linux.
 
-Huh? Why's that? Actually, I welcome that ALSA does quite a lot in
-userspace, it could even do more. The whole format conversion and
-sampling rate conversion has no business in the kernel, IMO.
+OSS case on Linux is very simillar to Motiff case on X11.
+As same as Motiff OSS have publically avalaible and open specyfication
+avalaible on http://www.opensound.com/pguide/oss.pdf which do not touch=20
+kernel level implemntations details. Using this specyfication you can
+collect all neccessary details for implemt handle /dev/* interface on
+kernel side.
 
-> 2) ALSA API is to complicated: most applications opens single sound
->    stream.
-
-Agreed. It took me quite some time to get my app ported, even though I
-had lots of documentation and sample code...
-
-
-> 3) ALSA kernel architecture is to complicated. This main reason why
->    configuring sound on Linux is SO COMPLICATED. From my system:
-
-Also agreed. It is IMO the hardest kernel subsystem to read. Instead of
-having control passing from VFS to driver and the driver calling core
-library routines, control passes from VFS to alsa core, which is calling
-lots of callbacks. It's a coding style that should be avoided, it makes
-reading and understanding code extremely hard.
-
-> 4) ALSA mixing model is UNSECURE by design because all mixing sound
->    streams (for example with diffrent sampling rates) are performed
->    in user space.
-
-Why is that? Even with kernel space mixing, any application having
-access to the soundcard can fuck up the output, so I don't see why the
-user space solution is less secure than a kernel solution.
-
-Tom
-
-
+kloczek
+--=20
+-----------------------------------------------------------
+*Ludzie nie maj=B1 problem=F3w, tylko sobie sami je stwarzaj=B1*
+-----------------------------------------------------------
+Tomasz K=B3oczko, sys adm @zie.pg.gda.pl|*e-mail: kloczek@rudy.mif.pg.gda.p=
+l*
+--0-644871101-1136335568=:29027--
