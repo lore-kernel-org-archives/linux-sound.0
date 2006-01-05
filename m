@@ -1,40 +1,30 @@
 From: Jan Engelhardt <jengelh@linux01.gwdg.de>
-Date: Thu, 05 Jan 2006 07:11:12 +0000
+Date: Thu, 05 Jan 2006 07:13:28 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <Pine.LNX.4.61.0601050809200.10161@yvahk01.tjqt.qr>
+Message-Id: <Pine.LNX.4.61.0601050812040.10161@yvahk01.tjqt.qr>
 List-Id: <linux-sound.vger.kernel.org>
-References: <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl>
- <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
- <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl>
- <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
- <20060104000344.GJ3831@stusta.de> <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
- <20060104010123.GK3831@stusta.de> <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
- <20060104113726.3bd7a649@mango.fruits.de> <s5hsls398uv.wl%tiwai@suse.de>
- <20060104191750.798af1da@mango.fruits.de> <74F7C515-831F-42E4-9A6F-70A9C11E8BB3@neostrada.pl>
- <20060104205232.1dd5f308@mango.fruits.de>
-In-Reply-To: <20060104205232.1dd5f308@mango.fruits.de>
+References: <200601031522.06898.s0348365@sms.ed.ac.uk>  <s5hvex1m472.wl%tiwai@suse.de>
+  <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> 
+ <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl> 
+ <20060103231009.GI3831@stusta.de>  <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+  <43BB16C0.3080308@stesmi.com>  <Pine.BSO.4.63.0601040146540.29027@rudy.mif.pg.gda.pl>
+  <43BB9A0B.3010209@stesmi.com> <7e5f60720601041903s3462bf9bib9ada16fe70ef988@mail.gmail.com>
+In-Reply-To: <7e5f60720601041903s3462bf9bib9ada16fe70ef988@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Florian Schmidt <tapas@affenbande.org>
-Cc: Marcin Dalecki <dalecki.marcin@neostrada.pl>, Takashi Iwai <tiwai@suse.de>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Peter Bortas <bortas@gmail.com>
+Cc: Stefan Smietanowski <stesmi@stesmi.com>, =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
->> > Maybe create a /proc control, so users can revert
->> > to the olde behaviour if there really is any need.
->> 
->> YES YES! After all who doesn't use his system logged in as root?
->
 
-There is something like /etc/init.d/boot.local in which you can set your
-preference. Who changes his blocking mode behavior every day, huh?
+>No. Everything on Solaris uses the Solaris native sound API except for
+>possibly quick-hack ports of applications from Linux. Doing anything
+>else would as you say be insane and break things like device
+>redirection on Sunrays.
+>
+Device redirection is just "writing to a different /dev node" - on
+Solaris and Linux. IIRC, the API is the same.
 
->Well, maybe it is a bad idea. Got a better one up your sleeve? Or just
->sarcasm? 
->
->Maybe make it a .asoundrc option (which libasound reads everytime a
->device is opened anyways). Maybe even per device.
->
-And what about the OSS emulation /dev/dsp? OSS apps do not read .asoundrc.
 
 
 Jan Engelhardt
