@@ -1,71 +1,56 @@
-From: Florian Schmidt <tapas@affenbande.org>
-Date: Thu, 05 Jan 2006 19:15:51 +0000
+From: Lee Revell <rlrevell@joe-job.com>
+Date: Thu, 05 Jan 2006 19:29:07 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20060105201551.3a88fb0b@mango.fruits.de>
+Message-Id: <1136489348.31583.47.camel@mindpipe>
 List-Id: <linux-sound.vger.kernel.org>
-References: <s5h1wzpnjrx.wl%tiwai@suse.de>
-	<20060103203732.GF5262@irc.pl>
-	<s5hvex1m472.wl%tiwai@suse.de>
-	<9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
-	<20060103215654.GH3831@stusta.de>
-	<20060103221314.GB23175@irc.pl>
-	<20060103231009.GI3831@stusta.de>
-	<Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-	<20060104000344.GJ3831@stusta.de>
-	<Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
-	<20060104010123.GK3831@stusta.de>
-	<Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
-	<20060104113726.3bd7a649@mango.fruits.de>
-	<1136445395.24475.17.camel@mindpipe>
-	<20060105124317.2d12a85c@mango.fruits.de>
-	<1136486180.31583.29.camel@mindpipe>
-In-Reply-To: <1136486180.31583.29.camel@mindpipe>
+References: <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl>
+	 <s5hvex1m472.wl%tiwai@suse.de>
+	 <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+	 <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl>
+	 <20060103231009.GI3831@stusta.de>
+	 <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+	 <20060104000344.GJ3831@stusta.de>
+	 <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
+	 <20060104010123.GK3831@stusta.de>
+	 <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
+	 <20060104113726.3bd7a649@mango.fruits.de> <s5hsls398uv.wl%tiwai@suse.de>
+	 <20060104191750.798af1da@mango.fruits.de>
+	 <1136445063.24475.11.camel@mindpipe>
+	 <20060105200911.5aa4e705.froese@gmx.de>
+In-Reply-To: <20060105200911.5aa4e705.froese@gmx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Lee Revell <rlrevell@joe-job.com>
-Cc: Florian Schmidt <tapas@affenbande.org>, Tomasz =?ISO-8859-1?Q?K=B3oczk?= =?ISO-8859-1?Q?o?= <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Edgar Toernig <froese@gmx.de>
+Cc: Florian Schmidt <tapas@affenbande.org>, Takashi Iwai <tiwai@suse.de>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Thu, 05 Jan 2006 13:36:20 -0500
-Lee Revell <rlrevell@joe-job.com> wrote:
-
-> OK so you can contrive an example.  Have we ever seen a real world app
-> where aoss can't work?
-
-Well, until i provided my hacky and probably buggy patch to aoss to use
-libc's fopen()-et. al.-hooks, no app using the OSS api by way of libc's
-fopen() et. al. was able to use aoss.  I don't use aoss anymore, as i
-have hw mixing, so i haven't really done anymore testing. I admit of not
-being sure, whether this principle error has any realistic impact (i.e.
-apps/libs exist that resolve their system call symbols at build time - i
-must also admit that i don't have really complete understanding of this
-issue. maybe a more knowledgable person can speak up about possible use
-scenarios besides libc). 
-
-> > Errm, i'm actually wrong about that. Kernel level OSS emu sw mixing
-> > cannot work together with userspace ALSA sw mixing. I completely missed
-> > that point.
-> > 
-> > I still think, the easiest way would be to use FUSE as it gives the best
-> > of both worlds:
+On Thu, 2006-01-05 at 20:09 +0100, Edgar Toernig wrote:
+> Lee Revell wrote:
+> >
+> > All of this was solved with the switch in ALSA 1.0.9 to use dmix by
+> > default.  If it does not Just Work it's a bug and we need to hear about
+> > it.
 > 
-> Yep, this does sound like a promising approach.  AFAIK it's never been
-> seriously explored as FUSE is so new.
+> So then:  xawtv4 (dvb-app) works with hw:0 but not with 1.0.9's dmix default.
+> It works with /dev/dsp1 (usb-speakers) but not with /dev/dsp0 (atiixp ac'97).
+> vdr's softdevice (another dvb-app) works with dmix-default but not with hw:0.
+> And that's my experience with most audio apps - you have to try all configur-
+> ations until you find one that works.  Sure, maybe badly written apps but
+> there must be something wrong if so many developers have problems with
+> Alsa.  I've even resigned to grok the config files :-(
+> 
+> Ciao, ET.
+> 
 
-Plus, i was wrong :) FUSE is for filesystems. fusd would be the choice
-for this (not included in kernel yet). One might see how far one gets
-with reusing code from both aoss and oss2jack
+Come on, this is LKML, you should know that "it doesn't work" is not a
+useful bug report.
 
-http://fort.xdas.com/~kor/oss2jack/
+> And btw, with 2.6.15 the usb-speakers only produce noise most of the time.
+> 
 
-Btw: It has a nice list of compatible apps including skype and quake3
-;)
+Known regression, this is being worked on.  It was known and posted to
+LKML before the 2.6.15 release, unfortunately 2.6.15 was released with
+this bug anyway.
 
-Btw2: Heh, oss2jack already has direct ALSA support on its TODO list :)
+Lee
 
-fusd:
-
-http://www.circlemud.org/%7Ejelson/software/fusd/
-
-Regards,
-Flo
