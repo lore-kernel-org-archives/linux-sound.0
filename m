@@ -1,39 +1,56 @@
-From: Jan Engelhardt <jengelh@linux01.gwdg.de>
-Date: Thu, 05 Jan 2006 10:57:42 +0000
+From: Takashi Iwai <tiwai@suse.de>
+Date: Thu, 05 Jan 2006 11:15:46 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr>
+Message-Id: <s5hzmmbhqn1.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601031522.06898.s0348365@sms.ed.ac.uk>
- <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk>
- <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de>
- <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de>
- <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
- <20060103215654.GH3831@stusta.de> <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com>
- <s5hpsn8md1j.wl%tiwai@suse.de> <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr>
- <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de>
-In-Reply-To: <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de>
+References: <s5h1wzpnjrx.wl%tiwai@suse.de>
+	<20060103203732.GF5262@irc.pl>
+	<s5hvex1m472.wl%tiwai@suse.de>
+	<9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+	<20060103215654.GH3831@stusta.de>
+	<20060103221314.GB23175@irc.pl>
+	<20060103231009.GI3831@stusta.de>
+	<Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+	<20060104000344.GJ3831@stusta.de>
+	<Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
+	<20060104010123.GK3831@stusta.de>
+	<Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
+	<20060104113726.3bd7a649@mango.fruits.de>
+	<s5hsls398uv.wl%tiwai@suse.de>
+	<20060104191750.798af1da@mango.fruits.de>
+	<74F7C515-831F-42E4-9A6F-70A9C11E8BB3@neostrada.pl>
+	<20060104205232.1dd5f308@mango.fruits.de>
+In-Reply-To: <20060104205232.1dd5f308@mango.fruits.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Marcin Dalecki <martin@dalecki.de>
-Cc: Takashi Iwai <tiwai@suse.de>, Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Florian Schmidt <tapas@affenbande.org>
+Cc: Marcin Dalecki <dalecki.marcin@neostrada.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
->> Software mixing in the kernel is like FPU ops in the kernel...
->
-> Could you please elaborate a tad bit more on the analogy? It doesn't appear to
-> be stunningly obvious.
->
-It has never been done before in Linux, so there must be a reason to it.
-There was also a reason why khttpd was (going in and) going out.
+At Wed, 4 Jan 2006 20:52:32 +0100,
+Florian Schmidt wrote:
+> 
+> On Wed, 4 Jan 2006 20:28:59 +0100
+> Marcin Dalecki <dalecki.marcin@neostrada.pl> wrote:
+> 
+> > 
+> > On 2006-01-04, at 19:17, Florian Schmidt wrote:
+> > > Maybe create a /proc control, so users can revert
+> > > to the olde behaviour if there really is any need.
+> > 
+> > YES YES! After all who doesn't use his system logged in as root?
+> 
+> Well, maybe it is a bad idea. Got a better one up your sleeve? Or just
+> sarcasm? 
+> 
+> Maybe make it a .asoundrc option (which libasound reads everytime a
+> device is opened anyways). Maybe even per device.
 
-> Are you aware of the reasons why floating point operations are avoided inside
-> the kernel?
->
-Because it is "unportable". You cannot expect to have every hardware Linux 
-runs on today to have an FPU engine (hey, like that ol' i386 I got, needs 
-CONFIG_MATH_EMU...), especially in the Embedded Devices sector.
+That sounds better.  The hw plug of alsa-lib can have a new option to
+force non-blocking mode open.  So, no change in the kernel side at
+all.
 
 
+Thanks,
 
-Jan Engelhardt
--- 
+Takashi
