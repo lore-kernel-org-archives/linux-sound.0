@@ -1,55 +1,64 @@
-From: Jan Engelhardt <jengelh@linux01.gwdg.de>
-Date: Thu, 05 Jan 2006 21:14:23 +0000
-Subject: Re: [parisc-linux] Re: [OT] ALSA userspace API complexity
-Message-Id: <Pine.LNX.4.61.0601052211100.24519@yvahk01.tjqt.qr>
+From: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
+Date: Thu, 05 Jan 2006 22:39:43 +0000
+Subject: Re: [OT] ALSA userspace API complexity
+Message-Id: <43BDA02F.5070103@folkwang-hochschule.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>  <20060103193736.GG3831@stusta.de>
-  <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl> 
- <mailman.1136368805.14661.linux-kernel2news@redhat.com> 
- <20060104030034.6b780485.zaitcev@redhat.com>  <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
-  <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl> 
- <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz> 
- <20060105142120.GA28611@dspnet.fr.eu.org> <1136472979.16358.33.camel@localhost.localdomain>
-In-Reply-To: <1136472979.16358.33.camel@localhost.localdomain>
+References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de> <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl> <mailman.1136368805.14661.linux-kernel2news@redhat.com> <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz> <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl> <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz> <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
+In-Reply-To: <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Cc: Olivier Galibert <galibert@pobox.com>, Jaroslav Kysela <perex@suse.cz>, zwane@commfireservices.com, ALSA development <alsa-devel@alsa-project.org>, Andi Kleen <ak@suse.de>, LKML <linux-kernel@vger.kernel.org>, sailer@ife.ee.ethz.ch, kyle@parisc-linux.org, James@superbug.demon.co.uk, Thorsten Knabe <linux@thorsten-knabe.de>, linux-sound@vger.kernel.org, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, jgarzik@pobox.com, zab@zabbo.net, parisc-linux@lists.parisc-linux.org, Pete Zaitcev <zaitcev@redhat.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+To: =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
+Cc: Jaroslav Kysela <perex@suse.cz>, Pete Zaitcev <zaitcev@redhat.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>, Olivier Galibert <galibert@pobox.com>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, LKML <linux-kernel@vger.kernel.org>
+
+Tomasz K=B3oczko wrote:
+> List all neccessary feactures and abstract them. Below this layer you=20
+> can plug to this all device drivers. Where is the problem ?
+
+users want to use all the bells and whistles that modern sound hardware=20
+has to offer. so "necessary features" roughly equals the union of all=20
+the "cool ideas of the week" of all soundcard vendors.
+
+please have a look at, say, the rme hammerfall cards, compare them with=20
+ye olde sblive, then take a look at usb audio devices and for dessert,=20
+take a peek into current firewire hardware.
+
+then push up your sleeves, design a small and elegant little abstraction=20
+mechanism that is maximally effective in all circumstances and makes all=20
+hardware features usable, wrap it up nicely and submit it to linus.
+
+i look forward to hearing back from you, in, oh, 2015 or so?
+
+jaroslav, takashi and the other alsa developers have been toiling with=20
+this for years, and i hate to see them having to take shit from people=20
+who don't do anything more with their sound hardware than listen to mp3s=20
+in stereo and can't imagine anything else.
+
+granted, there is always room for improvement. the alsa guys are very=20
+receptive towards constructive criticism, when it is backed with a=20
+little insight. many linux audio developers have criticised the API for=20
+the high initial barrier, and ALSA certainly does not score that high in=20
+the "making simple things simple" department. but it does make=20
+*complicated things possible*, and all those rants of "gimme back me=20
+oss" usually ignore this.
+
+modem dialup users know better than to chime in to networking core=20
+discussions and complain they don't need all that complexity. why do=20
+professional audio users always have to put up with people who only=20
+listen to mp3s whining about a complicate API?
+
+i'll always grant you far better taste and insight into kernel matters=20
+than i will ever have, but hey: the library is in userspace. it does not=20
+clutter the kernel. so rrreeelaax!
 
 
->> historical and political reasons, not technical ones.  When
->> performance raises its ugly head and you end up having to listen to
->> engineers again you end up with DRI and that:
->> 
->> Module                  Size  Used by
->> nvidia               3464380  12 
->
->That isn't DRI. DRI is a good deal smaller than the crazy nvidia stuff.
->
->radeon                 81089  1
->drm                    83433  2 radeon
->
->.. speaks volumes doesn't it 8)
+--=20
+j=F6rn nettingsmeier
 
-What nvidia version number is that? I remember it being over 5 megs in size. Oh
-BTW, that's one GOOD REASON for me to believe having certain parts in userspace
-(e.g. X was mentioned) being a good thing - after all, you can't swap kernel
-memory. If nvidia continued like that, their kernel module would eventually
-exceed the amount of RAM that is apparently installed.
+home://germany/45128 essen/lortzingstr. 11/
+http://spunk.dnsalias.org
+phone://+49/201/491621
 
->> X is a beautiful example of how things should not have been done.  Its
->> only redeeming quality is that it exists and works, and that's
->> definitively a non-negligible one.
->
->X servers have been implemented a variety of ways involving mixed user
->and kernel space environments, user space only, pure kernel space, and
->even downloading the server onto a graphics coprocessor and talking X
->protocol to it.
-
-
-
-Jan Engelhardt
--- 
-| Alphagate Systems, http://alphagate.hopto.org/
-| jengelh's site, http://jengelh.hopto.org/
+if you are a free (as in "free speech") software developer
+and you happen to be travelling near my home, drop me a line
+and come round for a free (as in "free beer") beer. :-D
