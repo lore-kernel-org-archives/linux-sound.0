@@ -1,32 +1,39 @@
-From: Peter Bortas <bortas@gmail.com>
-Date: Thu, 05 Jan 2006 09:57:43 +0000
+From: Jan Engelhardt <jengelh@linux01.gwdg.de>
+Date: Thu, 05 Jan 2006 10:57:42 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <7e5f60720601050157p2e8e077eg45d6e666bb5ceeb6@mail.gmail.com>
+Message-Id: <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr>
 List-Id: <linux-sound.vger.kernel.org>
-References: <200601031522.06898.s0348365@sms.ed.ac.uk>
-	 <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl>
-	 <20060103231009.GI3831@stusta.de>
-	 <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-	 <43BB16C0.3080308@stesmi.com>
-	 <Pine.BSO.4.63.0601040146540.29027@rudy.mif.pg.gda.pl>
-	 <43BB9A0B.3010209@stesmi.com>
-	 <7e5f60720601041903s3462bf9bib9ada16fe70ef988@mail.gmail.com>
-	 <Pine.LNX.4.61.0601050812040.10161@yvahk01.tjqt.qr>
-In-Reply-To: <Pine.LNX.4.61.0601050812040.10161@yvahk01.tjqt.qr>
+References: <20050726150837.GT3160@stusta.de> <200601031522.06898.s0348365@sms.ed.ac.uk>
+ <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk>
+ <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de>
+ <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de>
+ <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+ <20060103215654.GH3831@stusta.de> <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com>
+ <s5hpsn8md1j.wl%tiwai@suse.de> <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr>
+ <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de>
+In-Reply-To: <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jan Engelhardt <jengelh@linux01.gwdg.de>
-Cc: Stefan Smietanowski <stesmi@stesmi.com>, =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Marcin Dalecki <martin@dalecki.de>
+Cc: Takashi Iwai <tiwai@suse.de>, Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On 1/5/06, Jan Engelhardt <jengelh@linux01.gwdg.de> wrote:
+>> Software mixing in the kernel is like FPU ops in the kernel...
 >
-> >No. Everything on Solaris uses the Solaris native sound API except for
-> >possibly quick-hack ports of applications from Linux. Doing anything
-> >else would as you say be insane and break things like device
-> >redirection on Sunrays.
-> >
-> Device redirection is just "writing to a different /dev node" - on
-> Solaris and Linux. IIRC, the API is the same.
+> Could you please elaborate a tad bit more on the analogy? It doesn't appear to
+> be stunningly obvious.
+>
+It has never been done before in Linux, so there must be a reason to it.
+There was also a reason why khttpd was (going in and) going out.
 
-Correct. Rederection to $AUDIODEVICE that is a normal /dev/audio.
+> Are you aware of the reasons why floating point operations are avoided inside
+> the kernel?
+>
+Because it is "unportable". You cannot expect to have every hardware Linux 
+runs on today to have an FPU engine (hey, like that ol' i386 I got, needs 
+CONFIG_MATH_EMU...), especially in the Embedded Devices sector.
+
+
+
+Jan Engelhardt
+-- 
