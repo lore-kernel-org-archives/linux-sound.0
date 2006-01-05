@@ -1,80 +1,43 @@
-From: Florian Schmidt <tapas@affenbande.org>
-Date: Thu, 05 Jan 2006 11:43:17 +0000
+From: Marcin Dalecki <martin@dalecki.de>
+Date: Thu, 05 Jan 2006 12:44:14 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20060105124317.2d12a85c@mango.fruits.de>
+Message-Id: <0D76E9E1-7FB0-41FD-8FAC-E4B3C6E9C902@dalecki.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <s5h1wzpnjrx.wl%tiwai@suse.de>
-	<20060103203732.GF5262@irc.pl>
-	<s5hvex1m472.wl%tiwai@suse.de>
-	<9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
-	<20060103215654.GH3831@stusta.de>
-	<20060103221314.GB23175@irc.pl>
-	<20060103231009.GI3831@stusta.de>
-	<Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-	<20060104000344.GJ3831@stusta.de>
-	<Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
-	<20060104010123.GK3831@stusta.de>
-	<Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
-	<20060104113726.3bd7a649@mango.fruits.de>
-	<1136445395.24475.17.camel@mindpipe>
-In-Reply-To: <1136445395.24475.17.camel@mindpipe>
+References: <20050726150837.GT3160@stusta.de> <200601031522.06898.s0348365@sms.ed.ac.uk> <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk> <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> <20060103215654.GH3831@stusta.de> <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com> <s5hpsn8md1j.wl%tiwai@suse.de> <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr> <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de> <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr>
+In-Reply-To: <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Lee Revell <rlrevell@joe-job.com>
-Cc: Tomasz =?ISO-8859-1?Q?K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Jan Engelhardt <jengelh@linux01.gwdg.de>
+Cc: Takashi Iwai <tiwai@suse.de>, Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Thu, 05 Jan 2006 02:16:35 -0500
-Lee Revell <rlrevell@joe-job.com> wrote:
 
-> On Wed, 2006-01-04 at 11:37 +0100, tapas wrote:
-> > ALSA's kernel level OSS emulation (as opposed to aoss) cannot provide
-> > software mixing. As aoss cannot provide OSS emulation to all OSS apps
-> 
-> Why not?
+On 2006-01-05, at 11:57, Jan Engelhardt wrote:
 
-I did write it out before. aoss is a LD_PRELOAD hack. Apps/libs that
-resolve the system call symbols at build time cannot be made to use
-these calls from a different lib (which is what LD_PRELOAD tries to do).
-A famous example is libc for which a workaround was added (as libc
-offers its own mechanism to intercept fopen() et al.). Others can lurk
-in the background, too. It would even be trivial to write an app that
-aoss will not work with - ever (unless the code be modified - which is
-not an option for closed source apps).
+>>> Software mixing in the kernel is like FPU ops in the kernel...
+>>
+>> Could you please elaborate a tad bit more on the analogy? It  
+>> doesn't appear to
+>> be stunningly obvious.
+>>
+> It has never been done before in Linux, so there must be a reason  
+> to it.
+> There was also a reason why khttpd was (going in and) going out.
+>
+>> Are you aware of the reasons why floating point operations are  
+>> avoided inside
+>> the kernel?
+>>
+> Because it is "unportable". You cannot expect to have every  
+> hardware Linux
+> runs on today to have an FPU engine (hey, like that ol' i386 I got,  
+> needs
+> CONFIG_MATH_EMU...), especially in the Embedded Devices sector.
 
-It simply cannot ever work with _all_ apps (as opposed to kernel level
-OSS emu  which can be made to work with _all_ apps (at least in
-principle)).
+First - the answer you provide is far from complete and it doesn't  
+even touch the more important reasons why the kernel avoids doing  
+FPU. (No, I don't feel obliged to explain the issue to you. Just a  
+note: The reasons are just merely *technical* and not principal.)
 
-Errm, i'm actually wrong about that. Kernel level OSS emu sw mixing
-cannot work together with userspace ALSA sw mixing. I completely missed
-that point.
-
-I still think, the easiest way would be to use FUSE as it gives the best
-of both worlds:
-
-- device file access as opposed to LD_PRELOAD hack (which has principle
-problems)
-
-- access to userspace ALSA lib which would allow it to work together
-with ALSA's sw mixing for native ALSA apps.
-
-Maybe it can be developed as a third alternative independently. People
-without FUSE would have to try their luck with the other two. Plus,
-there's oss2jack which can probably be modified to use ALSA instead of
-jack (although i thinkg oss2jack actually uses fusd and not FUSE. Hmm,
-some more hacking would be required then). Also i think a FUSE based
-approach is actually less ugly than a LD_PRELOAD hack. 
-
-BTW: Don't expect people to always write bug reports. We all know,
-people are lazy. More often than not, they simply give up and say "linux
-sucks" to their friends. Or if they can differentiate a little more,
-they'll say "ALSA sucks" ;) [<- smiley, indicates humor]. Especially
-those who use closed source apps ;)
-
-Regards,
-Flo
-
--- 
-Palimm Palimm!
-http://tapas.affenbande.org
+Second - you still didn't explain why this allows you to conclude  
+that sound mixing should in no way be done inside the kernel.
