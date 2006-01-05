@@ -1,7 +1,7 @@
 From: Lee Revell <rlrevell@joe-job.com>
-Date: Thu, 05 Jan 2006 20:32:51 +0000
+Date: Thu, 05 Jan 2006 20:39:13 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <1136493172.847.26.camel@mindpipe>
+Message-Id: <1136493553.847.33.camel@mindpipe>
 List-Id: <linux-sound.vger.kernel.org>
 References: <20050726150837.GT3160@stusta.de>
 	 <200601031522.06898.s0348365@sms.ed.ac.uk> <20060103160502.GB5262@irc.pl>
@@ -20,18 +20,33 @@ References: <20050726150837.GT3160@stusta.de>
 	 <E09E5A76-7743-4E0E-9DF6-6FB4045AA3CF@dalecki.de>
 	 <1136491503.847.0.camel@mindpipe>
 	 <7B34B941-46CC-478F-A870-43FE0D3143AB@dalecki.de>
-In-Reply-To: <7B34B941-46CC-478F-A870-43FE0D3143AB@dalecki.de>
+	 <1136492896.847.21.camel@mindpipe>
+	 <CE222A69-A124-46C9-8139-BB579F91B9FA@dalecki.de>
+In-Reply-To: <CE222A69-A124-46C9-8139-BB579F91B9FA@dalecki.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Marcin Dalecki <martin@dalecki.de>
 Cc: Jan Engelhardt <jengelh@linux01.gwdg.de>, Takashi Iwai <tiwai@suse.de>, Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Thu, 2006-01-05 at 21:18 +0100, Marcin Dalecki wrote:
-> Glaring problems on average commodity hardware
+On Thu, 2006-01-05 at 21:32 +0100, Marcin Dalecki wrote:
+> On 2006-01-05, at 21:28, Lee Revell wrote:
+> 
+> > We close dozens of bugs each week.  I personally closed more than 50
+> > last week (most had been fixed months ago).  90% of ALSA development
+> > happens through the bug tracker.
+> 
+> ...
+> 
+> > Check out the linux-audio-dev and linux-audio-user archives.  ALSA has
+> > been working perfectly for all of those users for years.
+> 
+> You are aware of how self contradicting this sounds?!
+> 
 
-A good first step would be to mention which driver, ALSA version and
-soundcard you are using.
+Not at all.  By "working perfectly" I obviously didn't mean that ALSA
+hasn't had a bug in years - I meant that when we DO get an actionable
+bug report we fix it.
 
 Lee
 
