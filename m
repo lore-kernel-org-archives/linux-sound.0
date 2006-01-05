@@ -1,56 +1,25 @@
-From: Lee Revell <rlrevell@joe-job.com>
-Date: Thu, 05 Jan 2006 19:29:07 +0000
+From: Marcin Dalecki <martin@dalecki.de>
+Date: Thu, 05 Jan 2006 20:03:27 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <1136489348.31583.47.camel@mindpipe>
+Message-Id: <E09E5A76-7743-4E0E-9DF6-6FB4045AA3CF@dalecki.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl>
-	 <s5hvex1m472.wl%tiwai@suse.de>
-	 <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
-	 <20060103215654.GH3831@stusta.de> <20060103221314.GB23175@irc.pl>
-	 <20060103231009.GI3831@stusta.de>
-	 <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-	 <20060104000344.GJ3831@stusta.de>
-	 <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
-	 <20060104010123.GK3831@stusta.de>
-	 <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
-	 <20060104113726.3bd7a649@mango.fruits.de> <s5hsls398uv.wl%tiwai@suse.de>
-	 <20060104191750.798af1da@mango.fruits.de>
-	 <1136445063.24475.11.camel@mindpipe>
-	 <20060105200911.5aa4e705.froese@gmx.de>
-In-Reply-To: <20060105200911.5aa4e705.froese@gmx.de>
+References: <20050726150837.GT3160@stusta.de> <200601031522.06898.s0348365@sms.ed.ac.uk> <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk> <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> <20060103215654.GH3831@stusta.de> <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com> <s5hpsn8md1j.wl%tiwai@suse.de> <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr> <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de> <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr> <0D76E9E1-7FB0-41FD-8FAC-E4B3C6E9C902@dalecki.de> <1136486021.31583.26.camel@mindpipe>
+In-Reply-To: <1136486021.31583.26.camel@mindpipe>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Edgar Toernig <froese@gmx.de>
-Cc: Florian Schmidt <tapas@affenbande.org>, Takashi Iwai <tiwai@suse.de>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Lee Revell <rlrevell@joe-job.com>
+Cc: Jan Engelhardt <jengelh@linux01.gwdg.de>, Takashi Iwai <tiwai@suse.de>, Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Thu, 2006-01-05 at 20:09 +0100, Edgar Toernig wrote:
-> Lee Revell wrote:
-> >
-> > All of this was solved with the switch in ALSA 1.0.9 to use dmix by
-> > default.  If it does not Just Work it's a bug and we need to hear about
-> > it.
-> 
-> So then:  xawtv4 (dvb-app) works with hw:0 but not with 1.0.9's dmix default.
-> It works with /dev/dsp1 (usb-speakers) but not with /dev/dsp0 (atiixp ac'97).
-> vdr's softdevice (another dvb-app) works with dmix-default but not with hw:0.
-> And that's my experience with most audio apps - you have to try all configur-
-> ations until you find one that works.  Sure, maybe badly written apps but
-> there must be something wrong if so many developers have problems with
-> Alsa.  I've even resigned to grok the config files :-(
-> 
-> Ciao, ET.
-> 
 
-Come on, this is LKML, you should know that "it doesn't work" is not a
-useful bug report.
+On 2006-01-05, at 19:33, Lee Revell wrote:
 
-> And btw, with 2.6.15 the usb-speakers only produce noise most of the time.
-> 
+> On Thu, 2006-01-05 at 13:44 +0100, Marcin Dalecki wrote:
+>> Second - you still didn't explain why this allows you to conclude
+>> that sound mixing should in no way be done inside the kernel.
+>
+> It works perfectly right now in userspace.
 
-Known regression, this is being worked on.  It was known and posted to
-LKML before the 2.6.15 release, unfortunately 2.6.15 was released with
-this bug anyway.
+Yeah - for you maybe...
 
-Lee
 
