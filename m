@@ -1,7 +1,7 @@
 From: Lee Revell <rlrevell@joe-job.com>
-Date: Thu, 05 Jan 2006 23:39:23 +0000
+Date: Thu, 05 Jan 2006 23:40:59 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <1136504364.847.88.camel@mindpipe>
+Message-Id: <1136504460.847.91.camel@mindpipe>
 List-Id: <linux-sound.vger.kernel.org>
 References: <20050726150837.GT3160@stusta.de>
 	 <20060103193736.GG3831@stusta.de>
@@ -22,12 +22,17 @@ To: Hannu Savolainen <hannu@opensound.com>
 Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
 On Fri, 2006-01-06 at 01:06 +0200, Hannu Savolainen wrote:
-> > - PCM with 3-bytes-packed 24bit formats
-> Applications have no reasons to use for this kind of stupid format so
-> OSS translates it to the usual 32 bit format on fly. In fact OSS API
-> does have support for this format. 
+> We have not received any single bug report that is caused 
+> by the concept of kernel mixing.
+> Kernel mixing is not rocket science. All you need to do is picking a 
+> sample from the output buffers of each of the applications, sum them 
+> together (with some volume scaling) and feed the result to the
+> physical 
+> device. 
 
-What about hardware that only understands this format?
+Hey, interesting, this is exactly what dmix does in userspace.  And we
+have not seen any bug reports caused by the concept of userspace mixing
+(just implementation bugs like any piece of software).
 
 Lee
 
