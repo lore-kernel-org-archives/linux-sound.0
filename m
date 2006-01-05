@@ -1,7 +1,7 @@
 From: Hannu Savolainen <hannu@opensound.com>
-Date: Thu, 05 Jan 2006 23:56:02 +0000
+Date: Thu, 05 Jan 2006 23:59:37 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <Pine.LNX.4.61.0601060153440.27932@zeus.compusonic.fi>
+Message-Id: <Pine.LNX.4.61.0601060156430.27932@zeus.compusonic.fi>
 List-Id: <linux-sound.vger.kernel.org>
 References: <20050726150837.GT3160@stusta.de>  <20060103193736.GG3831@stusta.de>
   <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl> 
@@ -10,8 +10,8 @@ References: <20050726150837.GT3160@stusta.de>  <20060103193736.GG3831@stusta.de>
   <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl> 
  <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz> 
  <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>  <s5hmziaird8.wl%tiwai@suse.de>
-  <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi> <1136504364.847.88.camel@mindpipe>
-In-Reply-To: <1136504364.847.88.camel@mindpipe>
+  <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi> <1136504460.847.91.camel@mindpipe>
+In-Reply-To: <1136504460.847.91.camel@mindpipe>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -21,13 +21,19 @@ Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, LKML <linux-kerne
 On Thu, 5 Jan 2006, Lee Revell wrote:
 
 > On Fri, 2006-01-06 at 01:06 +0200, Hannu Savolainen wrote:
-> > > - PCM with 3-bytes-packed 24bit formats
-> > Applications have no reasons to use for this kind of stupid format so
-> > OSS translates it to the usual 32 bit format on fly. In fact OSS API
-> > does have support for this format. 
+> > We have not received any single bug report that is caused 
+> > by the concept of kernel mixing.
+> > Kernel mixing is not rocket science. All you need to do is picking a 
+> > sample from the output buffers of each of the applications, sum them 
+> > together (with some volume scaling) and feed the result to the
+> > physical 
+> > device. 
 > 
-> What about hardware that only understands this format?
-There is no such hardware. Or is there?
+> Hey, interesting, this is exactly what dmix does in userspace.  And we
+> have not seen any bug reports caused by the concept of userspace mixing
+> (just implementation bugs like any piece of software).
+Having dmix working in user space doesn't prove that kernel level mixing 
+is evil. This was the original topic.
 
 Best regards,
 
