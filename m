@@ -1,27 +1,32 @@
-From: "Jim Crilly" <jim@why.dont.jablowme.net>
-Date: Thu, 05 Jan 2006 21:20:19 +0000
+From: Marcin Dalecki <martin@dalecki.de>
+Date: Thu, 05 Jan 2006 21:43:49 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20060105212019.GA23780@voodoo>
+Message-Id: <DCE66DA9-8ACF-4218-A962-338158BE9F9D@dalecki.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20060103231009.GI3831@stusta.de> <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl> <20060104000344.GJ3831@stusta.de> <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl> <20060104010123.GK3831@stusta.de> <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl> <20060104113726.3bd7a649@mango.fruits.de> <s5hsls398uv.wl%tiwai@suse.de> <20060104191750.798af1da@mango.fruits.de> <74F7C515-831F-42E4-9A6F-70A9C11E8BB3@neostrada.pl>
-In-Reply-To: <74F7C515-831F-42E4-9A6F-70A9C11E8BB3@neostrada.pl>
+References: <20050726150837.GT3160@stusta.de> <200601031522.06898.s0348365@sms.ed.ac.uk> <20060103160502.GB5262@irc.pl> <200601031629.21765.s0348365@sms.ed.ac.uk> <20060103170316.GA12249@dspnet.fr.eu.org> <s5h1wzpnjrx.wl%tiwai@suse.de> <20060103203732.GF5262@irc.pl> <s5hvex1m472.wl%tiwai@suse.de> <9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com> <20060103215654.GH3831@stusta.de> <9a8748490601031411p17d4417fyffbfee00ca85ac82@mail.gmail.com> <s5hpsn8md1j.wl%tiwai@suse.de> <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr> <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de> <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr> <0D76E9E1-7FB0-41FD-8FAC-E4B3C6E9C902@dalecki.de> <1136486021.31583.26.camel@mindpipe> <E09E5A76-7743-4E0E-9DF6-6FB4045AA3CF@dalecki.de> <1136491503.847.0.camel@mindpipe> <7B34B941-46CC-478F-A870-43FE0D3143AB@dalecki.de> <1136493172.847.26.camel@mindpipe> <8D670C39-7B52-407C-8BDD-3478DB172641@dalecki.de> <1136494876.847.38.camel@mindpipe>
+In-Reply-To: <1136494876.847.38.camel@mindpipe>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Marcin Dalecki <dalecki.marcin@neostrada.pl>
-Cc: Florian Schmidt <tapas@affenbande.org>, Takashi Iwai <tiwai@suse.de>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Lee Revell <rlrevell@joe-job.com>
+Cc: Jan Engelhardt <jengelh@linux01.gwdg.de>, Takashi Iwai <tiwai@suse.de>, Jesper Juhl <jesper.juhl@gmail.com>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On 01/04/06 08:28:59PM +0100, Marcin Dalecki wrote:
-> 
-> On 2006-01-04, at 19:17, Florian Schmidt wrote:
-> >Maybe create a /proc control, so users can revert
-> >to the olde behaviour if there really is any need.
-> 
-> YES YES! After all who doesn't use his system logged in as root?
 
-You can change the rights and ownership of files in /proc, so distributions
-that use something like pam_console could change them when someone logs in.
-That and most people know that poking around in /proc generally requires
-root priviledges so making them use su or sudo wouldn't be a surprise.
+On 2006-01-05, at 22:01, Lee Revell wrote:
 
-Jim.
+> On Thu, 2006-01-05 at 21:54 +0100, Marcin Dalecki wrote:
+>> On 2006-01-05, at 21:32, Lee Revell wrote:
+>>
+>>> On Thu, 2006-01-05 at 21:18 +0100, Marcin Dalecki wrote:
+>>>> Glaring problems on average commodity hardware
+>>>
+>>> A good first step would be to mention which driver, ALSA version and
+>>> soundcard you are using.
+>>
+>> I will do you this favor: NONE. Using something implies that it is
+>> working.
+>
+> Are you going to fucking help or should I just killfile you now?
+
+It's not about helping ALSA here it's about not throwing out the window
+a system which has the advantage of actually working.
