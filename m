@@ -1,67 +1,71 @@
-From: Lee Revell <rlrevell@joe-job.com>
-Date: Thu, 05 Jan 2006 19:10:17 +0000
+From: Florian Schmidt <tapas@affenbande.org>
+Date: Thu, 05 Jan 2006 19:15:51 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <1136488218.31583.44.camel@mindpipe>
+Message-Id: <20060105201551.3a88fb0b@mango.fruits.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20060103231009.GI3831@stusta.de>
-	 <Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
-	 <20060104000344.GJ3831@stusta.de>
-	 <Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
-	 <20060104010123.GK3831@stusta.de>
-	 <Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
-	 <20060104113726.3bd7a649@mango.fruits.de>
-	 <1136445395.24475.17.camel@mindpipe>
-	 <20060105124317.2d12a85c@mango.fruits.de>
-	 <1136486180.31583.29.camel@mindpipe>  <20060105184703.GB4010@irc.pl>
-In-Reply-To: <20060105184703.GB4010@irc.pl>
+References: <s5h1wzpnjrx.wl%tiwai@suse.de>
+	<20060103203732.GF5262@irc.pl>
+	<s5hvex1m472.wl%tiwai@suse.de>
+	<9a8748490601031256x916bddav794fecdcf263fb55@mail.gmail.com>
+	<20060103215654.GH3831@stusta.de>
+	<20060103221314.GB23175@irc.pl>
+	<20060103231009.GI3831@stusta.de>
+	<Pine.BSO.4.63.0601040048010.29027@rudy.mif.pg.gda.pl>
+	<20060104000344.GJ3831@stusta.de>
+	<Pine.BSO.4.63.0601040113340.29027@rudy.mif.pg.gda.pl>
+	<20060104010123.GK3831@stusta.de>
+	<Pine.BSO.4.63.0601040242190.29027@rudy.mif.pg.gda.pl>
+	<20060104113726.3bd7a649@mango.fruits.de>
+	<1136445395.24475.17.camel@mindpipe>
+	<20060105124317.2d12a85c@mango.fruits.de>
+	<1136486180.31583.29.camel@mindpipe>
+In-Reply-To: <1136486180.31583.29.camel@mindpipe>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Tomasz Torcz <zdzichu@irc.pl>
-Cc: Florian Schmidt <tapas@affenbande.org>, Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
+To: Lee Revell <rlrevell@joe-job.com>
+Cc: Florian Schmidt <tapas@affenbande.org>, Tomasz =?ISO-8859-1?Q?K=B3oczk?= =?ISO-8859-1?Q?o?= <kloczek@rudy.mif.pg.gda.pl>, Adrian Bunk <bunk@stusta.de>, Jesper Juhl <jesper.juhl@gmail.com>, Takashi Iwai <tiwai@suse.de>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Thu, 2006-01-05 at 19:47 +0100, Tomasz Torcz wrote:
-> On Thu, Jan 05, 2006 at 01:36:20PM -0500, Lee Revell wrote:
-> > On Thu, 2006-01-05 at 12:43 +0100, Florian Schmidt wrote:
-> > > On Thu, 05 Jan 2006 02:16:35 -0500
-> > > Lee Revell <rlrevell@joe-job.com> wrote:
-> > > 
-> > > > On Wed, 2006-01-04 at 11:37 +0100, tapas wrote:
-> > > > > ALSA's kernel level OSS emulation (as opposed to aoss) cannot provide
-> > > > > software mixing. As aoss cannot provide OSS emulation to all OSS apps
-> > > > 
-> > > > Why not?
-> > > 
-> > > I did write it out before. aoss is a LD_PRELOAD hack. Apps/libs that
-> > > resolve the system call symbols at build time cannot be made to use
-> > > these calls from a different lib (which is what LD_PRELOAD tries to do).
-> > > A famous example is libc for which a workaround was added (as libc
-> > > offers its own mechanism to intercept fopen() et al.). Others can lurk
-> > > in the background, too. It would even be trivial to write an app that
-> > > aoss will not work with - ever (unless the code be modified - which is
-> > > not an option for closed source apps).
-> > > 
-> > > It simply cannot ever work with _all_ apps (as opposed to kernel level
-> > > OSS emu  which can be made to work with _all_ apps (at least in
-> > > principle)).
-> > > 
+On Thu, 05 Jan 2006 13:36:20 -0500
+Lee Revell <rlrevell@joe-job.com> wrote:
+
+> OK so you can contrive an example.  Have we ever seen a real world app
+> where aoss can't work?
+
+Well, until i provided my hacky and probably buggy patch to aoss to use
+libc's fopen()-et. al.-hooks, no app using the OSS api by way of libc's
+fopen() et. al. was able to use aoss.  I don't use aoss anymore, as i
+have hw mixing, so i haven't really done anymore testing. I admit of not
+being sure, whether this principle error has any realistic impact (i.e.
+apps/libs exist that resolve their system call symbols at build time - i
+must also admit that i don't have really complete understanding of this
+issue. maybe a more knowledgable person can speak up about possible use
+scenarios besides libc). 
+
+> > Errm, i'm actually wrong about that. Kernel level OSS emu sw mixing
+> > cannot work together with userspace ALSA sw mixing. I completely missed
+> > that point.
 > > 
-> > OK so you can contrive an example.  Have we ever seen a real world app
-> > where aoss can't work?
+> > I still think, the easiest way would be to use FUSE as it gives the best
+> > of both worlds:
 > 
->   Skype. Earlier Quake 3 Arena (now Q3A is open source with SDL sound,
-> so it had native ALSA).
->   They're more widely used that musical software for which ALSA seem to
-> be written. People needing <1ms latency are "obscure corner cases" in
-> real world.
-> 
+> Yep, this does sound like a promising approach.  AFAIK it's never been
+> seriously explored as FUSE is so new.
 
-It's not that aoss "can't work" for these, it certainly has some bugs.
-But the examples you gave are both proprietary apps.  Obviously we can't
-waste our time debugging them.
+Plus, i was wrong :) FUSE is for filesystems. fusd would be the choice
+for this (not included in kernel yet). One might see how far one gets
+with reusing code from both aoss and oss2jack
 
-No one has even been able to provide a test case using an app we have
-the source to.
+http://fort.xdas.com/~kor/oss2jack/
 
-Lee
+Btw: It has a nice list of compatible apps including skype and quake3
+;)
 
+Btw2: Heh, oss2jack already has direct ALSA support on its TODO list :)
+
+fusd:
+
+http://www.circlemud.org/%7Ejelson/software/fusd/
+
+Regards,
+Flo
