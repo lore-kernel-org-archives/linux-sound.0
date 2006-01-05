@@ -1,64 +1,102 @@
-From: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
-Date: Thu, 05 Jan 2006 22:39:43 +0000
+From: Hannu Savolainen <hannu@opensound.com>
+Date: Thu, 05 Jan 2006 23:06:27 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <43BDA02F.5070103@folkwang-hochschule.de>
+Message-Id: <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de> <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl> <mailman.1136368805.14661.linux-kernel2news@redhat.com> <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz> <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl> <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz> <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
-In-Reply-To: <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
+References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
+ <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+ <mailman.1136368805.14661.linux-kernel2news@redhat.com>
+ <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+ <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl> <s5hmziaird8.wl%tiwai@suse.de>
+In-Reply-To: <s5hmziaird8.wl%tiwai@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-To: =?ISO-8859-2?Q?Tomasz_K=B3oczko?= <kloczek@rudy.mif.pg.gda.pl>
-Cc: Jaroslav Kysela <perex@suse.cz>, Pete Zaitcev <zaitcev@redhat.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>, Olivier Galibert <galibert@pobox.com>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
-Tomasz K=B3oczko wrote:
-> List all neccessary feactures and abstract them. Below this layer you=20
-> can plug to this all device drivers. Where is the problem ?
+On Thu, 5 Jan 2006, Takashi Iwai wrote:
 
-users want to use all the bells and whistles that modern sound hardware=20
-has to offer. so "necessary features" roughly equals the union of all=20
-the "cool ideas of the week" of all soundcard vendors.
+> > If you have sound device without this soft mixing is moved to user space 
+> > .. but  applications do not need know about this even now because all
+> > neccessary details are handled on library level. Is it ?
+> > So question is: why the hell *ALL* mixing details are not moved to kernel 
+> > space to SIMPLE and NOT GROWING abstraction ?
+> 
+> Because many people believe that the softmix in the kernel space is
+> evil.
+This is the usual argument against kernel level mixing. Somebody has once 
+said that all this is evil. However this is not necessarily correct.
 
-please have a look at, say, the rme hammerfall cards, compare them with=20
-ye olde sblive, then take a look at usb audio devices and for dessert,=20
-take a peek into current firewire hardware.
+OSS has done kernel level mixing for years. The vmix driver has been used 
+as the default audio device by hundreds of thousands of customers for 
+years. We have not received any single bug report that is caused 
+by the concept of kernel mixing.
 
-then push up your sleeves, design a small and elegant little abstraction=20
-mechanism that is maximally effective in all circumstances and makes all=20
-hardware features usable, wrap it up nicely and submit it to linus.
+Kernel mixing is not rocket science. All you need to do is picking a 
+sample from the output buffers of each of the applications, sum them 
+together (with some volume scaling) and feed the result to the physical 
+device. Ok, handling different sample formats/rates makes it much more 
+difficult but that could be done in the library level.
+ 
+> >    Why Linux can't provide only OSS API abstraction for user space
+> >    application ? And/or why ALSA developers want to replace this by
+> >    mostly bloated and pourly documented ALSA user space API ?
+> 
+> Because OSS API doesn't cover many things.  For example, 
+> 
+> - PCM with non-interleaved formats
+There is no need to handle non-interleaved data in kernel level drivers 
+because all the devices use interleaved formats. Handling 
+interleaving/de-interleaving in the application/driver code can be done in 
+a simple for loop. So why to make the driver/API more complicated with 
+this.
 
-i look forward to hearing back from you, in, oh, 2015 or so?
+> - PCM with 3-bytes-packed 24bit formats
+Applications have no reasons to use for this kind of stupid format so OSS 
+translates it to the usual 32 bit format on fly. In fact OSS API does 
+have support for this format.
 
-jaroslav, takashi and the other alsa developers have been toiling with=20
-this for years, and i hate to see them having to take shit from people=20
-who don't do anything more with their sound hardware than listen to mp3s=20
-in stereo and can't imagine anything else.
+> These functions are popluar on many sound devices.
+> 
+> In addition, imagine how you would implement the following:
+> 
+> - Combination of multiple devices
+> - Split of channels to concurrent accesses
+Could you be more specific with the above isues?
 
-granted, there is always room for improvement. the alsa guys are very=20
-receptive towards constructive criticism, when it is backed with a=20
-little insight. many linux audio developers have criticised the API for=20
-the high initial barrier, and ALSA certainly does not score that high in=20
-the "making simple things simple" department. but it does make=20
-*complicated things possible*, and all those rants of "gimme back me=20
-oss" usually ignore this.
+> - Handling of floating pointer samples
+This is not necessary in the kernel drivers because user land apps/libs do 
+this themselves. However OSS API defines a floating point data type just 
+in case some future device needs it.
 
-modem dialup users know better than to chime in to networking core=20
-discussions and complain they don't need all that complexity. why do=20
-professional audio users always have to put up with people who only=20
-listen to mp3s whining about a complicate API?
+> - Post/pre-effects (like chorus/reverb)
+OSS already does this (part of the softoss/vmix driver).
 
-i'll always grant you far better taste and insight into kernel matters=20
-than i will ever have, but hey: the library is in userspace. it does not=20
-clutter the kernel. so rrreeelaax!
+> Forcing OSS API means to force to process the all things above in
+> the kernel.  I guess many people would disagree with it.
+Wrong. This is not an API issue at all. It's an implementation one. 
 
+An alternative for doing some operations in the kernel is looping the 
+audio data through an user land daemon. The application itself is still 
+using the usual OSS API without knowing anything about any daemons. We 
+have tested this approach and it works. There just has not been any good 
+reason to use this approach instead of using kernel space approach. 
+Passing data through multiple applications makes the latency issues to 
+accumulate. If you do the processing in the kernel you will hit by the 
+task scheduling latencies at most once.
 
---=20
-j=F6rn nettingsmeier
+The OSS approach is not to make everything in the kernel. Things that can 
+be done easier in the applications (or in libraries) have been left 
+out from the API.
 
-home://germany/45128 essen/lortzingstr. 11/
-http://spunk.dnsalias.org
-phone://+49/201/491621
+Best regards,
 
-if you are a free (as in "free speech") software developer
-and you happen to be travelling near my home, drop me a line
-and come round for a free (as in "free beer") beer. :-D
+Hannu
+-----
+Hannu Savolainen (hannu@opensound.com)
+http://www.opensound.com (Open Sound System (OSS))
+http://www.compusonic.fi (Finnish OSS pages)
+OH2GLH QTH: Karkkila, Finland LOC: KP20CM
