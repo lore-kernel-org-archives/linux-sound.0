@@ -1,66 +1,42 @@
-From: Hannu Savolainen <hannu@opensound.com>
-Date: Fri, 06 Jan 2006 02:20:13 +0000
+From: Edgar Toernig <froese@gmx.de>
+Date: Fri, 06 Jan 2006 03:14:21 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <Pine.LNX.4.61.0601060348380.29362@zeus.compusonic.fi>
+Message-Id: <20060106041421.31579e69.froese@gmx.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
- <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
- <mailman.1136368805.14661.linux-kernel2news@redhat.com>
- <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
- <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
- <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
- <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
- <43BDA02F.5070103@folkwang-hochschule.de> <20060105234951.GA10167@dspnet.fr.eu.org>
- <43BDB858.5060500@folkwang-hochschule.de>
-In-Reply-To: <43BDB858.5060500@folkwang-hochschule.de>
+References: <20050726150837.GT3160@stusta.de>
+	<20060103193736.GG3831@stusta.de>
+	<Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+	<mailman.1136368805.14661.linux-kernel2news@redhat.com>
+	<20060104030034.6b780485.zaitcev@redhat.com>
+	<Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+	<Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+	<Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+	<Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
+	<s5hmziaird8.wl%tiwai@suse.de>
+	<Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi>
+In-Reply-To: <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
-Cc: Olivier Galibert <galibert@pobox.com>, Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Jaroslav Kysela <perex@suse.cz>, Pete Zaitcev <zaitcev@redhat.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, LKML <linux-kernel@vger.kernel.org>
+To: Hannu Savolainen <hannu@opensound.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
-On Fri, 6 Jan 2006, Joern Nettingsmeier wrote:
+Hannu Savolainen wrote:
+>
+> Takashi Iwai wrote:
+> >
+> > - Split of channels to concurrent accesses
+>
+> Could you be more specific with the above isues?
 
-> shuffle 16 tracks of 24bit 48k audio in and out of the machine at a latency
-> where a professional drummer will not complain, with routing options adequate
-> for professional work, and then let's see how simple your API is.
-This is nonsense. This is something where the API design cannot make any 
-difference.
+As I understand it: instead of providing one device with 5.1 capabilities
+provide one device with 3 concurrent stereo users.  Reading the datasheet
+of my AC'97 decoder (a cheap ALC650 connected to an ATIIXP) there is hard-
+ware that supports this[1].
 
-To get (say) 10 ms latencies you have to tell the sound subsystem 
-to allocate to buffer that is smaller than 10 ms. This in turn means that 
-the application must be able to run it's processing loop within less than 10 
-ms with 100.000...0% confidence. This is true regardless of how advanced 
-or primitive the audio subsystem (API) is.
+Sure, Alsa can do all of this and more in software - somehow ...
 
-What happens if some system load peak delays the application by 20 ms? The 
-result is complete failure. What is the ALSA (API) feature OSS doesn't 
-have that makes it able to predict what kind of output the application 
-should have fed to the device during the (about) 20 ms period of silence? 
+Ciao, ET.
 
-The fact is that there is nothing the audio subsystem can do to recover 
-the situation. For this very simple reason the OSS API lacks everything 
-that would be necessary to cope with this kind of problems.
-
-After all the lowest possible audio latency depends on the level of real 
-time response capabilities of the underlaying OS/hardware/application 
-environment. If the app doesn't get the CPU right in time it will fail 
-(believe or not).
-
-If the system can fullfill the response time requirements then any sound 
-subsystem will work equally well (unless they are seriously broken).
-
-The sound subsystem implementations may have performance 
-differences of few usecs. However they don't make one better than another 
-in cases when the peak latencies are in millisecond range. In addition 
-same devices have FIFO/bus delays of up to few msec byt even then 
-advances in the audio subsystem/API design cannot help at all.
-
-Best regards,
-
-Hannu
------
-Hannu Savolainen (hannu@opensound.com)
-http://www.opensound.com (Open Sound System (OSS))
-http://www.compusonic.fi (Finnish OSS pages)
-OH2GLH QTH: Karkkila, Finland LOC: KP20CM
+[1] Unless the ATIIXP has some limitations - there are no docs 
+    available :-(
