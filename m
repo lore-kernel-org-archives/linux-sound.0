@@ -1,82 +1,64 @@
-From: Martin Drab <drab@kepler.fjfi.cvut.cz>
-Date: Fri, 06 Jan 2006 01:49:42 +0000
+From: Marcin Dalecki <martin@dalecki.de>
+Date: Fri, 06 Jan 2006 02:19:22 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <Pine.LNX.4.60.0601060201200.31782@kepler.fjfi.cvut.cz>
+Message-Id: <01838B0F-FFAF-4F15-A71D-225B6E7B84E2@dalecki.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
- <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
- <mailman.1136368805.14661.linux-kernel2news@redhat.com>
- <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
- <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
- <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
- <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl> <s5hmziaird8.wl%tiwai@suse.de>
- <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi> <1136504460.847.91.camel@mindpipe>
- <4A284096-E889-4E6D-B017-B8241CD72A0D@dalecki.de>
- <Pine.LNX.4.60.0601060122290.31782@kepler.fjfi.cvut.cz>
- <942EC96F-580B-4F4C-B019-F38D4964942C@dalecki.de>
-In-Reply-To: <942EC96F-580B-4F4C-B019-F38D4964942C@dalecki.de>
+References: <200601040937.55624.s0348365@sms.ed.ac.uk>
+In-Reply-To: <200601040937.55624.s0348365@sms.ed.ac.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Marcin Dalecki <martin@dalecki.de>
-Cc: Lee Revell <rlrevell@joe-job.com>, Hannu Savolainen <hannu@opensound.com>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+To: linux-sound@vger.kernel.org
 
-On Fri, 6 Jan 2006, Marcin Dalecki wrote:
-> On 2006-01-06, at 01:29, Martin Drab wrote:
-> 
-> > Because as much as we all don't like it, it is
-> > a realistic fact. There's just NO WAY you can responsibly say about any
-> > piece software, that it is completely error free.
-> 
-> You would be for example surprised to see how complex the software controlling
-> the breaks
-> of a reasonable modern car turns out to be... This is just a technical example
 
-No doubts it is.
+On 2006-01-06, at 02:49, Martin Drab wrote:
 
-> running contrary
-> to your "wisdom". In numerical computations you can find reasonable amounts of
-> software
-> which is precisely just that - bug free. There are mathematical proofs running
-> for hundreds of pages,
-> which are just valid.
+>> which is precisely just that - bug free. There are mathematical =20
+>> proofs running
+>> for hundreds of pages,
+>> which are just valid.
+>
+> Yes, I know. That, however, still doesn't necesarilly mean that it =20
+> has to
+> be completely error free. (An error must not necessarily mean a =20
+> complete
+> screw-up.)
 
-Yes, I know. That, however, still doesn't necesarilly mean that it has to 
-be completely error free. (An error must not necessarily mean a complete 
-screw-up.)
+For example: The original proof from G=F6del about "die Vollst=E4ndigkeit  =
 
-> Do you think this kind of guys doesn't ever sit down and
-> write
-> some piece of software to help out well for example in determining some
-> aerodynamics of a plane?
+des
+Pr=E4dikatenkalk=FCls zweiter Stufe und anderer Systeme" runs for about =20
+80 pages.
+It is completely BUG FREE. And the method of g=F6delisation used in it =20
+pertains
+very much to the activity associated with programming. I dare to say =20
+that it
+is intellectually more demanding by virtue of an magnitude. Therefore =20
+it simply
+doesn't occur to me why there should be any natural law prohibiting =20
+anybody
+from writing bug free software.
 
-I know they do. Again, it doesn't mean that that software has to be 
-completely error free.
+> Well, I'm moving in an environment of nuclear energy, physics, and
+> mathematical modelling a bit for quite some while. And I know, that =20
+> you
+> can never be absolutely certain that any (reasonably complex) =20
+> software is
+> completely error free.
 
-> Are you assuming this kind of applications is trivial and by virtue of a
-> natural law bug ridden?
+Ahhh physics... OK. Look, crappy engineering is just that. There =20
+really isn't
+much more to say about it. So please forgive me if I beg to differ =20
+and don't
+chime in to the chorus of the lame and react like an allergic to claims
+to the contrary.
 
-Well, I'm moving in an environment of nuclear energy, physics, and 
-mathematical modelling a bit for quite some while. And I know, that you 
-can never be absolutely certain that any (reasonably complex) software is 
-completely error free.
+> Anyway, I guess we're quite by far OT with this. So I think we =20
+> should just
+> leave it at that, and let everybody draw their own conclusions to =20
+> their
+> own best knowledge. Sorry for bothering with this.
 
-Apart from that, that in those really critical cases (such as a primary 
-controlling system of a nuclear reactor), you are actually forced to just 
-a strict subset of a strictly defined programming languages, it is just 
-that, that forces you to have tons of various sophisticated checking and 
-safety mechanisms implemented in the software to prevent any possible bugs 
-to do any serious harm, which in this case can no doubt be very terminal.
-Overconfidence in these cases is not in place, even though these really 
-are the ones that are really thotoughly checked for bugs.
+Yes indeed.
 
-> And by the way: the zero program which has nothing to do is bug free. QED.
-
-Ah, OK, you got me on that one. :) But that's not quite what I had in 
-mind.
-
-Anyway, I guess we're quite by far OT with this. So I think we should just 
-leave it at that, and let everybody draw their own conclusions to their 
-own best knowledge. Sorry for bothering with this.
-
-Martin
+PS. Please go find the bug in TeX and cash-in on the money...
