@@ -1,42 +1,56 @@
-From: Edgar Toernig <froese@gmx.de>
-Date: Fri, 06 Jan 2006 03:14:21 +0000
+From: Hannu Savolainen <hannu@opensound.com>
+Date: Fri, 06 Jan 2006 03:33:43 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <20060106041421.31579e69.froese@gmx.de>
+Message-Id: <Pine.LNX.4.61.0601060519450.29362@zeus.compusonic.fi>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>
-	<20060103193736.GG3831@stusta.de>
-	<Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
-	<mailman.1136368805.14661.linux-kernel2news@redhat.com>
-	<20060104030034.6b780485.zaitcev@redhat.com>
-	<Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
-	<Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
-	<Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
-	<Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
-	<s5hmziaird8.wl%tiwai@suse.de>
-	<Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi>
-In-Reply-To: <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi>
+References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
+ <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+ <mailman.1136368805.14661.linux-kernel2news@redhat.com>
+ <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+ <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl> <s5hmziaird8.wl%tiwai@suse.de>
+ <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi>
+ <20060106041421.31579e69.froese@gmx.de>
+In-Reply-To: <20060106041421.31579e69.froese@gmx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Hannu Savolainen <hannu@opensound.com>
+To: Edgar Toernig <froese@gmx.de>
 Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
-Hannu Savolainen wrote:
->
-> Takashi Iwai wrote:
+On Fri, 6 Jan 2006, Edgar Toernig wrote:
+
+> Hannu Savolainen wrote:
 > >
-> > - Split of channels to concurrent accesses
->
-> Could you be more specific with the above isues?
+> > Takashi Iwai wrote:
+> > >
+> > > - Split of channels to concurrent accesses
+> >
+> > Could you be more specific with the above isues?
+> 
+> As I understand it: instead of providing one device with 5.1 capabilities
+> provide one device with 3 concurrent stereo users.  Reading the datasheet
+> of my AC'97 decoder (a cheap ALC650 connected to an ATIIXP) there is hard-
+> ware that supports this[1].
+Then this is in no way an API issue. Many OSS drivers (including envy24) 
+create separete device files for each input/output channel (or device pair). 
+Applications can chose to open the first device file in for all the 
+channels or any combination of the devices in mono/stereo/n-channel mode.
 
-As I understand it: instead of providing one device with 5.1 capabilities
-provide one device with 3 concurrent stereo users.  Reading the datasheet
-of my AC'97 decoder (a cheap ALC650 connected to an ATIIXP) there is hard-
-ware that supports this[1].
+All this depends only on the driver implementation. There is nothing API 
+related. Any app can open the devices as usual without paying any 
+attention on the channel allocation (which is done automatically by the 
+driver). xmms (or whatever else consumer app) can open the device and ask 
+for stereo access. Equally well a DAB application can open the device and 
+ask for full 10 output channels (or anything between 1 and 10). No special 
+API features are needed for this.
 
-Sure, Alsa can do all of this and more in software - somehow ...
+Best regards,
 
-Ciao, ET.
-
-[1] Unless the ATIIXP has some limitations - there are no docs 
-    available :-(
+Hannu
+-----
+Hannu Savolainen (hannu@opensound.com)
+http://www.opensound.com (Open Sound System (OSS))
+http://www.compusonic.fi (Finnish OSS pages)
+OH2GLH QTH: Karkkila, Finland LOC: KP20CM
