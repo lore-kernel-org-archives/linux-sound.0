@@ -1,64 +1,66 @@
-From: Marcin Dalecki <martin@dalecki.de>
-Date: Fri, 06 Jan 2006 02:19:22 +0000
+From: Hannu Savolainen <hannu@opensound.com>
+Date: Fri, 06 Jan 2006 02:20:13 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <01838B0F-FFAF-4F15-A71D-225B6E7B84E2@dalecki.de>
+Message-Id: <Pine.LNX.4.61.0601060348380.29362@zeus.compusonic.fi>
 List-Id: <linux-sound.vger.kernel.org>
-References: <200601040937.55624.s0348365@sms.ed.ac.uk>
-In-Reply-To: <200601040937.55624.s0348365@sms.ed.ac.uk>
+References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
+ <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+ <mailman.1136368805.14661.linux-kernel2news@redhat.com>
+ <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+ <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
+ <43BDA02F.5070103@folkwang-hochschule.de> <20060105234951.GA10167@dspnet.fr.eu.org>
+ <43BDB858.5060500@folkwang-hochschule.de>
+In-Reply-To: <43BDB858.5060500@folkwang-hochschule.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
+Cc: Olivier Galibert <galibert@pobox.com>, Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Jaroslav Kysela <perex@suse.cz>, Pete Zaitcev <zaitcev@redhat.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, LKML <linux-kernel@vger.kernel.org>
 
+On Fri, 6 Jan 2006, Joern Nettingsmeier wrote:
 
-On 2006-01-06, at 02:49, Martin Drab wrote:
+> shuffle 16 tracks of 24bit 48k audio in and out of the machine at a latency
+> where a professional drummer will not complain, with routing options adequate
+> for professional work, and then let's see how simple your API is.
+This is nonsense. This is something where the API design cannot make any 
+difference.
 
->> which is precisely just that - bug free. There are mathematical =20
->> proofs running
->> for hundreds of pages,
->> which are just valid.
->
-> Yes, I know. That, however, still doesn't necesarilly mean that it =20
-> has to
-> be completely error free. (An error must not necessarily mean a =20
-> complete
-> screw-up.)
+To get (say) 10 ms latencies you have to tell the sound subsystem 
+to allocate to buffer that is smaller than 10 ms. This in turn means that 
+the application must be able to run it's processing loop within less than 10 
+ms with 100.000...0% confidence. This is true regardless of how advanced 
+or primitive the audio subsystem (API) is.
 
-For example: The original proof from G=F6del about "die Vollst=E4ndigkeit  =
+What happens if some system load peak delays the application by 20 ms? The 
+result is complete failure. What is the ALSA (API) feature OSS doesn't 
+have that makes it able to predict what kind of output the application 
+should have fed to the device during the (about) 20 ms period of silence? 
 
-des
-Pr=E4dikatenkalk=FCls zweiter Stufe und anderer Systeme" runs for about =20
-80 pages.
-It is completely BUG FREE. And the method of g=F6delisation used in it =20
-pertains
-very much to the activity associated with programming. I dare to say =20
-that it
-is intellectually more demanding by virtue of an magnitude. Therefore =20
-it simply
-doesn't occur to me why there should be any natural law prohibiting =20
-anybody
-from writing bug free software.
+The fact is that there is nothing the audio subsystem can do to recover 
+the situation. For this very simple reason the OSS API lacks everything 
+that would be necessary to cope with this kind of problems.
 
-> Well, I'm moving in an environment of nuclear energy, physics, and
-> mathematical modelling a bit for quite some while. And I know, that =20
-> you
-> can never be absolutely certain that any (reasonably complex) =20
-> software is
-> completely error free.
+After all the lowest possible audio latency depends on the level of real 
+time response capabilities of the underlaying OS/hardware/application 
+environment. If the app doesn't get the CPU right in time it will fail 
+(believe or not).
 
-Ahhh physics... OK. Look, crappy engineering is just that. There =20
-really isn't
-much more to say about it. So please forgive me if I beg to differ =20
-and don't
-chime in to the chorus of the lame and react like an allergic to claims
-to the contrary.
+If the system can fullfill the response time requirements then any sound 
+subsystem will work equally well (unless they are seriously broken).
 
-> Anyway, I guess we're quite by far OT with this. So I think we =20
-> should just
-> leave it at that, and let everybody draw their own conclusions to =20
-> their
-> own best knowledge. Sorry for bothering with this.
+The sound subsystem implementations may have performance 
+differences of few usecs. However they don't make one better than another 
+in cases when the peak latencies are in millisecond range. In addition 
+same devices have FIFO/bus delays of up to few msec byt even then 
+advances in the audio subsystem/API design cannot help at all.
 
-Yes indeed.
+Best regards,
 
-PS. Please go find the bug in TeX and cash-in on the money...
+Hannu
+-----
+Hannu Savolainen (hannu@opensound.com)
+http://www.opensound.com (Open Sound System (OSS))
+http://www.compusonic.fi (Finnish OSS pages)
+OH2GLH QTH: Karkkila, Finland LOC: KP20CM
