@@ -1,83 +1,82 @@
-From: Olivier Galibert <galibert@pobox.com>
-Date: Fri, 06 Jan 2006 01:30:45 +0000
+From: Martin Drab <drab@kepler.fjfi.cvut.cz>
+Date: Fri, 06 Jan 2006 01:49:42 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <20060106013045.GB10167@dspnet.fr.eu.org>
+Message-Id: <Pine.LNX.4.60.0601060201200.31782@kepler.fjfi.cvut.cz>
 List-Id: <linux-sound.vger.kernel.org>
-References: <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl> <mailman.1136368805.14661.linux-kernel2news@redhat.com> <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz> <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl> <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz> <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl> <43BDA02F.5070103@folkwang-hochschule.de> <20060105234951.GA10167@dspnet.fr.eu.org> <43BDB858.5060500@folkwang-hochschule.de>
-In-Reply-To: <43BDB858.5060500@folkwang-hochschule.de>
+References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
+ <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+ <mailman.1136368805.14661.linux-kernel2news@redhat.com>
+ <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+ <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl> <s5hmziaird8.wl%tiwai@suse.de>
+ <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi> <1136504460.847.91.camel@mindpipe>
+ <4A284096-E889-4E6D-B017-B8241CD72A0D@dalecki.de>
+ <Pine.LNX.4.60.0601060122290.31782@kepler.fjfi.cvut.cz>
+ <942EC96F-580B-4F4C-B019-F38D4964942C@dalecki.de>
+In-Reply-To: <942EC96F-580B-4F4C-B019-F38D4964942C@dalecki.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Joern Nettingsmeier <nettings@folkwang-hochschule.de>
-Cc: Tomasz K?oczko <kloczek@rudy.mif.pg.gda.pl>, Jaroslav Kysela <perex@suse.cz>, Pete Zaitcev <zaitcev@redhat.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Andi Kleen <ak@suse.de>, ALSA development <alsa-devel@alsa-project.org>, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, LKML <linux-kernel@vger.kernel.org>
+To: Marcin Dalecki <martin@dalecki.de>
+Cc: Lee Revell <rlrevell@joe-job.com>, Hannu Savolainen <hannu@opensound.com>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
-On Fri, Jan 06, 2006 at 01:22:48AM +0100, Joern Nettingsmeier wrote:
-> agreed. nobody doubts this. a long time ago, this thread was about 
-> removing obsolete *drivers*. that is orthogonal to the api issue.
+On Fri, 6 Jan 2006, Marcin Dalecki wrote:
+> On 2006-01-06, at 01:29, Martin Drab wrote:
+> 
+> > Because as much as we all don't like it, it is
+> > a realistic fact. There's just NO WAY you can responsibly say about any
+> > piece software, that it is completely error free.
+> 
+> You would be for example surprised to see how complex the software controlling
+> the breaks
+> of a reasonable modern car turns out to be... This is just a technical example
 
-Yeah, and there was way less flamage then too :-)
+No doubts it is.
 
+> running contrary
+> to your "wisdom". In numerical computations you can find reasonable amounts of
+> software
+> which is precisely just that - bug free. There are mathematical proofs running
+> for hundreds of pages,
+> which are just valid.
 
-> then people starting whining about bugs in the alsa oss layer, while 
-> being too lazy to file bug reports. nobody wants to "cripple" this api, 
-> saying so is just stupid FUD and rather offensive.
+Yes, I know. That, however, still doesn't necesarilly mean that it has to 
+be completely error free. (An error must not necessarily mean a complete 
+screw-up.)
 
-You know, having the problem of device blocking between the oss api
-kernel support (emulation is not a very good term in that context) and
-the alsa api kernel support being meet by -EWONTFIX and "Don't use
-OSS, use Alsa-lib, it's infinitely better" is somewhat offensive too.
-You want me to file a bug report on that to see how far it's going to
-go?
+> Do you think this kind of guys doesn't ever sit down and
+> write
+> some piece of software to help out well for example in determining some
+> aerodynamics of a plane?
 
+I know they do. Again, it doesn't mean that that software has to be 
+completely error free.
 
-> then somebody started an api discussion, where *oss* was represented 
-> quite fairly. it does have its nice sides. but to me it looks like most 
-> of the people bashing *alsa* for its complexity have not understood the 
-> problems it tries to (and does) solve.
+> Are you assuming this kind of applications is trivial and by virtue of a
+> natural law bug ridden?
 
-The "the documentation is perfect, you just not have read it"
-fanboyism after having needed 2 or 3 days using that same
-documentation to write a simple dynamic sound streaming in an
-application I'm doing grates a little.  Also, I notice that all my
-comments about the numerous problms as seen in the windows world that
-come with having a kernel api defined as a shared library have gone
-beautifully ignored.
+Well, I'm moving in an environment of nuclear energy, physics, and 
+mathematical modelling a bit for quite some while. And I know, that you 
+can never be absolutely certain that any (reasonably complex) software is 
+completely error free.
 
+Apart from that, that in those really critical cases (such as a primary 
+controlling system of a nuclear reactor), you are actually forced to just 
+a strict subset of a strictly defined programming languages, it is just 
+that, that forces you to have tons of various sophisticated checking and 
+safety mechanisms implemented in the software to prevent any possible bugs 
+to do any serious harm, which in this case can no doubt be very terminal.
+Overconfidence in these cases is not in place, even though these really 
+are the ones that are really thotoughly checked for bugs.
 
-> shuffle 16 tracks of 24bit 48k audio in and out of the machine at a 
-> latency where a professional drummer will not complain, with routing 
-> options adequate for professional work, and then let's see how simple 
-> your API is.
+> And by the way: the zero program which has nothing to do is bug free. QED.
 
-I've done 64-channel microphone array capture, source tracking,
-beamforming, speaker id and feeding an ASR over a network of computers
-with a rather low latency.  I wrote or participated in the complete
-chain, from programming the capture dsp in assembly and debugging it
-with a 'scope, writing the linux driver to get the data on the pci, or
-writing the data transmission infrastructure.  And the API is still
-simple enough that it is becoming a de facto standard for smart space
-applications and the comments are of the order of "there still are
-some bugs (indeed there is, no doubts about that), but it allowed us
-to having things working rather easily and fast".
+Ah, OK, you got me on that one. :) But that's not quite what I had in 
+mind.
 
-Is that enough audio-unchallenged for you?  Oh, it does video too.
+Anyway, I guess we're quite by far OT with this. So I think we should just 
+leave it at that, and let everybody draw their own conclusions to their 
+own best knowledge. Sorry for bothering with this.
 
-
-> in audioland, you have all kinds of funky shit going on in the hardware, 
-> and you can't say, no we don't support that, to inelegant, because then 
-> your stuff just can't compete.
-
-That's why you want a clean core and an extension mechanism, and add
-the extensions in the core once they're general enough.  See OpenGL.
-
-
-> hardware peculiarities cannot be abstracted away without sacrificing 
-> efficiency, and this makes for a complicated api.
-
-No, it doesn't.  Again, see OpenGL.  Audio hardware variability is
-laughable compared to video hardware variability nowadays.
-
-But you need to designed your API starting from what people want to
-do, not from what the hardware does in detail.
-
-  OG.
+Martin
