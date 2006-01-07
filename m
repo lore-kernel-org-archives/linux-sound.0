@@ -1,128 +1,79 @@
-From: Olivier Galibert <galibert@pobox.com>
-Date: Sat, 07 Jan 2006 00:56:45 +0000
+From: Takashi Iwai <tiwai@suse.de>
+Date: Sat, 07 Jan 2006 14:09:46 +0000
 Subject: Re: [2.6 patch] schedule obsolete OSS drivers for removal
-Message-Id: <20060107005645.GA67447@dspnet.fr.eu.org>
+Message-Id: <s5hace8i0yd.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <s5hpsn8md1j.wl%tiwai@suse.de> <Pine.LNX.4.61.0601041545580.5750@yvahk01.tjqt.qr> <F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de> <Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr> <0D76E9E1-7FB0-41FD-8FAC-E4B3C6E9C902@dalecki.de> <1136486021.31583.26.camel@mindpipe> <E09E5A76-7743-4E0E-9DF6-6FB4045AA3CF@dalecki.de> <20060106034026.c37c1ed9.diegocg@gmail.com> <20060106145723.GA73361@dspnet.fr.eu.org> <Pine.LNX.4.61.0601061938390.10811@tm8103.perex-int.cz>
-In-Reply-To: <Pine.LNX.4.61.0601061938390.10811@tm8103.perex-int.cz>
+References: <20050726150837.GT3160@stusta.de>
+	<F082489C-B664-472C-8215-BE05875EAF7D@dalecki.de>
+	<Pine.LNX.4.61.0601051154500.21555@yvahk01.tjqt.qr>
+	<0D76E9E1-7FB0-41FD-8FAC-E4B3C6E9C902@dalecki.de>
+	<1136486021.31583.26.camel@mindpipe>
+	<E09E5A76-7743-4E0E-9DF6-6FB4045AA3CF@dalecki.de>
+	<1136491503.847.0.camel@mindpipe>
+	<7B34B941-46CC-478F-A870-43FE0D3143AB@dalecki.de>
+	<1136493172.847.26.camel@mindpipe>
+	<8D670C39-7B52-407C-8BDD-3478DB172641@dalecki.de>
+	<9a8748490601051535s5e28fd81of6814088db7ccac@mail.gmail.com>
+	<A1ECA9D1-29EB-4C44-A343-87B5EAAD4ADA@dalecki.de>
+	<Pine.LNX.4.61.0601060302370.29362@zeus.compusonic.fi>
+In-Reply-To: <Pine.LNX.4.61.0601060302370.29362@zeus.compusonic.fi>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jaroslav Kysela <perex@suse.cz>
-Cc: ALSA development <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org
+To: Hannu Savolainen <hannu@opensound.com>
+Cc: Marcin Dalecki <martin@dalecki.de>, Jesper Juhl <jesper.juhl@gmail.com>, Lee Revell <rlrevell@joe-job.com>, Jan Engelhardt <jengelh@linux01.gwdg.de>, Adrian Bunk <bunk@stusta.de>, Tomasz Torcz <zdzichu@irc.pl>, Olivier Galibert <galibert@pobox.com>, Alistair John Strachan <s0348365@sms.ed.ac.uk>, Andi Kleen <ak@suse.de>, perex@suse.cz, alsa-devel@alsa-project.org, James@superbug.demon.co.uk, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, zab@zabbo.net, kyle@parisc-linux.org, parisc-linux@lists.parisc-linux.org, jgarzik@pobox.com, Thorsten Knabe <linux@thorsten-knabe.de>, zwane@commfireservices.com, zaitcev@yahoo.com, linux-kernel@vger.kernel.org
 
-On Fri, Jan 06, 2006 at 09:26:42PM +0100, Jaroslav Kysela wrote:
-> You're proposing to add more content switches versus current ALSA 
-> implementation:
+At Fri, 6 Jan 2006 03:36:47 +0200 (EET),
+Hannu Savolainen wrote:
 > 
-> user space <-> kernel
+> On Fri, 6 Jan 2006, Marcin Dalecki wrote:
 > 
-> While your daemon requires:
+> > 
+> > 
+> > No I do not. How do you dare to assume I do?
+> > I never ever did ask for any support on behalf of the ALSA bunch...
+> > We are just discussing the merits of one sound system design
+> > over another one (without design).
+> Which is really a good subject to discuss about (LKML may not be the right 
+> place for this). ALSA has been in the official kernel for two years now so 
+> might this be a good time to look back?
 > 
-> user space <-> kernel <-> user space (daemon)
+> There are two very opposite approaches to do a sound subsystem. The ALSA 
+> way is to expose every single detail of the hardware to the applications 
+> and to allow (or force) application developers to deal with them. The OSS 
+> approach is to provide maximum device abstraction in the API level (by 
+> isolating the apps from the hardware as much as practically possible).
 
-Dmix _is_ a context switch, you know?
+Agreed, it's a good point.
 
+Note that for long time, I've commented that I myself do _not_
+recommend to use ALSA API directly with apps.  Rather I've recommended
+to use other portable libraries with ALSA/other backends.  Writing an
+app with alsa-lib is just like to write a graphical program with X11
+lowlevel library without any toolkits...
 
-> So your solution is even more realtime and proper scheduling dependant.
-> Unfortunately, Linux kernels still do not have perfect realtime behaviour 
-> (mostly due to broken drivers etc.).
+> Both ways have their good and bad sides. During past years the ALSA 
+> advocates have been dictating that the ALSA approach is the only available 
+> way to go (all resistance is futile).
 
-You only get context switches if you go through plugins, which is
-pretty much the same way alsa currently is, isn't it?
+Heh, it's natural that developers think their own things work better
+:)
 
+> But after all what is the authority 
+> who makes the final decision? Is it the ALSA team (who would like to think 
+> in this way)? Or do the Linux/Unix users and audio application developers 
+> have any word to say?
 
-> Also, the API is completely irrelevant from this scheme. If daemon does 
-> everything, the ALSA kernel API can go public and documented (altough I 
-> still does not agree with it - see bellow).
+I, at least, have never thought that the OSS _API_ would die.  Since
+they have existed, they will exist.  The question on LKML should be
+rather the implementation (for apps it doesn't matter how the sound
+system is implemented as long as it keeps API).
 
-The ALSA kernel API better go documented soon or I'll have to document
-it myself.  Security and openness-wise, it is just not acceptable to
-have a user-accessive kernel API kept under wraps.
-
-
-> > ALSA does not have a documented kernel interface nor an optional
-> > library but a mandatory library.  A highly complex, ipc-using library
-> 
-> It's also not very true. You can create your own ALSA library,
-
-After reverse-engineering your kernel interface.  How convenient.
-
-
-> but this library will not be supported with our team.
-
-Of course.  You won't have to though, since you claim the API is
-upwards compatible.
-
-
-> The ALSA from 1.0 version is 
-> binary compatible (even 0.9.0rc4+ linked applications should work) and old 
-> ioctls are emulated.
-
-Good.
+In the implementation of OSS API, there is a clear bottleneck: you
+have to implement everthing in the kernel level because of its
+definition.  Remember that the original thread started from the
+reduction of the kernel codes.  Putting more stuff which could be done
+better in user-space is a major drawback, IMO.
 
 
-> I'd like to point that this code runs with standard user priviledges. I 
-> think that the security things are and should be in a different place (in 
-> the kernel). If IPC is broken, other applications (not only using sound) 
-> might be broken.
-
-Every application that does inter-process communication has potential
-protocol-level security issues.  Current ALSA creates two shared
-memory zones and one semaphore with group write permissions.  In a
-setup where a number of people are in the same group (student group
-for instance), are you 100% positive that another user cannot take
-control of the running application by writing the right values at the
-right time in these zones?  Shared memory is the most dangerous
-communication vector there is when the other application is
-untrustable.
-
-
-> > At least OSS, with all its flaws, is a documented kernel interface.
-> > You can static link a oss-using program, whether it uses it directly
-> > or through interfaces like sdl-audio, and it will just work.
-> 
-> Please, see your words. You're simply anarchistic. You replaced 
-> flexibility of dynamic library with a possibility to have static binary.
-
-I am indeed not really interested in reproducing the dll hell of
-windows in linux.  I want simple but really efficient interfaces to
-kernel services which then give the possibility to build special needs
-libraries over it[1].  At that point you're designing an API for a
-specific class of professional audio users and essentially telling all
-the other users to bugger off.  Bad karma.
-
-
-> ALSA library can be also compiled as static library, so it's not a 
-> problem. The ALSA kernel API is stable.
-
-Yeah, that's the second time you're saying that.  I'm sure Dave Jones
-will be really happy to know that his impressions were mistaken and
-his bugzilla was just having hallucinations:
-  http://marc.theaimsgroup.com/?l=linux-kernel&m3589615627420&w=2
-  http://marc.theaimsgroup.com/?l=linux-kernel&m3225994603627&w=2
-
-
-> Also, we use symbol versions for 
-> all exported functions, so all old binaries linked with the dynamic alsa 
-> library will work.
-
-Like all the programs I had which segfaulted after the alsa upgrade
-that changed set_rate_near.  Beautiful versioning there guys.
-
-
-> Of course, the drivers might change some universal 
-> control names,
-
-Yeah, also known as "the stick which broke jwz's back".
-
-
-> Also note, that if OSS had the API in userspace from the first days,
-> the emulation or redirection of this API to another API or user space 
-> drivers wouldn't be so much complicated nowadays. Bummer.
-
-It would be exactly as complicated because of the static link issue.
-
-  OG.
-
-[1] SDL, jack and slmodem are I think good examples
+Takashi
