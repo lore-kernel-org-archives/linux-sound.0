@@ -1,7 +1,7 @@
-From: Martin Drab <drab@kepler.fjfi.cvut.cz>
-Date: Sun, 08 Jan 2006 02:26:18 +0000
+From: Jaroslav Kysela <perex@suse.cz>
+Date: Sun, 08 Jan 2006 09:42:02 +0000
 Subject: Re: [OT] ALSA userspace API complexity
-Message-Id: <Pine.LNX.4.60.0601080317040.22583@kepler.fjfi.cvut.cz>
+Message-Id: <Pine.LNX.4.61.0601081039520.9470@tm8103.perex-int.cz>
 List-Id: <linux-sound.vger.kernel.org>
 References: <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
  <mailman.1136368805.14661.linux-kernel2news@redhat.com>
@@ -20,18 +20,26 @@ Cc: Takashi Iwai <tiwai@suse.de>, ALSA development <alsa-devel@alsa-project.org>
 
 On Sun, 8 Jan 2006, Olivier Galibert wrote:
 
+> On Sat, Jan 07, 2006 at 03:32:27PM +0100, Takashi Iwai wrote:
+> > Yes, it's a known problem to be fixed.  But, it's no excuse to do
+> > _everything_ in the kernel (which OSS requires).
+> 
+> OSS does not require to do anything in the kernel except an entry
+> point.
+> 
+> 
 > > And if the application doesn't support, who and where converts it?
 > > With OSS API, it's a job of the kernel.
 > 
 > Once again no.  Nothing prevents the kernel to forward the data to
 > userland daemons depending on a userspace-uploaded configuration.
 
-I think that the point was, that switching from userspace to kernelspace 
-then to userspace again and back to kernelspace in order to do something, 
-that could have been done directly in the userspace, and though could save 
-those two unnecessary switches, is an unnecessary overhead, which may not 
-necessarily be that insignificant if it's done so often (which for 
-streaming audio is the case). Why doing things complicated when there is 
-no evident gain from it, or is there?
+But it's quite ineffecient. The kernel must switch tasks at least twice
+or more. It's the major problem with the current OSS API.
 
-Martin
+						Jaroslav
+
+-----
+Jaroslav Kysela <perex@suse.cz>
+Linux Kernel Sound Maintainer
+ALSA Project, SUSE Labs
