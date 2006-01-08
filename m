@@ -1,14 +1,84 @@
-From: "Forest" <robbr@aliant.net>
-Date: Wed, 21 Dec 2005 13:08:15 +0000
-Subject: Effortless ED Advisers rq
-Message-Id: <200512211308.jBLD7kg7030237@zeus2.kernel.org>
+From: Jaroslav Kysela <perex@suse.cz>
+Date: Sun, 08 Jan 2006 09:24:46 +0000
+Subject: Re: [Alsa-devel] Re: [OT] ALSA userspace API complexity
+Message-Id: <Pine.LNX.4.61.0601081007550.9470@tm8103.perex-int.cz>
 List-Id: <linux-sound.vger.kernel.org>
+References: <20050726150837.GT3160@stusta.de> <20060103193736.GG3831@stusta.de>
+ <Pine.BSO.4.63.0601032210380.29027@rudy.mif.pg.gda.pl>
+ <mailman.1136368805.14661.linux-kernel2news@redhat.com>
+ <20060104030034.6b780485.zaitcev@redhat.com> <Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+ <Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+ <Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl> <s5hmziaird8.wl%tiwai@suse.de>
+ <Pine.LNX.4.61.0601060028310.27932@zeus.compusonic.fi> <s5h7j9chzat.wl%tiwai@suse.de>
+ <Pine.LNX.4.61.0601080225500.17252@zeus.compusonic.fi>
+In-Reply-To: <Pine.LNX.4.61.0601080225500.17252@zeus.compusonic.fi>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: Hannu Savolainen <hannu@opensound.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, ALSA development <alsa-devel@alsa-project.org>, LKML <linux-kernel@vger.kernel.org>
 
-We are your solution for Considerable Soft Tab ~ \/1@GRA Savings
+On Sun, 8 Jan 2006, Hannu Savolainen wrote:
 
-http://uk.geocities.com/TerraKlein2220/
+> On Sat, 7 Jan 2006, Takashi Iwai wrote:
+> 
+> > > > Because OSS API doesn't cover many things.  For example, 
+> > > > 
+> > > > - PCM with non-interleaved formats
+> > > There is no need to handle non-interleaved data in kernel level drivers 
+> > > because all the devices use interleaved formats.
+> > 
+> > Many RME boards support only non-intereleave data.
+> In such cases it's better to do interleavin/deinterleaving in the kernel 
+> rather than forcing the apps to check which method they should use.
 
+I don't think so. The library can do such conversions (and alsa-lib does) 
+quite easy. If we have a possibility to remove the code from the kernel 
+space without any drawbacks, then it should be removed. I don't see any 
+advantage to have such conversions in the kernel.
+
+> > Indeed.  But you know that almost all "OSS" applications access
+> > directly the device files.  There is no room to put a library to solve
+> > these things in user-space.
+> Why should there be any need to put library code between the kernel API 
+> and an application that is perfectly happy with it? It is only necessary 
+> if somebody wants to emulate the OSS kernel API in library level.
+> 
+> A wrapper library with routines like oss_open, oss_write, etc was once 
+> considered. However we didn't find any good reason to do that (in 
+> particular because that conflicted with routine names already used 
+> internally in some important OSS applications).
+
+Bad decision. Again, I feel you're hidding the flexibility against
+your feeling that the kernel API is the best enough for applications.
+Imagine that the API redirection is or can be also flexible for your 
+future development.
+
+> What if there is some better way to handle OSS-ALSA interaction than 
+> library level hooks/emulation. In the short term this may be difficult 
+> because OSS is binary only and outside the kernel. But in long run OSS can 
+> hopefully be open sourced which could make it possible to use solutions 
+> like merging the kernel space drivers together.
+> 
+> Actually I have forgotten what was the reason why you wanted to get the 
+> OSS API emulated in userland rather than using the previous snd-oss 
+> module (which worked well other than the API version you emulated was too 
+> old)?
+
+Stream mixing. We have user space solution while you insist to put this 
+code to kernel. Simply, we need to go through our library.
+
+From the end user perspective, don't you think that having an opportunity 
+to change the API entry point from one to multiple (user space library - 
+preferred, direct kernel space - last resort) is more flexible for 
+developers and users? Please, consider this question without any flames 
+line which API is better and what's better for audio subsystem architects 
+and what's better for your commercial work.
+
+						Jaroslav
+
+-----
+Jaroslav Kysela <perex@suse.cz>
+Linux Kernel Sound Maintainer
+ALSA Project, SUSE Labs
