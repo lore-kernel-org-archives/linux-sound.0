@@ -1,45 +1,35 @@
-From: =?iso-8859-1?q?Ren=E9_Rebe?= <rene@exactcode.de>
-Date: Mon, 09 Jan 2006 17:12:55 +0000
+From: Thierry Vignaud <tvignaud@mandriva.com>
+Date: Mon, 09 Jan 2006 17:49:49 +0000
 Subject: Re: [Alsa-devel] Re: [OT] ALSA userspace API complexity
-Message-Id: <200601091812.55943.rene@exactcode.de>
+Message-Id: <m2ace5jnpe.fsf@vador.mandriva.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601091405.23939.rene@exactcode.de> <Pine.LNX.4.61.0601091637570.21552@zeus.compusonic.fi>
-In-Reply-To: <Pine.LNX.4.61.0601091637570.21552@zeus.compusonic.fi>
+References: <20060104030034.6b780485.zaitcev@redhat.com>
+	<Pine.LNX.4.61.0601041220450.9321@tm8103.perex-int.cz>
+	<Pine.BSO.4.63.0601051253550.17086@rudy.mif.pg.gda.pl>
+	<Pine.LNX.4.61.0601051305240.10350@tm8103.perex-int.cz>
+	<Pine.BSO.4.63.0601051345100.17086@rudy.mif.pg.gda.pl>
+	<s5hmziaird8.wl%tiwai@suse.de>
+	<Pine.BSO.4.63.0601052022560.15077@rudy.mif.pg.gda.pl>
+	<s5h8xtshzwk.wl%tiwai@suse.de> <20060108020335.GA26114@dspnet.fr.eu.org>
+	<Pine.LNX.4.60.0601080317040.22583@kepler.fjfi.cvut.cz>
+	<20060108132122.GB96834@dspnet.fr.eu.org>
+In-Reply-To: <20060108132122.GB96834@dspnet.fr.eu.org> (Olivier Galibert's
+	message of "Sun, 8 Jan 2006 14:21:22 +0100")
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Hannu Savolainen <hannu@opensound.com>
-Cc: Jaroslav Kysela <perex@suse.cz>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, ALSA development <alsa-devel@alsa-project.org>, LKML <linux-kernel@vger.kernel.org>
+To: Olivier Galibert <galibert@pobox.com>
+Cc: Martin Drab <drab@kepler.fjfi.cvut.cz>, Takashi Iwai <tiwai@suse.de>, ALSA development <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
-Hi,
+Olivier Galibert <galibert@pobox.com> writes:
 
-On Monday 09 January 2006 16:10, Hannu Savolainen wrote:
+> - stop making a fundamentally unsecure shared library mandatory
 
-> > > I don't think so. The library can do such conversions (and alsa-lib does) 
-> > > quite easy. If we have a possibility to remove the code from the kernel 
-> > > space without any drawbacks, then it should be removed. I don't see any 
-> > > advantage to have such conversions in the kernel.
-> > 
-> > Also, when the data is already available as single streams in a user-space
-> > multi track application, why should it be forced interleaved, when the hardware
-> > could handle the format just fine?
-> Because the conversion doesn't cost anything. Trying to avoid it by 
-> making the API more complicated (I would even say confusing) is extreme 
-> overkill. 
+do you speak about known vulnerabilities in ALSA lib or are you
+trolling^h^h^h^h^h^h^h assuming that kernel code is safer than
+userspace one?
 
-Since when doesn't cost convesion anything? I'm able to count a lot of wasted
-CPU cycles in there ...
+afaic I don't assume this.
+I'd prefer see bad code make one app crashing than oopsing the whole
+machine.
 
-> Even worse this kind of features weaken the device abstraction provided by 
-> the API. The applications will have to check for this and 
-> that and provide support for 100s of special cases that may be required by 
-> certain devices. 
-
-An lame write() only player can still open the default device and get the auto-convert
-chain it deserves ...
-
-Yours,
-  Rene Rebe
-
--- 
-ExactCODE Berlin
