@@ -1,36 +1,40 @@
-From: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Date: Tue, 10 Jan 2006 00:44:58 +0000
+From: Hannu Savolainen <hannu@opensound.com>
+Date: Tue, 10 Jan 2006 00:48:35 +0000
 Subject: Re: [Alsa-devel] Re: [OT] ALSA userspace API complexity
-Message-Id: <1136853898.12802.21.camel@localhost.localdomain>
+Message-Id: <Pine.LNX.4.61.0601100212290.26233@zeus.compusonic.fi>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de>
-	 <200601091405.23939.rene@exactcode.de>
-	 <Pine.LNX.4.61.0601091637570.21552@zeus.compusonic.fi>
-	 <200601091812.55943.rene@exactcode.de>
-	 <Pine.LNX.4.62.0601091355541.4005@qynat.qvtvafvgr.pbz>
-	 <20060109232043.GA5013@localhost.localdomain>
-	 <Pine.LNX.4.62.0601091515570.4005@qynat.qvtvafvgr.pbz>
-	 <20060110001617.GA5154@localhost.localdomain>
-	 <Pine.LNX.4.62.0601091628340.4005@qynat.qvtvafvgr.pbz>
-In-Reply-To: <Pine.LNX.4.62.0601091628340.4005@qynat.qvtvafvgr.pbz>
+References: <20050726150837.GT3160@stusta.de> <200601091405.23939.rene@exactcode.de>
+ <Pine.LNX.4.61.0601091637570.21552@zeus.compusonic.fi> <200601091812.55943.rene@exactcode.de>
+ <Pine.LNX.4.62.0601091355541.4005@qynat.qvtvafvgr.pbz>
+ <20060109232043.GA5013@localhost.localdomain>
+In-Reply-To: <20060109232043.GA5013@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: David Lang <dlang@digitalinsight.com>
-Cc: John Rigg <ad@sound-man.co.uk>, =?ISO-8859-1?Q?Ren=E9?= Rebe <rene@exactcode.de>, Hannu Savolainen <hannu@opensound.com>, Jaroslav Kysela <perex@suse.cz>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, ALSA development <alsa-devel@alsa-project.org>, LKML <linux-kernel@vger.kernel.org>
+To: John Rigg <ad@sound-man.co.uk>
+Cc: David Lang <dlang@digitalinsight.com>, =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactcode.de>, Jaroslav Kysela <perex@suse.cz>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, ALSA development <alsa-devel@alsa-project.org>, LKML <linux-kernel@vger.kernel.org>
 
-On Llu, 2006-01-09 at 16:29 -0800, David Lang wrote:
-> I was under the (apparently mistaken) impression that you couldn't DMA 
-> from userspace (something to do with the possibility that the userspace 
-> memory pages could be swapped out in the middle of the DMA)
+On Mon, 9 Jan 2006, John Rigg wrote:
 
-Drivers can choose to support this two different ways. One is to have a
-buffer of kernel memory mapped into user space and shared with the
-hardware (this is how OSS did it), the other is to use the 2.6
-get_user_pages API to get the physical address of a set of pages and
-lock them down so they don't wander off during DMA.
+> Yes, but the CPU has plenty of other work to do. The sound cards that
+> would be worst affected by this are the big RME cards (non-interleaved) and
+> multiple ice1712 cards (non-interleaved blocks of interleaved data),
+ice1712 uses normal interleaving. There are no "non-interleaved blocks".
 
-Both have advantages for different uses.
+> which AFAIK are the only cards capable of handling serious professional audio.
+> This could represent 48 or more channels of 96kHz audio, which
+> doesn't leave a lot of spare CPU capacity for running X, for example.
 
-Alan
+This is true only if you run the system at full 100% load before the 
+conversions. But in real life you cannot do this anyway. You have to use 
+a CPU that has lot of spare power. Otherwise anything unpredictable will 
+make things to fail.
 
+Best regards,
+
+Hannu
+-----
+Hannu Savolainen (hannu@opensound.com)
+http://www.opensound.com (Open Sound System (OSS))
+http://www.compusonic.fi (Finnish OSS pages)
+OH2GLH QTH: Karkkila, Finland LOC: KP20CM
