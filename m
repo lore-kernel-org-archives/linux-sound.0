@@ -1,31 +1,30 @@
 From: John Rigg <ad@sound-man.co.uk>
-Date: Tue, 10 Jan 2006 01:27:18 +0000
+Date: Tue, 10 Jan 2006 01:51:35 +0000
 Subject: Re: [Alsa-devel] Re: [OT] ALSA userspace API complexity
-Message-Id: <20060110012718.GA5375@localhost.localdomain>
+Message-Id: <20060110020017.GB5375@localhost.localdomain>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20050726150837.GT3160@stusta.de> <200601091405.23939.rene@exactcode.de> <Pine.LNX.4.61.0601091637570.21552@zeus.compusonic.fi> <200601091812.55943.rene@exactcode.de> <Pine.LNX.4.62.0601091355541.4005@qynat.qvtvafvgr.pbz> <20060109232043.GA5013@localhost.localdomain> <Pine.LNX.4.62.0601091515570.4005@qynat.qvtvafvgr.pbz> <20060110001617.GA5154@localhost.localdomain> <Pine.LNX.4.62.0601091628340.4005@qynat.qvtvafvgr.pbz>
-In-Reply-To: <Pine.LNX.4.62.0601091628340.4005@qynat.qvtvafvgr.pbz>
+References: <20050726150837.GT3160@stusta.de> <200601091405.23939.rene@exactcode.de> <Pine.LNX.4.61.0601091637570.21552@zeus.compusonic.fi> <200601091812.55943.rene@exactcode.de> <Pine.LNX.4.62.0601091355541.4005@qynat.qvtvafvgr.pbz> <20060109232043.GA5013@localhost.localdomain> <Pine.LNX.4.61.0601100212290.26233@zeus.compusonic.fi>
+In-Reply-To: <Pine.LNX.4.61.0601100212290.26233@zeus.compusonic.fi>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: David Lang <dlang@digitalinsight.com>
-Cc: John Rigg <ad@sound-man.co.uk>, =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactcode.de>, Hannu Savolainen <hannu@opensound.com>, Jaroslav Kysela <perex@suse.cz>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, ALSA development <alsa-devel@alsa-project.org>, LKML <linux-kernel@vger.kernel.org>
+To: Hannu Savolainen <hannu@opensound.com>
+Cc: John Rigg <ad@sound-man.co.uk>, David Lang <dlang@digitalinsight.com>, =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactcode.de>, Jaroslav Kysela <perex@suse.cz>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, ALSA development <alsa-devel@alsa-project.org>, LKML <linux-kernel@vger.kernel.org>
 
-On Mon, Jan 09, 2006 at 04:29:45PM -0800, David Lang wrote:
-> On Tue, 10 Jan 2006, John Rigg wrote:
+On Tue, Jan 10, 2006 at 02:48:35AM +0200, Hannu Savolainen wrote:
+> On Mon, 9 Jan 2006, John Rigg wrote:
 > 
-> >>does the CPU touch the data for these, or do you DMA directly from
-> >>userspace (i.e. "zero-copy")?
-> >
-> >The cards I mentioned use DMA. RME actually advertises that some of their
-> >cards can handle 52 channels with zero CPU load. Their onboard DSPs can
-> >also do routing and mixing, again without touching the CPU.
-> 
-> I was under the (apparently mistaken) impression that you couldn't DMA 
-> from userspace (something to do with the possibility that the userspace 
-> memory pages could be swapped out in the middle of the DMA)
+> > Yes, but the CPU has plenty of other work to do. The sound cards that
+> > would be worst affected by this are the big RME cards (non-interleaved) and
+> > multiple ice1712 cards (non-interleaved blocks of interleaved data),
+> ice1712 uses normal interleaving. There are no "non-interleaved blocks".
 
-Hmm. Maybe I've been paying too much attention to card vendors'
-sales talk :)
+With two ice1712 cards I had to patch jackd for MMAP_COMPLEX
+support to make them work together. My understanding was that the
+individual cards use interleaved data, but when several are combined
+the resulting blocks of data are not interleaved together. I realise the
+usual way of dealing with this is to use the alsa route plugin with
+ttable to interleave them, but I couldn't get it to work with these
+cards.
 
 John
