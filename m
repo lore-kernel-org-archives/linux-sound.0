@@ -1,33 +1,36 @@
-From: Eric Sesterhenn <snakebyte@gmx.de>
-Date: Sun, 09 Apr 2006 15:09:16 +0000
-Subject: [Patch] Dont call ac97_release_codec with NULL argument in
-Message-Id: <1144595356.18397.3.camel@alice>
+From: "Junior" <TrentonBaxterub@asia.com>
+Date: Fri, 23 Jun 2006 18:44:51 +0000
+Subject: Recent stuff Professional Degrees in 2 Weeks
+Message-Id: <89426365522746.DCC8ECE67B@7V4AB7WZ>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-hi,
+Do you have life experience?
 
-this is a fix for coverity id #243. We only jump to err_codec
-if ac97_alloc_codec() fails its malloc() in which case codec is NULL.
-Since ac97_release_codec dereferences its argument we shouldnt call
-it with a NULL argument.
+A Genu ine Univer sity Degr ee in 4-6 weeks!
 
-Signed-off-by: Eric Sesterhenn <snakebyte@gmx.de>
+Have you ever  thought that the only thing stopping you from a great  job and better pay was a few letters behind  you name?
+Well now you ca n get them!
 
---- linux-2.6.17-rc1/sound/oss/es1371.c.orig	2006-04-09 17:03:22.000000000 +0200
-+++ linux-2.6.17-rc1/sound/oss/es1371.c	2006-04-09 17:03:55.000000000 +0200
-@@ -3040,8 +3040,8 @@ static int __devinit es1371_probe(struct
-  err_irq:
- 	release_region(s->io, ES1371_EXTENT);
-  err_region:
-- err_codec:
- 	ac97_release_codec(s->codec);
-+ err_codec:
- 	kfree(s);
- 	return res;
- }
+BA BSc MA MSc MBA PhD
 
+Within 4-6 weeks!
+No Study Required!
+100% Verifiable!
+
+Th ese  are rea l, genuine deg rees that include Bache lors, Masters, MBA and Docto rate Degrees. They are fully verifiable and certified transcripts are also available.
+
+Just call the number below.
+You thank me later
+
+Please call:
+ 1-215-689-7 379 
+Calls returned promptly
+
+
+
+Honesty is the best policy Caught between the devil and the deep blue sea . Practice makes perfect. God is alive and well and working on something less ambitious Experience is a wonderful thing It enables you to recognize a mistake when you make it again  Draw Not Your Bow Till the Arrow is Fixed Lil ah sick, big a get better. Clath ah easy fuh dutty but hard fuh wash. A crowd is not company. 
 
