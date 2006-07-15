@@ -1,126 +1,43 @@
-From: Adrian Bunk <bunk@stusta.de>
-Date: Tue, 11 Jul 2006 12:44:06 +0000
-Subject: OSS driver removal, 2nd round (v3)
-Message-Id: <20060711124406.GL13938@stusta.de>
+From: "Byron Brandt" <ByronBrandt@0733.com>
+Date: Sat, 15 Jul 2006 23:48:18 +0000
+Subject: Success, wild-woven
+Message-Id: <662161c80604cpxelj24s7gfuzab0tzs1odaqr1c4165h@61.187.98.10>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org
-Cc: alsa-devel@alsa-project.org, Alan Cox <alan@lxorguk.ukuu.org.uk>, Robert.Siemer@gmx.de, linux-sound@vger.kernel.org, linux@thorsten-knabe.de, James@superbug.demon.co.uk, emu10k1-devel@lists.sourceforge.net, zwane@arm.linux.org.uk
+To: linux-sound@vger.kernel.org
 
-Now that I've sent the first round of actually removing the code for OSS 
-drivers where ALSA drivers without regressions exist for the same 
-hardware, it's time for a second round amongst the remaining drivers.
+Your cre dit doesn't matter to us! If you OWN real est ate
+and want IMMEDIATEC cash to spend ANY way you like, or simply wish 
+to LOWER your monthly paym ents by a third or more, here are the dea ls
+we have TODAY (hurry, these ofers will expre TONIGHT):
 
+$488,000.00 at a 3.67,% fixed-rateL
+$372,000.00 at a 3.90,% variable-rateX
+$492,000.00 at a 3.21,% interest-onlyM
+$248,000.00 at a 3.36,% fixed-rate8
+$198,000.00 at a 3.55,% variable-rate8
 
-Removing OSS drivers where ALSA drivers for the same hardware exists has 
-two reasons:
+Hurry, when these deals are gone, they are gone Simply fill out this one-min ute form... 
 
-1. remove obsolete and mostly unmaintained code
-2. get bugs in the ALSA drivers reported that weren't previously
-   reported due to the possible workaround of using the OSS drivers
+Don't worry about approval, your cre dit will not disqualify you! 
 
-
-The list below divides the OSS drivers into the following three
-categories:
-1. ALSA drivers for the same hardware
-2. ALSA drivers for the same hardware with known problems
-3. no ALSA drivers for the same hardware
+http://VR74KBUY.gtris.net
 
 
-The proposed timeline is:
-- 2.6.18: let the drivers under 1. in the list below depend on
-          OSS_OBSOLETE_DRIVER
-- 2.6.20: remove the options depending on OSS_OBSOLETE_DRIVER
-- 2.6.22: remove the code for the drivers that were depending on
-          OSS_OBSOLETE_DRIVER from the kernel tree
 
+to it in clumsy letters.  The red dotted line of the  path went to the right
+disappeared somewhere from his fingers, and he lit another one. Arthur stood
 
-To make a long story short:
+before, Red," he said to Schuhart, Jr.,  who  was puttering at  the bar. "We
+Redrick, ears clogged by the noise, turned and saw a bright red spot quickly
+the shower in his stocking feet, leaving sticky footprints. He would stay in
 
-If you are using an OSS driver because the ALSA driver doesn't work 
-equally well on your hardware listed under 1. below, send me an email 
-with a bug number in the ALSA bug tracking system now.
+not dissolving with time, but  on the contrary, it was accumulating. And  he
+gasped, grabbed  his  head, crouched,  and fell  into the dry grass. Redrick
+clumps of dirt flew  in all directions. And only then did Redrick look up at
+     "The backpack. You forgot the backpack, Mr. Schuhart."
 
-
-A small FAQ:
-
-Q: But OSS is kewl and ALSA sucks!
-A: The decision for the OSS->ALSA move was four years ago.
-   If ALSA sucks, please help to improve ALSA.
-
-Q: What about the OSS emulation in ALSA?
-A: The OSS emulation in ALSA is not affected by my patches
-   (and it's not in any way scheduled for removal).
-
-
-Please review the following list:
-
-
-1. ALSA drivers for the same hardware
-
-DMASOUND_PMAC
-SOUND_ACI_MIXER and RADIO_MIROPCM20
-SOUND_AD1816
-SOUND_AD1889
-SOUND_ADLIB
-SOUND_EMU10K1
-SOUND_FUSION
-SOUND_NM256
-SOUND_OPL3SA2
-
-2. ALSA drivers for the same hardware with known problems
-
-SOUND_CS4232
-- ALSA #1520 (Soundchip was not detected on HP Omnibook 5700 CTX)
-
-SOUND_ES1371
-- ALSA #1774 (missing joystick connector support for PCI Ensoniq ES1371)
-
-SOUND_ICH
-- ALSA #1764 (Recording signal quality is inacceptable (using OSS API))
-- Alan Cox:
-  ALSA driver lacks "support for AC97 wired touchscreens and the like"
-
-SOUND_SSCAPE
-- ALSA #2234 (driver does not find Soundscape Elite)
-
-SOUND_TRIDENT
-- ALSA #1293 (device supported by OSS but not by ALSA)
-- maintainer of the OSS driver wants his driver to stay
-
-SOUND_VIA82CXXX
-- ALSA #1906 (1-second overruns reported by arecord,
-              complete system hang with jackd -d alsa)
-
-
-3. no ALSA drivers for the same hardware
-
-DMASOUND_ATARI
-DMASOUND_PAULA
-DMASOUND_Q40
-SOUND_AEDSP16
-SOUND_AU1550_AC97
-SOUND_BCM_CS4297A
-SOUND_HAL2
-SOUND_KAHLUA
-SOUND_MSNDCLAS
-SOUND_MSNDPIN
-SOUND_MSS (also due to SOUND_PSS, SOUND_TRIX and perhaps SOUND_AEDSP16)
-SOUND_PAS
-SOUND_PSS
-SOUND_SB (also due to SOUND_KAHLUA, SOUND_PAS and perhaps SOUND_AEDSP16)
-SOUND_SH_DAC_AUDIO
-SOUND_TRIX
-SOUND_VIDC
-SOUND_VRC5477
-SOUND_VWSND
-SOUND_WAVEARTIST
-
-SOUND_IT8172
-- Ralf Baechle: 
-  Both board based on the ITE 8172 chipset are on my death list already; 
-  I will probably remove it after 2.6.18 is out unless against all 
-  expectation I receive patches.
-
+shooting it out with them.... Arthur decisively shook his head.
+     He set up the glasses, quickly opened the bottle, and turned to Noonan.
