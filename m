@@ -1,43 +1,43 @@
-From: "Maggie Abrams" <MaggieAbrams@mail.ru>
-Date: Sat, 29 Jul 2006 15:39:52 +0000
-Subject: Better Success, well-paid
-Message-Id: <67897476.20060729183952@mail.ru>
+From: "Patrice Hines" <PatriceHines@mail.ru>
+Date: Tue, 18 Jul 2006 11:38:33 +0000
+Subject: Success, word-charged
+Message-Id: <7485024536.20060718143833@mail.ru>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-8086@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
 Your cre dit doesn't matter to us! If you OWN real est ate
-and want IMMEDIATEZ cash to spend ANY way you like, or simply wish 
+and want IMMEDIATER cash to spend ANY way you like, or simply wish 
 to LOWER your monthly paym ents by a third or more, here are the dea ls
 we have TODAY (hurry, these ofers will expre TONIGHT):
 
-$488,000.00 at a 3.67,% fixed-rateX
-$372,000.00 at a 3.90,% variable-rateZ
-$492,000.00 at a 3.21,% interest-only4
-$248,000.00 at a 3.36,% fixed-rateC
-$198,000.00 at a 3.55,% variable-rate3
+$488,000.00 at a 3.67,% fixed-rate0
+$372,000.00 at a 3.90,% variable-rateO
+$492,000.00 at a 3.21,% interest-only1
+$248,000.00 at a 3.36,% fixed-rateK
+$198,000.00 at a 3.55,% variable-rateD
 
 Hurry, when these deals are gone, they are gone Simply fill out this one-min ute form... 
 
 Don't worry about approval, your cre dit will not disqualify you! 
 
-http://Q4R7LO0C.corkpencills.com
+http://F68XNP.jokip.com
 
 
 
-and all of him covered with a crust of oozing slime, and he felt no pity, no
-ball, when I get to the ball, I'm no Buzzard, I'll get what I want from you.
+sores--yellow with black dots--and I said "Let me have it." And that was it.
+under a bad one, you're not happy under a good one. It's people like you who
 
-     And  during all this  time, he never stopped being a  stalker.  Without
-     "Fine. And next time I'll let you have it in the teeth. If you're still
-the  Zone with Red  after  Buzzard's legs,  not  some  expendable  punk.  He
+     "If we get some water," Arthur said. "At least wash our faces.
+     "Put the backpack on my back. We'll go  like before," he said, shifting
+much out of it."
 
-     "Yes," said Arthur.
-His dark raven hair,  like his sister's, bounced rhythmically.  He asked for
-really  taken  a beating. The top buckles  had melted  and the  vials in the
-home."
+and well, they would have gotten by with a lot of sweat, but Arthur couldn't
+clumps of dirt flew  in all directions. And only then did Redrick look up at
+it."
+with  sandwiches and a thermos of coffee. While Arthur set up the sandwiches
 
-     Arthur shook his head, hurt.
-song. And  the repairs would be  almost free,  because he  could  apply  for
+many of our boys fell there? But I found it! I was saving it for myself. And
+wanted to complain but that he  didn't  dare.  He  only said  in a strangled
