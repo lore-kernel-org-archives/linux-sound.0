@@ -1,25 +1,27 @@
-From: "Sheldon" <allynclothe@dublin.com>
-Date: Mon, 31 Jul 2006 23:08:31 +0000
-Subject: New Have more success with women and impress them with your power and stamina in bed
-Message-Id: <26101014573090.94A9C0C3DD@HWI4>
+From: "Taylor" <chevyallison@whoever.com>
+Date: Thu, 27 Jul 2006 16:26:52 +0000
+Subject: Fresh stuff Enhanced male power and unlimited prowess with your girl The best products for the winni
+Message-Id: <41166877978622.6B4E0E7208@U832Y>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Good Day to you!
-
- Most quality products for anyone who wants to become a champion in bedEnhanced male power and unlimited prowess with your girl The best products for the winning guys
-
-
-Have more success with women and impress them with your power and stamina in bed
-
- Come on in: http://www.isohyetab.com
-
-Sheldon Bowling
+Hello my friend,
+ Achieve astounding results in bed with these products designed to make any man a winnerBoost your manhood to astonishing levels Everything a real man would ever need.
 
 
-A miss is as good as a mr. Walk before you can runSome are Wise and Some are Otherwise
-A man is known by the company he keeps.
+Boost your manhood to astonishing levels Everything a real man would ever need.
+
+
+ Check up here: http://www.aecidiumea.com
+
+
+Taylor Pace
+
+
+Dont make love at the garden gate, love is blind but the neighbours aintHe that turneth away his ear from hearing the law, even his prayer shall be abomination.
+
+Silence is golden Waste not, want not
 
