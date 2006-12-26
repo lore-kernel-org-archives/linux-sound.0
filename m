@@ -1,46 +1,126 @@
-From: Ismail =?utf-8?q?D=C3=B6nmez?= <ismail@pardus.org.tr>
-Date: Sat, 30 Dec 2006 22:10:14 +0000
-Subject: Re: No sound in KDE with intel hda since 2.6.20-rc1
-Message-Id: <200612310010.16261.ismail@pardus.org.tr>
+From: Nishanth Aravamudan <nacc@us.ibm.com>
+Date: Tue, 26 Dec 2006 19:35:45 +0000
+Subject: Re: [KJ] [PATCH] set_current_state usage in oss/
+Message-Id: <20061226193545.GA11047@us.ibm.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <200612302227.48097.ismail@pardus.org.tr> <20061230204527.GB4338@mellanox.co.il>
-In-Reply-To: <20061230204527.GB4338@mellanox.co.il>
+References: <1167089629.11578.2.camel@alice>
+In-Reply-To: <1167089629.11578.2.camel@alice>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: "Michael S. Tsirkin" <mst@mellanox.co.il>
-Cc: Alistair John Strachan <s0348365@sms.ed.ac.uk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, PeiSen Hou <pshou@realtek.com.tw>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: kernel-janitors@vger.kernel.org
 
-30 Ara 2006 Cts 22:45 tarihinde, Michael S. Tsirkin şunları yazmıştı: 
-> > > > > > Virtual MIDI Card 1
-> > > > >
-> > > > > Compile this feature out, I bet things start working again.
-> > > >
-> > > > Yes, this helped, thanks.
-> > > > BTW, is this expected?
-> > >
-> > > It's a severe "misfeature" in my opinion that caused me problems years
-> > > ago. The first soundcard becomes "default", which can probably be
-> > > overridden in many different ways.
-> > >
-> > > However, I really think a hack should be put in to prevent "virtual
-> > > MIDI" from ever being in the first slot, it's just a bug asking to
-> > > happen.
-> >
-> > So should we enable Virtual MIDI in kernel config? Since I have it off
-> > and aRts have no sound with ALSA backend.
->
-> Try updating to latest git - I have
-> 7479b1ce5ea41a828002c60739cff37f47b62913 with Virtual MIDI off and ALSA
-> seems to work.
->
-> BTW, Amarok has an Engine dialog where you can easily switch between
-> backends which is good for testing.
+On 26.12.2006 [00:33:49 +0100], Eric Sesterhenn wrote:
+> hi,
+> 
+> since we have a macro to set the current state,
+> we should use it, instead of open coding it.
+> 
+> Signed-off-by: Eric Sesterhenn <snakebyte@gmx.de>
+> 
+> --- linux-2.6.20-rc2/sound/oss/btaudio.c.orig	2006-12-26 00:04:05.000000000 +0100
+> +++ linux-2.6.20-rc2/sound/oss/btaudio.c	2006-12-26 00:04:05.000000000 +0100
+> @@ -531,7 +531,7 @@ static ssize_t btaudio_dsp_read(struct f
+>  				break;
+>  			}
+>  			mutex_unlock(&bta->lock);
+> -			current->state = TASK_INTERRUPTIBLE;
+> +			__set_current_state(TASK_INTERRUPTIBLE);
+>  			schedule();
+>  			mutex_lock(&bta->lock);
+>  			if(signal_pending(current)) {
+> @@ -608,7 +608,7 @@ static ssize_t btaudio_dsp_read(struct f
+>  	}
+>  	mutex_unlock(&bta->lock);
+>  	remove_wait_queue(&bta->readq, &wait);
+> -	current->state = TASK_RUNNING;
+> +	__set_current_state(TASK_RUNNING);
 
-Still no sound with latest git. But Amarok with ALSA backend works fine. Maybe 
-some other problem with aRts. Not sure yet but this is surely a new breakage.
+Both lines might be replaced with something like finish_wait().
 
-Regards,
-ismail
+>  	return ret;
+>  }
+>  
+> --- linux-2.6.20-rc2/sound/oss/cs4232.c.orig	2006-12-26 00:04:05.000000000 +0100
+> +++ linux-2.6.20-rc2/sound/oss/cs4232.c	2006-12-26 00:04:05.000000000 +0100
+> @@ -98,7 +98,7 @@ static unsigned char crystal_key[] =	/* 
+>  
+>  static void sleep(unsigned howlong)
+>  {
+> -	current->state = TASK_INTERRUPTIBLE;
+> +	__set_current_state(TASK_INTERRUPTIBLE);
+>  	schedule_timeout(howlong);
+
+schedule_timeout_interruptible()
+
+>  }
+>  
+> --- linux-2.6.20-rc2/sound/oss/cs46xx.c.orig	2006-12-26 00:04:05.000000000 +0100
+> +++ linux-2.6.20-rc2/sound/oss/cs46xx.c	2006-12-26 00:04:06.000000000 +0100
+> @@ -1435,7 +1435,7 @@ static int drain_dac(struct cs_state *st
+>  	for (;;) {
+>  		/* It seems that we have to set the current state to TASK_INTERRUPTIBLE
+>  		   every time to make the process really go to sleep */
+> -		current->state = TASK_INTERRUPTIBLE;
+> +		__set_current_state(TASK_INTERRUPTIBLE);
+>  
+>  		spin_lock_irqsave(&state->card->lock, flags);
+>  		count = dmabuf->count;
+> @@ -1449,7 +1449,7 @@ static int drain_dac(struct cs_state *st
+>  
+>  		if (nonblock) {
+>  			remove_wait_queue(&dmabuf->wait, &wait);
+> -			current->state = TASK_RUNNING;
+> +			__set_current_state(TASK_RUNNING);
+
+finish_wait()
+
+>  			return -EBUSY;
+>  		}
+>  
+> @@ -1463,7 +1463,7 @@ static int drain_dac(struct cs_state *st
+>  		}
+>  	}
+>  	remove_wait_queue(&dmabuf->wait, &wait);
+> -	current->state = TASK_RUNNING;
+> +	__set_current_state(TASK_RUNNING);
+
+ditto
+
+>  	if (signal_pending(current)) {
+>  		CS_DBGOUT(CS_FUNCTION, 4, printk("cs46xx: drain_dac()- -ERESTARTSYS\n"));
+>  		/*
+> @@ -1834,7 +1834,7 @@ static int cs_midi_release(struct inode 
+>          unsigned count, tmo;
+>  
+>          if (file->f_mode & FMODE_WRITE) {
+> -                current->state = TASK_INTERRUPTIBLE;
+> +                __set_current_state(TASK_INTERRUPTIBLE);
+>                  add_wait_queue(&card->midi.owait, &wait);
+
+prepare_to_wait()
+
+>                  for (;;) {
+>                          spin_lock_irqsave(&card->midi.lock, flags);
+> @@ -1851,7 +1851,7 @@ static int cs_midi_release(struct inode 
+>                                  printk(KERN_DEBUG "cs46xx: midi timed out??\n");
+>                  }
+>                  remove_wait_queue(&card->midi.owait, &wait);
+> -                current->state = TASK_RUNNING;
+> +                __set_current_state(TASK_RUNNING);
+
+<snip>
+
+And so on. Consider using these APIs
+(schedule_timeout_{,un}interruptible(), prepare_to_wait(),
+finish_wait()) rather than just the small change of using the
+__set_current_state() macro. Admittedly, this is all in OSS, which is
+slowly being removed (by Adrian Bunk) in favor of ALSA. I sent in many
+patches before for fixing up similar callers, but left OSS alone.
+
+Thanks,
+Nish
+
 -- 
-2 + 2 = 5 for very large values of 2
+Nishanth Aravamudan <nacc@us.ibm.com>
+IBM Linux Technology Center
