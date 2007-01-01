@@ -1,73 +1,41 @@
-From: Nishanth Aravamudan <nacc@us.ibm.com>
-Date: Wed, 03 Jan 2007 04:29:34 +0000
-Subject: Re: [KJ] [PATCH] set_current_state usage in oss/
-Message-Id: <20070103042934.GH14048@us.ibm.com>
+From: Leonard Norrgard <leonard.norrgard@refactor.fi>
+Date: Mon, 01 Jan 2007 17:00:54 +0000
+Subject: [PATCH] sound: hda: detect ALC883 on MSI K9A Platinum motherboards
+Message-Id: <45993E46.7000904@refactor.fi>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1167089629.11578.2.camel@alice>
-In-Reply-To: <1167089629.11578.2.camel@alice>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+To: Linus Torvalds <torvalds@osdl.org>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 
-On 03.01.2007 [00:23:26 +0100], Eric Sesterhenn wrote:
-> hi,
-> 
-> thanks for your comments, i am sorry i
-> didnt have time to look at this again until now
-> 
-> > >  			}
-> > >  			mutex_unlock(&bta->lock);
-> > > -			current->state = TASK_INTERRUPTIBLE;
-> > > +			__set_current_state(TASK_INTERRUPTIBLE);
-> > >  			schedule();
-> > >  			mutex_lock(&bta->lock);
-> > >  			if(signal_pending(current)) {
-> > > @@ -608,7 +608,7 @@ static ssize_t btaudio_dsp_read(struct f
-> > >  	}
-> > >  	mutex_unlock(&bta->lock);
-> > >  	remove_wait_queue(&bta->readq, &wait);
-> > > -	current->state = TASK_RUNNING;
-> > > +	__set_current_state(TASK_RUNNING);
-> >
-> > Both lines might be replaced with something like finish_wait().
-> 
-> care to explain the first one?
-> 
-> 
-> > > --- linux-2.6.20-rc2/sound/oss/cs46xx.c.orig	2006-12-26 00:04:05.000000000 +0100
-> > > +++ linux-2.6.20-rc2/sound/oss/cs46xx.c	2006-12-26 00:04:06.000000000 +0100
-> > > @@ -1435,7 +1435,7 @@ static int drain_dac(struct cs_state *st
-> > >  	for (;;) {
-> > >  		/* It seems that we have to set the current state to TASK_INTERRUPTIBLE
-> > >  		   every time to make the process really go to sleep */
-> > > -		current->state = TASK_INTERRUPTIBLE;
-> > > +		__set_current_state(TASK_INTERRUPTIBLE);
-> > >
-> > >  		spin_lock_irqsave(&state->card->lock, flags);
-> > >  		count = dmabuf->count;
-> > > @@ -1449,7 +1449,7 @@ static int drain_dac(struct cs_state *st
-> > >
-> > >  		if (nonblock) {
-> > >  			remove_wait_queue(&dmabuf->wait, &wait);
-> > > -			current->state = TASK_RUNNING;
-> > > +			__set_current_state(TASK_RUNNING);
-> >
-> > finish_wait()
-> 
-> same here, the second one is clear
+From: Leonard Norrg=E5rd <leonard.norrgard@refactor.fi>
 
-Sorry, in both these cases, I just forgot to snip the earlier bits, new
-patch looks much better. Note, that in the case of several OSS drivers,
-they are already replaced by ALSA ones -- and the ALSA ones are much
-better maintained. A lot of the wait-queue bits in OSS seem to be poorly
-done, or more obfuscated than necessary.
+Recognize the Realtek ALC883 chip on MSI K9A Platinum motherboards
+(model no. MS-7280), enabling full sound capabilities.
 
-Oh well.
+Signed-off-by: Leonard Norrg=E5rd <leonard.norrgard@refactor.fi>
 
-Thanks,
-Nish
+---
+Error messages seen before this patch:
 
--- 
-Nishanth Aravamudan <nacc@us.ibm.com>
-IBM Linux Technology Center
+cannot find the slot for index 0 (range 0-0)
+hda-intel: Error creating card!
+HDA Intel: probe of 0000:00:14.2 failed with error -12
+---
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 29e4c48..4e0c3c1 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -5070,6 +5070,8 @@ static struct hda_board_config alc883_cfg_tbl[] =3D {
+     { .modelname =3D "6stack-dig", .config =3D ALC883_6ST_DIG },
+     { .pci_subvendor =3D 0x1462, .pci_subdevice =3D 0x6668,
+       .config =3D ALC883_6ST_DIG }, /* MSI  */
++    { .pci_subvendor =3D 0x1462, .pci_subdevice =3D 0x7280,
++      .config =3D ALC883_6ST_DIG }, /* MSI K9A Platinum (MS-7280) */
+     { .pci_subvendor =3D 0x105b, .pci_subdevice =3D 0x6668,
+       .config =3D ALC883_6ST_DIG }, /* Foxconn */
+     { .modelname =3D "6stack-dig-demo", .config =3D ALC888_DEMO_BOARD },
+
+
