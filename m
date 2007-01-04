@@ -1,49 +1,29 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Tue, 16 Jan 2007 16:50:57 +0000
-Subject: Re: [patch]cleanup and error reporting for sound/core/init.c
-Message-Id: <s5hejpu29vy.wl%tiwai@suse.de>
+From: Agoston Bejo <bejoag2@yahoo.com>
+Date: Thu, 04 Jan 2007 15:06:18 +0000
+Subject: realtime volume normalizer
+Message-Id: <loom.20070104T160103-878@post.gmane.org>
 List-Id: <linux-sound.vger.kernel.org>
-References: <200701121449.58186.oneukum@suse.de>
-	<s5h64bcgmzn.wl%tiwai@suse.de>
-	<200701130737.59435.oneukum@suse.de>
-In-Reply-To: <200701130737.59435.oneukum@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Oliver Neukum <oneukum@suse.de>
-Cc: Jaroslav Kysela <perex@suse.cz>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
-At Sat, 13 Jan 2007 07:37:59 +0100,
-Oliver Neukum wrote:
-> 
-> Am Freitag, 12. Januar 2007 18:42 schrieb Takashi Iwai:
-> > At Fri, 12 Jan 2007 14:49:57 +0100,
-> > Oliver Neukum wrote:
-> > > 
-> > > +	} else {
-> > > +		 if (idx < snd_ecards_limit) {
-> > > +			if (snd_cards_lock & (1 << idx))
-> > > +				err = -EBUSY;	/* invalid */
-> > > +		} else if (idx < SNDRV_CARDS)
-> > > +				snd_ecards_limit = idx + 1; /* increase the limit */
-> > > +			else
-> > > +				err = -ENODEV;
-> > 
-> > The indent looks strange in the above three lines.
-> > Also, for me it's not much better than before... :)
-> > (all if's are comparisons of idx with other values.)
-> 
-> Hi,
-> 
-> OK, how about this one? The original indentation makes the control
-> flow very hard to follow.
-> 
-> 	Regards
-> 		Oliver
-> 
-> Signed-off-by: Oliver Neukum <oneukum@suse.de>
+Hi!
 
-Thanks, now applied to ALSA tree.
+What I would like to do is have a reasonably constant sound when listening to
+mp3's. This is because many times I'm listening to radio shows in which people
+sometimes are whispering, sometimes shouting. So currently I have to set the
+volume _during_ playing the mp3 from time to time.
 
+Is there a general (or mp3 player-specific) utility / special driver that can
+keep the volume at a constant level? A utility for pre-normalizing the mp3 files
+would do as well. It doesn't have to be mp3-specific either, ogg or wav-specific
+software is fine, too.
 
-Takashi
+Unfortunately the various kinds of software I have found on the net only
+normalize the volume of the WHOLE sound files, not e.g. relatively short
+sections of it.
+
+Thanks,
+Agoston
+
