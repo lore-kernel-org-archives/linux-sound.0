@@ -1,41 +1,58 @@
-From: Lee Revell <rlrevell@joe-job.com>
-Date: Tue, 02 Jan 2007 22:11:52 +0000
-Subject: Re: No sound in KDE with intel hda since 2.6.20-rc1
-Message-Id: <1167775912.6670.92.camel@mindpipe>
+From: Oliver Neukum <oneukum@suse.de>
+Date: Fri, 12 Jan 2007 13:49:57 +0000
+Subject: [patch]cleanup and error reporting for sound/core/init.c
+Message-Id: <200701121449.58186.oneukum@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <200612301844.02413.s0348365@sms.ed.ac.uk>
-	 <20061230191123.GA4352@mellanox.co.il>
-	 <200612301919.06949.s0348365@sms.ed.ac.uk>
-In-Reply-To: <200612301919.06949.s0348365@sms.ed.ac.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alistair John Strachan <s0348365@sms.ed.ac.uk>
-Cc: "Michael S. Tsirkin" <mst@mellanox.co.il>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, PeiSen Hou <pshou@realtek.com.tw>
+To: Jaroslav Kysela <perex@suse.cz>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Sat, 2006-12-30 at 19:19 +0000, Alistair John Strachan wrote:
-> On Saturday 30 December 2006 19:11, Michael S. Tsirkin wrote:
-> > > On Friday 29 December 2006 06:25, Michael S. Tsirkin wrote:
-> > > > Virtual MIDI Card 1
-> > >
-> > > Compile this feature out, I bet things start working again.
-> >
-> > Yes, this helped, thanks.
-> > BTW, is this expected?
-> 
-> It's a severe "misfeature" in my opinion that caused me problems years ago. 
-> The first soundcard becomes "default", which can probably be overridden in 
-> many different ways.
-> 
-> However, I really think a hack should be put in to prevent "virtual MIDI" from 
-> ever being in the first slot, it's just a bug asking to happen.
-> 
+Hi,
 
-ALSA allows soundcards to be addressed by name.  The bug is that KDE
-does not handle sound cards being added or removed properly.
+please accept this patch, which makes the control flow clear with
+indentation, adds some comments and improves error reporting.
 
-Gnome solved this problem already - just go to
-System->Preferences->Sound and select the "Default sound card".
+	Regards
+		Oliver
 
-Lee
+Signed-off-by: Oliver Neukum <oneukum@suse.de>
 
+--
+--- a/sound/core/init.c	2007-01-12 14:26:47.000000000 +0100
++++ b/sound/core/init.c	2007-01-12 14:46:13.000000000 +0100
+@@ -114,22 +114,26 @@
+ 	if (idx < 0) {
+ 		int idx2;
+ 		for (idx2 = 0; idx2 < SNDRV_CARDS; idx2++)
++			/* idx = -1 = 0xffff means: take any free slot */
+ 			if (~snd_cards_lock & idx & 1<<idx2) {
+ 				idx = idx2;
+ 				if (idx >= snd_ecards_limit)
+ 					snd_ecards_limit = idx + 1;
+ 				break;
+ 			}
+-	} else if (idx < snd_ecards_limit) {
+-		if (snd_cards_lock & (1 << idx))
+-			err = -ENODEV;	/* invalid */
+-	} else if (idx < SNDRV_CARDS)
+-		snd_ecards_limit = idx + 1; /* increase the limit */
+-	else
+-		err = -ENODEV;
++	} else {
++		 if (idx < snd_ecards_limit) {
++			if (snd_cards_lock & (1 << idx))
++				err = -EBUSY;	/* invalid */
++		} else if (idx < SNDRV_CARDS)
++				snd_ecards_limit = idx + 1; /* increase the limit */
++			else
++				err = -ENODEV;
++	}
+ 	if (idx < 0 || err < 0) {
+ 		mutex_unlock(&snd_card_mutex);
+-		snd_printk(KERN_ERR "cannot find the slot for index %d (range 0-%i)\n", idx, snd_ecards_limit - 1);
++		snd_printk(KERN_ERR "cannot find the slot for index %d (range 0-%i), error: %d\n",
++			 idx, snd_ecards_limit - 1, err);
+ 		goto __error;
+ 	}
+ 	snd_cards_lock |= 1 << idx;		/* lock it */
