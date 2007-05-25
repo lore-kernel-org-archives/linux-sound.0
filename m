@@ -1,42 +1,40 @@
-From: "Vegard Nossum" <vegard@peltkore.net>
-Date: Sat, 05 May 2007 12:52:33 +0000
-Subject: Unable to record
-Message-Id: <63203.84.210.74.57.1178369553.squirrel@peltkore.net>
+From: Robert Thomson <robert.p.thomson@googlemail.com>
+Date: Fri, 25 May 2007 14:40:22 +0000
+Subject: Proofreading your professional documents
+Message-Id: <11190026.1180104022053.JavaMail.Postman_Professional@post.strato.de>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 To: linux-sound@vger.kernel.org
 
-Hello,
+Dear Professor/Lecturer
 
-I am not able to use the line-in/microphone jacks with my sound card. The
-sound card is a built-in Realtek ALC655. I am using kernel 2.6.20.9.
+Please excuse us for contacting you directly. We are offering an efficient =
+service to help you ensure your academic and professional work is written i=
+n perfect English. We will check the grammar and style of your work and ret=
+urn it to you to meet your requirements and deadlines.
 
-I have the choice between four capture streams, "Intel ICH7", "Intel ICH7
-- MIC ADC", "Intel ICH7 - MIC2 ADC", and "Intel ICH7 - ADC2". When I
-attempt to run arecord or Audacity with the first and the last streams, 0
-and 3, I get a fixed signal that is different from zero. It does not
-contain any data from the microphone. When I try to record with 1 or 2, I
-don't get any data at all (in arecord, I simply get an empty file, and in
-Audacity, the cursor doesn't move when recording is going on).
+Proof-Reading-Service.com can provide you with a professional proofreading =
+service at a very reasonable rate. All our proofreaders are highly qualifie=
+d native English speakers. Many work as leading academics in their fields a=
+nd all have extensive experience of proofreading to the highest standards.
 
-The motherboard data sheet says that there are only three analog stereo
-sound inputs, line-in, CD, and AUX. I have one microphone input at the
-front of the computer (connected to the microphone-front pins on the
-motherboard) and one microphone and one line-in at the back. The cd-in
-pins on the motherboard appear to be unused.
+If you are interested in our service, please take a look at our website: ww=
+w.proof-reading-service.com All you have to do is send us your document as =
+a word attachment with the deadline and we will guarantee delivery of a per=
+fectly written document to give you complete confidence when you submit you=
+r work. The fee is worked out on a flat rate (=A36.95 per thousand words or=
+ 0.695 pence per word), so you know exactly how much the proofreading will =
+cost in advance.
 
-Audio playback works perfectly.
+Once we have received your document(s) we will confirm the word count, the =
+price and the deadline. If you have not heard from us within 2 hours during=
+ normal business hours after you have sent your work please resend it from =
+a different email account or send the file to proofreadings@gmail.com.
 
-Can anybody help me debug this problem? I have compiled some information
-about my system here:
-http://vegard.afraid.org:1104/pub/alc655/
-Also see sample arecord output.
+We look forward to hearing from you!
 
-Thanks.
+Yours faithfully
 
-
-Kind regards,
-Vegard Nossum
-
+Proof-Reading-Service.com
