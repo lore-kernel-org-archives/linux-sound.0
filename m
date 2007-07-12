@@ -1,54 +1,46 @@
-From: "Robert P. J. Day" <rpjday@mindspring.com>
-Date: Sun, 08 Jul 2007 09:33:25 +0000
-Subject: [PATCH] SOUND: Replace kcalloc(1,...) calls with kmalloc().
-Message-Id: <Pine.LNX.4.64.0707080532220.7907@localhost.localdomain>
+From: Baeckham <baeckham@gmx.net>
+Date: Thu, 12 Jul 2007 14:51:46 +0000
+Subject: microphone is recording but very quit
+Message-Id: <200707121651.46382.baeckham@gmx.net>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
+Hi,
 
-Signed-off-by: Robert P. J. Day <rpjday@mindspring.com>
+I problem using a microphone with my laptop.
 
----
+I have an Intel ICH7 HDA audio controller
+# lspci
+...
+00:1b.0 Audio device: Intel Corporation 82801G (ICH7 Family) High Definition 
+Audio Controller (rev 02)
 
-diff --git a/sound/pci/hda/patch_via.c b/sound/pci/hda/patch_via.c
-index ba32d1e..4cab03d 100644
---- a/sound/pci/hda/patch_via.c
-+++ b/sound/pci/hda/patch_via.c
-@@ -819,7 +819,7 @@ static int patch_vt1708(struct hda_codec *codec)
- 	int err;
+and use this alsa modules:
 
- 	/* create a codec specific record */
--	spec = kcalloc(1, sizeof(*spec), GFP_KERNEL);
-+	spec = kmalloc(sizeof(*spec), GFP_KERNEL);
- 	if (spec = NULL)
- 		return -ENOMEM;
+# lsmod
+Module                  Size  Used by
+snd_pcm_oss            39808  0
+snd_mixer_oss          14912  1 snd_pcm_oss
+snd_seq_oss            29440  0
+snd_seq_midi_event      6976  1 snd_seq_oss
+snd_seq                48928  4 snd_seq_oss,snd_seq_midi_event
+snd_seq_device          7060  2 snd_seq_oss,snd_seq
+snd_hda_intel         302688  1
+snd_pcm                73864  2 snd_pcm_oss,snd_hda_intel
+snd_timer              19912  2 snd_seq,snd_pcm
+snd                    52136  10 
+snd_pcm_oss,snd_mixer_oss,snd_seq_oss,snd_seq,snd_seq_device,snd_hda_intel,snd_pcm,snd_timer
+snd_page_alloc          8080  2 snd_hda_intel,snd_pcm
 
-@@ -1257,7 +1257,7 @@ static int patch_vt1709_10ch(struct hda_codec *codec)
- 	int err;
+First I thought the microphone wouldn't work at all, but then I recognized it 
+is just very very quiet. I have to set the volume to the max to able to 
+record a play back my voice again ...
 
- 	/* create a codec specific record */
--	spec = kcalloc(1, sizeof(*spec), GFP_KERNEL);
-+	spec = kmalloc(sizeof(*spec), GFP_KERNEL);
- 	if (spec = NULL)
- 		return -ENOMEM;
+What might be the reason???
 
-@@ -1347,7 +1347,7 @@ static int patch_vt1709_6ch(struct hda_codec *codec)
- 	int err;
+Thanx for any ints.
 
- 	/* create a codec specific record */
--	spec = kcalloc(1, sizeof(*spec), GFP_KERNEL);
-+	spec = kmalloc(sizeof(*spec), GFP_KERNEL);
- 	if (spec = NULL)
- 		return -ENOMEM;
-
--- 
-====================================
-Robert P. J. Day
-Linux Consulting, Training and Annoying Kernel Pedantry
-Waterloo, Ontario, CANADA
-
-http://fsdev.net/wiki/index.php?title=Main_Page
-====================================
+Steffen
