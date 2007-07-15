@@ -1,52 +1,36 @@
-From: <postfail@hushmail.com>
-Date: Mon, 30 Jul 2007 05:39:07 +0000
-Subject: [PATCH]:  ioremap function balancing in init/cleanup sound/oss/dmasound/dmacound_awacs.c
-Message-Id: <20070730053908.62A05DA82E@mailserver8.hushmail.com>
+From: "Robert P. J. Day" <rpjday@mindspring.com>
+Date: Sun, 15 Jul 2007 11:06:10 +0000
+Subject: dead(?) CONFIG variables in SOUND PCI code?
+Message-Id: <Pine.LNX.4.64.0707150703550.11552@localhost.localdomain>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-Two cases where ioremap can be called in init function but will
-never be cleaned up. patch is against 2.6.23-rc1.
-
-Signed-off-by: Post Fail <postfail <at> hushmail.com>
-- ---
-
-- --- ./linux-2.6.22.clean/sound/oss/dmasound/dmasound_awacs.c	2007-
-07-08 19:32:17.000000000 -0400
-+++ ./linux-2.6.22/sound/oss/dmasound/dmasound_awacs.c	2007-07-29
-23:05:30.000000000 -0400
-@@ -3204,6 +3204,12 @@ static void __exit dmasound_awacs_cleanu
- 	}
- 	dmasound_deinit();
-
-+        if (latch_base)
-+                iounmap(latch_base);
-+
-+        if (macio_base)
-+                iounmap(macio_base);
-+
- 	of_node_put(awacs_node);
- 	of_node_put(i2s_node);
- }
-
------BEGIN PGP SIGNATURE-----
-Note: This signature can be verified at https://www.hushtools.com/verify
-Version: Hush 2.5
-
-wpwEAQECAAYFAkateM4ACgkQ5iui/yAtoVllnAP/b/B6G+rmMgu0DXi6UOmpkPhw2aWZ
-o8E7PiKXmqIjuxVcGERch+dQ5Fv2HytDWE0Wx7/T2P/4Q8rIbPLSemgIQmk0ZHUfPydG
-mQ+kKMmtFI5MwJ63QeHwuz4O+E+3CzIS3j+ZDb+nYrOXOZexWHMWRSm8zG+3WjBj8wCH
-G1z+Wvg=WXVV
------END PGP SIGNATURE-----
-
---
-Click to make millions by owning your own franchise
-http://tagline.hushmail.com/fc/Ioyw6h4eB8rVKR3JNDb0SMSvtN2iQdPzQyTMcCTVNURvG5OYLsamM9/
+To: linux-sound@vger.kernel.org
 
 
+  any thoughts on how much of the following is dead content and can be
+removed?
+
+===== SND_CS46XX_DEBUG_GPIO =====
+include/sound/cs46xx.h:1711:#ifdef CONFIG_SND_CS46XX_DEBUG_GPIO
+sound/pci/cs46xx/cs46xx_lib.c:2095:#ifdef CONFIG_SND_CS46XX_DEBUG_GPIO
+sound/pci/cs46xx/cs46xx_lib.c:2158:#endif /* CONFIG_SND_CS46XX_DEBUG_GPIO */
+sound/pci/cs46xx/cs46xx_lib.c:2252:#ifdef CONFIG_SND_CS46XX_DEBUG_GPIO
+===== TOUCHSCREEN_WM9705 =====
+sound/pci/ac97/ac97_patch.c:484:#ifdef CONFIG_TOUCHSCREEN_WM9705
+===== USE_MIXARTLOADER =====
+sound/pci/mixart/mixart_hwdep.c:535:#if !defined(CONFIG_USE_MIXARTLOADER) && !defined(CONFIG_SND_MIXART) /* built-in kernel */
+===== USE_PCXHRLOADER =====
+sound/pci/pcxhr/pcxhr_hwdep.c:38:#if !defined(CONFIG_USE_PCXHRLOADER) && !defined(CONFIG_SND_PCXHR) /* built-in kernel */
+
+rday
+
+-- 
+====================================
+Robert P. J. Day
+Linux Consulting, Training and Annoying Kernel Pedantry
+Waterloo, Ontario, CANADA
+
+http://fsdev.net/wiki/index.php?title=Main_Page
+====================================
