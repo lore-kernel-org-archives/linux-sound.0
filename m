@@ -1,40 +1,52 @@
-From: "Markus Rechberger" <mrechberger@gmail.com>
-Date: Sun, 03 Jun 2007 20:17:15 +0000
-Subject: Re: Fading in a .wav file?
-Message-Id: <d9def9db0706031317t60d4370dl3674739df2b2ce1e@mail.gmail.com>
+From: <postfail@hushmail.com>
+Date: Mon, 30 Jul 2007 05:39:07 +0000
+Subject: [PATCH]:  ioremap function balancing in init/cleanup sound/oss/dmasound/dmacound_awacs.c
+Message-Id: <20070730053908.62A05DA82E@mailserver8.hushmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20070603192704.GA1888@lnx2>
-In-Reply-To: <20070603192704.GA1888@lnx2>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 
-On 6/3/07, Hal <haltec@kvinet.com> wrote:
->
->         Greetings: I have a 3 minute .wav file that "bumps" in, so wanted to
-> "soften" or fade in the beginning, making a copy..
->
->         How would you do that aside from transferring to analogue?? The file
-> is "standard" 41000 stereo.. TIA..
->
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-you could use SDL for playing the file, and SDL could do all the work
-for you, I'm sure there are quite a few libraries out there which can
-do that for you. You might decrease the value of the sine curve to
-lower the volume.
+Two cases where ioremap can be called in init function but will
+never be cleaned up. patch is against 2.6.23-rc1.
 
-Markus
-> --
->
->                  Hal        GNU/Linux - Slackware 10.2, 2.4.31
-> .
-> -
-> To unsubscribe from this list: send the line "unsubscribe linux-sound" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->
+Signed-off-by: Post Fail <postfail <at> hushmail.com>
+- ---
+
+- --- ./linux-2.6.22.clean/sound/oss/dmasound/dmasound_awacs.c	2007-
+07-08 19:32:17.000000000 -0400
++++ ./linux-2.6.22/sound/oss/dmasound/dmasound_awacs.c	2007-07-29
+23:05:30.000000000 -0400
+@@ -3204,6 +3204,12 @@ static void __exit dmasound_awacs_cleanu
+ 	}
+ 	dmasound_deinit();
+
++        if (latch_base)
++                iounmap(latch_base);
++
++        if (macio_base)
++                iounmap(macio_base);
++
+ 	of_node_put(awacs_node);
+ 	of_node_put(i2s_node);
+ }
+
+-----BEGIN PGP SIGNATURE-----
+Note: This signature can be verified at https://www.hushtools.com/verify
+Version: Hush 2.5
+
+wpwEAQECAAYFAkateM4ACgkQ5iui/yAtoVllnAP/b/B6G+rmMgu0DXi6UOmpkPhw2aWZ
+o8E7PiKXmqIjuxVcGERch+dQ5Fv2HytDWE0Wx7/T2P/4Q8rIbPLSemgIQmk0ZHUfPydG
+mQ+kKMmtFI5MwJ63QeHwuz4O+E+3CzIS3j+ZDb+nYrOXOZexWHMWRSm8zG+3WjBj8wCH
+G1z+Wvg=WXVV
+-----END PGP SIGNATURE-----
+
+--
+Click to make millions by owning your own franchise
+http://tagline.hushmail.com/fc/Ioyw6h4eB8rVKR3JNDb0SMSvtN2iQdPzQyTMcCTVNURvG5OYLsamM9/
 
 
--- 
-Markus Rechberger
