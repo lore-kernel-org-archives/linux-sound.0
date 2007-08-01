@@ -1,41 +1,51 @@
-From: "Scott Thompson" <postfail@hushmail.com>
-Date: Wed, 01 Aug 2007 13:33:13 +0000
-Subject: [PATCH] sound/pci ioremap unchecked return
-Message-Id: <20070801133313.A408E22822@mailserver9.hushmail.com>
+From: Takashi Iwai <tiwai@suse.de>
+Date: Wed, 01 Aug 2007 11:45:57 +0000
+Subject: Re: [PATCH 3/3] sound/soc ioremap/iounmap balancing
+Message-Id: <s5hk5sftr4a.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
+References: <20070801060606.BB9C3DA82E@mailserver8.hushmail.com>
+In-Reply-To: <20070801060606.BB9C3DA82E@mailserver8.hushmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: kernel-janitors@vger.kernel.org
+To: postfail@hushmail.com
 
-two unchecked ioremap calls.  upon further review and discussion 
-these are only 'valid' changes from previously posted "[PATCH 2/3] 
-sound/pci ioremap/iounmap balancing".
+At Wed, 01 Aug 2007 02:06:06 -0400,
+Scott Thompson wrote:
+> 
+> ioremap / iounmap balancing in sound/soc tree
+> 
+> Signed-off-by: Scott Thompson <postfail <at> hushmail.com>
 
-Signed-off-by: Scott Thompson <postfail <at> hushmail.com>
----
-diff --git a/sound/pci/mixart/mixart.c b/sound/pci/mixart/mixart.c
-index ac007ce..871b09f 100644
---- a/sound/pci/mixart/mixart.c
-+++ b/sound/pci/mixart/mixart.c
-@@ -1319,6 +1319,13 @@ static int __devinit snd_mixart_probe(struct
-pci_dev *pci,
-                            pci_resource_len(pci, i));
-     }
- 
-+    if (!mgr->mem[0].virt || !mgr->mem[1].virt){
-+        printk(KERN_ERR "unable to remap resource 0x%lx and/or 
-0x%lx\n",
-+            mgr->mem[0].phys, mgr->mem[1].phys);
-+        snd_mixart_free(mgr);
-+        return -EBUSY;
-+    }
-+
-     if (request_irq(pci->irq, snd_mixart_interrupt, IRQF_SHARED,
-             CARD_NAME, mgr)) {
-         snd_printk(KERN_ERR "unable to grab IRQ %d\n", pci->irq);
+Applied to ALSA tree.  Thanks.
 
---
-Not making enough money? Click here to get free info on medical jobs
-http://tagline.hushmail.com/fc/Ioyw6h4d93U6JUZpepI2qWsIMxmUitzPzo18AVd8LFg3yKzbPiL6Vn/
 
+Takashi
+
+> ---
+> diff --git a/sound/soc/s3c24xx/s3c24xx-i2s.c 
+> b/sound/soc/s3c24xx/s3c24xx-i2s.c
+> index 39f0246..cd89c41 100644
+> --- a/sound/soc/s3c24xx/s3c24xx-i2s.c
+> +++ b/sound/soc/s3c24xx/s3c24xx-i2s.c
+> @@ -385,6 +385,7 @@ static int s3c24xx_i2s_probe(struct 
+> platform_device *pdev)
+>  	s3c24xx_i2s.iis_clk=clk_get(&pdev->dev, "iis");
+>  	if (s3c24xx_i2s.iis_clk = NULL) {
+>  		DBG("failed to get iis_clock\n");
+> +		iounmap(s3c24xx_i2s.regs);
+>  		return -ENODEV;
+>  	}
+>  	clk_enable(s3c24xx_i2s.iis_clk);
+> 
+> --
+> Start providing for your family by becoming a paralegal. Click Now.
+> http://tagline.hushmail.com/fc/Ioyw6h4ek5ocrsblBGe95tDruAMchCwVmpqjJUiDSVabB25GwhAcU8/
+> 
+> 
+> -
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+> 
