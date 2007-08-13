@@ -1,40 +1,28 @@
-From: "Scott Thompson" <postfail@hushmail.com>
-Date: Wed, 01 Aug 2007 13:25:51 +0000
-Subject: Re: [PATCH 2/3] sound/pci ioremap/iounmap balancing
-Message-Id: <20070801132551.5A8132281F@mailserver9.hushmail.com>
+From: joe@perches.com
+Date: Mon, 13 Aug 2007 06:33:38 +0000
+Subject: [PATCH] [369/2many] MAINTAINERS - PCI SOUND DRIVERS (ES1370,
+Message-Id: <46bffb42.66N9BeQ36i0N7cgE%joe@perches.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20070801060256.F0BA2DA820@mailserver8.hushmail.com>
-In-Reply-To: <20070801060256.F0BA2DA820@mailserver8.hushmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: tiwai@suse.de
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+To: torvalds@linux-foundation.org, sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, akpm@linux-foundation.org
 
+Add file pattern to MAINTAINER entry
 
+Signed-off-by: Joe Perches <joe@perches.com>
 
-On Wed, 01 Aug 2007 06:38:16 -0400 Takashi Iwai <tiwai@suse.de> 
-wrote:
->This would be rater a lacking check of returned errors.
->
->The other changes look incorrect.  All these drivers use
->card->private_free callback to release the resources even for the
->error exit.  Thus, you don't need iounmap in each place.
->
->
->thanks,
->
->Takashi
-
-
-Missed the callback on the audit, will repost this patch 
-(sound/pci) with just the unchecked returns...
-
----------------------------------------
-Scott Thompson / postfail@hushmail.com
----------------------------------------
-
---
-Click here for a free search to find a personal injury lawyer in your area.
-http://tagline.hushmail.com/fc/Ioyw6h4fOfoaL5grSba8qnlenBibb9zjK5zUaQHZiVV0JZfJFmwnj3/
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 93f385f..59ba494 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3552,6 +3552,9 @@ M:	sailer@ife.ee.ethz.ch
+ L:	linux-sound@vger.kernel.org
+ W:	http://www.ife.ee.ethz.ch/~sailer/linux/pciaudio.html
+ S:	Maintained
++F:	sound/pci/ens1370.c
++F:	sound/pci/ens1371.c
++F:	sound/pci/sonicvibes.c
+ 
+ PCI SUBSYSTEM
+ P:	Greg Kroah-Hartman
