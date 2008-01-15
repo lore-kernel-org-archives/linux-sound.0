@@ -1,41 +1,47 @@
-From: Nicolas Kaiser <nikai@nikai.net>
-Date: Wed, 07 Nov 2007 10:38:53 +0000
-Subject: [PATCH] sound/pci: remove line duplications in defines
-Message-Id: <20071107113853.2da183d4@lucky.kitzblitz>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Date: Tue, 15 Jan 2008 21:25:46 +0000
+Subject: [PATCH 5/5] sound: fix caiaq section mismatches
+Message-Id: <20080115132546.b96de6a2.randy.dunlap@oracle.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: kernel-janitors@vger.kernel.org
+To: lkml <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Cc: perex@perex.cz, akpm <akpm@linux-foundation.org>, samr <sam@ravnborg.org>
 
-Remove line duplications in defines.
+From: Randy Dunlap <randy.dunlap@oracle.com>
 
-Signed-off-by: Nicolas Kaiser <nikai@nikai.net>
+Fix section mismatch in caiaq: these __devinit functions can be
+called at any time so they should not be __devinit.
+
+WARNING: vmlinux.o(.text+0x10a8dae): Section mismatch: reference to .init.text:snd_usb_caiaq_audio_init (between 'setup_card' and 'create_card')
+WARNING: vmlinux.o(.text+0x10a8dd6): Section mismatch: reference to .init.text:snd_usb_caiaq_midi_init (between 'setup_card' and 'create_card')
+
+Signed-off-by: Randy Dunlap <randy.dunlap@oracle.com>
 ---
+ sound/usb/caiaq/caiaq-audio.c |    2 +-
+ sound/usb/caiaq/caiaq-midi.c  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- sound/pci/ca0106/ca0106.h |    1 -
- sound/pci/maestro3.c      |    1 -
- 2 files changed, 2 deletions(-)
-
-diff -ur a/sound/pci/ca0106/ca0106.h b/sound/pci/ca0106/ca0106.h
---- a/sound/pci/ca0106/ca0106.h	2007-11-07 11:26:35.000000000 +0100
-+++ b/sound/pci/ca0106/ca0106.h	2007-11-07 11:29:05.000000000 +0100
-@@ -272,7 +272,6 @@
- #define SPCS_WORD_LENGTH_20A	0x0000000a	/* Word Length 20 bit				*/
- #define SPCS_WORD_LENGTH_20	0x00000009	/* Word Length 20 bit (both 0xa and 0x9 are 20 bit) */
- #define SPCS_WORD_LENGTH_21	0x00000007	/* Word Length 21 bit				*/
--#define SPCS_WORD_LENGTH_21	0x00000007	/* Word Length 21 bit				*/
- #define SPCS_WORD_LENGTH_22	0x00000005	/* Word Length 22 bit				*/
- #define SPCS_WORD_LENGTH_23	0x00000003	/* Word Length 23 bit				*/
- #define SPCS_WORD_LENGTH_24	0x0000000b	/* Word Length 24 bit				*/
-diff -ur a/sound/pci/maestro3.c b/sound/pci/maestro3.c
---- a/sound/pci/maestro3.c	2007-11-07 11:26:36.000000000 +0100
-+++ b/sound/pci/maestro3.c	2007-11-07 11:29:06.000000000 +0100
-@@ -732,7 +732,6 @@
+--- linux-2.6.24-rc7-git7.orig/sound/usb/caiaq/caiaq-audio.c
++++ linux-2.6.24-rc7-git7/sound/usb/caiaq/caiaq-audio.c
+@@ -606,7 +606,7 @@ static void free_urbs(struct urb **urbs)
+ 	kfree(urbs);
+ }
  
- #define MINISRC_IN_BUFFER_SIZE   ( 0x50 * 2 )
- #define MINISRC_OUT_BUFFER_SIZE  ( 0x50 * 2 * 2)
--#define MINISRC_OUT_BUFFER_SIZE  ( 0x50 * 2 * 2)
- #define MINISRC_TMP_BUFFER_SIZE  ( 112 + ( MINISRC_BIQUAD_STAGE * 3 + 4 ) * 2 * 2 )
- #define MINISRC_BIQUAD_STAGE    2
- #define MINISRC_COEF_LOC          0x175
+-int __devinit snd_usb_caiaq_audio_init(struct snd_usb_caiaqdev *dev)
++int snd_usb_caiaq_audio_init(struct snd_usb_caiaqdev *dev)
+ {
+ 	int i, ret;
+ 
+--- linux-2.6.24-rc7-git7.orig/sound/usb/caiaq/caiaq-midi.c
++++ linux-2.6.24-rc7-git7/sound/usb/caiaq/caiaq-midi.c
+@@ -124,7 +124,7 @@ void snd_usb_caiaq_midi_handle_input(str
+ 	snd_rawmidi_receive(dev->midi_receive_substream, buf, len);
+ }
+ 
+-int __devinit snd_usb_caiaq_midi_init(struct snd_usb_caiaqdev *device)
++int snd_usb_caiaq_midi_init(struct snd_usb_caiaqdev *device)
+ {
+ 	int ret;
+ 	struct snd_rawmidi *rmidi;
