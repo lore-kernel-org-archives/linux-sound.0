@@ -1,30 +1,50 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Wed, 16 Jan 2008 13:57:17 +0000
-Subject: Re: [PATCH 5/5] sound: fix caiaq section mismatches
-Message-Id: <s5hir1tvpoi.wl%tiwai@suse.de>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Date: Tue, 15 Jan 2008 21:24:59 +0000
+Subject: [PATCH 2/5] sound: fix ad1889 section mismatch
+Message-Id: <20080115132459.4902cdef.randy.dunlap@oracle.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20080115132546.b96de6a2.randy.dunlap@oracle.com>
-In-Reply-To: <20080115132546.b96de6a2.randy.dunlap@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Randy Dunlap <randy.dunlap@oracle.com>
-Cc: lkml <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, perex@perex.cz, akpm <akpm@linux-foundation.org>, samr <sam@ravnborg.org>
+To: lkml <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Cc: perex@perex.cz, akpm <akpm@linux-foundation.org>, samr <sam@ravnborg.org>
 
-At Tue, 15 Jan 2008 13:25:46 -0800,
-Randy Dunlap wrote:
-> 
-> From: Randy Dunlap <randy.dunlap@oracle.com>
-> 
-> Fix section mismatch in caiaq: these __devinit functions can be
-> called at any time so they should not be __devinit.
-> 
-> WARNING: vmlinux.o(.text+0x10a8dae): Section mismatch: reference to .init.text:snd_usb_caiaq_audio_init (between 'setup_card' and 'create_card')
-> WARNING: vmlinux.o(.text+0x10a8dd6): Section mismatch: reference to .init.text:snd_usb_caiaq_midi_init (between 'setup_card' and 'create_card')
-> 
-> Signed-off-by: Randy Dunlap <randy.dunlap@oracle.com>
+From: Randy Dunlap <randy.dunlap@oracle.com>
 
-Thanks, applied all 5 patches to ALSA tree now.
+Fix section mismatch in ad1889 by renaming the pci_driver variable to a
+whitelisted variable name.
 
+WARNING: vmlinux.o(.data+0x2e5ff0): Section mismatch: reference to .init.text:snd_ad1889_probe (between 'ad1889_pci' and 'index')
 
-Takashi
+Signed-off-by: Randy Dunlap <randy.dunlap@oracle.com>
+---
+ sound/pci/ad1889.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+--- linux-2.6.24-rc7-git7.orig/sound/pci/ad1889.c
++++ linux-2.6.24-rc7-git7/sound/pci/ad1889.c
+@@ -1055,7 +1055,7 @@ static struct pci_device_id snd_ad1889_i
+ };
+ MODULE_DEVICE_TABLE(pci, snd_ad1889_ids);
+ 
+-static struct pci_driver ad1889_pci = {
++static struct pci_driver ad1889_pci_driver = {
+ 	.name = "AD1889 Audio",
+ 	.id_table = snd_ad1889_ids,
+ 	.probe = snd_ad1889_probe,
+@@ -1065,13 +1065,13 @@ static struct pci_driver ad1889_pci = {
+ static int __init
+ alsa_ad1889_init(void)
+ {
+-	return pci_register_driver(&ad1889_pci);
++	return pci_register_driver(&ad1889_pci_driver);
+ }
+ 
+ static void __exit
+ alsa_ad1889_fini(void)
+ {
+-	pci_unregister_driver(&ad1889_pci);
++	pci_unregister_driver(&ad1889_pci_driver);
+ }
+ 
+ module_init(alsa_ad1889_init);
