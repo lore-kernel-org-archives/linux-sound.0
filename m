@@ -1,7 +1,7 @@
 From: Randy Dunlap <randy.dunlap@oracle.com>
-Date: Tue, 15 Jan 2008 21:24:59 +0000
-Subject: [PATCH 2/5] sound: fix ad1889 section mismatch
-Message-Id: <20080115132459.4902cdef.randy.dunlap@oracle.com>
+Date: Tue, 15 Jan 2008 21:25:13 +0000
+Subject: [PATCH 3/5] sound: fix atiixp section mismatch
+Message-Id: <20080115132513.8aecc399.randy.dunlap@oracle.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -11,40 +11,32 @@ Cc: perex@perex.cz, akpm <akpm@linux-foundation.org>, samr <sam@ravnborg.org>
 
 From: Randy Dunlap <randy.dunlap@oracle.com>
 
-Fix section mismatch in ad1889 by renaming the pci_driver variable to a
-whitelisted variable name.
+Fix section mismatch in atiixp by making some functions __devinit.
 
-WARNING: vmlinux.o(.data+0x2e5ff0): Section mismatch: reference to .init.text:snd_ad1889_probe (between 'ad1889_pci' and 'index')
+WARNING: vmlinux.o(.text+0xfd9304): Section mismatch: reference to .init.data:atiixp_quirks (between 'ac97_probing_bugs' and 'snd_atiixp_codec_detect')
 
 Signed-off-by: Randy Dunlap <randy.dunlap@oracle.com>
 ---
- sound/pci/ad1889.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/pci/atiixp.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- linux-2.6.24-rc7-git7.orig/sound/pci/ad1889.c
-+++ linux-2.6.24-rc7-git7/sound/pci/ad1889.c
-@@ -1055,7 +1055,7 @@ static struct pci_device_id snd_ad1889_i
- };
- MODULE_DEVICE_TABLE(pci, snd_ad1889_ids);
+--- linux-2.6.24-rc7-git7.orig/sound/pci/atiixp.c
++++ linux-2.6.24-rc7-git7/sound/pci/atiixp.c
+@@ -560,7 +560,7 @@ static int snd_atiixp_aclink_down(struct
+ 	     ATI_REG_ISR_CODEC2_NOT_READY)
+ #define CODEC_CHECK_BITS (ALL_CODEC_NOT_READY|ATI_REG_ISR_NEW_FRAME)
  
--static struct pci_driver ad1889_pci = {
-+static struct pci_driver ad1889_pci_driver = {
- 	.name = "AD1889 Audio",
- 	.id_table = snd_ad1889_ids,
- 	.probe = snd_ad1889_probe,
-@@ -1065,13 +1065,13 @@ static struct pci_driver ad1889_pci = {
- static int __init
- alsa_ad1889_init(void)
+-static int ac97_probing_bugs(struct pci_dev *pci)
++static int __devinit ac97_probing_bugs(struct pci_dev *pci)
  {
--	return pci_register_driver(&ad1889_pci);
-+	return pci_register_driver(&ad1889_pci_driver);
+ 	const struct snd_pci_quirk *q;
+ 
+@@ -574,7 +574,7 @@ static int ac97_probing_bugs(struct pci_
+ 	return -1;
  }
  
- static void __exit
- alsa_ad1889_fini(void)
+-static int snd_atiixp_codec_detect(struct atiixp *chip)
++static int __devinit snd_atiixp_codec_detect(struct atiixp *chip)
  {
--	pci_unregister_driver(&ad1889_pci);
-+	pci_unregister_driver(&ad1889_pci_driver);
- }
+ 	int timeout;
  
- module_init(alsa_ad1889_init);
