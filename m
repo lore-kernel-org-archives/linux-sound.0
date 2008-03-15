@@ -1,38 +1,82 @@
-From: Randy Dunlap <randy.dunlap@oracle.com>
-Date: Tue, 15 Jan 2008 21:24:43 +0000
-Subject: [PATCH 1/5] sound: fix mts64 section mismatches
-Message-Id: <20080115132443.38648a8c.randy.dunlap@oracle.com>
+From: Julia Lawall <julia@diku.dk>
+Date: Sat, 15 Mar 2008 16:03:51 +0000
+Subject: [PATCH 4/7] sound/pci: remove unused variable
+Message-Id: <Pine.LNX.4.64.0803151703210.24178@ask.diku.dk>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: lkml <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
-Cc: perex@perex.cz, akpm <akpm@linux-foundation.org>, samr <sam@ravnborg.org>
+To: sailer@ife.ee.ethz.ch, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 
-From: Randy Dunlap <randy.dunlap@oracle.com>
+From: Julia Lawall <julia@diku.dk>
 
-Fix section mismatches in mts64 by making a static variable __devinitdata.
+The variables change and is_capture are initialized but never used otherwise.
 
-WARNING: vmlinux.o(.data+0x2e33f0): Section mismatch: reference to .init.data:mts64_ctl_smpte_switch (between 'control.19929' and 'snd_mts64_rawmidi_output_ops')
-WARNING: vmlinux.o(.data+0x2e33f8): Section mismatch: reference to .init.data:mts64_ctl_smpte_time_hours (between 'control.19929' and 'snd_mts64_rawmidi_output_ops')
-WARNING: vmlinux.o(.data+0x2e3400): Section mismatch: reference to .init.data:mts64_ctl_smpte_time_minutes (between 'control.19929' and 'snd_mts64_rawmidi_output_ops')
-WARNING: vmlinux.o(.data+0x2e3408): Section mismatch: reference to .init.data:mts64_ctl_smpte_time_seconds (between 'control.19929' and 'snd_mts64_rawmidi_output_ops')
-WARNING: vmlinux.o(.data+0x2e3410): Section mismatch: reference to .init.data:mts64_ctl_smpte_time_frames (between 'control.19929' and 'snd_mts64_rawmidi_output_ops')
-WARNING: vmlinux.o(.data+0x2e3418): Section mismatch: reference to .init.data:mts64_ctl_smpte_fps (between 'control.19929' and 'snd_mts64_rawmidi_output_ops')
+The semantic patch that makes this change is as follows:
+(http://www.emn.fr/x-info/coccinelle/)
 
-Signed-off-by: Randy Dunlap <randy.dunlap@oracle.com>
+// <smpl>
+@@
+type T;
+identifier i;
+constant C;
+@@
+
+(
+extern T i;
+|
+- T i;
+  <+... when != i
+- i = C;
+  ...+>
+)
+// </smpl>
+
+Signed-off-by: Julia Lawall <julia@diku.dk>
 ---
- sound/drivers/mts64.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/ice1712/pontis.c |    2 --
+ sound/pci/pcxhr/pcxhr.c    |    3 ---
+ 2 files changed, 5 deletions(-)
 
---- linux-2.6.24-rc7-git7.orig/sound/drivers/mts64.c
-+++ linux-2.6.24-rc7-git7/sound/drivers/mts64.c
-@@ -662,7 +662,7 @@ static int __devinit snd_mts64_ctl_creat
- 					  struct mts64 *mts) 
+diff -u -p a/sound/pci/ice1712/pontis.c b/sound/pci/ice1712/pontis.c
+--- a/sound/pci/ice1712/pontis.c 2008-03-12 14:13:15.000000000 +0100
++++ b/sound/pci/ice1712/pontis.c 2008-03-15 07:32:24.000000000 +0100
+@@ -440,14 +440,12 @@ static int cs_source_put(struct snd_kcon
  {
- 	int err, i;
--	static struct snd_kcontrol_new *control[] = {
-+	static struct snd_kcontrol_new *control[] __devinitdata = {
- 		&mts64_ctl_smpte_switch,
- 		&mts64_ctl_smpte_time_hours,
- 		&mts64_ctl_smpte_time_minutes,
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned char val;
+-	int change = 0;
+ 
+ 	mutex_lock(&ice->gpio_mutex);
+ 	if (ucontrol->value.enumerated.item[0] != ice->gpio.saved[0]) {
+ 		ice->gpio.saved[0] = ucontrol->value.enumerated.item[0] & 3;
+ 		val = 0x80 | (ice->gpio.saved[0] << 3);
+ 		spi_write(ice, CS_DEV, 0x04, val);
+-		change = 1;
+ 	}
+ 	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+diff -u -p a/sound/pci/pcxhr/pcxhr.c b/sound/pci/pcxhr/pcxhr.c
+--- a/sound/pci/pcxhr/pcxhr.c 2008-03-12 14:13:15.000000000 +0100
++++ b/sound/pci/pcxhr/pcxhr.c 2008-03-15 07:36:12.000000000 +0100
+@@ -846,7 +846,6 @@ static int pcxhr_open(struct snd_pcm_sub
+ 	struct pcxhr_mgr       *mgr = chip->mgr;
+ 	struct snd_pcm_runtime *runtime = subs->runtime;
+ 	struct pcxhr_stream    *stream;
+-	int                 is_capture;
+ 
+ 	mutex_lock(&mgr->setup_mutex);
+ 
+@@ -856,12 +855,10 @@ static int pcxhr_open(struct snd_pcm_sub
+ 	if( subs->stream = SNDRV_PCM_STREAM_PLAYBACK ) {
+ 		snd_printdd("pcxhr_open playback chip%d subs%d\n",
+ 			    chip->chip_idx, subs->number);
+-		is_capture = 0;
+ 		stream = &chip->playback_stream[subs->number];
+ 	} else {
+ 		snd_printdd("pcxhr_open capture chip%d subs%d\n",
+ 			    chip->chip_idx, subs->number);
+-		is_capture = 1;
+ 		if (mgr->mono_capture)
+ 			runtime->hw.channels_max = 1;
+ 		else
