@@ -1,38 +1,50 @@
 From: Lubomir Rintel <lkundrak@v3.sk>
-Date: Mon, 16 Mar 2009 10:01:49 +0000
-Subject: [PATCH] Fix NULL dereference when suspending snd_opl3sa2
-Message-Id: <1237197709.7210.2.camel@localhost.localdomain>
+Date: Mon, 16 Mar 2009 14:16:08 +0000
+Subject: Re: [PATCH] Fix NULL dereference when suspending snd_opl3sa2
+Message-Id: <1237212968.11067.3.camel@localhost.localdomain>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1237197709.7210.2.camel@localhost.localdomain>
+In-Reply-To: <1237197709.7210.2.camel@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: quoted-printable
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
-Cc: Krzysztof Helt <krzysztof.h1@wp.pl>, stable@kernel.org, Andrew Morton <akpm@linux-foundation.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: linux-sound@vger.kernel.org, Krzysztof Helt <krzysztof.h1@wp.pl>, stable@kernel.org, Andrew Morton <akpm@linux-foundation.org>
 
-This should fix the following OOPS:
-http://www.kerneloops.org/raw.php?rawid=80591&msgid
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- sound/isa/opl3sa2.c |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+On Mon, 2009-03-16 at 11:01 +0100, Lubomir Rintel wrote:
+> This should fix the following OOPS:
+> http://www.kerneloops.org/raw.php?rawid=80591&msgid
+Wrong, sorry, the disassembly from kerneloops was a bit confusing to me.
+Looking at the disassembly of the actual module:
 
-diff --git a/sound/isa/opl3sa2.c b/sound/isa/opl3sa2.c
-index 58c972b..483c284 100644
---- a/sound/isa/opl3sa2.c
-+++ b/sound/isa/opl3sa2.c
-@@ -553,7 +553,8 @@ static int snd_opl3sa2_suspend(struct snd_card
-*card, pm_message_t state)
- 	struct snd_opl3sa2 *chip =3D card->private_data;
-=20
- 	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
--	chip->wss->suspend(chip->wss);
-+	if (chip->wss->suspend)
-+		chip->wss->suspend(chip->wss);
- 	/* power down */
- 	snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D3);
-=20
---=20
-1.5.5.6
+> @@ -553,7 +553,8 @@ static int snd_opl3sa2_suspend(struct snd_card
+> *card, pm_message_t state)
+>  	struct snd_opl3sa2 *chip =3D card->private_data;
 
+card must somehow be NULL here:
 
+00000270 <snd_opl3sa2_suspend>:
+ 270:   53                      push   %ebx
+ 271:   8b 98 38 01 00 00       mov    0x138(%eax),%ebx
+ 277:   b9 01 00 00 00          mov    $0x1,%ecx
+ 27c:   ba 03 00 00 00          mov    $0x3,%edx
+ 281:   c7 80 a8 01 00 00 00    movl   $0x300,0x1a8(%eax)
+ 288:   03 00 00=20
+ 28b:   05 bc 01 00 00          add    $0x1bc,%eax
+ 290:   6a 00                   push   $0x0
+ 292:   e8 fc ff ff ff          call   293 <snd_opl3sa2_suspend+0x23>
+ 297:   8b 53 24                mov    0x24(%ebx),%edx
+ 29a:   89 d0                   mov    %edx,%eax
+ 29c:   ff 92 d4 00 00 00       call   *0xd4(%edx)
+ 2a2:   89 d8                   mov    %ebx,%eax
+ 2a4:   b9 27 00 00 00          mov    $0x27,%ecx
+ 2a9:   ba 01 00 00 00          mov    $0x1,%edx
+ 2ae:   e8 72 fe ff ff          call   125 <snd_opl3sa2_write>
+ 2b3:   58                      pop    %eax
+ 2b4:   31 c0                   xor    %eax,%eax
+ 2b6:   5b                      pop    %ebx
+ 2b7:   c3                      ret   =20
+
+This is the same issue, with 2.6.28:
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bugQ9939
 
