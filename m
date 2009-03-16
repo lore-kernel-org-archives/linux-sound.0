@@ -1,7 +1,7 @@
 From: Krzysztof Helt <krzysztof.h1@wp.pl>
-Date: Mon, 16 Mar 2009 18:21:56 +0000
+Date: Mon, 16 Mar 2009 20:32:25 +0000
 Subject: Re: [PATCH] Fix NULL dereference when suspending snd_opl3sa2
-Message-Id: <20090316192156.80709aff.krzysztof.h1@wp.pl>
+Message-Id: <20090316213225.5d59aca1.krzysztof.h1@wp.pl>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1237197709.7210.2.camel@localhost.localdomain>
 	<1237212968.11067.3.camel@localhost.localdomain>
@@ -10,7 +10,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: quoted-printable
 To: Lubomir Rintel <lkundrak@v3.sk>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, Krzysztof Helt <krzysztof.h1@wp.pl>, stable@kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, stable@kernel.org, Andrew Morton <akpm@linux-foundation.org>
 
 On Mon, 16 Mar 2009 15:16:08 +0100
 Lubomir Rintel <lkundrak@v3.sk> wrote:
@@ -19,13 +19,92 @@ Lubomir Rintel <lkundrak@v3.sk> wrote:
 > > This should fix the following OOPS:
 > > http://www.kerneloops.org/raw.php?rawid=80591&msgid>=20
 
->=20
 > This is the same issue, with 2.6.28:
 > http://bugs.debian.org/cgi-bin/bugreport.cgi?bugQ9939
 >=20
 >=20
 
-I'll look into this.
+One should no force loading of the snd-opl3sa2 driver
+in the above cases. It was forced as the opl3sa2 is a PnP chip
+and the drivers were loaded as plain ISA devices.
+
+However, this is not a cause of the OOPS. The cause is that
+despite the driver returns -ENODEV, the higher layer
+hides it and the driver is bound to the bus. I suppose,
+the suspend and resume functions are called on it.
+
+Look at the ISA probe function:
+
+static int __devinit snd_opl3sa2_isa_probe(struct device *pdev,
+                       unsigned int dev)
+{
+    struct snd_card *card;
+    int err;
+
+    card =3D snd_opl3sa2_card_new(dev);
+    if (! card)
+        return -ENOMEM;
+    snd_card_set_dev(card, pdev);
+    if ((err =3D snd_opl3sa2_probe(card, dev)) < 0) {
+        snd_card_free(card);
+        return err;
+    }
+    dev_set_drvdata(pdev, card);
+    return 0;
+}
+
+If the probe function fails, the drvdata is
+never set to the snd_card structure pointer.
+
+The patch below should fix suspend and resume
+functions.
 
 Regards,
 Krzysztof
+PS. It is the same situation for PnP and
+BIOS PnP probing in this driver.
+---
+
+Fix the OOPS during a opl3sa2 card suspend
+and resume if the driver is loaded but the card
+is not found.
+
+Signed-off-by: Krzysztof Helt <krzysztof.h1@wp.pl>
+
+--- a/sound/isa/opl3sa2.c~	2008-10-13 18:03:52.000000000 +0200
++++ b/sound/isa/opl3sa2.c	2009-03-16 21:20:30.841348261 +0100
+@@ -550,21 +550,27 @@ static int __devinit snd_opl3sa2_mixer(s
+ #ifdef CONFIG_PM
+ static int snd_opl3sa2_suspend(struct snd_card *card, pm_message_t state)
+ {
+-	struct snd_opl3sa2 *chip =3D card->private_data;
++	if (card) {
++		struct snd_opl3sa2 *chip =3D card->private_data;
+=20
+-	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
+-	chip->wss->suspend(chip->wss);
+-	/* power down */
+-	snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D3);
++		snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
++		chip->wss->suspend(chip->wss);
++		/* power down */
++		snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D3);
++	}
+=20
+ 	return 0;
+ }
+=20
+ static int snd_opl3sa2_resume(struct snd_card *card)
+ {
+-	struct snd_opl3sa2 *chip =3D card->private_data;
++	struct snd_opl3sa2 *chip;
+ 	int i;
+=20
++	if (!card)
++		return 0;
++
++	chip =3D card->private_data;
+ 	/* power up */
+ 	snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D0);
+=20
+
