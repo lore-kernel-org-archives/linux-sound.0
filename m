@@ -1,127 +1,34 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Tue, 17 Mar 2009 08:30:34 +0000
-Subject: Re: [PATCH] Fix NULL dereference when suspending snd_opl3sa2
-Message-Id: <s5h3adczh3p.wl%tiwai@suse.de>
+From: "Figo.zhang" <figo1802@gmail.com>
+Date: Sun, 07 Jun 2009 05:37:27 +0000
+Subject: [PATCH]sgio2audio.c: clean up checking
+Message-Id: <1244353048.3355.22.camel@myhost>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1237197709.7210.2.camel@localhost.localdomain>
-	<1237212968.11067.3.camel@localhost.localdomain>
-	<20090316213225.5d59aca1.krzysztof.h1@wp.pl>
-In-Reply-To: <20090316213225.5d59aca1.krzysztof.h1@wp.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
-To: Krzysztof Helt <krzysztof.h1@wp.pl>
-Cc: Lubomir Rintel <lkundrak@v3.sk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, stable@kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: linux-sound@vger.kernel.org
 
-At Mon, 16 Mar 2009 21:32:25 +0100,
-Krzysztof Helt wrote:
->=20
-> On Mon, 16 Mar 2009 15:16:08 +0100
-> Lubomir Rintel <lkundrak@v3.sk> wrote:
->=20
-> > On Mon, 2009-03-16 at 11:01 +0100, Lubomir Rintel wrote:
-> > > This should fix the following OOPS:
-> > > http://www.kerneloops.org/raw.php?rawid=80591&msgid> >=20
->=20
-> > This is the same issue, with 2.6.28:
-> > http://bugs.debian.org/cgi-bin/bugreport.cgi?bugQ9939
-> >=20
-> >=20
->=20
-> One should no force loading of the snd-opl3sa2 driver
-> in the above cases. It was forced as the opl3sa2 is a PnP chip
-> and the drivers were loaded as plain ISA devices.
->=20
-> However, this is not a cause of the OOPS. The cause is that
-> despite the driver returns -ENODEV, the higher layer
-> hides it and the driver is bound to the bus. I suppose,
-> the suspend and resume functions are called on it.
->=20
-> Look at the ISA probe function:
->=20
-> static int __devinit snd_opl3sa2_isa_probe(struct device *pdev,
->                        unsigned int dev)
-> {
->     struct snd_card *card;
->     int err;
->=20
->     card =3D snd_opl3sa2_card_new(dev);
->     if (! card)
->         return -ENOMEM;
->     snd_card_set_dev(card, pdev);
->     if ((err =3D snd_opl3sa2_probe(card, dev)) < 0) {
->         snd_card_free(card);
->         return err;
->     }
->     dev_set_drvdata(pdev, card);
->     return 0;
-> }
->=20
-> If the probe function fails, the drvdata is
-> never set to the snd_card structure pointer.
->=20
-> The patch below should fix suspend and resume
-> functions.
->=20
-> Regards,
-> Krzysztof
-> PS. It is the same situation for PnP and
-> BIOS PnP probing in this driver.
-> ---
->=20
-> Fix the OOPS during a opl3sa2 card suspend
-> and resume if the driver is loaded but the card
-> is not found.
->=20
-> Signed-off-by: Krzysztof Helt <krzysztof.h1@wp.pl>
+vfree() does it's own 'NULL' check,so no need for check before
+calling it.
 
-This patch looks good.  I applied it to sound git tree now.
+Signed-off-by: Figo.zhang <figo1802@gmail.com>
+---  
+ sound/mips/sgio2audio.c |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-Thanks,
-
-Takashi
+diff --git a/sound/mips/sgio2audio.c b/sound/mips/sgio2audio.c
+index 66f3b48..e497525 100644
+--- a/sound/mips/sgio2audio.c
++++ b/sound/mips/sgio2audio.c
+@@ -619,8 +619,7 @@ static int snd_sgio2audio_pcm_hw_params(struct snd_pcm_substream *substream,
+ /* hw_free callback */
+ static int snd_sgio2audio_pcm_hw_free(struct snd_pcm_substream *substream)
+ {
+-	if (substream->runtime->dma_area)
+-		vfree(substream->runtime->dma_area);
++	vfree(substream->runtime->dma_area);
+ 	substream->runtime->dma_area = NULL;
+ 	return 0;
+ }
 
 
-> --- a/sound/isa/opl3sa2.c~	2008-10-13 18:03:52.000000000 +0200
-> +++ b/sound/isa/opl3sa2.c	2009-03-16 21:20:30.841348261 +0100
-> @@ -550,21 +550,27 @@ static int __devinit snd_opl3sa2_mixer(s
->  #ifdef CONFIG_PM
->  static int snd_opl3sa2_suspend(struct snd_card *card, pm_message_t state)
->  {
-> -	struct snd_opl3sa2 *chip =3D card->private_data;
-> +	if (card) {
-> +		struct snd_opl3sa2 *chip =3D card->private_data;
-> =20
-> -	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-> -	chip->wss->suspend(chip->wss);
-> -	/* power down */
-> -	snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D3);
-> +		snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-> +		chip->wss->suspend(chip->wss);
-> +		/* power down */
-> +		snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D3);
-> +	}
-> =20
->  	return 0;
->  }
-> =20
->  static int snd_opl3sa2_resume(struct snd_card *card)
->  {
-> -	struct snd_opl3sa2 *chip =3D card->private_data;
-> +	struct snd_opl3sa2 *chip;
->  	int i;
-> =20
-> +	if (!card)
-> +		return 0;
-> +
-> +	chip =3D card->private_data;
->  	/* power up */
->  	snd_opl3sa2_write(chip, OPL3SA2_PM_CTRL, OPL3SA2_PM_D0);
-> =20
->=20
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
->=20
