@@ -1,45 +1,29 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Sun, 07 Jun 2009 07:09:47 +0000
-Subject: Re: [PATCH]sgio2audio.c: clean up checking
-Message-Id: <s5hbpp0zfic.wl%tiwai@suse.de>
+From: NickRob <npr@bottlehall.co.uk>
+Date: Wed, 12 Aug 2009 16:34:25 +0000
+Subject: Command line utility to detect sound
+Message-Id: <24940295.post@talk.nabble.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1244353048.3355.22.camel@myhost>
-In-Reply-To: <1244353048.3355.22.camel@myhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-At Sun, 07 Jun 2009 13:37:27 +0800,
-Figo.zhang wrote:
-> 
-> vfree() does it's own 'NULL' check,so no need for check before
-> calling it.
-> 
-> Signed-off-by: Figo.zhang <figo1802@gmail.com>
 
-Thanks, applied now.
+Hi
 
+I would like to find a command line utility that will detect sound above a
+certain volume and do something like terminate with a status or issue a
+signal that can be trapped by another process. I haven't been able to find
+anything, but using the words sound and detection together in google leads
+inexorably to sound card detection!
 
-Takashi
+Alternatively, which library/app would be the best one to start with if I
+need to adapt something? I'm an experienced programmer, but not with sound.
 
-> ---  
->  sound/mips/sgio2audio.c |    3 +--
->  1 files changed, 1 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/mips/sgio2audio.c b/sound/mips/sgio2audio.c
-> index 66f3b48..e497525 100644
-> --- a/sound/mips/sgio2audio.c
-> +++ b/sound/mips/sgio2audio.c
-> @@ -619,8 +619,7 @@ static int snd_sgio2audio_pcm_hw_params(struct snd_pcm_substream *substream,
->  /* hw_free callback */
->  static int snd_sgio2audio_pcm_hw_free(struct snd_pcm_substream *substream)
->  {
-> -	if (substream->runtime->dma_area)
-> -		vfree(substream->runtime->dma_area);
-> +	vfree(substream->runtime->dma_area);
->  	substream->runtime->dma_area = NULL;
->  	return 0;
->  }
-> 
-> 
+Thanks for any help you can give me.
+
+Nick
+-- 
+View this message in context: http://www.nabble.com/Command-line-utility-to-detect-sound-tp24940295p24940295.html
+Sent from the linux-sound mailing list archive at Nabble.com.
+
