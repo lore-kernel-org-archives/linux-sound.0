@@ -1,47 +1,54 @@
-From: Lubomir Rintel <lkundrak@v3.sk>
-Date: Mon, 12 Oct 2009 08:03:53 +0000
+From: Takashi Iwai <tiwai@suse.de>
+Date: Mon, 12 Oct 2009 08:08:56 +0000
 Subject: Re: [PATCH] [snd-usb-audio] Add match for JMTek USB sound	card
-Message-Id: <1255334633.3286.4376.camel@localhost.localdomain>
+Message-Id: <s5hocoddofb.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1255173329-20485-1-git-send-email-lkundrak@v3.sk>
-	 <4AD2D0C2.40307@ladisch.de>  <s5hzl7xdqrn.wl%tiwai@suse.de>
-In-Reply-To: <s5hzl7xdqrn.wl%tiwai@suse.de>
+	<4AD2D0C2.40307@ladisch.de>
+	<s5hzl7xdqrn.wl%tiwai@suse.de>
+	<1255334633.3286.4376.camel@localhost.localdomain>
+In-Reply-To: <1255334633.3286.4376.camel@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Takashi Iwai <tiwai@suse.de>
+To: Lubomir Rintel <lkundrak@v3.sk>
 Cc: Clemens Ladisch <clemens@ladisch.de>, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Mon, 2009-10-12 at 09:18 +0200, Takashi Iwai wrote:
-> At Mon, 12 Oct 2009 08:46:26 +0200,
-> Clemens Ladisch wrote:
-> > 
-> > Lubomir Rintel wrote:
-> > > Entry for JMTek LLC., SSS USB Headphone Set in the quirk table.
-> > 
-> > Please add an explaination why this entry is needed.  At first glance,
-> > this entry seems to describe a class-compliant device that should not
-> > need a quirk.
+At Mon, 12 Oct 2009 10:03:53 +0200,
+Lubomir Rintel wrote:
 > 
-> Ah right.  It'd really helpful if Lubomir can give more details...
+> On Mon, 2009-10-12 at 09:18 +0200, Takashi Iwai wrote:
+> > At Mon, 12 Oct 2009 08:46:26 +0200,
+> > Clemens Ladisch wrote:
+> > > 
+> > > Lubomir Rintel wrote:
+> > > > Entry for JMTek LLC., SSS USB Headphone Set in the quirk table.
+> > > 
+> > > Please add an explaination why this entry is needed.  At first glance,
+> > > this entry seems to describe a class-compliant device that should not
+> > > need a quirk.
+> > 
+> > Ah right.  It'd really helpful if Lubomir can give more details...
+> 
+> A 2.6.31.1-based kernel on my Fedora 12 workstation at hone seemed to
+> require that, only the input driver attached to the device when plugged
+> in, the snd-usb-audio didn't seem to load and did not care about the
+> device when loaded manually. I did not have an idea why, since "alias:
+> usb:v*p*d*dc*dsc*dp*ic01isc01ip*" really seemed to match my device.
+> Nevertheless, after finding out that adding an entry to the quirk table
+> solves my problem I concluded that my understanding (or lack of thereof)
+> was wrong and that alias is really not meant to match my device.
+> 
+> Now I plugged the adapter into my work lappy with 2.6.30.8-based Fedora
+> 11 and the audio interfaces on my adapter got instantly recognized and
+> claimed by snd-usb-audio (and the input interface by the input
+> subsystem), without modifying anything.
+> 
+> Any clues what could have gone wrong then?
 
-A 2.6.31.1-based kernel on my Fedora 12 workstation at hone seemed to
-require that, only the input driver attached to the device when plugged
-in, the snd-usb-audio didn't seem to load and did not care about the
-device when loaded manually. I did not have an idea why, since "alias:
-usb:v*p*d*dc*dsc*dp*ic01isc01ip*" really seemed to match my device.
-Nevertheless, after finding out that adding an entry to the quirk table
-solves my problem I concluded that my understanding (or lack of thereof)
-was wrong and that alias is really not meant to match my device.
+Hm, I don't see any affecting changes between 2.6.30 and 31.
+Just as a test, could you copy sound/usb/*.[ch] from 2.6.30 tree to
+2.6.31 or 32-rc and check whether the same problem appears?
 
-Now I plugged the adapter into my work lappy with 2.6.30.8-based Fedora
-11 and the audio interfaces on my adapter got instantly recognized and
-claimed by snd-usb-audio (and the input interface by the input
-subsystem), without modifying anything.
 
-Any clues what could have gone wrong then?
-
--- 
-Flash is the Web2.0 version of blink and animated gifs.
-                                     -- Stephen Smoogen
-
+Takashi
