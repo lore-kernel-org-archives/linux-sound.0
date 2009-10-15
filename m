@@ -1,46 +1,42 @@
-From: Nicholas Robinson <npr@bottlehall.co.uk>
-Date: Thu, 13 Aug 2009 04:29:53 +0000
-Subject: Re: Command line utility to detect sound
-Message-Id: <1250137793.2490.4.camel@elm.bottlehall.co.uk>
+From: Wu Zhangjin <wuzhangjin@gmail.com>
+Date: Thu, 15 Oct 2009 02:22:54 +0000
+Subject: [PATCH] SND_CS5535AUDIO: Remove the X86 platform dependency
+Message-Id: <1255573374.7638.22.camel@falcon>
 List-Id: <linux-sound.vger.kernel.org>
-References: <24940295.post@talk.nabble.com>
-In-Reply-To: <24940295.post@talk.nabble.com>
+References: <1255190029-17584-1-git-send-email-wuzhangjin@gmail.com>
+In-Reply-To: <1255190029-17584-1-git-send-email-wuzhangjin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-mips <linux-mips@linux-mips.org>, loongson-dev@googlegroups.com
+Cc: Jaya Kumar <jayakumar.lkml@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Linus Torvalds <torvalds@linux-foundation.org>, Wu Zhangjin <wuzhangjin@gmail.com>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
 
-Hi Jörn
+Add CC to: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
 
-Thank you very much for your reply. I will follow up your suggestions.
+SND_CS5535AUDIO is available on Loongson(MIPS compatible) family
+machines, and checked it with ARCH=x86_64, no relative compiling
+warnings & errors, so, remove the platform dependency directly.
 
-Best Wishes
+Reported-by: rixed@happyleptic.org
+Acked-by: Andres Salomon <dilinger@collabora.co.uk>
+Signed-off-by: Wu Zhangjin <wuzhangjin@gmail.com>
+---
+ sound/pci/Kconfig |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Nick
+diff --git a/sound/pci/Kconfig b/sound/pci/Kconfig
+index fb5ee3c..75c602b 100644
+--- a/sound/pci/Kconfig
++++ b/sound/pci/Kconfig
+@@ -259,7 +259,6 @@ config SND_CS5530
+ 
+ config SND_CS5535AUDIO
+ 	tristate "CS5535/CS5536 Audio"
+-	depends on X86 && !X86_64
+ 	select SND_PCM
+ 	select SND_AC97_CODEC
+ 	help
+-- 
+1.6.2.1
 
-On Wed, 2009-08-12 at 19:16 +0200, Jörn Nettingsmeier wrote:
-> NickRob wrote:
-> > Hi
-> > 
-> > I would like to find a command line utility that will detect sound above a
-> > certain volume and do something like terminate with a status or issue a
-> > signal that can be trapped by another process. I haven't been able to find
-> > anything, but using the words sound and detection together in google leads
-> > inexorably to sound card detection!
-> > 
-> > Alternatively, which library/app would be the best one to start with if I
-> > need to adapt something? I'm an experienced programmer, but not with sound.
-> 
-> check out the linux audio developers' mailing list. for your particular
-> application, grab the swh ladspa plugin set, check out the compressors.
-> they contain code for envelope followers, which will compute the energy
-> of a sound signal using the root-mean-square method. rip it out (it's
-> gpl) and add some C glue around it to tie into your shell scripts or
-> whatever it is you want to do.
-> 
-> best,
-> 
-> jörn
-> 
-> 
 
