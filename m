@@ -1,57 +1,37 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Mon, 12 Oct 2009 06:46:10 +0000
-Subject: Re: [PATCH] Add match for JMTek USB sound card
-Message-Id: <s5h63alf6tp.wl%tiwai@suse.de>
+From: <debian@bercot.org>
+Date: Tue, 26 Jan 2010 16:05:26 +0000
+Subject: Sound through HDMI with ATI Radeon HD 4550
+Message-Id: <cc038cf54be64f952a0fb7ef9775a505@localhost>
 List-Id: <linux-sound.vger.kernel.org>
-References: <s5hbpkdf7ft.wl%tiwai@suse.de>
-	<1255329761-24449-1-git-send-email-lkundrak@v3.sk>
-In-Reply-To: <1255329761-24449-1-git-send-email-lkundrak@v3.sk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Lubomir Rintel <lkundrak@v3.sk>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-
-At Mon, 12 Oct 2009 08:42:40 +0200,
-Lubomir Rintel wrote:
-> 
-> Entry for JMTek LLC., SSS USB Headphone Set in the quirk table.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-
-Thanks, applied now.
+To: linux-sound@vger.kernel.org
 
 
-Takashi
+Hello,
 
-> ---
->  sound/usb/usbquirks.h |   13 +++++++++++++
->  1 files changed, 13 insertions(+), 0 deletions(-)
-> 
-> diff --git a/sound/usb/usbquirks.h b/sound/usb/usbquirks.h
-> index f6f201e..e98ff4c 100644
-> --- a/sound/usb/usbquirks.h
-> +++ b/sound/usb/usbquirks.h
-> @@ -80,6 +80,19 @@
->  	.bInterfaceClass = USB_CLASS_AUDIO,
->  },
->  
-> +/* JMTek, LLC. SSS USB Headphone Set */
-> +{
-> +	.match_flags = USB_DEVICE_ID_MATCH_DEVICE |
-> +		       USB_DEVICE_ID_MATCH_DEV_CLASS |
-> +		       USB_DEVICE_ID_MATCH_INT_CLASS |
-> +		       USB_DEVICE_ID_MATCH_INT_SUBCLASS,
-> +	.idVendor = 0x0c76,
-> +	.idProduct = 0x1605,
-> +	.bDeviceClass = USB_CLASS_PER_INTERFACE,
-> +	.bInterfaceClass = USB_CLASS_AUDIO,
-> +	.bInterfaceSubClass = USB_SUBCLASS_AUDIO_CONTROL
-> +},
-> +
->  /*
->   * Logitech QuickCam: bDeviceClass is vendor-specific, so generic interface
->   * class matches do not take effect without an explicit ID match.
-> -- 
-> 1.6.2.5
-> 
+I'm not sure I'm at the right place (please, if not, tell me where I can
+find a solution...) but I have a problem with multimedia hardware.
+So, I've changed my graphic card and I've bought an ATI Radeon HD 4550. My
+goal is to use only an HDMI cable between my computer and my AV amplifier.
+I've installed Debian Sid but I can't have any sound... Everything seems
+OK with Alsa (and PulseAudio), but no sound !!!
+
+With google, I've found this :
+http://www.phoronix.com/scan.php?page=news_item&px=NzgxMA
+[I should need a 2.6.33 kernel to have HDMI support with ATI cards]
+So, I've compiled the 2.6.33RC5 kernel, but no difference !!!
+
+The card seems to be OK :
+# aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: HDMI [HDA ATI HDMI], device 3: ATI HDMI [ATI HDMI]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+
+Do you have any idea ?
+
+Thank you.
+
+David.
