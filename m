@@ -1,105 +1,33 @@
-From: "Joey Lee" <jlee@novell.com>
-Date: Mon, 31 May 2010 04:34:26 +0000
-Subject: Re: [PATCH] Add 92HD81B1X5 to stac92hd83xxx_cfg_tbl[] for mute
-Message-Id: <4C03C8F2020000230001A57A@novprvlin0050.provo.novell.com>
+From: Andrej Gelenberg <andrej.gelenberg@udo.edu>
+Date: Sun, 09 May 2010 20:10:41 +0000
+Subject: [PATCH] snd-hda-intel: add support for Lenovo ThinkPad X100e in conexant
+Message-Id: <4BE716C1.3030305@udo.edu>
 List-Id: <linux-sound.vger.kernel.org>
-References: <4C00F946020000230001A3FC@novprvlin0050.provo.novell.com>
-In-Reply-To: <4C00F946020000230001A3FC@novprvlin0050.provo.novell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: alex.pototskiy@gmail.com, tiwai@suse.de, tdavis@dsl-only.net, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 
-Hi Takashi, 
+Ideapad quirks working for my ThinkPad X100e (microphone is not tested).
 
-Yes, you are right! 
-I just check the newest 2.6.34 drvier, it works fine and don't need this
-quirk.
+Signed-off-by: Andrej Gelenberg <andrej.gelenberg@udo.edu>
+---
+  sound/pci/hda/patch_conexant.c |    1 +
+  1 files changed, 1 insertions(+), 0 deletions(-)
 
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index 56e5207..b56c52a 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -2847,6 +2847,7 @@ static struct snd_pci_quirk cxt5066_cfg_tbl[] = {
+         SND_PCI_QUIRK(0x1179, 0xff50, "Toshiba Satellite 
+P500-PSPGSC-01800T", CXT5066_OLPC_XO_1_5),
+         SND_PCI_QUIRK(0x1179, 0xffe0, "Toshiba Satellite Pro T130-15F", 
+CXT5066_OLPC_XO_1_5),
+         SND_PCI_QUIRK(0x17aa, 0x3a0d, "ideapad", CXT5066_IDEAPAD),
++       SND_PCI_QUIRK(0x17aa, 0x21b2, "ideapad", CXT5066_IDEAPAD), // X100e
+         {}
+  };
 
-Thank's a lot!
-Joey Lee
-
-於 六，2010-05-29 於 21:47 +0200，Takashi Iwai 提到：
-> At Sat, 29 May 2010 03:23:50 +0200,
-> Joey Lee wrote:
-> > 
-> > Hi Takashi, 
-> > 
-> > The attached is my patch to 
-> > 
-> > Add 92HD81B1X5 subsystem id 0x103c1584 to stac92hd83xxx_cfg_tbl[] for
-> > mute LED support on HP mini.
-> > 
-> > Please kindly help review it.
-> > 
-> > 
-> > Thank's a lot!
-> > Joey Lee
-> > 
-> > 
-> > Add 92HD81B1X5 subsystem id 0x103c1584 to stac92hd83xxx_cfg_tbl[] for
-> > mute LED support on HP mini.
-> > 
-> > Signed-off-by: Lee, Chun-Yi <jlee@novell.com>
-> 
-> 2.6.34 driver should work without this quirk.  Could you check?
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > ---
-> >  sound/pci/hda/patch_sigmatel.c |    2 ++
-> >  1 files changed, 2 insertions(+), 0 deletions(-)
-> > 
-> > diff --git a/sound/pci/hda/patch_sigmatel.c
-> > b/sound/pci/hda/patch_sigmatel.c
-> > index f1e7bab..18b75bd 100644
-> > --- a/sound/pci/hda/patch_sigmatel.c
-> > +++ b/sound/pci/hda/patch_sigmatel.c
-> > @@ -1655,6 +1655,8 @@ static struct snd_pci_quirk
-> > stac92hd83xxx_cfg_tbl[] = {
-> >                       "unknown Dell", STAC_DELL_S14),
-> >         SND_PCI_QUIRK_MASK(PCI_VENDOR_ID_HP, 0xff00, 0x3600,
-> >                       "HP", STAC_92HD83XXX_HP),
-> > +       SND_PCI_QUIRK_MASK(PCI_VENDOR_ID_HP, 0xff00, 0x1500,
-> > +                       "HP", STAC_92HD83XXX_HP),
-> >         {} /* terminator */
-> >  };
-> > 
-> > -- 
-> > 1.6.0.2
-> > 
-> > [2 Add-92HD81B1X5-to-stac92hd83xxx_cfg_tbl-for-mute-L.patch <text/plain (quoted-printable)>]
-> > >From e32ef26f88d2a2217ce70e5a04bf5c1d9973649e Mon Sep 17 00:00:00 2001
-> > From: Lee, Chun-Yi <jlee@novell.com>
-> > Date: Thu, 27 May 2010 19:52:47 +0800
-> > Subject: [PATCH] Add 92HD81B1X5 to stac92hd83xxx_cfg_tbl[] for mute LED support on HP mini
-> > 
-> > Add 92HD81B1X5 subsystem id 0x103c1584 to stac92hd83xxx_cfg_tbl[] for
-> > mute LED support on HP mini.
-> > 
-> > Signed-off-by: Lee, Chun-Yi <jlee@novell.com>
-> > ---
-> >  sound/pci/hda/patch_sigmatel.c |    2 ++
-> >  1 files changed, 2 insertions(+), 0 deletions(-)
-> > 
-> > diff --git a/sound/pci/hda/patch_sigmatel.c b/sound/pci/hda/patch_sigmatel.c
-> > index f1e7bab..18b75bd 100644
-> > --- a/sound/pci/hda/patch_sigmatel.c
-> > +++ b/sound/pci/hda/patch_sigmatel.c
-> > @@ -1655,6 +1655,8 @@ static struct snd_pci_quirk stac92hd83xxx_cfg_tbl[] = {
-> >  		      "unknown Dell", STAC_DELL_S14),
-> >  	SND_PCI_QUIRK_MASK(PCI_VENDOR_ID_HP, 0xff00, 0x3600,
-> >  		      "HP", STAC_92HD83XXX_HP),
-> > +	SND_PCI_QUIRK_MASK(PCI_VENDOR_ID_HP, 0xff00, 0x1500,
-> > +			"HP", STAC_92HD83XXX_HP),
-> >  	{} /* terminator */
-> >  };
-> >  
-> > -- 
-> > 1.6.0.2
-> > 
-
+-- 
+1.7.1
