@@ -1,7 +1,7 @@
 From: "Joey Lee" <jlee@novell.com>
-Date: Sun, 30 May 2010 00:52:36 +0000
+Date: Mon, 31 May 2010 04:34:26 +0000
 Subject: Re: [PATCH] Add 92HD81B1X5 to stac92hd83xxx_cfg_tbl[] for mute
-Message-Id: <4C024374020000230001A4A4@novprvlin0050.provo.novell.com>
+Message-Id: <4C03C8F2020000230001A57A@novprvlin0050.provo.novell.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <4C00F946020000230001A3FC@novprvlin0050.provo.novell.com>
 In-Reply-To: <4C00F946020000230001A3FC@novprvlin0050.provo.novell.com>
@@ -11,6 +11,14 @@ Content-Transfer-Encoding: 8bit
 To: linux-sound@vger.kernel.org
 
 Hi Takashi, 
+
+Yes, you are right! 
+I just check the newest 2.6.34 drvier, it works fine and don't need this
+quirk.
+
+
+Thank's a lot!
+Joey Lee
 
 於 六，2010-05-29 於 21:47 +0200，Takashi Iwai 提到：
 > At Sat, 29 May 2010 03:23:50 +0200,
@@ -37,14 +45,10 @@ Hi Takashi,
 > 
 > 2.6.34 driver should work without this quirk.  Could you check?
 > 
-
-Yes, I didn't check the 2.6.34, I will do that.
-
-
-
-Thank's a lot!
-Joey Lee
-
+> 
+> thanks,
+> 
+> Takashi
 > 
 > > ---
 > >  sound/pci/hda/patch_sigmatel.c |    2 ++
