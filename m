@@ -1,12 +1,21 @@
-From: "Mr. Chen Guan." <bbsch@w.cn>
-Date: Thu, 03 Jun 2010 02:35:59 +0000
-Subject: Business Suggestion !!!&#8207;
-Message-Id: <1275532559.4c07150f6d055@webmail.xcelco.on.ca>
+From: "From Mr.Edgar Martins" <info@mail.com>
+Date: Mon, 05 Jul 2010 11:00:56 +0000
+Subject: Dear Valuable Winner Your email address has been credited 1,000,
+Message-Id: <1714.41.204.224.11.1278326936.squirrel@mail.nistads.res.in>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: 
+To: linux-sound@vger.kernel.org
 
-I have a Business for you worth some huge amount of money please are you
-interested in my business get back to me.
+
+
+
+
+
+
+-- 
+This message has been scanned for viruses and
+dangerous content by MailScanner, and is
+believed to be clean.
+
