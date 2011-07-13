@@ -1,39 +1,25 @@
-From: microcai <microcaicai@gmail.com>
-Date: Wed, 04 May 2011 08:07:38 +0000
-Subject: Re: [bug] ASoC uda134x not working for me, and udev crashed at startup
-Message-Id: <4DC1094A.7060903@gmail.com>
+From: admin <dongjohny@gmail.com>
+Date: Wed, 13 Jul 2011 16:31:51 +0000
+Subject: Confidential
+Message-Id: <20110713163151.87201fc7@mail.misionalianza.org>
 List-Id: <linux-sound.vger.kernel.org>
-References: <4DBE5B8E.7010109@gmail.com>	<BANLkTinK7bDbwTvsWfxE8w6sPLC--1TUsQ@mail.gmail.com>	<BANLkTi=yeYsHN5pzW7WV5eskVqaC1m1FWw@mail.gmail.com>	<4DBFEB27.3030709@gmail.com> <BANLkTinCNaqTvgqFCpARrcfXE94-iy8gvg@mail.gmail.com>
-In-Reply-To: <BANLkTinCNaqTvgqFCpARrcfXE94-iy8gvg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-To: Belisko Marek <marek.belisko@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
-于 2011年05月04日 04:18, Belisko Marek 写道:
-> On Tue, May 3, 2011 at 1:46 PM, microcai <microcaicai@gmail.com> wrote:
->>  2011-05-03 17:09, Belisko Marek Wrote:
->>> On Mon, May 2, 2011 at 9:56 AM, Belisko Marek <marek.belisko@gmail.com> wrote:
->>>> CC also linux-sound mailing list.
->>>>
->>>> On Mon, May 2, 2011 at 9:21 AM, microcai <microcaicai@gmail.com> wrote:
->>>>> Heya,
->>>>>
->>>>> The commit a110f4ef810ee29d810876df725f41d66629733e is not working for
->>>>> me. I'm using an TQ2440 platform, very similar to mini2440. Only the LCD
->>>>> and LED is the difference. Basically just copy & past from the
->>>>> mach-mini2440.c to mach-tq2440.c. ;)
->>>>>
->>>>> I installed Gentoo on the system, when startup, I got
->>>>>
->>>>> [    1.645000] ALSA device list:
->>>>> [    1.645000]   No soundcards found.
->>>> With this patch you shouldn't see this in boot log. At least it work for me ;)
->>> Did you enable Audio in menuconfig? For mini2440_defconfig audio is not selected
->>> by default. SoC I2S Audio support UDA134X wired to a S3C24XX must be enabled.
->>> Please let us know if it helps.
-> Sorry confusing. Which kernel you're using? I use mainline kernel not some
-> custom tree. Please use mainline.
-
-It is mainline kernel. With a little path by myself. But it not sound stuff.
+Dear Friend,
+ 
+An honest person is needed. My name is Dong Jeung Kim citizen of South Korea. A resident of London due to the present economic crises affecting foreign investors presently in UK. I decided to relocate to your country.
+I got your contacts through my personal research and out of desperation. I deal on crude oil, I decided to reach you through this medium because of the nature of this very business transaction.
+I have £36 759 000.00 British Pounds for investment purpose. I want you to receive this fund on my behalf and invest on a profitable business venture on an agreed terms. If you are interested I will offer you 35% of £36 759 000.00 British Pounds. please get back to me with the following details.
+ 
+A. Beneficiary name and mailing address, in order for me to prepare the document for transfer of the funds in your name.
+B. Direct Telephone.
+C. Age and occupation.
+ 
+Upon your response, I shall then provide you with more details. The business transaction must be kept top secret for security reasons.
+ 
+Sincerely,
+Dong Jeung Kim
+Tel/fax +442 392 560 940
