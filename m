@@ -1,44 +1,30 @@
-From: Anders Eriksson <aeriksson@fastmail.fm>
-Date: Fri, 02 Sep 2011 11:41:42 +0000
-Subject: Aureal issues on resume
-Message-Id: <20110902114143.821893BC17F@tippex.mynet.homeunix.org>
+From: cyl <ironyman13@gmail.com>
+Date: Tue, 18 Oct 2011 18:09:46 +0000
+Subject: occasional sound loss
+Message-Id: <20111018180946.GA595@thinkpad.wireless.utoronto.ca>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
+Occasionally, sound would stop playing while running mplayer or
+nspluginplayer. Restarting mplayer, or other programs that play sound,
+there would still be no sound, and no error. The problem solves itself
+after I kill all the programs that are playing sound and waiting for
+a while. This is still annoying though. 
 
+sudo lspci -v | grep -A 20 -i audio
+00:1b.0 Audio device: Intel Corporation 5 Series/3400 Series Chipset High Definition Audio (rev 06)
+	Subsystem: Lenovo Device 215e
+	Flags: bus master, fast devsel, latency 0, IRQ 43
+	Memory at f2520000 (64-bit, non-prefetchable) [sizeK]
+	Capabilities: [50] Power Management version 2
+	Capabilities: [60] MSI: Enable+ Count=1/1 Maskable- 64bit+
+	Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
+	Capabilities: [100] Virtual Channel
+	Capabilities: [130] Root Complex Link
+	Kernel driver in use: HDA Intel
+	Kernel modules: snd-hda-intel
 
-Hi, upon resuming from hibernation, I see this in my log:
-
-Sep  2 11:15:20 tippex kernel: [72436.287020] vortex_adb_addroutes: unending route! 0x10
-Sep  2 11:15:20 tippex kernel: [72436.287127] vortex_adb_addroutes: unending route! 0x838
-Sep  2 11:15:20 tippex kernel: [72436.287277] vortex_adb_addroutes: unending route! 0x11
-Sep  2 11:15:20 tippex kernel: [72436.287418] vortex_adb_addroutes: unending route! 0x8b9
-Sep  2 11:15:20 tippex kernel: [72436.292037] Vortex: vortex_fifo_setadbctrl fail
-Sep  2 11:15:55 tippex kernel: [72471.403490] vortex_adb_delroutes: route not found! 0x10
-Sep  2 11:15:55 tippex kernel: [72471.403596] vortex_adb_delroutes: route not found! 0x838
-Sep  2 11:15:55 tippex kernel: [72471.403710] vortex_adb_delroutes: route not found! 0x11
-Sep  2 11:15:55 tippex kernel: [72471.403811] vortex_adb_delroutes: route not found! 0x8b9
-
-And the sound is no more. I need to reboot to get it back.
-
-If memory serves, it's been there since 2.6.30 or so. Any ideas what can be 
-triggering it?
-
-lspci says it's an 
-00:04.0 Multimedia audio controller: Aureal Semiconductor Vortex 1 (rev 02)
-        Subsystem: Diamond Multimedia Systems Sonic Impact A3D
-        Flags: bus master, medium devsel, latency 64, IRQ 11
-        Memory at 50000000 (32-bit, non-prefetchable) [size8K]
-        I/O ports at 10b0 [size=8]
-        I/O ports at 10b8 [size=8]
-        Capabilities: [dc] Power Management version 1
-        Kernel driver in use: snd_au8820
-        Kernel modules: snd-au8820
-
-
-
--Anders
-
+What other information should I provide about my system?
