@@ -1,76 +1,159 @@
 From: Takashi Iwai <tiwai@suse.de>
-Date: Wed, 02 Nov 2011 18:54:21 +0000
+Date: Wed, 02 Nov 2011 20:25:07 +0000
 Subject: Re: HDA Intel microphone regression in 3.1.0
-Message-Id: <s5hy5vyl5ia.wl%tiwai@suse.de>
+Message-Id: <s5hsjm6l1b0.wl%tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
 References: <20111102102554.1f443b9c@laptop.homenet>
 	<20111102105442.GA30355@gere.osrc.amd.com>
 	<s5hd3da6asw.wl%tiwai@suse.de>
 	<20111102170742.059f04ed@laptop.homenet>
-In-Reply-To: <20111102170742.059f04ed@laptop.homenet>
+	<s5hy5vyl5ia.wl%tiwai@suse.de>
+In-Reply-To: <s5hy5vyl5ia.wl%tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Chris Vine <chris@cvine.freeserve.co.uk>
 Cc: Borislav Petkov <bp@alien8.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
 
-At Wed, 2 Nov 2011 17:07:42 +0000,
-Chris Vine wrote:
+At Wed, 02 Nov 2011 19:54:21 +0100,
+Takashi Iwai wrote:
 > 
-> On Wed, 02 Nov 2011 12:09:03 +0100
-> Takashi Iwai <tiwai@suse.de> wrote:
-> > At Wed, 2 Nov 2011 11:54:42 +0100,
-> > Borislav Petkov wrote:
+> At Wed, 2 Nov 2011 17:07:42 +0000,
+> Chris Vine wrote:
+> > 
+> > On Wed, 02 Nov 2011 12:09:03 +0100
+> > Takashi Iwai <tiwai@suse.de> wrote:
+> > > At Wed, 2 Nov 2011 11:54:42 +0100,
+> > > Borislav Petkov wrote:
+> > > > 
+> > > > (adding some more people to Cc)
+> > > > 
+> > > > On Wed, Nov 02, 2011 at 10:25:54AM +0000, Chris Vine wrote:
+> > > > > My Lenovo S12 IdeaPad netbook uses a HDA Intel sound card with
+> > > > > Realtek ALC269 chip.  With the 3.1.0 kernel, all microphone input
+> > > > > (both with the internal microphone and any external microphone)
+> > > > > is permanently muted, although sound output works OK.  Microphone
+> > > > > input works correctly with the 3.0 and earlier kernels.
+> > > > > 
+> > > > > The only obvious difference between the 3.0 and 3.1 kernels is
+> > > > > that with kernel 3.0.7, 'dmesg | grep HDA' gives this:
+> > > > > 
+> > > > >  HDA Intel 0000:00:1b.0: PCI INT A -> GSI 22 (level, low) -> IRQ
+> > > > > 22 HDA Intel 0000:00:1b.0: setting latency timer to 64
+> > > > >  input: HDA Digital PCBeep
+> > > > > as /devices/pci0000:00/0000:00:1b.0/input/input10 input: HDA
+> > > > > Intel Mic as /devices/pci0000:00/0000:00:1b.0/sound/card0/input11
+> > > > > input: HDA Intel Headphone
+> > > > > as /devices/pci0000:00/0000:00:1b.0/sound/card0/input12
+> > > > > 
+> > > > > whereas with kernel 3.1.0 it just gives:
+> > > > > 
+> > > > >  input: HDA Digital PCBeep
+> > > > > as /devices/pci0000:00/0000:00:1b.0/input/input9 input: HDA Intel
+> > > > > Mic as /devices/pci0000:00/0000:00:1b.0/sound/card0/input10
+> > > > > input: HDA Intel Headphone
+> > > > > as /devices/pci0000:00/0000:00:1b.0/sound/card0/input11
 > > > 
-> > > (adding some more people to Cc)
+> > > It's just a red herring.
 > > > 
-> > > On Wed, Nov 02, 2011 at 10:25:54AM +0000, Chris Vine wrote:
-> > > > My Lenovo S12 IdeaPad netbook uses a HDA Intel sound card with
-> > > > Realtek ALC269 chip.  With the 3.1.0 kernel, all microphone input
-> > > > (both with the internal microphone and any external microphone)
-> > > > is permanently muted, although sound output works OK.  Microphone
-> > > > input works correctly with the 3.0 and earlier kernels.
-> > > > 
-> > > > The only obvious difference between the 3.0 and 3.1 kernels is
-> > > > that with kernel 3.0.7, 'dmesg | grep HDA' gives this:
-> > > > 
-> > > >  HDA Intel 0000:00:1b.0: PCI INT A -> GSI 22 (level, low) -> IRQ
-> > > > 22 HDA Intel 0000:00:1b.0: setting latency timer to 64
-> > > >  input: HDA Digital PCBeep
-> > > > as /devices/pci0000:00/0000:00:1b.0/input/input10 input: HDA
-> > > > Intel Mic as /devices/pci0000:00/0000:00:1b.0/sound/card0/input11
-> > > > input: HDA Intel Headphone
-> > > > as /devices/pci0000:00/0000:00:1b.0/sound/card0/input12
-> > > > 
-> > > > whereas with kernel 3.1.0 it just gives:
-> > > > 
-> > > >  input: HDA Digital PCBeep
-> > > > as /devices/pci0000:00/0000:00:1b.0/input/input9 input: HDA Intel
-> > > > Mic as /devices/pci0000:00/0000:00:1b.0/sound/card0/input10
-> > > > input: HDA Intel Headphone
-> > > > as /devices/pci0000:00/0000:00:1b.0/sound/card0/input11
+> > > > > lspci -v gives the following audio hardware information:
+> > > > > 
+> > > > >  00:1b.0 Audio device: Intel Corporation N10/ICH 7 Family High
+> > > > > Definition Audio Controller (rev 02) Subsystem: Lenovo Device 3be9
+> > > > > 	Flags: bus master, fast devsel, latency 0, IRQ 22
+> > > > > 	Memory at fc140000 (64-bit, non-prefetchable) [sizeK]
+> > > > > 	Capabilities: [50] Power Management version 2
+> > > > > 	Capabilities: [60] MSI: Enable- Count=1/1 Maskable- 64bit+
+> > > > > 	Capabilities: [70] Express Root Complex Integrated
+> > > > > Endpoint, MSI 00 Capabilities: [100] Virtual Channel
+> > > > > 	Capabilities: [130] Root Complex Link
+> > > > > 	Kernel driver in use: snd_hda_intel
+> > > > > 	Kernel modules: snd-hda-intel
+> > > 
+> > > Please give alsa-info.sh outputs taken from both 3.0 and 3.1 kernels.
 > > 
-> > It's just a red herring.
-> > 
-> > > > lspci -v gives the following audio hardware information:
-> > > > 
-> > > >  00:1b.0 Audio device: Intel Corporation N10/ICH 7 Family High
-> > > > Definition Audio Controller (rev 02) Subsystem: Lenovo Device 3be9
-> > > > 	Flags: bus master, fast devsel, latency 0, IRQ 22
-> > > > 	Memory at fc140000 (64-bit, non-prefetchable) [sizeK]
-> > > > 	Capabilities: [50] Power Management version 2
-> > > > 	Capabilities: [60] MSI: Enable- Count=1/1 Maskable- 64bit+
-> > > > 	Capabilities: [70] Express Root Complex Integrated
-> > > > Endpoint, MSI 00 Capabilities: [100] Virtual Channel
-> > > > 	Capabilities: [130] Root Complex Link
-> > > > 	Kernel driver in use: snd_hda_intel
-> > > > 	Kernel modules: snd-hda-intel
-> > 
-> > Please give alsa-info.sh outputs taken from both 3.0 and 3.1 kernels.
+> > Attached as below (warning, this is long).
 > 
-> Attached as below (warning, this is long).
+> Thanks.  Could you try to pass model=auto option to snd-hda-intel module?
 
-Thanks.  Could you try to pass model=auto option to snd-hda-intel module?
+Also, try the patch below without model option.  This should fix the
+problem.
 
+
+thanks,
 
 Takashi
+
+---
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: hda - Add missing static ADC tables for ALC269 quirks
+
+Some ALC269 quirks define their own .cap_mixer field but without the
+static adc_nids[].  This resulted in the mismatch of ADC because ALC269
+may have the widget 0x07 for another audio-in, and the auto-parser picks
+this up instead.
+
+This patch fixes the problem by adding the static adc_nids[] and co
+again to these entries.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/alc269_quirks.c |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
+
+diff --git a/sound/pci/hda/alc269_quirks.c b/sound/pci/hda/alc269_quirks.c
+index 5ac0e21..9aeeb32 100644
+--- a/sound/pci/hda/alc269_quirks.c
++++ b/sound/pci/hda/alc269_quirks.c
+@@ -577,6 +577,9 @@ static const struct alc_config_preset alc269_presets[] = {
+ 				alc269_laptop_amic_init_verbs },
+ 		.num_dacs = ARRAY_SIZE(alc269_dac_nids),
+ 		.dac_nids = alc269_dac_nids,
++		.adc_nids = alc269_adc_nids,
++		.capsrc_nids = alc269_capsrc_nids,
++		.num_adc_nids = ARRAY_SIZE(alc269_adc_nids),
+ 		.hp_nid = 0x03,
+ 		.num_channel_mode = ARRAY_SIZE(alc269_modes),
+ 		.channel_mode = alc269_modes,
+@@ -591,6 +594,9 @@ static const struct alc_config_preset alc269_presets[] = {
+ 				alc269_laptop_dmic_init_verbs },
+ 		.num_dacs = ARRAY_SIZE(alc269_dac_nids),
+ 		.dac_nids = alc269_dac_nids,
++		.adc_nids = alc269_adc_nids,
++		.capsrc_nids = alc269_capsrc_nids,
++		.num_adc_nids = ARRAY_SIZE(alc269_adc_nids),
+ 		.hp_nid = 0x03,
+ 		.num_channel_mode = ARRAY_SIZE(alc269_modes),
+ 		.channel_mode = alc269_modes,
+@@ -605,6 +611,9 @@ static const struct alc_config_preset alc269_presets[] = {
+ 				alc269vb_laptop_amic_init_verbs },
+ 		.num_dacs = ARRAY_SIZE(alc269_dac_nids),
+ 		.dac_nids = alc269_dac_nids,
++		.adc_nids = alc269vb_adc_nids,
++		.capsrc_nids = alc269vb_capsrc_nids,
++		.num_adc_nids = ARRAY_SIZE(alc269vb_adc_nids),
+ 		.hp_nid = 0x03,
+ 		.num_channel_mode = ARRAY_SIZE(alc269_modes),
+ 		.channel_mode = alc269_modes,
+@@ -619,6 +628,9 @@ static const struct alc_config_preset alc269_presets[] = {
+ 				alc269vb_laptop_dmic_init_verbs },
+ 		.num_dacs = ARRAY_SIZE(alc269_dac_nids),
+ 		.dac_nids = alc269_dac_nids,
++		.adc_nids = alc269vb_adc_nids,
++		.capsrc_nids = alc269vb_capsrc_nids,
++		.num_adc_nids = ARRAY_SIZE(alc269vb_adc_nids),
+ 		.hp_nid = 0x03,
+ 		.num_channel_mode = ARRAY_SIZE(alc269_modes),
+ 		.channel_mode = alc269_modes,
+@@ -633,6 +645,8 @@ static const struct alc_config_preset alc269_presets[] = {
+ 				alc269_laptop_dmic_init_verbs },
+ 		.num_dacs = ARRAY_SIZE(alc269_dac_nids),
+ 		.dac_nids = alc269_dac_nids,
++		.adc_nids = alc269_adc_nids,
++		.capsrc_nids = alc269_capsrc_nids,
+ 		.hp_nid = 0x03,
+ 		.num_channel_mode = ARRAY_SIZE(alc269_modes),
+ 		.channel_mode = alc269_modes,
+-- 
+1.7.7
+
