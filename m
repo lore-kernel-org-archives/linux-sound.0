@@ -1,46 +1,36 @@
-From: Chris Vine <chris@cvine.freeserve.co.uk>
-Date: Thu, 03 Nov 2011 11:46:34 +0000
-Subject: Re: HDA Intel microphone regression in 3.1.0
-Message-Id: <20111103114634.642fb658@laptop.homenet>
+From: voice <voice.shen@atmel.com>
+Date: Wed, 23 Nov 2011 10:05:01 +0000
+Subject: [PATCH] atmel ac97c: using software reset instead hardware reset if not available
+Message-Id: <1322042701-32100-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20111102102554.1f443b9c@laptop.homenet>
-	<20111102105442.GA30355@gere.osrc.amd.com>
-	<s5hd3da6asw.wl%tiwai@suse.de>
-	<20111102170742.059f04ed@laptop.homenet>
-	<s5hy5vyl5ia.wl%tiwai@suse.de>
-	<s5hsjm6l1b0.wl%tiwai@suse.de>
-	<20111103093901.54f2d1fc@laptop.homenet>
-	<s5hehxpbk76.wl%tiwai@suse.de>
-In-Reply-To: <s5hehxpbk76.wl%tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Borislav Petkov <bp@alien8.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: Nicolas.Ferre@atmel.com, JM.Lin@atmel.com, Hong.Xu@atmel.com, voice <voice.shen@atmel.com>
 
-On Thu, 03 Nov 2011 10:59:25 +0100
-Takashi Iwai <tiwai@suse.de> wrote:
-> At Thu, 3 Nov 2011 09:39:01 +0000,
-> Chris Vine wrote:
-> > 
-> > On Wed, 02 Nov 2011 21:25:07 +0100
-> > Takashi Iwai <tiwai@suse.de> wrote:
-> > [snip]
-> > > > Thanks.  Could you try to pass model=auto option to
-> > > > snd-hda-intel module?
-> > > 
-> > > Also, try the patch below without model option.  This should fix
-> > > the problem.
-> > 
-> > Yes that fixes it, thanks.
-> > 
-> > I'm impressed - a working patch 12 hours after reporting it on lkml.
-> 
-> Thanks for a quick check.  May I take you to a testd-by tag in the
-> stable patch?
+Using software reset instead hardware reset if not available
 
-I am happy for you to add me.  It is obviously only tested for my
-particular flavour of hardware, which with Intel HDA tends to be a
-movable feast.
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/atmel/ac97c.c |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-Chris
+diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
+index 6e5adde..73516f6 100644
+--- a/sound/atmel/ac97c.c
++++ b/sound/atmel/ac97c.c
+@@ -899,6 +899,10 @@ static void atmel_ac97c_reset(struct atmel_ac97c *chip)
+ 		/* AC97 v2.2 specifications says minimum 1 us. */
+ 		udelay(2);
+ 		gpio_set_value(chip->reset_pin, 1);
++	} else {
++		ac97c_writel(chip, MR, AC97C_MR_WRST | AC97C_MR_ENA);
++		udelay(2);
++		ac97c_writel(chip, MR, AC97C_MR_ENA);
+ 	}
+ }
+ 
+-- 
+1.6.3.3
+
