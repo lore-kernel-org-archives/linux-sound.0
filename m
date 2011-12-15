@@ -1,7 +1,7 @@
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Thu, 24 Nov 2011 10:44:01 +0000
+Date: Thu, 15 Dec 2011 13:04:12 +0000
 Subject: Re: [PATCH] atmel ac97c: using software reset instead hardware reset
-Message-Id: <4ECE1FF1.2050707@atmel.com>
+Message-Id: <4EE9F04C.6080906@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1322042701-32100-1-git-send-email-voice.shen@atmel.com>
 In-Reply-To: <1322042701-32100-1-git-send-email-voice.shen@atmel.com>
@@ -13,19 +13,12 @@ Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, JM.Lin@atmel.com,
 
 On 11/23/2011 11:05 AM, voice :
 > Using software reset instead hardware reset if not available
-> 
+
+Ping?
+Can you please tell me what is the status of this fix? Will it go
+upstream for 3.3?
+
 > Signed-off-by: Bo Shen <voice.shen@atmel.com>
-
-Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
-
-You may need to sent it to the sound subsystem mailing-list and maintainers.
-
-Anyway, I let you follow this patch... As it is a fixup and will benefit
-to existing platforms, I think that it can make its way to mainline
-during 3.2 phase.
-
-Best regards,
-
 > ---
 >  sound/atmel/ac97c.c |    4 ++++
 >  1 files changed, 4 insertions(+), 0 deletions(-)
@@ -45,5 +38,7 @@ Best regards,
 >  	}
 >  }
 >  
+
+
 -- 
 Nicolas Ferre
