@@ -1,69 +1,67 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Fri, 16 Dec 2011 08:39:55 +0000
-Subject: Re: [PATCH] atmel ac97c: using software reset instead hardware reset
-Message-Id: <4EEB03DB.4070201@atmel.com>
+From: "Shen, Voice" <Voice.Shen@atmel.com>
+Date: Mon, 19 Dec 2011 02:49:00 +0000
+Subject: FW: [PATCH] atmel ac97c: using software reset instead hardware reset if not available
+Message-Id: <4C79549CB6F772498162A641D92D532803BC848F@penmb01.corp.atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1322042701-32100-1-git-send-email-voice.shen@atmel.com> <4EE9F04C.6080906@atmel.com> <4C79549CB6F772498162A641D92D532803B527CA@penmb01.corp.atmel.com>
-In-Reply-To: <4C79549CB6F772498162A641D92D532803B527CA@penmb01.corp.atmel.com>
+References: <1322042701-32100-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1322042701-32100-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Shen, Voice" <Voice.Shen@atmel.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, "Lin, JM" <JM.Lin@atmel.com>, "Xu, Hong" <Hong.Xu@atmel.com>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, "Egtvedt, Hans-Christian" <Hans-Christian.Egtvedt@atmel.com>, "Ferre, Nicolas" <Nicolas.FERRE@atmel.com>, "Lin, JM" <JM.Lin@atmel.com>, "Xu, Hong" <Hong.Xu@atmel.com>
 
-On 12/16/2011 02:52 AM, Shen, Voice :
-> Hi Nicolas,
->   No one response for this.
->   Would you please merge it?
+Hi Sir,
+  Add patch to Atmel AC97C.
 
-Unfortunately I cannot.
+  Object: using software reset instead hardware reset if not available
 
-You will have to make sure that the *sound* maintainer is taking your
-patch into account. It can take several iterations but you must be sure
-that your work is included into maintainer's git tree.
+Best Regards,
+Voice Shen
+-----Original Message-----
+From: Nicolas Ferre [mailto:nicolas.ferre@atmel.com] 
+Sent: Thursday, November 24, 2011 18:44 voice
+To: Shen, Voice
+Cc: linux-kernel@vger.kernel.org; linux-sound@vger.kernel.org; Lin, JM;
+Xu, Hong
+Subject: Re: [PATCH] atmel ac97c: using software reset instead hardware
+reset if not available
 
-Good luck... Bye,
-
-> -----Original Message-----
-> From: Nicolas Ferre [mailto:nicolas.ferre@atmel.com] 
-> Sent: Thursday, December 15, 2011 21:04 voice
-> To: Shen, Voice
-> Cc: linux-kernel@vger.kernel.org; linux-sound@vger.kernel.org; Lin, JM;
-> Xu, Hong
-> Subject: Re: [PATCH] atmel ac97c: using software reset instead hardware
-> reset if not available
+On 11/23/2011 11:05 AM, voice :
+> Using software reset instead hardware reset if not available
 > 
-> On 11/23/2011 11:05 AM, voice :
->> Using software reset instead hardware reset if not available
-> 
-> Ping?
-> Can you please tell me what is the status of this fix? Will it go
-> upstream for 3.3?
-> 
->> Signed-off-by: Bo Shen <voice.shen@atmel.com>
->> ---
->>  sound/atmel/ac97c.c |    4 ++++
->>  1 files changed, 4 insertions(+), 0 deletions(-)
->>
->> diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
->> index 6e5adde..73516f6 100644
->> --- a/sound/atmel/ac97c.c
->> +++ b/sound/atmel/ac97c.c
->> @@ -899,6 +899,10 @@ static void atmel_ac97c_reset(struct atmel_ac97c
-> *chip)
->>  		/* AC97 v2.2 specifications says minimum 1 us. */
->>  		udelay(2);
->>  		gpio_set_value(chip->reset_pin, 1);
->> +	} else {
->> +		ac97c_writel(chip, MR, AC97C_MR_WRST | AC97C_MR_ENA);
->> +		udelay(2);
->> +		ac97c_writel(chip, MR, AC97C_MR_ENA);
->>  	}
->>  }
->>  
-> 
-> 
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 
+You may need to sent it to the sound subsystem mailing-list and
+maintainers.
+
+Anyway, I let you follow this patch... As it is a fixup and will benefit
+to existing platforms, I think that it can make its way to mainline
+during 3.2 phase.
+
+Best regards,
+
+> ---
+>  sound/atmel/ac97c.c |    4 ++++
+>  1 files changed, 4 insertions(+), 0 deletions(-)
+> 
+> diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
+> index 6e5adde..73516f6 100644
+> --- a/sound/atmel/ac97c.c
+> +++ b/sound/atmel/ac97c.c
+> @@ -899,6 +899,10 @@ static void atmel_ac97c_reset(struct atmel_ac97c
+*chip)
+>  		/* AC97 v2.2 specifications says minimum 1 us. */
+>  		udelay(2);
+>  		gpio_set_value(chip->reset_pin, 1);
+> +	} else {
+> +		ac97c_writel(chip, MR, AC97C_MR_WRST | AC97C_MR_ENA);
+> +		udelay(2);
+> +		ac97c_writel(chip, MR, AC97C_MR_ENA);
+>  	}
+>  }
+>  
 -- 
 Nicolas Ferre
