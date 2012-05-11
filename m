@@ -1,23 +1,39 @@
-From: Christian Melki <christian.melki@ericsson.com>
-Date: Fri, 27 Apr 2012 14:40:37 +0000
-Subject: Bug report: USB-audio volume quirks broken.
-Message-Id: <1346E68D3A5B2043907CF4BF466383411A07E0114F@ESESSCMS0353.eemea.ericsson.se>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 11 May 2012 09:39:28 +0000
+Subject: [PATCH] atmel/ac97c: correct the unexpected behavior when using uninitial value for reset pin
+Message-Id: <1336729168-20562-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, josh.wu@atmel.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
 
-Hi.
+When pdata->reset_pin is passed with a negative value (means gpio
+is invalid), then chip->reset_pin will not be assigned to a vaule,
+it will use default value 0. This will cause unexpected behavior.
 
-kernel 3.3.2@sound/usb/mixer.c.
-The driver runs function volume_control_quirks(....) from get_min_max_with_quirks(....).
-When the driver builds the feature set in build_feature_ctl it calls the quirk adjustment before setting the kctl->id.name.
-BUG: All of the quirks do a strcmp against an empty string and no quirks are set.
+So, add this patch to correct.
 
-Unfortunately I don't have time to fix & test. (Know to little about the sound drivers too).
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ sound/atmel/ac97c.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
-Could anyone please confirm?
+diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
+index 115313e..f5ded64 100644
+--- a/sound/atmel/ac97c.c
++++ b/sound/atmel/ac97c.c
+@@ -991,6 +991,8 @@ static int __devinit atmel_ac97c_probe(struct platform_device *pdev)
+ 			gpio_direction_output(pdata->reset_pin, 1);
+ 			chip->reset_pin = pdata->reset_pin;
+ 		}
++	} else {
++		chip->reset_pin = -EINVAL;
+ 	}
+ 
+ 	snd_card_set_dev(card, &pdev->dev);
+-- 
+1.7.10
 
-Regards,
-Christian Melki
