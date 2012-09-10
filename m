@@ -1,50 +1,34 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Fri, 11 May 2012 10:10:41 +0000
-Subject: Re: [PATCH] atmel/ac97c: correct the unexpected behavior when using uninitial value for reset pin
-Message-Id: <s5hfwb7t4da.wl%tiwai@suse.de>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 10 Sep 2012 09:50:33 +0000
+Subject: [PATCH] ASoC: wm8904: remove redundant code
+Message-Id: <1347270633-11091-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1336729168-20562-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1336729168-20562-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Bo Shen <voice.shen@atmel.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, josh.wu@atmel.com, jm.lin@atmel.com
+To: broonie@opensource.wolfsonmicro.com
+Cc: alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>, linux-sound@vger.kernel.org
 
-At Fri, 11 May 2012 17:39:28 +0800,
-Bo Shen wrote:
-> 
-> When pdata->reset_pin is passed with a negative value (means gpio
-> is invalid), then chip->reset_pin will not be assigned to a vaule,
-> it will use default value 0. This will cause unexpected behavior.
-> 
-> So, add this patch to correct.
-> 
-> Signed-off-by: Bo Shen <voice.shen@atmel.com>
-> Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+The core_intercon is added two times, remove the redundant one
 
-Applied now.  Thanks.
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/codecs/wm8904.c |    2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+index 0013afe..2b9766d 100644
+--- a/sound/soc/codecs/wm8904.c
++++ b/sound/soc/codecs/wm8904.c
+@@ -1185,8 +1185,6 @@ static int wm8904_add_widgets(struct snd_soc_codec *codec)
+ 		snd_soc_dapm_new_controls(dapm, wm8904_dapm_widgets,
+ 					  ARRAY_SIZE(wm8904_dapm_widgets));
+ 
+-		snd_soc_dapm_add_routes(dapm, core_intercon,
+-					ARRAY_SIZE(core_intercon));
+ 		snd_soc_dapm_add_routes(dapm, adc_intercon,
+ 					ARRAY_SIZE(adc_intercon));
+ 		snd_soc_dapm_add_routes(dapm, dac_intercon,
+-- 
+1.7.9.5
 
-Takashi
-
-> ---
->  sound/atmel/ac97c.c |    2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
-> index 115313e..f5ded64 100644
-> --- a/sound/atmel/ac97c.c
-> +++ b/sound/atmel/ac97c.c
-> @@ -991,6 +991,8 @@ static int __devinit atmel_ac97c_probe(struct platform_device *pdev)
->  			gpio_direction_output(pdata->reset_pin, 1);
->  			chip->reset_pin = pdata->reset_pin;
->  		}
-> +	} else {
-> +		chip->reset_pin = -EINVAL;
->  	}
->  
->  	snd_card_set_dev(card, &pdev->dev);
-> -- 
-> 1.7.10
-> 
