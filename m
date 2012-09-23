@@ -1,25 +1,18 @@
-From: "Shen, Voice" <Voice.Shen@atmel.com>
-Date: Mon, 24 Sep 2012 01:34:05 +0000
-Subject: Re: [Resend PATCH] ASoC: wm8904: remove redundant code
-Message-Id: <C8203A76-3CAA-41CB-BC7A-196853261E79@atmel.com>
+From: Johannes Thumshirn <morbidrsa@gmail.com>
+Date: Sun, 23 Sep 2012 09:56:31 +0000
+Subject: Steps needed to get Line6 driver out of staging tree
+Message-Id: <505EDCCF.6020507@gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1348033969-14909-1-git-send-email-voice.shen@atmel.com>,<20120919114756.GW8832@opensource.wolfsonmicro.com>
-In-Reply-To: <20120919114756.GW8832@opensource.wolfsonmicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
+To: linux-sound@vger.kernel.org
 
+Hi,
+I wanted to ask for a todo list to get the line6 driver out of the
+staging area.
+I also would take care of the maintenance afterwards.
 
+Thanks
+Johannes
 
-在 2012-9-19，19:48，"Mark Brown" <broonie@opensource.wolfsonmicro.com> 写道：
-
-> On Wed, Sep 19, 2012 at 01:52:49PM +0800, Bo Shen wrote:
->> The core_intercon register two times for wm8904
->> Remove one
-> 
-> This patch is already present in -next...  it had been applied and not
-> pushed from the looks of it.
-
-Got it, thanks.
