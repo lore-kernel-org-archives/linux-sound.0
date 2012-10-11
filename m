@@ -1,34 +1,25 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 11 Oct 2012 02:38:17 +0000
-Subject: [PATCH 3/3] i2c: change the id to let the i2c-gpio work
-Message-Id: <1349923097-14115-4-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Thu, 11 Oct 2012 07:11:44 +0000
+Subject: Re: [PATCH 3/3] i2c: change the id to let the i2c-gpio work
+Message-Id: <20121011071140.GA11726@opensource.wolfsonmicro.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
+ <1349923097-14115-4-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1349923097-14115-4-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- arch/arm/mach-at91/at91sam9260_devices.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Oct 11, 2012 at 10:38:17AM +0800, Bo Shen wrote:
 
-diff --git a/arch/arm/mach-at91/at91sam9260_devices.c b/arch/arm/mach-at91/at91sam9260_devices.c
-index 0f24cfb..805ef95 100644
---- a/arch/arm/mach-at91/at91sam9260_devices.c
-+++ b/arch/arm/mach-at91/at91sam9260_devices.c
-@@ -389,7 +389,7 @@ static struct i2c_gpio_platform_data pdata = {
- 
- static struct platform_device at91sam9260_twi_device = {
- 	.name			= "i2c-gpio",
--	.id			= -1,
-+	.id			= 0,
- 	.dev.platform_data	= &pdata,
- };
- 
--- 
-1.7.9.5
+>  static struct platform_device at91sam9260_twi_device = {
+>  	.name			= "i2c-gpio",
+> -	.id			= -1,
+> +	.id			= 0,
+>  	.dev.platform_data	= &pdata,
+>  };
 
+Why would this have any effect on the operation of the i2c-gpio driver?
+This suggests i2c-gpio is buggy.
