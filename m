@@ -1,86 +1,116 @@
-From: Fabio Porcedda <fabio.porcedda@gmail.com>
-Date: Tue, 16 Oct 2012 09:32:38 +0000
-Subject: Re: [PATCH 2/2] ASoC: atmel-ssc: use module_platform_driver macro
-Message-Id: <CAHkwnC_ih_-bHeYxxF0xy+pKjATkzfu1cDPD8XAw8ZHu9OQuxg@mail.gmail.com>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 11 Oct 2012 02:38:15 +0000
+Subject: [PATCH 1/3] ASoC: sam9g20-wm8731: convert to use snd_soc_register_card()
+Message-Id: <1349923097-14115-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1350359819-2461-1-git-send-email-voice.shen@atmel.com> <1350359819-2461-2-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1350359819-2461-2-git-send-email-voice.shen@atmel.com>
+References: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Bo Shen <voice.shen@atmel.com>
-Cc: broonie@opensource.wolfsonmicro.com, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
+To: broonie@opensource.wolfsonmicro.com
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
 
-On Tue, Oct 16, 2012 at 5:56 AM, Bo Shen <voice.shen@atmel.com> wrote:
-> This patch removes some code duplication by using module_platform_driver
->
-> Signed-off-by: Bo Shen <voice.shen@atmel.com>
-> ---
->  drivers/misc/atmel-ssc.c |   18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-> index 23dcb76..ac00f83 100644
-> --- a/drivers/misc/atmel-ssc.c
-> +++ b/drivers/misc/atmel-ssc.c
-> @@ -68,7 +68,7 @@ void ssc_free(struct ssc_device *ssc)
->  }
->  EXPORT_SYMBOL(ssc_free);
->
-> -static int __init ssc_probe(struct platform_device *pdev)
-> +static int ssc_probe(struct platform_device *pdev)
->  {
->         struct resource *regs;
->         struct ssc_device *ssc;
-> @@ -135,24 +135,14 @@ static int __devexit ssc_remove(struct platform_device *pdev)
->  }
->
->  static struct platform_driver ssc_driver = {
-> -       .remove         = __devexit_p(ssc_remove),
->         .driver         = {
->                 .name           = "ssc",
->                 .owner          = THIS_MODULE,
->         },
-> +       .probe          = ssc_probe,
-> +       .remove         = __devexit_p(ssc_remove),
->  };
-> -
-> -static int __init ssc_init(void)
-> -{
-> -       return platform_driver_probe(&ssc_driver, ssc_probe);
-> -}
-> -module_init(ssc_init);
-> -
-> -static void __exit ssc_exit(void)
-> -{
-> -       platform_driver_unregister(&ssc_driver);
-> -}
-> -module_exit(ssc_exit);
-> +module_platform_driver(ssc_driver);
->
->  MODULE_AUTHOR("Hans-Christian Egtvedt <hcegtvedt@atmel.com>");
->  MODULE_DESCRIPTION("SSC driver for Atmel AVR32 and AT91");
-> --
-> 1.7.9.5
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/sam9g20_wm8731.c |   51 ++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 29 deletions(-)
 
-Maybe the module_platform_driver isn't a substitute of platform_driver_probe,
-because module_platform_driver  use platform_driver_register/unregister.
-Using that macro we lose the advantage of platform_driver_probe,
-as stated in:
-
-https://lkml.org/lkml/2012/1/10/335
-On Tue, Jan 10, 2012 at 21:47, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> [...]
->Still, setting up platform_driver.probe and removing __init from all probe
->functions is not the right thing to do, as this make (non-__init) kernel code
->size bigger, while none of these devices are hotpluggable and thus cannot
->appear after bootup. That's why we have platform_driver_probe() in the
->first place. So I think all of this should be reverted for non-hotpluggable
->drivers.
-> [...]
-
-What do you think?
-
-Best regards
+diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
+index c883514..e5e27db 100644
+--- a/sound/soc/atmel/sam9g20_wm8731.c
++++ b/sound/soc/atmel/sam9g20_wm8731.c
+@@ -195,22 +195,15 @@ static struct snd_soc_card snd_soc_at91sam9g20ek = {
+ 	.set_bias_level = at91sam9g20ek_set_bias_level,
+ };
+ 
+-static struct platform_device *at91sam9g20ek_snd_device;
+-
+-static int __init at91sam9g20ek_init(void)
++static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
+ {
+ 	struct clk *pllb;
++	struct snd_soc_card *card = &snd_soc_at91sam9g20ek;
+ 	int ret;
+ 
+ 	if (!(machine_is_at91sam9g20ek() || machine_is_at91sam9g20ek_2mmc()))
+ 		return -ENODEV;
+ 
+-	ret = atmel_ssc_set_audio(0);
+-	if (ret != 0) {
+-		pr_err("Failed to set SSC 0 for audio: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	/*
+ 	 * Codec MCLK is supplied by PCK0 - set it up.
+ 	 */
+@@ -236,26 +229,14 @@ static int __init at91sam9g20ek_init(void)
+ 
+ 	clk_set_rate(mclk, MCLK_RATE);
+ 
+-	at91sam9g20ek_snd_device = platform_device_alloc("soc-audio", -1);
+-	if (!at91sam9g20ek_snd_device) {
+-		printk(KERN_ERR "ASoC: Platform device allocation failed\n");
+-		ret = -ENOMEM;
+-		goto err_mclk;
+-	}
+-
+-	platform_set_drvdata(at91sam9g20ek_snd_device,
+-			&snd_soc_at91sam9g20ek);
+-
+-	ret = platform_device_add(at91sam9g20ek_snd_device);
++	card->dev = &pdev->dev;
++	ret = snd_soc_register_card(card);
+ 	if (ret) {
+-		printk(KERN_ERR "ASoC: Platform device allocation failed\n");
+-		goto err_device_add;
++		printk(KERN_ERR "ASoC: snd_soc_register_card() failed\n");
+ 	}
+ 
+ 	return ret;
+ 
+-err_device_add:
+-	platform_device_put(at91sam9g20ek_snd_device);
+ err_mclk:
+ 	clk_put(mclk);
+ 	mclk = NULL;
+@@ -263,18 +244,30 @@ err:
+ 	return ret;
+ }
+ 
+-static void __exit at91sam9g20ek_exit(void)
++static int __devexit at91sam9g20ek_audio_remove(struct platform_device *pdev)
+ {
+-	platform_device_unregister(at91sam9g20ek_snd_device);
+-	at91sam9g20ek_snd_device = NULL;
++	struct snd_soc_card *card = platform_get_drvdata(pdev);
++
++	snd_soc_unregister_card(card);
+ 	clk_put(mclk);
+ 	mclk = NULL;
++
++	return 0;
+ }
+ 
+-module_init(at91sam9g20ek_init);
+-module_exit(at91sam9g20ek_exit);
++static struct platform_driver at91sam9g20ek_audio_driver = {
++	.driver = {
++		.name	= "at91sam9g20ek-audio",
++		.owner	= THIS_MODULE,
++	},
++	.probe	= at91sam9g20ek_audio_probe,
++	.remove	= __devexit_p(at91sam9g20ek_audio_remove),
++};
++
++module_platform_driver(at91sam9g20ek_audio_driver);
+ 
+ /* Module information */
+ MODULE_AUTHOR("Sedji Gaouaou <sedji.gaouaou@atmel.com>");
+ MODULE_DESCRIPTION("ALSA SoC AT91SAM9G20EK_WM8731");
++MODULE_ALIAS("platform:at91sam9g20ek-audio");
+ MODULE_LICENSE("GPL");
 -- 
-Fabio Porcedda
+1.7.9.5
+
