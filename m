@@ -1,46 +1,84 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Wed, 17 Oct 2012 13:52:58 +0000
-Subject: Re: [PATCH 1/3] ASoC: sam9g20-wm8731: convert to use snd_soc_register_card()
-Message-Id: <20121017135257.GV14199@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="75WsOQSofUOhcSOp"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 11 Oct 2012 02:38:16 +0000
+Subject: [PATCH 2/3] ASoC: sam9g20: using platform device for audio part
+Message-Id: <1349923097-14115-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
- <1349923097-14115-2-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1349923097-14115-2-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com
+In-Reply-To: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@opensource.wolfsonmicro.com
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
 
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/mach-at91/at91sam9260_devices.c |    9 +++++++++
+ arch/arm/mach-at91/board-sam9g20ek.c     |   17 +++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
---75WsOQSofUOhcSOp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+diff --git a/arch/arm/mach-at91/at91sam9260_devices.c b/arch/arm/mach-at91/at91sam9260_devices.c
+index a76b868..0f24cfb 100644
+--- a/arch/arm/mach-at91/at91sam9260_devices.c
++++ b/arch/arm/mach-at91/at91sam9260_devices.c
+@@ -768,6 +768,14 @@ static inline void configure_ssc_pins(unsigned pins)
+ 		at91_set_A_periph(AT91_PIN_PB21, 1);
+ }
+ 
++static struct platform_device at91sam9260_ssc_dai_device = {
++	.name	= "atmel-ssc-dai",
++	.id	= 0,
++	.dev	= {
++		.parent	= &(at91sam9260_ssc_device.dev),
++	},
++};
++
+ /*
+  * SSC controllers are accessed through library code, instead of any
+  * kind of all-singing/all-dancing driver.  For example one could be
+@@ -792,6 +800,7 @@ void __init at91_add_device_ssc(unsigned id, unsigned pins)
+ 	}
+ 
+ 	platform_device_register(pdev);
++	platform_device_register(&at91sam9260_ssc_dai_device);
+ }
+ 
+ #else
+diff --git a/arch/arm/mach-at91/board-sam9g20ek.c b/arch/arm/mach-at91/board-sam9g20ek.c
+index 3ab2b86..5b6a6f9 100644
+--- a/arch/arm/mach-at91/board-sam9g20ek.c
++++ b/arch/arm/mach-at91/board-sam9g20ek.c
+@@ -353,6 +353,22 @@ static struct i2c_board_info __initdata ek_i2c_devices[] = {
+         },
+ };
+ 
++static struct platform_device sam9g20ek_pcm_device = {
++	.name	= "atmel-pcm-audio",
++	.id = -1,
++};
++
++static struct platform_device sam9g20ek_audio_device = {
++	.name   = "at91sam9g20ek-audio",
++	.id     = -1,
++};
++
++static void __init ek_add_device_audio(void)
++{
++	platform_device_register(&sam9g20ek_pcm_device);
++	platform_device_register(&sam9g20ek_audio_device);
++}
++
+ 
+ static void __init ek_board_init(void)
+ {
+@@ -394,6 +410,7 @@ static void __init ek_board_init(void)
+ 	at91_set_B_periph(AT91_PIN_PC1, 0);
+ 	/* SSC (for WM8731) */
+ 	at91_add_device_ssc(AT91SAM9260_ID_SSC, ATMEL_SSC_TX);
++	ek_add_device_audio();
+ }
+ 
+ MACHINE_START(AT91SAM9G20EK, "Atmel AT91SAM9G20-EK")
+-- 
+1.7.9.5
 
-On Thu, Oct 11, 2012 at 10:38:15AM +0800, Bo Shen wrote:
-> Signed-off-by: Bo Shen <voice.shen@atmel.com>
-
-Applied, thanks.
-
---75WsOQSofUOhcSOp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQIcBAEBAgAGBQJQfrgyAAoJELSic+t+oim9fScP/1mErtIkpcZRTaBjPY4rdnEA
-pRHQaxUf6cznCfMxvqJqKmTOV5+NX/doLU+F1h5jIDN9F3HQRyH8OigTkPtFKXsQ
-vwFNW+N90QWVtfjPmg4LZzVJrrkAWj1Lgw/55E7Ry3LQpGXzbsfdobwidWKPW+0R
-TaaVpLREv/hCgnS9f48+yrFzfiEsa6dEGn5atp+R27hnzb+N8mEKx0xcDjf4Ve5a
-KalXn+HhEHjN2ysvxumer1Z53/rniy6wrxQ6qoSVZ1S4YJo3h6zief3ahhdNuFOt
-8WwjVf/QXAUKIwHTcnoUgZHy1Yu9VTxK97P993EHYG2+KOBkA6QDRVEFCGwp8ShH
-OX3fkri1L1tqTwj+RySCFMlQ/6EjJpQIpGJHntEWfdpMxnFsjy1x85y91iPYZfqW
-9VFbfIyh6rq7foN5Pw829m5FXcAY5Ixq6AGJGDTklJMY/Xk42cUDEmQliXC6help
-ij9H7A+dRNRCtfvs0OVKcRe0FWDPRQPLGb7W6yAXAETHmZizyn7v7jlOtMoDR2ss
-mIb82xhMD0+JjqcRsMow7kPefIC6h8CRqfersyW5dTSWgxuryo8S2G6rvziMFxRZ
-OFM+FpAcwvCEmuzlAWXaCFd6jxsBq5H4k5+bBJZsCfddaFw91D3mqJqheFSxz3Yi
-09pN/0WAT4P3krLJFkPr
-=+QSL
------END PGP SIGNATURE-----
-
---75WsOQSofUOhcSOp--
