@@ -1,45 +1,34 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Tue, 30 Oct 2012 17:14:41 +0000
-Subject: Re: [PATCH 1/5] ARM: at91: atmel-ssc: add platform device id table
-Message-Id: <50900B01.3000402@atmel.com>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 11 Oct 2012 02:38:17 +0000
+Subject: [PATCH 3/3] i2c: change the id to let the i2c-gpio work
+Message-Id: <1349923097-14115-4-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1350901079-18307-1-git-send-email-voice.shen@atmel.com> <20121030160722.GW4511@opensource.wolfsonmicro.com>
-In-Reply-To: <20121030160722.GW4511@opensource.wolfsonmicro.com>
+References: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Cc: Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com
+To: broonie@opensource.wolfsonmicro.com
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/mach-at91/at91sam9260_devices.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/30/2012 05:07 PM, Mark Brown :
-> On Mon, Oct 22, 2012 at 06:17:55PM +0800, Bo Shen wrote:
->> Using platform device id to check whether the Atmel SOC support
->> dma for data transfer
->> 
->> If match "at91rm9200_ssc" which does not support DMA transfer If
->> match "at91sam9g45_ssc" which support DMA transfer
-> 
-> Any comments on this from that Atmel folks?  If I don't see
-> something I'll probably just apply.
+diff --git a/arch/arm/mach-at91/at91sam9260_devices.c b/arch/arm/mach-at91/at91sam9260_devices.c
+index 0f24cfb..805ef95 100644
+--- a/arch/arm/mach-at91/at91sam9260_devices.c
++++ b/arch/arm/mach-at91/at91sam9260_devices.c
+@@ -389,7 +389,7 @@ static struct i2c_gpio_platform_data pdata = {
+ 
+ static struct platform_device at91sam9260_twi_device = {
+ 	.name			= "i2c-gpio",
+-	.id			= -1,
++	.id			= 0,
+ 	.dev.platform_data	= &pdata,
+ };
+ 
+-- 
+1.7.9.5
 
-Indeed, comment sent.
-
-Thanks for the "heads-up" Mark.
-
-Best regards,
-- -- 
-Nicolas Ferre
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://www.enigmail.net/
-
-iQEcBAEBAgAGBQJQkAr2AAoJEAf03oE53VmQviMIAJrjBBi3ePMgP+jwRQuKw54A
-bZOHRmaqpGPh6cLAvXeUEkv2VflLcoYxIKiV1PZsNYctUHz/rrYX4y5bMwkJqJb1
-jWR1LDibKWny74pXiilrf4pgtabqhIQN8v64DjIg4vF8I6pzBBtlA3sBBQtRlJzB
-yQulBHP63vNDHlZm+AayeuWkF16Gh+FfDtYSNDy8w8lNjJLwQo2mNvI6WurSTI85
-mqidOzW5k0wrYo/6012vAzIV3BC+1Ck0A2gXhkS8yhuThS1xT+u4c3iTAMJE2FzZ
-PM4+JLf0o5fgtOkj0UzFuVea6BxNQ/qjwyV6y+cJ/QBS7DY7N9rmD+vrr8dpgMs=wvcs
------END PGP SIGNATURE-----
