@@ -1,18 +1,64 @@
-From: Johannes Thumshirn <morbidrsa@gmail.com>
-Date: Sun, 23 Sep 2012 09:56:31 +0000
-Subject: Steps needed to get Line6 driver out of staging tree
-Message-Id: <505EDCCF.6020507@gmail.com>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 16 Oct 2012 03:56:59 +0000
+Subject: [PATCH 2/2] ASoC: atmel-ssc: use module_platform_driver macro
+Message-Id: <1350359819-2461-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1350359819-2461-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1350359819-2461-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: broonie@opensource.wolfsonmicro.com
+Cc: alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
 
-Hi,
-I wanted to ask for a todo list to get the line6 driver out of the
-staging area.
-I also would take care of the maintenance afterwards.
+This patch removes some code duplication by using module_platform_driver
 
-Thanks
-Johannes
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ drivers/misc/atmel-ssc.c |   18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index 23dcb76..ac00f83 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -68,7 +68,7 @@ void ssc_free(struct ssc_device *ssc)
+ }
+ EXPORT_SYMBOL(ssc_free);
+ 
+-static int __init ssc_probe(struct platform_device *pdev)
++static int ssc_probe(struct platform_device *pdev)
+ {
+ 	struct resource *regs;
+ 	struct ssc_device *ssc;
+@@ -135,24 +135,14 @@ static int __devexit ssc_remove(struct platform_device *pdev)
+ }
+ 
+ static struct platform_driver ssc_driver = {
+-	.remove		= __devexit_p(ssc_remove),
+ 	.driver		= {
+ 		.name		= "ssc",
+ 		.owner		= THIS_MODULE,
+ 	},
++	.probe		= ssc_probe,
++	.remove		= __devexit_p(ssc_remove),
+ };
+-
+-static int __init ssc_init(void)
+-{
+-	return platform_driver_probe(&ssc_driver, ssc_probe);
+-}
+-module_init(ssc_init);
+-
+-static void __exit ssc_exit(void)
+-{
+-	platform_driver_unregister(&ssc_driver);
+-}
+-module_exit(ssc_exit);
++module_platform_driver(ssc_driver);
+ 
+ MODULE_AUTHOR("Hans-Christian Egtvedt <hcegtvedt@atmel.com>");
+ MODULE_DESCRIPTION("SSC driver for Atmel AVR32 and AT91");
+-- 
+1.7.9.5
 
