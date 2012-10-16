@@ -1,7 +1,7 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Tue, 16 Oct 2012 05:12:24 +0000
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 16 Oct 2012 08:05:25 +0000
 Subject: Re: [PATCH 1/2] ASoC: atmel-ssc: use devm_xxx() managed function
-Message-Id: <20121016051221.GA8670@opensource.wolfsonmicro.com>
+Message-Id: <507D1545.8020903@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1350359819-2461-1-git-send-email-voice.shen@atmel.com>
 In-Reply-To: <1350359819-2461-1-git-send-email-voice.shen@atmel.com>
@@ -9,10 +9,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Bo Shen <voice.shen@atmel.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, plagnioj@jcrosoft.com
+Cc: broonie@opensource.wolfsonmicro.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com
 
-On Tue, Oct 16, 2012 at 11:56:58AM +0800, Bo Shen wrote:
+On 10/16/2012 05:56 AM, Bo Shen :
 > Using the devm_xxx() managed function to stripdown the error
 > and remove code.
+> 
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
-Applied both, thanks.
+Maybe too late, but:
+
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+
+> ---
+>  drivers/misc/atmel-ssc.c |   47 +++++++++++++++-------------------------------
+>  1 file changed, 15 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+> index 5bb1877..23dcb76 100644
+> --- a/drivers/misc/atmel-ssc.c
+> +++ b/drivers/misc/atmel-ssc.c
+> @@ -70,37 +70,33 @@ EXPORT_SYMBOL(ssc_free);
+>  
+>  static int __init ssc_probe(struct platform_device *pdev)
+>  {
+> -	int retval = 0;
+>  	struct resource *regs;
+>  	struct ssc_device *ssc;
+>  
+> -	ssc = kzalloc(sizeof(struct ssc_device), GFP_KERNEL);
+> +	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+>  	if (!ssc) {
+>  		dev_dbg(&pdev->dev, "out of memory\n");
+> -		retval = -ENOMEM;
+> -		goto out;
+> +		return -ENOMEM;
+>  	}
+>  
+> +	ssc->pdev = pdev;
+> +
+>  	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>  	if (!regs) {
+>  		dev_dbg(&pdev->dev, "no mmio resource defined\n");
+> -		retval = -ENXIO;
+> -		goto out_free;
+> +		return -ENXIO;
+>  	}
+>  
+> -	ssc->clk = clk_get(&pdev->dev, "pclk");
+> -	if (IS_ERR(ssc->clk)) {
+> -		dev_dbg(&pdev->dev, "no pclk clock defined\n");
+> -		retval = -ENXIO;
+> -		goto out_free;
+> -	}
+> -
+> -	ssc->pdev = pdev;
+> -	ssc->regs = ioremap(regs->start, resource_size(regs));
+> +	ssc->regs = devm_request_and_ioremap(&pdev->dev, regs);
+>  	if (!ssc->regs) {
+>  		dev_dbg(&pdev->dev, "ioremap failed\n");
+> -		retval = -EINVAL;
+> -		goto out_clk;
+> +		return -EINVAL;
+> +	}
+> +
+> +	ssc->clk = devm_clk_get(&pdev->dev, "pclk");
+> +	if (IS_ERR(ssc->clk)) {
+> +		dev_dbg(&pdev->dev, "no pclk clock defined\n");
+> +		return -ENXIO;
+>  	}
+>  
+>  	/* disable all interrupts */
+> @@ -112,8 +108,7 @@ static int __init ssc_probe(struct platform_device *pdev)
+>  	ssc->irq = platform_get_irq(pdev, 0);
+>  	if (!ssc->irq) {
+>  		dev_dbg(&pdev->dev, "could not get irq\n");
+> -		retval = -ENXIO;
+> -		goto out_unmap;
+> +		return -ENXIO;
+>  	}
+>  
+>  	spin_lock(&user_lock);
+> @@ -125,16 +120,7 @@ static int __init ssc_probe(struct platform_device *pdev)
+>  	dev_info(&pdev->dev, "Atmel SSC device at 0x%p (irq %d)\n",
+>  			ssc->regs, ssc->irq);
+>  
+> -	goto out;
+> -
+> -out_unmap:
+> -	iounmap(ssc->regs);
+> -out_clk:
+> -	clk_put(ssc->clk);
+> -out_free:
+> -	kfree(ssc);
+> -out:
+> -	return retval;
+> +	return 0;
+>  }
+>  
+>  static int __devexit ssc_remove(struct platform_device *pdev)
+> @@ -142,10 +128,7 @@ static int __devexit ssc_remove(struct platform_device *pdev)
+>  	struct ssc_device *ssc = platform_get_drvdata(pdev);
+>  
+>  	spin_lock(&user_lock);
+> -	iounmap(ssc->regs);
+> -	clk_put(ssc->clk);
+>  	list_del(&ssc->list);
+> -	kfree(ssc);
+>  	spin_unlock(&user_lock);
+>  
+>  	return 0;
+> 
+
+
+-- 
+Nicolas Ferre
