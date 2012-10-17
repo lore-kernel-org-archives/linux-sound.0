@@ -1,116 +1,46 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 11 Oct 2012 02:38:15 +0000
-Subject: [PATCH 1/3] ASoC: sam9g20-wm8731: convert to use snd_soc_register_card()
-Message-Id: <1349923097-14115-2-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Wed, 17 Oct 2012 13:52:58 +0000
+Subject: Re: [PATCH 1/3] ASoC: sam9g20-wm8731: convert to use snd_soc_register_card()
+Message-Id: <20121017135257.GV14199@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="75WsOQSofUOhcSOp"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1349923097-14115-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
+ <1349923097-14115-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1349923097-14115-2-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, jm.lin@atmel.com
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- sound/soc/atmel/sam9g20_wm8731.c |   51 ++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 29 deletions(-)
 
-diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
-index c883514..e5e27db 100644
---- a/sound/soc/atmel/sam9g20_wm8731.c
-+++ b/sound/soc/atmel/sam9g20_wm8731.c
-@@ -195,22 +195,15 @@ static struct snd_soc_card snd_soc_at91sam9g20ek = {
- 	.set_bias_level = at91sam9g20ek_set_bias_level,
- };
- 
--static struct platform_device *at91sam9g20ek_snd_device;
--
--static int __init at91sam9g20ek_init(void)
-+static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
- {
- 	struct clk *pllb;
-+	struct snd_soc_card *card = &snd_soc_at91sam9g20ek;
- 	int ret;
- 
- 	if (!(machine_is_at91sam9g20ek() || machine_is_at91sam9g20ek_2mmc()))
- 		return -ENODEV;
- 
--	ret = atmel_ssc_set_audio(0);
--	if (ret != 0) {
--		pr_err("Failed to set SSC 0 for audio: %d\n", ret);
--		return ret;
--	}
--
- 	/*
- 	 * Codec MCLK is supplied by PCK0 - set it up.
- 	 */
-@@ -236,26 +229,14 @@ static int __init at91sam9g20ek_init(void)
- 
- 	clk_set_rate(mclk, MCLK_RATE);
- 
--	at91sam9g20ek_snd_device = platform_device_alloc("soc-audio", -1);
--	if (!at91sam9g20ek_snd_device) {
--		printk(KERN_ERR "ASoC: Platform device allocation failed\n");
--		ret = -ENOMEM;
--		goto err_mclk;
--	}
--
--	platform_set_drvdata(at91sam9g20ek_snd_device,
--			&snd_soc_at91sam9g20ek);
--
--	ret = platform_device_add(at91sam9g20ek_snd_device);
-+	card->dev = &pdev->dev;
-+	ret = snd_soc_register_card(card);
- 	if (ret) {
--		printk(KERN_ERR "ASoC: Platform device allocation failed\n");
--		goto err_device_add;
-+		printk(KERN_ERR "ASoC: snd_soc_register_card() failed\n");
- 	}
- 
- 	return ret;
- 
--err_device_add:
--	platform_device_put(at91sam9g20ek_snd_device);
- err_mclk:
- 	clk_put(mclk);
- 	mclk = NULL;
-@@ -263,18 +244,30 @@ err:
- 	return ret;
- }
- 
--static void __exit at91sam9g20ek_exit(void)
-+static int __devexit at91sam9g20ek_audio_remove(struct platform_device *pdev)
- {
--	platform_device_unregister(at91sam9g20ek_snd_device);
--	at91sam9g20ek_snd_device = NULL;
-+	struct snd_soc_card *card = platform_get_drvdata(pdev);
-+
-+	snd_soc_unregister_card(card);
- 	clk_put(mclk);
- 	mclk = NULL;
-+
-+	return 0;
- }
- 
--module_init(at91sam9g20ek_init);
--module_exit(at91sam9g20ek_exit);
-+static struct platform_driver at91sam9g20ek_audio_driver = {
-+	.driver = {
-+		.name	= "at91sam9g20ek-audio",
-+		.owner	= THIS_MODULE,
-+	},
-+	.probe	= at91sam9g20ek_audio_probe,
-+	.remove	= __devexit_p(at91sam9g20ek_audio_remove),
-+};
-+
-+module_platform_driver(at91sam9g20ek_audio_driver);
- 
- /* Module information */
- MODULE_AUTHOR("Sedji Gaouaou <sedji.gaouaou@atmel.com>");
- MODULE_DESCRIPTION("ALSA SoC AT91SAM9G20EK_WM8731");
-+MODULE_ALIAS("platform:at91sam9g20ek-audio");
- MODULE_LICENSE("GPL");
--- 
-1.7.9.5
+--75WsOQSofUOhcSOp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Thu, Oct 11, 2012 at 10:38:15AM +0800, Bo Shen wrote:
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+
+Applied, thanks.
+
+--75WsOQSofUOhcSOp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQfrgyAAoJELSic+t+oim9fScP/1mErtIkpcZRTaBjPY4rdnEA
+pRHQaxUf6cznCfMxvqJqKmTOV5+NX/doLU+F1h5jIDN9F3HQRyH8OigTkPtFKXsQ
+vwFNW+N90QWVtfjPmg4LZzVJrrkAWj1Lgw/55E7Ry3LQpGXzbsfdobwidWKPW+0R
+TaaVpLREv/hCgnS9f48+yrFzfiEsa6dEGn5atp+R27hnzb+N8mEKx0xcDjf4Ve5a
+KalXn+HhEHjN2ysvxumer1Z53/rniy6wrxQ6qoSVZ1S4YJo3h6zief3ahhdNuFOt
+8WwjVf/QXAUKIwHTcnoUgZHy1Yu9VTxK97P993EHYG2+KOBkA6QDRVEFCGwp8ShH
+OX3fkri1L1tqTwj+RySCFMlQ/6EjJpQIpGJHntEWfdpMxnFsjy1x85y91iPYZfqW
+9VFbfIyh6rq7foN5Pw829m5FXcAY5Ixq6AGJGDTklJMY/Xk42cUDEmQliXC6help
+ij9H7A+dRNRCtfvs0OVKcRe0FWDPRQPLGb7W6yAXAETHmZizyn7v7jlOtMoDR2ss
+mIb82xhMD0+JjqcRsMow7kPefIC6h8CRqfersyW5dTSWgxuryo8S2G6rvziMFxRZ
+OFM+FpAcwvCEmuzlAWXaCFd6jxsBq5H4k5+bBJZsCfddaFw91D3mqJqheFSxz3Yi
+09pN/0WAT4P3krLJFkPr
+=+QSL
+-----END PGP SIGNATURE-----
+
+--75WsOQSofUOhcSOp--
