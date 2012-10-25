@@ -1,63 +1,67 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Fri, 19 Oct 2012 08:18:16 +0000
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Thu, 25 Oct 2012 16:40:08 +0000
 Subject: Re: Question about move atmel audio part to DT support
-Message-Id: <50810CC8.4050009@atmel.com>
+Message-Id: <20121025164008.GQ18814@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="A7FgPGrDEcSmmdo/"
 List-Id: <linux-sound.vger.kernel.org>
 References: <5080F54F.4000600@atmel.com>
-In-Reply-To: <5080F54F.4000600@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@opensource.wolfsonmicro.com>
+ <50810CC8.4050009@atmel.com>
+In-Reply-To: <50810CC8.4050009@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
 Cc: alsa-devel@alsa-project.org, "Lin, JM" <JM.Lin@atmel.com>, "Ferre,
  Nicolas" <Nicolas.FERRE@atmel.com>, linux-sound@vger.kernel.org, devicetree-discuss <devicetree-discuss@lists.ozlabs.org>, linux-arm-kernel@lists.infradead.org
 
-Cc:
-    linux-arm-kernel mailing list
-    devicetree-discuss mailing list
-    alsa-devel mailing list
-    linux-sound mailing list
 
+--A7FgPGrDEcSmmdo/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/19/2012 14:38, Bo Shen wrote:
-> Hi Mark Brown,
->    Now, I am trying to move atmel audio part to DT support. I meet the
-> following issue.
->
->    Atmel audio part has three platform device:
->      -> atmel ssc: ssc library (different SOC has different number)
->      -> atmel ssc dai: dai for audio
->      -> atmel pcm: for pdc or dma transfer (now only support pdc, dma
-> support will add soon)
->
->   In DT support kernel, I don't find any similar case. So, if I want to
-> keep ssc as library, and use dai to register pcm. Then the dts file will
-> like:
-> ---<8---
-> ssc0: ssc@fffbc000 {
->                  status = "okay";
-> };
->
-> dai0: dai {
->                  compatible = "atmel,atmel-ssc-dai";
->          };
->
-> sound {
->                  compatible = "atmel,at91sam9g20-audio";
->                  atmel,model = "wm8731 @ sam9g20ek";
->
->                  atmel,audio-routing >                          "Ext Spk", "LHPOUT",
->                          "Int Mic", "MICIN";
->
->                  atmel,audio-codec = <&wm8731>;
->                  atmel,dai = <&dai>;
-> };
-> --->8---
->
->    Would this be OK?
->    If not, may I add some code for ssc which dedicate for audio into
-> sound/soc/atmel (using audio-ssc and ssc to distiguish which dedicate
-> for audio, which used for ssc library)? This will broken the exist code
-> for audio (only sam9g20-wm8731).
->    Any suggestion?
+On Fri, Oct 19, 2012 at 04:18:16PM +0800, Bo Shen wrote:
 
+> Cc:
+>    linux-arm-kernel mailing list
+>    devicetree-discuss mailing list
+>    alsa-devel mailing list
+>    linux-sound mailing list
+
+Better to resend for things like this rather than double quote.
+
+>=20
+> >   Atmel audio part has three platform device:
+> >     -> atmel ssc: ssc library (different SOC has different number)
+> >     -> atmel ssc dai: dai for audio
+> >     -> atmel pcm: for pdc or dma transfer (now only support pdc, dma
+> >support will add soon)
+
+> >  In DT support kernel, I don't find any similar case. So, if I want to
+> >keep ssc as library, and use dai to register pcm. Then the dts file will
+> >like:
+
+I'm not seeing anything at all unusual about the above situation - it'd
+help if you could explain what you think is complex here?
+
+--A7FgPGrDEcSmmdo/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQiWtgAAoJELSic+t+oim9cQIP/2KKIZXj/UlFaxqHvQXX8ni7
+8Rkt7/swlvMOFTv18AoUU8rrtZsgtizt9/A8+39qS4433viLCQNUPIHk89e1DqbI
+ch0J2uX5JuNjbR9xjiTjkpAOfiUX8Ap7GiJFhxnhj9uXFuoXCjsw0ZdQ3T5KUW8N
+7HnMFkQhFX7OrHhKHxGaYLhd8lzd54OIsTg0wRGtbRn78UJRq1MNdxNAXruSYHuo
+BuUavv4CJls+4cuYaMX6TU9vWkRQjvBGBT2WMz6oWABP7XvCsG98Q1sxxTvG/5p+
+r4F5mIxxT4ENEn6gpHRwP5GrP4U+a+3ZAXmgFaC60aLESJIjw+lqaiPeJ692CcSx
+3JJ7Rgn90Ee90uPL8Et98t2q7FQziU3fwawjwjbMzOHAhB+QVnbKYB51YUDYgGGE
+h6VsbsjkjPJ4veuyQZqo5Suk5Xne+VY66psyp7PqsqNRAZZFEXDe4yB5KyHV5gc1
+2XX1GDMGZxl0jB4E//jtb1AGv8AaJxLNMei+3X412BssGEjmIQOW4yqSNw527JYY
+p/bG/QmYiRCahWR/mJIo07NEHB+tyLHxxwMIGwBVzD4PrB4EqAOt/XRLdKoE9L0K
+hYVKyrBQIKBenE9PB45OB7cU925VqWOFDlMtSUBtgReo38Vd/FYN1lqYRSuCS3Jg
+NpPio8b9dPTN2jaeutrE
+=8PsA
+-----END PGP SIGNATURE-----
+
+--A7FgPGrDEcSmmdo/--
