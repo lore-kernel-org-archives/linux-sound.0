@@ -1,62 +1,48 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 22 Oct 2012 10:17:59 +0000
-Subject: [PATCH 5/5] ASoC: sam9g20_wm8731: fix the issue for non-DT kernel
-Message-Id: <1350901079-18307-5-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Sat, 27 Oct 2012 22:14:23 +0000
+Subject: Re: [PATCH 5/5] ASoC: sam9g20_wm8731: fix the issue for non-DT kernel
+Message-Id: <20121027221420.GN4564@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="YC8Ek3FeOE8ywfXk"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1350901079-18307-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1350901079-18307-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, nicolas.ferre@atmel.com
-Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
+ <1350901079-18307-5-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1350901079-18307-5-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com
 
-When register platform from DAIs, the platform device to PCM no longer
-needed. So, fix it with this patch
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- arch/arm/mach-at91/board-sam9g20ek.c |    6 ------
- sound/soc/atmel/sam9g20_wm8731.c     |    2 +-
- 2 files changed, 1 insertion(+), 7 deletions(-)
+--YC8Ek3FeOE8ywfXk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/arch/arm/mach-at91/board-sam9g20ek.c b/arch/arm/mach-at91/board-sam9g20ek.c
-index 5b6a6f9..ebdbf42 100644
---- a/arch/arm/mach-at91/board-sam9g20ek.c
-+++ b/arch/arm/mach-at91/board-sam9g20ek.c
-@@ -353,11 +353,6 @@ static struct i2c_board_info __initdata ek_i2c_devices[] = {
-         },
- };
- 
--static struct platform_device sam9g20ek_pcm_device = {
--	.name	= "atmel-pcm-audio",
--	.id = -1,
--};
--
- static struct platform_device sam9g20ek_audio_device = {
- 	.name   = "at91sam9g20ek-audio",
- 	.id     = -1,
-@@ -365,7 +360,6 @@ static struct platform_device sam9g20ek_audio_device = {
- 
- static void __init ek_add_device_audio(void)
- {
--	platform_device_register(&sam9g20ek_pcm_device);
- 	platform_device_register(&sam9g20ek_audio_device);
- }
- 
-diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
-index 187dc65..0c5987a 100644
---- a/sound/soc/atmel/sam9g20_wm8731.c
-+++ b/sound/soc/atmel/sam9g20_wm8731.c
-@@ -182,7 +182,7 @@ static struct snd_soc_dai_link at91sam9g20ek_dai = {
- 	.cpu_dai_name = "atmel-ssc-dai.0",
- 	.codec_dai_name = "wm8731-hifi",
- 	.init = at91sam9g20ek_wm8731_init,
--	.platform_name = "atmel-pcm-audio",
-+	.platform_name = "atmel-ssc-dai.0",
- 	.codec_name = "wm8731.0-001b",
- 	.ops = &at91sam9g20ek_ops,
- };
--- 
-1.7.9.5
+On Mon, Oct 22, 2012 at 06:17:59PM +0800, Bo Shen wrote:
+> When register platform from DAIs, the platform device to PCM no longer
+> needed. So, fix it with this patch
 
+This should be squashed into the change which changes the registeration
+to ensure that we don't get both methods used simultaneously.
+
+--YC8Ek3FeOE8ywfXk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQjFy1AAoJELSic+t+oim9qzcP/jdIwPbBBbNULnYn3rRpWaWY
+ZporfDFAY4hgQLQfVinjPS+Br/xyxAyaqqta6m8BO5YIsPglj9c1BwSV1eXhGVks
+HY/cwHPq31jGplZCOHxTfTkz4oMmLgr1M2YE41YobJ3ojLk1rvlaVWWQxPYmJ5KI
+tC+aAedy7vl0jJxdtPTUFF5Mq4imngcDmcPzNWIePWzc7pDPFPtU7Mx2DNk82bkR
+LdlC00f77/itilWDpgTTPEFmvtjwov7qczlC8zMDLiZwc52QcXSHCN3aKPWycNY/
+qcTt/6bNelx9Wc1oBlDVCdtyo7G3kmd9T3bW93wYmN5ijDD9/p51mt0U2O3cY/q3
++ee54AWlHVnL6R1aiwWSi0VHAwloMAJNcVIyMPu5JuvMsh4IsrezAy2rrcXZfAlC
+qEC2oMD2thXD5OHCZyzKl8N+ovp/TQIDfcIBGXJ10ajNzKs55RMsOvHSqCV7j722
+7PedAYr6oszCbRzVTZiT1tgNyAheked3BEGGHpa7OTh2K0k37rOl2CikCoDE8kOr
+ZvvPU/c8fJz0OkkLQPOujfzrXddEMqQ2nhGAp5oupMkW/fBR0/6mq19utX/efzIQ
+WgEhNbgmvf07TPGdG9phhZCC0GwjlDWRUqVcNFEq8Hn1+gLN34tRWK8rzR7NJBvA
+4iuqFNIWUzrAjA7hE+J9
+=45bO
+-----END PGP SIGNATURE-----
+
+--YC8Ek3FeOE8ywfXk--
