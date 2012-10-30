@@ -1,51 +1,45 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Tue, 30 Oct 2012 16:07:22 +0000
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 30 Oct 2012 17:14:41 +0000
 Subject: Re: [PATCH 1/5] ARM: at91: atmel-ssc: add platform device id table
-Message-Id: <20121030160722.GW4511@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="TPGKQYD3WP7vMswh"
+Message-Id: <50900B01.3000402@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1350901079-18307-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1350901079-18307-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com
+References: <1350901079-18307-1-git-send-email-voice.shen@atmel.com> <20121030160722.GW4511@opensource.wolfsonmicro.com>
+In-Reply-To: <20121030160722.GW4511@opensource.wolfsonmicro.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Cc: Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
---TPGKQYD3WP7vMswh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/30/2012 05:07 PM, Mark Brown :
+> On Mon, Oct 22, 2012 at 06:17:55PM +0800, Bo Shen wrote:
+>> Using platform device id to check whether the Atmel SOC support
+>> dma for data transfer
+>> 
+>> If match "at91rm9200_ssc" which does not support DMA transfer If
+>> match "at91sam9g45_ssc" which support DMA transfer
+> 
+> Any comments on this from that Atmel folks?  If I don't see
+> something I'll probably just apply.
 
-On Mon, Oct 22, 2012 at 06:17:55PM +0800, Bo Shen wrote:
-> Using platform device id to check whether the Atmel SOC support dma for
-> data transfer
->=20
-> If match "at91rm9200_ssc" which does not support DMA transfer
-> If match "at91sam9g45_ssc" which support DMA transfer
+Indeed, comment sent.
 
-Any comments on this from that Atmel folks?  If I don't see something
-I'll probably just apply.
+Thanks for the "heads-up" Mark.
 
---TPGKQYD3WP7vMswh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
+Best regards,
+- -- 
+Nicolas Ferre
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://www.enigmail.net/
 
-iQIcBAEBAgAGBQJQj/skAAoJELSic+t+oim9ckwQAIkmYadW1rMowFh2dS/3SgGN
-FRn7B4RxKvUpiJ6fsHK1UBwvqnB/pAS1Ry22lm63qJlU+o0hh3A14zSZzUsr1zl6
-naIQAKdYCzLe3QsaBqIkYKfjAuO2EbkeCJIyqoTizrELWg23dTfZFwErTDtvgJKm
-Yh03yoelcfoC+z34PTdlgPsUcbsIo0xbWxHyjcZm75awjNFK3RS5nj6mv/gh8Ppe
-AEu/eBy4n7cTpqPQseFizusbZFVpmCGlmXMJ89Tj4VrUqPJikIfOAtkVEJT5GCo2
-rfYorM5acKW+LB3i5ahZ0GWLkWla3+sxlnL0h2ymkXCJ7nYr/1B0GQP3SDeeAZKn
-AqPFhWvuQRojIS+ki7MrNkTXWUH72VD0fX/NKzPOtRdURw2zvB9nQAa1E/LjSuQe
-eT10AKcv+SL+8G2hXMNn64Hd6f5V23jVPBZv1wKQI8pXcVWGR+i8Q7BIz4ZZSgDv
-eGzBrdHlph6z2Z9BGTCjLEhlUQ1CfGxUvldIDEiILx5C0b2YMc6Q5K8iM+I+SITR
-wRCtPCORINha3ZzfLXTY/xE9KSRpruoxznOZiNQQdC0SG7LOHbjkMSpEQWBvdkQU
-2ztjR2bdRz2OBBeVLvmh0sRJoSRkzeu5spRWOkwsvCoeMvC402G/m8+6pQOaz3Nu
-vS2iMhP1/5ldpPVZinqX
-=u4Vn
+iQEcBAEBAgAGBQJQkAr2AAoJEAf03oE53VmQviMIAJrjBBi3ePMgP+jwRQuKw54A
+bZOHRmaqpGPh6cLAvXeUEkv2VflLcoYxIKiV1PZsNYctUHz/rrYX4y5bMwkJqJb1
+jWR1LDibKWny74pXiilrf4pgtabqhIQN8v64DjIg4vF8I6pzBBtlA3sBBQtRlJzB
+yQulBHP63vNDHlZm+AayeuWkF16Gh+FfDtYSNDy8w8lNjJLwQo2mNvI6WurSTI85
+mqidOzW5k0wrYo/6012vAzIV3BC+1Ck0A2gXhkS8yhuThS1xT+u4c3iTAMJE2FzZ
+PM4+JLf0o5fgtOkj0UzFuVea6BxNQ/qjwyV6y+cJ/QBS7DY7N9rmD+vrr8dpgMs=wvcs
 -----END PGP SIGNATURE-----
-
---TPGKQYD3WP7vMswh--
