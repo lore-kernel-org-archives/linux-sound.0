@@ -1,46 +1,58 @@
 From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Fri, 16 Nov 2012 01:26:17 +0000
-Subject: Re: [Patch v6 3/4] ASoC: atmel-ssc-dai: match new method of dai and pcm register
-Message-Id: <20121116012615.GJ4387@opensource.wolfsonmicro.com>
+Date: Thu, 01 Nov 2012 14:43:15 +0000
+Subject: Re: [Patch v2 3/4] ASoC: atmel-ssc-dai: register platform from DAIs
+Message-Id: <20121101144315.GM4413@opensource.wolfsonmicro.com>
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="zYo4Elh1vtcYNvbq"
+Content-Type: multipart/mixed; boundary="mI5TpPl/qDRoXxBg"
 List-Id: <linux-sound.vger.kernel.org>
-References: <1352887751-21848-1-git-send-email-voice.shen@atmel.com>
- <1352887751-21848-4-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1352887751-21848-4-git-send-email-voice.shen@atmel.com>
+References: <1351668420-18447-1-git-send-email-voice.shen@atmel.com>
+ <1351668420-18447-3-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1351668420-18447-3-git-send-email-voice.shen@atmel.com>
 To: Bo Shen <voice.shen@atmel.com>
-Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com
 
 
---zYo4Elh1vtcYNvbq
+--mI5TpPl/qDRoXxBg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Nov 14, 2012 at 06:09:10PM +0800, Bo Shen wrote:
-> Remove unneeded code with the new method of dai and pcm register
+On Wed, Oct 31, 2012 at 03:26:59PM +0800, Bo Shen wrote:
 
-Applied, thanks.
+> +Required properties:
+> +  - compatible: "atmel,atmel-ssc-dai"
+> +  - atmel,dai-master: this dai base on which ssc controller
 
---zYo4Elh1vtcYNvbq
+> +Example:
+> +dai: dai {
+> +	compatible = "atmel,atmel-ssc-dai";
+> +	atmel,dai-master = <&ssc0>;
+> +};
+
+This seems to be a purely virtual device which remaps the SSC onto the
+Linux audio subsystem?  If that is the case then it shouldn't appear in
+the device tree, the machine driver should just directly reference the
+SSC and instantiate any devices required in Linux directly.
+
+--mI5TpPl/qDRoXxBg
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.12 (GNU/Linux)
 
-iQIcBAEBAgAGBQJQpZYnAAoJELSic+t+oim9BCsP/2RC6vgN6FA1MS0VFTbmtSQz
-c1ckpdILvVBMY5thwKnealEgiorhxTpivoALpw9Ys74UtwNb4LHxMGRnPSsyfQc5
-qS+fhZV+s3aWPnxdFhOl9WUj+JgbVb2nXxf63nRwoc8mDwaOtUaTeGaD3pejte2+
-nvvQ38Xw2JCFmMx2lncutkjd3bu+l11Nj+PWOe9JF/3ilucpTbygaSltxkZzuEq+
-L6l9zsjAkulY9skab8KwvzTBGWRadRbthprbstaCHhhmmb5N2qJyFJCN7G8c9CIW
-7mv9g+u+MNp/Hr8BNu+sjiDF92jkDbyOC2B+LiTXYyZHcAqZV5XqU1TJvftdgaBk
-XZrpQNb2zKk7ptNb5wUPil69DRmAkM1a0mUXlPYd8asV9EDLw8BFMw6In2x6w58e
-C3lLEQCRT1amtwg4VAPHzFous3ZM3HU5VA3ifKoiQONBxl9eNxg8Bc25MYItoKWR
-ykldXEc/zgkOARBsZ8lnsrIdwjX/Xq3ITMLW6l7KJKJlnsVN95AuALzgFXFkYzcn
-AjmyRUd/CkXw1WYXK/SRiHyJwjmODhKcx+pbkP2i3TtKpUhxEZkv0+uIsCk6digf
-x1Oajx2yv1qLezvJkqxf9XrAFb3PQpaPB5EoNW++hKLn49lxLgzIYt9nwjKS24rB
-HmdY8H0ZrkhESCE5RyB2
-=V75I
+iQIcBAEBAgAGBQJQkop6AAoJELSic+t+oim97ZMQAJrZaTZvT5ZLJT0GFtbpWxBJ
+hwb1Z6VqNcsy4gDhRGZsKF7KqdByjbkLzEkfVpQWZzkpyYRZh55xwvzpTQL+82KI
+NA9QnYtcFu3NbYJtkGU/pyHWSnW+8lw6SFkP4ZW8jtejfQzaesTyJaeXjPo/xRFI
+930/gHH6EowVPWKnFkyG4JLLEHMT2bxDQ/ymDNHRpaq8Dfd0iZ+NwmOmm8zb/QOB
+Su1OW6RBJyUWOyaTMFdv9D/+PIlRhikK1kxLsu/QDf2KW7arZtm38cTx+TTjxdnk
+RhOERpK5QHHGEKD4ivEI1zxtaVAboCEQBd824eL3LoEnUo9uOFkWDaPzK018k27V
+ZT98fOikjTdFNDccWnyI0ZglRa/hGKIeBijVhbhGapmhWfnRfGRh0yLUlKO/YCNR
+5hNXfqw69u3Dxn7fPB+aHnvYkkm+8vKwPIrDil7LGxS5JUvuDH5JqxBpO3dGf0LI
+CYTwa9T3MWqcQs9VcHVLXvowR/5PoeQnI52Ley2H4hGGV0SDJmqPzXFQstUy4l1x
+XtHN9SmV2DxDTXMb2p9dea5pAM875ntRE1+iMHCcGgiSz2u03Nmc1NEqNnQcFN1U
+OLXCp1TT/GWp2yAYMEkYUDHjW6gHEGOjiPz6wRP3KBntsXSM+czaOR9+Bt0dZTLL
+KmK4TwhPg5+ih+kubyfw
+=Q8vq
 -----END PGP SIGNATURE-----
 
---zYo4Elh1vtcYNvbq--
+--mI5TpPl/qDRoXxBg--
