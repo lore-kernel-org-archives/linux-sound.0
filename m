@@ -1,58 +1,126 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Thu, 01 Nov 2012 14:43:15 +0000
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 02 Nov 2012 02:34:21 +0000
 Subject: Re: [Patch v2 3/4] ASoC: atmel-ssc-dai: register platform from DAIs
-Message-Id: <20121101144315.GM4413@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="mI5TpPl/qDRoXxBg"
+Message-Id: <5093312D.4070408@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1351668420-18447-1-git-send-email-voice.shen@atmel.com>
- <1351668420-18447-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1351668420-18447-3-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
+References: <1351668420-18447-1-git-send-email-voice.shen@atmel.com> <1351668420-18447-3-git-send-email-voice.shen@atmel.com> <20121101144315.GM4413@opensource.wolfsonmicro.com>
+In-Reply-To: <20121101144315.GM4413@opensource.wolfsonmicro.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@opensource.wolfsonmicro.com>
 Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com
 
+Hi Mark Brown,
 
---mI5TpPl/qDRoXxBg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 11/1/2012 22:43, Mark Brown wrote:
+> On Wed, Oct 31, 2012 at 03:26:59PM +0800, Bo Shen wrote:
+>
+>> +Required properties:
+>> +  - compatible: "atmel,atmel-ssc-dai"
+>> +  - atmel,dai-master: this dai base on which ssc controller
+>
+>> +Example:
+>> +dai: dai {
+>> +	compatible = "atmel,atmel-ssc-dai";
+>> +	atmel,dai-master = <&ssc0>;
+>> +};
+>
+> This seems to be a purely virtual device which remaps the SSC onto the
+> Linux audio subsystem?  If that is the case then it shouldn't appear in
+> the device tree,
 
-On Wed, Oct 31, 2012 at 03:26:59PM +0800, Bo Shen wrote:
+Yes. This is a purely virtual device. I add this as to the following reason.
 
-> +Required properties:
-> +  - compatible: "atmel,atmel-ssc-dai"
-> +  - atmel,dai-master: this dai base on which ssc controller
+In our case, the ssc can connect to audio codec, DAC and other devices. 
+In order to avoid duplicate the code, so keep ssc as a library, register 
+it directly in Linux and use remap method to let it work onto other 
+different subsystem.
 
-> +Example:
-> +dai: dai {
-> +	compatible = "atmel,atmel-ssc-dai";
-> +	atmel,dai-master = <&ssc0>;
-> +};
+So, for ssc connect to audio codec, use dai to remap the SSC onto the 
+Linux audio subsystem. In this way, just let the dai know which ssc 
+channel it based on. The remap is just a simple way. Please take 
+following code as a reference.
 
-This seems to be a purely virtual device which remaps the SSC onto the
-Linux audio subsystem?  If that is the case then it shouldn't appear in
-the device tree, the machine driver should just directly reference the
-SSC and instantiate any devices required in Linux directly.
+---<8---
+         if (pdev->dev.of_node) {
+                 struct device_node *np = pdev->dev.of_node;
+                 struct device_node *dai_master_np;
 
---mI5TpPl/qDRoXxBg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+                 dai_master_np = of_parse_phandle(np, 
+"atmel,dai-master", 0);
+                 if (!dai_master_np) {
+                         dev_err(&pdev->dev, "No SSC for atmel dai");
+                         return -EINVAL;
+                 }
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+                 id = of_alias_get_id(dai_master_np, "ssc");
+         } else {
+                 id = to_platform_device(pdev->dev.parent)->id;
+         }
 
-iQIcBAEBAgAGBQJQkop6AAoJELSic+t+oim97ZMQAJrZaTZvT5ZLJT0GFtbpWxBJ
-hwb1Z6VqNcsy4gDhRGZsKF7KqdByjbkLzEkfVpQWZzkpyYRZh55xwvzpTQL+82KI
-NA9QnYtcFu3NbYJtkGU/pyHWSnW+8lw6SFkP4ZW8jtejfQzaesTyJaeXjPo/xRFI
-930/gHH6EowVPWKnFkyG4JLLEHMT2bxDQ/ymDNHRpaq8Dfd0iZ+NwmOmm8zb/QOB
-Su1OW6RBJyUWOyaTMFdv9D/+PIlRhikK1kxLsu/QDf2KW7arZtm38cTx+TTjxdnk
-RhOERpK5QHHGEKD4ivEI1zxtaVAboCEQBd824eL3LoEnUo9uOFkWDaPzK018k27V
-ZT98fOikjTdFNDccWnyI0ZglRa/hGKIeBijVhbhGapmhWfnRfGRh0yLUlKO/YCNR
-5hNXfqw69u3Dxn7fPB+aHnvYkkm+8vKwPIrDil7LGxS5JUvuDH5JqxBpO3dGf0LI
-CYTwa9T3MWqcQs9VcHVLXvowR/5PoeQnI52Ley2H4hGGV0SDJmqPzXFQstUy4l1x
-XtHN9SmV2DxDTXMb2p9dea5pAM875ntRE1+iMHCcGgiSz2u03Nmc1NEqNnQcFN1U
-OLXCp1TT/GWp2yAYMEkYUDHjW6gHEGOjiPz6wRP3KBntsXSM+czaOR9+Bt0dZTLL
-KmK4TwhPg5+ih+kubyfw
-=Q8vq
------END PGP SIGNATURE-----
+         ssc = ssc_request(id);
+         if (IS_ERR(ssc)) {
+                 dev_err(&pdev->dev, "Failed to request SSC %d\n", id);
+                 return PTR_ERR(ssc);
+         }
+         ssc_info.ssc = ssc;
+         pdev->dev.parent = &(ssc->pdev->dev);
+--->8---
 
---mI5TpPl/qDRoXxBg--
+If ssc connect to other devices, also need to remap to other subsystem.
+
+the machine driver should just directly reference the
+> SSC and instantiate any devices required in Linux directly.
+
+I am not fully understand this. So, which do you mean as the following 
+two method or any other else?
+
+Our old method:
+   using audio machine driver (e.g: sam9g20_wm8731.c) call 
+atmel_ssc_set_audio function to allocate the platform device for 
+atmel-ssc-dai and atmel-pcm-audio and then add device.
+
+Code as following:
+---<8---
+/* Allocate a dummy device for DMA if we don't have one already */
+         if (!dma_pdev) {
+                 dma_pdev = platform_device_alloc("atmel-pcm-audio", -1);
+                 if (!dma_pdev)
+                         return -ENOMEM;
+
+                 ret = platform_device_add(dma_pdev);
+                 if (ret < 0) {
+                         platform_device_put(dma_pdev);
+                         dma_pdev = NULL;
+                         return ret;
+                 }
+         }
+
+         ssc_pdev = platform_device_alloc("atmel-ssc-dai", ssc_id);
+         if (!ssc_pdev)
+                 return -ENOMEM;
+
+         /* If we can grab the SSC briefly to parent the DAI device off 
+it */
+         ssc = ssc_request(ssc_id);
+         if (IS_ERR(ssc))
+                 pr_warn("Unable to parent ASoC SSC DAI on SSC: %ld\n",
+                         PTR_ERR(ssc));
+         else {
+                 ssc_pdev->dev.parent = &(ssc->pdev->dev);
+                 ssc_free(ssc);
+         }
+
+         ret = platform_device_add(ssc_pdev);
+--->8---
+
+Other SoC do like this:
+   register i2s device, and then register dai, finally register 
+platform. So, only one device.
+
+Best regards,
+Bo Shen
+
+
+
