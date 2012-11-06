@@ -1,369 +1,50 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 06 Nov 2012 05:57:52 +0000
-Subject: [RFC patch v3 2/4] ARM: at91: atmel-ssc: add device tree support
-Message-Id: <1352181474-19597-2-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Tue, 06 Nov 2012 08:58:57 +0000
+Subject: Re: [RFC patch v3 2/4] ARM: at91: atmel-ssc: add device tree support
+Message-Id: <20121106085856.GG5044@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="hTiIB9CRvBOLTyqY"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1352181474-19597-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1352181474-19597-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, nicolas.ferre@atmel.com
-Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, Bo Shen <voice.shen@atmel.com>
+ <1352181474-19597-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1352181474-19597-2-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com
 
-Add atmel-ssc for device tree support
 
-Match "atmel,at91rm9200-ssc" for using pdc for data transfer
-Match "atmel,at91sam9g45-ssc" for using pdc for data transfer
+--hTiIB9CRvBOLTyqY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
-Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
----
-Change since v2
-  No change
-Change since v1
-  change the underscore to dash in atmel-ssc binding document
----
- .../devicetree/bindings/misc/atmel-ssc.txt         |   15 ++++++
- arch/arm/boot/dts/at91sam9260.dtsi                 |    8 ++++
- arch/arm/boot/dts/at91sam9263.dtsi                 |   16 +++++++
- arch/arm/boot/dts/at91sam9g45.dtsi                 |   16 +++++++
- arch/arm/boot/dts/at91sam9x5.dtsi                  |    8 ++++
- arch/arm/mach-at91/at91rm9200.c                    |    3 ++
- arch/arm/mach-at91/at91sam9260.c                   |    1 +
- arch/arm/mach-at91/at91sam9261.c                   |    3 ++
- arch/arm/mach-at91/at91sam9263.c                   |    2 +
- arch/arm/mach-at91/at91sam9g45.c                   |    2 +
- arch/arm/mach-at91/at91sam9rl.c                    |    2 +
- arch/arm/mach-at91/at91sam9x5.c                    |    1 +
- drivers/misc/atmel-ssc.c                           |   49 ++++++++++++++++++--
- 13 files changed, 123 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/misc/atmel-ssc.txt
+On Tue, Nov 06, 2012 at 01:57:52PM +0800, Bo Shen wrote:
+> Add atmel-ssc for device tree support
+>=20
+> Match "atmel,at91rm9200-ssc" for using pdc for data transfer
+> Match "atmel,at91sam9g45-ssc" for using pdc for data transfer
 
-diff --git a/Documentation/devicetree/bindings/misc/atmel-ssc.txt b/Documentation/devicetree/bindings/misc/atmel-ssc.txt
-new file mode 100644
-index 0000000..38e51ad
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/atmel-ssc.txt
-@@ -0,0 +1,15 @@
-+* Atmel SSC driver.
-+
-+Required properties:
-+- compatible: "atmel,at91rm9200-ssc" or "atmel,at91sam9g45-ssc"
-+	- atmel,at91rm9200-ssc: support pdc transfer
-+	- atmel,at91sam9g45-ssc: support dma transfer
-+- reg: Should contain SSC registers location and length
-+- interrupts: Should contain SSC interrupt
-+
-+Example:
-+ssc0: ssc@fffbc000 {
-+	compatible = "atmel,at91rm9200-ssc";
-+	reg = <0xfffbc000 0x4000>;
-+	interrupts = <14 4 5>;
-+};
-diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
-index d410581..aaa42d8 100644
---- a/arch/arm/boot/dts/at91sam9260.dtsi
-+++ b/arch/arm/boot/dts/at91sam9260.dtsi
-@@ -29,6 +29,7 @@
- 		tcb0 = &tcb0;
- 		tcb1 = &tcb1;
- 		i2c0 = &i2c0;
-+		ssc0 = &ssc0;
- 	};
- 	cpus {
- 		cpu@0 {
-@@ -212,6 +213,13 @@
- 				status = "disabled";
- 			};
- 
-+			ssc0: ssc@fffbc000 {
-+				compatible = "atmel,at91rm9200-ssc";
-+				reg = <0xfffbc000 0x4000>;
-+				interrupts = <14 4 5>;
-+				status = "disable";
-+			};
-+
- 			adc0: adc@fffe0000 {
- 				compatible = "atmel,at91sam9260-adc";
- 				reg = <0xfffe0000 0x100>;
-diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
-index 3e6e5c1..3b721ee 100644
---- a/arch/arm/boot/dts/at91sam9263.dtsi
-+++ b/arch/arm/boot/dts/at91sam9263.dtsi
-@@ -25,6 +25,8 @@
- 		gpio4 = &pioE;
- 		tcb0 = &tcb0;
- 		i2c0 = &i2c0;
-+		ssc0 = &ssc0;
-+		ssc1 = &ssc1;
- 	};
- 	cpus {
- 		cpu@0 {
-@@ -173,6 +175,20 @@
- 				status = "disabled";
- 			};
- 
-+			ssc0: ssc@fff98000 {
-+				compatible = "atmel,at91rm9200-ssc";
-+				reg = <0xfff98000 0x4000>;
-+				interrupts = <16 4 5>;
-+				status = "disable";
-+			};
-+
-+			ssc1: ssc@fff9c000 {
-+				compatible = "atmel,at91rm9200-ssc";
-+				reg = <0xfff9c000 0x4000>;
-+				interrupts = <17 4 5>;
-+				status = "disable";
-+			};
-+
- 			macb0: ethernet@fffbc000 {
- 				compatible = "cdns,at32ap7000-macb", "cdns,macb";
- 				reg = <0xfffbc000 0x100>;
-diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
-index 3add030..cd9af7c 100644
---- a/arch/arm/boot/dts/at91sam9g45.dtsi
-+++ b/arch/arm/boot/dts/at91sam9g45.dtsi
-@@ -31,6 +31,8 @@
- 		tcb1 = &tcb1;
- 		i2c0 = &i2c0;
- 		i2c1 = &i2c1;
-+		ssc0 = &ssc0;
-+		ssc1 = &ssc1;
- 	};
- 	cpus {
- 		cpu@0 {
-@@ -226,6 +228,20 @@
- 				status = "disabled";
- 			};
- 
-+			ssc0: ssc@fff9c000 {
-+				compatible = "atmel,at91sam9g45-ssc";
-+				reg = <0xfff9c000 0x4000>;
-+				interrupts = <16 4 5>;
-+				status = "disable";
-+			};
-+
-+			ssc0: ssc@fffa0000 {
-+				compatible = "atmel,at91sam9g45-ssc";
-+				reg = <0xfffa0000 0x4000>;
-+				interrupts = <17 4 5>;
-+				status = "disable";
-+			};
-+
- 			adc0: adc@fffb0000 {
- 				compatible = "atmel,at91sam9260-adc";
- 				reg = <0xfffb0000 0x100>;
-diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
-index 03fc136..69667d0 100644
---- a/arch/arm/boot/dts/at91sam9x5.dtsi
-+++ b/arch/arm/boot/dts/at91sam9x5.dtsi
-@@ -30,6 +30,7 @@
- 		i2c0 = &i2c0;
- 		i2c1 = &i2c1;
- 		i2c2 = &i2c2;
-+		ssc0 = &ssc0;
- 	};
- 	cpus {
- 		cpu@0 {
-@@ -87,6 +88,13 @@
- 				interrupts = <1 4 7>;
- 			};
- 
-+			ssc0: ssc@f0010000 {
-+				compatible = "atmel,at91sam9g45-ssc";
-+				reg = <0xf0010000 0x4000>;
-+				interrupts = <28 4 5>;
-+				status = "disable";
-+			};
-+
- 			tcb0: timer@f8008000 {
- 				compatible = "atmel,at91sam9x5-tcb";
- 				reg = <0xf8008000 0x100>;
-diff --git a/arch/arm/mach-at91/at91rm9200.c b/arch/arm/mach-at91/at91rm9200.c
-index 85d53c5..6d65feb 100644
---- a/arch/arm/mach-at91/at91rm9200.c
-+++ b/arch/arm/mach-at91/at91rm9200.c
-@@ -187,6 +187,9 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.2", &ssc2_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffd0000.ssc", &ssc0_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffd4000.ssc", &ssc1_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffd8000.ssc", &ssc2_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91rm9200", &twi_clk),
- 	/* fake hclk clock */
- 	CLKDEV_CON_DEV_ID("hclk", "at91_ohci", &ohci_clk),
-diff --git a/arch/arm/mach-at91/at91sam9260.c b/arch/arm/mach-at91/at91sam9260.c
-index 2c8aab0..54d4aea 100644
---- a/arch/arm/mach-at91/at91sam9260.c
-+++ b/arch/arm/mach-at91/at91sam9260.c
-@@ -211,6 +211,7 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_DEV_ID("t1_clk", "atmel_tcb.1", &tc4_clk),
- 	CLKDEV_CON_DEV_ID("t2_clk", "atmel_tcb.1", &tc5_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffbc000.ssc", &ssc_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9260", &twi_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g20", &twi_clk),
- 	/* more usart lookup table for DT entries */
-diff --git a/arch/arm/mach-at91/at91sam9261.c b/arch/arm/mach-at91/at91sam9261.c
-index 4e8c56e..5c7a482 100644
---- a/arch/arm/mach-at91/at91sam9261.c
-+++ b/arch/arm/mach-at91/at91sam9261.c
-@@ -177,6 +177,9 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.2", &ssc2_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffbc000.ssc", &ssc0_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffc0000.ssc", &ssc1_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffc4000.ssc", &ssc2_clk),
- 	CLKDEV_CON_DEV_ID("hclk", "at91_ohci", &hck0),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9261", &twi_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g10", &twi_clk),
-diff --git a/arch/arm/mach-at91/at91sam9263.c b/arch/arm/mach-at91/at91sam9263.c
-index 95a5471..1f523de 100644
---- a/arch/arm/mach-at91/at91sam9263.c
-+++ b/arch/arm/mach-at91/at91sam9263.c
-@@ -188,6 +188,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_ID("hclk", &macb_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fff98000.ssc", &ssc0_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fff9c000.ssc", &ssc1_clk),
- 	CLKDEV_CON_DEV_ID("mci_clk", "atmel_mci.0", &mmc0_clk),
- 	CLKDEV_CON_DEV_ID("mci_clk", "atmel_mci.1", &mmc1_clk),
- 	CLKDEV_CON_DEV_ID("spi_clk", "atmel_spi.0", &spi0_clk),
-diff --git a/arch/arm/mach-at91/at91sam9g45.c b/arch/arm/mach-at91/at91sam9g45.c
-index f4f96a6..a4282d3 100644
---- a/arch/arm/mach-at91/at91sam9g45.c
-+++ b/arch/arm/mach-at91/at91sam9g45.c
-@@ -241,6 +241,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g10.1", &twi1_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91sam9g45_ssc.0", &ssc0_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91sam9g45_ssc.1", &ssc1_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fff9c000.ssc", &ssc0_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffa0000.ssc", &ssc1_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "atmel-trng", &trng_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "atmel_sha", &aestdessha_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "atmel_tdes", &aestdessha_clk),
-diff --git a/arch/arm/mach-at91/at91sam9rl.c b/arch/arm/mach-at91/at91sam9rl.c
-index 4110b54..b683fdc 100644
---- a/arch/arm/mach-at91/at91sam9rl.c
-+++ b/arch/arm/mach-at91/at91sam9rl.c
-@@ -186,6 +186,8 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_DEV_ID("t2_clk", "atmel_tcb.0", &tc2_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.0", &ssc0_clk),
- 	CLKDEV_CON_DEV_ID("pclk", "at91rm9200_ssc.1", &ssc1_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffc0000.ssc", &ssc0_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "fffc4000.ssc", &ssc1_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g20.0", &twi0_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "i2c-at91sam9g20.1", &twi1_clk),
- 	CLKDEV_CON_ID("pioA", &pioA_clk),
-diff --git a/arch/arm/mach-at91/at91sam9x5.c b/arch/arm/mach-at91/at91sam9x5.c
-index e503538..18fbbb2 100644
---- a/arch/arm/mach-at91/at91sam9x5.c
-+++ b/arch/arm/mach-at91/at91sam9x5.c
-@@ -231,6 +231,7 @@ static struct clk_lookup periph_clocks_lookups[] = {
- 	CLKDEV_CON_DEV_ID("t0_clk", "f800c000.timer", &tcb0_clk),
- 	CLKDEV_CON_DEV_ID("dma_clk", "ffffec00.dma-controller", &dma0_clk),
- 	CLKDEV_CON_DEV_ID("dma_clk", "ffffee00.dma-controller", &dma1_clk),
-+	CLKDEV_CON_DEV_ID("pclk", "f0010000.ssc", &ssc_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "f8010000.i2c", &twi0_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "f8014000.i2c", &twi1_clk),
- 	CLKDEV_CON_DEV_ID(NULL, "f8018000.i2c", &twi2_clk),
-diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-index f40abd8..a769719 100644
---- a/drivers/misc/atmel-ssc.c
-+++ b/drivers/misc/atmel-ssc.c
-@@ -18,6 +18,8 @@
- #include <linux/slab.h>
- #include <linux/module.h>
- 
-+#include <linux/of.h>
-+
- /* Serialize access to ssc_list and user count */
- static DEFINE_SPINLOCK(user_lock);
- static LIST_HEAD(ssc_list);
-@@ -29,7 +31,13 @@ struct ssc_device *ssc_request(unsigned int ssc_num)
- 
- 	spin_lock(&user_lock);
- 	list_for_each_entry(ssc, &ssc_list, list) {
--		if (ssc->pdev->id = ssc_num) {
-+		if (ssc->pdev->dev.of_node) {
-+			if (of_alias_get_id(ssc->pdev->dev.of_node, "ssc")
-+				= ssc_num) {
-+				ssc_valid = 1;
-+				break;
-+			}
-+		} else if (ssc->pdev->id = ssc_num) {
- 			ssc_valid = 1;
- 			break;
- 		}
-@@ -88,10 +96,41 @@ static const struct platform_device_id atmel_ssc_devtypes[] = {
- 	}
- };
- 
-+#ifdef CONFIG_OF
-+static const struct of_device_id atmel_ssc_dt_ids[] = {
-+	{
-+		.compatible = "atmel,at91rm9200-ssc",
-+		.data = &at91rm9200_config,
-+	}, {
-+		.compatible = "atmel,at91sam9g45-ssc",
-+		.data = &at91sam9g45_config,
-+	}, {
-+		/* sentinel */
-+	}
-+};
-+MODULE_DEVICE_TABLE(of, atmel_ssc_dt_ids);
-+#endif
-+
-+static inline const struct atmel_ssc_platform_data * __init
-+	atmel_ssc_get_driver_data(struct platform_device *pdev)
-+{
-+	if (pdev->dev.of_node) {
-+		const struct of_device_id *match;
-+		match = of_match_node(atmel_ssc_dt_ids, pdev->dev.of_node);
-+		if (match = NULL)
-+			return NULL;
-+		return match->data;
-+	}
-+
-+	return (struct atmel_ssc_platform_data *)
-+		platform_get_device_id(pdev)->driver_data;
-+}
-+
- static int ssc_probe(struct platform_device *pdev)
- {
- 	struct resource *regs;
- 	struct ssc_device *ssc;
-+	const struct atmel_ssc_platform_data *plat_dat;
- 
- 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
- 	if (!ssc) {
-@@ -100,8 +139,11 @@ static int ssc_probe(struct platform_device *pdev)
- 	}
- 
- 	ssc->pdev = pdev;
--	ssc->pdata = (struct atmel_ssc_platform_data *)
--			platform_get_device_id(pdev)->driver_data;
-+
-+	plat_dat = atmel_ssc_get_driver_data(pdev);
-+	if (!plat_dat)
-+		return -ENODEV;
-+	ssc->pdata = (struct atmel_ssc_platform_data *)plat_dat;
- 
- 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (!regs) {
-@@ -160,6 +202,7 @@ static struct platform_driver ssc_driver = {
- 	.driver		= {
- 		.name		= "ssc",
- 		.owner		= THIS_MODULE,
-+		.of_match_table	= of_match_ptr(atmel_ssc_dt_ids),
- 	},
- 	.id_table	= atmel_ssc_devtypes,
- 	.probe		= ssc_probe,
--- 
-1.7.9.5
+Applied, thanks.
 
+--hTiIB9CRvBOLTyqY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQmNFEAAoJELSic+t+oim9IYIP/i7LF9yS2NgT2SPYnqU2+VNE
+wML/m7223HFtJgaEFS1foA76dZVQK02n4Q+gNsSk5gQlwuR+uar46jjf6xOiLCUe
++1CpW6pFZA+jaq6dBLRPd9totI6zMSY8J+5wsyonQvuqHLvWbjRcdGvDXL1UdqLf
+C/JLUyFq3fExvljs4n/0nNYnJDPJz6pHCam0+9/+skRrJhdocqfsnPX1vf7XhE5T
+iKpNB8KTXy6jVuRv98l+jJxVhkGPe0Z7QPsKb69bTG3KPzoNSdsyVe0rTMf3EQci
+Y0T/z04rnU/b5Dsvc38q5RujY10Gu/7rWiM97EBjIKH34WTwYDGQ8zgsh4GoMH94
+tG0+3DNjq9Hw1YOUfYRSn3CJ3kkRLMEjInhqPtVvShXJnyyJp5edAXMHagbXRnpv
+2PiVITuanPguYS8oTIhncseOfc3y+A+inBi9nVKpGh9t41F5Wdv36l8dwREi8DqJ
+nT+y+xj8fEjpZ0k2fxVGZ0mvNhHjco8epbk2yAPoQ9jP7S5a2FX9zxmKtIV1JyNj
+jp7NVk6r9/anU7ylK/BsZ9BbLVk+YOc5sEEfHWu08b7atR6MEN1jFVGdffilpceb
+QutEfB3A+2cPPpRP3ESo1F7I1Kg1gQ/51NhaA5t7CTrygUWznuNNwrS+LdNLJB5R
+1XQcxKCfcjB+c+PROuSM
+=XJyV
+-----END PGP SIGNATURE-----
+
+--hTiIB9CRvBOLTyqY--
