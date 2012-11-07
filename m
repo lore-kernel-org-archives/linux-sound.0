@@ -1,65 +1,59 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Wed, 07 Nov 2012 09:21:24 +0000
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Wed, 07 Nov 2012 10:41:21 +0000
 Subject: Re: [Resend PATCH v3 2/4] ARM: at91: atmel-ssc: add device tree support
-Message-Id: <20121107092124.GE12323@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="lteA1dqeVaWQ9QQl"
+Message-Id: <20121107104121.GG20063@game.jcrosoft.org>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1352259701-19847-1-git-send-email-voice.shen@atmel.com>
  <20121107084932.GE20063@game.jcrosoft.org>
-In-Reply-To: <20121107084932.GE20063@game.jcrosoft.org>
-To: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-Cc: Bo Shen <voice.shen@atmel.com>, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, fengguang.wu@intel.com
+ <20121107092124.GE12323@opensource.wolfsonmicro.com>
+In-Reply-To: <20121107092124.GE12323-yzvPICuk2AATkU/dhu1WVueM+bqZidxxQQ4Iyu8u01E@public.gmane.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie-yzvPICuk2AATkU/dhu1WVueM+bqZidxxQQ4Iyu8u01E@public.gmane.org>
+Cc: alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, devicetree-discuss-uLR06cmDAlY/bJ5BZ2RsiQ@public.gmane.org, linux-sound-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Bo Shen <voice.shen-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+
+On 10:21 Wed 07 Nov     , Mark Brown wrote:
+> On Wed, Nov 07, 2012 at 09:49:32AM +0100, Jean-Christophe PLAGNIOL-VILLARD wrote:
+> 
+> > yes the pinctrl is mainline in -next via pinctrl tree
+> 
+> > s code does not work on the DT kernel untill it's done
+> 
+> > NACK stand I refuse this touch the at91 dtsi untiol it's done correctly
+> 
+> ...and here's another mail (plus a further private mail on the same
+> subject) by the time I managed to reply to the first one, the timestamps
+> say in about ten minutes :/  What I'm seeing here is two of the Atmel
+> maintainers disagreeing about a patch so I've got to pick one view and
+> right now applying the patch looks like it moves us further forwards.
+> 
+> Like I say it's not an issue right now and it seems like it should be
+> trivial to fix.  Is anything needed here other than adding the
+> pinctrl_get_set_default() call, in which case would it not be less
+> effort all round to just send the patch?  If there is more involved then
+> what is needed?
+for the driver point of view I agreee with you for the dtsi I disagree I miss
+100 lignes of pinctrl description
+
+so today if no pinctrl the pin are input gpio and the drivers will not work
+
+if this code was tested this work MUST have been done otherwise we will apply
+non tested work
+
+so dor the dtsi part I do NACK it and the pinctrl code is arropund for 2 or 3
+months so no excuse even Joachim who add the rm9200 support to DT handled the
+pinctrl so no exeption on at91 when switching to DT the pinctrl is mandatory
+
+If you want to apply the part of the patch that touch only the drivers I'm
+fine but for the dtsi no
 
 
---lteA1dqeVaWQ9QQl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Best Regards,
+J.
+> 
+> Thinking about it a little more I'm actually wondering why whatever
+> pinctrl change made this mandatory didn't go through and update all the
+> drivers.
 
-On Wed, Nov 07, 2012 at 09:49:32AM +0100, Jean-Christophe PLAGNIOL-VILLARD wrote:
 
-> yes the pinctrl is mainline in -next via pinctrl tree
-
-> s code does not work on the DT kernel untill it's done
-
-> NACK stand I refuse this touch the at91 dtsi untiol it's done correctly
-
-...and here's another mail (plus a further private mail on the same
-subject) by the time I managed to reply to the first one, the timestamps
-say in about ten minutes :/  What I'm seeing here is two of the Atmel
-maintainers disagreeing about a patch so I've got to pick one view and
-right now applying the patch looks like it moves us further forwards.
-
-Like I say it's not an issue right now and it seems like it should be
-trivial to fix.  Is anything needed here other than adding the
-pinctrl_get_set_default() call, in which case would it not be less
-effort all round to just send the patch?  If there is more involved then
-what is needed?
-
-Thinking about it a little more I'm actually wondering why whatever
-pinctrl change made this mandatory didn't go through and update all the
-drivers.
-
---lteA1dqeVaWQ9QQl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQIcBAEBAgAGBQJQmigNAAoJELSic+t+oim9S2AP/3VEl9akQMaE+NOglmg9wKDf
-5IkGR9/vra0AYgzeTUHvH8uRstlwy7w8GjwyVfs8rhEwLCNw1qfgLXrhOB8fbD1/
-aXa+UawRZ26yFSrKR6MxAOXl5IOAivyOYKz38ebffb+OO5C0jCSnk9ahC8zlBdjE
-KmEf5gBp1xtQEs3ospTkZ7kiLEePlDQ/HTujtqZ2xcEBJIVFWCHTnXOK099aVqcs
-SRakAxUsQ8tqd7iuDkTe9I50upF2tibeRzntSuIS3RET5j9BZrQyeGbSmoGNg7Xn
-OzeLGDtC7P8ip2mcEiKi/rSO5HrO6s9urv/v5FKHXqDe7hakqogPth4nzQgV6O8m
-kg3bC2ACYQ/LdHRt+EeMuKmntkrU18pbuQUqjT2D8Pv7TEp3cdKOrh5xVWc1GrF0
-yh0VGM3SvGvMjqXsYUJriMu5I10n/MCv55E001rPIXLGmDWP8+HtzkyA1C5lhTk6
-ChuZpF+ZiT05EFrWeRLs0TBN4i1eEWHzI5v9eWDYiCkQCTV43uZ7lrXcnnyHR10L
-RxCcLrAK3Gt2w5+vbalxp03Ry9XGxij8gCNQFxYCX1bVGWPIxvIocizropCTVFyz
-wV4Iv5KNlqXltIMoQ9QjYI6jUB4TFtAiipFxMjYA+PmVXM9k6qCnhsnSpk/kK8Su
-t4q1AxcpRc8UQvbeKFog
-=5Z76
------END PGP SIGNATURE-----
-
---lteA1dqeVaWQ9QQl--
