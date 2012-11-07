@@ -1,53 +1,72 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Wed, 07 Nov 2012 14:05:35 +0000
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Wed, 07 Nov 2012 14:30:46 +0000
 Subject: Re: [Resend PATCH v3 2/4] ARM: at91: atmel-ssc: add device tree support
-Message-Id: <20121107140535.GA28954@opensource.wolfsonmicro.com>
+Message-Id: <20121107143046.GA4576@game.jcrosoft.org>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1352259701-19847-1-git-send-email-voice.shen@atmel.com> <20121107084932.GE20063@game.jcrosoft.org> <20121107092124.GE12323@opensource.wolfsonmicro.com> <20121107104121.GG20063@game.jcrosoft.org>
-In-Reply-To: <20121107104121.GG20063@game.jcrosoft.org>
+References: <1352259701-19847-1-git-send-email-voice.shen@atmel.com>
+ <20121107084932.GE20063@game.jcrosoft.org>
+ <20121107092124.GE12323@opensource.wolfsonmicro.com>
+ <20121107104121.GG20063@game.jcrosoft.org>
+ <20121107140535.GA28954@opensource.wolfsonmicro.com>
+In-Reply-To: <20121107140535.GA28954@opensource.wolfsonmicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-Cc: Bo Shen <voice.shen@atmel.com>, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, fengguang.wu@intel.com
+To: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Cc: alsa-devel@alsa-project.org, devicetree-discuss@lists.ozlabs.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, fengguang.wu@intel.com, linux-arm-kernel@lists.infradead.org
 
-On Wed, Nov 07, 2012 at 11:41:21AM +0100, Jean-Christophe PLAGNIOL-VILLARD wrote:
-> On 10:21 Wed 07 Nov     , Mark Brown wrote:
+On 14:05 Wed 07 Nov     , Mark Brown wrote:
+> On Wed, Nov 07, 2012 at 11:41:21AM +0100, Jean-Christophe PLAGNIOL-VILLARD wrote:
+> > On 10:21 Wed 07 Nov     , Mark Brown wrote:
+> 
+> > > Like I say it's not an issue right now and it seems like it should be
+> > > trivial to fix.  Is anything needed here other than adding the
+> > > pinctrl_get_set_default() call, in which case would it not be less
+> > > effort all round to just send the patch?  If there is more involved then
+> > > what is needed?
+> 
+> > for the driver point of view I agreee with you for the dtsi I disagree I miss
+> > 100 lignes of pinctrl description
+> 
+> > so today if no pinctrl the pin are input gpio and the drivers will not work
+> 
+> > if this code was tested this work MUST have been done otherwise we will apply
+> > non tested work
+> 
+> > so dor the dtsi part I do NACK it and the pinctrl code is arropund for 2 or 3
+> > months so no excuse even Joachim who add the rm9200 support to DT handled the
+> > pinctrl so no exeption on at91 when switching to DT the pinctrl is mandatory
+> 
+> > If you want to apply the part of the patch that touch only the drivers I'm
+> > fine but for the dtsi no
+> 
+> So what the above is saying is that we should have a followup patch to
+> add the pinctrl setup to the DT (probably one that goes along with the
+> pinctrl changes and adds complete pinctrl setup for the affected boards
+> rather than just doing the audio piecemeal) and do the mindless call in
+> the driver.  That doesn't seem impossible.
+> 
+> So long as we get those things in place prior to the merge window we
+> should be fine.  Even if we don't manage that it still seems like having
+> the patch is better than not having it, from the sounds of it the boards
+> are going to be totally broken if they boot with DT but without the
+> pinctrl setup and the ASoC bindings are pretty much an orthogonal issue
+> to that.  Having the bindings for the SSC (which depend on this AFAICT)
+> will allow other machines which are doing a better job with pinctrl to
+> work.
+so for me Bo re do his patch series by splitting in 2 patch seires
 
-> > Like I say it's not an issue right now and it seems like it should be
-> > trivial to fix.  Is anything needed here other than adding the
-> > pinctrl_get_set_default() call, in which case would it not be less
-> > effort all round to just send the patch?  If there is more involved then
-> > what is needed?
+the one via ASoC for the driver with the pinctrl for now but MUST add it later
 
-> for the driver point of view I agreee with you for the dtsi I disagree I miss
-> 100 lignes of pinctrl description
+the arch/arm related via AT91 tree where the pinctrl is mandatory in the dtsi
 
-> so today if no pinctrl the pin are input gpio and the drivers will not work
+I'm no going to spend hours to do the pinctrl to test Bo patch that he is
+supposed to have deon to test this code
 
-> if this code was tested this work MUST have been done otherwise we will apply
-> non tested work
+As basically today on DT none of the board will work if BO does no provide the
+pinctrl so for me he MUST put in the dtsi
 
-> so dor the dtsi part I do NACK it and the pinctrl code is arropund for 2 or 3
-> months so no excuse even Joachim who add the rm9200 support to DT handled the
-> pinctrl so no exeption on at91 when switching to DT the pinctrl is mandatory
+is it ok with you?
 
-> If you want to apply the part of the patch that touch only the drivers I'm
-> fine but for the dtsi no
-
-So what the above is saying is that we should have a followup patch to
-add the pinctrl setup to the DT (probably one that goes along with the
-pinctrl changes and adds complete pinctrl setup for the affected boards
-rather than just doing the audio piecemeal) and do the mindless call in
-the driver.  That doesn't seem impossible.
-
-So long as we get those things in place prior to the merge window we
-should be fine.  Even if we don't manage that it still seems like having
-the patch is better than not having it, from the sounds of it the boards
-are going to be totally broken if they boot with DT but without the
-pinctrl setup and the ASoC bindings are pretty much an orthogonal issue
-to that.  Having the bindings for the SSC (which depend on this AFAICT)
-will allow other machines which are doing a better job with pinctrl to
-work.
-
-Does that seem reasonable?
+Best Regards,
+J.
