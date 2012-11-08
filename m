@@ -1,56 +1,176 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 07 Nov 2012 07:38:24 +0000
-Subject: Re: [RFC patch v3 3/4] ASoC: atmel-ssc-dai: register dai and pcm directly
-Message-Id: <509A0FF0.7030501@atmel.com>
+Date: Thu, 08 Nov 2012 07:57:02 +0000
+Subject: [RFC PATCH v4 2/2] ASoC: sam9g20-wm8731: convert to dt support
+Message-Id: <1352361422-13265-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1352181474-19597-1-git-send-email-voice.shen@atmel.com>
- <1352181474-19597-3-git-send-email-voice.shen@atmel.com>
- <20121106084814.GC5044@opensource.wolfsonmicro.com>
- <5098D930.8030403@atmel.com>
- <20121106113908.GC10080@opensource.wolfsonmicro.com>
-In-Reply-To: <20121106113908.GC10080@opensource.wolfsonmicro.com>
+References: <1352361422-13265-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1352361422-13265-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Cc: alsa-devel@alsa-project.org, devicetree-discuss@lists.ozlabs.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
+To: broonie@opensource.wolfsonmicro.com, nicolas.ferre@atmel.com
+Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
 
-On 11/6/2012 19:39, Mark Brown wrote:
-> On Tue, Nov 06, 2012 at 05:32:32PM +0800, Bo Shen wrote:
->> On 11/6/2012 16:48, Mark Brown wrote:
->>> On Tue, Nov 06, 2012 at 01:57:53PM +0800, Bo Shen wrote:
->
->>> No, this isn't converting things to device tree which presumably is the
->>> goal here and obviously just doing the rename doesn't accomplish an
->>> enormous amount.  What I said was that you should instantiate the ASoC
->>> adaption when the machine driver needs to use them.  You shouldn't even
->>> need a separate device for this.
->
->> Maybe this is not the best solution, but just abstract audio as a
->> separate device. The other's still keep as a ssc library.
->
-> It's not abstracting things, that's the whole problem.  It's putting the
-> internals of how the Linux audio stack is organised into the device
-> tree.  The point is that the SSC should be a library to all users.
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Change since v3 RFC:
+  Remove dai node, remap ssc in place
+  without pinctrl added, so don't modify the dtsi file, will be added
+  soon
+Change since v2:
+  No change
+Change since v1:
+  Add sam9g20-wm8731 binding document
+---
+ .../bindings/sound/atmel-sam9g20-wm8731-audio.txt  |   21 ++++++
+ sound/soc/atmel/Kconfig                            |    3 +-
+ sound/soc/atmel/sam9g20_wm8731.c                   |   71 ++++++++++++++++++--
+ 3 files changed, 88 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/atmel-sam9g20-wm8731-audio.txt
 
-OK. I will keep the SSC as a library for all users.
+diff --git a/Documentation/devicetree/bindings/sound/atmel-sam9g20-wm8731-audio.txt b/Documentation/devicetree/bindings/sound/atmel-sam9g20-wm8731-audio.txt
+new file mode 100644
+index 0000000..adf7e7c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/atmel-sam9g20-wm8731-audio.txt
+@@ -0,0 +1,21 @@
++* Atmel sam9g20ek audio complex
++
++Required properties:
++  - compatible: "atmel,at91sam9g20-audio"
++  - atmel,model: The user-visible name of this sound complex.
++  - atmel,audio-routing: A list of the connections between audio components.
++  - atmel,ssc-controller: The phandle of the SSC controller
++  - atmel,audio-codec: The phandle of the WM8731 audio codec
++
++Example:
++sound {
++	compatible = "atmel,at91sam9g20-audio";
++	atmel,model = "wm8731 @ AT91SAMG20EK";
++
++	atmel,audio-routing +		"Ext Spk", "LHPOUT",
++		"Int MIC", "MICIN";
++
++	atmel,ssc-controller = <&ssc0>;
++	atmel,audio-codec = <&wm8731>;
++};
+diff --git a/sound/soc/atmel/Kconfig b/sound/soc/atmel/Kconfig
+index 72b09cf..397ec75 100644
+--- a/sound/soc/atmel/Kconfig
++++ b/sound/soc/atmel/Kconfig
+@@ -16,8 +16,7 @@ config SND_ATMEL_SOC_SSC
+ 
+ config SND_AT91_SOC_SAM9G20_WM8731
+ 	tristate "SoC Audio support for WM8731-based At91sam9g20 evaluation board"
+-	depends on ATMEL_SSC && ARCH_AT91SAM9G20 && SND_ATMEL_SOC && \
+-                   AT91_PROGRAMMABLE_CLOCKS
++	depends on ATMEL_SSC && SND_ATMEL_SOC && AT91_PROGRAMMABLE_CLOCKS
+ 	select SND_ATMEL_SOC_SSC
+ 	select SND_SOC_WM8731
+ 	help
+diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
+index eef6eed..62c3a3d 100644
+--- a/sound/soc/atmel/sam9g20_wm8731.c
++++ b/sound/soc/atmel/sam9g20_wm8731.c
+@@ -197,14 +197,30 @@ static struct snd_soc_card snd_soc_at91sam9g20ek = {
+ 
+ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
+ {
++	struct device_node *np = pdev->dev.of_node;
++	struct device_node *codec_np, *cpu_np;
+ 	struct clk *pllb;
+ 	struct snd_soc_card *card = &snd_soc_at91sam9g20ek;
+-	int ret;
+-
+-	if (!(machine_is_at91sam9g20ek() || machine_is_at91sam9g20ek_2mmc()))
+-		return -ENODEV;
++	int ret, id;
++
++	if (np) {
++		cpu_np = of_parse_phandle(np, "atmel,ssc-controller", 0);
++		if (!cpu_np) {
++			dev_err(&pdev->dev, "codec info missing\n");
++			return -EINVAL;
++		}
++
++		id = of_alias_get_id(cpu_np, "ssc");
++		of_node_put(cpu_np);
++	} else {
++		if (!(machine_is_at91sam9g20ek() ||
++			machine_is_at91sam9g20ek_2mmc()))
++			return -ENODEV;
++
++		id = pdev->id;
++	}
+ 
+-	ret = atmel_ssc_set_audio(pdev->id);
++	ret = atmel_ssc_set_audio(id);
+ 	if (ret)
+ 		goto err;
+ 
+@@ -234,6 +250,42 @@ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
+ 	clk_set_rate(mclk, MCLK_RATE);
+ 
+ 	card->dev = &pdev->dev;
++
++	/* Parse device node info */
++	if (np) {
++		ret = snd_soc_of_parse_card_name(card, "atmel,model");
++		if (ret)
++			goto err;
++
++		ret = snd_soc_of_parse_audio_routing(card,
++			"atmel,audio-routing");
++		if (ret)
++			goto err;
++
++		/* Parse codec info */
++		at91sam9g20ek_dai.codec_name = NULL;
++		codec_np = of_parse_phandle(np, "atmel,audio-codec", 0);
++		if (!codec_np) {
++			dev_err(&pdev->dev, "codec info missing\n");
++			return -EINVAL;
++		}
++		at91sam9g20ek_dai.codec_of_node = codec_np;
++
++		/* Parse dai and platform info */
++		at91sam9g20ek_dai.cpu_dai_name = NULL;
++		at91sam9g20ek_dai.platform_name = NULL;
++		cpu_np = of_parse_phandle(np, "atmel,ssc-controller", 0);
++		if (!cpu_np) {
++			dev_err(&pdev->dev, "dai and pcm info missing\n");
++			return -EINVAL;
++		}
++		at91sam9g20ek_dai.cpu_of_node = cpu_np;
++		at91sam9g20ek_dai.platform_of_node = cpu_np;
++
++		of_node_put(codec_np);
++		of_node_put(cpu_np);
++	}
++
+ 	ret = snd_soc_register_card(card);
+ 	if (ret) {
+ 		printk(KERN_ERR "ASoC: snd_soc_register_card() failed\n");
+@@ -262,10 +314,19 @@ static int __devexit at91sam9g20ek_audio_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_OF
++static const struct of_device_id sam9g20ek_wm8731_dt_ids[] = {
++	{ .compatible = "atmel,at91sam9g20-audio", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, sam9g20ek_wm8731_dt_ids);
++#endif
++
+ static struct platform_driver at91sam9g20ek_audio_driver = {
+ 	.driver = {
+ 		.name	= "at91sam9g20ek-audio",
+ 		.owner	= THIS_MODULE,
++		.of_match_table = of_match_ptr(sam9g20ek_wm8731_dt_ids),
+ 	},
+ 	.probe	= at91sam9g20ek_audio_probe,
+ 	.remove	= __devexit_p(at91sam9g20ek_audio_remove),
+-- 
+1.7.9.5
 
->>> Please do look at other platforms with similar hardware and do something
->>> similar to them.
->
->> I take some reference (e.g: freescale, marvell, invidia soc, this
->> RFC implement is similar with them), but don't find the similar
->> hardware with us. Please help provide the information who's HW is
->> similar with us. Thanks.
->
-> A *huge* range of SoCs have generic serial ports - off the top of my
-> head this includes at least OMAP, PXA and Freescale.  The same issue
-> also applies to DMA controllers which affects almost all SoCs.
-
-Thanks for this information, I will try to implement the SSC framework 
-like this. If it is finished, I will send out v4 patch series.
-
-Thanks again.
-
-BRs,
-Bo Shen
