@@ -1,51 +1,263 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Mon, 26 Nov 2012 09:36:48 +0000
-Subject: Re: [PATCH 3/3] ASoC: atmel-pcm: add dma support
-Message-Id: <20121126093647.GA9411@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="VbJkn9YxBvnuCH5J"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 12 Nov 2012 07:40:27 +0000
+Subject: [PATCH 3/3] ASoC: at91sam9g20ek-wm8731: convert to dt support
+Message-Id: <1352706028-750-4-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1353651257-2476-1-git-send-email-voice.shen@atmel.com>
- <1353651257-2476-4-git-send-email-voice.shen@atmel.com>
- <20121123142747.GP4529@opensource.wolfsonmicro.com>
- <50B2CE2C.4080700@atmel.com>
-In-Reply-To: <50B2CE2C.4080700@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+References: <1352706028-750-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1352706028-750-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
+Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>
 
+convert at91sam9g20ek wm8731 to device tree support
 
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Change since v4 RFC:
+  Using the full name of the EK which make it more clear
+Change since v3 RFC:
+  Remove dai node, remap ssc in place
+  without pinctrl added, so don't modify the dtsi file, will be added
+  soon
+Change since v2:
+  No change
+Change since v1:
+  Add sam9g20-wm8731 binding document
+---
+ .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     |   26 +++++++
+ arch/arm/boot/dts/at91sam9g20ek_common.dtsi        |   34 ++++++++-
+ sound/soc/atmel/Kconfig                            |    3 +-
+ sound/soc/atmel/sam9g20_wm8731.c                   |   78 +++++++++++++++++++-
+ 4 files changed, 133 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
 
-On Mon, Nov 26, 2012 at 10:04:28AM +0800, Bo Shen wrote:
+diff --git a/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt b/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
+new file mode 100644
+index 0000000..9c5a994
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
+@@ -0,0 +1,26 @@
++* Atmel at91sam9g20ek wm8731 audio complex
++
++Required properties:
++  - compatible: "atmel,at91sam9g20ek-wm8731-audio"
++  - atmel,model: The user-visible name of this sound complex.
++  - atmel,audio-routing: A list of the connections between audio components.
++  - atmel,ssc-controller: The phandle of the SSC controller
++  - atmel,audio-codec: The phandle of the WM8731 audio codec
++Optional properties:
++  - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
++
++Example:
++sound {
++	compatible = "atmel,at91sam9g20ek-wm8731-audio";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_pck0_as_mck>;
++
++	atmel,model = "wm8731 @ AT91SAMG20EK";
++
++	atmel,audio-routing +		"Ext Spk", "LHPOUT",
++		"Int MIC", "MICIN";
++
++	atmel,ssc-controller = <&ssc0>;
++	atmel,audio-codec = <&wm8731>;
++};
+diff --git a/arch/arm/boot/dts/at91sam9g20ek_common.dtsi b/arch/arm/boot/dts/at91sam9g20ek_common.dtsi
+index 689323d..4c37546 100644
+--- a/arch/arm/boot/dts/at91sam9g20ek_common.dtsi
++++ b/arch/arm/boot/dts/at91sam9g20ek_common.dtsi
+@@ -30,6 +30,16 @@
+ 
+ 	ahb {
+ 		apb {
++			pinctrl@fffff400 {
++				board {
++					pinctrl_pck0_as_mck: pck0_as_mck {
++						atmel,pins +							<2 1 0x2 0x0>;	/* PC1 periph B */
++					};
++
++				};
++			};
++
+ 			dbgu: serial@fffff200 {
+ 				status = "okay";
+ 			};
+@@ -57,6 +67,11 @@
+ 				atmel,vbus-gpio = <&pioC 5 0>;
+ 				status = "okay";
+ 			};
++
++			ssc0: ssc@fffbc000 {
++				status = "okay";
++				pinctrl-0 = <&pinctrl_ssc0_tx>;
++			};
+ 		};
+ 
+ 		nand0: nand@40000000 {
+@@ -120,8 +135,8 @@
+ 			reg = <0x50>;
+ 		};
+ 
+-		wm8731@1b {
+-			compatible = "wm8731";
++		wm8731: wm8731@1b {
++			compatible = "wlf,wm8731";
+ 			reg = <0x1b>;
+ 		};
+ 	};
+@@ -145,4 +160,19 @@
+ 			gpio-key,wakeup;
+ 		};
+ 	};
++
++	sound {
++		compatible = "atmel,at91sam9g20ek-wm8731-audio";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pck0_as_mck>;
++
++		atmel,model = "wm8731 @ AT91SAMG20EK";
++
++		atmel,audio-routing +			"Ext Spk", "LHPOUT",
++			"Int Mic", "MICIN";
++
++		atmel,ssc-controller = <&ssc0>;
++		atmel,audio-codec = <&wm8731>;
++	};
+ };
+diff --git a/sound/soc/atmel/Kconfig b/sound/soc/atmel/Kconfig
+index 72b09cf..397ec75 100644
+--- a/sound/soc/atmel/Kconfig
++++ b/sound/soc/atmel/Kconfig
+@@ -16,8 +16,7 @@ config SND_ATMEL_SOC_SSC
+ 
+ config SND_AT91_SOC_SAM9G20_WM8731
+ 	tristate "SoC Audio support for WM8731-based At91sam9g20 evaluation board"
+-	depends on ATMEL_SSC && ARCH_AT91SAM9G20 && SND_ATMEL_SOC && \
+-                   AT91_PROGRAMMABLE_CLOCKS
++	depends on ATMEL_SSC && SND_ATMEL_SOC && AT91_PROGRAMMABLE_CLOCKS
+ 	select SND_ATMEL_SOC_SSC
+ 	select SND_SOC_WM8731
+ 	help
+diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
+index eef6eed..6bb9446 100644
+--- a/sound/soc/atmel/sam9g20_wm8731.c
++++ b/sound/soc/atmel/sam9g20_wm8731.c
+@@ -38,6 +38,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/i2c.h>
+ 
++#include <linux/pinctrl/consumer.h>
++
+ #include <linux/atmel-ssc.h>
+ 
+ #include <sound/core.h>
+@@ -197,14 +199,37 @@ static struct snd_soc_card snd_soc_at91sam9g20ek = {
+ 
+ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
+ {
++	struct device_node *np = pdev->dev.of_node;
++	struct device_node *codec_np, *cpu_np;
+ 	struct clk *pllb;
+ 	struct snd_soc_card *card = &snd_soc_at91sam9g20ek;
+-	int ret;
++	struct pinctrl *pinctrl;
++	int ret, id;
++
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		return PTR_ERR(pinctrl);
++	}
+ 
+-	if (!(machine_is_at91sam9g20ek() || machine_is_at91sam9g20ek_2mmc()))
+-		return -ENODEV;
++	if (np) {
++		cpu_np = of_parse_phandle(np, "atmel,ssc-controller", 0);
++		if (!cpu_np) {
++			dev_err(&pdev->dev, "codec info missing\n");
++			return -EINVAL;
++		}
++
++		id = of_alias_get_id(cpu_np, "ssc");
++		of_node_put(cpu_np);
++	} else {
++		if (!(machine_is_at91sam9g20ek() ||
++			machine_is_at91sam9g20ek_2mmc()))
++			return -ENODEV;
++
++		id = pdev->id;
++	}
+ 
+-	ret = atmel_ssc_set_audio(pdev->id);
++	ret = atmel_ssc_set_audio(id);
+ 	if (ret)
+ 		goto err;
+ 
+@@ -234,6 +259,42 @@ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
+ 	clk_set_rate(mclk, MCLK_RATE);
+ 
+ 	card->dev = &pdev->dev;
++
++	/* Parse device node info */
++	if (np) {
++		ret = snd_soc_of_parse_card_name(card, "atmel,model");
++		if (ret)
++			goto err;
++
++		ret = snd_soc_of_parse_audio_routing(card,
++			"atmel,audio-routing");
++		if (ret)
++			goto err;
++
++		/* Parse codec info */
++		at91sam9g20ek_dai.codec_name = NULL;
++		codec_np = of_parse_phandle(np, "atmel,audio-codec", 0);
++		if (!codec_np) {
++			dev_err(&pdev->dev, "codec info missing\n");
++			return -EINVAL;
++		}
++		at91sam9g20ek_dai.codec_of_node = codec_np;
++
++		/* Parse dai and platform info */
++		at91sam9g20ek_dai.cpu_dai_name = NULL;
++		at91sam9g20ek_dai.platform_name = NULL;
++		cpu_np = of_parse_phandle(np, "atmel,ssc-controller", 0);
++		if (!cpu_np) {
++			dev_err(&pdev->dev, "dai and pcm info missing\n");
++			return -EINVAL;
++		}
++		at91sam9g20ek_dai.cpu_of_node = cpu_np;
++		at91sam9g20ek_dai.platform_of_node = cpu_np;
++
++		of_node_put(codec_np);
++		of_node_put(cpu_np);
++	}
++
+ 	ret = snd_soc_register_card(card);
+ 	if (ret) {
+ 		printk(KERN_ERR "ASoC: snd_soc_register_card() failed\n");
+@@ -262,10 +323,19 @@ static int __devexit at91sam9g20ek_audio_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_OF
++static const struct of_device_id at91sam9g20ek_wm8731_dt_ids[] = {
++	{ .compatible = "atmel,at91sam9g20ek-wm8731-audio", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, at91sam9g20ek_wm8731_dt_ids);
++#endif
++
+ static struct platform_driver at91sam9g20ek_audio_driver = {
+ 	.driver = {
+ 		.name	= "at91sam9g20ek-audio",
+ 		.owner	= THIS_MODULE,
++		.of_match_table = of_match_ptr(at91sam9g20ek_wm8731_dt_ids),
+ 	},
+ 	.probe	= at91sam9g20ek_audio_probe,
+ 	.remove	= __devexit_p(at91sam9g20ek_audio_remove),
+-- 
+1.7.9.5
 
-> I am not sure I got your means.
-> As I understand, I should keep the driver using pdc and won't touch it.
-> And create new a new driver using dma, am I right?
-
-Yes.
-
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQIcBAEBAgAGBQJQszgnAAoJELSic+t+oim9htoP/1/uyE/uMlfd+h7LggTBvLbg
-/1V/FDiE0kITKwNEPeUmTCvjlPJ4Fzq+iHWPo4ljPGgvMesXMMBr92lLe0966f9Z
-8thAQQJHZyaAEIM+IDagFK33VtwyxuLUqPSmLFx3wLT7tysaWIXhv7RRfFfpTfv7
-DJARweQT4z9JfJuOHWZpeDlWgBW5MVcMeghn/lw4qOMENRUmCeBp62E38eOoioaU
-q+1EiP39f3j4VY5cYARrKCDFTIxSZv/l6nwP0BZnpWU29/LaVCtBq/gvNOU1g5o9
-HYSRDMzVpUsEIe0j68zky5qt/JO6Ef5kN7/iYy4tDhtWNDIEyAZF6m2e2mejB5q6
-Yrq4HVA7fIFsialLsKe4kxz1auU4VJ71+56aYTiEzlG1HTwCTnc5t0pIASiAb0C5
-6KKElZg0YfZ+CHq1Nzr1ICn7sQvBTkSXe0wfuqirj4AC/qbbIOa7fqorOEKYXs6T
-j/iPDON//p0AQJ48tyAzFFmVueYM1Qw66GGIQQsYiHtAWJhoSPAK8kUVncJdq/5l
-ViWXl3WoTHq7MrFzgC+z42efRcJoVwbjNu07IMZ7DH4sVxU3aa5tgHNhgMsZoTlK
-B7C9m4Br8TCKCvO7ur51PSVFTtHL4C4+14AcMC/PyY9mONwLiNv7YwMJxGwaWDh5
-GlT+INLMWkLuYJ67yZqE
-=4uN4
------END PGP SIGNATURE-----
-
---VbJkn9YxBvnuCH5J--
