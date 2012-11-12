@@ -1,476 +1,309 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 22 Oct 2012 10:17:57 +0000
-Subject: [PATCH 3/5] ASoC: atmel-ssc-dai: register 'platform' from DAIs
-Message-Id: <1350901079-18307-3-git-send-email-voice.shen@atmel.com>
+Date: Mon, 12 Nov 2012 07:40:25 +0000
+Subject: [PATCH v5 1/3] ARM: at91: atmel-ssc: add pinctrl support
+Message-Id: <1352706028-750-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1350901079-18307-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1350901079-18307-1-git-send-email-voice.shen@atmel.com>
+References: <1352706028-750-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1352706028-750-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, nicolas.ferre@atmel.com
-Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, plagnioj@jcrosoft.com, jm.lin@atmel.com, Bo Shen <voice.shen@atmel.com>
+To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
+Cc: Bo Shen <voice.shen@atmel.com>, devicetree-discuss@lists.ozlabs.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-Register platform from DAIs
-
-Although we have different number of SSC, but
-the one use for audio only need request when dai driver run probe
-function. So, remove the redundant code.
+Add pinctrl support for atmel ssc peripheral
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- sound/soc/atmel/atmel-pcm.c     |   23 +---
- sound/soc/atmel/atmel-pcm.h     |    3 +
- sound/soc/atmel/atmel_ssc_dai.c |  248 ++++++++++++---------------------------
- 3 files changed, 81 insertions(+), 193 deletions(-)
+Change since v4
+  - This is initial version
+---
+ arch/arm/boot/dts/at91sam9260.dtsi |   18 ++++++++++++++++++
+ arch/arm/boot/dts/at91sam9263.dtsi |   36 ++++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9g45.dtsi |   36 ++++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi |   26 ++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  |   32 +++++++++++++++++++++++++-------
+ drivers/misc/atmel-ssc.c           |    8 ++++++++
+ 6 files changed, 149 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/atmel/atmel-pcm.c b/sound/soc/atmel/atmel-pcm.c
-index 9b84f98..1e9cd2c 100644
---- a/sound/soc/atmel/atmel-pcm.c
-+++ b/sound/soc/atmel/atmel-pcm.c
-@@ -473,28 +473,17 @@ static struct snd_soc_platform_driver atmel_soc_platform = {
- 	.resume		= atmel_pcm_resume,
- };
+diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
+index 3164dcd..8e3fe92 100644
+--- a/arch/arm/boot/dts/at91sam9260.dtsi
++++ b/arch/arm/boot/dts/at91sam9260.dtsi
+@@ -217,6 +217,22 @@
+ 					};
+ 				};
  
--static int __devinit atmel_soc_platform_probe(struct platform_device *pdev)
-+int __devinit atmel_pcm_platform_register(struct device *dev)
- {
--	return snd_soc_register_platform(&pdev->dev, &atmel_soc_platform);
-+	return snd_soc_register_platform(dev, &atmel_soc_platform);
- }
-+EXPORT_SYMBOL(atmel_pcm_platform_register);
- 
--static int __devexit atmel_soc_platform_remove(struct platform_device *pdev)
-+void __devexit atmel_pcm_platform_unregister(struct device *dev)
- {
--	snd_soc_unregister_platform(&pdev->dev);
--	return 0;
-+	snd_soc_unregister_platform(dev);
- }
--
--static struct platform_driver atmel_pcm_driver = {
--	.driver = {
--			.name = "atmel-pcm-audio",
--			.owner = THIS_MODULE,
--	},
--
--	.probe = atmel_soc_platform_probe,
--	.remove = __devexit_p(atmel_soc_platform_remove),
--};
--
--module_platform_driver(atmel_pcm_driver);
-+EXPORT_SYMBOL(atmel_pcm_platform_unregister);
- 
- MODULE_AUTHOR("Sedji Gaouaou <sedji.gaouaou@atmel.com>");
- MODULE_DESCRIPTION("Atmel PCM module");
-diff --git a/sound/soc/atmel/atmel-pcm.h b/sound/soc/atmel/atmel-pcm.h
-index 5e0a95e..2d1c60f 100644
---- a/sound/soc/atmel/atmel-pcm.h
-+++ b/sound/soc/atmel/atmel-pcm.h
-@@ -80,4 +80,7 @@ struct atmel_pcm_dma_params {
- #define ssc_readx(base, reg)            (__raw_readl((base) + (reg)))
- #define ssc_writex(base, reg, value)    __raw_writel((value), (base) + (reg))
- 
-+int __devexit atmel_pcm_platform_register(struct device *dev);
-+void __devexit atmel_pcm_platform_unregister(struct device *dev);
++				ssc0 {
++					pinctrl_ssc0_tx: ssc0_tx-0 {
++						atmel,pins +							<1 16 0x1 0x1	/* PB16 periph A with pull up */
++							 1 17 0x1 0x1	/* PB17 periph A with pull up */
++							 1 18 0x1 0x1>;	/* PB18 periph A with pull up */
++					};
 +
- #endif /* _ATMEL_PCM_H */
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 354341e..4436e09 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -42,18 +42,13 @@
- #include <sound/initval.h>
- #include <sound/soc.h>
- 
-+#include <linux/of.h>
++					pinctrl_ssc0_rx: ssc0_rx-0 {
++						atmel,pins +							<1 19 0x1 0x1	/* PB19 periph A with pull up */
++							 1 20 0x1 0x1	/* PB20 periph A with pull up */
++							 1 21 0x1 0x1>;	/* PB21 periph A with pull up */
++					};
++				};
 +
- #include <mach/hardware.h>
+ 				pioA: gpio@fffff400 {
+ 					compatible = "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff400 0x200>;
+@@ -350,6 +366,8 @@
+ 				compatible = "atmel,at91rm9200-ssc";
+ 				reg = <0xfffbc000 0x4000>;
+ 				interrupts = <14 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
+ 				status = "disable";
+ 			};
  
- #include "atmel-pcm.h"
- #include "atmel_ssc_dai.h"
+diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
+index 96e0bc9..80e0811 100644
+--- a/arch/arm/boot/dts/at91sam9263.dtsi
++++ b/arch/arm/boot/dts/at91sam9263.dtsi
+@@ -165,6 +165,38 @@
+ 					};
+ 				};
  
--
--#if defined(CONFIG_ARCH_AT91SAM9260) || defined(CONFIG_ARCH_AT91SAM9G20)
--#define NUM_SSC_DEVICES		1
--#else
--#define NUM_SSC_DEVICES		3
--#endif
--
- /*
-  * SSC PDC registers required by the PCM DMA engine.
-  */
-@@ -96,63 +91,24 @@ static struct atmel_ssc_mask ssc_rx_mask = {
- /*
-  * DMA parameters.
-  */
--static struct atmel_pcm_dma_params ssc_dma_params[NUM_SSC_DEVICES][2] = {
--	{{
--	.name		= "SSC0 PCM out",
--	.pdc		= &pdc_tx_reg,
--	.mask		= &ssc_tx_mask,
--	},
-+static struct atmel_pcm_dma_params ssc_dma_params[2] = {
- 	{
--	.name		= "SSC0 PCM in",
--	.pdc		= &pdc_rx_reg,
--	.mask		= &ssc_rx_mask,
--	} },
--#if NUM_SSC_DEVICES = 3
--	{{
--	.name		= "SSC1 PCM out",
-+	.name		= "SSC PCM out",
- 	.pdc		= &pdc_tx_reg,
- 	.mask		= &ssc_tx_mask,
- 	},
- 	{
--	.name		= "SSC1 PCM in",
-+	.name		= "SSC PCM in",
- 	.pdc		= &pdc_rx_reg,
- 	.mask		= &ssc_rx_mask,
--	} },
--	{{
--	.name		= "SSC2 PCM out",
--	.pdc		= &pdc_tx_reg,
--	.mask		= &ssc_tx_mask,
- 	},
--	{
--	.name		= "SSC2 PCM in",
--	.pdc		= &pdc_rx_reg,
--	.mask		= &ssc_rx_mask,
--	} },
--#endif
- };
- 
--
--static struct atmel_ssc_info ssc_info[NUM_SSC_DEVICES] = {
--	{
--	.name		= "ssc0",
-+static struct atmel_ssc_info ssc_info = {
-+	.name		= "ssc",
- 	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info[0].lock),
- 	.dir_mask	= SSC_DIR_MASK_UNUSED,
- 	.initialized	= 0,
--	},
--#if NUM_SSC_DEVICES = 3
--	{
--	.name		= "ssc1",
--	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info[1].lock),
--	.dir_mask	= SSC_DIR_MASK_UNUSED,
--	.initialized	= 0,
--	},
--	{
--	.name		= "ssc2",
--	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info[2].lock),
--	.dir_mask	= SSC_DIR_MASK_UNUSED,
--	.initialized	= 0,
--	},
--#endif
- };
- 
- 
-@@ -205,7 +161,7 @@ static irqreturn_t atmel_ssc_interrupt(int irq, void *dev_id)
- static int atmel_ssc_startup(struct snd_pcm_substream *substream,
- 			     struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	int dir_mask;
- 
- 	pr_debug("atmel_ssc_startup: SSC_SR=0x%u\n",
-@@ -234,7 +190,7 @@ static int atmel_ssc_startup(struct snd_pcm_substream *substream,
- static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- 			       struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir, dir_mask;
- 
-@@ -285,7 +241,7 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- static int atmel_ssc_set_dai_fmt(struct snd_soc_dai *cpu_dai,
- 		unsigned int fmt)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[cpu_dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 
- 	ssc_p->daifmt = fmt;
- 	return 0;
-@@ -297,7 +253,7 @@ static int atmel_ssc_set_dai_fmt(struct snd_soc_dai *cpu_dai,
- static int atmel_ssc_set_dai_clkdiv(struct snd_soc_dai *cpu_dai,
- 	int div_id, int div)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[cpu_dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 
- 	switch (div_id) {
- 	case ATMEL_SSC_CMR_DIV:
-@@ -336,8 +292,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_soc_dai *dai)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_pcm_substream_chip(substream);
--	int id = dai->id;
--	struct atmel_ssc_info *ssc_p = &ssc_info[id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir, channels, bits;
- 	u32 tfmr, rfmr, tcmr, rcmr;
-@@ -354,7 +309,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	else
- 		dir = 1;
- 
--	dma_params = &ssc_dma_params[id][dir];
-+	dma_params = &ssc_dma_params[dir];
- 	dma_params->ssc = ssc_p->ssc;
- 	dma_params->substream = substream;
- 
-@@ -603,7 +558,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- static int atmel_ssc_prepare(struct snd_pcm_substream *substream,
- 			     struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir;
- 
-@@ -631,7 +586,7 @@ static int atmel_ssc_suspend(struct snd_soc_dai *cpu_dai)
- 	if (!cpu_dai->active)
- 		return 0;
- 
--	ssc_p = &ssc_info[cpu_dai->id];
-+	ssc_p = &ssc_info;
- 
- 	/* Save the status register before disabling transmit and receive */
- 	ssc_p->ssc_state.ssc_sr = ssc_readl(ssc_p->ssc->regs, SR);
-@@ -660,7 +615,7 @@ static int atmel_ssc_resume(struct snd_soc_dai *cpu_dai)
- 	if (!cpu_dai->active)
- 		return 0;
- 
--	ssc_p = &ssc_info[cpu_dai->id];
-+	ssc_p = &ssc_info;
- 
- 	/* restore SSC register settings */
- 	ssc_writel(ssc_p->ssc->regs, TFMR, ssc_p->ssc_state.ssc_tfmr);
-@@ -689,31 +644,14 @@ static int atmel_ssc_resume(struct snd_soc_dai *cpu_dai)
- 
- static int atmel_ssc_probe(struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	int ret = 0;
- 
- 	snd_soc_dai_set_drvdata(dai, ssc_p);
- 
--	/*
--	 * Request SSC device
--	 */
--	ssc_p->ssc = ssc_request(dai->id);
--	if (IS_ERR(ssc_p->ssc)) {
--		printk(KERN_ERR "ASoC: Failed to request SSC %d\n", dai->id);
--		ret = PTR_ERR(ssc_p->ssc);
--	}
--
- 	return ret;
- }
- 
--static int atmel_ssc_remove(struct snd_soc_dai *dai)
--{
--	struct atmel_ssc_info *ssc_p = snd_soc_dai_get_drvdata(dai);
--
--	ssc_free(ssc_p->ssc);
--	return 0;
--}
--
- #define ATMEL_SSC_RATES (SNDRV_PCM_RATE_8000_96000)
- 
- #define ATMEL_SSC_FORMATS (SNDRV_PCM_FMTBIT_S8     | SNDRV_PCM_FMTBIT_S16_LE |\
-@@ -728,11 +666,9 @@ static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
- 	.set_clkdiv	= atmel_ssc_set_dai_clkdiv,
- };
- 
--static struct snd_soc_dai_driver atmel_ssc_dai[NUM_SSC_DEVICES] = {
--	{
--		.name = "atmel-ssc-dai.0",
-+static struct snd_soc_dai_driver atmel_ssc_dai = {
-+		.name = "atmel-ssc-dai",
- 		.probe = atmel_ssc_probe,
--		.remove = atmel_ssc_remove,
- 		.suspend = atmel_ssc_suspend,
- 		.resume = atmel_ssc_resume,
- 		.playback = {
-@@ -746,119 +682,79 @@ static struct snd_soc_dai_driver atmel_ssc_dai[NUM_SSC_DEVICES] = {
- 			.rates = ATMEL_SSC_RATES,
- 			.formats = ATMEL_SSC_FORMATS,},
- 		.ops = &atmel_ssc_dai_ops,
--	},
--#if NUM_SSC_DEVICES = 3
--	{
--		.name = "atmel-ssc-dai.1",
--		.probe = atmel_ssc_probe,
--		.remove = atmel_ssc_remove,
--		.suspend = atmel_ssc_suspend,
--		.resume = atmel_ssc_resume,
--		.playback = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.capture = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.ops = &atmel_ssc_dai_ops,
--	},
--	{
--		.name = "atmel-ssc-dai.2",
--		.probe = atmel_ssc_probe,
--		.remove = atmel_ssc_remove,
--		.suspend = atmel_ssc_suspend,
--		.resume = atmel_ssc_resume,
--		.playback = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.capture = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.ops = &atmel_ssc_dai_ops,
--	},
--#endif
- };
- 
- static __devinit int asoc_ssc_probe(struct platform_device *pdev)
- {
--	BUG_ON(pdev->id < 0);
--	BUG_ON(pdev->id >= ARRAY_SIZE(atmel_ssc_dai));
--	return snd_soc_register_dai(&pdev->dev, &atmel_ssc_dai[pdev->id]);
-+	int ret, id;
++				ssc0 {
++					pinctrl_ssc0_tx: ssc0_tx-0 {
++						atmel,pins +							<1 0 0x2 0x1	/* PB0 periph B with pull up */
++							 1 1 0x2 0x1	/* PB1 periph B with pull up */
++							 1 2 0x2 0x1>;	/* PB2 periph B with pull up */
++					};
 +
-+	if (pdev->dev.of_node) {
-+		struct device_node *np = pdev->dev.of_node;
-+		struct device_node *dai_master_np;
++					pinctrl_ssc0_rx: ssc0_rx-0 {
++						atmel,pins +							<1 3 0x2 0x1	/* PB3 periph B with pull up */
++							 1 4 0x2 0x1	/* PB4 periph B with pull up */
++							 1 5 0x2 0x1>;	/* PB5 periph B with pull up */
++					};
++				};
 +
-+		dai_master_np = of_parse_phandle(np, "atmel,dai-master", 0);
-+		if (!dai_master_np) {
-+			dev_err(&pdev->dev, "No SSC for atmel dai");
-+			return -EINVAL;
-+		}
++				ssc1 {
++					pinctrl_ssc1_tx: ssc1_tx-0 {
++						atmel,pins +							<1 6 0x1 0x1	/* PB6 periph A with pull up */
++							 1 7 0x1 0x1	/* PB7 periph A with pull up */
++							 1 8 0x1 0x1>;	/* PB8 periph A with pull up */
++					};
 +
-+		id = of_alias_get_id(dai_master_np, "ssc");
-+	} else {
-+		id = to_platform_device(pdev->dev.parent)->id;
++					pinctrl_ssc1_rx: ssc1_rx-0 {
++						atmel,pins +							<1 9 0x1 0x1	/* PB9 periph A with pull up */
++							 1 10 0x1 0x1	/* PB10 periph A with pull up */
++							 1 11 0x1 0x1>;	/* PB11 periph A with pull up */
++					};
++				};
++
+ 				pioA: gpio@fffff200 {
+ 					compatible = "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff200 0x200>;
+@@ -262,6 +294,8 @@
+ 				compatible = "atmel,at91rm9200-ssc";
+ 				reg = <0xfff98000 0x4000>;
+ 				interrupts = <16 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
+ 				status = "disable";
+ 			};
+ 
+@@ -269,6 +303,8 @@
+ 				compatible = "atmel,at91rm9200-ssc";
+ 				reg = <0xfff9c000 0x4000>;
+ 				interrupts = <17 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc1_tx &pinctrl_ssc1_rx>;
+ 				status = "disable";
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
+index c40c3eb..b969247 100644
+--- a/arch/arm/boot/dts/at91sam9g45.dtsi
++++ b/arch/arm/boot/dts/at91sam9g45.dtsi
+@@ -198,6 +198,38 @@
+ 					};
+ 				};
+ 
++				ssc0 {
++					pinctrl_ssc0_tx: ssc0_tx-0 {
++						atmel,pins +							<3 0 0x1 0x1	/* PD0 periph A with pull up */
++							 3 1 0x1 0x1	/* PD1 periph A with pull up */
++							 3 2 0x1 0x1>;	/* PD2 periph A with pull up */
++					};
++
++					pinctrl_ssc0_rx: ssc0_rx-0 {
++						atmel,pins +							<3 3 0x1 0x1	/* PD3 periph A with pull up */
++							 3 4 0x1 0x1	/* PD4 periph A with pull up */
++							 3 5 0x1 0x1>;	/* PD5 periph A with pull up */
++					};
++				};
++
++				ssc1 {
++					pinctrl_ssc1_tx: ssc1_tx-0 {
++						atmel,pins +							<3 10 0x1 0x1	/* PD10 periph A with pull up */
++							 3 11 0x1 0x1	/* PD11 periph A with pull up */
++							 3 12 0x1 0x1>;	/* PD12 periph A with pull up */
++					};
++
++					pinctrl_ssc1_rx: ssc1_rx-0 {
++						atmel,pins +							<3 13 0x1 0x1	/* PD13 periph A with pull up */
++							 3 14 0x1 0x1	/* PD14 periph A with pull up */
++							 3 15 0x1 0x1>;	/* PD15 periph A with pull up */
++					};
++				};
++
+ 				pioA: gpio@fffff200 {
+ 					compatible = "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff200 0x200>;
+@@ -331,6 +363,8 @@
+ 				compatible = "atmel,at91sam9g45-ssc";
+ 				reg = <0xfff9c000 0x4000>;
+ 				interrupts = <16 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
+ 				status = "disable";
+ 			};
+ 
+@@ -338,6 +372,8 @@
+ 				compatible = "atmel,at91sam9g45-ssc";
+ 				reg = <0xfffa0000 0x4000>;
+ 				interrupts = <17 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc1_tx &pinctrl_ssc1_rx>;
+ 				status = "disable";
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/at91sam9n12.dtsi b/arch/arm/boot/dts/at91sam9n12.dtsi
+index 7b644c5..f39ffa3 100644
+--- a/arch/arm/boot/dts/at91sam9n12.dtsi
++++ b/arch/arm/boot/dts/at91sam9n12.dtsi
+@@ -28,6 +28,7 @@
+ 		tcb1 = &tcb1;
+ 		i2c0 = &i2c0;
+ 		i2c1 = &i2c1;
++		ssc0 = &ssc0;
+ 	};
+ 	cpus {
+ 		cpu@0 {
+@@ -199,6 +200,22 @@
+ 					};
+ 				};
+ 
++				ssc0 {
++					pinctrl_ssc0_tx: ssc0_tx-0 {
++						atmel,pins +							<0 24 0x1 0x1	/* PA24 periph A with pull up */
++							 0 25 0x1 0x1	/* PA25 periph A with pull up */
++							 0 26 0x1 0x1>;	/* PA26 periph A with pull up */
++					};
++
++					pinctrl_ssc0_rx: ssc0_rx-0 {
++						atmel,pins +							<0 27 0x1 0x1	/* PA27 periph A with pull up */
++							 0 28 0x1 0x1	/* PA28 periph A with pull up */
++							 0 29 0x1 0x1>;	/* PA29 periph A with pull up */
++					};
++				};
++
+ 				pioA: gpio@fffff400 {
+ 					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff400 0x200>;
+@@ -249,6 +266,15 @@
+ 				status = "disabled";
+ 			};
+ 
++			ssc0: ssc@f0010000 {
++				compatible = "atmel,at91sam9g45-ssc";
++				reg = <0xf0010000 0x4000>;
++				interrupts = <28 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
++				status = "disable";
++			};
++
+ 			usart0: serial@f801c000 {
+ 				compatible = "atmel,at91sam9260-usart";
+ 				reg = <0xf801c000 0x4000>;
+diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
+index 1cb26c28..b60e15e 100644
+--- a/arch/arm/boot/dts/at91sam9x5.dtsi
++++ b/arch/arm/boot/dts/at91sam9x5.dtsi
+@@ -88,13 +88,6 @@
+ 				interrupts = <1 4 7>;
+ 			};
+ 
+-			ssc0: ssc@f0010000 {
+-				compatible = "atmel,at91sam9g45-ssc";
+-				reg = <0xf0010000 0x4000>;
+-				interrupts = <28 4 5>;
+-				status = "disable";
+-			};
+-
+ 			tcb0: timer@f8008000 {
+ 				compatible = "atmel,at91sam9x5-tcb";
+ 				reg = <0xf8008000 0x100>;
+@@ -214,6 +207,22 @@
+ 					};
+ 				};
+ 
++				ssc0 {
++					pinctrl_ssc0_tx: ssc0_tx-0 {
++						atmel,pins +							<0 24 0x1 0x1	/* PA24 periph A with pull up */
++							 0 25 0x1 0x1	/* PA25 periph A with pull up */
++							 0 26 0x1 0x1>;	/* PA26 periph A with pull up */
++					};
++
++					pinctrl_ssc0_rx: ssc0_rx-0 {
++						atmel,pins +							<0 27 0x1 0x1	/* PA27 periph A with pull up */
++							 0 28 0x1 0x1	/* PA28 periph A with pull up */
++							 0 29 0x1 0x1>;	/* PA29 periph A with pull up */
++					};
++				};
++
+ 				pioA: gpio@fffff400 {
+ 					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+ 					reg = <0xfffff400 0x200>;
+@@ -266,6 +275,15 @@
+ 				status = "disabled";
+ 			};
+ 
++			ssc0: ssc@f0010000 {
++				compatible = "atmel,at91sam9g45-ssc";
++				reg = <0xf0010000 0x4000>;
++				interrupts = <28 4 5>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
++				status = "disable";
++			};
++
+ 			usart0: serial@f801c000 {
+ 				compatible = "atmel,at91sam9260-usart";
+ 				reg = <0xf801c000 0x200>;
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index a769719..3b3d0e0 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -19,6 +19,7 @@
+ #include <linux/module.h>
+ 
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
+ 
+ /* Serialize access to ssc_list and user count */
+ static DEFINE_SPINLOCK(user_lock);
+@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
+ 	struct resource *regs;
+ 	struct ssc_device *ssc;
+ 	const struct atmel_ssc_platform_data *plat_dat;
++	struct pinctrl *pinctrl;
++
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		return PTR_ERR(pinctrl);
 +	}
-+
-+	ssc_info.ssc = ssc_request(id);
-+	if (IS_ERR(ssc_info.ssc)) {
-+		dev_err(&pdev->dev, "Failed to request SSC %d\n", id);
-+		return PTR_ERR(ssc_info.ssc);
-+	}
-+
-+	ret = snd_soc_register_dai(&pdev->dev, &atmel_ssc_dai);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Could not register DAI: %d\n", ret);
-+		goto err_unregister_dai;
-+	}
-+
-+	ret = atmel_pcm_platform_register(&pdev->dev);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Could not register PCM: %d\n", ret);
-+		goto err;
-+	};
-+
-+	return 0;
-+
-+err_unregister_dai:
-+	snd_soc_unregister_dai(&pdev->dev);
-+err:
-+	return ret;
- }
  
- static int __devexit asoc_ssc_remove(struct platform_device *pdev)
- {
-+	atmel_pcm_platform_unregister(&pdev->dev);
- 	snd_soc_unregister_dai(&pdev->dev);
- 	return 0;
- }
- 
-+#ifdef CONFIG_OF
-+static const struct of_device_id atmel_ssc_dai_dt_ids[] = {
-+	{ .compatible = "atmel,atmel-ssc-dai", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, atmel_ssc_dai_dt_ids);
-+#endif
-+
- static struct platform_driver asoc_ssc_driver = {
- 	.driver = {
--			.name = "atmel-ssc-dai",
--			.owner = THIS_MODULE,
-+		.name		= "atmel-ssc-dai",
-+		.owner		= THIS_MODULE,
-+		.of_match_table	= of_match_ptr(atmel_ssc_dai_dt_ids),
- 	},
- 
- 	.probe = asoc_ssc_probe,
- 	.remove = __devexit_p(asoc_ssc_remove),
- };
- 
--/**
-- * atmel_ssc_set_audio - Allocate the specified SSC for audio use.
-- */
--int atmel_ssc_set_audio(int ssc_id)
--{
--	struct ssc_device *ssc;
--	static struct platform_device *dma_pdev;
--	struct platform_device *ssc_pdev;
--	int ret;
--
--	if (ssc_id < 0 || ssc_id >= ARRAY_SIZE(atmel_ssc_dai))
--		return -EINVAL;
--
--	/* Allocate a dummy device for DMA if we don't have one already */
--	if (!dma_pdev) {
--		dma_pdev = platform_device_alloc("atmel-pcm-audio", -1);
--		if (!dma_pdev)
--			return -ENOMEM;
--
--		ret = platform_device_add(dma_pdev);
--		if (ret < 0) {
--			platform_device_put(dma_pdev);
--			dma_pdev = NULL;
--			return ret;
--		}
--	}
--
--	ssc_pdev = platform_device_alloc("atmel-ssc-dai", ssc_id);
--	if (!ssc_pdev)
--		return -ENOMEM;
--
--	/* If we can grab the SSC briefly to parent the DAI device off it */
--	ssc = ssc_request(ssc_id);
--	if (IS_ERR(ssc))
--		pr_warn("Unable to parent ASoC SSC DAI on SSC: %ld\n",
--			PTR_ERR(ssc));
--	else {
--		ssc_pdev->dev.parent = &(ssc->pdev->dev);
--		ssc_free(ssc);
--	}
--
--	ret = platform_device_add(ssc_pdev);
--	if (ret < 0)
--		platform_device_put(ssc_pdev);
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(atmel_ssc_set_audio);
--
- module_platform_driver(asoc_ssc_driver);
- 
- /* Module information */
+ 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+ 	if (!ssc) {
 -- 
 1.7.9.5
 
