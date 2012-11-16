@@ -1,50 +1,54 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Fri, 16 Nov 2012 01:25:47 +0000
-Subject: Re: [Patch v6 2/4] ASoC: atmel-ssc-dai: register dai and pcm directly
-Message-Id: <20121116012544.GI4387@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="4BlIp4fARb6QCoOq"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 16 Nov 2012 06:03:57 +0000
+Subject: [Resend v6 PATCH 2/2] ASoC: atmel-ssc: add pinctrl consumer
+Message-Id: <1353045837-19474-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1352887751-21848-1-git-send-email-voice.shen@atmel.com>
- <1352887751-21848-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1352887751-21848-3-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+References: <1353045837-19474-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1353045837-19474-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
+Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>
 
+Add pinctrl consumer for atmel ssc peripheral
 
---4BlIp4fARb6QCoOq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Resend:
+  Split one patch into two.
+    - one add pinctrl nodes
+    - one add pinctrl consumer
+---
+ drivers/misc/atmel-ssc.c |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-On Wed, Nov 14, 2012 at 06:09:09PM +0800, Bo Shen wrote:
-> change the method for register dai and pcm
->   - let the atmel-ssc-dai no longer as a standalone platform device
->   - remap ssc and then register dai directly
->   - register pcm from dai directly
->   - modify the code which related with this change
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index a769719..3b3d0e0 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -19,6 +19,7 @@
+ #include <linux/module.h>
+ 
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
+ 
+ /* Serialize access to ssc_list and user count */
+ static DEFINE_SPINLOCK(user_lock);
+@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
+ 	struct resource *regs;
+ 	struct ssc_device *ssc;
+ 	const struct atmel_ssc_platform_data *plat_dat;
++	struct pinctrl *pinctrl;
++
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		return PTR_ERR(pinctrl);
++	}
+ 
+ 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+ 	if (!ssc) {
+-- 
+1.7.9.5
 
-Applied, thanks.
-
---4BlIp4fARb6QCoOq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQIcBAEBAgAGBQJQpZYJAAoJELSic+t+oim9VqMP+wSqLa9ncS8hF7sCcLaGMk4Z
-+KdXxrMPhhDZmgYQ4OfTssL1CMkK2QkwR81e0thzNfjzQLRB+4z+OmBnyYaStnMP
-Eh0gKR5we1hNWfZdBKFQudHUeiCsIOAM0tCUmtL9gyoIx+/32GgNClS3wuVVgh7V
-HPdE+yVuTjImHhzAoz7F58aUmQ5nfje99BNBMbdsUH25Hk5Yw3P2EiMcAcIqEPSB
-ueFCw0+Q8Za1JFhyjDB6VgZO9TjkUTLefT0wSgVS10gPeUZ192IvjUSZjG2FEcwI
-9uGwC9J+lFfCnCQrlz660f3beqB9QeaA/lhv9+FVDXVQfj/Tl3HGSr1FKOnynp5U
-RC1ZNq0aL/Ln8KFiz20QQrjKxIMg0dAYe9U99z4e0cRzcz+IMAGAZnEKSpMMOS7W
-AdbJjG12Q707zx01JemwiqZ1TIN9p0jm1PhI0XSh9PTug70ZQ9r5FAbBlsYUAPVq
-kCy0pAJNXahd2l2+/t44tvA3acK4jjXEf9/yIQbWvRTjygEVGRn73OQP9cSGGwdq
-00BAun0mepqlA7PETCn2V4LYBRrHGggRpPVFvJFoz09phsK9idLU/8F5Ljx20pEP
-3SJERgBPFwyJeQudiuBH7/NZopPvaUAU7je3o09JmavKHaocmFUkalCFuP3iPfxX
-VEXz8+D1xzKigk/ltabs
-=jkWc
------END PGP SIGNATURE-----
-
---4BlIp4fARb6QCoOq--
