@@ -1,54 +1,55 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Fri, 16 Nov 2012 06:03:57 +0000
-Subject: [Resend v6 PATCH 2/2] ASoC: atmel-ssc: add pinctrl consumer
-Message-Id: <1353045837-19474-2-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Fri, 16 Nov 2012 06:12:55 +0000
+Subject: Re: [Resend v6 PATCH 2/2] ASoC: atmel-ssc: add pinctrl consumer
+Message-Id: <20121116061250.GP4387@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="ccJhwVfaC+fHwTsl"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1353045837-19474-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1353045837-19474-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
-Cc: linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>
+ <1353045837-19474-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1353045837-19474-2-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
 
-Add pinctrl consumer for atmel ssc peripheral
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
-Resend:
-  Split one patch into two.
-    - one add pinctrl nodes
-    - one add pinctrl consumer
----
- drivers/misc/atmel-ssc.c |    8 ++++++++
- 1 file changed, 8 insertions(+)
+--ccJhwVfaC+fHwTsl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-index a769719..3b3d0e0 100644
---- a/drivers/misc/atmel-ssc.c
-+++ b/drivers/misc/atmel-ssc.c
-@@ -19,6 +19,7 @@
- #include <linux/module.h>
- 
- #include <linux/of.h>
-+#include <linux/pinctrl/consumer.h>
- 
- /* Serialize access to ssc_list and user count */
- static DEFINE_SPINLOCK(user_lock);
-@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
- 	struct resource *regs;
- 	struct ssc_device *ssc;
- 	const struct atmel_ssc_platform_data *plat_dat;
-+	struct pinctrl *pinctrl;
-+
-+	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
-+	if (IS_ERR(pinctrl)) {
-+		dev_err(&pdev->dev, "Failed to request pinctrl\n");
-+		return PTR_ERR(pinctrl);
-+	}
- 
- 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
- 	if (!ssc) {
--- 
-1.7.9.5
+On Fri, Nov 16, 2012 at 02:03:57PM +0800, Bo Shen wrote:
+> Add pinctrl consumer for atmel ssc peripheral
+>=20
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+> ---
+> Resend:
+>   Split one patch into two.
+>     - one add pinctrl nodes
+>     - one add pinctrl consumer
 
+No, this isn't what was meant - the idea is to send only the addition of
+pinctrl data as one patch, based off the ASoC branch instead of -next.
+
+--ccJhwVfaC+fHwTsl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQpdi0AAoJELSic+t+oim91p0P/3TCB/GbS4ggXmr4o/elHdlK
+xLu61R9v6JKRrD3Ldy5euqt2nPOroRf5NImSeIBsqC026iztWMWuOE412BucE8tr
+1WbgPmEJsQ2HogWlSUYmAzA//FvJ8qabjD/MWsxMNo/EYcNpVgb7N1AMYAKZvLmy
+q3cSfBeTUu2ms+oqm8Z//7IETX0lT/dnU7UyCw/lD09AZ7ht4jO/3cPy1fCSQ+ye
+LHnQ2Ln3KZD0unKmbe1OdThwguIbeFgnpw8wsjoHljDC9aINj9S/ZoYVOyQ5Euwj
+jbnTBBKC63Rh1j5mNp1KxdOmgc00O9CrC5ipH7sFSFf/TSO2zhUks2Ue9yIA3ukk
+DqklF1gcVzCYRP+DgKetm4FYmBCsxsGX3VCCXmf9lLasmREUYCiu0Syc1Upk5u6D
+kHaSYMfXaCatUvBi00I8AHGIGprvQ1PqY9YPB/chyuY4/PB+1aFs7jx/n2VCkFQJ
+l1wzKthOzPynCyfie7RwxmhrwoLdlYHSHtKUHTjeLYFhVEX5e1Nd2kZLTCuUfSLD
+G62pqIefcIJjwN5gNdTchx4QKV2nLuDa/Ys0xmcgOyM8GVH2BNNcSWvDK0+hG7J5
+BhEtOIaLqibdK/4TWj5pr9zmwAo35PDARSbyXJsHJVAPuBXlZWg2nNLpkMkBRuW1
+X0g57P5fL0rUy1lXjr7y
+=BOc6
+-----END PGP SIGNATURE-----
+
+--ccJhwVfaC+fHwTsl--
