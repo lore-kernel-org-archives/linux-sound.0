@@ -1,30 +1,49 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 13 Nov 2012 09:52:29 +0000
-Subject: Re: [PATCH v5 2/3] ASoC: atmel-ssc-dai: register dai and pcm directly
-Message-Id: <50A2185D.9020301@atmel.com>
+Date: Tue, 20 Nov 2012 08:38:17 +0000
+Subject: [PATCH 1/2] ASoC: atmel-ssc: add phybase in device structure
+Message-Id: <1353400698-19384-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1352706028-750-1-git-send-email-voice.shen@atmel.com> <1352706028-750-3-git-send-email-voice.shen@atmel.com> <20121113083031.GP18224@opensource.wolfsonmicro.com> <50A20E82.9020704@atmel.com> <20121113092038.GU18224@opensource.wolfsonmicro.com> <50A214FC.90201@atmel.com> <20121113094145.GV18224@opensource.wolfsonmicro.com>
-In-Reply-To: <20121113094145.GV18224@opensource.wolfsonmicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
+Cc: voice.shen@atmel.com, devicetree-discuss@lists.ozlabs.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-On 11/13/2012 17:41, Mark Brown wrote:
-> On Tue, Nov 13, 2012 at 05:38:04PM +0800, Bo Shen wrote:
->> On 11/13/2012 17:20, Mark Brown wrote:
->
->>> The machine driver should know which SSC it is using all by itself, it's
->>> specific to a particular machine.  This is how it's been doing it since
->>> it was written...
->
->> So, you mean, I should hard code this into machine driver, am I right?
->
-> Yes, exactly.
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
 
-Ok, I will hard code it.
-Thanks.
+Useful for future dmaengine use.
 
-Best Regards,
-Bo Shen
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/misc/atmel-ssc.c  |    2 ++
+ include/linux/atmel-ssc.h |    1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index a769719..d07a9ed 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -157,6 +157,8 @@ static int ssc_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	ssc->phybase = regs->start;
++
+ 	ssc->clk = devm_clk_get(&pdev->dev, "pclk");
+ 	if (IS_ERR(ssc->clk)) {
+ 		dev_dbg(&pdev->dev, "no pclk clock defined\n");
+diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+index 1ca0e32..deb0ae5 100644
+--- a/include/linux/atmel-ssc.h
++++ b/include/linux/atmel-ssc.h
+@@ -11,6 +11,7 @@ struct atmel_ssc_platform_data {
+ 
+ struct ssc_device {
+ 	struct list_head	list;
++	resource_size_t		phybase;
+ 	void __iomem		*regs;
+ 	struct platform_device	*pdev;
+ 	struct atmel_ssc_platform_data *pdata;
+-- 
+1.7.9.5
+
