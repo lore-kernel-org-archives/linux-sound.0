@@ -1,28 +1,35 @@
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 26 Nov 2012 21:23:42 +0000
+From: Bo Shen <voice.shen@atmel.com>
+Date: Tue, 27 Nov 2012 02:54:03 +0000
 Subject: Re: [Patch v6 4/4] ASoC: at91sam9g20ek-wm8731: convert to dt support
-Message-Id: <201211262123.42812.arnd@arndb.de>
+Message-Id: <50B42B4B.90407@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1352887751-21848-1-git-send-email-voice.shen@atmel.com>
- <1352887751-21848-5-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1352887751-21848-5-git-send-email-voice.shen-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>
+References: <1352887751-21848-1-git-send-email-voice.shen@atmel.com> <1352887751-21848-5-git-send-email-voice.shen@atmel.com> <201211262123.42812.arnd@arndb.de>
+In-Reply-To: <201211262123.42812.arnd@arndb.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
-Cc: alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, devicetree-discuss-uLR06cmDAlY/bJ5BZ2RsiQ@public.gmane.org, broonie-yzvPICuk2AATkU/dhu1WVueM+bqZidxxQQ4Iyu8u01E@public.gmane.org, linux-sound-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Bo Shen <voice.shen-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-arm-kernel@lists.infradead.org, broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, devicetree-discuss@lists.ozlabs.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-On Wednesday 14 November 2012, Bo Shen wrote:
-> +
-> +                       ssc0: ssc@fffbc000 {
-> +                               status = "okay";
-> +                               pinctrl-0 = <&pinctrl_ssc0_tx>;
-> +                       };
->                 };
->  
+Hi Arnd,
 
-This gives me a build error in linux-next with at91sam9g20_defconfig:
+On 11/27/2012 5:23, Arnd Bergmann wrote:
+> On Wednesday 14 November 2012, Bo Shen wrote:
+>> +
+>> +                       ssc0: ssc@fffbc000 {
+>> +                               status = "okay";
+>> +                               pinctrl-0 = <&pinctrl_ssc0_tx>;
+>> +                       };
+>>                  };
+>>
+>
+> This gives me a build error in linux-next with at91sam9g20_defconfig:
+>
+> ERROR (phandle_references): Reference to non-existent node or label "pinctrl_ssc0_tx"
 
-ERROR (phandle_references): Reference to non-existent node or label "pinctrl_ssc0_tx"
+Yes, this is because there is a cross merge patch at: 
+https://patchwork.kernel.org/patch/1776941/ acked by Mark Brown, however 
+it does not merged.
 
-	Arnd
+Best Regards,
+Bo Shen
