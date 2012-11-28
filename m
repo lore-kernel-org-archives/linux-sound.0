@@ -1,587 +1,996 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 08 Nov 2012 07:57:01 +0000
-Subject: [RFC PATCH v4 1/2] ASoC: atmel-ssc-dai: register dai and pcm directly
-Message-Id: <1352361422-13265-1-git-send-email-voice.shen@atmel.com>
+Date: Wed, 28 Nov 2012 03:46:12 +0000
+Subject: [PATCH 1/2] ASoC: atmel-pcm: split into two file
+Message-Id: <1354074373-7671-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, nicolas.ferre@atmel.com
-Cc: alsa-devel@alsa-project.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, jm.lin@atmel.com, linux-arm-kernel@lists.infradead.org
+To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>
 
-change the method for register dai and pcm
-  - let the atmel-ssc-dai no longer as a standalone platform device
-  - remap ssc and then register dai directly
-  - register pcm from dai directly
+This patch is split original atmel-pcm.c into new atmel-pcm.c and
+atmel-pcm-pdc.c two files. The new atmel-pcm.c is the share routine
+while will be used for pdc or dma transfer.
 
-Modify the code which related with this change
+Using SND_ATMEL_SOC_PDC to select using PDC for audio transfer
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
-Change since v3 RFC
-  - remap ssc and then register dai and pcm directly
-Change since v2
-  - Register dai and pcm directly according to Mark Brown's suggestion
-    - using name to distinguish ssc register for audio or library
-      if for audio, the name with dai subfix
-      if for library, the name without dai subfix
-  - fix the issue for sam9g20-wm8731
-    - when register dai and pcm cause the sam9g20-wm8731 doesn't work,
-      so fix it
-  - Add device tree support
-    - Detail information reference atmel-ssc-dai.txt binding document
-Change since v1
-  No change
----
- arch/arm/mach-at91/at91sam9260_devices.c |    9 --
- arch/arm/mach-at91/board-sam9g20ek.c     |    8 +-
- sound/soc/atmel/atmel-pcm.c              |   23 +--
- sound/soc/atmel/atmel-pcm.h              |    3 +
- sound/soc/atmel/atmel_ssc_dai.c          |  228 +++++++-----------------------
- sound/soc/atmel/atmel_ssc_dai.h          |    1 +
- sound/soc/atmel/sam9g20_wm8731.c         |   13 +-
- 7 files changed, 76 insertions(+), 209 deletions(-)
+ sound/soc/atmel/Kconfig         |    5 +
+ sound/soc/atmel/Makefile        |    2 +
+ sound/soc/atmel/atmel-pcm-pdc.c |  401 +++++++++++++++++++++++++++++++++++++++
+ sound/soc/atmel/atmel-pcm.c     |  390 ++-----------------------------------
+ sound/soc/atmel/atmel-pcm.h     |   21 +-
+ sound/soc/atmel/atmel_ssc_dai.c |    4 +-
+ 6 files changed, 441 insertions(+), 382 deletions(-)
+ create mode 100644 sound/soc/atmel/atmel-pcm-pdc.c
 
-diff --git a/arch/arm/mach-at91/at91sam9260_devices.c b/arch/arm/mach-at91/at91sam9260_devices.c
-index df7bebf..6959fd2 100644
---- a/arch/arm/mach-at91/at91sam9260_devices.c
-+++ b/arch/arm/mach-at91/at91sam9260_devices.c
-@@ -768,14 +768,6 @@ static inline void configure_ssc_pins(unsigned pins)
- 		at91_set_A_periph(AT91_PIN_PB21, 1);
- }
+diff --git a/sound/soc/atmel/Kconfig b/sound/soc/atmel/Kconfig
+index 397ec75..6051993 100644
+--- a/sound/soc/atmel/Kconfig
++++ b/sound/soc/atmel/Kconfig
+@@ -6,6 +6,10 @@ config SND_ATMEL_SOC
+ 	  the ATMEL SSC interface. You will also need
+ 	  to select the audio interfaces to support below.
  
--static struct platform_device at91sam9260_ssc_dai_device = {
--	.name	= "atmel-ssc-dai",
--	.id	= 0,
--	.dev	= {
--		.parent	= &(at91sam9260_ssc_device.dev),
--	},
--};
--
- /*
-  * SSC controllers are accessed through library code, instead of any
-  * kind of all-singing/all-dancing driver.  For example one could be
-@@ -800,7 +792,6 @@ void __init at91_add_device_ssc(unsigned id, unsigned pins)
- 	}
++config SND_ATMEL_SOC_PDC
++	tristate
++	depends on SND_ATMEL_SOC
++
+ config SND_ATMEL_SOC_SSC
+ 	tristate
+ 	depends on SND_ATMEL_SOC
+@@ -17,6 +21,7 @@ config SND_ATMEL_SOC_SSC
+ config SND_AT91_SOC_SAM9G20_WM8731
+ 	tristate "SoC Audio support for WM8731-based At91sam9g20 evaluation board"
+ 	depends on ATMEL_SSC && SND_ATMEL_SOC && AT91_PROGRAMMABLE_CLOCKS
++	select SND_ATMEL_SOC_PDC
+ 	select SND_ATMEL_SOC_SSC
+ 	select SND_SOC_WM8731
+ 	help
+diff --git a/sound/soc/atmel/Makefile b/sound/soc/atmel/Makefile
+index a5c0bf1..2e37864 100644
+--- a/sound/soc/atmel/Makefile
++++ b/sound/soc/atmel/Makefile
+@@ -1,8 +1,10 @@
+ # AT91 Platform Support
+ snd-soc-atmel-pcm-objs := atmel-pcm.o
++snd-soc-atmel-pcm-pdc-objs := atmel-pcm-pdc.o
+ snd-soc-atmel_ssc_dai-objs := atmel_ssc_dai.o
  
- 	platform_device_register(pdev);
--	platform_device_register(&at91sam9260_ssc_dai_device);
- }
+ obj-$(CONFIG_SND_ATMEL_SOC) += snd-soc-atmel-pcm.o
++obj-$(CONFIG_SND_ATMEL_SOC_PDC) += snd-soc-atmel-pcm-pdc.o
+ obj-$(CONFIG_SND_ATMEL_SOC_SSC) += snd-soc-atmel_ssc_dai.o
  
- #else
-diff --git a/arch/arm/mach-at91/board-sam9g20ek.c b/arch/arm/mach-at91/board-sam9g20ek.c
-index 5b6a6f9..f3faf54 100644
---- a/arch/arm/mach-at91/board-sam9g20ek.c
-+++ b/arch/arm/mach-at91/board-sam9g20ek.c
-@@ -353,19 +353,13 @@ static struct i2c_board_info __initdata ek_i2c_devices[] = {
-         },
- };
- 
--static struct platform_device sam9g20ek_pcm_device = {
--	.name	= "atmel-pcm-audio",
--	.id = -1,
--};
--
- static struct platform_device sam9g20ek_audio_device = {
- 	.name   = "at91sam9g20ek-audio",
--	.id     = -1,
-+	.id     = 0,
- };
- 
- static void __init ek_add_device_audio(void)
- {
--	platform_device_register(&sam9g20ek_pcm_device);
- 	platform_device_register(&sam9g20ek_audio_device);
- }
- 
+ # AT91 Machine Support
+diff --git a/sound/soc/atmel/atmel-pcm-pdc.c b/sound/soc/atmel/atmel-pcm-pdc.c
+new file mode 100644
+index 0000000..1df64ba
+--- /dev/null
++++ b/sound/soc/atmel/atmel-pcm-pdc.c
+@@ -0,0 +1,401 @@
++/*
++ * atmel-pcm.c  --  ALSA PCM interface for the Atmel atmel SoC.
++ *
++ *  Copyright (C) 2005 SAN People
++ *  Copyright (C) 2008 Atmel
++ *
++ * Authors: Sedji Gaouaou <sedji.gaouaou@atmel.com>
++ *
++ * Based on at91-pcm. by:
++ * Frank Mandarino <fmandarino@endrelia.com>
++ * Copyright 2006 Endrelia Technologies Inc.
++ *
++ * Based on pxa2xx-pcm.c by:
++ *
++ * Author:	Nicolas Pitre
++ * Created:	Nov 30, 2004
++ * Copyright:	(C) 2004 MontaVista Software, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/dma-mapping.h>
++#include <linux/atmel_pdc.h>
++#include <linux/atmel-ssc.h>
++
++#include <sound/core.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
++
++#include "atmel-pcm.h"
++
++
++/*--------------------------------------------------------------------------*\
++ * Hardware definition
++\*--------------------------------------------------------------------------*/
++/* TODO: These values were taken from the AT91 platform driver, check
++ *	 them against real values for AT32
++ */
++static const struct snd_pcm_hardware atmel_pcm_hardware = {
++	.info			= SNDRV_PCM_INFO_MMAP |
++				  SNDRV_PCM_INFO_MMAP_VALID |
++				  SNDRV_PCM_INFO_INTERLEAVED |
++				  SNDRV_PCM_INFO_PAUSE,
++	.formats		= SNDRV_PCM_FMTBIT_S16_LE,
++	.period_bytes_min	= 32,
++	.period_bytes_max	= 8192,
++	.periods_min		= 2,
++	.periods_max		= 1024,
++	.buffer_bytes_max	= ATMEL_SSC_DMABUF_SIZE,
++};
++
++
++/*--------------------------------------------------------------------------*\
++ * Data types
++\*--------------------------------------------------------------------------*/
++struct atmel_runtime_data {
++	struct atmel_pcm_dma_params *params;
++	dma_addr_t dma_buffer;		/* physical address of dma buffer */
++	dma_addr_t dma_buffer_end;	/* first address beyond DMA buffer */
++	size_t period_size;
++
++	dma_addr_t period_ptr;		/* physical address of next period */
++
++	/* PDC register save */
++	u32 pdc_xpr_save;
++	u32 pdc_xcr_save;
++	u32 pdc_xnpr_save;
++	u32 pdc_xncr_save;
++};
++
++/*--------------------------------------------------------------------------*\
++ * ISR
++\*--------------------------------------------------------------------------*/
++static void atmel_pcm_dma_irq(u32 ssc_sr,
++	struct snd_pcm_substream *substream)
++{
++	struct atmel_runtime_data *prtd = substream->runtime->private_data;
++	struct atmel_pcm_dma_params *params = prtd->params;
++	static int count;
++
++	count++;
++
++	if (ssc_sr & params->mask->ssc_endbuf) {
++		pr_warn("atmel-pcm: buffer %s on %s (SSC_SR=%#x, count=%d)\n",
++				substream->stream = SNDRV_PCM_STREAM_PLAYBACK
++				? "underrun" : "overrun",
++				params->name, ssc_sr, count);
++
++		/* re-start the PDC */
++		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
++			   params->mask->pdc_disable);
++		prtd->period_ptr += prtd->period_size;
++		if (prtd->period_ptr >= prtd->dma_buffer_end)
++			prtd->period_ptr = prtd->dma_buffer;
++
++		ssc_writex(params->ssc->regs, params->pdc->xpr,
++			   prtd->period_ptr);
++		ssc_writex(params->ssc->regs, params->pdc->xcr,
++			   prtd->period_size / params->pdc_xfer_size);
++		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
++			   params->mask->pdc_enable);
++	}
++
++	if (ssc_sr & params->mask->ssc_endx) {
++		/* Load the PDC next pointer and counter registers */
++		prtd->period_ptr += prtd->period_size;
++		if (prtd->period_ptr >= prtd->dma_buffer_end)
++			prtd->period_ptr = prtd->dma_buffer;
++
++		ssc_writex(params->ssc->regs, params->pdc->xnpr,
++			   prtd->period_ptr);
++		ssc_writex(params->ssc->regs, params->pdc->xncr,
++			   prtd->period_size / params->pdc_xfer_size);
++	}
++
++	snd_pcm_period_elapsed(substream);
++}
++
++
++/*--------------------------------------------------------------------------*\
++ * PCM operations
++\*--------------------------------------------------------------------------*/
++static int atmel_pcm_hw_params(struct snd_pcm_substream *substream,
++	struct snd_pcm_hw_params *params)
++{
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct atmel_runtime_data *prtd = runtime->private_data;
++	struct snd_soc_pcm_runtime *rtd = substream->private_data;
++
++	/* this may get called several times by oss emulation
++	 * with different params */
++
++	snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
++	runtime->dma_bytes = params_buffer_bytes(params);
++
++	prtd->params = snd_soc_dai_get_dma_data(rtd->cpu_dai, substream);
++	prtd->params->dma_intr_handler = atmel_pcm_dma_irq;
++
++	prtd->dma_buffer = runtime->dma_addr;
++	prtd->dma_buffer_end = runtime->dma_addr + runtime->dma_bytes;
++	prtd->period_size = params_period_bytes(params);
++
++	pr_debug("atmel-pcm: "
++		"hw_params: DMA for %s initialized "
++		"(dma_bytes=%u, period_size=%u)\n",
++		prtd->params->name,
++		runtime->dma_bytes,
++		prtd->period_size);
++	return 0;
++}
++
++static int atmel_pcm_hw_free(struct snd_pcm_substream *substream)
++{
++	struct atmel_runtime_data *prtd = substream->runtime->private_data;
++	struct atmel_pcm_dma_params *params = prtd->params;
++
++	if (params != NULL) {
++		ssc_writex(params->ssc->regs, SSC_PDC_PTCR,
++			   params->mask->pdc_disable);
++		prtd->params->dma_intr_handler = NULL;
++	}
++
++	return 0;
++}
++
++static int atmel_pcm_prepare(struct snd_pcm_substream *substream)
++{
++	struct atmel_runtime_data *prtd = substream->runtime->private_data;
++	struct atmel_pcm_dma_params *params = prtd->params;
++
++	ssc_writex(params->ssc->regs, SSC_IDR,
++		   params->mask->ssc_endx | params->mask->ssc_endbuf);
++	ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
++		   params->mask->pdc_disable);
++	return 0;
++}
++
++static int atmel_pcm_trigger(struct snd_pcm_substream *substream,
++	int cmd)
++{
++	struct snd_pcm_runtime *rtd = substream->runtime;
++	struct atmel_runtime_data *prtd = rtd->private_data;
++	struct atmel_pcm_dma_params *params = prtd->params;
++	int ret = 0;
++
++	pr_debug("atmel-pcm:buffer_size = %ld,"
++		"dma_area = %p, dma_bytes = %u\n",
++		rtd->buffer_size, rtd->dma_area, rtd->dma_bytes);
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++		prtd->period_ptr = prtd->dma_buffer;
++
++		ssc_writex(params->ssc->regs, params->pdc->xpr,
++			   prtd->period_ptr);
++		ssc_writex(params->ssc->regs, params->pdc->xcr,
++			   prtd->period_size / params->pdc_xfer_size);
++
++		prtd->period_ptr += prtd->period_size;
++		ssc_writex(params->ssc->regs, params->pdc->xnpr,
++			   prtd->period_ptr);
++		ssc_writex(params->ssc->regs, params->pdc->xncr,
++			   prtd->period_size / params->pdc_xfer_size);
++
++		pr_debug("atmel-pcm: trigger: "
++			"period_ptr=%lx, xpr=%u, "
++			"xcr=%u, xnpr=%u, xncr=%u\n",
++			(unsigned long)prtd->period_ptr,
++			ssc_readx(params->ssc->regs, params->pdc->xpr),
++			ssc_readx(params->ssc->regs, params->pdc->xcr),
++			ssc_readx(params->ssc->regs, params->pdc->xnpr),
++			ssc_readx(params->ssc->regs, params->pdc->xncr));
++
++		ssc_writex(params->ssc->regs, SSC_IER,
++			   params->mask->ssc_endx | params->mask->ssc_endbuf);
++		ssc_writex(params->ssc->regs, SSC_PDC_PTCR,
++			   params->mask->pdc_enable);
++
++		pr_debug("sr=%u imr=%u\n",
++			ssc_readx(params->ssc->regs, SSC_SR),
++			ssc_readx(params->ssc->regs, SSC_IER));
++		break;		/* SNDRV_PCM_TRIGGER_START */
++
++	case SNDRV_PCM_TRIGGER_STOP:
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
++			   params->mask->pdc_disable);
++		break;
++
++	case SNDRV_PCM_TRIGGER_RESUME:
++	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
++			   params->mask->pdc_enable);
++		break;
++
++	default:
++		ret = -EINVAL;
++	}
++
++	return ret;
++}
++
++static snd_pcm_uframes_t atmel_pcm_pointer(
++	struct snd_pcm_substream *substream)
++{
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct atmel_runtime_data *prtd = runtime->private_data;
++	struct atmel_pcm_dma_params *params = prtd->params;
++	dma_addr_t ptr;
++	snd_pcm_uframes_t x;
++
++	ptr = (dma_addr_t) ssc_readx(params->ssc->regs, params->pdc->xpr);
++	x = bytes_to_frames(runtime, ptr - prtd->dma_buffer);
++
++	if (x = runtime->buffer_size)
++		x = 0;
++
++	return x;
++}
++
++static int atmel_pcm_open(struct snd_pcm_substream *substream)
++{
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct atmel_runtime_data *prtd;
++	int ret = 0;
++
++	snd_soc_set_runtime_hwparams(substream, &atmel_pcm_hardware);
++
++	/* ensure that buffer size is a multiple of period size */
++	ret = snd_pcm_hw_constraint_integer(runtime,
++						SNDRV_PCM_HW_PARAM_PERIODS);
++	if (ret < 0)
++		goto out;
++
++	prtd = kzalloc(sizeof(struct atmel_runtime_data), GFP_KERNEL);
++	if (prtd = NULL) {
++		ret = -ENOMEM;
++		goto out;
++	}
++	runtime->private_data = prtd;
++
++ out:
++	return ret;
++}
++
++static int atmel_pcm_close(struct snd_pcm_substream *substream)
++{
++	struct atmel_runtime_data *prtd = substream->runtime->private_data;
++
++	kfree(prtd);
++	return 0;
++}
++
++static struct snd_pcm_ops atmel_pcm_ops = {
++	.open		= atmel_pcm_open,
++	.close		= atmel_pcm_close,
++	.ioctl		= snd_pcm_lib_ioctl,
++	.hw_params	= atmel_pcm_hw_params,
++	.hw_free	= atmel_pcm_hw_free,
++	.prepare	= atmel_pcm_prepare,
++	.trigger	= atmel_pcm_trigger,
++	.pointer	= atmel_pcm_pointer,
++	.mmap		= atmel_pcm_mmap,
++};
++
++
++/*--------------------------------------------------------------------------*\
++ * ASoC platform driver
++\*--------------------------------------------------------------------------*/
++#ifdef CONFIG_PM
++static int atmel_pcm_suspend(struct snd_soc_dai *dai)
++{
++	struct snd_pcm_runtime *runtime = dai->runtime;
++	struct atmel_runtime_data *prtd;
++	struct atmel_pcm_dma_params *params;
++
++	if (!runtime)
++		return 0;
++
++	prtd = runtime->private_data;
++	params = prtd->params;
++
++	/* disable the PDC and save the PDC registers */
++
++	ssc_writel(params->ssc->regs, PDC_PTCR, params->mask->pdc_disable);
++
++	prtd->pdc_xpr_save = ssc_readx(params->ssc->regs, params->pdc->xpr);
++	prtd->pdc_xcr_save = ssc_readx(params->ssc->regs, params->pdc->xcr);
++	prtd->pdc_xnpr_save = ssc_readx(params->ssc->regs, params->pdc->xnpr);
++	prtd->pdc_xncr_save = ssc_readx(params->ssc->regs, params->pdc->xncr);
++
++	return 0;
++}
++
++static int atmel_pcm_resume(struct snd_soc_dai *dai)
++{
++	struct snd_pcm_runtime *runtime = dai->runtime;
++	struct atmel_runtime_data *prtd;
++	struct atmel_pcm_dma_params *params;
++
++	if (!runtime)
++		return 0;
++
++	prtd = runtime->private_data;
++	params = prtd->params;
++
++	/* restore the PDC registers and enable the PDC */
++	ssc_writex(params->ssc->regs, params->pdc->xpr, prtd->pdc_xpr_save);
++	ssc_writex(params->ssc->regs, params->pdc->xcr, prtd->pdc_xcr_save);
++	ssc_writex(params->ssc->regs, params->pdc->xnpr, prtd->pdc_xnpr_save);
++	ssc_writex(params->ssc->regs, params->pdc->xncr, prtd->pdc_xncr_save);
++
++	ssc_writel(params->ssc->regs, PDC_PTCR, params->mask->pdc_enable);
++	return 0;
++}
++#else
++#define atmel_pcm_suspend	NULL
++#define atmel_pcm_resume	NULL
++#endif
++
++static struct snd_soc_platform_driver atmel_soc_platform = {
++	.ops		= &atmel_pcm_ops,
++	.pcm_new	= atmel_pcm_new,
++	.pcm_free	= atmel_pcm_free,
++	.suspend	= atmel_pcm_suspend,
++	.resume		= atmel_pcm_resume,
++};
++
++int atmel_pcm_pdc_platform_register(struct device *dev)
++{
++	return snd_soc_register_platform(dev, &atmel_soc_platform);
++}
++EXPORT_SYMBOL(atmel_pcm_pdc_platform_register);
++
++void atmel_pcm_pdc_platform_unregister(struct device *dev)
++{
++	snd_soc_unregister_platform(dev);
++}
++EXPORT_SYMBOL(atmel_pcm_pdc_platform_unregister);
++
++MODULE_AUTHOR("Sedji Gaouaou <sedji.gaouaou@atmel.com>");
++MODULE_DESCRIPTION("Atmel PCM module");
++MODULE_LICENSE("GPL");
 diff --git a/sound/soc/atmel/atmel-pcm.c b/sound/soc/atmel/atmel-pcm.c
-index 9b84f98..40e17d1 100644
+index 40e17d1..e99f181 100644
 --- a/sound/soc/atmel/atmel-pcm.c
 +++ b/sound/soc/atmel/atmel-pcm.c
-@@ -473,28 +473,17 @@ static struct snd_soc_platform_driver atmel_soc_platform = {
- 	.resume		= atmel_pcm_resume,
- };
+@@ -32,80 +32,25 @@
+  */
  
--static int __devinit atmel_soc_platform_probe(struct platform_device *pdev)
-+int atmel_pcm_platform_register(struct device *dev)
- {
--	return snd_soc_register_platform(&pdev->dev, &atmel_soc_platform);
-+	return snd_soc_register_platform(dev, &atmel_soc_platform);
- }
-+EXPORT_SYMBOL(atmel_pcm_platform_register);
+ #include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/platform_device.h>
+-#include <linux/slab.h>
+ #include <linux/dma-mapping.h>
+-#include <linux/atmel_pdc.h>
+-#include <linux/atmel-ssc.h>
+-
+-#include <sound/core.h>
+ #include <sound/pcm.h>
+-#include <sound/pcm_params.h>
+ #include <sound/soc.h>
+-
+ #include "atmel-pcm.h"
  
--static int __devexit atmel_soc_platform_remove(struct platform_device *pdev)
-+void atmel_pcm_platform_unregister(struct device *dev)
- {
--	snd_soc_unregister_platform(&pdev->dev);
--	return 0;
-+	snd_soc_unregister_platform(dev);
- }
 -
--static struct platform_driver atmel_pcm_driver = {
--	.driver = {
--			.name = "atmel-pcm-audio",
--			.owner = THIS_MODULE,
--	},
--
--	.probe = atmel_soc_platform_probe,
--	.remove = __devexit_p(atmel_soc_platform_remove),
+-/*--------------------------------------------------------------------------*\
+- * Hardware definition
+-\*--------------------------------------------------------------------------*/
+-/* TODO: These values were taken from the AT91 platform driver, check
+- *	 them against real values for AT32
+- */
+-static const struct snd_pcm_hardware atmel_pcm_hardware = {
+-	.info			= SNDRV_PCM_INFO_MMAP |
+-				  SNDRV_PCM_INFO_MMAP_VALID |
+-				  SNDRV_PCM_INFO_INTERLEAVED |
+-				  SNDRV_PCM_INFO_PAUSE,
+-	.formats		= SNDRV_PCM_FMTBIT_S16_LE,
+-	.period_bytes_min	= 32,
+-	.period_bytes_max	= 8192,
+-	.periods_min		= 2,
+-	.periods_max		= 1024,
+-	.buffer_bytes_max	= 32 * 1024,
 -};
 -
--module_platform_driver(atmel_pcm_driver);
-+EXPORT_SYMBOL(atmel_pcm_platform_unregister);
- 
- MODULE_AUTHOR("Sedji Gaouaou <sedji.gaouaou@atmel.com>");
- MODULE_DESCRIPTION("Atmel PCM module");
-diff --git a/sound/soc/atmel/atmel-pcm.h b/sound/soc/atmel/atmel-pcm.h
-index 5e0a95e..e6d67b3 100644
---- a/sound/soc/atmel/atmel-pcm.h
-+++ b/sound/soc/atmel/atmel-pcm.h
-@@ -80,4 +80,7 @@ struct atmel_pcm_dma_params {
- #define ssc_readx(base, reg)            (__raw_readl((base) + (reg)))
- #define ssc_writex(base, reg, value)    __raw_writel((value), (base) + (reg))
- 
-+int atmel_pcm_platform_register(struct device *dev);
-+void atmel_pcm_platform_unregister(struct device *dev);
-+
- #endif /* _ATMEL_PCM_H */
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 354341e..4435e19 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -47,13 +47,6 @@
- #include "atmel-pcm.h"
- #include "atmel_ssc_dai.h"
- 
 -
--#if defined(CONFIG_ARCH_AT91SAM9260) || defined(CONFIG_ARCH_AT91SAM9G20)
--#define NUM_SSC_DEVICES		1
--#else
--#define NUM_SSC_DEVICES		3
--#endif
+-/*--------------------------------------------------------------------------*\
+- * Data types
+-\*--------------------------------------------------------------------------*/
+-struct atmel_runtime_data {
+-	struct atmel_pcm_dma_params *params;
+-	dma_addr_t dma_buffer;		/* physical address of dma buffer */
+-	dma_addr_t dma_buffer_end;	/* first address beyond DMA buffer */
+-	size_t period_size;
 -
- /*
-  * SSC PDC registers required by the PCM DMA engine.
-  */
-@@ -96,63 +89,24 @@ static struct atmel_ssc_mask ssc_rx_mask = {
- /*
-  * DMA parameters.
-  */
--static struct atmel_pcm_dma_params ssc_dma_params[NUM_SSC_DEVICES][2] = {
--	{{
--	.name		= "SSC0 PCM out",
--	.pdc		= &pdc_tx_reg,
--	.mask		= &ssc_tx_mask,
--	},
-+static struct atmel_pcm_dma_params ssc_dma_params[2] = {
- 	{
--	.name		= "SSC0 PCM in",
--	.pdc		= &pdc_rx_reg,
--	.mask		= &ssc_rx_mask,
--	} },
--#if NUM_SSC_DEVICES = 3
--	{{
--	.name		= "SSC1 PCM out",
-+	.name		= "SSC PCM out",
- 	.pdc		= &pdc_tx_reg,
- 	.mask		= &ssc_tx_mask,
- 	},
- 	{
--	.name		= "SSC1 PCM in",
-+	.name		= "SSC PCM in",
- 	.pdc		= &pdc_rx_reg,
- 	.mask		= &ssc_rx_mask,
--	} },
--	{{
--	.name		= "SSC2 PCM out",
--	.pdc		= &pdc_tx_reg,
--	.mask		= &ssc_tx_mask,
- 	},
--	{
--	.name		= "SSC2 PCM in",
--	.pdc		= &pdc_rx_reg,
--	.mask		= &ssc_rx_mask,
--	} },
--#endif
- };
- 
+-	dma_addr_t period_ptr;		/* physical address of next period */
 -
--static struct atmel_ssc_info ssc_info[NUM_SSC_DEVICES] = {
--	{
--	.name		= "ssc0",
--	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info[0].lock),
--	.dir_mask	= SSC_DIR_MASK_UNUSED,
--	.initialized	= 0,
--	},
--#if NUM_SSC_DEVICES = 3
--	{
--	.name		= "ssc1",
--	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info[1].lock),
-+static struct atmel_ssc_info ssc_info = {
-+	.name		= "ssc",
-+	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info.lock),
- 	.dir_mask	= SSC_DIR_MASK_UNUSED,
- 	.initialized	= 0,
--	},
--	{
--	.name		= "ssc2",
--	.lock		= __SPIN_LOCK_UNLOCKED(ssc_info[2].lock),
--	.dir_mask	= SSC_DIR_MASK_UNUSED,
--	.initialized	= 0,
--	},
--#endif
- };
- 
- 
-@@ -205,7 +159,7 @@ static irqreturn_t atmel_ssc_interrupt(int irq, void *dev_id)
- static int atmel_ssc_startup(struct snd_pcm_substream *substream,
- 			     struct snd_soc_dai *dai)
+-	/* PDC register save */
+-	u32 pdc_xpr_save;
+-	u32 pdc_xcr_save;
+-	u32 pdc_xnpr_save;
+-	u32 pdc_xncr_save;
+-};
+-
+-
+-/*--------------------------------------------------------------------------*\
+- * Helper functions
+-\*--------------------------------------------------------------------------*/
+ static int atmel_pcm_preallocate_dma_buffer(struct snd_pcm *pcm,
+ 	int stream)
  {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	int dir_mask;
+ 	struct snd_pcm_substream *substream = pcm->streams[stream].substream;
+ 	struct snd_dma_buffer *buf = &substream->dma_buffer;
+-	size_t size = atmel_pcm_hardware.buffer_bytes_max;
++	size_t size = ATMEL_SSC_DMABUF_SIZE;
  
- 	pr_debug("atmel_ssc_startup: SSC_SR=0x%u\n",
-@@ -234,7 +188,7 @@ static int atmel_ssc_startup(struct snd_pcm_substream *substream,
- static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- 			       struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir, dir_mask;
+ 	buf->dev.type = SNDRV_DMA_TYPE_DEV;
+ 	buf->dev.dev = pcm->card->dev;
+ 	buf->private_data = NULL;
+ 	buf->area = dma_alloc_coherent(pcm->card->dev, size,
+-					  &buf->addr, GFP_KERNEL);
+-	pr_debug("atmel-pcm:"
+-		"preallocate_dma_buffer: area=%p, addr=%p, size=%d\n",
+-		(void *) buf->area,
+-		(void *) buf->addr,
+-		size);
++			&buf->addr, GFP_KERNEL);
++	pr_debug("atmel-pcm: alloc dma buffer: area=%p, addr=%p, size=%d\n",
++			(void *)buf->area, (void *)buf->addr, size);
  
-@@ -285,7 +239,7 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- static int atmel_ssc_set_dai_fmt(struct snd_soc_dai *cpu_dai,
- 		unsigned int fmt)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[cpu_dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 
- 	ssc_p->daifmt = fmt;
+ 	if (!buf->area)
+ 		return -ENOMEM;
+@@ -113,258 +58,19 @@ static int atmel_pcm_preallocate_dma_buffer(struct snd_pcm *pcm,
+ 	buf->bytes = size;
  	return 0;
-@@ -297,7 +251,7 @@ static int atmel_ssc_set_dai_fmt(struct snd_soc_dai *cpu_dai,
- static int atmel_ssc_set_dai_clkdiv(struct snd_soc_dai *cpu_dai,
- 	int div_id, int div)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[cpu_dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 
- 	switch (div_id) {
- 	case ATMEL_SSC_CMR_DIV:
-@@ -336,8 +290,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_soc_dai *dai)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_pcm_substream_chip(substream);
--	int id = dai->id;
--	struct atmel_ssc_info *ssc_p = &ssc_info[id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir, channels, bits;
- 	u32 tfmr, rfmr, tcmr, rcmr;
-@@ -354,7 +307,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	else
- 		dir = 1;
- 
--	dma_params = &ssc_dma_params[id][dir];
-+	dma_params = &ssc_dma_params[dir];
- 	dma_params->ssc = ssc_p->ssc;
- 	dma_params->substream = substream;
- 
-@@ -603,7 +556,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- static int atmel_ssc_prepare(struct snd_pcm_substream *substream,
- 			     struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir;
- 
-@@ -631,7 +584,7 @@ static int atmel_ssc_suspend(struct snd_soc_dai *cpu_dai)
- 	if (!cpu_dai->active)
- 		return 0;
- 
--	ssc_p = &ssc_info[cpu_dai->id];
-+	ssc_p = &ssc_info;
- 
- 	/* Save the status register before disabling transmit and receive */
- 	ssc_p->ssc_state.ssc_sr = ssc_readl(ssc_p->ssc->regs, SR);
-@@ -660,7 +613,7 @@ static int atmel_ssc_resume(struct snd_soc_dai *cpu_dai)
- 	if (!cpu_dai->active)
- 		return 0;
- 
--	ssc_p = &ssc_info[cpu_dai->id];
-+	ssc_p = &ssc_info;
- 
- 	/* restore SSC register settings */
- 	ssc_writel(ssc_p->ssc->regs, TFMR, ssc_p->ssc_state.ssc_tfmr);
-@@ -689,28 +642,10 @@ static int atmel_ssc_resume(struct snd_soc_dai *cpu_dai)
- 
- static int atmel_ssc_probe(struct snd_soc_dai *dai)
- {
--	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
+ }
+-/*--------------------------------------------------------------------------*\
+- * ISR
+-\*--------------------------------------------------------------------------*/
+-static void atmel_pcm_dma_irq(u32 ssc_sr,
+-	struct snd_pcm_substream *substream)
+-{
+-	struct atmel_runtime_data *prtd = substream->runtime->private_data;
+-	struct atmel_pcm_dma_params *params = prtd->params;
+-	static int count;
+-
+-	count++;
+-
+-	if (ssc_sr & params->mask->ssc_endbuf) {
+-		pr_warning("atmel-pcm: buffer %s on %s"
+-				" (SSC_SR=%#x, count=%d)\n",
+-				substream->stream = SNDRV_PCM_STREAM_PLAYBACK
+-				? "underrun" : "overrun",
+-				params->name, ssc_sr, count);
+-
+-		/* re-start the PDC */
+-		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
+-			   params->mask->pdc_disable);
+-		prtd->period_ptr += prtd->period_size;
+-		if (prtd->period_ptr >= prtd->dma_buffer_end)
+-			prtd->period_ptr = prtd->dma_buffer;
+-
+-		ssc_writex(params->ssc->regs, params->pdc->xpr,
+-			   prtd->period_ptr);
+-		ssc_writex(params->ssc->regs, params->pdc->xcr,
+-			   prtd->period_size / params->pdc_xfer_size);
+-		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
+-			   params->mask->pdc_enable);
+-	}
+-
+-	if (ssc_sr & params->mask->ssc_endx) {
+-		/* Load the PDC next pointer and counter registers */
+-		prtd->period_ptr += prtd->period_size;
+-		if (prtd->period_ptr >= prtd->dma_buffer_end)
+-			prtd->period_ptr = prtd->dma_buffer;
+-
+-		ssc_writex(params->ssc->regs, params->pdc->xnpr,
+-			   prtd->period_ptr);
+-		ssc_writex(params->ssc->regs, params->pdc->xncr,
+-			   prtd->period_size / params->pdc_xfer_size);
+-	}
+-
+-	snd_pcm_period_elapsed(substream);
+-}
+-
+-
+-/*--------------------------------------------------------------------------*\
+- * PCM operations
+-\*--------------------------------------------------------------------------*/
+-static int atmel_pcm_hw_params(struct snd_pcm_substream *substream,
+-	struct snd_pcm_hw_params *params)
+-{
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	struct atmel_runtime_data *prtd = runtime->private_data;
+-	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+-
+-	/* this may get called several times by oss emulation
+-	 * with different params */
+-
+-	snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
+-	runtime->dma_bytes = params_buffer_bytes(params);
+-
+-	prtd->params = snd_soc_dai_get_dma_data(rtd->cpu_dai, substream);
+-	prtd->params->dma_intr_handler = atmel_pcm_dma_irq;
+-
+-	prtd->dma_buffer = runtime->dma_addr;
+-	prtd->dma_buffer_end = runtime->dma_addr + runtime->dma_bytes;
+-	prtd->period_size = params_period_bytes(params);
+-
+-	pr_debug("atmel-pcm: "
+-		"hw_params: DMA for %s initialized "
+-		"(dma_bytes=%u, period_size=%u)\n",
+-		prtd->params->name,
+-		runtime->dma_bytes,
+-		prtd->period_size);
+-	return 0;
+-}
+-
+-static int atmel_pcm_hw_free(struct snd_pcm_substream *substream)
+-{
+-	struct atmel_runtime_data *prtd = substream->runtime->private_data;
+-	struct atmel_pcm_dma_params *params = prtd->params;
+-
+-	if (params != NULL) {
+-		ssc_writex(params->ssc->regs, SSC_PDC_PTCR,
+-			   params->mask->pdc_disable);
+-		prtd->params->dma_intr_handler = NULL;
+-	}
+-
+-	return 0;
+-}
+-
+-static int atmel_pcm_prepare(struct snd_pcm_substream *substream)
+-{
+-	struct atmel_runtime_data *prtd = substream->runtime->private_data;
+-	struct atmel_pcm_dma_params *params = prtd->params;
+-
+-	ssc_writex(params->ssc->regs, SSC_IDR,
+-		   params->mask->ssc_endx | params->mask->ssc_endbuf);
+-	ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
+-		   params->mask->pdc_disable);
+-	return 0;
+-}
+-
+-static int atmel_pcm_trigger(struct snd_pcm_substream *substream,
+-	int cmd)
+-{
+-	struct snd_pcm_runtime *rtd = substream->runtime;
+-	struct atmel_runtime_data *prtd = rtd->private_data;
+-	struct atmel_pcm_dma_params *params = prtd->params;
 -	int ret = 0;
-+	struct atmel_ssc_info *ssc_p = &ssc_info;
+-
+-	pr_debug("atmel-pcm:buffer_size = %ld,"
+-		"dma_area = %p, dma_bytes = %u\n",
+-		rtd->buffer_size, rtd->dma_area, rtd->dma_bytes);
+-
+-	switch (cmd) {
+-	case SNDRV_PCM_TRIGGER_START:
+-		prtd->period_ptr = prtd->dma_buffer;
+-
+-		ssc_writex(params->ssc->regs, params->pdc->xpr,
+-			   prtd->period_ptr);
+-		ssc_writex(params->ssc->regs, params->pdc->xcr,
+-			   prtd->period_size / params->pdc_xfer_size);
+-
+-		prtd->period_ptr += prtd->period_size;
+-		ssc_writex(params->ssc->regs, params->pdc->xnpr,
+-			   prtd->period_ptr);
+-		ssc_writex(params->ssc->regs, params->pdc->xncr,
+-			   prtd->period_size / params->pdc_xfer_size);
+-
+-		pr_debug("atmel-pcm: trigger: "
+-			"period_ptr=%lx, xpr=%u, "
+-			"xcr=%u, xnpr=%u, xncr=%u\n",
+-			(unsigned long)prtd->period_ptr,
+-			ssc_readx(params->ssc->regs, params->pdc->xpr),
+-			ssc_readx(params->ssc->regs, params->pdc->xcr),
+-			ssc_readx(params->ssc->regs, params->pdc->xnpr),
+-			ssc_readx(params->ssc->regs, params->pdc->xncr));
+-
+-		ssc_writex(params->ssc->regs, SSC_IER,
+-			   params->mask->ssc_endx | params->mask->ssc_endbuf);
+-		ssc_writex(params->ssc->regs, SSC_PDC_PTCR,
+-			   params->mask->pdc_enable);
+-
+-		pr_debug("sr=%u imr=%u\n",
+-			ssc_readx(params->ssc->regs, SSC_SR),
+-			ssc_readx(params->ssc->regs, SSC_IER));
+-		break;		/* SNDRV_PCM_TRIGGER_START */
+-
+-	case SNDRV_PCM_TRIGGER_STOP:
+-	case SNDRV_PCM_TRIGGER_SUSPEND:
+-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+-		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
+-			   params->mask->pdc_disable);
+-		break;
+-
+-	case SNDRV_PCM_TRIGGER_RESUME:
+-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		ssc_writex(params->ssc->regs, ATMEL_PDC_PTCR,
+-			   params->mask->pdc_enable);
+-		break;
  
- 	snd_soc_dai_set_drvdata(dai, ssc_p);
- 
--	/*
--	 * Request SSC device
--	 */
--	ssc_p->ssc = ssc_request(dai->id);
--	if (IS_ERR(ssc_p->ssc)) {
--		printk(KERN_ERR "ASoC: Failed to request SSC %d\n", dai->id);
--		ret = PTR_ERR(ssc_p->ssc);
+-	default:
+-		ret = -EINVAL;
 -	}
 -
 -	return ret;
 -}
 -
--static int atmel_ssc_remove(struct snd_soc_dai *dai)
+-static snd_pcm_uframes_t atmel_pcm_pointer(
+-	struct snd_pcm_substream *substream)
 -{
--	struct atmel_ssc_info *ssc_p = snd_soc_dai_get_drvdata(dai);
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	struct atmel_runtime_data *prtd = runtime->private_data;
+-	struct atmel_pcm_dma_params *params = prtd->params;
+-	dma_addr_t ptr;
+-	snd_pcm_uframes_t x;
 -
--	ssc_free(ssc_p->ssc);
- 	return 0;
- }
- 
-@@ -728,11 +663,8 @@ static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
- 	.set_clkdiv	= atmel_ssc_set_dai_clkdiv,
- };
- 
--static struct snd_soc_dai_driver atmel_ssc_dai[NUM_SSC_DEVICES] = {
--	{
--		.name = "atmel-ssc-dai.0",
-+static struct snd_soc_dai_driver atmel_ssc_dai = {
- 		.probe = atmel_ssc_probe,
--		.remove = atmel_ssc_remove,
- 		.suspend = atmel_ssc_suspend,
- 		.resume = atmel_ssc_resume,
- 		.playback = {
-@@ -746,69 +678,37 @@ static struct snd_soc_dai_driver atmel_ssc_dai[NUM_SSC_DEVICES] = {
- 			.rates = ATMEL_SSC_RATES,
- 			.formats = ATMEL_SSC_FORMATS,},
- 		.ops = &atmel_ssc_dai_ops,
--	},
--#if NUM_SSC_DEVICES = 3
--	{
--		.name = "atmel-ssc-dai.1",
--		.probe = atmel_ssc_probe,
--		.remove = atmel_ssc_remove,
--		.suspend = atmel_ssc_suspend,
--		.resume = atmel_ssc_resume,
--		.playback = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.capture = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.ops = &atmel_ssc_dai_ops,
--	},
--	{
--		.name = "atmel-ssc-dai.2",
--		.probe = atmel_ssc_probe,
--		.remove = atmel_ssc_remove,
--		.suspend = atmel_ssc_suspend,
--		.resume = atmel_ssc_resume,
--		.playback = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.capture = {
--			.channels_min = 1,
--			.channels_max = 2,
--			.rates = ATMEL_SSC_RATES,
--			.formats = ATMEL_SSC_FORMATS,},
--		.ops = &atmel_ssc_dai_ops,
--	},
--#endif
- };
- 
--static __devinit int asoc_ssc_probe(struct platform_device *pdev)
-+static int asoc_ssc_init(struct device *dev)
- {
--	BUG_ON(pdev->id < 0);
--	BUG_ON(pdev->id >= ARRAY_SIZE(atmel_ssc_dai));
--	return snd_soc_register_dai(&pdev->dev, &atmel_ssc_dai[pdev->id]);
+-	ptr = (dma_addr_t) ssc_readx(params->ssc->regs, params->pdc->xpr);
+-	x = bytes_to_frames(runtime, ptr - prtd->dma_buffer);
+-
+-	if (x = runtime->buffer_size)
+-		x = 0;
+-
+-	return x;
 -}
-+	int ret;
-+
-+	ret = snd_soc_register_dai(dev, &atmel_ssc_dai);
-+	if (ret) {
-+		dev_err(dev, "Could not register DAI: %d\n", ret);
-+		goto err;
-+	}
-+
-+	ret = atmel_pcm_platform_register(dev);
-+	if (ret) {
-+		dev_err(dev, "Could not register PCM: %d\n", ret);
-+		goto err_unregister_dai;
-+	};
- 
--static int __devexit asoc_ssc_remove(struct platform_device *pdev)
+-
+-static int atmel_pcm_open(struct snd_pcm_substream *substream)
 -{
--	snd_soc_unregister_dai(&pdev->dev);
- 	return 0;
--}
- 
--static struct platform_driver asoc_ssc_driver = {
--	.driver = {
--			.name = "atmel-ssc-dai",
--			.owner = THIS_MODULE,
--	},
-+err_unregister_dai:
-+	snd_soc_unregister_dai(dev);
-+err:
-+	return ret;
-+}
- 
--	.probe = asoc_ssc_probe,
--	.remove = __devexit_p(asoc_ssc_remove),
--};
-+static void asoc_ssc_exit(struct device *dev)
-+{
-+	atmel_pcm_platform_unregister(dev);
-+	snd_soc_unregister_dai(dev);
-+}
- 
- /**
-  * atmel_ssc_set_audio - Allocate the specified SSC for audio use.
-@@ -816,50 +716,32 @@ static struct platform_driver asoc_ssc_driver = {
- int atmel_ssc_set_audio(int ssc_id)
- {
- 	struct ssc_device *ssc;
--	static struct platform_device *dma_pdev;
--	struct platform_device *ssc_pdev;
- 	int ret;
- 
--	if (ssc_id < 0 || ssc_id >= ARRAY_SIZE(atmel_ssc_dai))
--		return -EINVAL;
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	struct atmel_runtime_data *prtd;
+-	int ret = 0;
 -
--	/* Allocate a dummy device for DMA if we don't have one already */
--	if (!dma_pdev) {
--		dma_pdev = platform_device_alloc("atmel-pcm-audio", -1);
--		if (!dma_pdev)
--			return -ENOMEM;
+-	snd_soc_set_runtime_hwparams(substream, &atmel_pcm_hardware);
 -
--		ret = platform_device_add(dma_pdev);
--		if (ret < 0) {
--			platform_device_put(dma_pdev);
--			dma_pdev = NULL;
--			return ret;
--		}
--	}
--
--	ssc_pdev = platform_device_alloc("atmel-ssc-dai", ssc_id);
--	if (!ssc_pdev)
--		return -ENOMEM;
--
- 	/* If we can grab the SSC briefly to parent the DAI device off it */
- 	ssc = ssc_request(ssc_id);
--	if (IS_ERR(ssc))
--		pr_warn("Unable to parent ASoC SSC DAI on SSC: %ld\n",
-+	if (IS_ERR(ssc)) {
-+		pr_err("Unable to parent ASoC SSC DAI on SSC: %ld\n",
- 			PTR_ERR(ssc));
--	else {
--		ssc_pdev->dev.parent = &(ssc->pdev->dev);
--		ssc_free(ssc);
-+		return PTR_ERR(ssc);
-+	} else {
-+		ssc_info.ssc = ssc;
- 	}
- 
--	ret = platform_device_add(ssc_pdev);
+-	/* ensure that buffer size is a multiple of period size */
+-	ret = snd_pcm_hw_constraint_integer(runtime,
+-						SNDRV_PCM_HW_PARAM_PERIODS);
 -	if (ret < 0)
--		platform_device_put(ssc_pdev);
-+	ret = asoc_ssc_init(&ssc->pdev->dev);
- 
- 	return ret;
+-		goto out;
+-
+-	prtd = kzalloc(sizeof(struct atmel_runtime_data), GFP_KERNEL);
+-	if (prtd = NULL) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
+-	runtime->private_data = prtd;
+-
+- out:
+-	return ret;
+-}
+-
+-static int atmel_pcm_close(struct snd_pcm_substream *substream)
+-{
+-	struct atmel_runtime_data *prtd = substream->runtime->private_data;
+-
+-	kfree(prtd);
+-	return 0;
+-}
+-
+-static int atmel_pcm_mmap(struct snd_pcm_substream *substream,
++int atmel_pcm_mmap(struct snd_pcm_substream *substream,
+ 	struct vm_area_struct *vma)
+ {
+ 	return remap_pfn_range(vma, vma->vm_start,
+ 		       substream->dma_buffer.addr >> PAGE_SHIFT,
+ 		       vma->vm_end - vma->vm_start, vma->vm_page_prot);
  }
- EXPORT_SYMBOL_GPL(atmel_ssc_set_audio);
++EXPORT_SYMBOL_GPL(atmel_pcm_mmap);
  
--module_platform_driver(asoc_ssc_driver);
-+void atmel_ssc_put_audio(void)
-+{
-+	struct ssc_device *ssc = ssc_info.ssc;
-+
-+	ssc_free(ssc);
-+	asoc_ssc_exit(&ssc->pdev->dev);
-+}
-+EXPORT_SYMBOL_GPL(atmel_ssc_put_audio);
+-static struct snd_pcm_ops atmel_pcm_ops = {
+-	.open		= atmel_pcm_open,
+-	.close		= atmel_pcm_close,
+-	.ioctl		= snd_pcm_lib_ioctl,
+-	.hw_params	= atmel_pcm_hw_params,
+-	.hw_free	= atmel_pcm_hw_free,
+-	.prepare	= atmel_pcm_prepare,
+-	.trigger	= atmel_pcm_trigger,
+-	.pointer	= atmel_pcm_pointer,
+-	.mmap		= atmel_pcm_mmap,
+-};
+-
+-
+-/*--------------------------------------------------------------------------*\
+- * ASoC platform driver
+-\*--------------------------------------------------------------------------*/
+ static u64 atmel_pcm_dmamask = DMA_BIT_MASK(32);
  
- /* Module information */
- MODULE_AUTHOR("Sedji Gaouaou, sedji.gaouaou@atmel.com, www.atmel.com");
-diff --git a/sound/soc/atmel/atmel_ssc_dai.h b/sound/soc/atmel/atmel_ssc_dai.h
-index 5d4f0f9..70c66dd 100644
---- a/sound/soc/atmel/atmel_ssc_dai.h
-+++ b/sound/soc/atmel/atmel_ssc_dai.h
-@@ -118,5 +118,6 @@ struct atmel_ssc_info {
- };
+-static int atmel_pcm_new(struct snd_soc_pcm_runtime *rtd)
++int atmel_pcm_new(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct snd_card *card = rtd->card->snd_card;
+ 	struct snd_pcm *pcm = rtd->pcm;
+@@ -376,6 +82,7 @@ static int atmel_pcm_new(struct snd_soc_pcm_runtime *rtd)
+ 		card->dev->coherent_dma_mask = DMA_BIT_MASK(32);
  
- int atmel_ssc_set_audio(int ssc);
-+void atmel_ssc_put_audio(void);
- 
- #endif /* _AT91_SSC_DAI_H */
-diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
-index 228ca6a..eef6eed 100644
---- a/sound/soc/atmel/sam9g20_wm8731.c
-+++ b/sound/soc/atmel/sam9g20_wm8731.c
-@@ -179,10 +179,10 @@ static int at91sam9g20ek_wm8731_init(struct snd_soc_pcm_runtime *rtd)
- static struct snd_soc_dai_link at91sam9g20ek_dai = {
- 	.name = "WM8731",
- 	.stream_name = "WM8731 PCM",
--	.cpu_dai_name = "atmel-ssc-dai.0",
-+	.cpu_dai_name = "at91rm9200_ssc.0",
- 	.codec_dai_name = "wm8731-hifi",
- 	.init = at91sam9g20ek_wm8731_init,
--	.platform_name = "atmel-pcm-audio",
-+	.platform_name = "at91rm9200_ssc.0",
- 	.codec_name = "wm8731.0-001b",
- 	.ops = &at91sam9g20ek_ops,
- };
-@@ -204,6 +204,10 @@ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
- 	if (!(machine_is_at91sam9g20ek() || machine_is_at91sam9g20ek_2mmc()))
- 		return -ENODEV;
- 
-+	ret = atmel_ssc_set_audio(pdev->id);
-+	if (ret)
-+		goto err;
-+
- 	/*
- 	 * Codec MCLK is supplied by PCK0 - set it up.
- 	 */
-@@ -211,7 +215,7 @@ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
- 	if (IS_ERR(mclk)) {
- 		printk(KERN_ERR "ASoC: Failed to get MCLK\n");
- 		ret = PTR_ERR(mclk);
--		goto err;
-+		goto err_ssc_put_audio;
+ 	if (pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream) {
++		pr_debug("atmel-pcm: allocating PCM playback DMA buffer\n");
+ 		ret = atmel_pcm_preallocate_dma_buffer(pcm,
+ 			SNDRV_PCM_STREAM_PLAYBACK);
+ 		if (ret)
+@@ -383,8 +90,7 @@ static int atmel_pcm_new(struct snd_soc_pcm_runtime *rtd)
  	}
  
- 	pllb = clk_get(NULL, "pllb");
-@@ -240,6 +244,8 @@ static int __devinit at91sam9g20ek_audio_probe(struct platform_device *pdev)
- err_mclk:
- 	clk_put(mclk);
- 	mclk = NULL;
-+err_ssc_put_audio:
-+	atmel_ssc_put_audio();
- err:
+ 	if (pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream) {
+-		pr_debug("atmel-pcm:"
+-				"Allocating PCM capture DMA buffer\n");
++		pr_debug("atmel-pcm: allocating PCM capture DMA buffer\n");
+ 		ret = atmel_pcm_preallocate_dma_buffer(pcm,
+ 			SNDRV_PCM_STREAM_CAPTURE);
+ 		if (ret)
+@@ -393,8 +99,9 @@ static int atmel_pcm_new(struct snd_soc_pcm_runtime *rtd)
+  out:
  	return ret;
  }
-@@ -248,6 +254,7 @@ static int __devexit at91sam9g20ek_audio_remove(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card = platform_get_drvdata(pdev);
++EXPORT_SYMBOL_GPL(atmel_pcm_new);
  
-+	atmel_ssc_put_audio();
- 	snd_soc_unregister_card(card);
- 	clk_put(mclk);
- 	mclk = NULL;
+-static void atmel_pcm_free_dma_buffers(struct snd_pcm *pcm)
++void atmel_pcm_free(struct snd_pcm *pcm)
+ {
+ 	struct snd_pcm_substream *substream;
+ 	struct snd_dma_buffer *buf;
+@@ -413,78 +120,5 @@ static void atmel_pcm_free_dma_buffers(struct snd_pcm *pcm)
+ 		buf->area = NULL;
+ 	}
+ }
++EXPORT_SYMBOL_GPL(atmel_pcm_free);
+ 
+-#ifdef CONFIG_PM
+-static int atmel_pcm_suspend(struct snd_soc_dai *dai)
+-{
+-	struct snd_pcm_runtime *runtime = dai->runtime;
+-	struct atmel_runtime_data *prtd;
+-	struct atmel_pcm_dma_params *params;
+-
+-	if (!runtime)
+-		return 0;
+-
+-	prtd = runtime->private_data;
+-	params = prtd->params;
+-
+-	/* disable the PDC and save the PDC registers */
+-
+-	ssc_writel(params->ssc->regs, PDC_PTCR, params->mask->pdc_disable);
+-
+-	prtd->pdc_xpr_save = ssc_readx(params->ssc->regs, params->pdc->xpr);
+-	prtd->pdc_xcr_save = ssc_readx(params->ssc->regs, params->pdc->xcr);
+-	prtd->pdc_xnpr_save = ssc_readx(params->ssc->regs, params->pdc->xnpr);
+-	prtd->pdc_xncr_save = ssc_readx(params->ssc->regs, params->pdc->xncr);
+-
+-	return 0;
+-}
+-
+-static int atmel_pcm_resume(struct snd_soc_dai *dai)
+-{
+-	struct snd_pcm_runtime *runtime = dai->runtime;
+-	struct atmel_runtime_data *prtd;
+-	struct atmel_pcm_dma_params *params;
+-
+-	if (!runtime)
+-		return 0;
+-
+-	prtd = runtime->private_data;
+-	params = prtd->params;
+-
+-	/* restore the PDC registers and enable the PDC */
+-	ssc_writex(params->ssc->regs, params->pdc->xpr, prtd->pdc_xpr_save);
+-	ssc_writex(params->ssc->regs, params->pdc->xcr, prtd->pdc_xcr_save);
+-	ssc_writex(params->ssc->regs, params->pdc->xnpr, prtd->pdc_xnpr_save);
+-	ssc_writex(params->ssc->regs, params->pdc->xncr, prtd->pdc_xncr_save);
+-
+-	ssc_writel(params->ssc->regs, PDC_PTCR, params->mask->pdc_enable);
+-	return 0;
+-}
+-#else
+-#define atmel_pcm_suspend	NULL
+-#define atmel_pcm_resume	NULL
+-#endif
+-
+-static struct snd_soc_platform_driver atmel_soc_platform = {
+-	.ops		= &atmel_pcm_ops,
+-	.pcm_new	= atmel_pcm_new,
+-	.pcm_free	= atmel_pcm_free_dma_buffers,
+-	.suspend	= atmel_pcm_suspend,
+-	.resume		= atmel_pcm_resume,
+-};
+-
+-int atmel_pcm_platform_register(struct device *dev)
+-{
+-	return snd_soc_register_platform(dev, &atmel_soc_platform);
+-}
+-EXPORT_SYMBOL(atmel_pcm_platform_register);
+-
+-void atmel_pcm_platform_unregister(struct device *dev)
+-{
+-	snd_soc_unregister_platform(dev);
+-}
+-EXPORT_SYMBOL(atmel_pcm_platform_unregister);
+-
+-MODULE_AUTHOR("Sedji Gaouaou <sedji.gaouaou@atmel.com>");
+-MODULE_DESCRIPTION("Atmel PCM module");
+-MODULE_LICENSE("GPL");
+diff --git a/sound/soc/atmel/atmel-pcm.h b/sound/soc/atmel/atmel-pcm.h
+index e6d67b3..6bd63b0 100644
+--- a/sound/soc/atmel/atmel-pcm.h
++++ b/sound/soc/atmel/atmel-pcm.h
+@@ -36,6 +36,8 @@
+ 
+ #include <linux/atmel-ssc.h>
+ 
++#define ATMEL_SSC_DMABUF_SIZE	(64 * 1024)
++
+ /*
+  * Registers and status bits that are required by the PCM driver.
+  */
+@@ -80,7 +82,22 @@ struct atmel_pcm_dma_params {
+ #define ssc_readx(base, reg)            (__raw_readl((base) + (reg)))
+ #define ssc_writex(base, reg, value)    __raw_writel((value), (base) + (reg))
+ 
+-int atmel_pcm_platform_register(struct device *dev);
+-void atmel_pcm_platform_unregister(struct device *dev);
++int atmel_pcm_new(struct snd_soc_pcm_runtime *rtd);
++void atmel_pcm_free(struct snd_pcm *pcm);
++int atmel_pcm_mmap(struct snd_pcm_substream *substream,
++		struct vm_area_struct *vma);
++
++#ifdef CONFIG_SND_ATMEL_SOC_PDC
++int atmel_pcm_pdc_platform_register(struct device *dev);
++void atmel_pcm_pdc_platform_unregister(struct device *dev);
++#else
++static inline int atmel_pcm_pdc_platform_register(struct device *dev)
++{
++	return 0;
++}
++static inline void atmel_pcm_pdc_platform_unregister(struct device *dev)
++{
++}
++#endif
+ 
+ #endif /* _ATMEL_PCM_H */
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 7932c05..1705614 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -729,7 +729,7 @@ static int asoc_ssc_init(struct device *dev)
+ 		goto err;
+ 	}
+ 
+-	ret = atmel_pcm_platform_register(dev);
++	ret = atmel_pcm_pdc_platform_register(dev);
+ 	if (ret) {
+ 		dev_err(dev, "Could not register PCM: %d\n", ret);
+ 		goto err_unregister_dai;
+@@ -745,7 +745,7 @@ err:
+ 
+ static void asoc_ssc_exit(struct device *dev)
+ {
+-	atmel_pcm_platform_unregister(dev);
++	atmel_pcm_pdc_platform_unregister(dev);
+ 	snd_soc_unregister_dai(dev);
+ }
+ 
 -- 
 1.7.9.5
 
