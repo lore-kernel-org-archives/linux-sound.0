@@ -1,47 +1,64 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Mon, 24 Dec 2012 15:49:22 +0000
-Subject: Re: [PATCH] ASoC: atmel-soc: make it buildable on other architectures
-Message-Id: <20121224154922.GI30837@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="3eH4Qcq5fItR5cpy"
+From: Joachim Eastwood <manabian@gmail.com>
+Date: Sat, 08 Dec 2012 12:46:41 +0000
+Subject: [PATCH] ASoC: atmel-ssc: make it buildable on other architectures
+Message-Id: <1354970801-9185-1-git-send-email-manabian@gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1354973002-13588-1-git-send-email-manabian@gmail.com>
-In-Reply-To: <1354973002-13588-1-git-send-email-manabian@gmail.com>
-To: Joachim Eastwood <manabian@gmail.com>
-Cc: voice.shen@atmel.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: voice.shen@atmel.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, broonie@opensource.wolfsonmicro.com
+Cc: linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Joachim Eastwood <manabian@gmail.com>
 
+Not very useful on non AT91/AVR32 platforms but it provides
+more build coverage and prepares for ARM multiplatform.
 
---3eH4Qcq5fItR5cpy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Also fixes a truncated warning that would come when
+building on a 64-bit arch.
 
-On Sat, Dec 08, 2012 at 02:23:22PM +0100, Joachim Eastwood wrote:
-> Not very useful on non AT91/AVR32 platforms but it provides
-> more build coverage and prepares for ARM multiplatform.
+Signed-off-by: Joachim Eastwood <manabian@gmail.com>
+---
 
-Applied, thanks.  Would be nice if this had a different subject line to
-the previous commit...
+Hi Mark,
 
---3eH4Qcq5fItR5cpy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Sending it to you since seem like you're the last one who
+commited changes to the driver and the driver is mostly
+used on ASoC.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+Tested on RM9200 and build tested on x86_64.
 
-iQIcBAEBAgAGBQJQ2Hl7AAoJELSic+t+oim9P4oP/1PqtnWSjxTERNQQcLeN/BNk
-127nP0SyR+YDR6UY+ipXPvQDghvCSbY9NsTDewDXL1aFDNcBOkdItjjJvwMGFoa2
-X/PojDDTvFnfoOcVQREu9CTo7AO/kCgihzve0WOhE3AahmmEAzSKQcq6sgn0TYFD
-q4PUlbcznpNPvNmFSZ0MhW6s0+/faMYT5i89Zc+ANPpjJk/vPvREWy2aMXPH2jQ1
-nWQ5JjYziSw2+MZ26B2SKVHD5uE4VJrFVEkGe5pDZ9LPJrGGfDy4gfJTTdWQ5pn5
-1RG0+JI363YrtfH0VgKJE92YaiKWw9pYSKemCG7070SD4tmBRI6mDYeFs1IYizQC
-TFq94W/CcW78J33HtC3f+/8eGHd1iYGeNnYTmGRl6/8N1TZ2lm8roa/fqizvfvur
-gyl3pC/WZ7xYELeht8IwfBmZiZE1nKnBu+CPHpg7Lz1HJqeOqn9Q+c4OA/ewujrz
-4W8Vxd80NtZ53sw634WNIYC3QKKqC33e/OZaZ31L+z6uSo7P6FgXao7mi1v+5p5P
-re0dHfIUBU4YsBs+M3Y7E1GLW2qY8wv43lFiPd0VEX9nRHGSlarGx2rPX8iIhJa4
-l++1FtQy51S5oYayao1EjxG1U2+uFUdLyK5/+bLOUbbwo2qhf20jCfk6ITo3H/O1
-FIs0+ImZ1Vofw1u8tCnU
-=oIcq
------END PGP SIGNATURE-----
+regards
+Joachim Eastwood
 
---3eH4Qcq5fItR5cpy--
+ drivers/misc/Kconfig     | 2 +-
+ drivers/misc/atmel-ssc.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index b151b7c..8f59d88 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -192,7 +192,7 @@ config ICS932S401
+ 
+ config ATMEL_SSC
+ 	tristate "Device driver for Atmel SSC peripheral"
+-	depends on AVR32 || ARCH_AT91
++	depends on HAS_IOMEM
+ 	---help---
+ 	  This option enables device driver support for Atmel Synchronized
+ 	  Serial Communication peripheral (SSC).
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index 158da5a..0cee274 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -167,7 +167,7 @@ static int ssc_probe(struct platform_device *pdev)
+ 
+ 	/* disable all interrupts */
+ 	clk_enable(ssc->clk);
+-	ssc_writel(ssc->regs, IDR, ~0UL);
++	ssc_writel(ssc->regs, IDR, -1);
+ 	ssc_readl(ssc->regs, SR);
+ 	clk_disable(ssc->clk);
+ 
+-- 
+1.8.0
+
