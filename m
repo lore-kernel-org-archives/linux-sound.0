@@ -1,92 +1,48 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 13 Dec 2012 02:05:07 +0000
-Subject: [PATCH] ASoC: atmel-ssc: change disable to disable in dts node
-Message-Id: <1355364307-31584-1-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Sat, 15 Dec 2012 14:51:46 +0000
+Subject: Re: [PATCH] ASoC: atmel-ssc: change disable to disable in dts node
+Message-Id: <20121215145145.GE22033@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="Ns7jmDPpOpCD+GE/"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com
-Cc: tiwai@suse.de, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
+References: <1355364307-31584-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1355364307-31584-1-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de
 
-Change the value of status to disabled to keep the consistent
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- arch/arm/boot/dts/at91sam9260.dtsi |    2 +-
- arch/arm/boot/dts/at91sam9263.dtsi |    4 ++--
- arch/arm/boot/dts/at91sam9g45.dtsi |    4 ++--
- arch/arm/boot/dts/at91sam9x5.dtsi  |    2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+--Ns7jmDPpOpCD+GE/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm/boot/dts/at91sam9260.dtsi b/arch/arm/boot/dts/at91sam9260.dtsi
-index aaa42d8..03c56cb 100644
---- a/arch/arm/boot/dts/at91sam9260.dtsi
-+++ b/arch/arm/boot/dts/at91sam9260.dtsi
-@@ -217,7 +217,7 @@
- 				compatible = "atmel,at91rm9200-ssc";
- 				reg = <0xfffbc000 0x4000>;
- 				interrupts = <14 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			adc0: adc@fffe0000 {
-diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
-index 3b721ee..15f12dd 100644
---- a/arch/arm/boot/dts/at91sam9263.dtsi
-+++ b/arch/arm/boot/dts/at91sam9263.dtsi
-@@ -179,14 +179,14 @@
- 				compatible = "atmel,at91rm9200-ssc";
- 				reg = <0xfff98000 0x4000>;
- 				interrupts = <16 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			ssc1: ssc@fff9c000 {
- 				compatible = "atmel,at91rm9200-ssc";
- 				reg = <0xfff9c000 0x4000>;
- 				interrupts = <17 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			macb0: ethernet@fffbc000 {
-diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
-index acfa207..44a38d0 100644
---- a/arch/arm/boot/dts/at91sam9g45.dtsi
-+++ b/arch/arm/boot/dts/at91sam9g45.dtsi
-@@ -232,14 +232,14 @@
- 				compatible = "atmel,at91sam9g45-ssc";
- 				reg = <0xfff9c000 0x4000>;
- 				interrupts = <16 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			ssc1: ssc@fffa0000 {
- 				compatible = "atmel,at91sam9g45-ssc";
- 				reg = <0xfffa0000 0x4000>;
- 				interrupts = <17 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			adc0: adc@fffb0000 {
-diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
-index 69667d0..0beff72 100644
---- a/arch/arm/boot/dts/at91sam9x5.dtsi
-+++ b/arch/arm/boot/dts/at91sam9x5.dtsi
-@@ -92,7 +92,7 @@
- 				compatible = "atmel,at91sam9g45-ssc";
- 				reg = <0xf0010000 0x4000>;
- 				interrupts = <28 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			tcb0: timer@f8008000 {
--- 
-1.7.9.5
+On Thu, Dec 13, 2012 at 10:05:07AM +0800, Bo Shen wrote:
+> Change the value of status to disabled to keep the consistent
+>=20
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
+Applied, thanks.
+
+--Ns7jmDPpOpCD+GE/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQzI56AAoJELSic+t+oim9bhoP/i3jRK42uWNaz+ZtZycvZp/G
+R0jogZLPDcQQc7I3xATslIcCfg27hyf2PPrDC8auR5WpC64mGMPvGlkBykO/rgeM
+BzXt33Jp5uu8Rs09UCh5KpG9zDvXtVyhcYFZnGKkSGV+7CD2ZvFyER1E06L4HsuC
+lRjhRCeM8+tIt/Bj8tUockH9jtQInTjd2FJP+EsxaxBQrLZJAwvWOYeK61Vch78+
+Yaty36k/0gqFrH3UGTPnY+PHfTdJUQ0qPIPWX6QEyk6eamvP3TTA2pHi7z9u3rio
+T0OzaxdXJTSe3fd5fhwERmB+XlhFaOtK+2aJKA0Q4Xlnnc7FGvHoYQodoBbENkVF
+8v8MRm+GzZ9laNquggFxWTujvlfBnLOm54X1ITUNYXknHli2GAa3urplfih0Hc9B
+2CM91sxtP/yTbCOA9sTbybdiFUgbbugu+P0uDkBahBr9lvBivN0fwq71DGrICOKK
+cBA3sH7JlcohyUcSqIrwjX5b4N1ZKagjy+WAnQ68QkzyP0GAbk79ZV23o0S2jE1A
+7+8YHqZnjLBRRYL3t5EkGkPwJSLS6J2VtfqfhwCV52p8H0ar8gGu13h5iq55jzNO
+RuegeAT1aRWcw/8i4NVSYaq+9TNtJigyfFwTsxdo+3d7gF0KFmo4JR8uvuXYTy3J
+t77gz30hXFcQDcnrK5Kk
+=Gd8W
+-----END PGP SIGNATURE-----
+
+--Ns7jmDPpOpCD+GE/--
