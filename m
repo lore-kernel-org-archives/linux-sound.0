@@ -1,50 +1,54 @@
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Mon, 17 Dec 2012 11:23:23 +0000
-Subject: [PATCH 0/3] at91/ssc: fixes on ASoC tree for 3.8
-Message-Id: <cover.1355742707.git.nicolas.ferre@atmel.com>
+Date: Mon, 17 Dec 2012 11:23:26 +0000
+Subject: [PATCH 3/3] ASoC: atmel-ssc: add pinctrl selection to driver
+Message-Id: <3c04845ebfda106a5e980f15a8a038f47d114b9f.1355742707.git.nicolas.ferre@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <cover.1355742707.git.nicolas.ferre@atmel.com>
+In-Reply-To: <cover.1355742707.git.nicolas.ferre@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com
 Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, Olof Johansson <olof@lixom.net>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Nicolas Ferre <nicolas.ferre@atmel.com>
 
-Hi Mark,
+From: Bo Shen <voice.shen@atmel.com>
 
-This series goes on top of current Linus' git tree and fixes an error that
-we have while compiling DTBs for AT91:
-ERROR (phandle_references): Reference to non-existent node or label
-"pinctrl_ssc0_tx"
+Add default pinctrl selection to atmel-ssc driver. The pinctrl
+is mandatory.
 
-ERROR: Input tree has errors, aborting (use -f to force output)
-make[3]: *** [arch/arm/boot/dts/at91sam9g20ek.dtb] Error 2
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+[nicolas.ferre@atmel.com: split dtsi and driver changes]
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+---
+ drivers/misc/atmel-ssc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-I have included pending material that is dealing with SSC and pinctrl. The
-pinctrl part can be merged more easily now that the big pinctrl update for AT91
-has been merged upstream.
-I have also included a typo patch that you have already taken as 315656b (ASoC:
-atmel-ssc: change disable to disable in dts node) in your topic/atmel branch
-but that was not described properly.
-
-If you find it easier, I can provide you a git tree for this material: just
-tell me...
-
-Thanks for your help, best regards,
-
-
-Bo Shen (3):
-  ARM: at91/dts: fix typo in SSC status property
-  ARM: at91/dts: add pinctrl support for SSC peripheral
-  ASoC: atmel-ssc: add pinctrl selection to driver
-
- arch/arm/boot/dts/at91sam9260.dtsi | 18 +++++++++++++++++
- arch/arm/boot/dts/at91sam9263.dtsi | 40 ++++++++++++++++++++++++++++++++++++--
- arch/arm/boot/dts/at91sam9g45.dtsi | 40 ++++++++++++++++++++++++++++++++++++--
- arch/arm/boot/dts/at91sam9n12.dtsi | 26 +++++++++++++++++++++++++
- arch/arm/boot/dts/at91sam9x5.dtsi  | 32 +++++++++++++++++++++++-------
- drivers/misc/atmel-ssc.c           |  8 ++++++++
- 6 files changed, 153 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index 158da5a..3c09cbb 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -19,6 +19,7 @@
+ #include <linux/module.h>
+ 
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
+ 
+ /* Serialize access to ssc_list and user count */
+ static DEFINE_SPINLOCK(user_lock);
+@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
+ 	struct resource *regs;
+ 	struct ssc_device *ssc;
+ 	const struct atmel_ssc_platform_data *plat_dat;
++	struct pinctrl *pinctrl;
++
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		return PTR_ERR(pinctrl);
++	}
+ 
+ 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+ 	if (!ssc) {
 -- 
 1.8.0
 
