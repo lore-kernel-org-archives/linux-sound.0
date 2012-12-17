@@ -1,38 +1,26 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 13 Dec 2012 02:10:35 +0000
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Mon, 17 Dec 2012 09:39:47 +0000
 Subject: Re: [Resend PATCH v6 1/4] pinctrl: atmel-ssc: add pinctrl support
-Message-Id: <50C9391B.7080204@atmel.com>
+Message-Id: <20121217093947.GG23971@game.jcrosoft.org>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1353464229-20846-1-git-send-email-voice.shen@atmel.com> <20121121022441.GJ4673@opensource.wolfsonmicro.com> <50BC3F1A.1030808@atmel.com>
-In-Reply-To: <50BC3F1A.1030808@atmel.com>
+References: <1353464229-20846-1-git-send-email-voice.shen@atmel.com>
+ <20121121022441.GJ4673@opensource.wolfsonmicro.com>
+In-Reply-To: <20121121022441.GJ4673@opensource.wolfsonmicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: plagnioj@jcrosoft.com
-Cc: Mark Brown <broonie@opensource.wolfsonmicro.com>, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, devicetree-discuss@lists.ozlabs.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+To: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Cc: alsa-devel@alsa-project.org, devicetree-discuss@lists.ozlabs.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
 
-On 12/3/2012 13:56, Bo Shen wrote:
-> Hi J,
->
-> On 11/21/2012 10:24, Mark Brown wrote:
->> On Wed, Nov 21, 2012 at 10:17:09AM +0800, Bo Shen wrote:
->>> Add pinctrl support for atmel ssc peripheral
->>>
->>> Signed-off-by: Bo Shen <voice.shen@atmel.com>
->>
->> Acked-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
->>
->
-> Ping?
-> Will you pick up this patch, if not, the linux-next (20121130) build
-> will report following error:
-> ---<8---
-> ERROR (phandle_references): Reference to non-existent node or label
-> "pinctrl_ssc0_tx
-> --->8---
+On 11:24 Wed 21 Nov     , Mark Brown wrote:
+> On Wed, Nov 21, 2012 at 10:17:09AM +0800, Bo Shen wrote:
+> > Add pinctrl support for atmel ssc peripheral
+> > 
+> > Signed-off-by: Bo Shen <voice.shen@atmel.com>
+> 
+> Acked-by: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
-Ping again?
+you handle this one with scc
 
-> Best Regards,
-> Bo Shen
-
+Best Regards,
+J.
