@@ -1,85 +1,50 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Mon, 17 Dec 2012 11:23:24 +0000
-Subject: [PATCH 1/3] ARM: at91/dts: fix typo in SSC status property
-Message-Id: <10c033465336fc6cc82b6006153b0c456021589e.1355742707.git.nicolas.ferre@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Mon, 17 Dec 2012 14:25:50 +0000
+Subject: Re: [PATCH 1/3] ARM: at91/dts: fix typo in SSC status property
+Message-Id: <20121217142550.GH4985@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="TdkiTnkLhLQllcMS"
 List-Id: <linux-sound.vger.kernel.org>
 References: <cover.1355742707.git.nicolas.ferre@atmel.com>
-In-Reply-To: <cover.1355742707.git.nicolas.ferre@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com
-Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, Olof Johansson <olof@lixom.net>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Nicolas Ferre <nicolas.ferre@atmel.com>
+ <10c033465336fc6cc82b6006153b0c456021589e.1355742707.git.nicolas.ferre@atmel.com>
+In-Reply-To: <10c033465336fc6cc82b6006153b0c456021589e.1355742707.git.nicolas.ferre@atmel.com>
+To: Nicolas Ferre <nicolas.ferre@atmel.com>
+Cc: voice.shen@atmel.com, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, Olof Johansson <olof@lixom.net>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-From: Bo Shen <voice.shen@atmel.com>
 
-Change the value of status to "disabled" to conform with
-property requirement.
+--TdkiTnkLhLQllcMS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
-[nicolas.ferre@atmel.com: commit subject line and typos]
-Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
----
- arch/arm/boot/dts/at91sam9263.dtsi | 4 ++--
- arch/arm/boot/dts/at91sam9g45.dtsi | 4 ++--
- arch/arm/boot/dts/at91sam9x5.dtsi  | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+On Mon, Dec 17, 2012 at 12:23:24PM +0100, Nicolas Ferre wrote:
+> From: Bo Shen <voice.shen@atmel.com>
+>=20
+> Change the value of status to "disabled" to conform with
+> property requirement.
 
-diff --git a/arch/arm/boot/dts/at91sam9263.dtsi b/arch/arm/boot/dts/at91sam9263.dtsi
-index 8e6251f..32ec62c 100644
---- a/arch/arm/boot/dts/at91sam9263.dtsi
-+++ b/arch/arm/boot/dts/at91sam9263.dtsi
-@@ -368,14 +368,14 @@
- 				compatible = "atmel,at91rm9200-ssc";
- 				reg = <0xfff98000 0x4000>;
- 				interrupts = <16 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			ssc1: ssc@fff9c000 {
- 				compatible = "atmel,at91rm9200-ssc";
- 				reg = <0xfff9c000 0x4000>;
- 				interrupts = <17 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			macb0: ethernet@fffbc000 {
-diff --git a/arch/arm/boot/dts/at91sam9g45.dtsi b/arch/arm/boot/dts/at91sam9g45.dtsi
-index fa1ae0c..231858f 100644
---- a/arch/arm/boot/dts/at91sam9g45.dtsi
-+++ b/arch/arm/boot/dts/at91sam9g45.dtsi
-@@ -425,14 +425,14 @@
- 				compatible = "atmel,at91sam9g45-ssc";
- 				reg = <0xfff9c000 0x4000>;
- 				interrupts = <16 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			ssc1: ssc@fffa0000 {
- 				compatible = "atmel,at91sam9g45-ssc";
- 				reg = <0xfffa0000 0x4000>;
- 				interrupts = <17 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			adc0: adc@fffb0000 {
-diff --git a/arch/arm/boot/dts/at91sam9x5.dtsi b/arch/arm/boot/dts/at91sam9x5.dtsi
-index 617ede5..40ac3a4 100644
---- a/arch/arm/boot/dts/at91sam9x5.dtsi
-+++ b/arch/arm/boot/dts/at91sam9x5.dtsi
-@@ -92,7 +92,7 @@
- 				compatible = "atmel,at91sam9g45-ssc";
- 				reg = <0xf0010000 0x4000>;
- 				interrupts = <28 4 5>;
--				status = "disable";
-+				status = "disabled";
- 			};
- 
- 			tcb0: timer@f8008000 {
--- 
-1.8.0
+This has already gone towards Linus.
 
+--TdkiTnkLhLQllcMS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQzytnAAoJELSic+t+oim9F0kQAIJSImibQULcsE7Q1P545kZ+
+UlAzNxz0IKCZNqKO6pTwo29NjJ4RffAECsigGzFeuiSbA59mkNxROy7U1KUCDKlO
+2VeRccXUgYXcozLR6vn2nk6siooBnOPM8vIihX1WeWoc7rLAH43XOfRGGkkHPjud
+wY/bPlNBs4CyLJNbSBO6s2liKuHzyqvbjjb83+oRjS/tlpFlIkIddVfJx8pAa7l+
+DP5gGelC8fW0sa42nskqa0B4b/oEtxOanwp9+QuG0YVZXQxh4hc2D5iVDID5ejUQ
+cNG9GWrhmoL1u+AxvVsPApB0ilXE5yU3aC2f2MkG51MKHR0T+fDfOIugpDlg8thc
+5/S9H5PcB/sx26HWFWWNh/wqgJTDEx6DSjVVXWIY5gJmUTX6A7tXQD7cd0Htvf/W
+0OYapvHz93q1tN9a8oBOB6txiQJ1TC7VhpMZPu0yH5VeqiwC8dTtfbRS5XtQT/Ik
+aCMv9UB5onb4yl7zhIjUTFYzQXs+iUgmI2l+KuiAqvDVM7nNLzG/4KzLt2m35rvs
+A3i0VaL9LDjSvgQO9UngnNvi64pyf9bXUJ8baqMqhC7AgVuc8nUo+9b+rAFqWQJY
+OWeJNMkpESC6/iwR68kVxZplgyJik47h40TvufQIsBNOGJ5Uymd2PrgJR5A3FCnT
+THpmZD6vGN84JfbmfGpc
+=mhjB
+-----END PGP SIGNATURE-----
+
+--TdkiTnkLhLQllcMS--
