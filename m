@@ -1,126 +1,47 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Thu, 13 Dec 2012 11:21:25 +0000
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Mon, 24 Dec 2012 15:49:22 +0000
 Subject: Re: [PATCH] ASoC: atmel-soc: make it buildable on other architectures
-Message-Id: <50C9BA35.9030008@atmel.com>
+Message-Id: <20121224154922.GI30837@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="3eH4Qcq5fItR5cpy"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1354973002-13588-1-git-send-email-manabian@gmail.com>
 In-Reply-To: <1354973002-13588-1-git-send-email-manabian@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Joachim Eastwood <manabian@gmail.com>, broonie@opensource.wolfsonmicro.com
-Cc: voice.shen@atmel.com, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+To: Joachim Eastwood <manabian@gmail.com>
+Cc: voice.shen@atmel.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-On 12/08/2012 02:23 PM, Joachim Eastwood :
+
+--3eH4Qcq5fItR5cpy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, Dec 08, 2012 at 02:23:22PM +0100, Joachim Eastwood wrote:
 > Not very useful on non AT91/AVR32 platforms but it provides
 > more build coverage and prepares for ARM multiplatform.
-> 
-> Also fixes a couple of format type warnings.
-> 
-> Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 
-seems ok:
+Applied, thanks.  Would be nice if this had a different subject line to
+the previous commit...
 
-Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+--3eH4Qcq5fItR5cpy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> ---
-> 
-> Hi,
-> 
-> Build tested on RM9200 and x86_64.
-> 
-> ARCH_AT91 depend is pushed down to the machine drivers
-> since they still relies on mach includes.
-> 
-> regards
-> Joachim Eastwood
-> 
->  sound/soc/atmel/Kconfig         | 6 +++---
->  sound/soc/atmel/atmel-pcm-pdc.c | 4 ++--
->  sound/soc/atmel/atmel-pcm.c     | 2 +-
->  sound/soc/atmel/atmel_ssc_dai.c | 2 --
->  4 files changed, 6 insertions(+), 8 deletions(-)
-> 
-> diff --git a/sound/soc/atmel/Kconfig b/sound/soc/atmel/Kconfig
-> index d1b691b..3fdd87f 100644
-> --- a/sound/soc/atmel/Kconfig
-> +++ b/sound/soc/atmel/Kconfig
-> @@ -1,6 +1,6 @@
->  config SND_ATMEL_SOC
->  	tristate "SoC Audio for the Atmel System-on-Chip"
-> -	depends on ARCH_AT91
-> +	depends on HAS_IOMEM
->  	help
->  	  Say Y or M if you want to add support for codecs attached to
->  	  the ATMEL SSC interface. You will also need
-> @@ -24,7 +24,7 @@ config SND_ATMEL_SOC_SSC
->  
->  config SND_AT91_SOC_SAM9G20_WM8731
->  	tristate "SoC Audio support for WM8731-based At91sam9g20 evaluation board"
-> -	depends on ATMEL_SSC && SND_ATMEL_SOC && AT91_PROGRAMMABLE_CLOCKS
-> +	depends on ARCH_AT91 && ATMEL_SSC && SND_ATMEL_SOC && AT91_PROGRAMMABLE_CLOCKS
->  	select SND_ATMEL_SOC_PDC
->  	select SND_ATMEL_SOC_SSC
->  	select SND_SOC_WM8731
-> @@ -34,7 +34,7 @@ config SND_AT91_SOC_SAM9G20_WM8731
->  
->  config SND_AT91_SOC_AFEB9260
->  	tristate "SoC Audio support for AFEB9260 board"
-> -	depends on ATMEL_SSC && ARCH_AT91 && MACH_AFEB9260 && SND_ATMEL_SOC
-> +	depends on ARCH_AT91 && ATMEL_SSC && ARCH_AT91 && MACH_AFEB9260 && SND_ATMEL_SOC
->  	select SND_ATMEL_SOC_PDC
->  	select SND_ATMEL_SOC_SSC
->  	select SND_SOC_TLV320AIC23
-> diff --git a/sound/soc/atmel/atmel-pcm-pdc.c b/sound/soc/atmel/atmel-pcm-pdc.c
-> index 6a293c7..054ea4d 100644
-> --- a/sound/soc/atmel/atmel-pcm-pdc.c
-> +++ b/sound/soc/atmel/atmel-pcm-pdc.c
-> @@ -159,7 +159,7 @@ static int atmel_pcm_hw_params(struct snd_pcm_substream *substream,
->  
->  	pr_debug("atmel-pcm: "
->  		"hw_params: DMA for %s initialized "
-> -		"(dma_bytes=%u, period_size=%u)\n",
-> +		"(dma_bytes=%zu, period_size=%zu)\n",
->  		prtd->params->name,
->  		runtime->dma_bytes,
->  		prtd->period_size);
-> @@ -201,7 +201,7 @@ static int atmel_pcm_trigger(struct snd_pcm_substream *substream,
->  	int ret = 0;
->  
->  	pr_debug("atmel-pcm:buffer_size = %ld,"
-> -		"dma_area = %p, dma_bytes = %u\n",
-> +		"dma_area = %p, dma_bytes = %zu\n",
->  		rtd->buffer_size, rtd->dma_area, rtd->dma_bytes);
->  
->  	switch (cmd) {
-> diff --git a/sound/soc/atmel/atmel-pcm.c b/sound/soc/atmel/atmel-pcm.c
-> index e99f181..3109db7 100644
-> --- a/sound/soc/atmel/atmel-pcm.c
-> +++ b/sound/soc/atmel/atmel-pcm.c
-> @@ -49,7 +49,7 @@ static int atmel_pcm_preallocate_dma_buffer(struct snd_pcm *pcm,
->  	buf->private_data = NULL;
->  	buf->area = dma_alloc_coherent(pcm->card->dev, size,
->  			&buf->addr, GFP_KERNEL);
-> -	pr_debug("atmel-pcm: alloc dma buffer: area=%p, addr=%p, size=%d\n",
-> +	pr_debug("atmel-pcm: alloc dma buffer: area=%p, addr=%p, size=%zu\n",
->  			(void *)buf->area, (void *)buf->addr, size);
->  
->  	if (!buf->area)
-> diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-> index 1c76634..2755750 100644
-> --- a/sound/soc/atmel/atmel_ssc_dai.c
-> +++ b/sound/soc/atmel/atmel_ssc_dai.c
-> @@ -42,8 +42,6 @@
->  #include <sound/initval.h>
->  #include <sound/soc.h>
->  
-> -#include <mach/hardware.h>
-> -
->  #include "atmel-pcm.h"
->  #include "atmel_ssc_dai.h"
->  
-> 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
 
+iQIcBAEBAgAGBQJQ2Hl7AAoJELSic+t+oim9P4oP/1PqtnWSjxTERNQQcLeN/BNk
+127nP0SyR+YDR6UY+ipXPvQDghvCSbY9NsTDewDXL1aFDNcBOkdItjjJvwMGFoa2
+X/PojDDTvFnfoOcVQREu9CTo7AO/kCgihzve0WOhE3AahmmEAzSKQcq6sgn0TYFD
+q4PUlbcznpNPvNmFSZ0MhW6s0+/faMYT5i89Zc+ANPpjJk/vPvREWy2aMXPH2jQ1
+nWQ5JjYziSw2+MZ26B2SKVHD5uE4VJrFVEkGe5pDZ9LPJrGGfDy4gfJTTdWQ5pn5
+1RG0+JI363YrtfH0VgKJE92YaiKWw9pYSKemCG7070SD4tmBRI6mDYeFs1IYizQC
+TFq94W/CcW78J33HtC3f+/8eGHd1iYGeNnYTmGRl6/8N1TZ2lm8roa/fqizvfvur
+gyl3pC/WZ7xYELeht8IwfBmZiZE1nKnBu+CPHpg7Lz1HJqeOqn9Q+c4OA/ewujrz
+4W8Vxd80NtZ53sw634WNIYC3QKKqC33e/OZaZ31L+z6uSo7P6FgXao7mi1v+5p5P
+re0dHfIUBU4YsBs+M3Y7E1GLW2qY8wv43lFiPd0VEX9nRHGSlarGx2rPX8iIhJa4
+l++1FtQy51S5oYayao1EjxG1U2+uFUdLyK5/+bLOUbbwo2qhf20jCfk6ITo3H/O1
+FIs0+ImZ1Vofw1u8tCnU
+=oIcq
+-----END PGP SIGNATURE-----
 
--- 
-Nicolas Ferre
+--3eH4Qcq5fItR5cpy--
