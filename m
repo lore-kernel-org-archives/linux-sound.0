@@ -1,74 +1,46 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Thu, 13 Dec 2012 11:17:52 +0000
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Mon, 24 Dec 2012 15:48:52 +0000
 Subject: Re: [PATCH] ASoC: atmel-ssc: make it buildable on other architectures
-Message-Id: <50C9B960.6000407@atmel.com>
+Message-Id: <20121224154851.GH30837@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="MGu/vTNewDGZ7tmp"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1354970801-9185-1-git-send-email-manabian@gmail.com>
 In-Reply-To: <1354970801-9185-1-git-send-email-manabian@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Joachim Eastwood <manabian@gmail.com>, broonie@opensource.wolfsonmicro.com
-Cc: voice.shen@atmel.com, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+To: Joachim Eastwood <manabian@gmail.com>
+Cc: voice.shen@atmel.com, plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-On 12/08/2012 01:46 PM, Joachim Eastwood :
+
+--MGu/vTNewDGZ7tmp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, Dec 08, 2012 at 01:46:41PM +0100, Joachim Eastwood wrote:
 > Not very useful on non AT91/AVR32 platforms but it provides
 > more build coverage and prepares for ARM multiplatform.
-> 
-> Also fixes a truncated warning that would come when
-> building on a 64-bit arch.
-> 
-> Signed-off-by: Joachim Eastwood <manabian@gmail.com>
 
-It if needs it to go forward:
+Applied, thanks.
 
-Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+--MGu/vTNewDGZ7tmp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> ---
-> 
-> Hi Mark,
-> 
-> Sending it to you since seem like you're the last one who
-> commited changes to the driver and the driver is mostly
-> used on ASoC.
-> 
-> Tested on RM9200 and build tested on x86_64.
-> 
-> regards
-> Joachim Eastwood
-> 
->  drivers/misc/Kconfig     | 2 +-
->  drivers/misc/atmel-ssc.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index b151b7c..8f59d88 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -192,7 +192,7 @@ config ICS932S401
->  
->  config ATMEL_SSC
->  	tristate "Device driver for Atmel SSC peripheral"
-> -	depends on AVR32 || ARCH_AT91
-> +	depends on HAS_IOMEM
->  	---help---
->  	  This option enables device driver support for Atmel Synchronized
->  	  Serial Communication peripheral (SSC).
-> diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-> index 158da5a..0cee274 100644
-> --- a/drivers/misc/atmel-ssc.c
-> +++ b/drivers/misc/atmel-ssc.c
-> @@ -167,7 +167,7 @@ static int ssc_probe(struct platform_device *pdev)
->  
->  	/* disable all interrupts */
->  	clk_enable(ssc->clk);
-> -	ssc_writel(ssc->regs, IDR, ~0UL);
-> +	ssc_writel(ssc->regs, IDR, -1);
->  	ssc_readl(ssc->regs, SR);
->  	clk_disable(ssc->clk);
->  
-> 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
 
+iQIcBAEBAgAGBQJQ2HlZAAoJELSic+t+oim9ZG4P/0MZYbpsmMb04Z1/ObGhdAz1
+wEJiSvCQmoWb3V0ms5MJrxANx22xKTGde7aVBEaeae6/osJaKaxxWTuMVtjNsgJ5
++Yp8OaSs5jSfxAP2aXfGMqX4ER1CbUe/G8iT6EKc0jbuzwHJ1w0wj0BhZGa59iRt
+JjikI3Grr5XGEWkY9Db+dpJSvIXA3nGMuP9fvfncKvQ/ahOevFPfKpVjfS5XY9y8
+FVojfkqGmJiLFy1i5YfkUhk11njgkpLIc2Az2BqFU3rUHu9ye++Rm8n19F8qGM4K
+H41jqXWydL2PDGUF7h4UP0c3ZGNsoQnXznAu6GwJjkK9IPfY5Bq20Cr66KJr0d7h
+BRxW65HFilsRyn2VEO3+FXkS1vZp1Od0K3hMRkugMgzZY4rFcvpm4hn9NLTqzsmL
+0lYC8Ea6b4sIgX/PatlhyAoGOIKQa1DbHLL0jtggqg7neQkb7N5kws5y1r2Lscm3
+5go49Untw2s27/7ki7PWoq5ATGnlR0SbAMmJpUmjYa45CWP2CJc0rJnueRvd7/V+
+PiTLKftsR2SXWSuFDEk7jhM/VBvmAg+KZZ6+F8Lx50/RiYaXKVFFOlIGw/KS8s/k
+8cqmN0QrcoDHbYQgKAHIEtmzDZxJT85D3lzspAbJ64t9I047M9JYKuPOnRmlF7rr
+I81nLEM7sFL8bU0HkboT
+=pXSp
+-----END PGP SIGNATURE-----
 
--- 
-Nicolas Ferre
+--MGu/vTNewDGZ7tmp--
