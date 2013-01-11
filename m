@@ -1,54 +1,51 @@
 From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Mon, 17 Dec 2012 11:23:26 +0000
-Subject: [PATCH 3/3] ASoC: atmel-ssc: add pinctrl selection to driver
-Message-Id: <3c04845ebfda106a5e980f15a8a038f47d114b9f.1355742707.git.nicolas.ferre@atmel.com>
+Date: Fri, 11 Jan 2013 14:08:29 +0000
+Subject: [PATCH 0/2 v2] at91/ssc: fixes on ASoC tree for 3.8
+Message-Id: <cover.1357912706.git.nicolas.ferre@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <cover.1355742707.git.nicolas.ferre@atmel.com>
-In-Reply-To: <cover.1355742707.git.nicolas.ferre@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com
-Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, Olof Johansson <olof@lixom.net>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Nicolas Ferre <nicolas.ferre@atmel.com>
+To: Olof Johansson <olof@lixom.net>, broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com
+Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Nicolas Ferre <nicolas.ferre@atmel.com>
 
-From: Bo Shen <voice.shen@atmel.com>
+Hi Mark, Olof, Arnd,
 
-Add default pinctrl selection to atmel-ssc driver. The pinctrl
-is mandatory.
+This series goes on top of Linus' v3.8-rc3 and fixes an error that
+we have while compiling DTBs for AT91:
+ERROR (phandle_references): Reference to non-existent node or label
+"pinctrl_ssc0_tx"
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
-[nicolas.ferre@atmel.com: split dtsi and driver changes]
-Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
----
- drivers/misc/atmel-ssc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[3]: *** [arch/arm/boot/dts/at91sam9g20ek.dtb] Error 2
 
-diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-index 158da5a..3c09cbb 100644
---- a/drivers/misc/atmel-ssc.c
-+++ b/drivers/misc/atmel-ssc.c
-@@ -19,6 +19,7 @@
- #include <linux/module.h>
- 
- #include <linux/of.h>
-+#include <linux/pinctrl/consumer.h>
- 
- /* Serialize access to ssc_list and user count */
- static DEFINE_SPINLOCK(user_lock);
-@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
- 	struct resource *regs;
- 	struct ssc_device *ssc;
- 	const struct atmel_ssc_platform_data *plat_dat;
-+	struct pinctrl *pinctrl;
-+
-+	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
-+	if (IS_ERR(pinctrl)) {
-+		dev_err(&pdev->dev, "Failed to request pinctrl\n");
-+		return PTR_ERR(pinctrl);
-+	}
- 
- 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
- 	if (!ssc) {
+I have included pending material that is dealing with SSC and pinctrl. The
+pinctrl part can be merged more easily now that the big pinctrl update for AT91
+has been merged upstream.
+
+This material was designed to enter Mark's fixes queue, but as discussed with
+Olof, we can imagine merging everything through arm-soc or split the series (of
+2 patches) and let them progress upstream separated (option that I do not like
+even if I know that the consequences are not so dramatic).
+So please, Olof, if you feel confortable with this series, tell us what you
+prefer and we will make our best to make this material go forward...
+
+Thanks for your help, best regards,
+
+v2: - remove the fix for typo in SSC status property: already merged upstream
+
+Bo Shen (2):
+  ARM: at91/dts: add pinctrl support for SSC peripheral
+  ASoC: atmel-ssc: add pinctrl selection to driver
+
+ arch/arm/boot/dts/at91sam9260.dtsi | 18 ++++++++++++++++++
+ arch/arm/boot/dts/at91sam9263.dtsi | 36 ++++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9g45.dtsi | 36 ++++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9n12.dtsi | 26 ++++++++++++++++++++++++++
+ arch/arm/boot/dts/at91sam9x5.dtsi  | 32 +++++++++++++++++++++++++-------
+ drivers/misc/atmel-ssc.c           |  8 ++++++++
+ 6 files changed, 149 insertions(+), 7 deletions(-)
+
 -- 
 1.8.0
 
