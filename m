@@ -1,51 +1,46 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Fri, 11 Jan 2013 14:08:29 +0000
-Subject: [PATCH 0/2 v2] at91/ssc: fixes on ASoC tree for 3.8
-Message-Id: <cover.1357912706.git.nicolas.ferre@atmel.com>
+From: Olof Johansson <olof@lixom.net>
+Date: Fri, 11 Jan 2013 18:52:19 +0000
+Subject: Re: [PATCH 0/2 v2] at91/ssc: fixes on ASoC tree for 3.8
+Message-Id: <CAOesGMhhSkrvP7X=y8qmdMKKXZ694+1+ZXY3y6HK1E85qaN5sQ@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <cover.1357912706.git.nicolas.ferre@atmel.com>
+In-Reply-To: <cover.1357912706.git.nicolas.ferre@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Olof Johansson <olof@lixom.net>, broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com
-Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Nicolas Ferre <nicolas.ferre@atmel.com>
+To: Nicolas Ferre <nicolas.ferre@atmel.com>
+Cc: broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-Hi Mark, Olof, Arnd,
+Hi,
 
-This series goes on top of Linus' v3.8-rc3 and fixes an error that
-we have while compiling DTBs for AT91:
-ERROR (phandle_references): Reference to non-existent node or label
-"pinctrl_ssc0_tx"
+On Fri, Jan 11, 2013 at 6:08 AM, Nicolas Ferre <nicolas.ferre@atmel.com> wrote:
 
-ERROR: Input tree has errors, aborting (use -f to force output)
-make[3]: *** [arch/arm/boot/dts/at91sam9g20ek.dtb] Error 2
+> This material was designed to enter Mark's fixes queue, but as discussed with
+> Olof, we can imagine merging everything through arm-soc or split the series (of
+> 2 patches) and let them progress upstream separated (option that I do not like
+> even if I know that the consequences are not so dramatic).
+> So please, Olof, if you feel confortable with this series, tell us what you
+> prefer and we will make our best to make this material go forward...
 
-I have included pending material that is dealing with SSC and pinctrl. The
-pinctrl part can be merged more easily now that the big pinctrl update for AT91
-has been merged upstream.
+You're setting yourself up for awkward merges. The driver change is
+strongly dependent on the device tree change by failing probe unless
+the device tree update is there, while before this patch, it still
+worked.
 
-This material was designed to enter Mark's fixes queue, but as discussed with
-Olof, we can imagine merging everything through arm-soc or split the series (of
-2 patches) and let them progress upstream separated (option that I do not like
-even if I know that the consequences are not so dramatic).
-So please, Olof, if you feel confortable with this series, tell us what you
-prefer and we will make our best to make this material go forward...
+If you instead use the dts update if it's there, you can merge the two
+through independent paths, and later make it mandatory to use the
+pinctrl specification. That way you avoid these complicated merge
+scenarios where you have to send your platform code through a
+subsystem tree instead.
 
-Thanks for your help, best regards,
+But to be honest, I don't think this is a fix, it's a feature that you
+just didn't include in time for the merge window. I don't really see
+them as appropriate 3.8 material at this point.
 
-v2: - remove the fix for typo in SSC status property: already merged upstream
+So, nack on this series. Please make the driver change non-dependent
+on the new dtsi contents, and merge that through the ASoC tree. Then
+the dtsi update can go through arm-soc, and later on you can make it
+mandatory.
 
-Bo Shen (2):
-  ARM: at91/dts: add pinctrl support for SSC peripheral
-  ASoC: atmel-ssc: add pinctrl selection to driver
 
- arch/arm/boot/dts/at91sam9260.dtsi | 18 ++++++++++++++++++
- arch/arm/boot/dts/at91sam9263.dtsi | 36 ++++++++++++++++++++++++++++++++++++
- arch/arm/boot/dts/at91sam9g45.dtsi | 36 ++++++++++++++++++++++++++++++++++++
- arch/arm/boot/dts/at91sam9n12.dtsi | 26 ++++++++++++++++++++++++++
- arch/arm/boot/dts/at91sam9x5.dtsi  | 32 +++++++++++++++++++++++++-------
- drivers/misc/atmel-ssc.c           |  8 ++++++++
- 6 files changed, 149 insertions(+), 7 deletions(-)
-
--- 
-1.8.0
-
+-Olof
