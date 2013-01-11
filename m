@@ -1,41 +1,54 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 31 Jan 2013 03:53:40 +0000
-Subject: [PATCH 4/4] ASoC: sam9g20_wm8731: disable clock and correct sequence when unload
-Message-Id: <1359604420-15171-5-git-send-email-voice.shen@atmel.com>
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Fri, 11 Jan 2013 14:08:31 +0000
+Subject: [PATCH 2/2 v2] ASoC: atmel-ssc: add pinctrl selection to driver
+Message-Id: <d1060534f9dafe4baa9bec2506815ae63455ebd6.1357912706.git.nicolas.ferre@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1359604420-15171-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1359604420-15171-1-git-send-email-voice.shen@atmel.com>
+References: <cover.1357912706.git.nicolas.ferre@atmel.com>
+In-Reply-To: <cover.1357912706.git.nicolas.ferre@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com
-Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>
+To: Olof Johansson <olof@lixom.net>, broonie@opensource.wolfsonmicro.com, voice.shen@atmel.com
+Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Nicolas Ferre <nicolas.ferre@atmel.com>
 
-disable clock and correct sequence when unload
+From: Bo Shen <voice.shen@atmel.com>
+
+Add default pinctrl selection to atmel-ssc driver. The pinctrl
+is mandatory.
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
+[nicolas.ferre@atmel.com: split dtsi and driver changes]
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
- sound/soc/atmel/sam9g20_wm8731.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/misc/atmel-ssc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/soc/atmel/sam9g20_wm8731.c b/sound/soc/atmel/sam9g20_wm8731.c
-index da97629..2d6fbd0 100644
---- a/sound/soc/atmel/sam9g20_wm8731.c
-+++ b/sound/soc/atmel/sam9g20_wm8731.c
-@@ -305,10 +305,10 @@ static int at91sam9g20ek_audio_remove(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card = platform_get_drvdata(pdev);
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index 158da5a..3c09cbb 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -19,6 +19,7 @@
+ #include <linux/module.h>
  
--	atmel_ssc_put_audio(0);
--	snd_soc_unregister_card(card);
--	clk_put(mclk);
-+	clk_disable(mclk);
- 	mclk = NULL;
-+	snd_soc_unregister_card(card);
-+	atmel_ssc_put_audio(0);
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
  
- 	return 0;
- }
+ /* Serialize access to ssc_list and user count */
+ static DEFINE_SPINLOCK(user_lock);
+@@ -131,6 +132,13 @@ static int ssc_probe(struct platform_device *pdev)
+ 	struct resource *regs;
+ 	struct ssc_device *ssc;
+ 	const struct atmel_ssc_platform_data *plat_dat;
++	struct pinctrl *pinctrl;
++
++	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(&pdev->dev, "Failed to request pinctrl\n");
++		return PTR_ERR(pinctrl);
++	}
+ 
+ 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+ 	if (!ssc) {
 -- 
-1.7.9.5
+1.8.0
 
