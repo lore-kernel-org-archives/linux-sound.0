@@ -1,86 +1,51 @@
-From: Olof Johansson <olof@lixom.net>
-Date: Fri, 11 Jan 2013 19:53:31 +0000
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Sat, 12 Jan 2013 00:04:47 +0000
 Subject: Re: [PATCH 0/2 v2] at91/ssc: fixes on ASoC tree for 3.8
-Message-Id: <20130111195331.GA2533@quad.lixom.net>
+Message-Id: <20130112000447.GD7873@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="oj4kGyHlBMXGt3Le"
 List-Id: <linux-sound.vger.kernel.org>
 References: <cover.1357912706.git.nicolas.ferre@atmel.com>
- <CAOesGMhhSkrvP7X=y8qmdMKKXZ694+1+ZXY3y6HK1E85qaN5sQ@mail.gmail.com>
- <20130111193948.GA8677@opensource.wolfsonmicro.com>
-In-Reply-To: <20130111193948.GA8677@opensource.wolfsonmicro.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, voice.shen@atmel.com, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-
-On Fri, Jan 11, 2013 at 07:39:49PM +0000, Mark Brown wrote:
-> On Fri, Jan 11, 2013 at 10:52:19AM -0800, Olof Johansson wrote:
-> > On Fri, Jan 11, 2013 at 6:08 AM, Nicolas Ferre <nicolas.ferre@atmel.com> wrote:
-> > 
-> > > This material was designed to enter Mark's fixes queue, but as discussed with
-> > > Olof, we can imagine merging everything through arm-soc or split the series (of
-> > > 2 patches) and let them progress upstream separated (option that I do not like
-> > > even if I know that the consequences are not so dramatic).
-> > > So please, Olof, if you feel confortable with this series, tell us what you
-> > > prefer and we will make our best to make this material go forward...
-> 
-> > You're setting yourself up for awkward merges. The driver change is
-> > strongly dependent on the device tree change by failing probe unless
-> > the device tree update is there, while before this patch, it still
-> > worked.
-> 
-> This is partly my fault for getting grumpy about adding the bolier plate
-> code without error checking - overall Linus' change to do the get in the
-> core seems like the most sane approach here.
-> 
-> > But to be honest, I don't think this is a fix, it's a feature that you
-> > just didn't include in time for the merge window. I don't really see
-> > them as appropriate 3.8 material at this point.
-> 
-> Jean-Christophe has been most insistent that pinctrl support is now
-> manadatory for all AT91 systems using device tree. 
-
-That's a noble goal but enforcing it early gives everyone a lot of pain, and
-quite honestly doesn't make sense. During transition it's better to be lenient
-and allow both old and new methods (without breakage), unless it causes
-significant extra churn.
-
-> Unfortunately
-> pinctrl support for AT91 only came in during the merge window and it
-> seems like it's sadly been impossible to do what seemd like the obvious
-> thing and add the pinctrl bindings to the DT prior to the merge down so
-> now we've got this mess.  I believe the way the pinctrl conversion was
-> done renders the audio driver non-functional without this series.
-
-The problem is that at91 tries to do too much in a single release, and then do
-nothing in several releases after. If there was a steadier trickle of code
-coming in, then these kind of complex dependencies wouldn't show up all at
-once, and could be handled with much less overhead for everyone else involved.
-:(
-
-> 
-> > So, nack on this series. Please make the driver change non-dependent
-> > on the new dtsi contents, and merge that through the ASoC tree. Then
-> > the dtsi update can go through arm-soc, and later on you can make it
-> > mandatory.
-> 
-> Like I say I'm not thrilled about ignoring the return code TBH, nor am I
-> thrilled with the way this has been handled overall.  That said, the
-> current series does seem like the best of a bad job - as I understand it
-> we need something like this in v3.8 to make the driver functional.
-
-To be honest, if Atmel can't figure out how to merge a complete feature
-without causing intentional regressions during the merge window, and plan
-on brokenness to be fixed as late as in -rc4, then they deserve to have
-a broken platform. Unfortunately the victim of that is end users, and we
-don't want to leave them hanging. This really can't become a trend though.
-
-Sigh. Feel free to add:
-
-Reluctantly-acked-by: Olof Johansson <olof@lixom.net>
-
-to the patches when you apply them (based on IRC discussion, might as
-well take both through ASoC).
+In-Reply-To: <cover.1357912706.git.nicolas.ferre@atmel.com>
+To: Nicolas Ferre <nicolas.ferre@atmel.com>
+Cc: Olof Johansson <olof@lixom.net>, voice.shen@atmel.com, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
 
--Olof
+--oj4kGyHlBMXGt3Le
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jan 11, 2013 at 03:08:29PM +0100, Nicolas Ferre wrote:
+> Hi Mark, Olof, Arnd,
+>=20
+> This series goes on top of Linus' v3.8-rc3 and fixes an error that
+> we have while compiling DTBs for AT91:
+> ERROR (phandle_references): Reference to non-existent node or label
+> "pinctrl_ssc0_tx"
+
+Applied both.
+
+--oj4kGyHlBMXGt3Le
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJQ8KiYAAoJELSic+t+oim9F5wP/ji9hCzTqpjUdKy0K08VSPkQ
+3OC3C3O5RGovPzIdIyauHB56LdT1UeOxIi7B9KbG1BZxLsNpSWMhWjnVofOpWmsA
+dYqlRZHgXquOILIyJ88cZkj2wD3OMfuWBVdJAg86yzaWx2c4NoRNlQrYpiPW6DFT
+S31jJu+P8ilzKa+Xq2xr0PEvhptsRlwGjBhoGRqtGXLhAezya8mE2GEzCEwxJR+D
+OKTip20pyFFRHrhcxUXXOBvQz42HvZqgI0RsnymBMfWr7GdssnSUiJsnHsKUa8P6
+3cX3L7t43lOtOyFRjo09rVXXo2c68iu5M08J/fFkEwHeN+j0lW0fKy9iV9Jn97pa
+EFFkCprL5Gqmum9ekuYyEYnB94puNx0Co2aNKH2FxNVcH7cXfw7nyf1YvPxblHRM
+RVIHoIXWgFXcnvuLQqeIhuddY/cWSK/mNf7Y2d1wdMF8FIn5l1kPgHgnN8Abv9GK
+xMMDcaIScKLbXNp8OETDrKPOgRGMzTrI+sh+mLY1iUrv1V1h0GcyBY5Hkr29xj4t
+gqZr+xNN19xgtG3p6PE795t66/0ebeoC9KBF83z0RaXIIizRC4HPk/P2gtn4WPei
+1H1NmrH1CKLvbATy2tObhh+F3iheFLWKImZBUG7JFya/FpQK2AlaYn04gbUS81Bb
+ZiAaLpLKxSYbs3jsUp8E
+=KBEf
+-----END PGP SIGNATURE-----
+
+--oj4kGyHlBMXGt3Le--
