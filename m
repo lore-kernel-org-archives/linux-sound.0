@@ -1,51 +1,57 @@
-From: Mark Brown <broonie@opensource.wolfsonmicro.com>
-Date: Sat, 12 Jan 2013 00:04:47 +0000
+From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Date: Sat, 12 Jan 2013 13:34:50 +0000
 Subject: Re: [PATCH 0/2 v2] at91/ssc: fixes on ASoC tree for 3.8
-Message-Id: <20130112000447.GD7873@opensource.wolfsonmicro.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="oj4kGyHlBMXGt3Le"
+Message-Id: <20130112133450.GF7360@game.jcrosoft.org>
 List-Id: <linux-sound.vger.kernel.org>
 References: <cover.1357912706.git.nicolas.ferre@atmel.com>
-In-Reply-To: <cover.1357912706.git.nicolas.ferre@atmel.com>
-To: Nicolas Ferre <nicolas.ferre@atmel.com>
-Cc: Olof Johansson <olof@lixom.net>, voice.shen@atmel.com, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+ <CAOesGMhhSkrvP7X=y8qmdMKKXZ694+1+ZXY3y6HK1E85qaN5sQ@mail.gmail.com>
+ <20130111193948.GA8677@opensource.wolfsonmicro.com>
+ <20130111195331.GA2533@quad.lixom.net>
+In-Reply-To: <20130111195331.GA2533@quad.lixom.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Olof Johansson <olof@lixom.net>
+Cc: Mark Brown <broonie@opensource.wolfsonmicro.com>, Nicolas Ferre <nicolas.ferre@atmel.com>, voice.shen@atmel.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
+On 11:53 Fri 11 Jan     , Olof Johansson wrote:
+> On Fri, Jan 11, 2013 at 07:39:49PM +0000, Mark Brown wrote:
+> > On Fri, Jan 11, 2013 at 10:52:19AM -0800, Olof Johansson wrote:
+> > > On Fri, Jan 11, 2013 at 6:08 AM, Nicolas Ferre <nicolas.ferre@atmel.com> wrote:
+> > > 
+> > > > This material was designed to enter Mark's fixes queue, but as discussed with
+> > > > Olof, we can imagine merging everything through arm-soc or split the series (of
+> > > > 2 patches) and let them progress upstream separated (option that I do not like
+> > > > even if I know that the consequences are not so dramatic).
+> > > > So please, Olof, if you feel confortable with this series, tell us what you
+> > > > prefer and we will make our best to make this material go forward...
+> > 
+> > > You're setting yourself up for awkward merges. The driver change is
+> > > strongly dependent on the device tree change by failing probe unless
+> > > the device tree update is there, while before this patch, it still
+> > > worked.
+> > 
+> > This is partly my fault for getting grumpy about adding the bolier plate
+> > code without error checking - overall Linus' change to do the get in the
+> > core seems like the most sane approach here.
+> > 
+> > > But to be honest, I don't think this is a fix, it's a feature that you
+> > > just didn't include in time for the merge window. I don't really see
+> > > them as appropriate 3.8 material at this point.
+> > 
+> > Jean-Christophe has been most insistent that pinctrl support is now
+> > manadatory for all AT91 systems using device tree. 
+> 
+> That's a noble goal but enforcing it early gives everyone a lot of pain, and
+> quite honestly doesn't make sense. During transition it's better to be lenient
+> and allow both old and new methods (without breakage), unless it causes
+> significant extra churn.
+except here we can not as the same ip manage gpio & pinctrl
 
---oj4kGyHlBMXGt3Le
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+so no choice we need to do the switch at once
 
-On Fri, Jan 11, 2013 at 03:08:29PM +0100, Nicolas Ferre wrote:
-> Hi Mark, Olof, Arnd,
->=20
-> This series goes on top of Linus' v3.8-rc3 and fixes an error that
-> we have while compiling DTBs for AT91:
-> ERROR (phandle_references): Reference to non-existent node or label
-> "pinctrl_ssc0_tx"
+and that's why we wait 1 more release to do the switch so erveryone can play
+with it before
 
-Applied both.
-
---oj4kGyHlBMXGt3Le
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQIcBAEBAgAGBQJQ8KiYAAoJELSic+t+oim9F5wP/ji9hCzTqpjUdKy0K08VSPkQ
-3OC3C3O5RGovPzIdIyauHB56LdT1UeOxIi7B9KbG1BZxLsNpSWMhWjnVofOpWmsA
-dYqlRZHgXquOILIyJ88cZkj2wD3OMfuWBVdJAg86yzaWx2c4NoRNlQrYpiPW6DFT
-S31jJu+P8ilzKa+Xq2xr0PEvhptsRlwGjBhoGRqtGXLhAezya8mE2GEzCEwxJR+D
-OKTip20pyFFRHrhcxUXXOBvQz42HvZqgI0RsnymBMfWr7GdssnSUiJsnHsKUa8P6
-3cX3L7t43lOtOyFRjo09rVXXo2c68iu5M08J/fFkEwHeN+j0lW0fKy9iV9Jn97pa
-EFFkCprL5Gqmum9ekuYyEYnB94puNx0Co2aNKH2FxNVcH7cXfw7nyf1YvPxblHRM
-RVIHoIXWgFXcnvuLQqeIhuddY/cWSK/mNf7Y2d1wdMF8FIn5l1kPgHgnN8Abv9GK
-xMMDcaIScKLbXNp8OETDrKPOgRGMzTrI+sh+mLY1iUrv1V1h0GcyBY5Hkr29xj4t
-gqZr+xNN19xgtG3p6PE795t66/0ebeoC9KBF83z0RaXIIizRC4HPk/P2gtn4WPei
-1H1NmrH1CKLvbATy2tObhh+F3iheFLWKImZBUG7JFya/FpQK2AlaYn04gbUS81Bb
-ZiAaLpLKxSYbs3jsUp8E
-=KBEf
------END PGP SIGNATURE-----
-
---oj4kGyHlBMXGt3Le--
+Best Regards,
+J.
