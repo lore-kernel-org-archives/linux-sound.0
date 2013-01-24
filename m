@@ -1,57 +1,89 @@
-From: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-Date: Sat, 12 Jan 2013 13:34:50 +0000
-Subject: Re: [PATCH 0/2 v2] at91/ssc: fixes on ASoC tree for 3.8
-Message-Id: <20130112133450.GF7360@game.jcrosoft.org>
+From: Juergen Beisert <jbe@pengutronix.de>
+Date: Thu, 24 Jan 2013 08:56:30 +0000
+Subject: Sound/ARM/i.MX/SSI: fix SDMA starvation
+Message-Id: <201301240956.30641.jbe@pengutronix.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <cover.1357912706.git.nicolas.ferre@atmel.com>
- <CAOesGMhhSkrvP7X=y8qmdMKKXZ694+1+ZXY3y6HK1E85qaN5sQ@mail.gmail.com>
- <20130111193948.GA8677@opensource.wolfsonmicro.com>
- <20130111195331.GA2533@quad.lixom.net>
-In-Reply-To: <20130111195331.GA2533@quad.lixom.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Olof Johansson <olof@lixom.net>
-Cc: Mark Brown <broonie@opensource.wolfsonmicro.com>, Nicolas Ferre <nicolas.ferre@atmel.com>, voice.shen@atmel.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+To: linux-arm-kernel@lists.infradead.org
 
-On 11:53 Fri 11 Jan     , Olof Johansson wrote:
-> On Fri, Jan 11, 2013 at 07:39:49PM +0000, Mark Brown wrote:
-> > On Fri, Jan 11, 2013 at 10:52:19AM -0800, Olof Johansson wrote:
-> > > On Fri, Jan 11, 2013 at 6:08 AM, Nicolas Ferre <nicolas.ferre@atmel.com> wrote:
-> > > 
-> > > > This material was designed to enter Mark's fixes queue, but as discussed with
-> > > > Olof, we can imagine merging everything through arm-soc or split the series (of
-> > > > 2 patches) and let them progress upstream separated (option that I do not like
-> > > > even if I know that the consequences are not so dramatic).
-> > > > So please, Olof, if you feel confortable with this series, tell us what you
-> > > > prefer and we will make our best to make this material go forward...
-> > 
-> > > You're setting yourself up for awkward merges. The driver change is
-> > > strongly dependent on the device tree change by failing probe unless
-> > > the device tree update is there, while before this patch, it still
-> > > worked.
-> > 
-> > This is partly my fault for getting grumpy about adding the bolier plate
-> > code without error checking - overall Linus' change to do the get in the
-> > core seems like the most sane approach here.
-> > 
-> > > But to be honest, I don't think this is a fix, it's a feature that you
-> > > just didn't include in time for the merge window. I don't really see
-> > > them as appropriate 3.8 material at this point.
-> > 
-> > Jean-Christophe has been most insistent that pinctrl support is now
-> > manadatory for all AT91 systems using device tree. 
-> 
-> That's a noble goal but enforcing it early gives everyone a lot of pain, and
-> quite honestly doesn't make sense. During transition it's better to be lenient
-> and allow both old and new methods (without breakage), unless it causes
-> significant extra churn.
-except here we can not as the same ip manage gpio & pinctrl
+In cases when capturing is already running and someone enables also
+playback, the SDMA unit of the i.MX SoC does not see an edge on its TX DMA
+request line. This is due to the TX FIFOs are empty, and this request line is
+active all the time, when the CCSR_SSI_SIER_TDMAE bit is set.
+In this case also the TX FIFO underrun interrupt will flood the system forever.
 
-so no choice we need to do the switch at once
+To ensure the first edge happens after enabling the TX side of the SSI unit and
+to trigger the SDMA unit successfully enable the CCSR_SSI_SIER_TDMAE on
+demand only. To be sure, this patch does the same for the CCSR_SSI_SIER_RDMAE
+(RX side) bit.
 
-and that's why we wait 1 more release to do the switch so erveryone can play
-with it before
+Signed-off-by: Juergen Beisert <jbe@pengutronix.de>
 
-Best Regards,
-J.
+---
+ sound/soc/fsl/fsl_ssi.c |   24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
+
+Index: linux.git/sound/soc/fsl/fsl_ssi.c
+=================================--- linux.git.orig/sound/soc/fsl/fsl_ssi.c
++++ linux.git/sound/soc/fsl/fsl_ssi.c
+@@ -86,10 +86,9 @@ static inline void write_ssi_mask(u32 __
+ #endif
+ 
+ /* SIER bitflag of interrupts to enable */
+-#define SIER_FLAGS (CCSR_SSI_SIER_TFRC_EN | CCSR_SSI_SIER_TDMAE | \
+-		    CCSR_SSI_SIER_TIE | CCSR_SSI_SIER_TUE0_EN | \
+-		    CCSR_SSI_SIER_TUE1_EN | CCSR_SSI_SIER_RFRC_EN | \
+-		    CCSR_SSI_SIER_RDMAE | CCSR_SSI_SIER_RIE | \
++#define SIER_FLAGS (CCSR_SSI_SIER_TFRC_EN | CCSR_SSI_SIER_TIE | \
++		    CCSR_SSI_SIER_TUE0_EN | CCSR_SSI_SIER_TUE1_EN | \
++		    CCSR_SSI_SIER_RFRC_EN | CCSR_SSI_SIER_RIE | \
+ 		    CCSR_SSI_SIER_ROE0_EN | CCSR_SSI_SIER_ROE1_EN)
+ 
+ /**
+@@ -489,6 +488,9 @@ static int fsl_ssi_hw_params(struct snd_
+  *
+  * The DMA channel is in external master start and pause mode, which
+  * means the SSI completely controls the flow of data.
++ *
++ * To use the i.MX's SDMA unit it is important to create an edge on the
++ * corresponding request line. Otherwise the request will be ignored!
+  */
+ static int fsl_ssi_trigger(struct snd_pcm_substream *substream, int cmd,
+ 			   struct snd_soc_dai *dai)
+@@ -500,20 +502,26 @@ static int fsl_ssi_trigger(struct snd_pc
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK)
++		if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
+ 			write_ssi_mask(&ssi->scr, 0,
+ 				CCSR_SSI_SCR_SSIEN | CCSR_SSI_SCR_TE);
+-		else
++			write_ssi_mask(&ssi->sier, 0, CCSR_SSI_SIER_TDMAE);
++		} else {
+ 			write_ssi_mask(&ssi->scr, 0,
+ 				CCSR_SSI_SCR_SSIEN | CCSR_SSI_SCR_RE);
++			write_ssi_mask(&ssi->sier, 0, CCSR_SSI_SIER_RDMAE);
++		}
+ 		break;
+ 
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+-		if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK)
++		if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
+ 			write_ssi_mask(&ssi->scr, CCSR_SSI_SCR_TE, 0);
+-		else
++			write_ssi_mask(&ssi->sier, CCSR_SSI_SIER_TDMAE, 0);
++		} else {
+ 			write_ssi_mask(&ssi->scr, CCSR_SSI_SCR_RE, 0);
++			write_ssi_mask(&ssi->sier, CCSR_SSI_SIER_RDMAE, 0);
++		}
+ 		break;
+ 
+ 	default:
+
+-- 
+Pengutronix e.K.                              | Juergen Beisert             |
+Linux Solutions for Science and Industry      | http://www.pengutronix.de/  |
