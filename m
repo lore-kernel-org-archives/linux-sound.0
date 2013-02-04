@@ -1,53 +1,52 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 31 Jan 2013 03:53:37 +0000
-Subject: [PATCH 1/4] ASoC: atmel_pcm: make it buildable as module
-Message-Id: <1359604420-15171-2-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@opensource.wolfsonmicro.com>
+Date: Mon, 04 Feb 2013 18:34:30 +0000
+Subject: Re: [PATCH 0/4] ASoC: atmel: fixes for working as module
+Message-Id: <20130204183430.GR4720@opensource.wolfsonmicro.com>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="IUSVF+LtaR4kWxuH"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1359604420-15171-1-git-send-email-voice.shen@atmel.com>
 In-Reply-To: <1359604420-15171-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com
-Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Bo Shen <voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: plagnioj@jcrosoft.com, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
 
-When build as module, it reports following error, using this patch
-fix it
 
-sound/soc/atmel/atmel-pcm-pdc.c:387: error: redefinition of 'atmel_pcm_pdc_platform_register'
-sound/soc/atmel/atmel-pcm.h:95: note: previous definition of 'atmel_pcm_pdc_platform_register' was here
-sound/soc/atmel/atmel-pcm-pdc.c:393: error: redefinition of 'atmel_pcm_pdc_platform_unregister'
-sound/soc/atmel/atmel-pcm.h:99: note: previous definition of 'atmel_pcm_pdc_platform_unregister' was here
+--IUSVF+LtaR4kWxuH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- sound/soc/atmel/atmel-pcm.h |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Thu, Jan 31, 2013 at 11:53:36AM +0800, Bo Shen wrote:
+> The following patches fixes the audio part when working as module
+>=20
+> Bo Shen (4):
+>   ASoC: atmel_pcm: make it buildable as module
+>   ASoC: atmel_ssc_dai: remove error set private data
+>   ASoC: atmel_ssc_dai: correct sequence when unload
+>   ASoC: sam9g20_wm8731: disable clock and correct sequence when unload
 
-diff --git a/sound/soc/atmel/atmel-pcm.h b/sound/soc/atmel/atmel-pcm.h
-index bb45d20..12ae814 100644
---- a/sound/soc/atmel/atmel-pcm.h
-+++ b/sound/soc/atmel/atmel-pcm.h
-@@ -88,7 +88,8 @@ void atmel_pcm_free(struct snd_pcm *pcm);
- int atmel_pcm_mmap(struct snd_pcm_substream *substream,
- 		struct vm_area_struct *vma);
- 
--#ifdef CONFIG_SND_ATMEL_SOC_PDC
-+#if defined(CONFIG_SND_ATMEL_SOC_PDC) || \
-+	defined(CONFIG_SND_ATMEL_SOC_PDC_MODULE)
- int atmel_pcm_pdc_platform_register(struct device *dev);
- void atmel_pcm_pdc_platform_unregister(struct device *dev);
- #else
-@@ -101,7 +102,8 @@ static inline void atmel_pcm_pdc_platform_unregister(struct device *dev)
- }
- #endif
- 
--#ifdef CONFIG_SND_ATMEL_SOC_DMA
-+#if defined(CONFIG_SND_ATMEL_SOC_DMA) || \
-+	defined(CONFIG_SND_ATMEL_SOC_DMA_MODULE)
- int atmel_pcm_dma_platform_register(struct device *dev);
- void atmel_pcm_dma_platform_unregister(struct device *dev);
- #else
--- 
-1.7.9.5
+Applied all, thanks.
 
+--IUSVF+LtaR4kWxuH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQIcBAEBAgAGBQJRD/8uAAoJELSic+t+oim9fI8QAJhfjNvAMLWfOh9D+qNvZ9wX
+Fpxf9Dvk4Mx8IBUMWALzc55crUyUNef6NYMcahStxXp3UKLDcUGLrgw61Lw9soT7
+Q2vwnh3X1Wbd6EI+4NnzULSv5e6kJDSooDfrQbg53OjRyiK0p26jy3GFD497OtGM
+XIvwv+Egtz+C8kd3UNiEZ+DRZa2iqISGw71SigkPUjI58pyTSk/5TAB7iS+40IRC
+BY0DTEWRYjyKl+Kgf4IF+rKOIV8qekqq0kCpmkV5J6wNyFCt2/SKoNG2h9QbSOyi
+C325yyE+DC5ng6Dm+BHC96KAZ29ivKPb0TEmnDUfRC5in/3pdw4sc/07HPEXxPZT
+jVH1mtmG11y6vGtR08V24wH2MzwaZ4eAMYtmVG+pEmk15AKZvhHeuV2ZYmqsrhZV
+YyhYaVaXRV8E9lRncbGqO3/NRCz+zecqjKXz9bPqAEXm3yHt3qe4z7xO68aBbnTH
+0UWfL/ooyjucl4mXdZHjHO1d58y1FfW3Lw088hYvc069bLpRJ+c/AyNLpILIX9Uk
+b9u0ba/tAj6nO2VEfCscGXbk+nM5mX143hhE+xfrRhvpdn5fyESeVGpuJCFLXUAd
+gOL/3dbAaOE7TMZnFzs7lOqCKnL935abQicjnZrroeqYdKRmqeu1CtPAQCP/Y3ab
+PgXzM911iVH/FudDNMqW
+=FkwC
+-----END PGP SIGNATURE-----
+
+--IUSVF+LtaR4kWxuH--
