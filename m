@@ -1,37 +1,35 @@
 From: Oleg <o.zybin@mail.ru>
-Date: Wed, 01 May 2013 12:22:06 +0000
+Date: Wed, 01 May 2013 13:14:32 +0000
 Subject: s3c2443-uda134x sound driver problem
-Message-Id: <20130501162206.415bfb476da4147c638cbe99@mail.ru>
+Message-Id: <20130501171432.94768eee1528cac1b4e98f9d@mail.ru>
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="Multipart=_Wed__1_May_2013_16_22_06_+0400_gPhcf+LF6fOO8trL"
+Content-Type: multipart/mixed; boundary="Multipart=_Wed__1_May_2013_17_14_32_+0400_/_Eip1oH5U5J1d4C"
 List-Id: <linux-sound.vger.kernel.org>
+References: <20130501162206.415bfb476da4147c638cbe99@mail.ru>
+In-Reply-To: <20130501162206.415bfb476da4147c638cbe99@mail.ru>
 To: linux-sound@vger.kernel.org
 
 This is a multi-part message in MIME format.
 
---Multipart=_Wed__1_May_2013_16_22_06_+0400_gPhcf+LF6fOO8trL
+--Multipart=_Wed__1_May_2013_17_14_32_+0400_/_Eip1oH5U5J1d4C
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
 Hello
 
-I need to write a driver for codec uda134 installed on plat with processor s3c2443. I use driver for uda134 that is already in the kernel version 3.6 (s3c24xx-uda134x) and IIS driver (s3c24xx-i2s). IIS driver is not compatible with processor s3c2443, and I changed in that iis registers and a few functions (attching patch). I have a problem with sound output. When audio file is playing sound interrupts (using alsa 1.0.26). Here is a part of debug output (output1.txt). Time between end of enqueue and start of the next buffdone is about 0.5 second, but expected is about 0.1 second. It seems that problem is size of dma buffer. I tried to forcibly change size of buffer
+I need to write a driver for codec uda134 installed on plat with processor s3c2443. I use driver for uda134 that is already in the kernel 3.6 (s3c24xx-uda134x) and IIS driver (s3c24xx-i2s). IIS driver is not compatible with processor s3c2443, and I changed in that iis registers and a few functions (attching patch). I have a problem with sound output. When audio file is playing sound interrupts (using alsa 1.0.26). Here is a part of debug output (output1.txt). Time between end of enqueue and start of the next buffdone is about 0.5 second, but expected is about 0.1 second. It seems that problem is size of dma buffer. I tried to forcibly change size of buffer
 in kernel/linux/sound/soc/samsung/dma.c, line 212
 
-prtd->dma_end = prtd->dma_end - (prtd->dma_end - prtd->dma_start)/2;	
+prtd->dma_end = prtd->dma_end - (prtd->dma_end - prtd->dma_start)/2;    
 
 and interrupt disappeared, but sound distorted. Here is a part of debug output is such conditions (output2.txt). Here time bitween end of enqueue and start of the next buffdone satisfactory
 
 What may be the cause and how to fix it? please help
 
 -- 
-Oleg <o.zybin@mail.ru>
+Oleg <o.zybin@mail.ru> 
 
-
--- 
-Oleg <o.zybin@mail.ru>
-
---Multipart=_Wed__1_May_2013_16_22_06_+0400_gPhcf+LF6fOO8trL
+--Multipart=_Wed__1_May_2013_17_14_32_+0400_/_Eip1oH5U5J1d4C
 Content-Type: text/plain;
  name="output2.txt"
 Content-Disposition: attachment;
@@ -54,8 +52,7 @@ s3c2410_chan_loadbuffer: loading buff c2cd9380 (0x33c20000,0x004000)
 time enqueue 946686841.490582
 Entered audio_buffdone
 time buffdone 946686841.640845
-
---Multipart=_Wed__1_May_2013_16_22_06_+0400_gPhcf+LF6fOO8trL
+--Multipart=_Wed__1_May_2013_17_14_32_+0400_/_Eip1oH5U5J1d4C
 Content-Type: text/plain;
  name="output1.txt"
 Content-Disposition: attachment;
@@ -220,7 +217,7 @@ Entered dma_hw_free
 s3c24xx_uda134x_shutdown 1
 Entered dma_close
 
---Multipart=_Wed__1_May_2013_16_22_06_+0400_gPhcf+LF6fOO8trL
+--Multipart=_Wed__1_May_2013_17_14_32_+0400_/_Eip1oH5U5J1d4C
 Content-Type: text/x-diff;
  name="0001-iis-driver-changed.patch"
 Content-Disposition: attachment;
@@ -680,4 +677,4 @@ index d731042..acad67f 100644
 1.7.9.5
 
 
---Multipart=_Wed__1_May_2013_16_22_06_+0400_gPhcf+LF6fOO8trL--
+--Multipart=_Wed__1_May_2013_17_14_32_+0400_/_Eip1oH5U5J1d4C--
