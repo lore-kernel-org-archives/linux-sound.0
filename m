@@ -1,48 +1,24 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 03 Jul 2013 08:13:28 +0000
-Subject: Re: [alsa-devel] [PATCH 2/2] ASoC: atmel-pcm: use generic dmaengine framework
-Message-Id: <51D3DD28.8050900@atmel.com>
+Date: Tue, 02 Jul 2013 07:55:16 +0000
+Subject: [PATCH 0/2] ASoC: atmel-pcm: use generic dmaengine framework
+Message-Id: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com> <1372755849-19546-3-git-send-email-voice.shen@atmel.com> <51D2F306.7040603@metafoo.de> <51D37F87.2010008@atmel.com> <51D3D482.1050100@metafoo.de> <51D3D969.1060308@atmel.com> <51D3DBE8.4090407@metafoo.de>
-In-Reply-To: <51D3DBE8.4090407@metafoo.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+To: Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@vger.kernel.org
 
-Hi Lars,
+this patch series is based on next-20130701
 
-On 7/3/2013 16:08, Lars-Peter Clausen wrote:
-> On 07/03/2013 09:57 AM, Bo Shen wrote:
->> Hi Lars,
->>
->> On 7/3/2013 15:36, Lars-Peter Clausen wrote:
->>>>>> +        slave_config->dst_addr = (dma_addr_t)ssc->phybase + SSC_THR;
->>>>>>> [...]
->>>>>>>>> +        slave_config->src_addr = (dma_addr_t)ssc->phybase + SSC_RHR;
->>>>>>>
->>>>>>> Change the type of phybase to dma_addr_t
->>>>>
->>>>> It should be:
->>>>> slave_config->dst_addr = (dma_addr_t)(ssc->phybase + SSC_THR);
->>>>> slave_config->src_addr = (dma_addr_t)(ssc->phybase + SSC_RHR);
->>> The type of phybase in the ssc_device struct should be changed from
->>> resource_size_t to dma_addr_t.
->>
->> Actually, the phybase in ssc_device structure is resource_size_t which used to
->> access the ssc device register.
->> Here, we use ssc register as dma source address or destination address, so we
->> convert it to dma_addr_t type. So, not need to change, am I right?
->
-> Isn't 'regs' used to access the registers? As far as I can see phybase is only
-> used in the audio DMA driver.
+Bo Shen (2):
+  ASoC: atmel_ssc_dai: move set dma data to startup callback
+  ASoC: atmel-pcm: use generic dmaengine framework
 
-Thanks for point out this. I will change the phybase type from 
-resource_size_t to dma_addr_t.
+ sound/soc/atmel/atmel-pcm-dma.c |  118 ++++++---------------------------------
+ sound/soc/atmel/atmel_ssc_dai.c |   33 ++++++-----
+ 2 files changed, 32 insertions(+), 119 deletions(-)
 
-> - Lars
->
+-- 
+1.7.9.5
 
-Best Regards,
-Bo Shen
