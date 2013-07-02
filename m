@@ -1,15 +1,15 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 02 Jul 2013 07:55:17 +0000
+Date: Tue, 02 Jul 2013 09:04:08 +0000
 Subject: [PATCH 1/2] ASoC: atmel_ssc_dai: move set dma data to startup callback
-Message-Id: <1372751718-1437-2-git-send-email-voice.shen@atmel.com>
+Message-Id: <1372755849-19546-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
+References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@vger.kernel.org
+Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, richard.genoud@gmail.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
 move set dma data to startup callback function, if the set dma
 data exist in hw_params callback, so the dma data only usable when
