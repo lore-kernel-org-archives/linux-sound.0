@@ -1,15 +1,15 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 02 Jul 2013 07:55:18 +0000
+Date: Tue, 02 Jul 2013 09:04:09 +0000
 Subject: [PATCH 2/2] ASoC: atmel-pcm: use generic dmaengine framework
-Message-Id: <1372751718-1437-3-git-send-email-voice.shen@atmel.com>
+Message-Id: <1372755849-19546-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
+References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@vger.kernel.org
+Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, richard.genoud@gmail.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
 Align atmel pcm to use ASoC generic dmaengine framework
 
