@@ -1,90 +1,24 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 02 Jul 2013 09:04:08 +0000
-Subject: [PATCH 1/2] ASoC: atmel_ssc_dai: move set dma data to startup callback
-Message-Id: <1372755849-19546-2-git-send-email-voice.shen@atmel.com>
+From: Lars-Peter Clausen <lars@metafoo.de>
+Date: Tue, 02 Jul 2013 15:25:46 +0000
+Subject: Re: [alsa-devel] [PATCH 1/2] ASoC: atmel_ssc_dai: move set dma data to startup callback
+Message-Id: <51D2F0FA.6040409@metafoo.de>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
+References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com> <1372755849-19546-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1372755849-19546-2-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, richard.genoud@gmail.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-move set dma data to startup callback function, if the set dma
-data exist in hw_params callback, so the dma data only usable when
-call hw_params, if want use it before hw_params callback, it will
-cause NULL pointer access oops
+On 07/02/2013 11:04 AM, Bo Shen wrote:
+[...]
+> +	dma_params->substream = substream;
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- sound/soc/atmel/atmel_ssc_dai.c |   33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+Unrelated to this patch, but having a substream field in the dma_params seems
+to be redundant, since you need to know the substream to get the dma_params in
+the first place. Looking at the code it also seems to be unused other than this
+assignment. Maybe you can send a follow up patch to remove it.
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index f3fdfa0..6cf9cf1 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -196,15 +196,27 @@ static int atmel_ssc_startup(struct snd_pcm_substream *substream,
- 			     struct snd_soc_dai *dai)
- {
- 	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
--	int dir_mask;
-+	struct atmel_pcm_dma_params *dma_params;
-+	int dir, dir_mask;
- 
- 	pr_debug("atmel_ssc_startup: SSC_SR=0x%u\n",
- 		ssc_readl(ssc_p->ssc->regs, SR));
- 
--	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK)
-+	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
-+		dir = 0;
- 		dir_mask = SSC_DIR_MASK_PLAYBACK;
--	else
-+	} else {
-+		dir = 1;
- 		dir_mask = SSC_DIR_MASK_CAPTURE;
-+	}
-+
-+	dma_params = &ssc_dma_params[dai->id][dir];
-+	dma_params->ssc = ssc_p->ssc;
-+	dma_params->substream = substream;
-+
-+	ssc_p->dma_params[dir] = dma_params;
-+
-+	snd_soc_dai_set_dma_data(dai, substream, dma_params);
- 
- 	spin_lock_irq(&ssc_p->lock);
- 	if (ssc_p->dir_mask & dir_mask) {
-@@ -325,7 +337,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_pcm_hw_params *params,
- 	struct snd_soc_dai *dai)
- {
--	struct snd_soc_pcm_runtime *rtd = snd_pcm_substream_chip(substream);
- 	int id = dai->id;
- 	struct atmel_ssc_info *ssc_p = &ssc_info[id];
- 	struct atmel_pcm_dma_params *dma_params;
-@@ -344,19 +355,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	else
- 		dir = 1;
- 
--	dma_params = &ssc_dma_params[id][dir];
--	dma_params->ssc = ssc_p->ssc;
--	dma_params->substream = substream;
--
--	ssc_p->dma_params[dir] = dma_params;
--
--	/*
--	 * The snd_soc_pcm_stream->dma_data field is only used to communicate
--	 * the appropriate DMA parameters to the pcm driver hw_params()
--	 * function.  It should not be used for other purposes
--	 * as it is common to all substreams.
--	 */
--	snd_soc_dai_set_dma_data(rtd->cpu_dai, substream, dma_params);
-+	dma_params = ssc_p->dma_params[dir];
- 
- 	channels = params_channels(params);
- 
--- 
-1.7.9.5
+[...]
 
