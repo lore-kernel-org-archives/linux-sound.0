@@ -1,7 +1,7 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 03 Jul 2013 08:37:57 +0000
-Subject: [v2 2/5] ASoC: atmel_ssc_dai: add error mask define
-Message-Id: <1372840680-2253-3-git-send-email-voice.shen@atmel.com>
+Date: Wed, 03 Jul 2013 08:37:59 +0000
+Subject: [v2 4/5] ARM: atmel-ssc: change phybase type to dma_addr_t
+Message-Id: <1372840680-2253-5-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1372840680-2253-1-git-send-email-voice.shen@atmel.com>
 In-Reply-To: <1372840680-2253-1-git-send-email-voice.shen@atmel.com>
@@ -9,38 +9,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, lars@metafoo.de, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, lars@metafoo.de, richard.genoud@gmail.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-add error mask define, which will be used when execute DMA transfer
+as the phybase paramter only used for DMA operation, change
+it's type from resource_size_t to dma_addr_t
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
 Change in v2:
   - new patch
 ---
- sound/soc/atmel/atmel_ssc_dai.c |    2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/atmel-ssc.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 6cf9cf1..1ab4763 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -73,6 +73,7 @@ static struct atmel_ssc_mask ssc_tx_mask = {
- 	.ssc_disable	= SSC_BIT(CR_TXDIS),
- 	.ssc_endx	= SSC_BIT(SR_ENDTX),
- 	.ssc_endbuf	= SSC_BIT(SR_TXBUFE),
-+	.ssc_error	= SSC_BIT(SR_OVRUN),
- 	.pdc_enable	= ATMEL_PDC_TXTEN,
- 	.pdc_disable	= ATMEL_PDC_TXTDIS,
- };
-@@ -82,6 +83,7 @@ static struct atmel_ssc_mask ssc_rx_mask = {
- 	.ssc_disable	= SSC_BIT(CR_RXDIS),
- 	.ssc_endx	= SSC_BIT(SR_ENDRX),
- 	.ssc_endbuf	= SSC_BIT(SR_RXBUFF),
-+	.ssc_error	= SSC_BIT(SR_OVRUN),
- 	.pdc_enable	= ATMEL_PDC_RXTEN,
- 	.pdc_disable	= ATMEL_PDC_RXTDIS,
- };
+diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+index deb0ae5..66a0e53 100644
+--- a/include/linux/atmel-ssc.h
++++ b/include/linux/atmel-ssc.h
+@@ -11,7 +11,7 @@ struct atmel_ssc_platform_data {
+ 
+ struct ssc_device {
+ 	struct list_head	list;
+-	resource_size_t		phybase;
++	dma_addr_t		phybase;
+ 	void __iomem		*regs;
+ 	struct platform_device	*pdev;
+ 	struct atmel_ssc_platform_data *pdata;
 -- 
 1.7.9.5
 
