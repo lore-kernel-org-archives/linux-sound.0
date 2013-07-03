@@ -1,41 +1,51 @@
-From: Lars-Peter Clausen <lars@metafoo.de>
-Date: Wed, 03 Jul 2013 09:01:49 +0000
+From: Mark Brown <broonie@kernel.org>
+Date: Wed, 03 Jul 2013 09:52:57 +0000
 Subject: Re: [v2 0/5] ASoC: atmel-pcm: align with generic dmaengine framwork
-Message-Id: <51D3E87D.6040203@metafoo.de>
+Message-Id: <20130703095257.GF27646@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="sF4+LqaTi7T9hg64"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1372840680-2253-1-git-send-email-voice.shen@atmel.com>
 In-Reply-To: <1372840680-2253-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: Bo Shen <voice.shen@atmel.com>
-Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, lars@metafoo.de, richard.genoud@gmail.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-On 07/03/2013 10:37 AM, Bo Shen wrote:
+
+--sF4+LqaTi7T9hg64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 03, 2013 at 04:37:55PM +0800, Bo Shen wrote:
 > This patch set is based on linux next-20130701
-> 
+>=20
 > mainly implement
->   - move set dma data from hw_params to startup callback to avoid memory leak
+>   - move set dma data from hw_params to startup callback to avoid memory =
+leak
 >   - align atmel pcm with generic dmaenigne framwork
-> 
 
-Whole series looks good to me. Although the DMA driver still references the
-ssc struct, but that can be fixed later.
+Applied all, thanks.
 
-FWIW, Reviewed-by: Lars-Peter Clausen <lars@metafoo.de>
+--sF4+LqaTi7T9hg64
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
 
-> Bo Shen (5):
->   ASoC: atmel_ssc_dai: move set dma data to startup callback
->   ASoC: atmel_ssc_dai: add error mask define
->   ASoC: atmel-pcm-dma: move prepare for dma to dai prepare
->   ARM: atmel-ssc: change phybase type to dma_addr_t
->   ASoC: atmel-pcm: use generic dmaengine framework
-> 
->  include/linux/atmel-ssc.h       |    2 +-
->  sound/soc/atmel/Kconfig         |    1 +
->  sound/soc/atmel/atmel-pcm-dma.c |  118 ++++++---------------------------------
->  sound/soc/atmel/atmel_ssc_dai.c |   36 ++++++------
->  4 files changed, 37 insertions(+), 120 deletions(-)
-> 
+iQIcBAEBAgAGBQJR0/R2AAoJELSic+t+oim9s5oP/RNy3R5MZ/1cc+iptc3jhnFu
+/tAX0H3Lb7VBXItxNTnCfmlaDlmUL38M6+3RdTucleSOfy74EHNfjZdk6J4glQD5
+yPOACt+/3NwomuGKKm58QChyvEgJSdMORtTFQ4715xnBgCo3uV8Ez7rYFNZfIcR9
+xCyaOcgZziND6T2BZgOi4W5/6ufXPJvecYL0L89dyUZE38WlmGwvNN46lH64JlLo
+r4Z3HsJYylgBuiWB9ZSGhqqzhSeCa6x8Didg0vEEVCvGoigEKnONwgNO5a6NBvsY
+bStwmpiNHRDfFFC+0XeKoHquZyUp0obg1GrtgggZTUy4ncwpgXjZ1pbijyeRHloz
+pEv6/jWdB5tM1pTx7O+N+zW8DoyhJ6UZ0Fs429Ns63/+wjKxAtpoOoWpca3xKyg6
+EHHZt1wcapC20QHCpuN0xPvc6fPCOevIbkdBzB5hMdCacJE5nevWbpgOGriGIMyS
+tTztOGHIwH7cPWy5mypQoGP1BlGSH+RiuUNJxszjulGfHihBl3XvVhYjCiKFxRNf
+lyHjYvIhx+mc+b1kIHBR21QegvmRbtuCuCn4RwLqDKfCs6gEHmBlcWBN8+5Vtvxp
+MhXIphoQxa4TpXLsp+i6JqwluR4sr2QPXqmk92nBWn5Ms54W09HBwNMM84bQRJiF
+abzRmcOcfhmoZE573d1e
+=I097
+-----END PGP SIGNATURE-----
 
+--sF4+LqaTi7T9hg64--
