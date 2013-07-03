@@ -1,62 +1,83 @@
-From: Lars-Peter Clausen <lars@metafoo.de>
-Date: Tue, 02 Jul 2013 15:34:30 +0000
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 03 Jul 2013 01:33:59 +0000
 Subject: Re: [alsa-devel] [PATCH 2/2] ASoC: atmel-pcm: use generic dmaengine framework
-Message-Id: <51D2F306.7040603@metafoo.de>
+Message-Id: <51D37F87.2010008@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com> <1372755849-19546-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1372755849-19546-3-git-send-email-voice.shen@atmel.com>
+References: <1372755849-19546-1-git-send-email-voice.shen@atmel.com> <1372755849-19546-3-git-send-email-voice.shen@atmel.com> <51D2F306.7040603@metafoo.de>
+In-Reply-To: <51D2F306.7040603@metafoo.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Bo Shen <voice.shen@atmel.com>
+To: Lars-Peter Clausen <lars@metafoo.de>
 Cc: Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org, richard.genoud@gmail.com, Nicolas Ferre <nicolas.ferre@atmel.com>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-On 07/02/2013 11:04 AM, Bo Shen wrote:
-[...]
-> -/*--------------------------------------------------------------------------*\
-> - * DMAENGINE operations
-> -\*--------------------------------------------------------------------------*/
-> -static bool filter(struct dma_chan *chan, void *slave)
-> -{
-> -	struct at_dma_slave *sl = slave;
-> -
-> -	if (sl->dma_dev = chan->device->dev) {
-> -		chan->private = sl;
-> -		return true;
-> -	} else {
-> -		return false;
-> -	}
-> -}
+Hi Lars-Peter,
 
-I'm wondering why is filtering no longer required?
+On 7/2/2013 23:34, Lars-Peter Clausen wrote:
+> On 07/02/2013 11:04 AM, Bo Shen wrote:
+> [...]
+>> -/*--------------------------------------------------------------------------*\
+>> - * DMAENGINE operations
+>> -\*--------------------------------------------------------------------------*/
+>> -static bool filter(struct dma_chan *chan, void *slave)
+>> -{
+>> -	struct at_dma_slave *sl = slave;
+>> -
+>> -	if (sl->dma_dev = chan->device->dev) {
+>> -		chan->private = sl;
+>> -		return true;
+>> -	} else {
+>> -		return false;
+>> -	}
+>> -}
+>
+> I'm wondering why is filtering no longer required?
 
-[...]
-> +		slave_config->dst_addr = (dma_addr_t)ssc->phybase + SSC_THR;
-[...]
-> +		slave_config->src_addr = (dma_addr_t)ssc->phybase + SSC_RHR;
+Now this is handled by at_dma_filter in at_hdmac driver. More 
+information, you can reference: <driver/dma/at_hdmac.c> file
 
-Change the type of phybase to dma_addr_t
+> [...]
+>> +		slave_config->dst_addr = (dma_addr_t)ssc->phybase + SSC_THR;
+> [...]
+>> +		slave_config->src_addr = (dma_addr_t)ssc->phybase + SSC_RHR;
+>
+> Change the type of phybase to dma_addr_t
 
-[...]
->  }
->  
-> -static int atmel_pcm_dma_prepare(struct snd_pcm_substream *substream)
-> -{
-> -	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> -	struct atmel_pcm_dma_params *prtd;
-> -
-> -	prtd = snd_soc_dai_get_dma_data(rtd->cpu_dai, substream);
-> -
-> -	ssc_writex(prtd->ssc->regs, SSC_IER, prtd->mask->ssc_error);
-> -	ssc_writex(prtd->ssc->regs, SSC_CR, prtd->mask->ssc_enable);
+It should be:
+slave_config->dst_addr = (dma_addr_t)(ssc->phybase + SSC_THR);
+slave_config->src_addr = (dma_addr_t)(ssc->phybase + SSC_RHR);
 
-These writes are also completely lost
+> [...]
+>>   }
+>>
+>> -static int atmel_pcm_dma_prepare(struct snd_pcm_substream *substream)
+>> -{
+>> -	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>> -	struct atmel_pcm_dma_params *prtd;
+>> -
+>> -	prtd = snd_soc_dai_get_dma_data(rtd->cpu_dai, substream);
+>> -
+>> -	ssc_writex(prtd->ssc->regs, SSC_IER, prtd->mask->ssc_error);
+>> -	ssc_writex(prtd->ssc->regs, SSC_CR, prtd->mask->ssc_enable);
+>
+> These writes are also completely lost
 
-> -
-> -	return 0;
-> -}
+This will be moved to DAI driver startup callback function.
 
-I think it would also be good to get rid of any references to the ssc struct
-from the DMA driver and move them over to the DAI driver.
+>> -
+>> -	return 0;
+>> -}
+>
+> I think it would also be good to get rid of any references to the ssc struct
+> from the DMA driver and move them over to the DAI driver.
 
-- Lars
+I will try to implement this in next version patch.
+
+Thanks.
+
+> - Lars
+>
+
+Best Regards,
+Bo Shen
+
