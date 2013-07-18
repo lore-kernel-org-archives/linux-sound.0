@@ -1,26 +1,32 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 02 Jul 2013 09:04:07 +0000
-Subject: [PATCH 0/2] ASoC: atmel-pcm: use generic dmaengine framework
-Message-Id: <1372755849-19546-1-git-send-email-voice.shen@atmel.com>
+Date: Thu, 18 Jul 2013 06:38:20 +0000
+Subject: [PATCH] ASoC: wm8904: fix the typo error for LINER Mux
+Message-Id: <1374129500-5270-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1372751718-1437-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, richard.genoud@gmail.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+To: broonie@kernel.org
+Cc: Bo Shen <voice.shen@atmel.com>, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
 
-this patch series is based on next-20130701
+fix the typo error, from "LINEL Mux" to "LINER Mux"
 
-Bo Shen (2):
-  ASoC: atmel_ssc_dai: move set dma data to startup callback
-  ASoC: atmel-pcm: use generic dmaengine framework
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/codecs/wm8904.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- sound/soc/atmel/atmel-pcm-dma.c |  118 ++++++---------------------------------
- sound/soc/atmel/atmel_ssc_dai.c |   33 ++++++-----
- 2 files changed, 32 insertions(+), 119 deletions(-)
-
+diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+index 3ff195c..bdd575a 100644
+--- a/sound/soc/codecs/wm8904.c
++++ b/sound/soc/codecs/wm8904.c
+@@ -1017,7 +1017,7 @@ static const struct soc_enum liner_enum  	SOC_ENUM_SINGLE(WM8904_ANALOGUE_OUT12_ZC, 0, 2, out_mux_text);
+ 
+ static const struct snd_kcontrol_new liner_mux -	SOC_DAPM_ENUM("LINEL Mux", liner_enum);
++	SOC_DAPM_ENUM("LINER Mux", liner_enum);
+ 
+ static const char *sidetone_text[] = {
+ 	"None", "Left", "Right"
 -- 
 1.7.9.5
 
