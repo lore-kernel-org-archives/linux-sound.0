@@ -1,32 +1,45 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 18 Jul 2013 06:38:20 +0000
-Subject: [PATCH] ASoC: wm8904: fix the typo error for LINER Mux
-Message-Id: <1374129500-5270-1-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Thu, 18 Jul 2013 10:55:40 +0000
+Subject: Re: [PATCH] ASoC: wm8904: fix the typo error for LINER Mux
+Message-Id: <20130718105540.GI22506@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="D7Wqbbl3Nd9y+nYG"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: Bo Shen <voice.shen@atmel.com>, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+References: <1374129500-5270-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1374129500-5270-1-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
 
-fix the typo error, from "LINEL Mux" to "LINER Mux"
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- sound/soc/codecs/wm8904.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--D7Wqbbl3Nd9y+nYG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
-index 3ff195c..bdd575a 100644
---- a/sound/soc/codecs/wm8904.c
-+++ b/sound/soc/codecs/wm8904.c
-@@ -1017,7 +1017,7 @@ static const struct soc_enum liner_enum  	SOC_ENUM_SINGLE(WM8904_ANALOGUE_OUT12_ZC, 0, 2, out_mux_text);
- 
- static const struct snd_kcontrol_new liner_mux -	SOC_DAPM_ENUM("LINEL Mux", liner_enum);
-+	SOC_DAPM_ENUM("LINER Mux", liner_enum);
- 
- static const char *sidetone_text[] = {
- 	"None", "Left", "Right"
--- 
-1.7.9.5
+On Thu, Jul 18, 2013 at 02:38:20PM +0800, Bo Shen wrote:
+> fix the typo error, from "LINEL Mux" to "LINER Mux"
 
+Applied, thanks.
+
+--D7Wqbbl3Nd9y+nYG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iQIcBAEBAgAGBQJR58mpAAoJELSic+t+oim9hSoP/2NRjLY23D1B/KPwqCXzawzX
+3vUDb7JTY5KHmA3wqVCQAj6Vg+EYxw3YFtHhQDBW7pRKMNqyNS1cTXB33focPSfh
+XWGYzIfXIQl4mZXdBFvdqPszZWLTnWp5uUfQbvsXcL4lp4UHlU19c1Sq3PxXYwdL
+25C1HbRd5slCBzL6U84vlXUVpN/fHEm2Bv41TbkW2I6phpgF4kUutamuxLwoEDct
+KRvgottV+QrCWtdK/LH9psMoZf4c8nw+cs4V0OAQO6U+xSgG0bQ758IBYr908d7N
+0LGICoHuTUaqnC1pmpXvWr1cl3dfyDT/yFrYKAIvE4wI0wwb/F4Oiz59zmkYTLi4
+Gx3CS3zWBjufsuhFSo27cLvsJSfuq/8DczJbJ8nPu+4rjgVC1QexMwEXNyzGEnQ6
+Kl2MtU1+VeIjfWIu2sh7Lve/at2DhBHRAGY+R4vE/7XVFAQPcG3MNvJot0g57rSP
+dIyw+WOJOMV4ntR+1r7vVe5LUKJm3b9k7hj4EWTayhPQ5j/huVDRGwilov1TrQlI
+CFP6hB4QnsKGQiytTUjilcWKszPpj3YMPYUzEtlMSuYjP8O/t0FWcThBWgcq4/Ek
+vzDzZ0UFTKyA68iHfIe5OQ/GAess3vjHYundKp2SKn8sG348G0LN2bi9pmP0cc/W
+pxn+TTsDdUOzZ2RIMxNv
+=H6Sj
+-----END PGP SIGNATURE-----
+
+--D7Wqbbl3Nd9y+nYG--
