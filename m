@@ -1,39 +1,50 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 04 Sep 2013 07:27:46 +0000
-Subject: [PATCH] ASoC: atmel: disable error interrupt
-Message-Id: <1378279666-19873-1-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Wed, 04 Sep 2013 09:48:08 +0000
+Subject: Re: [PATCH] ASoC: atmel: disable error interrupt
+Message-Id: <20130904094808.GP3084@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="rmjRBBEgaenXGypG"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
+References: <1378279666-19873-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1378279666-19873-1-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: plagnioj@jcrosoft.com, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
 
-As once the error interrupt is triggered, it can not be cleared.
-So, disable it.
 
-No side effect found while testing on sama5d3xek and at91sam9x5ek
-boards.
+--rmjRBBEgaenXGypG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
-Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
----
- sound/soc/atmel/atmel_ssc_dai.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Sep 04, 2013 at 03:27:46PM +0800, Bo Shen wrote:
+> As once the error interrupt is triggered, it can not be cleared.
+> So, disable it.
+>=20
+> No side effect found while testing on sama5d3xek and at91sam9x5ek
+> boards.
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 0ecf356..bb53dea 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -649,7 +649,7 @@ static int atmel_ssc_prepare(struct snd_pcm_substream *substream,
- 	dma_params = ssc_p->dma_params[dir];
- 
- 	ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_enable);
--	ssc_writel(ssc_p->ssc->regs, IER, dma_params->mask->ssc_error);
-+	ssc_writel(ssc_p->ssc->regs, IDR, dma_params->mask->ssc_error);
- 
- 	pr_debug("%s enabled SSC_SR=0x%08x\n",
- 			dir ? "receive" : "transmit",
--- 
-1.7.9.5
+Applied, thanks.
 
+--rmjRBBEgaenXGypG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iQIcBAEBAgAGBQJSJwHVAAoJELSic+t+oim9nBwQAINUyEgewnZwoGKXw99n6bQ9
+S7+HKMLmX4suC7q3L4YNWkwx9pCbYBHSbKLrf7CmteljCWtoS2FGnvmVlFqvmqJ2
+B6y7jLIaFLsCJFXfWNok8hSZWFSo74ec8YVfZ4T8h7Z7fp5cOz8l71tFBlX80DMF
+QVJiGkZz7wJYjdOoe+XSdpHbks2+m9FWCCUsrCjDIU/z7qORSFl4UdDaFY0Vo+4q
+kjhqbZ05XXzb5CxT306XORryWiox3NUDwOkmJ8PR+smZI1GU4qWndVfSziI4/lxy
+5R8C95IFbZwAWH2+ZwXUICtFaX5LtoGIOK0ZbvnYDu8cPGSu7H/J8RRLA7AqXmsq
+n+oZ6/9fVQxE2X4GTOlvQi9gD+BQCq3wCew2wzVmLx7s6qKtXl8Pdlv/w5elc/7E
+don35/Wji4rfpfNFklIcfWm02WNci0cvWxf3R/XqGPGHm3W0YLN3PEGHydr7WHvz
+Bv5FaAXjqnt2pFQGcr1eVvLAHt4MgI6qJKQj1G9jv3HUGUO47dzzsgSx7I50xOmE
+FwdAfIap1NK0DkI44B6G4IFzxwqK7HukmWNnu/ETQbLVgM37cU+ybXsYuWCxHWe2
+IlqlAummFNBG+Czw7d5c9iyYYfbIfLGoAyUgqZNiEWVOqP0gXNONBExcLFLZtH8X
+w8AGZnnhnXSjITb6v+1W
+=2Pqv
+-----END PGP SIGNATURE-----
+
+--rmjRBBEgaenXGypG--
