@@ -1,60 +1,39 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Thu, 26 Sep 2013 08:36:29 +0000
-Subject: Re: Cannot load snd-usb-audio on 3.12-rc2
-Message-Id: <s5hfvssdlo2.wl%tiwai@suse.de>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 04 Sep 2013 07:27:46 +0000
+Subject: [PATCH] ASoC: atmel: disable error interrupt
+Message-Id: <1378279666-19873-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20130923234107.GA4876@xanatos>
-In-Reply-To: <20130923234107.GA4876@xanatos>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Sarah Sharp <sarah.a.sharp@linux.intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-usb@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+To: broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
 
-At Mon, 23 Sep 2013 16:41:07 -0700,
-Sarah Sharp wrote:
-> 
-> The snd-usb-audio driver no longer loads properly on 3.12-rc2 when I
-> plug in my USB headset.  It worked fine on 3.11-rc4 (not sure about
-> vanilla 3.11).
-> 
-> Trying to manually load the driver fails:
-> 
-> sarah@xanatos:~$ sudo modprobe snd-usb-audio
-> FATAL: Error inserting snd_usb_audio
-> (/lib/modules/3.12.0-rc2/kernel/sound/usb/snd-usb-audio.ko): Invalid argument
-> 
-> dmesg shows:
-> 
-> [   44.231668] snd_usb_audio: `-2' invalid for parameter `index'
+As once the error interrupt is triggered, it can not be cleared.
+So, disable it.
 
-There is no corresponding code change in the USB audio driver side, so
-I guess it must be in the module parameter parser that got broken.
+No side effect found while testing on sama5d3xek and at91sam9x5ek
+boards.
 
-Does the patch below fix?
-
-
-thanks,
-
-Takashi
-
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
 ---
-diff --git a/kernel/params.c b/kernel/params.c
-index 81c4e78..c00d5b5 100644
---- a/kernel/params.c
-+++ b/kernel/params.c
-@@ -254,11 +254,11 @@ int parse_args(const char *doing,
+ sound/soc/atmel/atmel_ssc_dai.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 0ecf356..bb53dea 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -649,7 +649,7 @@ static int atmel_ssc_prepare(struct snd_pcm_substream *substream,
+ 	dma_params = ssc_p->dma_params[dir];
  
+ 	ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_enable);
+-	ssc_writel(ssc_p->ssc->regs, IER, dma_params->mask->ssc_error);
++	ssc_writel(ssc_p->ssc->regs, IDR, dma_params->mask->ssc_error);
  
- STANDARD_PARAM_DEF(byte, unsigned char, "%hhu", unsigned long, kstrtoul);
--STANDARD_PARAM_DEF(short, short, "%hi", long, kstrtoul);
-+STANDARD_PARAM_DEF(short, short, "%hi", long, kstrtol);
- STANDARD_PARAM_DEF(ushort, unsigned short, "%hu", unsigned long, kstrtoul);
--STANDARD_PARAM_DEF(int, int, "%i", long, kstrtoul);
-+STANDARD_PARAM_DEF(int, int, "%i", long, kstrtol);
- STANDARD_PARAM_DEF(uint, unsigned int, "%u", unsigned long, kstrtoul);
--STANDARD_PARAM_DEF(long, long, "%li", long, kstrtoul);
-+STANDARD_PARAM_DEF(long, long, "%li", long, kstrtol);
- STANDARD_PARAM_DEF(ulong, unsigned long, "%lu", unsigned long, kstrtoul);
- 
- int param_set_charp(const char *val, const struct kernel_param *kp)
+ 	pr_debug("%s enabled SSC_SR=0x%08x\n",
+ 			dir ? "receive" : "transmit",
+-- 
+1.7.9.5
+
