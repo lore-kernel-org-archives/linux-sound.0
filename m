@@ -1,40 +1,44 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 03 Jul 2013 08:37:59 +0000
-Subject: [v2 4/5] ARM: atmel-ssc: change phybase type to dma_addr_t
-Message-Id: <1372840680-2253-5-git-send-email-voice.shen@atmel.com>
+From: Daniel Mack <zonque@gmail.com>
+Date: Tue, 24 Sep 2013 15:52:00 +0000
+Subject: Re: Cannot load snd-usb-audio on 3.12-rc2
+Message-Id: <5241B520.7010803@gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1372840680-2253-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1372840680-2253-1-git-send-email-voice.shen@atmel.com>
+References: <20130923234107.GA4876@xanatos>
+In-Reply-To: <20130923234107.GA4876@xanatos>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: Nicolas Ferre <nicolas.ferre@atmel.com>, lars@metafoo.de, richard.genoud@gmail.com, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+To: Sarah Sharp <sarah.a.sharp-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: Jaroslav Kysela <perex-/Fr2/VpizcU@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-sound-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org
 
-as the phybase paramter only used for DMA operation, change
-it's type from resource_size_t to dma_addr_t
+Hi Sarah,
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
-Change in v2:
-  - new patch
----
- include/linux/atmel-ssc.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 24.09.2013 01:41, Sarah Sharp wrote:
+> The snd-usb-audio driver no longer loads properly on 3.12-rc2 when I
+> plug in my USB headset.  It worked fine on 3.11-rc4 (not sure about
+> vanilla 3.11).
+> 
+> Trying to manually load the driver fails:
+> 
+> sarah@xanatos:~$ sudo modprobe snd-usb-audio
+> FATAL: Error inserting snd_usb_audio
+> (/lib/modules/3.12.0-rc2/kernel/sound/usb/snd-usb-audio.ko): Invalid argument
+> 
+> dmesg shows:
+> 
+> [   44.231668] snd_usb_audio: `-2' invalid for parameter `index'
 
-diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
-index deb0ae5..66a0e53 100644
---- a/include/linux/atmel-ssc.h
-+++ b/include/linux/atmel-ssc.h
-@@ -11,7 +11,7 @@ struct atmel_ssc_platform_data {
- 
- struct ssc_device {
- 	struct list_head	list;
--	resource_size_t		phybase;
-+	dma_addr_t		phybase;
- 	void __iomem		*regs;
- 	struct platform_device	*pdev;
- 	struct atmel_ssc_platform_data *pdata;
--- 
-1.7.9.5
+That's really strange. I just tested on an ARM board where I currently
+run 3.12-rc2 as well, and I can load the module without problems. Also,
+sound/usb/card.c (where the params are declared) hasn't seen an update
+in 3.12.
+
+I suspect your OS is passing "index=-2" from something like
+/etc/modprobe.d/* or cmdline settings. Could you investigate in that
+direction?
+
+
+HTH,
+Daniel
+
 
