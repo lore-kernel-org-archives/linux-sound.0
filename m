@@ -1,50 +1,44 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 04 Sep 2013 09:48:08 +0000
-Subject: Re: [PATCH] ASoC: atmel: disable error interrupt
-Message-Id: <20130904094808.GP3084@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="rmjRBBEgaenXGypG"
+From: Sarah Sharp <sarah.a.sharp@linux.intel.com>
+Date: Wed, 09 Oct 2013 20:01:08 +0000
+Subject: Re: Cannot load snd-usb-audio on 3.12-rc2
+Message-Id: <20131009200108.GA6136@xanatos>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1378279666-19873-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1378279666-19873-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: plagnioj@jcrosoft.com, alsa-devel@alsa-project.org, nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+References: <20130923234107.GA4876@xanatos>
+ <s5hfvssdlo2.wl%tiwai@suse.de>
+In-Reply-To: <s5hfvssdlo2.wl%tiwai-l3A5Bk7waGM@public.gmane.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+Cc: Jaroslav Kysela <perex-/Fr2/VpizcU@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-sound-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org
 
+On Thu, Sep 26, 2013 at 10:36:29AM +0200, Takashi Iwai wrote:
+> At Mon, 23 Sep 2013 16:41:07 -0700,
+> Sarah Sharp wrote:
+> > 
+> > The snd-usb-audio driver no longer loads properly on 3.12-rc2 when I
+> > plug in my USB headset.  It worked fine on 3.11-rc4 (not sure about
+> > vanilla 3.11).
+> > 
+> > Trying to manually load the driver fails:
+> > 
+> > sarah@xanatos:~$ sudo modprobe snd-usb-audio
+> > FATAL: Error inserting snd_usb_audio
+> > (/lib/modules/3.12.0-rc2/kernel/sound/usb/snd-usb-audio.ko): Invalid argument
+> > 
+> > dmesg shows:
+> > 
+> > [   44.231668] snd_usb_audio: `-2' invalid for parameter `index'
+> 
+> There is no corresponding code change in the USB audio driver side, so
+> I guess it must be in the module parameter parser that got broken.
+> 
+> Does the patch below fix?
 
---rmjRBBEgaenXGypG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Takashi,
 
-On Wed, Sep 04, 2013 at 03:27:46PM +0800, Bo Shen wrote:
-> As once the error interrupt is triggered, it can not be cleared.
-> So, disable it.
->=20
-> No side effect found while testing on sama5d3xek and at91sam9x5ek
-> boards.
+I didn't get around to applying the patch, but USB audio seems to be
+fixed in 3.12-rc4.
 
-Applied, thanks.
-
---rmjRBBEgaenXGypG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iQIcBAEBAgAGBQJSJwHVAAoJELSic+t+oim9nBwQAINUyEgewnZwoGKXw99n6bQ9
-S7+HKMLmX4suC7q3L4YNWkwx9pCbYBHSbKLrf7CmteljCWtoS2FGnvmVlFqvmqJ2
-B6y7jLIaFLsCJFXfWNok8hSZWFSo74ec8YVfZ4T8h7Z7fp5cOz8l71tFBlX80DMF
-QVJiGkZz7wJYjdOoe+XSdpHbks2+m9FWCCUsrCjDIU/z7qORSFl4UdDaFY0Vo+4q
-kjhqbZ05XXzb5CxT306XORryWiox3NUDwOkmJ8PR+smZI1GU4qWndVfSziI4/lxy
-5R8C95IFbZwAWH2+ZwXUICtFaX5LtoGIOK0ZbvnYDu8cPGSu7H/J8RRLA7AqXmsq
-n+oZ6/9fVQxE2X4GTOlvQi9gD+BQCq3wCew2wzVmLx7s6qKtXl8Pdlv/w5elc/7E
-don35/Wji4rfpfNFklIcfWm02WNci0cvWxf3R/XqGPGHm3W0YLN3PEGHydr7WHvz
-Bv5FaAXjqnt2pFQGcr1eVvLAHt4MgI6qJKQj1G9jv3HUGUO47dzzsgSx7I50xOmE
-FwdAfIap1NK0DkI44B6G4IFzxwqK7HukmWNnu/ETQbLVgM37cU+ybXsYuWCxHWe2
-IlqlAummFNBG+Czw7d5c9iyYYfbIfLGoAyUgqZNiEWVOqP0gXNONBExcLFLZtH8X
-w8AGZnnhnXSjITb6v+1W
-=2Pqv
------END PGP SIGNATURE-----
-
---rmjRBBEgaenXGypG--
+Thanks!
+Sarah Sharp
