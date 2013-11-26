@@ -1,35 +1,50 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 26 Nov 2013 04:17:51 +0000
-Subject: [PATCH 1/2] ASoC: atmel: sam9x5_wm8731: fix oops when unload module
-Message-Id: <1385439472-23352-1-git-send-email-voice.shen@atmel.com>
+From: Richard Genoud <richard.genoud@gmail.com>
+Date: Tue, 26 Nov 2013 11:32:23 +0000
+Subject: Re: [PATCH 1/2] ASoC: atmel: sam9x5_wm8731: fix oops when unload module
+Message-Id: <CACQ1gAh3W3vyTpFv8CkbO8hFJtU_SDjVuh2pRSFWCbUZPmidsw@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1385439472-23352-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1385439472-23352-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
+To: Bo Shen <voice.shen@atmel.com>
+Cc: Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@atmel.com>, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 
-As the priv is not assigned to card->drvdata, it is NULL, so when
-unload module, it will cause NULL pointer oops.
-Assign priv to card->drvdata to fix this issue.
+2013/11/26 Bo Shen <voice.shen@atmel.com>:
+> As the priv is not assigned to card->drvdata, it is NULL, so when
+> unload module, it will cause NULL pointer oops.
+> Assign priv to card->drvdata to fix this issue.
+>
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+> ---
+>  sound/soc/atmel/sam9x5_wm8731.c |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+> index 992ae38..6dc33ac 100644
+> --- a/sound/soc/atmel/sam9x5_wm8731.c
+> +++ b/sound/soc/atmel/sam9x5_wm8731.c
+> @@ -99,6 +99,7 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+>
+>         card->dev = &pdev->dev;
+>         card->owner = THIS_MODULE;
+> +       card->drvdata = priv;
+>         card->dai_link = dai;
+>         card->num_links = 1;
+>         card->dapm_widgets = sam9x5_dapm_widgets;
+> --
+> 1.7.9.5
+>
+There's no oops any more !
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- sound/soc/atmel/sam9x5_wm8731.c |    1 +
- 1 file changed, 1 insertion(+)
+Tested-by: Richard Genoud <richard.genoud@gmail.com>
 
-diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
-index 992ae38..6dc33ac 100644
---- a/sound/soc/atmel/sam9x5_wm8731.c
-+++ b/sound/soc/atmel/sam9x5_wm8731.c
-@@ -99,6 +99,7 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
- 
- 	card->dev = &pdev->dev;
- 	card->owner = THIS_MODULE;
-+	card->drvdata = priv;
- 	card->dai_link = dai;
- 	card->num_links = 1;
- 	card->dapm_widgets = sam9x5_dapm_widgets;
--- 
-1.7.9.5
+This should also go in -stable don't you think ?
 
+Maybe it's a bug on my kernel, but did you try to reload the module
+and play something ?
+On my board once I unload/reload it, there's no sound comming out
+(at least, it's better than a oops ! :) )
+
+Richard.
