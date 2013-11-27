@@ -1,46 +1,69 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 26 Nov 2013 13:22:44 +0000
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 27 Nov 2013 01:13:29 +0000
 Subject: Re: [PATCH 1/2] ASoC: atmel: sam9x5_wm8731: fix oops when unload module
-Message-Id: <20131126132244.GP14725@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="NsYpzUZ4z5mp8BBz"
+Message-Id: <52954739.1090501@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1385439472-23352-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1385439472-23352-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, richard.genoud@gmail.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
+References: <1385439472-23352-1-git-send-email-voice.shen@atmel.com> <CACQ1gAh3W3vyTpFv8CkbO8hFJtU_SDjVuh2pRSFWCbUZPmidsw@mail.gmail.com>
+In-Reply-To: <CACQ1gAh3W3vyTpFv8CkbO8hFJtU_SDjVuh2pRSFWCbUZPmidsw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Richard Genoud <richard.genoud@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@atmel.com>, Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 
+Hi Richard,
 
---NsYpzUZ4z5mp8BBz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 11/26/2013 07:32 PM, Richard Genoud wrote:
+> 2013/11/26 Bo Shen <voice.shen@atmel.com>:
+>> As the priv is not assigned to card->drvdata, it is NULL, so when
+>> unload module, it will cause NULL pointer oops.
+>> Assign priv to card->drvdata to fix this issue.
+>>
+>> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+>> ---
+>>   sound/soc/atmel/sam9x5_wm8731.c |    1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+>> index 992ae38..6dc33ac 100644
+>> --- a/sound/soc/atmel/sam9x5_wm8731.c
+>> +++ b/sound/soc/atmel/sam9x5_wm8731.c
+>> @@ -99,6 +99,7 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+>>
+>>          card->dev = &pdev->dev;
+>>          card->owner = THIS_MODULE;
+>> +       card->drvdata = priv;
+>>          card->dai_link = dai;
+>>          card->num_links = 1;
+>>          card->dapm_widgets = sam9x5_dapm_widgets;
+>> --
+>> 1.7.9.5
+>>
+> There's no oops any more !
+>
+> Tested-by: Richard Genoud <richard.genoud@gmail.com>
+>
+> This should also go in -stable don't you think ?
 
-On Tue, Nov 26, 2013 at 12:17:51PM +0800, Bo Shen wrote:
+After this patch go into mainline tree, I think we can ask it to go in 
+-stable tree.
 
-> +	card->drvdata = priv;
+> Maybe it's a bug on my kernel, but did you try to reload the module
+> and play something ?
 
-You should use snd_soc_card_set_drvdata() for this.
+When we reload the module, as the codec is not configured outside, so it 
+use default value, the 'Output Mixer HiFi Playback Switch' is in off 
+state.If you want to play something, you need make it in on state. 
+Please take the following command as a reference:
+--->8---
+amixer cset numid,iface=MIXER,name='Output Mixer HiFi Playback Switch' on
+---8<---
 
---NsYpzUZ4z5mp8BBz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> On my board once I unload/reload it, there's no sound comming out
+> (at least, it's better than a oops ! :) )
+>
+> Richard.
+>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJSlKChAAoJELSic+t+oim9Td4P/0j9JI9GEx4dHiwErfQXWYjQ
-DSPIPWF01OT4JEBHHQ4BFVxEmlu7tPpwGjRS3pRGllQnbMMy4SeMRqq//QIkJQ0U
-870Hck6vhtYcuG51tuuYExUfoBWwMF5wKU9bU+ToRZSHtNhZTZL9vzCePAsbWlX/
-+BFeRHm/zyZnTglxxi0a2Gxy2aT3QXtKlSlUlSiaq1UFt/zFao7bREv+vbjC/H7R
-1LKXdcXF/ZLNkmZYmzUopZ5Bvg9I8a+6hZdP2XJVmdsU0SfG9PlIIQNJ8pCiVIhC
-0Ha98cfZR8nWCSaJKxbUF3aVKNpM72hAmVclM6KemupUC+OdMPPaPWaiGDe3ltdD
-gXZzgx3uv6vfZmOfIYq9GHqcZQtYB46aqzcOl7DaqYP1mZgBCmJuE4iLrHybkO2U
-7E88MgqeDg3Pk6FsSOaRIbsyV6LCsH2yPNPxl3OUoLqBhmZB1jByeF1qVFGP3bbV
-KuU2ioI7dgWBTF3MTp4m/IC/2xAE4W5RoO4uvd9/tnF6s9IBiWfZsX5kc5DJK1Xy
-mxnavw0QeUxVVesPBLy9ZLTSJ8MW7tJxKldvmP6QfYN9LekdTwdzMk8usPYJZOTj
-HIoK7/22Z3pTtZehmpGkFn10LFwrxOrnoT4K5MZqYXNPLeptXH6fsz2zf+FEWLz8
-81BwxmUBPMr5ilq4YLBr
-=LeXy
------END PGP SIGNATURE-----
-
---NsYpzUZ4z5mp8BBz--
+Best Regards,
+Bo Shen
