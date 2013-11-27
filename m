@@ -1,52 +1,39 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Thu, 10 Oct 2013 07:44:26 +0000
-Subject: Re: Cannot load snd-usb-audio on 3.12-rc2
-Message-Id: <s5h4n8pa7tx.wl%tiwai@suse.de>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 27 Nov 2013 10:05:09 +0000
+Subject: [Patch v2 1/2] ASoC: atmel: sam9x5_wm8731: fix oops when unload module
+Message-Id: <1385546710-11308-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <20130923234107.GA4876@xanatos>
-	<s5hfvssdlo2.wl%tiwai@suse.de>
-	<20131009200108.GA6136@xanatos>
-In-Reply-To: <20131009200108.GA6136@xanatos>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Sarah Sharp <sarah.a.sharp@linux.intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-usb@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+To: broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
 
-At Wed, 9 Oct 2013 13:01:08 -0700,
-Sarah Sharp wrote:
-> 
-> On Thu, Sep 26, 2013 at 10:36:29AM +0200, Takashi Iwai wrote:
-> > At Mon, 23 Sep 2013 16:41:07 -0700,
-> > Sarah Sharp wrote:
-> > > 
-> > > The snd-usb-audio driver no longer loads properly on 3.12-rc2 when I
-> > > plug in my USB headset.  It worked fine on 3.11-rc4 (not sure about
-> > > vanilla 3.11).
-> > > 
-> > > Trying to manually load the driver fails:
-> > > 
-> > > sarah@xanatos:~$ sudo modprobe snd-usb-audio
-> > > FATAL: Error inserting snd_usb_audio
-> > > (/lib/modules/3.12.0-rc2/kernel/sound/usb/snd-usb-audio.ko): Invalid argument
-> > > 
-> > > dmesg shows:
-> > > 
-> > > [   44.231668] snd_usb_audio: `-2' invalid for parameter `index'
-> > 
-> > There is no corresponding code change in the USB audio driver side, so
-> > I guess it must be in the module parameter parser that got broken.
-> > 
-> > Does the patch below fix?
-> 
-> Hi Takashi,
-> 
-> I didn't get around to applying the patch, but USB audio seems to be
-> fixed in 3.12-rc4.
+As the priv is not assigned to card->drvdata, it is NULL, so when
+unload module, it will cause NULL pointer oops.
+Assign priv to card->drvdata to fix this issue.
 
-Yeah, Jean did the very same fix and it was already merged.
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Change in v2: 
+  - using snd_soc_card_set_drvdata()
+---
+ sound/soc/atmel/sam9x5_wm8731.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+index 992ae38..1b37228 100644
+--- a/sound/soc/atmel/sam9x5_wm8731.c
++++ b/sound/soc/atmel/sam9x5_wm8731.c
+@@ -97,6 +97,8 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+ 		goto out;
+ 	}
+ 
++	snd_soc_card_set_drvdata(card, priv);
++
+ 	card->dev = &pdev->dev;
+ 	card->owner = THIS_MODULE;
+ 	card->dai_link = dai;
+-- 
+1.7.9.5
 
-thanks,
-
-Takashi
