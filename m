@@ -1,48 +1,79 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 31 Dec 2013 12:27:26 +0000
-Subject: Re: [Patch v2 2/2] ASoC: atmel: sam9x5_wm8731: remove platform_set_drvdata
-Message-Id: <20131231122726.GP31886@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="H5oeNUPfJ0vte6JU"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 04 Dec 2013 02:37:03 +0000
+Subject: [PATCH 1/2] ASoC: atmel_ssc_dai: add dai trigger ops
+Message-Id: <1386124624-22414-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1385546710-11308-1-git-send-email-voice.shen@atmel.com>
- <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, richard.genoud@gmail.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
+References: <1386124624-22414-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1386124624-22414-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: zql@glomationinc.com, richard.genoud@gmail.com, nicolas.ferre@atmel.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
 
+According to the SSC specifiation, it should be enabled after DMA is
+enabled. So, add trigger operation to make sure the right sequence.
 
---H5oeNUPfJ0vte6JU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ sound/soc/atmel/atmel_ssc_dai.c |   30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-On Wed, Nov 27, 2013 at 06:05:10PM +0800, Bo Shen wrote:
-> When call snd_soc_register_card, it will set driver data to this
-> device through dev_set_drvdata, then in driver, no need to call
-> platform_set_drvdata again, so remove it.
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 8697ced..1ead3c9 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -648,7 +648,7 @@ static int atmel_ssc_prepare(struct snd_pcm_substream *substream,
+ 
+ 	dma_params = ssc_p->dma_params[dir];
+ 
+-	ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_enable);
++	ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_disable);
+ 	ssc_writel(ssc_p->ssc->regs, IDR, dma_params->mask->ssc_error);
+ 
+ 	pr_debug("%s enabled SSC_SR=0x%08x\n",
+@@ -657,6 +657,33 @@ static int atmel_ssc_prepare(struct snd_pcm_substream *substream,
+ 	return 0;
+ }
+ 
++static int atmel_ssc_trigger(struct snd_pcm_substream *substream,
++			     int cmd, struct snd_soc_dai *dai)
++{
++	struct atmel_ssc_info *ssc_p = &ssc_info[dai->id];
++	struct atmel_pcm_dma_params *dma_params;
++	int dir;
++
++	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK)
++		dir = 0;
++	else
++		dir = 1;
++
++	dma_params = ssc_p->dma_params[dir];
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_RESUME:
++	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++		ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_enable);
++		break;
++	default:
++		ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_disable);
++		break;
++	}
++
++	return 0;
++}
+ 
+ #ifdef CONFIG_PM
+ static int atmel_ssc_suspend(struct snd_soc_dai *cpu_dai)
+@@ -731,6 +758,7 @@ static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
+ 	.startup	= atmel_ssc_startup,
+ 	.shutdown	= atmel_ssc_shutdown,
+ 	.prepare	= atmel_ssc_prepare,
++	.trigger	= atmel_ssc_trigger,
+ 	.hw_params	= atmel_ssc_hw_params,
+ 	.set_fmt	= atmel_ssc_set_dai_fmt,
+ 	.set_clkdiv	= atmel_ssc_set_dai_clkdiv,
+-- 
+1.7.9.5
 
-Applied, thanks.
-
---H5oeNUPfJ0vte6JU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJSwrgrAAoJELSic+t+oim9QxYP/R/3ZyBjRVNGdReUVmSJultC
-vF3bNDvAdYrqx/L4S01Qnnw7RuZe42SWc+XMLhEkOWuVBxogYSiF9nxiUkOkW0aH
-nol/luQIrHYXDS/pvG9XLGnku0FdNEKanwM5UDESV2LQBAkzGJpksHyK0K+MEAbo
-pDnN19TUA+KLVLZnuBEPpLrlrSVThxpHrcQst+HwjcdGL6ekxR8mjYkuIdVYI6pl
-bHGEKb2M2OheoJ0egepzpsi2xG8MQtbKnJuVzUGQCes0wPCnVEgJ1q1nGL6l7HvT
-ZAySgYcnVTuXpYATjE0CdNhlK6TrRgGKAZwvLwczfTZ0KavtvfF+BiFmdtlWAvxF
-yVwhAhCIvWl73Yy+2hrM0MnZXZNcDQfRJtBMyv5EM3Al/cdLF9gj/lpzjagRY7I5
-HMfHxhY2RtBmvSjrk2NnT4PAQMauuMarzkT1IVGodnbV44TsPhWFiRmkRZvSonkA
-7H/ZP330rd5PTxMP0Bbom57odMemMQdl6shd3u6HALJwOVqouWO6JvTwmlVHWjNl
-koVRuMWTLG2rqvi7b3tbLfusNfzv65T9vblph0GmU4dENDOV/Uxoh+WKEo7NkVvX
-NcQj6qngKqEODUCP0lULkQgENM0Jqc8FtLKpzsWowEIrGry9tnHWjjItUl9uERqq
-/qDt5nlWhGC3ur65vI8e
-=XQZp
------END PGP SIGNATURE-----
-
---H5oeNUPfJ0vte6JU--
