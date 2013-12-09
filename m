@@ -1,46 +1,55 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 18 Dec 2013 11:31:00 +0000
-Subject: Re: [PATCH] ASoC: wm8904: fix DSP mode B configuration
-Message-Id: <20131218113100.GJ28455@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="56fysGXq5VVjE/ND"
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Mon, 09 Dec 2013 10:20:05 +0000
+Subject: Re: [Patch v2 2/2] ASoC: atmel: sam9x5_wm8731: remove platform_set_drvdata
+Message-Id: <52A59955.8000100@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1387337183-16814-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1387337183-16814-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: patches@opensource.wolfsonmicro.com, ckeepax@opensource.wolfsonmicro.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
+References: <1385546710-11308-1-git-send-email-voice.shen@atmel.com> <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Bo Shen <voice.shen@atmel.com>, broonie@kernel.org, alsa-devel@alsa-project.org
+Cc: plagnioj@jcrosoft.com, richard.genoud@gmail.com, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+
+On 27/11/2013 11:05, Bo Shen :
+> When call snd_soc_register_card, it will set driver data to this
+> device through dev_set_drvdata, then in driver, no need to call
+> platform_set_drvdata again, so remove it.
+>
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+> ---
+> Change in v2:
+>    - NONE
+
+Hi Mark,
+
+It seems that this patch has not been applied to your "next" branch (aka 
+ping)...
+
+BTW, it seems that we also collected this tag:
+Tested-by: Richard Genoud <richard.genoud@gmail.com>
+
+Bye,
+
+> ---
+>   sound/soc/atmel/sam9x5_wm8731.c |    2 --
+>   1 file changed, 2 deletions(-)
+>
+> diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+> index 1b37228..ce9cd29 100644
+> --- a/sound/soc/atmel/sam9x5_wm8731.c
+> +++ b/sound/soc/atmel/sam9x5_wm8731.c
+> @@ -155,8 +155,6 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+>   	of_node_put(codec_np);
+>   	of_node_put(cpu_np);
+>
+> -	platform_set_drvdata(pdev, card);
+> -
+>   	ret = snd_soc_register_card(card);
+>   	if (ret) {
+>   		dev_err(&pdev->dev,
+>
 
 
---56fysGXq5VVjE/ND
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Dec 18, 2013 at 11:26:23AM +0800, Bo Shen wrote:
-> When wm8904 work in DSP mode B, we still need to configure it to
-> work in DSP mode. Or else, it will work in Right Justified mode.
-
-Applied, thanks.
-
---56fysGXq5VVjE/ND
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJSsYdxAAoJELSic+t+oim9BIcP+wbKgeptx7SeE/AxeLaacdNi
-+KyQLa2slGXzxs7xNivXXJdHdjjapI4pe6olE+qw/yUvon47+prHKczw7XziF7+X
-6jCR28svh4yLZCxM0sd3+jVFtIYJl0IX9wmplbM2FLwn1m0VP05GhusYYpKuZW36
-nImGeiVa5WYdIuTvK9fYmyc4v+i/R1oWBkK9Xzi6ubJOIL29scNkS2M+XjLgxb0k
-X3Ee/HsU7eV8POHOHJTCe45ttPbMk00KZ2z7LdwwGZ9SOupDcHY4HEwhk0fLGDY2
-HCec8zRDRj76FcZLtQIbLdHZzPvFYhYJ4gz+im4VGYh6s/rXwNPH43NFVk/AW66H
-xbQuYjX4NDo4In5Nd6gSRSyUgpmPrQhj5uCOQ0YDlCCRsimiDpALxwVw6D6QBJd4
-mivwFx2gL/4PW3D5WSxhPqnYdEyRokn91xcZo8M72bYk0dng8l4KX7tVEgF1GtEO
-ewwnk36PQvj49J3NmAMN2/J7DDzq4cCOxxbb1LbQwLrZL1PNcdm0hJZhuyMnhtCe
-RDvkuDs8yu04syk8t0b5cngIIdpGTJAezk00PohV5pjgCVSim6QzvDRrAa1TujGG
-gEpSDmq/uDusv8TSi1apzmTdpvXCaI8484zxkx+Wyu+IGtwWV03VuBQA/yDfN8Ha
-G+SIEAx+qlc0g6cyeW2x
-=tPYQ
------END PGP SIGNATURE-----
-
---56fysGXq5VVjE/ND--
+-- 
+Nicolas Ferre
