@@ -1,26 +1,42 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 04 Dec 2013 02:37:02 +0000
-Subject: [PATCH 0/2] ASoC: sam9x5_wm8731: fix left right channel swap issue
-Message-Id: <1386124624-22414-1-git-send-email-voice.shen@atmel.com>
+Date: Wed, 18 Dec 2013 06:55:41 +0000
+Subject: [RESEND PATCH v2 2/2] ASoC: atmel: sam9x5_wm8731: remove platform_set_drvdata
+Message-Id: <1387349741-13121-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: broonie@kernel.org
-Cc: nicolas.ferre@atmel.com, richard.genoud@gmail.com, zql@glomationinc.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
+Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
 
-This patch series fix sam9x5 wm8731 playback left right channel swap issue
-However, sam9x5 and wm8731 only can work in DSP A mode while can not work
-in I2S mode.
+When call snd_soc_register_card, it will set driver data to this
+device through dev_set_drvdata, then in driver, no need to call
+platform_set_drvdata again, so remove it.
 
-Bo Shen (2):
-  ASoC: atmel_ssc_dai: add dai trigger ops
-  ASoC: sam9x5_wm8731: change to work in DSP A mode
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Tested-by: Richard Genoud <richard.genoud@gmail.com>
+---
+Hi Mark,
+   This patch is not in your tree, so I resend it.
 
- sound/soc/atmel/atmel_ssc_dai.c |   30 +++++++++++++++++++++++++++++-
- sound/soc/atmel/sam9x5_wm8731.c |    2 +-
- 2 files changed, 30 insertions(+), 2 deletions(-)
+ sound/soc/atmel/sam9x5_wm8731.c |    2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
+index 7d6a905..3188036 100644
+--- a/sound/soc/atmel/sam9x5_wm8731.c
++++ b/sound/soc/atmel/sam9x5_wm8731.c
+@@ -155,8 +155,6 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
+ 	of_node_put(codec_np);
+ 	of_node_put(cpu_np);
+ 
+-	platform_set_drvdata(pdev, card);
+-
+ 	ret = snd_soc_register_card(card);
+ 	if (ret) {
+ 		dev_err(&pdev->dev,
 -- 
 1.7.9.5
 
