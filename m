@@ -1,35 +1,24 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 18 Dec 2013 03:26:23 +0000
-Subject: [PATCH] ASoC: wm8904: fix DSP mode B configuration
-Message-Id: <1387337183-16814-1-git-send-email-voice.shen@atmel.com>
+From: Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
+Date: Wed, 18 Dec 2013 09:23:37 +0000
+Subject: Re: [PATCH] ASoC: wm8904: fix DSP mode B configuration
+Message-Id: <20131218092337.GD11138@opensource.wolfsonmicro.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1387337183-16814-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1387337183-16814-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, patches@opensource.wolfsonmicro.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, ckeepax@opensource.wolfsonmicro.com, linux-arm-kernel@lists.infradead.org
+To: Bo Shen <voice.shen@atmel.com>
+Cc: broonie@kernel.org, patches@opensource.wolfsonmicro.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
 
-When wm8904 work in DSP mode B, we still need to configure it to
-work in DSP mode. Or else, it will work in Right Justified mode.
+On Wed, Dec 18, 2013 at 11:26:23AM +0800, Bo Shen wrote:
+> When wm8904 work in DSP mode B, we still need to configure it to
+> work in DSP mode. Or else, it will work in Right Justified mode.
+> 
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+> ---
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
- sound/soc/codecs/wm8904.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
 
-diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
-index 3938fb1..53bbfac 100644
---- a/sound/soc/codecs/wm8904.c
-+++ b/sound/soc/codecs/wm8904.c
-@@ -1444,7 +1444,7 @@ static int wm8904_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 
- 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
- 	case SND_SOC_DAIFMT_DSP_B:
--		aif1 |= WM8904_AIF_LRCLK_INV;
-+		aif1 |= 0x3 | WM8904_AIF_LRCLK_INV;
- 	case SND_SOC_DAIFMT_DSP_A:
- 		aif1 |= 0x3;
- 		break;
--- 
-1.7.9.5
-
+Thanks,
+Charles
