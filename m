@@ -1,58 +1,48 @@
 From: Mark Brown <broonie@kernel.org>
-Date: Mon, 09 Dec 2013 16:58:53 +0000
+Date: Tue, 31 Dec 2013 12:27:26 +0000
 Subject: Re: [Patch v2 2/2] ASoC: atmel: sam9x5_wm8731: remove platform_set_drvdata
-Message-Id: <20131209165853.GS29268@sirena.org.uk>
+Message-Id: <20131231122726.GP31886@sirena.org.uk>
 MIME-Version: 1
-Content-Type: multipart/mixed; boundary="yrPCcEe+QcWQl/Hn"
+Content-Type: multipart/mixed; boundary="H5oeNUPfJ0vte6JU"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1385546710-11308-1-git-send-email-voice.shen@atmel.com>
  <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
- <52A59955.8000100@atmel.com>
-In-Reply-To: <52A59955.8000100@atmel.com>
-To: Nicolas Ferre <nicolas.ferre@atmel.com>
-Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, plagnioj@jcrosoft.com, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, richard.genoud@gmail.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
 
 
---yrPCcEe+QcWQl/Hn
+--H5oeNUPfJ0vte6JU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Dec 09, 2013 at 11:20:05AM +0100, Nicolas Ferre wrote:
+On Wed, Nov 27, 2013 at 06:05:10PM +0800, Bo Shen wrote:
+> When call snd_soc_register_card, it will set driver data to this
+> device through dev_set_drvdata, then in driver, no need to call
+> platform_set_drvdata again, so remove it.
 
-> It seems that this patch has not been applied to your "next" branch
-> (aka ping)...
+Applied, thanks.
 
-If you think something has been forgotten please resend.  If it's
-genuinely been lost it's going to need resending and the mail just leads
-to more mails, a resend can be directly applied.  I had thought I'd
-replied to this at the time but it seems I didn't, or at least I can't
-see my reply on the list...  sorry about that.
-
-The question was if we should change this or if we should change the
-core to not overwrite something that probably ought to be the driver's
-domain?  Looking at the code I think we're probably doing the right
-thing but it'd be good to consider.
-
---yrPCcEe+QcWQl/Hn
+--H5oeNUPfJ0vte6JU
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBAgAGBQJSpfbKAAoJELSic+t+oim9fysP/RcMEu29YxgmTY5nSFiDvDbP
-WN7iEKDsJL4evG7Z+/CwQCoNzY6Lx0decA3xGSUMWJsK/JGHJ62Ei4a7Umy1g+8x
-VTN2hkWrVEK9emldFTrf0hUmAZE7fJ4EUl6tf9RquQpfHBaWuH99TI5ZkQHe0g2k
-JpFVimVNuRVe4bx+5gKmI74LIGQRZP0KnyuCXiJt4CxWW3jkw+CnOfjEw9BNXh/N
-Vp+EYo8PPPqWxJ6+4l4zeuyppKzMdO4a+X8IIcKvNK/rpsOTJP1jrM0FCh+xemzG
-P2EIcNZeUAFwnD/QfCeMKHictEBmOcyQiNbGJReIcnRWf6uweWce960cm4JZ4LAc
-uE5gDd5XGE8EyMLUUeprkQYzhqV682E/PWM6eVKozrjXlUvDVou1Iurt6QYqRJns
-OLF/4PAoBODl98wa69EbXJUuZc+w68JfksJDCuv8PC3Cyd/5hfVuadcvVP4DKDi/
-aUb5p8DhSqLK/4+c0rXowvWQbQBcCDk7ul3lxiNrA+pE8sVxT4ecURiOOrHJAdOc
-erNUIhSeVKGi2bkDpgVcx+nbzesbk/bfEQ4iyjohrqo7yUzbGJXARiXE6FJzhCpH
-r5LgGJN8UAJv9Idk2Zq1Oo7I6m/C1HOwqKWTpFHK1o3g/eO6Gzwxjwx8Wcs+tcNs
-+AMvGP3kjJ+7c8Yy7GvD
-=odN4
+iQIcBAEBAgAGBQJSwrgrAAoJELSic+t+oim9QxYP/R/3ZyBjRVNGdReUVmSJultC
+vF3bNDvAdYrqx/L4S01Qnnw7RuZe42SWc+XMLhEkOWuVBxogYSiF9nxiUkOkW0aH
+nol/luQIrHYXDS/pvG9XLGnku0FdNEKanwM5UDESV2LQBAkzGJpksHyK0K+MEAbo
+pDnN19TUA+KLVLZnuBEPpLrlrSVThxpHrcQst+HwjcdGL6ekxR8mjYkuIdVYI6pl
+bHGEKb2M2OheoJ0egepzpsi2xG8MQtbKnJuVzUGQCes0wPCnVEgJ1q1nGL6l7HvT
+ZAySgYcnVTuXpYATjE0CdNhlK6TrRgGKAZwvLwczfTZ0KavtvfF+BiFmdtlWAvxF
+yVwhAhCIvWl73Yy+2hrM0MnZXZNcDQfRJtBMyv5EM3Al/cdLF9gj/lpzjagRY7I5
+HMfHxhY2RtBmvSjrk2NnT4PAQMauuMarzkT1IVGodnbV44TsPhWFiRmkRZvSonkA
+7H/ZP330rd5PTxMP0Bbom57odMemMQdl6shd3u6HALJwOVqouWO6JvTwmlVHWjNl
+koVRuMWTLG2rqvi7b3tbLfusNfzv65T9vblph0GmU4dENDOV/Uxoh+WKEo7NkVvX
+NcQj6qngKqEODUCP0lULkQgENM0Jqc8FtLKpzsWowEIrGry9tnHWjjItUl9uERqq
+/qDt5nlWhGC3ur65vI8e
+=XQZp
 -----END PGP SIGNATURE-----
 
---yrPCcEe+QcWQl/Hn--
+--H5oeNUPfJ0vte6JU--
