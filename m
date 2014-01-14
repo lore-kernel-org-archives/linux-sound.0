@@ -1,42 +1,52 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Wed, 18 Dec 2013 06:55:41 +0000
-Subject: [RESEND PATCH v2 2/2] ASoC: atmel: sam9x5_wm8731: remove platform_set_drvdata
-Message-Id: <1387349741-13121-1-git-send-email-voice.shen@atmel.com>
+Date: Tue, 14 Jan 2014 03:25:55 +0000
+Subject: [PATCH 2/3] ASoC: atmel_wm8904: make it available to choose clock
+Message-Id: <1389669956-2304-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1385546710-11308-2-git-send-email-voice.shen@atmel.com>
+References: <1389669956-2304-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1389669956-2304-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, richard.genoud@gmail.com, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
+Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>, Linus Walleij <linus.walleij@linaro.org>, Wolfram Sang <wsa@the-dreams.de>, linux-kernel@vger.kernel.org
 
-When call snd_soc_register_card, it will set driver data to this
-device through dev_set_drvdata, then in driver, no need to call
-platform_set_drvdata again, so remove it.
+Make it available to choose the clock from TK pin or RK pin. This
+is hardware design decided.
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
-Tested-by: Richard Genoud <richard.genoud@gmail.com>
 ---
-Hi Mark,
-   This patch is not in your tree, so I resend it.
 
- sound/soc/atmel/sam9x5_wm8731.c |    2 --
- 1 file changed, 2 deletions(-)
+ sound/soc/atmel/atmel_wm8904.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/soc/atmel/sam9x5_wm8731.c b/sound/soc/atmel/sam9x5_wm8731.c
-index 7d6a905..3188036 100644
---- a/sound/soc/atmel/sam9x5_wm8731.c
-+++ b/sound/soc/atmel/sam9x5_wm8731.c
-@@ -155,8 +155,6 @@ static int sam9x5_wm8731_driver_probe(struct platform_device *pdev)
- 	of_node_put(codec_np);
- 	of_node_put(cpu_np);
+diff --git a/sound/soc/atmel/atmel_wm8904.c b/sound/soc/atmel/atmel_wm8904.c
+index b4e3690..b85088d 100644
+--- a/sound/soc/atmel/atmel_wm8904.c
++++ b/sound/soc/atmel/atmel_wm8904.c
+@@ -108,6 +108,7 @@ static int atmel_asoc_wm8904_dt_init(struct platform_device *pdev)
+ 	struct device_node *codec_np, *cpu_np;
+ 	struct snd_soc_card *card = &atmel_asoc_wm8904_card;
+ 	struct snd_soc_dai_link *dailink = &atmel_asoc_wm8904_dailink;
++	struct atmel_ssc_info *ssc_info;
+ 	int ret;
  
--	platform_set_drvdata(pdev, card);
--
- 	ret = snd_soc_register_card(card);
+ 	if (!np) {
+@@ -115,6 +116,15 @@ static int atmel_asoc_wm8904_dt_init(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	ssc_info = devm_kzalloc(&pdev->dev, sizeof(*ssc_info), GFP_KERNEL);
++	if (!ssc_info)
++		return -ENOMEM;
++
++	ssc_info->clk_from_rk_pin +		of_property_read_bool(np, "clk_from_rk_pin");
++
++	card->drvdata = (void *)ssc_info;
++
+ 	ret = snd_soc_of_parse_card_name(card, "atmel,model");
  	if (ret) {
- 		dev_err(&pdev->dev,
+ 		dev_err(&pdev->dev, "failed to parse card name\n");
 -- 
-1.7.9.5
+1.8.5.2
 
