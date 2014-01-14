@@ -1,7 +1,7 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 27 Jan 2014 06:55:23 +0000
-Subject: [PATCH v2 0/3] ASoC: atmel_ssc_dai: add option to choose clock
-Message-Id: <1390805726-1841-1-git-send-email-voice.shen@atmel.com>
+Date: Tue, 14 Jan 2014 03:25:53 +0000
+Subject: [PATCH 0/3] ASoC: atmel_ssc_dai: add option to choose clock
+Message-Id: <1389669956-2304-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -13,19 +13,17 @@ When SSC work in slave mode, the clock can come from TK pin and also
 can come from RK pin, this is hardware design decided. So, make it
 available to choose where the clock from.
 
-Changes in v2:
-  - using "-" replace "_" in binding document
 
 Bo Shen (3):
   ASoC: atmel_ssc_dai: make option to choose clock
   ASoC: atmel_wm8904: make it available to choose clock
   Binding: atmel-wm8904: add option to choose clock
 
- Documentation/devicetree/bindings/sound/atmel-wm8904.txt |  6 ++++++
+ Documentation/devicetree/bindings/sound/atmel-wm8904.txt |  2 ++
  sound/soc/atmel/atmel_ssc_dai.c                          | 16 ++++++++++++----
  sound/soc/atmel/atmel_ssc_dai.h                          |  1 +
  sound/soc/atmel/atmel_wm8904.c                           | 10 ++++++++++
- 4 files changed, 29 insertions(+), 4 deletions(-)
+ 4 files changed, 25 insertions(+), 4 deletions(-)
 
 -- 
 1.8.5.2
