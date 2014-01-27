@@ -1,45 +1,67 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 27 Jan 2014 06:55:26 +0000
-Subject: [PATCH v2 3/3] Binding: atmel-wm8904: add option to choose clock
-Message-Id: <1390805726-1841-4-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 27 Jan 2014 19:31:49 +0000
+Subject: Re: [PATCH v2 3/3] Binding: atmel-wm8904: add option to choose clock
+Message-Id: <20140127193149.GQ11841@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="aNvCJ41Feu8IgPyB"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1390805726-1841-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1390805726-1841-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>, Rob Herring <rob.herring@calxeda.com>, Pawel Moll <pawel.moll@arm.com>, Mark Rutland <mark.rutland@arm.com>, Stephen Warren <swarren@wwwdotorg.org>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Landley <rob@landley.net>, Mark Brown <broonie@linaro.org>, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+ <1390805726-1841-4-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1390805726-1841-4-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Rob Herring <rob.herring@calxeda.com>, Pawel Moll <pawel.moll@arm.com>, Mark Rutland <mark.rutland@arm.com>, Stephen Warren <swarren@wwwdotorg.org>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Landley <rob@landley.net>, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Add the option to choose clock on which pin input to SSC (as slave).
-Default is on TK pin to SSC, add "atmel,clk-from-rk-pin" option to
-specify the clock is on RK pin to SSC.
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
-Changes in v2:
-  - using "-" replace "_" in binding document
+--aNvCJ41Feu8IgPyB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- Documentation/devicetree/bindings/sound/atmel-wm8904.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Mon, Jan 27, 2014 at 02:55:26PM +0800, Bo Shen wrote:
 
-diff --git a/Documentation/devicetree/bindings/sound/atmel-wm8904.txt b/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
-index 8bbe50c..2d86e2b 100644
---- a/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
-+++ b/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
-@@ -33,6 +33,12 @@ Required properties:
- 
- Optional properties:
-   - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
-+  - atmel,clk-from-rk-pin: bool property.
-+     - When SSC works in slave mode, according to the hardware design, the
-+       clock can get from TK pin, and also can get from RK pin. So, add
-+       this parameter to choose where the clock from.
-+     - By default the clock is from TK pin, if the clock from RK pin, this
-+       property is needed.
- 
- Example:
- sound {
--- 
-1.8.5.2
+> diff --git a/Documentation/devicetree/bindings/sound/atmel-wm8904.txt b/D=
+ocumentation/devicetree/bindings/sound/atmel-wm8904.txt
+> index 8bbe50c..2d86e2b 100644
+> --- a/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
+> +++ b/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
+> @@ -33,6 +33,12 @@ Required properties:
+> =20
+>  Optional properties:
+>    - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
+> +  - atmel,clk-from-rk-pin: bool property.
+> +     - When SSC works in slave mode, according to the hardware design, t=
+he
+> +       clock can get from TK pin, and also can get from RK pin. So, add
+> +       this parameter to choose where the clock from.
+> +     - By default the clock is from TK pin, if the clock from RK pin, th=
+is
+> +       property is needed.
 
+Can this be made a property of the SSC device so that it's available for
+all cards using it rather than just this one?  That would also address
+the issue with the way the configuration is passed to the controller
+that Lars-Peter identified.
+
+--aNvCJ41Feu8IgPyB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJS5rQiAAoJELSic+t+oim9SaQP/j/gJn19O2uDOb/Vy9xTetL7
+xdX9xq8LknromRrCXPIzOafVM3+UK+NvPI1cgA9PYCaJ61djg/KfR53tHrpscmzk
+V1xlmCfNsgtH0H1bW3LGRXq6PAwcZCj4ppL1Z7EDbT1j5OpSXQvKYN5WP8j2lhPo
+67NYWnvDDliVVoH39gzaw1o+c/mEYfb0seAFOyXFUPwqxKvbY5/PpUJaz+6AT7ZS
+BKI5BlVcEsqoyBSbvHiIPc/x5OFxPv1EQLHwh866NPXoYdYHvkn71jjSwkGd/2b/
+GZ8Ut+NC19uK9/ObsU35jQfHSck6OJzgoKqVxWU8ggbdVUgxC8tMy3mnrrJ1qH73
+QqTeyDSmkwBkpnAVpBBqSB5fKYSm0EMSLGJoftHdVOmHcEXeDRyQhBxcuGpeXSMa
+ICmRR+/4iJjF6Ok4IiLzYYritzCUe8Qt7PNPvqvNTEHbdR+nPa0AlWYt7fRf4lDO
+XUq4WHcHTXUgw5IEayRsqWOCwhF22IqyrrLymfFtJHxQR9c4wly4RCV6TGXV/L1c
+deikYCcxMlf4LCFfKOIBVxk0WFnVNKyMlghIuyZ7KOwzIg5zyJNTsyEdzZfiy2dR
+kOkfPUqIMC8IReySjDlU0fARWpTY/tIODT1BwbmPIhxBZQ35ZZ1hD4+645A/jfd3
+RKzcMdxMYzH6SnA7deBd
+=ubGp
+-----END PGP SIGNATURE-----
+
+--aNvCJ41Feu8IgPyB--
