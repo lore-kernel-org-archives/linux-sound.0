@@ -1,61 +1,101 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 16 Jan 2014 11:03:03 +0000
-Subject: Re: [PATCH 3/3] Binding: atmel-wm8904: add option to choose clock
-Message-Id: <20140116110303.GN15567@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="JjsO4Ft8DCMnlCnY"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 27 Jan 2014 06:55:24 +0000
+Subject: [PATCH v2 1/3] ASoC: atmel_ssc_dai: make option to choose clock
+Message-Id: <1390805726-1841-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1389669956-2304-1-git-send-email-voice.shen@atmel.com>
- <1389669956-2304-4-git-send-email-voice.shen@atmel.com>
- <20140115115417.GA9558@ns203013.ovh.net>
- <52D736E0.90207@atmel.com>
-In-Reply-To: <52D736E0.90207@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Rob Herring <rob.herring@calxeda.com>, Pawel Moll <pawel.moll@arm.com>, Mark Rutland <mark.rutland@arm.com>, Stephen Warren <swarren@wwwdotorg.org>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Landley <rob@landley.net>, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1390805726-1841-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1390805726-1841-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>, Lars-Peter Clausen <lars@metafoo.de>, linux-kernel@vger.kernel.org
 
+When SSC works in slave mode, according to the hardware design, the
+clock can get from TK pin, also can get from RK pin. So, add one
+parameter to choose where the clock from.
 
---JjsO4Ft8DCMnlCnY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Changes in v2: None
 
-On Thu, Jan 16, 2014 at 09:33:20AM +0800, Bo Shen wrote:
-> On 01/15/2014 07:54 PM, Jean-Christophe PLAGNIOL-VILLARD wrote:
+ sound/soc/atmel/atmel_ssc_dai.c | 16 ++++++++++++----
+ sound/soc/atmel/atmel_ssc_dai.h |  1 +
+ 2 files changed, 13 insertions(+), 4 deletions(-)
 
-> >>  Optional properties:
-> >>    - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
-> >>+  - clk_from_rk_pin: according to hardware design, clk privide on rk pin
-> >							  provide
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 8697ced..03eb0be 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -340,6 +340,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 	struct snd_soc_dai *dai)
+ {
+ 	int id = dai->id;
++	struct snd_soc_card *card = dai->card;
+ 	struct atmel_ssc_info *ssc_p = &ssc_info[id];
+ 	struct atmel_pcm_dma_params *dma_params;
+ 	int dir, channels, bits;
+@@ -347,6 +348,9 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 	int start_event;
+ 	int ret;
+ 
++	ssc_p->clk_from_rk_pin +		((struct atmel_ssc_info *)(card->drvdata))->clk_from_rk_pin;
++
+ 	/*
+ 	 * Currently, there is only one set of dma params for
+ 	 * each direction.  If more are added, this code will
+@@ -466,7 +470,8 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(RCMR_START, start_event)
+ 			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
+ 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
+-			| SSC_BF(RCMR_CKS, SSC_CKS_CLOCK);
++			| SSC_BF(RCMR_CKS, ssc_p->clk_from_rk_pin ?
++					   SSC_CKS_PIN : SSC_CKS_CLOCK);
+ 
+ 		rfmr =	  SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(RFMR_FSOS, SSC_FSOS_NONE)
+@@ -481,7 +486,8 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(TCMR_START, start_event)
+ 			| SSC_BF(TCMR_CKI, SSC_CKI_FALLING)
+ 			| SSC_BF(TCMR_CKO, SSC_CKO_NONE)
+-			| SSC_BF(TCMR_CKS, SSC_CKS_PIN);
++			| SSC_BF(TCMR_CKS, ssc_p->clk_from_rk_pin ?
++					   SSC_CKS_CLOCK : SSC_CKS_PIN);
+ 
+ 		tfmr =	  SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(TFMR_FSDEN, 0)
+@@ -550,7 +556,8 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(RCMR_START, SSC_START_RISING_RF)
+ 			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
+ 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
+-			| SSC_BF(RCMR_CKS, SSC_CKS_PIN);
++			| SSC_BF(RCMR_CKS, ssc_p->clk_from_rk_pin ?
++					   SSC_CKS_PIN : SSC_CKS_CLOCK);
+ 
+ 		rfmr =	  SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(RFMR_FSOS, SSC_FSOS_NONE)
+@@ -565,7 +572,8 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(TCMR_START, SSC_START_RISING_RF)
+ 			| SSC_BF(TCMR_CKI, SSC_CKI_FALLING)
+ 			| SSC_BF(TCMR_CKO, SSC_CKO_NONE)
+-			| SSC_BF(TCMR_CKS, SSC_CKS_PIN);
++			| SSC_BF(RCMR_CKS, ssc_p->clk_from_rk_pin ?
++					   SSC_CKS_CLOCK : SSC_CKS_PIN);
+ 
+ 		tfmr =	  SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(TFMR_FSDEN, 0)
+diff --git a/sound/soc/atmel/atmel_ssc_dai.h b/sound/soc/atmel/atmel_ssc_dai.h
+index b1f08d5..f147895 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.h
++++ b/sound/soc/atmel/atmel_ssc_dai.h
+@@ -113,6 +113,7 @@ struct atmel_ssc_info {
+ 	unsigned short cmr_div;
+ 	unsigned short tcmr_period;
+ 	unsigned short rcmr_period;
++	bool clk_from_rk_pin;
+ 	struct atmel_pcm_dma_params *dma_params[2];
+ 	struct atmel_ssc_state ssc_state;
+ };
+-- 
+1.8.5.2
 
-> >	?? no example?
-
-> If this patch set is acceptable. The sama5 audio will use it (I will
-> send patch after this patch set). Do I still need to put the example
-> in the binding document?
-
-It doesn't seem terribly worthwhile to have the example include every
-boolean property, it's not like people should find it hard to work out
-how to use them.
-
---JjsO4Ft8DCMnlCnY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJS17xkAAoJELSic+t+oim9NXsP/2iHK/usFtT3j305+tbZ8Fq6
-XLveQXN/1X0buz1qcxK+2Ty6DMQZKA2DhH+uL9i4HmdOXmIBclFNpuQt1j2Gf4FX
-CN6x9WT+IG6XkFYtOMRnYaiMOq0Y9zGp/kMh0jGfO9e1KpZk6h8tIrP6uAxTeRJU
-ZNVPtCuoCQs2XMVV0heG8qWX8u+CzOgPz4wOapHHQJjDV9vMB3FLckn8Z5RnSklL
-0t0e01O/utDwvBndZlpc6TGR/viS6HzgpMufqaZQMPmqBMSR0Z/V1AKaZKjmHBjK
-OQ88+uJWCUII1bCxIEOXhB62Qap81pKKuUmKLyRs/8NMKiqqfkdRllmPotj8S5b3
-zT9PGfygBfgAThUbw3kcePEcTXawtH5Jg6Q6gNUIyNnSItIRnied9P+7vdz7mgjm
-3GkG1omF4IhYdPxfUAqQZtGeiud+RTmo7bPyglJMGE91jm9Y5W4TGHNLDtMGxaX+
-pnJr2BMClYY5jgSZYAuDaipP0BslIVtDYXqYIN6tn76sOEczY7fSEOITj5E2433D
-qGXk9bwwMkkD42BxJ8CgmwqjmczAd/FsAGe1SfYDcGBdUxaPldkF3laxbgPphh6O
-FdxN9f24o1DPo+TlSbGKI5MLTb49V4j+7aV3cr0peFeKnn1e8LgeeOSIhk/dV6FN
-QCx6WBMHuc3IxUEPrSKU
-=ueZP
------END PGP SIGNATURE-----
-
---JjsO4Ft8DCMnlCnY--
