@@ -1,30 +1,82 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 14 Jan 2014 03:25:53 +0000
-Subject: [PATCH 0/3] ASoC: atmel_ssc_dai: add option to choose clock
-Message-Id: <1389669956-2304-1-git-send-email-voice.shen@atmel.com>
+From: Evgeny Sagatov <sagatov@ya.ru>
+Date: Mon, 03 Feb 2014 13:26:19 +0000
+Subject: Sound issue with stk1160 driver
+Message-Id: <6561391433979@web15h.yandex.ru>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>, Jaroslav Kysela <perex@perex.cz>, devicetree@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, linux-doc@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, linux-kernel@vger.kernel.org, Stephen Warren <swarren@wwwdotorg.org>, Wolfram Sang <wsa@the-dreams.de>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Mark Brown <broonie@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, Pawel Moll <pawel.moll@arm.com>, Mark Rutland <mark.rutland@arm.com>, Rob Herring <rob.herring@calxeda.com>, Rob Landley <rob@landley.net>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+To: linux-sound@vger.kernel.org
 
-When SSC work in slave mode, the clock can come from TK pin and also
-can come from RK pin, this is hardware design decided. So, make it
-available to choose where the clock from.
+Dear Sirs,
 
+I have EasyCAP device with STK1160+GM7113C+ALC101 chips.
+On my Ubuntu 12.04 with 3.11.0 kernel video capturing functioned perfectly,=
+ but audio capturing have problem with sound clicks.
+You can hear these sounds in the linked audio file (Initially both audio in=
+puts enabled and then I mute one, then both audio inputs.).
+http://sagatov.net/temp/audio.wav
+Clearly audible clicks in the headphones. A feeling that for a moment left =
+and right channels are swapped.
+I tested three devices on three computers. I also tested the device on a fr=
+eshly installed Ubuntu 13.10. But the result is the same everywhere.
+In MS Windows no clicks.
 
-Bo Shen (3):
-  ASoC: atmel_ssc_dai: make option to choose clock
-  ASoC: atmel_wm8904: make it available to choose clock
-  Binding: atmel-wm8904: add option to choose clock
+I have tried to boot my Ubuntu 12.04 with the 3.2.0-58 kernel.
+Turned out that the legacy driver is already installed. Probably it is incl=
+uded in Ubuntu distribution.
+I have a beautiful sound in this case without any problems.
+But I have a problem with the video :-) The video is displayed few seconds,=
+ and then the gray bars (see picture in the attachment).
 
- Documentation/devicetree/bindings/sound/atmel-wm8904.txt |  2 ++
- sound/soc/atmel/atmel_ssc_dai.c                          | 16 ++++++++++++----
- sound/soc/atmel/atmel_ssc_dai.h                          |  1 +
- sound/soc/atmel/atmel_wm8904.c                           | 10 ++++++++++
- 4 files changed, 25 insertions(+), 4 deletions(-)
+>  What kind of video/audio source are you using to trigger this noise?
+>  Do you get the noise on all captures or only on some of them?
 
--- 
-1.8.5.2
+I tried two different cameras and video player. Also I tried to leave input=
+s unconnected.
+Noise is always, regardless of the source.
 
+Noise is better heard when only one audio channel is connected. A feeling t=
+hat for a split second sound goes to another channel and back.
+
+Earlier I have the correspondence with the developer of stk1160 driver and =
+that the information he sent to me.
+
+03.02.2014, 16:37, "Ezequiel Garcia" <elezegarcia@gmail.com>:
+
+> =9AHi,
+>
+> =9AYesterday I spent all the day debugging this issue. The noise you repo=
+rt
+> =9Ais also present on any capture I do. In fact, I noticed it in the past=
+ but never
+> =9Acared.
+>
+> =9ABad news are I still don't have a clue about it.
+>
+> =9ALet me explain you the differences between stk1160 and easycap audio.
+> =9Astk1160 depends on a separate ac97-mixer driver to setup the AC97
+> =9Aparameters and on the snd-usb-audio driver to handle the audio stream.
+>
+> =9Aeasycap does both things by itself.
+>
+> =9ASince I'm out of specific ideas, I'll try to implement the audio
+> =9Ahandling in stk1160 (just as easycap does) and see what happens.
+> =9AHowever, it's not a simple task and it might take a few days/weeks.
+>
+> =9AFor now, you can use the easycap setting easycap_bars =3D 0 parameter
+> =9Ato avoid those bars. I'm sorry for this regression!
+>
+> =9AIn addition, you can help by taking care of the bug report. This should
+> =9Abe reported to the linux-sound mailing list:
+> =9Ahttp://vger.kernel.org/vger-lists.html#linux-sound
+>
+> =9AThe problem must be either in snd-usb-audio or in the sound/pci/ac97/..
+> =9Acode. If you can report this (put me on Cc), it would be of great help.
+>
+> =9AThanks again and sorry for this inconvenience,
+> =9AEzequiel
+
+I hope very much for your help in solving this problem.
+
+Thank you!
