@@ -1,47 +1,49 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 12 Feb 2014 17:23:42 +0000
-Subject: Re: [PATCH v3 0/2] ASoC: atmel_ssc_dai: add option to choose clock
-Message-Id: <20140212172342.GI28112@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="+NAfxSaP7cKOSWOx"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 10 Feb 2014 06:09:46 +0000
+Subject: [PATCH v3 2/2] Binding: atmel-ssc: add option to choose clock
+Message-Id: <1392012586-30790-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1392012586-30790-1-git-send-email-voice.shen@atmel.com>
 In-Reply-To: <1392012586-30790-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org, Rob Landley <rob@landley.net>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Chas Williams <chas@cmf.nrl.navy.mil>, Rob Herring <rob.herring@calxeda.com>, linux-atm-general@lists.sourceforge.net, Richard Genoud <richard.genoud@gmail.com>, Pawel Moll <pawel.moll@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, linux-kernel@vger.kernel.org, Stephen Warren <swarren@wwwdotorg.org>, Lars-Peter Clausen <lars@metafoo.de>, Mark Rutland <mark.rutland@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: nicolas.ferre@atmel.com, plagnioj@jcrosoft.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>, Rob Herring <rob.herring@calxeda.com>, Pawel Moll <pawel.moll@arm.com>, Mark Rutland <mark.rutland@arm.com>, Stephen Warren <swarren@wwwdotorg.org>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Landley <rob@landley.net>, Mark Brown <broonie@linaro.org>, Richard Genoud <richard.genoud@gmail.com>, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
+Add the option to choose clock on which pin input to SSC (as slave).
+Default is on TK pin to SSC, add "atmel,clk-from-rk-pin" option to
+specify the clock is on RK pin to SSC.
 
---+NAfxSaP7cKOSWOx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Changes in v3:
+  - None
+Series-changes: 2
+  - using "-" replace "_" in binding document
 
-On Mon, Feb 10, 2014 at 02:09:44PM +0800, Bo Shen wrote:
-> When SSC work in slave mode, the clock can come from TK pin and also
-> can come from RK pin, this is hardware design decided. So, make it
-> available to choose where the clock from.
+ Documentation/devicetree/bindings/misc/atmel-ssc.txt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Applied, thanks.
+diff --git a/Documentation/devicetree/bindings/misc/atmel-ssc.txt b/Documentation/devicetree/bindings/misc/atmel-ssc.txt
+index a45ae08..5c1e14e 100644
+--- a/Documentation/devicetree/bindings/misc/atmel-ssc.txt
++++ b/Documentation/devicetree/bindings/misc/atmel-ssc.txt
+@@ -14,6 +14,14 @@ Required properties for devices compatible with "atmel,at91sam9g45-ssc":
+   See Documentation/devicetree/bindings/dma/atmel-dma.txt for details.
+ - dma-names: Must be "tx", "rx".
+ 
++Optional properties:
++  - atmel,clk-from-rk-pin: bool property.
++     - When SSC works in slave mode, according to the hardware design, the
++       clock can get from TK pin, and also can get from RK pin. So, add
++       this parameter to choose where the clock from.
++     - By default the clock is from TK pin, if the clock from RK pin, this
++       property is needed.
++
+ Examples:
+ - PDC transfer:
+ ssc0: ssc@fffbc000 {
+-- 
+1.8.5.2
 
---+NAfxSaP7cKOSWOx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJS+64aAAoJELSic+t+oim9HdEP/1s3b2zCDKiZwxz8pMZEXXZL
-PLWDH6glrCLjH0UBXgXvlC2wVgjNlX8EK8HCBWTYBYKEEM0d1TrPojWFG+SMptDV
-41WSQhbPOA7zsuP8dWqk6DwGTgTKgfgSd9G6UZQ8EQ9C87xwvpeuCj0QQNsYYHt8
-7YhksW+zOl5qXuW1Vcf3UX7JFgQ/ihQOPAp+g5CBjM0BkX2a9bH44qWtWNnS9FJo
-vt4GWngybTU/NSB/PQ+bF0abpnGuu2qKjQjc73GBgtCtxkn6NNyQuqi0hPF/PiDP
-2ShBveB6k9UOrYw1qyxzh/ojXNRpBYyRAO1uEKU9dfBFVhri9I0sVGR447h69NEy
-068FPY7kjNYpasyK8OF9lUQzk8llZvenapVhjgaSCV7oqygix4p4S+TetsOJ+/3m
-MuY8Y8XGipyXxRTCI4aGynZp2I4XsQRCXQJWFjZdJWU6i1/2UZQ/YJIuyU1NcyhK
-vAD0qyigXsGaYLyGgyB4wQcG2q8ugL+DnqYygc2/QWPtu2fG4m2P5ca/tKXomBET
-ItcQoVKGOOBpuXY2IG+nRs991r9rDVsiMBYRxd1t9lX7gbTITigIln3JuW9Y8eQx
-Qpb/PnzvP7YSzSgkd2bKFMv9jxffekTlhG+PYATVlYY2gaps/5JnuHh3FwR/kRUq
-vCUR3GvJPsUlOPJRVskW
-=H++v
------END PGP SIGNATURE-----
-
---+NAfxSaP7cKOSWOx--
