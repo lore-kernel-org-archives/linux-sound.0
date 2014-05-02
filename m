@@ -1,23 +1,33 @@
-From: Support <jobt@agroolive.com>
-Date: Wed, 28 May 2014 19:13:32 +0000
-Subject: Work.Begins.Today-linux-sound@vger.kernel.org
-Message-Id: <20140528211332.CFA7BC57826B17A6@agroolive.com>
+From: Sander Eikelenboom <linux@eikelenboom.it>
+Date: Fri, 02 May 2014 13:09:26 +0000
+Subject: [PATCH] Prevent printk ratelimiting from spamming kernel log while DEBUG not defined
+Message-Id: <1399036167-6203-1-git-send-email-linux@eikelenboom.it>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: Takashi Iwai <tiwai@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Julia Lawall <julia.lawall@lip6.fr>
+Cc: Sander Eikelenboom <linux@eikelenboom.it>, linux-sound@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>
 
-Dear linux-sound,
+Hi All,
 
-The  position we currently have available is the Financial-Agent-
-position, a job that
+This patch is for USB sound, but the construction is widely used in the kernel,
+so this could pop up in more places.
 
-you can do from home, no previous experience need, low working 
-hours and you can work full or part time.
-You will receive a salary around $8,000/ month plus bonuses.
+Greg, Julia,
 
-Please reply if you are interested in hearing more.
+Would it be worthwhile to sweep this tree wide ?
+And would this be something for Coccinelle ?
+This probably also goes for the other loglevels and the "net" variant.
 
-Agrotek.Olives
-5/28/2014 21:13:32
+
+Sander Eikelenboom (1):
+  Sound USB: Prevent printk ratelimiting from spamming kernel log while
+    DEBUG not defined
+
+ sound/usb/pcm.c |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+-- 
+1.7.10.4
+
