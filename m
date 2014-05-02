@@ -1,75 +1,54 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 25 Mar 2014 08:19:40 +0000
-Subject: Re: [RFC PATCH] ASoC: wm8904: add CCF support
-Message-Id: <53313C1C.7000408@atmel.com>
+From: Sander Eikelenboom <linux@eikelenboom.it>
+Date: Fri, 02 May 2014 13:09:27 +0000
+Subject: [PATCH] Sound USB: Prevent printk ratelimiting from spamming kernel log while DEBUG not defined
+Message-Id: <1399036167-6203-2-git-send-email-linux@eikelenboom.it>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1395370262-23305-1-git-send-email-voice.shen@atmel.com> <20140321103747.GK23372@e106331-lin.cambridge.arm.com> <20140321115511.GM11706@sirena.org.uk> <532F9557.2000402@atmel.com> <20140324110616.GG2269@sirena.org.uk> <533137D6.9010006@atmel.com>
-In-Reply-To: <533137D6.9010006@atmel.com>
+References: <1399036167-6203-1-git-send-email-linux@eikelenboom.it>
+In-Reply-To: <1399036167-6203-1-git-send-email-linux@eikelenboom.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "b.brezillon.dev@gmail.com" <b.brezillon.dev@gmail.com>, "nicolas.ferre@atmel.com" <nicolas.ferre@atmel.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+To: Takashi Iwai <tiwai@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Julia Lawall <julia.lawall@lip6.fr>
+Cc: Sander Eikelenboom <linux@eikelenboom.it>, linux-sound@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>
 
-Hi Mark,
+This (widely used) construction:
 
-On 03/25/2014 04:01 PM, Bo Shen wrote:
-> Hi Mark,
->
-> On 03/24/2014 07:06 PM, Mark Brown wrote:
->> On Mon, Mar 24, 2014 at 10:15:51AM +0800, Bo Shen wrote:
->>> On 03/21/2014 07:55 PM, Mark Brown wrote:
->>>> On Fri, Mar 21, 2014 at 10:37:47AM +0000, Mark Rutland wrote:
->>>>> On Fri, Mar 21, 2014 at 02:51:02AM +0000, Bo Shen wrote:
->>
->>>>>> +  - wlf,sysclk-from-mclk: set the sys clock is driven from mclk,
->>
->>>>> Why can the kernel not decide this?
->>
->>>> It can.
->>
->>> I really don't know how it decided by kernel (hardcode in machine
->>> driver ?),
->>> can you point me directly? Thanks.
->>
->> It can just look to see if there is a suitable system clock present,
->> this shouldn't be hard.  If there's a clock connected at a suitable
->> rate it should use that, otherwise if there's a clock at an unsuitable
->> rate it should either change the rate of the clock or use the FLL.
->
-> I try to implement this, I think we can write the wm8904 dt as simple as
-> following, can it be acceptable?
->
-> Case 1: using SoC provided clock
-> wm8904:wm8904@1a {
->      compatible = "wlf,wm8904";
->      reg = <0x1a>;
->      clocks = <&pck0>;
->      clock-name = "mclk";
-> }
->
-> Case 2: using external crystal (For this case, I have no idea to put to
-> CCF, so need "wlf,xtal-clk-freq" property).
-> wm8904:wm8904@1a {
->      compatible = "wlf,wm8904";
->      reg = <0x1a>;
->      wlf,xtal-clk-freq = <12000000>;
-> }
+if(printk_ratelimit())
+	dev_dbg()
 
-Please forget this, with Boris's help, we can use clk-fixed-rate.c driver.
+Causes the ratelimiting to spam the kernel log with the "callbacks suppressed"
+message below, even while the dev_dbg it is supposed to rate limit wouldn't
+print anything because DEBUG is not defined for this device.
 
-So, I will try to implement another RFC patch.
+[  533.803964] retire_playback_urb: 852 callbacks suppressed
+[  538.807930] retire_playback_urb: 852 callbacks suppressed
+[  543.811897] retire_playback_urb: 852 callbacks suppressed
+[  548.815745] retire_playback_urb: 852 callbacks suppressed
+[  553.819826] retire_playback_urb: 852 callbacks suppressed
 
-> Then we use these clocks to configure FLL.
->
-> Btw, I see the "wm2000.c" retrieve the clock, however not see the usage
-> cases for it.
->
-> Best Regards,
-> Bo Shen
->
->
+So use dev_dbg_ratelimited() instead of this construction.
 
-Best Regards,
-Bo Shen
+Signed-off-by: Sander Eikelenboom <linux@eikelenboom.it>
+---
+ sound/usb/pcm.c |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index 131336d..c62a165 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -1501,9 +1501,8 @@ static void retire_playback_urb(struct snd_usb_substream *subs,
+ 	 * The error should be lower than 2ms since the estimate relies
+ 	 * on two reads of a counter updated every ms.
+ 	 */
+-	if (printk_ratelimit() &&
+-	    abs(est_delay - subs->last_delay) * 1000 > runtime->rate * 2)
+-		dev_dbg(&subs->dev->dev,
++	if (abs(est_delay - subs->last_delay) * 1000 > runtime->rate * 2)
++		dev_dbg_ratelimited(&subs->dev->dev,
+ 			"delay: estimated %d, actual %d\n",
+ 			est_delay, subs->last_delay);
+ 
+-- 
+1.7.10.4
 
