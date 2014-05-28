@@ -1,75 +1,23 @@
-From: Sander Eikelenboom <linux@eikelenboom.it>
-Date: Fri, 02 May 2014 16:25:30 +0000
-Subject: Re: [PATCH] Sound USB: Prevent printk ratelimiting from spamming kernel log while DEBUG not defined
-Message-Id: <80394451.20140502182530@eikelenboom.it>
+From: Support <jobt@agroolive.com>
+Date: Wed, 28 May 2014 19:13:32 +0000
+Subject: Work.Begins.Today-linux-sound@vger.kernel.org
+Message-Id: <20140528211332.CFA7BC57826B17A6@agroolive.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1399036167-6203-1-git-send-email-linux@eikelenboom.it> <1399036167-6203-2-git-send-email-linux@eikelenboom.it> <s5hppjwqhuy.wl%tiwai@suse.de>
-In-Reply-To: <s5hppjwqhuy.wl%tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Julia Lawall <julia.lawall@lip6.fr>, linux-sound@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>
+To: linux-sound@vger.kernel.org
 
+Dear linux-sound,
 
-Friday, May 2, 2014, 6:13:09 PM, you wrote:
+The  position we currently have available is the Financial-Agent-
+position, a job that
 
-> At Fri,  2 May 2014 15:09:27 +0200,
-> Sander Eikelenboom wrote:
->> 
->> This (widely used) construction:
->> 
->> if(printk_ratelimit())
->>       dev_dbg()
->> 
->> Causes the ratelimiting to spam the kernel log with the "callbacks suppressed"
->> message below, even while the dev_dbg it is supposed to rate limit wouldn't
->> print anything because DEBUG is not defined for this device.
->> 
->> [  533.803964] retire_playback_urb: 852 callbacks suppressed
->> [  538.807930] retire_playback_urb: 852 callbacks suppressed
->> [  543.811897] retire_playback_urb: 852 callbacks suppressed
->> [  548.815745] retire_playback_urb: 852 callbacks suppressed
->> [  553.819826] retire_playback_urb: 852 callbacks suppressed
->> 
->> So use dev_dbg_ratelimited() instead of this construction.
->> 
->> Signed-off-by: Sander Eikelenboom <linux@eikelenboom.it>
+you can do from home, no previous experience need, low working 
+hours and you can work full or part time.
+You will receive a salary around $8,000/ month plus bonuses.
 
-> Thanks, applied.  This is a result of the recent rewrite to dev_dbg()
-> from plain printk(), I suppose.
+Please reply if you are interested in hearing more.
 
-Yes that patch (https://lkml.org/lkml/2014/4/9/457) prevented spamming the kernel log when debugging was enabled ..
-but  now the rate limiting code starts spamming the kernel log instead :-)
-
-I must say i wasn't very aware of that effect either and also used this construction on 
-debug patches.
-
-
-> Takashi
-
->> ---
->>  sound/usb/pcm.c |    5 ++---
->>  1 file changed, 2 insertions(+), 3 deletions(-)
->> 
->> diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
->> index 131336d..c62a165 100644
->> --- a/sound/usb/pcm.c
->> +++ b/sound/usb/pcm.c
->> @@ -1501,9 +1501,8 @@ static void retire_playback_urb(struct snd_usb_substream *subs,
->>        * The error should be lower than 2ms since the estimate relies
->>        * on two reads of a counter updated every ms.
->>        */
->> -     if (printk_ratelimit() &&
->> -         abs(est_delay - subs->last_delay) * 1000 > runtime->rate * 2)
->> -             dev_dbg(&subs->dev->dev,
->> +     if (abs(est_delay - subs->last_delay) * 1000 > runtime->rate * 2)
->> +             dev_dbg_ratelimited(&subs->dev->dev,
->>                       "delay: estimated %d, actual %d\n",
->>                       est_delay, subs->last_delay);
->>  
->> -- 
->> 1.7.10.4
->> 
-
-
+Agrotek.Olives
+5/28/2014 21:13:32
