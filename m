@@ -1,57 +1,36 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 06 Jun 2014 09:57:06 +0000
-Subject: Re: [PATCH 2/5] ASoC: wm8904: switch to CCF
-Message-Id: <20140606095706.GB2520@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="KVy3XSgRgEDVTe6j"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 05 Jun 2014 10:19:32 +0000
+Subject: [PATCH 5/5] ARM: atmel: at91sam9n12ek: switch sound to CCF
+Message-Id: <1401963572-10953-6-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
- <1401963572-10953-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1401963572-10953-3-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+In-Reply-To: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
 
+As the at91sam9n12ek has switch to CCF, so add clock for wm8904
 
---KVy3XSgRgEDVTe6j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/at91sam9n12ek.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Thu, Jun 05, 2014 at 06:19:29PM +0800, Bo Shen wrote:
+diff --git a/arch/arm/boot/dts/at91sam9n12ek.dts b/arch/arm/boot/dts/at91sam9n12ek.dts
+index 64bbe46..8ae771d 100644
+--- a/arch/arm/boot/dts/at91sam9n12ek.dts
++++ b/arch/arm/boot/dts/at91sam9n12ek.dts
+@@ -56,6 +56,8 @@
+ 				wm8904: codec@1a {
+ 					compatible = "wm8904";
+ 					reg = <0x1a>;
++					clocks = <&pck0>;
++					clock-names = "mclk";
+ 				};
+ 
+ 				qt1070: keyboard@1b {
+-- 
+1.8.5.2
 
-> +		if (wm8904->mclk)
-> +			clk_prepare_enable(wm8904->mclk);
-
-There's no point in having checks for MCLK here since...
-
-> +	wm8904->mclk = devm_clk_get(&i2c->dev, "mclk");
-> +	if (IS_ERR(wm8904->mclk)) {
-> +		ret = PTR_ERR(wm8904->mclk);
-> +		dev_err(&i2c->dev, "Failed to get MCLK\n");
-> +		return ret;
-> +	}
-
-...we require a clock here.
-
---KVy3XSgRgEDVTe6j
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJTkZBuAAoJELSic+t+oim9Yd8P/0bveP3jCD0awlAvdLvlYGEY
-51R72y+hXwGCn9GlBigvogmOWhfdmZKAqRUgbeyFIFXyrbhJNfIo5ucYIiybFTxv
-XxWNxeYolRdk7crmFark2vt5u+wkmtmvSIlfxaO1+qIrYHerGAUcyW+TC9WTS0ba
-6gdwa2MI89G6g+A0ip6lByp3LGyBBFcpV9ZDVjwWj9tZCDzxyR/XuQaK7zQpZpoh
-TdAzIxxVb0OKy84PBPx1WQrAieUcOGZKApoRZfmkEQOjSH1L6Y62uxRmWKKB2OG2
-3qqj96vZmZt0pRuuwDDo/CKv4+/qSslqlMUBSbcOmbwB3FElt8zLNXwhGonNldAp
-N5ZQB3o5hKBQanFu9OWVw1pAoAPAs92uZq/5ORVYRr33qTTKIKZrDxXg2kMgtIzd
-4hbGPQvzBX4VNY0BGt5JaXDtAGvmUpnzWgF4cehPqNEmKwa8bdS0uNbUFDpLjmcq
-ozCT3NHZZhwuSWYTOog5mxvq7sItgu+D70b8NrUHf9n+4LZLLTNHPiqC0PGBHa0Z
-PMoA/IB658PeT9OUflL87qgeHW4OCQWAcyMUaElLXW0vW+QKo3QXTv0Y0LELl8hL
-HA+w9ldzvPBA6ix5gC7TH0eTxzX34e9GQ3qAkn7i7nW47YGl2CRbiVcRQx4r0t0N
-yq0P8mV2yf4AKTTD3sAl
-=W9Rd
------END PGP SIGNATURE-----
-
---KVy3XSgRgEDVTe6j--
