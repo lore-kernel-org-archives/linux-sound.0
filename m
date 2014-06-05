@@ -1,88 +1,60 @@
-From: Nicolas Ferre <nicolas.ferre@atmel.com>
-Date: Tue, 10 Jun 2014 16:32:27 +0000
-Subject: Re: [PATCH 1/2] misc: atmel-ssc: support to read ssc version
-Message-Id: <5397331B.1040903@atmel.com>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 05 Jun 2014 10:19:30 +0000
+Subject: [PATCH 3/5] dt: wm8904: add device tree binding document
+Message-Id: <1401963572-10953-4-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
+References: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Bo Shen <voice.shen@atmel.com>, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
+To: broonie@kernel.org
+Cc: boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
 
-On 06/06/2014 09:41, Bo Shen :
-> Read SSC IP version to check whether it supports frame sync
-> length extension feature.
-> 
-> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ Documentation/devicetree/bindings/sound/wm8904.txt | 32 ++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/wm8904.txt
 
-No. We already have 2 compatible versions for the DT or id table. Simply
-add one.
-Please use this infrastructure to describe such features, I don't want
-to mix the approaches: "compatible string" xor "IP revision".
-
-The DT of the product will then describe on which version of the IP it
-can rely to have this feature.
-
-Best regards,
-
-> ---
-> 
->  drivers/misc/atmel-ssc.c  | 7 +++++++
->  include/linux/atmel-ssc.h | 3 +++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-> index 22de137..9f49bcb 100644
-> --- a/drivers/misc/atmel-ssc.c
-> +++ b/drivers/misc/atmel-ssc.c
-> @@ -136,6 +136,7 @@ static int ssc_probe(struct platform_device *pdev)
->  	struct resource *regs;
->  	struct ssc_device *ssc;
->  	const struct atmel_ssc_platform_data *plat_dat;
-> +	u32 version;
->  
->  	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
->  	if (!ssc) {
-> @@ -173,8 +174,14 @@ static int ssc_probe(struct platform_device *pdev)
->  	clk_prepare_enable(ssc->clk);
->  	ssc_writel(ssc->regs, IDR, -1);
->  	ssc_readl(ssc->regs, SR);
-> +	version = ssc_readl(ssc->regs, VERSION);
->  	clk_disable_unprepare(ssc->clk);
->  
-> +	if (version >= 0x300)
-> +		ssc->has_fslen_ext = 1;
-> +	else
-> +		ssc->has_fslen_ext = 0;
-> +
->  	ssc->irq = platform_get_irq(pdev, 0);
->  	if (!ssc->irq) {
->  		dev_dbg(&pdev->dev, "could not get irq\n");
-> diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
-> index 571a12e..9ee1b68 100644
-> --- a/include/linux/atmel-ssc.h
-> +++ b/include/linux/atmel-ssc.h
-> @@ -19,6 +19,7 @@ struct ssc_device {
->  	int			user;
->  	int			irq;
->  	bool			clk_from_rk_pin;
-> +	int			has_fslen_ext;
->  };
->  
->  struct ssc_device * __must_check ssc_request(unsigned int ssc_num);
-> @@ -258,6 +259,8 @@ void ssc_free(struct ssc_device *ssc);
->  #define SSC_IMR_TXSYN_SIZE			 1
->  #define SSC_IMR_TXSYN_OFFSET			10
->  
-> +#define SSC_VERSION			0x000000fc
-> +
->  /* SSC PDC Receive Pointer Register */
->  #define SSC_PDC_RPR			0x00000100
->  
-> 
-
-
+diff --git a/Documentation/devicetree/bindings/sound/wm8904.txt b/Documentation/devicetree/bindings/sound/wm8904.txt
+new file mode 100644
+index 0000000..ef3d23da
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wm8904.txt
+@@ -0,0 +1,32 @@
++WM8904 audio CODEC
++
++This device supports I2C only.
++
++Required properties:
++  - compatible: "wlf,wm8904"
++  - reg: the I2C address of the device.
++  - clocks and clock-names: reference to
++    <Documentation/devicetree/bindings/clock/clock-bindings.txt>
++
++Pins on the device (for linking into audio routes):
++
++  * IN1L
++  * IN1R
++  * IN2L
++  * IN2R
++  * IN3L
++  * IN3R
++  * HPOUTL
++  * HPOUTR
++  * LINEOUTL
++  * LINEOUTR
++  * MICBIAS
++
++Examples:
++
++codec: wm8904@1a {
++	compatible = "wlf,wm8904";
++	reg = <0x1a>;
++	clocks = <&pck0>;
++	clock-names = "mclk";
++};
 -- 
-Nicolas Ferre
+1.8.5.2
+
