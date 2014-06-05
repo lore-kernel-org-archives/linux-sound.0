@@ -1,46 +1,36 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 09 Jun 2014 20:13:22 +0000
-Subject: Re: [PATCH v2 2/5] ASoC: wm8904: switch to CCF
-Message-Id: <20140609201322.GP5099@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="wR9Y6Ks0OCEmDFVd"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 05 Jun 2014 10:19:31 +0000
+Subject: [PATCH 4/5] ARM: atmel: sama5d3xek: switch sound to CCF
+Message-Id: <1401963572-10953-5-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
- <1402284707-23354-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1402284707-23354-3-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+References: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org
 
+As the sama5d3xek board has switch to CCF, so add clock for wm8904
 
---wR9Y6Ks0OCEmDFVd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ arch/arm/boot/dts/sama5d3xmb.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, Jun 09, 2014 at 11:31:44AM +0800, Bo Shen wrote:
-> Enable WM8904 to support common clock framework.
+diff --git a/arch/arm/boot/dts/sama5d3xmb.dtsi b/arch/arm/boot/dts/sama5d3xmb.dtsi
+index 306eef0..b8c6f20 100644
+--- a/arch/arm/boot/dts/sama5d3xmb.dtsi
++++ b/arch/arm/boot/dts/sama5d3xmb.dtsi
+@@ -45,6 +45,8 @@
+ 				wm8904: wm8904@1a {
+ 					compatible = "wm8904";
+ 					reg = <0x1a>;
++					clocks = <&pck0>;
++					clock-names = "mclk";
+ 				};
+ 			};
+ 
+-- 
+1.8.5.2
 
-Applied, thanks.
-
---wR9Y6Ks0OCEmDFVd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJTlhVfAAoJELSic+t+oim98sEP/iKbrohevFfY2kjiq3SqPp2t
-KUoQBO/bCR1ArPcF8aKx0fbob64mKivpSL372dBDagd7/wV2AROzVFbDTo1X319O
-QE7wOcbU5Hz4Nz/XPQOktYL37r7F8luk9W4vL5CcoGlShqSF/wH7r7f5bvb27MY0
-XRF03ILNY6oRALFbWOzWd6IHHI8Gg0gairWKSs//3Zjf/WfcOKHKe6r9eyjyOe/6
-VLOxNO5J0uWanyixtXQGJE9VZ7gsHMmiqP/bgiAgcVvupPWH1Xd4vzahXaG7O8yD
-bS7hjNziPNebgwXSoE8JAWfOOkpIGG278mNsBflUw3N+tUDuqYU/IUqS2TxfVJZM
-iD5LOV1keinsLyltgLuRD66N2YekF3zL5w9qBcWeW5YvgIonGZHb7ThbAnezNnPJ
-/SAm/nqczrxRbPHc0Qd9fY5D/YfBPFuDBICBfjI+v6sKvkm9q8Fk3iuhqT9EbIGD
-Yf6RRCFgK4NYHl2uNh9OurE3pbeIb3/Fhpe5+04B+3ArXQGaVzAHq23NuZizjj9K
-Zl0SIYFVKX82v85xfDtXSAn6PGGXF7+rxIJlY78eQsPLKJiOc9/25e03j2rdvcCT
-6Tms0gN6fGJT+YTOa+d+nexx1HTD11vxG7z5bxmHELjk4MT/Vvf50BsS7raZ2QZf
-jH04GI5Tlx4yZLn9ox6C
-=q8iP
------END PGP SIGNATURE-----
-
---wR9Y6Ks0OCEmDFVd--
