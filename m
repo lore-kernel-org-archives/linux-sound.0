@@ -1,56 +1,126 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 30 Jun 2014 21:43:42 +0000
-Subject: Re: [PATCH v2] ASoC: tas2552: Support TI TAS2552 Amplifier
-Message-Id: <20140630214342.GI23300@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="5zn77Mes2TPnoMqf"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 06 Jun 2014 07:41:35 +0000
+Subject: [PATCH 2/2] ASoC: atmel_ssc_dai: enable fslen extension feature
+Message-Id: <1402040495-10320-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1404148259-17305-1-git-send-email-dmurphy@ti.com>
- <20140630172115.GE28740@leverpostej>
-In-Reply-To: <20140630172115.GE28740@leverpostej>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Dan Murphy <dmurphy@ti.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
 
+When SSC work as master, it will generate the frame sync signal.
+On old SoCs, it only supports frame sync length less or equal to
+16bits, on newer SoCs, it supports frame sync length extension,
+which can support frame size larger than 16 bits.
+So, add this to make it supports playback 24/32 bits audio clips.
 
---5zn77Mes2TPnoMqf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+ include/linux/atmel-ssc.h       |  4 ++++
+ sound/soc/atmel/atmel_ssc_dai.c | 34 ++++++++++++++++++----------------
+ 2 files changed, 22 insertions(+), 16 deletions(-)
 
-On Mon, Jun 30, 2014 at 06:21:15PM +0100, Mark Rutland wrote:
-> On Mon, Jun 30, 2014 at 06:10:59PM +0100, Dan Murphy wrote:
+diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+index 9ee1b68..70c5922 100644
+--- a/include/linux/atmel-ssc.h
++++ b/include/linux/atmel-ssc.h
+@@ -72,6 +72,8 @@ void ssc_free(struct ssc_device *ssc);
+ #define SSC_RFMR_DATNB_OFFSET			 8
+ #define SSC_RFMR_FSEDGE_SIZE			 1
+ #define SSC_RFMR_FSEDGE_OFFSET			24
++#define SSC_RFMR_FSLEN_EXT_SIZE			 4
++#define SSC_RFMR_FSLEN_EXT_OFFSET		28
+ #define SSC_RFMR_FSLEN_SIZE			 4
+ #define SSC_RFMR_FSLEN_OFFSET			16
+ #define SSC_RFMR_FSOS_SIZE			 4
+@@ -110,6 +112,8 @@ void ssc_free(struct ssc_device *ssc);
+ #define SSC_TFMR_FSDEN_OFFSET			23
+ #define SSC_TFMR_FSEDGE_SIZE			 1
+ #define SSC_TFMR_FSEDGE_OFFSET			24
++#define SSC_TFMR_FSLEN_EXT_SIZE			 4
++#define SSC_TFMR_FSLEN_EXT_OFFSET		28
+ #define SSC_TFMR_FSLEN_SIZE			 4
+ #define SSC_TFMR_FSLEN_OFFSET			16
+ #define SSC_TFMR_FSOS_SIZE			 3
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index de433cfd..7d501e4 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -347,6 +347,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 	u32 tfmr, rfmr, tcmr, rcmr;
+ 	int start_event;
+ 	int ret;
++	int fslen, fslen_ext;
+ 
+ 	/*
+ 	 * Currently, there is only one set of dma params for
+@@ -388,18 +389,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 	}
+ 
+ 	/*
+-	 * The SSC only supports up to 16-bit samples in I2S format, due
+-	 * to the size of the Frame Mode Register FSLEN field.
+-	 */
+-	if ((ssc_p->daifmt & SND_SOC_DAIFMT_FORMAT_MASK) = SND_SOC_DAIFMT_I2S
+-		&& bits > 16) {
+-		printk(KERN_WARNING
+-				"atmel_ssc_dai: sample size %d "
+-				"is too large for I2S\n", bits);
+-		return -EINVAL;
+-	}
+-
+-	/*
+ 	 * Compute SSC register settings.
+ 	 */
+ 	switch (ssc_p->daifmt
+@@ -413,6 +402,17 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 		 * from the MCK divider, and the BCLK signal
+ 		 * is output on the SSC TK line.
+ 		 */
++
++		if (bits > 16 && !ssc->has_fslen_ext) {
++			dev_err(dai->dev,
++				"sample size %d is too large for SSC device\n",
++				bits);
++			return -EINVAL;
++		}
++
++		fslen_ext = (bits - 1) / 16;
++		fslen = (bits - 1) % 16;
++
+ 		rcmr =	  SSC_BF(RCMR_PERIOD, ssc_p->rcmr_period)
+ 			| SSC_BF(RCMR_STTDLY, START_DELAY)
+ 			| SSC_BF(RCMR_START, SSC_START_FALLING_RF)
+@@ -420,9 +420,10 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
+ 			| SSC_BF(RCMR_CKS, SSC_CKS_DIV);
+ 
+-		rfmr =	  SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
++		rfmr =    SSC_BF(RFMR_FSLEN_EXT, fslen_ext)
++			| SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(RFMR_FSOS, SSC_FSOS_NEGATIVE)
+-			| SSC_BF(RFMR_FSLEN, (bits - 1))
++			| SSC_BF(RFMR_FSLEN, fslen)
+ 			| SSC_BF(RFMR_DATNB, (channels - 1))
+ 			| SSC_BIT(RFMR_MSBF)
+ 			| SSC_BF(RFMR_LOOP, 0)
+@@ -435,10 +436,11 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(TCMR_CKO, SSC_CKO_CONTINUOUS)
+ 			| SSC_BF(TCMR_CKS, SSC_CKS_DIV);
+ 
+-		tfmr =	  SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
++		tfmr =    SSC_BF(TFMR_FSLEN_EXT, fslen_ext)
++			| SSC_BF(TFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(TFMR_FSDEN, 0)
+ 			| SSC_BF(TFMR_FSOS, SSC_FSOS_NEGATIVE)
+-			| SSC_BF(TFMR_FSLEN, (bits - 1))
++			| SSC_BF(TFMR_FSLEN, fslen)
+ 			| SSC_BF(TFMR_DATNB, (channels - 1))
+ 			| SSC_BIT(TFMR_MSBF)
+ 			| SSC_BF(TFMR_DATDEF, 0)
+-- 
+1.8.5.2
 
-> > +Optional properties:
-
-> > +- power-gpio - gpio pin to enable/disable the device
-
-> The code below seems to look for "enable-gpio". Searching for
-> "power-gpio" only hits in the line above and the example below. I assume
-> the code is in error?
-
-It depends what this is for - if it's for an external regulator it
-should be a regulator binding.  Also all GPIO properties
-are supposed to be called -gpios because DT conventions.
-
---5zn77Mes2TPnoMqf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJTsdoKAAoJELSic+t+oim9QYYP/25XMOhM1tgeLLHbHKljr2wm
-NP1g6gvK7C7vE20dQXB4GP338bEIddOsr1tAmJz/u5S1undyVhYfN7pOmiPCJsdX
-9HcMYsrLKmlGtlCX0Jy4ECmEMiFP9cJ5EW03LcdAAx92Go9xqprOCA9YhFGjUaB5
-jVwuuhHnMAShFikW4axpknihUU89DDNJ28Rw4oocb91LhdJG4Y5au5f3rNug9kMC
-jfxd4q5vZOZoP7o+WSn7MJceas8wmTWaFyRvboX0uu3gaY3lDobEQwdJ6ASg+gQL
-Yvq9LRAMNuWLacXwrz9N8xJLKNI6/FHxF3xHqOzSsgxjaoDB0pgVMgHeSA6SjNbB
-1VDb2hVVc4acT8ngGtmFoq93pwLZ7rmkVGTosJQ5KWT7Vqo4l5TWsVQxtRLvVBq9
-BOYZoV6L2UdBkITSXnvpEKEH3Jqn3w2ca3SHt/Cqm45NYRm9zjqySfU/Zqbq+oBS
-7BUgYrJ5UyuzTS5fJV2LQNasFnTFchRDxum3/ko8nWYSVDlcpfw5k1LJbDYuwOWj
-3UgF47kMcF1iAaBrIy8CB6e+Dj76KY6zVINxgPX5jM2ZTnzZ7rVdoJlJDRNPtDvA
-2pykkvMkYPaydMXpnn1Kj2OUF0AKtB7oHqn9hLOehefFNanLkaKbtth707Q0bTim
-iGdxKMrrPYzxeO40Ku7s
-=Nq8+
------END PGP SIGNATURE-----
-
---5zn77Mes2TPnoMqf--
