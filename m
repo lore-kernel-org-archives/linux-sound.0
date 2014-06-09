@@ -1,113 +1,46 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 09 Jun 2014 03:31:43 +0000
-Subject: [PATCH v2 1/5] ASoC: atmel_wm8904: switch to CCF
-Message-Id: <1402284707-23354-2-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 09 Jun 2014 20:14:24 +0000
+Subject: Re: [PATCH v2 1/5] ASoC: atmel_wm8904: switch to CCF
+Message-Id: <20140609201424.GR5099@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="YyN8ymQDUlI+Fj6t"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+ <1402284707-23354-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1402284707-23354-2-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
-Changes in v2:
-  - None
 
- sound/soc/atmel/atmel_wm8904.c | 50 ------------------------------------------
- 1 file changed, 50 deletions(-)
+--YyN8ymQDUlI+Fj6t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/atmel/atmel_wm8904.c b/sound/soc/atmel/atmel_wm8904.c
-index b4e3690..4052268 100644
---- a/sound/soc/atmel/atmel_wm8904.c
-+++ b/sound/soc/atmel/atmel_wm8904.c
-@@ -18,10 +18,6 @@
- #include "../codecs/wm8904.h"
- #include "atmel_ssc_dai.h"
- 
--#define MCLK_RATE 32768
--
--static struct clk *mclk;
--
- static const struct snd_soc_dapm_widget atmel_asoc_wm8904_dapm_widgets[] = {
- 	SND_SOC_DAPM_HP("Headphone Jack", NULL),
- 	SND_SOC_DAPM_MIC("Mic", NULL),
-@@ -61,26 +57,6 @@ static struct snd_soc_ops atmel_asoc_wm8904_ops = {
- 	.hw_params = atmel_asoc_wm8904_hw_params,
- };
- 
--static int atmel_set_bias_level(struct snd_soc_card *card,
--		struct snd_soc_dapm_context *dapm,
--		enum snd_soc_bias_level level)
--{
--	if (dapm->bias_level = SND_SOC_BIAS_STANDBY) {
--		switch (level) {
--		case SND_SOC_BIAS_PREPARE:
--			clk_prepare_enable(mclk);
--			break;
--		case SND_SOC_BIAS_OFF:
--			clk_disable_unprepare(mclk);
--			break;
--		default:
--			break;
--		}
--	}
--
--	return 0;
--};
--
- static struct snd_soc_dai_link atmel_asoc_wm8904_dailink = {
- 	.name = "WM8904",
- 	.stream_name = "WM8904 PCM",
-@@ -94,7 +70,6 @@ static struct snd_soc_dai_link atmel_asoc_wm8904_dailink = {
- static struct snd_soc_card atmel_asoc_wm8904_card = {
- 	.name = "atmel_asoc_wm8904",
- 	.owner = THIS_MODULE,
--	.set_bias_level = atmel_set_bias_level,
- 	.dai_link = &atmel_asoc_wm8904_dailink,
- 	.num_links = 1,
- 	.dapm_widgets = atmel_asoc_wm8904_dapm_widgets,
-@@ -153,7 +128,6 @@ static int atmel_asoc_wm8904_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card = &atmel_asoc_wm8904_card;
- 	struct snd_soc_dai_link *dailink = &atmel_asoc_wm8904_dailink;
--	struct clk *clk_src;
- 	int id, ret;
- 
- 	card->dev = &pdev->dev;
-@@ -170,30 +144,6 @@ static int atmel_asoc_wm8904_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	mclk = clk_get(NULL, "pck0");
--	if (IS_ERR(mclk)) {
--		dev_err(&pdev->dev, "failed to get pck0\n");
--		ret = PTR_ERR(mclk);
--		goto err_set_audio;
--	}
--
--	clk_src = clk_get(NULL, "clk32k");
--	if (IS_ERR(clk_src)) {
--		dev_err(&pdev->dev, "failed to get clk32k\n");
--		ret = PTR_ERR(clk_src);
--		goto err_set_audio;
--	}
--
--	ret = clk_set_parent(mclk, clk_src);
--	clk_put(clk_src);
--	if (ret != 0) {
--		dev_err(&pdev->dev, "failed to set MCLK parent\n");
--		goto err_set_audio;
--	}
--
--	dev_info(&pdev->dev, "setting pck0 to %dHz\n", MCLK_RATE);
--	clk_set_rate(mclk, MCLK_RATE);
--
- 	ret = snd_soc_register_card(card);
- 	if (ret) {
- 		dev_err(&pdev->dev, "snd_soc_register_card failed\n");
--- 
-1.8.5.2
+On Mon, Jun 09, 2014 at 11:31:43AM +0800, Bo Shen wrote:
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
+Applied, thanks.
+
+--YyN8ymQDUlI+Fj6t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJTlhWcAAoJELSic+t+oim9dFUP/3wLLfzEBhfy9W7l1eTG9UAc
+owz51TvtAJ52hssq45XNm/Ih84TP3xHv3lPtTQaV4rjrNKqj112WaeydCCAJumRT
+ixqx3HQsdcf/xjBq/mZuvLM/fkVEEns8eH1fy1PF4PQpYBy+sId2ui0lNrPZIFN3
+O0jDJ9bxwS4yMp3TspVEkJAob62NeR3gma/zCvVjw3wmfSLmmmmMs8HXH5TKRH+g
+RVHawyp0ZJA3qODOKSqMtwfEGCRPuFCApfUJnoDzV6KnaqDoP8MbQ6a0C6pa3Liu
+I76jiVS9xFEuDDNWHfKxkJQFJWhMylVsfYQnI11LHC3Vf6nBWbc44z+JNvB61JtW
+VemUh6TUW/kZJB5DmdtNulEqrw06pCXYm3KvWsBtz1M0k7o8EmwGIUthp1AGk/G/
+rWSZ1xeYRPHV1soWbPA04KYNFhFQJRx9va/o9c2Kl3/KvEVjPw5g3jWXxZedEr4Q
+eralFcll9LPJfW8XPtvU7e/9bFkMbbFMCMJsDB6fYieGYOJFftqfrSXpwlQ6pSrl
+rb2aT0unPXbObzWo95N3XgirTfRtI3L9U02y7q13QFBE+aax0z7fUbryv6rhvgSE
+uyQjoJBnmeHsBOhYkceDPNM+Lgg+4YjkFiYjh3iFC5dYc0h0IUPgLS2klizi/aBC
+BYpDMegDJZbAKgh9zpCj
+=VhpF
+-----END PGP SIGNATURE-----
+
+--YyN8ymQDUlI+Fj6t--
