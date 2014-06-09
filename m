@@ -1,18 +1,22 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Thu, 05 Jun 2014 10:19:27 +0000
-Subject: [PATCH 0/5] ARM: atmel: switch audio to CCF
-Message-Id: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
+Date: Mon, 09 Jun 2014 03:31:42 +0000
+Subject: [PATCH v2 0/5] As the sama5d3xek and at91sam9n12ek have switch to CCF,
+Message-Id: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-As the sama5d3xek and at91sam9n12ek have switch to CCF, in order to
-support audio, also switch it to CCF.
+in order to support audio, also switch it to CCF.
 
 This patch series based on next-2014-0604 tag.
+
+Changes in v2:
+  - wm8904: Remove the mclk checking when try to enable or disable it,
+    as it is checked when required.
+  - dt: List the clock-names, which need by driver.
 
 Bo Shen (5):
   ASoC: atmel_wm8904: switch to CCF
@@ -21,12 +25,12 @@ Bo Shen (5):
   ARM: atmel: sama5d3xek: switch sound to CCF
   ARM: atmel: at91sam9n12ek: switch sound to CCF
 
- Documentation/devicetree/bindings/sound/wm8904.txt | 32 ++++++++++++++
+ Documentation/devicetree/bindings/sound/wm8904.txt | 33 ++++++++++++++
  arch/arm/boot/dts/at91sam9n12ek.dts                |  2 +
  arch/arm/boot/dts/sama5d3xmb.dtsi                  |  2 +
  sound/soc/atmel/atmel_wm8904.c                     | 50 ----------------------
- sound/soc/codecs/wm8904.c                          | 13 ++++++
- 5 files changed, 49 insertions(+), 50 deletions(-)
+ sound/soc/codecs/wm8904.c                          | 11 +++++
+ 5 files changed, 48 insertions(+), 50 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/sound/wm8904.txt
 
 -- 
