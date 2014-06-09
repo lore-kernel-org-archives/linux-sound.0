@@ -1,47 +1,64 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 06 Jun 2014 10:02:14 +0000
-Subject: Re: [PATCH 1/5] ASoC: atmel_wm8904: switch to CCF
-Message-Id: <20140606100214.GF2520@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="qfesBOB4TKwppX3D"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 09 Jun 2014 03:31:45 +0000
+Subject: [PATCH v2 3/5] dt: wm8904: add device tree binding document
+Message-Id: <1402284707-23354-4-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1401963572-10953-1-git-send-email-voice.shen@atmel.com>
- <1401963572-10953-2-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1401963572-10953-2-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+References: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Changes in v2:
+  - List the clock-names, which need by driver.
 
---qfesBOB4TKwppX3D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ Documentation/devicetree/bindings/sound/wm8904.txt | 33 ++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/wm8904.txt
 
-On Thu, Jun 05, 2014 at 06:19:28PM +0800, Bo Shen wrote:
-> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+diff --git a/Documentation/devicetree/bindings/sound/wm8904.txt b/Documentation/devicetree/bindings/sound/wm8904.txt
+new file mode 100644
+index 0000000..e99f409
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wm8904.txt
+@@ -0,0 +1,33 @@
++WM8904 audio CODEC
++
++This device supports I2C only.
++
++Required properties:
++  - compatible: "wlf,wm8904"
++  - reg: the I2C address of the device.
++  - clock-names: "mclk"
++  - clocks: reference to
++    <Documentation/devicetree/bindings/clock/clock-bindings.txt>
++
++Pins on the device (for linking into audio routes):
++
++  * IN1L
++  * IN1R
++  * IN2L
++  * IN2R
++  * IN3L
++  * IN3R
++  * HPOUTL
++  * HPOUTR
++  * LINEOUTL
++  * LINEOUTR
++  * MICBIAS
++
++Examples:
++
++codec: wm8904@1a {
++	compatible = "wlf,wm8904";
++	reg = <0x1a>;
++	clocks = <&pck0>;
++	clock-names = "mclk";
++};
+-- 
+1.8.5.2
 
-This looks good but it needs to go in along with the WM8904 change so
-I'll leave it for now.
-
---qfesBOB4TKwppX3D
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJTkZGiAAoJELSic+t+oim9iYIP/1OBd1u884KqkgO86kUkyO/z
-FmW4dsiEABOOF/rBT9hiSY/DfYcdGHUi5C980Q1QGLx8R96M03SmoUAnsC//qpQa
-R7zteChzJrPnL7agVJMOnFXWmVyXRqnDGADroD4zV/U1wgaPBHQS6XvwwXbtilzG
-TCXVJAB10Fb7hJsA1Y3CDnzyn5dqezzkI14lXr+a0ASQUXVSVl5ze3O8a3ZTN/76
-XGaKzU8ptoZlmofA+TjBk1ntpVNPeGJWWeuJEME7vk/u17T8wkxelzaDEfZpXMK5
-zoFn3GF+Xp/j71JQbrMluNuYtzdI+8vgY7/SFQ/RXHe+2mLrBvMNJR9wl1lZ/9+D
-rMtM7wTwRfXfIYirPDcZ9jh+9okvcNsJq7vXK83h5l1nCK+8olcmFz6MAcHxcRdc
-WcgMQXPDhpJShAv4ZoBxBlq407KX/XJGPPDe6MsPUASS2RY+M26n22wfPy/Shw3s
-hR3lNvVW5yNjY6aA8GeVlLhbDAwhPlxqoWFN4QrUOyZ9ynK5D/cFqJyetikqbwWN
-wqEJ15LjYnfxycpTQYXsa6veOt1TJr60nvJhLJ7AOqL3xfVqvEcSgBdVXN+5gDLD
-Lv9xOlNmvRL2cuTkhJAfEhbAEDFuLdyFoB65rln0a0OiuMiMxME0EfvHOZX+v4aY
-9uuiwOCwBoeBqEyqG20L
-=twkt
------END PGP SIGNATURE-----
-
---qfesBOB4TKwppX3D--
