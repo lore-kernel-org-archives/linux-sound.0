@@ -1,46 +1,77 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 09 Jun 2014 20:14:24 +0000
-Subject: Re: [PATCH v2 1/5] ASoC: atmel_wm8904: switch to CCF
-Message-Id: <20140609201424.GR5099@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="YyN8ymQDUlI+Fj6t"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Mon, 09 Jun 2014 03:31:44 +0000
+Subject: [PATCH v2 2/5] ASoC: wm8904: switch to CCF
+Message-Id: <1402284707-23354-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
- <1402284707-23354-2-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1402284707-23354-2-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+In-Reply-To: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
+Enable WM8904 to support common clock framework.
 
---YyN8ymQDUlI+Fj6t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Changes in v2:
+  - Remove the mclk checking when try to enable or disable it,
+    as it is checked when required.
 
-On Mon, Jun 09, 2014 at 11:31:43AM +0800, Bo Shen wrote:
-> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+ sound/soc/codecs/wm8904.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Applied, thanks.
+diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+index f7c5499..da46c2a 100644
+--- a/sound/soc/codecs/wm8904.c
++++ b/sound/soc/codecs/wm8904.c
+@@ -11,6 +11,7 @@
+  * published by the Free Software Foundation.
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+@@ -49,6 +50,7 @@ static const char *wm8904_supply_names[WM8904_NUM_SUPPLIES] = {
+ /* codec private data */
+ struct wm8904_priv {
+ 	struct regmap *regmap;
++	struct clk *mclk;
+ 
+ 	enum wm8904_type devtype;
+ 
+@@ -1828,6 +1830,7 @@ static int wm8904_set_bias_level(struct snd_soc_codec *codec,
+ 
+ 	switch (level) {
+ 	case SND_SOC_BIAS_ON:
++		clk_prepare_enable(wm8904->mclk);
+ 		break;
+ 
+ 	case SND_SOC_BIAS_PREPARE:
+@@ -1894,6 +1897,7 @@ static int wm8904_set_bias_level(struct snd_soc_codec *codec,
+ 
+ 		regulator_bulk_disable(ARRAY_SIZE(wm8904->supplies),
+ 				       wm8904->supplies);
++		clk_disable_unprepare(wm8904->mclk);
+ 		break;
+ 	}
+ 	codec->dapm.bias_level = level;
+@@ -2110,6 +2114,13 @@ static int wm8904_i2c_probe(struct i2c_client *i2c,
+ 	if (wm8904 = NULL)
+ 		return -ENOMEM;
+ 
++	wm8904->mclk = devm_clk_get(&i2c->dev, "mclk");
++	if (IS_ERR(wm8904->mclk)) {
++		ret = PTR_ERR(wm8904->mclk);
++		dev_err(&i2c->dev, "Failed to get MCLK\n");
++		return ret;
++	}
++
+ 	wm8904->regmap = devm_regmap_init_i2c(i2c, &wm8904_regmap);
+ 	if (IS_ERR(wm8904->regmap)) {
+ 		ret = PTR_ERR(wm8904->regmap);
+-- 
+1.8.5.2
 
---YyN8ymQDUlI+Fj6t
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJTlhWcAAoJELSic+t+oim9dFUP/3wLLfzEBhfy9W7l1eTG9UAc
-owz51TvtAJ52hssq45XNm/Ih84TP3xHv3lPtTQaV4rjrNKqj112WaeydCCAJumRT
-ixqx3HQsdcf/xjBq/mZuvLM/fkVEEns8eH1fy1PF4PQpYBy+sId2ui0lNrPZIFN3
-O0jDJ9bxwS4yMp3TspVEkJAob62NeR3gma/zCvVjw3wmfSLmmmmMs8HXH5TKRH+g
-RVHawyp0ZJA3qODOKSqMtwfEGCRPuFCApfUJnoDzV6KnaqDoP8MbQ6a0C6pa3Liu
-I76jiVS9xFEuDDNWHfKxkJQFJWhMylVsfYQnI11LHC3Vf6nBWbc44z+JNvB61JtW
-VemUh6TUW/kZJB5DmdtNulEqrw06pCXYm3KvWsBtz1M0k7o8EmwGIUthp1AGk/G/
-rWSZ1xeYRPHV1soWbPA04KYNFhFQJRx9va/o9c2Kl3/KvEVjPw5g3jWXxZedEr4Q
-eralFcll9LPJfW8XPtvU7e/9bFkMbbFMCMJsDB6fYieGYOJFftqfrSXpwlQ6pSrl
-rb2aT0unPXbObzWo95N3XgirTfRtI3L9U02y7q13QFBE+aax0z7fUbryv6rhvgSE
-uyQjoJBnmeHsBOhYkceDPNM+Lgg+4YjkFiYjh3iFC5dYc0h0IUPgLS2klizi/aBC
-BYpDMegDJZbAKgh9zpCj
-=VhpF
------END PGP SIGNATURE-----
-
---YyN8ymQDUlI+Fj6t--
