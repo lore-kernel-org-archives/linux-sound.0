@@ -1,64 +1,46 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 09 Jun 2014 03:31:45 +0000
-Subject: [PATCH v2 3/5] dt: wm8904: add device tree binding document
-Message-Id: <1402284707-23354-4-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 09 Jun 2014 20:13:37 +0000
+Subject: Re: [PATCH v2 3/5] dt: wm8904: add device tree binding document
+Message-Id: <20140609201337.GQ5099@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="25AjPoXvrcQXrjmi"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1402284707-23354-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+ <1402284707-23354-4-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1402284707-23354-4-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, boris.brezillon@free-electrons.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
-Changes in v2:
-  - List the clock-names, which need by driver.
 
- Documentation/devicetree/bindings/sound/wm8904.txt | 33 ++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/wm8904.txt
+--25AjPoXvrcQXrjmi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/Documentation/devicetree/bindings/sound/wm8904.txt b/Documentation/devicetree/bindings/sound/wm8904.txt
-new file mode 100644
-index 0000000..e99f409
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/wm8904.txt
-@@ -0,0 +1,33 @@
-+WM8904 audio CODEC
-+
-+This device supports I2C only.
-+
-+Required properties:
-+  - compatible: "wlf,wm8904"
-+  - reg: the I2C address of the device.
-+  - clock-names: "mclk"
-+  - clocks: reference to
-+    <Documentation/devicetree/bindings/clock/clock-bindings.txt>
-+
-+Pins on the device (for linking into audio routes):
-+
-+  * IN1L
-+  * IN1R
-+  * IN2L
-+  * IN2R
-+  * IN3L
-+  * IN3R
-+  * HPOUTL
-+  * HPOUTR
-+  * LINEOUTL
-+  * LINEOUTR
-+  * MICBIAS
-+
-+Examples:
-+
-+codec: wm8904@1a {
-+	compatible = "wlf,wm8904";
-+	reg = <0x1a>;
-+	clocks = <&pck0>;
-+	clock-names = "mclk";
-+};
--- 
-1.8.5.2
+On Mon, Jun 09, 2014 at 11:31:45AM +0800, Bo Shen wrote:
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
+Applied, thanks.
+
+--25AjPoXvrcQXrjmi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJTlhVuAAoJELSic+t+oim9/4IP/30dvP1REEKsXEYnKnjRcGH6
+ewqkaMm0N7n0UhFqxLE8Kq1jz+KJK8GXxGUxdzvuVvjUvz3xbAdmj1j0kcJwvYKa
+z5AgV1ej6sC5c7oOsCxrTcPSwlmbIt4ZFQ/wK4XrdbufznupGSyJVQYx4l+gg6k0
+irSH0YvX9okfOke7RQsFfsU2PZt4su5Atk+g9pahYCNdvvfZUneBfX8ZJU9T8+DA
+Dhd4jdKV96F83VGeduLUqNJWqJOOXMk7YMQjZDcGSHIivlrUzc35n1d9ZN9V8IG8
+q6GbXLvG/f9g1tXcV7hAWhVCf8z8GUmJpMi7cnCFJVCHu+dmPuCxueM+CIjD/gnz
+qCLXyYDy4EQVk+X/kezXwf181hUuo3JYxc5BdOk2wUTVBO61h/XAXw0VLlp6Flpx
+6tJ+YLlcc/185d7BX4z7oiz26YczYeK/WfXE7EUZmslhdsCdY16vq5DVlsi6B9HE
+tnT/47Bn6iob7HfFcyIMgOO7E7EJvl62rAi30u5cJlmJOlqmv0HxvJTVCd1SC5sf
+Jktn+CRW0ew8kW0xBIl1OmSrwl5eytUm8fxMblN1AyhJExAD531YximGhLwryF/k
+A3nc50cScvPYGiOzmDeIUkZ6tNqQ1vTPQ/wrpxtXZZfJleuCtXDfOc5kTPC4TQir
+p97WK/tYXg1GytfEAbdM
+=d/WK
+-----END PGP SIGNATURE-----
+
+--25AjPoXvrcQXrjmi--
