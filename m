@@ -1,72 +1,88 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Fri, 06 Jun 2014 07:41:34 +0000
-Subject: [PATCH 1/2] misc: atmel-ssc: support to read ssc version
-Message-Id: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 10 Jun 2014 16:32:27 +0000
+Subject: Re: [PATCH 1/2] misc: atmel-ssc: support to read ssc version
+Message-Id: <5397331B.1040903@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1402040495-10320-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@kernel.org
-Cc: nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org
 
-Read SSC IP version to check whether it supports frame sync
-length extension feature.
+On 06/06/2014 09:41, Bo Shen :
+> Read SSC IP version to check whether it supports frame sync
+> length extension feature.
+> 
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
+No. We already have 2 compatible versions for the DT or id table. Simply
+add one.
+Please use this infrastructure to describe such features, I don't want
+to mix the approaches: "compatible string" xor "IP revision".
 
- drivers/misc/atmel-ssc.c  | 7 +++++++
- include/linux/atmel-ssc.h | 3 +++
- 2 files changed, 10 insertions(+)
+The DT of the product will then describe on which version of the IP it
+can rely to have this feature.
 
-diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
-index 22de137..9f49bcb 100644
---- a/drivers/misc/atmel-ssc.c
-+++ b/drivers/misc/atmel-ssc.c
-@@ -136,6 +136,7 @@ static int ssc_probe(struct platform_device *pdev)
- 	struct resource *regs;
- 	struct ssc_device *ssc;
- 	const struct atmel_ssc_platform_data *plat_dat;
-+	u32 version;
- 
- 	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
- 	if (!ssc) {
-@@ -173,8 +174,14 @@ static int ssc_probe(struct platform_device *pdev)
- 	clk_prepare_enable(ssc->clk);
- 	ssc_writel(ssc->regs, IDR, -1);
- 	ssc_readl(ssc->regs, SR);
-+	version = ssc_readl(ssc->regs, VERSION);
- 	clk_disable_unprepare(ssc->clk);
- 
-+	if (version >= 0x300)
-+		ssc->has_fslen_ext = 1;
-+	else
-+		ssc->has_fslen_ext = 0;
-+
- 	ssc->irq = platform_get_irq(pdev, 0);
- 	if (!ssc->irq) {
- 		dev_dbg(&pdev->dev, "could not get irq\n");
-diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
-index 571a12e..9ee1b68 100644
---- a/include/linux/atmel-ssc.h
-+++ b/include/linux/atmel-ssc.h
-@@ -19,6 +19,7 @@ struct ssc_device {
- 	int			user;
- 	int			irq;
- 	bool			clk_from_rk_pin;
-+	int			has_fslen_ext;
- };
- 
- struct ssc_device * __must_check ssc_request(unsigned int ssc_num);
-@@ -258,6 +259,8 @@ void ssc_free(struct ssc_device *ssc);
- #define SSC_IMR_TXSYN_SIZE			 1
- #define SSC_IMR_TXSYN_OFFSET			10
- 
-+#define SSC_VERSION			0x000000fc
-+
- /* SSC PDC Receive Pointer Register */
- #define SSC_PDC_RPR			0x00000100
- 
+Best regards,
+
+> ---
+> 
+>  drivers/misc/atmel-ssc.c  | 7 +++++++
+>  include/linux/atmel-ssc.h | 3 +++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+> index 22de137..9f49bcb 100644
+> --- a/drivers/misc/atmel-ssc.c
+> +++ b/drivers/misc/atmel-ssc.c
+> @@ -136,6 +136,7 @@ static int ssc_probe(struct platform_device *pdev)
+>  	struct resource *regs;
+>  	struct ssc_device *ssc;
+>  	const struct atmel_ssc_platform_data *plat_dat;
+> +	u32 version;
+>  
+>  	ssc = devm_kzalloc(&pdev->dev, sizeof(struct ssc_device), GFP_KERNEL);
+>  	if (!ssc) {
+> @@ -173,8 +174,14 @@ static int ssc_probe(struct platform_device *pdev)
+>  	clk_prepare_enable(ssc->clk);
+>  	ssc_writel(ssc->regs, IDR, -1);
+>  	ssc_readl(ssc->regs, SR);
+> +	version = ssc_readl(ssc->regs, VERSION);
+>  	clk_disable_unprepare(ssc->clk);
+>  
+> +	if (version >= 0x300)
+> +		ssc->has_fslen_ext = 1;
+> +	else
+> +		ssc->has_fslen_ext = 0;
+> +
+>  	ssc->irq = platform_get_irq(pdev, 0);
+>  	if (!ssc->irq) {
+>  		dev_dbg(&pdev->dev, "could not get irq\n");
+> diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+> index 571a12e..9ee1b68 100644
+> --- a/include/linux/atmel-ssc.h
+> +++ b/include/linux/atmel-ssc.h
+> @@ -19,6 +19,7 @@ struct ssc_device {
+>  	int			user;
+>  	int			irq;
+>  	bool			clk_from_rk_pin;
+> +	int			has_fslen_ext;
+>  };
+>  
+>  struct ssc_device * __must_check ssc_request(unsigned int ssc_num);
+> @@ -258,6 +259,8 @@ void ssc_free(struct ssc_device *ssc);
+>  #define SSC_IMR_TXSYN_SIZE			 1
+>  #define SSC_IMR_TXSYN_OFFSET			10
+>  
+> +#define SSC_VERSION			0x000000fc
+> +
+>  /* SSC PDC Receive Pointer Register */
+>  #define SSC_PDC_RPR			0x00000100
+>  
+> 
+
+
 -- 
-1.8.5.2
-
+Nicolas Ferre
