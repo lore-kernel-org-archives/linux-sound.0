@@ -1,50 +1,83 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Sat, 21 Jun 2014 10:37:56 +0000
-Subject: Re: [PATCH v2 2/4] ASoC: atmel_ssc_dai: enable fslen extension feature
-Message-Id: <20140621103756.GA5099@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="FX1XXxwkuRo+XMsw"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Wed, 11 Jun 2014 10:14:39 +0000
+Subject: [PATCH v2 1/4] ASoC: atmel-ssc: distinguish whether SSC supports fslen ext
+Message-Id: <1402481682-9811-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1402481682-9811-1-git-send-email-voice.shen@atmel.com>
- <1402481682-9811-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1402481682-9811-3-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+In-Reply-To: <1402481682-9811-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: broonie@kernel.org
+Cc: nicolas.ferre@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
+Add compatible string to distinguish whether SSC supports
+frame sync length extension.
 
---FX1XXxwkuRo+XMsw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
+Changes in v2:
+  - Using compatible string to distinguish whether SSC supports
+    frame sync length extension to replace check IP version.
 
-On Wed, Jun 11, 2014 at 06:14:40PM +0800, Bo Shen wrote:
-> When SSC work as master, it will generate the frame sync signal.
-> On old SoCs, it only supports frame sync length less or equal to
-> 16bits, on newer SoCs, it supports frame sync length extension,
-> which can support frame size larger than 16 bits.
-> So, add this to make it supports playback 24/32 bits audio clips.
+ drivers/misc/atmel-ssc.c  | 13 +++++++++++++
+ include/linux/atmel-ssc.h |  1 +
+ 2 files changed, 14 insertions(+)
 
-Applied, thanks.
+diff --git a/drivers/misc/atmel-ssc.c b/drivers/misc/atmel-ssc.c
+index 22de137..60843a2 100644
+--- a/drivers/misc/atmel-ssc.c
++++ b/drivers/misc/atmel-ssc.c
+@@ -83,10 +83,17 @@ EXPORT_SYMBOL(ssc_free);
+ 
+ static struct atmel_ssc_platform_data at91rm9200_config = {
+ 	.use_dma = 0,
++	.has_fslen_ext = 0,
++};
++
++static struct atmel_ssc_platform_data at91sam9rl_config = {
++	.use_dma = 0,
++	.has_fslen_ext = 1,
+ };
+ 
+ static struct atmel_ssc_platform_data at91sam9g45_config = {
+ 	.use_dma = 1,
++	.has_fslen_ext = 1,
+ };
+ 
+ static const struct platform_device_id atmel_ssc_devtypes[] = {
+@@ -94,6 +101,9 @@ static const struct platform_device_id atmel_ssc_devtypes[] = {
+ 		.name = "at91rm9200_ssc",
+ 		.driver_data = (unsigned long) &at91rm9200_config,
+ 	}, {
++		.name = "at91sam9rl_ssc",
++		.driver_data = (unsigned long) &at91sam9rl_config,
++	}, {
+ 		.name = "at91sam9g45_ssc",
+ 		.driver_data = (unsigned long) &at91sam9g45_config,
+ 	}, {
+@@ -107,6 +117,9 @@ static const struct of_device_id atmel_ssc_dt_ids[] = {
+ 		.compatible = "atmel,at91rm9200-ssc",
+ 		.data = &at91rm9200_config,
+ 	}, {
++		.compatible = "atmel,at91sam9rl-ssc",
++		.data = &at91sam9rl_config,
++	}, {
+ 		.compatible = "atmel,at91sam9g45-ssc",
+ 		.data = &at91sam9g45_config,
+ 	}, {
+diff --git a/include/linux/atmel-ssc.h b/include/linux/atmel-ssc.h
+index 571a12e..e8dd408 100644
+--- a/include/linux/atmel-ssc.h
++++ b/include/linux/atmel-ssc.h
+@@ -7,6 +7,7 @@
+ 
+ struct atmel_ssc_platform_data {
+ 	int			use_dma;
++	int			has_fslen_ext;
+ };
+ 
+ struct ssc_device {
+-- 
+1.8.5.2
 
---FX1XXxwkuRo+XMsw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJTpWCAAAoJELSic+t+oim9CmEP/iAR+yTB3stIbkoH5+DH8+6e
-xx2gRfd2VOuQiywZTPJtsjaGnRsKLaDDaey7hJoo8KKzzayDVm6EsYSKWJZ1heMM
-SGPZRON+BQJuTkdsWb/sqctmGzUWOEkW0p2Y/oAR1Q2YA70IthaA/fQxwhHegho+
-8eQc83KRgamJJ4ejHfcKzsk0Kk1cJu9T7qgmjWABursQUXyq+0WZvRZuhDOxJOCU
-Ts5iPhJwOjN4CRXLSn5K4MeZA+jXL/gfS7OyEszP8LezWR5DFNS//jPfI08VXldC
-EwMfZGBtvDQxPwNNgroKjQFNKZIJhj8iZAj9WXbB8jtdV2IoPgaYqp0NNOEjZS6P
-U6SU7wwIHhfAVTYsZFTeRcRf4K6FxkikVz52jk28phYYFMILq0WZQ0zMgQdsybPr
-26k1vbylahaocaq1xZoxOKIaFt9ilEoZcMpiIQy9Rrq/8wZUPcA7B7VG8JLCHSyP
-ApbQ7WaxQpW9PIpQAspqnz3qQGwDBAjXwjdrjTds1c5VtBIm735cYLCkqsmp+Twc
-KnpwmVxbCX0Z+rsP5ocEBku6Lb+ibsKEoI6UDp4JG6yt0Wcw+LkE7+QIzkYd4mAX
-1/77OOTjwof4kEiWTEFFxAOY2y2VFQG3v0CQZt+s6eXzbIOW9HcuIhzc5IqHYI54
-QJTLCDRQCqGkATM+gkR8
-=oqsX
------END PGP SIGNATURE-----
-
---FX1XXxwkuRo+XMsw--
