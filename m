@@ -1,110 +1,56 @@
-From: Dan Murphy <dmurphy@ti.com>
-Date: Mon, 30 Jun 2014 17:27:03 +0000
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 30 Jun 2014 21:43:42 +0000
 Subject: Re: [PATCH v2] ASoC: tas2552: Support TI TAS2552 Amplifier
-Message-Id: <53B19DE7.6080509@ti.com>
+Message-Id: <20140630214342.GI23300@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="5zn77Mes2TPnoMqf"
 List-Id: <linux-sound.vger.kernel.org>
-References: <1404148259-17305-1-git-send-email-dmurphy@ti.com> <20140630172115.GE28740@leverpostej>
+References: <1404148259-17305-1-git-send-email-dmurphy@ti.com>
+ <20140630172115.GE28740@leverpostej>
 In-Reply-To: <20140630172115.GE28740@leverpostej>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: Mark Rutland <mark.rutland@arm.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "broonie@kernel.org" <broonie@kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Cc: Dan Murphy <dmurphy@ti.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
 
-Hi
 
-On 06/30/2014 12:21 PM, Mark Rutland wrote:
-> Hi,
->
+--5zn77Mes2TPnoMqf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jun 30, 2014 at 06:21:15PM +0100, Mark Rutland wrote:
 > On Mon, Jun 30, 2014 at 06:10:59PM +0100, Dan Murphy wrote:
->> Support the TI TAS2552 Class D amplifier.
->>
->> The TAS2552 is a high efficiency Class-D audio
->> power amplifier with advanced battery current
->> management and an integrated Class-G boost
->> The device constantly measures the
->> current and voltage across the load and provides a
->> digital stream of this information.
->>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>
->> v2 - Address RFC comments- Added regmap, and snd_soc calls
->> removed debug code, address checkpatch errors -https://patchwork.kernel.org/patch/4378281/
->>
->>  .../devicetree/bindings/sound/tas2552.txt          |   22 +
->>  include/sound/tas2552-plat.h                       |   25 ++
->>  sound/soc/codecs/Kconfig                           |    5 +
->>  sound/soc/codecs/Makefile                          |    2 +
->>  sound/soc/codecs/tas2552.c                         |  462 ++++++++++++++++++++
->>  sound/soc/codecs/tas2552.h                         |   75 ++++
->>  6 files changed, 591 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/sound/tas2552.txt
->>  create mode 100644 include/sound/tas2552-plat.h
->>  create mode 100644 sound/soc/codecs/tas2552.c
->>  create mode 100644 sound/soc/codecs/tas2552.h
->>
->> diff --git a/Documentation/devicetree/bindings/sound/tas2552.txt b/Documentation/devicetree/bindings/sound/tas2552.txt
->> new file mode 100644
->> index 0000000..58e931b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/tas2552.txt
->> @@ -0,0 +1,22 @@
->> +Texas Instruments - tas2552 Codec module
->> +
->> +The tas2552 serial control bus communicates through I2C protocols
->> +
->> +Required properties:
->> +
->> +- compatible - "string" - One of:
->> +    "ti,tas2552" - TAS2552
-> Drop the "string". The compatible list is a standard property and its
-> type (string list) is well-known.
->
-> You could change "One of:" to "should contain:", which will look less
-> weird with a single entry.
->
->> +- reg - <int> -  I2C slave address
-> Similarly to "string" we can get rid of <int> here. i2c addresses are
-> well-known to be described in a single u32 cell.
->
->> +
->> +Optional properties:
->> +
->> +- power-gpio - gpio pin to enable/disable the device
+
+> > +Optional properties:
+
+> > +- power-gpio - gpio pin to enable/disable the device
+
 > The code below seems to look for "enable-gpio". Searching for
 > "power-gpio" only hits in the line above and the example below. I assume
 > the code is in error?
 
-No this was PEBKAC I did not update the documentation when I wrote the
-code.
+It depends what this is for - if it's for an external regulator it
+should be a regulator binding.  Also all GPIO properties
+are supposed to be called -gpios because DT conventions.
 
->
->> +
->> +Example:
->> +
->> +tas2552: tas2552@41 {
->> +       compatible = "ti,tas2552";
->> +       reg = <0x41>;
->> +       power-gpio = <&gpio4 2 GPIO_ACTIVE_HIGH>;
->> +};
-> [...]
->
->> +       if (pdata) {
->> +               data->power_gpio = pdata->power_gpio;
->> +       } else if (np) {
->> +               data->power_gpio = of_get_named_gpio(np, "enable-gpio", 0);
-> Usually I see this logic the other way around, looking for DT data first
-> then falling back to platform data if no DT information was present.
->
-> Cheers,
-> Mark.
+--5zn77Mes2TPnoMqf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Thanks for the review.  I will take these changes into v3 after a good code review soak time.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-Dan
+iQIcBAEBAgAGBQJTsdoKAAoJELSic+t+oim9QYYP/25XMOhM1tgeLLHbHKljr2wm
+NP1g6gvK7C7vE20dQXB4GP338bEIddOsr1tAmJz/u5S1undyVhYfN7pOmiPCJsdX
+9HcMYsrLKmlGtlCX0Jy4ECmEMiFP9cJ5EW03LcdAAx92Go9xqprOCA9YhFGjUaB5
+jVwuuhHnMAShFikW4axpknihUU89DDNJ28Rw4oocb91LhdJG4Y5au5f3rNug9kMC
+jfxd4q5vZOZoP7o+WSn7MJceas8wmTWaFyRvboX0uu3gaY3lDobEQwdJ6ASg+gQL
+Yvq9LRAMNuWLacXwrz9N8xJLKNI6/FHxF3xHqOzSsgxjaoDB0pgVMgHeSA6SjNbB
+1VDb2hVVc4acT8ngGtmFoq93pwLZ7rmkVGTosJQ5KWT7Vqo4l5TWsVQxtRLvVBq9
+BOYZoV6L2UdBkITSXnvpEKEH3Jqn3w2ca3SHt/Cqm45NYRm9zjqySfU/Zqbq+oBS
+7BUgYrJ5UyuzTS5fJV2LQNasFnTFchRDxum3/ko8nWYSVDlcpfw5k1LJbDYuwOWj
+3UgF47kMcF1iAaBrIy8CB6e+Dj76KY6zVINxgPX5jM2ZTnzZ7rVdoJlJDRNPtDvA
+2pykkvMkYPaydMXpnn1Kj2OUF0AKtB7oHqn9hLOehefFNanLkaKbtth707Q0bTim
+iGdxKMrrPYzxeO40Ku7s
+=Nq8+
+-----END PGP SIGNATURE-----
 
--- 
-------------------
-Dan Murphy
-
+--5zn77Mes2TPnoMqf--
