@@ -1,98 +1,688 @@
-From: adam richter <adamrichter4@gmail.com>
-Date: Wed, 09 Jul 2014 23:07:46 +0000
-Subject: Possible fix for snd-hda-intel model=no-jd failing since ~linux-3.9-rc1
-Message-Id: <CAGn-TgjY-DCsygvEQe13Zu_LS9m6Ra44DAccYgFWLaNQrvO8Yw@mail.gmail.com>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="001a1133278ac841e404fdcac6ca"
+From: Dan Murphy <dmurphy@ti.com>
+Date: Wed, 02 Jul 2014 13:30:52 +0000
+Subject: [PATCH v3] ASoC: tas2552: Support TI TAS2552 Amplifier
+Message-Id: <1404307852-10456-1-git-send-email-dmurphy@ti.com>
 List-Id: <linux-sound.vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, broonie@kernel.org, devicetree@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
 
---001a1133278ac841e404fdcac6ca
-Content-Type: text/plain; charset=UTF-8
+Support the TI TAS2552 Class D amplifier.
 
-Hi.
+The TAS2552 is a high efficiency Class-D audio
+power amplifier with advanced battery current
+management and an integrated Class-G boost
+The device constantly measures the
+current and voltage across the load and provides a
+digital stream of this information.
 
-Please feel free to redirect me to another email address.  I did not
-notice any contact information for sound/pci/hda in
-linux-3.16-rc4/MAINATINERS.
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+---
 
-The "model=no-jd" argument has not initialized correctly for me for
-linux-3.9-rc1 (if I recall correctly) through linux-3.16-rc4, although
-I have not tried every release candidate in between.
+v3 - Updated bindings doc per comments, rearranged probe pdata vs 
+np check - https://patchwork.kernel.org/patch/4453481/
 
-The symptom is that, on a computer with an analog audio output jack
-that usually does not correctly sense a device is plugged in, audio
-output is completely muted until I physically replug the cable, even
-though I specified "model=no-jd" as an argument to the snd-hda-intel
-kernel module, which is supposed to cause the kernel to ignore the
-jack sense reported by hardware and just drive the audio output even
-if the hardware jack sense indicates nothing is plugged in.
+ .../devicetree/bindings/sound/tas2552.txt          |   22 +
+ include/sound/tas2552-plat.h                       |   25 ++
+ sound/soc/codecs/Kconfig                           |    5 +
+ sound/soc/codecs/Makefile                          |    2 +
+ sound/soc/codecs/tas2552.c                         |  463 ++++++++++++++++++++
+ sound/soc/codecs/tas2552.h                         |   75 ++++
+ 6 files changed, 592 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/tas2552.txt
+ create mode 100644 include/sound/tas2552-plat.h
+ create mode 100644 sound/soc/codecs/tas2552.c
+ create mode 100644 sound/soc/codecs/tas2552.h
 
-I have found a few single line workarounds that work, of which my
-favorite is the following (also attached to this email, in case any
-mailer subjects this message to reformatting), because it does not add
-code to anything that gets called frequently.
+diff --git a/Documentation/devicetree/bindings/sound/tas2552.txt b/Documentation/devicetree/bindings/sound/tas2552.txt
+new file mode 100644
+index 0000000..ada8fd4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/tas2552.txt
+@@ -0,0 +1,22 @@
++Texas Instruments - tas2552 Codec module
++
++The tas2552 serial control bus communicates through I2C protocols
++
++Required properties:
++
++- compatible - One of:
++    "ti,tas2552" - TAS2552
++
++- reg -  I2C slave address
++
++Optional properties:
++
++- power-gpio - gpio pin to enable/disable the device
++
++Example:
++
++tas2552: tas2552@41 {
++	compatible = "ti,tas2552";
++	reg = <0x41>;
++	enable-gpio = <&gpio4 2 GPIO_ACTIVE_HIGH>;
++};
+diff --git a/include/sound/tas2552-plat.h b/include/sound/tas2552-plat.h
+new file mode 100644
+index 0000000..65e7627
+--- /dev/null
++++ b/include/sound/tas2552-plat.h
+@@ -0,0 +1,25 @@
++/*
++ * TAS2552 driver platform header
++ *
++ * Copyright (C) 2014 Texas Instruments Inc.
++ *
++ * Author: Dan Murphy <dmurphy@ti.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * version 2 as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ */
++
++#ifndef TAS2552_PLAT_H
++#define TAS2552_PLAT_H
++
++struct tas2552_platform_data {
++	int enable_gpio;
++};
++
++#endif
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 0b9571c..cc09261 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -99,6 +99,7 @@ config SND_SOC_ALL_CODECS
+ 	select SND_SOC_TLV320AIC32X4 if I2C
+ 	select SND_SOC_TLV320AIC3X if I2C
+ 	select SND_SOC_TPA6130A2 if I2C
++	select SND_SOC_TAS2552 if I2C
+ 	select SND_SOC_TLV320DAC33 if I2C
+ 	select SND_SOC_TWL4030 if TWL4030_CORE
+ 	select SND_SOC_TWL6040 if TWL6040_CORE
+@@ -754,4 +755,8 @@ config SND_SOC_TPA6130A2
+ 	tristate "Texas Instruments TPA6130A2 headphone amplifier"
+ 	depends on I2C
+ 
++config SND_SOC_TAS2552
++	tristate "Texas Instruments TAS2552 Mono Audio amplifier"
++	depends on I2C
++
+ endmenu
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index 1bd6e1c..33bc7228 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -162,6 +162,7 @@ snd-soc-wm-hubs-objs := wm_hubs.o
+ # Amp
+ snd-soc-max9877-objs := max9877.o
+ snd-soc-tpa6130a2-objs := tpa6130a2.o
++snd-soc-tas2552-objs := tas2552.o
+ 
+ obj-$(CONFIG_SND_SOC_88PM860X)	+= snd-soc-88pm860x.o
+ obj-$(CONFIG_SND_SOC_AB8500_CODEC)	+= snd-soc-ab8500-codec.o
+@@ -325,3 +326,4 @@ obj-$(CONFIG_SND_SOC_WM_HUBS)	+= snd-soc-wm-hubs.o
+ # Amp
+ obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o
+ obj-$(CONFIG_SND_SOC_TPA6130A2)	+= snd-soc-tpa6130a2.o
++obj-$(CONFIG_SND_SOC_TAS2552)	+= snd-soc-tas2552.o
+diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
+new file mode 100644
+index 0000000..79b8212
+--- /dev/null
++++ b/sound/soc/codecs/tas2552.c
+@@ -0,0 +1,463 @@
++/*
++ * ALSA SoC Texas Instruments TAS2552 Mono Audio Amplifier
++ *
++ * Copyright (C) 2014 Texas Instruments Inc.
++ *
++ * Author: Dan Murphy <dmurphy@ti.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * version 2 as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ */
++
++#include <linux/module.h>
++#include <linux/errno.h>
++#include <linux/device.h>
++#include <linux/i2c.h>
++#include <linux/gpio.h>
++#include <linux/of_gpio.h>
++#include <linux/regmap.h>
++#include <linux/slab.h>
++
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
++#include <sound/soc-dapm.h>
++#include <sound/tlv.h>
++#include <sound/tas2552-plat.h>
++
++#include "tas2552.h"
++
++static struct reg_default tas2552_reg_defs[] = {
++	{TAS2552_CFG_1, 0x16},
++	{TAS2552_CFG_3, 0x5E},
++	{TAS2552_DOUT, 0x00},
++	{TAS2552_OUTPUT_DATA, 0xC8},
++	{TAS2552_PDM_CFG, 0x02},
++	{TAS2552_PGA_GAIN, 0x10},
++	{TAS2552_BOOST_PT_CTRL, 0x0F},
++	{TAS2552_LIMIT_LVL_CTRL, 0x0C},
++	{TAS2552_LIMIT_RATE_HYS, 0x20},
++	{TAS2552_CFG_2, 0xEA},
++	{TAS2552_SER_CTRL_1, 0x00},
++	{TAS2552_SER_CTRL_2, 0x00},
++	{TAS2552_PLL_CTRL_1, 0x10},
++	{TAS2552_PLL_CTRL_2, 0x00},
++	{TAS2552_PLL_CTRL_3, 0x00},
++	{TAS2552_BTIP, 0x8f},
++	{TAS2552_BTS_CTRL, 0x80},
++	{TAS2552_LIMIT_RELEASE, 0x05},
++	{TAS2552_LIMIT_INT_COUNT, 0x00},
++	{TAS2552_EDGE_RATE_CTRL, 0x40},
++	{TAS2552_VBAT_DATA, 0x00},
++};
++
++struct tas2552_data {
++	struct mutex mutex;
++	struct snd_soc_codec *codec;
++	struct regmap *regmap;
++	struct i2c_client *tas2552_client;
++	unsigned char regs[TAS2552_VBAT_DATA];
++	int power_gpio;
++	u8 power_state:1;
++};
++
++static int tas2552_power(struct tas2552_data *data, u8 power)
++{
++	int	ret = 0;
++
++	BUG_ON(data->tas2552_client = NULL);
++
++	mutex_lock(&data->mutex);
++	if (power = data->power_state)
++		goto exit;
++
++	if (power) {
++		if (data->power_gpio >= 0)
++			gpio_set_value(data->power_gpio, 1);
++
++		data->power_state = 1;
++	} else {
++		if (data->power_gpio >= 0)
++			gpio_set_value(data->power_gpio, 0);
++
++		data->power_state = 0;
++	}
++
++exit:
++	mutex_unlock(&data->mutex);
++	return ret;
++}
++
++static void tas2552_sw_shutdown(struct tas2552_data *tas_data, int sw_shutdown)
++{
++	u8 cfg1_reg = 0x0;
++
++	if (sw_shutdown)
++		cfg1_reg |= (sw_shutdown << 1);
++	else
++		cfg1_reg &= ~TAS2552_SWS_MASK;
++
++	snd_soc_update_bits(tas_data->codec, TAS2552_CFG_1,
++						 TAS2552_SWS_MASK, cfg1_reg);
++}
++
++static void tas2552_init(struct snd_soc_codec *codec)
++{
++	snd_soc_write(codec, TAS2552_CFG_1, 0x16);
++	snd_soc_write(codec, TAS2552_CFG_3, 0x5E);
++	snd_soc_write(codec, TAS2552_DOUT, 0x00);
++	snd_soc_write(codec, TAS2552_OUTPUT_DATA, 0xC8);
++	snd_soc_write(codec, TAS2552_PDM_CFG, 0x02);
++	snd_soc_write(codec, TAS2552_PGA_GAIN, 0x10);
++	snd_soc_write(codec, TAS2552_BOOST_PT_CTRL, 0x0F);
++	snd_soc_write(codec, TAS2552_LIMIT_LVL_CTRL, 0x0C);
++	snd_soc_write(codec, TAS2552_LIMIT_RATE_HYS, 0x20);
++	snd_soc_write(codec, TAS2552_CFG_2, 0xEA);
++}
++
++static int tas2552_hw_params(struct snd_pcm_substream *substream,
++			     struct snd_pcm_hw_params *params,
++			     struct snd_soc_dai *dai)
++{
++	u8 wclk_reg;
++	struct snd_soc_codec *codec = dai->codec;
++
++	/* Setting DAC clock dividers based on substream sample rate. */
++	switch (params_rate(params)) {
++	case 8000:
++		wclk_reg = TAS2552_8KHZ;
++		break;
++	case 11025:
++		wclk_reg = TAS2552_11_12KHZ;
++		break;
++	case 16000:
++		wclk_reg = TAS2552_16KHZ;
++		break;
++	case 32000:
++		wclk_reg = TAS2552_32KHZ;
++		break;
++	case 22050:
++	case 24000:
++		wclk_reg = TAS2552_22_24KHZ;
++		break;
++	case 44100:
++	case 48000:
++		wclk_reg = TAS2552_44_48KHZ;
++		break;
++	case 96000:
++		wclk_reg = TAS2552_88_96KHZ;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	snd_soc_update_bits(codec, TAS2552_CFG_3, TAS2552_WCLK_MASK, wclk_reg);
++
++	return 0;
++}
++
++static int tas2552_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
++{
++	u8 serial_format;
++	struct snd_soc_codec *codec = dai->codec;
++
++	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
++	case SND_SOC_DAIFMT_CBS_CFS:
++		serial_format = 0x00;
++		break;
++	case SND_SOC_DAIFMT_CBS_CFM:
++		serial_format = TAS2552_WORD_CLK_MASK;
++		break;
++	case SND_SOC_DAIFMT_CBM_CFS:
++		serial_format = TAS2552_BIT_CLK_MASK;
++		break;
++	case SND_SOC_DAIFMT_CBM_CFM:
++		serial_format = (TAS2552_BIT_CLK_MASK | TAS2552_WORD_CLK_MASK);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	snd_soc_update_bits(codec, TAS2552_SER_CTRL_1,
++			    (TAS2552_BIT_CLK_MASK | TAS2552_WORD_CLK_MASK),
++			    serial_format);
++
++	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
++	case SND_SOC_DAIFMT_I2S:
++		serial_format = 0x0;
++		break;
++	case SND_SOC_DAIFMT_DSP_A:
++		serial_format = TAS2552_DAIFMT_DSP;
++		break;
++	case SND_SOC_DAIFMT_RIGHT_J:
++		serial_format = TAS2552_DAIFMT_RIGHT_J;
++		break;
++	case SND_SOC_DAIFMT_LEFT_J:
++		serial_format = TAS2552_DAIFMT_LEFT_J;
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	snd_soc_update_bits(codec, TAS2552_SER_CTRL_1, TAS2552_DATA_FORMAT_MASK,
++						serial_format);
++
++	return 0;
++}
++
++static int tas2552_set_dai_sysclk(struct snd_soc_dai *dai, int clk_id,
++				  unsigned int freq, int dir)
++{
++	struct snd_soc_codec *codec = dai->codec;
++	struct tas2552_data *data = dev_get_drvdata(dai->dev);
++
++	/* Fill in the PLL control registers for J & D
++	 * PLL_CLK = (.5 * freq * J.D) / 2^p
++	 * Need to fill in J and D here based on incoming freq
++	 */
++
++	tas2552_sw_shutdown(data, 1);
++
++	snd_soc_update_bits(codec, TAS2552_CFG_2, TAS2552_PLL_ENABLE, 0);
++
++	snd_soc_write(codec, TAS2552_PLL_CTRL_1, 0x10);
++	snd_soc_write(codec, TAS2552_PLL_CTRL_2, 0x00);
++	snd_soc_write(codec, TAS2552_PLL_CTRL_3, 0x00);
++
++	snd_soc_update_bits(codec, TAS2552_CFG_2, TAS2552_PLL_ENABLE,
++						TAS2552_PLL_ENABLE);
++
++	tas2552_sw_shutdown(data, 0);
++
++	return 0;
++}
++
++static int tas2552_mute(struct snd_soc_dai *dai, int mute)
++{
++	u8 cfg1_reg = 0x0;
++	struct snd_soc_codec *codec = dai->codec;
++
++	if (mute)
++		cfg1_reg |= TAS2552_MUTE_MASK;
++	else
++		cfg1_reg &= ~TAS2552_MUTE_MASK;
++
++	snd_soc_update_bits(codec, TAS2552_CFG_1, TAS2552_MUTE_MASK, cfg1_reg);
++
++	return 0;
++}
++
++static int tas2552_startup(struct snd_pcm_substream *substream,
++			   struct snd_soc_dai *dai)
++{
++	struct snd_soc_codec *codec = dai->codec;
++	struct tas2552_data *tas2552 = snd_soc_codec_get_drvdata(codec);
++
++	tas2552_sw_shutdown(tas2552, 1);
++	tas2552_power(tas2552, 1);
++
++	/* Turn on Class D amplifier */
++	snd_soc_update_bits(codec, TAS2552_CFG_2, TAS2552_CLASSD_EN_MASK,
++						TAS2552_CLASSD_EN);
++
++	tas2552_sw_shutdown(tas2552, 0);
++
++	return 0;
++}
++
++static void tas2552_shutdown(struct snd_pcm_substream *substream,
++			   struct snd_soc_dai *dai)
++{
++	struct snd_soc_codec *codec = dai->codec;
++	struct tas2552_data *tas2552 = snd_soc_codec_get_drvdata(codec);
++
++	tas2552_sw_shutdown(tas2552, 1);
++	tas2552_power(tas2552, 0);
++}
++
++static struct snd_soc_dai_ops tas2552_speaker_dai_ops = {
++	.hw_params	= tas2552_hw_params,
++	.set_sysclk	= tas2552_set_dai_sysclk,
++	.set_fmt	= tas2552_set_dai_fmt,
++	.startup	= tas2552_startup,
++	.shutdown	= tas2552_shutdown,
++	.digital_mute = tas2552_mute,
++};
++
++/* Formats supported by TAS2552 driver. */
++#define TAS2552_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S20_3LE |\
++			 SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
++
++/* TAS2552 dai structure. */
++static struct snd_soc_dai_driver tas2552_dai[] = {
++	{
++		.name = "tas2552-amplifier",
++		.playback = {
++			.stream_name = "Speaker",
++			.channels_min = 2,
++			.channels_max = 2,
++			.rates = SNDRV_PCM_RATE_8000_192000,
++			.formats = TAS2552_FORMATS,
++		},
++		.ops = &tas2552_speaker_dai_ops,
++	},
++};
++
++/*
++ * DAC digital volumes. From -7 to 24 dB in 1 dB steps
++ */
++static DECLARE_TLV_DB_SCALE(dac_tlv, -7, 100, 24);
++
++static const struct snd_kcontrol_new tas2552_snd_controls[] = {
++	SOC_SINGLE_TLV("Speaker Driver Playback Volume",
++			 TAS2552_PGA_GAIN, 0, 0x1f, 1, dac_tlv),
++};
++
++static int tas2552_codec_probe(struct snd_soc_codec *codec)
++{
++	struct tas2552_data *tas2552 = snd_soc_codec_get_drvdata(codec);
++
++	tas2552->codec = codec;
++	tas2552_power(tas2552, 1);
++	tas2552_init(codec);
++
++	return 0;
++}
++
++static int tas2552_codec_remove(struct snd_soc_codec *codec)
++{
++	struct tas2552_data *tas2552 = snd_soc_codec_get_drvdata(codec);
++
++	tas2552_power(tas2552, 0);
++
++	return 0;
++};
++
++static struct snd_soc_codec_driver soc_codec_dev_tas2552 = {
++	.probe = tas2552_codec_probe,
++	.remove = tas2552_codec_remove,
++	.controls = tas2552_snd_controls,
++	.num_controls = ARRAY_SIZE(tas2552_snd_controls),
++};
++
++static const struct regmap_config tas2552_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++
++	.max_register = TAS2552_MAX_REG,
++	.reg_defaults = tas2552_reg_defs,
++	.num_reg_defaults = ARRAY_SIZE(tas2552_reg_defs),
++	.cache_type = REGCACHE_RBTREE,
++};
++
++static int tas2552_probe(struct i2c_client *client,
++			   const struct i2c_device_id *id)
++{
++	struct device *dev;
++	struct tas2552_data *data;
++	struct tas2552_platform_data *pdata = client->dev.platform_data;
++	struct device_node *np = client->dev.of_node;
++	int ret;
++
++	dev = &client->dev;
++	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
++	if (data = NULL)
++		return -ENOMEM;
++
++	if (np) {
++		data->power_gpio = of_get_named_gpio(np, "enable-gpio", 0);
++	} else if (pdata) {
++		data->power_gpio = pdata->enable_gpio;
++	} else {
++		dev_err(dev, "Platform or dev tree data not set\n");
++		return -ENODEV;
++	}
++
++	data->regmap = devm_regmap_init_i2c(client, &tas2552_regmap_config);
++	if (IS_ERR(data->regmap)) {
++		ret = PTR_ERR(data->regmap);
++		dev_err(&client->dev, "Failed to allocate register map: %d\n",
++			ret);
++		return ret;
++	}
++
++	data->tas2552_client = client;
++	data->regmap = devm_regmap_init_i2c(client, &tas2552_regmap_config);
++	if (IS_ERR(data->regmap)) {
++		ret = PTR_ERR(data->regmap);
++		dev_err(&client->dev, "Failed to allocate register map: %d\n",
++			ret);
++		return ret;
++	}
++
++	dev_set_drvdata(&client->dev, data);
++
++	mutex_init(&data->mutex);
++
++	if (data->power_gpio >= 0) {
++		ret = devm_gpio_request(dev, data->power_gpio,
++					"tas2552 enable");
++		if (ret < 0) {
++			dev_err(dev, "Failed to request power GPIO (%d)\n",
++				data->power_gpio);
++			goto err_gpio;
++		}
++		gpio_direction_output(data->power_gpio, 0);
++	}
++
++	ret = snd_soc_register_codec(&client->dev,
++				      &soc_codec_dev_tas2552,
++				      tas2552_dai, ARRAY_SIZE(tas2552_dai));
++	if (ret < 0)
++		dev_err(&client->dev, "Failed to register codec: %d\n", ret);
++
++	return 0;
++
++err_gpio:
++	data->tas2552_client = NULL;
++	return ret;
++}
++
++static int tas2552_i2c_remove(struct i2c_client *client)
++{
++	snd_soc_unregister_codec(&client->dev);
++	return 0;
++}
++
++static const struct i2c_device_id tas2552_id[] = {
++	{ "tas2552-codec", 0 },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, tas2552_id);
++
++#if IS_ENABLED(CONFIG_OF)
++static const struct of_device_id tas2552_of_match[] = {
++	{ .compatible = "ti,tas2552", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, tas2552_of_match);
++#endif
++
++static struct i2c_driver tas2552_i2c_driver = {
++	.driver = {
++		.name = "tas2552-codec",
++		.owner = THIS_MODULE,
++		.of_match_table = of_match_ptr(tas2552_of_match),
++	},
++	.probe = tas2552_probe,
++	.remove = tas2552_i2c_remove,
++	.id_table = tas2552_id,
++};
++
++module_i2c_driver(tas2552_i2c_driver);
++
++MODULE_AUTHOR("Dan Muprhy <dmurphy@ti.com>");
++MODULE_DESCRIPTION("TAS2552 Audio amplifier driver");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/codecs/tas2552.h b/sound/soc/codecs/tas2552.h
+new file mode 100644
+index 0000000..174c64d
+--- /dev/null
++++ b/sound/soc/codecs/tas2552.h
+@@ -0,0 +1,75 @@
++/*
++ * ALSA SoC Texas Instruments TAS2552 Mono Audio Amplifier
++ *
++ * Copyright (C) 2014 Texas Instruments Inc.
++ *
++ * Author: Dan Murphy <dmurphy@ti.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * version 2 as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ */
++
++#ifndef __TAS2552_H__
++#define __TAS2552_H__
++
++/* Register Address Map */
++#define TAS2552_DEVICE_STATUS	0x00
++#define TAS2552_CFG_1			0x01
++#define TAS2552_CFG_2			0x02
++#define TAS2552_CFG_3			0x03
++#define TAS2552_DOUT			0x04
++#define TAS2552_SER_CTRL_1		0x05
++#define TAS2552_SER_CTRL_2		0x06
++#define TAS2552_OUTPUT_DATA		0x07
++#define TAS2552_PLL_CTRL_1		0x08
++#define TAS2552_PLL_CTRL_2		0x09
++#define TAS2552_PLL_CTRL_3		0x0a
++#define TAS2552_BTIP			0x0b
++#define TAS2552_BTS_CTRL		0x0c
++#define TAS2552_LIMIT_LVL_CTRL	0x0d
++#define TAS2552_LIMIT_RATE_HYS	0x0e
++#define TAS2552_LIMIT_RELEASE	0x0f
++#define TAS2552_LIMIT_INT_COUNT	0x10
++#define TAS2552_PDM_CFG			0x11
++#define TAS2552_PGA_GAIN		0x12
++#define TAS2552_EDGE_RATE_CTRL	0x13
++#define TAS2552_BOOST_PT_CTRL	0x14
++#define TAS2552_VER_NUM			0x16
++#define TAS2552_VBAT_DATA		0x19
++#define TAS2552_MAX_REG			0x20
++
++/* CFG1 Register Masks */
++#define TAS2552_MUTE_MASK		(1 << 2)
++#define TAS2552_SWS_MASK		(1 << 1)
++#define TAS2552_WCLK_MASK		0x07
++#define TAS2552_CLASSD_EN_MASK	(1 << 7)
++#define TAS2552_CLASSD_EN		0x80
++
++#define TAS2552_PLL_ENABLE		(1 << 3)
++
++/* CFG3 Register Masks */
++#define TAS2552_WORD_CLK_MASK		0x80
++#define TAS2552_BIT_CLK_MASK		0x40
++#define TAS2552_DATA_FORMAT_MASK	0x0c
++
++#define TAS2552_DAIFMT_DSP			0x04
++#define TAS2552_DAIFMT_RIGHT_J		0x08
++#define TAS2552_DAIFMT_LEFT_J		0x0c
++
++/* WCLK Dividers */
++#define TAS2552_8KHZ		0x00
++#define TAS2552_11_12KHZ	0x01
++#define TAS2552_16KHZ		0x02
++#define TAS2552_22_24KHZ	0x03
++#define TAS2552_32KHZ		0x04
++#define TAS2552_44_48KHZ	0x05
++#define TAS2552_88_96KHZ	0x06
++#define TAS2552_176_192KHZ	0x07
++
++#endif
+-- 
+1.7.9.5
 
---- linux-3.16.0-rc4-64bit/sound/pci/hda/hda_jack.c.orig    2014-07-08 15:34
-:36.567535340 -0700
-+++ linux-3.16.0-rc4-64bit/sound/
-pci/hda/hda_jack.c    2014-07-08 15:35:05.1715
-34923 -0700
-@@ -106,6 +106,7 @@ snd_hda_jack_tbl_new(struct hda_codec *c
-    jack->nid = nid;
-    jack->jack_dirty = 1;
-    jack->tag = codec->jacktbl.used;
-+    jack->phantom_jack = codec->no_jack_detect;
-    return jack;
-}
-EXPORT_SYMBOL_GPL(snd_hda_jack_tbl_new);
-
-
-Signed-off-by: Adam J. Richter <adam_richter2004@yahoo.com>
-
-
-I consider this a workaround rather than than a perfect fix, because I
-think the underlying problem seems to be some kind of initialization
-order issue that I don't fully understand.  Basically, by the time
-jack->phantom_jack was being set, some caller had already called
-jack_detect_update(), which loaded the incorrect jack sense result
-from hardware and cleared jack->jack_dirty, so the jack sense would
-not be set again.  At least that is what I think the underlying
-problem probably is.
-
-Also, if a change like this is to be integrated, I'd like to know if
-it might be better for the line that I added to be:
-
-          jack->phantom_jack = !is_jack_detectable(codec, nid);
-
-...which is what add_jack_kctl does (not sure why add_jack_kctls does
-not, by the way, at the risk of making a spectacle of my ignorance).
-My doubt about this approach is that perhaps is_jack_detectable()
-relies on some initialization that has not occurred at that point.
-
-Anyhow, I'd like to get the process started of either pushing this
-change upstream or quickly developing a more correct fix.  If a more
-correct fix does not become apparent in the next few days, I would
-recommend pushing the workaround upstream now until some future code
-cleanup, so people will no longer be effected by the bug.
-
-Any technical input or advice on how to proceed is welcome.  Thanks
-for taking the time to consider this.
-
-Adam Richter
-
---001a1133278ac841e404fdcac6ca
-Content-Type: text/plain; charset=US-ASCII; name="no-jack-detect.diff"
-Content-Disposition: attachment; filename="no-jack-detect.diff"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_hxf9aum90
-
-LS0tIGxpbnV4LTMuMTYuMC1yYzQtNjRiaXQvc291bmQvcGNpL2hkYS9oZGFfamFjay5jLm9yaWcJ
-MjAxNC0wNy0wOCAxNTozNDozNi41Njc1MzUzNDAgLTA3MDAKKysrIGxpbnV4LTMuMTYuMC1yYzQt
-NjRiaXQvc291bmQvcGNpL2hkYS9oZGFfamFjay5jCTIwMTQtMDctMDggMTU6MzU6MDUuMTcxNTM0
-OTIzIC0wNzAwCkBAIC0xMDYsNiArMTA2LDcgQEAgc25kX2hkYV9qYWNrX3RibF9uZXcoc3RydWN0
-IGhkYV9jb2RlYyAqYwogCWphY2stPm5pZCA9IG5pZDsKIAlqYWNrLT5qYWNrX2RpcnR5ID0gMTsK
-IAlqYWNrLT50YWcgPSBjb2RlYy0+amFja3RibC51c2VkOworCWphY2stPnBoYW50b21famFjayA9
-IGNvZGVjLT5ub19qYWNrX2RldGVjdDsKIAlyZXR1cm4gamFjazsKIH0KIEVYUE9SVF9TWU1CT0xf
-R1BMKHNuZF9oZGFfamFja190YmxfbmV3KTsK
---001a1133278ac841e404fdcac6ca--
