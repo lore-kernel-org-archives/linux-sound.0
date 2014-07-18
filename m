@@ -1,80 +1,55 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Mon, 14 Jul 2014 08:59:09 +0000
-Subject: Re: [PATCH 1/1] ice1712: check if snd card loaded, if not do not proceed
-Message-Id: <s5hha2kjoyq.wl%tiwai@suse.de>
+From: Dan Murphy <dmurphy@ti.com>
+Date: Fri, 18 Jul 2014 17:31:07 +0000
+Subject: [PATCH 1/2] ASoC: tas2552: Fix PM sequencing
+Message-Id: <1405704668-8038-1-git-send-email-dmurphy@ti.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1405052377-3096-1-git-send-email-kostaslinuxxx@gmail.com>
-	<s5hfvi8ky4w.wl%tiwai@suse.de>
-	<CAKs1uqwYkz6OA4si8dsRicVg-tn530QhJAhacmaW1e74REQQdA@mail.gmail.com>
-In-Reply-To: <CAKs1uqwYkz6OA4si8dsRicVg-tn530QhJAhacmaW1e74REQQdA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Konstantinos Tsimpoukas <kostaslinuxxx@gmail.com>
-Cc: alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, broonie@kernel.org, Dan Murphy <dmurphy@ti.com>
 
-At Fri, 11 Jul 2014 12:50:10 -0500,
-Konstantinos Tsimpoukas wrote:
-> 
-> Then i suppose the same applies for hda snd remove (in hda_intel.c),
-> as same struct is used there as well.
+In the pm suspend/resume it is better
+to disable the GPIO after the regmap_cache
+setting calls so that if the call is interrupted
+the new reg values will be cached and set on resume.
 
-No, hda_intel.c is an exception.  Its probe continues to a workqueue,
-and the probe failure might happen asynchronously, thus pci drvdata
-can be actually NULL at remove callback.
+Also add pm_runtime_put in the remove call.
 
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+---
+ sound/soc/codecs/tas2552.c |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Takashi
+diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
+index f0760af..a3ae394 100644
+--- a/sound/soc/codecs/tas2552.c
++++ b/sound/soc/codecs/tas2552.c
+@@ -239,12 +239,12 @@ static int tas2552_runtime_suspend(struct device *dev)
+ 
+ 	tas2552_sw_shutdown(tas2552, 0);
+ 
+-	if (tas2552->enable_gpio)
+-		gpiod_set_value(tas2552->enable_gpio, 0);
+-
+ 	regcache_cache_only(tas2552->regmap, true);
+ 	regcache_mark_dirty(tas2552->regmap);
+ 
++	if (tas2552->enable_gpio)
++		gpiod_set_value(tas2552->enable_gpio, 0);
++
+ 	return 0;
+ }
+ 
+@@ -382,6 +382,8 @@ static int tas2552_codec_remove(struct snd_soc_codec *codec)
+ {
+ 	struct tas2552_data *tas2552 = snd_soc_codec_get_drvdata(codec);
+ 
++	pm_runtime_put(codec->dev);
++
+ 	if (tas2552->enable_gpio)
+ 		gpiod_set_value(tas2552->enable_gpio, 0);
+ 
+-- 
+1.7.9.5
 
-> 
-> Regards,
-> Kostas
-> 
-> 
-> 2014-07-11 5:06 GMT-05:00 Takashi Iwai <tiwai@suse.de>:
-> 
-> > At Thu, 10 Jul 2014 23:19:37 -0500,
-> > Konstantinos Tsimpoukas wrote:
-> > >
-> > > Just adding a simple if statement, which
-> > > verifies if actually card is loaded, if not
-> > > does not continue with the execution
-> > > of the snd_card_free.
-> >
-> > It's already referenced by ice, so a NULL check must be peformed at
-> > first.  But, basically card is always non-NULL.  The remove callback
-> > is called only for objects that was properly bound with probe
-> > callback.  snd_ice1712_probe() always sets the card pointer when it
-> > succeeds.
-> >
-> >
-> > thanks,
-> >
-> > Takashi
-> >
-> >
-> > > Signed-off-by: Konstantinos Tsimpoukas <kostaslinuxxx@gmail.com>
-> > > ---
-> > >  sound/pci/ice1712/ice1712.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
-> > > index d9b9e45..431096b 100644
-> > > --- a/sound/pci/ice1712/ice1712.c
-> > > +++ b/sound/pci/ice1712/ice1712.c
-> > > @@ -2819,7 +2819,8 @@ static void snd_ice1712_remove(struct pci_dev *pci)
-> > >
-> > >       if (ice->card_info && ice->card_info->chip_exit)
-> > >               ice->card_info->chip_exit(ice);
-> > > -     snd_card_free(card);
-> > > +     if (card)
-> > > +             snd_card_free(card);
-> > >  }
-> > >
-> > >  #ifdef CONFIG_PM_SLEEP
-> > > --
-> > > 1.9.1
-> > >
-> >
-> [2  <text/html; UTF-8 (quoted-printable)>]
-> 
