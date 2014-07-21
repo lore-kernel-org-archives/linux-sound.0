@@ -1,52 +1,37 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 21 Jul 2014 12:19:31 +0000
+From: "Murphy, Dan" <dmurphy@ti.com>
+Date: Mon, 21 Jul 2014 13:23:17 +0000
 Subject: Re: [PATCH 1/2] ASoC: tas2552: Fix PM sequencing
-Message-Id: <20140721121931.GX17528@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="pvGBTzZYFChjGQji"
+Message-Id: <00FC9A978A94B7418C33AFAE8A35ED49D88593@DFLE09.ent.ti.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1405704668-8038-1-git-send-email-dmurphy@ti.com>
-In-Reply-To: <1405704668-8038-1-git-send-email-dmurphy@ti.com>
-To: Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
+ <20140721121931.GX17528@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@kernel.org>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
 
+Mark
 
---pvGBTzZYFChjGQji
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07/21/2014 07:19 AM, Mark Brown wrote:
+> On Fri, Jul 18, 2014 at 12:31:07PM -0500, Dan Murphy wrote:
+>> In the pm suspend/resume it is better
+>> to disable the GPIO after the regmap_cache
+>> setting calls so that if the call is interrupted
+>> the new reg values will be cached and set on resume.
+>>
+>> Also add pm_runtime_put in the remove call.
+> Applied, thanks, but please don't mix multiple changes into one commit
+> like this especially when there's no textual overlap.
 
-On Fri, Jul 18, 2014 at 12:31:07PM -0500, Dan Murphy wrote:
-> In the pm suspend/resume it is better
-> to disable the GPIO after the regmap_cache
-> setting calls so that if the call is interrupted
-> the new reg values will be cached and set on resume.
->=20
-> Also add pm_runtime_put in the remove call.
+I usually don't mix changes like this as I like to have a single change per
+commit.
 
-Applied, thanks, but please don't mix multiple changes into one commit
-like this especially when there's no textual overlap.
+But I find each maintainer is a little different but now I know for next time.
 
---pvGBTzZYFChjGQji
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Thanks
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+-- 
+------------------
+Dan Murphy
 
-iQIcBAEBAgAGBQJTzQVPAAoJELSic+t+oim9VlwP/A54akg+/GZ9x9YzQeNd7mBy
-ijq91Kp3kSY7d21okgGRjo4jb7Vaq7NhH1BxPP/+yDUEV+lKu/DVsWw5S17Pdvxn
-txEtDzmi7i/OATwpEY2sX1DQJokQTJR+joDrLHtcspglKGIoji5bF93dXfq5os5x
-XQ8Ld0269fLTsiAnqA5MWIjhzdlqmKHe6TGuF9/PsdsVp8Rs7ne1lL+ZsqgBrJ3t
-T2Uti+wKisw8GV4bLe1QI0Z2do95cuB/Rf9cPjOH0YAKe7hUcEvj3cTe1Vyc7sAv
-eRWu7wJvB3oiBYXOuhM9T+1k49m5uEkr/EMO0su8DFcabr2/lGfcxmHnP4eaCGqZ
-5jueNqHO3WPIesMCCduDo422NZicIk4iyPk5l1TTlfgNzxKnYy7IXJ21jkRuUVDq
-hm0aa4Gvyvl8Pk5RLlNonDXUkLhMqYMZNjQZLIS6wL7HYFVPtbV6iNnBH8zZqILY
-fmcbx+KH5Z7btLZ3ntewfrXh3Nk1sWxqAiZaqE79aK3+leq8XiYLySQOsXCJAMFD
-dWkVDOnmbN+vPJmFzFDz/JpZWAytBBm9skIi5br9xHeFgEx4krVMPkLCTMksds5d
-eNOygrX8ZbdPn6TreZ6MrsMUkUBV3PGSqsQ3dDP74YzUGDN79HEcTbmz5a7UGP7X
-P7p3TlD04axgjEGfetzr
-=m2yy
------END PGP SIGNATURE-----
-
---pvGBTzZYFChjGQji--
