@@ -1,27 +1,58 @@
-From: Adam Richter <adamrichter4@gmail.com>
-Date: Thu, 11 Sep 2014 07:22:40 +0000
-Subject: Re: Possible fix for snd-hda-intel model=no-jd failing since ~linux-3.9-rc1
-Message-Id: <CAGn-TghsDJ3_1XTc6kNwP065wfSPz59ha5_841BtQucUywgpvA@mail.gmail.com>
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 02 Sep 2014 09:15:05 +0000
+Subject: Re: [PATCH v2 3/4] dts: atmel: at91sam9rl: switch ssc compatible string
+Message-Id: <54058A99.9010407@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CAGn-TgjY-DCsygvEQe13Zu_LS9m6Ra44DAccYgFWLaNQrvO8Yw@mail.gmail.com>
-In-Reply-To: <CAGn-TgjY-DCsygvEQe13Zu_LS9m6Ra44DAccYgFWLaNQrvO8Yw@mail.gmail.com>
+References: <1402481682-9811-1-git-send-email-voice.shen@atmel.com> <1402481682-9811-4-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1402481682-9811-4-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: Bo Shen <voice.shen@atmel.com>, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 
-Thank you, Takashi.  I will do that.  -Adam
+On 11/06/2014 12:14, Bo Shen :
+> As the SSC integrate in at91sam9rl support frame sync length
+> extension, so switch compatible string to support this feature.
+> 
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
 
-On Thu, Sep 11, 2014 at 12:17 AM, Takashi Iwai <tiwai@suse.de> wrote:
-> At Wed, 10 Sep 2014 20:48:26 -0700,
-> adam richter wrote:
->>
->> Hello, Jaroslav and Takashi.
->>
->> Could you please tell me what I need to do to get this one line change
->> interegrated so that it will make its way to the mailing kernel?
->
-> You're sending to a wrong list.  Please post to alsa-devel ML instead.
->
->
-> Takashi
+I take the DT part of this series for at91-3.18-dt3: thanks!
+
+Acked-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+
+
+> ---
+> Changes in v2:
+>   - New
+> 
+>  arch/arm/boot/dts/at91sam9rl.dtsi | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/at91sam9rl.dtsi b/arch/arm/boot/dts/at91sam9rl.dtsi
+> index 1da1831..fa32de9 100644
+> --- a/arch/arm/boot/dts/at91sam9rl.dtsi
+> +++ b/arch/arm/boot/dts/at91sam9rl.dtsi
+> @@ -203,7 +203,7 @@
+>  			};
+>  
+>  			ssc0: ssc@fffc0000 {
+> -				compatible = "atmel,at91rm9200-ssc";
+> +				compatible = "atmel,at91sam9rl-ssc";
+>  				reg = <0xfffc0000 0x4000>;
+>  				interrupts = <14 IRQ_TYPE_LEVEL_HIGH 5>;
+>  				pinctrl-names = "default";
+> @@ -212,7 +212,7 @@
+>  			};
+>  
+>  			ssc1: ssc@fffc4000 {
+> -				compatible = "atmel,at91rm9200-ssc";
+> +				compatible = "atmel,at91sam9rl-ssc";
+>  				reg = <0xfffc4000 0x4000>;
+>  				interrupts = <15 IRQ_TYPE_LEVEL_HIGH 5>;
+>  				pinctrl-names = "default";
+> 
+
+
+-- 
+Nicolas Ferre
