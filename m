@@ -1,54 +1,45 @@
-From: Anatol Pomozov <anatol.pomozov@gmail.com>
-Date: Fri, 05 Sep 2014 23:02:53 +0000
-Subject: A few questions about soc/alsa
-Message-Id: <CAOMFOmXe7rcvZfp+n+CWDEQUwU=wRWJCZytWRCCBLOfJ4xKv3A@mail.gmail.com>
+From: Petr Cvek <petr.cvek@tul.cz>
+Date: Sun, 23 Nov 2014 07:04:51 +0000
+Subject: [PATCH] Fix PXA2xx sound DMA autoincrementation flags
+Message-Id: <54718713.1050902@tul.cz>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: linux-arm-kernel@lists.infradead.org
 
-Hi
+Fix for address auto-incrementation flags for DMA transmissions for 
+PXA2xx sound.
 
-I just started working on soc audio for one board and trying to learn
-more about soc/alsa implementation details (kernel 3.14).
+Old version used playback settings for recording, so it wrongly read 
+from whole register space (instead of one FIFO register) and wrote into 
+single word in memory.
 
-My board uses Realtek 5677 driver (is it upstream since 3.14). SOC
-connects to codec via I2S1 bus. Codec connects to speaker amplifier
-(Analog Devices SM4567) via I2S2.
+Signed-off-by: Petr Cvek <petr.cvek@tul.cz>
+---
+  sound/arm/pxa2xx-pcm-lib.c | 8 +++++++-
+  1 file changed, 7 insertions(+), 1 deletion(-)
 
-[SOC] <= I2S1 => [Realtek RT5677] <= I2S2 => [Speaker Amp SM4567]
+diff --git a/sound/arm/pxa2xx-pcm-lib.c b/sound/arm/pxa2xx-pcm-lib.c
+index a61d7a9..5d3a415 100644
+--- a/sound/arm/pxa2xx-pcm-lib.c
++++ b/sound/arm/pxa2xx-pcm-lib.c
+@@ -45,7 +45,13 @@ int __pxa2xx_pcm_hw_params(struct snd_pcm_substream 
+*substream,
+      size_t period = params_period_bytes(params);
+      pxa_dma_desc *dma_desc;
+      dma_addr_t dma_buff_phys, next_desc_phys;
+-    u32 dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
++    u32 dcmd = 0;
++
++    if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
++        dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
++    } else {
++        dcmd = DCMD_INCTRGADDR | DCMD_FLOWSRC;
++    }
 
-Now I am trying to add the board driver fooboard_rt5677.c and my first
-question is how DAI links the board driver should describe?
+      /* temporary transition hack */
+      switch (rtd->params->addr_width) {
+-- 
+1.7.12.1
 
-
-static struct snd_soc_dai_link fooboard_rt5677_dai[] = {
-{
-.name = "RT5677",
-.stream_name = "RT5677 PCM",
-.codec_dai_name = "rt5677-aif1",
-.init = fooboard_rt5677_asoc_init,
-.ops = &fooboard_rt5677_ops,
-.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBS_CFS,
-}
-}
-
-
-Should I add I2S2 interface to snd_soc_dai_link array? What this array
-after all? Does it describe *all* digital interfaces or only those
-that are connected to the CPU?
-
-If latter then I2S2 should not be in this array. But in this case who
-should configure I2S2 bus and when? Does it happen when audio route
-AIF1=>RT5677=>AIF2 becomes active? Could anyone point to the code
-where such activation happens? Are there any existing soc examples
-with configuration like in my case (i2s2 bus is for a speaker amp)?
-
-
-
-
-
-Are there any good sources of information about alsa/soc besides
-Documentation/sound/alsa/soc? Any books/articles that might be useful
-for a rookie?
