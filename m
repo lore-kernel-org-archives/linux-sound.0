@@ -1,50 +1,44 @@
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Date: Sun, 23 Nov 2014 16:26:50 +0000
-Subject: Re: [PATCH] Fix PXA2xx sound DMA autoincrementation flags
-Message-Id: <54720ACA.2070506@cogentembedded.com>
+From: Petr Cvek <petr.cvek@tul.cz>
+Date: Sun, 23 Nov 2014 22:31:59 +0000
+Subject: Re: [PATCH v2] Fix PXA2xx sound DMA autoincrementation flags
+Message-Id: <5472605F.4030702@tul.cz>
 List-Id: <linux-sound.vger.kernel.org>
-References: <54718713.1050902@tul.cz>
-In-Reply-To: <54718713.1050902@tul.cz>
+References: <54718713.1050902@tul.cz> <54720ACA.2070506@cogentembedded.com>
+In-Reply-To: <54720ACA.2070506@cogentembedded.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-arm-kernel@lists.infradead.org
 
-Hello.
+Add support for SCCB devices into PXA27x I2C controller.
 
-On 11/23/2014 10:04 AM, Petr Cvek wrote:
+Fix generated START but no STOP for message without I2C_M_NOSTART flag. Add support for I2C_M_IGNORE_NAK flag.
 
-> Fix for address auto-incrementation flags for DMA transmissions for PXA2xx sound.
+Signed-off-by: Petr Cvek <petr.cvek@tul.cz> 
+---
+ sound/arm/pxa2xx-pcm-lib.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-> Old version used playback settings for recording, so it wrongly read from
-> whole register space (instead of one FIFO register) and wrote into single word
-> in memory.
+diff --git a/sound/arm/pxa2xx-pcm-lib.c b/sound/arm/pxa2xx-pcm-lib.c
+index a61d7a9..5d3a415 100644
+--- a/sound/arm/pxa2xx-pcm-lib.c
++++ b/sound/arm/pxa2xx-pcm-lib.c
+@@ -45,7 +45,13 @@ int __pxa2xx_pcm_hw_params(struct snd_pcm_substream *substream,
+ 	size_t period = params_period_bytes(params);
+ 	pxa_dma_desc *dma_desc;
+ 	dma_addr_t dma_buff_phys, next_desc_phys;
+-	u32 dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
++	u32 dcmd = 0;
++
++	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
++		dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
++	} else {
++		dcmd = DCMD_INCTRGADDR | DCMD_FLOWSRC;
++	}
+ 
+ 	/* temporary transition hack */
+ 	switch (rtd->params->addr_width) {
+-- 
+1.7.12.1
 
-> Signed-off-by: Petr Cvek <petr.cvek@tul.cz>
-> ---
->   sound/arm/pxa2xx-pcm-lib.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
-
-> diff --git a/sound/arm/pxa2xx-pcm-lib.c b/sound/arm/pxa2xx-pcm-lib.c
-> index a61d7a9..5d3a415 100644
-> --- a/sound/arm/pxa2xx-pcm-lib.c
-> +++ b/sound/arm/pxa2xx-pcm-lib.c
-> @@ -45,7 +45,13 @@ int __pxa2xx_pcm_hw_params(struct snd_pcm_substream
-> *substream,
->       size_t period = params_period_bytes(params);
->       pxa_dma_desc *dma_desc;
->       dma_addr_t dma_buff_phys, next_desc_phys;
-> -    u32 dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
-> +    u32 dcmd = 0;
-> +
-> +    if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
-> +        dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
-> +    } else {
-> +        dcmd = DCMD_INCTRGADDR | DCMD_FLOWSRC;
-> +    }
-[...]
-
-    Your patch has all tabs replaced by spaces, so can't be applied.
-
-WBR, Sergei
 
