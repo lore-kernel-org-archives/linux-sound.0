@@ -1,10 +1,10 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 15 Dec 2014 03:31:13 +0000
-Subject: [PATCH v2 3/3] ARM: at91: at91sam9n12ek/dt: use dt ids for wm8904
-Message-Id: <1418614273-2303-3-git-send-email-voice.shen@atmel.com>
+Date: Thu, 11 Dec 2014 03:14:41 +0000
+Subject: [PATCH 3/3] ARM: at91: at91sam9n12ek/dt: use dt ids for wm8904
+Message-Id: <1418267681-4091-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1418614273-2303-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1418614273-2303-1-git-send-email-voice.shen@atmel.com>
+References: <1418267681-4091-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1418267681-4091-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -15,8 +15,6 @@ Using the device tree ids for wm8904 codec.
 
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
-
-Changes in v2: None
 
  arch/arm/boot/dts/at91sam9n12ek.dts | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
