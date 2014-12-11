@@ -1,10 +1,10 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 15 Dec 2014 03:31:12 +0000
-Subject: [PATCH v2 2/3] ARM: at91: sama5d3xek/dt: use dt ids for wm8904
-Message-Id: <1418614273-2303-2-git-send-email-voice.shen@atmel.com>
+Date: Thu, 11 Dec 2014 03:14:40 +0000
+Subject: [PATCH 2/3] ARM: at91: sama5d3xek/dt: use dt ids for wm8904
+Message-Id: <1418267681-4091-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1418614273-2303-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1418614273-2303-1-git-send-email-voice.shen@atmel.com>
+References: <1418267681-4091-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1418267681-4091-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -18,8 +18,6 @@ Using the wm8904 device tree compatible string.
 Signed-off-by: Alexander Morozov <linux@meltdown.ru>
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
-
-Changes in v2: None
 
  arch/arm/boot/dts/sama5d3xmb.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
