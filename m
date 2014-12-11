@@ -1,43 +1,47 @@
-From: Petr Cvek <petr.cvek@tul.cz>
-Date: Mon, 24 Nov 2014 21:19:57 +0000
-Subject: Re: [PATCH v3] Fix PXA2xx sound DMA autoincrementation flags
-Message-Id: <5473A0FD.9030304@tul.cz>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Thu, 11 Dec 2014 03:14:39 +0000
+Subject: [PATCH 1/3] ASoC: codecs: wm8904: add dt ids table
+Message-Id: <1418267681-4091-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <54718713.1050902@tul.cz> <54720ACA.2070506@cogentembedded.com>
- <5472605F.4030702@tul.cz> <54731B7C.4030306@cogentembedded.com>
-In-Reply-To: <54731B7C.4030306@cogentembedded.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-arm-kernel@lists.infradead.org
+To: nicolas.ferre@atmel.com, Mark Brown <broonie@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Alexander Morozov <linux@meltdown.ru>, Bo Shen <voice.shen@atmel.com>
 
-Fix for address auto-incrementation flags for DMA transmissions for PXA2xx sound.
+From: Alexander Morozov <linux@meltdown.ru>
 
-Old version used playback settings for recording, so it wrongly read from whole register space (instead of one FIFO register) and wrote into single word in memory.
-
-Signed-off-by: Petr Cvek <petr.cvek@tul.cz>
+Signed-off-by: Alexander Morozov <linux@meltdown.ru>
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
- sound/arm/pxa2xx-pcm-lib.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/sound/arm/pxa2xx-pcm-lib.c b/sound/arm/pxa2xx-pcm-lib.c
-index a61d7a9..755f947 100644
---- a/sound/arm/pxa2xx-pcm-lib.c
-+++ b/sound/arm/pxa2xx-pcm-lib.c
-@@ -45,7 +45,12 @@ int __pxa2xx_pcm_hw_params(struct snd_pcm_substream *substream,
- 	size_t period = params_period_bytes(params);
- 	pxa_dma_desc *dma_desc;
- 	dma_addr_t dma_buff_phys, next_desc_phys;
--	u32 dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
-+	u32 dcmd = 0;
-+
-+	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK)
-+		dcmd = DCMD_INCSRCADDR | DCMD_FLOWTRG;
-+	else
-+		dcmd = DCMD_INCTRGADDR | DCMD_FLOWSRC;
+ sound/soc/codecs/wm8904.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+index 4d2d2b1..23831a5 100644
+--- a/sound/soc/codecs/wm8904.c
++++ b/sound/soc/codecs/wm8904.c
+@@ -2255,10 +2255,19 @@ static const struct i2c_device_id wm8904_i2c_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, wm8904_i2c_id);
  
- 	/* temporary transition hack */
- 	switch (rtd->params->addr_width) {
++static const struct of_device_id wm8904_of_match[] = {
++	{ .compatible = "wlf,wm8904", },
++	{ .compatible = "wlf,wm8912", },
++	{ .compatible = "wlf,wm8918", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, wm8904_of_match);
++
+ static struct i2c_driver wm8904_i2c_driver = {
+ 	.driver = {
+ 		.name = "wm8904",
+ 		.owner = THIS_MODULE,
++		.of_match_table = wm8904_of_match,
+ 	},
+ 	.probe =    wm8904_i2c_probe,
+ 	.remove =   wm8904_i2c_remove,
 -- 
-1.7.12.1
+2.1.0.24.g4109c28
 
