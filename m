@@ -1,68 +1,89 @@
-From: Lars-Peter Clausen <lars@metafoo.de>
-Date: Tue, 13 Jan 2015 09:47:02 +0000
-Subject: Re: [PATCH v2] ASoC: wm8904: fix runtime warning
-Message-Id: <54B4E996.80403@metafoo.de>
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 09 Jan 2015 08:53:40 +0000
+Subject: [PATCH] ASoC: wm8904: fix runtime warning
+Message-Id: <1420793620-2866-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1421141643-30105-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1421141643-30105-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Bo Shen <voice.shen@atmel.com>, Mark Brown <broonie@kernel.org>
-Cc: ckeepax@opensource.wolfsonmicro.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-On 01/13/2015 10:34 AM, Bo Shen wrote:
-[...]
->
-> -	{ "AIFOUTL", "Left",  "ADCL" },
-> -	{ "AIFOUTL", "Right", "ADCR" },
-> -	{ "AIFOUTR", "Left",  "ADCL" },
-> -	{ "AIFOUTR", "Right", "ADCR" },
-> +	{ "AIFOUTL Mux", "Left", "ADCL" },
-> +	{ "AIFOUTL Mux", "Right", "ADCR" },
-> +	{ "AIFOUTR Mux", "Left", "ADCL" },
-> +	{ "AIFOUTR Mux", "Right", "ADCR" },
-> +
-> +	{ "AIFOUTL", NULL, "AIFOUTL Mux" },
-> +	{ "AIFOUTR", NULL, "AIFOUTR Mux" },
->
+As the commit 5fe5b76 (ASoC: dapm: Do not pretend to support
+controls for non mixer/mux widgets) remove the fake control.
 
-This looks ok.
+Then, the wm8904 throw out the following warning at runtime.
+--->8---
+wm8904 1-001a: Control not supported for path ADCL -> [Left] -> AIFOUTL
+wm8904 1-001a: ASoC: no dapm match for ADCL --> Left --> AIFOUTL
+wm8904 1-001a: ASoC: Failed to add route ADCL -> Left -> AIFOUTL
+wm8904 1-001a: Control not supported for path ADCR -> [Right] -> AIFOUTL
+wm8904 1-001a: ASoC: no dapm match for ADCR --> Right --> AIFOUTL
+wm8904 1-001a: ASoC: Failed to add route ADCR -> Right -> AIFOUTL
+wm8904 1-001a: Control not supported for path ADCL -> [Left] -> AIFOUTR
+wm8904 1-001a: ASoC: no dapm match for ADCL --> Left --> AIFOUTR
+wm8904 1-001a: ASoC: Failed to add route ADCL -> Left -> AIFOUTR
+wm8904 1-001a: Control not supported for path ADCR -> [Right] -> AIFOUTR
+wm8904 1-001a: ASoC: no dapm match for ADCR --> Right --> AIFOUTR
+wm8904 1-001a: ASoC: Failed to add route ADCR -> Right -> AIFOUTR
+wm8904 1-001a: Control not supported for path AIFINR -> [Right] -> DACL
+wm8904 1-001a: ASoC: no dapm match for AIFINR --> Right --> DACL
+wm8904 1-001a: ASoC: Failed to add route AIFINR -> Right -> DACL
+wm8904 1-001a: Control not supported for path AIFINL -> [Left] -> DACL
+wm8904 1-001a: ASoC: no dapm match for AIFINL --> Left --> DACL
+wm8904 1-001a: ASoC: Failed to add route AIFINL -> Left -> DACL
+wm8904 1-001a: Control not supported for path AIFINR -> [Right] -> DACR
+wm8904 1-001a: ASoC: no dapm match for AIFINR --> Right --> DACR
+wm8904 1-001a: ASoC: Failed to add route AIFINR -> Right -> DACR
+wm8904 1-001a: Control not supported for path AIFINL -> [Left] -> DACR
+wm8904 1-001a: ASoC: no dapm match for AIFINL --> Left --> DACR
+wm8904 1-001a: ASoC: Failed to add route AIFINL -> Left -> DACR
+---8<---
 
->   	{ "ADCL", NULL, "CLK_DSP" },
->   	{ "ADCL", NULL, "Left Capture PGA" },
-> @@ -1089,14 +1092,20 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
->   };
->
->   static const struct snd_soc_dapm_route dac_intercon[] = {
-> -	{ "DACL", "Right", "AIFINR" },
-> -	{ "DACL", "Left",  "AIFINL" },
-> +	{ "DACL", NULL, "AIFINL" },
-> +	{ "DACL", NULL, "AIFINR" },
->   	{ "DACL", NULL, "CLK_DSP" },
->
-> -	{ "DACR", "Right", "AIFINR" },
-> -	{ "DACR", "Left",  "AIFINL" },
-> +	{ "DACR", NULL, "AIFINL" },
-> +	{ "DACR", NULL, "AIFINR" },
->   	{ "DACR", NULL, "CLK_DSP" },
->
-> +	{ "DACL Mux", "Left", "DACL" },
-> +	{ "DACL Mux", "Right", "DACR" },
-> +
-> +	{ "DACR Mux", "Left", "DACL" },
-> +	{ "DACR Mux", "Right", "DACR" },
-> +
+This patch is used to remove these warning.
 
-But this should probably be
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
 
- > +	{ "DACL Mux", "Left", "AIFINL" },
- > +	{ "DACL Mux", "Right", "AIFINR" },
- > +
- > +	{ "DACR Mux", "Left", "AIFINL" },
- > +	{ "DACR Mux", "Right", "AIFINR" },
- > +
- > +	{ "DACL", NULL, "DACL Mux" },
- > +	{ "DACR", NULL, "DACR Mux" },
+ sound/soc/codecs/wm8904.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+index 4d2d2b1..38582d7 100644
+--- a/sound/soc/codecs/wm8904.c
++++ b/sound/soc/codecs/wm8904.c
+@@ -1076,10 +1076,10 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
+ 	{ "Right Capture PGA", NULL, "Right Capture Mux" },
+ 	{ "Right Capture PGA", NULL, "Right Capture Inverting Mux" },
+ 
+-	{ "AIFOUTL", "Left",  "ADCL" },
+-	{ "AIFOUTL", "Right", "ADCR" },
+-	{ "AIFOUTR", "Left",  "ADCL" },
+-	{ "AIFOUTR", "Right", "ADCR" },
++	{ "AIFOUTL", NULL, "ADCL" },
++	{ "AIFOUTL", NULL, "ADCR" },
++	{ "AIFOUTR", NULL, "ADCL" },
++	{ "AIFOUTR", NULL, "ADCR" },
+ 
+ 	{ "ADCL", NULL, "CLK_DSP" },
+ 	{ "ADCL", NULL, "Left Capture PGA" },
+@@ -1089,12 +1089,12 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
+ };
+ 
+ static const struct snd_soc_dapm_route dac_intercon[] = {
+-	{ "DACL", "Right", "AIFINR" },
+-	{ "DACL", "Left",  "AIFINL" },
++	{ "DACL", NULL, "AIFINR" },
++	{ "DACL", NULL, "AIFINL" },
+ 	{ "DACL", NULL, "CLK_DSP" },
+ 
+-	{ "DACR", "Right", "AIFINR" },
+-	{ "DACR", "Left",  "AIFINL" },
++	{ "DACR", NULL, "AIFINR" },
++	{ "DACR", NULL, "AIFINL" },
+ 	{ "DACR", NULL, "CLK_DSP" },
+ 
+ 	{ "Charge pump", NULL, "SYSCLK" },
+-- 
+2.1.0.24.g4109c28
 
