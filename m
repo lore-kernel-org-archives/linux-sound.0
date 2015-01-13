@@ -1,100 +1,68 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 13 Jan 2015 09:34:02 +0000
-Subject: [PATCH v2] ASoC: wm8904: fix runtime warning
-Message-Id: <1421141643-30105-1-git-send-email-voice.shen@atmel.com>
+From: Lars-Peter Clausen <lars@metafoo.de>
+Date: Tue, 13 Jan 2015 09:47:02 +0000
+Subject: Re: [PATCH v2] ASoC: wm8904: fix runtime warning
+Message-Id: <54B4E996.80403@metafoo.de>
 List-Id: <linux-sound.vger.kernel.org>
+References: <1421141643-30105-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1421141643-30105-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: ckeepax@opensource.wolfsonmicro.com, lars@metafoo.de, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>, Mark Brown <broonie@kernel.org>
+Cc: ckeepax@opensource.wolfsonmicro.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 
-Correct the path name for mux to get rid of the following warning:
+On 01/13/2015 10:34 AM, Bo Shen wrote:
+[...]
+>
+> -	{ "AIFOUTL", "Left",  "ADCL" },
+> -	{ "AIFOUTL", "Right", "ADCR" },
+> -	{ "AIFOUTR", "Left",  "ADCL" },
+> -	{ "AIFOUTR", "Right", "ADCR" },
+> +	{ "AIFOUTL Mux", "Left", "ADCL" },
+> +	{ "AIFOUTL Mux", "Right", "ADCR" },
+> +	{ "AIFOUTR Mux", "Left", "ADCL" },
+> +	{ "AIFOUTR Mux", "Right", "ADCR" },
+> +
+> +	{ "AIFOUTL", NULL, "AIFOUTL Mux" },
+> +	{ "AIFOUTR", NULL, "AIFOUTR Mux" },
+>
 
---->8---
-wm8904 1-001a: Control not supported for path ADCL -> [Left] -> AIFOUTL
-wm8904 1-001a: ASoC: no dapm match for ADCL --> Left --> AIFOUTL
-wm8904 1-001a: ASoC: Failed to add route ADCL -> Left -> AIFOUTL
-wm8904 1-001a: Control not supported for path ADCR -> [Right] -> AIFOUTL
-wm8904 1-001a: ASoC: no dapm match for ADCR --> Right --> AIFOUTL
-wm8904 1-001a: ASoC: Failed to add route ADCR -> Right -> AIFOUTL
-wm8904 1-001a: Control not supported for path ADCL -> [Left] -> AIFOUTR
-wm8904 1-001a: ASoC: no dapm match for ADCL --> Left --> AIFOUTR
-wm8904 1-001a: ASoC: Failed to add route ADCL -> Left -> AIFOUTR
-wm8904 1-001a: Control not supported for path ADCR -> [Right] -> AIFOUTR
-wm8904 1-001a: ASoC: no dapm match for ADCR --> Right --> AIFOUTR
-wm8904 1-001a: ASoC: Failed to add route ADCR -> Right -> AIFOUTR
-wm8904 1-001a: Control not supported for path AIFINR -> [Right] -> DACL
-wm8904 1-001a: ASoC: no dapm match for AIFINR --> Right --> DACL
-wm8904 1-001a: ASoC: Failed to add route AIFINR -> Right -> DACL
-wm8904 1-001a: Control not supported for path AIFINL -> [Left] -> DACL
-wm8904 1-001a: ASoC: no dapm match for AIFINL --> Left --> DACL
-wm8904 1-001a: ASoC: Failed to add route AIFINL -> Left -> DACL
-wm8904 1-001a: Control not supported for path AIFINR -> [Right] -> DACR
-wm8904 1-001a: ASoC: no dapm match for AIFINR --> Right --> DACR
-wm8904 1-001a: ASoC: Failed to add route AIFINR -> Right -> DACR
-wm8904 1-001a: Control not supported for path AIFINL -> [Left] -> DACR
-wm8904 1-001a: ASoC: no dapm match for AIFINL --> Left --> DACR
-wm8904 1-001a: ASoC: Failed to add route AIFINL -> Left -> DACR
----8<---
+This looks ok.
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
+>   	{ "ADCL", NULL, "CLK_DSP" },
+>   	{ "ADCL", NULL, "Left Capture PGA" },
+> @@ -1089,14 +1092,20 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
+>   };
+>
+>   static const struct snd_soc_dapm_route dac_intercon[] = {
+> -	{ "DACL", "Right", "AIFINR" },
+> -	{ "DACL", "Left",  "AIFINL" },
+> +	{ "DACL", NULL, "AIFINL" },
+> +	{ "DACL", NULL, "AIFINR" },
+>   	{ "DACL", NULL, "CLK_DSP" },
+>
+> -	{ "DACR", "Right", "AIFINR" },
+> -	{ "DACR", "Left",  "AIFINL" },
+> +	{ "DACR", NULL, "AIFINL" },
+> +	{ "DACR", NULL, "AIFINR" },
+>   	{ "DACR", NULL, "CLK_DSP" },
+>
+> +	{ "DACL Mux", "Left", "DACL" },
+> +	{ "DACL Mux", "Right", "DACR" },
+> +
+> +	{ "DACR Mux", "Left", "DACL" },
+> +	{ "DACR Mux", "Right", "DACR" },
+> +
 
-Changes in v2:
-- Correct the mux path name.
-- Route the mux to the pins.
+But this should probably be
 
- sound/soc/codecs/wm8904.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ > +	{ "DACL Mux", "Left", "AIFINL" },
+ > +	{ "DACL Mux", "Right", "AIFINR" },
+ > +
+ > +	{ "DACR Mux", "Left", "AIFINL" },
+ > +	{ "DACR Mux", "Right", "AIFINR" },
+ > +
+ > +	{ "DACL", NULL, "DACL Mux" },
+ > +	{ "DACR", NULL, "DACR Mux" },
 
-diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
-index 4d2d2b1..110d0e6 100644
---- a/sound/soc/codecs/wm8904.c
-+++ b/sound/soc/codecs/wm8904.c
-@@ -1076,10 +1076,13 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
- 	{ "Right Capture PGA", NULL, "Right Capture Mux" },
- 	{ "Right Capture PGA", NULL, "Right Capture Inverting Mux" },
- 
--	{ "AIFOUTL", "Left",  "ADCL" },
--	{ "AIFOUTL", "Right", "ADCR" },
--	{ "AIFOUTR", "Left",  "ADCL" },
--	{ "AIFOUTR", "Right", "ADCR" },
-+	{ "AIFOUTL Mux", "Left", "ADCL" },
-+	{ "AIFOUTL Mux", "Right", "ADCR" },
-+	{ "AIFOUTR Mux", "Left", "ADCL" },
-+	{ "AIFOUTR Mux", "Right", "ADCR" },
-+
-+	{ "AIFOUTL", NULL, "AIFOUTL Mux" },
-+	{ "AIFOUTR", NULL, "AIFOUTR Mux" },
- 
- 	{ "ADCL", NULL, "CLK_DSP" },
- 	{ "ADCL", NULL, "Left Capture PGA" },
-@@ -1089,14 +1092,20 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
- };
- 
- static const struct snd_soc_dapm_route dac_intercon[] = {
--	{ "DACL", "Right", "AIFINR" },
--	{ "DACL", "Left",  "AIFINL" },
-+	{ "DACL", NULL, "AIFINL" },
-+	{ "DACL", NULL, "AIFINR" },
- 	{ "DACL", NULL, "CLK_DSP" },
- 
--	{ "DACR", "Right", "AIFINR" },
--	{ "DACR", "Left",  "AIFINL" },
-+	{ "DACR", NULL, "AIFINL" },
-+	{ "DACR", NULL, "AIFINR" },
- 	{ "DACR", NULL, "CLK_DSP" },
- 
-+	{ "DACL Mux", "Left", "DACL" },
-+	{ "DACL Mux", "Right", "DACR" },
-+
-+	{ "DACR Mux", "Left", "DACL" },
-+	{ "DACR Mux", "Right", "DACR" },
-+
- 	{ "Charge pump", NULL, "SYSCLK" },
- 
- 	{ "Headphone Output", NULL, "HPL PGA" },
--- 
-2.1.0.24.g4109c28
 
