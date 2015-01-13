@@ -1,42 +1,80 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 27 Jan 2015 17:34:19 +0000
-Subject: Re: [PATCH v2 1/2] ASoC: atmel_ssc_dai: fix start event for I2S mode
-Message-Id: <20150127173419.GB21293@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="ORQ7wZOtrZMMlBRp"
+From: Nicolas Ferre <nicolas.ferre@atmel.com>
+Date: Tue, 13 Jan 2015 15:20:58 +0000
+Subject: Re: [PATCH v2 1/3] ASoC: codecs: wm8904: add dt ids table
+Message-Id: <54B537DA.7030707@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, peda@lysator.liu.se, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <1418614273-2303-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1418614273-2303-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+To: Mark Brown <broonie@kernel.org>
+Cc: Bo Shen <voice.shen@atmel.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Alexander Morozov <linux@meltdown.ru>
+
+Le 15/12/2014 04:31, Bo Shen a =E9crit :
+> From: Alexander Morozov <linux@meltdown.ru>
+>=20
+> Signed-off-by: Alexander Morozov <linux@meltdown.ru>
+> [Add driver data to distinguish device type]
+> Signed-off-by: Bo Shen <voice.shen@atmel.com>
+> ---
+>=20
+> Changes in v2:
+> - Add driver data for distinguish the device capability.
+>=20
+>  sound/soc/codecs/wm8904.c | 22 ++++++++++++++++++++++
+
+Mark,
+
+Do you want us to re-send this patch or can you take it?
+
+On my side, I'm planning to take the 2 last ones of this series: is it
+okay for you?
+
+Thanks, bye.
+
+>  1 file changed, 22 insertions(+)
+>=20
+> diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+> index 4d2d2b1..6e3f175 100644
+> --- a/sound/soc/codecs/wm8904.c
+> +++ b/sound/soc/codecs/wm8904.c
+> @@ -2255,10 +2255,32 @@ static const struct i2c_device_id wm8904_i2c_id[]=
+ =3D {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, wm8904_i2c_id);
+> =20
+> +#ifdef CONFIG_OF
+> +static enum wm8904_type wm8904_data =3D WM8904;
+> +static enum wm8904_type wm8912_data =3D WM8912;
+> +
+> +static const struct of_device_id wm8904_of_match[] =3D {
+> +	{
+> +		.compatible =3D "wlf,wm8904",
+> +		.data =3D &wm8904_data,
+> +	}, {
+> +		.compatible =3D "wlf,wm8912",
+> +		.data =3D &wm8912_data,
+> +	}, {
+> +		.compatible =3D "wlf,wm8918",
+> +		.data =3D &wm8904_data,
+> +	}, {
+> +		/* sentinel */
+> +	}
+> +};
+> +MODULE_DEVICE_TABLE(of, wm8904_of_match);
+> +#endif
+> +
+>  static struct i2c_driver wm8904_i2c_driver =3D {
+>  	.driver =3D {
+>  		.name =3D "wm8904",
+>  		.owner =3D THIS_MODULE,
+> +		.of_match_table =3D of_match_ptr(wm8904_of_match),
+>  	},
+>  	.probe =3D    wm8904_i2c_probe,
+>  	.remove =3D   wm8904_i2c_remove,
+>=20
 
 
---ORQ7wZOtrZMMlBRp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Jan 20, 2015 at 03:43:16PM +0800, Bo Shen wrote:
-> According to the I2S specification information as following:
->   - WS = 0, channel 1 (left)
->   - WS = 1, channel 2 (right)
-> So, the start event should be TF/RF falling edge.
-
-applied, thanks.
-
---ORQ7wZOtrZMMlBRp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJUx8waAAoJECTWi3JdVIfQkR4H/A9P2fsnUCnAEbiDDJk1U/N/
-kPzDiSJ5qfXs9iy5Mm4UzkZ7wuzQiNQ3ei6BSpyRjfq8H3uWcnteYoT2C69WsT86
-vZWp5mhS0eNgRn+kPE2MvSOJWB2yRZLce0Zpde/89iSKPVIZClkz/om0Qi9fOHsp
-OClR2u32J9urS991BZofVaNpEQKxs4M7jccWZnNii3GQWkLaMUszagLsP9KC71ZM
-e9KzOU55/h7OE7YOiGkNKL2uvIvyP91Ge8BQFAOJswuGvDrTbT4OfWJmoAPzR4h3
-DwYuytWl3j2/Kd7QYqT6BM1sNoxv+gBNFM61oQM4nYDdChaanW6g41nIqwkoJt0=
-=iV6x
------END PGP SIGNATURE-----
-
---ORQ7wZOtrZMMlBRp--
+--=20
+Nicolas Ferre
