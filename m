@@ -1,53 +1,99 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 20 Jan 2015 01:00:16 +0000
-Subject: Re: [PATCH 2/2] ASoC: atmel_ssc_dai: remove clock pin comments
-Message-Id: <54BDA8A0.1050604@atmel.com>
+Date: Tue, 13 Jan 2015 10:05:31 +0000
+Subject: [PATCH v3] ASoC: wm8904: fix runtime warning
+Message-Id: <1421143531-6662-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <54BD0CA5.4070207@lysator.liu.se>
-In-Reply-To: <54BD0CA5.4070207@lysator.liu.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Peter Rosin <peda@lysator.liu.se>
-Cc: Mark Brown <broonie@kernel.org>, nicolas.ferre@atmel.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Mark Brown <broonie@kernel.org>
+Cc: ckeepax@opensource.wolfsonmicro.com, lars@metafoo.de, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-Hi Peter,
+Correct the path name for mux to get rid of the following warning:
 
-On 01/19/2015 09:54 PM, Peter Rosin wrote:
->> As the clock can be get from TK/RK pin, so remove the comments.
->>
->> Signed-off-by: Bo Shen <voice.shen@atmel.com>
->> ---
->>   sound/soc/atmel/atmel_ssc_dai.c | 4 ----
->>   1 file changed, 4 deletions(-)
->> diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
->> index e691aab..198661b 100644
->> --- a/sound/soc/atmel/atmel_ssc_dai.c
->> +++ b/sound/soc/atmel/atmel_ssc_dai.c
->> @@ -452,10 +452,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
->>   	case SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_CBM_CFM:
->>   		/*
->>   		 * I2S format, CODEC supplies BCLK and LRC clocks.
->> -		 *
->> -		 * The SSC transmit clock is obtained from the BCLK signal on
->> -		 * on the TK line, and the SSC receive clock is
->> -		 * generated from the transmit clock.
->>   		 */
->>   		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
->>   			| SSC_BF(RCMR_STTDLY, START_DELAY)
->> --
->> 2.3.0.rc0
->
-> Hi!
->
-> You should probably remove that comment from the case with
-> SND_SOC_DAIFMT_DSP_A | SND_SOC_DAIFMT_CBM_CFM as well...
+--->8---
+wm8904 1-001a: Control not supported for path ADCL -> [Left] -> AIFOUTL
+wm8904 1-001a: ASoC: no dapm match for ADCL --> Left --> AIFOUTL
+wm8904 1-001a: ASoC: Failed to add route ADCL -> Left -> AIFOUTL
+wm8904 1-001a: Control not supported for path ADCR -> [Right] -> AIFOUTL
+wm8904 1-001a: ASoC: no dapm match for ADCR --> Right --> AIFOUTL
+wm8904 1-001a: ASoC: Failed to add route ADCR -> Right -> AIFOUTL
+wm8904 1-001a: Control not supported for path ADCL -> [Left] -> AIFOUTR
+wm8904 1-001a: ASoC: no dapm match for ADCL --> Left --> AIFOUTR
+wm8904 1-001a: ASoC: Failed to add route ADCL -> Left -> AIFOUTR
+wm8904 1-001a: Control not supported for path ADCR -> [Right] -> AIFOUTR
+wm8904 1-001a: ASoC: no dapm match for ADCR --> Right --> AIFOUTR
+wm8904 1-001a: ASoC: Failed to add route ADCR -> Right -> AIFOUTR
+wm8904 1-001a: Control not supported for path AIFINR -> [Right] -> DACL
+wm8904 1-001a: ASoC: no dapm match for AIFINR --> Right --> DACL
+wm8904 1-001a: ASoC: Failed to add route AIFINR -> Right -> DACL
+wm8904 1-001a: Control not supported for path AIFINL -> [Left] -> DACL
+wm8904 1-001a: ASoC: no dapm match for AIFINL --> Left --> DACL
+wm8904 1-001a: ASoC: Failed to add route AIFINL -> Left -> DACL
+wm8904 1-001a: Control not supported for path AIFINR -> [Right] -> DACR
+wm8904 1-001a: ASoC: no dapm match for AIFINR --> Right --> DACR
+wm8904 1-001a: ASoC: Failed to add route AIFINR -> Right -> DACR
+wm8904 1-001a: Control not supported for path AIFINL -> [Left] -> DACR
+wm8904 1-001a: ASoC: no dapm match for AIFINL --> Left --> DACR
+wm8904 1-001a: ASoC: Failed to add route AIFINL -> Left -> DACR
+---8<---
 
-Thanks, I will remove it in next version.
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
 
-> Cheers,
-> Peter
->
+Changes in v3:
+  - Correct the DAC related route path
 
-Best Regards,
-Bo Shen
+Changes in v2:
+  - Correct the mux path name.
+  - Route the mux to the pins.
+
+ sound/soc/codecs/wm8904.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
+index 4d2d2b1..75b87c5 100644
+--- a/sound/soc/codecs/wm8904.c
++++ b/sound/soc/codecs/wm8904.c
+@@ -1076,10 +1076,13 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
+ 	{ "Right Capture PGA", NULL, "Right Capture Mux" },
+ 	{ "Right Capture PGA", NULL, "Right Capture Inverting Mux" },
+ 
+-	{ "AIFOUTL", "Left",  "ADCL" },
+-	{ "AIFOUTL", "Right", "ADCR" },
+-	{ "AIFOUTR", "Left",  "ADCL" },
+-	{ "AIFOUTR", "Right", "ADCR" },
++	{ "AIFOUTL Mux", "Left", "ADCL" },
++	{ "AIFOUTL Mux", "Right", "ADCR" },
++	{ "AIFOUTR Mux", "Left", "ADCL" },
++	{ "AIFOUTR Mux", "Right", "ADCR" },
++
++	{ "AIFOUTL", NULL, "AIFOUTL Mux" },
++	{ "AIFOUTR", NULL, "AIFOUTR Mux" },
+ 
+ 	{ "ADCL", NULL, "CLK_DSP" },
+ 	{ "ADCL", NULL, "Left Capture PGA" },
+@@ -1089,12 +1092,16 @@ static const struct snd_soc_dapm_route adc_intercon[] = {
+ };
+ 
+ static const struct snd_soc_dapm_route dac_intercon[] = {
+-	{ "DACL", "Right", "AIFINR" },
+-	{ "DACL", "Left",  "AIFINL" },
++	{ "DACL Mux", "Left", "AIFINL" },
++	{ "DACL Mux", "Right", "AIFINR" },
++
++	{ "DACR Mux", "Left", "AIFINL" },
++	{ "DACR Mux", "Right", "AIFINR" },
++
++	{ "DACL", NULL, "DACL Mux" },
+ 	{ "DACL", NULL, "CLK_DSP" },
+ 
+-	{ "DACR", "Right", "AIFINR" },
+-	{ "DACR", "Left",  "AIFINL" },
++	{ "DACR", NULL, "DACR Mux" },
+ 	{ "DACR", NULL, "CLK_DSP" },
+ 
+ 	{ "Charge pump", NULL, "SYSCLK" },
+-- 
+2.1.0.24.g4109c28
+
