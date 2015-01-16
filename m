@@ -1,43 +1,39 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 30 Jan 2015 13:20:47 +0000
-Subject: Re: [PATCH 2/3] ASoC: atmel_ssc_dai: refactor the startup and shutdown
-Message-Id: <20150130132047.GO26617@finisterre.sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="GOzekVbrLdOLv44p"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 16 Jan 2015 07:19:44 +0000
+Subject: [PATCH 2/2] ASoC: atmel_ssc_dai: remove clock pin comments
+Message-Id: <1421392784-32298-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
- <1422610724-7222-3-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1422610724-7222-3-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <1421392784-32298-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1421392784-32298-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
+As the clock can be get from TK/RK pin, so remove the comments.
 
---GOzekVbrLdOLv44p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
 
-On Fri, Jan 30, 2015 at 05:38:43PM +0800, Bo Shen wrote:
-> In startup function, enable ssc clock and in shutdown function,
-> disable clock. And also remove disable ssc in shutdown function,
-> as ssc is disabled in prepare function.
+ sound/soc/atmel/atmel_ssc_dai.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Applied, thanks.  You probably want to convert to clk_prepare_enable()
-too but that's a separate thing.
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index e691aab..198661b 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -452,10 +452,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 	case SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_CBM_CFM:
+ 		/*
+ 		 * I2S format, CODEC supplies BCLK and LRC clocks.
+-		 *
+-		 * The SSC transmit clock is obtained from the BCLK signal on
+-		 * on the TK line, and the SSC receive clock is
+-		 * generated from the transmit clock.
+ 		 */
+ 		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
+ 			| SSC_BF(RCMR_STTDLY, START_DELAY)
+-- 
+2.3.0.rc0
 
---GOzekVbrLdOLv44p
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJUy4UuAAoJECTWi3JdVIfQC/8H/3QoN/rcdKYpeN2R+lh9iar4
-pjEqzuDABh5V4FR1ei0fvqaw6GaCwSbdvPsbRuHw1m9iJS/UoTdUGBw/ARY71duw
-wRYvgV1VcK7oVJXBtO2vZJhiYSixz+ufv/UmpJQfoTDG1pcSicb5MVkomiiIG3CX
-S1pdLuHIb8MH019C2ItNRVYR5frTYfLFpwRm00Yp4tIKpaIF/jpT6DPoAUZjXT6J
-t0U2hdhjlBJ0pPmN9NRafCkdZMDjx/EP/h8Q2oueGVEJ9n0YigaDU+CYmxkaP0Ne
-ECbinGDcHlxIBdHgTjjZo3DpQKhqDO/kOI8yeTpL3L16lSc6ejAfJS1AyamNiJ8=
-=bq/T
------END PGP SIGNATURE-----
-
---GOzekVbrLdOLv44p--
