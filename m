@@ -1,53 +1,85 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 27 Jan 2015 01:35:13 +0000
-Subject: Re: [alsa-devel] [PATCH v2 1/3] ASoC: codecs: wm8904: add dt ids table
-Message-Id: <54C6EB51.80005@atmel.com>
+Date: Fri, 16 Jan 2015 07:19:43 +0000
+Subject: [PATCH 1/2] ASoC: atmel_ssc_dai: fix start event for I2S mode
+Message-Id: <1421392784-32298-1-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1418614273-2303-1-git-send-email-voice.shen@atmel.com> <20150115115425.GX3043@sirena.org.uk> <54B866B9.8000900@atmel.com> <54C65C36.9050106@atmel.com> <20150126164229.GB21293@sirena.org.uk> <54C67007.6000708@metafoo.de>
-In-Reply-To: <54C67007.6000708@metafoo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-To: Lars-Peter Clausen <lars@metafoo.de>, Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@atmel.com>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, Alexander Morozov <linux@meltdown.ru>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-Hi Mark, Lars-Perter,
+According to the I2S specification information as following:
+  - WS = 0, channel 1 (left)
+  - WS = 1, channel 2 (right)
+So, the start event should be TF/RF falling edge.
 
-On 01/27/2015 12:49 AM, Lars-Peter Clausen wrote:
-> On 01/26/2015 05:42 PM, Mark Brown wrote:
->> On Mon, Jan 26, 2015 at 04:24:38PM +0100, Nicolas Ferre wrote:
->>> Le 16/01/2015 02:17, Bo Shen a =E9crit :
->>
->>>>> Does this end up in the i2c_driver_id driver data or do we need some
->>>>> extra code when devtype is assigned to check for an of_node and
->>>>> look at
->>>>> the DT data instead?  That certainly used to be the case...
->>
->>>> At the beginning I think as the same as you, and also add the code to
->>>> get the data as I do in <drivers/misc/atmel-ssc.c>. However, as I
->>>> remember, I2C seems only use the compatible string after the comma,
->>>> that
->>>> means only for "wlf,wm8904", it uses "wm8904" to match. So, I remove
->>>> all
->>>> the code I added, and just keep these, and it can get the device type
->>>> correctly.
->>
->>>> So, when I submit the patch and keep the code as simple as possible.
->>
->>> I don't understand what's keeping this patch from being applied. Voice,
->>> do you mind re-sending?
->>
->> I need to convince myself that the above actually works and is doing the
->> right thing; the above explanation sounds like if it works it might be
->> relying on a bug.
->
-> I'd call it a undocumented feature. But I wouldn't rely on it being
-> around for ever. In my opinion to be future proof the driver should
-> explicitly handle the OF case in the probe function.
->
+Reported-by: Songjun Wu <songjun.wu@atmel.com>
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
 
-I will add this into probe function in next version.
-Thanks.
+ sound/soc/atmel/atmel_ssc_dai.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-Best Regards,
-Bo Shen
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 99ff35e..e691aab 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -348,7 +348,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 	struct atmel_pcm_dma_params *dma_params;
+ 	int dir, channels, bits;
+ 	u32 tfmr, rfmr, tcmr, rcmr;
+-	int start_event;
+ 	int ret;
+ 	int fslen, fslen_ext;
+ 
+@@ -457,19 +456,10 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 		 * The SSC transmit clock is obtained from the BCLK signal on
+ 		 * on the TK line, and the SSC receive clock is
+ 		 * generated from the transmit clock.
+-		 *
+-		 *  For single channel data, one sample is transferred
+-		 * on the falling edge of the LRC clock.
+-		 * For two channel data, one sample is
+-		 * transferred on both edges of the LRC clock.
+ 		 */
+-		start_event = ((channels = 1)
+-				? SSC_START_FALLING_RF
+-				: SSC_START_EDGE_RF);
+-
+ 		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
+ 			| SSC_BF(RCMR_STTDLY, START_DELAY)
+-			| SSC_BF(RCMR_START, start_event)
++			| SSC_BF(RCMR_START, SSC_START_FALLING_RF)
+ 			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
+ 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
+ 			| SSC_BF(RCMR_CKS, ssc->clk_from_rk_pin ?
+@@ -478,14 +468,14 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 		rfmr =	  SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
+ 			| SSC_BF(RFMR_FSOS, SSC_FSOS_NONE)
+ 			| SSC_BF(RFMR_FSLEN, 0)
+-			| SSC_BF(RFMR_DATNB, 0)
++			| SSC_BF(RFMR_DATNB, (channels - 1))
+ 			| SSC_BIT(RFMR_MSBF)
+ 			| SSC_BF(RFMR_LOOP, 0)
+ 			| SSC_BF(RFMR_DATLEN, (bits - 1));
+ 
+ 		tcmr =	  SSC_BF(TCMR_PERIOD, 0)
+ 			| SSC_BF(TCMR_STTDLY, START_DELAY)
+-			| SSC_BF(TCMR_START, start_event)
++			| SSC_BF(TCMR_START, SSC_START_FALLING_RF)
+ 			| SSC_BF(TCMR_CKI, SSC_CKI_FALLING)
+ 			| SSC_BF(TCMR_CKO, SSC_CKO_NONE)
+ 			| SSC_BF(TCMR_CKS, ssc->clk_from_rk_pin ?
+@@ -495,7 +485,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			| SSC_BF(TFMR_FSDEN, 0)
+ 			| SSC_BF(TFMR_FSOS, SSC_FSOS_NONE)
+ 			| SSC_BF(TFMR_FSLEN, 0)
+-			| SSC_BF(TFMR_DATNB, 0)
++			| SSC_BF(TFMR_DATNB, (channels - 1))
+ 			| SSC_BIT(TFMR_MSBF)
+ 			| SSC_BF(TFMR_DATDEF, 0)
+ 			| SSC_BF(TFMR_DATLEN, (bits - 1));
+-- 
+2.3.0.rc0
+
