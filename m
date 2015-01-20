@@ -1,71 +1,57 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 13 Jan 2015 09:33:12 +0000
-Subject: Re: [alsa-devel] [PATCH] ASoC: wm8904: fix runtime warning
-Message-Id: <54B4E658.8070506@atmel.com>
+Date: Tue, 20 Jan 2015 07:43:17 +0000
+Subject: [PATCH v2 2/2] ASoC: atmel_ssc_dai: remove clock pin comments
+Message-Id: <1421739797-25988-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1420793620-2866-1-git-send-email-voice.shen@atmel.com> <20150109111642.GU14516@opensource.wolfsonmicro.com> <54B34035.60107@atmel.com> <54B3943C.4040103@metafoo.de> <54B4AED5.1000001@atmel.com> <54B4DDC9.2000902@metafoo.de>
-In-Reply-To: <54B4DDC9.2000902@metafoo.de>
+References: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Lars-Peter Clausen <lars@metafoo.de>, Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
-Cc: alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, peda@lysator.liu.se, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-Hi Lars-Peter Clausen,
+As the clock can be get from TK/RK pin, so remove the comments.
 
-On 01/13/2015 04:56 PM, Lars-Peter Clausen wrote:
-> On 01/13/2015 06:36 AM, Bo Shen wrote:
->> Hi Lars-Perter Clausen,
->>
->> On 01/12/2015 05:30 PM, Lars-Peter Clausen wrote:
->>> On 01/12/2015 04:32 AM, Bo Shen wrote:
->>> [...]
->>>>>> diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
->>>>>> index 4d2d2b1..38582d7 100644
->>>>>> --- a/sound/soc/codecs/wm8904.c
->>>>>> +++ b/sound/soc/codecs/wm8904.c
->>>>>> @@ -1076,10 +1076,10 @@ static const struct snd_soc_dapm_route
->>>>>> adc_intercon[] = {
->>>>>>       { "Right Capture PGA", NULL, "Right Capture Mux" },
->>>>>>       { "Right Capture PGA", NULL, "Right Capture Inverting Mux" },
->>>>>>
->>>>>> -    { "AIFOUTL", "Left",  "ADCL" },
->>>>>> -    { "AIFOUTL", "Right", "ADCR" },
->>>>>> -    { "AIFOUTR", "Left",  "ADCL" },
->>>>>> -    { "AIFOUTR", "Right", "ADCR" },
->>>>>> +    { "AIFOUTL", NULL, "ADCL" },
->>>>>> +    { "AIFOUTL", NULL, "ADCR" },
->>>>>> +    { "AIFOUTR", NULL, "ADCL" },
->>>>>> +    { "AIFOUTR", NULL, "ADCR" },
->>>>>
->>>>> Is this the right fix here? I am not super familiar with the
->>>>> driver but it appears to contain an "AIFOUTL Mux" control which
->>>>> is not connected to anything. Looks like maybe this is a mistake
->>>>> the mux is indeded to be included in the path? Feels like we
->>>>> should either remove the control as well or hook it into the
->>>>> path.
->>>>
->>>> Thank for your information.
->>>> I think here it should correct the path name as
->>>> --->8---
->>>> { "AIFOUTL Mux", "Left",  "ADCL" },
->>>> { "AIFOUTL Mux", "Right", "ADCR" },
->>>> { "AIFOUTR Mux", "Left",  "ADCL" },
->>>> { "AIFOUTR Mux", "Right", "ADCR" },
->>>> ---8<---
->>>>
->>>> Thanks again. I will send out the new version.
->>>
->>> Your probably also need to connect the mux to the output pins.
->>
->> Thanks for you information, after check the datasheet, I still don't know
->> which the mux should connect to which output pins.
->
-> AIFOUTL Mux to AIFOUTL
-> AIFOUTR Mux to AIFOUTR
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
 
-Thanks. I will send new version patch for review.
+Changes in v2:
+ - remove the comments for DSP mode A, codec as master
 
-Best Regards,
-Bo Shen
+ sound/soc/atmel/atmel_ssc_dai.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index e691aab..3cd7059 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -450,13 +450,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 		break;
+ 
+ 	case SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_CBM_CFM:
+-		/*
+-		 * I2S format, CODEC supplies BCLK and LRC clocks.
+-		 *
+-		 * The SSC transmit clock is obtained from the BCLK signal on
+-		 * on the TK line, and the SSC receive clock is
+-		 * generated from the transmit clock.
+-		 */
++		/* I2S format, CODEC supplies BCLK and LRC clocks. */
+ 		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
+ 			| SSC_BF(RCMR_STTDLY, START_DELAY)
+ 			| SSC_BF(RCMR_START, SSC_START_FALLING_RF)
+@@ -535,10 +529,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 		/*
+ 		 * DSP/PCM Mode A format, CODEC supplies BCLK and LRC clocks.
+ 		 *
+-		 * The SSC transmit clock is obtained from the BCLK signal on
+-		 * on the TK line, and the SSC receive clock is
+-		 * generated from the transmit clock.
+-		 *
+ 		 * Data is transferred on first BCLK after LRC pulse rising
+ 		 * edge.If stereo, the right channel data is contiguous with
+ 		 * the left channel data.
+-- 
+2.3.0.rc0
 
