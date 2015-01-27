@@ -1,87 +1,42 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 20 Jan 2015 07:43:16 +0000
-Subject: [PATCH v2 1/2] ASoC: atmel_ssc_dai: fix start event for I2S mode
-Message-Id: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 27 Jan 2015 17:34:19 +0000
+Subject: Re: [PATCH v2 1/2] ASoC: atmel_ssc_dai: fix start event for I2S mode
+Message-Id: <20150127173419.GB21293@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="ORQ7wZOtrZMMlBRp"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, peda@lysator.liu.se, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+References: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, peda@lysator.liu.se, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 
-According to the I2S specification information as following:
-  - WS = 0, channel 1 (left)
-  - WS = 1, channel 2 (right)
-So, the start event should be TF/RF falling edge.
 
-Reported-by: Songjun Wu <songjun.wu@atmel.com>
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
+--ORQ7wZOtrZMMlBRp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Changes in v2: None
+On Tue, Jan 20, 2015 at 03:43:16PM +0800, Bo Shen wrote:
+> According to the I2S specification information as following:
+>   - WS = 0, channel 1 (left)
+>   - WS = 1, channel 2 (right)
+> So, the start event should be TF/RF falling edge.
 
- sound/soc/atmel/atmel_ssc_dai.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+applied, thanks.
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 99ff35e..e691aab 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -348,7 +348,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 	struct atmel_pcm_dma_params *dma_params;
- 	int dir, channels, bits;
- 	u32 tfmr, rfmr, tcmr, rcmr;
--	int start_event;
- 	int ret;
- 	int fslen, fslen_ext;
- 
-@@ -457,19 +456,10 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		 * The SSC transmit clock is obtained from the BCLK signal on
- 		 * on the TK line, and the SSC receive clock is
- 		 * generated from the transmit clock.
--		 *
--		 *  For single channel data, one sample is transferred
--		 * on the falling edge of the LRC clock.
--		 * For two channel data, one sample is
--		 * transferred on both edges of the LRC clock.
- 		 */
--		start_event = ((channels = 1)
--				? SSC_START_FALLING_RF
--				: SSC_START_EDGE_RF);
--
- 		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
- 			| SSC_BF(RCMR_STTDLY, START_DELAY)
--			| SSC_BF(RCMR_START, start_event)
-+			| SSC_BF(RCMR_START, SSC_START_FALLING_RF)
- 			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
- 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
- 			| SSC_BF(RCMR_CKS, ssc->clk_from_rk_pin ?
-@@ -478,14 +468,14 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		rfmr =	  SSC_BF(RFMR_FSEDGE, SSC_FSEDGE_POSITIVE)
- 			| SSC_BF(RFMR_FSOS, SSC_FSOS_NONE)
- 			| SSC_BF(RFMR_FSLEN, 0)
--			| SSC_BF(RFMR_DATNB, 0)
-+			| SSC_BF(RFMR_DATNB, (channels - 1))
- 			| SSC_BIT(RFMR_MSBF)
- 			| SSC_BF(RFMR_LOOP, 0)
- 			| SSC_BF(RFMR_DATLEN, (bits - 1));
- 
- 		tcmr =	  SSC_BF(TCMR_PERIOD, 0)
- 			| SSC_BF(TCMR_STTDLY, START_DELAY)
--			| SSC_BF(TCMR_START, start_event)
-+			| SSC_BF(TCMR_START, SSC_START_FALLING_RF)
- 			| SSC_BF(TCMR_CKI, SSC_CKI_FALLING)
- 			| SSC_BF(TCMR_CKO, SSC_CKO_NONE)
- 			| SSC_BF(TCMR_CKS, ssc->clk_from_rk_pin ?
-@@ -495,7 +485,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 			| SSC_BF(TFMR_FSDEN, 0)
- 			| SSC_BF(TFMR_FSOS, SSC_FSOS_NONE)
- 			| SSC_BF(TFMR_FSLEN, 0)
--			| SSC_BF(TFMR_DATNB, 0)
-+			| SSC_BF(TFMR_DATNB, (channels - 1))
- 			| SSC_BIT(TFMR_MSBF)
- 			| SSC_BF(TFMR_DATDEF, 0)
- 			| SSC_BF(TFMR_DATLEN, (bits - 1));
--- 
-2.3.0.rc0
+--ORQ7wZOtrZMMlBRp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJUx8waAAoJECTWi3JdVIfQkR4H/A9P2fsnUCnAEbiDDJk1U/N/
+kPzDiSJ5qfXs9iy5Mm4UzkZ7wuzQiNQ3ei6BSpyRjfq8H3uWcnteYoT2C69WsT86
+vZWp5mhS0eNgRn+kPE2MvSOJWB2yRZLce0Zpde/89iSKPVIZClkz/om0Qi9fOHsp
+OClR2u32J9urS991BZofVaNpEQKxs4M7jccWZnNii3GQWkLaMUszagLsP9KC71ZM
+e9KzOU55/h7OE7YOiGkNKL2uvIvyP91Ge8BQFAOJswuGvDrTbT4OfWJmoAPzR4h3
+DwYuytWl3j2/Kd7QYqT6BM1sNoxv+gBNFM61oQM4nYDdChaanW6g41nIqwkoJt0=
+=iV6x
+-----END PGP SIGNATURE-----
+
+--ORQ7wZOtrZMMlBRp--
