@@ -1,57 +1,40 @@
 From: Bo Shen <voice.shen@atmel.com>
-Date: Fri, 30 Jan 2015 09:38:42 +0000
-Subject: [PATCH 1/3] ASoC: atmel_ssc_dai: fix the setting for DSP mode
-Message-Id: <1422610724-7222-2-git-send-email-voice.shen@atmel.com>
+Date: Tue, 27 Jan 2015 03:36:40 +0000
+Subject: [PATCH v3 2/2] binding: wm8904: add new compatible string
+Message-Id: <1422329800-28481-2-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
+References: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
+To: Mark Brown <broonie@kernel.org>, nicolas.ferre@atmel.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
 
-When SCC work in DSP A mode, the data outputs/inputs are shift out on
-falling edge, the frame sync are sample on the rising edge.
+The "wlf,wm8912" compatible string is used for wm8912, which
+share driver with wm8904, however, the data type is different.
 
-Reported-by: Songjun Wu <songjun.wu@atmel.com>
 Signed-off-by: Bo Shen <voice.shen@atmel.com>
 ---
+Changes in v3: None
+Changes in v2: None
 
- sound/soc/atmel/atmel_ssc_dai.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/sound/wm8904.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 99ff35e..c1d93b8 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -512,7 +512,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		rcmr =	  SSC_BF(RCMR_PERIOD, ssc_p->rcmr_period)
- 			| SSC_BF(RCMR_STTDLY, 1)
- 			| SSC_BF(RCMR_START, SSC_START_RISING_RF)
--			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
-+			| SSC_BF(RCMR_CKI, SSC_CKI_FALLING)
- 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
- 			| SSC_BF(RCMR_CKS, SSC_CKS_DIV);
+diff --git a/Documentation/devicetree/bindings/sound/wm8904.txt b/Documentation/devicetree/bindings/sound/wm8904.txt
+index e99f409..66bf261 100644
+--- a/Documentation/devicetree/bindings/sound/wm8904.txt
++++ b/Documentation/devicetree/bindings/sound/wm8904.txt
+@@ -3,7 +3,7 @@ WM8904 audio CODEC
+ This device supports I2C only.
  
-@@ -527,7 +527,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		tcmr =	  SSC_BF(TCMR_PERIOD, ssc_p->tcmr_period)
- 			| SSC_BF(TCMR_STTDLY, 1)
- 			| SSC_BF(TCMR_START, SSC_START_RISING_RF)
--			| SSC_BF(TCMR_CKI, SSC_CKI_RISING)
-+			| SSC_BF(TCMR_CKI, SSC_CKI_FALLING)
- 			| SSC_BF(TCMR_CKO, SSC_CKO_CONTINUOUS)
- 			| SSC_BF(TCMR_CKS, SSC_CKS_DIV);
- 
-@@ -556,7 +556,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
- 			| SSC_BF(RCMR_STTDLY, START_DELAY)
- 			| SSC_BF(RCMR_START, SSC_START_RISING_RF)
--			| SSC_BF(RCMR_CKI, SSC_CKI_RISING)
-+			| SSC_BF(RCMR_CKI, SSC_CKI_FALLING)
- 			| SSC_BF(RCMR_CKO, SSC_CKO_NONE)
- 			| SSC_BF(RCMR_CKS, ssc->clk_from_rk_pin ?
- 					   SSC_CKS_PIN : SSC_CKS_CLOCK);
+ Required properties:
+-  - compatible: "wlf,wm8904"
++  - compatible: "wlf,wm8904" or "wlf,wm8912"
+   - reg: the I2C address of the device.
+   - clock-names: "mclk"
+   - clocks: reference to
 -- 
 2.3.0.rc0
 
