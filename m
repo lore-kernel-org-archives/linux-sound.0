@@ -1,57 +1,40 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 20 Jan 2015 07:43:17 +0000
-Subject: [PATCH v2 2/2] ASoC: atmel_ssc_dai: remove clock pin comments
-Message-Id: <1421739797-25988-2-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 27 Jan 2015 17:36:04 +0000
+Subject: Re: [PATCH v2 2/2] ASoC: atmel_ssc_dai: remove clock pin comments
+Message-Id: <20150127173604.GC21293@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="71vIRUdx5Wzj+PCo"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1421739797-25988-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, peda@lysator.liu.se, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+ <1421739797-25988-2-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1421739797-25988-2-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, peda@lysator.liu.se, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 
-As the clock can be get from TK/RK pin, so remove the comments.
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
+--71vIRUdx5Wzj+PCo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Changes in v2:
- - remove the comments for DSP mode A, codec as master
+On Tue, Jan 20, 2015 at 03:43:17PM +0800, Bo Shen wrote:
+> As the clock can be get from TK/RK pin, so remove the comments.
 
- sound/soc/atmel/atmel_ssc_dai.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+Applied, thanks.
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index e691aab..3cd7059 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -450,13 +450,7 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		break;
- 
- 	case SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_CBM_CFM:
--		/*
--		 * I2S format, CODEC supplies BCLK and LRC clocks.
--		 *
--		 * The SSC transmit clock is obtained from the BCLK signal on
--		 * on the TK line, and the SSC receive clock is
--		 * generated from the transmit clock.
--		 */
-+		/* I2S format, CODEC supplies BCLK and LRC clocks. */
- 		rcmr =	  SSC_BF(RCMR_PERIOD, 0)
- 			| SSC_BF(RCMR_STTDLY, START_DELAY)
- 			| SSC_BF(RCMR_START, SSC_START_FALLING_RF)
-@@ -535,10 +529,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 		/*
- 		 * DSP/PCM Mode A format, CODEC supplies BCLK and LRC clocks.
- 		 *
--		 * The SSC transmit clock is obtained from the BCLK signal on
--		 * on the TK line, and the SSC receive clock is
--		 * generated from the transmit clock.
--		 *
- 		 * Data is transferred on first BCLK after LRC pulse rising
- 		 * edge.If stereo, the right channel data is contiguous with
- 		 * the left channel data.
--- 
-2.3.0.rc0
+--71vIRUdx5Wzj+PCo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJUx8yDAAoJECTWi3JdVIfQYvEH/RLXh9GDW1VdqdTM5Bet9mML
+sQZZhcrEDxW4eZKa/Rx893P/KN4AEUEyJjwRv5WCp5uPm+0T/JZctuGD1K+LLkNv
+2gGTeCB5MP7WgYICq5bhEu62lINgWBG9PTIo9IUA3MShX/kzqbAMid62RhmqOOFq
+meLsourfQ2gc0GbDkVwaWIARm1NIp+dAjwTptQOhrV8NR95icMhVyvrRXCqikQPv
+tUAbWI9XhNdSKBVyAuZTeLOqfn35AwYVbTRsqGZKaL2RnnWNgHPBdKTb5qT1EWiM
+5dEMGg8v6DvmS/P0WZhLrjkx1MIpdVMSgyOysSn+NwqlH4ZOWAaFbs1K9BoqhjE=
+=1CSa
+-----END PGP SIGNATURE-----
+
+--71vIRUdx5Wzj+PCo--
