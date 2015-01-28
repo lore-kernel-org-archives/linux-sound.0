@@ -1,88 +1,45 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Tue, 27 Jan 2015 03:36:39 +0000
-Subject: [PATCH v3 1/2] ASoC: codecs: wm8904: add dt ids table
-Message-Id: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Wed, 28 Jan 2015 19:31:10 +0000
+Subject: Re: [PATCH v3 1/2] ASoC: codecs: wm8904: add dt ids table
+Message-Id: <20150128193110.GI21293@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="hZNcg5Zgu0ROmvXA"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>, nicolas.ferre@atmel.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Alexander Morozov <linux@meltdown.ru>, Bo Shen <voice.shen@atmel.com>
+References: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Alexander Morozov <linux@meltdown.ru>
 
-From: Alexander Morozov <linux@meltdown.ru>
 
-The WM8904 and WM8918 has the same data type, while the WM8912
-has different data type. So, use the data in dt ids table to
-distinguish them.
+--hZNcg5Zgu0ROmvXA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexander Morozov <linux@meltdown.ru>
-[voice.shen@atmel.com: add code to distinguish device type]
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
-Changes in v3:
-  - Get the device type from match data in probe function.
-Changes in v2:
-  - Add driver data for distinguish the device capability.
+On Tue, Jan 27, 2015 at 11:36:39AM +0800, Bo Shen wrote:
+> From: Alexander Morozov <linux@meltdown.ru>
+>=20
+> The WM8904 and WM8918 has the same data type, while the WM8912
+> has different data type. So, use the data in dt ids table to
+> distinguish them.
 
- sound/soc/codecs/wm8904.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+Applied both, thanks - please use subjct lines matching the style for
+the subsystem and CC maintainers (including driver maintainers).
 
-diff --git a/sound/soc/codecs/wm8904.c b/sound/soc/codecs/wm8904.c
-index 4d2d2b1..a80bc52 100644
---- a/sound/soc/codecs/wm8904.c
-+++ b/sound/soc/codecs/wm8904.c
-@@ -2098,6 +2098,24 @@ static const struct regmap_config wm8904_regmap = {
- 	.num_reg_defaults = ARRAY_SIZE(wm8904_reg_defaults),
- };
- 
-+#ifdef CONFIG_OF
-+static enum wm8904_type wm8904_data = WM8904;
-+static enum wm8904_type wm8912_data = WM8912;
-+
-+static const struct of_device_id wm8904_of_match[] = {
-+	{
-+		.compatible = "wlf,wm8904",
-+		.data = &wm8904_data,
-+	}, {
-+		.compatible = "wlf,wm8912",
-+		.data = &wm8912_data,
-+	}, {
-+		/* sentinel */
-+	}
-+};
-+MODULE_DEVICE_TABLE(of, wm8904_of_match);
-+#endif
-+
- static int wm8904_i2c_probe(struct i2c_client *i2c,
- 			    const struct i2c_device_id *id)
- {
-@@ -2125,7 +2143,17 @@ static int wm8904_i2c_probe(struct i2c_client *i2c,
- 		return ret;
- 	}
- 
--	wm8904->devtype = id->driver_data;
-+	if (i2c->dev.of_node) {
-+		const struct of_device_id *match;
-+
-+		match = of_match_node(wm8904_of_match, i2c->dev.of_node);
-+		if (match = NULL)
-+			return -EINVAL;
-+		wm8904->devtype = *((enum wm8904_type *)match->data);
-+	} else {
-+		wm8904->devtype = id->driver_data;
-+	}
-+
- 	i2c_set_clientdata(i2c, wm8904);
- 	wm8904->pdata = i2c->dev.platform_data;
- 
-@@ -2259,6 +2287,7 @@ static struct i2c_driver wm8904_i2c_driver = {
- 	.driver = {
- 		.name = "wm8904",
- 		.owner = THIS_MODULE,
-+		.of_match_table = of_match_ptr(wm8904_of_match),
- 	},
- 	.probe =    wm8904_i2c_probe,
- 	.remove =   wm8904_i2c_remove,
--- 
-2.3.0.rc0
+--hZNcg5Zgu0ROmvXA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJUyTj9AAoJECTWi3JdVIfQvGsH/1WOvFO1DaNSf9xCwdhhKk/3
+QDEey4WnmaU8bsBlecqtyoNVeKw01ymjETR0b7r5fTq5vNCJQNbaoIbId7g1YxDI
+Q7ReZcl5JTLFus5sZlW4y0+94vGLjOxqecmIKWw4hIlwpAV2gpBrO49DlMcjw3y7
+tpDvLJfrX+Su+mgkE9+N7MXWrK7BAARZ72PlN3Y5PvDY8UAq6lH08nqvlUfIkniC
+0c818pv7xvH4K75DI/lDPTSt1+h+wT3LKeHlpxQXiGFsZa7SmryvGIDFac1zy8jT
+BttMGkAzdxs9ua8kU9MJ9JtNADqgAoqT+1njgDwSM/v8Sb2CTtlHTMuE9B03/90=
+=u0Lg
+-----END PGP SIGNATURE-----
+
+--hZNcg5Zgu0ROmvXA--
