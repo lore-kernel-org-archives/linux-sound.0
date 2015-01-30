@@ -1,93 +1,43 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Fri, 30 Jan 2015 09:38:43 +0000
-Subject: [PATCH 2/3] ASoC: atmel_ssc_dai: refactor the startup and shutdown
-Message-Id: <1422610724-7222-3-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Fri, 30 Jan 2015 13:20:47 +0000
+Subject: Re: [PATCH 2/3] ASoC: atmel_ssc_dai: refactor the startup and shutdown
+Message-Id: <20150130132047.GO26617@finisterre.sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="GOzekVbrLdOLv44p"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
+ <1422610724-7222-3-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1422610724-7222-3-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-In startup function, enable ssc clock and in shutdown function,
-disable clock. And also remove disable ssc in shutdown function,
-as ssc is disabled in prepare function.
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
+--GOzekVbrLdOLv44p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
- sound/soc/atmel/atmel_ssc_dai.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+On Fri, Jan 30, 2015 at 05:38:43PM +0800, Bo Shen wrote:
+> In startup function, enable ssc clock and in shutdown function,
+> disable clock. And also remove disable ssc in shutdown function,
+> as ssc is disabled in prepare function.
 
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index c1d93b8..0ed5ac3 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -204,6 +204,13 @@ static int atmel_ssc_startup(struct snd_pcm_substream *substream,
- 	pr_debug("atmel_ssc_startup: SSC_SR=0x%u\n",
- 		ssc_readl(ssc_p->ssc->regs, SR));
- 
-+	/* Enable PMC peripheral clock for this SSC */
-+	pr_debug("atmel_ssc_dai: Starting clock\n");
-+	clk_enable(ssc_p->ssc->clk);
-+
-+	/* Reset the SSC to keep it at a clean status */
-+	ssc_writel(ssc_p->ssc->regs, CR, SSC_BIT(CR_SWRST));
-+
- 	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
- 		dir = 0;
- 		dir_mask = SSC_DIR_MASK_PLAYBACK;
-@@ -250,11 +257,6 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- 	dma_params = ssc_p->dma_params[dir];
- 
- 	if (dma_params != NULL) {
--		ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_disable);
--		pr_debug("atmel_ssc_shutdown: %s disabled SSC_SR=0x%08x\n",
--			(dir ? "receive" : "transmit"),
--			ssc_readl(ssc_p->ssc->regs, SR));
--
- 		dma_params->ssc = NULL;
- 		dma_params->substream = NULL;
- 		ssc_p->dma_params[dir] = NULL;
-@@ -266,10 +268,6 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- 	ssc_p->dir_mask &= ~dir_mask;
- 	if (!ssc_p->dir_mask) {
- 		if (ssc_p->initialized) {
--			/* Shutdown the SSC clock. */
--			pr_debug("atmel_ssc_dai: Stopping clock\n");
--			clk_disable(ssc_p->ssc->clk);
--
- 			free_irq(ssc_p->ssc->irq, ssc_p);
- 			ssc_p->initialized = 0;
- 		}
-@@ -280,6 +278,10 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
- 		ssc_p->cmr_div = ssc_p->tcmr_period = ssc_p->rcmr_period = 0;
- 	}
- 	spin_unlock_irq(&ssc_p->lock);
-+
-+	/* Shutdown the SSC clock. */
-+	pr_debug("atmel_ssc_dai: Stopping clock\n");
-+	clk_disable(ssc_p->ssc->clk);
- }
- 
- 
-@@ -597,14 +599,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
- 			rcmr, rfmr, tcmr, tfmr);
- 
- 	if (!ssc_p->initialized) {
--
--		/* Enable PMC peripheral clock for this SSC */
--		pr_debug("atmel_ssc_dai: Starting clock\n");
--		clk_enable(ssc_p->ssc->clk);
--
--		/* Reset the SSC and its PDC registers */
--		ssc_writel(ssc_p->ssc->regs, CR, SSC_BIT(CR_SWRST));
--
- 		ssc_writel(ssc_p->ssc->regs, PDC_RPR, 0);
- 		ssc_writel(ssc_p->ssc->regs, PDC_RCR, 0);
- 		ssc_writel(ssc_p->ssc->regs, PDC_RNPR, 0);
--- 
-2.3.0.rc0
+Applied, thanks.  You probably want to convert to clk_prepare_enable()
+too but that's a separate thing.
 
+--GOzekVbrLdOLv44p
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJUy4UuAAoJECTWi3JdVIfQC/8H/3QoN/rcdKYpeN2R+lh9iar4
+pjEqzuDABh5V4FR1ei0fvqaw6GaCwSbdvPsbRuHw1m9iJS/UoTdUGBw/ARY71duw
+wRYvgV1VcK7oVJXBtO2vZJhiYSixz+ufv/UmpJQfoTDG1pcSicb5MVkomiiIG3CX
+S1pdLuHIb8MH019C2ItNRVYR5frTYfLFpwRm00Yp4tIKpaIF/jpT6DPoAUZjXT6J
+t0U2hdhjlBJ0pPmN9NRafCkdZMDjx/EP/h8Q2oueGVEJ9n0YigaDU+CYmxkaP0Ne
+ECbinGDcHlxIBdHgTjjZo3DpQKhqDO/kOI8yeTpL3L16lSc6ejAfJS1AyamNiJ8=
+=bq/T
+-----END PGP SIGNATURE-----
+
+--GOzekVbrLdOLv44p--
