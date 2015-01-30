@@ -1,45 +1,93 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 28 Jan 2015 19:31:10 +0000
-Subject: Re: [PATCH v3 1/2] ASoC: codecs: wm8904: add dt ids table
-Message-Id: <20150128193110.GI21293@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="hZNcg5Zgu0ROmvXA"
+From: Bo Shen <voice.shen@atmel.com>
+Date: Fri, 30 Jan 2015 09:38:43 +0000
+Subject: [PATCH 2/3] ASoC: atmel_ssc_dai: refactor the startup and shutdown
+Message-Id: <1422610724-7222-3-git-send-email-voice.shen@atmel.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1422329800-28481-1-git-send-email-voice.shen@atmel.com>
-To: Bo Shen <voice.shen@atmel.com>
-Cc: nicolas.ferre@atmel.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Alexander Morozov <linux@meltdown.ru>
+References: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1422610724-7222-1-git-send-email-voice.shen@atmel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mark Brown <broonie@kernel.org>
+Cc: nicolas.ferre@atmel.com, Songjun.Wu@atmel.com, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Bo Shen <voice.shen@atmel.com>
 
+In startup function, enable ssc clock and in shutdown function,
+disable clock. And also remove disable ssc in shutdown function,
+as ssc is disabled in prepare function.
 
---hZNcg5Zgu0ROmvXA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bo Shen <voice.shen@atmel.com>
+---
 
-On Tue, Jan 27, 2015 at 11:36:39AM +0800, Bo Shen wrote:
-> From: Alexander Morozov <linux@meltdown.ru>
->=20
-> The WM8904 and WM8918 has the same data type, while the WM8912
-> has different data type. So, use the data in dt ids table to
-> distinguish them.
+ sound/soc/atmel/atmel_ssc_dai.c | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-Applied both, thanks - please use subjct lines matching the style for
-the subsystem and CC maintainers (including driver maintainers).
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index c1d93b8..0ed5ac3 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -204,6 +204,13 @@ static int atmel_ssc_startup(struct snd_pcm_substream *substream,
+ 	pr_debug("atmel_ssc_startup: SSC_SR=0x%u\n",
+ 		ssc_readl(ssc_p->ssc->regs, SR));
+ 
++	/* Enable PMC peripheral clock for this SSC */
++	pr_debug("atmel_ssc_dai: Starting clock\n");
++	clk_enable(ssc_p->ssc->clk);
++
++	/* Reset the SSC to keep it at a clean status */
++	ssc_writel(ssc_p->ssc->regs, CR, SSC_BIT(CR_SWRST));
++
+ 	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
+ 		dir = 0;
+ 		dir_mask = SSC_DIR_MASK_PLAYBACK;
+@@ -250,11 +257,6 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
+ 	dma_params = ssc_p->dma_params[dir];
+ 
+ 	if (dma_params != NULL) {
+-		ssc_writel(ssc_p->ssc->regs, CR, dma_params->mask->ssc_disable);
+-		pr_debug("atmel_ssc_shutdown: %s disabled SSC_SR=0x%08x\n",
+-			(dir ? "receive" : "transmit"),
+-			ssc_readl(ssc_p->ssc->regs, SR));
+-
+ 		dma_params->ssc = NULL;
+ 		dma_params->substream = NULL;
+ 		ssc_p->dma_params[dir] = NULL;
+@@ -266,10 +268,6 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
+ 	ssc_p->dir_mask &= ~dir_mask;
+ 	if (!ssc_p->dir_mask) {
+ 		if (ssc_p->initialized) {
+-			/* Shutdown the SSC clock. */
+-			pr_debug("atmel_ssc_dai: Stopping clock\n");
+-			clk_disable(ssc_p->ssc->clk);
+-
+ 			free_irq(ssc_p->ssc->irq, ssc_p);
+ 			ssc_p->initialized = 0;
+ 		}
+@@ -280,6 +278,10 @@ static void atmel_ssc_shutdown(struct snd_pcm_substream *substream,
+ 		ssc_p->cmr_div = ssc_p->tcmr_period = ssc_p->rcmr_period = 0;
+ 	}
+ 	spin_unlock_irq(&ssc_p->lock);
++
++	/* Shutdown the SSC clock. */
++	pr_debug("atmel_ssc_dai: Stopping clock\n");
++	clk_disable(ssc_p->ssc->clk);
+ }
+ 
+ 
+@@ -597,14 +599,6 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
+ 			rcmr, rfmr, tcmr, tfmr);
+ 
+ 	if (!ssc_p->initialized) {
+-
+-		/* Enable PMC peripheral clock for this SSC */
+-		pr_debug("atmel_ssc_dai: Starting clock\n");
+-		clk_enable(ssc_p->ssc->clk);
+-
+-		/* Reset the SSC and its PDC registers */
+-		ssc_writel(ssc_p->ssc->regs, CR, SSC_BIT(CR_SWRST));
+-
+ 		ssc_writel(ssc_p->ssc->regs, PDC_RPR, 0);
+ 		ssc_writel(ssc_p->ssc->regs, PDC_RCR, 0);
+ 		ssc_writel(ssc_p->ssc->regs, PDC_RNPR, 0);
+-- 
+2.3.0.rc0
 
---hZNcg5Zgu0ROmvXA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJUyTj9AAoJECTWi3JdVIfQvGsH/1WOvFO1DaNSf9xCwdhhKk/3
-QDEey4WnmaU8bsBlecqtyoNVeKw01ymjETR0b7r5fTq5vNCJQNbaoIbId7g1YxDI
-Q7ReZcl5JTLFus5sZlW4y0+94vGLjOxqecmIKWw4hIlwpAV2gpBrO49DlMcjw3y7
-tpDvLJfrX+Su+mgkE9+N7MXWrK7BAARZ72PlN3Y5PvDY8UAq6lH08nqvlUfIkniC
-0c818pv7xvH4K75DI/lDPTSt1+h+wT3LKeHlpxQXiGFsZa7SmryvGIDFac1zy8jT
-BttMGkAzdxs9ua8kU9MJ9JtNADqgAoqT+1njgDwSM/v8Sb2CTtlHTMuE9B03/90=
-=u0Lg
------END PGP SIGNATURE-----
-
---hZNcg5Zgu0ROmvXA--
