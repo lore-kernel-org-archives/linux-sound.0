@@ -1,47 +1,41 @@
-From: Bo Shen <voice.shen@atmel.com>
-Date: Mon, 02 Feb 2015 06:44:46 +0000
-Subject: [PATCH] ASoC: atmel-pcm-dma: won't check direction when configure dma
-Message-Id: <1422859486-11051-1-git-send-email-voice.shen@atmel.com>
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 02 Feb 2015 12:19:28 +0000
+Subject: Re: [PATCH] ASoC: atmel-pcm-dma: won't check direction when configure dma
+Message-Id: <20150202121928.GR21293@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="jcUJ+eOYMBLzsnct"
 List-Id: <linux-sound.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mark Brown <broonie@kernel.org>
-Cc: nicolas.ferre@atmel.com, Ludovic.Desroches@atmel.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Bo Shen <voice.shen@atmel.com>
+References: <1422859486-11051-1-git-send-email-voice.shen@atmel.com>
+In-Reply-To: <1422859486-11051-1-git-send-email-voice.shen@atmel.com>
+To: Bo Shen <voice.shen@atmel.com>
+Cc: nicolas.ferre@atmel.com, Ludovic.Desroches@atmel.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 
-As DMA framework request DMA using direction only in prep_slave
-function, (The At91 xdma driver has adapted to this request).
-So won't check direction when do DMA configuration.
 
-Signed-off-by: Bo Shen <voice.shen@atmel.com>
----
+--jcUJ+eOYMBLzsnct
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
- sound/soc/atmel/atmel-pcm-dma.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+On Mon, Feb 02, 2015 at 02:44:46PM +0800, Bo Shen wrote:
+> As DMA framework request DMA using direction only in prep_slave
+> function, (The At91 xdma driver has adapted to this request).
+> So won't check direction when do DMA configuration.
 
-diff --git a/sound/soc/atmel/atmel-pcm-dma.c b/sound/soc/atmel/atmel-pcm-dma.c
-index 33fb3bb..b8e7bad 100644
---- a/sound/soc/atmel/atmel-pcm-dma.c
-+++ b/sound/soc/atmel/atmel-pcm-dma.c
-@@ -105,13 +105,11 @@ static int atmel_pcm_configure_dma(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
- 
--	if (substream->stream = SNDRV_PCM_STREAM_PLAYBACK) {
--		slave_config->dst_addr = ssc->phybase + SSC_THR;
--		slave_config->dst_maxburst = 1;
--	} else {
--		slave_config->src_addr = ssc->phybase + SSC_RHR;
--		slave_config->src_maxburst = 1;
--	}
-+	slave_config->dst_addr = ssc->phybase + SSC_THR;
-+	slave_config->dst_maxburst = 1;
-+
-+	slave_config->src_addr = ssc->phybase + SSC_RHR;
-+	slave_config->src_maxburst = 1;
- 
- 	prtd->dma_intr_handler = atmel_pcm_dma_irq;
- 
--- 
-2.3.0.rc0
+Applied, thanks.
 
+--jcUJ+eOYMBLzsnct
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJUz2tPAAoJECTWi3JdVIfQulkH/2pFw8PdKwAyUIDYnaNDJUjH
+k5L5lKLEttPv3r0FYougRzaAdx+G4FhqM0AYUURT5JJUUtqVzzbZlK+kUMCziSgh
+Q69BnLmMWYyltQioZI1AnKlaqKhxNnzxyDcIiEImcr4kxLOkq/XfhW+ez6dDBb/G
+ieMlDD6VW/DubfpzKoe/PC0z+78b2rHB843Qd9az2nMGFHLFeuxZXB9m4eNfIPkT
+KDTjtsPoYlK1e/qCv2fl9J7HFUJdXEj/a9QkI8ccAsfV+uf13tgMMiO4AaArwkhZ
+GlBrf5qnCnbU1RKGhV6e/o8Yu/L3HVJ4Bqx1q8L20j6LnIeLR3JRAafBkM39e1I=
+=Zx3b
+-----END PGP SIGNATURE-----
+
+--jcUJ+eOYMBLzsnct--
