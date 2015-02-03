@@ -1,115 +1,51 @@
-From: Manuel Lauss <manuel.lauss@gmail.com>
-Date: Tue, 03 Feb 2015 07:54:57 +0000
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 03 Feb 2015 12:44:41 +0000
 Subject: Re: [RFC PATCH] ASoC: wm8731: let codec to manage clock by itself
-Message-Id: <CAOLZvyE6W8-X2_M+-KQNry2VPwLzwbBLuxr5Z5EdBQo7Skv2RQ@mail.gmail.com>
+Message-Id: <20150203124441.GK21293@sirena.org.uk>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="py4RQBuvJMmLuKXJ"
 List-Id: <linux-sound.vger.kernel.org>
 References: <1422934415-24957-1-git-send-email-voice.shen@atmel.com>
-In-Reply-To: <1422934415-24957-1-git-send-email-voice.shen@atmel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Bo Shen <voice.shen@atmel.com>
-Cc: Mark Brown <broonie@kernel.org>, Manuel Lauss <manuel.lauss@googlemail.com>, Liam Girdwood <lrg@slimlogic.co.uk>, Richard Purdie <richard@openedhand.com>, patches@opensource.wolfsonmicro.com, linux-sound@vger.kernel.org, alsa-devel <alsa-devel@alsa-project.org>, linux-arm-kernel@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>
+ <CAOLZvyE6W8-X2_M+-KQNry2VPwLzwbBLuxr5Z5EdBQo7Skv2RQ@mail.gmail.com>
+In-Reply-To: <CAOLZvyE6W8-X2_M+-KQNry2VPwLzwbBLuxr5Z5EdBQo7Skv2RQ@mail.gmail.com>
+To: Manuel Lauss <manuel.lauss@gmail.com>
+Cc: Bo Shen <voice.shen@atmel.com>, Manuel Lauss <manuel.lauss@googlemail.com>, Liam Girdwood <lrg@slimlogic.co.uk>, Richard Purdie <richard@openedhand.com>, patches@opensource.wolfsonmicro.com, linux-sound@vger.kernel.org, alsa-devel <alsa-devel@alsa-project.org>, linux-arm-kernel@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>
 
-On Tue, Feb 3, 2015 at 4:33 AM, Bo Shen <voice.shen@atmel.com> wrote:
-> Let the wm8731 codec to manage clock by itself.
->
-> As all at91 related boards have been switch to CCF framework. So, on
-> the at91 related boards which use wm8731 will let it manage the clock,
-> or else the board use wm8731 is broken.
->
-> However, at the same time the wm8731 codec is used on other boards,
-> I am sure this change will broken some boards.
->
-> For example: poodle and corgi based on PXA SoC (in default configuration
-> file, no one use it). DB1200 board which is a mips based board. So I have
-> no idea how to fix them.
->
-> So, my suggestion is to add CCF check based on the following patch? Any
-> idea or suggestions?
 
-What about the patch below?  It makes absence of mclk object non-fatal and
-checks if wm8731->mclk is non-NULL before enabling/disabling it.  Works on
-my DB1200/DB1300 boards:
+--py4RQBuvJMmLuKXJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/codecs/wm8731.c b/sound/soc/codecs/wm8731.c
-index b115ed8..648b8cd 100644
---- a/sound/soc/codecs/wm8731.c
-+++ b/sound/soc/codecs/wm8731.c
-@@ -13,6 +13,7 @@
-  * published by the Free Software Foundation.
-  */
+On Tue, Feb 03, 2015 at 08:54:57AM +0100, Manuel Lauss wrote:
 
-+#include <linux/clk.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/init.h>
-@@ -45,6 +46,7 @@ static const char
-*wm8731_supply_names[WM8731_NUM_SUPPLIES] = {
- /* codec private data */
- struct wm8731_priv {
-     struct regmap *regmap;
-+    struct clk *mclk;
-     struct regulator_bulk_data supplies[WM8731_NUM_SUPPLIES];
-     const struct snd_pcm_hw_constraint_list *constraints;
-     unsigned int sysclk;
-@@ -389,6 +391,8 @@ static int wm8731_set_dai_sysclk(struct
-snd_soc_dai *codec_dai,
-     switch (clk_id) {
-     case WM8731_SYSCLK_XTAL:
-     case WM8731_SYSCLK_MCLK:
-+        if (wm8731->mclk && clk_set_rate(wm8731->mclk, freq))
-+            return -EINVAL;
-         wm8731->sysclk_type = clk_id;
-         break;
-     default:
-@@ -490,6 +494,8 @@ static int wm8731_set_bias_level(struct
-snd_soc_codec *codec,
+> +    wm8731->mclk = devm_clk_get(&spi->dev, "mclk");
+> +    if (IS_ERR(wm8731->mclk)) {
+> +        wm8731->mclk = NULL;
+> +        dev_warn(&spi->dev, "assuming static MCLK\n");
+> +    }
 
-     switch (level) {
-     case SND_SOC_BIAS_ON:
-+        if (wm8731->mclk)
-+            clk_prepare_enable(wm8731->mclk);
-         break;
-     case SND_SOC_BIAS_PREPARE:
-         break;
-@@ -508,6 +514,8 @@ static int wm8731_set_bias_level(struct
-snd_soc_codec *codec,
-         snd_soc_write(codec, WM8731_PWR, reg | 0x0040);
-         break;
-     case SND_SOC_BIAS_OFF:
-+        if (wm8731->mclk)
-+            clk_disable_unprepare(wm8731->mclk);
-         snd_soc_write(codec, WM8731_PWR, 0xffff);
-         regulator_bulk_disable(ARRAY_SIZE(wm8731->supplies),
-                        wm8731->supplies);
-@@ -666,6 +674,12 @@ static int wm8731_spi_probe(struct spi_device *spi)
-     if (wm8731 = NULL)
-         return -ENOMEM;
+This is broken for both deferred probe and in the case where the clock
+API genuinely returns a NULL clock.  Other than that it's the kind of
+thing that we've done for some other drivers, though it's not good to
+have to do this.  Check them for correct behaviour.
 
-+    wm8731->mclk = devm_clk_get(&spi->dev, "mclk");
-+    if (IS_ERR(wm8731->mclk)) {
-+        wm8731->mclk = NULL;
-+        dev_warn(&spi->dev, "assuming static MCLK\n");
-+    }
-+
-     mutex_init(&wm8731->lock);
+The coding style is also not right for the whole patch and there's a
+lot of missing error checking.
 
-     wm8731->regmap = devm_regmap_init_spi(spi, &wm8731_regmap);
-@@ -719,6 +733,12 @@ static int wm8731_i2c_probe(struct i2c_client *i2c,
+--py4RQBuvJMmLuKXJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-     mutex_init(&wm8731->lock);
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-+    wm8731->mclk = devm_clk_get(&i2c->dev, "mclk");
-+    if (IS_ERR(wm8731->mclk)) {
-+        wm8731->mclk = NULL;
-+        dev_warn(&i2c->dev, "assuming static MCLK\n");
-+    }
-+
-     wm8731->regmap = devm_regmap_init_i2c(i2c, &wm8731_regmap);
-     if (IS_ERR(wm8731->regmap)) {
-         ret = PTR_ERR(wm8731->regmap);
+iQEcBAEBCAAGBQJU0MK5AAoJECTWi3JdVIfQDKEH/0cfeB7iOzFR3+ko4cwSnoth
+59h+3/agB1NnIiuOGG31HOcK0+YiW4hrE0lpz6kpHWXXfYrKXgd0IXChl2zixyBn
+3ggVle1R7mnG3xgcq5iRUresTy59O3ShVoNxsse28lBPIOYcPvhZ7GuGuLUukQDJ
+K9b3rsrIaTQpLz/BeoVuEBkvCwTjFbHKE63mNjZsEGLDHlweaZ6aiQRhfr+qa6+d
+yPZFiRYPm8h8ZU9EYJ50GUmAxp/6IHwoEpKDHPYo7G4Pi+NkZWwKUmG8eA/RDUb1
+6M3zdXFmksNIVJ2vs8FOMUsGrgI4VB8QSTus711U00GcmLKMWl1Y3lsUqtv38OQ=
+=88LY
+-----END PGP SIGNATURE-----
 
--- 
-
-Manuel
+--py4RQBuvJMmLuKXJ--
