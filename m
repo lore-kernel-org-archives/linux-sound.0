@@ -1,108 +1,43 @@
-From: Songjun Wu <songjun.wu@atmel.com>
-Date: Fri, 13 Mar 2015 07:46:02 +0000
-Subject: [RESEND RFC PATCH] ASoC: wm8731: let codec to manage clock by itself
-Message-Id: <1426232762-3304-1-git-send-email-songjun.wu@atmel.com>
+From: "Vittorio G (VittGam)" <linuxbugs@vittgam.net>
+Date: Fri, 22 May 2015 19:15:19 +0000
+Subject: [PATCH] ALSA: usb-audio: Add quirk for MS LifeCam HD-3000
+Message-Id: <fffbee5b1d6a62456b10a9ca132298fb@vittgam.net>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.de, lars@metafoo.de, fabio.estevam@freescale.com, manuel.lauss@gmail.com, alsa-devel@alsa-project.org, linux-arm-kernel@vger.kernel.org, voice.shen@atmel.com, linux-sound@vger.kernel.org
-Cc: Songjun Wu <songjun.wu@atmel.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
 
-Enable WM8731 to support common clock framework.
+Microsoft LifeCam HD-3000 (045e:0779) needs a similar quirk for
+suppressing the unsupported sample rate inquiry.
 
-Signed-off-by: Songjun Wu <songjun.wu@atmel.com>
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=98481
+Cc: <stable@vger.kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Vittorio Gambaletta <linuxbugs@vittgam.net>
 ---
- sound/soc/codecs/wm8731.c |   34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
 
-diff --git a/sound/soc/codecs/wm8731.c b/sound/soc/codecs/wm8731.c
-index 098c143..8df1550 100644
---- a/sound/soc/codecs/wm8731.c
-+++ b/sound/soc/codecs/wm8731.c
-@@ -25,6 +25,7 @@
- #include <linux/spi/spi.h>
- #include <linux/of_device.h>
- #include <linux/mutex.h>
-+#include <linux/clk.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-@@ -45,6 +46,7 @@ static const char *wm8731_supply_names[WM8731_NUM_SUPPLIES] = {
- /* codec private data */
- struct wm8731_priv {
- 	struct regmap *regmap;
-+	struct clk *mclk;
- 	struct regulator_bulk_data supplies[WM8731_NUM_SUPPLIES];
- 	const struct snd_pcm_hw_constraint_list *constraints;
- 	unsigned int sysclk;
-@@ -390,6 +392,8 @@ static int wm8731_set_dai_sysclk(struct snd_soc_dai *codec_dai,
- 	switch (clk_id) {
- 	case WM8731_SYSCLK_XTAL:
- 	case WM8731_SYSCLK_MCLK:
-+		if (wm8731->mclk && clk_set_rate(wm8731->mclk, freq))
-+			return -EINVAL;
- 		wm8731->sysclk_type = clk_id;
- 		break;
- 	default:
-@@ -491,6 +495,8 @@ static int wm8731_set_bias_level(struct snd_soc_codec *codec,
- 
- 	switch (level) {
- 	case SND_SOC_BIAS_ON:
-+		if (wm8731->mclk)
-+			clk_prepare_enable(wm8731->mclk);
- 		break;
- 	case SND_SOC_BIAS_PREPARE:
- 		break;
-@@ -509,6 +515,8 @@ static int wm8731_set_bias_level(struct snd_soc_codec *codec,
- 		snd_soc_write(codec, WM8731_PWR, reg | 0x0040);
- 		break;
- 	case SND_SOC_BIAS_OFF:
-+		if (wm8731->mclk)
-+			clk_disable_unprepare(wm8731->mclk);
- 		snd_soc_write(codec, WM8731_PWR, 0xffff);
- 		regulator_bulk_disable(ARRAY_SIZE(wm8731->supplies),
- 				       wm8731->supplies);
-@@ -667,6 +675,19 @@ static int wm8731_spi_probe(struct spi_device *spi)
- 	if (wm8731 = NULL)
- 		return -ENOMEM;
- 
-+	wm8731->mclk = devm_clk_get(&spi->dev, "mclk");
-+	if (IS_ERR(wm8731->mclk)) {
-+		ret = PTR_ERR(wm8731->mclk);
-+		if (ret = -ENOENT) {
-+			wm8731->mclk = NULL;
-+			dev_warn(&spi->dev, "Assuming static MCLK\n");
-+		} else {
-+			dev_err(&spi->dev, "Failed to get MCLK: %d\n",
-+				ret);
-+			return ret;
-+		}
-+	}
-+
- 	mutex_init(&wm8731->lock);
- 
- 	wm8731->regmap = devm_regmap_init_spi(spi, &wm8731_regmap);
-@@ -718,6 +739,19 @@ static int wm8731_i2c_probe(struct i2c_client *i2c,
- 	if (wm8731 = NULL)
- 		return -ENOMEM;
- 
-+	wm8731->mclk = devm_clk_get(&i2c->dev, "mclk");
-+	if (IS_ERR(wm8731->mclk)) {
-+		ret = PTR_ERR(wm8731->mclk);
-+		if (ret = -ENOENT) {
-+			wm8731->mclk = NULL;
-+			dev_warn(&i2c->dev, "Assuming static MCLK\n");
-+		} else {
-+			dev_err(&i2c->dev, "Failed to get MCLK: %d\n",
-+				ret);
-+			return ret;
-+		}
-+	}
-+
- 	mutex_init(&wm8731->lock);
- 
- 	wm8731->regmap = devm_regmap_init_i2c(i2c, &wm8731_regmap);
--- 
-1.7.9.5
+The dmesg is showing this every time the ALSA audio is opened
+by the application:
+
+[3759907.370000] 2:3:1: cannot get freq at ep 0x82
+
+And in fact I had to initialize ALSA and v4l2 in a specific order
+in my application in order for them to both work.
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 46facfc..2917534 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -1118,6 +1118,7 @@ bool snd_usb_get_sample_rate_quirk(struct snd_usb_aud=
+io *chip)
+  	case USB_ID(0x045E, 0x075D): /* MS Lifecam Cinema  */
+  	case USB_ID(0x045E, 0x076D): /* MS Lifecam HD-5000 */
+  	case USB_ID(0x045E, 0x0772): /* MS Lifecam Studio */
++	case USB_ID(0x045E, 0x0779): /* MS Lifecam HD-3000 */
+  	case USB_ID(0x04D8, 0xFEEA): /* Benchmark DAC1 Pre */
+  		return true;
+  	}
 
