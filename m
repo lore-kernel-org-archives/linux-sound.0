@@ -1,54 +1,41 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Sun, 24 May 2015 06:35:09 +0000
-Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for MS LifeCam HD-3000
-Message-Id: <s5hbnha32le.wl-tiwai@suse.de>
+From: Andreas Dannenberg <dannenberg@ti.com>
+Date: Mon, 05 Oct 2015 20:00:14 +0000
+Subject: [PATCH] ASoC: codecs: tas2552: fix dBscale-min declaration
+Message-Id: <1444075214-21206-1-git-send-email-dannenberg@ti.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <fffbee5b1d6a62456b10a9ca132298fb@vittgam.net>
-In-Reply-To: <fffbee5b1d6a62456b10a9ca132298fb@vittgam.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
-To: "Vittorio G (VittGam)" <linuxbugs@vittgam.net>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>, Axel Lin <axel.lin@ingics.com>, Lars-Peter Clausen <lars@metafoo.de>, Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, Andreas Dannenberg <dannenberg@ti.com>
 
-At Fri, 22 May 2015 21:15:19 +0200,
-Vittorio G (VittGam) wrote:
->=20
-> Microsoft LifeCam HD-3000 (045e:0779) needs a similar quirk for
-> suppressing the unsupported sample rate inquiry.
->=20
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=98481
-> Cc: <stable@vger.kernel.org>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Vittorio Gambaletta <linuxbugs@vittgam.net>
-> ---
->=20
-> The dmesg is showing this every time the ALSA audio is opened
-> by the application:
->=20
-> [3759907.370000] 2:3:1: cannot get freq at ep 0x82
->=20
-> And in fact I had to initialize ALSA and v4l2 in a specific order
-> in my application in order for them to both work.
+The minimum volume level for the TAS2552 (control register value 0x00)
+is -7dB however the driver declares it as -0.07dB.
 
-Applied, thanks.
+Running amixer before the patch reports:
+dBscale-min=-0.07dB,step=1.00dB,mute=0
 
+Running amixer with the patch applied reports:
+dBscale-min=-7.00dB,step=1.00dB,mute=0
 
-Takashi
+Signed-off-by: Andreas Dannenberg <dannenberg@ti.com>
+---
+ sound/soc/codecs/tas2552.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->=20
-> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> index 46facfc..2917534 100644
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -1118,6 +1118,7 @@ bool snd_usb_get_sample_rate_quirk(struct snd_usb_a=
-udio *chip)
->   	case USB_ID(0x045E, 0x075D): /* MS Lifecam Cinema  */
->   	case USB_ID(0x045E, 0x076D): /* MS Lifecam HD-5000 */
->   	case USB_ID(0x045E, 0x0772): /* MS Lifecam Studio */
-> +	case USB_ID(0x045E, 0x0779): /* MS Lifecam HD-3000 */
->   	case USB_ID(0x04D8, 0xFEEA): /* Benchmark DAC1 Pre */
->   		return true;
->   	}
->=20
+diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
+index e3a0bca..cc1d398 100644
+--- a/sound/soc/codecs/tas2552.c
++++ b/sound/soc/codecs/tas2552.c
+@@ -549,7 +549,7 @@ static struct snd_soc_dai_driver tas2552_dai[] = {
+ /*
+  * DAC digital volumes. From -7 to 24 dB in 1 dB steps
+  */
+-static DECLARE_TLV_DB_SCALE(dac_tlv, -7, 100, 0);
++static DECLARE_TLV_DB_SCALE(dac_tlv, -700, 100, 0);
+ 
+ static const char * const tas2552_din_source_select[] = {
+ 	"Muted",
+-- 
+1.9.1
+
