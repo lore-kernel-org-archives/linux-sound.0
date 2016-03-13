@@ -1,51 +1,54 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Thu, 31 Mar 2016 16:13:26 +0000
-Subject: Re: [PATCH] ALSA: usb-audio: Fix double-free in snd_usb_add_audio_stream()
-Message-Id: <s5hpouad3rt.wl-tiwai@suse.de>
+From: "Vittorio Gambaletta (VittGam)" <linuxbugs@vittgam.net>
+Date: Sun, 13 Mar 2016 21:19:34 +0000
+Subject: [PATCH] ALSA: intel8x0: Add clock quirk entry for AD1981B on IBM ThinkPad X41.
+Message-Id: <linux-patch-20160313-1@vittgam.net>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1459364602-28997-1-git-send-email-vdronov@redhat.com>
-	<1459364602-28997-2-git-send-email-vdronov@redhat.com>
-	<s5hbn5v7lnw.wl-tiwai@suse.de>
-	<s5h8u0zgen2.wl-tiwai@suse.de>
-	<882494379.43642280.1459427790768.JavaMail.zimbra@redhat.com>
-	<s5hegaqg5zj.wl-tiwai@suse.de>
-	<805340847.43676741.1459433035733.JavaMail.zimbra@redhat.com>
-	<s5hh9fmenkr.wl-tiwai@suse.de>
-	<2105584083.43718399.1459440343149.JavaMail.zimbra@redhat.com>
-In-Reply-To: <2105584083.43718399.1459440343149.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Vladis Dronov <vdronov@redhat.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
 
-On Thu, 31 Mar 2016 18:05:43 +0200,
-Vladis Dronov wrote:
-> 
-> From: Vladis Dronov <vdronov@redhat.com>
-> Subject: [PATCH] ALSA: usb-audio: Fix double-free in error paths after snd_usb_add_audio_stream() call
-> 
-> create_fixed_stream_quirk(), snd_usb_parse_audio_interface() and
-> create_uaxx_quirk() functions allocate the audioformat object by themselves
-> and free it upon error before returning. However, once the object is linked
-> to a stream, it's freed again in snd_usb_audio_pcm_free(), thus it'll be
-> double-freed, eventually resulting in a memory corruption.
-> 
-> This patch fixes these failures in the error paths by unlinking the audioformat
-> object before freeing it.
-> 
-> Based on a patch by Takashi Iwai" <tiwai@suse.de>
-> 
-> [Note for stable backports:
->  this patch requires the commit 902eb7fd1e4a ('ALSA: usb-audio: Minor
->  code cleanup in create_fixed_stream_quirk()')]
-> 
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id83358
-> Reported-by: Ralf Spenneberg <ralf@spenneberg.net>
-> Cc: <stable@vger.kernel.org> # see the note above
-> Signed-off-by: Vladis Dronov <vdronov@redhat.com>
+The clock measurement on the AC'97 audio card found in the IBM ThinkPad X41
+will often fail, so add a quirk entry to fix it.
 
-Applied, thanks.
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?idD1087
+Cc: <stable@vger.kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Vittorio Gambaletta <linuxbugs@vittgam.net>
+---
 
+When the clock measurement doesn't fail, the `pos` variable after line 2861
+will be around 48367, but when it does fail it will be somewhere between
+45000 and 47500. So the bus clock gets set between 48500 and 52000 (!),
+resulting in faster audio for rates with final clocks below 48000, and
+distorted audio for rates with final clocks above 48000.
 
-Takashi
+The problem is always reproducible on kernel 4.4.5, but very rarely on 3.13.
+
+This patch fixes the problem for my computer, and will also speed up module
+loading a bit as said on Bugzilla, but I've got some questions regarding
+other hardware...
+
+Do we want to protect against overclock for all hardware, by never setting
+the measured bus clock higher than 48000? Do we actually risk burning or
+otherwise permanently ruining something here, or not? Does hardware clocked
+above 48000 exist?
+
+Also, is line 2874 actually correct? As `pos` gets higher, the bus clock gets
+lower, and vice versa. Note that in this function the bus clock is always
+48000 before it gets updated here; so the code first computes 48000 * 48000,
+and then it divides the result by `pos`. It doesn't seem right to me... By the
+way, the history of that line goes beyond Git (so before kernel 2.6.12-rc2).
+
+--- a/sound/pci/intel8x0.c
++++ b/sound/pci/intel8x0.c
+@@ -2879,6 +2879,7 @@
+ 
+ static struct snd_pci_quirk intel8x0_clock_list[] = {
+ 	SND_PCI_QUIRK(0x0e11, 0x008a, "AD1885", 41000),
++	SND_PCI_QUIRK(0x1014, 0x0581, "AD1981B", 48000),
+ 	SND_PCI_QUIRK(0x1028, 0x00be, "AD1885", 44100),
+ 	SND_PCI_QUIRK(0x1028, 0x0177, "AD1980", 48000),
+ 	SND_PCI_QUIRK(0x1028, 0x01ad, "AD1981B", 48000),
