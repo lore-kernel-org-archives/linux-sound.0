@@ -1,120 +1,49 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Thu, 31 Mar 2016 12:57:20 +0000
+From: Vladis Dronov <vdronov@redhat.com>
+Date: Thu, 31 Mar 2016 14:03:55 +0000
 Subject: Re: [PATCH] ALSA: usb-audio: Fix double-free in snd_usb_add_audio_stream()
-Message-Id: <s5hegaqg5zj.wl-tiwai@suse.de>
+Message-Id: <805340847.43676741.1459433035733.JavaMail.zimbra@redhat.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1459364602-28997-1-git-send-email-vdronov@redhat.com>
-	<1459364602-28997-2-git-send-email-vdronov@redhat.com>
-	<s5hbn5v7lnw.wl-tiwai@suse.de>
-	<s5h8u0zgen2.wl-tiwai@suse.de>
-	<882494379.43642280.1459427790768.JavaMail.zimbra@redhat.com>
-In-Reply-To: <882494379.43642280.1459427790768.JavaMail.zimbra@redhat.com>
+References: <1459364602-28997-1-git-send-email-vdronov@redhat.com> <1459364602-28997-2-git-send-email-vdronov@redhat.com> <s5hbn5v7lnw.wl-tiwai@suse.de> <s5h8u0zgen2.wl-tiwai@suse.de> <882494379.43642280.1459427790768.JavaMail.zimbra@redhat.com> <s5hegaqg5zj.wl-tiwai@suse.de>
+In-Reply-To: <s5hegaqg5zj.wl-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Vladis Dronov <vdronov@redhat.com>
+To: Takashi Iwai <tiwai@suse.de>
 Cc: Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 
-On Thu, 31 Mar 2016 14:36:30 +0200,
-Vladis Dronov wrote:
-> 
-> Hello, Takashi, all,
-> 
-> > > Thanks for the report.  But how about a simpler fix like below?
-> >
-> > Maybe the one below is more straightforward (and even simpler).
-> > Let me know if this works enough for you.
-> 
-> 1) I would still suggest moving the code in create_fixed_stream_quirk() (marked
-> as (*)) after "if (altsd->bNumEndpoints < 1)" check. This way no allocations is
-> done in snd_usb_add_audio_stream() if we go an error path:
-> 
-> (*)     stream = (fp->endpoint & USB_DIR_IN) 
-> (*)             ? SNDRV_PCM_STREAM_CAPTURE : SNDRV_PCM_STREAM_PLAYBACK;
-> (*)     err = snd_usb_add_audio_stream(chip, stream, fp);
-> (*)     if (err < 0)
-> (*)             goto error;
+Hello, Takashi, all,
 
-No, it has nothing to do with the double-free bug itself.  Such an
-optimization shouldn't be put in a fix patch.  We need to concentrate
-on fixing the double-free bug at first.  Then do an optimization, but
-only if really needed.  Otherwise it makes hard to understand what's
-actually doing.
+> No, it has nothing to do with the double-free bug itself.  Such an
+> optimization shouldn't be put in a fix patch
 
-(And, in this particular case, that optimization doesn't look worth;
- the error condition is really rare, happening only with a malformed
- firmware, and the path isn't hot at all.)
+This piece of code move alone fixes the double-free bug in
+create_fixed_stream_quirk(), so I believe it is related. Besides, a lot of stuff
+is created and initialized in snd_usb_add_audio_stream() and while I do not see
+another use-after-free bug, it could be there. By moving this code we avoid
+these potential bugs we have not hit yet.
 
+But anyway. If you still believe this code should not be moved, please, confirm,
+I'll suggest the next patch version without it.
 
-> 2) While your fix is indeed simpler, it fixes double-free bug only in
-> create_fixed_stream_quirk(). create_uaxx_quirk(), for example, still has this
-> bug:
-> 
->         err = snd_usb_add_audio_stream(chip, stream, fp);
->         if (err < 0) {                          <<< in the error path there
->                 kfree(fp);                      <<< is a double-free
->                 return err;
->         }
-> 
-> as any other code where snd_usb_add_audio_stream() is used and *fp is freed in
-> case of error.
+> Vladis, if you take someone's patch as the base, you have to carry the
+> original authorship somewhere...
 
-OK, that's another spot.  Let's fix similarly.
+Yes, I was thinking about it, I was just not sure how should I do it. Will the
+following form be fine? Or somehow else?
 
+Based on a patch by Takashi Iwai" <tiwai@suse.de>
 
-> 3) Not deleting fp from the fmt_list inside snd_usb_add_audio_stream() in case
-> of error moves this necessity to a caller, thus breaking the scope. This forces
-> any caller of snd_usb_add_audio_stream() to fulfill this non-obvious requirement.
-> But I agree that this is simpler and more straightforward. We need just to fix
-> all the places where snd_usb_add_audio_stream() is called (3 as of now), please,
-> have a look on the following patch.
-> 
-> Best regards,
-> Vladis Dronov | Red Hat, Inc. | Product Security Engineer
-> 
-> -- 8< --
-> From: Vladis Dronov <vdronov@redhat.com>
-> Subject: [PATCH] ALSA: usb-audio: Fix double-free in error paths after snd_usb_add_audio_stream() call
-> 
-> create_fixed_stream_quirk(), snd_usb_parse_audio_interface() and
-> create_uaxx_quirk() functions allocate the audioformat object by themselves
-> and free it upon error before returning. However, once the object is linked
-> to a stream, it's freed again in snd_usb_audio_pcm_free(), thus it'll be
-> double-freed, eventually resulting in a memory corruption.
-> 
-> This patch fixes these failures in the error paths by unlinking the audioformat
-> object before freeing it. Also it moves a piece of code in
-> create_fixed_stream_quirk() to avoid unnecessary allocations in case of error.
-> 
-> [Note for stable backports:
->  this patch requires the commit 902eb7fd1e4a ('ALSA: usb-audio: Minor
->  code cleanup in create_fixed_stream_quirk()')]
-> 
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id83358
-> Reported-by: Ralf Spenneberg <ralf@spenneberg.net>
-> Cc: <stable@vger.kernel.org> # see the note above
-> Signed-off-by: Vladis Dronov <vdronov@redhat.com>
+> > + * if not, create a new pcm stream. the caller must remove fp from
+> > + * the substream fmt_list in the error path to avoid double-free.
+>
+> This comment isn't true.  The caller may leave it as is, too, like my
+> first version.  It just depends on the code.
 
-Vladis, if you take someone's patch as the base, you have to carry the
-original authorship somewhere...
+Yes. Is the following rewrite acceptable for the next patch version?
 
+ * if not, create a new pcm stream. Note, fp is added to the substream fmt_list
+ * and will be freed on the chip instance release. Do not free fp or do remove
+ * it from the substream fmt_list to avoid double-free.
 
-> diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-> index 51258a1..6455003 100644
-> --- a/sound/usb/stream.c
-> +++ b/sound/usb/stream.c
-> @@ -316,7 +316,8 @@ static struct snd_pcm_chmap_elem *convert_chmap(int channels, unsigned int bits,
->  /*
->   * add this endpoint to the chip instance.
->   * if a stream with the same endpoint already exists, append to it.
-> - * if not, create a new pcm stream.
-> + * if not, create a new pcm stream. the caller must remove fp from
-> + * the substream fmt_list in the error path to avoid double-free.
-
-This comment isn't true.  The caller may leave it as is, too, like my
-first version.  It just depends on the code.
-
-
-thanks,
-
-Takashi
+Best regards,
+Vladis Dronov | Red Hat, Inc. | Product Security Engineer
