@@ -1,38 +1,72 @@
 From: Takashi Iwai <tiwai@suse.de>
-Date: Wed, 30 Mar 2016 20:31:15 +0000
+Date: Thu, 31 Mar 2016 09:50:25 +0000
 Subject: Re: [PATCH] ALSA: usb-audio: Fix double-free in snd_usb_add_audio_stream()
-Message-Id: <s5hbn5v7lnw.wl-tiwai@suse.de>
+Message-Id: <s5h8u0zgen2.wl-tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1459364602-28997-1-git-send-email-vdronov@redhat.com>
 	<1459364602-28997-2-git-send-email-vdronov@redhat.com>
-In-Reply-To: <1459364602-28997-2-git-send-email-vdronov@redhat.com>
+	<s5hbn5v7lnw.wl-tiwai@suse.de>
+In-Reply-To: <s5hbn5v7lnw.wl-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Vladis Dronov <vdronov@redhat.com>
 Cc: alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 
-On Wed, 30 Mar 2016 21:03:22 +0200,
-Vladis Dronov wrote:
+On Wed, 30 Mar 2016 22:31:15 +0200,
+Takashi Iwai wrote:
 > 
-> There is a double-free bug in [snd-usb-audio] module due to alloc/free logic
-> flaw in snd_usb_add_audio_stream() function. This leads to kernel structures
-> corruption and panic. Fix the code flow and alloc/free logic so there is no
-> double-free.
+> On Wed, 30 Mar 2016 21:03:22 +0200,
+> Vladis Dronov wrote:
+> > 
+> > There is a double-free bug in [snd-usb-audio] module due to alloc/free logic
+> > flaw in snd_usb_add_audio_stream() function. This leads to kernel structures
+> > corruption and panic. Fix the code flow and alloc/free logic so there is no
+> > double-free.
+> > 
+> > The detailed analysis: https://bugzilla.redhat.com/show_bug.cgi?id83358
+> > 
+> > Reported-by: Ralf Spenneberg <ralf@spenneberg.net>
+> > Signed-off-by: Vladis Dronov <vdronov@redhat.com>
 > 
-> The detailed analysis: https://bugzilla.redhat.com/show_bug.cgi?id83358
-> 
-> Reported-by: Ralf Spenneberg <ralf@spenneberg.net>
-> Signed-off-by: Vladis Dronov <vdronov@redhat.com>
+> Thanks for the report.  But how about a simpler fix like below?
 
-Thanks for the report.  But how about a simpler fix like below?
+Maybe the one below is more straightforward (and even simpler).
+Let me know if this works enough for you.
 
+
+thanks,
 
 Takashi
 
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: usb-audio: Fix double free in create_fixed_stream_quirk() error paths
+
+create_fixed_stream_quirk() function allocates the audioformat object
+by itself and frees it upon error before returning.  However, once
+when the object is linked to a stream, it's freed again in
+snd_usb_audio_pcm_free(), thus it'll be double-freed, eventually
+resulting in a memory corruption.
+
+This patch fixes this failure in the error path by unlinking the
+audioformat object before freeing it.
+
+[Note for stable backports:
+ this patch requires the commit 902eb7fd1e4a ('ALSA: usb-audio: Minor
+ code cleanup in create_fixed_stream_quirk()')]
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id83358
+Reported-by: Ralf Spenneberg <ralf@spenneberg.net>
+Reported-by: Vladis Dronov <vdronov@redhat.com>
+Cc: <stable@vger.kernel.org> # see the note above
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index fb62bce2435c..0e154ae7924e 100644
+index fb62bce2435c..a5a9ecaafb37 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
 @@ -150,6 +150,7 @@ static int create_fixed_stream_quirk(struct snd_usb_audio *chip,
@@ -43,17 +77,14 @@ index fb62bce2435c..0e154ae7924e 100644
  	if (fp->nr_rates > MAX_NR_RATES) {
  		kfree(fp);
  		return -EINVAL;
-@@ -193,8 +194,11 @@ static int create_fixed_stream_quirk(struct snd_usb_audio *chip,
+@@ -193,6 +194,7 @@ static int create_fixed_stream_quirk(struct snd_usb_audio *chip,
  	return 0;
  
   error:
--	kfree(fp);
--	kfree(rate_table);
-+	/* linked fp will be removed in snd_usb_audio_pcm_free() */
-+	if (list_empty(&fp->list)) {
-+		kfree(fp);
-+		kfree(rate_table);
-+	}
++	list_del(&fp->list); /* unlink for avoiding double-free */
+ 	kfree(fp);
+ 	kfree(rate_table);
  	return err;
- }
- 
+-- 
+2.7.4
+
