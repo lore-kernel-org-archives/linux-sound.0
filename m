@@ -1,61 +1,31 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Mon, 14 Mar 2016 07:30:29 +0000
-Subject: Re: [PATCH] ALSA: intel8x0: Add clock quirk entry for AD1981B on IBM ThinkPad X41.
-Message-Id: <s5hegbdy0ru.wl-tiwai@suse.de>
+From: "Vittorio Gambaletta (VittGam)" <linuxbugs@vittgam.net>
+Date: Mon, 08 Aug 2016 10:35:40 +0000
+Subject: [PATCH] ALSA: usb-audio: Add quirk for ELP HD USB Camera
+Message-Id: <cdaa8f6247049412e7f400fa3cbc5192@vittgam.net>
 List-Id: <linux-sound.vger.kernel.org>
-References: <linux-patch-20160313-1@vittgam.net>
-In-Reply-To: <linux-patch-20160313-1@vittgam.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Vittorio Gambaletta (VittGam)" <linuxbugs@vittgam.net>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: stable@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
 
-On Sun, 13 Mar 2016 22:19:34 +0100,
-Vittorio Gambaletta (VittGam) wrote:
-> 
-> The clock measurement on the AC'97 audio card found in the IBM ThinkPad X41
-> will often fail, so add a quirk entry to fix it.
-> 
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?idD1087
-> Cc: <stable@vger.kernel.org>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Vittorio Gambaletta <linuxbugs@vittgam.net>
-> ---
-> 
-> When the clock measurement doesn't fail, the `pos` variable after line 2861
-> will be around 48367, but when it does fail it will be somewhere between
-> 45000 and 47500. So the bus clock gets set between 48500 and 52000 (!),
-> resulting in faster audio for rates with final clocks below 48000, and
-> distorted audio for rates with final clocks above 48000.
-> 
-> The problem is always reproducible on kernel 4.4.5, but very rarely on 3.13.
+The ELP HD USB Camera (05a3:9420) needs this quirk for suppressing
+the unsupported sample rate inquiry.
 
-Hrm, does this mean that the ktime() isn't accurate enough, or do we
-sample too short time?  i.e. Is it improved if we enlarge the
-measurement time?
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=98481
+Cc: <stable@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Vittorio Gambaletta <linuxbugs@vittgam.net>
+---
 
-> This patch fixes the problem for my computer, and will also speed up module
-> loading a bit as said on Bugzilla, but I've got some questions regarding
-> other hardware...
-> 
-> Do we want to protect against overclock for all hardware, by never setting
-> the measured bus clock higher than 48000? Do we actually risk burning or
-> otherwise permanently ruining something here, or not? Does hardware clocked
-> above 48000 exist?
-> 
-> Also, is line 2874 actually correct? As `pos` gets higher, the bus clock gets
-> lower, and vice versa. Note that in this function the bus clock is always
-> 48000 before it gets updated here; so the code first computes 48000 * 48000,
-> and then it divides the result by `pos`. It doesn't seem right to me... By the
-> way, the history of that line goes beyond Git (so before kernel 2.6.12-rc2).
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -1138,6 +1138,7 @@
+  	case USB_ID(0x047F, 0xAA05): /* Plantronics DA45 */
+  	case USB_ID(0x04D8, 0xFEEA): /* Benchmark DAC1 Pre */
+  	case USB_ID(0x0556, 0x0014): /* Phoenix Audio TMX320VC */
++	case USB_ID(0x05A3, 0x9420): /* ELP HD USB Camera */
+  	case USB_ID(0x074D, 0x3553): /* Outlaw RR2150 (Micronas UAC3553B) */
+  	case USB_ID(0x1de7, 0x0013): /* Phoenix Audio MT202exe */
+  	case USB_ID(0x1de7, 0x0014): /* Phoenix Audio TMX320 */
 
-I don't remember of any machines with clock > 48k, so I guess the code
-never hits on any real machines, and I'm not sure whether it's really
-correct at a quick glance.
-
-In anyway, I applied your patch now.  Thanks.
-
-
-Takashi
