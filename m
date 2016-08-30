@@ -1,43 +1,52 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Tue, 09 Aug 2016 06:50:53 +0000
-Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for ELP HD USB Camera
-Message-Id: <s5h37meo2pe.wl-tiwai@suse.de>
+From: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+Date: Tue, 30 Aug 2016 10:02:56 +0000
+Subject: Questions about thinkpad_helper
+Message-Id: <7a5ce190-5881-588a-2deb-f248adffd26f@secunet.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <cdaa8f6247049412e7f400fa3cbc5192@vittgam.net>
-In-Reply-To: <cdaa8f6247049412e7f400fa3cbc5192@vittgam.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
-To: "Vittorio Gambaletta (VittGam)" <linuxbugs@vittgam.net>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: linux-sound@vger.kernel.org
 
-On Mon, 08 Aug 2016 12:35:40 +0200,
-Vittorio Gambaletta (VittGam) wrote:
->=20
-> The ELP HD USB Camera (05a3:9420) needs this quirk for suppressing
-> the unsupported sample rate inquiry.
->=20
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=98481
-> Cc: <stable@vger.kernel.org>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Vittorio Gambaletta <linuxbugs@vittgam.net>
+Hi all,
 
-Applied, thanks.
+I wrote a driver which handles the function / special keys for
+ThinKeyboard of Lenovo ThinkPad X1 Tablet 2016 including LED control.
+This Keyboard is connected via USB to the Tablet. I added the driver to
+hid-lenovo.c file because there are HID drivers included for different
+Lenovo devices.
 
+For example this driver is able to handle LED control for mute and mic
+mute keys. Now I want to make the other direction working. If someone
+sets mute or mic mute at amixer, I want to control the mute and mic mute
+LEDs. At other Thinkpad devices this is done by thinkpad_helper.c. The
+thinkpad_helper let the thinkpad_apci driver to control the LEDs.
 
-Takashi
+Now I think about how to make this working for Lenovo Thinkpad X1 Tablet
+2016. There it is not possible to use the thinkpad_acpi driver. Instead
+we have to use the hid-lenovo driver to make this working.
 
+Should I add this to thinkpad_helper because this is a thinkpad device
+too or should I make a new helper? Can I use the same API than
+thinkpad_acpi (static int (*led_set_func)(int, bool)) or should I make a
+new one (e.g. in combination with LED triggers)?
 
-> ---
->=20
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -1138,6 +1138,7 @@
->  	case USB_ID(0x047F, 0xAA05): /* Plantronics DA45 */
->  	case USB_ID(0x04D8, 0xFEEA): /* Benchmark DAC1 Pre */
->  	case USB_ID(0x0556, 0x0014): /* Phoenix Audio TMX320VC */
-> +	case USB_ID(0x05A3, 0x9420): /* ELP HD USB Camera */
->  	case USB_ID(0x074D, 0x3553): /* Outlaw RR2150 (Micronas UAC3553B) */
->  	case USB_ID(0x1de7, 0x0013): /* Phoenix Audio MT202exe */
->  	case USB_ID(0x1de7, 0x0014): /* Phoenix Audio TMX320 */
->=20
+For the first shot I made something at
+https://github.com/dwassenberg/linux/tree/development/hid-rmi
+(dc05de0add955775434d18d4fe096ea78d1e63bd..5a88c66f2ae8db04147bb75ecf84a4f52e0da1df)
+this shot is based on using the thinkpad_helper and the same API. Please
+tell me your opinion.
+
+Maybe one additional remark. In case of using the USB connected
+ThinKeyboard there is one additional effort to make this working at the
+initial state if the Tablet is finished booting and after that the
+ThinKeyboard is connected. So either there is an additional trigger
+needed which tells the helper to publish the current mute and mic mute
+state when the keyboard is connected. Or an other approach is to update
+the hid-lenovo driver even when this keyboard is not connected such that
+the hid-lenovo driver always knows the current state and is able to set
+this if the keyboard is connected. Or is there there an other solution?
+
+Thank you & best regards,
+
+Dennis
