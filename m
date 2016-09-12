@@ -1,40 +1,44 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Wed, 14 Sep 2016 07:03:50 +0000
-Subject: Re: [PATCH 4/4] hda: thinkpad_helper: Add support for hid-lenovo LED control
-Message-Id: <s5h7fafvu7d.wl-tiwai@suse.de>
+From: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+Date: Mon, 12 Sep 2016 10:45:21 +0000
+Subject: [PATCH 2/4] HID: add device id for Lenovo X1 Tablet Cover
+Message-Id: <f04a30b2-5128-fb60-a653-329a61d86366@secunet.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <91729b41-7537-b506-6980-94b9938c8305@secunet.com>
-        <s5hsht5i98s.wl-tiwai@suse.de>
-        <6d21581c-cbc6-f148-77fd-2b468335f481@secunet.com>
-In-Reply-To: <6d21581c-cbc6-f148-77fd-2b468335f481@secunet.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Dennis Wassenberg <dennis.wassenberg@secunet.com>
-Cc: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, lukas@wunner.de, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, david.henningsson@canonical.com, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com, jikos@kernel.org
+To: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de, lukas@wunner.de, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, david.henningsson@canonical.com, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com, jikos@kernel.org
 
-On Wed, 14 Sep 2016 08:22:45 +0200,
-Dennis Wassenberg wrote:
-> 
-> Hi Takashi,
-> 
-> at my first shot published to github I had an approach which makes thinkpad_acpi and hid-lenovo mutual exclusive (https://github.com/dwassenberg/linux/tree/development/hid-rmi). This approach has some issues. For example in case of thinkpad_acpi and hid-lenovo module is loaded (e.g. at Lenovo ThinkPad X1 Tablet) the symbol request to tpacpi_led_set is successful so the thinkpad_helper will decide in favor of thinkpad_acpi. So I need to add something which checks the return code of tpacpi_led_set. If -ENODEV is returned it can try hid-lenovo.
-> 
-> But the reason why I made thinkpad_acpi and hid-lenovo work in parallel was that if it is mutual exclusive there is no possibility to control LEDs of external Lenovo USB keyboards which are connected to a Thinkpad. Currently (including the other patches) there is only the X1 Tablet Cover LEDs which is controllable from external code. But the hid-lenovo driver is able to handle different Lenovo USB Keyboards.
-> 
-> - ThinkPad USB Keyboard with TrackPoint (tpkbd)
-> - ThinkPad Compact Bluetooth Keyboard with TrackPoint (cptkbd)
-> - ThinkPad Compact USB Keyboard with TrackPoint (cptkbd)
-> - ThinkPad X1 Cover USB Keyboard with TrackPoint and Touchpad (tpx1cover)
-> 
-> These keyboards have these LEDs too. For some of these keyboards a LED control is implemented inside hid-lenovo too. If thinkpad_acpi and hid-lenovo is mutual exclusive it is impossible to let the thinkpad_helper control the LEDs of these external USB keyboards if they are connected to a thinkpad. I don't know if anyone will do this, but I don't want to take the possibility to do such thinks :)
-> 
-> So.. if there is the decision (from your side) that this should be mutual exclusive I will prepare a v2 which the mutual exclusive approach I described at the top.
+Add device id for Lenovo X1 Tablet Cover
 
-OK, now understood.  But still make sure that it works even with one
-of kconfigs is disabled.
+Signed-off-by: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+---
+ drivers/hid/hid-core.c | 1 +
+ drivers/hid/hid-ids.h  | 1 +
+ 2 files changed, 2 insertions(+)
 
-
-thanks,
-
-Takashi
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 6add0b6..ba6a200 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2111,6 +2111,7 @@ void hid_disconnect(struct hid_device *hdev)
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_WIIMOTE2) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_RAZER, USB_DEVICE_ID_RAZER_BLADE_14) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_COVER) },
+ 	{ }
+ };
+ 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 3466f0d..1f08fb5 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -615,6 +615,7 @@
+ #define USB_DEVICE_ID_LENOVO_CUSBKBD	0x6047
+ #define USB_DEVICE_ID_LENOVO_CBTKBD	0x6048
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
++#define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
+ 
+ #define USB_VENDOR_ID_LG		0x1fd2
+ #define USB_DEVICE_ID_LG_MULTITOUCH	0x0064
+-- 
+1.9.1
