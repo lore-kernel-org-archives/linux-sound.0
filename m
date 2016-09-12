@@ -1,1005 +1,201 @@
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Thu, 15 Sep 2016 08:11:08 +0000
-Subject: Re: [PATCH v2 1/2] hid-lenovo: Add support for X1 Tablet special keys and LED control
-Message-Id: <20160915081108.GC15777@mail.corp.redhat.com>
+From: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+Date: Mon, 12 Sep 2016 10:44:50 +0000
+Subject: [PATCH 1/4] hda: Rename fixup thinkpad_acpi to fixup_thinkpad
+Message-Id: <5cb009b2-11a0-fb19-e751-965a874903b0@secunet.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <b8f9c56c-2dfc-8895-2f2a-e17a34be06d2@secunet.com>
- <20160914153247.GL25951@mail.corp.redhat.com>
- <8228171a-1430-9e8d-99fc-8d0951d612d2@secunet.com>
-In-Reply-To: <8228171a-1430-9e8d-99fc-8d0951d612d2@secunet.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Dennis Wassenberg <dennis.wassenberg@secunet.com>
-Cc: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>, lukas@wunner.de, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com, jikos@kernel.org
+To: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de, lukas@wunner.de, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, david.henningsson@canonical.com, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com, jikos@kernel.org
 
-On Sep 15 2016 or thereabouts, Dennis Wassenberg wrote:
-> Hi Benjamin,
-> 
-> Thank you for your comments. I will prepare new patches to replace this
-> one. It will take some weeks to do this (vacation, other work). Would
-> you please answer my inquiries inlined before I do this.
-> 
-> Best regards,
-> 
-> Dennis
-> 
-> On 14.09.2016 17:32, Benjamin Tissoires wrote:
-> > Hi Dennis,
-> > 
-> > On Sep 14 2016 or thereabouts, Dennis Wassenberg wrote:
-> >> The Lenovo X1 Tablet Cover is connected via USB. It constists of
-> >> 1 device with 3 usb interfaces. Interface 0 represents keyboard,
-> >> interface 1 the function / special keys and LED control, interface 2
-> >> is the Synaptics touchpad and pointing stick.
-> >>
-> >> This driver will bind to interfaces 0 and 1 and handle function / special keys
-> >> including LED control.
-> >> HID: add device id for Lenovo X1 Tablet Cover
-> >>
-> >> Signed-off-by: Dennis Wassenberg <dennis.wassenberg@secunet.com>
-> >> ---
-> >> Changes v1 -> v2 (suggested by Benjamin Tissoires):
-> >>  * Squashed add of device IDs for Lenovo Thinkpad X1 Tablet Cover together with add of support for Lenovo Thinkpad X1 Tablet Cover into one patch
-> >>
-> > 
-> > I wanted to review the first version, but got sidetracked.
-> > 
-> > So here it comes :)
-> > 
-> >>
-> >>  drivers/hid/hid-core.c     |   1 +
-> >>  drivers/hid/hid-ids.h      |   1 +
-> >>  drivers/hid/hid-lenovo.c   | 549 +++++++++++++++++++++++++++++++++++++++++++++
-> > 
-> > This seems to be too big for a single patch. Especially when you have
-> > actually several changes that could be split for easier reviewing (LED,
-> > special keys and keys stuck at least).
-> > 
-> Whats the difference between special keys and keys stuck? This code will
-> mainly handle special keys and LED control. I can split these 2 thinks.
-> But I currently don't know where to do a third split.
+This is some preparatory work to not only support led control in
+thinkpad_helper over thinkpad_acpi.
 
-IMO, in the first case, you are mapping unmapped keys to their proper
-KEY_* event. In the other case, you are forcing the release of the keys,
-which is not something we generally do given that you should be notified
-of the release. Splitting this is 2 would allow to better understand the
-changes and revert one if needed.
+A further patch will introduce led control over hid-lenovo.
+This will make it possible to use the thinkpad_helper not only with
+lenovo devices via acpi but also with hid-lenovo driver
+if there is a hid-lenovo compatible device found.
 
-> >>  include/linux/hid-lenovo.h |  15 ++
-> >>  4 files changed, 566 insertions(+)
-> >>  create mode 100644 include/linux/hid-lenovo.h
-> >>
-> >> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> >> index 6add0b6..ba6a200 100644
-> >> --- a/drivers/hid/hid-core.c
-> >> +++ b/drivers/hid/hid-core.c
-> >> @@ -2111,6 +2111,7 @@ void hid_disconnect(struct hid_device *hdev)
-> >>  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO_WIIMOTE2) },
-> >>  	{ HID_USB_DEVICE(USB_VENDOR_ID_RAZER, USB_DEVICE_ID_RAZER_BLADE_14) },
-> >>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
-> >> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_COVER) },
-> > 
-> > I know it's hard given the existing code, but please try to keep the
-> > list sorted and insert your device in the appropriate place.
-> > 
-> oh sorry, yes of course.
-> >>  	{ }
-> >>  };
-> >>  
-> >> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> >> index 3466f0d..1f08fb5 100644
-> >> --- a/drivers/hid/hid-ids.h
-> >> +++ b/drivers/hid/hid-ids.h
-> >> @@ -615,6 +615,7 @@
-> >>  #define USB_DEVICE_ID_LENOVO_CUSBKBD	0x6047
-> >>  #define USB_DEVICE_ID_LENOVO_CBTKBD	0x6048
-> >>  #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
-> >> +#define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
-> >>  
-> >>  #define USB_VENDOR_ID_LG		0x1fd2
-> >>  #define USB_DEVICE_ID_LG_MULTITOUCH	0x0064
-> >> diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-> >> index 1ac4ff4..4251aac 100644
-> >> --- a/drivers/hid/hid-lenovo.c
-> >> +++ b/drivers/hid/hid-lenovo.c
-> >> @@ -3,9 +3,11 @@
-> >>   *  - ThinkPad USB Keyboard with TrackPoint (tpkbd)
-> >>   *  - ThinkPad Compact Bluetooth Keyboard with TrackPoint (cptkbd)
-> >>   *  - ThinkPad Compact USB Keyboard with TrackPoint (cptkbd)
-> >> + *  - ThinkPad X1 Cover USB Keyboard with TrackPoint and Touchpad (tpx1cover)
-> >>   *
-> >>   *  Copyright (c) 2012 Bernhard Seibold
-> >>   *  Copyright (c) 2014 Jamie Lentin <jm@lentin.co.uk>
-> >> + *  Copyright (c) 2016 Dennis Wassenberg <dennis.wassenberg@secunet.com>
-> >>   */
-> >>  
-> >>  /*
-> >> @@ -19,11 +21,19 @@
-> >>  #include <linux/sysfs.h>
-> >>  #include <linux/device.h>
-> >>  #include <linux/hid.h>
-> >> +#include <linux/hid-lenovo.h>
-> >>  #include <linux/input.h>
-> >>  #include <linux/leds.h>
-> >>  
-> >>  #include "hid-ids.h"
-> >>  
-> >> +struct led_table_entry {
-> >> +	struct led_classdev *dev;
-> >> +	uint8_t state;
-> >> +};
-> >> +
-> >> +static struct led_table_entry hid_lenovo_led_table[HID_LENOVO_LED_MAX];
-> > 
-> > Ouch. Please no static arrays containing random devices. The device is
-> > USB, so you could have several of its kind plugged at once.
-> > 
-> > So, please include this array in the driver data in the hid device, and
-> > if you need a list of hid device connected, use an actual list of struct
-> > hid_device.
-> > Well, you can also use a list of struct led_table_entry if you add a
-> > field with the type, and iterate over the list for each call on the API
-> > in case there are 2 or more LEDs of the same type.
-> > 
-> Yes, you are right. For my use case (X1 Tablet only) this was sufficient
-> to do it in this way:) X1 Tablet is only able to connect one
-> ThinKeyboard Cover.
-> >> +
-> >>  struct lenovo_drvdata_tpkbd {
-> >>  	int led_state;
-> >>  	struct led_classdev led_mute;
-> >> @@ -42,6 +52,37 @@ struct lenovo_drvdata_cptkbd {
-> >>  	int sensitivity;
-> >>  };
-> >>  
-> >> +struct lenovo_drvdata_tpx1cover {
-> >> +	uint16_t led_state;
-> >> +	uint8_t fnlock_state;
-> >> +	uint8_t led_present;
-> >> +	struct led_classdev led_mute;
-> >> +	struct led_classdev led_micmute;
-> >> +	struct led_classdev led_fnlock;
-> >> +};
-> >> +
-> >> +int hid_lenovo_led_set(int led_num, bool on)
-> > 
-> > You are declaring an enum for LEDs, I'd prefer see it used here (so you
-> > have to give it a name first).
-> > 
-> ok.
-> >> +{
-> >> +	struct led_classdev *dev;
-> >> +
-> >> +	if (led_num >= HID_LENOVO_LED_MAX)
-> >> +		return -EINVAL;
-> >> +
-> >> +	dev = hid_lenovo_led_table[led_num].dev;
-> >> +	hid_lenovo_led_table[led_num].state = on;
-> >> +
-> >> +	if (!dev)
-> >> +		return -ENODEV;
-> >> +
-> >> +	if (!dev->brightness_set)
-> >> +		return -ENODEV;
-> >> +
-> >> +	dev->brightness_set(dev, on ? LED_FULL : LED_OFF);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(hid_lenovo_led_set);
-> >> +
-> >>  #define map_key_clear(c) hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
-> >>  
-> >>  static const __u8 lenovo_pro_dock_need_fixup_collection[] = {
-> >> @@ -86,6 +127,84 @@ static int lenovo_input_mapping_tpkbd(struct hid_device *hdev,
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +static int lenovo_input_mapping_tpx1cover(struct hid_device *hdev,
-> >> +		struct hid_input *hi, struct hid_field *field,
-> >> +		struct hid_usage *usage, unsigned long **bit, int *max)
-> >> +{
-> >> +	if ((usage->hid & HID_USAGE_PAGE) = HID_UP_CONSUMER) {
-> >> +		switch (usage->hid & HID_USAGE) {
-> >> +		case 0x0001: // Unknown keys -> Idenditied by usage index!
-> > 
-> > Why don't use directly usage->hid and check for HID_CP_CONSUMERCONTROL (0x000c0001)?
-> > 
-> ok, I will use this.
-> 
-> > Note that here you are working with keys while previously it was LED.
-> > Split in 2 patches please.
-> > 
-> ok.
-> > 
-> >> +			map_key_clear(KEY_UNKNOWN);
-> > 
-> > why?
-> > If the key doesn't seem to be used, please don't map it and return -1.
-> > 
-> ok.
-> >> +			switch (usage->usage_index) {
-> >> +			case 0x8:
-> > 
-> > It feels weird to have an hexadecimal representation when dealing with
-> > indexes.
-> > 
-> ok.
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_FN);
-> > 
-> > You should consider using map_key_clear(KEY_FN); instead. This way the
-> > event handling code will be cheaper.
-> > 
-> > Rince, wash reapeat in the following cases.
-> > 
-> ok.
-> >> +				break;
-> >> +
-> >> +			case 0x9:
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_MICMUTE);
-> >> +				break;
-> >> +
-> >> +			case 0xa:
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_CONFIG);
-> >> +				break;
-> >> +
-> >> +			case 0xb:
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_SEARCH);
-> >> +				break;
-> >> +
-> >> +			case 0xc:
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_SETUP);
-> >> +				break;
-> >> +
-> >> +			case 0xd:
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_SWITCHVIDEOMODE);
-> >> +				break;
-> >> +
-> >> +			case 0xe:
-> >> +				input_set_capability(hi->input, EV_KEY, KEY_RFKILL);
-> >> +				break;
-> >> +
-> >> +			default:
-> >> +				return -1;
-> >> +			}
-> >> +
-> >> +			return 1;
-> >> +
-> >> +		case 0x006f: // Consumer.006f ---> Key.BrightnessUp
-> >> +			map_key_clear(KEY_BRIGHTNESSUP);
-> > 
-> > Why are you overriding the existing behavior from hid-input if you are
-> > using the same code?
-> > 
-> > Just return 0 and hid-input will set the values for you.
-> > 
-> > Rince, wash repeat for the rest of the cases.
-> > 
-> ok.
-> >> +			return 1;
-> >> +
-> >> +		case 0x0070: // Consumer.0070 ---> Key.BrightnessDown
-> >> +			map_key_clear(KEY_BRIGHTNESSDOWN);
-> >> +			return 1;
-> >> +
-> >> +		case 0x00b7:// Consumer.00b7 ---> Key.StopCD
-> >> +			map_key_clear(KEY_STOPCD);
-> >> +			return 1;
-> >> +
-> >> +		case 0x00cd: // Consumer.00cd ---> Key.PlayPause
-> >> +			map_key_clear(KEY_PLAYPAUSE);
-> >> +			return 1;
-> >> +
-> >> +		case 0x00e0: // Consumer.00e0 ---> Absolute.Volume
-> >> +			return 0;
-> >> +		case 0x00e2: // Consumer.00e2 ---> Key.Mute
-> >> +			map_key_clear(KEY_MUTE);
-> >> +			return 1;
-> >> +
-> >> +		case 0x00e9: // Consumer.00e9 ---> Key.VolumeUp
-> >> +			map_key_clear(KEY_VOLUMEUP);
-> >> +			return 1;
-> >> +
-> >> +		case 0x00ea: // Consumer.00ea ---> Key.VolumeDown
-> >> +			map_key_clear(KEY_VOLUMEDOWN);
-> >> +			return 1;
-> >> +		}
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  static int lenovo_input_mapping_cptkbd(struct hid_device *hdev,
-> >>  		struct hid_input *hi, struct hid_field *field,
-> >>  		struct hid_usage *usage, unsigned long **bit, int *max)
-> >> @@ -172,6 +291,9 @@ static int lenovo_input_mapping(struct hid_device *hdev,
-> >>  	case USB_DEVICE_ID_LENOVO_CBTKBD:
-> >>  		return lenovo_input_mapping_cptkbd(hdev, hi, field,
-> >>  							usage, bit, max);
-> >> +	case USB_DEVICE_ID_LENOVO_X1_COVER:
-> >> +		return lenovo_input_mapping_tpx1cover(hdev, hi, field,
-> >> +							usage, bit, max);
-> >>  	default:
-> >>  		return 0;
-> >>  	}
-> >> @@ -362,6 +484,143 @@ static int lenovo_event_cptkbd(struct hid_device *hdev,
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +static enum led_brightness lenovo_led_brightness_get_tpx1cover(
-> >> +			struct led_classdev *led_cdev)
-> >> +{
-> >> +	struct device *dev = led_cdev->dev->parent;
-> >> +	struct hid_device *hdev = to_hid_device(dev);
-> >> +	struct lenovo_drvdata_tpx1cover *drv_data = hid_get_drvdata(hdev);
-> >> +	int led_nr = 0;
-> > 
-> > Would be even better to use the enum.
-> > 
-> ok.
-> >> +
-> >> +	if (led_cdev = &drv_data->led_mute)
-> >> +		led_nr = 0;
-> >> +	else if (led_cdev = &drv_data->led_micmute)
-> >> +		led_nr = 1;
-> >> +	else if (led_cdev = &drv_data->led_fnlock)
-> >> +		led_nr = 2;
-> >> +	else
-> >> +		return LED_OFF;
-> >> +
-> >> +	return drv_data->led_state & (1 << led_nr)
-> >> +				? LED_FULL
-> >> +				: LED_OFF;
-> >> +}
-> >> +
-> >> +static void lenovo_led_brightness_set_tpx1cover(struct led_classdev *led_cdev,
-> >> +			enum led_brightness value)
-> >> +{
-> >> +	struct device *dev = led_cdev->dev->parent;
-> >> +	struct hid_device *hdev = to_hid_device(dev);
-> >> +	struct lenovo_drvdata_tpx1cover *drv_data = hid_get_drvdata(hdev);
-> >> +	struct hid_report *report;
-> >> +	int led_nr = -1;
-> > 
-> > Likewise, the enum would be nice
-> > 
-> ok.
-> >> +	int led_nr_hw = -1;
-> >> +
-> >> +	if (led_cdev = &drv_data->led_mute) {
-> >> +		led_nr = 0;
-> >> +		led_nr_hw = 0x64;
-> > 
-> > Are you sure you are not overriding bits in 0x44?
-> > 
-> ???
+Signed-off-by: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+---
+ sound/pci/hda/patch_conexant.c  | 14 +++++++-------
+ sound/pci/hda/patch_realtek.c   | 24 ++++++++++++------------
+ sound/pci/hda/thinkpad_helper.c |  4 ++--
+ 3 files changed, 21 insertions(+), 21 deletions(-)
 
-See the comment just below.
-It feels weird that you need to have 0x54, 0x64, 0x74 to set an LED. I
-wouldn't be surprised if the (constant) 0x44 part is there to set a
-different feature of the cover.
-
-However, I might have a wrong view of the protocol and using those plain
-values are probably enough (and maybe the firmware uses 0x44 as the flag
-that you are working with LEDs).
-
-> > If you reorder the enum, I'd say the led_nr_hw could be represented as:
-> > ((led_nr + 1) << 4) | 0x44
-> > 
-> > So I think this is too much to be just a coincidence.
-> > 
-> ok.
-> >> +	} else if (led_cdev = &drv_data->led_micmute) {
-> >> +		led_nr = 1;
-> >> +		led_nr_hw = 0x74;
-> >> +	} else if (led_cdev = &drv_data->led_fnlock) {
-> >> +		led_nr = 2;
-> >> +		led_nr_hw = 0x54;
-> >> +	} else {
-> >> +		hid_warn(hdev, "Invalid LED to set.\n");
-> >> +		return;
-> >> +	}
-> >> +
-> >> +	if (value = LED_OFF)
-> >> +		drv_data->led_state &= ~(1 << led_nr);
-> >> +	else
-> >> +		drv_data->led_state |= 1 << led_nr;
-> >> +
-> >> +	report = hdev->report_enum[HID_OUTPUT_REPORT].report_id_hash[9];
-> >> +	if (report) {
-> >> +		report->field[0]->value[0] = led_nr_hw;
-> >> +		report->field[0]->value[1] = (drv_data->led_state & (1 << led_nr))
-> >> +			? 0x02 : 0x01;
-> >> +		hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
-> >> +	}
-> >> +}
-> >> +
-> >> +static int lenovo_event_tpx1cover(struct hid_device *hdev,
-> >> +		struct hid_field *field, struct hid_usage *usage, __s32 value)
-> >> +{
-> >> +	int ret = 0;
-> >> +
-> >> +	if ((usage->hid & HID_USAGE_PAGE) = HID_UP_CONSUMER
-> >> +		&& (usage->hid & HID_USAGE) = 0x0001) {
-> >> +
-> >> +		if (usage->usage_index = 0x8 && value = 1) {
-> >> +			struct lenovo_drvdata_tpx1cover *drv_data = hid_get_drvdata(hdev);
-> >> +
-> >> +			if (drv_data && drv_data->led_present) {
-> >> +				drv_data->fnlock_state = lenovo_led_brightness_get_tpx1cover(
-> >> +						&drv_data->led_fnlock) = LED_OFF ? 1 : 0;
-> >> +				lenovo_led_brightness_set_tpx1cover(
-> >> +					&drv_data->led_fnlock,
-> >> +					drv_data->fnlock_state ? LED_FULL : LED_OFF);
-> >> +			}
-> > 
-> > This looks like a different semantic change where you sync the actual LED with the incoming event.
-> > This is not something we usually do from the kernel but rely on the
-> > userspace to do it for us. Not sure about the FN lock state though.
-> > 
-> In case of X1 Tablet the fn lock state and the fn lock led state is the
-> same. You can only change the fn lock while changing the fn lock led
-> state. I will check if it behaves different if I map KEY_FN 	appropriate.
-> > Anyway, if this needs to be there, it should have its own patch
-> > 
-> ok. I will double check if this is relly needed. If so I will put in
-> into a separate patch.
-
-Thanks.
-
-> >> +		}
-> >> +
-> >> +		if (usage->usage_index = 0x9 && value = 1) {
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_MICMUTE, 1);
-> >> +			input_sync(field->hidinput->input);
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_MICMUTE, 0);
-> >> +			input_sync(field->hidinput->input);
-> >> +			ret = 1;
-> > 
-> > Aren't you notified when the key is released?
-> > 
-> Does map_key_clear work if a key can only identified by
-> usage->usage_index and not by usage->hid? If yes, I can remove this.
-
-Basically, when you have usage_index > 0, that means that the report
-descriptor is declaring more than one field with the same usage in a
-row. Given that you should use map_key_clear, you are mapping the HID
-usage (the element in the array) to a KEY_* value and you should be
-fine.
-
-Consider that each field in the report gets assigned its own usage, and
-usage->page, usage->usage and usage->usage_index are just a description
-of the usage.
-
-> Otherwise I have to track the previously pressed keys to not issue a key
-> release of every special key each time one special key is pressed/released.
-
-Just give a shot at it, but I am pretty confident it will work.
-
-> > If so, you should just drop the change because you used map_key_clear
-> > above and hid-input will simply do the right thing for you.
-> > 
-> > If you are not notified, this is big enough a difference to have its own
-> > patch.
-> > 
-> > Rince wash repeat
-> > 
-> >> +		}
-> >> +
-> >> +		if (usage->usage_index = 0xa && value = 1) {
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_CONFIG, 1);
-> >> +			input_sync(field->hidinput->input);
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_CONFIG, 0);
-> >> +			input_sync(field->hidinput->input);
-> >> +
-> >> +			ret = 1;
-> >> +		}
-> >> +
-> >> +		if (usage->usage_index = 0xb && value = 1) {
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_SEARCH, 1);
-> >> +			input_sync(field->hidinput->input);
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_SEARCH, 0);
-> >> +			input_sync(field->hidinput->input);
-> >> +
-> >> +			ret = 1;
-> >> +		}
-> >> +
-> >> +		if (usage->usage_index = 0xc && value = 1) {
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_SETUP, 1);
-> >> +			input_sync(field->hidinput->input);
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_SETUP, 0);
-> >> +			input_sync(field->hidinput->input);
-> >> +
-> >> +			ret = 1;
-> >> +		}
-> >> +
-> >> +		if (usage->usage_index = 0xd && value = 1) {
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_SWITCHVIDEOMODE, 1);
-> >> +			input_sync(field->hidinput->input);
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_SWITCHVIDEOMODE, 0);
-> >> +			input_sync(field->hidinput->input);
-> >> +
-> >> +			ret = 1;
-> >> +		}
-> >> +
-> >> +		if (usage->usage_index = 0xe && value = 1) {
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_RFKILL, 1);
-> >> +			input_sync(field->hidinput->input);
-> >> +			input_event(field->hidinput->input, EV_KEY, KEY_RFKILL, 0);
-> >> +			input_sync(field->hidinput->input);
-> >> +
-> >> +			ret = 1;
-> >> +		}
-> >> +	}
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >>  static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
-> >>  		struct hid_usage *usage, __s32 value)
-> >>  {
-> >> @@ -369,6 +628,8 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
-> >>  	case USB_DEVICE_ID_LENOVO_CUSBKBD:
-> >>  	case USB_DEVICE_ID_LENOVO_CBTKBD:
-> >>  		return lenovo_event_cptkbd(hdev, field, usage, value);
-> >> +	case USB_DEVICE_ID_LENOVO_X1_COVER:
-> >> +		return lenovo_event_tpx1cover(hdev, field, usage, value);
-> >>  	default:
-> >>  		return 0;
-> >>  	}
-> >> @@ -731,6 +992,251 @@ static int lenovo_probe_tpkbd(struct hid_device *hdev)
-> >>  	return ret;
-> >>  }
-> >>  
-> >> +static int lenovo_probe_tpx1cover_configure(struct hid_device *hdev)
-> >> +{
-> >> +	struct hid_report *report = hdev->report_enum[HID_OUTPUT_REPORT].report_id_hash[9];
-> >> +	struct lenovo_drvdata_tpx1cover *drv_data = hid_get_drvdata(hdev);
-> >> +
-> >> +	if (!drv_data)
-> >> +		return -ENODEV;
-> > 
-> > Can this really happen?
-> > 
-> I will remove this.
-
-That was really a question, please make sure drv_data can't be null.
-
-> >> +
-> >> +	if (!report)
-> >> +		return -ENOENT;
-> >> +
-> >> +	report->field[0]->value[0] = 0x54;
-> >> +	report->field[0]->value[1] = 0x20;
-> >> +	hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
-> >> +	hid_hw_wait(hdev);
-> >> +
-> >> +	report->field[0]->value[0] = 0x54;
-> >> +	report->field[0]->value[1] = 0x08;
-> >> +	hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
-> >> +	hid_hw_wait(hdev);
-> >> +
-> >> +	report->field[0]->value[0] = 0xA0;
-> >> +	report->field[0]->value[1] = 0x02;
-> >> +	hid_hw_request(hdev, report, HID_REQ_SET_REPORT);
-> >> +	hid_hw_wait(hdev);
-> >> +
-> >> +	lenovo_led_brightness_set_tpx1cover(&drv_data->led_mute,
-> >> +		hid_lenovo_led_table[HID_LENOVO_LED_MUTE].state ? LED_FULL : LED_OFF);
-> >> +	hid_hw_wait(hdev);
-> >> +
-> >> +	lenovo_led_brightness_set_tpx1cover(&drv_data->led_micmute,
-> >> +		hid_lenovo_led_table[HID_LENOVO_LED_MICMUTE].state ? LED_FULL : LED_OFF);
-> >> +	hid_hw_wait(hdev);
-> >> +
-> >> +	lenovo_led_brightness_set_tpx1cover(&drv_data->led_fnlock, LED_FULL);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int lenovo_probe_tpx1cover_special_functions(struct hid_device *hdev)
-> >> +{
-> >> +	struct device *dev = &hdev->dev;
-> >> +	struct lenovo_drvdata_tpx1cover *drv_data = NULL;
-> >> +
-> >> +	size_t name_sz = strlen(dev_name(dev)) + 16;
-> >> +	char *name_led = NULL;
-> >> +
-> >> +	struct hid_report *report;
-> >> +	bool report_match = 1;
-> >> +
-> >> +	int ret = 0;
-> >> +
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 2, 0, 3);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 3, 0, 16);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_OUTPUT_REPORT, 9, 0, 2);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 32, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 84, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 100, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 116, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 132, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 144, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 162, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> > 
-> > It feels weird to have you check if those reports are actually long
-> > enough. I think this is related to checking which interface you have,
-> > but you should be able to reduce the list to only those you are actually
-> > using (report id "9" seems like a good candidate).
-> > 
-> Yes, its related to select the USB Interface. I queried all existing
-> reports of Interface 1 here. I will reduce this list but report id 9 is
-> not sufficient because IF2 has report id 9 too. So I will add one other
-> report id which enables a clear decision.
-> > And please add a comment why you are checking some specific report IDs.
-> > 
-> ok.
-> >> +
-> >> +	if (!report_match) {
-> >> +		ret = -ENODEV;
-> >> +		goto err;
-> > 
-> > just return -ENODEV here.
-> > 
-> ok.
-> >> +	}
-> >> +
-> >> +	drv_data = devm_kzalloc(&hdev->dev,
-> >> +			sizeof(struct lenovo_drvdata_tpx1cover),
-> >> +			GFP_KERNEL);
-> >> +
-> >> +	if (!drv_data) {
-> >> +		hid_err(hdev,
-> >> +			"Could not allocate memory for tpx1cover driver data\n");
-> >> +		ret = -ENOMEM;
-> >> +		goto err;
-> > 
-> > Just return -ENODEV too, the devres manager will kfree drv_data for you.
-> > 
-> ok.
-> >> +	}
-> >> +
-> >> +	name_led = devm_kzalloc(&hdev->dev, name_sz, GFP_KERNEL);
-> >> +	if (!name_led) {
-> >> +		hid_err(hdev, "Could not allocate memory for mute led data\n");
-> >> +		ret = -ENOMEM;
-> >> +		goto err_cleanup;
-> > 
-> > likewise
-> > 
-> ok.
-> >> +	}
-> >> +	snprintf(name_led, name_sz, "%s:amber:mute", dev_name(dev));
-> >> +
-> >> +	drv_data->led_mute.name = name_led;
-> >> +	drv_data->led_mute.brightness_get = lenovo_led_brightness_get_tpx1cover;
-> >> +	drv_data->led_mute.brightness_set = lenovo_led_brightness_set_tpx1cover;
-> >> +	drv_data->led_mute.dev = dev;
-> >> +	hid_lenovo_led_table[HID_LENOVO_LED_MUTE].dev = &drv_data->led_mute;
-> >> +	led_classdev_register(dev, &drv_data->led_mute);
-> > 
-> > Isn't devm_led_class_register working?
-> > 
-> > That would be nice because you could drop all of your cleanup paths
-> > 
-> Ah, ok, didn't know that function until yet.
-
-I *think* it should be fine to use it with hid->dev. If you use it with
-input->dev, that won't do and you'll need to do some weird things to
-remove the LED device (sadly that's what I had to do in the wacom
-driver).
-
-Just make sure /sys/class/leds/ doesn't contain a dangling LED device
-when you remove the cover and you should know if this worked or not.
-
-Cheers,
-Benjamin
-
-> >> +
-> >> +
-> >> +	name_led = devm_kzalloc(&hdev->dev, name_sz, GFP_KERNEL);
-> >> +	if (!name_led) {
-> >> +		hid_err(hdev,
-> >> +			"Could not allocate memory for mic mute led data\n");
-> >> +		ret = -ENOMEM;
-> >> +		goto err_cleanup;
-> > 
-> > ditto
-> > 
-> ok.
-> >> +	}
-> >> +	snprintf(name_led, name_sz, "%s:amber:micmute", dev_name(dev));
-> >> +
-> >> +	drv_data->led_micmute.name = name_led;
-> >> +	drv_data->led_micmute.brightness_get = lenovo_led_brightness_get_tpx1cover;
-> >> +	drv_data->led_micmute.brightness_set = lenovo_led_brightness_set_tpx1cover;
-> >> +	drv_data->led_micmute.dev = dev;
-> >> +	hid_lenovo_led_table[HID_LENOVO_LED_MICMUTE].dev = &drv_data->led_micmute;
-> >> +	led_classdev_register(dev, &drv_data->led_micmute);
-> >> +
-> >> +
-> >> +	name_led = devm_kzalloc(&hdev->dev, name_sz, GFP_KERNEL);
-> >> +	if (!name_led) {
-> >> +		hid_err(hdev,
-> >> +			"Could not allocate memory for FN lock led data\n");
-> >> +		ret = -ENOMEM;
-> >> +		goto err_cleanup;
-> > 
-> > ditto
-> > 
-> ok.
-> >> +	}
-> >> +
-> >> +	snprintf(name_led, name_sz, "%s:amber:fnlock", dev_name(dev));
-> >> +
-> >> +	drv_data->led_fnlock.name = name_led;
-> >> +	drv_data->led_fnlock.brightness_get = lenovo_led_brightness_get_tpx1cover;
-> >> +	drv_data->led_fnlock.brightness_set = lenovo_led_brightness_set_tpx1cover;
-> >> +	drv_data->led_fnlock.dev = dev;
-> >> +	hid_lenovo_led_table[HID_LENOVO_LED_FNLOCK].dev = &drv_data->led_fnlock;
-> >> +	led_classdev_register(dev, &drv_data->led_fnlock);
-> > 
-> > ditto
-> > 
-> ok.
-> >> +
-> >> +	drv_data->led_state = 0;
-> >> +	drv_data->fnlock_state = 1;
-> >> +	drv_data->led_present = 1;
-> >> +
-> >> +	hid_set_drvdata(hdev, drv_data);
-> >> +
-> >> +	return lenovo_probe_tpx1cover_configure(hdev);
-> >> +
-> >> +err_cleanup:
-> > 
-> > Shouldn't be required if you use devm_led_classdev_register().
-> > 
-> ok.
-> >> +	if (drv_data->led_fnlock.name) {
-> >> +		led_classdev_unregister(&drv_data->led_fnlock);
-> >> +		devm_kfree(&hdev->dev, (void *) drv_data->led_fnlock.name);
-> >> +	}
-> >> +
-> >> +	if (drv_data->led_micmute.name) {
-> >> +		led_classdev_unregister(&drv_data->led_micmute);
-> >> +		devm_kfree(&hdev->dev, (void *) drv_data->led_micmute.name);
-> >> +	}
-> >> +
-> >> +	if (drv_data->led_mute.name) {
-> >> +		led_classdev_unregister(&drv_data->led_mute);
-> >> +		devm_kfree(&hdev->dev, (void *) drv_data->led_mute.name);
-> >> +	}
-> >> +
-> >> +	if (drv_data)
-> >> +		kfree(drv_data);
-> >> +
-> >> +err:
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static int lenovo_probe_tpx1cover_touch(struct hid_device *hdev)
-> >> +{
-> >> +	struct hid_report *report;
-> >> +	bool report_match = 1;
-> >> +	int ret = 0;
-> >> +
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 2, 0, 2);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 2, 1, 2);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 11, 0, 61);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 12, 0, 61);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 16, 0, 3);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_INPUT_REPORT, 16, 1, 2);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_OUTPUT_REPORT, 9, 0, 20);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_OUTPUT_REPORT, 10, 0, 20);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 14, 0, 1);
-> >> +	report_match &= report ? 1 : 0;
-> >> +	report = hid_validate_values(hdev, HID_FEATURE_REPORT, 15, 0, 3);
-> >> +	report_match &= report ? 1 : 0;
-> > 
-> > Feels weird too (especially if there is no comment explaining why you
-> > are doing those checks).
-> > 
-> ok.
-> >> +
-> >> +	if (!report_match)
-> >> +		ret = -ENODEV;
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static int lenovo_probe_tpx1cover(struct hid_device *hdev)
-> >> +{
-> >> +	int ret = 0;
-> >> +
-> >> +	/*
-> >> +	 * Probing for special function keys and LED control -> usb intf 1
-> >> +	 * Probing for touch input -> usb intf 2 (handled by rmi4 driver)
-> >> +	 * Other (keyboard) -> usb intf 0
-> >> +	 */
-> >> +	if (!lenovo_probe_tpx1cover_special_functions(hdev)) {
-> >> +		// special function keys and LED control
-> > 
-> > No C++ style comments please.
-> > 
-> Oops
-> >> +		ret = 0;
-> >> +	} else if (!lenovo_probe_tpx1cover_touch(hdev)) {
-> >> +		// handled by rmi
-> >> +		ret = -ENODEV;
-> > 
-> > I don't quite get how the touch can be handled if you just return
-> > -ENODEV here. Given that the device has been added to
-> > hid_have_special_driver, if you don't claim the device, no one else will
-> > unless you add the ID in the other HID driver.
-> > 
-> Yes, ok. This is because I have some additional RMI4 code which handles
-> the touch. At the current upstream situation I should return 0 here such
-> that this touch works basically.
-> >> +	} else {
-> >> +		// keyboard
-> > 
-> > Why is that keyboard chunk not given it's own probe function?
-> > 
-> Because it is just a few lines:) I will add a probe function.
-> >> +		struct lenovo_drvdata_tpx1cover *drv_data;
-> >> +
-> >> +		drv_data = devm_kzalloc(&hdev->dev,
-> >> +					sizeof(struct lenovo_drvdata_tpx1cover),
-> >> +					GFP_KERNEL);
-> >> +
-> >> +		if (!drv_data) {
-> >> +			hid_err(hdev,
-> >> +				"Could not allocate memory for tpx1cover driver data\n");
-> >> +			ret = -ENOMEM;
-> >> +			goto out;
-> > 
-> > no need for a goto here. Just a plain return -ENOMEM should be good
-> > enough.
-> > 
-> ok
-> >> +		}
-> >> +
-> >> +		drv_data->led_state = 0;
-> >> +		drv_data->led_present = 0;
-> >> +		drv_data->fnlock_state = 0;
-> >> +		hid_set_drvdata(hdev, drv_data);
-> >> +
-> >> +		ret = 0;
-> >> +	}
-> >> +
-> >> +out:
-> >> +	return ret;
-> >> +}
-> >> +
-> >>  static int lenovo_probe_cptkbd(struct hid_device *hdev)
-> >>  {
-> >>  	int ret;
-> >> @@ -803,6 +1309,9 @@ static int lenovo_probe(struct hid_device *hdev,
-> >>  	case USB_DEVICE_ID_LENOVO_CBTKBD:
-> >>  		ret = lenovo_probe_cptkbd(hdev);
-> >>  		break;
-> >> +	case USB_DEVICE_ID_LENOVO_X1_COVER:
-> >> +		ret = lenovo_probe_tpx1cover(hdev);
-> >> +		break;
-> >>  	default:
-> >>  		ret = 0;
-> >>  		break;
-> >> @@ -843,6 +1352,42 @@ static void lenovo_remove_cptkbd(struct hid_device *hdev)
-> >>  			&lenovo_attr_group_cptkbd);
-> >>  }
-> >>  
-> >> +static void lenovo_remove_tpx1cover(struct hid_device *hdev)
-> >> +{
-> >> +	struct lenovo_drvdata_tpx1cover *drv_data = hid_get_drvdata(hdev);
-> >> +
-> >> +	if (!drv_data)
-> >> +		return;
-> >> +
-> >> +	if (drv_data->led_present) {
-> >> +		if (drv_data->led_fnlock.name) {
-> >> +			hid_lenovo_led_table[HID_LENOVO_LED_FNLOCK].dev = NULL;
-> >> +
-> >> +			led_classdev_unregister(&drv_data->led_fnlock);
-> >> +			devm_kfree(&hdev->dev, (void *) drv_data->led_fnlock.name);
-> > 
-> > Calling yourself devm_kfree usually means there is something wrong.
-> > Here, if you used devm_led_*, you could just drop the entire remove
-> > function.
-> > 
-> ok.
-> >> +		}
-> >> +
-> >> +		if (drv_data->led_micmute.name) {
-> >> +			hid_lenovo_led_table[HID_LENOVO_LED_MICMUTE].dev = NULL;
-> >> +
-> >> +			led_classdev_unregister(&drv_data->led_micmute);
-> >> +			devm_kfree(&hdev->dev, (void *) drv_data->led_micmute.name);
-> >> +		}
-> >> +
-> >> +		if (drv_data->led_mute.name) {
-> >> +			hid_lenovo_led_table[HID_LENOVO_LED_MUTE].dev = NULL;
-> >> +
-> >> +			led_classdev_unregister(&drv_data->led_mute);
-> >> +			devm_kfree(&hdev->dev, (void *) drv_data->led_mute.name);
-> >> +		}
-> >> +	}
-> >> +
-> >> +	if (drv_data)
-> >> +		devm_kfree(&hdev->dev, drv_data);
-> >> +
-> >> +	hid_set_drvdata(hdev, NULL);
-> >> +}
-> >> +
-> >>  static void lenovo_remove(struct hid_device *hdev)
-> >>  {
-> >>  	switch (hdev->product) {
-> >> @@ -853,6 +1398,9 @@ static void lenovo_remove(struct hid_device *hdev)
-> >>  	case USB_DEVICE_ID_LENOVO_CBTKBD:
-> >>  		lenovo_remove_cptkbd(hdev);
-> >>  		break;
-> >> +	case USB_DEVICE_ID_LENOVO_X1_COVER:
-> >> +		lenovo_remove_tpx1cover(hdev);
-> >> +		break;
-> >>  	}
-> >>  
-> >>  	hid_hw_stop(hdev);
-> >> @@ -883,6 +1431,7 @@ static int lenovo_input_configured(struct hid_device *hdev,
-> >>  	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_CUSBKBD) },
-> >>  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_CBTKBD) },
-> >>  	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TPPRODOCK) },
-> >> +	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_COVER) },
-> >>  	{ }
-> >>  };
-> >>  
-> >> diff --git a/include/linux/hid-lenovo.h b/include/linux/hid-lenovo.h
-> >> new file mode 100644
-> >> index 0000000..d0b0145
-> >> --- /dev/null
-> >> +++ b/include/linux/hid-lenovo.h
-> >> @@ -0,0 +1,15 @@
-> >> +
-> >> +#ifndef __HID_LENOVO_H__
-> >> +#define __HID_LENOVO_H__
-> >> +
-> >> +
-> >> +enum {
-> >> +	HID_LENOVO_LED_MUTE,
-> > 
-> > I'd rather have a name for the enum (so you can reuse it), and also have
-> > each enum given its numerical value (or at least the first and last.
-> > 
-> ok.
-> >> +	HID_LENOVO_LED_MICMUTE,
-> >> +	HID_LENOVO_LED_FNLOCK,
-> >> +	HID_LENOVO_LED_MAX,
-> >> +};
-> >> +
-> >> +int hid_lenovo_led_set(int led_num, bool on);
-> >> +
-> >> +#endif /* __HID_LENOVO_H_ */
-> >> -- 
-> >> 1.i9.1
-> > 
-> > 
-> > Cheers,
-> > Benjamin
-> > 
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index 56fefbd..d54ffd9 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -254,7 +254,7 @@ enum {
+ 	CXT_FIXUP_HEADPHONE_MIC,
+ 	CXT_FIXUP_GPIO1,
+ 	CXT_FIXUP_ASPIRE_DMIC,
+-	CXT_FIXUP_THINKPAD_ACPI,
++	CXT_FIXUP_THINKPAD,
+ 	CXT_FIXUP_OLPC_XO,
+ 	CXT_FIXUP_CAP_MIX_AMP,
+ 	CXT_FIXUP_TOSHIBA_P105,
+@@ -263,7 +263,7 @@ enum {
+ 	CXT_FIXUP_MUTE_LED_EAPD,
+ };
+ 
+-/* for hda_fixup_thinkpad_acpi() */
++/* for hda_fixup_thinkpad() */
+ #include "thinkpad_helper.c"
+ 
+ static void cxt_fixup_stereo_dmic(struct hda_codec *codec,
+@@ -670,7 +670,7 @@ static void cxt_fixup_cap_mix_amp_5047(struct hda_codec *codec,
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = cxt_pincfg_lenovo_tp410,
+ 		.chained = true,
+-		.chain_id = CXT_FIXUP_THINKPAD_ACPI,
++		.chain_id = CXT_FIXUP_THINKPAD,
+ 	},
+ 	[CXT_PINCFG_LEMOTE_A1004] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -727,9 +727,9 @@ static void cxt_fixup_cap_mix_amp_5047(struct hda_codec *codec,
+ 		.chained = true,
+ 		.chain_id = CXT_FIXUP_GPIO1,
+ 	},
+-	[CXT_FIXUP_THINKPAD_ACPI] = {
++	[CXT_FIXUP_THINKPAD] = {
+ 		.type = HDA_FIXUP_FUNC,
+-		.v.func = hda_fixup_thinkpad_acpi,
++		.v.func = hda_fixup_thinkpad,
+ 	},
+ 	[CXT_FIXUP_OLPC_XO] = {
+ 		.type = HDA_FIXUP_FUNC,
+@@ -828,7 +828,7 @@ static void cxt_fixup_cap_mix_amp_5047(struct hda_codec *codec,
+ 	SND_PCI_QUIRK(0x17aa, 0x3975, "Lenovo U300s", CXT_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "Lenovo IdeaPad U310", CXT_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x397b, "Lenovo S205", CXT_FIXUP_STEREO_DMIC),
+-	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", CXT_FIXUP_THINKPAD_ACPI),
++	SND_PCI_QUIRK_VENDOR(0x17aa,  "Thinkpad", CXT_FIXUP_THINKPAD),
+ 	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
+ 	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
+ 	{}
+@@ -839,7 +839,7 @@ static void cxt_fixup_cap_mix_amp_5047(struct hda_codec *codec,
+ 	{ .id = CXT_FIXUP_GPIO1, .name = "gpio1" },
+ 	{ .id = CXT_FIXUP_HEADPHONE_MIC_PIN, .name = "headphone-mic-pin" },
+ 	{ .id = CXT_PINCFG_LENOVO_TP410, .name = "tp410" },
+-	{ .id = CXT_FIXUP_THINKPAD_ACPI, .name = "thinkpad" },
++	{ .id = CXT_FIXUP_THINKPAD, .name = "thinkpad" },
+ 	{ .id = CXT_PINCFG_LEMOTE_A1004, .name = "lemote-a1004" },
+ 	{ .id = CXT_PINCFG_LEMOTE_A1205, .name = "lemote-a1205" },
+ 	{ .id = CXT_FIXUP_OLPC_XO, .name = "olpc-xo" },
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 1fe8750..6d78d76 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4754,7 +4754,7 @@ static void alc280_fixup_hp_9480m(struct hda_codec *codec,
+ 	}
+ }
+ 
+-/* for hda_fixup_thinkpad_acpi() */
++/* for hda_fixup_thinkpad() */
+ #include "thinkpad_helper.c"
+ 
+ /* for dell wmi mic mute led */
+@@ -4819,8 +4819,8 @@ enum {
+ 	ALC290_FIXUP_MONO_SPEAKERS_HSJACK,
+ 	ALC290_FIXUP_SUBWOOFER,
+ 	ALC290_FIXUP_SUBWOOFER_HSJACK,
+-	ALC269_FIXUP_THINKPAD_ACPI,
+-	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
++	ALC269_FIXUP_THINKPAD,
++	ALC269_FIXUP_DMIC_THINKPAD,
+ 	ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_DELL2_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_HEADSET_MODE,
+@@ -5052,7 +5052,7 @@ enum {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc269_fixup_pincfg_no_hp_to_lineout,
+ 		.chained = true,
+-		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
++		.chain_id = ALC269_FIXUP_THINKPAD,
+ 	},
+ 	[ALC269_FIXUP_DELL1_MIC_NO_PRESENCE] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -5175,7 +5175,7 @@ enum {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc269_fixup_limit_int_mic_boost,
+ 		.chained = true,
+-		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
++		.chain_id = ALC269_FIXUP_THINKPAD,
+ 	},
+ 	[ALC269VB_FIXUP_ASUS_ZENBOOK] = {
+ 		.type = HDA_FIXUP_FUNC,
+@@ -5261,17 +5261,17 @@ enum {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_DELL3_MIC_NO_PRESENCE,
+ 	},
+-	[ALC269_FIXUP_THINKPAD_ACPI] = {
++	[ALC269_FIXUP_THINKPAD] = {
+ 		.type = HDA_FIXUP_FUNC,
+-		.v.func = hda_fixup_thinkpad_acpi,
++		.v.func = hda_fixup_thinkpad,
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_SKU_IGNORE,
+ 	},
+-	[ALC269_FIXUP_DMIC_THINKPAD_ACPI] = {
++	[ALC269_FIXUP_DMIC_THINKPAD] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc_fixup_inv_dmic,
+ 		.chained = true,
+-		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
++		.chain_id = ALC269_FIXUP_THINKPAD,
+ 	},
+ 	[ALC255_FIXUP_DELL1_MIC_NO_PRESENCE] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -5471,7 +5471,7 @@ enum {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc_fixup_disable_aamix,
+ 		.chained = true,
+-		.chain_id = ALC269_FIXUP_THINKPAD_ACPI
++		.chain_id = ALC269_FIXUP_THINKPAD
+ 	},
+ 	[ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY] = {
+ 		.type = HDA_FIXUP_FUNC,
+@@ -5691,7 +5691,7 @@ enum {
+ 	SND_PCI_QUIRK(0x17aa, 0x2233, "Thinkpad", ALC292_FIXUP_TPT460),
+ 	SND_PCI_QUIRK(0x17aa, 0x30bb, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
+ 	SND_PCI_QUIRK(0x17aa, 0x30e2, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
+-	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
++	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3978, "IdeaPad Y410P", ALC269_FIXUP_NO_SHUTUP),
+ 	SND_PCI_QUIRK(0x17aa, 0x5013, "Thinkpad", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+@@ -5766,7 +5766,7 @@ enum {
+ 	SND_PCI_QUIRK_VENDOR(0x1025, "Acer Aspire", ALC271_FIXUP_DMIC),
+ 	SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK_VENDOR(0x104d, "Sony VAIO", ALC269_FIXUP_SONY_VAIO),
+-	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", ALC269_FIXUP_THINKPAD_ACPI),
++	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", ALC269_FIXUP_THINKPAD),
+ 	{}
+ };
+ 
+diff --git a/sound/pci/hda/thinkpad_helper.c b/sound/pci/hda/thinkpad_helper.c
+index f0955fd..62741a7 100644
+--- a/sound/pci/hda/thinkpad_helper.c
++++ b/sound/pci/hda/thinkpad_helper.c
+@@ -38,7 +38,7 @@ static void update_tpacpi_micmute_led(struct hda_codec *codec,
+ 	}
+ }
+ 
+-static void hda_fixup_thinkpad_acpi(struct hda_codec *codec,
++static void hda_fixup_thinkpad(struct hda_codec *codec,
+ 				    const struct hda_fixup *fix, int action)
+ {
+ 	struct hda_gen_spec *spec = codec->spec;
+@@ -81,7 +81,7 @@ static void hda_fixup_thinkpad_acpi(struct hda_codec *codec,
+ 
+ #else /* CONFIG_THINKPAD_ACPI */
+ 
+-static void hda_fixup_thinkpad_acpi(struct hda_codec *codec,
++static void hda_fixup_thinkpad(struct hda_codec *codec,
+ 				    const struct hda_fixup *fix, int action)
+ {
+ }
+-- 
+1.9.1
