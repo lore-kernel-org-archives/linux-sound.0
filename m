@@ -1,58 +1,70 @@
-From: Jiri Kosina <jikos@kernel.org>
-Date: Mon, 19 Dec 2016 09:54:05 +0000
+From: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+Date: Mon, 19 Dec 2016 10:43:53 +0000
 Subject: Re: [PATCH 2/4] hid-lenovo: Add support for X1 Tablet cover LED control
-Message-Id: <alpine.LSU.2.20.1612191052020.19203@cbobk.fhfr.pm>
+Message-Id: <80c99979-0caa-bbd2-d750-96d546618e58@secunet.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <ef83e1ec-48d5-a011-c95e-8dba060bc8c3@secunet.com>
-In-Reply-To: <ef83e1ec-48d5-a011-c95e-8dba060bc8c3@secunet.com>
+ <alpine.LSU.2.20.1612191052020.19203@cbobk.fhfr.pm>
+In-Reply-To: <alpine.LSU.2.20.1612191052020.19203@cbobk.fhfr.pm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+To: Jiri Kosina <jikos@kernel.org>
 Cc: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>, lukas@wunner.de, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com
 
-Hi Dennis,
+Hi Jiri,
 
-thanks a lot for the patch.
+Thanks for your comments. I added comments in-lined.
 
-On Fri, 9 Dec 2016, Dennis Wassenberg wrote:
+Best regards,
 
-> +int hid_lenovo_led_set(enum hid_lenovo_led_type led, bool on)
-> +{
-> +	struct led_classdev *dev = NULL;
-> +	struct lenovo_led_list_entry *entry;
-> +
-> +	if (led >= HID_LENOVO_LED_MAX)
-> +		return -EINVAL;
-> +
-> +	hid_lenovo_initial_leds[led] = on ? LED_FULL : LED_OFF;
-> +
-> +	list_for_each_entry(entry, &hid_lenovo_leds, list) {
-> +		if (entry->type = led) {
-> +			dev = entry->dev;
-> +			break;
-> +		}
-> +	}
+Dennis
 
-How exactly is this synchronized against lenovo_remove_tpx1cover()?
+On 19.12.2016 10:54, Jiri Kosina wrote:
+> Hi Dennis,
+> 
+> thanks a lot for the patch.
+> 
+> On Fri, 9 Dec 2016, Dennis Wassenberg wrote:
+> 
+>> +int hid_lenovo_led_set(enum hid_lenovo_led_type led, bool on)
+>> +{
+>> +	struct led_classdev *dev = NULL;
+>> +	struct lenovo_led_list_entry *entry;
+>> +
+>> +	if (led >= HID_LENOVO_LED_MAX)
+>> +		return -EINVAL;
+>> +
+>> +	hid_lenovo_initial_leds[led] = on ? LED_FULL : LED_OFF;
+>> +
+>> +	list_for_each_entry(entry, &hid_lenovo_leds, list) {
+>> +		if (entry->type = led) {
+>> +			dev = entry->dev;
+>> +			break;
+>> +		}
+>> +	}
+> 
+> How exactly is this synchronized against lenovo_remove_tpx1cover()?
+> 
+In case of that the tpx1cover is disconnected it will be removed from hid_lenovo_leds list. That means not included at the hid_lenovo_leds list. In this case dev is still NULL and the function will return -ENODEV. The static array hid_lenovo_initial_leds is still set to store the current state of a LED type. This is used to set the LED appropriately if the tpx1cover is replugged.
 
-> +
-> +	if (!dev)
-> +		return -ENODEV;
-> +
-> +	if (!dev->brightness_set)
-> +		return -ENODEV;
-> +
-> +	dev->brightness_set(dev, on ? LED_FULL : LED_OFF);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(hid_lenovo_led_set);
+Maybe I should add a mutex to protect the hid_lenovo_leds list operations in hid-lenovo.c to fix the case if a unplug occurred concurrently to setting an led?!
 
-Does this really need to be exported to the whole universe? (I guess this 
-will be further discussed in 4/4).
+>> +
+>> +	if (!dev)
+>> +		return -ENODEV;
+>> +
+>> +	if (!dev->brightness_set)
+>> +		return -ENODEV;
+>> +
+>> +	dev->brightness_set(dev, on ? LED_FULL : LED_OFF);
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(hid_lenovo_led_set);
+> 
+> Does this really need to be exported to the whole universe? (I guess this 
+> will be further discussed in 4/4).
 
--- 
-Jiri Kosina
-SUSE Labs
-
+No, it is sufficient if thinkpad-helper can access it.
+> 
