@@ -1,43 +1,56 @@
-From: Jiri Kosina <jikos@kernel.org>
-Date: Mon, 19 Dec 2016 10:53:11 +0000
+From: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+Date: Mon, 19 Dec 2016 11:05:27 +0000
 Subject: Re: [PATCH 4/4] hda: thinkpad_helper: Add support for hid-lenovo LED control
-Message-Id: <alpine.LSU.2.20.1612191152320.19203@cbobk.fhfr.pm>
+Message-Id: <8ae41990-73e2-39cf-8d8b-f8b83f0dd996@secunet.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <def3f975-9579-c2fe-9411-fb7522dd46a9@secunet.com> <alpine.LSU.2.20.1612191054270.19203@cbobk.fhfr.pm> <43171dc4-95e4-4a2b-eebc-0795988eb6f2@secunet.com>
-In-Reply-To: <43171dc4-95e4-4a2b-eebc-0795988eb6f2@secunet.com>
+References: <def3f975-9579-c2fe-9411-fb7522dd46a9@secunet.com>
+ <alpine.LSU.2.20.1612191054270.19203@cbobk.fhfr.pm>
+ <43171dc4-95e4-4a2b-eebc-0795988eb6f2@secunet.com>
+ <alpine.LSU.2.20.1612191152320.19203@cbobk.fhfr.pm>
+In-Reply-To: <alpine.LSU.2.20.1612191152320.19203@cbobk.fhfr.pm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Dennis Wassenberg <dennis.wassenberg@secunet.com>
+To: Jiri Kosina <jikos@kernel.org>
 Cc: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>, lukas@wunner.de, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com
 
-On Mon, 19 Dec 2016, Dennis Wassenberg wrote:
+Hi Jiri,
 
-> "led_set_func_hid_lenovo" is set to "hid_lenovo_led_set"
+On 19.12.2016 11:53, Jiri Kosina wrote:
+> On Mon, 19 Dec 2016, Dennis Wassenberg wrote:
 > 
-> +#if IS_ENABLED(CONFIG_HID_LENOVO)
-> +static int hda_fixup_thinkpad_hid_prepare(struct hda_codec *codec)
-> +{
-> +	struct hda_gen_spec *spec = codec->spec;
-> +	int ret = 0;
-> +
-> +	if (!is_thinkpad(codec))
-> +		return -ENODEV;
-> +	if (!led_set_func_hid_lenovo)
-> +		led_set_func_hid_lenovo = symbol_request(hid_lenovo_led_set);
+>> "led_set_func_hid_lenovo" is set to "hid_lenovo_led_set"
+>>
+>> +#if IS_ENABLED(CONFIG_HID_LENOVO)
+>> +static int hda_fixup_thinkpad_hid_prepare(struct hda_codec *codec)
+>> +{
+>> +	struct hda_gen_spec *spec = codec->spec;
+>> +	int ret = 0;
+>> +
+>> +	if (!is_thinkpad(codec))
+>> +		return -ENODEV;
+>> +	if (!led_set_func_hid_lenovo)
+>> +		led_set_func_hid_lenovo = symbol_request(hid_lenovo_led_set);
+>>
+>> "hid_lenovo_led_set" is introduced in "[PATCH v2 2/2] hda: 
+>> thinkpad_helper: Add support for hid-lenovo LED control". This means 
+>> that "[PATCH 4/4] hda: thinkpad_helper: Add support for hid-lenovo LED 
+>> control" can only work with applied "[PATCH 1/4] hid-lenovo: Add support 
+>> for X1 Tablet cover special keys" and "[PATCH v2 2/2] hda: 
+>> thinkpad_helper: Add support for hid-lenovo LED control".
 > 
-> "hid_lenovo_led_set" is introduced in "[PATCH v2 2/2] hda: 
-> thinkpad_helper: Add support for hid-lenovo LED control". This means 
-> that "[PATCH 4/4] hda: thinkpad_helper: Add support for hid-lenovo LED 
-> control" can only work with applied "[PATCH 1/4] hid-lenovo: Add support 
-> for X1 Tablet cover special keys" and "[PATCH v2 2/2] hda: 
-> thinkpad_helper: Add support for hid-lenovo LED control".
+> Ah, okay, I wasn't aware of the other patchset. These two probably should 
+> be merged together. Is the other 2-patch set merged in any tree already? 
+> Where has it been submitted to?
+> 
+No 1/4, 2/4 and 3/4 are currently not merged to any tree. I reworked 1/4, 2/4 and 3/4 because of some comments from Benjamin Tissoires (mail from 14th September 2016).
 
-Ah, okay, I wasn't aware of the other patchset. These two probably should 
-be merged together. Is the other 2-patch set merged in any tree already? 
-Where has it been submitted to?
+The patches are submitted to all recipients at the To, CC-Line (e.g. linux-input mailing list).
 
--- 
-Jiri Kosina
-SUSE Labs
+Maybe I can merge 2/4 and 4/4 together. This is all for LED control. 1/4 is for key/input handling and 3/4 is a special FNLock handling where I should use a separate patch.
 
+Currently I have no feedback regarding the reworked linux-input specific code. I hope I will get it soon :)
+
+Best regards,
+
+Dennis
