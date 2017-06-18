@@ -1,63 +1,20 @@
-From: Dennis Wassenberg <dennis.wassenberg@secunet.com>
-Date: Fri, 09 Dec 2016 15:05:42 +0000
-Subject: [PATCH 3/4] hid-lenovo: Handle X1 Tablet cover FNLock function appropriately
-Message-Id: <110694ef-bbad-f211-ac5d-3fe5e10600f2@secunet.com>
+From: "John Hanan" <JohnHanan293@leaf.ocn.ne.jp>
+Date: Sun, 18 Jun 2017 04:00:07 +0000
+Subject: Re: Investment Consideration
+Message-Id: <20170618040001.C1104C59D5D@msgw008-03.ocn.ad.jp>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>, lukas@wunner.de, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andrew Duggan <aduggan@synaptics.com>, perex@perex.cz, vinod.koul@intel.com, hui.wang@canonical.com, rafael.j.wysocki@intel.com, jikos@kernel.org
+To: linux-sound@vger.kernel.org
 
-The FNLock state is not handled by the X1 tablet cover itself.
-There is the need to set the FNLock LED which actually enables
-the FNLock state of the cover. This means activating the FNLock LED
-will enable FNLock state and FNLock LED.
----
- drivers/hid/hid-lenovo.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Thank you for your time,
 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 2efd5b0..3ace8c3 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -526,6 +526,29 @@ static void lenovo_led_brightness_set_tpx1cover(struct led_classdev *led_cdev,
- 	}
- }
- 
-+static int lenovo_event_tpx1cover(struct hid_device *hdev,
-+		struct hid_field *field, struct hid_usage *usage, __s32 value)
-+{
-+	int ret = 0;
-+
-+	if (usage->hid = HID_CP_CONSUMERCONTROL) {
-+		if (usage->usage_index = 8 && value = 1) {
-+			struct lenovo_drvdata_tpx1cover *drv_data = hid_get_drvdata(hdev);
-+
-+			if (drv_data && drv_data->led_present) {
-+				drv_data->fnlock_state = lenovo_led_brightness_get_tpx1cover(
-+						&drv_data->led_fnlock) = LED_OFF ? 1 : 0;
-+				lenovo_led_brightness_set_tpx1cover(
-+					&drv_data->led_fnlock,
-+					drv_data->fnlock_state ? LED_FULL : LED_OFF);
-+			}
-+		}
-+
-+	}
-+
-+	return ret;
-+}
-+
- static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
- 		struct hid_usage *usage, __s32 value)
- {
-@@ -533,6 +556,8 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
- 	case USB_DEVICE_ID_LENOVO_CUSBKBD:
- 	case USB_DEVICE_ID_LENOVO_CBTKBD:
- 		return lenovo_event_cptkbd(hdev, field, usage, value);
-+	case USB_DEVICE_ID_LENOVO_X1_COVER:
-+		return lenovo_event_tpx1cover(hdev, field, usage, value);
- 	default:
- 		return 0;
- 	}
--- 
-1.9.1
+We are looking for clients in your country with good business or project that requires financing to execute.
+
+Please get back to me if you are interested in this or you know anybody who has good business ideas but lack the necessary capital to fund his projects so we can establish working relationship.
+
+Sincerely,
+
+John Hanan, MBA, CFA
+General Investment Consultant
