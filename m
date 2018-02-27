@@ -1,43 +1,61 @@
-From: Ricard Wanderlof <ricard.wanderlof@axis.com>
-Date: Mon, 26 Feb 2018 07:54:31 +0000
+From: Muni Sekhar <munisekharrms@gmail.com>
+Date: Tue, 27 Feb 2018 12:12:02 +0000
 Subject: Re: [alsa-devel] aplay\arecord compare utility
-Message-Id: <alpine.DEB.2.11.1802260853330.9527@lnxricardw1.se.axis.com>
+Message-Id: <CAHhAz+hmJfevM+e1XBcDQtQwbdHAFgXnbXAKKcP9qvFA0LGBHA@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <CAHhAz+hoM5n42vJ650iod2OJv6ZbMwYQh4bArtiGwPETSjS04Q@mail.gmail.com>
  <alpine.DEB.2.11.1802260850111.9527@lnxricardw1.se.axis.com>
-In-Reply-To: <alpine.DEB.2.11.1802260850111.9527@lnxricardw1.se.axis.com>
+ <alpine.DEB.2.11.1802260853330.9527@lnxricardw1.se.axis.com>
+In-Reply-To: <alpine.DEB.2.11.1802260853330.9527@lnxricardw1.se.axis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="macroman"
-Content-Transfer-Encoding: base64
-To: Muni Sekhar <munisekharrms@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+To: Ricard Wanderlof <ricard.wanderlof@axis.com>
 Cc: alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org
 
-Ck9uIE1vbiwgMjYgRmViIDIwMTgsIFJpY2FyZCBXYW5kZXJsb2Ygd3JvdGU6Cgo+IE9uIEZyaSwg
-MjMgRmViIDIwMTgsIE11bmkgU2VraGFyIHdyb3RlOgo+IAo+ID4gIFsgUGxlYXNlIGtlZXAgbWUg
-aW4gQ0MgYXMgSSdtIG5vdCBzdWJzY3JpYmVkIHRvIHRoZSBsaXN0XQo+ID4gCj4gPiBJP20gdXNp
-bmcgYW4gYWxzYSB1dGlsaXRpZXMoYXBsYXkgJiBhcmVjb3JkKSBmb3Igc291bmQgbG9vcGJhY2sK
-PiA+IHRlc3RpbmcuIEZyb20gTGludXggaG9zdCAsIHNlbmRpbmcgJiByZWNlaXZpbmcgdGhlIHdh
-diBmaWxlLgo+ID4gCj4gPiBBdCBlbmQgSSB3YW50IHRvIGNvbXBhcmUgdGhlIHNlbnQgJiByZWNl
-aXZlZCB3YXYgZmlsZS4gRG9lcyBMaW51eCBoYXMKPiA+IGFueSB1dGlsaXR5IHRvIHN1cHBvcnQg
-dGhpcyBvbmU/Cj4gCj4gSWYgdGhlIHdhdiBoZWFkZXJzIGFyZSBpZGVudGljYWwsIHlvdSBjYW4g
-anVzdCB1c2UgY21wIG9yIGRpZmYuIE90aGVyd2lzZSwgCj4geW91IGNhbiBleHRyYWN0IHRoZSBy
-YXcgYXVkaW8gdXNpbmcgc294LCB3aGljaCBnaXZlcyB5b3UgZmlsZXMgd2l0aCBqdXN0IAo+IHRo
-ZSBhdWRpbyBzYW1wbGVzIGluIHRoZW0sIGFuZCB0aGVuIHlvdSBjYW4gdXNlIGNtcCBvciBkaWZm
-IHRvIGNvbXBhcmUgCj4gdGhlbS4gSXQgd29uJ3Qgd29yayB0aG91Z2ggaWYgdGhlIGZpbGVzIGFy
-ZW4ndCBhY3R1YWxseSBpZGVudGljYWwsIGZvciAKPiBpbnN0YW5jZSBpZiB0aGVyZSBpcyBhbiBv
-ZmZzZXQgb2YgYSBjb3VwbGUgb2Ygc2FtcGxlcyBpbiBvbmUgY29tcGFyZWQgdG8gCj4gdGhlIG90
-aGVyLgo+IAo+IElmIEkgaGFkIHRvIGNvbXBhcmUgdHdvIHdhdiBmaWxlcyB3aGljaCB3ZXJlIG9m
-ZnNldCBieSBhIHNtYWxsIG51bWJlciBvZiAKPiBzYW1wbGVzLCBJJ2Qgb3BlbiB0aGVtIGluIEF1
-ZGFjaXR5LCBtYW51YWxseSBhbGlnbiB0aGVtLCB0aGVuIHN1bSB0aGUgCj4gcmVzdWx0LCB3cml0
-ZSB0byBhIG5ldyBmaWxlIGFuZCB2ZXJpZnkgdGhhdCB0aGUgZmlsZSBqdXN0IGNvbnRhaW5lZCB6
-ZXJvcy4KCihTb3JyeSwgcHJlc3NlZCBlbnRlciBhIGJpdCB0b28gZmFzdCB0aGVyZSkuLi4KCi4u
-LiBhbGlnbiB0aGVtLCBfaW52ZXJ0X29uZV9vZl90aGVtXywgdGhlbiBzdW0gdGhlIHJlc3VsdCwg
-d3JpdGUgdG8gYSBuZXcgCmZpbGUgYW5kIHZlcmlmeSB0aGF0IHRoZSBmaWxlIGp1c3QgY29udGFp
-bnMgemVyb3MuCgovUmljYXJkCi0tIApSaWNhcmQgV29sZiBXYW5kZXJsw7ZmICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgcmljYXJkdyhhdClheGlzLmNvbQpBeGlzIENvbW11bmljYXRpb25zIEFC
-LCBMdW5kLCBTd2VkZW4gICAgICAgICAgICB3d3cuYXhpcy5jb20KUGhvbmUgKzQ2IDQ2IDI3MiAy
-MDE2ICAgICAgICAgICAgICAgICAgICAgICAgICAgRmF4ICs0NiA0NiAxMyA2MSAzMAotLQpUbyB1
-bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGlu
-dXgtc291bmQiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJu
-ZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFq
-b3Jkb21vLWluZm8uaHRtbA==
+Thanks Ricard for the explanation.
+
+On Mon, Feb 26, 2018 at 1:24 PM, Ricard Wanderlof
+<ricard.wanderlof@axis.com> wrote:
+>
+> On Mon, 26 Feb 2018, Ricard Wanderlof wrote:
+>
+>> On Fri, 23 Feb 2018, Muni Sekhar wrote:
+>>
+>> >  [ Please keep me in CC as I'm not subscribed to the list]
+>> >
+>> > I?m using an alsa utilities(aplay & arecord) for sound loopback
+>> > testing. From Linux host , sending & receiving the wav file.
+>> >
+>> > At end I want to compare the sent & received wav file. Does Linux has
+>> > any utility to support this one?
+>>
+>> If the wav headers are identical, you can just use cmp or diff. Otherwis=
+e,
+>> you can extract the raw audio using sox, which gives you files with just
+>> the audio samples in them, and then you can use cmp or diff to compare
+>> them. It won't work though if the files aren't actually identical, for
+>> instance if there is an offset of a couple of samples in one compared to
+>> the other.
+>>
+>> If I had to compare two wav files which were offset by a small number of
+>> samples, I'd open them in Audacity, manually align them, then sum the
+>> result, write to a new file and verify that the file just contained zero=
+s.
+>
+> (Sorry, pressed enter a bit too fast there)...
+>
+> ... align them, _invert_one_of_them_, then sum the result, write to a new
+> file and verify that the file just contains zeros.
+>
+> /Ricard
+> --
+> Ricard Wolf Wanderl=C3=B6f                           ricardw(at)axis.com
+> Axis Communications AB, Lund, Sweden            www.axis.com
+> Phone +46 46 272 2016                           Fax +46 46 13 61 30
+
+
+
+--=20
+Thanks,
+Sekhar
