@@ -1,53 +1,44 @@
-From: Sriram Periyasamy <sriram.oqensourz@gmail.com>
-Date: Thu, 22 Mar 2018 16:59:30 +0000
-Subject: Re: [alsa-devel] pulseaudio\aplay\arecord
-Message-Id: <20180322165839.fjlj3zqgpydkikxx@sriram-VirtualBox>
+From: Muni Sekhar <munisekharrms@gmail.com>
+Date: Wed, 23 May 2018 13:12:51 +0000
+Subject: sound: ALSA PCM Timestamps
+Message-Id: <CAHhAz+g0tZ57xzS=FE71haZkrM4iXRS_HLe2pL0xic2y9t4CwA@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CAHhAz+j+pZtaYrHGqJXxqS4DgEzNCsAgORvd4+1Kj55D2Oh03g@mail.gmail.com>
-In-Reply-To: <CAHhAz+j+pZtaYrHGqJXxqS4DgEzNCsAgORvd4+1Kj55D2Oh03g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: Muni Sekhar <munisekharrms@gmail.com>
-Cc: alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+To: kernelnewbies <kernelnewbies@kernelnewbies.org>, linux-sound@vger.kernel.org, alsa-devel <alsa-devel@alsa-project.org>
 
-On Tue, Mar 20, 2018 at 06:42:04PM +0530, Muni Sekhar wrote:
-> [ Please keep me in CC as I'm not subscribed to the list]
-> 
-> Hi All,
-> 
-> 
-> 
-> We are using the Ubuntu 16.04.3 LTS (4.4.0-28-generic) kernel. I’ve a
-> sound card hardware which supports analog loopback. During analog
-> loopback test, aplay fails with
-> “aplay: pcm_write:1940: write error: Input/output error”.
-> 
-> In our system, I noticed that once the sound driver is loaded,
-> PulseAudio daemon autospawns and taking over control of the sound
-> device. Does the ‘pulseaudio’ causes ‘aplay’ failure?
+[ Please keep me in CC as I'm not subscribed to the list]
 
-No, it doesn't in your scenario. Until pulseaudio opens the device
-and writes samples to it, you can use aplay. You may have to debug
-the data flow in your loopback device to fix your issue.
+Hi All,
 
-> 
-> Can we use aplay\arecord if already pulseaudio daemon is running?
+There are several time stamping functions in ALSA:
 
-Yes, you can use until any sound application triggers pulseaudio to
-start using the device.
 
+snd_pcm_status_get_trigger_tstamp
+
+snd_pcm_status_get_trigger_htstamp
+
+snd_pcm_status_get_tstamp
+
+snd_pcm_status_get_htstamp
+
+snd_pcm_status_get_audio_htstamp
+
+snd_pcm_status_get_driver_htstamp
+
+
+
+I would like to understand what points in time the resulting functions
+represent and what is the corresponding kernel mode callback for those
+API=E2=80=99s.
+
+
+I'd be really grateful if someone took the time to help me clearing my doub=
+t.
+
+
+
+--=20
 Thanks,
-Sriram.
-> 
-> 
-> 
-> -- 
-> Thanks,
-> Sekhar
-> _______________________________________________
-> Alsa-devel mailing list
-> Alsa-devel@alsa-project.org
-> http://mailman.alsa-project.org/mailman/listinfo/alsa-devel
-
--- 
+Sekhar
