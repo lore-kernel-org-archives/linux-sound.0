@@ -1,86 +1,32 @@
-From: priyaranjan <priyaranjan45678@gmail.com>
-Date: Mon, 25 Jun 2018 09:52:05 +0000
-Subject: Re: audio samples data flow from user mode to kernel mode
-Message-Id: <CAE_iR+hOBD=m8Crk7O2SFy8GkwyT4xLKZZghJM8c1VihwzJozw@mail.gmail.com>
+From: Ran Shalit <ranshalit@gmail.com>
+Date: Mon, 20 Aug 2018 05:59:31 +0000
+Subject: ~100 seconds(!) load time of snd-usb-audio
+Message-Id: <CAJ2oMhJ9dxqmum=LAehBu4je7bJDevDPzd4UzijZ5Tp+Y5M8mw@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CAPY=qRRw0oyJTs0qKHbWdn2wj_iHUzqmBQFPRip08yLU1pdXQw@mail.gmail.com>
-In-Reply-To: <CAPY=qRRw0oyJTs0qKHbWdn2wj_iHUzqmBQFPRip08yLU1pdXQw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: Subhashini Rao Beerisetty <subhashbeerisetty@gmail.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: linux-sound@vger.kernel.org
 
-Hi Subhashini,
+Hello,
 
-On Sat, Jun 23, 2018 at 4:22 PM, Subhashini Rao Beerisetty
-<subhashbeerisetty@gmail.com> wrote:
-> Hello All,
->
->
->
-> I’m trying to understand how audio samples transferred between user mode to
-> kernel mode during playback and capture. I’m using aplay & arecord alsa
-> utilities for playback and capture.
->
->
->
-> Let us take a PCM wav file of sample rate 48000 and it has a total number of
-> samples 480000 (Approx.Duration in seconds=10). Size of each sample is 8
-> bytes(two channels). After invocation of aplay from user mode, how does
-> these audio samples gets copied to kernel mode? Can someone explain me on
-> this?
->
+We encounter the following strange behavior, and struggle with it for
+couple of days now. I hope someone can suggest how to handle it.
 
-Usually this is done in corresponding sound/alsa device driver.
-The alsa driver should populate the following structure :-
+1. We have a sound card, which takes ~100seconds(!) till it finishes
+loading of snd-usb-audio module.
+please see log here:
+https://pastebin.com/raw/BbNgUvLw
+As you can see the last line " usbcore: registered new interface
+driver snd-usb-audio" is printed ~100 seconds after the card is
+detected.
+2. Testing other sound cards in same system, shows normal behavior.
+3. Surprisingly, testing same sound card with another distribution
+(ubuntu) shows no such behavior, and things are immediate.
+4. We already tried several kernels and see the same behavior in all
+the tested kernels 3.18.11, 4.0.8 , 4.4.98.
+5. I did find similar issues described here, but no resolve is given:
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1537465
 
-struct snd_pcm_substream {
-struct snd_pcm *pcm;
-struct snd_pcm_str *pstr;
-void *private_data; /* copied from pcm->private_data */
-int number;
-char name[32]; /* substream name */
-int stream; /* stream (direction) */
-struct pm_qos_request latency_pm_qos_req; /* pm_qos request */
-size_t buffer_bytes_max; /* limit ring buffer size */
-struct snd_dma_buffer dma_buffer;
-size_t dma_max;
-/* -- hardware operations -- */
-const struct snd_pcm_ops *ops;
-
-Here, you can find the dma_buffer where you have to populate the
-destination(kernel buffer)
-I would suggest please have a look at Alsa driver documentation for
-further details.
-There are lot of important parameters which defines how the copy will
-happen from
-user-space to kernel space - like period size, period count etc. Also
-look at important
-functions - snd_pcm_period_elapsed etc
-
->
->
-> Is it possible to capture the timestamps for the first and last audio
-> samples that arrive at the driver level?
->
->
->
-> Can I consider the .trigger(for playback & capture) callback in
-> SNDRV_PCM_TRIGGER_START  case is timestamp for the first audio sample?
->
->
->
-> Similarly does .trigger callbacks SNDRV_PCM_TRIGGER_STOP gives the last
-> audio sample timestamp?
->
->
->
-> Thanks,
->
->
-> _______________________________________________
-> Kernelnewbies mailing list
-> Kernelnewbies@kernelnewbies.org
-> https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies
->
+I would appreciate any suggestion,
+ranran
