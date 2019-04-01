@@ -1,7 +1,7 @@
 From: Matteo Croce <mcroce@redhat.com>
-Date: Mon, 01 Apr 2019 10:24:56 +0000
-Subject: [PATCH 5/4] procfs: utility handler to trigger different errors
-Message-Id: <20190401102456.11162-6-mcroce@redhat.com>
+Date: Mon, 01 Apr 2019 10:24:53 +0000
+Subject: [PATCH 2/4] panic: use the aural error reporting framework to report panics
+Message-Id: <20190401102456.11162-3-mcroce@redhat.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <20190401102456.11162-1-mcroce@redhat.com>
 In-Reply-To: <20190401102456.11162-1-mcroce@redhat.com>
@@ -10,82 +10,85 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: x86@kernel.org, LKML <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, platform-driver-x86@vger.kernel.org
 
-Add a /proc/crashtest handler which triggers different kernel errors.
-Just write a single character (if many are written, only the first one
-is read), to trigger different errors:
-- p: raise a kernel panic
-- w: generate a warning
-- o: raise an oops
-The handler permissions are set to 0220 to avoid non root users to crash
-the system.
+Use the new aural error reporting framework to signal kernel panic. The
+error sound is emitted between the stack dump and the kexec jump.
 
 Signed-off-by: Matteo Croce <mcroce@redhat.com>
 ---
- fs/proc/Makefile    |  1 +
- fs/proc/crashtest.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 fs/proc/crashtest.c
+ kernel/panic.c    | 25 +++++++++++++++++++++++++
+ lib/Kconfig.debug | 10 ++++++++++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/fs/proc/Makefile b/fs/proc/Makefile
-index ead487e80510..df99d3245ad9 100644
---- a/fs/proc/Makefile
-+++ b/fs/proc/Makefile
-@@ -15,6 +15,7 @@ proc-$(CONFIG_TTY)      += proc_tty.o
- proc-y	+= cmdline.o
- proc-y	+= consoles.o
- proc-y	+= cpuinfo.o
-+proc-y	+= crashtest.o
- proc-y	+= devices.o
- proc-y	+= interrupts.o
- proc-y	+= loadavg.o
-diff --git a/fs/proc/crashtest.c b/fs/proc/crashtest.c
-new file mode 100644
-index 000000000000..ad7d21cc9d98
---- /dev/null
-+++ b/fs/proc/crashtest.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/fs.h>
-+#include <linux/init.h>
-+#include <linux/proc_fs.h>
-+#include <linux/uaccess.h>
-+
-+static ssize_t crashtest_write(struct file *file, const char __user *buf,
-+			       size_t count, loff_t *ppos)
-+{
-+	char cmd;
-+
-+	if (!count)
-+		return 0;
-+
-+	if (get_user(cmd, buf))
-+		return -EFAULT;
-+
-+	switch (cmd) {
-+	case 'p':
-+		panic("crashtest");
-+		break;
-+	case 'w':
-+		WARN(1, "crashtest");
-+		break;
-+	case 'o':
-+		*(int*)0 = 0;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+static const struct file_operations proc_crashtest_ops = {
-+	.write	= crashtest_write,
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 0ae0d7332f12..360578e092e7 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -29,6 +29,7 @@
+ #include <linux/bug.h>
+ #include <linux/ratelimit.h>
+ #include <linux/debugfs.h>
++#include <linux/play.h>
+ #include <asm/sections.h>
+ 
+ #define PANIC_TIMER_STEP 100
+@@ -57,6 +58,29 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+ 
+ EXPORT_SYMBOL(panic_notifier_list);
+ 
++#ifdef CONFIG_AUDIBLE_PANIC
++static struct note panic_sound[] = {
++	{ 784, 400 },
++	{ 784, 400 },
++	{ 784, 400 },
++	{ 622, 300 },
++	{ 932, 100 },
++	{ 784, 400 },
++	{ 622, 300 },
++	{ 932, 100 },
++	{ 784, 800 },
++	{ 1174, 400 },
++	{ 1174, 400 },
++	{ 1174, 400 },
++	{ 1244, 300 },
++	{ 932, 100 },
++	{ 740, 400 },
++	{ 622, 300 },
++	{ 932, 100 },
++	{ 784, 800 },
 +};
++#endif
 +
-+static int __init proc_crashtest_init(void)
-+{
-+	return !proc_create("crashtest", 0220, NULL, &proc_crashtest_ops);
-+}
-+fs_initcall(proc_crashtest_init);
+ static long no_blink(int state)
+ {
+ 	return 0;
+@@ -213,6 +237,7 @@ void panic(const char *fmt, ...)
+ 	if (!test_taint(TAINT_DIE) && oops_in_progress <= 1)
+ 		dump_stack();
+ #endif
++	play(panic_sound, ARRAY_SIZE(panic_sound));
+ 
+ 	/*
+ 	 * If we have crashed and we have a crash kernel loaded let it handle
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 10d04b266aef..e5d187dfc74a 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -997,6 +997,16 @@ config PLAY_LIB
+ 	depends on HAVE_PCSPKR_PLATFORM
+ 	default n
+ 
++config AUDIBLE_PANIC
++	bool "Aural panic"
++	select PLAY_LIB
++	default n
++	help
++	  If you say Y here, kernel panics will play a sound just
++	  after the stacktrace and registers dump. The sound is played via
++	  the system buzzer and not via any soundcard.
++	  Not available on all platforms.
++
+ config SCHED_DEBUG
+ 	bool "Collect scheduler debugging info"
+ 	depends on DEBUG_KERNEL && PROC_FS
 -- 
 2.20.1
