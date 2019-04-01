@@ -1,78 +1,81 @@
-From: Eric Curtin <ericcurtin17@gmail.com>
-Date: Fri, 19 Apr 2019 13:18:07 +0000
-Subject: Re: Microphone volume low on linux driver
-Message-Id: <CANpvso6ZB-nQm2ABWdbtoSuMU-pMnr_y-JradtS0UHPkOGMnGQ@mail.gmail.com>
+From: Matteo Croce <mcroce@redhat.com>
+Date: Mon, 01 Apr 2019 10:24:55 +0000
+Subject: [PATCH 4/4] oops: use the aural error reporting framework to report oopses
+Message-Id: <20190401102456.11162-5-mcroce@redhat.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CANpvso7JHdKUSyt0c5L_hXR6us39Or112t0NPvhJ6w5m07JYkA@mail.gmail.com>
-In-Reply-To: <CANpvso7JHdKUSyt0c5L_hXR6us39Or112t0NPvhJ6w5m07JYkA@mail.gmail.com>
+References: <20190401102456.11162-1-mcroce@redhat.com>
+In-Reply-To: <20190401102456.11162-1-mcroce@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: USB list <linux-usb@vger.kernel.org>, linux-sound@vger.kernel.org
+To: x86@kernel.org, LKML <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, platform-driver-x86@vger.kernel.org
 
-*the Windows driver
+Use the new aural error reporting framework when reporting an oops. The
+sound is emitted at the end of oops_exit(), to avoid interfering with other
+oops actions, like stack dump.
 
-On Fri, 19 Apr 2019 at 14:17, Eric Curtin <ericcurtin17@gmail.com> wrote:
->
-> Hi Guys,
->
-> I have a headset, Linux recognizes it as "HyperX Virtual Surround Sound
-> Digital Stereo", I have it set to 150% recording volume. It's a "HyperX
-> Cloud II" headset, the Windows seems to work fine. I also tried
-> "Digital Stereo (IEC958) Input" mode.
->
-> Is there a quirk or similar in the kernel I can set in order to
-> increase the recording volume of this device specifically?
->
-> Some details about my system (it's xubuntu):
->
-> username@hp-zbook-15-g5 14:13:12
-> ~/>dpkg -l | grep -i pulseaud
-> ii  gstreamer1.0-pulseaudio:amd64
-> 1.14.1-1ubuntu1~ubuntu18.04.1
->      amd64        GStreamer plugin for PulseAudio
-> ii  libcanberra-pulse:amd64                       0.30-5ubuntu1
->                                                        amd64
-> PulseAudio backend for libcanberra
-> ii  libpulse-mainloop-glib0:amd64                 1:11.1-1ubuntu7.2
->                                                        amd64
-> PulseAudio client libraries (glib support)
-> ii  libpulse0:amd64                               1:11.1-1ubuntu7.2
->                                                        amd64
-> PulseAudio client libraries
-> rc  libpulse0:i386                                1:11.1-1ubuntu7.2
->                                                        i386
-> PulseAudio client libraries
-> ii  libpulsedsp:amd64                             1:11.1-1ubuntu7.2
->                                                        amd64
-> PulseAudio OSS pre-load library
-> ii  pavucontrol                                   3.0-4
->                                                        amd64
-> PulseAudio Volume Control
-> ii  pulseaudio                                    1:11.1-1ubuntu7.2
->                                                        amd64
-> PulseAudio sound server
-> ii  pulseaudio-module-bluetooth                   1:11.1-1ubuntu7.2
->                                                        amd64
-> Bluetooth module for PulseAudio sound server
-> ii  pulseaudio-utils                              1:11.1-1ubuntu7.2
->                                                        amd64
-> Command line tools for the PulseAudio sound server
-> ii  xfce4-pulseaudio-plugin:amd64                 0.4.1-0ubuntu1
->                                                        amd64
-> Xfce4 panel plugin to control pulseaudio
-> username@hp-zbook-15-g5 14:13:15
-> ~/git/Domino>lsb_release -a
-> No LSB modules are available.
-> Distributor ID: Ubuntu
-> Description: Ubuntu 18.04.2 LTS
-> Release: 18.04
-> Codename: bionic
-> username@hp-zbook-15-g5 14:13:20
-> ~/git/Domino>uname -a
-> Linux hp-zbook-15-g5 4.18.0-17-generic #18~18.04.1-Ubuntu SMP Fri Mar
-> 15 15:27:12 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
->
-> Regards,
->
-> Eric
+Signed-off-by: Matteo Croce <mcroce@redhat.com>
+---
+ kernel/panic.c    | 18 ++++++++++++++++++
+ lib/Kconfig.debug | 10 ++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b87c4403924d..ea34f93ce410 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -97,6 +97,23 @@ static struct note warn_sound[] = {
+ };
+ #endif
+ 
++#ifdef CONFIG_AUDIBLE_OOPS
++static struct note oops_sound[] = {
++	{ 494, 100 },
++	{ 698, 100 },
++	{   0, 100 },
++	{ 698, 100 },
++	{ 698, 133 },
++	{ 659, 133 },
++	{ 587, 133 },
++	{ 523, 100 },
++	{ 330, 100 },
++	{ 262, 100 },
++	{ 330, 100 },
++	{ 262, 100 },
++};
++#endif
++
+ static long no_blink(int state)
+ {
+ 	return 0;
+@@ -575,6 +592,7 @@ void oops_exit(void)
+ 	do_oops_enter_exit();
+ 	print_oops_end_marker();
+ 	kmsg_dump(KMSG_DUMP_OOPS);
++	play(oops_sound, ARRAY_SIZE(oops_sound));
+ }
+ 
+ struct warn_args {
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 909c271d283b..74745ef386ce 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1017,6 +1017,16 @@ config AUDIBLE_WARN
+ 	  the system buzzer and not via any soundcard.
+ 	  Not available on all platforms.
+ 
++config AUDIBLE_OOPS
++	bool "Aural oops"
++	select PLAY_LIB
++	default n
++	help
++	  If you say Y here, oops will play a sound just
++	  after the stacktrace and registers dump. The sound is played via
++	  the system buzzer and not via any soundcard.
++	  Not available on all platforms.
++
+ config SCHED_DEBUG
+ 	bool "Collect scheduler debugging info"
+ 	depends on DEBUG_KERNEL && PROC_FS
+-- 
+2.20.1
