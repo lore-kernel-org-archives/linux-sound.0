@@ -1,107 +1,198 @@
-From: Victor L <victor910@gmail.com>
-Date: Mon, 01 Apr 2019 06:43:30 +0000
-Subject: kernel panic
-Message-Id: <CAAz5HLaNS_2y=jbjgz8G8jHAr8OOzugXfXcv5y8UKrVQ+ekBMQ@mail.gmail.com>
+From: Matteo Croce <mcroce@redhat.com>
+Date: Mon, 01 Apr 2019 10:24:52 +0000
+Subject: [PATCH 1/4] aural error reporting framework
+Message-Id: <20190401102456.11162-2-mcroce@redhat.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <20190401102456.11162-1-mcroce@redhat.com>
+In-Reply-To: <20190401102456.11162-1-mcroce@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: x86@kernel.org, LKML <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org, platform-driver-x86@vger.kernel.org
 
-Hi ,
+The Linux kernel has had verbal error reporting since the beginning.
+Different error conditions trigger different error messages, with
+different severity: from a simple warning to the most feared kernel panic.
 
-I have Linux panic when started play music with one of my USB audio device.
-first please see this logs:
+While this detailed error reporting is much helpful to developers or end
+users, there are some cases in which it's impossible to notice that an
+error happened.
+The most common case is headless devices, such as home servers without an
+attached display, or routers without an exposed serial port. Needless
+to say, logging into the machine via SSH is not an option after such
+a severe error.
+In other cases the monitor might be attached, but the system is unable to
+display the error, probably because there is an X server running and
+the KMS switch fails. Or simply the user is visually impaired.
 
-[   71.684730] usbcore: registered new interface driver snd-usb-audio
-[   73.835355] BUG: unable to handle kernel NULL pointer dereference
-at 0000000000000008
-[   73.835412] IP: [<ffffffffc0b45d3c>]
-snd_usb_endpoint_start+0x23c/0x2f0 [snd_usb_audio]
-[   73.835414] PGD 0
-[   73.835415]
-[   73.835418] Oops: 0000 [#1] PREEMPT SMP
-[   73.835482] Modules linked in: snd_usb_audio snd_usbmidi_lib
-snd_hwdep snd_pcm_oss snd_mixer_oss snd_
-pcm snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device
-snd_timer snd soundcore coretemp
-iwl3945 iwlegacy i915 ehci_pci iTCO_wdt ehci_hcd pcmcia
-iTCO_vendor_support kvm usbcore mac80211 e1000e
-yenta_socket sr_mod pcmcia_rsrc cfg80211 pcmcia_core lpc_ich mfd_core
-drm_kms_helper cdrom rfkill ata_ge
-neric irqbypass ptp pps_core joydev sg pcspkr i2c_i801 drm battery
-i2c_algo_bit ata_piix i2c_smbus usb_c
-ommon shpchp rng_core ac acpi_cpufreq video button nls_utf8 cifs
-sha256_ssse3 cmac md4 des_generic arc4
-dns_resolver fscache sunrpc loop ip_tables x_tables autofs4 ext4 crc16
-jbd2 crc32c_generic fscrypto ecb
-glue_helper lrw gf128mul ablk_helper cryptd aes_x86_64 mbcache sd_mod
-ahci libahci
-[   73.835486]  evdev libata psmouse serio_raw scsi_mod thermal
-[   73.835491] CPU: 1 PID: 1099 Comm: output:oops Not tainted 4.9.144-rt93 #1
-[   73.835492] Hardware name: LENOVO 636962M/636962M, BIOS 7IET38WW
-(1.19 ) 03/22/2011
-[   73.835494] task: ffff8beb97502c40 task.stack: ffffac1901068000
-[   73.835505] RIP: 0010:[<ffffffffc0b45d3c>]  [<ffffffffc0b45d3c>]
-snd_usb_endpoint_start+0x23c/0x2f0 [
-snd_usb_audio]
-[   73.835507] RSP: 0000:ffffac190106bcc0  EFLAGS: 00010246
-[   73.835508] RAX: 00000000ffffffea RBX: ffff8beb96c00000 RCX: 00000000ffffffea
-[   73.835509] RDX: 0000000000000000 RSI: ffffffffc0b5bf98 RDI: ffff8beb99a18000
-[   73.835511] RBP: 0000000000000002 R08: ffffffffc0b5a8d3 R09: 0000000000000000
-[   73.835512] R10: 00000000fffffe00 R11: 0000000000000200 R12: ffff8beb96c80070
-[   73.835513] R13: ffff8beb99a18000 R14: 0000000000000002 R15: 0000000000000000
-[   73.835516] FS:  00007fdfedc66700(0000) GS:ffff8bebbf300000(0000)
-knlGS:0000000000000000
-[   73.835518] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   73.835519] CR2: 0000000000000008 CR3: 00000000b4ab6000 CR4: 0000000000000670
-[   73.835520] Stack:
-[   73.835525]  ffff8bebb8888c18 ffff8beb96c00000 0000000000000000
-0000000000008002
-[   73.835528]  00007fdfe40197d0 ffffffffc0b4e7cd ffff8bebb8888c18
-ffff8beb974b2400
-[   73.835531]  ffffffffc0b5088a ffff8beb0000ac44 ffff8bebb206d300
-0000000000000000
-[   73.835531] Call Trace:
-[   73.835545]  [<ffffffffc0b4e7cd>] ? start_endpoints+0x3d/0x150
-[snd_usb_audio]
-[   73.835555]  [<ffffffffc0b5088a>] ? snd_usb_pcm_prepare+0x2ea/0x520
-[snd_usb_audio]
-[   73.835577]  [<ffffffffc0b0c176>] ?
-snd_pcm_sw_params_user+0x56/0x90 [snd_pcm]
-[   73.835584]  [<ffffffffc0b0b2d9>] ? snd_pcm_do_prepare+0x19/0x30 [snd_pcm]
-[   73.835591]  [<ffffffffc0b09ea6>] ? snd_pcm_action_single+0x36/0x80 [snd_pcm]
-[   73.835598]  [<ffffffffc0b0a311>] ?
-snd_pcm_action_nonatomic+0x61/0x70 [snd_pcm]
-[   73.835606]  [<ffffffffc0b0e219>] ?
-snd_pcm_common_ioctl1+0x3a9/0xc60 [snd_pcm]
-[   73.835674]  [<ffffffffc03a73ce>] ? ext4_file_write_iter+0x22e/0x370 [ext4]
-[   73.835682]  [<ffffffffc0b0ecaa>] ?
-snd_pcm_playback_ioctl1+0x1da/0x240 [snd_pcm]
-[   73.835690]  [<ffffffffb9736a38>] ? __seccomp_filter+0x78/0x2a0
-[   73.835698]  [<ffffffffc0b0ed33>] ?
-snd_pcm_playback_ioctl+0x23/0x30 [snd_pcm]
-[   73.835702]  [<ffffffffb982c9c4>] ? do_vfs_ioctl+0xa4/0x620
-[   73.835706]  [<ffffffffb96033b4>] ? syscall_trace_enter+0x144/0x300
-[   73.835709]  [<ffffffffb982cfb4>] ? SyS_ioctl+0x74/0x80
-[   73.835711]  [<ffffffffb9603c56>] ? do_syscall_64+0x76/0x100
-[   73.835717]  [<ffffffffb9c38b4e>] ? entry_SYSCALL_64_after_swapgs+0x58/0xc6
-[   73.835747] Code: c0 d3 a8 b5 c0 83 f8 a6 74 15 83 f8 e0 49 c7 c0
-8c a8 b5 c0 48 c7 c2 74 a8 b5 c0 4c
- 0f 45 c2 48 8b 13 89 c1 48 c7 c6 98 bf b5 c0 <48> 8b 7a 08 89 ea 48
-81 c7 98 00 00 00 e8 e2 7b f4 f8 f0
- 80 63
-[   73.835757] RIP  [<ffffffffc0b45d3c>]
-snd_usb_endpoint_start+0x23c/0x2f0 [snd_usb_audio]
-[   73.835758]  RSP <ffffac190106bcc0>
-[   73.835759] CR2: 0000000000000008
+These are all cases when the aural errors framework comes to help. This
+framework adds to the kernel a generic library to play sounds, which can
+be used to report errors or generic events.
 
-I give you more detail, I have Debian Linux 4.9.144-rt93. I tested
-under Debian 4.19 and Ubuntu same panic present.
-Please help me to fix this problem, this device working fine under
-Windows. I believe this problem in Linux audio driver.
-I ready to provide any additional details if needs.
+As the sound card driver could, and most probably will, become unusable
+during a kernel crash, the sounds are played via the system buzzer which
+has been around since the dawn of time.
+The buzzer driver is simple, requires just a few register writes to work,
+the hardware is extremely cheap and is already present on most machines.
 
+Signed-off-by: Matteo Croce <mcroce@redhat.com>
+---
+ arch/x86/lib/Makefile |  1 +
+ arch/x86/lib/play.c   | 75 +++++++++++++++++++++++++++++++++++++++++++
+ include/linux/play.h  | 34 ++++++++++++++++++++
+ lib/Kconfig.debug     |  5 +++
+ 4 files changed, 115 insertions(+)
+ create mode 100644 arch/x86/lib/play.c
+ create mode 100644 include/linux/play.h
+
+diff --git a/arch/x86/lib/Makefile b/arch/x86/lib/Makefile
+index 140e61843a07..fcd1ee6adfad 100644
+--- a/arch/x86/lib/Makefile
++++ b/arch/x86/lib/Makefile
+@@ -28,6 +28,7 @@ lib-$(CONFIG_INSTRUCTION_DECODER) += insn.o inat.o insn-eval.o
+ lib-$(CONFIG_RANDOMIZE_BASE) += kaslr.o
+ lib-$(CONFIG_FUNCTION_ERROR_INJECTION)	+= error-inject.o
+ lib-$(CONFIG_RETPOLINE) += retpoline.o
++lib-$(CONFIG_PLAY_LIB) += play.o
+ 
+ obj-y += msr.o msr-reg.o msr-reg-export.o hweight.o
+ obj-y += iomem.o
+diff --git a/arch/x86/lib/play.c b/arch/x86/lib/play.c
+new file mode 100644
+index 000000000000..e798eeb144f8
+--- /dev/null
++++ b/arch/x86/lib/play.c
+@@ -0,0 +1,75 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Aural kernel panic - x86 implementation
++ *
++ * Copyright (C) 2019 Matteo Croce <mcroce@redhat.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License version
++ * 2 as published by the Free Software Foundation;
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ */
++
++#include <linux/delay.h>
++#include <linux/timex.h>
++#include <linux/i8253.h>
++#include <linux/play.h>
++#include <asm/io.h>
++
++#define CONTROL_WORD_REG	0x43
++#define COUNTER2		0x42
++#define SPEAKER_PORT		0x61
++
++void arch_play_one(unsigned int ms, unsigned int hz)
++{
++	unsigned long flags;
++	u8 p61;
++
++	/* filter out non audible by humans freqs */
++	if (hz >= 16 && hz <= 22000) {
++		unsigned int count = PIT_TICK_RATE / hz;
++
++		raw_spin_lock_irqsave(&i8253_lock, flags);
++
++		/* set buzzer
++		 * 0xB6
++		 * 1 0		Counter 2
++		 * 1 1		2xRD/2xWR bits 0..7, 8..15 of counter value
++		 * 0 1 1	Mode 3: Square Wave
++		 * 0		Counter is a 16 bit binary counter
++		 */
++		outb_p(0xB6, CONTROL_WORD_REG);
++
++		/* select desired HZ with two writes in counter 2, port 42h */
++		outb_p(count, COUNTER2);
++		outb_p(count >> 8, COUNTER2);
++
++		/* start beep
++		 * set bit 0-1 (0: SPEAKER DATA; 1: OUT2) of GATE2 (port 61h)
++		 */
++		p61 = inb_p(SPEAKER_PORT);
++		if ((p61 & 3) != 3)
++			outb_p(p61 | 3, SPEAKER_PORT);
++
++		raw_spin_unlock_irqrestore(&i8253_lock, flags);
++	}
++
++	msleep(ms * 9 / 10);
++
++	raw_spin_lock_irqsave(&i8253_lock, flags);
++
++	/* stop beep
++	 * clear bit 0-1 of port 61h
++	 */
++	p61 = inb_p(SPEAKER_PORT);
++	if (p61 & 3)
++		outb(p61 & 0xFC, SPEAKER_PORT);
++
++	raw_spin_unlock_irqrestore(&i8253_lock, flags);
++
++	msleep(ms / 10);
++}
+diff --git a/include/linux/play.h b/include/linux/play.h
+new file mode 100644
+index 000000000000..ae30cb8a0c1d
+--- /dev/null
++++ b/include/linux/play.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * play.h - Definitions and headers for the aural error reporting framework.
++ *
++ * Copyright (C) 2019 Matteo Croce <mcroce@redhat.com>
++ *
++ * This file is released under the GPLv2.
++ */
++
++#ifndef _LINUX_PLAY_H
++#define _LINUX_PLAY_H
++
++#ifdef CONFIG_PLAY_LIB
++
++struct note {
++	unsigned int freq;
++	unsigned int dur;
++};
++
++void arch_play_one(unsigned int ms, unsigned int hz);
++
++#define play(notes, len) do {						\
++		int i;							\
++		for (i = 0; i < len; i++)				\
++			arch_play_one(notes[i].dur, notes[i].freq);	\
++	} while (0)
++
++#else
++
++#define play(n, l)
++
++#endif
++
++#endif
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 0d9e81779e37..10d04b266aef 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -992,6 +992,11 @@ config PANIC_TIMEOUT
+ 	  value n > 0 will wait n seconds before rebooting, while a timeout
+ 	  value n < 0 will reboot immediately.
+ 
++config PLAY_LIB
++	bool
++	depends on HAVE_PCSPKR_PLATFORM
++	default n
++
+ config SCHED_DEBUG
+ 	bool "Collect scheduler debugging info"
+ 	depends on DEBUG_KERNEL && PROC_FS
 -- 
-Regards,
-Viktor L
+2.20.1
