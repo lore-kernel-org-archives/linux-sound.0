@@ -1,36 +1,45 @@
-From: AISHA GADDAFI <aishagaddafimaa@gmail.com>
-Date: Fri, 17 Jan 2020 11:09:11 +0000
-Subject: Hello Dear Very Confidential,
-Message-Id: <CADsk=nEZdB5+giMyGEn-3uN8t4H17PMEPX6BtR3rXarCL=_rUg@mail.gmail.com>
+From: y00444492 <yebin10@huawei.com>
+Date: Sun, 19 Jan 2020 02:03:20 +0000
+Subject: [PATCH] ASoC: atmel-pcm: Fix build error
+Message-Id: <20200119020320.27075-1-yebin10@huawei.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CAJEpxOa5g2do2GQgLO-mQ30sK7L10tJ7==nV968QfCafs6stUw@mail.gmail.com>
-In-Reply-To: <CAJEpxOa5g2do2GQgLO-mQ30sK7L10tJ7==nV968QfCafs6stUw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: broonie@opensource.wolfsonmicro.com, codrin.ciubotariu@microchip.com
+Cc: alsa-devel@alsa-project.org, Ye Bin <yebin10@huawei.com>, linux-sound@vger.kernel.org
 
-Hello Dear Very Confidential,
+From: Ye Bin <yebin10@huawei.com>
 
+If SND_ATMEL_SOC_SSC is y and SND_ATMEL_SOC_PDC is m, building fails:
+sound/soc/atmel/atmel_ssc_dai.o: In function `atmel_ssc_set_audio':
+(.text+0x6f6): undefined reference to `atmel_pcm_pdc_platform_register'
 
+Select SND_ATMEL_SOC_PDC to fix this.
 
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 92dfa6198623 ("ASoC: atmel-pcm: split into two file")
+Signed-off-by: Ye Bin <yebin10@huawei.com>
+---
+ sound/soc/atmel/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I am Aisha Gaddafi, Daughter of the former Libyan leader, Col. Muammar
-Gaddafi. I am offering you a partnership proposal in a classified
-monetary transaction, which involves the need to secretly relocate and
-secures some of our family funds concealed in a special escrow dormant
-holding with a financial services company in Africa. I am in a very
-difficult situation and I must immediately relocate this fund for
-safety and investments purposes.
-
-More so, this must be done in such a way that it must not be tied to
-me as a result of my father's death and politics circumstances. More
-details of the transaction will be disclosed to you once you can
-assure me that you can be trusted to handle this. Honesty and trust is
-what I am in quest of, so therefore your assurance of confidentiality
-and trust will be highly appreciated. For further clarification.
-
-
-Thank you
-
-Aisha  Gaddafi
+diff --git a/sound/soc/atmel/Kconfig b/sound/soc/atmel/Kconfig
+index f118c229ed82..78e7d40c3c24 100644
+--- a/sound/soc/atmel/Kconfig
++++ b/sound/soc/atmel/Kconfig
+@@ -19,11 +19,11 @@ config SND_ATMEL_SOC_DMA
+ 
+ config SND_ATMEL_SOC_SSC
+ 	tristate
++	select SND_ATMEL_SOC_PDC
+ 
+ config SND_ATMEL_SOC_SSC_PDC
+ 	tristate "SoC PCM DAI support for AT91 SSC controller using PDC"
+ 	depends on ATMEL_SSC
+-	select SND_ATMEL_SOC_PDC
+ 	select SND_ATMEL_SOC_SSC
+ 	help
+ 	  Say Y or M if you want to add support for Atmel SSC interface
+-- 
+2.17.2
