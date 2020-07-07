@@ -1,45 +1,45 @@
-From: y00444492 <yebin10@huawei.com>
-Date: Sun, 19 Jan 2020 02:03:20 +0000
-Subject: [PATCH] ASoC: atmel-pcm: Fix build error
-Message-Id: <20200119020320.27075-1-yebin10@huawei.com>
+From: Mr Suleman Bello <frankoleka77@gmail.com>
+Date: Tue, 07 Jul 2020 04:35:50 +0000
+Subject: BE MY PARTNER IN THIS BUSINESS
+Message-Id: <CAHQPQhALon5+6tUeMvz2=T-5hfvS7wzukCGPLD+Qiy46ydx42Q@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: broonie@opensource.wolfsonmicro.com, codrin.ciubotariu@microchip.com
-Cc: alsa-devel@alsa-project.org, Ye Bin <yebin10@huawei.com>, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
-From: Ye Bin <yebin10@huawei.com>
+Dear Friend,
 
-If SND_ATMEL_SOC_SSC is y and SND_ATMEL_SOC_PDC is m, building fails:
-sound/soc/atmel/atmel_ssc_dai.o: In function `atmel_ssc_set_audio':
-(.text+0x6f6): undefined reference to `atmel_pcm_pdc_platform_register'
+Please i want you to read this letter very carefully and i must
+apologize for berging this message into your mail box without any
+formal introduction due to the urgency and confidential of this issue
+and i know that this message will come to you as a surprise, Please
+this is not a joke and i will not like you to joke with it.I am
+Mr.Suleman Bello, a staff in African Development Bank (A.D.B)
+Ouagadougou, Burkina faso West Africa.I discovered existing dormant
+account for years. When I discovered that there had been neither
+continuation nor withdrawals from this account for this long period
+and according to the laws and constitution guiding this banking
+institution, any unserviceable account for more than (7) seven years,
+that fund will be transferred to national treasury as unclaimed fund.
 
-Select SND_ATMEL_SOC_PDC to fix this.
+I Hoped that you will not expose or betray this trust and confident
+that i am about to extablish with you for the mutual benefit of you
+and i,I need your urgent assistance in transferring the sum of $10.5
+)million usd into your account within 7 banking days. This money has
+been dormant for years in our Bank, and The request of foreigner in
+this transaction is necessary because our late customer was a
+foreigner and a burkinabe cannot stand as next of kin to a
+foreigner.Because of the static of this transaction I want you to
+stand as the next of kin so that our bank will accord you the
+recognition and have the fund transferred to your account.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Fixes: 92dfa6198623 ("ASoC: atmel-pcm: split into two file")
-Signed-off-by: Ye Bin <yebin10@huawei.com>
----
- sound/soc/atmel/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Upon your response, I shall then provide you with further information
+and more deities that will help you understand the transaction. I am
+expecting your urgent response to enable me inform you on how the
+business will be executed. Please I would like you to keep this
+transaction confidential and as a top secret or delete if you are not
+interested.
 
-diff --git a/sound/soc/atmel/Kconfig b/sound/soc/atmel/Kconfig
-index f118c229ed82..78e7d40c3c24 100644
---- a/sound/soc/atmel/Kconfig
-+++ b/sound/soc/atmel/Kconfig
-@@ -19,11 +19,11 @@ config SND_ATMEL_SOC_DMA
- 
- config SND_ATMEL_SOC_SSC
- 	tristate
-+	select SND_ATMEL_SOC_PDC
- 
- config SND_ATMEL_SOC_SSC_PDC
- 	tristate "SoC PCM DAI support for AT91 SSC controller using PDC"
- 	depends on ATMEL_SSC
--	select SND_ATMEL_SOC_PDC
- 	select SND_ATMEL_SOC_SSC
- 	help
- 	  Say Y or M if you want to add support for Atmel SSC interface
--- 
-2.17.2
+Thanks
+Mr.Suleman Bello.
