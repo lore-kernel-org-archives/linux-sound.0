@@ -1,150 +1,1634 @@
-From: <Christian.Gromm@microchip.com>
-Date: Tue, 17 Nov 2020 10:04:01 +0000
-Subject: Re: [PATCH v2] drivers: most: add ALSA sound driver
-Message-Id: <78cc59b31042f865e947a2c09a5d10cc60ddc01c.camel@microchip.com>
+From: Christian Gromm <christian.gromm@microchip.com>
+Date: Mon, 02 Nov 2020 15:14:03 +0000
+Subject: [PATCH] drivers: most: add ALSA sound driver
+Message-Id: <1604330043-5517-1-git-send-email-christian.gromm@microchip.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <1604680254-17185-1-git-send-email-christian.gromm@microchip.com>
- <20201110084826.GE29398@kadam>
- <564d35a4fc32866f91f5bf3fb1bb16a5c67b3d9e.camel@microchip.com>
- <20201117084145.GB29398@kadam>
-In-Reply-To: <20201117084145.GB29398@kadam>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: dan.carpenter@oracle.com
-Cc: gregkh@linuxfoundation.org, driverdev-devel@linuxdriverproject.org, linux-sound@vger.kernel.org
+To: gregkh@linuxfoundation.org
+Cc: Christian Gromm <christian.gromm@microchip.com>, driverdev-devel@linuxdriverproject.org, linux-sound@vger.kernel.org
 
-T24gVHVlLCAyMDIwLTExLTE3IGF0IDExOjQxICswMzAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOg0K
-PiBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMg
-dW5sZXNzIHlvdSBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IE9uIFR1ZSwgTm92IDE3
-LCAyMDIwIGF0IDA4OjA4OjUwQU0gKzAwMDAsIENocmlzdGlhbi5Hcm9tbUBtaWNyb2NoaXAuY29t
-IHdyb3RlOg0KPiA+IE9uIFR1ZSwgMjAyMC0xMS0xMCBhdCAxMTo0OCArMDMwMCwgRGFuIENhcnBl
-bnRlciB3cm90ZToNCj4gPiA+IEVYVEVSTkFMIEVNQUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Ig
-b3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiA+
-ID4gDQo+ID4gPiBPbiBGcmksIE5vdiAwNiwgMjAyMCBhdCAwNTozMDo1NFBNICswMTAwLCBDaHJp
-c3RpYW4gR3JvbW0gd3JvdGU6DQo+ID4gPiA+ICtzdGF0aWMgc3RydWN0IGxpc3RfaGVhZCBhZHB0
-X2xpc3Q7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyNkZWZpbmUgTU9TVF9QQ01fSU5GTyAoU05EUlZf
-UENNX0lORk9fTU1BUCB8IFwNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgU05EUlZfUENN
-X0lORk9fTU1BUF9WQUxJRCB8IFwNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgU05EUlZf
-UENNX0lORk9fQkFUQ0ggfCBcDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgIFNORFJWX1BD
-TV9JTkZPX0lOVEVSTEVBVkVEIHwgXA0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICBTTkRS
-Vl9QQ01fSU5GT19CTE9DS19UUkFOU0ZFUikNCj4gPiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIHZv
-aWQgc3dhcF9jb3B5MTYodTE2ICpkZXN0LCBjb25zdCB1MTYgKnNvdXJjZSwgdW5zaWduZWQgaW50
-IGJ5dGVzKQ0KPiA+ID4gPiArew0KPiA+ID4gPiArICAgICB1bnNpZ25lZCBpbnQgaSA9IDA7DQo+
-ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgd2hpbGUgKGkgPCAoYnl0ZXMgLyAyKSkgew0KPiA+ID4g
-PiArICAgICAgICAgICAgIGRlc3RbaV0gPSBzd2FiMTYoc291cmNlW2ldKTsNCj4gPiA+ID4gKyAg
-ICAgICAgICAgICBpKys7DQo+ID4gPiA+ICsgICAgIH0NCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0K
-PiA+ID4gPiArc3RhdGljIHZvaWQgc3dhcF9jb3B5MjQodTggKmRlc3QsIGNvbnN0IHU4ICpzb3Vy
-Y2UsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4gPiA+ID4gKyAgICAgdW5zaWdu
-ZWQgaW50IGkgPSAwOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgIHdoaWxlIChpIDwgYnl0ZXMg
-LSAyKSB7DQo+ID4gPiANCj4gPiA+IENhbiBieXRlcyBldmVyIGJlIHplcm8/ICBJZiBzbyB0aGVu
-IHRoaXMgd2lsbCBjb3JydXB0IG1lbW9yeSBhbmQgY3Jhc2guDQo+ID4gPiANCj4gPiA+IEdlbmVy
-YWxseSAiaW50IGk7IiBpcyBsZXNzIHJpc2t5IHRoYW4gInVuc2lnbmVkIGludCBpOyIuICBPZiBj
-b3Vyc2UsIEkNCj4gPiA+IHJlY2VudGx5IGFsbW9zdCBpbnRyb2R1Y2VkIGEgc2l0dWF0aW9uIHdo
-ZXJlIHdlIHdlcmUgY29weWluZyB1cCB0bw0KPiA+ID4gVUxPTkdfTUFYIGJ5dGVzIHNvIHRoZXJl
-IGFyZSB0aW1lcyB3aGVuIGl0ZXJhdG9ycyBzaG91bGQgYmUgc2l6ZV90IHNvDQo+ID4gPiB0aGF0
-IGRvZXMgaGFwcGVuLiAgSXQgY291bGQgYmUgYnVnZ3kgZWl0aGVyIHdheSBpcyB3aGF0IEknbSBz
-YXlpbmcgYnV0DQo+ID4gPiBnZW5lcmFsbHkgInVuc2lnbmVkIGludCBpOyIgaXMgbW9yZSBvZnRl
-biBidWdneS4NCj4gPiA+IA0KPiA+ID4gPiArICAgICAgICAgICAgIGRlc3RbaV0gPSBzb3VyY2Vb
-aSArIDJdOw0KPiA+ID4gPiArICAgICAgICAgICAgIGRlc3RbaSArIDFdID0gc291cmNlW2kgKyAx
-XTsNCj4gPiA+ID4gKyAgICAgICAgICAgICBkZXN0W2kgKyAyXSA9IHNvdXJjZVtpXTsNCj4gPiA+
-ID4gKyAgICAgICAgICAgICBpICs9IDM7DQo+ID4gPiA+ICsgICAgIH0NCj4gPiA+ID4gK30NCj4g
-PiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIHZvaWQgc3dhcF9jb3B5MzIodTMyICpkZXN0LCBjb25z
-dCB1MzIgKnNvdXJjZSwgdW5zaWduZWQgaW50IGJ5dGVzKQ0KPiA+ID4gPiArew0KPiA+ID4gPiAr
-ICAgICB1bnNpZ25lZCBpbnQgaSA9IDA7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgd2hpbGUg
-KGkgPCBieXRlcyAvIDQpIHsNCj4gPiA+ID4gKyAgICAgICAgICAgICBkZXN0W2ldID0gc3dhYjMy
-KHNvdXJjZVtpXSk7DQo+ID4gPiA+ICsgICAgICAgICAgICAgaSsrOw0KPiA+ID4gPiArICAgICB9
-DQo+ID4gPiA+ICt9DQo+ID4gPiA+ICsNCj4gPiA+ID4gK3N0YXRpYyB2b2lkIGFsc2FfdG9fbW9z
-dF9tZW1jcHkodm9pZCAqYWxzYSwgdm9pZCAqbW9zdCwgdW5zaWduZWQgaW50IGJ5dGVzKQ0KPiA+
-ID4gPiArew0KPiA+ID4gPiArICAgICBtZW1jcHkobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4g
-PiArfQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBhbHNhX3RvX21vc3RfY29weTE2
-KHZvaWQgKmFsc2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sN
-Cj4gPiA+ID4gKyAgICAgc3dhcF9jb3B5MTYobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4gPiAr
-fQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBhbHNhX3RvX21vc3RfY29weTI0KHZv
-aWQgKmFsc2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4g
-PiA+ID4gKyAgICAgc3dhcF9jb3B5MjQobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4gPiArfQ0K
-PiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBhbHNhX3RvX21vc3RfY29weTMyKHZvaWQg
-KmFsc2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4gPiA+
-ID4gKyAgICAgc3dhcF9jb3B5MzIobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4gPiArfQ0KPiA+
-ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBtb3N0X3RvX2Fsc2FfbWVtY3B5KHZvaWQgKmFs
-c2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4gPiA+ID4g
-KyAgICAgbWVtY3B5KGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0K
-PiA+ID4gPiArc3RhdGljIHZvaWQgbW9zdF90b19hbHNhX2NvcHkxNih2b2lkICphbHNhLCB2b2lk
-ICptb3N0LCB1bnNpZ25lZCBpbnQgYnl0ZXMpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIHN3
-YXBfY29weTE2KGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+
-ID4gPiArc3RhdGljIHZvaWQgbW9zdF90b19hbHNhX2NvcHkyNCh2b2lkICphbHNhLCB2b2lkICpt
-b3N0LCB1bnNpZ25lZCBpbnQgYnl0ZXMpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIHN3YXBf
-Y29weTI0KGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+ID4g
-PiArc3RhdGljIHZvaWQgbW9zdF90b19hbHNhX2NvcHkzMih2b2lkICphbHNhLCB2b2lkICptb3N0
-LCB1bnNpZ25lZCBpbnQgYnl0ZXMpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIHN3YXBfY29w
-eTMyKGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+ID4gPiAr
-LyoqDQo+ID4gPiA+ICsgKiBnZXRfY2hhbm5lbCAtIGdldCBwb2ludGVyIHRvIGNoYW5uZWwNCj4g
-PiA+ID4gKyAqIEBpZmFjZTogaW50ZXJmYWNlIHN0cnVjdHVyZQ0KPiA+ID4gPiArICogQGNoYW5u
-ZWxfaWQ6IGNoYW5uZWwgSUQNCj4gPiA+ID4gKyAqDQo+ID4gPiA+ICsgKiBUaGlzIHRyYXZlcnNl
-cyB0aGUgY2hhbm5lbCBsaXN0IGFuZCByZXR1cm5zIHRoZSBjaGFubmVsIG1hdGNoaW5nIHRoZQ0K
-PiA+ID4gPiArICogSUQgYW5kIGludGVyZmFjZS4NCj4gPiA+ID4gKyAqDQo+ID4gPiA+ICsgKiBS
-ZXR1cm5zIHBvaW50ZXIgdG8gY2hhbm5lbCBvbiBzdWNjZXNzIG9yIE5VTEwgb3RoZXJ3aXNlLg0K
-PiA+ID4gPiArICovDQo+ID4gPiA+ICtzdGF0aWMgc3RydWN0IGNoYW5uZWwgKmdldF9jaGFubmVs
-KHN0cnVjdCBtb3N0X2ludGVyZmFjZSAqaWZhY2UsDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIGludCBjaGFubmVsX2lkKQ0KPiA+ID4gPiArew0KPiA+ID4gPiArICAg
-ICBzdHJ1Y3Qgc291bmRfYWRhcHRlciAqYWRwdCA9IGlmYWNlLT5wcml2Ow0KPiA+ID4gPiArICAg
-ICBzdHJ1Y3QgY2hhbm5lbCAqY2hhbm5lbCwgKnRtcDsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAg
-ICBsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUoY2hhbm5lbCwgdG1wLCAmYWRwdC0+ZGV2X2xpc3Qs
-IGxpc3QpIHsNCj4gPiA+ID4gKyAgICAgICAgICAgICBpZiAoKGNoYW5uZWwtPmlmYWNlID09IGlm
-YWNlKSAmJiAoY2hhbm5lbC0+aWQgPT0gY2hhbm5lbF9pZCkpDQo+ID4gPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICByZXR1cm4gY2hhbm5lbDsNCj4gPiA+IA0KPiA+ID4gTm8gbmVlZCB0byB1c2Ug
-dGhlIF9zYWZlKCkgdmVyc2lvbiBvZiB0aGlzIGxvb3AgbWFjcm8uICBZb3UncmUgbm90DQo+ID4g
-PiBmcmVlaW5nIGFueXRoaW5nLiAgTXkgY29uY2VybiBpcyB0aGF0IHNvbWV0aW1lcyBwZW9wbGUg
-dGhpbmsgdGhlIF9zYWZlKCkNCj4gPiA+IGhhcyBzb21ldGhpbmcgdG8gZG8gd2l0aCBsb2NraW5n
-IGFuZCBpdCBkb2VzIG5vdC4NCj4gPiA+IA0KPiA+ID4gPiArICAgICB9DQo+ID4gPiA+ICsgICAg
-IHJldHVybiBOVUxMOw0KPiA+ID4gPiArfQ0KPiA+ID4gPiArDQo+ID4gPiANCj4gPiA+IFsgU25p
-cCBdDQo+ID4gPiANCj4gPiA+ID4gKy8qKg0KPiA+ID4gPiArICogYXVkaW9fcHJvYmVfY2hhbm5l
-bCAtIHByb2JlIGZ1bmN0aW9uIG9mIHRoZSBkcml2ZXIgbW9kdWxlDQo+ID4gPiA+ICsgKiBAaWZh
-Y2U6IHBvaW50ZXIgdG8gaW50ZXJmYWNlIGluc3RhbmNlDQo+ID4gPiA+ICsgKiBAY2hhbm5lbF9p
-ZDogY2hhbm5lbCBpbmRleC9JRA0KPiA+ID4gPiArICogQGNmZzogcG9pbnRlciB0byBhY3R1YWwg
-Y2hhbm5lbCBjb25maWd1cmF0aW9uDQo+ID4gPiA+ICsgKiBAYXJnX2xpc3Q6IHN0cmluZyB0aGF0
-IHByb3ZpZGVzIHRoZSBuYW1lIG9mIHRoZSBkZXZpY2UgdG8gYmUgY3JlYXRlZCBpbiAvZGV2DQo+
-ID4gPiA+ICsgKiAgICAgICAgIHBsdXMgdGhlIGRlc2lyZWQgYXVkaW8gcmVzb2x1dGlvbg0KPiA+
-ID4gPiArICoNCj4gPiA+ID4gKyAqIENyZWF0ZXMgc291bmQgY2FyZCwgcGNtIGRldmljZSwgc2V0
-cyBwY20gb3BzIGFuZCByZWdpc3RlcnMgc291bmQgY2FyZC4NCj4gPiA+ID4gKyAqDQo+ID4gPiA+
-ICsgKiBSZXR1cm5zIDAgb24gc3VjY2VzcyBvciBlcnJvciBjb2RlIG90aGVyd2lzZS4NCj4gPiA+
-ID4gKyAqLw0KPiA+ID4gPiArc3RhdGljIGludCBhdWRpb19wcm9iZV9jaGFubmVsKHN0cnVjdCBt
-b3N0X2ludGVyZmFjZSAqaWZhY2UsIGludCBjaGFubmVsX2lkLA0KPiA+ID4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHN0cnVjdCBtb3N0X2NoYW5uZWxfY29uZmlnICpjZmcsDQo+ID4g
-PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2hhciAqZGV2aWNlX25hbWUsIGNoYXIg
-KmFyZ19saXN0KQ0KPiA+ID4gPiArew0KPiA+ID4gPiArICAgICBzdHJ1Y3QgY2hhbm5lbCAqY2hh
-bm5lbDsNCj4gPiA+ID4gKyAgICAgc3RydWN0IHNvdW5kX2FkYXB0ZXIgKmFkcHQ7DQo+ID4gPiA+
-ICsgICAgIHN0cnVjdCBzbmRfcGNtICpwY207DQo+ID4gPiA+ICsgICAgIGludCBwbGF5YmFja19j
-b3VudCA9IDA7DQo+ID4gPiA+ICsgICAgIGludCBjYXB0dXJlX2NvdW50ID0gMDsNCj4gPiA+ID4g
-KyAgICAgaW50IHJldDsNCj4gPiA+ID4gKyAgICAgaW50IGRpcmVjdGlvbjsNCj4gPiA+ID4gKyAg
-ICAgdTE2IGNoX251bTsNCj4gPiA+ID4gKyAgICAgY2hhciAqc2FtcGxlX3JlczsNCj4gPiA+ID4g
-KyAgICAgY2hhciBhcmdfbGlzdF9jcHlbU1RSSU5HX1NJWkVdOw0KPiA+ID4gPiArDQo+ID4gPiA+
-ICsgICAgIGlmIChjZmctPmRhdGFfdHlwZSAhPSBNT1NUX0NIX1NZTkMpIHsNCj4gPiA+ID4gKyAg
-ICAgICAgICAgICBwcl9lcnIoIkluY29tcGF0aWJsZSBjaGFubmVsIHR5cGVcbiIpOw0KPiA+ID4g
-PiArICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiA+ID4gPiArICAgICB9DQo+ID4gPiA+
-ICsgICAgIHN0cmxjcHkoYXJnX2xpc3RfY3B5LCBhcmdfbGlzdCwgU1RSSU5HX1NJWkUpOw0KPiA+
-ID4gPiArICAgICByZXQgPSBzcGxpdF9hcmdfbGlzdChhcmdfbGlzdF9jcHksICZjaF9udW0sICZz
-YW1wbGVfcmVzKTsNCj4gPiA+ID4gKyAgICAgaWYgKHJldCA8IDApDQo+ID4gPiA+ICsgICAgICAg
-ICAgICAgcmV0dXJuIHJldDsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICBsaXN0X2Zvcl9lYWNo
-X2VudHJ5KGFkcHQsICZhZHB0X2xpc3QsIGxpc3QpIHsNCj4gPiA+ID4gKyAgICAgICAgICAgICBp
-ZiAoYWRwdC0+aWZhY2UgIT0gaWZhY2UpDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBj
-b250aW51ZTsNCj4gPiA+ID4gKyAgICAgICAgICAgICBpZiAoYWRwdC0+cmVnaXN0ZXJlZCkNCj4g
-PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRU5PU1BDOw0KPiA+ID4gPiArICAg
-ICAgICAgICAgIGFkcHQtPnBjbV9kZXZfaWR4Kys7DQo+ID4gPiA+ICsgICAgICAgICAgICAgZ290
-byBza2lwX2FkcHRfYWxsb2M7DQo+ID4gPiANCj4gPiA+IEl0J3Mgd2VpcmQgaG93IGlmIHRoZSAi
-Y2hhbm5lbCA9ICIgYWxsb2NhdGlvbiBmYWlscywgdGhlbiB3ZSBmcmVlIHRoaXMNCj4gPiA+ICJh
-ZHB0IiB3aGljaCB3ZSBkaWRuJ3QgYWxsb2NhdGUuDQo+ID4gDQo+ID4gV2UgYWN0dWFsbHkgZGlk
-IGFsbG9jYXRlIGl0IGluIGEgcHJldmlvdXMgY2FsbCB0byB0aGlzIGZ1bmN0aW9uLg0KPiA+IE90
-aGVyd2lzZSB3ZSB3b3VsZCBub3QganVtcCB0byB0aGUgc2tpcF9hZHB0X2FsbG9jIGxhYmVsLiBB
-bmQgaWYNCj4gPiB3ZSBkb24ndCBqdW1wIHRoZXJlLCB3ZSBhcmUgYWxsb2NhdGluZyBpdCByaWdo
-dCBhd2F5Lg0KPiA+IA0KPiANCj4gSSBtZWFuIG9idmlvdXNseSBldmVyeW9uZSBjYW4gc2VlIHRo
-YXQgaXQgd2FzIGFsbG9jYXRlZCBieSBhbiBlYXJsaWVyDQo+IGNhbGwgdG8gdGhlIGZ1bmN0aW9u
-LiAgV2hhdCBJIG1lYW4gaXMgdGhhdCBpdCdzIGEgbGF5ZXJpbmcgdmlvbGF0aW9uLg0KPiBUaGUg
-dW53aW5kIHdvdWxkIG5vcm1hbGx5IGJlIGRvbmUgaW4gdGhlIGNhbGxlci4NCj4gDQo+IElzIGl0
-IG9rYXkgdG8gZGVsZXRlIHRoZSBhZGFwdGVyIHdpdGhvdXQgZW1wdHlpbmcgdGhlIG1kZXZfbGlu
-a19saXN0DQo+IGFzIHdlbGw/DQo+IA0KTm90IG5lY2Vzc2FyaWx5LCBhcyB3aGVuIHdlIGFyZSBh
-dCB0aGlzIHBvaW50IHRoZSBzZXR1cCBpcyBhbHJlYWR5DQptZXNzZWQgdXAgYW5kIG5lZWRzIHRv
-IGJlIHJlY29uZmlndXJlZCBmcm9tIHNjcmF0Y2ggYW55d2F5LiBUaGlzDQppbnZvbHZlcyB0aGUg
-Y2FsbCB0byBtZGV2X2xpbmtfZGVzdHJveV9saW5rX3N0b3JlKCkgdGhhdCBjbGVhbnMgdXANCmV2
-ZXJ5dGhpbmcuDQoNCnRoYW5rcywNCkNocmlzDQoNCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBlbnRl
-cg0KPiANCg=
+This patch moves the ALSA sound driver out of the staging area and adds it
+to the stable part of the MOST driver. Modifications to the Makefiles and
+Kconfigs are done accordingly to not break the build.
+
+Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+---
+ drivers/most/Kconfig                |  10 +
+ drivers/most/Makefile               |   1 +
+ drivers/most/most_snd.c             | 753 ++++++++++++++++++++++++++++++++++++
+ drivers/staging/most/Kconfig        |   2 -
+ drivers/staging/most/Makefile       |   1 -
+ drivers/staging/most/sound/Kconfig  |  14 -
+ drivers/staging/most/sound/Makefile |   4 -
+ drivers/staging/most/sound/sound.c  | 753 ------------------------------------
+ 8 files changed, 764 insertions(+), 774 deletions(-)
+ create mode 100644 drivers/most/most_snd.c
+ delete mode 100644 drivers/staging/most/sound/Kconfig
+ delete mode 100644 drivers/staging/most/sound/Makefile
+ delete mode 100644 drivers/staging/most/sound/sound.c
+
+diff --git a/drivers/most/Kconfig b/drivers/most/Kconfig
+index ebfe84e..4b8145b 100644
+--- a/drivers/most/Kconfig
++++ b/drivers/most/Kconfig
+@@ -32,4 +32,14 @@ config MOST_CDEV
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called most_cdev.
++
++config MOST_SND
++	tristate "Sound"
++	depends on SND
++	select SND_PCM
++	help
++	  Say Y here if you want to commumicate via ALSA/sound devices.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called most_sound.
+ endif
+diff --git a/drivers/most/Makefile b/drivers/most/Makefile
+index 8b53ca4..60db6cd 100644
+--- a/drivers/most/Makefile
++++ b/drivers/most/Makefile
+@@ -5,3 +5,4 @@ most_core-y :=	core.o \
+ 
+ obj-$(CONFIG_MOST_USB_HDM) += most_usb.o
+ obj-$(CONFIG_MOST_CDEV) += most_cdev.o
++obj-$(CONFIG_MOST_SND) += most_snd.o
+diff --git a/drivers/most/most_snd.c b/drivers/most/most_snd.c
+new file mode 100644
+index 0000000..8a449ab
+--- /dev/null
++++ b/drivers/most/most_snd.c
+@@ -0,0 +1,753 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * sound.c - Sound component for Mostcore
++ *
++ * Copyright (C) 2015 Microchip Technology Germany II GmbH & Co. KG
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/module.h>
++#include <linux/printk.h>
++#include <linux/kernel.h>
++#include <linux/slab.h>
++#include <linux/init.h>
++#include <sound/core.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <linux/sched.h>
++#include <linux/kthread.h>
++#include <linux/most.h>
++
++#define DRIVER_NAME "sound"
++#define STRING_SIZE	80
++
++static struct most_component comp;
++
++/**
++ * struct channel - private structure to keep channel specific data
++ * @substream: stores the substream structure
++ * @iface: interface for which the channel belongs to
++ * @cfg: channel configuration
++ * @card: registered sound card
++ * @list: list for private use
++ * @id: channel index
++ * @period_pos: current period position (ring buffer)
++ * @buffer_pos: current buffer position (ring buffer)
++ * @is_stream_running: identifies whether a stream is running or not
++ * @opened: set when the stream is opened
++ * @playback_task: playback thread
++ * @playback_waitq: waitq used by playback thread
++ */
++struct channel {
++	struct snd_pcm_substream *substream;
++	struct snd_pcm_hardware pcm_hardware;
++	struct most_interface *iface;
++	struct most_channel_config *cfg;
++	struct snd_card *card;
++	struct list_head list;
++	int id;
++	unsigned int period_pos;
++	unsigned int buffer_pos;
++	bool is_stream_running;
++	struct task_struct *playback_task;
++	wait_queue_head_t playback_waitq;
++	void (*copy_fn)(void *alsa, void *most, unsigned int bytes);
++};
++
++struct sound_adapter {
++	struct list_head dev_list;
++	struct most_interface *iface;
++	struct snd_card *card;
++	struct list_head list;
++	bool registered;
++	int pcm_dev_idx;
++};
++
++static struct list_head adpt_list;
++
++#define MOST_PCM_INFO (SNDRV_PCM_INFO_MMAP | \
++		       SNDRV_PCM_INFO_MMAP_VALID | \
++		       SNDRV_PCM_INFO_BATCH | \
++		       SNDRV_PCM_INFO_INTERLEAVED | \
++		       SNDRV_PCM_INFO_BLOCK_TRANSFER)
++
++#define swap16(val) ( \
++	(((u16)(val) << 8) & (u16)0xFF00) | \
++	(((u16)(val) >> 8) & (u16)0x00FF))
++
++#define swap32(val) ( \
++	(((u32)(val) << 24) & (u32)0xFF000000) | \
++	(((u32)(val) <<  8) & (u32)0x00FF0000) | \
++	(((u32)(val) >>  8) & (u32)0x0000FF00) | \
++	(((u32)(val) >> 24) & (u32)0x000000FF))
++
++static void swap_copy16(u16 *dest, const u16 *source, unsigned int bytes)
++{
++	unsigned int i = 0;
++
++	while (i < (bytes / 2)) {
++		dest[i] = swap16(source[i]);
++		i++;
++	}
++}
++
++static void swap_copy24(u8 *dest, const u8 *source, unsigned int bytes)
++{
++	unsigned int i = 0;
++
++	while (i < bytes - 2) {
++		dest[i] = source[i + 2];
++		dest[i + 1] = source[i + 1];
++		dest[i + 2] = source[i];
++		i += 3;
++	}
++}
++
++static void swap_copy32(u32 *dest, const u32 *source, unsigned int bytes)
++{
++	unsigned int i = 0;
++
++	while (i < bytes / 4) {
++		dest[i] = swap32(source[i]);
++		i++;
++	}
++}
++
++static void alsa_to_most_memcpy(void *alsa, void *most, unsigned int bytes)
++{
++	memcpy(most, alsa, bytes);
++}
++
++static void alsa_to_most_copy16(void *alsa, void *most, unsigned int bytes)
++{
++	swap_copy16(most, alsa, bytes);
++}
++
++static void alsa_to_most_copy24(void *alsa, void *most, unsigned int bytes)
++{
++	swap_copy24(most, alsa, bytes);
++}
++
++static void alsa_to_most_copy32(void *alsa, void *most, unsigned int bytes)
++{
++	swap_copy32(most, alsa, bytes);
++}
++
++static void most_to_alsa_memcpy(void *alsa, void *most, unsigned int bytes)
++{
++	memcpy(alsa, most, bytes);
++}
++
++static void most_to_alsa_copy16(void *alsa, void *most, unsigned int bytes)
++{
++	swap_copy16(alsa, most, bytes);
++}
++
++static void most_to_alsa_copy24(void *alsa, void *most, unsigned int bytes)
++{
++	swap_copy24(alsa, most, bytes);
++}
++
++static void most_to_alsa_copy32(void *alsa, void *most, unsigned int bytes)
++{
++	swap_copy32(alsa, most, bytes);
++}
++
++/**
++ * get_channel - get pointer to channel
++ * @iface: interface structure
++ * @channel_id: channel ID
++ *
++ * This traverses the channel list and returns the channel matching the
++ * ID and interface.
++ *
++ * Returns pointer to channel on success or NULL otherwise.
++ */
++static struct channel *get_channel(struct most_interface *iface,
++				   int channel_id)
++{
++	struct sound_adapter *adpt = iface->priv;
++	struct channel *channel, *tmp;
++
++	list_for_each_entry_safe(channel, tmp, &adpt->dev_list, list) {
++		if ((channel->iface = iface) && (channel->id = channel_id))
++			return channel;
++	}
++	return NULL;
++}
++
++/**
++ * copy_data - implements data copying function
++ * @channel: channel
++ * @mbo: MBO from core
++ *
++ * Copy data from/to ring buffer to/from MBO and update the buffer position
++ */
++static bool copy_data(struct channel *channel, struct mbo *mbo)
++{
++	struct snd_pcm_runtime *const runtime = channel->substream->runtime;
++	unsigned int const frame_bytes = channel->cfg->subbuffer_size;
++	unsigned int const buffer_size = runtime->buffer_size;
++	unsigned int frames;
++	unsigned int fr0;
++
++	if (channel->cfg->direction & MOST_CH_RX)
++		frames = mbo->processed_length / frame_bytes;
++	else
++		frames = mbo->buffer_length / frame_bytes;
++	fr0 = min(buffer_size - channel->buffer_pos, frames);
++
++	channel->copy_fn(runtime->dma_area + channel->buffer_pos * frame_bytes,
++			 mbo->virt_address,
++			 fr0 * frame_bytes);
++
++	if (frames > fr0) {
++		/* wrap around at end of ring buffer */
++		channel->copy_fn(runtime->dma_area,
++				 mbo->virt_address + fr0 * frame_bytes,
++				 (frames - fr0) * frame_bytes);
++	}
++
++	channel->buffer_pos += frames;
++	if (channel->buffer_pos >= buffer_size)
++		channel->buffer_pos -= buffer_size;
++	channel->period_pos += frames;
++	if (channel->period_pos >= runtime->period_size) {
++		channel->period_pos -= runtime->period_size;
++		return true;
++	}
++	return false;
++}
++
++/**
++ * playback_thread - function implements the playback thread
++ * @data: private data
++ *
++ * Thread which does the playback functionality in a loop. It waits for a free
++ * MBO from mostcore for a particular channel and copy the data from ring buffer
++ * to MBO. Submit the MBO back to mostcore, after copying the data.
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int playback_thread(void *data)
++{
++	struct channel *const channel = data;
++
++	while (!kthread_should_stop()) {
++		struct mbo *mbo = NULL;
++		bool period_elapsed = false;
++
++		wait_event_interruptible(
++			channel->playback_waitq,
++			kthread_should_stop() ||
++			(channel->is_stream_running &&
++			 (mbo = most_get_mbo(channel->iface, channel->id,
++					     &comp))));
++		if (!mbo)
++			continue;
++
++		if (channel->is_stream_running)
++			period_elapsed = copy_data(channel, mbo);
++		else
++			memset(mbo->virt_address, 0, mbo->buffer_length);
++
++		most_submit_mbo(mbo);
++		if (period_elapsed)
++			snd_pcm_period_elapsed(channel->substream);
++	}
++	return 0;
++}
++
++/**
++ * pcm_open - implements open callback function for PCM middle layer
++ * @substream: pointer to ALSA PCM substream
++ *
++ * This is called when a PCM substream is opened. At least, the function should
++ * initialize the runtime->hw record.
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int pcm_open(struct snd_pcm_substream *substream)
++{
++	struct channel *channel = substream->private_data;
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct most_channel_config *cfg = channel->cfg;
++	int ret;
++
++	channel->substream = substream;
++
++	if (cfg->direction = MOST_CH_TX) {
++		channel->playback_task = kthread_run(playback_thread, channel,
++						     "most_audio_playback");
++		if (IS_ERR(channel->playback_task)) {
++			pr_err("Couldn't start thread\n");
++			return PTR_ERR(channel->playback_task);
++		}
++	}
++
++	ret = most_start_channel(channel->iface, channel->id, &comp);
++	if (ret) {
++		pr_err("most_start_channel() failed!\n");
++		if (cfg->direction = MOST_CH_TX)
++			kthread_stop(channel->playback_task);
++		return ret;
++	}
++
++	runtime->hw = channel->pcm_hardware;
++	return 0;
++}
++
++/**
++ * pcm_close - implements close callback function for PCM middle layer
++ * @substream: sub-stream pointer
++ *
++ * Obviously, this is called when a PCM substream is closed. Any private
++ * instance for a PCM substream allocated in the open callback will be
++ * released here.
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int pcm_close(struct snd_pcm_substream *substream)
++{
++	struct channel *channel = substream->private_data;
++
++	if (channel->cfg->direction = MOST_CH_TX)
++		kthread_stop(channel->playback_task);
++	most_stop_channel(channel->iface, channel->id, &comp);
++	return 0;
++}
++
++/**
++ * pcm_prepare - implements prepare callback function for PCM middle layer
++ * @substream: substream pointer
++ *
++ * This callback is called when the PCM is "prepared". Format rate, sample rate,
++ * etc., can be set here. This callback can be called many times at each setup.
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int pcm_prepare(struct snd_pcm_substream *substream)
++{
++	struct channel *channel = substream->private_data;
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct most_channel_config *cfg = channel->cfg;
++	int width = snd_pcm_format_physical_width(runtime->format);
++
++	channel->copy_fn = NULL;
++
++	if (cfg->direction = MOST_CH_TX) {
++		if (snd_pcm_format_big_endian(runtime->format) || width = 8)
++			channel->copy_fn = alsa_to_most_memcpy;
++		else if (width = 16)
++			channel->copy_fn = alsa_to_most_copy16;
++		else if (width = 24)
++			channel->copy_fn = alsa_to_most_copy24;
++		else if (width = 32)
++			channel->copy_fn = alsa_to_most_copy32;
++	} else {
++		if (snd_pcm_format_big_endian(runtime->format) || width = 8)
++			channel->copy_fn = most_to_alsa_memcpy;
++		else if (width = 16)
++			channel->copy_fn = most_to_alsa_copy16;
++		else if (width = 24)
++			channel->copy_fn = most_to_alsa_copy24;
++		else if (width = 32)
++			channel->copy_fn = most_to_alsa_copy32;
++	}
++
++	if (!channel->copy_fn)
++		return -EINVAL;
++	channel->period_pos = 0;
++	channel->buffer_pos = 0;
++	return 0;
++}
++
++/**
++ * pcm_trigger - implements trigger callback function for PCM middle layer
++ * @substream: substream pointer
++ * @cmd: action to perform
++ *
++ * This is called when the PCM is started, stopped or paused. The action will be
++ * specified in the second argument, SNDRV_PCM_TRIGGER_XXX
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int pcm_trigger(struct snd_pcm_substream *substream, int cmd)
++{
++	struct channel *channel = substream->private_data;
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++		channel->is_stream_running = true;
++		wake_up_interruptible(&channel->playback_waitq);
++		return 0;
++
++	case SNDRV_PCM_TRIGGER_STOP:
++		channel->is_stream_running = false;
++		return 0;
++
++	default:
++		return -EINVAL;
++	}
++	return 0;
++}
++
++/**
++ * pcm_pointer - implements pointer callback function for PCM middle layer
++ * @substream: substream pointer
++ *
++ * This callback is called when the PCM middle layer inquires the current
++ * hardware position on the buffer. The position must be returned in frames,
++ * ranging from 0 to buffer_size-1.
++ */
++static snd_pcm_uframes_t pcm_pointer(struct snd_pcm_substream *substream)
++{
++	struct channel *channel = substream->private_data;
++
++	return channel->buffer_pos;
++}
++
++/**
++ * Initialization of struct snd_pcm_ops
++ */
++static const struct snd_pcm_ops pcm_ops = {
++	.open       = pcm_open,
++	.close      = pcm_close,
++	.prepare    = pcm_prepare,
++	.trigger    = pcm_trigger,
++	.pointer    = pcm_pointer,
++};
++
++static int split_arg_list(char *buf, u16 *ch_num, char **sample_res)
++{
++	char *num;
++	int ret;
++
++	num = strsep(&buf, "x");
++	if (!num)
++		goto err;
++	ret = kstrtou16(num, 0, ch_num);
++	if (ret)
++		goto err;
++	*sample_res = strsep(&buf, ".\n");
++	if (!*sample_res)
++		goto err;
++	return 0;
++
++err:
++	pr_err("Bad PCM format\n");
++	return -EINVAL;
++}
++
++static const struct sample_resolution_info {
++	const char *sample_res;
++	int bytes;
++	u64 formats;
++} sinfo[] = {
++	{ "8", 1, SNDRV_PCM_FMTBIT_S8 },
++	{ "16", 2, SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE },
++	{ "24", 3, SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_3BE },
++	{ "32", 4, SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE },
++};
++
++static int audio_set_hw_params(struct snd_pcm_hardware *pcm_hw,
++			       u16 ch_num, char *sample_res,
++			       struct most_channel_config *cfg)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(sinfo); i++) {
++		if (!strcmp(sample_res, sinfo[i].sample_res))
++			goto found;
++	}
++	pr_err("Unsupported PCM format\n");
++	return -EINVAL;
++
++found:
++	if (!ch_num) {
++		pr_err("Bad number of channels\n");
++		return -EINVAL;
++	}
++
++	if (cfg->subbuffer_size != ch_num * sinfo[i].bytes) {
++		pr_err("Audio resolution doesn't fit subbuffer size\n");
++		return -EINVAL;
++	}
++
++	pcm_hw->info = MOST_PCM_INFO;
++	pcm_hw->rates = SNDRV_PCM_RATE_48000;
++	pcm_hw->rate_min = 48000;
++	pcm_hw->rate_max = 48000;
++	pcm_hw->buffer_bytes_max = cfg->num_buffers * cfg->buffer_size;
++	pcm_hw->period_bytes_min = cfg->buffer_size;
++	pcm_hw->period_bytes_max = cfg->buffer_size;
++	pcm_hw->periods_min = 1;
++	pcm_hw->periods_max = cfg->num_buffers;
++	pcm_hw->channels_min = ch_num;
++	pcm_hw->channels_max = ch_num;
++	pcm_hw->formats = sinfo[i].formats;
++	return 0;
++}
++
++static void release_adapter(struct sound_adapter *adpt)
++{
++	struct channel *channel, *tmp;
++
++	list_for_each_entry_safe(channel, tmp, &adpt->dev_list, list) {
++		list_del(&channel->list);
++		kfree(channel);
++	}
++	if (adpt->card)
++		snd_card_free(adpt->card);
++	list_del(&adpt->list);
++	kfree(adpt);
++}
++
++/**
++ * audio_probe_channel - probe function of the driver module
++ * @iface: pointer to interface instance
++ * @channel_id: channel index/ID
++ * @cfg: pointer to actual channel configuration
++ * @arg_list: string that provides the name of the device to be created in /dev
++ *	      plus the desired audio resolution
++ *
++ * Creates sound card, pcm device, sets pcm ops and registers sound card.
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int audio_probe_channel(struct most_interface *iface, int channel_id,
++			       struct most_channel_config *cfg,
++			       char *device_name, char *arg_list)
++{
++	struct channel *channel;
++	struct sound_adapter *adpt;
++	struct snd_pcm *pcm;
++	int playback_count = 0;
++	int capture_count = 0;
++	int ret;
++	int direction;
++	u16 ch_num;
++	char *sample_res;
++	char arg_list_cpy[STRING_SIZE];
++
++	if (cfg->data_type != MOST_CH_SYNC) {
++		pr_err("Incompatible channel type\n");
++		return -EINVAL;
++	}
++	strlcpy(arg_list_cpy, arg_list, STRING_SIZE);
++	ret = split_arg_list(arg_list_cpy, &ch_num, &sample_res);
++	if (ret < 0)
++		return ret;
++
++	list_for_each_entry(adpt, &adpt_list, list) {
++		if (adpt->iface != iface)
++			continue;
++		if (adpt->registered)
++			return -ENOSPC;
++		adpt->pcm_dev_idx++;
++		goto skip_adpt_alloc;
++	}
++	adpt = kzalloc(sizeof(*adpt), GFP_KERNEL);
++	if (!adpt)
++		return -ENOMEM;
++
++	adpt->iface = iface;
++	INIT_LIST_HEAD(&adpt->dev_list);
++	iface->priv = adpt;
++	list_add_tail(&adpt->list, &adpt_list);
++	ret = snd_card_new(iface->driver_dev, -1, "INIC", THIS_MODULE,
++			   sizeof(*channel), &adpt->card);
++	if (ret < 0)
++		goto err_free_adpt;
++	snprintf(adpt->card->driver, sizeof(adpt->card->driver),
++		 "%s", DRIVER_NAME);
++	snprintf(adpt->card->shortname, sizeof(adpt->card->shortname),
++		 "Microchip INIC");
++	snprintf(adpt->card->longname, sizeof(adpt->card->longname),
++		 "%s at %s", adpt->card->shortname, iface->description);
++skip_adpt_alloc:
++	if (get_channel(iface, channel_id)) {
++		pr_err("channel (%s:%d) is already linked\n",
++		       iface->description, channel_id);
++		return -EEXIST;
++	}
++
++	if (cfg->direction = MOST_CH_TX) {
++		playback_count = 1;
++		direction = SNDRV_PCM_STREAM_PLAYBACK;
++	} else {
++		capture_count = 1;
++		direction = SNDRV_PCM_STREAM_CAPTURE;
++	}
++	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
++	if (!channel) {
++		ret = -ENOMEM;
++		goto err_free_adpt;
++	}
++	channel->card = adpt->card;
++	channel->cfg = cfg;
++	channel->iface = iface;
++	channel->id = channel_id;
++	init_waitqueue_head(&channel->playback_waitq);
++	list_add_tail(&channel->list, &adpt->dev_list);
++
++	ret = audio_set_hw_params(&channel->pcm_hardware, ch_num, sample_res,
++				  cfg);
++	if (ret)
++		goto err_free_adpt;
++
++	ret = snd_pcm_new(adpt->card, device_name, adpt->pcm_dev_idx,
++			  playback_count, capture_count, &pcm);
++
++	if (ret < 0)
++		goto err_free_adpt;
++
++	pcm->private_data = channel;
++	strscpy(pcm->name, device_name, sizeof(pcm->name));
++	snd_pcm_set_ops(pcm, direction, &pcm_ops);
++	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_VMALLOC, NULL, 0, 0);
++	return 0;
++
++err_free_adpt:
++	release_adapter(adpt);
++	return ret;
++}
++
++static int audio_create_sound_card(void)
++{
++	int ret;
++	struct sound_adapter *adpt;
++
++	list_for_each_entry(adpt, &adpt_list, list) {
++		if (!adpt->registered)
++			goto adpt_alloc;
++	}
++	return -ENODEV;
++adpt_alloc:
++	ret = snd_card_register(adpt->card);
++	if (ret < 0) {
++		release_adapter(adpt);
++		return ret;
++	}
++	adpt->registered = true;
++	return 0;
++}
++
++/**
++ * audio_disconnect_channel - function to disconnect a channel
++ * @iface: pointer to interface instance
++ * @channel_id: channel index
++ *
++ * This frees allocated memory and removes the sound card from ALSA
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int audio_disconnect_channel(struct most_interface *iface,
++				    int channel_id)
++{
++	struct channel *channel;
++	struct sound_adapter *adpt = iface->priv;
++
++	channel = get_channel(iface, channel_id);
++	if (!channel)
++		return -EINVAL;
++
++	list_del(&channel->list);
++
++	kfree(channel);
++	if (list_empty(&adpt->dev_list))
++		release_adapter(adpt);
++	return 0;
++}
++
++/**
++ * audio_rx_completion - completion handler for rx channels
++ * @mbo: pointer to buffer object that has completed
++ *
++ * This searches for the channel this MBO belongs to and copy the data from MBO
++ * to ring buffer
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int audio_rx_completion(struct mbo *mbo)
++{
++	struct channel *channel = get_channel(mbo->ifp, mbo->hdm_channel_id);
++	bool period_elapsed = false;
++
++	if (!channel)
++		return -EINVAL;
++	if (channel->is_stream_running)
++		period_elapsed = copy_data(channel, mbo);
++	most_put_mbo(mbo);
++	if (period_elapsed)
++		snd_pcm_period_elapsed(channel->substream);
++	return 0;
++}
++
++/**
++ * audio_tx_completion - completion handler for tx channels
++ * @iface: pointer to interface instance
++ * @channel_id: channel index/ID
++ *
++ * This searches the channel that belongs to this combination of interface
++ * pointer and channel ID and wakes a process sitting in the wait queue of
++ * this channel.
++ *
++ * Returns 0 on success or error code otherwise.
++ */
++static int audio_tx_completion(struct most_interface *iface, int channel_id)
++{
++	struct channel *channel = get_channel(iface, channel_id);
++
++	if (!channel)
++		return -EINVAL;
++
++	wake_up_interruptible(&channel->playback_waitq);
++	return 0;
++}
++
++/**
++ * Initialization of the struct most_component
++ */
++static struct most_component comp = {
++	.mod = THIS_MODULE,
++	.name = DRIVER_NAME,
++	.probe_channel = audio_probe_channel,
++	.disconnect_channel = audio_disconnect_channel,
++	.rx_completion = audio_rx_completion,
++	.tx_completion = audio_tx_completion,
++	.cfg_complete = audio_create_sound_card,
++};
++
++static int __init audio_init(void)
++{
++	int ret;
++
++	INIT_LIST_HEAD(&adpt_list);
++
++	ret = most_register_component(&comp);
++	if (ret) {
++		pr_err("Failed to register %s\n", comp.name);
++		return ret;
++	}
++	ret = most_register_configfs_subsys(&comp);
++	if (ret) {
++		pr_err("Failed to register %s configfs subsys\n", comp.name);
++		most_deregister_component(&comp);
++	}
++	return ret;
++}
++
++static void __exit audio_exit(void)
++{
++	most_deregister_configfs_subsys(&comp);
++	most_deregister_component(&comp);
++}
++
++module_init(audio_init);
++module_exit(audio_exit);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Christian Gromm <christian.gromm@microchip.com>");
++MODULE_DESCRIPTION("Sound Component Module for Mostcore");
+diff --git a/drivers/staging/most/Kconfig b/drivers/staging/most/Kconfig
+index 535e6de..6f420cb 100644
+--- a/drivers/staging/most/Kconfig
++++ b/drivers/staging/most/Kconfig
+@@ -20,8 +20,6 @@ if MOST_COMPONENTS
+ 
+ source "drivers/staging/most/net/Kconfig"
+ 
+-source "drivers/staging/most/sound/Kconfig"
+-
+ source "drivers/staging/most/video/Kconfig"
+ 
+ source "drivers/staging/most/dim2/Kconfig"
+diff --git a/drivers/staging/most/Makefile b/drivers/staging/most/Makefile
+index be94673..8b3fc5a 100644
+--- a/drivers/staging/most/Makefile
++++ b/drivers/staging/most/Makefile
+@@ -1,7 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ obj-$(CONFIG_MOST_NET)	+= net/
+-obj-$(CONFIG_MOST_SOUND)	+= sound/
+ obj-$(CONFIG_MOST_VIDEO)	+= video/
+ obj-$(CONFIG_MOST_DIM2)	+= dim2/
+ obj-$(CONFIG_MOST_I2C)	+= i2c/
+diff --git a/drivers/staging/most/sound/Kconfig b/drivers/staging/most/sound/Kconfig
+deleted file mode 100644
+index ad9f782..0000000
+--- a/drivers/staging/most/sound/Kconfig
++++ /dev/null
+@@ -1,14 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# MOST ALSA configuration
+-#
+-
+-config MOST_SOUND
+-	tristate "Sound"
+-	depends on SND
+-	select SND_PCM
+-	help
+-	  Say Y here if you want to commumicate via ALSA/sound devices.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called most_sound.
+diff --git a/drivers/staging/most/sound/Makefile b/drivers/staging/most/sound/Makefile
+deleted file mode 100644
+index f0cd9d8..0000000
+--- a/drivers/staging/most/sound/Makefile
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_MOST_SOUND) += most_sound.o
+-
+-most_sound-objs := sound.o
+diff --git a/drivers/staging/most/sound/sound.c b/drivers/staging/most/sound/sound.c
+deleted file mode 100644
+index 8a449ab..0000000
+--- a/drivers/staging/most/sound/sound.c
++++ /dev/null
+@@ -1,753 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * sound.c - Sound component for Mostcore
+- *
+- * Copyright (C) 2015 Microchip Technology Germany II GmbH & Co. KG
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/module.h>
+-#include <linux/printk.h>
+-#include <linux/kernel.h>
+-#include <linux/slab.h>
+-#include <linux/init.h>
+-#include <sound/core.h>
+-#include <sound/pcm.h>
+-#include <sound/pcm_params.h>
+-#include <linux/sched.h>
+-#include <linux/kthread.h>
+-#include <linux/most.h>
+-
+-#define DRIVER_NAME "sound"
+-#define STRING_SIZE	80
+-
+-static struct most_component comp;
+-
+-/**
+- * struct channel - private structure to keep channel specific data
+- * @substream: stores the substream structure
+- * @iface: interface for which the channel belongs to
+- * @cfg: channel configuration
+- * @card: registered sound card
+- * @list: list for private use
+- * @id: channel index
+- * @period_pos: current period position (ring buffer)
+- * @buffer_pos: current buffer position (ring buffer)
+- * @is_stream_running: identifies whether a stream is running or not
+- * @opened: set when the stream is opened
+- * @playback_task: playback thread
+- * @playback_waitq: waitq used by playback thread
+- */
+-struct channel {
+-	struct snd_pcm_substream *substream;
+-	struct snd_pcm_hardware pcm_hardware;
+-	struct most_interface *iface;
+-	struct most_channel_config *cfg;
+-	struct snd_card *card;
+-	struct list_head list;
+-	int id;
+-	unsigned int period_pos;
+-	unsigned int buffer_pos;
+-	bool is_stream_running;
+-	struct task_struct *playback_task;
+-	wait_queue_head_t playback_waitq;
+-	void (*copy_fn)(void *alsa, void *most, unsigned int bytes);
+-};
+-
+-struct sound_adapter {
+-	struct list_head dev_list;
+-	struct most_interface *iface;
+-	struct snd_card *card;
+-	struct list_head list;
+-	bool registered;
+-	int pcm_dev_idx;
+-};
+-
+-static struct list_head adpt_list;
+-
+-#define MOST_PCM_INFO (SNDRV_PCM_INFO_MMAP | \
+-		       SNDRV_PCM_INFO_MMAP_VALID | \
+-		       SNDRV_PCM_INFO_BATCH | \
+-		       SNDRV_PCM_INFO_INTERLEAVED | \
+-		       SNDRV_PCM_INFO_BLOCK_TRANSFER)
+-
+-#define swap16(val) ( \
+-	(((u16)(val) << 8) & (u16)0xFF00) | \
+-	(((u16)(val) >> 8) & (u16)0x00FF))
+-
+-#define swap32(val) ( \
+-	(((u32)(val) << 24) & (u32)0xFF000000) | \
+-	(((u32)(val) <<  8) & (u32)0x00FF0000) | \
+-	(((u32)(val) >>  8) & (u32)0x0000FF00) | \
+-	(((u32)(val) >> 24) & (u32)0x000000FF))
+-
+-static void swap_copy16(u16 *dest, const u16 *source, unsigned int bytes)
+-{
+-	unsigned int i = 0;
+-
+-	while (i < (bytes / 2)) {
+-		dest[i] = swap16(source[i]);
+-		i++;
+-	}
+-}
+-
+-static void swap_copy24(u8 *dest, const u8 *source, unsigned int bytes)
+-{
+-	unsigned int i = 0;
+-
+-	while (i < bytes - 2) {
+-		dest[i] = source[i + 2];
+-		dest[i + 1] = source[i + 1];
+-		dest[i + 2] = source[i];
+-		i += 3;
+-	}
+-}
+-
+-static void swap_copy32(u32 *dest, const u32 *source, unsigned int bytes)
+-{
+-	unsigned int i = 0;
+-
+-	while (i < bytes / 4) {
+-		dest[i] = swap32(source[i]);
+-		i++;
+-	}
+-}
+-
+-static void alsa_to_most_memcpy(void *alsa, void *most, unsigned int bytes)
+-{
+-	memcpy(most, alsa, bytes);
+-}
+-
+-static void alsa_to_most_copy16(void *alsa, void *most, unsigned int bytes)
+-{
+-	swap_copy16(most, alsa, bytes);
+-}
+-
+-static void alsa_to_most_copy24(void *alsa, void *most, unsigned int bytes)
+-{
+-	swap_copy24(most, alsa, bytes);
+-}
+-
+-static void alsa_to_most_copy32(void *alsa, void *most, unsigned int bytes)
+-{
+-	swap_copy32(most, alsa, bytes);
+-}
+-
+-static void most_to_alsa_memcpy(void *alsa, void *most, unsigned int bytes)
+-{
+-	memcpy(alsa, most, bytes);
+-}
+-
+-static void most_to_alsa_copy16(void *alsa, void *most, unsigned int bytes)
+-{
+-	swap_copy16(alsa, most, bytes);
+-}
+-
+-static void most_to_alsa_copy24(void *alsa, void *most, unsigned int bytes)
+-{
+-	swap_copy24(alsa, most, bytes);
+-}
+-
+-static void most_to_alsa_copy32(void *alsa, void *most, unsigned int bytes)
+-{
+-	swap_copy32(alsa, most, bytes);
+-}
+-
+-/**
+- * get_channel - get pointer to channel
+- * @iface: interface structure
+- * @channel_id: channel ID
+- *
+- * This traverses the channel list and returns the channel matching the
+- * ID and interface.
+- *
+- * Returns pointer to channel on success or NULL otherwise.
+- */
+-static struct channel *get_channel(struct most_interface *iface,
+-				   int channel_id)
+-{
+-	struct sound_adapter *adpt = iface->priv;
+-	struct channel *channel, *tmp;
+-
+-	list_for_each_entry_safe(channel, tmp, &adpt->dev_list, list) {
+-		if ((channel->iface = iface) && (channel->id = channel_id))
+-			return channel;
+-	}
+-	return NULL;
+-}
+-
+-/**
+- * copy_data - implements data copying function
+- * @channel: channel
+- * @mbo: MBO from core
+- *
+- * Copy data from/to ring buffer to/from MBO and update the buffer position
+- */
+-static bool copy_data(struct channel *channel, struct mbo *mbo)
+-{
+-	struct snd_pcm_runtime *const runtime = channel->substream->runtime;
+-	unsigned int const frame_bytes = channel->cfg->subbuffer_size;
+-	unsigned int const buffer_size = runtime->buffer_size;
+-	unsigned int frames;
+-	unsigned int fr0;
+-
+-	if (channel->cfg->direction & MOST_CH_RX)
+-		frames = mbo->processed_length / frame_bytes;
+-	else
+-		frames = mbo->buffer_length / frame_bytes;
+-	fr0 = min(buffer_size - channel->buffer_pos, frames);
+-
+-	channel->copy_fn(runtime->dma_area + channel->buffer_pos * frame_bytes,
+-			 mbo->virt_address,
+-			 fr0 * frame_bytes);
+-
+-	if (frames > fr0) {
+-		/* wrap around at end of ring buffer */
+-		channel->copy_fn(runtime->dma_area,
+-				 mbo->virt_address + fr0 * frame_bytes,
+-				 (frames - fr0) * frame_bytes);
+-	}
+-
+-	channel->buffer_pos += frames;
+-	if (channel->buffer_pos >= buffer_size)
+-		channel->buffer_pos -= buffer_size;
+-	channel->period_pos += frames;
+-	if (channel->period_pos >= runtime->period_size) {
+-		channel->period_pos -= runtime->period_size;
+-		return true;
+-	}
+-	return false;
+-}
+-
+-/**
+- * playback_thread - function implements the playback thread
+- * @data: private data
+- *
+- * Thread which does the playback functionality in a loop. It waits for a free
+- * MBO from mostcore for a particular channel and copy the data from ring buffer
+- * to MBO. Submit the MBO back to mostcore, after copying the data.
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int playback_thread(void *data)
+-{
+-	struct channel *const channel = data;
+-
+-	while (!kthread_should_stop()) {
+-		struct mbo *mbo = NULL;
+-		bool period_elapsed = false;
+-
+-		wait_event_interruptible(
+-			channel->playback_waitq,
+-			kthread_should_stop() ||
+-			(channel->is_stream_running &&
+-			 (mbo = most_get_mbo(channel->iface, channel->id,
+-					     &comp))));
+-		if (!mbo)
+-			continue;
+-
+-		if (channel->is_stream_running)
+-			period_elapsed = copy_data(channel, mbo);
+-		else
+-			memset(mbo->virt_address, 0, mbo->buffer_length);
+-
+-		most_submit_mbo(mbo);
+-		if (period_elapsed)
+-			snd_pcm_period_elapsed(channel->substream);
+-	}
+-	return 0;
+-}
+-
+-/**
+- * pcm_open - implements open callback function for PCM middle layer
+- * @substream: pointer to ALSA PCM substream
+- *
+- * This is called when a PCM substream is opened. At least, the function should
+- * initialize the runtime->hw record.
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int pcm_open(struct snd_pcm_substream *substream)
+-{
+-	struct channel *channel = substream->private_data;
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	struct most_channel_config *cfg = channel->cfg;
+-	int ret;
+-
+-	channel->substream = substream;
+-
+-	if (cfg->direction = MOST_CH_TX) {
+-		channel->playback_task = kthread_run(playback_thread, channel,
+-						     "most_audio_playback");
+-		if (IS_ERR(channel->playback_task)) {
+-			pr_err("Couldn't start thread\n");
+-			return PTR_ERR(channel->playback_task);
+-		}
+-	}
+-
+-	ret = most_start_channel(channel->iface, channel->id, &comp);
+-	if (ret) {
+-		pr_err("most_start_channel() failed!\n");
+-		if (cfg->direction = MOST_CH_TX)
+-			kthread_stop(channel->playback_task);
+-		return ret;
+-	}
+-
+-	runtime->hw = channel->pcm_hardware;
+-	return 0;
+-}
+-
+-/**
+- * pcm_close - implements close callback function for PCM middle layer
+- * @substream: sub-stream pointer
+- *
+- * Obviously, this is called when a PCM substream is closed. Any private
+- * instance for a PCM substream allocated in the open callback will be
+- * released here.
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int pcm_close(struct snd_pcm_substream *substream)
+-{
+-	struct channel *channel = substream->private_data;
+-
+-	if (channel->cfg->direction = MOST_CH_TX)
+-		kthread_stop(channel->playback_task);
+-	most_stop_channel(channel->iface, channel->id, &comp);
+-	return 0;
+-}
+-
+-/**
+- * pcm_prepare - implements prepare callback function for PCM middle layer
+- * @substream: substream pointer
+- *
+- * This callback is called when the PCM is "prepared". Format rate, sample rate,
+- * etc., can be set here. This callback can be called many times at each setup.
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int pcm_prepare(struct snd_pcm_substream *substream)
+-{
+-	struct channel *channel = substream->private_data;
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	struct most_channel_config *cfg = channel->cfg;
+-	int width = snd_pcm_format_physical_width(runtime->format);
+-
+-	channel->copy_fn = NULL;
+-
+-	if (cfg->direction = MOST_CH_TX) {
+-		if (snd_pcm_format_big_endian(runtime->format) || width = 8)
+-			channel->copy_fn = alsa_to_most_memcpy;
+-		else if (width = 16)
+-			channel->copy_fn = alsa_to_most_copy16;
+-		else if (width = 24)
+-			channel->copy_fn = alsa_to_most_copy24;
+-		else if (width = 32)
+-			channel->copy_fn = alsa_to_most_copy32;
+-	} else {
+-		if (snd_pcm_format_big_endian(runtime->format) || width = 8)
+-			channel->copy_fn = most_to_alsa_memcpy;
+-		else if (width = 16)
+-			channel->copy_fn = most_to_alsa_copy16;
+-		else if (width = 24)
+-			channel->copy_fn = most_to_alsa_copy24;
+-		else if (width = 32)
+-			channel->copy_fn = most_to_alsa_copy32;
+-	}
+-
+-	if (!channel->copy_fn)
+-		return -EINVAL;
+-	channel->period_pos = 0;
+-	channel->buffer_pos = 0;
+-	return 0;
+-}
+-
+-/**
+- * pcm_trigger - implements trigger callback function for PCM middle layer
+- * @substream: substream pointer
+- * @cmd: action to perform
+- *
+- * This is called when the PCM is started, stopped or paused. The action will be
+- * specified in the second argument, SNDRV_PCM_TRIGGER_XXX
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+-{
+-	struct channel *channel = substream->private_data;
+-
+-	switch (cmd) {
+-	case SNDRV_PCM_TRIGGER_START:
+-		channel->is_stream_running = true;
+-		wake_up_interruptible(&channel->playback_waitq);
+-		return 0;
+-
+-	case SNDRV_PCM_TRIGGER_STOP:
+-		channel->is_stream_running = false;
+-		return 0;
+-
+-	default:
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-
+-/**
+- * pcm_pointer - implements pointer callback function for PCM middle layer
+- * @substream: substream pointer
+- *
+- * This callback is called when the PCM middle layer inquires the current
+- * hardware position on the buffer. The position must be returned in frames,
+- * ranging from 0 to buffer_size-1.
+- */
+-static snd_pcm_uframes_t pcm_pointer(struct snd_pcm_substream *substream)
+-{
+-	struct channel *channel = substream->private_data;
+-
+-	return channel->buffer_pos;
+-}
+-
+-/**
+- * Initialization of struct snd_pcm_ops
+- */
+-static const struct snd_pcm_ops pcm_ops = {
+-	.open       = pcm_open,
+-	.close      = pcm_close,
+-	.prepare    = pcm_prepare,
+-	.trigger    = pcm_trigger,
+-	.pointer    = pcm_pointer,
+-};
+-
+-static int split_arg_list(char *buf, u16 *ch_num, char **sample_res)
+-{
+-	char *num;
+-	int ret;
+-
+-	num = strsep(&buf, "x");
+-	if (!num)
+-		goto err;
+-	ret = kstrtou16(num, 0, ch_num);
+-	if (ret)
+-		goto err;
+-	*sample_res = strsep(&buf, ".\n");
+-	if (!*sample_res)
+-		goto err;
+-	return 0;
+-
+-err:
+-	pr_err("Bad PCM format\n");
+-	return -EINVAL;
+-}
+-
+-static const struct sample_resolution_info {
+-	const char *sample_res;
+-	int bytes;
+-	u64 formats;
+-} sinfo[] = {
+-	{ "8", 1, SNDRV_PCM_FMTBIT_S8 },
+-	{ "16", 2, SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE },
+-	{ "24", 3, SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_3BE },
+-	{ "32", 4, SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE },
+-};
+-
+-static int audio_set_hw_params(struct snd_pcm_hardware *pcm_hw,
+-			       u16 ch_num, char *sample_res,
+-			       struct most_channel_config *cfg)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(sinfo); i++) {
+-		if (!strcmp(sample_res, sinfo[i].sample_res))
+-			goto found;
+-	}
+-	pr_err("Unsupported PCM format\n");
+-	return -EINVAL;
+-
+-found:
+-	if (!ch_num) {
+-		pr_err("Bad number of channels\n");
+-		return -EINVAL;
+-	}
+-
+-	if (cfg->subbuffer_size != ch_num * sinfo[i].bytes) {
+-		pr_err("Audio resolution doesn't fit subbuffer size\n");
+-		return -EINVAL;
+-	}
+-
+-	pcm_hw->info = MOST_PCM_INFO;
+-	pcm_hw->rates = SNDRV_PCM_RATE_48000;
+-	pcm_hw->rate_min = 48000;
+-	pcm_hw->rate_max = 48000;
+-	pcm_hw->buffer_bytes_max = cfg->num_buffers * cfg->buffer_size;
+-	pcm_hw->period_bytes_min = cfg->buffer_size;
+-	pcm_hw->period_bytes_max = cfg->buffer_size;
+-	pcm_hw->periods_min = 1;
+-	pcm_hw->periods_max = cfg->num_buffers;
+-	pcm_hw->channels_min = ch_num;
+-	pcm_hw->channels_max = ch_num;
+-	pcm_hw->formats = sinfo[i].formats;
+-	return 0;
+-}
+-
+-static void release_adapter(struct sound_adapter *adpt)
+-{
+-	struct channel *channel, *tmp;
+-
+-	list_for_each_entry_safe(channel, tmp, &adpt->dev_list, list) {
+-		list_del(&channel->list);
+-		kfree(channel);
+-	}
+-	if (adpt->card)
+-		snd_card_free(adpt->card);
+-	list_del(&adpt->list);
+-	kfree(adpt);
+-}
+-
+-/**
+- * audio_probe_channel - probe function of the driver module
+- * @iface: pointer to interface instance
+- * @channel_id: channel index/ID
+- * @cfg: pointer to actual channel configuration
+- * @arg_list: string that provides the name of the device to be created in /dev
+- *	      plus the desired audio resolution
+- *
+- * Creates sound card, pcm device, sets pcm ops and registers sound card.
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int audio_probe_channel(struct most_interface *iface, int channel_id,
+-			       struct most_channel_config *cfg,
+-			       char *device_name, char *arg_list)
+-{
+-	struct channel *channel;
+-	struct sound_adapter *adpt;
+-	struct snd_pcm *pcm;
+-	int playback_count = 0;
+-	int capture_count = 0;
+-	int ret;
+-	int direction;
+-	u16 ch_num;
+-	char *sample_res;
+-	char arg_list_cpy[STRING_SIZE];
+-
+-	if (cfg->data_type != MOST_CH_SYNC) {
+-		pr_err("Incompatible channel type\n");
+-		return -EINVAL;
+-	}
+-	strlcpy(arg_list_cpy, arg_list, STRING_SIZE);
+-	ret = split_arg_list(arg_list_cpy, &ch_num, &sample_res);
+-	if (ret < 0)
+-		return ret;
+-
+-	list_for_each_entry(adpt, &adpt_list, list) {
+-		if (adpt->iface != iface)
+-			continue;
+-		if (adpt->registered)
+-			return -ENOSPC;
+-		adpt->pcm_dev_idx++;
+-		goto skip_adpt_alloc;
+-	}
+-	adpt = kzalloc(sizeof(*adpt), GFP_KERNEL);
+-	if (!adpt)
+-		return -ENOMEM;
+-
+-	adpt->iface = iface;
+-	INIT_LIST_HEAD(&adpt->dev_list);
+-	iface->priv = adpt;
+-	list_add_tail(&adpt->list, &adpt_list);
+-	ret = snd_card_new(iface->driver_dev, -1, "INIC", THIS_MODULE,
+-			   sizeof(*channel), &adpt->card);
+-	if (ret < 0)
+-		goto err_free_adpt;
+-	snprintf(adpt->card->driver, sizeof(adpt->card->driver),
+-		 "%s", DRIVER_NAME);
+-	snprintf(adpt->card->shortname, sizeof(adpt->card->shortname),
+-		 "Microchip INIC");
+-	snprintf(adpt->card->longname, sizeof(adpt->card->longname),
+-		 "%s at %s", adpt->card->shortname, iface->description);
+-skip_adpt_alloc:
+-	if (get_channel(iface, channel_id)) {
+-		pr_err("channel (%s:%d) is already linked\n",
+-		       iface->description, channel_id);
+-		return -EEXIST;
+-	}
+-
+-	if (cfg->direction = MOST_CH_TX) {
+-		playback_count = 1;
+-		direction = SNDRV_PCM_STREAM_PLAYBACK;
+-	} else {
+-		capture_count = 1;
+-		direction = SNDRV_PCM_STREAM_CAPTURE;
+-	}
+-	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+-	if (!channel) {
+-		ret = -ENOMEM;
+-		goto err_free_adpt;
+-	}
+-	channel->card = adpt->card;
+-	channel->cfg = cfg;
+-	channel->iface = iface;
+-	channel->id = channel_id;
+-	init_waitqueue_head(&channel->playback_waitq);
+-	list_add_tail(&channel->list, &adpt->dev_list);
+-
+-	ret = audio_set_hw_params(&channel->pcm_hardware, ch_num, sample_res,
+-				  cfg);
+-	if (ret)
+-		goto err_free_adpt;
+-
+-	ret = snd_pcm_new(adpt->card, device_name, adpt->pcm_dev_idx,
+-			  playback_count, capture_count, &pcm);
+-
+-	if (ret < 0)
+-		goto err_free_adpt;
+-
+-	pcm->private_data = channel;
+-	strscpy(pcm->name, device_name, sizeof(pcm->name));
+-	snd_pcm_set_ops(pcm, direction, &pcm_ops);
+-	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_VMALLOC, NULL, 0, 0);
+-	return 0;
+-
+-err_free_adpt:
+-	release_adapter(adpt);
+-	return ret;
+-}
+-
+-static int audio_create_sound_card(void)
+-{
+-	int ret;
+-	struct sound_adapter *adpt;
+-
+-	list_for_each_entry(adpt, &adpt_list, list) {
+-		if (!adpt->registered)
+-			goto adpt_alloc;
+-	}
+-	return -ENODEV;
+-adpt_alloc:
+-	ret = snd_card_register(adpt->card);
+-	if (ret < 0) {
+-		release_adapter(adpt);
+-		return ret;
+-	}
+-	adpt->registered = true;
+-	return 0;
+-}
+-
+-/**
+- * audio_disconnect_channel - function to disconnect a channel
+- * @iface: pointer to interface instance
+- * @channel_id: channel index
+- *
+- * This frees allocated memory and removes the sound card from ALSA
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int audio_disconnect_channel(struct most_interface *iface,
+-				    int channel_id)
+-{
+-	struct channel *channel;
+-	struct sound_adapter *adpt = iface->priv;
+-
+-	channel = get_channel(iface, channel_id);
+-	if (!channel)
+-		return -EINVAL;
+-
+-	list_del(&channel->list);
+-
+-	kfree(channel);
+-	if (list_empty(&adpt->dev_list))
+-		release_adapter(adpt);
+-	return 0;
+-}
+-
+-/**
+- * audio_rx_completion - completion handler for rx channels
+- * @mbo: pointer to buffer object that has completed
+- *
+- * This searches for the channel this MBO belongs to and copy the data from MBO
+- * to ring buffer
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int audio_rx_completion(struct mbo *mbo)
+-{
+-	struct channel *channel = get_channel(mbo->ifp, mbo->hdm_channel_id);
+-	bool period_elapsed = false;
+-
+-	if (!channel)
+-		return -EINVAL;
+-	if (channel->is_stream_running)
+-		period_elapsed = copy_data(channel, mbo);
+-	most_put_mbo(mbo);
+-	if (period_elapsed)
+-		snd_pcm_period_elapsed(channel->substream);
+-	return 0;
+-}
+-
+-/**
+- * audio_tx_completion - completion handler for tx channels
+- * @iface: pointer to interface instance
+- * @channel_id: channel index/ID
+- *
+- * This searches the channel that belongs to this combination of interface
+- * pointer and channel ID and wakes a process sitting in the wait queue of
+- * this channel.
+- *
+- * Returns 0 on success or error code otherwise.
+- */
+-static int audio_tx_completion(struct most_interface *iface, int channel_id)
+-{
+-	struct channel *channel = get_channel(iface, channel_id);
+-
+-	if (!channel)
+-		return -EINVAL;
+-
+-	wake_up_interruptible(&channel->playback_waitq);
+-	return 0;
+-}
+-
+-/**
+- * Initialization of the struct most_component
+- */
+-static struct most_component comp = {
+-	.mod = THIS_MODULE,
+-	.name = DRIVER_NAME,
+-	.probe_channel = audio_probe_channel,
+-	.disconnect_channel = audio_disconnect_channel,
+-	.rx_completion = audio_rx_completion,
+-	.tx_completion = audio_tx_completion,
+-	.cfg_complete = audio_create_sound_card,
+-};
+-
+-static int __init audio_init(void)
+-{
+-	int ret;
+-
+-	INIT_LIST_HEAD(&adpt_list);
+-
+-	ret = most_register_component(&comp);
+-	if (ret) {
+-		pr_err("Failed to register %s\n", comp.name);
+-		return ret;
+-	}
+-	ret = most_register_configfs_subsys(&comp);
+-	if (ret) {
+-		pr_err("Failed to register %s configfs subsys\n", comp.name);
+-		most_deregister_component(&comp);
+-	}
+-	return ret;
+-}
+-
+-static void __exit audio_exit(void)
+-{
+-	most_deregister_configfs_subsys(&comp);
+-	most_deregister_component(&comp);
+-}
+-
+-module_init(audio_init);
+-module_exit(audio_exit);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Christian Gromm <christian.gromm@microchip.com>");
+-MODULE_DESCRIPTION("Sound Component Module for Mostcore");
+-- 
+2.7.4
