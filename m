@@ -1,7 +1,7 @@
 From: Christian Gromm <christian.gromm@microchip.com>
-Date: Wed, 04 Nov 2020 12:50:42 +0000
-Subject: [PATCH v2] drivers: staging: most: use swabXX functions of kernel
-Message-Id: <1604494242-3414-1-git-send-email-christian.gromm@microchip.com>
+Date: Wed, 04 Nov 2020 12:42:41 +0000
+Subject: [PATCH] drivers: staging: most: use swabXX functions of kernel
+Message-Id: <1604493761-19144-1-git-send-email-christian.gromm@microchip.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -13,10 +13,7 @@ This patch makes use of the swab16() and swab32() functions available
 in the kernel instead of using own implementations.
 
 Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
-Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-v2: added 'Reported-by:' tag
-
  drivers/staging/most/sound/sound.c | 14 ++------------
  1 file changed, 2 insertions(+), 12 deletions(-)
 
