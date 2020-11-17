@@ -1,201 +1,150 @@
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Tue, 17 Nov 2020 08:41:46 +0000
+From: <Christian.Gromm@microchip.com>
+Date: Tue, 17 Nov 2020 10:04:01 +0000
 Subject: Re: [PATCH v2] drivers: most: add ALSA sound driver
-Message-Id: <20201117084145.GB29398@kadam>
+Message-Id: <78cc59b31042f865e947a2c09a5d10cc60ddc01c.camel@microchip.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <1604680254-17185-1-git-send-email-christian.gromm@microchip.com>
  <20201110084826.GE29398@kadam>
  <564d35a4fc32866f91f5bf3fb1bb16a5c67b3d9e.camel@microchip.com>
-In-Reply-To: <564d35a4fc32866f91f5bf3fb1bb16a5c67b3d9e.camel@microchip.com>
+ <20201117084145.GB29398@kadam>
+In-Reply-To: <20201117084145.GB29398@kadam>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Christian.Gromm@microchip.com
+To: dan.carpenter@oracle.com
 Cc: gregkh@linuxfoundation.org, driverdev-devel@linuxdriverproject.org, linux-sound@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 08:08:50AM +0000, Christian.Gromm@microchip.com wrote:
-> On Tue, 2020-11-10 at 11:48 +0300, Dan Carpenter wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > 
-> > On Fri, Nov 06, 2020 at 05:30:54PM +0100, Christian Gromm wrote:
-> > > +static struct list_head adpt_list;
-> > > +
-> > > +#define MOST_PCM_INFO (SNDRV_PCM_INFO_MMAP | \
-> > > +                    SNDRV_PCM_INFO_MMAP_VALID | \
-> > > +                    SNDRV_PCM_INFO_BATCH | \
-> > > +                    SNDRV_PCM_INFO_INTERLEAVED | \
-> > > +                    SNDRV_PCM_INFO_BLOCK_TRANSFER)
-> > > +
-> > > +static void swap_copy16(u16 *dest, const u16 *source, unsigned int bytes)
-> > > +{
-> > > +     unsigned int i = 0;
-> > > +
-> > > +     while (i < (bytes / 2)) {
-> > > +             dest[i] = swab16(source[i]);
-> > > +             i++;
-> > > +     }
-> > > +}
-> > > +
-> > > +static void swap_copy24(u8 *dest, const u8 *source, unsigned int bytes)
-> > > +{
-> > > +     unsigned int i = 0;
-> > > +
-> > > +     while (i < bytes - 2) {
-> > 
-> > Can bytes ever be zero?  If so then this will corrupt memory and crash.
-> > 
-> > Generally "int i;" is less risky than "unsigned int i;".  Of course, I
-> > recently almost introduced a situation where we were copying up to
-> > ULONG_MAX bytes so there are times when iterators should be size_t so
-> > that does happen.  It could be buggy either way is what I'm saying but
-> > generally "unsigned int i;" is more often buggy.
-> > 
-> > > +             dest[i] = source[i + 2];
-> > > +             dest[i + 1] = source[i + 1];
-> > > +             dest[i + 2] = source[i];
-> > > +             i += 3;
-> > > +     }
-> > > +}
-> > > +
-> > > +static void swap_copy32(u32 *dest, const u32 *source, unsigned int bytes)
-> > > +{
-> > > +     unsigned int i = 0;
-> > > +
-> > > +     while (i < bytes / 4) {
-> > > +             dest[i] = swab32(source[i]);
-> > > +             i++;
-> > > +     }
-> > > +}
-> > > +
-> > > +static void alsa_to_most_memcpy(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     memcpy(most, alsa, bytes);
-> > > +}
-> > > +
-> > > +static void alsa_to_most_copy16(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     swap_copy16(most, alsa, bytes);
-> > > +}
-> > > +
-> > > +static void alsa_to_most_copy24(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     swap_copy24(most, alsa, bytes);
-> > > +}
-> > > +
-> > > +static void alsa_to_most_copy32(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     swap_copy32(most, alsa, bytes);
-> > > +}
-> > > +
-> > > +static void most_to_alsa_memcpy(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     memcpy(alsa, most, bytes);
-> > > +}
-> > > +
-> > > +static void most_to_alsa_copy16(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     swap_copy16(alsa, most, bytes);
-> > > +}
-> > > +
-> > > +static void most_to_alsa_copy24(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     swap_copy24(alsa, most, bytes);
-> > > +}
-> > > +
-> > > +static void most_to_alsa_copy32(void *alsa, void *most, unsigned int bytes)
-> > > +{
-> > > +     swap_copy32(alsa, most, bytes);
-> > > +}
-> > > +
-> > > +/**
-> > > + * get_channel - get pointer to channel
-> > > + * @iface: interface structure
-> > > + * @channel_id: channel ID
-> > > + *
-> > > + * This traverses the channel list and returns the channel matching the
-> > > + * ID and interface.
-> > > + *
-> > > + * Returns pointer to channel on success or NULL otherwise.
-> > > + */
-> > > +static struct channel *get_channel(struct most_interface *iface,
-> > > +                                int channel_id)
-> > > +{
-> > > +     struct sound_adapter *adpt = iface->priv;
-> > > +     struct channel *channel, *tmp;
-> > > +
-> > > +     list_for_each_entry_safe(channel, tmp, &adpt->dev_list, list) {
-> > > +             if ((channel->iface = iface) && (channel->id = channel_id))
-> > > +                     return channel;
-> > 
-> > No need to use the _safe() version of this loop macro.  You're not
-> > freeing anything.  My concern is that sometimes people think the _safe()
-> > has something to do with locking and it does not.
-> > 
-> > > +     }
-> > > +     return NULL;
-> > > +}
-> > > +
-> > 
-> > [ Snip ]
-> > 
-> > > +/**
-> > > + * audio_probe_channel - probe function of the driver module
-> > > + * @iface: pointer to interface instance
-> > > + * @channel_id: channel index/ID
-> > > + * @cfg: pointer to actual channel configuration
-> > > + * @arg_list: string that provides the name of the device to be created in /dev
-> > > + *         plus the desired audio resolution
-> > > + *
-> > > + * Creates sound card, pcm device, sets pcm ops and registers sound card.
-> > > + *
-> > > + * Returns 0 on success or error code otherwise.
-> > > + */
-> > > +static int audio_probe_channel(struct most_interface *iface, int channel_id,
-> > > +                            struct most_channel_config *cfg,
-> > > +                            char *device_name, char *arg_list)
-> > > +{
-> > > +     struct channel *channel;
-> > > +     struct sound_adapter *adpt;
-> > > +     struct snd_pcm *pcm;
-> > > +     int playback_count = 0;
-> > > +     int capture_count = 0;
-> > > +     int ret;
-> > > +     int direction;
-> > > +     u16 ch_num;
-> > > +     char *sample_res;
-> > > +     char arg_list_cpy[STRING_SIZE];
-> > > +
-> > > +     if (cfg->data_type != MOST_CH_SYNC) {
-> > > +             pr_err("Incompatible channel type\n");
-> > > +             return -EINVAL;
-> > > +     }
-> > > +     strlcpy(arg_list_cpy, arg_list, STRING_SIZE);
-> > > +     ret = split_arg_list(arg_list_cpy, &ch_num, &sample_res);
-> > > +     if (ret < 0)
-> > > +             return ret;
-> > > +
-> > > +     list_for_each_entry(adpt, &adpt_list, list) {
-> > > +             if (adpt->iface != iface)
-> > > +                     continue;
-> > > +             if (adpt->registered)
-> > > +                     return -ENOSPC;
-> > > +             adpt->pcm_dev_idx++;
-> > > +             goto skip_adpt_alloc;
-> > 
-> > It's weird how if the "channel = " allocation fails, then we free this
-> > "adpt" which we didn't allocate.
-> 
-> We actually did allocate it in a previous call to this function.
-> Otherwise we would not jump to the skip_adpt_alloc label. And if
-> we don't jump there, we are allocating it right away.
-> 
-
-I mean obviously everyone can see that it was allocated by an earlier
-call to the function.  What I mean is that it's a layering violation.
-The unwind would normally be done in the caller.
-
-Is it okay to delete the adapter without emptying the mdev_link_list
-as well?
-
-regards,
-dan carpenter
+T24gVHVlLCAyMDIwLTExLTE3IGF0IDExOjQxICswMzAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOg0K
+PiBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMg
+dW5sZXNzIHlvdSBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IE9uIFR1ZSwgTm92IDE3
+LCAyMDIwIGF0IDA4OjA4OjUwQU0gKzAwMDAsIENocmlzdGlhbi5Hcm9tbUBtaWNyb2NoaXAuY29t
+IHdyb3RlOg0KPiA+IE9uIFR1ZSwgMjAyMC0xMS0xMCBhdCAxMTo0OCArMDMwMCwgRGFuIENhcnBl
+bnRlciB3cm90ZToNCj4gPiA+IEVYVEVSTkFMIEVNQUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Ig
+b3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiA+
+ID4gDQo+ID4gPiBPbiBGcmksIE5vdiAwNiwgMjAyMCBhdCAwNTozMDo1NFBNICswMTAwLCBDaHJp
+c3RpYW4gR3JvbW0gd3JvdGU6DQo+ID4gPiA+ICtzdGF0aWMgc3RydWN0IGxpc3RfaGVhZCBhZHB0
+X2xpc3Q7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyNkZWZpbmUgTU9TVF9QQ01fSU5GTyAoU05EUlZf
+UENNX0lORk9fTU1BUCB8IFwNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgU05EUlZfUENN
+X0lORk9fTU1BUF9WQUxJRCB8IFwNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgU05EUlZf
+UENNX0lORk9fQkFUQ0ggfCBcDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgIFNORFJWX1BD
+TV9JTkZPX0lOVEVSTEVBVkVEIHwgXA0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICBTTkRS
+Vl9QQ01fSU5GT19CTE9DS19UUkFOU0ZFUikNCj4gPiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIHZv
+aWQgc3dhcF9jb3B5MTYodTE2ICpkZXN0LCBjb25zdCB1MTYgKnNvdXJjZSwgdW5zaWduZWQgaW50
+IGJ5dGVzKQ0KPiA+ID4gPiArew0KPiA+ID4gPiArICAgICB1bnNpZ25lZCBpbnQgaSA9IDA7DQo+
+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgd2hpbGUgKGkgPCAoYnl0ZXMgLyAyKSkgew0KPiA+ID4g
+PiArICAgICAgICAgICAgIGRlc3RbaV0gPSBzd2FiMTYoc291cmNlW2ldKTsNCj4gPiA+ID4gKyAg
+ICAgICAgICAgICBpKys7DQo+ID4gPiA+ICsgICAgIH0NCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0K
+PiA+ID4gPiArc3RhdGljIHZvaWQgc3dhcF9jb3B5MjQodTggKmRlc3QsIGNvbnN0IHU4ICpzb3Vy
+Y2UsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4gPiA+ID4gKyAgICAgdW5zaWdu
+ZWQgaW50IGkgPSAwOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgIHdoaWxlIChpIDwgYnl0ZXMg
+LSAyKSB7DQo+ID4gPiANCj4gPiA+IENhbiBieXRlcyBldmVyIGJlIHplcm8/ICBJZiBzbyB0aGVu
+IHRoaXMgd2lsbCBjb3JydXB0IG1lbW9yeSBhbmQgY3Jhc2guDQo+ID4gPiANCj4gPiA+IEdlbmVy
+YWxseSAiaW50IGk7IiBpcyBsZXNzIHJpc2t5IHRoYW4gInVuc2lnbmVkIGludCBpOyIuICBPZiBj
+b3Vyc2UsIEkNCj4gPiA+IHJlY2VudGx5IGFsbW9zdCBpbnRyb2R1Y2VkIGEgc2l0dWF0aW9uIHdo
+ZXJlIHdlIHdlcmUgY29weWluZyB1cCB0bw0KPiA+ID4gVUxPTkdfTUFYIGJ5dGVzIHNvIHRoZXJl
+IGFyZSB0aW1lcyB3aGVuIGl0ZXJhdG9ycyBzaG91bGQgYmUgc2l6ZV90IHNvDQo+ID4gPiB0aGF0
+IGRvZXMgaGFwcGVuLiAgSXQgY291bGQgYmUgYnVnZ3kgZWl0aGVyIHdheSBpcyB3aGF0IEknbSBz
+YXlpbmcgYnV0DQo+ID4gPiBnZW5lcmFsbHkgInVuc2lnbmVkIGludCBpOyIgaXMgbW9yZSBvZnRl
+biBidWdneS4NCj4gPiA+IA0KPiA+ID4gPiArICAgICAgICAgICAgIGRlc3RbaV0gPSBzb3VyY2Vb
+aSArIDJdOw0KPiA+ID4gPiArICAgICAgICAgICAgIGRlc3RbaSArIDFdID0gc291cmNlW2kgKyAx
+XTsNCj4gPiA+ID4gKyAgICAgICAgICAgICBkZXN0W2kgKyAyXSA9IHNvdXJjZVtpXTsNCj4gPiA+
+ID4gKyAgICAgICAgICAgICBpICs9IDM7DQo+ID4gPiA+ICsgICAgIH0NCj4gPiA+ID4gK30NCj4g
+PiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIHZvaWQgc3dhcF9jb3B5MzIodTMyICpkZXN0LCBjb25z
+dCB1MzIgKnNvdXJjZSwgdW5zaWduZWQgaW50IGJ5dGVzKQ0KPiA+ID4gPiArew0KPiA+ID4gPiAr
+ICAgICB1bnNpZ25lZCBpbnQgaSA9IDA7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgd2hpbGUg
+KGkgPCBieXRlcyAvIDQpIHsNCj4gPiA+ID4gKyAgICAgICAgICAgICBkZXN0W2ldID0gc3dhYjMy
+KHNvdXJjZVtpXSk7DQo+ID4gPiA+ICsgICAgICAgICAgICAgaSsrOw0KPiA+ID4gPiArICAgICB9
+DQo+ID4gPiA+ICt9DQo+ID4gPiA+ICsNCj4gPiA+ID4gK3N0YXRpYyB2b2lkIGFsc2FfdG9fbW9z
+dF9tZW1jcHkodm9pZCAqYWxzYSwgdm9pZCAqbW9zdCwgdW5zaWduZWQgaW50IGJ5dGVzKQ0KPiA+
+ID4gPiArew0KPiA+ID4gPiArICAgICBtZW1jcHkobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4g
+PiArfQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBhbHNhX3RvX21vc3RfY29weTE2
+KHZvaWQgKmFsc2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sN
+Cj4gPiA+ID4gKyAgICAgc3dhcF9jb3B5MTYobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4gPiAr
+fQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBhbHNhX3RvX21vc3RfY29weTI0KHZv
+aWQgKmFsc2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4g
+PiA+ID4gKyAgICAgc3dhcF9jb3B5MjQobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4gPiArfQ0K
+PiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBhbHNhX3RvX21vc3RfY29weTMyKHZvaWQg
+KmFsc2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4gPiA+
+ID4gKyAgICAgc3dhcF9jb3B5MzIobW9zdCwgYWxzYSwgYnl0ZXMpOw0KPiA+ID4gPiArfQ0KPiA+
+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBtb3N0X3RvX2Fsc2FfbWVtY3B5KHZvaWQgKmFs
+c2EsIHZvaWQgKm1vc3QsIHVuc2lnbmVkIGludCBieXRlcykNCj4gPiA+ID4gK3sNCj4gPiA+ID4g
+KyAgICAgbWVtY3B5KGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0K
+PiA+ID4gPiArc3RhdGljIHZvaWQgbW9zdF90b19hbHNhX2NvcHkxNih2b2lkICphbHNhLCB2b2lk
+ICptb3N0LCB1bnNpZ25lZCBpbnQgYnl0ZXMpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIHN3
+YXBfY29weTE2KGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+
+ID4gPiArc3RhdGljIHZvaWQgbW9zdF90b19hbHNhX2NvcHkyNCh2b2lkICphbHNhLCB2b2lkICpt
+b3N0LCB1bnNpZ25lZCBpbnQgYnl0ZXMpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIHN3YXBf
+Y29weTI0KGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+ID4g
+PiArc3RhdGljIHZvaWQgbW9zdF90b19hbHNhX2NvcHkzMih2b2lkICphbHNhLCB2b2lkICptb3N0
+LCB1bnNpZ25lZCBpbnQgYnl0ZXMpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIHN3YXBfY29w
+eTMyKGFsc2EsIG1vc3QsIGJ5dGVzKTsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+ID4gPiAr
+LyoqDQo+ID4gPiA+ICsgKiBnZXRfY2hhbm5lbCAtIGdldCBwb2ludGVyIHRvIGNoYW5uZWwNCj4g
+PiA+ID4gKyAqIEBpZmFjZTogaW50ZXJmYWNlIHN0cnVjdHVyZQ0KPiA+ID4gPiArICogQGNoYW5u
+ZWxfaWQ6IGNoYW5uZWwgSUQNCj4gPiA+ID4gKyAqDQo+ID4gPiA+ICsgKiBUaGlzIHRyYXZlcnNl
+cyB0aGUgY2hhbm5lbCBsaXN0IGFuZCByZXR1cm5zIHRoZSBjaGFubmVsIG1hdGNoaW5nIHRoZQ0K
+PiA+ID4gPiArICogSUQgYW5kIGludGVyZmFjZS4NCj4gPiA+ID4gKyAqDQo+ID4gPiA+ICsgKiBS
+ZXR1cm5zIHBvaW50ZXIgdG8gY2hhbm5lbCBvbiBzdWNjZXNzIG9yIE5VTEwgb3RoZXJ3aXNlLg0K
+PiA+ID4gPiArICovDQo+ID4gPiA+ICtzdGF0aWMgc3RydWN0IGNoYW5uZWwgKmdldF9jaGFubmVs
+KHN0cnVjdCBtb3N0X2ludGVyZmFjZSAqaWZhY2UsDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGludCBjaGFubmVsX2lkKQ0KPiA+ID4gPiArew0KPiA+ID4gPiArICAg
+ICBzdHJ1Y3Qgc291bmRfYWRhcHRlciAqYWRwdCA9IGlmYWNlLT5wcml2Ow0KPiA+ID4gPiArICAg
+ICBzdHJ1Y3QgY2hhbm5lbCAqY2hhbm5lbCwgKnRtcDsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAg
+ICBsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUoY2hhbm5lbCwgdG1wLCAmYWRwdC0+ZGV2X2xpc3Qs
+IGxpc3QpIHsNCj4gPiA+ID4gKyAgICAgICAgICAgICBpZiAoKGNoYW5uZWwtPmlmYWNlID09IGlm
+YWNlKSAmJiAoY2hhbm5lbC0+aWQgPT0gY2hhbm5lbF9pZCkpDQo+ID4gPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICByZXR1cm4gY2hhbm5lbDsNCj4gPiA+IA0KPiA+ID4gTm8gbmVlZCB0byB1c2Ug
+dGhlIF9zYWZlKCkgdmVyc2lvbiBvZiB0aGlzIGxvb3AgbWFjcm8uICBZb3UncmUgbm90DQo+ID4g
+PiBmcmVlaW5nIGFueXRoaW5nLiAgTXkgY29uY2VybiBpcyB0aGF0IHNvbWV0aW1lcyBwZW9wbGUg
+dGhpbmsgdGhlIF9zYWZlKCkNCj4gPiA+IGhhcyBzb21ldGhpbmcgdG8gZG8gd2l0aCBsb2NraW5n
+IGFuZCBpdCBkb2VzIG5vdC4NCj4gPiA+IA0KPiA+ID4gPiArICAgICB9DQo+ID4gPiA+ICsgICAg
+IHJldHVybiBOVUxMOw0KPiA+ID4gPiArfQ0KPiA+ID4gPiArDQo+ID4gPiANCj4gPiA+IFsgU25p
+cCBdDQo+ID4gPiANCj4gPiA+ID4gKy8qKg0KPiA+ID4gPiArICogYXVkaW9fcHJvYmVfY2hhbm5l
+bCAtIHByb2JlIGZ1bmN0aW9uIG9mIHRoZSBkcml2ZXIgbW9kdWxlDQo+ID4gPiA+ICsgKiBAaWZh
+Y2U6IHBvaW50ZXIgdG8gaW50ZXJmYWNlIGluc3RhbmNlDQo+ID4gPiA+ICsgKiBAY2hhbm5lbF9p
+ZDogY2hhbm5lbCBpbmRleC9JRA0KPiA+ID4gPiArICogQGNmZzogcG9pbnRlciB0byBhY3R1YWwg
+Y2hhbm5lbCBjb25maWd1cmF0aW9uDQo+ID4gPiA+ICsgKiBAYXJnX2xpc3Q6IHN0cmluZyB0aGF0
+IHByb3ZpZGVzIHRoZSBuYW1lIG9mIHRoZSBkZXZpY2UgdG8gYmUgY3JlYXRlZCBpbiAvZGV2DQo+
+ID4gPiA+ICsgKiAgICAgICAgIHBsdXMgdGhlIGRlc2lyZWQgYXVkaW8gcmVzb2x1dGlvbg0KPiA+
+ID4gPiArICoNCj4gPiA+ID4gKyAqIENyZWF0ZXMgc291bmQgY2FyZCwgcGNtIGRldmljZSwgc2V0
+cyBwY20gb3BzIGFuZCByZWdpc3RlcnMgc291bmQgY2FyZC4NCj4gPiA+ID4gKyAqDQo+ID4gPiA+
+ICsgKiBSZXR1cm5zIDAgb24gc3VjY2VzcyBvciBlcnJvciBjb2RlIG90aGVyd2lzZS4NCj4gPiA+
+ID4gKyAqLw0KPiA+ID4gPiArc3RhdGljIGludCBhdWRpb19wcm9iZV9jaGFubmVsKHN0cnVjdCBt
+b3N0X2ludGVyZmFjZSAqaWZhY2UsIGludCBjaGFubmVsX2lkLA0KPiA+ID4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHN0cnVjdCBtb3N0X2NoYW5uZWxfY29uZmlnICpjZmcsDQo+ID4g
+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2hhciAqZGV2aWNlX25hbWUsIGNoYXIg
+KmFyZ19saXN0KQ0KPiA+ID4gPiArew0KPiA+ID4gPiArICAgICBzdHJ1Y3QgY2hhbm5lbCAqY2hh
+bm5lbDsNCj4gPiA+ID4gKyAgICAgc3RydWN0IHNvdW5kX2FkYXB0ZXIgKmFkcHQ7DQo+ID4gPiA+
+ICsgICAgIHN0cnVjdCBzbmRfcGNtICpwY207DQo+ID4gPiA+ICsgICAgIGludCBwbGF5YmFja19j
+b3VudCA9IDA7DQo+ID4gPiA+ICsgICAgIGludCBjYXB0dXJlX2NvdW50ID0gMDsNCj4gPiA+ID4g
+KyAgICAgaW50IHJldDsNCj4gPiA+ID4gKyAgICAgaW50IGRpcmVjdGlvbjsNCj4gPiA+ID4gKyAg
+ICAgdTE2IGNoX251bTsNCj4gPiA+ID4gKyAgICAgY2hhciAqc2FtcGxlX3JlczsNCj4gPiA+ID4g
+KyAgICAgY2hhciBhcmdfbGlzdF9jcHlbU1RSSU5HX1NJWkVdOw0KPiA+ID4gPiArDQo+ID4gPiA+
+ICsgICAgIGlmIChjZmctPmRhdGFfdHlwZSAhPSBNT1NUX0NIX1NZTkMpIHsNCj4gPiA+ID4gKyAg
+ICAgICAgICAgICBwcl9lcnIoIkluY29tcGF0aWJsZSBjaGFubmVsIHR5cGVcbiIpOw0KPiA+ID4g
+PiArICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiA+ID4gPiArICAgICB9DQo+ID4gPiA+
+ICsgICAgIHN0cmxjcHkoYXJnX2xpc3RfY3B5LCBhcmdfbGlzdCwgU1RSSU5HX1NJWkUpOw0KPiA+
+ID4gPiArICAgICByZXQgPSBzcGxpdF9hcmdfbGlzdChhcmdfbGlzdF9jcHksICZjaF9udW0sICZz
+YW1wbGVfcmVzKTsNCj4gPiA+ID4gKyAgICAgaWYgKHJldCA8IDApDQo+ID4gPiA+ICsgICAgICAg
+ICAgICAgcmV0dXJuIHJldDsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICBsaXN0X2Zvcl9lYWNo
+X2VudHJ5KGFkcHQsICZhZHB0X2xpc3QsIGxpc3QpIHsNCj4gPiA+ID4gKyAgICAgICAgICAgICBp
+ZiAoYWRwdC0+aWZhY2UgIT0gaWZhY2UpDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBj
+b250aW51ZTsNCj4gPiA+ID4gKyAgICAgICAgICAgICBpZiAoYWRwdC0+cmVnaXN0ZXJlZCkNCj4g
+PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRU5PU1BDOw0KPiA+ID4gPiArICAg
+ICAgICAgICAgIGFkcHQtPnBjbV9kZXZfaWR4Kys7DQo+ID4gPiA+ICsgICAgICAgICAgICAgZ290
+byBza2lwX2FkcHRfYWxsb2M7DQo+ID4gPiANCj4gPiA+IEl0J3Mgd2VpcmQgaG93IGlmIHRoZSAi
+Y2hhbm5lbCA9ICIgYWxsb2NhdGlvbiBmYWlscywgdGhlbiB3ZSBmcmVlIHRoaXMNCj4gPiA+ICJh
+ZHB0IiB3aGljaCB3ZSBkaWRuJ3QgYWxsb2NhdGUuDQo+ID4gDQo+ID4gV2UgYWN0dWFsbHkgZGlk
+IGFsbG9jYXRlIGl0IGluIGEgcHJldmlvdXMgY2FsbCB0byB0aGlzIGZ1bmN0aW9uLg0KPiA+IE90
+aGVyd2lzZSB3ZSB3b3VsZCBub3QganVtcCB0byB0aGUgc2tpcF9hZHB0X2FsbG9jIGxhYmVsLiBB
+bmQgaWYNCj4gPiB3ZSBkb24ndCBqdW1wIHRoZXJlLCB3ZSBhcmUgYWxsb2NhdGluZyBpdCByaWdo
+dCBhd2F5Lg0KPiA+IA0KPiANCj4gSSBtZWFuIG9idmlvdXNseSBldmVyeW9uZSBjYW4gc2VlIHRo
+YXQgaXQgd2FzIGFsbG9jYXRlZCBieSBhbiBlYXJsaWVyDQo+IGNhbGwgdG8gdGhlIGZ1bmN0aW9u
+LiAgV2hhdCBJIG1lYW4gaXMgdGhhdCBpdCdzIGEgbGF5ZXJpbmcgdmlvbGF0aW9uLg0KPiBUaGUg
+dW53aW5kIHdvdWxkIG5vcm1hbGx5IGJlIGRvbmUgaW4gdGhlIGNhbGxlci4NCj4gDQo+IElzIGl0
+IG9rYXkgdG8gZGVsZXRlIHRoZSBhZGFwdGVyIHdpdGhvdXQgZW1wdHlpbmcgdGhlIG1kZXZfbGlu
+a19saXN0DQo+IGFzIHdlbGw/DQo+IA0KTm90IG5lY2Vzc2FyaWx5LCBhcyB3aGVuIHdlIGFyZSBh
+dCB0aGlzIHBvaW50IHRoZSBzZXR1cCBpcyBhbHJlYWR5DQptZXNzZWQgdXAgYW5kIG5lZWRzIHRv
+IGJlIHJlY29uZmlndXJlZCBmcm9tIHNjcmF0Y2ggYW55d2F5LiBUaGlzDQppbnZvbHZlcyB0aGUg
+Y2FsbCB0byBtZGV2X2xpbmtfZGVzdHJveV9saW5rX3N0b3JlKCkgdGhhdCBjbGVhbnMgdXANCmV2
+ZXJ5dGhpbmcuDQoNCnRoYW5rcywNCkNocmlzDQoNCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBlbnRl
+cg0KPiANCg=
