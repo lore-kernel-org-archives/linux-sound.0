@@ -1,58 +1,41 @@
-From: Christian Gromm <christian.gromm@microchip.com>
-Date: Wed, 04 Nov 2020 12:42:41 +0000
-Subject: [PATCH] drivers: staging: most: use swabXX functions of kernel
-Message-Id: <1604493761-19144-1-git-send-email-christian.gromm@microchip.com>
+From: Michael <michael@fossekall.de>
+Date: Wed, 30 Dec 2020 22:58:13 +0000
+Subject: ASoC: No stereo on Banana Pi M2 headphone jack
+Message-Id: <20201230225813.GA6402@a98shuttle.de>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: gregkh@linuxfoundation.org
-Cc: Christian Gromm <christian.gromm@microchip.com>, driverdev-devel@linuxdriverproject.org, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 
-This patch makes use of the swab16() and swab32() functions available
-in the kernel instead of using own implementations.
+Hi all,
 
-Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
----
- drivers/staging/most/sound/sound.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+I'm in need for stereo sound on the headphone jack of a Banana Pi M2 
+(Allwinner A31s), but I'm getting only mono differential (I assume at 
+least, because I can hear both channels in either speaker).
 
-diff --git a/drivers/staging/most/sound/sound.c b/drivers/staging/most/sound/sound.c
-index 8a449ab..3a1a590 100644
---- a/drivers/staging/most/sound/sound.c
-+++ b/drivers/staging/most/sound/sound.c
-@@ -72,22 +72,12 @@ static struct list_head adpt_list;
- 		       SNDRV_PCM_INFO_INTERLEAVED | \
- 		       SNDRV_PCM_INFO_BLOCK_TRANSFER)
- 
--#define swap16(val) ( \
--	(((u16)(val) << 8) & (u16)0xFF00) | \
--	(((u16)(val) >> 8) & (u16)0x00FF))
--
--#define swap32(val) ( \
--	(((u32)(val) << 24) & (u32)0xFF000000) | \
--	(((u32)(val) <<  8) & (u32)0x00FF0000) | \
--	(((u32)(val) >>  8) & (u32)0x0000FF00) | \
--	(((u32)(val) >> 24) & (u32)0x000000FF))
--
- static void swap_copy16(u16 *dest, const u16 *source, unsigned int bytes)
- {
- 	unsigned int i = 0;
- 
- 	while (i < (bytes / 2)) {
--		dest[i] = swap16(source[i]);
-+		dest[i] = swab16(source[i]);
- 		i++;
- 	}
- }
-@@ -109,7 +99,7 @@ static void swap_copy32(u32 *dest, const u32 *source, unsigned int bytes)
- 	unsigned int i = 0;
- 
- 	while (i < bytes / 4) {
--		dest[i] = swap32(source[i]);
-+		dest[i] = swab32(source[i]);
- 		i++;
- 	}
- }
--- 
-2.7.4
+In alsamixer, there is a switch to select between stereo and mono 
+diffential output for the LINE output (that has no notable effect), but 
+not for the Headphone output.
+
+Driver limitation/bug? Hardware deficiency? Configuration error? Any 
+other idea?
+
+FWIW, this is the DT overlay to get any sound at all:
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	fragment@0 {
+		target = <&codec>;
+		__overlay__ {
+			status = "okay";
+			allwinner,audio-routing = "Headphone", "HP";
+		};
+	};
+};
+
+
+Regards,
+Michael
