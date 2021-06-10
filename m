@@ -1,23 +1,22 @@
-From: "Smith Green" <ssbinvestmentsllc@citromail.hu>
-Date: Fri, 18 Jun 2021 11:45:04 +0000
-Subject: BUSINESS LOAN/PROJECT FUNDING...67
-Message-Id: <202106181144.15IBiOth011567@blank.cafe24.com>
+From: Muni Sekhar <munisekharrms@gmail.com>
+Date: Thu, 10 Jun 2021 12:37:26 +0000
+Subject: SNDRV_PCM_IOCTL_READI_FRAMES returns EIO
+Message-Id: <CAHhAz+hjt57HjF=ap8+Y7X=Q8Dcsz9NYAJWj1Z8Sq_JEWuoGcw@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <202106170534.15H5Y1Oq001813@blank.cafe24.com>
-In-Reply-To: <202106170534.15H5Y1Oq001813@blank.cafe24.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
 
-Dear Sir/Madam,
+Hi all,
 
-Our Investors are based in the middle east with a profound track record. We invite you to take advantage of our investment loan program to fund your existing or intending projects. We offer a straight or convertible loan investment program for projects with high-returns and payback prospects without the usual rigid procedures of conventional lenders.
- 
-Kindly forward a copy of your Executive business summary for our review: info@ssbinvestmentsllc.us
+ I noticed recording(arecord) audio data on a USB sound card fails at
+SNDRV_PCM_IOCTL_READI_FRAMES is giving EIO.
 
- 
-Best Regards.
-Smith Green
-E:info@ssbinvestmentsllc.us
-International investment broker
+Can someone please clarify when the kernel returns EIO for Ioctl
+SNDRV_PCM_IOCTL_READI_FRAMES?
+
+
+-- 
+Thanks,
+Sekhar
