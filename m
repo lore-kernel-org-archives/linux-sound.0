@@ -1,8 +1,10 @@
 From: "Smith Green" <ssbinvestmentsllc@citromail.hu>
-Date: Thu, 17 Jun 2021 05:34:49 +0000
+Date: Fri, 18 Jun 2021 11:45:04 +0000
 Subject: BUSINESS LOAN/PROJECT FUNDING...67
-Message-Id: <202106170534.15H5Y1Oq001813@blank.cafe24.com>
+Message-Id: <202106181144.15IBiOth011567@blank.cafe24.com>
 List-Id: <linux-sound.vger.kernel.org>
+References: <202106170534.15H5Y1Oq001813@blank.cafe24.com>
+In-Reply-To: <202106170534.15H5Y1Oq001813@blank.cafe24.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
