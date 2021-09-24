@@ -1,27 +1,55 @@
-From: Muni Sekhar <munisekharrms@gmail.com>
-Date: Fri, 24 Sep 2021 16:57:48 +0000
+From: jim.cromie@gmail.com
+Date: Fri, 24 Sep 2021 17:15:35 +0000
 Subject: Re: ALSA kernel projects - for academic purposes
-Message-Id: <CAHhAz+jNCd=cw-bohcoiAA2UhNZYSFLX07qEV-T2p+KAsVHhAQ@mail.gmail.com>
+Message-Id: <CAJfuBxxAEXnPxY-nx4JEe+fzH7J+nLYzD9zLCSzgjViBHsQbPA@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <CAHhAz+i=3NDuxK2rZZY6N18=OTbkna3VMVpx4nNgF0vyq3JmQA@mail.gmail.com>
  <324112.1632501120@turing-police>
-In-Reply-To: <324112.1632501120@turing-police>
+ <CAHhAz+jNCd=cw-bohcoiAA2UhNZYSFLX07qEV-T2p+KAsVHhAQ@mail.gmail.com>
+In-Reply-To: <CAHhAz+jNCd=cw-bohcoiAA2UhNZYSFLX07qEV-T2p+KAsVHhAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1254"
-Content-Transfer-Encoding: base64
-To: =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>
-Cc: alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+To: Muni Sekhar <munisekharrms@gmail.com>
+Cc: alsa-devel <alsa-devel@alsa-project.org>, =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
 
-T24gRnJpLCBTZXAgMjQsIDIwMjEgYXQgMTA6MDIgUE0gVmFsZGlzIEtsxJN0bmlla3MKPHZhbGRp
-cy5rbGV0bmlla3NAdnQuZWR1PiB3cm90ZToKPgo+IE9uIEZyaSwgMjQgU2VwIDIwMjEgMTk6MzQ6
-NTkgKzA1MzAsIE11bmkgU2VraGFyIHNhaWQ6Cj4gPiBXaGF0IHNtYWxsIHByb2plY3RzIHdvdWxk
-IHlvdSBzdWdnZXN0IHRvIGEgbm92aWNlIHdpdGggdGhlIEFMU0EKPiA+IGtlcm5lbC4gVGhlIGFp
-bSBpcyB0byBkZXZlbG9wIGEgZmFtaWxpYXJpdHkgd2l0aCB0aGUgQUxTQSBrZXJuZWwKPiA+IHNv
-dXJjZSBjb2RlLCBhbmQgYWxzbyB0byBzdWJtaXQgaXQgZm9yIGFjYWRlbWljIHB1cnBvc2VzLgo+
-Cj4gQSBnb29kIHBsYWNlIHRvIHN0YXJ0IGlzIGdldHRpbmcgYSBnb29kIGhhbmRsZSBvbiB3aGF0
-IHRoZSBwaHJhc2UgInRoZSBBTFNBCj4ga2VybmVsIiBldmVuIG1lYW5zLgpCYXNpY2FsbHkgbG9v
-a2luZyBmb3Iga2VybmVsIHNwYWNlIGF1ZGlvIHN1YnN5c3RlbSBwcm9qZWN0cyByYXRoZXIKdGhh
-biBpdHMgdXNlci1zcGFjZSBsaWJyYXJ5KGFsc2EtbGliKSBhbmQgdXRpbGl0aWVzKGFsc2EtdXRp
-bHMpLgo+Cj4gVGhlcmUncyB0aGUgTGludXgga2VybmVsLCBhIHNtYWxsIGNvcm5lciBvZiB3aGlj
-aCBpcyB0aGUgQUxTQSBzdWJzeXN0ZW0gZm9yCj4gc291bmQuCj4KCgotLSAKVGhhbmtzLApTZWto
-YXI=
+On Fri, Sep 24, 2021 at 10:58 AM Muni Sekhar <munisekharrms@gmail.com> wrot=
+e:
+>
+> On Fri, Sep 24, 2021 at 10:02 PM Valdis Kl=C4=93tnieks
+> <valdis.kletnieks@vt.edu> wrote:
+> >
+> > On Fri, 24 Sep 2021 19:34:59 +0530, Muni Sekhar said:
+> > > What small projects would you suggest to a novice with the ALSA
+> > > kernel. The aim is to develop a familiarity with the ALSA kernel
+> > > source code, and also to submit it for academic purposes.
+> >
+> > A good place to start is getting a good handle on what the phrase "the =
+ALSA
+> > kernel" even means.
+> Basically looking for kernel space audio subsystem projects rather
+> than its user-space library(alsa-lib) and utilities(alsa-utils).
+
+why ?
+if your interest is better sound, then improving user-space is going
+to be more productive.
+
+also, theres now pipewire, which is new, and all the buzz.
+its apparently the future of linux audio
+
+
+> >
+> > There's the Linux kernel, a small corner of which is the ALSA subsystem=
+ for
+> > sound.
+> >
+>
+>
+> --
+> Thanks,
+> Sekhar
+>
+> _______________________________________________
+> Kernelnewbies mailing list
+> Kernelnewbies@kernelnewbies.org
+> https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies
