@@ -1,52 +1,43 @@
-From: jim.cromie@gmail.com
-Date: Fri, 24 Sep 2021 18:23:04 +0000
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+Date: Fri, 24 Sep 2021 22:26:08 +0000
 Subject: Re: ALSA kernel projects - for academic purposes
-Message-Id: <CAJfuBxxVrbo6LyErMea8JWL0joZBrLa4Kg5r9qzwgW4JUVQvYQ@mail.gmail.com>
+Message-Id: <YU5QgPwYDB2XnaVP@geday>
 List-Id: <linux-sound.vger.kernel.org>
 References: <CAHhAz+i=3NDuxK2rZZY6N18=OTbkna3VMVpx4nNgF0vyq3JmQA@mail.gmail.com>
  <324112.1632501120@turing-police>
  <CAHhAz+jNCd=cw-bohcoiAA2UhNZYSFLX07qEV-T2p+KAsVHhAQ@mail.gmail.com>
- <CAJfuBxxAEXnPxY-nx4JEe+fzH7J+nLYzD9zLCSzgjViBHsQbPA@mail.gmail.com>
- <CAHhAz+i48QEecqQ16u2s_Y_iw6V6dJzTDzEJO+w-eTYs6rYB7Q@mail.gmail.com>
-In-Reply-To: <CAHhAz+i48QEecqQ16u2s_Y_iw6V6dJzTDzEJO+w-eTYs6rYB7Q@mail.gmail.com>
+In-Reply-To: <CAHhAz+jNCd=cw-bohcoiAA2UhNZYSFLX07qEV-T2p+KAsVHhAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="windows-1254"
+Content-Transfer-Encoding: base64
 To: Muni Sekhar <munisekharrms@gmail.com>
-Cc: alsa-devel <alsa-devel@alsa-project.org>, =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
+Cc: alsa-devel <alsa-devel@alsa-project.org>, Valdis =?utf-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
 
-On Fri, Sep 24, 2021 at 11:53 AM Muni Sekhar <munisekharrms@gmail.com> wrot=
-e:
->
-> On Fri, Sep 24, 2021 at 10:46 PM <jim.cromie@gmail.com> wrote:
-> >
-> > On Fri, Sep 24, 2021 at 10:58 AM Muni Sekhar <munisekharrms@gmail.com> =
-wrote:
-> > >
-> > > On Fri, Sep 24, 2021 at 10:02 PM Valdis Kl=C4=93tnieks
-> > > <valdis.kletnieks@vt.edu> wrote:
-> > > >
-> > > > On Fri, 24 Sep 2021 19:34:59 +0530, Muni Sekhar said:
-> > > > > What small projects would you suggest to a novice with the ALSA
-> > > > > kernel. The aim is to develop a familiarity with the ALSA kernel
-> > > > > source code, and also to submit it for academic purposes.
-> > > >
-> > > > A good place to start is getting a good handle on what the phrase "=
-the ALSA
-> > > > kernel" even means.
-> > > Basically looking for kernel space audio subsystem projects rather
-> > > than its user-space library(alsa-lib) and utilities(alsa-utils).
-> >
-> > why ?
-> > if your interest is better sound, then improving user-space is going
-> > to be more productive.
-> >
-> > also, theres now pipewire, which is new, and all the buzz.
-> > its apparently the future of linux audio
-> Sounds interesting. Could you please give few more pointers on how to
-> start on pipewire project.
-> >
-
-https://pipewire.org/
-
-you know everything I do now
+T24gRnJpLCBTZXAgMjQsIDIwMjEgYXQgMTA6Mjg6MDFQTSArMDUzMCwgTXVuaSBTZWtoYXIgd3Jv
+dGU6Cj4gT24gRnJpLCBTZXAgMjQsIDIwMjEgYXQgMTA6MDIgUE0gVmFsZGlzIEtsxJN0bmlla3MK
+PiA8dmFsZGlzLmtsZXRuaWVrc0B2dC5lZHU+IHdyb3RlOgo+ID4KPiA+IE9uIEZyaSwgMjQgU2Vw
+IDIwMjEgMTk6MzQ6NTkgKzA1MzAsIE11bmkgU2VraGFyIHNhaWQ6Cj4gPiA+IFdoYXQgc21hbGwg
+cHJvamVjdHMgd291bGQgeW91IHN1Z2dlc3QgdG8gYSBub3ZpY2Ugd2l0aCB0aGUgQUxTQQo+ID4g
+PiBrZXJuZWwuIFRoZSBhaW0gaXMgdG8gZGV2ZWxvcCBhIGZhbWlsaWFyaXR5IHdpdGggdGhlIEFM
+U0Ega2VybmVsCj4gPiA+IHNvdXJjZSBjb2RlLCBhbmQgYWxzbyB0byBzdWJtaXQgaXQgZm9yIGFj
+YWRlbWljIHB1cnBvc2VzLgo+ID4KPiA+IEEgZ29vZCBwbGFjZSB0byBzdGFydCBpcyBnZXR0aW5n
+IGEgZ29vZCBoYW5kbGUgb24gd2hhdCB0aGUgcGhyYXNlICJ0aGUgQUxTQQo+ID4ga2VybmVsIiBl
+dmVuIG1lYW5zLgo+IEJhc2ljYWxseSBsb29raW5nIGZvciBrZXJuZWwgc3BhY2UgYXVkaW8gc3Vi
+c3lzdGVtIHByb2plY3RzIHJhdGhlcgo+IHRoYW4gaXRzIHVzZXItc3BhY2UgbGlicmFyeShhbHNh
+LWxpYikgYW5kIHV0aWxpdGllcyhhbHNhLXV0aWxzKS4KPiA+CgpIaSBNdW5pIFNla2hhciwKCkkn
+bSBub3QgYW4gYWNhZGVtaWNpc3QgYnkgZmFyIGJ1dCBpZiB5b3Ugd2FudCB5b3VyIHBhdGNoZXMg
+dG8gYmUgYWNhZGVtaWMsCkkgdGhpbmsgaXQncyBtb3JlIG9mIGEgcXVlc3Rpb24gb2Ygc2NpZW50
+aWZpYyByaWdvdXIgYW5kIHNjaWVudGlmaWMKbWV0aG9kLCBzdWNoIHRoYXQgd2hlbiB0aGUgcGF0
+Y2goc2V0KSBpcyBmaW5hbGx5IGFjY2VwdGVkIGJ5IHRoZSBMaW51eApjb21tdW5pdHkgYW5kIExp
+bnVzIFRvcnZhbGRzIHVsdGltYXRlbHksIHlvdSBjYW4gd3JpdGUgYSBwYXBlciBhYm91dAppdC4K
+Ck9idmlvdXNseSB0aGVyZSBhcmUgYSBsb3Qgb2YgdGhpbmdzIGFuIGFjYWRlbWljaXN0IGNvdWxk
+IGJyaW5nIGZyb20gaGlzCmJhY2tncm91bmQgdG8gaW1wcm92ZSB0aGUgTGludXgga2VybmVsLCBm
+cm9tIHRoZSBzdGFuZHBvaW50IG9mIHNlY3VyaXR5LApjb2RlIGNvcnJlY3RuZXNzLCBzcGVlZCAo
+ZWZmaWNhY3kpLCBldGMuCgpNeSBzdWdnZXN0aW9uIGlzIHRvIGFzayBUYWthc2hpIEl3YWkgaWYg
+aGUgaGFzIGluIG1pbmQgYW55IGZ1biBwcm9qZWN0IGEKbm92aWNlIGFjYWRlbWljaXN0IGNvdWxk
+IHRyeSB0byBkbyB3aXRoIEFMU0EuIEhlJ3MgdGhlIG1haW50YWluZXIgb2YKQUxTQSBrZXJuZWwt
+c2lkZSBhbmQgaGFzIGEgYmFja2dyb3VuZCBpbiBhY2FkZW1pYS4gSGUgY291bGQgdmVyeSB3ZWxs
+IGJlCnRoZSBwZXJzb24gbW9zdCBhYmxlIHRvIGdpdmUgdGhlIGFkdmljZSB5b3UgYXNrIGZvci4K
+ClRoYW5rcywKR2VyYWxkbyBOYXNjaW1lbnRvCgoKPiA+IFRoZXJlJ3MgdGhlIExpbnV4IGtlcm5l
+bCwgYSBzbWFsbCBjb3JuZXIgb2Ygd2hpY2ggaXMgdGhlIEFMU0Egc3Vic3lzdGVtIGZvcgo+ID4g
+c291bmQuCj4gPgo+IAo+IAo+IC0tIAo+IFRoYW5rcywKPiBTZWtoYXI=
