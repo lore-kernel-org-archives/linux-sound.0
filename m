@@ -1,109 +1,47 @@
-From: Ruben Safir <ruben@mrbrklyn.com>
-Date: Thu, 30 Sep 2021 03:01:33 +0000
+From: "Valdis Kl=?utf-8?Q?=c4=93?=tnieks" <valdis.kletnieks@vt.edu>
+Date: Thu, 30 Sep 2021 16:31:28 +0000
 Subject: Re: ALSA kernel projects - for academic purposes
-Message-Id: <20210930030132.GA24271@www2.mrbrklyn.com>
+Message-Id: <70857.1633019488@turing-police>
+MIME-Version: 1
+Content-Type: multipart/mixed; boundary="==_Exmh_1633019487_58057P"
 List-Id: <linux-sound.vger.kernel.org>
 References: <CAHhAz+i=3NDuxK2rZZY6N18=OTbkna3VMVpx4nNgF0vyq3JmQA@mail.gmail.com>
- <CAFSeFg8UJtt1mUSE+ue8kjh5y=yR68g4SuwAcDrRGNXHHMsi=Q@mail.gmail.com>
-In-Reply-To: <CAFSeFg8UJtt1mUSE+ue8kjh5y=yR68g4SuwAcDrRGNXHHMsi=Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: Aruna Hewapathirane <aruna.hewapathirane@gmail.com>
-Cc: Muni Sekhar <munisekharrms@gmail.com>, alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org, kernelnewbies <kernelnewbies@kernelnewbies.org>
+ <324112.1632501120@turing-police>
+ <CAHhAz+jNCd=cw-bohcoiAA2UhNZYSFLX07qEV-T2p+KAsVHhAQ@mail.gmail.com>
+ <YU5QgPwYDB2XnaVP@geday> <20210929150715.GC15841@www2.mrbrklyn.com>
+In-Reply-To: <20210929150715.GC15841@www2.mrbrklyn.com>
+To: Ruben Safir <ruben@mrbrklyn.com>
+Cc: Muni Sekhar <munisekharrms@gmail.com>, alsa-devel <alsa-devel@alsa-project.org>, kernelnewbies <kernelnewbies@kernelnewbies.org>, linux-sound@vger.kernel.org, Geraldo Nascimento <geraldogabriel@gmail.com>
 
-Bingo 
+--==_Exmh_1633019487_58057P
+Content-Type: text/plain; charset=us-ascii
 
+On Wed, 29 Sep 2021 11:07:15 -0400, Ruben Safir said:
+> > such that when the patch(set) is finally accepted by the Linux
+> > community and Linus Torvalds ultimately, you can write a paper about
+> > it.
+> They are not writing a paper for Linus.  They are writing it for their
+> dean or mentor.
 
-Correct Answer
-
-
-On Wed, Sep 29, 2021 at 10:11:33PM -0400, Aruna Hewapathirane wrote:
-> On Fri, Sep 24, 2021 at 10:05 AM Muni Sekhar <munisekharrms@gmail.com>
-> wrote:
-> 
-> > Hi all,
-> >
-> >
-> > What small projects would you suggest to a novice with the ALSA
-> > kernel. The aim is to develop a familiarity with the ALSA kernel
-> > source code, and also to submit it for academic purposes.
-> >
-> >
-> > --
-> > Thanks,
-> > Sekhar
-> >
-> 
-> 
-> 1. Read the documentation for the Linux Sound Subsystem :
-> https://www.kernel.org/doc/html/latest/sound/index.html
-> 2. Then try to understand the the ALSA Driver API
-> 3. In your kernel source tree under the sound folder/directory you will
-> find lot's of useful source code.
-> 
-> If you open the /sound/x86/intel_hdmi_audio.h file at the very top you will
-> see what is below:
-> 
-> // SPDX-License-Identifier: GPL-2.0-only
-> /*
->  *   intel_hdmi_audio.c - Intel HDMI audio driver
->  *
->  *  Copyright (C) 2016 Intel Corp
->  *  Authors: Sailaja Bandarupalli <sailaja.bandarupalli@intel.com>
->  * Ramesh Babu K V <ramesh.babu@intel.com>
->  * Vaibhav Agarwal <vaibhav.agarwal@intel.com>
->  * Jerome Anand <jerome.anand@intel.com>
->  *
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  *
->  *
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  * ALSA driver for Intel HDMI audio
->  */
-> 
-> All the authors you will notice are from intel and seem to be all south
-> asian :-))) pure coincidence ? I somehow
-> do not think so.
-> 
-> Muni in my experience what I have learnt  over the years is there will be
-> times when you ask a question and
-> you will get very negative or straight-up demoralising and demotivating
-> toxic remarks and comments. My advice
-> to you is this:
-> 
-> Have a deaf ear to the obstacles and negative comments, rather use them as
-> motivation to achieve your goals.
-> 
-> *Lesson to take away:*
-> 
->    1. Alas! We can’t have a deaf ear to the negative comments that we
->    receive so abundantly from people all around us.
->    I mean even those who don’t usually give advice, would try to stop you
->    from doing something you so eagerly wanted to do,
->    even when they themselves don’t know anything about it. But we can,
->    however, avoid them or use them as a motivation
->    to prove them wrong. Yep, use their words to prove them wrong!
-> 
-> Good luck - Aruna
-
-> _______________________________________________
-> Kernelnewbies mailing list
-> Kernelnewbies@kernelnewbies.org
-> https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies
+On the flip side, it's the rare professor who knows enough about the Linux
+kernel to assign reasonable projects.  If we had a dollar for every time that
+we saw a prof assign "hijack a system call" or "read/write a file from inside
+the kernel".....
 
 
--- 
-So many immigrant groups have swept through our town
-that Brooklyn, like Atlantis, reaches mythological
-proportions in the mind of the world - RI Safir 1998
-http://www.mrbrklyn.com 
+--==_Exmh_1633019487_58057P
+Content-Type: application/pgp-signature
 
-DRM is THEFT - We are the STAKEHOLDERS - RI Safir 2002
-http://www.nylxs.com - Leadership Development in Free Software
-http://www2.mrbrklyn.com/resources - Unpublished Archive 
-http://www.coinhangout.com - coins!
-http://www.brooklyn-living.com 
+-----BEGIN PGP SIGNATURE-----
+Comment: Exmh version 2.9.0 11/07/2018
 
-Being so tracked is for FARM ANIMALS and extermination camps, 
-but incompatible with living as a free human being. -RI Safir 2013
+iQEcBAEBCAAGBQJhVeZfAAoJEI0DS38y7CIcYYoH/j+cBQNkbznXtqA6gQyVAT/m
+qJEGEBAbladPpnMq+fYNZ0cOOoF81uzBr1iMVc6SPfiZi/GO7EYPi9/MjCWUhXlv
+uzLpmRI0E2MFC5HWlKXNBU3KebQuu5W3RrAtGZlwZflRK04rJmd94OwHpSTi8IUN
+jJOYdOLxg4+hOdeqBiU67nLakfV6ru5vlBjquYDU3WyGbnyhfXRzHk5z+v/cdYsk
+1UIg42UEdvosNyu/5RcHZo9InXJWWBNuK/N/v3WEEduuzGw1PGV9LID9xlJEXBiZ
+VLxCHNwRpu46SDoN42T8nIaiHaQEcmS2JNUqHLpwTIj6Q3BSgrNfRf3R+WBQ9k0=
+=0ynd
+-----END PGP SIGNATURE-----
+
+--==_Exmh_1633019487_58057P--
