@@ -1,30 +1,21 @@
-From: Elijah Harding <eharding830@gmail.com>
-Date: Fri, 18 Mar 2022 01:52:01 +0000
-Subject: [PATCH] sound: core: Fix typo in 'PCM Timer Interface' help
-Message-Id: <20220318015201.30871-1-eharding830@gmail.com>
+From: Takashi Iwai <tiwai@suse.de>
+Date: Fri, 18 Mar 2022 08:19:54 +0000
+Subject: Re: [PATCH] sound: core: Fix typo in 'PCM Timer Interface' help
+Message-Id: <s5hczij4qqd.wl-tiwai@suse.de>
 List-Id: <linux-sound.vger.kernel.org>
+References: <20220318015201.30871-1-eharding830@gmail.com>
+In-Reply-To: <20220318015201.30871-1-eharding830@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: linux-sound@vger.kernel.org
 
-Signed-off-by: Elijah Harding <eharding830@gmail.com>
----
- sound/core/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 18 Mar 2022 02:52:01 +0100,
+Elijah Harding wrote:
+> 
+> Signed-off-by: Elijah Harding <eharding830@gmail.com>
 
-diff --git a/sound/core/Kconfig b/sound/core/Kconfig
-index db2e3c63ff41..dd7b40734723 100644
---- a/sound/core/Kconfig
-+++ b/sound/core/Kconfig
-@@ -84,7 +84,7 @@ config SND_PCM_TIMER
- 	help
- 	  If you disable this option, pcm timer will be unavailable, so
- 	  those stubs that use pcm timer (e.g. dmix, dsnoop & co) may work
--	  incorrectlly.
-+	  incorrectly.
- 
- 	  For some embedded devices, we may disable it to reduce memory
- 	  footprint, about 20KB on x86_64 platform.
--- 
-2.34.0
+Thanks, applied.
+
+
+Takashi
