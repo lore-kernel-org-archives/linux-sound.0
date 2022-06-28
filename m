@@ -1,47 +1,52 @@
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 27 Jun 2022 16:52:13 +0000
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Date: Tue, 28 Jun 2022 22:47:34 +0000
 Subject: Re: Sound not working after commit bbf7d3b1c4f40eb02dd1dffb500ba00b0bff0303 on Amlogic A311D device
-Message-Id: <YrngPdWIqxlRm4mf@sirena.org.uk>
-MIME-Version: 1
-Content-Type: multipart/mixed; boundary="iCWEXegB00IRjxh9"
+Message-Id: <18d3e724-e43f-c166-e322-26cc5e3890b7@linux.intel.com>
 List-Id: <linux-sound.vger.kernel.org>
 References: <CADs9LoPZH_D+eJ9qjTxSLE5jGyhKsjMN7g2NighZ16biVxsyKw@mail.gmail.com>
  <15259e38-eccf-d294-a330-a48b5bbbdedf@linux.intel.com>
-In-Reply-To: <15259e38-eccf-d294-a330-a48b5bbbdedf@linux.intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>, Alex Natalsson <harmoniesworlds@gmail.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Takashi Iwai <tiwai@suse.de>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, linux-sound@vger.kernel.org, Bard Liao <yung-chuan.liao@linux.intel.com>
+ <CADs9LoN-L0X1Dr1sP2K7xrcWm7dpHW6MhF47c2eBB0moLNnPRQ@mail.gmail.com>
+In-Reply-To: <CADs9LoN-L0X1Dr1sP2K7xrcWm7dpHW6MhF47c2eBB0moLNnPRQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Alex Natalsson <harmoniesworlds@gmail.com>
+Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Takashi Iwai <tiwai@suse.de>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>
 
 
---iCWEXegB00IRjxh9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, Jun 27, 2022 at 10:12:37AM -0500, Pierre-Louis Bossart wrote:
-> On 6/26/22 04:29, Alex Natalsson wrote:
-> > Hello friends.
+On 6/28/22 17:10, Alex Natalsson wrote:
+>> Any chance you could try with an updated kernel? It's not clear to me if
+>> this is a real issue or just a warning that's been fixed since by commit.
+> 
+> I luanching 5.19-rc2 and finding this problem. Then I used git bisect
+> and found this commit, which broke my audio system. I don't know maybe
+> I have wrong settings, but for me this real problem because sound not
+> working....
+> 
+>> You may also want to open a bugzilla issue
+> Yes, I can. If problem not in my config settings.
 
-> > The log after alsamixer launch:
-> > [  103.786358] Internal error: Oops: 96000004 [#1] SMP
-> > [  103.786509] Modules linked in: snd_seq_dummy snd_hrtimer snd_seq
+It's great that you've been able to bisect.
 
-> Any chance you could try with an updated kernel? It's not clear to me if
-> this is a real issue or just a warning that's been fixed since by commit.
+What's surprising is that you have a long list of errors reported before
+the kernel oops, e.g.
 
-That's an oops, and the userspace applications are hanging...
+[  243.188688]  fe.dai-link-1: ASoC: no backend DAIs enabled for
+fe.dai-link-1
 
---iCWEXegB00IRjxh9
-Content-Type: application/pgp-signature; name="signature.asc"
+[  243.188702]  fe.dai-link-1: ASoC: dpcm_fe_dai_prepare() failed (-22)
 
------BEGIN PGP SIGNATURE-----
+[  243.188919]  fe.dai-link-1: ASoC: no backend DAIs enabled for
+fe.dai-link-1
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmK54D0ACgkQJNaLcl1U
-h9AgTAf9F9YhMFMh9cpDNSKY0sdfPXft9AwZSujKrtwHe+eu7BPuyXlJkTO4iE2t
-2Ons/0jrkx15WElROLZac5ulsKE4iYORATeNhiFUCrmE7giG/GMPCRKOVhYDoP+F
-O/0rKksU/Gu3zyEEMROTh+vJbcFEq43RDXq2DDHLIrQgSdudNwiaaRP6jy0V2bRy
-OCArvQWe/8doB22q27JgwQ9tDEB25MFzd1tJ5AVZjWzZcMFiRN3foRpMhNejgF0W
-GvI6KjvZ4eBu1H9YEbn7doyZKNKwApOjqWmXO2Rm8bRrcnnNfEbEdjgEzunFBOoF
-NZVhl8uYkT3BFv7zAy7nl73RvtPy4g==
-=ER5V
------END PGP SIGNATURE-----
+[  243.188922]  fe.dai-link-1: ASoC: dpcm_fe_dai_prepare() failed (-22)
 
---iCWEXegB00IRjxh9--
+Did those appear with this commit? That's usually a sign of missing
+mixer settings to connect FE and BE, not sure how this would appear
+because of change in the locking.
+
+It would also help if you could add dev_err logs in dpcm_be_connect() to
+see in which code section the oops occurs. In theory we have all kinds
+of checks before calling dpcm_be_connect() but we've obviously missing
+something.
