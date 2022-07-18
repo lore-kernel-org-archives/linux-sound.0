@@ -1,28 +1,73 @@
-From: Alex Natalsson <harmoniesworlds@gmail.com>
-Date: Tue, 12 Jul 2022 13:05:31 +0000
-Subject: Re: Sound not working after commit bbf7d3b1c4f40eb02dd1dffb500ba00b0bff0303 on Amlogic A311D device
-Message-Id: <CADs9LoOOLYXm=dmGswrAcSoQ0NaRXz1ify=H=vq+Onh8v+hizg@mail.gmail.com>
+From: Patricio Moreno <pm.pato@gmail.com>
+Date: Mon, 18 Jul 2022 11:51:54 +0000
+Subject: Usage of ads117x driver
+Message-Id: <7d341a03-976a-32c6-8ba1-87b169408bfa@gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CADs9LoPZH_D+eJ9qjTxSLE5jGyhKsjMN7g2NighZ16biVxsyKw@mail.gmail.com>
- <15259e38-eccf-d294-a330-a48b5bbbdedf@linux.intel.com>
- <CADs9LoN-L0X1Dr1sP2K7xrcWm7dpHW6MhF47c2eBB0moLNnPRQ@mail.gmail.com>
- <18d3e724-e43f-c166-e322-26cc5e3890b7@linux.intel.com>
- <CADs9LoOZjK=cUuNSEELtgxYoA+yHVFKM_Y9YLcY74smqx8XsjQ@mail.gmail.com>
- <c554b69c-0c73-158d-85d8-95a0375babeb@linux.intel.com>
- <CADs9LoOOOXVC0p8R=b1y+Kfb1+ESEyMaVe9eoW=F5gdp0_GitQ@mail.gmail.com>
- <c4d32547-5f99-595e-21d3-fdb22a1af237@linux.intel.com>
- <CADs9LoNMuwbiSfgF1buDoY6=ecpR-BuZvTgXbFxe3qyL1=roUQ@mail.gmail.com>
- <CADs9LoOJu-NYxPhDL+N+xBtocPNw2y0nRHbSaO-NmGO284GPfA@mail.gmail.com>
- <b3e3d969-606f-dede-0319-7b8ed2a975f7@linux.intel.com>
- <87fsj6r84u.wl-tiwai@suse.de>
-In-Reply-To: <87fsj6r84u.wl-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Takashi Iwai <tiwai@suse.de>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, linux-sound@vger.kernel.org, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Mark Brown <broonie@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org
 
-> +               if (!snd_soc_dpcm_get_substream(be, stream))
-> +                       continue;
-> +
-And this good works for me too and kernel not oopsing)
+Hello everyone.
+
+I'm trying to use the ads117x driver (sound/soc/codecs/ads117x.c) but I 
+can't get any output on the I2S of the board I'm using  (a verdin imx8mm 
+module mounted on a Toradex Verdin Development Board).
+
+The ads117x is an ADC driver with a FRAME/SYNC interface, it's not a 
+sound card. Now I'm doubting if I've understood correctly the I2S 
+interface. I'm testing without connecting the ADC to the board, as I 
+understand the I2S master should generate the BCLK and SYNC signals even 
+if the adc is not connected (and these are what I'm trying to see with a 
+logic analyzer).
+
+I'm setting the following on the dts:
+
+         adc: adc {
+                 compatible = "simple-audio-card";
+                 simple-audio-card,name = "ti-ads117x";
+                 bitclock-master = <&ads117x_codec>;
+                 frame-master = <&ads117x_codec>;
+                 simple-audio-card,routing                          "Input1", "Capture",
+                         "Input2", "Capture",
+                         "Input3", "Capture",
+                         "Input4", "Capture",
+                         "Input5", "Capture",
+                         "Input6", "Capture",
+                         "Input7", "Capture",
+                         "Input8", "Capture";
+
+                 simple-audio-card,dai-link {
+                         format = "left_j";
+                         bitclock-master = <&ads117x_codec>;
+                         frame-master = <&ads117x_codec>;
+
+                         cpu {
+                                 sound-dai = <&sai5>;
+                                 dai-tdm-slot-num = <8>;
+                                 dai-tdm-slot-width = <24>;
+                         };
+
+                         ads117x_codec: codec {
+                                 sound-dai = <&ads117x 0>;
+                                 clocks = <&clk IMX8MM_CLK_SAI5_ROOT>;
+                         };
+                 };
+         };
+
+         ads117x: codec-ads117x@0 {
+                 compatible = "ti,ads117x";
+                 #sound-dai-cells = <0>;
+                 status = "okay";
+         };
+
+Could I get some indications if this is the correct path?
+
+Thank you!
+
+PS: the actual ADC is the ads1278, which is a drop-in replacement for 
+the ads1178, but with 24 bit samples instead of 16 bit samples.
+
+PS2: I've tried with the IIO subsystem, using SPI, but at 25 MHz it's 
+impossible not to lose samples (without using some other approach I did 
+not yet try).
