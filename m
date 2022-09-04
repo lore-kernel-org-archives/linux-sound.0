@@ -1,182 +1,199 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Sun, 04 Sep 2022 08:51:49 +0000
-Subject: Re: [BUG] commit a8d302a0b77057568350fe0123e639d02dba0745 cause IO_PAGE_FAULT and a lot of errors
-Message-Id: <875yi3froa.wl-tiwai@suse.de>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Date: Sun, 04 Sep 2022 09:37:35 +0000
+Subject: Re: [BUG] commit a8d302a0b77057568350fe0123e639d02dba0745 cause IO_PAGE_FAULT and a lot of errors #f
+Message-Id: <bd39073c-771b-bbe4-dc44-52d7f7d4be6f@leemhuis.info>
 List-Id: <linux-sound.vger.kernel.org>
 References: <CABXGCsO+kB2t5QyHY-rUe76npr1m0-5JOtt8g8SiHUo34ur7Ww@mail.gmail.com>
-        <87ilm3vbzq.wl-tiwai@suse.de>
-In-Reply-To: <87ilm3vbzq.wl-tiwai@suse.de>
+In-Reply-To: <CABXGCsO+kB2t5QyHY-rUe76npr1m0-5JOtt8g8SiHUo34ur7Ww@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+To: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
 
-On Sun, 04 Sep 2022 09:23:53 +0200,
-Takashi Iwai wrote:
+TWIMC: this mail is primarily send for documentation purposes and for
+regzbot, my Linux kernel regression tracking bot. These mails usually
+contain '#forregzbot' in the subject, to make them easy to spot and filter.
+
+[TLDR: I'm adding this regression report to the list of tracked
+regressions; all text from me you find below is based on a few templates
+paragraphs you might have encountered already already in similar form.]
+
+Hi, this is your Linux kernel regression tracker. CCing the regression
+mailing list, as it should be in the loop for all regressions, as
+explained here:
+https://www.kernel.org/doc/html/latest/admin-guide/reporting-issues.html
+
+On 03.09.22 20:04, Mikhail Gavrilov wrote:
+> Hi, I am bisecting issue that cause errors:
+> [   57.710235] snd_hda_intel 0000:03:00.1: spurious response
+> 0xeb0cce6a:0x8b612b0d, rp = 1, wp = 1
+> [   57.710240] ------------[ cut here ]------------
+> [   57.710241] BUG?
+> [   57.710257] amd_iommu_report_page_fault: 216 callbacks suppressed
+> [   57.710260] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848808 flags=0x0020]
+> [   57.710270] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848800 flags=0x0000]
+> [   57.710276] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848810 flags=0x0020]
+> [   57.710282] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848810 flags=0x0000]
+> [   57.710278] WARNING: CPU: 5 PID: 968 at
+> sound/hda/hdac_controller.c:215
+> snd_hdac_bus_update_rirb.cold+0x24/0x5b [snd_hda_core]
+> [   57.710289] Modules linked in: uinput
+> [   57.710291] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848818 flags=0x0020]
+> [   57.710292]  rfcomm snd_seq_dummy snd_hrtimer nft_objref
+> nf_conntrack_netbios_ns nf_conntrack_broadcast
+> [   57.710296] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848810 flags=0x0000]
+> [   57.710297]  nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
+> nft_reject_inet nf_reject_ipv4
+> [   57.710302] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848820 flags=0x0020]
+> [   57.710301]  nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
+> nf_conntrack
+> [   57.710307] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848820 flags=0x0000]
+> [   57.710306]  nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables
+> nfnetlink qrtr bnep
+> [   57.710312] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848828 flags=0x0020]
+> [   57.710313]  snd_hda_codec_realtek snd_hda_codec_generic
+> snd_hda_codec_hdmi intel_rapl_msr snd_sof_amd_renoir snd_sof_amd_acp
+> [   57.710318] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
+> [IO_PAGE_FAULT domain=0x000e address=0x152848820 flags=0x0000]
+> [   57.710318]  intel_rapl_common mt7921e snd_sof_pci mt7921_common
+> snd_sof sunrpc snd_sof_utils mt76_connac_lib snd_hda_intel
+> snd_intel_dspcfg snd_intel_sdw_acpi snd_soc_core mt76 snd_hda_codec
+> snd_compress ac97_bus edac_mce_amd snd_hda_core snd_pcm_dmaengine
+> btusb snd_pci_acp6x binfmt_misc snd_hwdep kvm_amd btrtl mac80211 btbcm
+> snd_seq vfat btintel libarc4 snd_seq_device btmtk kvm fat bluetooth
+> snd_pcm irqbypass snd_pci_acp5x cfg80211 rapl snd_timer
+> snd_rn_pci_acp3x snd_acp_config joydev snd pcspkr snd_soc_acpi
+> wmi_bmof asus_nb_wmi soundcore snd_pci_acp3x k10temp i2c_piix4
+> asus_wireless amd_pmc zram amdgpu drm_ttm_helper ttm iommu_v2 hid_asus
+> gpu_sched asus_wmi ledtrig_audio drm_buddy drm_display_helper
+> sparse_keymap crct10dif_pclmul platform_profile ucsi_acpi nvme
+> crc32_pclmul hid_multitouch crc32c_intel ghash_clmulni_intel serio_raw
+> typec_ucsi rfkill ccp nvme_core cec r8169 sp5100_tco typec wmi video
+> i2c_hid_acpi i2c_hid ip6_tables ip_tables fuse
+> [   57.710389] CPU: 5 PID: 968 Comm: systemd-logind Tainted: G
+> W    L     6.0.0-rc2-06-a8d302a0b77057568350fe0123e639d02dba0745+ #65
+> [   57.710392] Hardware name: ASUSTeK COMPUTER INC. ROG Strix
+> G513QY_G513QY/G513QY, BIOS G513QY.318 03/29/2022
+> [   57.710394] RIP: 0010:snd_hdac_bus_update_rirb.cold+0x24/0x5b [snd_hda_core]
+> [   57.710403] Code: f0 e9 10 9f ff ff 48 8b 3b 41 89 e9 44 89 e9 44
+> 89 fa 48 c7 c6 e0 53 c4 c1 e8 38 85 2a f0 48 c7 c7 0e 0c c4 c1 e8 df
+> 0d 26 f0 <0f> 0b 0f b7 83 c0 03 00 00 e9 6a bf ff ff 48 8b 3b 44 89 e9
+> 44 89
+> [   57.710406] RSP: 0000:ffffab4e05f1fe20 EFLAGS: 00010082
+> [   57.710408] RAX: 0000000000000004 RBX: ffff99c7415b9028 RCX: 0000000000000000
+> [   57.710410] RDX: 0000000000010002 RSI: ffffffffb28cf864 RDI: 00000000ffffffff
+> [   57.710412] RBP: 0000000000000001 R08: 0000000000000000 R09: ffffab4e05f1fcd0
+> [   57.710414] R10: 0000000000000003 R11: ffff99d65d2fffe8 R12: ffff99c7415b9540
+> [   57.710415] R13: 000000008b612b0d R14: 0000000000000001 R15: 00000000eb0cce6a
+> [   57.710417] FS:  00007f0fd0b9bbc0(0000) GS:ffff99d617600000(0000)
+> knlGS:0000000000000000
+> [   57.710419] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   57.710421] CR2: 00007f364c00c0f8 CR3: 0000000153686000 CR4: 0000000000750ee0
+> [   57.710423] PKRU: 55555554
+> [   57.710425] Call Trace:
+> [   57.710427]  <TASK>
+> [   57.710431]  azx_interrupt+0x83/0x110 [snd_hda_codec]
+> [   57.710443]  __handle_irq_event_percpu+0x93/0x330
+> [   57.710449]  handle_irq_event+0x34/0x70
+> [   57.710452]  handle_fasteoi_irq+0x90/0x1e0
+> [   57.710455]  __common_interrupt+0x71/0x150
+> [   57.710460]  common_interrupt+0x5c/0xd0
+> [   57.710465]  asm_common_interrupt+0x22/0x40
+> [   57.710469] RIP: 0033:0x7f0fd17c56e4
+> [   57.710471] Code: 00 0f 1f 44 00 00 f3 0f 1e fa f2 ff 25 15 61 2d
+> 00 0f 1f 44 00 00 f3 0f 1e fa f2 ff 25 0d 61 2d 00 0f 1f 44 00 00 f3
+> 0f 1e fa <f2> ff 25 05 61 2d 00 0f 1f 44 00 00 f3 0f 1e fa f2 ff 25 fd
+> 60 2d
+> [   57.710473] RSP: 002b:00007ffdafa5db78 EFLAGS: 00000202
+> [   57.710475] RAX: 0000000000000358 RBX: 0000557736741ed0 RCX: 00007f0fd16473eb
+> [   57.710476] RDX: 0000557736741f0c RSI: 0000557736741ed0 RDI: 0000557736742000
+> [   57.710477] RBP: 00007ffdafa5dba0 R08: 000055773674f3d0 R09: 0000000557736755
+> [   57.710479] R10: 0000000000000000 R11: 0000000000000202 R12: 0000557736734d00
+> [   57.710480] R13: 0000557736734d00 R14: 0000557736734d00 R15: 0000557736733a30
+> [   57.710485]  </TASK>
+> [   57.710487] irq event stamp: 268268
+> [   57.710488] hardirqs last  enabled at (268267):
+> [<ffffffffb1f273b4>] _raw_write_unlock_irq+0x24/0x50
+> [   57.710491] hardirqs last disabled at (268268):
+> [<ffffffffb1f1ddfc>] __schedule+0xe2c/0x16d0
+> [   57.710495] softirqs last  enabled at (267528):
+> [<ffffffffb10fe6a9>] __irq_exit_rcu+0xf9/0x170
+> [   57.710499] softirqs last disabled at (267487):
+> [<ffffffffb10fe6a9>] __irq_exit_rcu+0xf9/0x170
+> [   57.710502] ---[ end trace 0000000000000000 ]---
+> [   57.710514] snd_hdac_bus_update_rirb: 22 callbacks suppressed
+> [   57.710515] snd_hda_intel 0000:03:00.1: spurious response
+> 0x2b0dec20:0xf61a0b81, last cmd=0x000000
+> [   57.710523] snd_hda_intel 0000:03:00.1: spurious response
+> 0x84f2e10f:0xdb14c123, last cmd=0x000000
+> [   57.710525] snd_hda_intel 0000:03:00.1: spurious response
+> 0x1826d07:0x9c2987ff, rp = 5, wp = 9
+> [   57.710527] ------------[ cut here ]------------
 > 
-> On Sat, 03 Sep 2022 20:04:19 +0200,
-> Mikhail Gavrilov wrote:
-> > 
-> > Hi, I am bisecting issue that cause errors:
-> > [   57.710235] snd_hda_intel 0000:03:00.1: spurious response
-> > 0xeb0cce6a:0x8b612b0d, rp = 1, wp = 1
-> > [   57.710240] ------------[ cut here ]------------
-> > [   57.710241] BUG?
-> > [   57.710257] amd_iommu_report_page_fault: 216 callbacks suppressed
-> > [   57.710260] snd_hda_intel 0000:03:00.1: AMD-Vi: Event logged
-> > [IO_PAGE_FAULT domain=0x000e address=0x152848808 flags=0x0020]
+> and bisect said this commit causes it:
+> a8d302a0b77057568350fe0123e639d02dba0745 is the first bad commit
+> commit a8d302a0b77057568350fe0123e639d02dba0745
+> Author: Takashi Iwai <tiwai@suse.de>
+> Date:   Sun Aug 21 17:59:11 2022 +0200
 > 
-> Grr...  again hitting an issue with AMD IOMMU...
+>     ALSA: memalloc: Revive x86-specific WC page allocations again
 > 
-> > and bisect said this commit causes it:
-> > a8d302a0b77057568350fe0123e639d02dba0745 is the first bad commit
-> > commit a8d302a0b77057568350fe0123e639d02dba0745
-> > Author: Takashi Iwai <tiwai@suse.de>
-> > Date:   Sun Aug 21 17:59:11 2022 +0200
-> > 
-> >     ALSA: memalloc: Revive x86-specific WC page allocations again
+>     We dropped the x86-specific hack for WC-page allocations with a hope
+>     that the standard dma_alloc_wc() works nowadays.  Alas, it doesn't,
+>     and we need to take back some workaround again, but in a different
+>     form, as the previous one was broken for some platforms.
 > 
-> OK, could you try the patch below?
-> I wonder whether this is specific to CORB/RIRB mapping or generically
-> about the transfer buffers.
+>     This patch re-introduces the x86-specific WC-page allocations, but it
+>     uses rather the manual page allocations instead of
+>     dma_alloc_coherent().  The use of dma_alloc_coherent() was also a
+>     potential problem in the recent addition of the fallback allocation
+>     for noncontig pages, and this patch eliminates both at once.
+> 
+>     Fixes: 9882d63bea14 ("ALSA: memalloc: Drop x86-specific hack for
+> WC allocations")
+>     Cc: <stable@vger.kernel.org>
+>     BugLink: https://bugzilla.kernel.org/show_bug.cgi?id!6363
+>     Link: https://lore.kernel.org/r/20220821155911.10715-1-tiwai@suse.de
+>     Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> 
+>  sound/core/memalloc.c | 87 +++++++++++++++++++++++++++++++++++++++++----------
+>  1 file changed, 71 insertions(+), 16 deletions(-)
+> 
+> Full kernel log is here: https://pastebin.com/RMtNAYPe
+> 
+Thanks for the report. To be sure below issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, my Linux kernel regression
+tracking bot:
 
-Also, please check the patch below instead of the previous one, too.
-If this one works, it'd be a better choice.
+#regzbot ^introduced a8d302a0b770
+#regzbot title snd: IO_PAGE_FAULT and a lot of errors since a8d302a0b770
+#regzbot ignore-activity
 
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply -- ideally with also
+telling regzbot about it, as explained here:
+https://linux-regtracking.leemhuis.info/tracked-regression/
 
-Takashi
+Reminder for developers: When fixing the issue, add 'Link:' tags
+pointing to the report (the mail this one replies to), as explained for
+in the Linux kernel's documentation; above webpage explains why this is
+important for tracked regressions.
 
----
-diff --git a/sound/hda/hdac_controller.c b/sound/hda/hdac_controller.c
-index 9a60bfdb39ba..f00a4819676b 100644
---- a/sound/hda/hdac_controller.c
-+++ b/sound/hda/hdac_controller.c
-@@ -46,7 +46,7 @@ void snd_hdac_bus_init_cmd_io(struct hdac_bus *bus)
- 
- 	spin_lock_irq(&bus->reg_lock);
- 	/* CORB set up */
--	bus->corb.addr = bus->rb.addr;
-+	bus->corb.addr = snd_sgbuf_get_addr(&bus->rb, 0);
- 	bus->corb.buf = (__le32 *)bus->rb.area;
- 	snd_hdac_chip_writel(bus, CORBLBASE, (u32)bus->corb.addr);
- 	snd_hdac_chip_writel(bus, CORBUBASE, upper_32_bits(bus->corb.addr));
-@@ -65,7 +65,7 @@ void snd_hdac_bus_init_cmd_io(struct hdac_bus *bus)
- 	snd_hdac_chip_writeb(bus, CORBCTL, AZX_CORBCTL_RUN);
- 
- 	/* RIRB set up */
--	bus->rirb.addr = bus->rb.addr + 2048;
-+	bus->rirb.addr = snd_sgbuf_get_addr(&bus->rb, 2048);
- 	bus->rirb.buf = (__le32 *)(bus->rb.area + 2048);
- 	bus->rirb.wp = bus->rirb.rp = 0;
- 	memset(bus->rirb.cmds, 0, sizeof(bus->rirb.cmds));
-@@ -504,6 +504,8 @@ static void azx_int_clear(struct hdac_bus *bus)
-  */
- bool snd_hdac_bus_init_chip(struct hdac_bus *bus, bool full_reset)
- {
-+	dma_addr_t addr;
-+
- 	if (bus->chip_init)
- 		return false;
- 
-@@ -520,9 +522,10 @@ bool snd_hdac_bus_init_chip(struct hdac_bus *bus, bool full_reset)
- 	azx_int_enable(bus);
- 
- 	/* program the position buffer */
--	if (bus->use_posbuf && bus->posbuf.addr) {
--		snd_hdac_chip_writel(bus, DPLBASE, (u32)bus->posbuf.addr);
--		snd_hdac_chip_writel(bus, DPUBASE, upper_32_bits(bus->posbuf.addr));
-+	addr = snd_sgbuf_get_addr(&bus->posbuf, 0);
-+	if (bus->use_posbuf && addr) {
-+		snd_hdac_chip_writel(bus, DPLBASE, (u32)addr);
-+		snd_hdac_chip_writel(bus, DPUBASE, upper_32_bits(addr));
- 	}
- 
- 	bus->chip_init = true;
-@@ -548,7 +551,7 @@ void snd_hdac_bus_stop_chip(struct hdac_bus *bus)
- 	snd_hdac_bus_stop_cmd_io(bus);
- 
- 	/* disable position buffer */
--	if (bus->posbuf.addr) {
-+	if (snd_sgbuf_get_addr(&bus->posbuf, 0)) {
- 		snd_hdac_chip_writel(bus, DPLBASE, 0);
- 		snd_hdac_chip_writel(bus, DPUBASE, 0);
- 	}
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index f3582012d22f..f64dfa08ba87 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -212,6 +212,7 @@ int snd_hdac_stream_setup(struct hdac_stream *azx_dev)
- {
- 	struct hdac_bus *bus = azx_dev->bus;
- 	struct snd_pcm_runtime *runtime;
-+	dma_addr_t addr;
- 	unsigned int val;
- 
- 	if (azx_dev->substream)
-@@ -239,17 +240,18 @@ int snd_hdac_stream_setup(struct hdac_stream *azx_dev)
- 	snd_hdac_stream_writew(azx_dev, SD_LVI, azx_dev->frags - 1);
- 
- 	/* program the BDL address */
-+	addr = snd_sgbuf_get_addr(&azx_dev->bdl, 0);
- 	/* lower BDL address */
--	snd_hdac_stream_writel(azx_dev, SD_BDLPL, (u32)azx_dev->bdl.addr);
-+	snd_hdac_stream_writel(azx_dev, SD_BDLPL, (u32)addr);
- 	/* upper BDL address */
--	snd_hdac_stream_writel(azx_dev, SD_BDLPU,
--			       upper_32_bits(azx_dev->bdl.addr));
-+	snd_hdac_stream_writel(azx_dev, SD_BDLPU, upper_32_bits(addr));
- 
- 	/* enable the position buffer */
--	if (bus->use_posbuf && bus->posbuf.addr) {
-+	addr = snd_sgbuf_get_addr(&bus->posbuf, 0);
-+	if (bus->use_posbuf && addr) {
- 		if (!(snd_hdac_chip_readl(bus, DPLBASE) & AZX_DPLBASE_ENABLE))
- 			snd_hdac_chip_writel(bus, DPLBASE,
--				(u32)bus->posbuf.addr | AZX_DPLBASE_ENABLE);
-+					     (u32)addr | AZX_DPLBASE_ENABLE);
- 	}
- 
- 	/* set the interrupt enable bits in the descriptor control register */
-diff --git a/sound/pci/hda/hda_controller.h b/sound/pci/hda/hda_controller.h
-index f5bf295eb830..94568d0ab492 100644
---- a/sound/pci/hda/hda_controller.h
-+++ b/sound/pci/hda/hda_controller.h
-@@ -28,7 +28,7 @@
- #else
- #define AZX_DCAPS_I915_COMPONENT 0		/* NOP */
- #endif
--/* 14 unused */
-+#define AZX_DCAPS_AMD_IOMMU_WORKAROUND (1 << 14) /* workaround for AMD IOMMU page allocations */
- #define AZX_DCAPS_CTX_WORKAROUND (1 << 15)	/* X-Fi workaround */
- #define AZX_DCAPS_POSFIX_LPIB	(1 << 16)	/* Use LPIB as default */
- #define AZX_DCAPS_AMD_WORKAROUND (1 << 17)	/* AMD-specific workaround */
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index a77165bd92a9..36408430b7fb 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -302,7 +302,8 @@ enum {
- 
- /* quirks for ATI HDMI with snoop off */
- #define AZX_DCAPS_PRESET_ATI_HDMI_NS \
--	(AZX_DCAPS_PRESET_ATI_HDMI | AZX_DCAPS_SNOOP_OFF)
-+	(AZX_DCAPS_PRESET_ATI_HDMI | AZX_DCAPS_SNOOP_OFF |\
-+	 AZX_DCAPS_AMD_IOMMU_WORKAROUND)
- 
- /* quirks for AMD SB */
- #define AZX_DCAPS_PRESET_AMD_SB \
-@@ -1816,8 +1817,12 @@ static int azx_create(struct snd_card *card, struct pci_dev *pci,
- 		return err;
- 
- 	/* use the non-cached pages in non-snoop mode */
--	if (!azx_snoop(chip))
--		azx_bus(chip)->dma_type = SNDRV_DMA_TYPE_DEV_WC;
-+	if (!azx_snoop(chip)) {
-+		if (chip->driver_caps & AZX_DCAPS_AMD_IOMMU_WORKAROUND)
-+			azx_bus(chip)->dma_type = SNDRV_DMA_TYPE_DEV_WC_SG;
-+		else
-+			azx_bus(chip)->dma_type = SNDRV_DMA_TYPE_DEV_WC;
-+	}
- 
- 	if (chip->driver_type = AZX_DRIVER_NVIDIA) {
- 		dev_dbg(chip->card->dev, "Enable delay in RIRB handling\n");
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
