@@ -1,36 +1,25 @@
-From: Takashi Iwai <tiwai@suse.de>
-Date: Tue, 06 Sep 2022 08:42:20 +0000
-Subject: Re: [BUG] commit a8d302a0b77057568350fe0123e639d02dba0745 cause IO_PAGE_FAULT and a lot of errors
-Message-Id: <87tu5khp1v.wl-tiwai@suse.de>
+From: calebharp2005@gmail.com
+Date: Thu, 10 Nov 2022 21:10:09 +0000
+Subject: [PATCH 0/1] sound: support HP Pavilion Aero 13-be0xxx Mute LED
+Message-Id: <20221110211010.11128-1-calebharp2005@gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CABXGCsO+kB2t5QyHY-rUe76npr1m0-5JOtt8g8SiHUo34ur7Ww@mail.gmail.com>
-        <87ilm3vbzq.wl-tiwai@suse.de>
-        <875yi3froa.wl-tiwai@suse.de>
-        <CABXGCsMQ5H23np6fMN=58CZ6cBiHFF4WGdKdbtYLFyAAeAu5rQ@mail.gmail.com>
-        <874jxml7a4.wl-tiwai@suse.de>
-        <87o7vuj8ao.wl-tiwai@suse.de>
-        <CABXGCsNBzjRB4G-fRbnOOPcmsX4EcibCMtE5UTs0iiq7T_Nedg@mail.gmail.com>
-In-Reply-To: <CABXGCsNBzjRB4G-fRbnOOPcmsX4EcibCMtE5UTs0iiq7T_Nedg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>, Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
-On Tue, 06 Sep 2022 10:13:48 +0200,
-Mikhail Gavrilov wrote:
-> 
-> On Mon, Sep 5, 2022 at 5:49 PM Takashi Iwai <tiwai@suse.de> wrote:
-> >
-> > Even a simpler one below with a proper changelog.
-> >
-> 
-> Thanks!
-> I checked both the latest patches. Both solved the IO_PAGE_FAULT issue
-> and didn't cause any side effects.
-> Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+From: Caleb Harper <calebharp2005@gmail.com>
 
-Thanks, I'm going to submit and merge this for the next PR.
+Patch to support the LED mute indicator on the HP Pavilion Aero Laptop
+13-be0xxx.
+
+Caleb Harper (1):
+  sound: support HP Pavilion Aero Laptop 13-be0xxx Mute LED
+
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 
-Takashi
+base-commit: 1767a722a708f1fa3b9af39eb091d79101f8c086
+-- 
+2.38.1
