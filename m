@@ -1,51 +1,41 @@
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Date: Wed, 25 Jan 2023 18:34:43 +0000
-Subject: Re: struct snd_pcm_ops callbacks
-Message-Id: <971a9d17-58ec-3655-6cc4-42c59da6e0af@linux.intel.com>
+From: Emil Abildgaard Svendsen <EMAS@bang-olufsen.dk>
+Date: Wed, 01 Mar 2023 15:03:53 +0000
+Subject: [PATCH] ASoC: tlv320adcx140: invert DRE_ENABLE
+Message-Id: <20230301145924.3017259-1-emas@bang-olufsen.dk>
 List-Id: <linux-sound.vger.kernel.org>
-References: <CAHhAz+gxrjB04c-GHa1YzahyKDQcW3+xoDt9iUnkj9THKvG_TA@mail.gmail.com>
- <53e3919e-48cc-81a0-365e-015235d10c9b@linux.intel.com>
- <CAHhAz+gTrToehWki8h17DdR_u8uKmRPsDWeEygijpm51MLvz1g@mail.gmail.com>
-In-Reply-To: <CAHhAz+gTrToehWki8h17DdR_u8uKmRPsDWeEygijpm51MLvz1g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Muni Sekhar <munisekharrms@gmail.com>
-Cc: alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org
 
+Looking at section 8.6.1.1.69 in datasheets for both 5140 and 6140 (3140
+doesn't support DRE). REG ADCX140_DSP_CFG1, field "DRE_AGC_SEL" (BIT 3)
+it selects either DRE or AGC.
 
+It states:
+ * 0 = DRE
+ * 1 = AGC
 
-On 1/25/23 12:06, Muni Sekhar wrote:
-> On Wed, Jan 25, 2023 at 8:30 PM Pierre-Louis Bossart
-> <pierre-louis.bossart@linux.intel.com> wrote:
->>
->>
->>
->> On 1/25/23 05:21, Muni Sekhar wrote:
->>> Hi,
->>>
->>> struct snd_pcm_ops callbacks can be used for sending\receiving PDM
->>> audio data to and from a sound card? Or is it only designed for PCM
->>> audio data?
->>
->> It depends what side of the sound card you are looking at, the physical
->> interface with external devices or the userspace interface.
-> I am looking at the userspace interface side.
+The control is called "DRE_ENABLE" and for it to be true it has to be
+active low.
 
-that's not possible without some sort of formatting of 1-bit audio in
-bytes or more likely 24/32-bit words that look like PCM and can be
-handled by existing DMA/FIFO hardware. That solution works for HDMI/DP
-and USB.
+This commit will invert the control so "DRE_ENABLE" is active low.
 
->> PDM can be supported at the physical interface level as long as there is
->> a conversion to PCM somewhere in the hardware. Userspace will
->> play/record PCM. See examples in many codecs and SOCs.
->>
->> There is also the possibility of packing PDM (aka DSD) as pseudo-PCM,
->> that's a trick used by several USB cards. In that case of course the
->> sound card cannot apply any processing to the data and is just a
->> pass-through module.
->>
->>
-> 
-> 
+Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
+---
+ sound/soc/codecs/tlv320adcx140.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index 91a22d927915..7343587df513 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -339,7 +339,7 @@ static const struct snd_kcontrol_new adcx140_dapm_ch4_dre_en_switch =
+ 	SOC_DAPM_SINGLE("Switch", ADCX140_CH4_CFG0, 0, 1, 0);
+ 
+ static const struct snd_kcontrol_new adcx140_dapm_dre_en_switch =
+-	SOC_DAPM_SINGLE("Switch", ADCX140_DSP_CFG1, 3, 1, 0);
++	SOC_DAPM_SINGLE("Switch", ADCX140_DSP_CFG1, 3, 1, 1);
+ 
+ /* Output Mixer */
+ static const struct snd_kcontrol_new adcx140_output_mixer_controls[] = {
