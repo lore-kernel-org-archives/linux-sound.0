@@ -1,41 +1,33 @@
-From: Emil Abildgaard Svendsen <EMAS@bang-olufsen.dk>
-Date: Wed, 01 Mar 2023 15:03:53 +0000
-Subject: [PATCH] ASoC: tlv320adcx140: invert DRE_ENABLE
-Message-Id: <20230301145924.3017259-1-emas@bang-olufsen.dk>
+From: Muni Sekhar <munisekharrms@gmail.com>
+Date: Thu, 13 Apr 2023 13:49:31 +0000
+Subject: ALSA: arecord : silennce recorded as 0x80
+Message-Id: <CAHhAz+haVH-4Hgsz0PpTgUSW1pX4XxwxXwEd7nLVb0sFFwQwCg@mail.gmail.com>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org
+To: alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, kernelnewbies <kernelnewbies@kernelnewbies.org>
 
-Looking at section 8.6.1.1.69 in datasheets for both 5140 and 6140 (3140
-doesn't support DRE). REG ADCX140_DSP_CFG1, field "DRE_AGC_SEL" (BIT 3)
-it selects either DRE or AGC.
+Hi all,
 
-It states:
- * 0 = DRE
- * 1 = AGC
+I recorded the silence on the default audio card by running "arecord
+-d 5 test.wav."
 
-The control is called "DRE_ENABLE" and for it to be true it has to be
-active low.
+Once it exited, I checked the contents by running "hexdump test.wav,"
+and I see that silence is recorded as a sequence of 0x80 instead of
+0x00.
 
-This commit will invert the control so "DRE_ENABLE" is active low.
+0000000 4952 4646 0024 8000 4157 4556 6d66 2074
+0000010 0010 0000 0001 0001 1f40 0000 1f40 0000
+0000020 0001 0008 6164 6174 0000 8000 8080 8080
+0000030 8080 8080 8080 8080 8080 8080 8080 8080
+0000040 8080 8080 8080 8080 8080 8080 8080 8080
+...
 
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
----
- sound/soc/codecs/tlv320adcx140.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What might be the reason for silence being recorded as 0x80 instead of 0x0?
 
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index 91a22d927915..7343587df513 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -339,7 +339,7 @@ static const struct snd_kcontrol_new adcx140_dapm_ch4_dre_en_switch =
- 	SOC_DAPM_SINGLE("Switch", ADCX140_CH4_CFG0, 0, 1, 0);
- 
- static const struct snd_kcontrol_new adcx140_dapm_dre_en_switch =
--	SOC_DAPM_SINGLE("Switch", ADCX140_DSP_CFG1, 3, 1, 0);
-+	SOC_DAPM_SINGLE("Switch", ADCX140_DSP_CFG1, 3, 1, 1);
- 
- /* Output Mixer */
- static const struct snd_kcontrol_new adcx140_output_mixer_controls[] = {
+
+-- 
+Thanks,
+Sekhar
