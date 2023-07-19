@@ -1,21 +1,33 @@
-From: Muni Sekhar <munisekharrms@gmail.com>
-Date: Fri, 14 Apr 2023 16:56:20 +0000
-Subject: ALSA: struct snd_pcm_hardware.formats
-Message-Id: <CAHhAz+gCGi3i9c4KLt9V+RhQypn7RXrfMnH9LJCTty3K_QTGFQ@mail.gmail.com>
+From: Carl Klemm <carl@uvos.xyz>
+Date: Wed, 19 Jul 2023 07:10:12 +0000
+Subject: [BUG REPORT] sound: pci: ctxfi: htimestamp dose not work on EMU20k during recording
+Message-Id: <dde0a305793ad7ddbd9e001e463207a84c2afcc9.camel@uvos.xyz>
 List-Id: <linux-sound.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: alsa-devel <alsa-devel@alsa-project.org>, linux-sound@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+To: tiwai@suse.de
+Cc: alsa-devel@alsa-project.org, alsa-devel@vger.kernel.org, linux-sound@vger.kernel.org
 
-Hi all,
+Hi,
 
-struct snd_pcm_hardware.formats (SNDRV_PCM_FMTBIT_S8,
-SNDRV_PCM_FMTBIT_S16_LE, SNDRV_PCM_FMTBIT_U16_LE,
-SNDRV_PCM_FMTBIT_S16_BE, etc.), are these sound card hardware
-capabilities or something that needs to be taken care of on the
-software (driver or userspace) side?
+see https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3352
+htimestamp returns nonesensical values when recording is active on a
+EMU20k device
 
--- 
-Thanks,
-Sekhar
+
+lspci:
+03:00.0 Audio device: Creative Labs EMU20k2 [Sound Blaster X-Fi
+Titanium Series] (rev 03)
+        Subsystem: Creative Labs EMU20k2 [Sound Blaster X-Fi Titanium
+Series]
+        Flags: bus master, fast devsel, latency 0, IRQ 17
+        Memory at d1200000 (64-bit, non-prefetchable) [sizedK]
+        Memory at d1000000 (64-bit, non-prefetchable) [size=2M]
+        Memory at d0000000 (64-bit, non-prefetchable) [sizeM]
+        Capabilities: <access denied>
+        Kernel driver in use: snd_ctxfi
+        Kernel modules: snd_ctxfi
+
+With regards,
+Carl Klemm
