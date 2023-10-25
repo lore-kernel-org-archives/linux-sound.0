@@ -2,66 +2,60 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A8DC0032E
-	for <linux-sound@archiver.kernel.org>; Wed, 25 Oct 2023 13:23:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE755C25B6D
+	for <linux-sound@archiver.kernel.org>; Wed, 25 Oct 2023 13:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235007AbjJYNXX (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Wed, 25 Oct 2023 09:23:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44944 "EHLO
+        id S235006AbjJYNXY (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Wed, 25 Oct 2023 09:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234976AbjJYNXW (ORCPT
+        with ESMTP id S234974AbjJYNXW (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
         Wed, 25 Oct 2023 09:23:22 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E81D182
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83CB7133
         for <linux-sound@vger.kernel.org>; Wed, 25 Oct 2023 06:23:19 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 5013421DCB;
-        Wed, 25 Oct 2023 13:23:18 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id D143721B40;
+        Wed, 25 Oct 2023 13:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1698240198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EAmQeWA263KOxpR/GbGfJZO0JVlk2NhdHAoDqa08Ecs=;
-        b=0zV4bCwAGkKTT8M0XVJYNw2YuPh8PQoWIkvF35lK+AW2roKRAlWCeokEWpN6BtMSbu+lrM
-        SxjPTI0YezKGJpa5k2Aa9m09h82LqRIW0D30w1O014Clys8C+IkxtKHYBoVxjFqpPXlDjv
-        p362ZsM8mDPhnORe5jvOiJfmPFTFT3Q=
+        t=1698240197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=yNcNBjL4Pt7uJ1YDqd932bknu3AZBl9ikZK0254MyA0=;
+        b=D+f5D7/Z0lQulBanEtLEngJ5F1QKkaxohY2RbzzczgeEaofl/Oz/kt+j7X8kYmiP5lc9NL
+        EzlaeySItNAPL9zs7rIDfnGASCC3EqUvoXBfI2BmnB63otAwGwZNhYp4dl9ydZhJR+gxSW
+        00OXyNE7DwoWvpjOB0VqRjeE6gS/WYo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1698240198;
+        s=susede2_ed25519; t=1698240197;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EAmQeWA263KOxpR/GbGfJZO0JVlk2NhdHAoDqa08Ecs=;
-        b=nAJRZVvBA07dYprqNPHy5emHhqiAavz+nC3xQWNzStdw3Fa9+jJ4JT9AAKACR7hOb+dQmO
-        WaJvu0fMXm077WDA==
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=yNcNBjL4Pt7uJ1YDqd932bknu3AZBl9ikZK0254MyA0=;
+        b=FFA+TuQRzAvGPxRWnoGBH8ZOs2a/x4vpUyukpnMZv8gTSXvY0OddkvZmY3+mnmFOEFxeH2
+        NFCx5EMmjjvhfdBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 38D8613524;
-        Wed, 25 Oct 2023 13:23:18 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C6C1913524;
+        Wed, 25 Oct 2023 13:23:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id CAF7DcYWOWULeQAAMHmgww
-        (envelope-from <tiwai@suse.de>); Wed, 25 Oct 2023 13:23:18 +0000
+        id KfUJMMUWOWULeQAAMHmgww
+        (envelope-from <tiwai@suse.de>); Wed, 25 Oct 2023 13:23:17 +0000
 From:   Takashi Iwai <tiwai@suse.de>
 To:     linux-sound@vger.kernel.org
-Subject: [PATCH 06/11] ALSA: caiaq: Replace with __packed attribute
-Date:   Wed, 25 Oct 2023 15:23:09 +0200
-Message-Id: <20231025132314.5878-7-tiwai@suse.de>
+Subject: [PATCH 00/11] ALSA: Replace with __packed attribute
+Date:   Wed, 25 Oct 2023 15:23:03 +0200
+Message-Id: <20231025132314.5878-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20231025132314.5878-1-tiwai@suse.de>
-References: <20231025132314.5878-1-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp-out1.suse.de;
         none
-X-Spamd-Result: default: False [0.55 / 50.00];
+X-Spamd-Result: default: False [0.90 / 50.00];
          ARC_NA(0.00)[];
          RCVD_VIA_SMTP_AUTH(0.00)[];
          FROM_HAS_DN(0.00)[];
@@ -79,32 +73,50 @@ X-Spamd-Result: default: False [0.55 / 50.00];
          MIME_TRACE(0.00)[0:+];
          RCVD_COUNT_TWO(0.00)[2];
          RCVD_TLS_ALL(0.00)[];
-         BAYES_HAM(-0.35)[76.46%]
+         BAYES_HAM(-0.00)[19.08%]
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Replace the old __attribute__((packed)) with the new __packed.
-Only cleanup, no functional changes.
+Hi,
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/caiaq/device.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this is a series of cleanup patches just to replace the old
+__attribute__((packed)) with __packed.
+Also one patch to drop the outdated comments from the legacy
+wavefront.h.
 
-diff --git a/sound/usb/caiaq/device.h b/sound/usb/caiaq/device.h
-index 50fea085765b..743eb0387b5f 100644
---- a/sound/usb/caiaq/device.h
-+++ b/sound/usb/caiaq/device.h
-@@ -53,7 +53,7 @@ struct caiaq_device_spec {
- 	unsigned char num_midi_out;
- 	unsigned char num_midi_in;
- 	unsigned char data_alignment;
--} __attribute__ ((packed));
-+} __packed;
- 
- struct snd_usb_caiaq_cb_info;
- 
+(And let's try to submit to linux-sound ML.)
+
+
+Takashi
+
+===
+
+Takashi Iwai (11):
+  ALSA: control: Replace with __packed attribute
+  ALSA: pcm: Replace with __packed attribute
+  ALSA: rawmidi: Replace with __packed attribute
+  ALSA: azt3328: Replace with __packed attribute
+  ALSA: mixart: Replace with __packed attribute
+  ALSA: caiaq: Replace with __packed attribute
+  ALSA: aoa: Replace with __packed attribute
+  ALSA: opl3: Replace with __packed attribute
+  ALSA: wavefront: Replace with __packed attribute
+  ALSA: wavefront: Drop obsoleted comments and definitions
+  ALSA: seq: Replace with __packed attribute
+
+ include/sound/opl3.h                  |  2 +-
+ include/sound/wavefront.h             | 53 +-------------------
+ include/uapi/sound/asequencer.h       |  4 +-
+ sound/aoa/soundbus/i2sbus/interface.h |  2 +-
+ sound/core/control_compat.c           |  2 +-
+ sound/core/pcm_native.c               |  4 +-
+ sound/core/rawmidi_compat.c           |  4 +-
+ sound/pci/azt3328.c                   |  2 +-
+ sound/pci/mixart/mixart_core.h        | 70 +++++++++++++--------------
+ sound/usb/caiaq/device.h              |  2 +-
+ 10 files changed, 47 insertions(+), 98 deletions(-)
+
 -- 
 2.35.3
 
