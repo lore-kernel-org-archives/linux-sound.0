@@ -2,80 +2,126 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 862BFC25B67
-	for <linux-sound@archiver.kernel.org>; Thu, 26 Oct 2023 15:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C28C25B48
+	for <linux-sound@archiver.kernel.org>; Thu, 26 Oct 2023 16:03:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231347AbjJZPJr (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 26 Oct 2023 11:09:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54054 "EHLO
+        id S235083AbjJZQDR (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 26 Oct 2023 12:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231587AbjJZPJq (ORCPT
+        with ESMTP id S235230AbjJZQDE (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 26 Oct 2023 11:09:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C80196;
-        Thu, 26 Oct 2023 08:09:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850A2C433C8;
-        Thu, 26 Oct 2023 15:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698332984;
-        bh=yFCeUvYUN8ddW5lXFRkDIKczNrKiL8ahYwXjs+NIZKE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UGjKSJXgr1kKDUyBqpmKI4u63Y1D3+ATox6a9sFyG8bTXklDrSPk0un68G/IEpTrY
-         xRl9pKhjg6Apujz783DfKuKOMmuhqEDmLNH895Y5S0bK8ExZEM+j88oy7pZztRNfj4
-         s+F6x9iZkpZXVRMwT7n2vwTViltYp444oIS14sq5vtD0z3upWaA2Dw6wKwmloIoiWv
-         HPmDRsiieiUGrmbyWFaC10HjWHmofhgtOfMrJWa9P+CbIcYHvgwWZR+Q3E6pVOG2Gu
-         mrzB0//dIcwdKipr7w4jeHvDg6F70BJWG4ATBock1yAlUENgzanSE0X3wQumtDJ73B
-         eaS0wmPCTIqaw==
-Date:   Thu, 26 Oct 2023 16:09:39 +0100
-From:   Mark Brown <broonie@kernel.org>
+        Thu, 26 Oct 2023 12:03:04 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2A61700;
+        Thu, 26 Oct 2023 09:02:24 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B468721AD4;
+        Thu, 26 Oct 2023 16:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1698336142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L3jBrvFhTDe3eSEyZfXz/IDIQ4Au/tRbSyyjMpWYOH4=;
+        b=p7FXIHhl4tnDCzRNTEN0pQxOwffpZn5iv4Zb/cDJxuf9BpruBhMQI87kMN4UD6LBHEefif
+        4lmAw5PB/fLAkdPVFkaQ5FXocGHzfmrsITxxwqVuqRslLZLmqw/KarwmyRs9FEiyd5+rbC
+        8NMv+eH/LH5NpwhbKUnvSyZgib7l0d8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1698336142;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L3jBrvFhTDe3eSEyZfXz/IDIQ4Au/tRbSyyjMpWYOH4=;
+        b=9BRuisOQJv2wORhgQ/1G/i13/Ps0I0A8/dEhcAzhyJbD79zrf9Rbuiw+Sn/M/KxYdorOcw
+        ddH6E/lP/YNdQrAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C831133F5;
+        Thu, 26 Oct 2023 16:02:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id qlNbHY6NOmUPDAAAMHmgww
+        (envelope-from <tiwai@suse.de>); Thu, 26 Oct 2023 16:02:22 +0000
+Date:   Thu, 26 Oct 2023 18:02:21 +0200
+Message-ID: <87zg05xtgy.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
 To:     Stefan Binding <sbinding@opensource.cirrus.com>
 Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH v1 8/8] ASoC: cs35l41: Detect CSPL errors when sending
- CSPL commands
-Message-ID: <baeccbb4-5015-454d-a60e-861f67ce0f3d@sirena.org.uk>
+        "Mark Brown" <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH v1 0/8] System Suspend fixes and improvements for CS35L41 HDA
+In-Reply-To: <20231026150558.2105827-1-sbinding@opensource.cirrus.com>
 References: <20231026150558.2105827-1-sbinding@opensource.cirrus.com>
- <20231026150558.2105827-9-sbinding@opensource.cirrus.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0HftNnHLLsLtjwh6"
-Content-Disposition: inline
-In-Reply-To: <20231026150558.2105827-9-sbinding@opensource.cirrus.com>
-X-Cookie: I'm also against BODY-SURFING!!
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+        none
+X-Spamd-Result: default: False [-8.35 / 50.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         NEURAL_HAM_LONG(-3.00)[-1.000];
+         MIME_GOOD(-0.10)[text/plain];
+         REPLY(-4.00)[];
+         DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+         NEURAL_HAM_SHORT(-1.00)[-1.000];
+         RCPT_COUNT_SEVEN(0.00)[8];
+         MID_CONTAINS_FROM(1.00)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         RCVD_TLS_ALL(0.00)[];
+         BAYES_HAM(-1.25)[89.59%]
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
+On Thu, 26 Oct 2023 17:05:50 +0200,
+Stefan Binding wrote:
+> 
+> There is a report of a single laptop which uses CS35L41 HDA having an
+> issue with System Suspend. This particular laptop uses S3 (Deep) Sleep.
+> The reported issue states that when the laptop resumes from a system
+> suspend, audio no longer works.
+> 
+> The root cause of this issue is due to the CS35L41 being returned to us
+> in an unexpected state after a suspend/resume cycle.
+> When the driver resumes, it expects the parts to have been reset, which
+> leads to issues with audio and firmware loading.
+> 
+> To prevent this issue, and the possibility of similar issues, patches
+> 2-5 force the driver to reset during probe, system suspend, and system
+> resume, which ensures that the part is always in the correct state.
+> Patches 6-8 are improvements in the suspend and firmware loading code,
+> which makes it easier to detect issues in the future, as well as
+> simplifiying the suspend code.
+> 
+> Patch 1 is a fix for an incorrect configuration for the HP Zbook Fury
+> 17, which is the laptop which had the original issue.
+> 
+> Stefan Binding (8):
+>   ALSA: hda: cs35l41: Use reset label to get GPIO for HP Zbook Fury 17
+>     G9
+>   ALSA: hda: cs35l41: Assert reset before system suspend
+>   ALSA: hda: cs35l41: Assert Reset prior to de-asserting in probe and
+>     system resume
+>   ALSA: hda: cs35l41: Run boot process during resume callbacks
+>   ALSA: hda: cs35l41: Force a software reset after hardware reset
+>   ALSA: hda: cs35l41: Do not unload firmware before reset in system
+>     suspend
+>   ALSA: hda: cs35l41: Check CSPL state after loading firmware
+>   ASoC: cs35l41: Detect CSPL errors when sending CSPL commands
 
---0HftNnHLLsLtjwh6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to for-next branch now.  Thanks.
 
-On Thu, Oct 26, 2023 at 04:05:58PM +0100, Stefan Binding wrote:
-> The existing code checks for the correct state transition after sending
-> a command. However, it is possible for the message box to return -1,
-> which indicates an error, if an error has occurred in the firmware.
-> We can detect if the error has occurred, and return a different error.
-> In addition, there is no recovering from a CSPL error, so the retry
-> mechanism is not needed in this case, and we can return immediately.
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---0HftNnHLLsLtjwh6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmU6gTIACgkQJNaLcl1U
-h9BNxgf9ERaHvIciC5wdcj6QKeS1hbJ/n9tkYPUFkD6jh60PrHm5MdAnEPokRYyE
-gjiT8Y1t/MDRw8oVp+LMQvUFoMvmIxfkcNic9ks0VN5zdXt5wmZYCUZb3mowY7lC
-SCUwOrtZLVJutWMc16v+wl0Gc0MmeTFue30PsxCvh2FIGdqiDnE0cPJe3c+1II9T
-F9R5bwaYdYsGFjnCmWw6RmNWK+f8UYUqW6u/CyrcMg26hsMAPuBEG6zSkaORJIKF
-uvxh+d6vUKAe3SBz81iT1pYFy5Ets+13lUQ+0KPKL2GjMdWzHqm4qJ23mk9z8La3
-rgrQHeA4m+PAVqlZhZ3ZfWypxPvVdg==
-=JNLG
------END PGP SIGNATURE-----
-
---0HftNnHLLsLtjwh6--
+Takashi
