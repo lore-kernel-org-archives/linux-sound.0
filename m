@@ -2,97 +2,82 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28991C25B48
-	for <linux-sound@archiver.kernel.org>; Thu, 26 Oct 2023 17:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B50C25B47
+	for <linux-sound@archiver.kernel.org>; Fri, 27 Oct 2023 09:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231829AbjJZRKV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 26 Oct 2023 13:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
+        id S230101AbjJ0JRZ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 27 Oct 2023 05:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231838AbjJZRKV (ORCPT
+        with ESMTP id S230502AbjJ0JRZ (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 26 Oct 2023 13:10:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC821B4;
-        Thu, 26 Oct 2023 10:10:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67392C433C8;
-        Thu, 26 Oct 2023 17:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698340218;
-        bh=pxnkdIlXjGbj0R9REeTamfZwwcR9rdS0B2bEwp165H4=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=J9OmEuaTEt2edm5kYh6st4RPPgw+qSTWLz3Kx0Xsd90Ab/YIDsUnNr6jC/CTfJKKB
-         Gsewp9IB5N47fxa8NgZ3F3+HdSMUE3oFImmZcs2dpw1qUC/Yc3HGc/a5vr8+3kZpRe
-         twjcFIetZwkTsV9L01auQZ6EaVr3uRhFvTBGm1rbSlUj3PMFc+W12MBwzHUM1RCnDh
-         +QOkKgigHCTXkX7wC2tLiaQkCvoovIh4R/+puSdqKe+0yUtfa2pXBgB1lzbsPl4wo3
-         g4oegqH5gtR9dM1ujqjspDNf3tyBZOkDH44I9lRtkK4gtTn734jaaT4qlpX8Yoj8jF
-         Ya6vfwg+nhu4A==
-From:   Mark Brown <broonie@kernel.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+        Fri, 27 Oct 2023 05:17:25 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368E1C0
+        for <linux-sound@vger.kernel.org>; Fri, 27 Oct 2023 02:17:22 -0700 (PDT)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39R72kZK003929;
+        Fri, 27 Oct 2023 04:17:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=
+        PODMain02222019; bh=IQXWbf2rdXsAh+N6t/RZbBPgcHcYu+iy6Dxgz29565I=; b=
+        Zw1T0FHyciBYJOt2LmN8f5q+X0cv01T6ys8d/kFPK9NFlnkiQrKl14YXOW5xbid7
+        LAqcgA9UBUqiENCa2+sByy8IeMYyEWujxzfFID8d206ITV3gQBX63fzm6A/b0/HT
+        kIXbidhPWePg6/TVN8RFAVgQsCGLkLHeCZTeDqdTRrd5eg0f+TSEB9Yl/xwc9JVf
+        vTY2dh9xBRaK9J6iodGkSYhlEoBIgAuW45d/SzNQPMD0CHYhEXX3ye0uuZVJ3S6Y
+        fAcN3lLAXVWbcNmiX5A0N+N4kDu88BL3hClaCCBdJF1KcWdt3JVLtBRq/qsP8VOu
+        wtGnA5ZSyY1Au6dnyrQbzg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3tywqt120w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Oct 2023 04:17:00 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Fri, 27 Oct
+ 2023 10:16:58 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.37 via Frontend Transport; Fri, 27 Oct 2023 10:16:58 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 52A7715B6;
+        Fri, 27 Oct 2023 09:16:58 +0000 (UTC)
+Date:   Fri, 27 Oct 2023 09:16:58 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= 
+        <amadeuszx.slawinski@linux.intel.com>
+CC:     Mark Brown <broonie@kernel.org>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Takashi Iwai <tiwai@suse.com>,
         Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Nikita Travkin <nikita@trvn.ru>
-Cc:     jenneron@postmarketos.org, linux-arm-msm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231020-sc7180-qdsp-sndcard-v1-0-157706b7d06f@trvn.ru>
-References: <20231020-sc7180-qdsp-sndcard-v1-0-157706b7d06f@trvn.ru>
-Subject: Re: [PATCH 0/2] sc7180: Add qdsp baked soundcard
-Message-Id: <169834021081.149939.3520512411729712585.b4-ty@kernel.org>
-Date:   Thu, 26 Oct 2023 18:10:10 +0100
+        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: dapm: Simplify widget clone
+Message-ID: <20231027091658.GB103419@ediswmail.ad.cirrus.com>
+References: <20231026113549.1897368-1-amadeuszx.slawinski@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231026113549.1897368-1-amadeuszx.slawinski@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: yygX_o_qR03_N97cAi_2Qm6SOzGdwDh9
+X-Proofpoint-GUID: yygX_o_qR03_N97cAi_2Qm6SOzGdwDh9
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Fri, 20 Oct 2023 20:33:45 +0500, Nikita Travkin wrote:
-> Some devices, such as Acer Aspire 1, can't use lpass dirrectly, but
-> instead must use adsp core to play sound. Since otherwise the hardware
-> is, usually, very similar across the devices on the same platform, it
-> makes sense to reuse the same boardfile.
+On Thu, Oct 26, 2023 at 01:35:49PM +0200, Amadeusz Sławiński wrote:
+> New DAPM widgets are created based on a provided template. When cloning
+> the data, the name and stream name also need to be cloned. Currently the
+> data and the names are initialized in different places. Simplify the
+> code by having entire initialization in one place.
 > 
-> This series refactors the sc7180.c slightly and adds the functions to
-> control clocks via adsp instead of controlling the hardware directly.
-> 
-> [...]
+> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> ---
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: dt-bindings: qcom,sm8250: Add sc7180-qdsp6-sndcard
-      commit: 5443d186163c6ab0084a5b23c901e0f9ba792463
-[2/2] ASoC: qcom: sc7180: Add support for qdsp6 baked sound
-      commit: 4531f512e3ef147f07d47bceb256c0af5ab130b7
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 Thanks,
-Mark
-
+Charles
