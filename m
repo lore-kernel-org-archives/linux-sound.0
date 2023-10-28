@@ -2,92 +2,129 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B22CC25B47
-	for <linux-sound@archiver.kernel.org>; Fri, 27 Oct 2023 22:54:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E173C0032E
+	for <linux-sound@archiver.kernel.org>; Sat, 28 Oct 2023 08:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346663AbjJ0Wy7 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 27 Oct 2023 18:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55336 "EHLO
+        id S229488AbjJ1IrB (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Sat, 28 Oct 2023 04:47:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235153AbjJ0Wy5 (ORCPT
+        with ESMTP id S229460AbjJ1IrA (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 27 Oct 2023 18:54:57 -0400
+        Sat, 28 Oct 2023 04:47:00 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C365E1B5;
-        Fri, 27 Oct 2023 15:54:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A47C433C8;
-        Fri, 27 Oct 2023 22:54:53 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F03121
+        for <linux-sound@vger.kernel.org>; Sat, 28 Oct 2023 01:46:58 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0C6C433C7;
+        Sat, 28 Oct 2023 08:46:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698447295;
-        bh=yz8o/Vn+GEO1l0ZVtawgLFQOnZcMh+boTsEWUHQsCWQ=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=CRhrfQWSpQiYGdhEFInBfosLrSiQFERwNkEmMei82ay8LDxixPPGJZ7kBEAguChWO
-         MjR0Q2aASJAD8GfQAF0IWOXiOX+6Bnj3qnGeYuX8MQ5iVpf/4UC8cdOx/1p6Pid4xN
-         M42vm2tEzaGTCwn4BDAHdDySZ3xnJGmOG0LO/AIj6+A+kvSySfjBndhbWUlKlAJB6J
-         8PafzY1SuTgevbAgHjxyWXzc6zlC0p+wF959oO21xBvWROcyi1FNYbmSCSFccf1fFK
-         7oTrdy4mblQ20Bh9i0dkYtzhtjtr1YEHOb/NIMzbRHJJBVYduDqGwKeW7EcRMDt2kD
-         GZZETW3PIo00w==
-From:   Mark Brown <broonie@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-        Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231027152403.386257-1-arnd@kernel.org>
-References: <20231027152403.386257-1-arnd@kernel.org>
-Subject: Re: [PATCH 1/3] ASoC: amd: acp: add ACPI dependency
-Message-Id: <169844729310.3013518.10123036359979403557.b4-ty@kernel.org>
-Date:   Fri, 27 Oct 2023 23:54:53 +0100
+        s=k20201202; t=1698482818;
+        bh=+5DSt9wHxLvQLygUWVX0VDmhoJIQ0W33QNNTdVhekRo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=suMgm95Sc6S1/IPQNNtB9IUbE8SjfcdRsWhjl38LLXBNk2O1wYt27P2Y9EOLpmSqf
+         FHBBJ4oG5/UOhcMrDmdX8fotupoTbE2GqnH9ABfVPYBV3kYKV277UR5DkWA1OQwBZD
+         0gOycdzMPGl7sfWkYU8//bXPMn5XH0dqZRXbfokK4z5OIqRfwvzJxh1IniKrr76qd3
+         wDuCL28zWmUKpe8PO1n5orkUwx+ms0qlIVxGXF4XLdVnptmye9iiZ2VX5zomFm+Nm0
+         /GNJJJVRFSkhAlluDbIKgBlAxjv2B5JgPOBE0cWbi7bnIYbYB8n5tweMaAYvWvN30v
+         pWaNnl0bofwGQ==
+Message-ID: <db8fb570-0532-45d2-b0dd-adfb8727f258@kernel.org>
+Date:   Sat, 28 Oct 2023 10:46:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: Intel: avs: Add rt5514 machine board
+Content-Language: en-US
+To:     =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= 
+        <amadeuszx.slawinski@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
+        linux-sound@vger.kernel.org,
+        =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+References: <20231027110537.2103712-1-amadeuszx.slawinski@linux.intel.com>
+ <20231027110537.2103712-2-amadeuszx.slawinski@linux.intel.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20231027110537.2103712-2-amadeuszx.slawinski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Fri, 27 Oct 2023 17:23:52 +0200, Arnd Bergmann wrote:
-> A newly added function requires CONFIG_ACPI to avoid a build error:
+On 27/10/2023 13:05, Amadeusz Sławiński wrote:
+> To support AVS-rt5514 configuration add machine board connecting AVS
+> platform component driver with rt5514 codec one.
 > 
-> sound/soc/amd/acp/acp-legacy-common.c: In function 'check_acp_pdm':
-> sound/soc/amd/acp/acp-legacy-common.c:401:19: error: implicit declaration of function 'acpi_find_child_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
->   401 |         pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
->       |                   ^~~~~~~~~~~~~~~~~~~~~~
->       |                   acpi_match_device
-> 
-> [...]
+> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> ---
+>  sound/soc/intel/avs/boards/Kconfig  |  10 ++
+>  sound/soc/intel/avs/boards/Makefile |   2 +
+>  sound/soc/intel/avs/boards/rt5514.c | 187 ++++++++++++++++++++++++++++
+>  3 files changed, 199 insertions(+)
+>  create mode 100644 sound/soc/intel/avs/boards/rt5514.c
 
-Applied to
+...
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> +
+> +static struct platform_driver avs_rt5514_driver = {
+> +	.probe = avs_rt5514_probe,
+> +	.driver = {
+> +		.name = "avs_rt5514",
+> +		.pm = &snd_soc_pm_ops,
+> +	},
+> +};
+> +
+> +module_platform_driver(avs_rt5514_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:avs_rt5514");
 
-Thanks!
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong.
 
-[1/3] ASoC: amd: acp: add ACPI dependency
-      commit: 0b38362018c79bc6cf9d8ba4ee9a2a3827ba6328
-[2/3] ASoC: codecs: aw88399: fix typo in Kconfig select
-      commit: cf046ecbcd1cd0ef1d762b3365b9918175e121ab
-[3/3] ASoC: amd: acp: select SND_SOC_AMD_ACP_LEGACY_COMMON for ACP63
-      commit: a65cdffbef7bfdb9f55a3acb07ccf18d4f97b3a5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Krzysztof
 
