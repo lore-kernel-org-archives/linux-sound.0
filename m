@@ -2,174 +2,94 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F302C4332F
-	for <linux-sound@archiver.kernel.org>; Mon, 30 Oct 2023 12:46:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A80C4332F
+	for <linux-sound@archiver.kernel.org>; Mon, 30 Oct 2023 14:24:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233263AbjJ3Mqx (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 30 Oct 2023 08:46:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59974 "EHLO
+        id S231598AbjJ3OYs (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 30 Oct 2023 10:24:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233240AbjJ3Mqw (ORCPT
+        with ESMTP id S229568AbjJ3OYs (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 30 Oct 2023 08:46:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47243B4
-        for <linux-sound@vger.kernel.org>; Mon, 30 Oct 2023 05:46:50 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29ADFC433C7;
-        Mon, 30 Oct 2023 12:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698670009;
-        bh=SMGRX2NvxTI+iCMJWe1EjLUo+4sOOdGlAurBMJQD49k=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=puaKZTwhdbuDS1Pvgiz3T0YxP+unZ0PGGRaOsWTUq8ady6NFGA+IWri9GDEKZvMIz
-         eTqnnU1JW5AYvWA5o/mHU3PpqVJ2PzfqwL/IE8sV5AXlizILHodU/hdLlp/9nvLhUC
-         k23tPn4WT+WG7At4mlEg44MjBFNIZz/qI7P6NMlerP9ADMmRHMLtKfbeoX+egorwzu
-         71hhTXSV9sbWeHK5vek99gyKv3DEQ8jxwt3mKam75sgsWnlDyLwD3tMV4TbZyt1wUB
-         /+fgxCXmC7vnQnkQ82+llrOAm5jEmyBpzZRInuvNX5iIQ7QO+3CLvSpUNiC+qHZEFG
-         gUR/UkDdVYT0g==
-Message-ID: <1d9b1c87-c3d6-45c4-9ebd-6545a5dd896b@kernel.org>
-Date:   Mon, 30 Oct 2023 13:46:43 +0100
+        Mon, 30 Oct 2023 10:24:48 -0400
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3138B7;
+        Mon, 30 Oct 2023 07:24:45 -0700 (PDT)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1ead2e6fab7so3085555fac.0;
+        Mon, 30 Oct 2023 07:24:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698675885; x=1699280685;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KURySP8CPvB4/y1EF5BKpqCgD6RX//UEPazzHu4/yag=;
+        b=dASuz5UGtcQlLW+7S0/B0BmwTP2o43A5/uec+82Rd+DJVMU5uaqti1XFzUuzMdq2fd
+         maSkpdpMeiTjT3Uo01Y9W0aZub0kNF4FlDqn7CLrW93OD+Xr151NFg+F+XRyPdwe19Dy
+         CQ9UpNZGXOtOpnQNBxYADf2/b68R0eNO88pvVAcf0n+OV/WRB+vzlWQDWw6vDlcvsEeG
+         dCFm2snynFK/hXQ2U8RcmGJvoaweB3sw8x62+Rmiy42NJWlXbdk7k2OxP3OSUm7KJaS1
+         jU2k9ve7NM/jZ/OA/I5eZRfO/LTs9VKEIrt7gqudOTNRRhghPBjbN2KP3fKErtpk5ZjN
+         a5Yg==
+X-Gm-Message-State: AOJu0Yw0242temY7pCHDuU+1I1CoFa7F+vzQapxqLuwFxq/xDyLf4Q56
+        AgZ2oQfa97IkKqgntqsRXvOg9Vm3Eg==
+X-Google-Smtp-Source: AGHT+IG976VSsNVNGrcLtXF9kn5Tt4rIHb5nwu/RGtnSoO1PHC/WESbhx3GE6OQSIrDTedgOFiLmLA==
+X-Received: by 2002:a05:6870:1382:b0:1e9:f09d:3736 with SMTP id 2-20020a056870138200b001e9f09d3736mr9855710oas.45.1698675884893;
+        Mon, 30 Oct 2023 07:24:44 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s16-20020a05683004d000b006b8af3a2599sm1413313otd.73.2023.10.30.07.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 07:24:44 -0700 (PDT)
+Received: (nullmailer pid 816585 invoked by uid 1000);
+        Mon, 30 Oct 2023 14:24:42 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>
+Cc:     kernel test robot <lkp@intel.com>,
+        linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] ASoC: rockchip: Fix unused rockchip_i2s_tdm_match warning for !CONFIG_OF
+Date:   Mon, 30 Oct 2023 09:23:38 -0500
+Message-ID: <20231030142337.814907-2-robh@kernel.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: Intel: avs: Add rt5514 machine board
-Content-Language: en-US
-To:     =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-        linux-sound@vger.kernel.org,
-        =?UTF-8?Q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-References: <20231027110537.2103712-1-amadeuszx.slawinski@linux.intel.com>
- <20231027110537.2103712-2-amadeuszx.slawinski@linux.intel.com>
- <db8fb570-0532-45d2-b0dd-adfb8727f258@kernel.org>
- <f431a348-6e32-4e19-be56-1373f9e65aee@linux.intel.com>
- <4b6af85b-3d22-4f78-9db9-11cb463c0b2a@kernel.org>
- <087525de-588e-45f0-9d84-8d5bd83834ff@linux.intel.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <087525de-588e-45f0-9d84-8d5bd83834ff@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 30/10/2023 13:15, Amadeusz Sławiński wrote:
->>>>> +static struct platform_driver avs_rt5514_driver = {
->>>>> +	.probe = avs_rt5514_probe,
->>>>> +	.driver = {
->>>>> +		.name = "avs_rt5514",
->>>>> +		.pm = &snd_soc_pm_ops,
->>>>> +	},
->>>>> +};
->>>>> +
->>>>> +module_platform_driver(avs_rt5514_driver);
->>>>> +
->>>>> +MODULE_LICENSE("GPL");
->>>>> +MODULE_ALIAS("platform:avs_rt5514");
->>>>
->>>> You should not need MODULE_ALIAS() in normal cases. If you need it,
->>>> usually it means your device ID table is wrong.
->>>>
->>>
->>> In theory yes, in practice it is a bit more complicated, as we use the
->>> driver alias in sound/soc/intel/avs/board_selection.c in
->>> snd_soc_acpi_mach and they should match.
->>>
->>> For example for rt286, there is:
->>> # modinfo
->>> /lib/modules/6.4.0-rc3+/kernel/sound/soc/intel/avs/boards/snd-soc-avs-rt286.ko
->>> | grep 286
->>> filename:
->>> /lib/modules/6.4.0-rc3+/kernel/sound/soc/intel/avs/boards/snd-soc-avs-rt286.ko
->>> alias:          platform:avs_rt286
->>> name:           snd_soc_avs_rt286
->>> as you can see platform_driver::driver::name is not matching the driver
->>> name.
->>>
->>> I've did quick test with removing alias and changing snd_soc_acpi_mach
->>> definition for one board and it didn't load.
->>
->> Sorry, but why do you talk about platform name? We talk about ID table!
->>
->>>
->>> Now that you pointed it out I also lean towards trying to remove
->>> MODULE_ALIAS() from board drivers, but it will probably require some
->>> more investigation if we really want to do it and implementing it properly.
->>
->> Ehm? We have been there. I've been dropping these useless aliases as
->> well. You miss DEVICE_TABLE and proper ID entries, not adding aliases.
->>
-> 
-> Ah, DEVICE_TABLE, that's what I was missing, so I just to confirm, 
-> something like:
-> 
-> diff --git a/sound/soc/intel/avs/boards/rt274.c 
-> b/sound/soc/intel/avs/boards/rt274.c
-> index dd613aa15e80..659e10b1dcad 100644
-> --- a/sound/soc/intel/avs/boards/rt274.c
-> +++ b/sound/soc/intel/avs/boards/rt274.c
-> @@ -257,6 +257,14 @@ static int avs_rt274_probe(struct platform_device 
-> *pdev)
->          return devm_snd_soc_register_card(dev, card);
->   }
-> 
-> +static const struct platform_device_id avs_rt274_driver_ids[] = {
-> +        {
-> +                .name           = "avs_rt274",
-> +        },
-> +        {},
-> +};
-> +MODULE_DEVICE_TABLE(platform, avs_rt274_driver_ids);
+Commit 9958d85968ed ("ASoC: Use device_get_match_data()") dropped the
+unconditional use of rockchip_i2s_tdm_match resulting in this warning:
 
-Yes, this is the basic method of probing all devices and auto-loading
-modules. I wrote at beginning that your ID table is wrong, but I was not
-aware that it is missing completely.
+sound/soc/rockchip/rockchip_i2s_tdm.c:1315:34: warning: 'rockchip_i2s_tdm_match' defined but not used [-Wunused-const-variable=]
 
-Best regards,
-Krzysztof
+The fix is to drop of_match_ptr() which is not necessary because DT is
+always used for this driver.
+
+Fixes: 9958d85968ed ("ASoC: Use device_get_match_data()")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202310121802.CDAGVdF2-lkp@intel.com/
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+Mark, another one that probably didn't get sent to you...
+
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+index 5c51dbef6e86..860e66ec85e8 100644
+--- a/sound/soc/rockchip/rockchip_i2s_tdm.c
++++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+@@ -1757,7 +1757,7 @@ static struct platform_driver rockchip_i2s_tdm_driver = {
+ 	.remove_new = rockchip_i2s_tdm_remove,
+ 	.driver = {
+ 		.name = DRV_NAME,
+-		.of_match_table = of_match_ptr(rockchip_i2s_tdm_match),
++		.of_match_table = rockchip_i2s_tdm_match,
+ 		.pm = &rockchip_i2s_tdm_pm_ops,
+ 	},
+ };
+-- 
+2.42.0
 
