@@ -2,94 +2,90 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A80C4332F
-	for <linux-sound@archiver.kernel.org>; Mon, 30 Oct 2023 14:24:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 267FCC4332F
+	for <linux-sound@archiver.kernel.org>; Mon, 30 Oct 2023 19:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231598AbjJ3OYs (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 30 Oct 2023 10:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46478 "EHLO
+        id S231565AbjJ3TUg (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 30 Oct 2023 15:20:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjJ3OYs (ORCPT
+        with ESMTP id S231560AbjJ3TUf (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 30 Oct 2023 10:24:48 -0400
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3138B7;
-        Mon, 30 Oct 2023 07:24:45 -0700 (PDT)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1ead2e6fab7so3085555fac.0;
-        Mon, 30 Oct 2023 07:24:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698675885; x=1699280685;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KURySP8CPvB4/y1EF5BKpqCgD6RX//UEPazzHu4/yag=;
-        b=dASuz5UGtcQlLW+7S0/B0BmwTP2o43A5/uec+82Rd+DJVMU5uaqti1XFzUuzMdq2fd
-         maSkpdpMeiTjT3Uo01Y9W0aZub0kNF4FlDqn7CLrW93OD+Xr151NFg+F+XRyPdwe19Dy
-         CQ9UpNZGXOtOpnQNBxYADf2/b68R0eNO88pvVAcf0n+OV/WRB+vzlWQDWw6vDlcvsEeG
-         dCFm2snynFK/hXQ2U8RcmGJvoaweB3sw8x62+Rmiy42NJWlXbdk7k2OxP3OSUm7KJaS1
-         jU2k9ve7NM/jZ/OA/I5eZRfO/LTs9VKEIrt7gqudOTNRRhghPBjbN2KP3fKErtpk5ZjN
-         a5Yg==
-X-Gm-Message-State: AOJu0Yw0242temY7pCHDuU+1I1CoFa7F+vzQapxqLuwFxq/xDyLf4Q56
-        AgZ2oQfa97IkKqgntqsRXvOg9Vm3Eg==
-X-Google-Smtp-Source: AGHT+IG976VSsNVNGrcLtXF9kn5Tt4rIHb5nwu/RGtnSoO1PHC/WESbhx3GE6OQSIrDTedgOFiLmLA==
-X-Received: by 2002:a05:6870:1382:b0:1e9:f09d:3736 with SMTP id 2-20020a056870138200b001e9f09d3736mr9855710oas.45.1698675884893;
-        Mon, 30 Oct 2023 07:24:44 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id s16-20020a05683004d000b006b8af3a2599sm1413313otd.73.2023.10.30.07.24.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 07:24:44 -0700 (PDT)
-Received: (nullmailer pid 816585 invoked by uid 1000);
-        Mon, 30 Oct 2023 14:24:42 -0000
-From:   Rob Herring <robh@kernel.org>
+        Mon, 30 Oct 2023 15:20:35 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75ADEA9;
+        Mon, 30 Oct 2023 12:20:33 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928E7C433C8;
+        Mon, 30 Oct 2023 19:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698693633;
+        bh=hvnFWiwDyeUV5ubEK9oHUg2sWcW5EpgpZngLeQIpoMY=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=EJzgFNmYO53E10LQkruS2JsXQZtLvvKbm9vj7nl/74BTKiDlxt0soP8CJX9uB060J
+         tOMtLpXUyM8O3fIowI/N34vI8ucBg4vcI/2tznGIUHvECCTN9kqVA/1Vkf9+M4V5jo
+         yAYV2jA60EBQzZJv35lejkGjN3jcnaHb+ZbVODCOZok34TYymzvVPM/RUbT5iFjPmv
+         fwLgubHrrQ5LuE1jIrkz+oFFq50M3mxyaHaAA0bdwajqz4oP7fPNMFoLuypgpqtwKR
+         /aSMJNaDF505q5+Yc6P7RUHcw5b/jZeECUlw4Wz7enpXLdUlxVXnUZmjRBQLWCh0RY
+         7hx91YEjzQJtA==
+From:   Mark Brown <broonie@kernel.org>
 To:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>
+        Takashi Iwai <tiwai@suse.com>,
+        Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>
 Cc:     kernel test robot <lkp@intel.com>,
         linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH] ASoC: rockchip: Fix unused rockchip_i2s_tdm_match warning for !CONFIG_OF
-Date:   Mon, 30 Oct 2023 09:23:38 -0500
-Message-ID: <20231030142337.814907-2-robh@kernel.org>
-X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231030142337.814907-2-robh@kernel.org>
+References: <20231030142337.814907-2-robh@kernel.org>
+Subject: Re: [RESEND PATCH] ASoC: rockchip: Fix unused
+ rockchip_i2s_tdm_match warning for !CONFIG_OF
+Message-Id: <169869362917.44249.630029762300338773.b4-ty@kernel.org>
+Date:   Mon, 30 Oct 2023 19:20:29 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Commit 9958d85968ed ("ASoC: Use device_get_match_data()") dropped the
-unconditional use of rockchip_i2s_tdm_match resulting in this warning:
+On Mon, 30 Oct 2023 09:23:38 -0500, Rob Herring wrote:
+> Commit 9958d85968ed ("ASoC: Use device_get_match_data()") dropped the
+> unconditional use of rockchip_i2s_tdm_match resulting in this warning:
+> 
+> sound/soc/rockchip/rockchip_i2s_tdm.c:1315:34: warning: 'rockchip_i2s_tdm_match' defined but not used [-Wunused-const-variable=]
+> 
+> The fix is to drop of_match_ptr() which is not necessary because DT is
+> always used for this driver.
+> 
+> [...]
 
-sound/soc/rockchip/rockchip_i2s_tdm.c:1315:34: warning: 'rockchip_i2s_tdm_match' defined but not used [-Wunused-const-variable=]
+Applied to
 
-The fix is to drop of_match_ptr() which is not necessary because DT is
-always used for this driver.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Fixes: 9958d85968ed ("ASoC: Use device_get_match_data()")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202310121802.CDAGVdF2-lkp@intel.com/
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-Mark, another one that probably didn't get sent to you...
+Thanks!
 
- sound/soc/rockchip/rockchip_i2s_tdm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1/1] ASoC: rockchip: Fix unused rockchip_i2s_tdm_match warning for !CONFIG_OF
+      commit: 04f8c76de983a5c1e8913e442e791a9e8d0e0dfd
 
-diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
-index 5c51dbef6e86..860e66ec85e8 100644
---- a/sound/soc/rockchip/rockchip_i2s_tdm.c
-+++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-@@ -1757,7 +1757,7 @@ static struct platform_driver rockchip_i2s_tdm_driver = {
- 	.remove_new = rockchip_i2s_tdm_remove,
- 	.driver = {
- 		.name = DRV_NAME,
--		.of_match_table = of_match_ptr(rockchip_i2s_tdm_match),
-+		.of_match_table = rockchip_i2s_tdm_match,
- 		.pm = &rockchip_i2s_tdm_pm_ops,
- 	},
- };
--- 
-2.42.0
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
