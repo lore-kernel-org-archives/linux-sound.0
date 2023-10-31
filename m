@@ -2,90 +2,86 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 267FCC4332F
-	for <linux-sound@archiver.kernel.org>; Mon, 30 Oct 2023 19:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 467DFC4332F
+	for <linux-sound@archiver.kernel.org>; Tue, 31 Oct 2023 10:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231565AbjJ3TUg (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 30 Oct 2023 15:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37962 "EHLO
+        id S1343862AbjJaKcH (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 31 Oct 2023 06:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231560AbjJ3TUf (ORCPT
+        with ESMTP id S1343933AbjJaKcD (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 30 Oct 2023 15:20:35 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75ADEA9;
-        Mon, 30 Oct 2023 12:20:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928E7C433C8;
-        Mon, 30 Oct 2023 19:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698693633;
-        bh=hvnFWiwDyeUV5ubEK9oHUg2sWcW5EpgpZngLeQIpoMY=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=EJzgFNmYO53E10LQkruS2JsXQZtLvvKbm9vj7nl/74BTKiDlxt0soP8CJX9uB060J
-         tOMtLpXUyM8O3fIowI/N34vI8ucBg4vcI/2tznGIUHvECCTN9kqVA/1Vkf9+M4V5jo
-         yAYV2jA60EBQzZJv35lejkGjN3jcnaHb+ZbVODCOZok34TYymzvVPM/RUbT5iFjPmv
-         fwLgubHrrQ5LuE1jIrkz+oFFq50M3mxyaHaAA0bdwajqz4oP7fPNMFoLuypgpqtwKR
-         /aSMJNaDF505q5+Yc6P7RUHcw5b/jZeECUlw4Wz7enpXLdUlxVXnUZmjRBQLWCh0RY
-         7hx91YEjzQJtA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>
-Cc:     kernel test robot <lkp@intel.com>,
-        linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231030142337.814907-2-robh@kernel.org>
-References: <20231030142337.814907-2-robh@kernel.org>
-Subject: Re: [RESEND PATCH] ASoC: rockchip: Fix unused
- rockchip_i2s_tdm_match warning for !CONFIG_OF
-Message-Id: <169869362917.44249.630029762300338773.b4-ty@kernel.org>
-Date:   Mon, 30 Oct 2023 19:20:29 +0000
+        Tue, 31 Oct 2023 06:32:03 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6BEFD;
+        Tue, 31 Oct 2023 03:32:00 -0700 (PDT)
+Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ehristev)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CA86E6607390;
+        Tue, 31 Oct 2023 10:31:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1698748319;
+        bh=snKMPEw3/sZymut9YKmskK4tpvE9vyUtyrcQQzMwW3g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SAS7GJNIQK8qjHN8XRik3kZcD9sZCZkLAl3ZTwDYA4pvOqVkjXXyjUtk43OuWY7Wg
+         vvWrfQtDqiggNTVVpNKRAgMyHLIio/ULcMREQHw++q7xU9AUB0uMdj80jCMEGPgDwY
+         gnbLmepTCgkAIXfTRQMjMDbXMlLbMjYiS4WrwhRPTWDmm01BaYQp/gpBBtOqeS0pCz
+         d+Qb8LNoyvs1LaOCK3B5seqliWSRwh6o9S+W3XgwfSzwpEy22kJAMQHEwQMvjOLc9b
+         YtfTdv+jCOBmpYtFX8xDQiAIMiKTaNPVWU4LlU82zBA7SA7yDsbDPGUHlKOforksXZ
+         adNjdphnFv7Zw==
+From:   Eugen Hristev <eugen.hristev@collabora.com>
+To:     broonie@kernel.org, jiaxin.yu@mediatek.com,
+        linux-sound@vger.kernel.org
+Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel@collabora.com,
+        Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH] ASoC: mediatek: mt8186_mt6366_rt1019_rt5682s: trivial: fix error messages
+Date:   Tue, 31 Oct 2023 12:31:39 +0200
+Message-Id: <20231031103139.77395-1-eugen.hristev@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Mon, 30 Oct 2023 09:23:38 -0500, Rob Herring wrote:
-> Commit 9958d85968ed ("ASoC: Use device_get_match_data()") dropped the
-> unconditional use of rockchip_i2s_tdm_match resulting in this warning:
-> 
-> sound/soc/rockchip/rockchip_i2s_tdm.c:1315:34: warning: 'rockchip_i2s_tdm_match' defined but not used [-Wunused-const-variable=]
-> 
-> The fix is to drop of_match_ptr() which is not necessary because DT is
-> always used for this driver.
-> 
-> [...]
+Property 'playback-codecs' is referenced as 'speaker-codec' in the error
+message, and this can lead to confusion.
+Correct the error message such that the correct property name is
+referenced.
 
-Applied to
+Fixes: 0da16e370dd7 ("ASoC: mediatek: mt8186: add machine driver with mt6366, rt1019 and rt5682s")
+Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+---
+ sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: rockchip: Fix unused rockchip_i2s_tdm_match warning for !CONFIG_OF
-      commit: 04f8c76de983a5c1e8913e442e791a9e8d0e0dfd
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c b/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
+index 6dfcfcf47cab..f78197c8e582 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
++++ b/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
+@@ -1216,7 +1216,7 @@ static int mt8186_mt6366_rt1019_rt5682s_dev_probe(struct platform_device *pdev)
+ 	playback_codec = of_get_child_by_name(pdev->dev.of_node, "playback-codecs");
+ 	if (!playback_codec) {
+ 		ret = -EINVAL;
+-		dev_err_probe(&pdev->dev, ret, "Property 'speaker-codecs' missing or invalid\n");
++		dev_err_probe(&pdev->dev, ret, "Property 'playback-codecs' missing or invalid\n");
+ 		goto err_playback_codec;
+ 	}
+ 
+@@ -1230,7 +1230,7 @@ static int mt8186_mt6366_rt1019_rt5682s_dev_probe(struct platform_device *pdev)
+ 	for_each_card_prelinks(card, i, dai_link) {
+ 		ret = mt8186_mt6366_card_set_be_link(card, dai_link, playback_codec, "I2S3");
+ 		if (ret) {
+-			dev_err_probe(&pdev->dev, ret, "%s set speaker_codec fail\n",
++			dev_err_probe(&pdev->dev, ret, "%s set playback_codec fail\n",
+ 				      dai_link->name);
+ 			goto err_probe;
+ 		}
+-- 
+2.34.1
 
