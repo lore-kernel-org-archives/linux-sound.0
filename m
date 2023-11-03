@@ -2,123 +2,66 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E952EC4332F
-	for <linux-sound@archiver.kernel.org>; Fri,  3 Nov 2023 07:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D77D7C4167B
+	for <linux-sound@archiver.kernel.org>; Fri,  3 Nov 2023 08:31:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345220AbjKCHUb (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 3 Nov 2023 03:20:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40714 "EHLO
+        id S235904AbjKCIbI (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 3 Nov 2023 04:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344022AbjKCHUa (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Fri, 3 Nov 2023 03:20:30 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3618184
-        for <linux-sound@vger.kernel.org>; Fri,  3 Nov 2023 00:20:27 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B89C433C8;
-        Fri,  3 Nov 2023 07:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698996027;
-        bh=8aiC4jU02YqW+IMeKHwXzGJ9vFasE9crraGtrirbH+c=;
+        with ESMTP id S235972AbjKCIbH (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Fri, 3 Nov 2023 04:31:07 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1786D44;
+        Fri,  3 Nov 2023 01:30:58 -0700 (PDT)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1C8FB66073C9;
+        Fri,  3 Nov 2023 08:30:57 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699000257;
+        bh=hLNERQKYSutn1+nzWzkjaZyBsSN1vmekpilQjSSBvnM=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=bEb0QmlbwR5kb3GHr6sueDF0S6/+vl8Jel3ZggmhN99+5rZgnbusl2cVfQ3pEt3Jr
-         QdEQOdI+PRg+AGD2KrcvRakUa4MqABUgQ5vvTLswfNSiKQFDcb/SC2IoKrA2lUZzgb
-         ufHUN6HbI6rXkWSksYjT9S903/udWtp8dc4OJ1CY0LgTRSEqbAe4sdDvp8EGzSs+C2
-         4EPSNTMhIto/fom/nbjLK+zBfa+mqJWumKFFs5u9xY522w78d/uw66M+o2nsExK3zu
-         MZ5Vsd2TlDOWy0VaBNQblL4XWyAGXYOTfyf3VidmJaK5h200WTfpqgvOASx8YXmHOC
-         2V01Fw9uG6NKQ==
-Message-ID: <3996b764-a156-4312-9881-4600e43340f9@kernel.org>
-Date:   Fri, 3 Nov 2023 08:20:22 +0100
+        b=a5olgv2+2bKK9cdt3dTFCVaVCWwFsldoYKQYekZhFqRkLjFoYyMfAZtAbVIHPob8H
+         gjmglpPAsAsfPfQ8GZ5NVXC81IM09i+WmxKOkRW9fMk2gT0w0IXq4yhBwrngzbG30n
+         Kz62r1vExIyg/wmwUZKjq6fP0a7pkmG8f1iwMGxSFY/gqWw0Bu0ISiYDzNbxDdpnzO
+         ESXyiqb3KTBrmfD6OCASPQKGHcEGfuOrL+nmXPmyZXFTYjEpfnbLZhQeNo9qqpeoTe
+         hRXA+wjog+6i69RUnJy/vm8KPICEXgWJh2NistTjPzYAPQWqb0Hm4HxTD21XcQld69
+         L5wn5JNOAAvjQ==
+Message-ID: <ec054c43-f4c2-492a-9da0-65a8235c7bb9@collabora.com>
+Date:   Fri, 3 Nov 2023 09:30:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/17] ASoC: Intel: avs: Properly identify boards
-To:     =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-        linux-sound@vger.kernel.org
-References: <20231102124712.2549327-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8186_mt6366_rt1019_rt5682s: trivial:
+ fix error messages
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20231102124712.2549327-1-amadeuszx.slawinski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Eugen Hristev <eugen.hristev@collabora.com>, broonie@kernel.org,
+        jiaxin.yu@mediatek.com, linux-sound@vger.kernel.org
+Cc:     matthias.bgg@gmail.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel@collabora.com
+References: <20231031103139.77395-1-eugen.hristev@collabora.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231031103139.77395-1-eugen.hristev@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 02/11/2023 13:46, Amadeusz Sławiński wrote:
-> Instead of using MODULE_ALIAS() to load boards, add proper device id
-> table and use MODULE_DEVICE_TABLE() macro to create board alias.
+Il 31/10/23 11:31, Eugen Hristev ha scritto:
+> Property 'playback-codecs' is referenced as 'speaker-codec' in the error
+> message, and this can lead to confusion.
+> Correct the error message such that the correct property name is
+> referenced.
 > 
-> Amadeusz Sławiński (17):
->   ASoC: Intel: avs: da7219: Add proper id_table
->   ASoC: Intel: avs: dmic: Add proper id_table
->   ASoC: Intel: avs: es8336: Add proper id_table
->   ASoC: Intel: avs: hdaudio: Add proper id_table
->   ASoC: Intel: avs: i2s_test: Add proper id_table
->   ASoC: Intel: avs: max98357a: Add proper id_table
->   ASoC: Intel: avs: max98373: Add proper id_table
->   ASoC: Intel: avs: max98927: Add proper id_table
->   ASoC: Intel: avs: nau8825: Add proper id_table
->   ASoC: Intel: avs: probe: Add proper id_table
->   ASoC: Intel: avs: rt274: Add proper id_table
->   ASoC: Intel: avs: rt286: Add proper id_table
->   ASoC: Intel: avs: rt298: Add proper id_table
->   ASoC: Intel: avs: rt5514: Add proper id_table
->   ASoC: Intel: avs: rt5663: Add proper id_table
->   ASoC: Intel: avs: rt5682: Add proper id_table
->   ASoC: Intel: avs: ssm4567: Add proper id_table
-> 
+> Fixes: 0da16e370dd7 ("ASoC: mediatek: mt8186: add machine driver with mt6366, rt1019 and rt5682s")
+> Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
 
-For entire series:
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
 
