@@ -2,41 +2,43 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C5FC4167D
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 15:53:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B52C4332F
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 15:53:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343966AbjKGPxC (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 10:53:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
+        id S1343676AbjKGPxa (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 10:53:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235270AbjKGPw0 (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:52:26 -0500
+        with ESMTP id S1343795AbjKGPxI (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:53:08 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1619172D;
-        Tue,  7 Nov 2023 07:49:30 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A61BC433C8;
-        Tue,  7 Nov 2023 15:49:28 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2FC2D5D;
+        Tue,  7 Nov 2023 07:49:57 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66BADC433C9;
+        Tue,  7 Nov 2023 15:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372170;
-        bh=fEtMn1hCvtVi25a3tRCRxH8zwGvDPOKB7irIAeWf0tA=;
+        s=k20201202; t=1699372197;
+        bh=S9VN7vROyg1KWjNiEzHcQPYk/11RBEqo3DAyho01LOo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Py8TFnHDGufZA63xD5gRBWiUTUGw5UhwyNEZVBdaQ9bsqh1IJ10D9wlrfN3k1rF4J
-         NY+l4BP+O/KQzjlL+r5I7zG18Zri5ORmJtSf+5qKGrJzlPdKgfIYLYucmyplQpi5DG
-         2x9j/k7YeA5MMz3BpnX4Y4lKnCmakVhM2ohuKP22BxaKIBjaWhVjFh1T2mBvB06DCp
-         zZgYpahRhjPx71Fp/rARhXTXWT+NOTplVwbRHQBSm1r0fJNiHZcjsY8vdOC7hpQU/E
-         JW381gTaH2GJ+dIlR/tTbQbXgK7TdDXw/+v1KkOmY2nDrBA3TQYKjbrRi+y3Wvf9nN
-         5s6UQa261j8EQ==
+        b=cBJskdSp1tsQYA5qKgtua71+UE4amF7z44c2qwDvmMVfQ7MHsVTuIs06lewU0k8KN
+         05VDbzSYGBGb4rvufR25tyVgtRJyHXhKeSX/dLbMxJ88pwYOIOwF9txA4JSKzzrbmi
+         KSsJeXO9wEx2JuoEIMQ0E/muoBlqjlnsQlTljByunNt1cqm601mMP8R0fedzo/OOaW
+         lL80+k1UsKZW6irErvHs6BUtha4KuyI79ZenFoGLkNsF8v10z52C4AjTAG7B18CPaw
+         Il87fLEmu9vTh77+Chw47/R7eYYjwtLkHJpzeyTbqu28Q3zlbTEcbtqdG4xeJZyumb
+         54cjyri0tEMuw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
-        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
-        perex@perex.cz, tiwai@suse.com, broonie@kernel.org,
-        pierre-louis.bossart@linux.intel.com, chenhuacai@kernel.org,
-        siyanteng@loongson.cn, zhangyiqun@phytium.com.cn,
-        linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 16/34] ALSA: hda: Fix possible null-ptr-deref when assigning a stream
-Date:   Tue,  7 Nov 2023 10:47:56 -0500
-Message-ID: <20231107154846.3766119-16-sashal@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, cezary.rojewski@intel.com,
+        pierre-louis.bossart@linux.intel.com,
+        liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com,
+        yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+        kai.vehmanen@linux.intel.com, perex@perex.cz, tiwai@suse.com,
+        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.5 30/34] ASoC: Intel: soc-acpi-cht: Add Lenovo Yoga Tab 3 Pro YT3-X90 quirk
+Date:   Tue,  7 Nov 2023 10:48:10 -0500
+Message-ID: <20231107154846.3766119-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107154846.3766119-1-sashal@kernel.org>
 References: <20231107154846.3766119-1-sashal@kernel.org>
@@ -49,40 +51,88 @@ Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-From: Cezary Rojewski <cezary.rojewski@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit f93dc90c2e8ed664985e366aa6459ac83cdab236 ]
+[ Upstream commit 2cb54788393134d8174ee594002baae3ce52c61e ]
 
-While AudioDSP drivers assign streams exclusively of HOST or LINK type,
-nothing blocks a user to attempt to assign a COUPLED stream. As
-supplied substream instance may be a stub, what is the case when
-code-loading, such scenario ends with null-ptr-deref.
+The Lenovo Yoga Tab 3 Pro YT3-X90 x86 tablet, which ships with Android with
+a custom kernel as factory OS, does not list the used WM5102 codec inside
+its DSDT.
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Link: https://lore.kernel.org/r/20231006102857.749143-2-cezary.rojewski@intel.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Workaround this with a new snd_soc_acpi_intel_baytrail_machines[] entry
+which matches on the SST id instead of the codec id like nocodec does,
+combined with using a machine_quirk callback which returns NULL on
+other machines to skip the new entry on other machines.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://lore.kernel.org/r/20231021211534.114991-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/hda/hdac_stream.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../intel/common/soc-acpi-intel-cht-match.c   | 43 +++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 2633a4bb1d85d..214a0680524b0 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -354,8 +354,10 @@ struct hdac_stream *snd_hdac_stream_assign(struct hdac_bus *bus,
- 	struct hdac_stream *res = NULL;
+diff --git a/sound/soc/intel/common/soc-acpi-intel-cht-match.c b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+index cdcbf04b8832f..5e2ec60e2954b 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-cht-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+@@ -75,6 +75,39 @@ static struct snd_soc_acpi_mach *cht_ess8316_quirk(void *arg)
+ 	return arg;
+ }
  
- 	/* make a non-zero unique key for the substream */
--	int key = (substream->pcm->device << 16) | (substream->number << 2) |
--		(substream->stream + 1);
-+	int key = (substream->number << 2) | (substream->stream + 1);
++/*
++ * The Lenovo Yoga Tab 3 Pro YT3-X90, with Android factory OS has a buggy DSDT
++ * with the coded not being listed at all.
++ */
++static const struct dmi_system_id lenovo_yoga_tab3_x90[] = {
++	{
++		/* Lenovo Yoga Tab 3 Pro YT3-X90, codec missing from DSDT */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
++		},
++	},
++	{ }
++};
 +
-+	if (substream->pcm)
-+		key |= (substream->pcm->device << 16);
++static struct snd_soc_acpi_mach cht_lenovo_yoga_tab3_x90_mach = {
++	.id = "10WM5102",
++	.drv_name = "bytcr_wm5102",
++	.fw_filename = "intel/fw_sst_22a8.bin",
++	.board = "bytcr_wm5102",
++	.sof_tplg_filename = "sof-cht-wm5102.tplg",
++};
++
++static struct snd_soc_acpi_mach *lenovo_yt3_x90_quirk(void *arg)
++{
++	if (dmi_check_system(lenovo_yoga_tab3_x90))
++		return &cht_lenovo_yoga_tab3_x90_mach;
++
++	/* Skip wildcard match snd_soc_acpi_intel_cherrytrail_machines[] entry */
++	return NULL;
++}
++
+ static const struct snd_soc_acpi_codecs rt5640_comp_ids = {
+ 	.num_codecs = 2,
+ 	.codecs = { "10EC5640", "10EC3276" },
+@@ -175,6 +208,16 @@ struct snd_soc_acpi_mach  snd_soc_acpi_intel_cherrytrail_machines[] = {
+ 		.drv_name = "sof_pcm512x",
+ 		.sof_tplg_filename = "sof-cht-src-50khz-pcm512x.tplg",
+ 	},
++	/*
++	 * Special case for the Lenovo Yoga Tab 3 Pro YT3-X90 where the DSDT
++	 * misses the codec. Match on the SST id instead, lenovo_yt3_x90_quirk()
++	 * will return a YT3 specific mach or NULL when called on other hw,
++	 * skipping this entry.
++	 */
++	{
++		.id = "808622A8",
++		.machine_quirk = lenovo_yt3_x90_quirk,
++	},
  
- 	spin_lock_irq(&bus->reg_lock);
- 	list_for_each_entry(azx_dev, &bus->stream_list, list) {
+ #if IS_ENABLED(CONFIG_SND_SOC_INTEL_BYT_CHT_NOCODEC_MACH)
+ 	/*
 -- 
 2.42.0
 
