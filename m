@@ -2,85 +2,129 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0000C4332F
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 08:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD08C4332F
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 10:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231893AbjKGIdL (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 03:33:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44886 "EHLO
+        id S229543AbjKGKQV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 05:16:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbjKGIdK (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 03:33:10 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5107BD;
-        Tue,  7 Nov 2023 00:33:07 -0800 (PST)
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id DBE7E66074BB;
-        Tue,  7 Nov 2023 08:33:05 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699345986;
-        bh=WAeItKcus8R5qgyGRaYj0c/dQFjok1MFYhPuzmvp/Lc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Fds6b7nxpvM7i2IrIUt2V/y363QEQRq1Jrl19lwXVZaFUwsnQ4CApbalOxkVrVJOk
-         jQv2Vtg9c8aXmmltCabDPRAgTB2ts8HHtgY0am7PRcX+WE471fKzUiFqqc8tZkw9de
-         jZ9tx2PSDsc6a4T09O4H9F71XFxLJskTmm0L9pFgDKq+875HpABK1R5POHM+VLVseI
-         M5+T1YJwFldxCi/WYmaKjs4Jp5AWveP5LRFcb81ISac9/0al9aNYmrBimwzzW9sOKx
-         Oql5T2p8nSes0QIDpn/mvQDOf3yBkfc3a4auJyQM+9RXwB8KyhqPhV3cHy+eeqy2Yn
-         oRh4M4F3GH/0g==
-Message-ID: <2ca57563-2b76-4c40-afa6-cbbc05837edf@collabora.com>
-Date:   Tue, 7 Nov 2023 09:33:03 +0100
+        with ESMTP id S230089AbjKGKQU (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 05:16:20 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BFDED
+        for <linux-sound@vger.kernel.org>; Tue,  7 Nov 2023 02:16:17 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-507b9408c61so7204260e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Nov 2023 02:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699352175; x=1699956975; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=95vD72c+bC2P8X8C/IdsTMXs0cKxT+IRop924lJhGj8=;
+        b=hm/XMT7SZKzjyj8Ebsm372Kt5mKKn0eOerShTN0y4EaqYFGyT2nkRO7v1MDHjaBH6l
+         FvyoRJZ4orOeOHCNBqBcU0vlncqIvAPJUkDvRc1/RR+rYmToBFrxwSr1RRjP0GD7skPk
+         jggaO0Eox2MG8CPXzvNfK6L1hiZ8m8Klm2kLmsE1mOAXysg/79hDSUX80k1BCT57D991
+         oguSIftO5JTQ+9YbqGhtyxUahhWNyKCUuu/n2RUuDmskDNZOenjvotUrPPDvSyIzJutK
+         9KCKOhb8PCi5z5ByEpipK91gmSZcdHntPZyRrYeKuZn/d1omLndnW4rGvH2hyuNwH+Lb
+         2OdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699352175; x=1699956975;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=95vD72c+bC2P8X8C/IdsTMXs0cKxT+IRop924lJhGj8=;
+        b=VPsyWVGwg222jXiJcCHBnBp0xjsRh7gQuCtNqHHkNhlgwj7rCw+eACN+TXQfNiWrTv
+         3EC89UWN7Hcqkteck1/8BLqLEokPmt/a+9OH+sbj+Gwkq2pQhmNi8bsT4KGNdRoojqgA
+         /K59uns48TZNvYaOLrQf6dDxm7IhamVO8t4XT21WPyDgFhYhBRaBOi3b9C4URYN2enX5
+         MIUmtdKkosETjiU5btoRwBsU22TNUalMCsNFBBxnUi5INi4LWPFiSfVGc6oXCmNO4YCI
+         SGhwIXrwrIaT2GxcOj5PHFFIvttmKEgEr/KseEaSC/HO4rZqAByPa+cSMZ6YmFvjSIuY
+         +Apw==
+X-Gm-Message-State: AOJu0YwQoavcjXXIgUvxJMPTmX3ZaIPZSUMYHieEMVF5186OqgNN1Yky
+        9NdA/MrwT1aMLk6j8NKOXUeFWw==
+X-Google-Smtp-Source: AGHT+IGJuO6mk0T3Wt1edO/lmNN8eTn2eGwaG7+JJc/a3UervFShShCwhOClqq8GfMz5fuLE3zkgEA==
+X-Received: by 2002:ac2:546e:0:b0:507:9855:bc68 with SMTP id e14-20020ac2546e000000b005079855bc68mr23509396lfn.37.1699352175531;
+        Tue, 07 Nov 2023 02:16:15 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id l3-20020a05600c4f0300b003fc0505be19sm15249922wmq.37.2023.11.07.02.16.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 02:16:14 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Ryan Lee <ryans.lee@analog.com>, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH] ASoC: dt-bindings: use "soundwire" as controller's node name in examples
+Date:   Tue,  7 Nov 2023 11:16:10 +0100
+Message-Id: <20231107101610.13728-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v1 1/3] ASoC: dt-bindings: mt8188-mt6359: add es8326 support
-Content-Language: en-US
-To:     Rui Zhou <zhourui@huaqin.corp-partner.google.com>,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, perex@perex.cz, allen-kh.cheng@mediatek.com,
-        kuninori.morimoto.gx@renesas.com
-Cc:     linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20231107031442.2768765-1-zhourui@huaqin.corp-partner.google.com>
- <20231107031442.2768765-2-zhourui@huaqin.corp-partner.google.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231107031442.2768765-2-zhourui@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Il 07/11/23 04:14, Rui Zhou ha scritto:
-> Add compatible string "mediatek,mt8188-es8326" to support new board
-> with es8326 codec.
-> 
-> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
-> ---
->   .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml        | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> index 4c8c95057ef7..9df5e44176d0 100644
-> --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> @@ -18,6 +18,7 @@ properties:
->         - mediatek,mt8188-mt6359-evb
->         - mediatek,mt8188-nau8825
->         - mediatek,mt8188-rt5682s
-> +      - mediatek,mt8188-es8326
+Soundwire Devicetree bindings expect the Soundwire controller device
+node to be named just "soundwire".  Correct examples, so the incorrect
+code will not be re-used.
 
-Whoops, sorry, I just noticed that this is not alphabetically ordered.
-Please move that before mediatek,mt8188-mt6359-evb.
+Reported-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/sound/adi,max98363.yaml | 2 +-
+ Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml | 2 +-
+ Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Thanks,
-Angelo
-
->   
->     audio-routing:
->       description:
-
+diff --git a/Documentation/devicetree/bindings/sound/adi,max98363.yaml b/Documentation/devicetree/bindings/sound/adi,max98363.yaml
+index a844b63f3930..c388cda56011 100644
+--- a/Documentation/devicetree/bindings/sound/adi,max98363.yaml
++++ b/Documentation/devicetree/bindings/sound/adi,max98363.yaml
+@@ -39,7 +39,7 @@ unevaluatedProperties: false
+ 
+ examples:
+   - |
+-    soundwire-controller@3250000 {
++    soundwire@3250000 {
+         #address-cells = <2>;
+         #size-cells = <0>;
+         reg = <0x3250000 0x2000>;
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
+index ba572a7f4f3c..8e462cdf0018 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
+@@ -52,7 +52,7 @@ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+ 
+-    soundwire-controller@3250000 {
++    soundwire@3250000 {
+         #address-cells = <2>;
+         #size-cells = <0>;
+         reg = <0x3250000 0x2000>;
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml
+index e6723c9e312a..d717017b0fdb 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml
+@@ -48,7 +48,7 @@ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+ 
+-    soundwire-controller {
++    soundwire {
+         #address-cells = <2>;
+         #size-cells = <0>;
+ 
+-- 
+2.34.1
 
