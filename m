@@ -2,69 +2,70 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F7BC4332F
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 07:12:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE0BC4332F
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 08:06:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjKGHMC (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 02:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48530 "EHLO
+        id S233703AbjKGIGQ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 03:06:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbjKGHMB (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 02:12:01 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5163411D
-        for <linux-sound@vger.kernel.org>; Mon,  6 Nov 2023 23:11:57 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-32dc9ff4a8fso3017769f8f.1
-        for <linux-sound@vger.kernel.org>; Mon, 06 Nov 2023 23:11:57 -0800 (PST)
+        with ESMTP id S233685AbjKGIGP (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 03:06:15 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C84011D
+        for <linux-sound@vger.kernel.org>; Tue,  7 Nov 2023 00:06:11 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9d0b4dfd60dso791764566b.1
+        for <linux-sound@vger.kernel.org>; Tue, 07 Nov 2023 00:06:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699341116; x=1699945916; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5EQosVoJGoflPNsXruNDqnLFc0zB2p1sb15Kd7DqBE=;
-        b=xk0a0UPQcw+dFe4HZnElsVvKM1tgvgX8GTQQvPIhwy92y1n2G+yUndGbk8dVafZtVt
-         ueZ9V+DWc6jhLmT8WIxbsV9emdmJ5FSKj+GOCd6WKt65wXfPPQ5W98l+rWDMBaK5woOK
-         kJR8t60WPh6WAPAyKQtrIWks8V4dKf4NyWuGNdP52iPEc61hGMDq4/sw9Gux/QJu03Yr
-         bq0HTg3rGz/wCmGjiIMeKBEq+yimfP6ntOc7Um1Z2mQUNVWFV8+kP6qmYWMNcT9948ub
-         PcPKwUSBEEO0XyzOhGCSOq6Ny5os8aiOcjTp8eHuQQGSg0yvCouNEk2Ld6oijFk3RfW9
-         /H/A==
+        d=linaro.org; s=google; t=1699344370; x=1699949170; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=as2Hs0glk0n7cHtkFgTQ1tFtleiN9++r91ctEFoDXP4=;
+        b=p+oR8st79MrzRAPvJaS75mavxFAPilOkSGPs3f5ff1RfyJJRnFxEbI4z/3GUL4lWgS
+         RpNQuk9gz9HLPGuLVqzw+nuQFPV1LlF8fKJmQShLRi+7t4yDDKHB29TUN+vQzd0qi6er
+         hHA1/VTIqkAZS9ADHfzYCdIt1IV9wvCf3Rmb77hVRiAELfGarBtb76WB4qoJ4sT5UMUb
+         OnSSF0GkmGe2xnq1Wl7jz+LAct3xDDTa/MMICqX1PDnC2xsoVBGkoeXiwKHSWgLRdRyf
+         yJ6y5F4gN9xSpXdS4F+Vz8NRxyaEyZWHgwZN4+IW7Ukfb1v9VD5wqex4xIb1iznM5dDO
+         osZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699341116; x=1699945916;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y5EQosVoJGoflPNsXruNDqnLFc0zB2p1sb15Kd7DqBE=;
-        b=ENT1eQ+fj8124NTFMdFXUdn2B0cljGm9mOEuqP3cq8CpOOwUyRSnm9JSfKXEjQv6i3
-         3ivyBVajK4TtcBIFV2ung8JZBN1dcpxyg+hAl640R5UixHOl580A4hJKu8td8PiK4iT7
-         m8SghxsjfJVV/Go4rdr7U5B+ZTNC9UnsHBOeQPpfmp/KXsIS32k0kt9lvEZ/xwNNAfkk
-         2kp0PKGxyxt8czLU8BPndUve16IKvSspFjoVYYrhwqHjbMKPv4ma5iN+hw5rcMuqQZ46
-         qwDRSNjhnUynNYG6WVbfZbbt1S9Nlk/J/sezO/0jx4F8Zke47nsGwzbcaXdogCsDGLwA
-         8sVg==
-X-Gm-Message-State: AOJu0YyVUAeTAfeLaUoTnFnUAg6b/+bvy1LU5uLNRG1hUgWXo6+GflMc
-        U4V1oiPIEJNP6TRkULT0z1RIvw==
-X-Google-Smtp-Source: AGHT+IFCNbR8e0aP/pGgYDi3mZB+b0Ba9MWn6UW6UYiAkAY5BdRfJz9IR1pzEUjFBI038hexZxsE3w==
-X-Received: by 2002:a05:6000:178b:b0:32f:8c32:35b0 with SMTP id e11-20020a056000178b00b0032f8c3235b0mr21474104wrg.10.1699341115764;
-        Mon, 06 Nov 2023 23:11:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699344370; x=1699949170;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=as2Hs0glk0n7cHtkFgTQ1tFtleiN9++r91ctEFoDXP4=;
+        b=wJQ9lxhXqnbCKAlIXdlyQI6XV589LZyRTY5v10onbgY50Wi45yTd52n5ODzXGLiLu+
+         rCzVehzdUhdyJU51HL6cuDDgPWOZ8xp3WhAPxk5jC+HQ2UKCaVK5qNPyovfvVfBGqmQg
+         B10/UnnkIgzYrMAsyxeNEWa0Wiasn7gr9ElP7gITLsrsDX2ZXmuypu/Mdj3fmlwn69YN
+         vDlvkHDB3RGf5KMVlzvTXnnOKnSHcLStYrzKYSVQLs/wCz48tpJWGe0doUNQEbPTUrDp
+         8ZiUfbpeXEQkeHo37eUZAebneyay0sTctoRSoeCT+Rb6KGgW7xnOJB+hPKNV0FArUBSu
+         xwxg==
+X-Gm-Message-State: AOJu0YwBJI8t8+hn6vo+DPMvgkciLaG8hVdEMh/UcB5sJGGzu+rpc4ok
+        QEo4Fs7/JNVdr3EjxFVjOFV3WQ==
+X-Google-Smtp-Source: AGHT+IEXWKeoVqK+tM3neZNF4WUiuOTnADpR0mKaCSr0yoI7KtoFI/anbyZmHgCRxxGmHwBTT4uSYw==
+X-Received: by 2002:a17:907:9813:b0:9b2:babd:cd51 with SMTP id ji19-20020a170907981300b009b2babdcd51mr16130031ejc.5.1699344370040;
+        Tue, 07 Nov 2023 00:06:10 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id g16-20020a5d5550000000b0032de6f95fb3sm1467184wrw.40.2023.11.06.23.11.53
+        by smtp.gmail.com with ESMTPSA id o10-20020a170906288a00b009d2526048acsm735447ejd.40.2023.11.07.00.06.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Nov 2023 23:11:55 -0800 (PST)
-Message-ID: <8a1f5d6e-3753-4ff5-94a6-dee7925b902b@linaro.org>
-Date:   Tue, 7 Nov 2023 08:11:52 +0100
+        Tue, 07 Nov 2023 00:06:09 -0800 (PST)
+Message-ID: <db0f47cc-5c44-4671-ab2b-cc8a315212eb@linaro.org>
+Date:   Tue, 7 Nov 2023 09:06:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [v1 1/3] ASoC: dt-bindings: mt8188-mt6359: add es8326 support
-To:     Rui Zhou <zhourui@huaqin.corp-partner.google.com>,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+Content-Language: en-US
+To:     Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, angelogioacchino.delregno@collabora.com,
         perex@perex.cz, allen-kh.cheng@mediatek.com,
-        kuninori.morimoto.gx@renesas.com
-Cc:     linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+        kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
 References: <20231107031442.2768765-1-zhourui@huaqin.corp-partner.google.com>
  <20231107031442.2768765-2-zhourui@huaqin.corp-partner.google.com>
-Content-Language: en-US
+ <8a1f5d6e-3753-4ff5-94a6-dee7925b902b@linaro.org>
+ <CABRjgzstdYKDCBDiD=ciwmP2X3CJ4PnDN7dLFF-F4yOVR6ex-g@mail.gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -110,39 +111,18 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231107031442.2768765-2-zhourui@huaqin.corp-partner.google.com>
+In-Reply-To: <CABRjgzstdYKDCBDiD=ciwmP2X3CJ4PnDN7dLFF-F4yOVR6ex-g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 07/11/2023 04:14, Rui Zhou wrote:
-> Add compatible string "mediatek,mt8188-es8326" to support new board
-> with es8326 codec.
+On 07/11/2023 08:59, Rui Zhou wrote:
+> Thank you very much for your reminder, I will pay attention next time.
 
-Please use standard email subjects, so with the PATCH keyword in the
-title. `git format-patch` helps here to create proper versioned patches.
-Another useful tool is b4. Skipping the PATCH keyword makes filtering of
-emails more difficult thus making the review process less convenient.
-
-> 
-> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
-> ---
->  .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml        | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> index 4c8c95057ef7..9df5e44176d0 100644
-> --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> @@ -18,6 +18,7 @@ properties:
->        - mediatek,mt8188-mt6359-evb
->        - mediatek,mt8188-nau8825
->        - mediatek,mt8188-rt5682s
-> +      - mediatek,mt8188-es8326
-
-Entries should be sorted alphabetically.
+Next time? Does it mean you are not going to fix the patch as I asked
+about the order?
 
 Best regards,
 Krzysztof
