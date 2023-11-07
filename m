@@ -2,30 +2,30 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CEB6C4332F
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 16:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC91C00141
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 16:00:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235163AbjKGQAU (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 11:00:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60534 "EHLO
+        id S1344197AbjKGQAV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 11:00:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344417AbjKGP67 (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:58:59 -0500
+        with ESMTP id S1344824AbjKGP7n (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:59:43 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F2719BE;
-        Tue,  7 Nov 2023 07:51:50 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD092C433C8;
-        Tue,  7 Nov 2023 15:51:48 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C97B7EF3;
+        Tue,  7 Nov 2023 07:52:53 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA14C433C8;
+        Tue,  7 Nov 2023 15:52:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372309;
-        bh=HUOqiqgzeVydpLtci+jTckqJxzO/mCgFr/7a1OhQ/pY=;
+        s=k20201202; t=1699372373;
+        bh=L1B1zDFGVSaiCHf6gca5X0oMN9K/Qx4nc9jrzS+4t2A=;
         h=From:To:Cc:Subject:Date:From;
-        b=Os/zD56zafYeKBrX+6RGddAyK+S3keBc6tP0nt8oCSGUXEFRjM/IdzWJR0d752KZ4
-         mh623U6oJC4AOq+w/PfsgszstuB3aJs+GIySoAKhkrSuMj5YoIfdfD4e2oDYAh9RaL
-         DW8vjsb2s/bCoYfXGdXhNpekEMyxYO1/XkzFYiLtOvCOqUPWxzahUgUmWaGLFc3Odv
-         NlhgnPS2aH0HZb7buf11FuIb26ABOL8Ya9v5hygA+R8gEblMhOgLa1h1ODQRCHgpo4
-         9J+rkpb9H6K+Qy5ZfAaWdL+oJbbGrt0byor9NHhQ4gGxvrTNKlAtrXQw8qiHCdgy9m
-         8FtooyM91+2Fw==
+        b=IKMJwYC/+492ktq5jXnhJSh8qF/R4yyRj1ezvOzKESN4oAuEH+1Yzo86CvIMsbphV
+         Vam1nknPECC7yXu9Yep0DoJqLczRioHRUGzfwG9QHqloDS4+WEBr+xxsgULmzizRG3
+         +9VAijXqBznPyuf9g9TUrREgB543hEa+x4Ty5ORdPBgUjD7+TchX8f7srSeuD/7V/U
+         qY7jxCGDxx8FDeFDw51mjUj4mMoMSCszm6sHmF+8CMCys9ydMS8LpRGmF1Dv0qT6n5
+         P5vdPsnYWWuo5pXVtyebUnMmifwuny8sgB8ZbxZNewPQSEJkEDAD46uY6btlxA8RhT
+         4pG626ZYEWoQQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -33,14 +33,14 @@ Cc:     Richard Fitzgerald <rf@opensource.cirrus.com>,
         Mark Brown <broonie@kernel.org>,
         Sasha Levin <sashal@kernel.org>, lgirdwood@gmail.com,
         perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/22] ASoC: soc-card: Add storage for PCI SSID
-Date:   Tue,  7 Nov 2023 10:51:10 -0500
-Message-ID: <20231107155146.3767610-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 01/16] ASoC: soc-card: Add storage for PCI SSID
+Date:   Tue,  7 Nov 2023 10:52:20 -0500
+Message-ID: <20231107155249.3768098-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.137
+X-stable-base: Linux 5.10.199
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
@@ -139,10 +139,10 @@ index 4f2cc4fb56b7f..9a5429260ece5 100644
  static inline void snd_soc_card_set_drvdata(struct snd_soc_card *card,
  					    void *data)
 diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 5872a8864f3b6..3f0369aae2faf 100644
+index 3b038c563ae14..e973044143bc9 100644
 --- a/include/sound/soc.h
 +++ b/include/sound/soc.h
-@@ -880,6 +880,17 @@ struct snd_soc_card {
+@@ -977,6 +977,17 @@ struct snd_soc_card {
  #ifdef CONFIG_DMI
  	char dmi_longname[80];
  #endif /* CONFIG_DMI */
