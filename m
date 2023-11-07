@@ -2,48 +2,47 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C8EC4167D
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 16:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0197CC4332F
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 16:03:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343729AbjKGQBW (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 11:01:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46162 "EHLO
+        id S1343795AbjKGQDj (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 11:03:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235008AbjKGP76 (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:59:58 -0500
+        with ESMTP id S1344084AbjKGQDF (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 11:03:05 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F00F273B;
-        Tue,  7 Nov 2023 07:53:17 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE934C433C7;
-        Tue,  7 Nov 2023 15:53:15 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A823327C;
+        Tue,  7 Nov 2023 07:54:08 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3FE9C433C7;
+        Tue,  7 Nov 2023 15:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372397;
-        bh=Wspxi7izpOnuU7N2S9ML1xipS+KJcQybj1hbm+wsaCk=;
+        s=k20201202; t=1699372448;
+        bh=QyfMn0m+wIc0YqVUhOMA4/o2wNCae2vvJsgWRIbeHIQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iybQmi3so90G6tVO/URPsS27IAAN3ns73xt0lYmaAY+MEb64yHoGmgcXuvgiEkEj7
-         qQQGkoqBMqtwrb17a8qUIsO3xe9xxTJJLf2/pong99VMPWFxP4Y3juBquOV0Zk50fG
-         amjaPnxgItSmKSEMN7nPJhDgr/MojApYx32FDu45CsOGKwfNls1akA/LT92MkA4tRZ
-         8BmkaYvoHocPE4RJpef3YVObNJ703ApMof0O/zuOyEZYkFmMbHYb7bBwvGq4/NvZot
-         haqai+FS9gpzaLTwOhnReRl506QmuoFAq7h2Sr7JgtkcnR45pJ5L62aM2jfykHyDAN
-         ZwtJNAPSKPWvw==
+        b=OfAnUNCtlfyeq5KDTqgqX1RFVuZ/WGEsruPZeFUaPjvnsrzK78VdsT1wvuWi7ZtR7
+         T8kSVyCSwfajNIe29m2e257q0mTSrLnatbq79RHdVQk4/NmD8vCXCTGn3qwUmKSCDi
+         urhK63jGoZe9e9h9PJIB3z3C/EICt8Ta9c2bVUupMWlkxWD2lvsupgeDVvCE7KCaEo
+         7zMNyN6ZnztFSuXoUXWWbZKdYkt2dJZJd6/ONRiSVGZ3mSxUDFRV1Eq2rSjLRptpnL
+         84p8bLB5ezthyjzakBX1N3xZOxxQXbb1TBwBwDyH1W2O+zChX1Zh7oyY0JkkkMn+5h
+         3PhOsADNCJa+Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
         Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
         perex@perex.cz, tiwai@suse.com, broonie@kernel.org,
-        divya1.prakash@intel.com, mengyingkun@loongson.cn,
         siyanteng@loongson.cn, zhangyiqun@phytium.com.cn,
         linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 10/16] ALSA: hda: Fix possible null-ptr-deref when assigning a stream
-Date:   Tue,  7 Nov 2023 10:52:29 -0500
-Message-ID: <20231107155249.3768098-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 08/12] ALSA: hda: Fix possible null-ptr-deref when assigning a stream
+Date:   Tue,  7 Nov 2023 10:53:26 -0500
+Message-ID: <20231107155343.3768464-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107155249.3768098-1-sashal@kernel.org>
-References: <20231107155249.3768098-1-sashal@kernel.org>
+In-Reply-To: <20231107155343.3768464-1-sashal@kernel.org>
+References: <20231107155343.3768464-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.199
+X-stable-base: Linux 5.4.259
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
@@ -67,10 +66,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 1e0f61affd979..5570722458caf 100644
+index 2beb94828729d..f810f401c1de8 100644
 --- a/sound/hda/hdac_stream.c
 +++ b/sound/hda/hdac_stream.c
-@@ -320,8 +320,10 @@ struct hdac_stream *snd_hdac_stream_assign(struct hdac_bus *bus,
+@@ -313,8 +313,10 @@ struct hdac_stream *snd_hdac_stream_assign(struct hdac_bus *bus,
  	struct hdac_stream *res = NULL;
  
  	/* make a non-zero unique key for the substream */
