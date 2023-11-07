@@ -2,43 +2,40 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CA3C4332F
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 15:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 891D8C4332F
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 15:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235473AbjKGPyz (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 10:54:55 -0500
+        id S235467AbjKGPzV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 10:55:21 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343862AbjKGPyb (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:54:31 -0500
+        with ESMTP id S235440AbjKGPyy (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:54:54 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71AD33C3B;
-        Tue,  7 Nov 2023 07:50:30 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85A0FC433C7;
-        Tue,  7 Nov 2023 15:50:28 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755A444A4;
+        Tue,  7 Nov 2023 07:50:35 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8286C433C8;
+        Tue,  7 Nov 2023 15:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372230;
-        bh=Cv/QICXBxGN0LBB9aU/l96c/3YUcqq/wkTfR5iVc+44=;
+        s=k20201202; t=1699372235;
+        bh=mKHAdUG1uTSSUK6nPjP51IPtm6q3+JhAE2VDSCzWBdM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sjZ6vIn6reyAzMpxAxlRpSL0sm1Cm1oRedvr5kz5c/MkEH/H5La5dlUjOxjOxt1y/
-         Nik8ZSD4JNjtVaCgy2FMECFKLTV9jqSflQoQBYGMcdzTfXjnL5GMEVIWbC8matCQg0
-         bdWBm1tIB4MnyOM65DA5NWklACXrwmkosr5jheKikkwdxEkYZdXm9prej9ALBTHuVk
-         tTITXTpULrxZ+ciSE68DntwhweXTr75xvMVv0O1EZMnDMdt5WSvHkgAq/pon8Qs+5a
-         WiFO+BP22U5F/TCbCVkzfD4GXxt9saH7xQhhKpvfRsqSVPY8EB/RftKfgxeeGyNGMg
-         WIX7tJo2Eg9ig==
+        b=FrDyvnUu9KdejaO6i/MeGpaKE5Tjwt5CaS5zidkLicyO5drf5vuu9vY0wNeY9UkVt
+         dYTG4nAkLFEVvAZeHuH4cElSf+JY8oypUSDir/uCbzZhlHiHSd/007rVjqP3iljGdT
+         k+pNdn3k0z4Dxfi+Ssrz89h/5enqjOIHVXkM47w3C9jz2j/h2ha0CbpkDKikBGo3AI
+         q6vWRFgvxBqDsZHauAa9i+UGAWIjSbTsCP80pz8Ud/TdnExsjC8q3m+OIIUra0+fUw
+         1bXsIh7w5tt6lNfiDuJuPQ2PmzZErX45xe3bxbC3VLTdlOlZK+Cf5VyQ95dn2ED9SB
+         TedCvrAP4sqMw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, lgirdwood@gmail.com,
+Cc:     "Geoffrey D. Bennett" <g@b4.vu>,
+        Philippe Perrot <philippe@perrot-net.fr>,
+        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
         perex@perex.cz, tiwai@suse.com, peter.ujfalusi@linux.intel.com,
-        yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
-        daniel.baluta@nxp.com, linux-sound@vger.kernel.org,
-        sound-open-firmware@alsa-project.org
-Subject: [PATCH AUTOSEL 6.1 02/30] ASoC: SOF: Pass PCI SSID to machine driver
-Date:   Tue,  7 Nov 2023 10:49:36 -0500
-Message-ID: <20231107155024.3766950-2-sashal@kernel.org>
+        linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 04/30] ALSA: scarlett2: Move USB IDs out from device_info struct
+Date:   Tue,  7 Nov 2023 10:49:38 -0500
+Message-ID: <20231107155024.3766950-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107155024.3766950-1-sashal@kernel.org>
 References: <20231107155024.3766950-1-sashal@kernel.org>
@@ -51,129 +48,192 @@ Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+From: "Geoffrey D. Bennett" <g@b4.vu>
 
-[ Upstream commit ba2de401d32625fe538d3f2c00ca73740dd2d516 ]
+[ Upstream commit d98cc489029dba4d99714c2e8ec4f5ba249f6851 ]
 
-Pass the PCI SSID of the audio interface through to the machine driver.
-This allows the machine driver to use the SSID to uniquely identify the
-specific hardware configuration and apply any platform-specific
-configuration.
+By moving the USB IDs from the device_info struct into
+scarlett2_devices[], that will allow for devices with different
+USB IDs to share the same device_info.
 
-struct snd_sof_pdata is passed around inside the SOF code, but it then
-passes configuration information to the machine driver through
-struct snd_soc_acpi_mach and struct snd_soc_acpi_mach_params. So SSID
-information has been added to both snd_sof_pdata and
-snd_soc_acpi_mach_params.
-
-PCI does not define 0x0000 as an invalid value so we can't use zero to
-indicate that the struct member was not written. Instead a flag is
-included to indicate that a value has been written to the
-subsystem_vendor and subsystem_device members.
-
-sof_pci_probe() creates the struct snd_sof_pdata. It is passed a struct
-pci_dev so it can fill in the SSID value.
-
-sof_machine_check() finds the appropriate struct snd_soc_acpi_mach. It
-copies the SSID information across to the struct snd_soc_acpi_mach_params.
-This done before calling any custom set_mach_params() so that it could be
-used by the set_mach_params() callback to apply variant params.
-
-The machine driver receives the struct snd_soc_acpi_mach as its
-platform_data.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://lore.kernel.org/r/20230912163207.3498161-3-rf@opensource.cirrus.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Tested-by: Philippe Perrot <philippe@perrot-net.fr>
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+Link: https://lore.kernel.org/r/8263368e8d49e6fcebc709817bd82ab79b404468.1694705811.git.g@b4.vu
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/sound/soc-acpi.h    | 7 +++++++
- include/sound/sof.h         | 8 ++++++++
- sound/soc/sof/sof-audio.c   | 7 +++++++
- sound/soc/sof/sof-pci-dev.c | 8 ++++++++
- 4 files changed, 30 insertions(+)
+ sound/usb/mixer_scarlett_gen2.c | 63 ++++++++++++---------------------
+ 1 file changed, 23 insertions(+), 40 deletions(-)
 
-diff --git a/include/sound/soc-acpi.h b/include/sound/soc-acpi.h
-index 528279056b3ab..1a5f90b0a5463 100644
---- a/include/sound/soc-acpi.h
-+++ b/include/sound/soc-acpi.h
-@@ -67,6 +67,10 @@ static inline struct snd_soc_acpi_mach *snd_soc_acpi_codec_list(void *arg)
-  * @i2s_link_mask: I2S/TDM links enabled on the board
-  * @num_dai_drivers: number of elements in @dai_drivers
-  * @dai_drivers: pointer to dai_drivers, used e.g. in nocodec mode
-+ * @subsystem_vendor: optional PCI SSID vendor value
-+ * @subsystem_device: optional PCI SSID device value
-+ * @subsystem_id_set: true if a value has been written to
-+ *		      subsystem_vendor and subsystem_device.
-  */
- struct snd_soc_acpi_mach_params {
- 	u32 acpi_ipc_irq_index;
-@@ -79,6 +83,9 @@ struct snd_soc_acpi_mach_params {
- 	u32 i2s_link_mask;
- 	u32 num_dai_drivers;
- 	struct snd_soc_dai_driver *dai_drivers;
-+	unsigned short subsystem_vendor;
-+	unsigned short subsystem_device;
-+	bool subsystem_id_set;
+diff --git a/sound/usb/mixer_scarlett_gen2.c b/sound/usb/mixer_scarlett_gen2.c
+index 9d11bb08667e7..48f5c9b9790dc 100644
+--- a/sound/usb/mixer_scarlett_gen2.c
++++ b/sound/usb/mixer_scarlett_gen2.c
+@@ -317,8 +317,6 @@ struct scarlett2_mux_entry {
  };
  
- /**
-diff --git a/include/sound/sof.h b/include/sound/sof.h
-index 341fef19e6124..1caeb7bf109b4 100644
---- a/include/sound/sof.h
-+++ b/include/sound/sof.h
-@@ -63,6 +63,14 @@ struct snd_sof_pdata {
- 	const char *name;
- 	const char *platform;
+ struct scarlett2_device_info {
+-	u32 usb_id; /* USB device identifier */
+-
+ 	/* Gen 3 devices have an internal MSD mode switch that needs
+ 	 * to be disabled in order to access the full functionality of
+ 	 * the device.
+@@ -440,8 +438,6 @@ struct scarlett2_data {
+ /*** Model-specific data ***/
  
-+	/*
-+	 * PCI SSID. As PCI does not define 0 as invalid, the subsystem_id_set
-+	 * flag indicates that a value has been written to these members.
-+	 */
-+	unsigned short subsystem_vendor;
-+	unsigned short subsystem_device;
-+	bool subsystem_id_set;
-+
- 	struct device *dev;
+ static const struct scarlett2_device_info s6i6_gen2_info = {
+-	.usb_id = USB_ID(0x1235, 0x8203),
+-
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
+ 	.level_input_count = 2,
+ 	.pad_input_count = 2,
+@@ -486,8 +482,6 @@ static const struct scarlett2_device_info s6i6_gen2_info = {
+ };
  
- 	/* indicate how many first bytes shouldn't be loaded into DSP memory. */
-diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
-index cf2c0db57d899..061ab7289a6c3 100644
---- a/sound/soc/sof/sof-audio.c
-+++ b/sound/soc/sof/sof-audio.c
-@@ -832,6 +832,13 @@ int sof_machine_check(struct snd_sof_dev *sdev)
- 		mach = snd_sof_machine_select(sdev);
- 		if (mach) {
- 			sof_pdata->machine = mach;
-+
-+			if (sof_pdata->subsystem_id_set) {
-+				mach->mach_params.subsystem_vendor = sof_pdata->subsystem_vendor;
-+				mach->mach_params.subsystem_device = sof_pdata->subsystem_device;
-+				mach->mach_params.subsystem_id_set = true;
-+			}
-+
- 			snd_sof_set_mach_params(mach, sdev);
- 			return 0;
- 		}
-diff --git a/sound/soc/sof/sof-pci-dev.c b/sound/soc/sof/sof-pci-dev.c
-index 643fd1036d60b..6e3709561fa86 100644
---- a/sound/soc/sof/sof-pci-dev.c
-+++ b/sound/soc/sof/sof-pci-dev.c
-@@ -210,6 +210,14 @@ int sof_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id)
- 		return ret;
+ static const struct scarlett2_device_info s18i8_gen2_info = {
+-	.usb_id = USB_ID(0x1235, 0x8204),
+-
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
+ 	.level_input_count = 2,
+ 	.pad_input_count = 4,
+@@ -535,8 +529,6 @@ static const struct scarlett2_device_info s18i8_gen2_info = {
+ };
  
- 	sof_pdata->name = pci_name(pci);
+ static const struct scarlett2_device_info s18i20_gen2_info = {
+-	.usb_id = USB_ID(0x1235, 0x8201),
+-
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
+ 	.line_out_hw_vol = 1,
+ 
+@@ -589,8 +581,6 @@ static const struct scarlett2_device_info s18i20_gen2_info = {
+ };
+ 
+ static const struct scarlett2_device_info solo_gen3_info = {
+-	.usb_id = USB_ID(0x1235, 0x8211),
+-
+ 	.has_msd_mode = 1,
+ 	.config_set = SCARLETT2_CONFIG_SET_NO_MIXER,
+ 	.level_input_count = 1,
+@@ -602,8 +592,6 @@ static const struct scarlett2_device_info solo_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s2i2_gen3_info = {
+-	.usb_id = USB_ID(0x1235, 0x8210),
+-
+ 	.has_msd_mode = 1,
+ 	.config_set = SCARLETT2_CONFIG_SET_NO_MIXER,
+ 	.level_input_count = 2,
+@@ -614,8 +602,6 @@ static const struct scarlett2_device_info s2i2_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s4i4_gen3_info = {
+-	.usb_id = USB_ID(0x1235, 0x8212),
+-
+ 	.has_msd_mode = 1,
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
+ 	.level_input_count = 2,
+@@ -660,8 +646,6 @@ static const struct scarlett2_device_info s4i4_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s8i6_gen3_info = {
+-	.usb_id = USB_ID(0x1235, 0x8213),
+-
+ 	.has_msd_mode = 1,
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
+ 	.level_input_count = 2,
+@@ -713,8 +697,6 @@ static const struct scarlett2_device_info s8i6_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s18i8_gen3_info = {
+-	.usb_id = USB_ID(0x1235, 0x8214),
+-
+ 	.has_msd_mode = 1,
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
+ 	.line_out_hw_vol = 1,
+@@ -783,8 +765,6 @@ static const struct scarlett2_device_info s18i8_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s18i20_gen3_info = {
+-	.usb_id = USB_ID(0x1235, 0x8215),
+-
+ 	.has_msd_mode = 1,
+ 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
+ 	.line_out_hw_vol = 1,
+@@ -848,8 +828,6 @@ static const struct scarlett2_device_info s18i20_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info clarett_8pre_info = {
+-	.usb_id = USB_ID(0x1235, 0x820c),
+-
+ 	.config_set = SCARLETT2_CONFIG_SET_CLARETT,
+ 	.line_out_hw_vol = 1,
+ 	.level_input_count = 2,
+@@ -902,25 +880,30 @@ static const struct scarlett2_device_info clarett_8pre_info = {
+ 	} },
+ };
+ 
+-static const struct scarlett2_device_info *scarlett2_devices[] = {
++struct scarlett2_device_entry {
++	const u32 usb_id; /* USB device identifier */
++	const struct scarlett2_device_info *info;
++};
 +
-+	/* PCI defines a vendor ID of 0xFFFF as invalid. */
-+	if (pci->subsystem_vendor != 0xFFFF) {
-+		sof_pdata->subsystem_vendor = pci->subsystem_vendor;
-+		sof_pdata->subsystem_device = pci->subsystem_device;
-+		sof_pdata->subsystem_id_set = true;
-+	}
-+
- 	sof_pdata->desc = desc;
- 	sof_pdata->dev = dev;
++static const struct scarlett2_device_entry scarlett2_devices[] = {
+ 	/* Supported Gen 2 devices */
+-	&s6i6_gen2_info,
+-	&s18i8_gen2_info,
+-	&s18i20_gen2_info,
++	{ USB_ID(0x1235, 0x8203), &s6i6_gen2_info },
++	{ USB_ID(0x1235, 0x8204), &s18i8_gen2_info },
++	{ USB_ID(0x1235, 0x8201), &s18i20_gen2_info },
+ 
+ 	/* Supported Gen 3 devices */
+-	&solo_gen3_info,
+-	&s2i2_gen3_info,
+-	&s4i4_gen3_info,
+-	&s8i6_gen3_info,
+-	&s18i8_gen3_info,
+-	&s18i20_gen3_info,
++	{ USB_ID(0x1235, 0x8211), &solo_gen3_info },
++	{ USB_ID(0x1235, 0x8210), &s2i2_gen3_info },
++	{ USB_ID(0x1235, 0x8212), &s4i4_gen3_info },
++	{ USB_ID(0x1235, 0x8213), &s8i6_gen3_info },
++	{ USB_ID(0x1235, 0x8214), &s18i8_gen3_info },
++	{ USB_ID(0x1235, 0x8215), &s18i20_gen3_info },
+ 
+ 	/* Supported Clarett+ devices */
+-	&clarett_8pre_info,
++	{ USB_ID(0x1235, 0x820c), &clarett_8pre_info },
+ 
+ 	/* End of list */
+-	NULL
++	{ 0, NULL },
+ };
+ 
+ /* get the starting port index number for a given port type/direction */
+@@ -4072,17 +4055,17 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ 
+ static int snd_scarlett_gen2_controls_create(struct usb_mixer_interface *mixer)
+ {
+-	const struct scarlett2_device_info **info = scarlett2_devices;
++	const struct scarlett2_device_entry *entry = scarlett2_devices;
+ 	int err;
+ 
+-	/* Find device in scarlett2_devices */
+-	while (*info && (*info)->usb_id != mixer->chip->usb_id)
+-		info++;
+-	if (!*info)
++	/* Find entry in scarlett2_devices */
++	while (entry->usb_id && entry->usb_id != mixer->chip->usb_id)
++		entry++;
++	if (!entry->usb_id)
+ 		return -EINVAL;
+ 
+ 	/* Initialise private data */
+-	err = scarlett2_init_private(mixer, *info);
++	err = scarlett2_init_private(mixer, entry->info);
+ 	if (err < 0)
+ 		return err;
  
 -- 
 2.42.0
