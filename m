@@ -2,41 +2,44 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC91C00141
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 16:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C8EC4167D
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 16:01:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344197AbjKGQAV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 11:00:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46026 "EHLO
+        id S1343729AbjKGQBW (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 11:01:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344824AbjKGP7n (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:59:43 -0500
+        with ESMTP id S235008AbjKGP76 (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:59:58 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C97B7EF3;
-        Tue,  7 Nov 2023 07:52:53 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA14C433C8;
-        Tue,  7 Nov 2023 15:52:51 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F00F273B;
+        Tue,  7 Nov 2023 07:53:17 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE934C433C7;
+        Tue,  7 Nov 2023 15:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372373;
-        bh=L1B1zDFGVSaiCHf6gca5X0oMN9K/Qx4nc9jrzS+4t2A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IKMJwYC/+492ktq5jXnhJSh8qF/R4yyRj1ezvOzKESN4oAuEH+1Yzo86CvIMsbphV
-         Vam1nknPECC7yXu9Yep0DoJqLczRioHRUGzfwG9QHqloDS4+WEBr+xxsgULmzizRG3
-         +9VAijXqBznPyuf9g9TUrREgB543hEa+x4Ty5ORdPBgUjD7+TchX8f7srSeuD/7V/U
-         qY7jxCGDxx8FDeFDw51mjUj4mMoMSCszm6sHmF+8CMCys9ydMS8LpRGmF1Dv0qT6n5
-         P5vdPsnYWWuo5pXVtyebUnMmifwuny8sgB8ZbxZNewPQSEJkEDAD46uY6btlxA8RhT
-         4pG626ZYEWoQQ==
+        s=k20201202; t=1699372397;
+        bh=Wspxi7izpOnuU7N2S9ML1xipS+KJcQybj1hbm+wsaCk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=iybQmi3so90G6tVO/URPsS27IAAN3ns73xt0lYmaAY+MEb64yHoGmgcXuvgiEkEj7
+         qQQGkoqBMqtwrb17a8qUIsO3xe9xxTJJLf2/pong99VMPWFxP4Y3juBquOV0Zk50fG
+         amjaPnxgItSmKSEMN7nPJhDgr/MojApYx32FDu45CsOGKwfNls1akA/LT92MkA4tRZ
+         8BmkaYvoHocPE4RJpef3YVObNJ703ApMof0O/zuOyEZYkFmMbHYb7bBwvGq4/NvZot
+         haqai+FS9gpzaLTwOhnReRl506QmuoFAq7h2Sr7JgtkcnR45pJ5L62aM2jfykHyDAN
+         ZwtJNAPSKPWvw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, lgirdwood@gmail.com,
-        perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 01/16] ASoC: soc-card: Add storage for PCI SSID
-Date:   Tue,  7 Nov 2023 10:52:20 -0500
-Message-ID: <20231107155249.3768098-1-sashal@kernel.org>
+Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
+        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
+        perex@perex.cz, tiwai@suse.com, broonie@kernel.org,
+        divya1.prakash@intel.com, mengyingkun@loongson.cn,
+        siyanteng@loongson.cn, zhangyiqun@phytium.com.cn,
+        linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 10/16] ALSA: hda: Fix possible null-ptr-deref when assigning a stream
+Date:   Tue,  7 Nov 2023 10:52:29 -0500
+Message-ID: <20231107155249.3768098-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231107155249.3768098-1-sashal@kernel.org>
+References: <20231107155249.3768098-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,120 +49,40 @@ Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+From: Cezary Rojewski <cezary.rojewski@intel.com>
 
-[ Upstream commit 47f56e38a199bd45514b8e0142399cba4feeaf1a ]
+[ Upstream commit f93dc90c2e8ed664985e366aa6459ac83cdab236 ]
 
-Add members to struct snd_soc_card to store the PCI subsystem ID (SSID)
-of the soundcard.
+While AudioDSP drivers assign streams exclusively of HOST or LINK type,
+nothing blocks a user to attempt to assign a COUPLED stream. As
+supplied substream instance may be a stub, what is the case when
+code-loading, such scenario ends with null-ptr-deref.
 
-The PCI specification provides two registers to store a vendor-specific
-SSID that can be read by drivers to uniquely identify a particular
-"soundcard". This is defined in the PCI specification to distinguish
-products that use the same silicon (and therefore have the same silicon
-ID) so that product-specific differences can be applied.
-
-PCI only defines 0xFFFF as an invalid value. 0x0000 is not defined as
-invalid. So the usual pattern of zero-filling the struct and then
-assuming a zero value unset will not work. A flag is included to
-indicate when the SSID information has been filled in.
-
-Unlike DMI information, which has a free-format entirely up to the vendor,
-the PCI SSID has a strictly defined format and a registry of vendor IDs.
-
-It is usual in Windows drivers that the SSID is used as the sole identifier
-of the specific end-product and the Windows driver contains tables mapping
-that to information about the hardware setup, rather than using ACPI
-properties.
-
-This SSID is important information for ASoC components that need to apply
-hardware-specific configuration on PCI-based systems.
-
-As the SSID is a generic part of the PCI specification and is treated as
-identifying the "soundcard", it is reasonable to include this information
-in struct snd_soc_card, instead of components inventing their own custom
-ways to pass this information around.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://lore.kernel.org/r/20230912163207.3498161-2-rf@opensource.cirrus.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Link: https://lore.kernel.org/r/20231006102857.749143-2-cezary.rojewski@intel.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/sound/soc-card.h | 37 +++++++++++++++++++++++++++++++++++++
- include/sound/soc.h      | 11 +++++++++++
- 2 files changed, 48 insertions(+)
+ sound/hda/hdac_stream.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/sound/soc-card.h b/include/sound/soc-card.h
-index 4f2cc4fb56b7f..9a5429260ece5 100644
---- a/include/sound/soc-card.h
-+++ b/include/sound/soc-card.h
-@@ -40,6 +40,43 @@ int snd_soc_card_add_dai_link(struct snd_soc_card *card,
- void snd_soc_card_remove_dai_link(struct snd_soc_card *card,
- 				  struct snd_soc_dai_link *dai_link);
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 1e0f61affd979..5570722458caf 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -320,8 +320,10 @@ struct hdac_stream *snd_hdac_stream_assign(struct hdac_bus *bus,
+ 	struct hdac_stream *res = NULL;
  
-+#ifdef CONFIG_PCI
-+static inline void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
-+					     unsigned short vendor,
-+					     unsigned short device)
-+{
-+	card->pci_subsystem_vendor = vendor;
-+	card->pci_subsystem_device = device;
-+	card->pci_subsystem_set = true;
-+}
+ 	/* make a non-zero unique key for the substream */
+-	int key = (substream->pcm->device << 16) | (substream->number << 2) |
+-		(substream->stream + 1);
++	int key = (substream->number << 2) | (substream->stream + 1);
 +
-+static inline int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
-+					    unsigned short *vendor,
-+					    unsigned short *device)
-+{
-+	if (!card->pci_subsystem_set)
-+		return -ENOENT;
-+
-+	*vendor = card->pci_subsystem_vendor;
-+	*device = card->pci_subsystem_device;
-+
-+	return 0;
-+}
-+#else /* !CONFIG_PCI */
-+static inline void snd_soc_card_set_pci_ssid(struct snd_soc_card *card,
-+					     unsigned short vendor,
-+					     unsigned short device)
-+{
-+}
-+
-+static inline int snd_soc_card_get_pci_ssid(struct snd_soc_card *card,
-+					    unsigned short *vendor,
-+					    unsigned short *device)
-+{
-+	return -ENOENT;
-+}
-+#endif /* CONFIG_PCI */
-+
- /* device driver data */
- static inline void snd_soc_card_set_drvdata(struct snd_soc_card *card,
- 					    void *data)
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 3b038c563ae14..e973044143bc9 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -977,6 +977,17 @@ struct snd_soc_card {
- #ifdef CONFIG_DMI
- 	char dmi_longname[80];
- #endif /* CONFIG_DMI */
-+
-+#ifdef CONFIG_PCI
-+	/*
-+	 * PCI does not define 0 as invalid, so pci_subsystem_set indicates
-+	 * whether a value has been written to these fields.
-+	 */
-+	unsigned short pci_subsystem_vendor;
-+	unsigned short pci_subsystem_device;
-+	bool pci_subsystem_set;
-+#endif /* CONFIG_PCI */
-+
- 	char topology_shortname[32];
++	if (substream->pcm)
++		key |= (substream->pcm->device << 16);
  
- 	struct device *dev;
+ 	spin_lock_irq(&bus->reg_lock);
+ 	list_for_each_entry(azx_dev, &bus->stream_list, list) {
 -- 
 2.42.0
 
