@@ -2,40 +2,41 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F378FC4332F
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 15:47:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD61C4167B
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 15:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235546AbjKGPra (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 10:47:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
+        id S1344196AbjKGPsa (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 10:48:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344035AbjKGPrP (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:47:15 -0500
+        with ESMTP id S1344199AbjKGPsE (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 10:48:04 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331ECDF;
-        Tue,  7 Nov 2023 07:47:13 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAA0AC433C9;
-        Tue,  7 Nov 2023 15:47:11 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F82B10C1;
+        Tue,  7 Nov 2023 07:47:41 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91B64C433CA;
+        Tue,  7 Nov 2023 15:47:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699372032;
-        bh=4MmKKuNVnj+NVnyu774P4r8Sl2NY59lB31bp2akadoM=;
+        s=k20201202; t=1699372060;
+        bh=fEtMn1hCvtVi25a3tRCRxH8zwGvDPOKB7irIAeWf0tA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a1QBKvuFDDRrXrcNH2UJ1LnJrwW5MDw7pEXEIixd9np3+b7ZkFBOOnFbj05CAoQyI
-         9CPUFQ5A+e3+bvzZDQfrmmQFtupDx3rA8peCaHOPZpvX8PcLdzwIwXn/dyB1Lk4Ew+
-         evnWWx1/fsyVFk9ibxjuYDVSanJd0w8d1zIFP8rB81a1zritOsxCkPz7HaYonGj0FB
-         fzL1KWOqAgVfA8Y/0Icx8Xa6/R0wW6aQDPPN2ZmWVp7SrRHvKCShBSY5SVVHOkCg+L
-         jUlzOmp+SNiK7xgEK/nVu+71IQBVMBRfQhO0mpPntdtVeGs29m8bl+ydfFXAnbt5w9
-         4lMIjWihJ1DJA==
+        b=qsNplp6cDDHq8kOp0LhHsrN1fCrBlgG8So2/sNuWN1D8z3lR+sSXDzqo7krjkPazF
+         aLdFwtDze9ohLnlOLYMIbr8IIO1xPRxab5/eEnU8VZKZbL06lGFonVbVzADsG4wh1N
+         sEqVS8t5Yxl7Tm3lRbkW79vWbBq2iX4WWD0NDcmBTNIaaMK18n/HG4UgGOw/7SbtsG
+         /uOZDJeIgxgTOm8EgtSMTfORUpFDfjHSHI5/xi/zvl4Xo0FiUvCUydtXgeDX5aYHEu
+         w/KMCHx9MZXvJ7QIokKHhqP+cX1MNbIw1tvkgEs8hAx0rq1Zo1FtzIWL0QBD9lBHub
+         RmRN0gmvll9eQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Geoffrey D. Bennett" <g@b4.vu>,
-        Philippe Perrot <philippe@perrot-net.fr>,
+Cc:     Cezary Rojewski <cezary.rojewski@intel.com>,
         Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
-        perex@perex.cz, tiwai@suse.com, peter.ujfalusi@linux.intel.com,
+        perex@perex.cz, tiwai@suse.com, broonie@kernel.org,
+        mengyingkun@loongson.cn, divya1.prakash@intel.com,
+        siyanteng@loongson.cn, zhangyiqun@phytium.com.cn,
         linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 07/36] ALSA: scarlett2: Move USB IDs out from device_info struct
-Date:   Tue,  7 Nov 2023 10:45:49 -0500
-Message-ID: <20231107154654.3765336-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 18/36] ALSA: hda: Fix possible null-ptr-deref when assigning a stream
+Date:   Tue,  7 Nov 2023 10:46:00 -0500
+Message-ID: <20231107154654.3765336-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107154654.3765336-1-sashal@kernel.org>
 References: <20231107154654.3765336-1-sashal@kernel.org>
@@ -48,193 +49,40 @@ Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-From: "Geoffrey D. Bennett" <g@b4.vu>
+From: Cezary Rojewski <cezary.rojewski@intel.com>
 
-[ Upstream commit d98cc489029dba4d99714c2e8ec4f5ba249f6851 ]
+[ Upstream commit f93dc90c2e8ed664985e366aa6459ac83cdab236 ]
 
-By moving the USB IDs from the device_info struct into
-scarlett2_devices[], that will allow for devices with different
-USB IDs to share the same device_info.
+While AudioDSP drivers assign streams exclusively of HOST or LINK type,
+nothing blocks a user to attempt to assign a COUPLED stream. As
+supplied substream instance may be a stub, what is the case when
+code-loading, such scenario ends with null-ptr-deref.
 
-Tested-by: Philippe Perrot <philippe@perrot-net.fr>
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-Link: https://lore.kernel.org/r/8263368e8d49e6fcebc709817bd82ab79b404468.1694705811.git.g@b4.vu
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Link: https://lore.kernel.org/r/20231006102857.749143-2-cezary.rojewski@intel.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/usb/mixer_scarlett_gen2.c | 63 ++++++++++++---------------------
- 1 file changed, 23 insertions(+), 40 deletions(-)
+ sound/hda/hdac_stream.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/sound/usb/mixer_scarlett_gen2.c b/sound/usb/mixer_scarlett_gen2.c
-index d260be8cb6bc0..606dc6b5cedf9 100644
---- a/sound/usb/mixer_scarlett_gen2.c
-+++ b/sound/usb/mixer_scarlett_gen2.c
-@@ -317,8 +317,6 @@ struct scarlett2_mux_entry {
- };
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 2633a4bb1d85d..214a0680524b0 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -354,8 +354,10 @@ struct hdac_stream *snd_hdac_stream_assign(struct hdac_bus *bus,
+ 	struct hdac_stream *res = NULL;
  
- struct scarlett2_device_info {
--	u32 usb_id; /* USB device identifier */
--
- 	/* Gen 3 devices have an internal MSD mode switch that needs
- 	 * to be disabled in order to access the full functionality of
- 	 * the device.
-@@ -440,8 +438,6 @@ struct scarlett2_data {
- /*** Model-specific data ***/
- 
- static const struct scarlett2_device_info s6i6_gen2_info = {
--	.usb_id = USB_ID(0x1235, 0x8203),
--
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
- 	.level_input_count = 2,
- 	.pad_input_count = 2,
-@@ -486,8 +482,6 @@ static const struct scarlett2_device_info s6i6_gen2_info = {
- };
- 
- static const struct scarlett2_device_info s18i8_gen2_info = {
--	.usb_id = USB_ID(0x1235, 0x8204),
--
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
- 	.level_input_count = 2,
- 	.pad_input_count = 4,
-@@ -535,8 +529,6 @@ static const struct scarlett2_device_info s18i8_gen2_info = {
- };
- 
- static const struct scarlett2_device_info s18i20_gen2_info = {
--	.usb_id = USB_ID(0x1235, 0x8201),
--
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
- 	.line_out_hw_vol = 1,
- 
-@@ -589,8 +581,6 @@ static const struct scarlett2_device_info s18i20_gen2_info = {
- };
- 
- static const struct scarlett2_device_info solo_gen3_info = {
--	.usb_id = USB_ID(0x1235, 0x8211),
--
- 	.has_msd_mode = 1,
- 	.config_set = SCARLETT2_CONFIG_SET_NO_MIXER,
- 	.level_input_count = 1,
-@@ -602,8 +592,6 @@ static const struct scarlett2_device_info solo_gen3_info = {
- };
- 
- static const struct scarlett2_device_info s2i2_gen3_info = {
--	.usb_id = USB_ID(0x1235, 0x8210),
--
- 	.has_msd_mode = 1,
- 	.config_set = SCARLETT2_CONFIG_SET_NO_MIXER,
- 	.level_input_count = 2,
-@@ -614,8 +602,6 @@ static const struct scarlett2_device_info s2i2_gen3_info = {
- };
- 
- static const struct scarlett2_device_info s4i4_gen3_info = {
--	.usb_id = USB_ID(0x1235, 0x8212),
--
- 	.has_msd_mode = 1,
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
- 	.level_input_count = 2,
-@@ -660,8 +646,6 @@ static const struct scarlett2_device_info s4i4_gen3_info = {
- };
- 
- static const struct scarlett2_device_info s8i6_gen3_info = {
--	.usb_id = USB_ID(0x1235, 0x8213),
--
- 	.has_msd_mode = 1,
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
- 	.level_input_count = 2,
-@@ -713,8 +697,6 @@ static const struct scarlett2_device_info s8i6_gen3_info = {
- };
- 
- static const struct scarlett2_device_info s18i8_gen3_info = {
--	.usb_id = USB_ID(0x1235, 0x8214),
--
- 	.has_msd_mode = 1,
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
- 	.line_out_hw_vol = 1,
-@@ -783,8 +765,6 @@ static const struct scarlett2_device_info s18i8_gen3_info = {
- };
- 
- static const struct scarlett2_device_info s18i20_gen3_info = {
--	.usb_id = USB_ID(0x1235, 0x8215),
--
- 	.has_msd_mode = 1,
- 	.config_set = SCARLETT2_CONFIG_SET_GEN_3,
- 	.line_out_hw_vol = 1,
-@@ -848,8 +828,6 @@ static const struct scarlett2_device_info s18i20_gen3_info = {
- };
- 
- static const struct scarlett2_device_info clarett_8pre_info = {
--	.usb_id = USB_ID(0x1235, 0x820c),
--
- 	.config_set = SCARLETT2_CONFIG_SET_CLARETT,
- 	.line_out_hw_vol = 1,
- 	.level_input_count = 2,
-@@ -902,25 +880,30 @@ static const struct scarlett2_device_info clarett_8pre_info = {
- 	} },
- };
- 
--static const struct scarlett2_device_info *scarlett2_devices[] = {
-+struct scarlett2_device_entry {
-+	const u32 usb_id; /* USB device identifier */
-+	const struct scarlett2_device_info *info;
-+};
+ 	/* make a non-zero unique key for the substream */
+-	int key = (substream->pcm->device << 16) | (substream->number << 2) |
+-		(substream->stream + 1);
++	int key = (substream->number << 2) | (substream->stream + 1);
 +
-+static const struct scarlett2_device_entry scarlett2_devices[] = {
- 	/* Supported Gen 2 devices */
--	&s6i6_gen2_info,
--	&s18i8_gen2_info,
--	&s18i20_gen2_info,
-+	{ USB_ID(0x1235, 0x8203), &s6i6_gen2_info },
-+	{ USB_ID(0x1235, 0x8204), &s18i8_gen2_info },
-+	{ USB_ID(0x1235, 0x8201), &s18i20_gen2_info },
++	if (substream->pcm)
++		key |= (substream->pcm->device << 16);
  
- 	/* Supported Gen 3 devices */
--	&solo_gen3_info,
--	&s2i2_gen3_info,
--	&s4i4_gen3_info,
--	&s8i6_gen3_info,
--	&s18i8_gen3_info,
--	&s18i20_gen3_info,
-+	{ USB_ID(0x1235, 0x8211), &solo_gen3_info },
-+	{ USB_ID(0x1235, 0x8210), &s2i2_gen3_info },
-+	{ USB_ID(0x1235, 0x8212), &s4i4_gen3_info },
-+	{ USB_ID(0x1235, 0x8213), &s8i6_gen3_info },
-+	{ USB_ID(0x1235, 0x8214), &s18i8_gen3_info },
-+	{ USB_ID(0x1235, 0x8215), &s18i20_gen3_info },
- 
- 	/* Supported Clarett+ devices */
--	&clarett_8pre_info,
-+	{ USB_ID(0x1235, 0x820c), &clarett_8pre_info },
- 
- 	/* End of list */
--	NULL
-+	{ 0, NULL },
- };
- 
- /* get the starting port index number for a given port type/direction */
-@@ -4072,17 +4055,17 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
- 
- static int snd_scarlett_gen2_controls_create(struct usb_mixer_interface *mixer)
- {
--	const struct scarlett2_device_info **info = scarlett2_devices;
-+	const struct scarlett2_device_entry *entry = scarlett2_devices;
- 	int err;
- 
--	/* Find device in scarlett2_devices */
--	while (*info && (*info)->usb_id != mixer->chip->usb_id)
--		info++;
--	if (!*info)
-+	/* Find entry in scarlett2_devices */
-+	while (entry->usb_id && entry->usb_id != mixer->chip->usb_id)
-+		entry++;
-+	if (!entry->usb_id)
- 		return -EINVAL;
- 
- 	/* Initialise private data */
--	err = scarlett2_init_private(mixer, *info);
-+	err = scarlett2_init_private(mixer, entry->info);
- 	if (err < 0)
- 		return err;
- 
+ 	spin_lock_irq(&bus->reg_lock);
+ 	list_for_each_entry(azx_dev, &bus->stream_list, list) {
 -- 
 2.42.0
 
