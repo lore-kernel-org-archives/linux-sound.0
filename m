@@ -2,77 +2,88 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35864C4332F
-	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 14:02:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C13DC4167D
+	for <linux-sound@archiver.kernel.org>; Tue,  7 Nov 2023 14:08:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbjKGOCS (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 7 Nov 2023 09:02:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59622 "EHLO
+        id S229665AbjKGOIz (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 7 Nov 2023 09:08:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjKGOCR (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 09:02:17 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AD0A2;
-        Tue,  7 Nov 2023 06:02:15 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84B83C433C7;
-        Tue,  7 Nov 2023 14:02:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699365734;
-        bh=+6mQ9bbmmseHzj3M7Iyp2LgNn/cHwP0SDYVcmlkDjb0=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=hHiKmgl5mTJ4LtNITG0baiIuAc7p+GZ9OlqWZF1YD+T2rao5yLMTOvoaTC4QWJp3+
-         S6ejkps8uYkLTOZbM3q+elPbgP2RJJQpJW2dxTNJNQ60wGf+l9cjZJcbPcrWLLtoSI
-         HWCfAa3/IyJ0fQDWDBOKCwBf1ZLpHhMVL5iQ+ZqoUQF2HxnbL6FmeK7LTvcbpw6DzN
-         sbNHPDtHjObWM2DGB3fK66ev6oNVhZq9br1tZNEjPAcFIFUmCoA1gXUikegNUr7hu3
-         8Q6IkqHu2sFoGFPyzEYWNxJ19NGjZ2D5k4LIDzwAeVntIXFDAbgBVAk9bvyMo6UgKR
-         x0q+EJ6lZEplg==
-From:   Mark Brown <broonie@kernel.org>
-To:     sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
-        Eugen Hristev <eugen.hristev@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com
-In-Reply-To: <20231031112218.79136-1-eugen.hristev@collabora.com>
-References: <20231031112218.79136-1-eugen.hristev@collabora.com>
-Subject: Re: [PATCH] ASoC: SOF: sof-client: trivial: fix comment typo
-Message-Id: <169936573326.3097787.14702265227428637348.b4-ty@kernel.org>
-Date:   Tue, 07 Nov 2023 14:02:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+        with ESMTP id S234253AbjKGOIy (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Tue, 7 Nov 2023 09:08:54 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADB8A3;
+        Tue,  7 Nov 2023 06:08:51 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id A32FE2190B;
+        Tue,  7 Nov 2023 14:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1699366129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/nyKy6iaBz29y9JJofBAFRBH+SAdIZsrUT2N7OCr0LU=;
+        b=Fo+MY/eoOcxt5u/LbrLpmMERri6PZWW7QmQKjXVDtSHXPGkhGY0NENqR+/kmH/ZxSOCqL6
+        lNKaSkUOuYHMWgkMt/EXqbDHo9aCpo0qdVvXMH3MZwLJLBiYCmlq0oz5ioducyjF8YQwkt
+        Npgeu1pq8MwwCungrYJyT9Ggs5P7/5A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1699366129;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/nyKy6iaBz29y9JJofBAFRBH+SAdIZsrUT2N7OCr0LU=;
+        b=r/tVEOrTl0bs+lU1x047g5A70c76lTm50iEzXEVagq6LDPbpeMmxxDJX77xtaeWxSoK3rf
+        ag1gOAHKLxX8cBCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E89D13907;
+        Tue,  7 Nov 2023 14:08:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 1bAIEvFESmUkdgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Tue, 07 Nov 2023 14:08:49 +0000
+Date:   Tue, 07 Nov 2023 15:08:48 +0100
+Message-ID: <87wmutr6z3.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Alex Spataru <alex_spataru@outlook.com>
+Cc:     perex@perex.cz, tiwai@suse.com,
+        Stefan Binding <sbinding@opensource.cirrus.com>,
+        Kailang Yang <kailang@realtek.com>,
+        "Luke D. Jones" <luke@ljones.dev>,
+        Andy Chi <andy.chi@canonical.com>,
+        Shenghao Ding <shenghao-ding@ti.com>,
+        Matthew Anderson <ruinairas1992@gmail.com>,
+        Luka Guzenko <l.guzenko@web.de>,
+        Yuchi Yang <yangyuchi66@gmail.com>,
+        Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for ASUS UX7602ZM
+In-Reply-To: <DS7PR07MB7621BB5BB14F5473D181624CE3A4A@DS7PR07MB7621.namprd07.prod.outlook.com>
+References: <DS7PR07MB7621BB5BB14F5473D181624CE3A4A@DS7PR07MB7621.namprd07.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Tue, 31 Oct 2023 13:22:18 +0200, Eugen Hristev wrote:
-> Fix typo s/depndent/dependent
+On Sat, 04 Nov 2023 22:01:52 +0100,
+Alex Spataru wrote:
 > 
+> Enables the SPI-connected CSC35L41 audio amplifier for this
+> laptop model.
 > 
+> As of BIOS version 303 it's still necessary to
+> modify the ACPI table to add the related _DSD properties:
+> https://github.com/alex-spataru/asus_zenbook_ux7602zm_sound/
+> 
+> Signed-off-by: Alex Spataru <alex_spataru@outlook.com>
 
-Applied to
+Thanks, applied now.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[1/1] ASoC: SOF: sof-client: trivial: fix comment typo
-      commit: 45f2f28bd498fb697d07a38775d55f0f50fee5ca
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
