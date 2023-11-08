@@ -2,146 +2,107 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 591F2C4332F
-	for <linux-sound@archiver.kernel.org>; Wed,  8 Nov 2023 12:22:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F7DC04A95
+	for <linux-sound@archiver.kernel.org>; Wed,  8 Nov 2023 13:07:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbjKHMW5 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Wed, 8 Nov 2023 07:22:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
+        id S1344630AbjKHNHW (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Wed, 8 Nov 2023 08:07:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjKHMW4 (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Wed, 8 Nov 2023 07:22:56 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A5F1BE9
-        for <linux-sound@vger.kernel.org>; Wed,  8 Nov 2023 04:22:54 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-4081ccf69dcso4420025e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Nov 2023 04:22:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699446173; x=1700050973; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nFtkp1WXWvmMcrmj//rqtbDnPHPyLprIYpSdcazwXSI=;
-        b=wH2yYnNV9wg+ZiypgBM82EcAxLMQ6K6PpcnOLsGaxE9xHvPr1OOSPW93Xwnx8v0Vka
-         HoMtkFZwqF/+Hzpla59cj5DMOGe9PG+g5fgmOUqRaFInUt8wEfOpvyOVkLkWM3mtiWGT
-         nIPR1am8//NovTMQqr9ffxR1TXvUU1zCjguh6a0qh2LpZyNCDejeLcnuVTHqynKLElh/
-         YrBGWIbHsrGkZ91MJhHGSrmyI29L7JbrJV9NwmeUIsgjQYFNFObp5n8rnvwS4cdFvrm6
-         YpAPLTYZgTUb6sMuGYVrB1R3EK0iNgjMlj1+5mFj7TZsTnO4fI2IcET0/FVI1Q8AbMPa
-         O+mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699446173; x=1700050973;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nFtkp1WXWvmMcrmj//rqtbDnPHPyLprIYpSdcazwXSI=;
-        b=f8CLdkYA+9lRrPWurOUfcE6uAQxuocm+lV3TYioA4RlFVvb+bPOSVcDfIRHw73Igaa
-         BsM44jk8NP2P78Y67PZDk0/JH99tX23AdZsJ1EyZztYwngEw2lEIvYoZAsDQo4qjslem
-         V2JkojpVCRsLdiI2EdaYKckad62KeWurY30fmWEJo3zmAN7ueJGrLP/bW+S1QiDwxQIw
-         /VCjH4wwsi9r2LY/WuzH1PGmAZRGrQMfrpTRXuyJ5iLa2C19RTMQlmoAOi+Rylp792UH
-         c/CSygTj2VMjqx0R/cftm4ev+BtUA95aTqoUVY+P7zJ/S8ex1Bj9nnhFiTiT7MYjXNUj
-         c0BQ==
-X-Gm-Message-State: AOJu0YzkaDV2pa4ic/TOzAmWxhlXQy+GSKm9vD1ORF1W0lg9LlTdffSL
-        X1XneICOCr82Z2+3gd63mfVCKw==
-X-Google-Smtp-Source: AGHT+IH+gFXC15Igm1ZvJuS/ptZBKeuaFlRoHXtLsAxb3/6Zc9O0XgB9C5ACd8JRnd0e9Ixoa1u8wQ==
-X-Received: by 2002:a05:600c:3d9a:b0:407:5de2:ea4d with SMTP id bi26-20020a05600c3d9a00b004075de2ea4dmr6847486wmb.13.1699446173077;
-        Wed, 08 Nov 2023 04:22:53 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id fl17-20020a05600c0b9100b004097881d5f0sm16506503wmb.29.2023.11.08.04.22.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 04:22:52 -0800 (PST)
-Message-ID: <5365a3d6-6120-481d-a2a5-3a32aac2899b@linaro.org>
-Date:   Wed, 8 Nov 2023 13:22:50 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: use "soundwire" as controller's node
- name in examples
-Content-Language: en-US
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        with ESMTP id S229940AbjKHNHU (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Wed, 8 Nov 2023 08:07:20 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B5D1AE;
+        Wed,  8 Nov 2023 05:07:18 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFAAEC433C8;
+        Wed,  8 Nov 2023 13:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699448838;
+        bh=oi5w46XUUj+5eCHt5HUP0e7A7OgjsfNv+uqws1harcw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=USgbXuQE+ahS0wMNzK3GZRWrt2o4EadreHpU54UrkxxsZTTz0+LAe6fX8RvlykKp3
+         GnmJtzyZD1B5KT90EnuOrpS45Wn4Ug2QUbGzOlIaMw4h8TYxXniEVURlDAPEFofnAA
+         iULsGnxGgZ2r3S/txUvuyAC4NfimqV7S5ugviXvv/bC9zlMCTAI9ifoFUl0qap50eK
+         8xnqTE2LkaSAP45eLgiKG3jc+Tl0L9OlmfUcmBV78/c8SmRpnZH7a47rwrNZWy6prh
+         1BOu/wADh/rVR70guv/oGFc/pjZ9rrdvWZkVYr2T0XYKkEeW2YWOsyGVWaKdWKHEcO
+         jUDvq/YygN9Fw==
+Date:   Wed, 8 Nov 2023 13:07:14 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Ryan Lee <ryans.lee@analog.com>, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-References: <20231107101610.13728-1-krzysztof.kozlowski@linaro.org>
- <20231108-outback-composed-c620cd86c234@spud>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231108-outback-composed-c620cd86c234@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 11/17] ASoC: dt-bindings: samsung-i2s: add specific
+ compatibles for existing SoC
+Message-ID: <ZUuIAihzcOqkVsWG@finisterre.sirena.org.uk>
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <20231108104343.24192-12-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="X+QegD6ebh8cp8W3"
+Content-Disposition: inline
+In-Reply-To: <20231108104343.24192-12-krzysztof.kozlowski@linaro.org>
+X-Cookie: Slow day.  Practice crawling.
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 08/11/2023 13:17, Conor Dooley wrote:
-> On Tue, Nov 07, 2023 at 11:16:10AM +0100, Krzysztof Kozlowski wrote:
->> Soundwire Devicetree bindings expect the Soundwire controller device
->> node to be named just "soundwire".  Correct examples, so the incorrect
->> code will not be re-used.
->>
->> Reported-by: Neil Armstrong <neil.armstrong@linaro.org>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-> FWIW, there are a few instances of "soundwire-controller" in qcom
-> devicetrees that you might also want to change.
 
-Yes, already sent.
-https://lore.kernel.org/all/?q=s%3Aqcom+s%3Asoundwire+s%3Anode
+--X+QegD6ebh8cp8W3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+On Wed, Nov 08, 2023 at 11:43:37AM +0100, Krzysztof Kozlowski wrote:
+> Samsung Exynos SoC reuses several devices from older designs, thus
+> historically we kept the old (block's) compatible only.  This works fine
+> and there is no bug here, however guidelines expressed in
+> Documentation/devicetree/bindings/writing-bindings.rst state that:
 
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--X+QegD6ebh8cp8W3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVLh/wACgkQJNaLcl1U
+h9D+/Af+MyEPu0I4eqVGYfK3Bo/6Rvq3LXEhL2x1vksJCKJjNwBBvQHqRWRTBZXL
+VEhtg6O887bE4a7Hy4RErRnb978JM4kG0mM4qBPhwgv9YoqD9Ymr7jFfp8dRru28
+hGY35dYXNXlC3LMJ1CdSVnubfo0QPHIzRYwWO4xpz0/BqNtsJlELPaU2s1q0wDHO
+v/nMVrIE3Xzjp4iQEXcyfZa4k73XOYHmSqxR0H9xiDayBgMuUkypOeDs/qGpO+mW
+Bp4IbvvgVJr9ifLmpCMlZWSQryHbiOR3cpJHR6Tb3UhjJKUgccQLyGHgBfAgiSqJ
+x6Tc2OIcYB5l2yn9+JONwgLPLMiALg==
+=Ypqx
+-----END PGP SIGNATURE-----
+
+--X+QegD6ebh8cp8W3--
