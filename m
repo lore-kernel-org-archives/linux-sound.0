@@ -2,53 +2,53 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A663C04E88
-	for <linux-sound@archiver.kernel.org>; Wed,  8 Nov 2023 10:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CC8C04E83
+	for <linux-sound@archiver.kernel.org>; Wed,  8 Nov 2023 10:44:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344475AbjKHKoM (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Wed, 8 Nov 2023 05:44:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59600 "EHLO
+        id S1344391AbjKHKo3 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Wed, 8 Nov 2023 05:44:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344387AbjKHKoL (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Wed, 8 Nov 2023 05:44:11 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C0871BE3
-        for <linux-sound@vger.kernel.org>; Wed,  8 Nov 2023 02:44:00 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-4084b0223ccso48496405e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 08 Nov 2023 02:44:00 -0800 (PST)
+        with ESMTP id S1344482AbjKHKoN (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Wed, 8 Nov 2023 05:44:13 -0500
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A8A41FC9
+        for <linux-sound@vger.kernel.org>; Wed,  8 Nov 2023 02:44:08 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c6ef6c1ec2so82458001fa.2
+        for <linux-sound@vger.kernel.org>; Wed, 08 Nov 2023 02:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699440239; x=1700045039; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699440246; x=1700045046; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yAjfTJh92uvbCJqXeCi670gcjaUuY+h2OqROwS33rLc=;
-        b=hY5KIDh5hsZxVwhLfTKBUVrVz5npia1F21b068Tw9AAURGCX1u2TucQihDQyEphwKq
-         6vowusYI3F+q704E+HkI2qSiF/C7Ky6UDmQ3G4BsFMN5YxySiQLixsz2Oa3LMqP0H5tl
-         kDNboMWeFGBl6YPByRE/aNR7U2s6Fsz3SVxb/r7ZRugVlhUHjEcmTynBagwLFvMnjofc
-         5hFMHeOMRNnbIDcuMMEI4iB/y2DyynOl72Eku3KNTht8vXj36o2akDp49SCYe8jp0kfi
-         24kG+NIhCsuaVDRZtNI8lo3UQAypL72itK0eqJc0UTpUXEfJPLTKsTH9/dIC0uYlMDmX
-         DPTA==
+        bh=rrZs4emLFc9OjGPQr8NhVrDcx8agcy43Q5wHxC/jdF8=;
+        b=EOetgq+EAIJ05W+ev4Wve0IkHGcFdIgWzLuewJbfEdOGqJjFEFe8kcgNE0SuvRUuaQ
+         dO/nz8qBrD/EzIaTI59GRsQJdwxl5RvMzWrWOpHF4Z78GkC6qPhNXbCvl/D/YVY7Y3IC
+         8Eibq8xaXG7jcEEz5Ry2H13xyrJC8IjBaxTxbS6+0oS7l15n8Xp92jSMOrmktjluwXRp
+         o/oRde/0wfDPvjSaVmFeDqrxIlb5wtt8SWBJ55/7nDv8DF7YwxXhvuPvo8ItTGdaWPxJ
+         NvJGHqUqwz8unWRDPSNe+2tT6fONv1FsSyN5tVyOnoh13ULf8z1LNIjCObfDuAliGtSI
+         P8zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699440239; x=1700045039;
+        d=1e100.net; s=20230601; t=1699440246; x=1700045046;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yAjfTJh92uvbCJqXeCi670gcjaUuY+h2OqROwS33rLc=;
-        b=chBPBLLpyZ0BMO2iGVLvSazqAJLGZJDtz3S+UKASqUPcRN0uvVUtq8cGTRumJfllA9
-         RV0yekWLeyKYbxvF8EN7EFZkqbA4OORAf3LpP2g5HiGlvXF4ywvTJeD7JAUesf6PQF0t
-         xqc9Y6v/a7CSSq7G5E01uZeJp1gzzLEl3gXRQuogukFWtahJwFTbcnytCOT86xDaC1hs
-         PM9lWsiR8pdfHgj5v++MfLQaZ51mPQlh8AtcSoWpHwaXDhZUzKlRHPyHIZK9EjkDHkJg
-         x2IJC+PXfwJ+GzUn2RC8zHOS9nspWNJV0fkMxNh4+GYpENNp6ar0ViRa/vzfi8hXGJzP
-         RqPQ==
-X-Gm-Message-State: AOJu0Yxxj1XIXPEUxQe+447h+1AB7C3b+jCPueEIrAWgUEEFk+G4rqJY
-        1yntC4n0lWaY0XTeOPJmtCrPAg==
-X-Google-Smtp-Source: AGHT+IHIdIU7uiCUR0CHcHyVefUtJ+PHqY1ijnjV387qyUxWKGaH50797907TE+JsncllGcRuZSEtA==
-X-Received: by 2002:a05:600c:3104:b0:406:3fda:962c with SMTP id g4-20020a05600c310400b004063fda962cmr1471144wmo.31.1699440238661;
-        Wed, 08 Nov 2023 02:43:58 -0800 (PST)
+        bh=rrZs4emLFc9OjGPQr8NhVrDcx8agcy43Q5wHxC/jdF8=;
+        b=PkvK7PEwl0OcD1aPy8F3OjNuUggHEqw4R1G+whV06xn+sVnimXWBtDrFCW9CsFX/A0
+         E98W3KezPOW/HNYS0nJ8cWJJS+XTlnJcGT/vJinCMKJ5D5k13lImCsR280qNv8rmOz/d
+         sHOlXGD4FIaXMVQdPMNGaotKrdfD7XMmOotdw/+LF9+pdx6wm43uUcOI9jHly8nZySCN
+         yWnCbkfv6jX5c79rFD/R6f3sL7EYoaAVeqcjk4S+1u2BCFJ2MSQk863CSbdqyhu/IPeH
+         O+D9QYZOhYscyL+yVuB4kUAZL6xDBh0e01JOhI4ojS3d4PGFU+CD5nDAT1/26C8YZsXc
+         1iIA==
+X-Gm-Message-State: AOJu0YwiZua0LZ0Sr6cQ9KfD6jclajnM5bNQ0rjWPyanR8tt03iSWWDC
+        ypQn8Ykcrym+VPcVhVYdblJA4w==
+X-Google-Smtp-Source: AGHT+IGa+2sMFPnXDCg+/Kp94WpmPGqJxAqZSoI9EBPYbrrl77NmQH95hc0MBEym2E6Wk3ngRYzA3Q==
+X-Received: by 2002:a05:651c:19ab:b0:2b6:fa3f:9230 with SMTP id bx43-20020a05651c19ab00b002b6fa3f9230mr1578553ljb.46.1699440246534;
+        Wed, 08 Nov 2023 02:44:06 -0800 (PST)
 Received: from krzk-bin.. ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.43.55
+        by smtp.gmail.com with ESMTPSA id fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.44.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 02:43:58 -0800 (PST)
+        Wed, 08 Nov 2023 02:44:06 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -85,9 +85,9 @@ To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
         alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 01/17] dt-bindings: hwinfo: samsung,exynos-chipid: add specific compatibles for existing SoC
-Date:   Wed,  8 Nov 2023 11:43:27 +0100
-Message-Id: <20231108104343.24192-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 03/17] dt-bindings: i2c: samsung,s3c2410-i2c: add specific compatibles for existing SoC
+Date:   Wed,  8 Nov 2023 11:43:29 +0100
+Message-Id: <20231108104343.24192-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
 References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
@@ -114,37 +114,42 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 I propose to take the patch through Samsung SoC (me). See cover letter
 for explanation.
 ---
- .../bindings/hwinfo/samsung,exynos-chipid.yaml  | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ .../bindings/i2c/samsung,s3c2410-i2c.yaml     | 22 ++++++++++++-------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml b/Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml
-index 95cbdcb56efe..45f3d468db7c 100644
---- a/Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml
-+++ b/Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml
-@@ -11,9 +11,20 @@ maintainers:
+diff --git a/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml b/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml
+index b204e35e4f8d..1303502cf265 100644
+--- a/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml
++++ b/Documentation/devicetree/bindings/i2c/samsung,s3c2410-i2c.yaml
+@@ -11,14 +11,20 @@ maintainers:
  
  properties:
    compatible:
 -    enum:
--      - samsung,exynos4210-chipid
--      - samsung,exynos850-chipid
+-      - samsung,s3c2410-i2c
+-      - samsung,s3c2440-i2c
+-        # For s3c2440-like I2C used inside HDMIPHY block found on several SoCs:
+-      - samsung,s3c2440-hdmiphy-i2c
+-        # For s3c2440-like I2C used as a host to SATA PHY controller on an
+-        # internal bus:
+-      - samsung,exynos5-sata-phy-i2c
 +    oneOf:
 +      - enum:
-+          - samsung,exynos4210-chipid
-+          - samsung,exynos850-chipid
++          - samsung,s3c2410-i2c
++          - samsung,s3c2440-i2c
++            # For s3c2440-like I2C used inside HDMIPHY block found on several SoCs:
++          - samsung,s3c2440-hdmiphy-i2c
++            # For s3c2440-like I2C used as a host to SATA PHY controller on an
++            # internal bus:
++          - samsung,exynos5-sata-phy-i2c
 +      - items:
 +          - enum:
-+              - samsung,exynos5433-chipid
-+              - samsung,exynos7-chipid
-+          - const: samsung,exynos4210-chipid
-+      - items:
-+          - enum:
-+              - samsung,exynos7885-chipid
-+              - samsung,exynosautov9-chipid
-+          - const: samsung,exynos850-chipid
++              - samsung,exynos7885-i2c
++              - samsung,exynos850-i2c
++          - const: samsung,s3c2440-i2c
  
-   reg:
-     maxItems: 1
+   '#address-cells':
+     const: 1
 -- 
 2.34.1
 
