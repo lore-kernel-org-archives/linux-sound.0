@@ -2,171 +2,116 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04945C4332F
-	for <linux-sound@archiver.kernel.org>; Thu,  9 Nov 2023 14:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2320C4332F
+	for <linux-sound@archiver.kernel.org>; Thu,  9 Nov 2023 15:04:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbjKIOUD (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 9 Nov 2023 09:20:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51742 "EHLO
+        id S231659AbjKIPEd (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 9 Nov 2023 10:04:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231586AbjKIOUC (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Thu, 9 Nov 2023 09:20:02 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38361D4A
-        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 06:20:00 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S231835AbjKIPEc (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Thu, 9 Nov 2023 10:04:32 -0500
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005B435A1
+        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 07:04:29 -0800 (PST)
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id A9D931A7A;
+        Thu,  9 Nov 2023 16:04:25 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz A9D931A7A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+        t=1699542265; bh=MfuUUHc3eyhVS9SxyQPJ733BKlYAFr4kF2JAkwe9GuE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=3yuXP2FPZT9cyPEhRhD9JKQoEiQtwlhCNJALS9ucP9uFmLGMFirHESK08ZxLuB4+5
+         OSElKbU3t0QSQJUnRSFALnidpGB/lKzkrmI9UD68lmYdrx6HmhEGB8bVXENFIeOR4n
+         WeTDZhcWuZ55hZ7Va4gYYe7uzlRjADSBiqDYMH5c=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id DAD451F8B6;
-        Thu,  9 Nov 2023 14:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1699539598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=zltiq+7lYTQ/5OGKhAtwa87gh+N4HoIjDwaTB72eVFY=;
-        b=hNML6KBVpzsran4koyAfs3VPVa9XeW33piN+0odsi1ZwyGX4zwaeYmCe3juDKiDnuu9hNa
-        y1WgUsG45dMoSFLOClm3oYlii3a2EhP6kbl6d+b5XngdQZr03YXrMDpfqw5Iklihy9TXGE
-        UoPObUDvRiPQqixEwlEM4/wkILKCpzY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1699539598;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=zltiq+7lYTQ/5OGKhAtwa87gh+N4HoIjDwaTB72eVFY=;
-        b=B+cdoID4e15KofeTrfP1l+HIapvPOK+TiOq6zWVcwOkuJGGGFE/UieFugpCrtjLUQckxnI
-        hffmAHFTfxc/dWDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B80E4138E5;
-        Thu,  9 Nov 2023 14:19:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id /cb7K47qTGVcagAAMHmgww
-        (envelope-from <tiwai@suse.de>); Thu, 09 Nov 2023 14:19:58 +0000
-From:   Takashi Iwai <tiwai@suse.de>
-To:     linux-sound@vger.kernel.org
-Cc:     Shinhyung Kang <s47.kang@samsung.com>
-Subject: [PATCH] ALSA: info: Fix potential deadlock at disconnection
-Date:   Thu,  9 Nov 2023 15:19:54 +0100
-Message-Id: <20231109141954.4283-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+        (Authenticated sender: perex)
+        by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+        Thu,  9 Nov 2023 16:04:22 +0100 (CET)
+Message-ID: <451213a8-a5ed-4ec5-b4b6-dae2ab4d5093@perex.cz>
+Date:   Thu, 9 Nov 2023 16:04:21 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: info: Fix potential deadlock at disconnection
+To:     Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc:     Shinhyung Kang <s47.kang@samsung.com>
+References: <20231109141954.4283-1-tiwai@suse.de>
+Content-Language: en-US
+From:   Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20231109141954.4283-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-As reported recently, ALSA core info helper may cause a deadlock at
-the forced device disconnection during the procfs operation.
+On 09. 11. 23 15:19, Takashi Iwai wrote:
+> As reported recently, ALSA core info helper may cause a deadlock at
+> the forced device disconnection during the procfs operation.
+> 
+> The proc_remove() (that is called from the snd_card_disconnect()
+> helper) has a synchronization of the pending procfs accesses via
+> wait_for_completion().  Meanwhile, ALSA procfs helper takes the global
+> mutex_lock(&info_mutex) at both the proc_open callback and
+> snd_card_info_disconnect() helper.  Since the proc_open can't finish
+> due to the mutex lock, wait_for_completion() never returns, either,
+> hence it deadlocks.
 
-The proc_remove() (that is called from the snd_card_disconnect()
-helper) has a synchronization of the pending procfs accesses via
-wait_for_completion().  Meanwhile, ALSA procfs helper takes the global
-mutex_lock(&info_mutex) at both the proc_open callback and
-snd_card_info_disconnect() helper.  Since the proc_open can't finish
-due to the mutex lock, wait_for_completion() never returns, either,
-hence it deadlocks.
+Really nice fix. Thanks Takashi.
 
-	TASK#1				TASK#2
-	proc_reg_open()
-	  takes use_pde()
-	snd_info_text_entry_open()
-					snd_card_disconnect()
-					snd_info_card_disconnect()
-					  takes mutex_lock(&info_mutex)
-					proc_remove()
-					wait_for_completion(unused_pde)
-					  ... waiting task#1 closes
-	mutex_lock(&info_mutex)
-		=> DEADLOCK
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
 
-This patch is a workaround for avoiding the deadlock scenario above.
+(maybe Cc: to stable?)
 
-The basic strategy is to move proc_remove() call outside the mutex
-lock.  proc_remove() can work gracefully without extra locking, and it
-can delete the tree recursively alone.  So, we call proc_remove() at
-snd_info_card_disconnection() at first, then delete the rest resources
-recursively within the info_mutex lock.
+					Jaroslav
 
-After the change, the function snd_info_disconnect() doesn't do
-disconnection by itself any longer, but it merely clears the procfs
-pointer.  So rename the function to snd_info_clear_entries() for
-avoiding confusion.
-
-The similar change is applied to snd_info_free_entry(), too.  Since
-the proc_remove() is called only conditionally with the non-NULL
-entry->p, it's skipped after the snd_info_clear_entries() call.
-
-Reported-by: Shinhyung Kang <s47.kang@samsung.com>
-Closes: https://lore.kernel.org/r/664457955.21699345385931.JavaMail.epsvc@epcpadp4
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/info.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/sound/core/info.c b/sound/core/info.c
-index 0b2f04dcb589..e2f302e55bbb 100644
---- a/sound/core/info.c
-+++ b/sound/core/info.c
-@@ -56,7 +56,7 @@ struct snd_info_private_data {
- };
- 
- static int snd_info_version_init(void);
--static void snd_info_disconnect(struct snd_info_entry *entry);
-+static void snd_info_clear_entries(struct snd_info_entry *entry);
- 
- /*
- 
-@@ -569,11 +569,16 @@ void snd_info_card_disconnect(struct snd_card *card)
- {
- 	if (!card)
- 		return;
--	mutex_lock(&info_mutex);
-+
- 	proc_remove(card->proc_root_link);
--	card->proc_root_link = NULL;
- 	if (card->proc_root)
--		snd_info_disconnect(card->proc_root);
-+		proc_remove(card->proc_root->p);
-+
-+	mutex_lock(&info_mutex);
-+	if (card->proc_root)
-+		snd_info_clear_entries(card->proc_root);
-+	card->proc_root_link = NULL;
-+	card->proc_root = NULL;
- 	mutex_unlock(&info_mutex);
- }
- 
-@@ -745,15 +750,14 @@ struct snd_info_entry *snd_info_create_card_entry(struct snd_card *card,
- }
- EXPORT_SYMBOL(snd_info_create_card_entry);
- 
--static void snd_info_disconnect(struct snd_info_entry *entry)
-+static void snd_info_clear_entries(struct snd_info_entry *entry)
- {
- 	struct snd_info_entry *p;
- 
- 	if (!entry->p)
- 		return;
- 	list_for_each_entry(p, &entry->children, list)
--		snd_info_disconnect(p);
--	proc_remove(entry->p);
-+		snd_info_clear_entries(p);
- 	entry->p = NULL;
- }
- 
-@@ -770,8 +774,9 @@ void snd_info_free_entry(struct snd_info_entry * entry)
- 	if (!entry)
- 		return;
- 	if (entry->p) {
-+		proc_remove(entry->p);
- 		mutex_lock(&info_mutex);
--		snd_info_disconnect(entry);
-+		snd_info_clear_entries(entry);
- 		mutex_unlock(&info_mutex);
- 	}
- 
 -- 
-2.35.3
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
