@@ -2,90 +2,89 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48922C4167B
-	for <linux-sound@archiver.kernel.org>; Thu,  9 Nov 2023 15:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E32AC4332F
+	for <linux-sound@archiver.kernel.org>; Thu,  9 Nov 2023 16:46:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjKIPHx (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 9 Nov 2023 10:07:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43546 "EHLO
+        id S1344005AbjKIQqY (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 9 Nov 2023 11:46:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231659AbjKIPHw (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>); Thu, 9 Nov 2023 10:07:52 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893EB35A7
-        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 07:07:50 -0800 (PST)
+        with ESMTP id S1344246AbjKIQp5 (ORCPT
+        <rfc822;linux-sound@vger.kernel.org>); Thu, 9 Nov 2023 11:45:57 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B583384D
+        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 08:45:37 -0800 (PST)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 407FE1F8B8;
-        Thu,  9 Nov 2023 15:07:49 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id D2BE921978;
+        Thu,  9 Nov 2023 16:45:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1699542469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1699548335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2jkYDETbAsJwhAn8M7zPGDE08PluC4GI2JU5eD31SRQ=;
-        b=tGjqq3OtZtFkLSrox0b5NEOWeiVYDaHwtI9o4mDZ2J2RJUn4bbO9+YY30CcTXW0CDsy7VG
-        51NsoXAu63ZCWZgH83sMDsyS+2WdmB6q/9b4efNp2cIVDbRFNFqPlBCThKk2+xMiY8Ao5U
-        fci1c+5gxu3N979ZPM673cTKiNXs/ZE=
+        bh=mke5cxH0SHbkHKElaZuwmy6MEZcyIAlsFCTo7zlnN40=;
+        b=uaJS/MEeR7U3xW0LFgvn4ruiyXHpIXzPTI05W7DmUbMF7fMfkb9YJ8v3Ei4TsLqmkZ8Ggk
+        aMnrp4j0w5we4P0rdWknrVkXt/JcpqdVly0dGixdwF6jlIhWXOSDvKrbZU3zft5c5vDzJB
+        ztOabLRRkbW1etFtZm0zgPpwmZNpO/0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1699542469;
+        s=susede2_ed25519; t=1699548335;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2jkYDETbAsJwhAn8M7zPGDE08PluC4GI2JU5eD31SRQ=;
-        b=Osuia+Y2oGEBswgfzYzauLDQydhR/RKuENFtmg4IBKSPYSwwYTOUam6h3lTKZPYL/XHr7a
-        8jDwJftB5t3b+nCA==
+        bh=mke5cxH0SHbkHKElaZuwmy6MEZcyIAlsFCTo7zlnN40=;
+        b=Vvw9r+gzS0nvhxFmmZTyrHO00a+/tFct1rHUXpgzzsNFd9VlAIzBfd9sMNVXzW/1Dc5WPo
+        gEfBj+zf2L+kf6AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B17C13524;
-        Thu,  9 Nov 2023 15:07:49 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC88B138E5;
+        Thu,  9 Nov 2023 16:45:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id Aer7BMX1TGUqAgAAMHmgww
-        (envelope-from <tiwai@suse.de>); Thu, 09 Nov 2023 15:07:49 +0000
-Date:   Thu, 09 Nov 2023 16:07:48 +0100
-Message-ID: <87jzqrrmm3.wl-tiwai@suse.de>
+        id SqNPKa8MTWVZMQAAMHmgww
+        (envelope-from <tiwai@suse.de>); Thu, 09 Nov 2023 16:45:35 +0000
+Date:   Thu, 09 Nov 2023 17:45:35 +0100
+Message-ID: <87a5rmswnk.wl-tiwai@suse.de>
 From:   Takashi Iwai <tiwai@suse.de>
-To:     Jaroslav Kysela <perex@perex.cz>
-Cc:     linux-sound@vger.kernel.org, Shinhyung Kang <s47.kang@samsung.com>
-Subject: Re: [PATCH] ALSA: info: Fix potential deadlock at disconnection
-In-Reply-To: <451213a8-a5ed-4ec5-b4b6-dae2ab4d5093@perex.cz>
-References: <20231109141954.4283-1-tiwai@suse.de>
-        <451213a8-a5ed-4ec5-b4b6-dae2ab4d5093@perex.cz>
+To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-sound@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] OSS: dmasound/paula: Convert to platform remove callback returning void
+In-Reply-To: <20231107151223.3971602-2-u.kleine-koenig@pengutronix.de>
+References: <20231107151223.3971602-2-u.kleine-koenig@pengutronix.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Thu, 09 Nov 2023 16:04:21 +0100,
-Jaroslav Kysela wrote:
+On Tue, 07 Nov 2023 16:12:24 +0100,
+Uwe Kleine-König wrote:
 > 
-> On 09. 11. 23 15:19, Takashi Iwai wrote:
-> > As reported recently, ALSA core info helper may cause a deadlock at
-> > the forced device disconnection during the procfs operation.
-> > 
-> > The proc_remove() (that is called from the snd_card_disconnect()
-> > helper) has a synchronization of the pending procfs accesses via
-> > wait_for_completion().  Meanwhile, ALSA procfs helper takes the global
-> > mutex_lock(&info_mutex) at both the proc_open callback and
-> > snd_card_info_disconnect() helper.  Since the proc_open can't finish
-> > due to the mutex lock, wait_for_completion() never returns, either,
-> > hence it deadlocks.
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
 > 
-> Really nice fix. Thanks Takashi.
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
 > 
-> Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
 > 
-> (maybe Cc: to stable?)
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Yes, I'll add it.
+Thanks, applied now.
 
-
-thanks,
 
 Takashi
