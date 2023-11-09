@@ -2,37 +2,37 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AD0C4332F
-	for <linux-sound@archiver.kernel.org>; Thu,  9 Nov 2023 18:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC54C4167D
+	for <linux-sound@archiver.kernel.org>; Thu,  9 Nov 2023 18:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345020AbjKISpA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 9 Nov 2023 13:45:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45566 "EHLO
+        id S1344906AbjKISpB (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 9 Nov 2023 13:45:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344906AbjKISpA (ORCPT
+        with ESMTP id S1344959AbjKISpA (ORCPT
         <rfc822;linux-sound@vger.kernel.org>); Thu, 9 Nov 2023 13:45:00 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 195DB3C10;
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273213C11;
         Thu,  9 Nov 2023 10:44:58 -0800 (PST)
 Received: from jupiter.universe (cola.collaboradmins.com [195.201.22.229])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8BBEF660740F;
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 930B36607413;
         Thu,  9 Nov 2023 18:44:56 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
         s=mail; t=1699555496;
-        bh=WPjYwcBCmS+prQOc/wOVgZLSo1macXZkqnIBkZkHKlg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Ynx+Wrd3fG7H0sFPwgbTm3LBIbPURppIDjkinci6RaxKwYL/kG+jxsdQobYdFMQFn
-         Wwbl5aAbFmfwDrhIuyQmNGjqolQQDEaScZVM/YxcM/2HA1zVLmPj+vJho1huh6IHBv
-         /f5V+6g9qROeNqIduZVOEb8jfC09S0+StL6RzdbIXgj/QBYoVK1uVaQFmKi6hhzjG1
-         7/UR+X+C8dgfcKrJMWq5Du1YPIdoBQTSet9sb8MuEIyvRDhl0OT6g1XpRgRlp0ljaf
-         H0/PTuE89Vi6gXdZGYjkoq3iYP1GztJyv7F+NVh3A2dO+4XgwDUdlAqQzkfAXHx1eh
-         mimr4LEXVARCw==
+        bh=ZUf7+KMB7mHUMnfEwhG5jA7NsEB2Vt5a4r0e0mZrdUE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DCL0waF5eZ2gElTCx4o2iSeatWr8Fekpn5otBrcMkH1OTocWJRtlJs79VkwE4cdLj
+         ltcJVEYxaCPGxtG1zkJlubDt3dZXQGdzjrxTFq0teRPR8ecRAsZkMSjXmBb6H3t3Oq
+         F94uaXizP+yaaGehOEEx2fEtvtAOFRzY6cSRjpORXCtf6WlJkbyrsEcYysN4lF39xn
+         ejlRbpUvkA+T5K5VYOeSDhta6TFuAYejG0AXu43c8hmofBdqUjAt5UhD6Rn4PuqWWv
+         IAm4XkXDuI5d98o+WBUusquW/E4uB8gzimaHTC1Sbo4molbSzIizb8RV3miA4ooZaJ
+         3vaDnOuNxsk7A==
 Received: by jupiter.universe (Postfix, from userid 1000)
-        id 0B0004800CE; Thu,  9 Nov 2023 19:44:54 +0100 (CET)
+        id 0C5AD4800CD; Thu,  9 Nov 2023 19:44:54 +0100 (CET)
 From:   Sebastian Reichel <sebastian.reichel@collabora.com>
 To:     Heiko Stuebner <heiko@sntech.de>, Mark Brown <broonie@kernel.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -42,156 +42,153 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org,
         Sebastian Reichel <sebastian.reichel@collabora.com>,
         kernel@collabora.com
-Subject: [PATCH v1 1/2] dt-bindings: es8328: convert to DT schema format
-Date:   Thu,  9 Nov 2023 19:44:43 +0100
-Message-ID: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+Subject: [PATCH v1 2/2] arm64: dts: rockchip: add analog audio to RK3588 EVB1
+Date:   Thu,  9 Nov 2023 19:44:44 +0100
+Message-ID: <20231109184453.108676-2-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+References: <20231109184453.108676-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Convert the binding to DT schema format. Note, that "IPVDD-supply"
-got fixed to be "HPVDD-supply" during the conversion. This was
-obviously a typo in the old binding. The old binding example, DT
-files, chip datasheet and Linux driver use HPVDD.
+Add support for the EVB1 analog audio to its devicetree. Only
+the headphone has been tested, since I don't have matching
+peripherals to test headset or speakers.
+
+I also didn't manage to record sound from the onboard microphone,
+but that also fails with the vendor kernel. Thus I assume the
+microphone on my board is fried.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- .../devicetree/bindings/sound/es8328.txt      | 38 ---------
- .../bindings/sound/everest,es8328.yaml        | 77 +++++++++++++++++++
- 2 files changed, 77 insertions(+), 38 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/es8328.txt
- create mode 100644 Documentation/devicetree/bindings/sound/everest,es8328.yaml
+ .../boot/dts/rockchip/rk3588-evb1-v10.dts     | 97 +++++++++++++++++++
+ 1 file changed, 97 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/es8328.txt b/Documentation/devicetree/bindings/sound/es8328.txt
-deleted file mode 100644
-index 33fbf058c997..000000000000
---- a/Documentation/devicetree/bindings/sound/es8328.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--Everest ES8328 audio CODEC
--
--This device supports both I2C and SPI.
--
--Required properties:
--
--  - compatible  : Should be "everest,es8328" or "everest,es8388"
--  - DVDD-supply : Regulator providing digital core supply voltage 1.8 - 3.6V
--  - AVDD-supply : Regulator providing analog supply voltage 3.3V
--  - PVDD-supply : Regulator providing digital IO supply voltage 1.8 - 3.6V
--  - IPVDD-supply : Regulator providing analog output voltage 3.3V
--  - clocks : A 22.5792 or 11.2896 MHz clock
--  - reg : the I2C address of the device for I2C, the chip select number for SPI
--
--Pins on the device (for linking into audio routes):
--
--  * LOUT1
--  * LOUT2
--  * ROUT1
--  * ROUT2
--  * LINPUT1
--  * RINPUT1
--  * LINPUT2
--  * RINPUT2
--  * Mic Bias
--
--
--Example:
--
--codec: es8328@11 {
--	compatible = "everest,es8328";
--	DVDD-supply = <&reg_3p3v>;
--	AVDD-supply = <&reg_3p3v>;
--	PVDD-supply = <&reg_3p3v>;
--	HPVDD-supply = <&reg_3p3v>;
--	clocks = <&clks 169>;
--	reg = <0x11>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/everest,es8328.yaml b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
-new file mode 100644
-index 000000000000..a0f4670fa38c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
-@@ -0,0 +1,77 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
+index b9d789d57862..3369065f897d 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
+@@ -56,6 +56,63 @@ button-escape {
+ 		};
+ 	};
+ 
++	analog-sound {
++		compatible = "simple-audio-card";
++		pinctrl-names = "default";
++		pinctrl-0 = <&hp_detect>;
++		simple-audio-card,name = "RK3588 EVB1 Audio";
++		simple-audio-card,aux-devs = <&amp_headphone>, <&amp_speaker>;
++		simple-audio-card,bitclock-master = <&masterdai>;
++		simple-audio-card,format = "i2s";
++		simple-audio-card,frame-master = <&masterdai>;
++		simple-audio-card,hp-det-gpio = <&gpio1 RK_PD5 GPIO_ACTIVE_LOW>;
++		simple-audio-card,mclk-fs = <256>;
++		simple-audio-card,pin-switches = "Headphones", "Speaker";
++		simple-audio-card,routing =
++			"Speaker Amplifier INL", "LOUT2",
++			"Speaker Amplifier INR", "ROUT2",
++			"Speaker", "Speaker Amplifier OUTL",
++			"Speaker", "Speaker Amplifier OUTR",
++			"Headphones Amplifier INL", "LOUT1",
++			"Headphones Amplifier INR", "ROUT1",
++			"Headphones", "Headphones Amplifier OUTL",
++			"Headphones", "Headphones Amplifier OUTR",
++			"LINPUT1", "Onboard Microphone",
++			"RINPUT1", "Onboard Microphone",
++			"LINPUT2", "Microphone Jack",
++			"RINPUT2", "Microphone Jack";
++		simple-audio-card,widgets =
++			"Microphone", "Microphone Jack",
++			"Microphone", "Onboard Microphone",
++			"Headphone", "Headphones",
++			"Speaker", "Speaker";
 +
-+title: Everest ES8328 audio CODEC
++		simple-audio-card,cpu {
++			sound-dai = <&i2s0_8ch>;
++		};
 +
-+description:
-+  Everest Audio Codec, which can be connected via I2C or SPI.
-+  Pins on the device (for linking into audio routes) are
-+  * LOUT1
-+  * LOUT2
-+  * ROUT1
-+  * ROUT2
-+  * LINPUT1
-+  * RINPUT1
-+  * LINPUT2
-+  * RINPUT2
-+  * Mic Bias
++		masterdai: simple-audio-card,codec {
++			sound-dai = <&es8388>;
++			system-clock-frequency = <12288000>;
++		};
++	};
 +
-+maintainers:
-+  - David Yang <yangxiaohua@everest-semi.com>
++	amp_headphone: headphone-amplifier {
++		compatible = "simple-audio-amplifier";
++		enable-gpios = <&gpio1 RK_PD2 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&headphone_amplifier_en>;
++		sound-name-prefix = "Headphones Amplifier";
++	};
 +
-+properties:
-+  compatible:
-+    enum:
-+      - everest,es8328
-+      - everest,es8388
++	amp_speaker: speaker-amplifier {
++		compatible = "simple-audio-amplifier";
++		enable-gpios = <&gpio1 RK_PD3 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&speaker_amplifier_en>;
++		sound-name-prefix = "Speaker Amplifier";
++	};
 +
-+  reg:
-+    maxItems: 1
+ 	backlight: backlight {
+ 		compatible = "pwm-backlight";
+ 		power-supply = <&vcc12v_dcin>;
+@@ -240,6 +297,32 @@ hym8563: rtc@51 {
+ 	};
+ };
+ 
++&i2c7 {
++	status = "okay";
 +
-+  "#sound-dai-cells":
-+    const: 0
++	es8388: audio-codec@11 {
++		compatible = "everest,es8388";
++		reg = <0x11>;
++		clocks = <&cru I2S0_8CH_MCLKOUT>;
++		assigned-clocks = <&cru I2S0_8CH_MCLKOUT>;
++		assigned-clock-rates = <12288000>;
++		AVDD-supply = <&avcc_1v8_codec_s0>;
++		DVDD-supply = <&avcc_1v8_codec_s0>;
++		HPVDD-supply = <&vcc_3v3_s0>;
++		PVDD-supply = <&vcc_3v3_s0>;
++		#sound-dai-cells = <0>;
++	};
++};
 +
-+  clocks:
-+    items:
-+      - description: A 22.5792 or 11.2896 MHz clock
++&i2s0_8ch {
++	pinctrl-0 = <&i2s0_lrck
++		     &i2s0_mclk
++		     &i2s0_sclk
++		     &i2s0_sdi0
++		     &i2s0_sdo0>;
++	status = "okay";
++};
 +
-+  DVDD-supply:
-+    description: Regulator providing digital core supply voltage 1.8 - 3.6V
+ &mdio0 {
+ 	rgmii_phy: ethernet-phy@1 {
+ 		/* RTL8211F */
+@@ -273,6 +356,20 @@ &pcie3x4 {
+ };
+ 
+ &pinctrl {
++	audio {
++		hp_detect: headphone-detect {
++			rockchip,pins = <1 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
 +
-+  AVDD-supply:
-+    description: Regulator providing analog supply voltage 3.3V
++		headphone_amplifier_en: headphone-amplifier-en {
++			rockchip,pins = <1 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
 +
-+  PVDD-supply:
-+    description: Regulator providing digital IO supply voltage 1.8 - 3.6V
++		speaker_amplifier_en: speaker-amplifier-en {
++			rockchip,pins = <1 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
 +
-+  HPVDD-supply:
-+    description: Regulator providing analog output voltage 3.3V
-+
-+required:
-+  - compatible
-+  - clocks
-+  - DVDD-supply
-+  - AVDD-supply
-+  - PVDD-supply
-+  - HPVDD-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      es8328: codec@11 {
-+        compatible = "everest,es8328";
-+        reg = <0x11>;
-+        AVDD-supply = <&reg_3p3v>;
-+        DVDD-supply = <&reg_3p3v>;
-+        HPVDD-supply = <&reg_3p3v>;
-+        PVDD-supply = <&reg_3p3v>;
-+        clocks = <&clks 169>;
-+      };
-+    };
+ 	rtl8111 {
+ 		rtl8111_isolate: rtl8111-isolate {
+ 			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_up>;
 -- 
 2.42.0
 
