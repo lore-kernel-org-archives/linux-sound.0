@@ -2,116 +2,160 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2976FC4167B
-	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 20:45:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31711C4167B
+	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 21:02:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235924AbjKJUpH (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 10 Nov 2023 15:45:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44280 "EHLO
+        id S235651AbjKJVCo (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 10 Nov 2023 16:02:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235791AbjKJUop (ORCPT
+        with ESMTP id S235995AbjKJVC1 (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 10 Nov 2023 15:44:45 -0500
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E00E15596;
-        Fri, 10 Nov 2023 12:43:37 -0800 (PST)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6ce2fc858feso1340548a34.3;
-        Fri, 10 Nov 2023 12:43:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699649017; x=1700253817;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8JelqBtasuctrFq8aA1lg5BQxbworEzE8yTnhOMjZkc=;
-        b=g3Z97gzxwzroBwBn23TrnQrTUU3yKB7lZPzm5LZHjrMTEThjfDkrn5X1FgQ2ji5wSi
-         dLpjzbjr0MX+pa5hlTfiBCSBDTKpYvcjvXan/UMF9dlTe9/OK0E++X/IgtqG/xQD84bs
-         oPQkgOebb3OhqCXYQzYgdXMsC5rzwFLGqPhAOF73R8mttCR09Ouc8yoK8+Kk8DNMu2pO
-         ymd6Py26ZN0E69vK0K/SNu26ZE+6/7LaeMZBHh2DQFuS4nMLZ7hofnLBixHPq+RzLg5x
-         KgCil5ReM8VEjqqA6HoM+OSfFFCSlnGIE96eNvevfmgtL3Jz8zChfHStWbrIp6NV0Z4j
-         2a7Q==
-X-Gm-Message-State: AOJu0Yxe3D0xrPc72/W/HPK4Crsvew2EY5B8uc9E9/3CjsLf6jHCPsdT
-        EEgPHtYC4eUwj2ageZhd8A==
-X-Google-Smtp-Source: AGHT+IHvxcWxE9DKzdafhiZ3HFcZS9N0tFj/iDRHQnxnirdx157d/x13I8sAnvTh754BbGSMSLyN9Q==
-X-Received: by 2002:a05:6830:3492:b0:6b8:dc53:9efd with SMTP id c18-20020a056830349200b006b8dc539efdmr345339otu.3.1699649017102;
-        Fri, 10 Nov 2023 12:43:37 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id l19-20020a056830269300b006ce2fce83cbsm52941otu.25.2023.11.10.12.43.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Nov 2023 12:43:36 -0800 (PST)
-Received: (nullmailer pid 399226 invoked by uid 1000);
-        Fri, 10 Nov 2023 20:43:34 -0000
-Date:   Fri, 10 Nov 2023 14:43:34 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mmc@vger.kernel.org,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
+        Fri, 10 Nov 2023 16:02:27 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F11E825A0C;
+        Fri, 10 Nov 2023 01:56:25 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 8AF8F21904;
+        Fri, 10 Nov 2023 09:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1699610183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=r+fQQTIv4A8QYO3rQSNawWUwM4gFhzmYNLlY8WDs4oE=;
+        b=LMFR++GPRwNYOIed9gVH53TfIe3eVvY2ITXAgMS9OqCj1u3U1QSXFnM/DI3+VI/HCOA2cy
+        ViOTnVltbnx+QRcb1LOiLO1WORh2uYqk3FoFGZ9eVg788iTG+wnK1KyYQo7jhMepjTuEej
+        Cch+kdEREFFHTq6HKhA3Bha4JWfjDrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1699610183;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=r+fQQTIv4A8QYO3rQSNawWUwM4gFhzmYNLlY8WDs4oE=;
+        b=ffmnyEZfQyvPs33m6veSV9RAc4R8zWrLNwq6XWL9eEDhT7TOMvIMuk2K+c9OzoUUq2y0mH
+        iDYT0ElJznEBRrCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5EF5F138FC;
+        Fri, 10 Nov 2023 09:56:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id +TcdFkf+TWXeUwAAMHmgww
+        (envelope-from <tiwai@suse.de>); Fri, 10 Nov 2023 09:56:23 +0000
+Date:   Fri, 10 Nov 2023 10:56:22 +0100
+Message-ID: <87sf5eq6d5.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Mark Brown <broonie@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-gpio@vger.kernel.org,
-        Jonathan Cameron <jic23@kernel.org>,
-        linux-kernel@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
-        linux-sound@vger.kernel.org, linux-iio@vger.kernel.org,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        linux-i2c@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        alsa-devel@alsa-project.org, linux-rtc@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-samsung-soc@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        devicetree@vger.kernel.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        David Airlie <airlied@gmail.com>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH 12/17] dt-bindings: pwm: samsung: add specific
- compatibles for existing SoC
-Message-ID: <169964901433.399188.3619478168082919994.robh@kernel.org>
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <20231108104343.24192-13-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108104343.24192-13-krzysztof.kozlowski@linaro.org>
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] sound fixes for 6.7-rc1
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
+[ Resent since I couldn't see my previous post on ML;
+  please disregard if you've already received the previous post ]
 
-On Wed, 08 Nov 2023 11:43:38 +0100, Krzysztof Kozlowski wrote:
-> Samsung Exynos SoC reuses several devices from older designs, thus
-> historically we kept the old (block's) compatible only.  This works fine
-> and there is no bug here, however guidelines expressed in
-> Documentation/devicetree/bindings/writing-bindings.rst state that:
-> 1. Compatibles should be specific.
-> 2. We should add new compatibles in case of bugs or features.
-> 
-> Add compatibles specific to each SoC in front of all old-SoC-like
-> compatibles.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> I propose to take the patch through Samsung SoC (me). See cover letter
-> for explanation.
-> ---
->  Documentation/devicetree/bindings/pwm/pwm-samsung.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+Linus,
 
-Acked-by: Rob Herring <robh@kernel.org>
+please pull sound fixes for v6.7-rc1 from:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.7-rc1
+
+The topmost commit is bce36aa682da7ca996d4a02636ebfb6b5f2c3f83
+
+----------------------------------------------------------------
+
+sound fixes for 6.7-rc1
+
+A collection of fixes for RC1.  Majority of changes are various
+ASoC driver-specific small fixes and usual HD-audio quirks, while
+there are a couple of core changes: a fix in ALSA core procfs code
+to avoid deadlocks at disconnection and an ASoC core fix for DAPM
+clock widgets.
+
+----------------------------------------------------------------
+
+Alex Spataru (1):
+      ALSA: hda/realtek: Add quirk for ASUS UX7602ZM
+
+Alexander Koskovich (1):
+      ALSA: hda: Add ASRock X670E Taichi to denylist
+
+David Lin (1):
+      ASoC: nau8540: Add self recovery to improve capture quility
+
+David Rau (1):
+      ASoC: da7219: Improve system suspend and resume handling
+
+Eugen Hristev (2):
+      ASoC: mediatek: mt8186_mt6366_rt1019_rt5682s: trivial: fix error messages
+      ASoC: SOF: sof-client: trivial: fix comment typo
+
+Jerome Brunet (2):
+      ASoC: hdmi-codec: register hpd callback on component probe
+      ASoC: dapm: fix clock get name
+
+Kailang Yang (1):
+      ALSA: hda/realtek: Add support dual speaker for Dell
+
+Nathan Chancellor (1):
+      ASoC: codecs: aw88399: Fix -Wuninitialized in aw_dev_set_vcalb()
+
+Rob Herring (1):
+      ASoC: rockchip: Fix unused rockchip_i2s_tdm_match warning for !CONFIG_OF
+
+Shuming Fan (1):
+      ASoC: rt712-sdca: fix speaker route missing issue
+
+Syed Saba Kareem (1):
+      ASoC: amd: acp: fix for i2s mode register field update
+
+Takashi Iwai (1):
+      ALSA: info: Fix potential deadlock at disconnection
+
+Tony Lindgren (1):
+      ASoC: ti: omap-mcbsp: Fix runtime PM underflow warnings
+
+Uwe Kleine-König (1):
+      OSS: dmasound/paula: Convert to platform remove callback returning void
+
+Vitalii Torshyn (1):
+      ALSA: hda: ASUS UM5302LA: Added quirks for cs35L41/10431A83 on i2c bus
+
+Weidong Wang (3):
+      ASoC: codecs: Modify the maximum value of calib
+      ASoC: codecs: Modify the wrong judgment of re value
+      ASoC: codecs: Modify macro value error
+
+---
+ sound/core/info.c                                  | 21 ++++++----
+ sound/oss/dmasound/dmasound_paula.c                |  7 ++--
+ sound/pci/hda/hda_intel.c                          |  1 +
+ sound/pci/hda/patch_realtek.c                      | 47 +++++++++++++++++----
+ sound/soc/amd/acp/acp-i2s.c                        |  4 +-
+ sound/soc/codecs/aw88395/aw88395.c                 |  2 +-
+ sound/soc/codecs/aw88399.c                         |  8 ++--
+ sound/soc/codecs/aw88399.h                         |  2 +-
+ sound/soc/codecs/da7219-aad.c                      |  9 +++-
+ sound/soc/codecs/hdmi-codec.c                      | 27 ++++++++----
+ sound/soc/codecs/nau8540.c                         | 49 ++++++++++++++++++++++
+ sound/soc/codecs/nau8540.h                         | 15 +++++++
+ sound/soc/codecs/rt712-sdca.c                      | 14 +++----
+ .../mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c |  4 +-
+ sound/soc/rockchip/rockchip_i2s_tdm.c              |  2 +-
+ sound/soc/soc-dapm.c                               |  2 +-
+ sound/soc/sof/sof-client.c                         |  2 +-
+ sound/soc/ti/omap-mcbsp.c                          |  6 ++-
+ 18 files changed, 171 insertions(+), 51 deletions(-)
 
