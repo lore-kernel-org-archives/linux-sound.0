@@ -2,69 +2,100 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA967C4167D
-	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 17:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A300C4332F
+	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 18:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234670AbjKJR4L (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 10 Nov 2023 12:56:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59852 "EHLO
+        id S1344775AbjKJSVW (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 10 Nov 2023 13:21:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbjKJRz0 (ORCPT
+        with ESMTP id S1344969AbjKJSTY (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 10 Nov 2023 12:55:26 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6F2884E
-        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 23:55:07 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-507a62d4788so2410865e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 09 Nov 2023 23:55:07 -0800 (PST)
+        Fri, 10 Nov 2023 13:19:24 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6236886C
+        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 23:58:16 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-408425c7c10so13092835e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 09 Nov 2023 23:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699602905; x=1700207705; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1699603095; x=1700207895; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=exq4UFCVFyVXTRVXCKADEx5ek2tcNT2tuJD33J+zJYY=;
-        b=fczmYIxUUR9PxIU3DHstxjpxqs0WIm6z70nEX2fH7Vfora/LQ4A6vDOruBkINi24FX
-         F1Ql8ytCOytGE2malueKYADNsa+hFsRVhGrqBs8BUbLsLKw8m5WagBKMHGb3WyZQzs8h
-         vpC+K8rCtHfC6mOeJRpLd1rltqMr0EUc5RTQvuzBqGeM/XoUpsVKwsesbeqNJJG/OXo/
-         wpzmCNF68GU8qDKKYhJoCvJYY0nGE2eNkmlf7Av0XjFJVi7y3KWlr5qmtxL4Tz0wNuGW
-         R8DdO6CBl0DLL3/HXSGo3nrEXo1vd61Ia3K/ZXbGzYjT0TdubqJ7587X3Y9S0HFw7lYl
-         IeVg==
+        bh=CmNsSkxGNQJ9Q4GP0q3MvT9no1MR/Ri0odVIQEptAvk=;
+        b=l2JsI4A3ypjEZ3AJjIqfhYM9UrYSuWsC3igICfZ6Jp91/KeHpFC6ryJ8IMFoN9U/nb
+         zni6vUO5a9PgydZmLUVlkinp5VIQ3tiIYoAPGK0EFhQTWXhPbz2ubNxMpQJIasdx1iyO
+         eq8nsby6nz+4tQqE8lhqmS6D3whw0ikHK5xf2TDk4YJ/cHbJL/6WfPAH80lz7o56lzne
+         EGD0nvfeDKVO3aiGEbWyaB58BhS0lLU6fSk06UYniqe2IHRJMo8859RQqx3wjf8V8Beh
+         2oE6Hvp2228G4lxQl1zOELU0IYHi9YCBTAQnWRauzh5uZ2z2TEZk15bX9dVwwSmiJ6c6
+         Vqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699602905; x=1700207705;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1699603095; x=1700207895;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=exq4UFCVFyVXTRVXCKADEx5ek2tcNT2tuJD33J+zJYY=;
-        b=ZvItf/04Ui8C75nCHKOyBnTarMKXoJsVEyzpcLZ8FuruhY5gj6NBIHYhXSspARNZQJ
-         rLcqQMi1EX1Dew28BW54IHuap/KPuCFUG+L2msKahb8cRpTnvSGajnwEQR5KBlJQKqM6
-         rzL6DvL/+SI3Bu1IcOE6IS4W7kcl3D/BCVUwBYg2K0uzamjuPcN4wZgfxtXFXF/7jDc3
-         CBerjrSbPBtn8CVxoTHfc99f7Wb8InliZPPhGR7CVLI5ouvr9qcGPAD/pNYD7DloAAmq
-         wSHhsddHNCaZrr5dDnSnDJxgpxxVw0mXRlZVhJOGRlxGftvnz/2AMq55+Xn/A43hrqOx
-         F5hA==
-X-Gm-Message-State: AOJu0YzP2l2997pSpwTnwWSFvw3e605XIVC5G0lD8Q3R/4PjiTqrfLvO
-        v8QZEzqc49wEHNjIsqB1NddpTw==
-X-Google-Smtp-Source: AGHT+IEz5Z/L098NcTyrqONf8EFKuGwXg9A/WJWICjpff8xZDf1JiXrYNoesmr9tCGAlePBYeqt7/g==
-X-Received: by 2002:ac2:5e2e:0:b0:509:4533:ddf2 with SMTP id o14-20020ac25e2e000000b005094533ddf2mr2836185lfg.11.1699602905427;
-        Thu, 09 Nov 2023 23:55:05 -0800 (PST)
+        bh=CmNsSkxGNQJ9Q4GP0q3MvT9no1MR/Ri0odVIQEptAvk=;
+        b=xQXg8shgqmGrwN9pX8R2hCQAJUbyrausdorQA+ZIwVbrBDogpWS2RGdeqYVKCEe2IV
+         yXMWfhNDyegnUvBfgeB6NXlh1WnVSDlP3GaPwD5tNnUu5tqqYiJW9S4yCXJDtxMhnUEp
+         hbexxNQ2wgIiIdOD66h75XgpH1CvmLzrxPfktSi/XVEZ5dcwzlqullVt3CeFc3UFQz8v
+         /8PEIhfnXnkAZ2fDoooH729AkfB3XLkLflDsfOPRgAx/ZdfPZQPpBxOMSnL6pMpEjJH7
+         VoyD0ybUPaDFwiLQKUZBw47rSYTE21A1MI5W41vcZrX4LCEOxQW3wu4HODfHkSXRXXsl
+         uNZw==
+X-Gm-Message-State: AOJu0YwJZ3Jni97VmrOVMK52JkBA8B0srnUXhvcmEqB+bYCXmbRvAyAW
+        aL0nHFNZ7N0jitbrweJT46H0OQ==
+X-Google-Smtp-Source: AGHT+IGZKQiVi/l3PE3rMUGuuZB9Ya3QDCrJYK8NJRwEd76ii8VtTRZDdWH3qx39UjTk9tcaifEFJA==
+X-Received: by 2002:a05:6000:188c:b0:32d:9850:9e01 with SMTP id a12-20020a056000188c00b0032d98509e01mr4958052wri.61.1699603095075;
+        Thu, 09 Nov 2023 23:58:15 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id j3-20020a056000124300b0032db4825495sm1366870wrx.22.2023.11.09.23.55.04
+        by smtp.gmail.com with ESMTPSA id j17-20020adfea51000000b0032d829e10c0sm1362413wrn.28.2023.11.09.23.58.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 23:55:04 -0800 (PST)
-Message-ID: <13574c92-0edf-48d8-b021-8d36b48e5759@linaro.org>
-Date:   Fri, 10 Nov 2023 08:55:03 +0100
+        Thu, 09 Nov 2023 23:58:14 -0800 (PST)
+Message-ID: <9db77625-8dc0-4963-b200-851c209ac238@linaro.org>
+Date:   Fri, 10 Nov 2023 08:58:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: es8328: convert to DT schema format
+Subject: Re: [PATCH 02/17] dt-bindings: i2c: exynos5: add specific compatibles
+ for existing SoC
 Content-Language: en-US
-To:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@collabora.com
-References: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+To:     Alim Akhtar <alim.akhtar@samsung.com>,
+        'David Airlie' <airlied@gmail.com>,
+        'Daniel Vetter' <daniel@ffwll.ch>,
+        'Maarten Lankhorst' <maarten.lankhorst@linux.intel.com>,
+        'Maxime Ripard' <mripard@kernel.org>,
+        'Thomas Zimmermann' <tzimmermann@suse.de>,
+        'Rob Herring' <robh+dt@kernel.org>,
+        'Krzysztof Kozlowski' <krzysztof.kozlowski+dt@linaro.org>,
+        'Conor Dooley' <conor+dt@kernel.org>,
+        'Andi Shyti' <andi.shyti@kernel.org>,
+        'Jonathan Cameron' <jic23@kernel.org>,
+        'Lars-Peter Clausen' <lars@metafoo.de>,
+        'Lee Jones' <lee@kernel.org>,
+        'Ulf Hansson' <ulf.hansson@linaro.org>,
+        'Tomasz Figa' <tomasz.figa@gmail.com>,
+        'Sylwester Nawrocki' <s.nawrocki@samsung.com>,
+        'Linus Walleij' <linus.walleij@linaro.org>,
+        'Thierry Reding' <thierry.reding@gmail.com>,
+        =?UTF-8?Q?=27Uwe_Kleine-K=C3=B6nig=27?= 
+        <u.kleine-koenig@pengutronix.de>,
+        'Alessandro Zummo' <a.zummo@towertech.it>,
+        'Alexandre Belloni' <alexandre.belloni@bootlin.com>,
+        'Greg Kroah-Hartman' <gregkh@linuxfoundation.org>,
+        'Jiri Slaby' <jirislaby@kernel.org>,
+        'Liam Girdwood' <lgirdwood@gmail.com>,
+        'Mark Brown' <broonie@kernel.org>,
+        'Jaehoon Chung' <jh80.chung@samsung.com>,
+        'Sam Protsenko' <semen.protsenko@linaro.org>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <CGME20231108104407epcas5p4c52f140b035727b6110ff7d3c0f81bc0@epcas5p4.samsung.com>
+ <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
+ <02bb01da1337$65caf5e0$3160e1a0$@samsung.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -110,22 +141,39 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+In-Reply-To: <02bb01da1337$65caf5e0$3160e1a0$@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 09/11/2023 19:44, Sebastian Reichel wrote:
-> Convert the binding to DT schema format. Note, that "IPVDD-supply"
-> got fixed to be "HPVDD-supply" during the conversion. This was
-> obviously a typo in the old binding. The old binding example, DT
-> files, chip datasheet and Linux driver use HPVDD.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+On 09/11/2023 19:05, Alim Akhtar wrote:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+(...)
+
+Please trim unrelated parts of response/quote before and after your message.
+
+>> @@ -25,7 +25,15 @@ properties:
+>>            - samsung,exynos5250-hsi2c    # Exynos5250 and Exynos5420
+>>            - samsung,exynos5260-hsi2c    # Exynos5260
+>>            - samsung,exynos7-hsi2c       # Exynos7
+>> -          - samsung,exynosautov9-hsi2c  # ExynosAutoV9 and Exynos850
+>> +          - samsung,exynosautov9-hsi2c
+>> +      - items:
+>> +          - enum:
+>> +              - samsung,exynos5433-hsi2c
+>> +          - const: samsung,exynos7-hsi2c
+>> +      - items:
+>> +          - enum:
+>> +              - samsung,exynos850-hsi2c
+> Does this need an entry in allOf:? to indicate exynos850 also has 2 clocks?
+> 
+
+No, autov9 is there already.
+
+>> +          - const: samsung,exynosautov9-hsi2c
+
 
 Best regards,
 Krzysztof
