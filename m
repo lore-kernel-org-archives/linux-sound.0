@@ -2,158 +2,66 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1010C4332F
-	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 18:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D245CC4332F
+	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 20:05:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346017AbjKJSc5 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 10 Nov 2023 13:32:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        id S1345794AbjKJUFr (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 10 Nov 2023 15:05:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344963AbjKJSbs (ORCPT
+        with ESMTP id S1345998AbjKJUFn (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 10 Nov 2023 13:31:48 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9FA32BE27;
-        Fri, 10 Nov 2023 01:21:25 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 75CA82199B;
-        Fri, 10 Nov 2023 09:21:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1699608084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=o93qP39J5ES+ZdiBxQ5Z2+fi3m+GKIDGGnWePzWDp38=;
-        b=14MFklEH+4wFXg436+c7kHGn0MV+0Gn1iUQLhYPqUKmZPI6BQSWuZDFkqWFuVOtJkFGgqQ
-        IDHDUqw2Hp7lIeBGySb/7NhsqNkFklbxq7UhMygAn3g43R7jJXxe0zCfeko9E7xGwmONrn
-        wnNXgKklFK76/kOwpxYwwFvjDZ8IEAE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1699608084;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=o93qP39J5ES+ZdiBxQ5Z2+fi3m+GKIDGGnWePzWDp38=;
-        b=iG1ceXe1SK+sehXdoeZPd3NLiRzIs8InA7DZ3L+TRPC+zxD35si0bSc2vpnAperQ4tm0lk
-        Obh5t3EgfM01UsDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4A3B413398;
-        Fri, 10 Nov 2023 09:21:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id K2LlEBT2TWVRQwAAMHmgww
-        (envelope-from <tiwai@suse.de>); Fri, 10 Nov 2023 09:21:24 +0000
-Date:   Fri, 10 Nov 2023 10:21:23 +0100
-Message-ID: <87y1f6q7zg.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Mark Brown <broonie@kernel.org>,
+        Fri, 10 Nov 2023 15:05:43 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81686D1;
+        Fri, 10 Nov 2023 12:05:40 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2AA44C433CA;
+        Fri, 10 Nov 2023 20:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699646740;
+        bh=ARP+zypkVSUL+VyGDMOYLU8xDKn33Zs5tSzeItDgan4=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=X4Gb9liK+yiLkJKaFbthTV1mJcPj2dNSrTMEiPv153r0bvbE4MnrWVTd3HShNFJzN
+         QoR+s2p6JJItl1RDuAWyIDsEUU9Kulb6rx8VHwMDkgTvHGDAPm5pBTk8mPyrnxOiks
+         Y1RhMs1hjdw1dgSrtqkYegNyfWufvUBClGBufBLQvxRkmUU514TE8YzN+mMr4siqOm
+         v+Ac3a7ekjxoeQKLPPAA3cBQHkvp6ab0Lzf90CGSffNUdWmhuQ+WH0PGeg8OoKfmQF
+         LdbvfZIvp/p/Cthbs1ItlMGqQZp5UBHGpUc/w6In7Oyoe28UOl4BlNkgLIyoh+wlcU
+         v97ALirObePWw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 17D1FC43158;
+        Fri, 10 Nov 2023 20:05:40 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.7-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87y1f6q7zg.wl-tiwai@suse.de>
+References: <87y1f6q7zg.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87y1f6q7zg.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.7-rc1
+X-PR-Tracked-Commit-Id: bce36aa682da7ca996d4a02636ebfb6b5f2c3f83
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e1d809b3c5d1d9988350755454747a105dad331b
+Message-Id: <169964674009.27739.2966438121797137253.pr-tracker-bot@kernel.org>
+Date:   Fri, 10 Nov 2023 20:05:40 +0000
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Brown <broonie@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Linux Sound Mailing List <linux-sound@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.7-rc1
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Linus,
+The pull request you sent on Fri, 10 Nov 2023 10:21:23 +0100:
 
-please pull sound fixes for v6.7-rc1 from:
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.7-rc1
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.7-rc1
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e1d809b3c5d1d9988350755454747a105dad331b
 
-The topmost commit is bce36aa682da7ca996d4a02636ebfb6b5f2c3f83
+Thank you!
 
-----------------------------------------------------------------
-
-sound fixes for 6.7-rc1
-
-A collection of fixes for RC1.  Majority of changes are various
-ASoC driver-specific small fixes and usual HD-audio quirks, while
-there are a couple of core changes: a fix in ALSA core procfs code
-to avoid deadlocks at disconnection and an ASoC core fix for DAPM
-clock widgets.
-
-----------------------------------------------------------------
-
-Alex Spataru (1):
-      ALSA: hda/realtek: Add quirk for ASUS UX7602ZM
-
-Alexander Koskovich (1):
-      ALSA: hda: Add ASRock X670E Taichi to denylist
-
-David Lin (1):
-      ASoC: nau8540: Add self recovery to improve capture quility
-
-David Rau (1):
-      ASoC: da7219: Improve system suspend and resume handling
-
-Eugen Hristev (2):
-      ASoC: mediatek: mt8186_mt6366_rt1019_rt5682s: trivial: fix error messages
-      ASoC: SOF: sof-client: trivial: fix comment typo
-
-Jerome Brunet (2):
-      ASoC: hdmi-codec: register hpd callback on component probe
-      ASoC: dapm: fix clock get name
-
-Kailang Yang (1):
-      ALSA: hda/realtek: Add support dual speaker for Dell
-
-Nathan Chancellor (1):
-      ASoC: codecs: aw88399: Fix -Wuninitialized in aw_dev_set_vcalb()
-
-Rob Herring (1):
-      ASoC: rockchip: Fix unused rockchip_i2s_tdm_match warning for !CONFIG_OF
-
-Shuming Fan (1):
-      ASoC: rt712-sdca: fix speaker route missing issue
-
-Syed Saba Kareem (1):
-      ASoC: amd: acp: fix for i2s mode register field update
-
-Takashi Iwai (1):
-      ALSA: info: Fix potential deadlock at disconnection
-
-Tony Lindgren (1):
-      ASoC: ti: omap-mcbsp: Fix runtime PM underflow warnings
-
-Uwe Kleine-König (1):
-      OSS: dmasound/paula: Convert to platform remove callback returning void
-
-Vitalii Torshyn (1):
-      ALSA: hda: ASUS UM5302LA: Added quirks for cs35L41/10431A83 on i2c bus
-
-Weidong Wang (3):
-      ASoC: codecs: Modify the maximum value of calib
-      ASoC: codecs: Modify the wrong judgment of re value
-      ASoC: codecs: Modify macro value error
-
----
- sound/core/info.c                                  | 21 ++++++----
- sound/oss/dmasound/dmasound_paula.c                |  7 ++--
- sound/pci/hda/hda_intel.c                          |  1 +
- sound/pci/hda/patch_realtek.c                      | 47 +++++++++++++++++----
- sound/soc/amd/acp/acp-i2s.c                        |  4 +-
- sound/soc/codecs/aw88395/aw88395.c                 |  2 +-
- sound/soc/codecs/aw88399.c                         |  8 ++--
- sound/soc/codecs/aw88399.h                         |  2 +-
- sound/soc/codecs/da7219-aad.c                      |  9 +++-
- sound/soc/codecs/hdmi-codec.c                      | 27 ++++++++----
- sound/soc/codecs/nau8540.c                         | 49 ++++++++++++++++++++++
- sound/soc/codecs/nau8540.h                         | 15 +++++++
- sound/soc/codecs/rt712-sdca.c                      | 14 +++----
- .../mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c |  4 +-
- sound/soc/rockchip/rockchip_i2s_tdm.c              |  2 +-
- sound/soc/soc-dapm.c                               |  2 +-
- sound/soc/sof/sof-client.c                         |  2 +-
- sound/soc/ti/omap-mcbsp.c                          |  6 ++-
- 18 files changed, 171 insertions(+), 51 deletions(-)
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
