@@ -2,88 +2,131 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8A3FC05022
-	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 17:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA967C4167D
+	for <linux-sound@archiver.kernel.org>; Fri, 10 Nov 2023 17:56:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjKJRyV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 10 Nov 2023 12:54:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S234670AbjKJR4L (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 10 Nov 2023 12:56:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbjKJRx0 (ORCPT
+        with ESMTP id S229599AbjKJRz0 (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 10 Nov 2023 12:53:26 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 165D53A223;
-        Fri, 10 Nov 2023 07:07:45 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c509f2c46cso29238731fa.1;
-        Fri, 10 Nov 2023 07:07:45 -0800 (PST)
+        Fri, 10 Nov 2023 12:55:26 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6F2884E
+        for <linux-sound@vger.kernel.org>; Thu,  9 Nov 2023 23:55:07 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-507a62d4788so2410865e87.0
+        for <linux-sound@vger.kernel.org>; Thu, 09 Nov 2023 23:55:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699628863; x=1700233663; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qUYUCcdtTvLVENF71fNoj/iwjtIo/19Ig1fuze9y2zQ=;
-        b=erK0ZRlSbBpHNXPD31Wbg069kySyLAJk5fd2xq6ZZwiGMdpkODGmzV5mObCHdc+cC3
-         I/07xkOfTW3hIKKO4rjh4eRPGYpOFplr1irTdGXYuzxFY5vjFOFT/eIGZho8etyy1q03
-         vHGAmnTKna+Z0eEIAmJJkySCclrlntYpCmFgOwTTCK44i0HGanPSDl5a+OwoB0RcMeuB
-         VNT/fgH4aOFz+qQ4kJyspxxhi4zBc0sJdk486/s9ukkJJOpMPUU5OS0Eurc2T3fSO8A3
-         v7VMz5XjqwsuM/b+ackk25pPrdo3QKxonu/f4LjgTof9CETGxsnZNwSFhZhy3jkv1Z4w
-         V2lA==
+        d=linaro.org; s=google; t=1699602905; x=1700207705; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=exq4UFCVFyVXTRVXCKADEx5ek2tcNT2tuJD33J+zJYY=;
+        b=fczmYIxUUR9PxIU3DHstxjpxqs0WIm6z70nEX2fH7Vfora/LQ4A6vDOruBkINi24FX
+         F1Ql8ytCOytGE2malueKYADNsa+hFsRVhGrqBs8BUbLsLKw8m5WagBKMHGb3WyZQzs8h
+         vpC+K8rCtHfC6mOeJRpLd1rltqMr0EUc5RTQvuzBqGeM/XoUpsVKwsesbeqNJJG/OXo/
+         wpzmCNF68GU8qDKKYhJoCvJYY0nGE2eNkmlf7Av0XjFJVi7y3KWlr5qmtxL4Tz0wNuGW
+         R8DdO6CBl0DLL3/HXSGo3nrEXo1vd61Ia3K/ZXbGzYjT0TdubqJ7587X3Y9S0HFw7lYl
+         IeVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699628863; x=1700233663;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qUYUCcdtTvLVENF71fNoj/iwjtIo/19Ig1fuze9y2zQ=;
-        b=Unf2G5PoFfUmk670Ghysf+oPMD4N9MBDN97R1+8Om4fLGec//FV8O3Vs4rZpObQ+1v
-         F03NPfkXEUBYdj6PJVO/NQIeDICqRhsxtIFrSV3S+CsydvVw7kAjW0TJZirC7ztOMelw
-         /eC6aS/ZCR1oQKwdLzJuupmiVVRmtLWcPDwabyfx04CMHhq2ci+/qqHavnRJoJtlWsEF
-         uS7Zivud0vnMycf4L2NnTib5VJ2brvl9ILR0Xg6HmSEwvjykZoL1hXSEVq2WqBizE7EA
-         /TM/9i+5NI+Y6IlLUs6BvdNHyL0aqTtVFyuKWvPbNjsItR2T8Z46RrXtnPJ/J7PGGVSh
-         GQ8Q==
-X-Gm-Message-State: AOJu0YxFPyCEb+MD9dyyiu5qV+0ZgstU3ZbaGGfjS3CXK5oh1xm3gPN3
-        MvjG/ORuwtkEf51/MX7rWpg=
-X-Google-Smtp-Source: AGHT+IHcYTTwQnBVR0JOTyt+yoUrnZIm91B/VqhEYppHkYrKc6ewD1oU+hohyhmom061chzMLDRwpQ==
-X-Received: by 2002:a2e:bd02:0:b0:2bf:e596:36f9 with SMTP id n2-20020a2ebd02000000b002bfe59636f9mr7978407ljq.13.1699628863059;
-        Fri, 10 Nov 2023 07:07:43 -0800 (PST)
-Received: from localhost.localdomain ([176.40.228.182])
-        by smtp.gmail.com with ESMTPSA id c21-20020a05600c4a1500b004095874f6d3sm5300372wmp.28.2023.11.10.07.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Nov 2023 07:07:42 -0800 (PST)
-From:   Eymen Yigit <eymenyg01@gmail.com>
-To:     perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Eymen Yigit <eymenyg01@gmail.com>, Luka Guzenko <l.guzenko@web.de>
-Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 255 G8
-Date:   Fri, 10 Nov 2023 18:07:15 +0300
-Message-ID: <20231110150715.5141-1-eymenyg01@gmail.com>
-X-Mailer: git-send-email 2.42.1
+        d=1e100.net; s=20230601; t=1699602905; x=1700207705;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=exq4UFCVFyVXTRVXCKADEx5ek2tcNT2tuJD33J+zJYY=;
+        b=ZvItf/04Ui8C75nCHKOyBnTarMKXoJsVEyzpcLZ8FuruhY5gj6NBIHYhXSspARNZQJ
+         rLcqQMi1EX1Dew28BW54IHuap/KPuCFUG+L2msKahb8cRpTnvSGajnwEQR5KBlJQKqM6
+         rzL6DvL/+SI3Bu1IcOE6IS4W7kcl3D/BCVUwBYg2K0uzamjuPcN4wZgfxtXFXF/7jDc3
+         CBerjrSbPBtn8CVxoTHfc99f7Wb8InliZPPhGR7CVLI5ouvr9qcGPAD/pNYD7DloAAmq
+         wSHhsddHNCaZrr5dDnSnDJxgpxxVw0mXRlZVhJOGRlxGftvnz/2AMq55+Xn/A43hrqOx
+         F5hA==
+X-Gm-Message-State: AOJu0YzP2l2997pSpwTnwWSFvw3e605XIVC5G0lD8Q3R/4PjiTqrfLvO
+        v8QZEzqc49wEHNjIsqB1NddpTw==
+X-Google-Smtp-Source: AGHT+IEz5Z/L098NcTyrqONf8EFKuGwXg9A/WJWICjpff8xZDf1JiXrYNoesmr9tCGAlePBYeqt7/g==
+X-Received: by 2002:ac2:5e2e:0:b0:509:4533:ddf2 with SMTP id o14-20020ac25e2e000000b005094533ddf2mr2836185lfg.11.1699602905427;
+        Thu, 09 Nov 2023 23:55:05 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id j3-20020a056000124300b0032db4825495sm1366870wrx.22.2023.11.09.23.55.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 23:55:04 -0800 (PST)
+Message-ID: <13574c92-0edf-48d8-b021-8d36b48e5759@linaro.org>
+Date:   Fri, 10 Nov 2023 08:55:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] dt-bindings: es8328: convert to DT schema format
+Content-Language: en-US
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@collabora.com
+References: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-This HP Notebook uses ALC236 codec with COEF 0x07 idx 1 controlling
-the mute LED. Enable already existing quirk for this device.
+On 09/11/2023 19:44, Sebastian Reichel wrote:
+> Convert the binding to DT schema format. Note, that "IPVDD-supply"
+> got fixed to be "HPVDD-supply" during the conversion. This was
+> obviously a typo in the old binding. The old binding example, DT
+> files, chip datasheet and Linux driver use HPVDD.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Signed-off-by: Eymen Yigit <eymenyg01@gmail.com>
-Cc: Luka Guzenko <l.guzenko@web.de>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 58006c8bc..efe8935af 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9801,6 +9801,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8898, "HP EliteBook 845 G8 Notebook PC", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x103c, 0x88d0, "HP Pavilion 15-eh1xxx (mainboard 88D0)", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8902, "HP OMEN 16", ALC285_FIXUP_HP_MUTE_LED),
-+	SND_PCI_QUIRK(0x103c, 0x890e, "HP 255 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8919, "HP Pavilion Aero Laptop 13-be0xxx", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x896d, "HP ZBook Firefly 16 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x896e, "HP EliteBook x360 830 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
--- 
-2.42.1
+Best regards,
+Krzysztof
 
