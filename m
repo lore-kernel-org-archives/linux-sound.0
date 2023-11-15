@@ -2,86 +2,92 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F9EC47074
-	for <linux-sound@archiver.kernel.org>; Wed, 15 Nov 2023 03:34:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67878C47074
+	for <linux-sound@archiver.kernel.org>; Wed, 15 Nov 2023 03:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234404AbjKODed (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Tue, 14 Nov 2023 22:34:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38410 "EHLO
+        id S234390AbjKODfZ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Tue, 14 Nov 2023 22:35:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234412AbjKODec (ORCPT
+        with ESMTP id S234414AbjKODfT (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Tue, 14 Nov 2023 22:34:32 -0500
+        Tue, 14 Nov 2023 22:35:19 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7A6D5;
-        Tue, 14 Nov 2023 19:34:29 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64116C433C7;
-        Wed, 15 Nov 2023 03:34:24 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C6BDB;
+        Tue, 14 Nov 2023 19:35:16 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6813BC433C7;
+        Wed, 15 Nov 2023 03:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700019268;
-        bh=ewJizaPtlqc24f19smotXbwRC0t9KaAAI1Stk3dIHwk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X2PURsr+cTzs6AGUlwHrxCJK0KtVrCnHu1+UhpsQ881a4cXk+kkhRPW/16GfY17Ts
-         EVw8y/nbvE4T/3Km/w9cRaOKJu2AyBMk1Gl0jDOsAXXHVXaoYnHTBNOnDHRaE1oYKq
-         B5DZMruKt2gyZVcbtdu1+KDe1TwD8pVklvxAZA1U0yjuLO7TaGY8uFVCx7gkgWOyNj
-         ZwEqkBszs/BTjsrYCmHH7MmkLAc2EVC/v+2YqWEsEjrOfWMEM8whY49Ev4Mij3LTry
-         fCbdlalCmkE3cyy9YvQX37MoJ83feqTEhSUZN4HhwrY+UfRWg6r6FVMIY0SV1bva1m
-         6BP4Qt1DKbDGg==
+        s=k20201202; t=1700019315;
+        bh=uz3VoRhQYG9uvIywcf7/L4nQE3Yr0jMTQYKIxzAPbQA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mpMfZMWXk2/CRO8Y6Wfi/9PEXmhk144p5Wis+zT2daLm/Jo2BHpPHuuHZXuL7nY/Q
+         xnABS49P1LQA5I3tD/Ovn4XmKnBG0hc2+JgTpghfv7r2f1VYJab7b/OIsW538L5oKs
+         K6aZtnTkXjz7x5qcK85E4NinShOSyDCOc0RtgUHXUHo3igPwF1lc2lEzq/IuRrCA1s
+         BzSZQxuC5Tt3HbhOmg6UIgLZdZTAjZZdJsdy6dluU9visvhxcLtzna5WYb9hbo5Wt+
+         /emYVlW3cZ+5KvcDAe/YZCx5DyK0adBWyhopR8rTQbi3W9b2ARWtTbpQSEjHY/ik95
+         twEpzs3zgSlzA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alex Spataru <alex_spataru@outlook.com>,
-        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
-        perex@perex.cz, tiwai@suse.com, kailang@realtek.com,
-        luke@ljones.dev, sbinding@opensource.cirrus.com,
-        andy.chi@canonical.com, shenghao-ding@ti.com, l.guzenko@web.de,
-        ruinairas1992@gmail.com, yangyuchi66@gmail.com,
-        vitalyr@opensource.cirrus.com, linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 3/6] ALSA: hda/realtek: Add quirk for ASUS UX7602ZM
-Date:   Tue, 14 Nov 2023 22:33:37 -0500
-Message-ID: <20231115033350.1228588-3-sashal@kernel.org>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Mark Brown <broonie@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, peter.ujfalusi@gmail.com,
+        jarkko.nikula@bitmer.com, lgirdwood@gmail.com, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.5 1/6] ASoC: ti: omap-mcbsp: Fix runtime PM underflow warnings
+Date:   Tue, 14 Nov 2023 22:34:45 -0500
+Message-ID: <20231115033459.1228900-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231115033350.1228588-1-sashal@kernel.org>
-References: <20231115033350.1228588-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.1
+X-stable-base: Linux 6.5.11
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-From: Alex Spataru <alex_spataru@outlook.com>
+From: Tony Lindgren <tony@atomide.com>
 
-[ Upstream commit 26fd31ef9c02a5e91cdb8eea127b056bd7cf0b3b ]
+[ Upstream commit fbb74e56378d8306f214658e3d525a8b3f000c5a ]
 
-Enables the SPI-connected CSC35L41 audio amplifier for this
-laptop model.
+We need to check for an active device as otherwise we get warnings
+for some mcbsp instances for "Runtime PM usage count underflow!".
 
-As of BIOS version 303 it's still necessary to
-modify the ACPI table to add the related _DSD properties:
-https://github.com/alex-spataru/asus_zenbook_ux7602zm_sound/
-
-Signed-off-by: Alex Spataru <alex_spataru@outlook.com>
-Link: https://lore.kernel.org/r/DS7PR07MB7621BB5BB14F5473D181624CE3A4A@DS7PR07MB7621.namprd07.prod.outlook.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Reported-by: Andreas Kemnade <andreas@kemnade.info>
+Signed-off-by: Tony Lindgren <tony@atomide.com>
+Link: https://lore.kernel.org/r/20231030052340.13415-1-tony@atomide.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/ti/omap-mcbsp.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 9677c09cf7a98..2ed40adc8e15d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9848,6 +9848,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI_2),
-+	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
- 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU502_PINS),
+diff --git a/sound/soc/ti/omap-mcbsp.c b/sound/soc/ti/omap-mcbsp.c
+index 21fa7b9787997..94c514e57eef9 100644
+--- a/sound/soc/ti/omap-mcbsp.c
++++ b/sound/soc/ti/omap-mcbsp.c
+@@ -74,14 +74,16 @@ static int omap2_mcbsp_set_clks_src(struct omap_mcbsp *mcbsp, u8 fck_src_id)
+ 		return -EINVAL;
+ 	}
+ 
+-	pm_runtime_put_sync(mcbsp->dev);
++	if (mcbsp->active)
++		pm_runtime_put_sync(mcbsp->dev);
+ 
+ 	r = clk_set_parent(mcbsp->fclk, fck_src);
+ 	if (r)
+ 		dev_err(mcbsp->dev, "CLKS: could not clk_set_parent() to %s\n",
+ 			src);
+ 
+-	pm_runtime_get_sync(mcbsp->dev);
++	if (mcbsp->active)
++		pm_runtime_get_sync(mcbsp->dev);
+ 
+ 	clk_put(fck_src);
+ 
 -- 
 2.42.0
 
