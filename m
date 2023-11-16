@@ -2,102 +2,205 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6035CC54FB9
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 11:10:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E5ADC197A0
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 11:21:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbjKPLK4 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 06:10:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
+        id S230385AbjKPLVj (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 06:21:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345083AbjKPLKz (ORCPT
+        with ESMTP id S230417AbjKPLVi (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 06:10:55 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C857B5;
-        Thu, 16 Nov 2023 03:10:52 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1cc9b626a96so5972545ad.2;
-        Thu, 16 Nov 2023 03:10:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700133051; x=1700737851; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mFz7+oVHI5NX8C0fnm8IRqMzIqbCT/WXK6LRYxJxeAE=;
-        b=d4fqKnGMR/0L1eh2b2CTGUI87uOf3oqvheRu87djvvqi3pHCBeNnunqWgofXaTNcAp
-         XpueMUJwA30kkBS7ZnUhcrnQc+yW3sLtBjdcKNybMIFyUddV1QZLVu3BBm5tmui6t2Um
-         /fyqfGSe/72vP3TvoZWI6BRjshhM2JWu2KOJAORq2D8mlGl9o1AhS1dLY6MGlRCJHp6n
-         NbxtolMFo98SPFt9/kMHKf+I0GM0eHIsSxPOW3PuaVxW8chNlwMAeA5Xdf/uC2ONo6mr
-         t4R1mmLOr0YNV5yfCRLGxpFvKia5oUUbNJMil/hUbQXrZy8YAs5eDNKSh1mUKzchG+jq
-         uAoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700133051; x=1700737851;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mFz7+oVHI5NX8C0fnm8IRqMzIqbCT/WXK6LRYxJxeAE=;
-        b=Y9ZBQSKIRpq/nR5bshtFUCfWueH3Na/QpP4+YiULdyBIWg2h1nO5ABOAaoqNFFxHFA
-         UE92DYkjJH2YcNJKesCXzEgSSMdK9sEsuqZ340lBRq+qyal7O8npt/JUilipgCNHR+1B
-         kn9BozAKKh2I227qiVaYcoynWcyCy4Yo4MK2c9F/es6AG7V4njfNiIBPNQJbQbL3bbLk
-         CF0cgQ2l46zqR23558TmmusVIkQk8Xx04QZbqVkXnKEnLRKG0LbF0D42QR5AdUblOFxM
-         XWa+FNHyYqCc8Xq9stWc/+ITDLMtiGN0NgDEOllhOMpZy7pZJ2vmH1ogp7rrnWM2IFLs
-         Vckg==
-X-Gm-Message-State: AOJu0YzRQkXN004IEQXM7M0dgcj1qBeZR4Ir5KshWwAvob17EHzZa6Np
-        8iByWbqVu+UAoA8ICuEolAEN2BOOSE6P7Q==
-X-Google-Smtp-Source: AGHT+IHdY0XUN3LIBMmFyQ/ijvMnft+nsGEUJv1hua8fnJIpPVmBnHfdyu9e06SELEggK2aJGRPBTA==
-X-Received: by 2002:a17:902:70c7:b0:1cc:32b7:e5b9 with SMTP id l7-20020a17090270c700b001cc32b7e5b9mr7088429plt.67.1700133051430;
-        Thu, 16 Nov 2023 03:10:51 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id ja5-20020a170902efc500b001cc3a6813f8sm9025422plb.154.2023.11.16.03.10.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 03:10:51 -0800 (PST)
-Message-ID: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
-Date:   Thu, 16 Nov 2023 18:10:45 +0700
+        Thu, 16 Nov 2023 06:21:38 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DF72D4D
+        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 03:21:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700133694; x=1731669694;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2nvSNwiqsTo9gFmjcl5IwChdttQhho1stat0eORAMsw=;
+  b=Z+cTlHfebe/SidsxUUkpuoiVSlPt3tG0YmypD1OwxhBG1C3YD+ch1jZc
+   SNyO4mQO1PAYYsDharSN9S2D3VbaYYpxFsaV969dGU1mjZVs6ibynaTvV
+   bA/y71fJFExWKmn7YUV/4lAH+pa3Fk7b9YNb4IhVGGB3C/hxxS8g8su0G
+   4TKnoXSt5nL1yPhBtcxSPt3xTWiiXtpE9TMt8Fwlga+wJA5fcXyxenPP5
+   k4Xj65R5Qb9NK5qxQjrkB/TJoK2l4RiGGcbs8p6faSgQTse2rwJJKAx/G
+   4KZ3PMej5QGTt1Gcp5W9ZVOtNcPFhtUXZqHFr50cuBuHzJxI86QRaATcM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="457561932"
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
+   d="scan'208";a="457561932"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 03:21:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
+   d="scan'208";a="6698207"
+Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2023 03:21:29 -0800
+From:   Cezary Rojewski <cezary.rojewski@intel.com>
+To:     broonie@kernel.org, tiwai@suse.com, perex@perex.cz
+Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        amadeuszx.slawinski@linux.intel.com,
+        pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
+        Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v4 00/16] ALSA/ASoC: hda: Address format selection limitations and ambiguity
+Date:   Thu, 16 Nov 2023 12:22:39 +0100
+Message-Id: <20231116112255.1584795-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Sound System <linux-sound@vger.kernel.org>,
-        Linux ALSA Development <alsa-devel@alsa-project.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, ollisieber@gmail.com
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen 7 PRO
- 5850U
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Hi,
+Patchset aims to address format selection restrictions present currently
+in the HDAudio library. Formats which we are concerned about are 20 and
+24 valid bits per sample within 32 bit depth container. One may identify
+them as S20_LE and S24_LE except that those, according to comments found
+in include/uapi/sound/asound.h, are for LSB-aligned scenarios. HDAudio
+streams expect MSB-aligned data, no matter if we are speaking of HOST
+(SDxFMT) or LINK (PPLCxFMT) side - chapter 4.5.1 of the public HDAudio
+specification. In short, S20_LE and S24_LE are invalid options.
 
-I notice a bug report on Bugzilla [1]. Quoting from it:
+Right now, given the implementation of snd_hdac_query_supported_pcm() 
+within sound/hda/hdac_device.c, even if a codec responds with: "I
+support all possible formats specified within HDAudio specification",
+there will be no option to open a 20/32 or 24/32 stream. The kernel will
+force the stream to be opened using the highest available bit depth.
 
-> Hey,sound/soc/amd/renoir/rn-pci-acp3x.c has a hard-coded list of quirks. It seems like some product IDs may be missing. In my case, I am using a Lenovo Thinkpad t14s gen2 with an AMD Ryzen 7 PRO 5850U. 
-> My audio output is fine but my internal microphone cannot be found.
-> 
-> Running `dmidecode` yields:
-> 
-> Handle 0x000F, DMI type 1, 27 bytes
-> System Information
-> 	Manufacturer: LENOVO
-> 	Product Name: 20XGS1KT02
-> 	Version: ThinkPad T14s Gen 2a
-> 
-> Could it be that one may have to add the product ID "20XGS1KT02" to the hard-coded list of quirks in rn-pci-acp3x.c?
-> 
-> 
-> It seems as there have been similar problems in the past, e.g. https://bugzilla.kernel.org/show_bug.cgi?id=216270.
+After discussing subject initially with Jaroslav and Takashi, suggestion
+was made to utilize 'subformat' option to address the problem. The
+eye-opening discussion begun much earlier though, in 2019 [1].
 
-See Bugzilla for the full thread.
+Paired with PRs for alsa-utils [2] and alsa-lib [3].
 
-ollisieber, can you send the quirk patch?
 
-Thanks.
+Flow of changes:
 
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=218148
+The very first patch adds MSBITS subformat options to allow for granular
+20/32, 24/32 and 32/32 format selection. The next two make sure
+subformat is actually honored during runtime. Most of that code is based
+on format-related API.
+
+Follow up is upgrade to the hda stream-format interface - several
+functions are added to make the granular format selection simple in the
+HDAudio world. Core of the implementation is based on the existing
+snd_hdac_calc_stream_format(). The next ten patches are straightforward
+switch from one interface to another with cleanup of now-unsed function
+as a finishing touch.
+
+Last but not least - the avs-driver, on which the problem analyzed and
+debugged, is updated to no longer acknowledge S24_LE as a valid format
+option.
+
+Results with skylake-driver and snd_hda_intel show status quo on our
+RVPs. PR filed on SOF github shows promising results too [4].
+
+
+Changes in v4:
+- fixed compilation issues in sof-driver, patch 12/16, reported by ikp
+- fixed sparse warnings in patch 01/16, reported by ikp
+- updated commit message for patch 03: "ASoC pcm: Honor subformat when
+  configuring runtime", as snd_pcm_hw_copy() is gone since revision v3.
+
+Changes in v3:
+- merged the first two patches as suggested by Jaroslav
+- re-authored patch 01 to Jaroslav, added my Co-developed-by.
+- added Jaroslav' Co-developed-by to patch 02.
+- 'subformats' field now S32_LE-specific. Given the fact that it is the
+  only format currently requiring subformat-intervention, functionality
+  is narrowed to reduce amount of memory allocations and cleanup.
+  Suggested by Jaroslav.
+- note to the above: the hdaudio part converted 1:1 as requested, patch
+  02/16
+- note #2: alsa part converted to S32_LE-specific yet without addition
+  of the chicken bit. Instead, struct snd_pcm_hardware is updated with
+  u32 subformat mask to do the job.
+- ALSA-core additions in form of snd_pcm_subformat_width() and
+  snd_pcm_hw_params_bps() relocated from 01/16 to the user, patch 05.
+
+Changes in v2:
+- patch 01/17, introduced struct snd_pcm_subformat which task is to
+  represent subformat-mask on per format basis. Expectation is that
+  manipulated arrays of subformats always end with a sentinel entry
+- patch 01/17, added snd_pcm_hw_copy() as the copying snd_pcm_hardware
+  becomes non-trivial
+- patch 02/17, added hw_rule that produces final subformat mask
+  based on provided formats as suggested by Jaroslav
+- patch 04/17, soc_pcm_hw_update_subformat() refactored as the subformat
+  intersection becomes non-trivial
+- relevant functions releasing resources occupied by hda_pcm and
+  snd_pcm_runtime updated to also kfree() subformats
+- except for 16/17, no changes to patches past 04/17, retaining acks for
+  these
+
+Changes in v1:
+- fixed UBSAN due to missing snd_pcm_subformat_names[] entries for new
+  subformats
+- as HDMI stream capabilities are assigned on PCM open, patch 16/17 has
+  been updated to ignore such codecs for now. A separate patchset will
+  take care of this case
+- params_bps() reworded to snd_pcm_hw_params_bps()
+- fixed compilation issues in sof-driver, patch 13/17
+
+
+[1]: https://lore.kernel.org/alsa-devel/20190905053302.9262-1-pawel.harlozinski@linux.intel.com/
+[2]: https://github.com/alsa-project/alsa-utils/pull/228
+[3]: https://github.com/alsa-project/alsa-lib/pull/342
+[4]: https://github.com/thesofproject/linux/pull/4539
+
+Cezary Rojewski (15):
+  ALSA: hda: Honor subformat when querying PCMs
+  ASoC: pcm: Honor subformat when configuring runtime
+  ALSA: hda: Upgrade stream-format infrastructure
+  ALSA: hda: Switch to new stream-format interface
+  ALSA: hda/hdmi: Switch to new stream-format interface
+  ALSA: hda/ca0132: Switch to new stream-format interface
+  ASoC: codecs: hda: Switch to new stream-format interface
+  ASoC: codecs: hdac_hda: Switch to new stream-format interface
+  ASoC: codecs: hdac_hdmi: Switch to new stream-format interface
+  ASoC: Intel Skylake: Switch to new stream-format interface
+  ASoC: SOF: Intel: Switch to new stream-format interface
+  ASoC: Intel: avs: Switch to new stream-format interface
+  ALSA: hda: Drop snd_hdac_calc_stream_format()
+  ASoC: Intel: avs: Kill S24_LE format
+  ASoC: Intel: avs: Unhardcode HDAudio BE DAI drivers description
+
+Jaroslav Kysela (1):
+  ALSA: pcm: Introduce MSBITS subformat interface
+
+ include/sound/hda_codec.h         |   5 +-
+ include/sound/hdaudio.h           |  13 +--
+ include/sound/pcm.h               |   8 ++
+ include/sound/pcm_params.h        |   2 +
+ include/sound/soc.h               |   1 +
+ include/uapi/sound/asound.h       |   7 +-
+ sound/core/pcm.c                  |   3 +
+ sound/core/pcm_lib.c              |  28 ++++++
+ sound/core/pcm_misc.c             |  22 +++++
+ sound/core/pcm_native.c           |  55 ++++++++++-
+ sound/hda/hdac_device.c           | 156 +++++++++++++++++++++---------
+ sound/pci/hda/hda_codec.c         |   2 +
+ sound/pci/hda/hda_controller.c    |  10 +-
+ sound/pci/hda/patch_ca0132.c      |   3 +-
+ sound/pci/hda/patch_hdmi.c        |   6 +-
+ sound/soc/codecs/hda-dai.c        |   6 +-
+ sound/soc/codecs/hda.c            |   2 +
+ sound/soc/codecs/hdac_hda.c       |   8 +-
+ sound/soc/codecs/hdac_hdmi.c      |  10 +-
+ sound/soc/intel/avs/loader.c      |   4 +-
+ sound/soc/intel/avs/path.c        |   2 +-
+ sound/soc/intel/avs/pcm.c         |  58 +++++++++--
+ sound/soc/intel/avs/probes.c      |   3 +-
+ sound/soc/intel/avs/topology.c    |  13 ++-
+ sound/soc/intel/skylake/skl-pcm.c |  11 ++-
+ sound/soc/soc-pcm.c               |  10 ++
+ sound/soc/sof/intel/hda-dai-ops.c |  20 ++--
+ tools/include/uapi/sound/asound.h |   7 +-
+ 28 files changed, 365 insertions(+), 110 deletions(-)
+
 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
+
