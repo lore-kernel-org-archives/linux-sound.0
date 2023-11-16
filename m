@@ -2,129 +2,175 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E76C47071
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 16:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17444C197A0
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 18:36:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231290AbjKPQoa (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 11:44:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48940 "EHLO
+        id S229530AbjKPSgJ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 13:36:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbjKPQo3 (ORCPT
+        with ESMTP id S229488AbjKPSgI (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 11:44:29 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42B7192
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 08:44:24 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4079ed65582so7909805e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 08:44:24 -0800 (PST)
+        Thu, 16 Nov 2023 13:36:08 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634E21AD;
+        Thu, 16 Nov 2023 10:36:05 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2c5039d4e88so15415251fa.3;
+        Thu, 16 Nov 2023 10:36:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700153063; x=1700757863; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sDzOfYCdfGdhIwsTkT/XnXRFMX5EnP+LI41FMa/BEgU=;
-        b=A5W8DmrAJ71QfvlWN1rgZdFw5x0ffp35576eJClXY8DSzCedNzsdYDhHFpy2Lw4N13
-         xvCp/CRv0CaSUZnFMWHuTZdnxuZIdtSUNVdcm6OsnC2pg4DAUEz8J6i5l/v0AI0yvuNk
-         8aisWWPsy2Mf9JrTt2exGeWKCf/jQaHK9pam3SCBIR24xJJNqVb4K1m2hVce/xibFZO7
-         YgBNYLpP15euep2jFWQ0c1Skytfblx8x8V8SCooEWBy7VONqv1MmXVE15c2Ba2hlhmH1
-         M5CXc+NzPxY/PXdgX8rUcU34zONPZe1THvFeyFWNuzfFBwFo1veQ2kDVz/F3wkp38zKg
-         5tbg==
+        d=gmail.com; s=20230601; t=1700159763; x=1700764563; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yIlFonLjzCyWNPF0XSY5in6JQp88jtw/YSTV9e8ZqPA=;
+        b=iGzLZmkusnPokOECcSTH2EqiUyph2KCfwEV53SZ8T9jKVRdO/cNFv9WSqZ+H09HoZf
+         xE17NEuZ3sAx75T4njby/IkiNDVBx4FavBN54SiPnfjluqFmpI4JwAuSB6k6rJdji0Ob
+         It0jC0cGDB2BzeD9Vycd91r2KOYbGEE7+Ursw5npFFgFvU0lEULZPKPoB8l5a2xcvX+8
+         vyv+Ctolp4xCjj8DekV59a5iZAbr/yaAyS6ishNDFIatJfNBZekULv8jCDBEyavKFNYq
+         TmU9w07eihnInKgimBpmkxkEcZOcoAt3OWz8wiiM+GfbDGBk/SyaQjccuGSDYIECB4AM
+         uTDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700153063; x=1700757863;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sDzOfYCdfGdhIwsTkT/XnXRFMX5EnP+LI41FMa/BEgU=;
-        b=o/V+izlULYu+50gp6CH1+w7RSU93vXJTanjRGXYjp1E77IpF0ZOM3qZXBovhBdF5fW
-         FU9sDIK2/jiMegc6R5r7rjtdi6Q7CD5AXVtnrV8U0FvGUDgm5WAENkJkAZ6RFParlHmE
-         MoflltNvVxGOTzg9Yp7uDXjQ0up34+fsmj5LWBVfiIOkkI8wzAAYU2dipxjRt4GRhAMe
-         wiMTpFhWD/5KajPeQni8SzdVqhdDlMrwhk0PrvwoSNOsX34CKCjNzW3I5mtqVoCQK5C/
-         ct6jABXinYXWZmKY8mV5xy7eWDYEBZr8C81Y52jbI3kLLj2Ge94t56fAmX6dEsiiwHwh
-         qjTw==
-X-Gm-Message-State: AOJu0Yz5HpE9wxqXXtnAZ9gez3sFb70s3B6Z3IOvBEcCRuEXHYIVMevc
-        VkGSw/BN+VLehs3KkctxaF/MDA==
-X-Google-Smtp-Source: AGHT+IHn7OB0r9MkxAhFTonw+6qeVUoxgahqxWdmltXDSS2WfR4eRPqtvUnCGmh3o2tZVLIEgCLqMQ==
-X-Received: by 2002:adf:f28e:0:b0:32f:7cea:2ea1 with SMTP id k14-20020adff28e000000b0032f7cea2ea1mr11101444wro.18.1700153063188;
-        Thu, 16 Nov 2023 08:44:23 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id z8-20020a5d6548000000b0032da75af3easm14025882wrv.80.2023.11.16.08.44.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 08:44:22 -0800 (PST)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Thu, 16 Nov 2023 17:44:21 +0100
-Subject: [PATCH] ASoC: codecs: lpass-tx-macro: set active_decimator correct
- default value
+        d=1e100.net; s=20230601; t=1700159763; x=1700764563;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yIlFonLjzCyWNPF0XSY5in6JQp88jtw/YSTV9e8ZqPA=;
+        b=FBI0I8KaMSjJ2GZxat+tVyJIMHSD67zNJLGq3aG7YOg1n+SWVR8mzto38xeAwVVwkE
+         ERxXlJHpheYXpRO6+acbY7+zw6eUuvE1g2FZZZ9ZgGSOvpxS/M7CgNv9fBpzJ5oELn8S
+         nN50ZCi2GyBcY+psvlW+sXeg+jjo8H50sEX/afSkb2Ine9zv6QDM9Y++RWmTqlFsWIuJ
+         VCHq9cGik/ykImMG5zKA8JaM7uCVz9TQPqDJhsQaopTsmqLPextp9siUndOvCBqUjK99
+         gPZAiCU1M4pMAys5pwATauw446++L502/PVIK0CNpNDUsmChJ8ORJDHUIVkH87b+RH8W
+         aaHQ==
+X-Gm-Message-State: AOJu0YyQOxqXNvj8Py8Ye31p+UxGbrFy8rU1vD8yEK/DnoSzCHIIyGA3
+        O8avjim6wwlDuRyjosxSII8=
+X-Google-Smtp-Source: AGHT+IEzRlLFe78bRabXn1LUASTNO6XFVl0tfBEgWnytfpAWKq4drUqkv+OpUg6r2dZj8GiO3ZvlZQ==
+X-Received: by 2002:a05:651c:86:b0:2c5:9a5:a1c2 with SMTP id 6-20020a05651c008600b002c509a5a1c2mr8291927ljq.30.1700159763121;
+        Thu, 16 Nov 2023 10:36:03 -0800 (PST)
+Received: from ?IPV6:2003:d3:8f2b:ca00:a8b9:be5c:5958:4eb3? (p200300d38f2bca00a8b9be5c59584eb3.dip0.t-ipconnect.de. [2003:d3:8f2b:ca00:a8b9:be5c:5958:4eb3])
+        by smtp.gmail.com with ESMTPSA id t13-20020a05600c450d00b004094e565e71sm127178wmo.23.2023.11.16.10.36.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Nov 2023 10:36:02 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------8RvdfuZ5GyNIBIsC5wTYBJDm"
+Message-ID: <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
+Date:   Thu, 16 Nov 2023 19:36:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231116-topic-sm8x50-upstream-tx-macro-fix-active-decimator-set-v1-1-6edf402f4b6f@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAORGVmUC/x2NQQrDIBAAvxL23IUYqTT9SunB6Kbdg1F2TRBC/
- l7pcWCYOUFJmBSewwlCByvnrYO5DRC+fvsQcuwM0zhZY4zDmgsH1PRo9xH3olXIJ6wNkw+SceW
- GPlQ+CCMFTr5mQaWKs43W2WVdrJuh14tQd//n1/u6fkmbvraJAAAA
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen 7
+ PRO 5850U
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Sound System <linux-sound@vger.kernel.org>,
+        Linux ALSA Development <alsa-devel@alsa-project.org>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     krzysztof.kozlowski@linaro.org,
-        linux-arm-msm-owner@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1388;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=4dAw4vqYtyZ3uH1NpDIOG5tDL7gWy8TiV101k/eDcNg=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlVkbljrU4sS5DvYQUP+pgNOPnplVSf7WYMq9uttCK
- 11awh6yJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZVZG5QAKCRB33NvayMhJ0TDpD/
- 9r0Lt00io9LJH6n4fXgDoMEXeJBY8FYP+myiaoUUrYb3dqkBDWtdRWG1LV6jEeqMHd4T8F/Hp23wxc
- 2Q/POMxLme9nsAtsOOrjyjLU7tyAnEb6/2roYm1uPobovuOrVyHg2RgZLP+dkG2v1PCwSVgHkOVl69
- zo14f8NIyWs+2hwU+9QjTD3gYHIX+RDhr8nVIZrpvwLaZ5GBozOeINNPURb1pTqyT5SwDdtZH+o0Zq
- zXFDkUP36NRbHeQDYGSTDgxlos+EuHQ7CeQSpKzVHZhAlIKkv5v9zkodLBSt2lBSXYQ2buwOGY3rQ1
- Tssp2A5+G+Fhu5PyzHqblyiRBUbJXwS9Ozp76mMN5HJdpw5XHWXz07QO9GrQhpHmRFLDkHy7aUvfYO
- Eh1WhZY1/dlhsu/czwEKpZArDf1v8AA2xo/5U3dkMOHo2NKXc/mep7B8wjOBVMJ0a0uPR/coB+n8V5
- IUYeZ3YFm00Z+u2sD5J1hVY8IghVUwk/bCehKQeEySg9JGRRfh+DwHrHVVjZNx6VcH39F2Cxw/MJGK
- J2YRkHwO0E/5LnNwRs4d4CBAZbAjlzFizr1cUAvdKcdZMYRh1y0G/dZkZr0pWh6DkxgwdlXpWpc2mv
- sk7vxggEojUHkvW6JwJ5NsDd4vAwNi1w3PoKSLZRN1qsKfuKeM0iCLk4u4OA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+References: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
+Content-Language: en-US
+From:   Oliver Sieber <ollisieber@gmail.com>
+Autocrypt: addr=ollisieber@gmail.com; keydata=
+ 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
+ Mi8tCaN/OlNrmLQZ1vgYMQ==
+In-Reply-To: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-The -1 value for active_decimator[dai_id] is considered as "not set",
-but at probe the table is initialized a 0, this prevents enabling the
-DEC0 Mixer since it will be considered as already set.
+This is a multi-part message in MIME format.
+--------------8RvdfuZ5GyNIBIsC5wTYBJDm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Initialize the table entries as -1 to fix tx_macro_tx_mixer_put().
+Hi,
 
-Fixes: 1c6a7f5250ce ("ASoC: codecs: tx-macro: fix active_decimator array")
-Fixes: c1057a08af43 ("ASoC: codecs: tx-macro: fix kcontrol put")
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- sound/soc/codecs/lpass-tx-macro.c | 5 +++++
- 1 file changed, 5 insertions(+)
+thanks for your fast answer. I added my proposed patch as attachment.
 
-diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
-index 82f9873ffada..124c2e144f33 100644
---- a/sound/soc/codecs/lpass-tx-macro.c
-+++ b/sound/soc/codecs/lpass-tx-macro.c
-@@ -2021,6 +2021,11 @@ static int tx_macro_probe(struct platform_device *pdev)
- 
- 	tx->dev = dev;
- 
-+	/* Set active_decimator default value */
-+	tx->active_decimator[TX_MACRO_AIF1_CAP] = -1;
-+	tx->active_decimator[TX_MACRO_AIF2_CAP] = -1;
-+	tx->active_decimator[TX_MACRO_AIF3_CAP] = -1;
-+
- 	/* set MCLK and NPL rates */
- 	clk_set_rate(tx->mclk, MCLK_FREQ);
- 	clk_set_rate(tx->npl, MCLK_FREQ);
+Please be aware that this is my first kernel patch.
 
----
-base-commit: 5ba73bec5e7b0494da7fdca3e003d8b97fa932cd
-change-id: 20231116-topic-sm8x50-upstream-tx-macro-fix-active-decimator-set-93d363bfb369
+Thanks a lot!
 
-Best regards,
--- 
-Neil Armstrong <neil.armstrong@linaro.org>
+On 16.11.23 12:10, Bagas Sanjaya wrote:
+> Hi,
+>
+> I notice a bug report on Bugzilla [1]. Quoting from it:
+>
+>> Hey,sound/soc/amd/renoir/rn-pci-acp3x.c has a hard-coded list of quirks. It seems like some product IDs may be missing. In my case, I am using a Lenovo Thinkpad t14s gen2 with an AMD Ryzen 7 PRO 5850U.
+>> My audio output is fine but my internal microphone cannot be found.
+>>
+>> Running `dmidecode` yields:
+>>
+>> Handle 0x000F, DMI type 1, 27 bytes
+>> System Information
+>> 	Manufacturer: LENOVO
+>> 	Product Name: 20XGS1KT02
+>> 	Version: ThinkPad T14s Gen 2a
+>>
+>> Could it be that one may have to add the product ID "20XGS1KT02" to the hard-coded list of quirks in rn-pci-acp3x.c?
+>>
+>>
+>> It seems as there have been similar problems in the past, e.g. https://bugzilla.kernel.org/show_bug.cgi?id=216270.
+> See Bugzilla for the full thread.
+>
+> ollisieber, can you send the quirk patch?
+>
+> Thanks.
+>
+> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218148
+>
+--------------8RvdfuZ5GyNIBIsC5wTYBJDm
+Content-Type: text/x-patch; charset=UTF-8; name="patch.diff"
+Content-Disposition: attachment; filename="patch.diff"
+Content-Transfer-Encoding: base64
 
+ZGlmZiAtLWdpdCBhL3NvdW5kL3NvYy9hbWQvcmVub2lyL3JuLXBjaS1hY3AzeC5jIGIvc291
+bmQvc29jL2FtZC9yZW5vaXIvcm4tcGNpLWFjcDN4LmMKaW5kZXggYjM4MTJiNzBmNWY5Li43
+NTRlMjRkNTVlNmYgMTAwNjQ0Ci0tLSBhL3NvdW5kL3NvYy9hbWQvcmVub2lyL3JuLXBjaS1h
+Y3AzeC5jCisrKyBiL3NvdW5kL3NvYy9hbWQvcmVub2lyL3JuLXBjaS1hY3AzeC5jCkBAIC0x
+OTksNiArMTk5LDEzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZG1pX3N5c3RlbV9pZCBybl9h
+Y3BfcXVpcmtfdGFibGVbXSA9IHsKIAkJCURNSV9FWEFDVF9NQVRDSChETUlfQk9BUkRfTkFN
+RSwgIjIwTkxDVE8xV1ciKSwKIAkJfQogCX0sCisJeworCQkvKiBMZW5vdm8gVGhpbmtQYWQg
+VDE0cyBHZW4gMiAqLworCQkubWF0Y2hlcyA9IHsKKwkJCURNSV9FWEFDVF9NQVRDSChETUlf
+Qk9BUkRfVkVORE9SLCAiTEVOT1ZPIiksCisJCQlETUlfRVhBQ1RfTUFUQ0goRE1JX0JPQVJE
+X05BTUUsICIyMFhHUzFLVDAyIiksCisJCX0KKwl9LAogCXt9CiB9OwogCg==
+
+--------------8RvdfuZ5GyNIBIsC5wTYBJDm--
