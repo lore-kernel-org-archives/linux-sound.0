@@ -2,136 +2,119 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A74C54FB9
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 13:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B48C54FB9
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 15:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345159AbjKPN3Y (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 08:29:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55240 "EHLO
+        id S1345386AbjKPPK7 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 10:10:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345123AbjKPN3X (ORCPT
+        with ESMTP id S1345330AbjKPPK6 (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 08:29:23 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248C59A
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 05:29:20 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-9f26ee4a6e5so116923766b.2
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 05:29:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700141358; x=1700746158; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=phasBQ66hQbV8v95EjxNAAfUnHVV0YTsbzlRXy0LVJ8=;
-        b=O+rvX2SmWkjhuyWZqSos5L71ynPn0tJFNoTSNpk/pmU/4MjohPfVc7sX6ytziFHhge
-         e9cB8c61O1YOeEUZQqIbcq0dlDxQ7ekmG1hxZuVplB+tyyIZMV/jyTuxFEN5zmgkbWnX
-         ghpuVcv88Fjfbt2Mz+1YxlWYoEvLFeqPmyD4r4dX9ITG/qCYt+yKj3mFSKgDUXFyRXRY
-         c7JEMfbM2vtt86b27+4OIwzuBorsvoasCPOnEXjhpt1WNhi4OnqZZ1JOLMAQMVj6WLfb
-         /yOGR9vUXw8onLU05p24/BIMJYkg9+MQRcalJAUOuyZ2p4+VoquZF0AKCGoWKrGs4my9
-         VpVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700141358; x=1700746158;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=phasBQ66hQbV8v95EjxNAAfUnHVV0YTsbzlRXy0LVJ8=;
-        b=IW9SeR/XyfOBPdpDazrfAQZiQycFog26+seX2XQTpakcR2+QjYtESpyzRZxV/ANb48
-         DwYij6hH8fZUBaA7hHiB2GDomv5mRsOkzp3Pxg9SHK/lMLwmEuDGPVFECGiwDadNGK5t
-         /eFJw9b9n3Yf+59DQ82pVyLdsOydXwKXl4vvDFgXCLZ8LNN3uiXyrAipXx0pRvCDmU8I
-         sFlHJfDXRpgAD61mqvkUPEX+BK5MCLt76qqO7MPn5Vf1HKawiqE/M+pjtiBb7GxCAPVh
-         4CpquT+5tt1Q0eQtiPpIVjtWF6SfjzGs05sorKvAGhCAFW6kdWUVjbgz/OExGY90LdiX
-         y2xg==
-X-Gm-Message-State: AOJu0YzNNQ5ydEFU+1nIL83N7DieCS/En1LVW87PyhTIdQf0gpAID5cy
-        ehUxviYujVZ7JdJnIcixIZk=
-X-Google-Smtp-Source: AGHT+IETQAqTtflawuPNOpNHdANLA92iBYVUDChkLW4axQQ8AlPTGr7K5HhSq87VLm7W3qwBnxwgPg==
-X-Received: by 2002:a17:906:ae91:b0:9a2:28dc:4166 with SMTP id md17-20020a170906ae9100b009a228dc4166mr12113941ejb.75.1700141358357;
-        Thu, 16 Nov 2023 05:29:18 -0800 (PST)
-Received: from IFM10N30752.intra.ifm (87-206-74-243.dynamic.chello.pl. [87.206.74.243])
-        by smtp.gmail.com with ESMTPSA id cw16-20020a170906c79000b00992e94bcfabsm8374529ejb.167.2023.11.16.05.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 05:29:18 -0800 (PST)
-From:   Kamil Duljas <kamil.duljas@gmail.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
-        linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>,
-        Kamil Duljas <kamil.duljas@gmail.com>
-Subject: [PATCH] ASoC: SOF: topology: Fix mem leak in sof_dai_load()
-Date:   Thu, 16 Nov 2023 14:28:49 +0100
-Message-Id: <20231116132849.1534-1-kamil.duljas@gmail.com>
-X-Mailer: git-send-email 2.35.2.windows.1
+        Thu, 16 Nov 2023 10:10:58 -0500
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4CFDBC
+        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 07:10:53 -0800 (PST)
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DC2D8D1D;
+        Thu, 16 Nov 2023 16:10:51 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DC2D8D1D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+        t=1700147451; bh=SZ1nePWGW7AIQTx2yNLYhLAXbiAN2IywqrnyFUu6HyY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bN+zLs1tewqwOmICqoyp5EXeKdkixam5ZobbSorKfOBU/dz8C62AoywDWzAbKMtsH
+         FR1DFyedzZNyurJmHIaVtz2BDkOpgNvNH9OIaIC2gQN2foDwJ7e5uFFHzcCjbTVPBT
+         ByIbw5YkgE4pceGMIzJjRfcib/vF+cE7tNc5bHt0=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: perex)
+        by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+        Thu, 16 Nov 2023 16:10:43 +0100 (CET)
+Message-ID: <f4d510a8-de37-494d-b7a8-61770da1db93@perex.cz>
+Date:   Thu, 16 Nov 2023 16:10:43 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 04/16] ALSA: hda: Upgrade stream-format infrastructure
+Content-Language: en-US
+To:     Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org,
+        tiwai@suse.com
+Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        amadeuszx.slawinski@linux.intel.com,
+        pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
+References: <20231116112255.1584795-1-cezary.rojewski@intel.com>
+ <20231116112255.1584795-5-cezary.rojewski@intel.com>
+From:   Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <20231116112255.1584795-5-cezary.rojewski@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-The function has multiple return points at which it is not released
-previously allocated memory.
+On 16. 11. 23 12:22, Cezary Rojewski wrote:
+> Introduce a set of functions that ultimately facilite SDxFMT-related
+> calculations in atomic manner:
+> 
+> First, introduce snd_pcm_subformat_width() and snd_pcm_hw_params_bps()
+> helpers that separate the base functionality from the HDAudio-specific
+> one.
 
-Signed-off-by: Kamil Duljas <kamil.duljas@gmail.com>
----
- sound/soc/sof/topology.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+I think, snd_pcm_subformat_width() should be implemented only as static helper 
+for now. There are no users and only snd_pcm_hw_params_bps() makes sense for 
+callers (format & subformat must be passed together).
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index a3a3af252259..ef8f8991f025 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -1736,8 +1736,10 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- 	/* perform pcm set op */
- 	if (ipc_pcm_ops && ipc_pcm_ops->pcm_setup) {
- 		ret = ipc_pcm_ops->pcm_setup(sdev, spcm);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kfree(spcm);
- 			return ret;
-+		}
- 	}
- 
- 	dai_drv->dobj.private = spcm;
-@@ -1747,6 +1749,7 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- 			       ARRAY_SIZE(stream_tokens), private->array,
- 			       le32_to_cpu(private->size));
- 	if (ret) {
-+		kfree(dai_drv->dobj.private);
- 		dev_err(scomp->dev, "error: parse stream tokens failed %d\n",
- 			le32_to_cpu(private->size));
- 		return ret;
-@@ -1764,9 +1767,9 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- 	ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, sdev->dev,
- 				  PAGE_SIZE, &spcm->stream[stream].page_table);
- 	if (ret < 0) {
-+		kfree(dai_drv->dobj.private);
- 		dev_err(scomp->dev, "error: can't alloc page table for %s %d\n",
- 			caps->name, ret);
--
- 		return ret;
- 	}
- 
-@@ -1782,9 +1785,10 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- 	stream = SNDRV_PCM_STREAM_CAPTURE;
- 
- 	/* do we need to allocate capture PCM DMA pages */
--	if (!spcm->pcm.capture)
-+	if (!spcm->pcm.capture) {
-+		kfree(dai_drv->dobj.private);
- 		return ret;
--
-+	}
- 	caps = &spcm->pcm.caps[stream];
- 
- 	/* allocate capture page table buffer */
-@@ -1810,7 +1814,7 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- free_playback_tables:
- 	if (spcm->pcm.playback)
- 		snd_dma_free_pages(&spcm->stream[SNDRV_PCM_STREAM_PLAYBACK].page_table);
--
-+	kfree(dai_drv->dobj.private);
- 	return ret;
- }
- 
+Also note that _bps is mostly used for bits-per-second in the computer world, 
+so maybe _bpsam may be used here to pay more attention by readers, but it's 
+just my optional proposal. Maybe my head has some "fixed wiring" for this :)
+
+				Jaroslav
+
 -- 
-2.35.2.windows.1
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
