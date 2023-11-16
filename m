@@ -2,139 +2,129 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE39C197A0
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 15:10:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E76C47071
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 16:44:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345330AbjKPPLA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 10:11:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35912 "EHLO
+        id S231290AbjKPQoa (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 11:44:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345383AbjKPPK6 (ORCPT
+        with ESMTP id S230136AbjKPQo3 (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 10:10:58 -0500
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5C0B9
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 07:10:53 -0800 (PST)
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 132E411F6;
-        Thu, 16 Nov 2023 16:10:50 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 132E411F6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-        t=1700147450; bh=7WdWbjf263yw52YO6ov9rN5zrGwXG9WccfEl0WUj/HE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kngu/yTHBsmVfwrK3vREGq/0ogIjZ8IiOwPfQHUeOqMESNgS/Fw8iVFBecV7mKgXB
-         FA8+jnYpgUEvaJAuCMZ8s1MHIYGhpn7iuQ/9YBmenyoeahGucyOauP+uK0Do1xTyMm
-         EhdRE1PqpcC51CSjBLzfsO0JXcl16lM53OxDzs1A=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: perex)
-        by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-        Thu, 16 Nov 2023 16:10:42 +0100 (CET)
-Message-ID: <25101e2a-58d0-423e-9983-f5df5ba16466@perex.cz>
-Date:   Thu, 16 Nov 2023 16:10:41 +0100
+        Thu, 16 Nov 2023 11:44:29 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42B7192
+        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 08:44:24 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4079ed65582so7909805e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 08:44:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700153063; x=1700757863; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sDzOfYCdfGdhIwsTkT/XnXRFMX5EnP+LI41FMa/BEgU=;
+        b=A5W8DmrAJ71QfvlWN1rgZdFw5x0ffp35576eJClXY8DSzCedNzsdYDhHFpy2Lw4N13
+         xvCp/CRv0CaSUZnFMWHuTZdnxuZIdtSUNVdcm6OsnC2pg4DAUEz8J6i5l/v0AI0yvuNk
+         8aisWWPsy2Mf9JrTt2exGeWKCf/jQaHK9pam3SCBIR24xJJNqVb4K1m2hVce/xibFZO7
+         YgBNYLpP15euep2jFWQ0c1Skytfblx8x8V8SCooEWBy7VONqv1MmXVE15c2Ba2hlhmH1
+         M5CXc+NzPxY/PXdgX8rUcU34zONPZe1THvFeyFWNuzfFBwFo1veQ2kDVz/F3wkp38zKg
+         5tbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700153063; x=1700757863;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sDzOfYCdfGdhIwsTkT/XnXRFMX5EnP+LI41FMa/BEgU=;
+        b=o/V+izlULYu+50gp6CH1+w7RSU93vXJTanjRGXYjp1E77IpF0ZOM3qZXBovhBdF5fW
+         FU9sDIK2/jiMegc6R5r7rjtdi6Q7CD5AXVtnrV8U0FvGUDgm5WAENkJkAZ6RFParlHmE
+         MoflltNvVxGOTzg9Yp7uDXjQ0up34+fsmj5LWBVfiIOkkI8wzAAYU2dipxjRt4GRhAMe
+         wiMTpFhWD/5KajPeQni8SzdVqhdDlMrwhk0PrvwoSNOsX34CKCjNzW3I5mtqVoCQK5C/
+         ct6jABXinYXWZmKY8mV5xy7eWDYEBZr8C81Y52jbI3kLLj2Ge94t56fAmX6dEsiiwHwh
+         qjTw==
+X-Gm-Message-State: AOJu0Yz5HpE9wxqXXtnAZ9gez3sFb70s3B6Z3IOvBEcCRuEXHYIVMevc
+        VkGSw/BN+VLehs3KkctxaF/MDA==
+X-Google-Smtp-Source: AGHT+IHn7OB0r9MkxAhFTonw+6qeVUoxgahqxWdmltXDSS2WfR4eRPqtvUnCGmh3o2tZVLIEgCLqMQ==
+X-Received: by 2002:adf:f28e:0:b0:32f:7cea:2ea1 with SMTP id k14-20020adff28e000000b0032f7cea2ea1mr11101444wro.18.1700153063188;
+        Thu, 16 Nov 2023 08:44:23 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id z8-20020a5d6548000000b0032da75af3easm14025882wrv.80.2023.11.16.08.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 08:44:22 -0800 (PST)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Date:   Thu, 16 Nov 2023 17:44:21 +0100
+Subject: [PATCH] ASoC: codecs: lpass-tx-macro: set active_decimator correct
+ default value
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/16] ALSA: pcm: Introduce MSBITS subformat interface
-Content-Language: en-US
-To:     Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org,
-        tiwai@suse.com
-Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        amadeuszx.slawinski@linux.intel.com,
-        pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
-References: <20231116112255.1584795-1-cezary.rojewski@intel.com>
- <20231116112255.1584795-2-cezary.rojewski@intel.com>
-From:   Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20231116112255.1584795-2-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231116-topic-sm8x50-upstream-tx-macro-fix-active-decimator-set-v1-1-6edf402f4b6f@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAORGVmUC/x2NQQrDIBAAvxL23IUYqTT9SunB6Kbdg1F2TRBC/
+ l7pcWCYOUFJmBSewwlCByvnrYO5DRC+fvsQcuwM0zhZY4zDmgsH1PRo9xH3olXIJ6wNkw+SceW
+ GPlQ+CCMFTr5mQaWKs43W2WVdrJuh14tQd//n1/u6fkmbvraJAAAA
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     krzysztof.kozlowski@linaro.org,
+        linux-arm-msm-owner@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1388;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=4dAw4vqYtyZ3uH1NpDIOG5tDL7gWy8TiV101k/eDcNg=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlVkbljrU4sS5DvYQUP+pgNOPnplVSf7WYMq9uttCK
+ 11awh6yJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZVZG5QAKCRB33NvayMhJ0TDpD/
+ 9r0Lt00io9LJH6n4fXgDoMEXeJBY8FYP+myiaoUUrYb3dqkBDWtdRWG1LV6jEeqMHd4T8F/Hp23wxc
+ 2Q/POMxLme9nsAtsOOrjyjLU7tyAnEb6/2roYm1uPobovuOrVyHg2RgZLP+dkG2v1PCwSVgHkOVl69
+ zo14f8NIyWs+2hwU+9QjTD3gYHIX+RDhr8nVIZrpvwLaZ5GBozOeINNPURb1pTqyT5SwDdtZH+o0Zq
+ zXFDkUP36NRbHeQDYGSTDgxlos+EuHQ7CeQSpKzVHZhAlIKkv5v9zkodLBSt2lBSXYQ2buwOGY3rQ1
+ Tssp2A5+G+Fhu5PyzHqblyiRBUbJXwS9Ozp76mMN5HJdpw5XHWXz07QO9GrQhpHmRFLDkHy7aUvfYO
+ Eh1WhZY1/dlhsu/czwEKpZArDf1v8AA2xo/5U3dkMOHo2NKXc/mep7B8wjOBVMJ0a0uPR/coB+n8V5
+ IUYeZ3YFm00Z+u2sD5J1hVY8IghVUwk/bCehKQeEySg9JGRRfh+DwHrHVVjZNx6VcH39F2Cxw/MJGK
+ J2YRkHwO0E/5LnNwRs4d4CBAZbAjlzFizr1cUAvdKcdZMYRh1y0G/dZkZr0pWh6DkxgwdlXpWpc2mv
+ sk7vxggEojUHkvW6JwJ5NsDd4vAwNi1w3PoKSLZRN1qsKfuKeM0iCLk4u4OA==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 16. 11. 23 12:22, Cezary Rojewski wrote:
-> From: Jaroslav Kysela <perex@perex.cz>
-> 
-> Improve granularity of format selection for S32/U32 formats by adding
-> constants representing 20, 24 and MAX most significant bit >
-> The MAX means the maximum number of significant bits which can
-> the physical format hold. For 32-bit formats, MAX is related
-> to 32 bits. For 8-bit formats, MAX is related to 8 bits etc.
-> 
-> The drivers may use snd_pcm_hw_constraint_subformats with
-> a simple format -> subformats table.
+The -1 value for active_decimator[dai_id] is considered as "not set",
+but at probe the table is initialized a 0, this prevents enabling the
+DEC0 Mixer since it will be considered as already set.
 
-I am afraid, the above sentence is no more correct and the current code does 
-not follow my original idea. It's a bit step back to the initial code. But I 
-admit that from the API POV, it's workable now (with the added refine 
-mechanism for one format).
+Initialize the table entries as -1 to fix tx_macro_tx_mixer_put().
 
-As noted several times, this is not my preferred implementation (I would keep 
-only the constraint function which will be called by drivers on demand in the 
-ALSA PCM core code). The latest proposed simplification may be applied in the 
-ASoC core (store S32_LE subformat mask in snd_soc_pcm_runtime and install this 
-intersected constraint for FE PCM - user space). Something like ASoC core does 
-for the msbits constraint.
+Fixes: 1c6a7f5250ce ("ASoC: codecs: tx-macro: fix active_decimator array")
+Fixes: c1057a08af43 ("ASoC: codecs: tx-macro: fix kcontrol put")
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ sound/soc/codecs/lpass-tx-macro.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-If nobody else thinks that it's a good direction, please, add a note to the 
-comment that this implementation (extend snd_pcm_hardware structure) is a 
-compromise for the ASoC code with details.
+diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
+index 82f9873ffada..124c2e144f33 100644
+--- a/sound/soc/codecs/lpass-tx-macro.c
++++ b/sound/soc/codecs/lpass-tx-macro.c
+@@ -2021,6 +2021,11 @@ static int tx_macro_probe(struct platform_device *pdev)
+ 
+ 	tx->dev = dev;
+ 
++	/* Set active_decimator default value */
++	tx->active_decimator[TX_MACRO_AIF1_CAP] = -1;
++	tx->active_decimator[TX_MACRO_AIF2_CAP] = -1;
++	tx->active_decimator[TX_MACRO_AIF3_CAP] = -1;
++
+ 	/* set MCLK and NPL rates */
+ 	clk_set_rate(tx->mclk, MCLK_FREQ);
+ 	clk_set_rate(tx->npl, MCLK_FREQ);
 
-> +		if (f == SNDRV_PCM_FORMAT_S32_LE)
+---
+base-commit: 5ba73bec5e7b0494da7fdca3e003d8b97fa932cd
+change-id: 20231116-topic-sm8x50-upstream-tx-macro-fix-active-decimator-set-93d363bfb369
 
-Missing mask check: (f == SNDRV_PCM_FORMAT_S32_LE && *subformats)
-
-Otherwise the MSBITS_MAX won't be set for S32_LE by default.
-
-> +			m.bits[0] |= *subformats;
-
-				Jaroslav
-
+Best regards,
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Neil Armstrong <neil.armstrong@linaro.org>
 
