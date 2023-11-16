@@ -2,104 +2,93 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DDFC54E76
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 22:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6CFC197A0
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 23:34:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345568AbjKPWlq (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 17:41:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43264 "EHLO
+        id S229533AbjKPXet (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 18:34:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345563AbjKPWln (ORCPT
+        with ESMTP id S229379AbjKPXes (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 17:41:43 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894FCD5F
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 14:41:39 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9f282203d06so197417166b.0
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 14:41:39 -0800 (PST)
+        Thu, 16 Nov 2023 18:34:48 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7A793;
+        Thu, 16 Nov 2023 15:34:45 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6bb4abb8100so1299676b3a.2;
+        Thu, 16 Nov 2023 15:34:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700174498; x=1700779298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fkYOsjbO3YnBcAkSwiI6Lkt5UTyKsDvNbvGkwXIl22Y=;
-        b=Gy59TxaAat9ApgzMubQ2LgdyuYY4qm14SWJocpAAmg01W/mnLhwISExjnlHWdTk+XV
-         bz2A7/byA3I6QwBP927Z+/tCBMT5TWW64Ca/kXYUCrv14pQi6CQGW/4recTCkSKqtQ1P
-         ZdBNs4fN1NwxRHaF9M1ClYk0VBaR3BdqfbeJLsFCsIFI+2070z01ASBZASlztYHjKSzI
-         r7GITleGVNPJbPg9jyFJu72541mkxC20lH+dZj5n2TKrnt5+cgUIVIBme3jBOUM2U93/
-         QZX1RlMV2vTmEQV5Hg+kaXMNUV/pzkrZx/RKsJSQ6r3vkw6OOzoyJ3kdAt48Oco6FkQy
-         AY3g==
+        d=gmail.com; s=20230601; t=1700177685; x=1700782485; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jIlDZqCcqHIUeo2ZFPIfybYwe4tkogvnCJH8Ch20WTY=;
+        b=Ahnelm3edpAG0whrXJ0FifJkHMQRe5Qre9UFL4Vz7HwP/A8ftJSJnfIjWpU4rRhD8s
+         TrRtfPFe56cpWNSh6DWSePV1CfHZAvFu9/jYMRv3Sks7ISjoaP2hEwrkTkCEVZ5eEN6C
+         jCWOwzlvt4VdFkAScPazLLY2q1T0pT3rk3DrlqFKL2sM+Kx8FIFgLUNnIkC6gC5OGMF8
+         7LfQ8VWp4QSCqLhoqt8ic/G78bBbQYL+J0JZ1l7hxTz0CdCTNyntuVTU+FxemAfYxfP0
+         VLXXS+AIq01n2FLd8Au/IBVwVdouT5EEHYxYFUfhsZS8h9ZzU+YTaNyBK7JpCHvEyAUt
+         AdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700174498; x=1700779298;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fkYOsjbO3YnBcAkSwiI6Lkt5UTyKsDvNbvGkwXIl22Y=;
-        b=DoDtcILoIgBDBXE6D3jOYRe8/SMfipsEo8OgrPOUj6BF7R6orA7a7BYZQltRTicn0j
-         YM4j/nXTfNDY8v5E4v6vrqCt+aa46eUSaX6EmreIB67WsM6r+2vbuDfdsNrCa6+DsLBJ
-         toR67NFQv8vbjp6upJr1l4fCSPCHicwW6tDkPsrx4v2xTB4RJ/KJnzrrYQJKEG7g1JgW
-         qGrcSA742IFAewod318h+3hmkFsIQB3VdimZNQCuOwZeA17yBhKz2fkppHHNWbgNBiKg
-         qrqZBRVK5V850a/PGS45Ttz0M9Kb57Pma+NZruABcyc28N45JkCh3pNi1kbkjszfdAEj
-         pZYA==
-X-Gm-Message-State: AOJu0Yzp+OnCD1GOuspqSOrxWTsqQLdinWUzJwAwW97ZaU6rr5h/mqjZ
-        tlvloOmM8Or0D8r6bWhG3Vx3fUOgGoQ2/W8c
-X-Google-Smtp-Source: AGHT+IEA7sEQNhqIZPT3K6xZTA4L+cnbuRkCp6N6sSnDsqse8+u/YCYPLchwfyukXsn/2HNwOo4tGg==
-X-Received: by 2002:a17:906:d201:b0:9cf:18ce:95e6 with SMTP id w1-20020a170906d20100b009cf18ce95e6mr3042773ejz.62.1700174497947;
-        Thu, 16 Nov 2023 14:41:37 -0800 (PST)
-Received: from localhost.localdomain (87-206-74-243.dynamic.chello.pl. [87.206.74.243])
-        by smtp.gmail.com with ESMTPSA id um13-20020a170906cf8d00b009c5c5c2c59csm118829ejb.149.2023.11.16.14.41.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 14:41:37 -0800 (PST)
-From:   Kamil Duljas <kamil.duljas@gmail.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        Jaroslav Kysela <perex@perex.cz>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>,
-        Kamil Duljas <kamil.duljas@gmail.com>
-Subject: [PATCH] ASoC: Intel: Skylake: mem leak in skl register function
-Date:   Thu, 16 Nov 2023 23:41:13 +0100
-Message-ID: <20231116224112.2209-2-kamil.duljas@gmail.com>
-X-Mailer: git-send-email 2.42.0.windows.2
+        d=1e100.net; s=20230601; t=1700177685; x=1700782485;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jIlDZqCcqHIUeo2ZFPIfybYwe4tkogvnCJH8Ch20WTY=;
+        b=fl1eZs5u0IrOM2R8JG8/hp2jnP85L5r+IlKNxFpWeRavTTa4UL9hxDIZaJEIM1dGV9
+         SvwtuX6AcEQG3n0HJZ0+lJE/SjaPPH5JIlYUQXHngW2lmIYnS3kTGfWVRpglvMGyH2YW
+         wYRRArYR6wsOTs5qra9Tux/xO+GRh6lt8TpbXRUBoOJD+kWJbabab7Hlm8U+aqqSlNqj
+         z3X1CN8Fft3ZWU7NS5eYY2dX+x7QztUBEWLqSZe6242NwujNUYe0SrlqwuiBIAwqtaiH
+         uEe3QyU4inBIeiNbEbSgD7vUIGzbn6BNtHdRFGHcpTn0Qelm/88P5bu3i/mUvz+bZtIr
+         grwg==
+X-Gm-Message-State: AOJu0YzKPj0Gvjyr8rSFu6d/CUHQdzT3nHfAOXR+Mib+X60nPuxC1/Mi
+        vGlSJZflorKxCuB2LXeKmwYpNbcOXetYdA==
+X-Google-Smtp-Source: AGHT+IHQSlFjtHHnifyRR+5Low3mKJhBkumS/gS7LHof04DGhzo/G17nSkrxx0T/ja/Xt7XWz9cavQ==
+X-Received: by 2002:a05:6a20:3942:b0:187:d5e8:5709 with SMTP id r2-20020a056a20394200b00187d5e85709mr2649587pzg.4.1700177685029;
+        Thu, 16 Nov 2023 15:34:45 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id e7-20020a631e07000000b0056b6d1ac949sm252545pge.13.2023.11.16.15.34.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Nov 2023 15:34:44 -0800 (PST)
+Message-ID: <a75ce6e7-5012-43d8-a222-dd2639c5969c@gmail.com>
+Date:   Fri, 17 Nov 2023 06:34:39 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen 7
+ PRO 5850U
+Content-Language: en-US
+To:     Oliver Sieber <ollisieber@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Sound System <linux-sound@vger.kernel.org>,
+        Linux ALSA Development <alsa-devel@alsa-project.org>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+References: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
+ <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-skl_platform_register() uses krealloc. When krealloc is fail,
-then previous memory is not freed. The leak is also when soc
-component registration failed.
+On 11/17/23 01:36, Oliver Sieber wrote:
+> Hi,
+> 
+> thanks for your fast answer. I added my proposed patch as attachment.
+> 
+> Please be aware that this is my first kernel patch.
+> 
 
-Signed-off-by: Kamil Duljas <kamil.duljas@gmail.com>
----
- sound/soc/intel/skylake/skl-pcm.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Please don't top-post; reply inline with appropriate context instead.
 
-diff --git a/sound/soc/intel/skylake/skl-pcm.c b/sound/soc/intel/skylake/skl-pcm.c
-index d0c02e8a6785..e2578ee001ff 100644
---- a/sound/soc/intel/skylake/skl-pcm.c
-+++ b/sound/soc/intel/skylake/skl-pcm.c
-@@ -1462,6 +1462,7 @@ int skl_platform_register(struct device *dev)
- 		dais = krealloc(skl->dais, sizeof(skl_fe_dai) +
- 				sizeof(skl_platform_dai), GFP_KERNEL);
- 		if (!dais) {
-+			kfree(skl->dais);
- 			ret = -ENOMEM;
- 			goto err;
- 		}
-@@ -1474,8 +1475,10 @@ int skl_platform_register(struct device *dev)
- 
- 	ret = devm_snd_soc_register_component(dev, &skl_component,
- 					 skl->dais, num_dais);
--	if (ret)
-+	if (ret) {
-+		kfree(skl->dais);
- 		dev_err(dev, "soc component registration failed %d\n", ret);
-+	}
- err:
- 	return ret;
- }
+Your patch is attached, please send it inline instead. See
+Documentation/process/submitting-patches.rst for how to do that.
+
+Thanks.
+
 -- 
-2.42.0.windows.2
+An old man doll... just what I always wanted! - Clara
 
