@@ -2,65 +2,102 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA7FC47071
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 08:49:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6035CC54FB9
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 11:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjKPItM (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 03:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37756 "EHLO
+        id S230385AbjKPLK4 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 06:10:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235189AbjKPItL (ORCPT
+        with ESMTP id S1345083AbjKPLKz (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 03:49:11 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D9B81B1
-        for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 00:49:08 -0800 (PST)
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 914AF6607340;
-        Thu, 16 Nov 2023 08:49:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1700124547;
-        bh=euDkFNtGvQr0sz8e9BU7mvYiyCJF/bhThXtK5d4f/U0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=QTnSh/9P2TJ2dSP8Vg/VWZgd327u9ezjnrnwos2+Sefk90WjgR3Tc0lKRjWMZoJ35
-         80v/X8gEtsQ0/FeQhTSBic47mAGTqkTFvJ6xttDatzbvre6lFkvw1WxC/zk8780Iuj
-         o+LSwX6hlb9dFtj14oyWg41jXpg+TSGjhscfJcjN6XWXjfoqjOh9v4OVgevi7TUhZK
-         Obqt23wCEUXFvSPJs6X1dZ+cSuBpURnrOL4bY80eLoAF9VZKOba4hv1/Hyh95LtQPG
-         xI5HHiVg0Mf+PaaNyg1Xy650YSdZ51N3/2b8QYF7qDY6XABLSTUeDDtGnWvvnss+D9
-         rHpkF8QX5uEwg==
-Message-ID: <0876a85f-cb17-417b-9471-9112c51208d8@collabora.com>
-Date:   Thu, 16 Nov 2023 09:49:06 +0100
+        Thu, 16 Nov 2023 06:10:55 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C857B5;
+        Thu, 16 Nov 2023 03:10:52 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1cc9b626a96so5972545ad.2;
+        Thu, 16 Nov 2023 03:10:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700133051; x=1700737851; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mFz7+oVHI5NX8C0fnm8IRqMzIqbCT/WXK6LRYxJxeAE=;
+        b=d4fqKnGMR/0L1eh2b2CTGUI87uOf3oqvheRu87djvvqi3pHCBeNnunqWgofXaTNcAp
+         XpueMUJwA30kkBS7ZnUhcrnQc+yW3sLtBjdcKNybMIFyUddV1QZLVu3BBm5tmui6t2Um
+         /fyqfGSe/72vP3TvoZWI6BRjshhM2JWu2KOJAORq2D8mlGl9o1AhS1dLY6MGlRCJHp6n
+         NbxtolMFo98SPFt9/kMHKf+I0GM0eHIsSxPOW3PuaVxW8chNlwMAeA5Xdf/uC2ONo6mr
+         t4R1mmLOr0YNV5yfCRLGxpFvKia5oUUbNJMil/hUbQXrZy8YAs5eDNKSh1mUKzchG+jq
+         uAoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700133051; x=1700737851;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mFz7+oVHI5NX8C0fnm8IRqMzIqbCT/WXK6LRYxJxeAE=;
+        b=Y9ZBQSKIRpq/nR5bshtFUCfWueH3Na/QpP4+YiULdyBIWg2h1nO5ABOAaoqNFFxHFA
+         UE92DYkjJH2YcNJKesCXzEgSSMdK9sEsuqZ340lBRq+qyal7O8npt/JUilipgCNHR+1B
+         kn9BozAKKh2I227qiVaYcoynWcyCy4Yo4MK2c9F/es6AG7V4njfNiIBPNQJbQbL3bbLk
+         CF0cgQ2l46zqR23558TmmusVIkQk8Xx04QZbqVkXnKEnLRKG0LbF0D42QR5AdUblOFxM
+         XWa+FNHyYqCc8Xq9stWc/+ITDLMtiGN0NgDEOllhOMpZy7pZJ2vmH1ogp7rrnWM2IFLs
+         Vckg==
+X-Gm-Message-State: AOJu0YzRQkXN004IEQXM7M0dgcj1qBeZR4Ir5KshWwAvob17EHzZa6Np
+        8iByWbqVu+UAoA8ICuEolAEN2BOOSE6P7Q==
+X-Google-Smtp-Source: AGHT+IHdY0XUN3LIBMmFyQ/ijvMnft+nsGEUJv1hua8fnJIpPVmBnHfdyu9e06SELEggK2aJGRPBTA==
+X-Received: by 2002:a17:902:70c7:b0:1cc:32b7:e5b9 with SMTP id l7-20020a17090270c700b001cc32b7e5b9mr7088429plt.67.1700133051430;
+        Thu, 16 Nov 2023 03:10:51 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id ja5-20020a170902efc500b001cc3a6813f8sm9025422plb.154.2023.11.16.03.10.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Nov 2023 03:10:51 -0800 (PST)
+Message-ID: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
+Date:   Thu, 16 Nov 2023 18:10:45 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] ASoC: mediatek: mt8188-mt6359: add es8326 support
 Content-Language: en-US
-To:     Rui Zhou <zhourui@huaqin.corp-partner.google.com>,
-        lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        perex@perex.cz, allen-kh.cheng@mediatek.com,
-        kuninori.morimoto.gx@renesas.com
-Cc:     linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20231116073106.3757618-1-zhourui@huaqin.corp-partner.google.com>
- <20231116073106.3757618-4-zhourui@huaqin.corp-partner.google.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231116073106.3757618-4-zhourui@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Sound System <linux-sound@vger.kernel.org>,
+        Linux ALSA Development <alsa-devel@alsa-project.org>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, ollisieber@gmail.com
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen 7 PRO
+ 5850U
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Il 16/11/23 08:31, Rui Zhou ha scritto:
-> To use ES8326 as the codec, add a new sound card
-> named mt8186_es8326.
+Hi,
+
+I notice a bug report on Bugzilla [1]. Quoting from it:
+
+> Hey,sound/soc/amd/renoir/rn-pci-acp3x.c has a hard-coded list of quirks. It seems like some product IDs may be missing. In my case, I am using a Lenovo Thinkpad t14s gen2 with an AMD Ryzen 7 PRO 5850U. 
+> My audio output is fine but my internal microphone cannot be found.
 > 
-> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+> Running `dmidecode` yields:
+> 
+> Handle 0x000F, DMI type 1, 27 bytes
+> System Information
+> 	Manufacturer: LENOVO
+> 	Product Name: 20XGS1KT02
+> 	Version: ThinkPad T14s Gen 2a
+> 
+> Could it be that one may have to add the product ID "20XGS1KT02" to the hard-coded list of quirks in rn-pci-acp3x.c?
+> 
+> 
+> It seems as there have been similar problems in the past, e.g. https://bugzilla.kernel.org/show_bug.cgi?id=216270.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+See Bugzilla for the full thread.
 
+ollisieber, can you send the quirk patch?
 
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=218148
+
+-- 
+An old man doll... just what I always wanted! - Clara
