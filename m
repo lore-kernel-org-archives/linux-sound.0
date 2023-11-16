@@ -2,41 +2,41 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B48C54FB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE39C197A0
 	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 15:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345386AbjKPPK7 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 10:10:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35904 "EHLO
+        id S1345330AbjKPPLA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 10:11:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345330AbjKPPK6 (ORCPT
+        with ESMTP id S1345383AbjKPPK6 (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
         Thu, 16 Nov 2023 10:10:58 -0500
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4CFDBC
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5C0B9
         for <linux-sound@vger.kernel.org>; Thu, 16 Nov 2023 07:10:53 -0800 (PST)
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DC2D8D1D;
-        Thu, 16 Nov 2023 16:10:51 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DC2D8D1D
+        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 132E411F6;
+        Thu, 16 Nov 2023 16:10:50 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 132E411F6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-        t=1700147451; bh=SZ1nePWGW7AIQTx2yNLYhLAXbiAN2IywqrnyFUu6HyY=;
+        t=1700147450; bh=7WdWbjf263yw52YO6ov9rN5zrGwXG9WccfEl0WUj/HE=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=bN+zLs1tewqwOmICqoyp5EXeKdkixam5ZobbSorKfOBU/dz8C62AoywDWzAbKMtsH
-         FR1DFyedzZNyurJmHIaVtz2BDkOpgNvNH9OIaIC2gQN2foDwJ7e5uFFHzcCjbTVPBT
-         ByIbw5YkgE4pceGMIzJjRfcib/vF+cE7tNc5bHt0=
+        b=kngu/yTHBsmVfwrK3vREGq/0ogIjZ8IiOwPfQHUeOqMESNgS/Fw8iVFBecV7mKgXB
+         FA8+jnYpgUEvaJAuCMZ8s1MHIYGhpn7iuQ/9YBmenyoeahGucyOauP+uK0Do1xTyMm
+         EhdRE1PqpcC51CSjBLzfsO0JXcl16lM53OxDzs1A=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: perex)
         by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-        Thu, 16 Nov 2023 16:10:43 +0100 (CET)
-Message-ID: <f4d510a8-de37-494d-b7a8-61770da1db93@perex.cz>
-Date:   Thu, 16 Nov 2023 16:10:43 +0100
+        Thu, 16 Nov 2023 16:10:42 +0100 (CET)
+Message-ID: <25101e2a-58d0-423e-9983-f5df5ba16466@perex.cz>
+Date:   Thu, 16 Nov 2023 16:10:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/16] ALSA: hda: Upgrade stream-format infrastructure
+Subject: Re: [PATCH v4 01/16] ALSA: pcm: Introduce MSBITS subformat interface
 Content-Language: en-US
 To:     Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org,
         tiwai@suse.com
@@ -44,7 +44,7 @@ Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
         amadeuszx.slawinski@linux.intel.com,
         pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
 References: <20231116112255.1584795-1-cezary.rojewski@intel.com>
- <20231116112255.1584795-5-cezary.rojewski@intel.com>
+ <20231116112255.1584795-2-cezary.rojewski@intel.com>
 From:   Jaroslav Kysela <perex@perex.cz>
 Autocrypt: addr=perex@perex.cz; keydata=
  xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
@@ -89,7 +89,7 @@ Autocrypt: addr=perex@perex.cz; keydata=
  k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
  m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
  WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <20231116112255.1584795-5-cezary.rojewski@intel.com>
+In-Reply-To: <20231116112255.1584795-2-cezary.rojewski@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -97,20 +97,40 @@ List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
 On 16. 11. 23 12:22, Cezary Rojewski wrote:
-> Introduce a set of functions that ultimately facilite SDxFMT-related
-> calculations in atomic manner:
+> From: Jaroslav Kysela <perex@perex.cz>
 > 
-> First, introduce snd_pcm_subformat_width() and snd_pcm_hw_params_bps()
-> helpers that separate the base functionality from the HDAudio-specific
-> one.
+> Improve granularity of format selection for S32/U32 formats by adding
+> constants representing 20, 24 and MAX most significant bit >
+> The MAX means the maximum number of significant bits which can
+> the physical format hold. For 32-bit formats, MAX is related
+> to 32 bits. For 8-bit formats, MAX is related to 8 bits etc.
+> 
+> The drivers may use snd_pcm_hw_constraint_subformats with
+> a simple format -> subformats table.
 
-I think, snd_pcm_subformat_width() should be implemented only as static helper 
-for now. There are no users and only snd_pcm_hw_params_bps() makes sense for 
-callers (format & subformat must be passed together).
+I am afraid, the above sentence is no more correct and the current code does 
+not follow my original idea. It's a bit step back to the initial code. But I 
+admit that from the API POV, it's workable now (with the added refine 
+mechanism for one format).
 
-Also note that _bps is mostly used for bits-per-second in the computer world, 
-so maybe _bpsam may be used here to pay more attention by readers, but it's 
-just my optional proposal. Maybe my head has some "fixed wiring" for this :)
+As noted several times, this is not my preferred implementation (I would keep 
+only the constraint function which will be called by drivers on demand in the 
+ALSA PCM core code). The latest proposed simplification may be applied in the 
+ASoC core (store S32_LE subformat mask in snd_soc_pcm_runtime and install this 
+intersected constraint for FE PCM - user space). Something like ASoC core does 
+for the msbits constraint.
+
+If nobody else thinks that it's a good direction, please, add a note to the 
+comment that this implementation (extend snd_pcm_hardware structure) is a 
+compromise for the ASoC code with details.
+
+> +		if (f == SNDRV_PCM_FORMAT_S32_LE)
+
+Missing mask check: (f == SNDRV_PCM_FORMAT_S32_LE && *subformats)
+
+Otherwise the MSBITS_MAX won't be set for S32_LE by default.
+
+> +			m.bits[0] |= *subformats;
 
 				Jaroslav
 
