@@ -2,124 +2,137 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 143F8C197A0
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 05:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC7EC197A0
+	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 07:05:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjKPFe6 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 00:34:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44938 "EHLO
+        id S229749AbjKPHFm (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Thu, 16 Nov 2023 02:05:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjKPFe5 (ORCPT
+        with ESMTP id S229638AbjKPHFl (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 00:34:57 -0500
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3D4196;
-        Wed, 15 Nov 2023 21:34:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z0tJvqBhqMxZrB8HPTIzUrThyOTBCeSWOpTp/OFHFfmwCd/Zmud/RP8VsVU7PDv2CsHfAcqQEq9uFtpl6F3tc4ytZYUHjgBFrzJoqTlvM+RXClNc3yc6mvAxxXcYmSWCWfXwuuC6QDp/20ERDKMXNt8NqdXr8odLQstNcNt+0229Ab0GaLHFv82DcAQnkNIY1BvfioT4XsQzrg/mBEt8XgyYKAR9xZUcNzJ5kma6Vj/ytMWUdCrCqhI3LQSh4jL7KLEYkmlOogYudl3CdWeiAdhN6TPXS6PatcVqfZuZzVB/rUDhGAtelzMt4QjUaZK5XuWUmgTGcHHR9UaudhQM4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=98UTuh6MCAsFdTUk9MwKYoehigc3M3xhOBg+IeHo/qU=;
- b=RyiI5BKC1JS7OXQvK/uE679AYFXUeps/TPx8gptLdin+BfyUIPTCFgdm3J/61I7D2Uoytbusjz0+wcl2/YKSCZkK4wsXUe7FqhNIRLm/HMftcoVf0+GdFXjlM5s8LNHcKLeq8vGAAmAk53S7zilSOGg43Q8HRRwoA3on2RgBNmIdw6kzCCm3wmt7Lq20DXdCFO5HYBs1W0oCHd1HzaIC1KwrZXHWq33g33/uLDZomHyQg9yoIIpEJlbPJNrblT418mLqJAUSe7pJyM8WcJsIOKfA6dv4r0LWvAifPIzP3b3dvTiXpRIH7N9Z+NqMzFozKp6hSL7SzLdUp63rN8ZmmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=98UTuh6MCAsFdTUk9MwKYoehigc3M3xhOBg+IeHo/qU=;
- b=hR2oUFcRQFXp4h7RBCjUJf+Tl09WvEKJwMFia7xX/cpS01MPp+NHuY92BoDO/71gHv3/xBLOi3iX4C2WXj+7AB1u3pbFv1qeVJDgWqdelrnxBjfpMR2kWBbM7kNuTm7OInjHtaHMARq5CLnkoher1aCSTwULkcMoW7esTE5B+KA=
-Received: from DS7PR05CA0053.namprd05.prod.outlook.com (2603:10b6:8:2f::34) by
- BL3PR12MB6547.namprd12.prod.outlook.com (2603:10b6:208:38e::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6977.36; Thu, 16 Nov 2023 05:34:49 +0000
-Received: from DS1PEPF00017097.namprd05.prod.outlook.com (2603:10b6:8:2f::4)
- by DS7PR05CA0053.outlook.office365.com (2603:10b6:8:2f::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7025.8 via Frontend Transport; Thu, 16 Nov 2023 05:34:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS1PEPF00017097.mail.protection.outlook.com (10.167.18.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.20 via Frontend Transport; Thu, 16 Nov 2023 05:34:49 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Wed, 15 Nov
- 2023 23:34:47 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Wed, 15 Nov
- 2023 23:34:29 -0600
-Received: from amd-B450M-DS3H.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.32 via Frontend
- Transport; Wed, 15 Nov 2023 23:34:26 -0600
-From:   Syed Saba Kareem <Syed.SabaKareem@amd.com>
-To:     <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC:     <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-        <Sunil-kumar.Dommati@amd.com>, <mario.limonciello@amd.com>,
-        <venkataprasad.potturu@amd.com>,
-        Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
-        "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
-        <linux-sound@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: add missing SND_SOC_AMD_ACP_LEGACY_COMMON flag for ACP70
-Date:   Thu, 16 Nov 2023 11:03:57 +0530
-Message-ID: <20231116053405.2574081-1-Syed.SabaKareem@amd.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 16 Nov 2023 02:05:41 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D29541AC
+        for <linux-sound@vger.kernel.org>; Wed, 15 Nov 2023 23:05:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700118337; x=1731654337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iccyYLx60+kSDjnII5GF2rxDscXXNDcHqPGFIfB7nyk=;
+  b=Gq3/tydk+os63sgM9EsIO8/32D6X8FBZK9B6L0n8T/83gkpIKBxysWLb
+   HijCeXxsMw+DAJKPx76CqTPFCJxNuUPez/1tR1i0Kji4MoYJ2iyjXB+/2
+   YnBCROeNANofXM9hvvZ9pl/NkUOa6pyIj+U1aiQW5e0zAXCLwrRmtj4eq
+   nbUGJ5G6ESsFsOWvlesRJjGzenxnA8L9Xne/xA2nExZdHYrhsdzTZbzsY
+   vG9P/iV12tjj9lIeLhu4A1O2S9VIIdNXM1RGmIQWFkzVfjLO78WzZ6sD1
+   ntpLCgzzltQxupnTPRWZ0TFV11BEhY0/JQpiFTufvhWNBS5SX2pZ8UKEm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="477247195"
+X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
+   d="scan'208";a="477247195"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 23:05:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1096702607"
+X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
+   d="scan'208";a="1096702607"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 15 Nov 2023 23:05:34 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1r3WRQ-0001R2-0C;
+        Thu, 16 Nov 2023 07:05:32 +0000
+Date:   Thu, 16 Nov 2023 15:04:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org,
+        tiwai@suse.com, perex@perex.cz
+Cc:     oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+        amadeuszx.slawinski@linux.intel.com,
+        pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
+        linux-sound@vger.kernel.org,
+        Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: Re: [PATCH v3 01/16] ALSA: pcm: Introduce MSBITS subformat interface
+Message-ID: <202311161421.XWUhngXI-lkp@intel.com>
+References: <20231114201317.1348066-2-cezary.rojewski@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017097:EE_|BL3PR12MB6547:EE_
-X-MS-Office365-Filtering-Correlation-Id: eab4984e-8ebb-49d1-1820-08dbe665c068
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /z4pWhISYiqV9c+BF42Jsf+CGyMv4i0KUAmQcf9AwGLnI/MlYJC1uc3WIpJdU7l7tVZFdtep9NnEC6NJTDpDCMKzAVppB8q/L0M5i2jNDfBdF+NwxkP2/1ep5j4BnZfZl5T+KgxpnWeG73Hx9YTDco1o2mVZSoafDaQ/CyqYCtg7lnMhCCqNLQt/P1kG9rTqCJiexccncfaoFD/Vi+q9wAXQCQS60FwcQA5KoTAg5QRlzCvhii4xZ52Nn0wbV7U+FnPGx9GDCYnz6ooLYeG5ttM3gJ0OqdlxVA4rCo6LY8iQwrNTrf02Q4EHNV4d2qcR7eU4PfYeXD9rvD54x1HSjEqz1VvOpIGUpjPE/QGL+0dAsDvALJcKnps2EFrSVheJO8MWSbpai7a+imry/Jv3p2OjMwVRy4egeGCjTWtKW6qGjCCM6hgpqzWTDzR/EGpsYAbtPf+tmaUtBDfzOrK4lj1nIkkVtvmjQxyzlbblQA+fuYGkS+aKgeWVoIuUACa/Bly4Mn4++FyEbwR/iZaE5vO6PfjDw9s44o2gBeWijQtqwaYOkpHcc/6dLjrmz2/ZM6UxLvUTQqBNMU4jtn25rIx1RM+LeZowCP1E7TjcIM/30nWEF84rNr9C/CLZQAgrESVydxyAqSTkCl6NMbo2u20lA3c4en1ao3dQDh5GBoDxR8D1fUYxXoPBWUukYLH1WIS6APB+ApNvBUwP28Un9FJig0MffsnM8JdCdFMZZH+sacSjMBFCT3GR5EWEQqR/s5Dmvy83AQbBdPxg+nElWA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(396003)(376002)(346002)(230922051799003)(186009)(1800799009)(451199024)(82310400011)(64100799003)(40470700004)(36840700001)(46966006)(40460700003)(110136005)(316002)(54906003)(70586007)(70206006)(6666004)(478600001)(4744005)(86362001)(5660300002)(8676002)(4326008)(8936002)(2906002)(36756003)(36860700001)(2616005)(81166007)(40480700001)(82740400003)(26005)(41300700001)(356005)(47076005)(1076003)(336012)(426003)(7696005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 05:34:49.6408
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eab4984e-8ebb-49d1-1820-08dbe665c068
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017097.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6547
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231114201317.1348066-2-cezary.rojewski@intel.com>
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-add missing dependent SND_SOC_AMD_ACP_LEGACY_COMMON flag for ACP70 platform.
+Hi Cezary,
 
-Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
----
- sound/soc/amd/acp/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
-index c8ac0027f741..84c963241dc5 100644
---- a/sound/soc/amd/acp/Kconfig
-+++ b/sound/soc/amd/acp/Kconfig
-@@ -80,6 +80,7 @@ config SND_AMD_ASOC_ACP70
- 	select SND_SOC_AMD_ACP_PCM
- 	select SND_SOC_AMD_ACP_I2S
- 	select SND_SOC_AMD_ACP_PDM
-+	select SND_SOC_AMD_ACP_LEGACY_COMMON
- 	help
- 	This option enables Acp7.0 PDM support on AMD platform.
- 	Say Y if you want to enable AUDIO on ACP7.0
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.7-rc1 next-20231116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/ALSA-pcm-Introduce-MSBITS-subformat-interface/20231115-041959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20231114201317.1348066-2-cezary.rojewski%40intel.com
+patch subject: [PATCH v3 01/16] ALSA: pcm: Introduce MSBITS subformat interface
+config: i386-randconfig-062-20231116 (https://download.01.org/0day-ci/archive/20231116/202311161421.XWUhngXI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311161421.XWUhngXI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311161421.XWUhngXI-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> sound/core/pcm_native.c:2517:43: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int val @@     got restricted snd_pcm_format_t [assigned] [usertype] f @@
+   sound/core/pcm_native.c:2517:43: sparse:     expected unsigned int val
+   sound/core/pcm_native.c:2517:43: sparse:     got restricted snd_pcm_format_t [assigned] [usertype] f
+   sound/core/pcm_native.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   sound/core/pcm_native.c:95:1: sparse: sparse: context imbalance in 'snd_pcm_group_lock' - different lock contexts for basic block
+   sound/core/pcm_native.c:96:1: sparse: sparse: context imbalance in 'snd_pcm_group_unlock' - unexpected unlock
+   sound/core/pcm_native.c:97:1: sparse: sparse: context imbalance in 'snd_pcm_group_lock_irq' - different lock contexts for basic block
+   sound/core/pcm_native.c:98:1: sparse: sparse: context imbalance in 'snd_pcm_group_unlock_irq' - unexpected unlock
+   sound/core/pcm_native.c:145:9: sparse: sparse: context imbalance in 'snd_pcm_stream_lock_nested' - different lock contexts for basic block
+   sound/core/pcm_native.c:171:9: sparse: sparse: context imbalance in '_snd_pcm_stream_lock_irqsave' - different lock contexts for basic block
+   sound/core/pcm_native.c:184:9: sparse: sparse: context imbalance in '_snd_pcm_stream_lock_irqsave_nested' - different lock contexts for basic block
+   sound/core/pcm_native.c:201:39: sparse: sparse: context imbalance in 'snd_pcm_stream_unlock_irqrestore' - unexpected unlock
+   sound/core/pcm_native.c:1278:44: sparse: sparse: context imbalance in 'snd_pcm_action_group' - unexpected unlock
+   sound/core/pcm_native.c:1348:37: sparse: sparse: context imbalance in 'snd_pcm_stream_group_ref' - different lock contexts for basic block
+
+vim +2517 sound/core/pcm_native.c
+
+  2502	
+  2503	static int snd_pcm_hw_rule_subformats(struct snd_pcm_hw_params *params,
+  2504					      struct snd_pcm_hw_rule *rule)
+  2505	{
+  2506		struct snd_mask *sfmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_SUBFORMAT);
+  2507		struct snd_mask *fmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+  2508		u32 *subformats = rule->private;
+  2509		snd_pcm_format_t f;
+  2510		struct snd_mask m;
+  2511	
+  2512		snd_mask_none(&m);
+  2513		/* All PCMs support at least the default STD subformat. */
+  2514		snd_mask_set(&m, (__force unsigned)SNDRV_PCM_SUBFORMAT_STD);
+  2515	
+  2516		pcm_for_each_format(f) {
+> 2517			if (!snd_mask_test(fmask, f))
+  2518				continue;
+  2519	
+  2520			if (f == SNDRV_PCM_FORMAT_S32_LE)
+  2521				m.bits[0] |= *subformats;
+  2522			else if (snd_pcm_format_linear(f))
+  2523				snd_mask_set(&m, (__force unsigned)SNDRV_PCM_SUBFORMAT_MSBITS_MAX);
+  2524		}
+  2525	
+  2526		return snd_mask_refine(sfmask, &m);
+  2527	}
+  2528	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
