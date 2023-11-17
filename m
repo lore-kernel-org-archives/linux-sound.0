@@ -2,59 +2,105 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CD7C197A0
-	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 09:50:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC84C072A2
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 10:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbjKQJvA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 04:51:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42612 "EHLO
+        id S230455AbjKQKac (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 05:30:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbjKQJux (ORCPT
+        with ESMTP id S230240AbjKQKab (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 04:50:53 -0500
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B5FED8;
-        Fri, 17 Nov 2023 01:50:50 -0800 (PST)
-Received: from i5e861935.versanet.de ([94.134.25.53] helo=phil.lan)
-        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <heiko@sntech.de>)
-        id 1r3vUq-0003ER-7U; Fri, 17 Nov 2023 10:50:44 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     Mark Brown <broonie@kernel.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc:     Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        kernel@collabora.com, Rob Herring <robh+dt@kernel.org>,
-        linux-rockchip@lists.infradead.org,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH v1 1/2] dt-bindings: es8328: convert to DT schema format
-Date:   Fri, 17 Nov 2023 10:50:35 +0100
-Message-Id: <170021461021.1221251.790740434324924821.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231109184453.108676-1-sebastian.reichel@collabora.com>
-References: <20231109184453.108676-1-sebastian.reichel@collabora.com>
+        Fri, 17 Nov 2023 05:30:31 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125DED4E
+        for <linux-sound@vger.kernel.org>; Fri, 17 Nov 2023 02:30:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700217028; x=1731753028;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=cOHAaYPRxtyxODavsRav9jwEKw9D9DOZg1yHIgcNARw=;
+  b=A7ugnmW2gH6o9T2zV0YHsNAnAtzjeonm3kDvFhHApa7I7rG5rgpQ9M5b
+   27GmDrXvmGZFoDHY+BxmRtI9BFWZslJG4f0GBiMPK2zvkwnfJZKnLfVRP
+   zI3zANaKfzUVcYyu23DZrwwWBNy3Ip/iRkjSVKScvls+elxPwZcUBkTS7
+   +WeyxwS4hZI9qRjikzeZJcjUy8AZ/nRcy56VlOFynwyODACss5Jykoa2j
+   vx92ir+cGkVDhcqjR/l+O/RehE8S3nBKPYFSi4VoFX3/6HsQkePpfBTxN
+   uP+ksV/aCdsTB0iBCJmiG1BbN9dVGl0yIjDMO1iKVX+zjfQdTDaKadOFi
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="422371397"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="422371397"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 02:30:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="1097062243"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="1097062243"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 02:30:23 -0800
+Message-ID: <3ab5e640-03b5-49c5-9ec0-ce23f13212ba@linux.intel.com>
+Date:   Fri, 17 Nov 2023 11:30:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: Intel: Skylake: Fix mem leak in few functions
+Content-Language: en-US
+To:     Kamil Duljas <kamil.duljas@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
+        linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        Cezary Rojewski <cezary.rojewski@intel.com>
+References: <20231116125150.1436-1-kamil.duljas@gmail.com>
+From:   =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= 
+        <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20231116125150.1436-1-kamil.duljas@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Thu, 9 Nov 2023 19:44:43 +0100, Sebastian Reichel wrote:
-> Convert the binding to DT schema format. Note, that "IPVDD-supply"
-> got fixed to be "HPVDD-supply" during the conversion. This was
-> obviously a typo in the old binding. The old binding example, DT
-> files, chip datasheet and Linux driver use HPVDD.
+On 11/16/2023 1:51 PM, Kamil Duljas wrote:
+> The resources should be freed when function return error.
 > 
+> Signed-off-by: Kamil Duljas <kamil.duljas@gmail.com>
+> ---
+>   sound/soc/intel/skylake/skl-pcm.c     | 4 +++-
+>   sound/soc/intel/skylake/skl-sst-ipc.c | 4 +++-
+>   2 files changed, 6 insertions(+), 2 deletions(-)
 > 
+> diff --git a/sound/soc/intel/skylake/skl-pcm.c b/sound/soc/intel/skylake/skl-pcm.c
+> index d0c02e8a6785..18866bc415a5 100644
+> --- a/sound/soc/intel/skylake/skl-pcm.c
+> +++ b/sound/soc/intel/skylake/skl-pcm.c
+> @@ -240,8 +240,10 @@ static int skl_pcm_open(struct snd_pcm_substream *substream,
+>   	snd_pcm_set_sync(substream);
+>   
+>   	mconfig = skl_tplg_fe_get_cpr_module(dai, substream->stream);
+> -	if (!mconfig)
+> +	if (!mconfig) {
+> +		kfree(dma_params);
+>   		return -EINVAL;
+> +	}
+>   
+>   	skl_tplg_d0i3_get(skl, mconfig->d0i3_caps);
+>   
+> diff --git a/sound/soc/intel/skylake/skl-sst-ipc.c b/sound/soc/intel/skylake/skl-sst-ipc.c
+> index 7a425271b08b..fd9624ad5f72 100644
+> --- a/sound/soc/intel/skylake/skl-sst-ipc.c
+> +++ b/sound/soc/intel/skylake/skl-sst-ipc.c
+> @@ -1003,8 +1003,10 @@ int skl_ipc_get_large_config(struct sst_generic_ipc *ipc,
+>   
+>   	reply.size = (reply.header >> 32) & IPC_DATA_OFFSET_SZ_MASK;
+>   	buf = krealloc(reply.data, reply.size, GFP_KERNEL);
+> -	if (!buf)
+> +	if (!buf) {
+> +		kfree(reply.data);
+>   		return -ENOMEM;
+> +	}
+>   	*payload = buf;
+>   	*bytes = reply.size;
+>   
 
-Applied, thanks!
-
-[2/2] arm64: dts: rockchip: add analog audio to RK3588 EVB1
-      commit: 97c39c7a0965b3eba87baa2b7d51443a46e21b8f
-
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+Seems ok,
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
