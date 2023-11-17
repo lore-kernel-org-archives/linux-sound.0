@@ -2,52 +2,52 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACEC9C197A0
-	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 12:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE47DC072A2
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 12:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbjKQMEL (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 07:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55398 "EHLO
+        id S230383AbjKQMEQ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 07:04:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbjKQMEK (ORCPT
+        with ESMTP id S229548AbjKQMEN (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 07:04:10 -0500
+        Fri, 17 Nov 2023 07:04:13 -0500
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82FE2C4
-        for <linux-sound@vger.kernel.org>; Fri, 17 Nov 2023 04:04:06 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8913EB9
+        for <linux-sound@vger.kernel.org>; Fri, 17 Nov 2023 04:04:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700222646; x=1731758646;
+  t=1700222649; x=1731758649;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9uESLAz/zPpB9TBJ+NWy2rGx7Wj2R4gu+GZDw1dTG6I=;
-  b=S8pcEm/4IAQfO+0+9zks7KXicD5800U6FT/SfCrIc0lC8xm9+nsoGXCy
-   qpe4yFtrIeiOy+utVJgi2bWkuWEcXj2k/69/1QUBM/KV0dsjE73uo8mhs
-   dZKD1tz1V6xq6FkVPo+vSdvpgClx68O5pQ8BxKF/GBtfrGqsX4A36H4Lg
-   T24G6mo5QHT4ofLYwI1gBYgD8VEHx/DAjwYgbL1gvSEfNd92NGx6lu4id
-   nE0VG/EqPS083uFwV+TlnaB255nIEqJlxl9z9MxtUz3tdIZb/ybM413YO
-   LW1dZccmgGyrn50yclLHh/8rTPWNJCrCyrzBJKo1urgV1KoB/m2wK+Ora
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="381675163"
+  bh=VuYlq/FCccFmDGVaizE1u1dTXFhtVM3x9r1OKSKW4tI=;
+  b=JXdTzlslsK3fI9wchWYtgSmll5+96AFmRqt9pwSN4j2DA2+435UBTaWG
+   pqah3otmGiVZRyf5czIQW/OwbFMz7JUdY3n07/TRgrbAoWrS/5sw8remA
+   BXZAmp3IPHZveElF3Aqx4w7HvP4/9jdTxM3A6fVE57eMTqS2cI+WzifcX
+   e24b5RSIxzJG8nXIuuOuEQWlC4BmJxRq+hpOScxOvXgqr7PAYEuqBS6se
+   O87nkx0rdsP7bMkDcQADBt6DNOfsEp0e6Nr9dWaYIqeRag0UrZNeeYpcc
+   PY/uRnRoaMfmBAvz/d1oAFXO1YsvgLsOEgxNkrNXO/cKrjORxzgeRmbfJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="381675173"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="381675163"
+   d="scan'208";a="381675173"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 04:04:05 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 04:04:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="883110153"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="883110158"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="883110153"
+   d="scan'208";a="883110158"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Nov 2023 04:04:03 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 17 Nov 2023 04:04:05 -0800
 From:   Cezary Rojewski <cezary.rojewski@intel.com>
 To:     broonie@kernel.org, tiwai@suse.com, perex@perex.cz
 Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
         amadeuszx.slawinski@linux.intel.com,
         pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
         Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v5 01/16] ALSA: pcm: Introduce MSBITS subformat interface
-Date:   Fri, 17 Nov 2023 13:05:55 +0100
-Message-Id: <20231117120610.1755254-2-cezary.rojewski@intel.com>
+Subject: [PATCH v5 02/16] ALSA: hda: Honor subformat when querying PCMs
+Date:   Fri, 17 Nov 2023 13:05:56 +0100
+Message-Id: <20231117120610.1755254-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231117120610.1755254-1-cezary.rojewski@intel.com>
 References: <20231117120610.1755254-1-cezary.rojewski@intel.com>
@@ -57,210 +57,201 @@ Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-From: Jaroslav Kysela <perex@perex.cz>
-
-Improve granularity of format selection for S32/U32 formats by adding
-constants representing 20, 24 and MAX most significant bits.
-
-The MAX means the maximum number of significant bits which can
-the physical format hold. For 32-bit formats, MAX is related
-to 32 bits. For 8-bit formats, MAX is related to 8 bits etc.
-
-As there is only one user currently (format S32_LE), subformat is
-represented by a simple u32 and stores flags only for that one user
-alone. The approach of subformat being part of struct snd_pcm_hardware
-is a compromise between ALSA and ASoC allowing for
-hw_params-intersection code to be alloc/free-less while not adding any
-new responsibilities to ASoC runtime structures.
+Update mechanism for querying supported PCMs to allow for granular
+format selection when container size is 32 bits. Currently always the
+highest bit depth is selected, regardless of how many actual formats
+codec in question supports.
 
 Acked-by: Mark Brown <broonie@kernel.org>
+Co-developed-by: Jaroslav Kysela <perex@perex.cz>
 Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-Co-developed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- include/sound/pcm.h               |  7 ++++
- include/uapi/sound/asound.h       |  7 ++--
- sound/core/pcm.c                  |  3 ++
- sound/core/pcm_native.c           | 55 +++++++++++++++++++++++++++++--
- tools/include/uapi/sound/asound.h |  7 ++--
- 5 files changed, 73 insertions(+), 6 deletions(-)
+ include/sound/hda_codec.h    |  5 ++--
+ include/sound/hdaudio.h      |  3 ++-
+ sound/hda/hdac_device.c      | 45 ++++++++++++++++++++----------------
+ sound/pci/hda/hda_codec.c    |  2 ++
+ sound/pci/hda/patch_hdmi.c   |  1 +
+ sound/soc/codecs/hdac_hdmi.c |  3 ++-
+ 6 files changed, 35 insertions(+), 24 deletions(-)
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index 2a815373dac1..cc175c623dac 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -32,6 +32,7 @@
- struct snd_pcm_hardware {
- 	unsigned int info;		/* SNDRV_PCM_INFO_* */
- 	u64 formats;			/* SNDRV_PCM_FMTBIT_* */
-+	u32 subformats;			/* for S32_LE, SNDRV_PCM_SUBFMTBIT_* */
- 	unsigned int rates;		/* SNDRV_PCM_RATE_* */
- 	unsigned int rate_min;		/* min rate */
- 	unsigned int rate_max;		/* max rate */
-@@ -217,6 +218,12 @@ struct snd_pcm_ops {
- #define SNDRV_PCM_FMTBIT_U20		SNDRV_PCM_FMTBIT_U20_BE
- #endif
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 5497dc9c396a..9c94ba7c183d 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -141,6 +141,7 @@ struct hda_pcm_stream {
+ 	hda_nid_t nid;	/* default NID to query rates/formats/bps, or set up */
+ 	u32 rates;	/* supported rates */
+ 	u64 formats;	/* supported formats (SNDRV_PCM_FMTBIT_) */
++	u32 subformats;	/* for S32_LE format, SNDRV_PCM_SUBFMTBIT_* */
+ 	unsigned int maxbps;	/* supported max. bit per sample */
+ 	const struct snd_pcm_chmap_elem *chmap; /* chmap to override */
+ 	struct hda_pcm_ops ops;
+@@ -448,8 +449,8 @@ void __snd_hda_codec_cleanup_stream(struct hda_codec *codec, hda_nid_t nid,
+ #define snd_hda_codec_cleanup_stream(codec, nid) \
+ 	__snd_hda_codec_cleanup_stream(codec, nid, 0)
  
-+#define _SNDRV_PCM_SUBFMTBIT(fmt)	BIT((__force int)SNDRV_PCM_SUBFORMAT_##fmt)
-+#define SNDRV_PCM_SUBFMTBIT_STD		_SNDRV_PCM_SUBFMTBIT(STD)
-+#define SNDRV_PCM_SUBFMTBIT_MSBITS_MAX	_SNDRV_PCM_SUBFMTBIT(MSBITS_MAX)
-+#define SNDRV_PCM_SUBFMTBIT_MSBITS_20	_SNDRV_PCM_SUBFMTBIT(MSBITS_20)
-+#define SNDRV_PCM_SUBFMTBIT_MSBITS_24	_SNDRV_PCM_SUBFMTBIT(MSBITS_24)
-+
- struct snd_pcm_file {
- 	struct snd_pcm_substream *substream;
- 	int no_compat_mmap;
-diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-index f9939da41122..d5b9cfbd9cea 100644
---- a/include/uapi/sound/asound.h
-+++ b/include/uapi/sound/asound.h
-@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
-  *                                                                           *
-  *****************************************************************************/
+-#define snd_hda_query_supported_pcm(codec, nid, ratesp, fmtsp, bpsp) \
+-	snd_hdac_query_supported_pcm(&(codec)->core, nid, ratesp, fmtsp, bpsp)
++#define snd_hda_query_supported_pcm(codec, nid, ratesp, fmtsp, subfmtp, bpsp) \
++	snd_hdac_query_supported_pcm(&(codec)->core, nid, ratesp, fmtsp, subfmtp, bpsp)
+ #define snd_hda_is_supported_format(codec, nid, fmt) \
+ 	snd_hdac_is_supported_format(&(codec)->core, nid, fmt)
  
--#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 15)
-+#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 16)
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index dd7c87bbc613..7cfea9e7f6e4 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -146,7 +146,8 @@ unsigned int snd_hdac_calc_stream_format(unsigned int rate,
+ 					 unsigned int maxbps,
+ 					 unsigned short spdif_ctls);
+ int snd_hdac_query_supported_pcm(struct hdac_device *codec, hda_nid_t nid,
+-				u32 *ratesp, u64 *formatsp, unsigned int *bpsp);
++				 u32 *ratesp, u64 *formatsp, u32 *subformatsp,
++				 unsigned int *bpsp);
+ bool snd_hdac_is_supported_format(struct hdac_device *codec, hda_nid_t nid,
+ 				  unsigned int format);
  
- typedef unsigned long snd_pcm_uframes_t;
- typedef signed long snd_pcm_sframes_t;
-@@ -267,7 +267,10 @@ typedef int __bitwise snd_pcm_format_t;
- 
- typedef int __bitwise snd_pcm_subformat_t;
- #define	SNDRV_PCM_SUBFORMAT_STD		((__force snd_pcm_subformat_t) 0)
--#define	SNDRV_PCM_SUBFORMAT_LAST	SNDRV_PCM_SUBFORMAT_STD
-+#define	SNDRV_PCM_SUBFORMAT_MSBITS_MAX	((__force snd_pcm_subformat_t) 1)
-+#define	SNDRV_PCM_SUBFORMAT_MSBITS_20	((__force snd_pcm_subformat_t) 2)
-+#define	SNDRV_PCM_SUBFORMAT_MSBITS_24	((__force snd_pcm_subformat_t) 3)
-+#define	SNDRV_PCM_SUBFORMAT_LAST	SNDRV_PCM_SUBFORMAT_MSBITS_24
- 
- #define SNDRV_PCM_INFO_MMAP		0x00000001	/* hardware supports mmap */
- #define SNDRV_PCM_INFO_MMAP_VALID	0x00000002	/* period data are valid during transfer */
-diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-index 20bb2d7c8d4b..c4bc15f048b6 100644
---- a/sound/core/pcm.c
-+++ b/sound/core/pcm.c
-@@ -265,6 +265,9 @@ static const char * const snd_pcm_access_names[] = {
- 
- static const char * const snd_pcm_subformat_names[] = {
- 	SUBFORMAT(STD), 
-+	SUBFORMAT(MSBITS_MAX),
-+	SUBFORMAT(MSBITS_20),
-+	SUBFORMAT(MSBITS_24),
- };
- 
- static const char * const snd_pcm_tstamp_mode_names[] = {
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index f610b08f5a2b..f5ff00f99788 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -479,6 +479,7 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
+diff --git a/sound/hda/hdac_device.c b/sound/hda/hdac_device.c
+index bbf7bcdb449a..cde4d5c33771 100644
+--- a/sound/hda/hdac_device.c
++++ b/sound/hda/hdac_device.c
+@@ -817,15 +817,17 @@ static unsigned int query_stream_param(struct hdac_device *codec, hda_nid_t nid)
+  * @nid: NID to query
+  * @ratesp: the pointer to store the detected rate bitflags
+  * @formatsp: the pointer to store the detected formats
++ * @subformatsp: the pointer to store the detected subformats for S32_LE format
+  * @bpsp: the pointer to store the detected format widths
+  *
+- * Queries the supported PCM rates and formats.  The NULL @ratesp, @formatsp
+- * or @bsps argument is ignored.
++ * Queries the supported PCM rates and formats.  The NULL @ratesp, @formatsp,
++ * @subformatsp or @bpsp argument is ignored.
+  *
+  * Returns 0 if successful, otherwise a negative error code.
+  */
+ int snd_hdac_query_supported_pcm(struct hdac_device *codec, hda_nid_t nid,
+-				 u32 *ratesp, u64 *formatsp, unsigned int *bpsp)
++				 u32 *ratesp, u64 *formatsp, u32 *subformatsp,
++				 unsigned int *bpsp)
  {
- 	const struct snd_interval *i;
- 	const struct snd_mask *m;
-+	struct snd_mask *m_rw;
- 	int err;
+ 	unsigned int i, val, wcaps;
  
- 	if (!params->msbits) {
-@@ -487,6 +488,22 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
- 			params->msbits = snd_interval_value(i);
+@@ -848,9 +850,10 @@ int snd_hdac_query_supported_pcm(struct hdac_device *codec, hda_nid_t nid,
+ 		*ratesp = rates;
  	}
  
-+	if (params->msbits) {
-+		m = hw_param_mask_c(params, SNDRV_PCM_HW_PARAM_FORMAT);
-+		if (snd_mask_single(m)) {
-+			snd_pcm_format_t format = (__force snd_pcm_format_t)snd_mask_min(m);
-+
-+			if (snd_pcm_format_linear(format) &&
-+			    snd_pcm_format_width(format) != params->msbits) {
-+				m_rw = hw_param_mask(params, SNDRV_PCM_HW_PARAM_SUBFORMAT);
-+				snd_mask_reset(m_rw,
-+					       (__force unsigned)SNDRV_PCM_SUBFORMAT_MSBITS_MAX);
-+				if (snd_mask_empty(m_rw))
-+					return -EINVAL;
+-	if (formatsp || bpsp) {
+-		u64 formats = 0;
++	if (formatsp || subformatsp || bpsp) {
+ 		unsigned int streams, bps;
++		u32 subformats = 0;
++		u64 formats = 0;
+ 
+ 		streams = query_stream_param(codec, nid);
+ 		if (!streams)
+@@ -866,24 +869,24 @@ int snd_hdac_query_supported_pcm(struct hdac_device *codec, hda_nid_t nid,
+ 				formats |= SNDRV_PCM_FMTBIT_S16_LE;
+ 				bps = 16;
+ 			}
+-			if (wcaps & AC_WCAP_DIGITAL) {
+-				if (val & AC_SUPPCM_BITS_32)
++			if (val & AC_SUPPCM_BITS_20) {
++				formats |= SNDRV_PCM_FMTBIT_S32_LE;
++				subformats |= SNDRV_PCM_SUBFMTBIT_MSBITS_20;
++				bps = 20;
 +			}
-+		}
-+	}
-+
- 	if (!params->rate_den) {
- 		i = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_RATE);
- 		if (snd_interval_single(i)) {
-@@ -2483,6 +2500,41 @@ static int snd_pcm_hw_rule_buffer_bytes_max(struct snd_pcm_hw_params *params,
- 	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
- }		
- 
-+static int snd_pcm_hw_rule_subformats(struct snd_pcm_hw_params *params,
-+				      struct snd_pcm_hw_rule *rule)
-+{
-+	struct snd_mask *sfmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_SUBFORMAT);
-+	struct snd_mask *fmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
-+	u32 *subformats = rule->private;
-+	snd_pcm_format_t f;
-+	struct snd_mask m;
-+
-+	snd_mask_none(&m);
-+	/* All PCMs support at least the default STD subformat. */
-+	snd_mask_set(&m, (__force unsigned)SNDRV_PCM_SUBFORMAT_STD);
-+
-+	pcm_for_each_format(f) {
-+		if (!snd_mask_test(fmask, (__force unsigned)f))
-+			continue;
-+
-+		if (f == SNDRV_PCM_FORMAT_S32_LE && *subformats)
-+			m.bits[0] |= *subformats;
-+		else if (snd_pcm_format_linear(f))
-+			snd_mask_set(&m, (__force unsigned)SNDRV_PCM_SUBFORMAT_MSBITS_MAX);
-+	}
-+
-+	return snd_mask_refine(sfmask, &m);
-+}
-+
-+static int snd_pcm_hw_constraint_subformats(struct snd_pcm_runtime *runtime,
-+					   unsigned int cond, u32 *subformats)
-+{
-+	return snd_pcm_hw_rule_add(runtime, cond, -1,
-+				   snd_pcm_hw_rule_subformats, (void *)subformats,
-+				   SNDRV_PCM_HW_PARAM_SUBFORMAT,
-+				   SNDRV_PCM_HW_PARAM_FORMAT, -1);
-+}
-+
- static int snd_pcm_hw_constraints_init(struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
-@@ -2634,8 +2686,7 @@ static int snd_pcm_hw_constraints_complete(struct snd_pcm_substream *substream)
++			if (val & AC_SUPPCM_BITS_24) {
++				formats |= SNDRV_PCM_FMTBIT_S32_LE;
++				subformats |= SNDRV_PCM_SUBFMTBIT_MSBITS_24;
++				bps = 24;
++			}
++			if (val & AC_SUPPCM_BITS_32) {
++				if (wcaps & AC_WCAP_DIGITAL) {
+ 					formats |= SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE;
+-				if (val & (AC_SUPPCM_BITS_20|AC_SUPPCM_BITS_24))
++				} else {
+ 					formats |= SNDRV_PCM_FMTBIT_S32_LE;
+-				if (val & AC_SUPPCM_BITS_24)
+-					bps = 24;
+-				else if (val & AC_SUPPCM_BITS_20)
+-					bps = 20;
+-			} else if (val & (AC_SUPPCM_BITS_20|AC_SUPPCM_BITS_24|
+-					  AC_SUPPCM_BITS_32)) {
+-				formats |= SNDRV_PCM_FMTBIT_S32_LE;
+-				if (val & AC_SUPPCM_BITS_32)
++					subformats |= SNDRV_PCM_SUBFMTBIT_MSBITS_MAX;
+ 					bps = 32;
+-				else if (val & AC_SUPPCM_BITS_24)
+-					bps = 24;
+-				else if (val & AC_SUPPCM_BITS_20)
+-					bps = 20;
++				}
+ 			}
+ 		}
+ #if 0 /* FIXME: CS4206 doesn't work, which is the only codec supporting float */
+@@ -911,6 +914,8 @@ int snd_hdac_query_supported_pcm(struct hdac_device *codec, hda_nid_t nid,
+ 		}
+ 		if (formatsp)
+ 			*formatsp = formats;
++		if (subformatsp)
++			*subformatsp = subformats;
+ 		if (bpsp)
+ 			*bpsp = bps;
+ 	}
+diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
+index 01718b1fc9a7..12f02cdc9659 100644
+--- a/sound/pci/hda/hda_codec.c
++++ b/sound/pci/hda/hda_codec.c
+@@ -3163,6 +3163,7 @@ static int set_pcm_default_values(struct hda_codec *codec,
+ 		err = snd_hda_query_supported_pcm(codec, info->nid,
+ 				info->rates ? NULL : &info->rates,
+ 				info->formats ? NULL : &info->formats,
++				info->subformats ? NULL : &info->subformats,
+ 				info->maxbps ? NULL : &info->maxbps);
+ 		if (err < 0)
+ 			return err;
+@@ -3757,6 +3758,7 @@ int snd_hda_multi_out_analog_open(struct hda_codec *codec,
+ 			snd_hda_query_supported_pcm(codec, mout->dig_out_nid,
+ 						    &mout->spdif_rates,
+ 						    &mout->spdif_formats,
++						    NULL,
+ 						    &mout->spdif_maxbps);
+ 		}
+ 		mutex_lock(&codec->spdif_mutex);
+diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
+index 1cde2a69bdb4..687b8b8fd7ac 100644
+--- a/sound/pci/hda/patch_hdmi.c
++++ b/sound/pci/hda/patch_hdmi.c
+@@ -1977,6 +1977,7 @@ static int hdmi_add_cvt(struct hda_codec *codec, hda_nid_t cvt_nid)
+ 	err = snd_hda_query_supported_pcm(codec, cvt_nid,
+ 					  &per_cvt->rates,
+ 					  &per_cvt->formats,
++					  NULL,
+ 					  &per_cvt->maxbps);
  	if (err < 0)
  		return err;
- 
--	err = snd_pcm_hw_constraint_mask(runtime, SNDRV_PCM_HW_PARAM_SUBFORMAT,
--					 PARAM_MASK_BIT(SNDRV_PCM_SUBFORMAT_STD));
-+	err = snd_pcm_hw_constraint_subformats(runtime, 0, &hw->subformats);
+diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
+index b9c5ffbfb5ba..3e4f632d8665 100644
+--- a/sound/soc/codecs/hdac_hdmi.c
++++ b/sound/soc/codecs/hdac_hdmi.c
+@@ -670,6 +670,7 @@ hdac_hdmi_query_cvt_params(struct hdac_device *hdev, struct hdac_hdmi_cvt *cvt)
+ 	err = snd_hdac_query_supported_pcm(hdev, cvt->nid,
+ 			&cvt->params.rates,
+ 			&cvt->params.formats,
++			NULL,
+ 			&cvt->params.maxbps);
  	if (err < 0)
- 		return err;
+ 		dev_err(&hdev->dev,
+@@ -1577,7 +1578,7 @@ static int hdac_hdmi_create_dais(struct hdac_device *hdev,
  
-diff --git a/tools/include/uapi/sound/asound.h b/tools/include/uapi/sound/asound.h
-index f9939da41122..d5b9cfbd9cea 100644
---- a/tools/include/uapi/sound/asound.h
-+++ b/tools/include/uapi/sound/asound.h
-@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
-  *                                                                           *
-  *****************************************************************************/
+ 	list_for_each_entry(cvt, &hdmi->cvt_list, head) {
+ 		ret = snd_hdac_query_supported_pcm(hdev, cvt->nid,
+-					&rates,	&formats, &bps);
++					&rates,	&formats, NULL, &bps);
+ 		if (ret)
+ 			return ret;
  
--#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 15)
-+#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 16)
- 
- typedef unsigned long snd_pcm_uframes_t;
- typedef signed long snd_pcm_sframes_t;
-@@ -267,7 +267,10 @@ typedef int __bitwise snd_pcm_format_t;
- 
- typedef int __bitwise snd_pcm_subformat_t;
- #define	SNDRV_PCM_SUBFORMAT_STD		((__force snd_pcm_subformat_t) 0)
--#define	SNDRV_PCM_SUBFORMAT_LAST	SNDRV_PCM_SUBFORMAT_STD
-+#define	SNDRV_PCM_SUBFORMAT_MSBITS_MAX	((__force snd_pcm_subformat_t) 1)
-+#define	SNDRV_PCM_SUBFORMAT_MSBITS_20	((__force snd_pcm_subformat_t) 2)
-+#define	SNDRV_PCM_SUBFORMAT_MSBITS_24	((__force snd_pcm_subformat_t) 3)
-+#define	SNDRV_PCM_SUBFORMAT_LAST	SNDRV_PCM_SUBFORMAT_MSBITS_24
- 
- #define SNDRV_PCM_INFO_MMAP		0x00000001	/* hardware supports mmap */
- #define SNDRV_PCM_INFO_MMAP_VALID	0x00000002	/* period data are valid during transfer */
 -- 
 2.25.1
 
