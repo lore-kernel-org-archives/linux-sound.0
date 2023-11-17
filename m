@@ -2,92 +2,102 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C03DC197A0
-	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 15:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C9EC072A2
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 16:09:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbjKQPyJ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 10:54:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52448 "EHLO
+        id S231429AbjKQQKA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 11:10:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbjKQPyI (ORCPT
+        with ESMTP id S230513AbjKQQJ7 (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 10:54:08 -0500
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B988E;
-        Fri, 17 Nov 2023 07:54:05 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AHFqPD0014089;
-        Fri, 17 Nov 2023 09:53:56 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=PODMain02222019; bh=qcmoqM99WUT5mR4
-        4BmGtdcfqukhABXd6uBe07IyrQRE=; b=AGM0SlwusSlH9E1NPc0M7AEAgKk3qYB
-        qahD0GReg2zT48lm2KuZsCyD7G7xQzKSA1cSAg8/XFRmYqeuA7azrET+cMLkZVIS
-        mzYiIprojjDLKU9DSaqL81qPrtNA+m/klhJhSGRYxqXk/CCfIQf9+bEWgU6R4y9g
-        CxsW448ENb8IPH+clKPIq50qrnakhVtYTaMsJrsOBVbMfoccWNfMOlE1kSf7LMpt
-        rmlKaAQKPmTIhLhkZ7wm3D75Vf212FXN7eqq7abfc6+ev1OC5gZszlda47EPxmny
-        lCpQKnp+/PW2lvQkT7OJLFZNFECi3psy/h2rd5qxOGSKkaBs0Mp3rvA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ua7w2qp27-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Nov 2023 09:53:55 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 17 Nov
- 2023 15:53:53 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Fri, 17 Nov 2023 15:53:53 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 9F8B1B12;
-        Fri, 17 Nov 2023 15:53:53 +0000 (UTC)
-Date:   Fri, 17 Nov 2023 15:53:53 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Maciej Strozek <mstrozek@opensource.cirrus.com>
-CC:     Mark Brown <broonie@kernel.org>,
-        James Schulman <james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        "Liam Girdwood" <lgirdwood@gmail.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/7] ASoC: cs43130: Fixes and improvements
-Message-ID: <20231117155353.GG32655@ediswmail.ad.cirrus.com>
-References: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
+        Fri, 17 Nov 2023 11:09:59 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF2690;
+        Fri, 17 Nov 2023 08:09:52 -0800 (PST)
+Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ehristev)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A8F966607391;
+        Fri, 17 Nov 2023 16:09:50 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1700237391;
+        bh=Ycelbx5JSmV5iz5PlGjQ6zsV56RiWxLVmAdDb6E+JqA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=noF239htLY3Rc7NKTiCfgwk8Q2Qg/BvlDLF9eysEFV/nMDq3Y1aexudlP9w6a2xZK
+         XUCzH0hyhixMR3AUMfDWVCMLwDKMlCTTkj3QJ52/0gasDX+ZXAr3U8WaHhNuQF1HqS
+         e6OC9411fbUzvBRdXys7VPqcxXv9kPD76JsPDNjZbq7qT7n0Sl+/oK5ZrRROjov1oG
+         coJrDZGHTD6tJIz4Wy26Hab73UQfyo84Rjt3BuT5wWSAfjtu9rYSlVrwrZS6Cm6FRS
+         3Ie2UO+6cF3cuvWwEGNDj2UyyCiTGOV5E5dK/eTTqijOHHKOpt3RB1aynwAWroPsIL
+         qmbPx989f6u6g==
+From:   Eugen Hristev <eugen.hristev@collabora.com>
+To:     linux-sound@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com, kernel@collabora.com,
+        Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH] ASoC: mediatek: mt8186: trivial: align code
+Date:   Fri, 17 Nov 2023 18:09:14 +0200
+Message-Id: <20231117160914.65341-1-eugen.hristev@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: 0x5K93HMr0eactcOtCnesHZrrH9SZOeO
-X-Proofpoint-GUID: 0x5K93HMr0eactcOtCnesHZrrH9SZOeO
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Fri, Nov 17, 2023 at 02:13:37PM +0000, Maciej Strozek wrote:
-> This patchset aims to add minor fixes (first two patches) and
-> introduce general improvements to the driver (rest of the patches)
-> 
-> Maciej Strozek (7):
->   ASoC: cs43130: Fix the position of const qualifier
->   ASoC: cs43130: Fix incorrect frame delay configuration
->   ASoC: cs43130: Allow configuration of bit clock and frame inversion
->   ASoC: cs43130: Store device in private struct and use it more
->     consistently
->   ASoC: cs43130: Add handling of ACPI
->   ASoC: cs43130: Allow driver to work without IRQ thread
->   ASoC:cs43130: Add switch to control normal and alt hp inputs
-> 
->  sound/soc/codecs/cs43130.c | 311 ++++++++++++++++++++++++-------------
->  sound/soc/codecs/cs43130.h |   3 +
->  2 files changed, 204 insertions(+), 110 deletions(-)
-> 
-> --
+No functionality change, squash some lines and align parameters for
+function prototypes to 80 chars.
 
-Series looks good to me:
+Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+---
+ sound/soc/mediatek/mt8186/mt8186-afe-control.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+diff --git a/sound/soc/mediatek/mt8186/mt8186-afe-control.c b/sound/soc/mediatek/mt8186/mt8186-afe-control.c
+index 55edf6374578..dda648c1e8f8 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-afe-control.c
++++ b/sound/soc/mediatek/mt8186/mt8186-afe-control.c
+@@ -181,7 +181,8 @@ static unsigned int pcm_rate_transform(struct device *dev, unsigned int rate)
+ 	return MTK_AFE_PCM_RATE_48K;
+ }
+ 
+-unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev, unsigned int rate)
++unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev,
++					       unsigned int rate)
+ {
+ 	switch (rate) {
+ 	case 8000:
+@@ -222,7 +223,8 @@ unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev, unsigned int
+ 	return MTK_AFE_TDM_RELATCH_RATE_48K;
+ }
+ 
+-unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate, int aud_blk)
++unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate,
++				   int aud_blk)
+ {
+ 	switch (aud_blk) {
+ 	case MT8186_DAI_PCM:
+@@ -234,14 +236,13 @@ unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate, int au
+ 	}
+ }
+ 
+-int mt8186_dai_set_priv(struct mtk_base_afe *afe, int id, int priv_size, const void *priv_data)
++int mt8186_dai_set_priv(struct mtk_base_afe *afe, int id, int priv_size,
++			const void *priv_data)
+ {
+ 	struct mt8186_afe_private *afe_priv = afe->platform_priv;
+ 	void *temp_data;
+ 
+-	temp_data = devm_kzalloc(afe->dev,
+-				 priv_size,
+-				 GFP_KERNEL);
++	temp_data = devm_kzalloc(afe->dev, priv_size, GFP_KERNEL);
+ 	if (!temp_data)
+ 		return -ENOMEM;
+ 
+-- 
+2.34.1
 
-Thanks,
-Charles
