@@ -2,93 +2,125 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6CFC197A0
-	for <linux-sound@archiver.kernel.org>; Thu, 16 Nov 2023 23:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 171E1C072A2
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 08:53:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjKPXet (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Thu, 16 Nov 2023 18:34:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38364 "EHLO
+        id S231407AbjKQIxF (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 03:53:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjKPXes (ORCPT
+        with ESMTP id S231405AbjKQIxF (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Thu, 16 Nov 2023 18:34:48 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7A793;
-        Thu, 16 Nov 2023 15:34:45 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6bb4abb8100so1299676b3a.2;
-        Thu, 16 Nov 2023 15:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700177685; x=1700782485; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jIlDZqCcqHIUeo2ZFPIfybYwe4tkogvnCJH8Ch20WTY=;
-        b=Ahnelm3edpAG0whrXJ0FifJkHMQRe5Qre9UFL4Vz7HwP/A8ftJSJnfIjWpU4rRhD8s
-         TrRtfPFe56cpWNSh6DWSePV1CfHZAvFu9/jYMRv3Sks7ISjoaP2hEwrkTkCEVZ5eEN6C
-         jCWOwzlvt4VdFkAScPazLLY2q1T0pT3rk3DrlqFKL2sM+Kx8FIFgLUNnIkC6gC5OGMF8
-         7LfQ8VWp4QSCqLhoqt8ic/G78bBbQYL+J0JZ1l7hxTz0CdCTNyntuVTU+FxemAfYxfP0
-         VLXXS+AIq01n2FLd8Au/IBVwVdouT5EEHYxYFUfhsZS8h9ZzU+YTaNyBK7JpCHvEyAUt
-         AdkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700177685; x=1700782485;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jIlDZqCcqHIUeo2ZFPIfybYwe4tkogvnCJH8Ch20WTY=;
-        b=fl1eZs5u0IrOM2R8JG8/hp2jnP85L5r+IlKNxFpWeRavTTa4UL9hxDIZaJEIM1dGV9
-         SvwtuX6AcEQG3n0HJZ0+lJE/SjaPPH5JIlYUQXHngW2lmIYnS3kTGfWVRpglvMGyH2YW
-         wYRRArYR6wsOTs5qra9Tux/xO+GRh6lt8TpbXRUBoOJD+kWJbabab7Hlm8U+aqqSlNqj
-         z3X1CN8Fft3ZWU7NS5eYY2dX+x7QztUBEWLqSZe6242NwujNUYe0SrlqwuiBIAwqtaiH
-         uEe3QyU4inBIeiNbEbSgD7vUIGzbn6BNtHdRFGHcpTn0Qelm/88P5bu3i/mUvz+bZtIr
-         grwg==
-X-Gm-Message-State: AOJu0YzKPj0Gvjyr8rSFu6d/CUHQdzT3nHfAOXR+Mib+X60nPuxC1/Mi
-        vGlSJZflorKxCuB2LXeKmwYpNbcOXetYdA==
-X-Google-Smtp-Source: AGHT+IHQSlFjtHHnifyRR+5Low3mKJhBkumS/gS7LHof04DGhzo/G17nSkrxx0T/ja/Xt7XWz9cavQ==
-X-Received: by 2002:a05:6a20:3942:b0:187:d5e8:5709 with SMTP id r2-20020a056a20394200b00187d5e85709mr2649587pzg.4.1700177685029;
-        Thu, 16 Nov 2023 15:34:45 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id e7-20020a631e07000000b0056b6d1ac949sm252545pge.13.2023.11.16.15.34.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Nov 2023 15:34:44 -0800 (PST)
-Message-ID: <a75ce6e7-5012-43d8-a222-dd2639c5969c@gmail.com>
-Date:   Fri, 17 Nov 2023 06:34:39 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen 7
- PRO 5850U
-Content-Language: en-US
-To:     Oliver Sieber <ollisieber@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Sound System <linux-sound@vger.kernel.org>,
-        Linux ALSA Development <alsa-devel@alsa-project.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-References: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
- <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Fri, 17 Nov 2023 03:53:05 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4CA51A1;
+        Fri, 17 Nov 2023 00:53:01 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 65849228EA;
+        Fri, 17 Nov 2023 08:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1700211180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type;
+        bh=k2qCDnFUL3OwRFR98fnl5Gd81exazns1RXquWStjEC8=;
+        b=0YJe90G2rJtm0GCmT6kNfoq74SyV/blZUzaQ5lOr6rofaAmJnUAVYhbNS6ADT7FE7sCVGx
+        Jd3eG1VGUFS7ipD6XYhUxG2x0VhdBuOn5a0zZ/dwMx0r3txKdIxgCeU/79SnYKsSBZj7kf
+        +66CCGGWtvejy58vnON3/rCmneT4lI8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1700211180;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type;
+        bh=k2qCDnFUL3OwRFR98fnl5Gd81exazns1RXquWStjEC8=;
+        b=+fUUTgvYdkLRn7CfEP6BICTmOAjrzwYg4C6sl0ELwpZ3FFNuULI/iTd45X+ZqWWGgKuo7i
+        kmkgpyxEkY+jg7DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 428CD1341F;
+        Fri, 17 Nov 2023 08:53:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 7vhyD+wpV2WNOgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Fri, 17 Nov 2023 08:53:00 +0000
+Date:   Fri, 17 Nov 2023 09:52:59 +0100
+Message-ID: <87y1ewlq1g.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] sound fixes for 6.7-rc2
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+        none
+X-Spamd-Result: default: False [-0.78 / 50.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         RCPT_COUNT_THREE(0.00)[3];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         NEURAL_HAM_LONG(-1.00)[-1.000];
+         DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+         NEURAL_HAM_SHORT(-0.20)[-0.999];
+         MID_CONTAINS_FROM(1.00)[];
+         FUZZY_BLOCKED(0.00)[rspamd.com];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         RCVD_TLS_ALL(0.00)[];
+         BAYES_HAM(-0.48)[79.54%]
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On 11/17/23 01:36, Oliver Sieber wrote:
-> Hi,
-> 
-> thanks for your fast answer. I added my proposed patch as attachment.
-> 
-> Please be aware that this is my first kernel patch.
-> 
+Linus,
 
-Please don't top-post; reply inline with appropriate context instead.
+please pull sound fixes for v6.7-rc2 from:
 
-Your patch is attached, please send it inline instead. See
-Documentation/process/submitting-patches.rst for how to do that.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc2
 
-Thanks.
+The topmost commit is 5d639b60971f003d3a9b2b31f8ec73b0718b5d57
 
--- 
-An old man doll... just what I always wanted! - Clara
+----------------------------------------------------------------
+
+sound fixes for 6.7-rc2
+
+A collection of small fixes: including a regression fix in RC1
+wrt HD-audio / i915 component binding, while the rest are HD-audio
+device-speific fixes / quirks.
+
+----------------------------------------------------------------
+
+Chandradeep Dey (1):
+      ALSA: hda/realtek - Enable internal speaker of ASUS K6500ZC
+
+Eymen Yigit (1):
+      ALSA: hda/realtek: Enable Mute LED on HP 255 G8
+
+Kailang Yang (1):
+      ALSA: hda/realtek - Add Dell ALC295 to pin fall back table
+
+Maarten Lankhorst (1):
+      ALSA: hda: i915: Alays handle -EPROBE_DEFER
+
+Matus Malych (1):
+      ALSA: hda/realtek: Enable Mute LED on HP 255 G10
+
+Simon Trimmer (1):
+      ALSA: hda: cs35l56: Enable low-power hibernation mode on i2c
+
+Stefan Binding (2):
+      ALSA: hda/realtek: Add quirks for ASUS 2024 Zenbooks
+      ALSA: hda/realtek: Add quirks for HP Laptops
+
+---
+ sound/pci/hda/cs35l56_hda_i2c.c |  4 ++++
+ sound/pci/hda/hda_intel.c       |  3 +++
+ sound/pci/hda/patch_realtek.c   | 29 +++++++++++++----------------
+ 3 files changed, 20 insertions(+), 16 deletions(-)
 
