@@ -2,162 +2,88 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7035EC197A0
-	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 13:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C47C072A2
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 14:14:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231179AbjKQNcU (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 08:32:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45276 "EHLO
+        id S231883AbjKQOOG (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 09:14:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjKQNcT (ORCPT
+        with ESMTP id S229541AbjKQOOF (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 08:32:19 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A65DD57;
-        Fri, 17 Nov 2023 05:32:16 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id AF30C1F38D;
-        Fri, 17 Nov 2023 13:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1700227934; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=v9hbRLCFAF0MFU6V5KRjF2Qo9Ot751dxw2RqL6OaPeA=;
-        b=CB6G0qkDUwa00UbK3T+SjtyL7Lhu1yBHD3ws2DlrFL0KNhirbUaANdS3hP6AaxTjN+mKsj
-        5SH45CWTehWYkqMr92BXWXkvWGctxvo6w7VgZJkmHlXZ+uahkw4uxMuczexFisD8NGXVpt
-        /kJGaJCjkXsPiReKs+eu+WqgoGNNaHg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1700227934;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=v9hbRLCFAF0MFU6V5KRjF2Qo9Ot751dxw2RqL6OaPeA=;
-        b=TX4Q8KFNL7ErbepzZMrKkeXSdejFmjVv0FnhTiJicd47aMqqQ0WFVnd7bLW2h4GY2v3Mlt
-        yADE7BR0lhkFjoAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 788A51341F;
-        Fri, 17 Nov 2023 13:32:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id OVWBHF5rV2WKWAAAMHmgww
-        (envelope-from <tiwai@suse.de>); Fri, 17 Nov 2023 13:32:14 +0000
-Date:   Fri, 17 Nov 2023 14:32:14 +0100
-Message-ID: <87sf54jyjl.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Oliver Sieber <ollisieber@gmail.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Sound System <linux-sound@vger.kernel.org>,
-        Linux ALSA Development <alsa-devel@alsa-project.org>,
+        Fri, 17 Nov 2023 09:14:05 -0500
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A06D4E;
+        Fri, 17 Nov 2023 06:14:02 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AH8IefI017599;
+        Fri, 17 Nov 2023 08:13:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding:content-type; s=
+        PODMain02222019; bh=6nw9/LmGLszAOwC3SVOIkEn6mwCimN6BH+fyeN1E600=; b=
+        JY4FcnGfg/NLLmPgZ6b4ftgL57/L0XL0ft2i5nU/bd6onECrHuBqBo1kKFzL0nEk
+        GF0pLqfbyTRpb9c9F5s8a6du9UJAicD7t0uqpKV9KhPmtMyzFRKaipyODhVrtQCE
+        QDuXNJOSdQ3obq6/udukjoWgpEkvvKz8K6GOwtHXqnOmK0v2Ot7hNPr5uVOrMMzP
+        g9PyGfYcv6EXqMdrBZ8gay4i+8HZhAHXj3pdEvvkFNMfTtBwV2ppCEdHRLyB/D7r
+        cJuRhUjyyTWRfsuSiSr6uJGkkREpU2xVTa1x4tkuH9o2YM23wc+p0l5PIMErBrsJ
+        wwsreBaxI2YS3sy5gBD3Tg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ua7w2qj86-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Nov 2023 08:13:49 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 17 Nov
+ 2023 14:13:46 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
+ Transport; Fri, 17 Nov 2023 14:13:46 +0000
+Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C5BC73581;
+        Fri, 17 Nov 2023 14:13:46 +0000 (UTC)
+From:   Maciej Strozek <mstrozek@opensource.cirrus.com>
+To:     Mark Brown <broonie@kernel.org>
+CC:     James Schulman <james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen 7 PRO 5850U
-In-Reply-To: <78149e00-12b5-459b-8754-a17dd974916d@gmail.com>
-References: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
-        <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
-        <a75ce6e7-5012-43d8-a222-dd2639c5969c@gmail.com>
-        <78149e00-12b5-459b-8754-a17dd974916d@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>
+Subject: [PATCH 2/7] ASoC: cs43130: Fix incorrect frame delay configuration
+Date:   Fri, 17 Nov 2023 14:13:39 +0000
+Message-ID: <20231117141344.64320-3-mstrozek@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
+References: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-        none
-X-Spamd-Result: default: False [-7.23 / 50.00];
-         ARC_NA(0.00)[];
-         RCVD_VIA_SMTP_AUTH(0.00)[];
-         BAYES_HAM(-3.00)[100.00%];
-         FROM_HAS_DN(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         REPLY(-4.00)[];
-         NEURAL_HAM_LONG(-1.00)[-1.000];
-         DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-         TO_DN_ALL(0.00)[];
-         NEURAL_HAM_SHORT(-0.13)[-0.628];
-         RCPT_COUNT_SEVEN(0.00)[9];
-         MID_CONTAINS_FROM(1.00)[];
-         FREEMAIL_TO(0.00)[gmail.com];
-         FUZZY_BLOCKED(0.00)[rspamd.com];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org,kernel.org,perex.cz,suse.com];
-         RCVD_COUNT_TWO(0.00)[2];
-         RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: xMJZgkaxrt8opvDPw-9hKzLQEeckuZRw
+X-Proofpoint-GUID: xMJZgkaxrt8opvDPw-9hKzLQEeckuZRw
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Fri, 17 Nov 2023 08:17:48 +0100,
-Oliver Sieber wrote:
-> 
-> 
-> Hi,
-> 
-> in the following I provide my proposed patch for the bug report on Bugzilla
-> [1]. Let me quote from it:
-> 
->     Hey,sound/soc/amd/renoir/rn-pci-acp3x.c has a hard-coded list of quirks. It seems like some product IDs may be missing. In my case, I am using a Lenovo Thinkpad t14s gen2 with an AMD Ryzen 7 PRO 5850U. 
->     My audio output is fine but my internal microphone cannot be found.
->     
->     Running `dmidecode` yields:
->     
->     Handle 0x000F, DMI type 1, 27 bytes
->     System Information
->                   Manufacturer: LENOVO
->                   Product Name: 20XGS1KT02
->                   Version: ThinkPad T14s Gen 2a
->     
->     Could it be that one may have to add the product ID "20XGS1KT02" to the hard-coded list of quirks in rn-pci-acp3x.c?
-> 
->     It seems as there have been similar problems in the past, e.g. https://bugzilla.kernel.org/show_bug.cgi?id=216270.
-> 
-> My proposed diff looks as follows:
-> 
-> diff --git a/sound/soc/amd/renoir/rn-pci-acp3x.c b/sound/soc/amd/renoir/
-> rn-pci-acp3x.c
-> index b3812b70f5f9..754e24d55e6f 100644
-> --- a/sound/soc/amd/renoir/rn-pci-acp3x.c
-> +++ b/sound/soc/amd/renoir/rn-pci-acp3x.c
-> @@ -199,6 +199,13 @@ static const struct dmi_system_id rn_acp_quirk_table[] =
-> {
->              DMI_EXACT_MATCH(DMI_BOARD_NAME, "20NLCTO1WW"),
->          }
->      },
-> +    {
-> +        /* Lenovo ThinkPad T14s Gen 2 */
-> +        .matches = {
-> +            DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-> +            DMI_EXACT_MATCH(DMI_BOARD_NAME, "20XGS1KT02"),
-> +        }
-> +    },
->      {}
->  };
-> 
-> Please have in mind that this is my first patch for the kernel.
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+---
+ sound/soc/codecs/cs43130.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The kernel patch should be in a proper format, so that it can be
-merged to the upstream.  e.g. The Subject line should have a brief
-description with the proper prefix for the corresponding subsystem (in
-your case, something like "ASoC: amd:").  It'll follow the patch
-description, as well as your proper Signed-off-by tag.
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index 20f06679b8f7..d8ec325b9cc9 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -578,7 +578,7 @@ static int cs43130_set_sp_fmt(int dai_id, unsigned int bitwidth_sclk,
+ 		break;
+ 	case SND_SOC_DAIFMT_LEFT_J:
+ 		hi_size = bitwidth_sclk;
+-		frm_delay = 2;
++		frm_delay = 0;
+ 		frm_phase = 1;
+ 		break;
+ 	case SND_SOC_DAIFMT_DSP_A:
+-- 
+2.34.1
 
-The details are found in 
-  https://docs.kernel.org/process/submitting-patches.html
-
-Could you resubmit the patch in a proper format?
-
-
-thanks,
-
-Takashi
