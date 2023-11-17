@@ -2,102 +2,83 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C9EC072A2
-	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 16:09:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18090C197A0
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 16:36:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbjKQQKA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 11:10:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
+        id S231573AbjKQQgV (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 11:36:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230513AbjKQQJ7 (ORCPT
+        with ESMTP id S231470AbjKQQgV (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 11:09:59 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF2690;
-        Fri, 17 Nov 2023 08:09:52 -0800 (PST)
-Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ehristev)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A8F966607391;
-        Fri, 17 Nov 2023 16:09:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1700237391;
-        bh=Ycelbx5JSmV5iz5PlGjQ6zsV56RiWxLVmAdDb6E+JqA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=noF239htLY3Rc7NKTiCfgwk8Q2Qg/BvlDLF9eysEFV/nMDq3Y1aexudlP9w6a2xZK
-         XUCzH0hyhixMR3AUMfDWVCMLwDKMlCTTkj3QJ52/0gasDX+ZXAr3U8WaHhNuQF1HqS
-         e6OC9411fbUzvBRdXys7VPqcxXv9kPD76JsPDNjZbq7qT7n0Sl+/oK5ZrRROjov1oG
-         coJrDZGHTD6tJIz4Wy26Hab73UQfyo84Rjt3BuT5wWSAfjtu9rYSlVrwrZS6Cm6FRS
-         3Ie2UO+6cF3cuvWwEGNDj2UyyCiTGOV5E5dK/eTTqijOHHKOpt3RB1aynwAWroPsIL
-         qmbPx989f6u6g==
-From:   Eugen Hristev <eugen.hristev@collabora.com>
-To:     linux-sound@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        angelogioacchino.delregno@collabora.com, kernel@collabora.com,
-        Eugen Hristev <eugen.hristev@collabora.com>
-Subject: [PATCH] ASoC: mediatek: mt8186: trivial: align code
-Date:   Fri, 17 Nov 2023 18:09:14 +0200
-Message-Id: <20231117160914.65341-1-eugen.hristev@collabora.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 17 Nov 2023 11:36:21 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB19194;
+        Fri, 17 Nov 2023 08:36:18 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D0DC433C9;
+        Fri, 17 Nov 2023 16:36:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1700238976;
+        bh=y6Shd7bmKCsekpBRoYhpQ2ZpMh78XJxTVe4sGB2BHac=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WG0Grb750dwkd6qBwm5RB8YkQ4mrl5JAMjtpfNcuKssNdb9OFAXz5WSD1cW2RBtc8
+         ClVZ3YDwldl+qYkE1FOjKn/WsD+PpkuS3Yl7yGRorawaOkEt8KIDS96SkhL+IQCDkp
+         uXNgQgoQWmAVXE6fdypg0aPN0VzVlCrIz9Sa1KlV+bnaAiqtNa8ka1FPlp24rezmVN
+         BF9cUwKKWGxy+RpUfjQw9WGTXZzQzBAWFm7DziGEA9fMuutr3/WDyQTiT16XTMDnjd
+         9MCPWsP+YbQuMjWKYRcTEasvcdYbJdvbxYRxBVPMS7EodVsrZqNgB5MUEW3zPjsAlC
+         koOKG9Jof7kBg==
+Date:   Fri, 17 Nov 2023 16:36:13 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc:     James Schulman <james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] ASoC: cs43130: Allow driver to work without IRQ
+ thread
+Message-ID: <ZVeWfefrEQJIx0YL@finisterre.sirena.org.uk>
+References: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
+ <20231117141344.64320-7-mstrozek@opensource.cirrus.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jNsZootFS+OqjmoX"
+Content-Disposition: inline
+In-Reply-To: <20231117141344.64320-7-mstrozek@opensource.cirrus.com>
+X-Cookie: Slow day.  Practice crawling.
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-No functionality change, squash some lines and align parameters for
-function prototypes to 80 chars.
 
-Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
----
- sound/soc/mediatek/mt8186/mt8186-afe-control.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+--jNsZootFS+OqjmoX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/mediatek/mt8186/mt8186-afe-control.c b/sound/soc/mediatek/mt8186/mt8186-afe-control.c
-index 55edf6374578..dda648c1e8f8 100644
---- a/sound/soc/mediatek/mt8186/mt8186-afe-control.c
-+++ b/sound/soc/mediatek/mt8186/mt8186-afe-control.c
-@@ -181,7 +181,8 @@ static unsigned int pcm_rate_transform(struct device *dev, unsigned int rate)
- 	return MTK_AFE_PCM_RATE_48K;
- }
- 
--unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev, unsigned int rate)
-+unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev,
-+					       unsigned int rate)
- {
- 	switch (rate) {
- 	case 8000:
-@@ -222,7 +223,8 @@ unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev, unsigned int
- 	return MTK_AFE_TDM_RELATCH_RATE_48K;
- }
- 
--unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate, int aud_blk)
-+unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate,
-+				   int aud_blk)
- {
- 	switch (aud_blk) {
- 	case MT8186_DAI_PCM:
-@@ -234,14 +236,13 @@ unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate, int au
- 	}
- }
- 
--int mt8186_dai_set_priv(struct mtk_base_afe *afe, int id, int priv_size, const void *priv_data)
-+int mt8186_dai_set_priv(struct mtk_base_afe *afe, int id, int priv_size,
-+			const void *priv_data)
- {
- 	struct mt8186_afe_private *afe_priv = afe->platform_priv;
- 	void *temp_data;
- 
--	temp_data = devm_kzalloc(afe->dev,
--				 priv_size,
--				 GFP_KERNEL);
-+	temp_data = devm_kzalloc(afe->dev, priv_size, GFP_KERNEL);
- 	if (!temp_data)
- 		return -ENOMEM;
- 
--- 
-2.34.1
+On Fri, Nov 17, 2023 at 02:13:43PM +0000, Maciej Strozek wrote:
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> ---
+>  sound/soc/codecs/cs43130.c | 56 +++++++++++++++++++++++++++++++-------
+>  sound/soc/codecs/cs43130.h |  1 +
+>  2 files changed, 47 insertions(+), 10 deletions(-)
 
+Why?  This isn't some obvious fix, you need to write a changelog
+motivating open coding interrupt handling if there's some reason for
+doing that.
+
+--jNsZootFS+OqjmoX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVXlngACgkQJNaLcl1U
+h9AIgAf/YwFU+24iTCyBD2p7T4hTxXe88GHpeNfoDy4xmZqQ93P5hdHXUVgC/dPC
+YyQ10xS2vXHlTdHUF61h7mI8sK7SQ19P+1bdNGEKc5JDok4qKxG8k9PxWlbS09n+
+uOGhfpKyH326+gLfbNn5PyDg8O5JG8w0rCDSq4xEaeR0Vw1eMmNB8Ub1TCUlNvtB
+sI6xGKkyi7gw8kqk8tQza69iPYJNXsIW4ar/oM6FjH3ZjzPhDS8ZKMEbJWGhtUda
+YsYIk47TfXUs0f+bZNRcmhYUnTJfdy8VgHQSrSKp9Lmb51q6q2sqhS+Ah3icNlJU
+uwTHiuhzkeufob+mFz0/IyIqoKcA+g==
+=qhs0
+-----END PGP SIGNATURE-----
+
+--jNsZootFS+OqjmoX--
