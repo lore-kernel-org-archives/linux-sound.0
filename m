@@ -2,52 +2,52 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2835FC072A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A56C47071
 	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 12:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbjKQMEX (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 07:04:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49202 "EHLO
+        id S230383AbjKQMEY (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 07:04:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbjKQMEU (ORCPT
+        with ESMTP id S230510AbjKQMEW (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 07:04:20 -0500
+        Fri, 17 Nov 2023 07:04:22 -0500
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B44EA5
-        for <linux-sound@vger.kernel.org>; Fri, 17 Nov 2023 04:04:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF60CE
+        for <linux-sound@vger.kernel.org>; Fri, 17 Nov 2023 04:04:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700222657; x=1731758657;
+  t=1700222659; x=1731758659;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2YYQR5ixxhTMKNWeou1HeGzKjXJ4T6/uurneYHpopNo=;
-  b=ao1MPYPM1HdFFNQb0NKVE9bpqK3zuRG0fQsWoNh3Pph2KxorLo9BY6Tp
-   rm+OsGsiEmlNR5ggVQ4lV4h/gpavcA5JjsG0apOKr35Z/cj60oM906NOL
-   AqtPNecoW021XH8dpiJFeUIH41efJlFxCBxPvSaucvwAYrcB35Kc4Z+47
-   41wlR3XCj4lvzuI6p/GmTKLkRq/2SUWxolr7dpux00mLKKFaD2kxp6GQm
-   YcYTf3ijVCn4pBemYhss6J7Xq0TfoOB+Mq6NmetbQOOmiaei3u7m664+J
-   IdczTnKyDpthuzpT0WBKAE5aFiQgY4Uv72C/YGw0GUnU+QhcIcUv+9HJu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="381675230"
+  bh=e/MRhjR0kzflry7uFf3SrUDC5vM1n+xeCA0SNUy3hoU=;
+  b=c6+EYHgjUlOFJxTT3Dt1l/WW4ww5AEBvkBfvraT2Zy00tncpw1N8CKAo
+   7rJWLyOal1UT+KUDyMp89b5JSFzDjiy4nBba4bCYTPXBSx6rMsObvTC5z
+   fPITkXZ+6AJUgDZD4z8lSA0du5o0plOorLAk74XoVrlpVV6yv5rQECEjC
+   rFgmjhSCTcu/izZFEuCJWINveo1qzvGEft683Ma/WyeevITk0MvyeWKIL
+   JRRcO1zo50BOQn8WRWGclxKSBOvGdFY2xoUx4NXy6eqDrojhP5OPi7m0V
+   6xY9S/ng1Hc1uy+BaVtBTM+9ocIc33rMh2dKNF7SbL9pvpme6QdzvPuXG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="381675240"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="381675230"
+   d="scan'208";a="381675240"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 04:04:16 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 04:04:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="883110178"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="883110183"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="883110178"
+   d="scan'208";a="883110183"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Nov 2023 04:04:14 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 17 Nov 2023 04:04:16 -0800
 From:   Cezary Rojewski <cezary.rojewski@intel.com>
 To:     broonie@kernel.org, tiwai@suse.com, perex@perex.cz
 Cc:     alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
         amadeuszx.slawinski@linux.intel.com,
         pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
         Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v5 06/16] ALSA: hda/hdmi: Switch to new stream-format interface
-Date:   Fri, 17 Nov 2023 13:06:00 +0100
-Message-Id: <20231117120610.1755254-7-cezary.rojewski@intel.com>
+Subject: [PATCH v5 07/16] ALSA: hda/ca0132: Switch to new stream-format interface
+Date:   Fri, 17 Nov 2023 13:06:01 +0100
+Message-Id: <20231117120610.1755254-8-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231117120610.1755254-1-cezary.rojewski@intel.com>
 References: <20231117120610.1755254-1-cezary.rojewski@intel.com>
@@ -63,32 +63,23 @@ maximum one, use the new format calculation mechanism.
 Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/pci/hda/patch_hdmi.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/pci/hda/patch_ca0132.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 687b8b8fd7ac..dff2d7221982 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -1655,7 +1655,6 @@ static void hdmi_present_sense_via_verbs(struct hdmi_spec_per_pin *per_pin,
+diff --git a/sound/pci/hda/patch_ca0132.c b/sound/pci/hda/patch_ca0132.c
+index 748a3c40966e..aa312441604f 100644
+--- a/sound/pci/hda/patch_ca0132.c
++++ b/sound/pci/hda/patch_ca0132.c
+@@ -3022,8 +3022,7 @@ static int dma_convert_to_hda_format(struct hda_codec *codec,
+ {
+ 	unsigned int format_val;
  
- #define I915_SILENT_RATE		48000
- #define I915_SILENT_CHANNELS		2
--#define I915_SILENT_FORMAT		SNDRV_PCM_FORMAT_S16_LE
- #define I915_SILENT_FORMAT_BITS	16
- #define I915_SILENT_FMT_MASK		0xf
+-	format_val = snd_hdac_calc_stream_format(sample_rate,
+-				channels, SNDRV_PCM_FORMAT_S32_LE, 32, 0);
++	format_val = snd_hdac_stream_format(channels, 32, sample_rate);
  
-@@ -1668,8 +1667,8 @@ static void silent_stream_enable_i915(struct hda_codec *codec,
- 				 per_pin->dev_id, I915_SILENT_RATE);
- 
- 	/* trigger silent stream generation in hw */
--	format = snd_hdac_calc_stream_format(I915_SILENT_RATE, I915_SILENT_CHANNELS,
--					     I915_SILENT_FORMAT, I915_SILENT_FORMAT_BITS, 0);
-+	format = snd_hdac_stream_format(I915_SILENT_CHANNELS, I915_SILENT_FORMAT_BITS,
-+					I915_SILENT_RATE);
- 	snd_hda_codec_setup_stream(codec, per_pin->cvt_nid,
- 				   I915_SILENT_FMT_MASK, I915_SILENT_FMT_MASK, format);
- 	usleep_range(100, 200);
+ 	if (hda_format)
+ 		*hda_format = (unsigned short)format_val;
 -- 
 2.25.1
 
