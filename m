@@ -2,63 +2,92 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43EF8C197A0
-	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 14:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C03DC197A0
+	for <linux-sound@archiver.kernel.org>; Fri, 17 Nov 2023 15:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232432AbjKQO3G (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Fri, 17 Nov 2023 09:29:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
+        id S230513AbjKQPyJ (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Fri, 17 Nov 2023 10:54:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232335AbjKQO3G (ORCPT
+        with ESMTP id S230383AbjKQPyI (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Fri, 17 Nov 2023 09:29:06 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D854DB8;
-        Fri, 17 Nov 2023 06:29:02 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 704E7C433C9;
-        Fri, 17 Nov 2023 14:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700231342;
-        bh=KtNleCXbmP6oXopuazabM9x52Jwj6RVFAnlsBSL12JI=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=SKlHt9+CcOFZEWjrJ/KV7OWbiXcB0nQZmnLUTw51g2rsWfvZkGpDisMT4FP2vp1qV
-         4fzYlVQzIF2ABKTAbUX7jj0y+lD7fZDY3jn48eN00rK/tB8owDVP4bPipZEycNpNB3
-         uCL8ywjrXP0BGGf2rV5Wks/Ib+O1vdv1oiUA7f4//zFLiR2wI1ZEDKoxO/ALUCyPA4
-         ZOL8h0OxD0esM8QuWgrK0S242ERuWxCPaPnE3Pmg8jI2BNQeYrjeWUpdX3VtctDDkD
-         5faZ1RRUjH9Bt3E/+H9XyTCXDQVapJDecFLz1M32BKmuiTKC5JbyknF43dEIpcHV+R
-         jaBJ/1W5T0qfg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5C7E8C4316B;
-        Fri, 17 Nov 2023 14:29:02 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.7-rc2
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87y1ewlq1g.wl-tiwai@suse.de>
-References: <87y1ewlq1g.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87y1ewlq1g.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc2
-X-PR-Tracked-Commit-Id: 5d639b60971f003d3a9b2b31f8ec73b0718b5d57
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: eb9a643c1739b732b90714131962bee76d279600
-Message-Id: <170023134236.28622.12659179728111166160.pr-tracker-bot@kernel.org>
-Date:   Fri, 17 Nov 2023 14:29:02 +0000
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+        Fri, 17 Nov 2023 10:54:08 -0500
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B988E;
+        Fri, 17 Nov 2023 07:54:05 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AHFqPD0014089;
+        Fri, 17 Nov 2023 09:53:56 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=PODMain02222019; bh=qcmoqM99WUT5mR4
+        4BmGtdcfqukhABXd6uBe07IyrQRE=; b=AGM0SlwusSlH9E1NPc0M7AEAgKk3qYB
+        qahD0GReg2zT48lm2KuZsCyD7G7xQzKSA1cSAg8/XFRmYqeuA7azrET+cMLkZVIS
+        mzYiIprojjDLKU9DSaqL81qPrtNA+m/klhJhSGRYxqXk/CCfIQf9+bEWgU6R4y9g
+        CxsW448ENb8IPH+clKPIq50qrnakhVtYTaMsJrsOBVbMfoccWNfMOlE1kSf7LMpt
+        rmlKaAQKPmTIhLhkZ7wm3D75Vf212FXN7eqq7abfc6+ev1OC5gZszlda47EPxmny
+        lCpQKnp+/PW2lvQkT7OJLFZNFECi3psy/h2rd5qxOGSKkaBs0Mp3rvA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ua7w2qp27-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Nov 2023 09:53:55 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 17 Nov
+ 2023 15:53:53 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Fri, 17 Nov 2023 15:53:53 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 9F8B1B12;
+        Fri, 17 Nov 2023 15:53:53 +0000 (UTC)
+Date:   Fri, 17 Nov 2023 15:53:53 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Maciej Strozek <mstrozek@opensource.cirrus.com>
+CC:     Mark Brown <broonie@kernel.org>,
+        James Schulman <james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        "Liam Girdwood" <lgirdwood@gmail.com>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/7] ASoC: cs43130: Fixes and improvements
+Message-ID: <20231117155353.GG32655@ediswmail.ad.cirrus.com>
+References: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: 0x5K93HMr0eactcOtCnesHZrrH9SZOeO
+X-Proofpoint-GUID: 0x5K93HMr0eactcOtCnesHZrrH9SZOeO
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-The pull request you sent on Fri, 17 Nov 2023 09:52:59 +0100:
+On Fri, Nov 17, 2023 at 02:13:37PM +0000, Maciej Strozek wrote:
+> This patchset aims to add minor fixes (first two patches) and
+> introduce general improvements to the driver (rest of the patches)
+> 
+> Maciej Strozek (7):
+>   ASoC: cs43130: Fix the position of const qualifier
+>   ASoC: cs43130: Fix incorrect frame delay configuration
+>   ASoC: cs43130: Allow configuration of bit clock and frame inversion
+>   ASoC: cs43130: Store device in private struct and use it more
+>     consistently
+>   ASoC: cs43130: Add handling of ACPI
+>   ASoC: cs43130: Allow driver to work without IRQ thread
+>   ASoC:cs43130: Add switch to control normal and alt hp inputs
+> 
+>  sound/soc/codecs/cs43130.c | 311 ++++++++++++++++++++++++-------------
+>  sound/soc/codecs/cs43130.h |   3 +
+>  2 files changed, 204 insertions(+), 110 deletions(-)
+> 
+> --
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc2
+Series looks good to me:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/eb9a643c1739b732b90714131962bee76d279600
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks,
+Charles
