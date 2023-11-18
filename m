@@ -2,62 +2,123 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9976DC2BB3F
-	for <linux-sound@archiver.kernel.org>; Sat, 18 Nov 2023 15:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53397C5B562
+	for <linux-sound@archiver.kernel.org>; Sat, 18 Nov 2023 16:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbjKRPym (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Sat, 18 Nov 2023 10:54:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52336 "EHLO
+        id S230092AbjKRQTG (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Sat, 18 Nov 2023 11:19:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbjKRPxh (ORCPT
+        with ESMTP id S229612AbjKRQTF (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Sat, 18 Nov 2023 10:53:37 -0500
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC5E1FF9;
-        Sat, 18 Nov 2023 07:51:54 -0800 (PST)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5c516f92759so32039337b3.2;
-        Sat, 18 Nov 2023 07:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700322713; x=1700927513; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pqvvn3jC6Vz8bzOhTQHPcM8ndCOZ4pDWuw3ZxWJvphM=;
-        b=cSoJGbdUB2e8+JfALFn1StMsw2Z57vXAv8W3lpRnBCvQ3pT50egm1YoxTOYi1LLcD8
-         hwrD+VPnOFkk7hSSAmOVhPTdwGqPWIPZOVwiylyErS6WcXRS8BzSvRqAdb4b6IGFdhVt
-         3Eoqurbr05XjloHaIaCCZztvsVWSMiBPzYu/zPRC5ZEaqS65HGekyB4/11SFgyL7oGqF
-         4spoIaXqnL2oOQzd1zO3vyO9aeC8XF5Zl5gYjUcF4Qv/bntzsg/yg2L3eSEP7lnQVI3g
-         okmeVAJDLcCljZCE2jpY6icyq0x4G+l2O5KDcgxBgd2JUydy1igv+nx57E8ZWsmSoYAe
-         HlTg==
+        Sat, 18 Nov 2023 11:19:05 -0500
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620C9C0;
+        Sat, 18 Nov 2023 08:19:01 -0800 (PST)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6cb66fbc63dso146030b3a.0;
+        Sat, 18 Nov 2023 08:19:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700322713; x=1700927513;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Pqvvn3jC6Vz8bzOhTQHPcM8ndCOZ4pDWuw3ZxWJvphM=;
-        b=NccrJYZc/bVG7fZHBfGv6FaQQg4ay2NVnMzvgmU4IqC/3JlzOx5pvxvQefhzcwE3pg
-         GrqjxISDDLZidVYHGBsnnFLQQpdk6ezt6LT85dUcVGT238kmXf+N+up+yir+HKwA6kh8
-         ex759O+75POHSkZVn2tpi2wa2bIYX/zQ29CRlE7WgoWBnxdCdEb+EqHoZ7NqVhi3Xhk6
-         BMMHWonvgbb7TQRT4TOTOj0LBKAJU/gpUXBBq5c6vIcCT/pgtiPdC12yd/1ZJ8wmxeKb
-         m395yq98186MKMfU7TS5SMFEhA7h11kURS0ap5k195kHL9RAnBiRzZvAJqYrIPe/ME26
-         rQpA==
-X-Gm-Message-State: AOJu0YxDZXNP4f16SYMcts/+E8HL3Hv8zIyiWb4xFofejrJOlTeF2Jw8
-        M9zOGhlqbHCGO/bNVVkPzr02gveBsmrAByqI
-X-Google-Smtp-Source: AGHT+IHi1UfS8eoFXkfozWsLdq/Iqyn0m7FQM2MTep2E1EPNYtNXp8LEwhBmcZHJxn/bgTZr34eiJg==
-X-Received: by 2002:a81:f202:0:b0:5c9:9097:6427 with SMTP id i2-20020a81f202000000b005c990976427mr546580ywm.44.1700322713616;
-        Sat, 18 Nov 2023 07:51:53 -0800 (PST)
-Received: from localhost ([2601:344:8301:57f0:48a9:bd4c:868d:dc97])
-        by smtp.gmail.com with ESMTPSA id b65-20020a0dd944000000b005a8c392f498sm1167875ywe.82.2023.11.18.07.51.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 07:51:52 -0800 (PST)
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Daniel Mack <zonque@gmail.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        Kees Cook <keescook@chromium.org>, linux-sound@vger.kernel.org,
-        alsa-devel@alsa-project.org
+        d=1e100.net; s=20230601; t=1700324341; x=1700929141;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JpJ9j3Rgf+MmL1x+LnpZ5rIj3NB2ZwiexLJ0+/VPyNs=;
+        b=P6n9omzfO12+8okx3P3bDXbxiVhDTWKX4GGDeFE3W6UixUyNq4IxYXFm65lO/0p3up
+         fMQLJHMPMoJvoGchJN1cj1DTtwp9mJ6Cg4a6KVAPKkIwGsvZQYNshRez39deO5iu1DJE
+         Gj1cSzVdB39fedxcQ4h0bjxjnMXL5maLuciDf0uV2hWW0PFUUYuHHOW6x/sTU4ZzNgw3
+         WN+NmT6RDqx9M8Xmljx5MP/hYNIfqKsJ7REKFUfPk5tl+wSZnz6xcDqkp63SAhuZvm/r
+         VrBsDV/J9Dk0X51Ez5iPq4IgKl9kY/kqsGD7elYhc45thEM4A1nhRxOyrgz+nTMONzGG
+         XWhA==
+X-Gm-Message-State: AOJu0YyaUeMNukiAYy4UIP2R5t53tcvkprlBsRet8zdqVxCkgPQwQSdg
+        D818gJtCelE+SLuJk+O/hXgNu8K6KdnDAg==
+X-Google-Smtp-Source: AGHT+IF6DbzE+IGBVmgkkIXDBMasM05P7fXL7OHqGPwzqI5VVbby0wYg1pwoRaacJDugZHa97idotg==
+X-Received: by 2002:a05:6a20:4326:b0:187:e3a5:b35d with SMTP id h38-20020a056a20432600b00187e3a5b35dmr3138014pzk.13.1700324340672;
+        Sat, 18 Nov 2023 08:19:00 -0800 (PST)
+Received: from ?IPV6:2601:647:4d7e:54f3:667:4981:ffa1:7be1? ([2601:647:4d7e:54f3:667:4981:ffa1:7be1])
+        by smtp.gmail.com with ESMTPSA id b9-20020a056a000a8900b006c7c6ae3755sm3179469pfl.80.2023.11.18.08.18.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Nov 2023 08:19:00 -0800 (PST)
+Message-ID: <792fc3d8-6834-48f8-9737-f1531459d245@acm.org>
+Date:   Sat, 18 Nov 2023 08:18:46 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/34] biops: add atomig find_bit() operations
+Content-Language: en-US
+To:     Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Disseldorp <ddiss@suse.de>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Kalle Valo <kvalo@kernel.org>,
+        Karsten Graul <kgraul@linux.ibm.com>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Kees Cook <keescook@chromium.org>,
+        Leon Romanovsky <leon@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Simek <monstr@monstr.eu>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Rich Felker <dalias@libc.org>, Rob Herring <robh@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        alsa-devel@alsa-project.org, ath10k@lists.infradead.org,
+        dmaengine@vger.kernel.org, iommu@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-net-drivers@amd.com,
+        linux-pci@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        mpi3mr-linuxdrv.pdl@broadcom.com, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org
 Cc:     Jan Kara <jack@suse.cz>,
         Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
         Matthew Wilcox <willy@infradead.org>,
@@ -65,80 +126,23 @@ Cc:     Jan Kara <jack@suse.cz>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
         Alexey Klimov <klimov.linux@gmail.com>
-Subject: [PATCH 30/34] ALSA: use atomic find_bit() functions where applicable
-Date:   Sat, 18 Nov 2023 07:51:01 -0800
-Message-Id: <20231118155105.25678-31-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231118155105.25678-1-yury.norov@gmail.com>
 References: <20231118155105.25678-1-yury.norov@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20231118155105.25678-1-yury.norov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-ALSA code tests each bit in bitmaps in a for() loop. Switch it to
-dedicated atomic find_bit() API.
+On 11/18/23 07:50, Yury Norov wrote:
+> Add helpers around test_and_{set,clear}_bit() that allow to search for
+> clear or set bits and flip them atomically.
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- sound/pci/hda/hda_codec.c |  7 +++----
- sound/usb/caiaq/audio.c   | 13 +++++--------
- 2 files changed, 8 insertions(+), 12 deletions(-)
+There is a typo in the subject: shouldn't "atomig" be changed
+into "atomic"?
 
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 01718b1fc9a7..29254005f394 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -3275,10 +3275,9 @@ static int get_empty_pcm_device(struct hda_bus *bus, unsigned int type)
- 
- #ifdef CONFIG_SND_DYNAMIC_MINORS
- 	/* non-fixed slots starting from 10 */
--	for (i = 10; i < 32; i++) {
--		if (!test_and_set_bit(i, bus->pcm_dev_bits))
--			return i;
--	}
-+	i = find_and_set_next_bit(bus->pcm_dev_bits, 32, 10);
-+	if (i < 32)
-+		return i;
- #endif
- 
- 	dev_warn(bus->card->dev, "Too many %s devices\n",
-diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-index 4981753652a7..74dfcf32b439 100644
---- a/sound/usb/caiaq/audio.c
-+++ b/sound/usb/caiaq/audio.c
-@@ -610,7 +610,7 @@ static void read_completed(struct urb *urb)
- 	struct snd_usb_caiaq_cb_info *info = urb->context;
- 	struct snd_usb_caiaqdev *cdev;
- 	struct device *dev;
--	struct urb *out = NULL;
-+	struct urb *out;
- 	int i, frame, len, send_it = 0, outframe = 0;
- 	unsigned long flags;
- 	size_t offset = 0;
-@@ -625,17 +625,14 @@ static void read_completed(struct urb *urb)
- 		return;
- 
- 	/* find an unused output urb that is unused */
--	for (i = 0; i < N_URBS; i++)
--		if (test_and_set_bit(i, &cdev->outurb_active_mask) == 0) {
--			out = cdev->data_urbs_out[i];
--			break;
--		}
--
--	if (!out) {
-+	i = find_and_set_bit(&cdev->outurb_active_mask, N_URBS);
-+	if (i >= N_URBS) {
- 		dev_err(dev, "Unable to find an output urb to use\n");
- 		goto requeue;
- 	}
- 
-+	out = cdev->data_urbs_out[i];
-+
- 	/* read the recently received packet and send back one which has
- 	 * the same layout */
- 	for (frame = 0; frame < FRAMES_PER_URB; frame++) {
--- 
-2.39.2
+Thanks,
+
+Bart.
 
