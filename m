@@ -2,182 +2,115 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAD5C072A2
-	for <linux-sound@archiver.kernel.org>; Sun, 19 Nov 2023 13:51:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87111C072A2
+	for <linux-sound@archiver.kernel.org>; Sun, 19 Nov 2023 17:42:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbjKSNv0 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Sun, 19 Nov 2023 08:51:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38750 "EHLO
+        id S229575AbjKSRmH (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Sun, 19 Nov 2023 12:42:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjKSNv0 (ORCPT
+        with ESMTP id S229556AbjKSRmG (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Sun, 19 Nov 2023 08:51:26 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE40583;
-        Sun, 19 Nov 2023 05:51:22 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1cf57430104so2961295ad.1;
-        Sun, 19 Nov 2023 05:51:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700401882; x=1701006682; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BFaaFcM0s0AAPxjIW+xwio0LQYtoB+ElMC4cqj7h3OU=;
-        b=iJG5nFAmjSdrE84nVdT0yUnwzDSzl2gdZZt+gOJZH97sCcBO4wqbwNxLFnbuzN6I3T
-         XFFeVzxBbLMSq6OyP2VMrXDw9yQp81kvaM8oznhpX9c4unaIHru1SDt9hwAzrlDdRP1d
-         RCE5/Ji56wdD4kXEFB4rTUc76nLCHpYIHI2imN4L0t+f8N461VXk1OHwlZwtPQ+3zwuR
-         G6S9ofZ72r69bL9joUwVyzBBhdxFEXUVQYJYxYjDqM/oZ104R0WcWyxie0aMRl7fb9eq
-         XrpPObAiyxNM7FmwnKK8slOaJblUP1KM593cItucf7dN8+GFiN6oGwmca08tkiKCBG1V
-         3umg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700401882; x=1701006682;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BFaaFcM0s0AAPxjIW+xwio0LQYtoB+ElMC4cqj7h3OU=;
-        b=K6kfC0yH/L7ROhNJC49WAfx7XJ86g2dhOVzHDR64lrFfMYJHlDjV6CB2+iitJgMAta
-         HNgPGt4Q/X2NWcieC0fV7iKwR7eulxsfmDTgk0Mhhhk76q8NS+5hX4SMnMFV1uG8QcTv
-         gTEN8LfNSukRoFkoFyiqak4bPEYsC4Y+kJq4pA/kvTT1Ir4O6XNPLNDHDt8vyFHA0Jcs
-         ZhJec1H1X4pVEHgI9iU71NtN/TYkRd6zuyKI8PkkxpczNJwJajhwseTM1JutV4d5MTIX
-         r396vgsZJGS/m/CX/LbJ1zOYM7H/DEDklfZ20v+4twuA3GP2HtXu51gVOPkU/J6vMgQO
-         bwwg==
-X-Gm-Message-State: AOJu0YxXQ5Pv1lYRK/XN+OClgy4JigY2iZ58cGKv+9LroyhNkLHzcL2P
-        7bUIl3tVFEHR6XspUG25SMQ=
-X-Google-Smtp-Source: AGHT+IEKLUCj2Ws0Mij9vi9u00UGwYdfEvC3Ii6wJOCCe34iYBfOpfyXwjQK64/2RqGVrm/vmWgMSw==
-X-Received: by 2002:a17:902:c14c:b0:1cc:51b8:8100 with SMTP id 12-20020a170902c14c00b001cc51b88100mr3278733plj.7.1700401882073;
-        Sun, 19 Nov 2023 05:51:22 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id jd22-20020a170903261600b001c61901ed37sm4377515plb.191.2023.11.19.05.51.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 05:51:21 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-        id EE102101D92E3; Sun, 19 Nov 2023 20:51:19 +0700 (WIB)
-Date:   Sun, 19 Nov 2023 20:51:19 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Oliver Sieber <ollisieber@gmail.com>, Takashi Iwai <tiwai@suse.de>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Sound System <linux-sound@vger.kernel.org>,
-        Linux ALSA Development <alsa-devel@alsa-project.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: Fwd: acp3x: Missing product ID for Thinkpad T14s Gen2 AMD Ryzen
- 7 PRO 5850U
-Message-ID: <ZVoS13B2Br9U8mvu@archie.me>
-References: <8bd0e77f-720b-4804-bbd8-477bd7df938e@gmail.com>
- <251c1bea-8250-40dd-bdea-1cd739d1e77a@gmail.com>
- <a75ce6e7-5012-43d8-a222-dd2639c5969c@gmail.com>
- <78149e00-12b5-459b-8754-a17dd974916d@gmail.com>
- <87sf54jyjl.wl-tiwai@suse.de>
- <826bb4f4-c6ea-4c45-a0e0-5ca826f0cfe0@gmail.com>
+        Sun, 19 Nov 2023 12:42:06 -0500
+X-Greylist: delayed 395 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 19 Nov 2023 09:42:03 PST
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DF88F2
+        for <linux-sound@vger.kernel.org>; Sun, 19 Nov 2023 09:42:03 -0800 (PST)
+Received: by m.b4.vu (Postfix, from userid 1000)
+        id 3036E6144362; Mon, 20 Nov 2023 04:05:27 +1030 (ACDT)
+Date:   Mon, 20 Nov 2023 04:05:27 +1030
+From:   "Geoffrey D. Bennett" <g@b4.vu>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: [PATCH RFC v2] ALSA: scarlett2: Add ioctls for user-space access
+Message-ID: <ZVpHX33vfzdjpH0z@m.b4.vu>
+References: <ZSqehHhedJQY9h/1@m.b4.vu>
+ <76c1526d-78be-92d2-cf2b-148278394575@perex.cz>
+ <ZS0tajzKr68CZ5uA@m.b4.vu>
+ <123242ed-c343-dab8-fed1-9f5d2da44d7a@perex.cz>
+ <ZS1asqF0cXRUzBwb@m.b4.vu>
+ <87edhtn0r2.wl-tiwai@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="RgrZYw5NPeRGwo21"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <826bb4f4-c6ea-4c45-a0e0-5ca826f0cfe0@gmail.com>
+In-Reply-To: <87edhtn0r2.wl-tiwai@suse.de>
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
+Hi Jaroslav, Takashi,
 
---RgrZYw5NPeRGwo21
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I took your feedback onboard about not providing generic access to the
+scarlett2_usb() function from user-space.
 
-On Sun, Nov 19, 2023 at 09:54:32AM +0100, Oliver Sieber wrote:
-> Hi,
->=20
-> in the following I provide my proposed patch for the bug report on Bugzil=
-la
-> [1]. Let me quote from it:
-> > Hey,sound/soc/amd/renoir/rn-pci-acp3x.c has a hard-coded list of quirks=
-=2E It seems like some product IDs may be missing. In my case, I am using a=
- Lenovo Thinkpad t14s gen2 with an AMD Ryzen 7 PRO 5850U.
-> > My audio output is fine but my internal microphone cannot be found.
-> >=20
-> > Running `dmidecode` yields:
-> >=20
-> > Handle 0x000F, DMI type 1, 27 bytes
-> > System Information
-> > 	Manufacturer: LENOVO
-> > 	Product Name: 20XGS1KT02
-> > 	Version: ThinkPad T14s Gen 2a
-> >=20
-> > Could it be that one may have to add the product ID "20XGS1KT02" to the=
- hard-coded list of quirks in rn-pci-acp3x.c?
-> >=20
-> >=20
-> > It seems as there have been similar problems in the past, e.g.https://b=
-ugzilla.kernel.org/show_bug.cgi?id=3D216270.
->=20
-> My proposed diff looks as follows:
->=20
-> Subject: ASoC: AMD Renoir - add DMI entry for Lenovo ThinkPad T14s Gen 2
-> From: Oliver Sieber
-> The ThinkPad T14s Gen 2 laptop does not have the internal digital
-> microphone connected to the AMD's ACP bridge, but it's advertised
-> via BIOS. The internal microphone is connected to the HDA codec.
->=20
-> Use DMI to block the microphone PCM device for this platform.
->=20
-> Signed-off-by: Oliver Sieber <ollisieber@gmail.com>
-> ---
-> diff --git a/sound/soc/amd/renoir/rn-pci-acp3x.c
-> b/sound/soc/amd/renoir/rn-pci-acp3x.c
-> index b3812b70f5f9..754e24d55e6f 100644
-> --- a/sound/soc/amd/renoir/rn-pci-acp3x.c
-> +++ b/sound/soc/amd/renoir/rn-pci-acp3x.c
-> @@ -199,6 +199,13 @@ static const struct dmi_system_id rn_acp_quirk_table=
-[]
-> =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_EXAC=
-T_MATCH(DMI_BOARD_NAME, "20NLCTO1WW"),
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 }
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 /* Lenovo ThinkPad T14s Gen 2 */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 .matches =3D {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_EXACT_MATC=
-H(DMI_BOARD_VENDOR, "LENOVO"),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_EXACT_MATC=
-H(DMI_BOARD_NAME, "20XGS1KT02"),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 }
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {}
->=20
-> =C2=A0};
->=20
+After a few iterations, I've come up with this hwdep interface to
+support reset-to-factory-defaults, reset-to-factory-firmware, and
+firmware-update in a safe way:
 
-Hi Oliver,
+-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----
 
-Did you forget Takashi's suggestion to follow formal patch submission
-procedure [1]? Hint: It is suggested to use git-send-email(1) when
-sending patches, as it handles them as-is (e.g. no wordwrapping,
-tabs preserved).
+/* Get protocol version */
+#define SCARLETT2_IOCTL_PVERSION _IOR('S', 0x60, int)
 
-Thanks.
+/* Reboot */
+#define SCARLETT2_IOCTL_REBOOT _IO('S', 0x61)
 
-[1]: https://lore.kernel.org/alsa-devel/87sf54jyjl.wl-tiwai@suse.de/
+/* Select flash segment */
+#define SCARLETT2_SEGMENT_ID_SETTINGS 0
+#define SCARLETT2_SEGMENT_ID_FIRMWARE 1
+#define SCARLETT2_SEGMENT_ID_COUNT 2
 
---=20
-An old man doll... just what I always wanted! - Clara
+#define SCARLETT2_IOCTL_SELECT_FLASH_SEGMENT _IOW('S', 0x62, int)
 
---RgrZYw5NPeRGwo21
-Content-Type: application/pgp-signature; name="signature.asc"
+/* Erase selected flash segment */
+#define SCARLETT2_IOCTL_ERASE_FLASH_SEGMENT _IO('S', 0x63)
 
------BEGIN PGP SIGNATURE-----
+/* Get selected flash segment erase progress
+ * 1 through to num_blocks, or 255 for complete
+ */
+struct scarlett2_flash_segment_erase_progress {
+        unsigned char progress;
+        unsigned char num_blocks;
+};
+#define SCARLETT2_IOCTL_GET_ERASE_PROGRESS \
+        _IOR('S', 0x64, struct scarlett2_flash_segment_erase_progress)
 
-iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVoS1AAKCRD2uYlJVVFO
-oxEwAP9tVEhVvsolMp9atXWPaMw9tMx11FLXrcNpseXNiPTpWwD40zHKn4qSaSFA
-d+qO6fzkUeHigQdKkJrzBoLskjqsAg==
-=bWQV
------END PGP SIGNATURE-----
+-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----
 
---RgrZYw5NPeRGwo21--
+Does that look reasonable to you?
+
+Broadly, it's used like this:
+
+Reset to factory default configuration:
+
+- ioctl select_flash_segment SCARLETT2_SEGMENT_ID_SETTINGS
+- ioctl erase_flash_segment
+- ioctl get_erase_progress (optional)
+
+Erase firmware (reverts to factory firmware which is stored in a
+different flash segment, inaccessible from these ioctls):
+
+- ioctl select_flash_segment SCARLETT2_SEGMENT_ID_FIRMWARE
+- ioctl erase_flash_segment
+- ioctl get_erase_progress (optional)
+
+Upload new firmware:
+
+- write() <- a bunch of these, only permitted after the previous erase
+  step was completed
+
+On completion:
+
+- ioctl reboot
+
+To confirm that this interface is sufficient, I have implemented it in
+the scarlett2 driver and written a user-space utility which can
+perform all the above operations.
+
+I will clean up the implementation a bit and then submit for review;
+just wanted to share the interface first in case you have any comments
+at this point.
+
+Thanks,
+Geoffrey.
