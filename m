@@ -2,115 +2,81 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87111C072A2
-	for <linux-sound@archiver.kernel.org>; Sun, 19 Nov 2023 17:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D99C072A2
+	for <linux-sound@archiver.kernel.org>; Sun, 19 Nov 2023 18:26:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjKSRmH (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Sun, 19 Nov 2023 12:42:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
+        id S229642AbjKSS0y (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Sun, 19 Nov 2023 13:26:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjKSRmG (ORCPT
+        with ESMTP id S229508AbjKSS0x (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Sun, 19 Nov 2023 12:42:06 -0500
-X-Greylist: delayed 395 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 19 Nov 2023 09:42:03 PST
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DF88F2
-        for <linux-sound@vger.kernel.org>; Sun, 19 Nov 2023 09:42:03 -0800 (PST)
-Received: by m.b4.vu (Postfix, from userid 1000)
-        id 3036E6144362; Mon, 20 Nov 2023 04:05:27 +1030 (ACDT)
-Date:   Mon, 20 Nov 2023 04:05:27 +1030
-From:   "Geoffrey D. Bennett" <g@b4.vu>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH RFC v2] ALSA: scarlett2: Add ioctls for user-space access
-Message-ID: <ZVpHX33vfzdjpH0z@m.b4.vu>
-References: <ZSqehHhedJQY9h/1@m.b4.vu>
- <76c1526d-78be-92d2-cf2b-148278394575@perex.cz>
- <ZS0tajzKr68CZ5uA@m.b4.vu>
- <123242ed-c343-dab8-fed1-9f5d2da44d7a@perex.cz>
- <ZS1asqF0cXRUzBwb@m.b4.vu>
- <87edhtn0r2.wl-tiwai@suse.de>
+        Sun, 19 Nov 2023 13:26:53 -0500
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78780103
+        for <linux-sound@vger.kernel.org>; Sun, 19 Nov 2023 10:26:50 -0800 (PST)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id 4mO4rHH6TKXaI4mO4rjQGZ; Sun, 19 Nov 2023 19:19:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1700417958;
+        bh=v36kBeiXHBlulGsqm4t8mIM6WVjX9B0mFdYlDs6g1xw=;
+        h=From:To:Cc:Subject:Date;
+        b=fpRScPKMrqKeXhyz4MqvrhJjX0RmIUvFR0GXjoqehVAevah4egLamyLT9klwXEXNh
+         YchO1YhEoHBvQi2X5+LbfCKEkpZESWINA0hM2+e7vunj1qT513QKFJZt5Qrq9EpXFM
+         olernFTY6R99soCBz1fxdCJPjGFdJvI8VmR2ybdueCD6cESG0UhEKw0RyjgSzgzf7O
+         ceedL0Do0vtg7/Phlefjevbw7iW7ctphrG+KB1cEYmlLzGAmExaPxm3O/iW1bwWU3L
+         nwd/6WsY5PqGSrsUcGTxfHel8amSMeRxnYZ4FuepOWv6kLyR3E0d+Ly0xIAjxjWdyn
+         ASPHAaL0PMlYg==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 19 Nov 2023 19:19:18 +0100
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: sh: convert not to use dma_request_slave_channel()
+Date:   Sun, 19 Nov 2023 19:19:14 +0100
+Message-Id: <1a837f96f056fa3dcb02a77afa5892d40b354cb1.1700417934.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87edhtn0r2.wl-tiwai@suse.de>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Hi Jaroslav, Takashi,
+dma_request_slave_channel() is deprecated. dma_request_chan() should
+be used directly instead.
 
-I took your feedback onboard about not providing generic access to the
-scarlett2_usb() function from user-space.
+Switch to the preferred function and update the error handling accordingly.
 
-After a few iterations, I've come up with this hwdep interface to
-support reset-to-factory-defaults, reset-to-factory-firmware, and
-firmware-update in a safe way:
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+This patch is NOT compile tested. I've not been able to find a correct
+setting so that CONFIG_SERIAL_SH_SCI_DMA is set.
+---
+ sound/soc/sh/fsi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
------8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----
+diff --git a/sound/soc/sh/fsi.c b/sound/soc/sh/fsi.c
+index 2ef47aa2c778..84601ba43b7d 100644
+--- a/sound/soc/sh/fsi.c
++++ b/sound/soc/sh/fsi.c
+@@ -1379,7 +1379,9 @@ static int fsi_dma_probe(struct fsi_priv *fsi, struct fsi_stream *io, struct dev
+ 	io->chan = dma_request_channel(mask, shdma_chan_filter,
+ 				       (void *)io->dma_id);
+ #else
+-	io->chan = dma_request_slave_channel(dev, is_play ? "tx" : "rx");
++	io->chan = dma_request_chan(dev, is_play ? "tx" : "rx");
++	if (IS_ERR(io->chan))
++		io->chan = NULL;
+ #endif
+ 	if (io->chan) {
+ 		struct dma_slave_config cfg = {};
+-- 
+2.34.1
 
-/* Get protocol version */
-#define SCARLETT2_IOCTL_PVERSION _IOR('S', 0x60, int)
-
-/* Reboot */
-#define SCARLETT2_IOCTL_REBOOT _IO('S', 0x61)
-
-/* Select flash segment */
-#define SCARLETT2_SEGMENT_ID_SETTINGS 0
-#define SCARLETT2_SEGMENT_ID_FIRMWARE 1
-#define SCARLETT2_SEGMENT_ID_COUNT 2
-
-#define SCARLETT2_IOCTL_SELECT_FLASH_SEGMENT _IOW('S', 0x62, int)
-
-/* Erase selected flash segment */
-#define SCARLETT2_IOCTL_ERASE_FLASH_SEGMENT _IO('S', 0x63)
-
-/* Get selected flash segment erase progress
- * 1 through to num_blocks, or 255 for complete
- */
-struct scarlett2_flash_segment_erase_progress {
-        unsigned char progress;
-        unsigned char num_blocks;
-};
-#define SCARLETT2_IOCTL_GET_ERASE_PROGRESS \
-        _IOR('S', 0x64, struct scarlett2_flash_segment_erase_progress)
-
------8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----
-
-Does that look reasonable to you?
-
-Broadly, it's used like this:
-
-Reset to factory default configuration:
-
-- ioctl select_flash_segment SCARLETT2_SEGMENT_ID_SETTINGS
-- ioctl erase_flash_segment
-- ioctl get_erase_progress (optional)
-
-Erase firmware (reverts to factory firmware which is stored in a
-different flash segment, inaccessible from these ioctls):
-
-- ioctl select_flash_segment SCARLETT2_SEGMENT_ID_FIRMWARE
-- ioctl erase_flash_segment
-- ioctl get_erase_progress (optional)
-
-Upload new firmware:
-
-- write() <- a bunch of these, only permitted after the previous erase
-  step was completed
-
-On completion:
-
-- ioctl reboot
-
-To confirm that this interface is sufficient, I have implemented it in
-the scarlett2 driver and written a user-space utility which can
-perform all the above operations.
-
-I will clean up the implementation a bit and then submit for review;
-just wanted to share the interface first in case you have any comments
-at this point.
-
-Thanks,
-Geoffrey.
