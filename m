@@ -2,96 +2,194 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95564C197A0
-	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 09:55:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51768C54E76
+	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 10:43:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232538AbjKTJzh (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 20 Nov 2023 04:55:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41644 "EHLO
+        id S232715AbjKTKnH (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 20 Nov 2023 05:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232540AbjKTJzg (ORCPT
+        with ESMTP id S232744AbjKTKmn (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 20 Nov 2023 04:55:36 -0500
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6730E94;
-        Mon, 20 Nov 2023 01:55:32 -0800 (PST)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AK8GTrw015438;
-        Mon, 20 Nov 2023 03:55:24 -0600
+        Mon, 20 Nov 2023 05:42:43 -0500
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1829D9;
+        Mon, 20 Nov 2023 02:42:33 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AK6oXQc014560;
+        Mon, 20 Nov 2023 04:42:26 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=
-        PODMain02222019; bh=SNC1Z9jI3APw89gGPSbS88cfIAYgH29p/XTHlJAW08M=; b=
-        S6crIaUFkAQ5ivCRcq+808uBr7xvPjPMWVLaJjf2DTb09WLfSUIErN6lMr2i72ia
-        SkB8yUQHkY46izjbWxQbFuwc15Utj8b4kj/CQ+fnAY3deX9kLXUbpSsd8Pm4FREW
-        K1jRTi1rnJDm1TLjPw2ZkSGY8oG92E71OoR8ImBm/myzvREGGXZp1XxnwXyB0s5+
-        2TT/zTaelat6vbNeKe5Rr2EoPnTDvtRdF6MNnZFix5HR8FFry/oAQaLVVYfil1MQ
-        mxy4ZnCCSRkgITmHByk5F7BC++hpaRVuzos3EEk5TlFVJgb0Lu3L/0zIbFVkO5s/
-        yVt9nfE8yjU0nm2gv3kbgQ==
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding:content-type; s=PODMain02222019; bh=Q
+        nKDSoljUFXrzRR/u1NiJJkj1yGGpZS1WlDMjC/Kvsk=; b=BTJQ//Ak1jfYU35qu
+        JPOEtG+wP9BFBc2BKoVfv6c5jrvLIumuBvTUwWCi+sF2yfHurXrEEv0+7HQ49E69
+        8EEtLsYjR0ozlKBBMFu1X82IzvVx/bUhe1hiiaHPbvO0Hg9/a533TWJ1tguHT95X
+        d/gYp7mlbQh5BcW2ySIWoarmM5iJU78UyvC/wEHIbSOy7txtDn70iWt9okD5P+nV
+        Gay9Wsjs3Wu7XIFbEv7nKSO2idp4dBlH3Gk39zD0jAq0c2z+/u8bc2/YHOQUquiT
+        IJxFcS4cUKzRNq6tSCAjQnB0Pg3wm5zQnEAIev2IbmAY4ptkbkilyBY10MomVDP+
+        fQMsA==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uetjp9njg-1
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj29p3x-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Nov 2023 03:55:24 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+        Mon, 20 Nov 2023 04:42:25 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 20 Nov
- 2023 09:55:22 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Mon, 20 Nov 2023 09:55:22 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D423515B9;
-        Mon, 20 Nov 2023 09:55:22 +0000 (UTC)
-Date:   Mon, 20 Nov 2023 09:55:22 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Maciej Strozek <mstrozek@opensource.cirrus.com>
-CC:     Mark Brown <broonie@kernel.org>,
-        James Schulman <james.schulman@cirrus.com>,
+ 2023 10:42:23 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
+ Transport; Mon, 20 Nov 2023 10:42:23 +0000
+Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 978A6B12;
+        Mon, 20 Nov 2023 10:42:23 +0000 (UTC)
+From:   Maciej Strozek <mstrozek@opensource.cirrus.com>
+To:     Mark Brown <broonie@kernel.org>
+CC:     James Schulman <james.schulman@cirrus.com>,
         David Rhodes <david.rhodes@cirrus.com>,
-        "Liam Girdwood" <lgirdwood@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 6/7] ASoC: cs43130: Allow driver to work without IRQ
- thread
-Message-ID: <20231120095522.GH32655@ediswmail.ad.cirrus.com>
-References: <20231117141344.64320-1-mstrozek@opensource.cirrus.com>
- <20231117141344.64320-7-mstrozek@opensource.cirrus.com>
- <ZVeWfefrEQJIx0YL@finisterre.sirena.org.uk>
- <153531080cd3d36fea86263d393ef885533f6e44.camel@opensource.cirrus.com>
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>
+Subject: [PATCH v2 6/7] ASoC: cs43130: Allow driver to work without IRQ thread
+Date:   Mon, 20 Nov 2023 10:41:53 +0000
+Message-ID: <20231120104153.76248-1-mstrozek@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <153531080cd3d36fea86263d393ef885533f6e44.camel@opensource.cirrus.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: _zgPHYykADs4dUIfYkQQmip0MpvmDQSi
-X-Proofpoint-ORIG-GUID: _zgPHYykADs4dUIfYkQQmip0MpvmDQSi
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: jZqzVRSxffeY3nz0j56nbOsuMT_4BWL9
+X-Proofpoint-GUID: jZqzVRSxffeY3nz0j56nbOsuMT_4BWL9
 X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Mon, Nov 20, 2023 at 09:43:25AM +0000, Maciej Strozek wrote:
-> W dniu pią, 17.11.2023 o godzinie 16∶36 +0000, użytkownik Mark Brown
-> napisał:
-> > On Fri, Nov 17, 2023 at 02:13:43PM +0000, Maciej Strozek wrote:
-> > > Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> > > ---
-> > >  sound/soc/codecs/cs43130.c | 56 +++++++++++++++++++++++++++++++---
-> > > ----
-> > >  sound/soc/codecs/cs43130.h |  1 +
-> > >  2 files changed, 47 insertions(+), 10 deletions(-)
-> > 
-> > Why?  This isn't some obvious fix, you need to write a changelog
-> > motivating open coding interrupt handling if there's some reason for
-> > doing that.
-> 
-> This is to support systems without physical IRQ connection. The device
-> only requires the IRQ for a couple of internal delays, this polling
-> mechanism is a fallback when no IRQ is specified.
-> 
+This is to support systems without physical IRQ connection. The device
+only requires the IRQ for a couple of internal delays, this polling
+mechanism is a fallback when no IRQ is specified.
 
-Yeah pop that in the change log and resend the patch as a v2.
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+---
+V1 -> V2: Add changelog message
 
-Thanks,
-Charles
+ sound/soc/codecs/cs43130.c | 56 +++++++++++++++++++++++++++++++-------
+ sound/soc/codecs/cs43130.h |  1 +
+ 2 files changed, 47 insertions(+), 10 deletions(-)
+
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index fd39328579fb..1e7c32eedc7b 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -326,6 +326,43 @@ static int cs43130_set_pll(struct snd_soc_component *component, int pll_id, int
+ 	return ret;
+ }
+
++static int cs43130_wait_for_completion(struct cs43130_private *cs43130, struct completion *to_poll,
++					int time)
++{
++	int stickies, offset, flag;
++	int ret = 0;
++
++	if (cs43130->has_irq_line) {
++		ret = wait_for_completion_timeout(to_poll, msecs_to_jiffies(time));
++	} else {
++		if (to_poll == &cs43130->xtal_rdy) {
++			offset = 0;
++			flag = CS43130_XTAL_RDY_INT;
++		} else if (to_poll == &cs43130->pll_rdy) {
++			offset = 0;
++			flag = CS43130_PLL_RDY_INT;
++		} else if (to_poll == &cs43130->hpload_evt) {
++			offset = 3;
++			flag = CS43130_HPLOAD_NO_DC_INT | CS43130_HPLOAD_UNPLUG_INT |
++				CS43130_HPLOAD_OOR_INT | CS43130_HPLOAD_AC_INT |
++				CS43130_HPLOAD_DC_INT | CS43130_HPLOAD_ON_INT |
++				CS43130_HPLOAD_OFF_INT;
++		} else {
++			return 0;
++		}
++
++		ret = regmap_read_poll_timeout(cs43130->regmap, CS43130_INT_STATUS_1 + offset,
++					       stickies, (stickies & flag),
++					       1000, time * 1000);
++
++		/*
++		 * Return 0 for an timeout/error to be consistent with wait_for_completion_timeout
++		 */
++		ret = !ret;
++	}
++	return ret;
++}
++
+ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 				 enum cs43130_mclk_src_sel src)
+ {
+@@ -364,8 +401,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 					   CS43130_XTAL_RDY_INT_MASK, 0);
+ 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
+ 					   CS43130_PDN_XTAL_MASK, 0);
+-			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
+-							  msecs_to_jiffies(100));
++			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
+ 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
+ 					   CS43130_XTAL_RDY_INT_MASK,
+ 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
+@@ -400,8 +436,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 					   CS43130_XTAL_RDY_INT_MASK, 0);
+ 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
+ 					   CS43130_PDN_XTAL_MASK, 0);
+-			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
+-							  msecs_to_jiffies(100));
++			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
+ 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
+ 					   CS43130_XTAL_RDY_INT_MASK,
+ 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
+@@ -416,8 +451,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 				   CS43130_PLL_RDY_INT_MASK, 0);
+ 		regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
+ 				   CS43130_PDN_PLL_MASK, 0);
+-		ret = wait_for_completion_timeout(&cs43130->pll_rdy,
+-						  msecs_to_jiffies(100));
++		ret = cs43130_wait_for_completion(cs43130, &cs43130->pll_rdy, 100);
+ 		regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
+ 				   CS43130_PLL_RDY_INT_MASK,
+ 				   1 << CS43130_PLL_RDY_INT_SHIFT);
+@@ -2040,8 +2074,8 @@ static int cs43130_hpload_proc(struct cs43130_private *cs43130,
+ 	regmap_multi_reg_write(cs43130->regmap, seq,
+ 			       seq_size);
+
+-	ret = wait_for_completion_timeout(&cs43130->hpload_evt,
+-					  msecs_to_jiffies(1000));
++	ret = cs43130_wait_for_completion(cs43130, &cs43130->hpload_evt, 1000);
++
+ 	regmap_read(cs43130->regmap, CS43130_INT_MASK_4, &msk);
+ 	if (!ret) {
+ 		dev_err(cs43130->dev, "Timeout waiting for HPLOAD interrupt\n");
+@@ -2545,8 +2579,10 @@ static int cs43130_i2c_probe(struct i2c_client *client)
+ 					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
+ 					"cs43130", cs43130);
+ 	if (ret != 0) {
+-		dev_err(cs43130->dev, "Failed to request IRQ: %d\n", ret);
+-		goto err;
++		dev_dbg(cs43130->dev, "Failed to request IRQ: %d, will poll instead\n", ret);
++		cs43130->has_irq_line = 0;
++	} else {
++		cs43130->has_irq_line = 1;
+ 	}
+
+ 	cs43130->mclk_int_src = CS43130_MCLK_SRC_RCO;
+diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
+index d3f595bbd3ba..dbdb5b262f1b 100644
+--- a/sound/soc/codecs/cs43130.h
++++ b/sound/soc/codecs/cs43130.h
+@@ -508,6 +508,7 @@ struct	cs43130_private {
+ 	struct gpio_desc		*reset_gpio;
+ 	unsigned int			dev_id; /* codec device ID */
+ 	int				xtal_ibias;
++	bool				has_irq_line;
+
+ 	/* shared by both DAIs */
+ 	struct mutex			clk_mutex;
+--
+2.34.1
+
