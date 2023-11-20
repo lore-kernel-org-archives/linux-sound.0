@@ -2,101 +2,120 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2E8C197A0
-	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 08:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B498FC197A0
+	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 08:57:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232043AbjKTIS6 (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 20 Nov 2023 03:18:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47032 "EHLO
+        id S232128AbjKTI5h (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 20 Nov 2023 03:57:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbjKTIS5 (ORCPT
+        with ESMTP id S232138AbjKTI5h (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 20 Nov 2023 03:18:57 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF17B9;
-        Mon, 20 Nov 2023 00:18:53 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso549611566b.1;
-        Mon, 20 Nov 2023 00:18:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700468332; x=1701073132; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GAFgiTdwpGDvtNPEo9+dnVRad4u3rIMlxH/kmiggZYk=;
-        b=HUxMvAgJd++mue9ANixlYmInO8YdXDy9RYZynzrLoLn1gdq+lqEocE4Woz4TAd/5+2
-         RlwXIndH8qj1uAPoN63N3BbtppNDBdVzBWI3K4zV6decyqK/TbeT+6E05rtk6zs0sdwa
-         qbWC/7SJqozde2VDMhLHKJQhg3EYwA3G2RyYnDmtDRJDnSMMjubwbpXbEK/qT2RvjlZl
-         VDVrrglskMCJsfhLUwjGgi0+VPiArto2A5gS4ac1IWJmKFAZLekmw2ruZFPAS9Zxv55c
-         yClkPaStUVHtJvqIsSb35JmrZTxtPkgpqRQ74VF9BpPcBsCtkTCOyIgqpuI8UA6zyC5+
-         dm+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700468332; x=1701073132;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GAFgiTdwpGDvtNPEo9+dnVRad4u3rIMlxH/kmiggZYk=;
-        b=jg8fIm/sfm9Tgj8hRVbLfcZ9l2mXIAx1deAMjYUyg5QzFidgLrBGYT/jiT/vlq6jM/
-         8zU6cg6ePRXOvV0DHvX16DBzLSWyouzIq3vmN7dwOUeYaSfe6cc0E67OPXZwJWPJN5nB
-         828bTLauV488cjNeXu4ZEB7frpbVAqmMs2DNxN2GXfiOEzfypzeYLkrXuYO2XWqnQqPK
-         UuO1ltE0QS5lz52B74YbRE1Itvuwqg/MsVDJM7/qLIWPyhDfzYObTQoenRhKS1SsKZhd
-         dMxo7nGKkA63r5Ict+Wd9AexaPvI5GOdJs7mMWEsXDch7d5Cyoio3FDNG9bn7Gfoh2dB
-         Zu4A==
-X-Gm-Message-State: AOJu0Yze91gUMzQFrTj860Z/sBY1BLkYQc3BTQbthcUGClmUzN33iX1k
-        D/ZSO1kCr3PIh1jrmwik1/g=
-X-Google-Smtp-Source: AGHT+IGiIKcBWwRL/o09TJmoMPMNMyfT63u4veXE5630FRGEbdy6Jh0jHuro+96Puv48MGhGeKgRzQ==
-X-Received: by 2002:a17:906:5357:b0:9bf:30e8:5bf9 with SMTP id j23-20020a170906535700b009bf30e85bf9mr4603272ejo.4.1700468331949;
-        Mon, 20 Nov 2023 00:18:51 -0800 (PST)
-Received: from t14s.fritz.box (p200300d38f2bca00f021423dbbbc0b9b.dip0.t-ipconnect.de. [2003:d3:8f2b:ca00:f021:423d:bbbc:b9b])
-        by smtp.googlemail.com with ESMTPSA id k18-20020a1709065fd200b009ff8be60791sm355806ejv.210.2023.11.20.00.18.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 00:18:51 -0800 (PST)
-From:   Oliver Sieber <ollisieber@gmail.com>
-To:     bagasdotme@gmail.com
-Cc:     alsa-devel@alsa-project.org, broonie@kernel.org,
-        lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org, ollisieber@gmail.com, perex@perex.cz,
-        tiwai@suse.com, tiwai@suse.de
-Subject: [PATCH] Subject: ASoC: AMD Renoir - add DMI entry for Lenovo ThinkPad T14s Gen 2
-Date:   Mon, 20 Nov 2023 09:18:34 +0100
-Message-Id: <20231120081834.125555-1-ollisieber@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZVoS13B2Br9U8mvu@archie.me>
-References: <ZVoS13B2Br9U8mvu@archie.me>
+        Mon, 20 Nov 2023 03:57:37 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2FB0AA;
+        Mon, 20 Nov 2023 00:57:32 -0800 (PST)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D798B6603149;
+        Mon, 20 Nov 2023 08:57:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1700470651;
+        bh=d23ZT5zVaG2k3DicMJVOBp0FoX7BK2oj+2zL9rkLlcU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=jFG/4oQkTiPCuFeWdj+hKl+IkpmsojIFQH+cPvfEWyMlJLPEfzYgpC5vo3ZDDcbPj
+         O/ygRUdSfa+jCME81v7FE0srl3G9yeaK9m1nub4CTXF70ffpom3huQQvk1bFence5W
+         4+Gsk+5L/npS23XvSMwPXt6c8++JAVJ9JUnXoWrdeA0Zzd8LmfqtGKoDKapMfTJ2o9
+         yN147CWiV5TaVRcAlkzg0NjsLqUEbvMH6M+Qhu5acHZkXc0Xi10CCtqJ9GbZaftzjK
+         AxJGSyXO2Dfo9g+0ULn20qDO/J3Ax1Rt3TGn3NBeBltmuJa0u9ekcZXXxu1tOJls+4
+         5ZAGzDZSmIvnQ==
+Message-ID: <0b95d90d-5dd3-43da-a860-6a84019d097a@collabora.com>
+Date:   Mon, 20 Nov 2023 09:57:27 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: mediatek: mt8186: trivial: align code
+Content-Language: en-US
+To:     Eugen Hristev <eugen.hristev@collabora.com>,
+        linux-sound@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel@collabora.com
+References: <20231117160914.65341-1-eugen.hristev@collabora.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231117160914.65341-1-eugen.hristev@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-The ThinkPad T14s Gen 2 latop does not have the internal digital
-microphone connected to the AMD's ACP bridge, but it's advertised
-via BIOS. The internal microphone is connected to the HDA codec.
+Il 17/11/23 17:09, Eugen Hristev ha scritto:
+> No functionality change, squash some lines and align parameters for
+> function prototypes to 80 chars.
+> 
 
-Use DMI to block the microphone PCM device for this platform.
+Please use scripts/get_maintainer.pl to get the correct recipients list.
 
-Signed-off-by: Oliver Sieber <ollisieber@gmail.com>
----
- sound/soc/amd/renoir/rn-pci-acp3x.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+> ---
+>   sound/soc/mediatek/mt8186/mt8186-afe-control.c | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/sound/soc/mediatek/mt8186/mt8186-afe-control.c b/sound/soc/mediatek/mt8186/mt8186-afe-control.c
+> index 55edf6374578..dda648c1e8f8 100644
+> --- a/sound/soc/mediatek/mt8186/mt8186-afe-control.c
+> +++ b/sound/soc/mediatek/mt8186/mt8186-afe-control.c
+> @@ -181,7 +181,8 @@ static unsigned int pcm_rate_transform(struct device *dev, unsigned int rate)
+>   	return MTK_AFE_PCM_RATE_48K;
+>   }
+>   
+> -unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev, unsigned int rate)
+> +unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev,
+> +					       unsigned int rate)
 
-diff --git a/sound/soc/amd/renoir/rn-pci-acp3x.c b/sound/soc/amd/renoir/rn-pci-acp3x.c
-index b3812b70f5f9..754e24d55e6f 100644
---- a/sound/soc/amd/renoir/rn-pci-acp3x.c
-+++ b/sound/soc/amd/renoir/rn-pci-acp3x.c
-@@ -199,6 +199,13 @@ static const struct dmi_system_id rn_acp_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_BOARD_NAME, "20NLCTO1WW"),
- 		}
- 	},
-+	{
-+		/* Lenovo ThinkPad T14s Gen 2 */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "20XGS1KT02"),
-+		}
-+	},
- 	{}
- };
- 
--- 
-2.34.1
+That's not needed, 86 columns is ok.
+
+>   {
+>   	switch (rate) {
+>   	case 8000:
+> @@ -222,7 +223,8 @@ unsigned int mt8186_tdm_relatch_rate_transform(struct device *dev, unsigned int
+>   	return MTK_AFE_TDM_RELATCH_RATE_48K;
+>   }
+>   
+> -unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate, int aud_blk)
+> +unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate,
+> +				   int aud_blk)
+
+Same here, not needed.
+
+>   {
+>   	switch (aud_blk) {
+>   	case MT8186_DAI_PCM:
+> @@ -234,14 +236,13 @@ unsigned int mt8186_rate_transform(struct device *dev, unsigned int rate, int au
+>   	}
+>   }
+>   
+> -int mt8186_dai_set_priv(struct mtk_base_afe *afe, int id, int priv_size, const void *priv_data)
+> +int mt8186_dai_set_priv(struct mtk_base_afe *afe, int id, int priv_size,
+> +			const void *priv_data)
+
+ditto.
+
+>   {
+>   	struct mt8186_afe_private *afe_priv = afe->platform_priv;
+>   	void *temp_data;
+>   
+> -	temp_data = devm_kzalloc(afe->dev,
+> -				 priv_size,
+> -				 GFP_KERNEL);
+> +	temp_data = devm_kzalloc(afe->dev, priv_size, GFP_KERNEL);
+
+The only change I agree on is this one... but I don't know if it's even worth
+making a commit for just this...
+
+Regards,
+Angelo
 
