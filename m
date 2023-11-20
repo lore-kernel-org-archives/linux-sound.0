@@ -2,198 +2,118 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8918EC197A0
-	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 14:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBF2C197A0
+	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 15:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233118AbjKTORz (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 20 Nov 2023 09:17:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57432 "EHLO
+        id S233341AbjKTPSk (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 20 Nov 2023 10:18:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232759AbjKTORy (ORCPT
+        with ESMTP id S233705AbjKTOkp (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 20 Nov 2023 09:17:54 -0500
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAA7A0;
-        Mon, 20 Nov 2023 06:17:51 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AK7gLvc013978;
-        Mon, 20 Nov 2023 08:17:42 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding:content-type; s=PODMain02222019; bh=M
-        2IHF0tk12GZj3YAbzn33ZWKXZjVhQ4APZRmBFKGdYg=; b=bghR0rJbKddrRZML8
-        gCVGdA6NLA80PobxV0ymyZTAP67EFQsD/TCArc+SRq/joRpwU1+xJwCyAM7Y34Hz
-        GJX1qDI+EEz4noCncEU08iy1OLBJ15BpPVokcGftNWBsCmMvhgcxXGspQscNVs0+
-        9c6bhUSln52Gz1IefkOKG6lo1/foZIS8t6D8dn+8wkw1cc0NhTjY6B6MWxC++UKL
-        4n2jz/FmWeGOHrsqA3b9NAsBxvmnb4BfKYzurjvGymSeklP2kUw8cO5uDyjuLOJ6
-        iVsCfJJETlLs1FMny3lOb8xVOc3FLoZUyW5ycy6CfFlc9pNZsHb5+vjs6GSuIsbM
-        74iuQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj29vac-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Nov 2023 08:17:41 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 20 Nov
- 2023 14:17:39 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
- Transport; Mon, 20 Nov 2023 14:17:39 +0000
-Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 31C6115B6;
-        Mon, 20 Nov 2023 14:17:39 +0000 (UTC)
-From:   Maciej Strozek <mstrozek@opensource.cirrus.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     James Schulman <james.schulman@cirrus.com>,
+        Mon, 20 Nov 2023 09:40:45 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B468112;
+        Mon, 20 Nov 2023 06:40:42 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12022C433D9;
+        Mon, 20 Nov 2023 14:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1700491241;
+        bh=fKSFDTPaD6Lcq6nGxYGityzYPzRmBFK23grRo+/lSPA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=km2pYWqSd0Akzz7o5kzivimfr413uygrPREk+75MALZPGzevA//nGj1CPjLaS6tia
+         hT7CZk+8Db35Jek1PHuWWP+fJIVcNv+TGwkouyWdN4Fhefe87L34bXIASzl+kGdxQB
+         UcUCfP0d/yC14aBvmUII0eZzNNTIjEQfqToI2CZtu/oWinDfAzuv81ovNdsueXlkHb
+         df4yUkxLFulA6pDBumapL3Kls1r7Z/B2+5GEsYAFgrHhvqx3Uy6R2knCT8EZuxAUPj
+         I1vOsuW9eQ9Pydu1WOb/6y+yxLVF+F+4EYb2e3HgMhPSfpfx3NjRtcg8wnVkCjyIXp
+         WTfdDap97Q4RQ==
+Date:   Mon, 20 Nov 2023 14:40:36 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc:     James Schulman <james.schulman@cirrus.com>,
         David Rhodes <david.rhodes@cirrus.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v3] ASoC: cs43130: Allow driver to work without IRQ connection
-Date:   Mon, 20 Nov 2023 14:17:34 +0000
-Message-ID: <20231120141734.76679-1-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ASoC: cs43130: Allow driver to work without IRQ
+ connection
+Message-ID: <7248897a-0b59-4cdc-9915-d3297f2d6efe@sirena.org.uk>
+References: <20231120141734.76679-1-mstrozek@opensource.cirrus.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: n6W9nEu8gRDEmlx73Nu4MNDOqZCArYFE
-X-Proofpoint-GUID: n6W9nEu8gRDEmlx73Nu4MNDOqZCArYFE
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ngykg7d4U2ShnusP"
+Content-Disposition: inline
+In-Reply-To: <20231120141734.76679-1-mstrozek@opensource.cirrus.com>
+X-Cookie: <Manoj> I *like* the chicken
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-Add a polling mechanism that will keep the driver operational even in
-absence of physical IRQ connection. If IRQ line is detected, the driver
-will continue working as usual, in case of missing IRQ line it will
-fallback to the polling mechanism introduced in this change.
-This will support users which choose not to connect an IRQ line as it
-is not critical to part's operation.
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
-V2 -> V3: Amended changelog message and subject line
-V1 -> V2: Add changelog message
+--ngykg7d4U2ShnusP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
- sound/soc/codecs/cs43130.c | 56 +++++++++++++++++++++++++++++++-------
- sound/soc/codecs/cs43130.h |  1 +
- 2 files changed, 47 insertions(+), 10 deletions(-)
+On Mon, Nov 20, 2023 at 02:17:34PM +0000, Maciej Strozek wrote:
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index fd39328579fb..1e7c32eedc7b 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -326,6 +326,43 @@ static int cs43130_set_pll(struct snd_soc_component *component, int pll_id, int
- 	return ret;
- }
+> +	if (cs43130->has_irq_line) {
+> +		ret = wait_for_completion_timeout(to_poll, msecs_to_jiffies(time));
+> +	} else {
 
-+static int cs43130_wait_for_completion(struct cs43130_private *cs43130, struct completion *to_poll,
-+					int time)
-+{
-+	int stickies, offset, flag;
-+	int ret = 0;
-+
-+	if (cs43130->has_irq_line) {
-+		ret = wait_for_completion_timeout(to_poll, msecs_to_jiffies(time));
-+	} else {
-+		if (to_poll == &cs43130->xtal_rdy) {
-+			offset = 0;
-+			flag = CS43130_XTAL_RDY_INT;
-+		} else if (to_poll == &cs43130->pll_rdy) {
-+			offset = 0;
-+			flag = CS43130_PLL_RDY_INT;
-+		} else if (to_poll == &cs43130->hpload_evt) {
-+			offset = 3;
-+			flag = CS43130_HPLOAD_NO_DC_INT | CS43130_HPLOAD_UNPLUG_INT |
-+				CS43130_HPLOAD_OOR_INT | CS43130_HPLOAD_AC_INT |
-+				CS43130_HPLOAD_DC_INT | CS43130_HPLOAD_ON_INT |
-+				CS43130_HPLOAD_OFF_INT;
-+		} else {
-+			return 0;
-+		}
-+
-+		ret = regmap_read_poll_timeout(cs43130->regmap, CS43130_INT_STATUS_1 + offset,
-+					       stickies, (stickies & flag),
-+					       1000, time * 1000);
-+
-+		/*
-+		 * Return 0 for an timeout/error to be consistent with wait_for_completion_timeout
-+		 */
-+		ret = !ret;
-+	}
-+	return ret;
-+}
-+
- static int cs43130_change_clksrc(struct snd_soc_component *component,
- 				 enum cs43130_mclk_src_sel src)
- {
-@@ -364,8 +401,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
- 					   CS43130_XTAL_RDY_INT_MASK, 0);
- 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
- 					   CS43130_PDN_XTAL_MASK, 0);
--			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
--							  msecs_to_jiffies(100));
-+			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
- 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
- 					   CS43130_XTAL_RDY_INT_MASK,
- 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
-@@ -400,8 +436,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
- 					   CS43130_XTAL_RDY_INT_MASK, 0);
- 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
- 					   CS43130_PDN_XTAL_MASK, 0);
--			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
--							  msecs_to_jiffies(100));
-+			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
- 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
- 					   CS43130_XTAL_RDY_INT_MASK,
- 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
-@@ -416,8 +451,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
- 				   CS43130_PLL_RDY_INT_MASK, 0);
- 		regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
- 				   CS43130_PDN_PLL_MASK, 0);
--		ret = wait_for_completion_timeout(&cs43130->pll_rdy,
--						  msecs_to_jiffies(100));
-+		ret = cs43130_wait_for_completion(cs43130, &cs43130->pll_rdy, 100);
- 		regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
- 				   CS43130_PLL_RDY_INT_MASK,
- 				   1 << CS43130_PLL_RDY_INT_SHIFT);
-@@ -2040,8 +2074,8 @@ static int cs43130_hpload_proc(struct cs43130_private *cs43130,
- 	regmap_multi_reg_write(cs43130->regmap, seq,
- 			       seq_size);
+If you just put a return here then you don't need the else and can
+reduce the intentation level of the rest of the function, making it more
+legible.
 
--	ret = wait_for_completion_timeout(&cs43130->hpload_evt,
--					  msecs_to_jiffies(1000));
-+	ret = cs43130_wait_for_completion(cs43130, &cs43130->hpload_evt, 1000);
-+
- 	regmap_read(cs43130->regmap, CS43130_INT_MASK_4, &msk);
- 	if (!ret) {
- 		dev_err(cs43130->dev, "Timeout waiting for HPLOAD interrupt\n");
-@@ -2545,8 +2579,10 @@ static int cs43130_i2c_probe(struct i2c_client *client)
- 					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
- 					"cs43130", cs43130);
- 	if (ret != 0) {
--		dev_err(cs43130->dev, "Failed to request IRQ: %d\n", ret);
--		goto err;
-+		dev_dbg(cs43130->dev, "Failed to request IRQ: %d, will poll instead\n", ret);
-+		cs43130->has_irq_line = 0;
-+	} else {
-+		cs43130->has_irq_line = 1;
- 	}
+> +		if (to_poll == &cs43130->xtal_rdy) {
+> +			offset = 0;
+> +			flag = CS43130_XTAL_RDY_INT;
+> +		} else if (to_poll == &cs43130->pll_rdy) {
+> +			offset = 0;
+> +			flag = CS43130_PLL_RDY_INT;
+> +		} else if (to_poll == &cs43130->hpload_evt) {
+> +			offset = 3;
+> +			flag = CS43130_HPLOAD_NO_DC_INT | CS43130_HPLOAD_UNPLUG_INT |
+> +				CS43130_HPLOAD_OOR_INT | CS43130_HPLOAD_AC_INT |
+> +				CS43130_HPLOAD_DC_INT | CS43130_HPLOAD_ON_INT |
+> +				CS43130_HPLOAD_OFF_INT;
+> +		} else {
+> +			return 0;
+> +		}
 
- 	cs43130->mclk_int_src = CS43130_MCLK_SRC_RCO;
-diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
-index d3f595bbd3ba..dbdb5b262f1b 100644
---- a/sound/soc/codecs/cs43130.h
-+++ b/sound/soc/codecs/cs43130.h
-@@ -508,6 +508,7 @@ struct	cs43130_private {
- 	struct gpio_desc		*reset_gpio;
- 	unsigned int			dev_id; /* codec device ID */
- 	int				xtal_ibias;
-+	bool				has_irq_line;
+Is it a bug to call this function without to_poll set to something
+known?  This will just silently ignore it which seems wrong and is
+inconsitent with the handling in the interrupt case which will wait for
+the the completion to be signalled and report a timeout on error.
 
- 	/* shared by both DAIs */
- 	struct mutex			clk_mutex;
---
-2.34.1
+> @@ -2545,8 +2579,10 @@ static int cs43130_i2c_probe(struct i2c_client *client)
+>  					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
+>  					"cs43130", cs43130);
+>  	if (ret != 0) {
+> -		dev_err(cs43130->dev, "Failed to request IRQ: %d\n", ret);
+> -		goto err;
+> +		dev_dbg(cs43130->dev, "Failed to request IRQ: %d, will poll instead\n", ret);
+> +		cs43130->has_irq_line = 0;
+> +	} else {
+> +		cs43130->has_irq_line = 1;
 
+This will treat probe deferral as the interrupt not being supplied, and
+will squash even real errors silently - it should probably check for
+both the specific error the clock API returns when no clock is provided
+by the firmware and probe deferral and handle both specifically.
+
+--ngykg7d4U2ShnusP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbb+QACgkQJNaLcl1U
+h9ANtQf9HpUItxdNu8HZE7UjElxpRzAIFKCaS3TPUtFoTXoNzA+4OKON8YPVsS2q
+/Layk4N8U75c4dANNdQ2gj+PvJcsclCig5JowC3T4+DI5OnvuDwgsdRO3YXpSZUx
+nwEEJ9F5s1M+YcOpSqmyRK7DIzd7oAySK/omwlETb6xBZxjYuLLAmgIiUl6YUzMk
+2TGL2kz1Bue2lVfMoDAHUKm3ciJSjqEZf6yqcLDrBziUYKQHZwInggmGh2Wcn1JP
+IOEQWDZBGtTSw+m6X2Y48QnWRVxNiYtwRHamlAlEnXCUKEWwD11x5VWAViGmFhMa
+8KqsU+/V7+hpI4BkPQ+jhjhDw8VQQQ==
+=M67k
+-----END PGP SIGNATURE-----
+
+--ngykg7d4U2ShnusP--
