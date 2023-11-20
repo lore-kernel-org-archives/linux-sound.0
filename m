@@ -2,194 +2,114 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51768C54E76
-	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 10:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30040C197A0
+	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 11:37:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232715AbjKTKnH (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 20 Nov 2023 05:43:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
+        id S232714AbjKTLhj (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 20 Nov 2023 06:37:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232744AbjKTKmn (ORCPT
+        with ESMTP id S232582AbjKTLhi (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 20 Nov 2023 05:42:43 -0500
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1829D9;
-        Mon, 20 Nov 2023 02:42:33 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AK6oXQc014560;
-        Mon, 20 Nov 2023 04:42:26 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding:content-type; s=PODMain02222019; bh=Q
-        nKDSoljUFXrzRR/u1NiJJkj1yGGpZS1WlDMjC/Kvsk=; b=BTJQ//Ak1jfYU35qu
-        JPOEtG+wP9BFBc2BKoVfv6c5jrvLIumuBvTUwWCi+sF2yfHurXrEEv0+7HQ49E69
-        8EEtLsYjR0ozlKBBMFu1X82IzvVx/bUhe1hiiaHPbvO0Hg9/a533TWJ1tguHT95X
-        d/gYp7mlbQh5BcW2ySIWoarmM5iJU78UyvC/wEHIbSOy7txtDn70iWt9okD5P+nV
-        Gay9Wsjs3Wu7XIFbEv7nKSO2idp4dBlH3Gk39zD0jAq0c2z+/u8bc2/YHOQUquiT
-        IJxFcS4cUKzRNq6tSCAjQnB0Pg3wm5zQnEAIev2IbmAY4ptkbkilyBY10MomVDP+
-        fQMsA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj29p3x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Nov 2023 04:42:25 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 20 Nov
- 2023 10:42:23 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
- Transport; Mon, 20 Nov 2023 10:42:23 +0000
-Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 978A6B12;
-        Mon, 20 Nov 2023 10:42:23 +0000 (UTC)
-From:   Maciej Strozek <mstrozek@opensource.cirrus.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     James Schulman <james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        Mon, 20 Nov 2023 06:37:38 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415089C;
+        Mon, 20 Nov 2023 03:37:35 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id EADC721904;
+        Mon, 20 Nov 2023 11:37:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1700480253; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9XtkkkpmPUqOV5wGnu9VXko/EkG5FheGW/d/tOMb0r0=;
+        b=E7EQxnerNqx/xhapJYSCpse58nlaIvZ2aWhEJxdr1YdQ8Bln+apuPte6Ba6U7RV6BR9rVJ
+        fEMV62ErQiR9i0pDsMEUgs41jUmW+p7C+xYumHPPgpd8D/8rnb9ZNwGfdqtN1CWLg2CumG
+        PyELPZUF2BFsUfwN4mle1mnQ1Bhh93I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1700480253;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9XtkkkpmPUqOV5wGnu9VXko/EkG5FheGW/d/tOMb0r0=;
+        b=WqY1QIIKSNjauUCtaetBn8RuVnrBxvgBnBVQ2nKjGxScjrNFVTyqhyKNe/0ma/kfZfK+SU
+        AHD5/iskRcZhKnCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B051F13499;
+        Mon, 20 Nov 2023 11:37:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id NwNEKv1EW2UEPQAAMHmgww
+        (envelope-from <tiwai@suse.de>); Mon, 20 Nov 2023 11:37:33 +0000
+Date:   Mon, 20 Nov 2023 12:37:33 +0100
+Message-ID: <87zfz8psea.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Stefan Binding <sbinding@opensource.cirrus.com>
+Cc:     Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        "Takashi Iwai" <tiwai@suse.com>, <alsa-devel@alsa-project.org>,
         <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v2 6/7] ASoC: cs43130: Allow driver to work without IRQ thread
-Date:   Mon, 20 Nov 2023 10:41:53 +0000
-Message-ID: <20231120104153.76248-1-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: jZqzVRSxffeY3nz0j56nbOsuMT_4BWL9
-X-Proofpoint-GUID: jZqzVRSxffeY3nz0j56nbOsuMT_4BWL9
-X-Proofpoint-Spam-Reason: safe
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/2] ALSA: cs35l41: prevent old firmwares using unsupported commands
+In-Reply-To: <20231117163609.823627-1-sbinding@opensource.cirrus.com>
+References: <20231117163609.823627-1-sbinding@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+        none
+X-Spamd-Result: default: False [-0.88 / 50.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         NEURAL_HAM_LONG(-1.00)[-1.000];
+         MIME_GOOD(-0.10)[text/plain];
+         DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+         NEURAL_HAM_SHORT(-0.20)[-0.999];
+         RCPT_COUNT_SEVEN(0.00)[8];
+         MID_CONTAINS_FROM(1.00)[];
+         FUZZY_BLOCKED(0.00)[rspamd.com];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         RCVD_TLS_ALL(0.00)[];
+         BAYES_HAM(-0.58)[81.44%]
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-This is to support systems without physical IRQ connection. The device
-only requires the IRQ for a couple of internal delays, this polling
-mechanism is a fallback when no IRQ is specified.
+On Fri, 17 Nov 2023 17:36:07 +0100,
+Stefan Binding wrote:
+> 
+> Some systems use older firmware which does not support newer commands
+> which are used to enable external boost. For those systems, we can
+> workaround this by writing the registers directly.
+> 
+> We can use the firmware version, stored inside cs_dsp, to determine
+> whether or not the command is supported.
+> To achieve this, it requires a cleanup in the api, to pass the cs_dsp
+> struct into the function.
+> 
+> We can also remove the redundant boolean firmware_running from the HDA
+> driver, and use the equivalent state inside cs_dsp.
+> 
+> Changes since V1:
+> - Added fixes tag to all patches
+> - patches rebased after v6.7 release
+> 
+> Stefan Binding (2):
+>   ALSA: hda: cs35l41: Remove unnecessary boolean state variable
+>     firmware_running
+>   ALSA: cs35l41: Fix for old systems which do not support command
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
-V1 -> V2: Add changelog message
+Both patches applied now.  Thanks.
 
- sound/soc/codecs/cs43130.c | 56 +++++++++++++++++++++++++++++++-------
- sound/soc/codecs/cs43130.h |  1 +
- 2 files changed, 47 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index fd39328579fb..1e7c32eedc7b 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -326,6 +326,43 @@ static int cs43130_set_pll(struct snd_soc_component *component, int pll_id, int
- 	return ret;
- }
-
-+static int cs43130_wait_for_completion(struct cs43130_private *cs43130, struct completion *to_poll,
-+					int time)
-+{
-+	int stickies, offset, flag;
-+	int ret = 0;
-+
-+	if (cs43130->has_irq_line) {
-+		ret = wait_for_completion_timeout(to_poll, msecs_to_jiffies(time));
-+	} else {
-+		if (to_poll == &cs43130->xtal_rdy) {
-+			offset = 0;
-+			flag = CS43130_XTAL_RDY_INT;
-+		} else if (to_poll == &cs43130->pll_rdy) {
-+			offset = 0;
-+			flag = CS43130_PLL_RDY_INT;
-+		} else if (to_poll == &cs43130->hpload_evt) {
-+			offset = 3;
-+			flag = CS43130_HPLOAD_NO_DC_INT | CS43130_HPLOAD_UNPLUG_INT |
-+				CS43130_HPLOAD_OOR_INT | CS43130_HPLOAD_AC_INT |
-+				CS43130_HPLOAD_DC_INT | CS43130_HPLOAD_ON_INT |
-+				CS43130_HPLOAD_OFF_INT;
-+		} else {
-+			return 0;
-+		}
-+
-+		ret = regmap_read_poll_timeout(cs43130->regmap, CS43130_INT_STATUS_1 + offset,
-+					       stickies, (stickies & flag),
-+					       1000, time * 1000);
-+
-+		/*
-+		 * Return 0 for an timeout/error to be consistent with wait_for_completion_timeout
-+		 */
-+		ret = !ret;
-+	}
-+	return ret;
-+}
-+
- static int cs43130_change_clksrc(struct snd_soc_component *component,
- 				 enum cs43130_mclk_src_sel src)
- {
-@@ -364,8 +401,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
- 					   CS43130_XTAL_RDY_INT_MASK, 0);
- 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
- 					   CS43130_PDN_XTAL_MASK, 0);
--			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
--							  msecs_to_jiffies(100));
-+			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
- 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
- 					   CS43130_XTAL_RDY_INT_MASK,
- 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
-@@ -400,8 +436,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
- 					   CS43130_XTAL_RDY_INT_MASK, 0);
- 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
- 					   CS43130_PDN_XTAL_MASK, 0);
--			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
--							  msecs_to_jiffies(100));
-+			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
- 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
- 					   CS43130_XTAL_RDY_INT_MASK,
- 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
-@@ -416,8 +451,7 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
- 				   CS43130_PLL_RDY_INT_MASK, 0);
- 		regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
- 				   CS43130_PDN_PLL_MASK, 0);
--		ret = wait_for_completion_timeout(&cs43130->pll_rdy,
--						  msecs_to_jiffies(100));
-+		ret = cs43130_wait_for_completion(cs43130, &cs43130->pll_rdy, 100);
- 		regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
- 				   CS43130_PLL_RDY_INT_MASK,
- 				   1 << CS43130_PLL_RDY_INT_SHIFT);
-@@ -2040,8 +2074,8 @@ static int cs43130_hpload_proc(struct cs43130_private *cs43130,
- 	regmap_multi_reg_write(cs43130->regmap, seq,
- 			       seq_size);
-
--	ret = wait_for_completion_timeout(&cs43130->hpload_evt,
--					  msecs_to_jiffies(1000));
-+	ret = cs43130_wait_for_completion(cs43130, &cs43130->hpload_evt, 1000);
-+
- 	regmap_read(cs43130->regmap, CS43130_INT_MASK_4, &msk);
- 	if (!ret) {
- 		dev_err(cs43130->dev, "Timeout waiting for HPLOAD interrupt\n");
-@@ -2545,8 +2579,10 @@ static int cs43130_i2c_probe(struct i2c_client *client)
- 					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
- 					"cs43130", cs43130);
- 	if (ret != 0) {
--		dev_err(cs43130->dev, "Failed to request IRQ: %d\n", ret);
--		goto err;
-+		dev_dbg(cs43130->dev, "Failed to request IRQ: %d, will poll instead\n", ret);
-+		cs43130->has_irq_line = 0;
-+	} else {
-+		cs43130->has_irq_line = 1;
- 	}
-
- 	cs43130->mclk_int_src = CS43130_MCLK_SRC_RCO;
-diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
-index d3f595bbd3ba..dbdb5b262f1b 100644
---- a/sound/soc/codecs/cs43130.h
-+++ b/sound/soc/codecs/cs43130.h
-@@ -508,6 +508,7 @@ struct	cs43130_private {
- 	struct gpio_desc		*reset_gpio;
- 	unsigned int			dev_id; /* codec device ID */
- 	int				xtal_ibias;
-+	bool				has_irq_line;
-
- 	/* shared by both DAIs */
- 	struct mutex			clk_mutex;
---
-2.34.1
-
+Takashi
