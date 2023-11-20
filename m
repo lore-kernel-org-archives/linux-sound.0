@@ -2,102 +2,92 @@ Return-Path: <linux-sound-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D49EC197A0
-	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 16:16:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5ED4C197A0
+	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 16:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233956AbjKTQRA (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 20 Nov 2023 11:17:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38360 "EHLO
+        id S231486AbjKTQTT (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
+        Mon, 20 Nov 2023 11:19:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbjKTQQv (ORCPT
+        with ESMTP id S232176AbjKTQTT (ORCPT
         <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 20 Nov 2023 11:16:51 -0500
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ABBD10C;
-        Mon, 20 Nov 2023 08:16:48 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AK6oXeG014560;
-        Mon, 20 Nov 2023 10:16:40 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=
-        PODMain02222019; bh=Ywj1kdPjKsuou2fy1TtXc2Xqs1GoaBvw35slxNV/7EU=; b=
-        I0W+9Ho3GB8GYvDBtlhm2uf1mZEPslXeitaQMajmsf12ZhhLVOpVQUHGBrJupnJp
-        Dz2oWe61n9xMvfXJgupn5XGhizv14uUkV6mXyz5GSJ/fg3NLIxmBi0V8UYS6Ychp
-        R6iF3xeMArWUgFMJK76c49zRKWe80FJLl6igniopbKC6FbGNTscgcbQvUqEojx9o
-        I60+yu+5fZwSc2ecVz1fA34acwQ0Rvs+fhuK0ozUTIODJVQl7RnFDkN0x1Sb+QhX
-        7BvzroAn+AKFyRnnBA6VtcrptqcrG48m3MJ7pP2rN3TwHM1+A8ej7R+p0uSQlgZv
-        hvJ//3d1Lo4LcB+zD8VGZA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj2a1e2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Nov 2023 10:16:40 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 20 Nov
- 2023 16:16:38 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Mon, 20 Nov 2023 16:16:38 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 31900357F;
-        Mon, 20 Nov 2023 16:16:38 +0000 (UTC)
-Date:   Mon, 20 Nov 2023 16:16:38 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Mon, 20 Nov 2023 11:19:19 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC63ED;
+        Mon, 20 Nov 2023 08:19:14 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A59DC433C7;
+        Mon, 20 Nov 2023 16:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1700497154;
+        bh=zPI+e21nyYjzMEzKo0SN9jHwcF4lz+sz54brvdC2b8U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qVfwlp5SdtqhwP0I976PJXdYckjEzGyjN+RE3ELyFK7teO6jAbhxVTrCooKQB9nng
+         zCfdh+UNzp9UCbPlQY9B/BCMD+iD9ioAll3bUx6eMkBbImbnJBwA84uOMZwzUox+Be
+         WZ+Ah2o2yJAc5A+WiBCz2abU+qU/N3HEPgh3c2NVY0Z7gNnxVTN8I0n4Z0HU4oRQ8+
+         zcOK6BnRK9ERuCnol1itwwR4wKHne7OGHiIvuNZn2bTCuITKekA8fLKlMRLRniMSGQ
+         Aud55stw529Z91f2S4F2Qai/Ss8MkHxxETyz69isFfiXRx0F7uH/xIYDTKcmcth/1j
+         Mz2x3yEeSc72Q==
+Date:   Mon, 20 Nov 2023 16:19:09 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc:     Maciej Strozek <mstrozek@opensource.cirrus.com>,
         James Schulman <james.schulman@cirrus.com>,
         David Rhodes <david.rhodes@cirrus.com>,
-        "Liam Girdwood" <lgirdwood@gmail.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+        Liam Girdwood <lgirdwood@gmail.com>,
+        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3] ASoC: cs43130: Allow driver to work without IRQ
  connection
-Message-ID: <20231120161638.GJ32655@ediswmail.ad.cirrus.com>
+Message-ID: <d13f5857-f386-46b0-9bdd-d832b35617c0@sirena.org.uk>
 References: <20231120141734.76679-1-mstrozek@opensource.cirrus.com>
  <7248897a-0b59-4cdc-9915-d3297f2d6efe@sirena.org.uk>
  <261e118d-529b-0ce0-5524-d24d767fa92f@opensource.cirrus.com>
  <c031657a-a1ec-44eb-8885-afee68d7523b@sirena.org.uk>
+ <20231120161638.GJ32655@ediswmail.ad.cirrus.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rzS+1eaHwgk3+pb4"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c031657a-a1ec-44eb-8885-afee68d7523b@sirena.org.uk>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: o5eMkHLJNbnn67w0gTWh6TXQS7nIHgxj
-X-Proofpoint-GUID: o5eMkHLJNbnn67w0gTWh6TXQS7nIHgxj
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20231120161638.GJ32655@ediswmail.ad.cirrus.com>
+X-Cookie: <Manoj> I *like* the chicken
 Precedence: bulk
 List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 
-On Mon, Nov 20, 2023 at 03:54:14PM +0000, Mark Brown wrote:
-> On Mon, Nov 20, 2023 at 03:46:26PM +0000, Maciej Strozek wrote:
-> > W dniu 20/11/2023 o 14:40, Mark Brown pisze:
-> 
-> > > > +		} else {
-> > > > +			return 0;
-> > > > +		}
-> 
-> > > Is it a bug to call this function without to_poll set to something
-> > > known?  This will just silently ignore it which seems wrong and is
-> > > inconsitent with the handling in the interrupt case which will wait for
-> > > the the completion to be signalled and report a timeout on error.
-> 
-> > In interrupt case 0 means timeout (and calling function should expect 0 as
-> > error/timeout), so the only inconsistency I see is in not waiting before
-> > returning a timeout, but that would be needlessly wasting time?
-> > Do you think adding a debug print or a comment would help here?
-> 
-> It seems like a clear code bug if this is ever called with an unknown
-> completion, I'd expect a WARN_ON_ONCE() there.  The lack of a delay is
-> potentially going to affect how any error handling works which doesn't
-> feel ideal though the users look fine right now.
 
-I guess perhaps another option might be to not stick so strictly
-to the wait_for_completion_timeout API. This function could
-return an -EINVAL here and a -ETIMEDOUT for a timeout then the
-callers could be updated accordingly.
+--rzS+1eaHwgk3+pb4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-Charles
+On Mon, Nov 20, 2023 at 04:16:38PM +0000, Charles Keepax wrote:
+> On Mon, Nov 20, 2023 at 03:54:14PM +0000, Mark Brown wrote:
+
+> > It seems like a clear code bug if this is ever called with an unknown
+> > completion, I'd expect a WARN_ON_ONCE() there.  The lack of a delay is
+> > potentially going to affect how any error handling works which doesn't
+> > feel ideal though the users look fine right now.
+
+> I guess perhaps another option might be to not stick so strictly
+> to the wait_for_completion_timeout API. This function could
+> return an -EINVAL here and a -ETIMEDOUT for a timeout then the
+> callers could be updated accordingly.
+
+Yes, that'd help with clarity in terms of the interface - the completion
+API is a bit non-standard here.
+
+--rzS+1eaHwgk3+pb4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbhvwACgkQJNaLcl1U
+h9DTugf/Xo+maNejN5Jyb9v31+Y+fHdHGg1J8zN/OqLLyg4DRlqQvEHLQ0Z4gc2O
+bFjezKAU1O/mblEtNuyzjXwdnSIsDlEs0eeISe+iaHEJo9OLpvObin3ChBrVbT4o
+lmFIYeP5eWNcNlAKZd9y+tr+S9puRpVPZASSH0/QUOtfQYpO5vmlNZyynqqSUhdg
+NKi2XzdLK3xLKDM55bP2RTS4TDhOe4O5VJWdVRDu59m+6Und1K1rIubf0GRaIpHQ
+h9SycOlh0X2BRRBBQEqoCgE2R/vWBS9NhCban4yRN2ZOfdlfAqsEFvEWJ5utLkpR
+yAEkAerxrkLam35ISNijLA4euRO1Uw==
+=Qcqi
+-----END PGP SIGNATURE-----
+
+--rzS+1eaHwgk3+pb4--
