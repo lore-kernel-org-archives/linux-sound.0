@@ -1,260 +1,75 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60229C12E;
+	Tue, 21 Nov 2023 18:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kGIlfsuW"
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7ED2197
-	for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 09:48:40 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so5544156b3a.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 09:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700588920; x=1701193720; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EAK/ItuSDRPVMNR15AwNhdUvFP+x071LcAQ3w3yTJs0=;
-        b=kGIlfsuWV9pc67/zTpkfc8YdnXt2hAE3qr+ewTild/gLqpQ9CS9/PsmFolWYr0Re20
-         baGlZQTup9TPCYqBz2blkdq7pSK2JrFq6643iRt+jfyw1R/jU798ExGNdjQXWkJtUOc+
-         qJnOczBjgR6QdFJFMGCdoA+BEVkKXTRoWaMW/G4wWJimH1PmmJllb4EBPaJ4HdT/rB3w
-         feCv3oNiWOGIeuLqszBBQ/1EzYEuPo6unTnYDCBMkMCP5apxWosN8AjWCGqNfRhObimy
-         uOPX0fJ8KpyF0HfQ+M4Ub5D875vEt23/jIXPzBu9mL0he8lpXtR+EGB8ZiIM5FrlHbli
-         Pprw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700588920; x=1701193720;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EAK/ItuSDRPVMNR15AwNhdUvFP+x071LcAQ3w3yTJs0=;
-        b=hTKhj8uuasZ1iLyZZTl9xwzBk7Udj40pjhy5uB4dzYMqXKxajAZOEm07susKq0kuDP
-         gpbLQZkOfUw1gs8d3z9lzPpz3UVwN/3eObGLETwt0l3OFeZ+tuFkHCw3Pyi21SGZCgc9
-         8VWmKOOYA5/gVXbNCN3mTk2VsBah1xZ8fWkFJRrSFZxoKPIQF5xaJNx95RoM3maLL9Pp
-         /chnqjQP2pTgFC1CHTsTjXcxrSaUwsTdwp+CAjrFCHleTGHo7U6VxPd3FwYK0QniFh65
-         moyXVmuIfwyZwdDULXxGEQa4UV3yOobejagOBuu680qRArTqg6Ie57hJtlIraY80YPXa
-         YafA==
-X-Gm-Message-State: AOJu0Yy+8xk+Rb+GzlSFOhD7cX8i4EH2rvCp6slmzZAFcBqMmGHY7cbx
-	a2w1Ex6Apm++PU8ifcJdSgai/aOF2NuFmltZxJS0Jg==
-X-Google-Smtp-Source: AGHT+IGsVYAziCjXoCBHiftycTLKlFRj+F3xZDSfXKxIguYqxWX7xqT/er/I16AqY0h4UFWzZ5qHqodRZyjJQpRXSA8=
-X-Received: by 2002:a05:6a20:4306:b0:187:5be4:67e2 with SMTP id
- h6-20020a056a20430600b001875be467e2mr16406256pzk.53.1700588920073; Tue, 21
- Nov 2023 09:48:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCGGh0aD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E70BC433D9;
+	Tue, 21 Nov 2023 18:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700592356;
+	bh=9WC8aqJ6oZ32SlXJ7faib65Qf55EOmQoT+BGw8wVCVY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=kCGGh0aDTr4yCXL3F6PhpNEEg8N3gvA9MiPxP+X+ZS97UEM3YOKUZIiIdbWr/kMKC
+	 pBjJcTPjI3C+mWnPCTvko9Sc525p1YixKgGHn6wqqkCJ6fH6SmVhfWRqmrBLV459Pr
+	 7cqiZXGEbwZXD9Vw1Uzusklfdq261Nhhd7LxYwW3Lr4eWgmhYWO9zXPjGIHR/awWMf
+	 ZDumBxi+JUHERekmp4R+etCrSCoBxiIGDidHCjI2smA9UueC70vq+ZJobMWcOaG6vL
+	 4aoYv5i2RVccARukINsuNDhig3mu1CygEovgHNcBnjGxicaP3BO6ViFCWRA0nUcKZV
+	 E3RHJxW9Tku3w==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
+References: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
+Message-Id: <170059235481.1901021.9703531954255937779.b4-ty@kernel.org>
+Date: Tue, 21 Nov 2023 18:45:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org> <20231108104343.24192-17-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20231108104343.24192-17-krzysztof.kozlowski@linaro.org>
-From: Sam Protsenko <semen.protsenko@linaro.org>
-Date: Tue, 21 Nov 2023 11:48:29 -0600
-Message-ID: <CAPLW+4nkrMwc9GiQyn7ojaPz_50NQ3vAcMt9+tOzpHfq7G7+Tg@mail.gmail.com>
-Subject: Re: [PATCH 16/17] arm64: dts: exynos850: add specific compatibles to
- several blocks
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaehoon Chung <jh80.chung@samsung.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-On Wed, Nov 8, 2023 at 4:44=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Exynos850 reuses several devices from older designs, thus historically
-> we kept the old (block's) compatible only.  This works fine and there is
-> no bug here, however guidelines expressed in
-> Documentation/devicetree/bindings/writing-bindings.rst state that:
-> 1. Compatibles should be specific.
-> 2. We should add new compatibles in case of bugs or features.
->
-> Add compatibles specific to Exynos850 in front of all old-SoC-like
-> compatibles.  This will also help reviews of new code using existing
-> DTS as template.  No functional impact on Linux drivers behavior.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+On Tue, 21 Nov 2023 14:07:51 +0200, Cristian Ciocaltea wrote:
+> The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
+> argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
+> SND_SOC_NOPM definition.
+> 
+> 
 
-Reviewed-by: Sam Protsenko <semen.protsenko@linaro.org>
+Applied to
 
->  arch/arm64/boot/dts/exynos/exynos850.dtsi | 34 +++++++++++++----------
->  1 file changed, 20 insertions(+), 14 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/exynos/exynos850.dtsi b/arch/arm64/boot/=
-dts/exynos/exynos850.dtsi
-> index 53104e65b9c6..df5ea43ebcad 100644
-> --- a/arch/arm64/boot/dts/exynos/exynos850.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynos850.dtsi
-> @@ -396,7 +396,7 @@ pinctrl_aud: pinctrl@14a60000 {
->                 };
->
->                 rtc: rtc@11a30000 {
-> -                       compatible =3D "samsung,s3c6410-rtc";
-> +                       compatible =3D "samsung,exynos850-rtc", "samsung,=
-s3c6410-rtc";
->                         reg =3D <0x11a30000 0x100>;
->                         interrupts =3D <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
->                                      <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
-> @@ -406,7 +406,8 @@ rtc: rtc@11a30000 {
->                 };
->
->                 mmc_0: mmc@12100000 {
-> -                       compatible =3D "samsung,exynos7-dw-mshc-smu";
-> +                       compatible =3D "samsung,exynos850-dw-mshc-smu",
-> +                                    "samsung,exynos7-dw-mshc-smu";
->                         reg =3D <0x12100000 0x2000>;
->                         interrupts =3D <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -419,7 +420,7 @@ mmc_0: mmc@12100000 {
->                 };
->
->                 i2c_0: i2c@13830000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13830000 0x100>;
->                         interrupts =3D <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -432,7 +433,7 @@ i2c_0: i2c@13830000 {
->                 };
->
->                 i2c_1: i2c@13840000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13840000 0x100>;
->                         interrupts =3D <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -445,7 +446,7 @@ i2c_1: i2c@13840000 {
->                 };
->
->                 i2c_2: i2c@13850000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13850000 0x100>;
->                         interrupts =3D <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -458,7 +459,7 @@ i2c_2: i2c@13850000 {
->                 };
->
->                 i2c_3: i2c@13860000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13860000 0x100>;
->                         interrupts =3D <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -471,7 +472,7 @@ i2c_3: i2c@13860000 {
->                 };
->
->                 i2c_4: i2c@13870000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13870000 0x100>;
->                         interrupts =3D <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -485,7 +486,7 @@ i2c_4: i2c@13870000 {
->
->                 /* I2C_5 (also called CAM_PMIC_I2C in TRM) */
->                 i2c_5: i2c@13880000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13880000 0x100>;
->                         interrupts =3D <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -499,7 +500,7 @@ i2c_5: i2c@13880000 {
->
->                 /* I2C_6 (also called MOTOR_I2C in TRM) */
->                 i2c_6: i2c@13890000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13890000 0x100>;
->                         interrupts =3D <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -640,7 +641,8 @@ usi_hsi2c_0: usi@138a00c0 {
->                         status =3D "disabled";
->
->                         hsi2c_0: i2c@138a0000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x138a0000 0xc0>;
->                                 interrupts =3D <GIC_SPI 193 IRQ_TYPE_LEVE=
-L_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -668,7 +670,8 @@ usi_hsi2c_1: usi@138b00c0 {
->                         status =3D "disabled";
->
->                         hsi2c_1: i2c@138b0000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x138b0000 0xc0>;
->                                 interrupts =3D <GIC_SPI 194 IRQ_TYPE_LEVE=
-L_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -696,7 +699,8 @@ usi_hsi2c_2: usi@138c00c0 {
->                         status =3D "disabled";
->
->                         hsi2c_2: i2c@138c0000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x138c0000 0xc0>;
->                                 interrupts =3D <GIC_SPI 195 IRQ_TYPE_LEVE=
-L_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -738,7 +742,8 @@ usi_cmgp0: usi@11d000c0 {
->                         status =3D "disabled";
->
->                         hsi2c_3: i2c@11d00000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x11d00000 0xc0>;
->                                 interrupts =3D <GIC_SPI 62 IRQ_TYPE_LEVEL=
-_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -778,7 +783,8 @@ usi_cmgp1: usi@11d200c0 {
->                         status =3D "disabled";
->
->                         hsi2c_4: i2c@11d20000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x11d20000 0xc0>;
->                                 interrupts =3D <GIC_SPI 63 IRQ_TYPE_LEVEL=
-_HIGH>;
->                                 #address-cells =3D <1>;
-> --
-> 2.34.1
->
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
+      commit: 67c7666fe808c3a7af3cc6f9d0a3dd3acfd26115
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
