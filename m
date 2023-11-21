@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hTqbFlSN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VYXAVlO6"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7199212C
-	for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 07:41:29 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2197621954;
-	Tue, 21 Nov 2023 15:41:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700581288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=eduVMCRdG7H2W3dNSzVeMzXcFR0sAkgNdScNC0f0sB0=;
-	b=hTqbFlSNi4O1g4rfAyMbcF1Yr2ReCyfRCCUmYikCzQ+iVLjn9hrOWIvdTq6A34y27j+QjQ
-	BlD+JAZZYHVtRZgC6tXqhsCLlmK+9JkXQSMk2Um0syP74rTp6poMLmgmkvnTxSf5Wa/3jG
-	OZC48XS358Rc3ARGIuMxxUhVtn+4ips=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700581288;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=eduVMCRdG7H2W3dNSzVeMzXcFR0sAkgNdScNC0f0sB0=;
-	b=VYXAVlO66D5ZhQ6O9Bb6RsSA4cQvQ8avNFW3EsI2RCJ700nywQh26nENotI/9YTYgyF15G
-	GWatmZdbLvsvuXAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DCEA1139FD;
-	Tue, 21 Nov 2023 15:41:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id vj77NKfPXGVrfQAAMHmgww
-	(envelope-from <tiwai@suse.de>); Tue, 21 Nov 2023 15:41:27 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Refer to correct stream index at loops
-Date: Tue, 21 Nov 2023 16:41:25 +0100
-Message-Id: <20231121154125.4888-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lelqUOS2"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807A697;
+	Tue, 21 Nov 2023 07:44:33 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AL50Bcw022405;
+	Tue, 21 Nov 2023 09:44:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=t
+	f4vV/JGXrNZcmaJSXi5sFq5mqc/1CJfPKpZ9T2m2+c=; b=lelqUOS2eeAEi2KwN
+	a1Ml983FjtjOJX78sgho9xMQYWqz+83e258nyndiR/eDl3x/sQ61Pi1Ouwal0K05
+	JyIK6rEaSzcPtwYzNUA2SfELMiwk+gO2lzP5uESRo6EyIJYUdwZ6H1xnOWq7cMTM
+	XBa0zEBaQGddDLzqAIhedHTBOrX0VghWYElZcZEEgrLIv88GjxKWT/rgHGard253
+	x72o/4zv9y4gwCOuN2M2VcBwQHaIrnitf/GEYimFGXnkvezjD7PTvJfgq8l6uVxp
+	FWOnrljYsk4A2B2BOgQotjFh9MeLQ4TvfJAHrjbcoURPtDPpjAqWRYx35714BEwI
+	YubJQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uetjpbc77-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Nov 2023 09:44:25 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Tue, 21 Nov
+ 2023 15:44:23 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
+ Transport; Tue, 21 Nov 2023 15:44:23 +0000
+Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.65.98])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6E158B12;
+	Tue, 21 Nov 2023 15:44:23 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on SPI
+Date: Tue, 21 Nov 2023 15:44:19 +0000
+Message-ID: <20231121154419.19435-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,86 +47,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Score: 3.64
-X-Spamd-Result: default: False [3.64 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_DN_NONE(0.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_ONE(0.00)[1];
-	 NEURAL_HAM_LONG(-1.00)[-0.999];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.19)[-0.941];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.08)[63.18%]
+Content-Type: text/plain
+X-Proofpoint-GUID: IDFertXpDvP9COE2sNlOkT0gzg_1l1BG
+X-Proofpoint-ORIG-GUID: IDFertXpDvP9COE2sNlOkT0gzg_1l1BG
+X-Proofpoint-Spam-Reason: safe
 
-In a couple of loops over the all streams, we check the bitmap against
-the loop counter.  A more correct reference would be, however, the
-index of each stream, instead.
+SPI hibernation is now supported with the latest hibernation/wake
+sequences in the shared ASoC code.
 
-This patch corrects the check of bitmaps to the stream index.
+This has a functional dependency on two commits:
 
-Note that this change doesn't fix anything for now; all existing
-drivers set up the stream indices properly, hence the loop count is
-always equal with the stream index.  That said, this change is only
-for consistency.
+commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
+twice")
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
+allow auto hibernate")
+
+To protect against this, enabling hibernation is conditional on
+CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
+hibernation sequences are available.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
- sound/hda/hdac_stream.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ sound/pci/hda/cs35l56_hda_spi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 6ce24e248f8e..610ea7a33cd8 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -671,17 +671,15 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
- 	struct hdac_stream *s;
- 	bool inited = false;
- 	u64 cycle_last = 0;
--	int i = 0;
+diff --git a/sound/pci/hda/cs35l56_hda_spi.c b/sound/pci/hda/cs35l56_hda_spi.c
+index 756aec342eab..27d7fbc56b4c 100644
+--- a/sound/pci/hda/cs35l56_hda_spi.c
++++ b/sound/pci/hda/cs35l56_hda_spi.c
+@@ -21,6 +21,10 @@ static int cs35l56_hda_spi_probe(struct spi_device *spi)
+ 		return -ENOMEM;
  
- 	list_for_each_entry(s, &bus->stream_list, list) {
--		if (streams & (1 << i)) {
-+		if ((streams & (1 << s->index))) {
- 			azx_timecounter_init(s, inited, cycle_last);
- 			if (!inited) {
- 				inited = true;
- 				cycle_last = s->tc.cycle_last;
- 			}
- 		}
--		i++;
- 	}
- 
- 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
-@@ -726,14 +724,13 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
- 			  unsigned int streams)
- {
- 	struct hdac_bus *bus = azx_dev->bus;
--	int i, nwait, timeout;
-+	int nwait, timeout;
- 	struct hdac_stream *s;
- 
- 	for (timeout = 5000; timeout; timeout--) {
- 		nwait = 0;
--		i = 0;
- 		list_for_each_entry(s, &bus->stream_list, list) {
--			if (!(streams & (1 << i++)))
-+			if (!(streams & (1 << s->index)))
- 				continue;
- 
- 			if (start) {
+ 	cs35l56->base.dev = &spi->dev;
++
++#ifdef CS35L56_WAKE_HOLD_TIME_US
++	cs35l56->base.can_hibernate = true;
++#endif
+ 	cs35l56->base.regmap = devm_regmap_init_spi(spi, &cs35l56_regmap_spi);
+ 	if (IS_ERR(cs35l56->base.regmap)) {
+ 		ret = PTR_ERR(cs35l56->base.regmap);
 -- 
-2.35.3
+2.30.2
 
