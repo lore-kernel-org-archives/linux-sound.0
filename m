@@ -1,54 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633AD1DA36;
-	Tue, 21 Nov 2023 07:25:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4ss9v9y"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D4895C433C7;
-	Tue, 21 Nov 2023 07:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700551510;
-	bh=wvPq2fvMsOoXjcPnG6LjJGeeADn4tr7tslrl9RQJLco=;
-	h=Date:From:To:In-Reply-To:References:Subject:From;
-	b=L4ss9v9ybDG36I5q0O+aunA8W/B2zU1CJGJvI3EG03hHhfOzPiwdAQKosl32fHY/A
-	 8x5mShfxfAZ9aKCDwtU2oX6cpWOMscfp47IR/nEyaQumzS3oBj98sBOQSAcgZqFsH9
-	 +nk0Lq64ef2AVI3exOPoeCJtj44J+icVvaETyl3Qw9iJOuFgdeL4EIGXC4vm+K710x
-	 7z/B4EMf/4YvK503N7oUszRVvsfAvtqUXW1g0cnv8KKLIeMACa5aO6M31pvXBq/g2s
-	 GvOv9MKRgEyzHhyFS4iI7VI38rOvgGOWcbhvNgLY7pL6hlabRr+FEaWXsoOZaG/Kc/
-	 0kEqdqBKa/OoA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BB752EAA955;
-	Tue, 21 Nov 2023 07:25:10 +0000 (UTC)
-Date: Tue, 21 Nov 2023 07:25:10 +0000
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b16MAPFI"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDD1123;
+	Tue, 21 Nov 2023 04:07:56 -0800 (PST)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0404D6607286;
+	Tue, 21 Nov 2023 12:07:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700568475;
+	bh=OPO6PjGpzSwciJq8nGHbJqxbgmsPtmRTdm9UuIC1Pgg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=b16MAPFIwTHeMbcsiU6r2Bd0R0+l2qT7cBQhhAFvM9Zcbo/c2187N2emtX6AelGCJ
+	 mgb/PyWfqBDozMQ8aYTHTPTF0qyGgq6VlHIsEb3E2aFIen8wAFQEcaOTFEm11890ye
+	 M51/8nU0PGSs3Z10ZzQP9dXXji86lV6pvnSVznG08xcZXqzQCf9QKRJVxZlhubPk8r
+	 FNrst196n38+SDbkJCxWsrtDbeFwtNvqbp+CM1JNr/HYauH0nUfp1F3ROTkg3aruBM
+	 qMgZcnpmvEg4XuCTa2g+xNZiNeGWeqXOteQwnapF2KgQHHka0HxQIuyBPvqUCL9dWK
+	 UPMwNvoNeHXBA==
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
+Date: Tue, 21 Nov 2023 14:07:51 +0200
+Message-ID: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-From: "Kernel.org Bugbot" <bugbot@kernel.org>
-To: tiwai@suse.com, linux-sound@vger.kernel.org, bugs@lists.linux.dev, 
- perex@perex.cz
-Message-ID: <20231121-b216392c3-3d2c0b363b6b@bugzilla.kernel.org>
-In-Reply-To: <20230331-b216392c0-c38b1eac72db@bugzilla.kernel.org>
-References: <20230331-b216392c0-c38b1eac72db@bugzilla.kernel.org>
-Subject: Re: Asus ROG Zephyrus GX701L sound problem
-X-Bugzilla-Product: Linux
-X-Bugzilla-Component: Kernel
-X-Mailer: peebz 0.1
+Content-Transfer-Encoding: 8bit
 
-rakic.iwan writes via Kernel.org Bugzilla:
+The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
+argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
+SND_SOC_NOPM definition.
 
-Hello team,
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+ Documentation/sound/soc/dapm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Any update, please.
-
-View: https://bugzilla.kernel.org/show_bug.cgi?id=216392#c3
-You can reply to this message to join the discussion.
+diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
+index 8e44107933ab..c3154ce6e1b2 100644
+--- a/Documentation/sound/soc/dapm.rst
++++ b/Documentation/sound/soc/dapm.rst
+@@ -234,7 +234,7 @@ corresponding soft power control. In this case it is necessary to create
+ a virtual widget - a widget with no control bits e.g.
+ ::
+ 
+-  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_DAPM_NOPM, 0, 0, NULL, 0),
++  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_NOPM, 0, 0, NULL, 0),
+ 
+ This can be used to merge to signal paths together in software.
+ 
 -- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (peebz 0.1)
+2.42.1
 
