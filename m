@@ -1,94 +1,43 @@
-Return-Path: <linux-sound-owner@vger.kernel.org>
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B711C2BB3F
-	for <linux-sound@archiver.kernel.org>; Mon, 20 Nov 2023 19:22:13 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjKTTWP (ORCPT <rfc822;linux-sound@archiver.kernel.org>);
-        Mon, 20 Nov 2023 14:22:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjKTTWO (ORCPT
-        <rfc822;linux-sound@vger.kernel.org>);
-        Mon, 20 Nov 2023 14:22:14 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C6A6BB;
-        Mon, 20 Nov 2023 11:22:11 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF37C433C8;
-        Mon, 20 Nov 2023 19:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700508131;
-        bh=2aUp4hFQlLqMEsSFhngQ+sfVIS5arskcjqcdj3YPsdU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dcV4yGLWK2gd5PNmevD1kVTLVXpFfviSxckPidzOa2JWLOgko3w48x3HzKev+5iGp
-         mItw7ctOvCPg27iwQPQuMfoz5uFZYhUBwH9ako5qQG+fqCFVUzXOwSpNqWtxMNhjGd
-         pnABTOtCWMibZ0TGMKkho1hBWudgq7TMsLhKq3Dc1CDxTPOGvINoVe4/Qj/o9qPiKb
-         B9anjKd61F9tv8VWGiPRyb8/TMmAQi1feX+UxyWP7f9WM14oPOS5u8Z2QzV3V6pLw+
-         aN4H4Fjc2OM6h5fxhrUlCXzVdk01kjKKr0NfGo16JBiIra9n1NmFIDg8VslAmtQ0Xy
-         RSn/936gkA3cQ==
-Date:   Mon, 20 Nov 2023 19:22:06 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc:     James Schulman <james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ASoC: cs43130: Allow driver to work without IRQ
- connection
-Message-ID: <7429d3e8-ff23-41ae-8717-b7f6091b1995@sirena.org.uk>
-References: <20231120141734.76679-1-mstrozek@opensource.cirrus.com>
- <170050793178.1294254.1258854570735859586.b4-ty@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sbwRwMg36TnlCFW1"
-Content-Disposition: inline
-In-Reply-To: <170050793178.1294254.1258854570735859586.b4-ty@kernel.org>
-X-Cookie: I have become me without my consent.
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214D04C71
+	for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 01:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bwaa7B84"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78392C433C7;
+	Tue, 21 Nov 2023 01:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700528986;
+	bh=WydedWHI5hgSzmjYaAgFcEvQrWisnvd0Tah1sl3VwoE=;
+	h=Date:From:To:Subject:From;
+	b=bwaa7B847qFNDY0YLchaG0k6zB3Eoa7cr5Kj4RZ2WcAZRt+Ftmzetv+9jjZmxTVmQ
+	 NjxZAYBgYWc2zoWPOmk8Jxy9ILGhDIH1Dk+hIuJl9Fb7U0naj1W7RoM8IV1lc1EGAq
+	 oGV0s8C8QmsfNXad8sYorWUK+S1HmA1AMgMxmCFo=
+Date: Mon, 20 Nov 2023 20:09:45 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: linux-sound@vger.kernel.org
+Subject: PSA: this list has moved to new vger infra (no action required)
+Message-ID: <20231120-benevolent-vigorous-parrot-5d3c2d@nitro>
 Precedence: bulk
-List-ID: <linux-sound.vger.kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
-
-
---sbwRwMg36TnlCFW1
-Content-Type: text/plain; charset=us-ascii
+List-Id: <linux-sound.vger.kernel.org>
+List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 20, 2023 at 07:18:51PM +0000, Mark Brown wrote:
-> On Mon, 20 Nov 2023 14:17:34 +0000, Maciej Strozek wrote:
-> > Add a polling mechanism that will keep the driver operational even in
-> > absence of physical IRQ connection. If IRQ line is detected, the driver
-> > will continue working as usual, in case of missing IRQ line it will
-> > fallback to the polling mechanism introduced in this change.
-> > This will support users which choose not to connect an IRQ line as it
-> > is not critical to part's operation.
-> >=20
-> > [...]
->=20
-> Applied to
->=20
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
-next
->=20
-> Thanks!
+Hello, all:
 
-Sorry, this was done in error - dropped it.  Sorry for the noise.
+This list has been migrated to new vger infrastructure. No action is required
+on your part and there should be no change in how you interact with this list.
 
---sbwRwMg36TnlCFW1
-Content-Type: application/pgp-signature; name="signature.asc"
+This message acts as a verification test that the archives are properly
+updating.
 
------BEGIN PGP SIGNATURE-----
+If something isn't working or looking right, please reach out to
+helpdesk@kernel.org.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbsd0ACgkQJNaLcl1U
-h9Cl8gf9GgraVzbnKi3XHA7coVE5UYqFfYsUnE3OGiGtVlcIDScqqrQ5yX+UO8RT
-RI4wJi6DO0g2ts4d9YKg53I7AQrmn1ouyFqggijC50nM9UPWmEFBPNew9fe9qvRM
-6w2eZJQcGt1XrcN5e9TuEf24Pj72NQClQnYiWLfGfWq0mLcBJlQj0J6bUXBsYeHN
-pU1GhM6OFrxrg1uiEXg6WUupMfKMDEqUHpT1zvBvLhVNs6cwSLwZoQ26LxS2QXoS
-ccxORza+wdqsBbg68+sdouidwQpGVbk/1Ghn8m+nTD5Nvt6RISP+h7xuiUo7ZAaK
-msoVu0O2q9MTl1jCBy6GLaZolfcPqw==
-=QH8Q
------END PGP SIGNATURE-----
-
---sbwRwMg36TnlCFW1--
+Best regards,
+-K
