@@ -1,75 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60229C12E;
-	Tue, 21 Nov 2023 18:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCGGh0aD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E70BC433D9;
-	Tue, 21 Nov 2023 18:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700592356;
-	bh=9WC8aqJ6oZ32SlXJ7faib65Qf55EOmQoT+BGw8wVCVY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kCGGh0aDTr4yCXL3F6PhpNEEg8N3gvA9MiPxP+X+ZS97UEM3YOKUZIiIdbWr/kMKC
-	 pBjJcTPjI3C+mWnPCTvko9Sc525p1YixKgGHn6wqqkCJ6fH6SmVhfWRqmrBLV459Pr
-	 7cqiZXGEbwZXD9Vw1Uzusklfdq261Nhhd7LxYwW3Lr4eWgmhYWO9zXPjGIHR/awWMf
-	 ZDumBxi+JUHERekmp4R+etCrSCoBxiIGDidHCjI2smA9UueC70vq+ZJobMWcOaG6vL
-	 4aoYv5i2RVccARukINsuNDhig3mu1CygEovgHNcBnjGxicaP3BO6ViFCWRA0nUcKZV
-	 E3RHJxW9Tku3w==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
-References: <20231121120751.77355-1-cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
-Message-Id: <170059235481.1901021.9703531954255937779.b4-ty@kernel.org>
-Date: Tue, 21 Nov 2023 18:45:54 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j0eEAAa1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nxZ38h43"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B639C91;
+	Tue, 21 Nov 2023 12:36:05 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A33321983;
+	Tue, 21 Nov 2023 20:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700598964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k+ruGARSLlvvYgIq0vMNTbnXxDWEq0hWruIbgbcfbEw=;
+	b=j0eEAAa1q5OFbGKC0qhw+W/IRbb+z9H92G1grmLXyGokRsPQTN/qx8zYqQQIReMO+QhoME
+	MrEXqLdK2siX9vk3hkOAnvcb19kQ4zktmEYESRD/fGuwfpn+u/PUkvVzjRVEvbSiMHB6TY
+	q9C4UQAHI6Q5zRyHr1f8oD7OFRxPMLw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700598964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k+ruGARSLlvvYgIq0vMNTbnXxDWEq0hWruIbgbcfbEw=;
+	b=nxZ38h43dJg7eI9+TkXrPsMdzA6IuWAit6d3wf2v9NMnMD29jya91I1cMd+13q/LZTCEev
+	+LxfjV5tDBXNc4Dg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BB49139FD;
+	Tue, 21 Nov 2023 20:36:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id +tfjAbQUXWW0BgAAMHmgww
+	(envelope-from <tiwai@suse.de>); Tue, 21 Nov 2023 20:36:04 +0000
+Date: Tue, 21 Nov 2023 21:36:03 +0100
+Message-ID: <87h6lealos.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on SPI
+In-Reply-To: <20231121154419.19435-1-rf@opensource.cirrus.com>
+References: <20231121154419.19435-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -4.31
+X-Spamd-Result: default: False [-4.31 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.12)[-0.608];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.09)[64.79%]
 
-On Tue, 21 Nov 2023 14:07:51 +0200, Cristian Ciocaltea wrote:
-> The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
-> argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
-> SND_SOC_NOPM definition.
+On Tue, 21 Nov 2023 16:44:19 +0100,
+Richard Fitzgerald wrote:
 > 
+> SPI hibernation is now supported with the latest hibernation/wake
+> sequences in the shared ASoC code.
 > 
+> This has a functional dependency on two commits:
+> 
+> commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
+> twice")
+> 
+> commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
+> allow auto hibernate")
+> 
+> To protect against this, enabling hibernation is conditional on
+> CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
+> hibernation sequences are available.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Applied to
+Is this expected to be merged for 6.7?  Or it can be post 6.7?
+I guess the former, but just to make sure.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+thanks,
 
-[1/1] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
-      commit: 67c7666fe808c3a7af3cc6f9d0a3dd3acfd26115
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
