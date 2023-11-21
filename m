@@ -1,43 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214D04C71
-	for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 01:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633AD1DA36;
+	Tue, 21 Nov 2023 07:25:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bwaa7B84"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78392C433C7;
-	Tue, 21 Nov 2023 01:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700528986;
-	bh=WydedWHI5hgSzmjYaAgFcEvQrWisnvd0Tah1sl3VwoE=;
-	h=Date:From:To:Subject:From;
-	b=bwaa7B847qFNDY0YLchaG0k6zB3Eoa7cr5Kj4RZ2WcAZRt+Ftmzetv+9jjZmxTVmQ
-	 NjxZAYBgYWc2zoWPOmk8Jxy9ILGhDIH1Dk+hIuJl9Fb7U0naj1W7RoM8IV1lc1EGAq
-	 oGV0s8C8QmsfNXad8sYorWUK+S1HmA1AMgMxmCFo=
-Date: Mon, 20 Nov 2023 20:09:45 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: linux-sound@vger.kernel.org
-Subject: PSA: this list has moved to new vger infra (no action required)
-Message-ID: <20231120-benevolent-vigorous-parrot-5d3c2d@nitro>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4ss9v9y"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D4895C433C7;
+	Tue, 21 Nov 2023 07:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700551510;
+	bh=wvPq2fvMsOoXjcPnG6LjJGeeADn4tr7tslrl9RQJLco=;
+	h=Date:From:To:In-Reply-To:References:Subject:From;
+	b=L4ss9v9ybDG36I5q0O+aunA8W/B2zU1CJGJvI3EG03hHhfOzPiwdAQKosl32fHY/A
+	 8x5mShfxfAZ9aKCDwtU2oX6cpWOMscfp47IR/nEyaQumzS3oBj98sBOQSAcgZqFsH9
+	 +nk0Lq64ef2AVI3exOPoeCJtj44J+icVvaETyl3Qw9iJOuFgdeL4EIGXC4vm+K710x
+	 7z/B4EMf/4YvK503N7oUszRVvsfAvtqUXW1g0cnv8KKLIeMACa5aO6M31pvXBq/g2s
+	 GvOv9MKRgEyzHhyFS4iI7VI38rOvgGOWcbhvNgLY7pL6hlabRr+FEaWXsoOZaG/Kc/
+	 0kEqdqBKa/OoA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BB752EAA955;
+	Tue, 21 Nov 2023 07:25:10 +0000 (UTC)
+Date: Tue, 21 Nov 2023 07:25:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+From: "Kernel.org Bugbot" <bugbot@kernel.org>
+To: tiwai@suse.com, linux-sound@vger.kernel.org, bugs@lists.linux.dev, 
+ perex@perex.cz
+Message-ID: <20231121-b216392c3-3d2c0b363b6b@bugzilla.kernel.org>
+In-Reply-To: <20230331-b216392c0-c38b1eac72db@bugzilla.kernel.org>
+References: <20230331-b216392c0-c38b1eac72db@bugzilla.kernel.org>
+Subject: Re: Asus ROG Zephyrus GX701L sound problem
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: peebz 0.1
 
-Hello, all:
+rakic.iwan writes via Kernel.org Bugzilla:
 
-This list has been migrated to new vger infrastructure. No action is required
-on your part and there should be no change in how you interact with this list.
+Hello team,
 
-This message acts as a verification test that the archives are properly
-updating.
+Any update, please.
 
-If something isn't working or looking right, please reach out to
-helpdesk@kernel.org.
+View: https://bugzilla.kernel.org/show_bug.cgi?id=216392#c3
+You can reply to this message to join the discussion.
+-- 
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (peebz 0.1)
 
-Best regards,
--K
