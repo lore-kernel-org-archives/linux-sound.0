@@ -1,92 +1,260 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lelqUOS2"
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807A697;
-	Tue, 21 Nov 2023 07:44:33 -0800 (PST)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AL50Bcw022405;
-	Tue, 21 Nov 2023 09:44:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=t
-	f4vV/JGXrNZcmaJSXi5sFq5mqc/1CJfPKpZ9T2m2+c=; b=lelqUOS2eeAEi2KwN
-	a1Ml983FjtjOJX78sgho9xMQYWqz+83e258nyndiR/eDl3x/sQ61Pi1Ouwal0K05
-	JyIK6rEaSzcPtwYzNUA2SfELMiwk+gO2lzP5uESRo6EyIJYUdwZ6H1xnOWq7cMTM
-	XBa0zEBaQGddDLzqAIhedHTBOrX0VghWYElZcZEEgrLIv88GjxKWT/rgHGard253
-	x72o/4zv9y4gwCOuN2M2VcBwQHaIrnitf/GEYimFGXnkvezjD7PTvJfgq8l6uVxp
-	FWOnrljYsk4A2B2BOgQotjFh9MeLQ4TvfJAHrjbcoURPtDPpjAqWRYx35714BEwI
-	YubJQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uetjpbc77-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 09:44:25 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Tue, 21 Nov
- 2023 15:44:23 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
- Transport; Tue, 21 Nov 2023 15:44:23 +0000
-Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.65.98])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6E158B12;
-	Tue, 21 Nov 2023 15:44:23 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on SPI
-Date: Tue, 21 Nov 2023 15:44:19 +0000
-Message-ID: <20231121154419.19435-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kGIlfsuW"
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7ED2197
+	for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 09:48:40 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6c3363a2b93so5544156b3a.3
+        for <linux-sound@vger.kernel.org>; Tue, 21 Nov 2023 09:48:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700588920; x=1701193720; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EAK/ItuSDRPVMNR15AwNhdUvFP+x071LcAQ3w3yTJs0=;
+        b=kGIlfsuWV9pc67/zTpkfc8YdnXt2hAE3qr+ewTild/gLqpQ9CS9/PsmFolWYr0Re20
+         baGlZQTup9TPCYqBz2blkdq7pSK2JrFq6643iRt+jfyw1R/jU798ExGNdjQXWkJtUOc+
+         qJnOczBjgR6QdFJFMGCdoA+BEVkKXTRoWaMW/G4wWJimH1PmmJllb4EBPaJ4HdT/rB3w
+         feCv3oNiWOGIeuLqszBBQ/1EzYEuPo6unTnYDCBMkMCP5apxWosN8AjWCGqNfRhObimy
+         uOPX0fJ8KpyF0HfQ+M4Ub5D875vEt23/jIXPzBu9mL0he8lpXtR+EGB8ZiIM5FrlHbli
+         Pprw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700588920; x=1701193720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EAK/ItuSDRPVMNR15AwNhdUvFP+x071LcAQ3w3yTJs0=;
+        b=hTKhj8uuasZ1iLyZZTl9xwzBk7Udj40pjhy5uB4dzYMqXKxajAZOEm07susKq0kuDP
+         gpbLQZkOfUw1gs8d3z9lzPpz3UVwN/3eObGLETwt0l3OFeZ+tuFkHCw3Pyi21SGZCgc9
+         8VWmKOOYA5/gVXbNCN3mTk2VsBah1xZ8fWkFJRrSFZxoKPIQF5xaJNx95RoM3maLL9Pp
+         /chnqjQP2pTgFC1CHTsTjXcxrSaUwsTdwp+CAjrFCHleTGHo7U6VxPd3FwYK0QniFh65
+         moyXVmuIfwyZwdDULXxGEQa4UV3yOobejagOBuu680qRArTqg6Ie57hJtlIraY80YPXa
+         YafA==
+X-Gm-Message-State: AOJu0Yy+8xk+Rb+GzlSFOhD7cX8i4EH2rvCp6slmzZAFcBqMmGHY7cbx
+	a2w1Ex6Apm++PU8ifcJdSgai/aOF2NuFmltZxJS0Jg==
+X-Google-Smtp-Source: AGHT+IGsVYAziCjXoCBHiftycTLKlFRj+F3xZDSfXKxIguYqxWX7xqT/er/I16AqY0h4UFWzZ5qHqodRZyjJQpRXSA8=
+X-Received: by 2002:a05:6a20:4306:b0:187:5be4:67e2 with SMTP id
+ h6-20020a056a20430600b001875be467e2mr16406256pzk.53.1700588920073; Tue, 21
+ Nov 2023 09:48:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: IDFertXpDvP9COE2sNlOkT0gzg_1l1BG
-X-Proofpoint-ORIG-GUID: IDFertXpDvP9COE2sNlOkT0gzg_1l1BG
-X-Proofpoint-Spam-Reason: safe
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org> <20231108104343.24192-17-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231108104343.24192-17-krzysztof.kozlowski@linaro.org>
+From: Sam Protsenko <semen.protsenko@linaro.org>
+Date: Tue, 21 Nov 2023 11:48:29 -0600
+Message-ID: <CAPLW+4nkrMwc9GiQyn7ojaPz_50NQ3vAcMt9+tOzpHfq7G7+Tg@mail.gmail.com>
+Subject: Re: [PATCH 16/17] arm64: dts: exynos850: add specific compatibles to
+ several blocks
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaehoon Chung <jh80.chung@samsung.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SPI hibernation is now supported with the latest hibernation/wake
-sequences in the shared ASoC code.
+On Wed, Nov 8, 2023 at 4:44=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Exynos850 reuses several devices from older designs, thus historically
+> we kept the old (block's) compatible only.  This works fine and there is
+> no bug here, however guidelines expressed in
+> Documentation/devicetree/bindings/writing-bindings.rst state that:
+> 1. Compatibles should be specific.
+> 2. We should add new compatibles in case of bugs or features.
+>
+> Add compatibles specific to Exynos850 in front of all old-SoC-like
+> compatibles.  This will also help reviews of new code using existing
+> DTS as template.  No functional impact on Linux drivers behavior.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-This has a functional dependency on two commits:
+Reviewed-by: Sam Protsenko <semen.protsenko@linaro.org>
 
-commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
-twice")
-
-commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
-allow auto hibernate")
-
-To protect against this, enabling hibernation is conditional on
-CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
-hibernation sequences are available.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/pci/hda/cs35l56_hda_spi.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/sound/pci/hda/cs35l56_hda_spi.c b/sound/pci/hda/cs35l56_hda_spi.c
-index 756aec342eab..27d7fbc56b4c 100644
---- a/sound/pci/hda/cs35l56_hda_spi.c
-+++ b/sound/pci/hda/cs35l56_hda_spi.c
-@@ -21,6 +21,10 @@ static int cs35l56_hda_spi_probe(struct spi_device *spi)
- 		return -ENOMEM;
- 
- 	cs35l56->base.dev = &spi->dev;
-+
-+#ifdef CS35L56_WAKE_HOLD_TIME_US
-+	cs35l56->base.can_hibernate = true;
-+#endif
- 	cs35l56->base.regmap = devm_regmap_init_spi(spi, &cs35l56_regmap_spi);
- 	if (IS_ERR(cs35l56->base.regmap)) {
- 		ret = PTR_ERR(cs35l56->base.regmap);
--- 
-2.30.2
-
+>  arch/arm64/boot/dts/exynos/exynos850.dtsi | 34 +++++++++++++----------
+>  1 file changed, 20 insertions(+), 14 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/exynos/exynos850.dtsi b/arch/arm64/boot/=
+dts/exynos/exynos850.dtsi
+> index 53104e65b9c6..df5ea43ebcad 100644
+> --- a/arch/arm64/boot/dts/exynos/exynos850.dtsi
+> +++ b/arch/arm64/boot/dts/exynos/exynos850.dtsi
+> @@ -396,7 +396,7 @@ pinctrl_aud: pinctrl@14a60000 {
+>                 };
+>
+>                 rtc: rtc@11a30000 {
+> -                       compatible =3D "samsung,s3c6410-rtc";
+> +                       compatible =3D "samsung,exynos850-rtc", "samsung,=
+s3c6410-rtc";
+>                         reg =3D <0x11a30000 0x100>;
+>                         interrupts =3D <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
+>                                      <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
+> @@ -406,7 +406,8 @@ rtc: rtc@11a30000 {
+>                 };
+>
+>                 mmc_0: mmc@12100000 {
+> -                       compatible =3D "samsung,exynos7-dw-mshc-smu";
+> +                       compatible =3D "samsung,exynos850-dw-mshc-smu",
+> +                                    "samsung,exynos7-dw-mshc-smu";
+>                         reg =3D <0x12100000 0x2000>;
+>                         interrupts =3D <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -419,7 +420,7 @@ mmc_0: mmc@12100000 {
+>                 };
+>
+>                 i2c_0: i2c@13830000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13830000 0x100>;
+>                         interrupts =3D <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -432,7 +433,7 @@ i2c_0: i2c@13830000 {
+>                 };
+>
+>                 i2c_1: i2c@13840000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13840000 0x100>;
+>                         interrupts =3D <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -445,7 +446,7 @@ i2c_1: i2c@13840000 {
+>                 };
+>
+>                 i2c_2: i2c@13850000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13850000 0x100>;
+>                         interrupts =3D <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -458,7 +459,7 @@ i2c_2: i2c@13850000 {
+>                 };
+>
+>                 i2c_3: i2c@13860000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13860000 0x100>;
+>                         interrupts =3D <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -471,7 +472,7 @@ i2c_3: i2c@13860000 {
+>                 };
+>
+>                 i2c_4: i2c@13870000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13870000 0x100>;
+>                         interrupts =3D <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -485,7 +486,7 @@ i2c_4: i2c@13870000 {
+>
+>                 /* I2C_5 (also called CAM_PMIC_I2C in TRM) */
+>                 i2c_5: i2c@13880000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13880000 0x100>;
+>                         interrupts =3D <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -499,7 +500,7 @@ i2c_5: i2c@13880000 {
+>
+>                 /* I2C_6 (also called MOTOR_I2C in TRM) */
+>                 i2c_6: i2c@13890000 {
+> -                       compatible =3D "samsung,s3c2440-i2c";
+> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
+s3c2440-i2c";
+>                         reg =3D <0x13890000 0x100>;
+>                         interrupts =3D <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH>;
+>                         #address-cells =3D <1>;
+> @@ -640,7 +641,8 @@ usi_hsi2c_0: usi@138a00c0 {
+>                         status =3D "disabled";
+>
+>                         hsi2c_0: i2c@138a0000 {
+> -                               compatible =3D "samsung,exynosautov9-hsi2=
+c";
+> +                               compatible =3D "samsung,exynos850-hsi2c",
+> +                                            "samsung,exynosautov9-hsi2c"=
+;
+>                                 reg =3D <0x138a0000 0xc0>;
+>                                 interrupts =3D <GIC_SPI 193 IRQ_TYPE_LEVE=
+L_HIGH>;
+>                                 #address-cells =3D <1>;
+> @@ -668,7 +670,8 @@ usi_hsi2c_1: usi@138b00c0 {
+>                         status =3D "disabled";
+>
+>                         hsi2c_1: i2c@138b0000 {
+> -                               compatible =3D "samsung,exynosautov9-hsi2=
+c";
+> +                               compatible =3D "samsung,exynos850-hsi2c",
+> +                                            "samsung,exynosautov9-hsi2c"=
+;
+>                                 reg =3D <0x138b0000 0xc0>;
+>                                 interrupts =3D <GIC_SPI 194 IRQ_TYPE_LEVE=
+L_HIGH>;
+>                                 #address-cells =3D <1>;
+> @@ -696,7 +699,8 @@ usi_hsi2c_2: usi@138c00c0 {
+>                         status =3D "disabled";
+>
+>                         hsi2c_2: i2c@138c0000 {
+> -                               compatible =3D "samsung,exynosautov9-hsi2=
+c";
+> +                               compatible =3D "samsung,exynos850-hsi2c",
+> +                                            "samsung,exynosautov9-hsi2c"=
+;
+>                                 reg =3D <0x138c0000 0xc0>;
+>                                 interrupts =3D <GIC_SPI 195 IRQ_TYPE_LEVE=
+L_HIGH>;
+>                                 #address-cells =3D <1>;
+> @@ -738,7 +742,8 @@ usi_cmgp0: usi@11d000c0 {
+>                         status =3D "disabled";
+>
+>                         hsi2c_3: i2c@11d00000 {
+> -                               compatible =3D "samsung,exynosautov9-hsi2=
+c";
+> +                               compatible =3D "samsung,exynos850-hsi2c",
+> +                                            "samsung,exynosautov9-hsi2c"=
+;
+>                                 reg =3D <0x11d00000 0xc0>;
+>                                 interrupts =3D <GIC_SPI 62 IRQ_TYPE_LEVEL=
+_HIGH>;
+>                                 #address-cells =3D <1>;
+> @@ -778,7 +783,8 @@ usi_cmgp1: usi@11d200c0 {
+>                         status =3D "disabled";
+>
+>                         hsi2c_4: i2c@11d20000 {
+> -                               compatible =3D "samsung,exynosautov9-hsi2=
+c";
+> +                               compatible =3D "samsung,exynos850-hsi2c",
+> +                                            "samsung,exynosautov9-hsi2c"=
+;
+>                                 reg =3D <0x11d20000 0xc0>;
+>                                 interrupts =3D <GIC_SPI 63 IRQ_TYPE_LEVEL=
+_HIGH>;
+>                                 #address-cells =3D <1>;
+> --
+> 2.34.1
+>
