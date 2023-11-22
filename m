@@ -1,84 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3496012A;
-	Wed, 22 Nov 2023 03:02:47 -0800 (PST)
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-7b34c5d7ecdso51504039f.0;
-        Wed, 22 Nov 2023 03:02:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700650966; x=1701255766;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Fz56w2Y9kPi3wTbEVduEVnieqfqeeQc6U5/Xe0K810A=;
-        b=iyoedcPPUpMH0nqDYsntrTq/GPKTa92Ay0OgteAd4WJ7MKC+xD9GqwhBCI2hb0eqP6
-         pfzQd1lKgvM259Ak9IV9lzhOJwGdOp5ALYRIJCFZIpfADnlr3gQIWV4Avvz6XlnsajV+
-         sKZd+2XhVpJdKeEyG1Z9Gw9d5mXr5PRHyHXxmKr7csbg9NsVkIRoTDIHyZ5c3km0s125
-         0fyVybEOmBFoq6VYNrO82fs6EX9Wfhgo974UlLTbaXGWvRIxRG8p+dph9m0oM+6IOobX
-         zXIpbrzwnLkB7wWWMKxMtAboCufTDApaSFxHL4XL+R4fd02s12HwXvMXBLkgrz7rfTxa
-         SL/g==
-X-Gm-Message-State: AOJu0Yyiu85v+504XPms1buq10/O5eqy0Ap1Dz59xL7BVLImdIoVJQDn
-	l/Tu2sc+XgbMu4Z5CBH6fw==
-X-Google-Smtp-Source: AGHT+IE0iSlW42V/qq1F2sRwmJOH9J7KtGc8Xt6ruXbn2C1mFomX2Tl+cIpMutEYp0DvU/2+G6S3EQ==
-X-Received: by 2002:a05:6602:c82:b0:787:8cf:fd08 with SMTP id fp2-20020a0566020c8200b0078708cffd08mr2094105iob.17.1700650966249;
-        Wed, 22 Nov 2023 03:02:46 -0800 (PST)
-Received: from herring.priv ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id v25-20020a5ec119000000b007b35b6d27d4sm142468iol.22.2023.11.22.03.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 03:02:45 -0800 (PST)
-Received: (nullmailer pid 116328 invoked by uid 1000);
-	Wed, 22 Nov 2023 11:02:29 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UNbxEmkw"
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97390D8;
+	Wed, 22 Nov 2023 03:04:39 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AM7JoId001441;
+	Wed, 22 Nov 2023 05:04:30 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=121+3MVz3eMpEMpVEtJbEi4kTmMcYLW1eMvklU6Z7ds=; b=
+	UNbxEmkwDn6ji65dxLuZm//weuAaU157F8H78EHVCnuULbTRrfj10t4WPOa6mKOu
+	ReCFECP2l5Zz0dPWItyMi7eAeAuscVn+Sh9/vHHqvsGrG8R1cqBNRfsIgFFFHFU+
+	6LnMoe+i+uTiVnyuVt81KkNb/r8yauuaUCk9RKFy1mdma5LnOhT09bKXoOlmuBYl
+	9U4t73jIBC9mLUxjLCWHokVEpsR175mzvtdS3nUYUAGgIzvwdjzScBMmKOj/9lOL
+	ErU/7P8MWOzqhHS/7SbTdoZOBkAHgjmL3AUQSMP2Bm+YdWvgd+Lb/9Z/zx19roUU
+	5IInGHbrnBX1/zIOxFoPEQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj2cbu1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 05:04:30 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 22 Nov
+ 2023 11:04:28 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Wed, 22 Nov 2023 11:04:28 +0000
+Received: from [198.61.65.98] (EDIN4L06LR3.ad.cirrus.com [198.61.65.98])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C7D7A458;
+	Wed, 22 Nov 2023 11:04:27 +0000 (UTC)
+Message-ID: <1528da8b-4ca3-4f12-be17-a3222039fa20@opensource.cirrus.com>
+Date: Wed, 22 Nov 2023 11:04:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org, Hartley Sweeten <hsweeten@visionengravers.com>, linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-In-Reply-To: <20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me>
-References: <20231122-ep93xx-v5-0-d59a76d5df29@maquefel.me>
- <20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me>
-Message-Id: <170065094720.116228.784789702446580054.robh@kernel.org>
-Subject: Re: [PATCH v5 27/39] ASoC: dt-bindings: ep93xx: Document DMA
- support
-Date: Wed, 22 Nov 2023 04:02:29 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on
+ SPI
+To: Takashi Iwai <tiwai@suse.de>
+CC: <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+References: <20231121154419.19435-1-rf@opensource.cirrus.com>
+ <87h6lealos.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <87h6lealos.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: rWo-Y9C1_vdAV05ubqd49_-IO5aAZzMQ
+X-Proofpoint-GUID: rWo-Y9C1_vdAV05ubqd49_-IO5aAZzMQ
+X-Proofpoint-Spam-Reason: safe
 
-
-On Wed, 22 Nov 2023 12:00:05 +0300, Nikita Shubin wrote:
-> Document DMA support in binding document.
+On 21/11/23 20:36, Takashi Iwai wrote:
+> On Tue, 21 Nov 2023 16:44:19 +0100,
+> Richard Fitzgerald wrote:
+>>
+>> SPI hibernation is now supported with the latest hibernation/wake
+>> sequences in the shared ASoC code.
+>>
+>> This has a functional dependency on two commits:
+>>
+>> commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
+>> twice")
+>>
+>> commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
+>> allow auto hibernate")
+>>
+>> To protect against this, enabling hibernation is conditional on
+>> CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
+>> hibernation sequences are available.
+>>
+>> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 > 
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> ---
->  .../devicetree/bindings/sound/cirrus,ep9301-i2s.yaml         | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> Is this expected to be merged for 6.7?  Or it can be post 6.7?
+> I guess the former, but just to make sure.
+>
+
+It would be good to get it into 6.7 because it reduces the power
+consumption in runtime-suspend and suspend-to-RAM. But it's not
+critical (it's not a bugfix).
+
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/dma/cirrus,ep9301-dma-m2m.example.dts:24:18: fatal error: dt-bindings/soc/cirrus,ep9301-syscon.h: No such file or directory
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/dma/cirrus,ep9301-dma-m2m.example.dtb] Error 1
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+> thanks,
+> 
+> Takashi
 
