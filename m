@@ -1,122 +1,242 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LbnwH9Mb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="on5V3Px+"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C5C197;
-	Wed, 22 Nov 2023 05:40:42 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ABCC721982;
-	Wed, 22 Nov 2023 13:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700660440; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9gGmYo4GGQsuh8hITKaYDqM8JQ11gZwcjahtThUAeRc=;
-	b=LbnwH9MbFIfOuDeb1eRHuAMvU5J0CN+a3X/ksA23uS0fMnjjMFlPv4FsZ2ETJOtdhR83t/
-	MkCCqZbeKeHsq4NufrXo+YLm/G8m4Oc/YF30bMd6SozRhd+phwLKU/WNXove7nK9wxoFf+
-	kVhN/JkvRm5dGLysAt22o6afz9H/2rI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700660440;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9gGmYo4GGQsuh8hITKaYDqM8JQ11gZwcjahtThUAeRc=;
-	b=on5V3Px+T1NwJyLID7d2FpzVAbVvPuy9aWL2FZsbKjiLCvsGxMf3KmEw7uza6tX4OjmULy
-	bhWnF7x1N4awNVCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8FBAE13467;
-	Wed, 22 Nov 2023 13:40:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id vP7KItgEXmVicAAAMHmgww
-	(envelope-from <tiwai@suse.de>); Wed, 22 Nov 2023 13:40:40 +0000
-Date: Wed, 22 Nov 2023 14:40:40 +0100
-Message-ID: <87pm013nzb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on SPI
-In-Reply-To: <1528da8b-4ca3-4f12-be17-a3222039fa20@opensource.cirrus.com>
-References: <20231121154419.19435-1-rf@opensource.cirrus.com>
-	<87h6lealos.wl-tiwai@suse.de>
-	<1528da8b-4ca3-4f12-be17-a3222039fa20@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GSnja0Fi"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFE919E;
+	Wed, 22 Nov 2023 06:35:15 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AMBtvdR027576;
+	Wed, 22 Nov 2023 08:35:02 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=2
+	zg8Vph7JyQ3lMnAhTy3DJBjNy3k2aXpTzfCZyGUxXs=; b=GSnja0FiYrWY/+tBo
+	9zC2lpuI9g1rZ+LOUkQAoV7/QLP5QP0a/DjaWMZx/dRiEaO/rXUYWpy8PlnOO3iK
+	QHGzLwydZRolt/KtNqUGMQveA55jD1vEUw8Ysw8hTBMkDW+il4u/9Aezcb9H/8MW
+	ee2AyVVsybni/Jo7EDksMMk+fv1O/2scd2qwSZnZu8RQlJWF1k3mlWZsznlIDz5U
+	9e48HXs53KgdAbxZH5M1SL/WDvzG3nUlxvOAJSLb4Budu+dDH/9BlRIpGS1vPEYA
+	07hOwqFuEBNgPck94X/40FH6/mDjGYOcIxsZobhZjti4gxgCELts0NLmCplkvs5Q
+	zYU3A==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uetjpcjyn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 08:35:02 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 22 Nov
+ 2023 14:35:00 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Wed, 22 Nov 2023 14:35:00 +0000
+Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id A92B015B6;
+	Wed, 22 Nov 2023 14:35:00 +0000 (UTC)
+From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: James Schulman <james.schulman@cirrus.com>,
+        David Rhodes
+	<david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Maciej Strozek
+	<mstrozek@opensource.cirrus.com>
+Subject: [PATCH v4] ASoC: cs43130: Allow driver to work without IRQ connection
+Date: Wed, 22 Nov 2023 14:34:59 +0000
+Message-ID: <20231122143459.26861-1-mstrozek@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -4.53
-X-Spamd-Result: default: False [-4.53 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.997];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.23)[72.66%]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: uP51HNjBvecpsM2cMKHTZ3OfXw42q43p
+X-Proofpoint-ORIG-GUID: uP51HNjBvecpsM2cMKHTZ3OfXw42q43p
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, 22 Nov 2023 12:04:27 +0100,
-Richard Fitzgerald wrote:
-> 
-> On 21/11/23 20:36, Takashi Iwai wrote:
-> > On Tue, 21 Nov 2023 16:44:19 +0100,
-> > Richard Fitzgerald wrote:
-> >> 
-> >> SPI hibernation is now supported with the latest hibernation/wake
-> >> sequences in the shared ASoC code.
-> >> 
-> >> This has a functional dependency on two commits:
-> >> 
-> >> commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
-> >> twice")
-> >> 
-> >> commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
-> >> allow auto hibernate")
-> >> 
-> >> To protect against this, enabling hibernation is conditional on
-> >> CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
-> >> hibernation sequences are available.
-> >> 
-> >> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> > 
-> > Is this expected to be merged for 6.7?  Or it can be post 6.7?
-> > I guess the former, but just to make sure.
-> > 
-> 
-> It would be good to get it into 6.7 because it reduces the power
-> consumption in runtime-suspend and suspend-to-RAM. But it's not
-> critical (it's not a bugfix).
+Add a polling mechanism that will keep the driver operational even in
+absence of physical IRQ connection. If IRQ line is detected, the driver
+will continue working as usual, in case of missing IRQ line it will
+fallback to the polling mechanism introduced in this change.
+This will support users which choose not to connect an IRQ line as it
+is not critical to part's operation.
 
-OK, now applied to for-linus branch (for 6.7).
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+---
+V3 -> V4:
+	- Removed unnecesary else and indentation
+	- Changed cs43130_wait_for_completion return codes and updated callers accordingly
+	- Changed approach for checking for presence of IRQ connection: see if client->irq equals 0
+	  which seems to be a standard way of checking it used by other drivers (instead of
+	  inspecting devm_request_threaded_irq error code)
+V2 -> V3: Amended changelog message and subject line
+V1 -> V2: Add changelog message
 
+ sound/soc/codecs/cs43130.c | 91 +++++++++++++++++++++++++++-----------
+ sound/soc/codecs/cs43130.h |  1 +
+ 2 files changed, 65 insertions(+), 27 deletions(-)
 
-thanks,
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index 02e7f45b9208..bd51bb5b6f14 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -326,6 +326,40 @@ static int cs43130_set_pll(struct snd_soc_component *component, int pll_id, int
+ 	return ret;
+ }
 
-Takashi
++static int cs43130_wait_for_completion(struct cs43130_private *cs43130, struct completion *to_poll,
++					int time)
++{
++	int stickies, offset, flag, ret;
++
++	if (cs43130->has_irq_line) {
++		ret = wait_for_completion_timeout(to_poll, msecs_to_jiffies(time));
++		if (ret == 0)
++			return -ETIMEDOUT;
++		else
++			return 0; // Discard number of jiffies left till timeout and return success
++	}
++
++	if (to_poll == &cs43130->xtal_rdy) {
++		offset = 0;
++		flag = CS43130_XTAL_RDY_INT;
++	} else if (to_poll == &cs43130->pll_rdy) {
++		offset = 0;
++		flag = CS43130_PLL_RDY_INT;
++	} else if (to_poll == &cs43130->hpload_evt) {
++		offset = 3;
++		flag = CS43130_HPLOAD_NO_DC_INT | CS43130_HPLOAD_UNPLUG_INT |
++			CS43130_HPLOAD_OOR_INT | CS43130_HPLOAD_AC_INT |
++			CS43130_HPLOAD_DC_INT | CS43130_HPLOAD_ON_INT |
++			CS43130_HPLOAD_OFF_INT;
++	} else {
++		return -EINVAL;
++	}
++
++	return regmap_read_poll_timeout(cs43130->regmap, CS43130_INT_STATUS_1 + offset,
++					stickies, (stickies & flag),
++					1000, time * 1000);
++}
++
+ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 				 enum cs43130_mclk_src_sel src)
+ {
+@@ -364,14 +398,13 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 					   CS43130_XTAL_RDY_INT_MASK, 0);
+ 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
+ 					   CS43130_PDN_XTAL_MASK, 0);
+-			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
+-							  msecs_to_jiffies(100));
++			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
+ 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
+ 					   CS43130_XTAL_RDY_INT_MASK,
+ 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
+-			if (ret == 0) {
+-				dev_err(cs43130->dev, "Timeout waiting for XTAL_READY interrupt\n");
+-				return -ETIMEDOUT;
++			if (ret) {
++				dev_err(cs43130->dev, "Error waiting for XTAL_READY interrupt: %d\n", ret);
++				return ret;
+ 			}
+ 		}
+
+@@ -400,14 +433,13 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 					   CS43130_XTAL_RDY_INT_MASK, 0);
+ 			regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
+ 					   CS43130_PDN_XTAL_MASK, 0);
+-			ret = wait_for_completion_timeout(&cs43130->xtal_rdy,
+-							  msecs_to_jiffies(100));
++			ret = cs43130_wait_for_completion(cs43130, &cs43130->xtal_rdy, 100);
+ 			regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
+ 					   CS43130_XTAL_RDY_INT_MASK,
+ 					   1 << CS43130_XTAL_RDY_INT_SHIFT);
+-			if (ret == 0) {
+-				dev_err(cs43130->dev, "Timeout waiting for XTAL_READY interrupt\n");
+-				return -ETIMEDOUT;
++			if (ret) {
++				dev_err(cs43130->dev, "Error waiting for XTAL_READY interrupt: %d\n", ret);
++				return ret;
+ 			}
+ 		}
+
+@@ -416,14 +448,13 @@ static int cs43130_change_clksrc(struct snd_soc_component *component,
+ 				   CS43130_PLL_RDY_INT_MASK, 0);
+ 		regmap_update_bits(cs43130->regmap, CS43130_PWDN_CTL,
+ 				   CS43130_PDN_PLL_MASK, 0);
+-		ret = wait_for_completion_timeout(&cs43130->pll_rdy,
+-						  msecs_to_jiffies(100));
++		ret = cs43130_wait_for_completion(cs43130, &cs43130->pll_rdy, 100);
+ 		regmap_update_bits(cs43130->regmap, CS43130_INT_MASK_1,
+ 				   CS43130_PLL_RDY_INT_MASK,
+ 				   1 << CS43130_PLL_RDY_INT_SHIFT);
+-		if (ret == 0) {
+-			dev_err(cs43130->dev, "Timeout waiting for PLL_READY interrupt\n");
+-			return -ETIMEDOUT;
++		if (ret) {
++			dev_err(cs43130->dev, "Error waiting for PLL_READY interrupt: %d\n", ret);
++			return ret;
+ 		}
+
+ 		regmap_update_bits(cs43130->regmap, CS43130_SYS_CLK_CTL_1,
+@@ -2048,12 +2079,12 @@ static int cs43130_hpload_proc(struct cs43130_private *cs43130,
+ 	regmap_multi_reg_write(cs43130->regmap, seq,
+ 			       seq_size);
+
+-	ret = wait_for_completion_timeout(&cs43130->hpload_evt,
+-					  msecs_to_jiffies(1000));
++	ret = cs43130_wait_for_completion(cs43130, &cs43130->hpload_evt, 1000);
++
+ 	regmap_read(cs43130->regmap, CS43130_INT_MASK_4, &msk);
+-	if (!ret) {
+-		dev_err(cs43130->dev, "Timeout waiting for HPLOAD interrupt\n");
+-		return -1;
++	if (ret) {
++		dev_err(cs43130->dev, "Timeout waiting for HPLOAD interrupt: %d\n", ret);
++		return ret;
+ 	}
+
+ 	dev_dbg(cs43130->dev, "HP load stat: %x, INT_MASK_4: %x\n",
+@@ -2548,13 +2579,19 @@ static int cs43130_i2c_probe(struct i2c_client *client)
+ 	init_completion(&cs43130->pll_rdy);
+ 	init_completion(&cs43130->hpload_evt);
+
+-	ret = devm_request_threaded_irq(cs43130->dev, client->irq,
+-					NULL, cs43130_irq_thread,
+-					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
+-					"cs43130", cs43130);
+-	if (ret != 0) {
+-		dev_err(cs43130->dev, "Failed to request IRQ: %d\n", ret);
+-		goto err;
++	if (!client->irq) {
++		dev_dbg(cs43130->dev, "IRQ not found, will poll instead\n");
++		cs43130->has_irq_line = 0;
++	} else {
++		ret = devm_request_threaded_irq(cs43130->dev, client->irq,
++						NULL, cs43130_irq_thread,
++						IRQF_ONESHOT | IRQF_TRIGGER_LOW,
++						"cs43130", cs43130);
++		if (ret != 0) {
++			dev_err(cs43130->dev, "Failed to request IRQ: %d\n", ret);
++			goto err;
++		}
++		cs43130->has_irq_line = 1;
+ 	}
+
+ 	cs43130->mclk_int_src = CS43130_MCLK_SRC_RCO;
+diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
+index d3f595bbd3ba..dbdb5b262f1b 100644
+--- a/sound/soc/codecs/cs43130.h
++++ b/sound/soc/codecs/cs43130.h
+@@ -508,6 +508,7 @@ struct	cs43130_private {
+ 	struct gpio_desc		*reset_gpio;
+ 	unsigned int			dev_id; /* codec device ID */
+ 	int				xtal_ibias;
++	bool				has_irq_line;
+
+ 	/* shared by both DAIs */
+ 	struct mutex			clk_mutex;
+--
+2.34.1
+
