@@ -1,90 +1,129 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="myf08uUs"
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C9810D1;
-	Wed, 22 Nov 2023 07:51:16 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AMCI4cB009416;
-	Wed, 22 Nov 2023 09:51:09 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:subject:from:to:cc:date:in-reply-to:references
-	:content-type:mime-version:content-transfer-encoding; s=
-	PODMain02222019; bh=0EJUDXEEx1uaj+Vpy9q/HshvrhOAKakRmd0jf8CvOjs=; b=
-	myf08uUsuUbI3bRCvtMMq6/JMRVhnQqU0cndDe2xLHAtw1hcuHUGEnH99/q8Yea9
-	Hb8tWJtfXpqFuQocbtaG03+OUm3T2Fh6bmhAFYvBDfdTgYcIsb38xTUPClaNNGOG
-	yEGOu1t7/9NoI724SBhP1ajLkQxwQ/4R8P3LF7cboKvDQ5O5E26CXrq6K1eWJycm
-	Hm+yPRBw+dqfDFIo6SsC20tFuofbYa6qALbUkVCme/hGc3V/18MdmgEkvdFtX0N2
-	NTL4orfdJsRwTdc9kVPcj7cixB14AmGI6sNnFJhyLCd5W2N8ELxSI5O1Y1NR7kHz
-	HF8ygyQuAJzM/R2qyJR06Q==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj2cp4q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Nov 2023 09:51:08 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 22 Nov
- 2023 15:51:06 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Wed, 22 Nov 2023 15:51:06 +0000
-Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.251.123])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B4D3715B6;
-	Wed, 22 Nov 2023 15:51:06 +0000 (UTC)
-Message-ID: <399d6e4fcbaa590bcd92869e7d02402a9226cad2.camel@opensource.cirrus.com>
-Subject: Re: [PATCH v4] ASoC: cs43130: Allow driver to work without IRQ
- connection
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>,
-        James Schulman
-	<james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        "Liam
- Girdwood" <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Date: Wed, 22 Nov 2023 15:51:06 +0000
-In-Reply-To: <20231122154238.GM32655@ediswmail.ad.cirrus.com>
-References: <20231122143459.26861-1-mstrozek@opensource.cirrus.com>
-	 <20231122154238.GM32655@ediswmail.ad.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u2 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nU8aOyIA"
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186B3B2
+	for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 10:47:33 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4083cd3917eso344725e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 10:47:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700678851; x=1701283651; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YiZgLQsZTIDVpeyYRupg1J4mwVxzwkIJAq5MUJGAgvI=;
+        b=nU8aOyIAc0UD0oPgEF0LYqJwALKdrtwpaqqftUCirF9+GNMI1mTmob8I0hFSq83U9Y
+         21Mqnq0bvs0VByq4a3bgcq9KcUH3bpWk1Ann4zBSBcPzeaQ1UuD3seAvNCl3MchIJ0+P
+         4fMiS2zqH4juRZdljqE5kcn8GFczX7Z2iLXOYvJXZ4QdIeiYNW+OOiRrTgPl9PCb518K
+         xk8CaH8raN+s8lI31CHsVLkdOV8q/Ky0JxdY2F6lqXuIm/xze4I71iK7AkowQKsaXetI
+         AoVGoGxM3NkxxCdEHIZvqAmxGusDaPWcfocXdeMdwC1ipOyz66vqWq7/OlegnjFquGfb
+         v7Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700678851; x=1701283651;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YiZgLQsZTIDVpeyYRupg1J4mwVxzwkIJAq5MUJGAgvI=;
+        b=OC/0y4kH4EGGsALAOke29fyFBU1e4qfrv2yqJ1YUbsbPR5N8tv2t41SIMzvnwvGhQ9
+         JdLkGmUQOUm8IFwwH8Jj7uQDx1P6mn3A5amrhxRQKh0Yt+WR9imDNxv7k1iJBtGPor86
+         soZdIaPfiuha4zX0NevCzbhmkw7fS+5zz3AWv/nxWVaBzdH8b989+YGlhmt0Isp4jhZY
+         TQLqNAgq559SqQbH3q6w06zGFJsOpygCSAgeHowwWs55HisHSWxT0QqML/hgpv245L0w
+         LS9/W/L+n93o8TdIzbQA5FBVQnIRylU1cefuOPGjxqPxuVv6fZQ6dVSJhfp46z7Mk8aP
+         o6oA==
+X-Gm-Message-State: AOJu0YybmFQWhuQScqxT/YD2qchOL209aYPjm2ck7LDYPMXaRVuvJhOC
+	6Qt1XzarzKPuCDAtVbmBgZKc7g==
+X-Google-Smtp-Source: AGHT+IGj/kOrmtNf68jXRX/Y+2tcudROmMxjyF06BlR7pUPvQLQJ6z26TdVy/rIpTj7hvLyQaquCRg==
+X-Received: by 2002:a05:600c:45d2:b0:40b:29f2:968f with SMTP id s18-20020a05600c45d200b0040b29f2968fmr2270699wmo.26.1700678851470;
+        Wed, 22 Nov 2023 10:47:31 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.100])
+        by smtp.gmail.com with ESMTPSA id f5-20020a5d64c5000000b00332ce0d7300sm71471wri.92.2023.11.22.10.47.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 10:47:31 -0800 (PST)
+Message-ID: <9638d721-b454-4cbb-8981-9de4ce16cd2f@linaro.org>
+Date: Wed, 22 Nov 2023 19:47:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: LxaKH6Si1qg48sy4WPOpafk-lSIpc2JU
-X-Proofpoint-GUID: LxaKH6Si1qg48sy4WPOpafk-lSIpc2JU
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 27/39] ASoC: dt-bindings: ep93xx: Document DMA support
+Content-Language: en-US
+To: nikita.shubin@maquefel.me, Hartley Sweeten
+ <hsweeten@visionengravers.com>,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231122-ep93xx-v5-0-d59a76d5df29@maquefel.me>
+ <20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-W dniu śro, 22.11.2023 o godzinie 15∶42 +0000, użytkownik Charles
-Keepax napisał:
-> On Wed, Nov 22, 2023 at 02:34:59PM +0000, Maciej Strozek wrote:
-> > Add a polling mechanism that will keep the driver operational even
-> > in
-> > absence of physical IRQ connection. If IRQ line is detected, the
-> > driver
-> > will continue working as usual, in case of missing IRQ line it will
-> > fallback to the polling mechanism introduced in this change.
-> > This will support users which choose not to connect an IRQ line as
-> > it
-> > is not critical to part's operation.
-> > 
-> > Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> > ---
+On 22/11/2023 10:00, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
 > 
-> Apologies Maciej, should have spotted this when I had a look this
-> morning but I have just spotted one more thing, we should actually
-> remove the polling for the hpload detect. The hpload detect can
-> actually only be triggered by the IRQ handler anyway so that code
-> will never run, and there would be much more work required to get
-> the jack detect working without the IRQ.
+> Document DMA support in binding document.
 > 
-> Thanks,
-> Charles
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
+>  .../devicetree/bindings/sound/cirrus,ep9301-i2s.yaml         | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
 
-No problem, will send V5 with the hpload detect deleted tomorrow
+You could send it separately through ASoC.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
