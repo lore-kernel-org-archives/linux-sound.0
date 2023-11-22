@@ -1,79 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A931BDD6
-	for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 12:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P7Si9alC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A62E1C433C9;
-	Wed, 22 Nov 2023 12:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700654831;
-	bh=FgOpIzOkt0J5Z8tPaNlDWaJw0YU3y8AkRtllfRJfNGE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P7Si9alCKqN80zIFIOgOua+WLimk1dTCXEiKFifealPGQPddSc0E1r8Ccj/kV857X
-	 Ztkpqbz/FAtumHCtrYC8DzfirPDp3pLghDbdjPr33N01RcXHPH3H7UUksbCQyebl49
-	 xACEubE4zwvT/jblBO1dS01JhdxlHd/4r5Vm9lpI4svDQRuwCDyTRpUWIfanIPVm69
-	 kcY4symh75xohuHzCZTUODbF2s0D7KtPfwnDJeHmtgnedef9GE0F0U7SF2D1moNCJy
-	 8DepkPXC3MD46QD2FNPNXVgj36fwFdTI8WWezGmNjqJTNj8roXHeFGzs9W6tzeI9hb
-	 V4C51Mv2iMUQA==
-Date: Wed, 22 Nov 2023 12:07:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: nikita.shubin@maquefel.me
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 29/39] ASoC: ep93xx: Drop legacy DMA support
-Message-ID: <ZV3u6/awTLMF56RB@finisterre.sirena.org.uk>
-References: <20231122-ep93xx-v5-0-d59a76d5df29@maquefel.me>
- <20231122-ep93xx-v5-29-d59a76d5df29@maquefel.me>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LbnwH9Mb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="on5V3Px+"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C5C197;
+	Wed, 22 Nov 2023 05:40:42 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ABCC721982;
+	Wed, 22 Nov 2023 13:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700660440; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9gGmYo4GGQsuh8hITKaYDqM8JQ11gZwcjahtThUAeRc=;
+	b=LbnwH9MbFIfOuDeb1eRHuAMvU5J0CN+a3X/ksA23uS0fMnjjMFlPv4FsZ2ETJOtdhR83t/
+	MkCCqZbeKeHsq4NufrXo+YLm/G8m4Oc/YF30bMd6SozRhd+phwLKU/WNXove7nK9wxoFf+
+	kVhN/JkvRm5dGLysAt22o6afz9H/2rI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700660440;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9gGmYo4GGQsuh8hITKaYDqM8JQ11gZwcjahtThUAeRc=;
+	b=on5V3Px+T1NwJyLID7d2FpzVAbVvPuy9aWL2FZsbKjiLCvsGxMf3KmEw7uza6tX4OjmULy
+	bhWnF7x1N4awNVCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8FBAE13467;
+	Wed, 22 Nov 2023 13:40:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id vP7KItgEXmVicAAAMHmgww
+	(envelope-from <tiwai@suse.de>); Wed, 22 Nov 2023 13:40:40 +0000
+Date: Wed, 22 Nov 2023 14:40:40 +0100
+Message-ID: <87pm013nzb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on SPI
+In-Reply-To: <1528da8b-4ca3-4f12-be17-a3222039fa20@opensource.cirrus.com>
+References: <20231121154419.19435-1-rf@opensource.cirrus.com>
+	<87h6lealos.wl-tiwai@suse.de>
+	<1528da8b-4ca3-4f12-be17-a3222039fa20@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="y4/hYSGfAD8LteuZ"
-Content-Disposition: inline
-In-Reply-To: <20231122-ep93xx-v5-29-d59a76d5df29@maquefel.me>
-X-Cookie: Slow day.  Practice crawling.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -4.53
+X-Spamd-Result: default: False [-4.53 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.997];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.23)[72.66%]
+
+On Wed, 22 Nov 2023 12:04:27 +0100,
+Richard Fitzgerald wrote:
+> 
+> On 21/11/23 20:36, Takashi Iwai wrote:
+> > On Tue, 21 Nov 2023 16:44:19 +0100,
+> > Richard Fitzgerald wrote:
+> >> 
+> >> SPI hibernation is now supported with the latest hibernation/wake
+> >> sequences in the shared ASoC code.
+> >> 
+> >> This has a functional dependency on two commits:
+> >> 
+> >> commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
+> >> twice")
+> >> 
+> >> commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
+> >> allow auto hibernate")
+> >> 
+> >> To protect against this, enabling hibernation is conditional on
+> >> CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
+> >> hibernation sequences are available.
+> >> 
+> >> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> > 
+> > Is this expected to be merged for 6.7?  Or it can be post 6.7?
+> > I guess the former, but just to make sure.
+> > 
+> 
+> It would be good to get it into 6.7 because it reduces the power
+> consumption in runtime-suspend and suspend-to-RAM. But it's not
+> critical (it's not a bugfix).
+
+OK, now applied to for-linus branch (for 6.7).
 
 
---y4/hYSGfAD8LteuZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-On Wed, Nov 22, 2023 at 12:00:07PM +0300, Nikita Shubin via B4 Relay wrote:
-> From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
->=20
-> And rely on OF DMA.
->=20
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> ---
-
-You've not provided a Signed-off-by for this so I can't do anything with
-it, please see Documentation/process/submitting-patches.rst for details
-on what this is and why it's important.
-
---y4/hYSGfAD8LteuZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVd7uoACgkQJNaLcl1U
-h9Bnjgf+Ks8h4hRMIeznb3b40XFU5GjSwLBqJXdTYsRpmrWFf8XPpCn5ZB1Tj2h7
-vnfuPeefiecLtGK+9TqlhsgmGxZdwkARIEhfAobCINiHsgVPEXg6PiEW5RovS1L7
-SiwJ15K+VE8PwRIrsMAx/lf0Y//YehIXQbbi1kvCcmZ54uY5FxRiUADs5ZDFY1Zg
-za6Ru6qtMfpvxpNSJpi6J5v1bUEgeM62CelT7MejyRfw8/JanKmMjS5ZRfi7zQMD
-jZI403ejsx4Gke3q5c6cJM34I97pwmWQCC/hgUU2kQ5NiFmF8To1Qp6KEL4Pi6kZ
-m+aXz10SZA31YciX5e+dhkUWbfebTQ==
-=BU4x
------END PGP SIGNATURE-----
-
---y4/hYSGfAD8LteuZ--
+Takashi
