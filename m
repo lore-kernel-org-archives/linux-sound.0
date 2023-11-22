@@ -1,92 +1,72 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854F1F612
+	for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 11:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UNbxEmkw"
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97390D8;
-	Wed, 22 Nov 2023 03:04:39 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AM7JoId001441;
-	Wed, 22 Nov 2023 05:04:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=121+3MVz3eMpEMpVEtJbEi4kTmMcYLW1eMvklU6Z7ds=; b=
-	UNbxEmkwDn6ji65dxLuZm//weuAaU157F8H78EHVCnuULbTRrfj10t4WPOa6mKOu
-	ReCFECP2l5Zz0dPWItyMi7eAeAuscVn+Sh9/vHHqvsGrG8R1cqBNRfsIgFFFHFU+
-	6LnMoe+i+uTiVnyuVt81KkNb/r8yauuaUCk9RKFy1mdma5LnOhT09bKXoOlmuBYl
-	9U4t73jIBC9mLUxjLCWHokVEpsR175mzvtdS3nUYUAGgIzvwdjzScBMmKOj/9lOL
-	ErU/7P8MWOzqhHS/7SbTdoZOBkAHgjmL3AUQSMP2Bm+YdWvgd+Lb/9Z/zx19roUU
-	5IInGHbrnBX1/zIOxFoPEQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj2cbu1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Nov 2023 05:04:30 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 22 Nov
- 2023 11:04:28 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Wed, 22 Nov 2023 11:04:28 +0000
-Received: from [198.61.65.98] (EDIN4L06LR3.ad.cirrus.com [198.61.65.98])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C7D7A458;
-	Wed, 22 Nov 2023 11:04:27 +0000 (UTC)
-Message-ID: <1528da8b-4ca3-4f12-be17-a3222039fa20@opensource.cirrus.com>
-Date: Wed, 22 Nov 2023 11:04:27 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBqiAAQ2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EAD1C433C8;
+	Wed, 22 Nov 2023 11:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700653350;
+	bh=QEKSREZFB9WcaZBZKKMacGvB5GHLDryHAUrK5PwyzeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WBqiAAQ2L28tf9RBZgy3zkdD02qnghFQovUzDCLddDVS/blqqN03OejYwzMPFRTaD
+	 aneNmQlPQXa5R41Fm/hNHNUHglVTWWoiNVsV1ijnMeet9atGN10P+HhKBx7SZy3yJR
+	 Q2yXF0FIAi8V9bRzDl6HwTY3OGTZIiBKcNOIJl9ggZWfSQfSxwOIk1pawH4fcd/LGe
+	 nAOPB9MwDW6P2BpOqu8LN7gd9Iey77qqozVvAq7BQxs9aS+VyiMiOgehCdBEwYqNTq
+	 W22N8LsD1LvYo7qJf4esfClOt2IeZabgCiLjDRR30j4PlbDK6sCX1l6ibTmp/Vdr5m
+	 KfnCAUISVWmtg==
+Date: Wed, 22 Nov 2023 11:42:25 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, james.schulman@cirrus.com,
+	david.rhodes@cirrus.com, rf@opensource.cirrus.com,
+	linuxppc-dev@lists.ozlabs.org, perex@perex.cz, tiwai@suse.com,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, paul.gortmaker@windriver.com
+Subject: Re: [PATCH 2/2] ASoC: cs4270: Remove unused codec
+Message-ID: <ZV3pIb1p52CFNsSl@finisterre.sirena.org.uk>
+References: <20231122062712.2250426-1-mpe@ellerman.id.au>
+ <20231122062712.2250426-2-mpe@ellerman.id.au>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Enable low-power hibernation mode on
- SPI
-To: Takashi Iwai <tiwai@suse.de>
-CC: <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-References: <20231121154419.19435-1-rf@opensource.cirrus.com>
- <87h6lealos.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <87h6lealos.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: rWo-Y9C1_vdAV05ubqd49_-IO5aAZzMQ
-X-Proofpoint-GUID: rWo-Y9C1_vdAV05ubqd49_-IO5aAZzMQ
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sizIwLURlAo5DBqL"
+Content-Disposition: inline
+In-Reply-To: <20231122062712.2250426-2-mpe@ellerman.id.au>
+X-Cookie: Slow day.  Practice crawling.
 
-On 21/11/23 20:36, Takashi Iwai wrote:
-> On Tue, 21 Nov 2023 16:44:19 +0100,
-> Richard Fitzgerald wrote:
->>
->> SPI hibernation is now supported with the latest hibernation/wake
->> sequences in the shared ASoC code.
->>
->> This has a functional dependency on two commits:
->>
->> commit 3df761bdbc8b ("ASoC: cs35l56: Wake transactions need to be issued
->> twice")
->>
->> commit a47cf4dac7dc ("ASoC: cs35l56: Change hibernate sequence to use
->> allow auto hibernate")
->>
->> To protect against this, enabling hibernation is conditional on
->> CS35L56_WAKE_HOLD_TIME_US being defined, which indicates that the new
->> hibernation sequences are available.
->>
->> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> 
-> Is this expected to be merged for 6.7?  Or it can be post 6.7?
-> I guess the former, but just to make sure.
->
 
-It would be good to get it into 6.7 because it reduces the power
-consumption in runtime-suspend and suspend-to-RAM. But it's not
-critical (it's not a bugfix).
+--sizIwLURlAo5DBqL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> thanks,
-> 
-> Takashi
+On Wed, Nov 22, 2023 at 05:27:12PM +1100, Michael Ellerman wrote:
+> The only driver to enable SND_SOC_CS4270 was SND_SOC_MPC8610_HPCD, which
+> was dropped in the preceding commit. Remove the codec as unused.
 
+There's no real overhead from having extra drivers and we do have
+generic drivers that people can attach CODECs to.
+
+--sizIwLURlAo5DBqL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVd6SAACgkQJNaLcl1U
+h9AI/Qf+J4DIRnTf3NQShXZHpoX3Pl0SkRoY1ASOBLv/amwIrdoVcjmfHrm8Mth0
+cJtFdkyQmmjeem1kXEZm29r1Ro4GyCaRUYQah6JHIbJPJbIOwStqbdI2WmYL8jw1
+GO5y4mE6ZVg3dUXwFm6znHoylg3FRrVaLxGxBnXyrL3MMNuz9uPyDR1rFUFTl8WU
+lvMR2VOuMawEFJ1GiQ6aaaLu9t8i+8VvoKSn7GD1xTI2tU9PppIT4R0s3CUogNjK
+DRx2A9aLQcQmdXN+2LykYfsOw3UZUwOEZGQXZwSNKYXRKu4reowv/ytzO8RaEAxh
+h5OlnboVbe6voabyne7F1oieLvRg+w==
+=YIcX
+-----END PGP SIGNATURE-----
+
+--sizIwLURlAo5DBqL--
