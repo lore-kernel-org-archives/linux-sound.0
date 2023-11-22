@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854F1F612
-	for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 11:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFA25577E;
+	Wed, 22 Nov 2023 12:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBqiAAQ2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EAD1C433C8;
-	Wed, 22 Nov 2023 11:42:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IScqcdd4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCB7C433C8;
+	Wed, 22 Nov 2023 12:05:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700653350;
-	bh=QEKSREZFB9WcaZBZKKMacGvB5GHLDryHAUrK5PwyzeA=;
+	s=k20201202; t=1700654749;
+	bh=BWxKGy0JYbFu0lFpaQPRgtk6vaihyOBnyhYlcAebvYU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WBqiAAQ2L28tf9RBZgy3zkdD02qnghFQovUzDCLddDVS/blqqN03OejYwzMPFRTaD
-	 aneNmQlPQXa5R41Fm/hNHNUHglVTWWoiNVsV1ijnMeet9atGN10P+HhKBx7SZy3yJR
-	 Q2yXF0FIAi8V9bRzDl6HwTY3OGTZIiBKcNOIJl9ggZWfSQfSxwOIk1pawH4fcd/LGe
-	 nAOPB9MwDW6P2BpOqu8LN7gd9Iey77qqozVvAq7BQxs9aS+VyiMiOgehCdBEwYqNTq
-	 W22N8LsD1LvYo7qJf4esfClOt2IeZabgCiLjDRR30j4PlbDK6sCX1l6ibTmp/Vdr5m
-	 KfnCAUISVWmtg==
-Date: Wed, 22 Nov 2023 11:42:25 +0000
+	b=IScqcdd4IpevTMFCAAg6pYAaQPiWvU5+fOssMIpneCcjvBFLamopy2TKAXSmd8r+E
+	 lZ3SczlMbjPb1mF7lSPpRKxlPKyO44EsMylzl0GnQXhn3wjlFjCz735IFqLFQa6sfA
+	 UZu78hfdwEwhy8b1q5FCowwjsfurkNIO8pycbU/60ELqejNn3YIYxo4GYE7AYIo5+V
+	 8eqWfiUPsv4khjzdZpAOXOLNcj0FiL5j8iciOT50KUBi8zl3A68QEszz9JB6tGhduB
+	 zWoqzxRKEWTMerNS6lQFR1hVhHFDbtXh7juk3Kg50xn8hiBkoHl7IMuvGsqreVhlBp
+	 Zafda96WfvRXA==
+Date: Wed, 22 Nov 2023 12:05:44 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, james.schulman@cirrus.com,
-	david.rhodes@cirrus.com, rf@opensource.cirrus.com,
-	linuxppc-dev@lists.ozlabs.org, perex@perex.cz, tiwai@suse.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, paul.gortmaker@windriver.com
-Subject: Re: [PATCH 2/2] ASoC: cs4270: Remove unused codec
-Message-ID: <ZV3pIb1p52CFNsSl@finisterre.sirena.org.uk>
-References: <20231122062712.2250426-1-mpe@ellerman.id.au>
- <20231122062712.2250426-2-mpe@ellerman.id.au>
+To: nikita.shubin@maquefel.me
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 27/39] ASoC: dt-bindings: ep93xx: Document DMA support
+Message-ID: <ZV3umA6LtRi8iM0l@finisterre.sirena.org.uk>
+References: <20231122-ep93xx-v5-0-d59a76d5df29@maquefel.me>
+ <20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,36 +39,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sizIwLURlAo5DBqL"
+	protocol="application/pgp-signature"; boundary="Oa8Rsb4gPpBrlFd1"
 Content-Disposition: inline
-In-Reply-To: <20231122062712.2250426-2-mpe@ellerman.id.au>
+In-Reply-To: <20231122-ep93xx-v5-27-d59a76d5df29@maquefel.me>
 X-Cookie: Slow day.  Practice crawling.
 
 
---sizIwLURlAo5DBqL
+--Oa8Rsb4gPpBrlFd1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 22, 2023 at 05:27:12PM +1100, Michael Ellerman wrote:
-> The only driver to enable SND_SOC_CS4270 was SND_SOC_MPC8610_HPCD, which
-> was dropped in the preceding commit. Remove the codec as unused.
+On Wed, Nov 22, 2023 at 12:00:05PM +0300, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
+>=20
+> Document DMA support in binding document.
 
-There's no real overhead from having extra drivers and we do have
-generic drivers that people can attach CODECs to.
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
---sizIwLURlAo5DBqL
+--Oa8Rsb4gPpBrlFd1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVd6SAACgkQJNaLcl1U
-h9AI/Qf+J4DIRnTf3NQShXZHpoX3Pl0SkRoY1ASOBLv/amwIrdoVcjmfHrm8Mth0
-cJtFdkyQmmjeem1kXEZm29r1Ro4GyCaRUYQah6JHIbJPJbIOwStqbdI2WmYL8jw1
-GO5y4mE6ZVg3dUXwFm6znHoylg3FRrVaLxGxBnXyrL3MMNuz9uPyDR1rFUFTl8WU
-lvMR2VOuMawEFJ1GiQ6aaaLu9t8i+8VvoKSn7GD1xTI2tU9PppIT4R0s3CUogNjK
-DRx2A9aLQcQmdXN+2LykYfsOw3UZUwOEZGQXZwSNKYXRKu4reowv/ytzO8RaEAxh
-h5OlnboVbe6voabyne7F1oieLvRg+w==
-=YIcX
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVd7pgACgkQJNaLcl1U
+h9DDHwf+Jw49YSgLY5zSlUUq+e2R4saHl01nhLURYtXLW9GRibtpSlihER4twPZi
+YEgqo/Nql9q0raup07zwDd6uZeLXugfxGHuLlwLkzPmYs8bys5ZelLV8eKpfg8y4
+vwXXzPKTOfbyUfxdMJZwZ3OirpG+kdSrNCnvnS8mgJuEuZuiaIRxCGgXIkhfsYme
+nwc2vaSH43Ta4C088HugY84CgHaGt2lJHEt4CmntaSf4g8TMs0DPHfQGQz5gI8bJ
+0LRdQEWe7dY6f3DZl4qffcuk5bKJ3rurT2KqvB041PE+keJEseCf8vHii/OZ6lg2
+47i494uIA5HBENmTH7rjM5bUDAFZFQ==
+=Hyl7
 -----END PGP SIGNATURE-----
 
---sizIwLURlAo5DBqL--
+--Oa8Rsb4gPpBrlFd1--
