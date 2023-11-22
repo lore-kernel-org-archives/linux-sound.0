@@ -1,885 +1,413 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="dnjYfhAk"
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A168AA1
-	for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 00:40:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1700642425;
-	bh=DKmJA9kPwY0pYmSFefnnTEBX7rhZEPhwivx0te30dDk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dnjYfhAkmtIfhlw3gykE6Pm6ewUleP0xnPhyeeLTNraw/NXzOuFHExLzepi0IjOJ9
-	 pUWrjNqQvpQCnh76up5HvMC8W/uIEDuJTsce1mVeby4tboPHlsEUrwONxfYsamDy2S
-	 ZOymiRwgSHYmNPzQQibFxNFfhCLWNNKO1I4lwNNgx6PW4aLGyel7HbZ9rl+K8NvvZx
-	 3gtN8t0sWzULbFgQ+xHbAYmFjKWQx/KTmqz3Tx9GFyKnV/Y3aE9mbwZiOAyUmmPy3I
-	 RK1I68KGNV6UKMFn5+vRb218412JmLXdyEyo7DE2W9qbLzF9n/D3H2lMRdedHu93G9
-	 iLwHtF/CW7NgA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SZvp16F96z4x3D;
-	Wed, 22 Nov 2023 19:40:25 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com
-Cc: <linuxppc-dev@lists.ozlabs.org>,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	paul.gortmaker@windriver.com
-Subject: [PATCH 2/2] ASoC: cs4270: Remove unused codec
-Date: Wed, 22 Nov 2023 17:27:12 +1100
-Message-ID: <20231122062712.2250426-2-mpe@ellerman.id.au>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231122062712.2250426-1-mpe@ellerman.id.au>
-References: <20231122062712.2250426-1-mpe@ellerman.id.au>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FB61D69A;
+	Wed, 22 Nov 2023 09:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ayx/+bGr"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BC97C433C8;
+	Wed, 22 Nov 2023 09:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700643674;
+	bh=YfNv2uqY6jpXX11dkmdghWjVP3xVlwDVv4WSgO4lXlc=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Ayx/+bGrAJUPf+yY5cuaPfWUunuWfvHEmP5+Fx79GgB++9kLuLvhBmBtYlZ+Pqhqi
+	 lDZQ3RVU0ZLJ3wE3cW8QFodWbgHSi2tk4MGOqNsQweY2IrEG7VdHIgf6cKUhJncoxw
+	 IXHhliLrVE/CLsNvzIpw1jSA9M2RQ8/NBxHn7Jfg6DnuW9yIH7bVKs1oUn9CCtnEux
+	 cYmX/wq+hGZ/BaM+pCppDibaMlwu8/lB0R48OEzAS6u4Rkd+mr94O+fqa/rj9tyZ5l
+	 zM959Dolc6PPjrE+BWIbQh3iina1qtAy5xr4RRzJpL729OQtItBmt+g5pSiE4+8iqA
+	 Pia9UvTydOr1g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD1CC072A2;
+	Wed, 22 Nov 2023 09:01:14 +0000 (UTC)
+From:
+ Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
+Subject: [PATCH v5 00/39] ep93xx device tree conversion
+Date: Wed, 22 Nov 2023 11:59:38 +0300
+Message-Id: <20231122-ep93xx-v5-0-d59a76d5df29@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPrCXWUC/2WOy27DIBBFfyVi3bEYxo86q/5H1QWGcUGtcQqO5
+ SjyvweysaIur+aeM/cuEkfPSZxPdxF59cnPIYfm7SSM0+GbwduchZKKZCsb4EtP2wYSTdcSdqy
+ sErk86MQwRB2MK/VJp4VjOVwij357fvj8ynmM8wSLi6wPb61qVNQoVeE7SQUIwf/4RVfJXQcfP
+ ib9d+WRf6uJi9L5tMzx9ty8UhH/m7cSSCDbkm5GREn84ig71voAezzAOoMabdf11rBB+Qru+/4
+ A1KSSfTMBAAA=
+To: Hartley Sweeten <hsweeten@visionengravers.com>, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Nikita Shubin <nikita.shubin@maquefel.me>, Vinod Koul <vkoul@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-sound@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Andrew Lunn <andrew@lunn.ch>, Andy Shevchenko <andy.shevchenko@gmail.com>
+X-Mailer: b4 0.13-dev-e3e53
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1700643671; l=13702;
+ i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
+ bh=YfNv2uqY6jpXX11dkmdghWjVP3xVlwDVv4WSgO4lXlc=; =?utf-8?q?b=3D4eixXzQUKlt8?=
+ =?utf-8?q?ITFwAedShd7qdEmN09LtXIKl7HWExNvqe/7ceFqkOAeix/b0l58dyI5YUbJscfsL?=
+ LwbWvPmsCefF8yqWMXjfBacsxfCG0W4TFAEDrqSbo+yd3j6RUV7B
+X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
+ pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
+X-Endpoint-Received:
+ by B4 Relay for nikita.shubin@maquefel.me/20230718 with auth_id=65
+X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
+Reply-To: <nikita.shubin@maquefel.me>
 
-The only driver to enable SND_SOC_CS4270 was SND_SOC_MPC8610_HPCD, which
-was dropped in the preceding commit. Remove the codec as unused.
+This series aims to convert ep93xx from platform to full device tree support.
 
-Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+The main goal is to receive ACK's to take it via Arnd's arm-soc branch.
+
+Bit thanks to Krzysztof Kozlowski for his zero-day review.
+
+Krzysztof, Sergey, i've changed some files that you have already provided tag:
+- dt-bindings: spi: Add Cirrus EP93xx
+- ata: pata_ep93xx: add device tree support
+
+Added DMA and renamed clock header file.
+
+Sergey, Damien, i've changed some files that you have already provided tag:
+- ata: pata_ep93xx: add device tree support
+
+Added OF DMA setup and dropped platform file.
+
+Mark, i've changed some files that you have already provided tag:
+- spi: ep93xx: add DT support for Cirrus EP93xx
+
+Added OF DMA setup and dropped platform file.
+
+Major updates:
+
+- reboot, pinctrl, clk are now auxiliary and instantiated from SoC driver as
+  Stephen Boyd suggested
+- i moved all clock code to clk-ep93xx.c, as it no longer has a separate dt node, 
+  so XTALI is externalk for this driver and passed as index 0, and pll1, pll2 are
+  internal and passed via pointer for parent_data
+- reboot bindings dropped
+- pinctrl and clk bindings moved to syscon YAML
+- xlate added for DMA, so now all DMA users use it via device tree, otherwise probe 
+  order messed up and we might end up probing before DMA with no possibility to defer probing
+- DMA port bindings dropped, they are described in YAML file
+- DMA platform code dropped
+- i2s, spi, pata now use OF DMA
+- YAML and dtsi/dts changed to reflect auxiliary conversion and DMA changes
+
+Patches should be now formated with '--patience'
+
 ---
- sound/soc/codecs/Kconfig  |  14 -
- sound/soc/codecs/Makefile |   2 -
- sound/soc/codecs/cs4270.c | 762 --------------------------------------
- 3 files changed, 778 deletions(-)
- delete mode 100644 sound/soc/codecs/cs4270.c
+Changes in v5:
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 3429419ca694..412540e0fced 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -85,7 +85,6 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_CS42L73
- 	imply SND_SOC_CS4234
- 	imply SND_SOC_CS4265
--	imply SND_SOC_CS4270
- 	imply SND_SOC_CS4271_I2C
- 	imply SND_SOC_CS4271_SPI
- 	imply SND_SOC_CS42XX8_I2C
-@@ -894,19 +893,6 @@ config SND_SOC_CS4265
- 	depends on I2C
- 	select REGMAP_I2C
+- gpio: ep93xx: split device in multiple
+  - ordered headers
+  - use irqd_to_hwirq()
+  - s/platform_get_irq()/platform_get_irq_optional()/
  
--# Cirrus Logic CS4270 Codec
--config SND_SOC_CS4270
--	tristate "Cirrus Logic CS4270 CODEC"
--	depends on I2C
--
--# Cirrus Logic CS4270 Codec VD = 3.3V Errata
--# Select if you are affected by the errata where the part will not function
--# if MCLK divide-by-1.5 is selected and VD is set to 3.3V.  The driver will
--# not select any sample rates that require MCLK to be divided by 1.5.
--config SND_SOC_CS4270_VD33_ERRATA
--	bool
--	depends on SND_SOC_CS4270
--
- config SND_SOC_CS4271
- 	tristate
+- [PATCH v4 02/42] ARM: ep93xx: add swlocked prototypes
+  - replaced with ARM: ep93xx: add regmap aux_dev
+
+- [PATCH v4 03/42] dt-bindings: clock: Add Cirrus EP93xx
+  - fixed identation
+  - removed EP93XX_CLK_END
+  - and dropped it
+  - clock bindings moved to syscon with renaming to cirrus,ep9301-syscon.h
+
+- clk: ep93xx: add DT support for Cirrus EP93xx
+  - convert to auxiliary and use parent device tree node
+  - moved all clocks except XTALI here
+  - used devm version everywhere and *_parent_hw() instead of passing name where it's possible
+  - unfortunately devm_clk_hw_register_fixed_rate doesn't have a parent index version
+
+- [PATCH v4 05/42] dt-bindings: pinctrl: Add Cirrus EP93xx
+  - "unevaluatedProperties: false" for pins
+  - returned "additionalProperties: false" where it was
+  - and dropped it
+
+- pinctrl: add a Cirrus ep93xx SoC pin controller
+  - sorted includes
+  - convert to auxiliary and use parent device tree node
+
+- power: reset: Add a driver for the ep93xx reset
+  - convert to auxiliary device
+
+- dt-bindings: soc: Add Cirrus EP93xx
+  - dropped all ref to reboot, clk, pinctrl subnodes
+  - added pins, as it's now used for pinctrl
+  - added #clock-cells, as it's now used for clk
+
+- dt-bindings: pwm: Add Cirrus EP93xx
+  - $ref to pwm.yaml
+  - fixed 'pwm-cells'
+  - s/additionalProperties/unevaluatedProperties/
+
+- soc: Add SoC driver for Cirrus ep93xx
+  - removed clocks, they are moved to clk auxiliary driver, as we dropped the clk dt node
+  - removed all swlocked exported functions
+  - dropped static spinlock
+  - added instantiating auxiliary reboot, clk, pinctrl
+
+- dt-bindings: spi: Add Cirrus EP93xx
+  - Document DMA support
+
+- spi: ep93xx: add DT support for Cirrus EP93xx
+  - dropped CONFIG_OF and SPI/DMA platform data entirely
+  - s/master/host/
+  - reworked DMA setup so we can use probe defer
+
+- dt-bindings: dma: Add Cirrus EP93xx
+  - dropped bindings header (moved ports description to YAML)
+  - changed '#dma-cells' to 2, we use port, direction in cells so we can drop platform code completely
+
+- dma: cirrus: add DT support for Cirrus EP93xx
+  - dropped platform probing completely
+  - dropped struct ep93xx_dma_data replaced with internal struct ep93xx_dma_chan_cfg with port/direction
+  - added xlate functions for m2m/m2p
+  - we require filters to set dma_cfg before hw_setup
+
+- dt-bindings: ata: Add Cirrus EP93xx
+  - Document DMA support 
+
+- ata: pata_ep93xx: add device tree support
+  - drop DMA platform header with data
+  - use DMA OF so we can defer probing until DMA is up
+
+- ARM: dts: add Cirrus EP93XX SoC .dtsi
+- ARM: dts: ep93xx: add ts7250 board
+- ARM: dts: ep93xx: Add EDB9302 DT
+  - replaced "eclk: clock-controller" to syscon reference
+  - replaced "pinctrl: pinctrl" to syscon reference
+  - gpios are now "enabled" by default
+  - reworked i2s node
+  - change all dma nodes and refs
+
+- new additions to I2S
+  - Document DMA
+  - Document Audio Port usage
+  - drop legacy DMA support
+
+- Link to v4: https://lore.kernel.org/r/20230915-ep93xx-v4-0-a1d779dcec10@maquefel.me
+
+Changes in v4:
+
+- gpio: ep93xx: split device in multiple
+  - s/generic_handle_irq/generic_handle_domain_irq/
+  - s/int offset/irq_hw_number_t offset/ though now it looks a bit odd to me
+  - drop i = 0
+  - drop 'error'
+  - use dev_err_probe withour printing devname once again
+
+dt-bindings: clock: Add Cirrus EP93xx
+  - renamed cirrus,ep93xx-clock.h -> cirrus,ep9301-clk.h
+
+clk: ep93xx: add DT support for Cirrus EP93xx
+  - drop unused includes
+  - use .name only for xtali, pll1, pll2 parents
+  - convert // to /*
+  - pass clk_parent_data instead of char* clock name
+
+dt-bindings: pinctrl: Add Cirrus EP93xx
+  - s/additionalProperties/unevaluatedProperties/
+
+dt-bindings: soc: Add Cirrus EP93xx
+  - move syscon to soc directory
+  - add vendor prefix
+  - make reboot same style as pinctrl, clk
+  - use absolute path for ref
+  - expand example
+
+soc: Add SoC driver for Cirrus ep93xx
+  - s/0xf0000000/GENMASK(31, 28)/
+  - s/ret/ep93xx_chip_revision(map)/
+  - drop symbol exports
+  - convert to platform driver
+
+dt-bindings: rtc: Add Cirrus EP93xx
+  - allOf: with $ref to rtc.yaml
+  - s/additionalProperties/unevaluatedProperties/
+
+dt-bindings: watchdog: Add Cirrus EP93x
+  - drop description
+  - reword
+
+power: reset: Add a driver for the ep93xx reset
+  - lets use 'GPL-2.0+' instead of '(GPL-2.0)'
+  - s/of_device/of/
+  - drop mdelay with warning
+  - return 0 at the end
+
+net: cirrus: add DT support for Cirrus EP93xx
+  - fix leaking np
+
+mtd: nand: add support for ts72xx
+  - +bits.h
+  - drop comment
+  - ok to fwnode_get_next_child_node
+  - use goto to put handle and nand and report error
+
+ARM: dts: add Cirrus EP93XX SoC .dtsi
+  - add simple-bus for ebi, as we don't require to setup anything
+  - add arm,pl011 compatible to uart nodes
+  - drop i2c-gpio, as it's isn't used anywhere
+
+ARM: dts: ep93xx: add ts7250 board
+  - generic node name for temperature-sensor
+  - drop i2c
+  - move nand, rtc, watchdog to ebi node
  
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index 2078bb0d981e..e762e2babc75 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -89,7 +89,6 @@ snd-soc-cs42l73-objs := cs42l73.o
- snd-soc-cs42l83-i2c-objs := cs42l83-i2c.o
- snd-soc-cs4234-objs := cs4234.o
- snd-soc-cs4265-objs := cs4265.o
--snd-soc-cs4270-objs := cs4270.o
- snd-soc-cs4271-objs := cs4271.o
- snd-soc-cs4271-i2c-objs := cs4271-i2c.o
- snd-soc-cs4271-spi-objs := cs4271-spi.o
-@@ -478,7 +477,6 @@ obj-$(CONFIG_SND_SOC_CS42L73)	+= snd-soc-cs42l73.o
- obj-$(CONFIG_SND_SOC_CS42L83)	+= snd-soc-cs42l83-i2c.o
- obj-$(CONFIG_SND_SOC_CS4234)	+= snd-soc-cs4234.o
- obj-$(CONFIG_SND_SOC_CS4265)	+= snd-soc-cs4265.o
--obj-$(CONFIG_SND_SOC_CS4270)	+= snd-soc-cs4270.o
- obj-$(CONFIG_SND_SOC_CS4271)	+= snd-soc-cs4271.o
- obj-$(CONFIG_SND_SOC_CS4271_I2C)	+= snd-soc-cs4271-i2c.o
- obj-$(CONFIG_SND_SOC_CS4271_SPI)	+= snd-soc-cs4271-spi.o
-diff --git a/sound/soc/codecs/cs4270.c b/sound/soc/codecs/cs4270.c
-deleted file mode 100644
-index 3bbb90c827f2..000000000000
---- a/sound/soc/codecs/cs4270.c
-+++ /dev/null
-@@ -1,762 +0,0 @@
--/*
-- * CS4270 ALSA SoC (ASoC) codec driver
-- *
-- * Author: Timur Tabi <timur@freescale.com>
-- *
-- * Copyright 2007-2009 Freescale Semiconductor, Inc.  This file is licensed
-- * under the terms of the GNU General Public License version 2.  This
-- * program is licensed "as is" without any warranty of any kind, whether
-- * express or implied.
-- *
-- * This is an ASoC device driver for the Cirrus Logic CS4270 codec.
-- *
-- * Current features/limitations:
-- *
-- * - Software mode is supported.  Stand-alone mode is not supported.
-- * - Only I2C is supported, not SPI
-- * - Support for master and slave mode
-- * - The machine driver's 'startup' function must call
-- *   cs4270_set_dai_sysclk() with the value of MCLK.
-- * - Only I2S and left-justified modes are supported
-- * - Power management is supported
-- */
--
--#include <linux/mod_devicetable.h>
--#include <linux/module.h>
--#include <linux/slab.h>
--#include <sound/core.h>
--#include <sound/soc.h>
--#include <sound/initval.h>
--#include <linux/i2c.h>
--#include <linux/delay.h>
--#include <linux/regulator/consumer.h>
--#include <linux/gpio/consumer.h>
--
--#define CS4270_FORMATS (SNDRV_PCM_FMTBIT_S8      | SNDRV_PCM_FMTBIT_S16_LE  | \
--			SNDRV_PCM_FMTBIT_S18_3LE | SNDRV_PCM_FMTBIT_S20_3LE | \
--			SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_LE)
--
--/* CS4270 registers addresses */
--#define CS4270_CHIPID	0x01	/* Chip ID */
--#define CS4270_PWRCTL	0x02	/* Power Control */
--#define CS4270_MODE	0x03	/* Mode Control */
--#define CS4270_FORMAT	0x04	/* Serial Format, ADC/DAC Control */
--#define CS4270_TRANS	0x05	/* Transition Control */
--#define CS4270_MUTE	0x06	/* Mute Control */
--#define CS4270_VOLA	0x07	/* DAC Channel A Volume Control */
--#define CS4270_VOLB	0x08	/* DAC Channel B Volume Control */
--
--#define CS4270_FIRSTREG	0x01
--#define CS4270_LASTREG	0x08
--#define CS4270_NUMREGS	(CS4270_LASTREG - CS4270_FIRSTREG + 1)
--#define CS4270_I2C_INCR	0x80
--
--/* Bit masks for the CS4270 registers */
--#define CS4270_CHIPID_ID	0xF0
--#define CS4270_CHIPID_REV	0x0F
--#define CS4270_PWRCTL_FREEZE	0x80
--#define CS4270_PWRCTL_PDN_ADC	0x20
--#define CS4270_PWRCTL_PDN_DAC	0x02
--#define CS4270_PWRCTL_PDN	0x01
--#define CS4270_PWRCTL_PDN_ALL	\
--	(CS4270_PWRCTL_PDN_ADC | CS4270_PWRCTL_PDN_DAC | CS4270_PWRCTL_PDN)
--#define CS4270_MODE_SPEED_MASK	0x30
--#define CS4270_MODE_1X		0x00
--#define CS4270_MODE_2X		0x10
--#define CS4270_MODE_4X		0x20
--#define CS4270_MODE_SLAVE	0x30
--#define CS4270_MODE_DIV_MASK	0x0E
--#define CS4270_MODE_DIV1	0x00
--#define CS4270_MODE_DIV15	0x02
--#define CS4270_MODE_DIV2	0x04
--#define CS4270_MODE_DIV3	0x06
--#define CS4270_MODE_DIV4	0x08
--#define CS4270_MODE_POPGUARD	0x01
--#define CS4270_FORMAT_FREEZE_A	0x80
--#define CS4270_FORMAT_FREEZE_B	0x40
--#define CS4270_FORMAT_LOOPBACK	0x20
--#define CS4270_FORMAT_DAC_MASK	0x18
--#define CS4270_FORMAT_DAC_LJ	0x00
--#define CS4270_FORMAT_DAC_I2S	0x08
--#define CS4270_FORMAT_DAC_RJ16	0x18
--#define CS4270_FORMAT_DAC_RJ24	0x10
--#define CS4270_FORMAT_ADC_MASK	0x01
--#define CS4270_FORMAT_ADC_LJ	0x00
--#define CS4270_FORMAT_ADC_I2S	0x01
--#define CS4270_TRANS_ONE_VOL	0x80
--#define CS4270_TRANS_SOFT	0x40
--#define CS4270_TRANS_ZERO	0x20
--#define CS4270_TRANS_INV_ADC_A	0x08
--#define CS4270_TRANS_INV_ADC_B	0x10
--#define CS4270_TRANS_INV_DAC_A	0x02
--#define CS4270_TRANS_INV_DAC_B	0x04
--#define CS4270_TRANS_DEEMPH	0x01
--#define CS4270_MUTE_AUTO	0x20
--#define CS4270_MUTE_ADC_A	0x08
--#define CS4270_MUTE_ADC_B	0x10
--#define CS4270_MUTE_POLARITY	0x04
--#define CS4270_MUTE_DAC_A	0x01
--#define CS4270_MUTE_DAC_B	0x02
--
--/* Power-on default values for the registers
-- *
-- * This array contains the power-on default values of the registers, with the
-- * exception of the "CHIPID" register (01h).  The lower four bits of that
-- * register contain the hardware revision, so it is treated as volatile.
-- */
--static const struct reg_default cs4270_reg_defaults[] = {
--	{ 2, 0x00 },
--	{ 3, 0x30 },
--	{ 4, 0x00 },
--	{ 5, 0x60 },
--	{ 6, 0x20 },
--	{ 7, 0x00 },
--	{ 8, 0x00 },
--};
--
--static const char *supply_names[] = {
--	"va", "vd", "vlc"
--};
--
--/* Private data for the CS4270 */
--struct cs4270_private {
--	struct regmap *regmap;
--	unsigned int mclk; /* Input frequency of the MCLK pin */
--	unsigned int mode; /* The mode (I2S or left-justified) */
--	unsigned int slave_mode;
--	unsigned int manual_mute;
--
--	/* power domain regulators */
--	struct regulator_bulk_data supplies[ARRAY_SIZE(supply_names)];
--
--	/* reset gpio */
--	struct gpio_desc *reset_gpio;
--};
--
--static const struct snd_soc_dapm_widget cs4270_dapm_widgets[] = {
--SND_SOC_DAPM_INPUT("AINL"),
--SND_SOC_DAPM_INPUT("AINR"),
--
--SND_SOC_DAPM_OUTPUT("AOUTL"),
--SND_SOC_DAPM_OUTPUT("AOUTR"),
--};
--
--static const struct snd_soc_dapm_route cs4270_dapm_routes[] = {
--	{ "Capture", NULL, "AINL" },
--	{ "Capture", NULL, "AINR" },
--
--	{ "AOUTL", NULL, "Playback" },
--	{ "AOUTR", NULL, "Playback" },
--};
--
--/**
-- * struct cs4270_mode_ratios - clock ratio tables
-- * @ratio: the ratio of MCLK to the sample rate
-- * @speed_mode: the Speed Mode bits to set in the Mode Control register for
-- *              this ratio
-- * @mclk: the Ratio Select bits to set in the Mode Control register for this
-- *        ratio
-- *
-- * The data for this chart is taken from Table 5 of the CS4270 reference
-- * manual.
-- *
-- * This table is used to determine how to program the Mode Control register.
-- * It is also used by cs4270_set_dai_sysclk() to tell ALSA which sampling
-- * rates the CS4270 currently supports.
-- *
-- * @speed_mode is the corresponding bit pattern to be written to the
-- * MODE bits of the Mode Control Register
-- *
-- * @mclk is the corresponding bit pattern to be wirten to the MCLK bits of
-- * the Mode Control Register.
-- *
-- * In situations where a single ratio is represented by multiple speed
-- * modes, we favor the slowest speed.  E.g, for a ratio of 128, we pick
-- * double-speed instead of quad-speed.  However, the CS4270 errata states
-- * that divide-By-1.5 can cause failures, so we avoid that mode where
-- * possible.
-- *
-- * Errata: There is an errata for the CS4270 where divide-by-1.5 does not
-- * work if Vd is 3.3V.  If this effects you, select the
-- * CONFIG_SND_SOC_CS4270_VD33_ERRATA Kconfig option, and the driver will
-- * never select any sample rates that require divide-by-1.5.
-- */
--struct cs4270_mode_ratios {
--	unsigned int ratio;
--	u8 speed_mode;
--	u8 mclk;
--};
--
--static struct cs4270_mode_ratios cs4270_mode_ratios[] = {
--	{64, CS4270_MODE_4X, CS4270_MODE_DIV1},
--#ifndef CONFIG_SND_SOC_CS4270_VD33_ERRATA
--	{96, CS4270_MODE_4X, CS4270_MODE_DIV15},
--#endif
--	{128, CS4270_MODE_2X, CS4270_MODE_DIV1},
--	{192, CS4270_MODE_4X, CS4270_MODE_DIV3},
--	{256, CS4270_MODE_1X, CS4270_MODE_DIV1},
--	{384, CS4270_MODE_2X, CS4270_MODE_DIV3},
--	{512, CS4270_MODE_1X, CS4270_MODE_DIV2},
--	{768, CS4270_MODE_1X, CS4270_MODE_DIV3},
--	{1024, CS4270_MODE_1X, CS4270_MODE_DIV4}
--};
--
--/* The number of MCLK/LRCK ratios supported by the CS4270 */
--#define NUM_MCLK_RATIOS		ARRAY_SIZE(cs4270_mode_ratios)
--
--static bool cs4270_reg_is_readable(struct device *dev, unsigned int reg)
--{
--	return (reg >= CS4270_FIRSTREG) && (reg <= CS4270_LASTREG);
--}
--
--static bool cs4270_reg_is_volatile(struct device *dev, unsigned int reg)
--{
--	/* Unreadable registers are considered volatile */
--	if ((reg < CS4270_FIRSTREG) || (reg > CS4270_LASTREG))
--		return true;
--
--	return reg == CS4270_CHIPID;
--}
--
--/**
-- * cs4270_set_dai_sysclk - determine the CS4270 samples rates.
-- * @codec_dai: the codec DAI
-- * @clk_id: the clock ID (ignored)
-- * @freq: the MCLK input frequency
-- * @dir: the clock direction (ignored)
-- *
-- * This function is used to tell the codec driver what the input MCLK
-- * frequency is.
-- *
-- * The value of MCLK is used to determine which sample rates are supported
-- * by the CS4270.  The ratio of MCLK / Fs must be equal to one of nine
-- * supported values - 64, 96, 128, 192, 256, 384, 512, 768, and 1024.
-- *
-- * This function calculates the nine ratios and determines which ones match
-- * a standard sample rate.  If there's a match, then it is added to the list
-- * of supported sample rates.
-- *
-- * This function must be called by the machine driver's 'startup' function,
-- * otherwise the list of supported sample rates will not be available in
-- * time for ALSA.
-- *
-- * For setups with variable MCLKs, pass 0 as 'freq' argument. This will cause
-- * theoretically possible sample rates to be enabled. Call it again with a
-- * proper value set one the external clock is set (most probably you would do
-- * that from a machine's driver 'hw_param' hook.
-- */
--static int cs4270_set_dai_sysclk(struct snd_soc_dai *codec_dai,
--				 int clk_id, unsigned int freq, int dir)
--{
--	struct snd_soc_component *component = codec_dai->component;
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--
--	cs4270->mclk = freq;
--	return 0;
--}
--
--/**
-- * cs4270_set_dai_fmt - configure the codec for the selected audio format
-- * @codec_dai: the codec DAI
-- * @format: a SND_SOC_DAIFMT_x value indicating the data format
-- *
-- * This function takes a bitmask of SND_SOC_DAIFMT_x bits and programs the
-- * codec accordingly.
-- *
-- * Currently, this function only supports SND_SOC_DAIFMT_I2S and
-- * SND_SOC_DAIFMT_LEFT_J.  The CS4270 codec also supports right-justified
-- * data for playback only, but ASoC currently does not support different
-- * formats for playback vs. record.
-- */
--static int cs4270_set_dai_fmt(struct snd_soc_dai *codec_dai,
--			      unsigned int format)
--{
--	struct snd_soc_component *component = codec_dai->component;
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--
--	/* set DAI format */
--	switch (format & SND_SOC_DAIFMT_FORMAT_MASK) {
--	case SND_SOC_DAIFMT_I2S:
--	case SND_SOC_DAIFMT_LEFT_J:
--		cs4270->mode = format & SND_SOC_DAIFMT_FORMAT_MASK;
--		break;
--	default:
--		dev_err(component->dev, "invalid dai format\n");
--		return -EINVAL;
--	}
--
--	/* set master/slave audio interface */
--	switch (format & SND_SOC_DAIFMT_MASTER_MASK) {
--	case SND_SOC_DAIFMT_CBS_CFS:
--		cs4270->slave_mode = 1;
--		break;
--	case SND_SOC_DAIFMT_CBM_CFM:
--		cs4270->slave_mode = 0;
--		break;
--	default:
--		/* all other modes are unsupported by the hardware */
--		dev_err(component->dev, "Unknown master/slave configuration\n");
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--/**
-- * cs4270_hw_params - program the CS4270 with the given hardware parameters.
-- * @substream: the audio stream
-- * @params: the hardware parameters to set
-- * @dai: the SOC DAI (ignored)
-- *
-- * This function programs the hardware with the values provided.
-- * Specifically, the sample rate and the data format.
-- *
-- * The .ops functions are used to provide board-specific data, like input
-- * frequencies, to this driver.  This function takes that information,
-- * combines it with the hardware parameters provided, and programs the
-- * hardware accordingly.
-- */
--static int cs4270_hw_params(struct snd_pcm_substream *substream,
--			    struct snd_pcm_hw_params *params,
--			    struct snd_soc_dai *dai)
--{
--	struct snd_soc_component *component = dai->component;
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--	int ret;
--	unsigned int i;
--	unsigned int rate;
--	unsigned int ratio;
--	int reg;
--
--	/* Figure out which MCLK/LRCK ratio to use */
--
--	rate = params_rate(params);	/* Sampling rate, in Hz */
--	ratio = cs4270->mclk / rate;	/* MCLK/LRCK ratio */
--
--	for (i = 0; i < NUM_MCLK_RATIOS; i++) {
--		if (cs4270_mode_ratios[i].ratio == ratio)
--			break;
--	}
--
--	if (i == NUM_MCLK_RATIOS) {
--		/* We did not find a matching ratio */
--		dev_err(component->dev, "could not find matching ratio\n");
--		return -EINVAL;
--	}
--
--	/* Set the sample rate */
--
--	reg = snd_soc_component_read(component, CS4270_MODE);
--	reg &= ~(CS4270_MODE_SPEED_MASK | CS4270_MODE_DIV_MASK);
--	reg |= cs4270_mode_ratios[i].mclk;
--
--	if (cs4270->slave_mode)
--		reg |= CS4270_MODE_SLAVE;
--	else
--		reg |= cs4270_mode_ratios[i].speed_mode;
--
--	ret = snd_soc_component_write(component, CS4270_MODE, reg);
--	if (ret < 0) {
--		dev_err(component->dev, "i2c write failed\n");
--		return ret;
--	}
--
--	/* Set the DAI format */
--
--	reg = snd_soc_component_read(component, CS4270_FORMAT);
--	reg &= ~(CS4270_FORMAT_DAC_MASK | CS4270_FORMAT_ADC_MASK);
--
--	switch (cs4270->mode) {
--	case SND_SOC_DAIFMT_I2S:
--		reg |= CS4270_FORMAT_DAC_I2S | CS4270_FORMAT_ADC_I2S;
--		break;
--	case SND_SOC_DAIFMT_LEFT_J:
--		reg |= CS4270_FORMAT_DAC_LJ | CS4270_FORMAT_ADC_LJ;
--		break;
--	default:
--		dev_err(component->dev, "unknown dai format\n");
--		return -EINVAL;
--	}
--
--	ret = snd_soc_component_write(component, CS4270_FORMAT, reg);
--	if (ret < 0) {
--		dev_err(component->dev, "i2c write failed\n");
--		return ret;
--	}
--
--	return ret;
--}
--
--/**
-- * cs4270_dai_mute - enable/disable the CS4270 external mute
-- * @dai: the SOC DAI
-- * @mute: 0 = disable mute, 1 = enable mute
-- * @direction: (ignored)
-- *
-- * This function toggles the mute bits in the MUTE register.  The CS4270's
-- * mute capability is intended for external muting circuitry, so if the
-- * board does not have the MUTEA or MUTEB pins connected to such circuitry,
-- * then this function will do nothing.
-- */
--static int cs4270_dai_mute(struct snd_soc_dai *dai, int mute, int direction)
--{
--	struct snd_soc_component *component = dai->component;
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--	int reg6;
--
--	reg6 = snd_soc_component_read(component, CS4270_MUTE);
--
--	if (mute)
--		reg6 |= CS4270_MUTE_DAC_A | CS4270_MUTE_DAC_B;
--	else {
--		reg6 &= ~(CS4270_MUTE_DAC_A | CS4270_MUTE_DAC_B);
--		reg6 |= cs4270->manual_mute;
--	}
--
--	return snd_soc_component_write(component, CS4270_MUTE, reg6);
--}
--
--/**
-- * cs4270_soc_put_mute - put callback for the 'Master Playback switch'
-- * 			 alsa control.
-- * @kcontrol: mixer control
-- * @ucontrol: control element information
-- *
-- * This function basically passes the arguments on to the generic
-- * snd_soc_put_volsw() function and saves the mute information in
-- * our private data structure. This is because we want to prevent
-- * cs4270_dai_mute() neglecting the user's decision to manually
-- * mute the codec's output.
-- *
-- * Returns 0 for success.
-- */
--static int cs4270_soc_put_mute(struct snd_kcontrol *kcontrol,
--				struct snd_ctl_elem_value *ucontrol)
--{
--	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--	int left = !ucontrol->value.integer.value[0];
--	int right = !ucontrol->value.integer.value[1];
--
--	cs4270->manual_mute = (left ? CS4270_MUTE_DAC_A : 0) |
--			      (right ? CS4270_MUTE_DAC_B : 0);
--
--	return snd_soc_put_volsw(kcontrol, ucontrol);
--}
--
--/* A list of non-DAPM controls that the CS4270 supports */
--static const struct snd_kcontrol_new cs4270_snd_controls[] = {
--	SOC_DOUBLE_R("Master Playback Volume",
--		CS4270_VOLA, CS4270_VOLB, 0, 0xFF, 1),
--	SOC_SINGLE("Digital Sidetone Switch", CS4270_FORMAT, 5, 1, 0),
--	SOC_SINGLE("Soft Ramp Switch", CS4270_TRANS, 6, 1, 0),
--	SOC_SINGLE("Zero Cross Switch", CS4270_TRANS, 5, 1, 0),
--	SOC_SINGLE("De-emphasis filter", CS4270_TRANS, 0, 1, 0),
--	SOC_SINGLE("Popguard Switch", CS4270_MODE, 0, 1, 1),
--	SOC_SINGLE("Auto-Mute Switch", CS4270_MUTE, 5, 1, 0),
--	SOC_DOUBLE("Master Capture Switch", CS4270_MUTE, 3, 4, 1, 1),
--	SOC_DOUBLE_EXT("Master Playback Switch", CS4270_MUTE, 0, 1, 1, 1,
--		snd_soc_get_volsw, cs4270_soc_put_mute),
--};
--
--static const struct snd_soc_dai_ops cs4270_dai_ops = {
--	.hw_params	= cs4270_hw_params,
--	.set_sysclk	= cs4270_set_dai_sysclk,
--	.set_fmt	= cs4270_set_dai_fmt,
--	.mute_stream	= cs4270_dai_mute,
--	.no_capture_mute = 1,
--};
--
--static struct snd_soc_dai_driver cs4270_dai = {
--	.name = "cs4270-hifi",
--	.playback = {
--		.stream_name = "Playback",
--		.channels_min = 2,
--		.channels_max = 2,
--		.rates = SNDRV_PCM_RATE_CONTINUOUS,
--		.rate_min = 4000,
--		.rate_max = 216000,
--		.formats = CS4270_FORMATS,
--	},
--	.capture = {
--		.stream_name = "Capture",
--		.channels_min = 2,
--		.channels_max = 2,
--		.rates = SNDRV_PCM_RATE_CONTINUOUS,
--		.rate_min = 4000,
--		.rate_max = 216000,
--		.formats = CS4270_FORMATS,
--	},
--	.ops = &cs4270_dai_ops,
--};
--
--/**
-- * cs4270_probe - ASoC probe function
-- * @component: ASoC component
-- *
-- * This function is called when ASoC has all the pieces it needs to
-- * instantiate a sound driver.
-- */
--static int cs4270_probe(struct snd_soc_component *component)
--{
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--	int ret;
--
--	/* Disable auto-mute.  This feature appears to be buggy.  In some
--	 * situations, auto-mute will not deactivate when it should, so we want
--	 * this feature disabled by default.  An application (e.g. alsactl) can
--	 * re-enabled it by using the controls.
--	 */
--	ret = snd_soc_component_update_bits(component, CS4270_MUTE, CS4270_MUTE_AUTO, 0);
--	if (ret < 0) {
--		dev_err(component->dev, "i2c write failed\n");
--		return ret;
--	}
--
--	/* Disable automatic volume control.  The hardware enables, and it
--	 * causes volume change commands to be delayed, sometimes until after
--	 * playback has started.  An application (e.g. alsactl) can
--	 * re-enabled it by using the controls.
--	 */
--	ret = snd_soc_component_update_bits(component, CS4270_TRANS,
--		CS4270_TRANS_SOFT | CS4270_TRANS_ZERO, 0);
--	if (ret < 0) {
--		dev_err(component->dev, "i2c write failed\n");
--		return ret;
--	}
--
--	ret = regulator_bulk_enable(ARRAY_SIZE(cs4270->supplies),
--				    cs4270->supplies);
--
--	return ret;
--}
--
--/**
-- * cs4270_remove - ASoC remove function
-- * @component: ASoC component
-- *
-- * This function is the counterpart to cs4270_probe().
-- */
--static void cs4270_remove(struct snd_soc_component *component)
--{
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--
--	regulator_bulk_disable(ARRAY_SIZE(cs4270->supplies), cs4270->supplies);
--};
--
--#ifdef CONFIG_PM
--
--/* This suspend/resume implementation can handle both - a simple standby
-- * where the codec remains powered, and a full suspend, where the voltage
-- * domain the codec is connected to is teared down and/or any other hardware
-- * reset condition is asserted.
-- *
-- * The codec's own power saving features are enabled in the suspend callback,
-- * and all registers are written back to the hardware when resuming.
-- */
--
--static int cs4270_soc_suspend(struct snd_soc_component *component)
--{
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--	int reg, ret;
--
--	reg = snd_soc_component_read(component, CS4270_PWRCTL) | CS4270_PWRCTL_PDN_ALL;
--	if (reg < 0)
--		return reg;
--
--	ret = snd_soc_component_write(component, CS4270_PWRCTL, reg);
--	if (ret < 0)
--		return ret;
--
--	regulator_bulk_disable(ARRAY_SIZE(cs4270->supplies),
--			       cs4270->supplies);
--
--	return 0;
--}
--
--static int cs4270_soc_resume(struct snd_soc_component *component)
--{
--	struct cs4270_private *cs4270 = snd_soc_component_get_drvdata(component);
--	int reg, ret;
--
--	ret = regulator_bulk_enable(ARRAY_SIZE(cs4270->supplies),
--				    cs4270->supplies);
--	if (ret != 0)
--		return ret;
--
--	/* In case the device was put to hard reset during sleep, we need to
--	 * wait 500ns here before any I2C communication. */
--	ndelay(500);
--
--	/* first restore the entire register cache ... */
--	regcache_sync(cs4270->regmap);
--
--	/* ... then disable the power-down bits */
--	reg = snd_soc_component_read(component, CS4270_PWRCTL);
--	reg &= ~CS4270_PWRCTL_PDN_ALL;
--
--	return snd_soc_component_write(component, CS4270_PWRCTL, reg);
--}
--#else
--#define cs4270_soc_suspend	NULL
--#define cs4270_soc_resume	NULL
--#endif /* CONFIG_PM */
--
--/*
-- * ASoC codec driver structure
-- */
--static const struct snd_soc_component_driver soc_component_device_cs4270 = {
--	.probe			= cs4270_probe,
--	.remove			= cs4270_remove,
--	.suspend		= cs4270_soc_suspend,
--	.resume			= cs4270_soc_resume,
--	.controls		= cs4270_snd_controls,
--	.num_controls		= ARRAY_SIZE(cs4270_snd_controls),
--	.dapm_widgets		= cs4270_dapm_widgets,
--	.num_dapm_widgets	= ARRAY_SIZE(cs4270_dapm_widgets),
--	.dapm_routes		= cs4270_dapm_routes,
--	.num_dapm_routes	= ARRAY_SIZE(cs4270_dapm_routes),
--	.idle_bias_on		= 1,
--	.use_pmdown_time	= 1,
--	.endianness		= 1,
--};
--
--/*
-- * cs4270_of_match - the device tree bindings
-- */
--static const struct of_device_id cs4270_of_match[] = {
--	{ .compatible = "cirrus,cs4270", },
--	{ }
--};
--MODULE_DEVICE_TABLE(of, cs4270_of_match);
--
--static const struct regmap_config cs4270_regmap = {
--	.reg_bits =		8,
--	.val_bits =		8,
--	.max_register =		CS4270_LASTREG,
--	.reg_defaults =		cs4270_reg_defaults,
--	.num_reg_defaults =	ARRAY_SIZE(cs4270_reg_defaults),
--	.cache_type =		REGCACHE_MAPLE,
--	.write_flag_mask =	CS4270_I2C_INCR,
--
--	.readable_reg =		cs4270_reg_is_readable,
--	.volatile_reg =		cs4270_reg_is_volatile,
--};
--
--/**
-- * cs4270_i2c_remove - deinitialize the I2C interface of the CS4270
-- * @i2c_client: the I2C client object
-- *
-- * This function puts the chip into low power mode when the i2c device
-- * is removed.
-- */
--static void cs4270_i2c_remove(struct i2c_client *i2c_client)
--{
--	struct cs4270_private *cs4270 = i2c_get_clientdata(i2c_client);
--
--	gpiod_set_value_cansleep(cs4270->reset_gpio, 0);
--}
--
--/**
-- * cs4270_i2c_probe - initialize the I2C interface of the CS4270
-- * @i2c_client: the I2C client object
-- *
-- * This function is called whenever the I2C subsystem finds a device that
-- * matches the device ID given via a prior call to i2c_add_driver().
-- */
--static int cs4270_i2c_probe(struct i2c_client *i2c_client)
--{
--	struct cs4270_private *cs4270;
--	unsigned int val;
--	int ret, i;
--
--	cs4270 = devm_kzalloc(&i2c_client->dev, sizeof(struct cs4270_private),
--			      GFP_KERNEL);
--	if (!cs4270)
--		return -ENOMEM;
--
--	/* get the power supply regulators */
--	for (i = 0; i < ARRAY_SIZE(supply_names); i++)
--		cs4270->supplies[i].supply = supply_names[i];
--
--	ret = devm_regulator_bulk_get(&i2c_client->dev,
--				      ARRAY_SIZE(cs4270->supplies),
--				      cs4270->supplies);
--	if (ret < 0)
--		return ret;
--
--	/* reset the device */
--	cs4270->reset_gpio = devm_gpiod_get_optional(&i2c_client->dev, "reset",
--						     GPIOD_OUT_LOW);
--	if (IS_ERR(cs4270->reset_gpio)) {
--		dev_dbg(&i2c_client->dev, "Error getting CS4270 reset GPIO\n");
--		return PTR_ERR(cs4270->reset_gpio);
--	}
--
--	if (cs4270->reset_gpio) {
--		dev_dbg(&i2c_client->dev, "Found reset GPIO\n");
--		gpiod_set_value_cansleep(cs4270->reset_gpio, 1);
--	}
--
--	/* Sleep 500ns before i2c communications */
--	ndelay(500);
--
--	cs4270->regmap = devm_regmap_init_i2c(i2c_client, &cs4270_regmap);
--	if (IS_ERR(cs4270->regmap))
--		return PTR_ERR(cs4270->regmap);
--
--	/* Verify that we have a CS4270 */
--	ret = regmap_read(cs4270->regmap, CS4270_CHIPID, &val);
--	if (ret < 0) {
--		dev_err(&i2c_client->dev, "failed to read i2c at addr %X\n",
--		       i2c_client->addr);
--		return ret;
--	}
--	/* The top four bits of the chip ID should be 1100. */
--	if ((val & 0xF0) != 0xC0) {
--		dev_err(&i2c_client->dev, "device at addr %X is not a CS4270\n",
--		       i2c_client->addr);
--		return -ENODEV;
--	}
--
--	dev_info(&i2c_client->dev, "found device at i2c address %X\n",
--		i2c_client->addr);
--	dev_info(&i2c_client->dev, "hardware revision %X\n", val & 0xF);
--
--	i2c_set_clientdata(i2c_client, cs4270);
--
--	ret = devm_snd_soc_register_component(&i2c_client->dev,
--			&soc_component_device_cs4270, &cs4270_dai, 1);
--	return ret;
--}
--
--/*
-- * cs4270_id - I2C device IDs supported by this driver
-- */
--static const struct i2c_device_id cs4270_id[] = {
--	{"cs4270", 0},
--	{}
--};
--MODULE_DEVICE_TABLE(i2c, cs4270_id);
--
--/*
-- * cs4270_i2c_driver - I2C device identification
-- *
-- * This structure tells the I2C subsystem how to identify and support a
-- * given I2C device type.
-- */
--static struct i2c_driver cs4270_i2c_driver = {
--	.driver = {
--		.name = "cs4270",
--		.of_match_table = cs4270_of_match,
--	},
--	.id_table = cs4270_id,
--	.probe = cs4270_i2c_probe,
--	.remove = cs4270_i2c_remove,
--};
--
--module_i2c_driver(cs4270_i2c_driver);
--
--MODULE_AUTHOR("Timur Tabi <timur@freescale.com>");
--MODULE_DESCRIPTION("Cirrus Logic CS4270 ALSA SoC Codec Driver");
--MODULE_LICENSE("GPL");
+- Link to v3: https://lore.kernel.org/r/20230605-ep93xx-v3-0-3d63a5f1103e@maquefel.me
+
+---
+Alexander Sverdlin (3):
+      ASoC: ep93xx: Drop legacy DMA support
+      ARM: dts: ep93xx: Add EDB9302 DT
+      ASoC: cirrus: edb93xx: Delete driver
+
+Nikita Shubin (36):
+      gpio: ep93xx: split device in multiple
+      ARM: ep93xx: add regmap aux_dev
+      clk: ep93xx: add DT support for Cirrus EP93xx
+      pinctrl: add a Cirrus ep93xx SoC pin controller
+      power: reset: Add a driver for the ep93xx reset
+      dt-bindings: soc: Add Cirrus EP93xx
+      soc: Add SoC driver for Cirrus ep93xx
+      dt-bindings: dma: Add Cirrus EP93xx
+      dma: cirrus: add DT support for Cirrus EP93xx
+      dt-bindings: watchdog: Add Cirrus EP93x
+      watchdog: ep93xx: add DT support for Cirrus EP93xx
+      dt-bindings: pwm: Add Cirrus EP93xx
+      pwm: ep93xx: add DT support for Cirrus EP93xx
+      dt-bindings: spi: Add Cirrus EP93xx
+      spi: ep93xx: add DT support for Cirrus EP93xx
+      dt-bindings: net: Add Cirrus EP93xx
+      net: cirrus: add DT support for Cirrus EP93xx
+      dt-bindings: mtd: Add ts7200 nand-controller
+      mtd: rawnand: add support for ts72xx
+      dt-bindings: ata: Add Cirrus EP93xx
+      ata: pata_ep93xx: add device tree support
+      dt-bindings: input: Add Cirrus EP93xx keypad
+      input: keypad: ep93xx: add DT support for Cirrus EP93xx
+      dt-bindings: wdt: Add ts72xx
+      wdt: ts72xx: add DT support for ts72xx
+      gpio: ep93xx: add DT support for gpio-ep93xx
+      ASoC: dt-bindings: ep93xx: Document DMA support
+      ASoC: dt-bindings: ep93xx: Document Audio Port support
+      ARM: dts: add Cirrus EP93XX SoC .dtsi
+      ARM: dts: ep93xx: add ts7250 board
+      ARM: ep93xx: DT for the Cirrus ep93xx SoC platforms
+      pwm: ep93xx: drop legacy pinctrl
+      ata: pata_ep93xx: remove legacy pinctrl use
+      ARM: ep93xx: delete all boardfiles
+      ARM: ep93xx: soc: drop defines
+      dma: cirrus: remove platform code
+
+ .../bindings/arm/cirrus/cirrus,ep9301.yaml         |   38 +
+ .../bindings/ata/cirrus,ep9312-pata.yaml           |   42 +
+ .../bindings/dma/cirrus,ep9301-dma-m2m.yaml        |   84 ++
+ .../bindings/dma/cirrus,ep9301-dma-m2p.yaml        |  144 ++
+ .../bindings/input/cirrus,ep9307-keypad.yaml       |   87 ++
+ .../devicetree/bindings/mtd/technologic,nand.yaml  |   45 +
+ .../devicetree/bindings/net/cirrus,ep9301-eth.yaml |   59 +
+ .../devicetree/bindings/pwm/cirrus,ep9301-pwm.yaml |   53 +
+ .../bindings/soc/cirrus/cirrus,ep9301-syscon.yaml  |   83 ++
+ .../bindings/sound/cirrus,ep9301-i2s.yaml          |   16 +
+ .../devicetree/bindings/spi/cirrus,ep9301-spi.yaml |   70 +
+ .../bindings/watchdog/cirrus,ep9301-wdt.yaml       |   42 +
+ .../bindings/watchdog/technologic,ts7200-wdt.yaml  |   45 +
+ arch/arm/Makefile                                  |    1 -
+ arch/arm/boot/dts/cirrus/Makefile                  |    4 +
+ arch/arm/boot/dts/cirrus/ep93xx-bk3.dts            |  126 ++
+ arch/arm/boot/dts/cirrus/ep93xx-edb9302.dts        |  182 +++
+ arch/arm/boot/dts/cirrus/ep93xx-ts7250.dts         |  145 ++
+ arch/arm/boot/dts/cirrus/ep93xx.dtsi               |  442 ++++++
+ arch/arm/mach-ep93xx/Kconfig                       |   20 +-
+ arch/arm/mach-ep93xx/Makefile                      |   11 -
+ arch/arm/mach-ep93xx/clock.c                       |  733 ----------
+ arch/arm/mach-ep93xx/core.c                        | 1017 --------------
+ arch/arm/mach-ep93xx/dma.c                         |  114 --
+ arch/arm/mach-ep93xx/edb93xx.c                     |  344 -----
+ arch/arm/mach-ep93xx/ep93xx-regs.h                 |   38 -
+ arch/arm/mach-ep93xx/gpio-ep93xx.h                 |  111 --
+ arch/arm/mach-ep93xx/hardware.h                    |   25 -
+ arch/arm/mach-ep93xx/irqs.h                        |   76 --
+ arch/arm/mach-ep93xx/platform.h                    |   42 -
+ arch/arm/mach-ep93xx/soc.h                         |  212 ---
+ arch/arm/mach-ep93xx/timer-ep93xx.c                |  143 --
+ arch/arm/mach-ep93xx/ts72xx.c                      |  422 ------
+ arch/arm/mach-ep93xx/ts72xx.h                      |   94 --
+ arch/arm/mach-ep93xx/vision_ep9307.c               |  311 -----
+ drivers/ata/pata_ep93xx.c                          |  106 +-
+ drivers/clk/Kconfig                                |    8 +
+ drivers/clk/Makefile                               |    1 +
+ drivers/clk/clk-ep93xx.c                           |  855 ++++++++++++
+ drivers/dma/ep93xx_dma.c                           |  292 +++-
+ drivers/gpio/gpio-ep93xx.c                         |  345 ++---
+ drivers/input/keyboard/ep93xx_keypad.c             |   74 +-
+ drivers/mtd/nand/raw/Kconfig                       |    7 +
+ drivers/mtd/nand/raw/Makefile                      |    1 +
+ drivers/mtd/nand/raw/technologic-nand-controller.c |  223 +++
+ drivers/net/ethernet/cirrus/ep93xx_eth.c           |   63 +-
+ drivers/pinctrl/Kconfig                            |    7 +
+ drivers/pinctrl/Makefile                           |    1 +
+ drivers/pinctrl/pinctrl-ep93xx.c                   | 1433 ++++++++++++++++++++
+ drivers/power/reset/Kconfig                        |   10 +
+ drivers/power/reset/Makefile                       |    1 +
+ drivers/power/reset/ep93xx-restart.c               |   81 ++
+ drivers/pwm/pwm-ep93xx.c                           |   26 +-
+ drivers/soc/Kconfig                                |    1 +
+ drivers/soc/Makefile                               |    1 +
+ drivers/soc/cirrus/Kconfig                         |   13 +
+ drivers/soc/cirrus/Makefile                        |    2 +
+ drivers/soc/cirrus/soc-ep93xx.c                    |  247 ++++
+ drivers/spi/spi-ep93xx.c                           |   68 +-
+ drivers/watchdog/ep93xx_wdt.c                      |    8 +
+ drivers/watchdog/ts72xx_wdt.c                      |    8 +
+ include/dt-bindings/soc/cirrus,ep9301-syscon.h     |   46 +
+ include/linux/platform_data/dma-ep93xx.h           |   94 --
+ include/linux/platform_data/eth-ep93xx.h           |   10 -
+ include/linux/platform_data/keypad-ep93xx.h        |   32 -
+ include/linux/platform_data/spi-ep93xx.h           |   15 -
+ include/linux/soc/cirrus/ep93xx.h                  |   47 +-
+ sound/soc/cirrus/Kconfig                           |    9 -
+ sound/soc/cirrus/Makefile                          |    4 -
+ sound/soc/cirrus/edb93xx.c                         |  117 --
+ sound/soc/cirrus/ep93xx-i2s.c                      |   19 -
+ sound/soc/cirrus/ep93xx-pcm.c                      |   19 +-
+ 72 files changed, 5200 insertions(+), 4515 deletions(-)
+---
+base-commit: be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
+change-id: 20230605-ep93xx-01c76317e2d2
+
+Best regards,
 -- 
-2.41.0
+Nikita Shubin <nikita.shubin@maquefel.me>
 
