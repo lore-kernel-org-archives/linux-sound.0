@@ -1,56 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="NrtdkBBs"
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667CA189
-	for <linux-sound@vger.kernel.org>; Wed, 22 Nov 2023 16:22:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1700698930;
-	bh=M5GDyE4zSQHOMo2VmEGb9eJcwSsa+CIf5IyoPYCZygg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NrtdkBBs015WyelROXUBRNgCnLIY6y49tPIx5poCTLUzO6lSBg0XPb09wKF0e9ls8
-	 3HRRMFU+c496ylfCFx8L0CsJ0Bqw8zQvgEdN7LAYDlyvX7lcYoilEDVIX+ZKWKG+BD
-	 9lobJYHa2i9iecS6QXHAf0rOhx4mqUjyrlb0Ff3evLSLFa0dM1aZ/k2dBIc+5v577Z
-	 DSUXn5/q04RF7KyPazlXG3sW3EeCZTV85iBJa+SciiMYz+C4241fXmm3OnLuklz61n
-	 Avp0X4UQ5uo/MejgVOB932Vz1GNvmB1TUWBca7fMR7gcSLO8EGTV/QrZbTEIbCizyj
-	 0zJF4jegbfWhA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dJWtsHaK"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BA3D41;
+	Thu, 23 Nov 2023 00:45:18 -0800 (PST)
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SbJhc08sZz4x1p;
-	Thu, 23 Nov 2023 11:22:07 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Mark Brown <broonie@kernel.org>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, james.schulman@cirrus.com,
- david.rhodes@cirrus.com, rf@opensource.cirrus.com,
- linuxppc-dev@lists.ozlabs.org, perex@perex.cz, tiwai@suse.com,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, paul.gortmaker@windriver.com
-Subject: Re: [PATCH 2/2] ASoC: cs4270: Remove unused codec
-In-Reply-To: <ZV3pIb1p52CFNsSl@finisterre.sirena.org.uk>
-References: <20231122062712.2250426-1-mpe@ellerman.id.au>
- <20231122062712.2250426-2-mpe@ellerman.id.au>
- <ZV3pIb1p52CFNsSl@finisterre.sirena.org.uk>
-Date: Thu, 23 Nov 2023 11:22:07 +1100
-Message-ID: <877cm9s4i8.fsf@mail.lhotse>
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A22D46607377;
+	Thu, 23 Nov 2023 08:45:15 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700729116;
+	bh=pEBjnfCzPZOMm5mjeyRN3TyyyC1b+Njse8wt4P34EZg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dJWtsHaKQEwT234V/aE9m5DOUBXvUuPPx3/Itz3czdkuNf1aj+dbMLI3le64hfv1r
+	 ZYzMsQjRoubiuULRs4armVtyT8qOAjRFJxpPNX4NPT5CEUY7IQ0UM3S157MKCZnANM
+	 CFVfkG4Kj4VU9pVmpHhBDoSInS7UJY8Ighr53UPgkOb95NuvuUmpw5RtCSratJ3YGe
+	 WGU5qTEt+VotXm3TvyG8G8+hx/ot/DxlSb99PpuNfT327sfiOQxrwZcsmTSlbb0eqb
+	 0EIoHzytREL+6Ox2wa3r4zA7kR9/rduPTuiXuDEvursK2OHTGWBfPUPsWHjXxClTZx
+	 gOqk5khQNPpZA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: pierre-louis.bossart@linux.intel.com
+Cc: lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	trevor.wu@mediatek.com,
+	tinghan.shen@mediatek.com,
+	u.kleine-koenig@pengutronix.de,
+	kuninori.morimoto.gx@renesas.com,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	wenst@chromium.org,
+	kernel@collabora.com
+Subject: [PATCH] ASoC: SOF: mediatek: mt8186: Add Google Steelix topology compatible
+Date: Thu, 23 Nov 2023 09:44:54 +0100
+Message-ID: <20231123084454.20471-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Mark Brown <broonie@kernel.org> writes:
-> On Wed, Nov 22, 2023 at 05:27:12PM +1100, Michael Ellerman wrote:
->> The only driver to enable SND_SOC_CS4270 was SND_SOC_MPC8610_HPCD, which
->> was dropped in the preceding commit. Remove the codec as unused.
->
-> There's no real overhead from having extra drivers and we do have
-> generic drivers that people can attach CODECs to.
+Add the machine compatible and topology filename for the Google Steelix
+MT8186 Chromebook to load the correct SOF topology file.
 
-OK. I have no idea how sound works, I was just cleaning things up. So
-whatever you think is best.
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ sound/soc/sof/mediatek/mt8186/mt8186.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-cheers
+diff --git a/sound/soc/sof/mediatek/mt8186/mt8186.c b/sound/soc/sof/mediatek/mt8186/mt8186.c
+index b69fa788b16f..e0d88e7aa8ca 100644
+--- a/sound/soc/sof/mediatek/mt8186/mt8186.c
++++ b/sound/soc/sof/mediatek/mt8186/mt8186.c
+@@ -597,6 +597,9 @@ static struct snd_sof_dsp_ops sof_mt8186_ops = {
+ 
+ static struct snd_sof_of_mach sof_mt8186_machs[] = {
+ 	{
++		.compatible = "google,steelix",
++		.sof_tplg_filename = "sof-mt8186-google-steelix.tplg"
++	}, {
+ 		.compatible = "mediatek,mt8186",
+ 		.sof_tplg_filename = "sof-mt8186.tplg",
+ 	},
+-- 
+2.42.0
+
