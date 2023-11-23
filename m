@@ -1,78 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3958EAD2
-	for <linux-sound@vger.kernel.org>; Thu, 23 Nov 2023 10:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ToKrq8Ve"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78887C433C8;
-	Thu, 23 Nov 2023 10:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700735815;
-	bh=YJV1iTKu6qPVsvyoYVWKMbnX3fgFVStil93e7chH+c0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ToKrq8VebgxJYQoU3Uy6NHNhbYGYHQhLdaROjeNY784kt9VR+IDqJl/f7ZirUFbVn
-	 SQwk+omW31fjS72+nlQezRXwfaTw8nR2UDNC++WicNJZg6uzW9tJu1Hipj453M6EBh
-	 1FUc1Ope7A5VXVozj3FoI0GCMSBN99KkDzL57018+SqQfFV3bEWfehNfhUc5+Kv+Co
-	 f7S6iHywU1pvPyilVBDZEVJkJ8v3+6BrIPYEoaJeUTOzJUClwEmLRBSXgPhLQtrSZM
-	 EGt5yuUGsEi8zbQhkiJfCjQRyKYf0FkVi7msxOetGyBHLu7p/Gt58Fi5lW8c7wsuVK
-	 CFwJ3nKjprupQ==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, james.schulman@cirrus.com, david.rhodes@cirrus.com, 
- rf@opensource.cirrus.com, Michael Ellerman <mpe@ellerman.id.au>
-Cc: linuxppc-dev@lists.ozlabs.org, perex@perex.cz, tiwai@suse.com, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, paul.gortmaker@windriver.com
-In-Reply-To: <20231122062712.2250426-1-mpe@ellerman.id.au>
-References: <20231122062712.2250426-1-mpe@ellerman.id.au>
-Subject: Re: (subset) [PATCH 1/2] ASoC: fsl: mpc8610_hpcd: Remove unused
- driver
-Message-Id: <170073581102.2204618.3021059947930734828.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 10:36:51 +0000
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="A8fvq++E"
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048F310C3;
+	Thu, 23 Nov 2023 02:46:33 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AN7uxSu016943;
+	Thu, 23 Nov 2023 04:46:26 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=hMYUXjmYOX4C8Ch
+	mlTHTAFHv5/5PVyWHDsdSnhGV0MM=; b=A8fvq++EiFcuqSrT8Hm+l18z+9O9LJL
+	xvZDkaAhkuEepgqWcpfeEU+vEexoHgYWZswt12Mv++Q/5EgnnexP2pJ2C/VPMOtV
+	LrKxoCsnrLFzZPF9wKydhdAZU6J7pRkKzWQ89csRiDx0Qjn3ZWTGFAKrUg/9ph+V
+	mKr813SKpkoBxuUhDCTtzH++GfSyu7uAWcAIbI0Gcp5pUyXy7ubgPu/xGiPJXmik
+	3zEMWjdCKb4G06hb92+kAcAziVP6YqrFi+Cd8RohnhIX7bP5FCQ65y8aZCliVrVa
+	O/2CVvK3zcSKMYGTlhbcoc2QsHDt3oVZoBdzRtoC26fmHW8tB60j/zQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ueuj2dms8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Nov 2023 04:46:26 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 23 Nov
+ 2023 10:46:24 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
+ Transport; Thu, 23 Nov 2023 10:46:24 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 0DA403581;
+	Thu, 23 Nov 2023 10:46:24 +0000 (UTC)
+Date: Thu, 23 Nov 2023 10:46:24 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>,
+        James Schulman
+	<james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        "Liam
+ Girdwood" <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5] ASoC: cs43130: Allow driver to work without IRQ
+ connection
+Message-ID: <20231123104624.GO32655@ediswmail.ad.cirrus.com>
+References: <20231123090658.10418-1-mstrozek@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231123090658.10418-1-mstrozek@opensource.cirrus.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: A-Q1NA32qUHtecUx4wtlv6a-VJjIrG45
+X-Proofpoint-GUID: A-Q1NA32qUHtecUx4wtlv6a-VJjIrG45
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, 22 Nov 2023 17:27:11 +1100, Michael Ellerman wrote:
-> The mpc8610_hpcd.c driver depends on CONFIG_MPC8610_HPCD which was
-> removed in commit 248667f8bbde ("powerpc: drop HPCD/MPC8610 evaluation
-> platform support"). That makes the driver unbuildable and unusable, so
-> remove it.
+On Thu, Nov 23, 2023 at 09:06:58AM +0000, Maciej Strozek wrote:
+> Add a polling mechanism that will keep the driver operational even in
+> absence of physical IRQ connection. If IRQ line is detected, the driver
+> will continue working as usual, in case of missing IRQ line it will
+> fallback to the polling mechanism introduced in this change.
+> This will support users which choose not to connect an IRQ line as it
+> is not critical to part's operation.
 > 
-> 
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> ---
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: fsl: mpc8610_hpcd: Remove unused driver
-      commit: b1cea462a79316bd619173f1ded8b28202b5ce3a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Sorry hang on this doesn't apply to Mark's tree, will need a v6.
 
 Thanks,
-Mark
-
+Charles
