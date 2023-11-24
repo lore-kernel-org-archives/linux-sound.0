@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sw660qOQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5Sy2VgP"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEA25D41
-	for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 05:57:14 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C911987
+	for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 05:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700834234; x=1732370234;
+  t=1700834237; x=1732370237;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cRtP+/fvLp2mZi9KFWBi6Hcoa/TFerpYhlbAz1Ua5uY=;
-  b=Sw660qOQnkHaw9+aBCgQF6OLjTEdlx3JZ8N9XYlS925It2JiDKSXN4Uh
-   4UOJgAyJ2KMGdQheBtS8dZ6+E6sJdUpMA9UV9HhTrJbXozremkIBqBcWI
-   R3f/wlUrbHve5ZdfzOjGUB6z0EBYT+tUTpRuHnZ8r9/NDLQmTY5kLWsXz
-   N0qkgMH8WpT4tv6IlT26Eg4ywMPl5gk/szW/YN2exZsuXJVO4bdZl8rp+
-   O0qXBAWbdRxrLkpa+JT35e2MrRGnZuRrxADzBgi+EZFcY8C55g22XQhhx
-   l9Da1Rn/hw5VYbalNlr+wGFML0DssBDhZ2GW7jkPCLajQTPKvpLVnU1A9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="372590357"
+  bh=FvYHkoenAEk3M3JkzclDAQ0Pw1n/6evwoowS3fCCIRg=;
+  b=K5Sy2VgP7/AYW5H3n4zz85wyUDutpckYOh92wVt7SKS8sMgSKTG0/jXD
+   9UiGIoNYBPNx0fCgsATzuFJIDjCVekhYtwvUfmhxfwoQgtvz1LRz48SE7
+   LpqtIrv1+7e0R1MIAkxviNUZhmrqTl2jD8VHH90hxJFvCjehmjHju1YbK
+   bHBjrnaHolzEpsYDTbdgwcMvr0MIealMaakgPKF0Fne6pvTM1QHz+bKa9
+   PmW6Nwr5ELH6C3vfMzY1NnkrTV3C5IJ52y9JEZvlQqNPGauoUtms8hJ/y
+   6v6H5YuVrpMlrLNjivvgiYG9QhZWTXrYkQJzkJERRD7yUbB1i4MEyDQrb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="372590370"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="372590357"
+   d="scan'208";a="372590370"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:57:14 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:57:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="858397227"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="858397229"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="858397227"
+   d="scan'208";a="858397229"
 Received: from barumuga-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.182])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:57:12 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:57:14 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -35,9 +35,9 @@ Cc: alsa-devel@alsa-project.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 1/2] ASoC: SOF: ipc4-topology: Add core_mask in struct snd_sof_pipeline
-Date: Fri, 24 Nov 2023 15:57:42 +0200
-Message-ID: <20231124135743.24674-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 2/2] ASoC: SOF: sof-audio: Modify logic for enabling/disabling topology cores
+Date: Fri, 24 Nov 2023 15:57:43 +0200
+Message-ID: <20231124135743.24674-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231124135743.24674-1-peter.ujfalusi@linux.intel.com>
 References: <20231124135743.24674-1-peter.ujfalusi@linux.intel.com>
@@ -52,119 +52,148 @@ Content-Transfer-Encoding: 8bit
 
 From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-With IPC4, a pipeline may contain multiple modules in the data
-processing domain and they can be scheduled to run on different cores.
-Add a new field in struct snd_sof_pipeline to keep track of all the
-cores that are associated with the modules in the pipeline. Set the
-pipeline core mask for IPC3 when initializing the pipeline widget IPC
-structure. For IPC4, set the core mark when initializing the pipeline
-widget and initializing processing modules in the data processing domain.
+In the current code, we enable a widget core when it is set up and
+disable it when it is freed. This is problematic with IPC4 because
+widget free is essentially a NOP and all widgets are freed in the
+firmware when the pipeline is deleted. This results in a crash during
+pipeline deletion when one of it's widgets is scheduled to run on a
+secondary core and is powered off when widget is freed. So, change the
+logic to enable all cores needed by all the modules in a pipeline when
+the pipeline widget is set up and disable them after the pipeline
+widget is freed.
 
 Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/ipc3-topology.c | 2 ++
- sound/soc/sof/ipc4-topology.c | 9 +++++++++
- sound/soc/sof/sof-audio.h     | 2 ++
- 3 files changed, 13 insertions(+)
+ sound/soc/sof/sof-audio.c | 65 ++++++++++++++++++++++++---------------
+ 1 file changed, 41 insertions(+), 24 deletions(-)
 
-diff --git a/sound/soc/sof/ipc3-topology.c b/sound/soc/sof/ipc3-topology.c
-index 7a4932c152a9..8c999e7721f2 100644
---- a/sound/soc/sof/ipc3-topology.c
-+++ b/sound/soc/sof/ipc3-topology.c
-@@ -505,6 +505,7 @@ static int sof_ipc3_widget_setup_comp_mixer(struct snd_sof_widget *swidget)
- static int sof_ipc3_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
+diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
+index 563fe6f7789f..77cc64ac7113 100644
+--- a/sound/soc/sof/sof-audio.c
++++ b/sound/soc/sof/sof-audio.c
+@@ -46,6 +46,7 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
+ 				    struct snd_sof_widget *swidget)
  {
- 	struct snd_soc_component *scomp = swidget->scomp;
+ 	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
 +	struct snd_sof_pipeline *spipe = swidget->spipe;
- 	struct sof_ipc_pipe_new *pipeline;
- 	struct snd_sof_widget *comp_swidget;
+ 	struct snd_sof_widget *pipe_widget;
+ 	int err = 0;
  	int ret;
-@@ -557,6 +558,7 @@ static int sof_ipc3_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
- 		swidget->dynamic_pipeline_widget);
- 
- 	swidget->core = pipeline->core;
-+	spipe->core_mask |= BIT(pipeline->core);
- 
- 	return 0;
- 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index b24a64377f68..19f36db30979 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -656,6 +656,7 @@ static int sof_ipc4_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
- {
- 	struct snd_soc_component *scomp = swidget->scomp;
- 	struct sof_ipc4_pipeline *pipeline;
-+	struct snd_sof_pipeline *spipe = swidget->spipe;
- 	int ret;
- 
- 	pipeline = kzalloc(sizeof(*pipeline), GFP_KERNEL);
-@@ -670,6 +671,7 @@ static int sof_ipc4_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
+@@ -87,15 +88,22 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
  	}
  
- 	swidget->core = pipeline->core_id;
-+	spipe->core_mask |= BIT(pipeline->core_id);
- 
- 	if (pipeline->use_chain_dma) {
- 		dev_dbg(scomp->dev, "Set up chain DMA for %s\n", swidget->widget->name);
-@@ -797,6 +799,7 @@ static int sof_ipc4_widget_setup_comp_mixer(struct snd_sof_widget *swidget)
- static int sof_ipc4_widget_setup_comp_src(struct snd_sof_widget *swidget)
- {
- 	struct snd_soc_component *scomp = swidget->scomp;
-+	struct snd_sof_pipeline *spipe = swidget->spipe;
- 	struct sof_ipc4_src *src;
- 	int ret;
- 
-@@ -819,6 +822,8 @@ static int sof_ipc4_widget_setup_comp_src(struct snd_sof_widget *swidget)
- 		goto err;
+ 	/*
+-	 * disable widget core. continue to route setup status and complete flag
+-	 * even if this fails and return the appropriate error
++	 * decrement ref count for cores associated with all modules in the pipeline and clear
++	 * the complete flag
+ 	 */
+-	ret = snd_sof_dsp_core_put(sdev, swidget->core);
+-	if (ret < 0) {
+-		dev_err(sdev->dev, "error: failed to disable target core: %d for widget %s\n",
+-			swidget->core, swidget->widget->name);
+-		if (!err)
+-			err = ret;
++	if (swidget->id == snd_soc_dapm_scheduler) {
++		int i;
++
++		for_each_set_bit(i, &spipe->core_mask, sdev->num_cores) {
++			ret = snd_sof_dsp_core_put(sdev, i);
++			if (ret < 0) {
++				dev_err(sdev->dev, "failed to disable target core: %d for pipeline %s\n",
++					i, swidget->widget->name);
++				if (!err)
++					err = ret;
++			}
++		}
++		swidget->spipe->complete = 0;
  	}
  
-+	spipe->core_mask |= BIT(swidget->core);
-+
- 	dev_dbg(scomp->dev, "SRC sink rate %d\n", src->sink_rate);
+ 	/*
+@@ -108,10 +116,6 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
+ 			err = ret;
+ 	}
  
- 	ret = sof_ipc4_widget_setup_msg(swidget, &src->msg);
-@@ -864,6 +869,7 @@ static int sof_ipc4_widget_setup_comp_process(struct snd_sof_widget *swidget)
+-	/* clear pipeline complete */
+-	if (swidget->id == snd_soc_dapm_scheduler)
+-		swidget->spipe->complete = 0;
+-
+ 	if (!err)
+ 		dev_dbg(sdev->dev, "widget %s freed\n", swidget->widget->name);
+ 
+@@ -134,8 +138,10 @@ static int sof_widget_setup_unlocked(struct snd_sof_dev *sdev,
+ 				     struct snd_sof_widget *swidget)
  {
- 	struct snd_soc_component *scomp = swidget->scomp;
- 	struct sof_ipc4_fw_module *fw_module;
+ 	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
 +	struct snd_sof_pipeline *spipe = swidget->spipe;
- 	struct sof_ipc4_process *process;
- 	void *cfg;
+ 	bool use_count_decremented = false;
  	int ret;
-@@ -920,6 +926,9 @@ static int sof_ipc4_widget_setup_comp_process(struct snd_sof_widget *swidget)
++	int i;
  
- 	sof_ipc4_widget_update_kcontrol_module_id(swidget);
+ 	/* skip if there is no private data */
+ 	if (!swidget->private)
+@@ -166,19 +172,23 @@ static int sof_widget_setup_unlocked(struct snd_sof_dev *sdev,
+ 			goto use_count_dec;
+ 	}
  
-+	/* set pipeline core mask to keep track of the core the module is scheduled to run on */
-+	spipe->core_mask |= BIT(swidget->core);
-+
+-	/* enable widget core */
+-	ret = snd_sof_dsp_core_get(sdev, swidget->core);
+-	if (ret < 0) {
+-		dev_err(sdev->dev, "error: failed to enable target core for widget %s\n",
+-			swidget->widget->name);
+-		goto pipe_widget_free;
++	/* update ref count for cores associated with all modules in the pipeline */
++	if (swidget->id == snd_soc_dapm_scheduler) {
++		for_each_set_bit(i, &spipe->core_mask, sdev->num_cores) {
++			ret = snd_sof_dsp_core_get(sdev, i);
++			if (ret < 0) {
++				dev_err(sdev->dev, "failed to enable target core %d for pipeline %s\n",
++					i, swidget->widget->name);
++				goto pipe_widget_free;
++			}
++		}
+ 	}
+ 
+ 	/* setup widget in the DSP */
+ 	if (tplg_ops && tplg_ops->widget_setup) {
+ 		ret = tplg_ops->widget_setup(sdev, swidget);
+ 		if (ret < 0)
+-			goto core_put;
++			goto pipe_widget_free;
+ 	}
+ 
+ 	/* send config for DAI components */
+@@ -208,15 +218,22 @@ static int sof_widget_setup_unlocked(struct snd_sof_dev *sdev,
  	return 0;
- free_base_cfg_ext:
- 	kfree(process->base_config_ext);
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 99c940b22538..8874ee5f557f 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -481,6 +481,7 @@ struct snd_sof_widget {
-  * @paused_count: Count of number of PCM's that have started and have currently paused this
- 		  pipeline
-  * @complete: flag used to indicate that pipeline set up is complete.
-+ * @core_mask: Mask containing target cores for all modules in the pipeline
-  * @list: List item in sdev pipeline_list
-  */
- struct snd_sof_pipeline {
-@@ -488,6 +489,7 @@ struct snd_sof_pipeline {
- 	int started_count;
- 	int paused_count;
- 	int complete;
-+	unsigned long core_mask;
- 	struct list_head list;
- };
  
+ widget_free:
+-	/* widget use_count and core ref_count will both be decremented by sof_widget_free() */
++	/* widget use_count will be decremented by sof_widget_free() */
+ 	sof_widget_free_unlocked(sdev, swidget);
+ 	use_count_decremented = true;
+-core_put:
+-	if (!use_count_decremented)
+-		snd_sof_dsp_core_put(sdev, swidget->core);
+ pipe_widget_free:
+-	if (swidget->id != snd_soc_dapm_scheduler)
++	if (swidget->id != snd_soc_dapm_scheduler) {
+ 		sof_widget_free_unlocked(sdev, swidget->spipe->pipe_widget);
++	} else {
++		int j;
++
++		/* decrement ref count for all cores that were updated previously */
++		for_each_set_bit(j, &spipe->core_mask, sdev->num_cores) {
++			if (j >= i)
++				break;
++			snd_sof_dsp_core_put(sdev, j);
++		}
++	}
+ use_count_dec:
+ 	if (!use_count_decremented)
+ 		swidget->use_count--;
 -- 
 2.42.1
 
