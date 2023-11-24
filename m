@@ -1,72 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b6SvHPkM"
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F54D69
-	for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 00:38:08 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a013d22effcso217525166b.2
-        for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 00:38:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700815087; x=1701419887; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYqzi/+XlQ/s+DJqiECuwYHNpVRCGbZDGfLfIlCHIxk=;
-        b=b6SvHPkMkQgell54qC4wOZhJcYM2VQ17kjDJhwTJT0v3CLuGY1+6P9pBlYJjuTARUK
-         2nq5tNdbcFez11QXjUa9xbVQyglAiOGlMwIIsfesLy3GX6HoBu1+ECheIN6qRZpLnRyY
-         bC+PHSwZRH3xwPF+OgGA5wegoRVf0aCd60fCBUZcdgvDEvfUWEKcdSbUOwvDLR09WgEN
-         9kHAbsZdws4NpHRvOtzK0FwPCnh4GW+En4NFITa77WLhRKQP7Qt9CJqNbAORr+zXRJNf
-         W1PnlnCRCG3y6WbGgUziDgmPB0h+JAAJK/kK/orsNA2nD4wHIrw+i7TZSxuVbmve5z9k
-         A5Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700815087; x=1701419887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CYqzi/+XlQ/s+DJqiECuwYHNpVRCGbZDGfLfIlCHIxk=;
-        b=QtIBQi3nWXltp9hWxJ5vfwN29L45DEZyv1/NrpLE+/epgOBhHQI5XVGzeIW3L57RHJ
-         TO6DXttlWI7gdSgmPZgEU+8fZcnZQAfrjCl1TIuyjCxvpdDfN3+PuYmoO5m6alEZ3nEf
-         ZKuiWZXW3zc+qv10zw6rwBqA0dLFECgLH8kx5FiCtz46gHBG+xy76uCfB3eNFxZ58G6B
-         ozf3wwpdlENuQR4nDcGgc9Kf7Abl/gphrwVrocu7ulOg69J8R9Y2ngndiN9bhePndRcQ
-         OkiM9zmTYxwkhjWJRdh5sJUlK3jqX4t0gqkNjkBBG/LKmxMrTWXZWAyyANUFOr8fspa3
-         HtPQ==
-X-Gm-Message-State: AOJu0YzzSMAEfLpWfIuFEXqv+ZAD5PJxFfOf8kAQUtjyOzeLUBAWQIO0
-	v851200N/doAXstYnD3r/qez2A==
-X-Google-Smtp-Source: AGHT+IE/6AvzGFpXeoUuooNv8Hkv3iVH5oo4ItGvDeCTDaiH0at3wQHZPjucHgaXdu9YSCtq8CFIyQ==
-X-Received: by 2002:a17:906:2756:b0:9bd:9bfe:e40b with SMTP id a22-20020a170906275600b009bd9bfee40bmr1324090ejd.75.1700815087137;
-        Fri, 24 Nov 2023 00:38:07 -0800 (PST)
-Received: from krzk-bin.. ([178.197.218.100])
-        by smtp.gmail.com with ESMTPSA id ks20-20020a170906f85400b009db53aa4f7bsm1781574ejb.28.2023.11.24.00.38.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 00:38:06 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Seven Lee <wtli@nuvoton.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH] ASoC: dt-bindings: correct white-spaces in examples
-Date: Fri, 24 Nov 2023 09:38:03 +0100
-Message-Id: <20231124083803.12773-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Jyxy9nFX"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E37A1710;
+	Fri, 24 Nov 2023 01:50:47 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AO6xNTZ010106;
+	Fri, 24 Nov 2023 03:50:34 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=0
+	BSvJ7usnWbGiPGf6UjTYXjzO1zlA/tY5Les5VqpUOI=; b=Jyxy9nFX8iQChZ0cS
+	0BqOsuaBamyyKCpuiVvHH0G92KfBp30rU7A9qdkw1LoGX1T6v9uYQO7Ap0VKWIua
+	NXr64i11q6N++FXaQNvAX57YThBAFwkwQiH8uLXk/r4l6ZcpGgdpC1Vc84fRAlGv
+	/XbelQ3KhDkuLUiLXg4gK4lawpm5ZoyaM8BNn+y4t+kgSRSetrR3EC42tTx0pqMw
+	hXQ0i4Re7FpDedcfAimsvCCLb1+u/w9bzrErIPvF/pQbmeHUQ0SmmTKC9jmE27rX
+	2Nkn8C4/VPQI9D68je5kuPDvy15Yk2AC1XVMyWE7WVc4/MekNCiXWovdXBRyvn2c
+	YYnHg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uetjpem55-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 03:50:34 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 24 Nov
+ 2023 09:50:32 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Fri, 24 Nov 2023 09:50:32 +0000
+Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 64696357F;
+	Fri, 24 Nov 2023 09:50:32 +0000 (UTC)
+From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: James Schulman <james.schulman@cirrus.com>,
+        David Rhodes
+	<david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Maciej Strozek
+	<mstrozek@opensource.cirrus.com>
+Subject: [RESEND] ASoC: cs43130: Allow configuration of bit clock and frame inversion
+Date: Fri, 24 Nov 2023 09:50:30 +0000
+Message-ID: <20231124095030.24539-1-mstrozek@opensource.cirrus.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -75,145 +51,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: UevVvw5fily_5khQIm2O0txDPIJE2xNH
+X-Proofpoint-ORIG-GUID: UevVvw5fily_5khQIm2O0txDPIJE2xNH
+X-Proofpoint-Spam-Reason: safe
 
-Use only one and exactly one space around '=' in DTS example.
-
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 ---
+Resending patch which previously broke x86 allmodconfig [1], now rebased on
+for-next branch
 
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../devicetree/bindings/sound/nuvoton,nau8821.yaml        | 2 +-
- Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml | 4 ++--
- .../devicetree/bindings/sound/qcom,wcd938x-sdw.yaml       | 4 ++--
- Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml | 4 ++--
- Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 8 ++++----
- .../devicetree/bindings/sound/ti,tlv320aic32x4.yaml       | 2 +-
- 6 files changed, 12 insertions(+), 12 deletions(-)
+[1]: https://lore.kernel.org/all/ZVfLMIbCpShVAYBf@finisterre.sirena.org.uk/
 
-diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
-index 3380b6aa9542..054b53954ac3 100644
---- a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
-+++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
-@@ -135,7 +135,7 @@ examples:
-             nuvoton,jack-insert-debounce = <7>;
-             nuvoton,jack-eject-debounce = <0>;
-             nuvoton,dmic-clk-threshold = <3072000>;
--            nuvoton,dmic-slew-rate= <0>;
-+            nuvoton,dmic-slew-rate = <0>;
-             #sound-dai-cells = <0>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-index 4df59f3b7b01..beb0ff0245b0 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-@@ -201,9 +201,9 @@ examples:
-   - |
-     codec@1,0{
-         compatible = "slim217,250";
--        reg  = <1 0>;
-+        reg = <1 0>;
-         reset-gpios = <&tlmm 64 0>;
--        slim-ifc-dev  = <&wcd9340_ifd>;
-+        slim-ifc-dev = <&wcd9340_ifd>;
-         #sound-dai-cells = <1>;
-         interrupt-parent = <&tlmm>;
-         interrupts = <54 4>;
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml
-index b430dd3e1841..7b31bf93f1a1 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml
-@@ -51,7 +51,7 @@ examples:
-         reg = <0x03210000 0x2000>;
-         wcd938x_rx: codec@0,4 {
-             compatible = "sdw20217010d00";
--            reg  = <0 4>;
-+            reg = <0 4>;
-             qcom,rx-port-mapping = <1 2 3 4 5>;
-         };
-     };
-@@ -62,7 +62,7 @@ examples:
-         reg = <0x03230000 0x2000>;
-         wcd938x_tx: codec@0,3 {
-             compatible = "sdw20217010d00";
--            reg  = <0 3>;
-+            reg = <0 3>;
-             qcom,tx-port-mapping = <2 3 4 5>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml
-index 018565793a3e..adbfa67f88ed 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml
-@@ -137,7 +137,7 @@ examples:
-         reg = <0x03210000 0x2000>;
-         wcd938x_rx: codec@0,4 {
-             compatible = "sdw20217010d00";
--            reg  = <0 4>;
-+            reg = <0 4>;
-             qcom,rx-port-mapping = <1 2 3 4 5>;
-         };
-     };
-@@ -148,7 +148,7 @@ examples:
-         reg = <0x03230000 0x2000>;
-         wcd938x_tx: codec@0,3 {
-             compatible = "sdw20217010d00";
--            reg  = <0 3>;
-+            reg = <0 3>;
-             qcom,tx-port-mapping = <2 3 4 5>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-index 1174205286d4..0d7a6b576d88 100644
---- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-+++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-@@ -497,19 +497,19 @@ examples:
-         rcar_sound,dai {
-             dai0 {
-                 playback = <&ssi5>, <&src5>;
--                capture  = <&ssi6>;
-+                capture = <&ssi6>;
-             };
-             dai1 {
-                 playback = <&ssi3>;
-             };
-             dai2 {
--                capture  = <&ssi4>;
-+                capture = <&ssi4>;
-             };
-             dai3 {
-                 playback = <&ssi7>;
-             };
-             dai4 {
--                capture  = <&ssi8>;
-+                capture = <&ssi8>;
-             };
-         };
- 
-@@ -523,7 +523,7 @@ examples:
-                 frame-master = <&rsnd_endpoint0>;
- 
-                 playback = <&ssi0>, <&src0>, <&dvc0>;
--                capture  = <&ssi1>, <&src1>, <&dvc1>;
-+                capture = <&ssi1>, <&src1>, <&dvc1>;
-             };
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml
-index a7cc9aa34468..4783e6dbb5c4 100644
---- a/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml
-@@ -90,7 +90,7 @@ examples:
-         ldoin-supply = <&reg_3v3>;
-         clocks = <&clks 201>;
-         clock-names = "mclk";
--        aic32x4-gpio-func= <
-+        aic32x4-gpio-func = <
-           0xff /* AIC32X4_MFPX_DEFAULT_VALUE */
-           0xff /* AIC32X4_MFPX_DEFAULT_VALUE */
-           0x04 /* MFP3 AIC32X4_MFP3_GPIO_ENABLED */
--- 
+ sound/soc/codecs/cs43130.c | 42 ++++++++++++++++++++++++++++++++++++--
+ sound/soc/codecs/cs43130.h |  1 +
+ 2 files changed, 41 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index 4f16baf4eafb..0f3ead84665f 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -620,6 +620,27 @@ static int cs43130_set_sp_fmt(int dai_id, unsigned int bitwidth_sclk,
+ 		return -EINVAL;
+ 	}
+
++	switch (cs43130->dais[dai_id].dai_invert) {
++	case SND_SOC_DAIFMT_NB_NF:
++		sclk_edge = 1;
++		lrck_edge = 0;
++		break;
++	case SND_SOC_DAIFMT_IB_NF:
++		sclk_edge = 0;
++		lrck_edge = 0;
++		break;
++	case SND_SOC_DAIFMT_NB_IF:
++		sclk_edge = 1;
++		lrck_edge = 1;
++		break;
++	case SND_SOC_DAIFMT_IB_IF:
++		sclk_edge = 0;
++		lrck_edge = 1;
++		break;
++	default:
++		return -EINVAL;
++	}
++
+ 	switch (cs43130->dais[dai_id].dai_mode) {
+ 	case SND_SOC_DAIFMT_CBS_CFS:
+ 		dai_mode_val = 0;
+@@ -632,8 +653,6 @@ static int cs43130_set_sp_fmt(int dai_id, unsigned int bitwidth_sclk,
+ 	}
+
+ 	frm_size = bitwidth_sclk * params_channels(params);
+-	sclk_edge = 1;
+-	lrck_edge = 0;
+ 	loc_ch1 = 0;
+ 	loc_ch2 = bitwidth_sclk * (params_channels(params) - 1);
+
+@@ -1516,6 +1535,25 @@ static int cs43130_pcm_set_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt)
+ 		return -EINVAL;
+ 	}
+
++	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
++	case SND_SOC_DAIFMT_NB_NF:
++		cs43130->dais[codec_dai->id].dai_invert = SND_SOC_DAIFMT_NB_NF;
++		break;
++	case SND_SOC_DAIFMT_IB_NF:
++		cs43130->dais[codec_dai->id].dai_invert = SND_SOC_DAIFMT_IB_NF;
++		break;
++	case SND_SOC_DAIFMT_NB_IF:
++		cs43130->dais[codec_dai->id].dai_invert = SND_SOC_DAIFMT_NB_IF;
++		break;
++	case SND_SOC_DAIFMT_IB_IF:
++		cs43130->dais[codec_dai->id].dai_invert = SND_SOC_DAIFMT_IB_IF;
++		break;
++	default:
++		dev_err(cs43130->dev, "Unsupported invert mode 0x%x\n",
++			fmt & SND_SOC_DAIFMT_INV_MASK);
++		return -EINVAL;
++	}
++
+ 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+ 	case SND_SOC_DAIFMT_I2S:
+ 		cs43130->dais[codec_dai->id].dai_format = SND_SOC_DAIFMT_I2S;
+diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
+index 694286b78d03..dbdb5b262f1b 100644
+--- a/sound/soc/codecs/cs43130.h
++++ b/sound/soc/codecs/cs43130.h
+@@ -497,6 +497,7 @@ struct cs43130_dai {
+ 	unsigned int			sclk;
+ 	unsigned int			dai_format;
+ 	unsigned int			dai_mode;
++	unsigned int			dai_invert;
+ };
+
+ struct	cs43130_private {
+--
 2.34.1
 
