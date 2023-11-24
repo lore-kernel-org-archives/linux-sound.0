@@ -1,110 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2D218AE5;
-	Fri, 24 Nov 2023 10:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIQvHAcW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FD8AC433C8;
-	Fri, 24 Nov 2023 10:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700821150;
-	bh=OEZjeJvaa0W7vSTE88cnpZau4Nam/6qChCui4cXBaN4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EIQvHAcWdH+aWdppBQyEJjgBwjnj5PnnQhO+8xHsqSeB6JHVnW6G1hVn2zzCxm480
-	 H5bD3Fi5C1IuNoVzMIG9SgfodwjThbhDJjL0fgsXBSA5YCYGM1T0QVnzvKjJSkfVcC
-	 PvGPze6kTiRqJHjygRYv9msfNlebGeRIyr9LPvNKLPrmKxODAccrpw463vn+mwFbUC
-	 umgQVa122MGu4N+Yb3ab54opcbQZ+YXPTMLDqnfbqRgk4ic+347sp+IYJ5s9us5mZB
-	 6eYz6vPGdNc2JP4GhfqOrjurYebJVCs8OIu2U0SIUxn1IXKANYUGg1cXvQsN6R319N
-	 vXJKMdOHPjiDw==
-Date: Fri, 24 Nov 2023 10:19:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] ASoC: codecs: Add WCD939x Codec driver
-Message-ID: <ZWB4myckLrpBYLm+@finisterre.sirena.org.uk>
-References: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-0-21d4ad9276de@linaro.org>
- <20231123-topic-sm8650-upstream-wcd939x-codec-v1-5-21d4ad9276de@linaro.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="o9eawzzl"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D266818C;
+	Fri, 24 Nov 2023 02:27:17 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AO6SOAQ004050;
+	Fri, 24 Nov 2023 04:27:09 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=GFjYrTCfkrcNlzy
+	76CnGX/PrYanNuFlmv/Z3zWIO/Dg=; b=o9eawzzl9C1r6i65S18DgOGn2eUvokm
+	KI2jLX6DmjQagDcrUFfNL/jWaCMZX49ndZaP12wGyGFOqIS9QM+uxul0/P/5iyrK
+	DcWBqO7N4OAJn/opM9J+9vg3gt8LYuquMupkZgnn3gepZmMZgcMl1YmaxIoT+2rp
+	GCv6aN3om7dPAcXL99I2ivmNb1pfTQTrRClY4JWyG1kzrpilTRT9apoR7AQSTOQG
+	4pHzZkfRJ+s6jNFuFwbIMGvcwLE2zrBD+g/0rXE2bNUpz6qkAf9vBhw8wkATJVU2
+	+CZqAdXu+jb8YWT9X3O/BkCC2V+4bw+beWj+Mf2JUQNewBnwPPLrvvg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uetjpen7k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 04:27:09 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 24 Nov
+ 2023 10:27:08 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Fri, 24 Nov 2023 10:27:07 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B349215B6;
+	Fri, 24 Nov 2023 10:27:07 +0000 (UTC)
+Date: Fri, 24 Nov 2023 10:27:07 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>,
+        James Schulman
+	<james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        "Liam
+ Girdwood" <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [RESEND] ASoC: cs43130: Allow configuration of bit clock and
+ frame inversion
+Message-ID: <20231124102707.GR32655@ediswmail.ad.cirrus.com>
+References: <20231124095030.24539-1-mstrozek@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VQ2nRTjyMlGPMvXH"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-5-21d4ad9276de@linaro.org>
-X-Cookie: Slow day.  Practice crawling.
+In-Reply-To: <20231124095030.24539-1-mstrozek@opensource.cirrus.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: fx8UwrWDODrje-Twg2iLTFxL51XwNoX4
+X-Proofpoint-ORIG-GUID: fx8UwrWDODrje-Twg2iLTFxL51XwNoX4
+X-Proofpoint-Spam-Reason: safe
 
+On Fri, Nov 24, 2023 at 09:50:30AM +0000, Maciej Strozek wrote:
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> ---
 
---VQ2nRTjyMlGPMvXH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-On Thu, Nov 23, 2023 at 03:49:15PM +0100, Neil Armstrong wrote:
-
-> +	if (wcd939x->variant == WCD9390) {
-> +		if (mode_val == CLS_H_HIFI || mode_val == CLS_AB_HIFI) {
-> +			dev_info(component->dev, "%s: Invalid HPH Mode, default to CLS_H_ULP\n",
-> +				 __func__);
-> +			mode_val = CLS_H_ULP;
-> +		}
-> +	}
-> +	if (mode_val == CLS_H_NORMAL) {
-> +		dev_info(component->dev, "%s: Invalid HPH Mode, default to class_AB\n",
-> +			 __func__);
-> +		mode_val = CLS_H_ULP;
-> +	}
-
-This lets people spam the logs from userspace, why not just return an
-error?
-
-> +	if (hphr)
-> +		wcd939x->comp2_enable = value;
-> +	else
-> +		wcd939x->comp1_enable = value;
-
-Are there really no constraints on the values for these things?
-
-> +static const struct snd_kcontrol_new wcd9390_snd_controls[] = {
-> +	SOC_ENUM_EXT("EAR PA GAIN", wcd939x_ear_pa_gain_enum,
-> +		     wcd939x_ear_pa_gain_get, wcd939x_ear_pa_gain_put),
-
-Gains should be be named Volume.  Is there no TLV information?
-
-> +static irqreturn_t wcd939x_wd_handle_irq(int irq, void *data)
-> +{
-> +	return IRQ_HANDLED;
-> +}
-
-Why even request the interrupt if it's just going to be ignored?
-
---VQ2nRTjyMlGPMvXH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVgeJoACgkQJNaLcl1U
-h9AZqgf9ER6M6fjDX85XA+DwqPsutTqM7mFbCjQypc4RvoCAFr404QMv94Pqj49B
-yVWWJEJ450NwalztnrIUsq8eTs9Fs/KpIhqEh202WlqHHd2EKGoAyHh6IEqF/yni
-F1YbWwejYTdL+16hOhMCtr0AtdhxEOe74omNJNcePl/yWCLx14CAA/snSAgVObjQ
-NO1Uhh1AgnAEO+S1jOvuGb3BzIor2UpcFNqhvKa6jkgRpEk/ZEUQjzJ/1bGdOF5r
-ny1HRvZgIcwIKyioGRREjdPmIGHFg+gLe3+LESxVy32YhpKkWaqYa4UT2wcVgtTp
-ej3yYYHUfeYQ6XtbWTd/o/wtzwlIWQ==
-=IuYR
------END PGP SIGNATURE-----
-
---VQ2nRTjyMlGPMvXH--
+Thanks,
+Charles
