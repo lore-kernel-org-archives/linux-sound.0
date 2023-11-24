@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LurvT1C7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+TOSadV"
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1CB19B5
-	for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 07:08:30 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9660593
+	for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 07:08:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700838510; x=1732374510;
+  t=1700838513; x=1732374513;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=10zQAPrpkF9y0YqtC/QfVdfBnl4X3to42bmLOqtpYMc=;
-  b=LurvT1C73HJ3Rwe5+WqgIuuQCpARnZqG9k2yK9KDbpQdB6KH9WxWZk44
-   7ewPaPTLo8a13k6LhtZwg8sRS91tOVhY9HL8z3cve0ReNUdGqmdYirR4E
-   pwKDwXU0AsDJq0dndjgDq4CKd0POoms5CazAvYco9g+1+Sz2QdkmH+zKN
-   CWpu55KQm1RYKgH668kPQ+PmR6NJwfNFqjc++CY3oF5nVfAjQvetPgMN5
-   tSjvXF4xzOAqy7MhhfJD88AQAqJoXot3sp06EU0iMulqb9Z9656OiDPdX
-   bi3jxQGfbulg2Pzeg5PzyyDkVzcfrTSHgBNzxJ7kn0Ni6oTV4ZgmYou2X
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377477064"
+  bh=Q9WCbZVURpnqvd5xlh4EYvKFVSLfCjZ9vNYEc46ktjw=;
+  b=n+TOSadVDucaq62TXcrmF3DaPpmoVPhEAvLI1BmSVv2pNNj2c83kTUj+
+   YpxpNNc14uWhk6nfBIWoX0zfdPPQukD6ygTdbK93w8KsHNFUv8oyhlB9w
+   WCQHQaDAZF9e8uJ1DT/eMsHMogPTC1nITOidBpqlNOpOwskyEpn8ZAwd/
+   +QQuq4ywc9t1AuwTBd+7I0g4O2dEeArowB7j3/BmcCkFgxCEpFlNUEX3U
+   FWCJFIRG9CEXbKAVzcYepEVUqQmhfOke+muFc+HwWjzoMfu8hu1YL2wTu
+   5onaIRE/mSTQbONx2x2HyguANwKCQmhJi1TBR50U14mPI6ohRBaPK+98l
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377477074"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="377477064"
+   d="scan'208";a="377477074"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:08:30 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:08:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="743915680"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="743915686"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="743915680"
+   d="scan'208";a="743915686"
 Received: from barumuga-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.182])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:08:28 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:08:30 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -36,9 +36,9 @@ Cc: alsa-devel@alsa-project.org,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH 3/4] ASoC: SOF: ipc4-control: Implement control update for switch/enum controls
-Date: Fri, 24 Nov 2023 17:08:52 +0200
-Message-ID: <20231124150853.18648-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 4/4] ASoC: SOF: ipc4: Handle ALSA kcontrol change notification from firmware
+Date: Fri, 24 Nov 2023 17:08:53 +0200
+Message-ID: <20231124150853.18648-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231124150853.18648-1-peter.ujfalusi@linux.intel.com>
 References: <20231124150853.18648-1-peter.ujfalusi@linux.intel.com>
@@ -50,240 +50,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement the sof_ipc_tplg_control_ops.update function to support a control
-change notification from the firmware on switch or enum control types.
-
-Based on the module notification message content, look up the swidget, then
-the scontrol which was the source of the notification then if the message
-contains the changed values update the cached values.
-If only a notification without values received, marked the control as dirty
-and on next read access fetch the new values from the firmware.
+The control change notification is sent as module notification with a
+standardized event_id (higher 16 bit is 0xA15A).
+Add generic code to handle the module notification and invoke the control
+update callback if the notification is an ALSA kcontrol change message.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/sof/ipc4-control.c | 179 +++++++++++++++++++++++++++++++++++
- 1 file changed, 179 insertions(+)
+ sound/soc/sof/ipc4.c | 57 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 938efaceb81c..3d2a35f27a87 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -240,6 +240,50 @@ sof_ipc4_set_generic_control_data(struct snd_sof_dev *sdev,
- 	return ret;
- }
+diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
+index 8441f4ae4065..a9d9800d2fcc 100644
+--- a/sound/soc/sof/ipc4.c
++++ b/sound/soc/sof/ipc4.c
+@@ -78,6 +78,9 @@ static const struct sof_ipc4_fw_status {
+ 	{165, "Reserved (ADSP_IPC_PIPELINE_ALREADY_EXISTS removed)"},
+ };
  
-+static void sof_ipc4_refresh_generic_control(struct snd_sof_control *scontrol)
-+{
-+	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
-+	struct snd_soc_component *scomp = scontrol->scomp;
-+	struct sof_ipc4_control_msg_payload *data;
-+	struct sof_ipc4_msg *msg = &cdata->msg;
-+	size_t data_size;
-+	unsigned int i;
-+	int ret;
++typedef void (*ipc4_notification_handler)(struct snd_sof_dev *sdev,
++					  struct sof_ipc4_msg *msg);
 +
-+	if (!scontrol->comp_data_dirty)
-+		return;
-+
-+	if (!pm_runtime_active(scomp->dev))
-+		return;
-+
-+	data_size = struct_size(data, chanv, scontrol->num_channels);
-+	data = kmalloc(data_size, GFP_KERNEL);
-+	if (!data)
-+		return;
-+
-+	data->id = cdata->index;
-+	data->num_elems = scontrol->num_channels;
-+	msg->data_ptr = data;
-+	msg->data_size = data_size;
-+
-+	scontrol->comp_data_dirty = false;
-+	ret = sof_ipc4_set_get_kcontrol_data(scontrol, false, true);
-+	msg->data_ptr = NULL;
-+	msg->data_size = 0;
-+	if (!ret) {
-+		for (i = 0; i < scontrol->num_channels; i++) {
-+			cdata->chanv[i].channel = data->chanv[i].channel;
-+			cdata->chanv[i].value = data->chanv[i].value;
-+		}
-+	} else {
-+		dev_err(scomp->dev, "Failed to read control data for %s\n",
-+			scontrol->name);
-+		scontrol->comp_data_dirty = true;
-+	}
-+
-+	kfree(data);
-+}
-+
- static bool sof_ipc4_switch_put(struct snd_sof_control *scontrol,
- 				struct snd_ctl_elem_value *ucontrol)
+ static int sof_ipc4_check_reply_status(struct snd_sof_dev *sdev, u32 status)
  {
-@@ -290,6 +334,8 @@ static int sof_ipc4_switch_get(struct snd_sof_control *scontrol,
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	unsigned int i;
- 
-+	sof_ipc4_refresh_generic_control(scontrol);
-+
- 	/* read back each channel */
- 	for (i = 0; i < scontrol->num_channels; i++)
- 		ucontrol->value.integer.value[i] = cdata->chanv[i].value;
-@@ -347,6 +393,8 @@ static int sof_ipc4_enum_get(struct snd_sof_control *scontrol,
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	unsigned int i;
- 
-+	sof_ipc4_refresh_generic_control(scontrol);
-+
- 	/* read back each channel */
- 	for (i = 0; i < scontrol->num_channels; i++)
- 		ucontrol->value.enumerated.item[i] = cdata->chanv[i].value;
-@@ -601,6 +649,136 @@ sof_ipc4_volsw_setup(struct snd_sof_dev *sdev, struct snd_sof_widget *swidget,
- 	return sof_ipc4_set_volume_data(sdev, swidget, scontrol, false);
+ 	int i, ret;
+@@ -610,9 +613,55 @@ static int ipc4_fw_ready(struct snd_sof_dev *sdev, struct sof_ipc4_msg *ipc4_msg
+ 	return sof_ipc4_init_msg_memory(sdev);
  }
  
-+#define PARAM_ID_FROM_EXTENSION(_ext)	(((_ext) & SOF_IPC4_MOD_EXT_MSG_PARAM_ID_MASK)	\
-+					 >> SOF_IPC4_MOD_EXT_MSG_PARAM_ID_SHIFT)
-+
-+static void sof_ipc4_control_update(struct snd_sof_dev *sdev, void *ipc_message)
++static void sof_ipc4_module_notification_handler(struct snd_sof_dev *sdev,
++						 struct sof_ipc4_msg *ipc4_msg)
 +{
-+	struct sof_ipc4_msg *ipc4_msg = ipc_message;
-+	struct sof_ipc4_notify_module_data *ndata = ipc4_msg->data_ptr;
-+	struct sof_ipc4_control_msg_payload *msg_data;
-+	struct sof_ipc4_control_data *cdata;
-+	struct snd_soc_dapm_widget *widget;
-+	struct snd_sof_control *scontrol;
-+	struct snd_sof_widget *swidget;
-+	struct snd_kcontrol *kc = NULL;
-+	bool scontrol_found = false;
-+	u32 event_param_id;
-+	int i, type;
-+
-+	if (ndata->event_data_size < sizeof(*msg_data)) {
-+		dev_err(sdev->dev,
-+			"%s: Invalid event data size for module %u.%u: %u\n",
-+			__func__, ndata->module_id, ndata->instance_id,
-+			ndata->event_data_size);
-+		return;
-+	}
-+
-+	event_param_id = ndata->event_id & SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_PARAMID_MASK;
-+	switch (event_param_id) {
-+	case SOF_IPC4_SWITCH_CONTROL_PARAM_ID:
-+		type = SND_SOC_TPLG_TYPE_MIXER;
-+		break;
-+	case SOF_IPC4_ENUM_CONTROL_PARAM_ID:
-+		type = SND_SOC_TPLG_TYPE_ENUM;
-+		break;
-+	default:
-+		dev_err(sdev->dev,
-+			"%s: Invalid control type for module %u.%u: %u\n",
-+			__func__, ndata->module_id, ndata->instance_id,
-+			event_param_id);
-+		return;
-+	}
-+
-+	/* Find the swidget based on ndata->module_id and ndata->instance_id */
-+	swidget = sof_ipc4_find_swidget_by_ids(sdev, ndata->module_id,
-+					       ndata->instance_id);
-+	if (!swidget) {
-+		dev_err(sdev->dev, "%s: Failed to find widget for module %u.%u\n",
-+			__func__, ndata->module_id, ndata->instance_id);
-+		return;
-+	}
-+
-+	/* Find the scontrol which is the source of the notification */
-+	msg_data = (struct sof_ipc4_control_msg_payload *)ndata->event_data;
-+	list_for_each_entry(scontrol, &sdev->kcontrol_list, list) {
-+		if (scontrol->comp_id == swidget->comp_id) {
-+			u32 local_param_id;
-+
-+			cdata = scontrol->ipc_control_data;
-+			/*
-+			 * The scontrol's param_id is stored in the IPC message
-+			 * template's extension
-+			 */
-+			local_param_id = PARAM_ID_FROM_EXTENSION(cdata->msg.extension);
-+			if (local_param_id == event_param_id &&
-+			    msg_data->id == cdata->index) {
-+				scontrol_found = true;
-+				break;
-+			}
-+		}
-+	}
-+
-+	if (!scontrol_found) {
-+		dev_err(sdev->dev,
-+			"%s: Failed to find control on widget %s: %u:%u\n",
-+			__func__, swidget->widget->name, ndata->event_id & 0xffff,
-+			msg_data->id);
-+		return;
-+	}
-+
-+	if (msg_data->num_elems) {
-+		/*
-+		 * The message includes the updated value/data, update the
-+		 * control's local cache using the received notification
-+		 */
-+		for (i = 0; i < msg_data->num_elems; i++) {
-+			u32 channel = msg_data->chanv[i].channel;
-+
-+			if (channel >= scontrol->num_channels) {
-+				dev_warn(sdev->dev,
-+					 "Invalid channel index for %s: %u\n",
-+					 scontrol->name, i);
-+
-+				/*
-+				 * Mark the scontrol as dirty to force a refresh
-+				 * on next read
-+				 */
-+				scontrol->comp_data_dirty = true;
-+				break;
-+			}
-+
-+			cdata->chanv[channel].value = msg_data->chanv[i].value;
-+		}
-+	} else {
-+		/*
-+		 * Mark the scontrol as dirty because the value/data is changed
-+		 * in firmware, forcing a refresh on next read access
-+		 */
-+		scontrol->comp_data_dirty = true;
-+	}
++	struct sof_ipc4_notify_module_data *data = ipc4_msg->data_ptr;
 +
 +	/*
-+	 * Look up the ALSA kcontrol of the scontrol to be able to send a
-+	 * notification to user space
++	 * If the notification includes additional, module specific data, then
++	 * we need to re-allocate the buffer and re-read the whole payload,
++	 * including the event_data
 +	 */
-+	widget = swidget->widget;
-+	for (i = 0; i < widget->num_kcontrols; i++) {
-+		/* skip non matching types or non matching indexes within type */
-+		if (widget->dobj.widget.kcontrol_type[i] == type &&
-+		    widget->kcontrol_news[i].index == cdata->index) {
-+			kc = widget->kcontrols[i];
-+			break;
++	if (data->event_data_size) {
++		void *new;
++		int ret;
++
++		ipc4_msg->data_size += data->event_data_size;
++
++		new = krealloc(ipc4_msg->data_ptr, ipc4_msg->data_size, GFP_KERNEL);
++		if (!new) {
++			ipc4_msg->data_size -= data->event_data_size;
++			return;
 +		}
++
++		/* re-read the whole payload */
++		ipc4_msg->data_ptr = new;
++		ret = snd_sof_ipc_msg_data(sdev, NULL, ipc4_msg->data_ptr,
++					   ipc4_msg->data_size);
++		if (ret < 0) {
++			dev_err(sdev->dev,
++				"Failed to read the full module notification: %d\n",
++				ret);
++			return;
++		}
++		data = ipc4_msg->data_ptr;
 +	}
 +
-+	if (!kc)
-+		return;
++	/* Handle ALSA kcontrol notification */
++	if ((data->event_id & SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_MASK) ==
++	    SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_VAL) {
++		const struct sof_ipc_tplg_ops *tplg_ops = sdev->ipc->ops->tplg;
 +
-+	snd_ctl_notify_one(swidget->scomp->card->snd_card,
-+			   SNDRV_CTL_EVENT_MASK_VALUE, kc, 0);
++		if (tplg_ops->control->update)
++			tplg_ops->control->update(sdev, ipc4_msg);
++	}
 +}
 +
- /* set up all controls for the widget */
- static int sof_ipc4_widget_kcontrol_setup(struct snd_sof_dev *sdev, struct snd_sof_widget *swidget)
+ static void sof_ipc4_rx_msg(struct snd_sof_dev *sdev)
  {
-@@ -674,6 +852,7 @@ const struct sof_ipc_tplg_control_ops tplg_ipc4_control_ops = {
- 	.bytes_ext_put = sof_ipc4_bytes_ext_put,
- 	.bytes_ext_get = sof_ipc4_bytes_ext_get,
- 	.bytes_ext_volatile_get = sof_ipc4_bytes_ext_volatile_get,
-+	.update = sof_ipc4_control_update,
- 	.widget_kcontrol_setup = sof_ipc4_widget_kcontrol_setup,
- 	.set_up_volume_table = sof_ipc4_set_up_volume_table,
- };
+ 	struct sof_ipc4_msg *ipc4_msg = sdev->ipc->msg.rx_data;
++	ipc4_notification_handler handler_func = NULL;
+ 	size_t data_size = 0;
+ 	int err;
+ 
+@@ -648,6 +697,10 @@ static void sof_ipc4_rx_msg(struct snd_sof_dev *sdev)
+ 	case SOF_IPC4_NOTIFY_EXCEPTION_CAUGHT:
+ 		snd_sof_dsp_panic(sdev, 0, true);
+ 		break;
++	case SOF_IPC4_NOTIFY_MODULE_NOTIFICATION:
++		data_size = sizeof(struct sof_ipc4_notify_module_data);
++		handler_func = sof_ipc4_module_notification_handler;
++		break;
+ 	default:
+ 		dev_dbg(sdev->dev, "Unhandled DSP message: %#x|%#x\n",
+ 			ipc4_msg->primary, ipc4_msg->extension);
+@@ -663,6 +716,10 @@ static void sof_ipc4_rx_msg(struct snd_sof_dev *sdev)
+ 		snd_sof_ipc_msg_data(sdev, NULL, ipc4_msg->data_ptr, ipc4_msg->data_size);
+ 	}
+ 
++	/* Handle notifications with payload */
++	if (handler_func)
++		handler_func(sdev, ipc4_msg);
++
+ 	sof_ipc4_log_header(sdev->dev, "ipc rx done ", ipc4_msg, true);
+ 
+ 	if (data_size) {
 -- 
 2.42.1
 
