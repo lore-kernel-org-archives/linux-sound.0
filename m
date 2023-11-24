@@ -1,79 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8411E28E25;
-	Fri, 24 Nov 2023 14:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rW0B7dko"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5556C433CD;
-	Fri, 24 Nov 2023 14:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700835431;
-	bh=umb1lq+7x0di4GkTWElfAJiKHuYnyynTpxF8V0VWQ14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rW0B7dkoDAMXF3C8b51xqQYnjp/0ej9P/oNncvvL07WENujuurblmbxVjJSwx7wmB
-	 9KKHcOIYNeCVw4zCJhk5eB9xPYx1FC6SzFhublw39agOIs9ybkipKrUVf8kWaoPQB1
-	 5Oz0ulLztmqTP5R8wxPh9L8QI+4CmGvYsrs5ti0tb2QmZes7KUvcsXl0xtptfsqCVP
-	 BAGOB7XRL3w0YUYz1YRDr2amdMod2abgiEEgaFMdczTGqoUdW1zB0kkvS+cAK2mjcR
-	 fbj52ldJjgY/aKo/vWb0aCc5aaJOuscmUqgjnVk5MCYQih0+KJMbjPQZdsubDy3NQA
-	 WKH/df1ixMCvA==
-Date: Fri, 24 Nov 2023 14:17:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Baluta <daniel.baluta@oss.nxp.com>
-Cc: linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	kuninori.morimoto.gx@renesas.com, daniel.baluta@gmail.com,
-	robh+dt@kernel.org, iuliana.prodan@nxp.com, shengjiu.wang@nxp.com,
-	linux-imx@nxp.com
-Subject: Re: [PATCH v3 1/2] ASoC: audio-graph-card2: Introduce
- playback-only/capture only DAI link flags
-Message-ID: <ZWCwZNzWZNIefNjB@finisterre.sirena.org.uk>
-References: <20231123160655.188428-1-daniel.baluta@oss.nxp.com>
- <20231123160655.188428-2-daniel.baluta@oss.nxp.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXW29nmX"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61DC719A6
+	for <linux-sound@vger.kernel.org>; Fri, 24 Nov 2023 07:08:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700838503; x=1732374503;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=foCso91LWcsKZgmNc1lRmkzfnoe8b8XHwcibymER+ME=;
+  b=CXW29nmXDiMTgTiiWFr3wHuaUCBjdfRj4oUwNSjkJ+MZwI7g2kB1v+bU
+   JdMnhonh2gsDyWsihGGl0twnBR6JnEpbSIAZO0yMXzjl+lJVtgkampOvy
+   JyKVbEyNgqiit2CVX1xCm48GdhquVn8X1m4mg56KKoY/STzXfHejdYkKV
+   XpoIliD2PhoCHgqw2Q+uDSEYOHyqWfvHm8PhsujW+VuQYu2Zw6QHYi5Bo
+   Et8aQu2mxOLemiET5HWR1rYSp5lkKZ+97Vd+EugLTASfMQePqGGLZF4wl
+   FOIvizoG6OTPJWL1ooV1iW53w1icUwboja/PwvpsApxsn6LbyWSDSvW2L
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377477022"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="377477022"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:08:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="743915673"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="743915673"
+Received: from barumuga-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.182])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:08:20 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH 0/4] ASoC: SOF: ipc4: Add support for control change notification
+Date: Fri, 24 Nov 2023 17:08:49 +0200
+Message-ID: <20231124150853.18648-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KPJm13OYvLGl9q7Q"
-Content-Disposition: inline
-In-Reply-To: <20231123160655.188428-2-daniel.baluta@oss.nxp.com>
-X-Cookie: Slow day.  Practice crawling.
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---KPJm13OYvLGl9q7Q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series adds support for handling control (switch/enum) change notifications
+sent by the firmware.
+The use case is similar to what is already used by IPC3 version: the firmware
+can update the value of an enum or switch and sends notification to the kernel,
+which in turn will notify the user space of a change.
 
-On Thu, Nov 23, 2023 at 06:06:54PM +0200, Daniel Baluta wrote:
-> From: Daniel Baluta <daniel.baluta@nxp.com>
->=20
-> We need this to signal that DAI link supports only one direction that
-> can only be either playback or capture.
-> ---
+Regards,
+Peter
+---
+Peter Ujfalusi (4):
+  ASoC: SOF: ipc4-topology: Helper to find an swidget by module/instance
+    id
+  ASoC: SOF: ipc4: Add data struct for module notification message from
+    firmware
+  ASoC: SOF: ipc4-control: Implement control update for switch/enum
+    controls
+  ASoC: SOF: ipc4: Handle ALSA kcontrol change notification from
+    firmware
 
-You've not provided a Signed-off-by for this so I can't do anything with
-it, please see Documentation/process/submitting-patches.rst for details
-on what this is and why it's important.
+ include/sound/sof/ipc4/header.h |  29 ++++++
+ sound/soc/sof/ipc4-control.c    | 179 ++++++++++++++++++++++++++++++++
+ sound/soc/sof/ipc4-priv.h       |   3 +
+ sound/soc/sof/ipc4-topology.c   |  20 ++++
+ sound/soc/sof/ipc4.c            |  57 ++++++++++
+ 5 files changed, 288 insertions(+)
 
-It'd be good if the changelog explained why we need this.
+-- 
+2.42.1
 
---KPJm13OYvLGl9q7Q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVgsGMACgkQJNaLcl1U
-h9CQZAf8CQihmPYaPIZSCRjd6wUATVjtfC2gIaucJq69pLgqmWIvLjsCCAnqqJbM
-MlwcKVML2trFRWXG+bvNrIdtXLGr7/Hp0MiksG6oPuJsfKLdNPIEyKF17QYKs2iq
-gPonNRnz5xePhFu3JWPJGbzeSu/kf2uq4mXOH7iwEBRmZFS35chTGBX5Shvrbvx2
-UoNoyzy1nynNEAmplvYuqCvwXa6WD5UiwbgjMoIXy9UeD7tlytbxxUjdhSRPIq0e
-cAfvAczOcivL6kSw079o4UGhAEOlU+fvm1YOn2QFoGQvlmQFtyBxhd02KhwKXfXL
-7FxvwpPzuNJ2xjWnnIR3bf0Tlk11qw==
-=c549
------END PGP SIGNATURE-----
-
---KPJm13OYvLGl9q7Q--
