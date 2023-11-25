@@ -1,32 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E1DD295
-	for <linux-sound@vger.kernel.org>; Sat, 25 Nov 2023 11:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC70D295
+	for <linux-sound@vger.kernel.org>; Sat, 25 Nov 2023 11:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LkNh+1u7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A971C433C7;
-	Sat, 25 Nov 2023 11:37:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VqhQgZDj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 998F7C433C8;
+	Sat, 25 Nov 2023 11:37:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700912233;
-	bh=TvuNzbl35e3MpCZIoEfJstVJW2MqliElrJtb5bQ8+gU=;
+	s=k20201202; t=1700912235;
+	bh=VR4ONSoi1dmZbqcHJA4iDAY9ZBVgqaWvZJaqGayNkjg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LkNh+1u72KZk43ZzWQa2D6JaXR2js2tPJ03b9hRxmVM5NMtZMB6SMMWMtqzR4g2wP
-	 j9G8txWuNDNLJSQ7LCOktTSsK82oJrQRbGZSdaLOVLYaDpmynNyHACr6oq50h8UV52
-	 GEPjWdxs6ckT2T+Rn+3afGOpYNVbiBAPI6GzeSWXuihr+i01l2wJMwOrRbClgm6LVE
-	 r4UgpA21n3IKkuKf8MdsKB2VQFfTt8wfgPWiXedwkAIWmUQ7BM+tBymnJ1W2GXycqY
-	 67Z2nElL9TkuKs8VDr4asN2+ksSCaSaMBe/eInmuCJdRFuNDj9RxYSoHRdo+ZAcL2l
-	 0nTsOgK9ALpBw==
+	b=VqhQgZDjeKId25XdzOcwQiqFcpFDswmnOr7Be++RTCecGNzuXGiZBEq9f/+NdVNFV
+	 GylX8ra562wzhxOBQXwVc/9qxyktIX+UTp4VXLbDY2n35JKMFiBxm0xtDqQ9ttOoCa
+	 nVWq7yusIC5PxxUlPAGPNGKYFKC87Nrhyd3kG5bh/fnkvcQBeLhB4eO7YaCQ2VMxVe
+	 NxWU+brVpsYBYpAA0sS+G1LLkBvlRaeXKXIgV7HWbPM9SaFX26MT6yxJI0suJSe3WA
+	 RHAZKByUIOMpuqu2eEz/HLyQdJHvayNG1JQgX5MX3k+7bS7exVWCFrDGebenqX6mBX
+	 Nk19bULOYD56A==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
  pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com
-In-Reply-To: <20231124135743.24674-1-peter.ujfalusi@linux.intel.com>
-References: <20231124135743.24674-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: SOF: Extend the enabled DSP core handling
-Message-Id: <170091223102.2632109.354496751608471459.b4-ty@kernel.org>
-Date: Sat, 25 Nov 2023 11:37:11 +0000
+ ranjani.sridharan@linux.intel.com, seppo.ingalsuo@linux.intel.com
+In-Reply-To: <20231124150853.18648-1-peter.ujfalusi@linux.intel.com>
+References: <20231124150853.18648-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: SOF: ipc4: Add support for control change
+ notification
+Message-Id: <170091223327.2632109.13826831302853487867.b4-ty@kernel.org>
+Date: Sat, 25 Nov 2023 11:37:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,16 +38,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Fri, 24 Nov 2023 15:57:41 +0200, Peter Ujfalusi wrote:
-> In the current code, we enable a widget core when it is set up and
-> disable it when it is freed. This is problematic with IPC4 because
-> widget free is essentially a NOP and all widgets are freed in the
-> firmware when the pipeline is deleted. This results in a crash during
-> pipeline deletion when one of it's widgets is scheduled to run on a
-> secondary core and is powered off when widget is freed. So, change the
-> logic to enable all cores needed by all the modules in a pipeline when
-> the pipeline widget is set up and disable them after the pipeline
-> widget is freed.
+On Fri, 24 Nov 2023 17:08:49 +0200, Peter Ujfalusi wrote:
+> This series adds support for handling control (switch/enum) change notifications
+> sent by the firmware.
+> The use case is similar to what is already used by IPC3 version: the firmware
+> can update the value of an enum or switch and sends notification to the kernel,
+> which in turn will notify the user space of a change.
+> 
+> Regards,
+> Peter
 > 
 > [...]
 
@@ -56,10 +56,14 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: SOF: ipc4-topology: Add core_mask in struct snd_sof_pipeline
-      commit: 0376b995bb7a65fb0c056f3adc5e9695ad0c1805
-[2/2] ASoC: SOF: sof-audio: Modify logic for enabling/disabling topology cores
-      commit: 31ed8da1c8e5e504710bb36863700e3389f8fc81
+[1/4] ASoC: SOF: ipc4-topology: Helper to find an swidget by module/instance id
+      commit: 5980bda0a998a6ee6afd83b97a482a40c1c68076
+[2/4] ASoC: SOF: ipc4: Add data struct for module notification message from firmware
+      commit: 1a307538c9cc274b3191b9a1380bbceece262626
+[3/4] ASoC: SOF: ipc4-control: Implement control update for switch/enum controls
+      commit: f5eb9945cf9c17eb016aa64c7de13875f259ea07
+[4/4] ASoC: SOF: ipc4: Handle ALSA kcontrol change notification from firmware
+      commit: 0ff23d460718641c80c8054425256391dca1ac7d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
