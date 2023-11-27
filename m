@@ -1,188 +1,147 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEADDAF
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 10:32:28 -0800 (PST)
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 5CE5A604F550; Tue, 28 Nov 2023 05:02:26 +1030 (ACDT)
-Date: Tue, 28 Nov 2023 05:02:26 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH RFC v2] ALSA: scarlett2: Add ioctls for user-space access
-Message-ID: <ZWTgusFsOUfb90Xt@m.b4.vu>
-References: <ZSqehHhedJQY9h/1@m.b4.vu>
- <76c1526d-78be-92d2-cf2b-148278394575@perex.cz>
- <ZS0tajzKr68CZ5uA@m.b4.vu>
- <123242ed-c343-dab8-fed1-9f5d2da44d7a@perex.cz>
- <ZS1asqF0cXRUzBwb@m.b4.vu>
- <87edhtn0r2.wl-tiwai@suse.de>
- <ZVpHX33vfzdjpH0z@m.b4.vu>
- <871qcfqnht.wl-tiwai@suse.de>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEA0kM6Z"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7E0198
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 10:41:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701110501; x=1732646501;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=t/U4i/4g24Q1NaSjgGg1AJ5lREjmE/Glz7Quo6T5yL0=;
+  b=DEA0kM6ZQiXRnBhGBgDgtid1IbL3N5bOQANUh+RiVM7QFQKpFKNpr16X
+   meTNQKi0lQmX1QP7GzE8/fKuf1rHVDcukTd2RhHFtcigHT/do5B+RV7iL
+   qQUzJmLybGBAyqBPVX7hYuBCCt7GU12/AnCsAdR0ydUh59CphjMrqCJ/z
+   kCZMsCD95LzxyFUNrTQpNRBOYNBv7llmiIEBO2xBC+7A2zj0AKut2IdhH
+   kerC6LS1MvV79m3KPMJjwz6tioaCy4uJJ3GdjXGLgQpvR09SSAZt53oH4
+   Y5e8zqhT9+KM140TUPnMg7JAVecHBAkuE0VwDESuVleK1mZ/I7thHipf+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="392517683"
+X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
+   d="scan'208";a="392517683"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 10:41:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="891820922"
+X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
+   d="scan'208";a="891820922"
+Received: from alanpai-mobl.amr.corp.intel.com (HELO [10.209.65.171]) ([10.209.65.171])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 10:41:40 -0800
+Message-ID: <cb768f03-9d46-432e-ad67-8ff1ef075385@linux.intel.com>
+Date: Mon, 27 Nov 2023 11:36:35 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871qcfqnht.wl-tiwai@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
+ and cs56l56 support
+Content-Language: en-US
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+ cezary.rojewski@intel.com, yung-chuan.liao@linux.intel.com,
+ ckeepax@opensource.cirrus.com, yong.zhi@intel.com, chao.song@linux.intel.com
+References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+ <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
+ <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
 
-On Fri, Nov 24, 2023 at 02:39:26PM +0100, Takashi Iwai wrote:
-> On Sun, 19 Nov 2023 18:35:27 +0100,
-> Geoffrey D. Bennett wrote:
-> > 
-> > Hi Jaroslav, Takashi,
-> > 
-> > I took your feedback onboard about not providing generic access to the
-> > scarlett2_usb() function from user-space.
-> > 
-> > After a few iterations, I've come up with this hwdep interface to
-> > support reset-to-factory-defaults, reset-to-factory-firmware, and
-> > firmware-update in a safe way:
-> > 
-> > -----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----
-> > 
-> > /* Get protocol version */
-> > #define SCARLETT2_IOCTL_PVERSION _IOR('S', 0x60, int)
-> > 
-> > /* Reboot */
-> > #define SCARLETT2_IOCTL_REBOOT _IO('S', 0x61)
-> > 
-> > /* Select flash segment */
-> > #define SCARLETT2_SEGMENT_ID_SETTINGS 0
-> > #define SCARLETT2_SEGMENT_ID_FIRMWARE 1
-> > #define SCARLETT2_SEGMENT_ID_COUNT 2
-> > 
-> > #define SCARLETT2_IOCTL_SELECT_FLASH_SEGMENT _IOW('S', 0x62, int)
-> > 
-> > /* Erase selected flash segment */
-> > #define SCARLETT2_IOCTL_ERASE_FLASH_SEGMENT _IO('S', 0x63)
-> > 
-> > /* Get selected flash segment erase progress
-> >  * 1 through to num_blocks, or 255 for complete
-> >  */
-> > struct scarlett2_flash_segment_erase_progress {
-> >         unsigned char progress;
-> >         unsigned char num_blocks;
-> > };
-> > #define SCARLETT2_IOCTL_GET_ERASE_PROGRESS \
-> >         _IOR('S', 0x64, struct scarlett2_flash_segment_erase_progress)
-> > 
-> > -----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----8<-----
-> > 
-> > Does that look reasonable to you?
-> > 
-> > Broadly, it's used like this:
-> > 
-> > Reset to factory default configuration:
-> > 
-> > - ioctl select_flash_segment SCARLETT2_SEGMENT_ID_SETTINGS
-> > - ioctl erase_flash_segment
-> > - ioctl get_erase_progress (optional)
+>> +static const struct snd_soc_acpi_adr_device cs35l56_0_adr[] = {
+>> +    {
+>> +        .adr = 0x00003301FA355601ull,
+>> +        .num_endpoints = 1,
+>> +        .endpoints = &spk_r_endpoint,
 > 
-> So the erase operation is asynchronous?  This sounds a bit dangerous.
-> Will the driver block further conflicting operations until the erase
-> finishes?
-
-Yes it is asynchronous. I've made it so that it's not dangerous by
-locking out any conflicting operations:
-- Mixer operations that require device access return EBUSY
-- The hwdep is marked as exclusive so other processes can't use it
-- Subsequent hwdep operations (if get_erase_progress wasn't called)
-  will block until the erase is complete
-
-> > Erase firmware (reverts to factory firmware which is stored in a
-> > different flash segment, inaccessible from these ioctls):
-> > 
-> > - ioctl select_flash_segment SCARLETT2_SEGMENT_ID_FIRMWARE
-> > - ioctl erase_flash_segment
-> > - ioctl get_erase_progress (optional)
-> > 
-> > Upload new firmware:
-> > 
-> > - write() <- a bunch of these, only permitted after the previous erase
-> >   step was completed
+> Assigning CS35L56 to "left" or "right" endpoints might be confusing.
+> All CS35L56 in a system receive both left and right channels and by
+> default they output a mono-mix of left+right.
 > 
-> The write op must accept partial writes, and it becomes cumbersome.
-> Can it be a one-shot ioctl, too?
+> The left/right of an amp is determined by the firmware file (.bin) that
+> is loaded and the current settings of the "Posture" ALSA control. So
+> this amp might be the left channel after a .bin is loaded.
 
-I considered one-shot ioctls, but as the erase & write operations take
-some seconds, then it is not possible to provide feedback to the
-end-user while the erase & write operations happen.
+That's a problem if the kernel does not know which amplifier is on which
+side, no? How would one change the balance if this information is known
+only within a binary/opaque firmware?
 
-> > On completion:
-> > 
-> > - ioctl reboot
-> > 
-> > To confirm that this interface is sufficient, I have implemented it in
-> > the scarlett2 driver and written a user-space utility which can
-> > perform all the above operations.
-> > 
-> > I will clean up the implementation a bit and then submit for review;
-> > just wanted to share the interface first in case you have any comments
-> > at this point.
+> It would be better to have generic names for the endpoint that don't
+> imply position, for example:
 > 
-> IMO, from the user POV, it's easier to have per-purpose ioctls,
-> instead of combining multiple ioctl sequences.  Of course, it won't
-> scale too much, but for the limited number of operations, it's
-> clearer.
+> group1_spk1_endpoint
+> group1_spk2_endpoint
+> group1_spk3_endpoint
+> group1_spk4_endpoint.
+
+The notion of endpoint is completely half-baked today and the settings
+used have no bearing on the behavior and user-experience. I am inches
+away from sending a patch that removes all of the endpoint definitions,
+we can re-add them if/when we can get the information from platform
+firmware.
+
+>> +        .name_prefix = "cs35l56-8"
 > 
-> That is, we can provide just a few ioctls for reset-to-factory,
-> reset-to-something-else, and update.
+> Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
+> CS35L56-hda driver? This prefix is used to find the matching firmware
+> files and our naming convention for these has been cs35lxx-xxxx-ampn
 > 
-> But, if you need asynchronous operations inevitably by some reason,
-> it's a different story, though.
+> Is there anything that depends on the prefixes being "cs35l56-n" ?
 
-Just to provide progress feedback to the end-user.
+IIRC this name_prefix is just used for the codec_conf and hence for
+control names/UCM. At some point userspace/driver need to know if amp5
+is left or right.
 
-I've written the CLI tool using the proposed ioctl interface, and it
-works nicely:
+We can certainly align on conventions but the values set in this ACPI
+match table will not be used for firmware download - different scope.
 
-https://github.com/geoffreybennett/scarlett2
-
-[g@fedora ~]$ time scarlett2 update
-Selected device Scarlett 4th Gen Solo
-Found firmware version 2115 for Scarlett 4th Gen Solo:
-  /usr/lib/firmware/scarlett2/scarlett2-1235-8218-2115.bin
-Updating Scarlett 4th Gen Solo from firmware version 1974 to 2115
-Resetting configuration to factory default...
-Erase progress: Done!
-Erasing upgrade firmware...
-Erase progress: Done!
-Firmware write progress: Done!
-Rebooting interface...
-
-real    0m5.919s
-user    0m0.007s
-sys     0m0.034s
-
-The user experience would not be as nice with one-shot ioctls. And
-using ioctls which block for a long time would make using them from
-the GUI https://github.com/geoffreybennett/alsa-scarlett-gui/ rather
-awkward. None of the other operations on the interface block for an
-appreciable amount of time.
-
-I've got a first draft of firmware update and Scarlett 4th Gen support
-that I am sharing with others to test now. It's 48 commits, divided
-into:
-- 5 commits to add extra checks that are missing
-- 5 commits for firmware management
-- 20 commits refactoring the existing driver to allow Scarlett 4th Gen
-  support to be added
-- 18 commits adding the support (although the underlying Gen 4
-  protocol is the same as the other series, there are many new
-  different types of controls)
-
-I've put those commits on this branch:
-https://github.com/geoffreybennett/scarlett-gen2/tree/scarlett-gen4
-
-Do you want me to share all 48 commits on the mailing list at once? Or
-maybe just the first 5+5 commits for now and the rest after I get some
-feedback from others?
-
-Thanks,
-Geoffrey.
+>> +    },
+>> +    {
+>> +        .adr = 0x00003201FA355601ull,
+>> +        .num_endpoints = 1,
+>> +        .endpoints = &spk_3_endpoint,
+>> +        .name_prefix = "cs35l56-7"
+>> +    }
+>> +};
+>> +
+>> +static const struct snd_soc_acpi_adr_device cs35l56_1_adr[] = {
+>> +    {
+>> +        .adr = 0x00013701FA355601ull,
+>> +        .num_endpoints = 1,
+>> +        .endpoints = &spk_l_endpoint,
+>> +        .name_prefix = "cs35l56-1"
+>> +    },
+>> +    {
+>> +        .adr = 0x00013601FA355601ull,
+>> +        .num_endpoints = 1,
+>> +        .endpoints = &spk_2_endpoint,
+>> +        .name_prefix = "cs35l56-2"
+>> +    }
+>> +};
+>> +
+>> +static const struct snd_soc_acpi_link_adr tgl_cs42l43_cs35l56[] = {
+>> +    {
+>> +        .mask = BIT(3),
+>> +        .num_adr = ARRAY_SIZE(cs42l43_3_adr),
+>> +        .adr_d = cs42l43_3_adr,
+>> +    },
+>> +    {
+>> +        .mask = BIT(0),
+>> +        .num_adr = ARRAY_SIZE(cs35l56_0_adr),
+>> +        .adr_d = cs35l56_0_adr,
+>> +    },
+>> +    {
+>> +        .mask = BIT(1),
+>> +        .num_adr = ARRAY_SIZE(cs35l56_1_adr),
+>> +        .adr_d = cs35l56_1_adr,
+>> +    },
+>> +    {}
+>> +};
+>> +
