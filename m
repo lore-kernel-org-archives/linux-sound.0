@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDIspfvK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGOE5qa4"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528BF18E
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:22 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8076C18B
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701099322; x=1732635322;
+  t=1701099323; x=1732635323;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3rR6n5ZNQYPIBtRxO9jzEWLu3tZf1nJtXrYJQ6Dzpp8=;
-  b=VDIspfvK0NhN6APxeA9P7oNtjzEzqG8DYv+zUgA9X8HjJJlgIfGz+zSB
-   H9x4NvXqz7/lQAs1lavo9fMst+wyTPo1Zq6jofSTEudWQ27PBpBx29o4s
-   rG7agyDP//4eCZTTErSf/quXx4ZMcPJP163VwGIxui48nIdZWj5ecFkjG
-   yyszVLL3rQes5cYcvxI3cRDS+ExCv5EqGAm3Qa8G/yjIov261Up2NrriL
-   hRAiJTCl9yPbdE55kt0R5D30RwPB2fawoewaakAHKO8XRW9NhD4PMcrII
-   6oG2IeEjpdfPb6X/20yr7zgb9dhU4i2soiof6JM8m8H0pI7Q3s77Mp4dQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894436"
+  bh=hu8qxAfbY0PdmsbL+wv4z49GlVEtJy5KeFdD3TpIvn8=;
+  b=gGOE5qa4v3lWmhoIO0s02LACRcR0lDP6yrgvYUk2QAYX/aOugfL/QiSq
+   ju02BMwdXuh5B7F8tkNH/HGzCOsM1v4JW1wo1V2WAFSAF+TuZTtAvV7tT
+   1aydUPntjPUv6/4Qdo+hCCCRUyeuw/oatnB7i+a/dlEPV+l8B8oPWZTeU
+   uU4qDvcWMSC9VsD1Nt6YgtSR3beImiyTlsH0+kxVzzo3vhj1S7epHJFkS
+   cQYGMGxqpNMeQMdq/LCrwRA2v56+jKeqI7o3j7OvgLxlDJ3My5qtrKuf+
+   RVJFif9MV1bcq/5o5GLqulaZPvRqueXirgC/y5lYD9zw4IeQoiE7bSMp2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894444"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="372894436"
+   d="scan'208";a="372894444"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:41 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771956455"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771956501"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="771956455"
+   d="scan'208";a="771956501"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:38 -0800
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:41 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -37,9 +37,9 @@ Cc: alsa-devel@alsa-project.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	chao.song@linux.intel.com
-Subject: [PATCH 07/27] ASoC: Intel: sof_cs42l42: use common module for codec link
-Date: Mon, 27 Nov 2023 17:26:34 +0200
-Message-ID: <20231127152654.28204-8-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 08/27] ASoC: Intel: sof_nau8825: use common module for codec link
+Date: Mon, 27 Nov 2023 17:26:35 +0200
+Message-ID: <20231127152654.28204-9-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
 References: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
@@ -60,109 +60,73 @@ Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_cs42l42.c | 60 ++++++++--------------------
- 1 file changed, 16 insertions(+), 44 deletions(-)
+ sound/soc/intel/boards/sof_nau8825.c | 29 ++++++++--------------------
+ 1 file changed, 8 insertions(+), 21 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_cs42l42.c b/sound/soc/intel/boards/sof_cs42l42.c
-index 1f760fc4cab2..30e78c20ce6e 100644
---- a/sound/soc/intel/boards/sof_cs42l42.c
-+++ b/sound/soc/intel/boards/sof_cs42l42.c
-@@ -245,45 +245,6 @@ static int create_spk_amp_dai_links(struct device *dev,
- 	return ret;
- }
+diff --git a/sound/soc/intel/boards/sof_nau8825.c b/sound/soc/intel/boards/sof_nau8825.c
+index dc2821a012d4..3aeed23c8d0d 100644
+--- a/sound/soc/intel/boards/sof_nau8825.c
++++ b/sound/soc/intel/boards/sof_nau8825.c
+@@ -226,30 +226,17 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
+ 		goto devm_err;
  
--static int create_hp_codec_dai_links(struct device *dev,
--				     struct snd_soc_dai_link *links,
--				     struct snd_soc_dai_link_component *cpus,
--				     int *id, int ssp_codec)
--{
--	/* codec SSP */
--	links[*id].name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-Codec",
--					 ssp_codec);
--	if (!links[*id].name)
+ 	/* codec SSP */
+-	links[id].name = devm_kasprintf(dev, GFP_KERNEL,
+-					"SSP%d-Codec", ssp_codec);
+-	if (!links[id].name)
 -		goto devm_err;
--
--	links[*id].id = *id;
--	links[*id].codecs = cs42l42_component;
--	links[*id].num_codecs = ARRAY_SIZE(cs42l42_component);
--	links[*id].platforms = platform_component;
--	links[*id].num_platforms = ARRAY_SIZE(platform_component);
--	links[*id].init = sof_cs42l42_init;
--	links[*id].exit = sof_cs42l42_exit;
--	links[*id].ops = &sof_cs42l42_ops;
--	links[*id].dpcm_playback = 1;
--	links[*id].dpcm_capture = 1;
--	links[*id].no_pcm = 1;
--	links[*id].cpus = &cpus[*id];
--	links[*id].num_cpus = 1;
--
--	links[*id].cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
--						   "SSP%d Pin",
--						   ssp_codec);
--	if (!links[*id].cpus->dai_name)
--		goto devm_err;
--
--	(*id)++;
--
--	return 0;
--
--devm_err:
--	return -ENOMEM;
--}
--
- static int create_bt_offload_dai_links(struct device *dev,
- 				       struct snd_soc_dai_link *links,
- 				       struct snd_soc_dai_link_component *cpus,
-@@ -350,12 +311,23 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
++	ret = sof_intel_board_set_codec_link(dev, &links[id], id, CODEC_NAU8825,
++					     ssp_codec);
++	if (ret)
++		return NULL;
  
- 		switch (link_type) {
- 		case LINK_HP:
--			ret = create_hp_codec_dai_links(dev, links, cpus, &id, ssp_codec);
--			if (ret < 0) {
-+			ret = sof_intel_board_set_codec_link(dev, &links[id], id,
-+							     CODEC_CS42L42,
-+							     ssp_codec);
-+			if (ret) {
- 				dev_err(dev, "fail to create hp codec dai links, ret %d\n",
- 					ret);
- 				goto devm_err;
- 			}
-+
-+			/* codec-specific fields */
-+			links[id].codecs = cs42l42_component;
-+			links[id].num_codecs = ARRAY_SIZE(cs42l42_component);
-+			links[id].init = sof_cs42l42_init;
-+			links[id].exit = sof_cs42l42_exit;
-+			links[id].ops = &sof_cs42l42_ops;
-+
-+			id++;
- 			break;
- 		case LINK_SPK:
- 			ret = create_spk_amp_dai_links(dev, links, cpus, &id,
-@@ -440,7 +412,7 @@ static int sof_audio_probe(struct platform_device *pdev)
+-	links[id].id = id;
++	/* codec-specific fields */
+ 	links[id].codecs = nau8825_component;
+ 	links[id].num_codecs = ARRAY_SIZE(nau8825_component);
+-	links[id].platforms = platform_component;
+-	links[id].num_platforms = ARRAY_SIZE(platform_component);
+ 	links[id].init = sof_nau8825_codec_init;
+ 	links[id].exit = sof_nau8825_codec_exit;
+ 	links[id].ops = &sof_nau8825_ops;
+-	links[id].dpcm_playback = 1;
+-	links[id].dpcm_capture = 1;
+-	links[id].no_pcm = 1;
+-	links[id].cpus = &cpus[id];
+-	links[id].num_cpus = 1;
+-
+-	links[id].cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+-						  "SSP%d Pin",
+-						  ssp_codec);
+-	if (!links[id].cpus->dai_name)
+-		goto devm_err;
+ 
+ 	id++;
+ 
+@@ -368,7 +355,7 @@ static int sof_audio_probe(struct platform_device *pdev)
  	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
  	struct snd_soc_dai_link *dai_links;
  	struct sof_card_private *ctx;
--	int ret, ssp_bt, ssp_amp, ssp_codec;
-+	int ret, ssp_bt, ssp_amp;
+-	int ret, ssp_amp, ssp_codec;
++	int ret, ssp_amp;
  
  	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
  	if (!ctx)
-@@ -475,7 +447,7 @@ static int sof_audio_probe(struct platform_device *pdev)
- 	ssp_amp = (sof_cs42l42_quirk & SOF_CS42L42_SSP_AMP_MASK) >>
- 			SOF_CS42L42_SSP_AMP_SHIFT;
+@@ -396,7 +383,7 @@ static int sof_audio_probe(struct platform_device *pdev)
+ 	ssp_amp = (sof_nau8825_quirk & SOF_NAU8825_SSP_AMP_MASK) >>
+ 			SOF_NAU8825_SSP_AMP_SHIFT;
  
--	ssp_codec = sof_cs42l42_quirk & SOF_CS42L42_SSP_CODEC_MASK;
-+	ctx->ssp_codec = sof_cs42l42_quirk & SOF_CS42L42_SSP_CODEC_MASK;
+-	ssp_codec = sof_nau8825_quirk & SOF_NAU8825_SSP_CODEC_MASK;
++	ctx->ssp_codec = sof_nau8825_quirk & SOF_NAU8825_SSP_CODEC_MASK;
  
  	/* compute number of dai links */
- 	sof_audio_card_cs42l42.num_links = 1 + ctx->dmic_be_num + ctx->hdmi_num;
-@@ -486,7 +458,7 @@ static int sof_audio_probe(struct platform_device *pdev)
- 		sof_audio_card_cs42l42.num_links++;
+ 	sof_audio_card_nau8825.num_links = 1 + ctx->dmic_be_num + ctx->hdmi_num;
+@@ -408,7 +395,7 @@ static int sof_audio_probe(struct platform_device *pdev)
+ 		sof_audio_card_nau8825.num_links++;
  
  	dai_links = sof_card_dai_links_create(&pdev->dev, ctx->amp_type,
--					      ssp_codec, ssp_amp, ssp_bt,
-+					      ctx->ssp_codec, ssp_amp, ssp_bt,
+-					      ssp_codec, ssp_amp,
++					      ctx->ssp_codec, ssp_amp,
  					      ctx->dmic_be_num, ctx->hdmi_num,
  					      ctx->hdmi.idisp_codec);
  	if (!dai_links)
