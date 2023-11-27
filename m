@@ -1,133 +1,156 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzIbUmDk"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADE5182
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:02:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701090169; x=1732626169;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=tdXAxvH7Hfxz56Ii672gQKi1RhYlx5nPdd2W5+fHr7s=;
-  b=JzIbUmDkVDGc2VOleA/A/uMohWZ5Jk1nMxpjHHnvzZqUStpNB8htSTuX
-   v7oS7+sGLvZsyvtlyD/hCb5dPTNW/P++JNiunz5FsFGsWXCCSRmH22Z0f
-   eOXXiL3i8z0MCHZeRdnNCiE0heyfwrnyNTu5ugCDwv1oWuIW51p7PivFN
-   jqOJwC2DiiYM7eA9cyrNuGCEuOHH1NuS2uURN2vzbuaARIDGnP/bI6LXO
-   iqmrnQEGZp1192OjO0/syri5o1jncnw85b5rGR5isbj+25kmzksM3F++w
-   y3gDcE1hL1CDE2T1/YZgT+uHyCzYKjWHvoaPNce8Li9RuQu63SoDprjZ0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391568082"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="391568082"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="797228729"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="797228729"
-Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:16 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E7ojhr6R";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="37w/QVEZ"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D98AA
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:18:08 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 67C4E2027F;
+	Mon, 27 Nov 2023 13:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701091085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNAJXSbZ4ceZnIjZKwsZNQsE83LDGnpsIJXwI12ogJ4=;
+	b=E7ojhr6R+D3vSMl3Ljsv4Rs8qFcuRidujxJvG6CrpV9qLaCB+iS4Dfgsmds7tOkYpCpPCe
+	v91RrCrTpg4JrGtWynGGnSPv4/EtPoQF7smhIquOcUjV2edDPw26mQOVupGEQMStb6VCFT
+	oSLPkMnuoFznyQQ7ubPBMXdff6Fm/Eg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701091085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNAJXSbZ4ceZnIjZKwsZNQsE83LDGnpsIJXwI12ogJ4=;
+	b=37w/QVEZ8hrwiuf/z7xQO77uKZDrAtq7uon2ECNAu0BEKxs+zjJC513bj/Y8Ohf8l3T2KI
+	WOlurM/YN9dZKKDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 16DB91367B;
+	Mon, 27 Nov 2023 13:18:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6LL4Aw2XZGXgDwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Nov 2023 13:18:05 +0000
+Date: Mon, 27 Nov 2023 14:18:04 +0100
+Message-ID: <87jzq3pc6r.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com,
 	broonie@kernel.org,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 2/2] ASoC: hdac_hda: Conditionally register dais for HDMI and Analog
-Date: Mon, 27 Nov 2023 15:02:45 +0200
-Message-ID: <20231127130245.24295-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
+In-Reply-To: <20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
 References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -4.30
 
-The current driver is registering the same dais for each hdev found in the
-system which results duplicated widgets to be registered and the kernel
-log contains similar prints:
-snd_hda_codec_realtek ehdaudio0D0: ASoC: sink widget AIF1TX overwritten
-snd_hda_codec_realtek ehdaudio0D0: ASoC: source widget AIF1RX overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi3 overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi2 overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi1 overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Codec Output Pin1 overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Codec Input Pin1 overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Analog Codec Playback overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Digital Codec Playback overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Alt Analog Codec Playback overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Analog Codec Capture overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Digital Codec Capture overwritten
-skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Alt Analog Codec Capture overwritten
+On Mon, 27 Nov 2023 14:02:44 +0100,
+Peter Ujfalusi wrote:
+> 
+> The snd_hda_device_is_hdmi() can be used in drivers to check if the hdev
+> belongs to a display audio device.
+> 
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> ---
+>  include/sound/hdaudio.h    | 10 ++++++++++
+>  sound/pci/hda/patch_hdmi.c | 13 +++++++++++++
+>  2 files changed, 23 insertions(+)
+> 
+> diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+> index dd7c87bbc613..cf5483d6b5b7 100644
+> --- a/include/sound/hdaudio.h
+> +++ b/include/sound/hdaudio.h
+> @@ -158,6 +158,16 @@ bool snd_hdac_check_power_state(struct hdac_device *hdac,
+>  		hda_nid_t nid, unsigned int target_state);
+>  unsigned int snd_hdac_sync_power_state(struct hdac_device *hdac,
+>  		      hda_nid_t nid, unsigned int target_state);
+> +
+> +#if IS_ENABLED(CONFIG_SND_HDA_CODEC_HDMI)
+> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev);
+> +#else
+> +static inline bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  /**
+>   * snd_hdac_read_parm - read a codec parameter
+>   * @codec: the codec object
+> diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
+> index 1cde2a69bdb4..d6943575c8c7 100644
+> --- a/sound/pci/hda/patch_hdmi.c
+> +++ b/sound/pci/hda/patch_hdmi.c
+> @@ -4645,6 +4645,19 @@ HDA_CODEC_ENTRY(HDA_CODEC_ID_GENERIC_HDMI, "Generic HDMI", patch_generic_hdmi),
+>  };
+>  MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_hdmi);
+>  
+> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
+> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
 
-To avoid such issue, split the dai array into HDMI and non HDMI array and
-register them conditionally:
-for HDMI hdev only register the dais needed for HDMI
-for non HDMI hdev do not  register the HDMI dais.
+I'm afraid that this will bring unnecessary dependency on HDMI codec
+driver.
 
-Link: https://github.com/thesofproject/linux/issues/4509
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
----
- sound/soc/codecs/hdac_hda.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+IMO, it's better to add a bool flag is_hdmi to struct hdac_device, and
+let the HDMI codec driver setting it at the probe, instead.  Then we
+can save an extra exported symbol, too.
 
-diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
-index 355f30779a34..72916a387ad6 100644
---- a/sound/soc/codecs/hdac_hda.c
-+++ b/sound/soc/codecs/hdac_hda.c
-@@ -132,6 +132,9 @@ static struct snd_soc_dai_driver hdac_hda_dais[] = {
- 		.sig_bits = 24,
- 	},
- },
-+};
-+
-+static struct snd_soc_dai_driver hdac_hda_hdmi_dais[] = {
- {
- 	.id = HDAC_HDMI_0_DAI_ID,
- 	.name = "intel-hdmi-hifi1",
-@@ -607,6 +610,13 @@ static const struct snd_soc_component_driver hdac_hda_codec = {
- 	.endianness		= 1,
- };
- 
-+static const struct snd_soc_component_driver hdac_hda_hdmi_codec = {
-+	.probe			= hdac_hda_codec_probe,
-+	.remove			= hdac_hda_codec_remove,
-+	.idle_bias_on		= false,
-+	.endianness		= 1,
-+};
-+
- static int hdac_hda_dev_probe(struct hdac_device *hdev)
- {
- 	struct hdac_ext_link *hlink;
-@@ -621,9 +631,15 @@ static int hdac_hda_dev_probe(struct hdac_device *hdev)
- 	snd_hdac_ext_bus_link_get(hdev->bus, hlink);
- 
- 	/* ASoC specific initialization */
--	ret = devm_snd_soc_register_component(&hdev->dev,
--					 &hdac_hda_codec, hdac_hda_dais,
--					 ARRAY_SIZE(hdac_hda_dais));
-+	if (snd_hda_device_is_hdmi(hdev))
-+		ret = devm_snd_soc_register_component(&hdev->dev,
-+						&hdac_hda_hdmi_codec, hdac_hda_hdmi_dais,
-+						ARRAY_SIZE(hdac_hda_hdmi_dais));
-+	else
-+		ret = devm_snd_soc_register_component(&hdev->dev,
-+						&hdac_hda_codec, hdac_hda_dais,
-+						ARRAY_SIZE(hdac_hda_dais));
-+
- 	if (ret < 0) {
- 		dev_err(&hdev->dev, "failed to register HDA codec %d\n", ret);
- 		return ret;
--- 
-2.43.0
 
+thanks,
+
+Takashi
