@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgMhCm5w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZLMonpS"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC7BA138
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:52 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCCC189
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701099352; x=1732635352;
+  t=1701099353; x=1732635353;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+6kFTSk/TZ8TGSZPxiLO/yzJuaFOHiAqjGzEPtnnZr0=;
-  b=KgMhCm5wn9bAX2lBaFB3hdFQQ9olNq/o5A3hMSDh2ljOe0WBZ9rv4qmp
-   c+9wBGeNgtmu5og/rzPpxLfnelReE9YyzKwtopMPZGKScuJJ+UXgEeb0q
-   wBpkEGauJfbfq3TVgs4WHJXMv4a8SIAfFZMxuLPCxV0KzrtYmq5jfvnB1
-   PIag3yvpjOCe+aalnhTIZGs1gZXHN61W+PYnroyoa1q87vk5IUPOab6ee
-   xu1HeHPSluBl2frxRKskVgZj3L58Bw/Wb4uiV71hNB8/uSYfcfvhzOczh
-   6AlkKjKcKc2ingS8Mho45CBOcQR271Rr1MpdgdcjSP6pI9GAgYTIn8trF
+  bh=HE4YdHJUUr5kqie7rfrMQNTQ7y8MzwqS7lqJ12LLsFo=;
+  b=XZLMonpShriId9pz432ghLmzaCdJ7FKDjg8pqrL/kNsDmZRwTAu2moMT
+   DGNSa93WvENaexj0YjrHHrTg6AR/jvQGj6AdxTQOl7cz4Bb3JXxAvS7xI
+   LSNLLfS4zcP6b5ICvnIM8kyiCxvCSdgQhJAAkvxZ3O0WcTmpdpxUa/Wp7
+   qhEozYiiT71TR8iWx/BisrVx+k3IBLydcml8xf9H2QySc9DBQQ0AniQO0
+   0sP3mwiMnAE/D0KZWEHc8VcznWvmajskEiGAPmTqNOxoQz+Ixi6aP32dQ
+   EJlrlNQ2kOQOiTl/jKhAZJvz8ryT7xLDwhMjghn9V88EdDqtkjPJQr6bT
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894663"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894674"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="372894663"
+   d="scan'208";a="372894674"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:28 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771957142"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771957169"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="771957142"
+   d="scan'208";a="771957169"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:26 -0800
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:28 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -37,9 +37,9 @@ Cc: alsa-devel@alsa-project.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	chao.song@linux.intel.com
-Subject: [PATCH 24/27] ASoC: Intel: sof_ssp_amp: use common module for HDMI-In link
-Date: Mon, 27 Nov 2023 17:26:51 +0200
-Message-ID: <20231127152654.28204-25-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 25/27] ASoC: Intel: board_helpers: support DAI link array generation
+Date: Mon, 27 Nov 2023 17:26:52 +0200
+Message-ID: <20231127152654.28204-26-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
 References: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
@@ -53,109 +53,215 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Use intel_board module for HDMI-In DAI link initialization.
+Add a helper function for machine drivers to initialize dai_link and
+num_links of a snd_soc_card structure. Machine driver needs to
+initialize sof_card_private structure in driver probe function then
+board_helpers module will create entire DAI link array for this board.
 
 Signed-off-by: Brent Lu <brent.lu@intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Balamurugan C <balamurugan.c@intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_ssp_amp.c | 38 ++++++----------------------
- 1 file changed, 8 insertions(+), 30 deletions(-)
+ sound/soc/intel/boards/sof_board_helpers.c | 152 +++++++++++++++++++++
+ sound/soc/intel/boards/sof_board_helpers.h |   7 +
+ 2 files changed, 159 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
-index eddefa69355d..ee2e813bf4c0 100644
---- a/sound/soc/intel/boards/sof_ssp_amp.c
-+++ b/sound/soc/intel/boards/sof_ssp_amp.c
-@@ -71,13 +71,6 @@ static struct snd_soc_card sof_ssp_amp_card = {
- 	.late_probe = sof_card_late_probe,
+diff --git a/sound/soc/intel/boards/sof_board_helpers.c b/sound/soc/intel/boards/sof_board_helpers.c
+index a1dba1f45669..4f2cb8e52971 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.c
++++ b/sound/soc/intel/boards/sof_board_helpers.c
+@@ -375,6 +375,158 @@ int sof_intel_board_set_hdmi_in_link(struct device *dev,
+ }
+ EXPORT_SYMBOL_NS(sof_intel_board_set_hdmi_in_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+ 
++static int calculate_num_links(struct sof_card_private *ctx)
++{
++	int num_links = 0;
++
++	/* headphone codec */
++	if (ctx->codec_type != CODEC_NONE)
++		num_links++;
++
++	/* dmic01 and dmic16k */
++	if (ctx->dmic_be_num > 0)
++		num_links++;
++
++	if (ctx->dmic_be_num > 1)
++		num_links++;
++
++	/* idisp HDMI */
++	num_links += ctx->hdmi_num;
++
++	/* speaker amp */
++	if (ctx->amp_type != CODEC_NONE)
++		num_links++;
++
++	/* BT audio offload */
++	if (ctx->bt_offload_present)
++		num_links++;
++
++	/* HDMI-In */
++	num_links += hweight32(ctx->ssp_mask_hdmi_in);
++
++	return num_links;
++}
++
++int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
++				 struct sof_card_private *ctx)
++{
++	struct snd_soc_dai_link *links;
++	int num_links;
++	int i;
++	int idx = 0;
++	int ret;
++	int ssp_hdmi_in = 0;
++
++	num_links = calculate_num_links(ctx);
++
++	links = devm_kcalloc(dev, num_links, sizeof(struct snd_soc_dai_link),
++			     GFP_KERNEL);
++	if (!links)
++		return -ENOMEM;
++
++	/* headphone codec */
++	if (ctx->codec_type != CODEC_NONE) {
++		ret = sof_intel_board_set_codec_link(dev, &links[idx], idx,
++						     ctx->codec_type,
++						     ctx->ssp_codec);
++		if (ret) {
++			dev_err(dev, "fail to set codec link, ret %d\n", ret);
++			return ret;
++		}
++
++		ctx->codec_link = &links[idx];
++		idx++;
++	}
++
++	/* dmic01 and dmic16k */
++	if (ctx->dmic_be_num > 0) {
++		/* at least we have dmic01 */
++		ret = sof_intel_board_set_dmic_link(dev, &links[idx], idx,
++						    SOF_DMIC_01);
++		if (ret) {
++			dev_err(dev, "fail to set dmic01 link, ret %d\n", ret);
++			return ret;
++		}
++
++		idx++;
++	}
++
++	if (ctx->dmic_be_num > 1) {
++		/* set up 2 BE links at most */
++		ret = sof_intel_board_set_dmic_link(dev, &links[idx], idx,
++						    SOF_DMIC_16K);
++		if (ret) {
++			dev_err(dev, "fail to set dmic16k link, ret %d\n", ret);
++			return ret;
++		}
++
++		idx++;
++	}
++
++	/* idisp HDMI */
++	for (i = 1; i <= ctx->hdmi_num; i++) {
++		ret = sof_intel_board_set_intel_hdmi_link(dev, &links[idx], idx,
++							  i,
++							  ctx->hdmi.idisp_codec);
++		if (ret) {
++			dev_err(dev, "fail to set hdmi link, ret %d\n", ret);
++			return ret;
++		}
++
++		idx++;
++	}
++
++	/* speaker amp */
++	if (ctx->amp_type != CODEC_NONE) {
++		ret = sof_intel_board_set_ssp_amp_link(dev, &links[idx], idx,
++						       ctx->amp_type,
++						       ctx->ssp_amp);
++		if (ret) {
++			dev_err(dev, "fail to set amp link, ret %d\n", ret);
++			return ret;
++		}
++
++		ctx->amp_link = &links[idx];
++		idx++;
++	}
++
++	/* BT audio offload */
++	if (ctx->bt_offload_present) {
++		ret = sof_intel_board_set_bt_link(dev, &links[idx], idx,
++						  ctx->ssp_bt);
++		if (ret) {
++			dev_err(dev, "fail to set bt link, ret %d\n", ret);
++			return ret;
++		}
++
++		idx++;
++	}
++
++	/* HDMI-In */
++	for_each_set_bit(ssp_hdmi_in, &ctx->ssp_mask_hdmi_in, 32) {
++		ret = sof_intel_board_set_hdmi_in_link(dev, &links[idx], idx,
++						       ssp_hdmi_in);
++		if (ret) {
++			dev_err(dev, "fail to set hdmi-in link, ret %d\n", ret);
++			return ret;
++		}
++
++		idx++;
++	}
++
++	if (idx != num_links) {
++		dev_err(dev, "link number mismatch, idx %d, num_links %d\n", idx,
++			num_links);
++		return -EINVAL;
++	}
++
++	card->dai_link = links;
++	card->num_links = num_links;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(sof_intel_board_set_dai_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
++
+ MODULE_DESCRIPTION("ASoC Intel SOF Machine Driver Board Helpers");
+ MODULE_AUTHOR("Brent Lu <brent.lu@intel.com>");
+ MODULE_LICENSE("GPL");
+diff --git a/sound/soc/intel/boards/sof_board_helpers.h b/sound/soc/intel/boards/sof_board_helpers.h
+index a4bae62a4ed5..3b36058118ca 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.h
++++ b/sound/soc/intel/boards/sof_board_helpers.h
+@@ -35,6 +35,8 @@ struct sof_rt5682_private {
+  * @ssp_bt: ssp port number of BT offload BE link
+  * @ssp_mask_hdmi_in: ssp port mask of HDMI-IN BE link
+  * @bt_offload_present: true to create BT offload BE link
++ * @codec_link: pointer to headset codec dai link
++ * @amp_link: pointer to speaker amplifier dai link
+  * @rt5682: private data for rt5682 machine driver
+  */
+ struct sof_card_private {
+@@ -54,6 +56,9 @@ struct sof_card_private {
+ 
+ 	bool bt_offload_present;
+ 
++	struct snd_soc_dai_link *codec_link;
++	struct snd_soc_dai_link *amp_link;
++
+ 	union {
+ 		struct sof_rt5682_private rt5682;
+ 	};
+@@ -65,6 +70,8 @@ enum sof_dmic_be_type {
  };
  
--static struct snd_soc_dai_link_component platform_component[] = {
--	{
--		/* name might be overridden during probe */
--		.name = "0000:00:1f.3"
--	}
--};
--
- /* BE ID defined in sof-tgl-rt1308-hdmi-ssp.m4 */
- #define HDMI_IN_BE_ID		0
- #define SPK_BE_ID		2
-@@ -90,7 +83,6 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
- 			  int ssp_amp, int dmic_be_num, int hdmi_num,
- 			  bool idisp_codec)
- {
--	struct snd_soc_dai_link_component *cpus;
- 	struct snd_soc_dai_link *links;
- 	int i;
- 	int id = 0;
-@@ -101,9 +93,7 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
+ int sof_intel_board_card_late_probe(struct snd_soc_card *card);
++int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
++				 struct sof_card_private *ctx);
  
- 	links = devm_kcalloc(dev, sof_ssp_amp_card.num_links,
- 					sizeof(struct snd_soc_dai_link), GFP_KERNEL);
--	cpus = devm_kcalloc(dev, sof_ssp_amp_card.num_links,
--					sizeof(struct snd_soc_dai_link_component), GFP_KERNEL);
--	if (!links || !cpus)
-+	if (!links)
- 		return NULL;
- 
- 	/* HDMI-In SSP */
-@@ -118,22 +108,11 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
- 
- 		be_id = HDMI_IN_BE_ID;
- 		for_each_set_bit(port, &ssp_mask_hdmi_in, 32) {
--			links[id].cpus = &cpus[id];
--			links[id].cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
--								  "SSP%d Pin", port);
--			if (!links[id].cpus->dai_name)
-+			ret = sof_intel_board_set_hdmi_in_link(dev, &links[id],
-+							       be_id, port);
-+			if (ret)
- 				return NULL;
--			links[id].name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-HDMI", port);
--			if (!links[id].name)
--				return NULL;
--			links[id].id = be_id;
--			links[id].codecs = &snd_soc_dummy_dlc;
--			links[id].num_codecs = 1;
--			links[id].platforms = platform_component;
--			links[id].num_platforms = ARRAY_SIZE(platform_component);
--			links[id].dpcm_capture = 1;
--			links[id].no_pcm = 1;
--			links[id].num_cpus = 1;
-+
- 			id++;
- 			be_id++;
- 		}
-@@ -218,7 +197,6 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
- 	struct snd_soc_dai_link *dai_links;
- 	struct sof_card_private *ctx;
- 	int ret;
--	unsigned long ssp_mask_hdmi_in;
- 
- 	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
-@@ -235,7 +213,7 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
- 		ctx->dmic_be_num = 0;
- 
- 	/* port number/mask of peripherals attached to ssp interface */
--	ssp_mask_hdmi_in = (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_SSP_MASK_MASK) >>
-+	ctx->ssp_mask_hdmi_in = (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_SSP_MASK_MASK) >>
- 			SOF_HDMI_CAPTURE_SSP_MASK_SHIFT;
- 
- 	ctx->ssp_bt = (sof_ssp_amp_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
-@@ -249,8 +227,8 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
- 	if (ctx->amp_type != CODEC_NONE)
- 		sof_ssp_amp_card.num_links++;
- 
--	if (ssp_mask_hdmi_in)
--		sof_ssp_amp_card.num_links += hweight32(ssp_mask_hdmi_in);
-+	if (ctx->ssp_mask_hdmi_in)
-+		sof_ssp_amp_card.num_links += hweight32(ctx->ssp_mask_hdmi_in);
- 
- 	if (sof_ssp_amp_quirk & SOF_HDMI_PLAYBACK_PRESENT) {
- 		ctx->hdmi_num = (sof_ssp_amp_quirk & SOF_NO_OF_HDMI_PLAYBACK_MASK) >>
+ int sof_intel_board_set_codec_link(struct device *dev,
+ 				   struct snd_soc_dai_link *link, int be_id,
 -- 
 2.43.0
 
