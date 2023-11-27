@@ -1,31 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guCC8skD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgcmVlP/"
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F12FA8;
-	Mon, 27 Nov 2023 04:32:14 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9293F18A;
+	Mon, 27 Nov 2023 04:35:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701088334; x=1732624334;
+  t=1701088543; x=1732624543;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=4AjPIatTPDkq5wBY0ALs6UFh15FS5cCycMP5jH/dnGU=;
-  b=guCC8skDjzbVpbLsh221uAFfVzlzA7hzocUWWrFLdJRurWPho9Klwyrc
-   GibXVCjDs9wdjFo8TzlrOCSsetzmvAWvKbHr+HpTpU4IqKljxqbQuRmT3
-   MAlZT30EqI/ZY07wjVIYoQZNcIbtOXHlCp7gqzOtam5gKaLsTCAADFQWv
-   SAdr7RRR+9LxXI+xt4XVZJIW8GNl7ICwK/UfxWIimO8jP2I9rBepNnTfh
-   AUU8B+I6q2a3PKexEubr//JLEgFMQD8PXwxQ9gRHgxXpclO9DdiBXExxm
-   DyDn+lj/OpRgJGY2P0m0splejT4Frkt3kTKPypHlBcx5iNNPAXwJ5hTHK
+  bh=yp/ah/6UfzXck55VRxpB/2AJtviOqVShHgC1pzKlQDc=;
+  b=ZgcmVlP/Cz54Mrei0r+T/O9KoOKlxaKSPkosK6JYb6b3Co4C30Ep4IGs
+   9UQsCH3JI/nNCrUL2Nqlpqmj+KQxw2H8W8S4JLPQa+OstA5bEHbhnaeTc
+   a5Z3D4NO4cvBdNOMryNfoTA/ZV0GFqm18rg16LD1hUZlruYAOZlp4Fnke
+   gsWcHADFTIPX7QWqZ6dWnsWNolZTlHOljMqm04Tl22QRZ1K8XH/mz8OOy
+   Of3Vj+TIlM9ePk4scTY0Ou5CFn7Xmyi8WAL75d5ocy3U6nN8p1hf3OKny
+   FZatHwLKmLcWd8D4PcxGRa5pPmJKo37RMn37VgU4cqByehgygAl/XhzSg
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5881415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5882343"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="5881415"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:32:13 -0800
+   d="scan'208";a="5882343"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:35:43 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="718021893"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="9607086"
+   d="scan'208";a="718021893"
 Received: from bard-ubuntu.sh.intel.com ([10.239.185.57])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:32:12 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:35:40 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -33,9 +34,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com
-Subject: [PATCH] soundwire: generic_bandwidth_allocation use bus->params.max_dr_freq
-Date: Mon, 27 Nov 2023 20:44:05 +0800
-Message-Id: <20231127124405.2080431-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH] soundwire: intel_ace2x: fix AC timing setting for ACE2.x
+Date: Mon, 27 Nov 2023 20:47:35 +0800
+Message-Id: <20231127124735.2080562-1-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -45,46 +46,45 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bus->params.max_dr_freq is calculated and set in sdw_bus_master_add().
-We can use it directly instead of calculating it again.
+From: Chao Song <chao.song@linux.intel.com>
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Start from ACE1.x, DOAISE is added to AC timing control
+register bit 5, it combines with DOAIS to get effective
+timing, and has the default value 1.
+
+The current code fills DOAIS, DACTQE and DODS bits to a
+variable initialized to zero, and updates the variable
+to AC timing control register. With this operation, We
+change DOAISE to 0, and force a much more aggressive
+timing. The timing is even unable to form a working
+waveform on SDA pin.
+
+This patch uses read-modify-write operation for the AC
+timing control register access, thus makes sure those
+bits not supposed and intended to change are not touched.
+
+Signed-off-by: Chao Song <chao.song@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Rander Wang <rander.wang@intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- drivers/soundwire/generic_bandwidth_allocation.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/soundwire/intel_ace2x.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index 31162f2b5638..c70a63d009ae 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -333,7 +333,7 @@ static int sdw_select_row_col(struct sdw_bus *bus, int clk_freq)
-  */
- static int sdw_compute_bus_params(struct sdw_bus *bus)
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 82672fcbc2aa..8280baa3254b 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -23,8 +23,9 @@
+ static void intel_shim_vs_init(struct sdw_intel *sdw)
  {
--	unsigned int max_dr_freq, curr_dr_freq = 0;
-+	unsigned int curr_dr_freq = 0;
- 	struct sdw_master_prop *mstr_prop = &bus->prop;
- 	int i, clk_values, ret;
- 	bool is_gear = false;
-@@ -351,14 +351,12 @@ static int sdw_compute_bus_params(struct sdw_bus *bus)
- 		clk_buf = NULL;
- 	}
+ 	void __iomem *shim_vs = sdw->link_res->shim_vs;
+-	u16 act = 0;
++	u16 act;
  
--	max_dr_freq = mstr_prop->max_clk_freq * SDW_DOUBLE_RATE_FACTOR;
--
- 	for (i = 0; i < clk_values; i++) {
- 		if (!clk_buf)
--			curr_dr_freq = max_dr_freq;
-+			curr_dr_freq = bus->params.max_dr_freq;
- 		else
- 			curr_dr_freq = (is_gear) ?
--				(max_dr_freq >>  clk_buf[i]) :
-+				(bus->params.max_dr_freq >>  clk_buf[i]) :
- 				clk_buf[i] * SDW_DOUBLE_RATE_FACTOR;
- 
- 		if (curr_dr_freq <= bus->params.bandwidth)
++	act = intel_readw(shim_vs, SDW_SHIM2_INTEL_VS_ACTMCTL);
+ 	u16p_replace_bits(&act, 0x1, SDW_SHIM2_INTEL_VS_ACTMCTL_DOAIS);
+ 	act |= SDW_SHIM2_INTEL_VS_ACTMCTL_DACTQE;
+ 	act |=  SDW_SHIM2_INTEL_VS_ACTMCTL_DODS;
 -- 
 2.25.1
 
