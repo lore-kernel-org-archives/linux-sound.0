@@ -1,95 +1,137 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpez5xDw"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FDB2B4
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 06:45:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701096323; x=1732632323;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k++rS4KJjI7oQEUM44rtMMAlNIs0/JrY4n1kXW7APuE=;
-  b=bpez5xDwMv/JQBk+7OV50tSFD+82llyWwSjCJ9FYMYFFmgr8aXWHcb9U
-   BWJkxsFXBiiBp46iJ2I3AauUsah4ubtqGlzfI4Hl8PNevlbXyZ45YiweV
-   2FJ4cZunM9dwH6XAgoktD3D7jHE2rSKcuRiVne6mSylkrXKRS0YdUGrMi
-   +lPL1Ud8iR3QlyUn0OwjP5UHNlU8JJxBT8M02iZdz7PAK1kRCGsMpkQQn
-   aVC8a/JmngHtxC16e/WHFBdk+pUtbJYlv/Cy0ctFlZYLY+ftIMEX6vU2l
-   WnRj/EKviBfsrJVG8b1FDPrz6CPYoQo/86DIY4ELzyOoAJd4XNvDCNNKM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="457048479"
-X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="457048479"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 06:45:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="768192520"
-X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="768192520"
-Received: from acornagl-mobl.ger.corp.intel.com (HELO [10.252.58.144]) ([10.252.58.144])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 06:45:20 -0800
-Message-ID: <8ede931b-8c9c-4b95-83e5-5f0db9819e8e@linux.intel.com>
-Date: Mon, 27 Nov 2023 16:45:54 +0200
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3595FD2
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:20:08 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DEF731FCFD;
+	Mon, 27 Nov 2023 15:20:06 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88F481367B;
+	Mon, 27 Nov 2023 15:20:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tI3MH6azZGVbQQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Nov 2023 15:20:06 +0000
+Date: Mon, 27 Nov 2023 16:20:06 +0100
+Message-ID: <878r6jp6jd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
+In-Reply-To: <8ede931b-8c9c-4b95-83e5-5f0db9819e8e@linux.intel.com>
+References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+	<87jzq3pc6r.wl-tiwai@suse.de>
+	<d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
+	<87cyvvp8t6.wl-tiwai@suse.de>
+	<8ede931b-8c9c-4b95-83e5-5f0db9819e8e@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a
- device is HDMI codec
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com
-References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
- <20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
- <87jzq3pc6r.wl-tiwai@suse.de>
- <d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
- <87cyvvp8t6.wl-tiwai@suse.de>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <87cyvvp8t6.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Rspamd-Queue-Id: DEF731FCFD
+X-Spam-Score: -4.00
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
 
-
-
-On 27/11/2023 16:31, Takashi Iwai wrote:
-> On Mon, 27 Nov 2023 15:12:51 +0100,
-> PÃ©ter Ujfalusi wrote:
->>
->>
->>
->> On 27/11/2023 15:18, Takashi Iwai wrote:
->>>> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
->>>> +{
->>>> +	int i;
->>>> +
->>>> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
->>>> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
->>>> +			return true;
->>>> +	}
->>>> +
->>>> +	return false;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
->>>
->>> I'm afraid that this will bring unnecessary dependency on HDMI codec
->>> driver.
->>
->> For HDMI support we anyways need HDMI code?
+On Mon, 27 Nov 2023 15:45:54 +0100,
+Péter Ujfalusi wrote:
 > 
-> But the ASoC hdac-hda driver isn't specifically bound with HDMI, I
-> thought?
 > 
-> With your patch, now it becomes a hard-dependency.  It'll be even
-> build failure when HDMI codec driver isn't enabled in Kconfig.
+> 
+> On 27/11/2023 16:31, Takashi Iwai wrote:
+> > On Mon, 27 Nov 2023 15:12:51 +0100,
+> > Péter Ujfalusi wrote:
+> >>
+> >>
+> >>
+> >> On 27/11/2023 15:18, Takashi Iwai wrote:
+> >>>> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
+> >>>> +{
+> >>>> +	int i;
+> >>>> +
+> >>>> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
+> >>>> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
+> >>>> +			return true;
+> >>>> +	}
+> >>>> +
+> >>>> +	return false;
+> >>>> +}
+> >>>> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
+> >>>
+> >>> I'm afraid that this will bring unnecessary dependency on HDMI codec
+> >>> driver.
+> >>
+> >> For HDMI support we anyways need HDMI code?
+> > 
+> > But the ASoC hdac-hda driver isn't specifically bound with HDMI, I
+> > thought?
+> > 
+> > With your patch, now it becomes a hard-dependency.  It'll be even
+> > build failure when HDMI codec driver isn't enabled in Kconfig.
+> 
+> The change in hdaudio.h handles the config dependency, if
+> CONFIG_SND_HDA_CODEC_HDMI is not enabled in Kconfig then
+> snd_hda_device_is_hdmi() will return false.
 
-The change in hdaudio.h handles the config dependency, if
-CONFIG_SND_HDA_CODEC_HDMI is not enabled in Kconfig then
-snd_hda_device_is_hdmi() will return false.
+OK, that's at least good.
+But I still find it not ideal to bring the hard dependency there
+unnecessarily.
 
--- 
-PÃ©ter
+With the introduction of a flag in hdac_device, the necessary change
+would be even smaller like below.
+
+
+Takashi
+
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -95,6 +95,7 @@ struct hdac_device {
+ 	bool lazy_cache:1;	/* don't wake up for writes */
+ 	bool caps_overwriting:1; /* caps overwrite being in process */
+ 	bool cache_coef:1;	/* cache COEF read/write too */
++	bool is_hdmi:1;		/* a HDMI/DP codec */
+ 	unsigned int registered:1; /* codec was registered */
+ };
+ 
+--- a/sound/pci/hda/patch_hdmi.c
++++ b/sound/pci/hda/patch_hdmi.c
+@@ -2597,6 +2597,7 @@ static int patch_generic_hdmi(struct hda_codec *codec)
+ 	}
+ 
+ 	generic_hdmi_init_per_pins(codec);
++	codec->core.is_hdmi = true;
+ 	return 0;
+ }
+ 
+@@ -3472,6 +3473,7 @@ static int patch_simple_hdmi(struct hda_codec *codec,
+ 	spec->pcm_playback = simple_pcm_playback;
+ 
+ 	codec->patch_ops = simple_hdmi_patch_ops;
++	codec->core.is_hdmi = true;
+ 
+ 	return 0;
+ }
