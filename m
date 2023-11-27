@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TV+l3E95"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmXAHDXf"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB409B
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:39 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E04CA187
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701099339; x=1732635339;
+  t=1701099344; x=1732635344;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/aZ5dxakQtq/x5Qt5/UYeLdfsoMev4N846nYiIvN8pQ=;
-  b=TV+l3E95RtgYw4xrT75RU8Z/0304ZEMp8oe5DnughSwRNgjOGCOAcV45
-   B6DrvjaVifBsr4+cUxPkanSRyJGSanA6KHxUuxdiU70chHv0Xqw2DTACX
-   iIgcBoiz7/QR9Kiv/bPNwlrI+FGV1UkH+P+Bfo+QI4HOnJeZvI38XCxIR
-   FVzm67506FxD9PTUc/cc72CRKjWSiWZSPDbE+Cy8/u6hwTzbqS+UprOwo
-   X3Q2rBgr/AuPsu6pZnWqvwBiQpaXLfqnacAThftYrS/C3U9SS5zSRWoWT
-   qn0JxRnUk8BIrGb5NkWpdqyFyXJVhzbSdbYJf+uPT1N2YHoCmU4GiMqXz
+  bh=V9pgylZHahZco3buAi1WhdAgC4fsMC6uVO+c+3nQkc0=;
+  b=dmXAHDXfbZeajBL26LtTSf7x1btHjDuZaRxxZD1e4gaUgWMXU5L/B+1y
+   XB4TM9Ojllvm2R/Z8RfCUyCqS29r1RAJD9BmKvGw2uVTiJ2waNNYDVqv0
+   Ve01e1jdlyJeDmstsIAypZG11Mils0Voe7y0PdX7Icv3EhW0I9iG4qzZQ
+   WI4YdkUdAcK1PmTpTX3sKrUao4H2PMrFZk+7AHdFcy9PAROcgMASHNnre
+   f7+hDyMVumFY86cxogrnsShoheH3PV5UkYB/QvPSLcDB8DG6l3WzrmFoq
+   5V2t/aRRwk495p+BDkgByHj575UdmEqUOgHeqs8PCtEZSzY5Cyxg/Fpfs
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894617"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894635"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="372894617"
+   d="scan'208";a="372894635"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:17 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771957000"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771957049"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="771957000"
+   d="scan'208";a="771957049"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:15 -0800
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:27:18 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -37,9 +37,9 @@ Cc: alsa-devel@alsa-project.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	chao.song@linux.intel.com
-Subject: [PATCH 20/27] ASoC: Intel: sof_ssp_amp: use common module for BT offload link
-Date: Mon, 27 Nov 2023 17:26:47 +0200
-Message-ID: <20231127152654.28204-21-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 21/27] ASoC: Intel: sof_ssp_amp: simplify HDMI-In quirks
+Date: Mon, 27 Nov 2023 17:26:48 +0200
+Message-ID: <20231127152654.28204-22-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
 References: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
@@ -53,77 +53,163 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Use intel_board module for BT offload DAI link initialization.
+Use bit mask to handle SSP port number of HDMI-In devices to simplify
+the code. No functional change in this patch.
 
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Balamurugan C <balamurugan.c@intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_ssp_amp.c | 31 ++++++++++------------------
- 1 file changed, 11 insertions(+), 20 deletions(-)
+ sound/soc/intel/boards/sof_ssp_amp.c | 70 +++++++++++-----------------
+ 1 file changed, 26 insertions(+), 44 deletions(-)
 
 diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
-index c463bc698c10..72505f6a6501 100644
+index 72505f6a6501..eddefa69355d 100644
 --- a/sound/soc/intel/boards/sof_ssp_amp.c
 +++ b/sound/soc/intel/boards/sof_ssp_amp.c
-@@ -215,29 +215,14 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
- 		int port = (sof_ssp_amp_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
- 				SOF_BT_OFFLOAD_SSP_SHIFT;
+@@ -27,21 +27,10 @@
+ #define SOF_AMPLIFIER_SSP_MASK			(GENMASK(3, 0))
  
--		links[id].id = id;
--		links[id].cpus = &cpus[id];
--		links[id].cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
--							  "SSP%d Pin", port);
--		if (!links[id].cpus->dai_name)
--			goto devm_err;
--		links[id].name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-BT", port);
--		if (!links[id].name)
--			goto devm_err;
--		links[id].codecs = &snd_soc_dummy_dlc;
--		links[id].num_codecs = 1;
--		links[id].platforms = platform_component;
--		links[id].num_platforms = ARRAY_SIZE(platform_component);
--		links[id].dpcm_playback = 1;
--		links[id].dpcm_capture = 1;
--		links[id].no_pcm = 1;
--		links[id].num_cpus = 1;
-+		ret = sof_intel_board_set_bt_link(dev, &links[id], id, port);
-+		if (ret)
-+			return NULL;
+ /* HDMI capture*/
+-#define SOF_SSP_HDMI_CAPTURE_PRESENT		BIT(4)
+-#define SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT		5
+-#define SOF_NO_OF_HDMI_CAPTURE_SSP_MASK		(GENMASK(6, 5))
+-#define SOF_NO_OF_HDMI_CAPTURE_SSP(quirk)	\
+-	(((quirk) << SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT) & SOF_NO_OF_HDMI_CAPTURE_SSP_MASK)
+-
+-#define SOF_HDMI_CAPTURE_1_SSP_SHIFT		7
+-#define SOF_HDMI_CAPTURE_1_SSP_MASK		(GENMASK(9, 7))
+-#define SOF_HDMI_CAPTURE_1_SSP(quirk)	\
+-	(((quirk) << SOF_HDMI_CAPTURE_1_SSP_SHIFT) & SOF_HDMI_CAPTURE_1_SSP_MASK)
+-
+-#define SOF_HDMI_CAPTURE_2_SSP_SHIFT		10
+-#define SOF_HDMI_CAPTURE_2_SSP_MASK		(GENMASK(12, 10))
+-#define SOF_HDMI_CAPTURE_2_SSP(quirk)	\
+-	(((quirk) << SOF_HDMI_CAPTURE_2_SSP_SHIFT) & SOF_HDMI_CAPTURE_2_SSP_MASK)
++#define SOF_HDMI_CAPTURE_SSP_MASK_SHIFT		4
++#define SOF_HDMI_CAPTURE_SSP_MASK_MASK		(GENMASK(9, 4))
++#define SOF_HDMI_CAPTURE_SSP_MASK(quirk)	\
++	(((quirk) << SOF_HDMI_CAPTURE_SSP_MASK_SHIFT) & SOF_HDMI_CAPTURE_SSP_MASK_MASK)
+ 
+ /* HDMI playback */
+ #define SOF_HDMI_PLAYBACK_PRESENT		BIT(13)
+@@ -108,6 +97,7 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
+ 	int ret;
+ 	bool fixed_be = false;
+ 	int be_id;
++	unsigned long ssp_mask_hdmi_in;
+ 
+ 	links = devm_kcalloc(dev, sof_ssp_amp_card.num_links,
+ 					sizeof(struct snd_soc_dai_link), GFP_KERNEL);
+@@ -117,20 +107,17 @@ sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
+ 		return NULL;
+ 
+ 	/* HDMI-In SSP */
+-	if (sof_ssp_amp_quirk & SOF_SSP_HDMI_CAPTURE_PRESENT) {
+-		int num_of_hdmi_ssp = (sof_ssp_amp_quirk & SOF_NO_OF_HDMI_CAPTURE_SSP_MASK) >>
+-				SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT;
++	ssp_mask_hdmi_in = (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_SSP_MASK_MASK) >>
++				SOF_HDMI_CAPTURE_SSP_MASK_SHIFT;
 +
- 		id++;
- 	}
++	if (ssp_mask_hdmi_in) {
++		int port = 0;
  
- 	return links;
--devm_err:
--	return NULL;
- }
+ 		/* the topology supports HDMI-IN uses fixed BE ID for DAI links */
+ 		fixed_be = true;
  
- static int sof_ssp_amp_probe(struct platform_device *pdev)
-@@ -261,6 +246,10 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
+ 		be_id = HDMI_IN_BE_ID;
+-		for (i = 1; i <= num_of_hdmi_ssp; i++) {
+-			int port = (i == 1 ? (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_1_SSP_MASK) >>
+-						SOF_HDMI_CAPTURE_1_SSP_SHIFT :
+-						(sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_2_SSP_MASK) >>
+-						SOF_HDMI_CAPTURE_2_SSP_SHIFT);
+-
++		for_each_set_bit(port, &ssp_mask_hdmi_in, 32) {
+ 			links[id].cpus = &cpus[id];
+ 			links[id].cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+ 								  "SSP%d Pin", port);
+@@ -231,6 +218,7 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
+ 	struct snd_soc_dai_link *dai_links;
+ 	struct sof_card_private *ctx;
+ 	int ret;
++	unsigned long ssp_mask_hdmi_in;
+ 
+ 	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+@@ -246,7 +234,10 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
  	else
  		ctx->dmic_be_num = 0;
  
-+	/* port number of peripherals attached to ssp interface */
-+	ctx->ssp_bt = (sof_ssp_amp_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
-+			SOF_BT_OFFLOAD_SSP_SHIFT;
+-	/* port number of peripherals attached to ssp interface */
++	/* port number/mask of peripherals attached to ssp interface */
++	ssp_mask_hdmi_in = (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_SSP_MASK_MASK) >>
++			SOF_HDMI_CAPTURE_SSP_MASK_SHIFT;
 +
- 	ctx->ssp_amp = sof_ssp_amp_quirk & SOF_AMPLIFIER_SSP_MASK;
+ 	ctx->ssp_bt = (sof_ssp_amp_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
+ 			SOF_BT_OFFLOAD_SSP_SHIFT;
  
- 	/* set number of dai links */
-@@ -288,8 +277,10 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
- 		ctx->hdmi_num = 0;
- 	}
- 
--	if (sof_ssp_amp_quirk & SOF_SSP_BT_OFFLOAD_PRESENT)
-+	if (sof_ssp_amp_quirk & SOF_SSP_BT_OFFLOAD_PRESENT) {
-+		ctx->bt_offload_present = true;
+@@ -258,9 +249,8 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
+ 	if (ctx->amp_type != CODEC_NONE)
  		sof_ssp_amp_card.num_links++;
-+	}
  
- 	dai_links = sof_card_dai_links_create(&pdev->dev, ctx->amp_type,
- 					      ctx->ssp_amp, ctx->dmic_be_num,
+-	if (sof_ssp_amp_quirk & SOF_SSP_HDMI_CAPTURE_PRESENT)
+-		sof_ssp_amp_card.num_links += (sof_ssp_amp_quirk & SOF_NO_OF_HDMI_CAPTURE_SSP_MASK) >>
+-				SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT;
++	if (ssp_mask_hdmi_in)
++		sof_ssp_amp_card.num_links += hweight32(ssp_mask_hdmi_in);
+ 
+ 	if (sof_ssp_amp_quirk & SOF_HDMI_PLAYBACK_PRESENT) {
+ 		ctx->hdmi_num = (sof_ssp_amp_quirk & SOF_NO_OF_HDMI_PLAYBACK_MASK) >>
+@@ -325,10 +315,8 @@ static const struct platform_device_id board_ids[] = {
+ 	{
+ 		.name = "tgl_rt1308_hdmi_ssp",
+ 		.driver_data = (kernel_ulong_t)(SOF_AMPLIFIER_SSP(2) |
+-					SOF_NO_OF_HDMI_CAPTURE_SSP(2) |
+-					SOF_HDMI_CAPTURE_1_SSP(1) |
+-					SOF_HDMI_CAPTURE_2_SSP(5) |
+-					SOF_SSP_HDMI_CAPTURE_PRESENT),
++					SOF_HDMI_CAPTURE_SSP_MASK(0x22)),
++					/* SSP 1 and SSP 5 are used for HDMI IN */
+ 	},
+ 	{
+ 		.name = "adl_cs35l41",
+@@ -340,28 +328,22 @@ static const struct platform_device_id board_ids[] = {
+ 	},
+ 	{
+ 		.name = "adl_lt6911_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_NO_OF_HDMI_CAPTURE_SSP(2) |
+-					SOF_HDMI_CAPTURE_1_SSP(0) |
+-					SOF_HDMI_CAPTURE_2_SSP(2) |
+-					SOF_SSP_HDMI_CAPTURE_PRESENT |
++		.driver_data = (kernel_ulong_t)(SOF_HDMI_CAPTURE_SSP_MASK(0x5) |
++					/* SSP 0 and SSP 2 are used for HDMI IN */
+ 					SOF_NO_OF_HDMI_PLAYBACK(3) |
+ 					SOF_HDMI_PLAYBACK_PRESENT),
+ 	},
+ 	{
+ 		.name = "rpl_lt6911_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_NO_OF_HDMI_CAPTURE_SSP(2) |
+-					SOF_HDMI_CAPTURE_1_SSP(0) |
+-					SOF_HDMI_CAPTURE_2_SSP(2) |
+-					SOF_SSP_HDMI_CAPTURE_PRESENT |
++		.driver_data = (kernel_ulong_t)(SOF_HDMI_CAPTURE_SSP_MASK(0x5) |
++					/* SSP 0 and SSP 2 are used for HDMI IN */
+ 					SOF_NO_OF_HDMI_PLAYBACK(3) |
+ 					SOF_HDMI_PLAYBACK_PRESENT),
+ 	},
+ 	{
+ 		.name = "mtl_lt6911_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_NO_OF_HDMI_CAPTURE_SSP(2) |
+-				SOF_HDMI_CAPTURE_1_SSP(0) |
+-				SOF_HDMI_CAPTURE_2_SSP(2) |
+-				SOF_SSP_HDMI_CAPTURE_PRESENT |
++		.driver_data = (kernel_ulong_t)(SOF_HDMI_CAPTURE_SSP_MASK(0x5) |
++				/* SSP 0 and SSP 2 are used for HDMI IN */
+ 				SOF_NO_OF_HDMI_PLAYBACK(3) |
+ 				SOF_HDMI_PLAYBACK_PRESENT),
+ 	},
 -- 
 2.43.0
 
