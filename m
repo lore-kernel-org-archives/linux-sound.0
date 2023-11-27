@@ -1,97 +1,126 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="mFk8rvSt"
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97E7544A0
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 06:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=IGtE5rwax0YMqdt4qD
-	HD0apGK11EYOQ+7k2SFJLFuXM=; b=mFk8rvStX8PPZkpjqSzpvZdzZT+XX2wnTY
-	Zkh/IlEreaxYi74ujpsXWDJJRANb8y0jxzcAUZwNHjR1NIzCjujxbSiHq4b7yO0o
-	BcE6D01pVKw9lUR6kgc1l38oKBV9UT4XC4LzwZqKr0PZK5JLxCyvYYgwxZ6mcy4s
-	QXvaJMpw4=
-Received: from localhost.localdomain (unknown [39.144.190.126])
-	by zwqz-smtp-mta-g5-4 (Coremail) with SMTP id _____wDXP_iupGRlxpK2Bg--.25290S2;
-	Mon, 27 Nov 2023 22:16:16 +0800 (CST)
-From: Haoran Liu <liuhaoran14@163.com>
-To: s.nawrocki@samsung.com
-Cc: perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KoKPCTdn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwFxD9lM"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90393170B
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 06:31:03 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 23C481FCFD;
+	Mon, 27 Nov 2023 14:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701095462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NocL7OSjyA4hwu4QV7cayvv/T/SxQnegCg72Am6XPC4=;
+	b=KoKPCTdnUiZEtJs6suOlfaZGQnH3FhZXT8tL8qPt4gzRZvc7cxexYR+qxR5THxQogP4ALt
+	yrWtrq/wXKa0Z9Uqj0fcNk0uiBEMYnncu/runFcJtIuj28V4wsghPuicqHepIY6Ot1m9w4
+	ukhU1F1zykRSAW1nYAOeyM9KR/OGtR8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701095462;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NocL7OSjyA4hwu4QV7cayvv/T/SxQnegCg72Am6XPC4=;
+	b=rwFxD9lMmPtR7xZHMtILr+NWy8siYmyyt9FbJdG1docvCd+lC14Aj16y/2MRReer8kNfn2
+	BsfrDMEZCIuGQkDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1EF51379A;
+	Mon, 27 Nov 2023 14:31:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DTXVLSWoZGVfLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Nov 2023 14:31:01 +0000
+Date: Mon, 27 Nov 2023 15:31:01 +0100
+Message-ID: <87cyvvp8t6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
 	tiwai@suse.com,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	Haoran Liu <liuhaoran14@163.com>
-Subject: [PATCH] sound: samsung: Add error handling to clk_set_rate in smdk_spdif
-Date: Mon, 27 Nov 2023 06:16:09 -0800
-Message-Id: <20231127141609.29008-1-liuhaoran14@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:_____wDXP_iupGRlxpK2Bg--.25290S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uFyrXFW8WF1xKr15AF4ruFg_yoW8AF45pr
-	yfu39YqFW5tw1Ivryav3WF9F98Jw4rAFW3tr43W34xCF15XFZ0g3yDKryqyF4avFyxWay5
-	KrWUKFyUuF1vy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRrcT9UUUUU=
-X-CM-SenderInfo: xolxxtxrud0iqu6rljoofrz/xtbBcgU1gletj1MvSQAAsA
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
+In-Reply-To: <d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
+References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+	<87jzq3pc6r.wl-tiwai@suse.de>
+	<d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.49 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.19)[89.08%]
+X-Spam-Score: -5.49
 
-This patch adds error handling for clk_set_rate calls in the
-set_audio_clock_rate function of the smdk_spdif.c file. Previously,
-the return value of clk_set_rate was not checked, which could potentially
-lead to unhandled errors in setting the audio clock rate. This change
-ensures that if clk_set_rate fails, the error is properly reported and
-handled.
+On Mon, 27 Nov 2023 15:12:51 +0100,
+Péter Ujfalusi wrote:
+> 
+> 
+> 
+> On 27/11/2023 15:18, Takashi Iwai wrote:
+> >> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
+> >> +{
+> >> +	int i;
+> >> +
+> >> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
+> >> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
+> >> +			return true;
+> >> +	}
+> >> +
+> >> +	return false;
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
+> > 
+> > I'm afraid that this will bring unnecessary dependency on HDMI codec
+> > driver.
+> 
+> For HDMI support we anyways need HDMI code?
 
-Signed-off-by: Haoran Liu <liuhaoran14@163.com>
----
- sound/soc/samsung/smdk_spdif.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+But the ASoC hdac-hda driver isn't specifically bound with HDMI, I
+thought?
 
-diff --git a/sound/soc/samsung/smdk_spdif.c b/sound/soc/samsung/smdk_spdif.c
-index 2474eb619882..c31b82b89148 100644
---- a/sound/soc/samsung/smdk_spdif.c
-+++ b/sound/soc/samsung/smdk_spdif.c
-@@ -75,6 +75,7 @@ static int set_audio_clock_rate(unsigned long epll_rate,
- 				unsigned long audio_rate)
- {
- 	struct clk *fout_epll, *sclk_spdif;
-+	int ret;
- 
- 	fout_epll = clk_get(NULL, "fout_epll");
- 	if (IS_ERR(fout_epll)) {
-@@ -82,7 +83,14 @@ static int set_audio_clock_rate(unsigned long epll_rate,
- 		return -ENOENT;
- 	}
- 
--	clk_set_rate(fout_epll, epll_rate);
-+	ret = clk_set_rate(fout_epll, epll_rate);
-+	if (ret) {
-+		printk(KERN_ERR "%s: failed to set rate for fout_epll\n",
-+				__func__);
-+		clk_put(fout_epll);
-+		return ret;
-+	}
-+
- 	clk_put(fout_epll);
- 
- 	sclk_spdif = clk_get(NULL, "sclk_spdif");
-@@ -91,7 +99,15 @@ static int set_audio_clock_rate(unsigned long epll_rate,
- 		return -ENOENT;
- 	}
- 
--	clk_set_rate(sclk_spdif, audio_rate);
-+	ret = clk_set_rate(sclk_spdif, audio_rate);
-+	if (ret) {
-+		printk(KERN_ERR "%s: failed to set rate for sclk_spdif\n",
-+				__func__);
-+		clk_put(sclk_spdif);
-+		clk_put(fout_epll);
-+		return ret;
-+	}
-+
- 	clk_put(sclk_spdif);
- 
- 	return 0;
--- 
-2.17.1
+With your patch, now it becomes a hard-dependency.  It'll be even
+build failure when HDMI codec driver isn't enabled in Kconfig.
 
+
+Takashi
