@@ -1,77 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75E32E408
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 13:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJ2qteMF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C412DC433C7;
-	Mon, 27 Nov 2023 13:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701092445;
-	bh=A1OsFnb1tNwUij5pGE/EqLpd5k0JhCJWhw9mIA0cyIo=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=EJ2qteMFm/FESMLFKtlGryxNadHIKnXMtpVjE49PbKfsKv6hfBXDpa8ZzckerQr7O
-	 C+qQTNGuE0s6fQx5ZhxBpwFFzDOY6CfPjL2O0Busbgd8irV06O4FSocP7phdRAziXF
-	 B1tZVt+3zMvc4gRgvAckG9AwSUQJXjEeioC2g6ILcasLgJ2olwuXjaqFvZMgktoG9q
-	 KsSo546XHM7i0EJzTL/1bggmb9ClonbEso8FpUABmDlkp5ofb9WeCJrAkw8BMsk54S
-	 DaT4Ug+ZKmXzHF8xQczUQ0HgUSZYeQO1qA5dQgLVZNvbadQ1g9kB1TNgApA3/tiea4
-	 fsP0OKC3GwBXw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Chancel Liu <chancel.liu@nxp.com>
-In-Reply-To: <20231125065300.6385-1-chancel.liu@nxp.com>
-References: <20231125065300.6385-1-chancel.liu@nxp.com>
-Subject: Re: [PATCH] ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF
- and I2C
-Message-Id: <170109244263.2677006.2483367496601425667.b4-ty@kernel.org>
-Date: Mon, 27 Nov 2023 13:40:42 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U5yJNO72"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2788C268E
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 06:12:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701094342; x=1732630342;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Qvo3OHW5TO8LFIWZGXILVCyCq2+BIUOQXt5+5AklOAU=;
+  b=U5yJNO72wUlbqul8i3EvTz5yowpCP5C3CkR0kDp+YyjjYF+PleY537J+
+   7lbCCn7JwUPbYnNw6gZLHy4hxXce2yFzi2bwej+bMdHqpJBS1xefYo31p
+   bXDC+y9/ACTJfhQvVejxWc/ChcNFjQVXiheUe6JcCeDWVzkPKkQTT2THQ
+   wIy1xzJcmN97DUDl587PVy12WcvFc/SgSPmX/yKpqk2gYLR7xds8JTt+d
+   9s3UpucV9kWzbCw0hxEzL3DD+FWNKnt84etTo3jLPFaO8U15QWtHYSoUc
+   XnJfBhOBA34jzf20LlNfrBL0n1E7sCaipaSSDRr2Zg8jFgAoE8hPgQw2U
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391588412"
+X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
+   d="scan'208";a="391588412"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 06:12:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="834330257"
+X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
+   d="scan'208";a="834330257"
+Received: from acornagl-mobl.ger.corp.intel.com (HELO [10.252.58.144]) ([10.252.58.144])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 06:12:19 -0800
+Message-ID: <d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
+Date: Mon, 27 Nov 2023 16:12:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a
+ device is HDMI codec
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com
+References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+ <20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+ <87jzq3pc6r.wl-tiwai@suse.de>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <87jzq3pc6r.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 25 Nov 2023 14:53:00 +0800, Chancel Liu wrote:
-> SND_SOC_IMX_RPMSG should depend on OF and I2C. It fixes the following
-> error reported by kernel test robot:
+
+
+On 27/11/2023 15:18, Takashi Iwai wrote:
+>> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
+>> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
+>> +			return true;
+>> +	}
+>> +
+>> +	return false;
+>> +}
+>> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
 > 
-> ld: sound/soc/fsl/imx-rpmsg.o: in function `imx_rpmsg_late_probe':
-> imx-rpmsg.c:(.text+0x4f): undefined reference to `i2c_find_device_by_fwnode'
-> 
-> 
-> [...]
+> I'm afraid that this will bring unnecessary dependency on HDMI codec
+> driver.
 
-Applied to
+For HDMI support we anyways need HDMI code?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> IMO, it's better to add a bool flag is_hdmi to struct hdac_device, and
+> let the HDMI codec driver setting it at the probe, instead.  Then we
+> can save an extra exported symbol, too.
 
-Thanks!
+We only use a combined generic codec driver which just supports 'HDA'
+codecs regardless of what type they are.
 
-[1/1] ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF and I2C
-      commit: f83d38def6b1b00c9bb17173837045b41df7e7d7
+When things probed via ASoC/SOF I just could not find any other way to
+access to this table inside of patch_hdmi.c.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+We could sort of 'cheat' and look for a specific (I'm not sure if it is
+Intel or HDA generic) mask: 0x4
+It is used in Intel drivers to identify the display codec, so the HDMI/DP.
+If the 0x4 is universal among all HDA platforms for HDMI/DP then I'm
+more than happy to drop this patch, but I'm not sure about  that.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Péter
