@@ -1,105 +1,102 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mUCf86Hh"
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C29210F
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 04:56:28 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40b472f98b1so5233915e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 04:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701089786; x=1701694586; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tP2t/kYtlEwSamszENbZNCB37/rUPT3TVZUIwyv3H7c=;
-        b=mUCf86Hh7Fj7Qw0V879sDzs0k9t/5gBqQGaaCeYfkl/TcFlAYbKSToONqiPlgHULMO
-         Fo3ShSXO8aJd6wuWoFxptlfUT3Y317Ua+RauuxFesMRNkhx0bMBnR/824dIJf3KVPx2R
-         6vR64dAfozVMls+uZLGEl/zZjCFhFZw6aGHFPkt0nCHtbk7hlXAynC0uU6fXF4EYMSKl
-         T3lOaLn4/qh/bC1PEWyH+jteEFTg+PZy35t9OP0a3xoXLOTY//+epO2pTim5cpgtbwy/
-         KKhYDIT63Fw9RSsNRTSi6xK8j88NyWz4Y6HD8I7AaTZ6H3+Ylv0b4EZDCpG28cG0NWK/
-         qOPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701089786; x=1701694586;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tP2t/kYtlEwSamszENbZNCB37/rUPT3TVZUIwyv3H7c=;
-        b=QO47MyxwqRGweE7dG7atEP4jO6BaIkz7d22DEG9OMa1prrXFOrQD+aX961dSpGJzlI
-         qGN61T0PrTw0EJw0afif/zyd6k3+TSs+2kboqO1xxmxGUzac+v2Fdu7wGZCD1U8kHmHz
-         8Hz7WrAi/AkWzO7OQqPptWRPpkWu26ibHdGVvERTVdy35/upy2qJcxLMbQP9Sy995oKr
-         Paj9dJ3R1QHUCZuhcvm6l4I0Uf1T6Jn0LE+2KVCDhNEbYSYzoKynW2ixcNbBfJPnMWww
-         SYiNJnLirhRlM7Rm4wka1qOtRhPLnyXFPMRoy81RD5ORAFootKtTtrYA3FdRLIyowEmw
-         ab/Q==
-X-Gm-Message-State: AOJu0YxSJp65uXVn8w9FYkypUiwAWTAFZQG3y3m1yCd0ITOaQDwlxSdd
-	UNZ8biQT2xFqC2lXgTBZGFos1w==
-X-Google-Smtp-Source: AGHT+IEBnJJc0eW1yDOIRLEA6HCZWX7esHVoOSHD5CtYbx0DUnTF47qWTGzVvvCRJLnDf8f57lSGhg==
-X-Received: by 2002:a05:600c:5488:b0:408:403a:34dc with SMTP id iv8-20020a05600c548800b00408403a34dcmr8829868wmb.37.1701089786489;
-        Mon, 27 Nov 2023 04:56:26 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k10-20020a05600c1c8a00b004042dbb8925sm14497219wms.38.2023.11.27.04.56.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 04:56:26 -0800 (PST)
-Date: Mon, 27 Nov 2023 15:56:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Yang Li <yang.lee@linux.alibaba.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: amd: acp: Remove unnecessary NULL check
-Message-ID: <bda284d2-05c4-47ab-9611-a58a70fe58ae@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbtsR0GO"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4519E19D
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:02:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701090159; x=1732626159;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kZLOygxvuWEPWWyBCeKU0iS+fkvL9wRcEYuTra47C1E=;
+  b=UbtsR0GOHl7XHT7V26iUq7K/TZDpjbQF/6f2uJxtMd8eVXSMex5Cq6z2
+   7JGYOBnk1EwRYS/WSWO4yWqW6zK8wqzrW++7HKYv6fvIZhbjbiPAZZeCa
+   sPutqC1XwHFNx/2XjXTiBjd1bN3Jft/fEXf1JXbMS8zD2jc4D8rnM5WyO
+   jRicBAubulWlduYv+e1uaLi9Yaf+Vc9ZQwOR8Rd/BeP6JZybtChheLE6R
+   /m5Qh5WPLtwEA+tBv1T2LuSt6UKnNQ+XUhrJTrmYAha8gOsc2cl1wGBC0
+   cmZiLtBh729o8q8OPf4Liy0xcqvpoyhGwfqTvpO+e7aKdSeFlHhF6tpOd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391568003"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="391568003"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="797228683"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="797228683"
+Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:10 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: [PATCH 0/2] ALSA/ASoC: hdmi/hdac_hda: Conditionally register dais
+Date: Mon, 27 Nov 2023 15:02:43 +0200
+Message-ID: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-The list iterator cannot be NULL so there is no need to check.  Delete
-the check and pull the code in a tab.
+Hi,
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Each instance of the hdac_hda registers DAIs to be used for analog and HDMI
+audio.
+When the system have more than one HDA codec - like most devices then the kernel
+log will include the following warning prints:
+
+snd_hda_codec_realtek ehdaudio0D0: ASoC: sink widget AIF1TX overwritten
+snd_hda_codec_realtek ehdaudio0D0: ASoC: source widget AIF1RX overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi3 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi2 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi1 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Codec Output Pin1 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Codec Input Pin1 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Analog Codec Playback overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Digital Codec Playback overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Alt Analog Codec Playback overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Analog Codec Capture overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Digital Codec Capture overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Alt Analog Codec Capture overwritten
+
+These are printed when the second instance of the hdac_hda is probing since it
+is re-registering the DAIs with the same name.
+Using some clever way of prefixing might solve the issue but that would need non
+backwards compatible changes to topology files.
+
+Pragmatically the hdac_hda instance fro the normal codec should not register
+DAIs for HDMI and the hdac_hda instance for the HDMI should not register DAIs
+for the analog codec - for example on a SDW device where we have HDA-HDMI and
+sdw codecs.
+
+To keep the hdac_hda vendor neutral (altrough it is only used on Intel platforms
+afaik) add a helper function to answer the question: is this codec HDMI?
+Use the new helper to decide which sets of DAIs to register for the probing
+hdac_hda instance.
+
+Regards,
+Peter
 ---
- sound/soc/amd/acp/acp70.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+Peter Ujfalusi (2):
+  ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
+  ASoC: hdac_hda: Conditionally register dais for HDMI and Analog
 
-diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
-index 0d7cdd4017e5..f65955215487 100644
---- a/sound/soc/amd/acp/acp70.c
-+++ b/sound/soc/amd/acp/acp70.c
-@@ -215,18 +215,16 @@ static int __maybe_unused acp70_pcm_resume(struct device *dev)
- 
- 	spin_lock(&adata->acp_lock);
- 	list_for_each_entry(stream, &adata->stream_list, list) {
--		if (stream) {
--			substream = stream->substream;
--			if (substream && substream->runtime) {
--				buf_in_frames = (substream->runtime->buffer_size);
--				buf_size = frames_to_bytes(substream->runtime, buf_in_frames);
--				config_pte_for_stream(adata, stream);
--				config_acp_dma(adata, stream, buf_size);
--				if (stream->dai_id)
--					restore_acp_i2s_params(substream, adata, stream);
--				else
--					restore_acp_pdm_params(substream, adata);
--			}
-+		substream = stream->substream;
-+		if (substream && substream->runtime) {
-+			buf_in_frames = (substream->runtime->buffer_size);
-+			buf_size = frames_to_bytes(substream->runtime, buf_in_frames);
-+			config_pte_for_stream(adata, stream);
-+			config_acp_dma(adata, stream, buf_size);
-+			if (stream->dai_id)
-+				restore_acp_i2s_params(substream, adata, stream);
-+			else
-+				restore_acp_pdm_params(substream, adata);
- 		}
- 	}
- 	spin_unlock(&adata->acp_lock);
+ include/sound/hdaudio.h     | 10 ++++++++++
+ sound/pci/hda/patch_hdmi.c  | 13 +++++++++++++
+ sound/soc/codecs/hdac_hda.c | 22 +++++++++++++++++++---
+ 3 files changed, 42 insertions(+), 3 deletions(-)
+
 -- 
-2.42.0
+2.43.0
 
