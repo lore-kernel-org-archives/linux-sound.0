@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mi9sOO4y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdVszeL9"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FBAE194
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC57138
 	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 07:35:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701099319; x=1732635319;
+  t=1701099320; x=1732635320;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=XN9Bit659jWYf1A4adc2T7hIVcb934urLyq20ChKjNQ=;
-  b=mi9sOO4yAsGyyjzAl2AZr0G2RHbT5MuCp5vEWMdn703Wlg4moP9Ei0Jl
-   NlHiDVgmgqqeHvO/hHx1awo22+6wUKHMDIxZdfxQwHlLWlVNhSTEWVYna
-   84LwqJhwtzVw+5APmJGOa8Dr1boynOHsX2GjfUqhgzE6x0AVs1EYmjQgr
-   gA8gUiX2ecknvKn0/nko2zq6piDxYzxOQgk7jJhxJOydR6vNkwSqrD/b/
-   jpzPxPSQf7bnGZb6fZgNsoQGosVpyS/jzTyZccHyPBP1/Z7UBpBhBuPqc
-   VrApb0lHE9Q1aFrWVnPiwZihKZU8wOmQr9mAEUmS8Mn5dL1/zoFSHOcHH
+  bh=GNdzKNeZPXBqxHIpXNRJBlZad9ZUikVKFXQgyY2nhUU=;
+  b=cdVszeL9Lcc40i2rG1XI2txV2WBfUoPaE65CeEnL5vpt09o0iboG+CoM
+   3uEFrfQlhFti4QScWN/VCfDIGUENviL3qJ0MbdzbzdMQd555W7COfOdRH
+   jwhtp8joDg8IeCUSqPaBdWZ+jvCpILiTo5cP/syAL3hQeHLwUrYHSar/Q
+   ULaF3MBg0GEcOM+j6ZSonJCP+LEPvy16CXW1XAsydTbFX/ZvCc3L9IibI
+   7EeZCn5kgLPqrF7EpbzRlCJrsQsmXmm9E0iWHx/AE2baM4XgVQRNGNe+z
+   HYd1bN6SvZnVZELwZcOWlKbRQqalIyHZO8hkAzE6R7velqSu/P+taigI+
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894400"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372894415"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="372894400"
+   d="scan'208";a="372894415"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:32 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771956326"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="771956363"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="771956326"
+   d="scan'208";a="771956363"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:30 -0800
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 07:26:33 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -37,9 +37,9 @@ Cc: alsa-devel@alsa-project.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	chao.song@linux.intel.com
-Subject: [PATCH 04/27] ASoC: Intel: cht_bsw_rt5672: check return value
-Date: Mon, 27 Nov 2023 17:26:31 +0200
-Message-ID: <20231127152654.28204-5-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 05/27] ASoC: Intel: ssp-common: get codec name function
+Date: Mon, 27 Nov 2023 17:26:32 +0200
+Message-ID: <20231127152654.28204-6-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
 References: <20231127152654.28204-1-peter.ujfalusi@linux.intel.com>
@@ -51,38 +51,63 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chao Song <chao.song@linux.intel.com>
+From: Brent Lu <brent.lu@intel.com>
 
-Set codec sysclk could fail and return error, add
-error check for it.
+Add a helper function to get codec name string from codec type enum
+value.
 
-Signed-off-by: Chao Song <chao.song@linux.intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/cht_bsw_rt5672.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ sound/soc/intel/boards/sof_ssp_common.c | 21 +++++++++++++++++++++
+ sound/soc/intel/boards/sof_ssp_common.h |  1 +
+ 2 files changed, 22 insertions(+)
 
-diff --git a/sound/soc/intel/boards/cht_bsw_rt5672.c b/sound/soc/intel/boards/cht_bsw_rt5672.c
-index f6da24f3c466..8cf0b33cc02e 100644
---- a/sound/soc/intel/boards/cht_bsw_rt5672.c
-+++ b/sound/soc/intel/boards/cht_bsw_rt5672.c
-@@ -93,8 +93,12 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 		 * when codec is runtime suspended. Codec needs clock for jack
- 		 * detection and button press.
- 		 */
--		snd_soc_dai_set_sysclk(codec_dai, RT5670_SCLK_S_RCCLK,
--				       48000 * 512, SND_SOC_CLOCK_IN);
-+		ret = snd_soc_dai_set_sysclk(codec_dai, RT5670_SCLK_S_RCCLK,
-+					     48000 * 512, SND_SOC_CLOCK_IN);
-+		if (ret < 0) {
-+			dev_err(card->dev, "failed to set codec sysclk: %d\n", ret);
-+			return ret;
-+		}
+diff --git a/sound/soc/intel/boards/sof_ssp_common.c b/sound/soc/intel/boards/sof_ssp_common.c
+index 41a258e45a61..96072790e9c0 100644
+--- a/sound/soc/intel/boards/sof_ssp_common.c
++++ b/sound/soc/intel/boards/sof_ssp_common.c
+@@ -96,6 +96,27 @@ enum sof_ssp_codec sof_ssp_detect_amp_type(struct device *dev)
+ }
+ EXPORT_SYMBOL_NS(sof_ssp_detect_amp_type, SND_SOC_INTEL_SOF_SSP_COMMON);
  
- 		if (ctx->mclk)
- 			clk_disable_unprepare(ctx->mclk);
++const char *sof_ssp_get_codec_name(enum sof_ssp_codec codec_type)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(codecs); i++) {
++		if (codecs[i].codec_type != codec_type)
++			continue;
++
++		return codecs[i].name;
++	}
++	for (i = 0; i < ARRAY_SIZE(amps); i++) {
++		if (amps[i].codec_type != codec_type)
++			continue;
++
++		return amps[i].name;
++	}
++
++	return NULL;
++}
++EXPORT_SYMBOL_NS(sof_ssp_get_codec_name, SND_SOC_INTEL_SOF_SSP_COMMON);
++
+ MODULE_DESCRIPTION("ASoC Intel SOF Common Machine Driver Helpers");
+ MODULE_AUTHOR("Brent Lu <brent.lu@intel.com>");
+ MODULE_LICENSE("GPL");
+diff --git a/sound/soc/intel/boards/sof_ssp_common.h b/sound/soc/intel/boards/sof_ssp_common.h
+index e3fd6fb1db1c..6d827103479b 100644
+--- a/sound/soc/intel/boards/sof_ssp_common.h
++++ b/sound/soc/intel/boards/sof_ssp_common.h
+@@ -67,5 +67,6 @@ enum sof_ssp_codec {
+ 
+ enum sof_ssp_codec sof_ssp_detect_codec_type(struct device *dev);
+ enum sof_ssp_codec sof_ssp_detect_amp_type(struct device *dev);
++const char *sof_ssp_get_codec_name(enum sof_ssp_codec codec_type);
+ 
+ #endif /* __SOF_SSP_COMMON_H */
 -- 
 2.43.0
 
