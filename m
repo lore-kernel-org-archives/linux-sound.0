@@ -1,156 +1,95 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E7ojhr6R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="37w/QVEZ"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D98AA
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:18:08 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 67C4E2027F;
-	Mon, 27 Nov 2023 13:18:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1701091085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNAJXSbZ4ceZnIjZKwsZNQsE83LDGnpsIJXwI12ogJ4=;
-	b=E7ojhr6R+D3vSMl3Ljsv4Rs8qFcuRidujxJvG6CrpV9qLaCB+iS4Dfgsmds7tOkYpCpPCe
-	v91RrCrTpg4JrGtWynGGnSPv4/EtPoQF7smhIquOcUjV2edDPw26mQOVupGEQMStb6VCFT
-	oSLPkMnuoFznyQQ7ubPBMXdff6Fm/Eg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1701091085;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNAJXSbZ4ceZnIjZKwsZNQsE83LDGnpsIJXwI12ogJ4=;
-	b=37w/QVEZ8hrwiuf/z7xQO77uKZDrAtq7uon2ECNAu0BEKxs+zjJC513bj/Y8Ohf8l3T2KI
-	WOlurM/YN9dZKKDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 16DB91367B;
-	Mon, 27 Nov 2023 13:18:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6LL4Aw2XZGXgDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Nov 2023 13:18:05 +0000
-Date: Mon, 27 Nov 2023 14:18:04 +0100
-Message-ID: <87jzq3pc6r.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W21s0uee"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92773B8
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:35:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701092150; x=1732628150;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LflKEMjIno/7jo4PfwXSOeNAqzM9VF4HlnWuUWJ3zJM=;
+  b=W21s0ueeW2ey/YLmfV9sRfx0ErgQabPLmWBD+PLzGWqidbAfQkODKSTr
+   qXAqV0V24xtDHHAI3a4VabxBCAHMd/3elxEY4Y+3auLnAqWK6KhF0UVlS
+   l6awmP31CWu7Eni++5ngNRsGOiSAapXweMiFgXR7/F4QUdhTONOdzoXy+
+   7x+3JWEoEd1PEzcJUVHaBQIGqxiQseKqXzygjl3YJ3sR5dpnyzIIflU+c
+   d7EfvCOJN/wwHeUy8lKxnOtC5Pc8bIrsFru8bjIF3fOEsEjjLYiLRuBA2
+   ac+Rc6dKpiOZPsSDlRP2G8waWTbbDjKei1FMX2Y92Di0CK+xPW/nj0kOd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578506"
+X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
+   d="scan'208";a="391578506"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891743747"
+X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
+   d="scan'208";a="891743747"
+Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:14 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com
-Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
-In-Reply-To: <20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
-References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
-	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	ranjani.sridharan@linux.intel.com,
+	cezary.rojewski@intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ckeepax@opensource.cirrus.com,
+	yong.zhi@intel.com,
+	chao.song@linux.intel.com
+Subject: [PATCH 0/7] ASoC: Intel: Soundwire related board and match updates
+Date: Mon, 27 Nov 2023 15:34:41 +0200
+Message-ID: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -4.30
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Nov 2023 14:02:44 +0100,
-Peter Ujfalusi wrote:
-> 
-> The snd_hda_device_is_hdmi() can be used in drivers to check if the hdev
-> belongs to a display audio device.
-> 
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> ---
->  include/sound/hdaudio.h    | 10 ++++++++++
->  sound/pci/hda/patch_hdmi.c | 13 +++++++++++++
->  2 files changed, 23 insertions(+)
-> 
-> diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-> index dd7c87bbc613..cf5483d6b5b7 100644
-> --- a/include/sound/hdaudio.h
-> +++ b/include/sound/hdaudio.h
-> @@ -158,6 +158,16 @@ bool snd_hdac_check_power_state(struct hdac_device *hdac,
->  		hda_nid_t nid, unsigned int target_state);
->  unsigned int snd_hdac_sync_power_state(struct hdac_device *hdac,
->  		      hda_nid_t nid, unsigned int target_state);
-> +
-> +#if IS_ENABLED(CONFIG_SND_HDA_CODEC_HDMI)
-> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev);
-> +#else
-> +static inline bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
-> +{
-> +	return false;
-> +}
-> +#endif
-> +
->  /**
->   * snd_hdac_read_parm - read a codec parameter
->   * @codec: the codec object
-> diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-> index 1cde2a69bdb4..d6943575c8c7 100644
-> --- a/sound/pci/hda/patch_hdmi.c
-> +++ b/sound/pci/hda/patch_hdmi.c
-> @@ -4645,6 +4645,19 @@ HDA_CODEC_ENTRY(HDA_CODEC_ID_GENERIC_HDMI, "Generic HDMI", patch_generic_hdmi),
->  };
->  MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_hdmi);
->  
-> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
-> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
+Hi,
 
-I'm afraid that this will bring unnecessary dependency on HDMI codec
-driver.
+A small update for SDW machine support:
+Small fixes for sof_sdw machine driver
+Support for rt722
+New TGL/MTL and LNL match for new configurations
 
-IMO, it's better to add a bool flag is_hdmi to struct hdac_device, and
-let the HDMI codec driver setting it at the probe, instead.  Then we
-can save an extra exported symbol, too.
+Regards,
+Peter
+---
+Bard Liao (1):
+  ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43 and cs56l56 support
 
+Chao Song (4):
+  ASoC: Intel: sof_sdw: remove unused function declaration
+  ASoC: Intel: sof_sdw: Add rt722 support
+  ASoC: Intel: soc-acpi: add Gen4.1 SDCA board support for LNL RVP
+  ASoC: Intel: soc-acpi-intel-mtl-match: Add rt722 support
 
-thanks,
+Mac Chiang (1):
+  ASoC: Intel: soc-acpi: rt713+rt1316, no sdw-dmic config
 
-Takashi
+Peter Ujfalusi (1):
+  ASoC: Intel: sof_sdw: Make use of dev_err_probe()
+
+ sound/soc/intel/boards/Kconfig                |  1 +
+ sound/soc/intel/boards/Makefile               |  3 +-
+ sound/soc/intel/boards/sof_sdw.c              | 32 +++++-
+ sound/soc/intel/boards/sof_sdw_common.h       | 18 ++--
+ sound/soc/intel/boards/sof_sdw_rt722_sdca.c   | 97 +++++++++++++++++++
+ .../boards/sof_sdw_rt_sdca_jack_common.c      |  8 ++
+ .../intel/common/soc-acpi-intel-lnl-match.c   | 71 ++++++++++++++
+ .../intel/common/soc-acpi-intel-mtl-match.c   | 74 ++++++++++++++
+ .../intel/common/soc-acpi-intel-tgl-match.c   | 78 +++++++++++++++
+ 9 files changed, 374 insertions(+), 8 deletions(-)
+ create mode 100644 sound/soc/intel/boards/sof_sdw_rt722_sdca.c
+
+-- 
+2.43.0
+
