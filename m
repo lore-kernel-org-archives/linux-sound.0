@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLXFRn1H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzIbUmDk"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA1E198
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:02:42 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADE5182
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:02:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701090163; x=1732626163;
+  t=1701090169; x=1732626169;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MKeHYQIcm37ccjV6yff59a6zCUoujh/0QydqqvKlRA8=;
-  b=gLXFRn1HWnnThf8gcD8CXj7NP+hOZTIuDKV+nXEis8QEuu/DjUbD9BY3
-   +U7/H7Zj9AACN3irPEMm8Js+kN2Cqf2u/bHF4fFf/9bpX8cE8dl3FkfMA
-   3f5ZtY0TonqsebOMAmIyswNf/5AsPilaDg1rr1fbwtJu5fhSXGfAmwBPI
-   9mO3ebpDwFYZuw/JSM0IbXB8I8ERhwgp16itjGaK4YN+wcsF/yEaLcwkN
-   RQsbVgHyjWthEsqO1Odh8b6vpM4nhEzwkQMmDY6r3e1rouNgJpoAljoeO
-   JtwjN34ja4IcV7CghNKKFqf9JPBhXD9V8ilCtdloU/fpYfdCUFG7UOP4B
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391568036"
+  bh=tdXAxvH7Hfxz56Ii672gQKi1RhYlx5nPdd2W5+fHr7s=;
+  b=JzIbUmDkVDGc2VOleA/A/uMohWZ5Jk1nMxpjHHnvzZqUStpNB8htSTuX
+   v7oS7+sGLvZsyvtlyD/hCb5dPTNW/P++JNiunz5FsFGsWXCCSRmH22Z0f
+   eOXXiL3i8z0MCHZeRdnNCiE0heyfwrnyNTu5ugCDwv1oWuIW51p7PivFN
+   jqOJwC2DiiYM7eA9cyrNuGCEuOHH1NuS2uURN2vzbuaARIDGnP/bI6LXO
+   iqmrnQEGZp1192OjO0/syri5o1jncnw85b5rGR5isbj+25kmzksM3F++w
+   y3gDcE1hL1CDE2T1/YZgT+uHyCzYKjWHvoaPNce8Li9RuQu63SoDprjZ0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391568082"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="391568036"
+   d="scan'208";a="391568082"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:16 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="797228703"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="797228729"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="797228703"
+   d="scan'208";a="797228729"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:13 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:02:16 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -37,9 +37,9 @@ Cc: alsa-devel@alsa-project.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
-Date: Mon, 27 Nov 2023 15:02:44 +0200
-Message-ID: <20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 2/2] ASoC: hdac_hda: Conditionally register dais for HDMI and Analog
+Date: Mon, 27 Nov 2023 15:02:45 +0200
+Message-ID: <20231127130245.24295-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
 References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
@@ -51,62 +51,83 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The snd_hda_device_is_hdmi() can be used in drivers to check if the hdev
-belongs to a display audio device.
+The current driver is registering the same dais for each hdev found in the
+system which results duplicated widgets to be registered and the kernel
+log contains similar prints:
+snd_hda_codec_realtek ehdaudio0D0: ASoC: sink widget AIF1TX overwritten
+snd_hda_codec_realtek ehdaudio0D0: ASoC: source widget AIF1RX overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi3 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi2 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi1 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Codec Output Pin1 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Codec Input Pin1 overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Analog Codec Playback overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Digital Codec Playback overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Alt Analog Codec Playback overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Analog Codec Capture overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Digital Codec Capture overwritten
+skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Alt Analog Codec Capture overwritten
 
+To avoid such issue, split the dai array into HDMI and non HDMI array and
+register them conditionally:
+for HDMI hdev only register the dais needed for HDMI
+for non HDMI hdev do not  register the HDMI dais.
+
+Link: https://github.com/thesofproject/linux/issues/4509
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- include/sound/hdaudio.h    | 10 ++++++++++
- sound/pci/hda/patch_hdmi.c | 13 +++++++++++++
- 2 files changed, 23 insertions(+)
+ sound/soc/codecs/hdac_hda.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index dd7c87bbc613..cf5483d6b5b7 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -158,6 +158,16 @@ bool snd_hdac_check_power_state(struct hdac_device *hdac,
- 		hda_nid_t nid, unsigned int target_state);
- unsigned int snd_hdac_sync_power_state(struct hdac_device *hdac,
- 		      hda_nid_t nid, unsigned int target_state);
+diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
+index 355f30779a34..72916a387ad6 100644
+--- a/sound/soc/codecs/hdac_hda.c
++++ b/sound/soc/codecs/hdac_hda.c
+@@ -132,6 +132,9 @@ static struct snd_soc_dai_driver hdac_hda_dais[] = {
+ 		.sig_bits = 24,
+ 	},
+ },
++};
 +
-+#if IS_ENABLED(CONFIG_SND_HDA_CODEC_HDMI)
-+bool snd_hda_device_is_hdmi(struct hdac_device *hdev);
-+#else
-+static inline bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
-+{
-+	return false;
-+}
-+#endif
-+
- /**
-  * snd_hdac_read_parm - read a codec parameter
-  * @codec: the codec object
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 1cde2a69bdb4..d6943575c8c7 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -4645,6 +4645,19 @@ HDA_CODEC_ENTRY(HDA_CODEC_ID_GENERIC_HDMI, "Generic HDMI", patch_generic_hdmi),
++static struct snd_soc_dai_driver hdac_hda_hdmi_dais[] = {
+ {
+ 	.id = HDAC_HDMI_0_DAI_ID,
+ 	.name = "intel-hdmi-hifi1",
+@@ -607,6 +610,13 @@ static const struct snd_soc_component_driver hdac_hda_codec = {
+ 	.endianness		= 1,
  };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_hdmi);
  
-+bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
-+{
-+	int i;
++static const struct snd_soc_component_driver hdac_hda_hdmi_codec = {
++	.probe			= hdac_hda_codec_probe,
++	.remove			= hdac_hda_codec_remove,
++	.idle_bias_on		= false,
++	.endianness		= 1,
++};
 +
-+	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
-+		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
-+			return true;
-+	}
+ static int hdac_hda_dev_probe(struct hdac_device *hdev)
+ {
+ 	struct hdac_ext_link *hlink;
+@@ -621,9 +631,15 @@ static int hdac_hda_dev_probe(struct hdac_device *hdev)
+ 	snd_hdac_ext_bus_link_get(hdev->bus, hlink);
+ 
+ 	/* ASoC specific initialization */
+-	ret = devm_snd_soc_register_component(&hdev->dev,
+-					 &hdac_hda_codec, hdac_hda_dais,
+-					 ARRAY_SIZE(hdac_hda_dais));
++	if (snd_hda_device_is_hdmi(hdev))
++		ret = devm_snd_soc_register_component(&hdev->dev,
++						&hdac_hda_hdmi_codec, hdac_hda_hdmi_dais,
++						ARRAY_SIZE(hdac_hda_hdmi_dais));
++	else
++		ret = devm_snd_soc_register_component(&hdev->dev,
++						&hdac_hda_codec, hdac_hda_dais,
++						ARRAY_SIZE(hdac_hda_dais));
 +
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
-+
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("HDMI HD-audio codec");
- MODULE_ALIAS("snd-hda-codec-intelhdmi");
+ 	if (ret < 0) {
+ 		dev_err(&hdev->dev, "failed to register HDA codec %d\n", ret);
+ 		return ret;
 -- 
 2.43.0
 
