@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVB3x74j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJD1rYta"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70F06C3
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6077CB8
 	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:35:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701092158; x=1732628158;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=BGzewobdHkUYUwtk4CbkDkwikBpcXtX0cr9sjQzOXO0=;
-  b=KVB3x74jnIts4NBJOKCKr0P7EbCP/dIKMWgKODEEloFGLqWH9JRgPzBo
-   X6UIv7jI01urYI4DHspSnRrCS+xpyUb0JTOjsGOFomvXQtILPlSrwm1sE
-   WMcpgja6vUVe1GUPmwaot0LCnHhVua8mjfudRsKi8vZ8k8jsMXPocaZoM
-   u9zxexErRjHl6yJwBAHRWRPRIiADGpNBJTCNccFUcODzcd8iXIzwbzAwr
-   aNDzgsf8Dq+miJCBkIn+a3YAfiGC2PSL4duWqwi9cbPnrvMGE330Q0zl/
-   nyGcXSrQLTe1xWEP0BIspqenPrUeayJNh24o5Z3wtLnlNM8BbgHPlxraW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578570"
+  bh=/bYP0A7guh2gx+dTt1lqj9fiXy1Rvo2B2dJpNFUeSxw=;
+  b=FJD1rYtaQktQwqjL17eZGN9VG3dC68jReKobqd2OWmRfRuug/leW641c
+   7URURPjg9HO+wshLt5oWMZQ1fB3z+VJCV8dXffY+uppLshl2PUinjRNnF
+   k9dpncn3bHJ6mzsXcdKObw15uC0TgFx/zOT3dhcZlG0Dn8As0yybF5H0n
+   P3g+6BHs3PY93KVO5l+VNYRy3rFlqPNBQlFJjXsiLeXCnl1fwTE12r9ay
+   /fJL0A0nmft+E1QF+qQ88BYBKvfuWqo4qghcL88qR9Gw4t/H9Exv0IkoB
+   c2O0AoFzP6RRDGdziTIG6esn6aJX0oN0sLCUd6d1AzjVJ0GbcVXDvB1Eh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578584"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="391578570"
+   d="scan'208";a="391578584"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:35 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891743776"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891743781"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="891743776"
+   d="scan'208";a="891743781"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:31 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:35 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -40,9 +40,9 @@ Cc: alsa-devel@alsa-project.org,
 	ckeepax@opensource.cirrus.com,
 	yong.zhi@intel.com,
 	chao.song@linux.intel.com
-Subject: [PATCH 5/7] ASoC: Intel: soc-acpi: add Gen4.1 SDCA board support for LNL RVP
-Date: Mon, 27 Nov 2023 15:34:46 +0200
-Message-ID: <20231127133448.18449-6-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43 and cs56l56 support
+Date: Mon, 27 Nov 2023 15:34:47 +0200
+Message-ID: <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
 References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
@@ -54,126 +54,125 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chao Song <chao.song@linux.intel.com>
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-This patch adds support for LNL RVP with Realtek
-Gen4.1 SDCA codec board, the codec layout is:
-  SDW0: RT711 Headphone
-  SDW1: RT714 DMIC
-  SDW2: RT1316 Speaker
-  SDW3: RT1316 Speaker
+This is a test configuration for UpExtreme.
 
-Signed-off-by: Chao Song <chao.song@linux.intel.com>
+The codec layout is configured as:
+    - Link3: CS42L43 Jack
+    - Link0: 2x CS35L56 Speaker
+    - Link1: 2x CS35L56 Speaker
+
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-lnl-match.c   | 71 +++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ .../intel/common/soc-acpi-intel-tgl-match.c   | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index 9f35b77deb11..5897bb6b28b8 100644
---- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -22,6 +22,20 @@ static const struct snd_soc_acpi_endpoint single_endpoint = {
- 	.group_id = 0,
+diff --git a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
+index 5804926c8b56..49834bffa50c 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
+@@ -41,6 +41,20 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
+ 	.group_id = 1,
  };
  
-+static const struct snd_soc_acpi_endpoint spk_l_endpoint = {
++static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
 +	.num = 0,
 +	.aggregated = 1,
-+	.group_position = 0,
++	.group_position = 2,
 +	.group_id = 1,
 +};
 +
-+static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
++static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
 +	.num = 0,
 +	.aggregated = 1,
-+	.group_position = 1,
++	.group_position = 3,
 +	.group_id = 1,
 +};
 +
- static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
+ static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
  	{
- 		.adr = 0x000030025D071101ull,
-@@ -31,6 +45,33 @@ static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt1316_2_group1_adr[] = {
-+	{
-+		.adr = 0x000230025D131601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "rt1316-1"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt1316_3_group1_adr[] = {
-+	{
-+		.adr = 0x000331025D131601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "rt1316-2"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt714_1_adr[] = {
-+	{
-+		.adr = 0x000130025D071401ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "rt714"
-+	}
-+};
-+
- static const struct snd_soc_acpi_link_adr lnl_rvp[] = {
- 	{
- 		.mask = BIT(0),
-@@ -40,6 +81,30 @@ static const struct snd_soc_acpi_link_adr lnl_rvp[] = {
+ 		.num = 0,
+@@ -400,6 +414,64 @@ static const struct snd_soc_acpi_link_adr tgl_712_only[] = {
  	{}
  };
  
-+static const struct snd_soc_acpi_link_adr lnl_3_in_1_sdca[] = {
++static const struct snd_soc_acpi_adr_device cs42l43_3_adr[] = {
 +	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt711_sdca_0_adr),
-+		.adr_d = rt711_sdca_0_adr,
++		.adr = 0x00033001FA424301ull,
++		.num_endpoints = 1,
++		.endpoints = &single_endpoint,
++		.name_prefix = "cs42l43"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device cs35l56_0_adr[] = {
++	{
++		.adr = 0x00003301FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "cs35l56-8"
 +	},
 +	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(rt1316_2_group1_adr),
-+		.adr_d = rt1316_2_group1_adr,
++		.adr = 0x00003201FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_3_endpoint,
++		.name_prefix = "cs35l56-7"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device cs35l56_1_adr[] = {
++	{
++		.adr = 0x00013701FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "cs35l56-1"
 +	},
++	{
++		.adr = 0x00013601FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
++		.name_prefix = "cs35l56-2"
++	}
++};
++
++static const struct snd_soc_acpi_link_adr tgl_cs42l43_cs35l56[] = {
 +	{
 +		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt1316_3_group1_adr),
-+		.adr_d = rt1316_3_group1_adr,
++		.num_adr = ARRAY_SIZE(cs42l43_3_adr),
++		.adr_d = cs42l43_3_adr,
++	},
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs35l56_0_adr),
++		.adr_d = cs35l56_0_adr,
 +	},
 +	{
 +		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(rt714_1_adr),
-+		.adr_d = rt714_1_adr,
++		.num_adr = ARRAY_SIZE(cs35l56_1_adr),
++		.adr_d = cs35l56_1_adr,
 +	},
 +	{}
 +};
 +
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -61,6 +126,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ static const struct snd_soc_acpi_codecs tgl_max98373_amp = {
+ 	.num_codecs = 1,
+ 	.codecs = {"MX98373"}
+@@ -494,6 +566,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_tgl_sdw_machines[] = {
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-lnl-rt715-rt711-rt1308-mono.tplg",
+ 		.sof_tplg_filename = "sof-tgl-rt715-rt711-rt1308-mono.tplg",
  	},
 +	{
-+		.link_mask = GENMASK(3, 0),
-+		.links = lnl_3_in_1_sdca,
++		.link_mask = 0xB,
++		.links = tgl_cs42l43_cs35l56,
 +		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-lnl-rt711-l0-rt1316-l23-rt714-l1.tplg",
++		.sof_tplg_filename = "sof-tgl-cs42l43-l3-cs35l56-l01.tplg",
 +	},
  	{
- 		.link_mask = BIT(0),
- 		.links = lnl_rvp,
+ 		.link_mask = 0xF, /* 4 active links required */
+ 		.links = tgl_3_in_1_default,
 -- 
 2.43.0
 
