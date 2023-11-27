@@ -1,34 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA68E3A8DE;
-	Mon, 27 Nov 2023 17:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC80E358B3
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 17:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XF/sdnis"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7EEC433C8;
-	Mon, 27 Nov 2023 17:32:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eTeXfdU0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A8C1C433C7;
+	Mon, 27 Nov 2023 17:33:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701106382;
-	bh=alHx18ub8WTEqASpWQ5inqB+lbZ40Y9nPQczGy8nvOM=;
+	s=k20201202; t=1701106386;
+	bh=AUzvmO3oorsrFGT0LG/F8jk2nWSZYA0zZ/HJNmpOg+0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XF/sdnisZg5P3UdX9lpfV8/unxqPZQmM/dCGAeIDzbVSZaGt4AVio7waFnEI04Trv
-	 D0Ud60uSK2DvLDNRs1XzgQ1ZohG7BhA7JFTmUHbQlcDn7qgrXL+b28CWvqFYX8wsgi
-	 5JOa/NkIo2rmk59YxfwX0VOzi1bOw0oZAzN4rq4sUqsEuaDBjUpSeTUfyP+HwkWXFD
-	 p+BFx+EYdcuhehek2dqrWL/wXE92yj+nQdMxf1BBuHOGbr8BsmoIyo+P1O5iNaF5Nt
-	 ALrpJfB0+RZujK1i9upWojc4lPe+ITYNU5BR59GmYnLDr35TlklihCiUuQEhgajDE+
-	 BO8RJCUDlQ1TQ==
+	b=eTeXfdU0YnbY3c+GAPMWOLR631M1d/YwU/ImBtoqQIBcYg0L/J85sh6qRyfvwqTdy
+	 LFnRNsZxKPhNlXdI8D/gCt584KacWoPpUy323s6kWkttXxpP8929ZwybvK4aTwJxGR
+	 NLJbdBSij46oLWljW1Tdyc3qYdS0Mx/Cx0SBJ+rdhak1WVKJEkZvplaiz5xAAYEG2I
+	 wxyn/xIZB025CrNjHiRKJ5eO8TfSKLTXG3IjL1Hvwc1lK8UcH3Ob7iM05Gbkt1A742
+	 3KXkClZorQ57pb434QXcgdiDqH6ch40LK94tLLgDAvqPjk+fgaiT/nuqBQMQ1iRuXL
+	 DG1l63YvCfM8A==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <1a837f96f056fa3dcb02a77afa5892d40b354cb1.1700417934.git.christophe.jaillet@wanadoo.fr>
-References: <1a837f96f056fa3dcb02a77afa5892d40b354cb1.1700417934.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] ASoC: sh: convert not to use
- dma_request_slave_channel()
-Message-Id: <170110637716.2700573.7780212475414653746.b4-ty@kernel.org>
-Date: Mon, 27 Nov 2023 17:32:57 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com
+In-Reply-To: <20231127104313.16661-1-peter.ujfalusi@linux.intel.com>
+References: <20231127104313.16661-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: Use existing helpers to change
+ GPROCEN and PIE bits
+Message-Id: <170110638256.2700573.9538150782140632834.b4-ty@kernel.org>
+Date: Mon, 27 Nov 2023 17:33:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,11 +38,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Sun, 19 Nov 2023 19:19:14 +0100, Christophe JAILLET wrote:
-> dma_request_slave_channel() is deprecated. dma_request_chan() should
-> be used directly instead.
-> 
-> Switch to the preferred function and update the error handling accordingly.
+On Mon, 27 Nov 2023 12:43:13 +0200, Peter Ujfalusi wrote:
+> Instead of directly changing the GPROCEN/PIE bits in PPCTL we should use
+> the existing helper hda_dsp_ctrl_ppcap_enable() and
+> hda_dsp_ctrl_ppcap_int_enable() helpers for clarity.
 > 
 > 
 
@@ -53,8 +51,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sh: convert not to use dma_request_slave_channel()
-      commit: 076357cd57c294fb185ac452b9ce5536b2853839
+[1/1] ASoC: SOF: Intel: Use existing helpers to change GPROCEN and PIE bits
+      commit: 9b3cd8ebb19edd92300932b68fd6941eaf1852d0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
