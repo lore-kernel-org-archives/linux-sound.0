@@ -1,121 +1,90 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dVqIGBkV"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFCC1E1
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 04:06:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guCC8skD"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F12FA8;
+	Mon, 27 Nov 2023 04:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701086792; x=1732622792;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JNxAhFhfV59tZwezM3pRBKq1Yh/nncfhSJlbVm+Ksak=;
-  b=dVqIGBkVDgCF/0o4/f7goKqJHctca4u732l/tSoNWwRtM5Yl38zLRGUn
-   uOS95HJTURizqSDvs38Bpna+zhapEbt+OgegCoGcj+TvjHk4z7awXxhRs
-   0XT1y5fAlO+AR61AHwgH3RExFMh1Erjob5Z1yBBd7qc/6qjEV1+gEBReP
-   4GGeW3yoXLUOBhH/vcXFbtg/S+G6PbY7KDUC7N4qFRg4Yjvfly8CjCrYv
-   YVHUNs1ympwlw8KYgmSGGCMFE1MSe1jC0PqKNrdtcHkvu14gh/hnMr1Gb
-   cgasJQo5gu8JGY+mb/HO/TcVmNk83xhH9LM6Wy/3x3C44N7yqJK2ncF+C
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="14249614"
+  t=1701088334; x=1732624334;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4AjPIatTPDkq5wBY0ALs6UFh15FS5cCycMP5jH/dnGU=;
+  b=guCC8skDjzbVpbLsh221uAFfVzlzA7hzocUWWrFLdJRurWPho9Klwyrc
+   GibXVCjDs9wdjFo8TzlrOCSsetzmvAWvKbHr+HpTpU4IqKljxqbQuRmT3
+   MAlZT30EqI/ZY07wjVIYoQZNcIbtOXHlCp7gqzOtam5gKaLsTCAADFQWv
+   SAdr7RRR+9LxXI+xt4XVZJIW8GNl7ICwK/UfxWIimO8jP2I9rBepNnTfh
+   AUU8B+I6q2a3PKexEubr//JLEgFMQD8PXwxQ9gRHgxXpclO9DdiBXExxm
+   DyDn+lj/OpRgJGY2P0m0splejT4Frkt3kTKPypHlBcx5iNNPAXwJ5hTHK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5881415"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="14249614"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:06:31 -0800
+   d="scan'208";a="5881415"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:32:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="859035578"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="859035578"
-Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:06:28 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
+   d="scan'208";a="9607086"
+Received: from bard-ubuntu.sh.intel.com ([10.239.185.57])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:32:12 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	brent.lu@intel.com
-Subject: [PATCH 2/2] ASoC: SOF: ipc4-topology: support NHLT device type
-Date: Mon, 27 Nov 2023 14:06:57 +0200
-Message-ID: <20231127120657.19764-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231127120657.19764-1-peter.ujfalusi@linux.intel.com>
-References: <20231127120657.19764-1-peter.ujfalusi@linux.intel.com>
+	bard.liao@intel.com
+Subject: [PATCH] soundwire: generic_bandwidth_allocation use bus->params.max_dr_freq
+Date: Mon, 27 Nov 2023 20:44:05 +0800
+Message-Id: <20231127124405.2080431-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Brent Lu <brent.lu@intel.com>
+bus->params.max_dr_freq is calculated and set in sdw_bus_master_add().
+We can use it directly instead of calculating it again.
 
-The endpoint in NHLT table for a SSP port could have the device type
-NHLT_DEVICE_BT or NHLT_DEVICE_I2S. Use intel_nhlt_ssp_device_type()
-function to retrieve the device type before querying the endpoint
-blob to make sure we are always using correct device type parameter.
-
-Signed-off-by: Brent Lu <brent.lu@intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
 ---
- sound/soc/sof/ipc4-topology.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ drivers/soundwire/generic_bandwidth_allocation.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index b89065abb511..f034fed06669 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -1348,6 +1348,7 @@ static int snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_s
- 	int sample_rate, channel_count;
- 	int bit_depth, ret;
- 	u32 nhlt_type;
-+	int dev_type = 0;
- 
- 	/* convert to NHLT type */
- 	switch (linktype) {
-@@ -1363,18 +1364,30 @@ static int snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_s
- 						   &bit_depth);
- 		if (ret < 0)
- 			return ret;
-+
-+		/*
-+		 * We need to know the type of the external device attached to a SSP
-+		 * port to retrieve the blob from NHLT. However, device type is not
-+		 * specified in topology.
-+		 * Query the type for the port and then pass that information back
-+		 * to the blob lookup function.
-+		 */
-+		dev_type = intel_nhlt_ssp_device_type(sdev->dev, ipc4_data->nhlt,
-+						      dai_index);
-+		if (dev_type < 0)
-+			return dev_type;
- 		break;
- 	default:
- 		return 0;
+diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
+index 31162f2b5638..c70a63d009ae 100644
+--- a/drivers/soundwire/generic_bandwidth_allocation.c
++++ b/drivers/soundwire/generic_bandwidth_allocation.c
+@@ -333,7 +333,7 @@ static int sdw_select_row_col(struct sdw_bus *bus, int clk_freq)
+  */
+ static int sdw_compute_bus_params(struct sdw_bus *bus)
+ {
+-	unsigned int max_dr_freq, curr_dr_freq = 0;
++	unsigned int curr_dr_freq = 0;
+ 	struct sdw_master_prop *mstr_prop = &bus->prop;
+ 	int i, clk_values, ret;
+ 	bool is_gear = false;
+@@ -351,14 +351,12 @@ static int sdw_compute_bus_params(struct sdw_bus *bus)
+ 		clk_buf = NULL;
  	}
  
--	dev_dbg(sdev->dev, "dai index %d nhlt type %d direction %d\n",
--		dai_index, nhlt_type, dir);
-+	dev_dbg(sdev->dev, "dai index %d nhlt type %d direction %d dev type %d\n",
-+		dai_index, nhlt_type, dir, dev_type);
+-	max_dr_freq = mstr_prop->max_clk_freq * SDW_DOUBLE_RATE_FACTOR;
+-
+ 	for (i = 0; i < clk_values; i++) {
+ 		if (!clk_buf)
+-			curr_dr_freq = max_dr_freq;
++			curr_dr_freq = bus->params.max_dr_freq;
+ 		else
+ 			curr_dr_freq = (is_gear) ?
+-				(max_dr_freq >>  clk_buf[i]) :
++				(bus->params.max_dr_freq >>  clk_buf[i]) :
+ 				clk_buf[i] * SDW_DOUBLE_RATE_FACTOR;
  
- 	/* find NHLT blob with matching params */
- 	cfg = intel_nhlt_get_endpoint_blob(sdev->dev, ipc4_data->nhlt, dai_index, nhlt_type,
- 					   bit_depth, bit_depth, channel_count, sample_rate,
--					   dir, 0);
-+					   dir, dev_type);
- 
- 	if (!cfg) {
- 		dev_err(sdev->dev,
+ 		if (curr_dr_freq <= bus->params.bandwidth)
 -- 
-2.43.0
+2.25.1
 
