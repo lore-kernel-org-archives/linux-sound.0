@@ -1,155 +1,77 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75E32E408
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 13:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mS0jW7/d"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB498D0
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701092160; x=1732628160;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mJesEuzPrGuDLW8lzbIbz3ZHGfHLQu0+NnuIRJyxKts=;
-  b=mS0jW7/d0ypp47lDnbsaTyAuf8bgFmucPUrVVivocpPTelmxbqaQxgKu
-   BS9jqbZboxNhK+XlyYBtKYPSt4UyivFdjoonPFPJMVykhirlDAeQjsoOe
-   qCUjxQ0eugOtGJ2QL5VG2/n09K4fO3JQgIuiNpTTw0JIgKx4cqYufx8lk
-   K+ytn8ZeCpNl89t480cr9NAVb9D0Ldw1ja0ZlHs4+L1XGwLSM8UybjcS2
-   n+/uRXQno9Fo6lINqEj5L/nrRXM7hm9kstFXnvi5Z2BsA0Le8KJusRAIn
-   9wIZYYthC7hIjvSM5xc1hp3OlmI/5IX8QEirJyfhY+8yCBIYGPuf6lHa0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578597"
-X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="391578597"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891743786"
-X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="891743786"
-Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:39 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	cezary.rojewski@intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ckeepax@opensource.cirrus.com,
-	yong.zhi@intel.com,
-	chao.song@linux.intel.com
-Subject: [PATCH 7/7] ASoC: Intel: soc-acpi-intel-mtl-match: Add rt722 support
-Date: Mon, 27 Nov 2023 15:34:48 +0200
-Message-ID: <20231127133448.18449-8-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
-References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJ2qteMF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C412DC433C7;
+	Mon, 27 Nov 2023 13:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701092445;
+	bh=A1OsFnb1tNwUij5pGE/EqLpd5k0JhCJWhw9mIA0cyIo=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=EJ2qteMFm/FESMLFKtlGryxNadHIKnXMtpVjE49PbKfsKv6hfBXDpa8ZzckerQr7O
+	 C+qQTNGuE0s6fQx5ZhxBpwFFzDOY6CfPjL2O0Busbgd8irV06O4FSocP7phdRAziXF
+	 B1tZVt+3zMvc4gRgvAckG9AwSUQJXjEeioC2g6ILcasLgJ2olwuXjaqFvZMgktoG9q
+	 KsSo546XHM7i0EJzTL/1bggmb9ClonbEso8FpUABmDlkp5ofb9WeCJrAkw8BMsk54S
+	 DaT4Ug+ZKmXzHF8xQczUQ0HgUSZYeQO1qA5dQgLVZNvbadQ1g9kB1TNgApA3/tiea4
+	 fsP0OKC3GwBXw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Chancel Liu <chancel.liu@nxp.com>
+In-Reply-To: <20231125065300.6385-1-chancel.liu@nxp.com>
+References: <20231125065300.6385-1-chancel.liu@nxp.com>
+Subject: Re: [PATCH] ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF
+ and I2C
+Message-Id: <170109244263.2677006.2483367496601425667.b4-ty@kernel.org>
+Date: Mon, 27 Nov 2023 13:40:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-From: Chao Song <chao.song@linux.intel.com>
+On Sat, 25 Nov 2023 14:53:00 +0800, Chancel Liu wrote:
+> SND_SOC_IMX_RPMSG should depend on OF and I2C. It fixes the following
+> error reported by kernel test robot:
+> 
+> ld: sound/soc/fsl/imx-rpmsg.o: in function `imx_rpmsg_late_probe':
+> imx-rpmsg.c:(.text+0x4f): undefined reference to `i2c_find_device_by_fwnode'
+> 
+> 
+> [...]
 
-This patch adds match table for rt722 codec on link 0.
+Applied to
 
-RT722 is a multi-function codec, three endpoints are
-created for its headset, amp and dmic functions.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Chao Song <chao.song@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- .../intel/common/soc-acpi-intel-mtl-match.c   | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
+Thanks!
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 2035f561ca50..f2c17cee1a5d 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -135,6 +135,31 @@ static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
- 	},
- };
- 
-+/*
-+ * RT722 is a multi-function codec, three endpoints are created for
-+ * its headset, amp and dmic functions.
-+ */
-+static const struct snd_soc_acpi_endpoint rt722_endpoints[] = {
-+	{
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
- 	.num = 0,
- 	.aggregated = 1,
-@@ -176,6 +201,15 @@ static const struct snd_soc_acpi_adr_device rt1712_3_single_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
-+	{
-+		.adr = 0x000030025d072201ull,
-+		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
-+		.endpoints = rt722_endpoints,
-+		.name_prefix = "rt722"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt713_0_single_adr[] = {
- 	{
- 		.adr = 0x000031025D071301ull,
-@@ -367,6 +401,15 @@ static const struct snd_soc_acpi_link_adr mtl_rvp[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr mtl_rt722_only[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt722_0_single_adr),
-+		.adr_d = rt722_0_single_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr mtl_3_in_1_sdca[] = {
- 	{
- 		.mask = BIT(0),
-@@ -568,6 +611,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt711-l0-rt1316-l23-rt714-l1.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = mtl_rt722_only,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-rt722-l0.tplg",
-+	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = mtl_rvp,
--- 
-2.43.0
+[1/1] ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF and I2C
+      commit: f83d38def6b1b00c9bb17173837045b41df7e7d7
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
