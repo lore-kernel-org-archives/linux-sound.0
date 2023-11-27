@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wkantdys"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpYnb9ep"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D79B8
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:35:54 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA75DE
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 05:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701092154; x=1732628154;
+  t=1701092157; x=1732628157;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ylPOM8+EoXFj0fcda/iP43PmN+shQ7mww8VqSMW2wiU=;
-  b=Wkantdysy0HN0GneYsdmShYN4eHumA6bCkfcDFReg3p6KJ14JJhXM74V
-   sV88m1rdK1ekaFWcP8hdW+7lL6OHkUpWK+URErIAER6akLlEWvTAS/YdP
-   11glc3dpkZlQ6ToGlinwJ4aSThG5Ys/AOBMPBbDVW804Mb/2/aWiz2mlU
-   9jVQckJ91vrmtcQXjzB6WaWJJSiv2dgwW014mrwSeN3cs+QbkW0OljdLu
-   hRn5+Sa5lEhhtaoFrTn+MvDhFGMOy7n/aNrygKWUqFRZAzljhD0ucPy7o
-   QHoTfrxfWQ4/9Hw/gvH4s0KE/p+TkFEuvH9c7S6UsPhwO+W/0nymu/ztk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578556"
+  bh=XMJbAFksP411ofVpMDO/KVwjonxDCGm52V+AjTcAeY0=;
+  b=BpYnb9epJ8OeTmN78gZ1nVsHn7o2VxS7MvmLQG0qH7T5ifZGn1kibxil
+   0VrvsjPQpDkHsaHWbmYXUku+JzpM8R3lHxbc7CYBOVgT6nScxvLy+0ovl
+   7VO7g7qTIK8xQgwbYodYm53olFt0m1iBsFNUzqPzO7q3TVNb5Whfz/H4y
+   SgP9g1DF7zjABdFunUPdqSHSWg3eJUXu8Rm+DNlI1IwHOAw9o4cftJv5N
+   EUkgD124IfHo853Iknr2Ddy8eMhGFaGy0Ah5wuJ0JLWrRbotLIYzZm35z
+   /aoZ0PC7ll7bVALGvIgPgxmcG2BStTGvLJ9ENWwQTer3zQYamLVEWJ7LX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578528"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="391578556"
+   d="scan'208";a="391578528"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:31 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891743770"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891743760"
 X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; 
-   d="scan'208";a="891743770"
+   d="scan'208";a="891743760"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:28 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 05:34:21 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -40,9 +40,9 @@ Cc: alsa-devel@alsa-project.org,
 	ckeepax@opensource.cirrus.com,
 	yong.zhi@intel.com,
 	chao.song@linux.intel.com
-Subject: [PATCH 4/7] ASoC: Intel: soc-acpi: rt713+rt1316, no sdw-dmic config
-Date: Mon, 27 Nov 2023 15:34:45 +0200
-Message-ID: <20231127133448.18449-5-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 2/7] ASoC: Intel: sof_sdw: remove unused function declaration
+Date: Mon, 27 Nov 2023 15:34:43 +0200
+Message-ID: <20231127133448.18449-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
 References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
@@ -52,67 +52,40 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mac Chiang <mac.chiang@intel.com>
+From: Chao Song <chao.song@linux.intel.com>
 
-This is additional HW board: rt713+rt1316 without rt713-dmic configuration:
+The functions sof_sdw_rt712_sdca_init() and sof_sdw_rt712_sdca_exit()
+declared in header file are never implemented and used, remove them.
 
-SDW0: rt713 audio jack
-SDW1: rt1316 spk_amp_l
-SDW2: rt1316 spk_amp_r
-
-Signed-off-by: Mac Chiang <mac.chiang@intel.com>
+Signed-off-by: Chao Song <chao.song@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-mtl-match.c   | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ sound/soc/intel/boards/sof_sdw_common.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index af4224bff718..2035f561ca50 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -434,6 +434,25 @@ static const struct snd_soc_acpi_link_adr mtl_rt713_l0_rt1316_l12_rt1713_l3[] =
- 	{}
- };
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index e6b98523b4e7..9528f147b719 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -138,12 +138,6 @@ int sof_sdw_rt_sdca_jack_init(struct snd_soc_card *card,
+ int sof_sdw_rt_sdca_jack_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
  
-+static const struct snd_soc_acpi_link_adr mtl_rt713_l0_rt1316_l12[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt713_0_single_adr),
-+		.adr_d = rt713_0_single_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(rt1316_1_group2_adr),
-+		.adr_d = rt1316_1_group2_adr,
-+	},
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(rt1316_2_group2_adr),
-+		.adr_d = rt1316_2_group2_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_adr_device mx8363_2_adr[] = {
- 	{
- 		.adr = 0x000230019F836300ull,
-@@ -519,6 +538,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt713-l0-rt1316-l12-rt1713-l3.tplg",
- 	},
-+	{
-+		.link_mask = GENMASK(2, 0),
-+		.links = mtl_rt713_l0_rt1316_l12,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-rt713-l0-rt1316-l12.tplg",
-+	},
- 	{
- 		.link_mask = BIT(3) | BIT(0),
- 		.links = mtl_712_only,
+ /* RT712-SDCA support */
+-int sof_sdw_rt712_sdca_init(struct snd_soc_card *card,
+-			    const struct snd_soc_acpi_link_adr *link,
+-			    struct snd_soc_dai_link *dai_links,
+-			    struct sof_sdw_codec_info *info,
+-			    bool playback);
+-int sof_sdw_rt712_sdca_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
+ int sof_sdw_rt712_spk_init(struct snd_soc_card *card,
+ 			   const struct snd_soc_acpi_link_adr *link,
+ 			   struct snd_soc_dai_link *dai_links,
 -- 
 2.43.0
 
