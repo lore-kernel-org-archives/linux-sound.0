@@ -1,112 +1,220 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MXvHVMCb"
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140A8EB;
-	Sun, 26 Nov 2023 06:03:33 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c33ab26dddso2511386b3a.0;
-        Sun, 26 Nov 2023 06:03:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701007412; x=1701612212; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mb1RrktZ4bkYCEMmxMizeHCznXII0ae0Jpvg//TyYHQ=;
-        b=MXvHVMCbwqVfoM1plKnGRxC1DxV9WTvUh3f1rhRX6/GKvR6dcjHx1eMIDuvHFo6gqj
-         0IhAy0EgNRPwDp7+uB22RV/lEERWELAFwKktfe4CKmkaz1OIR/QDVieMSFY1fHLIq+Si
-         FJCIdbjCQjsgkCF9XAkxS5lS6fV4PBoLUuY5wN0J1chV9fabDZcHg4PtzfpTEv4sPmt4
-         Ce6mx8HXr08Ks7k4uqG5ADNAtDNX0XWk/q8S/b0DFeF+dpv9w+dqVRPvaN/fWQKyEA9L
-         OH3CrCx80rLjQ0o1DbDtBX7VzttPSwMJIMcHkMaue5JVpQoIvXdAKR/HotRwnvTQo7En
-         tAKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701007412; x=1701612212;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mb1RrktZ4bkYCEMmxMizeHCznXII0ae0Jpvg//TyYHQ=;
-        b=VpskOOn8qKyHKn73TBfihnV1/4NiOHKrErsUMxuI9iEzfj39i0H3m4rQOwptiTw1Fx
-         4X+NPlCqnoDPjAHtomves2v6EiXTD3ABCwaQnJ3NHhRVAkjt9F1aQkZF/0V2HuTaFXY3
-         5gTUy0/dV0vTYcyzzhLieMhMeJAjsMhYfQOURjSybrvzDXlR79hUY8mVfZfaN+dm/pCQ
-         ZPmNsQPL3Izeu2UMDKS5kd80DftiyZFYxavB3JvolL2cBIpt9Yt6I13rqrRe2aMyc1r6
-         Xka/eK0vh3BcYxReYjdqK223H8kbWVMRqlJBaf5cZ7V6kRgt0GAdlVQ+yQGWa+mM4oI6
-         iPuQ==
-X-Gm-Message-State: AOJu0Yw0HH0JWlcS3VwIR9uhKc5FO05ymTa6HSFKXSQ0DVsJzg3h+YXW
-	GBcx4ikEp5sH7Y1XOP2N1HYpR1QklCFtXg==
-X-Google-Smtp-Source: AGHT+IEOBWCRTRGM8IMqBu/TEsJ3Cag5vzOZepJ3a38QKKTtwslFZCuhMsOiIgsu9KO8ILNKGq6ZnA==
-X-Received: by 2002:a05:6a20:7d8f:b0:18c:8ff1:f0b with SMTP id v15-20020a056a207d8f00b0018c8ff10f0bmr426018pzj.56.1701007412183;
-        Sun, 26 Nov 2023 06:03:32 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id u2-20020a63d342000000b0059ce3d1def5sm6130915pgi.45.2023.11.26.06.03.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Nov 2023 06:03:31 -0800 (PST)
-Message-ID: <6aee4bcc-52c5-4bce-9f79-aa4ba9c7d926@gmail.com>
-Date: Sun, 26 Nov 2023 21:03:25 +0700
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tpc9ICiv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HQKEiiZn"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC0EDE
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 01:37:50 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2E63C20127;
+	Mon, 27 Nov 2023 09:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701077869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fhcx4H15kvG3el0b2VrCwe4+o2JrhZEvX+Pb94sy4rw=;
+	b=Tpc9ICiv77P3nCJmgNcpsSAOLvxjQGb+ixQ2h5Gv1UJDTwNO/JLf0uideG1dng8zSFnLdR
+	suhbRXN2VDASCEsf11Cqii4gM7v35OfAvaKW+wK111ePO3xR1kwItwbC7rAsceyTQezMed
+	0h85Mk9PUzRZqEHdZw7mie/THI0DjIg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701077869;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fhcx4H15kvG3el0b2VrCwe4+o2JrhZEvX+Pb94sy4rw=;
+	b=HQKEiiZnTgtitVJI52SanYcgNJE7RVlp9rgkWU7ofZ5osfHXP3ZIcObtJSk8OzNPtgXrab
+	6srcTABbtWOB0GDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFBFB1379A;
+	Mon, 27 Nov 2023 09:37:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0EJ1MGxjZGWJRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Nov 2023 09:37:48 +0000
+Date: Mon, 27 Nov 2023 10:37:48 +0100
+Message-ID: <871qcbr0yb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	amadeuszx.slawinski@linux.intel.com,
+	pierre-louis.bossart@linux.intel.com,
+	hdegoede@redhat.com
+Subject: Re: [PATCH v5 00/16] ALSA/ASoC: hda: Address format selection limitations and ambiguity
+In-Reply-To: <20231117120610.1755254-1-cezary.rojewski@intel.com>
+References: <20231117120610.1755254-1-cezary.rojewski@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Linux Sound System <linux-sound@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Leon Romanovsky <leon@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>, Taketo Kabe <kkabe@vega.pgw.jp>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: ISA soundcard SoundBlaster AWE32 snd-sbawe.ko freezes the system
- with pipewire/wireplumber
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Score: -3.26
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.26 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.16)[-0.781];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
 
-Hi,
+On Fri, 17 Nov 2023 13:05:54 +0100,
+Cezary Rojewski wrote:
+> 
+> Patchset aims to address format selection restrictions present currently
+> in the HDAudio library. Formats which we are concerned about are 20 and
+> 24 valid bits per sample within 32 bit depth container. One may identify
+> them as S20_LE and S24_LE except that those, according to comments found
+> in include/uapi/sound/asound.h, are for LSB-aligned scenarios. HDAudio
+> streams expect MSB-aligned data, no matter if we are speaking of HOST
+> (SDxFMT) or LINK (PPLCxFMT) side - chapter 4.5.1 of the public HDAudio
+> specification. In short, S20_LE and S24_LE are invalid options.
+> 
+> Right now, given the implementation of snd_hdac_query_supported_pcm() 
+> within sound/hda/hdac_device.c, even if a codec responds with: "I
+> support all possible formats specified within HDAudio specification",
+> there will be no option to open a 20/32 or 24/32 stream. The kernel will
+> force the stream to be opened using the highest available bit depth.
+> 
+> After discussing subject initially with Jaroslav and Takashi, suggestion
+> was made to utilize 'subformat' option to address the problem. The
+> eye-opening discussion begun much earlier though, in 2019 [1].
+> 
+> Paired with PRs for alsa-utils [2] and alsa-lib [3].
+> 
+> 
+> Flow of changes:
+> 
+> The very first patch adds MSBITS subformat options to allow for granular
+> 20/32, 24/32 and 32/32 format selection. The next two make sure
+> subformat is actually honored during runtime. Most of that code is based
+> on format-related API.
+> 
+> Follow up is upgrade to the hda stream-format interface - several
+> functions are added to make the granular format selection simple in the
+> HDAudio world. Core of the implementation is based on the existing
+> snd_hdac_calc_stream_format(). The next ten patches are straightforward
+> switch from one interface to another with cleanup of now-unsed function
+> as a finishing touch.
+> 
+> Last but not least - the avs-driver, on which the problem analyzed and
+> debugged, is updated to no longer acknowledge S24_LE as a valid format
+> option.
+> 
+> Results with skylake-driver and snd_hda_intel show status quo on our
+> RVPs. PR filed on SOF github shows promising results too [4].
+> 
+> 
+> Changes in v5:
+> - reworded 'bps' to 'bits' in all occurrences.
+> - fixed an issue of MSBITS_MAX not being reported for S32_LE as reported
+>   by Jaroslav
+> - snd_pcm_subformat_width() has been inlined into its only user:
+>   snd_pcm_hw_params_bits() as suggested by Jaroslav.
+> - updated commit messege for patch 01 as it was out of date given the
+>   recent updates.
+> 
+> Changes in v4:
+> - fixed compilation issues in sof-driver, patch 12/16, reported by ikp
+> - fixed sparse warnings in patch 01/16, reported by ikp
+> - updated commit message for patch 03: "ASoC pcm: Honor subformat when
+>   configuring runtime", as snd_pcm_hw_copy() is gone since revision v3.
+> 
+> Changes in v3:
+> - merged the first two patches as suggested by Jaroslav
+> - re-authored patch 01 to Jaroslav, added my Co-developed-by.
+> - added Jaroslav' Co-developed-by to patch 02.
+> - 'subformats' field now S32_LE-specific. Given the fact that it is the
+>   only format currently requiring subformat-intervention, functionality
+>   is narrowed to reduce amount of memory allocations and cleanup.
+>   Suggested by Jaroslav.
+> - note to the above: the hdaudio part converted 1:1 as requested, patch
+>   02/16
+> - note #2: alsa part converted to S32_LE-specific yet without addition
+>   of the chicken bit. Instead, struct snd_pcm_hardware is updated with
+>   u32 subformat mask to do the job.
+> - ALSA-core additions in form of snd_pcm_subformat_width() and
+>   snd_pcm_hw_params_bps() relocated from 01/16 to the user, patch 05.
+> 
+> Changes in v2:
+> - patch 01/17, introduced struct snd_pcm_subformat which task is to
+>   represent subformat-mask on per format basis. Expectation is that
+>   manipulated arrays of subformats always end with a sentinel entry
+> - patch 01/17, added snd_pcm_hw_copy() as the copying snd_pcm_hardware
+>   becomes non-trivial
+> - patch 02/17, added hw_rule that produces final subformat mask
+>   based on provided formats as suggested by Jaroslav
+> - patch 04/17, soc_pcm_hw_update_subformat() refactored as the subformat
+>   intersection becomes non-trivial
+> - relevant functions releasing resources occupied by hda_pcm and
+>   snd_pcm_runtime updated to also kfree() subformats
+> - except for 16/17, no changes to patches past 04/17, retaining acks for
+>   these
+> 
+> Changes in v1:
+> - fixed UBSAN due to missing snd_pcm_subformat_names[] entries for new
+>   subformats
+> - as HDMI stream capabilities are assigned on PCM open, patch 16/17 has
+>   been updated to ignore such codecs for now. A separate patchset will
+>   take care of this case
+> - params_bps() reworded to snd_pcm_hw_params_bps()
+> - fixed compilation issues in sof-driver, patch 13/17
+> 
+> 
+> [1]: https://lore.kernel.org/alsa-devel/20190905053302.9262-1-pawel.harlozinski@linux.intel.com/
+> [2]: https://github.com/alsa-project/alsa-utils/pull/228
+> [3]: https://github.com/alsa-project/alsa-lib/pull/342
+> [4]: https://github.com/thesofproject/linux/pull/4539
+> 
+> Cezary Rojewski (15):
+>   ALSA: hda: Honor subformat when querying PCMs
+>   ASoC: pcm: Honor subformat when configuring runtime
+>   ALSA: hda: Upgrade stream-format infrastructure
+>   ALSA: hda: Switch to new stream-format interface
+>   ALSA: hda/hdmi: Switch to new stream-format interface
+>   ALSA: hda/ca0132: Switch to new stream-format interface
+>   ASoC: codecs: hda: Switch to new stream-format interface
+>   ASoC: codecs: hdac_hda: Switch to new stream-format interface
+>   ASoC: codecs: hdac_hdmi: Switch to new stream-format interface
+>   ASoC: Intel Skylake: Switch to new stream-format interface
+>   ASoC: SOF: Intel: Switch to new stream-format interface
+>   ASoC: Intel: avs: Switch to new stream-format interface
+>   ALSA: hda: Drop snd_hdac_calc_stream_format()
+>   ASoC: Intel: avs: Kill S24_LE format
+>   ASoC: Intel: avs: Unhardcode HDAudio BE DAI drivers description
+> 
+> Jaroslav Kysela (1):
+>   ALSA: pcm: Introduce MSBITS subformat interface
 
-I notice a bug report on Bugzilla [1]. Quoting from it:
+Now the patch 1 became the one from Jaroslav, it's a good move.
+Jaroslav, could you take a look at the rest patches?
+I'm going to merge this in this week unless any objection comes up.
 
-> Kernel: 6.6.2
-> pipewire-0.3.80-1 (Fedora 39 version)
-> wireplumber-0.4.14-2 (Fedora 39 version)
-> 
-> Soundcard: Creative SoundBlaster AWE32 (snd-sbawe.ko)
-> CPU: Pentium (P54C) 120MHz
-> Mmeory: 1GB
-> 
-> Symptom: invoking wireplumber after the soundcard module snd-sbawe.ko load freezes the entire system.
-> 
-> Steps to reproduce:
-> 
-> Since this soundcard is an ISA PnP card, driver is not loaded automativcally on boot. Manually load:
-> # modprobe snd-sbawe seq_ports=0
-> 
-> Check if ALSA is working:
-> # alay -D plughw:0 /usr/share/sounds/alsa/Front-Center.wav
-> Works. So far, so good.
-> 
-> # systemctl --user start pipewire pipewire-pulse wireplumber
-> freezes the entire system (after brief "top" showing 30% CPU usage of wireplumber, which is normal)
-> 
-> Serial console does not have any interesting message:
-> [  405.192389] fbcon: radeondrmfb (fb0) is primary device
-> [  405.474790] Console: switching to colour frame buffer device 170x48
-> [  405.973621] radeon 0000:01:00.0: [drm] fb0: radeondrmfb frame buffer device
-> [  494.400038] sbawe 01:01.00: activated
-> [  494.461230] sbawe 01:01.02: activated
-> 
-> Mishaps on userland (wireplumber) should not cause system freeze, so
-> I consider this a kernel bug.
-> 
-> Results by other soundcards:
-> YMF744B (PCI card, snd-ymfpci.ko): wireplumber works (pw-play -v Front_Center.wav)
-> ES1868F (ISA card, snd-es18xx.ko): wireplumber works (pw-play -v Front_Center.wav)
-> Vibra16 (ISA card, snd-sb16.ko): Only "Front" part of Front_Center.wav is played by aplay -D plughw:0, not working properly on ALSA level, different issue
-> SoundBlaster Live!(PCI card, snd-emu10k1.ko): driver cannot wake the card to D0 state; different issue
 
-See Bugzilla for the full thread.
+thanks,
 
-Thanks.
-
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=218185
-
--- 
-An old man doll... just what I always wanted! - Clara
+Takashi
