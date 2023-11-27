@@ -1,126 +1,191 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KoKPCTdn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwFxD9lM"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90393170B
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 06:31:03 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 23C481FCFD;
-	Mon, 27 Nov 2023 14:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1701095462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NocL7OSjyA4hwu4QV7cayvv/T/SxQnegCg72Am6XPC4=;
-	b=KoKPCTdnUiZEtJs6suOlfaZGQnH3FhZXT8tL8qPt4gzRZvc7cxexYR+qxR5THxQogP4ALt
-	yrWtrq/wXKa0Z9Uqj0fcNk0uiBEMYnncu/runFcJtIuj28V4wsghPuicqHepIY6Ot1m9w4
-	ukhU1F1zykRSAW1nYAOeyM9KR/OGtR8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1701095462;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NocL7OSjyA4hwu4QV7cayvv/T/SxQnegCg72Am6XPC4=;
-	b=rwFxD9lMmPtR7xZHMtILr+NWy8siYmyyt9FbJdG1docvCd+lC14Aj16y/2MRReer8kNfn2
-	BsfrDMEZCIuGQkDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1EF51379A;
-	Mon, 27 Nov 2023 14:31:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DTXVLSWoZGVfLgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Nov 2023 14:31:01 +0000
-Date: Mon, 27 Nov 2023 15:31:01 +0100
-Message-ID: <87cyvvp8t6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com
-Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
-In-Reply-To: <d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
-References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
-	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
-	<87jzq3pc6r.wl-tiwai@suse.de>
-	<d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="epMn+3ql"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DF9131
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 06:40:50 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AR9uWst002549;
+	Mon, 27 Nov 2023 08:40:34 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=0s8Y5Yt9NDwm5kv7YhMcjG9KbosgGmr0+RQWDzytH+Y=; b=
+	epMn+3qlFvlyadPh3FvKEp4yAWZnsE02jvZSBaNYeCjv1sa5boQjdu1oqTKTjSUw
+	tiTSr1khG+UzYl0K0Y/rGutS4Er2FBlGOPrTHhLHYx9sGgpodiBFMB/SBX0NpcQ+
+	t31q5hqdF/Lm7m7q4bnbbNxN/SjovI7JBIJDgKIv5sInGnJpArXwYzJY/fmKN8bE
+	suQZkPOpBeRD3k7LmOd18VZCfjoV+YWPkhXbYujkQuYmh69i/QDaWBimBvTNwKtO
+	z9e6Y8JCyNOdduVzrUzq05kpDJPezL2+XMkLTC0jdkoZdoWynNtXJhuSFg9yVXHp
+	yGf3Ekat9CbP830jBH9DEQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uke7pj146-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Nov 2023 08:40:34 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 27 Nov
+ 2023 14:40:32 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.39 via Frontend
+ Transport; Mon, 27 Nov 2023 14:40:32 +0000
+Received: from [198.90.251.82] (edi-sw-dsktp-006.ad.cirrus.com [198.90.251.82])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 102D615A5;
+	Mon, 27 Nov 2023 14:40:31 +0000 (UTC)
+Message-ID: <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
+Date: Mon, 27 Nov 2023 14:40:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spamd-Result: default: False [-5.49 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.19)[89.08%]
-X-Spam-Score: -5.49
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
+ and cs56l56 support
+Content-Language: en-US
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, <lgirdwood@gmail.com>,
+        <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
+        <ranjani.sridharan@linux.intel.com>, <cezary.rojewski@intel.com>,
+        <yung-chuan.liao@linux.intel.com>, <ckeepax@opensource.cirrus.com>,
+        <yong.zhi@intel.com>, <chao.song@linux.intel.com>
+References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+ <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: RaAjJM9BQooL7NFLL1q0vXgQP04P3zOr
+X-Proofpoint-ORIG-GUID: RaAjJM9BQooL7NFLL1q0vXgQP04P3zOr
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 27 Nov 2023 15:12:51 +0100,
-Péter Ujfalusi wrote:
+
+
+On 27/11/2023 13:34, Peter Ujfalusi wrote:
+> From: Bard Liao <yung-chuan.liao@linux.intel.com>
 > 
+> This is a test configuration for UpExtreme.
 > 
+> The codec layout is configured as:
+>      - Link3: CS42L43 Jack
+>      - Link0: 2x CS35L56 Speaker
+>      - Link1: 2x CS35L56 Speaker
 > 
-> On 27/11/2023 15:18, Takashi Iwai wrote:
-> >> +bool snd_hda_device_is_hdmi(struct hdac_device *hdev)
-> >> +{
-> >> +	int i;
-> >> +
-> >> +	for (i = 0; i < ARRAY_SIZE(snd_hda_id_hdmi); i++) {
-> >> +		if (snd_hda_id_hdmi[i].vendor_id == hdev->vendor_id)
-> >> +			return true;
-> >> +	}
-> >> +
-> >> +	return false;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(snd_hda_device_is_hdmi);
-> > 
-> > I'm afraid that this will bring unnecessary dependency on HDMI codec
-> > driver.
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> ---
+>   .../intel/common/soc-acpi-intel-tgl-match.c   | 78 +++++++++++++++++++
+>   1 file changed, 78 insertions(+)
 > 
-> For HDMI support we anyways need HDMI code?
+> diff --git a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
+> index 5804926c8b56..49834bffa50c 100644
+> --- a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
+> +++ b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
+> @@ -41,6 +41,20 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
+>   	.group_id = 1,
+>   };
+>   
+> +static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
+> +	.num = 0,
+> +	.aggregated = 1,
+> +	.group_position = 2,
+> +	.group_id = 1,
+> +};
+> +
+> +static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
+> +	.num = 0,
+> +	.aggregated = 1,
+> +	.group_position = 3,
+> +	.group_id = 1,
+> +};
+> +
+>   static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
+>   	{
+>   		.num = 0,
+> @@ -400,6 +414,64 @@ static const struct snd_soc_acpi_link_adr tgl_712_only[] = {
+>   	{}
+>   };
+>   
+> +static const struct snd_soc_acpi_adr_device cs42l43_3_adr[] = {
+> +	{
+> +		.adr = 0x00033001FA424301ull,
+> +		.num_endpoints = 1,
+> +		.endpoints = &single_endpoint,
+> +		.name_prefix = "cs42l43"
+> +	}
+> +};
+> +
+> +static const struct snd_soc_acpi_adr_device cs35l56_0_adr[] = {
+> +	{
+> +		.adr = 0x00003301FA355601ull,
+> +		.num_endpoints = 1,
+> +		.endpoints = &spk_r_endpoint,
 
-But the ASoC hdac-hda driver isn't specifically bound with HDMI, I
-thought?
+Assigning CS35L56 to "left" or "right" endpoints might be confusing.
+All CS35L56 in a system receive both left and right channels and by
+default they output a mono-mix of left+right.
 
-With your patch, now it becomes a hard-dependency.  It'll be even
-build failure when HDMI codec driver isn't enabled in Kconfig.
+The left/right of an amp is determined by the firmware file (.bin) that
+is loaded and the current settings of the "Posture" ALSA control. So
+this amp might be the left channel after a .bin is loaded.
 
+It would be better to have generic names for the endpoint that don't
+imply position, for example:
 
-Takashi
+group1_spk1_endpoint
+group1_spk2_endpoint
+group1_spk3_endpoint
+group1_spk4_endpoint.
+
+> +		.name_prefix = "cs35l56-8"
+
+Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
+CS35L56-hda driver? This prefix is used to find the matching firmware
+files and our naming convention for these has been cs35lxx-xxxx-ampn
+
+Is there anything that depends on the prefixes being "cs35l56-n" ?
+
+> +	},
+> +	{
+> +		.adr = 0x00003201FA355601ull,
+> +		.num_endpoints = 1,
+> +		.endpoints = &spk_3_endpoint,
+> +		.name_prefix = "cs35l56-7"
+> +	}
+> +};
+> +
+> +static const struct snd_soc_acpi_adr_device cs35l56_1_adr[] = {
+> +	{
+> +		.adr = 0x00013701FA355601ull,
+> +		.num_endpoints = 1,
+> +		.endpoints = &spk_l_endpoint,
+> +		.name_prefix = "cs35l56-1"
+> +	},
+> +	{
+> +		.adr = 0x00013601FA355601ull,
+> +		.num_endpoints = 1,
+> +		.endpoints = &spk_2_endpoint,
+> +		.name_prefix = "cs35l56-2"
+> +	}
+> +};
+> +
+> +static const struct snd_soc_acpi_link_adr tgl_cs42l43_cs35l56[] = {
+> +	{
+> +		.mask = BIT(3),
+> +		.num_adr = ARRAY_SIZE(cs42l43_3_adr),
+> +		.adr_d = cs42l43_3_adr,
+> +	},
+> +	{
+> +		.mask = BIT(0),
+> +		.num_adr = ARRAY_SIZE(cs35l56_0_adr),
+> +		.adr_d = cs35l56_0_adr,
+> +	},
+> +	{
+> +		.mask = BIT(1),
+> +		.num_adr = ARRAY_SIZE(cs35l56_1_adr),
+> +		.adr_d = cs35l56_1_adr,
+> +	},
+> +	{}
+> +};
+> +
