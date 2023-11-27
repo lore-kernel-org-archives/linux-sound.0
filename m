@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8SHNmwh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dVqIGBkV"
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04AA7EA
-	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 04:06:28 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFCC1E1
+	for <linux-sound@vger.kernel.org>; Mon, 27 Nov 2023 04:06:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701086789; x=1732622789;
+  t=1701086792; x=1732622792;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=FmZHUbgfxcD8wfSdcyZNeRwAwPqOZS+OqQ2TAzPCkmE=;
-  b=a8SHNmwhjHTJXuWz1YNFhpheVHjz45X7pk8UCfbKH7i2So9B1YdXPjse
-   0M4XD+Y9zSoys+ER6uBut3sLK/9AwcV/0z6tORvbgr1iI8WDm4wUr9Lof
-   DP9GO0680AwHYqTDqfsF8ArvlaLkC9CJ85LQFbQTHg9+q6ryj1tDTVS/e
-   lj+Gzl3Lup769YsOBUmiv00qDnWlauZr6ltq1N8Iwqntx4XXpsIw7e6Q0
-   +sPS25Xuq4Bm3doYK6l5a7mWfLZRsCDup98YvF7CsvWafD4CE/bfZQq/k
-   8HIGeiVPRw5iBvZspeqvpxr8Y3TltJ0yyDeXmYwC/WcAHUGUwbnze+uRl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="14249599"
+  bh=JNxAhFhfV59tZwezM3pRBKq1Yh/nncfhSJlbVm+Ksak=;
+  b=dVqIGBkVDgCF/0o4/f7goKqJHctca4u732l/tSoNWwRtM5Yl38zLRGUn
+   uOS95HJTURizqSDvs38Bpna+zhapEbt+OgegCoGcj+TvjHk4z7awXxhRs
+   0XT1y5fAlO+AR61AHwgH3RExFMh1Erjob5Z1yBBd7qc/6qjEV1+gEBReP
+   4GGeW3yoXLUOBhH/vcXFbtg/S+G6PbY7KDUC7N4qFRg4Yjvfly8CjCrYv
+   YVHUNs1ympwlw8KYgmSGGCMFE1MSe1jC0PqKNrdtcHkvu14gh/hnMr1Gb
+   cgasJQo5gu8JGY+mb/HO/TcVmNk83xhH9LM6Wy/3x3C44N7yqJK2ncF+C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="14249614"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="14249599"
+   d="scan'208";a="14249614"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:06:28 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:06:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="859035573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="859035578"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="859035573"
+   d="scan'208";a="859035578"
 Received: from acornagl-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.58.144])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:06:25 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:06:28 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -39,9 +39,9 @@ Cc: alsa-devel@alsa-project.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	brent.lu@intel.com
-Subject: [PATCH 1/2] ALSA: hda: intel-nhlt: add intel_nhlt_ssp_device_type() function
-Date: Mon, 27 Nov 2023 14:06:56 +0200
-Message-ID: <20231127120657.19764-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 2/2] ASoC: SOF: ipc4-topology: support NHLT device type
+Date: Mon, 27 Nov 2023 14:06:57 +0200
+Message-ID: <20231127120657.19764-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231127120657.19764-1-peter.ujfalusi@linux.intel.com>
 References: <20231127120657.19764-1-peter.ujfalusi@linux.intel.com>
@@ -56,9 +56,10 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Add a helper function intel_nhlt_ssp_device_type() to detect the type
-of specific SSP port. The result is nhlt_device_type enum type which
-could be NHLT_DEVICE_BT or NHLT_DEVICE_I2S.
+The endpoint in NHLT table for a SSP port could have the device type
+NHLT_DEVICE_BT or NHLT_DEVICE_I2S. Use intel_nhlt_ssp_device_type()
+function to retrieve the device type before querying the endpoint
+blob to make sure we are always using correct device type parameter.
 
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
@@ -66,72 +67,55 @@ Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- include/sound/intel-nhlt.h | 10 ++++++++++
- sound/hda/intel-nhlt.c     | 26 ++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ sound/soc/sof/ipc4-topology.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/include/sound/intel-nhlt.h b/include/sound/intel-nhlt.h
-index 53470d6a28d6..24dbe16684ae 100644
---- a/include/sound/intel-nhlt.h
-+++ b/include/sound/intel-nhlt.h
-@@ -143,6 +143,9 @@ intel_nhlt_get_endpoint_blob(struct device *dev, struct nhlt_acpi_table *nhlt,
- 			     u32 bus_id, u8 link_type, u8 vbps, u8 bps,
- 			     u8 num_ch, u32 rate, u8 dir, u8 dev_type);
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index b89065abb511..f034fed06669 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1348,6 +1348,7 @@ static int snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_s
+ 	int sample_rate, channel_count;
+ 	int bit_depth, ret;
+ 	u32 nhlt_type;
++	int dev_type = 0;
  
-+int intel_nhlt_ssp_device_type(struct device *dev, struct nhlt_acpi_table *nhlt,
-+			       u8 virtual_bus_id);
+ 	/* convert to NHLT type */
+ 	switch (linktype) {
+@@ -1363,18 +1364,30 @@ static int snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_s
+ 						   &bit_depth);
+ 		if (ret < 0)
+ 			return ret;
 +
- #else
++		/*
++		 * We need to know the type of the external device attached to a SSP
++		 * port to retrieve the blob from NHLT. However, device type is not
++		 * specified in topology.
++		 * Query the type for the port and then pass that information back
++		 * to the blob lookup function.
++		 */
++		dev_type = intel_nhlt_ssp_device_type(sdev->dev, ipc4_data->nhlt,
++						      dai_index);
++		if (dev_type < 0)
++			return dev_type;
+ 		break;
+ 	default:
+ 		return 0;
+ 	}
  
- static inline struct nhlt_acpi_table *intel_nhlt_init(struct device *dev)
-@@ -184,6 +187,13 @@ intel_nhlt_get_endpoint_blob(struct device *dev, struct nhlt_acpi_table *nhlt,
- 	return NULL;
- }
+-	dev_dbg(sdev->dev, "dai index %d nhlt type %d direction %d\n",
+-		dai_index, nhlt_type, dir);
++	dev_dbg(sdev->dev, "dai index %d nhlt type %d direction %d dev type %d\n",
++		dai_index, nhlt_type, dir, dev_type);
  
-+static inline int intel_nhlt_ssp_device_type(struct device *dev,
-+					     struct nhlt_acpi_table *nhlt,
-+					     u8 virtual_bus_id)
-+{
-+	return -EINVAL;
-+}
-+
- #endif
+ 	/* find NHLT blob with matching params */
+ 	cfg = intel_nhlt_get_endpoint_blob(sdev->dev, ipc4_data->nhlt, dai_index, nhlt_type,
+ 					   bit_depth, bit_depth, channel_count, sample_rate,
+-					   dir, 0);
++					   dir, dev_type);
  
- #endif
-diff --git a/sound/hda/intel-nhlt.c b/sound/hda/intel-nhlt.c
-index 2c4dfc0b7e34..67d3e834c647 100644
---- a/sound/hda/intel-nhlt.c
-+++ b/sound/hda/intel-nhlt.c
-@@ -318,3 +318,29 @@ intel_nhlt_get_endpoint_blob(struct device *dev, struct nhlt_acpi_table *nhlt,
- 	return NULL;
- }
- EXPORT_SYMBOL(intel_nhlt_get_endpoint_blob);
-+
-+int intel_nhlt_ssp_device_type(struct device *dev, struct nhlt_acpi_table *nhlt,
-+			       u8 virtual_bus_id)
-+{
-+	struct nhlt_endpoint *epnt;
-+	int i;
-+
-+	if (!nhlt)
-+		return -EINVAL;
-+
-+	epnt = (struct nhlt_endpoint *)nhlt->desc;
-+	for (i = 0; i < nhlt->endpoint_count; i++) {
-+		/* for SSP link the virtual bus id is the SSP port number */
-+		if (epnt->linktype == NHLT_LINK_SSP &&
-+		    epnt->virtual_bus_id == virtual_bus_id) {
-+			dev_dbg(dev, "SSP%d: dev_type=%d\n", virtual_bus_id,
-+				epnt->device_type);
-+			return epnt->device_type;
-+		}
-+
-+		epnt = (struct nhlt_endpoint *)((u8 *)epnt + epnt->length);
-+	}
-+
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL(intel_nhlt_ssp_device_type);
+ 	if (!cfg) {
+ 		dev_err(sdev->dev,
 -- 
 2.43.0
 
