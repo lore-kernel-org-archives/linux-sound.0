@@ -1,92 +1,81 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CDD3D0D2
+	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 18:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmmeJA66"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB278AB;
-	Tue, 28 Nov 2023 09:54:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701194043; x=1732730043;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=U7SHRv8kT+n7b9v0GPnWjN8fPXLgdna0HJB40XzjEaE=;
-  b=XmmeJA668oj5wlrR1op3ftWM+hNrTkF9WzqLhxdGSVWje9J4vGobtQoE
-   TTWIrPxMUuf9z7BHrUTd1fRtTY+fRDByVXYEuMcwCFjOZcCUP93AZ33Xw
-   nGwzVSs7CAEMMgUocsMzNg6ag8m8lWq3NEQQHY5xSzAfsjgQnzXbI+kKt
-   5a3NT8hUmuVPR3LHpf+2eQyHknIHKz4O6lrHwuE0gcLRQXVYBmZ0a4zYN
-   /yLZc3rAcCRJsC0Pyf5tJEEupPaHLVm9iYk8EqBn8gPmtxYRl3XADJ0zX
-   yF1ZgU6duAgCdMKEup3txbBB99KARLpBu4O07mzdIo8Dxykif12yHH2Qa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424127120"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="424127120"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 09:54:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="834715363"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="834715363"
-Received: from skumarso-mobl33.amr.corp.intel.com (HELO [10.255.231.208]) ([10.255.231.208])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 09:54:01 -0800
-Message-ID: <d3a2eb33-ea3e-43ac-a872-a7182404eee6@linux.intel.com>
-Date: Tue, 28 Nov 2023 11:49:44 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRwJdccW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C28C433C7;
+	Tue, 28 Nov 2023 18:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701196875;
+	bh=3LSdrdBzxK1UTbEjFrEvygTknsH1KcNZjG9t4Rlj+so=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=NRwJdccW8HfeH7J4aChUziBQm1D3npvb8c8KBNFS60O9abCU6h0oJWesGHG/9fFQA
+	 qkNQ5uE/JDn9hqjU+PaBNIAJPndnlGa9mUkPuIH7opkO3ASW33LLot9uAhvKzB84mz
+	 HGH4PNXl3Y7ILGDP0nLl1fg0oTPLuJhJysRCbjTNdGHhJn8RtSE2972H11Nru7sl6w
+	 gZ+Lz6NDEXh0lTmpKLYUradQOK+DyW6EKlKWyYKLK/fDGa9tlbKoibDbl6Ky2KeDT4
+	 ZWnm8HE/clonYCEJakbQEJf3MoODM6tGmCGELzvOjRW/fDl4r/pGLBb4/K9qdbifvT
+	 8Cs08R+c4ULpQ==
+From: Mark Brown <broonie@kernel.org>
+To: Kamil Duljas <kamil.duljas@gmail.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>, 
+ sound-open-firmware@alsa-project.org
+In-Reply-To: <20231116220102.2097-2-kamil.duljas@gmail.com>
+References: <20231116220102.2097-2-kamil.duljas@gmail.com>
+Subject: Re: [PATCH] ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage
+Message-Id: <170119687331.105147.4721107892667611752.b4-ty@kernel.org>
+Date: Tue, 28 Nov 2023 18:41:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: qcom: Move Soundwire runtime stream alloc to
- soundcards
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Sanyog Kale <sanyog.r.kale@intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20231128165638.757665-1-krzysztof.kozlowski@linaro.org>
- <20231128165638.757665-2-krzysztof.kozlowski@linaro.org>
- <4317ec5d-8eb8-4a2f-aebc-cc04f2aba145@linaro.org>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <4317ec5d-8eb8-4a2f-aebc-cc04f2aba145@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-
-
-On 11/28/23 10:59, Krzysztof Kozlowski wrote:
-> On 28/11/2023 17:56, Krzysztof Kozlowski wrote:
->> Currently the Qualcomm Soundwire controller in its DAI startup op
->> allocates the Soundwire stream runtime.  This works fine for existing
->> designs, but has limitations for stream runtimes with multiple
->> controllers, like upcoming Qualcomm X1E80100 SoC with four WSA8840
->> speakers on two Soundwire controllers.
->>
->> When two Soundwire controllers are added to sound card codecs, Soundwire
->> startup() is called twice, one for each Soundwire controller, and second
->> execution overwrites what was set before.  During shutdown() this causes
->> double free.
->>
->> It is expected to have only one Soundwire stream runtime, thus it should
->> be allocated from SoC soundcard context startup(), not from each
->> Soundwire startup().  Such way will properly handle both cases: one and
->> two Soundwire controllers in the stream runtime.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> This is an entirely different approach than my previous try here:
->> https://lore.kernel.org/all/20231025144601.268645-1-krzysztof.kozlowski@linaro.org/
+On Thu, 16 Nov 2023 23:01:03 +0100, Kamil Duljas wrote:
+> trace_filter_parse() allocs memory for *out and when
+> -ENOMEM is returned, caller function, dfsentry_trace_filter_write()
+> trying to freed this memory.
 > 
-> ... and I forgot to thank you Pierre-Louis for patient explanation of
-> the case in my previous try. Your review was much appreciated!
+> After this patch, the memory is freed in trace_filter_parse()
+> before -EINVAL returned. In caller function removed kfree(elms)
+> from error label
+> 
+> [...]
 
-You're welcome. It's good if we have multiple platforms using the
-'stream' concept in similar ways.
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage
+      commit: 8c91ca76f44804868d12aed20ebdbc2f89aa7d60
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
