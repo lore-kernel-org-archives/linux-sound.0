@@ -1,129 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3B4199B9;
-	Tue, 28 Nov 2023 12:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Forr+1Et"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFFEDC433C8;
-	Tue, 28 Nov 2023 12:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701175641;
-	bh=wz5MmqLlCmnpuKdiwKhGrAWVXAILgZuTDZs8I6iusiE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Forr+1EtaGHgFMmidpddzg6MbnY60fpHgKg7FSe6soz+RILdnmcCQZzXDkTNgdfb3
-	 YWmON4fXBNtD1WJ+g9ONKGzcBeP7zldQDe03W6ZmeRji0Ri2VPGf4igZrBhf16sVPl
-	 p0nSNOhIVlkdCOgxSKjNSu5kPldrsrgxQfp9eyE/XqTkqGYq5bZcAJM2PhBbip5NwR
-	 WdIAMpENriUAUmei7ELMI7etamRDe1xUIOlhWNPnlnV0TOPPN8eoIN7gNb2woAzfWc
-	 TNYPdoKSVKy1OnGAO9tazOLtQkZ7ZQ+6ejpiVpfbSi+MA/W5zI3vBMmK4dOuHL8Z4h
-	 A0A8nADfizGaA==
-Date: Tue, 28 Nov 2023 12:47:18 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] ASoC: codecs: Add WCD939x Soundwire slave driver
-Message-ID: <ZWXhVvGWwXc27FHo@finisterre.sirena.org.uk>
-References: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-0-21d4ad9276de@linaro.org>
- <20231123-topic-sm8650-upstream-wcd939x-codec-v1-4-21d4ad9276de@linaro.org>
- <ZV+PTynfbRmF0trU@finisterre.sirena.org.uk>
- <ee3baf94-4158-4440-8d89-de39fe0aa2f3@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1rudhrvN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VVYXnKC7"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A73E1BD8
+	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 05:02:18 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C50FD1F74B;
+	Tue, 28 Nov 2023 13:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701176536; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+aOH1vjhftccOjryN6nHJxLvAMbv1vOstfbooADBQA=;
+	b=1rudhrvNMqM0dM0pEoSvU7/x8Aepf94cDnjI/5sEZU3IFXpRNQSpswrTQbQQwU3M7de/k1
+	2tDUHsmz1pFspSnEoLXs4bNY/K9BVuW0XxKHQaAPPdjf8kEuEo8qo+r7Nvzjulwmg0T5tO
+	w50ngI6i+gV5uW7oWhcG+23dB/GWCro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701176536;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+aOH1vjhftccOjryN6nHJxLvAMbv1vOstfbooADBQA=;
+	b=VVYXnKC7Y3j5mMaTQ/lxA8WYf1/Q7648aRAhSZNoQ8WqHX0c83/JxpD/q/5+A+uSUcgK34
+	c5HMJkbf4+r3UlCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75ECC13763;
+	Tue, 28 Nov 2023 13:02:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1FRJG9jkZWXuIQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 28 Nov 2023 13:02:16 +0000
+Date: Tue, 28 Nov 2023 14:02:16 +0100
+Message-ID: <87il5mm3on.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
+In-Reply-To: <30f05de0-f431-4972-9315-6b377cf43cf4@linux.intel.com>
+References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+	<87jzq3pc6r.wl-tiwai@suse.de>
+	<d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
+	<87cyvvp8t6.wl-tiwai@suse.de>
+	<8ede931b-8c9c-4b95-83e5-5f0db9819e8e@linux.intel.com>
+	<878r6jp6jd.wl-tiwai@suse.de>
+	<b0c4b724-fe34-4e55-81fe-146e1b52839d@linux.intel.com>
+	<875y1np5g2.wl-tiwai@suse.de>
+	<be4c418d-5147-4d4b-aa9b-a8e6f3c10a30@linux.intel.com>
+	<87y1eimd23.wl-tiwai@suse.de>
+	<e40a3b5d-425e-427c-bec2-6b82d8f5ee94@linux.intel.com>
+	<87ttp6mc04.wl-tiwai@suse.de>
+	<96d334c1-9c6b-415b-bfb8-1fab29b1d223@linux.intel.com>
+	<87plzum9w4.wl-tiwai@suse.de>
+	<6710fd66-2a70-4948-aafb-2fcf3d6d2b25@linux.intel.com>
+	<30f05de0-f431-4972-9315-6b377cf43cf4@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zRYJJGeNyjEN57NU"
-Content-Disposition: inline
-In-Reply-To: <ee3baf94-4158-4440-8d89-de39fe0aa2f3@linaro.org>
-X-Cookie: Slow day.  Practice crawling.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.74 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 REPLY(-4.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[34.65%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_SPAM_SHORT(2.36)[0.787];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -1.74
+
+On Tue, 28 Nov 2023 13:16:29 +0100,
+Péter Ujfalusi wrote:
+> 
+> 
+> 
+> On 28/11/2023 13:58, Péter Ujfalusi wrote:
+> > 
+> > 
+> > On 28/11/2023 12:48, Takashi Iwai wrote:
+> >>> Well, it is a bit more 'interesting' from that angle.
+> >>> for patch two we needed:
+> >>> https://lore.kernel.org/linux-sound/20231124124015.15878-1-peter.ujfalusi@linux.intel.com/
+> >>
+> >> Ouch, this kind of information has to be mentioned in the patch
+> >> description.  Otherwise one would take only this series and face a
+> >> problem easily.  I can imagine such a problem on the stable tree.
+> > 
+> > OK, I will update the commit message
+> > 
+> >>> I would rather not risk to move the hdac_hda as Intel only using address
+> >>> 2 as HDMI indication - which I'm still not sure if it is Intel only or
+> >>> generic HDA convention.
+> >>
+> >> Sure, it doesn't sound right, either.
+> >>
+> >> Can we then add DAPM widgets and routes later conditionally instead of
+> >> having it in component driver definition?
+> > 
+> > The issue is with the DAIs. If I remove the dai registering from
+> > hdac_hda_dev_probe() to be done in hdac_hda_codec_probe() then the probe
+> > will not happen since we do not have the needed components/DAIs to probe
+> > the card.
+> > 
+> > If we don't have HDMI then the machine driver will substitute it with
+> > dummy-dai, but if we have HDMI then we are not going to probe at all.
+> > 
+> > It is a sort of chicken and egg situation, right?
+> 
+> I think I have found a workaround without the need to export a function,
+> it is going to be a single patch and should be OK for non Intel
+> platforms in the future.
+> 
+> struct hdac_hda_priv *hda_pvt = dev_get_drvdata(&hdev->dev);
+> ..
+> if (hda_pvt->need_display_power)
+> 	/* HDMI/DP */
+> else
+> 	/* Non HDMI */
+
+Looks like a saner approach, yeah.
 
 
---zRYJJGeNyjEN57NU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+thanks,
 
-On Tue, Nov 28, 2023 at 10:09:29AM +0100, Neil Armstrong wrote:
-> On 23/11/2023 18:43, Mark Brown wrote:
-
-> > > +static int wcd9390_interrupt_callback(struct sdw_slave *slave,
-> > > +				      struct sdw_slave_intr_status *status)
-> > > +{
-> > > +	struct wcd939x_sdw_priv *wcd = dev_get_drvdata(&slave->dev);
-> > > +	struct irq_domain *slave_irq = wcd->slave_irq;
-> > > +	u32 sts1, sts2, sts3;
-> > > +
-> > > +	do {
-> > > +		handle_nested_irq(irq_find_mapping(slave_irq, 0));
-> > > +		regmap_read(wcd->regmap, WCD939X_DIGITAL_INTR_STATUS_0, &sts1);
-> > > +		regmap_read(wcd->regmap, WCD939X_DIGITAL_INTR_STATUS_1, &sts2);
-> > > +		regmap_read(wcd->regmap, WCD939X_DIGITAL_INTR_STATUS_2, &sts3);
-> > > +
-> > > +	} while (sts1 || sts2 || sts3);
-> > > +
-> > > +	return IRQ_HANDLED;
-> > > +}
-
-> > We do this in the other Qualcomm drivers but it doesn't seem ideal to
-> > just ignore the interrupts.
-
-> It seems we simply ignore IRQs that are not mapped in the regmap_irq,
-> what would be the ideal way to handle this ?
-
-I don't understnad what "this" is here.  Why even register an interrupt
-handler here?  What is the regmap_irq you are referring to here and why
-would an interrupt handler here be related to it?
-
-> > > +static int wcd939x_sdw_component_bind(struct device *dev, struct device *master,
-> > > +				      void *data)
-> > > +{
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void wcd939x_sdw_component_unbind(struct device *dev,
-> > > +					 struct device *master, void *data)
-> > > +{
-> > > +}
-> > > +
-> > > +static const struct component_ops wcd939x_sdw_component_ops = {
-> > > +	.bind = wcd939x_sdw_component_bind,
-> > > +	.unbind = wcd939x_sdw_component_unbind,
-> > > +};
-
-> > Do these need to be provided if they can legitimately be empty?
-
-> AFAIK yes, component code will crash if those are not defined.
-> I'll add a comment explaining whey they are no-op.
-
-If the framework can genuninely have empty callbacks here the framework
-should be updated to make the callbacks optional.
-
---zRYJJGeNyjEN57NU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVl4VUACgkQJNaLcl1U
-h9CQFAf/X86BJjWyIuWFGa/imsTVc1qRNOaSfXiSo5tUqzDx+dmeJZ0iDSexp52n
-+s6hQKvWt8aXarV/rAUIIM8yemaz2BMINAZQQxW5Qm0IpNH82u9AFczWvx9fK8AG
-ISjnkn5P+MEhqTHfB54ZNcdT11C9KPgo0kP5eMIsRNJxVPahElMgde866TSK7P3Q
-VYrYF+xKYHaoHR5kIC4lgHgbzVpaa2O9nbuur28vCX5HHg7Mv9y2ia1X2R+qLKrp
-yuB/5lBeGaFidOuZdoz8KqxsI9e4Z4aqzKGsMBVV7i966MiEX2cHfcEq0qC8y6QN
-dndVngDVmPkbhT/RFYsA7yCD2uRfxA==
-=P7CZ
------END PGP SIGNATURE-----
-
---zRYJJGeNyjEN57NU--
+Takashi
