@@ -1,81 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CDD3D0D2
-	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 18:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRwJdccW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C28C433C7;
-	Tue, 28 Nov 2023 18:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701196875;
-	bh=3LSdrdBzxK1UTbEjFrEvygTknsH1KcNZjG9t4Rlj+so=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NRwJdccW8HfeH7J4aChUziBQm1D3npvb8c8KBNFS60O9abCU6h0oJWesGHG/9fFQA
-	 qkNQ5uE/JDn9hqjU+PaBNIAJPndnlGa9mUkPuIH7opkO3ASW33LLot9uAhvKzB84mz
-	 HGH4PNXl3Y7ILGDP0nLl1fg0oTPLuJhJysRCbjTNdGHhJn8RtSE2972H11Nru7sl6w
-	 gZ+Lz6NDEXh0lTmpKLYUradQOK+DyW6EKlKWyYKLK/fDGa9tlbKoibDbl6Ky2KeDT4
-	 ZWnm8HE/clonYCEJakbQEJf3MoODM6tGmCGELzvOjRW/fDl4r/pGLBb4/K9qdbifvT
-	 8Cs08R+c4ULpQ==
-From: Mark Brown <broonie@kernel.org>
-To: Kamil Duljas <kamil.duljas@gmail.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- Jaroslav Kysela <perex@perex.cz>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>, 
- sound-open-firmware@alsa-project.org
-In-Reply-To: <20231116220102.2097-2-kamil.duljas@gmail.com>
-References: <20231116220102.2097-2-kamil.duljas@gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage
-Message-Id: <170119687331.105147.4721107892667611752.b4-ty@kernel.org>
-Date: Tue, 28 Nov 2023 18:41:13 +0000
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119DA1998
+	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 12:59:36 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r85AN-0006nV-7B; Tue, 28 Nov 2023 21:58:47 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r85AI-00CFt4-DE; Tue, 28 Nov 2023 21:58:42 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r85AI-00AOAR-2T; Tue, 28 Nov 2023 21:58:42 +0100
+Date: Tue, 28 Nov 2023 21:58:41 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Tomasz Figa <tomasz.figa@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Sam Protsenko <semen.protsenko@linaro.org>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH 00/17] dt-bindings: samsung: add specific
+ compatibles for existing SoC
+Message-ID: <20231128205841.al23ra5s34rn3muj@pengutronix.de>
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <170119374454.445690.515311393756577368.b4-ty@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bibczb2zawwhoawf"
+Content-Disposition: inline
+In-Reply-To: <170119374454.445690.515311393756577368.b4-ty@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Thu, 16 Nov 2023 23:01:03 +0100, Kamil Duljas wrote:
-> trace_filter_parse() allocs memory for *out and when
-> -ENOMEM is returned, caller function, dfsentry_trace_filter_write()
-> trying to freed this memory.
-> 
-> After this patch, the memory is freed in trace_filter_parse()
-> before -EINVAL returned. In caller function removed kfree(elms)
-> from error label
-> 
-> [...]
 
-Applied to
+--bibczb2zawwhoawf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Nov 28, 2023 at 06:49:23PM +0100, Thierry Reding wrote:
+>=20
+> On Wed, 08 Nov 2023 11:43:26 +0100, Krzysztof Kozlowski wrote:
+> > Merging
+> > =3D=3D=3D=3D=3D=3D=3D
+> > I propose to take entire patchset through my tree (Samsung SoC), becaus=
+e:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Thanks!
+> > 1. Next cycle two new SoCs will be coming (Google GS101 and ExynosAutov=
+920), so
+> >    they will touch the same lines in some of the DT bindings (not all, =
+though).
+> >    It is reasonable for me to take the bindings for the new SoCs, to ha=
+ve clean
+> >    `make dtbs_check` on the new DTS.
+> > 2. Having it together helps me to have clean `make dtbs_check` within m=
+y tree
+> >    on the existing DTS.
+> > 3. No drivers are affected by this change.
+> > 4. I plan to do the same for Tesla FSD and Exynos ARM32 SoCs, thus expe=
+ct
+> >    follow up patchsets.
+> >=20
+> > [...]
+>=20
+> Applied, thanks!
+>=20
+> [12/17] dt-bindings: pwm: samsung: add specific compatibles for existing =
+SoC
+>         commit: 5d67b8f81b9d598599366214e3b2eb5f84003c9f
 
-[1/1] ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage
-      commit: 8c91ca76f44804868d12aed20ebdbc2f89aa7d60
+You didn't honor (or even comment) Krzysztof's proposal to take the
+whole patchset via his tree (marked above). Was there some off-list
+agreement?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Best regards
+Uwe
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--bibczb2zawwhoawf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVmVIAACgkQj4D7WH0S
+/k4mPQgAuzfJsEw0Nil25KsPJwyY53qFjfCGd8WTObzTDFpeIlzV2EL87bWT2Gtd
+vEFgfX2Uj+RoOLX5CNnyuEfwH5e+O5oVYF9gfpsdqtRTJ3zyPV3dUiFCaIh2KNqZ
+aaY1tsb4vECeh7dmEL/y2VUWoO2bAa08sZe6EpJXOkeUWN54VdTCMBwncH1utjgh
+Tb/pHhjkfvdcbXuvxsFY4gL86pT8BER5EjIRZZaPN0kHDrGTBR+ZqjFvMVWTrFbq
+IUK1gAMX+BOooJDwVFE4SeRta6p/lfClW73PbWk1++SyLPA2KbTp8jTul4qgXWKT
+IbIJY8Qwg5trzJ0LHDMX3a02COS9hg==
+=P7ML
+-----END PGP SIGNATURE-----
 
+--bibczb2zawwhoawf--
