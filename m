@@ -1,136 +1,156 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HIOQlGW1"
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440AA10D2
-	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 07:02:03 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-409299277bbso41644545e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 07:02:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k1/7oWDO"
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7D4D60
+	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 08:56:48 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-50bc22c836bso357145e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 08:56:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701183722; x=1701788522; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZkWu2ySemNB+dH9OL9BeVvXo61wInQDnE0WqBxTBfkI=;
-        b=HIOQlGW1QxdmrClYbNjwPRnpecuU3Sm1WIvTgc5p9LLB0upiteqAqu2U8Y5/thqsMB
-         pYE0IstAsyI9Ges8ooWajBXuup21LbU/z+nvDLRjOOVtBvZNH4y5PNyf/ogrdJS7NlzG
-         nuN4nHAJKOgmou7YClQedbjjy0zrgwxeQEy+zuX+JGs4IIp0JMYHLsup21ea7Nb11oJC
-         jfykXjVLfTLVtfxFavlSTs98xdFqAxiLiBBYrurNTh8zh2o6xPhpni0Ia0c2USTq1XS2
-         JMSQllQWx5Po5ZgYqiHoPUZCLm3PnWz1zTGufxXb6RgD4qjqO38HB6kEO62OoIeIbbKg
-         h+Tw==
+        d=linaro.org; s=google; t=1701190606; x=1701795406; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KlvtVgcoH+Cr5quxDgXdgueDoRBrewPBnFO4wuUANns=;
+        b=k1/7oWDO8Upg20YhSnrFid6v51+cWhjhqEWchgKnlaAZMZZwiBjGPsIiyh87yseYB8
+         7aBkj8UwvhoxixH4lCmZbCpD670cakYgtM0zqYzmg7oDPadfojbCyt863PHGizN33nQ6
+         JP9Of5rOgZjAQ1MYnIPaSP1jcnF6ArfKRu8XGDSDy0uxAaOlj8GOcSOMlkFZlDtraC5Q
+         8syP7pL+2JMZawfz4aAhLLvJelgDqoIyEKSlQXwEuAmjQlzLbJ//TP3lQ3R2KK/KOhLt
+         A7KEWhunRnZCzj9xxiNPjmSUGD3BD8emRkL1SSQqBYrnH9EkXpkfIAUSWBvi3CQf9+HI
+         tNWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701183722; x=1701788522;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZkWu2ySemNB+dH9OL9BeVvXo61wInQDnE0WqBxTBfkI=;
-        b=Wk68NCPi8bHaSkRO4uT0zcKg3gVC6z9RMLnPkYnY9YqDbuNMSFa/TwuQfbdghUAQgc
-         CBIEDtRlEFOm6Z/hBVN175zV0EBga7vgfmaIn8hgL3Giq2eD+FZSkJkvEVh3Rn0EdAnJ
-         iWS/BkdWJZFVteecFUpHb+LQt/7Kyc0tQKw8YYn8yuzo2fhVmwEv88N8ihz+i0VX8WLH
-         ZmtBEorpF+JjTyzKqyU7iYlez8r3JU1C9aB5oTxN00pXGO2jbGlXjWHFPvh6cv5IyTDM
-         nh4tc7acY1kmj8q6xeTjpbI2RMjQvFX9ZgwbLl3urSddAhFpxDV6XyuEHZveEkkpyMOa
-         7cJw==
-X-Gm-Message-State: AOJu0YwodixDjk1bEgVuRcmbP4rR+c3SAHjEG7JmjNa6nitUM+hnjtaU
-	bK7WbYI7iQoF7BL98j9KSbkBf4TrQgkGMxNXo51PWIWi
-X-Google-Smtp-Source: AGHT+IGVOUpmvb94Jr5diQ87yRJsgTUXl7a1KEj86KCsuk0xkpDAakMyWxHFifx04mdoT3ggOA6w5Q==
-X-Received: by 2002:a05:600c:1d17:b0:401:eb0:a974 with SMTP id l23-20020a05600c1d1700b004010eb0a974mr12639457wms.3.1701183721458;
-        Tue, 28 Nov 2023 07:02:01 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:eada:f40e:7ab3:2afe? ([2a01:e0a:982:cbb0:eada:f40e:7ab3:2afe])
-        by smtp.gmail.com with ESMTPSA id fa20-20020a05600c519400b0040b3e26872dsm12773310wmb.8.2023.11.28.07.02.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 07:02:00 -0800 (PST)
-Message-ID: <42a6f6e0-2846-4cdc-8702-493fadbafb98@linaro.org>
-Date: Tue, 28 Nov 2023 16:01:59 +0100
+        d=1e100.net; s=20230601; t=1701190606; x=1701795406;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KlvtVgcoH+Cr5quxDgXdgueDoRBrewPBnFO4wuUANns=;
+        b=fMBokKV9RFB5+pLVAwsEtb+ZYindNhA3kXTu8BtaxkmAtk+HeAAn/Zdnswy1UB4vLJ
+         h9KwSeeNWCST1MAAmhpqZbBB7TajGAVync7sClFzXgtsBYz4KbIUQMh+yaxMFESz/X6h
+         n2zP+u/caSpDkvmH6Meux/TEXMreZS/tJn9A4JbEGBFIBJeSZoqjAlN3Yiv8Sjr5+BlT
+         mrl8MZ9IZfhixD+kuJsWDbKxEOQW8vsVSd6CUdSYun8idIAB3o57bYVmmbE4wIT32Mu6
+         49gflr3BGw41cZ3q1vFgmw/aG/N06cPJZd9uHByStXOhzMtsAg1RBETJNczHVw7n93Mw
+         KOzw==
+X-Gm-Message-State: AOJu0YxXaLBvGJx1/DEQHa0ejS/yJXNoJZkqohOSHZSV8EMI1/OrQcsL
+	nSCHI7TdOWQgUFGdLyFHE0g0lA==
+X-Google-Smtp-Source: AGHT+IF3hUBfKX//GdxpAzLW32DtoinveGYlCmLpmAQLjqtDChB2bMM64TERz8Kx5aYwPkRWwl/Ifw==
+X-Received: by 2002:a05:6512:ea1:b0:50b:c102:a65d with SMTP id bi33-20020a0565120ea100b0050bc102a65dmr1112291lfb.9.1701190605996;
+        Tue, 28 Nov 2023 08:56:45 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id cw18-20020a170906c79200b009bf7a4d591csm7126252ejb.11.2023.11.28.08.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 08:56:45 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Sanyog Kale <sanyog.r.kale@intel.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] ASoC: qcom: Add helper for allocating Soundwire stream runtime
+Date: Tue, 28 Nov 2023 17:56:37 +0100
+Message-Id: <20231128165638.757665-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 5/5] ASoC: codecs: Add WCD939x Codec driver
-Content-Language: en-US, fr
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-0-21d4ad9276de@linaro.org>
- <20231123-topic-sm8650-upstream-wcd939x-codec-v1-5-21d4ad9276de@linaro.org>
- <ad9a7c4b-82f4-4347-b4dd-a394e4ba95f0@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <ad9a7c4b-82f4-4347-b4dd-a394e4ba95f0@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/11/2023 13:07, Konrad Dybcio wrote:
+Newer Qualcomm SoC soundcards will need to allocate Soundwire stream
+runtime in their startup op.  The code will be exactly the same for all
+soundcards, so add a helper for that.
 
-<snip>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ sound/soc/qcom/sdw.c | 45 +++++++++++++++++++++++++++++++++++++++++++-
+ sound/soc/qcom/sdw.h |  1 +
+ 2 files changed, 45 insertions(+), 1 deletion(-)
 
->> +
->> +static int wcd939x_io_init(struct snd_soc_component *component)
->> +{
->> +	snd_soc_component_write_field(component, WCD939X_ANA_BIAS,
->> +				      WCD939X_BIAS_ANALOG_BIAS_EN, 1);
-> All of these values are BIT()s or 2-4 ORed BIT()s, can you check what they
-> mean?
-> 
-> Same for almost all other snd_soc_component_ write/modify functions
-
-It uses snd_soc_component_write_field() with is the same as
-regmap_write_bits(REGISTER, REGISTER_MASK,
-                   FIELD_PREP(REGISTER_MASK, value);
-
-So the 1 mean write in enable mask in this case, and mask is single bit,
-read it exactly like if it was using FIELD_PREP(), but even for BITs.
-
-I did check every single snd_soc_component_write_field() so far to check
-it matches.
-
-Or it's another question ?
-
-Neil
-
-> 
-> [...]
-> 
-
-<snip>
-
-> 
-> 
-> Konrad
+diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
+index dd275123d31d..77dbe0c28b29 100644
+--- a/sound/soc/qcom/sdw.c
++++ b/sound/soc/qcom/sdw.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-// Copyright (c) 2018, Linaro Limited.
++// Copyright (c) 2018-2023, Linaro Limited.
+ // Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ 
+ #include <dt-bindings/sound/qcom,q6afe.h>
+@@ -7,6 +7,49 @@
+ #include <sound/soc.h>
+ #include "sdw.h"
+ 
++/**
++ * qcom_snd_sdw_startup() - Helper to start Soundwire stream for SoC audio card
++ * @substream: The PCM substream from audio, as passed to snd_soc_ops->startup()
++ *
++ * Helper for the SoC audio card (snd_soc_ops->startup()) to allocate and set
++ * Soundwire stream runtime to each codec DAI.
++ *
++ * The shutdown() callback should call sdw_release_stream() on the same
++ * sdw_stream_runtime.
++ *
++ * Return: 0 or errno
++ */
++int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
++{
++	struct snd_soc_pcm_runtime *rtd = substream->private_data;
++	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct sdw_stream_runtime *sruntime;
++	struct snd_soc_dai *codec_dai;
++	int ret, i;
++
++	sruntime = sdw_alloc_stream(cpu_dai->name);
++	if (!sruntime)
++		return -ENOMEM;
++
++	for_each_rtd_codec_dais(rtd, i, codec_dai) {
++		ret = snd_soc_dai_set_stream(codec_dai, sruntime,
++					     substream->stream);
++		if (ret < 0 && ret != -ENOTSUPP) {
++			dev_err(rtd->dev, "Failed to set sdw stream on %s\n",
++				codec_dai->name);
++			goto err_set_stream;
++		}
++	}
++
++	return 0;
++
++err_set_stream:
++	sdw_release_stream(sruntime);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(qcom_snd_sdw_startup);
++
+ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+ 			 struct sdw_stream_runtime *sruntime,
+ 			 bool *stream_prepared)
+diff --git a/sound/soc/qcom/sdw.h b/sound/soc/qcom/sdw.h
+index d74cbb84da13..392e3455f1b1 100644
+--- a/sound/soc/qcom/sdw.h
++++ b/sound/soc/qcom/sdw.h
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/soundwire/sdw.h>
+ 
++int qcom_snd_sdw_startup(struct snd_pcm_substream *substream);
+ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+ 			 struct sdw_stream_runtime *runtime,
+ 			 bool *stream_prepared);
+-- 
+2.34.1
 
