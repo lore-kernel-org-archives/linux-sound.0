@@ -1,122 +1,147 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i6b5JWm/"
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AFBC93;
-	Tue, 28 Nov 2023 09:49:34 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a03a900956dso2375566b.1;
-        Tue, 28 Nov 2023 09:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701193772; x=1701798572; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2Q6ar52kT12/oSOUgsQunGkK9992ePoRC0ssPbZWDgw=;
-        b=i6b5JWm/Osc81en8u5MDun6d2WX3T2lgYcXr6EDNsslp3MsrN9UGO1lIuwIsO8uelE
-         p7Ye+IxD1z8eu+soCqNKCvxuiMg8DllwymR/KoOEKthKXtgoLUaBz2EkJzUncZEgPqFL
-         Sl39VY27IQ2XgIsnnv5bBiV3NTmtWd22L6x+vDxo25aqiZ/dJiKEQjHIx8DLvZ1GOJL0
-         E0BI49DiZI7AczT8S3AbawIwwQ3LFiZg4c6AAtvQw9pQ63NPrCVpj4Qp4tP9PG8+mSg4
-         BW92EwaV8iwL+5vZsnTx7LFjyRcjZq/MTgzCBKw7Wg1PkCPsS416mBpjXwM/yqiHoGTN
-         iQ2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701193772; x=1701798572;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Q6ar52kT12/oSOUgsQunGkK9992ePoRC0ssPbZWDgw=;
-        b=HSCHEJ9tx9fP3ac938yQCRyALwwkzSgU0NA2XKhLkTPBVT3SLcKA2SbDQdCiDA3ElQ
-         J6+1QM5AWhrwExibRUh94ftYAxKvkuWiqSTx+zCP25csTHSYn6Wl1MrWH3vT8Fus4w3q
-         I/d6URFXxgD8O3EU+pqxuMsF5TEyjahKkqBaN9jsrXL4gjKUD7B1ABiaXZO1blaWMm03
-         VYFK4x3mz0mkuQAcxy8HV9KEYEonaw/EiSfw3jw9qoZ04X/EoXy9YobU32SAWL++n5JW
-         ZIQtYZlesTy9mhmt1n9HztfNMSd0FOnE6JKa7KoEHYwe9NA1ldHsEbTUPwZ+g88AvhvB
-         uXCw==
-X-Gm-Message-State: AOJu0YyaouNdzjWolwYz7jj15SqcjG2MMD4Fv1ZHSLwK/6dsL6J+y662
-	coBwelqbex2xOQwHLA83h/8=
-X-Google-Smtp-Source: AGHT+IFegfjLsT1XNjq4u1dJkNE5gSVojRjltbsyE47RsYa/oKV+OirEmiPZK9QlSr1+eKKQQmVk8w==
-X-Received: by 2002:a17:906:f811:b0:a0f:1882:d5e with SMTP id kh17-20020a170906f81100b00a0f18820d5emr5384410ejb.37.1701193772296;
-        Tue, 28 Nov 2023 09:49:32 -0800 (PST)
-Received: from localhost (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id cm26-20020a0564020c9a00b0054ae75dcd6bsm5742280edb.95.2023.11.28.09.49.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 09:49:30 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Lee Jones <lee@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Tomasz Figa <tomasz.figa@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Sam Protsenko <semen.protsenko@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: (subset) [PATCH 00/17] dt-bindings: samsung: add specific compatibles for existing SoC
-Date: Tue, 28 Nov 2023 18:49:23 +0100
-Message-ID: <170119374454.445690.515311393756577368.b4-ty@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJq+G1f+"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAC31A5
+	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 09:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701194034; x=1732730034;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=X/vuCuKhjCfbCD+yDhFxIgQrez9Yi+j96FEy1rjFZSg=;
+  b=XJq+G1f+ygaNGiRcDgR+86vaDNgUQtnVppC4YBXRMR7YzvKN7kGV2sxH
+   qx8RK0SY2uXy2tYL+pSKtY3ArRhG0KfRn3Sbl3jsII0Qs98Kk13mTo6qI
+   yt6w+cINwOCe6hY3OMXM9v4kV40z4O3reK2qGNMgJqnXlNzLmML7t9HuZ
+   a2c6jI+f9xfy302SejSeHEDJvlgnDCugE/XFlr0PrJkgH9kIZ617eS5xf
+   qGS8A79ECW7dhuGOPz1UnEZi+6zYjJUDHBjvCpQy2QCEdvWwaudH56q7f
+   1nTwuLARq51T/e61vK493ZxvZjm3DRdqYtSTH/8id4xt5XuKg1GYl7sA+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424127069"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="424127069"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 09:53:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="834715293"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="834715293"
+Received: from skumarso-mobl33.amr.corp.intel.com (HELO [10.255.231.208]) ([10.255.231.208])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 09:53:53 -0800
+Message-ID: <1ca6f822-355a-4eb0-8e3c-f9a408074144@linux.intel.com>
+Date: Tue, 28 Nov 2023 08:58:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: hdac_hda: Conditionally register dais for HDMI
+ and Analog
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, tiwai@suse.de
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
+References: <20231128123914.3986-1-peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20231128123914.3986-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-On Wed, 08 Nov 2023 11:43:26 +0100, Krzysztof Kozlowski wrote:
-> Merging
-> =======
-> I propose to take entire patchset through my tree (Samsung SoC), because:
-> 1. Next cycle two new SoCs will be coming (Google GS101 and ExynosAutov920), so
->    they will touch the same lines in some of the DT bindings (not all, though).
->    It is reasonable for me to take the bindings for the new SoCs, to have clean
->    `make dtbs_check` on the new DTS.
-> 2. Having it together helps me to have clean `make dtbs_check` within my tree
->    on the existing DTS.
-> 3. No drivers are affected by this change.
-> 4. I plan to do the same for Tesla FSD and Exynos ARM32 SoCs, thus expect
->    follow up patchsets.
+
+On 11/28/23 06:39, Peter Ujfalusi wrote:
+> The current driver is registering the same dais for each hdev found in the
+> system which results duplicated widgets to be registered and the kernel
+> log contains similar prints:
+> snd_hda_codec_realtek ehdaudio0D0: ASoC: sink widget AIF1TX overwritten
+> snd_hda_codec_realtek ehdaudio0D0: ASoC: source widget AIF1RX overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi3 overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi2 overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget hifi1 overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Codec Output Pin1 overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Codec Input Pin1 overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Analog Codec Playback overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Digital Codec Playback overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: sink widget Alt Analog Codec Playback overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Analog Codec Capture overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Digital Codec Capture overwritten
+> skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: source widget Alt Analog Codec Capture overwritten
 > 
-> [...]
+> To avoid such issue, split the dai array into HDMI and non HDMI array and
+> register them conditionally:
+> for HDMI hdev only register the dais needed for HDMI
+> for non HDMI hdev do not  register the HDMI dais.
+> 
+> Depends-on: 3d1dc8b1030d ("ASoC: Intel: skl_hda_dsp_generic: Drop HDMI routes when HDMI is not available")
+> Link: https://github.com/thesofproject/linux/issues/4509
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> ---
+> Hi,
+> 
+> Changes since v1:
+> - Drop the patch for patch_hdmi to export a funtion to match the device
+> - Use the struct hdac_hda_priv.need_display_power boolean as indication that the
+>   device is a HDMI/DP audio codec
 
-Applied, thanks!
+LGTM.
 
-[12/17] dt-bindings: pwm: samsung: add specific compatibles for existing SoC
-        commit: 5d67b8f81b9d598599366214e3b2eb5f84003c9f
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Best regards,
--- 
-Thierry Reding <thierry.reding@gmail.com>
+> Regards,
+> Peter
+> 
+>  sound/soc/codecs/hdac_hda.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
+> index 355f30779a34..b075689db2dc 100644
+> --- a/sound/soc/codecs/hdac_hda.c
+> +++ b/sound/soc/codecs/hdac_hda.c
+> @@ -132,6 +132,9 @@ static struct snd_soc_dai_driver hdac_hda_dais[] = {
+>  		.sig_bits = 24,
+>  	},
+>  },
+> +};
+> +
+> +static struct snd_soc_dai_driver hdac_hda_hdmi_dais[] = {
+>  {
+>  	.id = HDAC_HDMI_0_DAI_ID,
+>  	.name = "intel-hdmi-hifi1",
+> @@ -607,8 +610,16 @@ static const struct snd_soc_component_driver hdac_hda_codec = {
+>  	.endianness		= 1,
+>  };
+>  
+> +static const struct snd_soc_component_driver hdac_hda_hdmi_codec = {
+> +	.probe			= hdac_hda_codec_probe,
+> +	.remove			= hdac_hda_codec_remove,
+> +	.idle_bias_on		= false,
+> +	.endianness		= 1,
+> +};
+> +
+>  static int hdac_hda_dev_probe(struct hdac_device *hdev)
+>  {
+> +	struct hdac_hda_priv *hda_pvt = dev_get_drvdata(&hdev->dev);
+>  	struct hdac_ext_link *hlink;
+>  	int ret;
+>  
+> @@ -621,9 +632,15 @@ static int hdac_hda_dev_probe(struct hdac_device *hdev)
+>  	snd_hdac_ext_bus_link_get(hdev->bus, hlink);
+>  
+>  	/* ASoC specific initialization */
+> -	ret = devm_snd_soc_register_component(&hdev->dev,
+> -					 &hdac_hda_codec, hdac_hda_dais,
+> -					 ARRAY_SIZE(hdac_hda_dais));
+> +	if (hda_pvt->need_display_power)
+> +		ret = devm_snd_soc_register_component(&hdev->dev,
+> +						&hdac_hda_hdmi_codec, hdac_hda_hdmi_dais,
+> +						ARRAY_SIZE(hdac_hda_hdmi_dais));
+> +	else
+> +		ret = devm_snd_soc_register_component(&hdev->dev,
+> +						&hdac_hda_codec, hdac_hda_dais,
+> +						ARRAY_SIZE(hdac_hda_dais));
+> +
+>  	if (ret < 0) {
+>  		dev_err(&hdev->dev, "failed to register HDA codec %d\n", ret);
+>  		return ret;
