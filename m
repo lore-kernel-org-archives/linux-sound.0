@@ -1,57 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE67E883E
-	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 10:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBFf0MSs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F81AC433C8;
-	Tue, 28 Nov 2023 10:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701165610;
-	bh=0XDd4GId1RUumC+pfTyLbSLBfY6q4ATklJ1bRPcr5kY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dBFf0MSsT0mRWp7hxYHFsMt2/EA775dXxS2oMfXUDMyXCZFvT1qOdNv8cfXNwvxZD
-	 jIlUWD2celdR/K6UjdwDHOx6d9+sHP/E/MldfD4Wrf4VvACja4WJdDsODA+OqsYjCS
-	 3MVHOJfdctK3Jwwu6fr+ejd5c38zdD+DyUpGPtcObT2+CDmmKUeWEb+BCW79gQQwYo
-	 t8p2RHeLgH1PL6WRsK74WALbcNqERGjXmS51cDajN++v8DlPzpL/QpsPs9ZDEpX2/N
-	 lJAtNWhfaGOLT1BwgwSJTXD4ojAou7/aVP3mkTMxJ36LfQxoQBlVCGG+KZF9yJu84M
-	 y/ylJO4XKr5ww==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
- pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-In-Reply-To: <20231127124405.2080431-1-yung-chuan.liao@linux.intel.com>
-References: <20231127124405.2080431-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] soundwire: generic_bandwidth_allocation use
- bus->params.max_dr_freq
-Message-Id: <170116560796.73868.7251028532785421026.b4-ty@kernel.org>
-Date: Tue, 28 Nov 2023 15:30:07 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XbwfgEbS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eityXx2U"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72843DD
+	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 02:02:37 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 19DD41F37E;
+	Tue, 28 Nov 2023 10:02:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701165756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fk6IswEGTuYFQTlLdnBaIn7iN6ORqeUWrQTaQljySv0=;
+	b=XbwfgEbSHTKA6ZkQUhpyup06pq+bzSkAxzd07AyKrdcRh0GvnudtRlQQg9LiitPRrMdOaW
+	sf3ks7EiEKKJO/F/htyX81mrJpbAEM16bylQs2XVHWLMKD/f8Qod3rs81i2c8rmxfV/NM1
+	CzEx+QZQDxTulSr35/SVs8/cVZtiba0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701165756;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fk6IswEGTuYFQTlLdnBaIn7iN6ORqeUWrQTaQljySv0=;
+	b=eityXx2UApRGVX/DCCniXEw04zxlEjR/55nj2qxItHP1QEC9TNmGjBhmWTUfvZNkcxdwjN
+	GnjK8Q3dq6q9InBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6F511343E;
+	Tue, 28 Nov 2023 10:02:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PatMJ7u6ZWWTaQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 28 Nov 2023 10:02:35 +0000
+Date: Tue, 28 Nov 2023 11:02:35 +0100
+Message-ID: <87ttp6mc04.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: Re: [PATCH 1/2] ALSA: hda/hdmi: Add helper function to check if a device is HDMI codec
+In-Reply-To: <e40a3b5d-425e-427c-bec2-6b82d8f5ee94@linux.intel.com>
+References: <20231127130245.24295-1-peter.ujfalusi@linux.intel.com>
+	<20231127130245.24295-2-peter.ujfalusi@linux.intel.com>
+	<87jzq3pc6r.wl-tiwai@suse.de>
+	<d2fff7cd-ea4b-41b9-992b-fab6ba6549ec@linux.intel.com>
+	<87cyvvp8t6.wl-tiwai@suse.de>
+	<8ede931b-8c9c-4b95-83e5-5f0db9819e8e@linux.intel.com>
+	<878r6jp6jd.wl-tiwai@suse.de>
+	<b0c4b724-fe34-4e55-81fe-146e1b52839d@linux.intel.com>
+	<875y1np5g2.wl-tiwai@suse.de>
+	<be4c418d-5147-4d4b-aa9b-a8e6f3c10a30@linux.intel.com>
+	<87y1eimd23.wl-tiwai@suse.de>
+	<e40a3b5d-425e-427c-bec2-6b82d8f5ee94@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.04 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 REPLY(-4.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 NEURAL_HAM_SHORT(-0.17)[-0.826];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[38.97%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-0.77)[-0.771];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -4.04
 
-
-On Mon, 27 Nov 2023 20:44:05 +0800, Bard Liao wrote:
-> bus->params.max_dr_freq is calculated and set in sdw_bus_master_add().
-> We can use it directly instead of calculating it again.
+On Tue, 28 Nov 2023 10:53:56 +0100,
+Péter Ujfalusi wrote:
 > 
 > 
+> 
+> On 28/11/2023 11:39, Takashi Iwai wrote:
+> > Hm...  I still find it's a bad move to use an exported symbol from
+> > another codec driver.
+> 
+> The other option is to check for 0x4 (or address 2), but I'm not sure if
+> this is Intel only or universally true for HDMI codecs.
+> 
+> > And, I wonder what if you have a system that has only one HDMI codec
+> > without analog one?  Would it still work with your change? 
+> 
+> Yes, it works with only HDMI codec (for example on SoundWire laptops) or
+> with UP2 board which only have HDMI audio support by default.
 
-Applied, thanks!
-
-[1/1] soundwire: generic_bandwidth_allocation use bus->params.max_dr_freq
-      commit: 55d50ace6b88eb273a10963160cadbadccfcdd64
-
-Best regards,
--- 
-~Vinod
+Interesting.  With your patch 2, hdac_hda_hdmi_codec is without the
+DAPM definitions, and even if that's the only one that is registered,
+it will still work?  So it means that it works without DAPM
+definitions at all?
 
 
+Takashi
