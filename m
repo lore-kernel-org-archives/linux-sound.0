@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7419D13ADC
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 18:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02F15C3C8
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 18:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zzqe7kj9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D82DC433C7;
-	Wed, 29 Nov 2023 18:52:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nIxjqBW9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7216FC433C9;
+	Wed, 29 Nov 2023 18:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701283976;
-	bh=UGgJf+xDm6TeaMGLjtQRriZZTl6p0lxp7AxmrXcux2w=;
+	s=k20201202; t=1701283978;
+	bh=LliqbgxjKYpSYGdZMjsSOOuB0sDOwoVDfmuEIACbwik=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Zzqe7kj9oMc7/5iqHUZGIH/2t2lng2nWwIqOejlb2it6VjKIH2QUf4wiZVqVGzrz4
-	 7Co0gUNwabPBLVCZq7fVh2OiypyVmtCbhqdp1NzGrfB9hJvlxlxaaqQ1vDXhzwzQVi
-	 jPlUR6kQiXHKTXeDAtVIavInxUKwYpUb0YEmmL4iA7bPEjfsNYglh36K0iSfMoVrh9
-	 jb3+3LYRgQBpMkkh7nlK73/MIsTFYA6MNbbd7hIqP76XWxQmnQlVopf8FfjEMCYcIH
-	 UB16FiHtXaeFUV1QQT93iReMZa/945VmXrqnZ39ij3GU2GLXfaGsN4uBiMO9OLNP3U
-	 tzdcpJX7sKCaA==
+	b=nIxjqBW9nyiCjFaAlME1wSR3Du5UIqzmgUEWsOu7pkPvXbAOdftDqLXrbqPvxEzZO
+	 VMmA2zKro4yZnCpdxLN7z4WK5JHyp5zYmFuBCMMglRLDrxuxZ3JX7DjtR16fX5M5W5
+	 N4snDmoPhxUkIUojzVlLlJq8LRPEZayULrMEWUCIW7ag4KK9u4rEMVh/oepC9wLOSH
+	 G9tqEIbyizebX86HXWWmEdh4Bq0FTimT/GoNEGBvm8Uw6TDLiyx68WsGuZDZG0hnXI
+	 JOopuF5eGANQEFZOYz1pLtMqzkDZVzhaG/tDrqKHBx8fWqwVt/bP2NfNTLtaM58sjs
+	 Iurym8X42Byng==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
  pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com
-In-Reply-To: <20231129122021.679-1-peter.ujfalusi@linux.intel.com>
-References: <20231129122021.679-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4: check return value of
- snd_sof_ipc_msg_data
-Message-Id: <170128397409.290371.3042450357579316139.b4-ty@kernel.org>
-Date: Wed, 29 Nov 2023 18:52:54 +0000
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ baofeng.tian@intel.com, chao.song@linux.intel.com
+In-Reply-To: <20231129122234.14515-1-peter.ujfalusi@linux.intel.com>
+References: <20231129122234.14515-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Add module ID print during
+ module set up
+Message-Id: <170128397618.290371.4030404060053783635.b4-ty@kernel.org>
+Date: Wed, 29 Nov 2023 18:52:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,10 +39,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Wed, 29 Nov 2023 14:20:21 +0200, Peter Ujfalusi wrote:
-> snd_sof_ipc_msg_data could return error.
+On Wed, 29 Nov 2023 14:22:34 +0200, Peter Ujfalusi wrote:
+> This module ID will be used for module performance automatic analysis
+> for different modules, module name, module ID and module instance ID
+> will be combined as a new generated ID for current module, this ID
+> will be further used by analysis tools to identify current module.
 > 
+> Take below case as example:
+> 0x030006 gain.11.1
+> 3 is module instance ID, 6 is module ID and gain.11.1 is module name.
 > 
+> [...]
 
 Applied to
 
@@ -49,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4: check return value of snd_sof_ipc_msg_data
-      commit: 2bd512626f8ea3957c981cadd2ebf75feff737dd
+[1/1] ASoC: SOF: ipc4-topology: Add module ID print during module set up
+      commit: 8f464a410944650adc8d75c7711d7d56c5506da0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
