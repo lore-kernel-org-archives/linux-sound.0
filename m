@@ -1,94 +1,78 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471C92B9B3
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 21:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PZXJFKMB"
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1230AD67
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 13:28:55 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c887d1fb8fso3928421fa.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 13:28:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701293333; x=1701898133; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HSsSWusvyuFKnB0n59GG/ZJpbxUajSal4/kkXB4+BwY=;
-        b=PZXJFKMBTUVrKVvqZ/68DQT3iiTk5dSPHxWJOmhSdX2Z5yq2ZDXgY5JOTL0jQCGSBJ
-         ASlO1h3r3BvUyOT3Ol/yA4rE5VyS/J6/VR33z8kl9zsfTN9juCJudwcJfoLTxGKMIRVy
-         yh0VPhsLPNqD0KUdTdKmtR5SsQWKdfqjwlBApUuSpvNalxZzYiHUevUKptMnLGQgvIsG
-         8ncCDQt9OjPVcToMV7vRtEkc6ZL63gb6TKXhAxLgOV0igrPwzEyie0vwoQraNMnhv+jU
-         tBzJH6bE6DC5vWYm79GaEDH3RveJ2VrOrff6Kur72MXCbpKG0hwVFz1/fvtuLYoNeuC/
-         D6bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701293333; x=1701898133;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HSsSWusvyuFKnB0n59GG/ZJpbxUajSal4/kkXB4+BwY=;
-        b=jXvffNczydFRRmo72Lfm+izhOH4kZuM5L399meyxND6leOYwGQx8EpsY2sQ/FvlEks
-         BfvNvlciHQX+I4giBoEpH87cHUwzUcebmRDPuazJdghqmx/RB0k8x4XTrELjowWJKbao
-         b6qlimRpZR12WQsEWMRSQe3qLBWKcSv0p++erV8NRXVEZhI+w+Q3sCjP73dv60eyUlm5
-         EyUxZ/F1FlUcYF3aDxBxg+FC34ZrgtvMVYikDG+M6Mgb0CBYsBunim8MfmTRTECkHl2G
-         tA1Q0ij1g34CkDMrlgwAF44Phy20TwzN5MhMZC540bPVKgEF8V5UMCoWhq0PisoKAIc2
-         2RHQ==
-X-Gm-Message-State: AOJu0YwmFDE/4VWPa5aBYffNga7UqodyAYSrl+mlR8n/i9rA3B78FOz8
-	qHNzr7/cIgyhZP2ebHx5tG5oMg==
-X-Google-Smtp-Source: AGHT+IEkmWdPL4oWl2UHqoreap/8MLKCw3gg/vwTWvzAYgZdYOH7cYqyChHDv5dnd47KwZaWZPj/7A==
-X-Received: by 2002:a2e:9f06:0:b0:2c9:b9bc:b029 with SMTP id u6-20020a2e9f06000000b002c9b9bcb029mr3098669ljk.17.1701293333337;
-        Wed, 29 Nov 2023 13:28:53 -0800 (PST)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id b5-20020a05651c032500b002bcdbfe36b9sm2106196ljp.111.2023.11.29.13.28.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 13:28:52 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 22:28:46 +0100
-Subject: [PATCH 10/10] ASoC: cs4349: Drop legacy include
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BobBgE+a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 839ABC433C7;
+	Wed, 29 Nov 2023 21:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701293518;
+	bh=YjAGVESRLvsK0NiT3pHkYj/TZu9G20YInTk2adZOymU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BobBgE+ag95f05O7EL6Uhtouac09JLNUCdsIE/dV/2drWWUJU1b/BCIhVqePRZM+B
+	 sC9d1ININ1hhLLkDkT3lr2L/gA+Lc0uHChvGmc5ZfMvGwWouyiK1nrun+x5C9N0IdP
+	 SNWTcsOoND6Bltar7FKmA7af+MX7r89Fx5FEwu3uKa5YCJ0CX6jLCLzZHuBVI0augW
+	 sUUaWsbWapU9+oU8xTLB3SkbtYlSBmeBsr5JdEGA4CUI03JjjwYSq8Nyk1OehEDlGh
+	 ww4DS+GvwVe8kGkFC5ueXenljhZzhPYz5iZHC9G9hF7Hl4jO0mhFbWpvestqPrAW6d
+	 GaekCekp7GJCw==
+Date: Wed, 29 Nov 2023 21:31:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Paul Handrigan <Paul.Handrigan@cirrus.com>,
+	James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Hartley Sweeten <hsweeten@visionengravers.com>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Nikita Shubin <nikita.shubin@maquefel.me>,
+	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 02/10] ASoC: cs35l33: Fix GPIO name and drop legacy
+ include
+Message-ID: <1451c3ee-ae48-4151-ace4-2cf2ab9854ef@sirena.org.uk>
+References: <20231129-descriptors-sound-cirrus-v1-0-31aa74425ff8@linaro.org>
+ <20231129-descriptors-sound-cirrus-v1-2-31aa74425ff8@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231129-descriptors-sound-cirrus-v1-10-31aa74425ff8@linaro.org>
-References: <20231129-descriptors-sound-cirrus-v1-0-31aa74425ff8@linaro.org>
-In-Reply-To: <20231129-descriptors-sound-cirrus-v1-0-31aa74425ff8@linaro.org>
-To: Paul Handrigan <Paul.Handrigan@cirrus.com>, 
- James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Hartley Sweeten <hsweeten@visionengravers.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.4
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8qFzdh/puJOBRAP3"
+Content-Disposition: inline
+In-Reply-To: <20231129-descriptors-sound-cirrus-v1-2-31aa74425ff8@linaro.org>
+X-Cookie: You enjoy the company of other people.
 
-This driver includes the legacy GPIO API <linux/gpio.h> but
-does not use any symbols from it.
 
-Drop the include.
+--8qFzdh/puJOBRAP3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- sound/soc/codecs/cs4349.c | 1 -
- 1 file changed, 1 deletion(-)
+On Wed, Nov 29, 2023 at 10:28:38PM +0100, Linus Walleij wrote:
 
-diff --git a/sound/soc/codecs/cs4349.c b/sound/soc/codecs/cs4349.c
-index 9083228495d4..ca8f21aa4837 100644
---- a/sound/soc/codecs/cs4349.c
-+++ b/sound/soc/codecs/cs4349.c
-@@ -13,7 +13,6 @@
- #include <linux/kernel.h>
- #include <linux/init.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
+> Further the driver is requesting "reset-gpios" rather than
+> just "gpios" from the GPIO framework. This is wrong because
 
--- 
-2.34.1
+s/gpios/reset/
 
+--8qFzdh/puJOBRAP3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVnrccACgkQJNaLcl1U
+h9DyeQf/TBc6PoOjQzWgFz59WRahFpJ5md8waFHS/0y3D3JoTSfMlIpeq9HNbUcu
+YR1TQMT/ThWJ8Sgh2IF2d1ch07dG7o7CBwxHrwnbursrm+oiO0c1ddebK1n7M8a4
+viHqQ3TKGM0DCPUd6xBMovcSDhRen+cEa4QGeIwEMHFwxRc9AGASBOFlqNJ5Ernr
+LUoLhlVT+2f92i8m76vcFfMXk2ZC1j6p1dD4IEYdnvVU2CccBhKACAW5Lbz000uz
+oZUTgiP/albHyyz3957NoNa1zVOfWSVPgB2O+Ie0I++jqxUhMLkKBqQQPa9P2X6E
+v0Mh4fhQ77g+3grAWYbLd2nf+z41cA==
+=5cDG
+-----END PGP SIGNATURE-----
+
+--8qFzdh/puJOBRAP3--
