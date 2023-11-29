@@ -1,45 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ndQqp4Eq"
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8CCDE
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 05:46:07 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a00cbb83c82so964998766b.2
-        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 05:46:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wOCTXhZm"
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2003BA3
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 07:12:22 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40b54261524so5627155e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 07:12:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701265566; x=1701870366; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cBSFdLwbP6iBVNXIZiTcHgh2DF6/dUUBZvh33dWqRVw=;
-        b=ndQqp4EqJFuOHsJ4UojbzmjlRhGVkSvuzKjpuFiK7LrqFkR/6/n1PVRyXDoQdVzx8r
-         WfkWSjp4b3M9Zrrm+2qSJ4sMdCp8eqp41yxs7saqytWR6FvUudYF6v+1wb518DTsorjI
-         Jb8QFMQybb15c+rT11lD2xZ329VZHeise3w9BDwiyhMjwp31ZUx4w4SUUKFG/T0OAtDq
-         UMWUO9VVuZmcw/Kjto6WYU8ef8g5Y3ppcyNXshGIwZoU6f/+3f9cZCiWuXHQrJPvD2Kx
-         YiMEvW3Dg/te7F32vy4S5PJ7yH86DFTRhxInQ+5ybz+K+JZ7r0mLswlru0JgmfWVXltB
-         gBgQ==
+        d=linaro.org; s=google; t=1701270740; x=1701875540; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Hdd64HNUK0tSK3Da+oWNy4zZpaQIUo/ssbLKmavYcU=;
+        b=wOCTXhZmv+Wgg/kv0IJ87WkSTqjpyt9/xcvDfmCtM5kCEvMvgo+j+noueUdhMH98zO
+         QKyavS+gpxJfyMeOAS/+YszBE0yzY0/vDbGDoyiw2p4wB1R1h+bKxykiwIjrzTpOA31I
+         k71UaOXdLYVOOxIv66zY4tnnh4ZMqiDEHwZOnqeHhKR39BgXSdrmb40c/dme2eRwA91t
+         Mk3rEB+p1iDLWzIrYUYXWe8fUKr/DGpP2F+iqr31PFBfL91EwhdkwzF/PdDv60ZpgibK
+         r8qwyBDhr8JPFfwpK5NAL07Wz7VN738yswNraqj9WKxWNbPVJG30WXZRbdyG4cQXmy+J
+         C53g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701265566; x=1701870366;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cBSFdLwbP6iBVNXIZiTcHgh2DF6/dUUBZvh33dWqRVw=;
-        b=EpFrIT3ol7LzljnV27e/cp1E2RmtI3DFJG2AxJymijMM1WN0wfPyJXgl/fZe9hV+QL
-         iBuIhJznogm/Fc/DaSAh09wq5MJ5++O5+EGIwmPP5tk/rBW+b9c1a/zL+s+InIMXwMEz
-         hpugivyYZabV2kHr0CwxsPFr9hW43zNSutP+Cm/ZrXPzQXwpxyKUtBYvKnIY8bq9dtf/
-         hhUmZqIozmEvMGvdx5B7Z/Cb45lXBQm0sroECRPzXY12OwXW4Ajl7lj5c1DMyfdQiwhS
-         LDZObGJ/c38NuCpz1SM1gIyB0Ap3RKKK3Nfra6rTb1F9iM1AAvLnpG39PEmS5rPDMDgP
-         FNug==
-X-Gm-Message-State: AOJu0Yy0QUhoh1wXWUDoMh0+HBz23U4RgvRShiEM5DkKd4UIrpFD8p3M
-	mrS5+49xo88ntTILnHiCvFhotkvt0rPTMMx9nek=
-X-Google-Smtp-Source: AGHT+IEDLfeyaa/cILOO4tDHn+EEvUTwqz2+8nc3XcAYN2nENkKkAzsj23smEfgm2ZV7pfSa8xuUOQ==
-X-Received: by 2002:a17:906:b299:b0:a03:ad29:a00b with SMTP id q25-20020a170906b29900b00a03ad29a00bmr15555698ejz.36.1701265566229;
-        Wed, 29 Nov 2023 05:46:06 -0800 (PST)
-Received: from [192.168.209.173] (178235187166.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.166])
-        by smtp.gmail.com with ESMTPSA id f8-20020a17090624c800b009fd77d78f7fsm7910195ejb.116.2023.11.29.05.46.04
+        d=1e100.net; s=20230601; t=1701270740; x=1701875540;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:content-language:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9Hdd64HNUK0tSK3Da+oWNy4zZpaQIUo/ssbLKmavYcU=;
+        b=DGveprrxzryTo+tKYhwmEf6B5dlF9DI92DLgGZPhgxWb2fgR9L9PhnDRMP57CB9LJI
+         KezEOanhnEEiQ9NSpS1SV44Yf99Ub1Bdd7ZbPj+m13ZD+/f9WsAEdaU0Be0TWSxlVqoe
+         zUsc5vK0iWeaRdO5j/JCwrwcHLgRvP5SdXYw5JALPFsGFXCScE4O6ezfY4pPwECVcknQ
+         SXI6QTPFGszUyVwPUDEVC69j9Ojc4tk1zWWQuW0LZhhFgROGo6V1yN1S9jGygBgYqpSt
+         J3MNIxQEFRjVaW0Vy0wI/NktWLrAU6B+iagtMuGuBXAw/WzqnqGnozjP2N6qHUPF4iB1
+         9rkg==
+X-Gm-Message-State: AOJu0YxmxT+CnNL1wGhcbiB1vZSuwQK0TbJS9y+kdK5iQji9JVSOcWFl
+	Np7GnVX/Dff5v253GHYqS6TCiw==
+X-Google-Smtp-Source: AGHT+IF6BSoAaomITr4Z8xFOaHR6UtekVxTvNoVtk5sxQ+zoAVT/1BIogKnQKPJoVioojJENj2zBmQ==
+X-Received: by 2002:a05:600c:4f42:b0:40a:28b1:70f8 with SMTP id m2-20020a05600c4f4200b0040a28b170f8mr14698978wmq.21.1701270740436;
+        Wed, 29 Nov 2023 07:12:20 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:31d3:eea3:8f97:6a2c? ([2a01:e0a:982:cbb0:31d3:eea3:8f97:6a2c])
+        by smtp.gmail.com with ESMTPSA id j11-20020a05600c190b00b0040b47c69d08sm2531225wmq.18.2023.11.29.07.12.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 05:46:05 -0800 (PST)
-Message-ID: <eaa034cb-06e8-4204-befa-4389bcb7d9e8@linaro.org>
-Date: Wed, 29 Nov 2023 14:46:04 +0100
+        Wed, 29 Nov 2023 07:12:20 -0800 (PST)
+Message-ID: <0140f49d-c463-4011-8159-f4e56466e6bd@linaro.org>
+Date: Wed, 29 Nov 2023 16:12:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,9 +49,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: neil.armstrong@linaro.org
 Subject: Re: [PATCH 5/5] ASoC: codecs: Add WCD939x Codec driver
-Content-Language: en-US
-To: neil.armstrong@linaro.org,
+Content-Language: en-US, fr
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Banajit Goswami <bgoswami@quicinc.com>, Andy Gross <agross@kernel.org>,
  Bjorn Andersson <andersson@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -64,73 +68,78 @@ References: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-0-21d4ad9276de@lina
  <20231123-topic-sm8650-upstream-wcd939x-codec-v1-5-21d4ad9276de@linaro.org>
  <ad9a7c4b-82f4-4347-b4dd-a394e4ba95f0@linaro.org>
  <42a6f6e0-2846-4cdc-8702-493fadbafb98@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <42a6f6e0-2846-4cdc-8702-493fadbafb98@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ <eaa034cb-06e8-4204-befa-4389bcb7d9e8@linaro.org>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <eaa034cb-06e8-4204-befa-4389bcb7d9e8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 28.11.2023 16:01, Neil Armstrong wrote:
-> On 25/11/2023 13:07, Konrad Dybcio wrote:
-> 
-> <snip>
-> 
->>> +
->>> +static int wcd939x_io_init(struct snd_soc_component *component)
->>> +{
->>> +    snd_soc_component_write_field(component, WCD939X_ANA_BIAS,
->>> +                      WCD939X_BIAS_ANALOG_BIAS_EN, 1);
->> All of these values are BIT()s or 2-4 ORed BIT()s, can you check what they
->> mean?
+On 29/11/2023 14:46, Konrad Dybcio wrote:
+> On 28.11.2023 16:01, Neil Armstrong wrote:
+>> On 25/11/2023 13:07, Konrad Dybcio wrote:
 >>
->> Same for almost all other snd_soc_component_ write/modify functions
-> 
-> It uses snd_soc_component_write_field() with is the same as
-> regmap_write_bits(REGISTER, REGISTER_MASK,
->                   FIELD_PREP(REGISTER_MASK, value);
-> 
-> So the 1 mean write in enable mask in this case, and mask is single bit,
-> read it exactly like if it was using FIELD_PREP(), but even for BITs.
-> 
-> I did check every single snd_soc_component_write_field() so far to check
-> it matches.
-> 
-> Or it's another question ?
-What I wanted to ask is whether it's possible to #define these magic
-values within these fields
+>> <snip>
+>>
+>>>> +
+>>>> +static int wcd939x_io_init(struct snd_soc_component *component)
+>>>> +{
+>>>> +    snd_soc_component_write_field(component, WCD939X_ANA_BIAS,
+>>>> +                      WCD939X_BIAS_ANALOG_BIAS_EN, 1);
+>>> All of these values are BIT()s or 2-4 ORed BIT()s, can you check what they
+>>> mean?
+>>>
+>>> Same for almost all other snd_soc_component_ write/modify functions
+>>
+>> It uses snd_soc_component_write_field() with is the same as
+>> regmap_write_bits(REGISTER, REGISTER_MASK,
+>>                    FIELD_PREP(REGISTER_MASK, value);
+>>
+>> So the 1 mean write in enable mask in this case, and mask is single bit,
+>> read it exactly like if it was using FIELD_PREP(), but even for BITs.
+>>
+>> I did check every single snd_soc_component_write_field() so far to check
+>> it matches.
+>>
+>> Or it's another question ?
+> What I wanted to ask is whether it's possible to #define these magic
+> values within these fields
 
-Konrad
+OK, so most of writes are to boolean enable bits, I can use true/false
+instead of 0 & 1 for those, would it be more readable ?
+
+For the rest, those a integer values to a field, those are not bitmasks
+and I do not have the definition of the values.
+
+I did a full cleanup and tried to define as much as possible,
+there were still lot of places where not defined bitmasks we used,
+but there's still some integer values, but I think it's acceptable.
+
+Neil
+
+> 
+> Konrad
+
