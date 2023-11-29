@@ -1,67 +1,35 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD171A73B
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 11:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TD1HTmbm"
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F6F21A8
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 03:30:26 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54acdd65c88so7228049a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 03:30:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701257424; x=1701862224; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FuoTW5fNts47GPp/zz/U4BPEMqSdOcRJOpgotFGXLGo=;
-        b=TD1HTmbmVOmkmbeL7NASVcgXpk+ouNAYhqa6M04Du+3uMpzxq4maeXwhqrsClgsVip
-         N4dhPKaWFz/ZYa1y73bmk77rxI2WyyluvtwZRuji/YYtxlWdws4Bi5awxWtdjVYD5TaT
-         hYMsV8xZfXc8e4I0ZEu+Oo5wU91ODbqZDCk430YmGFyb+qmcc32vyCbnMNdvhx2bFt2O
-         ikgMm0zAQXctXztxAVol+sSJQq9shT7vReFFORbaEwpIP8E9q4SlMY6K6IQucb/2u4CP
-         n4ZVVkhTdYWom/IRELsQggGZzp3kJ3oluv/JJ43JzndDPmcAYfb7f6bce9ZEHeW8R6Dy
-         Gupw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701257424; x=1701862224;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FuoTW5fNts47GPp/zz/U4BPEMqSdOcRJOpgotFGXLGo=;
-        b=OoRN0aMC2aJJ7ft1ZlfgknKTAF9K3kinilmn8Qm4N4YtyaNdjxDhOSWmykBvvxLaLJ
-         IV9ei50tJ0xC9ZijbhSrtBwO8fhdXD8uETNGkjtZL+ftbXRXbk5z0WFGfjP2w39f0TVg
-         CGqv15BpmQexTofl3fvAZCg/lr3/VdRrklqTZNJsitIEdvC8LAqarBmma7v8ELdi65xN
-         1awHn6AkWDrLh5bJnPhrMjJBxVkozguee+WofsQAKxIE24CRUSaMz8ae0HYJQJjvIEkt
-         Zgid4Gq8k8t5wIddZwq/+W1wshQ/A0A/9uiSRxNWSSJV4Hajs8avLeUQVQt2JydVcWMA
-         oZXw==
-X-Gm-Message-State: AOJu0YysCbim9ZS33YJMKk69vvBcHBelT8mUJHd6hGNjRUytmfa+ABtE
-	HGYjevnT7dWstXe81kvbmKlcIR/t8cbi7u2yVVk=
-X-Google-Smtp-Source: AGHT+IEHx5bvhNh2IGOAE7PXOlw27mYMxj7q8yRLiaQc1GYWBHE0clKsOrSLO7MzxHMzKLVRVjkuPw==
-X-Received: by 2002:aa7:df0c:0:b0:54b:52c4:68a5 with SMTP id c12-20020aa7df0c000000b0054b52c468a5mr7456394edy.39.1701257424378;
-        Wed, 29 Nov 2023 03:30:24 -0800 (PST)
-Received: from krzk-bin.. ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id y5-20020a056402440500b0054af224a87bsm6213829eda.33.2023.11.29.03.30.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 03:30:24 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	alsa-devel@alsa-project.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g6onjRbp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6CACC433C7;
+	Wed, 29 Nov 2023 11:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701257533;
+	bh=FoQpCy80/A7NqecYX8XoNLwYAiGxzFge1aoT7zCvJgk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=g6onjRbp37be+UMRU4JvdY3eUKTCkvMRbNQdJISR5P0C0cHBFzvn45SqowYRO6O+W
+	 zt+Ut32KRpAA9xRfATcxZGQjXmoq2Lsx2rUL4iI6Eun4Qio3/42KHgeBNxFnSHt3w/
+	 6ckbFvzNL91Eg52WEdie6zUUlHkQhFuAtExVz7qVs41p4h0y8ZonUHbW/2aIw7kGyp
+	 eY5LcYo9Y5wfIP2A4yCpJxdzmhqrOziZInD6mmXjr4W7NW1kVDhP4PFHQoEe60KFiJ
+	 A/oJm1U3ygRPM8lKEBCisgKnn+LyUjMcOQjGihOxXcaRcP7S6I3idBNy08i8vpG55C
+	 sl6cXQOXhcCHg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chancel Liu <chancel.liu@nxp.com>,
 	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH 4/4] ASoC: dt-bindings: qcom,lpass-wsa-macro: Add SM8650 LPASS WSA
-Date: Wed, 29 Nov 2023 12:30:14 +0100
-Message-Id: <20231129113014.38837-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231129113014.38837-1-krzysztof.kozlowski@linaro.org>
-References: <20231129113014.38837-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: fsl_rpmsg: update Kconfig dependencies
+Date: Wed, 29 Nov 2023 12:31:17 +0100
+Message-Id: <20231129113204.2869356-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,54 +38,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add bindings for Qualcomm SM8650 Low Power Audio SubSystem (LPASS) WSA
-macro codec, which looks like compatible with earlier SM8550.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+SND_SOC_IMX_RPMSG gained a new dependency and gets selected by SND_SOC_FSL_RPMSG,
+which as a result needs to have the same dependency, or produce a build failure
+based on that:
+
+WARNING: unmet direct dependencies detected for SND_SOC_IMX_RPMSG
+  Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_IMX_SOC [=y] && RPMSG [=y] && OF [=y] && I2C [=n]
+  Selected by [y]:
+  - SND_SOC_FSL_RPMSG [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && COMMON_CLK [=y] && RPMSG [=y] && (SND_IMX_SOC [=y] || SND_IMX_SOC [=y]=n) && SND_IMX_SOC [=y]!=n
+x86_64-linux-ld: sound/soc/fsl/imx-rpmsg.o: in function `imx_rpmsg_late_probe':
+imx-rpmsg.c:(.text+0x11e): undefined reference to `i2c_find_device_by_fwnode'
+
+Fixes: f83d38def6b1 ("ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF and I2C")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- .../bindings/sound/qcom,lpass-wsa-macro.yaml  | 21 ++++++++++++-------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ sound/soc/fsl/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-index eea7609d1b33..5fb39d35c8ec 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-@@ -11,12 +11,16 @@ maintainers:
- 
- properties:
-   compatible:
--    enum:
--      - qcom,sc7280-lpass-wsa-macro
--      - qcom,sm8250-lpass-wsa-macro
--      - qcom,sm8450-lpass-wsa-macro
--      - qcom,sm8550-lpass-wsa-macro
--      - qcom,sc8280xp-lpass-wsa-macro
-+    oneOf:
-+      - enum:
-+          - qcom,sc7280-lpass-wsa-macro
-+          - qcom,sm8250-lpass-wsa-macro
-+          - qcom,sm8450-lpass-wsa-macro
-+          - qcom,sm8550-lpass-wsa-macro
-+          - qcom,sc8280xp-lpass-wsa-macro
-+      - items:
-+          - const: qcom,sm8650-lpass-wsa-macro
-+          - const: qcom,sm8550-lpass-wsa-macro
- 
-   reg:
-     maxItems: 1
-@@ -94,8 +98,9 @@ allOf:
-   - if:
-       properties:
-         compatible:
--          enum:
--            - qcom,sm8550-lpass-wsa-macro
-+          contains:
-+            enum:
-+              - qcom,sm8550-lpass-wsa-macro
-     then:
-       properties:
-         clocks:
+diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
+index acb518f7ae79..270726c134b3 100644
+--- a/sound/soc/fsl/Kconfig
++++ b/sound/soc/fsl/Kconfig
+@@ -121,6 +121,7 @@ config SND_SOC_FSL_UTILS
+ config SND_SOC_FSL_RPMSG
+ 	tristate "NXP Audio Base On RPMSG support"
+ 	depends on COMMON_CLK
++	depends on OF && I2C
+ 	depends on RPMSG
+ 	depends on SND_IMX_SOC || SND_IMX_SOC = n
+ 	select SND_SOC_IMX_RPMSG if SND_IMX_SOC != n
 -- 
-2.34.1
+2.39.2
 
