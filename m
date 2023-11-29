@@ -1,120 +1,253 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGCDV07R"
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5FB51BD4;
-	Wed, 29 Nov 2023 01:10:02 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bc7706520so240510e87.3;
-        Wed, 29 Nov 2023 01:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701249001; x=1701853801; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7SygEgSZBbpHZdUiWup7DXOCloS8YLNYVc8N3bxy+Lg=;
-        b=KGCDV07RRBALN2JYkO8qbCai+09QwDGJgPeJshGmfsfBLs92nCB6/sA7Hg9d/Bzmzp
-         A1+opuUh81toxsb4MV6HOLh5bD9Fkv//90tDy3m9emdYi8MYe+5G/2HUowemptqajtrq
-         5R0I7H+aN6frahZDUbggcZg1leWc+aRbEsFQKEB12y9O5D7esrrnCtrJU6Wmo1RqK1pp
-         Yxu2jhC6TbNvLwWikoWXBf56vzY33FXgIEojX0zvcQutBZH9pCdGYCk8xUiM/GMHe+8a
-         SRP/dUKKWIBNtBDGMO7RvhSFYuIAYGM2YfKT4t5ilfGNvuQthg9FPO8YdGJX3b/BubUD
-         sTNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701249001; x=1701853801;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7SygEgSZBbpHZdUiWup7DXOCloS8YLNYVc8N3bxy+Lg=;
-        b=RWlQuHprRGtjHIssc9oTKWzbWkFWmABUj6ddq0Q+qvuRHEjQaZbDJVgD99kmzZgA5o
-         BLlLn/sBUVIQtEVs+xAgzhp1zrbNsOzweED2pGIXh8XGmoK8cWoMLPooLduQ/M5axtCS
-         Z1KZ3Ysal0/M8ULnTES0HNcX6hiTr84BolmLLJ70my8e0oa0yMkSEtZrKsSKnk76KUm1
-         kjIvDcglmnkM0hPDDQN8UXGvzT9V/96YjfgalmJ3gptp3XnBgirm8RyX1K8I2driPUSG
-         bufeQ2L+fEx1gZvmRrmwt3TrwtYSH7T0H8U7CkcJDo5V8CmwzDtJaLRBmg3dHUVcoxKs
-         mqLw==
-X-Gm-Message-State: AOJu0YzN/Ua6BS5f/cA1384HHaCLxLVr+nnA0KXpyizTX2nkh2e7abOf
-	qktVZlR0emeO3Fo30kWrHiE=
-X-Google-Smtp-Source: AGHT+IFlHo7BDX4W4K7IsTgxCgo21fqInvpekoWD/Ui4zDyCD5ufzbHOu6adI32JTKjG8Hln1yWNYQ==
-X-Received: by 2002:ac2:5922:0:b0:50b:be63:8e09 with SMTP id v2-20020ac25922000000b0050bbe638e09mr2618753lfi.57.1701249000720;
-        Wed, 29 Nov 2023 01:10:00 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id l15-20020a05600c4f0f00b0040b33222a39sm1456975wmq.45.2023.11.29.01.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 01:10:00 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: core: Fix a handful of spelling mistakes.
-Date: Wed, 29 Nov 2023 09:09:58 +0000
-Message-Id: <20231129090958.815775-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="bP71Zj6v"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5545130E5
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 03:14:21 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AT7gDnD028524;
+	Wed, 29 Nov 2023 05:14:04 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=MCgVbuGY+ysDPlisJmO2UTuP0qj4DzLEgkYKhO84hIo=; b=
+	bP71Zj6veDe2IPPXPe5KgtiiAB97Tz8PkFKDDbKBDZgQmlMCD1iPJ5YVYHi/H1kX
+	83+Z05LygGdqMr1sFuy6Peo0sOEVttLRVHE0NpgeMbmxgubSYXJXAETV09UsY+UC
+	BSYewe78G53Kys/62rUN2DbZ55lBUhcDR9l/2vaXgcr++JJbEsGz/fg++bH4wvTH
+	NiQ1S08Jamftq0r6OrNDay9aIpG1xuA6sMij4doGt9rL2maVWQrBDNQ/OO2IFnn9
+	zzmVqmUgvrANqzrihH1n6cvSS8tItphRlhQ/hTVFX7nLIPRyMF5XCBSbiKBrkMtp
+	mKJf8SLBtLtlw8KI7Qi5YA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3unvprrbr6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Nov 2023 05:14:04 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 29 Nov
+ 2023 11:14:02 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Wed, 29 Nov 2023 11:14:02 +0000
+Received: from [198.90.251.82] (edi-sw-dsktp-006.ad.cirrus.com [198.90.251.82])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6C13A15A5;
+	Wed, 29 Nov 2023 11:14:02 +0000 (UTC)
+Message-ID: <d2de7d4c-3984-4737-b879-a1fa829007ff@opensource.cirrus.com>
+Date: Wed, 29 Nov 2023 11:14:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
+ and cs56l56 support
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Peter
+ Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        <lgirdwood@gmail.com>, <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <kai.vehmanen@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+        <cezary.rojewski@intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <ckeepax@opensource.cirrus.com>, <yong.zhi@intel.com>,
+        <chao.song@linux.intel.com>
+References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+ <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
+ <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
+ <cb768f03-9d46-432e-ad67-8ff1ef075385@linux.intel.com>
+ <6038c9fa-8cb1-46e1-b856-d759a3f990b3@opensource.cirrus.com>
+ <5e9b0b69-6108-4909-90e8-257c13c2d886@linux.intel.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <5e9b0b69-6108-4909-90e8-257c13c2d886@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: -kZ0FcbGSUmJf01B-E5wJw_mQU0GA_Ji
+X-Proofpoint-GUID: -kZ0FcbGSUmJf01B-E5wJw_mQU0GA_Ji
+X-Proofpoint-Spam-Reason: safe
 
-There is a spelling mistake in a dev_err message and several
-spelling mistakes in comments. Fix them.
+On 28/11/2023 15:23, Pierre-Louis Bossart wrote:
+> 
+> 
+> On 11/28/23 04:31, Richard Fitzgerald wrote:
+>> On 27/11/2023 17:36, Pierre-Louis Bossart wrote:
+>>>
+>>>>> +static const struct snd_soc_acpi_adr_device cs35l56_0_adr[] = {
+>>>>> +    {
+>>>>> +        .adr = 0x00003301FA355601ull,
+>>>>> +        .num_endpoints = 1,
+>>>>> +        .endpoints = &spk_r_endpoint,
+>>>>
+>>>> Assigning CS35L56 to "left" or "right" endpoints might be confusing.
+>>>> All CS35L56 in a system receive both left and right channels and by
+>>>> default they output a mono-mix of left+right.
+>>>>
+>>>> The left/right of an amp is determined by the firmware file (.bin) that
+>>>> is loaded and the current settings of the "Posture" ALSA control. So
+>>>> this amp might be the left channel after a .bin is loaded.
+>>>
+>>> That's a problem if the kernel does not know which amplifier is on which
+>>> side, no? How would one change the balance if this information is known
+>>> only within a binary/opaque firmware?
+>>>
+>>
+>> SDCA allows the posture (orientation) of amplifiers to be changed at
+>> runtime. CS35L56 is designed as a SDCA device so it doesn't have any
+>> hardwired position. SDCA doesn't define what the posture numbers mean,
+>> they are an integer that is system-specific.
+>>
+>> Because SDCA doesn't define the meaning of postures, and an SDCA device
+>> should work with a generic SDCA driver (which obviously wouldn't have
+>> hardcoded knowledge of the system) the speaker positions and postures
+>> are coded into the firmware
+>>
+>> It's difficult to say what is "default". For example, if you say that
+>> the default for a tablet is left/right/top/bottom, assuming it is
+>> used in portrait orientation, that would be wrong if the user always
+>> uses it in landscape.
+>>
+>> Matching by what amp is on what bus doesn't work well here because two
+>> systems could have the same arrangement of CS35L56 on each bus but use
+>> them for different purposes. So they could both match the "2 on bus 0, 2
+>> on bus 1" table entry, but could be left/right/top/bottom on one device
+>> and left woofer/right woofer/left tweeter/right tweeter on another
+>> device.
+> 
+> In the absence of any platform firmware information, I am not sure how
+> we can deal with such systems. The match tables are already hard to
+> support given that a number of OEMs get the _ADR wrong, the speaker
+> position is the next-level...
+> 
+> Or did you just volunteer to maintain a DMI quirk table for Cirrus-based
+> systems :-)
+>
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/soc-core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Short answer: "That's SDCA."
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 4ca3319a8e19..132946f82a29 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1059,7 +1059,7 @@ static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
- 	/* it should have ch_maps if connection was N:M */
- 	if (dai_link->num_cpus > 1 && dai_link->num_codecs > 1 &&
- 	    dai_link->num_cpus != dai_link->num_codecs && !dai_link->ch_maps) {
--		dev_err(card->dev, "need to have ch_maps when N:M connction (%s)",
-+		dev_err(card->dev, "need to have ch_maps when N:M connection (%s)",
- 			dai_link->name);
- 		return -EINVAL;
- 	}
-@@ -1299,7 +1299,7 @@ static void snd_soc_runtime_get_dai_fmt(struct snd_soc_pcm_runtime *rtd)
- 	 *
- 	 * To avoid such issue, loop from 63 to 0 here.
- 	 * Small number of SND_SOC_POSSIBLE_xxx will be Hi priority.
--	 * Basic/Default settings of each part and aboves are defined
-+	 * Basic/Default settings of each part and above are defined
- 	 * as Hi priority (= small number) of SND_SOC_POSSIBLE_xxx.
- 	 */
- 	for (i = 63; i >= 0; i--) {
-@@ -1845,7 +1845,7 @@ static void append_dmi_string(struct snd_soc_card *card, const char *str)
-  * @flavour: The flavour "differentiator" for the card amongst its peers.
-  *
-  * An Intel machine driver may be used by many different devices but are
-- * difficult for userspace to differentiate, since machine drivers ususally
-+ * difficult for userspace to differentiate, since machine drivers usually
-  * use their own name as the card short name and leave the card long name
-  * blank. To differentiate such devices and fix bugs due to lack of
-  * device-specific configurations, this function allows DMI info to be used
-@@ -1866,7 +1866,7 @@ static void append_dmi_string(struct snd_soc_card *card, const char *str)
-  * We only keep number and alphabet characters and a few separator characters
-  * in the card long name since UCM in the user space uses the card long names
-  * as card configuration directory names and AudoConf cannot support special
-- * charactors like SPACE.
-+ * characters like SPACE.
-  *
-  * Returns 0 on success, otherwise a negative error code.
-  */
-@@ -2461,7 +2461,7 @@ EXPORT_SYMBOL_GPL(snd_soc_add_card_controls);
- 
- /**
-  * snd_soc_add_dai_controls - add an array of controls to a DAI.
-- * Convienience function to add a list of controls.
-+ * Convenience function to add a list of controls.
-  *
-  * @dai: DAI to add controls to
-  * @controls: array of controls to add
--- 
-2.39.2
+I don't think a quirk table is needed. It's just that we can't hardcode
+"this speaker is left, that speaker is right". SDCA defers orientation
+changes to the amp through the posture control.
 
+If you have a daemon to handle rotation, everything will be fine and
+left audio is on your left. Let's say you have a tablet and you hold it
+in portrait with left and right correct. You then rotate it 180 degrees,
+if the daemon updates the posture control, the amps will swap channels
+so left audio is still on your left, and right is still on your right.
+
+If Linux distros don't have any daemon that can handle rotation, then
+rotating the tablet 180 degrees is going to give you left and right
+audio on the wrong sides. But that's what you'd expect if nothing is
+handling rotation, and you'd get the same problem if it was all done
+by changing the routing in ALSA controls but there was nothing to
+change that routing.
+
+Getting back to my original comment about endpoints. It really doesn't
+matter what the endpoint structs are called because all they do is
+declare the aggregation. I was only suggesting to maybe avoid names
+that imply a specific function. When I said "Confusing" that was
+overstating things. A bit misleading perhaps.
+
+> I also bet that at some point the wrong firmware will be loaded on the
+> wrong amplifiers, that could be fun as well.
+>
+
+Hence using the SSDI + ALSA prefix to qualify the firmware files. We aim
+to push out all the firmware to linux-firmware for products we know
+about. So far it's worked ok for CS35L41 and CS35L51 - problems with
+those have been with incorrect ACPI.
+
+>> I assume that if the system supports rotation there should be something
+>> in the UCM or other userland that manages this. At least, it seems like
+>> it's a UCM problem to decide which speakers are doing what audio.
+>> If Linux-based distros don't have something like that - well, that just
+>> means Linux is behind Windows.
+> 
+> SDCA has lots of fancy concepts, posture is one. Last time I checked we
+> don't have any reports of the hinge angle in Linux so the best we can do
+> is landscape/portrait, and even that is questionable given that tablets
+> or detachables have not reached any developers so far. CI automation is
+> another fun issue, we'll need robotic arms to move the device around and
+> intelligent alsa-bat-v2 to verify sound levels...
+> 
+> The notion of which speakers do what is something that will clearly take
+> years to figure out. For now the main issue is to get all parts
+> connected and basic "loud enough" sound working.
+> 
+
+It's still the case that shiny new things on x86 platforms will be
+designed around Windows and made to work there. Then Linux has to catch
+up with that.
+
+>>>> It would be better to have generic names for the endpoint that don't
+>>>> imply position, for example:
+>>>>
+>>>> group1_spk1_endpoint
+>>>> group1_spk2_endpoint
+>>>> group1_spk3_endpoint
+>>>> group1_spk4_endpoint.
+>>>
+>>> The notion of endpoint is completely half-baked today and the settings
+>>> used have no bearing on the behavior and user-experience. I am inches
+>>> away from sending a patch that removes all of the endpoint definitions,
+>>> we can re-add them if/when we can get the information from platform
+>>> firmware.
+>>>
+>>>>> +        .name_prefix = "cs35l56-8"
+>>>>
+>>>> Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
+>>>> CS35L56-hda driver? This prefix is used to find the matching firmware
+>>>> files and our naming convention for these has been cs35lxx-xxxx-ampn
+>>>>
+>>>> Is there anything that depends on the prefixes being "cs35l56-n" ?
+>>>
+>>> IIRC this name_prefix is just used for the codec_conf and hence for
+>>> control names/UCM. At some point userspace/driver need to know if amp5
+>>> is left or right.
+>>>
+>>> We can certainly align on conventions but the values set in this ACPI
+>>> match table will not be used for firmware download - different scope.
+>>>
+>>
+>> They are used for our firmware download. Each amp can have its own
+>> unique firmware file. The ALSA prefix is used to identify which firmware
+>> file to load to which amp.
+> 
+> The prefix will only be used when the card is created, specifically for
+> control names.
+> The firmware should be selected and downloaded when the device shows up
+> on the bus.
+> Card creation and device enumeration/initialization happen on different
+> timelines, if the machine driver is "blacklisted" or unbound I am not
+> sure what happens.
+> 
+> There is a dependency between machine driver probe and codec firmware
+> download that I am not able to follow, can you please elaborate?
+>
+
+The codec driver has to choose which firmware to load from under
+/lib/firmware. It does this using a combination of SSID (to identify the
+target product), the ALSA prefix string (to identify which amp) and
+in some systems a GPIO on the motherboard to select between different
+models of speaker when they have multiple suppliers. This results in a
+firmware name like:
+
+cs35l56-<silicon rev>-dsp1-misc-<SSID>[-<SPEAKER MODEL>]-<ALSA PREFIX>
+
+You can see this if you look in the linux-firmware repo under cirrus/
+for cs35l41 firmware files (though the ALSA PREFIX section in those
+cases is not "AMPn" because they are not SDCA parts with rotation,
+they have a fixed left/right assignment.)
+
+We have to be careful of the length of the prefix. The 44 characters of
+an ALSA control name get eaten up very quickly when we start creating
+fully-qualified names for controls published by the firmware. So "AMPn"
+was nice because it was descriptive enough but only uses 5 characters
+of the 44.
+
+Having said that, I've calculated that we have enough characters (just)
+to use a prefix of "cs35l56-n". If there's a reason why that is
+necessary/desirable for SOF or SoundWire then we could do that. But we'd
+intended to use "AMPn" prefixes.
+
+We just need to decide whether to go with "AMPn". Or switch to using
+"cs35l56-n" for the ALSA prefix (the therefore the qualifier at the end
+of the firmware filename).
