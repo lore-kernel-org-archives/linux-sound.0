@@ -1,33 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A364A13ADC
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 18:53:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C462D13ADC
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 18:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RpAV7EWx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BD6C433C8;
-	Wed, 29 Nov 2023 18:52:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJQw+8B4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B46C433C8;
+	Wed, 29 Nov 2023 18:53:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701283980;
-	bh=DxwZUWnH+fUEWYdcU14h0/83veMkO4N+Vygul07agts=;
+	s=k20201202; t=1701283982;
+	bh=xE3VGxi1KqB6Ryu8SKT3DnfI6RZJEMWpiPFPbLEUaJw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RpAV7EWxZCkujRUV0enyuR4b+3x5ArpOQGQpckIeVOGys1iMMIG2liwgzKPE0ryGI
-	 wRjmW1PsbgoLpg75TNzJl79Q/GhVN03Oa47rro+duw/H8+5lxqGZfMd8CM/a2NEDlX
-	 cQJXNK/gdo4lE2GOzVQbEYEQJmdysgIuh0+hfS/uaK16VzcVEQ3pTIOm1H5F6b03tS
-	 tyCVhVz/j1t8wWv7hMtSHPpUMvhFmcM+ZlHtPfK9K/WVewIEbfr+mAqNPW5jJKkZuj
-	 LBTRnicElx3Ak69ox8C15S3LAMOu1BwuRsXMc/SqtI+p0hq90CHf0hyRWOUk02m/At
-	 XYmS8KlMQdpkg==
+	b=rJQw+8B4o0JRJzasxhOx6BL6G7wEOmMShOa7P7X52CPjxG+UpuIjothctHLusIKpO
+	 yN3EtY0s8ZOMFMLVlwXFb1pPO0jtu5123YtgaRUfJfYCelWl0BUxBPDYVP7xj/F5YC
+	 zm/sQMeAVKcI2wqUOqNyyxOvcMs4BwRKaRrz+eagDMdjmPehE5Pm/0HxLxKkV+hhBe
+	 U8AZazyYfN7GiJzkR/Fw47uatZ6itVoyDExNyoLKbe5NfH6vyMXxTH/p76s/3tk1NA
+	 kt2/M26m3nCirh8K2+a7mFydOyfJH8r5KnEmyyBAmNE8k6kffmnJa8q5JwPy2IOBy+
+	 IOym8QTHw5Hsw==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com
-In-Reply-To: <20231129122805.10635-1-peter.ujfalusi@linux.intel.com>
-References: <20231129122805.10635-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4: Move window offset configuration
- earlier
-Message-Id: <170128397860.290371.17008582761429227584.b4-ty@kernel.org>
-Date: Wed, 29 Nov 2023 18:52:58 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chancel Liu <chancel.liu@nxp.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20231129113204.2869356-1-arnd@kernel.org>
+References: <20231129113204.2869356-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: fsl_rpmsg: update Kconfig dependencies
+Message-Id: <170128398071.290371.14400360255122979323.b4-ty@kernel.org>
+Date: Wed, 29 Nov 2023 18:53:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,14 +37,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Wed, 29 Nov 2023 14:28:05 +0200, Peter Ujfalusi wrote:
-> With the added exception handling support if the firmware fails to boot
-> up we are trying to do a panic dump from the telemetry slot. The slot
-> offsets would have been configured only after receiving the FW_READY
-> message which makes this panic dump unusable for early boot failures.
+On Wed, 29 Nov 2023 12:31:17 +0100, Arnd Bergmann wrote:
+> SND_SOC_IMX_RPMSG gained a new dependency and gets selected by SND_SOC_FSL_RPMSG,
+> which as a result needs to have the same dependency, or produce a build failure
+> based on that:
 > 
-> With IPC4 the DSP window offsets are at standard places unlike IPC3 where
-> the offsets needs to be queried from the FW_READY message.
+> WARNING: unmet direct dependencies detected for SND_SOC_IMX_RPMSG
+>   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_IMX_SOC [=y] && RPMSG [=y] && OF [=y] && I2C [=n]
+>   Selected by [y]:
+>   - SND_SOC_FSL_RPMSG [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && COMMON_CLK [=y] && RPMSG [=y] && (SND_IMX_SOC [=y] || SND_IMX_SOC [=y]=n) && SND_IMX_SOC [=y]!=n
+> x86_64-linux-ld: sound/soc/fsl/imx-rpmsg.o: in function `imx_rpmsg_late_probe':
+> imx-rpmsg.c:(.text+0x11e): undefined reference to `i2c_find_device_by_fwnode'
 > 
 > [...]
 
@@ -55,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4: Move window offset configuration earlier
-      commit: 729bb2cd2e0601ac6d52c53535a543b9db196fad
+[1/1] ASoC: fsl_rpmsg: update Kconfig dependencies
+      commit: 9cce9c4806a89439ea34aad2e382150d68c7ea95
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
