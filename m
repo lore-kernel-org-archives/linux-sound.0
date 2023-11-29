@@ -1,114 +1,73 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7419D13ADC
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 18:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbXoKW2s"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8EA1A3;
-	Wed, 29 Nov 2023 10:45:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701283544; x=1732819544;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=VesGDOaehDA9Fg1TH+ih/jgS5o/DVG5HPfhsdBxy2o8=;
-  b=XbXoKW2sjEJHO6CRz4nTgoPhggKRjzCQyQyPedW06hxs9B/BToDBbleF
-   HU7Ko91hgjOGP2Ya8+MGkU7hTZ4mD8G+BMi5+H/qdHHzGR2e1BDI9yaPS
-   xjARXf8uO0PFCFNaQR32xUQjNAUg8CSbaKNCHuUxa3CTs2EKDJcQnVyCZ
-   s2/stgCTy+CwMoRhdwqIrmNaU+QkWN6TCmCh78BoOuMpGVbB0dy9sjMW3
-   8RBN4HfJwTVF5FQmfRwOeC5Ma6hP0fUTeOSsFx8WJ29lN/7yTmtKylEq6
-   WUEHpni5D8dNNBU+gdzUbis81y+4l0EOCyRC1mJuG8PGIf3Ny4WwP/UpI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="383602794"
-X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="383602794"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 10:45:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="942421671"
-X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="942421671"
-Received: from caw1-mobl1.amr.corp.intel.com (HELO [10.255.229.136]) ([10.255.229.136])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 10:45:42 -0800
-Message-ID: <598015b0-68e1-434c-96d3-571040a3814e@linux.intel.com>
-Date: Wed, 29 Nov 2023 10:46:52 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zzqe7kj9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D82DC433C7;
+	Wed, 29 Nov 2023 18:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701283976;
+	bh=UGgJf+xDm6TeaMGLjtQRriZZTl6p0lxp7AxmrXcux2w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Zzqe7kj9oMc7/5iqHUZGIH/2t2lng2nWwIqOejlb2it6VjKIH2QUf4wiZVqVGzrz4
+	 7Co0gUNwabPBLVCZq7fVh2OiypyVmtCbhqdp1NzGrfB9hJvlxlxaaqQ1vDXhzwzQVi
+	 jPlUR6kQiXHKTXeDAtVIavInxUKwYpUb0YEmmL4iA7bPEjfsNYglh36K0iSfMoVrh9
+	 jb3+3LYRgQBpMkkh7nlK73/MIsTFYA6MNbbd7hIqP76XWxQmnQlVopf8FfjEMCYcIH
+	 UB16FiHtXaeFUV1QQT93iReMZa/945VmXrqnZ39ij3GU2GLXfaGsN4uBiMO9OLNP3U
+	 tzdcpJX7sKCaA==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com
+In-Reply-To: <20231129122021.679-1-peter.ujfalusi@linux.intel.com>
+References: <20231129122021.679-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4: check return value of
+ snd_sof_ipc_msg_data
+Message-Id: <170128397409.290371.3042450357579316139.b4-ty@kernel.org>
+Date: Wed, 29 Nov 2023 18:52:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: qcom: Add helper for allocating Soundwire
- stream runtime
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Sanyog Kale <sanyog.r.kale@intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20231128165638.757665-1-krzysztof.kozlowski@linaro.org>
- <ce46c729-48de-4b71-ace3-9b88f95e8e28@linux.intel.com>
- <5ffed1e6-ac60-42e1-8322-4f5e419ef86d@linaro.org>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <5ffed1e6-ac60-42e1-8322-4f5e419ef86d@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-
-
-On 11/29/23 10:35, Krzysztof Kozlowski wrote:
-> On 28/11/2023 18:39, Pierre-Louis Bossart wrote:
->>
->>> +int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
->>> +{
->>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
->>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->>> +	struct sdw_stream_runtime *sruntime;
->>> +	struct snd_soc_dai *codec_dai;
->>> +	int ret, i;
->>> +
->>> +	sruntime = sdw_alloc_stream(cpu_dai->name);
->>> +	if (!sruntime)
->>> +		return -ENOMEM;
->>> +
->>> +	for_each_rtd_codec_dais(rtd, i, codec_dai) {
->>> +		ret = snd_soc_dai_set_stream(codec_dai, sruntime,
->>> +					     substream->stream);
->>> +		if (ret < 0 && ret != -ENOTSUPP) {
->>
->> I know this is existing code moved into a helper, but out of curiosity
->> why is -ENOTSUPP ignored? Isn't this problematic?
+On Wed, 29 Nov 2023 14:20:21 +0200, Peter Ujfalusi wrote:
+> snd_sof_ipc_msg_data could return error.
 > 
-> This is for all DAI links, so if some don't have set_stream callback, we
-> assume it is not needed. For example few codecs do not need it because
-> they are not on Soundwire bus at all and they don't care about the stream.
-
-Humm, it was my understanding that the substream is mapped 1:1 with a
-dailink, so not sure how SoundWire and non-SoundWire DAIs could be part
-of the same dailink?
-
-I am not saying this test is silly, just wondering if there is any case
-where this error code is returned. Worst-case it's always false but
-harmless.
-
->>
->>> +			dev_err(rtd->dev, "Failed to set sdw stream on %s\n",
->>> +				codec_dai->name);
->>> +			goto err_set_stream;
->>> +		}
->>> +	}
->>
->> Also should the CPU DAIs also be used to set the stream information?
->> it's not clear to me why only the CODEC DAIs are used.
 > 
-> I don't know, we never did. As you pointed out, I am just moving things
-> around, so I don't really know the original intention.
 
-Fair enough, I've been in your shoes :-)
-Not always easy to grade 3+ yr code as 'miss', 'bug', 'optimization' or
-'feature'...
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: SOF: ipc4: check return value of snd_sof_ipc_msg_data
+      commit: 2bd512626f8ea3957c981cadd2ebf75feff737dd
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
