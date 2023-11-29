@@ -1,136 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119DA1998
-	for <linux-sound@vger.kernel.org>; Tue, 28 Nov 2023 12:59:36 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r85AN-0006nV-7B; Tue, 28 Nov 2023 21:58:47 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r85AI-00CFt4-DE; Tue, 28 Nov 2023 21:58:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r85AI-00AOAR-2T; Tue, 28 Nov 2023 21:58:42 +0100
-Date: Tue, 28 Nov 2023 21:58:41 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Tomasz Figa <tomasz.figa@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGCDV07R"
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5FB51BD4;
+	Wed, 29 Nov 2023 01:10:02 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bc7706520so240510e87.3;
+        Wed, 29 Nov 2023 01:10:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701249001; x=1701853801; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7SygEgSZBbpHZdUiWup7DXOCloS8YLNYVc8N3bxy+Lg=;
+        b=KGCDV07RRBALN2JYkO8qbCai+09QwDGJgPeJshGmfsfBLs92nCB6/sA7Hg9d/Bzmzp
+         A1+opuUh81toxsb4MV6HOLh5bD9Fkv//90tDy3m9emdYi8MYe+5G/2HUowemptqajtrq
+         5R0I7H+aN6frahZDUbggcZg1leWc+aRbEsFQKEB12y9O5D7esrrnCtrJU6Wmo1RqK1pp
+         Yxu2jhC6TbNvLwWikoWXBf56vzY33FXgIEojX0zvcQutBZH9pCdGYCk8xUiM/GMHe+8a
+         SRP/dUKKWIBNtBDGMO7RvhSFYuIAYGM2YfKT4t5ilfGNvuQthg9FPO8YdGJX3b/BubUD
+         sTNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701249001; x=1701853801;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7SygEgSZBbpHZdUiWup7DXOCloS8YLNYVc8N3bxy+Lg=;
+        b=RWlQuHprRGtjHIssc9oTKWzbWkFWmABUj6ddq0Q+qvuRHEjQaZbDJVgD99kmzZgA5o
+         BLlLn/sBUVIQtEVs+xAgzhp1zrbNsOzweED2pGIXh8XGmoK8cWoMLPooLduQ/M5axtCS
+         Z1KZ3Ysal0/M8ULnTES0HNcX6hiTr84BolmLLJ70my8e0oa0yMkSEtZrKsSKnk76KUm1
+         kjIvDcglmnkM0hPDDQN8UXGvzT9V/96YjfgalmJ3gptp3XnBgirm8RyX1K8I2driPUSG
+         bufeQ2L+fEx1gZvmRrmwt3TrwtYSH7T0H8U7CkcJDo5V8CmwzDtJaLRBmg3dHUVcoxKs
+         mqLw==
+X-Gm-Message-State: AOJu0YzN/Ua6BS5f/cA1384HHaCLxLVr+nnA0KXpyizTX2nkh2e7abOf
+	qktVZlR0emeO3Fo30kWrHiE=
+X-Google-Smtp-Source: AGHT+IFlHo7BDX4W4K7IsTgxCgo21fqInvpekoWD/Ui4zDyCD5ufzbHOu6adI32JTKjG8Hln1yWNYQ==
+X-Received: by 2002:ac2:5922:0:b0:50b:be63:8e09 with SMTP id v2-20020ac25922000000b0050bbe638e09mr2618753lfi.57.1701249000720;
+        Wed, 29 Nov 2023 01:10:00 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id l15-20020a05600c4f0f00b0040b33222a39sm1456975wmq.45.2023.11.29.01.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 01:10:00 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Sam Protsenko <semen.protsenko@linaro.org>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: (subset) [PATCH 00/17] dt-bindings: samsung: add specific
- compatibles for existing SoC
-Message-ID: <20231128205841.al23ra5s34rn3muj@pengutronix.de>
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <170119374454.445690.515311393756577368.b4-ty@gmail.com>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ASoC: core: Fix a handful of spelling mistakes.
+Date: Wed, 29 Nov 2023 09:09:58 +0000
+Message-Id: <20231129090958.815775-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bibczb2zawwhoawf"
-Content-Disposition: inline
-In-Reply-To: <170119374454.445690.515311393756577368.b4-ty@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+There is a spelling mistake in a dev_err message and several
+spelling mistakes in comments. Fix them.
 
---bibczb2zawwhoawf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ sound/soc/soc-core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-On Tue, Nov 28, 2023 at 06:49:23PM +0100, Thierry Reding wrote:
->=20
-> On Wed, 08 Nov 2023 11:43:26 +0100, Krzysztof Kozlowski wrote:
-> > Merging
-> > =3D=3D=3D=3D=3D=3D=3D
-> > I propose to take entire patchset through my tree (Samsung SoC), becaus=
-e:
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 4ca3319a8e19..132946f82a29 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1059,7 +1059,7 @@ static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
+ 	/* it should have ch_maps if connection was N:M */
+ 	if (dai_link->num_cpus > 1 && dai_link->num_codecs > 1 &&
+ 	    dai_link->num_cpus != dai_link->num_codecs && !dai_link->ch_maps) {
+-		dev_err(card->dev, "need to have ch_maps when N:M connction (%s)",
++		dev_err(card->dev, "need to have ch_maps when N:M connection (%s)",
+ 			dai_link->name);
+ 		return -EINVAL;
+ 	}
+@@ -1299,7 +1299,7 @@ static void snd_soc_runtime_get_dai_fmt(struct snd_soc_pcm_runtime *rtd)
+ 	 *
+ 	 * To avoid such issue, loop from 63 to 0 here.
+ 	 * Small number of SND_SOC_POSSIBLE_xxx will be Hi priority.
+-	 * Basic/Default settings of each part and aboves are defined
++	 * Basic/Default settings of each part and above are defined
+ 	 * as Hi priority (= small number) of SND_SOC_POSSIBLE_xxx.
+ 	 */
+ 	for (i = 63; i >= 0; i--) {
+@@ -1845,7 +1845,7 @@ static void append_dmi_string(struct snd_soc_card *card, const char *str)
+  * @flavour: The flavour "differentiator" for the card amongst its peers.
+  *
+  * An Intel machine driver may be used by many different devices but are
+- * difficult for userspace to differentiate, since machine drivers ususally
++ * difficult for userspace to differentiate, since machine drivers usually
+  * use their own name as the card short name and leave the card long name
+  * blank. To differentiate such devices and fix bugs due to lack of
+  * device-specific configurations, this function allows DMI info to be used
+@@ -1866,7 +1866,7 @@ static void append_dmi_string(struct snd_soc_card *card, const char *str)
+  * We only keep number and alphabet characters and a few separator characters
+  * in the card long name since UCM in the user space uses the card long names
+  * as card configuration directory names and AudoConf cannot support special
+- * charactors like SPACE.
++ * characters like SPACE.
+  *
+  * Returns 0 on success, otherwise a negative error code.
+  */
+@@ -2461,7 +2461,7 @@ EXPORT_SYMBOL_GPL(snd_soc_add_card_controls);
+ 
+ /**
+  * snd_soc_add_dai_controls - add an array of controls to a DAI.
+- * Convienience function to add a list of controls.
++ * Convenience function to add a list of controls.
+  *
+  * @dai: DAI to add controls to
+  * @controls: array of controls to add
+-- 
+2.39.2
 
-> > 1. Next cycle two new SoCs will be coming (Google GS101 and ExynosAutov=
-920), so
-> >    they will touch the same lines in some of the DT bindings (not all, =
-though).
-> >    It is reasonable for me to take the bindings for the new SoCs, to ha=
-ve clean
-> >    `make dtbs_check` on the new DTS.
-> > 2. Having it together helps me to have clean `make dtbs_check` within m=
-y tree
-> >    on the existing DTS.
-> > 3. No drivers are affected by this change.
-> > 4. I plan to do the same for Tesla FSD and Exynos ARM32 SoCs, thus expe=
-ct
-> >    follow up patchsets.
-> >=20
-> > [...]
->=20
-> Applied, thanks!
->=20
-> [12/17] dt-bindings: pwm: samsung: add specific compatibles for existing =
-SoC
->         commit: 5d67b8f81b9d598599366214e3b2eb5f84003c9f
-
-You didn't honor (or even comment) Krzysztof's proposal to take the
-whole patchset via his tree (marked above). Was there some off-list
-agreement?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---bibczb2zawwhoawf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVmVIAACgkQj4D7WH0S
-/k4mPQgAuzfJsEw0Nil25KsPJwyY53qFjfCGd8WTObzTDFpeIlzV2EL87bWT2Gtd
-vEFgfX2Uj+RoOLX5CNnyuEfwH5e+O5oVYF9gfpsdqtRTJ3zyPV3dUiFCaIh2KNqZ
-aaY1tsb4vECeh7dmEL/y2VUWoO2bAa08sZe6EpJXOkeUWN54VdTCMBwncH1utjgh
-Tb/pHhjkfvdcbXuvxsFY4gL86pT8BER5EjIRZZaPN0kHDrGTBR+ZqjFvMVWTrFbq
-IUK1gAMX+BOooJDwVFE4SeRta6p/lfClW73PbWk1++SyLPA2KbTp8jTul4qgXWKT
-IbIJY8Qwg5trzJ0LHDMX3a02COS9hg==
-=P7ML
------END PGP SIGNATURE-----
-
---bibczb2zawwhoawf--
