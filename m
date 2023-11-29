@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dyXgapQi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbXoKW2s"
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8DEE13E
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 10:45:42 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8EA1A3;
+	Wed, 29 Nov 2023 10:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701283542; x=1732819542;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=FN4I76ZU7Cwagn6Bgl8OaeZ+LRU0T1R0zOgimIt+bG4=;
-  b=dyXgapQi9bk2iRvXuhJtkm8lVXIJebF9ZJzmJ3n7M0FH2W2UZWpCHQGG
-   3ccWC14Cqq96RCWq+Fc98Yd5GtN4PXdKayaReU6iDlIpIyZPCi2fDUWW4
-   qhXmztiOPVNKDHlr10SR9yQ1qHeof3OVdvG+IZ+lgBIQz/vSLIKVn1Gg4
-   qVGAiLTfiU45yDvZfyds7pzkWuK91Sp+IspiUBQlCUnjZjhWmPoS1MtLO
-   OXDgKpqGHT0AZHiIxGjAPQjaUXYWsHKPHfOj2S5wKF3kxmt5pNnD+ihzL
-   e2emQVJenZcneUI9t/JumkSLhiV1mdeScsjAhrVm2zwPFNeHgn0on1Pqi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="383602783"
+  t=1701283544; x=1732819544;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=VesGDOaehDA9Fg1TH+ih/jgS5o/DVG5HPfhsdBxy2o8=;
+  b=XbXoKW2sjEJHO6CRz4nTgoPhggKRjzCQyQyPedW06hxs9B/BToDBbleF
+   HU7Ko91hgjOGP2Ya8+MGkU7hTZ4mD8G+BMi5+H/qdHHzGR2e1BDI9yaPS
+   xjARXf8uO0PFCFNaQR32xUQjNAUg8CSbaKNCHuUxa3CTs2EKDJcQnVyCZ
+   s2/stgCTy+CwMoRhdwqIrmNaU+QkWN6TCmCh78BoOuMpGVbB0dy9sjMW3
+   8RBN4HfJwTVF5FQmfRwOeC5Ma6hP0fUTeOSsFx8WJ29lN/7yTmtKylEq6
+   WUEHpni5D8dNNBU+gdzUbis81y+4l0EOCyRC1mJuG8PGIf3Ny4WwP/UpI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="383602794"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="383602783"
+   d="scan'208";a="383602794"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 10:45:42 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 10:45:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="942421659"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="942421671"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="942421659"
+   d="scan'208";a="942421671"
 Received: from caw1-mobl1.amr.corp.intel.com (HELO [10.255.229.136]) ([10.255.229.136])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 10:45:41 -0800
-Message-ID: <7bae01ac-a0de-47d9-9bd3-6bdfc48e02c1@linux.intel.com>
-Date: Wed, 29 Nov 2023 10:39:08 -0600
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 10:45:42 -0800
+Message-ID: <598015b0-68e1-434c-96d3-571040a3814e@linux.intel.com>
+Date: Wed, 29 Nov 2023 10:46:52 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,96 +36,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
- and cs56l56 support
+Subject: Re: [PATCH 1/2] ASoC: qcom: Add helper for allocating Soundwire
+ stream runtime
 Content-Language: en-US
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
- broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
- cezary.rojewski@intel.com, yung-chuan.liao@linux.intel.com,
- ckeepax@opensource.cirrus.com, yong.zhi@intel.com, chao.song@linux.intel.com
-References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
- <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
- <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
- <cb768f03-9d46-432e-ad67-8ff1ef075385@linux.intel.com>
- <6038c9fa-8cb1-46e1-b856-d759a3f990b3@opensource.cirrus.com>
- <5e9b0b69-6108-4909-90e8-257c13c2d886@linux.intel.com>
- <d2de7d4c-3984-4737-b879-a1fa829007ff@opensource.cirrus.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Sanyog Kale <sanyog.r.kale@intel.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20231128165638.757665-1-krzysztof.kozlowski@linaro.org>
+ <ce46c729-48de-4b71-ace3-9b88f95e8e28@linux.intel.com>
+ <5ffed1e6-ac60-42e1-8322-4f5e419ef86d@linaro.org>
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <d2de7d4c-3984-4737-b879-a1fa829007ff@opensource.cirrus.com>
+In-Reply-To: <5ffed1e6-ac60-42e1-8322-4f5e419ef86d@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
->>>>>> +        .name_prefix = "cs35l56-8"
->>>>>
->>>>> Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
->>>>> CS35L56-hda driver? This prefix is used to find the matching firmware
->>>>> files and our naming convention for these has been cs35lxx-xxxx-ampn
->>>>>
->>>>> Is there anything that depends on the prefixes being "cs35l56-n" ?
->>>>
->>>> IIRC this name_prefix is just used for the codec_conf and hence for
->>>> control names/UCM. At some point userspace/driver need to know if amp5
->>>> is left or right.
->>>>
->>>> We can certainly align on conventions but the values set in this ACPI
->>>> match table will not be used for firmware download - different scope.
->>>>
->>>
->>> They are used for our firmware download. Each amp can have its own
->>> unique firmware file. The ALSA prefix is used to identify which firmware
->>> file to load to which amp.
+
+On 11/29/23 10:35, Krzysztof Kozlowski wrote:
+> On 28/11/2023 18:39, Pierre-Louis Bossart wrote:
 >>
->> The prefix will only be used when the card is created, specifically for
->> control names.
->> The firmware should be selected and downloaded when the device shows up
->> on the bus.
->> Card creation and device enumeration/initialization happen on different
->> timelines, if the machine driver is "blacklisted" or unbound I am not
->> sure what happens.
+>>> +int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
+>>> +{
+>>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>>> +	struct sdw_stream_runtime *sruntime;
+>>> +	struct snd_soc_dai *codec_dai;
+>>> +	int ret, i;
+>>> +
+>>> +	sruntime = sdw_alloc_stream(cpu_dai->name);
+>>> +	if (!sruntime)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+>>> +		ret = snd_soc_dai_set_stream(codec_dai, sruntime,
+>>> +					     substream->stream);
+>>> +		if (ret < 0 && ret != -ENOTSUPP) {
 >>
->> There is a dependency between machine driver probe and codec firmware
->> download that I am not able to follow, can you please elaborate?
+>> I know this is existing code moved into a helper, but out of curiosity
+>> why is -ENOTSUPP ignored? Isn't this problematic?
+> 
+> This is for all DAI links, so if some don't have set_stream callback, we
+> assume it is not needed. For example few codecs do not need it because
+> they are not on Soundwire bus at all and they don't care about the stream.
+
+Humm, it was my understanding that the substream is mapped 1:1 with a
+dailink, so not sure how SoundWire and non-SoundWire DAIs could be part
+of the same dailink?
+
+I am not saying this test is silly, just wondering if there is any case
+where this error code is returned. Worst-case it's always false but
+harmless.
+
 >>
+>>> +			dev_err(rtd->dev, "Failed to set sdw stream on %s\n",
+>>> +				codec_dai->name);
+>>> +			goto err_set_stream;
+>>> +		}
+>>> +	}
+>>
+>> Also should the CPU DAIs also be used to set the stream information?
+>> it's not clear to me why only the CODEC DAIs are used.
 > 
-> The codec driver has to choose which firmware to load from under
-> /lib/firmware. It does this using a combination of SSID (to identify the
-> target product), the ALSA prefix string (to identify which amp) and
-> in some systems a GPIO on the motherboard to select between different
-> models of speaker when they have multiple suppliers. This results in a
-> firmware name like:
-> 
-> cs35l56-<silicon rev>-dsp1-misc-<SSID>[-<SPEAKER MODEL>]-<ALSA PREFIX>
-> 
-> You can see this if you look in the linux-firmware repo under cirrus/
-> for cs35l41 firmware files (though the ALSA PREFIX section in those
-> cases is not "AMPn" because they are not SDCA parts with rotation,
-> they have a fixed left/right assignment.)
-> 
-> We have to be careful of the length of the prefix. The 44 characters of
-> an ALSA control name get eaten up very quickly when we start creating
-> fully-qualified names for controls published by the firmware. So "AMPn"
-> was nice because it was descriptive enough but only uses 5 characters
-> of the 44.
-> 
-> Having said that, I've calculated that we have enough characters (just)
-> to use a prefix of "cs35l56-n". If there's a reason why that is
-> necessary/desirable for SOF or SoundWire then we could do that. But we'd
-> intended to use "AMPn" prefixes.
-> 
-> We just need to decide whether to go with "AMPn". Or switch to using
-> "cs35l56-n" for the ALSA prefix (the therefore the qualifier at the end
-> of the firmware filename).
+> I don't know, we never did. As you pointed out, I am just moving things
+> around, so I don't really know the original intention.
 
-Yes we have similar issues with control names in topology, the limit is
-hit very quickly.
+Fair enough, I've been in your shoes :-)
+Not always easy to grade 3+ yr code as 'miss', 'bug', 'optimization' or
+'feature'...
 
-I think you missed my point though that the ALSA prefix is only set when
-the card is created, which can be sometime after the firmware needs to
-be downloaded. I guess you could pick the firmware in the component
-probe, which happens during the card creation, but that could be
-sub-optimal. Given the download times you want the download to proceed
-as early as possible.
