@@ -1,255 +1,127 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FrukP7j8"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0DEB2
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 05:13:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701263623; x=1732799623;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Uy5zXgx0lci9B4dbDx3tNmZ0OM0U2EZB8iLhIeUb45E=;
-  b=FrukP7j8LOKz5WFmksqzYO5RVn1Qe5R8hvaxyc5dvaal81CjmL0LmnJ4
-   q6hNy90JAT3JpfwF8ALA33tW//LskviMbsg72wiv+xtuk+uiNdkQGYvkW
-   Pd/ETmDlTi6mCibwEudBv78iYakC9meV+BrzjSQSRJw2fQQkjmGNsxgYP
-   uTxiyv0vIbYc6KL79onuz/hR4y/tFz8T/Dp4agNPmAmJ7pqZEx5DIDZxY
-   OvNlvLCL0Jj+gHEApifH636Mqu3T4hBhRqf8Wtc0mBQ+o6zZCc+Fkfh+k
-   6fGLRZ4nimuod6/c/aAVav8muzveWrgkCLmWdRFBEmxF3LXhpw7SfsdNc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="383553841"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="383553841"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 05:13:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="912850193"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="912850193"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.44.16])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 05:13:40 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.com,
-	yung-chuan.liao@linux.intel.com
-Subject: [PATCH 2/2] ASoC: SOF: ipc4-topology: Correct data structures for the GAIN module
-Date: Wed, 29 Nov 2023 15:14:11 +0200
-Message-ID: <20231129131411.27516-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231129131411.27516-1-peter.ujfalusi@linux.intel.com>
-References: <20231129131411.27516-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="je6rgl2H"
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A2FE6
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 05:45:31 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-a02c48a0420so926158066b.2
+        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 05:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701265529; x=1701870329; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=clXr2bW5K5Ltu9os070jk2tl5a3SSGmsxkIeOTVUebs=;
+        b=je6rgl2HL3kA5py2UkP5yiT5gUMXGplKaQM4NUBoRpN8gyyojCmcvBIGyWh4e4XnlY
+         wOWe+yOx5SWT3zw9ZaE1HapR31sy/Idj5vh55GyuUfIpHj/3B/cv9hfro46gNg53jFYn
+         NnZ/B4TTCis+tk04lEoiS2EUcCLPmtQ/7LnoagsoOyHC9rrFwtA5aKUFrrmErRbtAU3f
+         aHVlELjq3+MrdQuja+6vZeDH0BYAA5UehwkwzobOInruLX67wQOZEFW9UvBewI0AD83A
+         mzOO13TcHFIifVIN63yK8CsJAHSypf8pEce6uk7lWpHpeov7kC4n/gFay8OqO6fWe22f
+         lZLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701265529; x=1701870329;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=clXr2bW5K5Ltu9os070jk2tl5a3SSGmsxkIeOTVUebs=;
+        b=eV3QWBsm/9yIJbFmq5EyHjX0IEI2W7R4AWNJTlXSHW9/Oa+Yx1HVG5yqG92uGV2jLk
+         QdU7IBEm5fCYcZAmAHguzL22VN/JnVh9B9NdumAlYeaXDeGUYKqfK741ALOLk/4bANlw
+         L99XEZ3VALHaV17pvkE5fGtA37iKtWlWAQPh71RNTXNUfXGTaYGtEYkToQFuCO2fDmjK
+         RfO9o38Knon8V1XD9RDcP6H6fsaLrEmZ7pxiXi+nebYXkVgONer+K+kwfFwvMs41rKtU
+         cM4BJ+ynAG+A9xxw2bpOd+7hHsFfcAU21V3itJ78vN3PvjhxGgfYPFegQKGc4L4oDJgs
+         t9gw==
+X-Gm-Message-State: AOJu0YwpphKZDUVgFw3R0gMEV0agvh4qBouSWC6FlcZ/jxBlqDZ+hwu/
+	MdMQ2CcWzHY9TRfEbx4PcOESBg==
+X-Google-Smtp-Source: AGHT+IH77YADLNW4Ao0P/5mMFH9qPw8pYmfM3OqBaotcxgJCbP4txXJo0/dBxMyQLk46fR06Dok0Vw==
+X-Received: by 2002:a17:906:2511:b0:9c2:2d0a:320c with SMTP id i17-20020a170906251100b009c22d0a320cmr13447658ejb.46.1701265529452;
+        Wed, 29 Nov 2023 05:45:29 -0800 (PST)
+Received: from [192.168.209.173] (178235187166.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.166])
+        by smtp.gmail.com with ESMTPSA id f8-20020a17090624c800b009fd77d78f7fsm7910195ejb.116.2023.11.29.05.45.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 05:45:29 -0800 (PST)
+Message-ID: <4fdab723-8549-4e1f-9930-9e856034437c@linaro.org>
+Date: Wed, 29 Nov 2023 14:45:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] ASoC: codecs: Add WCD939x Soundwire slave driver
+Content-Language: en-US
+To: neil.armstrong@linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-0-21d4ad9276de@linaro.org>
+ <20231123-topic-sm8650-upstream-wcd939x-codec-v1-4-21d4ad9276de@linaro.org>
+ <a7725504-89fd-4f62-b8d0-6ec863bd059a@linaro.org>
+ <095f6e9d-dbee-4cfe-91dc-5443608c386d@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <095f6e9d-dbee-4cfe-91dc-5443608c386d@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Move the base_cfg to struct sof_ipc4_gain_data. This struct
-describes the message payload passed to the firmware via the mailbox.
+On 28.11.2023 10:16, Neil Armstrong wrote:
+> On 25/11/2023 12:55, Konrad Dybcio wrote:
+>> On 23.11.2023 15:49, Neil Armstrong wrote:
+>>> Add Soundwire Slave driver for the WCD9390/WCD9395 Audio Codec.
+>>>
+>>> The WCD9390/WCD9395 Soundwire Slaves will be used by the
+>>> main WCD9390/WCD9395 Audio Codec driver to access registers
+>>> and configure Soundwire RX and TX ports.
+>>>
+>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>> ---
+[...]
 
-It is not wise to be 'clever' and try to use the first part of a struct
-as IPC message without marking the message section as packed and aligned.
+>> This is used in wcd9380 and will be used in wcd9370 when that happens some
+>> day, maybe it'd be worth to commonize it as qcom_{rx/tx}_portmap_get?
+>> [...]
+> 
+> OK but where ?
+qcom-wcd-sdw-common.c?
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-control.c  | 20 ++++++++++----------
- sound/soc/sof/ipc4-topology.c | 31 +++++++++++++++----------------
- sound/soc/sof/ipc4-topology.h | 18 +++++++++++++-----
- 3 files changed, 38 insertions(+), 31 deletions(-)
-
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 3d2a35f27a87..1be9519de909 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -89,7 +89,7 @@ sof_ipc4_set_volume_data(struct snd_sof_dev *sdev, struct snd_sof_widget *swidge
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	struct sof_ipc4_gain *gain = swidget->private;
- 	struct sof_ipc4_msg *msg = &cdata->msg;
--	struct sof_ipc4_gain_data data;
-+	struct sof_ipc4_gain_params params;
- 	bool all_channels_equal = true;
- 	u32 value;
- 	int ret, i;
-@@ -109,20 +109,20 @@ sof_ipc4_set_volume_data(struct snd_sof_dev *sdev, struct snd_sof_widget *swidge
- 	 */
- 	for (i = 0; i < scontrol->num_channels; i++) {
- 		if (all_channels_equal) {
--			data.channels = SOF_IPC4_GAIN_ALL_CHANNELS_MASK;
--			data.init_val = cdata->chanv[0].value;
-+			params.channels = SOF_IPC4_GAIN_ALL_CHANNELS_MASK;
-+			params.init_val = cdata->chanv[0].value;
- 		} else {
--			data.channels = cdata->chanv[i].channel;
--			data.init_val = cdata->chanv[i].value;
-+			params.channels = cdata->chanv[i].channel;
-+			params.init_val = cdata->chanv[i].value;
- 		}
- 
- 		/* set curve type and duration from topology */
--		data.curve_duration_l = gain->data.curve_duration_l;
--		data.curve_duration_h = gain->data.curve_duration_h;
--		data.curve_type = gain->data.curve_type;
-+		params.curve_duration_l = gain->data.params.curve_duration_l;
-+		params.curve_duration_h = gain->data.params.curve_duration_h;
-+		params.curve_type = gain->data.params.curve_type;
- 
--		msg->data_ptr = &data;
--		msg->data_size = sizeof(data);
-+		msg->data_ptr = &params;
-+		msg->data_size = sizeof(params);
- 
- 		ret = sof_ipc4_set_get_kcontrol_data(scontrol, true, lock);
- 		msg->data_ptr = NULL;
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 417e841173fb..06744ce96331 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -130,12 +130,12 @@ static const struct sof_topology_token comp_ext_tokens[] = {
- 
- static const struct sof_topology_token gain_tokens[] = {
- 	{SOF_TKN_GAIN_RAMP_TYPE, SND_SOC_TPLG_TUPLE_TYPE_WORD,
--		get_token_u32, offsetof(struct sof_ipc4_gain_data, curve_type)},
-+		get_token_u32, offsetof(struct sof_ipc4_gain_params, curve_type)},
- 	{SOF_TKN_GAIN_RAMP_DURATION,
- 		SND_SOC_TPLG_TUPLE_TYPE_WORD, get_token_u32,
--		offsetof(struct sof_ipc4_gain_data, curve_duration_l)},
-+		offsetof(struct sof_ipc4_gain_params, curve_duration_l)},
- 	{SOF_TKN_GAIN_VAL, SND_SOC_TPLG_TUPLE_TYPE_WORD,
--		get_token_u32, offsetof(struct sof_ipc4_gain_data, init_val)},
-+		get_token_u32, offsetof(struct sof_ipc4_gain_params, init_val)},
- };
- 
- /* SRC */
-@@ -740,15 +740,15 @@ static int sof_ipc4_widget_setup_comp_pga(struct snd_sof_widget *swidget)
- 
- 	swidget->private = gain;
- 
--	gain->data.channels = SOF_IPC4_GAIN_ALL_CHANNELS_MASK;
--	gain->data.init_val = SOF_IPC4_VOL_ZERO_DB;
-+	gain->data.params.channels = SOF_IPC4_GAIN_ALL_CHANNELS_MASK;
-+	gain->data.params.init_val = SOF_IPC4_VOL_ZERO_DB;
- 
--	ret = sof_ipc4_get_audio_fmt(scomp, swidget, &gain->available_fmt, &gain->base_config);
-+	ret = sof_ipc4_get_audio_fmt(scomp, swidget, &gain->available_fmt, &gain->data.base_config);
- 	if (ret)
- 		goto err;
- 
--	ret = sof_update_ipc_object(scomp, &gain->data, SOF_GAIN_TOKENS, swidget->tuples,
--				    swidget->num_tuples, sizeof(gain->data), 1);
-+	ret = sof_update_ipc_object(scomp, &gain->data.params, SOF_GAIN_TOKENS,
-+				    swidget->tuples, swidget->num_tuples, sizeof(gain->data), 1);
- 	if (ret) {
- 		dev_err(scomp->dev, "Parsing gain tokens failed\n");
- 		goto err;
-@@ -756,8 +756,8 @@ static int sof_ipc4_widget_setup_comp_pga(struct snd_sof_widget *swidget)
- 
- 	dev_dbg(scomp->dev,
- 		"pga widget %s: ramp type: %d, ramp duration %d, initial gain value: %#x\n",
--		swidget->widget->name, gain->data.curve_type, gain->data.curve_duration_l,
--		gain->data.init_val);
-+		swidget->widget->name, gain->data.params.curve_type,
-+		gain->data.params.curve_duration_l, gain->data.params.init_val);
- 
- 	ret = sof_ipc4_widget_setup_msg(swidget, &gain->msg);
- 	if (ret)
-@@ -1846,7 +1846,7 @@ static int sof_ipc4_prepare_gain_module(struct snd_sof_widget *swidget,
- 	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
- 	int ret;
- 
--	ret = sof_ipc4_init_input_audio_fmt(sdev, swidget, &gain->base_config,
-+	ret = sof_ipc4_init_input_audio_fmt(sdev, swidget, &gain->data.base_config,
- 					    pipeline_params, available_fmt);
- 	if (ret < 0)
- 		return ret;
-@@ -1856,7 +1856,7 @@ static int sof_ipc4_prepare_gain_module(struct snd_sof_widget *swidget,
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
- 
--	ret = sof_ipc4_init_output_audio_fmt(sdev, &gain->base_config, available_fmt,
-+	ret = sof_ipc4_init_output_audio_fmt(sdev, &gain->data.base_config, available_fmt,
- 					     out_ref_rate, out_ref_channels, out_ref_valid_bits);
- 	if (ret < 0) {
- 		dev_err(sdev->dev, "Failed to initialize output format for %s",
-@@ -1865,7 +1865,7 @@ static int sof_ipc4_prepare_gain_module(struct snd_sof_widget *swidget,
- 	}
- 
- 	/* update pipeline memory usage */
--	sof_ipc4_update_resource_usage(sdev, swidget, &gain->base_config);
-+	sof_ipc4_update_resource_usage(sdev, swidget, &gain->data.base_config);
- 
- 	return 0;
- }
-@@ -2344,9 +2344,8 @@ static int sof_ipc4_widget_setup(struct snd_sof_dev *sdev, struct snd_sof_widget
- 	{
- 		struct sof_ipc4_gain *gain = swidget->private;
- 
--		ipc_size = sizeof(struct sof_ipc4_base_module_cfg) +
--			   sizeof(struct sof_ipc4_gain_data);
--		ipc_data = gain;
-+		ipc_size = sizeof(gain->data);
-+		ipc_data = &gain->data;
- 
- 		msg = &gain->msg;
- 		break;
-diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
-index 127caca5262a..dce174a190dd 100644
---- a/sound/soc/sof/ipc4-topology.h
-+++ b/sound/soc/sof/ipc4-topology.h
-@@ -361,7 +361,7 @@ struct sof_ipc4_control_msg_payload {
- } __packed;
- 
- /**
-- * struct sof_ipc4_gain_data - IPC gain blob
-+ * struct sof_ipc4_gain_params - IPC gain parameters
-  * @channels: Channels
-  * @init_val: Initial value
-  * @curve_type: Curve type
-@@ -369,24 +369,32 @@ struct sof_ipc4_control_msg_payload {
-  * @curve_duration_l: Curve duration low part
-  * @curve_duration_h: Curve duration high part
-  */
--struct sof_ipc4_gain_data {
-+struct sof_ipc4_gain_params {
- 	uint32_t channels;
- 	uint32_t init_val;
- 	uint32_t curve_type;
- 	uint32_t reserved;
- 	uint32_t curve_duration_l;
- 	uint32_t curve_duration_h;
--} __aligned(8);
-+} __packed __aligned(4);
- 
- /**
-- * struct sof_ipc4_gain - gain config data
-+ * struct sof_ipc4_gain_data - IPC gain init blob
-  * @base_config: IPC base config data
-+ * @params: Initial parameters for the gain module
-+ */
-+struct sof_ipc4_gain_data {
-+	struct sof_ipc4_base_module_cfg base_config;
-+	struct sof_ipc4_gain_params params;
-+} __packed __aligned(4);
-+
-+/**
-+ * struct sof_ipc4_gain - gain config data
-  * @data: IPC gain blob
-  * @available_fmt: Available audio format
-  * @msg: message structure for gain
-  */
- struct sof_ipc4_gain {
--	struct sof_ipc4_base_module_cfg base_config;
- 	struct sof_ipc4_gain_data data;
- 	struct sof_ipc4_available_audio_format available_fmt;
- 	struct sof_ipc4_msg msg;
--- 
-2.43.0
-
+Konrad
