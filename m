@@ -1,46 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SYriIKZO"
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DA910D7
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 08:35:32 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-54bd7e5182cso5160a12.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 08:35:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dzj/PVR3"
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC645111
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 10:21:56 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-50bbc36f767so158233e87.1
+        for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 10:21:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701275731; x=1701880531; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJSkB0+QhES0yP3XIpOHbXG77b+2UuGTzv8ffaq/mdw=;
-        b=SYriIKZO/ShQZl70TFGXuut46JihAGc03MuxcCqF9QeXhSy4EFDYyeu3fm+6fkdrfF
-         5VAcnejNee94x0IFbrbAON6TG5nx0mHtlycQwMIQSehjlaClz16WFDJEhZwm/fSXnWqt
-         Rn2nHbJ/c+Uns7VSHI0WqhJJkl0ZHsLg41foM/rPJ+6et0xRh++1euKyrKkFQFQu4z7T
-         CcKkNAcN5c+BLWTnS3i4491Tz8ssXHNwn2fg1FKhwToaEX69B4vU5zA0qj0YBJ5ITipZ
-         Ze6S47cMBI5FrNRj6yi8B5HtQniQEKdCG0OiMpZixZOOmR+DsZlwOKcagDkl7mNblD9f
-         +i/Q==
+        d=linaro.org; s=google; t=1701282115; x=1701886915; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nNuPgKhDMKw80uiT85WqUBhO+7U/KHdwtlx8g1D/Ez4=;
+        b=dzj/PVR31C56wdQYnpVQY+D9JI3CkomWOw7np5QUwh7e8U0cE7N12Bs0znvHINPuXy
+         yUIw14gd1iN08xRSe93PZxvgIzqZi1kB1WWh691jm+5vfi1BNN/kRpvNQTrOmRXGHbxB
+         aplVpvtDGi9WXzZW47vK2hLnZIOtlcDrED4idJQHl8CNEMstLUdjD6zlDByuGQ3n35Kr
+         DH9FB6S7Zm6znBoVq3vmA7xH/Cn8JAtM3iRaqBzOMVlkqM4xT4uaJdn0OmQyCQruWcOK
+         a362eC0mf0BpHs5C5iZo1GQJzBqjy7pVxGQSYF8kqRLDRJpwl34woQqKSjzZkGSRtZ0a
+         uJ0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701275731; x=1701880531;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sJSkB0+QhES0yP3XIpOHbXG77b+2UuGTzv8ffaq/mdw=;
-        b=FPVoOPYohtKvtzB/c/vDHPtW3N0uKjUXYwFZ1bReewmwagyfBxrXJdfZCHG0RdD2MO
-         R94hEHD9SFOp4pIcCJj17ML3C25jC1jXq92PPanZbXcO2LlXdtEffXXqVtYQaKehzCCR
-         P1xFgbs1ppx57IGkGa+1k6Kr789ePwpZ6UIqCynuAjazQDm8cgGbcbVM0KVsrl3k1URg
-         PKHCW42tqCCDeq1lM93roQDorJ/dNXgIJCfZcxZpQDjmRpf7RyvmuuuUL8jGOF+sT/4W
-         mdqU+Darhhg9GzvjyfA6IzDGlOE2gr5LAEnXXZRZxr3lkiQhACUDXiZUZIg9+L39lrmd
-         T6nQ==
-X-Gm-Message-State: AOJu0Ywy45Ufvd3czlmTOWC+EEgrbMC7971hprhaf+1pVTIEhDPFubzy
-	zJg3KMsrSDpsD4VJTnGcqQi+IQ==
-X-Google-Smtp-Source: AGHT+IESJuKW4j0TlcxTvXKBVR7YoDo5gHjxsjZScBzekKntGl4G1YiTP3Q/a76Lde8x3Mu+euuR1g==
-X-Received: by 2002:a50:fa8c:0:b0:54a:ff96:2cb7 with SMTP id w12-20020a50fa8c000000b0054aff962cb7mr11928639edr.41.1701275731232;
-        Wed, 29 Nov 2023 08:35:31 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id b9-20020a056402350900b0054b7e312b97sm2919928edd.38.2023.11.29.08.35.29
+        d=1e100.net; s=20230601; t=1701282115; x=1701886915;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nNuPgKhDMKw80uiT85WqUBhO+7U/KHdwtlx8g1D/Ez4=;
+        b=saHnxaUXpqgWTyuHORWVPwpvwlHdTPBDq953+Y/QT88TmCkT/JxcineXFnOZDkg8wt
+         QEq1XkwlssGsXHSw34IC3IhhEADEVbqgEg7cYbP2p4eFLTi5zfP6+0EFLmCR98iwjYOu
+         /d7m4dO3sm9ibPdBD2vAU8gIQ5cOSPc8z5xZNfOMO3oWGlUd2V59WLOAUhgiBi9h0AUc
+         bcm22UlGvjRVRur1KYN8O28zn9ixtkFfy8gV4ZSgzQc6kOR9pNovObvn4M0hE4ZNN9ay
+         +Z8WL0dTcKhGqxZQ91qQUdy530g8IvvrYu1Z9U+T7M8WPGuka1og5eL6w8p2TtlyqObx
+         hhzg==
+X-Gm-Message-State: AOJu0YwOIMvyNRIJ/bPki3rjQKbwSi5oZGUAiiYBFQC3oUB7vUCeuc3A
+	/ygroYLZwtoFJENWgkYwbdYCHV0LcOzah8wvRRQ=
+X-Google-Smtp-Source: AGHT+IFqkXir0yMNo4WlvHXSFsKouuLysrWRfeYdK/tqF7ZvNNadMknVBKVHogi0sZlUOEooHchfbg==
+X-Received: by 2002:ac2:4887:0:b0:50b:c970:cc9b with SMTP id x7-20020ac24887000000b0050bc970cc9bmr653271lfc.61.1701282114687;
+        Wed, 29 Nov 2023 10:21:54 -0800 (PST)
+Received: from [192.168.209.83] (178235187166.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.166])
+        by smtp.gmail.com with ESMTPSA id sd22-20020a170906ce3600b009fc576e26e6sm8119002ejb.80.2023.11.29.10.21.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 08:35:30 -0800 (PST)
-Message-ID: <5ffed1e6-ac60-42e1-8322-4f5e419ef86d@linaro.org>
-Date: Wed, 29 Nov 2023 17:35:28 +0100
+        Wed, 29 Nov 2023 10:21:54 -0800 (PST)
+Message-ID: <791d7271-87a4-4ce9-9beb-e8c3ef235737@linaro.org>
+Date: Wed, 29 Nov 2023 19:21:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,111 +47,107 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: qcom: Add helper for allocating Soundwire
- stream runtime
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Sanyog Kale <sanyog.r.kale@intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20231128165638.757665-1-krzysztof.kozlowski@linaro.org>
- <ce46c729-48de-4b71-ace3-9b88f95e8e28@linux.intel.com>
+Subject: Re: [PATCH 5/5] ASoC: codecs: Add WCD939x Codec driver
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ce46c729-48de-4b71-ace3-9b88f95e8e28@linux.intel.com>
+To: neil.armstrong@linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231123-topic-sm8650-upstream-wcd939x-codec-v1-0-21d4ad9276de@linaro.org>
+ <20231123-topic-sm8650-upstream-wcd939x-codec-v1-5-21d4ad9276de@linaro.org>
+ <ad9a7c4b-82f4-4347-b4dd-a394e4ba95f0@linaro.org>
+ <42a6f6e0-2846-4cdc-8702-493fadbafb98@linaro.org>
+ <eaa034cb-06e8-4204-befa-4389bcb7d9e8@linaro.org>
+ <0140f49d-c463-4011-8159-f4e56466e6bd@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <0140f49d-c463-4011-8159-f4e56466e6bd@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 28/11/2023 18:39, Pierre-Louis Bossart wrote:
+On 29.11.2023 16:12, neil.armstrong@linaro.org wrote:
+> On 29/11/2023 14:46, Konrad Dybcio wrote:
+>> On 28.11.2023 16:01, Neil Armstrong wrote:
+>>> On 25/11/2023 13:07, Konrad Dybcio wrote:
+>>>
+>>> <snip>
+>>>
+>>>>> +
+>>>>> +static int wcd939x_io_init(struct snd_soc_component *component)
+>>>>> +{
+>>>>> +    snd_soc_component_write_field(component, WCD939X_ANA_BIAS,
+>>>>> +                      WCD939X_BIAS_ANALOG_BIAS_EN, 1);
+>>>> All of these values are BIT()s or 2-4 ORed BIT()s, can you check what they
+>>>> mean?
+>>>>
+>>>> Same for almost all other snd_soc_component_ write/modify functions
+>>>
+>>> It uses snd_soc_component_write_field() with is the same as
+>>> regmap_write_bits(REGISTER, REGISTER_MASK,
+>>>                    FIELD_PREP(REGISTER_MASK, value);
+>>>
+>>> So the 1 mean write in enable mask in this case, and mask is single bit,
+>>> read it exactly like if it was using FIELD_PREP(), but even for BITs.
+>>>
+>>> I did check every single snd_soc_component_write_field() so far to check
+>>> it matches.
+>>>
+>>> Or it's another question ?
+>> What I wanted to ask is whether it's possible to #define these magic
+>> values within these fields
 > 
->> +int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
->> +{
->> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
->> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->> +	struct sdw_stream_runtime *sruntime;
->> +	struct snd_soc_dai *codec_dai;
->> +	int ret, i;
->> +
->> +	sruntime = sdw_alloc_stream(cpu_dai->name);
->> +	if (!sruntime)
->> +		return -ENOMEM;
->> +
->> +	for_each_rtd_codec_dais(rtd, i, codec_dai) {
->> +		ret = snd_soc_dai_set_stream(codec_dai, sruntime,
->> +					     substream->stream);
->> +		if (ret < 0 && ret != -ENOTSUPP) {
-> 
-> I know this is existing code moved into a helper, but out of curiosity
-> why is -ENOTSUPP ignored? Isn't this problematic?
-
-This is for all DAI links, so if some don't have set_stream callback, we
-assume it is not needed. For example few codecs do not need it because
-they are not on Soundwire bus at all and they don't care about the stream.
+> OK, so most of writes are to boolean enable bits, I can use true/false
+> instead of 0 & 1 for those, would it be more readable ?
+Yes, I think that would convey their meaning quite well
 
 > 
->> +			dev_err(rtd->dev, "Failed to set sdw stream on %s\n",
->> +				codec_dai->name);
->> +			goto err_set_stream;
->> +		}
->> +	}
+> For the rest, those a integer values to a field, those are not bitmasks
+> and I do not have the definition of the values.
 > 
-> Also should the CPU DAIs also be used to set the stream information?
-> it's not clear to me why only the CODEC DAIs are used.
+> I did a full cleanup and tried to define as much as possible,
+> there were still lot of places where not defined bitmasks we used,
+> but there's still some integer values, but I think it's acceptable.
+No worries, what you say already sounds very cool!
 
-I don't know, we never did. As you pointed out, I am just moving things
-around, so I don't really know the original intention.
-
-
-Best regards,
-Krzysztof
-
+Konrad
