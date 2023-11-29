@@ -1,31 +1,31 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDyVFDIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWkry1Gn"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AE01707
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 04:53:00 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DB5895
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 04:53:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701262379; x=1732798379;
+  t=1701262382; x=1732798382;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=paGtmFywowXIennU78XonD4EbtcdQ1JkutrJQ5ngLcs=;
-  b=gDyVFDIOknlGSxdXhRPskqs1muZDyhT3ztSa2hGINIUjxS8aGfqN5btz
-   UF1iTesXssT8ZaZiUzC5KfEi7jQqa5Y9coDrEgLXnZg2qOG6JGKFCT2Vj
-   IDkh04ZYcJWHx5T95+XnOp6wNR1+XBLr8RSLG3Mjpnir/yngDYGHWszLo
-   2CA5EVlNwZ/wa39G9qKXH4Tv4wjoJ61ODzbMnqfLDGp0keHV96e3DsynR
-   zLad9qRiZwFYP8qV0JSAOaRYV9/pKjRT/vgUCD0Nkq4D3mUeiX8z3b3fz
-   kba5Aa/Ca49qcj0OqjhgiAzNCEoLPt5pF5M49hB01n4cK2hU3LabyiKcL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="392022891"
+  bh=DrPNJB1Cx5nxS/6nHhyoCgL07ikrf7u4dP2TnnOz++k=;
+  b=mWkry1GnB0OlV0BVj5PG9a0J47cStUGzZdYshEXBRT7okqE+uktOLqph
+   ht1SqvG94OB11zoczPq78tdontNfE/JI9YiorGRdf4PNtIHXbKJU3Ammv
+   NVjWRsHbeMA7eJXNoUyiZ3palYvofCwLvxAOmdLfR2SVxM1PPX5kmVDgD
+   iFtqIwcJtxNXNXELMft+dak0MLBjZjzcnq+bzm8vU5UTdzncfpakpOhhT
+   cFcUeci+bQhLeslMfLAPlI6TyIuReg+H9Ig7LS6l3BbZfTIsP049vbcLi
+   evICqJd8M5AtW1wR23VxGbiXl5EWQ9pdj2WDWMxEr7+Y/2vJ0qIbCtrrC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="392022896"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="392022891"
+   d="scan'208";a="392022896"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:52:59 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:53:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="17174608"
+   d="scan'208";a="17174616"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.44.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:52:58 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:53:00 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -34,9 +34,9 @@ Cc: alsa-devel@alsa-project.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 03/13] ASoC: SOF: Add placeholder for platform IPC type and path overrides
-Date: Wed, 29 Nov 2023 14:53:17 +0200
-Message-ID: <20231129125327.23708-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 04/13] ASoC: SOF: sof-acpi-dev: Save the default IPC type and path overrides
+Date: Wed, 29 Nov 2023 14:53:18 +0200
+Message-ID: <20231129125327.23708-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231129125327.23708-1-peter.ujfalusi@linux.intel.com>
 References: <20231129125327.23708-1-peter.ujfalusi@linux.intel.com>
@@ -48,49 +48,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a struct sof_loadable_file_profile which can be filled by platforms
-(sof-acpi-dev.c, sof-of-dev.c and sof-acpi-dev.c) to be able to use common,
-generic code to handle path customization.
+Store the default IPC type and the firmware and topology path overrides to
+ipc_file_profile_base
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- include/sound/sof.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ sound/soc/sof/sof-acpi-dev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/sound/sof.h b/include/sound/sof.h
-index 268d0ca0f69f..05213bb515a3 100644
---- a/include/sound/sof.h
-+++ b/include/sound/sof.h
-@@ -57,6 +57,18 @@ enum sof_ipc_type {
- 	SOF_IPC_TYPE_COUNT
- };
+diff --git a/sound/soc/sof/sof-acpi-dev.c b/sound/soc/sof/sof-acpi-dev.c
+index 84a4a0a3318e..87c0c2edc4c9 100644
+--- a/sound/soc/sof/sof-acpi-dev.c
++++ b/sound/soc/sof/sof-acpi-dev.c
+@@ -87,6 +87,10 @@ int sof_acpi_probe(struct platform_device *pdev, const struct sof_dev_desc *desc
+ 	else
+ 		sof_pdata->tplg_filename_prefix = desc->default_tplg_path[SOF_IPC_TYPE_3];
  
-+struct sof_loadable_file_profile {
-+	enum sof_ipc_type ipc_type;
++	sof_pdata->ipc_file_profile_base.ipc_type = desc->ipc_default;
++	sof_pdata->ipc_file_profile_base.fw_path = fw_path;
++	sof_pdata->ipc_file_profile_base.tplg_path = tplg_path;
 +
-+	const char *fw_path;
-+	const char *fw_path_postfix;
-+	const char *fw_name;
-+	const char *fw_lib_path;
-+	const char *fw_lib_path_postfix;
-+	const char *tplg_path;
-+	const char *tplg_name;
-+};
-+
- /*
-  * SOF Platform data.
-  */
-@@ -86,6 +98,9 @@ struct snd_sof_pdata {
- 	/* descriptor */
- 	const struct sof_dev_desc *desc;
+ 	/* set callback to be called on successful device probe to enable runtime_pm */
+ 	sof_pdata->sof_probe_complete = sof_acpi_probe_complete;
  
-+	/* platform's preferred IPC type and path overrides */
-+	struct sof_loadable_file_profile ipc_file_profile_base;
-+
- 	/* firmware and topology filenames */
- 	const char *fw_filename_prefix;
- 	const char *fw_filename;
 -- 
 2.43.0
 
