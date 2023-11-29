@@ -1,74 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD171A73B
-	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 11:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g6onjRbp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6CACC433C7;
-	Wed, 29 Nov 2023 11:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701257533;
-	bh=FoQpCy80/A7NqecYX8XoNLwYAiGxzFge1aoT7zCvJgk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=g6onjRbp37be+UMRU4JvdY3eUKTCkvMRbNQdJISR5P0C0cHBFzvn45SqowYRO6O+W
-	 zt+Ut32KRpAA9xRfATcxZGQjXmoq2Lsx2rUL4iI6Eun4Qio3/42KHgeBNxFnSHt3w/
-	 6ckbFvzNL91Eg52WEdie6zUUlHkQhFuAtExVz7qVs41p4h0y8ZonUHbW/2aIw7kGyp
-	 eY5LcYo9Y5wfIP2A4yCpJxdzmhqrOziZInD6mmXjr4W7NW1kVDhP4PFHQoEe60KFiJ
-	 A/oJm1U3ygRPM8lKEBCisgKnn+LyUjMcOQjGihOxXcaRcP7S6I3idBNy08i8vpG55C
-	 sl6cXQOXhcCHg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chancel Liu <chancel.liu@nxp.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQRuAUlU"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0A11FD4
+	for <linux-sound@vger.kernel.org>; Wed, 29 Nov 2023 04:19:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701260388; x=1732796388;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=58dNflj4gktJ609m3w+Zgx50tZFYg2Vm5gW6Jl/OgJI=;
+  b=JQRuAUlUtigzQWFmJqLbGIjFsRh/FgJwLDKy0we32gQKrUEsALaInPuE
+   sg0Tl2XZyo9NNr2WVA0ulzKRUVd4upgjT4tU2LZkhqSQp7QS9Qhi60UTM
+   ZWgf97arismp1Iiq8HfXauZMuxP5FNKy9/Tddx3QkG+s/djlMIzryfTnK
+   YY2ZMGNxNKvCAth23x/YEeAsz19pQ+FqyFsH81pDbJC9pqV7duvWpbg/i
+   2JpAQ7+Wk/WORPNeFkk+Z5U+8ae85MbaYpoCUkdJWkkWuYTWF3bYarwsu
+   TP5Tp/t902Bbi8FAm2ofAb0d61YPW/JY6aaAzRpFCGrAuSkCZZFojI1HL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="6421110"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="6421110"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:19:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="834995169"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="834995169"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.44.16])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:19:45 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_rpmsg: update Kconfig dependencies
-Date: Wed, 29 Nov 2023 12:31:17 +0100
-Message-Id: <20231129113204.2869356-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com
+Subject: [PATCH] ASoC: SOF: ipc4: check return value of snd_sof_ipc_msg_data
+Date: Wed, 29 Nov 2023 14:20:21 +0200
+Message-ID: <20231129122021.679-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-SND_SOC_IMX_RPMSG gained a new dependency and gets selected by SND_SOC_FSL_RPMSG,
-which as a result needs to have the same dependency, or produce a build failure
-based on that:
+snd_sof_ipc_msg_data could return error.
 
-WARNING: unmet direct dependencies detected for SND_SOC_IMX_RPMSG
-  Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_IMX_SOC [=y] && RPMSG [=y] && OF [=y] && I2C [=n]
-  Selected by [y]:
-  - SND_SOC_FSL_RPMSG [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && COMMON_CLK [=y] && RPMSG [=y] && (SND_IMX_SOC [=y] || SND_IMX_SOC [=y]=n) && SND_IMX_SOC [=y]!=n
-x86_64-linux-ld: sound/soc/fsl/imx-rpmsg.o: in function `imx_rpmsg_late_probe':
-imx-rpmsg.c:(.text+0x11e): undefined reference to `i2c_find_device_by_fwnode'
-
-Fixes: f83d38def6b1 ("ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF and I2C")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/fsl/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/sof/ipc4.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-index acb518f7ae79..270726c134b3 100644
---- a/sound/soc/fsl/Kconfig
-+++ b/sound/soc/fsl/Kconfig
-@@ -121,6 +121,7 @@ config SND_SOC_FSL_UTILS
- config SND_SOC_FSL_RPMSG
- 	tristate "NXP Audio Base On RPMSG support"
- 	depends on COMMON_CLK
-+	depends on OF && I2C
- 	depends on RPMSG
- 	depends on SND_IMX_SOC || SND_IMX_SOC = n
- 	select SND_SOC_IMX_RPMSG if SND_IMX_SOC != n
+diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
+index a9d9800d2fcc..145d319e041f 100644
+--- a/sound/soc/sof/ipc4.c
++++ b/sound/soc/sof/ipc4.c
+@@ -713,7 +713,14 @@ static void sof_ipc4_rx_msg(struct snd_sof_dev *sdev)
+ 			return;
+ 
+ 		ipc4_msg->data_size = data_size;
+-		snd_sof_ipc_msg_data(sdev, NULL, ipc4_msg->data_ptr, ipc4_msg->data_size);
++		err = snd_sof_ipc_msg_data(sdev, NULL, ipc4_msg->data_ptr, ipc4_msg->data_size);
++		if (err < 0) {
++			dev_err(sdev->dev, "failed to read IPC notification data: %d\n", err);
++			kfree(ipc4_msg->data_ptr);
++			ipc4_msg->data_ptr = NULL;
++			ipc4_msg->data_size = 0;
++			return;
++		}
+ 	}
+ 
+ 	/* Handle notifications with payload */
 -- 
-2.39.2
+2.43.0
 
