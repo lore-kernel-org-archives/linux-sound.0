@@ -1,102 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9AB10E2
+	for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 07:13:28 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA2A495FD
-	for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 14:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nwK9XLtP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7130AC433C7;
-	Thu, 30 Nov 2023 14:19:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701353989;
-	bh=LZrrb0dSxcKPDCoczLls1B8hAHeLjnKbhR6+KrSQFGw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nwK9XLtPOrsXulwkIaIy8cdaHVrX14gqAOWVMC1Y3UK6i8TTKR+MuF11pPEzQlhhv
-	 GJ41S3c52aYfq2EK++b0FCr6I0OjNLddOKfP7ufwh5CBzJnyTgfsVi37dIJRLCQawi
-	 cxi/dkov1/Uu6CNkvbxtdnlxwHNIzcP5vCt6Pc4ga1gVl4sz8LY7Nq7tkakk94evqR
-	 ncrSu/eulLg6zedL6lRI5/b3W1kRJ/r56x322vqBuo5/c7HGDK/ldIWHPXaOxFoGqw
-	 lpT/klSjAnXB29t7CD2LZPy9+L4ehdcQmjY2Jr797YsbdYhiEIN16YfkYijg3T5vXy
-	 VHcnpfjQ7Ymmg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com
-In-Reply-To: <20231129125327.23708-1-peter.ujfalusi@linux.intel.com>
-References: <20231129125327.23708-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 00/13] ASoC: SOF: IPC path handling and fallback
- support
-Message-Id: <170135398817.77760.17003442252565744150.b4-ty@kernel.org>
-Date: Thu, 30 Nov 2023 14:19:48 +0000
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6D33121B0D;
+	Thu, 30 Nov 2023 15:13:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 52E7E13B02;
+	Thu, 30 Nov 2023 15:13:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rejvEpamaGVaXgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 Nov 2023 15:13:26 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Disable power-save on KONTRON SinglePC
+Date: Thu, 30 Nov 2023 16:13:21 +0100
+Message-Id: <20231130151321.9813-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++++++++++++++
+Authentication-Results: smtp-out1.suse.de;
+	dkim=none;
+	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none);
+	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [14.80 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_NONE(0.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 R_SPF_SOFTFAIL(4.60)[~all:c];
+	 RCPT_COUNT_ONE(0.00)[1];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_SPAM_LONG(3.01)[0.860];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,launchpad.net:url];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+X-Spam-Score: 14.80
+X-Rspamd-Queue-Id: 6D33121B0D
 
-On Wed, 29 Nov 2023 14:53:14 +0200, Peter Ujfalusi wrote:
-> The main aim of the series is to provide a mechanism to fallback to 'older' IPC
-> versions in case the desired one is missing either a firmware or topology file.
-> It is going to make the life of users and distributions if we are going to
-> start transition existing IPC3 platforms to IPC4 (CAVS2.5) and we might have
-> missed some topology file to convert for example.
-> In that case the kernel will fallback to IPC3 without audio regression.
-> 
-> [...]
+It's been reported that the runtime PM on KONTRON SinglePC (PCI SSID
+1734:1232) caused a stall of playback after a bunch of invocations.
+(FWIW, this looks like an timing issue, and the stall happens rather
+on the controller side.)
 
-Applied to
+As a workaround, disable the default power-save on this platform.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/hda_intel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks!
-
-[01/13] ASoC: SOF: Move sof_of_machine_select() to sof-of-dev.c from sof-audio.c
-        commit: 014fdeb0d747304111cfecf93df4407c1a0c80db
-[02/13] ASoC: SOF: Move sof_machine_* functions from sof-audio.c to core.c
-        commit: 3bc3477915587440035f192c89a1bf9a4360abb3
-[03/13] ASoC: SOF: Add placeholder for platform IPC type and path overrides
-        commit: 1162d267eabd6392d0d07bc88b75056e88042fc0
-[04/13] ASoC: SOF: sof-acpi-dev: Save the default IPC type and path overrides
-        commit: a07625dcaf994ab3c5a6a456624719df05ed8ad6
-[05/13] ASoC: SOF: sof-of-dev: Save the default IPC type and path overrides
-        commit: 396016d56da4ad30fe9ff736e44d9e1457484805
-[06/13] ASoC: SOF: sof-pci-dev: Save the default IPC type and path overrides
-        commit: 59ddeae037b81303063bcf62b70fb33841b3f89e
-[07/13] ASoC: SOF: core: Implement firmware, topology path setup in core
-        commit: b1a4ee9fd5a2dfb0f23abe58377f816915ec14ba
-[08/13] ASoC: SOF: sof-acpi-dev: Rely on core to create the file paths
-        commit: b2b0bba36f0a81743e7143a8801ca75d2238bdac
-[09/13] ASoC: SOF: sof-of-dev: Rely on core to create the file paths
-        commit: 8616168928f278723fdc3f4d7cd3d611dcdae8f8
-[10/13] ASoC: SOF: sof-pci-dev: Rely on core to create the file paths
-        commit: 8a83f180abb5b95f524fc9b5eb2291f0e39bed30
-[11/13] ASoC: SOF: core: Add helper for initialization of paths, ops
-        commit: a5a65437b02df8b842c4620b0b776bcd91ce200a
-[12/13] ASoC: SOF: Intel: Do not use resource managed allocation for ipc4_data
-        commit: 9b6896538ea71b7c24da1ecb38738a311176f6a8
-[13/13] ASoC: SOF: core: Implement IPC version fallback if firmware files are missing
-        commit: 6c393ebbd74ad341bcfb4e2d0091b2655fad45d0
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index db90feb49c16..2d1df3654424 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -2242,6 +2242,8 @@ static const struct snd_pci_quirk power_save_denylist[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x36a7, "Lenovo C50 All in one", 0),
+ 	/* https://bugs.launchpad.net/bugs/1821663 */
+ 	SND_PCI_QUIRK(0x1631, 0xe017, "Packard Bell NEC IMEDIA 5204", 0),
++	/* KONTRON SinglePC may cause a stall at runtime resume */
++	SND_PCI_QUIRK(0x1734, 0x1232, "KONTRON SinglePC", 0),
+ 	{}
+ };
+ #endif /* CONFIG_PM */
+-- 
+2.35.3
 
