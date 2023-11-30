@@ -1,85 +1,149 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DyD2BmfQ"
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CD99B2
-	for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 01:59:12 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU794Rx032229;
-	Thu, 30 Nov 2023 03:58:47 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WXhrjwU2"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CE7A10D0
+	for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 02:15:39 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU7sZxA020532;
+	Thu, 30 Nov 2023 04:15:19 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=1rOwpFjOxzEjLmE
-	ZDplb6yDZq9WDb8VUAMixCUzaH4g=; b=DyD2BmfQHB0BvZFAzh87LUECHRuw7RE
-	f6x/idiqOmNFOS/TUrUXtDf5/fzDyk0CV4u0Fd1h9HQS90Zh8PlRh+5bE//C5aPc
-	TcCD34t4nD5DvavIZrkhw7o/4Iqv6D82VjKXV0UOcFqFCajZOXziJyRpjMtTi0LG
-	ylXkvbrHYyDcAi+QS7fJ98/Bu9OqeVDtwvF+MdkXQfc/J9f078jyVJ8dTQtEbV+l
-	VAxA5jYmt5rmrnWPvMtUJDB/lhcE1kB0IEWvxj4GLGc2QMM61cSeqsydsCOsoBJ5
-	S9E9FxTUcl3Nm3wFHF1e4/LWgHbPE4VwEQ7HGTchgE8wyxggWF2tFvw==
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=2hNTdVUxrzaDkinYp1MChiVUXBhmXLoPIn8BcKRzI24=; b=
+	WXhrjwU2RJAAV4/wRGmnqXcSWZWberNWAz5BDSFQOxbrw3dlhUH/wJr45cxWBDwo
+	jCwn41SlwcUbaC2jvACMYApwkeeoOww/BcnwD1rfcncP/YTzxt495peA4I1i1dJx
+	YKFj8RimzlsypAdF5/dIVsnbOAX5sNALxr2bR8Jo7jgFH/wzXHAl7JYR7iBKDOBu
+	3+2hyn1XLTA6icONSFlEDdIeo1Aqy2eTOV05+UXlANLEUqtpGsGw4nkbmJcJFT/7
+	52OTPAAgYU/JDr7+LWUckZYCirTJlmDuCVOSXlgCBpzX1kQ20K7SOHNrEuMAI7Ny
+	3GbRqlQl3UJAZYksh/+kIg==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3unvhp9vgn-1
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3unvprswcb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Nov 2023 03:58:47 -0600 (CST)
+	Thu, 30 Nov 2023 04:15:19 -0600 (CST)
 Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 30 Nov
- 2023 09:58:44 +0000
+ 2023 10:15:17 +0000
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Thu, 30 Nov 2023 09:58:39 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7B3F646B;
-	Thu, 30 Nov 2023 09:58:39 +0000 (UTC)
-Date: Thu, 30 Nov 2023 09:58:39 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-CC: Paul Handrigan <Paul.Handrigan@cirrus.com>,
-        James Schulman
-	<james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Nikita Shubin
-	<nikita.shubin@maquefel.me>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 00/10] ASoC: Convert Cirrus codecs to GPIO descriptors
-Message-ID: <20231130095839.GS32655@ediswmail.ad.cirrus.com>
-References: <20231129-descriptors-sound-cirrus-v1-0-31aa74425ff8@linaro.org>
+ 15.2.1118.39 via Frontend Transport; Thu, 30 Nov 2023 10:15:17 +0000
+Received: from [198.61.65.94] (EDIN4L06LR3.ad.cirrus.com [198.61.65.94])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D479FB12;
+	Thu, 30 Nov 2023 10:15:16 +0000 (UTC)
+Message-ID: <1b77a7b5-5988-49b2-b356-0d24bb01909d@opensource.cirrus.com>
+Date: Thu, 30 Nov 2023 10:15:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231129-descriptors-sound-cirrus-v1-0-31aa74425ff8@linaro.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: zg2bKV2ldjblk2ECC4yce6v9havYl31k
-X-Proofpoint-ORIG-GUID: zg2bKV2ldjblk2ECC4yce6v9havYl31k
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
+ and cs56l56 support
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Peter
+ Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        <lgirdwood@gmail.com>, <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <kai.vehmanen@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+        <cezary.rojewski@intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <ckeepax@opensource.cirrus.com>, <yong.zhi@intel.com>,
+        <chao.song@linux.intel.com>
+References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+ <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
+ <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
+ <cb768f03-9d46-432e-ad67-8ff1ef075385@linux.intel.com>
+ <6038c9fa-8cb1-46e1-b856-d759a3f990b3@opensource.cirrus.com>
+ <5e9b0b69-6108-4909-90e8-257c13c2d886@linux.intel.com>
+ <d2de7d4c-3984-4737-b879-a1fa829007ff@opensource.cirrus.com>
+ <7bae01ac-a0de-47d9-9bd3-6bdfc48e02c1@linux.intel.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <7bae01ac-a0de-47d9-9bd3-6bdfc48e02c1@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: -5zaWQktmOl-Okc99SaANp49wD2Qo3XP
+X-Proofpoint-GUID: -5zaWQktmOl-Okc99SaANp49wD2Qo3XP
 X-Proofpoint-Spam-Reason: safe
 
-On Wed, Nov 29, 2023 at 10:28:36PM +0100, Linus Walleij wrote:
-> This series walks over the Cirrus Logic ASoC drivers and
-> clean out the use of legacy GPIO numbers and legacy
-> GPIO APIs.
+On 29/11/23 16:39, Pierre-Louis Bossart wrote:
 > 
-> The CS4271 affects an ASoC driver for EP93xx which Nikita is
-> actively working on moving over to device tree, so I don't
-> know about that patch specifically, but I think the collision
-> would be max "the file was deleted".
+>>>>>>> +        .name_prefix = "cs35l56-8"
+>>>>>>
+>>>>>> Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
+>>>>>> CS35L56-hda driver? This prefix is used to find the matching firmware
+>>>>>> files and our naming convention for these has been cs35lxx-xxxx-ampn
+>>>>>>
+>>>>>> Is there anything that depends on the prefixes being "cs35l56-n" ?
+>>>>>
+>>>>> IIRC this name_prefix is just used for the codec_conf and hence for
+>>>>> control names/UCM. At some point userspace/driver need to know if amp5
+>>>>> is left or right.
+>>>>>
+>>>>> We can certainly align on conventions but the values set in this ACPI
+>>>>> match table will not be used for firmware download - different scope.
+>>>>>
+>>>>
+>>>> They are used for our firmware download. Each amp can have its own
+>>>> unique firmware file. The ALSA prefix is used to identify which firmware
+>>>> file to load to which amp.
+>>>
+>>> The prefix will only be used when the card is created, specifically for
+>>> control names.
+>>> The firmware should be selected and downloaded when the device shows up
+>>> on the bus.
+>>> Card creation and device enumeration/initialization happen on different
+>>> timelines, if the machine driver is "blacklisted" or unbound I am not
+>>> sure what happens.
+>>>
+>>> There is a dependency between machine driver probe and codec firmware
+>>> download that I am not able to follow, can you please elaborate?
+>>>
+>>
+>> The codec driver has to choose which firmware to load from under
+>> /lib/firmware. It does this using a combination of SSID (to identify the
+>> target product), the ALSA prefix string (to identify which amp) and
+>> in some systems a GPIO on the motherboard to select between different
+>> models of speaker when they have multiple suppliers. This results in a
+>> firmware name like:
+>>
+>> cs35l56-<silicon rev>-dsp1-misc-<SSID>[-<SPEAKER MODEL>]-<ALSA PREFIX>
+>>
+>> You can see this if you look in the linux-firmware repo under cirrus/
+>> for cs35l41 firmware files (though the ALSA PREFIX section in those
+>> cases is not "AMPn" because they are not SDCA parts with rotation,
+>> they have a fixed left/right assignment.)
+>>
+>> We have to be careful of the length of the prefix. The 44 characters of
+>> an ALSA control name get eaten up very quickly when we start creating
+>> fully-qualified names for controls published by the firmware. So "AMPn"
+>> was nice because it was descriptive enough but only uses 5 characters
+>> of the 44.
+>>
+>> Having said that, I've calculated that we have enough characters (just)
+>> to use a prefix of "cs35l56-n". If there's a reason why that is
+>> necessary/desirable for SOF or SoundWire then we could do that. But we'd
+>> intended to use "AMPn" prefixes.
+>>
+>> We just need to decide whether to go with "AMPn". Or switch to using
+>> "cs35l56-n" for the ALSA prefix (the therefore the qualifier at the end
+>> of the firmware filename).
 > 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
+> Yes we have similar issues with control names in topology, the limit is
+> hit very quickly.
+> 
+> I think you missed my point though that the ALSA prefix is only set when
+> the card is created, which can be sometime after the firmware needs to
+> be downloaded. I guess you could pick the firmware in the component
+> probe, which happens during the card creation, but that could be
+> sub-optimal. Given the download times you want the download to proceed
+> as early as possible.
 
-Except for the typo Mark spotted the series looks good to me:
-
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-
-Thanks,
-Charles
+We kick off a background task from our component_probe() to do the
+firmware download. We need the ALSA prefix, and also the wm_adsp library
+that actually handles the DSP is ASoC code so it needs a probed
+component. Doing it in a background work means it doesn't block probe().
+And the download to multiple amps can proceed in parallel - obviously
+that's constrained by bus bandwidth but we are seeing that they
+interleave.
