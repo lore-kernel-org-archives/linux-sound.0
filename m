@@ -1,29 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9AB10E2
-	for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 07:13:28 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6D33121B0D;
-	Thu, 30 Nov 2023 15:13:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 52E7E13B02;
-	Thu, 30 Nov 2023 15:13:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rejvEpamaGVaXgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 30 Nov 2023 15:13:26 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Disable power-save on KONTRON SinglePC
-Date: Thu, 30 Nov 2023 16:13:21 +0100
-Message-Id: <20231130151321.9813-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XxOsazn+"
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD04BC4
+	for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 10:38:34 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2c9ccf36b25so11214011fa.3
+        for <linux-sound@vger.kernel.org>; Thu, 30 Nov 2023 10:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701369513; x=1701974313; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=07QYxEgyoqmQ3Q1vq77DMefnw2mMccatpZsNXnEAueU=;
+        b=XxOsazn+Iu4N+ofc00ZoJEgPik/DYi+QOxZsEOe2cN3vQyQ1lVPr5RAcdT+pEIBxbb
+         7YAoEjTin9pI2LU7zyKWFfkgeEY/pFrBjTA5v+8CcxlFzAcgaUypCIPoCJZtY3HELya3
+         b0AUShnZU2DNrsRbfbwslYYkJfkXuxlm3m8ToYz7ngqkIBlyQbMw6j3vRx0b4pnq7qYx
+         UHZrBcCFMzeSQqSI6XfWLZG+817gDcsZCnheuNzl6pqs4umxO0eMTQIwmN9FRAHd29E6
+         bQaG1pLv/4btpDXTN8elqrnAratqkC3bWYW0c/WFUGH3qYmxLLSn7NabeBZLX1w/Arlr
+         83gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701369513; x=1701974313;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=07QYxEgyoqmQ3Q1vq77DMefnw2mMccatpZsNXnEAueU=;
+        b=vFC+A6XTRwpf7ZSwlt71miqbJsWjHZGFdThhOfQVRXjMdfWqxBFUUeYtGLXbSZ8Ey6
+         J9HXWGRcPeQjGhNv3QXHvAR8ULIXMJVbFiYamsS4Z7BcQurNrErWt6V0co6KTyKd9BZm
+         np6Kq2FOa8xN4dRlhpEklov73+JZnc6RoNulAnysTakDsX2sXbET0uwyR3eKEfpt1Rmc
+         nAmMbjaoMFhGqKwdEFcP6pPsxaaPtPrIQFgK1VP4HxdhSXOgk2CYHhwZ2XwlWoFVrGcu
+         W71F0pzzHcDnBHq+0+zsXmGHQ01z/sCvRgtInqQ+E8y94sjs9qDAxHxpL3SR8uygLduQ
+         Q9Pw==
+X-Gm-Message-State: AOJu0YxfZbtE17B4oc6WRS1BeNzkUa32ERhZcHjkuStFRn4n7KOC97VP
+	yHsRdoZnXBgLMmi3/DrJlSWMVTyfYuAsFLf5512KnQ==
+X-Google-Smtp-Source: AGHT+IH5RLOmJKYkkr8iZOW9SC+fCUJYFeQDas3VL1+GiBFExPCe+HsuOw/Ti2CQ542OzjVBSw5i4g==
+X-Received: by 2002:a17:906:ca2:b0:9fe:3bb6:99fe with SMTP id k2-20020a1709060ca200b009fe3bb699femr80697ejh.2.1701367698155;
+        Thu, 30 Nov 2023 10:08:18 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id y16-20020a170906559000b009a1dbf55665sm926713ejp.161.2023.11.30.10.08.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 10:08:17 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 3/3] ASoC: qcom: audioreach: Add 4 channel support
+Date: Thu, 30 Nov 2023 19:07:58 +0100
+Message-Id: <20231130180758.212172-3-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231130180758.212172-1-krzysztof.kozlowski@linaro.org>
+References: <20231130180758.212172-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -31,64 +62,73 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++++++++++
-Authentication-Results: smtp-out1.suse.de;
-	dkim=none;
-	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none);
-	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [14.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_DN_NONE(0.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_SPF_SOFTFAIL(4.60)[~all:c];
-	 RCPT_COUNT_ONE(0.00)[1];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_SPAM_LONG(3.01)[0.860];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,launchpad.net:url];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
-X-Spam-Score: 14.80
-X-Rspamd-Queue-Id: 6D33121B0D
 
-It's been reported that the runtime PM on KONTRON SinglePC (PCI SSID
-1734:1232) caused a stall of playback after a bunch of invocations.
-(FWIW, this looks like an timing issue, and the stall happens rather
-on the controller side.)
+Add support four channel streams.  Map channel 3 and 4 to left/right
+surround ("quad(side)" from ffmpeg standard channel list) to match what
+is in qdsp6/q6dsp-common.c driver.
 
-As a workaround, disable the default power-save on this platform.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index db90feb49c16..2d1df3654424 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2242,6 +2242,8 @@ static const struct snd_pci_quirk power_save_denylist[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x36a7, "Lenovo C50 All in one", 0),
- 	/* https://bugs.launchpad.net/bugs/1821663 */
- 	SND_PCI_QUIRK(0x1631, 0xe017, "Packard Bell NEC IMEDIA 5204", 0),
-+	/* KONTRON SinglePC may cause a stall at runtime resume */
-+	SND_PCI_QUIRK(0x1734, 0x1232, "KONTRON SinglePC", 0),
- 	{}
- };
- #endif /* CONFIG_PM */
+Changes in v2:
+1. Rebase to avoid duplicate code.
+
+v1:
+https://lore.kernel.org/alsa-devel/20231020084919.18628-1-krzysztof.kozlowski@linaro.org/
+
+quad(side):
+https://trac.ffmpeg.org/wiki/AudioChannelManipulation#Listchannelnamesandstandardchannellayouts
+---
+ sound/soc/qcom/qdsp6/audioreach.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index 5c7113d46b6f..5291deac0a0b 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -274,6 +274,11 @@ static void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
+ 	} else if (num_channels == 2) {
+ 		ch_map[0] =  PCM_CHANNEL_FL;
+ 		ch_map[1] =  PCM_CHANNEL_FR;
++	} else if (num_channels == 4) {
++		ch_map[0] =  PCM_CHANNEL_FL;
++		ch_map[1] =  PCM_CHANNEL_FR;
++		ch_map[2] =  PCM_CHANNEL_LS;
++		ch_map[3] =  PCM_CHANNEL_RS;
+ 	}
+ }
+ 
+@@ -843,6 +848,11 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
+ 	} else if (num_channels == 2) {
+ 		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
+ 		media_format->channel_mapping[1] = PCM_CHANNEL_FR;
++	} else if (num_channels == 4) {
++		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
++		media_format->channel_mapping[1] = PCM_CHANNEL_FR;
++		media_format->channel_mapping[2] = PCM_CHANNEL_LS;
++		media_format->channel_mapping[3] = PCM_CHANNEL_RS;
+ 	}
+ 
+ 	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
+@@ -1063,7 +1073,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+ 	int rc, payload_size;
+ 	struct gpr_pkt *pkt;
+ 
+-	if (num_channels > 2) {
++	if (num_channels > 4) {
+ 		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
+ 		return -EINVAL;
+ 	}
+@@ -1117,7 +1127,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+ 	struct gpr_pkt *pkt;
+ 	void *p;
+ 
+-	if (num_channels > 2) {
++	if (num_channels > 4) {
+ 		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
+ 		return -EINVAL;
+ 	}
 -- 
-2.35.3
+2.34.1
 
