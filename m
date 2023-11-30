@@ -1,89 +1,155 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kVc3BHY6"
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41077170E
-	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 05:53:38 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-54c4433e98bso1399431a12.3
-        for <linux-sound@vger.kernel.org>; Fri, 01 Dec 2023 05:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701438817; x=1702043617; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0XO1jfSNAX5UUapl1o0DoRwp6Muw1NAKcPjYnOb3wSQ=;
-        b=kVc3BHY6ms+vr7mCEQhUipVj6lSVOqPo9jLWvxYAuvO8C1gVMG/80/+N27hEVVrxIA
-         h8BmlrCeJZtS8jo28/0BE/4dht1RgPizeFEYE1lOuGnxT8+XOAuQdGf+7Ggf8Rw8ODvB
-         GgdaLWX1xM8MVryLNF6Tg76iiDUr/twUugpVKm5iOp5h4oNOclJxJW1/1YLCr88srRgc
-         f6GH18qhjRrzeZ456y2qzFjG7On/G3MmXe3aW4ukK3hnMVzKMcqmj9zMQkBGdpqdByxS
-         03z8OwV69sAoiN6L6qPmTM8lRg0BVy3sYffbVRocc/IJ87y6+6nbpYouywERIJ9qkOjT
-         Ccow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701438817; x=1702043617;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0XO1jfSNAX5UUapl1o0DoRwp6Muw1NAKcPjYnOb3wSQ=;
-        b=TK/4hkv8zxWy2TGpjSJjDXh2ZJQIelNaMC0sbl5aXATz1rypg6CBAtnTs0wdkEbZEK
-         MzpJdf2f0TpW8hgWGvvewTs+pTuwycfLRs1yUatf8khjPzT5SOvvfXBvjSXlm7/pEd6y
-         CxB8u/xzUN9O/S/gyIFzJbJkD/py5b3mizTKuS+WVjYQhl54UuVLc8zv2PyC+I9N5jn1
-         1DHGP+xvQf8RoeCBZTA0rUBvGNvKz4AUb/trJN+dNwOlLvTOep2FjXvOTxhSKR0Lqkrw
-         HeUTOC98cP2xm51xmD919tYC8xgXXdlHawIqgdZpsJbn/lWFa9K7Bk0OQeMSjJyCQ/Nt
-         86nA==
-X-Gm-Message-State: AOJu0Yx6+Dl6AqKsjG/hwE80Hn9HsuHhbRZeLfZSNbfgd1/wx2um2UXf
-	y34uWJTtm5574MwnoVtzpO5nX48OLiVoUjCDpqw=
-X-Google-Smtp-Source: AGHT+IEUEBgek6GqGcBQw9JPEGr/EOjPY1nRmeSrVXDWF27h8GC0nLXB3/Be8p+vpwpYsM4Ye9nsOw==
-X-Received: by 2002:a50:d651:0:b0:54c:4fec:f1 with SMTP id c17-20020a50d651000000b0054c4fec00f1mr361610edj.128.1701438816710;
-        Fri, 01 Dec 2023 05:53:36 -0800 (PST)
-Received: from krzk-bin.. ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id d20-20020a056402001400b0054b531907f8sm1643159edu.73.2023.12.01.05.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 05:53:36 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/2] ASoC: qcom: sc8280xp: Add support for SM8450 and SM8550
-Date: Fri,  1 Dec 2023 14:53:32 +0100
-Message-Id: <20231201135332.154017-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231201135332.154017-1-krzysztof.kozlowski@linaro.org>
-References: <20231201135332.154017-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdQ4N9Me"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75BF0129
+	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 06:41:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701441685; x=1732977685;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EFy9Hh3Cv87FHbJLGd1xdosKaDBGtIirU5TJIkN5is0=;
+  b=SdQ4N9Meuw27ACaps53IfdOJehByf9c2t6tGC6fkqIT79I788XA8DfUc
+   ExaIuwfHlwmQb2OL3+2K23OEQbV9N98+u+CKEsLdg7Q6ozTSb3/jlrqyW
+   0KFsRk0b3hLnQx0QaRNt661qs8tQgfqqlPuZfwFRYXgTr2gpDYG63gqgp
+   7jo0JrQrQohmQash8Ixv2RevkU6KJjq1eKh5H1ShabEqOMRF/uzI2Fjiq
+   kWBRxkecwbVZIvbYesEAkI+E6EebRLiaygaMSJCXG/8HlVp9DayYcIKMU
+   V+zcnk2JBAFPqFt4mpHaL+pEHaqDO6bHdWjWlOtRBeaDc/Gjas8VAfExL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="424662189"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="424662189"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 06:41:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="943106258"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="943106258"
+Received: from shravans-mobl.amr.corp.intel.com (HELO [10.209.93.166]) ([10.209.93.166])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 06:41:24 -0800
+Message-ID: <162bf443-37ca-4848-99de-ffb877740f44@linux.intel.com>
+Date: Thu, 30 Nov 2023 08:27:32 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
+ and cs56l56 support
+Content-Language: en-US
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+ cezary.rojewski@intel.com, yung-chuan.liao@linux.intel.com,
+ ckeepax@opensource.cirrus.com, yong.zhi@intel.com, chao.song@linux.intel.com
+References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
+ <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
+ <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
+ <cb768f03-9d46-432e-ad67-8ff1ef075385@linux.intel.com>
+ <6038c9fa-8cb1-46e1-b856-d759a3f990b3@opensource.cirrus.com>
+ <5e9b0b69-6108-4909-90e8-257c13c2d886@linux.intel.com>
+ <d2de7d4c-3984-4737-b879-a1fa829007ff@opensource.cirrus.com>
+ <7bae01ac-a0de-47d9-9bd3-6bdfc48e02c1@linux.intel.com>
+ <1b77a7b5-5988-49b2-b356-0d24bb01909d@opensource.cirrus.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <1b77a7b5-5988-49b2-b356-0d24bb01909d@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add compatibles for sound card on Qualcomm SM8450 and SM8550 boards.
-The compatibles were already documented.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/qcom/sc8280xp.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 7df28ecefd65..837356ac541f 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -138,6 +138,8 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
- 
- static const struct of_device_id snd_sc8280xp_dt_match[] = {
- 	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
-+	{.compatible = "qcom,sm8450-sndcard", "sm8450"},
-+	{.compatible = "qcom,sm8550-sndcard", "sm8550"},
- 	{}
- };
- 
--- 
-2.34.1
+On 11/30/23 04:15, Richard Fitzgerald wrote:
+> On 29/11/23 16:39, Pierre-Louis Bossart wrote:
+>>
+>>>>>>>> +        .name_prefix = "cs35l56-8"
+>>>>>>>
+>>>>>>> Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
+>>>>>>> CS35L56-hda driver? This prefix is used to find the matching
+>>>>>>> firmware
+>>>>>>> files and our naming convention for these has been cs35lxx-xxxx-ampn
+>>>>>>>
+>>>>>>> Is there anything that depends on the prefixes being "cs35l56-n" ?
+>>>>>>
+>>>>>> IIRC this name_prefix is just used for the codec_conf and hence for
+>>>>>> control names/UCM. At some point userspace/driver need to know if
+>>>>>> amp5
+>>>>>> is left or right.
+>>>>>>
+>>>>>> We can certainly align on conventions but the values set in this ACPI
+>>>>>> match table will not be used for firmware download - different scope.
+>>>>>>
+>>>>>
+>>>>> They are used for our firmware download. Each amp can have its own
+>>>>> unique firmware file. The ALSA prefix is used to identify which
+>>>>> firmware
+>>>>> file to load to which amp.
+>>>>
+>>>> The prefix will only be used when the card is created, specifically for
+>>>> control names.
+>>>> The firmware should be selected and downloaded when the device shows up
+>>>> on the bus.
+>>>> Card creation and device enumeration/initialization happen on different
+>>>> timelines, if the machine driver is "blacklisted" or unbound I am not
+>>>> sure what happens.
+>>>>
+>>>> There is a dependency between machine driver probe and codec firmware
+>>>> download that I am not able to follow, can you please elaborate?
+>>>>
+>>>
+>>> The codec driver has to choose which firmware to load from under
+>>> /lib/firmware. It does this using a combination of SSID (to identify the
+>>> target product), the ALSA prefix string (to identify which amp) and
+>>> in some systems a GPIO on the motherboard to select between different
+>>> models of speaker when they have multiple suppliers. This results in a
+>>> firmware name like:
+>>>
+>>> cs35l56-<silicon rev>-dsp1-misc-<SSID>[-<SPEAKER MODEL>]-<ALSA PREFIX>
+>>>
+>>> You can see this if you look in the linux-firmware repo under cirrus/
+>>> for cs35l41 firmware files (though the ALSA PREFIX section in those
+>>> cases is not "AMPn" because they are not SDCA parts with rotation,
+>>> they have a fixed left/right assignment.)
+>>>
+>>> We have to be careful of the length of the prefix. The 44 characters of
+>>> an ALSA control name get eaten up very quickly when we start creating
+>>> fully-qualified names for controls published by the firmware. So "AMPn"
+>>> was nice because it was descriptive enough but only uses 5 characters
+>>> of the 44.
+>>>
+>>> Having said that, I've calculated that we have enough characters (just)
+>>> to use a prefix of "cs35l56-n". If there's a reason why that is
+>>> necessary/desirable for SOF or SoundWire then we could do that. But we'd
+>>> intended to use "AMPn" prefixes.
+>>>
+>>> We just need to decide whether to go with "AMPn". Or switch to using
+>>> "cs35l56-n" for the ALSA prefix (the therefore the qualifier at the end
+>>> of the firmware filename).
+>>
+>> Yes we have similar issues with control names in topology, the limit is
+>> hit very quickly.
+>>
+>> I think you missed my point though that the ALSA prefix is only set when
+>> the card is created, which can be sometime after the firmware needs to
+>> be downloaded. I guess you could pick the firmware in the component
+>> probe, which happens during the card creation, but that could be
+>> sub-optimal. Given the download times you want the download to proceed
+>> as early as possible.
+> 
+> We kick off a background task from our component_probe() to do the
+> firmware download. We need the ALSA prefix, and also the wm_adsp library
+> that actually handles the DSP is ASoC code so it needs a probed
+> component. Doing it in a background work means it doesn't block probe().
+> And the download to multiple amps can proceed in parallel - obviously
+> that's constrained by bus bandwidth but we are seeing that they
+> interleave.
 
+ah ok, that makes sense. In practice the delta between codec enumeration
+and component probe is probably negligible, and in a multi-amplifier
+setup the download times are much larger.
+
+So to circle back to the initial feedback, do you mind submitting a
+patch with the exact naming you'd want for the prefix?
