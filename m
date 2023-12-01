@@ -1,67 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D94D200D5;
-	Fri,  1 Dec 2023 09:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nN6G/Cmk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D37BAC433C9;
-	Fri,  1 Dec 2023 09:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701424661;
-	bh=ccXiUANYmPCB8NhMfkOx6I/A0dGnOoIhG/1n4IleSEM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nN6G/CmkDMIyNYHBFUEVMe6YyKjeJeDlcTkISZVgbTI/pqNUsFklKLjjSBgAOK7ww
-	 F+Z2KwQWVong0wXXQ8+V0ZSGFvWiaDZ5h4sS4XJxLIbZ2fFZIxPTaoxOuGtDiqqk2p
-	 5POm7Fu6D+GW5UvL7JwKYwMpdLwg7Fk9VuapkM9/kKP1TSnKEolwx2DF7Si7mSRIrd
-	 sOsKsJcq3KHr3/WfnhQjoqUbxvkfzKhwu5tV0eQub0nvw/FciJHAai10aBfmejDR80
-	 AtrxvFKdZX8LBzEx5XRqDkXsRxFcCYz4AbrgoAwnqroScmdHvFihxmVOAjnqug+A/B
-	 0tyQAf6oAtP6g==
-From: Lee Jones <lee@kernel.org>
-To: broonie@kernel.org, tudor.ambarus@linaro.org, pratyush@kernel.org, 
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
- sbinding@opensource.cirrus.com, lee@kernel.org, james.schulman@cirrus.com, 
- david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
- tiwai@suse.com, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- michael@walle.cc, linux-mtd@lists.infradead.org, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@tuxon.dev, michal.simek@amd.com, 
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, 
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com, 
- amitrkcian2002@gmail.com
-In-Reply-To: <20231125092137.2948-2-amit.kumar-mahapatra@amd.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-2-amit.kumar-mahapatra@amd.com>
-Subject: Re: (subset) [PATCH v11 01/10] mfd: tps6594: Use set/get APIs to
- access spi->chip_select
-Message-Id: <170142465659.3329910.8527538140063947758.b4-ty@kernel.org>
-Date: Fri, 01 Dec 2023 09:57:36 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rb5khlMI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6Dmsh2WB"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D1A1A4;
+	Fri,  1 Dec 2023 03:03:42 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5190C1FD63;
+	Fri,  1 Dec 2023 11:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701428621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=UF7FbYcgVqquli64XbVKd7ovJQg3WdQq1uzTcAG9rqQ=;
+	b=rb5khlMIR4w6HfBKjdLrLEBgwG2kdlZZEtJOfl73XsR9RwQ/BUTbje4h2wEhf4VsUsf5H6
+	43l3m/zKIKC/D1wTrgzeH79E8TuTfKgmOZOU8vnNR9fXZkuJ0XoieIa5mDxOX+CIFJ0bBa
+	p5KCgsy+MHGwPhkWsEJnwtUbhnAZ/hI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701428621;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=UF7FbYcgVqquli64XbVKd7ovJQg3WdQq1uzTcAG9rqQ=;
+	b=6Dmsh2WBkRoSABGWnaISmjXjCAwWY9QTuoI3GV8ErI/rYsrN88Khu9XNPBZOSm0e692ZHw
+	8zWAXtvsPdhdQTAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 291971369E;
+	Fri,  1 Dec 2023 11:03:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id N0blB429aWWvbQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 01 Dec 2023 11:03:41 +0000
+Date: Fri, 01 Dec 2023 12:03:40 +0100
+Message-ID: <87edg6b2wj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] sound fixes for 6.7-rc4
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.68 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[3];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-0.96)[-0.959];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.42)[78.30%]
+X-Spam-Score: -0.68
 
-On Sat, 25 Nov 2023 14:51:28 +0530, Amit Kumar Mahapatra wrote:
-> In preparation for adding multiple CS support for a device, set/get
-> functions were introduces accessing spi->chip_select in
-> 'commit 303feb3cc06a ("spi: Add APIs in spi core to set/get
-> spi->chip_select and spi->cs_gpiod")'.
-> Replace spi->chip_select with spi_get_chipselect() API.
-> 
-> 
-> [...]
+Linus,
 
-Applied, thanks!
+please pull sound fixes for v6.7-rc4 from:
 
-[01/10] mfd: tps6594: Use set/get APIs to access spi->chip_select
-        commit: dd636638446c87c95c5beddcd367d95ac6764c6c
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc4
 
---
-Lee Jones [李琼斯]
+The topmost commit is a337c355719c42a6c5b67e985ad753590ed844fb
+
+----------------------------------------------------------------
+
+sound fixes for 6.7-rc4
+
+No surprise here, including only a collection of HD-audio
+device-specific small fixes.
+
+----------------------------------------------------------------
+
+Kailang Yang (2):
+      ALSA: hda/realtek: Headset Mic VREF to 100%
+      ALSA: hda/realtek: Add supported ALC257 for ChromeOS
+
+Peter Ujfalusi (1):
+      ALSA: hda: intel-nhlt: Ignore vbps when looking for DMIC 32 bps format
+
+Richard Fitzgerald (1):
+      ALSA: hda: cs35l56: Enable low-power hibernation mode on SPI
+
+Stefan Binding (2):
+      ALSA: hda: cs35l41: Remove unnecessary boolean state variable firmware_running
+      ALSA: cs35l41: Fix for old systems which do not support command
+
+Takashi Iwai (1):
+      ALSA: hda: Disable power-save on KONTRON SinglePC
+
+Vasiliy Kovalev (1):
+      ALSA: hda - Fix speaker and headset mic pin config for CHUWI CoreBook XPro
+
+---
+ include/sound/cs35l41.h         |  2 +-
+ sound/hda/intel-nhlt.c          | 33 +++++++++++++++++++++++++++++----
+ sound/pci/hda/cs35l41_hda.c     | 28 ++++++++++++----------------
+ sound/pci/hda/cs35l56_hda_spi.c |  4 ++++
+ sound/pci/hda/hda_intel.c       |  2 ++
+ sound/pci/hda/patch_realtek.c   | 22 ++++++++++++++++++++++
+ sound/soc/codecs/cs35l41-lib.c  |  6 ++++--
+ sound/soc/codecs/cs35l41.c      |  4 ++--
+ 8 files changed, 76 insertions(+), 25 deletions(-)
 
