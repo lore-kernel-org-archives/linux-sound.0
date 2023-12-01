@@ -1,77 +1,67 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D94D200D5;
+	Fri,  1 Dec 2023 09:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="K2mW4NEL"
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BBCE194
-	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 01:21:29 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B174DkJ027843;
-	Fri, 1 Dec 2023 03:21:03 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:from:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=CLKVZ5aYreBKIuc2sSh6SH/zjBjVtznHx6oI/rsB4OA=; b=
-	K2mW4NELZKBu6lOyofOWKOHZ4cyTP2qzEOLdBW1FCIaBQh/hlMULJVIjc0bu3dZe
-	FQ+8AZOAg/E7TJ8VHDjrQwuYD53Zn5DkhflhBnobmeyW5RMs1Mi5od8H7PajSCcn
-	U6nMeS8qOQLfK66tUwoydyoLuoXUt2OiatIZ4Fhnur0BC1M17rLyFG0n+GQ2nuxK
-	vDihcN2/spCnQ8u6ZLEo1D5FjuqVcSIhakywVWd+nOUyuCgSlFuBeEyxukc7cN6D
-	qBoUI65GJwbKB/Tpqh3t/wnSwsQD6HKkBoCaf4BCXUaCLELYts/u1K+HnODb7v13
-	jfNXCNyulkiugdVJNDzOEQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3unvhpb8ea-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 01 Dec 2023 03:21:03 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 1 Dec
- 2023 09:21:00 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.39 via Frontend Transport; Fri, 1 Dec 2023 09:21:00 +0000
-Received: from [198.61.65.94] (EDIN4L06LR3.ad.cirrus.com [198.61.65.94])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D2C60468;
-	Fri,  1 Dec 2023 09:20:59 +0000 (UTC)
-Message-ID: <8808f57c-7eb3-41c4-bd57-8ac59ddd767b@opensource.cirrus.com>
-Date: Fri, 1 Dec 2023 09:21:00 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nN6G/Cmk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D37BAC433C9;
+	Fri,  1 Dec 2023 09:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701424661;
+	bh=ccXiUANYmPCB8NhMfkOx6I/A0dGnOoIhG/1n4IleSEM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nN6G/CmkDMIyNYHBFUEVMe6YyKjeJeDlcTkISZVgbTI/pqNUsFklKLjjSBgAOK7ww
+	 F+Z2KwQWVong0wXXQ8+V0ZSGFvWiaDZ5h4sS4XJxLIbZ2fFZIxPTaoxOuGtDiqqk2p
+	 5POm7Fu6D+GW5UvL7JwKYwMpdLwg7Fk9VuapkM9/kKP1TSnKEolwx2DF7Si7mSRIrd
+	 sOsKsJcq3KHr3/WfnhQjoqUbxvkfzKhwu5tV0eQub0nvw/FciJHAai10aBfmejDR80
+	 AtrxvFKdZX8LBzEx5XRqDkXsRxFcCYz4AbrgoAwnqroScmdHvFihxmVOAjnqug+A/B
+	 0tyQAf6oAtP6g==
+From: Lee Jones <lee@kernel.org>
+To: broonie@kernel.org, tudor.ambarus@linaro.org, pratyush@kernel.org, 
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
+ sbinding@opensource.cirrus.com, lee@kernel.org, james.schulman@cirrus.com, 
+ david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
+ tiwai@suse.com, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ michael@walle.cc, linux-mtd@lists.infradead.org, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ claudiu.beznea@tuxon.dev, michal.simek@amd.com, 
+ linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com, 
+ amitrkcian2002@gmail.com
+In-Reply-To: <20231125092137.2948-2-amit.kumar-mahapatra@amd.com>
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+ <20231125092137.2948-2-amit.kumar-mahapatra@amd.com>
+Subject: Re: (subset) [PATCH v11 01/10] mfd: tps6594: Use set/get APIs to
+ access spi->chip_select
+Message-Id: <170142465659.3329910.8527538140063947758.b4-ty@kernel.org>
+Date: Fri, 01 Dec 2023 09:57:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43
- and cs56l56 support
-Content-Language: en-US
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, <lgirdwood@gmail.com>,
-        <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
-        <ranjani.sridharan@linux.intel.com>, <cezary.rojewski@intel.com>,
-        <yung-chuan.liao@linux.intel.com>, <ckeepax@opensource.cirrus.com>,
-        <yong.zhi@intel.com>, <chao.song@linux.intel.com>
-References: <20231127133448.18449-1-peter.ujfalusi@linux.intel.com>
- <20231127133448.18449-7-peter.ujfalusi@linux.intel.com>
- <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
-In-Reply-To: <9660e9df-2061-4b2c-ba59-5e6f8a61f07d@opensource.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: tuSfLSiUl7kbFvtZR9ohLi9x7CE7NyzK
-X-Proofpoint-ORIG-GUID: tuSfLSiUl7kbFvtZR9ohLi9x7CE7NyzK
-X-Proofpoint-Spam-Reason: safe
+X-Mailer: b4 0.12.3
 
-On 27/11/23 14:40, Richard Fitzgerald wrote:
+On Sat, 25 Nov 2023 14:51:28 +0530, Amit Kumar Mahapatra wrote:
+> In preparation for adding multiple CS support for a device, set/get
+> functions were introduces accessing spi->chip_select in
+> 'commit 303feb3cc06a ("spi: Add APIs in spi core to set/get
+> spi->chip_select and spi->cs_gpiod")'.
+> Replace spi->chip_select with spi_get_chipselect() API.
 > 
 > 
->> +        .name_prefix = "cs35l56-8"
-> 
-> Can these prefixes be "AMPn" to match the CS35L41, CS35L51 and
-> CS35L56-hda driver? This prefix is used to find the matching firmware
-> files and our naming convention for these has been cs35lxx-xxxx-ampn
-> 
-> Is there anything that depends on the prefixes being "cs35l56-n" ?
-> 
+> [...]
 
-We're thinking about whether to change to using "cs35l56-n" prefix.
-Hold on this while we make a decision...
+Applied, thanks!
+
+[01/10] mfd: tps6594: Use set/get APIs to access spi->chip_select
+        commit: dd636638446c87c95c5beddcd367d95ac6764c6c
+
+--
+Lee Jones [李琼斯]
 
