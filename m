@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SZ74a/xk"
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F66213E
-	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 05:20:38 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-50aabfa1b75so3085912e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 01 Dec 2023 05:20:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ktcAmG4j"
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3DF10D0
+	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 05:20:39 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bce42295eso2365772e87.2
+        for <linux-sound@vger.kernel.org>; Fri, 01 Dec 2023 05:20:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701436836; x=1702041636; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701436837; x=1702041637; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QXDjDPaMbvQx1bg37W4jgjJHDDiGcy2tlOvY5Yp+dBc=;
-        b=SZ74a/xkRlP3R4CZMf9s9Asc07otU2b3B0jal1K4fcn/gLX4CWSkpgeUlwYH86gr6W
-         lm2dkZmwj2ZpEIl9o2NPbo7dSm8bXSvV+gefu+5ja3iFZlSYS8NhN4I7RcDDWk7UnPVC
-         5tKlQNSy3umNva95WxnngQV8JeoaVbqdd0ztnO/V7E6IsOhqnAZ4+1G4nVhBFGsN3sPf
-         DSxM4Oly4bR2xTdspywToBUzE6CYgXNA7XVF1dE+OtjGU7/K+28WkK1VrTW0IQZe8RZQ
-         hHxb8HapZIzy3WMnPF3vle6CSn5BljQmVHMXRRD59f8sS59N/Mf10PG4369RBA8Huly0
-         U/tA==
+        bh=tmhoeNK2XrxfkfGdL3xKNy/HfoA09+0EnEv8OOqmFiw=;
+        b=ktcAmG4jsASqae2vNTaUpPgTKswO9HgBlmKtgHEwqVZERXrUccemi+TRCwPZJes1YV
+         x2tZMRPaDCmIcHRZUmkQ/6WkmLtRV5D41R0EKM+YQe77Nz+DeNq7LkHtiXuCnYzRodD5
+         f2nOyMtBrapkU5a8ExzQrMTZ10VKPCsAu3Fy8oSTZvkrYS+MF1FfGPqB0cCEc2WtYrVE
+         U860AdnqfqdytxvzPaKvWYcwP5DJFvRi+uxV+7uU2xNBqvfbJw1kx1XDUYpMm9u8dOQ7
+         Vg1qlJdlUfasRysrw9CCq5Z3CLiVH5bSc99wUBtZe4GMN9dm/UjS+gB00Wm9cP6H1j0/
+         dVkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701436836; x=1702041636;
+        d=1e100.net; s=20230601; t=1701436837; x=1702041637;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QXDjDPaMbvQx1bg37W4jgjJHDDiGcy2tlOvY5Yp+dBc=;
-        b=kw+X7YuXAObTy6WjHPP4IdoV9mrpm4w6FyCROkzZ3qJ+/EPcyfXvVRe34MOvcjvbHr
-         O6FooHjT+WUkZ13vA/G5vXc0rRPaAeOTyotS4vlfOrY1esMn3l4crZ6uSITcXQLtRhYm
-         ND3q9uc7C3zbt6ovB5aGBqv6up5SSsVGIByLiArV1tM0cEZ/jAk/+lfyqptBWU9g7+9o
-         Y8G2nahvxMOILr/dkqZwCiJV2pdmthS76lFMzWGh+cK1jM8Srlw7sqJ/3bKJtAUKT0J8
-         4G4XavCrstsi8gcYOPklZSxq2grqdQILRPWwdwyZi17dnliwBZ/tPPUMA/ii5xfkJdQI
-         r/aQ==
-X-Gm-Message-State: AOJu0YxwKEYb4lUkyLIZhkI8YviyJWlEJ0701dv2/ILEp91VQGFbUdSE
-	UdUW5g7+G7dEtU0SeEMOpEAd2w==
-X-Google-Smtp-Source: AGHT+IGIItJJwYORlQRXrQG7gfQ5ooIDSNWEgNp2rLh/rkXJ7icDeuvVSqIoEojB48neS29HuUSSVw==
-X-Received: by 2002:a05:6512:239f:b0:50b:c2f4:ad44 with SMTP id c31-20020a056512239f00b0050bc2f4ad44mr1028231lfv.29.1701436836629;
-        Fri, 01 Dec 2023 05:20:36 -0800 (PST)
+        bh=tmhoeNK2XrxfkfGdL3xKNy/HfoA09+0EnEv8OOqmFiw=;
+        b=EdNAJMkhFHhwuqJkQTCl4adB02KzF+L6mA77Ftd9TTN7l9wRqXjsuIYFv5zXukbwUr
+         83MeiEUEefbxXu8HDsEMubQvtAfhNLC1GJKCqAjDdsS+O+gzRLvgRESOH0WzAbW8Jg/I
+         SEqIZdNdYHD6apk2ElMLIvQR5Aj3fIdOOtMnHhk4KMqgW+yfaXCohduPVnBdBlDg9htT
+         SfD6UTMrDAVWlLvem5UTUE4bY4hDmApGmc68zCZHWkKYxNAcT1P2vHYtsd8Nlksyqs2A
+         EvSPbbtohiWJzagYhXmxSamdeIuxYLSOcV7ScVT+gwEPz7HwFvoCxuBkO+Zx5xceMQb9
+         b6og==
+X-Gm-Message-State: AOJu0YxzMp+xhjGsBOdw0dM1bRKDkeE2KiIVNjYKFrvHoh2j/mUX8myg
+	9U9H/Uzzp+AQ+ZPHNFwlMUSKkw==
+X-Google-Smtp-Source: AGHT+IFSgPDic86kEaX7pw26R4wwmabuIQgTcHwgTfrqNNG5jSVMDDG459yzdd7DusaO3vXR73bQLQ==
+X-Received: by 2002:a19:7906:0:b0:50b:d764:8819 with SMTP id u6-20020a197906000000b0050bd7648819mr784054lfc.101.1701436837631;
+        Fri, 01 Dec 2023 05:20:37 -0800 (PST)
 Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id u25-20020ac243d9000000b0050be054b4e8sm1081lfl.121.2023.12.01.05.20.35
+        by smtp.gmail.com with ESMTPSA id u25-20020ac243d9000000b0050be054b4e8sm1081lfl.121.2023.12.01.05.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 05:20:36 -0800 (PST)
+        Fri, 01 Dec 2023 05:20:37 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 01 Dec 2023 14:20:33 +0100
-Subject: [PATCH v2 04/10] ASoC: cs35l35: Drop legacy includes
+Date: Fri, 01 Dec 2023 14:20:34 +0100
+Subject: [PATCH v2 05/10] ASoC: cs35l36: Drop legacy includes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231201-descriptors-sound-cirrus-v2-4-ee9f9d4655eb@linaro.org>
+Message-Id: <20231201-descriptors-sound-cirrus-v2-5-ee9f9d4655eb@linaro.org>
 References: <20231201-descriptors-sound-cirrus-v2-0-ee9f9d4655eb@linaro.org>
 In-Reply-To: <20231201-descriptors-sound-cirrus-v2-0-ee9f9d4655eb@linaro.org>
 To: Paul Handrigan <Paul.Handrigan@cirrus.com>, 
@@ -76,16 +76,22 @@ Drop the includes.
 Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- sound/soc/codecs/cs35l35.c | 2 --
- 1 file changed, 2 deletions(-)
+ChangeLog v1->v2:
+- Add <linux/irq.h> include, apparently the driver relied on this
+  being implicitly included from <linux/gpio.h>
+---
+ sound/soc/codecs/cs35l36.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/cs35l35.c b/sound/soc/codecs/cs35l35.c
-index 63a538f747d3..ddb7d63213a3 100644
---- a/sound/soc/codecs/cs35l35.c
-+++ b/sound/soc/codecs/cs35l35.c
-@@ -18,14 +18,12 @@
+diff --git a/sound/soc/codecs/cs35l36.c b/sound/soc/codecs/cs35l36.c
+index f2fde6e652b9..f5bd32e434a0 100644
+--- a/sound/soc/codecs/cs35l36.c
++++ b/sound/soc/codecs/cs35l36.c
+@@ -17,15 +17,14 @@
+ #include <linux/platform_device.h>
  #include <linux/regulator/consumer.h>
  #include <linux/gpio/consumer.h>
++#include <linux/irq.h>
  #include <linux/of.h>
 -#include <linux/of_gpio.h>
  #include <linux/regmap.h>
@@ -97,7 +103,7 @@ index 63a538f747d3..ddb7d63213a3 100644
 -#include <linux/gpio.h>
  #include <sound/initval.h>
  #include <sound/tlv.h>
- #include <sound/cs35l35.h>
+ #include <sound/cs35l36.h>
 
 -- 
 2.34.1
