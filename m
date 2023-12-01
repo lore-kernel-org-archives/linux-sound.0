@@ -1,110 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zvUB69li"
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A453010D0
-	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 05:20:42 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50bd928b13cso974344e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 01 Dec 2023 05:20:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GxV6WBDn"
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47571170B
+	for <linux-sound@vger.kernel.org>; Fri,  1 Dec 2023 05:53:37 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-50bbfad8758so2936629e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 01 Dec 2023 05:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701436841; x=1702041641; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kJ+3Y6BEIrIf7qh9svq9OVzbI1CjxUGno02MCFoO1oo=;
-        b=zvUB69liLPXcAbWUti3AncjW/OlmM6nz9VIj0rPYAEptUHZo18wusjPH4VnO9h4T2o
-         8k9CRw0S8sNsqxyYNejqBXxnK8mlVvZj0ECW7JW9D3J2qyL7cWElwuMOLU9WqFMu0ggU
-         6FqNC0m8r68JgwDE6e3/Bc/H8s4F4OF5HMRA8cF+GXja6N2VQhZxpfFf0ZFhc+eZiz34
-         9odauVRWQeeKytR4ixNv/Knw7W7273AZWckshxWib/lKQy9hdcbNpsjCYnlHvHOlzb+v
-         InXy0lCqQvGtpzZ1xIlfhU2VTIG2q3poOcukL/SPG7p0UIqq5rA8lObhqlRt2yXod+5w
-         Ca/Q==
+        d=linaro.org; s=google; t=1701438815; x=1702043615; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P7K5IV7jdfgIwO6ukGuP2RwaX7x4/Mv+9On20bS7YMg=;
+        b=GxV6WBDnZPscq5Pu26Z5Cl4jQHZdAitXwQa6wslIUbNMO1dWf6T3elmYL+A9CPSCu6
+         6npNL4JPtsgmtg57pZ/ZVDlHadHbW5YNSjd8a517yv07edJp9lHmFZ9atH/Fm13gYiay
+         GmOo2qJ3AGFQPqp7zny20tYAeEXefJy29/qubLGk/DduszDOMhYiBh7wC1CSRaTb5g82
+         1xWOxr+OLcDljho749YgIf9TXpFA5K/oJf4iQxYgydwbeL+yA9rbg6MPjbVrmJ2Dsh6z
+         YhLY7PxFdDeoyceekGNXQDBxcYnQIXgdH6MZosskiB8h8whPqpNdwYPWmpaQDDsIFqEw
+         u97g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701436841; x=1702041641;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kJ+3Y6BEIrIf7qh9svq9OVzbI1CjxUGno02MCFoO1oo=;
-        b=l2LxRyNBn7/cKnMk4YZPqWpv2O5DZPmqOqnPOY7P2OjsZgeDilAln+mccpg9jfuDs/
-         8PVE2q1v1vc3vsQqYDizqQ7hAg+ZSsgKsiacYvjhoRptDHOVc9PMf1JDyqTAt4tkhBCY
-         bo+kYX7k0BGILNzfUTWax8DnDS2EjiS8sQFvJQv/HirLjy6aRoRsM0Zp2IOPcdvaZW9n
-         V71SeHkQEdS0xsM4JUlk0gqn1NgiPftsSEi+UpHBPh5CE7FBv/XR4bpjDO7c5LAnTtlQ
-         x0j13Phs28CLExpoC9YmdoejbieYSpPcnicQTwDXwT+M04r+tZPZC79Awrh/08yJ92ro
-         Wkkg==
-X-Gm-Message-State: AOJu0YwG+Z37kQl2sl+Ax1Y1948qQKpWhD8Q5TNhfmiUrqzCPUAy8wc4
-	Vf6bIrKzF3JHubh2PF6KAi6sTQ==
-X-Google-Smtp-Source: AGHT+IFCWkhwbCMo2Kf7qMaVHd44Tp9vXFDKbzrS0UCWqndYYop0TULKRfjWVlBGS5I0GO/2TXb3TQ==
-X-Received: by 2002:a19:915e:0:b0:50b:d764:6edb with SMTP id y30-20020a19915e000000b0050bd7646edbmr666344lfj.139.1701436840946;
-        Fri, 01 Dec 2023 05:20:40 -0800 (PST)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id u25-20020ac243d9000000b0050be054b4e8sm1081lfl.121.2023.12.01.05.20.39
+        d=1e100.net; s=20230601; t=1701438815; x=1702043615;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P7K5IV7jdfgIwO6ukGuP2RwaX7x4/Mv+9On20bS7YMg=;
+        b=aHujmgIyDI1tTXXJnFc7VTuDTeEKZxiQqv/pvNLXa5/CUWjN0A0MvvrZx+bejnfee5
+         di4+zY2SdB+4AvCjIutRaGiqzz9PlzOMSOI8PAa3tgIznyr3LdICRtwzCYkAYsBI7fXp
+         HkN/gKtTUQPSalvQtuGsMmEOpg5RmhGsG/VfqupdEt6XRNWeZhZOPHjg3dau09z4F/p1
+         Nkq/q+tVBcaNvX5TWthyUmLR8JAcsW3cz3TTYsNUqlOR4vkswOrIKbVoIh7Wt+OH9TN2
+         Ks/0G1R+iMsC+blRLs5moLA026JVhr3bkHrZBcX4mx6A9YMXIglHNLRPgtNVAULOC/xp
+         aZmQ==
+X-Gm-Message-State: AOJu0YxK2mrqtEs6mZ58oNbnIYokJylpJQ33WL3W2RxOxSpiY71AqXAH
+	OBqfoz3DLfJ8nHX7JRw0AxHCSw==
+X-Google-Smtp-Source: AGHT+IEacAtD9giIRCaITOlBrlQe56T1GJ0qBYxW6GO25Dtmjc8UIVW3w/USQrHdEQXdcy/BGYheAQ==
+X-Received: by 2002:a05:6512:48ce:b0:50b:d944:c049 with SMTP id er14-20020a05651248ce00b0050bd944c049mr357349lfb.267.1701438815464;
+        Fri, 01 Dec 2023 05:53:35 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id d20-20020a056402001400b0054b531907f8sm1643159edu.73.2023.12.01.05.53.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 05:20:40 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 01 Dec 2023 14:20:37 +0100
-Subject: [PATCH v2 08/10] ASoC: cs42l42: Drop legacy include
+        Fri, 01 Dec 2023 05:53:35 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] ASoC: qcom: sc8280xp: set card driver name from match data
+Date: Fri,  1 Dec 2023 14:53:31 +0100
+Message-Id: <20231201135332.154017-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231201-descriptors-sound-cirrus-v2-8-ee9f9d4655eb@linaro.org>
-References: <20231201-descriptors-sound-cirrus-v2-0-ee9f9d4655eb@linaro.org>
-In-Reply-To: <20231201-descriptors-sound-cirrus-v2-0-ee9f9d4655eb@linaro.org>
-To: Paul Handrigan <Paul.Handrigan@cirrus.com>, 
- James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Hartley Sweeten <hsweeten@visionengravers.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>
-X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-This driver includes the legacy GPIO API <linux/gpio.h> but
-does not use any symbols from it.
+Sound machine drivers for all newer Qualcomm SoC platforms are the
+exactly same, therefore it makes sense to use same machine driver for
+newer platforms as well.  Choice of sound topology and user-space Alsa
+UCM files depends however on card driver name, which must be customized
+per each board.  Allow such customization by using driver match data as
+sound card driver name.
 
-Drop the include.
-
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/cs42l42.c | 1 -
- sound/soc/codecs/cs42l42.h | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/qcom/sc8280xp.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
-index 94bcab812629..2d11c5125f73 100644
---- a/sound/soc/codecs/cs42l42.c
-+++ b/sound/soc/codecs/cs42l42.c
-@@ -15,7 +15,6 @@
- #include <linux/types.h>
- #include <linux/init.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/acpi.h>
-diff --git a/sound/soc/codecs/cs42l42.h b/sound/soc/codecs/cs42l42.h
-index 7785125b73ab..3d85ebc59489 100644
---- a/sound/soc/codecs/cs42l42.h
-+++ b/sound/soc/codecs/cs42l42.h
-@@ -14,7 +14,7 @@
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index d93b18f07be5..7df28ecefd65 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -14,8 +14,6 @@
+ #include "common.h"
+ #include "sdw.h"
  
- #include <dt-bindings/sound/cs42l42.h>
- #include <linux/device.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/mutex.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-
+-#define DRIVER_NAME		"sc8280xp"
+-
+ struct sc8280xp_snd_data {
+ 	bool stream_prepared[AFE_PORT_MAX];
+ 	struct snd_soc_card *card;
+@@ -133,13 +131,13 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	card->driver_name = DRIVER_NAME;
++	card->driver_name = of_device_get_match_data(dev);
+ 	sc8280xp_add_be_ops(card);
+ 	return devm_snd_soc_register_card(dev, card);
+ }
+ 
+ static const struct of_device_id snd_sc8280xp_dt_match[] = {
+-	{.compatible = "qcom,sc8280xp-sndcard",},
++	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
+ 	{}
+ };
+ 
 -- 
 2.34.1
 
