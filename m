@@ -1,71 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AMI3FW8S"
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E83211E;
-	Sun,  3 Dec 2023 11:34:06 -0800 (PST)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5b383b4184fso40874467b3.1;
-        Sun, 03 Dec 2023 11:34:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m1jnJkAU"
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD582D5
+	for <linux-sound@vger.kernel.org>; Sun,  3 Dec 2023 15:30:09 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2ca0288ebc5so4818901fa.0
+        for <linux-sound@vger.kernel.org>; Sun, 03 Dec 2023 15:30:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701632045; x=1702236845; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QHrqBjURy+mudPJ+6bg27Pk9qQM+xmaxDRnoUP1Py9c=;
-        b=AMI3FW8SVrYuqUOrNt/Ih6iy+WKIu5NgwmqcS/cYpwrdeWj+iIFsYqIjDrA6jvua0g
-         fRmeEIQ6ghQKvsivQ3B89tNJxZDj0lFSHnC6XfmyLBMLqSGF0zY77HqL96leVHRhn81c
-         o7QJh4rfSQNx0OvEytqVcyXH0IWN5mGBGopr5gM/mAj9X9zf/1WUfcUlAA8u9rhOWjIm
-         RJiufNVyEtSI8zOcYPUJoN843PYkwd/SFeA6hLzq3VbBrdNhv9rHL9kGDkwwcjko9EnS
-         2DzN5nIhSOD0DQpSG3ASYiTaX7h4davfHyg91rGaHBAmuHmDfs52D69QqYrQnoXJDavs
-         vuig==
+        d=gmail.com; s=20230601; t=1701646208; x=1702251008; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3yeC8MKfInb1ck9+dTaSY7GS1OKnc5NIC26GZlu9xK0=;
+        b=m1jnJkAUV2+Tgv98MqFJ7NMikMcVVyrJTu/bHAC0itC7AOOS0NAWWstSf/GKKpxFbU
+         p0dqDT7xvlsjTbZ+EHSCrEDDfIxKdA7DmhZxrTHC/izYqI4hziJ4r3MhhWRU+nacGu3G
+         kpGfl7bs+LsGhe1zmad/EHvErmkBDjlE+lMAN3HEYiEjVejIPIINshlkX133i7HqJqyi
+         fRrShpTL6qHpZp//R7X4hQnjBeWTC+tsYl03BBnSP6etkWZSAvrJbH3ihQSU7BHshFNm
+         tGnLu8nifvRR2JqCqkGuVKRBheFd91wFNcS2rysBNDkbnh3+LzrOOcVCEP2Iz0EvdzLS
+         LwTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701632045; x=1702236845;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QHrqBjURy+mudPJ+6bg27Pk9qQM+xmaxDRnoUP1Py9c=;
-        b=MZFD38bYEJ5w//08VN3ajRarZBBPhQaG7cSEXMjurQvEw+wjS2aCf1e4F+Yp3oYk9q
-         m3wice9QovlYz94nZ6zEowu0KoSPKST+j5JJRP7FgstupvgBMifj62hiEmqpeqOyxuq1
-         O/UOAiEBqqSVVF/jDhCGSxCRLXCDby7Z+jYe3scX7DpkusQ02ToGTsGWMdmGM+2PH6Yh
-         lpcWfSEjAnGs/e+1vUIzPMBPiEQlNfzozma7TPRXZrnJqEZlC+CbVRwUxmen3rdtdvKb
-         nFY9YSyBtQ7td//EJhBxWStElvaX/R4+37i0QSZF+3ymHU1XxT1zm9P6U28fBBwGjz1X
-         3T7g==
-X-Gm-Message-State: AOJu0YzZuS7L57egk5SEJgTYbp+zv/15vqIJ+znfdNnnbqklRPfkYfrZ
-	pfikPKjmLABuDH4OGiPsVrodSJSOl0Kxuw==
-X-Google-Smtp-Source: AGHT+IGc9OJCrz0Vs7Jwm9KKYJn6cgVwzSJPcWjmn+naJ4Os06xO0RgJu/5QwhQF/G6sjioOlbuV6Q==
-X-Received: by 2002:a05:690c:368a:b0:5d7:1940:7d74 with SMTP id fu10-20020a05690c368a00b005d719407d74mr2240772ywb.75.1701632045662;
-        Sun, 03 Dec 2023 11:34:05 -0800 (PST)
-Received: from localhost ([2601:344:8301:57f0:cb98:c3e:57c:8191])
-        by smtp.gmail.com with ESMTPSA id v127-20020a818585000000b005869fd2b5bcsm2769872ywf.127.2023.12.03.11.34.04
+        d=1e100.net; s=20230601; t=1701646208; x=1702251008;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3yeC8MKfInb1ck9+dTaSY7GS1OKnc5NIC26GZlu9xK0=;
+        b=joJuFVZtz0A6hTi908PBWEOVV32ig+s/IbYLoG2mW29+W56yLLJLFCw8jhpgu6dz8b
+         Aaqjubnmec8HEXfbXavwLQROhDXhyOne0NP94iMUfNdZKn1aYt69QyXG2r7awgPcEY3+
+         xRNbSBlu8j7aFwEdMIFNs9A0/aGjaV6BuWtV61xs8o5i7PWCfPGXmqKauZxuyG7h7ZGx
+         gsLDlW6Q5w22QYmsYuVw5EfK8R3SIk/Ydmmtpp+RsX6HHQY1llRHoHEK7GsTquOVST+n
+         OuoT99BenV3uzPn8GuwrL/1k+5EcyvihDmzaE+JxDCVKHzdhUZnDu5u1hRHjS1RuSnJO
+         Vn7Q==
+X-Gm-Message-State: AOJu0Yylf4uquKgxr2KaioyBiJlW7itR9WUFs4FfRiCxiKaAIHGjXeyL
+	awviewGG20JLxFwJhW/DHA==
+X-Google-Smtp-Source: AGHT+IFtfATQFXqIBV70aXRts1jvcZEMvrdcrDKR2hkfp7hVMig8XxGS94OZ4sOGZZbKBzNFfHozdg==
+X-Received: by 2002:a2e:b282:0:b0:2c9:d863:2c24 with SMTP id 2-20020a2eb282000000b002c9d8632c24mr1979856ljx.77.1701646207677;
+        Sun, 03 Dec 2023 15:30:07 -0800 (PST)
+Received: from alex-pc-ubuntu.lan (31-10-146-226.cgn.dynamic.upc.ch. [31.10.146.226])
+        by smtp.gmail.com with ESMTPSA id e19-20020a17090681d300b009fcb5fcfbe6sm4597526ejx.220.2023.12.03.15.30.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 11:34:05 -0800 (PST)
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Daniel Mack <zonque@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Cc: Jan Kara <jack@suse.cz>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Matthew Wilcox <willy@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-	Alexey Klimov <klimov.linux@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 32/35] ALSA: use atomic find_bit() functions where applicable
-Date: Sun,  3 Dec 2023 11:33:04 -0800
-Message-Id: <20231203193307.542794-31-yury.norov@gmail.com>
+        Sun, 03 Dec 2023 15:30:07 -0800 (PST)
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	sbinding@opensource.cirrus.com,
+	andy.chi@canonical.com,
+	vitalyr@opensource.cirrus.com,
+	kailang@realtek.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: fix speakers on XPS 9530 (2023)
+Date: Mon,  4 Dec 2023 00:30:06 +0100
+Message-Id: <20231203233006.100558-1-alex.vinarskis@gmail.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231203193307.542794-1-yury.norov@gmail.com>
-References: <20231203192422.539300-1-yury.norov@gmail.com>
- <20231203193307.542794-1-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,69 +58,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ALSA code tests each bit in bitmaps in a for() loop. Switch it to
-dedicated atomic find_bit() API.
+XPS 9530 has 2 tweeters and 2 subwoofers powered by CS35L41 amplifier, SPI
+connected. For subwoofers to work, it requires both to enable amplifier
+support, and to enable output to subwoofers via 0x17 quirk (similalry to
+XPS 9510/9520).
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
-Acked-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
- sound/pci/hda/hda_codec.c |  7 +++----
- sound/usb/caiaq/audio.c   | 13 +++++--------
- 2 files changed, 8 insertions(+), 12 deletions(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 01718b1fc9a7..29254005f394 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -3275,10 +3275,9 @@ static int get_empty_pcm_device(struct hda_bus *bus, unsigned int type)
- 
- #ifdef CONFIG_SND_DYNAMIC_MINORS
- 	/* non-fixed slots starting from 10 */
--	for (i = 10; i < 32; i++) {
--		if (!test_and_set_bit(i, bus->pcm_dev_bits))
--			return i;
--	}
-+	i = find_and_set_next_bit(bus->pcm_dev_bits, 32, 10);
-+	if (i < 32)
-+		return i;
- #endif
- 
- 	dev_warn(bus->card->dev, "Too many %s devices\n",
-diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-index 4981753652a7..74dfcf32b439 100644
---- a/sound/usb/caiaq/audio.c
-+++ b/sound/usb/caiaq/audio.c
-@@ -610,7 +610,7 @@ static void read_completed(struct urb *urb)
- 	struct snd_usb_caiaq_cb_info *info = urb->context;
- 	struct snd_usb_caiaqdev *cdev;
- 	struct device *dev;
--	struct urb *out = NULL;
-+	struct urb *out;
- 	int i, frame, len, send_it = 0, outframe = 0;
- 	unsigned long flags;
- 	size_t offset = 0;
-@@ -625,17 +625,14 @@ static void read_completed(struct urb *urb)
- 		return;
- 
- 	/* find an unused output urb that is unused */
--	for (i = 0; i < N_URBS; i++)
--		if (test_and_set_bit(i, &cdev->outurb_active_mask) == 0) {
--			out = cdev->data_urbs_out[i];
--			break;
--		}
--
--	if (!out) {
-+	i = find_and_set_bit(&cdev->outurb_active_mask, N_URBS);
-+	if (i >= N_URBS) {
- 		dev_err(dev, "Unable to find an output urb to use\n");
- 		goto requeue;
- 	}
- 
-+	out = cdev->data_urbs_out[i];
-+
- 	/* read the recently received packet and send back one which has
- 	 * the same layout */
- 	for (frame = 0; frame < FRAMES_PER_URB; frame++) {
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f9ddacfd920e..44ffcf8bf7c5 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9705,6 +9705,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1028, 0x0b1a, "Dell Precision 5570", ALC289_FIXUP_DUAL_SPK),
+ 	SND_PCI_QUIRK(0x1028, 0x0b37, "Dell Inspiron 16 Plus 7620 2-in-1", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1028, 0x0b71, "Dell Inspiron 16 Plus 7620", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
++	SND_PCI_QUIRK(0x1028, 0x0beb, "Dell XPS 15 9530 (2023)", ALC289_FIXUP_DELL_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1028, 0x0c03, "Dell Precision 5340", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x0c19, "Dell Precision 3340", ALC236_FIXUP_DELL_DUAL_CODECS),
+ 	SND_PCI_QUIRK(0x1028, 0x0c1a, "Dell Precision 3340", ALC236_FIXUP_DELL_DUAL_CODECS),
 -- 
 2.40.1
 
