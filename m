@@ -1,82 +1,71 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0581364A0
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 21:39:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fc3IECJd"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EF7B6
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701725861; x=1733261861;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LfTgqR3Z1RJTlCNlCBB4stGwRlasy3Nypa9RyCdr6iI=;
-  b=fc3IECJdDwLKz2DQlTYeyp72kC6pVOaYgBRgryBvOKt1OwUHqAEDiD7S
-   z3jT/MoyLrP2TRHXxrqchvsWY9Gq+QQ/rkpFCtipRS97NnAKL0TO4oniz
-   xO3gEoj6xdz308WmNGWd2ZV5nzTuOAJ9rDqoEVsS1J5gAB/jQJUJ1Al4F
-   JPtoNcaaPgpk0/ggJN16NUoS3T92gA+K6BTqeH2g+Gf43bKjoSAaOAZXW
-   aaDO6rfq59HyapK5l3C0oaSYbOf7z7zqlCdaa1cVeQhT0NEeX43W8/ZYC
-   V6IOqVeHxJFkR2fk39H/dGPLZcIRIZxL3pIJQIvMb4A9Jp75QUobNfSfh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="675130"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="675130"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:37:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1102223762"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="1102223762"
-Received: from akashams-mobl.amr.corp.intel.com (HELO pbossart-mobl3.lan) ([10.255.231.189])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:37:39 -0800
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	broonie@kernel.org,
-	Chao Song <chao.song@linux.intel.com>,
-	Jack Yu <jack580304@gmail.com>,
-	Rander Wang <rander.wang@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH] ASoC: rt722-sdca: Set lane_control_support for multilane
-Date: Mon,  4 Dec 2023 15:37:21 -0600
-Message-Id: <20231204213721.197785-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hg92Chtf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4EEC433C7;
+	Mon,  4 Dec 2023 21:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701725996;
+	bh=leSfSnBRwqTUt2OzYv8JNFItDo6hQXFHCgFZZ5ni45w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hg92ChtfxlpJEyH1OdGbHj0vXv/eYjshdnZ1f9TV7/r3eK0/8gqYzCq2qyqWlsshw
+	 46WqjA90svWcdVvvpj5L/Nd/jU8zS3ZG20fOaveETPJ3MkBENg33LxINkT0N8tQoDb
+	 b4IiWR9G3iTPXcMpTAOIxRiMha5xqns0ep6mJJWd9At5uLAXdFut/DyXirCgz3RpKN
+	 Zd//EjqQ6Y8uXHPLIs77EbnmQv+4ART/j5aSG1FDd0h2W/89WDN6+0/owE6pVMD4IR
+	 QAPASn3Y0Q/0DJNE+RHBLl1SVLsgehiEOvwTDSuQ+Yf4PwiqyiEIU3xcMsgpueLZ89
+	 SZUqQH8mNPRJw==
+Date: Mon, 4 Dec 2023 21:39:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, tiwai@suse.de
+Subject: Re: [PATCH 0/5] PCI/ALSA/ASoC: Add IDs and definitions for ARL and
+ ARL-S
+Message-ID: <f6552678-0b67-46ca-bcb2-382d5fe2fd4c@sirena.org.uk>
+References: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NwKDhO4hJLvzYVO3"
+Content-Disposition: inline
+In-Reply-To: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
+X-Cookie: For office use only.
 
-From: Chao Song <chao.song@linux.intel.com>
 
-The RT722 SDCA codec supports 3 data lanes,
-lane_control_support property has to be
-set to use additional two lanes.
+--NwKDhO4hJLvzYVO3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Jack Yu <jack580304@gmail.com>
-Reviewed-by: Rander Wang <rander.wang@intel.com>
-Signed-off-by: Chao Song <chao.song@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/codecs/rt722-sdca-sdw.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Mon, Dec 04, 2023 at 03:27:05PM -0600, Pierre-Louis Bossart wrote:
+> ArrowLake (ARL) and ArrowLake-S (ARL-S) have different PCI IDs. Add
+> the usual slew of descriptors for those devices.
+>=20
+> There are no additional PCI IDs planned for this kernel cycle so it might=
+ be
+> simpler to have Takashi handle all the patches with Mark's Acked-by tag?
 
-diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
-index a38ec5862214..e24b9cbdc10c 100644
---- a/sound/soc/codecs/rt722-sdca-sdw.c
-+++ b/sound/soc/codecs/rt722-sdca-sdw.c
-@@ -256,6 +256,9 @@ static int rt722_sdca_read_prop(struct sdw_slave *slave)
- 	/* wake-up event */
- 	prop->wake_capable = 1;
- 
-+	/* Three data lanes are supported by rt722-sdca codec */
-+	prop->lane_control_support = true;
-+
- 	return 0;
- }
- 
--- 
-2.39.2
+Acked-by: Mark Brown <broonie@kernel.org>
 
+--NwKDhO4hJLvzYVO3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVuRycACgkQJNaLcl1U
+h9AezQf9GEjZPk7l/qR/nfkfV7In2dbvDhJXEz+GKfw9RQkxyiPi/4JqBt+rmmmc
+pGm3uVUoPlG9Bkmrvkxu4v7hq/Y8s4uTu3dVSiI+cftwT5IQGQ4P9QF+mZaFlkHM
+Im38nzFOooyhdZemHJdYM8ZPrrQtbBViEd3qInOQjTZnZsFQnd0ztwgJr6zVsP1h
+h94NRmnEQPjRSLLelrxNJ9kvLJKxM+SllkPabBS2QpRrbwnRguXoD5g62JcKwug9
+ZT2V3XtChMgTU4BEB0UPsxYc1yq21aFBO9Tl5GPZP4AWGF1tCQG8xluh0Zppbyzq
+G69zJl8/UaaWCQXLe/UrAv3BIf/OEg==
+=ZCtD
+-----END PGP SIGNATURE-----
+
+--NwKDhO4hJLvzYVO3--
