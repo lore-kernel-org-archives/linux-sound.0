@@ -1,75 +1,82 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TX0fuZKs"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA10EB9
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:27:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fc3IECJd"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EF7B6
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:37:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701725244; x=1733261244;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=VkHw2tS2rpp1JDonfvSJdCQIVvdDYgBho9qNgjRpyMM=;
-  b=TX0fuZKsARYrjYDKAmqaPWs0IqN1LUhXhcris+aw9uw7wt2a+jb5OSR+
-   3qOrv+jn+JsdB3PWmIiA129iB2CZL1VjNxmm5ZSpZMBcGo3rlzHF1otw3
-   qd/TNv0VoFJ10WfJqWnqNW5zLBD03NQFW+Sqa1f18bVI2MrJ5eeFSN87Z
-   NuIDZDU9A7F9txsMuCJKklRXkvpY52STCOxPmxH54vrxRe+jRBcR/dqWz
-   w6E+g9AQzxkRMu0uW8zAE7G/FhulDhaZoAo1NGchPE4SsnwNFsKfER6c6
-   OLliIHXsktB4UspP68nnAQRDNR5m646CRd7qJ7CooKiBQWHv6rPSVQs+A
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="479993034"
+  t=1701725861; x=1733261861;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LfTgqR3Z1RJTlCNlCBB4stGwRlasy3Nypa9RyCdr6iI=;
+  b=fc3IECJdDwLKz2DQlTYeyp72kC6pVOaYgBRgryBvOKt1OwUHqAEDiD7S
+   z3jT/MoyLrP2TRHXxrqchvsWY9Gq+QQ/rkpFCtipRS97NnAKL0TO4oniz
+   xO3gEoj6xdz308WmNGWd2ZV5nzTuOAJ9rDqoEVsS1J5gAB/jQJUJ1Al4F
+   JPtoNcaaPgpk0/ggJN16NUoS3T92gA+K6BTqeH2g+Gf43bKjoSAaOAZXW
+   aaDO6rfq59HyapK5l3C0oaSYbOf7z7zqlCdaa1cVeQhT0NEeX43W8/ZYC
+   V6IOqVeHxJFkR2fk39H/dGPLZcIRIZxL3pIJQIvMb4A9Jp75QUobNfSfh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="675130"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="479993034"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:27:22 -0800
+   d="scan'208";a="675130"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:37:41 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1102223762"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="12101170"
+   d="scan'208";a="1102223762"
 Received: from akashams-mobl.amr.corp.intel.com (HELO pbossart-mobl3.lan) ([10.255.231.189])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:27:22 -0800
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:37:39 -0800
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.de,
 	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Subject: [PATCH 2/5] ALSA: hda: Intel: add HDA_ARL PCI ID support
-Date: Mon,  4 Dec 2023 15:27:07 -0600
-Message-Id: <20231204212710.185976-3-pierre-louis.bossart@linux.intel.com>
+	Chao Song <chao.song@linux.intel.com>,
+	Jack Yu <jack580304@gmail.com>,
+	Rander Wang <rander.wang@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH] ASoC: rt722-sdca: Set lane_control_support for multilane
+Date: Mon,  4 Dec 2023 15:37:21 -0600
+Message-Id: <20231204213721.197785-1-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
-References: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Yet another PCI ID.
+From: Chao Song <chao.song@linux.intel.com>
 
+The RT722 SDCA codec supports 3 data lanes,
+lane_control_support property has to be
+set to use additional two lanes.
+
+Reviewed-by: Jack Yu <jack580304@gmail.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
+Signed-off-by: Chao Song <chao.song@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/rt722-sdca-sdw.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index db90feb49c16..d0ade91ab5ac 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2502,6 +2502,8 @@ static const struct pci_device_id azx_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_LNL_P, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Arrow Lake-S */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_ARL_S, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
-+	/* Arrow Lake */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_ARL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Apollolake (Broxton-P) */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
- 	/* Gemini-Lake */
+diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
+index a38ec5862214..e24b9cbdc10c 100644
+--- a/sound/soc/codecs/rt722-sdca-sdw.c
++++ b/sound/soc/codecs/rt722-sdca-sdw.c
+@@ -256,6 +256,9 @@ static int rt722_sdca_read_prop(struct sdw_slave *slave)
+ 	/* wake-up event */
+ 	prop->wake_capable = 1;
+ 
++	/* Three data lanes are supported by rt722-sdca codec */
++	prop->lane_control_support = true;
++
+ 	return 0;
+ }
+ 
 -- 
 2.39.2
 
