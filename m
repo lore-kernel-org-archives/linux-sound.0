@@ -1,186 +1,101 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="XG+IA/aC"
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6641DFF;
-	Mon,  4 Dec 2023 05:56:23 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B47ABH2012871;
-	Mon, 4 Dec 2023 07:56:16 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=t
-	Hr3GFB2AAZ+8RQEf5NqMNxRghhA7v6HdOduQdJcU38=; b=XG+IA/aCAT/NKQY3M
-	fgEBkpX713qXO06/ww8EbO8MPjXXoOkcExassZwtR1mWngymphz0KM2YJZTl68yQ
-	2wLDSLUDwsY7v5mHuwKGiU2W4AmDohp8mPUPr1KAOTOheIu727HmNNT0RZY9EHOm
-	u9myBYD3pCH/JtSO9FUmxf220wXMXV1tan9VCKL77JonklDuaQYzY9mo2Xsjjbo/
-	ESLmyvQx3A0RjJ7fCzMTMgAtUSbm1JtBypBDnANDiUqVhFqQQRJbV4O/yxsMvH8N
-	GErwQZO97Oq9SLXdltRBuwBIxjGSYZ0GmCqJmC/fmhvgp4VGI78trpI7MZ+DnBZB
-	JDcIQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ur2v21wn9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Dec 2023 07:56:16 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 4 Dec
- 2023 13:56:14 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
- Transport; Mon, 4 Dec 2023 13:56:14 +0000
-Received: from edi-sw-dsktp-006.ad.cirrus.com (edi-sw-dsktp-006.ad.cirrus.com [198.90.251.82])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 57C3111AB;
-	Mon,  4 Dec 2023 13:56:14 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>
-CC: <kai.vehmanen@linux.intel.com>, <cezary.rojewski@intel.com>,
-        <ranjani.sridharan@linux.intel.com>, <alsa-devel@alsa-project.org>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>
-Subject: [PATCH v3] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43 and cs35l56 support
-Date: Mon, 4 Dec 2023 13:56:14 +0000
-Message-ID: <20231204135614.2169624-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bRS/rmqU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5AaLFg+j"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4D42D53
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 06:23:30 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7E72C1FD50;
+	Mon,  4 Dec 2023 14:23:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701699808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d8U2AIg58z9ZmlkzVFYnzhlncDZKBMFYAg8sEj1uPRs=;
+	b=bRS/rmqUH9rBjPfKLaLauWOKlbhNKTEagFrD3e9RBGzXHenAlS5SdOo60wYYJLGRYacjaL
+	UNFJ8K505rZdDKge6HG2MjjRL6NEuXPcCIwMoDGM6MCwXeaAIePWeiOJ26AmR7WBdga5Ak
+	jbc0iQhoXNphYVf9E5ADcbfq/wupXl0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701699808;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d8U2AIg58z9ZmlkzVFYnzhlncDZKBMFYAg8sEj1uPRs=;
+	b=5AaLFg+jLF9ZSLWTjdnun18vrmZmxOqFPZ4RZQHTQET4c0o5N4AZw8rHahDDxDbSgAMWCB
+	ZB4oDv+4AnU5qKBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32515139AA;
+	Mon,  4 Dec 2023 14:23:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yYqdCuDgbWXbNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 04 Dec 2023 14:23:28 +0000
+Date: Mon, 04 Dec 2023 15:23:27 +0100
+Message-ID: <87plzm82sg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	sbinding@opensource.cirrus.com,
+	andy.chi@canonical.com,
+	vitalyr@opensource.cirrus.com,
+	kailang@realtek.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: fix speakers on XPS 9530 (2023)
+In-Reply-To: <20231203233006.100558-1-alex.vinarskis@gmail.com>
+References: <20231203233006.100558-1-alex.vinarskis@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: FmuB5smiAsZcWGLMN9_FHkTJRGqHD1u2
-X-Proofpoint-GUID: FmuB5smiAsZcWGLMN9_FHkTJRGqHD1u2
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.65
+X-Spamd-Result: default: False [0.65 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.75)[84.03%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
+On Mon, 04 Dec 2023 00:30:06 +0100,
+Aleksandrs Vinarskis wrote:
+> 
+> XPS 9530 has 2 tweeters and 2 subwoofers powered by CS35L41 amplifier, SPI
+> connected. For subwoofers to work, it requires both to enable amplifier
+> support, and to enable output to subwoofers via 0x17 quirk (similalry to
+> XPS 9510/9520).
+> 
+> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 
-This is a test configuration for UpExtreme with Cirrus Logic
-CS35L56-EIGHT-C board.
+Thanks, applied now.
 
-The codec layout is configured as:
-    - Link3: CS42L43 Jack
-    - Link0: 2x CS35L56 Speaker (amps 1 and 2)
-    - Link1: 2x CS35L56 Speaker (amps 7 and 8)
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
-Changes since V1:
-- Changed ALSA prefixes for CS35L56 to 'AMPn'
-- Renumbered the CS35L56 prefixes to match the numbering of the
-  OUTn speaker sockets on the EIGHT-C board
----
- .../intel/common/soc-acpi-intel-tgl-match.c   | 78 +++++++++++++++++++
- 1 file changed, 78 insertions(+)
-
-diff --git a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
-index 5804926c8b56..e5f721ba5ed4 100644
---- a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
-@@ -41,6 +41,20 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1,
- };
- 
-+static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 2,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 3,
-+	.group_id = 1,
-+};
-+
- static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
- 	{
- 		.num = 0,
-@@ -400,6 +414,64 @@ static const struct snd_soc_acpi_link_adr tgl_712_only[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_adr_device cs42l43_3_adr[] = {
-+	{
-+		.adr = 0x00033001FA424301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "cs42l43"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_0_adr[] = {
-+	{
-+		.adr = 0x00003301FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00003201FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP2"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_1_adr[] = {
-+	{
-+		.adr = 0x00013701FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP8"
-+	},
-+	{
-+		.adr = 0x00013601FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP7"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_link_adr tgl_cs42l43_cs35l56[] = {
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(cs42l43_3_adr),
-+		.adr_d = cs42l43_3_adr,
-+	},
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs35l56_0_adr),
-+		.adr_d = cs35l56_0_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l56_1_adr),
-+		.adr_d = cs35l56_1_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_codecs tgl_max98373_amp = {
- 	.num_codecs = 1,
- 	.codecs = {"MX98373"}
-@@ -494,6 +566,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_tgl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-tgl-rt715-rt711-rt1308-mono.tplg",
- 	},
-+	{
-+		.link_mask = 0xB,
-+		.links = tgl_cs42l43_cs35l56,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-tgl-cs42l43-l3-cs35l56-l01.tplg",
-+	},
- 	{
- 		.link_mask = 0xF, /* 4 active links required */
- 		.links = tgl_3_in_1_default,
--- 
-2.30.2
-
+Takashi
