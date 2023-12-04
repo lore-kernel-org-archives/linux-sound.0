@@ -1,107 +1,79 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAF4A20;
+	Mon,  4 Dec 2023 12:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WxFUILUg"
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB65FA9
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 04:47:44 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54cb4fa667bso1428259a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 04 Dec 2023 04:47:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701694063; x=1702298863; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KY0JnJRKpd3/EUynN0UwcoxBlBhaBotyx7RxLf0wHWk=;
-        b=WxFUILUg9AlH39Y2EB9mtJahq3vrhq/0j2+JHA2WeUFVB/LtnhfAJJ6nRyCnFjGPpq
-         BhXtUVYhlZ5Sctx4Jf5xJG9kNB1uhew7yHFhboABHNdA9G6ritHPu+7MyG2S0hMh7rA9
-         AwroFr7K940CJq4OKdWBdtYC0AjjyENd5/IHGtq6Yjsan9cNv+IjayLquw1iPCpv/aee
-         dtzIN8IBwrImDDCb8s4iKTKA2JT20iNBuC2qDj6lbMWjZbhizaAhvauTUotVGSe86eHD
-         giq6/GlbCED9cuEJY21EL25GlMokfTByfuXlceuYWtHd2261n6fkp7+BaSOk1Q+y+Tzv
-         oV3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701694063; x=1702298863;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KY0JnJRKpd3/EUynN0UwcoxBlBhaBotyx7RxLf0wHWk=;
-        b=JslcBKSLagsxj0386zM8BgSsbWI2I8y9Jv3lDwHajJfqWgHG+nkxGIGP5YVYwAy8Px
-         XtDTIc58nW//ej0u2Hc/GBfsD7M0R/0XVeEzkUFE+dV3qFqqMz1apWlGbc/xbwMhnfvO
-         3bvLc6bCyLH6Vw58h4rzTWosY5mFZkGrGhtoHEhihozpd44SKFRSWV5xA+JhD2QsLRbo
-         TUxtUh++L02vZQVVMKFn73zW0tOpCNsEw+ykB/Gs19eVaDhYqZMeQOOaNxk24wLd4Q1V
-         RZhxmBqMam5Rd5jzqznaC49DKHNjGSVj8Afa/FknwQ7wt5DBNzlujmdiLR67zMY2WyjM
-         4Jzg==
-X-Gm-Message-State: AOJu0Ywi+SwfYGyPAHA58eGt0PObSxy04my/mp3tT1pEn9Oj9J1nuW6A
-	LkcE4EsI4kWrLojDnazdQpMqWg==
-X-Google-Smtp-Source: AGHT+IFhu/InStD612XpzFwPv9bBK0nLIg+7JO9nMW2ZvtutTmDe1Q3IXR3v2X7PDbYWSph/4G/iGg==
-X-Received: by 2002:a05:6402:17dc:b0:54c:a21b:8088 with SMTP id s28-20020a05640217dc00b0054ca21b8088mr1192577edy.63.1701694063127;
-        Mon, 04 Dec 2023 04:47:43 -0800 (PST)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id dc15-20020a056402310f00b0054ced65bd26sm457017edb.41.2023.12.04.04.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 04:47:42 -0800 (PST)
-From: srinivas.kandagatla@linaro.org
-To: broonie@kernel.org,
-	alsa-devel@alsa-project.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	johan+linaro@kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH 2/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
-Date: Mon,  4 Dec 2023 12:47:36 +0000
-Message-Id: <20231204124736.132185-3-srinivas.kandagatla@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231204124736.132185-1-srinivas.kandagatla@linaro.org>
-References: <20231204124736.132185-1-srinivas.kandagatla@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h16gMuhI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF3EEC433C8;
+	Mon,  4 Dec 2023 12:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701694797;
+	bh=FAonTAOsKYxkIBInJnPaG0IDs9j/ADjNhHEtOgd1s5Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h16gMuhIxjNXadC77sFaQOfK/iiFhz9ptmJFq8iEZWuPUQrUzljUDzGdNvk01p3Ma
+	 10naFgQClVTxaENvezcYbAygkDR5Viau5k1uOPQ2SZs0TQ3h6ytnl2/6QmnshaPQ5d
+	 n1uQSvGUR5gXeWfH8+cffx1tLH/Fm7O/L8rsGOT7qJ3I+epNZju9wwAUHpYNDSlhX1
+	 aYmdb6qwN4K5P76uXlRrsNzLllwxDziMQ1tkuk5A12Ht+4KZcIto0oBEJXw8qzh92Q
+	 FzmU1QevHJzZoAEI8glhe1ZVT9wdI/SrKuoU9mws0WscYH3/Z+od4qOM5oLtV0009S
+	 XedXXMVNExpIQ==
+Date: Mon, 4 Dec 2023 12:59:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Shuming Fan <shumingf@realtek.com>, Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] ASoC: rt5650: add a missing unlock in
+ rt5645_jack_detect_work()
+Message-ID: <40947cc0-2dd0-45b8-9527-0ffe5a113f6e@sirena.org.uk>
+References: <0d18b8b3-562f-468e-991e-d82d40451f9a@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5aJyrTgEIoBKDIk3"
+Content-Disposition: inline
+In-Reply-To: <0d18b8b3-562f-468e-991e-d82d40451f9a@moroto.mountain>
+X-Cookie: Every path has its puddle.
 
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-Limit the speaker digital gains to 0dB so that the users will not damage them.
-Currently there is a limit in UCM, but this does not stop the user form
-changing the digital gains from command line. So limit this in driver
-which makes the speakers more safer without active speaker protection in
-place.
+--5aJyrTgEIoBKDIk3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
----
- sound/soc/qcom/sc8280xp.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+On Mon, Dec 04, 2023 at 03:29:47PM +0300, Dan Carpenter wrote:
+> We recently added new locking to the rt5645_jack_detect_work() function
+> but this return path was accidentally overlooked.
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 249a43e1dee3..1e8f9452cd28 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -25,6 +25,23 @@ struct sc8280xp_snd_data {
- static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_card *card = rtd->card;
-+
-+	switch (cpu_dai->id) {
-+	case WSA_CODEC_DMA_RX_0:
-+	case WSA_CODEC_DMA_RX_1:
-+		/*
-+		 * set limit of 0dB on Digital Volume for Speakers,
-+		 * this can prevent damage of speakers to some extent without
-+		 * active speaker protection
-+		 */
-+		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 84);
-+		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 84);
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
- }
--- 
-2.25.1
+This breaks the build for me:
 
+/build/stage/linux/sound/soc/codecs/rt5645.c: In function =E2=80=98rt5645_j=
+ack_detect_wo
+rk=E2=80=99:
+/build/stage/linux/sound/soc/codecs/rt5645.c:3312:37: error: =E2=80=98struc=
+t rt5645_priv
+=E2=80=99 has no member named =E2=80=98jd_mutex=E2=80=99
+ 3312 |                 mutex_unlock(&rt5645->jd_mutex);
+      |                                     ^~
+
+--5aJyrTgEIoBKDIk3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVtzUgACgkQJNaLcl1U
+h9A2DQf+K1zZCyxEhtKLm7CRkShs7fFK5qf1yalwhviIJ2Ms6TFBHVhkohNfnBeg
+QDfOYb7kQWfsSGimxKjNhkE3WhWBiSFVu+CARg69nqLZWV947lW9VTDEKoyRC1fx
+Eg2+p7NGBWw9zzWh8JTDY/P8f6vji4+qRHaASpP7zQNSc+1cmSO++AFdfsg2OnhI
+Oaj5ZiUhlgiN9qqd8vqrdEoMst3bT7kecTNMUzSLNnpqH9mpRYDZE3klV96UEOHP
+UJgSCQvdIiG+ER4nlbNWjrgeTXVlqCwGWqIrBSiSGjSQkyEUtAKk2f++voTXVmip
+8GTK2H4dIXMx1NmZkjMhkld6hPjDBA==
+=giWb
+-----END PGP SIGNATURE-----
+
+--5aJyrTgEIoBKDIk3--
