@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHF/zEnG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtYZ94Mj"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC1B1C0
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:42:13 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DA6D3
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:42:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701726134; x=1733262134;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=18hu0EBPhTcqo5ALQXuPs9CkYpm0C0n1RB+um6aIs6Q=;
-  b=mHF/zEnG82saTu5ftnO0EODp5ueGOBxNqsNcfQSEq2/s6HYcaksqV3PI
-   7nI9/XYTxFCqnA2URDvvdMY5gG+u4oOEuI3IkzpfQ6zMCFNR2GFcGxStN
-   7GSXsCBrgYH8MIP6rwcs2bc4aHfNHWyrW+GUD1fVOBhK4QCy/Ys8XKfEl
-   IG8PXsIHgfgckKEoTxz3ieuIzsfH0D+L+zx20LNE+rNWkCESmNGYnE/It
-   LIXe2CFEUl6nZVU8i7X9b/YpJQedBzIT0wGsfR4mNzbCKrd0h69230EV6
-   fMP1u/raJ/+ZWiI6+mQgDdcVs4YNhx5SkCZpZQrLFcFVGn2fGMdtWE+wI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="859811"
+  bh=FT9iRxoY4H2+FoNHak023U/+YoVAXB8GFVX3qq6i5CY=;
+  b=MtYZ94Mj7A0BQC6qRLT5tmTkZ7kcNq+Y3w97mtx/XoT+kEyyC32yfWXg
+   X1GBsjqteKkigx7Kd4m8sXg4H7NDlSqChE44N9PGnedKqEIfGY+AX8i+Z
+   QkZM0y5dzeGM6YWh/bKxIdHgmy9h5GCZdQtIl/ZfN8fkDwWs7YcmkGyGt
+   LlhhsUlYrZ764oitpGZDAJNqfhBJSIzrZiLRvL+Jc0M4AHJHa7BaZ1Niq
+   hTlDl6QXam0MLlYzl8Czhi+dXqEgzcpkhQgo7+pKw2gC1mhIMbD3whsFg
+   jXrXbwBU0jpxaeelMrKCI+RedKWdQ6oyZHaty4WI/gn8PpU1YkjpOQXfr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="859814"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="859811"
+   d="scan'208";a="859814"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:42:12 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:42:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764104371"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764104377"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="764104371"
+   d="scan'208";a="764104377"
 Received: from akashams-mobl.amr.corp.intel.com (HELO pbossart-mobl3.lan) ([10.255.231.189])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:42:11 -0800
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:42:12 -0800
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.de,
@@ -34,9 +34,9 @@ Cc: tiwai@suse.de,
 	Brent Lu <brent.lu@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 1/5] ASoC: Intel: sof_nau8825: board id cleanup for adl boards
-Date: Mon,  4 Dec 2023 15:41:56 -0600
-Message-Id: <20231204214200.203100-2-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 2/5] ASoC: Intel: sof_nau8825: board id cleanup for rpl boards
+Date: Mon,  4 Dec 2023 15:41:57 -0600
+Message-Id: <20231204214200.203100-3-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204214200.203100-1-pierre-louis.bossart@linux.intel.com>
 References: <20231204214200.203100-1-pierre-louis.bossart@linux.intel.com>
@@ -51,26 +51,26 @@ Content-Transfer-Encoding: 8bit
 From: Brent Lu <brent.lu@intel.com>
 
 Many board configs are duplicated since codec and amplifier type are
-removed from board quirk. Introduce "adl_nau8825_def" board to reduce
-the number of adl board configs.
+removed from board quirk. Introduce "rpl_nau8825_def" board to reduce
+the number of rpl board configs.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_nau8825.c          | 28 +------------------
- .../intel/common/soc-acpi-intel-adl-match.c   |  8 +++---
- 2 files changed, 5 insertions(+), 31 deletions(-)
+ sound/soc/intel/boards/sof_nau8825.c           | 18 +-----------------
+ .../intel/common/soc-acpi-intel-rpl-match.c    |  6 +++---
+ 2 files changed, 4 insertions(+), 20 deletions(-)
 
 diff --git a/sound/soc/intel/boards/sof_nau8825.c b/sound/soc/intel/boards/sof_nau8825.c
-index 15ea6732ff94..eb3813400593 100644
+index eb3813400593..719c2fbaf515 100644
 --- a/sound/soc/intel/boards/sof_nau8825.c
 +++ b/sound/soc/intel/boards/sof_nau8825.c
-@@ -353,33 +353,7 @@ static const struct platform_device_id board_ids[] = {
- 					SOF_NAU8825_NUM_HDMIDEV(4)),
+@@ -361,23 +361,7 @@ static const struct platform_device_id board_ids[] = {
+ 					SOF_SSP_BT_OFFLOAD_PRESENT),
  	},
  	{
--		.name = "adl_max98373_8825",
+-		.name = "rpl_max98373_8825",
 -		.driver_data = (kernel_ulong_t)(SOF_NAU8825_SSP_CODEC(0) |
 -					SOF_NAU8825_SSP_AMP(1) |
 -					SOF_NAU8825_NUM_HDMIDEV(4) |
@@ -78,17 +78,7 @@ index 15ea6732ff94..eb3813400593 100644
 -					SOF_SSP_BT_OFFLOAD_PRESENT),
 -	},
 -	{
--		/* The limitation of length of char array, shorten the name */
--		.name = "adl_mx98360a_8825",
--		.driver_data = (kernel_ulong_t)(SOF_NAU8825_SSP_CODEC(0) |
--					SOF_NAU8825_SSP_AMP(1) |
--					SOF_NAU8825_NUM_HDMIDEV(4) |
--					SOF_BT_OFFLOAD_SSP(2) |
--					SOF_SSP_BT_OFFLOAD_PRESENT),
--
--	},
--	{
--		.name = "adl_rt1015p_8825",
+-		.name = "rpl_mx98360a_8825",
 -		.driver_data = (kernel_ulong_t)(SOF_NAU8825_SSP_CODEC(0) |
 -					SOF_NAU8825_SSP_AMP(1) |
 -					SOF_NAU8825_NUM_HDMIDEV(4) |
@@ -96,49 +86,40 @@ index 15ea6732ff94..eb3813400593 100644
 -					SOF_SSP_BT_OFFLOAD_PRESENT),
 -	},
 -	{
--		.name = "adl_nau8318_8825",
-+		.name = "adl_nau8825_def",
+-		.name = "rpl_nau8318_8825",
++		.name = "rpl_nau8825_def",
  		.driver_data = (kernel_ulong_t)(SOF_NAU8825_SSP_CODEC(0) |
  					SOF_NAU8825_SSP_AMP(1) |
  					SOF_NAU8825_NUM_HDMIDEV(4) |
-diff --git a/sound/soc/intel/common/soc-acpi-intel-adl-match.c b/sound/soc/intel/common/soc-acpi-intel-adl-match.c
-index 6e712ad954c8..d3d913458c60 100644
---- a/sound/soc/intel/common/soc-acpi-intel-adl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-adl-match.c
-@@ -528,14 +528,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_adl_machines[] = {
+diff --git a/sound/soc/intel/common/soc-acpi-intel-rpl-match.c b/sound/soc/intel/common/soc-acpi-intel-rpl-match.c
+index 5b6f57e3a583..c0a643f4725a 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-rpl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-rpl-match.c
+@@ -402,21 +402,21 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_rpl_machines[] = {
  	},
  	{
  		.id = "10508825",
--		.drv_name = "adl_max98373_8825",
-+		.drv_name = "adl_nau8825_def",
+-		.drv_name = "rpl_max98373_8825",
++		.drv_name = "rpl_nau8825_def",
  		.machine_quirk = snd_soc_acpi_codec_list,
- 		.quirk_data = &adl_max98373_amp,
- 		.sof_tplg_filename = "sof-adl-max98373-nau8825.tplg",
+ 		.quirk_data = &rpl_max98373_amp,
+ 		.sof_tplg_filename = "sof-rpl-max98373-nau8825.tplg",
  	},
  	{
  		.id = "10508825",
--		.drv_name = "adl_mx98360a_8825",
-+		.drv_name = "adl_nau8825_def",
+-		.drv_name = "rpl_mx98360a_8825",
++		.drv_name = "rpl_nau8825_def",
  		.machine_quirk = snd_soc_acpi_codec_list,
- 		.quirk_data = &adl_max98360a_amp,
- 		.sof_tplg_filename = "sof-adl-max98360a-nau8825.tplg",
-@@ -549,14 +549,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_adl_machines[] = {
+ 		.quirk_data = &rpl_max98360a_amp,
+ 		.sof_tplg_filename = "sof-rpl-max98360a-nau8825.tplg",
  	},
  	{
  		.id = "10508825",
--		.drv_name = "adl_rt1015p_8825",
-+		.drv_name = "adl_nau8825_def",
+-		.drv_name = "rpl_nau8318_8825",
++		.drv_name = "rpl_nau8825_def",
  		.machine_quirk = snd_soc_acpi_codec_list,
- 		.quirk_data = &adl_rt1015p_amp,
- 		.sof_tplg_filename = "sof-adl-rt1015-nau8825.tplg",
- 	},
- 	{
- 		.id = "10508825",
--		.drv_name = "adl_nau8318_8825",
-+		.drv_name = "adl_nau8825_def",
- 		.machine_quirk = snd_soc_acpi_codec_list,
- 		.quirk_data = &adl_nau8318_amp,
- 		.sof_tplg_filename = "sof-adl-nau8318-nau8825.tplg",
+ 		.quirk_data = &rpl_nau8318_amp,
+ 		.sof_tplg_filename = "sof-rpl-nau8318-nau8825.tplg",
 -- 
 2.39.2
 
