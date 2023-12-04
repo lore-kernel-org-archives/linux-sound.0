@@ -1,107 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350F735EFD;
-	Mon,  4 Dec 2023 20:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEa7U1DF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5402C433C7;
-	Mon,  4 Dec 2023 20:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701722252;
-	bh=wWFHAhfvh2FpCo8aPFNyfCV5INZZZgxwFqF2JCqlP8k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vEa7U1DFo8DMlg+U64eHbHhEMi16Rgi7ehxEDNj5/OthTqz2fJ4FwP7gBVa3F0DZ6
-	 rd4iiFc2i1wEubOW5Hfbvs9oPH5B0jiN9bedPckxsgRmqmx0NEJMs3dPS5o+ayqY1m
-	 edMN/hdL/88pDHdBXC7q1PAtuh5xFkkw0HEfFs2GpWNr9tMwuy+HgrIgMqR0+KYnqa
-	 i62dk/V1Ghx1pJ7eWgMog8M+fCxEB0PZb0yDwxdzNCrny5UfLj3Oyw/6Bp71OaaE95
-	 tJtO/zb6eJ9B8tygx3Mv4dQAfjxbl2ck2+/1S/DrdSOKIezVZkowQE0yAgxaejliDK
-	 Db7Ep0LV0G5JA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Vasiliy Kovalev <kovalev@altlinux.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	luke@ljones.dev,
-	andy.chi@canonical.com,
-	shenghao-ding@ti.com,
-	l.guzenko@web.de,
-	ruinairas1992@gmail.com,
-	yangyuchi66@gmail.com,
-	vitalyr@opensource.cirrus.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 2/3] ALSA: hda - Fix speaker and headset mic pin config for CHUWI CoreBook XPro
-Date: Mon,  4 Dec 2023 15:37:19 -0500
-Message-ID: <20231204203723.2094942-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231204203723.2094942-1-sashal@kernel.org>
-References: <20231204203723.2094942-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjH/dVw8"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E08B2
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:27:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701725243; x=1733261243;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UwOEZq+FlA9f3h3brcyWqkXYcP3vJX3oLTP3mIRCyxI=;
+  b=gjH/dVw8iTBLEfYySEXGqd/isRbqRlFV8D+Hh8Onq+qp+5NJfb45SEXA
+   WQx8xB1Z2Fabp3pb68WmviT+e2vUyzt7JxZirHYVuV10FWNyZ7ANkpJ1j
+   Bb7wV7C79zyuheP1GcHemPczFAb5WBqQzQiiqZ+BA0XqbRPLptUm8hbuX
+   WOA79ma/OV5+kovz7UwfuzvsCDTWrq9kB58DOcujjSgbhRuDMIhJ+5rTF
+   JUWdq0LfSeIbxXzuLzOwweN4cLVFeNFwzjD96kyZUs6xR1d6/zYcfJdSL
+   wk8hXVU4zZ1yXjl2FXApuW9Xtw8QV4KKZjgsXA2YdeVWnoHaE1ThgBvxM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="479993027"
+X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
+   d="scan'208";a="479993027"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:27:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
+   d="scan'208";a="12101158"
+Received: from akashams-mobl.amr.corp.intel.com (HELO pbossart-mobl3.lan) ([10.255.231.189])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:27:21 -0800
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	broonie@kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 0/5] PCI/ALSA/ASoC: Add IDs and definitions for ARL and ARL-S
+Date: Mon,  4 Dec 2023 15:27:05 -0600
+Message-Id: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.262
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Vasiliy Kovalev <kovalev@altlinux.org>
+ArrowLake (ARL) and ArrowLake-S (ARL-S) have different PCI IDs. Add
+the usual slew of descriptors for those devices.
 
-[ Upstream commit 7c9caa299335df94ad1c58f70a22f16a540eab60 ]
+There are no additional PCI IDs planned for this kernel cycle so it might be
+simpler to have Takashi handle all the patches with Mark's Acked-by tag?
 
-This patch corrected the speaker and headset mic pin config to the more
-appropriate values.
+Pierre-Louis Bossart (5):
+  PCI: add INTEL_HDA_ARL to pci_ids.h
+  ALSA: hda: Intel: add HDA_ARL PCI ID support
+  ALSA: hda: intel-dspcfg: add filters for ARL-S and ARL
+  ASoC: SOF: Intel: pci-mtl: fix ARL-S definitions
+  ASoC: SOF: Intel: pci-mtl: add HDA_ARL PCI support
 
-Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
-Link: https://lore.kernel.org/r/20231117170923.106822-1-kovalev@altlinux.org
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/pci/hda/patch_realtek.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/linux/pci_ids.h       |  1 +
+ sound/hda/intel-dsp-config.c  | 10 ++++++++++
+ sound/pci/hda/hda_intel.c     |  2 ++
+ sound/soc/sof/intel/hda.h     |  1 +
+ sound/soc/sof/intel/mtl.c     | 28 ++++++++++++++++++++++++++++
+ sound/soc/sof/intel/pci-mtl.c | 33 ++++++++++++++++++++++++++++++++-
+ 6 files changed, 74 insertions(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 15413b41dd82b..dd14e11c41328 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6386,6 +6386,7 @@ enum {
- 	ALC290_FIXUP_SUBWOOFER_HSJACK,
- 	ALC269_FIXUP_THINKPAD_ACPI,
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
-+	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
- 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
-@@ -6633,6 +6634,14 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc269_fixup_pincfg_U7x7_headset_mic,
- 	},
-+	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x18, 0x03a19020 }, /* headset mic */
-+			{ 0x1b, 0x90170150 }, /* speaker */
-+			{ }
-+		},
-+	},
- 	[ALC269_FIXUP_AMIC] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -8469,6 +8478,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
- 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
- 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
 -- 
-2.42.0
+2.39.2
 
