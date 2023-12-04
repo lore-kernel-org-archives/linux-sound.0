@@ -1,87 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE64D31727
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 19:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6914B35EF4;
+	Mon,  4 Dec 2023 20:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIrkIvfJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C41C4C433C8;
-	Mon,  4 Dec 2023 19:30:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qxf8c8dm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDE26C433D9;
+	Mon,  4 Dec 2023 20:33:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701718225;
-	bh=Xc/MU6W/EB84lggpE5Bjsxpht9lSHmzC1hC1M4lx884=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=EIrkIvfJx7lLroPkfiSuyIr8ejNpLxRnXsF1yGkl2Ky4cpWXvctPtw5qtC8x/tGBU
-	 X1cTT47I6wpCUUXgc1QA2SwXe23rgU2OFeACkr0kP+6AN/4K426O26H9ylO5kUnSBa
-	 9ZVnY2WFpD3x7ZE6SG3uGEkx/4scop4w7MNQ5ecCx1qsRbCqeV9PLi5MUKxKvp2Nv6
-	 yzTLdNnKS8noBJ1k/YEwQehbTEzrRH1AzzVAwWqMmcoDu5+M77rvWo6j9Ej13HaadR
-	 hPH2tl7zbQwUTIWXYcwhEy+gmmwAe5H/olgiVQRrxJQTdIo/5T0D6m3Ceiclh8Gkve
-	 I4HmfmbAMP2dg==
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20231204033549.2020289-1-wenst@chromium.org>
-References: <20231204033549.2020289-1-wenst@chromium.org>
-Subject: Re: [PATCH] ASoC: SOF: Move sof_of_machine_select() to core.c from
- sof-of-dev.c
-Message-Id: <170171822243.157597.14987594819577549531.b4-ty@kernel.org>
-Date: Mon, 04 Dec 2023 19:30:22 +0000
+	s=k20201202; t=1701722014;
+	bh=XQbnVYfDI13f/xKWRvmhD+fRVkADSaH7DGVZa3M65ao=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Qxf8c8dmP7g+qNyAGmlkNWkznzzIr6FYnn1a75GBY2zMJgcUywDeCFGWQQshMz/am
+	 H6Kef/5HoTKP6+n8Snd5yi7+qh+If6PJCUkGSoi4JxAM3XVLa9EbbUdT3ZhJgnQUCg
+	 Py8leyHa67cjm/q5B6oNmgyr/JMZZ7Koza4XCFsdz+ob/HQo7V7Ym+95PyIb3tqadD
+	 QhnLa9QJXS9TPDQQ020CNv9QzxRfTtZZ+7Iefs2bPOBZx4TxEHjFULEZvBZ/G1J9/7
+	 IfqBngS5x1a1S/L/Y1C8thZZkn4MJaXJ5Ojx6FpLfGpZZqDTGftIXxwAhHPUcMJMZY
+	 bhX2EOvQMwf/g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Vasiliy Kovalev <kovalev@altlinux.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	l.guzenko@web.de,
+	yangyuchi66@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 05/32] ALSA: hda - Fix speaker and headset mic pin config for CHUWI CoreBook XPro
+Date: Mon,  4 Dec 2023 15:32:25 -0500
+Message-ID: <20231204203317.2092321-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231204203317.2092321-1-sashal@kernel.org>
+References: <20231204203317.2092321-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.4
+Content-Transfer-Encoding: 8bit
 
-On Mon, 04 Dec 2023 11:35:47 +0800, Chen-Yu Tsai wrote:
-> This reverts commit 014fdeb0d747304111cfecf93df4407c1a0c80db.
-> 
-> Commit 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to
-> sof-of-dev.c from sof-audio.c") caused a circular dependency between
-> the snd_sof and snd_sof_of modules:
-> 
-> 	depmod: ERROR: Cycle detected: snd_sof -> snd_sof_of -> snd_sof
-> 	depmod: ERROR: Found 2 modules in dependency cycles!
-> 
-> [...]
+From: Vasiliy Kovalev <kovalev@altlinux.org>
 
-Applied to
+[ Upstream commit 7c9caa299335df94ad1c58f70a22f16a540eab60 ]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This patch corrected the speaker and headset mic pin config to the more
+appropriate values.
 
-Thanks!
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+Link: https://lore.kernel.org/r/20231117170923.106822-1-kovalev@altlinux.org
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/pci/hda/patch_realtek.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-[1/1] ASoC: SOF: Move sof_of_machine_select() to core.c from sof-of-dev.c
-      commit: d0ae9dc48e24f5f704abcbb2dca3e4651bf0ff59
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 87bc1d2f8a432..8e2504dbeceaf 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7168,6 +7168,7 @@ enum {
+ 	ALC290_FIXUP_SUBWOOFER_HSJACK,
+ 	ALC269_FIXUP_THINKPAD_ACPI,
+ 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
++	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
+ 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
+@@ -7520,6 +7521,14 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc269_fixup_pincfg_U7x7_headset_mic,
+ 	},
++	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x18, 0x03a19020 }, /* headset mic */
++			{ 0x1b, 0x90170150 }, /* speaker */
++			{ }
++		},
++	},
+ 	[ALC269_FIXUP_AMIC] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -10163,6 +10172,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
++	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+ 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+ 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
+ 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
+-- 
+2.42.0
 
