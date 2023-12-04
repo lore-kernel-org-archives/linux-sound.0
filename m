@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AM8OMdFO"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9676B9;
-	Mon,  4 Dec 2023 03:03:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NR2+Ubjh"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B406B0;
+	Mon,  4 Dec 2023 03:34:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701687806; x=1733223806;
+  t=1701689642; x=1733225642;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=K3LZ0ut12b0ZWweiMZsY7lTX+GonCXKoqqOWSfI90kI=;
-  b=AM8OMdFO2mDBpxCb2PP44c2aK7kD27+RFkCAtbTtwpUFHb2lKi39wLrL
-   rQsJABxvi5UWxEoKhapG1ZYbEDMTctJTxXGOlElNunpYfz76sMIyHXi7e
-   m7kkejxXW0t8SWBXMI6TpxywYoCe8Nj9ozzhPGw7H7mJAccfYGxVvdJFp
-   qU1A+EKLM7HffDQC/mdIhERxSFHbQC0/tfq5eYQddm46/zFUGBU4ogYgO
-   VKTNIMMtcIBR5GfHaiX4zI7vlYwv5u6fP1rvp45fztE+Jga/GHb1xEfxI
-   uGckKQ4tIBvMQk5sj/J0+ne/UJdxsgIu8qxdjllOj960ha9LavKaDkgaN
+  bh=mXvRkmXLfgor2iho/IhL1gImLWrqp5l3U0QromWXKnk=;
+  b=NR2+UbjhOy7ywJj81WiAphBd98CmIlLNVcsRwd3tz+vfuZIdRFjzYcH8
+   zBpAAkm3680LYRRpEseOKPsDalZMPlSsY5S8FJZYZ8X1nlSGuxQRIZYjv
+   +XEhj70qXx360HEo3KK6F9fyYIgGg9BWNrJLgmr/Qrxhsl9/smQt2BI4W
+   l9FeFzWGyoCcJwECsfiUfv6od37BkBTMY4MT2z9he1uSm0s7BelYcc14R
+   d4O3u9Gwvhpe9ANwrB7AmFeqCs5aEMOA/jav9rVoz88xmKjWs6v7qVf0J
+   iG0Ba3Ldid0g3uiz9T7yZT2SeUyN2MEMf6uZgubqCdeXOyNvpafdp02QQ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="15262688"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="390878531"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="15262688"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 03:03:26 -0800
+   d="scan'208";a="390878531"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 03:34:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861343646"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="841007981"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="861343646"
+   d="scan'208";a="841007981"
 Received: from epologov-mobl2.ccr.corp.intel.com (HELO [10.249.32.181]) ([10.249.32.181])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 03:03:23 -0800
-Message-ID: <ff56d56b-4b5c-42fa-bf7f-78a5746ec3be@linux.intel.com>
-Date: Mon, 4 Dec 2023 13:04:02 +0200
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 03:33:57 -0800
+Message-ID: <1e1430fb-d1d6-476d-a2d1-64ce2c86daa6@linux.intel.com>
+Date: Mon, 4 Dec 2023 13:34:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,147 +36,71 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: Move sof_of_machine_select() to core.c from
- sof-of-dev.c
-To: Chen-Yu Tsai <wenst@chromium.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231204033549.2020289-1-wenst@chromium.org>
+Subject: Re: [PATCH] ASoC: SOF: Fix null pointer dereference in sof_pci_probe
 Content-Language: en-US
+To: Kunwu Chan <chentao@kylinos.cn>, pierre-louis.bossart@linux.intel.com,
+ lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com,
+ kai.vehmanen@linux.intel.com, broonie@kernel.org, perex@perex.cz,
+ tiwai@suse.com, chao.song@intel.com
+Cc: kunwu.chan@hotmail.com, sound-open-firmware@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231123155424.1275919-1-chentao@kylinos.cn>
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20231204033549.2020289-1-wenst@chromium.org>
+In-Reply-To: <20231123155424.1275919-1-chentao@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 04/12/2023 05:35, Chen-Yu Tsai wrote:
-> This reverts commit 014fdeb0d747304111cfecf93df4407c1a0c80db.
+On 23/11/2023 17:54, Kunwu Chan wrote:
+> devm_kasprintf() returns a pointer to dynamically allocated memory
+> which can be NULL upon failure.
 > 
-> Commit 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to
-> sof-of-dev.c from sof-audio.c") caused a circular dependency between
-> the snd_sof and snd_sof_of modules:
-> 
-> 	depmod: ERROR: Cycle detected: snd_sof -> snd_sof_of -> snd_sof
-> 	depmod: ERROR: Found 2 modules in dependency cycles!
-> 
-> Move the function back with sof_machine_select().
-> 
-> Fixes: 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to sof-of-dev.c from sof-audio.c")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Fixes: 46207ca24545 ("ASoC: SOF: pci: change the default firmware path when the community key is used")
+> Fixes: 25bbc0c59ee1 ("ASoC: SOF: Add path definition for external firmware libraries")
+> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
 
-Oh, I have re-done the compile test and that does not detect this (I
-don't have ARM device to runtime test it), but looks valid.
-I wonder if we should do this similarly to acpi machine select via ops
-to cut the circular dependency?
-That can be done in a followup patch.
+This patch cannot fix both commits as at 46207ca24545 the lib path was
+not present.
+Please don't bundle unrelated fixes, it makes maintainers life harder.
 
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+As a note: if the allocation fails it is not going to cause null
+dereference as the code checks !sof_pdata->*_prefix to see if it is
+provided (override) or not (use default).
+At most it will cause the kernel to 'ignore' the path override, but if
+this allocation fails this is least of our problem ;)
 
 > ---
-> Not sure what the proper arrangement would be, but this gets my builds
-> going again.
+>  sound/soc/sof/sof-pci-dev.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
->  sound/soc/sof/core.c       | 22 ++++++++++++++++++++++
->  sound/soc/sof/sof-of-dev.c | 23 -----------------------
->  sound/soc/sof/sof-of-dev.h |  9 ---------
->  3 files changed, 22 insertions(+), 32 deletions(-)
-> 
-> diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
-> index a2afec8f5879..425b023b03b4 100644
-> --- a/sound/soc/sof/core.c
-> +++ b/sound/soc/sof/core.c
-> @@ -144,6 +144,28 @@ void sof_set_fw_state(struct snd_sof_dev *sdev, enum sof_fw_state new_state)
->  }
->  EXPORT_SYMBOL(sof_set_fw_state);
->  
-> +static struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev)
-> +{
-> +	struct snd_sof_pdata *sof_pdata = sdev->pdata;
-> +	const struct sof_dev_desc *desc = sof_pdata->desc;
-> +	struct snd_sof_of_mach *mach = desc->of_machines;
-> +
-> +	if (!mach)
-> +		return NULL;
-> +
-> +	for (; mach->compatible; mach++) {
-> +		if (of_machine_is_compatible(mach->compatible)) {
-> +			sof_pdata->tplg_filename = mach->sof_tplg_filename;
-> +			if (mach->fw_filename)
-> +				sof_pdata->fw_filename = mach->fw_filename;
-> +
-> +			return mach;
+> diff --git a/sound/soc/sof/sof-pci-dev.c b/sound/soc/sof/sof-pci-dev.c
+> index 64b326e3ef85..75a9bfa5bfbe 100644
+> --- a/sound/soc/sof/sof-pci-dev.c
+> +++ b/sound/soc/sof/sof-pci-dev.c
+> @@ -282,6 +282,10 @@ int sof_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id)
+>  			devm_kasprintf(dev, GFP_KERNEL, "%s/%s",
+>  				       sof_pdata->desc->default_fw_path[sof_pdata->ipc_type],
+>  				       "community");
+> +		if (!sof_pdata->fw_filename_prefix) {
+> +			ret = -ENOMEM;	
+> +			goto out;
 > +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->  /* SOF Driver enumeration */
->  static int sof_machine_check(struct snd_sof_dev *sdev)
->  {
-> diff --git a/sound/soc/sof/sof-of-dev.c b/sound/soc/sof/sof-of-dev.c
-> index fa92da5ee9b3..b9a499e92b9a 100644
-> --- a/sound/soc/sof/sof-of-dev.c
-> +++ b/sound/soc/sof/sof-of-dev.c
-> @@ -41,29 +41,6 @@ static void sof_of_probe_complete(struct device *dev)
->  	pm_runtime_enable(dev);
->  }
 >  
-> -struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev)
-> -{
-> -	struct snd_sof_pdata *sof_pdata = sdev->pdata;
-> -	const struct sof_dev_desc *desc = sof_pdata->desc;
-> -	struct snd_sof_of_mach *mach = desc->of_machines;
-> -
-> -	if (!mach)
-> -		return NULL;
-> -
-> -	for (; mach->compatible; mach++) {
-> -		if (of_machine_is_compatible(mach->compatible)) {
-> -			sof_pdata->tplg_filename = mach->sof_tplg_filename;
-> -			if (mach->fw_filename)
-> -				sof_pdata->fw_filename = mach->fw_filename;
-> -
-> -			return mach;
-> -		}
-> -	}
-> -
-> -	return NULL;
-> -}
-> -EXPORT_SYMBOL(sof_of_machine_select);
-> -
->  int sof_of_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> diff --git a/sound/soc/sof/sof-of-dev.h b/sound/soc/sof/sof-of-dev.h
-> index 547e358a37e3..b6cc70595f3b 100644
-> --- a/sound/soc/sof/sof-of-dev.h
-> +++ b/sound/soc/sof/sof-of-dev.h
-> @@ -16,15 +16,6 @@ struct snd_sof_of_mach {
->  	const char *sof_tplg_filename;
->  };
+>  		dev_dbg(dev,
+>  			"Platform uses community key, changed fw path to %s\n",
+> @@ -303,6 +307,10 @@ int sof_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id)
+>  				devm_kasprintf(dev, GFP_KERNEL, "%s/%s",
+>  					sof_pdata->desc->default_lib_path[sof_pdata->ipc_type],
+>  					"community");
+> +			if (!sof_pdata->fw_lib_prefix) {
+> +				ret = -ENOMEM;
+> +				goto out;
+> +			}
 >  
-> -#if IS_ENABLED(CONFIG_SND_SOC_SOF_OF_DEV)
-> -struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev);
-> -#else
-> -static inline struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev)
-> -{
-> -	return NULL;
-> -}
-> -#endif
-> -
->  extern const struct dev_pm_ops sof_of_pm;
->  
->  int sof_of_probe(struct platform_device *pdev);
+>  			dev_dbg(dev,
+>  				"Platform uses community key, changed fw_lib path to %s\n",
 
 -- 
 Péter
