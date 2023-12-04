@@ -1,95 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YeJdh5ni"
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87ABE83
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 04:42:12 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40b5155e154so45367625e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 04 Dec 2023 04:42:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iho0R8V4"
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D9CA7
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 04:47:42 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-54b545ec229so5609808a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 04 Dec 2023 04:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701693731; x=1702298531; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8x1dwoG6L6bxEjQMrtyUOBz/l2kp09gC7Z8V8HJ6Bn8=;
-        b=YeJdh5ninM2QKZaPuVPWZQmau+UpYLchO5pRNMvWiqah6VlX8oIkPhEmnYGu+lB2Cl
-         NEAXs2rQgLxS8nZf7dlAI2ZRbK1P68ikmj3ENClssaG4eFh23I0jgUtNkLp5yCqtIZ3B
-         QxQpBab32f5e3YX946VrLRInUmkOgzktWhAvlF+FOOgyGWxn6zYlXGRsh7tcKlrRvj/t
-         bQ3Ec6dqYSEmbNTFtavFTN5079EbMRvJl52WYyOW6H5OW3oLUcmsBhFgNbibFgVJnjyo
-         zZMYlLvomHgKZgx09JUHaIyA2Wfu1b8WgSZ5up6uqgweSZMWRT60g7V3r0wGwtwvfspR
-         1xPA==
+        d=linaro.org; s=google; t=1701694061; x=1702298861; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/S3g4FV/iGDfW3ps7M4rheJELxKDhQrVaKwMBGZuxiY=;
+        b=iho0R8V4dHCjwJmpDKGNd5AnLXsuvWNnn7+xJ3iFTKtPHQA0wSzH3ruu6r3tza5vA0
+         wRhZEx9cRYqWrkECLQP4JOpCBe4z4YaqaJUs+Z+/w7AQ6nOk5JcR6xBAKuR9F8Zsbw9B
+         MU7M1fyjqrvTjMSoaXz34oxsIlLo7nMapygMfAN4C95khaSvjAjBDxlwm8ylfWSF6tZJ
+         oW/GQ3Qmj2MixJKgBXGweRL5Bmqtj7+T3aWIoehcfzF0OU2rK0Ow51cfCl9+SAiz7P5K
+         SAopvEq//xEOhNg/o6QxQDxqwhb99N+TIUcg1SzXACP0Q8Rzz6XaC/Ok/0Ye/lhSmcOu
+         8A9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701693731; x=1702298531;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8x1dwoG6L6bxEjQMrtyUOBz/l2kp09gC7Z8V8HJ6Bn8=;
-        b=xEdhaOZ0eOppPDwqmKeYXhh0KMHJReCHTzbKzOkUULmmM96FDQ3d/BWD2J1OwTzvdb
-         eN4PGbmTCGRDbl1MuLc1O5fsyBiwp5XmyLhnOT/6lU1pO2yf7CrAS6cNC06cAJysvmuN
-         t8SdWWkTE2IEb6gkdW8PU7masvsaQ3ix+T782iL7UAhfwUjWhQghWXgFeK3UozU5ZcWF
-         JDrulThbK7xW1xAjAbZelXje56212uRBeC+JoXPTc3PSSi0vqQTMeBcVxY5N09OHwBMt
-         PABsqENLP59A67A+4qDBJVl2Zm+rHaMPzme1ELRhX8fSA8HSsYSDMWrwwDSjaQS5sldP
-         4nGQ==
-X-Gm-Message-State: AOJu0YzhguvbIm0EVxLzwKD5r0aybFl9YaVZrCH7YgLLkpJyI9vPQDcb
-	n1oX6nqT9bRvU8gIQPNAMcu18A==
-X-Google-Smtp-Source: AGHT+IGJz3N4/IoxBaz0NjZihjCP4keqQKfmadAcfgA7ZWA07jRl1+KY0bF/rDdOkf8aj+mgEiOyHQ==
-X-Received: by 2002:a05:600c:450f:b0:40a:5c71:2c3e with SMTP id t15-20020a05600c450f00b0040a5c712c3emr2172252wmo.19.1701693731047;
-        Mon, 04 Dec 2023 04:42:11 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f18-20020a05600c155200b004094d4292aesm14959419wmg.18.2023.12.04.04.42.10
+        d=1e100.net; s=20230601; t=1701694061; x=1702298861;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/S3g4FV/iGDfW3ps7M4rheJELxKDhQrVaKwMBGZuxiY=;
+        b=qra7nrPhWIUcCR7gf+n/1bdmO7MntI/t0hPzg2Uygz81msLSwwrL9Qi0A6xY8u1wwz
+         qwazRgOPiI7iys3f279fUDfIbgHkVhsr7sJDHwYhamHZEWUN3y5p4+R3RHLV6ut4Vtch
+         hOcQqQx1gmQp32tf580q+B8b5L0adRqAmJE0llFtyrS3OoVCZqAjqOGfbXDAf2POFrQC
+         fp2u7MeQBpPn3KsCnaFpePgmF1J6xLKlQJi1tFMuitJtNkITt1OZ17Aqz7rVVGLDdDPu
+         pgS8cedjNUylk0XLy56pTTTWh00WN5xgqKqJlORypeZWU2yJLsJrKprZAZhDaOv63Yaz
+         g4QA==
+X-Gm-Message-State: AOJu0Yyhu0ux2801L0+toTupSj2atFl57XnxqLJEYhzsX4CGXMmHrhbl
+	FPm8Q6lkW/LOmoIgsmd8Zob7QA==
+X-Google-Smtp-Source: AGHT+IF7lYKcq8TAJsw65A/PZFXqqONqGeNcKTt6yJrGmPFcJBo/4G1hXhQpgMC4aF1Y++2UOozUiA==
+X-Received: by 2002:a50:d799:0:b0:54c:4837:a665 with SMTP id w25-20020a50d799000000b0054c4837a665mr2965090edi.82.1701694060814;
+        Mon, 04 Dec 2023 04:47:40 -0800 (PST)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id dc15-20020a056402310f00b0054ced65bd26sm457017edb.41.2023.12.04.04.47.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 04:42:10 -0800 (PST)
-Date: Mon, 4 Dec 2023 15:42:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: audio-graph-card2: fix off by one in
- graph_parse_node_multi_nm()
-Message-ID: <1032216f-902f-48f9-aa49-9d5ece8e87f2@moroto.mountain>
+        Mon, 04 Dec 2023 04:47:40 -0800 (PST)
+From: srinivas.kandagatla@linaro.org
+To: broonie@kernel.org,
+	alsa-devel@alsa-project.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	johan+linaro@kernel.org,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH 0/2] ASoC: qcom: Limit Digital gains on speaker
+Date: Mon,  4 Dec 2023 12:47:34 +0000
+Message-Id: <20231204124736.132185-1-srinivas.kandagatla@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-The > comparison should be >= to avoid writing one element beyond the end
-of the dai_link->ch_maps[] array.  The dai_link->ch_maps[] array is
-allocated in graph_parse_node_multi() and it has "nm_max" elements.
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-Fixes: e2de6808df4a ("ASoC: audio-graph-card2: add CPU:Codec = N:M support")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-In this same function I was also concerned about these conditions:
+Limit the speaker digital gains to 0dB so that the users will not damage them.
+Currently there is a limit in UCM, but this does not stop the user form
+changing the digital gains from command line. So limit this in driver
+which makes the speakers more safer without active speaker protection in
+place.
 
-if (cpu_idx > dai_link->num_cpus)
-if (codec_idx > dai_link->num_codecs)
+Apart from this there is also a range check fix in snd_soc_limit_volume
+to allow setting this limit correctly.
 
-But I wasn't able to see out how those idx variables are actually
-used.
+Tested on Lenovo X13s.
 
- sound/soc/generic/audio-graph-card2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Srinivas Kandagatla (2):
+  ASoC: ops: add correct range check for limiting volume
+  ASoC: qcom: sc8280xp: Limit speaker digital volumes
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index d9e10308a508..78d9679decda 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -557,7 +557,7 @@ static int graph_parse_node_multi_nm(struct snd_soc_dai_link *dai_link,
- 		struct device_node *mcodec_port;
- 		int codec_idx;
- 
--		if (*nm_idx > nm_max)
-+		if (*nm_idx >= nm_max)
- 			break;
- 
- 		mcpu_ep_n = of_get_next_child(mcpu_port, mcpu_ep_n);
+ sound/soc/qcom/sc8280xp.c | 17 +++++++++++++++++
+ sound/soc/soc-ops.c       |  2 +-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+
 -- 
-2.42.0
+2.25.1
 
