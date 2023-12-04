@@ -1,108 +1,177 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BBdFZVx/"
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E783C19A7;
-	Mon,  4 Dec 2023 02:26:40 -0800 (PST)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B47AB9p012871;
-	Mon, 4 Dec 2023 04:26:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=MWxd0WTAwrscNnhEQCrZd6njkP2aEL1Jt25iaLlk6w4=; b=
-	BBdFZVx/XLpYND+OUE6C6LOfJkw6WBkjxXO3gy4XhP0ED6icYl3PY75eisqHTG79
-	tu87K174eBMbpkem+coRy/sBXXoGUE/OX/rro/urTsFdTGHGDZ24ePEn4vAGerah
-	Skjv3w0yGhAtUbMoQA9qzYuzrPpqRiXpr3Pa1bVX3Z4SldhVyvGjFZ9n3Os7pVWF
-	n6zTorS3pxgK6ifCWdSWjiDLw/DIYgN0UBbaP+NwNOBzLfYIv0UlsvC9rFPKrwnq
-	cUP6DmWFQjQse2wkwALI2FMgHgxUvNgIVQjfdApO4VAyPQWtnHj58h9maZrCA+J7
-	ioU64E7jujMpGkFyM9oVdA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ur2v21p6y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Dec 2023 04:26:04 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 4 Dec
- 2023 10:26:02 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
- Transport; Mon, 4 Dec 2023 10:26:02 +0000
-Received: from [198.90.251.82] (edi-sw-dsktp-006.ad.cirrus.com [198.90.251.82])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id A130311AB;
-	Mon,  4 Dec 2023 10:26:01 +0000 (UTC)
-Message-ID: <a69e24fe-a4e6-4ae0-b27b-4d5c1f18e78a@opensource.cirrus.com>
-Date: Mon, 4 Dec 2023 10:26:01 +0000
+	dkim=pass (2048-bit key) header.d=gerhold.net header.i=@gerhold.net header.b="pKpMs9GY";
+	dkim=permerror (0-bit key) header.d=gerhold.net header.i=@gerhold.net header.b="uJV2WvJx"
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B94B9;
+	Mon,  4 Dec 2023 02:35:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701686089; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=B6jxp6YpDy3gWwRWyv+ojwyj/8Wx3GtPQfF3NUqjWsLwXGOY23RcvbScqLGdzSNyXk
+    IUnA0tZBwocvUsNoGEV/jgs42CbVuivUJ613cdBAms6rlO53exhJ46xwi0YPh0IEdaVJ
+    qdVH4QqngRxHpJ/0NTZukykbIUULNMpYafAm6J+ENSeI3FveHaOa4y4D+PSovUmbdup1
+    BdoSKnKgPkpIj/7jgsdnDvF6luSw8UmZkfmQtMdgz9TNc13G7vhAtY+N2uleesiR5Sf8
+    c6BRssVe6V3NiSp8D/3tSvHJCSU94k6t/1FRnsKFoY/S3SLFzk1bJ5oiYdYlhkVlf1uB
+    EFiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1701686089;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=CHv9E0tocZhThOTvkGBLLpXTCKTNvN5GQ8q6pbKUvKY=;
+    b=mG1ctqw0Qjl+BQjSIs8msaQMTlSyOS5EWy+DO3vu/vmX951iWJnyLRAzpBCN0AhLo6
+    M2LU6j7CBBHQgr4tq4NqCZ/Ht+TBNbdnEBeE84KvXpilgXRBOlEpktCTH5xcM4RuDBhr
+    TzIlzJAqrzsva3isZUS6n1+niG32IL6ucqaF9guzQAJRNYxTwC+IA0rSQ/4QVN6ujVIN
+    2A1oPdI77FMpJQHDlMmN0zGNYmNEg7J0VQTVoRZUhXVlWhPdCQtIhiY5TGh7nE+3/lxE
+    P5ETpII/fSXf+mCROzttAMu89ogPylHDVsYofRgYaVt79wNHUhlu6sAs5uI7+TyuXgzK
+    g4QQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1701686088;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=CHv9E0tocZhThOTvkGBLLpXTCKTNvN5GQ8q6pbKUvKY=;
+    b=pKpMs9GYnvmsTS2BH7lZtApM/4A4cnl14TRFZ4hfQSAJcNHFz8ZICK7yHZYUQLRyn9
+    D88uiKlnj8aM4nlj8WDonjC1G3SEVW44hBua5+U8hbgHVjMsQUnqNdrWKD5Pn/rsBoct
+    9J6L89u4maxo58jCQTTqD4WLBKPSIWfmD4Ns6AUKzTLRXBonTx5k755zlLAFMepwQe+n
+    WZTy4Wrsun0Tq5MSM6cXL21pSPeWOLzDiWE0KaZYhyNJOxzKzKHnXgsYIwVQAQC0gKhx
+    VXoIQtKSqXFtJsb9sW9L+pMAN7vmEggUneYyWn+pvJWgBnBb2qaENx4rWEQN/bd578KQ
+    57SQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1701686088;
+    s=strato-dkim-0003; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=CHv9E0tocZhThOTvkGBLLpXTCKTNvN5GQ8q6pbKUvKY=;
+    b=uJV2WvJx96hjbeGK6zqpuT1m3EOf39CxJUjVka7+Sri/QJsGK1i/8W7T6LOO9Hsw86
+    ACLbgUljQXVx/cUG0eCw==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4peA8paF1A=="
+Received: from gerhold.net
+    by smtp.strato.de (RZmta 49.9.7 DYNA|AUTH)
+    with ESMTPSA id R5487bzB4AYmA6d
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Mon, 4 Dec 2023 11:34:48 +0100 (CET)
+Date: Mon, 4 Dec 2023 11:34:43 +0100
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
+	linux-arm-msm@vger.kernel.org,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v2 2/4] ASoC: qcom: q6afe: provide fallback for digital
+ codec clock
+Message-ID: <ZW2rQ-SsER-HPlF5@gerhold.net>
+References: <20231029165716.69878-1-otto.pflueger@abscue.de>
+ <20231029165716.69878-3-otto.pflueger@abscue.de>
+ <d8ef8fe6-2856-40fc-a95e-5bf68c0f1a8b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: wm_adsp: fix memleak in wm_adsp_buffer_populate
-To: Dinghao Liu <dinghao.liu@zju.edu.cn>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>,
-        Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>,
-        Claudiu Beznea
-	<claudiu.beznea@tuxon.dev>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20231204074158.12026-1-dinghao.liu@zju.edu.cn>
-Content-Language: en-US
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <20231204074158.12026-1-dinghao.liu@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: iWMaWOrUBYmgEdpWdNOv5_NyVd5Xbu4g
-X-Proofpoint-GUID: iWMaWOrUBYmgEdpWdNOv5_NyVd5Xbu4g
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8ef8fe6-2856-40fc-a95e-5bf68c0f1a8b@linaro.org>
 
-On 04/12/2023 07:41, Dinghao Liu wrote:
-> When wm_adsp_buffer_read() fails, we should free buf->regions.
-> Otherwise, the callers of wm_adsp_buffer_populate() will
-> directly free buf on failure, which makes buf->regions a leaked
-> memory.
-> 
-> Fixes: a792af69b08f ("ASoC: wm_adsp: Refactor compress stream initialisation")
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
->   sound/soc/codecs/wm_adsp.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
-> index 236b12b69ae5..c01e31175015 100644
-> --- a/sound/soc/codecs/wm_adsp.c
-> +++ b/sound/soc/codecs/wm_adsp.c
-> @@ -1451,12 +1451,12 @@ static int wm_adsp_buffer_populate(struct wm_adsp_compr_buf *buf)
->   		ret = wm_adsp_buffer_read(buf, caps->region_defs[i].base_offset,
->   					  &region->base_addr);
->   		if (ret < 0)
-> -			return ret;
-> +			goto err;
->   
->   		ret = wm_adsp_buffer_read(buf, caps->region_defs[i].size_offset,
->   					  &offset);
->   		if (ret < 0)
-> -			return ret;
-> +			goto err;
->   
->   		region->cumulative_size = offset;
->   
-> @@ -1467,6 +1467,10 @@ static int wm_adsp_buffer_populate(struct wm_adsp_compr_buf *buf)
->   	}
->   
->   	return 0;
-> +
-> +err:
-> +	kfree(buf->regions);
-> +	return ret;
->   }
->   
->   static void wm_adsp_buffer_clear(struct wm_adsp_compr_buf *buf)
+Hi Srini,
 
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+On Fri, Nov 17, 2023 at 01:26:43PM +0000, Srinivas Kandagatla wrote:
+> On 29/10/2023 16:57, Otto Pflüger wrote:
+> > When q6afe is used as a clock provider through q6afe-clocks.c, it uses
+> > an interface for setting clocks that is not present in older firmware
+> > versions. However, using Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
+> > as the codec MCLK in the device tree can be useful on older platforms
+> > too. Provide a fallback that sets this clock using the old method when
+> > an old firmware version is detected.
+> > 
+> > MSM8916 did not need this because of a workaround that controls this
+> > clock directly through the GCC driver, but newer SoCs do not have this
+> > clock in their GCC drivers because it is meant to be controlled by the
+> > DSP.
+> > 
+> > Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
+> > ---
+> >   sound/soc/qcom/qdsp6/q6afe.c | 26 ++++++++++++++++++++++++++
+> >   1 file changed, 26 insertions(+)
+> > 
+> > diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+> > index 91d39f6ad0bd..f14d3b366aa4 100644
+> > --- a/sound/soc/qcom/qdsp6/q6afe.c
+> > +++ b/sound/soc/qcom/qdsp6/q6afe.c
+> > @@ -1111,6 +1111,32 @@ int q6afe_set_lpass_clock(struct device *dev, int clk_id, int attri,
+> >   	struct q6afe *afe = dev_get_drvdata(dev->parent);
+> >   	struct afe_clk_set cset = {0,};
+> > +	/*
+> > +	 * v2 clocks specified in the device tree may not be supported by the
+> > +	 * firmware. If this is the digital codec core clock, fall back to the
+> > +	 * old method for setting it.
+> > +	 */
+> > +	if (q6core_get_adsp_version() < Q6_ADSP_VERSION_2_7) {
+> > +		struct q6afe_port *port;
+> > +		struct afe_digital_clk_cfg dcfg = {0,};
+> > +		int ret;
+> > +
+> > +		if (clk_id != Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE)
+> > +			return -EINVAL;
+> > +
+> > +		port = q6afe_port_get_from_id(dev, PRIMARY_MI2S_RX);
+> > +		if (IS_ERR(port))
+> > +			return PTR_ERR(port);
+> > +
+> > +		dcfg.i2s_cfg_minor_version = AFE_API_VERSION_I2S_CONFIG;
+> > +		dcfg.clk_val = freq;
+> > +		dcfg.clk_root = 5;
+> > +		ret = q6afe_set_digital_codec_core_clock(port, &dcfg);
+> > +
+> > +		q6afe_port_put(port);
+> 
+> This redirection of clks looks totally confusing and hacky.
+> Why can not we do this from machine driver based something like this:
+> 
+> if (q6core_get_adsp_version() < Q6_ADSP_VERSION_2_7)
+> 	ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_DIG_CLK, freq, 0);
+> 
+
+Unfortunately this doesn't work for the digital codec clock. This clock
+is consumed and dynamically controlled by the msm8916-wcd-digital driver
+via the clk subsystem, not via ASoC sysclks.
+
+Using q6afe-clocks a typical setup in the DT would look like:
+
+	lpass_codec: audio-codec@771c000 {
+		compatible = "qcom,msm8916-wcd-digital-codec";
+		reg = <0x0771c000 0x400>;
+		clocks = <&xo_board>,
+			 <&q6afecc LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
+				   LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+		clock-names = "ahbix-clk", "mclk";
+		#sound-dai-cells = <1>;
+	};
+
+However, this works only for newer firmware versions (>= 2.7), not for
+older firmware versions controlling this clock via LPAIF_DIG_CLK.
+
+We need a way to describe this independent from the firmware version in
+the DT, since there are SoCs such as MSM8909 where both firmware
+versions have been used (perhaps even on the same device depending on
+which firmware version you have installed).
+
+Any solution involving the machine driver will inevitably end up in a
+"chicken-and-egg" problem: The machine driver needs the codec drivers to
+probe successfully, but the msm8916-wcd-digital driver first needs the
+digital codec clock (mclk) to probe successfully.
+
+I agree that these kind of checks in the qdsp6 code are a bit hacky, but
+in my opinion it's still far better than exposing this firmware
+detection problem to the device tree.
+
+Do you see any other straightforward way to solve this for the digital
+codec clock consumed by msm8916-wcd-digital?
+
+Thanks,
+Stephan
