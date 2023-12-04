@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oaxeCEda"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WxFUILUg"
 Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 863A59C
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 04:47:43 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54c846da5e9so1632562a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 04 Dec 2023 04:47:43 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB65FA9
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 04:47:44 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54cb4fa667bso1428259a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 04 Dec 2023 04:47:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701694062; x=1702298862; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701694063; x=1702298863; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+ziVbN5ZTP69p6FxRTQ/DrNWjlcr9menHHHhzgnVhU0=;
-        b=oaxeCEdai59i2UFpX60wj06AWKEDDInfc+sS6P/buF+nKMxpHtCcGsOvMzr3t1DVUi
-         mx/PEgtgzSoMLJ+jeVRDBWCtDE9+tDmstiWpi2EfTb9j4miy5OSmpBx6X2AWbjKqNpWG
-         ZbM8OODMkuvE5yNutRRs9NvBm8q9OKyrcVDVDeOGYfxyT5y1UIjFPz4ZNackzTc7qXW8
-         adS4yOJMxN8BcmpoaPlrdEDnMWN+aVy2QZdTDccTFWI+PSGXm5mehX3NqXrNLn/QJxZ2
-         lwUsAZcuZ7W4YjdVuIkaA7/BtDoO6sOFa0VrjKuDZRauepryWj86Hqn/BailDq+8A154
-         0Avw==
+        bh=KY0JnJRKpd3/EUynN0UwcoxBlBhaBotyx7RxLf0wHWk=;
+        b=WxFUILUg9AlH39Y2EB9mtJahq3vrhq/0j2+JHA2WeUFVB/LtnhfAJJ6nRyCnFjGPpq
+         BhXtUVYhlZ5Sctx4Jf5xJG9kNB1uhew7yHFhboABHNdA9G6ritHPu+7MyG2S0hMh7rA9
+         AwroFr7K940CJq4OKdWBdtYC0AjjyENd5/IHGtq6Yjsan9cNv+IjayLquw1iPCpv/aee
+         dtzIN8IBwrImDDCb8s4iKTKA2JT20iNBuC2qDj6lbMWjZbhizaAhvauTUotVGSe86eHD
+         giq6/GlbCED9cuEJY21EL25GlMokfTByfuXlceuYWtHd2261n6fkp7+BaSOk1Q+y+Tzv
+         oV3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701694062; x=1702298862;
+        d=1e100.net; s=20230601; t=1701694063; x=1702298863;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+ziVbN5ZTP69p6FxRTQ/DrNWjlcr9menHHHhzgnVhU0=;
-        b=MLIBC8Jt7H3N7aGAEvTa0QtsPUpfgyakvId2vfatr71ukazy5lnZs4Xr51ZrEKL7Ie
-         VxBfyA4wG0U88XcifCk+XYbdxFZifYrqxgh9WQoCA+81t50Il4YWS/JIQ/rtCZNuPaVz
-         wtDhSCVtXvK8/Gp0x1aXBH8RhcbBfaF5fyV1bYJcZFJCdhVgHBM9zxfry4XhlGdl8yWO
-         UtFPI6Ioq2BWyASv3WnTKjHTXWxAo9T3oUI8tRdrs2y7fcGW8lYwMcnvPGsN6RCsfBdi
-         vvDVO5KCHvCotK3K85pP2535U343Zv5XxVRKB8bk9vRirR1+tnjR/mJmvu1Yx7EyP6zU
-         8B8A==
-X-Gm-Message-State: AOJu0YwPiJS3OcBgOGAY6I7vBLlahHiip7lhY2pEQ2rgqTEQA9txPmkv
-	thBfpFSTKpQAVrXnbE0MM+ue1w==
-X-Google-Smtp-Source: AGHT+IHApXDdpr226FRyb9j61M1tzyPuEc1Ds/nq5f9VgF00NIL9sLCBQAy4dDG6sIZWA3NbhrjkNA==
-X-Received: by 2002:a50:d59a:0:b0:54c:4837:903c with SMTP id v26-20020a50d59a000000b0054c4837903cmr3836618edi.52.1701694062023;
-        Mon, 04 Dec 2023 04:47:42 -0800 (PST)
+        bh=KY0JnJRKpd3/EUynN0UwcoxBlBhaBotyx7RxLf0wHWk=;
+        b=JslcBKSLagsxj0386zM8BgSsbWI2I8y9Jv3lDwHajJfqWgHG+nkxGIGP5YVYwAy8Px
+         XtDTIc58nW//ej0u2Hc/GBfsD7M0R/0XVeEzkUFE+dV3qFqqMz1apWlGbc/xbwMhnfvO
+         3bvLc6bCyLH6Vw58h4rzTWosY5mFZkGrGhtoHEhihozpd44SKFRSWV5xA+JhD2QsLRbo
+         TUxtUh++L02vZQVVMKFn73zW0tOpCNsEw+ykB/Gs19eVaDhYqZMeQOOaNxk24wLd4Q1V
+         RZhxmBqMam5Rd5jzqznaC49DKHNjGSVj8Afa/FknwQ7wt5DBNzlujmdiLR67zMY2WyjM
+         4Jzg==
+X-Gm-Message-State: AOJu0Ywi+SwfYGyPAHA58eGt0PObSxy04my/mp3tT1pEn9Oj9J1nuW6A
+	LkcE4EsI4kWrLojDnazdQpMqWg==
+X-Google-Smtp-Source: AGHT+IFhu/InStD612XpzFwPv9bBK0nLIg+7JO9nMW2ZvtutTmDe1Q3IXR3v2X7PDbYWSph/4G/iGg==
+X-Received: by 2002:a05:6402:17dc:b0:54c:a21b:8088 with SMTP id s28-20020a05640217dc00b0054ca21b8088mr1192577edy.63.1701694063127;
+        Mon, 04 Dec 2023 04:47:43 -0800 (PST)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id dc15-20020a056402310f00b0054ced65bd26sm457017edb.41.2023.12.04.04.47.40
+        by smtp.gmail.com with ESMTPSA id dc15-20020a056402310f00b0054ced65bd26sm457017edb.41.2023.12.04.04.47.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 04:47:41 -0800 (PST)
+        Mon, 04 Dec 2023 04:47:42 -0800 (PST)
 From: srinivas.kandagatla@linaro.org
 To: broonie@kernel.org,
 	alsa-devel@alsa-project.org
@@ -47,9 +47,9 @@ Cc: perex@perex.cz,
 	linux-kernel@vger.kernel.org,
 	johan+linaro@kernel.org,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH 1/2] ASoC: ops: add correct range check for limiting volume
-Date: Mon,  4 Dec 2023 12:47:35 +0000
-Message-Id: <20231204124736.132185-2-srinivas.kandagatla@linaro.org>
+Subject: [PATCH 2/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
+Date: Mon,  4 Dec 2023 12:47:36 +0000
+Message-Id: <20231204124736.132185-3-srinivas.kandagatla@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231204124736.132185-1-srinivas.kandagatla@linaro.org>
 References: <20231204124736.132185-1-srinivas.kandagatla@linaro.org>
@@ -63,29 +63,45 @@ Content-Transfer-Encoding: 8bit
 
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-Volume can have ranges that start with negative values, ex: -84dB to
-+40dB. Apply correct range check in snd_soc_limit_volume before setting
-the platform_max. Without this patch, for example setting a 0dB limit on
-a volume range of -84dB to +40dB would fail.
+Limit the speaker digital gains to 0dB so that the users will not damage them.
+Currently there is a limit in UCM, but this does not stop the user form
+changing the digital gains from command line. So limit this in driver
+which makes the speakers more safer without active speaker protection in
+place.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- sound/soc/soc-ops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/qcom/sc8280xp.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index 55b009d3c681..2d25748ca706 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -661,7 +661,7 @@ int snd_soc_limit_volume(struct snd_soc_card *card,
- 	kctl = snd_soc_card_get_kcontrol(card, name);
- 	if (kctl) {
- 		struct soc_mixer_control *mc = (struct soc_mixer_control *)kctl->private_value;
--		if (max <= mc->max) {
-+		if (max <= mc->max - mc->min) {
- 			mc->platform_max = max;
- 			ret = 0;
- 		}
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index 249a43e1dee3..1e8f9452cd28 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -25,6 +25,23 @@ struct sc8280xp_snd_data {
+ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
++	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct snd_soc_card *card = rtd->card;
++
++	switch (cpu_dai->id) {
++	case WSA_CODEC_DMA_RX_0:
++	case WSA_CODEC_DMA_RX_1:
++		/*
++		 * set limit of 0dB on Digital Volume for Speakers,
++		 * this can prevent damage of speakers to some extent without
++		 * active speaker protection
++		 */
++		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 84);
++		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 84);
++		break;
++	default:
++		break;
++	}
+ 
+ 	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+ }
 -- 
 2.25.1
 
