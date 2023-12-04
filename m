@@ -1,177 +1,182 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gerhold.net header.i=@gerhold.net header.b="pKpMs9GY";
-	dkim=permerror (0-bit key) header.d=gerhold.net header.i=@gerhold.net header.b="uJV2WvJx"
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B94B9;
-	Mon,  4 Dec 2023 02:35:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701686089; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=B6jxp6YpDy3gWwRWyv+ojwyj/8Wx3GtPQfF3NUqjWsLwXGOY23RcvbScqLGdzSNyXk
-    IUnA0tZBwocvUsNoGEV/jgs42CbVuivUJ613cdBAms6rlO53exhJ46xwi0YPh0IEdaVJ
-    qdVH4QqngRxHpJ/0NTZukykbIUULNMpYafAm6J+ENSeI3FveHaOa4y4D+PSovUmbdup1
-    BdoSKnKgPkpIj/7jgsdnDvF6luSw8UmZkfmQtMdgz9TNc13G7vhAtY+N2uleesiR5Sf8
-    c6BRssVe6V3NiSp8D/3tSvHJCSU94k6t/1FRnsKFoY/S3SLFzk1bJ5oiYdYlhkVlf1uB
-    EFiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1701686089;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=CHv9E0tocZhThOTvkGBLLpXTCKTNvN5GQ8q6pbKUvKY=;
-    b=mG1ctqw0Qjl+BQjSIs8msaQMTlSyOS5EWy+DO3vu/vmX951iWJnyLRAzpBCN0AhLo6
-    M2LU6j7CBBHQgr4tq4NqCZ/Ht+TBNbdnEBeE84KvXpilgXRBOlEpktCTH5xcM4RuDBhr
-    TzIlzJAqrzsva3isZUS6n1+niG32IL6ucqaF9guzQAJRNYxTwC+IA0rSQ/4QVN6ujVIN
-    2A1oPdI77FMpJQHDlMmN0zGNYmNEg7J0VQTVoRZUhXVlWhPdCQtIhiY5TGh7nE+3/lxE
-    P5ETpII/fSXf+mCROzttAMu89ogPylHDVsYofRgYaVt79wNHUhlu6sAs5uI7+TyuXgzK
-    g4QQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1701686088;
-    s=strato-dkim-0002; d=gerhold.net;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=CHv9E0tocZhThOTvkGBLLpXTCKTNvN5GQ8q6pbKUvKY=;
-    b=pKpMs9GYnvmsTS2BH7lZtApM/4A4cnl14TRFZ4hfQSAJcNHFz8ZICK7yHZYUQLRyn9
-    D88uiKlnj8aM4nlj8WDonjC1G3SEVW44hBua5+U8hbgHVjMsQUnqNdrWKD5Pn/rsBoct
-    9J6L89u4maxo58jCQTTqD4WLBKPSIWfmD4Ns6AUKzTLRXBonTx5k755zlLAFMepwQe+n
-    WZTy4Wrsun0Tq5MSM6cXL21pSPeWOLzDiWE0KaZYhyNJOxzKzKHnXgsYIwVQAQC0gKhx
-    VXoIQtKSqXFtJsb9sW9L+pMAN7vmEggUneYyWn+pvJWgBnBb2qaENx4rWEQN/bd578KQ
-    57SQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1701686088;
-    s=strato-dkim-0003; d=gerhold.net;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=CHv9E0tocZhThOTvkGBLLpXTCKTNvN5GQ8q6pbKUvKY=;
-    b=uJV2WvJx96hjbeGK6zqpuT1m3EOf39CxJUjVka7+Sri/QJsGK1i/8W7T6LOO9Hsw86
-    ACLbgUljQXVx/cUG0eCw==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4peA8paF1A=="
-Received: from gerhold.net
-    by smtp.strato.de (RZmta 49.9.7 DYNA|AUTH)
-    with ESMTPSA id R5487bzB4AYmA6d
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Mon, 4 Dec 2023 11:34:48 +0100 (CET)
-Date: Mon, 4 Dec 2023 11:34:43 +0100
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
-	linux-arm-msm@vger.kernel.org,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 2/4] ASoC: qcom: q6afe: provide fallback for digital
- codec clock
-Message-ID: <ZW2rQ-SsER-HPlF5@gerhold.net>
-References: <20231029165716.69878-1-otto.pflueger@abscue.de>
- <20231029165716.69878-3-otto.pflueger@abscue.de>
- <d8ef8fe6-2856-40fc-a95e-5bf68c0f1a8b@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AM8OMdFO"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9676B9;
+	Mon,  4 Dec 2023 03:03:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701687806; x=1733223806;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=K3LZ0ut12b0ZWweiMZsY7lTX+GonCXKoqqOWSfI90kI=;
+  b=AM8OMdFO2mDBpxCb2PP44c2aK7kD27+RFkCAtbTtwpUFHb2lKi39wLrL
+   rQsJABxvi5UWxEoKhapG1ZYbEDMTctJTxXGOlElNunpYfz76sMIyHXi7e
+   m7kkejxXW0t8SWBXMI6TpxywYoCe8Nj9ozzhPGw7H7mJAccfYGxVvdJFp
+   qU1A+EKLM7HffDQC/mdIhERxSFHbQC0/tfq5eYQddm46/zFUGBU4ogYgO
+   VKTNIMMtcIBR5GfHaiX4zI7vlYwv5u6fP1rvp45fztE+Jga/GHb1xEfxI
+   uGckKQ4tIBvMQk5sj/J0+ne/UJdxsgIu8qxdjllOj960ha9LavKaDkgaN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="15262688"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="15262688"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 03:03:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861343646"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="861343646"
+Received: from epologov-mobl2.ccr.corp.intel.com (HELO [10.249.32.181]) ([10.249.32.181])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 03:03:23 -0800
+Message-ID: <ff56d56b-4b5c-42fa-bf7f-78a5746ec3be@linux.intel.com>
+Date: Mon, 4 Dec 2023 13:04:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SOF: Move sof_of_machine_select() to core.c from
+ sof-of-dev.c
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231204033549.2020289-1-wenst@chromium.org>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20231204033549.2020289-1-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d8ef8fe6-2856-40fc-a95e-5bf68c0f1a8b@linaro.org>
 
-Hi Srini,
 
-On Fri, Nov 17, 2023 at 01:26:43PM +0000, Srinivas Kandagatla wrote:
-> On 29/10/2023 16:57, Otto Pflüger wrote:
-> > When q6afe is used as a clock provider through q6afe-clocks.c, it uses
-> > an interface for setting clocks that is not present in older firmware
-> > versions. However, using Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
-> > as the codec MCLK in the device tree can be useful on older platforms
-> > too. Provide a fallback that sets this clock using the old method when
-> > an old firmware version is detected.
-> > 
-> > MSM8916 did not need this because of a workaround that controls this
-> > clock directly through the GCC driver, but newer SoCs do not have this
-> > clock in their GCC drivers because it is meant to be controlled by the
-> > DSP.
-> > 
-> > Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
-> > ---
-> >   sound/soc/qcom/qdsp6/q6afe.c | 26 ++++++++++++++++++++++++++
-> >   1 file changed, 26 insertions(+)
-> > 
-> > diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-> > index 91d39f6ad0bd..f14d3b366aa4 100644
-> > --- a/sound/soc/qcom/qdsp6/q6afe.c
-> > +++ b/sound/soc/qcom/qdsp6/q6afe.c
-> > @@ -1111,6 +1111,32 @@ int q6afe_set_lpass_clock(struct device *dev, int clk_id, int attri,
-> >   	struct q6afe *afe = dev_get_drvdata(dev->parent);
-> >   	struct afe_clk_set cset = {0,};
-> > +	/*
-> > +	 * v2 clocks specified in the device tree may not be supported by the
-> > +	 * firmware. If this is the digital codec core clock, fall back to the
-> > +	 * old method for setting it.
-> > +	 */
-> > +	if (q6core_get_adsp_version() < Q6_ADSP_VERSION_2_7) {
-> > +		struct q6afe_port *port;
-> > +		struct afe_digital_clk_cfg dcfg = {0,};
-> > +		int ret;
-> > +
-> > +		if (clk_id != Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE)
-> > +			return -EINVAL;
-> > +
-> > +		port = q6afe_port_get_from_id(dev, PRIMARY_MI2S_RX);
-> > +		if (IS_ERR(port))
-> > +			return PTR_ERR(port);
-> > +
-> > +		dcfg.i2s_cfg_minor_version = AFE_API_VERSION_I2S_CONFIG;
-> > +		dcfg.clk_val = freq;
-> > +		dcfg.clk_root = 5;
-> > +		ret = q6afe_set_digital_codec_core_clock(port, &dcfg);
-> > +
-> > +		q6afe_port_put(port);
+
+On 04/12/2023 05:35, Chen-Yu Tsai wrote:
+> This reverts commit 014fdeb0d747304111cfecf93df4407c1a0c80db.
 > 
-> This redirection of clks looks totally confusing and hacky.
-> Why can not we do this from machine driver based something like this:
+> Commit 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to
+> sof-of-dev.c from sof-audio.c") caused a circular dependency between
+> the snd_sof and snd_sof_of modules:
 > 
-> if (q6core_get_adsp_version() < Q6_ADSP_VERSION_2_7)
-> 	ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_DIG_CLK, freq, 0);
+> 	depmod: ERROR: Cycle detected: snd_sof -> snd_sof_of -> snd_sof
+> 	depmod: ERROR: Found 2 modules in dependency cycles!
 > 
+> Move the function back with sof_machine_select().
+> 
+> Fixes: 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to sof-of-dev.c from sof-audio.c")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Unfortunately this doesn't work for the digital codec clock. This clock
-is consumed and dynamically controlled by the msm8916-wcd-digital driver
-via the clk subsystem, not via ASoC sysclks.
+Oh, I have re-done the compile test and that does not detect this (I
+don't have ARM device to runtime test it), but looks valid.
+I wonder if we should do this similarly to acpi machine select via ops
+to cut the circular dependency?
+That can be done in a followup patch.
 
-Using q6afe-clocks a typical setup in the DT would look like:
+Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-	lpass_codec: audio-codec@771c000 {
-		compatible = "qcom,msm8916-wcd-digital-codec";
-		reg = <0x0771c000 0x400>;
-		clocks = <&xo_board>,
-			 <&q6afecc LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
-				   LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-		clock-names = "ahbix-clk", "mclk";
-		#sound-dai-cells = <1>;
-	};
+> ---
+> Not sure what the proper arrangement would be, but this gets my builds
+> going again.
+> 
+>  sound/soc/sof/core.c       | 22 ++++++++++++++++++++++
+>  sound/soc/sof/sof-of-dev.c | 23 -----------------------
+>  sound/soc/sof/sof-of-dev.h |  9 ---------
+>  3 files changed, 22 insertions(+), 32 deletions(-)
+> 
+> diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
+> index a2afec8f5879..425b023b03b4 100644
+> --- a/sound/soc/sof/core.c
+> +++ b/sound/soc/sof/core.c
+> @@ -144,6 +144,28 @@ void sof_set_fw_state(struct snd_sof_dev *sdev, enum sof_fw_state new_state)
+>  }
+>  EXPORT_SYMBOL(sof_set_fw_state);
+>  
+> +static struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev)
+> +{
+> +	struct snd_sof_pdata *sof_pdata = sdev->pdata;
+> +	const struct sof_dev_desc *desc = sof_pdata->desc;
+> +	struct snd_sof_of_mach *mach = desc->of_machines;
+> +
+> +	if (!mach)
+> +		return NULL;
+> +
+> +	for (; mach->compatible; mach++) {
+> +		if (of_machine_is_compatible(mach->compatible)) {
+> +			sof_pdata->tplg_filename = mach->sof_tplg_filename;
+> +			if (mach->fw_filename)
+> +				sof_pdata->fw_filename = mach->fw_filename;
+> +
+> +			return mach;
+> +		}
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+>  /* SOF Driver enumeration */
+>  static int sof_machine_check(struct snd_sof_dev *sdev)
+>  {
+> diff --git a/sound/soc/sof/sof-of-dev.c b/sound/soc/sof/sof-of-dev.c
+> index fa92da5ee9b3..b9a499e92b9a 100644
+> --- a/sound/soc/sof/sof-of-dev.c
+> +++ b/sound/soc/sof/sof-of-dev.c
+> @@ -41,29 +41,6 @@ static void sof_of_probe_complete(struct device *dev)
+>  	pm_runtime_enable(dev);
+>  }
+>  
+> -struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev)
+> -{
+> -	struct snd_sof_pdata *sof_pdata = sdev->pdata;
+> -	const struct sof_dev_desc *desc = sof_pdata->desc;
+> -	struct snd_sof_of_mach *mach = desc->of_machines;
+> -
+> -	if (!mach)
+> -		return NULL;
+> -
+> -	for (; mach->compatible; mach++) {
+> -		if (of_machine_is_compatible(mach->compatible)) {
+> -			sof_pdata->tplg_filename = mach->sof_tplg_filename;
+> -			if (mach->fw_filename)
+> -				sof_pdata->fw_filename = mach->fw_filename;
+> -
+> -			return mach;
+> -		}
+> -	}
+> -
+> -	return NULL;
+> -}
+> -EXPORT_SYMBOL(sof_of_machine_select);
+> -
+>  int sof_of_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> diff --git a/sound/soc/sof/sof-of-dev.h b/sound/soc/sof/sof-of-dev.h
+> index 547e358a37e3..b6cc70595f3b 100644
+> --- a/sound/soc/sof/sof-of-dev.h
+> +++ b/sound/soc/sof/sof-of-dev.h
+> @@ -16,15 +16,6 @@ struct snd_sof_of_mach {
+>  	const char *sof_tplg_filename;
+>  };
+>  
+> -#if IS_ENABLED(CONFIG_SND_SOC_SOF_OF_DEV)
+> -struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev);
+> -#else
+> -static inline struct snd_sof_of_mach *sof_of_machine_select(struct snd_sof_dev *sdev)
+> -{
+> -	return NULL;
+> -}
+> -#endif
+> -
+>  extern const struct dev_pm_ops sof_of_pm;
+>  
+>  int sof_of_probe(struct platform_device *pdev);
 
-However, this works only for newer firmware versions (>= 2.7), not for
-older firmware versions controlling this clock via LPAIF_DIG_CLK.
-
-We need a way to describe this independent from the firmware version in
-the DT, since there are SoCs such as MSM8909 where both firmware
-versions have been used (perhaps even on the same device depending on
-which firmware version you have installed).
-
-Any solution involving the machine driver will inevitably end up in a
-"chicken-and-egg" problem: The machine driver needs the codec drivers to
-probe successfully, but the msm8916-wcd-digital driver first needs the
-digital codec clock (mclk) to probe successfully.
-
-I agree that these kind of checks in the qdsp6 code are a bit hacky, but
-in my opinion it's still far better than exposing this firmware
-detection problem to the device tree.
-
-Do you see any other straightforward way to solve this for the digital
-codec clock consumed by msm8916-wcd-digital?
-
-Thanks,
-Stephan
+-- 
+PÃ©ter
