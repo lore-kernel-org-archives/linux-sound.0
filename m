@@ -1,41 +1,40 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6QaajSg"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6405FCB
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:44:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCV+ktzE"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A170D3
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701726258; x=1733262258;
+  t=1701726444; x=1733262444;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=p3+n+ae88C54uWx4bKBguX0EyLE059rZ3qRBXQqjjLQ=;
-  b=m6QaajSgbuVOgkpeP128Pn5qewc2XNUyC6LJdoP69XkhDHjQkygowjnp
-   E7K4iQNffaZ26MT2tTciRg5F+JvxjMnSZmt/qaxI3+2nbVGUufEf8ZHRj
-   cJrv21AUWPYl3UPfzpIEtDu2iwY0u4DbUa8cFoKbr0CLJ8WFKikFFkt2U
-   mofaW6NUjd8oGXnhtCGZ1FRnOow6xNIjJfGbhbOJ7IJ4tvZfutiWvQUDZ
-   IMk/HNUI7dISJhew3pdCNH5KymOd+Ang+TA88fcL0kpSGH/iLQ7VQDF/+
-   /Vxbx6vCLbVFWcW2AZccz3KPMQ9pbwwZUsU0rzK72coQ88NM/k0KsnjNb
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="378829556"
+  bh=UzQfgyi6f/Ns9JeIOkkZcFHXWNAG6ZJampyO2n/2NNI=;
+  b=nCV+ktzEZfrweLQv0+4aNi5ckp6azZXkjX6vACvknYJ50M+Ksvp+fB0z
+   Z6GJqzAWmXdMLtf//oQmXiX7C4k9vScVGl/Il+VBKgNVUaTs2bNHe9nai
+   9MlBZSJhnkRheRIDLMhhJqTyRD52KhkJyTZqth5631pRRBUl8BySLlLlo
+   pKb/pS/SpzC4HIcn2BZ13uO+Y5aedYlHNGNwRujOciJlBVzwzNBehiX1F
+   wyl1tOC3iobief3spllmmu3yZtRF3ZP6KyC5qVjOEbk7eWe43iRzpvEkd
+   XD504OdLhz0mJVN+OWn3Jb7S6ptLq9RBKK1y5QpWrF6/2NuLpt0CSKrRj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="373249510"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="378829556"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:44:17 -0800
+   d="scan'208";a="373249510"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:47:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="841205940"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="746978892"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="841205940"
+   d="scan'208";a="746978892"
 Received: from akashams-mobl.amr.corp.intel.com (HELO pbossart-mobl3.lan) ([10.255.231.189])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:44:16 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:47:23 -0800
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.de,
 	broonie@kernel.org,
-	Rander Wang <rander.wang@intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH] ASoC: SOF: Intel: lnl: add core get and set support for dsp core
-Date: Mon,  4 Dec 2023 15:44:07 -0600
-Message-Id: <20231204214407.208528-1-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 0/4] ASoC: SOF: topology cleanups
+Date: Mon,  4 Dec 2023 15:47:09 -0600
+Message-Id: <20231204214713.208951-1-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -45,67 +44,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Rander Wang <rander.wang@intel.com>
+Header alignment with firmware, addition of new token and partial
+match filters.
 
-Driver uses get and set ops to change the power state of dsp core.
+Baofeng Tian (2):
+  ASoC: SOF: align topology header file with sof topology header
+  ASoC: SOF: add alignment for topology header file struct definition
 
-Closes: https://github.com/thesofproject/sof/issues/8478
-Signed-off-by: Rander Wang <rander.wang@intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/sof/intel/lnl.c | 4 ++++
- sound/soc/sof/intel/mtl.c | 4 ++--
- sound/soc/sof/intel/mtl.h | 3 +++
- 3 files changed, 9 insertions(+), 2 deletions(-)
+Bard Liao (1):
+  ASoC: SOF: topology: Use partial match for disconnecting DAI link and
+    DAI widget
 
-diff --git a/sound/soc/sof/intel/lnl.c b/sound/soc/sof/intel/lnl.c
-index 03308721ebd4..a095f5bcf50d 100644
---- a/sound/soc/sof/intel/lnl.c
-+++ b/sound/soc/sof/intel/lnl.c
-@@ -120,6 +120,10 @@ int sof_lnl_ops_init(struct snd_sof_dev *sdev)
- 
- 	sof_lnl_ops.get_stream_position = mtl_dsp_get_stream_hda_link_position;
- 
-+	/* dsp core get/put */
-+	sof_lnl_ops.core_get = mtl_dsp_core_get;
-+	sof_lnl_ops.core_put = mtl_dsp_core_put;
-+
- 	sdev->private = kzalloc(sizeof(struct sof_ipc4_fw_data), GFP_KERNEL);
- 	if (!sdev->private)
- 		return -ENOMEM;
-diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
-index bcf963976189..d4b666f125ea 100644
---- a/sound/soc/sof/intel/mtl.c
-+++ b/sound/soc/sof/intel/mtl.c
-@@ -638,7 +638,7 @@ u64 mtl_dsp_get_stream_hda_link_position(struct snd_sof_dev *sdev,
- 	return ((u64)llp_u << 32) | llp_l;
- }
- 
--static int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core)
-+int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core)
- {
- 	const struct sof_ipc_pm_ops *pm_ops = sdev->ipc->ops->pm;
- 
-@@ -651,7 +651,7 @@ static int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core)
- 	return 0;
- }
- 
--static int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core)
-+int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core)
- {
- 	const struct sof_ipc_pm_ops *pm_ops = sdev->ipc->ops->pm;
- 	int ret;
-diff --git a/sound/soc/sof/intel/mtl.h b/sound/soc/sof/intel/mtl.h
-index 95696b3d7c4c..cc5a1f46fd09 100644
---- a/sound/soc/sof/intel/mtl.h
-+++ b/sound/soc/sof/intel/mtl.h
-@@ -106,3 +106,6 @@ void mtl_ipc_dump(struct snd_sof_dev *sdev);
- u64 mtl_dsp_get_stream_hda_link_position(struct snd_sof_dev *sdev,
- 					 struct snd_soc_component *component,
- 					 struct snd_pcm_substream *substream);
-+
-+int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core);
-+int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core);
+Curtis Malainey (1):
+  ASoC: SOF: Wire up buffer flags
+
+ include/sound/sof/topology.h    | 61 ++++++++++++++++++---------------
+ include/uapi/sound/sof/tokens.h |  1 +
+ sound/soc/sof/ipc3-topology.c   |  2 ++
+ sound/soc/sof/topology.c        |  2 +-
+ 4 files changed, 38 insertions(+), 28 deletions(-)
+
 -- 
 2.39.2
 
