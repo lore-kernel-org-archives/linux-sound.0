@@ -1,40 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15E4364CB;
-	Mon,  4 Dec 2023 20:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F077635EEE;
+	Mon,  4 Dec 2023 20:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tFO35PCL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9076C433C7;
-	Mon,  4 Dec 2023 20:35:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5G6vITg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60B53C433C7;
+	Mon,  4 Dec 2023 20:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701722145;
-	bh=W49vv/JqMjouqkjwibwavXXrMU6TnI5qndMQ4YxP1eY=;
+	s=k20201202; t=1701722186;
+	bh=3yjYYOi8KUKaS5jWBU1u/r5BRTVdLfULwy4YOStsWBw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tFO35PCLdomiqVBBFQJcF+asRYNDqXmOKeo6PnkehoztYPMAxaPMEbk2X3Xii0Fp3
-	 tpMG30FP9wjyrzoLfM3yYpb7nVVe/1xiBUTtWw7Q4VsL8BsUplN9/t2GNGx8wOBDlA
-	 Wl907MyRN2K2aezxYr+qOWGxGkIrHEJp8rJtlCaw+iJ9CYS7gVvN1ICja/jo0eIgAg
-	 KX3Hvx8pZ/qgjgbx1cZPJZiM6CF2z31KmAgR7zpXqwkux19hu4HDukx62VhZ2tzKeG
-	 qXpj4eKqnOhukqwCIpTM/8StILwEKylW0JMamZotOReB6AWIapYz7uCV6v0aBbAw5J
-	 m7v2CxmDAkKYA==
+	b=d5G6vITggKcvBgGQ7vKmcNdO/8Qz1yIQ9yX7F8Qz55yxvAQ9aUE7/D+MSoD0ztTaj
+	 XUepSWfLkBpuAyYTW5yEZKHHSchZw6ISLlHPiKk4Wuwzi7qpDL02ItxbjGvgG8vexQ
+	 xuZQVF2BndkKMvJOhyRTwNviNvCdMj/edybz+TYmNrOxR2K5MQk48qAltHVBY16DOE
+	 iBqp4zOTDGFje1f0tOA5/bAjn/jm7Znz+SwoI8MN+gT7IPtzVwZpWV5m7Uj6JmH0gm
+	 aOd8AT9zvx/LlsmZTVVTWRyQCqkyXHx7qk81i5iZhNLJpyaLEAOhK1YiYscEOYm5NL
+	 8fzCvD9fCLIGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+Cc: Vasiliy Kovalev <kovalev@altlinux.org>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	l.guzenko@web.de,
+	yangyuchi66@gmail.com,
+	vitalyr@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 11/17] ALSA: hda: intel-nhlt: Ignore vbps when looking for DMIC 32 bps format
-Date: Mon,  4 Dec 2023 15:34:56 -0500
-Message-ID: <20231204203514.2093855-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 02/10] ALSA: hda - Fix speaker and headset mic pin config for CHUWI CoreBook XPro
+Date: Mon,  4 Dec 2023 15:35:59 -0500
+Message-ID: <20231204203616.2094529-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231204203514.2093855-1-sashal@kernel.org>
-References: <20231204203514.2093855-1-sashal@kernel.org>
+In-Reply-To: <20231204203616.2094529-1-sashal@kernel.org>
+References: <20231204203616.2094529-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,104 +49,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.65
+X-stable-base: Linux 5.15.141
 Content-Transfer-Encoding: 8bit
 
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+From: Vasiliy Kovalev <kovalev@altlinux.org>
 
-[ Upstream commit 7b4c93a50a2ebbbaf656cc4fa6aca74a6166d85b ]
+[ Upstream commit 7c9caa299335df94ad1c58f70a22f16a540eab60 ]
 
-When looking up DMIC blob from the NHLT table and the format is 32 bits,
-ignore the vbps matching for 32 bps for DMIC since some NHLT table have
-the vbps as 24, some have it as 32.
-The DMIC hardware supports only one type of 32 bit sample size, which is
-24 bit sampling on the MSB side and bits[1:0] is used for indicating the
-channel number.
+This patch corrected the speaker and headset mic pin config to the more
+appropriate values.
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Link: https://lore.kernel.org/r/20231127111658.17275-1-peter.ujfalusi@linux.intel.com
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+Link: https://lore.kernel.org/r/20231117170923.106822-1-kovalev@altlinux.org
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/hda/intel-nhlt.c | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+ sound/pci/hda/patch_realtek.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/hda/intel-nhlt.c b/sound/hda/intel-nhlt.c
-index 2c4dfc0b7e342..696a958d93e9c 100644
---- a/sound/hda/intel-nhlt.c
-+++ b/sound/hda/intel-nhlt.c
-@@ -238,7 +238,7 @@ EXPORT_SYMBOL(intel_nhlt_ssp_mclk_mask);
- 
- static struct nhlt_specific_cfg *
- nhlt_get_specific_cfg(struct device *dev, struct nhlt_fmt *fmt, u8 num_ch,
--		      u32 rate, u8 vbps, u8 bps)
-+		      u32 rate, u8 vbps, u8 bps, bool ignore_vbps)
- {
- 	struct nhlt_fmt_cfg *cfg = fmt->fmt_config;
- 	struct wav_fmt *wfmt;
-@@ -255,8 +255,12 @@ nhlt_get_specific_cfg(struct device *dev, struct nhlt_fmt *fmt, u8 num_ch,
- 		dev_dbg(dev, "Endpoint format: ch=%d fmt=%d/%d rate=%d\n",
- 			wfmt->channels, _vbps, _bps, wfmt->samples_per_sec);
- 
-+		/*
-+		 * When looking for exact match of configuration ignore the vbps
-+		 * from NHLT table when ignore_vbps is true
-+		 */
- 		if (wfmt->channels == num_ch && wfmt->samples_per_sec == rate &&
--		    vbps == _vbps && bps == _bps)
-+		    (ignore_vbps || vbps == _vbps) && bps == _bps)
- 			return &cfg->config;
- 
- 		cfg = (struct nhlt_fmt_cfg *)(cfg->config.caps + cfg->config.size);
-@@ -289,6 +293,7 @@ intel_nhlt_get_endpoint_blob(struct device *dev, struct nhlt_acpi_table *nhlt,
- {
- 	struct nhlt_specific_cfg *cfg;
- 	struct nhlt_endpoint *epnt;
-+	bool ignore_vbps = false;
- 	struct nhlt_fmt *fmt;
- 	int i;
- 
-@@ -298,7 +303,26 @@ intel_nhlt_get_endpoint_blob(struct device *dev, struct nhlt_acpi_table *nhlt,
- 	dev_dbg(dev, "Looking for configuration:\n");
- 	dev_dbg(dev, "  vbus_id=%d link_type=%d dir=%d, dev_type=%d\n",
- 		bus_id, link_type, dir, dev_type);
--	dev_dbg(dev, "  ch=%d fmt=%d/%d rate=%d\n", num_ch, vbps, bps, rate);
-+	if (link_type == NHLT_LINK_DMIC && bps == 32 && (vbps == 24 || vbps == 32)) {
-+		/*
-+		 * The DMIC hardware supports only one type of 32 bits sample
-+		 * size, which is 24 bit sampling on the MSB side and bits[1:0]
-+		 * are used for indicating the channel number.
-+		 * It has been observed that some NHLT tables have the vbps
-+		 * specified as 32 while some uses 24.
-+		 * The format these variations describe are identical, the
-+		 * hardware is configured and behaves the same way.
-+		 * Note: when the samples assumed to be vbps=32 then the 'noise'
-+		 * introduced by the lower two bits (channel number) have no
-+		 * real life implication on audio quality.
-+		 */
-+		dev_dbg(dev,
-+			"  ch=%d fmt=%d rate=%d (vbps is ignored for DMIC 32bit format)\n",
-+			num_ch, bps, rate);
-+		ignore_vbps = true;
-+	} else {
-+		dev_dbg(dev, "  ch=%d fmt=%d/%d rate=%d\n", num_ch, vbps, bps, rate);
-+	}
- 	dev_dbg(dev, "Endpoint count=%d\n", nhlt->endpoint_count);
- 
- 	epnt = (struct nhlt_endpoint *)nhlt->desc;
-@@ -307,7 +331,8 @@ intel_nhlt_get_endpoint_blob(struct device *dev, struct nhlt_acpi_table *nhlt,
- 		if (nhlt_check_ep_match(dev, epnt, bus_id, link_type, dir, dev_type)) {
- 			fmt = (struct nhlt_fmt *)(epnt->config.caps + epnt->config.size);
- 
--			cfg = nhlt_get_specific_cfg(dev, fmt, num_ch, rate, vbps, bps);
-+			cfg = nhlt_get_specific_cfg(dev, fmt, num_ch, rate,
-+						    vbps, bps, ignore_vbps);
- 			if (cfg)
- 				return cfg;
- 		}
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 4ab3cbef72e80..2b77e0deb0da5 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6842,6 +6842,7 @@ enum {
+ 	ALC290_FIXUP_SUBWOOFER_HSJACK,
+ 	ALC269_FIXUP_THINKPAD_ACPI,
+ 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
++	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
+ 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
+@@ -7140,6 +7141,14 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc269_fixup_pincfg_U7x7_headset_mic,
+ 	},
++	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x18, 0x03a19020 }, /* headset mic */
++			{ 0x1b, 0x90170150 }, /* speaker */
++			{ }
++		},
++	},
+ 	[ALC269_FIXUP_AMIC] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -9388,6 +9397,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
++	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+ 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+ 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
+ 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
 -- 
 2.42.0
 
