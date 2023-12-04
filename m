@@ -1,71 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0581364A0
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 21:39:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hg92Chtf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4EEC433C7;
-	Mon,  4 Dec 2023 21:39:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701725996;
-	bh=leSfSnBRwqTUt2OzYv8JNFItDo6hQXFHCgFZZ5ni45w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hg92ChtfxlpJEyH1OdGbHj0vXv/eYjshdnZ1f9TV7/r3eK0/8gqYzCq2qyqWlsshw
-	 46WqjA90svWcdVvvpj5L/Nd/jU8zS3ZG20fOaveETPJ3MkBENg33LxINkT0N8tQoDb
-	 b4IiWR9G3iTPXcMpTAOIxRiMha5xqns0ep6mJJWd9At5uLAXdFut/DyXirCgz3RpKN
-	 Zd//EjqQ6Y8uXHPLIs77EbnmQv+4ART/j5aSG1FDd0h2W/89WDN6+0/owE6pVMD4IR
-	 QAPASn3Y0Q/0DJNE+RHBLl1SVLsgehiEOvwTDSuQ+Yf4PwiqyiEIU3xcMsgpueLZ89
-	 SZUqQH8mNPRJw==
-Date: Mon, 4 Dec 2023 21:39:52 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.de
-Subject: Re: [PATCH 0/5] PCI/ALSA/ASoC: Add IDs and definitions for ARL and
- ARL-S
-Message-ID: <f6552678-0b67-46ca-bcb2-382d5fe2fd4c@sirena.org.uk>
-References: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4FVqrOQ"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E595DCD
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 13:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701726133; x=1733262133;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=f2DY02O9PsLeKL0CkW/V97cASNLos3dpMLZGlnelJ9M=;
+  b=G4FVqrOQoiBJkzrcoBc7YyB4ZFYAGjGmanWhXkVyC734Lmd6bURPyUEU
+   CsXra+h+/zB/qPx8Fjckhj5hLF1/6IphrU7OwLsaMxIVLdCOcTbI/zQ7X
+   Q9BlUy/Is1v7jEkRQF2ueBAc6279VMOyf9rAff+wPliaGKR/Jq7jEePZX
+   22kfZV9aEraRjavpZdZcEp8PWpI0mfkx3IkSO+qfKGr7+eMNSwCf4Exgg
+   sMX5LY9qD1DQg3aHeFTpb86f9qx2xT3S1isZ2CUv9qXlC7yJeV6/iI7Cj
+   7Tnyn0GyymQB0YT+mwFaps6IpP6P3M6ZLLxsaYrPUrjR7HXGXMYIW3hQd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="859808"
+X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
+   d="scan'208";a="859808"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:42:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764104366"
+X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
+   d="scan'208";a="764104366"
+Received: from akashams-mobl.amr.corp.intel.com (HELO pbossart-mobl3.lan) ([10.255.231.189])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:42:10 -0800
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	broonie@kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 0/5] ASoC: Intel: machine driver updates
+Date: Mon,  4 Dec 2023 15:41:55 -0600
+Message-Id: <20231204214200.203100-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NwKDhO4hJLvzYVO3"
-Content-Disposition: inline
-In-Reply-To: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
-X-Cookie: For office use only.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Minor cleanups for machine drivers.
 
---NwKDhO4hJLvzYVO3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Bard Liao (2):
+  ASoC: Intel: sof_sdw_rt_sdca_jack_common: ctx->headset_codec_dev =
+    NULL
+  ASoC: Intel: sof_sdw_rt_sdca_jack_common: check ctx->headset_codec_dev
+    instead of playback
 
-On Mon, Dec 04, 2023 at 03:27:05PM -0600, Pierre-Louis Bossart wrote:
-> ArrowLake (ARL) and ArrowLake-S (ARL-S) have different PCI IDs. Add
-> the usual slew of descriptors for those devices.
->=20
-> There are no additional PCI IDs planned for this kernel cycle so it might=
- be
-> simpler to have Takashi handle all the patches with Mark's Acked-by tag?
+Brent Lu (3):
+  ASoC: Intel: sof_nau8825: board id cleanup for adl boards
+  ASoC: Intel: sof_nau8825: board id cleanup for rpl boards
+  ASoC: Intel: glk_rt5682_max98357a: fix board id mismatch
 
-Acked-by: Mark Brown <broonie@kernel.org>
+ sound/soc/intel/boards/sof_nau8825.c          | 46 +------------------
+ .../boards/sof_sdw_rt_sdca_jack_common.c      |  7 +--
+ .../intel/common/soc-acpi-intel-adl-match.c   |  8 ++--
+ .../intel/common/soc-acpi-intel-glk-match.c   | 14 +++---
+ .../intel/common/soc-acpi-intel-rpl-match.c   |  6 +--
+ 5 files changed, 19 insertions(+), 62 deletions(-)
 
---NwKDhO4hJLvzYVO3
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.39.2
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVuRycACgkQJNaLcl1U
-h9AezQf9GEjZPk7l/qR/nfkfV7In2dbvDhJXEz+GKfw9RQkxyiPi/4JqBt+rmmmc
-pGm3uVUoPlG9Bkmrvkxu4v7hq/Y8s4uTu3dVSiI+cftwT5IQGQ4P9QF+mZaFlkHM
-Im38nzFOooyhdZemHJdYM8ZPrrQtbBViEd3qInOQjTZnZsFQnd0ztwgJr6zVsP1h
-h94NRmnEQPjRSLLelrxNJ9kvLJKxM+SllkPabBS2QpRrbwnRguXoD5g62JcKwug9
-ZT2V3XtChMgTU4BEB0UPsxYc1yq21aFBO9Tl5GPZP4AWGF1tCQG8xluh0Zppbyzq
-G69zJl8/UaaWCQXLe/UrAv3BIf/OEg==
-=ZCtD
------END PGP SIGNATURE-----
-
---NwKDhO4hJLvzYVO3--
