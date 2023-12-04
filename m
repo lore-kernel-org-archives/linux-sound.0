@@ -1,72 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B027124200
-	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 12:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNDZesLD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30EFC433C9;
-	Mon,  4 Dec 2023 12:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701693502;
-	bh=yqaR6ErWHcshvm8N6QI3ct1mVUW7AZz/LWvjQ4StwVk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fNDZesLDtBLB2L1RV/aHfUQjfHfL4TVTLkgiDAJCuUT/8/odnkovPAHHSudBFPJ2c
-	 Cc5WI3rpUcAhe9RZXTngZR8E6Tu64WSzuASNeEqMRQAqRUNquXNdfRWnP67md/QWhk
-	 dIsplNbK5pioHaVQVzH2zV90KfGZ/wq+++awwYCFUwFNLkZnzK5fiBTyf6LJq+KmTy
-	 qJR/94hvBpFEbyg4R6ydXqNOQ93QiAD29Ipbe34GoVij7Tgl0gLI4H6CnznFFSwhIu
-	 jzEMCEUJ12DVEEqEyHEXY78rjIgAExBR3PHvkUzP16G9yGOcDARkipIckP5JjLlMgJ
-	 cVeere0t9pmwQ==
-Date: Mon, 4 Dec 2023 12:38:16 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Kunwu Chan <chentao@kylinos.cn>
-Cc: pierre-louis.bossart@linux.intel.com, lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com, perex@perex.cz, tiwai@suse.com,
-	chao.song@intel.com, kunwu.chan@hotmail.com,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: SOF: Fix null pointer dereference in sof_pci_probe
-Message-ID: <7ddeea58-f5d8-415c-8c07-c34be04d6a9c@sirena.org.uk>
-References: <20231123155424.1275919-1-chentao@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YeJdh5ni"
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87ABE83
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 04:42:12 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40b5155e154so45367625e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 04 Dec 2023 04:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701693731; x=1702298531; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8x1dwoG6L6bxEjQMrtyUOBz/l2kp09gC7Z8V8HJ6Bn8=;
+        b=YeJdh5ninM2QKZaPuVPWZQmau+UpYLchO5pRNMvWiqah6VlX8oIkPhEmnYGu+lB2Cl
+         NEAXs2rQgLxS8nZf7dlAI2ZRbK1P68ikmj3ENClssaG4eFh23I0jgUtNkLp5yCqtIZ3B
+         QxQpBab32f5e3YX946VrLRInUmkOgzktWhAvlF+FOOgyGWxn6zYlXGRsh7tcKlrRvj/t
+         bQ3Ec6dqYSEmbNTFtavFTN5079EbMRvJl52WYyOW6H5OW3oLUcmsBhFgNbibFgVJnjyo
+         zZMYlLvomHgKZgx09JUHaIyA2Wfu1b8WgSZ5up6uqgweSZMWRT60g7V3r0wGwtwvfspR
+         1xPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701693731; x=1702298531;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8x1dwoG6L6bxEjQMrtyUOBz/l2kp09gC7Z8V8HJ6Bn8=;
+        b=xEdhaOZ0eOppPDwqmKeYXhh0KMHJReCHTzbKzOkUULmmM96FDQ3d/BWD2J1OwTzvdb
+         eN4PGbmTCGRDbl1MuLc1O5fsyBiwp5XmyLhnOT/6lU1pO2yf7CrAS6cNC06cAJysvmuN
+         t8SdWWkTE2IEb6gkdW8PU7masvsaQ3ix+T782iL7UAhfwUjWhQghWXgFeK3UozU5ZcWF
+         JDrulThbK7xW1xAjAbZelXje56212uRBeC+JoXPTc3PSSi0vqQTMeBcVxY5N09OHwBMt
+         PABsqENLP59A67A+4qDBJVl2Zm+rHaMPzme1ELRhX8fSA8HSsYSDMWrwwDSjaQS5sldP
+         4nGQ==
+X-Gm-Message-State: AOJu0YzhguvbIm0EVxLzwKD5r0aybFl9YaVZrCH7YgLLkpJyI9vPQDcb
+	n1oX6nqT9bRvU8gIQPNAMcu18A==
+X-Google-Smtp-Source: AGHT+IGJz3N4/IoxBaz0NjZihjCP4keqQKfmadAcfgA7ZWA07jRl1+KY0bF/rDdOkf8aj+mgEiOyHQ==
+X-Received: by 2002:a05:600c:450f:b0:40a:5c71:2c3e with SMTP id t15-20020a05600c450f00b0040a5c712c3emr2172252wmo.19.1701693731047;
+        Mon, 04 Dec 2023 04:42:11 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f18-20020a05600c155200b004094d4292aesm14959419wmg.18.2023.12.04.04.42.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 04:42:10 -0800 (PST)
+Date: Mon, 4 Dec 2023 15:42:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: audio-graph-card2: fix off by one in
+ graph_parse_node_multi_nm()
+Message-ID: <1032216f-902f-48f9-aa49-9d5ece8e87f2@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d0eSK/GLwNSV2WiC"
-Content-Disposition: inline
-In-Reply-To: <20231123155424.1275919-1-chentao@kylinos.cn>
-X-Cookie: no maintenance:
-
-
---d0eSK/GLwNSV2WiC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On Thu, Nov 23, 2023 at 11:54:24PM +0800, Kunwu Chan wrote:
-> devm_kasprintf() returns a pointer to dynamically allocated memory
-> which can be NULL upon failure.
+The > comparison should be >= to avoid writing one element beyond the end
+of the dai_link->ch_maps[] array.  The dai_link->ch_maps[] array is
+allocated in graph_parse_node_multi() and it has "nm_max" elements.
 
-In addition to the issues others mentioned this doesn't apply against
-current code, please check and resend.
+Fixes: e2de6808df4a ("ASoC: audio-graph-card2: add CPU:Codec = N:M support")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+In this same function I was also concerned about these conditions:
 
---d0eSK/GLwNSV2WiC
-Content-Type: application/pgp-signature; name="signature.asc"
+if (cpu_idx > dai_link->num_cpus)
+if (codec_idx > dai_link->num_codecs)
 
------BEGIN PGP SIGNATURE-----
+But I wasn't able to see out how those idx variables are actually
+used.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVtyDcACgkQJNaLcl1U
-h9AkMgf+L+6WbJTiUIc2x5NzzC90SYhe4VZkSX5nDk0tim8631mq3u/Aw5PYWYlQ
-J/9yRTpDiNAhPHYBNBQPFPw5h+OtXs+9kvhmsOZUim018b7sohjzXr9Y0p8C4yAB
-zWL72CrBEGjPyw/jZlUQYsPl2Jfeuudj/MQwVKbtuXeLgbJbAdpmjTV3dOqaELXw
-SHENzHmSVx4GZlvNVVi4u2IO24v09WrjM+HpJRW/amFmSwq+jV2A1cnt/LZpDbrO
-p2rAlxXqOnjy1ciPBhHFhZ63js4ciuvpKYZa6bSBkyH6+zNzT+WViYnrKqwLLqYD
-QFByAyqvfoNzyEqIPZcRtevmf+5QMA==
-=8sV2
------END PGP SIGNATURE-----
+ sound/soc/generic/audio-graph-card2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---d0eSK/GLwNSV2WiC--
+diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
+index d9e10308a508..78d9679decda 100644
+--- a/sound/soc/generic/audio-graph-card2.c
++++ b/sound/soc/generic/audio-graph-card2.c
+@@ -557,7 +557,7 @@ static int graph_parse_node_multi_nm(struct snd_soc_dai_link *dai_link,
+ 		struct device_node *mcodec_port;
+ 		int codec_idx;
+ 
+-		if (*nm_idx > nm_max)
++		if (*nm_idx >= nm_max)
+ 			break;
+ 
+ 		mcpu_ep_n = of_get_next_child(mcpu_port, mcpu_ep_n);
+-- 
+2.42.0
+
