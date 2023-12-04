@@ -1,81 +1,80 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C1622EFD
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 12:27:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1qUjECQ"
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D290DD5;
-	Mon,  4 Dec 2023 03:38:16 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-54c79968ffbso2379854a12.3;
-        Mon, 04 Dec 2023 03:38:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701689895; x=1702294695; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/TshOAyXPwgpEMcSujG2nmniqgvta5JHY6dbp5d3/QQ=;
-        b=D1qUjECQaTH9vrawjQidP3EgYswoWAnGxoGdxp3jdgEHy5UvqpFGOpYK938/7J1z9/
-         Wqu6bXe22Wg7jVrC4DHn0L/6l8DBUS6agE8iX5Hiauz1kXvljJWXV2yuIhMm5C+cG86N
-         xsP7e445fXxp7x47IYyc+8JV77QJ+K8Ye4JM05T7ad6BiIIIbb5MTPIXyihDEW5ZCkw8
-         YBLXv0sS8lUyK1kYoVGRlUCePvSWxM4yv4WaMX0aGke/9ozUpSdUhMpwQJANC664yXMI
-         R/fNO5fzSS2I0N218KMOZKHVbFYDWMWle8qDkmMbiMVVlAmfTapbKjRsIjB30Z1jOhKG
-         xQUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701689895; x=1702294695;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/TshOAyXPwgpEMcSujG2nmniqgvta5JHY6dbp5d3/QQ=;
-        b=IWue88jxOJokokIqmMNq20nybu+f6DT+Aq7nMJsq9Rt0HdKXE2Vc90LTkd7E5zlPDj
-         Dd+q/IV9m2zZuoqX/2qp3Qmw6Mbt4GDiVSHBqUT4xVrzk/wBOQaZGf75n+D46udOPFYh
-         eiRWYY7544HkaGm6lLuuGg90OiAXNa4lmZEFvH9Xr7AY9XBozbuV/Rubt4M1bwYyiBQw
-         hD+lwaiUHcMbC5FK2rNNYie7ilpFCBaWu8TaZzDrbKh6GEW+1zAPMRXmg2k8KPwrZSsF
-         DKhHUjUbwyvqfPK0n7AIprGZcxRcLTF8Btlr8JVb01GMoQ5T/pKFoRRiXWaO1CLwcoE3
-         QkUw==
-X-Gm-Message-State: AOJu0YyQqj2uwRJM1KZlv1qfF7MvBFCOVb1mdBFp/QBrcZwrh8vM8ddM
-	GcQx1JMsjm7oZzWTGr7UseTeKJYNuqJekZ0pOcm/6xYEpTw=
-X-Google-Smtp-Source: AGHT+IFhQPSht53hH+KJU08jzHUqjQ69yCeOObv98M4zwamnkX/04Bw9md0GCg5VFBhdebBH9UpS4WWiOKD4RY1hgng=
-X-Received: by 2002:a05:6402:28a4:b0:54c:e4d9:758b with SMTP id
- eg36-20020a05640228a400b0054ce4d9758bmr337039edb.34.1701689895032; Mon, 04
- Dec 2023 03:38:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WEiDVoTK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B56EC433C8;
+	Mon,  4 Dec 2023 12:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701692873;
+	bh=W7f0pOjg304HyKPpQW7nP4LI4oM3YnuorMhU4Q0ZrLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WEiDVoTK2D3qff6nHAmnZtWpkkVNTUSyGrqjuyC/u/Q8CHrOEMmrUYWZD8oSMh6Et
+	 l8iSYt3cvd2nczJWYc+wV3VP1XW+fh28UByZKsxZXhGBECdTsICPmkVWH1jRT1MfS0
+	 /590eRRWIM82tMFK+qd7H9524x4c+T/UPIzT2fvouOgh7KAaiQ7Kyj9M44Ur6gg0g0
+	 oL+belo7cKfxKocpm5E2wY0FTWX1umZiYntOgDXIsaN4jJaB5Nr2voskSAo1Pfb/bB
+	 szKZqxUls0w/qqCduZuiHes4P3PTZT13cGluVIbVRQoTjP9KTVcoOKQxNXaW/JTMUW
+	 G/BA+vlE8me7Q==
+Date: Mon, 4 Dec 2023 12:27:47 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: SOF: Move sof_of_machine_select() to core.c from
+ sof-of-dev.c
+Message-ID: <76ca7ffb-3881-468f-aef8-47ec6723e4bd@sirena.org.uk>
+References: <20231204033549.2020289-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204033549.2020289-1-wenst@chromium.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UcsYHd9sLq57ihM2"
+Content-Disposition: inline
 In-Reply-To: <20231204033549.2020289-1-wenst@chromium.org>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Mon, 4 Dec 2023 13:38:02 +0200
-Message-ID: <CAEnQRZBseYM8FO+fJND6pxhDrH+TFc8k6Aoj4ScNwXaz+Whmng@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: Move sof_of_machine_select() to core.c from sof-of-dev.c
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Cookie: For office use only.
 
-On Mon, Dec 4, 2023 at 5:46=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> wr=
-ote:
->
+
+--UcsYHd9sLq57ihM2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Dec 04, 2023 at 11:35:47AM +0800, Chen-Yu Tsai wrote:
+
 > This reverts commit 014fdeb0d747304111cfecf93df4407c1a0c80db.
->
-> Commit 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to
-> sof-of-dev.c from sof-audio.c") caused a circular dependency between
-> the snd_sof and snd_sof_of modules:
->
->         depmod: ERROR: Cycle detected: snd_sof -> snd_sof_of -> snd_sof
->         depmod: ERROR: Found 2 modules in dependency cycles!
->
-> Move the function back with sof_machine_select().
->
-> Fixes: 014fdeb0d747 ("ASoC: SOF: Move sof_of_machine_select() to sof-of-d=
-ev.c from sof-audio.c")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Thanks for fixing this.
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+--UcsYHd9sLq57ihM2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVtxcIACgkQJNaLcl1U
+h9AynAf8CEBCwsobXc9txfMwNf9AcFUdJlsRlH78OTUCy5HjmnqVhEvigo19ZCzl
+MRalW+nYuo1UneAK1iENEHzBrl0wJEJzgeiVWoCLINrrpOVfHno6j+8XGFt8+/ef
+WI0hbYqByLuZLxo0ImrJc86HUE5RL95khKkaJjk7cMVKlY6l4jqusubnmrbM/fEt
+mq8rZLnNGLTf0XR/K3YkI2s/wvbsxdVVEQ/TSqoHgQzQcsUVGK1M+uKL8vNKSuI4
+SQiZRuh3y6xgIgrNEff+TdVo4itr39uHj1IOjxNdNsBLx0xQITBWN2TaMMrMb1FD
+UeeTbYxEM3MbmTwtgwaoDrplP4dcAQ==
+=VXtL
+-----END PGP SIGNATURE-----
+
+--UcsYHd9sLq57ihM2--
