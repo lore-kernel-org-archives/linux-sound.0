@@ -1,71 +1,91 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A02171D9
+	for <linux-sound@vger.kernel.org>; Mon,  4 Dec 2023 17:21:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9Bep8zs"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB3AAC;
-	Mon,  4 Dec 2023 08:44:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701708250; x=1733244250;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8gQdgndpZFQZb2gJqlOJ/xwgQA+emZiGmAjbrIpj5Xs=;
-  b=J9Bep8zsjFMdehpyfTpx1Jy9YHC+B8Th5yFVqqxod2mm+1RSIgHVRQEG
-   +nOxHCdb7GWvDMlqTLBO9+GlYdaWm1R6fNU9PWz3xnpYiifnTjZJ9Mr9S
-   i5Ul7NCM8Hde7Tc6ecCcCzW/CqDVqSNDF8QymqGwOWcGq8i/RcqLBbZua
-   eUmck8VKivrRNsckGujhOBqaulPml5Ns6cwew6zSAZ1uK+5886QMAx5Cj
-   W9P71dqyeNIhYiJrzc1RvMNoVSbsuR5B11JNCil/dQmbNZ5Zrbx9ntSrR
-   QSSgs2zS3UYys3tqAeC8501eCAtWqe1RQQVT+Fsy3aBtuGswz74LGdZuk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="12476131"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="12476131"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 08:44:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="836641461"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="836641461"
-Received: from sdneilso-mobl1.amr.corp.intel.com (HELO [10.212.147.197]) ([10.212.147.197])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 08:44:09 -0800
-Message-ID: <041f60ab-a90a-4654-afd2-c2a296a25c46@linux.intel.com>
-Date: Mon, 4 Dec 2023 10:44:08 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViwkDc1K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B86C433C7;
+	Mon,  4 Dec 2023 17:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701710468;
+	bh=vEGdHUMT7FCG9ZUAoF+g1mMhCIA1zj/Orwq4EG19kuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ViwkDc1K28KiFfD+Sr/zg0sMKs/vqeT+nT8BthwOM4MA488BsOfjitesf1yBQckb9
+	 TspN55vNbtwWkxGbdxjU5dc8nZEkwA+iWW7EpAzDs8ESreVI/fFRgqqiFUPls+xk48
+	 kkTsMHKp8B4Bly/cK6cV5pdMmh2Z3MLr4s04kytt6y/hOfQZ7DSm8sBh1DBmQkkAx/
+	 Ct/80+Uz+BaBmM3vuvv3osWYo2nacfrN7QRdrG72/j2nVU6IBtBbm9WdT2/PhBp10O
+	 JaEsUz9uXgvddHDywKesVqFSqgIXby651sqtbdGOA2RDZ6FQPlWiv79S20QWPphuBx
+	 gBqCyBeODwusw==
+Date: Mon, 4 Dec 2023 17:21:02 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>,
+	Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsik=?= <Allen-KH.Cheng@mediatek.com>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	Trevor Wu =?utf-8?B?KOWQs+aWh+iJryk=?= <trevor.wu@mediatek.com>
+Subject: Re: [PATCH v7 4/4] ASoC: mediatek: mt8188-mt6359: Enable dual amp
+ for mt8188-rt5682s
+Message-ID: <4da07f3c-ca54-4ff7-aab1-cf8e8a52f21b@sirena.org.uk>
+References: <20231116093512.4180240-1-zhourui@huaqin.corp-partner.google.com>
+ <20231116093512.4180240-5-zhourui@huaqin.corp-partner.google.com>
+ <f1b429e849621b772a529ba312e0aa8e715194b9.camel@mediatek.com>
+ <CABRjgzvnaDaFy219HeM4mcBRnNEZamfqCgBXsnb=GUEGegf1og@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ASoC: Intel: soc-acpi-intel-tgl-match: add cs42l43 and
- cs35l56 support
-Content-Language: en-US
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com
-Cc: kai.vehmanen@linux.intel.com, cezary.rojewski@intel.com,
- ranjani.sridharan@linux.intel.com, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20231204135614.2169624-1-rf@opensource.cirrus.com>
- <8510b464-9352-480d-88cf-857597e16cbc@linux.intel.com>
- <f2dec209-6bc7-49ab-9dff-57a2ca4efb03@opensource.cirrus.com>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <f2dec209-6bc7-49ab-9dff-57a2ca4efb03@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZPvbUY0L8ft8/l67"
+Content-Disposition: inline
+In-Reply-To: <CABRjgzvnaDaFy219HeM4mcBRnNEZamfqCgBXsnb=GUEGegf1og@mail.gmail.com>
+X-Cookie: For office use only.
 
 
->> Don't we need the same change of name_prefix for
->> soc-acpi-intel-mtl-match.c? I see this in the existing code:
->>
-> 
-> The chain that Peter sent only has CS35L56 added to tgl-match.
-> 
-> I've checked the history of mtl-match and the patch that added CS35L56
-> there was not cc'd to any cirrus.com email address so we didn't notice
-> it. Otherwise we would have picked this up earlier. alsa-devel is noisy.
-> 
-> I haven't got a MTL platform to test on but I can send a separate patch
-> to change mtl-match if you are happy with this prefix change.
+--ZPvbUY0L8ft8/l67
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That would be nice, best to align on all platforms and use the same the
-same prefix.
+On Mon, Dec 04, 2023 at 02:16:39PM +0800, Rui Zhou wrote:
+> Hi Mark,
+> Please help review this patch, thank you very much!
+
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
+
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--ZPvbUY0L8ft8/l67
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVuCn0ACgkQJNaLcl1U
+h9DV8gf+KURjesKkwdsCqfWX1l5POcVM12kOokp8N8K6W/91KDnzjuhs85fo2uBW
+eDHxzBTlJmqnCZzNQFMjvM7TWpxUiFBCR3X17SsuhBsFmwMgS91jsGqv+NO7mlpF
+Wdvw7vlK308hLDoQX/1w85ivCSJhgxtxE4t2nrAo8g3zbFCPwK0qJIw/aNFIPUaB
+2paF7zbnoTtEK7fT3A+QPaTgGRJnj79LxVmF0lapZAq+GdVARlt6XafLfkVg8lSU
+KsbVlh9zhONA0Og6blc3AUOcDta+s7GvG5FZ7as6qD8NbWhGWJ22+bo9rcGl9/dn
+P/ZoW/Kqm3x5xh/RqD7D5tJXnpMWHA==
+=d7Zb
+-----END PGP SIGNATURE-----
+
+--ZPvbUY0L8ft8/l67--
