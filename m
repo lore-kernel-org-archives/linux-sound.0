@@ -1,75 +1,76 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC845F1CA
+	for <linux-sound@vger.kernel.org>; Tue,  5 Dec 2023 15:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DaaLgCub"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94DF9B;
-	Tue,  5 Dec 2023 07:25:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701789940; x=1733325940;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xukjuGan3FvwHjC1u8CeuWNpwvGB/cEkfZb7z28+Ess=;
-  b=DaaLgCubx2mNY3Rcl2VEbsmXrmYNia9uXH/K1h7ik9UVjhhYUgJOuicI
-   gyN/irf5Z6w2Fie8jZvkftsV+ZEVAXNWf9uGUQmIsEllyKF2AY+KH42is
-   lDICrfKbp3AuWPZW7ycjpPmULFdJHLRhWmj9q0q5rtIBpvYjkUE+eez6D
-   Nrs2icG3w/bUphEiF8H0W+ScSOW/M6+pAdaONBI0S1tgShYR7W8Ld7xuK
-   XCOmy6jnVZqDIkVnbbusBOsYA5eWNv/b48d90ln+/o51yIjk73qGtfAiz
-   cReBKpc39gmUxZ45aXZTvien6qDI+fRdjEfKDCC8UfGyVC6vsSK13XcRx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12626114"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="12626114"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 07:25:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="888975313"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="888975313"
-Received: from mbapna-mobl1.amr.corp.intel.com (HELO [10.212.151.198]) ([10.212.151.198])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 07:25:37 -0800
-Message-ID: <72bb44a8-dbe6-4fdd-921a-b9fcf798fe3c@linux.intel.com>
-Date: Tue, 5 Dec 2023 09:22:11 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQjA7fHv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9DBBC433C8;
+	Tue,  5 Dec 2023 15:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701790872;
+	bh=VrTjP/8gYyEMO3jyVF7DcYGRyaUSJW4xFyLJYI76Xqg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jQjA7fHvoF+bTk9zCM4qmqNPNhrw39lu3KnBt+GGYpFiWrE0GOwQ+DR0hXr2sj3U4
+	 tmPX/TG68/XowiREptLGUGcQ/Dpe4fTBkQpybK+1Va4RthkrH6ljWReDeMDsgornhD
+	 dUwgyZVT24RzLEML41H4ITDgKPsy8qBvsebL/fMYIYKxii8Lis7tjdZtxRqUv+AMgI
+	 IRVDJsl5yqcMqa1Pd3HJIlpZmxf9TgwkTtdQka2TpXTsTPgbeA0MLyWqG1tzayS4a1
+	 knvMb/l7iwjs7MV4b/YvSuZ1HSnldmu6nlBF3ZekumNuENeN9CHqxqSPrPJGF0oO9W
+	 8IRD3dyukhXXw==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: tiwai@suse.de, Chao Song <chao.song@linux.intel.com>, 
+ Jack Yu <jack580304@gmail.com>, Rander Wang <rander.wang@intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+In-Reply-To: <20231204213721.197785-1-pierre-louis.bossart@linux.intel.com>
+References: <20231204213721.197785-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH] ASoC: rt722-sdca: Set lane_control_support for
+ multilane
+Message-Id: <170179087052.845405.6795700435755059161.b4-ty@kernel.org>
+Date: Tue, 05 Dec 2023 15:41:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw_cs_amp: Connect outputs to a speaker
- widget
-Content-Language: en-US
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
- kai.vehmanen@linux.intel.com, cezary.rojewski@intel.com,
- ranjani.sridharan@linux.intel.com
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-References: <20231205135001.2506070-1-rf@opensource.cirrus.com>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20231205135001.2506070-1-rf@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-
-
-On 12/5/23 07:50, Richard Fitzgerald wrote:
-> Hookup the CS35L56 DAPM_OUTPUT widgets to a DAPM_SPK widget so
-> that there is a complete logical path to a speaker.
+On Mon, 04 Dec 2023 15:37:21 -0600, Pierre-Louis Bossart wrote:
+> The RT722 SDCA codec supports 3 data lanes,
+> lane_control_support property has to be
+> set to use additional two lanes.
 > 
-> There is no particular reason to use multiple speaker widgets.
-> The CS35L56 are designed to work together as a set so they have
-> all been connected to a single speaker widget.
 > 
-> Instead of a hardcoded list of codec widget names, the code walks
-> through all the codecs on the dailink and for every cs35l56 it uses
-> its name prefix to construct the source end of the route. This adds
-> a small amount of overhead during probe but has the benefit that it
-> isn't dependent on every system using the same prefixes.
-> 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Applied to
 
-We should probably do the same thing for sof_sdw_rt_map.c, there's no
-good reason to encode rt1316-2 SPOL and rt1318-2 SPOR
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: rt722-sdca: Set lane_control_support for multilane
+      commit: 6da9a662154c8d55fd39820ca882d0646d526e53
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
