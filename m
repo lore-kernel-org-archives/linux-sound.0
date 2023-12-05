@@ -1,71 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="NtQ/msW4"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ncowCnTr"
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07ECBA4;
-	Tue,  5 Dec 2023 02:24:10 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9935298;
+	Tue,  5 Dec 2023 03:57:42 -0800 (PST)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B56Q8A4003885;
-	Tue, 5 Dec 2023 04:23:55 -0600
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B56Q8Dw003885;
+	Tue, 5 Dec 2023 05:57:32 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=GFILbflMqb4o+t6
-	fxZdUwYUJfrO+r/2ojDqV/+kX+pk=; b=NtQ/msW4X7zJIyjFJ2vcdi/LlwPn/97
-	A6YStkWhrsvRAxXiYD0rEX0xZGzpcLdZTsRlpdtlfVYSRN2yrbCIrcQnz0yg4OD0
-	ChW3rcqIOADCQsCrFXn/COAfc7kdnApSLzE0VCGUB3fGHnPW5u4JQ5JjAEC0RvDR
-	dA9yhpgvG3pj9QDQMO9gozPkPVxy+a1qwGmFOVrSXWwXptGiycBKiuy2W04BuqPr
-	atlDNBzQr2zAZs63J5IqutK6ob9tZpGhFuiN0Ew9B+bjkjDMV1kr5IMRdaDfY2lb
-	pmyUYC7FqIPJyr0Qd45OBmMRe3xeL4YZBU+40im+Vn6W7VUgVyXROHw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ur1vnk3qr-1
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=z
+	DLALbyZh6I9uDhyNX6OYJI2uOcXDuFhbmIPNGNpiVI=; b=ncowCnTrliqfTm/9b
+	lYMjhAOJCxU9R2sAkT61P+SWCM48oFKkDKnfFrMmUeuK1UKGsU30yqAv03+XpfCQ
+	rnv+JPzbCEer5y9/J2upe77KBTywcm5+4McXM0k3Kx9BVolpCeqeqWMpwIfX5xUi
+	+xrEdu520dLnPf60EIOvzrvelMNzLvwhFxUkKfb09ZvbaaLVLqYn6nE3OCyuNhbY
+	3ocUuc7Lbb1P6ZE7rTao6x3HciCytye1ipbMry9XU0Bxli2nU5k2pkMg927fiD0P
+	EMR83jVVpXJKKg5GjhIgDzhT6EE7vMcs/+rgM8ZPCEZiE5RbNhTW4fqxCB3kc98R
+	w9b6Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ur1vnk6cu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Dec 2023 04:23:55 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 05 Dec 2023 05:57:32 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
- 2023 10:23:53 +0000
+ 2023 11:57:16 +0000
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Tue, 5 Dec 2023 10:23:53 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 723B0474;
-	Tue,  5 Dec 2023 10:23:53 +0000 (UTC)
-Date: Tue, 5 Dec 2023 10:23:53 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-CC: James Schulman <james.schulman@cirrus.com>,
-        David Rhodes
-	<david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH][next] ASoC: cs4271: Fix spelling mistake "retrieveing"
- -> "retrieving"
-Message-ID: <20231205102353.GD14858@ediswmail.ad.cirrus.com>
-References: <20231205101740.2820813-1-colin.i.king@gmail.com>
+ 15.2.1118.40 via Frontend Transport; Tue, 5 Dec 2023 11:57:15 +0000
+Received: from edi-sw-dsktp-006.ad.cirrus.com (edi-sw-dsktp-006.ad.cirrus.com [198.90.251.82])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id CD6CC474;
+	Tue,  5 Dec 2023 11:57:15 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>, <pierre-louis.bossart@linux.intel.com>
+CC: <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <kai.vehmanen@linux.intel.com>, <cezary.rojewski@intel.com>,
+        <ranjani.sridharan@linux.intel.com>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>
+Subject: [PATCH] ASoC: Intel: soc-acpi-intel-mtl-match: Change CS35L56 prefixes to AMPn
+Date: Tue, 5 Dec 2023 11:57:15 +0000
+Message-ID: <20231205115715.2460386-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231205101740.2820813-1-colin.i.king@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: dNRqLVlZD_1P4znVHVYUKVZ9k8TfL-gn
-X-Proofpoint-ORIG-GUID: dNRqLVlZD_1P4znVHVYUKVZ9k8TfL-gn
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: u_Z-suDzWBBvV_Jjv4TSiVPNc79YICfc
+X-Proofpoint-ORIG-GUID: u_Z-suDzWBBvV_Jjv4TSiVPNc79YICfc
 X-Proofpoint-Spam-Reason: safe
 
-On Tue, Dec 05, 2023 at 10:17:40AM +0000, Colin Ian King wrote:
-> There is a spelling mistake in a dev_err_probe error message. Fix it.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
+Change the ALSA prefix for the CS35L56 to "AMPn".
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+This keeps them consistent with the CS35L56 HDA driver. It also
+avoids coding the chip ID into the control name, so that other
+Cirrus amps with the same controls can have the same control
+names.
 
-Thanks,
-Charles
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 05fe62842804 ("ASoC: Intel: soc-acpi-intel-mtl-match: add acpi match table for cdb35l56-eight-c")
+---
+ sound/soc/intel/common/soc-acpi-intel-mtl-match.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+index f2c17cee1a5d..feb12c6c85d1 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+@@ -352,13 +352,13 @@ static const struct snd_soc_acpi_adr_device cs35l56_1_adr[] = {
+ 		.adr = 0x00013701FA355601ull,
+ 		.num_endpoints = 1,
+ 		.endpoints = &spk_r_endpoint,
+-		.name_prefix = "cs35l56-8"
++		.name_prefix = "AMP8"
+ 	},
+ 	{
+ 		.adr = 0x00013601FA355601ull,
+ 		.num_endpoints = 1,
+ 		.endpoints = &spk_3_endpoint,
+-		.name_prefix = "cs35l56-7"
++		.name_prefix = "AMP7"
+ 	}
+ };
+ 
+@@ -367,13 +367,13 @@ static const struct snd_soc_acpi_adr_device cs35l56_2_adr[] = {
+ 		.adr = 0x00023301FA355601ull,
+ 		.num_endpoints = 1,
+ 		.endpoints = &spk_l_endpoint,
+-		.name_prefix = "cs35l56-1"
++		.name_prefix = "AMP1"
+ 	},
+ 	{
+ 		.adr = 0x00023201FA355601ull,
+ 		.num_endpoints = 1,
+ 		.endpoints = &spk_2_endpoint,
+-		.name_prefix = "cs35l56-2"
++		.name_prefix = "AMP2"
+ 	}
+ };
+ 
+-- 
+2.30.2
+
