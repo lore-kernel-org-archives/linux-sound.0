@@ -1,77 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60AC5F1CA;
-	Tue,  5 Dec 2023 15:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gk4Blx2p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24464C433C7;
-	Tue,  5 Dec 2023 15:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701790876;
-	bh=vjrlfMihEwbG4vZyrXSqd2uLeidXw1bqUTeh6X6XMdA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gk4Blx2pzponzHlpb6XMYi385hWWRglOstEEcWEC7P5Vy9bkm+E0bb8MbxMv7EkgY
-	 UvZW7nRXYh7/ELJlu5aFBKhXv8HQ8lad7Rh/YHSCUGEb5lnAZpa7lePSvlLSy0Nts7
-	 M6v6ONHiwr5ZK86lP+oAr4mfBMZAJxBHGmBVfWyHd3JMj7/9PizhkvPKCTuSOmFYCh
-	 h04zydOhe7OAfpbG4sO57yml8m6wuK60lkzht9dZr414oSArn3IGoMfWN0HsR6FUDO
-	 hGpKXGk5qOCycNn0dXTC69W0fnXtk6bLtDG7/AuaEKuTgLg9x9bmpIrvDN7ilZe9CC
-	 0gy/oaJy+2LIQ==
-From: Mark Brown <broonie@kernel.org>
-To: James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
- Colin Ian King <colin.i.king@gmail.com>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231205101740.2820813-1-colin.i.king@gmail.com>
-References: <20231205101740.2820813-1-colin.i.king@gmail.com>
-Subject: Re: [PATCH][next] ASoC: cs4271: Fix spelling mistake "retrieveing"
- -> "retrieving"
-Message-Id: <170179087386.845405.2039286765455444557.b4-ty@kernel.org>
-Date: Tue, 05 Dec 2023 15:41:13 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Scb8CJZR"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6CDBA;
+	Tue,  5 Dec 2023 08:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701792354; x=1733328354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o9heeCnQAsdaiKjUskI2g/hhm4Nd3ui2lad9PWcZgjQ=;
+  b=Scb8CJZRtKeYBx9gKlD+T87KjctZnjavrcP/GEJTBheo0MKdQtDB9vED
+   VcY3DkJRiLY11Gi37j76SFwgY3j0jAeELP+fiYDMBw0izt9xHUe6CTBF2
+   7CUt1zFTXcu1vOopxyBONKbTqMQx2nTdxL072dp1+otoWrv/8caev/Dja
+   4285TtNZl2+xsqT10TUpJzJZVP/V182rrwdRpHkkk5rXE8XmVzCe9JHHk
+   YDuiJ+0raim638rGnhN4B9PYNroSBvzAay3PMxB6mjILKSvoPGn1gvOXw
+   PEA92+MO24/hwEsqT2bZM2NNGtsgbhsTMgLuIMIYAx0UnvnRMMPoBWQKI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="425071433"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="425071433"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 08:05:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="720754059"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="720754059"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 08:05:47 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAXvb-0009Io-1x;
+	Tue, 05 Dec 2023 16:05:43 +0000
+Date: Wed, 6 Dec 2023 00:05:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: davidgow@google.com, Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-sound@vger.kernel.org, David Gow <davidgow@google.com>
+Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
+Message-ID: <202312052341.fEujgbbC-lkp@intel.com>
+References: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
 
-On Tue, 05 Dec 2023 10:17:40 +0000, Colin Ian King wrote:
-> There is a spelling mistake in a dev_err_probe error message. Fix it.
-> 
-> 
+Hi,
 
-Applied to
+kernel test robot noticed the following build errors:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[auto build test ERROR on c8613be119892ccceffbc550b9b9d7d68b995c9e]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/davidgow-google-com/kunit-Add-APIs-for-managing-devices/20231205-153349
+base:   c8613be119892ccceffbc550b9b9d7d68b995c9e
+patch link:    https://lore.kernel.org/r/20231205-kunit_bus-v1-1-635036d3bc13%40google.com
+patch subject: [PATCH 1/4] kunit: Add APIs for managing devices
+config: x86_64-buildonly-randconfig-001-20231205 (https://download.01.org/0day-ci/archive/20231205/202312052341.fEujgbbC-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052341.fEujgbbC-lkp@intel.com/reproduce)
 
-[1/1] ASoC: cs4271: Fix spelling mistake "retrieveing" -> "retrieving"
-      commit: 0be9595d8a1170474867b8ee2caf14394db45d8b
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312052341.fEujgbbC-lkp@intel.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+All errors (new ones prefixed by >>):
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+   ld: lib/kunit/device.o: in function `kunit_bus_init':
+>> device.c:(.text+0x40): multiple definition of `init_module'; lib/kunit/test.o:test.c:(.init.text+0x0): first defined here
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
