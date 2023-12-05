@@ -1,45 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HZXSl2Um"
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D0E120
-	for <linux-sound@vger.kernel.org>; Tue,  5 Dec 2023 01:16:27 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-50bf32c0140so2512392e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 05 Dec 2023 01:16:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701767786; x=1702372586; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OeEvgoAVw1dp1aM0OWfOemCjE5CEVoVWIKGJuAU8k5U=;
-        b=HZXSl2Um5jrhy96n+kQw3MKZMZPXcQB51M2gfqXTOJ1DOTyt7wdhQGEnhif6vCwNpU
-         RqPsOa3MbjDhYbOwYbGnbnuXRLJcyvJ4IAkpbIqSyN4V9U6KdlOGza/N9CEIo+T0EBZE
-         nmSWyCdJoVTYHZZfEnHXTH0gPPAPqwLGYBeHelWD/tObh5E2zT6Hvsbfdq0VpblvYhcm
-         VTsybofXEkUqQ4qAGVT0t2xds/XKG4ivsdtwz43RR87kXP4As4sC76bgHmoqabAmXDWA
-         wKf7jAbLpX4u/3qcD3gWBiBWY2NQNwg64Mh8LboOae16lkdrd2P9Svy4TLc7tYAWTSuy
-         uHvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701767786; x=1702372586;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OeEvgoAVw1dp1aM0OWfOemCjE5CEVoVWIKGJuAU8k5U=;
-        b=BjsGQrQrdn5cOCOSVqDVgS0W5J02pK9zUxmXVdx1jgtwZXj/yIVBlcD82bGq2ILLy4
-         JUH0UstZF1I7e/z4FeXG9e1nqswP1OVaZAv9cNMrYua5HL0a0qMRiTpguUM7wKSTy5i7
-         Ms1M/DP8RFWlv0Srj7pC9gmP3xWggrHdbXWh0Aw/xXY64aIuvGZXLLki4yDRBGTqD/pd
-         kLjK1tiT7jkzZy9x+qpwhTGlxRxs4jHts8HeAka3FrS8cfiS9nbw3E/Dc7peObZvOpui
-         WMNPRJWnPZcfS4Qsnt9a8tTIkJHw+UUSVi5PxAedHuxArWveQv4VygSnpFTo2PvgJO6Y
-         7TWQ==
-X-Gm-Message-State: AOJu0Yz9EcnX6AsZ7SUKpytxkPNVp5GOvs+F7QmB1ehwO3VqipJauMsz
-	HY29JsBveyjNa/iBUO8HQFf+jQ==
-X-Google-Smtp-Source: AGHT+IFl+InzAht9wjGX3VbUVhsxqPXeTdzVpokOhMfKZ33B+RdV7sB9qjW4A5xQmHAw5a98muxprw==
-X-Received: by 2002:a05:6512:128b:b0:50b:f303:56cd with SMTP id u11-20020a056512128b00b0050bf30356cdmr2070360lfs.15.1701767786021;
-        Tue, 05 Dec 2023 01:16:26 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id f3-20020a056402068300b0054c0264a7fasm799997edy.64.2023.12.05.01.16.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Dec 2023 01:16:25 -0800 (PST)
-Message-ID: <369dfa0c-315d-47a9-81fc-c166c9632bac@linaro.org>
-Date: Tue, 5 Dec 2023 10:16:22 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9fbCebf"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B9D1B1;
+	Tue,  5 Dec 2023 01:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701769421; x=1733305421;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=7Xx8hTm4tgt1WkYv+D9huMLfFJ1VJtxyGkuW4UZy5kA=;
+  b=G9fbCebfZ6qHXY1OS1tiZ0HYFozV14HDo98wrHpr3+mSmIl7a9p2qY8g
+   jJbqvJRRhQVONlmFYUUbzp9LWREqoBcp/r4DaKcP3YBcIIXO/VLWkVaj+
+   vvxlILUZb86scri2wI7wwTQzIIdHn4dNRTvzJNo4psF9uTpnOj9rpp87h
+   9s+vei3x3wSjDNmK/a0X2dBASbFvB462AA6bAPXJ3o2wolyyTiSQn4Wli
+   mZC90EAPf8jrjoFWef7UDDWmieewTTHboBt038ZkEHt+bQTpVW5aNtap2
+   awmLLXYNZojmzKmfDa4SkX3QpTYw/W0D8YWrRimeqf3x3Z6Mrr6oqUSK8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="711883"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="711883"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:43:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="17345940"
+Received: from nathanby-mobl2.ger.corp.intel.com (HELO [10.252.61.50]) ([10.252.61.50])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:43:37 -0800
+Message-ID: <74ba8770-6174-4820-8dc4-e97e5814e665@linux.intel.com>
+Date: Tue, 5 Dec 2023 11:44:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,122 +35,110 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH 00/17] dt-bindings: samsung: add specific
- compatibles for existing SoC
+Subject: Re: [PATCH] ASoC: SOF: Fix null pointer dereference in sof_pci_probe
+To: Kunwu Chan <chentao@kylinos.cn>, pierre-louis.bossart@linux.intel.com,
+ lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com,
+ kai.vehmanen@linux.intel.com, broonie@kernel.org, perex@perex.cz,
+ tiwai@suse.com, chao.song@intel.com
+Cc: kunwu.chan@hotmail.com, sound-open-firmware@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231123155424.1275919-1-chentao@kylinos.cn>
+ <1701766721668457.408.seg@mailgw>
+ <55c00bb3-b795-4698-ba3f-56d10df1882a@kylinos.cn>
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
- Sam Protsenko <semen.protsenko@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <170119374454.445690.515311393756577368.b4-ty@gmail.com>
- <20231128205841.al23ra5s34rn3muj@pengutronix.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231128205841.al23ra5s34rn3muj@pengutronix.de>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <55c00bb3-b795-4698-ba3f-56d10df1882a@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 28/11/2023 21:58, Uwe Kleine-König wrote:
-> On Tue, Nov 28, 2023 at 06:49:23PM +0100, Thierry Reding wrote:
->>
->> On Wed, 08 Nov 2023 11:43:26 +0100, Krzysztof Kozlowski wrote:
->>> Merging
->>> =======
->>> I propose to take entire patchset through my tree (Samsung SoC), because:
->     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+On 05/12/2023 11:10, Kunwu Chan wrote:
+> It's my bad, i'll follow your suggestion in v2 patch:
+> 1. remove 'Fixes: 46207ca24545' label
 > 
->>> 1. Next cycle two new SoCs will be coming (Google GS101 and ExynosAutov920), so
->>>    they will touch the same lines in some of the DT bindings (not all, though).
->>>    It is reasonable for me to take the bindings for the new SoCs, to have clean
->>>    `make dtbs_check` on the new DTS.
->>> 2. Having it together helps me to have clean `make dtbs_check` within my tree
->>>    on the existing DTS.
->>> 3. No drivers are affected by this change.
->>> 4. I plan to do the same for Tesla FSD and Exynos ARM32 SoCs, thus expect
->>>    follow up patchsets.
+> 2. rename subject to 'ASoC: SOF: Add null pointer check to sof_pci_probe'
+> 
+> 3. when sof_pdata->fw_filename_prefix is NULL,don't use it to dev_dbg.
+> Or just use a
+> if (sof_pdata->fw_filename_prefix)
+>         dev_dbg(dev,
+>                 "Platform uses community key, changed fw path to %s\n",
+>                 sof_pdata->fw_filename_prefix);
+> else
+>     dev_dbg(dev,
+>                 "Platform uses community key, changed fw path to %s/%s\n",
+>                  sof_pdata->desc->default_fw_path[sof_pdata->ipc_type],
+>                  "community");
+> 
+> Is it okay to modify it like this?
+
+The code has been rewritten and all of these issues have been
+eliminated, fixed in core SOF.
+
+> 
+> 
+> Thanks,
+> Kunwu
+> 
+> On 2023/12/4 19:34, Péter Ujfalusi wrote:
+>>
+>>
+>> On 23/11/2023 17:54, Kunwu Chan wrote:
+>>> devm_kasprintf() returns a pointer to dynamically allocated memory
+>>> which can be NULL upon failure.
 >>>
->>> [...]
+>>> Fixes: 46207ca24545 ("ASoC: SOF: pci: change the default firmware
+>>> path when the community key is used")
+>>> Fixes: 25bbc0c59ee1 ("ASoC: SOF: Add path definition for external
+>>> firmware libraries")
+>>> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
 >>
->> Applied, thanks!
+>> This patch cannot fix both commits as at 46207ca24545 the lib path was
+>> not present.
+>> Please don't bundle unrelated fixes, it makes maintainers life harder.
 >>
->> [12/17] dt-bindings: pwm: samsung: add specific compatibles for existing SoC
->>         commit: 5d67b8f81b9d598599366214e3b2eb5f84003c9f
-> 
-> You didn't honor (or even comment) Krzysztof's proposal to take the
-> whole patchset via his tree (marked above). Was there some off-list
-> agreement?
-> 
+>> As a note: if the allocation fails it is not going to cause null
+>> dereference as the code checks !sof_pdata->*_prefix to see if it is
+>> provided (override) or not (use default).
+>> At most it will cause the kernel to 'ignore' the path override, but if
+>> this allocation fails this is least of our problem ;)
+>>
+>>> ---
+>>>   sound/soc/sof/sof-pci-dev.c | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/sound/soc/sof/sof-pci-dev.c b/sound/soc/sof/sof-pci-dev.c
+>>> index 64b326e3ef85..75a9bfa5bfbe 100644
+>>> --- a/sound/soc/sof/sof-pci-dev.c
+>>> +++ b/sound/soc/sof/sof-pci-dev.c
+>>> @@ -282,6 +282,10 @@ int sof_pci_probe(struct pci_dev *pci, const
+>>> struct pci_device_id *pci_id)
+>>>               devm_kasprintf(dev, GFP_KERNEL, "%s/%s",
+>>>                         
+>>> sof_pdata->desc->default_fw_path[sof_pdata->ipc_type],
+>>>                          "community");
+>>> +        if (!sof_pdata->fw_filename_prefix) {
+>>> +            ret = -ENOMEM;   
+>>> +            goto out;
+>>> +        }
+>>>             dev_dbg(dev,
+>>>               "Platform uses community key, changed fw path to %s\n",
+>>> @@ -303,6 +307,10 @@ int sof_pci_probe(struct pci_dev *pci, const
+>>> struct pci_device_id *pci_id)
+>>>                   devm_kasprintf(dev, GFP_KERNEL, "%s/%s",
+>>>                      
+>>> sof_pdata->desc->default_lib_path[sof_pdata->ipc_type],
+>>>                       "community");
+>>> +            if (!sof_pdata->fw_lib_prefix) {
+>>> +                ret = -ENOMEM;
+>>> +                goto out;
+>>> +            }
+>>>                 dev_dbg(dev,
+>>>                   "Platform uses community key, changed fw_lib path
+>>> to %s\n",
+>>
 
-It was also written in the PWM patch itself (under changelog ---) and
-expressed with my "applied" response when I took everything. I am
-sending now another set, also touching PWM.
-
-Best regards,
-Krzysztof
-
+-- 
+Péter
