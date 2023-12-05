@@ -1,108 +1,77 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B97692AA
+	for <linux-sound@vger.kernel.org>; Tue,  5 Dec 2023 17:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWrIWCc3"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A881AA;
-	Tue,  5 Dec 2023 09:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701796991; x=1733332991;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xSFoJNtBEh1slwXcU0gofzkPL1OMQMY6UhlC/9rL2Bs=;
-  b=EWrIWCc3b1JWpNi3ME1DQZNDI43p6NESSCigO28cmlTNZhQR/gGbeJLp
-   jkH+IYDcRIXuOvy2ddF8Ww0U00B4lolRjsW5QfJfGbK2Lqyaf32+mPRaZ
-   EpdIIpSpdHKBBeNOVU4NYlFLYkMXrYfqw420ucqyaGQ+eLenI2aM62tOM
-   U3OpkS2vLIFN9gZF8CbS3naKEJCfK2islJZlFymE2n4v26ZAuEGdziCMn
-   I75i4rjs41Uqxj/FW5+QL0uMzTnSt0JcHQfpMzOWUSFfkXkqQOq3dXB5/
-   XcJUX89H2D8DCy9UxHnEhdNykua/9wWH9y8N73lnuMHtrAdxgWA8V8Nsj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12645337"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="12645337"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:23:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="720779258"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="720779258"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 09:23:06 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAZ8S-0009RK-0h;
-	Tue, 05 Dec 2023 17:23:04 +0000
-Date: Wed, 6 Dec 2023 01:22:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
-Message-ID: <202312060107.dTzr6BK9-lkp@intel.com>
-References: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p04zXYeN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDB3C433C8;
+	Tue,  5 Dec 2023 17:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701797326;
+	bh=VjMuyjx48RMDpAEidQsQ9e57dddsq66HW9llT158txg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p04zXYeNYvuIHmsqAHhwMDGM+Tn/MyUQnRnu8e2GtEEc/YL6VMpVqazbalAwZWyrv
+	 92UD//Qo1Fld8TrKGkACwg68GYlJKxZyxgrSS28/DC6oK6BQ5M1vaLgJSUodSnFMIq
+	 5m+YcY2/5NHhcKlEOaUyRzSDphOitSFLRZdwCMdc/0Tzjx/oUrEkOExEw5Mi4VKEfD
+	 Iw/Ku5KvGOw5+JK/a5WPw/nbaeYtSy63uaL/eTs9ucTE2w9uIDqTfZYKbHqMFqPonU
+	 ndcWONL3epyrr4j8Yo0p/A7SbZyRI6k2p9iLVYHWu2PKu/bGhcKxHk0mwaGoomMysq
+	 tMLvagUYB5NEA==
+Date: Tue, 5 Dec 2023 17:28:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+Cc: lgirdwood@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	angelogioacchino.delregno@collabora.com, perex@perex.cz,
+	allen-kh.cheng@mediatek.com, kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v7 3/4] ASoC: mediatek: mt8188-mt6359: add es8326 support
+Message-ID: <91546240-a2d1-4d65-b976-626cb1ef67e0@sirena.org.uk>
+References: <20231116093512.4180240-1-zhourui@huaqin.corp-partner.google.com>
+ <20231116093512.4180240-4-zhourui@huaqin.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wqFgQ+hFNzlp8dii"
+Content-Disposition: inline
+In-Reply-To: <20231116093512.4180240-4-zhourui@huaqin.corp-partner.google.com>
+X-Cookie: I've Been Moved!
+
+
+--wqFgQ+hFNzlp8dii
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Neil,
+On Thu, Nov 16, 2023 at 05:35:11PM +0800, Rui Zhou wrote:
+> To use ES8326 as the codec, add a new sound card
+> named mt8186_es8326.
+>=20
+> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+> ---
+>  sound/soc/mediatek/Kconfig                |  1 +
+>  sound/soc/mediatek/mt8188/mt8188-mt6359.c | 49 ++++++++++++++++++++++-
+>  2 files changed, 49 insertions(+), 1 deletion(-)
 
-kernel test robot noticed the following build warnings:
+AngeloGioacchino, does this look OK to you?
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.7-rc4 next-20231205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+--wqFgQ+hFNzlp8dii
+Content-Type: application/pgp-signature; name="signature.asc"
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-document-WCD939x-Audio-Codec/20231202-000916
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa%40linaro.org
-patch subject: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
-config: arc-randconfig-r123-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060107.dTzr6BK9-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060107.dTzr6BK9-lkp@intel.com/reproduce)
+-----BEGIN PGP SIGNATURE-----
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060107.dTzr6BK9-lkp@intel.com/
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVvXcgACgkQJNaLcl1U
+h9AG/Qf9Eigu2fTuVLZjSCY//wCqSIv9O+6Y6pGIYz8FacNMWdn5a+HspXIQiqnc
+r+3i9lF2dfD5emd6a2rq5xFdCmmbPmyKB8bFgvfgIdlr2Ri3YJkRy9MH7UwEhHO7
+L0MjNGGozqbYPHQd4cBZ9TwLAJVzebrCjvUfERc5vfnGV27mpcKa0hLWEqNLnptY
+xVcyjQaVYtcvkU8F52tUYHJNVkeeBa5YERfOR45XqJhy8uCKmb11Tfe9PveZZ+1+
+f1P2KbQ7UbDPi++1mCoE+aNIsLlWKGyvrHeWLUjfJnx0Peic6NlOU39Hw/r0J99c
+RqgPtlsE0/jhT4cUqj67hW4MNqd32A==
+=IQvM
+-----END PGP SIGNATURE-----
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/wcd939x.c:1563:12: sparse: sparse: symbol 'tx_master_ch_text' was not declared. Should it be static?
->> sound/soc/codecs/wcd939x.c:1570:23: sparse: sparse: symbol 'tx_master_ch_enum' was not declared. Should it be static?
-
-vim +/tx_master_ch_text +1563 sound/soc/codecs/wcd939x.c
-
-  1562	
-> 1563	const char * const tx_master_ch_text[] = {
-  1564		"ZERO", "SWRM_PCM_OUT", "SWRM_TX1_CH1", "SWRM_TX1_CH2", "SWRM_TX1_CH3",
-  1565		"SWRM_TX1_CH4", "SWRM_TX2_CH1", "SWRM_TX2_CH2", "SWRM_TX2_CH3",
-  1566		"SWRM_TX2_CH4", "SWRM_TX3_CH1", "SWRM_TX3_CH2", "SWRM_TX3_CH3",
-  1567		"SWRM_TX3_CH4", "SWRM_PCM_IN",
-  1568	};
-  1569	
-> 1570	const struct soc_enum tx_master_ch_enum =
-  1571		SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(tx_master_ch_text),
-  1572				    tx_master_ch_text);
-  1573	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--wqFgQ+hFNzlp8dii--
