@@ -1,138 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9fCmrbt"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0FE122;
-	Tue,  5 Dec 2023 05:54:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701784460; x=1733320460;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AMNx/fjJGfvaJNGvGiW3daQJM+aiJW9ZD+58Y4J119c=;
-  b=U9fCmrbtg24jDdxfaQ9xeZzKgQlSEvNM21T7pGztQcTR/CBGlihnU/yi
-   xOnrAZbTZgkQXDfx6E+ZbP/K0e9uqIGAoH7/pwvM0Rwuo1HOAAXUJVfLs
-   KwNcWmELueuBfM5ma17v3mGwAENL7YbvfnzfQlX4vIPoOBsaX4Msw3RA4
-   Jxb2Y9tYNWt+oDBtT6w5yWAs0U1+6+GhVSX1yWTwRpZtRkXNASDjBBeF4
-   yDkeaNUwDKX6uTB/es8xFk4rlWcMZfVUoZzhvIMMRZutkgjk4uIGpKnhW
-   oFEWO07G37+2Z8VXGMSSoDRuEsIgB1Jgj6cXEytNhRzFRP09RNKrGRBFu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7240125"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="7240125"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 05:54:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="805278184"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="805278184"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Dec 2023 05:54:14 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAVsJ-00096M-26;
-	Tue, 05 Dec 2023 13:54:11 +0000
-Date: Tue, 5 Dec 2023 21:53:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: davidgow@google.com, Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-sound@vger.kernel.org, David Gow <davidgow@google.com>
-Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
-Message-ID: <202312052114.VQD1viY5-lkp@intel.com>
-References: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YxWsdDBh"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FA0790;
+	Tue,  5 Dec 2023 06:09:03 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B56gxTg026627;
+	Tue, 5 Dec 2023 08:08:43 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=Y84RVH3VhN8tDOj
+	vYdyt02UT9ZJhyn7aTdxCf/Az8cs=; b=YxWsdDBhl7aBk9adBDLA8QMKQ0q1QDO
+	Qk0If8WrYTB6+wF84QLExCUrmzWOJPnv0qVMZs2KdbjiPJgPL/dzsOy27Jz0aW5o
+	u2s7IYOCLxoAgsqDmQlkN1X+4rNr4mvLe7OiOd4KVtwcDsXiL2gbuXLDufiTxpkP
+	uLgIoTG9hb3cJ9aEzQkX+abBe03wZ1j0DpcEdJjHlBz91Y7ASiN1BZQ7uHq3AF4g
+	VAJNhkItD8sdLYRzeEJb6gBVhoJ+MW1jEPG16gn+80ESXIsGYjOZfuFKsErRgD/u
+	GitxT5Urn/OZz5FTFB684Lw/l69Yo9i1rZDtE/rAHkiZv6Lp9gXJ5Vg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ur1vnkat2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Dec 2023 08:08:43 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
+ 2023 14:08:41 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Tue, 5 Dec 2023 14:08:41 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C97E2474;
+	Tue,  5 Dec 2023 14:08:41 +0000 (UTC)
+Date: Tue, 5 Dec 2023 14:08:41 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+CC: <broonie@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <kai.vehmanen@linux.intel.com>, <cezary.rojewski@intel.com>,
+        <ranjani.sridharan@linux.intel.com>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: Intel: sof_sdw_cs_amp: Connect outputs to a
+ speaker widget
+Message-ID: <20231205140841.GG14858@ediswmail.ad.cirrus.com>
+References: <20231205135001.2506070-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+In-Reply-To: <20231205135001.2506070-1-rf@opensource.cirrus.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: AsMvK67Ferp6_peSXzZpkcOf209E6xTk
+X-Proofpoint-ORIG-GUID: AsMvK67Ferp6_peSXzZpkcOf209E6xTk
+X-Proofpoint-Spam-Reason: safe
 
-Hi,
+On Tue, Dec 05, 2023 at 01:50:01PM +0000, Richard Fitzgerald wrote:
+> Hookup the CS35L56 DAPM_OUTPUT widgets to a DAPM_SPK widget so
+> that there is a complete logical path to a speaker.
+> 
+> There is no particular reason to use multiple speaker widgets.
+> The CS35L56 are designed to work together as a set so they have
+> all been connected to a single speaker widget.
+> 
+> Instead of a hardcoded list of codec widget names, the code walks
+> through all the codecs on the dailink and for every cs35l56 it uses
+> its name prefix to construct the source end of the route. This adds
+> a small amount of overhead during probe but has the benefit that it
+> isn't dependent on every system using the same prefixes.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> ---
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[auto build test WARNING on c8613be119892ccceffbc550b9b9d7d68b995c9e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/davidgow-google-com/kunit-Add-APIs-for-managing-devices/20231205-153349
-base:   c8613be119892ccceffbc550b9b9d7d68b995c9e
-patch link:    https://lore.kernel.org/r/20231205-kunit_bus-v1-1-635036d3bc13%40google.com
-patch subject: [PATCH 1/4] kunit: Add APIs for managing devices
-config: powerpc-randconfig-r081-20231205 (https://download.01.org/0day-ci/archive/20231205/202312052114.VQD1viY5-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052114.VQD1viY5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052114.VQD1viY5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> lib/kunit/device.c:100:22: warning: no previous prototype for function '__kunit_device_register_internal' [-Wmissing-prototypes]
-     100 | struct kunit_device *__kunit_device_register_internal(struct kunit *test,
-         |                      ^
-   lib/kunit/device.c:100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     100 | struct kunit_device *__kunit_device_register_internal(struct kunit *test,
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/__kunit_device_register_internal +100 lib/kunit/device.c
-
-    99	
- > 100	struct kunit_device *__kunit_device_register_internal(struct kunit *test,
-   101							      const char *name,
-   102							      struct device_driver *drv)
-   103	{
-   104		struct kunit_device *kunit_dev;
-   105		int err = -ENOMEM;
-   106	
-   107		kunit_dev = kzalloc(sizeof(struct kunit_device), GFP_KERNEL);
-   108		if (!kunit_dev)
-   109			return ERR_PTR(err);
-   110	
-   111		kunit_dev->owner = test;
-   112	
-   113		err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
-   114		if (err) {
-   115			kfree(kunit_dev);
-   116			return ERR_PTR(err);
-   117		}
-   118	
-   119		/* Set the expected driver pointer, so we match. */
-   120		kunit_dev->driver = drv;
-   121	
-   122		kunit_dev->dev.release = kunit_device_release;
-   123		kunit_dev->dev.bus = &kunit_bus_type;
-   124		kunit_dev->dev.parent = &kunit_bus;
-   125	
-   126		err = device_register(&kunit_dev->dev);
-   127		if (err) {
-   128			put_device(&kunit_dev->dev);
-   129			return ERR_PTR(err);
-   130		}
-   131	
-   132		kunit_add_action(test, device_unregister_wrapper, &kunit_dev->dev);
-   133	
-   134		return kunit_dev;
-   135	}
-   136	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Charles
