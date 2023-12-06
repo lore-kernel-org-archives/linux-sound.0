@@ -1,99 +1,75 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955BE3D98C;
+	Wed,  6 Dec 2023 15:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ViovDYPD"
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AACD67;
-	Wed,  6 Dec 2023 07:10:51 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bf5398755so819608e87.0;
-        Wed, 06 Dec 2023 07:10:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701875450; x=1702480250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Exeor/DNWicuvK3cbDYRlFe90J3H0CF8DFmA9Uf4TNE=;
-        b=ViovDYPD1emESdOx+5t7DNwLzU72R0UQbqP5XMXC6Z+fHyy/wNWo3GjdYyUH6rrzGD
-         NlKsHvYXW3QB6PniMFRdTQEYwq2vTJIyMFU33TsFGUcdXE6gO4CYtp09/EubVl/MQUxO
-         OMu33m2Mn1zc9t3ydfho+Ym5Je1NYTgS6xssNM+nKjiD+dwxTLG1d4osEtVT4u5Yt7lq
-         zlBvMj5ypVDxlWl4k1fKXAhqtcZ0QOp+dT42yHQoWD2392Ej2lof0FqzC1Qoh4igZ8QK
-         WYa2h+5YsyVzKGpaeta1CgSYuoyW6L3PU+SnAvfMxlcnMGzctb7ruuHzaY8GZwftEPik
-         M+AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701875450; x=1702480250;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Exeor/DNWicuvK3cbDYRlFe90J3H0CF8DFmA9Uf4TNE=;
-        b=bKkYtAZLT/MY9loU+44KSBVXzmSW/tT78UiMgldgnkL3LEzFRFqv1KEVOdxRjU4Wmu
-         eu4upAYh7+tEpXm7AnsMJepN9vQ+LVpig7t/BBs4xn4idiQnQu2Q1dVtMqEiprqKDiGa
-         IIj0QM0z0Wzw124uAdc1TyZsp/dgC5Yhfrj7ZcTHGvttNGD2+mt8AgImZHg+HjnkSrxX
-         e1D/O50eTk5ex5U5t90nJsewL4X3Esn4biaWNeUU9/SQ/NrCxXzs5UNaRoUcGsH8rs2u
-         TfC+lmwkuaTu/qEthwr9R88wU3l0dY4h3Ib1S4Hu0AVZ1FZAh76RqysmZcyz6HgdSDu7
-         QYUg==
-X-Gm-Message-State: AOJu0Yz+cx8vkIAbBQZ2wOduU8SauGfPRrSfbx42Vk0sAypBclp2DZxU
-	jX72O6FfNBtl0FGU66jYdQi8iSwTyZ1V3g==
-X-Google-Smtp-Source: AGHT+IEn8UXEiWwmha6Gi024qxMmnrPujZCDTrYNF5xuJ1fLq2GIvllphNg7a5eh6D5lKFTR82okwg==
-X-Received: by 2002:a05:6512:ac2:b0:509:4962:6fe with SMTP id n2-20020a0565120ac200b00509496206femr1552238lfu.1.1701875449455;
-        Wed, 06 Dec 2023 07:10:49 -0800 (PST)
-Received: from ivan-HLYL-WXX9.guest.codethink.co.uk ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id p11-20020a05600c468b00b0040b561924bbsm23738486wmo.21.2023.12.06.07.10.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 07:10:49 -0800 (PST)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: pcmtest: stop timer in the hw_free callback
-Date: Wed,  6 Dec 2023 15:10:46 +0000
-Message-Id: <20231206151046.25773-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSqiW3da"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB5DC433C8;
+	Wed,  6 Dec 2023 15:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701876797;
+	bh=+KufnjekBs7k1dxBXkozFQMVh1787reUg2jquh7y+7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VSqiW3da4w+WP6qB9fSQwv6ps3glT26uqr7NddyPkKUOFQZmtTSukxasj4WM2eSE3
+	 jSf8yxmiPqNSrwrt6UeqykEDNGITsCRPD7PKF+sIrwPdQrBK5c18BnkD65sDikgBMX
+	 Klgz0c0orSMD1jX9LvhS9Gs1PwFkIa3pvqlqti7Nhbd1ryImTmItegf3b4ElwpA9Tr
+	 swTO6Di1H89xiJ8dbbg9EwJzqz1N1kaxx5r9t0T3qHzeLM9/i98F1YXz85h1UlLu6D
+	 ej2jM6iY3yKwrktUhDefqxEUmthJzHbENgqh4JoV+E4cTHa/U+5tf8/f1FTxKN1q4G
+	 zH6no+X+bG9hA==
+Date: Wed, 6 Dec 2023 15:33:12 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	viorel.suman@nxp.com, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: fsl,xcvr: Adjust the number of
+ interrupts
+Message-ID: <20231206-favoring-ditto-3f8853272d21@spud>
+References: <20231206113047.2240055-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="a0plal+w/R74LBEf"
+Content-Disposition: inline
+In-Reply-To: <20231206113047.2240055-1-festevam@gmail.com>
 
-Stop timer in the 'hw_free' callback instead of the 'close' callback
-since we want the timer to be stopped before the DMA buffer is released.
-Otherwise, it could trigger a kernel panic in some circumstances, for
-instance when the DMA buffer is already released but the timer callback
-is still running.
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
-V1 -> V2:
-- Remove useless NULLing of v_iter->substream. It will be released in
-'close' callback.
+--a0plal+w/R74LBEf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- sound/drivers/pcmtest.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Wed, Dec 06, 2023 at 08:30:47AM -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+>=20
+> Unlike i.MX8MP, i.MX93 has two XCVR interrupts.
+>=20
+> Describe the two interrupts for the i.MX93 to fix the following
+> dt-schema warning:
+>=20
+> imx93-11x11-evk.dtb: xcvr@42680000: interrupts: [[0, 203, 4], [0, 204, 4]=
+] is too long
+> 	from schema $id: http://devicetree.org/schemas/sound/fsl,xcvr.yaml#
+>=20
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index b59b78a09224..8a78fa56106f 100644
---- a/sound/drivers/pcmtest.c
-+++ b/sound/drivers/pcmtest.c
-@@ -396,8 +396,6 @@ static int snd_pcmtst_pcm_close(struct snd_pcm_substream *substream)
- {
- 	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
- 
--	timer_shutdown_sync(&v_iter->timer_instance);
--	v_iter->substream = NULL;
- 	playback_capture_test = !v_iter->is_buf_corrupted;
- 	kfree(v_iter);
- 	return 0;
-@@ -499,6 +497,10 @@ static int snd_pcmtst_pcm_hw_params(struct snd_pcm_substream *substream,
- 
- static int snd_pcmtst_pcm_hw_free(struct snd_pcm_substream *substream)
- {
-+	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
-+
-+	timer_shutdown_sync(&v_iter->timer_instance);
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+--a0plal+w/R74LBEf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXCUOAAKCRB4tDGHoIJi
+0uvBAQDIzbUW3PUq2K4i05wGJEg30nDdjQqegsmLJVmOYi6hqAEArKwSI/Nu/t0O
+e2tU1SPwsM2WHq1GLKi4zVJ7ynklCQA=
+=zTu1
+-----END PGP SIGNATURE-----
+
+--a0plal+w/R74LBEf--
