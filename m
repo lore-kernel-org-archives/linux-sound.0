@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ML1lc9aC"
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239A41BD;
-	Wed,  6 Dec 2023 06:56:43 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40b2a85c99bso7434115e9.0;
-        Wed, 06 Dec 2023 06:56:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ViovDYPD"
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AACD67;
+	Wed,  6 Dec 2023 07:10:51 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bf5398755so819608e87.0;
+        Wed, 06 Dec 2023 07:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701874601; x=1702479401; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701875450; x=1702480250; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ucmsp+pjBTlhjv1gBcBSs/5oCUvUo/iNpnLaNAcrn8k=;
-        b=ML1lc9aCfZqZ5O9xZS3rUVmzlXxun6Bp4rYsd0FIVy+zueHbD5SyivM/299WQKbNx3
-         cDUrdmSDgm8hjlgtdvI2Tfn17CcOtJfwEN/mH4n8qfLJUrMb2C6a1P+ntHUY2QDumepn
-         d037sdgDNMO5W/GgB8049/PHurMieJr6apNtMl7o2n9/JMCnDuRu9hFi0jAkYonTBaiF
-         YmFII3nObU/Eqpq4ETmvO5mWXR0qzHBjAZnYjt1nZoGAO6wICUMtnC8QPOY0mENWJDa1
-         nCim1PDJ2viT3Tzh2fHSchnY1XLNlWOvXzjV9oGPkUIB4Y93QVI3eOOKTQuCHTSyMQNT
-         DYtw==
+        bh=Exeor/DNWicuvK3cbDYRlFe90J3H0CF8DFmA9Uf4TNE=;
+        b=ViovDYPD1emESdOx+5t7DNwLzU72R0UQbqP5XMXC6Z+fHyy/wNWo3GjdYyUH6rrzGD
+         NlKsHvYXW3QB6PniMFRdTQEYwq2vTJIyMFU33TsFGUcdXE6gO4CYtp09/EubVl/MQUxO
+         OMu33m2Mn1zc9t3ydfho+Ym5Je1NYTgS6xssNM+nKjiD+dwxTLG1d4osEtVT4u5Yt7lq
+         zlBvMj5ypVDxlWl4k1fKXAhqtcZ0QOp+dT42yHQoWD2392Ej2lof0FqzC1Qoh4igZ8QK
+         WYa2h+5YsyVzKGpaeta1CgSYuoyW6L3PU+SnAvfMxlcnMGzctb7ruuHzaY8GZwftEPik
+         M+AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701874601; x=1702479401;
+        d=1e100.net; s=20230601; t=1701875450; x=1702480250;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ucmsp+pjBTlhjv1gBcBSs/5oCUvUo/iNpnLaNAcrn8k=;
-        b=gq2FT7Mhfevp/al4FhG+/BwNOhA6Fxm8MCfOseLN3rrd7L2OTlkpZwaoJ1iVouNIHY
-         11cEECXuG6cNWeQDACNThadUwPNnDsANdaoN4L2x/q0Rlb+/5g52+2JpcwGcWjvI1r/8
-         AUWqaxHId7boSO6tiE3kCrcfrJDrvi4bqgEMOe7ZZaEWaVWb0CcjoPKxtgaMR7HNt2Z7
-         CfY93IzSOm1OEPzT8c8wh07gXpWJ0Gky+9VB7WPFn74CgHHr1uc+/loj5gbiCjxYlBur
-         XsJaDB0vLf5TLAmItEMGlmw1OBEsa+NXMvnZFzQD5eCXm9/E4UTNtYrnVUeJezI0TQCO
-         pOBg==
-X-Gm-Message-State: AOJu0YxyGoodmzcTs+4W9gMVmn5qJm7mpNyjd109A6L6xwcAyjQpFFwD
-	fPKY1deqa2mKySOb5tbpW5t4pGjsJr1k1w==
-X-Google-Smtp-Source: AGHT+IG7+vo+2kbfWj+B2+iZx8wGUJvm80UJQo9nm1U74GACAfHzDUu0jtulPYfGZi3/ZDgXtIKwEQ==
-X-Received: by 2002:a05:600c:45c5:b0:40b:4ff7:e131 with SMTP id s5-20020a05600c45c500b0040b4ff7e131mr1536006wmo.2.1701874601282;
-        Wed, 06 Dec 2023 06:56:41 -0800 (PST)
+        bh=Exeor/DNWicuvK3cbDYRlFe90J3H0CF8DFmA9Uf4TNE=;
+        b=bKkYtAZLT/MY9loU+44KSBVXzmSW/tT78UiMgldgnkL3LEzFRFqv1KEVOdxRjU4Wmu
+         eu4upAYh7+tEpXm7AnsMJepN9vQ+LVpig7t/BBs4xn4idiQnQu2Q1dVtMqEiprqKDiGa
+         IIj0QM0z0Wzw124uAdc1TyZsp/dgC5Yhfrj7ZcTHGvttNGD2+mt8AgImZHg+HjnkSrxX
+         e1D/O50eTk5ex5U5t90nJsewL4X3Esn4biaWNeUU9/SQ/NrCxXzs5UNaRoUcGsH8rs2u
+         TfC+lmwkuaTu/qEthwr9R88wU3l0dY4h3Ib1S4Hu0AVZ1FZAh76RqysmZcyz6HgdSDu7
+         QYUg==
+X-Gm-Message-State: AOJu0Yz+cx8vkIAbBQZ2wOduU8SauGfPRrSfbx42Vk0sAypBclp2DZxU
+	jX72O6FfNBtl0FGU66jYdQi8iSwTyZ1V3g==
+X-Google-Smtp-Source: AGHT+IEn8UXEiWwmha6Gi024qxMmnrPujZCDTrYNF5xuJ1fLq2GIvllphNg7a5eh6D5lKFTR82okwg==
+X-Received: by 2002:a05:6512:ac2:b0:509:4962:6fe with SMTP id n2-20020a0565120ac200b00509496206femr1552238lfu.1.1701875449455;
+        Wed, 06 Dec 2023 07:10:49 -0800 (PST)
 Received: from ivan-HLYL-WXX9.guest.codethink.co.uk ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id fl8-20020a05600c0b8800b0040b37f1079dsm26261538wmb.29.2023.12.06.06.56.40
+        by smtp.gmail.com with ESMTPSA id p11-20020a05600c468b00b0040b561924bbsm23738486wmo.21.2023.12.06.07.10.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 06:56:41 -0800 (PST)
+        Wed, 06 Dec 2023 07:10:49 -0800 (PST)
 From: Ivan Orlov <ivan.orlov0322@gmail.com>
 To: tiwai@suse.com,
 	perex@perex.cz
 Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: pcmtest: stop timer in the hw_free callback
-Date: Wed,  6 Dec 2023 14:56:37 +0000
-Message-Id: <20231206145637.23700-1-ivan.orlov0322@gmail.com>
+Subject: [PATCH v2] ALSA: pcmtest: stop timer in the hw_free callback
+Date: Wed,  6 Dec 2023 15:10:46 +0000
+Message-Id: <20231206151046.25773-1-ivan.orlov0322@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,11 +63,15 @@ is still running.
 
 Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
 ---
- sound/drivers/pcmtest.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+V1 -> V2:
+- Remove useless NULLing of v_iter->substream. It will be released in
+'close' callback.
+
+ sound/drivers/pcmtest.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index b59b78a09224..645caf1cc881 100644
+index b59b78a09224..8a78fa56106f 100644
 --- a/sound/drivers/pcmtest.c
 +++ b/sound/drivers/pcmtest.c
 @@ -396,8 +396,6 @@ static int snd_pcmtst_pcm_close(struct snd_pcm_substream *substream)
@@ -79,14 +83,13 @@ index b59b78a09224..645caf1cc881 100644
  	playback_capture_test = !v_iter->is_buf_corrupted;
  	kfree(v_iter);
  	return 0;
-@@ -499,6 +497,11 @@ static int snd_pcmtst_pcm_hw_params(struct snd_pcm_substream *substream,
+@@ -499,6 +497,10 @@ static int snd_pcmtst_pcm_hw_params(struct snd_pcm_substream *substream,
  
  static int snd_pcmtst_pcm_hw_free(struct snd_pcm_substream *substream)
  {
 +	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
 +
 +	timer_shutdown_sync(&v_iter->timer_instance);
-+	v_iter->substream = NULL;
 +
  	return 0;
  }
