@@ -1,82 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DCE3DB87
-	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 14:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rMmaF8rf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BFDC433C9;
-	Wed,  6 Dec 2023 14:23:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701872592;
-	bh=u9Lpc4u+LkadaX2Q3ITww5Z03baWteYYkZnQr+AKd3E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rMmaF8rfxo3mFgXqEoXSk201boxbH9pMx5BfOM0Ny2WHcdyH8fEoY0Iwbk3WyRgaP
-	 lLdPLMhc5yvvfLGNu0hRN5Rr14lTTZNBag1I4gn+s0uSyzkDBPrkiQLB/JbU/y4feJ
-	 GM5yxrJ68EVJfc0ZbHYYknAbOrlIJvoujbCXrd9ltd4rH3OjlIIJRBYcgb3TPnjqnN
-	 1XDsRlgGIg+Ib8sBbqRvUicUAz+mUFMq6+HB/quxMWxlHQrc9n8wJhODCEACR9JfVN
-	 asSkYWoYdvL/zEKUCCaDrrHy+UA0kikD1irnEiYm0qzUCMLZIKSl3liWWLmRvwgnc/
-	 VcvmidRWnhnmA==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: tiwai@suse.de
-In-Reply-To: <20231204214713.208951-1-pierre-louis.bossart@linux.intel.com>
-References: <20231204214713.208951-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: SOF: topology cleanups
-Message-Id: <170187259154.34804.1799747785610622552.b4-ty@kernel.org>
-Date: Wed, 06 Dec 2023 14:23:11 +0000
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fG9Xra+R"
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FCF0D49
+	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 06:30:15 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-50bf37fd2bbso4965433e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 06 Dec 2023 06:30:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701873013; x=1702477813; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ecDK9XgOWPDwKNtXxUXDKXSM0zmyupQJGPO18jvHP6A=;
+        b=fG9Xra+RRWmWRTGa0vySPcEsTKVcOE51X/E33gXUqlEtZfJlEG9xb2G8QUzpi33dXV
+         BUtdqucaZQhhsLhnjnNAdAf8N51BSM1YPVMT9xrRjwED+QGASuVSui+IU37jBRt85tPP
+         ZYJqLpbRtYbY2jQSIAd49whUflpitWL9D/vh381gK33IkQdIBYTlhbjDGArN8P1haTep
+         sHeUApGcYNsAi2LJxMEW3e6Lba3mBPs+TH00xxX2f0cPv+C6pyZgdncPlaaTUMb4nucV
+         bPdXs3WiaEKnaCBFkWb7hwf54LFooICmHGTIRU3JX2Z5/7F4QONrCVGtVix47j3oMTwV
+         gp7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701873013; x=1702477813;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ecDK9XgOWPDwKNtXxUXDKXSM0zmyupQJGPO18jvHP6A=;
+        b=bgPIkL9zdG/Tw7A0+hJ4MUDX6mIWnQ6HTk68p/pysoriwiD1Wl2iOVAUk29A1/zUMc
+         47SIsXYc5E0NylOJQ2bFKjupCk1ZpoeY7KFO4jnjyD9DI2cnaTCUXhGERJ6u4gNgaHJ4
+         k/NBKqI0ddh6lvgsFGyyaHmK4wgXh3Sqjq5JzMKWtN7T6fYg4wTL1KYFmQB9E4Bjgwr1
+         AN/lZxP0+CtSlYIw6cxvY9/ImqJ38REvRoq3LJYP0s79YPuUsA03ODqa/BcbEPlVvPy6
+         ZUDbtlh080BGTi/bcG84JQW924V1zIpbM08WwCQe9t46/b4+MxGSh0aiRCfJykipGfRy
+         X6vA==
+X-Gm-Message-State: AOJu0YxOiZrajkxTZwDlB1MLiAMnacyibdsTwUCEU1hSh99YU61JZneq
+	4mma3fyib/tFffzFOi8vneqORA==
+X-Google-Smtp-Source: AGHT+IFFLwb6J1kg4M4UnYbam4jWK0loSvNCLNafUtgmro7h6iWF18QP/GUyGS9AQ5j9Y3MfsdsiMQ==
+X-Received: by 2002:a05:6512:29a:b0:50c:d30:3a05 with SMTP id j26-20020a056512029a00b0050c0d303a05mr695875lfp.25.1701873013467;
+        Wed, 06 Dec 2023 06:30:13 -0800 (PST)
+Received: from [192.168.2.107] ([79.115.63.75])
+        by smtp.gmail.com with ESMTPSA id gs20-20020a170906f19400b00a18374ade6bsm8391001ejb.67.2023.12.06.06.30.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Dec 2023 06:30:12 -0800 (PST)
+Message-ID: <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
+Date: Wed, 6 Dec 2023 14:30:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
+ spi-nor
+Content-Language: en-US
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org,
+ pratyush@kernel.org, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, sbinding@opensource.cirrus.com, lee@kernel.org,
+ james.schulman@cirrus.com, david.rhodes@cirrus.com,
+ rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com
+Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ michael@walle.cc, linux-mtd@lists.infradead.org,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, michal.simek@amd.com,
+ linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com,
+ amitrkcian2002@gmail.com
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+ <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
 
-On Mon, 04 Dec 2023 15:47:09 -0600, Pierre-Louis Bossart wrote:
-> Header alignment with firmware, addition of new token and partial
-> match filters.
+Hi, Amit,
+
+On 11/25/23 09:21, Amit Kumar Mahapatra wrote:
+> Each flash that is connected in stacked mode should have a separate
+> parameter structure. So, the flash parameter member(*params) of the spi_nor
+> structure is changed to an array (*params[2]). The array is used to store
+> the parameters of each flash connected in stacked configuration.
 > 
-> Baofeng Tian (2):
->   ASoC: SOF: align topology header file with sof topology header
->   ASoC: SOF: add alignment for topology header file struct definition
+> The current implementation assumes that a maximum of two flashes are
+> connected in stacked mode and both the flashes are of same make but can
+> differ in sizes. So, except the sizes all other flash parameters of both
+> the flashes are identical.
+
+Do you plan to add support for different flashes in stacked mode? If
+not, wouldn't it be simpler to have just an array of flash sizes instead
+of duplicating the entire params struct?
+
 > 
-> [...]
+> SPI-NOR is not aware of the chip_select values, for any incoming request
+> SPI-NOR will decide the flash index with the help of individual flash size
+> and the configuration type (single/stacked). SPI-NOR will pass on the flash
+> index information to the SPI core & SPI driver by setting the appropriate
+> bit in nor->spimem->spi->cs_index_mask. For example, if nth bit of
+> nor->spimem->spi->cs_index_mask is set then the driver would
+> assert/de-assert spi->chip_slect[n].
+> 
+> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+> ---
+>  drivers/mtd/spi-nor/core.c  | 272 +++++++++++++++++++++++++++++-------
+>  drivers/mtd/spi-nor/core.h  |   4 +
+>  include/linux/mtd/spi-nor.h |  15 +-
+>  3 files changed, 240 insertions(+), 51 deletions(-)
+> 
+> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+> index 93ae69b7ff83..e990be7c7eb6 100644
+> --- a/drivers/mtd/spi-nor/core.c
+> +++ b/drivers/mtd/spi-nor/core.c
 
-Applied to
+cut
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> @@ -2905,7 +3007,10 @@ static void spi_nor_init_fixup_flags(struct spi_nor *nor)
+>  static int spi_nor_late_init_params(struct spi_nor *nor)
+>  {
+>  	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
+> -	int ret;
+> +	struct device_node *np = spi_nor_get_flash_node(nor);
+> +	u64 flash_size[SNOR_FLASH_CNT_MAX];
+> +	u32 idx = 0;
+> +	int rc, ret;
+>  
+>  	if (nor->manufacturer && nor->manufacturer->fixups &&
+>  	    nor->manufacturer->fixups->late_init) {
+> @@ -2937,6 +3042,44 @@ static int spi_nor_late_init_params(struct spi_nor *nor)
+>  	if (params->n_banks > 1)
+>  		params->bank_size = div64_u64(params->size, params->n_banks);
+>  
+> +	nor->num_flash = 0;
+> +
+> +	/*
+> +	 * The flashes that are connected in stacked mode should be of same make.
+> +	 * Except the flash size all other properties are identical for all the
+> +	 * flashes connected in stacked mode.
+> +	 * The flashes that are connected in parallel mode should be identical.
+> +	 */
+> +	while (idx < SNOR_FLASH_CNT_MAX) {
+> +		rc = of_property_read_u64_index(np, "stacked-memories", idx, &flash_size[idx]);
 
-Thanks!
+This is a little late in my opinion, as we don't have any sanity check
+on the flashes that are stacked on top of the first. We shall at least
+read and compare the ID for all.
 
-[1/4] ASoC: SOF: topology: Use partial match for disconnecting DAI link and DAI widget
-      commit: 2f03970198d6438d95b96f69041254bd39aafed0
-[2/4] ASoC: SOF: align topology header file with sof topology header
-      commit: 6c4df324d78ceb6a3ebb0d42243d131a424c85c3
-[3/4] ASoC: SOF: add alignment for topology header file struct definition
-      commit: 8ec56af3da4dad008ab10115eb4cec34836afc04
-[4/4] ASoC: SOF: Wire up buffer flags
-      commit: ebd12b2ca6145550a7e42cd2320870db02dd0f3c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Cheers,
+ta
