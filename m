@@ -1,111 +1,231 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="AaurLE93"
-X-Greylist: delayed 588 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Dec 2023 17:42:50 PST
-Received: from mail-m25491.xmail.ntesmail.com (mail-m25491.xmail.ntesmail.com [103.129.254.91])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE32B1B9;
-	Tue,  5 Dec 2023 17:42:50 -0800 (PST)
-DKIM-Signature: a=rsa-sha256;
-	b=AaurLE93EkPtxzsiE2lc3GGq8jzl/D4grIG8JIVgkIitxQAg/LPM2VhiQMzVz6lWBj6YfmFwRft3ss1PeS95se6vHNs0PhocLhaNnV9z7CHVI//OF84CTUGfSDi7rSZnzbieU2ECm0gBLOdRniBhHddNWo7nW4IU7M3t+FQeNr8=;
-	s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=v4SJYmtYRkvhafgduYRH51SkhMDvfniryqNGMH783sY=;
-	h=date:mime-version:subject:message-id:from;
-Received: from DESKTOP-TIABR87.localdomain (unknown [58.22.7.114])
-	by mail-m12745.qiye.163.com (Hmail) with ESMTPA id E6F2B9A04DF;
-	Wed,  6 Dec 2023 09:32:41 +0800 (CST)
-From: Jason Zhang <jason.zhang@rock-chips.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jason Zhang <jason.zhang@rock-chips.com>
-Subject: [PATCH] ALSA: pcm: fix out-of-bounds in snd_pcm_state_names
-Date: Wed,  6 Dec 2023 09:31:39 +0800
-Message-Id: <20231206013139.20506-1-jason.zhang@rock-chips.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QGidZ4iR"
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F7618F;
+	Tue,  5 Dec 2023 21:25:16 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6ce6dd83945so1359304b3a.3;
+        Tue, 05 Dec 2023 21:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701840315; x=1702445115; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6huBbZbAII0X6eZV6S+b7knvK6KuHJo8Bh0bkLgUxxE=;
+        b=QGidZ4iRu5/YncLQwNVlWgTHz7jez7T2YHYyySJDAUl1LybKELv67VrH6KN+e8TxRh
+         /s5VSFFVvQRiwkXNmKLJi/wEnIBiOGQwnngb6oYZMoG6eQc0QbJ/T0Ec0db6vzr1k+Dx
+         srQWLLbmQFs5EhWEp5zC/IaHKoTJiY8bXU5IS602EgbG9LYXq+G5ffcY+0jnsGCyRyAk
+         7+ZWoAymYRZSRJgPK/kil/e23SdlpEsI7jueZ//dM4yB7IHleHRJ+/PQQLHSiUNJ84tI
+         tOtIp+BHegPALNw4/RtwVHj2rBou199ZGUBCDO3mLTFwdzB+80PTnm4Fc0QdTZHYALAf
+         NEJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701840315; x=1702445115;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6huBbZbAII0X6eZV6S+b7knvK6KuHJo8Bh0bkLgUxxE=;
+        b=J2b0FKDZyCK+e5YG3hPYVqsm96iXFc1DuCjGft3nU29htWngmgXURBAKy6LSskvXsc
+         OlwaUaL+5EN/6u7FgAONCyt94/N94DvXh3D4HeMkqLpjiugMkbh9I8T/h8ecFBGT6oo+
+         bBF7PUATUXLdMVYFO7IvwjBNP0iu5NE6arIG4eYzZ8D+aFktqrYfj6JhEcs9DQMBWBDf
+         kbBFrkua9jujvMMFVH6lL8lpzV+nmnybr/z6ilzjRywIN/dJlnLy2pCqZ+YCTKLfpKDl
+         b87csaO4/TXV8CcKaJT3HFSgWjWds5g9kbrD67w6oNhQhjh5fZK0GbncA1Te8IJg3p16
+         SAoQ==
+X-Gm-Message-State: AOJu0YyH7TAIz+i+HfbrAQNnJb8M6GbmVheSEHS7vLvZsf7l4/8SFM7S
+	B7EPEUC20m7UnlvO5u56YqE=
+X-Google-Smtp-Source: AGHT+IFMxfqg8FxPkhbWeYw87iiXO3hRoVhFhH1xtCbWG3FZaVDEj9UfTpo1oYq4IqfLZ3ft2t7YHQ==
+X-Received: by 2002:a05:6a00:98e:b0:6ce:6420:e174 with SMTP id u14-20020a056a00098e00b006ce6420e174mr407397pfg.36.1701840315262;
+        Tue, 05 Dec 2023 21:25:15 -0800 (PST)
+Received: from localhost ([216.228.127.130])
+        by smtp.gmail.com with ESMTPSA id ka32-20020a056a0093a000b006ce455a7faasm5350125pfb.150.2023.12.05.21.25.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 21:25:14 -0800 (PST)
+Date: Tue, 5 Dec 2023 21:22:59 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Akinobu Mita <akinobu.mita@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Disseldorp <ddiss@suse.de>,
+	Edward Cree <ecree.xilinx@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gregory Greenman <gregory.greenman@intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+	Jiri Pirko <jiri@resnulli.us>, Jiri Slaby <jirislaby@kernel.org>,
+	Kalle Valo <kvalo@kernel.org>, Karsten Graul <kgraul@linux.ibm.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Kees Cook <keescook@chromium.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Martin Habets <habetsm.xilinx@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Oliver Neukum <oneukum@suse.com>, Paolo Abeni <pabeni@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ping-Ke Shih <pkshih@realtek.com>, Rich Felker <dalias@libc.org>,
+	Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	GR-QLogic-Storage-Upstream@marvell.com, alsa-devel@alsa-project.org,
+	ath10k@lists.infradead.org, dmaengine@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-net-drivers@amd.com, linux-pci@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, mpi3mr-linuxdrv.pdl@broadcom.com,
+	netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
+	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
+	Matthew Wilcox <willy@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+	Alexey Klimov <klimov.linux@gmail.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH v2 00/35] bitops: add atomic find_bit() operations
+Message-ID: <ZXAFM2VZugdhM3oE@yury-ThinkPad>
+References: <20231203192422.539300-1-yury.norov@gmail.com>
+ <20231204185101.ddmkvsr2xxsmoh2u@quack3>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh1LQ1YdH0saS0JPS09JTUlVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQk
-	tLWQY+
-X-HM-Tid: 0a8c3cc17acab218kuuue6f2b9a04df
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NFE6Cyo6LTwxLAIQUTMeOQIB
-	TkhPFDNVSlVKTEtKQ0lNSE1JTk9CVTMWGhIXVREaCBQVVQETGhUcOwkUGBBWGBMSCwhVGBQWRVlX
-	WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBT0pMSTcG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231204185101.ddmkvsr2xxsmoh2u@quack3>
 
-The pcm state can be SNDRV_PCM_STATE_DISCONNECTED at disconnect
-callback, and there is not an entry of SNDRV_PCM_STATE_DISCONNECTED
-in snd_pcm_state_names.
+On Mon, Dec 04, 2023 at 07:51:01PM +0100, Jan Kara wrote:
+> Hello Yury!
+> 
+> On Sun 03-12-23 11:23:47, Yury Norov wrote:
+> > Add helpers around test_and_{set,clear}_bit() that allow to search for
+> > clear or set bits and flip them atomically.
+> > 
+> > The target patterns may look like this:
+> > 
+> > 	for (idx = 0; idx < nbits; idx++)
+> > 		if (test_and_clear_bit(idx, bitmap))
+> > 			do_something(idx);
+> > 
+> > Or like this:
+> > 
+> > 	do {
+> > 		bit = find_first_bit(bitmap, nbits);
+> > 		if (bit >= nbits)
+> > 			return nbits;
+> > 	} while (!test_and_clear_bit(bit, bitmap));
+> > 	return bit;
+> > 
+> > In both cases, the opencoded loop may be converted to a single function
+> > or iterator call. Correspondingly:
+> > 
+> > 	for_each_test_and_clear_bit(idx, bitmap, nbits)
+> > 		do_something(idx);
+> > 
+> > Or:
+> > 	return find_and_clear_bit(bitmap, nbits);
+> 
+> These are fine cleanups but they actually don't address the case that has
+> triggered all these changes - namely the xarray use of find_next_bit() in
+> xas_find_chunk().
+> 
+> ...
+> > This series is a result of discussion [1]. All find_bit() functions imply
+> > exclusive access to the bitmaps. However, KCSAN reports quite a number
+> > of warnings related to find_bit() API. Some of them are not pointing
+> > to real bugs because in many situations people intentionally allow
+> > concurrent bitmap operations.
+> > 
+> > If so, find_bit() can be annotated such that KCSAN will ignore it:
+> > 
+> >         bit = data_race(find_first_bit(bitmap, nbits));
+> 
+> No, this is not a correct thing to do. If concurrent bitmap changes can
+> happen, find_first_bit() as it is currently implemented isn't ever a safe
+> choice because it can call __ffs(0) which is dangerous as you properly note
+> above. I proposed adding READ_ONCE() into find_first_bit() / find_next_bit()
+> implementation to fix this issue but you disliked that. So other option we
+> have is adding find_first_bit() and find_next_bit() variants that take
+> volatile 'addr' and we have to use these in code like xas_find_chunk()
+> which cannot be converted to your new helpers.
 
-This patch adds the missing entry to resolve this issue.
+Here is some examples when concurrent operations with plain find_bit()
+are acceptable:
 
-cat /proc/asound/card2/pcm0p/sub0/status
-That results in stack traces like the following:
+ - two threads running find_*_bit(): safe wrt ffs(0) and returns correct
+   value, because underlying bitmap is unchanged;
+ - find_next_bit() in parallel with set or clear_bit(), when modifying
+   a bit prior to the start bit to search: safe and correct;
+ - find_first_bit() in parallel with set_bit(): safe, but may return wrong
+   bit number;
+ - find_first_zero_bit() in parallel with clear_bit(): same as above.
 
-[   99.702732][ T5171] Unexpected kernel BRK exception at EL1
-[   99.702774][ T5171] Internal error: BRK handler: f2005512 [#1] PREEMPT SMP
-[   99.703858][ T5171] Modules linked in: bcmdhd(E) (...)
-[   99.747425][ T5171] CPU: 3 PID: 5171 Comm: cat Tainted: G         C OE     5.10.189-android13-4-00003-g4a17384380d8-ab11086999 #1
-[   99.748447][ T5171] Hardware name: Rockchip RK3588 CVTE V10 Board (DT)
-[   99.749024][ T5171] pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
-[   99.749616][ T5171] pc : snd_pcm_substream_proc_status_read+0x264/0x2bc
-[   99.750204][ T5171] lr : snd_pcm_substream_proc_status_read+0xa4/0x2bc
-[   99.750778][ T5171] sp : ffffffc0175abae0
-[   99.751132][ T5171] x29: ffffffc0175abb80 x28: ffffffc009a2c498
-[   99.751665][ T5171] x27: 0000000000000001 x26: ffffff810cbae6e8
-[   99.752199][ T5171] x25: 0000000000400cc0 x24: ffffffc0175abc60
-[   99.752729][ T5171] x23: 0000000000000000 x22: ffffff802f558400
-[   99.753263][ T5171] x21: ffffff81d8d8ff00 x20: ffffff81020cdc00
-[   99.753795][ T5171] x19: ffffff802d110000 x18: ffffffc014fbd058
-[   99.754326][ T5171] x17: 0000000000000000 x16: 0000000000000000
-[   99.754861][ T5171] x15: 000000000000c276 x14: ffffffff9a976fda
-[   99.755392][ T5171] x13: 0000000065689089 x12: 000000000000d72e
-[   99.755923][ T5171] x11: ffffff802d110000 x10: 00000000000000e0
-[   99.756457][ T5171] x9 : 9c431600c8385d00 x8 : 0000000000000008
-[   99.756990][ T5171] x7 : 0000000000000000 x6 : 000000000000003f
-[   99.757522][ T5171] x5 : 0000000000000040 x4 : ffffffc0175abb70
-[   99.758056][ T5171] x3 : 0000000000000001 x2 : 0000000000000001
-[   99.758588][ T5171] x1 : 0000000000000000 x0 : 0000000000000000
-[   99.759123][ T5171] Call trace:
-[   99.759404][ T5171]  snd_pcm_substream_proc_status_read+0x264/0x2bc
-[   99.759958][ T5171]  snd_info_seq_show+0x54/0xa4
-[   99.760370][ T5171]  seq_read_iter+0x19c/0x7d4
-[   99.760770][ T5171]  seq_read+0xf0/0x128
-[   99.761117][ T5171]  proc_reg_read+0x100/0x1f8
-[   99.761515][ T5171]  vfs_read+0xf4/0x354
-[   99.761869][ T5171]  ksys_read+0x7c/0x148
-[   99.762226][ T5171]  __arm64_sys_read+0x20/0x30
-[   99.762625][ T5171]  el0_svc_common+0xd0/0x1e4
-[   99.763023][ T5171]  el0_svc+0x28/0x98
-[   99.763358][ T5171]  el0_sync_handler+0x8c/0xf0
-[   99.763759][ T5171]  el0_sync+0x1b8/0x1c0
-[   99.764118][ T5171] Code: d65f03c0 b9406102 17ffffae 94191565 (d42aa240)
-[   99.764715][ T5171] ---[ end trace 1eeffa3e17c58e10 ]---
-[   99.780720][ T5171] Kernel panic - not syncing: BRK handler: Fatal exception
+In last 2 cases find_bit() may not return a correct bit number, but
+it may be OK if caller requires any (not exactly first) set or clear
+bit, correspondingly.
 
-Signed-off-by: Jason Zhang <jason.zhang@rock-chips.com>
----
- sound/core/pcm.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-index 20bb2d7c8d4b..6d0c9c37796c 100644
---- a/sound/core/pcm.c
-+++ b/sound/core/pcm.c
-@@ -253,6 +253,7 @@ static const char * const snd_pcm_state_names[] = {
- 	STATE(DRAINING),
- 	STATE(PAUSED),
- 	STATE(SUSPENDED),
-+	STATE(DISCONNECTED),
- };
+In such cases, KCSAN may be safely silenced.
  
- static const char * const snd_pcm_access_names[] = {
--- 
-2.25.1
+> > This series addresses the other important case where people really need
+> > atomic find ops. As the following patches show, the resulting code
+> > looks safer and more verbose comparing to opencoded loops followed by
+> > atomic bit flips.
+> > 
+> > In [1] Mirsad reported 2% slowdown in a single-thread search test when
+> > switching find_bit() function to treat bitmaps as volatile arrays. On
+> > the other hand, kernel robot in the same thread reported +3.7% to the
+> > performance of will-it-scale.per_thread_ops test.
+> 
+> It was actually me who reported the regression here [2] but whatever :)
+> 
+> [2] https://lore.kernel.org/all/20231011150252.32737-1-jack@suse.cz
 
+My apologize.
+
+> > Assuming that our compilers are sane and generate better code against
+> > properly annotated data, the above discrepancy doesn't look weird. When
+> > running on non-volatile bitmaps, plain find_bit() outperforms atomic
+> > find_and_bit(), and vice-versa.
+> > 
+> > So, all users of find_bit() API, where heavy concurrency is expected,
+> > are encouraged to switch to atomic find_and_bit() as appropriate.
+> 
+> Well, all users where any concurrency can happen should switch. Otherwise
+> they are prone to the (admittedly mostly theoretical) data race issue.
+> 
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
