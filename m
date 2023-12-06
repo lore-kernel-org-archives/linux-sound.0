@@ -1,153 +1,96 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vGvVur4r"
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F9E6D4E
-	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 06:44:00 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54bf9a54fe3so8923433a12.3
-        for <linux-sound@vger.kernel.org>; Wed, 06 Dec 2023 06:44:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ML1lc9aC"
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239A41BD;
+	Wed,  6 Dec 2023 06:56:43 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40b2a85c99bso7434115e9.0;
+        Wed, 06 Dec 2023 06:56:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701873839; x=1702478639; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G/sUNB5ZgX1IJ9770bfc42rc11+iIaUcvTzWeH8l1S8=;
-        b=vGvVur4r9oz4kLtWFKhmAyZhH+/d0IpjaC/ioKvsnKpC2Rv9wyPoIclSTqA3uOeEO+
-         sNPBIFzf7CG//QMVUuf+fjaDQLxP5R8umXWN5JJLgA0sSZSVKkAlBhcLtFw3s1bfSsW6
-         ZX3cOL0tXCpwPc6pTYqyhrYYsHkegDNH7rO0RUwLZ0CdQsBpsgjnbpXv1p20bLBOhehG
-         KkeKgdVuRW6l7iyRheNjKV9df9lbok5JHqsY8h1a7RVd+Iw803VUisssTNS+t66pnK+3
-         CPjs8nvu1w80J1DUUbS447RlJeI4EN7LDZyfrrQqwTJ8rC/ecX8HldyKXTLua+Tx8wrA
-         99SA==
+        d=gmail.com; s=20230601; t=1701874601; x=1702479401; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ucmsp+pjBTlhjv1gBcBSs/5oCUvUo/iNpnLaNAcrn8k=;
+        b=ML1lc9aCfZqZ5O9xZS3rUVmzlXxun6Bp4rYsd0FIVy+zueHbD5SyivM/299WQKbNx3
+         cDUrdmSDgm8hjlgtdvI2Tfn17CcOtJfwEN/mH4n8qfLJUrMb2C6a1P+ntHUY2QDumepn
+         d037sdgDNMO5W/GgB8049/PHurMieJr6apNtMl7o2n9/JMCnDuRu9hFi0jAkYonTBaiF
+         YmFII3nObU/Eqpq4ETmvO5mWXR0qzHBjAZnYjt1nZoGAO6wICUMtnC8QPOY0mENWJDa1
+         nCim1PDJ2viT3Tzh2fHSchnY1XLNlWOvXzjV9oGPkUIB4Y93QVI3eOOKTQuCHTSyMQNT
+         DYtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701873839; x=1702478639;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G/sUNB5ZgX1IJ9770bfc42rc11+iIaUcvTzWeH8l1S8=;
-        b=L5ia39+FkK7Zv3W1gGHDMcwp8vmJ5fNncGOXu3NmHN3Z2CCR7b2jN1hCBarNYvIDDH
-         u1pCVUsW/3YNIh0rw7I9Jm1sxRgP6wd4NgEy4mZnhCC2wzLdY/I/W5pRLmY1MtpyPvZX
-         reKBVfibIRogPF43xuhpLVGZbBOiZ2Dk1UlmcSZPv1xIk8Y8c///tW2IEn2mBwDsSXzb
-         xj+rrsjsi4EQL18eCD3hWkuX6FsDSu0ito+xPeRnUVKqDa5vYopGw2BvZ4utfAxHgfmi
-         jvdnHSs7xHoUfObFItF/y3vBtK0sQuk+BPKDRi3i5RCi3Y3c1ybdDYsSiF6ZmKEDn0Fm
-         vqcA==
-X-Gm-Message-State: AOJu0YxC+uMsPS7BsmoimV3rVYX4TfGe6j8iXcUoktq2CDoMT8hykPoa
-	MwIUOeoqgFRa/08QT5741J4p8Q==
-X-Google-Smtp-Source: AGHT+IHDAvptVLTEL9dhcaG+Hbai6J369y6guW1ZLyEztJsP78iBp+Sc57pMqBtc7BIzBcb9a1OzXg==
-X-Received: by 2002:a50:d0cc:0:b0:54c:4837:9a9c with SMTP id g12-20020a50d0cc000000b0054c48379a9cmr758869edf.67.1701873838794;
-        Wed, 06 Dec 2023 06:43:58 -0800 (PST)
-Received: from [192.168.2.107] ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id bo24-20020a0564020b3800b0054cc22af09esm49861edb.46.2023.12.06.06.43.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 06:43:58 -0800 (PST)
-Message-ID: <9f577482-30d9-4e1d-9469-812d323b18c6@linaro.org>
-Date: Wed, 6 Dec 2023 14:43:56 +0000
+        d=1e100.net; s=20230601; t=1701874601; x=1702479401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ucmsp+pjBTlhjv1gBcBSs/5oCUvUo/iNpnLaNAcrn8k=;
+        b=gq2FT7Mhfevp/al4FhG+/BwNOhA6Fxm8MCfOseLN3rrd7L2OTlkpZwaoJ1iVouNIHY
+         11cEECXuG6cNWeQDACNThadUwPNnDsANdaoN4L2x/q0Rlb+/5g52+2JpcwGcWjvI1r/8
+         AUWqaxHId7boSO6tiE3kCrcfrJDrvi4bqgEMOe7ZZaEWaVWb0CcjoPKxtgaMR7HNt2Z7
+         CfY93IzSOm1OEPzT8c8wh07gXpWJ0Gky+9VB7WPFn74CgHHr1uc+/loj5gbiCjxYlBur
+         XsJaDB0vLf5TLAmItEMGlmw1OBEsa+NXMvnZFzQD5eCXm9/E4UTNtYrnVUeJezI0TQCO
+         pOBg==
+X-Gm-Message-State: AOJu0YxyGoodmzcTs+4W9gMVmn5qJm7mpNyjd109A6L6xwcAyjQpFFwD
+	fPKY1deqa2mKySOb5tbpW5t4pGjsJr1k1w==
+X-Google-Smtp-Source: AGHT+IG7+vo+2kbfWj+B2+iZx8wGUJvm80UJQo9nm1U74GACAfHzDUu0jtulPYfGZi3/ZDgXtIKwEQ==
+X-Received: by 2002:a05:600c:45c5:b0:40b:4ff7:e131 with SMTP id s5-20020a05600c45c500b0040b4ff7e131mr1536006wmo.2.1701874601282;
+        Wed, 06 Dec 2023 06:56:41 -0800 (PST)
+Received: from ivan-HLYL-WXX9.guest.codethink.co.uk ([167.98.27.226])
+        by smtp.gmail.com with ESMTPSA id fl8-20020a05600c0b8800b0040b37f1079dsm26261538wmb.29.2023.12.06.06.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 06:56:41 -0800 (PST)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: pcmtest: stop timer in the hw_free callback
+Date: Wed,  6 Dec 2023 14:56:37 +0000
+Message-Id: <20231206145637.23700-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Content-Language: en-US
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org,
- pratyush@kernel.org, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, sbinding@opensource.cirrus.com, lee@kernel.org,
- james.schulman@cirrus.com, david.rhodes@cirrus.com,
- rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
- michael@walle.cc, linux-mtd@lists.infradead.org,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, michal.simek@amd.com,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com,
- amitrkcian2002@gmail.com
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
- <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
-In-Reply-To: <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Stop timer in the 'hw_free' callback instead of the 'close' callback
+since we want the timer to be stopped before the DMA buffer is released.
+Otherwise, it could trigger a kernel panic in some circumstances, for
+instance when the DMA buffer is already released but the timer callback
+is still running.
 
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+ sound/drivers/pcmtest.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-On 12/6/23 14:30, Tudor Ambarus wrote:
-> Hi, Amit,
-> 
-> On 11/25/23 09:21, Amit Kumar Mahapatra wrote:
->> Each flash that is connected in stacked mode should have a separate
->> parameter structure. So, the flash parameter member(*params) of the spi_nor
->> structure is changed to an array (*params[2]). The array is used to store
->> the parameters of each flash connected in stacked configuration.
->>
->> The current implementation assumes that a maximum of two flashes are
->> connected in stacked mode and both the flashes are of same make but can
->> differ in sizes. So, except the sizes all other flash parameters of both
->> the flashes are identical.
-> 
-> Do you plan to add support for different flashes in stacked mode? If
-> not, wouldn't it be simpler to have just an array of flash sizes instead
-> of duplicating the entire params struct?
-> 
->>
->> SPI-NOR is not aware of the chip_select values, for any incoming request
->> SPI-NOR will decide the flash index with the help of individual flash size
->> and the configuration type (single/stacked). SPI-NOR will pass on the flash
->> index information to the SPI core & SPI driver by setting the appropriate
->> bit in nor->spimem->spi->cs_index_mask. For example, if nth bit of
->> nor->spimem->spi->cs_index_mask is set then the driver would
->> assert/de-assert spi->chip_slect[n].
->>
->> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
->> ---
->>  drivers/mtd/spi-nor/core.c  | 272 +++++++++++++++++++++++++++++-------
->>  drivers/mtd/spi-nor/core.h  |   4 +
->>  include/linux/mtd/spi-nor.h |  15 +-
->>  3 files changed, 240 insertions(+), 51 deletions(-)
->>
->> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
->> index 93ae69b7ff83..e990be7c7eb6 100644
->> --- a/drivers/mtd/spi-nor/core.c
->> +++ b/drivers/mtd/spi-nor/core.c
-> 
-> cut
-> 
->> @@ -2905,7 +3007,10 @@ static void spi_nor_init_fixup_flags(struct spi_nor *nor)
->>  static int spi_nor_late_init_params(struct spi_nor *nor)
->>  {
->>  	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
->> -	int ret;
->> +	struct device_node *np = spi_nor_get_flash_node(nor);
->> +	u64 flash_size[SNOR_FLASH_CNT_MAX];
->> +	u32 idx = 0;
->> +	int rc, ret;
->>  
->>  	if (nor->manufacturer && nor->manufacturer->fixups &&
->>  	    nor->manufacturer->fixups->late_init) {
->> @@ -2937,6 +3042,44 @@ static int spi_nor_late_init_params(struct spi_nor *nor)
->>  	if (params->n_banks > 1)
->>  		params->bank_size = div64_u64(params->size, params->n_banks);
->>  
->> +	nor->num_flash = 0;
->> +
->> +	/*
->> +	 * The flashes that are connected in stacked mode should be of same make.
->> +	 * Except the flash size all other properties are identical for all the
->> +	 * flashes connected in stacked mode.
->> +	 * The flashes that are connected in parallel mode should be identical.
->> +	 */
->> +	while (idx < SNOR_FLASH_CNT_MAX) {
->> +		rc = of_property_read_u64_index(np, "stacked-memories", idx, &flash_size[idx]);
+diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+index b59b78a09224..645caf1cc881 100644
+--- a/sound/drivers/pcmtest.c
++++ b/sound/drivers/pcmtest.c
+@@ -396,8 +396,6 @@ static int snd_pcmtst_pcm_close(struct snd_pcm_substream *substream)
+ {
+ 	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
+ 
+-	timer_shutdown_sync(&v_iter->timer_instance);
+-	v_iter->substream = NULL;
+ 	playback_capture_test = !v_iter->is_buf_corrupted;
+ 	kfree(v_iter);
+ 	return 0;
+@@ -499,6 +497,11 @@ static int snd_pcmtst_pcm_hw_params(struct snd_pcm_substream *substream,
+ 
+ static int snd_pcmtst_pcm_hw_free(struct snd_pcm_substream *substream)
+ {
++	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
++
++	timer_shutdown_sync(&v_iter->timer_instance);
++	v_iter->substream = NULL;
++
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
 
-also, it's not clear to me why you read this property multiple times.
-Have you sent a device tree patch somewhere? It will help me understand
-what you're trying to achieve.
-
-> 
-> This is a little late in my opinion, as we don't have any sanity check
-> on the flashes that are stacked on top of the first. We shall at least
-> read and compare the ID for all.
-> 
-> Cheers,
-> ta
