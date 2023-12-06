@@ -1,67 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UfrjWdD/"
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE97DE;
-	Wed,  6 Dec 2023 03:07:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SbxxFAREue76lM3mP8/oMyvFKiVI0mFn8jN9MR6JSQMbRIiAvfwfg1SYLV8Ey5RwZGC9PLi+17H1G9DfpKXJA7vqh+WToZS86kXua3B8QrPq+F4TuAc90vH3UPt1B0x4op6QiJTbcP547b6Bb2wZg9bQS5PzC5ejUw6A7AcEeDvFFgsOwpASa/2mX9+XlQXTKCnd1JhaP/JGqXYFRV88KhW8tHoTtuuuikatH0Fsn7ioekpsOWoxOWWgdYSxgJZfVBlHSxFPZUoSlWtNS3+hSgaFtKEEM6OiZR0ft8IuWiDhUGY+cmpTJAEs2+n7NLj7Apix/4r7Rs+8s4JTeAadxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qhwFWLv7JfCGRvb0WPD0pnr3Q3jEArGyuG8DCk0BwH4=;
- b=lQt7l8YKG58i+8L5qpN6vlSI+G+sZtbPducMKftKg3utjS3Mml4R9xlWvkro89KmZ/xIFDt7uJto+aLAdgEzkjIFquQ9aOGO2R3J7WcsW9BCXb6l9Zzijl6MRPUfx12bOFeTkViJwXbnUY3i4Vm4ABFufUUjMA9ZgUqFqvapv2KgtRds5+23o/8gEBm41j0VKk1a1w+Q++W8m/38KSy+7zv/1DRTTwoEJdZeRfrR1a913fhcZXphymaoOQTVJiSDNqdfmoBeDekUsRynBTK1sFdw68BHuh6RZ826emBEomJ7RmDBDyQ8iIMg6oI7asl+YZw5Wx6a7OHNWjFYEP15OA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qhwFWLv7JfCGRvb0WPD0pnr3Q3jEArGyuG8DCk0BwH4=;
- b=UfrjWdD/0xy4tyEkcDxqOzKSO4yzOP1vxC/L45iY7gpDKdN7Hh5Jv0wyFln1lMRWOohe9tgxmGoYRGvrn+bRsu70/WXHdPaQOz8Dljh/D4l8+0eHJh/8KQ5QKr8Hj0H3lSTtRO5M3E6t9k4ROcARwy7UUC3XchFQIKwpCcQWtOg=
-Received: from MW4PR04CA0087.namprd04.prod.outlook.com (2603:10b6:303:6b::32)
- by BL3PR12MB6569.namprd12.prod.outlook.com (2603:10b6:208:38c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.26; Wed, 6 Dec
- 2023 11:07:43 +0000
-Received: from CO1PEPF000044FD.namprd21.prod.outlook.com
- (2603:10b6:303:6b:cafe::ba) by MW4PR04CA0087.outlook.office365.com
- (2603:10b6:303:6b::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34 via Frontend
- Transport; Wed, 6 Dec 2023 11:07:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1PEPF000044FD.mail.protection.outlook.com (10.167.241.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7091.2 via Frontend Transport; Wed, 6 Dec 2023 11:07:43 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 6 Dec
- 2023 05:07:42 -0600
-Received: from prasad-lnx-mach.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Wed, 6 Dec 2023 05:07:33 -0600
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, "Alper Nebi Yasak" <alpernebiyasak@gmail.com>, Syed Saba
- Kareem <Syed.SabaKareem@amd.com>, Marian Postevca <posteuca@mutex.one>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, "open list:SOUND - SOC
- LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open
- list <linux-kernel@vger.kernel.org>
-Subject: [PATCH 7/7] ASoC: amd: acp: Set bclk as source to set pll for rt5682s codec
-Date: Wed, 6 Dec 2023 16:36:18 +0530
-Message-ID: <20231206110620.1695591-7-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231206110620.1695591-1-venkataprasad.potturu@amd.com>
-References: <20231206110620.1695591-1-venkataprasad.potturu@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVVhH4NT"
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2FBD4B;
+	Wed,  6 Dec 2023 03:31:01 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1d0481b68ebso11771315ad.0;
+        Wed, 06 Dec 2023 03:31:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701862260; x=1702467060; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SB3nqslBIX6M2uGGT/Yi34KGuFU1UIll1snis+QvolU=;
+        b=eVVhH4NTYt0I6ZnkW1YOuIwL8fk3eCKGRWOpiSZ5QTshcpjAX8/gwPIj4nqAoIc/G0
+         xG2RZ4/++wuKsMsbFGjs/z6VpUs1NeX4FNI03w0HOQsFQ3U/JnsOH7FEFpFBhN0OsEDH
+         gHvtq07nVY+NyYHHj4Zsmzz3B5jRxKC3uaW3NPhq9Wy2yHyweiQT8pTIOXkHT4mI1PyM
+         H/YxHTIkhFhPld6Hmd7xP/dN7dRMYxHFR3Lt/LSy+ca6ueQ8tb4zADg7XfSNBJ0dzqTP
+         n2dsKhQoVhe5l+BOEY/ZU1PIlOrYUowFInlXvv3nJn4ZiwAijDMK7gZDhVecGmJmiDEk
+         ZATg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701862260; x=1702467060;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SB3nqslBIX6M2uGGT/Yi34KGuFU1UIll1snis+QvolU=;
+        b=urbRUjAHEX2btrEaUCHMvywE6JgtT9dM3PvoEvki1ng1VyqBDOnJ4aHMbcrkeivrQy
+         gnBiCSjPmpt///I7O9yDz/L97l2MNIdMcBNat1ypnZbuMR2GyiPCgnsuUo9Qy+2ENM2S
+         qGgi+uDkU65/V8rCUOXU8TT+FVmqe1GMh91rIsqNuYEpY6Q7vAUZWOJ96fJreGTWiI34
+         rhlkiyGkbee5+5aFqCuvNhgh0HK5dTMgY9FppvcBTWNqUlh0Eboy5SLB48sJ+YhsxmVv
+         RcMdZ6BkdVkDZZzIkGz9IzXxJ0PUqWlhXX0AOwpqnxTpwmdVi00quFKSIRkorz4CcC0L
+         qPsQ==
+X-Gm-Message-State: AOJu0YzGTIZsAV/5sbvLnnBNP/+3HkF2e4gTkDUwUl/1oeMcDhe6GdLJ
+	07aYi8bbZwjFiTl71U2LRZ8=
+X-Google-Smtp-Source: AGHT+IGXN+TtiY0zy2TdM6xCTrjhO8gfMXNvQgcpTGTRIMeLI3U74Qx7E1MhD6+crdYsk6t/ZgcLPA==
+X-Received: by 2002:a17:902:d509:b0:1d0:61a0:9844 with SMTP id b9-20020a170902d50900b001d061a09844mr1337038plg.4.1701862260625;
+        Wed, 06 Dec 2023 03:31:00 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:6764:e124:5ffc:3f5])
+        by smtp.gmail.com with ESMTPSA id jw12-20020a170903278c00b001d076c2e336sm7853261plb.100.2023.12.06.03.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 03:31:00 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: broonie@kernel.org
+Cc: robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	viorel.suman@nxp.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v2] ASoC: dt-bindings: fsl,xcvr: Adjust the number of interrupts
+Date: Wed,  6 Dec 2023 08:30:47 -0300
+Message-Id: <20231206113047.2240055-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,65 +57,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FD:EE_|BL3PR12MB6569:EE_
-X-MS-Office365-Filtering-Correlation-Id: 113081ba-3f16-45fb-3437-08dbf64b91de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	G88pdZ5HEcsxdXUjgGVf2TW8XCnV4LV2AaWFQKVPF/SrnqSw9097J8ml1cmc8SR5tPblHXbHjEPS0MzjZ3srbuYz1h4dPG65kHFR9EOlK1Knd1vtQ6FTNgbhx8p+Mvy+kTUZD2Py/0WwDbLUZqtDfVGxCosTV6frHfAOyHCjf+tHNNG2fxmWI3kLE3Sf3hnlnATO5hQWnButsvJS+wffC6ksGasH47prbUkJATzjoiYm9Bx57uPFo/zlJxFpwH7jGW57QMkkh+AVtlcutieKQBGokJX/X2gLFygtZqb2/IGi2NZndaTFP1AlFetX+GVSDAJ2Pt7RJPSsAyoHip2NxwOZluJ5j72IIrBClWf+PAeDUtBEqlJJTcyO0WSuw3eT8lBL5bjwOu15lVckhCsBa3FV+V+JX99l28KzDRkOi1y5vYgQv+0KJR6Zt5hThyqDCo5iiNA79brLFvDCZ1V53yllD++iX3pfKeHOoSGSZY+e4MhHRAndc2+5vc+6LANDGsHnRR7DgbvMXtg2jx2WimdXTS41dyNpPR6xKVdi/W3oD11ijkALJN4wwsLQwv7bBo+NFDdWQsXEeamzTw2c7YzOOMYJ3E8x72IHGHPON6gTmp8ON97BhEiTHAmwhOIArq1z3hICpHU1ldlsOkFdeCXyQBxXAyDejBFU/qrISVPve+WKpIksBLAP6MRt+2Jc4GBQRMWRBottFH83A2YNPUV0izHMwzzDUJKoTY/tTg2z88lv0mf63OTVTklgSn9lSdZR3Q9mxb1IzIZuXcrj/A==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(39860400002)(396003)(376002)(136003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(82310400011)(40470700004)(46966006)(36840700001)(1076003)(2616005)(41300700001)(8936002)(8676002)(4326008)(336012)(426003)(83380400001)(82740400003)(40460700003)(26005)(86362001)(478600001)(110136005)(70586007)(70206006)(316002)(54906003)(6666004)(36756003)(7696005)(36860700001)(356005)(2906002)(40480700001)(5660300002)(7416002)(81166007)(47076005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 11:07:43.1733
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 113081ba-3f16-45fb-3437-08dbf64b91de
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044FD.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6569
 
-Some platforms doesn't have reference mclk pin to codec,
-so set bclk as a clk source for rt5682s codec pll in tdm mode.
+From: Fabio Estevam <festevam@denx.de>
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Unlike i.MX8MP, i.MX93 has two XCVR interrupts.
+
+Describe the two interrupts for the i.MX93 to fix the following
+dt-schema warning:
+
+imx93-11x11-evk.dtb: xcvr@42680000: interrupts: [[0, 203, 4], [0, 204, 4]] is too long
+	from schema $id: http://devicetree.org/schemas/sound/fsl,xcvr.yaml#
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- sound/soc/amd/acp/acp-mach-common.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Changes since v1:
+- Add missing else to limit the number of irqs for the other variants. (Krzysztof)
 
-diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
-index b72beb8e9b13..74e83c2dae53 100644
---- a/sound/soc/amd/acp/acp-mach-common.c
-+++ b/sound/soc/amd/acp/acp-mach-common.c
-@@ -464,6 +464,22 @@ static int acp_card_rt5682s_hw_params(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
+ .../devicetree/bindings/sound/fsl,xcvr.yaml   | 22 ++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+index 799b362ba498..0eb0c1ba8710 100644
+--- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
++++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+@@ -38,7 +38,10 @@ properties:
+       - const: txfifo
  
-+	if (drvdata->tdm_mode) {
-+		ret = snd_soc_dai_set_pll(codec_dai, RT5682S_PLL1, RT5682S_PLL_S_BCLK1,
-+					  6144000, 49152000);
-+		if (ret < 0) {
-+			dev_err(rtd->dev, "Failed to set codec PLL: %d\n", ret);
-+			return ret;
-+		}
+   interrupts:
+-    maxItems: 1
++    items:
++      - description: WAKEUPMIX Audio XCVR Interrupt 1
++      - description: WAKEUPMIX Audio XCVR Interrupt 2
++    minItems: 1
+ 
+   clocks:
+     items:
+@@ -78,6 +81,23 @@ required:
+   - dma-names
+   - resets
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx93-xcvr
++    then:
++      properties:
++        interrupts:
++          minItems: 2
++          maxItems: 2
++    else:
++      properties:
++        interrupts:
++          maxItems: 1
 +
-+		ret = snd_soc_dai_set_sysclk(codec_dai, RT5682S_SCLK_S_PLL1,
-+					     49152000, SND_SOC_CLOCK_IN);
-+		if (ret < 0) {
-+			dev_err(rtd->dev, "Failed to set codec SYSCLK: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
- 	/* Set tdm/i2s1 master bclk ratio */
- 	ret = snd_soc_dai_set_bclk_ratio(codec_dai, ch * format);
- 	if (ret < 0) {
+ additionalProperties: false
+ 
+ examples:
 -- 
-2.25.1
+2.34.1
 
