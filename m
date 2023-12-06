@@ -1,47 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zkJLkAI5"
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F5010F9
-	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 00:10:33 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40c09dfa03cso36636125e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 06 Dec 2023 00:10:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="La5qusJX"
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1E52D52
+	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 03:03:10 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3334254cfa3so335110f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 06 Dec 2023 03:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701850232; x=1702455032; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F+gV9P+LLtbcV288f8bcnkug+5SdmrVHFSfaWr3WP8M=;
-        b=zkJLkAI5tJzixB+SER/ohWSLc9yn+D0STy4lXbPvfX3eBwf2gNvw9PqtBHuZuMID/t
-         ykwv0S165SjuocrOIs6c6KW94zONSsBZbehCa8tCNSt5TZ5cb+bEj5H/zzocqi1y6p6b
-         EMM+/ZFgBLFLpBG8hPXkqHASbr2IwGfijXp9PUJllzvS6hBioroLWRoXEQIkIFJmdZaT
-         OtAwu/rB6zqlxGg45h7t10rkuxagYZ3XLIaSQ0AeKJ0QtCUlb7JlFFFCzHZwdcqQX0d4
-         WBGmGP3RT+ksS+Mv4UbwKCZuM1J6UtCHkOLcoxlee9ZkG/mIzmtNfB2kMBIoSgAqrVRO
-         5WDg==
+        d=linaro.org; s=google; t=1701860589; x=1702465389; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TvIeZKCZ/iXdfcWBsHuAC4swO+sFcgH/SVXdldNcogE=;
+        b=La5qusJXRIQ1f/2hmMgrvptru1yS8J/a0K173d9hdZl62NFzJNPdR2CQa3tFGpQZc6
+         LYrGBWuBRKCpm+n8QbG/91uc1w9hIKCQynLJR+AjXj2bHJB5p4UuO7gUsQAThAKMUusD
+         AmWFGGUl15ckx97PjB3DDa+7ImI9Xe+sYCIlJO6PUtHyiFhAzlc/ZRTWegFAp/y4fnsE
+         Aoq9odpZzyPDZ8NUj0I4V+S5uoIQHpVWSzYk1tCM2j9t8TrS82SIiHeNVrW9QG09k+EX
+         ZyocERM0hPHX5Asc5jaGWdFKZvrQwJ7pkcN5Q5woKfYKLEzecsg837xzUjljHyQGH/+f
+         pC1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701850232; x=1702455032;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=F+gV9P+LLtbcV288f8bcnkug+5SdmrVHFSfaWr3WP8M=;
-        b=s3VnWSlS3pKmgw73BkRu+nOfL5u0UuBL1bx3TZ3Vwe7ffmDDagA2FfRKphqRcwdehR
-         Ql9/YGf11vJu05BXfF9TFpG+zkVYHq6d71zCdtTmLnJd5zmPji6SUHqLgCxSKnAPDqXK
-         WNgAo1amkrRGjsYBuq4lgrelCalVEu9j9UGsD1EscQPSzn8jWmqVMNVb1oNa8cV+/86m
-         4q8IexvY5cR0uiW69l/fN5Q4ND9H2kLg80wvWfCBW14Cl4ZElUaKW4jQ2BOrhLx1WNe3
-         KJtHzwAp1oMYVff/LvVWH86j18sAnQpE9F8jcTw99fRuMDfv0URpWZhoOIxFFbmhL5Dc
-         3G2Q==
-X-Gm-Message-State: AOJu0YzPIvY1N6VPudA3HhHNOfNiV/6XAoe2sxgCuXT7Oihmj9W1UV+X
-	4amY2A7ZUUdCfeYUAogwRyjEPg==
-X-Google-Smtp-Source: AGHT+IF3+jzIgYagYuozgaSQvR5QgLTRcig4lGIsn6hG2LwuH0IBqpbb5tT5ziahhcs3FJWNjZfgbA==
-X-Received: by 2002:a7b:cb91:0:b0:40b:5e59:c591 with SMTP id m17-20020a7bcb91000000b0040b5e59c591mr305772wmi.187.1701850231928;
-        Wed, 06 Dec 2023 00:10:31 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:f855:6075:9365:8b70? ([2a01:e0a:982:cbb0:f855:6075:9365:8b70])
-        by smtp.gmail.com with ESMTPSA id v21-20020a05600c471500b0040836519dd9sm21114204wmo.25.2023.12.06.00.10.30
+        d=1e100.net; s=20230601; t=1701860589; x=1702465389;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TvIeZKCZ/iXdfcWBsHuAC4swO+sFcgH/SVXdldNcogE=;
+        b=kT6op6d5HjaoPEYlEC9luMUI/+L+vICFQsYdqXfiLE3ohPH6j00IM2TQGU+wf1UpYq
+         Q7uiJ143dTq5NehrJBqdexDQ9jYhlBrTWBjYVL80964r/4MB4iHXeky8raNqjx+I51Xy
+         acyLNARm+kYNbldCHLq+aMsO59IkA3qp+7oxNZQu/UFTen232k4PcufLmK3Ry51kRVql
+         t+L8HKYEqsN21o/t8LB66tUf495TQBF+LiYUGgvFH8SwfXCqg4h7okcukbyxaXhysUkL
+         rfGxSvltKtTCmpoYU0U194nIJ63s2MMSMtAeZrjF3UXMH2ys3qsLR0REcCpDLlZbjFpa
+         bEkg==
+X-Gm-Message-State: AOJu0YwXt5Yc4NgJO5fFA14MLmk/HfGAsYrGeaK19hHJ8SUGzizhKg4k
+	ihmSF0dPOBqfE/BIV7dhTCcGOw==
+X-Google-Smtp-Source: AGHT+IF/NEr9Mf6vPGtKJNh2zlrnNAC1iTbKgLOzR4RCuy2YvYdgrjQo7GR5v1BtgWeP7rea7HEKOA==
+X-Received: by 2002:a5d:40d0:0:b0:333:411e:3e97 with SMTP id b16-20020a5d40d0000000b00333411e3e97mr418380wrq.57.1701860589130;
+        Wed, 06 Dec 2023 03:03:09 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id ba18-20020a0560001c1200b00333479734a7sm8669148wrb.99.2023.12.06.03.03.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 00:10:31 -0800 (PST)
-Message-ID: <99ec05e1-8bcd-48a5-84b6-760ac7c93317@linaro.org>
-Date: Wed, 6 Dec 2023 09:10:30 +0100
+        Wed, 06 Dec 2023 03:03:08 -0800 (PST)
+Message-ID: <6d58e60d-c85b-47a7-840e-47711ad208d5@linaro.org>
+Date: Wed, 6 Dec 2023 12:03:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,134 +47,114 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
-Content-Language: en-US, fr
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <1a09512c-aaff-4fb6-914e-db755ce6e667@suswa.mountain>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <1a09512c-aaff-4fb6-914e-db755ce6e667@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] ASoC: dt-bindings: fsl,xcvr: Adjust the number of
+ interrupts
+Content-Language: en-US
+To: Fabio Estevam <festevam@gmail.com>, broonie@kernel.org
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, viorel.suman@nxp.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+References: <20231205202015.2118980-1-festevam@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231205202015.2118980-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Dan,
+On 05/12/2023 21:20, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> Unlike i.MX8MP, i.MX93 has two XCVR interrupts.
+> 
+> Describe the two interrupts for the i.MX93 to fix the following
+> dt-schema warning:
+> 
+> imx93-11x11-evk.dtb: xcvr@42680000: interrupts: [[0, 203, 4], [0, 204, 4]] is too long
+> 	from schema $id: http://devicetree.org/schemas/sound/fsl,xcvr.yaml#
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+>  .../devicetree/bindings/sound/fsl,xcvr.yaml    | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> index 799b362ba498..2db69a953afa 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> +++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> @@ -38,7 +38,10 @@ properties:
+>        - const: txfifo
+>  
+>    interrupts:
+> -    maxItems: 1
+> +    items:
+> +      - description: WAKEUPMIX Audio XCVR Interrupt 1
+> +      - description: WAKEUPMIX Audio XCVR Interrupt 2
+> +    minItems: 1
+>  
+>    clocks:
+>      items:
+> @@ -78,6 +81,19 @@ required:
+>    - dma-names
+>    - resets
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - fsl,imx93-xcvr
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +          maxItems: 2
 
-On 06/12/2023 06:39, Dan Carpenter wrote:
-> Hi Neil,
-> 
-> kernel test robot noticed the following build warnings:
+Same comment as your lcdif. Why all devices support now two interrupts?
 
-Thanks for the report, I'll fix all this
-Neil
-
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-document-WCD939x-Audio-Codec/20231202-000916
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> patch link:    https://lore.kernel.org/r/20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa%40linaro.org
-> patch subject: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
-> config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-ci/archive/20231206/202312060127.FLhplIP3-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060127.FLhplIP3-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202312060127.FLhplIP3-lkp@intel.com/
-> 
-> New smatch warnings:
-> sound/soc/codecs/wcd939x.c:3168 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> sound/soc/codecs/wcd939x.c:3221 wcd939x_swap_gnd_mic() warn: signedness bug returning '(-22)'
-> 
-> Old smatch warnings:
-> sound/soc/codecs/wcd939x.c:3170 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> sound/soc/codecs/wcd939x.c:3173 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> sound/soc/codecs/wcd939x.c:3174 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> sound/soc/codecs/wcd939x.c:3176 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> sound/soc/codecs/wcd939x.c:3177 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> sound/soc/codecs/wcd939x.c:3179 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
-> 
-> vim +/wcd939x +3168 sound/soc/codecs/wcd939x.c
-> 
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3164  static int wcd939x_typec_mux_set(struct typec_mux_dev *mux,
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3165  				 struct typec_mux_state *state)
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3166  {
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3167  	struct wcd939x_priv *wcd939x = typec_mux_get_drvdata(mux);
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01 @3168  	unsigned int previous_mode = wcd939x->typec_mode;
-> 
-> The Kconfig should probably depend on CONFIG_TYPEC to avoid a crash here.
-> 
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3169
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3170  	if (!wcd939x->wcd_mbhc)
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3171  		return -EINVAL;
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3172
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3173  	if (wcd939x->typec_mode != state->mode) {
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3174  		wcd939x->typec_mode = state->mode;
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3175
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3176  		if (wcd939x->typec_mode == TYPEC_MODE_AUDIO)
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3177  			return wcd_mbhc_typec_report_plug(wcd939x->wcd_mbhc);
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3178  		else if (previous_mode == TYPEC_MODE_AUDIO)
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3179  			return wcd_mbhc_typec_report_unplug(wcd939x->wcd_mbhc);
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3180  	}
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3181
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3182  	return 0;
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3183  }
-> 
-> [ snip ]
-> 
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3216  static bool wcd939x_swap_gnd_mic(struct snd_soc_component *component, bool active)
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3217  {
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3218  	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3219
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3220  	if (!wcd939x->typec_analog_mux || !wcd939x->typec_switch)
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01 @3221  		return -EINVAL;
-> 
-> This is type bool.  return false?
-> 
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3222
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3223  	/* Report inversion via Type Switch of USBSS */
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3224  	return typec_switch_set(wcd939x->typec_switch,
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3225  				wcd939x->typec_orientation == TYPEC_ORIENTATION_REVERSE ?
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3226  					TYPEC_ORIENTATION_NORMAL : TYPEC_ORIENTATION_REVERSE);
-> 6c302e2f95b1d1 Neil Armstrong 2023-12-01  3227  }
-> 
+Best regards,
+Krzysztof
 
