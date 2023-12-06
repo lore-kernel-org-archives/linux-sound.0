@@ -1,113 +1,134 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e6l8tHe2"
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7619DD5F
-	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 13:07:29 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2868605fa4aso256962a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 06 Dec 2023 13:07:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ML/MKq9p"
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8A7D46;
+	Wed,  6 Dec 2023 14:32:22 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c192f488cso500675e9.1;
+        Wed, 06 Dec 2023 14:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701896849; x=1702501649; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqFC5ji57tlGOgcDGhYR3koXkffw9V8OUgIHws4y0Ik=;
-        b=e6l8tHe2M5qlVEEJ1DCYVDM88akxop4k1yonzqkenLnFE/utNe9Bp5mC9NOsOGgnA5
-         O5w0JXVSD3uXLZZqhnCj6F/vR7z1GY9hnwE+/DmSxzjYUa0PV/ul/xOhoiUF3jTL/67C
-         VqD15G+/LwwV/KhYRoLPrLxDwBW9Z6UQsZixc=
+        d=gmail.com; s=20230601; t=1701901941; x=1702506741; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KyhcnJA0nXBVR1HG/2l3wKqAtWW5a+bvVknLnzVqBQ4=;
+        b=ML/MKq9pTcQkMeFiceaZPwrz6YOrDFyElXnP2UCyTipi2eHt752w8Xog+WXyx1rY2H
+         lWLHrw8QM+2MHWklUw/JXJY01lsEaE1msupgEvO8N5ATc4jawB2XkwpEQWCZv0Us8clO
+         uB/NXtWcGPkRJr3JtIPlTL2PtH35SP7wTMQ1FOyB7E7MKImhH63mmOU8qsABRNhVXiTG
+         aYjI1Mv/dly3xq3nN6stwbN0sbts6Qyzxif0gAGeFS9pZ7bNODWRIMV95zBo+8rbQlYq
+         2xNG6LtV1J35YarMNEcZP1iTfrtgPc3WjjhXJPGhzQ7weRalv45QealrPan2jL5rwn94
+         x8PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701896849; x=1702501649;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZqFC5ji57tlGOgcDGhYR3koXkffw9V8OUgIHws4y0Ik=;
-        b=uALFnDWwJ4ZoyR9Xu9L7e0yZXLqwL/HhDhpkQpqnBS9NJQai67MsYOnDfNV+DTfJTz
-         HrnJLuSHxvmWKuX372paxE6szRwPftE4nMiBggkCO1V8OkcN768OsGq3IMU4lnVnu8t2
-         nJZMvHlWXFzYBg5pT1J0bvXKm/5PIxRroM25kOW9fb+rIJ9R3LQ/MjOMbGcQ/oCKrwCy
-         emUNIfvcC0nDokOeJaDywgwLU5kbb2X1Bd+ZEp8Gjtz9oyddbLon5zQYimC1bZjkONU/
-         JzXxMg0vKrl3nIWeWyrq2XX8HHqPHKRxbho1oRSBoqxyEKmsyNm1nzZpxSa6UBZKFhbV
-         yS0g==
-X-Gm-Message-State: AOJu0Yzju7oEAe1q8HQRNPvq6dFwJWWr598lCMVU09LSSVa9Dxb/najc
-	AAcMkxzIFIB0k0mt+yU9z9/mdA==
-X-Google-Smtp-Source: AGHT+IEAbbzSLQbJ/Rm3HnAGHG3fVDh0lRG/dixqNMZ39AimVhzfCgt99eehqSCc5SMeKCYoDAW9gw==
-X-Received: by 2002:a17:90b:5281:b0:286:6cc0:b920 with SMTP id si1-20020a17090b528100b002866cc0b920mr1089720pjb.87.1701896848897;
-        Wed, 06 Dec 2023 13:07:28 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id gq7-20020a17090b104700b0028571e2a759sm296227pjb.48.2023.12.06.13.07.28
+        d=1e100.net; s=20230601; t=1701901941; x=1702506741;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KyhcnJA0nXBVR1HG/2l3wKqAtWW5a+bvVknLnzVqBQ4=;
+        b=YqYaWd3pXyVsbbQo4/taOvZioXp5bq0zD4oUHfCoTZ4PJ6wH7Ga754/DLbIWYiUP2E
+         WOptxThkjDhFk/Q9xFFFF9xD5UroQpjsmMyKKplcBrsF8HM6AX00v2YZKy9VeWkH4kh3
+         oVQ587qo0pzhuJDrkGFPCpVe6YGqTwmX1FUX3qvAPOjsQmzqcFPeid2dcDt9Iih3qMLk
+         DGLYxpi3nxWxpopbZ+jx/oyZcvqP3u8EZIWydyheeqrNq52Xo/yVH3zjK/UcotrO4v2A
+         GCbt+QL8NGyJNqoIqAsbF2Wz7lLrYcdSxpiHxY3feWcJsNVjeHwfwzQRX9cqWCcjwrWW
+         E73g==
+X-Gm-Message-State: AOJu0YzGMtXOtfY8kcwY0ieLUbDWfcVfrr2K3DbriakHzV0OTr0w3ZI2
+	uF1eqZXZ8EyC3khK6/c5NLjnul2l76Y2Cg==
+X-Google-Smtp-Source: AGHT+IGuQ00zpBrbu9P+x80URJdIofhHnx34kXxr5f5fvg9jbnq/MaiZHfVjM7fz7yKIv0ewre3wYA==
+X-Received: by 2002:a7b:cd16:0:b0:40c:2960:9603 with SMTP id f22-20020a7bcd16000000b0040c29609603mr113484wmj.3.1701901940319;
+        Wed, 06 Dec 2023 14:32:20 -0800 (PST)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:46d4:8167:1025:cc12])
+        by smtp.gmail.com with ESMTPSA id i16-20020a05600011d000b00333404e9935sm662139wrx.54.2023.12.06.14.32.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 13:07:28 -0800 (PST)
-Date: Wed, 6 Dec 2023 13:07:27 -0800
-From: Kees Cook <keescook@chromium.org>
-To: davidgow@google.com
-Cc: Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/4] fortify: test: Use kunit_device
-Message-ID: <202312061306.98DA6D275D@keescook>
-References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
- <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
+        Wed, 06 Dec 2023 14:32:19 -0800 (PST)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ALSA: pcmtest: stop timer before buffer is released
+Date: Wed,  6 Dec 2023 22:32:11 +0000
+Message-Id: <20231206223211.12761-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 05, 2023 at 03:31:34PM +0800, davidgow@google.com wrote:
-> Using struct root_device to create fake devices for tests is something
-> of a hack. The new struct kunit_device is meant for this purpose, so use
-> it instead.
-> 
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
->  lib/fortify_kunit.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/lib/fortify_kunit.c b/lib/fortify_kunit.c
-> index c8c33cbaae9e..f7a1fce8849b 100644
-> --- a/lib/fortify_kunit.c
-> +++ b/lib/fortify_kunit.c
-> @@ -16,6 +16,7 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
->  #include <kunit/test.h>
-> +#include <kunit/device.h>
->  #include <linux/device.h>
->  #include <linux/slab.h>
->  #include <linux/string.h>
-> @@ -269,7 +270,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
->  	size_t len;							\
->  									\
->  	/* Create dummy device for devm_kmalloc()-family tests. */	\
-> -	dev = root_device_register(dev_name);				\
-> +	dev = kunit_device_register(test, dev_name);			\
->  	KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev),			\
->  			       "Cannot register test device\n");	\
->  									\
-> @@ -303,7 +304,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
->  	checker(len, devm_kmemdup(dev, "Ohai", len, gfp),		\
->  		devm_kfree(dev, p));					\
->  									\
-> -	device_unregister(dev);						\
-> +	kunit_device_unregister(test, dev);				\
->  } while (0)
->  DEFINE_ALLOC_SIZE_TEST_PAIR(devm_kmalloc)
+Stop timer in the 'trigger' and 'sync_stop' callbacks since we want
+the timer to be stopped before the DMA buffer is released. Otherwise,
+it could trigger a kernel panic in some circumstances, for instance
+when the DMA buffer is already released but the timer callback is
+still running.
 
-Acked-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+V1 -> V2:
+- Remove useless NULLing of v_iter->substream. It will be released in
+'close' callback.
+V2 -> V3:
+- Change commit title from 'ALSA: pcmtest: stop timer in the hw_free
+callback' to more appropriate one
+- Deactivate the timer in 'trigger' function for the PCM STOP and PCM
+PAUSE PUSH events
+- Wait for timer handler to complete and stop it from rearming in the
+'sync_stop' callback instead of destroying the timer in hw_free
+callback, which could be called multiple times.
 
-(As an aside; shouldn't this get automatically cleaned up like other
-kunit resources, though?)
+ sound/drivers/pcmtest.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
+diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+index b59b78a09224..b8bff5522bce 100644
+--- a/sound/drivers/pcmtest.c
++++ b/sound/drivers/pcmtest.c
+@@ -397,7 +397,6 @@ static int snd_pcmtst_pcm_close(struct snd_pcm_substream *substream)
+ 	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
+ 
+ 	timer_shutdown_sync(&v_iter->timer_instance);
+-	v_iter->substream = NULL;
+ 	playback_capture_test = !v_iter->is_buf_corrupted;
+ 	kfree(v_iter);
+ 	return 0;
+@@ -435,6 +434,7 @@ static int snd_pcmtst_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+ 		// We can't call timer_shutdown_sync here, as it is forbidden to sleep here
+ 		v_iter->suspend = true;
++		timer_delete(&v_iter->timer_instance);
+ 		break;
+ 	}
+ 
+@@ -512,12 +512,22 @@ static int snd_pcmtst_ioctl(struct snd_pcm_substream *substream, unsigned int cm
+ 	return snd_pcm_lib_ioctl(substream, cmd, arg);
+ }
+ 
++static int snd_pcmtst_sync_stop(struct snd_pcm_substream *substream)
++{
++	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
++
++	timer_delete_sync(&v_iter->timer_instance);
++
++	return 0;
++}
++
+ static const struct snd_pcm_ops snd_pcmtst_playback_ops = {
+ 	.open =		snd_pcmtst_pcm_open,
+ 	.close =	snd_pcmtst_pcm_close,
+ 	.trigger =	snd_pcmtst_pcm_trigger,
+ 	.hw_params =	snd_pcmtst_pcm_hw_params,
+ 	.ioctl =	snd_pcmtst_ioctl,
++	.sync_stop =	snd_pcmtst_sync_stop,
+ 	.hw_free =	snd_pcmtst_pcm_hw_free,
+ 	.prepare =	snd_pcmtst_pcm_prepare,
+ 	.pointer =	snd_pcmtst_pcm_pointer,
+@@ -530,6 +540,7 @@ static const struct snd_pcm_ops snd_pcmtst_capture_ops = {
+ 	.hw_params =	snd_pcmtst_pcm_hw_params,
+ 	.hw_free =	snd_pcmtst_pcm_hw_free,
+ 	.ioctl =	snd_pcmtst_ioctl,
++	.sync_stop =	snd_pcmtst_sync_stop,
+ 	.prepare =	snd_pcmtst_pcm_prepare,
+ 	.pointer =	snd_pcmtst_pcm_pointer,
+ };
 -- 
-Kees Cook
+2.34.1
+
