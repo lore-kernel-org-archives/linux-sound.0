@@ -1,121 +1,80 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA10B36B13
+	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 13:12:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVVhH4NT"
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2FBD4B;
-	Wed,  6 Dec 2023 03:31:01 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1d0481b68ebso11771315ad.0;
-        Wed, 06 Dec 2023 03:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701862260; x=1702467060; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SB3nqslBIX6M2uGGT/Yi34KGuFU1UIll1snis+QvolU=;
-        b=eVVhH4NTYt0I6ZnkW1YOuIwL8fk3eCKGRWOpiSZ5QTshcpjAX8/gwPIj4nqAoIc/G0
-         xG2RZ4/++wuKsMsbFGjs/z6VpUs1NeX4FNI03w0HOQsFQ3U/JnsOH7FEFpFBhN0OsEDH
-         gHvtq07nVY+NyYHHj4Zsmzz3B5jRxKC3uaW3NPhq9Wy2yHyweiQT8pTIOXkHT4mI1PyM
-         H/YxHTIkhFhPld6Hmd7xP/dN7dRMYxHFR3Lt/LSy+ca6ueQ8tb4zADg7XfSNBJ0dzqTP
-         n2dsKhQoVhe5l+BOEY/ZU1PIlOrYUowFInlXvv3nJn4ZiwAijDMK7gZDhVecGmJmiDEk
-         ZATg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701862260; x=1702467060;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SB3nqslBIX6M2uGGT/Yi34KGuFU1UIll1snis+QvolU=;
-        b=urbRUjAHEX2btrEaUCHMvywE6JgtT9dM3PvoEvki1ng1VyqBDOnJ4aHMbcrkeivrQy
-         gnBiCSjPmpt///I7O9yDz/L97l2MNIdMcBNat1ypnZbuMR2GyiPCgnsuUo9Qy+2ENM2S
-         qGgi+uDkU65/V8rCUOXU8TT+FVmqe1GMh91rIsqNuYEpY6Q7vAUZWOJ96fJreGTWiI34
-         rhlkiyGkbee5+5aFqCuvNhgh0HK5dTMgY9FppvcBTWNqUlh0Eboy5SLB48sJ+YhsxmVv
-         RcMdZ6BkdVkDZZzIkGz9IzXxJ0PUqWlhXX0AOwpqnxTpwmdVi00quFKSIRkorz4CcC0L
-         qPsQ==
-X-Gm-Message-State: AOJu0YzGTIZsAV/5sbvLnnBNP/+3HkF2e4gTkDUwUl/1oeMcDhe6GdLJ
-	07aYi8bbZwjFiTl71U2LRZ8=
-X-Google-Smtp-Source: AGHT+IGXN+TtiY0zy2TdM6xCTrjhO8gfMXNvQgcpTGTRIMeLI3U74Qx7E1MhD6+crdYsk6t/ZgcLPA==
-X-Received: by 2002:a17:902:d509:b0:1d0:61a0:9844 with SMTP id b9-20020a170902d50900b001d061a09844mr1337038plg.4.1701862260625;
-        Wed, 06 Dec 2023 03:31:00 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:6764:e124:5ffc:3f5])
-        by smtp.gmail.com with ESMTPSA id jw12-20020a170903278c00b001d076c2e336sm7853261plb.100.2023.12.06.03.30.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 03:31:00 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: broonie@kernel.org
-Cc: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	viorel.suman@nxp.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v2] ASoC: dt-bindings: fsl,xcvr: Adjust the number of interrupts
-Date: Wed,  6 Dec 2023 08:30:47 -0300
-Message-Id: <20231206113047.2240055-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pUHMnBj0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E6FC433C7;
+	Wed,  6 Dec 2023 13:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701868372;
+	bh=EStk6AojKy4VrHDz7eSOQKX/7HbeZy7ZzJ/2crabbHk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=pUHMnBj0fpV+uqC8lC/kqLL2SDwI80ZQvcD8acliYpy+7Mx25yFwsyR8EnLmLATER
+	 DJNzK3a6Z8osyx1yUzskQq8PAGIfJQHZqEg4ND/T9pSa4fMwrCj7MKAaWnpAKrnE1s
+	 UPHRFLp/CvVHDqYRczUb7LpV5Hw+E/F3MlJ9gp4qmJ9f9BeTly+H68k3m5WnYKqVBb
+	 ykdzlvyp/Oig+Mj/ZdrrYgBYjbpkvFSgGvqtE0ypoPsVADMwYAtCZNHPbyXv5TGVZq
+	 fj3/ZeUSAb32tMlZ0DuJM3o8I5ghrDV8QYkSVwbz8x5hycvMQ3Mgjei4KI9vs2qQq2
+	 ypjE16CzHOXgQ==
+From: Mark Brown <broonie@kernel.org>
+To: pierre-louis.bossart@linux.intel.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ cezary.rojewski@intel.com, ranjani.sridharan@linux.intel.com, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20231205135001.2506070-1-rf@opensource.cirrus.com>
+References: <20231205135001.2506070-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: Intel: sof_sdw_cs_amp: Connect outputs to a
+ speaker widget
+Message-Id: <170186836988.22386.11650594415666700683.b4-ty@kernel.org>
+Date: Wed, 06 Dec 2023 13:12:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-From: Fabio Estevam <festevam@denx.de>
+On Tue, 05 Dec 2023 13:50:01 +0000, Richard Fitzgerald wrote:
+> Hookup the CS35L56 DAPM_OUTPUT widgets to a DAPM_SPK widget so
+> that there is a complete logical path to a speaker.
+> 
+> There is no particular reason to use multiple speaker widgets.
+> The CS35L56 are designed to work together as a set so they have
+> all been connected to a single speaker widget.
+> 
+> [...]
 
-Unlike i.MX8MP, i.MX93 has two XCVR interrupts.
+Applied to
 
-Describe the two interrupts for the i.MX93 to fix the following
-dt-schema warning:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-imx93-11x11-evk.dtb: xcvr@42680000: interrupts: [[0, 203, 4], [0, 204, 4]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/fsl,xcvr.yaml#
+Thanks!
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v1:
-- Add missing else to limit the number of irqs for the other variants. (Krzysztof)
+[1/1] ASoC: Intel: sof_sdw_cs_amp: Connect outputs to a speaker widget
+      commit: 138a4e2a26ec73197e22fe64ee3957b1594eabb3
 
- .../devicetree/bindings/sound/fsl,xcvr.yaml   | 22 ++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-index 799b362ba498..0eb0c1ba8710 100644
---- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-+++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-@@ -38,7 +38,10 @@ properties:
-       - const: txfifo
- 
-   interrupts:
--    maxItems: 1
-+    items:
-+      - description: WAKEUPMIX Audio XCVR Interrupt 1
-+      - description: WAKEUPMIX Audio XCVR Interrupt 2
-+    minItems: 1
- 
-   clocks:
-     items:
-@@ -78,6 +81,23 @@ required:
-   - dma-names
-   - resets
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - fsl,imx93-xcvr
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 2
-+          maxItems: 2
-+    else:
-+      properties:
-+        interrupts:
-+          maxItems: 1
-+
- additionalProperties: false
- 
- examples:
--- 
-2.34.1
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
