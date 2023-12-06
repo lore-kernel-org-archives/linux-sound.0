@@ -1,88 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7933B495ED
-	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 21:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYm7U+61"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9626DC433C9;
-	Wed,  6 Dec 2023 21:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701896684;
-	bh=UJfCLWvjaeHxoaivKdYpO1tpsskZ6FpSSxamVKiasE4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DYm7U+61qFtJK81smqLMUbVvfv/kvSGlGzhucfORBTSpjL4ldqYMDfDfDHpl3QS51
-	 ZfwIdNY4Lo1zwe53LxLdvQdvzp+DTiEAM6OGk0JCn7oTBJp4Qr3CXuMBlxb3Zvw8RS
-	 DFJZ+RDIdH1eJA+Usvj8KVTVInPIEA/YZVmMjP11E6wts5cVh+4us1KelMs12S4nH2
-	 Z5ufAi3MI+BzdXbIYBIv72wcZvk31qYHkttIdtTqboL1L6c5rOTvmhKoYJ8sttTiLb
-	 hRW4skPR1kNhjkxDdirGoJybnqP2q/fLnys+vE8lZXQqxYMfEzi0+I1CwHwmL6O0Au
-	 6Vax0YjMb5jMw==
-From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Marian Postevca <posteuca@mutex.one>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20231206110620.1695591-1-venkataprasad.potturu@amd.com>
-References: <20231206110620.1695591-1-venkataprasad.potturu@amd.com>
-Subject: Re: [PATCH 1/7] ASoC: amd: Add new dmi entries for acp5x platform
-Message-Id: <170189668133.80064.8230022680454634134.b4-ty@kernel.org>
-Date: Wed, 06 Dec 2023 21:04:41 +0000
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e6l8tHe2"
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7619DD5F
+	for <linux-sound@vger.kernel.org>; Wed,  6 Dec 2023 13:07:29 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2868605fa4aso256962a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 06 Dec 2023 13:07:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701896849; x=1702501649; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqFC5ji57tlGOgcDGhYR3koXkffw9V8OUgIHws4y0Ik=;
+        b=e6l8tHe2M5qlVEEJ1DCYVDM88akxop4k1yonzqkenLnFE/utNe9Bp5mC9NOsOGgnA5
+         O5w0JXVSD3uXLZZqhnCj6F/vR7z1GY9hnwE+/DmSxzjYUa0PV/ul/xOhoiUF3jTL/67C
+         VqD15G+/LwwV/KhYRoLPrLxDwBW9Z6UQsZixc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701896849; x=1702501649;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZqFC5ji57tlGOgcDGhYR3koXkffw9V8OUgIHws4y0Ik=;
+        b=uALFnDWwJ4ZoyR9Xu9L7e0yZXLqwL/HhDhpkQpqnBS9NJQai67MsYOnDfNV+DTfJTz
+         HrnJLuSHxvmWKuX372paxE6szRwPftE4nMiBggkCO1V8OkcN768OsGq3IMU4lnVnu8t2
+         nJZMvHlWXFzYBg5pT1J0bvXKm/5PIxRroM25kOW9fb+rIJ9R3LQ/MjOMbGcQ/oCKrwCy
+         emUNIfvcC0nDokOeJaDywgwLU5kbb2X1Bd+ZEp8Gjtz9oyddbLon5zQYimC1bZjkONU/
+         JzXxMg0vKrl3nIWeWyrq2XX8HHqPHKRxbho1oRSBoqxyEKmsyNm1nzZpxSa6UBZKFhbV
+         yS0g==
+X-Gm-Message-State: AOJu0Yzju7oEAe1q8HQRNPvq6dFwJWWr598lCMVU09LSSVa9Dxb/najc
+	AAcMkxzIFIB0k0mt+yU9z9/mdA==
+X-Google-Smtp-Source: AGHT+IEAbbzSLQbJ/Rm3HnAGHG3fVDh0lRG/dixqNMZ39AimVhzfCgt99eehqSCc5SMeKCYoDAW9gw==
+X-Received: by 2002:a17:90b:5281:b0:286:6cc0:b920 with SMTP id si1-20020a17090b528100b002866cc0b920mr1089720pjb.87.1701896848897;
+        Wed, 06 Dec 2023 13:07:28 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id gq7-20020a17090b104700b0028571e2a759sm296227pjb.48.2023.12.06.13.07.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 13:07:28 -0800 (PST)
+Date: Wed, 6 Dec 2023 13:07:27 -0800
+From: Kees Cook <keescook@chromium.org>
+To: davidgow@google.com
+Cc: Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/4] fortify: test: Use kunit_device
+Message-ID: <202312061306.98DA6D275D@keescook>
+References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+ <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205-kunit_bus-v1-2-635036d3bc13@google.com>
 
-On Wed, 06 Dec 2023 16:36:12 +0530, Venkata Prasad Potturu wrote:
-> Add sys_vendor and product_name dmi entries for acp5x platform.
+On Tue, Dec 05, 2023 at 03:31:34PM +0800, davidgow@google.com wrote:
+> Using struct root_device to create fake devices for tests is something
+> of a hack. The new struct kunit_device is meant for this purpose, so use
+> it instead.
 > 
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>  lib/fortify_kunit.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
+> diff --git a/lib/fortify_kunit.c b/lib/fortify_kunit.c
+> index c8c33cbaae9e..f7a1fce8849b 100644
+> --- a/lib/fortify_kunit.c
+> +++ b/lib/fortify_kunit.c
+> @@ -16,6 +16,7 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <kunit/test.h>
+> +#include <kunit/device.h>
+>  #include <linux/device.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+> @@ -269,7 +270,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
+>  	size_t len;							\
+>  									\
+>  	/* Create dummy device for devm_kmalloc()-family tests. */	\
+> -	dev = root_device_register(dev_name);				\
+> +	dev = kunit_device_register(test, dev_name);			\
+>  	KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev),			\
+>  			       "Cannot register test device\n");	\
+>  									\
+> @@ -303,7 +304,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
+>  	checker(len, devm_kmemdup(dev, "Ohai", len, gfp),		\
+>  		devm_kfree(dev, p));					\
+>  									\
+> -	device_unregister(dev);						\
+> +	kunit_device_unregister(test, dev);				\
+>  } while (0)
+>  DEFINE_ALLOC_SIZE_TEST_PAIR(devm_kmalloc)
 
-Applied to
+Acked-by: Kees Cook <keescook@chromium.org>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+(As an aside; shouldn't this get automatically cleaned up like other
+kunit resources, though?)
 
-Thanks!
-
-[1/7] ASoC: amd: Add new dmi entries for acp5x platform
-      commit: c3ab23a10771bbe06300e5374efa809789c65455
-[2/7] ASoC: amd: vangogh: Add condition check for acp config flag
-      commit: f18818eb0dbe0339c0efd02a34a3f5651749cb84
-[3/7] ASoC: amd: Remove extra dmi parameter
-      commit: e12678141835c539fc17a2318ec4017a845935bd
-[4/7] ASoC: amd: acp: Add new cpu dai and dailink creation for I2S BT instance
-      commit: 671dd2ffbd8b92e2228fa84ea4274a051b704dec
-[5/7] ASoC: amd: acp: Add i2s bt support for nau8821-max card
-      commit: e6a382cf7a69cc80e57978bbf0c7a674dfb09621
-[6/7] ASoC: amd: acp: Enable dpcm_capture for MAX98388 codec
-      commit: e249839bf33f3f9727d6220536ed5c7d4f5bc31d
-[7/7] ASoC: amd: acp: Set bclk as source to set pll for rt5682s codec
-      commit: ff5a698c0ffb08eee9c1ce0dfc79c91f273122d5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Kees Cook
