@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXyYOmg7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K91Y+JD5"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A75A4
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 14:30:26 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF2B11C
+	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 14:30:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701988226; x=1733524226;
+  t=1701988227; x=1733524227;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Lq06mwNMjDgFe0DyRT6KiZkNWm7P+g8lzpc3H+kqz6U=;
-  b=kXyYOmg7CZopEIDByX1EtFC6PtQ3QB3RpueFq/VtstuSSsL/CACkHQuK
-   y2ugv0SlGTwoYaWUYMHXM6jhjSu7ga1Py4J1qjfU6MtTz4hPR6DAYso95
-   lizG5JFZYavUmB14T7fjI4R8sWPKltpRby1KTF6bwpUTr55gSjNAt6ISv
-   RzXbZ8ksQlEUZiJY+684w0TmwJz7/Wjtoeu9GMqPtua01FL3jQw8iINid
-   BGGOBUf5vDKjFvk3DQ0MX+gxcfSNcNZVOKMDbZR8toMve2s7cfQgdxGud
-   4rkXBguMpPMJlRE1NKRqRNLNgyMPYg8dcIO8tFTPKok/9/IAPDxT/960W
+  bh=lpuPhI2tpB9IQsCXtoONYV6zah6M9dPvl1Rlo707E0M=;
+  b=K91Y+JD5Jox6IooEOlmQ/r4wgFqFcO4cu9Q6h7yIv2+JrQdSOZ10eyRq
+   lFjtMgVMDRqrjFn+Y9e9uJdhUFAqRKrHEEt7MkPMCHSSAIyXesX9U3dBg
+   xTDiTURdh8NBqZ9Gz8hnLmfWdM//k44yKoTynDjXh1aFSw7ZaBu2BZ58Y
+   S5I1gEoH1ys0YnweA+oWQFJ8Cqu+ryVurvOzbJWnPPbRf1lrURiIgN8mJ
+   5lvG5IrkNyeI0vHCCGQfpb8AGKg3dBMUnRsPX5Z0BofDGUB5muxNCvCyK
+   IapVcjnmxLJychX/+US0t/Qk12oDVTMaO7cPtA4gPK2AELjjTRivdm0ro
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480516699"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480516709"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="480516699"
+   d="scan'208";a="480516709"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:25 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="895307517"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="895307523"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="895307517"
+   d="scan'208";a="895307523"
 Received: from hrcolco-mobl3.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.212.148.159])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:24 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:25 -0800
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -46,9 +46,9 @@ Cc: alsa-devel@alsa-project.org,
 	Jack Yu <jack.yu@realtek.com>,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [RFC PATCH 15/16] soundwire: debugfs: add interface for BPT/BRA transfers
-Date: Thu,  7 Dec 2023 16:29:43 -0600
-Message-Id: <20231207222944.663893-16-pierre-louis.bossart@linux.intel.com>
+Subject: [RFC PATCH 16/16] ASoC: rt711-sdca: add DP0 support
+Date: Thu,  7 Dec 2023 16:29:44 -0600
+Message-Id: <20231207222944.663893-17-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
 References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
@@ -60,203 +60,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add code to show what codec drivers will need to do to enable BPT/BRA
-transfers. The only difference is to set the 'command_type' file to
-1. A zero-value will rely on regular read/write commands in Column0.
-
-For now the code will only return error codes since the Manager side
-is not enabled yet.
+DP0 is required for BPT/BRA transport.
 
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- drivers/soundwire/debugfs.c | 122 +++++++++++++++++++++++++++++++-----
- 1 file changed, 106 insertions(+), 16 deletions(-)
+ sound/soc/codecs/rt711-sdca-sdw.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 6d253d69871d..de35f5beec4d 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -138,9 +138,10 @@ static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
- }
- DEFINE_SHOW_ATTRIBUTE(sdw_slave_reg);
- 
--#define MAX_CMD_BYTES 256
-+#define MAX_CMD_BYTES (1024 * 1024)
- 
- static int cmd;
-+static int cmd_type;
- static u32 start_addr;
- static size_t num_bytes;
- static u8 read_buffer[MAX_CMD_BYTES];
-@@ -164,6 +165,25 @@ static int set_command(void *data, u64 value)
- DEFINE_DEBUGFS_ATTRIBUTE(set_command_fops, NULL,
- 			 set_command, "%llu\n");
- 
-+static int set_command_type(void *data, u64 value)
-+{
-+	struct sdw_slave *slave = data;
-+
-+	if (value > 1)
-+		return -EINVAL;
-+
-+	/* Userspace changed the hardware state behind the kernel's back */
-+	add_taint(TAINT_USER, LOCKDEP_STILL_OK);
-+
-+	dev_dbg(&slave->dev, "command type: %s\n", value ? "BRA" : "Column0");
-+
-+	cmd_type = value;
-+
-+	return 0;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(set_command_type_fops, NULL,
-+			 set_command_type, "%llu\n");
-+
- static int set_start_address(void *data, u64 value)
- {
- 	struct sdw_slave *slave = data;
-@@ -199,9 +219,64 @@ static int set_num_bytes(void *data, u64 value)
- DEFINE_DEBUGFS_ATTRIBUTE(set_num_bytes_fops, NULL,
- 			 set_num_bytes, "%llu\n");
- 
-+static int do_bpt_sequence(struct sdw_slave *slave, bool write,
-+			   u8 *buffer)
-+{
-+	struct sdw_bpt_msg msg = {0};
-+	int ret1;
-+	int ret;
-+
-+	msg.addr = start_addr;
-+	msg.len = num_bytes;
-+	msg.dev_num = slave->dev_num;
-+	if (write)
-+		msg.flags = SDW_MSG_FLAG_WRITE;
-+	else
-+		msg.flags = SDW_MSG_FLAG_READ;
-+	msg.buf = buffer;
-+
-+	ret = sdw_bpt_open_stream(slave->bus, slave, SDW_BRA, &msg);
-+	if (ret < 0) {
-+		dev_err(&slave->dev, "bpt_open_stream failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = sdw_bpt_send_async(slave->bus,
-+				 slave,
-+				 &msg);
-+	if (ret < 0) {
-+		dev_err(&slave->dev, "bpt_send_async failed: %d\n", ret);
-+		goto close;
-+	}
-+
-+	dev_dbg(&slave->dev, "send_async done\n");
-+
-+	ret = sdw_bpt_wait(slave->bus,
-+			   slave,
-+			   &msg);
-+	if (ret < 0)
-+		dev_err(&slave->dev, "%s: bpt_wait failed: %d\n", __func__, ret);
-+
-+	dev_dbg(&slave->dev, "wait done\n");
-+
-+close:
-+	ret1 = sdw_bpt_close_stream(slave->bus, slave, SDW_BRA, &msg);
-+	if (ret1 < 0) {
-+		dev_err(&slave->dev, "%s: bpt_close_stream failed: %d\n",
-+			__func__, ret1);
-+		if (!ret)
-+			ret = ret1;
-+	}
-+
-+	return ret;
-+}
-+
- static int cmd_go(void *data, u64 value)
- {
-+	const struct firmware *fw = NULL;
- 	struct sdw_slave *slave = data;
-+	ktime_t start_t;
-+	ktime_t finish_t;
- 	int ret;
- 
- 	if (value != 1)
-@@ -218,40 +293,54 @@ static int cmd_go(void *data, u64 value)
- 		return ret;
+diff --git a/sound/soc/codecs/rt711-sdca-sdw.c b/sound/soc/codecs/rt711-sdca-sdw.c
+index 935e597022d3..583c839e0e49 100644
+--- a/sound/soc/codecs/rt711-sdca-sdw.c
++++ b/sound/soc/codecs/rt711-sdca-sdw.c
+@@ -225,6 +225,14 @@ static int rt711_sdca_read_prop(struct sdw_slave *slave)
+ 		j++;
  	}
  
--	/* Userspace changed the hardware state behind the kernel's back */
--	add_taint(TAINT_USER, LOCKDEP_STILL_OK);
--
--	dev_dbg(&slave->dev, "starting command\n");
--
- 	if (cmd == 0) {
--		const struct firmware *fw;
--
- 		ret = request_firmware(&fw, firmware_file, &slave->dev);
- 		if (ret < 0) {
- 			dev_err(&slave->dev, "firmware %s not found\n", firmware_file);
- 			goto out;
- 		}
--
--		if (fw->size != num_bytes) {
-+		if (fw->size < num_bytes) {
- 			dev_err(&slave->dev,
--				"firmware %s: unexpected size %zd, desired %zd\n",
-+				"firmware %s: firmware size %zd, desired %zd\n",
- 				firmware_file, fw->size, num_bytes);
--			release_firmware(fw);
- 			goto out;
- 		}
-+	}
- 
--		ret = sdw_nwrite_no_pm(slave, start_addr, num_bytes, fw->data);
--		release_firmware(fw);
-+	/* Userspace changed the hardware state behind the kernel's back */
-+	add_taint(TAINT_USER, LOCKDEP_STILL_OK);
++	prop->dp0_prop = devm_kzalloc(&slave->dev, sizeof(*prop->dp0_prop),
++				      GFP_KERNEL);
++	if (!prop->dp0_prop)
++		return -ENOMEM;
 +
-+	dev_dbg(&slave->dev, "starting command\n");
-+	start_t = ktime_get();
++	prop->dp0_prop->simple_ch_prep_sm = true;
++	prop->dp0_prop->ch_prep_timeout = 10;
 +
-+	if (cmd == 0) {
-+		if (cmd_type) {
-+			ret = do_bpt_sequence(slave, true, (u8 *)fw->data);
-+		} else {
-+			ret = sdw_nwrite_no_pm(slave, start_addr, num_bytes, fw->data);
-+		}
- 	} else {
--		ret = sdw_nread_no_pm(slave, start_addr, num_bytes, read_buffer);
-+		memset(read_buffer, 0, sizeof(read_buffer));
-+
-+		if (cmd_type) {
-+			ret = do_bpt_sequence(slave, false, read_buffer);
-+		} else {
-+			ret = sdw_nread_no_pm(slave, start_addr, num_bytes, read_buffer);
-+		}
- 	}
+ 	/* set the timeout values */
+ 	prop->clk_stop_timeout = 700;
  
--	dev_dbg(&slave->dev, "command completed %d\n", ret);
-+	finish_t = ktime_get();
- 
- out:
-+	if (fw)
-+		release_firmware(fw);
-+
- 	pm_runtime_mark_last_busy(&slave->dev);
- 	pm_runtime_put(&slave->dev);
- 
-+	dev_dbg(&slave->dev, "command completed, status %d, time %lld ms\n",
-+		ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
-+
- 	return ret;
- }
- DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
-@@ -293,6 +382,7 @@ void sdw_slave_debugfs_init(struct sdw_slave *slave)
- 
- 	/* interface to send arbitrary commands */
- 	debugfs_create_file("command", 0200, d, slave, &set_command_fops);
-+	debugfs_create_file("command_type", 0200, d, slave, &set_command_type_fops);
- 	debugfs_create_file("start_address", 0200, d, slave, &set_start_address_fops);
- 	debugfs_create_file("num_bytes", 0200, d, slave, &set_num_bytes_fops);
- 	debugfs_create_file("go", 0200, d, slave, &cmd_go_fops);
 -- 
 2.39.2
 
