@@ -1,82 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44C840C03
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 13:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE6D3309C;
+	Thu,  7 Dec 2023 16:20:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dF7VDSiE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6281AC433C9;
-	Thu,  7 Dec 2023 13:59:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OaX+Amr4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE46FC433B9;
+	Thu,  7 Dec 2023 16:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701957592;
-	bh=ZuC5Sg0qcx3RtpmbuKgYYlSi24reNt2keYVou/b9iGA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dF7VDSiEmvkU9E45dhqgHWEkwRy7zOwN9AQAmSbRBaNnGI8NWqXL/Mp9BdIL0x9n6
-	 QWi3xts7w45kOhz9VWG3DY9yjMBtyvSdTnq4NEa0C//AEtUVf1dPgARlPMIv5hJszd
-	 8IeNi6a9uZKsubM1YmySbnPVY8JBrDAPhIDfVB3ZSorV3h/94pMahlBx45UhhU+hpN
-	 EETx/x/S2wzncUXiqRWJEi2l+2tmmWphMgqpCvBH74oUEyEm2GU0c+hawqyRLc7ffC
-	 8KBAKdLwQqhnsrrDcQ9uahkqXvsWIW4ckFOFob7u7VFi8lxS+o+dNAly7pRZo/vaqY
-	 7/a3NJ33QuLYg==
+	s=k20201202; t=1701966052;
+	bh=MBl8jX+CYsWd6FZCSkh8ink0zxCjpM93rbZyvHRV2R8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OaX+Amr4+2De3B69b6K4i/wdD/KlCz19NtGb/HlW2OyVVH6jkUYW99P33NutAtN4J
+	 A0nJKfpdTQgOybcd97ybL7zLpQcpAoIfs08y/yLVszKPYo/p+7aHgn5ouMxal5zYoQ
+	 neQnIF9I8uOtFo2BAuAC+cNRUgo3VlEwViQgAwkE3Y6L8ngIELWn0jYiUvgC0Tfw/T
+	 15nM8TDyTLAx6xgL9Dl9eBYcgSLXtLh34DH8JSLBQEIAB6zRSvv4ifzuKJxcwR84Qo
+	 O6eqsr+covJ2qISwOFeGcu9CXz+wIGANUWkPYIT3T2/5srMqIVYD9zUL5gKYmw2wNS
+	 ougPA1Q+aQ0Jw==
+Date: Thu, 7 Dec 2023 16:20:43 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, Mario.Limonciello@amd.com, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Marian Postevca <posteuca@mutex.one>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20231207045505.1519151-1-Vijendar.Mukunda@amd.com>
-References: <20231207045505.1519151-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH] ASoC: amd: acp: modify config flag read logic
-Message-Id: <170195759012.40629.1653590710406299836.b4-ty@kernel.org>
-Date: Thu, 07 Dec 2023 13:59:50 +0000
+To: Lee Jones <lee@kernel.org>
+Cc: tudor.ambarus@linaro.org, pratyush@kernel.org,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	sbinding@opensource.cirrus.com, james.schulman@cirrus.com,
+	david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz,
+	tiwai@suse.com, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	michael@walle.cc, linux-mtd@lists.infradead.org,
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev, michal.simek@amd.com,
+	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+	git@amd.com, amitrkcian2002@gmail.com
+Subject: Re: [GIT PULL] Immutable branch between MFD and SPI due for the v6.8
+ merge window
+Message-ID: <d12da7b2-f18c-4b56-85be-6d98b62d6ddd@sirena.org.uk>
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+ <20231125092137.2948-2-amit.kumar-mahapatra@amd.com>
+ <170142465659.3329910.8527538140063947758.b4-ty@kernel.org>
+ <395caa58-a8a0-4c75-85d3-4fa0f6f4a9ba@sirena.org.uk>
+ <20231207133849.GB8867@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="H1tMbLV73SdOkctb"
+Content-Disposition: inline
+In-Reply-To: <20231207133849.GB8867@google.com>
+X-Cookie: Two is company, three is an orgy.
 
-On Thu, 07 Dec 2023 10:25:01 +0530, Vijendar Mukunda wrote:
-> Modify acp config flag read logic from ACP v7.0 onwards.
-> Instead of reading from DMI table match entry, read the
-> config flag value from BIOS ACPI table.
-> This will remove updating DMI table when new platform support
-> is added.
-> Use FLAG_AMD_LEGACY_ONLY_DMIC flag as default one.
-> 
-> [...]
 
-Applied to
+--H1tMbLV73SdOkctb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Thu, Dec 07, 2023 at 01:38:49PM +0000, Lee Jones wrote:
+> Good afternoon Mark,
+>=20
+> > Is there a signed tag available for this - without this change the
+> > subsequent SPI changes introduce a build breakage.
+>=20
+> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa=
+86:
+>=20
+>   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-spi-v6=
+=2E8
+>=20
+> for you to fetch changes up to 4ae08845db4c1f759b8382bc7527ab8249230e7f:
+>=20
+>   mfd: tps6594: Use spi_get_chipselect() API to access spi->chip_select (=
+2023-12-07 13:36:29 +0000)
 
 Thanks!
 
-[1/1] ASoC: amd: acp: modify config flag read logic
-      commit: 8527ecc6cf25417a1940f91eb91fca0c69a5c553
+--H1tMbLV73SdOkctb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVx8NoACgkQJNaLcl1U
+h9BXiwf+NG+nYvE91fSSJn6y9dB1oLiMaR2BUDYVTOuWkwmRWLtbTbJgJwxJfBqH
+itW5Xs7GuEJ8Rq82sl4K6ITes+jLCB1ljYdbbH4QTqo7Sm5MjdRwGQczHbe8FONG
+FTu5Oa7WGJfTQa7tTu7TOJU16Dd1YPVT4QO8Zg2D6Fvltfdh5y0vTJO9LxdA99cE
+11d/pzJGFKEojADXl3V7RFLAiJJAFpri7C730ZOZ30WRt42f18MTl7omglIGAQOE
+6YvN9sSZ57FEQuWaoIKp8IGnOukM4eqEwuwx8CqUNGfD7ag9ffo17PpytPgQosoX
+6xPrq5I2cgrNMJzC71jsMobrBpQF1w==
+=4OmM
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--H1tMbLV73SdOkctb--
