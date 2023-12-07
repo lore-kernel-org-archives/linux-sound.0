@@ -1,81 +1,103 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LIraSdGE"
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A50D19A9
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 09:24:54 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a1db6816177so161740966b.0
-        for <linux-sound@vger.kernel.org>; Thu, 07 Dec 2023 09:24:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701969892; x=1702574692; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OSaCKj49TdBQE/wW0nBbIlYjNisy5X/gJJF/8cHix4E=;
-        b=LIraSdGECWO5t07MKS3BLatmmOjnaU/i9lSaejma3SuvcK292+cy6HZfwVlTMs2Ajk
-         Y+gJwKny2rBCWoe3d/VCuueff38nvjeSD6o0QKl7N0Xm7O6ZCxHXKorPx5x30dWOnO8g
-         rhN/KwmgeLTLJHZYpiFhboBk/kUIG8Rjetu8rKys8fMtuncgFlijUmzduv2JIjzBrZz4
-         vIdZb2ndFYx2cmlSD2k9m+hlZ7yq6nyPowWnvJ2pCOU/j7CHTSTy8ZS66dzb8mdMo8iL
-         eSl5LWwg76mxf/X/Yr60tw1Klo7QVULLD8Z9SxB+2mJ5YkzVwoI6y7kffEFq3MdwLT3T
-         0elQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701969892; x=1702574692;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OSaCKj49TdBQE/wW0nBbIlYjNisy5X/gJJF/8cHix4E=;
-        b=OZ6sSX7FK+vQhSr4hu7iqX4y6pslXq0pZwAZCpJT2SPneYxP/bd/DjVBjz+x9xSCEJ
-         yoByDO+iKieIG687t7W118LEnHIzgcPkIWcGDQ005tQE5+cfAvNLj8UQ+M+/ACSLfuoc
-         4sBXIB9MlWeJVMLmAJMH6eHZ0LeElzykYa1J+XstlxFBkE6KOKWMYd1Py7OErXOV49M0
-         FwpBzZW70imzafFbL/VPSstFJvm8vgUKwn8wt4BaowAL1kDquTy0l/kr+p3qgz4V9W6y
-         QgzAThzKs2gUhtVWu/abn9w96baNSmrMnoD/O1WAO4LATE9AP849iwdzeFyJGTrR7Ien
-         JwIw==
-X-Gm-Message-State: AOJu0YzOYjsV9wZDrtWkegdD8dpdzkzeyhipbmxC+cwnSAUnYAQLJHyA
-	jEcPbxZytgD0bRe9XqWIfycTRw==
-X-Google-Smtp-Source: AGHT+IEtTd+pA4mJobxUqdqM7SglT4EunogmAQ8lpbogM+tHlUMEk4Qwu5mWYwLQ9J+s2P4F/4V7+g==
-X-Received: by 2002:a17:907:5020:b0:a19:9b79:8b5d with SMTP id fw32-20020a170907502000b00a199b798b5dmr1010958ejc.110.1701969892432;
-        Thu, 07 Dec 2023 09:24:52 -0800 (PST)
-Received: from [192.168.2.107] ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id a14-20020a170906684e00b009fd0102f71asm1078898ejs.176.2023.12.07.09.24.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 09:24:50 -0800 (PST)
-Message-ID: <797b9023-e56b-404b-bb4e-6e178b7ada88@linaro.org>
-Date: Thu, 7 Dec 2023 17:24:48 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Salt4hgm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="//UhZ9LG"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D80B1732
+	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 10:20:41 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A595F21DDA;
+	Thu,  7 Dec 2023 18:20:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701973239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=nD5r7wq6Q+WJdVEWyJ8lxGM+8YzZZmLwL2h2JGDj1Ak=;
+	b=Salt4hgmdD3M7G1iLgvgoj9fQFL6LvlwBcCWz48JhUAJYiEEsLR2QQuPe5BprmAM45J0sw
+	SOT6oy5R119RLIjtIK1i2aM8FeivJ+EGiwiySUvzyYS1mLuYOtwPNPOxoobyTnr0Z5+oKJ
+	0isRj7SRPsWg6dtMkuZkrfz+BftZB10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701973239;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=nD5r7wq6Q+WJdVEWyJ8lxGM+8YzZZmLwL2h2JGDj1Ak=;
+	b=//UhZ9LGvhGhw3EDlzW2BTFXsMzD00HydJGCxUS/XhrnDs+icu2i+XRtmRordzA8LulZXe
+	JeHJckiCgjTIssAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8507C13B6A;
+	Thu,  7 Dec 2023 18:20:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lZvcHvcMcmXRCwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 07 Dec 2023 18:20:39 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Yevhen Hrubiian <grubian.euhen@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7
+Date: Thu,  7 Dec 2023 19:20:35 +0100
+Message-Id: <20231207182035.30248-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Content-Language: en-US
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org,
- pratyush@kernel.org, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, sbinding@opensource.cirrus.com, lee@kernel.org,
- james.schulman@cirrus.com, david.rhodes@cirrus.com,
- rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
- michael@walle.cc, linux-mtd@lists.infradead.org,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, michal.simek@amd.com,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com,
- amitrkcian2002@gmail.com
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Score: 2.24
+X-Spamd-Result: default: False [2.24 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 R_MISSING_CHARSET(2.50)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWO(0.00)[2];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[gmail.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.46)[91.41%]
 
+Lenovo Yoga Pro 7 14APH8 (PCI SSID 17aa:3882) seems requiring the
+similar workaround like Yoga 9 model for the bass speaker.
 
+Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/r/CAGGk=CRRQ1L9p771HsXTN_ebZP41Qj+3gw35Gezurn+nokRewg@mail.gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 11/25/23 09:21, Amit Kumar Mahapatra wrote:
-> The current implementation assumes that a maximum of two flashes are
-> connected in stacked mode and both the flashes are of same make but can
-> differ in sizes. So, except the sizes all other flash parameters of both
-> the flashes are identical.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 5b5f298870be..0377912e9264 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10206,6 +10206,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
+-- 
+2.35.3
 
-Too much restrictions, isn't it? Have you thought about adding a layer
-on top of SPI NOR managing the stacked/parallel flashes?
