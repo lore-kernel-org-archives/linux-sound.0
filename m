@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGdxKfFF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nLQeuk5G"
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E6DBA
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 14:30:16 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD736A4
+	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 14:30:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701988216; x=1733524216;
+  t=1701988218; x=1733524218;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qQ7Ong4JKR/YOE3/JfcFuu0jPrgvbTLh/EPInQfYhSw=;
-  b=CGdxKfFF00TXvY0CrUxGayD8jXnMQpGTVHE6f1nZzaxTFbYCp/7PdJg0
-   ojN4op6RrhWF4WdqiUuzfH4SRkSjioxS/WvH4gMKVuzZ8/+xEFCrKgXdj
-   JqDGa79tGAtK8CtGK2PrcrUTIURssCm+Wy3q+l6Ja+mwbFsedpIm9ZHpR
-   98g4+fbCQYZ96wt+LFgWG5SZep9Ipn58Srk2Wfw2SCb0PsRYu5711ljgN
-   y+MGvzhmFeqgmPqwZeRbzGM2pA5khxdcdlsbsFa8yCLBQ8rk8oWjJ808R
-   222oJDQK2sCQPUuAyfLl0Yq6pWiWMYzZx6FoD4yVNbFmm1SAfd+AtGWvx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480516630"
+  bh=87RWmAuyDOtLnTk/6xzH9RxAxP3WOAWpL88b5Ufejj0=;
+  b=nLQeuk5GSBRZ2ls4AXrEK08bgkTxeauMATh09FMSw0CRKIMiCUaLGSLJ
+   WRDUPtRaYAF43pM3wmx0+/XQcrkadxDjoU3uC1g0M11AkHlm+paLShoIn
+   DswCz2Ij8x7AHQ6+9dBfNcszI5hsMRjaqoJPqJFaNMOY9dTbozYAbRXYk
+   RSvPyrguFBrfM6NSSPwXLO0LQeZt4aSFuyDBKofyqcMqxW/lalRO2xCpJ
+   aQKvFMBftjAYgMBg8W8RA/QIJvgj2evRepnGc9LRfEoaZM5dhYf6Gl1xK
+   VSSnLQ7gW1GC2UxeD7WSwH6aYskpnhvmfJW+8BmUionHcyB/taBd4s6JU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480516648"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="480516630"
+   d="scan'208";a="480516648"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:16 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="895307482"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="895307492"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="895307482"
+   d="scan'208";a="895307492"
 Received: from hrcolco-mobl3.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.212.148.159])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:14 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:17 -0800
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -46,9 +46,9 @@ Cc: alsa-devel@alsa-project.org,
 	Jack Yu <jack.yu@realtek.com>,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [RFC PATCH 07/16] soundwire: bus: add API for BPT protocol
-Date: Thu,  7 Dec 2023 16:29:35 -0600
-Message-Id: <20231207222944.663893-8-pierre-louis.bossart@linux.intel.com>
+Subject: [RFC PATCH 09/16] soundwire: crc8: add constant table
+Date: Thu,  7 Dec 2023 16:29:37 -0600
+Message-Id: <20231207222944.663893-10-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
 References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
@@ -60,340 +60,333 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add definitions and helpers for the BPT/BRA protocol. Peripheral
-drivers (aka ASoC codec drivers) can use this API to send bulk data
-such as firmware or tables.
-
-The API is only available when no other audio streams have been
-allocated, and only one BTP/BRA stream is allowed per link.  To avoid
-the addition of yet another lock, the refcount tests are handled in
-the stream master_runtime alloc/free routines where the bus_lock is
-already held. Another benefit of this approach is that the same
-bus_lock is used to handle runtime and port linked lists, which
-reduces the potential for misaligned configurations.
-
-In addition to exclusion with audio streams, BPT transfers have a lot
-of overhead, specifically registers writes are needed to enable
-transport in DP0. In addition, most DMAs don't handle too well very
-small data sets.
-
-This patch suggests a minimum bound of 64 bytes, for smaller transfers
-codec drivers should rely on the regular read/write commands in
-Column0.
+Add the lookup table required by crc8(). All configuration values were
+directly table from the MIPI SoundWire 1.x specification.
 
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- drivers/soundwire/bus.c       | 77 +++++++++++++++++++++++++++++++++++
- drivers/soundwire/bus.h       | 18 ++++++++
- drivers/soundwire/stream.c    | 30 ++++++++++++++
- include/linux/soundwire/sdw.h | 76 ++++++++++++++++++++++++++++++++++
- 4 files changed, 201 insertions(+)
+ drivers/soundwire/Makefile |   4 +-
+ drivers/soundwire/crc8.c   | 277 +++++++++++++++++++++++++++++++++++++
+ drivers/soundwire/crc8.h   |  11 ++
+ 3 files changed, 291 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/soundwire/crc8.c
+ create mode 100644 drivers/soundwire/crc8.h
 
-diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
-index f3fec15c3112..e5758d2ed88f 100644
---- a/drivers/soundwire/bus.c
-+++ b/drivers/soundwire/bus.c
-@@ -2015,3 +2015,80 @@ void sdw_clear_slave_status(struct sdw_bus *bus, u32 request)
- 	}
- }
- EXPORT_SYMBOL(sdw_clear_slave_status);
-+
-+int sdw_bpt_close_stream(struct sdw_bus *bus,
-+			 struct sdw_slave *slave,
-+			 enum sdw_bpt_type mode,
-+			 struct sdw_bpt_msg *msg)
-+{
-+	int ret;
-+
-+	ret = bus->ops->bpt_close_stream(bus, slave, mode, msg);
-+	if (ret < 0)
-+		dev_err(bus->dev, "BPT stream close, err %d\n", ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(sdw_bpt_close_stream);
-+
-+int sdw_bpt_open_stream(struct sdw_bus *bus,
-+			struct sdw_slave *slave,
-+			enum sdw_bpt_type mode,
-+			struct sdw_bpt_msg *msg)
-+{
-+	int ret;
-+
-+	/* only Bulk Register Access (BRA) is supported for now */
-+	if (mode != SDW_BRA)
-+		return -EINVAL;
-+
-+	if (msg->len < SDW_BPT_MSG_MIN_BYTES) {
-+		dev_err(bus->dev, "BPT message length %d, min supported %d\n",
-+			msg->len, SDW_BPT_MSG_MIN_BYTES);
-+		return -EINVAL;
-+	}
-+
-+	if (msg->len % SDW_BPT_MSG_BYTE_ALIGNMENT) {
-+		dev_err(bus->dev, "BPT message length %d is not a multiple of %d bytes\n",
-+			msg->len, SDW_BPT_MSG_BYTE_ALIGNMENT);
-+		return -EINVAL;
-+	}
-+
-+	/* check device is enumerated */
-+	if (slave->dev_num == SDW_ENUM_DEV_NUM ||
-+	    slave->dev_num > SDW_MAX_DEVICES)
-+		return -ENODEV;
-+
-+	/* make sure all callbacks are defined */
-+	if (!bus->ops->bpt_open_stream ||
-+	    !bus->ops->bpt_close_stream ||
-+	    !bus->ops->bpt_send_async ||
-+	    !bus->ops->bpt_wait)
-+		return -ENOTSUPP;
-+
-+	ret = bus->ops->bpt_open_stream(bus, slave, mode, msg);
-+	if (ret < 0)
-+		dev_err(bus->dev, "BPT stream open, err %d\n", ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(sdw_bpt_open_stream);
-+
-+int sdw_bpt_send_async(struct sdw_bus *bus,
-+		       struct sdw_slave *slave,
-+		       struct sdw_bpt_msg *msg)
-+{
-+	if (msg->len > SDW_BPT_MSG_MAX_BYTES)
-+		return -EINVAL;
-+
-+	return bus->ops->bpt_send_async(bus, slave, msg);
-+}
-+EXPORT_SYMBOL(sdw_bpt_send_async);
-+
-+int sdw_bpt_wait(struct sdw_bus *bus,
-+		 struct sdw_slave *slave,
-+		 struct sdw_bpt_msg *msg)
-+{
-+	return bus->ops->bpt_wait(bus, slave, msg);
-+}
-+EXPORT_SYMBOL(sdw_bpt_wait);
-diff --git a/drivers/soundwire/bus.h b/drivers/soundwire/bus.h
-index fda6b24ac2da..936852ab3154 100644
---- a/drivers/soundwire/bus.h
-+++ b/drivers/soundwire/bus.h
-@@ -72,6 +72,24 @@ struct sdw_msg {
- 	bool page;
- };
+diff --git a/drivers/soundwire/Makefile b/drivers/soundwire/Makefile
+index 657f5888a77b..170128dd9318 100644
+--- a/drivers/soundwire/Makefile
++++ b/drivers/soundwire/Makefile
+@@ -5,7 +5,9 @@
  
-+/**
-+ * struct sdw_btp_msg - Message structure
-+ * @addr: Start Register address accessed in the Slave
-+ * @len: number of bytes to transfer. More than 64Kb can be transferred
-+ * but a practical limit of SDW_BPT_MSG_MAX_BYTES is enforced.
-+ * @dev_num: Slave device number
-+ * @flags: transfer flags, indicate if xfer is read or write
-+ * @buf: message data buffer (filled by host for write, filled
-+ * by Peripheral hardware for reads)
-+ */
-+struct sdw_bpt_msg {
-+	u32 addr;
-+	u32 len;
-+	u8 dev_num;
-+	u8 flags;
-+	u8 *buf;
-+};
+ #Bus Objs
+ soundwire-bus-y := bus_type.o bus.o master.o slave.o mipi_disco.o stream.o  \
+-			sysfs_slave.o sysfs_slave_dpn.o
++			sysfs_slave.o sysfs_slave_dpn.o \
++			crc8.o
 +
- #define SDW_DOUBLE_RATE_FACTOR		2
- #define SDW_STRM_RATE_GROUPING		1
+ obj-$(CONFIG_SOUNDWIRE) += soundwire-bus.o
  
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index f9762610f051..b097b1a808f9 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1189,6 +1189,20 @@ static struct sdw_master_runtime
- 	struct sdw_master_runtime *m_rt, *walk_m_rt;
- 	struct list_head *insert_after;
- 
-+	if (stream->type == SDW_STREAM_BPT) {
-+		if (bus->stream_refcount > 0 || bus->bpt_stream_refcount > 0) {
-+			dev_err(bus->dev, "%s: invalid configuration %d streams %d BPT streams\n",
-+				__func__, bus->stream_refcount, bus->bpt_stream_refcount);
-+			return ERR_PTR(-EBUSY);
-+		}
-+	} else {
-+		if (bus->bpt_stream_refcount > 0) {
-+			dev_err(bus->dev, "%s: BTP stream already allocated\n",
-+				__func__);
-+			return ERR_PTR(-EAGAIN);
-+		}
-+	}
+ soundwire-generic-allocation-objs := generic_bandwidth_allocation.o
+diff --git a/drivers/soundwire/crc8.c b/drivers/soundwire/crc8.c
+new file mode 100644
+index 000000000000..b6b984d7f39a
+--- /dev/null
++++ b/drivers/soundwire/crc8.c
+@@ -0,0 +1,277 @@
++// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
++// Copyright(c) 2024 Intel Corporation.
 +
- 	m_rt = kzalloc(sizeof(*m_rt), GFP_KERNEL);
- 	if (!m_rt)
- 		return NULL;
-@@ -1217,6 +1231,8 @@ static struct sdw_master_runtime
- 	m_rt->stream = stream;
- 
- 	bus->stream_refcount++;
-+	if (stream->type == SDW_STREAM_BPT)
-+		bus->bpt_stream_refcount++;
- 
- 	return m_rt;
- }
-@@ -1265,6 +1281,8 @@ static void sdw_master_rt_free(struct sdw_master_runtime *m_rt,
- 	list_del(&m_rt->bus_node);
- 	kfree(m_rt);
- 
-+	if (stream->type == SDW_STREAM_BPT)
-+		bus->bpt_stream_refcount--;
- 	bus->stream_refcount--;
- }
- 
-@@ -1941,6 +1959,12 @@ int sdw_stream_add_master(struct sdw_bus *bus,
- 	m_rt = sdw_master_rt_find(bus, stream);
- 	if (!m_rt) {
- 		m_rt = sdw_master_rt_alloc(bus, stream);
-+		if (IS_ERR(m_rt)) {
-+			ret = PTR_ERR(m_rt);
-+			dev_err(bus->dev, "%s: Master runtime alloc failed for stream:%s: %d\n",
-+				__func__, stream->name, ret);
-+			goto unlock;
-+		}
- 		if (!m_rt) {
- 			dev_err(bus->dev, "%s: Master runtime alloc failed for stream:%s\n",
- 				__func__, stream->name);
-@@ -2056,6 +2080,12 @@ int sdw_stream_add_slave(struct sdw_slave *slave,
- 		 * So, allocate m_rt and add Slave to it.
- 		 */
- 		m_rt = sdw_master_rt_alloc(slave->bus, stream);
-+		if (IS_ERR(m_rt)) {
-+			ret = PTR_ERR(m_rt);
-+			dev_err(&slave->dev, "%s: Master runtime alloc failed for stream:%s: %d\n",
-+				__func__, stream->name, ret);
-+			goto unlock;
-+		}
- 		if (!m_rt) {
- 			dev_err(&slave->dev, "%s: Master runtime alloc failed for stream:%s\n",
- 				__func__, stream->name);
-diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index 1dda65d91bad..e54c5bbd2b91 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -835,6 +835,46 @@ struct sdw_defer {
- 	struct sdw_msg *msg;
- };
- 
-+/*
-+ * Add a practical limit to BPT transfer sizes. BPT is typically used
-+ * to transfer firmware, and larger firmware transfers will increase
-+ * the cold latency beyond typical OS or user requirements.
-+ */
-+#define SDW_BPT_MSG_MAX_BYTES  (1024 * 1024)
++#include <linux/crc8.h>
++#include <linux/module.h>
++#include "crc8.h"
 +
 +/*
-+ * Add a minimum number of bytes for BPT transfer sizes. BPT has a lot of
-+ * overhead, enabling/disabling a stream costs 6 write commands, plus the bank
-+ * switch that could be delayed in time. In addition, transferring very small
-+ * data sets over DMA is known to be problematic on multiple platforms.
-+ */
-+#define SDW_BPT_MSG_MIN_BYTES      128
-+
-+/*
-+ * Add an alignment requirement for BPT transfer sizes. BPT is
-+ * typically with DMAs which are most-efficient with data aligned to a
-+ * cache line.  For example HDaudio DMAs strongly recommend to use
-+ * multiples of 128 bytes.
-+ * This could be a platform-specific value, but that would be problematic for
-+ * codec drivers which are typically not platform-specific by definition.
-+ * It's probably simpler for everyone to align on a baseline and use regular
-+ * read/write commands for the remaining bytes.
-+ */
-+#define SDW_BPT_MSG_BYTE_ALIGNMENT 128
-+
-+/**
-+ * sdw_bpt_type - SoundWire Bulk Payload Transfer (BPT) type
-+ * @SDW_BRA: Soundwire Bulk Register Access (BRA)
++ * the MIPI SoundWire CRC8 polynomial is X^8 + X^6 + X^3 + X^2 + 1, MSB first
++ * The value is (1)01001101 = 0x4D
 + *
-+ * The SoundWire specification allows for implementation-defined
-+ * solutions, they would be added after BRA.
++ * the table below was generated with
++ *
++ *	u8 crc8_lookup_table[CRC8_TABLE_SIZE];
++ *	crc8_populate_msb(crc8_lookup_table, SDW_CRC8_POLY);
++ *
 + */
-+enum sdw_bpt_type {
-+	SDW_BRA,
++
++const u8 sdw_crc8_lookup_msb[CRC8_TABLE_SIZE] = {
++	0x00, /* 0 */
++	0x4d, /* 1 */
++	0x9a, /* 2 */
++	0xd7, /* 3 */
++	0x79, /* 4 */
++	0x34, /* 5 */
++	0xe3, /* 6 */
++	0xae, /* 7 */
++	0xf2, /* 8 */
++	0xbf, /* 9 */
++	0x68, /* 10 */
++	0x25, /* 11 */
++	0x8b, /* 12 */
++	0xc6, /* 13 */
++	0x11, /* 14 */
++	0x5c, /* 15 */
++	0xa9, /* 16 */
++	0xe4, /* 17 */
++	0x33, /* 18 */
++	0x7e, /* 19 */
++	0xd0, /* 20 */
++	0x9d, /* 21 */
++	0x4a, /* 22 */
++	0x07, /* 23 */
++	0x5b, /* 24 */
++	0x16, /* 25 */
++	0xc1, /* 26 */
++	0x8c, /* 27 */
++	0x22, /* 28 */
++	0x6f, /* 29 */
++	0xb8, /* 30 */
++	0xf5, /* 31 */
++	0x1f, /* 32 */
++	0x52, /* 33 */
++	0x85, /* 34 */
++	0xc8, /* 35 */
++	0x66, /* 36 */
++	0x2b, /* 37 */
++	0xfc, /* 38 */
++	0xb1, /* 39 */
++	0xed, /* 40 */
++	0xa0, /* 41 */
++	0x77, /* 42 */
++	0x3a, /* 43 */
++	0x94, /* 44 */
++	0xd9, /* 45 */
++	0x0e, /* 46 */
++	0x43, /* 47 */
++	0xb6, /* 48 */
++	0xfb, /* 49 */
++	0x2c, /* 50 */
++	0x61, /* 51 */
++	0xcf, /* 52 */
++	0x82, /* 53 */
++	0x55, /* 54 */
++	0x18, /* 55 */
++	0x44, /* 56 */
++	0x09, /* 57 */
++	0xde, /* 58 */
++	0x93, /* 59 */
++	0x3d, /* 60 */
++	0x70, /* 61 */
++	0xa7, /* 62 */
++	0xea, /* 63 */
++	0x3e, /* 64 */
++	0x73, /* 65 */
++	0xa4, /* 66 */
++	0xe9, /* 67 */
++	0x47, /* 68 */
++	0x0a, /* 69 */
++	0xdd, /* 70 */
++	0x90, /* 71 */
++	0xcc, /* 72 */
++	0x81, /* 73 */
++	0x56, /* 74 */
++	0x1b, /* 75 */
++	0xb5, /* 76 */
++	0xf8, /* 77 */
++	0x2f, /* 78 */
++	0x62, /* 79 */
++	0x97, /* 80 */
++	0xda, /* 81 */
++	0x0d, /* 82 */
++	0x40, /* 83 */
++	0xee, /* 84 */
++	0xa3, /* 85 */
++	0x74, /* 86 */
++	0x39, /* 87 */
++	0x65, /* 88 */
++	0x28, /* 89 */
++	0xff, /* 90 */
++	0xb2, /* 91 */
++	0x1c, /* 92 */
++	0x51, /* 93 */
++	0x86, /* 94 */
++	0xcb, /* 95 */
++	0x21, /* 96 */
++	0x6c, /* 97 */
++	0xbb, /* 98 */
++	0xf6, /* 99 */
++	0x58, /* 100 */
++	0x15, /* 101 */
++	0xc2, /* 102 */
++	0x8f, /* 103 */
++	0xd3, /* 104 */
++	0x9e, /* 105 */
++	0x49, /* 106 */
++	0x04, /* 107 */
++	0xaa, /* 108 */
++	0xe7, /* 109 */
++	0x30, /* 110 */
++	0x7d, /* 111 */
++	0x88, /* 112 */
++	0xc5, /* 113 */
++	0x12, /* 114 */
++	0x5f, /* 115 */
++	0xf1, /* 116 */
++	0xbc, /* 117 */
++	0x6b, /* 118 */
++	0x26, /* 119 */
++	0x7a, /* 120 */
++	0x37, /* 121 */
++	0xe0, /* 122 */
++	0xad, /* 123 */
++	0x03, /* 124 */
++	0x4e, /* 125 */
++	0x99, /* 126 */
++	0xd4, /* 127 */
++	0x7c, /* 128 */
++	0x31, /* 129 */
++	0xe6, /* 130 */
++	0xab, /* 131 */
++	0x05, /* 132 */
++	0x48, /* 133 */
++	0x9f, /* 134 */
++	0xd2, /* 135 */
++	0x8e, /* 136 */
++	0xc3, /* 137 */
++	0x14, /* 138 */
++	0x59, /* 139 */
++	0xf7, /* 140 */
++	0xba, /* 141 */
++	0x6d, /* 142 */
++	0x20, /* 143 */
++	0xd5, /* 144 */
++	0x98, /* 145 */
++	0x4f, /* 146 */
++	0x02, /* 147 */
++	0xac, /* 148 */
++	0xe1, /* 149 */
++	0x36, /* 150 */
++	0x7b, /* 151 */
++	0x27, /* 152 */
++	0x6a, /* 153 */
++	0xbd, /* 154 */
++	0xf0, /* 155 */
++	0x5e, /* 156 */
++	0x13, /* 157 */
++	0xc4, /* 158 */
++	0x89, /* 159 */
++	0x63, /* 160 */
++	0x2e, /* 161 */
++	0xf9, /* 162 */
++	0xb4, /* 163 */
++	0x1a, /* 164 */
++	0x57, /* 165 */
++	0x80, /* 166 */
++	0xcd, /* 167 */
++	0x91, /* 168 */
++	0xdc, /* 169 */
++	0x0b, /* 170 */
++	0x46, /* 171 */
++	0xe8, /* 172 */
++	0xa5, /* 173 */
++	0x72, /* 174 */
++	0x3f, /* 175 */
++	0xca, /* 176 */
++	0x87, /* 177 */
++	0x50, /* 178 */
++	0x1d, /* 179 */
++	0xb3, /* 180 */
++	0xfe, /* 181 */
++	0x29, /* 182 */
++	0x64, /* 183 */
++	0x38, /* 184 */
++	0x75, /* 185 */
++	0xa2, /* 186 */
++	0xef, /* 187 */
++	0x41, /* 188 */
++	0x0c, /* 189 */
++	0xdb, /* 190 */
++	0x96, /* 191 */
++	0x42, /* 192 */
++	0x0f, /* 193 */
++	0xd8, /* 194 */
++	0x95, /* 195 */
++	0x3b, /* 196 */
++	0x76, /* 197 */
++	0xa1, /* 198 */
++	0xec, /* 199 */
++	0xb0, /* 200 */
++	0xfd, /* 201 */
++	0x2a, /* 202 */
++	0x67, /* 203 */
++	0xc9, /* 204 */
++	0x84, /* 205 */
++	0x53, /* 206 */
++	0x1e, /* 207 */
++	0xeb, /* 208 */
++	0xa6, /* 209 */
++	0x71, /* 210 */
++	0x3c, /* 211 */
++	0x92, /* 212 */
++	0xdf, /* 213 */
++	0x08, /* 214 */
++	0x45, /* 215 */
++	0x19, /* 216 */
++	0x54, /* 217 */
++	0x83, /* 218 */
++	0xce, /* 219 */
++	0x60, /* 220 */
++	0x2d, /* 221 */
++	0xfa, /* 222 */
++	0xb7, /* 223 */
++	0x5d, /* 224 */
++	0x10, /* 225 */
++	0xc7, /* 226 */
++	0x8a, /* 227 */
++	0x24, /* 228 */
++	0x69, /* 229 */
++	0xbe, /* 230 */
++	0xf3, /* 231 */
++	0xaf, /* 232 */
++	0xe2, /* 233 */
++	0x35, /* 234 */
++	0x78, /* 235 */
++	0xd6, /* 236 */
++	0x9b, /* 237 */
++	0x4c, /* 238 */
++	0x01, /* 239 */
++	0xf4, /* 240 */
++	0xb9, /* 241 */
++	0x6e, /* 242 */
++	0x23, /* 243 */
++	0x8d, /* 244 */
++	0xc0, /* 245 */
++	0x17, /* 246 */
++	0x5a, /* 247 */
++	0x06, /* 248 */
++	0x4b, /* 249 */
++	0x9c, /* 250 */
++	0xd1, /* 251 */
++	0x7f, /* 252 */
++	0x32, /* 253 */
++	0xe5, /* 254 */
++	0xa8  /* 255 */
 +};
++EXPORT_SYMBOL(sdw_crc8_lookup_msb);
+diff --git a/drivers/soundwire/crc8.h b/drivers/soundwire/crc8.h
+new file mode 100644
+index 000000000000..9a88d3866016
+--- /dev/null
++++ b/drivers/soundwire/crc8.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
++/* Copyright(c) 2024 Intel Corporation. */
 +
-+struct sdw_bpt_msg;
++#ifndef __SDW_CRC8_H
++#define __SDW_CRC8_H
 +
- /**
-  * struct sdw_master_ops - Master driver ops
-  * @read_prop: Read Master properties
-@@ -850,6 +890,10 @@ struct sdw_defer {
-  * @get_device_num: Callback for vendor-specific device_number allocation
-  * @put_device_num: Callback for vendor-specific device_number release
-  * @new_peripheral_assigned: Callback to handle enumeration of new peripheral.
-+ * @bpt_open_stream: reserve resources for BPT stream
-+ * @bpt_close_stream: release resources for BPT stream
-+ * @bpt_send_async: send message using BTP protocol
-+ * @bpt_wait: wait for message completion using BTP protocol
-  */
- struct sdw_master_ops {
- 	int (*read_prop)(struct sdw_bus *bus);
-@@ -869,6 +913,20 @@ struct sdw_master_ops {
- 	void (*new_peripheral_assigned)(struct sdw_bus *bus,
- 					struct sdw_slave *slave,
- 					int dev_num);
-+	int (*bpt_open_stream)(struct sdw_bus *bus,
-+			       struct sdw_slave *slave,
-+			       enum sdw_bpt_type mode,
-+			       struct sdw_bpt_msg *msg);
-+	int (*bpt_close_stream)(struct sdw_bus *bus,
-+				struct sdw_slave *slave,
-+				enum sdw_bpt_type mode,
-+				struct sdw_bpt_msg *msg);
-+	int (*bpt_send_async)(struct sdw_bus *bus,
-+			      struct sdw_slave *slave,
-+			      struct sdw_bpt_msg *msg);
-+	int (*bpt_wait)(struct sdw_bus *bus,
-+			struct sdw_slave *slave,
-+			struct sdw_bpt_msg *msg);
- };
- 
- /**
-@@ -905,6 +963,8 @@ struct sdw_master_ops {
-  * synchronization will be used even if a stream only uses a single
-  * SoundWire segment.
-  * @stream_refcount: number of streams currently using this bus
-+ * @btp_stream_refcount: number of BTP streams currently using this bus (should
-+ * be zero or one, multiple streams per link is not supported).
-  */
- struct sdw_bus {
- 	struct device *dev;
-@@ -935,6 +995,7 @@ struct sdw_bus {
- 	bool multi_link;
- 	int hw_sync_min_links;
- 	int stream_refcount;
-+	int bpt_stream_refcount;
- };
- 
- int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
-@@ -1052,6 +1113,21 @@ int sdw_bus_exit_clk_stop(struct sdw_bus *bus);
- int sdw_compare_devid(struct sdw_slave *slave, struct sdw_slave_id id);
- void sdw_extract_slave_id(struct sdw_bus *bus, u64 addr, struct sdw_slave_id *id);
- 
-+int sdw_bpt_open_stream(struct sdw_bus *bus,
-+			struct sdw_slave *slave,
-+			enum sdw_bpt_type mode,
-+			struct sdw_bpt_msg *msg);
-+int sdw_bpt_close_stream(struct sdw_bus *bus,
-+			 struct sdw_slave *slave,
-+			 enum sdw_bpt_type mode,
-+			 struct sdw_bpt_msg *msg);
-+int sdw_bpt_send_async(struct sdw_bus *bus,
-+		       struct sdw_slave *slave,
-+		       struct sdw_bpt_msg *msg);
-+int sdw_bpt_wait(struct sdw_bus *bus,
-+		 struct sdw_slave *slave,
-+		 struct sdw_bpt_msg *msg);
++#define SDW_CRC8_SEED 0xFF
++#define SDW_CRC8_POLY 0x4D
++extern const u8 sdw_crc8_lookup_msb[CRC8_TABLE_SIZE];
 +
- #if IS_ENABLED(CONFIG_SOUNDWIRE)
- 
- int sdw_stream_add_slave(struct sdw_slave *slave,
++#endif /* __SDW_CRC8_H */
 -- 
 2.39.2
 
