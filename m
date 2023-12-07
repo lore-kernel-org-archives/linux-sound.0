@@ -1,106 +1,101 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJqyD+oH"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD36610C2
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 00:24:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701937494; x=1733473494;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=QofVFSYs9O79ICYnq3eo2N+6XhGMF2P6AlIdiIAKLE0=;
-  b=VJqyD+oH+j33DkQ5+apu9L+H/FHsT4NoH1dmtem71/dntt21/3GCMWzY
-   FfDgg9agK/9cUymdo2kJEzsUYXVUWc7nPcfbo4yr6UYpnarrMtI2uD8TJ
-   RyEXHq5H0JnRqqUZRjMA+tfmIuuiA0wWdrOtVPmRd4f2uFGBQQMIZE08F
-   JqZkJUc8yB/1mdvknv2jM/kS1HvM5aVQ9otzJJHaiWHJUMRqZTHfaijie
-   8QNPME58oMg4zE4RCccmUAf+k+E7CdYbeg3tJgAn6FIBqD0T3zySGiR7I
-   lY467TQ0weaBYTm/K5ItMHXiIOkHBHoULi/PHSYUX6a6JzKBjBA7eBjJY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1301613"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1301613"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 00:24:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862400979"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="862400979"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 00:24:51 -0800
-Message-ID: <f4dfebd6-db57-4588-a3fe-ab198d2ac366@linux.intel.com>
-Date: Thu, 7 Dec 2023 09:24:49 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x0gaP0kR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PVI1kyiN"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D5810CB
+	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 00:31:06 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1DCD021D5E;
+	Thu,  7 Dec 2023 08:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701937864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lG2+hMFjBOg+egnaH7KqcqxI1RVZdKXZ+/sbHEAylh0=;
+	b=x0gaP0kRP3Rouv3nzerAZtDIXYv75GIc7BfQTLXnBMv70t3HTv6IlGjFjBgOf2s2n0wtEr
+	5dLx1unTQnMmvEwPbTCY30/gtWhXgDvgDKCgcrqb7hwRfrooEb268zA4DHAKtQlr1GcrbX
+	+EMTIv4RCID69zzqBP7G2/T3P4O2kWo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701937864;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lG2+hMFjBOg+egnaH7KqcqxI1RVZdKXZ+/sbHEAylh0=;
+	b=PVI1kyiNs/W7pX8M4w1dOsbS5cJsvwYUYS6Xc5VMggVh/hUKeSwl5LYlypUdtga0g7y2rl
+	ml1TVtci0Qvg49AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E86F613976;
+	Thu,  7 Dec 2023 08:31:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8T0ZN8eCcWWkMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 07 Dec 2023 08:31:03 +0000
+Date: Thu, 07 Dec 2023 09:31:03 +0100
+Message-ID: <87plzi1kjc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	broonie@kernel.org
+Subject: Re: [PATCH 0/5] PCI/ALSA/ASoC: Add IDs and definitions for ARL and ARL-S
+In-Reply-To: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
+References: <20231204212710.185976-1-pierre-louis.bossart@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] ASoC: soc.h: don't create dummy Component via
- COMP_DUMMY()
-Content-Language: en-US
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-References: <053ec252-e4df-4ccb-80fd-a802dd212b15@linux.intel.com>
- <87h6kuolii.wl-kuninori.morimoto.gx@renesas.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87h6kuolii.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -0.24
+X-Spamd-Result: default: False [-0.24 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 NEURAL_HAM_SHORT(-0.14)[-0.693];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[38.65%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[]
 
-On 12/7/2023 2:21 AM, Kuninori Morimoto wrote:
+On Mon, 04 Dec 2023 22:27:05 +0100,
+Pierre-Louis Bossart wrote:
 > 
-> Hi Amadeusz
+> ArrowLake (ARL) and ArrowLake-S (ARL-S) have different PCI IDs. Add
+> the usual slew of descriptors for those devices.
 > 
-> Thank you for your feedback
+> There are no additional PCI IDs planned for this kernel cycle so it might be
+> simpler to have Takashi handle all the patches with Mark's Acked-by tag?
 > 
->>> --- a/include/sound/soc.h
->>> +++ b/include/sound/soc.h
->>> @@ -938,7 +938,7 @@ snd_soc_link_to_platform(struct snd_soc_dai_link *link, int n) {
->>>    #define COMP_PLATFORM(_name)		{ .name = _name }
->>>    #define COMP_AUX(_name)			{ .name = _name }
->>>    #define COMP_CODEC_CONF(_name)		{ .name = _name }
->>> -#define COMP_DUMMY()			{ .name = "snd-soc-dummy", .dai_name = "snd-soc-dummy-dai", }
->>> +#define COMP_DUMMY()			/* see snd_soc_fill_dummy_dai() */
->>
->> Isn't it effectively making COMP_DUMMY same as COMP_EMPTY, or am I not
->> seeing something? I guess next step could be to just remove all
->> COMP_DUMMY and replace them with COMP_EMPTY to avoid two definitions
->> which are same thing?
-> 
-> It is a little bit macro magic
-> 
-> COMP_EMPTY()
-> 	static struct snd_soc_dai_link_component name[]	= {{ }},
-> 	                                                   ^^^
-> COMP_DUMMY()
-> 	static struct snd_soc_dai_link_component name[]	= {   },
-> 	                                                   ^^^
-> EMPTY case will be 1 element array, DUMMY case will be 0 element array.
-> So, EMPTY case has empty element, and is not a special/strange array.
-> But DUMMY case, it has pointer but 0 size array, very special/strange.
-> This patch making this special/strange array on purpose, and convert it
-> to asoc_dummy_dlc() on soc-core.c
-> Is this good answer for you ?
-> 
+> Pierre-Louis Bossart (5):
+>   PCI: add INTEL_HDA_ARL to pci_ids.h
+>   ALSA: hda: Intel: add HDA_ARL PCI ID support
+>   ALSA: hda: intel-dspcfg: add filters for ARL-S and ARL
+>   ASoC: SOF: Intel: pci-mtl: fix ARL-S definitions
+>   ASoC: SOF: Intel: pci-mtl: add HDA_ARL PCI support
 
-Yes, thanks!
+Applied all five patches now to for-next branch.
 
->>> +		if (dai_link->num_platforms == 0 && dai_link->platforms) {
->>> +			dev_warn(card->dev, "platform don't need dummy Component/DAI\n");
->>
->> I would just replace above print with code comment, no need to spam dmesg.
-> 
-> OK, will fix in v2
-> 
-> 
-> Thank you for your help !!
-> 
-> Best regards
-> ---
-> Renesas Electronics
-> Ph.D. Kuninori Morimoto
 
+thanks,
+
+Takashi
