@@ -1,91 +1,101 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250C457302;
+	Thu,  7 Dec 2023 22:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K91Y+JD5"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF2B11C
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 14:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701988227; x=1733524227;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=lpuPhI2tpB9IQsCXtoONYV6zah6M9dPvl1Rlo707E0M=;
-  b=K91Y+JD5Jox6IooEOlmQ/r4wgFqFcO4cu9Q6h7yIv2+JrQdSOZ10eyRq
-   lFjtMgVMDRqrjFn+Y9e9uJdhUFAqRKrHEEt7MkPMCHSSAIyXesX9U3dBg
-   xTDiTURdh8NBqZ9Gz8hnLmfWdM//k44yKoTynDjXh1aFSw7ZaBu2BZ58Y
-   S5I1gEoH1ys0YnweA+oWQFJ8Cqu+ryVurvOzbJWnPPbRf1lrURiIgN8mJ
-   5lvG5IrkNyeI0vHCCGQfpb8AGKg3dBMUnRsPX5Z0BofDGUB5muxNCvCyK
-   IapVcjnmxLJychX/+US0t/Qk12oDVTMaO7cPtA4gPK2AELjjTRivdm0ro
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480516709"
-X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="480516709"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="895307523"
-X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="895307523"
-Received: from hrcolco-mobl3.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.212.148.159])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:30:25 -0800
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	vinod.koul@intel.com,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [RFC PATCH 16/16] ASoC: rt711-sdca: add DP0 support
-Date: Thu,  7 Dec 2023 16:29:44 -0600
-Message-Id: <20231207222944.663893-17-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fM7G8omP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F8BDC433CA;
+	Thu,  7 Dec 2023 22:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701988505;
+	bh=NT7BHAqFBOhaRtrY/szkX/r9R8b3Zw9S8V4qsNXM+rg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fM7G8omPRZ7ZWXJv3Rg5R2B74Wc7o7Kd0E7svQfW9jKfF2c9SyQMkDDpP2fwOg2PS
+	 TKO6qZXBPmoGXWGrJAefouIWYDB8ffo870ddOmQLfgZp38GIQ2vwXuC+0oI7iBOh5A
+	 Dmzh3SXRzNyYbWZvBRERx2CaEge5kWXD5un3ta2VoAnw3dOgT54u79sJmF7LZRjAi4
+	 wAyE+jsMQiEYPkN4VoQz3jAoz/AqgbXL0XVNVTtIB0JtpatC8cCnYqQ03ZaxLmbyKD
+	 a6Mknh/f6Fz9KzrfxlGNr9kf9sZWMTVB1KDV+sBR/xTblGk3eIJE8dITgwEoK8w1zX
+	 AsY+ipMKgV9Qw==
+From: Mark Brown <broonie@kernel.org>
+To: tudor.ambarus@linaro.org, pratyush@kernel.org, 
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
+ sbinding@opensource.cirrus.com, lee@kernel.org, james.schulman@cirrus.com, 
+ david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
+ tiwai@suse.com, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ michael@walle.cc, linux-mtd@lists.infradead.org, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ claudiu.beznea@tuxon.dev, michal.simek@amd.com, 
+ linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com, 
+ amitrkcian2002@gmail.com
+In-Reply-To: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+Subject: Re: (subset) [PATCH v11 00/10] spi: Add support for
+ stacked/parallel memories
+Message-Id: <170198850030.340565.15742297562436442635.b4-ty@kernel.org>
+Date: Thu, 07 Dec 2023 22:35:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-DP0 is required for BPT/BRA transport.
+On Sat, 25 Nov 2023 14:51:27 +0530, Amit Kumar Mahapatra wrote:
+> This patch series updated the spi-nor, spi core and the AMD-Xilinx GQSPI
+> driver to add stacked and parallel memories support.
+> 
+> The first nine patches
+> https://lore.kernel.org/all/20230119185342.2093323-1-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-2-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-3-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-4-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-5-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-6-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-7-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-8-amit.kumar-mahapatra@amd.com/
+> https://lore.kernel.org/all/20230310173217.3429788-9-amit.kumar-mahapatra@amd.com/
+> of the previous series got applied to
+> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
+> for-next But the rest of the patches in the series did not get applied as
+> failure was reported for spi driver with GPIO CS, so send the remaining
+> patches in the series after rebasing it on top of for-next branch and
+> fixing the issue.
+> 
+> [...]
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/codecs/rt711-sdca-sdw.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Applied to
 
-diff --git a/sound/soc/codecs/rt711-sdca-sdw.c b/sound/soc/codecs/rt711-sdca-sdw.c
-index 935e597022d3..583c839e0e49 100644
---- a/sound/soc/codecs/rt711-sdca-sdw.c
-+++ b/sound/soc/codecs/rt711-sdca-sdw.c
-@@ -225,6 +225,14 @@ static int rt711_sdca_read_prop(struct sdw_slave *slave)
- 		j++;
- 	}
- 
-+	prop->dp0_prop = devm_kzalloc(&slave->dev, sizeof(*prop->dp0_prop),
-+				      GFP_KERNEL);
-+	if (!prop->dp0_prop)
-+		return -ENOMEM;
-+
-+	prop->dp0_prop->simple_ch_prep_sm = true;
-+	prop->dp0_prop->ch_prep_timeout = 10;
-+
- 	/* set the timeout values */
- 	prop->clk_stop_timeout = 700;
- 
--- 
-2.39.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+
+Thanks!
+
+[02/10] ALSA: hda/cs35l56: Use set/get APIs to access spi->chip_select
+        commit: f05e2f61fe88092e0d341ea27644a84e3386358d
+[03/10] spi: Add multi-cs memories support in SPI core
+        commit: 4d8ff6b0991d5e86b17b235fc46ec62e9195cb9b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
