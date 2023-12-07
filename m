@@ -1,81 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070193DB99;
-	Thu,  7 Dec 2023 13:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B0B40C04
+	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 13:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjLPZIg8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7E5C433C7;
-	Thu,  7 Dec 2023 13:38:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BwHh4q6n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48603C433C8;
+	Thu,  7 Dec 2023 13:59:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701956337;
-	bh=LrKFalPpX4ro1UCj+XeZRPkOqxKYC9UU2FyCF0mGy08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kjLPZIg8FFgsaWRJGrgM6lwAFRaMTuWNUEdoEZvWuxAYsk5rD+M9zXvKHaXN1xlrS
-	 hXU/HzHP6fXanl92P/HT69g0DluwYbE+xs8k7PpcJ2g50JRXKnct5IOFVJ0TtPo+dm
-	 pLPZxW2WmIq67oYfevuMMtKStccsxVUdN7fZqGVpgksCsyRPTkrDtHNZyG2ODFUjsw
-	 1mcvjtPeWPGKEj4DxkbdpVd4shxELDPBf+Uq9viCxEFQid8zyP1ekkbsfPmESx8jna
-	 /On7CAGQCWJntcZabaDryMMDMWorCO6m+gEZjEAQ6MIGGThmYxQ2cfF5IQHlPzG4Bh
-	 TS2sianKt7+dQ==
-Date: Thu, 7 Dec 2023 13:38:49 +0000
-From: Lee Jones <lee@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: tudor.ambarus@linaro.org, pratyush@kernel.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	sbinding@opensource.cirrus.com, james.schulman@cirrus.com,
-	david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz,
-	tiwai@suse.com, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael@walle.cc, linux-mtd@lists.infradead.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, michal.simek@amd.com,
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-	git@amd.com, amitrkcian2002@gmail.com
-Subject: [GIT PULL] Immutable branch between MFD and SPI due for the v6.8
- merge window
-Message-ID: <20231207133849.GB8867@google.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-2-amit.kumar-mahapatra@amd.com>
- <170142465659.3329910.8527538140063947758.b4-ty@kernel.org>
- <395caa58-a8a0-4c75-85d3-4fa0f6f4a9ba@sirena.org.uk>
+	s=k20201202; t=1701957589;
+	bh=h9qIVgWoNEEuTzl6Tsfvls0u+ePauJ5wDuhKYBF21dQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=BwHh4q6n6XqIfDTkagHw02ecvJaQLX2nBSTIIfws01fsLA2GfwUZnFleQRAKjKGQ7
+	 /hZoOR1Yx+NRtcw8CzitUtC8/iritRYfg/Zd1OkCTB4eyPwTmfD4bu/kIQ8GkewmRK
+	 ouLnI7D5cvDpBplAs7NYWv3pGUXvW5P42wzHn3zNnMOkJfgupxdyzy40vTU+ETB2iI
+	 LdHs488/HvC3G/CPfHQNQMW2aYc9jUyR6vk86E3UQq6FVcT2u46LVycjvoiO2VLZ0C
+	 YKfAo8eRMmZPH2NXGNgGHRsmqXs2g9M+ZTHH7GS0Agrign5Whhxr3PMfxEjq6dKp4u
+	 FDNWT940QAnKA==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, tiwai@suse.de, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.com, 
+ yung-chuan.liao@linux.intel.com
+In-Reply-To: <20231207095425.19597-1-peter.ujfalusi@linux.intel.com>
+References: <20231207095425.19597-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda-codec: Delay the codec device
+ registration
+Message-Id: <170195758801.40629.2465488625957737438.b4-ty@kernel.org>
+Date: Thu, 07 Dec 2023 13:59:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <395caa58-a8a0-4c75-85d3-4fa0f6f4a9ba@sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-Good afternoon Mark,
+On Thu, 07 Dec 2023 11:54:25 +0200, Peter Ujfalusi wrote:
+> The current code flow is:
+> 1. snd_hdac_device_register()
+> 2. set parameters needed by the hdac driver
+> 3. request_codec_module()
+>    the hdac driver is probed at this point
+> 
+> During boot the codec drivers are not loaded when the hdac device is
+> registered, it is going to be probed later when loading the codec module,
+> which point the parameters are set.
+> 
+> [...]
 
-> Is there a signed tag available for this - without this change the
-> subsequent SPI changes introduce a build breakage.
+Applied to
 
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+Thanks!
 
-are available in the Git repository at:
+[1/1] ASoC: SOF: Intel: hda-codec: Delay the codec device registration
+      commit: ce17aa4cf2db7d6b95a3f854ac52d0d49881dd49
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-spi-v6.8
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-for you to fetch changes up to 4ae08845db4c1f759b8382bc7527ab8249230e7f:
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-  mfd: tps6594: Use spi_get_chipselect() API to access spi->chip_select (2023-12-07 13:36:29 +0000)
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-----------------------------------------------------------------
-Immutable branch between MFD and SPI due for the v6.8 merge window
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-----------------------------------------------------------------
-Amit Kumar Mahapatra (1):
-      mfd: tps6594: Use spi_get_chipselect() API to access spi->chip_select
+Thanks,
+Mark
 
- drivers/mfd/tps6594-spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-Lee Jones [李琼斯]
