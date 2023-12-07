@@ -1,159 +1,204 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6545113AED;
+	Thu,  7 Dec 2023 06:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="k8ap0Rrp"
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2076.outbound.protection.outlook.com [40.107.94.76])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B298D5C;
-	Wed,  6 Dec 2023 20:55:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U4tAsPiIe3HfMgjpj8L8f0Q2e1IpVoArkk31Of8xpnWuSrSIdY7rB+vZPLSXcOQTh3KIlX9yBa8E12ld8POaOBg58wDSIGMftzWRKQZd7erpKquzRL8fQBlpC34w75oqV9JTUnp8plMcUP6TI/UIyPf/+OBw6c+w4aHM7Xu+zRYLN5gsV2l9fzvKg7q7RKy9OxEYuF4xpvlFWls7PDbWBvTsFz217nxbocD56Kcex/oIKCWGYzCsxaZeqJNIIBFgG5J2h/ay5tZYvg6rpBREorx/+y2u8Im/t2kO/EQslQ3elJxdu4wt2k+EG4+wdlAYLM8tFTPjnsXKsw1OC7eE4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=whrnH9ZlT0MK4HkNt6K9N/JI6oeK8QRp5CpZEtyHDBg=;
- b=k8tHx4bPoCdpSOf1qbn5gbF7g447ic4jKCgF945Mna2qergDgpLm2/udPLMU/mQhO0MqbB1ni1uyHf3OnZvVz3wxhUDxV/7xNm7P9qUoSUYQpivTP43SqwggC2XKh+HVR5JonWrB/E3ZCTAxLLzF9QxiXNi3niPznymUcicqMWfHlR+XpmrinB9DjHvPuTvGdMBHWfF6W5fHgGLAC3W91t0zE1y6wJ67dCAgwiu6aqVo2Z+UUcWit2SntdqFu0URik4jY3HM93avWJIXcE/tPNMpMKgSHnXcqUI8L6DtBavCI5gF9mkhdTx2CopBGjMYhxHo9M+llZ/JU1wkqbk5ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=whrnH9ZlT0MK4HkNt6K9N/JI6oeK8QRp5CpZEtyHDBg=;
- b=k8ap0RrpGMrGYhzy4HB+afqzCHWarMbrrA+9y0SNyloaWAjNyVh8TnrdA6YkUJBipvCTAsC45vtjo0villPqMFUxpJFpNc25p6nihDzBkGHmUqVokn0pNUOIju9OUATYtM3X0nuA6xjQe2N30Y7IXhtYoa8TNAGjeQ1mt4NAuoQ=
-Received: from BY5PR04CA0010.namprd04.prod.outlook.com (2603:10b6:a03:1d0::20)
- by SA1PR12MB8644.namprd12.prod.outlook.com (2603:10b6:806:384::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Thu, 7 Dec
- 2023 04:55:11 +0000
-Received: from CO1PEPF000044EE.namprd05.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::6b) by BY5PR04CA0010.outlook.office365.com
- (2603:10b6:a03:1d0::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34 via Frontend
- Transport; Thu, 7 Dec 2023 04:55:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044EE.mail.protection.outlook.com (10.167.241.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7068.20 via Frontend Transport; Thu, 7 Dec 2023 04:55:10 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 6 Dec
- 2023 22:55:09 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Wed, 6 Dec
- 2023 20:55:09 -0800
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.34
- via Frontend Transport; Wed, 6 Dec 2023 22:55:06 -0600
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <Mario.Limonciello@amd.com>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Marian Postevca
-	<posteuca@mutex.one>, "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER
- MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: modify config flag read logic
-Date: Thu, 7 Dec 2023 10:25:01 +0530
-Message-ID: <20231207045505.1519151-1-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZCxkGoVt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AA06C433C9;
+	Thu,  7 Dec 2023 06:52:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1701931924;
+	bh=Jgvkdt55R4jwOTmeK7TgfLh1AEzeBbcP2a+N+0WhhKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZCxkGoVtrKOxBDYbFXzbEwUrQaBkI55Mm1b+Pb1HCoor+OHtpzpFaJLxyDN339xgl
+	 svPqHzGtbUt8E5XKS/+UEvC2DJgk9VkzjktF5sVtRSEAfeyubq4qWFcm09cDcYLDXY
+	 rNdQa6gFxEdWWj51AMU9Y/LChTU74ukQcuaBesQA=
+Date: Thu, 7 Dec 2023 11:29:22 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
+Message-ID: <2023120717-dangle-wrath-7bb3@gregkh>
+References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
+ <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+ <2023120602-vaguely-primarily-b6b2@gregkh>
+ <CABVgOSnW7et1aonnsSLcS1LHHztXVyagAFe-U3=JX7c7xi2P4g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044EE:EE_|SA1PR12MB8644:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d38d7ab-8bf8-41f7-ce2f-08dbf6e0b132
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Z6OExujGyWPxYsSyMaqzKwFbVh+6BLvzvDRTrhmCchT2GlrRurKbrAs40Nj0fTVCId+GIT1qWH0uWIsuB9NJIIdUG+0a98XSI7k+jIeP5ov0II+Ii18EetoDGai55IQRQl+G4SJM3KjTmZseG852uCmU6L2cvUCBy/5aPQC4fjEnZcHlkDMVHQPHjxLmZR2wnmXQhDn2BTRS5D7btS1OBLlLzHwg/ULWTw1VM7WtQcmCi5yY1WpBTzLMdLJsvecrdywHKgbL37YtVLBoqQXVUcieRWcJ0crqq9usbCUEb7WxEiBXIUX29v58w+goD1ufzIo59+drgfgfzn0yB2TihmrZ71CtcGja5yhYWuihkIoGgcRlkCRtu0DYOuk8C6FnPe9uVO81Jl4/oLatYioX2Y9fi/YlSYhbrINdq+pqN1YG5XHnVCLqwyQnISGjH4kXw53Bb8b6uBNpV5fBb0q3XNhaKZgnYqDIxffVO/LmOwTzA3TNXcidommyvDY3vSXc+Zo1FYRyM/E95aeGMXC+rf8w/C3mKVhTsuB0aj1X88wVQACoApvQxRkWzTAZEbmCWKk2pyWDebMhNKrejhEdfYwogcSC0Q+EVR2he6gzCX6PmjsFF/6Hd5/hK5CWeXnYLx3i3yTVTLldfwyjEDw+WHAWQPaHtuuL2+GPVTAANyZBmdAEjRdIfssaE0QLpKhWiLpvwRXzQMa92PbkDl41KjlUx8pLmu+DgF4CYNrnMOJ9GDlMrFG55o5IB8eNiqJjYd+jJGfumKNtmzSqaWFXtQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(346002)(376002)(396003)(230922051799003)(451199024)(82310400011)(186009)(1800799012)(64100799003)(36840700001)(46966006)(40470700004)(1076003)(41300700001)(2616005)(36756003)(26005)(426003)(40460700003)(86362001)(83380400001)(336012)(70586007)(8676002)(316002)(70206006)(6916009)(54906003)(6666004)(4326008)(8936002)(7696005)(478600001)(82740400003)(356005)(81166007)(36860700001)(2906002)(40480700001)(47076005)(5660300002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 04:55:10.7498
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d38d7ab-8bf8-41f7-ce2f-08dbf6e0b132
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044EE.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8644
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABVgOSnW7et1aonnsSLcS1LHHztXVyagAFe-U3=JX7c7xi2P4g@mail.gmail.com>
 
-Modify acp config flag read logic from ACP v7.0 onwards.
-Instead of reading from DMI table match entry, read the
-config flag value from BIOS ACPI table.
-This will remove updating DMI table when new platform support
-is added.
-Use FLAG_AMD_LEGACY_ONLY_DMIC flag as default one.
+On Wed, Dec 06, 2023 at 03:44:08PM +0800, David Gow wrote:
+> > But really, why is this a "raw" device_driver pointer and not a pointer
+> > to the driver type for your bus?
+> 
+> So, this is where the more difficult questions start (and where my
+> knowledge of the driver model gets a bit shakier).
+> 
+> At the moment, there's no struct kunit_driver; the goal was to have
+> whatever the minimal amount of infrastructure needed to get a 'struct
+> device *' that could be plumbed through existing code which accepts
+> it. (Read: mostly devres resource management stuff, get_device(),
+> etc.)
+> 
+> So, in this version, there's no:
+> - struct kunit_driver: we've no extra data to store / function
+> pointers other than what's in struct device_driver.
+> - The kunit_bus is as minimal as I could get it: each device matches
+> exactly one driver pointer (which is passed as struct
+> kunit_device->driver).
+> - The 'struct kunit_device' type is kept private, and 'struct device'
+> is used instead, as this is supposed to only be passed to generic
+> device functions (KUnit is just managing its lifecycle).
+> 
+> I've no problem adding these extra types to flesh this out into a more
+> 'normal' setup, though I'd rather keep the boilerplate on the user
+> side minimal if possible. I suspect if we were to return a struct
+> kunit_device, everyone would be quickly grabbing and passing around a
+> raw 'struct device *' anyway, which is what the existing tests with
+> fake devices do (via root_device_register, which returns struct
+> device, or by returning &platform_device->dev from a helper).
+> 
+> Similarly, the kunit_bus is not ever exposed to test code, nor really
+> is the driver (except via kunit_device_register_with_driver(), which
+> isn't actually being used anywhere yet, so it may make sense to cut it
+> out from the next version). So, ideally tests won't even be aware that
+> their devices are attached to the kunit_bus, nor that they have
+> drivers attached: it's mostly just to make these normal enough that
+> they show up nicely in sysfs and play well with the devm_ resource
+> management functions.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp-config.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+Ok, this makes more sense, thank you for the detailed explaination.
+Making this "generic" like you have done here seems reasonable for now.
 
-diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-index 20cee7104c2b..a9aac8f05cb9 100644
---- a/sound/soc/amd/acp-config.c
-+++ b/sound/soc/amd/acp-config.c
-@@ -19,6 +19,8 @@
- #include "../sof/amd/acp.h"
- #include "mach-config.h"
- 
-+#define ACP_7_0_REV	0x70
-+
- static int acp_quirk_data;
- 
- static const struct config_entry config_table[] = {
-@@ -133,15 +135,33 @@ static const struct config_entry config_table[] = {
- 	},
- };
- 
-+static int snd_amd_acp_acpi_find_config(struct pci_dev *pci)
-+{
-+	const union acpi_object *obj;
-+	int acp_flag = FLAG_AMD_LEGACY_ONLY_DMIC;
-+
-+	if (!acpi_dev_get_property(ACPI_COMPANION(&pci->dev), "acp-audio-config-flag",
-+				   ACPI_TYPE_INTEGER, &obj))
-+		acp_flag = obj->integer.value;
-+
-+	return acp_flag;
-+}
-+
- int snd_amd_acp_find_config(struct pci_dev *pci)
- {
- 	const struct config_entry *table = config_table;
- 	u16 device = pci->device;
- 	int i;
- 
--	/* Do not enable FLAGS on older platforms with Rev id zero */
-+	/* Do not enable FLAGS on older platforms with Rev Id zero
-+	 * For platforms which has ACP 7.0 or higher, read the acp
-+	 * config flag from BIOS ACPI table and for older platforms
-+	 * read it from DMI tables.
-+	 */
- 	if (!pci->revision)
- 		return 0;
-+	else if (pci->revision >= ACP_7_0_REV)
-+		return snd_amd_acp_acpi_find_config(pci);
- 
- 	for (i = 0; i < ARRAY_SIZE(config_table); i++, table++) {
- 		if (table->device != device)
--- 
-2.34.1
+> > > -                                     attributes.o
+> > > +                                     attributes.o \
+> > > +                                     device.o
+> >
+> > Shouldn't this file be "bus.c" as you are creating a kunit bus?
+> >
+> 
+> I've sort-of grouped this as "device helpers", as it handles KUnit
+> devices, drivers, and the kunit_bus, but devices are the most
+> user-facing part. Indeed, the bus feels like an 'implementation
+> detail'. Happy to rename it if that makes things more consistent,
+> though.
 
+Nah, device.o makes sense for now, thanks.
+
+> > >  ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
+> > >  kunit-objs +=                                debugfs.o
+> > > diff --git a/lib/kunit/device.c b/lib/kunit/device.c
+> > > new file mode 100644
+> > > index 000000000000..93ace1a2297d
+> > > --- /dev/null
+> > > +++ b/lib/kunit/device.c
+> > > @@ -0,0 +1,176 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * KUnit basic device implementation
+> >
+> > "basic bus/driver implementation", not device, right?
+> >
+> 
+> Given that the users of this really only care about getting their
+> "device", and the bus/driver are more implementation details, I'd
+> rather go with something like "KUnit-managed device implementation" or
+> "KUnit device-model helpers". How do those sound?
+
+Either would be good, thanks.
+
+> > > + *
+> > > + * Implementation of struct kunit_device helpers.
+> > > + *
+> > > + * Copyright (C) 2023, Google LLC.
+> > > + * Author: David Gow <davidgow@google.com>
+> > > + */
+> > > +
+> > > +#include <linux/device.h>
+> > > +
+> > > +#include <kunit/test.h>
+> > > +#include <kunit/device.h>
+> > > +#include <kunit/resource.h>
+> > > +
+> > > +
+> > > +/* Wrappers for use with kunit_add_action() */
+> > > +KUNIT_DEFINE_ACTION_WRAPPER(device_unregister_wrapper, device_unregister, struct device *);
+> > > +KUNIT_DEFINE_ACTION_WRAPPER(driver_unregister_wrapper, driver_unregister, struct device_driver *);
+> > > +
+> > > +static struct device kunit_bus = {
+> > > +     .init_name = "kunit"
+> > > +};
+> >
+> > A static device as a bus?  This feels wrong, what is it for?  And where
+> > does this live?  If you _REALLY_ want a single device for the root of
+> > your bus (which is a good idea), then make it a dynamic variable (as it
+> > is reference counted), NOT a static struct device which should not be
+> > done if at all possible.
+> 
+> Will do. Would root_device_register() make more sense here?
+
+Yes.
+
+> > > +
+> > > +/* A device owned by a KUnit test. */
+> > > +struct kunit_device {
+> > > +     struct device dev;
+> > > +     struct kunit *owner;
+> > > +     /* Force binding to a specific driver. */
+> > > +     struct device_driver *driver;
+> > > +     /* The driver is managed by KUnit and unique to this device. */
+> > > +     bool cleanup_driver;
+> > > +};
+> >
+> > Wait, why isn't your "kunit" device above a struct kunit_device
+> > structure?  Why is it ok to be a "raw" struct device (hint, that's
+> > almost never a good idea.)
+> >
+> > > +static inline struct kunit_device *to_kunit_device(struct device *d)
+> > > +{
+> > > +     return container_of(d, struct kunit_device, dev);
+> >
+> > container_of_const()?  And to use that properly, why not make this a #define?
+> >
+> > > +}
+> > > +
+> > > +static int kunit_bus_match(struct device *dev, struct device_driver *driver)
+> > > +{
+> > > +     struct kunit_device *kunit_dev = to_kunit_device(dev);
+> > > +
+> > > +     if (kunit_dev->driver == driver)
+> > > +             return 1;
+> > > +
+> > > +     return 0;
+> >
+> > I don't understand, what are you trying to match here?
+> >
+> 
+> This is just to make sure that the match function will use whatever
+> driver is passed through. When I originally started writing this,
+> there were some resource cleanup problems if there was no driver
+> associated with a device, though that's fixed now.
+
+As it's fixed, no need for this, so let's not be confused going forward :)
+
+thanks,
+
+greg k-h
