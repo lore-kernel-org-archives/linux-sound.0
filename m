@@ -1,101 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250C457302;
-	Thu,  7 Dec 2023 22:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79E357302
+	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 22:56:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fM7G8omP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F8BDC433CA;
-	Thu,  7 Dec 2023 22:35:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4zvvZUe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1597C433C8;
+	Thu,  7 Dec 2023 22:56:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701988505;
-	bh=NT7BHAqFBOhaRtrY/szkX/r9R8b3Zw9S8V4qsNXM+rg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fM7G8omPRZ7ZWXJv3Rg5R2B74Wc7o7Kd0E7svQfW9jKfF2c9SyQMkDDpP2fwOg2PS
-	 TKO6qZXBPmoGXWGrJAefouIWYDB8ffo870ddOmQLfgZp38GIQ2vwXuC+0oI7iBOh5A
-	 Dmzh3SXRzNyYbWZvBRERx2CaEge5kWXD5un3ta2VoAnw3dOgT54u79sJmF7LZRjAi4
-	 wAyE+jsMQiEYPkN4VoQz3jAoz/AqgbXL0XVNVTtIB0JtpatC8cCnYqQ03ZaxLmbyKD
-	 a6Mknh/f6Fz9KzrfxlGNr9kf9sZWMTVB1KDV+sBR/xTblGk3eIJE8dITgwEoK8w1zX
-	 AsY+ipMKgV9Qw==
+	s=k20201202; t=1701989781;
+	bh=Gk4izPLJryxMUzNd/B9l1Pz1NWeIrxzkdQLr+umc/kA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T4zvvZUe1aof6SXqLH99lYfNvR3nBI1MUfVzUoq5fY1DoFL2bnyKzBKDOSvpXHZfY
+	 72f4gdW4c4yJMm+NTxGyejeytMwAP+zmhplLQTe555tT9u71+oxO2LHF2HTHB2wCEa
+	 rrD35ymKIrmXA17VMf1PmBvgzL6fRxaTIXnymu1ieqrBEBhg+9OKKqGiXP01C4SvL6
+	 MszTP5Oo4tY+bOcG7TVdp5pdB3+A8TA42F9/DBUILcXPgOsfYRD6xu2blqzbNtwFvk
+	 rtlDNRMnctxDCvL5Hke2xQCsd1ffu8MYjZ2SocKWvRY3VlsRVb4TcdQk9NirgMC24r
+	 4PxywW6dMmVQQ==
+Date: Thu, 7 Dec 2023 22:56:14 +0000
 From: Mark Brown <broonie@kernel.org>
-To: tudor.ambarus@linaro.org, pratyush@kernel.org, 
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
- sbinding@opensource.cirrus.com, lee@kernel.org, james.schulman@cirrus.com, 
- david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
- tiwai@suse.com, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- michael@walle.cc, linux-mtd@lists.infradead.org, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@tuxon.dev, michal.simek@amd.com, 
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, 
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org, git@amd.com, 
- amitrkcian2002@gmail.com
-In-Reply-To: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
-Subject: Re: (subset) [PATCH v11 00/10] spi: Add support for
- stacked/parallel memories
-Message-Id: <170198850030.340565.15742297562436442635.b4-ty@kernel.org>
-Date: Thu, 07 Dec 2023 22:35:00 +0000
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+	vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	srinivas.kandagatla@linaro.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	vijendar.mukunda@amd.com,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+	Oder Chiou <oder_chiou@realtek.com>
+Subject: Re: [RFC PATCH 00/16] soundwire/ASoC: speed-up downloads with
+ BTP/BRA protocol
+Message-ID: <eb50a35d-9d77-48c2-ba76-bf5c1c3f1959@sirena.org.uk>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1XLs3TFacXRp3blk"
+Content-Disposition: inline
+In-Reply-To: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+X-Cookie: Two is company, three is an orgy.
 
-On Sat, 25 Nov 2023 14:51:27 +0530, Amit Kumar Mahapatra wrote:
-> This patch series updated the spi-nor, spi core and the AMD-Xilinx GQSPI
-> driver to add stacked and parallel memories support.
-> 
-> The first nine patches
-> https://lore.kernel.org/all/20230119185342.2093323-1-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-2-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-3-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-4-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-5-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-6-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-7-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-8-amit.kumar-mahapatra@amd.com/
-> https://lore.kernel.org/all/20230310173217.3429788-9-amit.kumar-mahapatra@amd.com/
-> of the previous series got applied to
-> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
-> for-next But the rest of the patches in the series did not get applied as
-> failure was reported for spi driver with GPIO CS, so send the remaining
-> patches in the series after rebasing it on top of for-next branch and
-> fixing the issue.
-> 
-> [...]
 
-Applied to
+--1XLs3TFacXRp3blk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+On Thu, Dec 07, 2023 at 04:29:28PM -0600, Pierre-Louis Bossart wrote:
 
-Thanks!
+> The MIPI specification and most of the new codecs support the Bulk
+> Transfer Protocol (BTP) and specifically the Bulk Register Access
+> (BRA) configuration. This mode reclaims the 'audio' data space of the
+> SoundWire frame to send firmware/coefficients over the DataPort 0
+> (DP0).
 
-[02/10] ALSA: hda/cs35l56: Use set/get APIs to access spi->chip_select
-        commit: f05e2f61fe88092e0d341ea27644a84e3386358d
-[03/10] spi: Add multi-cs memories support in SPI core
-        commit: 4d8ff6b0991d5e86b17b235fc46ec62e9195cb9b
+So the bulk register access is accessing registers that are also visible
+through the one register at at time interface, just faster?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--1XLs3TFacXRp3blk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVyTY4ACgkQJNaLcl1U
+h9CPsgf+Nv6pIfHfZ2c0n0F2CCuIV+9NeaccprxAy2mvTo+tvoLIo58KmmqNdrHn
+D4ENuSDWyDXCu0qOc9szZlOZXFZGZ9iDVRIs1M9KjhEBp4lU4F6mGofRXyDOoQim
+h50/WaoCLmNG/U5wu2Q9lrpnidrY0sS8gZTNwXFFTpwqOwQLeasdXbD+iKRd6T/g
+Ph8VyAeSHcOMucuaaq2RoH1MyjO9OFNsjeUE+eCIwHcZme6rOAIhBRmfOBUjhBeO
+hhOhTW97ZrsvjkXlZq+/VLrZ9rzlBl+N1qJcGYpt4vfXcKllWaYCumt3Ds8EWa7x
+3ogKAU0HoJwuAvg2txUUgpGdm+aqtQ==
+=YcQ/
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--1XLs3TFacXRp3blk--
