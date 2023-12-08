@@ -1,116 +1,269 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N3QOUT7B"
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A7910EF
-	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 02:10:07 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5d8d3271ff5so23455247b3.2
-        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 02:10:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702030206; x=1702635006; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4MXXH5cbPxzFQMx+eKCBMLxcs0KvqjK2kPkW0nLFkA=;
-        b=N3QOUT7B/2U9w0TIVO9Yaxwm3671HaMgZ5oIpgtryVcoN3WkcNoYKTtnOI/8Yxc/qS
-         U47kE6h/WP1McWitCqImdtG/mllGttk+w1GHfaqTqVTI/VC8E7GNlYbhFkGSYX0/lwDR
-         3GA8FyMeONKItTIF73tIWVsYTL2bNQYW4bf5NNbvypkq5vjMbT9N1OYZWQzRi2EJTUGl
-         RDW3qwuYb/D3PuCaWMpsXbAO78OkAFZVk80ygFkvRLUnRKgoaCJnv6o4e1rRIT8ylUDw
-         3A5mR86qCWGY9JMuRW0jWkdnGp+nO0j78t0YjclCV3zIZSilVfCEEaKQoffj4qlmBWC7
-         J/lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702030206; x=1702635006;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4MXXH5cbPxzFQMx+eKCBMLxcs0KvqjK2kPkW0nLFkA=;
-        b=C6KYrri6sDVgIcz8lFIKClEdXoZkW5hAzTOhidMSyFXiPHE7d8bdNoZ2CyzS5mO0y4
-         NX+h8TOkqqIa7tgKi7N/BBnkckuOM2qhpZKf8AmFIiTOM+g+TZbKOjNGtW55p4EhXwBG
-         /3d2WM5ugLscsTAteJF4XS1frzOhB3u9j99RbgmhrsM344gtk4U4Iwkn76kfR+ttgDzF
-         OE86I1GqwUk9cVa1hYwykIX23amrUbjwmmtA2gOnxlq9FmLZfClhAyjwR7Wg5DeHvq7D
-         BaxaqP5WoT3bn98BeG4L/6L3ZVroPvpBp8Y1U3DG95gcXsMreHVf/nAqxTJVoS0/C35R
-         ue0Q==
-X-Gm-Message-State: AOJu0YzPiNrm71KkGc/AyW+nPxerheDzfmRBBXAYFo/hyruGL2w1/Got
-	jadmOmyRr7T5sS2xwFiSYyelL5OOX5pXEQ==
-X-Google-Smtp-Source: AGHT+IGRCKchlwDieJP65LzkIospb19LMxwfhEMGz5PddR5fY3t/b8MjzABJjvWV9MENqxn3YYZ6m3IfVjrfog==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a81:be18:0:b0:5d4:27ab:83c with SMTP id
- i24-20020a81be18000000b005d427ab083cmr58978ywn.1.1702030206337; Fri, 08 Dec
- 2023 02:10:06 -0800 (PST)
-Date: Fri, 08 Dec 2023 18:09:32 +0800
-In-Reply-To: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U5Noppvy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YIJW2euS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U5Noppvy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YIJW2euS"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70BFB10C2;
+	Fri,  8 Dec 2023 02:36:15 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D20D11FDBE;
+	Fri,  8 Dec 2023 10:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702031773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7AR3HFJePyaASzzVqIP85kgOWWGkIBQjAAvWCqcxot8=;
+	b=U5NoppvyL+rL+UXN5xcofWqE452Kc0pxjVLkC9OBORbZQtodcntAAfMWp4WCc4bXriTlTi
+	dNE6zvjPt0ytuRWIhNr/omAnKGPRhehLthRCo/WyhniX2Ml//FuSMtlMq3FDCgbMfVHaDS
+	LwEuoRLScQKegcFKT6SVAaxEFg2nf4s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702031773;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7AR3HFJePyaASzzVqIP85kgOWWGkIBQjAAvWCqcxot8=;
+	b=YIJW2euSz9eqz587SzZdNxEq1X3yRG3j13EsibEa2WEXqKpFJxqmgBwKJYj66pnRdoNCKY
+	kHJtA1G0upbScDDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702031773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7AR3HFJePyaASzzVqIP85kgOWWGkIBQjAAvWCqcxot8=;
+	b=U5NoppvyL+rL+UXN5xcofWqE452Kc0pxjVLkC9OBORbZQtodcntAAfMWp4WCc4bXriTlTi
+	dNE6zvjPt0ytuRWIhNr/omAnKGPRhehLthRCo/WyhniX2Ml//FuSMtlMq3FDCgbMfVHaDS
+	LwEuoRLScQKegcFKT6SVAaxEFg2nf4s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702031773;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7AR3HFJePyaASzzVqIP85kgOWWGkIBQjAAvWCqcxot8=;
+	b=YIJW2euSz9eqz587SzZdNxEq1X3yRG3j13EsibEa2WEXqKpFJxqmgBwKJYj66pnRdoNCKY
+	kHJtA1G0upbScDDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4CC712FF7;
+	Fri,  8 Dec 2023 10:36:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iK7PJp3xcmVUJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 08 Dec 2023 10:36:13 +0000
+Date: Fri, 08 Dec 2023 11:36:13 +0100
+Message-ID: <874jgtyo9u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.7-rc5
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
-X-Mailer: b4 0.13-dev-099c9
-Message-ID: <20231208-kunit_bus-v2-4-e95905d9b325@google.com>
-Subject: [PATCH v2 4/4] ASoC: topology: Replace fake root_device with
- kunit_device in tests
-From: davidgow@google.com
-To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
-	David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: ***********
+X-Spam-Score: 11.28
+X-Spamd-Result: default: False [-11.81 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_SPF_SOFTFAIL(0.00)[~all:c];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_DN_ALL(0.00)[];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 DMARC_POLICY_ALLOW(0.00)[suse.de,none];
+	 MX_GOOD(-0.01)[];
+	 DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 WHITELIST_DMARC(-7.00)[suse.de:D:+];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Flag: NO
+X-Rspamd-Server: rspamd1
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D20D11FDBE
+X-Spam-Score: -11.81
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=U5Noppvy;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YIJW2euS;
+	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de;
+	dmarc=pass (policy=none) header.from=suse.de
 
-Using struct root_device to create fake devices for tests is something
-of a hack. The new struct kunit_device is meant for this purpose, so use
-it instead.
+Linus,
 
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: David Gow <davidgow@google.com>
+please pull sound fixes for v6.7-rc5 from:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc5
+
+The topmost commit is 634e5e1e06f5cdd614a1bc429ecb243a51cc009d
+
+----------------------------------------------------------------
+
+sound fixes for 6.7-rc5
+
+This is a typical bump in the middle of its way; we've gathered lots
+of fixes (mostly for ASoC) at this time.
+
+- PCM array out-of-bound access fix
+- Correction of SOC PCM merge error
+- Lots of ASoC SOF Intel updates
+- A few ASoC AMD quirks
+- More proper timer handling in PCM test module
+- HD-audio and USB-audio quirks as usual
+- Other device-specific fixes for various ASoC codecs
+
+----------------------------------------------------------------
+
+Aleksandrs Vinarskis (1):
+      ALSA: hda/realtek: fix speakers on XPS 9530 (2023)
+
+AngeloGioacchino Del Regno (1):
+      ASoC: SOF: mediatek: mt8186: Add Google Steelix topology compatible
+
+Bin Li (1):
+      ALSA: hda/realtek: Enable headset on Lenovo M90 Gen5
+
+Chancel Liu (1):
+      ASoC: imx-rpmsg: SND_SOC_IMX_RPMSG should depend on OF and I2C
+
+Charles Keepax (1):
+      ASoC: wm8974: Correct boost mixer inputs
+
+David Lin (1):
+      ASoC: nau8822: Fix incorrect type in assignment and cast to restricted __be16
+
+David Rau (1):
+      ASoC: da7219: Support low DC impedance headset
+
+Dinghao Liu (1):
+      ASoC: wm_adsp: fix memleak in wm_adsp_buffer_populate
+
+Ivan Orlov (1):
+      ALSA: pcmtest: stop timer before buffer is released
+
+Jason Zhang (1):
+      ALSA: pcm: fix out-of-bounds in snd_pcm_state_names
+
+Jeremy Soller (1):
+      ASoC: amd: yc: Add DMI entry to support System76 Pangolin 13
+
+Johan Hovold (1):
+      ASoC: soc-pcm: fix up bad merge
+
+Kamil Duljas (3):
+      ASoC: Intel: Skylake: Fix mem leak in few functions
+      ASoC: SOF: topology: Fix mem leak in sof_dai_load()
+      ASoC: Intel: Skylake: mem leak in skl register function
+
+Maciej Strozek (2):
+      ASoC: cs43130: Fix the position of const qualifier
+      ASoC: cs43130: Fix incorrect frame delay configuration
+
+Malcolm Hart (1):
+      ASoC: amd: yc: Fix non-functional mic on ASUS E1504FA
+
+Marian Postevca (1):
+      ASoC: amd: acp: Add support for a new Huawei Matebook laptop
+
+Mario Limonciello (1):
+      ALSA: hda/realtek: Add Framework laptop 16 to quirks
+
+Matus Malych (1):
+      ASoC: amd: yc: Add HP 255 G10 into quirk table
+
+Neil Armstrong (1):
+      ASoC: codecs: lpass-tx-macro: set active_decimator correct default value
+
+Pascal Noël (1):
+      ALSA: hda/realtek: Apply quirk for ASUS UM3504DA
+
+Peter Ujfalusi (5):
+      ASoC: Intel: skl_hda_dsp_generic: Drop HDMI routes when HDMI is not available
+      ASoC: Intel: sof_sdw: Always register the HDMI dai links
+      ASoC: hdac_hda: Conditionally register dais for HDMI and Analog
+      ASoC: SOF: ipc4-topology: Correct data structures for the SRC module
+      ASoC: SOF: ipc4-topology: Correct data structures for the GAIN module
+
+Ranjani Sridharan (2):
+      ASoC: SOF: ipc4-topology: Add core_mask in struct snd_sof_pipeline
+      ASoC: SOF: sof-audio: Modify logic for enabling/disabling topology cores
+
+Sarah Grant (1):
+      ALSA: usb-audio: Add Pioneer DJM-450 mixer controls
+
+Shengjiu Wang (3):
+      ASoC: fsl_sai: Fix no frame sync clock issue on i.MX8MP
+      ASoC: fsl_xcvr: Enable 2 * TX bit clock for spdif only case
+      ASoC: fsl_xcvr: refine the requested phy clock frequency
+
+Shuming Fan (1):
+      ASoC: rt5650: add mutex to avoid the jack detection failure
+
+Srinivas Kandagatla (2):
+      ASoC: ops: add correct range check for limiting volume
+      ASoC: qcom: sc8280xp: Limit speaker digital volumes
+
+Takashi Iwai (1):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7
+
+Tim Bosse (1):
+      ALSA: hda/realtek: add new Framework laptop to quirks
+
 ---
- sound/soc/soc-topology-test.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index 2cd3540cec04..70cbccc42a42 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -9,6 +9,7 @@
- #include <sound/core.h>
- #include <sound/soc.h>
- #include <sound/soc-topology.h>
-+#include <kunit/device.h>
- #include <kunit/test.h>
- 
- /* ===== HELPER FUNCTIONS =================================================== */
-@@ -21,26 +22,19 @@
-  */
- static struct device *test_dev;
- 
--static struct device_driver test_drv = {
--	.name = "sound-soc-topology-test-driver",
--};
--
- static int snd_soc_tplg_test_init(struct kunit *test)
- {
--	test_dev = root_device_register("sound-soc-topology-test");
-+	test_dev = kunit_device_register(test, "sound-soc-topology-test");
- 	test_dev = get_device(test_dev);
- 	if (!test_dev)
- 		return -ENODEV;
- 
--	test_dev->driver = &test_drv;
--
- 	return 0;
- }
- 
- static void snd_soc_tplg_test_exit(struct kunit *test)
- {
- 	put_device(test_dev);
--	root_device_unregister(test_dev);
- }
- 
- /*
-
--- 
-2.43.0.472.g3155946c3a-goog
+ sound/core/pcm.c                             |  1 +
+ sound/drivers/pcmtest.c                      | 13 +++++-
+ sound/pci/hda/patch_realtek.c                |  6 +++
+ sound/soc/amd/acp-config.c                   | 14 ++++++
+ sound/soc/amd/yc/acp6x-mach.c                | 21 +++++++++
+ sound/soc/codecs/cs43130.c                   |  6 +--
+ sound/soc/codecs/da7219-aad.c                |  2 +-
+ sound/soc/codecs/hdac_hda.c                  | 23 ++++++++--
+ sound/soc/codecs/lpass-tx-macro.c            |  5 +++
+ sound/soc/codecs/nau8822.c                   |  9 ++--
+ sound/soc/codecs/rt5645.c                    | 10 ++++-
+ sound/soc/codecs/wm8974.c                    |  6 +--
+ sound/soc/codecs/wm_adsp.c                   |  8 +++-
+ sound/soc/fsl/Kconfig                        |  1 +
+ sound/soc/fsl/fsl_sai.c                      | 21 +++++++++
+ sound/soc/fsl/fsl_xcvr.c                     | 14 +++++-
+ sound/soc/intel/boards/skl_hda_dsp_generic.c |  2 +
+ sound/soc/intel/boards/sof_sdw.c             | 17 ++++----
+ sound/soc/intel/skylake/skl-pcm.c            |  9 +++-
+ sound/soc/intel/skylake/skl-sst-ipc.c        |  4 +-
+ sound/soc/qcom/sc8280xp.c                    | 17 ++++++++
+ sound/soc/soc-ops.c                          |  2 +-
+ sound/soc/soc-pcm.c                          | 11 ++---
+ sound/soc/sof/ipc3-topology.c                |  2 +
+ sound/soc/sof/ipc4-control.c                 | 20 ++++-----
+ sound/soc/sof/ipc4-topology.c                | 61 +++++++++++++++-----------
+ sound/soc/sof/ipc4-topology.h                | 34 +++++++++++----
+ sound/soc/sof/mediatek/mt8186/mt8186.c       |  3 ++
+ sound/soc/sof/sof-audio.c                    | 65 ++++++++++++++++++----------
+ sound/soc/sof/sof-audio.h                    |  2 +
+ sound/soc/sof/topology.c                     |  4 +-
+ sound/usb/mixer_quirks.c                     | 30 +++++++++++++
+ 32 files changed, 335 insertions(+), 108 deletions(-)
 
