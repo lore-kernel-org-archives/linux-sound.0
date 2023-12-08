@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tqhxvu0N"
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAD81728
-	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 02:09:39 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-50bf82f4409so1768576e87.0
-        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 02:09:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fsr3xlwh"
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3012C1720
+	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 02:09:40 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50bf1e32571so2069889e87.2
+        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 02:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702030177; x=1702634977; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702030178; x=1702634978; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MhnbSO3Q2zosi6qhruoMo38E3T6MCIF3EEqxHYrVBSs=;
-        b=tqhxvu0N5RN00Lx9EK4Zon2mIxkdgCQc+gLVwwqvT9OtkPMrYnRAipCAjUJdB3WhLa
-         9gY2f/EbYR79V/qIYm7pSyDRXd5GCLpw1K/LnESEC3+iUrvws+IWKpGt9VjSqe8ePcs6
-         hq6oibMaBDdQRwhICgHYOEcrOAiZWwgfH2pfQHEMQoaRIF10ZR827FBRlUtKdJq27cMq
-         JvmxIflZCoDbt9RARK9grwq0M6VWEn4YoxCAC+s/Z0p2CUMAEaZjONLpauUyDVL0tsDG
-         01SHy/agejkXDHmMlXEcYdJdYnyImOhsYaO3rFF3lg23v+q14LcjJ4Wnj8VOO79Tzhg6
-         X3mQ==
+        bh=BQhBLJIefmvzYA/Py58YBQIvfKjKbstgbICKsncNOPs=;
+        b=fsr3xlwh9pTsNU18JOHu6/2JIydlEZ/rUWpxptc+HXlVyeZX141LRdZRB3aZIZC0u9
+         PV3faL+g1XuHd2ytkGJNNztltWftdcdOROyKvN2D+mZ+JzE3UWFOF39gqz+ESr3EwR9a
+         OUY18tbxYhQ04TXCD7HeVm/koH55Nv0jRFy4tdgUOVvvBnh97Ska6dGvnSHwCyBbXnW2
+         UBBxu6hd0v9TaVFJyS7Jwtr9vo+efPDgtMU234UoQbTixnWy6SCA0c4Hgl3K43Uxa7qk
+         rnh7MHG4Sj7QSp4hd9HE+o+KyCtwUlIXTcvHmXZb29XXRoFYatvFuUDqg0yIJdulVkFE
+         VmnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702030177; x=1702634977;
+        d=1e100.net; s=20230601; t=1702030178; x=1702634978;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MhnbSO3Q2zosi6qhruoMo38E3T6MCIF3EEqxHYrVBSs=;
-        b=pFF+Ht34OcFgMX32Ul/ryqJawMdBqAsqfTMHmHi/VovP9oJ4juVFEIf6flBueP4Aqd
-         YVM50lCzRiYtQly8aWuAZyU9/9DLp/gIx7tGH8MPdkl6t4lDEpU6OxHi527eGsbxfp0J
-         XA4SuSGhCeL82uPjl0QT7OeRrtgd8aH4nRAcPcTh/qtVWH7y6l9O2p77AYHtfA2MFLDR
-         UoWZm7uZjFsCsmohHiY78BvDKexHvtCd8JAfUmgBh8ebT+h+3Mq/CI028N1/huIEC9IZ
-         of7khRfKOeZT6IgLO2SwiCXlIonXP/X2lOtCIjv0t+TPUL5lR5Hj7v3hxx2wn/bBN/d3
-         Lhlg==
-X-Gm-Message-State: AOJu0YwclXj2OibIyWGc+pLNiMANrzvgYD4XL3CMEoz2PEqTLujnwXuu
-	VWj5W0pnc59QDK5w5scd/AJFLw==
-X-Google-Smtp-Source: AGHT+IHDQiaJfoevWBU3VZl6wKHvb+DBei29sDxTYazUuIBszOHOw9PxM/7XaZKgWi/zg8gufY0MLA==
-X-Received: by 2002:a05:6512:3e1e:b0:50b:e92c:de18 with SMTP id i30-20020a0565123e1e00b0050be92cde18mr352888lfv.22.1702030177312;
-        Fri, 08 Dec 2023 02:09:37 -0800 (PST)
+        bh=BQhBLJIefmvzYA/Py58YBQIvfKjKbstgbICKsncNOPs=;
+        b=uFZeflaEh/T70WnBbPB7spjuWQNFcuQwNifCRHI/MZrNxNypoo2NLQV2Fo1dHTyB+n
+         th1+b0eK+Ki7kOFZpEnK7cPjhip0oSvYB9NERTgVsZjfJ228KO9WCr8YT3XZnq8rPJ11
+         fX2HPv69BPiITNh5aoJqMCubQIimWix/Zb+MTyV4FzsfUhFa+1pdwI5GPgMOxVYaQ2dE
+         nwElFhJkB55rbQQzYGqcJfjtH7MUAyH96zYJFQd1dPYJ9lEHUAmiBqS8S1fAwfgi7OCM
+         qLeSK/sqs9jJ06JOTZONegUHhD/tkRnifCUH+ie+WjOHYp59P4G89JGd77YWZi/yN8SZ
+         He/g==
+X-Gm-Message-State: AOJu0YyIMNUPLgnGCp1PaqIXEc1RTBHD2B7+ExrGopIIxD/b7DOqcY2d
+	KMeYoVhu0VLh76PYHdMcj35hyw==
+X-Google-Smtp-Source: AGHT+IF3QhztmwDh6phbnNL/MSIHXHVpg1ufEn+gEmm8xgnt7lUT27GO3nRwVTmsFz+TX/dx8idZEQ==
+X-Received: by 2002:ac2:44ce:0:b0:50b:f380:c3b2 with SMTP id d14-20020ac244ce000000b0050bf380c3b2mr1882935lfm.46.1702030178344;
+        Fri, 08 Dec 2023 02:09:38 -0800 (PST)
 Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id m4-20020a194344000000b0050bfd7d8873sm174295lfj.254.2023.12.08.02.09.36
+        by smtp.gmail.com with ESMTPSA id m4-20020a194344000000b0050bfd7d8873sm174295lfj.254.2023.12.08.02.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 02:09:36 -0800 (PST)
+        Fri, 08 Dec 2023 02:09:37 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 08 Dec 2023 11:09:28 +0100
-Subject: [PATCH 4/5] ASoC: wm5100: Convert to GPIO descriptors
+Date: Fri, 08 Dec 2023 11:09:29 +0100
+Subject: [PATCH 5/5] ASoC: wm8996: Convert to GPIO descriptors
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231208-descriptors-sound-wlf-v1-4-c4dab6f521ec@linaro.org>
+Message-Id: <20231208-descriptors-sound-wlf-v1-5-c4dab6f521ec@linaro.org>
 References: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
 In-Reply-To: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
@@ -61,285 +61,221 @@ Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org,
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.4
 
-This converts the WM5100 codec to use GPIO descriptors, a pretty
-straight-forward conversion with the following peculiarities:
+This converts the WM8996 codec to use GPIO descriptors, an a similar
+way to WM5100.
 
-- The driver is instantiating a GPIO chip named wm5100, and the
-  headphone polarity detection GPIO is lifted from there. We add
-  this to the GPIO descriptor table as well, and we can then get
-  rid of also the base address for the GPIO chip from the
-  platform data and just use dynamic numbering.
+The driver is instantiating a GPIO chip named wm8996, and we get
+rid of the base address for the GPIO chip from the platform data and
+just use dynamic numbering. Move base and ngpio into the static
+gpio_chip template.
 
-- Fix up the only in-tree user which is the Cragganmore 6410
-  module.
+Fix up the only in-tree user which is the Cragganmore 6410 module.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/arm/mach-s3c/mach-crag6410-module.c |  17 +++--
- include/sound/wm5100.h                   |   4 --
- sound/soc/codecs/wm5100.c                | 107 +++++++++++--------------------
- 3 files changed, 52 insertions(+), 76 deletions(-)
+ arch/arm/mach-s3c/mach-crag6410-module.c | 14 ++++++--
+ include/sound/wm8996.h                   |  3 --
+ sound/soc/codecs/wm8996.c                | 58 ++++++++++++++------------------
+ 3 files changed, 36 insertions(+), 39 deletions(-)
 
 diff --git a/arch/arm/mach-s3c/mach-crag6410-module.c b/arch/arm/mach-s3c/mach-crag6410-module.c
-index 1df6b7e52c9d..59456fbebf1b 100644
+index 59456fbebf1b..2de1a89f6e99 100644
 --- a/arch/arm/mach-s3c/mach-crag6410-module.c
 +++ b/arch/arm/mach-s3c/mach-crag6410-module.c
-@@ -70,10 +70,19 @@ static struct spi_board_info balblair_devs[] = {
+@@ -127,9 +127,16 @@ static struct wm8996_retune_mobile_config wm8996_retune[] = {
  	},
  };
  
-+static struct gpiod_lookup_table wm5100_gpiod_table = {
++static struct gpiod_lookup_table wm8996_gpiod_table = {
 +	.dev_id = "1-001a", /* Device 001a on I2C bus 1 */
 +	.table = {
 +		GPIO_LOOKUP("GPION", 7,
 +			    "wlf,ldo1ena", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("wm5100", 3,
-+			    "hp-pol", GPIO_ACTIVE_HIGH),
 +		{ },
 +	},
 +};
 +
- static struct wm5100_pdata wm5100_pdata = {
+ static struct wm8996_pdata wm8996_pdata __initdata = {
 -	.ldo_ena = S3C64XX_GPN(7),
- 	.irq_flags = IRQF_TRIGGER_HIGH,
 -	.gpio_base = CODEC_GPIO_BASE,
- 
- 	.in_mode = {
- 		WM5100_IN_DIFF,
-@@ -82,7 +91,6 @@ static struct wm5100_pdata wm5100_pdata = {
- 		WM5100_IN_SE,
- 	},
- 
--	.hp_pol = CODEC_GPIO_BASE + 3,
- 	.jack_modes = {
- 		{ WM5100_MICDET_MICBIAS3, 0, 0 },
- 		{ WM5100_MICDET_MICBIAS2, 1, 1 },
-@@ -366,7 +374,8 @@ static const struct {
+ 	.micdet_def = 1,
+ 	.inl_mode = WM8996_DIFFERRENTIAL_1,
+ 	.inr_mode = WM8996_DIFFERRENTIAL_1,
+@@ -370,7 +377,8 @@ static const struct {
+ 	  .spi_devs = balblair_devs,
+ 	  .num_spi_devs = ARRAY_SIZE(balblair_devs) },
+ 	{ .id = 0x39, .rev = 0xff, .name = "1254-EV1 Dallas Dhu",
+-	  .i2c_devs = wm1254_devs, .num_i2c_devs = ARRAY_SIZE(wm1254_devs) },
++	  .i2c_devs = wm1254_devs, .num_i2c_devs = ARRAY_SIZE(wm1254_devs),
++	  .gpiod_table = &wm8996_gpiod_table },
  	{ .id = 0x3a, .rev = 0xff, .name = "1259-EV1 Tobermory",
  	  .i2c_devs = wm1259_devs, .num_i2c_devs = ARRAY_SIZE(wm1259_devs) },
  	{ .id = 0x3b, .rev = 0xff, .name = "1255-EV1 Kilchoman",
--	  .i2c_devs = wm1255_devs, .num_i2c_devs = ARRAY_SIZE(wm1255_devs) },
-+	  .i2c_devs = wm1255_devs, .num_i2c_devs = ARRAY_SIZE(wm1255_devs),
-+	  .gpiod_table = &wm5100_gpiod_table },
- 	{ .id = 0x3c, .rev = 0xff, .name = "1273-EV1 Longmorn" },
- 	{ .id = 0x3d, .rev = 0xff, .name = "1277-EV1 Littlemill",
- 	  .i2c_devs = wm1277_devs, .num_i2c_devs = ARRAY_SIZE(wm1277_devs),
-diff --git a/include/sound/wm5100.h b/include/sound/wm5100.h
-index b94badf72947..1c48090fdb2c 100644
---- a/include/sound/wm5100.h
-+++ b/include/sound/wm5100.h
-@@ -36,11 +36,7 @@ struct wm5100_jack_mode {
- #define WM5100_GPIO_SET 0x10000
+diff --git a/include/sound/wm8996.h b/include/sound/wm8996.h
+index 247f9917e33d..342abeef288f 100644
+--- a/include/sound/wm8996.h
++++ b/include/sound/wm8996.h
+@@ -33,8 +33,6 @@ struct wm8996_retune_mobile_config {
+ struct wm8996_pdata {
+ 	int irq_flags;  /** Set IRQ trigger flags; default active low */
  
- struct wm5100_pdata {
--	int reset;      /** GPIO controlling /RESET, if any */
--	int ldo_ena;    /** GPIO controlling LODENA, if any */
--	int hp_pol;     /** GPIO controlling headset polarity, if any */
- 	int irq_flags;
+-	int ldo_ena;  /** GPIO for LDO1; -1 for none */
+-
+ 	int micdet_def;  /** Default MICDET_SRC/HP1FB_SRC/MICD_BIAS */
+ 
+ 	enum wm8996_inmode inl_mode;
+@@ -42,7 +40,6 @@ struct wm8996_pdata {
+ 
+ 	u32 spkmute_seq;  /** Value for register 0x802 */
+ 
 -	int gpio_base;
+ 	u32 gpio_default[5];
  
- 	struct wm5100_jack_mode jack_modes[2];
- 
-diff --git a/sound/soc/codecs/wm5100.c b/sound/soc/codecs/wm5100.c
-index ff63723928a1..7ee4b45c0834 100644
---- a/sound/soc/codecs/wm5100.c
-+++ b/sound/soc/codecs/wm5100.c
-@@ -15,7 +15,7 @@
+ 	int num_retune_mobile_cfgs;
+diff --git a/sound/soc/codecs/wm8996.c b/sound/soc/codecs/wm8996.c
+index df6195778c57..e738326e33ed 100644
+--- a/sound/soc/codecs/wm8996.c
++++ b/sound/soc/codecs/wm8996.c
+@@ -14,7 +14,7 @@
  #include <linux/pm.h>
  #include <linux/gcd.h>
  #include <linux/gpio/driver.h>
 -#include <linux/gpio.h>
 +#include <linux/gpio/consumer.h>
  #include <linux/i2c.h>
- #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
  #include <linux/regulator/consumer.h>
-@@ -55,6 +55,9 @@ struct wm5100_priv {
+@@ -51,7 +51,7 @@ struct wm8996_priv {
+ 	struct regmap *regmap;
  	struct snd_soc_component *component;
  
- 	struct regulator_bulk_data core_supplies[WM5100_NUM_CORE_SUPPLIES];
-+	struct gpio_desc *reset;
+-	int ldo1ena;
 +	struct gpio_desc *ldo_ena;
-+	struct gpio_desc *hp_pol;
  
- 	int rev;
+ 	int sysclk;
+ 	int sysclk_src;
+@@ -1596,9 +1596,9 @@ static int wm8996_set_bias_level(struct snd_soc_component *component,
+ 				return ret;
+ 			}
  
-@@ -205,9 +208,9 @@ static void wm5100_free_sr(struct snd_soc_component *component, int rate)
+-			if (wm8996->pdata.ldo_ena >= 0) {
+-				gpio_set_value_cansleep(wm8996->pdata.ldo_ena,
+-							1);
++			if (wm8996->ldo_ena) {
++				gpiod_set_value_cansleep(wm8996->ldo_ena,
++							 1);
+ 				msleep(5);
+ 			}
  
- static int wm5100_reset(struct wm5100_priv *wm5100)
- {
--	if (wm5100->pdata.reset) {
--		gpio_set_value_cansleep(wm5100->pdata.reset, 0);
--		gpio_set_value_cansleep(wm5100->pdata.reset, 1);
-+	if (wm5100->reset) {
-+		gpiod_set_value_cansleep(wm5100->reset, 1);
-+		gpiod_set_value_cansleep(wm5100->reset, 0);
+@@ -1615,8 +1615,8 @@ static int wm8996_set_bias_level(struct snd_soc_component *component,
  
- 		return 0;
- 	} else {
-@@ -1974,7 +1977,7 @@ static void wm5100_set_detect_mode(struct wm5100_priv *wm5100, int the_mode)
- 	if (WARN_ON(the_mode >= ARRAY_SIZE(wm5100->pdata.jack_modes)))
- 		return;
+ 	case SND_SOC_BIAS_OFF:
+ 		regcache_cache_only(wm8996->regmap, true);
+-		if (wm8996->pdata.ldo_ena >= 0) {
+-			gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
++		if (wm8996->ldo_ena) {
++			gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
+ 			regcache_cache_only(wm8996->regmap, true);
+ 		}
+ 		regulator_bulk_disable(ARRAY_SIZE(wm8996->supplies),
+@@ -2188,6 +2188,8 @@ static const struct gpio_chip wm8996_template_chip = {
+ 	.direction_input	= wm8996_gpio_direction_in,
+ 	.get			= wm8996_gpio_get,
+ 	.can_sleep		= 1,
++	.ngpio			= 5,
++	.base			= -1,
+ };
  
--	gpio_set_value_cansleep(wm5100->pdata.hp_pol, mode->hp_pol);
-+	gpiod_set_value_cansleep(wm5100->hp_pol, mode->hp_pol);
- 	regmap_update_bits(wm5100->regmap, WM5100_ACCESSORY_DETECT_MODE_1,
- 			   WM5100_ACCDET_BIAS_SRC_MASK |
- 			   WM5100_ACCDET_SRC,
-@@ -2299,11 +2302,7 @@ static void wm5100_init_gpio(struct i2c_client *i2c)
- 	wm5100->gpio_chip = wm5100_template_chip;
- 	wm5100->gpio_chip.ngpio = 6;
- 	wm5100->gpio_chip.parent = &i2c->dev;
--
--	if (wm5100->pdata.gpio_base)
--		wm5100->gpio_chip.base = wm5100->pdata.gpio_base;
+ static void wm8996_init_gpio(struct wm8996_priv *wm8996)
+@@ -2195,14 +2197,8 @@ static void wm8996_init_gpio(struct wm8996_priv *wm8996)
+ 	int ret;
+ 
+ 	wm8996->gpio_chip = wm8996_template_chip;
+-	wm8996->gpio_chip.ngpio = 5;
+ 	wm8996->gpio_chip.parent = wm8996->dev;
+ 
+-	if (wm8996->pdata.gpio_base)
+-		wm8996->gpio_chip.base = wm8996->pdata.gpio_base;
 -	else
--		wm5100->gpio_chip.base = -1;
-+	wm5100->gpio_chip.base = -1;
- 
- 	ret = gpiochip_add_data(&wm5100->gpio_chip, wm5100);
+-		wm8996->gpio_chip.base = -1;
+-
+ 	ret = gpiochip_add_data(&wm8996->gpio_chip, wm8996);
  	if (ret != 0)
-@@ -2349,35 +2348,20 @@ static int wm5100_probe(struct snd_soc_component *component)
- 		snd_soc_dapm_new_controls(dapm, wm5100_dapm_widgets_noirq,
- 					  ARRAY_SIZE(wm5100_dapm_widgets_noirq));
+ 		dev_err(wm8996->dev, "Failed to add GPIOs: %d\n", ret);
+@@ -2771,15 +2767,15 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
+ 		memcpy(&wm8996->pdata, dev_get_platdata(&i2c->dev),
+ 		       sizeof(wm8996->pdata));
  
--	if (wm5100->pdata.hp_pol) {
--		ret = gpio_request_one(wm5100->pdata.hp_pol,
--				       GPIOF_OUT_INIT_HIGH, "WM5100 HP_POL");
+-	if (wm8996->pdata.ldo_ena > 0) {
+-		ret = gpio_request_one(wm8996->pdata.ldo_ena,
+-				       GPIOF_OUT_INIT_LOW, "WM8996 ENA");
 -		if (ret < 0) {
--			dev_err(&i2c->dev, "Failed to request HP_POL %d: %d\n",
--				wm5100->pdata.hp_pol, ret);
--			goto err_gpio;
+-			dev_err(&i2c->dev, "Failed to request GPIO %d: %d\n",
+-				wm8996->pdata.ldo_ena, ret);
+-			goto err;
 -		}
-+	wm5100->hp_pol = devm_gpiod_get_optional(&i2c->dev, "hp-pol",
-+						 GPIOD_OUT_HIGH);
-+	if (IS_ERR(wm5100->hp_pol)) {
-+		ret = PTR_ERR(wm5100->hp_pol);
-+		dev_err(&i2c->dev, "Failed to request HP_POL GPIO: %d\n",
++	wm8996->ldo_ena = devm_gpiod_get_optional(&i2c->dev, "wlf,ldo1ena",
++						  GPIOD_OUT_LOW);
++	if (IS_ERR(wm8996->ldo_ena)) {
++		ret = PTR_ERR(wm8996->ldo_ena);
++		dev_err(&i2c->dev, "Failed to request LDO ENA GPIO: %d\n",
 +			ret);
-+		return ret;
++		goto err;
+ 	}
++	gpiod_set_consumer_name(wm8996->ldo_ena, "WM8996 ENA");
+ 
+ 	for (i = 0; i < ARRAY_SIZE(wm8996->supplies); i++)
+ 		wm8996->supplies[i].supply = wm8996_supply_names[i];
+@@ -2814,8 +2810,8 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
+ 		goto err_gpio;
  	}
  
- 	return 0;
--
--err_gpio:
--
--	return ret;
--}
--
--static void wm5100_remove(struct snd_soc_component *component)
--{
--	struct wm5100_priv *wm5100 = snd_soc_component_get_drvdata(component);
--
--	if (wm5100->pdata.hp_pol) {
--		gpio_free(wm5100->pdata.hp_pol);
--	}
- }
- 
- static const struct snd_soc_component_driver soc_component_dev_wm5100 = {
- 	.probe			= wm5100_probe,
--	.remove			= wm5100_remove,
- 	.set_sysclk		= wm5100_set_sysclk,
- 	.set_pll		= wm5100_set_fll,
- 	.seq_notifier		= wm5100_seq_notifier,
-@@ -2460,26 +2444,26 @@ static int wm5100_i2c_probe(struct i2c_client *i2c)
- 		goto err;
+-	if (wm8996->pdata.ldo_ena > 0) {
+-		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 1);
++	if (wm8996->ldo_ena) {
++		gpiod_set_value_cansleep(wm8996->ldo_ena, 1);
+ 		msleep(5);
  	}
  
--	if (wm5100->pdata.ldo_ena) {
--		ret = gpio_request_one(wm5100->pdata.ldo_ena,
--				       GPIOF_OUT_INIT_HIGH, "WM5100 LDOENA");
--		if (ret < 0) {
--			dev_err(&i2c->dev, "Failed to request LDOENA %d: %d\n",
--				wm5100->pdata.ldo_ena, ret);
--			goto err_enable;
--		}
-+	wm5100->ldo_ena = devm_gpiod_get_optional(&i2c->dev, "wlf,ldo1ena",
-+						  GPIOD_OUT_HIGH);
-+	if (IS_ERR(wm5100->ldo_ena)) {
-+		ret = PTR_ERR(wm5100->ldo_ena);
-+		dev_err(&i2c->dev, "Failed to request LDOENA GPIO: %d\n", ret);
-+		goto err_enable;
-+	}
-+	if (wm5100->ldo_ena) {
-+		gpiod_set_consumer_name(wm5100->ldo_ena, "WM5100 LDOENA");
- 		msleep(2);
- 	}
+@@ -2847,8 +2843,8 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
+ 	dev_info(&i2c->dev, "revision %c\n",
+ 		 (reg & WM8996_CHIP_REV_MASK) + 'A');
  
--	if (wm5100->pdata.reset) {
--		ret = gpio_request_one(wm5100->pdata.reset,
--				       GPIOF_OUT_INIT_HIGH, "WM5100 /RESET");
--		if (ret < 0) {
--			dev_err(&i2c->dev, "Failed to request /RESET %d: %d\n",
--				wm5100->pdata.reset, ret);
--			goto err_ldo;
--		}
-+	wm5100->reset = devm_gpiod_get_optional(&i2c->dev, "reset",
-+						GPIOD_OUT_LOW);
-+	if (IS_ERR(wm5100->reset)) {
-+		ret = PTR_ERR(wm5100->reset);
-+		dev_err(&i2c->dev, "Failed to request /RESET GPIO: %d\n", ret);
-+		goto err_ldo;
- 	}
-+	gpiod_set_consumer_name(wm5100->reset, "WM5100 /RESET");
- 
- 	ret = regmap_read(wm5100->regmap, WM5100_SOFTWARE_RESET, &reg);
- 	if (ret < 0) {
-@@ -2619,15 +2603,9 @@ static int wm5100_i2c_probe(struct i2c_client *i2c)
- 	if (i2c->irq)
- 		free_irq(i2c->irq, wm5100);
- 	wm5100_free_gpio(i2c);
--	if (wm5100->pdata.reset) {
--		gpio_set_value_cansleep(wm5100->pdata.reset, 0);
--		gpio_free(wm5100->pdata.reset);
--	}
-+	gpiod_set_value_cansleep(wm5100->reset, 1);
- err_ldo:
--	if (wm5100->pdata.ldo_ena) {
--		gpio_set_value_cansleep(wm5100->pdata.ldo_ena, 0);
--		gpio_free(wm5100->pdata.ldo_ena);
--	}
-+	gpiod_set_value_cansleep(wm5100->ldo_ena, 0);
+-	if (wm8996->pdata.ldo_ena > 0) {
+-		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
++	if (wm8996->ldo_ena) {
++		gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
+ 		regcache_cache_only(wm8996->regmap, true);
+ 	} else {
+ 		ret = regmap_write(wm8996->regmap, WM8996_SOFTWARE_RESET,
+@@ -3054,12 +3050,10 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
+ 	wm8996_free_gpio(wm8996);
+ err_regmap:
  err_enable:
- 	regulator_bulk_disable(ARRAY_SIZE(wm5100->core_supplies),
- 			       wm5100->core_supplies);
-@@ -2643,14 +2621,8 @@ static void wm5100_i2c_remove(struct i2c_client *i2c)
- 	if (i2c->irq)
- 		free_irq(i2c->irq, wm5100);
- 	wm5100_free_gpio(i2c);
--	if (wm5100->pdata.reset) {
--		gpio_set_value_cansleep(wm5100->pdata.reset, 0);
--		gpio_free(wm5100->pdata.reset);
+-	if (wm8996->pdata.ldo_ena > 0)
+-		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
++	if (wm8996->ldo_ena)
++		gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
+ 	regulator_bulk_disable(ARRAY_SIZE(wm8996->supplies), wm8996->supplies);
+ err_gpio:
+-	if (wm8996->pdata.ldo_ena > 0)
+-		gpio_free(wm8996->pdata.ldo_ena);
+ err:
+ 
+ 	return ret;
+@@ -3070,10 +3064,8 @@ static void wm8996_i2c_remove(struct i2c_client *client)
+ 	struct wm8996_priv *wm8996 = i2c_get_clientdata(client);
+ 
+ 	wm8996_free_gpio(wm8996);
+-	if (wm8996->pdata.ldo_ena > 0) {
+-		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
+-		gpio_free(wm8996->pdata.ldo_ena);
 -	}
--	if (wm5100->pdata.ldo_ena) {
--		gpio_set_value_cansleep(wm5100->pdata.ldo_ena, 0);
--		gpio_free(wm5100->pdata.ldo_ena);
--	}
-+	gpiod_set_value_cansleep(wm5100->reset, 1);
-+	gpiod_set_value_cansleep(wm5100->ldo_ena, 0);
++	if (wm8996->ldo_ena)
++		gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
  }
  
- #ifdef CONFIG_PM
-@@ -2660,8 +2632,7 @@ static int wm5100_runtime_suspend(struct device *dev)
- 
- 	regcache_cache_only(wm5100->regmap, true);
- 	regcache_mark_dirty(wm5100->regmap);
--	if (wm5100->pdata.ldo_ena)
--		gpio_set_value_cansleep(wm5100->pdata.ldo_ena, 0);
-+	gpiod_set_value_cansleep(wm5100->ldo_ena, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(wm5100->core_supplies),
- 			       wm5100->core_supplies);
- 
-@@ -2681,8 +2652,8 @@ static int wm5100_runtime_resume(struct device *dev)
- 		return ret;
- 	}
- 
--	if (wm5100->pdata.ldo_ena) {
--		gpio_set_value_cansleep(wm5100->pdata.ldo_ena, 1);
-+	if (wm5100->ldo_ena) {
-+		gpiod_set_value_cansleep(wm5100->ldo_ena, 1);
- 		msleep(2);
- 	}
- 
+ static const struct i2c_device_id wm8996_i2c_id[] = {
 
 -- 
 2.34.1
