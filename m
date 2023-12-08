@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zKxQNb/T"
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376EC171E
-	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 07:44:05 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c039e9719so25290205e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 07:44:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lh4HZlRj"
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFD71724
+	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 07:44:13 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c2a444311so21021675e9.2
+        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 07:44:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702050243; x=1702655043; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702050252; x=1702655052; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=juHEdWhsDRSShr+KGvdhwQ2kU4B0JHNBNLbA1DnMsFM=;
-        b=zKxQNb/TyyWoxctUQ3c4c/Pf6zZjn9QpqeaS0VS1MIF6DgFgfvFMhUpoqGDy4/zbAD
-         lwbiZRePpixgsSxvT5h/5FY/YQ9mWOB70R1Zm0B6Hoh6hq5OQcRmJKrelmI1zo7Qrhrn
-         QNZ2Kb40OCcGeE9YaT4egijyMuWTMfvo6KKqBcfuzZEKT65pB3v3eUXx2aFIMlGFe39I
-         Vk4VHDm8+NLDYE6Br8xpoPct4EQ4UBrlPJgwOXsM5HLQTv74ZQkvo3gJ21zA84K8+viC
-         3fi3n5ALsd6F8R8kj+RmwcGZuYlQuzsrfVCZhlHZfR327QrlVGQzmKVK4VHTV2IZEaZ9
-         ltNw==
+        bh=UyJTzyrrjFQ1eaFAkFF2OipSopnm2vk2L0nE9MiwPq0=;
+        b=lh4HZlRjgFkWYNb4zLc6LYvZlY+sSJerpb4aH6xIOjy5aZeBrDxQdyzn2t3iFsy3JB
+         898ffhcRxThrfWN+Ztg8IVGWHg9q3Kdfm2dDysDfblSpWbBV5wzGjZlGvP3Gkhad9rFQ
+         fRnucLzxj7HGC9o1IhxyRnhPX8SV6/W0F3N4AnGr7bWAQ5N0UV15w0s1L3pucaqHk5tv
+         Oz1BNZg1s0PXgz7TR3j192/W5zBMPD/JCGusRJNszIZTbQNqR14Oy1e+qJOQfDV3yj+H
+         Z7sI2fG5QdKGfm2QVlQqjoKg9qQmWnGzHCMj0olzuygbXkGG2EZScW1UdGnucc52RGUv
+         m39Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702050243; x=1702655043;
+        d=1e100.net; s=20230601; t=1702050252; x=1702655052;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=juHEdWhsDRSShr+KGvdhwQ2kU4B0JHNBNLbA1DnMsFM=;
-        b=ApwAxntsCk78Jl2FJSIEk5YyHoHexeYeMAEcn9EVkDiYasvLuS1KOkBv9s9CxYVluk
-         j5wCTVIm0VAuDCB9bzlb0Q/bsLHrHJ+N2hBRVxRKCabG1C2NK1TPI6TsiSGwV0OomGMi
-         glptJ/yVeUP6wv9ncVkZ4sZMSBHKOMP4Jp6808iqIWZqweEGtbL2JnXYSPsoL1w5XDvm
-         U2UdFZD1542+qxFsrKBm1mf0Qa93In6KinjQNEpdthD4Tv4DqCBUgxU2hWUPf+ZK15Lx
-         Lt0pxAos4svT0Eq0ZcncC2YFtViiAWG0mpt+yB2kgU7+pKmdwOGmwFlz/Qf3nOkxKIEU
-         x97g==
-X-Gm-Message-State: AOJu0YyGZy7N6MZayr4mrW7SSBUq0wuJ/TQq8ZYM1HwmSNO3MwaDVfC7
-	cruQbrNW3fWqmy+zIzM84Um11w==
-X-Google-Smtp-Source: AGHT+IG6NBfOp3WcGKrA4FdX50lR9rRRRhJzQfP0ZAyVe//N95iH+QAqscl4nXsx3jj7ZzI3h6NA/Q==
-X-Received: by 2002:a05:600c:21c9:b0:40c:2323:6ffe with SMTP id x9-20020a05600c21c900b0040c23236ffemr95901wmj.152.1702050243632;
-        Fri, 08 Dec 2023 07:44:03 -0800 (PST)
+        bh=UyJTzyrrjFQ1eaFAkFF2OipSopnm2vk2L0nE9MiwPq0=;
+        b=vkhxh6F9zA1kV8d+dlGfVxn6SCW0VObvO8Q6LIKrcLBLqfnZmd55Xz1o2i8qYO2B6Z
+         +wtwekLTJinRzILNpKyOdUzUnpRQXOyfWEdpvFNNRnbzu3DFr2WMri+uduOQvK3npD0p
+         7X9QYwG1dQYBLszub5ZI3Ldw3GM7sj+gYziH+/GLRhLCQaQgXwOREjuAqVRnFIucZ9Hy
+         LCUfaPpZ6t4pfr40GFVOg4TPOQMVk03qVITiXAEe+sszu2CWZ3SwFxmy9J7Tf8+/QQn6
+         vihFWpzKOilzJV8y1W9vrivk12E6u3NeT9n+BFwfWCrSF4SOmNmRS8b9qkE0lD1zPN7f
+         a9UA==
+X-Gm-Message-State: AOJu0YyImXgRr3S20gBK976nHgX1jo7eo7MSM3M+Tw0XC4TUG2+kYCS3
+	AboWme8ou5JH3QF1FZD9AOpMCA==
+X-Google-Smtp-Source: AGHT+IEJt5WEFaRItiPehciJQQVgTdGjtB1MbkGjSsM2UqGx0+sdJijRSbp+twirdw6d00lmE8XaUQ==
+X-Received: by 2002:a05:600c:3d91:b0:40c:28dd:3f2f with SMTP id bi17-20020a05600c3d9100b0040c28dd3f2fmr57985wmb.135.1702050252391;
+        Fri, 08 Dec 2023 07:44:12 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id bi12-20020a05600c3d8c00b0040b397787d3sm5448481wmb.24.2023.12.08.07.44.02
+        by smtp.gmail.com with ESMTPSA id bi12-20020a05600c3d8c00b0040b397787d3sm5448481wmb.24.2023.12.08.07.44.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Dec 2023 07:44:03 -0800 (PST)
-Message-ID: <8c4c6dd3-62ac-4a6d-986b-bb1a451b8f81@linaro.org>
-Date: Fri, 8 Dec 2023 16:44:01 +0100
+        Fri, 08 Dec 2023 07:44:12 -0800 (PST)
+Message-ID: <cbe7e756-b4b6-4583-ab82-f9fc882703c6@linaro.org>
+Date: Fri, 8 Dec 2023 16:44:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] ASoC: wm2200: Convert to GPIO descriptors
+Subject: Re: [PATCH 4/5] ASoC: wm5100: Convert to GPIO descriptors
 Content-Language: en-US
 To: Linus Walleij <linus.walleij@linaro.org>,
  Alim Akhtar <alim.akhtar@samsung.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -56,7 +56,7 @@ To: Linus Walleij <linus.walleij@linaro.org>,
 Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org
 References: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
- <20231208-descriptors-sound-wlf-v1-3-c4dab6f521ec@linaro.org>
+ <20231208-descriptors-sound-wlf-v1-4-c4dab6f521ec@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -102,22 +102,26 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231208-descriptors-sound-wlf-v1-3-c4dab6f521ec@linaro.org>
+In-Reply-To: <20231208-descriptors-sound-wlf-v1-4-c4dab6f521ec@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/12/2023 11:09, Linus Walleij wrote:
-> This converts the WM2200 codec to use GPIO descriptors.
-> This is a pretty straight-forward conversion, and it also
-> switches over the single in-tree user in the S3C
-> Cragganmore module for S3C 6410.
+> This converts the WM5100 codec to use GPIO descriptors, a pretty
+> straight-forward conversion with the following peculiarities:
 > 
-> This coded does not seem to get selected or be selectable
-> through Kconfig, I had to hack another soundcard Kconfig
-> entry to select it for compile tests.
+> - The driver is instantiating a GPIO chip named wm5100, and the
+>   headphone polarity detection GPIO is lifted from there. We add
+>   this to the GPIO descriptor table as well, and we can then get
+>   rid of also the base address for the GPIO chip from the
+>   platform data and just use dynamic numbering.
+> 
+> - Fix up the only in-tree user which is the Cragganmore 6410
+>   module.
 > 
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
+>  arch/arm/mach-s3c/mach-crag6410-module.c |  17 +++--
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
