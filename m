@@ -1,90 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CC23B2A5
-	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 18:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBA541C78
+	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 19:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+svSqqN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02B4C433C8;
-	Fri,  8 Dec 2023 18:55:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m2xE6nJ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CB267C433C9;
+	Fri,  8 Dec 2023 19:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702061741;
-	bh=zH/mDq4ZOeaAVNaDkpZYAJUFG8NeBNcHhSruGzw2UZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f+svSqqNyC59FkQ3Di/HGtc7nFA0kGtyLrT7a6g8cYI6h/57bCYyJe5z5btCFhaTQ
-	 zhzLpMV4diruDb1wMmPfXYCBN0QYuqKAvV3mQgeuqS8nBZ05NWIkGKShdzr3+r6so0
-	 qj1Eww75DDXgbHV2YaY+jWlOKp4dDZHjkI2aF+zA4LtdKbVZlYR9lCAetmghNROjma
-	 w7j1uDth5zz6vyU5rUwGFOICX8EoWNVdQbRFUtCkdfjnhVl+1BZuqjXVliYZwJ2QLT
-	 Xu864n1kUHJv4AzhxZ2X+yQsAUe7fzY9PhzVxb5V8otkTnfEdaUPU1Fh8CqYAvu3Lh
-	 mRWPChkLoiPMg==
-Date: Fri, 8 Dec 2023 18:55:37 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	tiwai@suse.de, vinod.koul@intel.com,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-Message-ID: <ZXNmqaCb+6SsXQDV@finisterre.sirena.org.uk>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <20231208162735.GV14858@ediswmail.ad.cirrus.com>
- <4048c3a3-f694-41c2-b338-57e524544c92@linux.intel.com>
+	s=k20201202; t=1702064307;
+	bh=o/kkmyDEFR0A8zybW0jW+ZY0fX+Y5TDHGh0WHQZZ7k0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=m2xE6nJ+53cN9nk1J42I1rchFQoh9TDlO3+0fn89/umyw3E/ObKaw1WaEhRBmlPdk
+	 370wFUiifcXjYVrLylCIDxK8g+1XZSE+YHUccK3o8GvxOAh/9X0USb8xArQWbyD/g9
+	 mChODUdNN9QDSjohKDI13AHTIWyN7BuYbjBARAeIk4wtLGbgYpG+mGRcEnnDuf8qhA
+	 39zSGWcLqfy4h9N5pP4E6IWKm9YPAbIwNgi6Ubzd4c6HBfE8Ur7L7vpUt1jdlFS0/P
+	 lUE2T/cKdGcvqto4q/937lW8g6scfYZkPMVg2kC50lOj5xfZWiequ6MripAYg2AEYm
+	 rQiZgDRyfT4yw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B9672DD4F1E;
+	Fri,  8 Dec 2023 19:38:27 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.7-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <874jgtyo9u.wl-tiwai@suse.de>
+References: <874jgtyo9u.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <874jgtyo9u.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc5
+X-PR-Tracked-Commit-Id: 634e5e1e06f5cdd614a1bc429ecb243a51cc009d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b8b68d2fd41c1068554290fdf2c5adc6b03d40ce
+Message-Id: <170206430775.311.17101107361265756825.pr-tracker-bot@kernel.org>
+Date: Fri, 08 Dec 2023 19:38:27 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CVF86aoH4KxUkuhv"
-Content-Disposition: inline
-In-Reply-To: <4048c3a3-f694-41c2-b338-57e524544c92@linux.intel.com>
-X-Cookie: Slow day.  Practice crawling.
 
+The pull request you sent on Fri, 08 Dec 2023 11:36:13 +0100:
 
---CVF86aoH4KxUkuhv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc5
 
-On Fri, Dec 08, 2023 at 12:45:21PM -0600, Pierre-Louis Bossart wrote:
-> On 12/8/23 10:27, Charles Keepax wrote:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b8b68d2fd41c1068554290fdf2c5adc6b03d40ce
 
-> > I think we might have some annoying restrictions on the block
-> > size on our hardware as well I will go dig into that and report
-> > back.
+Thank you!
 
-> That would be very useful indeed, we have to make sure this alignment is
-> reasonably supported across hosts and devices.
-> If we can't agree we'll have to make the alignment host-dependent, but
-> that will make the logic in codec drivers more complicated.
-
-Hopefully even if it's complicated it's something that can be factored
-out into library code rather than replicated.
-
---CVF86aoH4KxUkuhv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVzZqkACgkQJNaLcl1U
-h9C2JQf7Bq5jbqQ6iqt8mpE6AqCVorJswEqPHo8EGamnfTLhb8+5leETNjC6fPsn
-khC9gqWnhSDVZzwatpBdqhvgKL7pxNpRbITMeCQ7fp8g3CUnWCM1ooN6KgwHj4sI
-4HMMSglyYj3/UIjqhoTLtdOzymkx3BTrPFsknBVQcJxzgS7yUlp+BdZxIQhhp3cR
-swKSDl3HrcNkPnf9zV13l/SYX2z9wj/zbvcPdAypzHArdLhtk+Cr2HGg/QNWgAOh
-KdzGazckFDVxHcx00xPrTGyaZs3MZP5FBUyZIKkcWTnGHJObLESEqTwRkS8qf7Gy
-9LQpvKSQejFdX35BbfAVRUtdAoBlwQ==
-=yFie
------END PGP SIGNATURE-----
-
---CVF86aoH4KxUkuhv--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
