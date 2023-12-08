@@ -1,128 +1,132 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c1+Iv/X0"
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4BD91724
-	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 07:44:21 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40c26a45b2dso12874855e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 07:44:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702050260; x=1702655060; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rl8VDbM1oUsM5aeE1iNsYlBVIhPvBCeIpbCmaXnsWyA=;
-        b=c1+Iv/X06kzC1FIcRsLH2vpZRvgCt85/6aYwf23xZNXRKYN0826832/v/2wICaAaT4
-         7aYfU1UyOUl1kuMzwrpJ9SdiejEOpCTGlvyx2ajKc0PsyQ8itQWaZlr9Tj5gwaD20uap
-         6D4YKd2hA9fUj+6Yil4mdkpw49ozz3FrU0xG3vwdZgyYZSQ90HM2h4oe7gZ9x2Q2CJvf
-         9pCL5NkmpwaI+UgQctCccpwd1J58awSalSHkRNumANoTzziHe3huhKowEoxwNG8R5Njz
-         9JY5SG6x3sRtQ8wXIDkzIBp1nH6PBQxBgq3kIUUVkuW7NXhaqBZF47IaYSEXd21PQpCl
-         F9LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702050260; x=1702655060;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rl8VDbM1oUsM5aeE1iNsYlBVIhPvBCeIpbCmaXnsWyA=;
-        b=l0onf7p3YUzu4uZzgj+vdVZpFQ3zJGOWgy5kNNYSaS3ZFlBeszQJAAMUsLvd1Rv81L
-         Dw/TgaJPH4DtG6S5BF5h0mFOsrWzv8r1MbGI1jWz5nTqP/2PE8mnjkO1EmAi4qqHH4X6
-         QF0f31TeSMfHeSxwgH6GFC/Vu1yLT8F0lWfj3EAlNNhNf2cpd1U44HDjlQR+L/vNLYy4
-         inrpAkx4P++SHjeiKBPDuxKtwvigegcaJUa1C5TfgFkJ7qpl5kt4rVT7rqaqAehPDMST
-         YsKDAXx5+hM761TNq9woErtrE5EY6Tt8n4Erw2bV5A3TWfRjotJI99jYfXzDUG038GbD
-         T0PQ==
-X-Gm-Message-State: AOJu0YxKNt7GzkM8Y61ica0CLMGrlqRdiGB6Cvr+hyRKaVLQ8wuBmK+j
-	c59coohgvbbjVaKcrMWDX1uMzw==
-X-Google-Smtp-Source: AGHT+IGkFG9oiOW3rpU+a0mVsi+LXXcDAEZ6n9o3C0el7tV7c+uU2ZRjZl9X6YNx+S4OJZ6JGPm2oQ==
-X-Received: by 2002:a05:600c:3056:b0:40b:5e1f:c37f with SMTP id n22-20020a05600c305600b0040b5e1fc37fmr188573wmh.21.1702050260497;
-        Fri, 08 Dec 2023 07:44:20 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id bi12-20020a05600c3d8c00b0040b397787d3sm5448481wmb.24.2023.12.08.07.44.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Dec 2023 07:44:20 -0800 (PST)
-Message-ID: <e5cf9c71-5526-4f99-809f-404a8c7b0366@linaro.org>
-Date: Fri, 8 Dec 2023 16:44:18 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mPNv0jBe"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26962173F
+	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 08:29:00 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B8FeRJ2004881;
+	Fri, 8 Dec 2023 10:27:37 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=0HWZUD+gNPGdTS3
+	1RBA/QqGm7ZI0O39dD0eoI6266U8=; b=mPNv0jBeENPGWeoXiCD/V2X6Z1fMIPM
+	RpZirjpxrtV/l1DYyrHQIE9tk1hqMYvRncAFJH+os4r7GC6sEpx70dxBV0q2kt7F
+	cJs9BahRwBKHIHtAmijQcBXb2AZMlDT/iAzPds0ylEnmIpuufAWCp4CRfOfQu7LF
+	wqOkWO3fTR9ohveh+GfOF4MnpUwaF39UDzMmI+wEIuU9d42tQh0vX1piN55JgWOF
+	K6PIe73yPf+7Tfaz5jJL/+f2ht25YXupK4EW7xlel0gV09+o+s4krOZ9YV6+NZl2
+	XoyxyqtNXvJb1VgH8CJHTRC7jqxdoN7jl7d481k2b7rWTaGDD6f5ufA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3utd1wbqc4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Dec 2023 10:27:37 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 8 Dec
+ 2023 16:27:35 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Fri, 8 Dec 2023 16:27:35 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D2DC111AB;
+	Fri,  8 Dec 2023 16:27:35 +0000 (UTC)
+Date: Fri, 8 Dec 2023 16:27:35 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <tiwai@suse.de>, <broonie@kernel.org>, <vinod.koul@intel.com>,
+        Bard liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <vijendar.mukunda@amd.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Shuming Fan
+	<shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+        Oder Chiou
+	<oder_chiou@realtek.com>
+Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
+ description
+Message-ID: <20231208162735.GV14858@ediswmail.ad.cirrus.com>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] ASoC: wm8996: Convert to GPIO descriptors
-Content-Language: en-US
-To: Linus Walleij <linus.walleij@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
- <20231208-descriptors-sound-wlf-v1-5-c4dab6f521ec@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231208-descriptors-sound-wlf-v1-5-c4dab6f521ec@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: rmyWVHnc9on0167-CfgnfC99u-bSf5iL
+X-Proofpoint-ORIG-GUID: rmyWVHnc9on0167-CfgnfC99u-bSf5iL
+X-Proofpoint-Spam-Reason: safe
 
-On 08/12/2023 11:09, Linus Walleij wrote:
-> This converts the WM8996 codec to use GPIO descriptors, an a similar
-> way to WM5100.
+On Thu, Dec 07, 2023 at 04:29:29PM -0600, Pierre-Louis Bossart wrote:
+> The Bulk Register Access protocol was left as a TODO topic since
+> 2018. It's time to document this protocol and the design of its Linux
+> support.
 > 
-> The driver is instantiating a GPIO chip named wm8996, and we get
-> rid of the base address for the GPIO chip from the platform data and
-> just use dynamic numbering. Move base and ngpio into the static
-> gpio_chip template.
-> 
-> Fix up the only in-tree user which is the Cragganmore 6410 module.
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 > ---
->  arch/arm/mach-s3c/mach-crag6410-module.c | 14 ++++++--
+> +Concurrency between BRA and regular read/write
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The existing 'nread/nwrite' API already relies on a notion of start
+> +address and number of bytes, so it would be possible to extend this
+> +API with a 'hint' requesting BPT/BRA be used.
+> +
+> +However BRA transfers could be quite long, and the use of a single
+> +mutex for regular read/write and BRA is a show-stopper. Independent
+> +operation of the control/command and BRA transfers is a fundamental
+> +requirement, e.g. to change the volume level with the existing regmap
+> +interface while downloading firmware.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Is this definitely a show stopper? Not saying that it wouldn't be
+desirable to do both from a speed perspective, but current
+systems that download firmware (I2C/SPI) typically will block the
+bus for some amount of time. There are also some desirable properties
+to a single lock such as not needing to worry about accessing the
+same register in the bulk transfer and a normal command transfer.
 
-Best regards,
-Krzysztof
+> +Audio DMA support
+> +-----------------
+> +
+> +Some DMAs, such as HDaudio, require an audio format field to be
+> +set. This format is in turn used to define acceptable bursts. BPT/BRA
+> +support is not fully compatible with these definitions in that the
+> +format may vary between read and write commands.
+> +
+> +In addition, on Intel HDaudio Intel platforms the DMAs need to be
+> +programmed with a PCM format matching the bandwidth of the BPT/BRA
+> +transfer. The format is based on 48kHz 32-bit samples, and the number
+> +of channels varies to adjust the bandwidth. The notion of channel is
+> +completely notional since the data is not typical audio
+> +PCM. Programming channels helps reserve enough bandwidth and adjust
+> +FIFO sizes to avoid xruns. Note that the quality of service comes as a
+> +cost. Since all channels need to be present as a sample block, data
+> +sizes not aligned to 128-bytes are not supported.
 
+Apologies but could you elaborate a litte on this? I am not sure
+I follow the reasoning, how does the 48k 32bit DMA implementation
+result in 128-byte limitation? I would have thought 1 channel would
+be 4-bytes and you are varying the channels so I would have expected
+4-byte aligned maybe 8-byte if the DMA expects stereo pairs.
+
+And what exactly do we mean by aligned, are we saying the length
+all transfers needs to be a multiple of 128-bytes?
+
+I think we might have some annoying restrictions on the block
+size on our hardware as well I will go dig into that and report
+back.
+
+Thanks,
+Charles
