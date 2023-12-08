@@ -1,117 +1,100 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AxHsxAZ/"
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DAD1720
-	for <linux-sound@vger.kernel.org>; Thu,  7 Dec 2023 23:39:11 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-40b367a0a12so29075e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 07 Dec 2023 23:39:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hufk7gH1"
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB85171F
+	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 02:09:34 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bf32c0140so2095099e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 02:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702021149; x=1702625949; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCkP1UOSFN/6Yv9hZtznqIMqYxp7IUc2r86Qofpf4h4=;
-        b=AxHsxAZ/xykqhTKH/4qrAOMgBFMUS6FtjwtZwCt2FJ107pcqxjfJe2TEmC7LTkxXb+
-         rRmw6jAe31h2VQyMtb2IUDm9t9P8hrzRDhIMDR+J+geyyFoOI9QMhR/rJto3YQ3JvgDy
-         Ufli6jeAosTAEhRXe0fviP6h189aLa9SqcyguZfuhLnGIlIoiqGGcPi1xcUedPItOGir
-         Lv1pgYf/N7vI5EcUchnsnJ0JFQtQNtPk1pbSFVOCLY+Cf+v6TCQbmkcNgADIPKzUFL7S
-         zUIvUz1xuWyZakmWucGiOHHSlqoCwv8gIdK2OhGdIefeoGq5TX3WHo8YX/wPtYQPZRk6
-         OK3Q==
+        d=linaro.org; s=google; t=1702030173; x=1702634973; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vr8M8yZHzu2ksi2MzWtdEAgZ+qqFOPpjjDUo6GVzqJQ=;
+        b=Hufk7gH14sLgGgeZx95qJdcv+l4Jnwt6x6HTuowtBLgK4P8Pp4IPv1NPdgWxe7bgJS
+         X/dqEDDdMbBO9lEjhcBvcGnjH4BB4S6Jenyr4+1gQys5BLG1/3/gz6JOPBtG8Ck0MG5x
+         IHtebSK/RiaUi3WUSbsRk62PokTFo3oDiFd1GdgT16nmYFeMzDUUg4v3emQ/ouPtRzPE
+         5R3738jpS7Gf8oc1No9wod2YqDmHKGNxBO2GdX47YHaHshG3Vq9nzKl2sv27NHEfT/5f
+         qpfHVHTvE7GTxzx4uGxRw44+rnMSN21Oal6dSH3sGDn7XQEAyqEcFzzIFWf0Buor3jxe
+         2TVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702021149; x=1702625949;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1702030173; x=1702634973;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FCkP1UOSFN/6Yv9hZtznqIMqYxp7IUc2r86Qofpf4h4=;
-        b=CskGOjhqrUjM+TVla9OZ3n9xFNZ9fp23gcnO0qp2b0K80FU2Ns0NH8CidmFL43ZPaL
-         M7+p5K/EHMOTpBsNh9Ltyh+TJodljjL/QMgx8GUi24DtGT8fijE2b82R/xcXJgKDX62I
-         Z2QeVBecXZKtySK39kyFuunkaa3/IHd0LQU+ppGFYV0CNyNVI971/rDfL0P81wVA1MN8
-         QFAP17hBOlUVaF/3hzUyeRxzI5uC0OFftFcDgHVSqpg1amKxkh7psNRF5PZ4l42pXWrh
-         MKtHaeu033F+dRHJWNSBMOP4hyjHFOxWv/oNcg+R77tCForDN0ywTOXYLopCra5x9BQD
-         1W2Q==
-X-Gm-Message-State: AOJu0YzNkA8ap5Fsogo7nnOjttAS8c16Ak74dGpe5tul8diOYx0u+pkR
-	G3ioXi0ucGJyC/ZBUQtoIldOrS3vWZyX+3vMCrViww==
-X-Google-Smtp-Source: AGHT+IHtwp5+Xh1T0DDbMixGMxkesvV/WAZ7PB8oqKgeYis6tuJvGlc9TtYOL/dGIFuzzX0bR0zNC49Q9Vw6vStVMM0=
-X-Received: by 2002:a05:600c:2941:b0:405:320a:44f9 with SMTP id
- n1-20020a05600c294100b00405320a44f9mr25035wmd.5.1702021149395; Thu, 07 Dec
- 2023 23:39:09 -0800 (PST)
+        bh=Vr8M8yZHzu2ksi2MzWtdEAgZ+qqFOPpjjDUo6GVzqJQ=;
+        b=Bv0knBsYfvFvaLAXSWYJyfnQNMI9/SCOJrqRr62U54MDiyjiVrYcPYFRfPo3EYlvjP
+         Ydvj9RfIOaxyNvJGJWFnzCqAYESPkGWIv0qFxcSsFwACcGSJ0THfAWPML2P0XSJWEIL1
+         UI6WEh2he9cb8fclE3MtOg8ehe2gGt/0LlnA0PUJCc/LKzxoSfkK3JidXtChG6OGKsDZ
+         IKzAt9tiYLAXqyPi7jcn+nYB1GvQhN7xY7VStfyy3yVJNhEZ66f1FG9vqPHe7zxyGSqy
+         7PMzZB3fMiwIoSBQCAbTVxSMkbuRdJbo6GrfwU2nv+9fnkWX9FkM6lQN4uYHN9jQffiI
+         5KxQ==
+X-Gm-Message-State: AOJu0Yz0xm6d0GVQ9oB2auj3oC6MTD8Iqn6F95EQeYQY+yLM9UzhuXLZ
+	hzFCRxJysX/6hHxVqj6HACZAqQ==
+X-Google-Smtp-Source: AGHT+IFkWaFLQVbEyBeJsLHYwb/f8kEmtw9Zwi8vn7hFTd1uWMGLbOUV8za2gYMRIDbeZ12y40lXAw==
+X-Received: by 2002:a05:6512:68f:b0:50b:e995:d9e6 with SMTP id t15-20020a056512068f00b0050be995d9e6mr2623614lfe.93.1702030172939;
+        Fri, 08 Dec 2023 02:09:32 -0800 (PST)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id m4-20020a194344000000b0050bfd7d8873sm174295lfj.254.2023.12.08.02.09.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 02:09:32 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/5] GPIO descriptor cleanup for some Wolfson codecs
+Date: Fri, 08 Dec 2023 11:09:24 +0100
+Message-Id: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231205-kunit_bus-v1-0-635036d3bc13@google.com>
- <20231205-kunit_bus-v1-2-635036d3bc13@google.com> <202312061306.98DA6D275D@keescook>
-In-Reply-To: <202312061306.98DA6D275D@keescook>
-From: David Gow <davidgow@google.com>
-Date: Fri, 8 Dec 2023 15:38:56 +0800
-Message-ID: <CABVgOSnTJFeso-=if=2Vs31xoCKNGvN2vM9nCJ37eJNEd=dRYw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] fortify: test: Use kunit_device
-To: Kees Cook <keescook@chromium.org>
-Cc: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFTrcmUC/x3MOQqAQAxA0atIagM6LoVXEQvJRA3IjCRuIN7dw
+ fIV/z9grMIGXfaA8ikmMSSUeQa0jGFmFJ8MrnBV6YoGPRupbHtUQ4tH8HitE3JLI1NF1NYOUrs
+ pT3L/33543w+fojWFZwAAAA==
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.4
 
-On Thu, 7 Dec 2023 at 05:07, Kees Cook <keescook@chromium.org> wrote:
->
-> On Tue, Dec 05, 2023 at 03:31:34PM +0800, davidgow@google.com wrote:
-> > Using struct root_device to create fake devices for tests is something
-> > of a hack. The new struct kunit_device is meant for this purpose, so use
-> > it instead.
-> >
-> > Signed-off-by: David Gow <davidgow@google.com>
-> > ---
-> >  lib/fortify_kunit.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/lib/fortify_kunit.c b/lib/fortify_kunit.c
-> > index c8c33cbaae9e..f7a1fce8849b 100644
-> > --- a/lib/fortify_kunit.c
-> > +++ b/lib/fortify_kunit.c
-> > @@ -16,6 +16,7 @@
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >
-> >  #include <kunit/test.h>
-> > +#include <kunit/device.h>
-> >  #include <linux/device.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/string.h>
-> > @@ -269,7 +270,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
-> >       size_t len;                                                     \
-> >                                                                       \
-> >       /* Create dummy device for devm_kmalloc()-family tests. */      \
-> > -     dev = root_device_register(dev_name);                           \
-> > +     dev = kunit_device_register(test, dev_name);                    \
-> >       KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev),                       \
-> >                              "Cannot register test device\n");        \
-> >                                                                       \
-> > @@ -303,7 +304,7 @@ DEFINE_ALLOC_SIZE_TEST_PAIR(kvmalloc)
-> >       checker(len, devm_kmemdup(dev, "Ohai", len, gfp),               \
-> >               devm_kfree(dev, p));                                    \
-> >                                                                       \
-> > -     device_unregister(dev);                                         \
-> > +     kunit_device_unregister(test, dev);                             \
-> >  } while (0)
-> >  DEFINE_ALLOC_SIZE_TEST_PAIR(devm_kmalloc)
->
-> Acked-by: Kees Cook <keescook@chromium.org>
->
-> (As an aside; shouldn't this get automatically cleaned up like other
-> kunit resources, though?)
->
+This converts the remaining Wolfson ASoC codecs to
+use GPIO descriptors.
 
-We can't just get rid of the {kunit_,}device_unregister() here,
-because otherwise we'd have several devices with the same name during
-the test.
+These Wolfson codecs are mostly used with different
+Samsung S3C (especially Cragganmore 6410) board files,
+so the in-tree users are fixed up in the process.
 
-So, yes, these get automatically cleaned up, but the test would have
-to be restructured to either give each device a different name, or
-split the tests up further.
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (5):
+      ASoC: wm0010: Convert to GPIO descriptors
+      ASoC: wm1250-ev1: Convert to GPIO descriptors
+      ASoC: wm2200: Convert to GPIO descriptors
+      ASoC: wm5100: Convert to GPIO descriptors
+      ASoC: wm8996: Convert to GPIO descriptors
 
--- David
+ arch/arm/mach-s3c/mach-crag6410-module.c |  60 ++++++++++++----
+ arch/arm/mach-s3c/mach-crag6410.c        |  24 +++----
+ include/sound/wm0010.h                   |   6 --
+ include/sound/wm1250-ev1.h               |  24 -------
+ include/sound/wm2200.h                   |   2 -
+ include/sound/wm5100.h                   |   4 --
+ include/sound/wm8996.h                   |   3 -
+ sound/soc/codecs/wm0010.c                |  44 +++---------
+ sound/soc/codecs/wm1250-ev1.c            | 118 ++++++++++++-------------------
+ sound/soc/codecs/wm2200.c                |  67 +++++++++---------
+ sound/soc/codecs/wm5100.c                | 107 ++++++++++------------------
+ sound/soc/codecs/wm8996.c                |  58 +++++++--------
+ 12 files changed, 211 insertions(+), 306 deletions(-)
+---
+base-commit: cbf5552fa580b78c690ca5829264f2fd2e2bafc1
+change-id: 20231205-descriptors-sound-wlf-e6caec3cc642
+
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
+
