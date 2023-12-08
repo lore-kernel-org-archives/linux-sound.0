@@ -1,282 +1,153 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fsr3xlwh"
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3012C1720
-	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 02:09:40 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50bf1e32571so2069889e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 02:09:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hUUtBuQO"
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDDD81720
+	for <linux-sound@vger.kernel.org>; Fri,  8 Dec 2023 02:09:47 -0800 (PST)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5de8e375768so6490777b3.3
+        for <linux-sound@vger.kernel.org>; Fri, 08 Dec 2023 02:09:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702030178; x=1702634978; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BQhBLJIefmvzYA/Py58YBQIvfKjKbstgbICKsncNOPs=;
-        b=fsr3xlwh9pTsNU18JOHu6/2JIydlEZ/rUWpxptc+HXlVyeZX141LRdZRB3aZIZC0u9
-         PV3faL+g1XuHd2ytkGJNNztltWftdcdOROyKvN2D+mZ+JzE3UWFOF39gqz+ESr3EwR9a
-         OUY18tbxYhQ04TXCD7HeVm/koH55Nv0jRFy4tdgUOVvvBnh97Ska6dGvnSHwCyBbXnW2
-         UBBxu6hd0v9TaVFJyS7Jwtr9vo+efPDgtMU234UoQbTixnWy6SCA0c4Hgl3K43Uxa7qk
-         rnh7MHG4Sj7QSp4hd9HE+o+KyCtwUlIXTcvHmXZb29XXRoFYatvFuUDqg0yIJdulVkFE
-         VmnQ==
+        d=google.com; s=20230601; t=1702030187; x=1702634987; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZNJdOgnTD3YcBum6U88iX7U/INKHt0AizM4EWV5IGP0=;
+        b=hUUtBuQOKOmP6kVPiF/y4Lic6SIJId/bCnuMh4mlTKWIlveovSMHMXFtl82AO4FrZq
+         7kTF4HonlEKtCovssG1YVxjnPpxFo9FC/+TphzjZrEIclglmb7mdouW/3nqUcdPNcPN4
+         nqPDVhqs+TizRCawG0XfQwC/MJ7++sYP6l4crjEElugjFu7b7+YSMFHMPQiqkXl11GAq
+         /Bj5YIaNGweP5VTQ0qEilRF20lMUPZ0PmgQV+ffFsj1pn8wVNLWcLFNDF3DFWvh0g8uy
+         B4JXulVPZNZfofNsS/1ZnJmmFWp8cet98tcdHwOOC05T8NHRyPGY/SVFFr26Wq5tcc/1
+         zwfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702030178; x=1702634978;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BQhBLJIefmvzYA/Py58YBQIvfKjKbstgbICKsncNOPs=;
-        b=uFZeflaEh/T70WnBbPB7spjuWQNFcuQwNifCRHI/MZrNxNypoo2NLQV2Fo1dHTyB+n
-         th1+b0eK+Ki7kOFZpEnK7cPjhip0oSvYB9NERTgVsZjfJ228KO9WCr8YT3XZnq8rPJ11
-         fX2HPv69BPiITNh5aoJqMCubQIimWix/Zb+MTyV4FzsfUhFa+1pdwI5GPgMOxVYaQ2dE
-         nwElFhJkB55rbQQzYGqcJfjtH7MUAyH96zYJFQd1dPYJ9lEHUAmiBqS8S1fAwfgi7OCM
-         qLeSK/sqs9jJ06JOTZONegUHhD/tkRnifCUH+ie+WjOHYp59P4G89JGd77YWZi/yN8SZ
-         He/g==
-X-Gm-Message-State: AOJu0YyIMNUPLgnGCp1PaqIXEc1RTBHD2B7+ExrGopIIxD/b7DOqcY2d
-	KMeYoVhu0VLh76PYHdMcj35hyw==
-X-Google-Smtp-Source: AGHT+IF3QhztmwDh6phbnNL/MSIHXHVpg1ufEn+gEmm8xgnt7lUT27GO3nRwVTmsFz+TX/dx8idZEQ==
-X-Received: by 2002:ac2:44ce:0:b0:50b:f380:c3b2 with SMTP id d14-20020ac244ce000000b0050bf380c3b2mr1882935lfm.46.1702030178344;
-        Fri, 08 Dec 2023 02:09:38 -0800 (PST)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id m4-20020a194344000000b0050bfd7d8873sm174295lfj.254.2023.12.08.02.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 02:09:37 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 08 Dec 2023 11:09:29 +0100
-Subject: [PATCH 5/5] ASoC: wm8996: Convert to GPIO descriptors
+        d=1e100.net; s=20230601; t=1702030187; x=1702634987;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZNJdOgnTD3YcBum6U88iX7U/INKHt0AizM4EWV5IGP0=;
+        b=shf4l0669qE/JtF0uKAjkn7byqwNsWVtNYyeXYTi0L6v+3T7pzYdgF6uQu7Xrqj8lu
+         roNtJmfwRAmoX0EPPEeIA31pjtgzhNLDffPB3YuuTzgweHXmzICKsy4xqQ1sRw+TXe05
+         knf+APUDGILdEUA6zIWcefj05SwRR1gi0FE9EyZPKuMjX82mGgqBiP8M6PaWMgQs6jTJ
+         X9NgIZkdik5jGEJP6FhHs9vIpK0zIwB/9x02iJK2YkPR8+ThzLt6NIe9UrCWWn6oaaX7
+         jB0NNY8rUk0n71INm4vSuEoe0UUx2vv1LqNVG8Vgr3Zn6BhAwsl5+wgj3R35zfxtZFP2
+         QaUg==
+X-Gm-Message-State: AOJu0YzJofCYVEiRFShx0tf84cG/74rG9bflHs/m7A3tQ4huHMyhf4zd
+	Tfd+ntrI8eBrWHkqGeGmnK/rmRsd7FhTSg==
+X-Google-Smtp-Source: AGHT+IHTKUtelEN9ry7G8JO0oWDMjRg+GteO8sBFE+t84Xa6DtfewAHNHnUwLtzaRV+ZcTprCzoNZmTRSah3qA==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:d150:0:b0:db5:347d:44b with SMTP id
+ i77-20020a25d150000000b00db5347d044bmr40829ybg.11.1702030187085; Fri, 08 Dec
+ 2023 02:09:47 -0800 (PST)
+Date: Fri, 08 Dec 2023 18:09:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAFjrcmUC/03MSw6CMBSF4a2QO7amD0B05D4MMbRcyo1CTQuNh
+ rB3a0cO/5OTb4OAnjDApdjAY6RAbk4hDwWYsZstMupTg+RS8ZNo2GOdabnrNbBOi7MpcSib3kD
+ 6vzwO9M7WrU09Ulic/2Q6it+aFSF59adEwTirVcVV3StthLpa5+wTj8ZN0O77/gUe59CsowAAA A==
+X-Mailer: b4 0.13-dev-099c9
+Message-ID: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
+Subject: [PATCH v2 0/4] kunit: Add helpers for creating test-managed devices
+From: davidgow@google.com
+To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
+	David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231208-descriptors-sound-wlf-v1-5-c4dab6f521ec@linaro.org>
-References: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
-In-Reply-To: <20231208-descriptors-sound-wlf-v1-0-c4dab6f521ec@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.4
 
-This converts the WM8996 codec to use GPIO descriptors, an a similar
-way to WM5100.
+KUnit tests often need to provide a struct device, and thus far have
+mostly been using root_device_register() or platform devices to create
+a 'fake device' for use with, e.g., code which uses device-managed
+resources. This has several disadvantages, including not being designed
+for test use, scattering files in sysfs, and requiring manual teardown
+on test exit, which may not always be possible in case of failure.
 
-The driver is instantiating a GPIO chip named wm8996, and we get
-rid of the base address for the GPIO chip from the platform data and
-just use dynamic numbering. Move base and ngpio into the static
-gpio_chip template.
+Instead, introduce a set of helper functions which allow devices
+(internally a struct kunit_device) to be created and managed by KUnit --
+i.e., they will be automatically unregistered on test exit. These
+helpers can either use a user-provided struct device_driver, or have one
+automatically created and managed by KUnit. In both cases, the device
+lives on a new kunit_bus.
 
-Fix up the only in-tree user which is the Cragganmore 6410 module.
+This is a follow-up to a previous proposal here:
+https://lore.kernel.org/linux-kselftest/20230325043104.3761770-1-davidgow@google.com/
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(The kunit_defer() function in the first patch there has since been
+merged as the 'deferred actions' feature.)
+
+My intention is to take this whole series in via the kselftest/kunit
+branch, but I'm equally okay with splitting up the later patches which
+use this to go via the various subsystem trees in case there are merge
+conflicts.
+
+I'd really appreciate any extra scrutiny that can be given to this;
+particularly around the device refcounts and whether we can guarantee
+that the device will be released at the correct point in the test
+cleanup. I've seen a few crashes in kunit_cleanup, but only on some
+already flaky/fragile UML/clang/alltests setups, which seem to go away
+if I remove the devm_add_action() call (or if I enable any debugging
+features / symbols, annoyingly).
+
+Cheers,
+-- David
+
+Signed-off-by: David Gow <davidgow@google.com>
 ---
- arch/arm/mach-s3c/mach-crag6410-module.c | 14 ++++++--
- include/sound/wm8996.h                   |  3 --
- sound/soc/codecs/wm8996.c                | 58 ++++++++++++++------------------
- 3 files changed, 36 insertions(+), 39 deletions(-)
+Changes in v2:
+- Simplify device/driver/bus matching, removing the no-longer-required
+  kunit_bus_match function. (Thanks, Greg)
+- The return values are both more consistent (kunit_device_register now
+  returns an explicit error pointer, rather than failing the test), and
+  better documented.
+- Add some basic documentation to the implementations as well as the
+  headers. The documentation in the headers is still more complete, and
+  is now properly compiled into the HTML documentation (under
+  dev-tools/kunit/api/resources.html). (Thanks, Matti)
+- Moved the internal-only kunit_bus_init() function to a private header,
+  lib/kunit/device-impl.h to avoid polluting the public headers, and
+  match other internal-only headers. (Thanks, Greg)
+- Alphabetise KUnit includes in other test modules. (Thanks, Amadeusz.)
+- Several code cleanups, particularly around error handling and
+  allocation. (Thanks Greg, Maxime)
+- Several const-correctness and casting improvements. (Thanks, Greg)
+- Added a new test to verify KUnit cleanup triggers device cleanup.
+  (Thanks, Maxime).
+- Improved the user-specified device test to verify that probe/remove
+  hooks are called correctly. (Thanks, Maxime).
+- The overflow test no-longer needlessly calls
+  kunit_device_unregister().
+- Several other minor cleanups and documentation improvements, which
+  hopefully make this a bit clearer and more robust.
+- Link to v1: https://lore.kernel.org/r/20231205-kunit_bus-v1-0-635036d3bc13@google.com
 
-diff --git a/arch/arm/mach-s3c/mach-crag6410-module.c b/arch/arm/mach-s3c/mach-crag6410-module.c
-index 59456fbebf1b..2de1a89f6e99 100644
---- a/arch/arm/mach-s3c/mach-crag6410-module.c
-+++ b/arch/arm/mach-s3c/mach-crag6410-module.c
-@@ -127,9 +127,16 @@ static struct wm8996_retune_mobile_config wm8996_retune[] = {
- 	},
- };
- 
-+static struct gpiod_lookup_table wm8996_gpiod_table = {
-+	.dev_id = "1-001a", /* Device 001a on I2C bus 1 */
-+	.table = {
-+		GPIO_LOOKUP("GPION", 7,
-+			    "wlf,ldo1ena", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
-+
- static struct wm8996_pdata wm8996_pdata __initdata = {
--	.ldo_ena = S3C64XX_GPN(7),
--	.gpio_base = CODEC_GPIO_BASE,
- 	.micdet_def = 1,
- 	.inl_mode = WM8996_DIFFERRENTIAL_1,
- 	.inr_mode = WM8996_DIFFERRENTIAL_1,
-@@ -370,7 +377,8 @@ static const struct {
- 	  .spi_devs = balblair_devs,
- 	  .num_spi_devs = ARRAY_SIZE(balblair_devs) },
- 	{ .id = 0x39, .rev = 0xff, .name = "1254-EV1 Dallas Dhu",
--	  .i2c_devs = wm1254_devs, .num_i2c_devs = ARRAY_SIZE(wm1254_devs) },
-+	  .i2c_devs = wm1254_devs, .num_i2c_devs = ARRAY_SIZE(wm1254_devs),
-+	  .gpiod_table = &wm8996_gpiod_table },
- 	{ .id = 0x3a, .rev = 0xff, .name = "1259-EV1 Tobermory",
- 	  .i2c_devs = wm1259_devs, .num_i2c_devs = ARRAY_SIZE(wm1259_devs) },
- 	{ .id = 0x3b, .rev = 0xff, .name = "1255-EV1 Kilchoman",
-diff --git a/include/sound/wm8996.h b/include/sound/wm8996.h
-index 247f9917e33d..342abeef288f 100644
---- a/include/sound/wm8996.h
-+++ b/include/sound/wm8996.h
-@@ -33,8 +33,6 @@ struct wm8996_retune_mobile_config {
- struct wm8996_pdata {
- 	int irq_flags;  /** Set IRQ trigger flags; default active low */
- 
--	int ldo_ena;  /** GPIO for LDO1; -1 for none */
--
- 	int micdet_def;  /** Default MICDET_SRC/HP1FB_SRC/MICD_BIAS */
- 
- 	enum wm8996_inmode inl_mode;
-@@ -42,7 +40,6 @@ struct wm8996_pdata {
- 
- 	u32 spkmute_seq;  /** Value for register 0x802 */
- 
--	int gpio_base;
- 	u32 gpio_default[5];
- 
- 	int num_retune_mobile_cfgs;
-diff --git a/sound/soc/codecs/wm8996.c b/sound/soc/codecs/wm8996.c
-index df6195778c57..e738326e33ed 100644
---- a/sound/soc/codecs/wm8996.c
-+++ b/sound/soc/codecs/wm8996.c
-@@ -14,7 +14,7 @@
- #include <linux/pm.h>
- #include <linux/gcd.h>
- #include <linux/gpio/driver.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-@@ -51,7 +51,7 @@ struct wm8996_priv {
- 	struct regmap *regmap;
- 	struct snd_soc_component *component;
- 
--	int ldo1ena;
-+	struct gpio_desc *ldo_ena;
- 
- 	int sysclk;
- 	int sysclk_src;
-@@ -1596,9 +1596,9 @@ static int wm8996_set_bias_level(struct snd_soc_component *component,
- 				return ret;
- 			}
- 
--			if (wm8996->pdata.ldo_ena >= 0) {
--				gpio_set_value_cansleep(wm8996->pdata.ldo_ena,
--							1);
-+			if (wm8996->ldo_ena) {
-+				gpiod_set_value_cansleep(wm8996->ldo_ena,
-+							 1);
- 				msleep(5);
- 			}
- 
-@@ -1615,8 +1615,8 @@ static int wm8996_set_bias_level(struct snd_soc_component *component,
- 
- 	case SND_SOC_BIAS_OFF:
- 		regcache_cache_only(wm8996->regmap, true);
--		if (wm8996->pdata.ldo_ena >= 0) {
--			gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
-+		if (wm8996->ldo_ena) {
-+			gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
- 			regcache_cache_only(wm8996->regmap, true);
- 		}
- 		regulator_bulk_disable(ARRAY_SIZE(wm8996->supplies),
-@@ -2188,6 +2188,8 @@ static const struct gpio_chip wm8996_template_chip = {
- 	.direction_input	= wm8996_gpio_direction_in,
- 	.get			= wm8996_gpio_get,
- 	.can_sleep		= 1,
-+	.ngpio			= 5,
-+	.base			= -1,
- };
- 
- static void wm8996_init_gpio(struct wm8996_priv *wm8996)
-@@ -2195,14 +2197,8 @@ static void wm8996_init_gpio(struct wm8996_priv *wm8996)
- 	int ret;
- 
- 	wm8996->gpio_chip = wm8996_template_chip;
--	wm8996->gpio_chip.ngpio = 5;
- 	wm8996->gpio_chip.parent = wm8996->dev;
- 
--	if (wm8996->pdata.gpio_base)
--		wm8996->gpio_chip.base = wm8996->pdata.gpio_base;
--	else
--		wm8996->gpio_chip.base = -1;
--
- 	ret = gpiochip_add_data(&wm8996->gpio_chip, wm8996);
- 	if (ret != 0)
- 		dev_err(wm8996->dev, "Failed to add GPIOs: %d\n", ret);
-@@ -2771,15 +2767,15 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
- 		memcpy(&wm8996->pdata, dev_get_platdata(&i2c->dev),
- 		       sizeof(wm8996->pdata));
- 
--	if (wm8996->pdata.ldo_ena > 0) {
--		ret = gpio_request_one(wm8996->pdata.ldo_ena,
--				       GPIOF_OUT_INIT_LOW, "WM8996 ENA");
--		if (ret < 0) {
--			dev_err(&i2c->dev, "Failed to request GPIO %d: %d\n",
--				wm8996->pdata.ldo_ena, ret);
--			goto err;
--		}
-+	wm8996->ldo_ena = devm_gpiod_get_optional(&i2c->dev, "wlf,ldo1ena",
-+						  GPIOD_OUT_LOW);
-+	if (IS_ERR(wm8996->ldo_ena)) {
-+		ret = PTR_ERR(wm8996->ldo_ena);
-+		dev_err(&i2c->dev, "Failed to request LDO ENA GPIO: %d\n",
-+			ret);
-+		goto err;
- 	}
-+	gpiod_set_consumer_name(wm8996->ldo_ena, "WM8996 ENA");
- 
- 	for (i = 0; i < ARRAY_SIZE(wm8996->supplies); i++)
- 		wm8996->supplies[i].supply = wm8996_supply_names[i];
-@@ -2814,8 +2810,8 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
- 		goto err_gpio;
- 	}
- 
--	if (wm8996->pdata.ldo_ena > 0) {
--		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 1);
-+	if (wm8996->ldo_ena) {
-+		gpiod_set_value_cansleep(wm8996->ldo_ena, 1);
- 		msleep(5);
- 	}
- 
-@@ -2847,8 +2843,8 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
- 	dev_info(&i2c->dev, "revision %c\n",
- 		 (reg & WM8996_CHIP_REV_MASK) + 'A');
- 
--	if (wm8996->pdata.ldo_ena > 0) {
--		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
-+	if (wm8996->ldo_ena) {
-+		gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
- 		regcache_cache_only(wm8996->regmap, true);
- 	} else {
- 		ret = regmap_write(wm8996->regmap, WM8996_SOFTWARE_RESET,
-@@ -3054,12 +3050,10 @@ static int wm8996_i2c_probe(struct i2c_client *i2c)
- 	wm8996_free_gpio(wm8996);
- err_regmap:
- err_enable:
--	if (wm8996->pdata.ldo_ena > 0)
--		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
-+	if (wm8996->ldo_ena)
-+		gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(wm8996->supplies), wm8996->supplies);
- err_gpio:
--	if (wm8996->pdata.ldo_ena > 0)
--		gpio_free(wm8996->pdata.ldo_ena);
- err:
- 
- 	return ret;
-@@ -3070,10 +3064,8 @@ static void wm8996_i2c_remove(struct i2c_client *client)
- 	struct wm8996_priv *wm8996 = i2c_get_clientdata(client);
- 
- 	wm8996_free_gpio(wm8996);
--	if (wm8996->pdata.ldo_ena > 0) {
--		gpio_set_value_cansleep(wm8996->pdata.ldo_ena, 0);
--		gpio_free(wm8996->pdata.ldo_ena);
--	}
-+	if (wm8996->ldo_ena)
-+		gpiod_set_value_cansleep(wm8996->ldo_ena, 0);
- }
- 
- static const struct i2c_device_id wm8996_i2c_id[] = {
+---
+David Gow (4):
+      kunit: Add APIs for managing devices
+      fortify: test: Use kunit_device
+      overflow: Replace fake root_device with kunit_device
+      ASoC: topology: Replace fake root_device with kunit_device in tests
 
+ Documentation/dev-tools/kunit/api/resource.rst |   9 ++
+ Documentation/dev-tools/kunit/usage.rst        |  50 +++++++
+ include/kunit/device.h                         |  80 +++++++++++
+ lib/fortify_kunit.c                            |   5 +-
+ lib/kunit/Makefile                             |   3 +-
+ lib/kunit/device.c                             | 181 +++++++++++++++++++++++++
+ lib/kunit/kunit-test.c                         | 134 +++++++++++++++++-
+ lib/kunit/test.c                               |   3 +
+ lib/overflow_kunit.c                           |   5 +-
+ sound/soc/soc-topology-test.c                  |  10 +-
+ 10 files changed, 465 insertions(+), 15 deletions(-)
+---
+base-commit: c8613be119892ccceffbc550b9b9d7d68b995c9e
+change-id: 20230718-kunit_bus-ab19c4ef48dc
+
+Best regards,
 -- 
-2.34.1
+David Gow <davidgow@google.com>
 
