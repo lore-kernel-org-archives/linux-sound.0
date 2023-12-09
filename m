@@ -1,52 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ykwKfFw+"
-X-Greylist: delayed 452 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 09 Dec 2023 12:40:33 PST
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Nlo0p7yh"
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA601AD;
-	Sat,  9 Dec 2023 12:40:33 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC3ADE1;
+	Sat,  9 Dec 2023 12:54:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702153982;
-	bh=TzyoNuAA4uLPTNaYdysYomHXJCzqvC24wGjdvS+/C1c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ykwKfFw+7Sk3oRDc9+FcUiL8Qc4AsZMKQsblOQBvgpko06dMGDX7G17RM34qTwiUd
-	 JVJfq5Xe7osvbw9slgibF82/+LgNkkH9oIbt+8ZPWXktngMt8gmDupWCU4r6j0M4qR
-	 z99+zgacwo7cqjjyww4pMmHRqwvakGRNMCz9Hs5gdRp0OYwQNkP8nxuiYBwTUbmruD
-	 o3jNGNG8LevbPmJ0Ese7lNhHYBNpfjuC0IqkTdaSzDySX2SHdwEcONEYVibbBG92Bw
-	 ZH7QpQI8QdpJfHxVks6a1OW1BIz5qvi9v9IRguVH3bsbOcfP+7dGwfdlNQ2kxKlr+w
-	 IEtEY/EeuWTKQ==
+	s=mail; t=1702155242;
+	bh=I69yofRInENg2Oy9+9NHwAKvDNRysPthJcXn80JrEQE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Nlo0p7yhFd5BTjEjYW+ZPJaXwexSbYOC3V1otiSjBvr7qv5TlriHJI9uxDDPQgTqv
+	 t1LUSAELpUneX+oSyxRdLojBByKK1mhta+D6hWZoBEgPx9/4wjJXmnkJzylWTqZzzI
+	 /tcjPeFgHO5U0qe2q3MYrKJY8912ma1wh9AtN+Yir9TBKOx/GCikJlpIbFuonCX7hG
+	 ZVMtHj4PQKxCe9sm5QcRDFodAgmwlZYlmLj8fWaI5pPv/AAw3Pz1gMxhqtl2ED5ETn
+	 66eBum3WB4/XeSzEnJAr4BxffDMNfYzfFwyWayePILG23cKeaYxBvvQiX60+Fdh0pX
+	 fxLyy7N7Wj+6w==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 760E137813DC;
-	Sat,  9 Dec 2023 20:33:02 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EE61F3780C1A;
+	Sat,  9 Dec 2023 20:54:01 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Marian Postevca <posteuca@mutex.one>,
 	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Rander Wang <rander.wang@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
-	Bard Liao <bard.liao@intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>
+	V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+	Mastan Katragadda <Mastan.Katragadda@amd.com>,
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
 	kernel@collabora.com
-Subject: [PATCH 4/5] ASoC: amd: acp-config: Add missing MODULE_DESCRIPTION
-Date: Sat,  9 Dec 2023 22:32:22 +0200
-Message-ID: <20231209203229.878730-5-cristian.ciocaltea@collabora.com>
+Subject: [PATCH 00/11] Improve SOF support for Steam Deck OLED
+Date: Sat,  9 Dec 2023 22:53:39 +0200
+Message-ID: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231209203229.878730-1-cristian.ciocaltea@collabora.com>
-References: <20231209203229.878730-1-cristian.ciocaltea@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,27 +56,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the missing MODULE_DESCRIPTION() to avoid the following warning when
-building with W=1:
+This patch series is a continuation of [1] to provide fixes and improvements to
+SOF drivers targeting the Vangogh platform, as found on the Valve's Steam Deck
+OLED.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
+The previous series only handled the legacy ACP drivers.
 
-Fixes: f1bdd8d385a8 ("ASoC: amd: Add module to determine ACP configuration")
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- sound/soc/amd/acp-config.c | 1 +
- 1 file changed, 1 insertion(+)
+[1]: https://lore.kernel.org/all/20231209203229.878730-1-cristian.ciocaltea@collabora.com/
 
-diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-index 5c8cf75be009..42c2322cd11b 100644
---- a/sound/soc/amd/acp-config.c
-+++ b/sound/soc/amd/acp-config.c
-@@ -321,4 +321,5 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp63_sof_machines[] = {
- };
- EXPORT_SYMBOL(snd_soc_acpi_amd_acp63_sof_machines);
- 
-+MODULE_DESCRIPTION("AMD ACP Machine Configuration Module");
- MODULE_LICENSE("Dual BSD/GPL");
+Cristian Ciocaltea (11):
+  ASoC: amd: acp: Drop redundant initialization of machine driver data
+  ASoC: amd: acp: Make use of existing *_CODEC_DAI macros
+  ASoC: amd: acp: Add missing error handling in sof-mach
+  ASoC: amd: acp: Update MODULE_DESCRIPTION for sof-mach
+  ASoC: SOF: amd: Fix memory leak in amd_sof_acp_probe()
+  ASoC: SOF: amd: Optimize quirk for Valve Galileo
+  ASoC: SOF: core: Skip firmware test for undefined fw_name
+  ASoC: SOF: amd: Override default fw name for Valve Galileo
+  ASoC: SOF: amd: Compute file paths on firmware load
+  ASoC: amd: acp: Use correct DAI link ID for BT codec
+  ASoC: SOF: topology: Add new DAI type entry for SOF_DAI_AMD_BT
+
+ sound/soc/amd/acp/acp-mach-common.c |  6 +++---
+ sound/soc/amd/acp/acp-mach.h        |  2 +-
+ sound/soc/amd/acp/acp-sof-mach.c    | 26 +++++++----------------
+ sound/soc/sof/amd/acp-loader.c      | 32 +++++++++++++++++++++++------
+ sound/soc/sof/amd/acp.c             | 30 ++++++++++++++++-----------
+ sound/soc/sof/amd/vangogh.c         |  8 +++++++-
+ sound/soc/sof/fw-file-profile.c     |  3 +++
+ sound/soc/sof/topology.c            |  1 +
+ 8 files changed, 66 insertions(+), 42 deletions(-)
+
 -- 
 2.43.0
 
