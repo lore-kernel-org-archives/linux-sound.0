@@ -1,25 +1,25 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Id69ZyID"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dmDDoM7D"
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 644AD10C7;
-	Sat,  9 Dec 2023 12:54:11 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA5261700;
+	Sat,  9 Dec 2023 12:54:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702155250;
-	bh=6CEHnbgdwJYVfipM0adU97EnT1wECk7R50CpX/0QHJY=;
+	s=mail; t=1702155251;
+	bh=UoqvFkaEAiG7kyRT5ZdtctH0/Mb0yDTsfGCKAKoC8Dw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Id69ZyIDTAm3eTwaAMpObLY7Pfvb6t2SroKMHWS/GNl4eASvs3AODZdJo1MgYBzfV
-	 QPBxLhM3s0sbsu1URy5UST72rHUNLWndJ3X74dgM7qMWZVFHqewC4qkYvAxyNGqieX
-	 PCGW3w7aPuLW0Vz7NR7HoAWAqgDfx88TAWzGbnU7qem+ekTG9agiVJYk+Xv0gDqnoL
-	 u+CiA+lW8Xywq+/oilR2AEEds90QmQMPUgZXF7WboCYQr0JOrZt7zc9vg/VOE1pYZV
-	 kPepGinJUExbvcD79cBXMARcD00oP8c+NVWrAV9oIICG5CnKU8yFsQiFU16Dl9vPo8
-	 iVdCqQ/FhubdQ==
+	b=dmDDoM7D8lYjc+7UCUEnEFx8lXJdPtzd9zfFMJtjvvDErifqsb7bO2AfgE7510dBB
+	 m18vz0bHGZq6wpUKmdz4X84iBKF3Z+VYR17Jj9by1zDQ9YAH5v6I70MZlmAbuQpbg8
+	 d5hDFEzxCo6l0H2QyTk1sbxbeEYSDjuuk7OZNwj3puCcHkt/4zEz5unzusJ/fPhGcB
+	 Cjp0WA2/h6gXAxtHxvPkUDZ1qB0+zf3kQQynIHpWN2PD8t0mFgMW4nCeKYnVx9O/I0
+	 e4+vDEJPAS0QvuVBcduDAKFmhP6nlLKIniQXv5riUrGW8itC8mR133cfoficcmBbJq
+	 HHPjCtHiDiIZg==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3E62337813E6;
-	Sat,  9 Dec 2023 20:54:10 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 77FD637813DF;
+	Sat,  9 Dec 2023 20:54:11 +0000 (UTC)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -44,9 +44,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	sound-open-firmware@alsa-project.org,
 	kernel@collabora.com
-Subject: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined fw_name
-Date: Sat,  9 Dec 2023 22:53:46 +0200
-Message-ID: <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
+Subject: [PATCH 08/11] ASoC: SOF: amd: Override default fw name for Valve Galileo
+Date: Sat,  9 Dec 2023 22:53:47 +0200
+Message-ID: <20231209205351.880797-9-cristian.ciocaltea@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
@@ -58,39 +58,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some SOF drivers like AMD ACP do not always rely on a single static
-firmware file, but may require multiple files having their names
-dynamically computed on probe time, e.g. based on chip name.
+The ACP driver for Vangogh platform uses a quirk for Valve Galileo
+device to setup a custom firmware loader, which neither requires nor
+uses the firmware file indicated via the default_fw_filename member of
+struct sof_dev_desc.
 
-In those cases, providing an invalid default_fw_filename in their
-sof_dev_desc struct will prevent probing due to 'SOF firmware
-and/or topology file not found' error.
+Since commit 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version
+fallback if firmware files are missing"), the provided filename gets
+verified and triggers a fatal error on probe:
 
-Fix the issue by allowing drivers to omit initialization for this member
-(or alternatively provide a dynamic override via ipc_file_profile_base)
-and update sof_test_firmware_file() to verify the given profile data and
-skip firmware testing if either fw_path or fw_name is not defined.
+[ 7.719337] snd_sof_amd_vangogh 0000:04:00.5: enabling device (0000 -> 0002)
+[ 7.721486] snd_sof_amd_vangogh 0000:04:00.5: SOF firmware and/or topology file not found.
+[ 7.721565] snd_sof_amd_vangogh 0000:04:00.5: Supported default profiles
+[ 7.721569] snd_sof_amd_vangogh 0000:04:00.5: - ipc type 0 (Requested):
+[ 7.721573] snd_sof_amd_vangogh 0000:04:00.5:  Firmware file: amd/sof/sof-vangogh.ri
+[ 7.721577] snd_sof_amd_vangogh 0000:04:00.5:  Topology file: amd/sof-tplg/sof-vangogh-nau8821-max.tplg
+[ 7.721582] snd_sof_amd_vangogh 0000:04:00.5: Check if you have 'sof-firmware' package installed.
+[ 7.721585] snd_sof_amd_vangogh 0000:04:00.5: Optionally it can be manually downloaded from:
+[ 7.721589] snd_sof_amd_vangogh 0000:04:00.5:    https://github.com/thesofproject/sof-bin/
+[ 7.721997] snd_sof_amd_vangogh: probe of 0000:04:00.5 failed with error -2
 
-Fixes: 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version fallback if firmware files are missing")
+Skip testing the default firmware by overriding fw_name in
+sof_vangogh_ops_init().
+
+Fixes: d0dab6b76a9f ("ASoC: SOF: amd: Add sof support for vangogh platform")
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- sound/soc/sof/fw-file-profile.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/soc/sof/amd/vangogh.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
-index 138a1ca2c4a8..e63700234df0 100644
---- a/sound/soc/sof/fw-file-profile.c
-+++ b/sound/soc/sof/fw-file-profile.c
-@@ -21,6 +21,9 @@ static int sof_test_firmware_file(struct device *dev,
- 	const u32 *magic;
- 	int ret;
+diff --git a/sound/soc/sof/amd/vangogh.c b/sound/soc/sof/amd/vangogh.c
+index de15d21aa6d9..5843ff8a8b40 100644
+--- a/sound/soc/sof/amd/vangogh.c
++++ b/sound/soc/sof/amd/vangogh.c
+@@ -151,8 +151,14 @@ int sof_vangogh_ops_init(struct snd_sof_dev *sdev)
+ 	sof_vangogh_ops.num_drv = ARRAY_SIZE(vangogh_sof_dai);
  
-+	if (!profile->fw_path || !profile->fw_name || !*profile->fw_name)
-+		return 0;
-+
- 	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
- 				profile->fw_name);
- 	if (!fw_filename)
+ 	dmi_id = dmi_first_match(acp_sof_quirk_table);
+-	if (dmi_id && dmi_id->driver_data)
++	if (dmi_id && dmi_id->driver_data) {
+ 		sof_vangogh_ops.load_firmware = acp_sof_load_signed_firmware;
++		/*
++		 * Board doesn't use the default firmware, hence override
++		 * its name to prevent probe error due to fw validation.
++		 */
++		sdev->pdata->ipc_file_profile_base.fw_name = "";
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
