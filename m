@@ -1,27 +1,27 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m5/pDMDn"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="g9HGqjQw"
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3A3F4;
-	Sun, 10 Dec 2023 01:06:20 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95992F9;
+	Sun, 10 Dec 2023 01:08:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702199179;
-	bh=uW/rENr9rJ72xW4QLUI1quOIaFyVpEXSWxkAjObZ5ok=;
+	s=mail; t=1702199303;
+	bh=UyGBRvLWUM+789VmXNV+b0ScFXqSOt3aVS77AL3sTnE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m5/pDMDnaVWEKRz1OFErA/xo6RQzHdNvSxZXsdF8ztBn5sPo7peugkqXDvArg4HMW
-	 eMREACvT8u0ocepS/u4CtnJsIqW6soMYha0EcueG1cmIxUhxOhzF1rhWKlaYQ3l9J6
-	 hsBGywNkoFHyjVM8hwRn20vhuy5/PUqA/N3DxDeUSXxm3Bc6MX8zTod23+QsDNDJf9
-	 wj0XXZjiSl5sIXDV87oX3kA/GcYk9zF+qOXEzwigLc9eeL72WZtCC86wMaThRh7nzF
-	 efsIHGPA5fgkBoQ1pUIVXOgymDeURskxOtfuxghvCfgHcWECS5e9E8tAXzuXX7crjb
-	 I1ILqmnPSg/2Q==
+	b=g9HGqjQwhAEv3DnDab1BQxmoJgBhkhlP8VQ+W5S7T5E8575/AVw/VAoCGJBfPPeGZ
+	 qzm3tgpa4mCi8g32cfV7+2PNgDFA8vNgneRy1iMMAzTaQ+jZg20Oghv3+5OAYTRhPg
+	 sXvwu+oe8ViRkhGt9if0Z6eMnklu1HxiARsL5rN4k4OWJRFj6250uvciFii2izr2XW
+	 w6hj1o4CJlnFQt99uFiM8aB3j+iUuJ228SeMS1SiLGcvmhgZ+d6ktvh6Iul598fHXh
+	 oTrnUGplDaIam0owEHZqcG/lvWh40VqYRt3WCQhV33maNOo7mh+/1klwpnuVXhV9vK
+	 gqGqYz6NHHKrw==
 Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 27BA1378003D;
-	Sun, 10 Dec 2023 09:06:18 +0000 (UTC)
-Message-ID: <391d2476-8f4a-4670-a248-8d4d9c46ee09@collabora.com>
-Date: Sun, 10 Dec 2023 11:06:17 +0200
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C10E037813EB;
+	Sun, 10 Dec 2023 09:08:21 +0000 (UTC)
+Message-ID: <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
+Date: Sun, 10 Dec 2023 11:08:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -29,8 +29,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/11] ASoC: amd: acp: Use correct DAI link ID for BT
- codec
+Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
+ SOF_DAI_AMD_BT
 Content-Language: en-US
 To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -52,70 +52,58 @@ To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  sound-open-firmware@alsa-project.org, kernel@collabora.com
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
- <20231209205351.880797-11-cristian.ciocaltea@collabora.com>
- <8a218987-965b-4228-b1d1-f7c061d553ab@amd.com>
+ <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
+ <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <8a218987-965b-4228-b1d1-f7c061d553ab@amd.com>
+In-Reply-To: <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 12/10/23 05:24, Venkata Prasad Potturu wrote:
+On 12/10/23 05:30, Venkata Prasad Potturu wrote:
 > 
 > On 12/10/23 02:23, Cristian Ciocaltea wrote:
->> Commit 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink
->> creation for I2S BT instance") added I2S BT support in ACP common
->> machine driver, but using a wrong BT_BE_ID, i.e. 3 instead of 2:
+>> Commit efb931cdc4b9 ("ASoC: SOF: topology: Add support for AMD ACP
+>> DAIs") registered "ACP" name for SOF_DAI_AMD_BT DAI type.  However, some
+>> boards, i.e. Steam Deck OLED, seem to require "ACPBT" for the same type:
 >>
->> [ 7.799659] snd_sof_amd_vangogh 0000:04:00.5: Firmware info: version
->> 0:0:0-7863d
->> [ 7.803906] snd_sof_amd_vangogh 0000:04:00.5: Firmware: ABI 3:26:0
->> Kernel ABI 3:23:0
->> [ 7.872873] snd_sof_amd_vangogh 0000:04:00.5: Topology: ABI 3:26:0
->> Kernel ABI 3:23:0
->> [ 8.508218] sof_mach nau8821-max: ASoC: physical link acp-bt-codec (id
->> 2) not exist
->> [ 8.513468] sof_mach nau8821-max: ASoC: topology: could not load
->> header: -22
->> [ 8.518853] snd_sof_amd_vangogh 0000:04:00.5: error: tplg component
+>> [  467.489680] snd_sof_amd_vangogh 0000:04:00.5: ipc tx error for
+>> 0x30030000 (msg/reply size: 16/0): -22
+>> [  467.492775] snd_sof_amd_vangogh 0000:04:00.5: sof_ipc3_route_setup:
+>> route ACPBT2.IN -> BUF5.0 failed
+>> [  467.495839] snd_sof_amd_vangogh 0000:04:00.5:
+>> sof_ipc3_set_up_all_pipelines: route set up failed
+>> [  467.499128] snd_sof_amd_vangogh 0000:04:00.5: error: tplg component
 >> load failed -22
->> [ 8.524049] snd_sof_amd_vangogh 0000:04:00.5: error: failed to load
+>> [  467.502210] snd_sof_amd_vangogh 0000:04:00.5: error: failed to load
 >> DSP topology -22
->> [ 8.529230] snd_sof_amd_vangogh 0000:04:00.5: ASoC: error at
+>> [  467.505289] snd_sof_amd_vangogh 0000:04:00.5: ASoC: error at
 >> snd_soc_component_probe on 0000:04:00.5: -22
->> [ 8.534465] sof_mach nau8821-max: ASoC: failed to instantiate card -22
->> [ 8.539820] sof_mach nau8821-max: error -EINVAL: Failed to register
+>> [  467.508430] sof_mach nau8821-max: ASoC: failed to instantiate card -22
+>> [  467.511725] sof_mach nau8821-max: error -EINVAL: Failed to register
 >> card(sof-nau8821-max)
->> [ 8.545022] sof_mach: probe of nau8821-max failed with error -22
+>> [  467.514861] sof_mach: probe of nau8821-max failed with error -22
 >>
->> Move BT_BE_ID to the correct position in the enum.
+>> Add "ACPBT" alias for "ACP" SOF DAI type.
 >>
->> Fixes: 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink
->> creation for I2S BT instance")
 >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 >> ---
->>   sound/soc/amd/acp/acp-mach.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>   sound/soc/sof/topology.c | 1 +
+>>   1 file changed, 1 insertion(+)
 >>
->> diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
->> index a48546d8d407..0c18ccd29305 100644
->> --- a/sound/soc/amd/acp/acp-mach.h
->> +++ b/sound/soc/amd/acp/acp-mach.h
->> @@ -27,8 +27,8 @@
->>   enum be_id {
->>       HEADSET_BE_ID = 0,
->>       AMP_BE_ID,
->> -    DMIC_BE_ID,
->>       BT_BE_ID,
->> +    DMIC_BE_ID,
-> This will break the other platforms as this same enum used in topology
-> to create dailink.
+>> diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+>> index e3e7fbe40fa6..73bf791e7520 100644
+>> --- a/sound/soc/sof/topology.c
+>> +++ b/sound/soc/sof/topology.c
+>> @@ -290,6 +290,7 @@ static const struct sof_dai_types sof_dais[] = {
+>>       {"SAI", SOF_DAI_IMX_SAI},
+>>       {"ESAI", SOF_DAI_IMX_ESAI},
+>>       {"ACP", SOF_DAI_AMD_BT},
+>> +    {"ACPBT", SOF_DAI_AMD_BT},
+> No need to create the alias name, we can directly modify ACP to ACPBT as
+> ACP is not using anywhere.
 
-If I understand this correctly, there is no consistency across firmware
-regarding the IDs used for DAI link identification.  What would be the
-suggested solution in this case?
+Great, thanks, will do in v2.
 
-Thanks,
-Cristian
-
->>   };
->>     enum cpu_endpoints {
+>>       {"ACPSP", SOF_DAI_AMD_SP},
+>>       {"ACPDMIC", SOF_DAI_AMD_DMIC},
+>>       {"ACPHS", SOF_DAI_AMD_HS},
