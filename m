@@ -1,37 +1,37 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="o/mzRe0D"
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2045.outbound.protection.outlook.com [40.107.93.45])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64FDCC;
-	Sat,  9 Dec 2023 19:34:05 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="C/Hcp2wE"
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2062.outbound.protection.outlook.com [40.107.244.62])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A0DD6;
+	Sat,  9 Dec 2023 19:50:34 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kVHdf6jz5uPozaOI8emBo6S60a6prZeBNie70uKJvj4n1sHOFdLAWCYGWumTOQCPFkDj4pg3dKsao2HDqyKMvhOMga+2z6G3AdXobZMliCxuT4oRE2QjXciVRY8McLvM6zne71YOXmDx9dRyqOT/WjMhQ+WkZI/NqCh4tbikJw7mjog5zBq58x/mEeY0wms/sTXhbC6USmSkwScEWeoFSUPC9V6qH9EjuiDu+QcFqZrV1rBoacTy/KhNLJIo20EtPGUyHmOpDK3/1E2qafj4SRh7mS1acAPcLjZNGNsn6o2nWuwzQ7DQswZuCBFT6Y47VW2bKD2ZCKz5nJp/r79Pzg==
+ b=fl4BC5yoAiHjTa7uKpeNAW9X1MUZffrf8bfl2HMCd7yzIUxXUjARSOs89sxoQbnrLg6XeQUAPt2vDE3G6yavR8FETxLh+U4oLilVzbQ+dCgf0CPocF7+N/GMsx3VaDTK16NCpMK/n62Ny0a2r+hy86YLACfRQGPnB20kSOksVA9chFVloSjrCxipCv4pZVwXflbtaRcFeuCFz1e9VXBV2gXnnekn4X8c4rSHlK827umBNa6gl6CwtHpuN3P0stic08ROCq8JHFbIGHnxI5MdiKRjAtzl3pc4eOHdeLYh3qjOKQ/kLq1IJS6sp5YVvCcvtkaAebFwDoDWWab4D0g6Bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G5I12+B4lkGNYhHWzweJKtLf/IviAw8Uc0DJF5Js2/o=;
- b=lIJvZ6n2HMVeY/U0AVGhvw7KCU7CEy21knxiRyRiGn4qzPJutL1jGQwW88ssPbZcG9wSLNUz3NIshH4h16MwKnM3+mE1ZOJOJ9UgGVCEpBWjAer1Sm4qgPyPTiqzoBrb0umwU+MRb4wjrMijvhaTGzNooZK/6nGfzxCXiFLExgKrwllw0/IzICXAjQ1Z8FV9PLqyt5Gc8/GT9irJ0wV0g1wMd9CM5hrGEqRoaGP7cia0v1zrjJTJdq2zHFwAAYbUARaNpAvdtnlA+VM9+MWydTtGXYaU77dURF8HX8Gq2EKVCs1032x/HHSWfew7T/Ht6epCiw/QPWGyYylbkcp56A==
+ bh=2RR17e3x27LoTew2HslqvKJLhL9S+1Cxpu91/BSToro=;
+ b=fmQwUeTZssEvivuMFo4ZkTOk7FLOwQpKOPxDNj0kdesKmzkRa6RUAiyI5WqMs04QXvTYNzXqPBXiz9Sc4u3qIwTNKaKdWJncPHbhNCeuWqTy+Kf9MxtzCZ4ShZ8YxI/bpdKkNd3u3oLHa3x5kIgSB+26oAtETa0jeDFIbh2yuuDjL8AMBgvBC8wrnStZu41COvWR52y20K9GHOcY7isTCpy2ygCSMnrLVMxdksW6Sfae5Iu1JsHhVx/uhpYy0dfrBwY5cMDOjVhHWt+uOpyD1ymRniO8q8Sc1IDR8nK+wqIFOMq49ZKAjdgWMhhNvIHXmaOWFEBXo1XiRJ1dQLoouw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G5I12+B4lkGNYhHWzweJKtLf/IviAw8Uc0DJF5Js2/o=;
- b=o/mzRe0DXxstrpYHfKTuRXfCkUyXdIamiuAnb4k9iIh5HZamqGsyaNys4USr0c5DsCLG0E8KSKHMEYpvDiaWf/KyxShtYqCMoGZhd1/r1v3KHh1wKfEU/XOB/VPnD/eOncSCbORbf2Eg9Omk/8QC6pG2+nSpglhJtrYUP//eHdM=
+ bh=2RR17e3x27LoTew2HslqvKJLhL9S+1Cxpu91/BSToro=;
+ b=C/Hcp2wEIZ/gOksEHVAA4cuOp2+0ithhjlgKdktLBGhh8NoU9zzpyXli5Zp/PRa+1YhI5BKkCAV9H+bDUQAlIwBLR4ZNjlnBWm/eIhqaoN9AB6bzqZnI7ZMh0WezlyfoX26MiXpLLSL/vm4bPNu+fV9ajoimL2x/XN+vmalTmOg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5951.namprd12.prod.outlook.com (2603:10b6:510:1da::16)
- by MN0PR12MB5858.namprd12.prod.outlook.com (2603:10b6:208:379::8) with
+ by SJ2PR12MB8882.namprd12.prod.outlook.com (2603:10b6:a03:537::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.31; Sun, 10 Dec
- 2023 03:34:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.30; Sun, 10 Dec
+ 2023 03:50:29 +0000
 Received: from PH7PR12MB5951.namprd12.prod.outlook.com
  ([fe80::e007:72f7:4102:9258]) by PH7PR12MB5951.namprd12.prod.outlook.com
  ([fe80::e007:72f7:4102:9258%4]) with mapi id 15.20.7068.030; Sun, 10 Dec 2023
- 03:34:03 +0000
-Message-ID: <c3a3995b-8fae-495f-9701-62b095692b9c@amd.com>
-Date: Sun, 10 Dec 2023 09:03:51 +0530
+ 03:50:28 +0000
+Message-ID: <6e25398f-9a3d-4cad-a66a-ebe43a723843@amd.com>
+Date: Sun, 10 Dec 2023 09:20:16 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/11] ASoC: SOF: amd: Optimize quirk for Valve Galileo
+Subject: Re: [PATCH 09/11] ASoC: SOF: amd: Compute file paths on firmware load
 Content-Language: en-US
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -53,13 +53,13 @@ To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  sound-open-firmware@alsa-project.org, kernel@collabora.com
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
- <20231209205351.880797-7-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-10-cristian.ciocaltea@collabora.com>
 From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-In-Reply-To: <20231209205351.880797-7-cristian.ciocaltea@collabora.com>
+In-Reply-To: <20231209205351.880797-10-cristian.ciocaltea@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0006.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:25::11) To PH7PR12MB5951.namprd12.prod.outlook.com
+X-ClientProxiedBy: PN2PR01CA0199.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:e9::9) To PH7PR12MB5951.namprd12.prod.outlook.com
  (2603:10b6:510:1da::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -68,95 +68,191 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|MN0PR12MB5858:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4614fb05-83c6-426f-368b-08dbf930daff
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|SJ2PR12MB8882:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45487519-768f-4fdf-67e3-08dbf93325f0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	qQtoHwtOJkl3Lsb1aTZ9rh0LeriPeuCCS/8Dy6434sDxIuaQhuTJhk2+o27dCEp4uxQDCh8ruzfT2WtfGj5F/d5XmMnY5pnTlmIznfcvcqWp1hS6RUs/vPRch51I19weKtvoW9AgBHgmqWKpqCzrJwS+lVbE69xk+BV/yUhXSKyU+xv+eA/m+/TKUO9CDnKP0g8TXxMELVVQYnayJQaygXc4eTWRaN5fC0bzTUPPfymDwLhiddY5aa0wkYG0s12atbrgvLMK1F0NcSPu3xTQfitrMSWxApkNQz3a4RTaplZlZ9PhORl5+Uh3WRumarRUlCxnNntgmWhpioi9sD3DN2iH5QHZL4erNM3FcKsmn4P/8l+mj5U4yjC8oe0PCpCZ2Ttu62qwBY9Ci6+H3V6iZ8Jw/jfjhGYka/5PFoC6EV+raI10teHtAELFdOKm37ZAjWwXXNC2Csbc1Kx1OP0kxIGnuKkc7zSjm2HXLM8jgOrDfsO8CPOvPwYFyViwt7rR9mtC9JGcxdv6lQUuPsG0KU/JUhmxBbGTP/s8lLUbzoDO/YqEfG5/cLVBWxTSTpRQsMKaLnrR9ysAZxuWb6GThvxysqC8nBQbDYdiOk0Sceaqhe0iOgxuHcLQYqJwpD2EVAlMeVoyaWNrFQpKrgeG7DK2BmsK41rj5CcDdQtW0h0=
+	6W80a7S/n+6t2sUp9AWuffKzfKemofzo+wbkwAs1i2A0PomDk2Meym1GtWJiCIfLgwzL6/BVRpk4hA59PIaBR18o9OpgyZqEbQX/Vbcqej4TCnLubXfRpa44Am/X2d5OT/NMjFDf34Py3RjWnDhSh6BE+I8NvHDkw4veXt9tTAQsHg5RcEAPraibDrPLKXpH9+z11s3/9mOsFuQUcclqTbNXzXkp2mvy0wikiXibnantuD6zCWQMXQHtzh3pQenr49Bii3rHnyG9ImT6ZDp7tEDcSMvTtuZK28arXITMG2FSb30gYesVh0YeDPu4q17yNmz3FRUulY9WSkECCet47AYUfA5vOeV0aze+P9RqPnY+289ZezarXR6O9PGTdtLDjnd8G1WNaIBN70FpxnTiq3HdyJB4XmzjiQPlwXFV4H227eX0J+TLdsQNUjYRpHmaEER6up32AaziWCuXwtEPwk3xpwLuJ1mHtGuwH/C879SDT8/2Ru0t9tlrWMGvO2TH3jaDfMovD/Q8D3x5RQV9jSIV9IdAyuxu5H7PIyk1ozTzX86t59GhiyJm3YuliTlfNT1JEXWKI19oDP6q/8CNtlybtl0GVamjFKm9hWF5z0BM5sZQtAam4bblBfACcTP3fMKITiphec63vubdUQYy/Ocghv4hzzBRwHtwOUQRy6s=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(346002)(136003)(366004)(396003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(7416002)(2906002)(41300700001)(38100700002)(110136005)(36756003)(86362001)(31696002)(2616005)(6512007)(26005)(478600001)(6666004)(53546011)(6506007)(6486002)(83380400001)(4326008)(5660300002)(6636002)(316002)(921008)(66556008)(66476007)(66946007)(8936002)(8676002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(136003)(376002)(346002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(6512007)(6506007)(53546011)(5660300002)(26005)(2616005)(36756003)(7416002)(6636002)(66476007)(66556008)(66946007)(6486002)(2906002)(83380400001)(31686004)(921008)(41300700001)(478600001)(86362001)(8676002)(8936002)(4326008)(31696002)(110136005)(316002)(38100700002)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OENQd0ZDR1NkdEl6UWg5OVNWU3BJVWdkemdDcVVFcGNkVHpTUisydHBDSlZn?=
- =?utf-8?B?Tzc4K2xCcVgvQlpLc00zQkVQNlNRakV3ZUF0VWJsbm9ob1JMZUhJRkxMZXN0?=
- =?utf-8?B?L3phUWhnRnRjVWhabjl3bFpJbmszTWJoNHNsai9FT0I1SU04NlhlM090Uzcr?=
- =?utf-8?B?WmswMWp6QUMvMjFCSkd0REFJczd3d0dnenFFSjhVTG11Z0Y1aWQ0RmdMa3oy?=
- =?utf-8?B?VENUcVR4UkI5YkN2OVNtQzlaamVjSEprb2c3Z0hHSVYxV2IwTFRVeWN0dGdM?=
- =?utf-8?B?NlJjRjBCV3c0UXkrOTJYY3RLcFdpREtrQXVkYTAxd0M3UFdBM0NaOUJONmlm?=
- =?utf-8?B?WDA5TVh0TXhGOXNZVUI4TzIxN2ZyWE1yVFFwQW9RVUl1T1lGRnZmcTJmcEFX?=
- =?utf-8?B?cVdHYkZmeFVGc29BM3FITnoyTmVOTmNwS0FZNDdSQ09jK1Rkb0xPWmI5V0Ex?=
- =?utf-8?B?Q2czR3ArQkVlaWZKd0h4czZYOW9tOWVTMzdWT2RDSFdIbzFHSkFGazdtOEdJ?=
- =?utf-8?B?MlNxbHNCajhnM3VsYkw1ZjJKYW90cjMzUDhOOXlFczN4bDZ0K3BiTE5rWUhH?=
- =?utf-8?B?T1I0UmFBcUZQRnVzbUkwNkVmQzdGajFGUm5NejArWktrekpKRmRhMkdBbjRV?=
- =?utf-8?B?R1FGRThVVG80N1JzU0NQZGczQUZ5eGhiQ3NDWXovcWpYMzl4TTlTaEFoMHdN?=
- =?utf-8?B?R2ZkbVIyNjJKNzZIbGt4VEMrdkRZT0Vyc3lSOVgvSE8wd2xHQXRFSE5WTHh0?=
- =?utf-8?B?cmJhT0FYZVo5cVVuYkdaS2FQK0lqV2JxV2svQnFmbjVZK29za0s1UDBZcEpF?=
- =?utf-8?B?SUtGL3MrTTJCZzREZXZmVGlNNXV4NENHMWgyRTZUZUlsM3J2VjkzMGI5MGtn?=
- =?utf-8?B?SlZJL3BKbjJHay9Kb2hqZHVJSklYRzhhRWlKbURpeTdFQWlBYUFwZHZ0S09U?=
- =?utf-8?B?ZWRrSG9PRUYyNXVqS1QzK09INjZLOEZDbkFnTFRYVnNGMUN6V0xzc3lvY0sx?=
- =?utf-8?B?bmp6WTBNbWtNQTFvMVJqVTZpSkZrRjViZXZEclhmTFJLVWRTaWJwTzl5cnFL?=
- =?utf-8?B?Q2oxS1R2SW1GcGVkcnpid1JaYkRlc1FRVDdJV3k3UmUwQjZiSFZ5TWxCWlFU?=
- =?utf-8?B?N3Uvb0xublgyeTVOdGFBWTFCUEdQaHQydFU4bUUxci9VenpiNGlTUjB5WDlq?=
- =?utf-8?B?VU9ibURyZkRtMW1oV1UvSk9nMFg1Ylc1ZjFydmZPcW9OZ3lGVUl5SmwwMXdn?=
- =?utf-8?B?ZmdKYVVWYitEVHg5RUxtZWpyZVRIZlhkLy9sNEFtYi9rMDBnV1ZtOHhHNVlB?=
- =?utf-8?B?MW9oemVZU2MyeWpNWDAyVXdWTU1iWEYzekRQRzZZdm1vb0tteDhka0tGcTFo?=
- =?utf-8?B?WStVZnNLTW5qNlpycXpCKzVpUzZqczgva3c3dC90ZGVYZDdNSHVydHMvRzFy?=
- =?utf-8?B?NHg5eC9nZVdxOFBCaW1IVlFaNGx1TkxLUGowWS9SaXpycmF6MXo3TnZXVjVy?=
- =?utf-8?B?WHg0VkpDK0E0eUFyZ3ppMFpnSEtUdFRTcWczZmNQeUtLVCtWWGZuTHk5eW90?=
- =?utf-8?B?WCtVa2ZGVzNObFJHY1RhQ3c3YXBNRHRLYm9ya2JoN0ltUFJVVmFyZU9Vd1A5?=
- =?utf-8?B?RVMreEV3TlFrK3RhOWpqbHorVXdPelhCeS9uNjQrVllhMi8yQ0lWc0VXeWhj?=
- =?utf-8?B?Mkw2bnhzNTdGMEk1S0hmT0NiR3V2Yy9mamRPdVduU1A0NWZTbENTaEg3THRk?=
- =?utf-8?B?bkxoWjVubTNNWUhtcHBSUC81WHJzYlFFWGRzUzlKb1JLbDFXWTFvR2xaL3N6?=
- =?utf-8?B?cVhIRERtMGdJV1cwZGNBaVRYRUIwV2lKT3RmVjlJb2ZOVXBNOXJHVnZDMkw2?=
- =?utf-8?B?Nkh2Nlh0WXdxT0M5VHBLZ0F4clVHQVBXTmtEOVpMclFBbGxxYVpKazJzdXRE?=
- =?utf-8?B?dVAwWDl4b0lITGh3bmtyTmlPSFlmMGF4TmZsMGJRMm1odUsrOHU1bDRndnhz?=
- =?utf-8?B?bWx1YW1vVnpqem9sQ3dPRk1xK1l5SmNWd1ZCUENGa0t3OHdiY1g1enFLVnZi?=
- =?utf-8?B?eDJVNmMxbXBNSFc3ekdzUHVzaU1JZVJaUWRCVGdHQ2FhQ25RbkNETDR5VU1F?=
- =?utf-8?Q?DrRK6f59FGeOLikhX40wM+ZAc?=
+	=?utf-8?B?MVRBWEwyWkYydGl6eElyZlF6WlVDQ3UzT2ROOVBIV3pMclZDeVAwUmozMmE1?=
+ =?utf-8?B?TVpHRXk3QlFFelozNzNDQVlEZENHWjZzYWlvQTVKZkg5Ny9pNHhvTjduakE5?=
+ =?utf-8?B?WkRRUEFkZXBhOS9Ma29uL3lGZGxJYm5IVXRkeEUxenkxZ3RIcjZUbC9kU1M5?=
+ =?utf-8?B?Z0diTHFlM2xvbzdrVXZCNitjcVJWWEVUVHhYYy9MUnFleDRDOXdEODJxUy93?=
+ =?utf-8?B?TWIzWXlTMXIwcTR6ZXRheXVrWnFObGtCUHNyOUh5SlhHNEt5WjNwU0pIK2du?=
+ =?utf-8?B?bzllek9wRFlVZDUrV2ZBbi9KNXNJMXF2TUx5a2lnV3pVMU5Tc2xCaEpnaWdD?=
+ =?utf-8?B?UFhmYjdONW1lZVlSSGExZkphajZWSjRyVWNJMjhyN2YvTy9RVmcxM3JBOHpK?=
+ =?utf-8?B?M1BFeUp6TlZLUGl2Y2RlK1pkcFFRUFRTREZnb0g1Q0Z5ek9WalJQUTZ2RzNB?=
+ =?utf-8?B?enhvamx1Z0NYak9sL0R2OFIrNCsvMTlSNnlNSEY1ajh3cWlVbXM3YlkzWGZq?=
+ =?utf-8?B?Uk1uOFZiSFNMUVUyMEs4QnkxRllNT0pFNXcrdlZGZ2p4MXRCd0FleFcrcmRQ?=
+ =?utf-8?B?Q1FmT1FRZmJFOENsM2dWSWdHK2J1VmRXNEV6c0lPT1c1ZHZDOXU3SzJ2ZVhs?=
+ =?utf-8?B?V2ZWc2FhZUxieWtvQjAvYWwrL2cyRmxkNDFXdkV6QVpNa3pKbG9TMExHVUdr?=
+ =?utf-8?B?NWZRdjU4dzVVSm9uSXNTRXViSVh3MVlTK2YzcFpHN0xCdDQxREdmMlZKWlVk?=
+ =?utf-8?B?eVVSM0FIaGJQUzZDMmkwZ1dqSngwMVFNVmFVVUhjZEF0S0hBL2dMN3JtK2lr?=
+ =?utf-8?B?bGYxOUpYa0NLRDg1R2dvRy94blZmUnIwbnFPemEwWWQwVzlHME5sdklKa3Av?=
+ =?utf-8?B?MmFmSDltcFVrWWpDR20wTE02SXV6YWFPY0tPSlN4aGh6V3VRcWZMYk5mVEF5?=
+ =?utf-8?B?NGwwcDM2WGx3M3BnY1l4N0U3ZHdNNVBBRncwRVdwVi9yOXJuQmIveGtwV1JU?=
+ =?utf-8?B?ZjVzaERSVnhMay8zbW82QVZncHV1eWMzbjFTbkNtK2NnZmJzeGtyenltTEpM?=
+ =?utf-8?B?M3lvUUtQTE96RTg4N2lOQU5Vc3Z3YS9HVklXV3dXc2dFZGUxbTdFNjVSc3hQ?=
+ =?utf-8?B?NEx1M2swR1JmcUYvRExsb2o2RGV0Qlh6clU4ZHBPaHZYSHhKOXBuMXkvaWxr?=
+ =?utf-8?B?S2NBU3hiZ0s1ZnUzc2FMMUkrK3RQS1RCb0dkaDVSaVJvZlloK1ZyOURmMzQx?=
+ =?utf-8?B?ckFXL1RpQmxmdzVYRE5kOFkxN21rNUN0WjNBSmNjblZENWNhenB5MWNZVk5j?=
+ =?utf-8?B?d1NzZDNpWlhVV0JFejVONFZicU5FMGhsUkVESTV0Y3JKczRGRXNzeml5R21n?=
+ =?utf-8?B?NmhpNUtQNlgycnVPVWl1dGpvTlFIbVZUU0lWSjdjcTg5dnovdlJXTTI1N3Jy?=
+ =?utf-8?B?Z0xYL0d5djY0TVc1UXprT2g3MllML0FGVERHbjR3empFR2dpWDlpQXJZOE1K?=
+ =?utf-8?B?UExrY3o3NlozUnJvR05yK1Z6MUpYVkhHUFY0OVIyUnNVMTF4S3UwaE5LQm1x?=
+ =?utf-8?B?OWRrR2JtbFJzTlFYd0VXR2o5UXpxY1RKUitVa3VqODV2ZGNQUWVTQjRQb3dY?=
+ =?utf-8?B?VnZXd0I3Y1kwUFNwdTZVcnVKcFVhY21kUnp3dG9Hdko0WHBhamcvSEE4NDdH?=
+ =?utf-8?B?c2xRVDdkdURPdGg2UVhsL1hKWjZRaWxHdHV2T29EWW5Hdm1NbzFjdWhSb1Fv?=
+ =?utf-8?B?VXpTQ0pBL3dHSFl0V1A2bnJzYy9SMFk5SHpMcE5KOE5TeG1wSzh5L2ZDcXV6?=
+ =?utf-8?B?OUR2YUIyeEp4TWNqMHpuZ0hiM1hmUUdob0txZDBrMDJrOGhpK0wrMlRYZVhx?=
+ =?utf-8?B?RThoOFB1bHVobnJhZG4zQ05TSzBWUnZYNzZqS1BIR0lTZDc4cDZ2S3N3b25F?=
+ =?utf-8?B?ZkJ2WXFkTlZ5Z1Rya1l6WExsakI1c1NjUzRCbUlBWEhLZTlrQnZmMnRZazhK?=
+ =?utf-8?B?bUV0QzdBNkd2NFRsY1ZuclRpRHBjRWh5L2NSVUlUeVUzUVQvQVhhT0pITEtn?=
+ =?utf-8?B?eDBsUUlGSzhJSzhjb0REc0p1dy9HWHQ5SmRmWnlqR2ZOSGhEc0s1YjVrazEz?=
+ =?utf-8?Q?c5D8X4WfE+SmnxJIy+ltCzBzh?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4614fb05-83c6-426f-368b-08dbf930daff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45487519-768f-4fdf-67e3-08dbf93325f0
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5951.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2023 03:34:03.4842
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2023 03:50:28.4996
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xAtZz+hZa0yH7EiVLMkm5GjIr1vK0jC1hgiCCyOC6G0idgwklNVuoxtCUfIx7gUrQLQVcS2gutS3Y9mpxWoEtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5858
+X-MS-Exchange-CrossTenant-UserPrincipalName: C3ktZPuE9cUde11t/nc0Ox+2seAwq3YDbzDJ3syiLKAaDerqnZDEAzLYskdGa2k1cURW3QAr55rN8Idme9Q3tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8882
 
 
 On 12/10/23 02:23, Cristian Ciocaltea wrote:
-> Valve's Steam Deck OLED is uniquely identified by vendor and product
-> name (Galileo) DMI fields.
+> Commit 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version fallback if
+> firmware files are missing") changed the order of some operations and
+> the firmware paths are not available anymore at snd_sof_probe() time.
 >
-> Simplify the quirk by removing the unnecessary match on product family.
+> Precisely, fw_filename_prefix is set by sof_select_ipc_and_paths() via
 >
-> Additionally, fix the related comment as it points to the old product
-> variant.
+>    plat_data->fw_filename_prefix = out_profile.fw_path;
 >
+> but sof_init_environment() which calls this function was moved from
+> snd_sof_device_probe() to sof_probe_continue(). Moreover,
+> snd_sof_probe() was moved from sof_probe_continue() to
+> sof_init_environment(), but before the call to
+> sof_select_ipc_and_paths().
+>
+> The problem here is that amd_sof_acp_probe() uses fw_filename_prefix to
+> compute fw_code_bin and fw_data_bin paths, and because the field is not
+> yet initialized, the paths end up containing (null):
+>
+> snd_sof_amd_vangogh 0000:04:00.5: Direct firmware load for (null)/sof-vangogh-code.bin failed with error -2
+> snd_sof_amd_vangogh 0000:04:00.5: sof signed firmware code bin is missing
+> snd_sof_amd_vangogh 0000:04:00.5: error: failed to load DSP firmware -2
+> snd_sof_amd_vangogh: probe of 0000:04:00.5 failed with error -2
+>
+> Move usage of fw_filename_prefix right before request_firmware() calls
+> in acp_sof_load_signed_firmware().
+>
+> Fixes: 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version fallback if firmware files are missing")
 > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->   sound/soc/sof/amd/acp.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   sound/soc/sof/amd/acp-loader.c | 32 ++++++++++++++++++++++++++------
+>   sound/soc/sof/amd/acp.c        |  7 ++-----
+>   2 files changed, 28 insertions(+), 11 deletions(-)
 >
+> diff --git a/sound/soc/sof/amd/acp-loader.c b/sound/soc/sof/amd/acp-loader.c
+> index e05eb7a86dd4..d2d21478399e 100644
+> --- a/sound/soc/sof/amd/acp-loader.c
+> +++ b/sound/soc/sof/amd/acp-loader.c
+> @@ -267,29 +267,49 @@ int acp_sof_load_signed_firmware(struct snd_sof_dev *sdev)
+>   {
+>   	struct snd_sof_pdata *plat_data = sdev->pdata;
+>   	struct acp_dev_data *adata = plat_data->hw_pdata;
+> +	const char *fw_filename;
+>   	int ret;
+>   
+> -	ret = request_firmware(&sdev->basefw.fw, adata->fw_code_bin, sdev->dev);
+> +	fw_filename = kasprintf(GFP_KERNEL, "%s/%s",
+> +				plat_data->fw_filename_prefix,
+> +				adata->fw_code_bin);
+File path already saved in adata->fw_code_bin in amd_sof_acp_probe function.
+No need to get it again.
+> +	if (!fw_filename)
+> +		return -ENOMEM;
+> +
+> +	ret = request_firmware(&sdev->basefw.fw, fw_filename, sdev->dev);
+>   	if (ret < 0) {
+> +		kfree(fw_filename);
+>   		dev_err(sdev->dev, "sof signed firmware code bin is missing\n");
+>   		return ret;
+>   	} else {
+> -		dev_dbg(sdev->dev, "request_firmware %s successful\n", adata->fw_code_bin);
+> +		dev_dbg(sdev->dev, "request_firmware %s successful\n", fw_filename);
+>   	}
+> +	kfree(fw_filename);
+> +
+>   	ret = snd_sof_dsp_block_write(sdev, SOF_FW_BLK_TYPE_IRAM, 0,
+> -				      (void *)sdev->basefw.fw->data, sdev->basefw.fw->size);
+> +				      (void *)sdev->basefw.fw->data,
+> +				      sdev->basefw.fw->size);
+> +
+> +	fw_filename = kasprintf(GFP_KERNEL, "%s/%s",
+> +				plat_data->fw_filename_prefix,
+> +				adata->fw_data_bin);
+> +	if (!fw_filename)
+> +		return -ENOMEM;
+>   
+> -	ret = request_firmware(&adata->fw_dbin, adata->fw_data_bin, sdev->dev);
+> +	ret = request_firmware(&adata->fw_dbin, fw_filename, sdev->dev);
+>   	if (ret < 0) {
+> +		kfree(fw_filename);
+>   		dev_err(sdev->dev, "sof signed firmware data bin is missing\n");
+>   		return ret;
+>   
+>   	} else {
+> -		dev_dbg(sdev->dev, "request_firmware %s successful\n", adata->fw_data_bin);
+> +		dev_dbg(sdev->dev, "request_firmware %s successful\n", fw_filename);
+>   	}
+> +	kfree(fw_filename);
+>   
+>   	ret = snd_sof_dsp_block_write(sdev, SOF_FW_BLK_TYPE_DRAM, 0,
+> -				      (void *)adata->fw_dbin->data, adata->fw_dbin->size);
+> +				      (void *)adata->fw_dbin->data,
+> +				      adata->fw_dbin->size);
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL_NS(acp_sof_load_signed_firmware, SND_SOC_SOF_AMD_COMMON);
 > diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-> index c6f637f29847..1e9840ae8938 100644
+> index 1e9840ae8938..87c5c71eac68 100644
 > --- a/sound/soc/sof/amd/acp.c
 > +++ b/sound/soc/sof/amd/acp.c
-> @@ -28,11 +28,10 @@ MODULE_PARM_DESC(enable_fw_debug, "Enable Firmware debug");
+> @@ -479,7 +479,6 @@ EXPORT_SYMBOL_NS(amd_sof_acp_resume, SND_SOC_SOF_AMD_COMMON);
+>   int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+>   {
+>   	struct pci_dev *pci = to_pci_dev(sdev->dev);
+> -	struct snd_sof_pdata *plat_data = sdev->pdata;
+>   	struct acp_dev_data *adata;
+>   	const struct sof_amd_acp_desc *chip;
+>   	const struct dmi_system_id *dmi_id;
+> @@ -547,8 +546,7 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+>   	dmi_id = dmi_first_match(acp_sof_quirk_table);
+>   	if (dmi_id && dmi_id->driver_data) {
+>   		adata->fw_code_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
+> -						    "%s/sof-%s-code.bin",
+> -						    plat_data->fw_filename_prefix,
+> +						    "sof-%s-code.bin",
+>   						    chip->name);
+>   		if (!adata->fw_code_bin) {
+>   			ret = -ENOMEM;
+> @@ -556,8 +554,7 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+>   		}
 >   
->   const struct dmi_system_id acp_sof_quirk_table[] = {
->   	{
-> -		/* Valve Jupiter device */
-> +		/* Steam Deck OLED device */
-If any changes in SOF drivers, first need to create a PR in SOF github.
->   		.matches = {
->   			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
->   			DMI_MATCH(DMI_PRODUCT_NAME, "Galileo"),
-> -			DMI_MATCH(DMI_PRODUCT_FAMILY, "Sephiroth"),
->   		},
->   		.driver_data = (void *)SECURED_FIRMWARE,
->   	},
+>   		adata->fw_data_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
+> -						    "%s/sof-%s-data.bin",
+> -						    plat_data->fw_filename_prefix,
+> +						    "sof-%s-data.bin",
+>   						    chip->name);
+>   		if (!adata->fw_data_bin) {
+>   			ret = -ENOMEM;
