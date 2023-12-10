@@ -1,133 +1,121 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fOoUm34G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vGCuJq7e";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fOoUm34G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vGCuJq7e"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA29F4
-	for <linux-sound@vger.kernel.org>; Sun, 10 Dec 2023 01:03:58 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m5/pDMDn"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3A3F4;
+	Sun, 10 Dec 2023 01:06:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702199179;
+	bh=uW/rENr9rJ72xW4QLUI1quOIaFyVpEXSWxkAjObZ5ok=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=m5/pDMDnaVWEKRz1OFErA/xo6RQzHdNvSxZXsdF8ztBn5sPo7peugkqXDvArg4HMW
+	 eMREACvT8u0ocepS/u4CtnJsIqW6soMYha0EcueG1cmIxUhxOhzF1rhWKlaYQ3l9J6
+	 hsBGywNkoFHyjVM8hwRn20vhuy5/PUqA/N3DxDeUSXxm3Bc6MX8zTod23+QsDNDJf9
+	 wj0XXZjiSl5sIXDV87oX3kA/GcYk9zF+qOXEzwigLc9eeL72WZtCC86wMaThRh7nzF
+	 efsIHGPA5fgkBoQ1pUIVXOgymDeURskxOtfuxghvCfgHcWECS5e9E8tAXzuXX7crjb
+	 I1ILqmnPSg/2Q==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0BAC4220B8;
-	Sun, 10 Dec 2023 09:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702199037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=os1iGuBTojB72Hkct1nnoua+sHFGgyWEWxG/fW38jVM=;
-	b=fOoUm34Gs+BNDuUlt72TFgfP1Cg2V3XPOcl1jCX1Cy1HyEGupX+fV+KuL40UXv5+F/MYLj
-	K2h+4mBr02JIevzTAlsnZ9AwX57WzQdGQL+Bhv8aZK3EdkiY4sBhjA/GQOOFKsv828ILr4
-	yeYRU77PMpu8P1YUDEeGc2SbY+j+Hos=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702199037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=os1iGuBTojB72Hkct1nnoua+sHFGgyWEWxG/fW38jVM=;
-	b=vGCuJq7e9viSi593q/nDWJU4i1WMAP608dNnNomXx/FrGq0gtffl9oOuEaYSI/3H57CBNH
-	Wyf7Sli2a+HlFTCw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702199037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=os1iGuBTojB72Hkct1nnoua+sHFGgyWEWxG/fW38jVM=;
-	b=fOoUm34Gs+BNDuUlt72TFgfP1Cg2V3XPOcl1jCX1Cy1HyEGupX+fV+KuL40UXv5+F/MYLj
-	K2h+4mBr02JIevzTAlsnZ9AwX57WzQdGQL+Bhv8aZK3EdkiY4sBhjA/GQOOFKsv828ILr4
-	yeYRU77PMpu8P1YUDEeGc2SbY+j+Hos=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702199037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=os1iGuBTojB72Hkct1nnoua+sHFGgyWEWxG/fW38jVM=;
-	b=vGCuJq7e9viSi593q/nDWJU4i1WMAP608dNnNomXx/FrGq0gtffl9oOuEaYSI/3H57CBNH
-	Wyf7Sli2a+HlFTCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFB1C137D2;
-	Sun, 10 Dec 2023 09:03:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dU16MPx+dWVuVAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 10 Dec 2023 09:03:56 +0000
-Date: Sun, 10 Dec 2023 10:03:56 +0100
-Message-ID: <87il565szn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH 0/2] ALSA: hda/hdmi: add force-connect quirks
-In-Reply-To: <20231208132127.2438067-1-kai.vehmanen@linux.intel.com>
-References: <20231208132127.2438067-1-kai.vehmanen@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 27BA1378003D;
+	Sun, 10 Dec 2023 09:06:18 +0000 (UTC)
+Message-ID: <391d2476-8f4a-4670-a248-8d4d9c46ee09@collabora.com>
+Date: Sun, 10 Dec 2023 11:06:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: **************
-X-Spam-Score: 14.24
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fOoUm34G;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vGCuJq7e;
-	dmarc=pass (policy=none) header.from=suse.de;
-	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [-9.12 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_SPF_SOFTFAIL(0.00)[~all:c];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 DMARC_POLICY_ALLOW(0.00)[suse.de,none];
-	 MX_GOOD(-0.01)[];
-	 DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	 NEURAL_HAM_SHORT(-0.04)[-0.192];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.27)[73.98%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 WHITELIST_DMARC(-7.00)[suse.de:D:+];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -9.12
-X-Rspamd-Queue-Id: 0BAC4220B8
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/11] ASoC: amd: acp: Use correct DAI link ID for BT
+ codec
+Content-Language: en-US
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Marian Postevca <posteuca@mutex.one>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+ Mastan Katragadda <Mastan.Katragadda@amd.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sound-open-firmware@alsa-project.org, kernel@collabora.com
+References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-11-cristian.ciocaltea@collabora.com>
+ <8a218987-965b-4228-b1d1-f7c061d553ab@amd.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <8a218987-965b-4228-b1d1-f7c061d553ab@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 08 Dec 2023 14:21:25 +0100,
-Kai Vehmanen wrote:
+On 12/10/23 05:24, Venkata Prasad Potturu wrote:
 > 
-> This series addresses problems seen on a few older Intel based
-> systems as found by the DRM i915 CI and the inject-audio test.
-> 
-> The patches in series have been separately tested on top
-> of drm-tip at:
-> https://patchwork.freedesktop.org/series/127515/
-> https://patchwork.freedesktop.org/series/127305/
-> 
-> Kai Vehmanen (2):
->   ALSA: hda/hdmi: add force-connect quirk for NUC5CPYB
->   ALSA: hda/hdmi: add force-connect quirks for ASUSTeK Z170 variants
+> On 12/10/23 02:23, Cristian Ciocaltea wrote:
+>> Commit 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink
+>> creation for I2S BT instance") added I2S BT support in ACP common
+>> machine driver, but using a wrong BT_BE_ID, i.e. 3 instead of 2:
+>>
+>> [ 7.799659] snd_sof_amd_vangogh 0000:04:00.5: Firmware info: version
+>> 0:0:0-7863d
+>> [ 7.803906] snd_sof_amd_vangogh 0000:04:00.5: Firmware: ABI 3:26:0
+>> Kernel ABI 3:23:0
+>> [ 7.872873] snd_sof_amd_vangogh 0000:04:00.5: Topology: ABI 3:26:0
+>> Kernel ABI 3:23:0
+>> [ 8.508218] sof_mach nau8821-max: ASoC: physical link acp-bt-codec (id
+>> 2) not exist
+>> [ 8.513468] sof_mach nau8821-max: ASoC: topology: could not load
+>> header: -22
+>> [ 8.518853] snd_sof_amd_vangogh 0000:04:00.5: error: tplg component
+>> load failed -22
+>> [ 8.524049] snd_sof_amd_vangogh 0000:04:00.5: error: failed to load
+>> DSP topology -22
+>> [ 8.529230] snd_sof_amd_vangogh 0000:04:00.5: ASoC: error at
+>> snd_soc_component_probe on 0000:04:00.5: -22
+>> [ 8.534465] sof_mach nau8821-max: ASoC: failed to instantiate card -22
+>> [ 8.539820] sof_mach nau8821-max: error -EINVAL: Failed to register
+>> card(sof-nau8821-max)
+>> [ 8.545022] sof_mach: probe of nau8821-max failed with error -22
+>>
+>> Move BT_BE_ID to the correct position in the enum.
+>>
+>> Fixes: 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink
+>> creation for I2S BT instance")
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>   sound/soc/amd/acp/acp-mach.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
+>> index a48546d8d407..0c18ccd29305 100644
+>> --- a/sound/soc/amd/acp/acp-mach.h
+>> +++ b/sound/soc/amd/acp/acp-mach.h
+>> @@ -27,8 +27,8 @@
+>>   enum be_id {
+>>       HEADSET_BE_ID = 0,
+>>       AMP_BE_ID,
+>> -    DMIC_BE_ID,
+>>       BT_BE_ID,
+>> +    DMIC_BE_ID,
+> This will break the other platforms as this same enum used in topology
+> to create dailink.
 
-Applied both patches now.  Thanks.
+If I understand this correctly, there is no consistency across firmware
+regarding the IDs used for DAI link identification.  What would be the
+suggested solution in this case?
 
+Thanks,
+Cristian
 
-Takashi
+>>   };
+>>     enum cpu_endpoints {
