@@ -1,212 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z43b3Xog"
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3970E9
-	for <linux-sound@vger.kernel.org>; Sun, 10 Dec 2023 19:44:23 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bf1e32571so4629665e87.2
-        for <linux-sound@vger.kernel.org>; Sun, 10 Dec 2023 19:44:23 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dJ8X6O8d"
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F0FF1
+	for <linux-sound@vger.kernel.org>; Sun, 10 Dec 2023 20:08:06 -0800 (PST)
+Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-4b2f3539089so2263310e0c.0
+        for <linux-sound@vger.kernel.org>; Sun, 10 Dec 2023 20:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702266262; x=1702871062; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o/vqeWpmuaC2GKHcpPmHJB7dDJL1y38uQQZMJmxyCF0=;
-        b=z43b3XoggtMMluh+vm98LBwUQruY1XMaAJCw7TLfN11qV7fEhF5OMWWeCKugDQM3DJ
-         6b3so7YsKa5e70GpwANnLC6dzwNm3ZlLL6ZOxMM7CyHnke6w4qJw/qnEKRv0IEqCWy+2
-         t/luV7VptNzRulzdqiwt7jRPAJvkfYjvWEmeOuF7Cm0ifg43cpYhOqr0LgSW9gtW5fj5
-         IOPk+otd7orMmVcQUftPXmPzAe4G9+bCc6GOxfSBcMC3X+Ox+Mq8dIn0FTFaVm0S6OUu
-         JLozc3Ij6QsMND5ypBrvy6J79U3RyLfBfHVQR+W/mVeXWm6iiWC4WYs41dOjaQfmqnwI
-         5oIQ==
+        d=chromium.org; s=google; t=1702267686; x=1702872486; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jTd+fEPmXY/+K0C4daC2dwAWjvpJ1oG4S1yMkL+8DtM=;
+        b=dJ8X6O8dpLorrx//wqjQ+Ms6rKTkaLJmF4o6r3ZdAlU4nkD4jCPpWjJTGiaURDeF2L
+         qq76XwCmHTEwg195XWu2AS5twiJajcwxT9RLfW5p2l4uTiI6V7/ung1H+w+kWWOmS7wa
+         clAXRdDCOORbtXuyi8XqAbGx96KZhgsJigNCo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702266262; x=1702871062;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/vqeWpmuaC2GKHcpPmHJB7dDJL1y38uQQZMJmxyCF0=;
-        b=rhCxgFQjKCzIi5dp+wzGsnrbjL4j/lMi5X4HM0qqoyzUWegQMIEwkpJNicTb+HEGGX
-         +5G1Idu84OEU6a4pjqsuEkZ6JBwqjiVr4vauyaf6PGagtE3J7VDnmKCmmGFIIh7rTLOE
-         ZOdRiUIH61KFb41Z93LKM5uuJBD7KbKV1bo+jmV0GFrh2B/t2pe6x3+ttFqQJWCWYa/K
-         dr2iVdLICEyf/BolHZIyJaBJwUwyGQN1KfIYFnyub8bfMO5taLM634UC1BmyTL6uJCht
-         pOic10GIXcPDt5Izgqzr7S3Hu09dA+0WFotwkH5afPtsEZd8cGFtd77yAh5l3ERjfGkY
-         GMkQ==
-X-Gm-Message-State: AOJu0Yx4j+MiGHjzBttbiSJDYSRw+3P/d+w6w462I4B8kHhek/ce1pEy
-	8u4kf8sCpnZbBzrPaQBfPxeG/Q==
-X-Google-Smtp-Source: AGHT+IF5PtBpY6xhcdNz9G3vVrurxD3qF8aQpcfrWHvhTTpJjLx5LRR48o/Ym5kxD82928DzeICIlg==
-X-Received: by 2002:ac2:562c:0:b0:50b:fd06:1c8a with SMTP id b12-20020ac2562c000000b0050bfd061c8amr1341405lff.26.1702266261661;
-        Sun, 10 Dec 2023 19:44:21 -0800 (PST)
-Received: from [192.168.2.107] ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id w2-20020a50d782000000b0054cceab1940sm3269357edi.29.2023.12.10.19.44.19
+        d=1e100.net; s=20230601; t=1702267686; x=1702872486;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jTd+fEPmXY/+K0C4daC2dwAWjvpJ1oG4S1yMkL+8DtM=;
+        b=E2tIgG2pmpsveGstZfLdX72moMxfC9gB3bcyPrQrjSJSQjmJ2OhgRarvxmlA7DQc8V
+         RS4rZRGIrzWbgfSSQaXIguprqR49QgySCEp1cFQG5ecBBZCkA7nUgUrDvIaPytcGHlk0
+         WZseWmv0YDbl/5MFBcyKT5ugsMyB63MO6xbXyyqQ9/ml/qlv0ZzQH3z7+TpX3PSQ1oXX
+         l7HjGIGSymJQJ7WkxdGGBlTGqqRkcstfpZtkAv8FBCo5+vDB6vS1lqfDRVwmPEdSxT44
+         6VZzXAXlPW4B+Cf9g+xs8m5CgaJ4yyEtF5Hn3M2Dp3BH4AVX0YsHzoc3HtYqwdIF2AiE
+         IHdw==
+X-Gm-Message-State: AOJu0Yw+DLyjtiVMW8L7lyBlrsqDFradZgUq4jdlTIF5vi+hSLyC71lN
+	r3Sldu1xXbnhtTTWIx1VRVTe2m5i11eZHjjbaps=
+X-Google-Smtp-Source: AGHT+IGixobaPd1ab7a32FCbZ7sRE+qJiAMYwJ8yk4clE97bqbacYLgoC33+y3N0AOdMIQFlc3ylCQ==
+X-Received: by 2002:a05:6122:4485:b0:49a:a6c8:c815 with SMTP id cz5-20020a056122448500b0049aa6c8c815mr2902996vkb.6.1702267685751;
+        Sun, 10 Dec 2023 20:08:05 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id cz18-20020a056122449200b004b2daa800easm769475vkb.54.2023.12.10.20.08.05
+        for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Dec 2023 19:44:20 -0800 (PST)
-Message-ID: <2cadfffa-00bf-4e6a-bfce-9cc654b042a1@linaro.org>
-Date: Mon, 11 Dec 2023 03:44:18 +0000
+        Sun, 10 Dec 2023 20:08:05 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-7c5634d3189so2287691241.0
+        for <linux-sound@vger.kernel.org>; Sun, 10 Dec 2023 20:08:05 -0800 (PST)
+X-Received: by 2002:a05:6102:5114:b0:464:3f78:3cbe with SMTP id
+ bm20-20020a056102511400b004643f783cbemr2701028vsb.4.1702267684761; Sun, 10
+ Dec 2023 20:08:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Content-Language: en-US
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>,
- "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
- "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michael@walle.cc" <michael@walle.cc>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
- <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
- <9f577482-30d9-4e1d-9469-812d323b18c6@linaro.org>
- <BN7PR12MB2802C8279CA95FA08F8DDCF2DC8AA@BN7PR12MB2802.namprd12.prod.outlook.com>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <BN7PR12MB2802C8279CA95FA08F8DDCF2DC8AA@BN7PR12MB2802.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
+In-Reply-To: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
+From: Fei Shao <fshao@chromium.org>
+Date: Mon, 11 Dec 2023 12:07:27 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nh6twyqoSgeEXDsW=+FZRUxMN=Pkrw45KFq-z5XaGpFtw@mail.gmail.com>
+Message-ID: <CAC=S1nh6twyqoSgeEXDsW=+FZRUxMN=Pkrw45KFq-z5XaGpFtw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt7986: silence error in case of -EPROBE_DEFER
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Maso Huang <maso.huang@mediatek.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Daniel,
 
+On Mon, Dec 11, 2023 at 9:33=E2=80=AFAM Daniel Golle <daniel@makrotopia.org=
+> wrote:
+>
+> If probe is defered no error should be printed. Mute it.
+>
+> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> ---
+>  sound/soc/mediatek/mt7986/mt7986-wm8960.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/mediatek/mt7986/mt7986-wm8960.c b/sound/soc/mediat=
+ek/mt7986/mt7986-wm8960.c
+> index c1390b3734101..24a4b943030d7 100644
+> --- a/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+> +++ b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+> @@ -144,7 +144,9 @@ static int mt7986_wm8960_machine_probe(struct platfor=
+m_device *pdev)
+>
+>         ret =3D devm_snd_soc_register_card(&pdev->dev, card);
+>         if (ret) {
+> -               dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n"=
+, __func__, ret);
+> +               if (ret !=3D -EPROBE_DEFER)
+> +                       dev_err(&pdev->dev, "%s snd_soc_register_card fai=
+l: %d\n", __func__, ret);
+> +
+Please consider using dev_err_probe() instead.
 
-On 12/8/23 17:06, Mahapatra, Amit Kumar wrote:
-> Hello Tudor,
+Regards,
+Fei
 
-Hi!
+>                 goto err_of_node_put;
+>         }
 
-> 
->> -----Original Message-----
->> From: Tudor Ambarus <tudor.ambarus@linaro.org>
->> Sent: Wednesday, December 6, 2023 8:14 PM
->> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>;
->> broonie@kernel.org; pratyush@kernel.org; miquel.raynal@bootlin.com;
->> richard@nod.at; vigneshr@ti.com; sbinding@opensource.cirrus.com;
->> lee@kernel.org; james.schulman@cirrus.com; david.rhodes@cirrus.com;
->> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com
->> Cc: linux-spi@vger.kernel.org; linux-kernel@vger.kernel.org;
->> michael@walle.cc; linux-mtd@lists.infradead.org;
->> nicolas.ferre@microchip.com; alexandre.belloni@bootlin.com;
->> claudiu.beznea@tuxon.dev; Simek, Michal <michal.simek@amd.com>; linux-
->> arm-kernel@lists.infradead.org; alsa-devel@alsa-project.org;
->> patches@opensource.cirrus.com; linux-sound@vger.kernel.org; git (AMD-
->> Xilinx) <git@amd.com>; amitrkcian2002@gmail.com
->> Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support
->> in spi-nor
->>
->>
->>
->> On 12/6/23 14:30, Tudor Ambarus wrote:
->>> Hi, Amit,
->>>
->>> On 11/25/23 09:21, Amit Kumar Mahapatra wrote:
->>>> Each flash that is connected in stacked mode should have a separate
->>>> parameter structure. So, the flash parameter member(*params) of the
->>>> spi_nor structure is changed to an array (*params[2]). The array is
->>>> used to store the parameters of each flash connected in stacked
->> configuration.
->>>>
->>>> The current implementation assumes that a maximum of two flashes are
->>>> connected in stacked mode and both the flashes are of same make but
->>>> can differ in sizes. So, except the sizes all other flash parameters
->>>> of both the flashes are identical.
->>>
->>> Do you plan to add support for different flashes in stacked mode? If
->>> not, wouldn't it be simpler to have just an array of flash sizes
->>> instead of duplicating the entire params struct?
->>>
->>>>
->>>> SPI-NOR is not aware of the chip_select values, for any incoming
->>>> request SPI-NOR will decide the flash index with the help of
->>>> individual flash size and the configuration type (single/stacked).
->>>> SPI-NOR will pass on the flash index information to the SPI core &
->>>> SPI driver by setting the appropriate bit in
->>>> nor->spimem->spi->cs_index_mask. For example, if nth bit of
->>>> nor->spimem->spi->cs_index_mask is set then the driver would
->>>> assert/de-assert spi->chip_slect[n].
->>>>
->>>> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-
->> mahapatra@amd.com>
->>>> ---
->>>>  drivers/mtd/spi-nor/core.c  | 272 +++++++++++++++++++++++++++++-------
->>>>  drivers/mtd/spi-nor/core.h  |   4 +
->>>>  include/linux/mtd/spi-nor.h |  15 +-
->>>>  3 files changed, 240 insertions(+), 51 deletions(-)
->>>>
->>>> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
->>>> index 93ae69b7ff83..e990be7c7eb6 100644
->>>> --- a/drivers/mtd/spi-nor/core.c
->>>> +++ b/drivers/mtd/spi-nor/core.c
->>>
->>> cut
->>>
->>>> @@ -2905,7 +3007,10 @@ static void spi_nor_init_fixup_flags(struct
->>>> spi_nor *nor)  static int spi_nor_late_init_params(struct spi_nor
->>>> *nor)  {
->>>>  	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor,
->> 0);
->>>> -	int ret;
->>>> +	struct device_node *np = spi_nor_get_flash_node(nor);
->>>> +	u64 flash_size[SNOR_FLASH_CNT_MAX];
->>>> +	u32 idx = 0;
->>>> +	int rc, ret;
->>>>
->>>>  	if (nor->manufacturer && nor->manufacturer->fixups &&
->>>>  	    nor->manufacturer->fixups->late_init) { @@ -2937,6 +3042,44 @@
->>>> static int spi_nor_late_init_params(struct spi_nor *nor)
->>>>  	if (params->n_banks > 1)
->>>>  		params->bank_size = div64_u64(params->size, params-
->>> n_banks);
->>>>
->>>> +	nor->num_flash = 0;
->>>> +
->>>> +	/*
->>>> +	 * The flashes that are connected in stacked mode should be of same
->> make.
->>>> +	 * Except the flash size all other properties are identical for all the
->>>> +	 * flashes connected in stacked mode.
->>>> +	 * The flashes that are connected in parallel mode should be identical.
->>>> +	 */
->>>> +	while (idx < SNOR_FLASH_CNT_MAX) {
->>>> +		rc = of_property_read_u64_index(np, "stacked-memories",
->> idx,
->>>> +&flash_size[idx]);
->>
->> also, it's not clear to me why you read this property multiple times.
->> Have you sent a device tree patch somewhere? It will help me understand
->> what you're trying to achieve.
-> 
-> Miquel submitted the device tree patch; here is the series.
-> https://lore.kernel.org/all/20220126112608.955728-1-miquel.raynal@bootlin.com/
-> 
-
-oh, yes, I remember seeing this on the ml, but I couldn't allocate time
-to review it. Looking at:
-https://lore.kernel.org/all/20220126112608.955728-4-miquel.raynal@bootlin.com/
-
-Flash size is not necessary for SPI NORs, as it can be discovered via
-SFDP. And spi-max-frequency should have been specified for all flashes,
-as I expect it can differ. At least so that the controller chooses the
-minimum frequency from all the max (if it can't operate the stacks at
-different frequencies).
-
-Cheers,
-ta
+>
+> --
+> 2.43.0
+>
+>
