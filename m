@@ -1,85 +1,289 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69294E1D6;
-	Mon, 11 Dec 2023 17:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cv1+xrqX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CFCC433C7;
-	Mon, 11 Dec 2023 17:36:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702316193;
-	bh=Ako3lvIvEUfiqGQJq4GqRqTsaTMhVesj9bhTZOv+avA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cv1+xrqXoHFbWdUJLTpczJTYJa5136QAg8p6zLoBASeDwSQPJEGvfqHhPkQJxwAsj
-	 6BZCcIbYNQq+GeQVeC8BWl3x+b2c9DBWhroFbuc6z8B2F0+aZMJWp54PixQoKCDFGt
-	 jgJdPnLwggbppAuLR4+FzYF9wW5JVFrPbAxWtF6SUCOydC3D6/h+geJ6K7D5WKIPm3
-	 8UACbWFhw/YQlJ8eO9XeJko/Mdo0d5j6xeTtN+y0fKPEJpwirXmqHAawBrRHO5df/v
-	 GLcstuYk1daow0GukEskHUbPRdWxB8LF0oILCP8MCoOGBqY2KwnKRFO1RujcWxhzxg
-	 6wCX045ThnJsw==
-Date: Mon, 11 Dec 2023 17:36:26 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100
- LPASS RX
-Message-ID: <a210dd57-a22f-41ab-8e3b-93fa1fd03a0c@sirena.org.uk>
-References: <20231211123104.72963-1-krzysztof.kozlowski@linaro.org>
- <20231211-cardstock-elevator-3e19f9d41ac2@spud>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dhDVlUW1"
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78877B8
+	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 10:18:39 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40c4846847eso11448045e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 10:18:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702318718; x=1702923518; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8thYOlqJrQn5jZopD7cqWotGI4PXXg/iBgbJKax2sYY=;
+        b=dhDVlUW16eTncYKfQ0GyumZ1IcVXOn3Br/7YgiKQdWBiBNwjIRZqcaI0iwKpvW5LEw
+         hvapNTZrZsEloJ1Q+yzeZW1uUe7s6FsKF6vX7ylFKQapQhAaYFJPe2KFXycK9u2dB0+3
+         Wl0cY9iuw1yqsrBLyE31NAdy2mbYRhea10xCJSGuekOTaBmNwr6CC5j/KOMtm3MvzEHB
+         cgH2aLpAgteRsJqsd+L2wAfmjKcTtYmQeSw9WZvmea5MHIaaC3NZ4/ayrRugXAe+Oqqz
+         +GXUhqbhLAHqbed1PzxS0mhxwjvxLen18BWczqO8IGHtMBl5rZw7nFhdOX9AuAyz9M1d
+         +7VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702318718; x=1702923518;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8thYOlqJrQn5jZopD7cqWotGI4PXXg/iBgbJKax2sYY=;
+        b=ERM3+/jeVuU6HcPdThRpSy1IBGXwnTvgehHZ4nJ2sFnrLOKE/LE4SXRMqc7OYXK+Rt
+         MuXnpbqoxu5VY3BTtgmAiohIh1yCjIInKis8Ys3BiNiWHXThMBuAICd6DnT22vxC5MGh
+         TyKlRnm6YYDJ1F47svjf9QpnMR//jnPO+gJGgtZf4UXqXHHTF/kA2sfLOUbtVjTeMXp+
+         8jPkm1ylX794MlFY7As17V9k/QOcdI0Ctv9oLAUOxWOntCFkVs5QxZd4LnqERjK8P0ed
+         ShoOiYcKka1vCUIOcZdxvMSum0kq++eqeHTC8CBNmZM5/spO4mMfS5FBID3mLHaFpGUL
+         9erg==
+X-Gm-Message-State: AOJu0YzBcAP9AhlTHi9rCD83BcIFXqHT6V7XdJDvLGf6OiZBLGrOVpQY
+	mDLX3MpTSePeiH3Zm4am6SEv6w==
+X-Google-Smtp-Source: AGHT+IHQys2ROL69+n2m3sKvTCeLuPfynm3RTxSyxKmW/m2g+YoxnHaaUdNqd8mK4RIukfYejVyC4A==
+X-Received: by 2002:a05:600c:41c1:b0:40c:34b7:b849 with SMTP id t1-20020a05600c41c100b0040c34b7b849mr2809673wmh.118.1702318717888;
+        Mon, 11 Dec 2023 10:18:37 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id lm11-20020a17090718cb00b00a1db76f99c8sm5223849ejc.93.2023.12.11.10.18.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 10:18:37 -0800 (PST)
+Message-ID: <2641a7c9-19ab-4895-ba3e-89306f9dfe2b@linaro.org>
+Date: Mon, 11 Dec 2023 18:18:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n42/ISRIigQDPDMF"
-Content-Disposition: inline
-In-Reply-To: <20231211-cardstock-elevator-3e19f9d41ac2@spud>
-X-Cookie: Better dead than mellow.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] ASoC: qcom: q6afe: provide fallback for digital
+ codec clock
+Content-Language: en-US
+To: Stephan Gerhold <stephan@gerhold.net>
+Cc: =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
+ linux-arm-msm@vger.kernel.org, Banajit Goswami <bgoswami@quicinc.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ linux-sound@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20231029165716.69878-1-otto.pflueger@abscue.de>
+ <20231029165716.69878-3-otto.pflueger@abscue.de>
+ <d8ef8fe6-2856-40fc-a95e-5bf68c0f1a8b@linaro.org>
+ <ZW2rQ-SsER-HPlF5@gerhold.net>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <ZW2rQ-SsER-HPlF5@gerhold.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi Stephan,
+
+On 04/12/2023 10:34, Stephan Gerhold wrote:
+> Hi Srini,
+> 
+> On Fri, Nov 17, 2023 at 01:26:43PM +0000, Srinivas Kandagatla wrote:
+>> On 29/10/2023 16:57, Otto Pflüger wrote:
+>>> When q6afe is used as a clock provider through q6afe-clocks.c, it uses
+>>> an interface for setting clocks that is not present in older firmware
+>>> versions. However, using Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
+>>> as the codec MCLK in the device tree can be useful on older platforms
+>>> too. Provide a fallback that sets this clock using the old method when
+>>> an old firmware version is detected.
+>>>
+>>> MSM8916 did not need this because of a workaround that controls this
+>>> clock directly through the GCC driver, but newer SoCs do not have this
+>>> clock in their GCC drivers because it is meant to be controlled by the
+>>> DSP.
+>>>
+>>> Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
+>>> ---
+>>>    sound/soc/qcom/qdsp6/q6afe.c | 26 ++++++++++++++++++++++++++
+>>>    1 file changed, 26 insertions(+)
+>>>
+>>> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+>>> index 91d39f6ad0bd..f14d3b366aa4 100644
+>>> --- a/sound/soc/qcom/qdsp6/q6afe.c
+>>> +++ b/sound/soc/qcom/qdsp6/q6afe.c
+>>> @@ -1111,6 +1111,32 @@ int q6afe_set_lpass_clock(struct device *dev, int clk_id, int attri,
+>>>    	struct q6afe *afe = dev_get_drvdata(dev->parent);
+>>>    	struct afe_clk_set cset = {0,};
+>>> +	/*
+>>> +	 * v2 clocks specified in the device tree may not be supported by the
+>>> +	 * firmware. If this is the digital codec core clock, fall back to the
+>>> +	 * old method for setting it.
+>>> +	 */
+>>> +	if (q6core_get_adsp_version() < Q6_ADSP_VERSION_2_7) {
+>>> +		struct q6afe_port *port;
+>>> +		struct afe_digital_clk_cfg dcfg = {0,};
+>>> +		int ret;
+>>> +
+>>> +		if (clk_id != Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE)
+>>> +			return -EINVAL;
+>>> +
+>>> +		port = q6afe_port_get_from_id(dev, PRIMARY_MI2S_RX);
+>>> +		if (IS_ERR(port))
+>>> +			return PTR_ERR(port);
+>>> +
+>>> +		dcfg.i2s_cfg_minor_version = AFE_API_VERSION_I2S_CONFIG;
+>>> +		dcfg.clk_val = freq;
+>>> +		dcfg.clk_root = 5;
+>>> +		ret = q6afe_set_digital_codec_core_clock(port, &dcfg);
+>>> +
+>>> +		q6afe_port_put(port);
+>>
+>> This redirection of clks looks totally confusing and hacky.
+>> Why can not we do this from machine driver based something like this:
+>>
+>> if (q6core_get_adsp_version() < Q6_ADSP_VERSION_2_7)
+>> 	ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_DIG_CLK, freq, 0);
+>>
+> 
+> Unfortunately this doesn't work for the digital codec clock. This clock
+> is consumed and dynamically controlled by the msm8916-wcd-digital driver
+> via the clk subsystem, not via ASoC sysclks.
+
+Thankyou for explaining this, I see the issue, older firmware versions 
+do not support setting internal digital codec core clock via 
+AFE_PARAM_ID_CLOCK_SET.
+
+we could do a better job here to allow NULL port arguments to 
+q6afe_port_set_param_v2 and make this look much better.
+
+Could you also add asoc mailing list in CC, I somehow missed these emails.
 
 
---n42/ISRIigQDPDMF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+something like this should be much cleaner:
 
-On Mon, Dec 11, 2023 at 05:29:50PM +0000, Conor Dooley wrote:
-> On Mon, Dec 11, 2023 at 01:31:01PM +0100, Krzysztof Kozlowski wrote:
-> > Add bindings for Qualcomm X1E80100 SoC Low Power Audio SubSystem (LPASS)
-> > RX macro codec, which looks like compatible with earlier SM8550.
+--------------------------------------->cut<----------------------------------
 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+index 91d39f6ad0bd..8dec2c6c7bba 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.c
++++ b/sound/soc/qcom/qdsp6/q6afe.c
+@@ -1031,14 +1031,13 @@ static int q6afe_port_set_param(struct 
+q6afe_port *port, void *data,
+                                psize, port->token);
+  }
 
-> I wish you'd send cover letters when you send series of trivial patches
-> like this that could be acked in one go.
+-static int q6afe_port_set_param_v2(struct q6afe_port *port, void *data,
++static int q6afe_port_set_param_v2(struct q6afe *afe, struct q6afe_port 
+*port, void *data,
+                                    int param_id, int module_id, int psize)
+  {
+         struct afe_port_cmd_set_param_v2 *param;
+         struct afe_port_param_data_v2 *pdata;
+-       struct q6afe *afe = port->afe;
+         struct apr_pkt *pkt;
+-       u16 port_id = port->id;
++       u16 port_id = port ? port->id : 0;
+         int ret, pkt_size;
+         void *p, *pl;
 
-In general any patch series should have at least a brief cover letter,
-it makes everything work much better.
+@@ -1059,7 +1058,7 @@ static int q6afe_port_set_param_v2(struct 
+q6afe_port *port, void *data,
+         pkt->hdr.pkt_size = pkt_size;
+         pkt->hdr.src_port = 0;
+         pkt->hdr.dest_port = 0;
+-       pkt->hdr.token = port->token;
++       pkt->hdr.token = port ? port->token : 0;
+         pkt->hdr.opcode = AFE_PORT_CMD_SET_PARAM_V2;
 
---n42/ISRIigQDPDMF
-Content-Type: application/pgp-signature; name="signature.asc"
+         param->port_id = port_id;
+@@ -1083,7 +1082,7 @@ static int q6afe_port_set_param_v2(struct 
+q6afe_port *port, void *data,
+  static int q6afe_port_set_lpass_clock(struct q6afe_port *port,
+                                  struct afe_clk_cfg *cfg)
+  {
+-       return q6afe_port_set_param_v2(port, cfg,
++       return q6afe_port_set_param_v2(port->afe, port, cfg,
+                                        AFE_PARAM_ID_LPAIF_CLK_CONFIG,
+                                        AFE_MODULE_AUDIO_DEV_INTERFACE,
+                                        sizeof(*cfg));
+@@ -1099,7 +1098,7 @@ static int q6afe_set_lpass_clock_v2(struct 
+q6afe_port *port,
+  static int q6afe_set_digital_codec_core_clock(struct q6afe_port *port,
+                                               struct 
+afe_digital_clk_cfg *cfg)
+  {
+-       return q6afe_port_set_param_v2(port, cfg,
++       return q6afe_port_set_param_v2(port->afe, port, cfg,
+ 
+AFE_PARAM_ID_INT_DIGITAL_CDC_CLK_CONFIG,
+                                        AFE_MODULE_AUDIO_DEV_INTERFACE,
+                                        sizeof(*cfg));
+@@ -1117,6 +1116,22 @@ int q6afe_set_lpass_clock(struct device *dev, int 
+clk_id, int attri,
+         cset.clk_attri = attri;
+         cset.clk_root = clk_root;
+         cset.enable = !!freq;
++       if (q6core_geti_adsp_version() < Q6_ADSP_VERSION_2_7) {
++               struct afe_digital_clk_cfg dcfg = {0,};
++
++               switch (clk_id) {
++               /* DSP firmware versions below 2.7 do not support 
+configuring internal
++                * digital codec core clk using AFE_PARAM_ID_CLOCK_SET */
++               case: Q6AFE_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE:
++                       dcfg.i2s_cfg_minor_version = 
+AFE_API_VERSION_I2S_CONFIG;
++                       dcfg.clk_val = freq;
++                       dcfg.clk_root = 5;
++                       return q6afe_set_digital_codec_core_clock(port, 
+&dcfg);
++
++               default:
++                     break;
++               }
++       }
 
------BEGIN PGP SIGNATURE-----
+         return q6afe_set_param(afe, NULL, &cset, AFE_PARAM_ID_CLOCK_SET,
+                                AFE_MODULE_CLOCK_SET, sizeof(cset),
+@@ -1493,7 +1508,7 @@ int q6afe_port_start(struct q6afe_port *port)
+         int pkt_size;
+         void *p;
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV3SJkACgkQJNaLcl1U
-h9DAmwf9FAyBzWGolz41aTQV/iYxTZfK4ZqEsyyThB9fYsQrPLVGYOw5PHpUTeul
-0d88h6YldHkaT+pffLxlmSlq0D8H2XmOSsSjKE0/8RCLSZL4V5MgOksiQzQxsBUV
-Sbrz2hfDZqYhg5bis2VHpjwrfdXjY7lrpOtGwomGqaecaAm7swTu3tyL7Eh23dBF
-w4MpjYr20bJnbt7qwi32NxvzETYnVm0JFaX1biUkJtHowZpi55Z+9XydwmRWlvJZ
-w6G3K+++zd8Wo+ViR1pYaHWOxlvLB0RXP0kEZtIiCeNAiaSOlIDcGMVwkyVGcPfF
-FBb4ujCnVVxe6GlilQfyEDfJThkmJA==
-=8Yu8
------END PGP SIGNATURE-----
+-       ret  = q6afe_port_set_param_v2(port, &port->port_cfg, param_id,
++       ret  = q6afe_port_set_param_v2(afe, port, &port->port_cfg, param_id,
+                                        AFE_MODULE_AUDIO_DEV_INTERFACE,
+                                        sizeof(port->port_cfg));
+         if (ret) {
+@@ -1503,7 +1518,7 @@ int q6afe_port_start(struct q6afe_port *port)
+         }
 
---n42/ISRIigQDPDMF--
+         if (port->scfg) {
+-               ret  = q6afe_port_set_param_v2(port, port->scfg,
++               ret  = q6afe_port_set_param_v2(afe, port, port->scfg,
+ 
+AFE_PARAM_ID_PORT_SLOT_MAPPING_CONFIG,
+                                         AFE_MODULE_TDM, 
+sizeof(*port->scfg));
+                 if (ret) {
+
+--------------------------------------->cut<----------------------------------
+
+Thanks,
+Srini
+
+> 
+> Using q6afe-clocks a typical setup in the DT would look like:
+> 
+> 	lpass_codec: audio-codec@771c000 {
+> 		compatible = "qcom,msm8916-wcd-digital-codec";
+> 		reg = <0x0771c000 0x400>;
+> 		clocks = <&xo_board>,
+> 			 <&q6afecc LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
+> 				   LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+> 		clock-names = "ahbix-clk", "mclk";
+> 		#sound-dai-cells = <1>;
+> 	};
+> 
+> However, this works only for newer firmware versions (>= 2.7), not for
+> older firmware versions controlling this clock via LPAIF_DIG_CLK.
+> 
+> We need a way to describe this independent from the firmware version in
+> the DT, since there are SoCs such as MSM8909 where both firmware
+> versions have been used (perhaps even on the same device depending on
+> which firmware version you have installed).
+> 
+> Any solution involving the machine driver will inevitably end up in a
+> "chicken-and-egg" problem: The machine driver needs the codec drivers to
+> probe successfully, but the msm8916-wcd-digital driver first needs the
+> digital codec clock (mclk) to probe successfully.
+> 
+> I agree that these kind of checks in the qdsp6 code are a bit hacky, but
+> in my opinion it's still far better than exposing this firmware
+> detection problem to the device tree.
+> 
+> Do you see any other straightforward way to solve this for the digital
+> codec clock consumed by msm8916-wcd-digital?
+> 
+> Thanks,
+> Stephan
