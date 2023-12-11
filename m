@@ -1,42 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46054776B;
-	Mon, 11 Dec 2023 13:55:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094434776B;
+	Mon, 11 Dec 2023 13:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHbGwbW+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBED4C433C7;
-	Mon, 11 Dec 2023 13:55:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHjIp3jj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F882C4339A;
+	Mon, 11 Dec 2023 13:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702302938;
-	bh=nYxR4vWh+O5VayCadz9yXoEhWfvMNjF5E4OSsSI1OBc=;
+	s=k20201202; t=1702302950;
+	bh=SDuU0kpFLYtMJnu0b+/unfEAUC1cuLfY0F8bL8OneLc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tHbGwbW+wO/tmGpOeV3jMtWjiK2kCYHsm+jZfUTF2/IxSXh8OsOMhU+Blm18jjQLt
-	 smLydXq4Ie7EpppGqZKf17CudVE+Cfknw2MDSbMMCfYxEHukzkkYlHBCNyI264eDh7
-	 3c+uOTTWvYEmZupajqh8a+epVAlz1uvB2xx+MCHeHxin+6tdZL9exzpgsG6foBoeYp
-	 GKu6jybH49+no5xNkz2effES+jr/rjMHZNmY0gwahF3g4987TUTW84mx6u0xhL2Tfj
-	 xxREmc9I9jyn6N4TtgIRIQhupgNuxcZJqFbCXWzkXIzJJ9XsFU+xIpd54Zd8vCyH82
-	 j70dccCyJc4QQ==
+	b=MHjIp3jje7w91DvC5v6X0V8Tbyo9rh03bm0zu95CJTZj/gsKhy6bC36KAZMSZTUaw
+	 DAVjTBRRhjeed2MIOBTJeU7J3CpQaGzSQIUZIWcmr2VvA5L/LBkPO28OhJA1e/cxVP
+	 PMTL7yMzZZY3QTLFZL8b6YMF0pY0UBs5aoMi+Jx60Bc3G/EWM+ZZAaJJ6aWgZ//kCX
+	 34825r9MQQnl5rTbEkWVxmhDxBmQCcSE2FZjs7CRPwLShnmg3BaZdSFrLsPDVw5qQ2
+	 OqTYqilJFyxauup5K9ZJgl3808DpvJZWVMTtFvagejuCzpHk5aHuFsTnVdVXykmkva
+	 v15RS7bTMFkTA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+Cc: Jeremy Soller <jeremy@system76.com>,
+	Tim Crawford <tcrawford@system76.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kuninori.morimoto.gx@renesas.com,
-	alsa-devel@alsa-project.org,
+	mario.limonciello@amd.com,
+	Syed.SabaKareem@amd.com,
+	git@augustwikerfors.se,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 12/29] ASoC: Intel: skl_hda_dsp_generic: Drop HDMI routes when HDMI is not available
-Date: Mon, 11 Dec 2023 08:53:56 -0500
-Message-ID: <20231211135457.381397-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 14/29] ASoC: amd: yc: Add DMI entry to support System76 Pangolin 13
+Date: Mon, 11 Dec 2023 08:53:58 -0500
+Message-ID: <20231211135457.381397-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231211135457.381397-1-sashal@kernel.org>
 References: <20231211135457.381397-1-sashal@kernel.org>
@@ -51,41 +48,39 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.66
 Content-Transfer-Encoding: 8bit
 
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+From: Jeremy Soller <jeremy@system76.com>
 
-[ Upstream commit 3d1dc8b1030df8ca0fdfd4905c88ee10db943bf8 ]
+[ Upstream commit 19650c0f402f53abe48a55a1c49c8ed9576a088c ]
 
-When the HDMI is not present due to disabled display support
-we will use dummy codec and the HDMI routes will refer to non existent
-DAPM widgets.
+Add pang13 quirk to enable the internal microphone.
 
-Trim the route list from the HDMI routes to be able to probe the card even
-if the HDMI dais are not registered.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://lore.kernel.org/r/20231124124015.15878-1-peter.ujfalusi@linux.intel.com
+Signed-off-by: Jeremy Soller <jeremy@system76.com>
+Signed-off-by: Tim Crawford <tcrawford@system76.com>
+Link: https://lore.kernel.org/r/20231127184237.32077-2-tcrawford@system76.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/skl_hda_dsp_generic.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/intel/boards/skl_hda_dsp_generic.c b/sound/soc/intel/boards/skl_hda_dsp_generic.c
-index 879ebba528322..463ffb85121d3 100644
---- a/sound/soc/intel/boards/skl_hda_dsp_generic.c
-+++ b/sound/soc/intel/boards/skl_hda_dsp_generic.c
-@@ -157,6 +157,8 @@ static int skl_hda_fill_card_info(struct snd_soc_acpi_mach_params *mach_params)
- 		card->dapm_widgets = skl_hda_widgets;
- 		card->num_dapm_widgets = ARRAY_SIZE(skl_hda_widgets);
- 		if (!ctx->idisp_codec) {
-+			card->dapm_routes = &skl_hda_map[IDISP_ROUTE_COUNT];
-+			num_route -= IDISP_ROUTE_COUNT;
- 			for (i = 0; i < IDISP_DAI_COUNT; i++) {
- 				skl_hda_be_dai_links[i].codecs = dummy_codec;
- 				skl_hda_be_dai_links[i].num_codecs =
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index c494de5f5c066..ff7551f318346 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -346,6 +346,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_VERSION, "pang12"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "System76"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "pang13"),
++		}
++	},
+ 	{}
+ };
+ 
 -- 
 2.42.0
 
