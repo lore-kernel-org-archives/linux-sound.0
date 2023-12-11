@@ -1,53 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="4jY5LX4h"
-X-Greylist: delayed 398 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Dec 2023 05:38:31 PST
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FED4DB;
-	Mon, 11 Dec 2023 05:38:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702301512;
-	bh=ZbhJvDZ4J8DSoVnmT01KLlPScbl5+K/exJcCzkD1IaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=4jY5LX4hwFqHL541gjzRwtzNMDErKcqccncYrm7AFa2820Byy0P9gIDznieXsETdv
-	 aoVxhkQPSPO4vYE8KfiV3R2tnM4CP44ZBqfDA1Mc9pt6TMfqTn43t3o1CTueP2stAW
-	 eXwz1ArrLRZlnVNCN/Q7yyFwtIE/x3ukOzZBQQL0gQODew+R1RP7Z04/PlqmPpLzvq
-	 ndEFRof85Am05NuNm7usF+i7ppQb9qCppG50A9tHuu0dr554ZaFwlHynfPz3jsT+SQ
-	 1gWUdTXDLfT4f2HleESzUFodpbOtEZn1MXh5vG8Kva/mMfUWMLcFMr70EblT2TfYPH
-	 zbsi25b6bUtcw==
-Received: from arch-x395 (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: evelikov)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C92CD378110F;
-	Mon, 11 Dec 2023 13:31:50 +0000 (UTC)
-Date: Mon, 11 Dec 2023 13:31:49 +0000
-From: Emil Velikov <emil.velikov@collabora.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KUfgxD50"
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 108C2FD;
+	Mon, 11 Dec 2023 05:40:19 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6cebcf8a48aso3351739b3a.3;
+        Mon, 11 Dec 2023 05:40:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702302018; x=1702906818; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=inka48OAdcaVBLEbG6N8fA5G+Zz4KQZYKI7zI+nD6dE=;
+        b=KUfgxD50ARUKrWZGYGTPDz2WU6gZuFp9rCS4TjecB9L4lk/Xjecp/43XkkZFkjkk+L
+         7kDrfUXvuInBj/ljVLO3gEj8AibI6lzppR4gVLPFg7jkjDu6q3IZB+COvDalhwPYCC2w
+         vefJnkokQ0IcQWwXM0ZMfoJwehUvvLiZs3ISS3IbpBEIfgHbg4s1qx/rwMA46f+w1NAy
+         Pvmj3eLB/e2ORqohE8um1sHBNE+aRSC0swKNrFbmuMtXNGBr28OiZqU6uOaea5zuw/Xe
+         MsdXyGI8Clk+YAa+itrR/cYWqSBfIJr/A+sfGqEoZIvaarZrEsUewXYjzksj0jmHRztG
+         F2zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702302018; x=1702906818;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=inka48OAdcaVBLEbG6N8fA5G+Zz4KQZYKI7zI+nD6dE=;
+        b=GK1xXjR4pXIt1XvBhs7EV7w+iK+Fc146gafxe5Cn1MV7r42ozonq7Iq5k+BP7e5FOg
+         c4mG5OmSYjff9xFnHdBL9zqp8pD7QHtyVqUpIv/bIaQACr+IvUQp4vGhJjcqNoKxiAH1
+         JOqJ+Ek6jif9TqjbwWH0bXQQNJYJjEydWgoDSyrhCZaElnGaFkW/zLWRSoKIcYWpL/ju
+         XVimqFHkYlxojmXh3dkGlcbY8IDdH3fr0ZffwClaUu4QKLUb0QUbYSaTnjeSLQfSw3mp
+         QyGqqaKlQWWW6hWhc24UrArjAVjc0abcsEnM2+oYaCMgxi1d32NpIbMWaCsdN3/C1z3k
+         ZkFA==
+X-Gm-Message-State: AOJu0YyZP9mndrX8EVPwTaOuB/PwLGeQOMTs8Da7ZhsCcqYoysQ5F8ug
+	BI04PbGOosdCUDJICDwDqsw=
+X-Google-Smtp-Source: AGHT+IG7sPY4ZkHUESIL4EePiYoVswp6ZB+4ipr0qdjWdf1SE25hvrqy1SROE6Upfr4B3DwnutZv9w==
+X-Received: by 2002:a05:6a20:8423:b0:190:93e:f224 with SMTP id c35-20020a056a20842300b00190093ef224mr6328208pzd.76.1702302018197;
+        Mon, 11 Dec 2023 05:40:18 -0800 (PST)
+Received: from Gentoo ([2409:8a6a:5426:70b1:a6fc:77ff:fe50:e63d])
+        by smtp.gmail.com with ESMTPSA id n19-20020aa78a53000000b006ce61c9495bsm6517068pfa.10.2023.12.11.05.40.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 05:40:17 -0800 (PST)
+Date: Mon, 11 Dec 2023 21:40:09 +0800
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Marian Postevca <posteuca@mutex.one>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
-	Mastan Katragadda <Mastan.Katragadda@amd.com>,
-	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sound-open-firmware@alsa-project.org, kernel@collabora.com
-Subject: Re: [PATCH 03/11] ASoC: amd: acp: Add missing error handling in
- sof-mach
-Message-ID: <ZXcPRc8xGKt4euth@arch-x395>
-References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
- <20231209205351.880797-4-cristian.ciocaltea@collabora.com>
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC, PATCH 1/2] ASoC: qcom: sdw: Add TDM support
+Message-ID: <ZXcROf5dIpKbBMhP@Gentoo>
+References: <20231211095357.4629-1-lujianhua000@gmail.com>
+ <01cbe664-f344-45ee-a049-1c27b78ac9a7@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,46 +58,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231209205351.880797-4-cristian.ciocaltea@collabora.com>
+In-Reply-To: <01cbe664-f344-45ee-a049-1c27b78ac9a7@sirena.org.uk>
 
-On 2023/12/09, Cristian Ciocaltea wrote:
-> Handle potential acp_sofdsp_dai_links_create() errors in ACP SOF machine
-> driver's probe function.  Additionally, switch to dev_err_probe().
+On Mon, Dec 11, 2023 at 01:20:25PM +0000, Mark Brown wrote:
+> On Mon, Dec 11, 2023 at 05:53:56PM +0800, Jianhua Lu wrote:
 > 
-> Fixes: 9f84940f5004 ("ASoC: amd: acp: Add SOF audio support on Chrome board")
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  sound/soc/amd/acp/acp-sof-mach.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+> > +	}
+> > +}
+> > +EXPORT_SYMBOL_GPL(qcom_snd_tdm_hw_params);
+> > +
 > 
-> diff --git a/sound/soc/amd/acp/acp-sof-mach.c b/sound/soc/amd/acp/acp-sof-mach.c
-> index 1d313fcb5f2d..6f0ca23638af 100644
-> --- a/sound/soc/amd/acp/acp-sof-mach.c
-> +++ b/sound/soc/amd/acp/acp-sof-mach.c
-> @@ -112,16 +112,14 @@ static int acp_sof_probe(struct platform_device *pdev)
->  	if (dmi_id && dmi_id->driver_data)
->  		acp_card_drvdata->tdm_mode = dmi_id->driver_data;
->  
-> -	acp_sofdsp_dai_links_create(card);
-> +	ret = acp_sofdsp_dai_links_create(card);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret, "Failed to create DAI links\n");
->  
->  	ret = devm_snd_soc_register_card(&pdev->dev, card);
-> -	if (ret) {
-> -		dev_err(&pdev->dev,
-> -				"devm_snd_soc_register_card(%s) failed: %d\n",
-> -				card->name, ret);
-> -		return ret;
-> -	}
-> -
-> +	if (ret)
+> Why is this exported?
 
-Do we need to undo acp_sofdsp_dai_links_create() in here? If not, please
-add a trivial note in the commit message.
+Thanks for spotting it, I will drop it in patch v2.
+> 
+> > @@ -125,6 +186,9 @@ int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
+> >  				*psruntime = sruntime;
+> >  		}
+> >  		break;
+> > +	case PRIMARY_TDM_RX_0...QUINARY_TDM_TX_7:
+> > +		qcom_snd_tdm_hw_params(substream, params);
+> > +		break;
+> >  	}
+> 
+> The only caller is in the same file.
 
-With that the series is:
-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 
-HTH o/
--Emil
