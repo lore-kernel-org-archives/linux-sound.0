@@ -1,28 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZOyfTjeW"
-X-Greylist: delayed 574 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Dec 2023 01:58:31 PST
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17772BD;
-	Mon, 11 Dec 2023 01:58:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702288136;
-	bh=6mxzECBrYAAv88Or/VmuYFmoaCjMKUWyx5lJyKf47Rg=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=ZOyfTjeWI75SumpYHrJJp3tpnNbregMBpz6DYPBko3jqkrqUVZIIKilCA2wvPCDmF
-	 ko75vYXWrMKcmLVqcRtnuP7fwh6mFje5roaPrHqyRZy/yEvdee3SRlJ895KZOPuvTz
-	 ch3rLBmYcqzM22MP/xXNoCohbQCB+dkubsUls2EjCj8sF7/TbUh4nEUiaTMgnx0Ina
-	 VA+s4nyZeZu9o17UPBsUnNjBZrBE1jOeb8RaVZdNcMEFOY1YFJsDMcPlW/gN9DxU2D
-	 cdtpMKJ1GKl0vjxrH70xRVPZ83Uqp0vmZXCTcZs50uUu9S67Pu8DX2he1OekWYv3jC
-	 lwcL/q7eCSHng==
-Received: from [IPV6:fd00::2a:39ce] (cola.collaboradmins.com [IPv6:2a01:4f8:1c1c:5717::1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4827F378140E;
-	Mon, 11 Dec 2023 09:48:55 +0000 (UTC)
-Message-ID: <1db19550-99c2-4094-95d9-9db1c384519f@collabora.com>
-Date: Mon, 11 Dec 2023 10:48:54 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fTYu0DVF"
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00AC4BB
+	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 03:06:12 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2cb21afa6c1so42779121fa.0
+        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 03:06:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702292771; x=1702897571; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mmc6jvsGYIPWlSw+mTClkyF2xLO1J2HDgWNHBPjGN24=;
+        b=fTYu0DVFvb3E1RXr/1igi/sYvZgc20zzjezJFbYxG7rZkqeOypZbn1DlTsDmHvx1wc
+         wF1Lmumk6AHMcT/nBqi9/gErbRfxfvF2nQxBktGnyYxt7NS96yoeR7F4FW8JW6P/pIsf
+         HlY1ryMg38lnfcnfJv+RnajcjhJ7wtEelTAwr1RTVnPpH0VBoNwZYyDbqhYal26HJIKX
+         C30M/ACW+ot1yU+gJ3BdUTwXZJ+hxox6SR4gz+Cs0Nb5JU5oC3ad3uZb4jDL3pvRyhi5
+         Xn7bZADPAG7/uhiw9lQp0NPvw4vCgDn2WdeG1Gb4ga7dB8Sk1xYEFcWNQsCnaLQxvHXa
+         Vlzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702292771; x=1702897571;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mmc6jvsGYIPWlSw+mTClkyF2xLO1J2HDgWNHBPjGN24=;
+        b=O09AWIH2Qx1bj4it8KJMzpXCc+/Go9UVsIQTpT3mcIpTCHfGlY8AhnwndoU3PI0vB2
+         UqZGu0BNey25h8sCplIEUMj7EYXtVGi2+/SKbe5HmJycOlMmsdBAnM+I4XX1F7Fn0jdp
+         yIWJQoVXCgQW38wnj8JGi7BMuf6Nyl6hM5ekYj7cks9lymfy967NKA8UUGtIDLUg+rDC
+         oDZ8sZ9E7jpLiG1QeppShdGF+APPSiETVJyoOl/J4mJHf6XnLoJRG9lW2DRBG+gzlT8m
+         xXQnVxJ/1ckDLVeo1ks2aH+ODJ9CJ2k20Qh/fGX7hj3Xn7daUmRgZ3PSOjttfc0WF84g
+         Fdaw==
+X-Gm-Message-State: AOJu0Yx30Pnj8bjOWMwgEcsgfw5OlZxLO8jfW48jfZp8xbk7vz8fjYzS
+	6RWxnUq86UbS+1xXi/SYpd49FKrC4xo8WIsb0wQ=
+X-Google-Smtp-Source: AGHT+IEws++Z3d2Q8FP87V7anC5cq4gDk2U+0Igu4qvgIVqz1Vmoul4BlyIJEkD+6iAu9qN1fPo8dw==
+X-Received: by 2002:a2e:bd89:0:b0:2cc:1cbc:734 with SMTP id o9-20020a2ebd89000000b002cc1cbc0734mr1873966ljq.40.1702292771246;
+        Mon, 11 Dec 2023 03:06:11 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id vb2-20020a170907d04200b00a1f72df5617sm4206451ejc.141.2023.12.11.03.06.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 03:06:10 -0800 (PST)
+Message-ID: <993b2eb5-7998-4765-9870-b7ad039f8a3e@linaro.org>
+Date: Mon, 11 Dec 2023 12:06:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -30,47 +47,125 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: mediatek: mt7986: silence error in case of
- -EPROBE_DEFER
+Subject: Re: [PATCH v2] ASoC: dt-bindings: Add tas2563 into yaml
 Content-Language: en-US
-To: Daniel Golle <daniel@makrotopia.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Maso Huang <maso.huang@mediatek.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org,
+ conor+dt@kernel.org
+Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+ devicetree@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+ pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de, peeyush@ti.com,
+ navada@ti.com
+References: <20231210234759.1095-1-shenghao-ding@ti.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231210234759.1095-1-shenghao-ding@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Il 11/12/23 02:33, Daniel Golle ha scritto:
-> If probe is defered no error should be printed. Mute it.
+On 11/12/2023 00:47, Shenghao Ding wrote:
+> Support tas2563.
 > 
-> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+> 
 > ---
->   sound/soc/mediatek/mt7986/mt7986-wm8960.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+> Change in v2:
+>  - Add devicetree list and other list of necessary people and lists to CC
+>  - Express Compatibility in the bindings
+>  - Drop driver changes
+> ---
+>  .../devicetree/bindings/sound/ti,tas2781.yaml | 26 +++++++++++++------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
 > 
-> diff --git a/sound/soc/mediatek/mt7986/mt7986-wm8960.c b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
-> index c1390b3734101..24a4b943030d7 100644
-> --- a/sound/soc/mediatek/mt7986/mt7986-wm8960.c
-> +++ b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
-> @@ -144,7 +144,9 @@ static int mt7986_wm8960_machine_probe(struct platform_device *pdev)
->   
->   	ret = devm_snd_soc_register_card(&pdev->dev, card);
->   	if (ret) {
-> -		dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n", __func__, ret);
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n", __func__, ret);
+> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+> index a69e6c223308..c049fe6b2dad 100644
+> --- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+> +++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+> @@ -5,17 +5,17 @@
+>  $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Texas Instruments TAS2781 SmartAMP
+> +title: Texas Instruments TAS2781/TAS2563 SmartAMP
+>  
+>  maintainers:
+>    - Shenghao Ding <shenghao-ding@ti.com>
+>  
+>  description:
+> -  The TAS2781 is a mono, digital input Class-D audio amplifier
+> -  optimized for efficiently driving high peak power into small
+> -  loudspeakers. An integrated on-chip DSP supports Texas Instruments
+> -  Smart Amp speaker protection algorithm. The integrated speaker
+> -  voltage and current sense provides for real time
+> +  The TAS2781/TAS2563 is a mono, digital input Class-D audio
+> +  amplifier optimized for efficiently driving high peak power into
+> +  small loudspeakers. An integrated on-chip DSP supports Texas
+> +  Instruments Smart Amp speaker protection algorithm. The
+> +  integrated speaker voltage and current sense provides for real time
+>    monitoring of loudspeaker behavior.
+>  
+>  allOf:
+> @@ -23,18 +23,28 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> +    description: |
+> +      ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
+> +      Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+> +      multichannel TDM.
+> +
+> +      ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
+> +      DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
+>      enum:
+>        - ti,tas2781
+> +      - ti,tas2563
 
-This is *exactly* what dev_err_probe() does! :-)
+I don't think you tested your DTS. Where is the compatibility / fallback?
 
-dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card fail: %d\n", __func__);
-
-Regards,
-Angelo
-
+Best regards,
+Krzysztof
 
