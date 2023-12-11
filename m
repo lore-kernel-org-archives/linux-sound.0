@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2725482CB;
-	Mon, 11 Dec 2023 14:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AB4482F5;
+	Mon, 11 Dec 2023 14:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzitmElR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4054BC433C7;
-	Mon, 11 Dec 2023 14:02:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KngyXh66"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C250C433C7;
+	Mon, 11 Dec 2023 14:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702303357;
-	bh=W8z/V1J+kQQgJl8vpppyt8tRZzignvSSZAIvWfbDU/0=;
+	s=k20201202; t=1702303364;
+	bh=QGhlk4gEo3s8s3IBmJeEEF0vXrwRRttuu1SRLWN+zGk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hzitmElRSylMirlt+/+d7UESg2IwtN7ABdg0+mckhhnINuj33VT22DcadPcmY1CXu
-	 LDakS1yLIClZy0fzVR7gSmMqNaXv94+Hbj4VyWLxElHLq8S6VvB7wSc/PLk+tLAnCQ
-	 hsJ/RknHbsx9wl1VbA3ky8LRtTnZMOggdJVO8/3/mMG4I+HeLEkY7EQ76+ykimV5D2
-	 v30NEGLCzr+iGqDiQG2Le2Gk3EyoClnSQYsadaUbykHuk3ZMF6lWm8httykeLlnkum
-	 QaxXaiedpQoing9D52KqXKEfHE3fZr6Atu7OtWlZ+gIynZZuV6QBeuP++BmPM8BbUp
-	 sShll9lB3O7OQ==
+	b=KngyXh66kYftjBwDrgXQ2AeA4zyyjENfXvAx/I39ErUI1nhIN+y6yH3DFer5y7E+a
+	 U/rofkckW86BnI8eIKetc/vvhzWUsLAodgwOised8Go1gEYHaPSB2YVJ09C+PriyT0
+	 PNHUvMIb5WmGrFEiXU50ETM81Mt+8NEyTzPyuKzgwKrQiTsBfPXjKBu8A8t+ppTzUb
+	 KAmrUlPrzWOCR5DsxSFVbI37zmweHK7oGxVtrJA8Laa6mhOGKpacreRxyoY9qa51AL
+	 P6ONquhhW2XR0sJl88qt5mYJtJAWM6OT494KzNIf0IdGW10N1X96xXyMmF0dPQAyOe
+	 KOSfcXMfDfiVQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shuming Fan <shumingf@realtek.com>,
+Cc: David Rau <David.Rau.opensource@dm.renesas.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
+	support.opensource@diasemi.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 06/12] ASoC: rt5650: add mutex to avoid the jack detection failure
-Date: Mon, 11 Dec 2023 09:01:59 -0500
-Message-ID: <20231211140219.392379-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/12] ASoC: da7219: Support low DC impedance headset
+Date: Mon, 11 Dec 2023 09:02:02 -0500
+Message-ID: <20231211140219.392379-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231211140219.392379-1-sashal@kernel.org>
 References: <20231211140219.392379-1-sashal@kernel.org>
@@ -45,77 +45,34 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.4.263
 Content-Transfer-Encoding: 8bit
 
-From: Shuming Fan <shumingf@realtek.com>
+From: David Rau <David.Rau.opensource@dm.renesas.com>
 
-[ Upstream commit cdba4301adda7c60a2064bf808e48fccd352aaa9 ]
+[ Upstream commit 5f44de697383fcc9a9a1a78f99e09d1838704b90 ]
 
-This patch adds the jd_mutex to protect the jack detection control flow.
-And only the headset type could check the button status.
+Change the default MIC detection impedance threshold to 200ohm
+to support low mic DC impedance headset.
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
-Link: https://lore.kernel.org/r/20231122100123.2831753-1-shumingf@realtek.com
+Signed-off-by: David Rau <David.Rau.opensource@dm.renesas.com>
+Link: https://lore.kernel.org/r/20231201042933.26392-1-David.Rau.opensource@dm.renesas.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/rt5645.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ sound/soc/codecs/da7219-aad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
-index 9fda0e5548dc6..c9512e97c12e5 100644
---- a/sound/soc/codecs/rt5645.c
-+++ b/sound/soc/codecs/rt5645.c
-@@ -421,6 +421,7 @@ struct rt5645_priv {
- 	struct regulator_bulk_data supplies[ARRAY_SIZE(rt5645_supply_names)];
- 	struct rt5645_eq_param_s *eq_param;
- 	struct timer_list btn_check_timer;
-+	struct mutex jd_mutex;
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+index befe26749bc2b..e4e314604c0a1 100644
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@ -655,7 +655,7 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct snd_soc_component
+ 		aad_pdata->mic_det_thr =
+ 			da7219_aad_fw_mic_det_thr(component, fw_val32);
+ 	else
+-		aad_pdata->mic_det_thr = DA7219_AAD_MIC_DET_THR_500_OHMS;
++		aad_pdata->mic_det_thr = DA7219_AAD_MIC_DET_THR_200_OHMS;
  
- 	int codec_type;
- 	int sysclk;
-@@ -3179,6 +3180,8 @@ static int rt5645_jack_detect(struct snd_soc_component *component, int jack_inse
- 				rt5645_enable_push_button_irq(component, true);
- 			}
- 		} else {
-+			if (rt5645->en_button_func)
-+				rt5645_enable_push_button_irq(component, false);
- 			snd_soc_dapm_disable_pin(dapm, "Mic Det Power");
- 			snd_soc_dapm_sync(dapm);
- 			rt5645->jack_type = SND_JACK_HEADPHONE;
-@@ -3259,6 +3262,8 @@ static void rt5645_jack_detect_work(struct work_struct *work)
- 	if (!rt5645->component)
- 		return;
- 
-+	mutex_lock(&rt5645->jd_mutex);
-+
- 	switch (rt5645->pdata.jd_mode) {
- 	case 0: /* Not using rt5645 JD */
- 		if (rt5645->gpiod_hp_det) {
-@@ -3283,7 +3288,7 @@ static void rt5645_jack_detect_work(struct work_struct *work)
- 
- 	if (!val && (rt5645->jack_type == 0)) { /* jack in */
- 		report = rt5645_jack_detect(rt5645->component, 1);
--	} else if (!val && rt5645->jack_type != 0) {
-+	} else if (!val && rt5645->jack_type == SND_JACK_HEADSET) {
- 		/* for push button and jack out */
- 		btn_type = 0;
- 		if (snd_soc_component_read32(rt5645->component, RT5645_INT_IRQ_ST) & 0x4) {
-@@ -3339,6 +3344,8 @@ static void rt5645_jack_detect_work(struct work_struct *work)
- 		rt5645_jack_detect(rt5645->component, 0);
- 	}
- 
-+	mutex_unlock(&rt5645->jd_mutex);
-+
- 	snd_soc_jack_report(rt5645->hp_jack, report, SND_JACK_HEADPHONE);
- 	snd_soc_jack_report(rt5645->mic_jack, report, SND_JACK_MICROPHONE);
- 	if (rt5645->en_button_func)
-@@ -4041,6 +4048,7 @@ static int rt5645_i2c_probe(struct i2c_client *i2c,
- 	}
- 	timer_setup(&rt5645->btn_check_timer, rt5645_btn_check_callback, 0);
- 
-+	mutex_init(&rt5645->jd_mutex);
- 	INIT_DELAYED_WORK(&rt5645->jack_detect_work, rt5645_jack_detect_work);
- 	INIT_DELAYED_WORK(&rt5645->rcclock_work, rt5645_rcclock_work);
- 
+ 	if (fwnode_property_read_u32(aad_np, "dlg,jack-ins-deb", &fw_val32) >= 0)
+ 		aad_pdata->jack_ins_deb =
 -- 
 2.42.0
 
