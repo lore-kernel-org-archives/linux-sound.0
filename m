@@ -1,78 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFC848793;
-	Mon, 11 Dec 2023 14:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBSpkhb/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3E5C433D9;
-	Mon, 11 Dec 2023 14:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702303400;
-	bh=Kb/hCA/NNWuX7ifXJpNPrwb6MlLuVpbHeb9xqr+8iZw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dBSpkhb/wRT9Xz2AYhtZ26I1ApTml2JsKHSxzocrQnaSJ2SogV2fk7LZh0UtLiXLO
-	 1UoVKViztPOs9pD4kFkDkTQEZt7/YH1bfQLu3r7EoI/ENOhpXvKtew5T1lmU13v2Oq
-	 GOrzQy45pk1tQWZ278WnyMONjXazNiinW2pFC0trxbyzW5SrSBLsQ6rBI7hRfqucNq
-	 7aifXn7/+3gdxCNfXViAAcBG5XYFWFrVgXmf+JHmytCnNBtxT4sBSfdcYzdfzeNyNQ
-	 BDWXnQqprQFVxaAlyG/ORs7dkrTFJq5tdQ+FM39IEy6tnzAF3LO4X4IyNV1eEuvMBC
-	 SUADBGL9nCdbQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: David Rau <David.Rau.opensource@dm.renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	support.opensource@diasemi.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 4/5] ASoC: da7219: Support low DC impedance headset
-Date: Mon, 11 Dec 2023 09:03:09 -0500
-Message-ID: <20231211140311.392827-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231211140311.392827-1-sashal@kernel.org>
-References: <20231211140311.392827-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZJRufRZ7"
+X-Greylist: delayed 6064 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Dec 2023 07:13:00 PST
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF89E8;
+	Mon, 11 Dec 2023 07:12:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702307578;
+	bh=61MpOgh6apy3cL2Alemf5fYKv3kzcV8mTb03x/Z34AY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZJRufRZ7sHw1oCHB36MbThWcF5BgNlLirxb14CvjFKsVlqJqsQAy07GcVpG6ZtcOJ
+	 rlhXmkqHH6c+Q6TUIvxKYaVL+OGUDwMwHA41TI4eWD6Vm5bVvZQCAAPytT8+a47jB+
+	 1uDMffazEwPOK2KJeR7dVKyC04/q9Y0G5f+cEVgyiDup27tt+yldGd6RVfb6ytCD7I
+	 +lGed60AOs/KVbBS+B3i1+cd4U76mamaYeDOqeejAfsJoaOJ3yNK4QBOab7jA+F1TG
+	 zgE6uMLTveBOGsTag4NlhAf/OkpWzM3UDgVFpBIHN/8hmfZdVJcmwlnz4G9MGPNn9Z
+	 v0LzALeJMdRiw==
+Received: from arch-x395 (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: evelikov)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E4E9337813FD;
+	Mon, 11 Dec 2023 15:12:56 +0000 (UTC)
+Date: Mon, 11 Dec 2023 15:12:54 +0000
+From: Emil Velikov <emil.velikov@collabora.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Marian Postevca <posteuca@mutex.one>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Rander Wang <rander.wang@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
+	Bard Liao <bard.liao@intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 0/5] Improve AMD ACP Vangogh audio support for Steam Deck
+ OLED
+Message-ID: <ZXcm9v0vgnc7gGfc@arch-x395>
+References: <20231209203229.878730-1-cristian.ciocaltea@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.14.332
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231209203229.878730-1-cristian.ciocaltea@collabora.com>
 
-From: David Rau <David.Rau.opensource@dm.renesas.com>
+On 2023/12/09, Cristian Ciocaltea wrote:
+> This patch series provides several fixes and improvements to AMD ACP drivers
+> targeting the Vangogh platform, as found on the Valve's new Steam Deck OLED.
+> 
+> Although in theory the board should have been supported by both SOF and legacy
+> ACP drivers, as of next-20231208 the audio seems to be completely broken.
+> 
+> Please note this only restores the legacy support, while SOF will be handled in
+> a separate series.
+> 
+> Cristian Ciocaltea (5):
+>   ASoC: amd: vangogh: Drop conflicting ACPI-based probing
+>   ASoC: amd: vangogh: Allow probing ACP PCI when SOF is disabled
+>   ASoC: amd: vangogh: Switch to {RUNTIME,SYSTEM_SLEEP}_PM_OPS
+>   ASoC: amd: acp-config: Add missing MODULE_DESCRIPTION
+>   ASoC: amd: acp: Add missing MODULE_DESCRIPTION in mach-common
+> 
 
-[ Upstream commit 5f44de697383fcc9a9a1a78f99e09d1838704b90 ]
+If it were me, I'd drop the Fixes tag in the latter two patches since
+the warning is harmless and as-is it'll get into the -stable
+maintainers' list, who are already pretty swamped with patches.
 
-Change the default MIC detection impedance threshold to 200ohm
-to support low mic DC impedance headset.
+Regardless, for the series:
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 
-Signed-off-by: David Rau <David.Rau.opensource@dm.renesas.com>
-Link: https://lore.kernel.org/r/20231201042933.26392-1-David.Rau.opensource@dm.renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/codecs/da7219-aad.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
-index 793c8768f7c44..5a31a4db1e23a 100644
---- a/sound/soc/codecs/da7219-aad.c
-+++ b/sound/soc/codecs/da7219-aad.c
-@@ -650,7 +650,7 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct snd_soc_codec *cod
- 		aad_pdata->mic_det_thr =
- 			da7219_aad_fw_mic_det_thr(codec, fw_val32);
- 	else
--		aad_pdata->mic_det_thr = DA7219_AAD_MIC_DET_THR_500_OHMS;
-+		aad_pdata->mic_det_thr = DA7219_AAD_MIC_DET_THR_200_OHMS;
- 
- 	if (fwnode_property_read_u32(aad_np, "dlg,jack-ins-deb", &fw_val32) >= 0)
- 		aad_pdata->jack_ins_deb =
--- 
-2.42.0
-
+HTH
+Emil
