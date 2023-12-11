@@ -1,68 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFE13D97E;
-	Mon, 11 Dec 2023 13:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9304F3D964;
+	Mon, 11 Dec 2023 13:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HtdhY6jF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EE84C433C8;
-	Mon, 11 Dec 2023 13:25:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dW0Kee/Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62D2CC433C7;
+	Mon, 11 Dec 2023 13:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702301145;
-	bh=VKs1EvBmGIBwqV2FwfnKtoshqlh3tYuJXm/ZPmZw9mc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HtdhY6jFU/kTASHqTfLYT4x6ST54NyjoG3iXRxd3TyyTGiQxtkiy7dCdmMcfHtWzn
-	 pkIJhCpB/1B6TiLofbbMGpTQq42JpzfNOu5b1m8plSRfFFI1vA7yS0e+eQrtO9A4t2
-	 P1nv//3JLBryXto4tV/p3iu/0goPC7CorOhYa03i5fTEsdMNGQFTBKNJRKiR9Dow6W
-	 /6OnJaGPtKzVzNaXQAfb/YjqP7QSDMpfd1JeIda2s1QYKQZLDXtDs+jSOx4Xoz5ZJb
-	 nnw1YTxeJu7q3P7eWVEuCD9HrvzRM+xxgAaCrxeKaRUY9ekUurk4sunduxJnGUYPXd
-	 PV0ZkwXGujsYw==
+	s=k20201202; t=1702301327;
+	bh=0CpLD8dRzQ8OFlBx0wOWEw/1qMni4oZG0S8sbx9hVhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dW0Kee/ZC/h61mXDknAqmvMfOFO0E1U9zx6VF2/UZ9beG6QCr1xu6V0qN73VNbPXx
+	 Q+PiKV7Tnabq9/0lDvLtQb7M0kTOW4LKuJtUej29Bw5YRkfw2vnhjg7vEtq6NsLIjD
+	 6ipgtF1qCFuxc1ZzywO7uPqpiOwpB5+tkmRVxnnyQulDrtSpW4uRiOUMg/b6+QiSS7
+	 bERbLXwUi8b/CjBdwKdzIIgX0+ijf30d2OQ+aUpUhhL1v1lz6IO52hcVdQCFOE39GX
+	 dz7BIjQjdDzQ4fXnL/j8SDiuvtMmZZh1AmCdyiTvPZrzTQrsvd5M6KDQnmaAJVdig0
+	 S8Kyaih/VTytA==
 Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1rCgIq-0007Ff-0Q;
-	Mon, 11 Dec 2023 14:26:32 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
+	(envelope-from <johan@kernel.org>)
+	id 1rCgLm-0007HX-1E;
+	Mon, 11 Dec 2023 14:29:34 +0100
+Date: Mon, 11 Dec 2023 14:29:34 +0100
+From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sasha Levin <sashal@kernel.org>,
-	stable@vger.kernel.org,
-	broonie@kernel.org,
-	alsa-devel@alsa-project.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	johan+linaro@kernel.org,
+Cc: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org,
+	broonie@kernel.org, alsa-devel@alsa-project.org, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, johan+linaro@kernel.org,
 	srinivas.kandagatla@linaro.org
-Subject: [PATCH stable-6.6 0/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
-Date: Mon, 11 Dec 2023 14:26:06 +0100
-Message-ID: <20231211132608.27861-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.41.0
+Subject: Re: [PATCH 0/2] ASoC: qcom: Limit Digital gains on speaker
+Message-ID: <ZXcOvl1tUWmwGalB@hovoldconsulting.com>
+References: <20231204124736.132185-1-srinivas.kandagatla@linaro.org>
+ <ZXbDY1iA_DQLIzqq@hovoldconsulting.com>
+ <2023121146-hunger-crane-7dee@gregkh>
+ <2023121113-walrus-outmost-ec34@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023121113-walrus-outmost-ec34@gregkh>
 
-This is a backport of the following series:
+On Mon, Dec 11, 2023 at 01:54:39PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Dec 11, 2023 at 01:40:52PM +0100, Greg Kroah-Hartman wrote:
+> > On Mon, Dec 11, 2023 at 09:08:03AM +0100, Johan Hovold wrote:
+> > > On Mon, Dec 04, 2023 at 12:47:34PM +0000, srinivas.kandagatla@linaro.org wrote:
 
-	https://lore.kernel.org/lkml/20231204124736.132185-1-srinivas.kandagatla@linaro.org/
+> > > These were unfortunately not marked for stable, but could you pick them
+> > > up for 6.6?
+> > > 
+> > > The upstream commits are:
+> > > 
+> > > 	fb9ad2448508 ("ASoC: ops: add correct range check for limiting volume")
+> > > 	716d4e5373e9 ("ASoC: qcom: sc8280xp: Limit speaker digital volumes")
+> > 
+> > Now queued up, thanks.
+> 
+> Oops, no, this breaks the build on 6.6.y, can you send a series that is
+> at least built for this series successfully?  :)
 
-which did not build on 6.6 due a rename of the asoc_rtd_to_cpu()
-interface.
+Sorry about that. I was not aware of the asoc interface rename that went
+into 6.7.
+
+Just sent a backport of the series here:
+
+	https://lore.kernel.org/r/20231211132608.27861-1-johan+linaro@kernel.org
 
 Johan
-
-
-Srinivas Kandagatla (2):
-  ASoC: ops: add correct range check for limiting volume
-  ASoC: qcom: sc8280xp: Limit speaker digital volumes
-
- sound/soc/qcom/sc8280xp.c | 17 +++++++++++++++++
- sound/soc/soc-ops.c       |  2 +-
- 2 files changed, 18 insertions(+), 1 deletion(-)
-
--- 
-2.41.0
-
