@@ -1,41 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A033482E5;
-	Mon, 11 Dec 2023 14:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFC848793;
+	Mon, 11 Dec 2023 14:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rOOMX5qO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 958D1C433CC;
-	Mon, 11 Dec 2023 14:03:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBSpkhb/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3E5C433D9;
+	Mon, 11 Dec 2023 14:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702303397;
-	bh=Nv6nQstkq/YZM1Hr3h5UdUXp5m7JqJ+2+VOXLdBZyp8=;
+	s=k20201202; t=1702303400;
+	bh=Kb/hCA/NNWuX7ifXJpNPrwb6MlLuVpbHeb9xqr+8iZw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rOOMX5qO2ZS/LUMFQ0JJc4/T436zRPJJz5sbjFL0THuqPg4Wwn/BPxcHxggyz6oPd
-	 q3nuM0hg3oKelq53QUqTKCEibhzsg4Od7f5I6BUCV6M+kTsbBRDauI5k5yai6QTLWv
-	 jjlsKqgbWLvoPMjv4rrbGif/FfQjOCts0mYI9tfwhP7/QJLP64xkqsjGFUuM3oRewo
-	 DGRWvMi+oEK4S09XNYy4+Nk7ywmoSLCnrg7Tws+/CDT1bkKVqw1LHt/HuHy3ie7eFW
-	 rJpKA8800i0+J1DSkfrlZutYkCMocMpycGIeZZRzAtrOVoToo2Cyx/Rk406NtKJClh
-	 SDkvwEhVzgs+w==
+	b=dBSpkhb/wRT9Xz2AYhtZ26I1ApTml2JsKHSxzocrQnaSJ2SogV2fk7LZh0UtLiXLO
+	 1UoVKViztPOs9pD4kFkDkTQEZt7/YH1bfQLu3r7EoI/ENOhpXvKtew5T1lmU13v2Oq
+	 GOrzQy45pk1tQWZ278WnyMONjXazNiinW2pFC0trxbyzW5SrSBLsQ6rBI7hRfqucNq
+	 7aifXn7/+3gdxCNfXViAAcBG5XYFWFrVgXmf+JHmytCnNBtxT4sBSfdcYzdfzeNyNQ
+	 BDWXnQqprQFVxaAlyG/ORs7dkrTFJq5tdQ+FM39IEy6tnzAF3LO4X4IyNV1eEuvMBC
+	 SUADBGL9nCdbQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
+Cc: David Rau <David.Rau.opensource@dm.renesas.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
+	support.opensource@diasemi.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 2/5] ASoC: cs43130: Fix incorrect frame delay configuration
-Date: Mon, 11 Dec 2023 09:03:07 -0500
-Message-ID: <20231211140311.392827-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 4/5] ASoC: da7219: Support low DC impedance headset
+Date: Mon, 11 Dec 2023 09:03:09 -0500
+Message-ID: <20231211140311.392827-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231211140311.392827-1-sashal@kernel.org>
 References: <20231211140311.392827-1-sashal@kernel.org>
@@ -50,32 +45,34 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.14.332
 Content-Transfer-Encoding: 8bit
 
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+From: David Rau <David.Rau.opensource@dm.renesas.com>
 
-[ Upstream commit aa7e8e5e4011571022dc06e4d7a2f108feb53d1a ]
+[ Upstream commit 5f44de697383fcc9a9a1a78f99e09d1838704b90 ]
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Link: https://lore.kernel.org/r/20231117141344.64320-3-mstrozek@opensource.cirrus.com
+Change the default MIC detection impedance threshold to 200ohm
+to support low mic DC impedance headset.
+
+Signed-off-by: David Rau <David.Rau.opensource@dm.renesas.com>
+Link: https://lore.kernel.org/r/20231201042933.26392-1-David.Rau.opensource@dm.renesas.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/cs43130.c | 2 +-
+ sound/soc/codecs/da7219-aad.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index 793496e8d262d..ad5d527e6e527 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -581,7 +581,7 @@ static int cs43130_set_sp_fmt(int dai_id, unsigned int bitwidth_sclk,
- 		break;
- 	case SND_SOC_DAIFMT_LEFT_J:
- 		hi_size = bitwidth_sclk;
--		frm_delay = 2;
-+		frm_delay = 0;
- 		frm_phase = 1;
- 		break;
- 	case SND_SOC_DAIFMT_DSP_A:
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+index 793c8768f7c44..5a31a4db1e23a 100644
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@ -650,7 +650,7 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct snd_soc_codec *cod
+ 		aad_pdata->mic_det_thr =
+ 			da7219_aad_fw_mic_det_thr(codec, fw_val32);
+ 	else
+-		aad_pdata->mic_det_thr = DA7219_AAD_MIC_DET_THR_500_OHMS;
++		aad_pdata->mic_det_thr = DA7219_AAD_MIC_DET_THR_200_OHMS;
+ 
+ 	if (fwnode_property_read_u32(aad_np, "dlg,jack-ins-deb", &fw_val32) >= 0)
+ 		aad_pdata->jack_ins_deb =
 -- 
 2.42.0
 
