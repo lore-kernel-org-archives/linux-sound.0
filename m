@@ -1,289 +1,161 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ImcHb/Hl"
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0378FF1
-	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 01:35:27 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54c5d041c23so5929912a12.2
-        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 01:35:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KcLXWaGJ"
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11088E;
+	Mon, 11 Dec 2023 01:54:09 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1d06d42a58aso39516165ad.0;
+        Mon, 11 Dec 2023 01:54:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702287325; x=1702892125; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zPBBuiUC0h6HJxl4BMSfR4W/EGNQD+gaR8NSJwfR2Gk=;
-        b=ImcHb/HlIu0etaVt0ZSg62tLOrwGR6KkXdavkenBaFIp15ADgysOxSgy+qJVD0a4iM
-         JJe1ZQFxml+FNi81ZCyftngWktqtlGxJIlOtPYUPb8UicWL0aZZw1kz/XLXpIsUAL5Qc
-         tt4hbr6o1EQcyE0ogkHEUPQKFJNPYBTA4iF6El8gUyzQaml7AWIakwRdE+hGqeQlmEqb
-         LF8AEzZQ90LeNtsQJWwfyoieH7AfYdRC2USM9Sr3lsvrj3fw1M8vDO/ebtO2tsjdi825
-         GAi9MgUsNzs7ymkiKWFFaxzMaR/5pLirBStQlmGIBfT5LZjn7RbmEQqjyL/5EILXN72u
-         9NZg==
+        d=gmail.com; s=20230601; t=1702288449; x=1702893249; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1CAjGizWvzIdnxcqD28quz07hmswkxp+9z0Y4S9z6jE=;
+        b=KcLXWaGJS1NKhCm9RAk3OCAbOYdy7xqXjPSuVgp//wsG4Yb3jDpXpkgn8Kfe3Vk7wF
+         pt2hDwyFiixKz1p7UG8+n22Fm13uoCB0ixAS3H3NcmCqxdjokvbZa1eDcoV44qosj3Dz
+         TwfU6Uob1Zmir5tH7/9d8LxCI4Tzqps0ecx3E1p4i3quPAIxbzhrY49x2fiOp9IdYAe8
+         x6QyBkmC/9WA7zvaGxAWG2Eiru/KKdtnkcm1Myjkp+u0ow1t+ja0fbqtnaEe0Jahyh72
+         uvi0HBpltEnuCrzcq3VH0H5cddatzCOkgopCSWX3KFD65Nbs34NURDrH3sldBGxatrPg
+         5YRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702287325; x=1702892125;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zPBBuiUC0h6HJxl4BMSfR4W/EGNQD+gaR8NSJwfR2Gk=;
-        b=kOFtjJY9PVHN2UkC3COHXs+wEydCuqBIXEYpajO+NQx2xKNSNKQJb84BN6JbHk/w2K
-         pYTNTrS7v/bv2HkLmlL2Z2m7sk6FkoPLcYDLqyiNxej9QBf4vG5FMZudSwsMpoSK48hG
-         lY7riTBzB/UxFR7Mg8wcBe8N6rdjExCwf6W4YDrhhXv1xGokbKrSsVdyDYkPfu6OGC3C
-         ZJdk10mETSFDqOobXDASUAnyf/o1pfp+0UjzoI/+UX1v6RA8LT+jEK+KympiT1u9dIXv
-         TxstVWd9z9pqXcpneWwpt+iHKXmVHETlUDJLLqBO/mP2kEKS4CCPYipRFcs52ZmjAFqY
-         MnsA==
-X-Gm-Message-State: AOJu0YwaosVNypiNki0jrx4eAuFOIG6kAgzCsFvS/9bzRuJdYzC9Z1EC
-	EI9nxTBMeIwb9WNNa0Gkc2LorA==
-X-Google-Smtp-Source: AGHT+IFX69vaIMEbLW/TqLvsqwcZgbImckFRzF090TZyX4ErPch2iorzjHVHCi6wE4KnWzRGQkk4JQ==
-X-Received: by 2002:a50:d4d7:0:b0:548:4774:e59c with SMTP id e23-20020a50d4d7000000b005484774e59cmr1528899edj.35.1702287325265;
-        Mon, 11 Dec 2023 01:35:25 -0800 (PST)
-Received: from [192.168.2.107] ([79.115.63.75])
-        by smtp.gmail.com with ESMTPSA id s2-20020a05640217c200b00551422c2ceasm418127edy.44.2023.12.11.01.35.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 01:35:24 -0800 (PST)
-Message-ID: <5a6f6764-6779-42b0-b6c6-3f638b85ef78@linaro.org>
-Date: Mon, 11 Dec 2023 09:35:21 +0000
+        d=1e100.net; s=20230601; t=1702288449; x=1702893249;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1CAjGizWvzIdnxcqD28quz07hmswkxp+9z0Y4S9z6jE=;
+        b=ClLTASygU11j6f/YlnhMbuSPzPJqe7ntoD+0qrmBiFgFp0J2sSVxsDobYtr9H7j5O2
+         bWvZK+UZVp2WWCVVEF7BnpIEoF2wvTYc3zs8l5ByQsfj1DaWFfOaEz7SEKXca+RklMNk
+         TSXFkowXSyWBgCCgtOqgyiG414iKvTHL817ZM8HGLRWAxLswJaa/2d3cHuYra+bi0Nmv
+         kgrnxJbhTX5Nz/hVGqTPuCYBT5nOIs4h9wTzf02HILkdghcShcdbfvpVsifSJILtIyyx
+         fqV1ODro2fTZle2/QYnqKCD53WO0j9PdQJ31TTkrFLCX8T4jmeJrhkApacJvWqqgOQO7
+         mMtw==
+X-Gm-Message-State: AOJu0YwTIe3XR5YcF9T2JynL3MUZ5bQjqgXS2prH2LoD8p7KkO0IQyHB
+	j4l0/WQKy2imy3Sktmdx7B0=
+X-Google-Smtp-Source: AGHT+IH4q9rRR48G64b0jTRAPHAn8Y3eZCGFF3OJxV+1DOpUKTGLJ4/QgeKp2uKXk6ZrqJyn5wInjQ==
+X-Received: by 2002:a17:90b:1c0a:b0:286:815b:8c87 with SMTP id oc10-20020a17090b1c0a00b00286815b8c87mr2823495pjb.13.1702288449037;
+        Mon, 11 Dec 2023 01:54:09 -0800 (PST)
+Received: from localhost.localdomain ([2409:8a6a:5426:70b1:a6fc:77ff:fe50:e63d])
+        by smtp.gmail.com with ESMTPSA id mt20-20020a17090b231400b002853349e490sm8149734pjb.34.2023.12.11.01.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 01:54:08 -0800 (PST)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jianhua Lu <lujianhua000@gmail.com>
+Subject: [RFC, PATCH 1/2] ASoC: qcom: sdw: Add TDM support
+Date: Mon, 11 Dec 2023 17:53:56 +0800
+Message-ID: <20231211095357.4629-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Content-Language: en-US
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>,
- "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
- "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michael@walle.cc" <michael@walle.cc>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
- <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
- <BN7PR12MB2802BEDFB821A1748185794CDC8AA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <f5a47024-514a-4846-bc16-08cf0f9af912@linaro.org>
- <BN7PR12MB2802BB3DA682D9C13EF7DE08DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <BN7PR12MB2802BB3DA682D9C13EF7DE08DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Add qcom TDM setup function to support TDM ports for qcom platform.
 
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+---
+ sound/soc/qcom/sdw.c | 64 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-On 12/11/23 06:56, Mahapatra, Amit Kumar wrote:
-> 
-> 
->> -----Original Message-----
->> From: Tudor Ambarus <tudor.ambarus@linaro.org>
->> Sent: Monday, December 11, 2023 9:03 AM
->> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>;
->> broonie@kernel.org; pratyush@kernel.org; miquel.raynal@bootlin.com;
->> richard@nod.at; vigneshr@ti.com; sbinding@opensource.cirrus.com;
->> lee@kernel.org; james.schulman@cirrus.com; david.rhodes@cirrus.com;
->> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com
->> Cc: linux-spi@vger.kernel.org; linux-kernel@vger.kernel.org;
->> michael@walle.cc; linux-mtd@lists.infradead.org;
->> nicolas.ferre@microchip.com; alexandre.belloni@bootlin.com;
->> claudiu.beznea@tuxon.dev; Simek, Michal <michal.simek@amd.com>; linux-
->> arm-kernel@lists.infradead.org; alsa-devel@alsa-project.org;
->> patches@opensource.cirrus.com; linux-sound@vger.kernel.org; git (AMD-
->> Xilinx) <git@amd.com>; amitrkcian2002@gmail.com
->> Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support
->> in spi-nor
->>
->>
->>
->> On 12/8/23 17:05, Mahapatra, Amit Kumar wrote:
->>> Hello Tudor,
->>
->> Hi!
-> 
-> Hello Tudor,
-> 
+diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
+index 77dbe0c28b29..267a8cff01a4 100644
+--- a/sound/soc/qcom/sdw.c
++++ b/sound/soc/qcom/sdw.c
+@@ -4,6 +4,7 @@
+ 
+ #include <dt-bindings/sound/qcom,q6afe.h>
+ #include <linux/module.h>
++#include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include "sdw.h"
+ 
+@@ -101,6 +102,66 @@ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+ }
+ EXPORT_SYMBOL_GPL(qcom_snd_sdw_prepare);
+ 
++static int qcom_snd_tdm_hw_params(struct snd_pcm_substream *substream,
++				   struct snd_pcm_hw_params *params)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	unsigned int tdm_slot_offset[8] = { 0, 4, 8, 12, 16, 20, 24, 28 };
++	int channels, slot_width;
++	int ret;
++
++	switch (params_format(params)) {
++	case SNDRV_PCM_FORMAT_S16_LE:
++		slot_width = 16;
++		break;
++	case SNDRV_PCM_FORMAT_S24_LE:
++		slot_width = 24;
++		break;
++	case SNDRV_PCM_FORMAT_S32_LE:
++		slot_width = 32;
++		break;
++	default:
++		dev_err(rtd->dev, "%s: invalid param format 0x%x\n", __func__,
++			params_format(params));
++		return -EINVAL;
++	}
++
++	channels = params_channels(params);
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0, 0x3, 8, slot_width);
++		if (ret < 0) {
++			dev_err(rtd->dev, "%s: failed to set tdm slot, err:%d\n",
++				__func__, ret);
++			return ret;
++		}
++
++		ret = snd_soc_dai_set_channel_map(cpu_dai, 0, NULL, channels,
++						  tdm_slot_offset);
++		if (ret < 0) {
++			dev_err(rtd->dev, "%s: failed to set channel map, err:%d\n",
++				__func__, ret);
++			return ret;
++		}
++	} else {
++		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0xf, 0, 8, slot_width);
++		if (ret < 0) {
++			dev_err(rtd->dev, "%s: failed to set tdm slot, err:%d\n",
++				__func__, ret);
++			return ret;
++		}
++
++		ret = snd_soc_dai_set_channel_map(cpu_dai, channels,
++						  tdm_slot_offset, 0, NULL);
++		if (ret < 0) {
++			dev_err(rtd->dev, "%s: failed to set channel map, err:%d\n",
++				__func__, ret);
++			return ret;
++		}
++	}
++}
++EXPORT_SYMBOL_GPL(qcom_snd_tdm_hw_params);
++
+ int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
+ 			   struct snd_pcm_hw_params *params,
+ 			   struct sdw_stream_runtime **psruntime)
+@@ -125,6 +186,9 @@ int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
+ 				*psruntime = sruntime;
+ 		}
+ 		break;
++	case PRIMARY_TDM_RX_0...QUINARY_TDM_TX_7:
++		qcom_snd_tdm_hw_params(substream, params);
++		break;
+ 	}
+ 
+ 	return 0;
+-- 
+2.41.0
 
-Hi!
-
->>
->>>
->>>> -----Original Message-----
->>>> From: Tudor Ambarus <tudor.ambarus@linaro.org>
->>>> Sent: Wednesday, December 6, 2023 8:00 PM
->>>> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>;
->>>> broonie@kernel.org; pratyush@kernel.org; miquel.raynal@bootlin.com;
->>>> richard@nod.at; vigneshr@ti.com; sbinding@opensource.cirrus.com;
->>>> lee@kernel.org; james.schulman@cirrus.com; david.rhodes@cirrus.com;
->>>> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com
->>>> Cc: linux-spi@vger.kernel.org; linux-kernel@vger.kernel.org;
->>>> michael@walle.cc; linux-mtd@lists.infradead.org;
->>>> nicolas.ferre@microchip.com; alexandre.belloni@bootlin.com;
->>>> claudiu.beznea@tuxon.dev; Simek, Michal <michal.simek@amd.com>;
->>>> linux- arm-kernel@lists.infradead.org; alsa-devel@alsa-project.org;
->>>> patches@opensource.cirrus.com; linux-sound@vger.kernel.org; git (AMD-
->>>> Xilinx) <git@amd.com>; amitrkcian2002@gmail.com
->>>> Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories
->>>> support in spi-nor
->>>>
->>>> Hi, Amit,
->>>>
->>>> On 11/25/23 09:21, Amit Kumar Mahapatra wrote:
->>>>> Each flash that is connected in stacked mode should have a separate
->>>>> parameter structure. So, the flash parameter member(*params) of the
->>>>> spi_nor structure is changed to an array (*params[2]). The array is
->>>>> used to store the parameters of each flash connected in stacked
->>>> configuration.
->>>>>
->>>>> The current implementation assumes that a maximum of two flashes are
->>>>> connected in stacked mode and both the flashes are of same make but
->>>>> can differ in sizes. So, except the sizes all other flash parameters
->>>>> of both the flashes are identical.
->>>>
->>>> Do you plan to add support for different flashes in stacked mode? If
->>>> not,
->>>
->>> No, according to the current implementation, in stacked mode, both
->>> flashes must be of the same make.
->>>
->>>> wouldn't it be simpler to have just an array of flash sizes instead
->>>> of duplicating the entire params struct?
->>>
->>> Yes, that is accurate. In alignment with our current stacked support
->>> use case we can have an array of flash sizes instead.
->>> The primary purpose of having an array of params struct was to
->>> facilitate potential future extensions, allowing the addition of
->>> stacked support for different flashes
->>>
->>
->> right. Don't do this change yet, let's decide on the overall architecture first.
-> 
-> Sure.
->>
->>>>
->>>>>
->>>>> SPI-NOR is not aware of the chip_select values, for any incoming
->>>>> request SPI-NOR will decide the flash index with the help of
->>>>> individual flash size and the configuration type (single/stacked).
->>>>> SPI-NOR will pass on the flash index information to the SPI core &
->>>>> SPI driver by setting the appropriate bit in
->>>>> nor->spimem->spi->cs_index_mask. For example, if nth bit of
->>>>> nor->spimem->spi->cs_index_mask is set then the driver would
->>>>> assert/de-assert spi->chip_slect[n].
->>>>>
->>>>> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-
->> mahapatra@amd.com>
->>>>> ---
->>>>>  drivers/mtd/spi-nor/core.c  | 272 +++++++++++++++++++++++++++++-----
->> --
->>>>>  drivers/mtd/spi-nor/core.h  |   4 +
->>>>>  include/linux/mtd/spi-nor.h |  15 +-
->>>>>  3 files changed, 240 insertions(+), 51 deletions(-)
->>>>>
->>>>> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
->>>>> index 93ae69b7ff83..e990be7c7eb6 100644
->>>>> --- a/drivers/mtd/spi-nor/core.c
->>>>> +++ b/drivers/mtd/spi-nor/core.c
->>>>
->>>> cut
->>>>
->>>>> @@ -2905,7 +3007,10 @@ static void spi_nor_init_fixup_flags(struct
->>>>> spi_nor *nor)  static int spi_nor_late_init_params(struct spi_nor
->>>>> *nor)  {
->>>>>  	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor,
->>>> 0);
->>>>> -	int ret;
->>>>> +	struct device_node *np = spi_nor_get_flash_node(nor);
->>>>> +	u64 flash_size[SNOR_FLASH_CNT_MAX];
->>>>> +	u32 idx = 0;
->>>>> +	int rc, ret;
->>>>>
->>>>>  	if (nor->manufacturer && nor->manufacturer->fixups &&
->>>>>  	    nor->manufacturer->fixups->late_init) { @@ -2937,6 +3042,44 @@
->>>>> static int spi_nor_late_init_params(struct spi_nor *nor)
->>>>>  	if (params->n_banks > 1)
->>>>>  		params->bank_size = div64_u64(params->size, params-
->> n_banks);
->>>>>
->>>>> +	nor->num_flash = 0;
->>>>> +
->>>>> +	/*
->>>>> +	 * The flashes that are connected in stacked mode should be of
->>>>> +same
->>>> make.
->>>>> +	 * Except the flash size all other properties are identical for all the
->>>>> +	 * flashes connected in stacked mode.
->>>>> +	 * The flashes that are connected in parallel mode should be identical.
->>>>> +	 */
->>>>> +	while (idx < SNOR_FLASH_CNT_MAX) {
->>>>> +		rc = of_property_read_u64_index(np, "stacked-memories",
->>>> idx,
->>>>> +&flash_size[idx]);
->>>>
->>>> This is a little late in my opinion, as we don't have any sanity
->>>> check on the flashes that are stacked on top of the first. We shall
->>>> at least read and compare the ID for all.
->>>
->>> Alright, I will incorporate a sanity check for reading and comparing
->>> the ID of the stacked flash. Subsequently, I believe this stacked
->>> logic should be relocated to spi_nor_get_flash_info() where we
->>> identify the first flash. Please share your thoughts on this.
->>> Additionally, do you
->>
->> I'm wondering whether we can add a layer on top of the flash type to handle
-> 
-> When you mention "on top," are you referring to incorporating it into 
-> the MTD layer? Initially, Miquel had submitted this patch to address 
-
-I mean something above SPI MEM flashes, be it NOR, NANDs or whatever.
-Instead of treating the stacked flashes as a monolithic device and treat
-in SPI NOR some array of flashes, to have a layer above which probes the
-SPI MEM flash driver for each stacked flash. In your case SPI NOR would
-be probed twice, as you use 2 SPI NOR flashes.
-
-> stacked/parallel handling in the MTD layer.
-> https://lore.kernel.org/linux-mtd/20200114191052.0a16d116@xps13/t/
-> However, the Device Tree bindings were initially not accepted. 
-
-Okay, thanks for the pointer. I'll take a look.
-
-> Following a series of discussions, the below bindings were 
-> eventually merged.
-> https://lore.kernel.org/all/20220126112608.955728-4-miquel.raynal@bootlin.com/
-
-I saw, thanks.
-
-> 
->> the stacked/parallel modes. This way everything will become flash type
->> independent. Would it be possible to stack 2 SPI NANDs? How about a SPI
->> NOR and a SPI NAND?
->>
->> Is the datasheet of the controller public?
-> 
-> Yes, https://docs.xilinx.com/r/en-US/am011-versal-acap-trm/Quad-SPI-Controller
-> 
-
-Wonderful, I'll take a look. I see two clocks there. Does this mean that
-the stacked flashes can be operated at different frequencies? Do you
-know if we can combine a SPI NOR with a SPI NAND in stacked configuration?
-
-I need to study this a bit. I'll try to involve Michael and Pratyush too.
-
-Cheers,
-ta
