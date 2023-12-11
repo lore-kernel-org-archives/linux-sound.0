@@ -1,42 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pvXOgbQi"
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2060.outbound.protection.outlook.com [40.107.101.60])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B1B1FC8;
-	Sun, 10 Dec 2023 21:49:04 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="i5szTLX/"
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2E2B3;
+	Sun, 10 Dec 2023 21:58:21 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BddHzgH66AHHx/SlVPjN71RgvHULFe6DECC2BxpYV7peMUbyOiLipOGUwSOPI5G1y9e8aQbW5wTifLFOBVBIbSTEgCXcg0RAhu1iqDQPuj/hoq1qSXGCn6WkhkVLVH8o4+eYQQ1W5PReSwDlxu1ZeBaxANBcdzO3YAsEGHqcw/vAhQ2TlQKAu6sj0l5iNHlnaOr38LYhnq/6r5mkFdBZtraBiMVQgmA25gwMzA+mmakzKjb5UjmLn9+C2bXR9e6V7DfubcsmlN17l27nqiJn6ngZA6wPbN5ow4n67zjdY+j91IeMSFfyF+vYyLIZFnYMtIvx9h3bBnQFjo38POcG5A==
+ b=TJruvqBxE4P4H2tUr0aqx1acCzDrIFZZWwfHp1FRu8dZitsDfnQd2AY/Ac+WGVYdMU6ypfwPTeoNCLa52wZ1+o7/vIReeVd5kJL0T0fIPak9VwTxr8BQwqbScmjvEX8a4Y8Du5Mn8HJHtAreZD9JhcS30Cqfwbm44vdDE3ZlmxXu7/MHu4OdVpcZoszu00jYe9ubCyoCmosaO3EacA0UG6QS2vBOKCZ/GrSYC8NFnVnEY2Gg5HcMgCcOm2HLZPmPIOfHkqs9ID26jaTw0r6liffVVIoVyymmyHgcW31OnRIE/xgR9DyzWpS4O8pfdi97PJTl+WFdwEeSZd2DQynXbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NzpjPwY0DhYAT3tdhaka+vKYDqUmYmMCAGTqGmF5CMY=;
- b=J2Ehb6uHb84jBy3o6ris3AvMq7uqy66YuGErGQiCs9jOyq/VnKwF6miQEguEgfYgtKzU1YKQfCppWjEXAg6kzcV4dLBwLu7aV+34kXes62gKSiouHxjeMam1Nra6OO2oCHvJKE/en3S4eFrA8g3e7d6qp3tTtFHoyxRvahla5dd4W4iX49xWgSo9U/fYui545sd6UGv0fpuyMgY5Md5Y63CBBwofqw2RBc8f9ZlEOUj1DedrLhJPwxJYiSFqsSon4L7PNCvkMNp7A9Ry2024V6HkdGqHp7HSBK9xSj2q+Q8bS7cO6cSJFmfbEJdtCuoF/AlZCKG6QQf08lfT4GUGTQ==
+ bh=amX//vw/T4kFrWIGThNrSJ2PX+mkMHpkdnUMxJRtQqI=;
+ b=P4mSfFMRwlS8H2ZPuaLpQgGIBlNHBTyOV/GeS9sNdGr6Q0faVBEamzzsa1L3nXw23/2ABQjcpxUHAMeHfTLtZ0faCxBpxvcokvT+dZrifn4aXeneuM/kkVgi1ccOLntiDGprYdQTEfSKjaaLy8zTtVdqFilYNJ/xr8b6px8WIp+NZdt4SJTq+6zQiOKhIJ+hlSGuw6B+SpRhhFJTxqBt5lIJj8zTyNXbeVHDBwzPeeb72fVBMoZ6w8maBH4YI+3m8+0j5Ba2/4oS/+C1I5lKPg38GrUpZ8WNNWuseYjkl63Cx0thEe3gZ0tuGDSFAKDRnC2kMLYLdQods83Wf+BA6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NzpjPwY0DhYAT3tdhaka+vKYDqUmYmMCAGTqGmF5CMY=;
- b=pvXOgbQi9BfqAs9yhXv8yKQxCfxOBtQYxrGL869ymWuqhwNpdLTow8KJNEQXvLz21Ke39F0cwkQxN0vv7FaNgll1Zb2oPDkoLhQB/3jxKa5bVeXW1Fs0YhWzOZHiNweVwrzamSWIXE0MqTO9bZ9OFQEkWicMullYnK9mxZFZbLc=
+ bh=amX//vw/T4kFrWIGThNrSJ2PX+mkMHpkdnUMxJRtQqI=;
+ b=i5szTLX/5ol1PLzhK6UZdVw/r71SoLEVaufV3KaVCw4EcsQz8czu01vXNm5TbaMc4vmIg4M7LfPyjFOOV5S2k9lSLib+54I/0qgsodMldcBY5yupTLHgSNcW9IIXhWPDGNoNnhpu+PcWlbs6I4mkGrIoM9ooCCG7ZF4fGUg9r2Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5951.namprd12.prod.outlook.com (2603:10b6:510:1da::16)
- by DS0PR12MB8368.namprd12.prod.outlook.com (2603:10b6:8:fe::20) with
+ by DS0PR12MB9421.namprd12.prod.outlook.com (2603:10b6:8:1a1::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Mon, 11 Dec
- 2023 05:49:02 +0000
+ 2023 05:58:16 +0000
 Received: from PH7PR12MB5951.namprd12.prod.outlook.com
  ([fe80::e007:72f7:4102:9258]) by PH7PR12MB5951.namprd12.prod.outlook.com
  ([fe80::e007:72f7:4102:9258%4]) with mapi id 15.20.7068.031; Mon, 11 Dec 2023
- 05:49:02 +0000
-Message-ID: <a3357e1f-f354-4d4b-9751-6b2182dceea6@amd.com>
-Date: Mon, 11 Dec 2023 11:18:49 +0530
+ 05:58:16 +0000
+Message-ID: <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
+Date: Mon, 11 Dec 2023 11:28:04 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/11] ASoC: amd: acp: Use correct DAI link ID for BT
- codec
+Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
+ SOF_DAI_AMD_BT
 Content-Language: en-US
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
  Bard Liao <yung-chuan.liao@linux.intel.com>,
@@ -50,21 +51,23 @@ To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
  V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
  Mastan Katragadda <Mastan.Katragadda@amd.com>,
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org, kernel@collabora.com
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+ kernel@collabora.com
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
- <20231209205351.880797-11-cristian.ciocaltea@collabora.com>
- <8a218987-965b-4228-b1d1-f7c061d553ab@amd.com>
- <391d2476-8f4a-4670-a248-8d4d9c46ee09@collabora.com>
- <1de9b77a-5737-40e0-ba3b-79c8713be93e@amd.com>
- <41e63870-ab22-45d8-b8b0-c406dbcb07f0@collabora.com>
+ <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
+ <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
+ <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
+ <318470ce-1631-4c46-b425-755c877dda65@amd.com>
+ <421128f7-6a17-4be9-a72b-272ea4017fbd@collabora.com>
+ <ZXXEsyBUCrBULNgk@finisterre.sirena.org.uk>
+ <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
 From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-In-Reply-To: <41e63870-ab22-45d8-b8b0-c406dbcb07f0@collabora.com>
+In-Reply-To: <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0013.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::9) To PH7PR12MB5951.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BMXP287CA0021.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::25) To PH7PR12MB5951.namprd12.prod.outlook.com
  (2603:10b6:510:1da::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -73,146 +76,88 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|DS0PR12MB8368:EE_
-X-MS-Office365-Filtering-Correlation-Id: adf52483-f04e-4861-29e4-08dbfa0ce075
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|DS0PR12MB9421:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2095dd5-a7de-4c13-6a11-08dbfa0e2b08
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	fAjSDHurroHAjwkQSJxLjlHSxFzautK1yp99i8BVF1tC0428HXtY1QpB6/ZMSeHY2jfVedj1KgTuX8lMwYG+GbJAIDLteNPSXYi5cboCv+TuNi2+ZBQp3W8AnP1NqLNiCTYs9yQ67t9GbhPN/iVmNFtxviMlGIiszxrpjR2hmSA1TgezYMQcHVIGNBb9adhg2eTxkE6Zrj+06r3snjNTmiIeZlGNWT3St7Xu3Um/gthC8OWs8to/2RZKJyNmVaGoQUEMsA4NbsojookKJi/RG0OJmNLgRNFqKVcQWBxV8Ja4jlCw6aoQubVgfjZJ6D2HxL4QfEjDO4SDLNll4vpQL41HWv9dyqIoH2qBVzqSdDLTk9aFux0jIAsX2GyiZFokX7IfIr1eO0BWaAaFLzxcC3Hssqcisnlj6Sny6UEFiq+5HFIpzqhrRq+jVpLGgyPVCWTGlAYDsaGDO1QzPp5kOvldycXIDkURkW3M+2zRtu8kSALy0qpdGLYMelC1V54a2gop87ghIKY+vbEiGf2KT+10+wOR+UnCwbbJmGmDjFDUEFVKrfquSgYoySBjTYLMD7TdnTwaYcwdFVwWjnxVuu8bWhb61oYgGMwT8rRNWOkZK4HXACxKLThfzbi+9OMhMwALISolKzWoJoqBBmmwPLjFsSHfXCPQdxIqpF2TB4A=
+	2vipTLlgMobcg2x9Ls6mS3JJFE8cHMdVqJs4oU+/cOwzqeKzGQ+ucSm9YY8+ICKnyh0aN0Zhii556DlJl7fCFh6mDxpDULTvvUVuQrBMtuh3TgWCf1heGZyHPHvPsh3waCGWOQ5GQAsht4XiE6BRvrTV09rS0ato3mMmA8LgskS1SU0GFzn8YIGcnCuGdw7r8bojuvGD1yuZfXhGilQ9hb0zBamMNj164FSMdmareMtr+SGSx279NgxnxX7EQr3/FX0Wjgd54XAaIADYzAPH1zQ1JTDUvfFvyOsZk/JQTysxBCZRiVp0302Q1sOohRz8vT85nasIRrH5SNKCQxrOAOltK/gMrSONbmLUUscDbIKSEdS2klqBnXD0lvDkroHWqbMTJuETZpPb0v0cfnz2tJBqo/VW2bf2PFY0/3hbUT1IIQGg6CKD+eZE1tedeFD40T2njZ6kwXiSCFXZFK7idDSUteAYk093qNmsrOpiSuMbWuBFxzqRzkaHldfJwWPCfrMM+3kmkD429PjLS1ikErvAHt92WOX7XBwz9Rp/gyYk3jjoCpBa01dA+qHOglBhcfq6MUF2e2mS+x+JdxLRM7Bt86ZILMH22hg+wssGqHtgeTRYyGSO7o8l0NJIBI9qpRcWsx2NIx4BPEXgJ31pKE+md0BZ64/bfcBnrbptuyQ1Xm2TKeqL1IfoRnOJfX+B
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(136003)(376002)(346002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(6512007)(6506007)(53546011)(5660300002)(26005)(2616005)(36756003)(7416002)(6636002)(66476007)(66556008)(66946007)(6486002)(2906002)(83380400001)(31686004)(921008)(41300700001)(478600001)(86362001)(8676002)(8936002)(4326008)(31696002)(110136005)(316002)(38100700002)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(39860400002)(136003)(376002)(366004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(7416002)(6506007)(6512007)(6666004)(2906002)(53546011)(54906003)(66476007)(66556008)(66946007)(38100700002)(31696002)(86362001)(36756003)(316002)(8936002)(4326008)(8676002)(5660300002)(31686004)(110136005)(966005)(6486002)(478600001)(41300700001)(26005)(2616005)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QTBnSVN3RFRTY0FmbVd6ZHhQd04rL0tDWjBMWXI3M1d2YkhTQ0hYbmFrNHdr?=
- =?utf-8?B?aC8xOEsxOGdPYkF1L0MzbGxaakxnK1g3am43RDBvRE1PaFd4bGNYM1Y5aHFS?=
- =?utf-8?B?SFkxQkgwdXJyam5YdlpPbW8vWmVjeGVFaGwzVWNNUk00Z1VhQnlGU3lHRmMx?=
- =?utf-8?B?Yys2QW1aV0FiUGY3cjUzaEhhRW9WRktRL2d6NGRtT3Y0RlROMCtVS1RaaDRR?=
- =?utf-8?B?cS9Ydk1lTHJKRTVUK1ltQ1FEeXRBNzJiSGI3dDNXblBoQXkxNGRXVTQxY3gw?=
- =?utf-8?B?UHd1UDFOekVrbGliMjhKK2pwbjZWY3lUcUpNeVkxejA3RG5Kc2N5bHpIdzlO?=
- =?utf-8?B?QW8zQ0Q2cnBHb3VsOHkyeWZZMjNiYkNPa1ZZM0JET0RhZFdDZTZncmdDK3pW?=
- =?utf-8?B?Unc3QTRDOUhuTHBHS1pVV1hiQnJ3NXFJUFJhMjlhNlZtSThIZ2p4emkrd1Rr?=
- =?utf-8?B?UUVEQlJ2cmpCdi9SWFNDaDlndmN6dXFSOWcyUW82emxQUmdMc0Z5clFpV1Iz?=
- =?utf-8?B?SDhQaS9Zam5TRnc4dSsrTnovL2Q2ZGNOc3hpQ012eXN0ajhlTU5lbzUxdXJQ?=
- =?utf-8?B?a0gwQ0hrSGFwSVgycklxTjREZWQ4WVJBbitraVcwZFh3Q0QrKzl0M1hjSjFk?=
- =?utf-8?B?dmkxRDVQK3EzRGVubmFhVEYrRjZzYzlUUE9lemNlYm1zMXd1Q0hta0tkdllW?=
- =?utf-8?B?d1VwZzNkZnRlckdYOTM0Qzl0eXpPSzBqMy83WTFMWXVRVUxCZTdEQktnaTF1?=
- =?utf-8?B?OSt2Qy9EOUp4cnpHWFFTMFp3SUVSN2JCR1JETEJGbUhOR2lUMmpLbC8wZER3?=
- =?utf-8?B?Sk9ZdUVPYXA4cEdYaTBVRnRPRnlRVllSaHl1bHpBbDR1c3JxU0lLOHZmK096?=
- =?utf-8?B?d3B0dzFqUVVZK1lIU0ZLanFTdWJ3djltc281Mm40c2Vxcyt6UWQ5MnNVNFJ4?=
- =?utf-8?B?d0dJT2o2Sk5MS05hN3ZWK0w4Qy8vNzF6R21zN0w4OTVQbUZxZHRwdnBYQk9z?=
- =?utf-8?B?bW95TjhXTEJxZE9PREwzWFVHZjluMVBzSUZjQ2R1YUJRYjcrMDZGZjhCeEtH?=
- =?utf-8?B?RUFtT1MxOVl6L0plZ0JtWnNtRFhhVVBrSnNoKzhlNE42Wi9yTnFUZEtjQW9q?=
- =?utf-8?B?eGNYcUVHVU44eTl6ZUVkWFBKR0tWY0pJc0tKUE5PK2x3VEdnUHlJMFAySS9H?=
- =?utf-8?B?WllWdnUxbGVWTEI3eGJWeDNrUUZnbHI1bTcvWkxYci9CS1Y3WFRLUVBoSGNX?=
- =?utf-8?B?bit1UEVrd3h4TFhYbDNGQ200N2g0YmlkYlNpQXZHSFVCRnlqTzdEdFdaUmIw?=
- =?utf-8?B?QUpoenRqQmNQV0xKQmJNZXB5VTJmVHQ0aFBoM2J6N3NnUkZiSXg2dW11ZWJN?=
- =?utf-8?B?R2lhNUVyRmE5QWdqTUREcWExOHhMVjgwWWtUcEtBeVFQcy9HYWZ5VzZIUnI1?=
- =?utf-8?B?NC85WHVtS0RyNlYrdXpHVCsvdDJzQUJVeU1KWVNmL2pLenlPK1JqUEJhMzVr?=
- =?utf-8?B?NEJqT1ZWaUVZZityR3k4SGtYRFN2SE5jZGhRb2VnRkg2M01TNm04b25jTHo2?=
- =?utf-8?B?eTB6UThqdmZiQklZck1sNzhGUE1yS1cwNU94Z3hxR1JJOGxaN2JENEE0WFpw?=
- =?utf-8?B?NHZnR1ZDdVkwVXJ2OEI2T2FxeW5MQnJiNzBWNXN0dXV0Q0ZTaDdJODcrQU1F?=
- =?utf-8?B?SmNVUjMrUzJlc2ZBMWpjMlVhRlBaMnFhY0tLOHVVc0tIQVVmM0VVbkRXNTJY?=
- =?utf-8?B?bE1SYUhaZXhCajlIRENYbWpqWFIrWndqTXgwVUcvODl5ZExUbWVkQXJGbGI3?=
- =?utf-8?B?aDR1QmJpdW82V0NoVGhteUNRY3pweUJQUEx4NE9PdzZwUU1OMFZFTUVQWlU2?=
- =?utf-8?B?VUhxYzdjbHFqTjRZM2FTYWdiVTFXOTAzRFNtQ29lQzZScnlBTkhmSGwxdWlx?=
- =?utf-8?B?bUROWFBUSG1rTnZ3V0VuWmlJc0tVZzdId3g5STM2NHBDK0dRcGxUbWlaM2Ey?=
- =?utf-8?B?Z0lnK242TlN1dUtBNWNKQ2JjY1ZyV295NlhpTXBFNkQ4RTZMcUQ1bVBWWGNi?=
- =?utf-8?B?V2VuZ2d3UVFQbEFUcFo0VEJ3L2pvZnlwYWlEcEEvRFFHK2MweVpNeFE5U2NW?=
- =?utf-8?Q?gAjDwFEyxVBWJV82EBpAMHRWO?=
+	=?utf-8?B?N3FnV3d1K2I1UHh6UjRyc01LNEdPdTl1Y1lHcU9vV0VlYkVKRG5QRDlvcnND?=
+ =?utf-8?B?VCtQeEI0eFFTbXhpc0tRcU9BM0V2bEJ6d2NjQ1BUdmZrTGNRbWFxMHJlYVd2?=
+ =?utf-8?B?WHI4alBBVkJZcDdOaVU0dkc4T0NJUlpqWXVHMVJqL25ybHhpWHBSeDlaMkFT?=
+ =?utf-8?B?MEN3TTlvd1ZUMXRoYm9McHUrT3c5ZjN1aGdGdmtsSU5DQmVmYkRtY3lQVVJI?=
+ =?utf-8?B?enpuY2xvTU9ycHZ1clhTR2RIZnhMQmR6cDRXRjRvb1FlQlVkeStyV3BsU09L?=
+ =?utf-8?B?U0thUkpJRSs0RlV5a1NSVGF6TWpLUWtkTktBTTRVOFBXNlBPaWd3UENZNy9K?=
+ =?utf-8?B?b1RTcVpwR1o4OWJJWDNhVCtVeWVHVFAzVFczcWRXQkZsRGZIdE5WcUU1ZFZo?=
+ =?utf-8?B?ZktjaGJRWGlwNzZRTHZMWmtlZ3lvWUNGeTBtWkpHMG1Pc2xQd0pRdkxacnNO?=
+ =?utf-8?B?WlcvSklvT3NhWW5JK0xlcGo5dmxnOXVZeFVEdDJndHVVc0dKTVF1TXE5S3ZJ?=
+ =?utf-8?B?L3JpLy91QWVOYUozSFhnSW9KdHZjM2N1aHlIUkFrUHZOdWRxM2o3ck5mcXNO?=
+ =?utf-8?B?NSt5azUwQlJOUEdhZS93OXZ6bHlIUHNRc2pNTnFPRWE3enRxY01WWDlxdURJ?=
+ =?utf-8?B?WjJhUk95RS9BZGp1eUhpakJKWmlwZkl3YS8xR0hHM3Q5RXJVNXV2Q2hSd2cx?=
+ =?utf-8?B?aGNCbENDZ0JSMG5hMWJmcm1BQTB3NFpqeEplOXNIM0JSSGsvYysvN0RPZzg0?=
+ =?utf-8?B?QUdUSDRSMHgzbHVOL3ZvVXEvazNabHlqajhCcytGZEFsSnZodnVDSEl6YmFU?=
+ =?utf-8?B?bmQzaGtCYjAwSGNrL3E3VWJPcjY4bEhYSkhjSGFhM29vTkYrZWsyZnNBZWJB?=
+ =?utf-8?B?M2NUK29XN1BrcmpYRDVUN1ExZFc1aGMwODAwMmhEckVOSkUyZzNzWXQvS1lB?=
+ =?utf-8?B?TVljYXlmeGR5czRwM09PemdUaUNJK1hEK0JtdkJzTmJnc0lvbndtN2paa0VT?=
+ =?utf-8?B?aURqV0JuVGIyS3BybUY0RUdXVis0RmIzY0thRGJUdG9iZ2VTQWtnQWhGLzl2?=
+ =?utf-8?B?NW9XYkhQaHVqTWVBK2xHbEl6OXovYlVvRkRnOCt6dThzWVJMYll4TUgvWXpE?=
+ =?utf-8?B?OFVOb2k5eVBYbXFqL3U1Q0ZhVW5lYkhjb29DclZ3RFFmOSsrK3V5cWtyMjJF?=
+ =?utf-8?B?NndxeEM4MnJ3MDB5bnlJR3dUZEUvRE13YVpmYUZPTjdpdWUzMm1GNEVSQXA5?=
+ =?utf-8?B?OUZVNkMzYWdDSzc0OWZpaEovdXQ3QVZRVWlFQm55ZFBEZW1SMkRKY1hFODFT?=
+ =?utf-8?B?UmpsU3VLcXdST3FWaVYxaXUzczluWVkwYnB1UE1hMm9ZUllFMzFkdVQyelli?=
+ =?utf-8?B?L0ZhamZCb3ByV2g0Z0YxZFk4K3ZzSGRBUmtBdWVKNnFNeHVlbWlTQ3A3L1Ny?=
+ =?utf-8?B?UlJ1djNuK3A4NVVSS3hJaFkvVTFhZm50SHpVbU93ZVQvZm5kQWp0cm9vSXFs?=
+ =?utf-8?B?TWR6MWF2ejFncVBRVTVGdE5VWW9lVXFWSUIydFROcFhIWlBIN1BRTFp1Smxh?=
+ =?utf-8?B?QW5TcUJRWkFsZ2FQNWc3RGw5azFueUhBQWhtVFVseXpuUGhHTlhYb1FJYSta?=
+ =?utf-8?B?dHR0QUdOM05ZcXVoU3o5ajlsaVBEZy9CWVd0T2dXaFJ3NjhPem0wQ3ErR1RG?=
+ =?utf-8?B?dWZHZUZXUXBxNldvU1plU053eVZOcWJ3Vnh1QTJjQmZjZ2prMzRvM3hwUVNI?=
+ =?utf-8?B?cml0WWpBbCs5RDNvWVdsYTVLcE0ySGdxTVoxbmlrN0hXZVdTQ3BBQmJCQnlM?=
+ =?utf-8?B?Vk9jZFM1TWFwdWV3MjRCMTlsU2tzM0VOQmJ4Q1I4T0ViMFAyWURJeG5JTkZx?=
+ =?utf-8?B?a0h4RGlpOGJBM2dEL2lhRlZheHhLMmcvbHljQ0FnZjltLzJ2MnJOUzlXQzRS?=
+ =?utf-8?B?WkhPZC9OZjdPdlJhM0FPRmVtaTd6U1VIcDFwODdRN1hZYTEyV1JmNktJQzFB?=
+ =?utf-8?B?aWs5cUJFcHhPVEtuM2JNNCtNZXZDSDJkR3VRVUFGQm5HWC80YUFMb2FhaDAy?=
+ =?utf-8?B?Z0xiOWc2VWFDVEZYS2svTW00SU5BQUxDQnVxVThmRE9MdUEzQWphYUhDV04x?=
+ =?utf-8?Q?aa2BC17Fnzm8iYp1nKYGqacYV?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: adf52483-f04e-4861-29e4-08dbfa0ce075
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2095dd5-a7de-4c13-6a11-08dbfa0e2b08
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5951.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2023 05:49:01.9142
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2023 05:58:16.2803
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cw78t5QW+sy/0PZNogyr0OTXCwqiTx7tmNrE6E+SBbnZmYgnI+AoXAMKkunztPor0sFEAWl8m3qv/H728FpEng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8368
+X-MS-Exchange-CrossTenant-UserPrincipalName: D2MuzOYM78lNSi+p2ao+Kz3I9gJi1OimnKymSHYGOEG+HEGulnVygCoxjr9Hx+qrvUIHOkUJ8cdsGf/3D850pw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9421
 
 
-On 12/10/23 16:02, Cristian Ciocaltea wrote:
-> On 12/10/23 12:05, Venkata Prasad Potturu wrote:
->> On 12/10/23 14:36, Cristian Ciocaltea wrote:
->>> On 12/10/23 05:24, Venkata Prasad Potturu wrote:
->>>> On 12/10/23 02:23, Cristian Ciocaltea wrote:
->>>>> Commit 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink
->>>>> creation for I2S BT instance") added I2S BT support in ACP common
->>>>> machine driver, but using a wrong BT_BE_ID, i.e. 3 instead of 2:
->>>>>
->>>>> [ 7.799659] snd_sof_amd_vangogh 0000:04:00.5: Firmware info: version
->>>>> 0:0:0-7863d
->>>>> [ 7.803906] snd_sof_amd_vangogh 0000:04:00.5: Firmware: ABI 3:26:0
->>>>> Kernel ABI 3:23:0
->>>>> [ 7.872873] snd_sof_amd_vangogh 0000:04:00.5: Topology: ABI 3:26:0
->>>>> Kernel ABI 3:23:0
->>>>> [ 8.508218] sof_mach nau8821-max: ASoC: physical link acp-bt-codec (id
->>>>> 2) not exist
->>>>> [ 8.513468] sof_mach nau8821-max: ASoC: topology: could not load
->>>>> header: -22
->>>>> [ 8.518853] snd_sof_amd_vangogh 0000:04:00.5: error: tplg component
->>>>> load failed -22
->>>>> [ 8.524049] snd_sof_amd_vangogh 0000:04:00.5: error: failed to load
->>>>> DSP topology -22
->>>>> [ 8.529230] snd_sof_amd_vangogh 0000:04:00.5: ASoC: error at
->>>>> snd_soc_component_probe on 0000:04:00.5: -22
->>>>> [ 8.534465] sof_mach nau8821-max: ASoC: failed to instantiate card -22
->>>>> [ 8.539820] sof_mach nau8821-max: error -EINVAL: Failed to register
->>>>> card(sof-nau8821-max)
->>>>> [ 8.545022] sof_mach: probe of nau8821-max failed with error -22
->>>>>
->>>>> Move BT_BE_ID to the correct position in the enum.
->>>>>
->>>>> Fixes: 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink
->>>>> creation for I2S BT instance")
->>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>>> ---
->>>>>     sound/soc/amd/acp/acp-mach.h | 2 +-
->>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/sound/soc/amd/acp/acp-mach.h
->>>>> b/sound/soc/amd/acp/acp-mach.h
->>>>> index a48546d8d407..0c18ccd29305 100644
->>>>> --- a/sound/soc/amd/acp/acp-mach.h
->>>>> +++ b/sound/soc/amd/acp/acp-mach.h
->>>>> @@ -27,8 +27,8 @@
->>>>>     enum be_id {
->>>>>         HEADSET_BE_ID = 0,
->>>>>         AMP_BE_ID,
->>>>> -    DMIC_BE_ID,
->>>>>         BT_BE_ID,
->>>>> +    DMIC_BE_ID,
->>>> This will break the other platforms as this same enum used in topology
->>>> to create dailink.
->>> If I understand this correctly, there is no consistency across firmware
->>> regarding the IDs used for DAI link identification.  What would be the
->>> suggested solution in this case?
->> These id values should be same in machine driver and topology file, then
->> only dailink can create without an error.
-> Yes, my point was that some topology files seem to require different IDs
-> for the same DAI link types.  In this case the topology expects ID 2 for
-> BT, but other topologies would interpret that as DMIC.
->
->> Always new be_id should add at the end only.
+On 12/10/23 21:20, Cristian Ciocaltea wrote:
+> On 12/10/23 16:01, Mark Brown wrote:
+>> On Sun, Dec 10, 2023 at 12:12:53PM +0200, Cristian Ciocaltea wrote:
+>>> On 12/10/23 11:51, Venkata Prasad Potturu wrote:
+>>>> This should send to SOF git repo for rewiew, once SOF reviewers approved
+>>>> this, again need to send to broonie git.
+>>>> All the changes in sound/soc/sof/ path should go to SOF git.
+>>> Unfortunately I'm not familiar with the SOF dev workflow. So it's not
+>>> enough to have this patch cc-ed to sound-open-firmware@alsa-project.org?
+>> The SOF people basically do their own thing in github at
 >>
->> In this case BT_BE_ID should be at the end.
+>>     https://github.com/thesofproject/linux
 >>
->>    enum be_id {
->>        HEADSET_BE_ID = 0,
->>        AMP_BE_ID,
->>        DMIC_BE_ID,
->>        BT_BE_ID,
->>    }
-> So you are basically stating the firmware is broken and needs an update
-> to use ID 3 for BT, and there is nothing we can do about it on driver's
-> side.  Is that correct?
-Yes, id 3 should be used for BT_BE_ID in topology file.
->
->>
->>> Thanks,
->>> Cristian
->>>
->>>>>     };
->>>>>       enum cpu_endpoints {
+>> with a github workflow and submit their patches upstream in batches a
+>> few times a release, however my understanding is that their workflow can
+>> cope with things going in directly upstream as well.
+> Thanks for clarifying, Mark!  That would greatly simplify and speedup
+> the whole process, at least for trivial patches like this one.
+
+Hi Cristian,
+
+We have created a Pull request in SOF git hub for I2S BT support.
+please hold v2 version SOF patches till below PR get's merged.
+PR:- https://github.com/thesofproject/linux/pull/4742
+
