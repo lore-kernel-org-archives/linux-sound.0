@@ -1,116 +1,85 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69294E1D6;
+	Mon, 11 Dec 2023 17:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WQpYFpDW"
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A7DC7
-	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 09:32:03 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a1e2f34467aso451057866b.2
-        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 09:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702315922; x=1702920722; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s/UnhJJFhJv72Mo0GfEYdwGM1aW2h/5wD9gbIJDTJ8E=;
-        b=WQpYFpDWEDJQ4oDo+6PPYIbPSsM7N+e0QXdC5CgSa5Jo88oXRLu031YG2Pn2dX0pR7
-         lg/nVJx92dd0y703E/Y9Pf9z/FL4ChEcp/QneASVNxAiuWWx3kksp00J5CwpFmm7vKKe
-         2qox0moch0OXz2AHkikl6VLxxt3JGT/xGofZYKfhMZzBJXLmnFXa9m4t7R4JdSej906E
-         GzfRKSdfH5kFCNK2qDY8WwNt/NdiTBlQPvK3bZsMEn5JEv+wMJpcKJKMxZdZEd02RWDd
-         Sl0LP2N4ngMbWLGnW5tQu1DOoGUNyyYmFB9yWVQBejb2umYPDF1vDgt+joUAEM/XvLbX
-         TyRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702315922; x=1702920722;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s/UnhJJFhJv72Mo0GfEYdwGM1aW2h/5wD9gbIJDTJ8E=;
-        b=grcxObJ0LuAYdRGZM9VKQGnJn6b9tkkfkceZkqvubpGtoRPWVPjKK1JYhM7KWwAMbb
-         uS1SalW+Oi9ZKxi+SIZjDM9b89lazWpy30SkNt7o7kYTeOXcHok26nkW1wcvAtq5gkQA
-         GYBWkh32SWxYsCED7LpakHFo3kjV2Yn+/2sFNz/7lGzOJHyZIk8nJ17nWRUyG1yqfk+r
-         RXQgCCQoRPDjuByoALDm17YnkFrKiXhmncavDJCvt37JUeASCGbSMSpVYPUCb4ffHS2z
-         AP7OHGXlwbx/khlerPQuTc4zyeogp/cntALBc/dfowwitcp4ImW4MloBNbyC3Ek8LEsW
-         0c2w==
-X-Gm-Message-State: AOJu0Yy7KwLS9oqHIhOaCuscff5mDJ6ivwCpNSnY4qKLsx/EiQE18Uh2
-	lbD5k9VsVF4Pbluq5c7LOSkslQ==
-X-Google-Smtp-Source: AGHT+IHReIaY/WQ2l+1mkKbAFPvx2OncWPm7jOMW3JeO0fS+svIC6pbCoCqaSAGs6aNZU8LI3n1mXg==
-X-Received: by 2002:a17:907:6d02:b0:a16:3da0:dd36 with SMTP id sa2-20020a1709076d0200b00a163da0dd36mr3238682ejc.48.1702315921972;
-        Mon, 11 Dec 2023 09:32:01 -0800 (PST)
-Received: from [192.168.36.128] (178235179179.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.179])
-        by smtp.gmail.com with ESMTPSA id vu8-20020a170907a64800b00a1d5c52d628sm5087827ejc.3.2023.12.11.09.32.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 09:32:01 -0800 (PST)
-Message-ID: <b7eafdba-5f10-45f1-bed8-55585fb61e94@linaro.org>
-Date: Mon, 11 Dec 2023 18:31:59 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cv1+xrqX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CFCC433C7;
+	Mon, 11 Dec 2023 17:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702316193;
+	bh=Ako3lvIvEUfiqGQJq4GqRqTsaTMhVesj9bhTZOv+avA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cv1+xrqXoHFbWdUJLTpczJTYJa5136QAg8p6zLoBASeDwSQPJEGvfqHhPkQJxwAsj
+	 6BZCcIbYNQq+GeQVeC8BWl3x+b2c9DBWhroFbuc6z8B2F0+aZMJWp54PixQoKCDFGt
+	 jgJdPnLwggbppAuLR4+FzYF9wW5JVFrPbAxWtF6SUCOydC3D6/h+geJ6K7D5WKIPm3
+	 8UACbWFhw/YQlJ8eO9XeJko/Mdo0d5j6xeTtN+y0fKPEJpwirXmqHAawBrRHO5df/v
+	 GLcstuYk1daow0GukEskHUbPRdWxB8LF0oILCP8MCoOGBqY2KwnKRFO1RujcWxhzxg
+	 6wCX045ThnJsw==
+Date: Mon, 11 Dec 2023 17:36:26 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100
+ LPASS RX
+Message-ID: <a210dd57-a22f-41ab-8e3b-93fa1fd03a0c@sirena.org.uk>
+References: <20231211123104.72963-1-krzysztof.kozlowski@linaro.org>
+ <20231211-cardstock-elevator-3e19f9d41ac2@spud>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100
- LPASS RX
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231211123104.72963-1-krzysztof.kozlowski@linaro.org>
- <20231211-cardstock-elevator-3e19f9d41ac2@spud>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="n42/ISRIigQDPDMF"
+Content-Disposition: inline
 In-Reply-To: <20231211-cardstock-elevator-3e19f9d41ac2@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Cookie: Better dead than mellow.
 
-On 11.12.2023 18:29, Conor Dooley wrote:
+
+--n42/ISRIigQDPDMF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Dec 11, 2023 at 05:29:50PM +0000, Conor Dooley wrote:
 > On Mon, Dec 11, 2023 at 01:31:01PM +0100, Krzysztof Kozlowski wrote:
->> Add bindings for Qualcomm X1E80100 SoC Low Power Audio SubSystem (LPASS)
->> RX macro codec, which looks like compatible with earlier SM8550.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> > Add bindings for Qualcomm X1E80100 SoC Low Power Audio SubSystem (LPASS)
+> > RX macro codec, which looks like compatible with earlier SM8550.
+
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 > I wish you'd send cover letters when you send series of trivial patches
 > like this that could be acked in one go.
-(+1)
 
-Konrad
+In general any patch series should have at least a brief cover letter,
+it makes everything work much better.
+
+--n42/ISRIigQDPDMF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV3SJkACgkQJNaLcl1U
+h9DAmwf9FAyBzWGolz41aTQV/iYxTZfK4ZqEsyyThB9fYsQrPLVGYOw5PHpUTeul
+0d88h6YldHkaT+pffLxlmSlq0D8H2XmOSsSjKE0/8RCLSZL4V5MgOksiQzQxsBUV
+Sbrz2hfDZqYhg5bis2VHpjwrfdXjY7lrpOtGwomGqaecaAm7swTu3tyL7Eh23dBF
+w4MpjYr20bJnbt7qwi32NxvzETYnVm0JFaX1biUkJtHowZpi55Z+9XydwmRWlvJZ
+w6G3K+++zd8Wo+ViR1pYaHWOxlvLB0RXP0kEZtIiCeNAiaSOlIDcGMVwkyVGcPfF
+FBb4ujCnVVxe6GlilQfyEDfJThkmJA==
+=8Yu8
+-----END PGP SIGNATURE-----
+
+--n42/ISRIigQDPDMF--
