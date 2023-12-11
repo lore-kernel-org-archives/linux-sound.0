@@ -1,171 +1,132 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fTYu0DVF"
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00AC4BB
-	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 03:06:12 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2cb21afa6c1so42779121fa.0
-        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 03:06:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nBB0QM99"
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1BFCF
+	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 03:41:01 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so40154865e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 03:41:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702292771; x=1702897571; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mmc6jvsGYIPWlSw+mTClkyF2xLO1J2HDgWNHBPjGN24=;
-        b=fTYu0DVFvb3E1RXr/1igi/sYvZgc20zzjezJFbYxG7rZkqeOypZbn1DlTsDmHvx1wc
-         wF1Lmumk6AHMcT/nBqi9/gErbRfxfvF2nQxBktGnyYxt7NS96yoeR7F4FW8JW6P/pIsf
-         HlY1ryMg38lnfcnfJv+RnajcjhJ7wtEelTAwr1RTVnPpH0VBoNwZYyDbqhYal26HJIKX
-         C30M/ACW+ot1yU+gJ3BdUTwXZJ+hxox6SR4gz+Cs0Nb5JU5oC3ad3uZb4jDL3pvRyhi5
-         Xn7bZADPAG7/uhiw9lQp0NPvw4vCgDn2WdeG1Gb4ga7dB8Sk1xYEFcWNQsCnaLQxvHXa
-         Vlzw==
+        d=linaro.org; s=google; t=1702294859; x=1702899659; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cMvA/ANtahW+hb9oH+xQ7G9xSFgd/krQcWaU1bteuv4=;
+        b=nBB0QM99ztLXI6RgbXCeVBuDP5ZoSF1RDANFe1/qh2EyTu7BBG6Jogth/vdj+5B18q
+         LN7U6iryl2Z73mg8sBiVCOHTdL7aCQgVGu2/wBQwPolxbO4dEOmd+1jXlWmQElSoixWG
+         8/LhnQFZoR8uM7NJbqAUOVxzfx6S4c71RvzNjlhKZY++mjau7Y128eVW8K+X+OnbCdlG
+         b+JoElNnYgvlu56iNYf1PLpbtnL4Sjp/vIHOjfEqNiNY9AISbVbYcDR6bwjbp+C08D7x
+         cQo8ImCsdmvi55Zl16MSxyzkiBjxn+dakk2sZ9EpdNeL2Q2I3NyO7e4auO5NO5PRq3Iw
+         xqZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702292771; x=1702897571;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mmc6jvsGYIPWlSw+mTClkyF2xLO1J2HDgWNHBPjGN24=;
-        b=O09AWIH2Qx1bj4it8KJMzpXCc+/Go9UVsIQTpT3mcIpTCHfGlY8AhnwndoU3PI0vB2
-         UqZGu0BNey25h8sCplIEUMj7EYXtVGi2+/SKbe5HmJycOlMmsdBAnM+I4XX1F7Fn0jdp
-         yIWJQoVXCgQW38wnj8JGi7BMuf6Nyl6hM5ekYj7cks9lymfy967NKA8UUGtIDLUg+rDC
-         oDZ8sZ9E7jpLiG1QeppShdGF+APPSiETVJyoOl/J4mJHf6XnLoJRG9lW2DRBG+gzlT8m
-         xXQnVxJ/1ckDLVeo1ks2aH+ODJ9CJ2k20Qh/fGX7hj3Xn7daUmRgZ3PSOjttfc0WF84g
-         Fdaw==
-X-Gm-Message-State: AOJu0Yx30Pnj8bjOWMwgEcsgfw5OlZxLO8jfW48jfZp8xbk7vz8fjYzS
-	6RWxnUq86UbS+1xXi/SYpd49FKrC4xo8WIsb0wQ=
-X-Google-Smtp-Source: AGHT+IEws++Z3d2Q8FP87V7anC5cq4gDk2U+0Igu4qvgIVqz1Vmoul4BlyIJEkD+6iAu9qN1fPo8dw==
-X-Received: by 2002:a2e:bd89:0:b0:2cc:1cbc:734 with SMTP id o9-20020a2ebd89000000b002cc1cbc0734mr1873966ljq.40.1702292771246;
-        Mon, 11 Dec 2023 03:06:11 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id vb2-20020a170907d04200b00a1f72df5617sm4206451ejc.141.2023.12.11.03.06.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 03:06:10 -0800 (PST)
-Message-ID: <993b2eb5-7998-4765-9870-b7ad039f8a3e@linaro.org>
-Date: Mon, 11 Dec 2023 12:06:09 +0100
+        d=1e100.net; s=20230601; t=1702294859; x=1702899659;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cMvA/ANtahW+hb9oH+xQ7G9xSFgd/krQcWaU1bteuv4=;
+        b=ErO3ueDEDrjGNw5LtNL/OlDX226tvJucCQwy6hP0P8uaeJq8xQAxrx52kaT/gD4xwM
+         zPr616vNlemyEHisV6jtkx1qoOd6ZLYp3qJ+YJGpYOkLoHTpudI82UrhokiWx9gB4s82
+         kRz846VglooaXbUeUyHNfTaiWiSNVa64MhK2QUB2MnT1fKJV4bPsBC7pXxHXhu3XCROA
+         GVO8sbOtxJ8YWbBk6OB2tYLoNR0phcqB5E7tfOPMS8LgkEIV37RoyQdmwGgZEhC6bEF1
+         2QpYeDevhtNWHvx8EHdG9/QC2AlEa/hX3StK0IT6HSoi4MjGK1BKaTygNFv2bM5JIkuQ
+         MchA==
+X-Gm-Message-State: AOJu0Ywn4Un/H5vJm/p4aSOrUtDwpl7M/tQOzG6UallpHzbDDYISGHNv
+	QvXBH94dK+o5BGRtZLRqRr8w8A==
+X-Google-Smtp-Source: AGHT+IGEjB1saOzLbqjUnbbOLBg/lh3L6Ga+lymW3L4n04g9lWLUrFnJl2hsCTDEre3MRludqgGqdw==
+X-Received: by 2002:a7b:ce8b:0:b0:40c:3270:ec9a with SMTP id q11-20020a7bce8b000000b0040c3270ec9amr1089805wmj.349.1702294859472;
+        Mon, 11 Dec 2023 03:40:59 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id p7-20020a05600c468700b0040c420eda48sm6178883wmo.22.2023.12.11.03.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 03:40:59 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Mon, 11 Dec 2023 12:40:57 +0100
+Subject: [PATCH] ASoC: codec: wsa884x: make use of new
+ mute_unmute_on_trigger flag
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: dt-bindings: Add tas2563 into yaml
-Content-Language: en-US
-To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org,
- conor+dt@kernel.org
-Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
- devicetree@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
- pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de, peeyush@ti.com,
- navada@ti.com
-References: <20231210234759.1095-1-shenghao-ding@ti.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231210234759.1095-1-shenghao-ding@ti.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231211-topic-sm8x50-upstream-wsa884x-fix-plop-v1-1-0dc630a19172@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAEj1dmUC/x2N0QrCMAwAf2Xk2cBSlRZ/RXwIMWrAraXZtDD27
+ xYfj4O7DVyrqcNl2KDqx9zy3IEOA8iL56ei3TtDGMORAhEuuZigT6mdR1yLL1V5wq9zSqeGD2t
+ Y3rkgR47CUSWQQI+Vqt39R9fbvv8AkBnT3HgAAAA=
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1958;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=O686kNPfhDqyBc+yvwfM+enx5jWXb5MAlOqcdwFA5+M=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBldvVKCbZAQnrutsDlCbNPOPYiveBzyrvr8dCS2rbw
+ arXbjQ+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZXb1SgAKCRB33NvayMhJ0YCuD/
+ 4iq4pN/CJwoFmazc6CD98pcr/TlK3oH4npma/Gs2B+MZTt+bseIgVjy7pKgNTjE5vrvEw3+bq+MRJ2
+ Cp4uZw2wpfsoKXt+BCvBbJvYc9O51e+8ffKK1N7dviP5eGURT6e3y/lfftkg508YRt9n+tfKV17FMt
+ 2UsrqH4vi7QSxaDs2a0ucGSeMY6oGIMLeeNTdLxOE6Uz+Cbm79efoq4AcFRI4Rva8fAn7AbvGpKFVj
+ ts4dpZNYV+baK1SHjl5/t6+JjVQCitZlZ5PzMdKRVtjLDIBvT1NG4Rv0W9Q6ww4xF90o9BZaNL4vla
+ xlShjZLc6AH/UtbGt3J37/yI1nwiA6ueJbVd9Gq9O92uUiyysiIfwz4pelB4sBCKJv9n4Zdmct0t+v
+ CnrpMcB9wbJe1ftEXAOeD52qjAQA56HcmtIMK5cbJveK063an5mP5Hdlay1jWE3FSIikfRZHa9agV+
+ +kqkQZ4WeqA6P1rNmkZZCsbKJ2XyfRpOU8uwPT6xdphNGLBmwLPQ90U+nO1G8larZowOHxqqncpcdD
+ D4yDelhqVet0n8HyvlL8nWTsNATliDsDuM1HtcwXhOVIN0oqvtxXNSiXoteSyYdcA9nQHbPTUHryUT
+ RAFidOJ9l8TCF1wXxCjQNzJb3LtXXeaZrLMX96ICC51k4smRFJOCddjRq90A==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On 11/12/2023 00:47, Shenghao Ding wrote:
-> Support tas2563.
-> 
-> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-> 
-> ---
-> Change in v2:
->  - Add devicetree list and other list of necessary people and lists to CC
->  - Express Compatibility in the bindings
->  - Drop driver changes
-> ---
->  .../devicetree/bindings/sound/ti,tas2781.yaml | 26 +++++++++++++------
->  1 file changed, 18 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-> index a69e6c223308..c049fe6b2dad 100644
-> --- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-> +++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-> @@ -5,17 +5,17 @@
->  $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Texas Instruments TAS2781 SmartAMP
-> +title: Texas Instruments TAS2781/TAS2563 SmartAMP
->  
->  maintainers:
->    - Shenghao Ding <shenghao-ding@ti.com>
->  
->  description:
-> -  The TAS2781 is a mono, digital input Class-D audio amplifier
-> -  optimized for efficiently driving high peak power into small
-> -  loudspeakers. An integrated on-chip DSP supports Texas Instruments
-> -  Smart Amp speaker protection algorithm. The integrated speaker
-> -  voltage and current sense provides for real time
-> +  The TAS2781/TAS2563 is a mono, digital input Class-D audio
-> +  amplifier optimized for efficiently driving high peak power into
-> +  small loudspeakers. An integrated on-chip DSP supports Texas
-> +  Instruments Smart Amp speaker protection algorithm. The
-> +  integrated speaker voltage and current sense provides for real time
->    monitoring of loudspeaker behavior.
->  
->  allOf:
-> @@ -23,18 +23,28 @@ allOf:
->  
->  properties:
->    compatible:
-> +    description: |
-> +      ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
-> +      Protection and Audio Processing, 16/20/24/32bit stereo I2S or
-> +      multichannel TDM.
-> +
-> +      ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
-> +      DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
->      enum:
->        - ti,tas2781
-> +      - ti,tas2563
+This fix is based on commit [1] fixing click and pop sounds during
+SoundWire port start because PA is left unmuted.
 
-I don't think you tested your DTS. Where is the compatibility / fallback?
+making use of new mute_unmute_on_trigger flag and removing unmute
+at PA setup, removes the Click/Pop issue at SoundWire enable.
+
+[1] 805ce81826c8 ("ASoC: codecs: wsa883x: make use of new mute_unmute_on_trigger flag")
+
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Fixes: aa21a7d4f68a ("ASoC: codecs: wsa884x: Add WSA884x family of speakers")
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ sound/soc/codecs/wsa884x.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
+index 993d76b18b53..f2653df84e4a 100644
+--- a/sound/soc/codecs/wsa884x.c
++++ b/sound/soc/codecs/wsa884x.c
+@@ -1654,15 +1654,9 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
+ 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
+ 					      WSA884X_PDM_WD_CTL_PDM_WD_EN_MASK,
+ 					      0x1);
+-		snd_soc_component_write_field(component, WSA884X_PA_FSM_EN,
+-					      WSA884X_PA_FSM_EN_GLOBAL_PA_EN_MASK,
+-					      0x1);
+ 
+ 		break;
+ 	case SND_SOC_DAPM_PRE_PMD:
+-		snd_soc_component_write_field(component, WSA884X_PA_FSM_EN,
+-					      WSA884X_PA_FSM_EN_GLOBAL_PA_EN_MASK,
+-					      0x0);
+ 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
+ 					      WSA884X_PDM_WD_CTL_PDM_WD_EN_MASK,
+ 					      0x0);
+@@ -1786,6 +1780,7 @@ static const struct snd_soc_dai_ops wsa884x_dai_ops = {
+ 	.hw_free = wsa884x_hw_free,
+ 	.mute_stream = wsa884x_mute_stream,
+ 	.set_stream = wsa884x_set_stream,
++	.mute_unmute_on_trigger = true,
+ };
+ 
+ static struct snd_soc_dai_driver wsa884x_dais[] = {
+
+---
+base-commit: bbd220ce4e29ed55ab079007cff0b550895258eb
+change-id: 20231211-topic-sm8x50-upstream-wsa884x-fix-plop-a7a7ca7ec21c
 
 Best regards,
-Krzysztof
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
