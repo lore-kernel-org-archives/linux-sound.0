@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809871F60B;
-	Mon, 11 Dec 2023 14:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083DF482C6;
+	Mon, 11 Dec 2023 14:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccEKTjgJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50FEDC433CC;
-	Mon, 11 Dec 2023 14:00:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bvOvie28"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C67C433C8;
+	Mon, 11 Dec 2023 14:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702303213;
-	bh=cgWq13eTCqShVtuSidKM+IMg4S/yjNGBKjlrmQi9KeU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ccEKTjgJFwb7ru1e9F46pOz5Sr++AMwnhsFJqT1R2M1vp8HPzOQWBvpCLKuMoTB7O
-	 6L0R1VfOuMW9tDU8FRqlWCA0g2sdI1fOB8Z1r/UApmc6dPEfGTWN6SY8hKOMUGsrFO
-	 INbKpApnkArLWdEdPzhTQrnPV6sy+cVQBGky6DSsr6QRF0gv0Sw9ufW7gxNj6RUhsd
-	 WA/Nj1bOqk4K8733cy3dGuCCZbRdtQWxuRFVgDipQzc91Ek3EObZY/Lzlbl7tUYu7p
-	 QmPhZOhDAXvIFQWxs/uKohWcGzHSaOUvdyuIjWgyngmhuxEUu2L/dzYlp4hpU4KYxK
-	 rqseJgMyDPsvQ==
+	s=k20201202; t=1702303279;
+	bh=KqhcoOphEL5gcxzZHYBt0BAkpL2iVn2/L9Rn9pRBU8M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bvOvie28lfkfcuVyJBe6W68R8yq6C5gvVts/sXc9imspefp237QUhjHEFpO3RVmvP
+	 2xOSrNqnoqNxDorwOeawZla2X1C91ouWi2iIZYThmGJWAPnev0a81KL3dBVPNw6f2n
+	 kRmAVmW74NOUB+kG0e8GzEQXPifA6IR1IPz92EuuUixFc8Sx+S+kTHTMs3X9NhmfsK
+	 UajSWQoPrTGNN3cmtEt/zwhu+UjShLxv8twE5LWLaedqgSqddjfOwwAWaHGozMYN8t
+	 Atsx2LCgiISHTCWTAaTTmc4pFw0Y1dIOesXw3LlcYztZEV9RRyQyoZ0VREa1Y4GrLj
+	 Y6a7Xj3tJbHgQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	u.kleine-koenig@pengutronix.de,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 13/19] ASoC: ops: add correct range check for limiting volume
-Date: Mon, 11 Dec 2023 08:57:47 -0500
-Message-ID: <20231211135908.385694-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 01/16] ASoC: wm8974: Correct boost mixer inputs
+Date: Mon, 11 Dec 2023 09:00:25 -0500
+Message-ID: <20231211140116.391986-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231211135908.385694-1-sashal@kernel.org>
-References: <20231211135908.385694-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,41 +41,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.142
+X-stable-base: Linux 5.10.203
 Content-Transfer-Encoding: 8bit
 
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[ Upstream commit fb9ad24485087e0f00d84bee7a5914640b2b9024 ]
+[ Upstream commit 37e6fd0cebf0b9f71afb38fd95b10408799d1f0b ]
 
-Volume can have ranges that start with negative values, ex: -84dB to
-+40dB. Apply correct range check in snd_soc_limit_volume before setting
-the platform_max. Without this patch, for example setting a 0dB limit on
-a volume range of -84dB to +40dB would fail.
+Bit 6 of INPPGA (INPPGAMUTE) does not control the Aux path, it controls
+the input PGA path, as can been seen from Figure 8 Input Boost Stage in
+the datasheet. Update the naming of things in the driver to match this
+and update the routing to also reflect this.
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
-Link: https://lore.kernel.org/r/20231204124736.132185-2-srinivas.kandagatla@linaro.org
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://lore.kernel.org/r/20231113155916.1741027-1-ckeepax@opensource.cirrus.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-ops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/wm8974.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index 12effaa59fdb7..c56379fac9272 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -644,7 +644,7 @@ int snd_soc_limit_volume(struct snd_soc_card *card,
- 	kctl = snd_soc_card_get_kcontrol(card, name);
- 	if (kctl) {
- 		struct soc_mixer_control *mc = (struct soc_mixer_control *)kctl->private_value;
--		if (max <= mc->max) {
-+		if (max <= mc->max - mc->min) {
- 			mc->platform_max = max;
- 			ret = 0;
- 		}
+diff --git a/sound/soc/codecs/wm8974.c b/sound/soc/codecs/wm8974.c
+index c86231dfcf4f8..600e93d61a90f 100644
+--- a/sound/soc/codecs/wm8974.c
++++ b/sound/soc/codecs/wm8974.c
+@@ -186,7 +186,7 @@ SOC_DAPM_SINGLE("PCM Playback Switch", WM8974_MONOMIX, 0, 1, 0),
+ 
+ /* Boost mixer */
+ static const struct snd_kcontrol_new wm8974_boost_mixer[] = {
+-SOC_DAPM_SINGLE("Aux Switch", WM8974_INPPGA, 6, 1, 1),
++SOC_DAPM_SINGLE("PGA Switch", WM8974_INPPGA, 6, 1, 1),
+ };
+ 
+ /* Input PGA */
+@@ -246,8 +246,8 @@ static const struct snd_soc_dapm_route wm8974_dapm_routes[] = {
+ 
+ 	/* Boost Mixer */
+ 	{"ADC", NULL, "Boost Mixer"},
+-	{"Boost Mixer", "Aux Switch", "Aux Input"},
+-	{"Boost Mixer", NULL, "Input PGA"},
++	{"Boost Mixer", NULL, "Aux Input"},
++	{"Boost Mixer", "PGA Switch", "Input PGA"},
+ 	{"Boost Mixer", NULL, "MICP"},
+ 
+ 	/* Input PGA */
 -- 
 2.42.0
 
