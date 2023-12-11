@@ -1,120 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mrb5bq9b"
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E128E;
-	Mon, 11 Dec 2023 01:54:14 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-5bcfc508d14so3580295a12.3;
-        Mon, 11 Dec 2023 01:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702288454; x=1702893254; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AA04sfNkH62YtYg6Nmq5x2j1Jcg5BYJtxmdnCLXGgCI=;
-        b=mrb5bq9bp3XzapTLBupayEIyRgwXPGUJz/OAQY89hYHjUHJNnRMdWGDLZ4VMXFzKvf
-         qei+E6U9kwoBVrDxp/UwoPzPoKt4g2bbOK+9EGyQ02/JFjRxQBktXlX4FkRT71z3ZLhY
-         0kQi+NsJAkGRa0E31W494VMcpucmsNjrxsM6XMU7HWUfCLTVgKl/vSb/fbH0zEIqNgwL
-         hiPfqkH8qW7xVyo8tvs3ftaJ4wfx4gCGM6/W8S4rHjD+8sLwgQPLiySDw76koAyDVgwl
-         HT6tcqGjh3NbvuAQoWkYN1AivIKZEfYWiJBMsCTSjPN1yjYqlp7TAe49cJERggctlZLN
-         zU7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702288454; x=1702893254;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AA04sfNkH62YtYg6Nmq5x2j1Jcg5BYJtxmdnCLXGgCI=;
-        b=quNPiv/hutHlwnjI8yO8uc+YJZDtafIYJDaBJhV0cyy7HccnhYBRDyLy4R72RcIVAo
-         ILPkj/XDvFwtyB5dOJ2ptRi8gRzD9S7ow0ZiCQrVHvMdEay9G7p7cPdmYoq9ZrUB5o7A
-         0ueUU4s0GHp/G5ahmbdGXDAwW54UIVIqtFSF2bik+peI8kLjFj24eg3RsUo8x/Sn04Ht
-         DIvK3ZSpWEWXDLwvrMtPAJ6X8pqK/59PduMw/vOAYKsrJz8/7al6Z7mGdOHXeUKNrUiB
-         vMuKI+5GHIt43cwDYZ5ffubY3vBDW73lw0JyEb/+cPDg4uB0Zht/fkFR7b6eoevKYeXb
-         ZILg==
-X-Gm-Message-State: AOJu0YzAGmnpE9cVsD8Kua0k13CLOz9D9B+2H8+A4T7zEJQ/Zs+TSNHN
-	nRulFNp9zPxTDdSd6P+L7E4=
-X-Google-Smtp-Source: AGHT+IFqSNjgBxvcCASuoNTVlJPNlgjlLzFSaeUpu44Ey6GZeodxdNuVHFZImKjMy0H9Ph6Aiyyh5w==
-X-Received: by 2002:a05:6a21:789d:b0:18f:df5f:d9f3 with SMTP id bf29-20020a056a21789d00b0018fdf5fd9f3mr6159341pzc.91.1702288454100;
-        Mon, 11 Dec 2023 01:54:14 -0800 (PST)
-Received: from localhost.localdomain ([2409:8a6a:5426:70b1:a6fc:77ff:fe50:e63d])
-        by smtp.gmail.com with ESMTPSA id mt20-20020a17090b231400b002853349e490sm8149734pjb.34.2023.12.11.01.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 01:54:13 -0800 (PST)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jianhua Lu <lujianhua000@gmail.com>
-Subject: [RFC, PATCH 2/2] ASoC: qcom: sm8250: Add TERTIARY_TDM_RX_0 support
-Date: Mon, 11 Dec 2023 17:53:57 +0800
-Message-ID: <20231211095357.4629-2-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231211095357.4629-1-lujianhua000@gmail.com>
-References: <20231211095357.4629-1-lujianhua000@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZOyfTjeW"
+X-Greylist: delayed 574 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Dec 2023 01:58:31 PST
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17772BD;
+	Mon, 11 Dec 2023 01:58:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702288136;
+	bh=6mxzECBrYAAv88Or/VmuYFmoaCjMKUWyx5lJyKf47Rg=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ZOyfTjeWI75SumpYHrJJp3tpnNbregMBpz6DYPBko3jqkrqUVZIIKilCA2wvPCDmF
+	 ko75vYXWrMKcmLVqcRtnuP7fwh6mFje5roaPrHqyRZy/yEvdee3SRlJ895KZOPuvTz
+	 ch3rLBmYcqzM22MP/xXNoCohbQCB+dkubsUls2EjCj8sF7/TbUh4nEUiaTMgnx0Ina
+	 VA+s4nyZeZu9o17UPBsUnNjBZrBE1jOeb8RaVZdNcMEFOY1YFJsDMcPlW/gN9DxU2D
+	 cdtpMKJ1GKl0vjxrH70xRVPZ83Uqp0vmZXCTcZs50uUu9S67Pu8DX2he1OekWYv3jC
+	 lwcL/q7eCSHng==
+Received: from [IPV6:fd00::2a:39ce] (cola.collaboradmins.com [IPv6:2a01:4f8:1c1c:5717::1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4827F378140E;
+	Mon, 11 Dec 2023 09:48:55 +0000 (UTC)
+Message-ID: <1db19550-99c2-4094-95d9-9db1c384519f@collabora.com>
+Date: Mon, 11 Dec 2023 10:48:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: mediatek: mt7986: silence error in case of
+ -EPROBE_DEFER
+Content-Language: en-US
+To: Daniel Golle <daniel@makrotopia.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maso Huang <maso.huang@mediatek.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add TERTIARY_TDM_RX_0 case to make speaker amplifiers working
-on xiaomi-elish tablet.
+Il 11/12/23 02:33, Daniel Golle ha scritto:
+> If probe is defered no error should be printed. Mute it.
+> 
+> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> ---
+>   sound/soc/mediatek/mt7986/mt7986-wm8960.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/mediatek/mt7986/mt7986-wm8960.c b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+> index c1390b3734101..24a4b943030d7 100644
+> --- a/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+> +++ b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+> @@ -144,7 +144,9 @@ static int mt7986_wm8960_machine_probe(struct platform_device *pdev)
+>   
+>   	ret = devm_snd_soc_register_card(&pdev->dev, card);
+>   	if (ret) {
+> -		dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n", __func__, ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n", __func__, ret);
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
- sound/soc/qcom/sm8250.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+This is *exactly* what dev_err_probe() does! :-)
 
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index f298167c2a23..00c89c073e72 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -16,6 +16,7 @@
- 
- #define DRIVER_NAME		"sm8250"
- #define MI2S_BCLK_RATE		1536000
-+#define TDM_BCLK_RATE		12288000
- 
- struct sm8250_snd_data {
- 	bool stream_prepared[AFE_PORT_MAX];
-@@ -53,6 +54,7 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 	struct snd_soc_pcm_runtime *rtd = substream->private_data;
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-+	int ret, j;
- 
- 	switch (cpu_dai->id) {
- 	case TERTIARY_MI2S_RX:
-@@ -63,6 +65,23 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
- 		break;
-+	case TERTIARY_TDM_RX_0:
-+		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_DSP_A;
-+		snd_soc_dai_set_sysclk(cpu_dai,
-+			Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-+			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+
-+		for_each_rtd_codec_dais(rtd, j, codec_dai) {
-+			ret = snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
-+			snd_soc_dai_set_sysclk(codec_dai,
-+				0,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+			if (ret < 0) {
-+				dev_err(rtd->dev, "TDM fmt err:%d\n", ret);
-+				return ret;
-+			}
-+		}
-+		break;
- 	default:
- 		break;
- 	}
--- 
-2.41.0
+dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card fail: %d\n", __func__);
+
+Regards,
+Angelo
+
 
