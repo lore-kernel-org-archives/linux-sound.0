@@ -1,129 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="SLVhScEU"
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5523AE7;
-	Sun, 10 Dec 2023 15:49:33 -0800 (PST)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BANmILC117035;
-	Sun, 10 Dec 2023 17:48:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1702252098;
-	bh=tqVowNCu+gkbra0kKTIBn0rJWUwWawWCh6sjB2aRuug=;
-	h=From:To:CC:Subject:Date;
-	b=SLVhScEU0stjXmFxhm+n8t1noEhS9mHOX3Qt94i2LI6ecjBoZ5pl2KgzXZQS2fk2H
-	 GvHcWUsPERcSa6WP3Jgb7xpDECeRlBYlvUwsK4plMxRFM5KdzaHGS+YjPJpeFZ+tVu
-	 7m+DSW693ZMz3C26hyLrEGLK4TC+II+t8xlBf+uM=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BANmI2M016287
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 10 Dec 2023 17:48:18 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 10
- Dec 2023 17:48:17 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 10 Dec 2023 17:48:18 -0600
-Received: from LT5CG31242FY.dhcp.ti.com ([10.250.64.203])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BANm4Cd015683;
-	Sun, 10 Dec 2023 17:48:06 -0600
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <krzysztof.kozlowski@linaro.org>
-CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <devicetree@vger.kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <liam.r.girdwood@intel.com>, <soyer@irl.hu>, <tiwai@suse.de>,
-        <peeyush@ti.com>, <navada@ti.com>,
-        Shenghao Ding <shenghao-ding@ti.com>
-Subject: [PATCH v2] ASoC: dt-bindings: Add tas2563 into yaml
-Date: Mon, 11 Dec 2023 07:47:58 +0800
-Message-ID: <20231210234759.1095-1-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756DFBD;
+	Sun, 10 Dec 2023 17:33:40 -0800 (PST)
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.96.2)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1rCVAg-0004Q6-1V;
+	Mon, 11 Dec 2023 01:33:23 +0000
+Date: Mon, 11 Dec 2023 01:33:14 +0000
+From: Daniel Golle <daniel@makrotopia.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Maso Huang <maso.huang@mediatek.com>,
+	Daniel Golle <daniel@makrotopia.org>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] ASoC: mediatek: mt7986: silence error in case of
+ -EPROBE_DEFER
+Message-ID: <98491ec78ab671f5a14fce42d10f9745ebddb112.1702258360.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Support tas2563.
+If probe is defered no error should be printed. Mute it.
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-
+Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
-Change in v2:
- - Add devicetree list and other list of necessary people and lists to CC
- - Express Compatibility in the bindings
- - Drop driver changes
----
- .../devicetree/bindings/sound/ti,tas2781.yaml | 26 +++++++++++++------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+ sound/soc/mediatek/mt7986/mt7986-wm8960.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-index a69e6c223308..c049fe6b2dad 100644
---- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-@@ -5,17 +5,17 @@
- $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/sound/soc/mediatek/mt7986/mt7986-wm8960.c b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+index c1390b3734101..24a4b943030d7 100644
+--- a/sound/soc/mediatek/mt7986/mt7986-wm8960.c
++++ b/sound/soc/mediatek/mt7986/mt7986-wm8960.c
+@@ -144,7 +144,9 @@ static int mt7986_wm8960_machine_probe(struct platform_device *pdev)
  
--title: Texas Instruments TAS2781 SmartAMP
-+title: Texas Instruments TAS2781/TAS2563 SmartAMP
- 
- maintainers:
-   - Shenghao Ding <shenghao-ding@ti.com>
- 
- description:
--  The TAS2781 is a mono, digital input Class-D audio amplifier
--  optimized for efficiently driving high peak power into small
--  loudspeakers. An integrated on-chip DSP supports Texas Instruments
--  Smart Amp speaker protection algorithm. The integrated speaker
--  voltage and current sense provides for real time
-+  The TAS2781/TAS2563 is a mono, digital input Class-D audio
-+  amplifier optimized for efficiently driving high peak power into
-+  small loudspeakers. An integrated on-chip DSP supports Texas
-+  Instruments Smart Amp speaker protection algorithm. The
-+  integrated speaker voltage and current sense provides for real time
-   monitoring of loudspeaker behavior.
- 
- allOf:
-@@ -23,18 +23,28 @@ allOf:
- 
- properties:
-   compatible:
-+    description: |
-+      ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
-+      Protection and Audio Processing, 16/20/24/32bit stereo I2S or
-+      multichannel TDM.
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n", __func__, ret);
++		if (ret != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "%s snd_soc_register_card fail: %d\n", __func__, ret);
 +
-+      ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
-+      DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
-     enum:
-       - ti,tas2781
-+      - ti,tas2563
+ 		goto err_of_node_put;
+ 	}
  
-   reg:
-     description:
--      I2C address, in multiple tas2781s case, all the i2c address
-+      I2C address, in multiple AMP case, all the i2c address
-       aggregate as one Audio Device to support multiple audio slots.
-+      - For tas2781, i2c address is from 0x38 to 0x3f.
-+      - For tas2563, i2c address is from 0x4e to 0x4f.
-     maxItems: 8
-     minItems: 1
-     items:
-       minimum: 0x38
--      maximum: 0x3f
-+      maximum: 0x4f
- 
-   reset-gpios:
-     maxItems: 1
 -- 
-2.34.1
+2.43.0
 
