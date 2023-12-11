@@ -1,37 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA22647A4D;
-	Mon, 11 Dec 2023 13:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0221B4776B;
+	Mon, 11 Dec 2023 13:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyVcthlf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0F71C433CB;
-	Mon, 11 Dec 2023 13:53:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZouzXaL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAA26C433C7;
+	Mon, 11 Dec 2023 13:55:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702302835;
-	bh=pAKtpCP51RGpgiL/qardfqdOd9aodzvn0LyUO+jeRT4=;
+	s=k20201202; t=1702302904;
+	bh=3DSGwtvqJ6ypr8hGpbQO6/gzZQ9JGzJSEGoPdr3cbgA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HyVcthlfWek/VIsDk5GA6ZPvmhDIzxF4tX9zWd1y0EwjOJkTRUTvHTseNROwkOwli
-	 uZkg1E2WMlE9yqag6yyOx4yev5qB2uZFlr4w6eF8aMSSzmlF3AI5SIHCEl1Pmz8m8T
-	 YUuQCEFi8+VPCQmS1W+MYgjnzWkWchp1E9SiKY44HI89Lwm3WLMRI7n+LApNwf4U6L
-	 1L/EOsKOWCTUBrf3DcokOxzLsKP7BI5LgEN9evTfwwttnPHtIhYq+OUznno2xhKO4B
-	 Bv66/A3rDD7u2ofA4h83MO+7sgZ8MuezmnzBLdQOhU3pvhWvPc3viLVtYFbpdWEwwq
-	 4NLjRlXSkQUbQ==
+	b=EZouzXaLwUyiwVUpDuCTK8lABEIDlbzpfGEfYPfwMZw2iUdWRjdW7zVBMFhJZWR5j
+	 9oEcd2q1v20yjFUuMP+jwUpsTVFW1a/9upruAZLhcgE25g4cdR09DKrbmwJfapChvu
+	 0DGiRv3ZovO7cxLKZxTupfikrgBIfB5dfwlHUzhIYK0m7E5qwpvJ73CtmQce42ey5T
+	 IVNqnrz43p6Rm8Qi5QN65J1XFtGfP4Pp8nHvX/Em0AwNg+fQWW/zJYvN/zAX4UQI1/
+	 ExXwyuYB+4BcseIUjrpBSINpOGAZZ+iIlv44VdjesSYF6PTrHRlJUxAoMKkou9PcPM
+	 EldnFDHZ+oJCw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	u.kleine-koenig@pengutronix.de,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 43/47] ALSA: pcmtest: stop timer before buffer is released
-Date: Mon, 11 Dec 2023 08:50:44 -0500
-Message-ID: <20231211135147.380223-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 03/29] ASoC: wm8974: Correct boost mixer inputs
+Date: Mon, 11 Dec 2023 08:53:47 -0500
+Message-ID: <20231211135457.381397-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231211135147.380223-1-sashal@kernel.org>
-References: <20231211135147.380223-1-sashal@kernel.org>
+In-Reply-To: <20231211135457.381397-1-sashal@kernel.org>
+References: <20231211135457.381397-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,78 +43,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.5
+X-stable-base: Linux 6.1.66
 Content-Transfer-Encoding: 8bit
 
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[ Upstream commit eb99b1b72a424a79f56c972e0fd7ad01fe93a008 ]
+[ Upstream commit 37e6fd0cebf0b9f71afb38fd95b10408799d1f0b ]
 
-Stop timer in the 'trigger' and 'sync_stop' callbacks since we want
-the timer to be stopped before the DMA buffer is released. Otherwise,
-it could trigger a kernel panic in some circumstances, for instance
-when the DMA buffer is already released but the timer callback is
-still running.
+Bit 6 of INPPGA (INPPGAMUTE) does not control the Aux path, it controls
+the input PGA path, as can been seen from Figure 8 Input Boost Stage in
+the datasheet. Update the naming of things in the driver to match this
+and update the routing to also reflect this.
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
-Link: https://lore.kernel.org/r/20231206223211.12761-1-ivan.orlov0322@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://lore.kernel.org/r/20231113155916.1741027-1-ckeepax@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/drivers/pcmtest.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ sound/soc/codecs/wm8974.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index b59b78a092240..b8bff5522bce2 100644
---- a/sound/drivers/pcmtest.c
-+++ b/sound/drivers/pcmtest.c
-@@ -397,7 +397,6 @@ static int snd_pcmtst_pcm_close(struct snd_pcm_substream *substream)
- 	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
+diff --git a/sound/soc/codecs/wm8974.c b/sound/soc/codecs/wm8974.c
+index 010a394c705c1..1becbf2c6ffad 100644
+--- a/sound/soc/codecs/wm8974.c
++++ b/sound/soc/codecs/wm8974.c
+@@ -186,7 +186,7 @@ SOC_DAPM_SINGLE("PCM Playback Switch", WM8974_MONOMIX, 0, 1, 0),
  
- 	timer_shutdown_sync(&v_iter->timer_instance);
--	v_iter->substream = NULL;
- 	playback_capture_test = !v_iter->is_buf_corrupted;
- 	kfree(v_iter);
- 	return 0;
-@@ -435,6 +434,7 @@ static int snd_pcmtst_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
- 		// We can't call timer_shutdown_sync here, as it is forbidden to sleep here
- 		v_iter->suspend = true;
-+		timer_delete(&v_iter->timer_instance);
- 		break;
- 	}
- 
-@@ -512,12 +512,22 @@ static int snd_pcmtst_ioctl(struct snd_pcm_substream *substream, unsigned int cm
- 	return snd_pcm_lib_ioctl(substream, cmd, arg);
- }
- 
-+static int snd_pcmtst_sync_stop(struct snd_pcm_substream *substream)
-+{
-+	struct pcmtst_buf_iter *v_iter = substream->runtime->private_data;
-+
-+	timer_delete_sync(&v_iter->timer_instance);
-+
-+	return 0;
-+}
-+
- static const struct snd_pcm_ops snd_pcmtst_playback_ops = {
- 	.open =		snd_pcmtst_pcm_open,
- 	.close =	snd_pcmtst_pcm_close,
- 	.trigger =	snd_pcmtst_pcm_trigger,
- 	.hw_params =	snd_pcmtst_pcm_hw_params,
- 	.ioctl =	snd_pcmtst_ioctl,
-+	.sync_stop =	snd_pcmtst_sync_stop,
- 	.hw_free =	snd_pcmtst_pcm_hw_free,
- 	.prepare =	snd_pcmtst_pcm_prepare,
- 	.pointer =	snd_pcmtst_pcm_pointer,
-@@ -530,6 +540,7 @@ static const struct snd_pcm_ops snd_pcmtst_capture_ops = {
- 	.hw_params =	snd_pcmtst_pcm_hw_params,
- 	.hw_free =	snd_pcmtst_pcm_hw_free,
- 	.ioctl =	snd_pcmtst_ioctl,
-+	.sync_stop =	snd_pcmtst_sync_stop,
- 	.prepare =	snd_pcmtst_pcm_prepare,
- 	.pointer =	snd_pcmtst_pcm_pointer,
+ /* Boost mixer */
+ static const struct snd_kcontrol_new wm8974_boost_mixer[] = {
+-SOC_DAPM_SINGLE("Aux Switch", WM8974_INPPGA, 6, 1, 1),
++SOC_DAPM_SINGLE("PGA Switch", WM8974_INPPGA, 6, 1, 1),
  };
+ 
+ /* Input PGA */
+@@ -246,8 +246,8 @@ static const struct snd_soc_dapm_route wm8974_dapm_routes[] = {
+ 
+ 	/* Boost Mixer */
+ 	{"ADC", NULL, "Boost Mixer"},
+-	{"Boost Mixer", "Aux Switch", "Aux Input"},
+-	{"Boost Mixer", NULL, "Input PGA"},
++	{"Boost Mixer", NULL, "Aux Input"},
++	{"Boost Mixer", "PGA Switch", "Input PGA"},
+ 	{"Boost Mixer", NULL, "MICP"},
+ 
+ 	/* Input PGA */
 -- 
 2.42.0
 
