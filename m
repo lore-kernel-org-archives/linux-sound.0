@@ -1,229 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330945677F
-	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 08:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VAvTX4+K"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85038C433AB;
-	Tue, 12 Dec 2023 08:22:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702369326;
-	bh=Q3h1r7ii+HamifRwqVLAqzF9LWiWleZqbtI1y/YUAmo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VAvTX4+KHb6EkghD/CNW8mh41qEa0jqpExcHF774r8jHRSb6Roildy4S/1bQkNds0
-	 7Mk8Abpr4y7/fwpamAgkXLceqfmfk1K5PWWvgTVosK3XU4HcGemN/M7zhNWTTUGRXo
-	 2Ad9Oeb0KWbl8kyeRXcGSxspvdvkH5urM7D4dyj/LVn0vEO/DHFi4+D+YsQlJbk5cZ
-	 wxXHNr3Q7QulKTXWXcRfv/9aFnT7VO0IXYY5UF65dGxb+T6tvDKL+jRZI5siXPoBB0
-	 O/j+eImU2oilMYsPHdh7PpwG84wfdVa3HFBYogIUAWUUwgew4aDutxExbjYOdOwWtO
-	 4JKmOSPRB+iPw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A9FC4167D;
-	Tue, 12 Dec 2023 08:22:06 +0000 (UTC)
-From:
- Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Tue, 12 Dec 2023 11:20:56 +0300
-Subject: [PATCH v6 39/40] ASoC: cirrus: edb93xx: Delete driver
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KnBaAR5t"
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116F91BE1
+	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:22:41 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54cb4fa667bso7630289a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702369359; x=1702974159; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=eHeIY9hu9qrP31NHtwAZ/zKZXqF7a3OFLF8DkOLrs4o=;
+        b=KnBaAR5tYuS4KzIn2OtIxejFGJvYeb2axDIoMKxZiwZeeHi+QF0Rvp4rSuH4Lyv1oB
+         ZHLPNwt5GqYWlAWWVyzNUzkSWNwP+urV+srr1zh6Jo7u1jSBjbovfSZcB028ZRV7okPd
+         n/bXOFuyVYkjJhSERd6xG3AtrZbVDg63UD0tANPBDBpsXxZZSqtVGLMqPpida65JrFFT
+         MmVh6fUxMxtDPce5wxaWlK1kDhLJ0wdG6Ht8UDDINi0WbS8InbCzisLOkHWkAgLkur+o
+         VNdKaathtfSS2nTDNBBMKDIxTNLOu9oH+3VJHj55VbsQIVEDGPaDZqQs+a1isRApeKno
+         EiEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702369359; x=1702974159;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eHeIY9hu9qrP31NHtwAZ/zKZXqF7a3OFLF8DkOLrs4o=;
+        b=XAfveH9iYfXgXDkZWLvtIJgIBx6nt+5BfyX4fhb1xklPeNiWpgTHCJ/3CP9i10gK+a
+         e09FMN4qoVMFhCdJcEX7GBOp9L6iKStwKuBwtYnEwgh5Tz+e4YrPacptmcOrT+gqnBST
+         I2iVRlL1rdFPXJL07Eei9BHCWCt2o+AUdRjnPU7PlgaiwvKtIaO0iVpbMil2Mtk1kvPo
+         I+Z+/DinUSo7unp4zgwofvb9Wnoiw1T7JiAJ6SkxrKuvwE3Y6/FmJguo8UAv8gtklHzP
+         iYMgotErl7DBnYXbm09In54JgXuGXbMa+jTd0rKfDQ+NgSLWRAJvZFwJKnXzfbwkWPWy
+         gTeA==
+X-Gm-Message-State: AOJu0Yzdw/is522t5N3ZQuKZ2RnL8D79aBIYxk0Cei0lMZ/EjG/zp1Wk
+	wMLYg2QwLAKV79BpiAkA2y/3aA==
+X-Google-Smtp-Source: AGHT+IHO7ATLzLT+wGns8Y/8WbVpDg0Jin4FC5z0TFykDC4ceJaED6HrqLsROGR/jPeWDM3yJ75pYA==
+X-Received: by 2002:a50:c94a:0:b0:54c:4837:8b84 with SMTP id p10-20020a50c94a000000b0054c48378b84mr2839586edh.82.1702369359356;
+        Tue, 12 Dec 2023 00:22:39 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id n2-20020a05640205c200b0055122551f98sm2047011edx.6.2023.12.12.00.22.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Dec 2023 00:22:39 -0800 (PST)
+Message-ID: <84c4c331-54b6-4539-a8f2-880fd47ad97b@linaro.org>
+Date: Tue, 12 Dec 2023 09:22:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ASoC: tas2562: remove tas2563 into driver
+To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org,
+ conor+dt@kernel.org
+Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+ devicetree@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+ pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de, peeyush@ti.com,
+ navada@ti.com
+References: <20231212050831.982-1-shenghao-ding@ti.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231212050831.982-1-shenghao-ding@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231212-ep93xx-v6-39-c307b8ac9aa8@maquefel.me>
-References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
-In-Reply-To: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Arnd Bergmann <arnd@arndb.de>, Nikita Shubin <nikita.shubin@maquefel.me>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- Arnd Bergmann <arnd@arndb.de>
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1702369322; l=5014;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=h2rduEcwWz7/6MY2gxmHuwdvmGLXXkP6apssDcKmh10=; =?utf-8?q?b=3DpZCxkKxhED6N?=
- =?utf-8?q?GOz9kH82UHaouqIO35KEu+X0kU/w2/ASkMXf0LRZkl0SWEfVD4txPfrYcfhKXiLl?=
- H6n6owmPDMPfhpcNUBAyjtUmdSzwMTeTySpO1iWlURNQYu1NBVDm
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received:
- by B4 Relay for nikita.shubin@maquefel.me/20230718 with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: <nikita.shubin@maquefel.me>
 
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+On 12/12/2023 06:08, Shenghao Ding wrote:
+> Remove tas2563 from tas2562, it will be supported in separated driver code.
+> 
 
-Can be replaced with "simple-audio-card" for the rates up to 50kHz, refer
-to commit "ARM: dts: ep93xx: Add EDB9302 DT".
+Why? I was not aware that you duplicate tas2563 in your other patch, so
+that part need explanation. This part as well - why do we want to remove
+its support from the Linux? What about users? After applying this code
+they don't have support for their device!
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
----
- sound/soc/cirrus/Kconfig   |   9 ----
- sound/soc/cirrus/Makefile  |   4 --
- sound/soc/cirrus/edb93xx.c | 117 ---------------------------------------------
- 3 files changed, 130 deletions(-)
-
-diff --git a/sound/soc/cirrus/Kconfig b/sound/soc/cirrus/Kconfig
-index 38a83c4dcc2d..97def4e53fbc 100644
---- a/sound/soc/cirrus/Kconfig
-+++ b/sound/soc/cirrus/Kconfig
-@@ -31,12 +31,3 @@ config SND_EP93XX_SOC_I2S_WATCHDOG
- 
- endif # if SND_EP93XX_SOC_I2S
- 
--config SND_EP93XX_SOC_EDB93XX
--	tristate "SoC Audio support for Cirrus Logic EDB93xx boards"
--	depends on SND_EP93XX_SOC && (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9302A || MACH_EDB9307A || MACH_EDB9315A)
--	select SND_EP93XX_SOC_I2S
--	select SND_SOC_CS4271_I2C if I2C
--	select SND_SOC_CS4271_SPI if SPI_MASTER
--	help
--	  Say Y or M here if you want to add support for I2S audio on the
--	  Cirrus Logic EDB93xx boards.
-diff --git a/sound/soc/cirrus/Makefile b/sound/soc/cirrus/Makefile
-index 19a86daad660..5916c03888cb 100644
---- a/sound/soc/cirrus/Makefile
-+++ b/sound/soc/cirrus/Makefile
-@@ -6,7 +6,3 @@ snd-soc-ep93xx-i2s-objs	 			:= ep93xx-i2s.o
- obj-$(CONFIG_SND_EP93XX_SOC)			+= snd-soc-ep93xx.o
- obj-$(CONFIG_SND_EP93XX_SOC_I2S)		+= snd-soc-ep93xx-i2s.o
- 
--# EP93XX Machine Support
--snd-soc-edb93xx-objs				:= edb93xx.o
--
--obj-$(CONFIG_SND_EP93XX_SOC_EDB93XX)		+= snd-soc-edb93xx.o
-diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
-deleted file mode 100644
-index 6b6817256331..000000000000
---- a/sound/soc/cirrus/edb93xx.c
-+++ /dev/null
-@@ -1,117 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * SoC audio for EDB93xx
-- *
-- * Copyright (c) 2010 Alexander Sverdlin <subaparts@yandex.ru>
-- *
-- * This driver support CS4271 codec being master or slave, working
-- * in control port mode, connected either via SPI or I2C.
-- * The data format accepted is I2S or left-justified.
-- * DAPM support not implemented.
-- */
--
--#include <linux/platform_device.h>
--#include <linux/gpio.h>
--#include <linux/module.h>
--#include <linux/soc/cirrus/ep93xx.h>
--#include <sound/core.h>
--#include <sound/pcm.h>
--#include <sound/soc.h>
--#include <asm/mach-types.h>
--
--static int edb93xx_hw_params(struct snd_pcm_substream *substream,
--			     struct snd_pcm_hw_params *params)
--{
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
--	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
--	int err;
--	unsigned int mclk_rate;
--	unsigned int rate = params_rate(params);
--
--	/*
--	 * According to CS4271 datasheet we use MCLK/LRCK=256 for
--	 * rates below 50kHz and 128 for higher sample rates
--	 */
--	if (rate < 50000)
--		mclk_rate = rate * 64 * 4;
--	else
--		mclk_rate = rate * 64 * 2;
--
--	err = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_rate,
--				     SND_SOC_CLOCK_IN);
--	if (err)
--		return err;
--
--	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_rate,
--				      SND_SOC_CLOCK_OUT);
--}
--
--static const struct snd_soc_ops edb93xx_ops = {
--	.hw_params	= edb93xx_hw_params,
--};
--
--SND_SOC_DAILINK_DEFS(hifi,
--	DAILINK_COMP_ARRAY(COMP_CPU("ep93xx-i2s")),
--	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "cs4271-hifi")),
--	DAILINK_COMP_ARRAY(COMP_PLATFORM("ep93xx-i2s")));
--
--static struct snd_soc_dai_link edb93xx_dai = {
--	.name		= "CS4271",
--	.stream_name	= "CS4271 HiFi",
--	.dai_fmt	= SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
--			  SND_SOC_DAIFMT_CBC_CFC,
--	.ops		= &edb93xx_ops,
--	SND_SOC_DAILINK_REG(hifi),
--};
--
--static struct snd_soc_card snd_soc_edb93xx = {
--	.name		= "EDB93XX",
--	.owner		= THIS_MODULE,
--	.dai_link	= &edb93xx_dai,
--	.num_links	= 1,
--};
--
--static int edb93xx_probe(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = &snd_soc_edb93xx;
--	int ret;
--
--	ret = ep93xx_i2s_acquire();
--	if (ret)
--		return ret;
--
--	card->dev = &pdev->dev;
--
--	ret = snd_soc_register_card(card);
--	if (ret) {
--		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
--			ret);
--		ep93xx_i2s_release();
--	}
--
--	return ret;
--}
--
--static void edb93xx_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
--
--	snd_soc_unregister_card(card);
--	ep93xx_i2s_release();
--}
--
--static struct platform_driver edb93xx_driver = {
--	.driver		= {
--		.name	= "edb93xx-audio",
--	},
--	.probe		= edb93xx_probe,
--	.remove_new	= edb93xx_remove,
--};
--
--module_platform_driver(edb93xx_driver);
--
--MODULE_AUTHOR("Alexander Sverdlin <subaparts@yandex.ru>");
--MODULE_DESCRIPTION("ALSA SoC EDB93xx");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:edb93xx-audio");
-
--- 
-2.41.0
+Best regards,
+Krzysztof
 
