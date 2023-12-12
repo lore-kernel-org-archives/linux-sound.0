@@ -1,141 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wp1lG46/"
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A39EB;
-	Mon, 11 Dec 2023 18:28:42 -0800 (PST)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5d7a47d06eeso52156897b3.1;
-        Mon, 11 Dec 2023 18:28:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N24Mky41"
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE4D9B
+	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 20:46:08 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-28abda2fc0bso204099a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 20:46:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702348121; x=1702952921; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s1ziCHmUMRjRbO8uC0DQdJSiPRQP/fDCaegFJhzzCaw=;
-        b=Wp1lG46/3S4h92lGr9FmU3vpqbCUWbjNtZfAfZLy1j+FwlaLb4wvIYWG+6axBfmpBi
-         YrQbQTK1VTrruc/nqjLdoYQIG9QcxRxu4aZ66X5YaOzPYfTZogft+qVIeqUg3yEJUZX1
-         9DnFtHDfPW6hLWLv6gkaxBt6BL0aCDzLyU/v/Q21qMTEou0N36aigSR0X9+NXl1u+Lab
-         YRkjWdEyeDnbGEKcI2wbZz8WvcKh5JTCugM4MwsMpll6XBYsTHyJQb11cSpgTy6Ob6nq
-         6Nn9HPzwRQvxMKenbUOqQXz1SliC3s9kW+3jLSCPoAIDxahdsvSlTWx/1BiaqRPzkQN9
-         hMRQ==
+        d=gmail.com; s=20230601; t=1702356368; x=1702961168; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CQCQ4kkX4X9fUJRPobVQ0uEEuIkhhSl/wjprocVziVY=;
+        b=N24Mky41sHT1udzLyTbFOBOhzCVupPe9vZmKohjWHuKLNaS6KKkI8LjVswttfaHS+Q
+         PNo3qGZkhNLLoZUfi56/CEz2EgaSsbRMIovtzKcLUovxCjr2y7+BRhp2CUBEAlo6rSBM
+         5t5lJTNyg7VU55Ha90dBlePjqWdWmiksaoDxJMA/MVzvsu0jD+mqw1NaS1CNaMhJbNHI
+         zBNxLqYEy3pbPdp28zmSZbdJUB/Jg0mPzRk5k89k2ZibR7xL3pr1fDdkokK8DRTc4GNH
+         dbQzhW6J9GXT/lg04Df7csYnjQdijHU+9IJMrV7zobBWMH1r8U3cPdYDRNjmAAYVcn/y
+         dJoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702348121; x=1702952921;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s1ziCHmUMRjRbO8uC0DQdJSiPRQP/fDCaegFJhzzCaw=;
-        b=L8WBvz04Dy9BPO01cU1tcxpjXB6vgsQ4o+cJ+6vqEdFQSPlFU6ZthxY50shHIAJYFg
-         W3BVZi2mCeQhPZ73vdvvt+OJ5I2jitNkiyrDVGP7igRevSKWeVVnASZcw4aUOL7aZ28L
-         MbsQ3apEIIa/fmQtVOzKlPUUqba+KXgxMJyxRo9Us67F0LzcaSuX4nuZz6lrRZ13xAxX
-         34tBlU8mtc5Ic+/ZJwKGnQOtiG8afXGtGTRaHJ77HvuX00d1lzUDDhs3+Uv2Jd2/Eeye
-         Q6ErOyU6rHPj5HQb318fNuFHgKxvdKNxlNS/xJKmzVgHxyL/ssY9VSwYl04jni/rE6iv
-         jV8A==
-X-Gm-Message-State: AOJu0Yx9lGJyBDBBeHxFQ97df3F8fTbha/zFtYS7agVMTANKfMbAmGr/
-	gII3WcyG2m/pXy68/1X4ejufa8mjDY2ZDw==
-X-Google-Smtp-Source: AGHT+IEkj3SrO47EktQbRudrxe7SbWLYCP6nELjcTaeJUHnC5fYO3ykVx8HOtGA5GggcJQHNwWRRGA==
-X-Received: by 2002:a0d:dbc5:0:b0:5cb:eac7:38aa with SMTP id d188-20020a0ddbc5000000b005cbeac738aamr4593499ywe.35.1702348120890;
-        Mon, 11 Dec 2023 18:28:40 -0800 (PST)
-Received: from localhost ([2601:344:8301:57f0:38aa:1c88:df05:9b73])
-        by smtp.gmail.com with ESMTPSA id u11-20020a0deb0b000000b005af5bb5e840sm3454168ywe.34.2023.12.11.18.28.40
+        d=1e100.net; s=20230601; t=1702356368; x=1702961168;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CQCQ4kkX4X9fUJRPobVQ0uEEuIkhhSl/wjprocVziVY=;
+        b=gWfdld1/qiKmkcGFJaPS2/p9RdkVzLlQQ7Ek/Pti1W9OyoyflI0TzXiecL9I1rVweF
+         lsqsib+aTG049IeWPYHZQESv5VD1UB+mar701a+OkX7RqAEO1puZY5FQ1Y0Vi1N9auG/
+         1qU0d3y4kunvB4p4d8lDJDKeeYdwa+JupfJFtzO9hsraRkiAFgjV5AAWWpZFgEmnNLdb
+         XBsG2vi2lR1fx+B2PgROfFw26P9Ub3ZvNMJCj2Zo2kWXBRbGZihwQCrW9Ep0P8xmlPRd
+         qr/mnn9JZwrcsNpnmtDOGyZmTZsrex7mSEcDnKkXGZcYIKrHu709rkpxObKshrhc6lAQ
+         uOVw==
+X-Gm-Message-State: AOJu0YzTJE4oe0yduApJq6BOsIRCSwf+L2VQjI1Kq+jjFIj0z9ldsfGQ
+	3RWhSPu9gsFYy0angWAWfJE=
+X-Google-Smtp-Source: AGHT+IFz+bXvsrRKpmI2Wp0zXK3gK1BoqWzTF2YOssSr9g82qGEM7x+F7rgZbktH/urqYzBeFtalWA==
+X-Received: by 2002:a17:90a:c288:b0:287:53b9:1d8a with SMTP id f8-20020a17090ac28800b0028753b91d8amr4405486pjt.28.1702356368113;
+        Mon, 11 Dec 2023 20:46:08 -0800 (PST)
+Received: from geday ([2804:7f2:8006:c0b7:587c:b127:54ce:1956])
+        by smtp.gmail.com with ESMTPSA id si7-20020a17090b528700b00286e9f15f21sm8017056pjb.12.2023.12.11.20.46.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 18:28:40 -0800 (PST)
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Daniel Mack <zonque@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Cc: Jan Kara <jack@suse.cz>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Matthew Wilcox <willy@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-	Alexey Klimov <klimov.linux@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v3 32/35] ALSA: use atomic find_bit() functions where applicable
-Date: Mon, 11 Dec 2023 18:27:46 -0800
-Message-Id: <20231212022749.625238-33-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231212022749.625238-1-yury.norov@gmail.com>
-References: <20231212022749.625238-1-yury.norov@gmail.com>
+        Mon, 11 Dec 2023 20:46:07 -0800 (PST)
+Date: Tue, 12 Dec 2023 01:46:31 -0300
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+To: =?utf-8?Q?Cl=C3=A9ment?= Villeret <clement.villeret@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [Linux-Kernel][PATCH] Add quirk ASUS GV302XA
+Message-ID: <ZXflp+0K9H7pSqaj@geday>
+References: <197f517e-6091-4044-8d60-e399ec981e8a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <197f517e-6091-4044-8d60-e399ec981e8a@gmail.com>
 
-ALSA code tests each bit in bitmaps in a for() loop. Switch it to
-using dedicated atomic find_bit() API.
+On Sun, Dec 10, 2023 at 09:09:41PM +0100, Clément Villeret wrote:
+>
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
-Acked-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/hda_codec.c |  7 +++----
- sound/usb/caiaq/audio.c   | 13 +++++--------
- 2 files changed, 8 insertions(+), 12 deletions(-)
+Hi Clément,
 
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 01718b1fc9a7..29254005f394 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -3275,10 +3275,9 @@ static int get_empty_pcm_device(struct hda_bus *bus, unsigned int type)
- 
- #ifdef CONFIG_SND_DYNAMIC_MINORS
- 	/* non-fixed slots starting from 10 */
--	for (i = 10; i < 32; i++) {
--		if (!test_and_set_bit(i, bus->pcm_dev_bits))
--			return i;
--	}
-+	i = find_and_set_next_bit(bus->pcm_dev_bits, 32, 10);
-+	if (i < 32)
-+		return i;
- #endif
- 
- 	dev_warn(bus->card->dev, "Too many %s devices\n",
-diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-index 4981753652a7..74dfcf32b439 100644
---- a/sound/usb/caiaq/audio.c
-+++ b/sound/usb/caiaq/audio.c
-@@ -610,7 +610,7 @@ static void read_completed(struct urb *urb)
- 	struct snd_usb_caiaq_cb_info *info = urb->context;
- 	struct snd_usb_caiaqdev *cdev;
- 	struct device *dev;
--	struct urb *out = NULL;
-+	struct urb *out;
- 	int i, frame, len, send_it = 0, outframe = 0;
- 	unsigned long flags;
- 	size_t offset = 0;
-@@ -625,17 +625,14 @@ static void read_completed(struct urb *urb)
- 		return;
- 
- 	/* find an unused output urb that is unused */
--	for (i = 0; i < N_URBS; i++)
--		if (test_and_set_bit(i, &cdev->outurb_active_mask) == 0) {
--			out = cdev->data_urbs_out[i];
--			break;
--		}
--
--	if (!out) {
-+	i = find_and_set_bit(&cdev->outurb_active_mask, N_URBS);
-+	if (i >= N_URBS) {
- 		dev_err(dev, "Unable to find an output urb to use\n");
- 		goto requeue;
- 	}
- 
-+	out = cdev->data_urbs_out[i];
-+
- 	/* read the recently received packet and send back one which has
- 	 * the same layout */
- 	for (frame = 0; frame < FRAMES_PER_URB; frame++) {
--- 
-2.40.1
+you need a commit message here describing what changes are introduced by
+the commit you are proposing, and why they are needed. In your case it's
+a very simple change and a simple commit message would do, you may want
+to check patchwork if you're in doubt.
 
+Also, when you address the commit message concern and are ready to send
+v2, remember to include Takashi Iwai (co-maintainer of ALSA together
+with Jaroslav Kysela) in the Cc:
+
+Thanks,
+Geraldo Nascimento
+
+> ---
+>   sound/pci/hda/patch_realtek.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index f9ddacfd920e..acbb88d777a2 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -9954,6 +9954,7 @@ static const struct snd_pci_quirk 
+> alc269_fixup_tbl[] = {
+>       SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A", 
+> ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
+>       SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V", 
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+>       SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", 
+> ALC294_FIXUP_ASUS_DUAL_SPK),
+> +    SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA", 
+> ALC287_FIXUP_CS35L41_I2C_2),
+>       SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV", 
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+>       SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", 
+> ALC287_FIXUP_CS35L41_I2C_2),
+>       SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
+> -- 
+> 2.43.0
+> 
+> 
+> 
+> 
+> Hi, it's my very first time trying to contribute to linux kernel. I hope 
+> the diff format is ok.
+> 
+> my fork : https://github.com/nectogale/linux-quirk-ASUS-GV302XA/tree/master
+> 
+> Have a nice day.
+> 
+> 
