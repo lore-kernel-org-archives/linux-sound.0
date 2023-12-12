@@ -1,60 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RAZnaZYK"
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3B6E8;
-	Tue, 12 Dec 2023 01:59:23 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3b9e7f4a0d7so3397424b6e.1;
-        Tue, 12 Dec 2023 01:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702375162; x=1702979962; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p5GlMW1Kh4nLITNIYwe64bCuIn3y8U980DG6b5ax924=;
-        b=RAZnaZYKgMyL1B2Fyn9AeuElVZFx46jgi1+pArhuVOg6mkW2LyN/qRoX6mferpQCeg
-         +Pn4GkHaRpOOvho1t5/DDauWShQobmllCtBwoS8d3a9JJsEcIK4I6q4pHk7Fs8JAfmTB
-         qMFfY84p5UKrQ3AxyDt39b9O9NYc2+AqyRGNMo1vp0Sa5ov6P2ME8z8TPpIS0IxmE2ac
-         Wnj68YIqxOZKpNdi2FclRpNehNqIu6vPOy+ocGwnAkyhpD6rio+pyYtH2ljK0IDswRpF
-         o/4h0eRVxBMvJAsLKGUFhADihImsj31fzrl/dQlTsuC4v0zV7fTkP4OS8b32snbxy9F1
-         u80g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702375162; x=1702979962;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p5GlMW1Kh4nLITNIYwe64bCuIn3y8U980DG6b5ax924=;
-        b=Elc3LCqqPeCN0VJgo2QUZrvpXtBrLy5yPqC8PLbT9CRFwjvsBMX8UAadpYs43IXmMH
-         XxiY9xNwTZc/K5arhZJWcpmunIcGGlRzOp8Ht96pZJst0EiJjlE47fryENzQyP3we39L
-         D7IYnL2LMf2SsfzDYNMHB1mGjnCzSNOeUjOS1psVzSYsOTT3t8YagjxhUaEXGYHk8Wrw
-         BFhudByiIIgpFc7rV9mAK9UAWGYFStI/Ia4G5QSfeosHyxtL0gD6fp9qA23DliHw4tKD
-         Jer7GGK13z1UCQK7LadoPZGVBi4euXXG/6w0FR2nBYc9ZTl/rJk1mNW3Q3zTYn7eExDa
-         /zSw==
-X-Gm-Message-State: AOJu0Yxma/lQqkD946j0atEFX0bFN9xhumDebfBatmSRXyJNUX3QM3M3
-	yCtAWfN/BfM1zKiMVY6+od2EAutSItD6Qw==
-X-Google-Smtp-Source: AGHT+IGv+pUTcYw3AN16Fy3gEBQql0CgY9sI+VsP3TLi5giVX8oZb9syxSid0H88mpsNY3owKtMXEw==
-X-Received: by 2002:a05:6808:3028:b0:3a8:432a:ea13 with SMTP id ay40-20020a056808302800b003a8432aea13mr7516672oib.46.1702375162279;
-        Tue, 12 Dec 2023 01:59:22 -0800 (PST)
-Received: from localhost.localdomain ([117.189.239.2])
-        by smtp.gmail.com with ESMTPSA id d4-20020a056a0010c400b006ce7344328asm7730354pfu.77.2023.12.12.01.59.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 01:59:21 -0800 (PST)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jianhua Lu <lujianhua000@gmail.com>
-Subject: [RFC, PATCH v2 2/2] ASoC: qcom: sm8250: Add TERTIARY_TDM_RX_0 support
-Date: Tue, 12 Dec 2023 17:58:50 +0800
-Message-ID: <20231212095850.26482-2-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231212095850.26482-1-lujianhua000@gmail.com>
-References: <20231212095850.26482-1-lujianhua000@gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gEetVJqy"
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8D17AB
+	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 02:42:12 -0800 (PST)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BC7hp9P027901;
+	Tue, 12 Dec 2023 04:41:52 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=S
+	jSfjnzX2kgKs2OORwGVP88+lFNDDFtHEENCImnrvG8=; b=gEetVJqyAbWbrTgxx
+	3BjLyFH4NEuFPE2KygocmlHLsU5aOAdVsBmmoCCd34XYP7MwnLYCqkwJEwN53ljA
+	aTRhMhhmT45ABazn4s3KNjIq555lUjdQgl5RKdb+paXv9dJCToYgOcd9npdK9F7x
+	0uhyhQN0e1JxCyJR1L6mzlnToP+f/ZBe6Rf1JhXCZiT7pll0Kv0DcAMjSZpoxRsj
+	WoDCkFDKorRdhs+ySGGJL5P62S5b+ZMb6EFZW8xq9rDoPXDSqPzTIDPr8xjxLzko
+	tWBdP0qXdd/xDKClErsg7y8i+sAJ3sDyIDdmnhuoiOJusjWx9S8pYNKEU23LgWPB
+	pSlFA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3uwawka8vs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Dec 2023 04:41:52 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Dec
+ 2023 10:41:50 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
+ Transport; Tue, 12 Dec 2023 10:41:50 +0000
+Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id DBBDA468;
+	Tue, 12 Dec 2023 10:41:49 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <sfr@canb.auug.org.au>,
+        <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH] ASoC: cs42l43: Add missing statics for hp_ilimit functions
+Date: Tue, 12 Dec 2023 10:41:49 +0000
+Message-ID: <20231212104149.2388753-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,61 +46,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: jqSYpUkfmg95LRwyJseQ-gSJ3IzKVT5_
+X-Proofpoint-GUID: jqSYpUkfmg95LRwyJseQ-gSJ3IzKVT5_
+X-Proofpoint-Spam-Reason: safe
 
-Add TERTIARY_TDM_RX_0 case to make speaker amplifiers working
-on xiaomi-elish tablet.
-
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+Fixes: bbbc18d8c27c ("ASoC: cs42l43: Allow HP amp to cool off after current limit")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
-No changes in v2.
+ sound/soc/codecs/cs42l43.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- sound/soc/qcom/sm8250.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index f298167c2a23..00c89c073e72 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -16,6 +16,7 @@
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index d2412dab35996..6a64681767de8 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -139,7 +139,7 @@ CS42L43_IRQ_ERROR(spkl_therm_warm)
+ CS42L43_IRQ_ERROR(spkr_sc_detect)
+ CS42L43_IRQ_ERROR(spkl_sc_detect)
  
- #define DRIVER_NAME		"sm8250"
- #define MI2S_BCLK_RATE		1536000
-+#define TDM_BCLK_RATE		12288000
+-void cs42l43_hp_ilimit_clear_work(struct work_struct *work)
++static void cs42l43_hp_ilimit_clear_work(struct work_struct *work)
+ {
+ 	struct cs42l43_codec *priv = container_of(work, struct cs42l43_codec,
+ 						  hp_ilimit_clear_work.work);
+@@ -156,7 +156,7 @@ void cs42l43_hp_ilimit_clear_work(struct work_struct *work)
+ 	snd_soc_dapm_mutex_unlock(dapm);
+ }
  
- struct sm8250_snd_data {
- 	bool stream_prepared[AFE_PORT_MAX];
-@@ -53,6 +54,7 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 	struct snd_soc_pcm_runtime *rtd = substream->private_data;
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-+	int ret, j;
- 
- 	switch (cpu_dai->id) {
- 	case TERTIARY_MI2S_RX:
-@@ -63,6 +65,23 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
- 		break;
-+	case TERTIARY_TDM_RX_0:
-+		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_DSP_A;
-+		snd_soc_dai_set_sysclk(cpu_dai,
-+			Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-+			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+
-+		for_each_rtd_codec_dais(rtd, j, codec_dai) {
-+			ret = snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
-+			snd_soc_dai_set_sysclk(codec_dai,
-+				0,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+			if (ret < 0) {
-+				dev_err(rtd->dev, "TDM fmt err:%d\n", ret);
-+				return ret;
-+			}
-+		}
-+		break;
- 	default:
- 		break;
- 	}
+-void cs42l43_hp_ilimit_work(struct work_struct *work)
++static void cs42l43_hp_ilimit_work(struct work_struct *work)
+ {
+ 	struct cs42l43_codec *priv = container_of(work, struct cs42l43_codec,
+ 						  hp_ilimit_work);
 -- 
-2.41.0
+2.39.2
 
