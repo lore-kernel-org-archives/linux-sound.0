@@ -1,73 +1,72 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECDB61699;
+	Tue, 12 Dec 2023 13:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7uWfJ4T"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F21CAC;
-	Tue, 12 Dec 2023 04:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702385097; x=1733921097;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=cHqtOeNKP076/ZBIP1FBovIIDSXx16JPG8Oa+T/X2Sk=;
-  b=M7uWfJ4TUHUDKEePSmp97ECavY3/iEbIsfUHXfXgQ9hsqQQVF07cNAHG
-   sK/LhEWIo9fYRRv3B9tdyu0L3RKW4XkYsJ45A/y4i2LAFd5wRghj4o4Ne
-   OtZC8NLteeqgbj/F1HyiieL71oLOVNqb8pT2cYilqxAIhSQvN+uNCdgva
-   d0F64GZGnUcfF64Sd/qAlcEPBYKj38/t9hPGSLsZYLPDrVBfXyQouEIjR
-   /445cO55KrzUPVdXJ67GIfX2OYnYoIsGWDM4R1h/B0JCyMhsipO5zQ6Nz
-   LdcvPM+hvqt5fV6ty5Q1V/QRAb3TzTXvaIYcBbiC8NLDPufdhT4B3NlZS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="397586774"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="397586774"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:44:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="17634142"
-Received: from eliteleevi.tm.intel.com ([10.237.54.20])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:44:54 -0800
-Date: Tue, 12 Dec 2023 14:44:41 +0200 (EET)
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-X-X-Sender: kvehmane@eliteleevi.tm.intel.com
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-cc: lgirdwood@gmail.com, broonie@kernel.org, Jaroslav Kysela <perex@perex.cz>, 
-    Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
-    Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-    Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
-    Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-    linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: hdac_hda: Fix NULL pointer dereference when hda_pvt
- is not set
-In-Reply-To: <20231212064533.233748-1-kai.heng.feng@canonical.com>
-Message-ID: <alpine.DEB.2.22.394.2312121441490.14041@eliteleevi.tm.intel.com>
-References: <20231212064533.233748-1-kai.heng.feng@canonical.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I91eYWU0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89DC5C433C8;
+	Tue, 12 Dec 2023 13:29:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702387785;
+	bh=akGtfnhFjBe2nMJrOHrsifjEJFT+LBYPgT6oz4LXzME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I91eYWU0dv2do9ItHh6PHh+aRwaLPA/Jd33srZNyc4mUx4sOJgjBuorFWbE+rTlww
+	 da04RlXImPAOY/EeFm0ecbpfzal6l/0MB8Gpvwfzvu9E2x8xX/gA9oZ4OrOKbAxriD
+	 OXu6NH8Mdxy4lQP7VDPmqssq2+cfAsHTIT0f5zQ2M//YBmNMxG4wZqSGuuGP9/MyhU
+	 ACUXS9vYpiMby8t/07sCD0X7ONeiKRPxciEIFUdEKfqzVqOB/ybLqBlV6TPK2w5BN/
+	 1u3+ykiL8sD+rTKQpRVbXWslikh8D4wpZlI6Os7OR5Ss6KZSAxBrbXGN4AiLZ0z4x6
+	 u4y155nUT91VA==
+Date: Tue, 12 Dec 2023 13:29:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: conor+dt@kernel.org, krzysztof.kozlowski@linaro.org, robh+dt@kernel.org,
+	andriy.shevchenko@linux.intel.com, devicetree@vger.kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de,
+	peeyush@ti.com, navada@ti.com
+Subject: Re: [PATCH v1] ASoC: tas2562: remove tas2563 into driver
+Message-ID: <872750ee-92b1-4cdc-940d-50ac7873d8b3@sirena.org.uk>
+References: <20231212050831.982-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BNqNRrW+YuOQn9ax"
+Content-Disposition: inline
+In-Reply-To: <20231212050831.982-1-shenghao-ding@ti.com>
+X-Cookie: If rash develops, discontinue use.
 
-Hi,
 
-On Tue, 12 Dec 2023, Kai-Heng Feng wrote:
+--BNqNRrW+YuOQn9ax
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Kernel splat can be found on boot:
-> [    7.906438] BUG: kernel NULL pointer dereference, address: 0000000000000078
-> [    7.906449] #PF: supervisor read access in kernel mode
-> [    7.906455] #PF: error_code(0x0000) - not-present page
-[...]
-> This is caused by attempting to dereference hda_pvt, so check if it's
-> NULL before using it.
-> 
-> Fixes: a0575b4add21 ("ASoC: hdac_hda: Conditionally register dais for HDMI and Analog")
+On Tue, Dec 12, 2023 at 01:08:31PM +0800, Shenghao Ding wrote:
+> Remove tas2563 from tas2562, it will be supported in separated driver code.
 
-can you try this fix already merged to Mark's tree (merged on 7th Dec):
+It would be better to do this as part of adding the new, split out
+support - otherwise users might get a release which temporarily drops
+the support.
 
-"ASoC: SOF: Intel: hda-codec: Delay the codec device registration"
-https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/?id=ce17aa4cf2db7d6b95a3f854ac52d0d49881dd49
+--BNqNRrW+YuOQn9ax
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Br, Kai
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV4YEEACgkQJNaLcl1U
+h9D2Bwf9Gh3XP7TKDQmWleAoc1a0UkGsfNxJCgVE2O06Y4V6BdXElgFkZFNFzSWn
+hEh5g+XfthG2fcOSh4sVmsjkjbe/mccqOldIYX0oZ5Go9C0w3wL8aTsKQTk6t1IQ
+LQZwhIoYnbcXw0CQ+QpoYOV5FB5yixfpDpa3T8GH8eLip/vYYviG9oH73BrmfvHB
+5BiKoYgkY0jviIZ/L97ZufFNK3bph/5QgzzScOXSZVbXNuwWZBiCa9Dzp62T5uQw
+26zqC7ixWAopZRTuaabhMvWkVpfgKC+bKAhsoX5wXdvX9EgUg+/KcacghVB+UNAA
+ydZSQwimhuiW1pl9wU972JxMxI0Dpw==
+=MQ2x
+-----END PGP SIGNATURE-----
+
+--BNqNRrW+YuOQn9ax--
