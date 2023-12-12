@@ -1,136 +1,154 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C039D5
-	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 03:55:35 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD1KL-0007kg-9r; Tue, 12 Dec 2023 12:53:29 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD1KH-00FKLk-Ov; Tue, 12 Dec 2023 12:53:25 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD1KH-001bPz-E7; Tue, 12 Dec 2023 12:53:25 +0100
-Date: Tue, 12 Dec 2023 12:53:25 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: nikita.shubin@maquefel.me
-Cc: Hartley Sweeten <hsweeten@visionengravers.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Lukasz Majewski <lukma@denx.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
-	netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
-Message-ID: <20231212115325.m4w6cg4ttdispkvm@pengutronix.de>
-References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="SsxYxBJZ"
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B43083
+	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 04:19:57 -0800 (PST)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BC70GiM016663;
+	Tue, 12 Dec 2023 06:19:33 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=xnNumDFzNq/dKmd
+	lPWS/NLc37aZNTvE98e+DGHWWu14=; b=SsxYxBJZ92ukNjj8K3wYblRcgYrmldq
+	VTEk6ilnvFcu7EQ9MJN5rM6eem0G9hvgvEeoDkpfw4u7VaikT0No4DcwPa3lab6+
+	M7HPBgH2Tx/x/MJgrjrXxTDwawTyGHC1Fhz9ZBOuiKKpxMPow6M6H4Km3Wx+jT0U
+	GbEkavKnLSk+ZPkKuOQiL3+h1qxb4naJlhYovSSI0hdhd9E1s6Wq7TODa0xHYPsq
+	Snv7VoE5f9KTf2FPtxNu7O/fJspYkK6sVnGbl7LDkjIi+A6kMOzLdiEiY4a0i8IT
+	T8fwun7Il+OARhRkytGC/iwq4UX99qgBB+umOkhNCnD+2px/D8V81+g==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3uvnhpk3k3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Dec 2023 06:19:33 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Dec
+ 2023 12:19:31 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
+ Transport; Tue, 12 Dec 2023 12:19:31 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 4F14211D4;
+	Tue, 12 Dec 2023 12:19:31 +0000 (UTC)
+Date: Tue, 12 Dec 2023 12:19:31 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <tiwai@suse.de>, <broonie@kernel.org>, <vinod.koul@intel.com>,
+        Bard liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <vijendar.mukunda@amd.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Shuming Fan
+	<shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+        Oder Chiou
+	<oder_chiou@realtek.com>
+Subject: Re: [RFC PATCH 07/16] soundwire: bus: add API for BPT protocol
+Message-ID: <20231212121931.GX14858@ediswmail.ad.cirrus.com>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-8-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aamqyrxtxz2kjjms"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+In-Reply-To: <20231207222944.663893-8-pierre-louis.bossart@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: htJqln7vk2a5aPcaW7iBkta1ik6p21zh
+X-Proofpoint-ORIG-GUID: htJqln7vk2a5aPcaW7iBkta1ik6p21zh
+X-Proofpoint-Spam-Reason: safe
 
+On Thu, Dec 07, 2023 at 04:29:35PM -0600, Pierre-Louis Bossart wrote:
+> This patch suggests a minimum bound of 64 bytes, for smaller transfers
 
---aamqyrxtxz2kjjms
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+128 in the code.
 
-Hello,
+> +int sdw_bpt_close_stream(struct sdw_bus *bus,
+> +			 struct sdw_slave *slave,
+> +			 enum sdw_bpt_type mode,
+> +			 struct sdw_bpt_msg *msg)
+> +{
 
-On Tue, Dec 12, 2023 at 11:20:17AM +0300, Nikita Shubin via B4 Relay wrote:
-> No major changes since last version all changes are cometic.
->=20
-> Following patches require attention from Stephen Boyd, as they were conve=
-rted to aux_dev as suggested:
->=20
-> - ARM: ep93xx: add regmap aux_dev
-> - clk: ep93xx: add DT support for Cirrus EP93xx
->=20
-> DMA related patches still require Acked or Reviewed tags.
->=20
-> got approval LGTM from Miquel:
-> - mtd: rawnand: add support for ts72xx
-> Link: https://lore.kernel.org/lkml/20231004103911.2aa65354@xps-13/
->=20
-> new patches:
->=20
-> ARM: ep93xx:  Add terminator to gpiod_lookup_table
->   - fixed terminator in gpiod_lockup_table
->=20
-> So mostly all patches got approval.
->=20
-> Patches should be now formated with '--histogram'
+Seems weird to pass the message to close?
 
-You didn't mention how this should be merged. IIRC for the earlier
-rounds the idea was to merge it all together via arm-soc when all
-necessary agreement is reached. I assume that's still the case here?
+> +int sdw_bpt_open_stream(struct sdw_bus *bus,
+> +			struct sdw_slave *slave,
+> +			enum sdw_bpt_type mode,
+> +			struct sdw_bpt_msg *msg)
 
-Best regards
-Uwe
+Ditto, here does it make sense to pass the msg to open? I guess
+the idea is that one only sends a single message in one
+open->send->wait->close cycle? Would be much nicer if multiple
+send/waits could be done in a single open/close, or if the
+limitation is unavoidable why split out open/send into separate
+calls at all? Just have send and wait and wrap open/close into
+them.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> +	if (msg->len % SDW_BPT_MSG_BYTE_ALIGNMENT) {
+> +		dev_err(bus->dev, "BPT message length %d is not a multiple of %d bytes\n",
+> +			msg->len, SDW_BPT_MSG_BYTE_ALIGNMENT);
+> +		return -EINVAL;
+> +	}
 
---aamqyrxtxz2kjjms
-Content-Type: application/pgp-signature; name="signature.asc"
+Should this really be here? My understanding is this alignment is
+a limitation of specific hardware so should this check not be in
+the Cadence master code.
 
------BEGIN PGP SIGNATURE-----
+> +int sdw_bpt_send_async(struct sdw_bus *bus,
+> +		       struct sdw_slave *slave,
+> +		       struct sdw_bpt_msg *msg)
+> +{
+> +	if (msg->len > SDW_BPT_MSG_MAX_BYTES)
+> +		return -EINVAL;
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4SbQACgkQj4D7WH0S
-/k4PhAf9FUkX+fzsz5zB6lrl7lgCvYm5ZVb3B7jDw5VKDO3L/jcpIQBnKW28hqdN
-fjyiqoG4kcqJrqfSN7RxYVHnxPmPMREuU5dkbLnXs4nakNuG6kYOLoWYRW6g7LHA
-2aJAqNPA3r1vRHwgyLaSlwVy4TxsWEJoU/Wa7pnN5VGjjyA22i9iruZRGzbsfSbG
-b4TPtncg2+HG5Z2NtBTY2w2wy/0XOTgO40vcUbW+gfh+ktRpJl5quupeZdYByknj
-l9QU3yt6tCJoKvAXYc2/jykymWajShXD0UJhcLTTYcWnQYEgfLWypFNR4YXJmJGC
-SbVz5vPzsa56pT4BPvsUI7alw9v79g==
-=T2K5
------END PGP SIGNATURE-----
+Does this check make sense since this was already checked in
+open? I guess the user could pass in a different message at this
+stage, but that I guess is part of what feels weird about passing
+the message into open.
 
---aamqyrxtxz2kjjms--
+> +/**
+> + * struct sdw_btp_msg - Message structure
+> + * @addr: Start Register address accessed in the Slave
+> + * @len: number of bytes to transfer. More than 64Kb can be transferred
+> + * but a practical limit of SDW_BPT_MSG_MAX_BYTES is enforced.
+
+Where is the 64kb coming from here?
+
+> +/*
+> + * Add a minimum number of bytes for BPT transfer sizes. BPT has a lot of
+> + * overhead, enabling/disabling a stream costs 6 write commands, plus the bank
+> + * switch that could be delayed in time. In addition, transferring very small
+> + * data sets over DMA is known to be problematic on multiple platforms.
+> + */
+> +#define SDW_BPT_MSG_MIN_BYTES      128
+> +
+
+Is it really necessary for the core to enforce a minimum transfer
+size (well except for the required alignment thing)? Yes small
+transfers don't obviously make sense, but there is nothing inherently
+wrong with doing one, which makes me feel it is excessive for the
+core to block more than it has to here.
+
+I would be of the opinion its up to driver writers if they have
+some reason to do small BRA transfers. Firstly, since we are so
+keen on allowing BRA and normal writes to overlap, one could see
+use-cases when you want to do something through BRA such that it
+doesn't block the normal command stream. Also there is already 1
+feature on cs42l43 that can only be accessed through BRA, yes that
+is a heroically questionable hardware design choice. Whilst we are
+mostly ignoring that for now, I can see this being something some
+other hardware teams decide to heroically do at some point as well.
+
+Thanks,
+Charles
