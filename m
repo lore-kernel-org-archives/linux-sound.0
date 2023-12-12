@@ -1,156 +1,104 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gfkcn5ml";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SqePCo65";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gfkcn5ml";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SqePCo65"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5A5AD0
-	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 23:46:54 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C0E951FCFE;
-	Tue, 12 Dec 2023 07:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702367212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rnjqNEY6w33ej5HuvEO7MGMi/PMAgiy8NiABUKG3yXU=;
-	b=gfkcn5mlYepsx9pNj6CXCWYyqZMW08Q0eBUxqSrOSb2ZOEzTzJWW+VOfFe9obzl9rPzzOO
-	Fxq/HsKMPVR1RHIRiERGAyoZV0r88CJ5+GVMZ5gls6IzEER2NGsa87wrMytBihvXOatvSI
-	csGOZdB96Bzx8NJNmUW17h84fGZjwqI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702367212;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rnjqNEY6w33ej5HuvEO7MGMi/PMAgiy8NiABUKG3yXU=;
-	b=SqePCo65tnF1CDR432uET9290tZfmAk1i0xxV4O3r2gTy1sv0ehtD/Az4TieC66ugO6Tgd
-	cC9SxNem5eV/Z/BQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702367212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rnjqNEY6w33ej5HuvEO7MGMi/PMAgiy8NiABUKG3yXU=;
-	b=gfkcn5mlYepsx9pNj6CXCWYyqZMW08Q0eBUxqSrOSb2ZOEzTzJWW+VOfFe9obzl9rPzzOO
-	Fxq/HsKMPVR1RHIRiERGAyoZV0r88CJ5+GVMZ5gls6IzEER2NGsa87wrMytBihvXOatvSI
-	csGOZdB96Bzx8NJNmUW17h84fGZjwqI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702367212;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rnjqNEY6w33ej5HuvEO7MGMi/PMAgiy8NiABUKG3yXU=;
-	b=SqePCo65tnF1CDR432uET9290tZfmAk1i0xxV4O3r2gTy1sv0ehtD/Az4TieC66ugO6Tgd
-	cC9SxNem5eV/Z/BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90C4713725;
-	Tue, 12 Dec 2023 07:46:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hqb3IOwPeGVsZAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Dec 2023 07:46:52 +0000
-Date: Tue, 12 Dec 2023 08:46:52 +0100
-Message-ID: <87wmtjhngz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
-In-Reply-To: <3cad5ffd-22dd-4bd5-8c08-1a5530489923@gmail.com>
-References: <3cad5ffd-22dd-4bd5-8c08-1a5530489923@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ypR8TEwi"
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9EA5115
+	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:08:26 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c1e3ea2f2so55144285e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:08:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702368505; x=1702973305; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7Vc7WfA6zO/nZVypNJ5ZSKRNw4vlGrxvFfZBsf6PZE=;
+        b=ypR8TEwi15vwvn3g/orot97Fje5Tu/eDiE672QuyLOJC/zyA/t8BoQfaWZNI1cTKcX
+         G0QY5dxFRxawWLO/uT4YaaVGiO8UiYdGIg5aoxu9PRRAR1EQNs19fcaGpldWwTGLM91w
+         cOEeEs4++AoJeCartG5mpjYHpPLjLToQEYKok3KI5p/ToztrrLq+vlwvGZhFAu/Cep0v
+         w1Gw7Skd+Q3zGb6yitFOHaV77C99gWt6Of7mxPEkmWczlPDWfTsD0GHbjipQ2034MvTz
+         ThT4++/J4RkBpb8U75kcxnZU7lwVy8WNiSdAfe7irgP24wZJhoTLQSqwtwPWrWKMJijD
+         1DyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702368505; x=1702973305;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j7Vc7WfA6zO/nZVypNJ5ZSKRNw4vlGrxvFfZBsf6PZE=;
+        b=gwounSzUHUowf6EKyzxjV5d2iGl2E/WiZMv5fYNG2nImOle4ao1KdMMJk5xU13HEQh
+         PeoefsBDO5Gxn1+ZaRjOk2yZRVtGA6ajUGl1IsFqEh06w+BGqp8oDG9B2+prpTXaDxse
+         SFhDzInWiIDLlOf8h60xE1c3HfkCvwsqVOdcX0L0ibg97GIl0lsrDIUCREDNJ80zXari
+         JQp9/ji8d6tEYfgmw5qBNrSCl+J5wc4/nh1EpQZWWLSnkwz9ADf4DmoNP3LwJTqUR+W4
+         uXKddrkEKVV5tVeGqr9gW15migXFrWzJKDq3xhz9ZABymtaxLVrum5r+fGTH8YLrG4AF
+         kb6w==
+X-Gm-Message-State: AOJu0YxQ/8Ka6gihpta6tj/6Az14LObTGH4S6b8WaLOsqcIKzdcVmCOQ
+	xmEIOiIiXTbYxtoKl+EFRzj46w==
+X-Google-Smtp-Source: AGHT+IFpC7/sT0VIDkEJ9Oag1ij5lW+BcSQjyEaC79Eoj7mJ9V5d7dc5CmiB4lNlsj8FfFfc2beOKw==
+X-Received: by 2002:a1c:4c07:0:b0:40b:5e1b:54ae with SMTP id z7-20020a1c4c07000000b0040b5e1b54aemr3470007wmf.58.1702368504657;
+        Tue, 12 Dec 2023 00:08:24 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id n10-20020a05600c500a00b004094e565e71sm15609355wmr.23.2023.12.12.00.08.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 00:08:24 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH 0/2] ASoC: qcom: add sound card support for SM8650
+Date: Tue, 12 Dec 2023 09:08:18 +0100
+Message-Id: <20231212-topic-sm8650-upstream-snd-card-v1-0-fbfc38471204@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: ************
-X-Spam-Score: 12.59
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gfkcn5ml;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SqePCo65;
-	dmarc=pass (policy=none) header.from=suse.de;
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [-6.52 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_SPF_SOFTFAIL(0.00)[~all:c];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 DMARC_POLICY_ALLOW(0.00)[suse.de,none];
-	 MX_GOOD(-0.01)[];
-	 DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 BAYES_HAM(-0.01)[49.24%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 WHITELIST_DMARC(-7.00)[suse.de:D:+];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Score: -6.52
-X-Rspamd-Queue-Id: C0E951FCFE
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPIUeGUC/x3NMQ7CMAxA0atUnrHUGJUCV0EMJnHAQ9PILgip6
+ t0bdXzL/yu4mIrDvVvB5Keuc2kIpw7ih8tbUFMzUE/nQIFwmatG9Ol6GXr8Vl9MeEIvCSNbwjD
+ Ia+TMNOYbtEg1yfo/Bo/ntu1u7ASicAAAAA==
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=744;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=OrzPyzSnlQ4w2hZz/Baas4f3W1LzsV2V/lHEDAWTjGs=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBleBT2CPZAHiWYnl772ED0TNHbAgYjtuRnkahPbmGn
+ 3VyDLO+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZXgU9gAKCRB33NvayMhJ0UBCD/
+ 9aS6SDPueYXQWfGRWKZB57ZqiqxFUMnfUecohs0K3A9LsjgvoT4R7lH6F34NLx6LH+WvzRW6pk1TUx
+ 3UoDBwn8tSItLhAVVeMl2CVJASIf/WjJ4yfBJ/h1lSbcrK0w6BbudEgoa8IrWHbvs2hkG4RJKWxyRl
+ wKw6QHOrLYa8tkL+R2KNBq1ncJrCvClS4BKKEuWE1fE/1++ETTHrFA5N83pK/aOmyTgLhxSZVI/e4A
+ jpkOIe6EZ832SoOZqB1R8p9HE92d73wgl6jkTSIY9wGdlvtyGuzwiIoDQvJLrmIdbWXKm2M5dWEoZ3
+ wqQ34Q1SEXvdQRdOXxNh1RvMvNFm2vM4Ustviq0Tq0vDzA7ipLgB/J4PpPK7w66xhchhKCYEqQN2F8
+ GFLAFbRPO4EWOCMNGHL0lDHrma6kQxN0NzNRuys1ZVCgj4iLwWk+y/8Usf2pABq4lZQB3dY+BiuKkb
+ c6BlS2j1VD9GlzdWVVgWRgW9/AC1byA/lpMtuvC7UdbHBwPijaSd9iMPzXvAm8+o+pmY1u6DpphYNU
+ 8p0cQKWqjzRHhWwwhiDRQV2OZPoq+HBSTYWSL6E3C+ufMgyPh+hfynBBUDUplSGC3gt2yeIU6wLgrh
+ qOxB2BpJRdk/+JUqbesJAv1m9D6tXx14XEFPbdEBR3szRjrFgz2NzdQvBUGw==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On Tue, 12 Dec 2023 08:43:36 +0100,
-Clément Villeret wrote:
-> 
-> Commit message :
+Document the SM8650 sound card using the SM8450 fallback
+and add the SM8650 compatible to the sc8280xp sound card
+driver to use the sm8650 card driver_name like SM8450 & SM8550.
 
-Please drop a superfluous tag.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Neil Armstrong (2):
+      ASoC: dt-bindings: qcom,sm8250: document SM8650 sound card
+      ASoC: qcom: sc8280xp: Add support for SM8650
 
-> Asus ROG Flowx13 (GV302XA) seems require same patch as others asus product (UM3402YAR, UM3406HA...). This permit to load the correct firmware and don't loose audio after waking up from sleep or hibernate.
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+ sound/soc/qcom/sc8280xp.c                                | 1 +
+ 2 files changed, 2 insertions(+)
+---
+base-commit: bbd220ce4e29ed55ab079007cff0b550895258eb
+change-id: 20231212-topic-sm8650-upstream-snd-card-15eb7afa27f9
 
-Your Signed-off-by tag is mandatory for the patch to be merged to the
-upstream.  Please take a look at
-Documentation/process/submitting-patches.rst for details.
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
-About the code change:
-> @@ -9954,6 +9954,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A", ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
->  	SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V", ALC285_FIXUP_ASUS_HEADSET_MIC),
->  	SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
-> +	SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
->  	SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
-
-The table is sorted in PCI SSID order.  Please put at the right
-position.
-
-Could you resubmit the patch with the corrections above?
-
-
-thanks,
-
-Takashi
