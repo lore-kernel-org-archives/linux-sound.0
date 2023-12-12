@@ -1,186 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t5pLd39D"
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70960CD
-	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 03:47:39 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-54c77e0835bso7926119a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 03:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702381658; x=1702986458; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KeJt1SlvJ2BjVo+T8o9WuujZC5zAwSMZRcDz9J4jRUA=;
-        b=t5pLd39D1tYIG6PWp0XUaG3NAnrL3dNKizMtgTSts6mOHbgFeGoax3xr8MCRgJ+Fz1
-         /kosS3OAbOeHW4hCdBMn3C/6fL/o9DF8WDX7rFZauR5jgyotXsBGYdhSQHpTPE0b6u2B
-         rfgv4t3ZnUSVffmeeYQV0CwTEWREzBA+kouKpwvboF5g2m2AzdhBni3E3gdvAA+Pv1TU
-         5WecKjPjKKaUE7RrMcAziZkJ4dRinErJhN1MVV5Ob/u0VTFTpz8rnQsT4TDPh3+9pTAr
-         8BMxC5s4+wv964lI4k1j238HzUka9/b6YtOUMvS9c1kGWasaDuJILxBXSHq1DYfidFH3
-         DbWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702381658; x=1702986458;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KeJt1SlvJ2BjVo+T8o9WuujZC5zAwSMZRcDz9J4jRUA=;
-        b=o6eoJYCWH9BBx/eG00rVWTuZT6YgRB7pdA4OClk3+gB6CVBKIlF2vK5Hp2Nw3eKMvB
-         9JPCz8bsOTeO/KtoZjSiVSaBKch3SGO1Gh1TthP+jhLDVaYczJB/JW50ij699PdaM5c9
-         6v/J6Q3DaQv0PkOLgXMXycXbdZbJH+tglc4Y1OyG+4C/Y72D7TuUcnqpMlFWCvm98gzW
-         bFyk7n1F9br7aU2cLTjqpKVl54Yiryhtt/pqhCGBQvn6xGDjbQBQT6RZypIErY5/OtjA
-         JHGgHcDWEIdzUQsMYN2+aVnDEP/f1RlAX1jeWP1l1fCZOH8LZTJETVH7+Da2NnO9UIJX
-         SO1g==
-X-Gm-Message-State: AOJu0Yw+UBnNSWLFK9Iwp3YSDWCKCvEzlQ4yCVNF5dwyPkNy0hyxKP79
-	CgDtE/TYlH9Xm3nUD+qmAHAl9Q==
-X-Google-Smtp-Source: AGHT+IFjELsRWgldVYuEXuwAZ8zX+ftLOkWb54t7FJjL6MAEhFL8aAHQRMir0ZoV8uzFjZ7aN4mCxw==
-X-Received: by 2002:aa7:cc86:0:b0:54c:c464:5b5 with SMTP id p6-20020aa7cc86000000b0054cc46405b5mr3354740edt.46.1702381657928;
-        Tue, 12 Dec 2023 03:47:37 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id k13-20020a50cb8d000000b0054cc7a4dc4csm4521908edi.13.2023.12.12.03.47.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 03:47:37 -0800 (PST)
-Message-ID: <c43c4303-ed59-49e7-940a-62df6ad1b575@linaro.org>
-Date: Tue, 12 Dec 2023 11:47:36 +0000
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C039D5
+	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 03:55:35 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD1KL-0007kg-9r; Tue, 12 Dec 2023 12:53:29 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD1KH-00FKLk-Ov; Tue, 12 Dec 2023 12:53:25 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD1KH-001bPz-E7; Tue, 12 Dec 2023 12:53:25 +0100
+Date: Tue, 12 Dec 2023 12:53:25 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: nikita.shubin@maquefel.me
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Lukasz Majewski <lukma@denx.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+	netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
+Message-ID: <20231212115325.m4w6cg4ttdispkvm@pengutronix.de>
+References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC, PATCH v2 1/2] ASoC: qcom: sdw: Add TDM support
-Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231212095850.26482-1-lujianhua000@gmail.com>
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20231212095850.26482-1-lujianhua000@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Thankyou for the patch,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aamqyrxtxz2kjjms"
+Content-Disposition: inline
+In-Reply-To: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
 
-On 12/12/2023 09:58, Jianhua Lu wrote:
-> Add qcom TDM setup function to support TDM ports for qcom platform.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-> Changes in v2:
->    1. remove EXPORT_SYMBOL_GPL
->    2. remove static modifier
-> 
->   sound/soc/qcom/sdw.c | 63 ++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 63 insertions(+)
-> 
-> diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
-> index 77dbe0c28b29..948abbd2e0e3 100644
-> --- a/sound/soc/qcom/sdw.c
-> +++ b/sound/soc/qcom/sdw.c
-> @@ -4,6 +4,7 @@
->   
->   #include <dt-bindings/sound/qcom,q6afe.h>
->   #include <linux/module.h>
-> +#include <sound/pcm_params.h>
->   #include <sound/soc.h>
->   #include "sdw.h"
->   
-> @@ -101,6 +102,65 @@ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
->   }
->   EXPORT_SYMBOL_GPL(qcom_snd_sdw_prepare);
->   
-> +int qcom_snd_tdm_hw_params(struct snd_pcm_substream *substream,
-> +			   struct snd_pcm_hw_params *params)
-> +{
+--aamqyrxtxz2kjjms
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-TBH, this should not be part of sdw.c file, its intended for more of 
-soundwire specific helpers, pl consider moving this to common.c for now.
-Because, Not all old qcom platforms have soundwire controllers.
+Hello,
 
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +	unsigned int tdm_slot_offset[8] = { 0, 4, 8, 12, 16, 20, 24, 28 };
-> +	int channels, slot_width;
-> +	int ret;
-> +
-> +	switch (params_format(params)) {
-> +	case SNDRV_PCM_FORMAT_S16_LE:
-> +		slot_width = 16;
-> +		break;
-> +	case SNDRV_PCM_FORMAT_S24_LE:
-> +		slot_width = 24;
-> +		break;
-> +	case SNDRV_PCM_FORMAT_S32_LE:
-> +		slot_width = 32;
-> +		break;
-> +	default:
-> +		dev_err(rtd->dev, "%s: invalid param format 0x%x\n", __func__,
-> +			params_format(params));
-> +		return -EINVAL;
-> +	}
-> +
-> +	channels = params_channels(params);
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0, 0x3, 8, slot_width);
+On Tue, Dec 12, 2023 at 11:20:17AM +0300, Nikita Shubin via B4 Relay wrote:
+> No major changes since last version all changes are cometic.
+>=20
+> Following patches require attention from Stephen Boyd, as they were conve=
+rted to aux_dev as suggested:
+>=20
+> - ARM: ep93xx: add regmap aux_dev
+> - clk: ep93xx: add DT support for Cirrus EP93xx
+>=20
+> DMA related patches still require Acked or Reviewed tags.
+>=20
+> got approval LGTM from Miquel:
+> - mtd: rawnand: add support for ts72xx
+> Link: https://lore.kernel.org/lkml/20231004103911.2aa65354@xps-13/
+>=20
+> new patches:
+>=20
+> ARM: ep93xx:  Add terminator to gpiod_lookup_table
+>   - fixed terminator in gpiod_lockup_table
+>=20
+> So mostly all patches got approval.
+>=20
+> Patches should be now formated with '--histogram'
 
-slot mask is always set to 2 channels in this case, should you not check 
-the number of channels to determine the correct one?
+You didn't mention how this should be merged. IIRC for the earlier
+rounds the idea was to merge it all together via arm-soc when all
+necessary agreement is reached. I assume that's still the case here?
 
+Best regards
+Uwe
 
-These magic number 0, 0x3, 8 seems to make the code unreadable, can you 
-do something like this:
-snd_soc_dai_set_tdm_slot(cpu_dai, tx_mask, rx_mask, 
-ARRAY_SIZE(tdm_slot_offset), slot_width);
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--aamqyrxtxz2kjjms
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +		if (ret < 0) {
-> +			dev_err(rtd->dev, "%s: failed to set tdm slot, err:%d\n",
-> +				__func__, ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = snd_soc_dai_set_channel_map(cpu_dai, 0, NULL, channels,
-> +						  tdm_slot_offset);
-> +		if (ret < 0) {
-> +			dev_err(rtd->dev, "%s: failed to set channel map, err:%d\n",
-> +				__func__, ret);
-> +			return ret;
-> +		}
-> +	} else {
-> +		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0xf, 0, 8, slot_width);
-> +		if (ret < 0) {
-> +			dev_err(rtd->dev, "%s: failed to set tdm slot, err:%d\n",
-> +				__func__, ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = snd_soc_dai_set_channel_map(cpu_dai, channels,
-> +						  tdm_slot_offset, 0, NULL);
-> +		if (ret < 0) {
-> +			dev_err(rtd->dev, "%s: failed to set channel map, err:%d\n",
-> +				__func__, ret);
-> +			return ret;
-> +		}
-> +	}
-Finally  ./sound/soc/qcom/sdm845.c does have exactly same code, can you 
-consider removing this and make use of this new helper in that file too.
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4SbQACgkQj4D7WH0S
+/k4PhAf9FUkX+fzsz5zB6lrl7lgCvYm5ZVb3B7jDw5VKDO3L/jcpIQBnKW28hqdN
+fjyiqoG4kcqJrqfSN7RxYVHnxPmPMREuU5dkbLnXs4nakNuG6kYOLoWYRW6g7LHA
+2aJAqNPA3r1vRHwgyLaSlwVy4TxsWEJoU/Wa7pnN5VGjjyA22i9iruZRGzbsfSbG
+b4TPtncg2+HG5Z2NtBTY2w2wy/0XOTgO40vcUbW+gfh+ktRpJl5quupeZdYByknj
+l9QU3yt6tCJoKvAXYc2/jykymWajShXD0UJhcLTTYcWnQYEgfLWypFNR4YXJmJGC
+SbVz5vPzsa56pT4BPvsUI7alw9v79g==
+=T2K5
+-----END PGP SIGNATURE-----
 
-> +}
-> +
->   int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
->   			   struct snd_pcm_hw_params *params,
->   			   struct sdw_stream_runtime **psruntime)
-> @@ -125,6 +185,9 @@ int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
->   				*psruntime = sruntime;
->   		}
->   		break;
-> +	case PRIMARY_TDM_RX_0...QUINARY_TDM_TX_7:
-> +		qcom_snd_tdm_hw_params(substream, params);
-> +		break;
->   	}
->   
->   	return 0;
+--aamqyrxtxz2kjjms--
