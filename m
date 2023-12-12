@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TGs9ywOv"
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32E9DB
-	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:36:56 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5510479806dso2970191a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:36:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IHsm754r"
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71104107
+	for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:37:01 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54c79968ffbso7095618a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 12 Dec 2023 00:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702370215; x=1702975015; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702370220; x=1702975020; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gAxSUwhkiCUP6UHK6GIGBnKDUk2bvCluwT/Q5fYxno4=;
-        b=TGs9ywOvNnYeHChLYkKQ3wSDZlhk6PD+WoWwsnRDrnw+MZEn1G5AoHriv6LhalqK8s
-         dxIKOqezae1eEKrcrxBDmeaO0gWZUfNdOB7nxSi+20+xMoDQj+nOP+Ou0I1QoMcwQUoW
-         2+MnVntWHLHErmvV3NdedUU0cXJF1zLbYoglnQ/nidWJonxmMbIi0Xmttp+9pGbUa47F
-         feVL3UVGYOhJOZBj2xpDlJdchbDmgWTrXJHvNj4ADoRtoV9hdYuwgfvdR8jhm2vu4h7q
-         +xKhNEG3fpH8ySfmirqFUMJnimAw0+swWgUYnNoAE1uZZoLXggjHoNLpVYEM8zIG2m18
-         4ywA==
+        bh=0qv/I4rV9NkH79/3gXpBE8U5PS14fuph1QN2S3bCrs8=;
+        b=IHsm754r3Tr1D0xEkTzWG5dYRNqd9ZAB7mKjXomJsVhgbTgxRbnL+z/ImuMQHcELIE
+         3vfpSmzcNxc1qYfaPEy5eh/XyD4Kt14n10v3X6Z1gJr2VT8nH8Im5FmY1WltexxbTVkc
+         YA1BuLiH8pA6wWrXstybP7QttMFJw2bphJSWiM08zzK/a6VDdexCpNL0prEbN7bF/4IR
+         AbmdqmrLCqC9a+kUaWLs76I8aePMXvE1Z1Q5lnUQLit7vAzVZighRYkEheV5/PLjyqZf
+         QinhhBLvi6TgyAvbBJME529mcKPbSRzgpGORNvYc+nYcErVJtlVL9v/GMQPbHu+Z/EVx
+         pbvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702370215; x=1702975015;
+        d=1e100.net; s=20230601; t=1702370220; x=1702975020;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gAxSUwhkiCUP6UHK6GIGBnKDUk2bvCluwT/Q5fYxno4=;
-        b=Wi/AVdanJqLKuc7qa4bjw8m/njf/ypkyjH7g7xo3AcX6gcbppAts0s13tPcFj8G/Ve
-         0fB0Jto+qZYXRd3kEVESWhF/QIpsEZf8Mzs2Mg9dRDWqxrNE4lYboWXuD+DZcATKr5Dk
-         HzB8gWKp0lvR03fGnYXvjxp0LqjvVPdYWE2g2CJPXFasaav+Vg7Xj3DRGJ3g50beta3E
-         R7nvU+t6lPlshqV7WLYccbizgcxV+VGtHSIIxe4BM8UVcz1YSgj1QpdILDtnRLfKrHYQ
-         cuP7v/shtkemmlWYvv5OMb55KTP+/8XGlHtYUsFepeoX1BJ+d5q4lB8P0K4Xvrg1cxXl
-         dccw==
-X-Gm-Message-State: AOJu0YwhA+Z5oLfzw+b9TP5Bcg5VuHd06LCRShT69gDlZ2ylBW2lUDcR
-	otM0jQsWqDSZ20/TEaZ05PAVYA==
-X-Google-Smtp-Source: AGHT+IFchVjNnSV5qhCNE/8l1SX7AqJcGM6oJhXkqT2xE79ql7zwbYReXshegXi7xKcA2cR3W6lfDw==
-X-Received: by 2002:a50:85ca:0:b0:551:17a3:fd31 with SMTP id q10-20020a5085ca000000b0055117a3fd31mr1044340edh.55.1702370214983;
-        Tue, 12 Dec 2023 00:36:54 -0800 (PST)
+        bh=0qv/I4rV9NkH79/3gXpBE8U5PS14fuph1QN2S3bCrs8=;
+        b=a1Lz4nswbgnGAkqYkK7HEQuKJ1f9QYA3xZLWIejZKQPyFOrkg1eB4Rv7hJ04bU5y7D
+         lnpuHbo7fknIOX3k0/WUukTUnP8Ena4ZHoG492XPlHz2POwZ4VaAdtS2OTSEoqRu9OXM
+         zgxl9AYOI6UUvYUQS7222skdntjT8AuE7X+4+1ZXRewviGIp1mRIczFQPRVVHrA1RoPl
+         j2/Q+0i6rmUZQ42q9C3/71zQkoPgqtNtBKFOSS6GCG6o7/a4gbUTlN+J4mh6tY7p0cq2
+         MtcZRhL8f1ywkIhJ1SZeYZsasPpBi0LGtmfDCsQyniCfbaQZD2FuVyZZlleValQ/saCf
+         Mw3g==
+X-Gm-Message-State: AOJu0Yx91r5oRIxUPfA14dgm9zk7r3arXWB93eauXAPnFunuOaxjygYV
+	76jjERXxMikfkJ3oo8XFjTwpNw==
+X-Google-Smtp-Source: AGHT+IGgkw78dam21CNgKGYxMvMpItftQPatt0T1b1i422/3w05Y+y0mipCGrDHJ42Y4O/aU4zDeGw==
+X-Received: by 2002:a50:8dc5:0:b0:54c:4837:7589 with SMTP id s5-20020a508dc5000000b0054c48377589mr3008088edh.53.1702370219909;
+        Tue, 12 Dec 2023 00:36:59 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id l28-20020a50d6dc000000b0054ca3df2257sm4684520edj.36.2023.12.12.00.36.53
+        by smtp.gmail.com with ESMTPSA id l28-20020a50d6dc000000b0054ca3df2257sm4684520edj.36.2023.12.12.00.36.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 00:36:54 -0800 (PST)
-Message-ID: <fdf85318-2553-48ef-86f7-b8ea515793b5@linaro.org>
-Date: Tue, 12 Dec 2023 09:36:52 +0100
+        Tue, 12 Dec 2023 00:36:59 -0800 (PST)
+Message-ID: <ff5dc990-70f4-47a6-8ef2-c93135c08b9b@linaro.org>
+Date: Tue, 12 Dec 2023 09:36:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,8 +47,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: qcom,sm8250: document SM8650 sound
- card
+Subject: Re: [PATCH 2/2] ASoC: qcom: sc8280xp: Add support for SM8650
 Content-Language: en-US
 To: Neil Armstrong <neil.armstrong@linaro.org>, Andy Gross
  <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -63,7 +62,7 @@ Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20231212-topic-sm8650-upstream-snd-card-v1-0-fbfc38471204@linaro.org>
- <20231212-topic-sm8650-upstream-snd-card-v1-1-fbfc38471204@linaro.org>
+ <20231212-topic-sm8650-upstream-snd-card-v1-2-fbfc38471204@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -109,17 +108,27 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231212-topic-sm8650-upstream-snd-card-v1-1-fbfc38471204@linaro.org>
+In-Reply-To: <20231212-topic-sm8650-upstream-snd-card-v1-2-fbfc38471204@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/12/2023 09:08, Neil Armstrong wrote:
-> Add sound card for SM8650, which as of now looks fully compatible with
-> SM8450.
+> Add compatibles for sound card on Qualcomm SM8650 boards.
 > 
 > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
-
+>  sound/soc/qcom/sc8280xp.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+> index 1e8f9452cd28..494f284875d2 100644
+> --- a/sound/soc/qcom/sc8280xp.c
+> +++ b/sound/soc/qcom/sc8280xp.c
+> @@ -170,6 +170,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
+>  	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
+>  	{.compatible = "qcom,sm8450-sndcard", "sm8450"},
+>  	{.compatible = "qcom,sm8550-sndcard", "sm8550"},
+> +	{.compatible = "qcom,sm8650-sndcard", "sm8650"},
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
