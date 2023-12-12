@@ -1,136 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ALmaFoSj"
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B7CD2;
-	Mon, 11 Dec 2023 18:27:58 -0800 (PST)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5d8a772157fso44759417b3.3;
-        Mon, 11 Dec 2023 18:27:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wp1lG46/"
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A39EB;
+	Mon, 11 Dec 2023 18:28:42 -0800 (PST)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5d7a47d06eeso52156897b3.1;
+        Mon, 11 Dec 2023 18:28:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702348076; x=1702952876; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702348121; x=1702952921; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HmvgTcSgTSYSGQ9OhXSlfMgozAivgkoJ1Cnrtk56obw=;
-        b=ALmaFoSjjUmhUdcoPPCJ5ucJ4Mw6EJ6M6IMpyRxfY2iAdP2Khfsqq2SaP8q74dXX6y
-         6anMXn+gOkaF7yBmLrVre7Bu1ROrLXmZ0pwcMOcMn9GReTq2Mg14kAjP9KDpo4ZVS+SB
-         EMGIr9H+40dHRtYSl+fP3/8olGDf0syIMY6QZKBe8pzZYnQFqKuWMPtZuZuKRmktxqkA
-         a9dXHkMz1Mejjt+9l1LaeEL9lyGywTbYZYssx5E3ChU3594S3t5HMz1a30HvodRm46O6
-         o2zMaTdZfDOjfC1iMLdpe4dAVsilcqTwVV72quzkJ5a0nL2xXvl0yWwSyn9vQsmHLNTN
-         iYKw==
+        bh=s1ziCHmUMRjRbO8uC0DQdJSiPRQP/fDCaegFJhzzCaw=;
+        b=Wp1lG46/3S4h92lGr9FmU3vpqbCUWbjNtZfAfZLy1j+FwlaLb4wvIYWG+6axBfmpBi
+         YrQbQTK1VTrruc/nqjLdoYQIG9QcxRxu4aZ66X5YaOzPYfTZogft+qVIeqUg3yEJUZX1
+         9DnFtHDfPW6hLWLv6gkaxBt6BL0aCDzLyU/v/Q21qMTEou0N36aigSR0X9+NXl1u+Lab
+         YRkjWdEyeDnbGEKcI2wbZz8WvcKh5JTCugM4MwsMpll6XBYsTHyJQb11cSpgTy6Ob6nq
+         6Nn9HPzwRQvxMKenbUOqQXz1SliC3s9kW+3jLSCPoAIDxahdsvSlTWx/1BiaqRPzkQN9
+         hMRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702348076; x=1702952876;
+        d=1e100.net; s=20230601; t=1702348121; x=1702952921;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HmvgTcSgTSYSGQ9OhXSlfMgozAivgkoJ1Cnrtk56obw=;
-        b=gj73M48Hj4p0M5RA2PDVQrt10Mou5AbGWu4ucRvX/8vRtcKthQa3YFyXlEnWpDEh/Y
-         mbphfSWyKrx51BHR2Dzs8PljtNjAjY1lQYM9q8Bm4RkVkWNdq/GpE3+Sq1Ck+bLgEKw4
-         hUZGsX1aEEqtjytN6h/dfv4yXA/MPK9EqdW26g/QUOli0EVl6MTc8k/VItOFdiVjGjzW
-         d/KFEzVAGORlvqXDMAyNQ+m/yQ8hwAgyDZzsZYGROsalHb/wpUMGIuCGJUND0vOlNCsG
-         XrNeCVq1QpdlKk5TgZ8wjjVFCXxvSG9uMg+9lUYxxdiEMTc77mmuMZj7bJJZgWeqyZa3
-         /n4w==
-X-Gm-Message-State: AOJu0YzXkPiFZgPtzYyz/MaYpC+EF/jphCXGeIOPa0Smv+r7D6ptVHqu
-	KR3vwe0KZt8NpDvxjUsV4hNTyMmYiUI8Cg==
-X-Google-Smtp-Source: AGHT+IFPs4AvQxtYv4UrJlD5lGh/BMqsDvh12ZnXOoQbI3s9B0hPdqcJ7FPe01OhhQlwKaBiv0CCJg==
-X-Received: by 2002:a81:a505:0:b0:5d7:1941:aa7 with SMTP id u5-20020a81a505000000b005d719410aa7mr4037805ywg.66.1702348076388;
-        Mon, 11 Dec 2023 18:27:56 -0800 (PST)
+        bh=s1ziCHmUMRjRbO8uC0DQdJSiPRQP/fDCaegFJhzzCaw=;
+        b=L8WBvz04Dy9BPO01cU1tcxpjXB6vgsQ4o+cJ+6vqEdFQSPlFU6ZthxY50shHIAJYFg
+         W3BVZi2mCeQhPZ73vdvvt+OJ5I2jitNkiyrDVGP7igRevSKWeVVnASZcw4aUOL7aZ28L
+         MbsQ3apEIIa/fmQtVOzKlPUUqba+KXgxMJyxRo9Us67F0LzcaSuX4nuZz6lrRZ13xAxX
+         34tBlU8mtc5Ic+/ZJwKGnQOtiG8afXGtGTRaHJ77HvuX00d1lzUDDhs3+Uv2Jd2/Eeye
+         Q6ErOyU6rHPj5HQb318fNuFHgKxvdKNxlNS/xJKmzVgHxyL/ssY9VSwYl04jni/rE6iv
+         jV8A==
+X-Gm-Message-State: AOJu0Yx9lGJyBDBBeHxFQ97df3F8fTbha/zFtYS7agVMTANKfMbAmGr/
+	gII3WcyG2m/pXy68/1X4ejufa8mjDY2ZDw==
+X-Google-Smtp-Source: AGHT+IEkj3SrO47EktQbRudrxe7SbWLYCP6nELjcTaeJUHnC5fYO3ykVx8HOtGA5GggcJQHNwWRRGA==
+X-Received: by 2002:a0d:dbc5:0:b0:5cb:eac7:38aa with SMTP id d188-20020a0ddbc5000000b005cbeac738aamr4593499ywe.35.1702348120890;
+        Mon, 11 Dec 2023 18:28:40 -0800 (PST)
 Received: from localhost ([2601:344:8301:57f0:38aa:1c88:df05:9b73])
-        by smtp.gmail.com with ESMTPSA id a200-20020a0dd8d1000000b005d35a952324sm3448999ywe.56.2023.12.11.18.27.55
+        by smtp.gmail.com with ESMTPSA id u11-20020a0deb0b000000b005af5bb5e840sm3454168ywe.34.2023.12.11.18.28.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 18:27:55 -0800 (PST)
+        Mon, 11 Dec 2023 18:28:40 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Fenghua Yu <fenghua.yu@intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hugh Dickins <hughd@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>,
-	Karsten Graul <kgraul@linux.ibm.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	Daniel Mack <zonque@gmail.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Yury Norov <yury.norov@gmail.com>,
 	Kees Cook <keescook@chromium.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	Rich Felker <dalias@libc.org>,
-	Rob Herring <robh@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	alsa-devel@alsa-project.org,
-	ath10k@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	iommu@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-net-drivers@amd.com,
-	linux-pci@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-sh@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	mpi3mr-linuxdrv.pdl@broadcom.com,
-	netdev@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Jan Kara <jack@suse.cz>,
+	alsa-devel@alsa-project.org
+Cc: Jan Kara <jack@suse.cz>,
 	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
 	Matthew Wilcox <willy@infradead.org>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -138,10 +57,11 @@ Cc: Yury Norov <yury.norov@gmail.com>,
 	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
 	Alexey Klimov <klimov.linux@gmail.com>,
 	Bart Van Assche <bvanassche@acm.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH v3 02/35] lib/find: add test for atomic find_bit() ops
-Date: Mon, 11 Dec 2023 18:27:16 -0800
-Message-Id: <20231212022749.625238-3-yury.norov@gmail.com>
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v3 32/35] ALSA: use atomic find_bit() functions where applicable
+Date: Mon, 11 Dec 2023 18:27:46 -0800
+Message-Id: <20231212022749.625238-33-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231212022749.625238-1-yury.norov@gmail.com>
 References: <20231212022749.625238-1-yury.norov@gmail.com>
@@ -153,92 +73,69 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add basic functionality test for new API.
+ALSA code tests each bit in bitmaps in a for() loop. Switch it to
+using dedicated atomic find_bit() API.
 
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
+Acked-by: Takashi Iwai <tiwai@suse.de>
 ---
- lib/test_bitmap.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ sound/pci/hda/hda_codec.c |  7 +++----
+ sound/usb/caiaq/audio.c   | 13 +++++--------
+ 2 files changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/lib/test_bitmap.c b/lib/test_bitmap.c
-index 65f22c2578b0..277e1ca9fd28 100644
---- a/lib/test_bitmap.c
-+++ b/lib/test_bitmap.c
-@@ -221,6 +221,65 @@ static void __init test_zero_clear(void)
- 	expect_eq_pbl("", bmap, 1024);
- }
+diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
+index 01718b1fc9a7..29254005f394 100644
+--- a/sound/pci/hda/hda_codec.c
++++ b/sound/pci/hda/hda_codec.c
+@@ -3275,10 +3275,9 @@ static int get_empty_pcm_device(struct hda_bus *bus, unsigned int type)
  
-+static void __init test_find_and_bit(void)
-+{
-+	unsigned long w, w_part, bit, cnt = 0;
-+	DECLARE_BITMAP(bmap, EXP1_IN_BITS);
-+
-+	/*
-+	 * Test find_and_clear{_next}_bit() and corresponding
-+	 * iterators
-+	 */
-+	bitmap_copy(bmap, exp1, EXP1_IN_BITS);
-+	w = bitmap_weight(bmap, EXP1_IN_BITS);
-+
-+	for_each_test_and_clear_bit(bit, bmap, EXP1_IN_BITS)
-+		cnt++;
-+
-+	expect_eq_uint(w, cnt);
-+	expect_eq_uint(0, bitmap_weight(bmap, EXP1_IN_BITS));
-+
-+	bitmap_copy(bmap, exp1, EXP1_IN_BITS);
-+	w = bitmap_weight(bmap, EXP1_IN_BITS);
-+	w_part = bitmap_weight(bmap, EXP1_IN_BITS / 3);
-+
-+	cnt = 0;
-+	bit = EXP1_IN_BITS / 3;
-+	for_each_test_and_clear_bit_from(bit, bmap, EXP1_IN_BITS)
-+		cnt++;
-+
-+	expect_eq_uint(bitmap_weight(bmap, EXP1_IN_BITS), bitmap_weight(bmap, EXP1_IN_BITS / 3));
-+	expect_eq_uint(w_part, bitmap_weight(bmap, EXP1_IN_BITS));
-+	expect_eq_uint(w - w_part, cnt);
-+
-+	/*
-+	 * Test find_and_set{_next}_bit() and corresponding
-+	 * iterators
-+	 */
-+	bitmap_copy(bmap, exp1, EXP1_IN_BITS);
-+	w = bitmap_weight(bmap, EXP1_IN_BITS);
-+	cnt = 0;
-+
-+	for_each_test_and_set_bit(bit, bmap, EXP1_IN_BITS)
-+		cnt++;
-+
-+	expect_eq_uint(EXP1_IN_BITS - w, cnt);
-+	expect_eq_uint(EXP1_IN_BITS, bitmap_weight(bmap, EXP1_IN_BITS));
-+
-+	bitmap_copy(bmap, exp1, EXP1_IN_BITS);
-+	w = bitmap_weight(bmap, EXP1_IN_BITS);
-+	w_part = bitmap_weight(bmap, EXP1_IN_BITS / 3);
-+	cnt = 0;
-+
-+	bit = EXP1_IN_BITS / 3;
-+	for_each_test_and_set_bit_from(bit, bmap, EXP1_IN_BITS)
-+		cnt++;
-+
-+	expect_eq_uint(EXP1_IN_BITS - bitmap_weight(bmap, EXP1_IN_BITS),
-+			EXP1_IN_BITS / 3 - bitmap_weight(bmap, EXP1_IN_BITS / 3));
-+	expect_eq_uint(EXP1_IN_BITS * 2 / 3 - (w - w_part), cnt);
-+}
-+
- static void __init test_find_nth_bit(void)
- {
- 	unsigned long b, bit, cnt = 0;
-@@ -1273,6 +1332,8 @@ static void __init selftest(void)
- 	test_for_each_clear_bitrange_from();
- 	test_for_each_set_clump8();
- 	test_for_each_set_bit_wrap();
-+
-+	test_find_and_bit();
- }
+ #ifdef CONFIG_SND_DYNAMIC_MINORS
+ 	/* non-fixed slots starting from 10 */
+-	for (i = 10; i < 32; i++) {
+-		if (!test_and_set_bit(i, bus->pcm_dev_bits))
+-			return i;
+-	}
++	i = find_and_set_next_bit(bus->pcm_dev_bits, 32, 10);
++	if (i < 32)
++		return i;
+ #endif
  
- KSTM_MODULE_LOADERS(test_bitmap);
+ 	dev_warn(bus->card->dev, "Too many %s devices\n",
+diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
+index 4981753652a7..74dfcf32b439 100644
+--- a/sound/usb/caiaq/audio.c
++++ b/sound/usb/caiaq/audio.c
+@@ -610,7 +610,7 @@ static void read_completed(struct urb *urb)
+ 	struct snd_usb_caiaq_cb_info *info = urb->context;
+ 	struct snd_usb_caiaqdev *cdev;
+ 	struct device *dev;
+-	struct urb *out = NULL;
++	struct urb *out;
+ 	int i, frame, len, send_it = 0, outframe = 0;
+ 	unsigned long flags;
+ 	size_t offset = 0;
+@@ -625,17 +625,14 @@ static void read_completed(struct urb *urb)
+ 		return;
+ 
+ 	/* find an unused output urb that is unused */
+-	for (i = 0; i < N_URBS; i++)
+-		if (test_and_set_bit(i, &cdev->outurb_active_mask) == 0) {
+-			out = cdev->data_urbs_out[i];
+-			break;
+-		}
+-
+-	if (!out) {
++	i = find_and_set_bit(&cdev->outurb_active_mask, N_URBS);
++	if (i >= N_URBS) {
+ 		dev_err(dev, "Unable to find an output urb to use\n");
+ 		goto requeue;
+ 	}
+ 
++	out = cdev->data_urbs_out[i];
++
+ 	/* read the recently received packet and send back one which has
+ 	 * the same layout */
+ 	for (frame = 0; frame < FRAMES_PER_URB; frame++) {
 -- 
 2.40.1
 
