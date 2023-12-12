@@ -1,81 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Xk+oQ24O"
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0461BF;
-	Mon, 11 Dec 2023 22:45:42 -0800 (PST)
-Received: from HP-EliteBook-x360-830-G8-Notebook-PC.. (unknown [10.101.196.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 5C214420EB;
-	Tue, 12 Dec 2023 06:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1702363540;
-	bh=0CIojiFNIL7TgUO9/Pp1FGrJpR5/T7LOaiQGQuP8+Ko=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=Xk+oQ24O6vui7YdqkCdOsFuEE4q4rJNy9hm8argAxhe/e4+IJ1XS2ydSqQDy5jHJS
-	 ClRlWoBBUuro9Sg7lf182EHV8b8POYGlztQKGH9eRHxhbxeRFvOojGANif5w9fkRyp
-	 iUGPQo17L6RtXu3Kmb9dvEwMvuikdvx42dNSjURxShsY054NwuKVwBMGl5flsv3GdA
-	 4+spFBvKw1ONVly6qWbVEdFmXrXF1faekhfxBxtsavjvrd3+8kOtNi6FMpmOAqFOKg
-	 5Fe6br4uoy2xN7SdxNZlp50ct/WyICLrf/QW9C+xY8ql4Qfzq7I7EtpJT332wcw4VP
-	 jN6gXPSKdVwkw==
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: hdac_hda: Fix NULL pointer dereference when hda_pvt is not set
-Date: Tue, 12 Dec 2023 14:45:31 +0800
-Message-Id: <20231212064533.233748-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S9jnxxnR"
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C15ABE
+	for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 23:43:39 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-50bee606265so5608917e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 11 Dec 2023 23:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702367017; x=1702971817; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NR68bREbcFUtVa6+/LHr8eofLYLebgCurmyF7HcbNMA=;
+        b=S9jnxxnRjw5Br/BuQn4NAa9dR3O1sw3qtFpSEOPI84NLqEZZTzfZ/r3gzYQ4zzGUhY
+         Sp/kji1o3U37gwtOqgdXLU9znODdbHODjIHGd/x7cvTZK+EtSqNtN2fHYumsU/AL6jdj
+         BoCUIE0Ov5n9RLjzWQtFbqej6iVabOtdBh178jQPrijsM2SdNcikkGtbD+mQidiqFxoG
+         G5JVZf7vxREJ4yYhaHgv+dnpz5lqhUyTvr04rreAaTuD5fJZUp8PHmtkPHPBOeEO/KT5
+         YZfe2JhvSJ0j65Ve5/9RNdgHOccXj2jQBFiacjCNMD0VC2d0XqmMuN8OtUWFclteXWCZ
+         q1mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702367017; x=1702971817;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NR68bREbcFUtVa6+/LHr8eofLYLebgCurmyF7HcbNMA=;
+        b=WSTpmepjM7qtVVt9UwEamPSCGcIJdOt0vaj+LuuiPLhDmhOgpn5fWbc+NwwMN77RGk
+         XcvFXQJMMgKtGTezFBMYfSpG7ZW2F6j3cfr0ehvXINOCFgOWYuezVtRCw3ucT9juv3w7
+         +72Pbg1runB14vWwW6TupKty5lR630l1tV9G16isd+DXRbbaFBMYLYjU+qjfxD4Rhuvx
+         t0BKYAmt/Au5z121MFdKDhwBunDOuf85TjvWNP9fuABeG4fYFi83jQXWdrNaOUGfnsCA
+         gybJ1bH+79Xsu6mKaaTlRt9rq5uRtJnVAIjmjBZ8UaIDLZlZmpHWeauiNGcul/pIj2J/
+         LLWg==
+X-Gm-Message-State: AOJu0YxlWcK7IHg2xQ8tsYg/L+qEN12rxWGkpGiGwM92JEThaqTkDKUO
+	hOI50C00T5USk0YzDYgKovcXZXaQoNVuTnKx2pM=
+X-Google-Smtp-Source: AGHT+IEISDGGRGkImQupwC8vJdDy0vqIatFb2tXdamwD5uA4BC7lyGBXNOmumKNuCL4bQgWdv+Vu/Q==
+X-Received: by 2002:a05:6512:3b96:b0:50c:c5f:e301 with SMTP id g22-20020a0565123b9600b0050c0c5fe301mr3410511lfv.58.1702367017033;
+        Mon, 11 Dec 2023 23:43:37 -0800 (PST)
+Received: from [192.168.32.6] (host-78-79-232-116.mobileonline.telia.com. [78.79.232.116])
+        by smtp.gmail.com with ESMTPSA id i30-20020a0565123e1e00b0050dfe864d8dsm502144lfv.95.2023.12.11.23.43.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 23:43:36 -0800 (PST)
+Message-ID: <3cad5ffd-22dd-4bd5-8c08-1a5530489923@gmail.com>
+Date: Tue, 12 Dec 2023 08:43:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-sound@vger.kernel.org
+Cc: perex@perex.cz, tiwai@suse.com
+From: =?UTF-8?Q?Cl=C3=A9ment_Villeret?= <clement.villeret@gmail.com>
+Subject: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Kernel splat can be found on boot:
-[    7.906438] BUG: kernel NULL pointer dereference, address: 0000000000000078
-[    7.906449] #PF: supervisor read access in kernel mode
-[    7.906455] #PF: error_code(0x0000) - not-present page
-[    7.906461] PGD 0 P4D 0
-[    7.906466] Oops: 0000 [#1] PREEMPT SMP NOPTI
-[    7.906472] CPU: 15 PID: 109 Comm: kworker/15:0 Not tainted 6.7.0-rc5+ #9
-[    7.906480] Hardware name: HP HP ZBook Fury 15 G7 Mobile Workstation/8783, BIOS S92 Ver. 01.15.00 10/03/2023
-[    7.906489] Workqueue: events sof_probe_work [snd_sof]
-[    7.906509] RIP: 0010:hdac_hda_dev_probe+0x48/0x110 [snd_soc_hdac_hda]
+Commit message :
+Asus ROG Flowx13 (GV302XA) seems require same patch as others asus product (UM3402YAR, UM3406HA...). This permit to load the correct firmware and don't loose audio after waking up from sleep or hibernate.
 
-This is caused by attempting to dereference hda_pvt, so check if it's
-NULL before using it.
-
-Fixes: a0575b4add21 ("ASoC: hdac_hda: Conditionally register dais for HDMI and Analog")
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- sound/soc/codecs/hdac_hda.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  sound/pci/hda/patch_realtek.c | 1 +
+  1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
-index b075689db2dc..abc214f201a8 100644
---- a/sound/soc/codecs/hdac_hda.c
-+++ b/sound/soc/codecs/hdac_hda.c
-@@ -632,7 +632,7 @@ static int hdac_hda_dev_probe(struct hdac_device *hdev)
- 	snd_hdac_ext_bus_link_get(hdev->bus, hlink);
- 
- 	/* ASoC specific initialization */
--	if (hda_pvt->need_display_power)
-+	if (hda_pvt && hda_pvt->need_display_power)
- 		ret = devm_snd_soc_register_component(&hdev->dev,
- 						&hdac_hda_hdmi_codec, hdac_hda_hdmi_dais,
- 						ARRAY_SIZE(hdac_hda_hdmi_dais));
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f9ddacfd920e..acbb88d777a2 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9954,6 +9954,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+  	SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A", ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
+  	SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V", ALC285_FIXUP_ASUS_HEADSET_MIC),
+  	SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
++	SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA", ALC287_FIXUP_CS35L41_I2C_2),
+  	SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
+  	SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
+  	SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
 -- 
-2.34.1
+2.43.0
 
