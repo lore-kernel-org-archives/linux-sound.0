@@ -1,81 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="asEntrfs"
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5100EB7;
-	Tue, 12 Dec 2023 04:34:54 -0800 (PST)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id BC3E071;
-	Tue, 12 Dec 2023 13:34:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1702384491;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cVsH9JrMU+kTllg4YnT8PH24+guNEqb5IZwuUj2+thc=;
-	b=asEntrfsJUlVGUOuVaMNcSEyWMez6f94TkJxrdnYBhrPGNP6VFg/a3sxhqR0hd1IkQZIWX
-	EqnahLwu8JFqlCzFkksUj3ny6AojzvDwmyknQs29Xh7cB7yHi+iJ89NEu1LhvV8Llb1+zd
-	wSkrrDAcq6FjbYIDRFEwzQOgl5BHZOONLlYylIO0zjx2ZQP9D+c5+gKcVTG3kvhZpLXqNY
-	mKCdx5SMagAm+jyjxpETjDt5y/h48F5k1qY6TYvDLz163Po8UJjJYyzZiLbu8MikXffurA
-	7uVidvriQgkThLix3x5o1jZgUWuOoCZEU7OqZpUBVmiPBx3sNZmbF6Bg9ag2TA==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7uWfJ4T"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F21CAC;
+	Tue, 12 Dec 2023 04:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702385097; x=1733921097;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=cHqtOeNKP076/ZBIP1FBovIIDSXx16JPG8Oa+T/X2Sk=;
+  b=M7uWfJ4TUHUDKEePSmp97ECavY3/iEbIsfUHXfXgQ9hsqQQVF07cNAHG
+   sK/LhEWIo9fYRRv3B9tdyu0L3RKW4XkYsJ45A/y4i2LAFd5wRghj4o4Ne
+   OtZC8NLteeqgbj/F1HyiieL71oLOVNqb8pT2cYilqxAIhSQvN+uNCdgva
+   d0F64GZGnUcfF64Sd/qAlcEPBYKj38/t9hPGSLsZYLPDrVBfXyQouEIjR
+   /445cO55KrzUPVdXJ67GIfX2OYnYoIsGWDM4R1h/B0JCyMhsipO5zQ6Nz
+   LdcvPM+hvqt5fV6ty5Q1V/QRAb3TzTXvaIYcBbiC8NLDPufdhT4B3NlZS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="397586774"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="397586774"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:44:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="17634142"
+Received: from eliteleevi.tm.intel.com ([10.237.54.20])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:44:54 -0800
+Date: Tue, 12 Dec 2023 14:44:41 +0200 (EET)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+X-X-Sender: kvehmane@eliteleevi.tm.intel.com
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+cc: lgirdwood@gmail.com, broonie@kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+    Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
+    Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+    Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+    Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+    linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: hdac_hda: Fix NULL pointer dereference when hda_pvt
+ is not set
+In-Reply-To: <20231212064533.233748-1-kai.heng.feng@canonical.com>
+Message-ID: <alpine.DEB.2.22.394.2312121441490.14041@eliteleevi.tm.intel.com>
+References: <20231212064533.233748-1-kai.heng.feng@canonical.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 12 Dec 2023 13:34:51 +0100
-From: Michael Walle <michael@walle.cc>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: broonie@kernel.org, tudor.ambarus@linaro.org, pratyush@kernel.org,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- sbinding@opensource.cirrus.com, lee@kernel.org, james.schulman@cirrus.com,
- david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz,
- tiwai@suse.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
- michal.simek@amd.com, linux-arm-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, git@amd.com, amitrkcian2002@gmail.com
-Subject: Re: [PATCH v11 00/10] spi: Add support for stacked/parallel memories
-In-Reply-To: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
-Message-ID: <30ffd8378d3ef1c4fa6dfe4324b18345@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-> This patch series updated the spi-nor, spi core and the AMD-Xilinx 
-> GQSPI
-> driver to add stacked and parallel memories support.
+Hi,
 
-Honestly, I'm not thrilled about how this is implemented in the core
-and what the restrictions are.
-First, the pattern "if (n==1) then { old behavior } else { copy old
-code modify for n==2 }" is hard to maintain. There should be no copy
-and the old code shall be adapted to work for both n=1 and n>1.
+On Tue, 12 Dec 2023, Kai-Heng Feng wrote:
 
-But I agree with Tudor, some kind of abstraction (layer) would be nice.
+> Kernel splat can be found on boot:
+> [    7.906438] BUG: kernel NULL pointer dereference, address: 0000000000000078
+> [    7.906449] #PF: supervisor read access in kernel mode
+> [    7.906455] #PF: error_code(0x0000) - not-present page
+[...]
+> This is caused by attempting to dereference hda_pvt, so check if it's
+> NULL before using it.
+> 
+> Fixes: a0575b4add21 ("ASoC: hdac_hda: Conditionally register dais for HDMI and Analog")
 
-Also, you hardcode n=2 everywhere. Please generalize that one.
+can you try this fix already merged to Mark's tree (merged on 7th Dec):
 
-Are you aware of any other controller supporting such a feature? I've
-seen you also need to modify the spi controller and intercept some
-commands. Can everything be moved there?
+"ASoC: SOF: Intel: hda-codec: Delay the codec device registration"
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/?id=ce17aa4cf2db7d6b95a3f854ac52d0d49881dd49
 
-I'm not sure we are implementing controller specific things in the
-core. Hard to judge without seeing other controllers doing a similar
-thing. I'd like to avoid that.
-
-If we had some kind of abstraction here, that might be easier to adapt
-in the future, but just putting everything into the core will make it
-really hard to maintain. So if everything related to stacked and
-parallel memory would be in drivers/mtd/spi-nor/stacked.c, we'd have
-at least everything in one place with a proper interface between
-that and the core.
-
--michael
+Br, Kai
