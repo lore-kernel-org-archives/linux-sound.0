@@ -1,124 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yjqi5CFL"
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D79113;
-	Wed, 13 Dec 2023 04:36:50 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-5c66e7eafabso5634605a12.0;
-        Wed, 13 Dec 2023 04:36:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702471010; x=1703075810; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QZihwxl0v63j7g6/9Ub3zyT34OyL1Z04NfBICmYEzJk=;
-        b=Yjqi5CFL/PE1vUIRj+mjZ9GU2RM3WNzdRqOYkNos9IR7UrSyzqIweP4xDOci2mtN8m
-         x7fzCQFwFNv3Sju6HGgVcCj1bDF5qnaP6bbwSu5+852srDk9c15JL/1XNZAzNR1NZtMR
-         p+PuaFRpdGs/9KhuWZr2mUIY0746h4uiru7ofstA2gh9vaRJxVDD1Mq6OQ5GCyIIop89
-         uZwNL0vCIQZuY5Alc19fBOvgTasUwg8YGA/YiKyJAXAnsCS0v4St66GXAZ/YhgAMhR+e
-         FJIeL0P3zGcZ0/3UML9K19A1gQ27m9FTU9edyFFxtIIoCObb4a2LWkN3W3sRkUZFOfHa
-         g8MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702471010; x=1703075810;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QZihwxl0v63j7g6/9Ub3zyT34OyL1Z04NfBICmYEzJk=;
-        b=b7PFkwGb9XpAPzkzlhGFnrnGPdSgSK0C1B7iaFw+fuk8RexGjpWcGCNee0HlID849F
-         E75tNjnGIy2zScpKLcQvQJmxJxUPrRqU5yF1fUJBBkjud127DavOw/00g6lVH6xu+Mg2
-         UK1UkEdCzl9eCTUzeq83+m795YmN5IhOGk28iiIf4JhQITRZV1KFDKArjWECP7Ciq95P
-         5d5FTvilFOKPDK+W18/MnzfJYNzYOPQqe3fn2RSRlZTIgiOGmwp9Aj28bgeDfTrq8lU8
-         lWHwmQRH+JjmSgCQ0TJqHUkdJKaBVoqNpN2bFei9ADHuMkJOItjeexYDGnE+jmaxqWJ3
-         U8Xw==
-X-Gm-Message-State: AOJu0YzpDhxJog+QEzY+1QwuO9SzOYOi2oJXRJUcvzH0yhHm307qCKr2
-	vTpSLbN6MUTLV9iKjOAdTM4=
-X-Google-Smtp-Source: AGHT+IEm5mEDtS1LOQPlg62W3tJlZX2ZCSTzqHOg/4SL8BX/XhHwx2CVtF+Cuq8ajRix5XT7ni3shg==
-X-Received: by 2002:a05:6a20:9481:b0:18b:4a28:6e15 with SMTP id hs1-20020a056a20948100b0018b4a286e15mr8029288pzb.34.1702471009861;
-        Wed, 13 Dec 2023 04:36:49 -0800 (PST)
-Received: from localhost.localdomain ([117.189.237.103])
-        by smtp.gmail.com with ESMTPSA id x3-20020a056a00188300b0068fe5a5a566sm10193584pfh.142.2023.12.13.04.36.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 04:36:49 -0800 (PST)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jianhua Lu <lujianhua000@gmail.com>
-Subject: [PATCH v3 4/4] ASoC: qcom: sm8250: Add TERTIARY_TDM_RX_0 support
-Date: Wed, 13 Dec 2023 20:35:56 +0800
-Message-ID: <20231213123556.20469-4-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231213123556.20469-1-lujianhua000@gmail.com>
-References: <20231213123556.20469-1-lujianhua000@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoklJOec"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6A5F9C;
+	Wed, 13 Dec 2023 05:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702475115; x=1734011115;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OuVJcynRVfgCAEWcQt4z1sKsI1HyzVA74uhdyZjaBoI=;
+  b=CoklJOecJEDoaH5eAkiYX0Y23ECCLKqLaysG/QCf17HQYI4zfNaojVyh
+   VcFiJn9mqmE1LMFzOe5XCwhHeli3OQwYQxwOdW5GR8fcD1PV09KWlAxpw
+   tKOIkSVAkmtG1kPJxVITIwaMeCDZ9IcN5fAjjRpzRREwr7jafj1lnE2IH
+   lri/lbNFspEiC9qqOIHo5Rkjn6hZ/YuaMpnMDVJBsmLtbypqem9acWr20
+   kRdm6YhxsXWQy0YSqBrvSLt//t1K1CrYLYEOUNHKBqa570DDYxU7pyv1t
+   NHZ+RBON+CiH5dZ8mFqM0/zcC4HUf48ycU/3OgAlVgX8HEB9hsY9iwnPn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1806056"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="1806056"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 05:45:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="723652972"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="723652972"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 05:45:09 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rDPXt-00000005XPs-42VY;
+	Wed, 13 Dec 2023 15:45:05 +0200
+Date: Wed, 13 Dec 2023 15:45:05 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
+	robh+dt@kernel.org, devicetree@vger.kernel.org, lgirdwood@gmail.com,
+	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
+	13916275206@139.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
+	soyer@irl.hu, tiwai@suse.de, peeyush@ti.com, navada@ti.com
+Subject: Re: [PATCH v1] ASoC: tas2562: remove tas2563 into driver
+Message-ID: <ZXm1YcSOND-LjpLn@smile.fi.intel.com>
+References: <20231212050831.982-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212050831.982-1-shenghao-ding@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Add TERTIARY_TDM_RX_0 case to make speaker amplifiers working
-on Xiaomi Pad 5 Pro tablet.
+On Tue, Dec 12, 2023 at 01:08:31PM +0800, Shenghao Ding wrote:
+> Remove tas2563 from tas2562, it will be supported in separated driver code.
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
-No changes in v3.
+No objection from the code perspective. The Q is, what is the behaviour of the
+current users? Imagine we have a used of this chip and this driver gets it
+enumerated. Does it work? if so, this patch can not be applied right now.
+Otherwise the commit message above is missing an elaboration of the case.
 
-No changes in v2.
-
- sound/soc/qcom/sm8250.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index f298167c2a23..00c89c073e72 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -16,6 +16,7 @@
- 
- #define DRIVER_NAME		"sm8250"
- #define MI2S_BCLK_RATE		1536000
-+#define TDM_BCLK_RATE		12288000
- 
- struct sm8250_snd_data {
- 	bool stream_prepared[AFE_PORT_MAX];
-@@ -53,6 +54,7 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 	struct snd_soc_pcm_runtime *rtd = substream->private_data;
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-+	int ret, j;
- 
- 	switch (cpu_dai->id) {
- 	case TERTIARY_MI2S_RX:
-@@ -63,6 +65,23 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
- 		break;
-+	case TERTIARY_TDM_RX_0:
-+		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_DSP_A;
-+		snd_soc_dai_set_sysclk(cpu_dai,
-+			Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-+			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+
-+		for_each_rtd_codec_dais(rtd, j, codec_dai) {
-+			ret = snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
-+			snd_soc_dai_set_sysclk(codec_dai,
-+				0,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+			if (ret < 0) {
-+				dev_err(rtd->dev, "TDM fmt err:%d\n", ret);
-+				return ret;
-+			}
-+		}
-+		break;
- 	default:
- 		break;
- 	}
 -- 
-2.41.0
+With Best Regards,
+Andy Shevchenko
+
 
