@@ -1,111 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF9167B56;
-	Wed, 13 Dec 2023 19:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C4653E10
+	for <linux-sound@vger.kernel.org>; Wed, 13 Dec 2023 19:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NL1y6ZXg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 192ACC433C8;
-	Wed, 13 Dec 2023 19:20:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f5BMFybz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD56C433C7;
+	Wed, 13 Dec 2023 19:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702495216;
-	bh=pvOifwzmhzVpqy1B65sXqWWUfUoqN1GPpaLpMOsu7M4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NL1y6ZXgRJFSI8gechwwAiu4XkPxMrQCZ3LQNQoh+duY2ym7IXeYgeVkjmO2P1Zbp
-	 hDB4oqmrb5FVjrgp7O203jYtSPqIGDoV9OS1/Jbw9Pm5ip8FfSqnjsP3MIsKZDrBGu
-	 YEgcG/fnfM+jv2gl1iv6i4nPkj0CyWYn80MYGVmGbS+geBXWsswLAJ0tNb6cKFCrVV
-	 flEZrv8+fHhFUjfVj5zJUxJ5DFdyyf8jl1rMuqrzWJFEZsL0DWeFuJy6wM7WghLieX
-	 wYSBun4sk1TjGGVYkzyvgslg0iWFnwrQQgInI+Cc4cE4XgUtkpXL/nkWz2ovZm43vk
-	 Iso4DkVscs6Kg==
-Date: Wed, 13 Dec 2023 19:20:09 +0000
+	s=k20201202; t=1702495423;
+	bh=z+0td+atuCMZBsdE4LHxDWAVwopd34cSV4sCDtgxUk8=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=f5BMFybzIoHt3p6Ht9nHZTJqWl7hZijHve4qJZ2SZhCoGFji2301nAh5JVVEzBN73
+	 HQvFcOwfhAWuMAfsw9u7vdZlEwuHEdoy2uRmpE4k76BCqWBwmOHFX6YD3eTL8MZh3d
+	 Ev/nl2/4YPwZfVe+3iIbfTwzsh40bANkNoYf6NsBgjZ9cdo2jnhg3o/n15karvZuVE
+	 nphvtnev1uh/gRbzxgWqmO1Qz+SsP+vRLpqVzx9914fkMvQTXGHr87Iq8sQwxIklmm
+	 wjEj/JedAIp9sbwXFqGP0bHkbY1OgnvF/NG9vbqQAw240gQxNqLYezqHY6M2X+x0Y5
+	 TfZ8d4YQGFCVw==
 From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] ASoC: codecs: Add WCD939x Codec driver
-Message-ID: <4dae5296-9984-4c3b-803a-f6024edd0dd9@sirena.org.uk>
-References: <20231207-topic-sm8650-upstream-wcd939x-codec-v3-0-6df9585ec7c8@linaro.org>
- <20231207-topic-sm8650-upstream-wcd939x-codec-v3-5-6df9585ec7c8@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Maso Huang <maso.huang@mediatek.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, Daniel Golle <daniel@makrotopia.org>
+In-Reply-To: <b941a404d97c01ef3e30c49925927b9a7dafeb19.1702422544.git.daniel@makrotopia.org>
+References: <b941a404d97c01ef3e30c49925927b9a7dafeb19.1702422544.git.daniel@makrotopia.org>
+Subject: Re: [PATCH v2] ASoC: mediatek: mt7986: silence error in case of
+ -EPROBE_DEFER
+Message-Id: <170249542061.33569.6338427444807634963.b4-ty@kernel.org>
+Date: Wed, 13 Dec 2023 19:23:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QxFQz7KiJT5hHtQy"
-Content-Disposition: inline
-In-Reply-To: <20231207-topic-sm8650-upstream-wcd939x-codec-v3-5-6df9585ec7c8@linaro.org>
-X-Cookie: One size fits all.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
+On Tue, 12 Dec 2023 23:10:07 +0000, Daniel Golle wrote:
+> If probe is defered no error should be printed. Use dev_err_probe() to
+> have it muted.
+> 
+> 
 
---QxFQz7KiJT5hHtQy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Dec 07, 2023 at 11:28:08AM +0100, Neil Armstrong wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> +static int wcd939x_rx_hph_mode_put(struct snd_kcontrol *kcontrol,
-> +				   struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
-> +	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
-> +	u32 mode_val;
-> +
-> +	mode_val = ucontrol->value.enumerated.item[0];
-> +
-> +	if (wcd939x->variant == WCD9390) {
-> +		if (mode_val == CLS_H_HIFI || mode_val == CLS_AB_HIFI) {
-> +			dev_dbg(component->dev, "%s: Invalid HPH Mode\n", __func__);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +	if (mode_val == CLS_H_NORMAL) {
-> +		dev_dbg(component->dev, "%s: Unsupported HPH Mode\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	wcd939x->hph_mode = mode_val;
+Thanks!
 
-This seems strange - the code will accept any value other than a small
-number of specifically enumerated ones?  I would have expected us to
-check a defined list of modes and reject anything that isn't in that
-list.  This also means that the get() function can return out of bounds
-values which is buggy.  Please use the mixer-test selftest on a card
-with this driver running, it should identify at least that issue.
+[1/1] ASoC: mediatek: mt7986: silence error in case of -EPROBE_DEFER
+      commit: 6475b8e1821c9d14e60592a74c10d75431500c7c
 
-> +
-> +	return 1;
-> +}
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-This will also unconditionally report that the value of the mux changed,
-the function should return 0 if the value written is the control value
-hasn't changed.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---QxFQz7KiJT5hHtQy
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV6A+kACgkQJNaLcl1U
-h9BJKQf/U5px02gwHeH7uG4m5GauMpoUmEDiaVVF7tWk02l3M27zveuoN30yDTA1
-pfCa5jV8hUInQwgNXtIOyUZCfHkQN1+OHlvIdkse8NRlLja7PoAXNgu/iw6U0j66
-zSqNGkvYePeMg+AJV/ZGJKfNKFomFc33V3EUC1iVKSWgsDBFjfQqau4TA9/smuaU
-CT6RN5au6S7c5hg1Xyl2AK7RPadJM9rmmxJggOqNUYhYjmFMT7VWYhTta5yQXKak
-Q/2L1+p91ZUr/HYHhVXzY8x/ptX3G7+w2nbIlXkOPuvdw41wGLdAPgpFw9oRmswK
-OERs69V+GdvlY6g8PFruUFeS80qYgQ==
-=FDxZ
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---QxFQz7KiJT5hHtQy--
