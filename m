@@ -1,69 +1,54 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCEB2EAFE;
+	Wed, 13 Dec 2023 15:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoklJOec"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6A5F9C;
-	Wed, 13 Dec 2023 05:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702475115; x=1734011115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OuVJcynRVfgCAEWcQt4z1sKsI1HyzVA74uhdyZjaBoI=;
-  b=CoklJOecJEDoaH5eAkiYX0Y23ECCLKqLaysG/QCf17HQYI4zfNaojVyh
-   VcFiJn9mqmE1LMFzOe5XCwhHeli3OQwYQxwOdW5GR8fcD1PV09KWlAxpw
-   tKOIkSVAkmtG1kPJxVITIwaMeCDZ9IcN5fAjjRpzRREwr7jafj1lnE2IH
-   lri/lbNFspEiC9qqOIHo5Rkjn6hZ/YuaMpnMDVJBsmLtbypqem9acWr20
-   kRdm6YhxsXWQy0YSqBrvSLt//t1K1CrYLYEOUNHKBqa570DDYxU7pyv1t
-   NHZ+RBON+CiH5dZ8mFqM0/zcC4HUf48ycU/3OgAlVgX8HEB9hsY9iwnPn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1806056"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="1806056"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 05:45:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="723652972"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="723652972"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 05:45:09 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rDPXt-00000005XPs-42VY;
-	Wed, 13 Dec 2023 15:45:05 +0200
-Date: Wed, 13 Dec 2023 15:45:05 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
-	robh+dt@kernel.org, devicetree@vger.kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
-	13916275206@139.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
-	soyer@irl.hu, tiwai@suse.de, peeyush@ti.com, navada@ti.com
-Subject: Re: [PATCH v1] ASoC: tas2562: remove tas2563 into driver
-Message-ID: <ZXm1YcSOND-LjpLn@smile.fi.intel.com>
-References: <20231212050831.982-1-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSo1JyPI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3F8C433C8;
+	Wed, 13 Dec 2023 15:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702479785;
+	bh=ERYPWlZcuAsc3JTXR2wiRcqYpvAqlyOmPFSh5X5mKMU=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=OSo1JyPIEEiOqSQkxHZc0rW9gEY26xIxY2pFyOxbAqRhG/rDBaAxtpEvgzIC3a3pt
+	 BOTZ1qII5VJxtazr9MqP8EACT+Y10dkh0nTg/2zbkGhXa39zOHCp0lS2agt9gVpSUA
+	 CltxBEF/1zLz9K6yQKhdzCOxewWh1wdpeSegUeTuIg7GJzS/3k3qz+1WtZ7QogvGzF
+	 xVziHZ9wNt/ymRn/TJmviMnMb+ThIlYT9UCT3XrJ4PtKzjYsjv5K19rJ/CRjLpihym
+	 bUxdTZmbWd91qtxA4hOgs52zd4GHLQMWjdLK6nitFMxSRK908BKfPZqXp/RqsI97M0
+	 /RT3giJthg+FQ==
+Message-ID: <09db7e8dadfa5d73bdcbf2f6c6af9fbd@kernel.org>
+Date: Wed, 13 Dec 2023 15:03:02 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: davidgow@google.com
+Subject: Re: [PATCH v2 1/4] kunit: Add APIs for managing devices
+In-Reply-To: <20231208-kunit_bus-v2-1-e95905d9b325@google.com>
+References: <20231208-kunit_bus-v2-1-e95905d9b325@google.com>
+Cc: kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-sound@vger.kernel.org, "Brendan
+ Higgins" <brendan.higgins@linux.dev>, "David Gow" <davidgow@google.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Jaroslav Kysela" <perex@perex.cz>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Kees Cook" <keescook@chromium.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Matti
+ Vaittinen" <mazziesaccount@gmail.com>, "Maxime Ripard" <mripard@kernel.org>, "Rae
+ Moar" <rmoar@google.com>, "Shuah Khan" <skhan@linuxfoundation.org>, "Stephen
+ Boyd" <sboyd@kernel.org>, "Takashi Iwai" <tiwai@suse.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231212050831.982-1-shenghao-ding@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Dec 12, 2023 at 01:08:31PM +0800, Shenghao Ding wrote:
-> Remove tas2563 from tas2562, it will be supported in separated driver code.
+On Fri, 8 Dec 2023 18:09:29 +0800, davidgow@google.com wrote:
+> Tests for drivers often require a struct device to pass to other
+> functions. While it's possible to create these with
+> root_device_register(), or to use something like a platform device, this
+> is both a misuse of those APIs, and can be difficult to clean up after,
+> for example, a failed assertion.
+> 
+> [ ... ]
 
-No objection from the code perspective. The Q is, what is the behaviour of the
-current users? Imagine we have a used of this chip and this driver gets it
-enumerated. Does it work? if so, this patch can not be applied right now.
-Otherwise the commit message above is missing an elaboration of the case.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks!
+Maxime
