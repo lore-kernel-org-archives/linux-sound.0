@@ -1,206 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SLJz3TIF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KVCMsLfE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SLJz3TIF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KVCMsLfE"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD25298
-	for <linux-sound@vger.kernel.org>; Wed, 13 Dec 2023 08:41:10 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C7E4225EE;
-	Wed, 13 Dec 2023 16:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702485669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
-	b=SLJz3TIFc+idUhp+jEz++HCOeffKDof4y3UI0d0wCidsxSm4WTGCFoLnO1u+hhtZXJJ8Kg
-	0H5mshxv/spsMVPbJ5B4FXXcnvHA0qciy+ABvQPKpoEQAoGAUYsYowrm/Skx70GdBrRq6O
-	cs+9TtNelyMGyf/wxH+mlxKSdEKHZvs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702485669;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
-	b=KVCMsLfEBkAN31UI6bSj8wFxfpWdGOeMop4IVTXRh7xf2rYewe0FicG2+07hOJqOqKWTPl
-	0JybKIoj+LII4vDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702485669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
-	b=SLJz3TIFc+idUhp+jEz++HCOeffKDof4y3UI0d0wCidsxSm4WTGCFoLnO1u+hhtZXJJ8Kg
-	0H5mshxv/spsMVPbJ5B4FXXcnvHA0qciy+ABvQPKpoEQAoGAUYsYowrm/Skx70GdBrRq6O
-	cs+9TtNelyMGyf/wxH+mlxKSdEKHZvs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702485669;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
-	b=KVCMsLfEBkAN31UI6bSj8wFxfpWdGOeMop4IVTXRh7xf2rYewe0FicG2+07hOJqOqKWTPl
-	0JybKIoj+LII4vDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C831137E8;
-	Wed, 13 Dec 2023 16:41:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vH+PAaXeeWUgUQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 13 Dec 2023 16:41:09 +0000
-Date: Wed, 13 Dec 2023 17:41:08 +0100
-Message-ID: <8734w6rr6j.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
-In-Reply-To: <b93febca-6991-4259-9b38-1fee823d02a0@gmail.com>
-References: <3cad5ffd-22dd-4bd5-8c08-1a5530489923@gmail.com>
-	<87wmtjhngz.wl-tiwai@suse.de>
-	<b93febca-6991-4259-9b38-1fee823d02a0@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D2783;
+	Wed, 13 Dec 2023 09:59:52 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="385419697"
+X-IronPort-AV: E=Sophos;i="6.04,273,1695711600"; 
+   d="scan'208";a="385419697"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 09:59:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="864707289"
+X-IronPort-AV: E=Sophos;i="6.04,273,1695711600"; 
+   d="scan'208";a="864707289"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 09:59:40 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1rDTWB-00000005bJa-0XiK;
+	Wed, 13 Dec 2023 19:59:35 +0200
+Date: Wed, 13 Dec 2023 19:59:34 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Lukasz Majewski <lukma@denx.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+	netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
+Message-ID: <ZXnxBtqbneUMbvwq@smile.fi.intel.com>
+References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Score: -1.80
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, 12 Dec 2023 18:30:44 +0100,
-Clément Villeret wrote:
+On Tue, Dec 12, 2023 at 11:20:17AM +0300, Nikita Shubin wrote:
+> No major changes since last version all changes are cometic.
 > 
+> Following patches require attention from Stephen Boyd, as they were converted to aux_dev as suggested:
 > 
-> From 84a165a7abc87c64bc1ab1663807b28fe291cb80 Mon Sep 17 00:00:00 2001
-> From: Clement Villeret <clement.villeret@gmail.com>
-> Date: Tue, 12 Dec 2023 18:23:58 +0100
-> Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
-> Signed-off-by: Clément Villeret <clement.villeret@gmail.com>
-> Commit-message: Asus ROG Flowx13 (GV302XA) seems require same patch as others
-> asus product
-
-Hmm, it became worse...
-
-First off, please don't use the reply-to for a new patch.
-Just resubmit.
-
-The Signed-off-by tag must be added after the patch description, and
-the patch description is just a normal mail body.  It's no such mail
-header.
-If you committed to your tree locally, it's all done there; the patch
-description is the commit message that includes a line
-"Signed-off-by: ...." at the end of the description.
-
-And, above all, the patch context is no longer applicable at this time
-(while it was OK at the previous time); the tabs are incorrectly
-replaced with spaces.  At best, submit the patch via git-send-email.
-
-
-thanks,
-
-Takashi
-
-
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
+> - ARM: ep93xx: add regmap aux_dev
+> - clk: ep93xx: add DT support for Cirrus EP93xx
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 0377912e9264..eb9f617b6273 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -9953,6 +9953,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->      SND_PCI_QUIRK(0x1043, 0x1483, "ASUS GU603V",
-> ALC285_FIXUP_ASUS_HEADSET_MIC),
->      SND_PCI_QUIRK(0x1043, 0x1493, "ASUS GV601V",
-> ALC285_FIXUP_ASUS_HEADSET_MIC),
->      SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A",
-> ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
-> +    SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA",
-> ALC287_FIXUP_CS35L41_I2C_2),
->      SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V",
-> ALC285_FIXUP_ASUS_HEADSET_MIC),
->      SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH",
-> ALC294_FIXUP_ASUS_DUAL_SPK),
->      SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV",
-> ALC285_FIXUP_ASUS_HEADSET_MIC),
-> --
-> 2.43.0
-> On 12/12/2023 08:46, Takashi Iwai wrote:
+> DMA related patches still require Acked or Reviewed tags.
 > 
->     On Tue, 12 Dec 2023 08:43:36 +0100,
->     Clément Villeret wrote:
->     
->         Commit message :
->         
->     Please drop a superfluous tag.
+> got approval LGTM from Miquel:
+> - mtd: rawnand: add support for ts72xx
+> Link: https://lore.kernel.org/lkml/20231004103911.2aa65354@xps-13/
 > 
->         Asus ROG Flowx13 (GV302XA) seems require same patch as others asus product (UM3402YAR, UM3406HA...). This permit to load the correct firmware and don't loose audio after waking up from sleep or hibernate.
->         
->     Your Signed-off-by tag is mandatory for the patch to be merged to the
->     upstream.  Please take a look at
->     Documentation/process/submitting-patches.rst for details.
->     
->     About the code change:
->     
->         @@ -9954,6 +9954,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->               SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A", ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
->               SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V", ALC285_FIXUP_ASUS_HEADSET_MIC),
->               SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
->         +     SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA", ALC287_FIXUP_CS35L41_I2C_2),
->               SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
->               SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
->               SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
->         
->     The table is sorted in PCI SSID order.  Please put at the right
->     position.
->     
->     Could you resubmit the patch with the corrections above?
+> new patches:
 > 
->     thanks,
->     
->     Takashi
+> ARM: ep93xx:  Add terminator to gpiod_lookup_table
+>   - fixed terminator in gpiod_lockup_table
 > 
+> So mostly all patches got approval.
+> 
+> Patches should be now formated with '--histogram'
+
+It _feels_ like some tags might be missing.
+In any case I suggest to use `b4` tool to retrieve tags when preparing
+the next version:
+
+	git checkout -b vXX v6.7-rcX
+	b4 am -slt $MSG_ID_OF_v(XX-1)
+	git am ...
+	git rebase --interactive ... # to address comments
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
