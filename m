@@ -1,99 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4C52FC43;
-	Wed, 13 Dec 2023 15:04:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXfv4/Lq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D54C433C7;
-	Wed, 13 Dec 2023 15:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702479894;
-	bh=nLxZSg/yD+znXZHWu4Vars8EQtCSP3KKevIj0nvJOvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FXfv4/LqeVxml8cC8xOBVkj+C55XQsUDotUQ7wQUxQWoFbyIib8cxLn83khaDCc4k
-	 TILfe0piJJA6WNjTiLEbHky3WCF3flzGtV+5xo0vYZQlBu4zRP3y29JPvzgpQlvpSX
-	 vVpfhuu6luVuxCbLAUa4tNmNKCq0zOs07W4sF7mJyieBq7NX65GCPoLpF+ROydPe0K
-	 Zz1W/D9mBRGgS/BsylPZd0XI4b2QIJ7IMKiVxK6Ho3Fi47X9WIOzlsYqJJ9ZFxueeg
-	 udiK2Vi7fEU/qhifgMPuGQMc57/j6njhGJ4fwgdvcWN7OvaGicgLZv7oDBpNVisLX/
-	 WMtM18XMSrccg==
-Date: Wed, 13 Dec 2023 16:04:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: davidgow@google.com
-Cc: Rae Moar <rmoar@google.com>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kees Cook <keescook@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] kunit: Add helpers for creating test-managed
- devices
-Message-ID: <7rgeotye4grxdtbxip53fykjm4a3sudochsfzdvkmyqltvj7zv@qekkt42x2j25>
-References: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SLJz3TIF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KVCMsLfE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SLJz3TIF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KVCMsLfE"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD25298
+	for <linux-sound@vger.kernel.org>; Wed, 13 Dec 2023 08:41:10 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C7E4225EE;
+	Wed, 13 Dec 2023 16:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702485669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
+	b=SLJz3TIFc+idUhp+jEz++HCOeffKDof4y3UI0d0wCidsxSm4WTGCFoLnO1u+hhtZXJJ8Kg
+	0H5mshxv/spsMVPbJ5B4FXXcnvHA0qciy+ABvQPKpoEQAoGAUYsYowrm/Skx70GdBrRq6O
+	cs+9TtNelyMGyf/wxH+mlxKSdEKHZvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702485669;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
+	b=KVCMsLfEBkAN31UI6bSj8wFxfpWdGOeMop4IVTXRh7xf2rYewe0FicG2+07hOJqOqKWTPl
+	0JybKIoj+LII4vDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702485669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
+	b=SLJz3TIFc+idUhp+jEz++HCOeffKDof4y3UI0d0wCidsxSm4WTGCFoLnO1u+hhtZXJJ8Kg
+	0H5mshxv/spsMVPbJ5B4FXXcnvHA0qciy+ABvQPKpoEQAoGAUYsYowrm/Skx70GdBrRq6O
+	cs+9TtNelyMGyf/wxH+mlxKSdEKHZvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702485669;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KhiWPbITbl9WErVbeC8b3ppG3iq2gc5AJeR+knKc+9o=;
+	b=KVCMsLfEBkAN31UI6bSj8wFxfpWdGOeMop4IVTXRh7xf2rYewe0FicG2+07hOJqOqKWTPl
+	0JybKIoj+LII4vDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C831137E8;
+	Wed, 13 Dec 2023 16:41:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vH+PAaXeeWUgUQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 13 Dec 2023 16:41:09 +0000
+Date: Wed, 13 Dec 2023 17:41:08 +0100
+Message-ID: <8734w6rr6j.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
+In-Reply-To: <b93febca-6991-4259-9b38-1fee823d02a0@gmail.com>
+References: <3cad5ffd-22dd-4bd5-8c08-1a5530489923@gmail.com>
+	<87wmtjhngz.wl-tiwai@suse.de>
+	<b93febca-6991-4259-9b38-1fee823d02a0@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="znksof6fizamytva"
-Content-Disposition: inline
-In-Reply-To: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -1.80
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
+
+On Tue, 12 Dec 2023 18:30:44 +0100,
+Clément Villeret wrote:
+> 
+> 
+> From 84a165a7abc87c64bc1ab1663807b28fe291cb80 Mon Sep 17 00:00:00 2001
+> From: Clement Villeret <clement.villeret@gmail.com>
+> Date: Tue, 12 Dec 2023 18:23:58 +0100
+> Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
+> Signed-off-by: Clément Villeret <clement.villeret@gmail.com>
+> Commit-message: Asus ROG Flowx13 (GV302XA) seems require same patch as others
+> asus product
+
+Hmm, it became worse...
+
+First off, please don't use the reply-to for a new patch.
+Just resubmit.
+
+The Signed-off-by tag must be added after the patch description, and
+the patch description is just a normal mail body.  It's no such mail
+header.
+If you committed to your tree locally, it's all done there; the patch
+description is the commit message that includes a line
+"Signed-off-by: ...." at the end of the description.
+
+And, above all, the patch context is no longer applicable at this time
+(while it was OK at the previous time); the tabs are incorrectly
+replaced with spaces.  At best, submit the patch via git-send-email.
 
 
---znksof6fizamytva
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-Hi David,
+Takashi
 
-On Fri, Dec 08, 2023 at 06:09:28PM +0800, davidgow@google.com wrote:
-> KUnit tests often need to provide a struct device, and thus far have
-> mostly been using root_device_register() or platform devices to create
-> a 'fake device' for use with, e.g., code which uses device-managed
-> resources. This has several disadvantages, including not being designed
-> for test use, scattering files in sysfs, and requiring manual teardown
-> on test exit, which may not always be possible in case of failure.
->=20
-> Instead, introduce a set of helper functions which allow devices
-> (internally a struct kunit_device) to be created and managed by KUnit --
-> i.e., they will be automatically unregistered on test exit. These
-> helpers can either use a user-provided struct device_driver, or have one
-> automatically created and managed by KUnit. In both cases, the device
-> lives on a new kunit_bus.
->=20
-> This is a follow-up to a previous proposal here:
-> https://lore.kernel.org/linux-kselftest/20230325043104.3761770-1-davidgow=
-@google.com/
->=20
-> (The kunit_defer() function in the first patch there has since been
-> merged as the 'deferred actions' feature.)
->=20
-> My intention is to take this whole series in via the kselftest/kunit
-> branch, but I'm equally okay with splitting up the later patches which
-> use this to go via the various subsystem trees in case there are merge
-> conflicts.
 
-Could you take (and apply eventually) that patch as part of your series?
-https://lore.kernel.org/linux-kselftest/20231205090405.153140-1-mripard@ker=
-nel.org/
-
-Thanks
-Maxime
-
---znksof6fizamytva
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXnIFAAKCRDj7w1vZxhR
-xbTWAQC3bH552498SP6tLXv7kKo878Z61Buc15OZAdQwh4kdXQEA9UZqLQkvJTrT
-kQ13+qYaarJ8Jpvwt41WGCqAxaRt7gw=
-=yRUg
------END PGP SIGNATURE-----
-
---znksof6fizamytva--
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 0377912e9264..eb9f617b6273 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -9953,6 +9953,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>      SND_PCI_QUIRK(0x1043, 0x1483, "ASUS GU603V",
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+>      SND_PCI_QUIRK(0x1043, 0x1493, "ASUS GV601V",
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+>      SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A",
+> ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
+> +    SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>      SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V",
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+>      SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH",
+> ALC294_FIXUP_ASUS_DUAL_SPK),
+>      SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV",
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+> --
+> 2.43.0
+> On 12/12/2023 08:46, Takashi Iwai wrote:
+> 
+>     On Tue, 12 Dec 2023 08:43:36 +0100,
+>     Clément Villeret wrote:
+>     
+>         Commit message :
+>         
+>     Please drop a superfluous tag.
+> 
+>         Asus ROG Flowx13 (GV302XA) seems require same patch as others asus product (UM3402YAR, UM3406HA...). This permit to load the correct firmware and don't loose audio after waking up from sleep or hibernate.
+>         
+>     Your Signed-off-by tag is mandatory for the patch to be merged to the
+>     upstream.  Please take a look at
+>     Documentation/process/submitting-patches.rst for details.
+>     
+>     About the code change:
+>     
+>         @@ -9954,6 +9954,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>               SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A", ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
+>               SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301V", ALC285_FIXUP_ASUS_HEADSET_MIC),
+>               SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
+>         +     SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA", ALC287_FIXUP_CS35L41_I2C_2),
+>               SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
+>               SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
+>               SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
+>         
+>     The table is sorted in PCI SSID order.  Please put at the right
+>     position.
+>     
+>     Could you resubmit the patch with the corrections above?
+> 
+>     thanks,
+>     
+>     Takashi
+> 
