@@ -1,162 +1,160 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="adTiBlcs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4LbUf3uo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="adTiBlcs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4LbUf3uo"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F07D0109
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 00:49:31 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4DCAE21F4B;
-	Thu, 14 Dec 2023 08:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702543770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
-	b=adTiBlcsi8BsbK34WVECh+BltTltgXZlGoBOi1qzEElU6jLAFqGL3A/eDznHxkuxivl+qq
-	voLgWZFvsOHWoe5u8iavzg5PfsHOaufnHFaBrR/CJFYq84iV99af0kpuviELKhldUZnf8Q
-	kZgZsY6NCvJM0xg2PEYx5USw7hmhIoc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702543770;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
-	b=4LbUf3uoIv3nqwpUwBEUmGQWcNglnPjw1orMiKe2ZEHTUl2jSX7aIJpm6+aCcK99E8QL4i
-	ye2iwkdJ67GLgoBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702543770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
-	b=adTiBlcsi8BsbK34WVECh+BltTltgXZlGoBOi1qzEElU6jLAFqGL3A/eDznHxkuxivl+qq
-	voLgWZFvsOHWoe5u8iavzg5PfsHOaufnHFaBrR/CJFYq84iV99af0kpuviELKhldUZnf8Q
-	kZgZsY6NCvJM0xg2PEYx5USw7hmhIoc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702543770;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
-	b=4LbUf3uoIv3nqwpUwBEUmGQWcNglnPjw1orMiKe2ZEHTUl2jSX7aIJpm6+aCcK99E8QL4i
-	ye2iwkdJ67GLgoBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 173C9137E8;
-	Thu, 14 Dec 2023 08:49:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UPzcA5rBemVLPgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 14 Dec 2023 08:49:30 +0000
-Date: Thu, 14 Dec 2023 09:49:29 +0100
-Message-ID: <87sf45qicm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz
-Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
-In-Reply-To: <446e6c6d-f639-4576-804a-e64e3fa4c463@gmail.com>
-References: <446e6c6d-f639-4576-804a-e64e3fa4c463@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pNjUUwEG"
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98509E3
+	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 00:49:35 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-dbc4f389835so6875795276.2
+        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 00:49:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702543775; x=1703148575; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SgmhxNS+9L5tI+v3DA2/WrvsfKfXTZ7phO9Gx1cypHI=;
+        b=pNjUUwEGPGZrJFYZJfm6lTra3kUxpFUp3UCgGf96/Ai8iYb3MoGrxOXYdNoi0FmIMC
+         X5X1z9p08J6jtheDOckyaWi7ssAUFxoQagCIW3pfhkUnkIA/PMhU/5jGr61k46/mjrWD
+         bWs8oLZb3hYd7Rj4+Po7kNqX9RdGEPiEhWdt0AnTfhGYczOcA834yrnwD7Aq9NbGZI2t
+         IN1p2krbHUjkV5qgEUic5iyAp5+/Yk6/TFWJpf50wJc2eRUO/i/Asvk+ehiEvQflCUed
+         9mt6r4fT95MQvDz/rT8+2U8dzCmP82g+BZK6bGfNpCjGW84OpFqDifx41oPelmcxD9ZN
+         NFXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702543775; x=1703148575;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SgmhxNS+9L5tI+v3DA2/WrvsfKfXTZ7phO9Gx1cypHI=;
+        b=nXtF4QG4b1tjD3CondLml+xjQc5VQo2XQ8ekU3tMVRhiOE469QtFs5M0tNxvFoqdA+
+         oQJ9miXv9/XJkMG4pAxANfcZRA3m0edFaPd9oB33PvgFx/9a4j+NbixDr7EYQOoD+HqI
+         w75sTp556wa9TtZGttvH6uXYAqvLGVFaeOlPKtPacrMaGouKa2bgiT6Qdr0q45BI1JxQ
+         diwoqWq6bFC1sPLNIBICb3TYRjbVzjj2nmsaDXnydFNE33J8Poigm/h+NVn3vTMM4PdA
+         sHuO2tqyZgnfYp6yIMlNRpgBh/eVjVm7Pvl/4l1VMTQoo2GQZt09zNOxv1itLUZSUlL8
+         yolQ==
+X-Gm-Message-State: AOJu0YyOzz+45+4MYf3fXAyRhJijiXCKh4RqHtiJ+q4wR3Bc75ANCBJH
+	kKnkiKcWVBc01eNGaU3NSw7E2AW4o6b99g==
+X-Google-Smtp-Source: AGHT+IHRwuLHo03IWI8xcYZK5aef+eOfAHhAVl0nDvAtLGtvSezhbw4GIajgAWGs+h9hV7UVtikAn+oKw0dyOQ==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:2454:0:b0:dbc:cab1:a86 with SMTP id
+ k81-20020a252454000000b00dbccab10a86mr41153ybk.0.1702543774823; Thu, 14 Dec
+ 2023 00:49:34 -0800 (PST)
+Date: Thu, 14 Dec 2023 16:49:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: 11.71
-X-Spam-Level: ***********
-X-Spamd-Result: default: False [-5.50 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	 R_SPF_SOFTFAIL(0.00)[~all:c];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 DMARC_POLICY_ALLOW(0.00)[suse.de,none];
-	 NEURAL_HAM_SHORT(-0.19)[-0.972];
-	 DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.00)[23.70%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 WHITELIST_DMARC(-7.00)[suse.de:D:+];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 4DCAE21F4B
-X-Spam-Score: -5.50
-X-Spam-Flag: NO
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=adTiBlcs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4LbUf3uo;
-	dmarc=pass (policy=none) header.from=suse.de;
-	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAIrBemUC/1WOzQ6CMBAGX4Xs2Zr+UKSefA9jDG0XaFRqWmg0h
+ He3cMLjfNmZ7AwRg8MI52KGgMlF54cM4lCA6ZuhQ+JsZuCUC3piNXlMgxvveoqk0UyZEtuytgb
+ y/Ttg6z5b63rL3Ls4+vDd0omt61ZhnMpdJTFCSSUkFZUV2jBx6bzvnng0/gVrJvG9un8g8ayik opKq7Tg8k9dluUHC4B+Ot4AAAA=
+X-Mailer: b4 0.13-dev-099c9
+Message-ID: <20231214-kunit_bus-v3-0-7e9a287d3048@google.com>
+Subject: [PATCH v3 0/5] kunit: Add helpers for creating test-managed devices
+From: davidgow@google.com
+To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
+	David Gow <davidgow@google.com>, Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, 13 Dec 2023 20:36:09 +0100,
-Clément Villeret wrote:
-> 
-> 
-> Asus ROG Flowx13 (GV302XA) seems require same patch as others asus products
-> 
-> Signed-off-by: Clément Villeret <clement.villeret@gmail.com>
+KUnit tests often need to provide a struct device, and thus far have
+mostly been using root_device_register() or platform devices to create
+a 'fake device' for use with, e.g., code which uses device-managed
+resources. This has several disadvantages, including not being designed
+for test use, scattering files in sysfs, and requiring manual teardown
+on test exit, which may not always be possible in case of failure.
 
-Now better, but...
+Instead, introduce a set of helper functions which allow devices
+(internally a struct kunit_device) to be created and managed by KUnit --
+i.e., they will be automatically unregistered on test exit. These
+helpers can either use a user-provided struct device_driver, or have one
+automatically created and managed by KUnit. In both cases, the device
+lives on a new kunit_bus.
 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> 
-> index 0377912e9264..eb9f617b6273 100644
-> 
-> --- a/sound/pci/hda/patch_realtek.c
-> 
-> +++ b/sound/pci/hda/patch_realtek.c
-> 
-> @@ -9953,6 +9953,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
-> 
->                       SND_PCI_QUIRK(0x1043, 0x1483, "ASUS GU603V", ALC285_FIXUP_ASUS_HEADSET_MIC),
-> 
->                       SND_PCI_QUIRK(0x1043, 0x1493, "ASUS GV601V", ALC285_FIXUP_ASUS_HEADSET_MIC),
-(snip)
+This is a follow-up to a previous proposal here:
+https://lore.kernel.org/linux-kselftest/20230325043104.3761770-1-davidgow@google.com/
 
-The lines above are weirdly formatted with extra line feeds.
-Try the following before resubmission:
-- Send the patch to yourself, save the mail content
-- Apply the mail content via "git am" command
-- If this works, it's a correct patch; then submit to the public ML
+(The kunit_defer() function in the first patch there has since been
+merged as the 'deferred actions' feature.)
 
-Also, note that you'd need to put a blank line before Signed-off-by
-line.
+My intention is to take this whole series in via the kselftest/kunit
+branch, but I'm equally okay with splitting up the later patches which
+use this to go via the various subsystem trees in case there are merge
+conflicts.
 
+Cheers,
+-- David
 
-thanks,
+Signed-off-by: David Gow <davidgow@google.com>
+---
+Changes in v3:
+- Port the DRM tests to these new helpers (Thanks, Maxime!)
+- Include the lib/kunit/device-impl.h file, which was missing from the
+  previous revision.
+- Fix a use-after-free bug in kunit_device_driver_test, which resulted
+  in memory corruption on some clang-built UML builds.
+  - The 'test_state' is now allocated with kunit_kzalloc(), not on the
+    stack, as the stack will be gone when cleanup occurs.
+- Link to v2: https://lore.kernel.org/r/20231208-kunit_bus-v2-0-e95905d9b325@google.com
 
-Takashi
+Changes in v2:
+- Simplify device/driver/bus matching, removing the no-longer-required
+  kunit_bus_match function. (Thanks, Greg)
+- The return values are both more consistent (kunit_device_register now
+  returns an explicit error pointer, rather than failing the test), and
+  better documented.
+- Add some basic documentation to the implementations as well as the
+  headers. The documentation in the headers is still more complete, and
+  is now properly compiled into the HTML documentation (under
+  dev-tools/kunit/api/resources.html). (Thanks, Matti)
+- Moved the internal-only kunit_bus_init() function to a private header,
+  lib/kunit/device-impl.h to avoid polluting the public headers, and
+  match other internal-only headers. (Thanks, Greg)
+- Alphabetise KUnit includes in other test modules. (Thanks, Amadeusz.)
+- Several code cleanups, particularly around error handling and
+  allocation. (Thanks Greg, Maxime)
+- Several const-correctness and casting improvements. (Thanks, Greg)
+- Added a new test to verify KUnit cleanup triggers device cleanup.
+  (Thanks, Maxime).
+- Improved the user-specified device test to verify that probe/remove
+  hooks are called correctly. (Thanks, Maxime).
+- The overflow test no-longer needlessly calls
+  kunit_device_unregister().
+- Several other minor cleanups and documentation improvements, which
+  hopefully make this a bit clearer and more robust.
+- Link to v1: https://lore.kernel.org/r/20231205-kunit_bus-v1-0-635036d3bc13@google.com
+
+---
+David Gow (4):
+      kunit: Add APIs for managing devices
+      fortify: test: Use kunit_device
+      overflow: Replace fake root_device with kunit_device
+      ASoC: topology: Replace fake root_device with kunit_device in tests
+
+Maxime Ripard (1):
+      drm/tests: Switch to kunit devices
+
+ Documentation/dev-tools/kunit/api/resource.rst |   9 ++
+ Documentation/dev-tools/kunit/usage.rst        |  50 +++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c      |  66 +--------
+ include/kunit/device.h                         |  80 +++++++++++
+ lib/fortify_kunit.c                            |   5 +-
+ lib/kunit/Makefile                             |   3 +-
+ lib/kunit/device-impl.h                        |  17 +++
+ lib/kunit/device.c                             | 181 +++++++++++++++++++++++++
+ lib/kunit/kunit-test.c                         | 134 +++++++++++++++++-
+ lib/kunit/test.c                               |   3 +
+ lib/overflow_kunit.c                           |   5 +-
+ sound/soc/soc-topology-test.c                  |  10 +-
+ 12 files changed, 485 insertions(+), 78 deletions(-)
+---
+base-commit: b285ba6f8cc1b2bfece0b4350fdb92c8780bc698
+change-id: 20230718-kunit_bus-ab19c4ef48dc
+
+Best regards,
+-- 
+David Gow <davidgow@google.com>
+
