@@ -1,119 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="sz0m5ZgY"
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A55F114;
-	Thu, 14 Dec 2023 08:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702572174;
-	bh=04lraI2c4Uv8FYflDBQHgnQ/5ptT6GN6bQzxy23YiUU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sz0m5ZgYDE5dfllYDKZomUG52RmngQJQu77ZBXrDUYIcZoX9EFgXRibxckiUF0Jd+
-	 5KgHwKtwN3Hsz/0K74YqlYUZWsI5XU1l7F+CvSVGnej+Trnajb/7irngCFx7r1t7KK
-	 NsraIMCCwPmUw5WZ0rMheceXvFOPktPSosJ7wBtqEBpOG2/LuF5Yd0yaoyN9sIU8CK
-	 /z885ZZ288pzv1SGfrOglWYZVyUIDvtmirN0sp45HBArOJsV8R7iqlfAAI7+77k8Te
-	 gvNq0cJXuP9wrZUDu4xDOeUyUr22iUUvszu/EoAnx46q3L3qaWO3hHITnPDyQ3xQmr
-	 2cUdUzLu1reEQ==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 89F7D37809D0;
-	Thu, 14 Dec 2023 16:42:53 +0000 (UTC)
-Message-ID: <913257d4-75dc-4887-97d6-0f206c401057@collabora.com>
-Date: Thu, 14 Dec 2023 18:42:52 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iokwtgyn"
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D7C125;
+	Thu, 14 Dec 2023 08:55:23 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-28b0a9876c8so420467a91.3;
+        Thu, 14 Dec 2023 08:55:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702572923; x=1703177723; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MAfq8J8C5KAtCB8rcO3YT1HYm/yjjDzGk9Gqq0ijzyA=;
+        b=IokwtgynXv0/38qvqdyZ8dyrW+rSwppJt13rCpCRdRp0LkvKV13PocAYsf3DXG0dXm
+         H0rmRNiX73yLijpCBbJVXTPjoWStov+52kVRLvoq31R4Hc75MHREdGVYgkfJcr4D+Tzw
+         wbbwOUA6kU/WZwxtXAUMXlK4rfMV7sQM97mSqmzO8HsPf0vj2Efu1yljw9LsEc4OqqiT
+         TVTzPSibYfAW7rDxdddJMRq2NYosXfvzU7FRSIr+HFqSmZG2e5WnGeEcbzRTvnAPtn5r
+         F+zYnWxugECyggEywauQPpfOn33nRh5E89QcoKhTleC6Z17LqTFW/bz+FFUHf7bCBBv3
+         vpfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702572923; x=1703177723;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MAfq8J8C5KAtCB8rcO3YT1HYm/yjjDzGk9Gqq0ijzyA=;
+        b=p8yixv5pl7vDL3oEGDrRn14aDC7w0kQyJzop9wZaLjWMLitjKeAAHhDn2qarKzHaGh
+         aQ2mtnMHX/fexh84ZbUC2KZLKMR0Wt4QrAgisXY44NBMutXPoQdamHVQ0/Iq5LAp6lrf
+         XACStiz6FAo/tl01XgTjAxBWw9adWQr8tMkfVd4hfXmC9NUhThI9pcKDHpZ+AGfCqt2k
+         cquzvj0NPbG2hCDU4zhWy9Ia+MQ17jCi5+AofYCMAqqteb4bNhoGqovBn2NeqAoLil+7
+         4nL9ojkaecA//JTNatzLKZpkAOd5WBXI3OlfATFXjvAj4yIOOsjAw1UVqD7AcHmVu502
+         KMqg==
+X-Gm-Message-State: AOJu0YzjW09iJt1yGrwAG5v7XIRHuSYc1MX/9ytfsORbKyiwo7G4CA7u
+	QaaY8zCBG6wXrGrHi7zOQ9HkTPHOKXbJhQ==
+X-Google-Smtp-Source: AGHT+IF7MooXa4kxbQW00+77DwdpwEn1ms3nqj2gxkPcOMCX1QO8nz22V4Z7dd0pF5kA1bOSrP7nXw==
+X-Received: by 2002:a17:90a:5797:b0:286:6cc1:5fde with SMTP id g23-20020a17090a579700b002866cc15fdemr4833396pji.97.1702572923165;
+        Thu, 14 Dec 2023 08:55:23 -0800 (PST)
+Received: from Gentoo ([117.189.237.103])
+        by smtp.gmail.com with ESMTPSA id oe16-20020a17090b395000b0028b21d24ba6sm277441pjb.15.2023.12.14.08.55.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 08:55:22 -0800 (PST)
+Date: Fri, 15 Dec 2023 00:55:08 +0800
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] ASoC: qcom: common: Add qcom_snd_tdm_hw_params
+ function
+Message-ID: <ZXszbA5fVq2AMjEb@Gentoo>
+References: <20231213123556.20469-1-lujianhua000@gmail.com>
+ <7b13b8b6-9048-48a3-b1a1-e62de88e8171@sirena.org.uk>
+ <ZXsklsO7nOqBFgzt@Gentoo>
+ <bee0ab28-6bd3-4904-8afc-44fe7ddacb79@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
- SOF_DAI_AMD_BT
-Content-Language: en-US
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- Syed Saba Kareem <Syed.SabaKareem@amd.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Marian Postevca <posteuca@mutex.one>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
- Mastan Katragadda <Mastan.Katragadda@amd.com>,
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
- kernel@collabora.com
-References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
- <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
- <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
- <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
- <318470ce-1631-4c46-b425-755c877dda65@amd.com>
- <421128f7-6a17-4be9-a72b-272ea4017fbd@collabora.com>
- <ZXXEsyBUCrBULNgk@finisterre.sirena.org.uk>
- <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
- <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
- <ca828ee1-93f7-432e-b95d-e67c35cdcdb5@collabora.com>
- <0de8f81b-e7d4-43f6-b011-eb6ee09cc7fe@amd.com>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <0de8f81b-e7d4-43f6-b011-eb6ee09cc7fe@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bee0ab28-6bd3-4904-8afc-44fe7ddacb79@sirena.org.uk>
 
-On 12/14/23 15:15, Venkata Prasad Potturu wrote:
+On Thu, Dec 14, 2023 at 03:56:52PM +0000, Mark Brown wrote:
+> On Thu, Dec 14, 2023 at 11:51:50PM +0800, Jianhua Lu wrote:
+> > On Thu, Dec 14, 2023 at 11:11:06AM +0000, Mark Brown wrote:
 > 
-> On 12/14/23 17:53, Cristian Ciocaltea wrote:
->> On 12/11/23 07:58, Venkata Prasad Potturu wrote:
->>> On 12/10/23 21:20, Cristian Ciocaltea wrote:
->>>> On 12/10/23 16:01, Mark Brown wrote:
->>>>> On Sun, Dec 10, 2023 at 12:12:53PM +0200, Cristian Ciocaltea wrote:
->>>>>> On 12/10/23 11:51, Venkata Prasad Potturu wrote:
->>>>>>> This should send to SOF git repo for rewiew, once SOF reviewers
->>>>>>> approved
->>>>>>> this, again need to send to broonie git.
->>>>>>> All the changes in sound/soc/sof/ path should go to SOF git.
->>>>>> Unfortunately I'm not familiar with the SOF dev workflow. So it's not
->>>>>> enough to have this patch cc-ed to
->>>>>> sound-open-firmware@alsa-project.org?
->>>>> The SOF people basically do their own thing in github at
->>>>>
->>>>>      https://github.com/thesofproject/linux
->>>>>
->>>>> with a github workflow and submit their patches upstream in batches a
->>>>> few times a release, however my understanding is that their
->>>>> workflow can
->>>>> cope with things going in directly upstream as well.
->>>> Thanks for clarifying, Mark!  That would greatly simplify and speedup
->>>> the whole process, at least for trivial patches like this one.
->>> Hi Cristian,
->>>
->>> We have created a Pull request in SOF git hub for I2S BT support.
->>> please hold v2 version SOF patches till below PR get's merged.
->>> PR:- https://github.com/thesofproject/linux/pull/4742
->> Hi Venkata,
->>
->> If this is going to be handled via the github workflow, this patch
->> should be removed from the series.  Since there is no dependency on it,
->> I cannot see a reason to put v2 on hold.
->>
->> Do I miss something?
-> Non-sof driver related patches can directly send to broonie git ad v2
-> series.
-> SOF driver patches should send to SOF github to avoid merge conflicts
-> as  per guidelines of SOF community.
+> > > The expectation is that TDM is set up by the machine driver, not from
+> > > hw_params - if the TDM setup can be changed from within hw_params then
+> > > it's hard to see how it's going to interact well with other TDM users on
+> > > the bus.  More usually hw_params() would be influenced by the setup done
+> > > in set_tdm_slot().
+> 
+> > Currently, qcom TDM setup need to read hw_params, if we want to move it
+> > to machine driver, we must hardcode some params, but it will reduce reduce
+> > readability.
+> 
+> What makes you say that TDM setup needs to read hw_params?
 
-Honestly, I don't really see a high risk of conflicts, the patches are
-not that complex and can be simply cherry-picked when needed.  Moreover,
-as we already had people reviewing this, splitting this up will only add
-confusion and unnecessary burden.
+qcom_snd_tdm_hw_params function read PCM_FORMAT to set slot_width value, read
+channels to set rx_mask value.
 
-Are there any specific changes you are concerned about and cannot be
-really handled here?
+
