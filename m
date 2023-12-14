@@ -1,34 +1,27 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThA5fj7C"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95841BD;
-	Thu, 14 Dec 2023 03:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702553723; x=1734089723;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=86BKh1Ji8KJODootQFM153eX5Rr38NiTHUsKdo5u/jw=;
-  b=ThA5fj7C4fRasZz5WKRFS92N/tMwfThtlPuauovnpqA8xjXrEOcUOgRv
-   TDkC2hbM+li6ZvnDPCjKYUYH++N3N/oRpJO4ubAD8BI1/sJ7VCeb012qR
-   jXtf8xIqmq6Pzr68NSdhEmmILF/tEfKiptJCc/8oY/rEoXXhsCDPKscUm
-   vwBylMoCNspe3jNMdmcj8OvpyWBWtiiV8YqCdR7NsVPV2f/p4UKzYoqUj
-   01BoYmWLIkVatX27oLCLDSylaB8t+EmQJxN//XfeA+ko3pdNXg98gLO0O
-   Jmw6XrVsx2hb6WF/HGdG7tpxhnDNclSsQ3w87XmQmuOhSn6J6bzlQdGNk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="375262320"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="375262320"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:35:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1105674824"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="1105674824"
-Received: from eborisov-mobl2.ger.corp.intel.com (HELO [10.249.34.72]) ([10.249.34.72])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:35:16 -0800
-Message-ID: <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
-Date: Thu, 14 Dec 2023 13:35:58 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ai3KFrXx"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCA610C2;
+	Thu, 14 Dec 2023 03:40:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702554027;
+	bh=pWKh0WpJyhWUe3oAtVyrdzfiymCLNQYAenxJSqJSsdM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ai3KFrXxjAf4/a6af7UpuOR7LVz1+eX4jdJ9Q0gaAnKukwifrFkm9luF4nHj10UQn
+	 KR7EElqUGBsjhonPD6rrnFiW22HPSQgDFM3OXct5zdOk+LAKylZrwu2OuKQn3oKJue
+	 IDNtuV2Xv/74Q/InqsDlfXdI0SRPAamR9Bcx/YPXsgX/hV/gdwmlHB5AUhn8iPxMDF
+	 iFw+dXaUb0TcyE+uoNtnLnemwKCDIm25boLB1Vlryi2a6qxksTMIHwsn/hDsXICrPs
+	 RCJUjUFIeja6wjAYSNidzXEx5fbU0c0xEOHbDg556fBsk75Hwq/Ken/gMiSSrBZIDG
+	 qMCbcYU4oEi9Q==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 306B2378147F;
+	Thu, 14 Dec 2023 11:40:26 +0000 (UTC)
+Message-ID: <d112d7dd-de80-4c5b-9600-039758c56352@collabora.com>
+Date: Thu, 14 Dec 2023 13:40:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,7 +32,7 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
  fw_name
 Content-Language: en-US
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
@@ -62,36 +55,43 @@ References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
  <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
  <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
  <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
+ <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-
-On 14/12/2023 13:29, Cristian Ciocaltea wrote:
->> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
->> index 138a1ca2c4a8..7b91c9551ada 100644
->> --- a/sound/soc/sof/fw-file-profile.c
->> +++ b/sound/soc/sof/fw-file-profile.c
->> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
->>  	return ret;
->>  }
->>  
->> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
->> +{
->> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
->> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
->> +		return true;
->> +
->> +	return false;
->> +}
+On 12/14/23 13:35, Péter Ujfalusi wrote:
 > 
-> I would drop the conditional and simply return.
+> 
+> On 14/12/2023 13:29, Cristian Ciocaltea wrote:
+>>> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+>>> index 138a1ca2c4a8..7b91c9551ada 100644
+>>> --- a/sound/soc/sof/fw-file-profile.c
+>>> +++ b/sound/soc/sof/fw-file-profile.c
+>>> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
+>>>  	return ret;
+>>>  }
+>>>  
+>>> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
+>>> +{
+>>> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
+>>> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
+>>> +		return true;
+>>> +
+>>> +	return false;
+>>> +}
+>>
+>> I would drop the conditional and simply return.
+> 
+> What do you mean? We need to check if the platform is using either type
+> of the generic load_firmware helper (the _memcpy is calling the _raw to
+> load the file).
 
-What do you mean? We need to check if the platform is using either type
-of the generic load_firmware helper (the _memcpy is calling the _raw to
-load the file).
+I mean to simply replace the if statement with:
 
--- 
-Péter
+static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
+{
+    return (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
+	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy);
+}
