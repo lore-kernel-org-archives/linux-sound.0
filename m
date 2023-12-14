@@ -1,218 +1,181 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dujYVbOc"
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CFEE12A
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 05:15:49 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2cc259392a6so56597771fa.2
-        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 05:15:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702559747; x=1703164547; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GhFLd4CPtXm/YF25BMgLtgk+3dv0PmLn7A52Lhi5STs=;
-        b=dujYVbOcmdAmGSIJiC8cEw3liMRlA/6252CqxtduWcDTKvgHgytgHw/aOkfFjwcBv/
-         Sfyqbrrt10HGrLgqt7aVfIyonXf/NMtXzuiAa8FXZfjrfTE9MZjkhV/6STe5Wm291OjZ
-         oVdDHDYDufhOgZq6ncQp4dfZKF2IBVTsYAKq9+1O+Jq0TARukkX55AjxZHSSB/DKFnlE
-         HFgGxlrRxXqeFltm5vBx4uy6f8rPVlSWkx8PDsPmBjtB9xZpbIXrDZJIqLtgn23bbrGH
-         lDgm8KzMjmSWqkk+k3MhkS4A5abndIHdCSsfljQds45Fwr4gbSkRLFIAdDfVlC10gnEJ
-         JYkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702559747; x=1703164547;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GhFLd4CPtXm/YF25BMgLtgk+3dv0PmLn7A52Lhi5STs=;
-        b=Zjm0pozfJO7kacmNcscirxx8xOp3bcEppEMYzj+LO533+qMc0JX+2Gfn3Hesmw876w
-         8ZNAm2TiSKTEiwxCB1r9t+ZIheL86Xd815UgI9jKtDZAQETDyglqSIpLYlT+a5aglx/K
-         UY4oyKQmY2S3We9rKoU8xkfHmFkOWSxvSM6isLSIvL9SPTGLCTU80iCguynF16S4rj1c
-         3wh9YyRt033Gj1/E8EDTHfvKcJkN5qcfabZAH5sWVMm6hgfTYR5YDcMkgq9555wHVW3B
-         BVxbytG+EwvjrVIlU0RXW6CkDrGde9utWsrUxTflsdT0zRA1jSGLuCv3ftpKQcHQmF8f
-         zWSA==
-X-Gm-Message-State: AOJu0YyNZteAKxxdz86b09TnyjOn/UroyBBZFzh6HsDZxUx/wetdKdTG
-	HTPntEOpffy0gg5uMY38oVGH+w==
-X-Google-Smtp-Source: AGHT+IGq3Eh0v9BtGBtOlHuwDYZzfJD+n+q/wtn0mvU9Vj1OSw4Alx/PDq6ZFZ1HgX3LajGeYwBYdA==
-X-Received: by 2002:a2e:bcd1:0:b0:2cc:2b21:6fc7 with SMTP id z17-20020a2ebcd1000000b002cc2b216fc7mr3288644ljp.88.1702559747394;
-        Thu, 14 Dec 2023 05:15:47 -0800 (PST)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id p23-20020a2e93d7000000b002ca02ceae84sm2080478ljh.83.2023.12.14.05.15.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 05:15:47 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 14 Dec 2023 14:15:45 +0100
-Subject: [PATCH 4/4] ASoC: tegra: tegra20_ac97: Convert to use GPIO
- descriptors
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vRi16wyg"
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2043.outbound.protection.outlook.com [40.107.102.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 609C310E;
+	Thu, 14 Dec 2023 05:15:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kN5hio25pRjV3ZZGbtf0LlV9bLSjlJJCP9HXzCMwxX5KOpXUbmbxayDL/0Cg0iA+UquRgGP+pXmmc8vOib8g+6UQ0bA5acyjMFHOmRwR0iDml2/KGFQbhA2bgwoLUEmyEm8rpSAjSeEwPltMFe9vXbyybEPJBLuOyex8lww5MjQJb0qD9xX/U77+bvumVw8JlaYXN4Ql1UKRpaiJGGP4Kph2Q7+dbDWUWviMvQ9UN5rIcwXbjOgrM/OG767UKdCVd6Gg19mM+sBN819Td2GLT/f5bj25tbVRVFTJURtFPJda0FYyWZZzX5sgwrxOb+T3qrik3kH3XPanyyxLgZpH5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BH//SW8obKaUXKpp6BuhZaDI+4MxdWZ/8HgXxpaBW3E=;
+ b=TxhVfpHWgWJExpRzigIdlk6TMAxwnONQY5XZds0m67tC0bXXX4OOD5OFcw4l2UPvRMTl5b99C85sSaz3INkElhLKAFXNxI/mDRUeRzAmAVG20f1UYsoD4Bb4od17RIkmPTwik4XQmF2rVGwMeK0/IIe3c3mCvzN9VooqJWB/jtEZDiud3n/AdnaHLhpAc5ST0GseLG7z/ZKOs5SY7Wz5fO2qoYcibCK17Oq6nB1wmmG/ntnocC79b3edDf7tRLSz6DHFmQEWrCc9jXv9Bqn+2Szf6E+oK0uZRiCQ1tbKcTfC6sIrLG/WyKrLojZZMSjjHkXUJd/cimArqxwE36Bq6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BH//SW8obKaUXKpp6BuhZaDI+4MxdWZ/8HgXxpaBW3E=;
+ b=vRi16wygtTDoWGD4w6UqmcVTm4Yr2nHHTZBTcf2v4IE93eyMUXkqYk1ujYIb8ZvdJgwS9VIBunG3WoBzgEghekLIRQihz7CSvuyMgto40esOab3fMAUi2xoSGvmYhtEFQ4EW7+G2m7zXed1u961IsPAg0r7ql4oYTuDW1iUzib0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5951.namprd12.prod.outlook.com (2603:10b6:510:1da::16)
+ by CH3PR12MB9021.namprd12.prod.outlook.com (2603:10b6:610:173::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Thu, 14 Dec
+ 2023 13:15:55 +0000
+Received: from PH7PR12MB5951.namprd12.prod.outlook.com
+ ([fe80::e007:72f7:4102:9258]) by PH7PR12MB5951.namprd12.prod.outlook.com
+ ([fe80::e007:72f7:4102:9258%4]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
+ 13:15:55 +0000
+Message-ID: <0de8f81b-e7d4-43f6-b011-eb6ee09cc7fe@amd.com>
+Date: Thu, 14 Dec 2023 18:45:42 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
+ SOF_DAI_AMD_BT
+Content-Language: en-US
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Marian Postevca <posteuca@mutex.one>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+ Mastan Katragadda <Mastan.Katragadda@amd.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+ kernel@collabora.com
+References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
+ <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
+ <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
+ <318470ce-1631-4c46-b425-755c877dda65@amd.com>
+ <421128f7-6a17-4be9-a72b-272ea4017fbd@collabora.com>
+ <ZXXEsyBUCrBULNgk@finisterre.sirena.org.uk>
+ <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
+ <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
+ <ca828ee1-93f7-432e-b95d-e67c35cdcdb5@collabora.com>
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+In-Reply-To: <ca828ee1-93f7-432e-b95d-e67c35cdcdb5@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PR01CA0191.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:be::15) To PH7PR12MB5951.namprd12.prod.outlook.com
+ (2603:10b6:510:1da::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231214-gpio-descriptors-sound-misc-v1-4-e3004176bd8b@linaro.org>
-References: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
-In-Reply-To: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.4
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|CH3PR12MB9021:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1711bf00-f4c3-4d36-3615-08dbfca6cd99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6xEikv2bYaHgS+Hkbqur3p13M4ldTuWaA+p0NxBLU9VldSjV2razgl0MZWJMybDn6vlJ2vIRHwwDy9lHs8lDlJIeZB+muyPnkGCz7p356++2EPXAkRPsSxasqRckr7eh1DRvYE0cPJ1XOkeZBBC72u+Q1PqKPfj2O2ziIm3jCFgRMYW3U7eJZUEPpPqyvsDkN/zHDgOUmqe55Sn2Jj8EmOvCZUbPQJnhiTQIrnEuA/OGqeEH1s1y4UI6ORRmwXAB4P71+BlMSde9RgZLc3YJN3tmqjMP2IOiRz1g4msJDSeaQLFMB4bbCw0tMy0B3GJKdIZu2oGHlsNGqLsVp0a+PnIE46Ia9XhYy+x8ef5bj5vbf3ek9aWQZ0Kr+aFds2OErfVlqaHetHP5tYBzz4h3m2imWvu2NWkLtlUA7HRArwjsIzQFHSP3OLZREFqZAi8BW1bforgHAWSfEkChzJl9rX1cABRvZYRfXeueQnGHpR+p5kEuyX6M5LRC/jVHZv1zRS1EhPBFstLqNzF0ZOeJcClW/QrmKWwJkzIEPFnwUdWw+NWh7XhJ7mu4HukfSpI/F2CNHpARbFjE0IOBwLcKsgx3qiijdhgau48tmYW7y9qTRyySSb3aQfJTdaT0s2KUTN+sR7rItOQISdBbp0g/S6g6EQ//NwsezEnsAFHAPvSy/okU5nCRjqKg96DIXd9H
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(366004)(396003)(346002)(136003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(66556008)(110136005)(66946007)(54906003)(66476007)(316002)(8676002)(4326008)(83380400001)(6506007)(6666004)(6486002)(966005)(478600001)(53546011)(26005)(2616005)(6512007)(8936002)(7416002)(2906002)(5660300002)(41300700001)(36756003)(38100700002)(86362001)(31696002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Mi9ZdE0raDU1QUNrZnNyQjJUOUgyZFJXUzRFVmRZYi9PRm45MVZoV3VoTmJz?=
+ =?utf-8?B?TWpydVlEVEJ6Qmp2K0xndzQ1NHcrVXRsdlBTTnhLT3JDWmN2RklRbi9zUzlw?=
+ =?utf-8?B?MkEvMXFHNWlVZGZZZC9HN2hNajQzMkFVcW1TVThpeFQxMytiN3daNUNEaWlW?=
+ =?utf-8?B?bDI5R0hFM3dyVlVrQWJvZHFCWTRINVZWeVdYdXVlbUcyZnZCOWdXcXdNV0lz?=
+ =?utf-8?B?YUtrR0dNSStwY3VrcTg0K2pndFRmZTh0em4vdnJpVDZYUllTcFd2cGVVZ2Ux?=
+ =?utf-8?B?U0lZMzNQc1l0bG9YSHAvOWpQby9yUXlpbXNJYnBCUHZVUUN0Y0JFaU13RWRj?=
+ =?utf-8?B?YTZnc3pEOTE0N0o1Tml3UWxMdSsyWG93S2ExeE9zMUxhSzAzcGhHcTBIbEJJ?=
+ =?utf-8?B?TEVOR2llQnpHSERaZzZuLzNJYllpak9xUkZhY01LbFhqMnp4Q3Z0eE9BRFdl?=
+ =?utf-8?B?T2pNMEYyVVhZNk14THNFTnNQdlYyQzk3MkxwV1NoKzBuZ0M2a0h6cVJncXlh?=
+ =?utf-8?B?NVRmb2pwTkgzZGNwTVJ1RTQ3LzIxRGJQeG1pUlJ1YmV4SkNXckozY2hkQ0cz?=
+ =?utf-8?B?QVhLOWFaS29UNjBpTS9kZmRxQ3lnRVVWUzMwVDkvQzVBenJZV3dBakFCSlAx?=
+ =?utf-8?B?bmdMci95N2hRMXRpQXc0NTFsTEtMUURWUTZpaG1wSUwyazJxdXE2Yms2d2dO?=
+ =?utf-8?B?NzZnMFQzTnY3dmFqcE5sVDlNZVp4RjlkZDY3RHFZOHhRSjFjZzgvUW1BbzFR?=
+ =?utf-8?B?N2M2SnV4MXoxU1cxeG13TU1JdTk0ZWJIWmdxVVFacXVVWFoxdTVGaWFiVEUx?=
+ =?utf-8?B?WEw0QlltSWNxdlVtd3pTRG40SG12cThoMFlRWDJhcjlzR2pwYTVScU04Z0hr?=
+ =?utf-8?B?U2t3OUtKczdOVm5DUjBQTHoxd0YxdnBXc2hZVUlVcmRGVnM0cXZvVGhCdTRz?=
+ =?utf-8?B?Y3FmaHc3S045dVRuSGlnc1g3V2E0aitBWUxQOUlkMmFOM2xtRzZneXhZZEtT?=
+ =?utf-8?B?MjhNeGd4SVQzejdhUFRHUGl3bThtcVo1bFlKc0tNbUxYZ3BySUw4RDNqVSts?=
+ =?utf-8?B?bGYyVHZ2KzRzN0xMK0ZaQTlpeVZiSEtQb1g0N3VIdzdaUTNLSUlpMWNlRE8w?=
+ =?utf-8?B?ejl2OHNITHVnT29wdk1RbVkxWXd2Zzd0NGFRQ2FZU29RYWFVZnNLRnVyeEFO?=
+ =?utf-8?B?UWtwU3FJSlBjSXpQcDIwRUhWS0RoQ1FINkt0M29ZSmVNT0J2b0dXMVRaelBp?=
+ =?utf-8?B?SXI4VUMxQ3gvVVJmUlFjRWROZE1WTHM0UkRzejZrbHlXMGlCMjRUSmxOYnJ1?=
+ =?utf-8?B?dGFMeWg1emRhdU56dEtaZVY1aXdvZjB6WFFGc0Rsekt5ZUk3eDUveXE3SjV5?=
+ =?utf-8?B?Q3NSZzU3cEkwWEVZNVE3V3ZmRVdXWTY5QzltMjBYQzNJakVnaThUMEp0OVVF?=
+ =?utf-8?B?dTB0WXpTZ25YRGdZV1prV2tvR3lVWjRsNXcveDV5M2tRWEdNQzFWeFlXRk1r?=
+ =?utf-8?B?SzdqVjcvMVd2dE1KeHIvTGZUdG00dk4wbEduVEhWc0NFejBoOXdYaEhTUlpB?=
+ =?utf-8?B?b01yL1J6MEo1NXdWbmp0RFMzUkF1UWYraTZUVTNJZy9oOXhrYjBqZVJocHBk?=
+ =?utf-8?B?L1QxVzRHMEppK0txRTRxbXU2clZ1VThGSCtYQldGRllWc2dnb2xwWSt4ejkw?=
+ =?utf-8?B?NUNKa0NzV1FmWEhyY3lrUWt3Z3ZFLy9GL0YwaGl2R3M3MWdSWnhjcjdEZDlB?=
+ =?utf-8?B?UGdCMHpqR1pzaCtTT0dtMGk3cDF5SldFNGs1c21ueXpianVjSThCZTU0dVFi?=
+ =?utf-8?B?cTFjQXZTSDJ4cEtHYnA5Zi85UWJnWVFXVlc2UnFqcUxYTGdzOFhjcWc1b1VL?=
+ =?utf-8?B?Q04zdWI4aXdyamJ3dExhTDhXRllZRVdWWUwyNGlYTUc4S1cvTDBLb29jZzZU?=
+ =?utf-8?B?Zit6Y0FpblZzU1NHWWI4ZUlLd0pZbXV0YXZ5TXVydUYwdGJSa0VyYnR0bU4y?=
+ =?utf-8?B?emlxZC9DcUtCZkF5SXNsekN1aTNsWi9xSDlkRkN0ZGFqWStVK3VPajhTMW93?=
+ =?utf-8?B?aitDY3dMb2VORzhPVHdUbmNOakYydnpyNEd5Q29YUWhzUkZxZ0ZacUxKc0NB?=
+ =?utf-8?Q?COjBveF9vhASh3uuRHhjveEwt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1711bf00-f4c3-4d36-3615-08dbfca6cd99
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5951.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 13:15:55.1008
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ge/uq+mDy+ytXh9YR5BgQnP8vm6V/kopcJCIUdG+uqlxelc66hjwiexrd4gbYSyP0nD3gZmfbdWhM8d1nJLxsg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9021
 
-The Tegra20 AC97 driver is using the legacy GPIO APIs in
-<linux/of_gpio.h> and <linux/gpio.h> to obtain GPIOs for reset
-and sync.
 
-Convert it over and fix the polarity error on the RESET line
-in the process: this reset line is clearly active low. Just
-fix the one in-tree device tree site using it at the same
-time.
-
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-If people demand that the DTS oneliner be submitted and merged
-separately then I can do so. (I personally think that is too
-much focus on process over content.)
----
- arch/arm/boot/dts/nvidia/tegra20-colibri.dtsi |  2 +-
- sound/soc/tegra/tegra20_ac97.c                | 55 +++++++++++++--------------
- sound/soc/tegra/tegra20_ac97.h                |  4 +-
- 3 files changed, 29 insertions(+), 32 deletions(-)
-
-diff --git a/arch/arm/boot/dts/nvidia/tegra20-colibri.dtsi b/arch/arm/boot/dts/nvidia/tegra20-colibri.dtsi
-index 16b374e6482f..8c1d5c9fa483 100644
---- a/arch/arm/boot/dts/nvidia/tegra20-colibri.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra20-colibri.dtsi
-@@ -446,7 +446,7 @@ lvp0 {
- 	tegra_ac97: ac97@70002000 {
- 		status = "okay";
- 		nvidia,codec-reset-gpio =
--			<&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_HIGH>;
-+			<&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_LOW>;
- 		nvidia,codec-sync-gpio =
- 			<&gpio TEGRA_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
- 	};
-diff --git a/sound/soc/tegra/tegra20_ac97.c b/sound/soc/tegra/tegra20_ac97.c
-index e713feca25fa..8011afe93c96 100644
---- a/sound/soc/tegra/tegra20_ac97.c
-+++ b/sound/soc/tegra/tegra20_ac97.c
-@@ -12,12 +12,11 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/io.h>
- #include <linux/jiffies.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-@@ -39,11 +38,15 @@ static void tegra20_ac97_codec_reset(struct snd_ac97 *ac97)
- 	u32 readback;
- 	unsigned long timeout;
- 
--	/* reset line is not driven by DAC pad group, have to toggle GPIO */
--	gpio_set_value(workdata->reset_gpio, 0);
-+	/*
-+	 * The reset line is not driven by DAC pad group, have to toggle GPIO.
-+	 * The RESET line is active low but this is abstracted by the GPIO
-+	 * library.
-+	 */
-+	gpiod_set_value(workdata->reset_gpio, 1);
- 	udelay(2);
- 
--	gpio_set_value(workdata->reset_gpio, 1);
-+	gpiod_set_value(workdata->reset_gpio, 0);
- 	udelay(2);
- 
- 	timeout = jiffies + msecs_to_jiffies(100);
-@@ -66,14 +69,10 @@ static void tegra20_ac97_codec_warm_reset(struct snd_ac97 *ac97)
- 	 * the controller cmd is not working, have to toggle sync line
- 	 * manually.
- 	 */
--	gpio_request(workdata->sync_gpio, "codec-sync");
--
--	gpio_direction_output(workdata->sync_gpio, 1);
--
-+	gpiod_direction_output(workdata->sync_gpio, 1);
- 	udelay(2);
--	gpio_set_value(workdata->sync_gpio, 0);
-+	gpiod_set_value(workdata->sync_gpio, 0);
- 	udelay(2);
--	gpio_free(workdata->sync_gpio);
- 
- 	timeout = jiffies + msecs_to_jiffies(100);
- 
-@@ -342,28 +341,26 @@ static int tegra20_ac97_platform_probe(struct platform_device *pdev)
- 		goto err_clk_put;
- 	}
- 
--	ac97->reset_gpio = of_get_named_gpio(pdev->dev.of_node,
--					     "nvidia,codec-reset-gpio", 0);
--	if (gpio_is_valid(ac97->reset_gpio)) {
--		ret = devm_gpio_request_one(&pdev->dev, ac97->reset_gpio,
--					    GPIOF_OUT_INIT_HIGH, "codec-reset");
--		if (ret) {
--			dev_err(&pdev->dev, "could not get codec-reset GPIO\n");
--			goto err_clk_put;
--		}
--	} else {
--		dev_err(&pdev->dev, "no codec-reset GPIO supplied\n");
--		ret = -EINVAL;
-+	/* Obtain RESET de-asserted */
-+	ac97->reset_gpio = devm_gpiod_get(&pdev->dev,
-+					  "nvidia,codec-reset",
-+					  GPIOD_OUT_LOW);
-+	if (IS_ERR(ac97->reset_gpio)) {
-+		ret = PTR_ERR(ac97->reset_gpio);
-+		dev_err(&pdev->dev, "no RESET GPIO supplied: %d\n", ret);
- 		goto err_clk_put;
- 	}
--
--	ac97->sync_gpio = of_get_named_gpio(pdev->dev.of_node,
--					    "nvidia,codec-sync-gpio", 0);
--	if (!gpio_is_valid(ac97->sync_gpio)) {
--		dev_err(&pdev->dev, "no codec-sync GPIO supplied\n");
--		ret = -EINVAL;
-+	gpiod_set_consumer_name(ac97->reset_gpio, "codec-reset");
-+
-+	ac97->sync_gpio = devm_gpiod_get(&pdev->dev,
-+					 "nvidia,codec-sync",
-+					 GPIOD_OUT_LOW);
-+	if (IS_ERR(ac97->sync_gpio)) {
-+		ret = PTR_ERR(ac97->sync_gpio);
-+		dev_err(&pdev->dev, "no codec-sync GPIO supplied: %d\n", ret);
- 		goto err_clk_put;
- 	}
-+	gpiod_set_consumer_name(ac97->sync_gpio, "codec-sync");
- 
- 	ac97->capture_dma_data.addr = mem->start + TEGRA20_AC97_FIFO_RX1;
- 	ac97->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-diff --git a/sound/soc/tegra/tegra20_ac97.h b/sound/soc/tegra/tegra20_ac97.h
-index 870ea09ff301..116d7b2db27e 100644
---- a/sound/soc/tegra/tegra20_ac97.h
-+++ b/sound/soc/tegra/tegra20_ac97.h
-@@ -80,7 +80,7 @@ struct tegra20_ac97 {
- 	struct snd_dmaengine_dai_dma_data playback_dma_data;
- 	struct reset_control *reset;
- 	struct regmap *regmap;
--	int reset_gpio;
--	int sync_gpio;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *sync_gpio;
- };
- #endif /* __TEGRA20_AC97_H__ */
-
--- 
-2.34.1
-
+On 12/14/23 17:53, Cristian Ciocaltea wrote:
+> On 12/11/23 07:58, Venkata Prasad Potturu wrote:
+>> On 12/10/23 21:20, Cristian Ciocaltea wrote:
+>>> On 12/10/23 16:01, Mark Brown wrote:
+>>>> On Sun, Dec 10, 2023 at 12:12:53PM +0200, Cristian Ciocaltea wrote:
+>>>>> On 12/10/23 11:51, Venkata Prasad Potturu wrote:
+>>>>>> This should send to SOF git repo for rewiew, once SOF reviewers
+>>>>>> approved
+>>>>>> this, again need to send to broonie git.
+>>>>>> All the changes in sound/soc/sof/ path should go to SOF git.
+>>>>> Unfortunately I'm not familiar with the SOF dev workflow. So it's not
+>>>>> enough to have this patch cc-ed to
+>>>>> sound-open-firmware@alsa-project.org?
+>>>> The SOF people basically do their own thing in github at
+>>>>
+>>>>      https://github.com/thesofproject/linux
+>>>>
+>>>> with a github workflow and submit their patches upstream in batches a
+>>>> few times a release, however my understanding is that their workflow can
+>>>> cope with things going in directly upstream as well.
+>>> Thanks for clarifying, Mark!  That would greatly simplify and speedup
+>>> the whole process, at least for trivial patches like this one.
+>> Hi Cristian,
+>>
+>> We have created a Pull request in SOF git hub for I2S BT support.
+>> please hold v2 version SOF patches till below PR get's merged.
+>> PR:- https://github.com/thesofproject/linux/pull/4742
+> Hi Venkata,
+>
+> If this is going to be handled via the github workflow, this patch
+> should be removed from the series.  Since there is no dependency on it,
+> I cannot see a reason to put v2 on hold.
+>
+> Do I miss something?
+Non-sof driver related patches can directly send to broonie git ad v2 
+series.
+SOF driver patches should send to SOF github to avoid merge conflicts 
+as  per guidelines of SOF community.
+>
+> Thanks,
+> Cristian
