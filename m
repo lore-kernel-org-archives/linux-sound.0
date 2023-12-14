@@ -1,79 +1,119 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZkSvzWFe"
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449A810E
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 08:15:05 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1d36a6cec69so2870645ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 08:15:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702570505; x=1703175305; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z1Ou2BN/NSSGCNvRe4VvolyrUm7oUAf2oh76V3K9T9M=;
-        b=ZkSvzWFe4GfrTmBb8iUOsSMZShHZoC/6pFizlZJfB9ONOgN3UTUwkKgX7kuJyqDJbT
-         kavajsdaTI6rnXuGy85d33h+u8VKloOrALanp91z+RAAw++psw1KGHgu8zFL0gR5oymo
-         S2PjEMBmoHCB52+2P6XENFdmySM51D5bZWxYQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702570505; x=1703175305;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z1Ou2BN/NSSGCNvRe4VvolyrUm7oUAf2oh76V3K9T9M=;
-        b=doUxAj5kLVdL0p8Xv3cBcwK27Kd39rB4yriBoexzWrdWCG7V3jT6XVbNVgu/chf1x7
-         hZaElNHoV5taQuFnawreZMFQvxH6CObnzgxkwyq80K/sZEQKMt8Y6px2tFm7vzZJfQjU
-         XbjtB296MknW4Gmy8kKZUUgG57tRIW+kkoOYRNkUPRn5wZZnPfhsB/xxsMyBtfjX351p
-         +cQ12JRy53FtbOIb39CjnS3xiwgxy4MrveyWNsz1WTMO1BeTaoheS/f3mOVjsYKGs3Tj
-         nwjd53YNF7e5HUfRo7+imPSrM10eVNvtXsVkJjma8qXdlbR0uUoaPx2570cT1qNwiMby
-         nZVg==
-X-Gm-Message-State: AOJu0YzFsmDdDKrsTwjwgB4qz79Ifd/q4pNr6LAntPrqk5nktrMX2SJQ
-	+y7hA2ItbrOC49vMPlAa9XwGBg==
-X-Google-Smtp-Source: AGHT+IH+ytQj5wa72LYKC5YIjqTselzMKodTANBeg8JotZhzXxmhWvXBDTQzTxLBsP0QwKZwCFxenA==
-X-Received: by 2002:a17:902:eb82:b0:1d3:4c35:17a0 with SMTP id q2-20020a170902eb8200b001d34c3517a0mr1926746plg.120.1702570504783;
-        Thu, 14 Dec 2023 08:15:04 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id n6-20020a170902e54600b001d1cd7e4ad2sm12549781plf.125.2023.12.14.08.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 08:15:04 -0800 (PST)
-Date: Thu, 14 Dec 2023 08:15:03 -0800
-From: Kees Cook <keescook@chromium.org>
-To: davidgow@google.com
-Cc: Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] overflow: Replace fake root_device with
- kunit_device
-Message-ID: <202312140814.314B59CD@keescook>
-References: <20231214-kunit_bus-v3-0-7e9a287d3048@google.com>
- <20231214-kunit_bus-v3-3-7e9a287d3048@google.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="sz0m5ZgY"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A55F114;
+	Thu, 14 Dec 2023 08:42:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702572174;
+	bh=04lraI2c4Uv8FYflDBQHgnQ/5ptT6GN6bQzxy23YiUU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sz0m5ZgYDE5dfllYDKZomUG52RmngQJQu77ZBXrDUYIcZoX9EFgXRibxckiUF0Jd+
+	 5KgHwKtwN3Hsz/0K74YqlYUZWsI5XU1l7F+CvSVGnej+Trnajb/7irngCFx7r1t7KK
+	 NsraIMCCwPmUw5WZ0rMheceXvFOPktPSosJ7wBtqEBpOG2/LuF5Yd0yaoyN9sIU8CK
+	 /z885ZZ288pzv1SGfrOglWYZVyUIDvtmirN0sp45HBArOJsV8R7iqlfAAI7+77k8Te
+	 gvNq0cJXuP9wrZUDu4xDOeUyUr22iUUvszu/EoAnx46q3L3qaWO3hHITnPDyQ3xQmr
+	 2cUdUzLu1reEQ==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 89F7D37809D0;
+	Thu, 14 Dec 2023 16:42:53 +0000 (UTC)
+Message-ID: <913257d4-75dc-4887-97d6-0f206c401057@collabora.com>
+Date: Thu, 14 Dec 2023 18:42:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231214-kunit_bus-v3-3-7e9a287d3048@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
+ SOF_DAI_AMD_BT
+Content-Language: en-US
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Marian Postevca <posteuca@mutex.one>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+ Mastan Katragadda <Mastan.Katragadda@amd.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+ kernel@collabora.com
+References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
+ <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
+ <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
+ <318470ce-1631-4c46-b425-755c877dda65@amd.com>
+ <421128f7-6a17-4be9-a72b-272ea4017fbd@collabora.com>
+ <ZXXEsyBUCrBULNgk@finisterre.sirena.org.uk>
+ <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
+ <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
+ <ca828ee1-93f7-432e-b95d-e67c35cdcdb5@collabora.com>
+ <0de8f81b-e7d4-43f6-b011-eb6ee09cc7fe@amd.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <0de8f81b-e7d4-43f6-b011-eb6ee09cc7fe@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 14, 2023 at 04:49:17PM +0800, davidgow@google.com wrote:
-> Using struct root_device to create fake devices for tests is something
-> of a hack. The new struct kunit_device is meant for this purpose, so use
-> it instead.
+On 12/14/23 15:15, Venkata Prasad Potturu wrote:
 > 
-> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Signed-off-by: David Gow <davidgow@google.com>
+> On 12/14/23 17:53, Cristian Ciocaltea wrote:
+>> On 12/11/23 07:58, Venkata Prasad Potturu wrote:
+>>> On 12/10/23 21:20, Cristian Ciocaltea wrote:
+>>>> On 12/10/23 16:01, Mark Brown wrote:
+>>>>> On Sun, Dec 10, 2023 at 12:12:53PM +0200, Cristian Ciocaltea wrote:
+>>>>>> On 12/10/23 11:51, Venkata Prasad Potturu wrote:
+>>>>>>> This should send to SOF git repo for rewiew, once SOF reviewers
+>>>>>>> approved
+>>>>>>> this, again need to send to broonie git.
+>>>>>>> All the changes in sound/soc/sof/ path should go to SOF git.
+>>>>>> Unfortunately I'm not familiar with the SOF dev workflow. So it's not
+>>>>>> enough to have this patch cc-ed to
+>>>>>> sound-open-firmware@alsa-project.org?
+>>>>> The SOF people basically do their own thing in github at
+>>>>>
+>>>>>      https://github.com/thesofproject/linux
+>>>>>
+>>>>> with a github workflow and submit their patches upstream in batches a
+>>>>> few times a release, however my understanding is that their
+>>>>> workflow can
+>>>>> cope with things going in directly upstream as well.
+>>>> Thanks for clarifying, Mark!  That would greatly simplify and speedup
+>>>> the whole process, at least for trivial patches like this one.
+>>> Hi Cristian,
+>>>
+>>> We have created a Pull request in SOF git hub for I2S BT support.
+>>> please hold v2 version SOF patches till below PR get's merged.
+>>> PR:- https://github.com/thesofproject/linux/pull/4742
+>> Hi Venkata,
+>>
+>> If this is going to be handled via the github workflow, this patch
+>> should be removed from the series.  Since there is no dependency on it,
+>> I cannot see a reason to put v2 on hold.
+>>
+>> Do I miss something?
+> Non-sof driver related patches can directly send to broonie git ad v2
+> series.
+> SOF driver patches should send to SOF github to avoid merge conflicts
+> as  per guidelines of SOF community.
 
-Acked-by: Kees Cook <keescook@chromium.org>
+Honestly, I don't really see a high risk of conflicts, the patches are
+not that complex and can be simply cherry-picked when needed.  Moreover,
+as we already had people reviewing this, splitting this up will only add
+confusion and unnecessary burden.
 
--- 
-Kees Cook
+Are there any specific changes you are concerned about and cannot be
+really handled here?
