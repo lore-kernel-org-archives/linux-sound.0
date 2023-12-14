@@ -1,27 +1,27 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lpL7V9u5"
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76258124;
-	Thu, 14 Dec 2023 03:58:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="e+0gVLma"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6AB511D;
+	Thu, 14 Dec 2023 04:23:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702555096;
-	bh=H4glu+KQRzxtv6e+eHc7mU495CXC1LwVvNxxpwKbl44=;
+	s=mail; t=1702556592;
+	bh=UqRmqpx+L/h6JxrFWmQqgif5spnY/NSTCUX559UgFhA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lpL7V9u562AAjhB9/7kMqY42xMlBcHExPNKxYRabxpeHTeNwKhav30nl9FFyV+5zx
-	 xeydlCjn0OeZRugoBsM+njnzzaQCfiveDzMInmVjeaQySD6tWAv8sc9+B5v0sGK+CT
-	 N9qhlJfhtnW0U1zTFDSh/vGsheTnF+ihaSkFFhSZ2H2YO9YHlBHGmvfgy3OvduV+CU
-	 jttkLN5R8Q+bEbW8t0Dkz6YP8p4ODQUGxvFHw1W/AvZlBOmF9EhehgX9vMd5gVgBEL
-	 WwzQM2z3qFg8xI3ESkYrsYFaj8agiJrDkNPN3F2rF6Vov02dWKpTdSe3ORrecY+Wni
-	 Fg1BHTsBa16VA==
+	b=e+0gVLmalAyHuyZtnP0qlxXRf/NQhDOPFN/UwXwWPN0Fqti/gfhfB7dDIYTMDjvmE
+	 KLaAXHgoVSxF7xPxYSXKPHnJWKlzsjvlY/kPL+8pMriafEK4h7fh8BTcSiy5ZeXOhS
+	 LhF9x7BHnjj9b6WQ+O1GRXkrn5SX4h3IglgGAG4MVAyGanlkgewW7o1qN4P2l6gcgc
+	 iAxhRwfRP7bZXWQh7Q9TcoGtvEnlm15r0ietUg/q9r9A/kZrUn/zny/ZPeANzzT+di
+	 gMf9k9Wn+iX+MNO1cmyvVY54NJRPfIc40w4Lr43HlIemROULINW9YRViISn3Vu0i9Y
+	 xpIRCbCW4wNkw==
 Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 741BA37814A4;
-	Thu, 14 Dec 2023 11:58:15 +0000 (UTC)
-Message-ID: <c4d4b60a-6cf0-4537-ab51-630ad909c3f0@collabora.com>
-Date: Thu, 14 Dec 2023 13:58:14 +0200
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1CD6837814A8;
+	Thu, 14 Dec 2023 12:23:11 +0000 (UTC)
+Message-ID: <ca828ee1-93f7-432e-b95d-e67c35cdcdb5@collabora.com>
+Date: Thu, 14 Dec 2023 14:23:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -29,18 +29,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
- fw_name
+Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
+ SOF_DAI_AMD_BT
 Content-Language: en-US
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
  Bard Liao <yung-chuan.liao@linux.intel.com>,
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
  Daniel Baluta <daniel.baluta@nxp.com>,
  Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
  Alper Nebi Yasak <alpernebiyasak@gmail.com>,
  Syed Saba Kareem <Syed.SabaKareem@amd.com>,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -48,40 +49,59 @@ To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
  Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
  V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
  Mastan Katragadda <Mastan.Katragadda@amd.com>,
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org, kernel@collabora.com
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+ kernel@collabora.com
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
- <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
- <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
- <22ac83a7-287c-46ba-b981-cb810b911e5e@linux.intel.com>
+ <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
+ <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
+ <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
+ <318470ce-1631-4c46-b425-755c877dda65@amd.com>
+ <421128f7-6a17-4be9-a72b-272ea4017fbd@collabora.com>
+ <ZXXEsyBUCrBULNgk@finisterre.sirena.org.uk>
+ <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
+ <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <22ac83a7-287c-46ba-b981-cb810b911e5e@linux.intel.com>
+In-Reply-To: <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 12/14/23 13:51, Péter Ujfalusi wrote:
+On 12/11/23 07:58, Venkata Prasad Potturu wrote:
 > 
+> On 12/10/23 21:20, Cristian Ciocaltea wrote:
+>> On 12/10/23 16:01, Mark Brown wrote:
+>>> On Sun, Dec 10, 2023 at 12:12:53PM +0200, Cristian Ciocaltea wrote:
+>>>> On 12/10/23 11:51, Venkata Prasad Potturu wrote:
+>>>>> This should send to SOF git repo for rewiew, once SOF reviewers
+>>>>> approved
+>>>>> this, again need to send to broonie git.
+>>>>> All the changes in sound/soc/sof/ path should go to SOF git.
+>>>> Unfortunately I'm not familiar with the SOF dev workflow. So it's not
+>>>> enough to have this patch cc-ed to
+>>>> sound-open-firmware@alsa-project.org?
+>>> The SOF people basically do their own thing in github at
+>>>
+>>>     https://github.com/thesofproject/linux
+>>>
+>>> with a github workflow and submit their patches upstream in batches a
+>>> few times a release, however my understanding is that their workflow can
+>>> cope with things going in directly upstream as well.
+>> Thanks for clarifying, Mark!  That would greatly simplify and speedup
+>> the whole process, at least for trivial patches like this one.
 > 
-> On 14/12/2023 12:48, Péter Ujfalusi wrote:
->> @@ -265,7 +276,9 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
->>  			 "Using fallback IPC type %d (requested type was %d)\n",
->>  			 profile->ipc_type, ipc_type);
->>  
->> -	dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
->> +	/* The firmware path only valid when generic loader is used */
->> +	if (sof_platform_uses_generic_loader(sdev))
->> +		dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
->>  
+> Hi Cristian,
 > 
-> This is the correct section in here, sorry:
-> 
-> -	dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
-> +	/* The firmware path only valid when generic loader is used */
-> +	if (sof_platform_uses_generic_loader(sdev))
-> +		dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
-> +
->  	if (profile->fw_lib_path)
+> We have created a Pull request in SOF git hub for I2S BT support.
+> please hold v2 version SOF patches till below PR get's merged.
+> PR:- https://github.com/thesofproject/linux/pull/4742
 
-No problem, thanks for the update!
+Hi Venkata,
 
+If this is going to be handled via the github workflow, this patch
+should be removed from the series.  Since there is no dependency on it,
+I cannot see a reason to put v2 on hold.
+
+Do I miss something?
+
+Thanks,
+Cristian
