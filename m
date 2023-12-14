@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="foP7ko3I"
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0404121
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 05:15:45 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2ca02def690so103151841fa.3
-        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 05:15:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TL8ajCZl"
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10400125
+	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 05:15:47 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2c9f099cf3aso121163461fa.1
+        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 05:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702559744; x=1703164544; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702559745; x=1703164545; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XFPvhE2TfppE4P1yrXLwpu8QNBSRgd4h1Csi59de14s=;
-        b=foP7ko3IO8DAwAEYc7zmB+sgmK2URm0gvDRkYZWcMLD9Yewh0axNzZfuh4vfILZh5D
-         TrTBeeQhFZsDqIvLFqjN0J0LrbJprsemLgoMg1PMWpo9cBPxfWHAe1qMn0IY1kV7xl3I
-         TlqZtyKgJ/DxkqwvzNpoQXofQ0LdtxS1NoYYzoO68iu0SqFvF/Cm7d/hpRCMd8Leutkm
-         mhCgsoPTb+lmSB4NDA7HoIgIbiB2Uv8qdJPXBa7ouf1i+oRL5VrD/Ap6F4CLaMT5jiyL
-         DI36RHi+M9w1qUFKWllQ53nkN7FHvdLesrYaKnJ4zFktZmgl8BBN1EVcdwcFHSpPi9Hx
-         H0JQ==
+        bh=Zl/2P+gDfIp0TQYPTG0vKiGyNkTIQEmbjw6ExQX0Pf0=;
+        b=TL8ajCZl/2yefj7BwasT5VYrfRFUzgKpwg5OTH4JBluvoKED4AGmviQdoBslouEie8
+         tk1Iz3U7aG4QCHTIuBU4ORNnJyk0kZs0QB72LuDolmWF6d07hbJhrq0qUGB460X93bWc
+         lRBlpkKbpomhkMhMTMzXvRiQjURgNSw6MLL582wkFnpRNgZIywM2hmLjzUyS9iHLkLUw
+         8Bsv277sXbLLNHJKsFM2cHw5SUCFY97qfCNth2DRvDAhl1VYeKJAyNE9HesNabOZgB/m
+         QX1o110arehY/3HMUp2izvt0sjqsrGW163gFdMdeSoLIC4JsZ4wJbHcjcrrVmmkmiyXW
+         Wo9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702559744; x=1703164544;
+        d=1e100.net; s=20230601; t=1702559745; x=1703164545;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XFPvhE2TfppE4P1yrXLwpu8QNBSRgd4h1Csi59de14s=;
-        b=Ed2AvjdlWr80UHesE0/d0LGJFUeVNnfr6TqqFwh4vJEgQUcDvfGbn9QU58aob/q+N/
-         3V4WcOcUTxxwLHMhfalKPMAXzGncbtuS0nSNghxsCO0XE6+UrrR/ADoeLKmhS9eiiLbb
-         b1I1IIEBJzRlTAHmpak6/nxrxL8NdSzQrdOm0zZXOee/tsigsTT3ceWcs0ar37S3GLkM
-         xvqyrZS5M5FWfgiNlkjnQwQ8RFQVHLd+qt7KEqXZEtM73XHpCidIQVVZEJe9bVIlbI9S
-         kXRfyWHNJftZZzxKiKcvkmmK0zAUNKwGyF4y21C5IvWjIeg6e2Gajl3SucCHExYeB4O0
-         xSgQ==
-X-Gm-Message-State: AOJu0Yz7bHy6gw51EQv7OQi/zQIfLbEBqfTSnwiTZfiaXFnpcHNvAEzm
-	mr5kpVJ7oJn/M2r2SZgdII6fbQ==
-X-Google-Smtp-Source: AGHT+IFZ57yYzKJ7lhsSP4PBKVG28nM00flMj6xzVKrNm2pHPIBAti0LYIyzlqr3hZAxbG5Uc+OLtQ==
-X-Received: by 2002:a05:651c:88b:b0:2cc:1c75:3494 with SMTP id d11-20020a05651c088b00b002cc1c753494mr5912328ljq.55.1702559744240;
-        Thu, 14 Dec 2023 05:15:44 -0800 (PST)
+        bh=Zl/2P+gDfIp0TQYPTG0vKiGyNkTIQEmbjw6ExQX0Pf0=;
+        b=WAV8FMpYExJsYBgowIKtCpOSGPu2S9AQos4fMqZhh53A1UqNk+uiR8wdJn/WRdxq1q
+         i0vuWsI7j06TP5CUILE+1DmfcIviOQNEQPlNY7eNhpoBoz1mglCCoyRflUglVzem61Vw
+         OUgAJRCiE0tFI/gCKJIOnoGh52R5Mu2UqoCMwThIExWbjVebp6TQIoHhvTkOTl1TDNDL
+         H+rAvKTU7Afnso4ygIAPxVjtd9kgwGlXlEmAjc1wS6m0fsz6r6N3zp/PhHm5HlveVRIY
+         wysmj+tuJS0jOutv7UMjQHzyT6xIV2ga+Eu8lBKbuxlOVtP5AFX+EGZNslI/mI6u82F4
+         DluQ==
+X-Gm-Message-State: AOJu0YyUqZveCoQjpJ4+xeAHXFCpJvUyBMWdjovNm1Tlf52yhtPV6SU1
+	TEaUGerm0o3WXgmJ0N7lvVuHdA==
+X-Google-Smtp-Source: AGHT+IGLIizoYzjhcP0yvk0sz4u3yPAe8upgnxL+cRqGZY/tUMOhZBAjkVQRfIg1sZ28AJa+AoI7CQ==
+X-Received: by 2002:a05:651c:110:b0:2ca:f17:dd69 with SMTP id a16-20020a05651c011000b002ca0f17dd69mr4501498ljb.43.1702559745303;
+        Thu, 14 Dec 2023 05:15:45 -0800 (PST)
 Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id p23-20020a2e93d7000000b002ca02ceae84sm2080478ljh.83.2023.12.14.05.15.43
+        by smtp.gmail.com with ESMTPSA id p23-20020a2e93d7000000b002ca02ceae84sm2080478ljh.83.2023.12.14.05.15.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 05:15:43 -0800 (PST)
+        Thu, 14 Dec 2023 05:15:44 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 14 Dec 2023 14:15:42 +0100
-Subject: [PATCH 1/4] ASoC: hisilicon: Drop GPIO include
+Date: Thu, 14 Dec 2023 14:15:43 +0100
+Subject: [PATCH 2/4] ASoC: qcom: sc7180: Drop GPIO include
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231214-gpio-descriptors-sound-misc-v1-1-e3004176bd8b@linaro.org>
+Message-Id: <20231214-gpio-descriptors-sound-misc-v1-2-e3004176bd8b@linaro.org>
 References: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
 In-Reply-To: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -70,21 +70,21 @@ but not using any symbols from it. Drop the include.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- sound/soc/hisilicon/hi6210-i2s.c | 1 -
+ sound/soc/qcom/sc7180.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/hisilicon/hi6210-i2s.c b/sound/soc/hisilicon/hi6210-i2s.c
-index dd7d2a077248..250ae3781d14 100644
---- a/sound/soc/hisilicon/hi6210-i2s.c
-+++ b/sound/soc/hisilicon/hi6210-i2s.c
-@@ -15,7 +15,6 @@
- #include <linux/clk.h>
- #include <linux/jiffies.h>
- #include <linux/io.h>
+diff --git a/sound/soc/qcom/sc7180.c b/sound/soc/qcom/sc7180.c
+index b0320a74d508..4ab34a8842ce 100644
+--- a/sound/soc/qcom/sc7180.c
++++ b/sound/soc/qcom/sc7180.c
+@@ -6,7 +6,6 @@
+ 
+ #include <dt-bindings/sound/sc7180-lpass.h>
+ #include <dt-bindings/sound/qcom,q6afe.h>
 -#include <linux/gpio.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
 
 -- 
 2.34.1
