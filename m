@@ -1,27 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="2LEhfxrG"
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD4BA7;
-	Thu, 14 Dec 2023 03:29:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702553343;
-	bh=cYL+gjX+VUk4xyj7bJoSMdpDu5zY9964bkLcM23bY34=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=2LEhfxrG4Iko1KGhqBL6n2HA2cttTSaU4+x1bhsfmqULEOUnCOJWYRtKTAFoxsWkA
-	 Ie5h3835bICgy6C+Z4W2c1x1A5g9VR9JzINLHJIvJsgH0pRPbeZmysceAfL7rlxeAp
-	 MCMU/titUb5utOblawP7rB3kUARkN1qHPkFiE68Ms2goE8heIf0KcBSv3cHaA+Z5gr
-	 dtEZ4/sI1pk+1HRR7/YWM/FTiAR0H1TSeIWQNb2wMeO6mpHccVMws5NLpQPdQxPEab
-	 9t0YdO2LDZD1Q5O2NQVC0Rl2VtYiJALOveQ+uyneUydqpbUcRHUef3wJCvlbe3CQKo
-	 h9/3snQHf+yTw==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B004C378147F;
-	Thu, 14 Dec 2023 11:29:01 +0000 (UTC)
-Message-ID: <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
-Date: Thu, 14 Dec 2023 13:29:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThA5fj7C"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95841BD;
+	Thu, 14 Dec 2023 03:35:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702553723; x=1734089723;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=86BKh1Ji8KJODootQFM153eX5Rr38NiTHUsKdo5u/jw=;
+  b=ThA5fj7C4fRasZz5WKRFS92N/tMwfThtlPuauovnpqA8xjXrEOcUOgRv
+   TDkC2hbM+li6ZvnDPCjKYUYH++N3N/oRpJO4ubAD8BI1/sJ7VCeb012qR
+   jXtf8xIqmq6Pzr68NSdhEmmILF/tEfKiptJCc/8oY/rEoXXhsCDPKscUm
+   vwBylMoCNspe3jNMdmcj8OvpyWBWtiiV8YqCdR7NsVPV2f/p4UKzYoqUj
+   01BoYmWLIkVatX27oLCLDSylaB8t+EmQJxN//XfeA+ko3pdNXg98gLO0O
+   Jmw6XrVsx2hb6WF/HGdG7tpxhnDNclSsQ3w87XmQmuOhSn6J6bzlQdGNk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="375262320"
+X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
+   d="scan'208";a="375262320"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:35:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1105674824"
+X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
+   d="scan'208";a="1105674824"
+Received: from eborisov-mobl2.ger.corp.intel.com (HELO [10.249.34.72]) ([10.249.34.72])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:35:16 -0800
+Message-ID: <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
+Date: Thu, 14 Dec 2023 13:35:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -31,7 +38,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
  fw_name
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+Content-Language: en-US
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
@@ -53,130 +61,37 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
  <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
  <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
+ <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 12/14/23 12:48, Péter Ujfalusi wrote:
-> 
-> 
-> On 09/12/2023 22:53, Cristian Ciocaltea wrote:
->> Some SOF drivers like AMD ACP do not always rely on a single static
->> firmware file, but may require multiple files having their names
->> dynamically computed on probe time, e.g. based on chip name.
-> 
-> I see, AMD vangogh needs two binary files to be loaded sometimes, it is not using the default name as it hints via the sof_dev_desc ("sof-vangogh.ri").
-> 
-> The constructed names for the two files are just using different pattern:
-> sof-%PLAT%.ri
-> vs
-> sof-%PLAT%-code.bin
-> sof-%PLAT%-data.bin
-> 
-> iow, instead of the combined .ri file which includes the code and data segment it has 'raw' bin files and cannot use the core for loading the firmware.
-> 
-> What is the reason for this? an .ri file can have two 'modules' one to be written to IRAM the other to DRAM.
-> sof_ipc3_load_fw_to_dsp()
-> 
->> In those cases, providing an invalid default_fw_filename in their
->> sof_dev_desc struct will prevent probing due to 'SOF firmware
->> and/or topology file not found' error.
->  
->> Fix the issue by allowing drivers to omit initialization for this member
->> (or alternatively provide a dynamic override via ipc_file_profile_base)
->> and update sof_test_firmware_file() to verify the given profile data and
->> skip firmware testing if either fw_path or fw_name is not defined.
->>
->> Fixes: 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version fallback if firmware files are missing")
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  sound/soc/sof/fw-file-profile.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
+
+
+On 14/12/2023 13:29, Cristian Ciocaltea wrote:
 >> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
->> index 138a1ca2c4a8..e63700234df0 100644
+>> index 138a1ca2c4a8..7b91c9551ada 100644
 >> --- a/sound/soc/sof/fw-file-profile.c
 >> +++ b/sound/soc/sof/fw-file-profile.c
->> @@ -21,6 +21,9 @@ static int sof_test_firmware_file(struct device *dev,
->>  	const u32 *magic;
->>  	int ret;
+>> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
+>>  	return ret;
+>>  }
 >>  
->> +	if (!profile->fw_path || !profile->fw_name || !*profile->fw_name)
->> +		return 0;
-> 
-> I would rather make the firmware file skipping based on custom loader use and print a dev_dbg() alongside:
-
-Agree, that's a better approach. Thanks for the hint!
-
-> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
-> index 138a1ca2c4a8..7b91c9551ada 100644
-> --- a/sound/soc/sof/fw-file-profile.c
-> +++ b/sound/soc/sof/fw-file-profile.c
-> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
->  	return ret;
->  }
->  
-> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
-> +{
-> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
-> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
-> +		return true;
-> +
-> +	return false;
-> +}
-
-I would drop the conditional and simply return.
-
->  static int
->  sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
->  			      enum sof_ipc_type ipc_type,
-> @@ -130,7 +139,8 @@ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
->  	 * For default path and firmware name do a verification before
->  	 * continuing further.
->  	 */
-> -	if (base_profile->fw_path || base_profile->fw_name) {
-> +	if ((base_profile->fw_path || base_profile->fw_name) &&
-> +	    sof_platform_uses_generic_loader(sdev)) {
->  		ret = sof_test_firmware_file(dev, out_profile, &ipc_type);
->  		if (ret)
->  			return ret;
-> @@ -181,7 +191,8 @@ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
->  	out_profile->ipc_type = ipc_type;
->  
->  	/* Test only default firmware file */
-> -	if (!base_profile->fw_path && !base_profile->fw_name)
-> +	if ((!base_profile->fw_path && !base_profile->fw_name) &&
-> +	    sof_platform_uses_generic_loader(sdev))
->  		ret = sof_test_firmware_file(dev, out_profile, NULL);
->  
->  	if (!ret)
-> @@ -265,7 +276,9 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
->  			 "Using fallback IPC type %d (requested type was %d)\n",
->  			 profile->ipc_type, ipc_type);
->  
-> -	dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
-> +	/* The firmware path only valid when generic loader is used */
-> +	if (sof_platform_uses_generic_loader(sdev))
-> +		dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
->  
->  	dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
->  	if (profile->fw_lib_path)
-> 
+>> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
+>> +{
+>> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
+>> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
+>> +		return true;
 >> +
->>  	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
->>  				profile->fw_name);
->>  	if (!fw_filename)
+>> +	return false;
+>> +}
 > 
-> checking for custom loader allows you to drop the next patch.
+> I would drop the conditional and simply return.
 
-Yes, I will take only the context information and use it to update the
-current patch description.
+What do you mean? We need to check if the platform is using either type
+of the generic load_firmware helper (the _memcpy is calling the _raw to
+load the file).
 
-> I would also skip the fw path printing in case of a custom loader.
-
-Sure, makes sense.
-
-Thanks for the review,
-Cristian
+-- 
+Péter
