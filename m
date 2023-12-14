@@ -1,33 +1,27 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z301Fv0v"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27BF113;
-	Thu, 14 Dec 2023 03:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702555029; x=1734091029;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=EwxAgDZ2DcIp4KgA/vqROZ9HGMY7XaC0XxVc24lvUAQ=;
-  b=Z301Fv0vlF1HRppWHOE6G9Gn6WfyHOmXqIoGk/z1s8a0UZd8SKC4NOGr
-   9lz9368DxqiKJifwwHsySR5hJUg1JYvThvo8huA7DLxezmUOEfRoyYKoG
-   byEti6HevEFzvzT2qFbG/MR17vyHwES+/x9k7FAfnG0OtBrp0pkruw8L9
-   oXRv+HX7X4PIByovA9krpmYaoJiRHJvU8gEDuEZwM5w+uTWnsymrEye1S
-   tuWoNSN2s9QesyY1kzSKVSWVU3wMNrQT18yXRYBixBxF0ntqrZ71cpIX2
-   ioGQO2GITVyHscEpPbWbTK93/uk1E3eb3bjjNFbTXNjykOlBgtU12o9/4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="392283392"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="392283392"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:57:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="15826348"
-Received: from eborisov-mobl2.ger.corp.intel.com (HELO [10.249.34.72]) ([10.249.34.72])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:57:03 -0800
-Message-ID: <2c09e01b-777b-48ac-adf9-63d61e1a36fc@linux.intel.com>
-Date: Thu, 14 Dec 2023 13:57:44 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lpL7V9u5"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76258124;
+	Thu, 14 Dec 2023 03:58:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702555096;
+	bh=H4glu+KQRzxtv6e+eHc7mU495CXC1LwVvNxxpwKbl44=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lpL7V9u562AAjhB9/7kMqY42xMlBcHExPNKxYRabxpeHTeNwKhav30nl9FFyV+5zx
+	 xeydlCjn0OeZRugoBsM+njnzzaQCfiveDzMInmVjeaQySD6tWAv8sc9+B5v0sGK+CT
+	 N9qhlJfhtnW0U1zTFDSh/vGsheTnF+ihaSkFFhSZ2H2YO9YHlBHGmvfgy3OvduV+CU
+	 jttkLN5R8Q+bEbW8t0Dkz6YP8p4ODQUGxvFHw1W/AvZlBOmF9EhehgX9vMd5gVgBEL
+	 WwzQM2z3qFg8xI3ESkYrsYFaj8agiJrDkNPN3F2rF6Vov02dWKpTdSe3ORrecY+Wni
+	 Fg1BHTsBa16VA==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 741BA37814A4;
+	Thu, 14 Dec 2023 11:58:15 +0000 (UTC)
+Message-ID: <c4d4b60a-6cf0-4537-ab51-630ad909c3f0@collabora.com>
+Date: Thu, 14 Dec 2023 13:58:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,8 +32,7 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
  fw_name
 Content-Language: en-US
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
@@ -47,6 +40,7 @@ To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
  Daniel Baluta <daniel.baluta@nxp.com>,
  Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
  Alper Nebi Yasak <alpernebiyasak@gmail.com>,
  Syed Saba Kareem <Syed.SabaKareem@amd.com>,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -54,74 +48,40 @@ To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
  Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
  V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
  Mastan Katragadda <Mastan.Katragadda@amd.com>,
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
- "Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  sound-open-firmware@alsa-project.org, kernel@collabora.com
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
  <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
  <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
- <d4cc684c-e4ad-4c73-8ce2-1091b2a733ab@amd.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <d4cc684c-e4ad-4c73-8ce2-1091b2a733ab@amd.com>
+ <22ac83a7-287c-46ba-b981-cb810b911e5e@linux.intel.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <22ac83a7-287c-46ba-b981-cb810b911e5e@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-
-On 14/12/2023 12:58, Venkata Prasad Potturu wrote:
+On 12/14/23 13:51, Péter Ujfalusi wrote:
 > 
-> On 12/14/23 16:18, Péter Ujfalusi wrote:
-> Thanks for your time Peter!
->>
->> On 09/12/2023 22:53, Cristian Ciocaltea wrote:
->>> Some SOF drivers like AMD ACP do not always rely on a single static
->>> firmware file, but may require multiple files having their names
->>> dynamically computed on probe time, e.g. based on chip name.
->> I see, AMD vangogh needs two binary files to be loaded sometimes, it
->> is not using the default name as it hints via the sof_dev_desc
->> ("sof-vangogh.ri").
->>
->> The constructed names for the two files are just using different pattern:
->> sof-%PLAT%.ri
->> vs
->> sof-%PLAT%-code.bin
->> sof-%PLAT%-data.bin
->>
->> iow, instead of the combined .ri file which includes the code and data
->> segment it has 'raw' bin files and cannot use the core for loading the
->> firmware.
->>
->> What is the reason for this? an .ri file can have two 'modules' one to
->> be written to IRAM the other to DRAM.
->> sof_ipc3_load_fw_to_dsp()
 > 
-> For AMD Vangogh platform devices signed firmware image is required, so
-> split .ri image into code and data images.
+> On 14/12/2023 12:48, Péter Ujfalusi wrote:
+>> @@ -265,7 +276,9 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+>>  			 "Using fallback IPC type %d (requested type was %d)\n",
+>>  			 profile->ipc_type, ipc_type);
+>>  
+>> -	dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+>> +	/* The firmware path only valid when generic loader is used */
+>> +	if (sof_platform_uses_generic_loader(sdev))
+>> +		dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+>>  
 > 
-> Only Code.bin will be signed and loaded into corresponding IRAM location.
+> This is the correct section in here, sorry:
+> 
+> -	dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
+> +	/* The firmware path only valid when generic loader is used */
+> +	if (sof_platform_uses_generic_loader(sdev))
+> +		dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
+> +
+>  	if (profile->fw_lib_path)
 
-This is not different than what the Intel .ri files are made of. The
-module which is to be loaded to IRAM is signed code the module which
-goes to DRAM is not signed.
-The loader itself is not looking into the sections of the .ri image, it
-just parses the header and copies them where they belong.
+No problem, thanks for the update!
 
-if the issue is name collision then you could try to put the signed
-firmware file under 'signed' folder (fw_path_postfix) of the platform
-like Intel does with the community signed ones?
-
-It would be great if somehow we can handle all of these in core, have
-shared code and familiar prints among vendors, platforms..
-
-Fwiw, I'm planning the path, filename creation to be moved to core for
-the current platforms, but it implies that they do use single firmware file.
-struct sof_dev_desc would only have two strings:
-vendor - AMD / iMX / Intel / Mediatek
-platform - tgl, vaggogh, etc
-
-I need to adjust it based on what I have learned today about vangogh.
-
--- 
-Péter
