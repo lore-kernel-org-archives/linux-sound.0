@@ -1,113 +1,145 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aujyp5mV"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 390C2E3;
-	Wed, 13 Dec 2023 17:57:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702519044; x=1734055044;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WOZigPxVQFl9wag0R+0M2h5FThcmE4i9MS0ylTEsJHg=;
-  b=Aujyp5mVgMZYw50kueaGLX3PDLPK9aWW5FftpYy00koa2c6Uh0yOLSkw
-   YHY16XNRDaaineO/HwczTsjEhq+j6ev1mmBtrzy6+863MTsW8xCPF6la5
-   1tpFUGrV0BsQ9oFQsmkBQmcsrtm1boh08o5/KD/PvIgnDDPEJR2xAg2pi
-   Wic5BBjwyT1pbj45iTzRNw3tBELmiAMxwAX7hfkcF2fqT74MIOg1OugfO
-   p32QgGAkiPbIaKIH/SmcnI6hfO2F/fX2NdjaIh6CHDSNVsgAtGy6Po88r
-   D5YwJ8tNXZFF+57rX7tfP5hr20kPjZfxkXLNDmT95Yhu+PNvEFjMlsVo+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="8450348"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="8450348"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 17:57:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844534205"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="844534205"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2023 17:57:21 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDayV-000LPL-1y;
-	Thu, 14 Dec 2023 01:57:19 +0000
-Date: Thu, 14 Dec 2023 09:56:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
-Message-ID: <202312140917.YddZdAlJ-lkp@intel.com>
-References: <20231213095023.3928703-1-jani.nikula@intel.com>
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="DOAnGD09"
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2053.outbound.protection.outlook.com [40.107.20.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D997FD0;
+	Wed, 13 Dec 2023 18:57:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K4P1Cagj+RPHCUF0ZI/bm+de2g2pC2qoVU43aMxpOOAurS5x68JldDGKsgECUFX1ZGTOg1ypjrZuFBk44hKEchWUDfaURLES/lL/JWk6zgpTYdplGVGdD+u4CYHo+h25tjqeLoZFpjS4MMuYRYEibIUhWouzRFs4hOCf54AihEUknVQXriR9mpl2Wg71292jOFIPmQ/lpShtH1pVl3tW5WFT/138o7a5exMuzb6S6TXnh7FAm5L3Z5vu4zrlmgLizVBMO3bAf4DydZO0TzGIiIrsp1CHn5KvZKB4+UgS3QCN8UoYsCidIBWjxyjkBUInMw8YMHfrTNotinbm7YH4SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U92VO5zwbDT/SCI7maFN5uvSQuqt14i9qxiWd/vqibE=;
+ b=n5x8xSnC4fqhd7a1ixisFIF2VLY8ZTiQp31xcmh5x7f+7friklLSZYRJUJaowKa7ldiG9DM6EYAXICGRwvrmpX3pz2wnxbDq9Ri4kThOPBzqE2oOHM/0QCkkAZh0lJs3VothgpeCNEoMxrapZTaOl2S4T90wGFrqZACe7/U5zC1coQ1xN9XG/mOqTNeOcTz2hwi2tOUoX9pIl1tmhLCxShrvePso0D2uXPFK87Xl9ONOcrIVBKFzgaC2rLQ7sb62HMpvlgZBtypzzhslkJTC4wUQ3kXSI1S7o0eqk2j1vnapa+ToF5q1jgDy9mVEJBi8c3v+WlWhvBrpyR+N36kvQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U92VO5zwbDT/SCI7maFN5uvSQuqt14i9qxiWd/vqibE=;
+ b=DOAnGD09awU2/Z+hs+DSdUcQu99iVYneeeUP3dZUDZjtJFZWWO5pMqd7NF1KS8haiV2l8jX7fYtZX0e16ybtI0TPO1x1mbXd02v4V5EegKO3Uyey0Okr8mvNNw2V4dpPNgBqoXxB5tbmBcHgcZIV1cUw+H4U+H4f9eTl5SS4FKk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
+ by AM7PR04MB7190.eurprd04.prod.outlook.com (2603:10a6:20b:115::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Thu, 14 Dec
+ 2023 02:56:59 +0000
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c]) by DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c%3]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
+ 02:56:59 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Cc: Chancel Liu <chancel.liu@nxp.com>
+Subject: [RESEND] ASoC: soc-pcm.c: Complete the active count for components without DAIs
+Date: Thu, 14 Dec 2023 10:34:25 +0800
+Message-Id: <20231214023425.10572-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: PA7P264CA0275.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:373::11) To DB9PR04MB9498.eurprd04.prod.outlook.com
+ (2603:10a6:10:360::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213095023.3928703-1-jani.nikula@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|AM7PR04MB7190:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec7ee500-2a75-4c84-de77-08dbfc5056f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	pgtkC1CwFconKcE6Q1oR4ZymB4RoU3ApythgVnvjMbP+qcYf//cEFXU+GwxgJmKpXCSWojBF5cDTV7OXru+U5h/DDo/KsYR7gXmN1kw7yLt0iL4ScbXUUBFQ3taIJQEpCU1x2aDdzdjk/uagT1K2wL0pC8W0U3bjgIRhIK+PEE06p2SCitARXddHzFiQFPnqp5Lc70dY4HBXGVSZXYTEGkEAsf9tvPA81/c2TmWhtXvqVJpmaqVqSnMZ6nynok4qXf7mooMH6p5l+fNP+/vWA2qCgilS/Bmk1ZLRbGRUIpiYZlVaY+jXdPxFeU7QsVtnR9Q+4WDGxxk34yvq/yGxyBvbRwFVc8GTpbKYofB8VNj6gG0Jq4H9EArTEUQ0ZGeVF5gYX0+ih9fxpEANt0z+g29QiG0zXal02877Z13rEeQAsXt6Otf2P0qW/Y8LeE14mLbaVyWl9bJvkInDMgz+oOcDFWczm0Aecu7Z7faa0uuvz/j3vekIeczfLu9PfGkFBCPEVYywFe6bjFo3V1tUVeLs3S5pOwZEDp+96+rT/XHQ7T9su6JicfnNjOQOj4qXwPjlMjA1SWMqF3VRrbPzm6eoeMDth5nYPvhG6LETBX2qivSD0N9hD9sg/ddxHUC1
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(376002)(346002)(136003)(396003)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(8676002)(4326008)(8936002)(44832011)(2906002)(5660300002)(6486002)(6506007)(478600001)(6512007)(6666004)(52116002)(66476007)(66946007)(66556008)(316002)(41300700001)(38100700002)(86362001)(36756003)(38350700005)(83380400001)(2616005)(1076003)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xaXA4Iyej5Dx2gRFJiSATxRo1Mx+I70mjFrpg5IENW5lDH2LfSwKEwEdsXDV?=
+ =?us-ascii?Q?B/DEztLKJqm4fgdXnJkqOQ8syXe7Idvr8gj05FQeIQsDdhL+JwTHzihwzFlQ?=
+ =?us-ascii?Q?RMq/3HM13r/jeTqQBsOBWrGFriyb9YKikfoLLJZoIMRJnu0Fi+MMMabb7H+9?=
+ =?us-ascii?Q?TaxlVEfc6mboWU1NtBeTxDa/XPnNioMlmbT4rQpmcgU6pIxjq3zcX5JfFMOD?=
+ =?us-ascii?Q?9gwA4o4dl1yiCyxSPTzl2udgQwgY12yA95+xzYlChpKz0cnY8iyaXYU78Eyw?=
+ =?us-ascii?Q?dJBu4jSxaDnAFGY7R2AvoWHEVO8hkZs+1BQxHL4D+GVGHna6TREOYd/peS+q?=
+ =?us-ascii?Q?Z4oK28vgkV1ieLZ0iCSGVw8SZ+Qya0aPZyJ1QGxRZhtkcRwi28/rbyifkcu/?=
+ =?us-ascii?Q?Dp6CE975trnxMBW2bRZguAzl4TZqYbHJC6C44+rh+/U2d85aKF7VVw5U7Nzu?=
+ =?us-ascii?Q?AM+XedVD9cxi/wDK0WAX+PKXIZBm1pRRYBSXqqJW9xrIN9hG0Sm8YbkX92GN?=
+ =?us-ascii?Q?Wp7KEbH2DAzsl5r6QTGZYw1Q9dQG+ugnXXVVnaLW3hAs3+yg9pXENZoBH8pC?=
+ =?us-ascii?Q?10fZdY9veQcn3No0P/3vf9wTF/4aPfF65Z4hzmWwXpjhmKxpIfSKPaxkdcd4?=
+ =?us-ascii?Q?3uNJd6Y8PSWcJkKfjbkRYpDkJAKTRx+eBwDCBh21FoNQHWx+5bImY+VAz9M4?=
+ =?us-ascii?Q?kKqc3AtYZQAnY8oKIImCMXzh2r2yObSMGGgqro7Qw/WPrKepuxPxGbV2OMnU?=
+ =?us-ascii?Q?0XJQFqr+rEWm91CVgFcDYbLQra4SUAPbsNwpwsWaJCE+jGDuYu2AQQkoYZiE?=
+ =?us-ascii?Q?RnZNtgS1jbLNdFrrg6Sii0B6ERB/o0A3M43pZ1LEWzzW8xs8OPLq5QuxVClK?=
+ =?us-ascii?Q?a1Q+GXXZW99UEdjLJHTi6sUbmRLJt2dFdZ4jEXsY56ldicnvzmhZR8Z8mMdX?=
+ =?us-ascii?Q?SXRhNZly7UlVp4lW1OuUFDMqmogKdZVn3dnqFEjqOx6zRAr39swZbU8OGqMJ?=
+ =?us-ascii?Q?msqhmkyE9q0q1JfzHFB6kfVTkYFKhv8XAhDAeSlh9QCD6wivHigdB9lFELoq?=
+ =?us-ascii?Q?ksIJmdIsyYeXIH++5FkTkCxv+DYBm+jJ3ib3IC94bdghjSLsrHXDTh11Swci?=
+ =?us-ascii?Q?Be+7ENuWI9UskMZmsAixv6r5f3Ts1R+AH/EEKEhbs/pCPI1XUiafTzv/y7C9?=
+ =?us-ascii?Q?VpyTJtHJz2hl/2CULxdOWExVQVR3GE1C9OzSKM3DLKuw9sjvhIfOKi0X/jg5?=
+ =?us-ascii?Q?lJUzde9YZeXhFjtWBR03u8276Ze119H7eckkP/rBe1VboWgJx08EH0f8uEOG?=
+ =?us-ascii?Q?+LGrB2YC0O6AWg+JRweZxZZHpfaCqK3NwNHRZEC93Not2opFTmwkmixiRfhW?=
+ =?us-ascii?Q?OD5OMZhBHFgsOgoFsOhZH+rAeBqlen1KT+hMQsVvlcv2QWJvHWrHLT5Dl+hM?=
+ =?us-ascii?Q?rhpc4ygL7hcC94ceKOOBufrSIAPhy5S13+tJV+TkWVO3PBeGjUjTcIWf6nzQ?=
+ =?us-ascii?Q?qzXLd9HCHbuS33+TXn0Y720g3RKQ6rYmUBHaQApLhRqPsi7G9jTvtNTfSHXb?=
+ =?us-ascii?Q?4MY9H7lA8ZWXnvBF0vxmT6tsnHRcT5L803Pg8TqP?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec7ee500-2a75-4c84-de77-08dbfc5056f7
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 02:56:59.3196
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ed8NnnBtmy+uIORwiEVOSjUjv6VjmiF+Ci9o7S0+bNJGXDzQvB7/ESpX4RXGuBjGN4MWFdAtZUejI6J9kr+ofA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7190
 
-Hi Jani,
+Some components like platforms don't have DAIs. If the active count of
+these components is ignored pinctrl may be wrongly selected between
+default and sleep state. So need to increment or decrement the active
+count for components without DAIs to avoid it.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+---
+Add alsa-devel@alsa-project.org in RESEND. No other changes.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus drm-tip/drm-tip linus/master v6.7-rc5 next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ sound/soc/soc-pcm.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231213-175633
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231213095023.3928703-1-jani.nikula%40intel.com
-patch subject: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
-config: i386-randconfig-006-20231214 (https://download.01.org/0day-ci/archive/20231214/202312140917.YddZdAlJ-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140917.YddZdAlJ-lkp@intel.com/reproduce)
+diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+index efde4203bbf7..7dd4d41f680a 100644
+--- a/sound/soc/soc-pcm.c
++++ b/sound/soc/soc-pcm.c
+@@ -292,6 +292,7 @@ static void dpcm_set_be_update_state(struct snd_soc_pcm_runtime *be,
+ void snd_soc_runtime_action(struct snd_soc_pcm_runtime *rtd,
+ 			    int stream, int action)
+ {
++	struct snd_soc_component *component;
+ 	struct snd_soc_dai *dai;
+ 	int i;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312140917.YddZdAlJ-lkp@intel.com/
+@@ -299,6 +300,13 @@ void snd_soc_runtime_action(struct snd_soc_pcm_runtime *rtd,
 
-All warnings (new ones prefixed by >>):
+ 	for_each_rtd_dais(rtd, i, dai)
+ 		snd_soc_dai_action(dai, stream, action);
++
++	/* Increments/Decrements the active count for components without DAIs */
++	for_each_rtd_components(rtd, i, component) {
++		if (component->num_dai)
++			continue;
++		component->active += action;
++	}
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
 
-   drivers/gpu/drm/bridge/lontium-lt9611.c: In function 'lt9611_hdmi_set_infoframes':
-   drivers/gpu/drm/bridge/lontium-lt9611.c:346:8: error: implicit declaration of function 'drm_hdmi_avi_infoframe_from_display_mode'; did you mean 'hdmi_avi_infoframe_pack_only'? [-Werror=implicit-function-declaration]
-     ret = drm_hdmi_avi_infoframe_from_display_mode(&infoframe.avi,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           hdmi_avi_infoframe_pack_only
-   drivers/gpu/drm/bridge/lontium-lt9611.c:359:8: error: implicit declaration of function 'drm_hdmi_vendor_infoframe_from_display_mode'; did you mean 'hdmi_vendor_infoframe_pack_only'? [-Werror=implicit-function-declaration]
-     ret = drm_hdmi_vendor_infoframe_from_display_mode(&infoframe.vendor.hdmi,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           hdmi_vendor_infoframe_pack_only
-   drivers/gpu/drm/bridge/lontium-lt9611.c: In function 'lt9611_bridge_get_edid':
-   drivers/gpu/drm/bridge/lontium-lt9611.c:855:9: error: implicit declaration of function 'drm_do_get_edid'; did you mean 'drm_bridge_get_edid'? [-Werror=implicit-function-declaration]
-     return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
-            ^~~~~~~~~~~~~~~
-            drm_bridge_get_edid
->> drivers/gpu/drm/bridge/lontium-lt9611.c:855:9: warning: return makes pointer from integer without a cast [-Wint-conversion]
-     return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+--
+2.42.0
 
-
-vim +855 drivers/gpu/drm/bridge/lontium-lt9611.c
-
-23278bf54afe18 Vinod Koul 2020-07-23  848  
-23278bf54afe18 Vinod Koul 2020-07-23  849  static struct edid *lt9611_bridge_get_edid(struct drm_bridge *bridge,
-23278bf54afe18 Vinod Koul 2020-07-23  850  					   struct drm_connector *connector)
-23278bf54afe18 Vinod Koul 2020-07-23  851  {
-23278bf54afe18 Vinod Koul 2020-07-23  852  	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-23278bf54afe18 Vinod Koul 2020-07-23  853  
-23278bf54afe18 Vinod Koul 2020-07-23  854  	lt9611_power_on(lt9611);
-23278bf54afe18 Vinod Koul 2020-07-23 @855  	return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
-23278bf54afe18 Vinod Koul 2020-07-23  856  }
-23278bf54afe18 Vinod Koul 2020-07-23  857  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
