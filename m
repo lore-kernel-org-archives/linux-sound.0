@@ -1,27 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ai3KFrXx"
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCA610C2;
-	Thu, 14 Dec 2023 03:40:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702554027;
-	bh=pWKh0WpJyhWUe3oAtVyrdzfiymCLNQYAenxJSqJSsdM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ai3KFrXxjAf4/a6af7UpuOR7LVz1+eX4jdJ9Q0gaAnKukwifrFkm9luF4nHj10UQn
-	 KR7EElqUGBsjhonPD6rrnFiW22HPSQgDFM3OXct5zdOk+LAKylZrwu2OuKQn3oKJue
-	 IDNtuV2Xv/74Q/InqsDlfXdI0SRPAamR9Bcx/YPXsgX/hV/gdwmlHB5AUhn8iPxMDF
-	 iFw+dXaUb0TcyE+uoNtnLnemwKCDIm25boLB1Vlryi2a6qxksTMIHwsn/hDsXICrPs
-	 RCJUjUFIeja6wjAYSNidzXEx5fbU0c0xEOHbDg556fBsk75Hwq/Ken/gMiSSrBZIDG
-	 qMCbcYU4oEi9Q==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 306B2378147F;
-	Thu, 14 Dec 2023 11:40:26 +0000 (UTC)
-Message-ID: <d112d7dd-de80-4c5b-9600-039758c56352@collabora.com>
-Date: Thu, 14 Dec 2023 13:40:25 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2aKKEJ+"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A012B2;
+	Thu, 14 Dec 2023 03:51:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702554675; x=1734090675;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=pEHuGf1fkNpt7pS74DDDiu6iHjp4ZmOQbjgqIG66MR4=;
+  b=E2aKKEJ+3eEY8Y7MrH9vXcv/Y14o5jE/jsovUXQFdaYqo/CnbVqwxL9H
+   mDzCdzMWMcTt9ZU9yEkWyVzar130IizvQOCqm9yIbq42ibQ+zFFINfBtG
+   c6n9NwhscGw+d0g2yd2enzWMb2tYZKeJIgUmYD7Zf7Bj9zTVfvJAhqc+M
+   PWittbYP2mIKINWfiFwhlHLDmkw1mzsTbeU8mb6GzYhU2dcdgZhuZICHf
+   Egau53+nF6PLq+x7PhXmJiyqyKoX1LJCl7FiIaqZAbTZpuetWNn1PiRDQ
+   yYFsD3KM3Ba011/mT5VCVg07Ugc5vZ98EFQ0bOa1+8UNbDXJE2ElskyAy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="375263506"
+X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
+   d="scan'208";a="375263506"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:51:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="777874367"
+X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
+   d="scan'208";a="777874367"
+Received: from eborisov-mobl2.ger.corp.intel.com (HELO [10.249.34.72]) ([10.249.34.72])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:51:10 -0800
+Message-ID: <22ac83a7-287c-46ba-b981-cb810b911e5e@linux.intel.com>
+Date: Thu, 14 Dec 2023 13:51:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -32,7 +39,8 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
  fw_name
 Content-Language: en-US
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
@@ -54,44 +62,32 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
  <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
  <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
- <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
- <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
+In-Reply-To: <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 12/14/23 13:35, Péter Ujfalusi wrote:
-> 
-> 
-> On 14/12/2023 13:29, Cristian Ciocaltea wrote:
->>> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
->>> index 138a1ca2c4a8..7b91c9551ada 100644
->>> --- a/sound/soc/sof/fw-file-profile.c
->>> +++ b/sound/soc/sof/fw-file-profile.c
->>> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
->>>  	return ret;
->>>  }
->>>  
->>> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
->>> +{
->>> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
->>> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
->>> +		return true;
->>> +
->>> +	return false;
->>> +}
->>
->> I would drop the conditional and simply return.
-> 
-> What do you mean? We need to check if the platform is using either type
-> of the generic load_firmware helper (the _memcpy is calling the _raw to
-> load the file).
 
-I mean to simply replace the if statement with:
 
-static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
-{
-    return (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
-	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy);
-}
+On 14/12/2023 12:48, Péter Ujfalusi wrote:
+> @@ -265,7 +276,9 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+>  			 "Using fallback IPC type %d (requested type was %d)\n",
+>  			 profile->ipc_type, ipc_type);
+>  
+> -	dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+> +	/* The firmware path only valid when generic loader is used */
+> +	if (sof_platform_uses_generic_loader(sdev))
+> +		dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+>  
+
+This is the correct section in here, sorry:
+
+-	dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
++	/* The firmware path only valid when generic loader is used */
++	if (sof_platform_uses_generic_loader(sdev))
++		dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
++
+ 	if (profile->fw_lib_path)
+
+
+-- 
+Péter
