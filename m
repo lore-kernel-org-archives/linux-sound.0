@@ -1,138 +1,177 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4ZLzvjb"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B4B1A1;
-	Thu, 14 Dec 2023 01:29:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ar7erZYh"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6555A10F;
+	Thu, 14 Dec 2023 02:47:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702546147; x=1734082147;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ym6r9xLfSQXQR38T2QPlxeuiIFQ1e3Eir7XYGVFm++0=;
-  b=L4ZLzvjbQ7BKPjZYZKJA+GSmZD9KnNLnw+WSduqQQNHaTZyJOUZswsoZ
-   tvGMC/U9NmI8KhOkF11r1y89g/qbuEKwHqhk0Cx99j2VlBxQuIvZq3RKe
-   ukKA/7er21qB2L6SmeoY7N/vVF9qe0/PLvXDqj4ksHGst/lp2DltCb6b3
-   S2N4+kQ+oAoNzN1ZC59Wk56h3Qaj+jZFo89Q5UpYXw/PlH1h6+ti2EIAu
-   k60AuUdqAEmg4yrsGR4XdFW6hJGPYWeBe773softg10SGarGDaoxCstVV
-   m0dEQ/JG1hXVhKW5SU6bBcrWmrIlnXEkCgTfkt7zSJ9XRtXKeNau98UKz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2174510"
+  t=1702550865; x=1734086865;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=aec2TwbH6Tp8RgodgqRz7F5TydcQWe862+obcvNGQMY=;
+  b=Ar7erZYhq2KwNC7G68Jwdm528slfH6dclO80vgIvFayAH36TycsTjRHg
+   WyscVxde+A4N0RFZqsyaNXjDlSHYXd18aKsCZMkuaxCLT9DY4mukNKMMS
+   NuUIc0pqxt/CXf96tt7uvPaFi3AJz9X6C0DgEQ8zT/h/XT90q1McqfPDW
+   jp7eN+o5iVwnb4Am6EJGg93Z/3Bn7QcOso6eiNt4wtt6LlDImtnSP35zE
+   hbucJ+cEfDhud7mjn4zkU1gM9wEFfZmaH0HrN3MivqFRJaY06Oowjr2vu
+   /OgRweUBGOkZWlWk7qYB9jGkpKMpFpyIZQYZE8EyA11HAGiBZxtw0izNG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="398938996"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="2174510"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:29:06 -0800
+   d="scan'208";a="398938996"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 02:47:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="777831513"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1021470584"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="777831513"
-Received: from mdemezzi-mobl.ger.corp.intel.com (HELO localhost) ([10.252.32.166])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:29:00 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>,
-	linux-sound@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v3] ASoC: hdmi-codec: drop drm/drm_edid.h include
-Date: Thu, 14 Dec 2023 11:28:56 +0200
-Message-Id: <20231214092856.4019251-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231213095023.3928703-1-jani.nikula@intel.com>
-References: <20231213095023.3928703-1-jani.nikula@intel.com>
+   d="scan'208";a="1021470584"
+Received: from eborisov-mobl2.ger.corp.intel.com (HELO [10.249.34.72]) ([10.249.34.72])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 02:47:31 -0800
+Message-ID: <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
+Date: Thu, 14 Dec 2023 12:48:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
+ fw_name
+Content-Language: en-US
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Marian Postevca <posteuca@mutex.one>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+ Mastan Katragadda <Mastan.Katragadda@amd.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sound-open-firmware@alsa-project.org, kernel@collabora.com
+References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-hdmi-codec.h does not appear to directly need drm/drm_edid.h for
-anything. Remove it.
 
-There are some files that get drm/edid.h by proxy; include it where
-needed.
 
-v2-v3: Fix build (kernel test robot <lkp@intel.com>)
+On 09/12/2023 22:53, Cristian Ciocaltea wrote:
+> Some SOF drivers like AMD ACP do not always rely on a single static
+> firmware file, but may require multiple files having their names
+> dynamically computed on probe time, e.g. based on chip name.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+I see, AMD vangogh needs two binary files to be loaded sometimes, it is not using the default name as it hints via the sof_dev_desc ("sof-vangogh.ri").
 
----
+The constructed names for the two files are just using different pattern:
+sof-%PLAT%.ri
+vs
+sof-%PLAT%-code.bin
+sof-%PLAT%-data.bin
 
-I'm pretty sure I haven't compiled everything that might implicitly
-depend on the include. However, the right thing to do is to include
-drm_edid.h where needed, not from somewhat random intermediate
-headers. I hope this uncovers anything I missed.
----
- drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
- drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
- drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
- include/sound/hdmi-codec.h                 | 1 -
- 5 files changed, 4 insertions(+), 1 deletion(-)
+iow, instead of the combined .ri file which includes the code and data segment it has 'raw' bin files and cannot use the core for loading the firmware.
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 9663601ce098..b9205d14d943 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -18,6 +18,7 @@
+What is the reason for this? an .ri file can have two 'modules' one to be written to IRAM the other to DRAM.
+sof_ipc3_load_fw_to_dsp()
+
+> In those cases, providing an invalid default_fw_filename in their
+> sof_dev_desc struct will prevent probing due to 'SOF firmware
+> and/or topology file not found' error.
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index e971b75e90ad..f3f130c1ef0a 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -21,6 +21,7 @@
+> Fix the issue by allowing drivers to omit initialization for this member
+> (or alternatively provide a dynamic override via ipc_file_profile_base)
+> and update sof_test_firmware_file() to verify the given profile data and
+> skip firmware testing if either fw_path or fw_name is not defined.
+> 
+> Fixes: 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version fallback if firmware files are missing")
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+>  sound/soc/sof/fw-file-profile.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+> index 138a1ca2c4a8..e63700234df0 100644
+> --- a/sound/soc/sof/fw-file-profile.c
+> +++ b/sound/soc/sof/fw-file-profile.c
+> @@ -21,6 +21,9 @@ static int sof_test_firmware_file(struct device *dev,
+>  	const u32 *magic;
+>  	int ret;
+>  
+> +	if (!profile->fw_path || !profile->fw_name || !*profile->fw_name)
+> +		return 0;
+
+I would rather make the firmware file skipping based on custom loader use and print a dev_dbg() alongside:
+
+diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+index 138a1ca2c4a8..7b91c9551ada 100644
+--- a/sound/soc/sof/fw-file-profile.c
++++ b/sound/soc/sof/fw-file-profile.c
+@@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
+ 	return ret;
+ }
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 1b88fb52726f..766c8d01e6b3 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -11,6 +11,7 @@
- #include <linux/of_irq.h>
- #include <linux/delay.h>
- #include <drm/display/drm_dp_aux_bus.h>
-+#include <drm/drm_edid.h>
++static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
++{
++	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
++	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
++		return true;
++
++	return false;
++}
++
+ static int
+ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
+ 			      enum sof_ipc_type ipc_type,
+@@ -130,7 +139,8 @@ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
+ 	 * For default path and firmware name do a verification before
+ 	 * continuing further.
+ 	 */
+-	if (base_profile->fw_path || base_profile->fw_name) {
++	if ((base_profile->fw_path || base_profile->fw_name) &&
++	    sof_platform_uses_generic_loader(sdev)) {
+ 		ret = sof_test_firmware_file(dev, out_profile, &ipc_type);
+ 		if (ret)
+ 			return ret;
+@@ -181,7 +191,8 @@ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
+ 	out_profile->ipc_type = ipc_type;
  
- #include "msm_drv.h"
- #include "msm_kms.h"
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index f05e2c95a60d..34f807ed1c31 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -35,6 +35,7 @@
- #include <drm/display/drm_scdc_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <linux/clk.h>
-diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-index 9b162ac1e08e..5e1a9eafd10f 100644
---- a/include/sound/hdmi-codec.h
-+++ b/include/sound/hdmi-codec.h
-@@ -12,7 +12,6 @@
+ 	/* Test only default firmware file */
+-	if (!base_profile->fw_path && !base_profile->fw_name)
++	if ((!base_profile->fw_path && !base_profile->fw_name) &&
++	    sof_platform_uses_generic_loader(sdev))
+ 		ret = sof_test_firmware_file(dev, out_profile, NULL);
  
- #include <linux/of_graph.h>
- #include <linux/hdmi.h>
--#include <drm/drm_edid.h>
- #include <sound/asoundef.h>
- #include <sound/soc.h>
- #include <uapi/sound/asound.h>
+ 	if (!ret)
+@@ -265,7 +276,9 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+ 			 "Using fallback IPC type %d (requested type was %d)\n",
+ 			 profile->ipc_type, ipc_type);
+ 
+-	dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
++	/* The firmware path only valid when generic loader is used */
++	if (sof_platform_uses_generic_loader(sdev))
++		dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+ 
+ 	dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
+ 	if (profile->fw_lib_path)
+
+> +
+>  	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
+>  				profile->fw_name);
+>  	if (!fw_filename)
+
+checking for custom loader allows you to drop the next patch.
+I would also skip the fw path printing in case of a custom loader.
+
 -- 
-2.39.2
-
+Péter
