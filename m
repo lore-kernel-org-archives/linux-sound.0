@@ -1,91 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9480560BA2
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 17:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YI3IJG6L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339BAC433C7;
-	Thu, 14 Dec 2023 17:04:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702573497;
-	bh=C97ruMhJD+gwin8Xnu1LxzszeY6cxubadNcfiKJUIwg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YI3IJG6Lrj/HrM1w+0YF6QRLpTy5ywxmGCt1xrbg3M6yQAZkbul9dR7KVAh61p3Vy
-	 6O/cITES1ZMQMJmH/7O1zvs3FaUz1bhz1fIgD4u3zjObCyYA7ilwzbFmUtvNuE0HHG
-	 AGZeBj1VZD3AWNK4ZSxz0UwGUoLUdqfqW/Gfp0OHS4xyaGXSJIxZasuQBpziKeN9M2
-	 gquPYYYZgeqkbl2jfiuXPFKMdVgueXfGox1LOBEXfVx7bj/Q/r+9uVaRkL3UXoD2wT
-	 PM/uwb4ivacX+FDYVjDe1awrKPWQhzqt0GdzScTAPZvSyxlLAS3tWzOQ4wEIfdrIYc
-	 JCKbhjGAeITLA==
-Date: Thu, 14 Dec 2023 17:04:52 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jianhua Lu <lujianhua000@gmail.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] ASoC: qcom: common: Add qcom_snd_tdm_hw_params
- function
-Message-ID: <cd926fd5-e607-491f-8bf8-40f404d56ea3@sirena.org.uk>
-References: <20231213123556.20469-1-lujianhua000@gmail.com>
- <7b13b8b6-9048-48a3-b1a1-e62de88e8171@sirena.org.uk>
- <ZXsklsO7nOqBFgzt@Gentoo>
- <bee0ab28-6bd3-4904-8afc-44fe7ddacb79@sirena.org.uk>
- <ZXszbA5fVq2AMjEb@Gentoo>
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5ACA7;
+	Thu, 14 Dec 2023 09:39:48 -0800 (PST)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id BD29721454;
+	Thu, 14 Dec 2023 18:39:45 +0100 (CET)
+Date: Thu, 14 Dec 2023 18:39:44 +0100
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+	linux-bluetooth@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	greybus-dev@lists.linaro.org, linux-iio@vger.kernel.org,
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
+ size_t
+Message-ID: <ZXs94Mf1eOMCmGpT@francesco-nb.int.toradex.com>
+References: <20231214170146.641783-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JCIFsr6HNtGfUJfo"
-Content-Disposition: inline
-In-Reply-To: <ZXszbA5fVq2AMjEb@Gentoo>
-X-Cookie: Preserve the old, but know the new.
-
-
---JCIFsr6HNtGfUJfo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231214170146.641783-1-francesco@dolcini.it>
 
-On Fri, Dec 15, 2023 at 12:55:08AM +0800, Jianhua Lu wrote:
-> On Thu, Dec 14, 2023 at 03:56:52PM +0000, Mark Brown wrote:
-> > On Thu, Dec 14, 2023 at 11:51:50PM +0800, Jianhua Lu wrote:
+On Thu, Dec 14, 2023 at 06:01:46PM +0100, Francesco Dolcini wrote:
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> 
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">= 0" from serdev_controller_receive_buf(), change its return type from
+> ssize_t to size_t.
+> 
+> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@kernel.org/
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> ---
+> hello,
+> patch is based on current linux next.
+> 
+> It has an obvious problem, it touches files from multiple subsystem in a single
+> patch that is complicated to review and eventually merge, just splitting this
+> would however not work, it will break bisectability and the build.
+> 
+> I am looking for advise on the best way to move forward.
+> 
+> I see the following options:
+>  - keep it as it is
+>  - break it down with a patch with each subsystem, and squash before applying
+>    from a single (tty?) subsystem
+>  - go for a multi stage approach, defining a new callback, move to it and in
+>    the end remove the original one, likewise it was done for i2c lately
 
-> > > Currently, qcom TDM setup need to read hw_params, if we want to move it
-> > > to machine driver, we must hardcode some params, but it will reduce reduce
-> > > readability.
+whoops. I just noticed Greg applied commit 475fc6e2de6f ("tty: serdev:
+convert to u8 and size_t") that touch the exact same files without much
+of an issue.
 
-> > What makes you say that TDM setup needs to read hw_params?
+Probably the "keep it as it is" is just the way to go.
 
-> qcom_snd_tdm_hw_params function read PCM_FORMAT to set slot_width value, read
-> channels to set rx_mask value.
-
-A large part of the purpose of doing TDM configuration is to fix the
-slot width and assign which slots are in use by this interface - the TDM
-configuration is a constraint on what hardware paramters can be set and
-should always be followed regardless of what is being done with the
-audio stream.  If you're just trying to configure the sample size for
-DSP modes then that shouldn't go through the TDM configuration API,
-that's just normal hw_params() so should be done directly.  Possibly the
-hardware doesn't support manual TDM configuration?
-
---JCIFsr6HNtGfUJfo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV7NbMACgkQJNaLcl1U
-h9CaTAf/QuuvzKht/LhszwAptQsmHYSw9+3gn9Ddg+d9YAEb6/OWNMxB2kDd2hJ+
-pfflmY+FKXTgJS6MskMch8Dxuc0QV/eInQwS6waQO4QjCZ/rqAHTutMLj/Hf7GDq
-51FCW7bGjJOnnTn353AW3e6LoiwP6CMKhnw0ZVue2advz+frgtPZQF1NfWoVroIf
-AJn1YspPewXTyysr99iHRJVNAGWevm5yg/fhUDtJA39qa0VM1l4AnYnW6ONoAT+Q
-lNlFkDH22WUAzLS2lh+vqU+hd6ji18ldAzZ4KaiXFqBFQ2ag7Af7sckObeANsBLZ
-fq5EK41S13Jqa3AZ5k1Q0CemAw0jZg==
-=xdNX
------END PGP SIGNATURE-----
-
---JCIFsr6HNtGfUJfo--
+> 
+> ---
+>  drivers/bluetooth/btmtkuart.c              |  4 ++--
+>  drivers/bluetooth/btnxpuart.c              |  4 ++--
+>  drivers/bluetooth/hci_serdev.c             |  4 ++--
+>  drivers/gnss/core.c                        |  6 +++---
+>  drivers/gnss/serial.c                      |  4 ++--
+>  drivers/gnss/sirf.c                        |  6 +++---
+>  drivers/greybus/gb-beagleplay.c            |  6 +++---
+>  drivers/iio/chemical/pms7003.c             |  4 ++--
+>  drivers/iio/chemical/scd30_serial.c        |  4 ++--
+>  drivers/iio/chemical/sps30_serial.c        |  4 ++--
+>  drivers/iio/imu/bno055/bno055_ser_core.c   |  4 ++--
+>  drivers/mfd/rave-sp.c                      |  4 ++--
+>  drivers/net/ethernet/qualcomm/qca_uart.c   |  2 +-
+>  drivers/nfc/pn533/uart.c                   |  4 ++--
+>  drivers/nfc/s3fwrn5/uart.c                 |  4 ++--
+>  drivers/platform/chrome/cros_ec_uart.c     |  4 ++--
+>  drivers/platform/surface/aggregator/core.c |  4 ++--
+>  drivers/tty/serdev/serdev-ttyport.c        | 10 ++++------
+>  include/linux/gnss.h                       |  4 ++--
+>  include/linux/serdev.h                     |  8 ++++----
+>  sound/drivers/serial-generic.c             |  4 ++--
+>  21 files changed, 48 insertions(+), 50 deletions(-)
