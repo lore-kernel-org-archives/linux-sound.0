@@ -1,34 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMeqVj3i"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA4E121;
-	Thu, 14 Dec 2023 03:51:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z301Fv0v"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27BF113;
+	Thu, 14 Dec 2023 03:57:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702554715; x=1734090715;
+  t=1702555029; x=1734091029;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=7DIzJoA783ehSXZq5QT19MaDC2Kt/5kl2+bQRbjAKow=;
-  b=UMeqVj3i7WiX7Mb5hnEaX5Stb2IwpT017ZFb5FQQ0IokmIfr9Pur1Bwz
-   McE2tjIMO/U84WsJIGTEQG5pjezrM1YDgWcAHzr+i7+9cswG2S+ybycYo
-   C2FSFdbQhoj27kWj6uqUn3YIBkjzG+HVlHoSzjXQwiWw11tAV62J+8h6j
-   vjWIC0ec/hH0fdnHOGJY5Gkr94QEj+SE05LVhFsHe4t8Qka3Cimz5wwf0
-   BUmZuz16RQKfbmjwH2FqvKfiNAStu+1s+iKgiF/BF8zUPa65YzvIY8cCS
-   pNo8uz0hW2WH8fhprkzhKFsTv/zdGvT3+ZpgQQ2P667mPX//XU6Cj9yBP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="375263569"
+  bh=EwxAgDZ2DcIp4KgA/vqROZ9HGMY7XaC0XxVc24lvUAQ=;
+  b=Z301Fv0vlF1HRppWHOE6G9Gn6WfyHOmXqIoGk/z1s8a0UZd8SKC4NOGr
+   9lz9368DxqiKJifwwHsySR5hJUg1JYvThvo8huA7DLxezmUOEfRoyYKoG
+   byEti6HevEFzvzT2qFbG/MR17vyHwES+/x9k7FAfnG0OtBrp0pkruw8L9
+   oXRv+HX7X4PIByovA9krpmYaoJiRHJvU8gEDuEZwM5w+uTWnsymrEye1S
+   tuWoNSN2s9QesyY1kzSKVSWVU3wMNrQT18yXRYBixBxF0ntqrZ71cpIX2
+   ioGQO2GITVyHscEpPbWbTK93/uk1E3eb3bjjNFbTXNjykOlBgtU12o9/4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="392283392"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="375263569"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:51:55 -0800
+   d="scan'208";a="392283392"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:57:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="777874832"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="777874832"
+   d="scan'208";a="15826348"
 Received: from eborisov-mobl2.ger.corp.intel.com (HELO [10.249.34.72]) ([10.249.34.72])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:51:49 -0800
-Message-ID: <df852f40-bc4a-4071-87f8-c8cb885d68ed@linux.intel.com>
-Date: Thu, 14 Dec 2023 13:52:33 +0200
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:57:03 -0800
+Message-ID: <2c09e01b-777b-48ac-adf9-63d61e1a36fc@linux.intel.com>
+Date: Thu, 14 Dec 2023 13:57:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,7 +38,8 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
  fw_name
 Content-Language: en-US
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
@@ -47,7 +47,6 @@ To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
  Daniel Baluta <daniel.baluta@nxp.com>,
  Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
  Alper Nebi Yasak <alpernebiyasak@gmail.com>,
  Syed Saba Kareem <Syed.SabaKareem@amd.com>,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -55,59 +54,74 @@ To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
  V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
  Mastan Katragadda <Mastan.Katragadda@amd.com>,
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
+ "Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  sound-open-firmware@alsa-project.org, kernel@collabora.com
 References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
  <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
  <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
- <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
- <40d92933-c9f0-472f-b5dc-f95b087cdb3e@linux.intel.com>
- <d112d7dd-de80-4c5b-9600-039758c56352@collabora.com>
+ <d4cc684c-e4ad-4c73-8ce2-1091b2a733ab@amd.com>
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <d112d7dd-de80-4c5b-9600-039758c56352@collabora.com>
+In-Reply-To: <d4cc684c-e4ad-4c73-8ce2-1091b2a733ab@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 14/12/2023 13:40, Cristian Ciocaltea wrote:
-> On 12/14/23 13:35, Péter Ujfalusi wrote:
->>
->>
->> On 14/12/2023 13:29, Cristian Ciocaltea wrote:
->>>> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
->>>> index 138a1ca2c4a8..7b91c9551ada 100644
->>>> --- a/sound/soc/sof/fw-file-profile.c
->>>> +++ b/sound/soc/sof/fw-file-profile.c
->>>> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
->>>>  	return ret;
->>>>  }
->>>>  
->>>> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
->>>> +{
->>>> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
->>>> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
->>>> +		return true;
->>>> +
->>>> +	return false;
->>>> +}
->>>
->>> I would drop the conditional and simply return.
->>
->> What do you mean? We need to check if the platform is using either type
->> of the generic load_firmware helper (the _memcpy is calling the _raw to
->> load the file).
+On 14/12/2023 12:58, Venkata Prasad Potturu wrote:
 > 
-> I mean to simply replace the if statement with:
+> On 12/14/23 16:18, Péter Ujfalusi wrote:
+> Thanks for your time Peter!
+>>
+>> On 09/12/2023 22:53, Cristian Ciocaltea wrote:
+>>> Some SOF drivers like AMD ACP do not always rely on a single static
+>>> firmware file, but may require multiple files having their names
+>>> dynamically computed on probe time, e.g. based on chip name.
+>> I see, AMD vangogh needs two binary files to be loaded sometimes, it
+>> is not using the default name as it hints via the sof_dev_desc
+>> ("sof-vangogh.ri").
+>>
+>> The constructed names for the two files are just using different pattern:
+>> sof-%PLAT%.ri
+>> vs
+>> sof-%PLAT%-code.bin
+>> sof-%PLAT%-data.bin
+>>
+>> iow, instead of the combined .ri file which includes the code and data
+>> segment it has 'raw' bin files and cannot use the core for loading the
+>> firmware.
+>>
+>> What is the reason for this? an .ri file can have two 'modules' one to
+>> be written to IRAM the other to DRAM.
+>> sof_ipc3_load_fw_to_dsp()
 > 
-> static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
-> {
->     return (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
-> 	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy);
-> }
+> For AMD Vangogh platform devices signed firmware image is required, so
+> split .ri image into code and data images.
+> 
+> Only Code.bin will be signed and loaded into corresponding IRAM location.
 
-ah, OK.
+This is not different than what the Intel .ri files are made of. The
+module which is to be loaded to IRAM is signed code the module which
+goes to DRAM is not signed.
+The loader itself is not looking into the sections of the .ri image, it
+just parses the header and copies them where they belong.
+
+if the issue is name collision then you could try to put the signed
+firmware file under 'signed' folder (fw_path_postfix) of the platform
+like Intel does with the community signed ones?
+
+It would be great if somehow we can handle all of these in core, have
+shared code and familiar prints among vendors, platforms..
+
+Fwiw, I'm planning the path, filename creation to be moved to core for
+the current platforms, but it implies that they do use single firmware file.
+struct sof_dev_desc would only have two strings:
+vendor - AMD / iMX / Intel / Mediatek
+platform - tgl, vaggogh, etc
+
+I need to adjust it based on what I have learned today about vangogh.
 
 -- 
 Péter
