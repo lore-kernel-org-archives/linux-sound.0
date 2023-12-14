@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540FC3E495
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 11:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD97F249E0
+	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 11:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCNuWUbz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A62FC433C7;
-	Thu, 14 Dec 2023 11:11:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCto4tIK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D6ACC433C8;
+	Thu, 14 Dec 2023 11:12:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702552272;
-	bh=tSqtRyvgEQ0GCuf1DdZJacTJr0JiylSUmZyHxqPK9OI=;
+	s=k20201202; t=1702552323;
+	bh=TZ1vRXqDptocYRDVGwkp62YEwPxCdg9ggzn/jKJtTkM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cCNuWUbzFvztyPbxIPZYloc3r2gvIGR44ZX/PAhyUzpsmaGnjfVBeXjODksVQkrRv
-	 rJ/Fzh7Eq8MOLQm4BiJCnhEFzio5AMHGKVo0RC5Z/J1c5sTyEw9N/zHJpo//kjmBas
-	 769lb6R6o5NjA0e7soNvl7yKKYl+CuiCTRe6RcQcCZ0Jjdjyys5t0TcCjU5Y+gSN03
-	 0vjqS9t9E3gECuBpRZ1ivXEE180z0qnDCTsZIYVtH4dBGX7WiLwJ4yCN+OZ7Wx4Tan
-	 QhydMSyC3NzfjdQMBgQVS6YcMD0QQf/2HQu/yGgkwhTTMR8ijYGFU+3tj2v8nsHzt/
-	 edNavnPrdwnWQ==
-Date: Thu, 14 Dec 2023 11:11:06 +0000
+	b=jCto4tIKs4RHUeT5DSunbTCDcENsTdfoLFS4ipfkZ6kOsekcz2jCh3YVVbaIaiJ9Y
+	 /ARs6Ymr1+vbllJvvtj7ZHfRhhCY9rw33GUV0xZshRhPkz+bpOU8JMjqne68o33oug
+	 EcsD4YcX2EYyAqV0pMZKEbkWgwGyIrNfG2Yp7SX6p7SPD1cIHtxhnYA0pWPVrtxdv7
+	 H29UX8mp+FwOlnh8A2Qx+Jv+EtSdCphfFPbjmSrB/wwo2C0RAHjBWObPK8niZg7fNe
+	 t6036iKGMjpmcI3NYQ212rs6FdvPUwmufO0yMzbhNK8fTAZP6UaCDJXRcju80iEi8O
+	 Dw5eDnNMowzgg==
+Date: Thu, 14 Dec 2023 11:11:58 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Jianhua Lu <lujianhua000@gmail.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
 	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] ASoC: qcom: common: Add qcom_snd_tdm_hw_params
- function
-Message-ID: <7b13b8b6-9048-48a3-b1a1-e62de88e8171@sirena.org.uk>
-References: <20231213123556.20469-1-lujianhua000@gmail.com>
+	pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	brent.lu@intel.com
+Subject: Re: [PATCH 2/2] ASoC: SOF: ipc4-topology: support NHLT device type
+Message-ID: <337560f8-94e3-447e-825a-6a3d916fcf16@sirena.org.uk>
+References: <20231127120657.19764-1-peter.ujfalusi@linux.intel.com>
+ <20231127120657.19764-3-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,48 +36,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pWlLgRFGMMJxpNhu"
+	protocol="application/pgp-signature"; boundary="8UjZ1pKW2iNdRUe1"
 Content-Disposition: inline
-In-Reply-To: <20231213123556.20469-1-lujianhua000@gmail.com>
+In-Reply-To: <20231127120657.19764-3-peter.ujfalusi@linux.intel.com>
 X-Cookie: Preserve the old, but know the new.
 
 
---pWlLgRFGMMJxpNhu
+--8UjZ1pKW2iNdRUe1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 13, 2023 at 08:35:53PM +0800, Jianhua Lu wrote:
+On Mon, Nov 27, 2023 at 02:06:57PM +0200, Peter Ujfalusi wrote:
+> From: Brent Lu <brent.lu@intel.com>
+>=20
+> The endpoint in NHLT table for a SSP port could have the device type
+> NHLT_DEVICE_BT or NHLT_DEVICE_I2S. Use intel_nhlt_ssp_device_type()
+> function to retrieve the device type before querying the endpoint
+> blob to make sure we are always using correct device type parameter.
 
-> Add qcom TDM setup function to support TDM ports for qcom platform.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-> +int qcom_snd_tdm_hw_params(struct snd_pcm_substream *substream,
-> +			   struct snd_pcm_hw_params *params)
-> +{
-
-...
-
-> +		ret = snd_soc_dai_set_tdm_slot(cpu_dai, tx_mask, rx_mask, slots, slot_width);
-> +		if (ret < 0) {
-
-The expectation is that TDM is set up by the machine driver, not from
-hw_params - if the TDM setup can be changed from within hw_params then
-it's hard to see how it's going to interact well with other TDM users on
-the bus.  More usually hw_params() would be influenced by the setup done
-in set_tdm_slot().
-
---pWlLgRFGMMJxpNhu
+--8UjZ1pKW2iNdRUe1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV64skACgkQJNaLcl1U
-h9C9BAf9E/yW6RaCxOVG4VbZ+wP9jHD/RCqjvzrJAain8Y2xlAPZE7PaTuVOBmRh
-276IS1kDHcPSzRkXkhKFm1KGpr9nOYR1wGrk9Fku5RQQbOwSjvlpOUSwgd5GpUMf
-8PT/7ejXSbJKG0vQZc5hsnbwrPGZdn8X381WXdnexczXxna0Vx/fv1wbkPx4OlA5
-Xv2LFN3bTEQDmczWtbGo+64Qe/OnJOudRmn/XWjTjjTY7ztP2M4rDpYN/Bd+fyq5
-VCWAFEaXIFlgGti7V3UvDBV86hs3GOWHnDHuapeAxahhWEp1U/JU8/okkRsFy+kK
-grHgwa1sQD7a7t9jN8Qc4OpT++24iA==
-=krXQ
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV64v0ACgkQJNaLcl1U
+h9DO1Qf+N+1u2arL1wwjXJMSutWkreFnWV4qGzay46WqEXsYk9m+NvqBfKIp9Qpa
+ZktGdZoz9hzMRLbATzqBYME6YosPniWO/p04r2eeYSI0x8wO67LGVT13dnciW1eR
+9Dk8F7Jk2rKfj1Or5y0yOej7CMgWXH+6T6zUmlOdzAHJTu9sENaTZlSlSDbscyIw
+Ft/3ClozxWeKWo27yTLTHA2+ofuQCTc9pxbj4GCT/UvYpVxIDnH+tvY4roCQ1hak
+cDk/VG+FWIrlfFdMiREh1aDEm2F99m/PZQ6ZvsKgJEfoX2Bc7P5snSWEP+0SOXdx
+gnfwbTOPPCLxOmpVThFNIgHzcC9Vgg==
+=07ia
 -----END PGP SIGNATURE-----
 
---pWlLgRFGMMJxpNhu--
+--8UjZ1pKW2iNdRUe1--
