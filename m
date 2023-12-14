@@ -1,75 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD97F249E0
-	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 11:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCto4tIK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D6ACC433C8;
-	Thu, 14 Dec 2023 11:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702552323;
-	bh=TZ1vRXqDptocYRDVGwkp62YEwPxCdg9ggzn/jKJtTkM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jCto4tIKs4RHUeT5DSunbTCDcENsTdfoLFS4ipfkZ6kOsekcz2jCh3YVVbaIaiJ9Y
-	 /ARs6Ymr1+vbllJvvtj7ZHfRhhCY9rw33GUV0xZshRhPkz+bpOU8JMjqne68o33oug
-	 EcsD4YcX2EYyAqV0pMZKEbkWgwGyIrNfG2Yp7SX6p7SPD1cIHtxhnYA0pWPVrtxdv7
-	 H29UX8mp+FwOlnh8A2Qx+Jv+EtSdCphfFPbjmSrB/wwo2C0RAHjBWObPK8niZg7fNe
-	 t6036iKGMjpmcI3NYQ212rs6FdvPUwmufO0yMzbhNK8fTAZP6UaCDJXRcju80iEi8O
-	 Dw5eDnNMowzgg==
-Date: Thu, 14 Dec 2023 11:11:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	brent.lu@intel.com
-Subject: Re: [PATCH 2/2] ASoC: SOF: ipc4-topology: support NHLT device type
-Message-ID: <337560f8-94e3-447e-825a-6a3d916fcf16@sirena.org.uk>
-References: <20231127120657.19764-1-peter.ujfalusi@linux.intel.com>
- <20231127120657.19764-3-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="2LEhfxrG"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD4BA7;
+	Thu, 14 Dec 2023 03:29:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702553343;
+	bh=cYL+gjX+VUk4xyj7bJoSMdpDu5zY9964bkLcM23bY34=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=2LEhfxrG4Iko1KGhqBL6n2HA2cttTSaU4+x1bhsfmqULEOUnCOJWYRtKTAFoxsWkA
+	 Ie5h3835bICgy6C+Z4W2c1x1A5g9VR9JzINLHJIvJsgH0pRPbeZmysceAfL7rlxeAp
+	 MCMU/titUb5utOblawP7rB3kUARkN1qHPkFiE68Ms2goE8heIf0KcBSv3cHaA+Z5gr
+	 dtEZ4/sI1pk+1HRR7/YWM/FTiAR0H1TSeIWQNb2wMeO6mpHccVMws5NLpQPdQxPEab
+	 9t0YdO2LDZD1Q5O2NQVC0Rl2VtYiJALOveQ+uyneUydqpbUcRHUef3wJCvlbe3CQKo
+	 h9/3snQHf+yTw==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B004C378147F;
+	Thu, 14 Dec 2023 11:29:01 +0000 (UTC)
+Message-ID: <81af6357-8338-4768-a180-305516ac89e3@collabora.com>
+Date: Thu, 14 Dec 2023 13:29:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8UjZ1pKW2iNdRUe1"
-Content-Disposition: inline
-In-Reply-To: <20231127120657.19764-3-peter.ujfalusi@linux.intel.com>
-X-Cookie: Preserve the old, but know the new.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/11] ASoC: SOF: core: Skip firmware test for undefined
+ fw_name
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Marian Postevca <posteuca@mutex.one>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+ Mastan Katragadda <Mastan.Katragadda@amd.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sound-open-firmware@alsa-project.org, kernel@collabora.com
+References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-8-cristian.ciocaltea@collabora.com>
+ <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <6e52c5a2-24d5-422a-9a40-a0053729c98e@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 12/14/23 12:48, Péter Ujfalusi wrote:
+> 
+> 
+> On 09/12/2023 22:53, Cristian Ciocaltea wrote:
+>> Some SOF drivers like AMD ACP do not always rely on a single static
+>> firmware file, but may require multiple files having their names
+>> dynamically computed on probe time, e.g. based on chip name.
+> 
+> I see, AMD vangogh needs two binary files to be loaded sometimes, it is not using the default name as it hints via the sof_dev_desc ("sof-vangogh.ri").
+> 
+> The constructed names for the two files are just using different pattern:
+> sof-%PLAT%.ri
+> vs
+> sof-%PLAT%-code.bin
+> sof-%PLAT%-data.bin
+> 
+> iow, instead of the combined .ri file which includes the code and data segment it has 'raw' bin files and cannot use the core for loading the firmware.
+> 
+> What is the reason for this? an .ri file can have two 'modules' one to be written to IRAM the other to DRAM.
+> sof_ipc3_load_fw_to_dsp()
+> 
+>> In those cases, providing an invalid default_fw_filename in their
+>> sof_dev_desc struct will prevent probing due to 'SOF firmware
+>> and/or topology file not found' error.
+>  
+>> Fix the issue by allowing drivers to omit initialization for this member
+>> (or alternatively provide a dynamic override via ipc_file_profile_base)
+>> and update sof_test_firmware_file() to verify the given profile data and
+>> skip firmware testing if either fw_path or fw_name is not defined.
+>>
+>> Fixes: 6c393ebbd74a ("ASoC: SOF: core: Implement IPC version fallback if firmware files are missing")
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  sound/soc/sof/fw-file-profile.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+>> index 138a1ca2c4a8..e63700234df0 100644
+>> --- a/sound/soc/sof/fw-file-profile.c
+>> +++ b/sound/soc/sof/fw-file-profile.c
+>> @@ -21,6 +21,9 @@ static int sof_test_firmware_file(struct device *dev,
+>>  	const u32 *magic;
+>>  	int ret;
+>>  
+>> +	if (!profile->fw_path || !profile->fw_name || !*profile->fw_name)
+>> +		return 0;
+> 
+> I would rather make the firmware file skipping based on custom loader use and print a dev_dbg() alongside:
 
---8UjZ1pKW2iNdRUe1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Agree, that's a better approach. Thanks for the hint!
 
-On Mon, Nov 27, 2023 at 02:06:57PM +0200, Peter Ujfalusi wrote:
-> From: Brent Lu <brent.lu@intel.com>
->=20
-> The endpoint in NHLT table for a SSP port could have the device type
-> NHLT_DEVICE_BT or NHLT_DEVICE_I2S. Use intel_nhlt_ssp_device_type()
-> function to retrieve the device type before querying the endpoint
-> blob to make sure we are always using correct device type parameter.
+> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+> index 138a1ca2c4a8..7b91c9551ada 100644
+> --- a/sound/soc/sof/fw-file-profile.c
+> +++ b/sound/soc/sof/fw-file-profile.c
+> @@ -89,6 +89,15 @@ static int sof_test_topology_file(struct device *dev,
+>  	return ret;
+>  }
+>  
+> +static bool sof_platform_uses_generic_loader(struct snd_sof_dev *sdev)
+> +{
+> +	if (sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_raw ||
+> +	    sdev->pdata->desc->ops->load_firmware == snd_sof_load_firmware_memcpy)
+> +		return true;
+> +
+> +	return false;
+> +}
 
-Acked-by: Mark Brown <broonie@kernel.org>
+I would drop the conditional and simply return.
 
---8UjZ1pKW2iNdRUe1
-Content-Type: application/pgp-signature; name="signature.asc"
+>  static int
+>  sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
+>  			      enum sof_ipc_type ipc_type,
+> @@ -130,7 +139,8 @@ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
+>  	 * For default path and firmware name do a verification before
+>  	 * continuing further.
+>  	 */
+> -	if (base_profile->fw_path || base_profile->fw_name) {
+> +	if ((base_profile->fw_path || base_profile->fw_name) &&
+> +	    sof_platform_uses_generic_loader(sdev)) {
+>  		ret = sof_test_firmware_file(dev, out_profile, &ipc_type);
+>  		if (ret)
+>  			return ret;
+> @@ -181,7 +191,8 @@ sof_file_profile_for_ipc_type(struct snd_sof_dev *sdev,
+>  	out_profile->ipc_type = ipc_type;
+>  
+>  	/* Test only default firmware file */
+> -	if (!base_profile->fw_path && !base_profile->fw_name)
+> +	if ((!base_profile->fw_path && !base_profile->fw_name) &&
+> +	    sof_platform_uses_generic_loader(sdev))
+>  		ret = sof_test_firmware_file(dev, out_profile, NULL);
+>  
+>  	if (!ret)
+> @@ -265,7 +276,9 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+>  			 "Using fallback IPC type %d (requested type was %d)\n",
+>  			 profile->ipc_type, ipc_type);
+>  
+> -	dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+> +	/* The firmware path only valid when generic loader is used */
+> +	if (sof_platform_uses_generic_loader(sdev))
+> +		dev_info(dev, "Firmware paths/files for ipc type %d:\n", profile->ipc_type);
+>  
+>  	dev_info(dev, " Firmware file:     %s/%s\n", profile->fw_path, profile->fw_name);
+>  	if (profile->fw_lib_path)
+> 
+>> +
+>>  	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
+>>  				profile->fw_name);
+>>  	if (!fw_filename)
+> 
+> checking for custom loader allows you to drop the next patch.
 
------BEGIN PGP SIGNATURE-----
+Yes, I will take only the context information and use it to update the
+current patch description.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV64v0ACgkQJNaLcl1U
-h9DO1Qf+N+1u2arL1wwjXJMSutWkreFnWV4qGzay46WqEXsYk9m+NvqBfKIp9Qpa
-ZktGdZoz9hzMRLbATzqBYME6YosPniWO/p04r2eeYSI0x8wO67LGVT13dnciW1eR
-9Dk8F7Jk2rKfj1Or5y0yOej7CMgWXH+6T6zUmlOdzAHJTu9sENaTZlSlSDbscyIw
-Ft/3ClozxWeKWo27yTLTHA2+ofuQCTc9pxbj4GCT/UvYpVxIDnH+tvY4roCQ1hak
-cDk/VG+FWIrlfFdMiREh1aDEm2F99m/PZQ6ZvsKgJEfoX2Bc7P5snSWEP+0SOXdx
-gnfwbTOPPCLxOmpVThFNIgHzcC9Vgg==
-=07ia
------END PGP SIGNATURE-----
+> I would also skip the fw path printing in case of a custom loader.
 
---8UjZ1pKW2iNdRUe1--
+Sure, makes sense.
+
+Thanks for the review,
+Cristian
