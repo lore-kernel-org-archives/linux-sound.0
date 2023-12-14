@@ -1,118 +1,94 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVxO+6Mw"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B7B0B9;
-	Wed, 13 Dec 2023 22:14:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCgfeTzH"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0041AB
+	for <linux-sound@vger.kernel.org>; Wed, 13 Dec 2023 23:29:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702534498; x=1734070498;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5t1LOiuEJntWFHQdvSiRvrUMe36npW7QzBe/Pw7UNS4=;
-  b=XVxO+6MwXr2S+67QLvegjiDEkpqVSjG9MK7OZwmELrPMdXmz+7dftr9u
-   TULhU7hcvHw1o4yK2DJQ6xjq4OZSb2QuhqKqiz8Rmg9x++lgN9BJINgEa
-   YZx7LqMygtX8kz1sUoRkGkmh93uf42cufdsFW4a8K7YDfbM1aoQBscVFL
-   YWGCc/4uMsDPMsHquZAL9pVOyq/k3tkEOy24PGaGhNp8gV2ZFiaotoow8
-   uNut121D5Cgl+hS6gZ84fOWXrqyA3at6UY03pkpKWpOmOR7HyUlKuW1v3
-   QYpKBqzeX4HnarwhgQ+DLZOAUa1WjPq23vOgQPA2fAD3bfHJc66raJYIF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="16622481"
+  t=1702538955; x=1734074955;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lcvCre1DF2hN3a83RWVYUxX6OuZmu7YtpP6AV3LB6WU=;
+  b=GCgfeTzHozBHd8pPOB3huk0WxNNfmBwvukNznU/vs6zsEvKjjvSbltld
+   qhaFq7YpMc67X68QAmjtudIULZMOohDGlEP6jCn+AmlUgazfjC7tK2wK6
+   hyQ6Mixjj9+km+CbpVMhTsiowJdacFmKl/oWu1R1708Uz4c2cs+A2YomL
+   8poq6oo+1XTY4OalhuVtKa5Lepu0CLaGrXdU+APOSk9GFSWe5318PRTB6
+   2X8hmJc+xRUt6r0dy4oKRn929rK6hpz51AtO15WC2QLj+fKgHfeMc7Mf6
+   /U5h37d3m3QpSH55fVpNfWgSg7uLx6PbFCINiZZdgjXEKzS8A5K5Tkwex
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2235819"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="16622481"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 22:14:58 -0800
+   d="scan'208";a="2235819"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 23:29:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="723950203"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="892342273"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="723950203"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Dec 2023 22:14:55 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDezk-000Lfb-1F;
-	Thu, 14 Dec 2023 06:14:52 +0000
-Date: Thu, 14 Dec 2023 14:14:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
-Message-ID: <202312141302.SBNAHryl-lkp@intel.com>
-References: <20231213095023.3928703-1-jani.nikula@intel.com>
+   d="scan'208";a="892342273"
+Received: from eborisov-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.34.72])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 23:29:12 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	kamil.duljas@gmail.com
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel..com
+Subject: [PATCH] Revert "ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage"
+Date: Thu, 14 Dec 2023 09:29:54 +0200
+Message-ID: <20231214072954.3963-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213095023.3928703-1-jani.nikula@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jani,
+This reverts commit 8c91ca76f44804868d12aed20ebdbc2f89aa7d60.
 
-kernel test robot noticed the following build warnings:
+The offending patch introduces memory leak when there is no error, the
+memory allocated for the temporary storage is not freed up.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus drm-tip/drm-tip linus/master v6.7-rc5 next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As I have commented, the original code was correct and cleaner to
+follow but it was not obvious from the patch that it will introduce
+regression.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231213-175633
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231213095023.3928703-1-jani.nikula%40intel.com
-patch subject: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
-config: i386-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141302.SBNAHryl-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141302.SBNAHryl-lkp@intel.com/reproduce)
+Link: https://lore.kernel.org/all/aec61f67-6b4f-49e6-b458-c332983a0ad6@linux.intel.com/
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/soc/sof/ipc3-dtrace.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141302.SBNAHryl-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: In function 'lt9611uxc_connector_get_modes':
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c:301:10: error: implicit declaration of function 'drm_add_edid_modes'; did you mean 'drm_bridge_get_modes'? [-Werror=implicit-function-declaration]
-     count = drm_add_edid_modes(connector, edid);
-             ^~~~~~~~~~~~~~~~~~
-             drm_bridge_get_modes
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: In function 'lt9611uxc_bridge_get_edid':
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c:512:9: error: implicit declaration of function 'drm_do_get_edid'; did you mean 'drm_bridge_get_edid'? [-Werror=implicit-function-declaration]
-     return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-            ^~~~~~~~~~~~~~~
-            drm_bridge_get_edid
->> drivers/gpu/drm/bridge/lontium-lt9611uxc.c:512:9: warning: return makes pointer from integer without a cast [-Wint-conversion]
-     return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +512 drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  496  
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  497  static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  498  					      struct drm_connector *connector)
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  499  {
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  500  	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  501  	int ret;
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  502  
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  503  	ret = lt9611uxc_wait_for_edid(lt9611uxc);
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  504  	if (ret < 0) {
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  505  		dev_err(lt9611uxc->dev, "wait for EDID failed: %d\n", ret);
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  506  		return NULL;
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  507  	} else if (ret == 0) {
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  508  		dev_err(lt9611uxc->dev, "wait for EDID timeout\n");
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  509  		return NULL;
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  510  	}
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  511  
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02 @512  	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  513  }
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  514  
-
+diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
+index 93b189c2d2ee..0dca139322f3 100644
+--- a/sound/soc/sof/ipc3-dtrace.c
++++ b/sound/soc/sof/ipc3-dtrace.c
+@@ -137,7 +137,6 @@ static int trace_filter_parse(struct snd_sof_dev *sdev, char *string,
+ 			dev_err(sdev->dev,
+ 				"Parsing filter entry '%s' failed with %d\n",
+ 				entry, entry_len);
+-			kfree(*out);
+ 			return -EINVAL;
+ 		}
+ 	}
+@@ -209,13 +208,13 @@ static ssize_t dfsentry_trace_filter_write(struct file *file, const char __user
+ 		ret = ipc3_trace_update_filter(sdev, num_elems, elems);
+ 		if (ret < 0) {
+ 			dev_err(sdev->dev, "Filter update failed: %d\n", ret);
+-			kfree(elems);
+ 			goto error;
+ 		}
+ 	}
+ 	ret = count;
+ error:
+ 	kfree(string);
++	kfree(elems);
+ 	return ret;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
