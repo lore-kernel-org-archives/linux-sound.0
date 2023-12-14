@@ -1,94 +1,162 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCgfeTzH"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0041AB
-	for <linux-sound@vger.kernel.org>; Wed, 13 Dec 2023 23:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702538955; x=1734074955;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lcvCre1DF2hN3a83RWVYUxX6OuZmu7YtpP6AV3LB6WU=;
-  b=GCgfeTzHozBHd8pPOB3huk0WxNNfmBwvukNznU/vs6zsEvKjjvSbltld
-   qhaFq7YpMc67X68QAmjtudIULZMOohDGlEP6jCn+AmlUgazfjC7tK2wK6
-   hyQ6Mixjj9+km+CbpVMhTsiowJdacFmKl/oWu1R1708Uz4c2cs+A2YomL
-   8poq6oo+1XTY4OalhuVtKa5Lepu0CLaGrXdU+APOSk9GFSWe5318PRTB6
-   2X8hmJc+xRUt6r0dy4oKRn929rK6hpz51AtO15WC2QLj+fKgHfeMc7Mf6
-   /U5h37d3m3QpSH55fVpNfWgSg7uLx6PbFCINiZZdgjXEKzS8A5K5Tkwex
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2235819"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="2235819"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 23:29:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="892342273"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="892342273"
-Received: from eborisov-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.34.72])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 23:29:12 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	kamil.duljas@gmail.com
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="adTiBlcs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4LbUf3uo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="adTiBlcs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4LbUf3uo"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F07D0109
+	for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 00:49:31 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4DCAE21F4B;
+	Thu, 14 Dec 2023 08:49:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702543770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
+	b=adTiBlcsi8BsbK34WVECh+BltTltgXZlGoBOi1qzEElU6jLAFqGL3A/eDznHxkuxivl+qq
+	voLgWZFvsOHWoe5u8iavzg5PfsHOaufnHFaBrR/CJFYq84iV99af0kpuviELKhldUZnf8Q
+	kZgZsY6NCvJM0xg2PEYx5USw7hmhIoc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702543770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
+	b=4LbUf3uoIv3nqwpUwBEUmGQWcNglnPjw1orMiKe2ZEHTUl2jSX7aIJpm6+aCcK99E8QL4i
+	ye2iwkdJ67GLgoBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702543770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
+	b=adTiBlcsi8BsbK34WVECh+BltTltgXZlGoBOi1qzEElU6jLAFqGL3A/eDznHxkuxivl+qq
+	voLgWZFvsOHWoe5u8iavzg5PfsHOaufnHFaBrR/CJFYq84iV99af0kpuviELKhldUZnf8Q
+	kZgZsY6NCvJM0xg2PEYx5USw7hmhIoc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702543770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hPGF7C63QnLMDdqrES6sWHt5bBSQu60mKg48x6FHnmQ=;
+	b=4LbUf3uoIv3nqwpUwBEUmGQWcNglnPjw1orMiKe2ZEHTUl2jSX7aIJpm6+aCcK99E8QL4i
+	ye2iwkdJ67GLgoBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 173C9137E8;
+	Thu, 14 Dec 2023 08:49:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UPzcA5rBemVLPgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 14 Dec 2023 08:49:30 +0000
+Date: Thu, 14 Dec 2023 09:49:29 +0100
+Message-ID: <87sf45qicm.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
 Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel..com
-Subject: [PATCH] Revert "ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage"
-Date: Thu, 14 Dec 2023 09:29:54 +0200
-Message-ID: <20231214072954.3963-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	tiwai@suse.com,
+	perex@perex.cz
+Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
+In-Reply-To: <446e6c6d-f639-4576-804a-e64e3fa4c463@gmail.com>
+References: <446e6c6d-f639-4576-804a-e64e3fa4c463@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: 11.71
+X-Spam-Level: ***********
+X-Spamd-Result: default: False [-5.50 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	 R_SPF_SOFTFAIL(0.00)[~all:c];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 MX_GOOD(-0.01)[];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 DMARC_POLICY_ALLOW(0.00)[suse.de,none];
+	 NEURAL_HAM_SHORT(-0.19)[-0.972];
+	 DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[23.70%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 WHITELIST_DMARC(-7.00)[suse.de:D:+];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 4DCAE21F4B
+X-Spam-Score: -5.50
+X-Spam-Flag: NO
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=adTiBlcs;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4LbUf3uo;
+	dmarc=pass (policy=none) header.from=suse.de;
+	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of tiwai@suse.de) smtp.mailfrom=tiwai@suse.de
 
-This reverts commit 8c91ca76f44804868d12aed20ebdbc2f89aa7d60.
+On Wed, 13 Dec 2023 20:36:09 +0100,
+Clément Villeret wrote:
+> 
+> 
+> Asus ROG Flowx13 (GV302XA) seems require same patch as others asus products
+> 
+> Signed-off-by: Clément Villeret <clement.villeret@gmail.com>
 
-The offending patch introduces memory leak when there is no error, the
-memory allocated for the temporary storage is not freed up.
+Now better, but...
 
-As I have commented, the original code was correct and cleaner to
-follow but it was not obvious from the patch that it will introduce
-regression.
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> 
+> index 0377912e9264..eb9f617b6273 100644
+> 
+> --- a/sound/pci/hda/patch_realtek.c
+> 
+> +++ b/sound/pci/hda/patch_realtek.c
+> 
+> @@ -9953,6 +9953,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+> 
+>                       SND_PCI_QUIRK(0x1043, 0x1483, "ASUS GU603V", ALC285_FIXUP_ASUS_HEADSET_MIC),
+> 
+>                       SND_PCI_QUIRK(0x1043, 0x1493, "ASUS GV601V", ALC285_FIXUP_ASUS_HEADSET_MIC),
+(snip)
 
-Link: https://lore.kernel.org/all/aec61f67-6b4f-49e6-b458-c332983a0ad6@linux.intel.com/
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/ipc3-dtrace.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+The lines above are weirdly formatted with extra line feeds.
+Try the following before resubmission:
+- Send the patch to yourself, save the mail content
+- Apply the mail content via "git am" command
+- If this works, it's a correct patch; then submit to the public ML
 
-diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
-index 93b189c2d2ee..0dca139322f3 100644
---- a/sound/soc/sof/ipc3-dtrace.c
-+++ b/sound/soc/sof/ipc3-dtrace.c
-@@ -137,7 +137,6 @@ static int trace_filter_parse(struct snd_sof_dev *sdev, char *string,
- 			dev_err(sdev->dev,
- 				"Parsing filter entry '%s' failed with %d\n",
- 				entry, entry_len);
--			kfree(*out);
- 			return -EINVAL;
- 		}
- 	}
-@@ -209,13 +208,13 @@ static ssize_t dfsentry_trace_filter_write(struct file *file, const char __user
- 		ret = ipc3_trace_update_filter(sdev, num_elems, elems);
- 		if (ret < 0) {
- 			dev_err(sdev->dev, "Filter update failed: %d\n", ret);
--			kfree(elems);
- 			goto error;
- 		}
- 	}
- 	ret = count;
- error:
- 	kfree(string);
-+	kfree(elems);
- 	return ret;
- }
- 
--- 
-2.43.0
+Also, note that you'd need to put a blank line before Signed-off-by
+line.
 
+
+thanks,
+
+Takashi
