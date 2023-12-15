@@ -1,77 +1,74 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D126FA1
-	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 07:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377E0D27E;
+	Fri, 15 Dec 2023 07:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M6qYg0b6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I8/BfeFw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z1J2dhSI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X1P+Vhqd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fz+Pks9I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ioHalKIn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fz+Pks9I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ioHalKIn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5CBF71F81D;
-	Fri, 15 Dec 2023 07:13:27 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6F464224E1;
+	Fri, 15 Dec 2023 07:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702624408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1702624537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
-	b=M6qYg0b6lxKNOTIPOEnCbcaV7pM1mfZPuC0t4qLaCjPji1+Bd5aPpX3SYnjXzaL+pWHIRM
-	Jhez3K2kJfVZJJfTjxtlKs0IS9phTmSgLwn6z3ex3rTWuyPG+nzYxF7M53EfmIHPO44SPZ
-	TG2zezE2iw2iNiaZPe+lgf2I1n9wlfQ=
+	bh=R+cLLJz7WJavLlYuui8aFEf5IXUkSs1/Hp1FTBnSIBs=;
+	b=Fz+Pks9IaGRlld9bD5ONLT8YV84Wya+KDDPmZ1K/hVarENi1slXTnILoJAwXuVy8AtpTw2
+	/QAo0TCo/LARj89CUcRXJS5vHmPL37zbcR2Pa16feUX8U3YZtHxrd45ooljBik8xKsLQEq
+	KvmpG8vvN2DicRKA093RDwRoDI8udXg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702624408;
+	s=susede2_ed25519; t=1702624537;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
-	b=I8/BfeFwnpdYqnmPW1bJJE/63Vb3BBVGcdUdCyif7HyFxhMeiM8rV1yowEBwm+2T6hweYo
-	2D713tp2wVzWwcBQ==
+	bh=R+cLLJz7WJavLlYuui8aFEf5IXUkSs1/Hp1FTBnSIBs=;
+	b=ioHalKInDZqlKaembbbuP0UBldkGPXEBuy6GwpFleVqGZyXA3jv8C/qcNyzqBDvnSFYC3v
+	dkZHjaH/MVN5t6Ag==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702624407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1702624537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
-	b=Z1J2dhSI+O6qLh1gT9+t3PKN6kQLGAf0SwL1no6SYf6mdmggaprrM0k4WVvKp7KB1si5zT
-	gB8+YKfwfXR9SRkgGWkDmRJi/v9O+HfU1b0fj6WW/jnwMtk60jJO5ShJLGlpPufFpytB1i
-	wYSv6Kuw5WNP1PvWW5+c0h/JVED+/0g=
+	bh=R+cLLJz7WJavLlYuui8aFEf5IXUkSs1/Hp1FTBnSIBs=;
+	b=Fz+Pks9IaGRlld9bD5ONLT8YV84Wya+KDDPmZ1K/hVarENi1slXTnILoJAwXuVy8AtpTw2
+	/QAo0TCo/LARj89CUcRXJS5vHmPL37zbcR2Pa16feUX8U3YZtHxrd45ooljBik8xKsLQEq
+	KvmpG8vvN2DicRKA093RDwRoDI8udXg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702624407;
+	s=susede2_ed25519; t=1702624537;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
-	b=X1P+VhqdleuRaGU+iT4J5yOGt3vBB78jOoTE2zZJcqa5bhQx3nQQm0GvJZ6bLx8hQanNde
-	ZY198T4Z+nldzyDw==
+	bh=R+cLLJz7WJavLlYuui8aFEf5IXUkSs1/Hp1FTBnSIBs=;
+	b=ioHalKInDZqlKaembbbuP0UBldkGPXEBuy6GwpFleVqGZyXA3jv8C/qcNyzqBDvnSFYC3v
+	dkZHjaH/MVN5t6Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3336A13726;
-	Fri, 15 Dec 2023 07:13:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3FAB613726;
+	Fri, 15 Dec 2023 07:15:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AG3NCpf8e2VHKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 Dec 2023 07:13:27 +0000
-Date: Fri, 15 Dec 2023 08:13:26 +0100
-Message-ID: <87bkasos4p.wl-tiwai@suse.de>
+	id hIHqDRn9e2UEKgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 Dec 2023 07:15:37 +0000
+Date: Fri, 15 Dec 2023 08:15:36 +0100
+Message-ID: <878r5wos13.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
-Cc: linux-sound@vger.kernel.org,
+To: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	perex@perex.cz
-Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
-In-Reply-To: <0a27bf4b-3056-49ac-9651-ebd7f3e36328@gmail.com>
-References: <0a27bf4b-3056-49ac-9651-ebd7f3e36328@gmail.com>
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound: pci: au88x0: fixed spelling mistakes in au88x0_core.c
+In-Reply-To: <20231215031144.521359-1-ghanshyam1898@gmail.com>
+References: <20231215031144.521359-1-ghanshyam1898@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,52 +76,44 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: *******
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z1J2dhSI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X1P+Vhqd
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.14 / 50.00];
+X-Spam-Score: -1.50
+X-Spam-Flag: NO
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.25
+X-Spamd-Result: default: False [-1.25 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 BAYES_HAM(-2.04)[95.27%];
 	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
 	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-0.59)[-0.591];
-	 TO_DN_SOME(0.00)[];
+	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 NEURAL_SPAM_LONG(0.45)[0.130];
 	 MID_CONTAINS_FROM(1.00)[];
-	 MX_GOOD(-0.01)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FREEMAIL_TO(0.00)[gmail.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -4.14
-X-Rspamd-Queue-Id: 5CBF71F81D
+	 BAYES_HAM(-2.41)[97.28%]
 X-Spam-Flag: NO
 
-On Thu, 14 Dec 2023 21:36:32 +0100,
-Clément Villeret wrote:
+On Fri, 15 Dec 2023 04:11:44 +0100,
+Ghanshyam Agrawal wrote:
 > 
-> Asus ROG Flowx13 (GV302XA) seems require same patch as others asus products
+> Multiple spelling mistakes were reported by codespell.
+> They were fixed.
 > 
-> Signed-off-by: Clément Villeret<clement.villeret@gmail.com>
+> Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
 
-Applied now.  Thanks!
+Thanks, applied.
 
 
 Takashi
