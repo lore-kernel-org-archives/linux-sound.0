@@ -1,49 +1,31 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DD91A717
-	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 10:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9887724B22;
+	Fri, 15 Dec 2023 10:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j/JAPf3F"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c25973988so5397695e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 02:33:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702636384; x=1703241184; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ES/8p7dj8eOpjaZIO5AxTsTeaONrf5FeKxZa57MxFr4=;
-        b=j/JAPf3F4xmeQ5oJrVeBsq40OArbqkwIaWImt6ndiU+9HXUxza+0oHybyLBBWb7iLD
-         3LWY+XWh98tkEVHnVepuzJh73KRcUQIThfuG1jguVISHmjigKzIN9AYrWGAwDL68dbpQ
-         X8+q2BXkjPu45n1eRxH0aK1tWBPM91QDKCGn/prPQDK+C8tCgUe529aR9uoCsm3ahgTf
-         kR2LiCHE35/kcYdFHddwdCvxGSxtHhIElQJJSllyoUV7WVlj2xNH/7bajWKqVWiapJXo
-         NVAtu0njUgQoFos2EhqZeTuFf/19ZZs0ouUSWh864RYuy6+NFiawZfQ/sp2O/Hrou1Uw
-         XGqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702636384; x=1703241184;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ES/8p7dj8eOpjaZIO5AxTsTeaONrf5FeKxZa57MxFr4=;
-        b=pAv65QnDKmCoYCub2oz2qkZo2AopwMwcruYO0tN1cDf1nrDGYxzX4hJB3JZcV/9zG3
-         6F5DX90STPYutG696NGz1mCJzxSngeCvWqr5fDBTHzTYsvOYxCZaVNt2T1VVSBfhHFD0
-         Zaumh/iKB1n9wto89n/g0CDPHtlGgjXQX/hST+lTD+UbNenMaHN2uu7x3k+tLJmaIfsh
-         48e0cF5IF22uNMoOrZFsL5YOKtnY4ctkBk8PWt01sjT9qUU12SAbePmeqV0djMbX1DTM
-         4OL/V9zb3oD23Wcwy5uUWO+aRsbEMgChwEuCp9WE1dcUQeZwOcvVyob6Oy5uyysvlpah
-         hsWw==
-X-Gm-Message-State: AOJu0YzQBEDSLzf8OHzKpbasss1zmSOnPRf0Xa13NIW9ai06QYhv6SpZ
-	+krfa757qzQhSRJ4Ri1bOcdekw==
-X-Google-Smtp-Source: AGHT+IHvCqTZH8cLyqj3W3/o6f8ZEmQnes53EWvbWxmoY2pWUTbH0iPJoL/UA8Y2YFnwr+nIL2HHIA==
-X-Received: by 2002:a05:600c:221a:b0:40c:3306:c300 with SMTP id z26-20020a05600c221a00b0040c3306c300mr5703334wml.62.1702636383695;
-        Fri, 15 Dec 2023 02:33:03 -0800 (PST)
-Received: from [192.168.2.107] ([79.115.63.202])
-        by smtp.gmail.com with ESMTPSA id d13-20020a05600c34cd00b0040c496c64cfsm18468670wmq.12.2023.12.15.02.33.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 02:33:03 -0800 (PST)
-Message-ID: <e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org>
-Date: Fri, 15 Dec 2023 10:33:00 +0000
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DX8WnWju"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702637856;
+	bh=EI12yaPkWm0eHYHNIsLb+3ZJ50dk+sRbBa6SPm5COJE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DX8WnWjuyfGHxff/9Tu5FrQinxye03okq+4IAPtRo8geLH+OWPTx6vtkpZQ+bD8E4
+	 QyubWDb3P9Uut8klFbQRPr5PE7xQgMH65E/gbdI4XIQmQs2bfY1PSnunJJ503VL02s
+	 u/55o3yYonOLRe5x+Ney1S4uHcCaZpIRyHee+iPcn4Wg2V2A8b5oGk2QzfzRrMVIa+
+	 T2BKF2A8LgvKMLleyu6hkMY0yvarD1gK6OeKJEvMXBAuOzW8e/a1X0fhArLUiScrd1
+	 CHkgwibHIJWnFSAA5XVpt46Mkq5swAODhAyrhCz2+klzF9igG5nRo1qPa0mfAQ+HrY
+	 UQfbDZsf0sBLA==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4D9F83781FD5;
+	Fri, 15 Dec 2023 10:57:35 +0000 (UTC)
+Message-ID: <f3d98291-0bf6-45b2-bf4f-b0268d13af63@collabora.com>
+Date: Fri, 15 Dec 2023 12:57:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,106 +33,115 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
+Subject: Re: [PATCH 11/11] ASoC: SOF: topology: Add new DAI type entry for
+ SOF_DAI_AMD_BT
 Content-Language: en-US
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>,
- "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
- "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michael@walle.cc" <michael@walle.cc>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
- <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
- <BN7PR12MB2802BEDFB821A1748185794CDC8AA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <f5a47024-514a-4846-bc16-08cf0f9af912@linaro.org>
- <BN7PR12MB2802BB3DA682D9C13EF7DE08DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <5a6f6764-6779-42b0-b6c6-3f638b85ef78@linaro.org>
- <BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org>
- <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
- <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Marian Postevca <posteuca@mutex.one>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>,
+ Mastan Katragadda <Mastan.Katragadda@amd.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+ kernel@collabora.com
+References: <20231209205351.880797-1-cristian.ciocaltea@collabora.com>
+ <20231209205351.880797-12-cristian.ciocaltea@collabora.com>
+ <fad8a055-eabb-4087-94d5-9e1de00933e4@amd.com>
+ <aa830670-e544-43a2-9ba9-a64f1964a9f5@collabora.com>
+ <318470ce-1631-4c46-b425-755c877dda65@amd.com>
+ <421128f7-6a17-4be9-a72b-272ea4017fbd@collabora.com>
+ <ZXXEsyBUCrBULNgk@finisterre.sirena.org.uk>
+ <5095ce7b-13bd-4805-b81e-f7565ab41b67@collabora.com>
+ <dea5fb18-5fdc-4be4-9981-a6876cf531eb@amd.com>
+ <ca828ee1-93f7-432e-b95d-e67c35cdcdb5@collabora.com>
+ <0de8f81b-e7d4-43f6-b011-eb6ee09cc7fe@amd.com>
+ <913257d4-75dc-4887-97d6-0f206c401057@collabora.com>
+ <188ee32a-a201-4210-a8bc-bf3ba04e2f2b@amd.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <188ee32a-a201-4210-a8bc-bf3ba04e2f2b@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 12/15/23 10:02, Mahapatra, Amit Kumar wrote:
-> Hello Tudor,
-
-Hi,
-
+On 12/15/23 11:58, Venkata Prasad Potturu wrote:
 > 
->> -----Original Message-----
->> From: Tudor Ambarus <tudor.ambarus@linaro.org>
->> Sent: Friday, December 15, 2023 1:40 PM
->> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>;
->> broonie@kernel.org; pratyush@kernel.org; miquel.raynal@bootlin.com;
->> richard@nod.at; vigneshr@ti.com; sbinding@opensource.cirrus.com;
->> lee@kernel.org; james.schulman@cirrus.com; david.rhodes@cirrus.com;
->> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com
->> Cc: linux-spi@vger.kernel.org; linux-kernel@vger.kernel.org;
->> michael@walle.cc; linux-mtd@lists.infradead.org;
->> nicolas.ferre@microchip.com; alexandre.belloni@bootlin.com;
->> claudiu.beznea@tuxon.dev; Simek, Michal <michal.simek@amd.com>; linux-
->> arm-kernel@lists.infradead.org; alsa-devel@alsa-project.org;
->> patches@opensource.cirrus.com; linux-sound@vger.kernel.org; git (AMD-
->> Xilinx) <git@amd.com>; amitrkcian2002@gmail.com
->> Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support
->> in spi-nor
+> On 12/14/23 22:12, Cristian Ciocaltea wrote:
+>> On 12/14/23 15:15, Venkata Prasad Potturu wrote:
+>>> On 12/14/23 17:53, Cristian Ciocaltea wrote:
+>>>> On 12/11/23 07:58, Venkata Prasad Potturu wrote:
+>>>>> On 12/10/23 21:20, Cristian Ciocaltea wrote:
+>>>>>> On 12/10/23 16:01, Mark Brown wrote:
+>>>>>>> On Sun, Dec 10, 2023 at 12:12:53PM +0200, Cristian Ciocaltea wrote:
+>>>>>>>> On 12/10/23 11:51, Venkata Prasad Potturu wrote:
+>>>>>>>>> This should send to SOF git repo for rewiew, once SOF reviewers
+>>>>>>>>> approved
+>>>>>>>>> this, again need to send to broonie git.
+>>>>>>>>> All the changes in sound/soc/sof/ path should go to SOF git.
+>>>>>>>> Unfortunately I'm not familiar with the SOF dev workflow. So
+>>>>>>>> it's not
+>>>>>>>> enough to have this patch cc-ed to
+>>>>>>>> sound-open-firmware@alsa-project.org?
+>>>>>>> The SOF people basically do their own thing in github at
+>>>>>>>
+>>>>>>>       https://github.com/thesofproject/linux
+>>>>>>>
+>>>>>>> with a github workflow and submit their patches upstream in
+>>>>>>> batches a
+>>>>>>> few times a release, however my understanding is that their
+>>>>>>> workflow can
+>>>>>>> cope with things going in directly upstream as well.
+>>>>>> Thanks for clarifying, Mark!  That would greatly simplify and speedup
+>>>>>> the whole process, at least for trivial patches like this one.
+>>>>> Hi Cristian,
+>>>>>
+>>>>> We have created a Pull request in SOF git hub for I2S BT support.
+>>>>> please hold v2 version SOF patches till below PR get's merged.
+>>>>> PR:- https://github.com/thesofproject/linux/pull/4742
+>>>> Hi Venkata,
+>>>>
+>>>> If this is going to be handled via the github workflow, this patch
+>>>> should be removed from the series.  Since there is no dependency on it,
+>>>> I cannot see a reason to put v2 on hold.
+>>>>
+>>>> Do I miss something?
+>>> Non-sof driver related patches can directly send to broonie git ad v2
+>>> series.
+>>> SOF driver patches should send to SOF github to avoid merge conflicts
+>>> as  per guidelines of SOF community.
+>> Honestly, I don't really see a high risk of conflicts, the patches are
+>> not that complex and can be simply cherry-picked when needed.  Moreover,
+>> as we already had people reviewing this, splitting this up will only add
+>> confusion and unnecessary burden.
 >>
->>
->>
->> On 15.12.2023 09:55, Mahapatra, Amit Kumar wrote:
->>>> Thanks! Can you share with us what flashes you used for testing in
->>>> the stacked and parallel configurations?
->>> I used SPI-NOR QSPI flashes for testing stacked and parallel.
->>
->> I got that, I wanted the flash name or device ID.
-> 
-> N25Q00A, MX66U2G45G, IS25LP01G & W25H02JV are some of the QSPI flashes on 
-> which we tested. Additionally, we conducted tests on over 30 different 
-> QSPI flashes from four distinct vendors (Miron, Winbond, Macronix, and ISSI).
-> 
+>> Are there any specific changes you are concerned about and cannot be
+>> really handled here?
+> This is not the concern about this patch series,
+> Generally sof driver patches sends to SOF git hub as a PR, these are the
+> guidelines by SOF maintainers.
+> If you still want to send alsa devel list directly, please discuss with
+> SOF maintainers.
 
-Great.
+I think this series makes sense as a whole and it's best to be handled
+here, as it only provides trivial fixes to issues found on mainline.
 
->> What I'm interested is if each flash is in its own package. Are they?
-> 
-> I'm sorry, but I don't quite understand what you mean by "if each flash in 
-> its own package."
-> 
+If the SOF workflow is unable to integrate fixes submitted upstream, I
+would perceive that as a significant drawback of adhering to that
+process.  It is hard to believe, though, that this is really the case.
 
-There are flashes that are stacked at the physical level. It's a single
-flash with multiple dies, that are all under a single physical package.
+Hence, I kindly ask everyone here to shed some light and help move this
+forward.
 
-As I understand, your stacked flash model is at logical level. You have
-2 flashes each in its own package. 2 different entities. Is my
-understanding correct?
+Thank you,
+Cristian
 
-Cheers,
-ta
