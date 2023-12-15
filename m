@@ -1,95 +1,82 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437B63FE55;
-	Fri, 15 Dec 2023 17:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
-Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id ADB5C20640;
-	Fri, 15 Dec 2023 18:07:37 +0100 (CET)
-Date: Fri, 15 Dec 2023 18:07:33 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
-	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
- size_t
-Message-ID: <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
-References: <20231214170146.641783-1-francesco@dolcini.it>
- <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
- <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
- <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88C62C687
+	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 18:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iymA4Zyl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9578C433C8;
+	Fri, 15 Dec 2023 18:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702666608;
+	bh=hjGPVFMGtnhy+9wzaEe+Fc3QyqTrWQguYhQ1wetZgJA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=iymA4ZyltnHD1SxTe1OUv1Xhkt6LpLTdTmHJ7g9DvuE5oa/KiYLfCKhJ56DdkRQzd
+	 jpQPg6Q9cBCALtYvZacQAMU+peR3x+wXDlVYhnktgCrB5nEdlmccmgxcmbrIjMfLbr
+	 tiqpG+DMZXaDLkzF7MQfxQQmhGcdMBSvRZJZY5AzMSTXWLgvZ1GS+oq0LhRvVK5a7x
+	 J5JXAyNUfIoRn++RxsDuVf2gi/sPkDkJrDxoOUGPQc/qQlzHVvkjIaCOffdj4ni9TT
+	 mkTKN+uO+qxloRkHQ2OjqJ5wfIGufqwbf/XvRjQEcA5Rgu90xxJxxu5/NDd2nIxMNR
+	 B9+w/5lEna5zw==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com
+In-Reply-To: <20231215083102.3064200-1-yung-chuan.liao@linux.intel.com>
+References: <20231215083102.3064200-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/3] ASoC: SOF: query FW config to reload library
+Message-Id: <170266660660.116831.16876414164881492487.b4-ty@kernel.org>
+Date: Fri, 15 Dec 2023 18:56:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-Hello Johan, Greg
-
-On Fri, Dec 15, 2023 at 05:18:52PM +0100, Johan Hovold wrote:
-> On Fri, Dec 15, 2023 at 02:55:59PM +0100, Francesco Dolcini wrote:
-> > To me the change is correct, with that said probably this should have
-> > been explicitly mentioned in the commit message or a separate
-> > preparation patch.
+On Fri, 15 Dec 2023 16:30:59 +0800, Bard Liao wrote:
+> We should query FW config if context save is supported, and no need
+> to reload FW if hda->booted_from_imr and ipc4_data->fw_context_save
+> are true.
 > 
-> It's a separate change and should not be hidden away in a tree-wide
-> change that goes through a different maintainer.
+> Rander Wang (3):
+>   ASoC: SOF: IPC4: synchronize fw_config_params with fw definitions
+>   ASoC: SOF: IPC4: query fw_context_save feature from fw
+>   ASoC: SOF: Intel: check fw_context_save for library reload
 > 
-> Please drop this change from this patch and resubmit it separately to me
-> if you want and I'll review when I have the time.
+> [...]
 
-Fine, I agree.
+Applied to
 
-I see those options (let me know if you see other options I have not
-mentioned):
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-1. I add this change (taking into account also intel ice) as a separate
-   patch in this series and you may just ack it and Greg could merge
-   together with the serdev one.
-2. I prepare an independent patch for the GNSS change and only once this
-   is merged I'll send a rebased v2 of this one.
-3. I update this patch without this GNSS API change, that mean I will
-   have to cast away the signed type from a few GNSS drivers.
+Thanks!
 
-1 is my preferred option, 2 is fine, but it seems a little bit of overdoing,
-3 I would avoid, we are doing this cleanup to be a little bit more
-strongly typed and to prevent the kind of bugs that is the original trigger
-for this patch.
+[1/3] ASoC: SOF: IPC4: synchronize fw_config_params with fw definitions
+      commit: 57cd29a82574b0e9d99ed5789801c96f765e8fcb
+[2/3] ASoC: SOF: IPC4: query fw_context_save feature from fw
+      commit: 855a4772be9dc777cbcd580c8a07d9c54908219b
+[3/3] ASoC: SOF: Intel: check fw_context_save for library reload
+      commit: 3a0e7bb86f8728d94d55c56fb73e86be7976c163
 
-What would you Greg and Johan prefer?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> And when doing tree-wide changes, please try to follow the style of the
-> driver you are changing (e.g. do not introduce inconsistencies by
-> changing to open parenthesis alignment of continuation lines in code
-> that do not use it).
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-ack, sorry about that, looking back at the archive is seems a recent
-pain point, also Jiri fell in this trap.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Francesco
+Thanks,
+Mark
 
