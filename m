@@ -1,44 +1,44 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18B012B6A
-	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 07:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E55514015
+	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 07:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--davidgow.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wsJLaUdb"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-5d10f5bf5d9so2224547b3.3
-        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 23:39:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G0lx2l5I"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dbc8996908dso71114276.3
+        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 23:39:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702625968; x=1703230768; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702625972; x=1703230772; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Ew0yjzotVMz+DbsDGXsO7ZBvpe+EragVhaS0DRk4H8=;
-        b=wsJLaUdblCKFI9lQ+szG64DXzbBFfpa6/BmZiIV+7rO5KoOeKy35MX5kmyQCzKM7V8
-         2g1mi2jkyO7INH/I4GF9tr7YSK5qGQyW3USuCgEnhIa7seTa5epON+ez7QqeH7XrZ+fW
-         GR1xWx2fGQ8qHdh1JXyz8wRlD5NoKUfsJ/fWtGh6k5JCUYXSlSIkrCaiPuL+wVC/SQk3
-         DHT9+fbUmxc6In0VCX6QonO6bHzORWdAjTkwPlroDcuDIO/EsHEis3gJHweMP4M4qJQs
-         bKwckhFBvnrlPgHxRkn5rAwZ8931n7A1KNrGMLKg27+6eI3UjX5KmFvam4fgJYwG/YAw
-         T0lw==
+        bh=d4MXXH5cbPxzFQMx+eKCBMLxcs0KvqjK2kPkW0nLFkA=;
+        b=G0lx2l5I+vav3thN3cKmD1WWSs6NF6uQsEFdCIAH7M3r0whgeoX1BdfWBCcFBIg8+q
+         xJzQPxnh05VFerTIyBUweR48mVScGreqo6WDxM5INYStE7T2Y0SdupOba1AkSMKpTcE+
+         oLdp3cg0yZLyDmyRLP5J/3WCUkFE1cRbAmI040dr7WOwn0xtzqponnIzdVLIQ3a05xrZ
+         I77xdlKl0CO4+KPcdkR33lnEEEzCZ44LQKjmcyw+Bft8K7tg1De6NOhpl4c4W+SXNxpC
+         IKdxyaBDMivHmwaI5XgX9wfcqHFkjyptHj8Ju3kepZvEeNWzVTIT8J+Y+09DYdjiXiyX
+         cTqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702625968; x=1703230768;
+        d=1e100.net; s=20230601; t=1702625972; x=1703230772;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Ew0yjzotVMz+DbsDGXsO7ZBvpe+EragVhaS0DRk4H8=;
-        b=LTxUxLoImGqLtv3MkjBAxX/+12eLrKw37sKCtMRto2JBr6xhygunDGRtOOBjldd6E6
-         doOQnfbyAGTBOxj9i+51KvjTqlnH7L5B44n9u7f0PCUokvCaJAzmpncZKYPuGvBTVdfE
-         wk75BGDwv2kxRWwV1DP6q/kbkZ/pqGSa3s6oQbyZa3f81aY0E1U1yrIeTsh1y0iTpEi0
-         eRISwLTtVZcx9hgqk4hx0SCC47m9JkmKd8dEDfB2/vSv5oMxw37TdLM8K9VH2W2juM89
-         DU7Q2sCoHsYL4NTypmun+jqMgkk27G2Ys0E8gz20apXPmPUPqmObSat/XO3kzRsVhVsM
-         Bbgw==
-X-Gm-Message-State: AOJu0YwjpwRw7hPnBP9NCSkmUQr2mj2Fn9VypoX6PwoBQA4OZI2waSid
-	vd7M3baAaRmHyBIVkxbyoYrunh+sb3EVBw==
-X-Google-Smtp-Source: AGHT+IEdNCTRzTrVPHds1vKNLGSiHnYDt78/zYUDSFVgM1wliEJevL7Fy5dUxym2mGK1jqN4jajZwpgyejAjIw==
+        bh=d4MXXH5cbPxzFQMx+eKCBMLxcs0KvqjK2kPkW0nLFkA=;
+        b=aDjUlAg0Z32R84JIXKhN3DVAUzBz790ksu2HCcnD9sroSq6fFya0GnQknzrgmaY+bP
+         SSSGy7lHv2cEnhp1el3lhDW//x7HNRMsmbflhmSJK1lnAdfbGXBDIu17k46KJnNliam3
+         6wWfPhMgYmewLJ8YueCvWjNVPC5JznwWSppnw5kcd/NPE8bxY6NY+N9rdJoTibIRbMju
+         39bL0NGqN29e/r+nnY7ws1LOfOtE4rg86ujnrmuo5/+wg2CocZwMeGYNlAfLbQFj8VUR
+         /Oka/jsctknVSFVQBll1ktK9Gefnek+eaAlDiUBMIebGlvvYa5ChVDdASC2nxXIADjQl
+         C3cw==
+X-Gm-Message-State: AOJu0YxgZPNoZARYJ0y9zrQbj0hVX1FfBmDYK/+lOWw+/6WSwf5TdBbf
+	O0OhooA6QMwyp6/xYOv6QwGVcGCEaN1zAA==
+X-Google-Smtp-Source: AGHT+IHFhhWMR/kJRqTx6WHoW1Cw50Apf42JCOhF6MR/ULXu4wBRUQj91kJR8wij5MUTOYH+2REhYsHY7wVTEg==
 X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a05:690c:b91:b0:5d6:cb62:4793 with SMTP
- id ck17-20020a05690c0b9100b005d6cb624793mr130837ywb.0.1702625967709; Thu, 14
- Dec 2023 23:39:27 -0800 (PST)
-Date: Fri, 15 Dec 2023 15:39:10 +0800
+ (user=davidgow job=sendgmr) by 2002:a25:ab8c:0:b0:dbc:c82d:7f0a with SMTP id
+ v12-20020a25ab8c000000b00dbcc82d7f0amr53140ybi.9.1702625972472; Thu, 14 Dec
+ 2023 23:39:32 -0800 (PST)
+Date: Fri, 15 Dec 2023 15:39:11 +0800
 In-Reply-To: <20231215-kunit_bus-v4-0-4f5160e2f95e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -48,8 +48,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20231215-kunit_bus-v4-0-4f5160e2f95e@google.com>
 X-Mailer: b4 0.13-dev-099c9
-Message-ID: <20231215-kunit_bus-v4-3-4f5160e2f95e@google.com>
-Subject: [PATCH v4 3/5] overflow: Replace fake root_device with kunit_device
+Message-ID: <20231215-kunit_bus-v4-4-4f5160e2f95e@google.com>
+Subject: [PATCH v4 4/5] ASoC: topology: Replace fake root_device with
+ kunit_device in tests
 From: davidgow@google.com
 To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
@@ -67,43 +68,52 @@ Using struct root_device to create fake devices for tests is something
 of a hack. The new struct kunit_device is meant for this purpose, so use
 it instead.
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-Acked-by: Kees Cook <keescook@chromium.org>
+Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: David Gow <davidgow@google.com>
 ---
- lib/overflow_kunit.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/soc/soc-topology-test.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
-index 34db0b3aa502..c527f6b75789 100644
---- a/lib/overflow_kunit.c
-+++ b/lib/overflow_kunit.c
-@@ -6,6 +6,7 @@
-  */
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
+diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
+index 2cd3540cec04..70cbccc42a42 100644
+--- a/sound/soc/soc-topology-test.c
++++ b/sound/soc/soc-topology-test.c
+@@ -9,6 +9,7 @@
+ #include <sound/core.h>
+ #include <sound/soc.h>
+ #include <sound/soc-topology.h>
 +#include <kunit/device.h>
  #include <kunit/test.h>
- #include <linux/device.h>
- #include <linux/kernel.h>
-@@ -618,7 +619,7 @@ static void overflow_allocation_test(struct kunit *test)
- } while (0)
  
- 	/* Create dummy device for devm_kmalloc()-family tests. */
--	dev = root_device_register(device_name);
-+	dev = kunit_device_register(test, device_name);
- 	KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev),
- 			       "Cannot register test device\n");
+ /* ===== HELPER FUNCTIONS =================================================== */
+@@ -21,26 +22,19 @@
+  */
+ static struct device *test_dev;
  
-@@ -634,8 +635,6 @@ static void overflow_allocation_test(struct kunit *test)
- 	check_allocation_overflow(devm_kmalloc);
- 	check_allocation_overflow(devm_kzalloc);
- 
--	device_unregister(dev);
+-static struct device_driver test_drv = {
+-	.name = "sound-soc-topology-test-driver",
+-};
 -
- 	kunit_info(test, "%d allocation overflow tests finished\n", count);
- #undef check_allocation_overflow
+ static int snd_soc_tplg_test_init(struct kunit *test)
+ {
+-	test_dev = root_device_register("sound-soc-topology-test");
++	test_dev = kunit_device_register(test, "sound-soc-topology-test");
+ 	test_dev = get_device(test_dev);
+ 	if (!test_dev)
+ 		return -ENODEV;
+ 
+-	test_dev->driver = &test_drv;
+-
+ 	return 0;
  }
+ 
+ static void snd_soc_tplg_test_exit(struct kunit *test)
+ {
+ 	put_device(test_dev);
+-	root_device_unregister(test_dev);
+ }
+ 
+ /*
 
 -- 
 2.43.0.472.g3155946c3a-goog
