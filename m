@@ -1,66 +1,121 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3C35F1E2;
-	Thu, 14 Dec 2023 21:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E5C63A9;
+	Fri, 15 Dec 2023 03:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5913b73b53eso40364eaf.0;
-        Thu, 14 Dec 2023 13:36:03 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0JkgWCa"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3ba00fe4e98so213694b6e.2;
+        Thu, 14 Dec 2023 19:14:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702610094; x=1703214894; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/HJAB1d28KOAsQBHPrBrzzCpyYZA+5xVpuQkAUAjns=;
+        b=O0JkgWCaUdZeVzVdG13DFjFd9uxnLClOdkZobvvqgESnjQ6hbTCQFQ36ANz08q/zte
+         bMAmLFcXedxIUEV/5ahN2yexGwsxC1YSj66VXQ4r3DU8Dv0uMxfeM+/78+9wc48Z/5/G
+         skSh0J4+pvDFNjyF/hEyTs60H1aVwojGXweDvncTwW8eBpUAcEavHFszoo/f/66/BPGn
+         pBIzDAfPlAXEeniYRmiM5lHZle6eNTVS+n61U+bKU4gu6mDWzZAYd8UwQN/H5qy5cE/N
+         q9VtVSeRcxhDtvKlFce3c84zPYBDoavomSG9dg+Ok8hz1mUNHlQbJrOcLAbFQJG/AgS6
+         YI0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702589762; x=1703194562;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dOfIXMQdmVXtw/LaT+kEhtAy+i/QDIyW7XZdUFyrkYc=;
-        b=oBqqr8rwbL1nYnJk0iB64rjFYHcUSEmJM5VCetWd0N2GiQ7zQki6qokVjTs9+XE99K
-         tMVDc8iO97kmVnUwZqp6i8klOxQxAB79YXucbiatBMisx4i64ij3SUuZ0ZlJAdpG37td
-         d4iLHVWSHidOc5+8SpYLJNtk1K/degl5A+KJBD+T/7NuDlbVgjUDWAvdjOo6XnR7NXaR
-         IEUqW4Rm1VfWoYt73H6FI1h8SLOFwQpVQQYz0DmppvurdwTQl3CxbtJAATnr+4I43nkt
-         VSLqcZYD6Kq16PopWuWCbyS0/TP3ElFCp32s/tYxi48L6TftRqfKKZ6QYGcWzHiA1ASf
-         NYHg==
-X-Gm-Message-State: AOJu0Yz4EkAHYBbR8mQA9avziBphsHzn+C9scJ3MECXagp9M3Ab0wfB5
-	aQ7VBNC+K6e5W94xCPdxyw==
-X-Google-Smtp-Source: AGHT+IGQwAEAEsXKwPod/9C7p+UERtNGBRBhXv6kCpyQfnL61ttM0xzFs0wx/qtEEGJNigaSx/FJbw==
-X-Received: by 2002:a05:6820:1c88:b0:58e:272a:7da1 with SMTP id ct8-20020a0568201c8800b0058e272a7da1mr10570842oob.2.1702589762638;
-        Thu, 14 Dec 2023 13:36:02 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id az2-20020a056830458200b006d87b9d84bfsm3359255otb.12.2023.12.14.13.36.01
+        d=1e100.net; s=20230601; t=1702610094; x=1703214894;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7/HJAB1d28KOAsQBHPrBrzzCpyYZA+5xVpuQkAUAjns=;
+        b=PTpUpuoRqRNSdL3Guxt5tBpi9p6qrxAJ861EHzM2uQtcDlWf6rHfWP5/f5X42GHvfO
+         AFO7MTL74eButkiCBry43JsiGaW/O/Wne88eLSLI7uLZFpsGdpakkZg8n3uWvDYdSr1d
+         mn2rv2D7ZRr3vlP2Xcomkvbe5ncK4OH8ndHx9zDNlgmp+fSKRr1LWNc8zqn2RQl3iTL1
+         PVfrOTikNKcVMOV2J91j29t/shB6SGYyBMnANP0Hvcz2aksxNJe51qjzsdJpcGSUy95h
+         VcUjp50Ma3wBybdQRtoBq9/5yrTxSYpPF2/XkVgNLjHcdbutKRaoEIpFOOCkFCyg892D
+         lyuw==
+X-Gm-Message-State: AOJu0YwgSbSJ0Y6FcnH1wdIyTl7AXW1dtsm846YT56DrtfW7JWa18Y88
+	i5F2Y9ig76d1Rj9uWE1cjrFbKaODUD6TpVhz
+X-Google-Smtp-Source: AGHT+IFOL1swHqcpjjcSBJRiQmTzIdDg+kyDaywAGt2uLO+o7QjNWfqRzXrtLS1C7dmsQAnbi3D72Q==
+X-Received: by 2002:a05:6808:3022:b0:3b8:b063:825a with SMTP id ay34-20020a056808302200b003b8b063825amr12760002oib.92.1702610093592;
+        Thu, 14 Dec 2023 19:14:53 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:38f6:9fa2:8e5a:fd25:71c:8c44])
+        by smtp.gmail.com with ESMTPSA id p18-20020a056a000b5200b006ce835b77d9sm12552214pfo.20.2023.12.14.19.14.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 13:36:02 -0800 (PST)
-Received: (nullmailer pid 978584 invoked by uid 1000);
-	Thu, 14 Dec 2023 21:36:00 -0000
-Date: Thu, 14 Dec 2023 15:36:00 -0600
-From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100
- LPASS RX
-Message-ID: <20231214213600.GA975481-robh@kernel.org>
-References: <20231211123104.72963-1-krzysztof.kozlowski@linaro.org>
- <20231211-cardstock-elevator-3e19f9d41ac2@spud>
+        Thu, 14 Dec 2023 19:14:53 -0800 (PST)
+From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] sound: pci: au88x0: fixed spelling mistakes in au88x0_core.c
+Date: Fri, 15 Dec 2023 08:41:44 +0530
+Message-Id: <20231215031144.521359-1-ghanshyam1898@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231211-cardstock-elevator-3e19f9d41ac2@spud>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 11, 2023 at 05:29:50PM +0000, Conor Dooley wrote:
-> On Mon, Dec 11, 2023 at 01:31:01PM +0100, Krzysztof Kozlowski wrote:
-> > Add bindings for Qualcomm X1E80100 SoC Low Power Audio SubSystem (LPASS)
-> > RX macro codec, which looks like compatible with earlier SM8550.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> I wish you'd send cover letters when you send series of trivial patches
-> like this that could be acked in one go.
+Multiple spelling mistakes were reported by codespell.
+They were fixed.
 
-Or just one patch because it's basically all the same changes and it's 
-all going to 1 tree and the same set of people that will care to look 
-at it.
+Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+---
+ sound/pci/au88x0/au88x0_core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Rob
+diff --git a/sound/pci/au88x0/au88x0_core.c b/sound/pci/au88x0/au88x0_core.c
+index f217c02dfdfa..e5d867637336 100644
+--- a/sound/pci/au88x0/au88x0_core.c
++++ b/sound/pci/au88x0/au88x0_core.c
+@@ -1195,7 +1195,7 @@ static int vortex_adbdma_bufshift(vortex_t * vortex, int adbdma)
+ 				VORTEX_ADBDMA_BUFBASE + (((adbdma << 2) + pp) << 2),
+ 				snd_pcm_sgbuf_get_addr(dma->substream,
+ 				dma->period_bytes * p));
+-			/* Force write thru cache. */
++			/* Force write through cache. */
+ 			hwread(vortex->mmio, VORTEX_ADBDMA_BUFBASE +
+ 			       (((adbdma << 2) + pp) << 2));
+ 		}
+@@ -1237,7 +1237,7 @@ static void vortex_adbdma_resetup(vortex_t *vortex, int adbdma) {
+ 			VORTEX_ADBDMA_BUFBASE + (((adbdma << 2) + pp) << 2),
+ 			snd_pcm_sgbuf_get_addr(dma->substream,
+ 					       dma->period_bytes * p));
+-		/* Force write thru cache. */
++		/* Force write through cache. */
+ 		hwread(vortex->mmio, VORTEX_ADBDMA_BUFBASE + (((adbdma << 2)+pp) << 2));
+ 	}
+ }
+@@ -1466,7 +1466,7 @@ static int vortex_wtdma_bufshift(vortex_t * vortex, int wtdma)
+ 				(((wtdma << 2) + pp) << 2),
+ 				snd_pcm_sgbuf_get_addr(dma->substream,
+ 						       dma->period_bytes * p));
+-			/* Force write thru cache. */
++			/* Force write through cache. */
+ 			hwread(vortex->mmio, VORTEX_WTDMA_BUFBASE +
+ 			       (((wtdma << 2) + pp) << 2));
+ 		}
+@@ -1854,7 +1854,7 @@ vortex_connection_mixin_mix(vortex_t * vortex, int en, unsigned char mixin,
+ 		vortex_mix_disableinput(vortex, mix, mixin, a);
+ }
+ 
+-// Connect absolut address to mixin.
++// Connect absolute address to mixin.
+ static void
+ vortex_connection_adb_mixin(vortex_t * vortex, int en,
+ 			    unsigned char channel, unsigned char source,
+@@ -1880,7 +1880,7 @@ vortex_connection_src_src_adbdma(vortex_t * vortex, int en,
+ 			ADB_DMA(adbdma));
+ }
+ 
+-// mix to absolut address.
++// mix to absolute address.
+ static void
+ vortex_connection_mix_adb(vortex_t * vortex, int en, unsigned char ch,
+ 			  unsigned char mix, unsigned char dest)
+-- 
+2.25.1
+
