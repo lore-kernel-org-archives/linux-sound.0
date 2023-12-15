@@ -1,257 +1,168 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2073.outbound.protection.outlook.com [40.107.95.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB1210787;
-	Fri, 15 Dec 2023 07:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D1312E65
+	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 07:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--davidgow.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KQANRfl6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MKEjJ3/WD4ZJEZIF0m/Of1yIfXD6xDcO1njD9ZWSGRlGgPL4dkEuqvmEr81Hwo5DMiSgki1DM0nRK7/jh0YZ++GNJ68NvpXQ0QI9mRXOkz/kgcvu9LFgW8VqRQTRpSivwID32c+MSh6fjekxx81IoDvbMgMsvxn35G0Pk4reqk2QzAc/XXF0MZeWVQB5cfoPZdbuovRG6DAx8Bphd8DqrRWDLW0ww2UHYBhV/EQCihUHmLwhUWOmx78IlpfRLQYShHeJ8NpDsk7r3/mPphzOZO2qfoTKiqVtDYo1FTbQPoQ8mXKGLMqaJ5SO/w1h47PBXhEA8jt8ZgA1eJ+E4AF5Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K1qxNt1VJKzA1qy4pp9hiB/aRj+EpQYb6FbhBzxmHro=;
- b=jW8yQxGGHfZdq1wjbZEoR6tSlDk3fM9V/OQy4mIuOmlxhKdQugjo49GNMl7AiftnRDAUGOxB4SMbae3o5bQcLPsqKpQz354FOV6g0/7/sLsBEh7AkGCtN8ISsAXty4VwAI4+fCeJDw8+FEJbJ2h5dP/EyTkaS6x1mE1i4JhvYfGRQbE6ihCYpl1SJByuMfFpEhVFaywHSG81CUkbI0ChgSpI5hse4DAWmfz4XjD2IVTToLaXHX+1NwTkqHwHWUQu4WolMJy7dMbpO7nuVZ/2OFSJxxEJHdmNy8ruxW+3WAk43Ikz2L0hgYRWiDg96s3kYNuQqAdishZuKwt9/gRqMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K1qxNt1VJKzA1qy4pp9hiB/aRj+EpQYb6FbhBzxmHro=;
- b=KQANRfl6ooLveIVxvgtiC6FbTmoYVBWDbjuTjWMPHsvMbQb0ivZc4XeFLeL6bkoGHpdFmppivP0hf2ucG9aL06JLROdr2BDuAx3C4kcPTQo0Siwpi0m0/REis0hjMr7tN4n+Vhkz5S6mvF0mcsCE5hvgidUA55rJlb4papz/ixI=
-Received: from BN7PR12MB2802.namprd12.prod.outlook.com (2603:10b6:408:25::33)
- by BL0PR12MB4898.namprd12.prod.outlook.com (2603:10b6:208:1c7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.31; Fri, 15 Dec
- 2023 07:28:02 +0000
-Received: from BN7PR12MB2802.namprd12.prod.outlook.com
- ([fe80::2a35:852d:bc78:ed64]) by BN7PR12MB2802.namprd12.prod.outlook.com
- ([fe80::2a35:852d:bc78:ed64%7]) with mapi id 15.20.7091.029; Fri, 15 Dec 2023
- 07:28:01 +0000
-From: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>
-To: Michael Walle <michael@walle.cc>
-CC: "broonie@kernel.org" <broonie@kernel.org>, "tudor.ambarus@linaro.org"
-	<tudor.ambarus@linaro.org>, "pratyush@kernel.org" <pratyush@kernel.org>,
-	"miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>, "richard@nod.at"
-	<richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
-	"sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
-	"lee@kernel.org" <lee@kernel.org>, "james.schulman@cirrus.com"
-	<james.schulman@cirrus.com>, "david.rhodes@cirrus.com"
-	<david.rhodes@cirrus.com>, "rf@opensource.cirrus.com"
-	<rf@opensource.cirrus.com>, "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>, "linux-spi@vger.kernel.org"
-	<linux-spi@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-mtd@lists.infradead.org"
-	<linux-mtd@lists.infradead.org>, "nicolas.ferre@microchip.com"
-	<nicolas.ferre@microchip.com>, "alexandre.belloni@bootlin.com"
-	<alexandre.belloni@bootlin.com>, "claudiu.beznea@tuxon.dev"
-	<claudiu.beznea@tuxon.dev>, "Simek, Michal" <michal.simek@amd.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
-	<patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
-	"amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>
-Subject: RE: [PATCH v11 00/10] spi: Add support for stacked/parallel memories
-Thread-Topic: [PATCH v11 00/10] spi: Add support for stacked/parallel memories
-Thread-Index: AQHaH4DWk85ayhAN50GzHAcX+0JPbLClsDGAgAGh+SA=
-Date: Fri, 15 Dec 2023 07:28:01 +0000
-Message-ID:
- <BN7PR12MB280267F8478681A1ED48A2D1DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <30ffd8378d3ef1c4fa6dfe4324b18345@walle.cc>
-In-Reply-To: <30ffd8378d3ef1c4fa6dfe4324b18345@walle.cc>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN7PR12MB2802:EE_|BL0PR12MB4898:EE_
-x-ms-office365-filtering-correlation-id: 9f4ebcd3-7d79-4351-5fb2-08dbfd3f5ec7
-x-ld-processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- DBs4tti4xyWzCQD3UoYWlcULg1RE0TvzGj6snW2J7CTmA0vh4Dic1Q0E1oJT+OMZAuwpjm8/JCRHvXS1agNE07qg2BEuimWqiSpxD+80yKqsJ4Te23sOPFcDJ9NolqaU79INjHcmhvaMtefCzTeHYbc7gSaFRVzEI/D6B6SJCQG8L8pfrXOJCjEk2/ZnDJdllRKCeWnQLWj8ZpOrmaQt5S2Xsw1YPK7D/QKVdfxy7wCGAhR2vwt6WbBalL6af+bIynj4Nz921aUzZ0HNu+z1QGDBNEjgnJO+lg9izOEwMwVg+wkeYhkr/ESMbCsc7SBXurmQxToOj5T0S0vd92vih3eY3t8a6yC7YZVebBVA5+eviSXJkX0fnCW54YGLAaTIieW7yYvxoIEzqPg6uJYN28MTRIQrB8cx228BSO/JNPKYZKu4SVV/LipcCCu/5yvr+rfctmW691V5Fvz9nayc36KI9S6JIY4JpR3SNtbb63Uh72VzNMq90bMCvcGWcSCntGvKFPDsdrppVlfCSZuaRtbHTyyj4r2dCibtgTPsnBaOlptxf9mj2UkBsTnT3uP46tsmqPxmrWo0axemOAzBxW7RbAahj8m1Hb2ruoTfBeKDtn5UeAnSmOFrcr6O267n
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR12MB2802.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(136003)(346002)(376002)(366004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(4326008)(8936002)(52536014)(8676002)(2906002)(7416002)(5660300002)(478600001)(6506007)(7696005)(9686003)(53546011)(54906003)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(316002)(6916009)(41300700001)(38100700002)(122000001)(55016003)(33656002)(86362001)(38070700009)(71200400001)(26005)(83380400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?nwB2bHhWPqOu4O8k9NXequEAXrH09gpK2BpCd/SiFQtlYAykZKqx0xSAKq3c?=
- =?us-ascii?Q?kjWOQ6OuD6e79yS6cWtkkJlKZITpG/m3HLPbQ3EVsNT6kb5FtvcWSJdewy1p?=
- =?us-ascii?Q?GM/gtyyprzAVB1cycpxKpRmjlNBtSMhMETl4o+ySCQxtKvHwvDxLLJpk2pej?=
- =?us-ascii?Q?KdQssN1/XXxqfOTP7df2QrMzqlAu2vCKQ8gzAVf6iDwUyMhhCt4cOXf3Peva?=
- =?us-ascii?Q?TRy5/j9QLmqrFvpTj8p36ruaniXOWnm4zXrg0HXTRP9sNTFrkYksA6JHTSNJ?=
- =?us-ascii?Q?Eznf2tRkSV7UrvqyAwxPfwyH9/vO9SJVeWJtWpkuvm0Lq1bTFBcfwXqClsws?=
- =?us-ascii?Q?hV6IgEVNBGVSTq5cdqwX6piMvchOhgoudIAPg4xaNpidGN4nIHH5ZzvYYJmU?=
- =?us-ascii?Q?oS+N95q3s8EFad4lM2/EqK6qmgD0mtJUrm23WtUgdSTK/eH7GjaBDJvz+mNf?=
- =?us-ascii?Q?Gq8bWXP1Aih6YpJQsAF51Su/5QsOKMkxcOBWqhuXRT1aOX0mBfUoybLDGT9O?=
- =?us-ascii?Q?3TIOfczsypMDaoN94hrC/vC6diPhcd8tCr5jB6hNQYsjPTxK0FeJosFtUIOL?=
- =?us-ascii?Q?uESblRaWcW8hwbvAIS1aFTDQTxe5vmAxHqRUfEGR9EE3ejfe+vO3OYYZl68q?=
- =?us-ascii?Q?UL4uazXzv/GyPzZ5DV1Rw3UqiA3KgUhA7vS4QyeDsHmJF0om/2zqZDlZB/7D?=
- =?us-ascii?Q?CLIPVSnmibmOdbAha9SMpwF2tgjWuW4ZUGJMVrO0cwKZ26cRCMYZqPUk6nbV?=
- =?us-ascii?Q?XzvSKNNCA5qGvV2k4rXlaVkeHQfn2kgN/JDYcbpcvLrsu/1haSYUYsi7SkX4?=
- =?us-ascii?Q?XcJ3ZOJGBFB/lWLpvzyOVSiR2qzckVy50dEc09vI6pJhmBj2KW5GPT61Om0C?=
- =?us-ascii?Q?M4DoIxKW46X3YjOtKOtROJbEic/2cqAihfWHjRtWk9dc6+IqW9Vx8euTfKdF?=
- =?us-ascii?Q?k7KStu4q5Ujghr8ulE0Yd6fw1s17HOyxIUkFaRXHBoG2jXry/tgqaTeEPy75?=
- =?us-ascii?Q?YJnhzfTBLlysfKajqawEAlua14d3Qe5gP0vGfGYC6wQ6nzMs7IaVBO6XVQPI?=
- =?us-ascii?Q?BJkA2/KWLOEQBVaHEfFVUKPS3LBQEmx9g08vFlOdwJqlIZPZHasFQnW1W5ud?=
- =?us-ascii?Q?caf9OU4Q/puPNT0WdDsyyjiwG+bo8RGr0eH+s5xNdMbDkXbZrb/VaPRet5cO?=
- =?us-ascii?Q?GwdPtOwLdrdGjgfIKvU+mElXklxCr8CAuFBTR1swZV2upTYEUjnvW7wmg7AN?=
- =?us-ascii?Q?S4uwf+WYJzGSbuw+fmrwzuqi/3NcAvmFX5XF08www4ou9bved5ii3bSviuuQ?=
- =?us-ascii?Q?5uYrEh6cDaElNwouBsRTp8pelM24GE5IM2vgfavdahty4Yh9EyCxicoHZ0/e?=
- =?us-ascii?Q?5PnYO7ANdfGfB1y/KXnSToYcx1AfnuJqn6b3zURx24nu3Glm/z0FiAbb8lmU?=
- =?us-ascii?Q?gNfb2mRpqIDCJ95K/L1reO9EnkN+Vn3y2YNrPy50gVHlPgggHNIJcIymuuoQ?=
- =?us-ascii?Q?zWU24lIX3VDeg+LPOon4LONYmglMbP+ZrGCvZ4ttNRKbw4h2G6eXxS5P/iOu?=
- =?us-ascii?Q?xDG1xHWRXTXI/hhqccw=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l/RaSu98"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dbcfd1b2c96so100682276.1
+        for <linux-sound@vger.kernel.org>; Thu, 14 Dec 2023 23:39:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702625953; x=1703230753; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Mp/8hWJv2G3IEKZLrg9ZmDkM8WmGCalwoEjWRw4iU4I=;
+        b=l/RaSu98NWmILQWuM6rpl6zMyxbpbwNz5KIo9kTWfntjLzb2z3FiQlmQAufrErANHT
+         dDzaj3j7hVnfNg5wnniuA4g2980iXazQa/BeoTi4LPn8KYKVDCtyVxqy1UvgE+kKvwq1
+         /QgqK/pi+sODqBCWmYRmR+dIkrPDWf0bHqoYn4pYa6hVNCRevcnmfBHgmSoFJzRVJpKM
+         s0Gq1ICunwOB0rDco4o3b56lRR79dtn0SbQ4BQU4PoJLjSWqMaAdLcSbNyv6JK2gz6NE
+         UixTZ816jrYR73ON6JMT1BJJEVkCt9z2SOE8ypGbKC02wKDvGMOXj22xfW/3hoZ5xKui
+         4Zpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702625953; x=1703230753;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mp/8hWJv2G3IEKZLrg9ZmDkM8WmGCalwoEjWRw4iU4I=;
+        b=d9rcK3hGhRSPU8TGByaxMshvPYqHXwm4/ZQ2s3DsN4ZsUuhmA594gGwk+jiYVcohPY
+         NMQMH8PDZ8qktfSg393deloeWBN3PCpB3ywOiV/4zyGFhcMFOlZ9c/6wAZSYAkeEvV07
+         77W7JxUKwCRB9UhlVvEKj49b0WNZpv7NfOOcisg5JIJh3CErvUM6XjNOL3aLPJ8afzCl
+         vu+KmMQ1S8LN1+UbLcnpghzxHQOLOKs3rt5ZPiAwKjfF34Q8WgMst1z+15Uzi1q8LPr4
+         mcZVw1PA6k6IY4bu+mmsgHIHhllFXmvMU7UcE8v9RBkzqRn+F85D+N1YGTZ9VwHdIvIR
+         y1Ag==
+X-Gm-Message-State: AOJu0Yx2/ECuWR1Y5pd7gPjcJRnFIua9pkf8zwqZ12qVuntXGBdO2Stf
+	CmijFGA75s0sujDtroHvWeWN+BauNwoDIA==
+X-Google-Smtp-Source: AGHT+IGHET7uXEidWHXMGL3nVLfetoQmh9ZEua39AXsgZMYdcjq38i3NEbBG3nl+MkvvMOLIudj38fXqOB+xkA==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:a122:0:b0:dbc:35fe:5e81 with SMTP id
+ z31-20020a25a122000000b00dbc35fe5e81mr102923ybh.12.1702625953359; Thu, 14 Dec
+ 2023 23:39:13 -0800 (PST)
+Date: Fri, 15 Dec 2023 15:39:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR12MB2802.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f4ebcd3-7d79-4351-5fb2-08dbfd3f5ec7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 07:28:01.7399
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: S9WSAYyOnA1CKmg/ARMjkMj1kuuuN6el2HZD+Vk+SxAF6YdjY/XHT3j5e7TCpA0mOyOjiLO1mZ3gLYnxYSViQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4898
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAJsCfGUC/2XO0Q6CIBTG8VdxXEcDDqh01Xu01hSOyippUqzmf
+ PfQK1qX3xm//5hJwMlhIIdiJhNGF5wf05C7gpihGXukzqZNBBPAKl7T62t0z0v7CrRpuTYSO1l
+ bQ9L7x4Sde2+t0zntwYWnnz5bOvL1ulW4YCqrRE4ZLUExKC20hsOx976/4d74O1kzUeQ0/0AUi aJWmimrWxDqj0JGucwpJFqhbkRdWWCy/qHLsnwBjE6oShkBAAA=
+X-Mailer: b4 0.13-dev-099c9
+Message-ID: <20231215-kunit_bus-v4-0-4f5160e2f95e@google.com>
+Subject: [PATCH v4 0/5] kunit: Add helpers for creating test-managed devices
+From: davidgow@google.com
+To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
+	David Gow <davidgow@google.com>, Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 
-Hello Michael,
+KUnit tests often need to provide a struct device, and thus far have
+mostly been using root_device_register() or platform devices to create
+a 'fake device' for use with, e.g., code which uses device-managed
+resources. This has several disadvantages, including not being designed
+for test use, scattering files in sysfs, and requiring manual teardown
+on test exit, which may not always be possible in case of failure.
 
-> -----Original Message-----
-> From: Michael Walle <michael@walle.cc>
-> Sent: Tuesday, December 12, 2023 6:05 PM
-> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>
-> Cc: broonie@kernel.org; tudor.ambarus@linaro.org; pratyush@kernel.org;
-> miquel.raynal@bootlin.com; richard@nod.at; vigneshr@ti.com;
-> sbinding@opensource.cirrus.com; lee@kernel.org;
-> james.schulman@cirrus.com; david.rhodes@cirrus.com;
-> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com; linux-
-> spi@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> mtd@lists.infradead.org; nicolas.ferre@microchip.com;
-> alexandre.belloni@bootlin.com; claudiu.beznea@tuxon.dev; Simek, Michal
-> <michal.simek@amd.com>; linux-arm-kernel@lists.infradead.org; alsa-
-> devel@alsa-project.org; patches@opensource.cirrus.com; linux-
-> sound@vger.kernel.org; git (AMD-Xilinx) <git@amd.com>;
-> amitrkcian2002@gmail.com
-> Subject: Re: [PATCH v11 00/10] spi: Add support for stacked/parallel
-> memories
->=20
-> > This patch series updated the spi-nor, spi core and the AMD-Xilinx
-> > GQSPI driver to add stacked and parallel memories support.
->=20
-> Honestly, I'm not thrilled about how this is implemented in the core and =
-what
-> the restrictions are.
-> First, the pattern "if (n=3D=3D1) then { old behavior } else { copy old c=
-ode modify
-> for n=3D=3D2 }" is hard to maintain. There should be no copy and the old =
-code
-> shall be adapted to work for both n=3D1 and n>1.
+Instead, introduce a set of helper functions which allow devices
+(internally a struct kunit_device) to be created and managed by KUnit --
+i.e., they will be automatically unregistered on test exit. These
+helpers can either use a user-provided struct device_driver, or have one
+automatically created and managed by KUnit. In both cases, the device
+lives on a new kunit_bus.
 
-Stacked mode serves as an extension of single device mode concerning data=20
-handling and CS line assertion. In both scenarios, the driver only asserts=
-=20
-one CS line at any given time. The existing code has been expanded to=20
-determine the CS line to be asserted based on the requested address and=20
-data length. This modification accommodates both single (legacy) and=20
-stacked use cases.
+This is a follow-up to a previous proposal here:
+https://lore.kernel.org/linux-kselftest/20230325043104.3761770-1-davidgow@google.com/
 
-In contrast, parallel mode differs from the legacy (single) mode in terms=20
-of data handling. In parallel mode, each byte of data is stored in both=20
-devices, with even bits in the lower flash and odd bits in the upper flash.=
-=20
-During the transfer, multiple CS lines need to be asserted simultaneously.=
-=20
-Consequently, special handling is necessary for parallel mode.
+(The kunit_defer() function in the first patch there has since been
+merged as the 'deferred actions' feature.)
 
->=20
-> But I agree with Tudor, some kind of abstraction (layer) would be nice.
+My intention is to take this whole series in via the kselftest/kunit
+branch, but I'm equally okay with splitting up the later patches which
+use this to go via the various subsystem trees in case there are merge
+conflicts.
 
-I agree too.
+Cheers,
+-- David
 
->=20
-> Also, you hardcode n=3D2 everywhere. Please generalize that one.
->=20
-> Are you aware of any other controller supporting such a feature? I've see=
-n
+Signed-off-by: David Gow <davidgow@google.com>
+---
+Changes in v4:
+- Update tags, fix a missing Signed-off-by.
+- Link to v3: https://lore.kernel.org/r/20231214-kunit_bus-v3-0-7e9a287d3048@google.com
 
-Currently, I am familiar only with the AMD-Xilinx QSPI controllers that=20
-support parallel/stacked configurations and AMD-Xilinx OSPI controllers,=20
-which support stacked configuration. However, it's important to highlight=20
-certain aspects of these configurations. In parallel mode, each byte of=20
-data is stored in both flash devices, and the QSPI controller=20
-automatically handles the byte split and the simultaneous=20
-assertion/de-assertion of multiple CS lines. Hence, it can be stated that=20
-parallel operation is a controller feature, and other controllers wishing=20
-to operate flashes in parallel mode should be capable of data splitting=20
-and asserting multiple CS lines simultaneously. This characteristic might=20
-be specific to the AMD-Xilinx controller.
+Changes in v3:
+- Port the DRM tests to these new helpers (Thanks, Maxime!)
+- Include the lib/kunit/device-impl.h file, which was missing from the
+  previous revision.
+- Fix a use-after-free bug in kunit_device_driver_test, which resulted
+  in memory corruption on some clang-built UML builds.
+  - The 'test_state' is now allocated with kunit_kzalloc(), not on the
+    stack, as the stack will be gone when cleanup occurs.
+- Link to v2: https://lore.kernel.org/r/20231208-kunit_bus-v2-0-e95905d9b325@google.com
 
-In contrast, in stacked mode, only one CS pin is asserted at any given=20
-time, determined by the memory address and the accessed data length.=20
-Stacked mode, unlike parallel mode, functions as a software abstraction.
-Once implemented, any SPI controller with multiple CS lines or with a=20
-combination of native-CS and GPIO-CS can operate two or more flashes in=20
-stacked mode.
+Changes in v2:
+- Simplify device/driver/bus matching, removing the no-longer-required
+  kunit_bus_match function. (Thanks, Greg)
+- The return values are both more consistent (kunit_device_register now
+  returns an explicit error pointer, rather than failing the test), and
+  better documented.
+- Add some basic documentation to the implementations as well as the
+  headers. The documentation in the headers is still more complete, and
+  is now properly compiled into the HTML documentation (under
+  dev-tools/kunit/api/resources.html). (Thanks, Matti)
+- Moved the internal-only kunit_bus_init() function to a private header,
+  lib/kunit/device-impl.h to avoid polluting the public headers, and
+  match other internal-only headers. (Thanks, Greg)
+- Alphabetise KUnit includes in other test modules. (Thanks, Amadeusz.)
+- Several code cleanups, particularly around error handling and
+  allocation. (Thanks Greg, Maxime)
+- Several const-correctness and casting improvements. (Thanks, Greg)
+- Added a new test to verify KUnit cleanup triggers device cleanup.
+  (Thanks, Maxime).
+- Improved the user-specified device test to verify that probe/remove
+  hooks are called correctly. (Thanks, Maxime).
+- The overflow test no-longer needlessly calls
+  kunit_device_unregister().
+- Several other minor cleanups and documentation improvements, which
+  hopefully make this a bit clearer and more robust.
+- Link to v1: https://lore.kernel.org/r/20231205-kunit_bus-v1-0-635036d3bc13@google.com
 
-> you also need to modify the spi controller and intercept some commands.
+---
+David Gow (4):
+      kunit: Add APIs for managing devices
+      fortify: test: Use kunit_device
+      overflow: Replace fake root_device with kunit_device
+      ASoC: topology: Replace fake root_device with kunit_device in tests
 
-Command interception occurs exclusively in parallel mode, not in stacked=20
-mode. In parallel mode, data must be split during flash memory read/write=20
-operations. However, during Flash register read/write operations, there=20
-should be no data split, as the identical data needs to be written to=20
-(or read from) the register of both flashes. Consequently, the driver has=20
-to intercept the command before activating the data split feature of the=20
-controller.
+Maxime Ripard (1):
+      drm/tests: Switch to kunit devices
 
-> Can everything be moved there?
+ Documentation/dev-tools/kunit/api/resource.rst |   9 ++
+ Documentation/dev-tools/kunit/usage.rst        |  50 +++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c      |  66 +--------
+ include/kunit/device.h                         |  80 +++++++++++
+ lib/fortify_kunit.c                            |   5 +-
+ lib/kunit/Makefile                             |   3 +-
+ lib/kunit/device-impl.h                        |  17 +++
+ lib/kunit/device.c                             | 181 +++++++++++++++++++++++++
+ lib/kunit/kunit-test.c                         | 134 +++++++++++++++++-
+ lib/kunit/test.c                               |   3 +
+ lib/overflow_kunit.c                           |   5 +-
+ sound/soc/soc-topology-test.c                  |  10 +-
+ 12 files changed, 485 insertions(+), 78 deletions(-)
+---
+base-commit: b285ba6f8cc1b2bfece0b4350fdb92c8780bc698
+change-id: 20230718-kunit_bus-ab19c4ef48dc
 
-In stacked mode, determining which flash device needs to be asserted is=20
-based on the flash address and the length of the requested data. This=20
-information is handled by the spi-nor core. If the operation spans across=20
-multiple flashes, the command, address, dummy (if required), and residual=20
-data must be issued to multiple flashes. This process should be carried=20
-out in the spi-nor core layer( or before spi-mem) and not in the driver.
+Best regards,
+-- 
+David Gow <davidgow@google.com>
 
- That is why >=20
-> I'm not sure we are implementing controller specific things in the core. =
-Hard
-
-As explained earlier the parallel mode of operation can be controller speci=
-fic,
-But the stacked mode is controller independent.
-
-> to judge without seeing other controllers doing a similar thing. I'd like=
- to avoid
-> that.
->=20
-> If we had some kind of abstraction here, that might be easier to adapt in=
- the
-> future, but just putting everything into the core will make it really har=
-d to
-> maintain. So if everything related to stacked and parallel memory would b=
-e in
-> drivers/mtd/spi-nor/stacked.c, we'd have at least everything in one place=
- with
-> a proper interface between that and the core.
-
-I agree.
-
-Regards
-Amit
->=20
-> -michael
