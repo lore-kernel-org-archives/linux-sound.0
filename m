@@ -1,131 +1,73 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744FC134DB
-	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 08:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10D311CBE
+	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 08:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UZ6Arlfd"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40b5155e154so4471905e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 00:09:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702627784; x=1703232584; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cBzycuIkV/6Qoafe8eFD9FYCTvqPcbdmnZw+dYA9ldA=;
-        b=UZ6Arlfdk6GEz3XfxlpZdHG1UDtWW1XX/bjBHuAywy7VBGciB9NB4rhEoM6V819OlX
-         we2mQaMKFRCLdDzT8ENVHPtv1rsia0jn5dL2DjcIMMNO7cfnaRUJqffWz4l89XLKL3yZ
-         fCalsg4nj5c/LWfnWkmWY5ZzZE68mI2DQv/KmijqLiJy8QETjb2GwMkISfvn8uUhRV4d
-         xDPOv30PWLDgT7diWj4Q9CKAzl3cmutX+ET3rmtKOTSHO5oRhQME/6Tx5lht5w1dYPv+
-         6Z/lhBPM3hmF9QhSeYVCotaiqOVEDLM83yYsBirulzOG3ZRKyatYd40P2bOu6+iBsVU/
-         p+fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702627784; x=1703232584;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cBzycuIkV/6Qoafe8eFD9FYCTvqPcbdmnZw+dYA9ldA=;
-        b=voSxxHPX/RYfUGflqBEleZP3EzFOvc4XY8dduc+dro7n1P8TU0epgCYz94m4leTeAI
-         /gqJeF8456uCAewiWVdqB6rHn8A+uaIg2kv+eBjEKtObCW5T61eGVYQaP7xM340YgczH
-         yEM5zVJbtN74scWa+ScgaW39576P+0NU/3oYGprztzVUUZzlKNXiOCXXAGns1LtF5V8g
-         3XjD8RKGKDTM0Eztp+Ea79dIYFF7j9JJfxYwnItQGTmUkbA+hfkq7/41nSLLhevv3Y77
-         Wn00SF8/fOvx2vIdrXWAzzYiuROyD0THwrRVVfux/d92Hk4EA3yQKnusZJ4XnpkYgcQw
-         uecw==
-X-Gm-Message-State: AOJu0YxwDffuDGHhj7TPVD6+W/f9oj8+e+l9GDNTQ/6H3G9S6gVxW5wL
-	zvkfMRIyjuDkvVLy61TI4MNY6Q==
-X-Google-Smtp-Source: AGHT+IHXr2aiF67iw/MCg4WJKcEoWDnyX1a4J+sk1RcPb6DkmQzspdZfGa3WNYfB3GkmOcFIJZLRMQ==
-X-Received: by 2002:a05:600c:1827:b0:40c:5c9:287 with SMTP id n39-20020a05600c182700b0040c05c90287mr5143077wmp.195.1702627784586;
-        Fri, 15 Dec 2023 00:09:44 -0800 (PST)
-Received: from [192.168.2.173] ([79.115.63.202])
-        by smtp.gmail.com with ESMTPSA id x15-20020a5d60cf000000b0033635ee4543sm7654960wrt.67.2023.12.15.00.09.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 00:09:44 -0800 (PST)
-Message-ID: <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
-Date: Fri, 15 Dec 2023 10:09:40 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TnCwEBA1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702628243; x=1734164243;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d/UFN7/8AalQK0n9GB2UuQqy3A7AniJdphdUSY7SGrw=;
+  b=TnCwEBA1BwMxR7OWqMGUWbHJWb6Jh01hj4xBzzf2QuGa+JP4CKbvU5x9
+   f0tTf0bxYV5B67yv+ta5DGdBot2MDyv0FhpZ7oFecNE0aG4BTVemNftsI
+   27+ltypA62JYUCCrPSQQjsRY+oQ4+5Xjn5BG8RrklmoLPsa2HldWNH9Be
+   jATXLi5tERFD3w8IrRJs0E9nfgyAYU6TEIedz1SbcrUv5bhFA9RgQYIdn
+   SMtzz2YhA9Owj5IB5vJH9+LSokLyYpy13PW+4eziTW0iK62Kp2wIX/cjz
+   Pd6gLDXuE0B2+7K31Pd5+Kyhl4wOeBg25ZopCuIgzYkKdpYTvFVrgEyYf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2414121"
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
+   d="scan'208";a="2414121"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 00:17:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
+   d="scan'208";a="16206810"
+Received: from bard-ubuntu.sh.intel.com ([10.239.185.57])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 00:17:21 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: [PATCH 0/3] ASoC: SOF: query FW config to reload library
+Date: Fri, 15 Dec 2023 16:30:59 +0800
+Message-Id: <20231215083102.3064200-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Content-Language: en-US
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>,
- "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
- "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michael@walle.cc" <michael@walle.cc>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
- <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
- <BN7PR12MB2802BEDFB821A1748185794CDC8AA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <f5a47024-514a-4846-bc16-08cf0f9af912@linaro.org>
- <BN7PR12MB2802BB3DA682D9C13EF7DE08DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <5a6f6764-6779-42b0-b6c6-3f638b85ef78@linaro.org>
- <BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org>
- <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+We should query FW config if context save is supported, and no need
+to reload FW if hda->booted_from_imr and ipc4_data->fw_context_save
+are true.
 
+Rander Wang (3):
+  ASoC: SOF: IPC4: synchronize fw_config_params with fw definitions
+  ASoC: SOF: IPC4: query fw_context_save feature from fw
+  ASoC: SOF: Intel: check fw_context_save for library reload
 
-On 15.12.2023 09:55, Mahapatra, Amit Kumar wrote:
->> Thanks! Can you share with us what flashes you used for testing in the
->> stacked and parallel configurations?
-> I used SPI-NOR QSPI flashes for testing stacked and parallel.
+ include/sound/sof/ipc4/header.h  | 6 ++++++
+ sound/soc/sof/intel/hda-loader.c | 5 +++--
+ sound/soc/sof/intel/lnl.c        | 2 ++
+ sound/soc/sof/intel/mtl.c        | 2 ++
+ sound/soc/sof/intel/tgl.c        | 2 ++
+ sound/soc/sof/ipc4-loader.c      | 3 +++
+ sound/soc/sof/ipc4-priv.h        | 1 +
+ 7 files changed, 19 insertions(+), 2 deletions(-)
 
-I got that, I wanted the flash name or device ID.
+-- 
+2.25.1
 
-What I'm interested is if each flash is in its own package. Are they?
-
-> 
->>>> can combine a SPI NOR with a SPI NAND in stacked configuration?
->>> No, Xilinx/AMD QSPI controllers doesn't support this configuration.
->>>
->> 2 SPI NANDs shall work with the AMD controller, right?
-> We never tested 2 SPI-NAND with AMD controller.
-
-I was asking because I think the stacked layer shall be SPI MEM generic,
-and not particular to SPI NOR.
-
->> I skimmed over the QSPI controller datasheet and wondered why one would
->> get complicated with 2 Quad Flashes when we have Octal. But then I saw that
->> the same SoC can configure an Octal controller (the Octal and Quad
->> controllers seems mutual exclusive) and that the Octal one can operate 2
->> octal flashes in stacked mode 🙂.
-> Thats correct .
-> 
-> Please let me know how you want me to proceed on this.
-
-I got you. Still need to allocate more time on this.
-
-Cheers,
-ta
