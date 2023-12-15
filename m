@@ -1,66 +1,77 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B8FD27D;
-	Fri, 15 Dec 2023 07:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D126FA1
+	for <linux-sound@vger.kernel.org>; Fri, 15 Dec 2023 07:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PzwmR59c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+TgjDuWy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PzwmR59c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+TgjDuWy"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M6qYg0b6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I8/BfeFw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z1J2dhSI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X1P+Vhqd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A992D22494;
-	Fri, 15 Dec 2023 07:09:47 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5CBF71F81D;
+	Fri, 15 Dec 2023 07:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702624187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Uoa0WO3kLNLTv42+xeHU+ZVBFVwDCLmSYORzg2NrapU=;
-	b=PzwmR59cLQWeDMh3CZPWtpbbbV5Ljba1gxne7Rxle/eLZEfPv7IyNG9MKw2w21clg3NYLK
-	d1qrUqnPaH9vUaOEsIzF0ipn6WiSI4mXqdDjtvP9nypwEXIb9mMVkoHtxQ3O7aXwvzsVSA
-	Jgt4pd/w8vKFsbdSHCj+4VNklJfWBhg=
+	t=1702624408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
+	b=M6qYg0b6lxKNOTIPOEnCbcaV7pM1mfZPuC0t4qLaCjPji1+Bd5aPpX3SYnjXzaL+pWHIRM
+	Jhez3K2kJfVZJJfTjxtlKs0IS9phTmSgLwn6z3ex3rTWuyPG+nzYxF7M53EfmIHPO44SPZ
+	TG2zezE2iw2iNiaZPe+lgf2I1n9wlfQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702624187;
+	s=susede2_ed25519; t=1702624408;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Uoa0WO3kLNLTv42+xeHU+ZVBFVwDCLmSYORzg2NrapU=;
-	b=+TgjDuWyDOXmyQjLmXP5YEVGbj3nCGgTX9cYPpF2Bt7ffOePiRL8OQNUq9KH10/aaounEb
-	fZnnEbKKrk29oYCA==
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
+	b=I8/BfeFwnpdYqnmPW1bJJE/63Vb3BBVGcdUdCyif7HyFxhMeiM8rV1yowEBwm+2T6hweYo
+	2D713tp2wVzWwcBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702624187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Uoa0WO3kLNLTv42+xeHU+ZVBFVwDCLmSYORzg2NrapU=;
-	b=PzwmR59cLQWeDMh3CZPWtpbbbV5Ljba1gxne7Rxle/eLZEfPv7IyNG9MKw2w21clg3NYLK
-	d1qrUqnPaH9vUaOEsIzF0ipn6WiSI4mXqdDjtvP9nypwEXIb9mMVkoHtxQ3O7aXwvzsVSA
-	Jgt4pd/w8vKFsbdSHCj+4VNklJfWBhg=
+	t=1702624407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
+	b=Z1J2dhSI+O6qLh1gT9+t3PKN6kQLGAf0SwL1no6SYf6mdmggaprrM0k4WVvKp7KB1si5zT
+	gB8+YKfwfXR9SRkgGWkDmRJi/v9O+HfU1b0fj6WW/jnwMtk60jJO5ShJLGlpPufFpytB1i
+	wYSv6Kuw5WNP1PvWW5+c0h/JVED+/0g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702624187;
+	s=susede2_ed25519; t=1702624407;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Uoa0WO3kLNLTv42+xeHU+ZVBFVwDCLmSYORzg2NrapU=;
-	b=+TgjDuWyDOXmyQjLmXP5YEVGbj3nCGgTX9cYPpF2Bt7ffOePiRL8OQNUq9KH10/aaounEb
-	fZnnEbKKrk29oYCA==
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o6ZXKSmkZKvcZrWzMziNWuBzfLhOWQcuywdX/qs653Y=;
+	b=X1P+VhqdleuRaGU+iT4J5yOGt3vBB78jOoTE2zZJcqa5bhQx3nQQm0GvJZ6bLx8hQanNde
+	ZY198T4Z+nldzyDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8042513726;
-	Fri, 15 Dec 2023 07:09:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3336A13726;
+	Fri, 15 Dec 2023 07:13:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZYp7Hbv7e2VQKAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 Dec 2023 07:09:47 +0000
-Date: Fri, 15 Dec 2023 08:09:47 +0100
-Message-ID: <87edfoosas.wl-tiwai@suse.de>
+	id AG3NCpf8e2VHKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 Dec 2023 07:13:27 +0000
+Date: Fri, 15 Dec 2023 08:13:26 +0100
+Message-ID: <87bkasos4p.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>,
-    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.7-rc6
+To: =?ISO-8859-1?Q?Cl=E9ment?= Villeret <clement.villeret@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz
+Subject: Re: ALSA: hda/realtek: Add quirk for ASUS ROG GV302XA
+In-Reply-To: <0a27bf4b-3056-49ac-9651-ebd7f3e36328@gmail.com>
+References: <0a27bf4b-3056-49ac-9651-ebd7f3e36328@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -68,67 +79,52 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: *******
 X-Spam-Level: 
-X-Spam-Score: 0.41
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.43
-X-Spamd-Result: default: False [-2.43 / 50.00];
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z1J2dhSI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X1P+Vhqd
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.14 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 BAYES_HAM(-2.04)[95.27%];
 	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-0.93)[-0.931];
+	 TAGGED_RCPT(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-0.59)[-0.591];
+	 TO_DN_SOME(0.00)[];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 TO_DN_ALL(0.00)[];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
 	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FREEMAIL_TO(0.00)[gmail.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.20)[96.17%]
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: -4.14
+X-Rspamd-Queue-Id: 5CBF71F81D
 X-Spam-Flag: NO
 
-Linus,
+On Thu, 14 Dec 2023 21:36:32 +0100,
+Clément Villeret wrote:
+> 
+> Asus ROG Flowx13 (GV302XA) seems require same patch as others asus products
+> 
+> Signed-off-by: Clément Villeret<clement.villeret@gmail.com>
 
-please pull sound fixes for v6.7-rc6 from:
+Applied now.  Thanks!
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-rc6
 
-The topmost commit is 315deab289924c83ab1ded50022e8db95d6e428b
-
-----------------------------------------------------------------
-
-sound fixes for 6.7-rc6
-
-A collection of HD-audio quirks for TAS2781 codec and device-specific
-workarounds.
-
-----------------------------------------------------------------
-
-Gergo Koteles (4):
-      ALSA: hda/tas2781: leave hda_component in usable state
-      ALSA: hda/tas2781: handle missing EFI calibration data
-      ALSA: hda/tas2781: call cleanup functions only once
-      ALSA: hda/tas2781: reset the amp before component_add
-
-Hartmut Knaack (1):
-      ALSA: hda/realtek: Apply mute LED quirk for HP15-db
-
-Kai Vehmanen (2):
-      ALSA: hda/hdmi: add force-connect quirk for NUC5CPYB
-      ALSA: hda/hdmi: add force-connect quirks for ASUSTeK Z170 variants
-
----
- sound/pci/hda/patch_hdmi.c      |  3 +++
- sound/pci/hda/patch_realtek.c   |  1 +
- sound/pci/hda/tas2781_hda_i2c.c | 21 ++++++++++-----------
- 3 files changed, 14 insertions(+), 11 deletions(-)
-
+Takashi
