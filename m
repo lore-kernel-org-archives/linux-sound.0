@@ -1,59 +1,55 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238821849;
-	Sun, 17 Dec 2023 08:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F358035298
+	for <linux-sound@vger.kernel.org>; Sun, 17 Dec 2023 11:26:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPHfFAp1"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5cd8667c59eso485016a12.2;
-        Sun, 17 Dec 2023 00:00:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl+YBh5o"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-50e270639d9so1234114e87.3
+        for <linux-sound@vger.kernel.org>; Sun, 17 Dec 2023 03:26:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702800034; x=1703404834; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702812407; x=1703417207; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WMyHbtuF9x070zlYFlq5kNsBiUOhZsD2fvl4NV4fsLM=;
-        b=gPHfFAp1XI8kMnHt0v5bcaU8zFYTvszoK63wUMjV9M65metworo/NENROVYeXMhaGb
-         r0jFBKwwGXQ84hn04qf/ino7KlsjdHOduCHzkl2YHc9uJckAwiFv7TniCyPiUOTWEn09
-         cCVeDqaPTO8MzYe9EZxOJPObPZ68lKaLvO7IDY2VHtMCTIJh01lqX8PSM0WrYI2a+xRj
-         ck6iP0HiP3wydJE605EAGTsforKKNaPBKuF8vtCF/KgRi/TRcjuRZQ7ljPn7kONox3YV
-         7EtI+Vv/vN09PxgmHMO96wCgD8WzX3SrQRtCsrG9Af1RrxHxfepfyB5lPM22ouygUTrT
-         MFAw==
+        bh=+3lVMsH8UoRgnBtgpntj+M5tKaip7JAu7tlcdkLjQ6o=;
+        b=gl+YBh5oJ0peArAXcg0YfJrnRWjtkYKg07tzMaxh+e/1TSOv2jJjVvcQ49vhPUWX0v
+         CVBIxPEYKL3YSxNPihH7EqW0H4Oje29AFc0TcIpslHTjxvrZEBrqWqoSJFPw2M8B5gX0
+         W3MdRQ4IKs6qBzzwPRg2pKxa2Xc95hMQwZuhXoI52Z/+YXH61n3RkSkpmJ7DECl1yWYU
+         ZeEE5cKup2aekJuEwRJEC2bn4QBs/zco04PJoR8PolsvDo4YiTSHgzwsfpmoZX4P3yZ6
+         RBskA3HQlFrBnws2qqiXAihxk5yL9twPYKO1atBohqeIiorNeKiFQ4x7S95zQ1SCfloA
+         RTqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702800034; x=1703404834;
+        d=1e100.net; s=20230601; t=1702812407; x=1703417207;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WMyHbtuF9x070zlYFlq5kNsBiUOhZsD2fvl4NV4fsLM=;
-        b=vC2vnxxPCppfYrMVZXtwwW2uPQFhZ/UXa/tv2MumSwQ8cxDGtMOYlB4nQ6I3o2uLLz
-         UtgyAvXNDWLfC4c5HjS3mvUk0roPORbwir/y0Pp1Zn1sS3q/vqdSElJ6JbvKKHRrCVH8
-         TA7aF7vmv/y0Yl0hEfnbD3B88Vfzji966L/wV6v7SIcPEIi5zoBAw1BA8f9mO/Rk+7Ww
-         j9yY4mVGm7O/g/XujP9zkEXqXkxIOsrQgxa8+x4GA+glBUht1N3Kpd4xMnkq/bNWP4I5
-         zq5+l5NGmeXe/Fghk4tq0dKg+HPLgL97T7IximGTXl3Oi6pL0/P9OouBckb7+iHZF3VM
-         QQ/A==
-X-Gm-Message-State: AOJu0YwFmWCzAQcAqKBHjDXM5AWzRGF2t+l3iFI2NDUVDN5vjw88glKs
-	3+xbwcy227tHas8/A/R8gjCa8RTXXD8C5f06
-X-Google-Smtp-Source: AGHT+IE8bPJ0WDJ5dY071qkIv1Hb7eWdGaRmiaLbbxHuMA6GH6jqt39mgAFLTszZuQoGrN5+Xs1glg==
-X-Received: by 2002:a05:6a20:7fa0:b0:18f:97c:977e with SMTP id d32-20020a056a207fa000b0018f097c977emr20432258pzj.102.1702800034239;
-        Sun, 17 Dec 2023 00:00:34 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:3bca:b037:bb5b:1703:a617:d897])
-        by smtp.gmail.com with ESMTPSA id pb7-20020a17090b3c0700b0028aea6c24bcsm4092397pjb.53.2023.12.17.00.00.30
+        bh=+3lVMsH8UoRgnBtgpntj+M5tKaip7JAu7tlcdkLjQ6o=;
+        b=h+9xK/u5UJWvhTljtqagYv7sqLTiV/9UFY4xD6iqnMtqDDbi5pl787+fJjxLHw33BZ
+         5IANoCwjXmXyKXqwzusE7RsffKf0buXIBPACoSWBW+RFBBQeomtdI/ROwO5Q9Pa3yYN1
+         Y8Hy197443X093TcC1KsUw2OByzpDSSQ44wCnkaQTgNpRNm9ePqCYNy/EQtahY3SAZYr
+         vpaCa4aHmdViRD1ybMvHcq/ZVf/fLUOQ7WiH08MhBUCkrrPFLkUhKCMdzioHp5B8Vlzt
+         TnUYEjioqbCnxJzUxZnDy/EfPV7fgTULOeAwA794aQXDw5Y8ZkH73/6iqL20MLcEeWBC
+         YnEQ==
+X-Gm-Message-State: AOJu0YzDRi+ERknUhyDmvWX6XbvLpbc1S/bkZW1destb8TmIMJQzJouK
+	csq0yZicebH37Eiesu8fwS4ltPXUs9I=
+X-Google-Smtp-Source: AGHT+IFfKwuviM4WlMi9KUdTEwFg5AVQNWVQ6NecQMLCHo14yuVdz89xrMPD/MLhndj0NbM5i+/E0A==
+X-Received: by 2002:a05:6512:48d2:b0:50b:f2c5:56b2 with SMTP id er18-20020a05651248d200b0050bf2c556b2mr5854205lfb.47.1702812406358;
+        Sun, 17 Dec 2023 03:26:46 -0800 (PST)
+Received: from pop-os.home ([2a02:21b4:100c:0:d2cb:c50f:dcb0:5076])
+        by smtp.gmail.com with ESMTPSA id ig8-20020a1709072e0800b00a1c6e3e454fsm12778943ejc.166.2023.12.17.03.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 00:00:33 -0800 (PST)
-From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	broonie@kernel.org,
-	shuah@kernel.org
-Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kselftest: alsa: fixed a print formatting warning
-Date: Sun, 17 Dec 2023 13:30:19 +0530
-Message-Id: <20231217080019.1063476-1-ghanshyam1898@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 17 Dec 2023 03:26:45 -0800 (PST)
+From: Jeremie Knuesel <knuesel@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jeremie Knuesel <knuesel@gmail.com>,
+	Alexander Tsoy <alexander@tsoy.me>
+Subject: [PATCH] ALSA: usb-audio: Increase delay in MOTU M quirk
+Date: Sun, 17 Dec 2023 12:22:43 +0100
+Message-Id: <20231217112243.33409-1-knuesel@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,27 +58,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A statement used %d print formatter where %s should have
-been used. The same has been fixed in this commit.
+Increase the quirk delay from 2 seconds to 4 seconds. This reflects a
+change in the Windows driver in which the delay was increased to about
+3.7 seconds. The larger delay fixes an issue where the device fails to
+work unless it was powered up early during boot.
 
-Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+Also clarify in the quirk comment that the quirk is only applied to
+older devices (USB ID 07fd:0008).
+
+Signed-off-by: Jeremie Knuesel <knuesel@gmail.com>
+Suggested-by: Alexander Tsoy <alexander@tsoy.me>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=211975
 ---
- tools/testing/selftests/alsa/mixer-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/usb/quirks.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
-index 21e482b23f50..23df154fcdd7 100644
---- a/tools/testing/selftests/alsa/mixer-test.c
-+++ b/tools/testing/selftests/alsa/mixer-test.c
-@@ -138,7 +138,7 @@ static void find_controls(void)
- 			err = snd_ctl_elem_info(card_data->handle,
- 						ctl_data->info);
- 			if (err < 0) {
--				ksft_print_msg("%s getting info for %d\n",
-+				ksft_print_msg("%s getting info for %s\n",
- 					       snd_strerror(err),
- 					       ctl_data->name);
- 			}
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index ab2b938502eb..07cc6a201579 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -1387,7 +1387,7 @@ static int snd_usb_motu_microbookii_boot_quirk(struct usb_device *dev)
+ 
+ static int snd_usb_motu_m_series_boot_quirk(struct usb_device *dev)
+ {
+-	msleep(2000);
++	msleep(4000);
+ 
+ 	return 0;
+ }
+@@ -1630,7 +1630,7 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
+ 				  unsigned int id)
+ {
+ 	switch (id) {
+-	case USB_ID(0x07fd, 0x0008): /* MOTU M Series */
++	case USB_ID(0x07fd, 0x0008): /* MOTU M Series, 1st hardware version */
+ 		return snd_usb_motu_m_series_boot_quirk(dev);
+ 	}
+ 
 -- 
-2.25.1
+2.34.1
 
