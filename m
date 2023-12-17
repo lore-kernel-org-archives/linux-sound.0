@@ -1,100 +1,467 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F358035298
-	for <linux-sound@vger.kernel.org>; Sun, 17 Dec 2023 11:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314C842AA5;
+	Sun, 17 Dec 2023 12:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl+YBh5o"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-50e270639d9so1234114e87.3
-        for <linux-sound@vger.kernel.org>; Sun, 17 Dec 2023 03:26:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702812407; x=1703417207; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+3lVMsH8UoRgnBtgpntj+M5tKaip7JAu7tlcdkLjQ6o=;
-        b=gl+YBh5oJ0peArAXcg0YfJrnRWjtkYKg07tzMaxh+e/1TSOv2jJjVvcQ49vhPUWX0v
-         CVBIxPEYKL3YSxNPihH7EqW0H4Oje29AFc0TcIpslHTjxvrZEBrqWqoSJFPw2M8B5gX0
-         W3MdRQ4IKs6qBzzwPRg2pKxa2Xc95hMQwZuhXoI52Z/+YXH61n3RkSkpmJ7DECl1yWYU
-         ZeEE5cKup2aekJuEwRJEC2bn4QBs/zco04PJoR8PolsvDo4YiTSHgzwsfpmoZX4P3yZ6
-         RBskA3HQlFrBnws2qqiXAihxk5yL9twPYKO1atBohqeIiorNeKiFQ4x7S95zQ1SCfloA
-         RTqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702812407; x=1703417207;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+3lVMsH8UoRgnBtgpntj+M5tKaip7JAu7tlcdkLjQ6o=;
-        b=h+9xK/u5UJWvhTljtqagYv7sqLTiV/9UFY4xD6iqnMtqDDbi5pl787+fJjxLHw33BZ
-         5IANoCwjXmXyKXqwzusE7RsffKf0buXIBPACoSWBW+RFBBQeomtdI/ROwO5Q9Pa3yYN1
-         Y8Hy197443X093TcC1KsUw2OByzpDSSQ44wCnkaQTgNpRNm9ePqCYNy/EQtahY3SAZYr
-         vpaCa4aHmdViRD1ybMvHcq/ZVf/fLUOQ7WiH08MhBUCkrrPFLkUhKCMdzioHp5B8Vlzt
-         TnUYEjioqbCnxJzUxZnDy/EfPV7fgTULOeAwA794aQXDw5Y8ZkH73/6iqL20MLcEeWBC
-         YnEQ==
-X-Gm-Message-State: AOJu0YzDRi+ERknUhyDmvWX6XbvLpbc1S/bkZW1destb8TmIMJQzJouK
-	csq0yZicebH37Eiesu8fwS4ltPXUs9I=
-X-Google-Smtp-Source: AGHT+IFfKwuviM4WlMi9KUdTEwFg5AVQNWVQ6NecQMLCHo14yuVdz89xrMPD/MLhndj0NbM5i+/E0A==
-X-Received: by 2002:a05:6512:48d2:b0:50b:f2c5:56b2 with SMTP id er18-20020a05651248d200b0050bf2c556b2mr5854205lfb.47.1702812406358;
-        Sun, 17 Dec 2023 03:26:46 -0800 (PST)
-Received: from pop-os.home ([2a02:21b4:100c:0:d2cb:c50f:dcb0:5076])
-        by smtp.gmail.com with ESMTPSA id ig8-20020a1709072e0800b00a1c6e3e454fsm12778943ejc.166.2023.12.17.03.26.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 03:26:45 -0800 (PST)
-From: Jeremie Knuesel <knuesel@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jeremie Knuesel <knuesel@gmail.com>,
-	Alexander Tsoy <alexander@tsoy.me>
-Subject: [PATCH] ALSA: usb-audio: Increase delay in MOTU M quirk
-Date: Sun, 17 Dec 2023 12:22:43 +0100
-Message-Id: <20231217112243.33409-1-knuesel@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JcS5dit7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A01C433C7;
+	Sun, 17 Dec 2023 12:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702816658;
+	bh=U4h4sW3ek5LmVgVI5658ovoMuW7xyOt6549+sXrjvqg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JcS5dit7eM3YEAm6Wzx3uQNmXyXsv50Mh248m8cS+Ak5VlzC+ljx4lLWB4O0qfMfb
+	 90EBBm0mn1ntmGxetZe+YlDZk503/ThfHnZCIiqDZK8ZSG6tabIFxxaU5kfXzbjW4B
+	 NyooA4+lBiW6IEnlvMDGwrZH74O6pGSguZewGqnz51AV39z5Yr5aZzSRRuuVO9giJa
+	 UN6eetRvWhseLmmnunasVkZueRUPPLcs5Pp1EClw3eWF3aBxMH9SqyUnYgI+ywPYCz
+	 jgBSSm0I1TB1HlBiaL2aqBmxongEuR8B+cnqh4mH/OdwuIJkWTuHWE/ccFNUyoeVdM
+	 Q0jtY65vmDlow==
+Date: Sun, 17 Dec 2023 12:37:17 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
+ linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, Francesco
+ Dolcini <francesco.dolcini@toradex.com>, Luiz Augusto von Dentz
+ <luiz.dentz@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder
+ <elder@kernel.org>, Lee Jones <lee@kernel.org>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>, Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>, Hans de Goede
+ <hdegoede@redhat.com>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
+ <ilpo.jarvinen@linux.intel.com>, Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type
+ to size_t
+Message-ID: <20231217123717.4e162b70@jic23-huawei>
+In-Reply-To: <20231214170146.641783-1-francesco@dolcini.it>
+References: <20231214170146.641783-1-francesco@dolcini.it>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Increase the quirk delay from 2 seconds to 4 seconds. This reflects a
-change in the Windows driver in which the delay was increased to about
-3.7 seconds. The larger delay fixes an issue where the device fails to
-work unless it was powered up early during boot.
+On Thu, 14 Dec 2023 18:01:46 +0100
+Francesco Dolcini <francesco@dolcini.it> wrote:
 
-Also clarify in the quirk comment that the quirk is only applied to
-older devices (USB ID 07fd:0008).
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> 
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">= 0" from serdev_controller_receive_buf(), change its return type from  
+> ssize_t to size_t.
+> 
+> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@kernel.org/
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-Signed-off-by: Jeremie Knuesel <knuesel@gmail.com>
-Suggested-by: Alexander Tsoy <alexander@tsoy.me>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=211975
----
- sound/usb/quirks.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+IIO ones look fine to me so for next version
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index ab2b938502eb..07cc6a201579 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -1387,7 +1387,7 @@ static int snd_usb_motu_microbookii_boot_quirk(struct usb_device *dev)
- 
- static int snd_usb_motu_m_series_boot_quirk(struct usb_device *dev)
- {
--	msleep(2000);
-+	msleep(4000);
- 
- 	return 0;
- }
-@@ -1630,7 +1630,7 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
- 				  unsigned int id)
- {
- 	switch (id) {
--	case USB_ID(0x07fd, 0x0008): /* MOTU M Series */
-+	case USB_ID(0x07fd, 0x0008): /* MOTU M Series, 1st hardware version */
- 		return snd_usb_motu_m_series_boot_quirk(dev);
- 	}
- 
--- 
-2.34.1
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+> ---
+> hello,
+> patch is based on current linux next.
+> 
+> It has an obvious problem, it touches files from multiple subsystem in a single
+> patch that is complicated to review and eventually merge, just splitting this
+> would however not work, it will break bisectability and the build.
+> 
+> I am looking for advise on the best way to move forward.
+> 
+> I see the following options:
+>  - keep it as it is
+>  - break it down with a patch with each subsystem, and squash before applying
+>    from a single (tty?) subsystem
+>  - go for a multi stage approach, defining a new callback, move to it and in
+>    the end remove the original one, likewise it was done for i2c lately
+> 
+> ---
+>  drivers/bluetooth/btmtkuart.c              |  4 ++--
+>  drivers/bluetooth/btnxpuart.c              |  4 ++--
+>  drivers/bluetooth/hci_serdev.c             |  4 ++--
+>  drivers/gnss/core.c                        |  6 +++---
+>  drivers/gnss/serial.c                      |  4 ++--
+>  drivers/gnss/sirf.c                        |  6 +++---
+>  drivers/greybus/gb-beagleplay.c            |  6 +++---
+>  drivers/iio/chemical/pms7003.c             |  4 ++--
+>  drivers/iio/chemical/scd30_serial.c        |  4 ++--
+>  drivers/iio/chemical/sps30_serial.c        |  4 ++--
+>  drivers/iio/imu/bno055/bno055_ser_core.c   |  4 ++--
+>  drivers/mfd/rave-sp.c                      |  4 ++--
+>  drivers/net/ethernet/qualcomm/qca_uart.c   |  2 +-
+>  drivers/nfc/pn533/uart.c                   |  4 ++--
+>  drivers/nfc/s3fwrn5/uart.c                 |  4 ++--
+>  drivers/platform/chrome/cros_ec_uart.c     |  4 ++--
+>  drivers/platform/surface/aggregator/core.c |  4 ++--
+>  drivers/tty/serdev/serdev-ttyport.c        | 10 ++++------
+>  include/linux/gnss.h                       |  4 ++--
+>  include/linux/serdev.h                     |  8 ++++----
+>  sound/drivers/serial-generic.c             |  4 ++--
+>  21 files changed, 48 insertions(+), 50 deletions(-)
+> 
+> diff --git a/drivers/bluetooth/btmtkuart.c b/drivers/bluetooth/btmtkuart.c
+> index 3c84fcbda01a..e6bc4a73c9fc 100644
+> --- a/drivers/bluetooth/btmtkuart.c
+> +++ b/drivers/bluetooth/btmtkuart.c
+> @@ -383,8 +383,8 @@ static void btmtkuart_recv(struct hci_dev *hdev, const u8 *data, size_t count)
+>  	}
+>  }
+>  
+> -static ssize_t btmtkuart_receive_buf(struct serdev_device *serdev,
+> -				     const u8 *data, size_t count)
+> +static size_t btmtkuart_receive_buf(struct serdev_device *serdev,
+> +				    const u8 *data, size_t count)
+>  {
+>  	struct btmtkuart_dev *bdev = serdev_device_get_drvdata(serdev);
+>  
+> diff --git a/drivers/bluetooth/btnxpuart.c b/drivers/bluetooth/btnxpuart.c
+> index 1d592ac413d1..056bef5b2919 100644
+> --- a/drivers/bluetooth/btnxpuart.c
+> +++ b/drivers/bluetooth/btnxpuart.c
+> @@ -1264,8 +1264,8 @@ static const struct h4_recv_pkt nxp_recv_pkts[] = {
+>  	{ NXP_RECV_FW_REQ_V3,   .recv = nxp_recv_fw_req_v3 },
+>  };
+>  
+> -static ssize_t btnxpuart_receive_buf(struct serdev_device *serdev,
+> -				     const u8 *data, size_t count)
+> +static size_t btnxpuart_receive_buf(struct serdev_device *serdev,
+> +				    const u8 *data, size_t count)
+>  {
+>  	struct btnxpuart_dev *nxpdev = serdev_device_get_drvdata(serdev);
+>  
+> diff --git a/drivers/bluetooth/hci_serdev.c b/drivers/bluetooth/hci_serdev.c
+> index 39c8b567da3c..a3c3beb2806d 100644
+> --- a/drivers/bluetooth/hci_serdev.c
+> +++ b/drivers/bluetooth/hci_serdev.c
+> @@ -271,8 +271,8 @@ static void hci_uart_write_wakeup(struct serdev_device *serdev)
+>   *
+>   * Return: number of processed bytes
+>   */
+> -static ssize_t hci_uart_receive_buf(struct serdev_device *serdev,
+> -				    const u8 *data, size_t count)
+> +static size_t hci_uart_receive_buf(struct serdev_device *serdev,
+> +				   const u8 *data, size_t count)
+>  {
+>  	struct hci_uart *hu = serdev_device_get_drvdata(serdev);
+>  
+> diff --git a/drivers/gnss/core.c b/drivers/gnss/core.c
+> index 48f2ee0f78c4..9b8a0605ec76 100644
+> --- a/drivers/gnss/core.c
+> +++ b/drivers/gnss/core.c
+> @@ -317,10 +317,10 @@ EXPORT_SYMBOL_GPL(gnss_deregister_device);
+>   *
+>   * Must not be called for a closed device.
+>   */
+> -int gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
+> -				size_t count)
+> +size_t gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
+> +		       size_t count)
+>  {
+> -	int ret;
+> +	size_t ret;
+>  
+>  	ret = kfifo_in(&gdev->read_fifo, buf, count);
+>  
+> diff --git a/drivers/gnss/serial.c b/drivers/gnss/serial.c
+> index baa956494e79..bf55aa2c1cf0 100644
+> --- a/drivers/gnss/serial.c
+> +++ b/drivers/gnss/serial.c
+> @@ -80,8 +80,8 @@ static const struct gnss_operations gnss_serial_gnss_ops = {
+>  	.write_raw	= gnss_serial_write_raw,
+>  };
+>  
+> -static ssize_t gnss_serial_receive_buf(struct serdev_device *serdev,
+> -				       const u8 *buf, size_t count)
+> +static size_t gnss_serial_receive_buf(struct serdev_device *serdev,
+> +				      const u8 *buf, size_t count)
+>  {
+>  	struct gnss_serial *gserial = serdev_device_get_drvdata(serdev);
+>  	struct gnss_device *gdev = gserial->gdev;
+> diff --git a/drivers/gnss/sirf.c b/drivers/gnss/sirf.c
+> index 6801a8fb2040..2aae3c02156d 100644
+> --- a/drivers/gnss/sirf.c
+> +++ b/drivers/gnss/sirf.c
+> @@ -160,12 +160,12 @@ static const struct gnss_operations sirf_gnss_ops = {
+>  	.write_raw	= sirf_write_raw,
+>  };
+>  
+> -static ssize_t sirf_receive_buf(struct serdev_device *serdev,
+> -				const u8 *buf, size_t count)
+> +static size_t sirf_receive_buf(struct serdev_device *serdev,
+> +			       const u8 *buf, size_t count)
+>  {
+>  	struct sirf_data *data = serdev_device_get_drvdata(serdev);
+>  	struct gnss_device *gdev = data->gdev;
+> -	int ret = 0;
+> +	size_t ret = 0;
+>  
+>  	if (!data->wakeup && !data->active) {
+>  		data->active = true;
+> diff --git a/drivers/greybus/gb-beagleplay.c b/drivers/greybus/gb-beagleplay.c
+> index 2da37ff92cf1..26c95efe2fff 100644
+> --- a/drivers/greybus/gb-beagleplay.c
+> +++ b/drivers/greybus/gb-beagleplay.c
+> @@ -257,7 +257,7 @@ static void hdlc_rx_frame(struct gb_beagleplay *bg)
+>  	}
+>  }
+>  
+> -static ssize_t hdlc_rx(struct gb_beagleplay *bg, const u8 *data, size_t count)
+> +static size_t hdlc_rx(struct gb_beagleplay *bg, const u8 *data, size_t count)
+>  {
+>  	size_t i;
+>  	u8 c;
+> @@ -317,8 +317,8 @@ static void hdlc_deinit(struct gb_beagleplay *bg)
+>  	flush_work(&bg->tx_work);
+>  }
+>  
+> -static ssize_t gb_tty_receive(struct serdev_device *sd, const u8 *data,
+> -			      size_t count)
+> +static size_t gb_tty_receive(struct serdev_device *sd, const u8 *data,
+> +			     size_t count)
+>  {
+>  	struct gb_beagleplay *bg = serdev_device_get_drvdata(sd);
+>  
+> diff --git a/drivers/iio/chemical/pms7003.c b/drivers/iio/chemical/pms7003.c
+> index b5cf15a515d2..43025866d5b7 100644
+> --- a/drivers/iio/chemical/pms7003.c
+> +++ b/drivers/iio/chemical/pms7003.c
+> @@ -211,8 +211,8 @@ static bool pms7003_frame_is_okay(struct pms7003_frame *frame)
+>  	return checksum == pms7003_calc_checksum(frame);
+>  }
+>  
+> -static ssize_t pms7003_receive_buf(struct serdev_device *serdev, const u8 *buf,
+> -				   size_t size)
+> +static size_t pms7003_receive_buf(struct serdev_device *serdev, const u8 *buf,
+> +				  size_t size)
+>  {
+>  	struct iio_dev *indio_dev = serdev_device_get_drvdata(serdev);
+>  	struct pms7003_state *state = iio_priv(indio_dev);
+> diff --git a/drivers/iio/chemical/scd30_serial.c b/drivers/iio/chemical/scd30_serial.c
+> index a47654591e55..2adb76dbb020 100644
+> --- a/drivers/iio/chemical/scd30_serial.c
+> +++ b/drivers/iio/chemical/scd30_serial.c
+> @@ -174,8 +174,8 @@ static int scd30_serdev_command(struct scd30_state *state, enum scd30_cmd cmd, u
+>  	return 0;
+>  }
+>  
+> -static ssize_t scd30_serdev_receive_buf(struct serdev_device *serdev,
+> -					const u8 *buf, size_t size)
+> +static size_t scd30_serdev_receive_buf(struct serdev_device *serdev,
+> +				       const u8 *buf, size_t size)
+>  {
+>  	struct iio_dev *indio_dev = serdev_device_get_drvdata(serdev);
+>  	struct scd30_serdev_priv *priv;
+> diff --git a/drivers/iio/chemical/sps30_serial.c b/drivers/iio/chemical/sps30_serial.c
+> index 3afa89f8acc3..a6dfbe28c914 100644
+> --- a/drivers/iio/chemical/sps30_serial.c
+> +++ b/drivers/iio/chemical/sps30_serial.c
+> @@ -210,8 +210,8 @@ static int sps30_serial_command(struct sps30_state *state, unsigned char cmd,
+>  	return rsp_size;
+>  }
+>  
+> -static ssize_t sps30_serial_receive_buf(struct serdev_device *serdev,
+> -					const u8 *buf, size_t size)
+> +static size_t sps30_serial_receive_buf(struct serdev_device *serdev,
+> +				       const u8 *buf, size_t size)
+>  {
+>  	struct iio_dev *indio_dev = dev_get_drvdata(&serdev->dev);
+>  	struct sps30_serial_priv *priv;
+> diff --git a/drivers/iio/imu/bno055/bno055_ser_core.c b/drivers/iio/imu/bno055/bno055_ser_core.c
+> index 5677bdf4f846..694ff14a3aa2 100644
+> --- a/drivers/iio/imu/bno055/bno055_ser_core.c
+> +++ b/drivers/iio/imu/bno055/bno055_ser_core.c
+> @@ -378,8 +378,8 @@ static void bno055_ser_handle_rx(struct bno055_ser_priv *priv, int status)
+>   * Also, we assume to RX one pkt per time (i.e. the HW doesn't send anything
+>   * unless we require to AND we don't queue more than one request per time).
+>   */
+> -static ssize_t bno055_ser_receive_buf(struct serdev_device *serdev,
+> -				      const u8 *buf, size_t size)
+> +static size_t bno055_ser_receive_buf(struct serdev_device *serdev,
+> +				     const u8 *buf, size_t size)
+>  {
+>  	int status;
+>  	struct bno055_ser_priv *priv = serdev_device_get_drvdata(serdev);
+> diff --git a/drivers/mfd/rave-sp.c b/drivers/mfd/rave-sp.c
+> index b1229bb143ee..f517e59e1c01 100644
+> --- a/drivers/mfd/rave-sp.c
+> +++ b/drivers/mfd/rave-sp.c
+> @@ -471,8 +471,8 @@ static void rave_sp_receive_frame(struct rave_sp *sp,
+>  		rave_sp_receive_reply(sp, data, length);
+>  }
+>  
+> -static ssize_t rave_sp_receive_buf(struct serdev_device *serdev,
+> -				   const u8 *buf, size_t size)
+> +static size_t rave_sp_receive_buf(struct serdev_device *serdev,
+> +				  const u8 *buf, size_t size)
+>  {
+>  	struct device *dev = &serdev->dev;
+>  	struct rave_sp *sp = dev_get_drvdata(dev);
+> diff --git a/drivers/net/ethernet/qualcomm/qca_uart.c b/drivers/net/ethernet/qualcomm/qca_uart.c
+> index 223321897b96..20f50bde82ac 100644
+> --- a/drivers/net/ethernet/qualcomm/qca_uart.c
+> +++ b/drivers/net/ethernet/qualcomm/qca_uart.c
+> @@ -58,7 +58,7 @@ struct qcauart {
+>  	unsigned char *tx_buffer;
+>  };
+>  
+> -static ssize_t
+> +static size_t
+>  qca_tty_receive(struct serdev_device *serdev, const u8 *data, size_t count)
+>  {
+>  	struct qcauart *qca = serdev_device_get_drvdata(serdev);
+> diff --git a/drivers/nfc/pn533/uart.c b/drivers/nfc/pn533/uart.c
+> index 2eb5978bd79e..cfbbe0713317 100644
+> --- a/drivers/nfc/pn533/uart.c
+> +++ b/drivers/nfc/pn533/uart.c
+> @@ -203,8 +203,8 @@ static int pn532_uart_rx_is_frame(struct sk_buff *skb)
+>  	return 0;
+>  }
+>  
+> -static ssize_t pn532_receive_buf(struct serdev_device *serdev,
+> -				 const u8 *data, size_t count)
+> +static size_t pn532_receive_buf(struct serdev_device *serdev,
+> +				const u8 *data, size_t count)
+>  {
+>  	struct pn532_uart_phy *dev = serdev_device_get_drvdata(serdev);
+>  	size_t i;
+> diff --git a/drivers/nfc/s3fwrn5/uart.c b/drivers/nfc/s3fwrn5/uart.c
+> index 456d3947116c..9c09c10c2a46 100644
+> --- a/drivers/nfc/s3fwrn5/uart.c
+> +++ b/drivers/nfc/s3fwrn5/uart.c
+> @@ -51,8 +51,8 @@ static const struct s3fwrn5_phy_ops uart_phy_ops = {
+>  	.write = s3fwrn82_uart_write,
+>  };
+>  
+> -static ssize_t s3fwrn82_uart_read(struct serdev_device *serdev,
+> -				  const u8 *data, size_t count)
+> +static size_t s3fwrn82_uart_read(struct serdev_device *serdev,
+> +				 const u8 *data, size_t count)
+>  {
+>  	struct s3fwrn82_uart_phy *phy = serdev_device_get_drvdata(serdev);
+>  	size_t i;
+> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
+> index 68d80559fddc..8ea867c2a01a 100644
+> --- a/drivers/platform/chrome/cros_ec_uart.c
+> +++ b/drivers/platform/chrome/cros_ec_uart.c
+> @@ -81,8 +81,8 @@ struct cros_ec_uart {
+>  	struct response_info response;
+>  };
+>  
+> -static ssize_t cros_ec_uart_rx_bytes(struct serdev_device *serdev,
+> -				     const u8 *data, size_t count)
+> +static size_t cros_ec_uart_rx_bytes(struct serdev_device *serdev,
+> +				    const u8 *data, size_t count)
+>  {
+>  	struct ec_host_response *host_response;
+>  	struct cros_ec_device *ec_dev = serdev_device_get_drvdata(serdev);
+> diff --git a/drivers/platform/surface/aggregator/core.c b/drivers/platform/surface/aggregator/core.c
+> index 9591a28bc38a..ba550eaa06fc 100644
+> --- a/drivers/platform/surface/aggregator/core.c
+> +++ b/drivers/platform/surface/aggregator/core.c
+> @@ -227,8 +227,8 @@ EXPORT_SYMBOL_GPL(ssam_client_bind);
+>  
+>  /* -- Glue layer (serdev_device -> ssam_controller). ------------------------ */
+>  
+> -static ssize_t ssam_receive_buf(struct serdev_device *dev, const u8 *buf,
+> -				size_t n)
+> +static size_t ssam_receive_buf(struct serdev_device *dev, const u8 *buf,
+> +			       size_t n)
+>  {
+>  	struct ssam_controller *ctrl;
+>  	int ret;
+> diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/serdev-ttyport.c
+> index e94e090cf0a1..3d7ae7fa5018 100644
+> --- a/drivers/tty/serdev/serdev-ttyport.c
+> +++ b/drivers/tty/serdev/serdev-ttyport.c
+> @@ -27,19 +27,17 @@ static size_t ttyport_receive_buf(struct tty_port *port, const u8 *cp,
+>  {
+>  	struct serdev_controller *ctrl = port->client_data;
+>  	struct serport *serport = serdev_controller_get_drvdata(ctrl);
+> -	int ret;
+> +	size_t ret;
+>  
+>  	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
+>  		return 0;
+>  
+>  	ret = serdev_controller_receive_buf(ctrl, cp, count);
+>  
+> -	dev_WARN_ONCE(&ctrl->dev, ret < 0 || ret > count,
+> -				"receive_buf returns %d (count = %zu)\n",
+> +	dev_WARN_ONCE(&ctrl->dev, ret > count,
+> +				"receive_buf returns %zu (count = %zu)\n",
+>  				ret, count);
+> -	if (ret < 0)
+> -		return 0;
+> -	else if (ret > count)
+> +	if (ret > count)
+>  		return count;
+>  
+>  	return ret;
+> diff --git a/include/linux/gnss.h b/include/linux/gnss.h
+> index 36968a0f33e8..9857c4029e65 100644
+> --- a/include/linux/gnss.h
+> +++ b/include/linux/gnss.h
+> @@ -60,8 +60,8 @@ void gnss_put_device(struct gnss_device *gdev);
+>  int gnss_register_device(struct gnss_device *gdev);
+>  void gnss_deregister_device(struct gnss_device *gdev);
+>  
+> -int gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
+> -			size_t count);
+> +size_t gnss_insert_raw(struct gnss_device *gdev, const unsigned char *buf,
+> +		       size_t count);
+>  
+>  static inline void gnss_set_drvdata(struct gnss_device *gdev, void *data)
+>  {
+> diff --git a/include/linux/serdev.h b/include/linux/serdev.h
+> index 3fab88ba265e..ff78efc1f60d 100644
+> --- a/include/linux/serdev.h
+> +++ b/include/linux/serdev.h
+> @@ -27,7 +27,7 @@ struct serdev_device;
+>   *			not sleep.
+>   */
+>  struct serdev_device_ops {
+> -	ssize_t (*receive_buf)(struct serdev_device *, const u8 *, size_t);
+> +	size_t (*receive_buf)(struct serdev_device *, const u8 *, size_t);
+>  	void (*write_wakeup)(struct serdev_device *);
+>  };
+>  
+> @@ -185,9 +185,9 @@ static inline void serdev_controller_write_wakeup(struct serdev_controller *ctrl
+>  	serdev->ops->write_wakeup(serdev);
+>  }
+>  
+> -static inline ssize_t serdev_controller_receive_buf(struct serdev_controller *ctrl,
+> -						    const u8 *data,
+> -						    size_t count)
+> +static inline size_t serdev_controller_receive_buf(struct serdev_controller *ctrl,
+> +						   const u8 *data,
+> +						   size_t count)
+>  {
+>  	struct serdev_device *serdev = ctrl->serdev;
+>  
+> diff --git a/sound/drivers/serial-generic.c b/sound/drivers/serial-generic.c
+> index d6e5aafd697c..36409a56c675 100644
+> --- a/sound/drivers/serial-generic.c
+> +++ b/sound/drivers/serial-generic.c
+> @@ -100,8 +100,8 @@ static void snd_serial_generic_write_wakeup(struct serdev_device *serdev)
+>  	snd_serial_generic_tx_wakeup(drvdata);
+>  }
+>  
+> -static ssize_t snd_serial_generic_receive_buf(struct serdev_device *serdev,
+> -					      const u8 *buf, size_t count)
+> +static size_t snd_serial_generic_receive_buf(struct serdev_device *serdev,
+> +					     const u8 *buf, size_t count)
+>  {
+>  	int ret;
+>  	struct snd_serial_generic *drvdata = serdev_device_get_drvdata(serdev);
+> 
+> base-commit: 11651f8cb2e88372d4ed523d909514dc9a613ea3
 
