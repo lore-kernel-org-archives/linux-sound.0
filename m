@@ -1,123 +1,84 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492581DDFC;
-	Mon, 18 Dec 2023 19:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C251F101E2
+	for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 20:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OR2h4lEM"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BII7awl009072;
-	Mon, 18 Dec 2023 19:58:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=t0bpCimWvMhWfdI+TsPYGoHOoVAQBV1OEIZbPnpfoak=; b=OR
-	2h4lEM4dBzCsLd+KqD8zxpFrlQcglcplmQPVD6bBdBUEtesGx8DRYqcbadwSyAX5
-	jmEiOQcHKgdSvekkRMgu9/U7x2Li4Pfk0oD+VytunYIV4/Zu9CzuGNsd64EHQGHx
-	0h/KLdwKGOZ1bxSjn740snWNNAyIdoFnB0R0rlP4H309nRNyae940OtHLcoDVNFR
-	9kwAtUEG8ocQ1EmG9hIUXLQc6xsBO0xwZ4lTk7GSRi4anORUkKffrYR7LsalsFhK
-	6kPH+oFrTklJRRu9hpxsGH7MOU+qSRZ48m1HJpCUP9NU3z8d6oyGYbIL8Y4A5DvK
-	9AY1uv0JExp/EJLocjBw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v2mfe1euh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 19:58:09 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BIJw8YC027591
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 19:58:08 GMT
-Received: from [10.110.97.107] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
- 2023 11:58:06 -0800
-Message-ID: <0a3a6277-62f6-2d6c-d36a-46a442c89b67@quicinc.com>
-Date: Mon, 18 Dec 2023 11:58:02 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V5Qw+Q8U"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-28b71490fbbso856658a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 12:38:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702931893; x=1703536693; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GRMF3211MpvQOQOjta+0t7pxxBEWQIDECRhw88TpeXo=;
+        b=V5Qw+Q8UeezLSHs94VYgzeBk+Kv7mErsX8p3pRWuUYtAo86YVKeADpeWoBu7yn6sMQ
+         5ErFABVxFelfq4nezcW5Lq3as0+keqZd2yEBGa4/IViEADUBjQuT+HAGCT4S6TDMjhVC
+         x9Xg0Hj5ujm5ho12ktLnWxXgJN+0+H8tPIeQS5FqVxQG2sLQl+YblYI20y1OY5L4N0X0
+         P8GDs+ao4NL6MWYnGLMUOc9JTpwLO4zVvpJb9bdC546GUIimYgt0fcKxrETqnN800ayX
+         UGfWQw1uJy6Kn6rdpaDkB6vZTnakM25w6cHJVD+83p7zyvD/vi6DBTLzI7Nx2Aw0Wrmm
+         AKow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702931893; x=1703536693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GRMF3211MpvQOQOjta+0t7pxxBEWQIDECRhw88TpeXo=;
+        b=c4rbixaBJECvRwd3wW1QwFi8kEO9hyFbLF4ixjUme8ACIizudHXdOtXZKfJRBJbeei
+         OgJuRsEwe5mFuBU8amvPYZlpKmdqPYxQewPoZLZOUOATP8N5Wszimxk5mIEJjncA7vKM
+         1FUGFPzoc9Cj7nEUZz5MqMi+iEkADns8O0fdWT6nXMSpZS2qoORXeLoZ1iETTkPnlIWr
+         CRH1e3MVQc3IP0uOGCd9TEQF/n5njhH5awDQGTiKXNmxNU7PAksgOPs5TKzw4gHFzNUG
+         4ULYqWOdTNeEU5SEq4CnsqyLBJB9t2FFouqu47mkJAVkOA9lbHnSMt7GRy7lCOrdctD+
+         rTOg==
+X-Gm-Message-State: AOJu0YwLSK5zbtFZOzYbvUEUlijbprOPwoY5Bp7FrWctunaV6+jQhczJ
+	LPMvBdTLpevkgnKMqaasPQCtPCy1kftxJxnb
+X-Google-Smtp-Source: AGHT+IGfAOJR4DrwuCG0y+4KY1srkX1M4TzhTx8p8xwSsUzkQD+IdLteqC0fs8+kKNTK248qo1JPBA==
+X-Received: by 2002:a17:90b:2407:b0:28a:f921:a424 with SMTP id nr7-20020a17090b240700b0028af921a424mr3506499pjb.68.1702931892803;
+        Mon, 18 Dec 2023 12:38:12 -0800 (PST)
+Received: from localhost.localdomain ([223.189.16.6])
+        by smtp.gmail.com with ESMTPSA id 27-20020a17090a031b00b00286c1303cdasm22225115pje.45.2023.12.18.12.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 12:38:12 -0800 (PST)
+From: opticXC <aabishmalik3337@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	opticXC <aabishmalik3337@gmail.com>
+Subject: [PATCH 6.6.7 1/1] ALSA: hda/realtek: mute led fix for HP Pavilion 14 ec1xxx series
+Date: Tue, 19 Dec 2023 02:07:00 +0530
+Message-ID: <20231218203659.32948-2-aabishmalik3337@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v10 18/41] ALSA: usb-audio: qcom: Add USB QMI definitions
-Content-Language: en-US
-To: Jeff Johnson <quic_jjohnson@quicinc.com>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
-        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
-        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh+dt@kernel.org>, <agross@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
- <20231215214955.12110-19-quic_wcheng@quicinc.com>
- <80111881-13dd-4b05-876a-a97eb3889726@quicinc.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <80111881-13dd-4b05-876a-a97eb3889726@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: P-tbYw2YI5KNM16_-dyXNk1fYgg76NOe
-X-Proofpoint-GUID: P-tbYw2YI5KNM16_-dyXNk1fYgg76NOe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312180148
+Content-Transfer-Encoding: 8bit
 
-Hi Jeff,
+The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
+It needs the ALC287_FIXUP_HP_GPIO_LED quirk to enable the mute led.
 
-On 12/15/2023 2:38 PM, Jeff Johnson wrote:
-> On 12/15/2023 1:49 PM, Wesley Cheng wrote:
->> The Qualcomm USB audio offload driver utilizes the QMI protocol to
->> communicate with the audio DSP.  Add the necessary QMI header and field
->> definitions, so the QMI interface driver is able to route the QMI packet
->> received to the USB audio offload driver.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   sound/usb/qcom/usb_audio_qmi_v01.c | 892 +++++++++++++++++++++++++++++
->>   sound/usb/qcom/usb_audio_qmi_v01.h | 162 ++++++
->>   2 files changed, 1054 insertions(+)
->>   create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.c
->>   create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.h
->>
->> diff --git a/sound/usb/qcom/usb_audio_qmi_v01.c b/sound/usb/qcom/usb_audio_qmi_v01.c
->> new file mode 100644
->> index 000000000000..bdfd67d980eb
->> --- /dev/null
->> +++ b/sound/usb/qcom/usb_audio_qmi_v01.c
->> @@ -0,0 +1,892 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include <linux/soc/qcom/qmi.h>
->> +
->> +#include "usb_audio_qmi_v01.h"
->> +
->> +static struct qmi_elem_info mem_info_v01_ei[] = {
-> 
-> I believe all of the struct qmi_elem_info arrays can be const.
-> 
-> At least that was the goal of commit ff6d365898d4 ("soc: qcom: qmi: use
-> const for struct qmi_elem_info")
-> 
 
-Thanks for the review.  Will fix this.
+Signed-off-by: opticXC <aabishmalik3337@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks
-Wesley Cheng
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index e45d4c405..416cda983 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9881,6 +9881,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x89c6, "Zbook Fury 17 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x89ca, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++    SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
+-- 
+2.43.0
+
