@@ -1,75 +1,103 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A6B101D4;
-	Mon, 18 Dec 2023 13:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAAC37871
+	for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 14:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aRbC2DA4"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2343c31c4bso167016366b.1;
-        Mon, 18 Dec 2023 05:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702907655; x=1703512455; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbtU5Dem8n1ByRGdHfRIcdaXiqJKIZaXjO9MiKCPxSw=;
-        b=aRbC2DA4RCGnOCbpTUGe3H2+8A3AvSzghu3VoH8878v+Bsz8Vvsm2HEV4DkJo7d6aD
-         fg2knaCoSpfiLPIsb2mXkZwqImIRsMCTaaApnxPHqKzj2dFoJGPZrQ0riyregW7q5yAd
-         ztaa2P9wZvJVURnJajbQtt/Hoa6Q+62sIZmRknBzh3XWqwX2bz3Bv7sFZ+UBP2KXD2FL
-         +3gKbAZHvRhM6ZNYzxoh1S57NeDlF0zJIWNWkBIrgAQ+kH3GT2NbDWzQW07DoVVMwKWV
-         eLK9cNqfEKR0lHw/r3TgZJLV2Aac6rHwy/T3CK5qBWmTfqPKP81RG7xBo8+aRRG+2wxK
-         7Bng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702907655; x=1703512455;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CbtU5Dem8n1ByRGdHfRIcdaXiqJKIZaXjO9MiKCPxSw=;
-        b=WWWldL3mFEVEOpFa8wsPmQmBuoMPWh17mnDMlcNAI+Ns5Tic2zhgzUvMVVcxPnfQQX
-         HDz9d2wZuUhmZNnx3II/cDgmGUk+SBAHVkKNe8WjMEi/M5BbgLwVENCjpPU9+FEBFsLu
-         1joV1zFs5ibOyTin2JVCVV+6KdzJbSA4UR9d0qRFSThy1Os5mVwzR3aJVGexcLcxVzt5
-         dIPDBLQSRDP7U4182YSTh9dTu1b8QSa0egqAzu+uUUjozTT3pSAyxSUWnySVLymHcXZ6
-         xl6PkYY8DJZ2j64yUrX45YbvsiGsCPRbyAMKxznxVNJnTC1ttOgMBdcJ0DZMKPL9xTyZ
-         frHQ==
-X-Gm-Message-State: AOJu0YwHWxQGujaAEXQ/vQgAFUF5z/CpNr7dLibeVDwQyNywcs/hpmpq
-	SzxE+xf6BzJd25tlcjdU4h+rrH3YCvDu5yzBPq8=
-X-Google-Smtp-Source: AGHT+IFccjuA7oI4N2vZVaD408zkZGajffjClRfWqmjz7HiPSzp9vIfLO0uacCVtWGKz7UbIXxVfUaYcwBaZqHng/s0=
-X-Received: by 2002:a17:906:1083:b0:a19:a19b:426a with SMTP id
- u3-20020a170906108300b00a19a19b426amr4772325eju.213.1702907655325; Mon, 18
- Dec 2023 05:54:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="RcIiff7Z"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI5ucvm029947;
+	Mon, 18 Dec 2023 08:29:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=Q3K2jRhiUj+p3q9
+	pzVaLQolrGJbvLSKGMXyIqTW5100=; b=RcIiff7ZLBLLuGCvlQSuI/wrkRxCGcM
+	XcKikPcRb2cP+YcM7UZMMLGWgZWvYZcG4ZM61M3e+VandUWQ8solAnlhFGx3q1Yg
+	Q4dNUU8EH9/jXU8oo/SnTHnAlvigBTJMBBQhcLdM5cNTCtRUPJMLvIxhJcqnOWUE
+	aillJMRALIzLY09P30aaUClvAkthbWOPpEhzCYqFAvsCXm+r3fDzL7F9nU54UUXJ
+	YPZ3RGLrNjbUTTtWaeGdCnHEO3VBHYG0I/2S+pNd6OSjD3lIRh9rBd1ds/+zv1zY
+	DjKta/cQfIL6ti7DL9J7FOPkoEwDKJDl2/FVPkOiU0c30yahSYu2hIA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3v1a622scj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 08:29:49 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
+ 2023 14:29:46 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 18 Dec 2023 14:29:46 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id DDEF915A2;
+	Mon, 18 Dec 2023 14:29:46 +0000 (UTC)
+Date: Mon, 18 Dec 2023 14:29:46 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+CC: Vinod Koul <vkoul@kernel.org>, <linux-sound@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <tiwai@suse.de>, <broonie@kernel.org>,
+        <vinod.koul@intel.com>, Bard liao <yung-chuan.liao@linux.intel.com>,
+        Ranjani
+ Sridharan <ranjani.sridharan@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <vijendar.mukunda@amd.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Shuming Fan
+	<shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+        Oder Chiou
+	<oder_chiou@realtek.com>
+Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
+ description
+Message-ID: <20231218142946.GZ14858@ediswmail.ad.cirrus.com>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
+ <ZYAvoFbEP8RH_x0Y@matsya>
+ <a5d0e3a7-e45c-4971-8ad7-7ba19702acf1@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
-In-Reply-To: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Mon, 18 Dec 2023 15:54:03 +0200
-Message-ID: <CAEnQRZAwk-USZqXwLOVuN3iTn7r-55BJH=Sqq5+2Od+DhrK0iw@mail.gmail.com>
-Subject: Re: [PATCHv3 RESEND 00/10] ASoC: fsl-asoc-card: compatibility
- integration of a generic codec use case for use with S/PDIF controller
-To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <a5d0e3a7-e45c-4971-8ad7-7ba19702acf1@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: fTecLkRAfwiwFOOz9SQ3rNt-s_rvS7z5
+X-Proofpoint-ORIG-GUID: fTecLkRAfwiwFOOz9SQ3rNt-s_rvS7z5
+X-Proofpoint-Spam-Reason: safe
 
->
-> * fsl-asoc-card.txt currently follows the old dt-bindings format.
-> Should we update it to DT schema format in this patch series
-> before adding my new properties?
->
->
+On Mon, Dec 18, 2023 at 01:58:47PM +0100, Pierre-Louis Bossart wrote:
+> > why not have a single API that does both? First check if it is supported
+> > and then allocate buffers and do the transfer.. What are the advantages
+> > of using this two step process
+> 
+> Symmetry is the only thing that comes to my mind. Open - close and send
+> - wait are natural matches, aren't they?
+> 
+> We do need a wait(), so bundling open() and send() would be odd.
+> 
 
-I know this is extra-work but we would greatly appreciate if you first
-convert fsl-asoc-card.txt
-to yml format and then add your new properties.
+I agree send->wait->close would be odd, But you just bundle close
+into wait. So the API becomes just send->wait, which seems pretty
+logical.
+
+> But you have a point that the open() is not generic in that it also
+> prepares the DMA buffers for transmission. Maybe it's more natural to
+> follow the traditional open(), hw_params(), hw_free, close() from ALSA.
+
+I think this just makes it worse, you are now adding even more
+calls. The problem I see here is that, open and close (at least to
+me) strongly implies that you can do multiple operations between
+them and unless I have misunderstood something here you can't.
+
+Thanks,
+Charles
