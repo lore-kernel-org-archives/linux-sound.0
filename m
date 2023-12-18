@@ -1,190 +1,139 @@
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB8537872;
-	Mon, 18 Dec 2023 12:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71430129EE3
+	for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 13:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="KC9IcCdB"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id CB7159C04BD;
-	Mon, 18 Dec 2023 07:42:09 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id a22CMRJ0P6OD; Mon, 18 Dec 2023 07:42:09 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 22D809C068C;
-	Mon, 18 Dec 2023 07:42:09 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 22D809C068C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1702903329; bh=nNJwBxDmzL960mEI1mqFgHu2Oy9OWJ5ye2uPUgqVOL8=;
-	h=From:To:Date:Message-Id:MIME-Version;
-	b=KC9IcCdB/ndeBn1iClkNzQdFvCYwcAae8mB8HjDOuwe7VNhtuAysf0Iv6nV2CFid3
-	 DkpOU2cx0klXMN+DKDOxk8e5e0ixq2mAUckeyG+WHeX0HMe6UFvdS6vptU3NuVN3w1
-	 Buxz9EwOLYdfBjg/iEgA4UtCe5oey/qmQdjEU6C4zKRpXHs1q9zZGJA+F+NBEnF0dw
-	 r0vOh6SZZXliSB5dt9R7WXiMEIAFVE3xhro3SfHWX/ctYXpktccGcICcIpgsfVPuOm
-	 a1vT4MAYhBo7gsLEKK0Dw9QAqWr8piej7xrY6Is2n8gO1A6mDQeUYFKWFp3b8/X/9g
-	 yiTaqU9TxyFFA==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id OZ6vMlRS6mOD; Mon, 18 Dec 2023 07:42:08 -0500 (EST)
-Received: from gerard.rennes.sfl (unknown [192.168.216.3])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id F0A0F9C04BD;
-	Mon, 18 Dec 2023 07:42:06 -0500 (EST)
-From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
-	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-Subject: [PATCHv3 RESEND 00/10] ASoC: fsl-asoc-card: compatibility integration of a generic codec use case for use with S/PDIF controller
-Date: Mon, 18 Dec 2023 13:40:48 +0100
-Message-Id: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvbV1tpU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702906744; x=1734442744;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=J3ELLp5LAeAwAWR1C/4qxH4K8OaxLDU00Y9CzVO+Azo=;
+  b=YvbV1tpUn7s+DIyYVckcZfXzZgO0hbC0scX6gAkJ2N1jNrYmq4IcSokO
+   oRgHfqp8BPcMb6p65IC6YFo0qCxuYp1eUddAcLWBZOtxqmqFO8CCVAOqR
+   cRcyWbh/w9v1lzyQFBlldQIeHjfxWh996Z3ONqHBwxrvI2fPkgCw4M25k
+   zXzzUexopgN9QLs6AVDT/4tgB5sjDH5JIpbcCauuSqrVH9UHS8y4ven/v
+   /5096A6NGvGE8R2g9BZa7twHksaTqugip90/bhGw+qk+zNyDXEC9FDqA6
+   ftYZyUeb0IQxfmIGtplGpIaTChQMma7Q2+XxitlS1Hc/1ULDCeIYvxZ7A
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="8868636"
+X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
+   d="scan'208";a="8868636"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 05:39:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1022753474"
+X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
+   d="scan'208";a="1022753474"
+Received: from mmaiores-mobl1.ger.corp.intel.com (HELO [10.249.34.197]) ([10.249.34.197])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 05:38:58 -0800
+Message-ID: <a5d0e3a7-e45c-4971-8ad7-7ba19702acf1@linux.intel.com>
+Date: Mon, 18 Dec 2023 13:58:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-This is the v3 of the series of patch aiming to make the machine driver
-"fsl-asoc-card" compatible with use cases where there is no real codec
-driver.
-It proposes to use the "spdif_receiver" and "spdif_transmitter"
-drivers instead of the dummy codec.
-This is a first step in using the S/PDIF controller with the ASRC.
-
-The five first patches add compatibility with the pair of codecs
-"spdif_receiver" and "spdif_transmitter" with a new compatible,
-"fsl,imx-audio-generic".
-Codec parameters are set with default values.
-Consequently, the driver is modified to work with multi-codec use cases.
-It can get 2 codecs phandles from the device tree, and the
-"fsl_asoc_card_priv" struct now has 2 "codec_priv" to store properties
-of both codecs. It is fixed to 2 codecs as only "fsl,imx-audio-generic"
-uses multiple codecs at the moment.
-However, the driver now uses for_each_codecs macros when possible to
-ease future implementations of multi-codec configurations.
-
-The remaining patches add configuration options for the device tree.
-They configure the CPU DAI when using "fsl,imx-audio-generic".
-These options are usually hard-coded in "fsl-asoc-card.c" for each
-audio codec.
-Because the generic codec could be used with other CPU DAIs than
-the S/PDIF controller, setting these parameters could be required.
-
-This series of patch was successfully built for arm64 and x86 on top of
-the latest for-next branch of the ASoC git tree on the 14th of December.
-These modifications have also been tested on an i.MX8MN evaluation
-board, with a linux kernel RT v6.1.26-rt8.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
+ description
+Content-Language: en-US
+To: Vinod Koul <vkoul@kernel.org>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+ broonie@kernel.org, vinod.koul@intel.com,
+ Bard liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, srinivas.kandagatla@linaro.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ vijendar.mukunda@amd.com, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+ Oder Chiou <oder_chiou@realtek.com>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
+ <ZYAvoFbEP8RH_x0Y@matsya>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <ZYAvoFbEP8RH_x0Y@matsya>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-We also have a few questions, following remarks made by
-Krzysztof Kozlowski in a previous email for patch 10/10:
+>>  Documentation/driver-api/soundwire/bra.rst    | 478 ++++++++++++++++++
+> 
+> Can we split the cadence parts of this to bra-cadence.rst that way this
+> file documents the core parts only
 
-> >>> The compatible list for this generic sound card currently:
-> >>> @@ -48,6 +51,8 @@ The compatible list for this generic sound card
-> >>> currently:
-> >>>
-> >>> "fsl,imx-audio-nau8822"
-> >>>
-> >>> + "fsl,imx-audio-generic"
-> >>
-> >> Generic does not look like hardware specific.
-> >
-> > Even if our end goal is to use it with the S/PDIF controller, this ne=
-w
-> > support can be used with different hardware that doesn't
-> > require a codec. Thus, we don't really want to specify "spdif" in it.
-> >
-> > Is this compatible string not suitable ?
-> > Should we rename it to something else, like "fsl,imx-audio-no-codec" =
-?
->=20
-> Maybe Mark or Rob will help here, but for me "imx-audio" is just way to=
-o
-> generic.
-
-* Which generic name should we use ? Or how should we change it?
-=20
-> Also, you add several new properties, so I really expect either
-> converting old binding to DT schema first or adding new device in DT
-> schema format.
-
-* fsl-asoc-card.txt currently follows the old dt-bindings format.
-Should we update it to DT schema format in this patch series
-before adding my new properties?
+Yes, we can split the Cadence parts out.
 
 
-Best regards,
-Elinor Montmasson
+>> +Error handling
+>> +~~~~~~~~~~~~~~
+>> +
+>> +The expected response to a 'bra_message' and follow-up behavior may
+>> +vary:
+>> +
+>> +   (1) A Peripheral driver may want to receive an immediate -EBUSY
+>> +       response if the BRA protocol is not available at a given time.
+>> +
+>> +   (2) A Peripheral driver may want to wait until a timeout for the
+>> +       on-going transfer to be handled
+>> +
+>> +   (3) A Peripheral driver may want to wait until existing BRA
+>> +       transfers complete or deal with BRA as a background task when
+>> +       audio transfers stop. In this case, there would be no timeout,
+>> +       and the operation may not happen if the platform is suspended.
+> 
+> Is this runtime suspend or S3/S4 case?
 
+System suspend (which can also mean S0i1).
 
-Changelog:
-v2 -> v3:
-* when the bitmaster or framemaster are retrieved from the device tree,
-  the driver will now compare them with the two codecs possibly given in
-  the device tree, and not just the first codec.
-* improve driver modifications to use multiple codecs for better
-  integration of future multi-codec use cases:
-    * use for_each_codec macros when possible.
-    * "fsl_asoc_card_priv" struct now has 2 "codec_priv" as the driver
-      can currently retrieve 2 codec phandles from the device tree.
-* fix subject of patch 10/10 to follow the style of the subsystem and
-  previous commits of the file.
-* v2 patch series at:
-https://lore.kernel.org/alsa-devel/20231027144734.3654829-1-elinor.montma=
-sson@savoirfairelinux.com/
+I don't think we can have a case where a peripheral driver waits on
+something without having done a pm_runtime_get_sync() to prevent
+runtime_pm suspend.
 
-v1 -> v2:
-* replace use of the dummy codec by the pair of codecs
-  "spdif_receiver" / " spdif_transmitter".
-* adapt how dai links codecs are used to take into account the
-  possibility for multiple codecs per link.
-* change compatible name.
-* adapt driver to be able to register two codecs given in the device
-  tree.
-* v1 patch series at:
-https://lore.kernel.org/alsa-devel/20230901144550.520072-1-elinor.montmas=
-son@savoirfairelinux.com/
+> 
+>> +BTP/BRA API available to peripheral drivers
+>> +-------------------------------------------
+>> +
+>> +ASoC Peripheral drivers may use
+>> +
+>> +   - sdw_bpt_stream_open(mode)
+>> +
+>> +      This function verifies that the BPT protocol with the
+>> +      'mode'. For now only BRA is accepted as a mode. This function
+>> +      allocates a work buffer internally. This buffer is not exposed
+>> +      to the caller.
+>> +
+>> +     errors:
+>> +         -ENODEV: BPT/BRA is not supported by the Manager.
+>> +
+>> +         -EBUSY: another agent is already using the audio payload for
+>> +          audio transfers. There is no way to predict when the audio
+>> +          streams might stop, this will require the Peripheral driver
+>> +          to fall back to the regular (slow) command channel.
+>> +
+>> +         -EAGAIN: another agent is already transferring data using the
+>> +          BPT/BRA protocol. Since the transfers will typically last
+>> +          10s or 100s of ms, the Peripheral driver may wait and retry
+>> +          later.
+>> +
+>> +    - sdw_bpt_message_send_async(bpt_message)
+> 
+> why not have a single API that does both? First check if it is supported
+> and then allocate buffers and do the transfer.. What are the advantages
+> of using this two step process
 
+Symmetry is the only thing that comes to my mind. Open - close and send
+- wait are natural matches, aren't they?
 
-Elinor Montmasson (10):
-  ASoC: fsl-asoc-card: add support for dai links with multiple codecs
-  ASoC: fsl-asoc-card: add second dai link component for codecs
-  ASoC: fsl-asoc-card: add compatibility to use 2 codecs in dai-links
-  ASoC: fsl-asoc-card: add new compatible for a generic codec use case
-  ASoC: fsl-asoc-card: set generic codec as clock provider
-  ASoC: fsl-asoc-card: add dts property "cpu-slot-width"
-  ASoC: fsl-asoc-card: add dts property "cpu-slot-num"
-  ASoC: fsl-asoc-card: add dts properties "cpu-sysclk-freq"
-  ASoC: fsl-asoc-card: add dts properties "cpu-sysclk-dir-out"
-  ASoC: bindings: fsl-asoc-card: add compatible for generic codec
+We do need a wait(), so bundling open() and send() would be odd.
 
- .../bindings/sound/fsl-asoc-card.txt          |  28 +-
- sound/soc/fsl/fsl-asoc-card.c                 | 299 +++++++++++-------
- 2 files changed, 218 insertions(+), 109 deletions(-)
-
---=20
-2.25.1
-
+But you have a point that the open() is not generic in that it also
+prepares the DMA buffers for transmission. Maybe it's more natural to
+follow the traditional open(), hw_params(), hw_free, close() from ALSA.
