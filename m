@@ -1,77 +1,72 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034F21401E;
-	Mon, 18 Dec 2023 10:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F3LKPLYv"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ce4fe4ed18so229386b3a.1;
-        Mon, 18 Dec 2023 02:11:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702894308; x=1703499108; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dWVfo0YlGfjE9aDQP2Ly3L2JCb3LpM/ev0NxuURn88c=;
-        b=F3LKPLYvNsLSAjIf6bFDgT6NL3mkYVdoBJbBT+NiKbKsAsVtYrkOBlV1ILSr1/E7id
-         xiof1aVi2r/nLkEzcXNfo7hn10Ila9xFVz0II22HbAtO6JlOfgK97jpoxdrEXnNQe7aS
-         wTo0EKxwFuEdW9p/iRz4zXwNUmuLS82R7qFflyoZGAj3ZjIMcnad4VQ0bE9NPMwp4jpl
-         nRH9HG/UcspH+K4Jo3J09e2r/H05GjTLnXSTBFIwHg1GaWi1O6PTwFrO1DZAvXeG4n2d
-         bukxkON91yf9GzBLhhDiOg1njwJTXWJzsC0z93LkdFgnNJWOii6WtnongFkTxzb6SPX+
-         8ToA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702894308; x=1703499108;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dWVfo0YlGfjE9aDQP2Ly3L2JCb3LpM/ev0NxuURn88c=;
-        b=Kx1mHtQ2NIolQwwplgHk2PE1k79VESWZKaSY926pIggIB6B0YUQIsSidtOZGYLSIaO
-         /ajobdXOPdhdhruB88AtiHZKrkiSm+MBkb2+Mxe+x46gCkw4aNLUDECP82IhQ7V8GIqZ
-         xm/M9+qaNyVtAgKnm2IyyuSuK0GqaXyvvbp1qaVq/xDt9UJyNgjGYoaw1XmGTztl5Sr4
-         aacVolva/rbtXZYpdXwctmP052N6uq0HLOkGF/7og0TERYC+bVMeSAAKjh6MNN0sFsCR
-         F1nmTtQVOHbdt7/zeVg3M+rR6w/JOzC5iR/xo9SQAdx9cTg4m9blULGR9RETb/6sbuOD
-         KptA==
-X-Gm-Message-State: AOJu0YyeSrTVMwDBO2JYLhUt0fSyK/IKyFFSfj49tWxwNXMFxYNVgYSE
-	9fKUun4PX/NlXaV1fXVUs4uQH0Q88VUeZimeqVCkiff+
-X-Google-Smtp-Source: AGHT+IFYAnVfFiaPLV3aOQmZxk09vqA3D8C1S99StKDu8dlQoGIILh+9qvsyJUfc1ZciBzGtPeAUAdzf88ItNIDemXY=
-X-Received: by 2002:a05:6a00:2288:b0:6cd:e3ef:ce54 with SMTP id
- f8-20020a056a00228800b006cde3efce54mr34661547pfe.0.1702894308316; Mon, 18 Dec
- 2023 02:11:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE4B14F7C;
+	Mon, 18 Dec 2023 10:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 268B62012CB;
+	Mon, 18 Dec 2023 11:10:01 +0100 (CET)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 8C3F22012D6;
+	Mon, 18 Dec 2023 11:10:00 +0100 (CET)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id DA6B6181D0C0;
+	Mon, 18 Dec 2023 18:09:58 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_sai: Fix channel swap issue on i.MX8MP
+Date: Mon, 18 Dec 2023 17:28:51 +0800
+Message-Id: <1702891731-3417-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1702891731-3417-1-git-send-email-shengjiu.wang@nxp.com>
-In-Reply-To: <1702891731-3417-1-git-send-email-shengjiu.wang@nxp.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 18 Dec 2023 07:11:36 -0300
-Message-ID: <CAOMZO5CjoXFx4uX7w7My_zSeo_+mhQqhWYH3PNdV6SQOUXTxtg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_sai: Fix channel swap issue on i.MX8MP
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 18, 2023 at 7:10=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
-m> wrote:
->
-> When flag mclk_with_tere and mclk_direction_output enabled,
-> The SAI transmitter or receiver will be enabled in very early
-> stage, that if FSL_SAI_xMR is set by previous case,
-> for example previous case is one channel, current case is
-> two channels, then current case started with wrong xMR in
-> the beginning, then channel swap happen.
->
-> The patch is to clear xMR in hw_free() to avoid such
-> channel swap issue.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+When flag mclk_with_tere and mclk_direction_output enabled,
+The SAI transmitter or receiver will be enabled in very early
+stage, that if FSL_SAI_xMR is set by previous case,
+for example previous case is one channel, current case is
+two channels, then current case started with wrong xMR in
+the beginning, then channel swap happen.
 
-Fixes tag, please.
+The patch is to clear xMR in hw_free() to avoid such
+channel swap issue.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/fsl/fsl_sai.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index 32bbe5056a63..546bd4e333b5 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -714,6 +714,9 @@ static int fsl_sai_hw_free(struct snd_pcm_substream *substream,
+ 	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+ 	unsigned int ofs = sai->soc_data->reg_offset;
+ 
++	/* Clear xMR to avoid channel swap with mclk_with_tere enabled case */
++	regmap_write(sai->regmap, FSL_SAI_xMR(tx), 0);
++
+ 	regmap_update_bits(sai->regmap, FSL_SAI_xCR3(tx, ofs),
+ 			   FSL_SAI_CR3_TRCE_MASK, 0);
+ 
+-- 
+2.34.1
+
