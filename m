@@ -1,122 +1,106 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3BC1079D;
-	Mon, 18 Dec 2023 08:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D471101E8;
+	Mon, 18 Dec 2023 08:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ycVO0Sqe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ky82sSBM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ycVO0Sqe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ky82sSBM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A0E9B21E2D;
-	Mon, 18 Dec 2023 08:16:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702887418; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjntMNoS0FPhkGeK4kbpUFQ9Eav4f1akEt5QtGcHi2k=;
-	b=ycVO0SqeV7MdKRfvn/RBd7OqMOUbvYpDzzEGaZY9ObatHNXhgshsthX385hnvTDNFFVqA3
-	R4ngyjcTjvcKqMv1i5uz2b6rtdfH2xMrftssGvc+JO+Ck6B+mGn80uqSMgZyfPT6XBFoRe
-	sk6hWPw2T0Z58gPtDihMWrwYwrr3Is0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702887418;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjntMNoS0FPhkGeK4kbpUFQ9Eav4f1akEt5QtGcHi2k=;
-	b=ky82sSBM21TqT1Ms2od9ndpIGT8GnQe1pl4mG2XPVOFeKt5sIIHkTuGf2KIuTjO/n2PdKv
-	1NSfd8qMOBcqDADw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702887418; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjntMNoS0FPhkGeK4kbpUFQ9Eav4f1akEt5QtGcHi2k=;
-	b=ycVO0SqeV7MdKRfvn/RBd7OqMOUbvYpDzzEGaZY9ObatHNXhgshsthX385hnvTDNFFVqA3
-	R4ngyjcTjvcKqMv1i5uz2b6rtdfH2xMrftssGvc+JO+Ck6B+mGn80uqSMgZyfPT6XBFoRe
-	sk6hWPw2T0Z58gPtDihMWrwYwrr3Is0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702887418;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjntMNoS0FPhkGeK4kbpUFQ9Eav4f1akEt5QtGcHi2k=;
-	b=ky82sSBM21TqT1Ms2od9ndpIGT8GnQe1pl4mG2XPVOFeKt5sIIHkTuGf2KIuTjO/n2PdKv
-	1NSfd8qMOBcqDADw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65CB813454;
-	Mon, 18 Dec 2023 08:16:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VwpxF/r/f2WMYQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 18 Dec 2023 08:16:58 +0000
-Date: Mon, 18 Dec 2023 09:16:58 +0100
-Message-ID: <87cyv4ylfp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqKR6jTw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14FCAC433C8;
+	Mon, 18 Dec 2023 08:35:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702888506;
+	bh=PvieyW9kHU+3JjdvRizTuAsBF+M7+DN21zt8QD6huP8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cqKR6jTwpmCKyTFqiDsud8Ud91Y2vl0XnJ70WkUUWsejg3N21krgNOC2hGTW6Sr//
+	 PkugwCVTKDJbZBbTAjn2pZOtgeXLfIt4KhVQdagYFnoBeWEVHdgSDchIq1/IEoOYgz
+	 UPhMPfMZofuUfwXr9yS3PhKhC0IHJypA2VlCOfPMF5X3opuQwu7Tnyq59gPlfhE2L7
+	 BMOT1Z09reyctvlBiTybBEDPjQ60FLqs31RXDW6RG7gr4O0un4ilMkg7Cgrs/fszps
+	 ppFsjdnc33uZ69wLfbVJFyRfIMVBseNo/FtnnrcNqwp53jB9iKEBeFsADcFruxnW5a
+	 /8S2G6GLNLRGw==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan@kernel.org>)
+	id 1rF95c-0003FH-0v;
+	Mon, 18 Dec 2023 09:35:05 +0100
+Date: Mon, 18 Dec 2023 09:35:04 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
+	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: au88x0: fixed a typo
-In-Reply-To: <20231218065442.43523-1-ghanshyam1898@gmail.com>
-References: <20231218065442.43523-1-ghanshyam1898@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Alex Elder <elder@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v1] treewide, serdev: change receive_buf() return type to
+ size_t
+Message-ID: <ZYAEOCMwZGMNvpNX@hovoldconsulting.com>
+References: <20231214170146.641783-1-francesco@dolcini.it>
+ <ZXxWX-Fw1InID2ax@hovoldconsulting.com>
+ <ZXxa7yzKzG6048vw@francesco-nb.int.toradex.com>
+ <ZXx8bCVyxJ9Ddvqm@hovoldconsulting.com>
+ <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.84 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.53)[97.90%]
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ycVO0Sqe;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ky82sSBM
-X-Spam-Score: -2.84
-X-Rspamd-Queue-Id: A0E9B21E2D
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZXyH1Zv3Pxd6S3ag@francesco-nb.int.toradex.com>
 
-On Mon, 18 Dec 2023 07:54:42 +0100,
-Ghanshyam Agrawal wrote:
+On Fri, Dec 15, 2023 at 06:07:33PM +0100, Francesco Dolcini wrote:
+
+> On Fri, Dec 15, 2023 at 05:18:52PM +0100, Johan Hovold wrote:
+> > On Fri, Dec 15, 2023 at 02:55:59PM +0100, Francesco Dolcini wrote:
+> > > To me the change is correct, with that said probably this should have
+> > > been explicitly mentioned in the commit message or a separate
+> > > preparation patch.
+> > 
+> > It's a separate change and should not be hidden away in a tree-wide
+> > change that goes through a different maintainer.
+> > 
+> > Please drop this change from this patch and resubmit it separately to me
+> > if you want and I'll review when I have the time.
 > 
-> Fixed typo in the word communicate
+> Fine, I agree.
 > 
-> Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+> I see those options (let me know if you see other options I have not
+> mentioned):
+> 
+> 1. I add this change (taking into account also intel ice) as a separate
+>    patch in this series and you may just ack it and Greg could merge
+>    together with the serdev one.
+> 2. I prepare an independent patch for the GNSS change and only once this
+>    is merged I'll send a rebased v2 of this one.
+> 3. I update this patch without this GNSS API change, that mean I will
+>    have to cast away the signed type from a few GNSS drivers.
+> 
+> 1 is my preferred option, 2 is fine, but it seems a little bit of overdoing,
+> 3 I would avoid, we are doing this cleanup to be a little bit more
+> strongly typed and to prevent the kind of bugs that is the original trigger
+> for this patch.
 
-Thanks, applied.
+Changing the return type of gnss_insert_raw() is going to be a bit more
+involved and should be done in a separate patch (e.g. you need to look
+at gnss_usb_rx_complete() and ice_gnss_read() to avoid introducing new
+warnings there).
 
+And both option 2 and 3 will introduce conversion warnings (W=3, which
+we have plenty of anyway) unless you add casts.
 
-Takashi
+I suggest you go with 3, unless you insist on 2.
+
+Johan
