@@ -1,161 +1,196 @@
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E7B138751;
-	Mon, 18 Dec 2023 12:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9388350A
+	for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 12:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="T9Tmnvru"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id DA0369C4175;
-	Mon, 18 Dec 2023 07:43:21 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id ethDY8EeKLA6; Mon, 18 Dec 2023 07:43:21 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 631589C4178;
-	Mon, 18 Dec 2023 07:43:21 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 631589C4178
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pwzAKswz"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c38de1ee4so28472585e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 04:47:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1702903401; bh=wnU4drmFs7+PVEutyZt+DCTB9q3agXsjLpBTQyLApvY=;
-	h=From:To:Date:Message-Id:MIME-Version;
-	b=T9TmnvruNIl4t4Op3/Y2/W9aUZPE+HcsO+j1x8JOB52g3jC/RemmU9bw+HpMV95d8
-	 bnclPCk9MAx8fYVxkC6OwDdCfjEs7OskD84H+bOrIeZEFnpqs9e+ncFDGIpB+Dfdc+
-	 XmbzUyyGnPwFT4geXDErwJ2DCIYIndCoB8KCh6KO7DveHhnE7xp6T1s4TFEDNJFCE7
-	 HHAcruJ2LSSyIlrCbtVubRWzkl7qWWslGObn8yLArclOWotY1Fjp2GEfVQsL/AWdFF
-	 JVg3m4gSyirpeVZbOT2tVvjQoKpC5yIOtEc7NJDKqTEvpZ83PNfkwr5u7X8Nfw9B2E
-	 Ba2eG9owpO9lQ==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id gKx4X9ZVQ8Q4; Mon, 18 Dec 2023 07:43:21 -0500 (EST)
-Received: from gerard.rennes.sfl (unknown [192.168.216.3])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 5FF919C4175;
-	Mon, 18 Dec 2023 07:43:19 -0500 (EST)
-From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
-	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-Subject: [PATCHv3 RESEND 10/10] ASoC: dt-bindings: fsl-asoc-card: add compatible for generic codec
-Date: Mon, 18 Dec 2023 13:40:58 +0100
-Message-Id: <20231218124058.2047167-11-elinor.montmasson@savoirfairelinux.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
-References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
+        d=linaro.org; s=google; t=1702903621; x=1703508421; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q5uQmT85hN5Blw5wIPIAmzozo5Lx91qu3slA3GJ+h4s=;
+        b=pwzAKswzF5b5UweXdai1h8GnKg5m5rbrN/9ngfvYLp5hgczWwPZQ5RdeIzEikwDdWP
+         Z3ZWjLyVz+y0EthFK/kqhKeu9gb2qV1CSZCEGQjrXVierr10tTVr/UZfvUWAbYspFHzf
+         Io088xrFjcybSV15o+j8HHg4FTE3HsNgMQ2LELv0CM0/xao8j/mm3+9CgbWJmFhLH+y9
+         DadFqXvgsT5v2+1uhFI7qI4uHY10rgQcom/yi9pJkPWC6iAgQ1Akyae70meDIkrTCKxu
+         yow4J/wZaWbBVHSji7zCtHGvj0I4Fh8/vnL2GXrVrUMZAkVFK0kV93X78U6hV0NkOFVh
+         6c1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702903621; x=1703508421;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q5uQmT85hN5Blw5wIPIAmzozo5Lx91qu3slA3GJ+h4s=;
+        b=muUW+cYW2vn2+xiT721gR6zcoTgHKEZ2pguYMtldahBOBXHi22tMM6rgSEMOKjKTEx
+         RbRFpvQat1ADh2Idk+bqWN4rDA1YI70WawVqT6a0SpXxblbK/jJWSyl+SsnoJrWqkBsl
+         fw7/WeEwSo1+2TmieMJwNiklJankiRcPPSOAUHfbFosFQsAg+Gcu7Ve3ys4bEbA7GrcM
+         1N+V8SiDQouSMeBFzbUiho6IEEojw5Om5a52cwnWUSnpbVCo7u69xZ9jFog0xsJ6Kue/
+         be/zjBPRQfnEPi1GjVW94Nuk9ncuoywJvDl1bUsSNffq3eEXSxzunKi7jJUqCAjz7AKE
+         up3A==
+X-Gm-Message-State: AOJu0YyPfX4dOtmin7VbeG1mTRmNs1m8PW+o/Rq/boUJvMMisfP8H/g7
+	+LzMcHcBsOq3XlYeGJxswGjQVw==
+X-Google-Smtp-Source: AGHT+IGjNvhwKz+4urz8fJWawFyt8gyVA7ctsw/d4seUPcQuZw4GrukjuV5DkgYrHT38kyirqOKCjQ==
+X-Received: by 2002:a05:600c:3c83:b0:40c:4aa6:75b9 with SMTP id bg3-20020a05600c3c8300b0040c4aa675b9mr6689035wmb.126.1702903621415;
+        Mon, 18 Dec 2023 04:47:01 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id wn9-20020a170907068900b00a2362c5e3dbsm563527ejb.151.2023.12.18.04.46.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Dec 2023 04:47:00 -0800 (PST)
+Message-ID: <fae1e6f8-f679-4266-95b6-5879c71683a4@linaro.org>
+Date: Mon, 18 Dec 2023 13:46:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 RESEND 00/10] ASoC: fsl-asoc-card: compatibility
+ integration of a generic codec use case for use with S/PDIF controller
+To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org,
+ Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
+References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add documentation about new dts bindings following new support
-for compatible "fsl,imx-audio-generic".
+On 18/12/2023 13:40, Elinor Montmasson wrote:
+> Hello,
+> 
+> This is the v3 of the series of patch aiming to make the machine driver
+> "fsl-asoc-card" compatible with use cases where there is no real codec
+> driver.
+> It proposes to use the "spdif_receiver" and "spdif_transmitter"
+> drivers instead of the dummy codec.
+> This is a first step in using the S/PDIF controller with the ASRC.
+> 
+> The five first patches add compatibility with the pair of codecs
+> "spdif_receiver" and "spdif_transmitter" with a new compatible,
+> "fsl,imx-audio-generic".
+> Codec parameters are set with default values.
+> Consequently, the driver is modified to work with multi-codec use cases.
+> It can get 2 codecs phandles from the device tree, and the
+> "fsl_asoc_card_priv" struct now has 2 "codec_priv" to store properties
+> of both codecs. It is fixed to 2 codecs as only "fsl,imx-audio-generic"
+> uses multiple codecs at the moment.
+> However, the driver now uses for_each_codecs macros when possible to
+> ease future implementations of multi-codec configurations.
+> 
+> The remaining patches add configuration options for the device tree.
+> They configure the CPU DAI when using "fsl,imx-audio-generic".
+> These options are usually hard-coded in "fsl-asoc-card.c" for each
+> audio codec.
+> Because the generic codec could be used with other CPU DAIs than
+> the S/PDIF controller, setting these parameters could be required.
+> 
+> This series of patch was successfully built for arm64 and x86 on top of
+> the latest for-next branch of the ASoC git tree on the 14th of December.
+> These modifications have also been tested on an i.MX8MN evaluation
+> board, with a linux kernel RT v6.1.26-rt8.
+> 
+> 
+> We also have a few questions, following remarks made by
+> Krzysztof Kozlowski in a previous email for patch 10/10:
+> 
+>>>>> The compatible list for this generic sound card currently:
+>>>>> @@ -48,6 +51,8 @@ The compatible list for this generic sound card
+>>>>> currently:
+>>>>>
+>>>>> "fsl,imx-audio-nau8822"
+>>>>>
+>>>>> + "fsl,imx-audio-generic"
+>>>>
+>>>> Generic does not look like hardware specific.
+>>>
+>>> Even if our end goal is to use it with the S/PDIF controller, this new
+>>> support can be used with different hardware that doesn't
+>>> require a codec. Thus, we don't really want to specify "spdif" in it.
+>>>
+>>> Is this compatible string not suitable ?
+>>> Should we rename it to something else, like "fsl,imx-audio-no-codec" ?
+>>
+>> Maybe Mark or Rob will help here, but for me "imx-audio" is just way too
+>> generic.
+> 
+> * Which generic name should we use ? Or how should we change it?
 
-Some CPU DAI don't require a real audio codec. The new compatible
-"fsl,imx-audio-generic" allows using the driver with codec drivers
-SPDIF DIT and SPDIF DIR as dummy codecs.
-It also allows using not pre-configured audio codecs which
-don't require specific control through a codec driver.
+Compatible should be specific to one SoC, even if there is one driver
+for entire family.
 
-The new dts properties give the possibility to set some parameters
-about the CPU DAI usually set through the codec configuration.
+>  
+>> Also, you add several new properties, so I really expect either
+>> converting old binding to DT schema first or adding new device in DT
+>> schema format.
+> 
+> * fsl-asoc-card.txt currently follows the old dt-bindings format.
+> Should we update it to DT schema format in this patch series
+> before adding my new properties?
 
-Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-Co-authored-by: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelin=
-ux.com>
----
- .../bindings/sound/fsl-asoc-card.txt          | 28 ++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+You add six new properties, so from my point of view this cannot be in TXT.
 
-diff --git a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt b/=
-Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-index 4e8dbc5abfd1..f137ef2154e3 100644
---- a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-+++ b/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-@@ -17,6 +17,9 @@ Note: The card is initially designed for those sound ca=
-rds who use AC'97, I2S
-       and PCM DAI formats. However, it'll be also possible to support th=
-ose non
-       AC'97/I2S/PCM type sound cards, such as S/PDIF audio and HDMI audi=
-o, as
-       long as the driver has been properly upgraded.
-+      To use CPU DAIs that do not require a codec such as an S/PDIF cont=
-roller,
-+      or to use a DAI to output or capture raw I2S/TDM data, you can
-+      use the compatible "fsl,imx-audio-generic".
-=20
-=20
- The compatible list for this generic sound card currently:
-@@ -48,6 +51,8 @@ The compatible list for this generic sound card current=
-ly:
-=20
-  "fsl,imx-audio-nau8822"
-=20
-+ "fsl,imx-audio-generic"
-+
- Required properties:
-=20
-   - compatible		: Contains one of entries in the compatible list.
-@@ -56,7 +61,11 @@ Required properties:
-=20
-   - audio-cpu		: The phandle of an CPU DAI controller
-=20
--  - audio-codec		: The phandle of an audio codec
-+  - audio-codec		: The phandle of an audio codec.
-+			  If using the "fsl,imx-audio-generic" compatible,
-+			  give instead a pair of phandles with the
-+			  spdif_transmitter first (driver SPDIF DIT) and the
-+			  spdif_receiver second (driver SPDIF DIR).
-=20
- Optional properties:
-=20
-@@ -87,6 +96,23 @@ Optional properties:
-   - frame-inversion	: dai-link uses frame clock inversion, for details s=
-ee simple-card.yaml.
-   - bitclock-inversion	: dai-link uses bit clock inversion, for details =
-see simple-card.yaml.
-   - mclk-id		: main clock id, specific for each card configuration.
-+			  For multi-codec configurations, an array of ids can be
-+			  given, one for each codec.
-+
-+Optional, relevant only with the "fsl,imx-audio-generic" compatible:
-+
-+  - cpu-slot-width	: Indicates a specific TDM slot width in bits.
-+  - cpu-slot-num	: Indicates a specific number of TDM slots per frame.
-+
-+  - cpu-sysclk-freq-rx	: Frequency of the CPU DAI sys clock for Rx.
-+  - cpu-sysclk-freq-tx	: Frequency of the CPU DAI sys clock for Tx.
-+
-+  - cpu-sysclk-dir-rx-out	: Boolean property. Specifies sys clock direct=
-ion
-+				  as 'out' on initialization for Rx.
-+				  If not set, default direction is 'in'.
-+  - cpu-sysclk-dir-tx-out	: Boolean property. Specifies sys clock direct=
-ion
-+				  as 'out' on initialization for Tx.
-+				  If not set, default direction is 'in'.
-=20
- Optional unless SSI is selected as a CPU DAI:
-=20
---=20
-2.25.1
+Best regards,
+Krzysztof
 
