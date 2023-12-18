@@ -1,389 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774F3225CE
-	for <linux-sound@vger.kernel.org>; Mon, 18 Dec 2023 12:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B657E579;
+	Mon, 18 Dec 2023 12:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XfylIkpl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1D4C433C8;
-	Mon, 18 Dec 2023 12:01:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702900868;
-	bh=SS2aMK/kcWtpfUXjJXi8h7eIQA2KvJE0yiiiMAEfYjg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XfylIkplBhYQ+nBNhpfT5UTDhXeN8ASJ8CN8lWR7q04cj+KfVBTtSgotYR3E4cGMh
-	 g0+qTPv9fWreW32OvyPNJsBN4juunQcH3yeVFG5mUgGV9OirjGnRLJVmS7wewWOPgq
-	 15sVAH1TWnTh6feuysqEHbTEO42/S2+si221wk29UF6MQzsIk7ONQBdEb4cO+lUtEj
-	 eRXw0hhYCRz1iT7du6LgCoV2QhadIsqd8VvDDIpm89nV44NSr2PVTvdkEOZisurorn
-	 XqGR9ARK4tNera9EH/n8JbUMnT+BqHcz2bQt5rHdq3j5VQgmAp+0lmixkJD0z/qcaH
-	 MbTqnlJMUkrPQ==
-Date: Mon, 18 Dec 2023 17:31:04 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
-	broonie@kernel.org, vinod.koul@intel.com,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 09/16] soundwire: crc8: add constant table
-Message-ID: <ZYA0gKf3bZgY4X_s@matsya>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-10-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="UI24YBub"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id C33D39C3645;
+	Mon, 18 Dec 2023 07:42:38 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id Kh6SC-Fsoi_x; Mon, 18 Dec 2023 07:42:38 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 5E1DE9C3F1C;
+	Mon, 18 Dec 2023 07:42:38 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 5E1DE9C3F1C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1702903358; bh=u9QYi3UK49RvCOM0jwOPRvXLix0O7m+OZA9DnyWKw9g=;
+	h=From:To:Date:Message-Id:MIME-Version;
+	b=UI24YBubofICoggQzbeSMr0uvYktWGel5+4Si71HbI0s+U5MBrINJ2tp2Hi7vqSkl
+	 I1BFb5hTeBLJ88Fo8styxXAPVU9AhKmd/f4TkYi9YhKhZTWTl7EduBAIzz3S8P9g9h
+	 mjircdeZiQHZfh9snTFR1UYorBV+m1BjQiImgBAvYkJhfV7Sp20s7cI0+zWtAzDiHF
+	 tERB0EBuABQFKX0H14ik9js1nqPMtxg1T3DnB39BQA2GCnxFu3pfkihpiu9K1OcjQE
+	 pCkF77NBkuyWX9chk7MEokrAD0wq8UdgFN7TKdPo0+hhVQ+f8sz2WOxfCVdvU9OLax
+	 BXiMzq2pjziUQ==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id wzya-KG1c6eG; Mon, 18 Dec 2023 07:42:38 -0500 (EST)
+Received: from gerard.rennes.sfl (unknown [192.168.216.3])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 5B84E9C3645;
+	Mon, 18 Dec 2023 07:42:36 -0500 (EST)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
+	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
+Subject: [PATCHv3 RESEND 01/10] ASoC: fsl-asoc-card: add support for dai links with multiple codecs
+Date: Mon, 18 Dec 2023 13:40:49 +0100
+Message-Id: <20231218124058.2047167-2-elinor.montmasson@savoirfairelinux.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
+References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231207222944.663893-10-pierre-louis.bossart@linux.intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 07-12-23, 16:29, Pierre-Louis Bossart wrote:
-> Add the lookup table required by crc8(). All configuration values were
-> directly table from the MIPI SoundWire 1.x specification.
-> 
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> ---
->  drivers/soundwire/Makefile |   4 +-
->  drivers/soundwire/crc8.c   | 277 +++++++++++++++++++++++++++++++++++++
->  drivers/soundwire/crc8.h   |  11 ++
->  3 files changed, 291 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/soundwire/crc8.c
->  create mode 100644 drivers/soundwire/crc8.h
-> 
-> diff --git a/drivers/soundwire/Makefile b/drivers/soundwire/Makefile
-> index 657f5888a77b..170128dd9318 100644
-> --- a/drivers/soundwire/Makefile
-> +++ b/drivers/soundwire/Makefile
-> @@ -5,7 +5,9 @@
->  
->  #Bus Objs
->  soundwire-bus-y := bus_type.o bus.o master.o slave.o mipi_disco.o stream.o  \
-> -			sysfs_slave.o sysfs_slave_dpn.o
-> +			sysfs_slave.o sysfs_slave_dpn.o \
-> +			crc8.o
-> +
->  obj-$(CONFIG_SOUNDWIRE) += soundwire-bus.o
->  
->  soundwire-generic-allocation-objs := generic_bandwidth_allocation.o
-> diff --git a/drivers/soundwire/crc8.c b/drivers/soundwire/crc8.c
-> new file mode 100644
-> index 000000000000..b6b984d7f39a
-> --- /dev/null
-> +++ b/drivers/soundwire/crc8.c
-> @@ -0,0 +1,277 @@
-> +// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-> +// Copyright(c) 2024 Intel Corporation.
-> +
-> +#include <linux/crc8.h>
-> +#include <linux/module.h>
-> +#include "crc8.h"
-> +
-> +/*
-> + * the MIPI SoundWire CRC8 polynomial is X^8 + X^6 + X^3 + X^2 + 1, MSB first
-> + * The value is (1)01001101 = 0x4D
-> + *
-> + * the table below was generated with
-> + *
-> + *	u8 crc8_lookup_table[CRC8_TABLE_SIZE];
-> + *	crc8_populate_msb(crc8_lookup_table, SDW_CRC8_POLY);
+Add support for dai links using multiple codecs for multi-codec
+use cases.
 
-Good that you found this API, so next question would be why should we
-have this static table in kernel and not generate on probe if bpt is
-supported..? Many subsystems use these APIs to generate the tables..
+Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Co-authored-by: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelin=
+ux.com>
+---
+ sound/soc/fsl/fsl-asoc-card.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
+diff --git a/sound/soc/fsl/fsl-asoc-card.c b/sound/soc/fsl/fsl-asoc-card.=
+c
+index 7518ab9d768e..cde31fd38262 100644
+--- a/sound/soc/fsl/fsl-asoc-card.c
++++ b/sound/soc/fsl/fsl-asoc-card.c
+@@ -809,10 +809,10 @@ static int fsl_asoc_card_probe(struct platform_devi=
+ce *pdev)
+=20
+ 	/* Normal DAI Link */
+ 	priv->dai_link[0].cpus->of_node =3D cpu_np;
+-	priv->dai_link[0].codecs->dai_name =3D codec_dai_name;
++	priv->dai_link[0].codecs[0].dai_name =3D codec_dai_name;
+=20
+ 	if (!fsl_asoc_card_is_ac97(priv))
+-		priv->dai_link[0].codecs->of_node =3D codec_np;
++		priv->dai_link[0].codecs[0].of_node =3D codec_np;
+ 	else {
+ 		u32 idx;
+=20
+@@ -823,11 +823,11 @@ static int fsl_asoc_card_probe(struct platform_devi=
+ce *pdev)
+ 			goto asrc_fail;
+ 		}
+=20
+-		priv->dai_link[0].codecs->name =3D
++		priv->dai_link[0].codecs[0].name =3D
+ 				devm_kasprintf(&pdev->dev, GFP_KERNEL,
+ 					       "ac97-codec.%u",
+ 					       (unsigned int)idx);
+-		if (!priv->dai_link[0].codecs->name) {
++		if (!priv->dai_link[0].codecs[0].name) {
+ 			ret =3D -ENOMEM;
+ 			goto asrc_fail;
+ 		}
+@@ -838,13 +838,19 @@ static int fsl_asoc_card_probe(struct platform_devi=
+ce *pdev)
+ 	priv->card.num_links =3D 1;
+=20
+ 	if (asrc_pdev) {
++		int i;
++		struct snd_soc_dai_link_component *codec;
++		struct snd_soc_dai_link *link;
++
+ 		/* DPCM DAI Links only if ASRC exists */
+ 		priv->dai_link[1].cpus->of_node =3D asrc_np;
+ 		priv->dai_link[1].platforms->of_node =3D asrc_np;
+-		priv->dai_link[2].codecs->dai_name =3D codec_dai_name;
+-		priv->dai_link[2].codecs->of_node =3D codec_np;
+-		priv->dai_link[2].codecs->name =3D
+-				priv->dai_link[0].codecs->name;
++		link =3D &(priv->dai_link[2]);
++		for_each_link_codecs(link, i, codec) {
++			codec->dai_name =3D priv->dai_link[0].codecs[i].dai_name;
++			codec->of_node =3D priv->dai_link[0].codecs[i].of_node;
++			codec->name =3D priv->dai_link[0].codecs[i].name;
++		}
+ 		priv->dai_link[2].cpus->of_node =3D cpu_np;
+ 		priv->dai_link[2].dai_fmt =3D priv->dai_fmt;
+ 		priv->card.num_links =3D 3;
+--=20
+2.25.1
 
-> + *
-> + */
-> +
-> +const u8 sdw_crc8_lookup_msb[CRC8_TABLE_SIZE] = {
-> +	0x00, /* 0 */
-> +	0x4d, /* 1 */
-> +	0x9a, /* 2 */
-> +	0xd7, /* 3 */
-> +	0x79, /* 4 */
-> +	0x34, /* 5 */
-> +	0xe3, /* 6 */
-> +	0xae, /* 7 */
-> +	0xf2, /* 8 */
-> +	0xbf, /* 9 */
-> +	0x68, /* 10 */
-> +	0x25, /* 11 */
-> +	0x8b, /* 12 */
-> +	0xc6, /* 13 */
-> +	0x11, /* 14 */
-> +	0x5c, /* 15 */
-> +	0xa9, /* 16 */
-> +	0xe4, /* 17 */
-> +	0x33, /* 18 */
-> +	0x7e, /* 19 */
-> +	0xd0, /* 20 */
-> +	0x9d, /* 21 */
-> +	0x4a, /* 22 */
-> +	0x07, /* 23 */
-> +	0x5b, /* 24 */
-> +	0x16, /* 25 */
-> +	0xc1, /* 26 */
-> +	0x8c, /* 27 */
-> +	0x22, /* 28 */
-> +	0x6f, /* 29 */
-> +	0xb8, /* 30 */
-> +	0xf5, /* 31 */
-> +	0x1f, /* 32 */
-> +	0x52, /* 33 */
-> +	0x85, /* 34 */
-> +	0xc8, /* 35 */
-> +	0x66, /* 36 */
-> +	0x2b, /* 37 */
-> +	0xfc, /* 38 */
-> +	0xb1, /* 39 */
-> +	0xed, /* 40 */
-> +	0xa0, /* 41 */
-> +	0x77, /* 42 */
-> +	0x3a, /* 43 */
-> +	0x94, /* 44 */
-> +	0xd9, /* 45 */
-> +	0x0e, /* 46 */
-> +	0x43, /* 47 */
-> +	0xb6, /* 48 */
-> +	0xfb, /* 49 */
-> +	0x2c, /* 50 */
-> +	0x61, /* 51 */
-> +	0xcf, /* 52 */
-> +	0x82, /* 53 */
-> +	0x55, /* 54 */
-> +	0x18, /* 55 */
-> +	0x44, /* 56 */
-> +	0x09, /* 57 */
-> +	0xde, /* 58 */
-> +	0x93, /* 59 */
-> +	0x3d, /* 60 */
-> +	0x70, /* 61 */
-> +	0xa7, /* 62 */
-> +	0xea, /* 63 */
-> +	0x3e, /* 64 */
-> +	0x73, /* 65 */
-> +	0xa4, /* 66 */
-> +	0xe9, /* 67 */
-> +	0x47, /* 68 */
-> +	0x0a, /* 69 */
-> +	0xdd, /* 70 */
-> +	0x90, /* 71 */
-> +	0xcc, /* 72 */
-> +	0x81, /* 73 */
-> +	0x56, /* 74 */
-> +	0x1b, /* 75 */
-> +	0xb5, /* 76 */
-> +	0xf8, /* 77 */
-> +	0x2f, /* 78 */
-> +	0x62, /* 79 */
-> +	0x97, /* 80 */
-> +	0xda, /* 81 */
-> +	0x0d, /* 82 */
-> +	0x40, /* 83 */
-> +	0xee, /* 84 */
-> +	0xa3, /* 85 */
-> +	0x74, /* 86 */
-> +	0x39, /* 87 */
-> +	0x65, /* 88 */
-> +	0x28, /* 89 */
-> +	0xff, /* 90 */
-> +	0xb2, /* 91 */
-> +	0x1c, /* 92 */
-> +	0x51, /* 93 */
-> +	0x86, /* 94 */
-> +	0xcb, /* 95 */
-> +	0x21, /* 96 */
-> +	0x6c, /* 97 */
-> +	0xbb, /* 98 */
-> +	0xf6, /* 99 */
-> +	0x58, /* 100 */
-> +	0x15, /* 101 */
-> +	0xc2, /* 102 */
-> +	0x8f, /* 103 */
-> +	0xd3, /* 104 */
-> +	0x9e, /* 105 */
-> +	0x49, /* 106 */
-> +	0x04, /* 107 */
-> +	0xaa, /* 108 */
-> +	0xe7, /* 109 */
-> +	0x30, /* 110 */
-> +	0x7d, /* 111 */
-> +	0x88, /* 112 */
-> +	0xc5, /* 113 */
-> +	0x12, /* 114 */
-> +	0x5f, /* 115 */
-> +	0xf1, /* 116 */
-> +	0xbc, /* 117 */
-> +	0x6b, /* 118 */
-> +	0x26, /* 119 */
-> +	0x7a, /* 120 */
-> +	0x37, /* 121 */
-> +	0xe0, /* 122 */
-> +	0xad, /* 123 */
-> +	0x03, /* 124 */
-> +	0x4e, /* 125 */
-> +	0x99, /* 126 */
-> +	0xd4, /* 127 */
-> +	0x7c, /* 128 */
-> +	0x31, /* 129 */
-> +	0xe6, /* 130 */
-> +	0xab, /* 131 */
-> +	0x05, /* 132 */
-> +	0x48, /* 133 */
-> +	0x9f, /* 134 */
-> +	0xd2, /* 135 */
-> +	0x8e, /* 136 */
-> +	0xc3, /* 137 */
-> +	0x14, /* 138 */
-> +	0x59, /* 139 */
-> +	0xf7, /* 140 */
-> +	0xba, /* 141 */
-> +	0x6d, /* 142 */
-> +	0x20, /* 143 */
-> +	0xd5, /* 144 */
-> +	0x98, /* 145 */
-> +	0x4f, /* 146 */
-> +	0x02, /* 147 */
-> +	0xac, /* 148 */
-> +	0xe1, /* 149 */
-> +	0x36, /* 150 */
-> +	0x7b, /* 151 */
-> +	0x27, /* 152 */
-> +	0x6a, /* 153 */
-> +	0xbd, /* 154 */
-> +	0xf0, /* 155 */
-> +	0x5e, /* 156 */
-> +	0x13, /* 157 */
-> +	0xc4, /* 158 */
-> +	0x89, /* 159 */
-> +	0x63, /* 160 */
-> +	0x2e, /* 161 */
-> +	0xf9, /* 162 */
-> +	0xb4, /* 163 */
-> +	0x1a, /* 164 */
-> +	0x57, /* 165 */
-> +	0x80, /* 166 */
-> +	0xcd, /* 167 */
-> +	0x91, /* 168 */
-> +	0xdc, /* 169 */
-> +	0x0b, /* 170 */
-> +	0x46, /* 171 */
-> +	0xe8, /* 172 */
-> +	0xa5, /* 173 */
-> +	0x72, /* 174 */
-> +	0x3f, /* 175 */
-> +	0xca, /* 176 */
-> +	0x87, /* 177 */
-> +	0x50, /* 178 */
-> +	0x1d, /* 179 */
-> +	0xb3, /* 180 */
-> +	0xfe, /* 181 */
-> +	0x29, /* 182 */
-> +	0x64, /* 183 */
-> +	0x38, /* 184 */
-> +	0x75, /* 185 */
-> +	0xa2, /* 186 */
-> +	0xef, /* 187 */
-> +	0x41, /* 188 */
-> +	0x0c, /* 189 */
-> +	0xdb, /* 190 */
-> +	0x96, /* 191 */
-> +	0x42, /* 192 */
-> +	0x0f, /* 193 */
-> +	0xd8, /* 194 */
-> +	0x95, /* 195 */
-> +	0x3b, /* 196 */
-> +	0x76, /* 197 */
-> +	0xa1, /* 198 */
-> +	0xec, /* 199 */
-> +	0xb0, /* 200 */
-> +	0xfd, /* 201 */
-> +	0x2a, /* 202 */
-> +	0x67, /* 203 */
-> +	0xc9, /* 204 */
-> +	0x84, /* 205 */
-> +	0x53, /* 206 */
-> +	0x1e, /* 207 */
-> +	0xeb, /* 208 */
-> +	0xa6, /* 209 */
-> +	0x71, /* 210 */
-> +	0x3c, /* 211 */
-> +	0x92, /* 212 */
-> +	0xdf, /* 213 */
-> +	0x08, /* 214 */
-> +	0x45, /* 215 */
-> +	0x19, /* 216 */
-> +	0x54, /* 217 */
-> +	0x83, /* 218 */
-> +	0xce, /* 219 */
-> +	0x60, /* 220 */
-> +	0x2d, /* 221 */
-> +	0xfa, /* 222 */
-> +	0xb7, /* 223 */
-> +	0x5d, /* 224 */
-> +	0x10, /* 225 */
-> +	0xc7, /* 226 */
-> +	0x8a, /* 227 */
-> +	0x24, /* 228 */
-> +	0x69, /* 229 */
-> +	0xbe, /* 230 */
-> +	0xf3, /* 231 */
-> +	0xaf, /* 232 */
-> +	0xe2, /* 233 */
-> +	0x35, /* 234 */
-> +	0x78, /* 235 */
-> +	0xd6, /* 236 */
-> +	0x9b, /* 237 */
-> +	0x4c, /* 238 */
-> +	0x01, /* 239 */
-> +	0xf4, /* 240 */
-> +	0xb9, /* 241 */
-> +	0x6e, /* 242 */
-> +	0x23, /* 243 */
-> +	0x8d, /* 244 */
-> +	0xc0, /* 245 */
-> +	0x17, /* 246 */
-> +	0x5a, /* 247 */
-> +	0x06, /* 248 */
-> +	0x4b, /* 249 */
-> +	0x9c, /* 250 */
-> +	0xd1, /* 251 */
-> +	0x7f, /* 252 */
-> +	0x32, /* 253 */
-> +	0xe5, /* 254 */
-> +	0xa8  /* 255 */
-> +};
-> +EXPORT_SYMBOL(sdw_crc8_lookup_msb);
-> diff --git a/drivers/soundwire/crc8.h b/drivers/soundwire/crc8.h
-> new file mode 100644
-> index 000000000000..9a88d3866016
-> --- /dev/null
-> +++ b/drivers/soundwire/crc8.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
-> +/* Copyright(c) 2024 Intel Corporation. */
-> +
-> +#ifndef __SDW_CRC8_H
-> +#define __SDW_CRC8_H
-> +
-> +#define SDW_CRC8_SEED 0xFF
-> +#define SDW_CRC8_POLY 0x4D
-> +extern const u8 sdw_crc8_lookup_msb[CRC8_TABLE_SIZE];
-> +
-> +#endif /* __SDW_CRC8_H */
-> -- 
-> 2.39.2
-> 
-
--- 
-~Vinod
