@@ -1,39 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BFD498B7;
-	Mon, 18 Dec 2023 17:28:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007DB71446;
+	Mon, 18 Dec 2023 17:28:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1idzLJF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AA8C433C7;
-	Mon, 18 Dec 2023 17:28:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGlPs1+k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAABCC433C8;
+	Mon, 18 Dec 2023 17:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702920495;
-	bh=vwrl1pDVKX3UhF1iN/1SsAJqfg8Jw0RWC9zVOH+2bi8=;
+	s=k20201202; t=1702920500;
+	bh=ssje5mv7upVQ96o7uXeJAzq1j9BE6IUQtrK1PRZCG5Y=;
 	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=Y1idzLJFNjREKXSIes3/KLE2InfMkMdkIDs58SpzvJ8PtsS7n8yQ93gDtF1ROEglo
-	 xgdvR42+9IJCR5iB1PabGXxKiy0OD0gJGgyym9mF+xCOqLBamcDS2LufxedHtiu2cY
-	 L8rm6cjQ3pUaQ8a26zgKyhEMdSUafUOabxYeAtadKGI0o3aOPTlN0hVJZYcOV+of2V
-	 lVF27r8qYCwABjmFFpCrcBfBAeUUkVg/YU7wfHi/xib/15oBLQxWEu3D+xWkkChk5U
-	 A81n6U5u/NIxrZLamnBF0Y3ZX7zv+YQkJ27QDfUkIU0MLuItV4x09GZAJ7167PHlj0
-	 6Zt1WgYLsu9oA==
+	b=eGlPs1+ktHN6oG9y0Np861Q4lICVrT9YkHXCludPwq+gBypEckXRTFyEiAnCXNe5V
+	 UPfw3yGWiXkdQQy9/0v2367tm5Q7M4S0sYK/R1ovBIJgKMnNgvvgUMJPX1NvZQRI/a
+	 en9QPpr53gQAnMYLZHO4uEoKNBpnED7F7Y67hi33eaIQ0CvXE7QcATtIR9d3rUuvrB
+	 IPNY1Z+pLXdHZ3K1xd92X0lFZdnJ/mtJ+4yaRGh6bVFYdmWnQNeE9QY+I/WllUVorK
+	 muFG7fubBi6LNM6z5kBHJt5oqDcEbc945In6g/9fjJGrfIeR/z2XMdovM7znikcLhN
+	 t/1huMIp4COGg==
 From: Mark Brown <broonie@kernel.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
  Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20231211123104.72963-1-krzysztof.kozlowski@linaro.org>
-References: <20231211123104.72963-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add
- X1E80100 LPASS RX
-Message-Id: <170292049267.89121.1314873749419554799.b4-ty@kernel.org>
-Date: Mon, 18 Dec 2023 17:28:12 +0000
+In-Reply-To: <20231204100048.211800-1-krzysztof.kozlowski@linaro.org>
+References: <20231204100048.211800-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: qcom: Fix trivial code style issues
+Message-Id: <170292049849.89121.10011961339428732958.b4-ty@kernel.org>
+Date: Mon, 18 Dec 2023 17:28:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,11 +39,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-5c066
 
-On Mon, 11 Dec 2023 13:31:01 +0100, Krzysztof Kozlowski wrote:
-> Add bindings for Qualcomm X1E80100 SoC Low Power Audio SubSystem (LPASS)
-> RX macro codec, which looks like compatible with earlier SM8550.
+On Mon, 04 Dec 2023 11:00:48 +0100, Krzysztof Kozlowski wrote:
+> Fix few trivial code style issues, pointed out by checkpatch, so they do
+> not get copied to new code (when old code is used as template):
 > 
+>   WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
+>   WARNING: function definition argument 'struct platform_device *' should also have an identifier name
+>   ERROR: code indent should use tabs where possible
+>   WARNING: please, no spaces at the start of a line
+>   WARNING: Missing a blank line after declarations
+>   WARNING: unnecessary whitespace before a quoted newline
 > 
+> [...]
 
 Applied to
 
@@ -56,14 +58,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100 LPASS RX
-      commit: 2f4734f3f48fff9437e4d38531c699b0a62ff8a8
-[2/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100 LPASS TX
-      commit: 7de2109ce1619951e957eaafab83545a4cab8609
-[3/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100 LPASS VA
-      commit: f990306adf2715cc2bdb85470065f7326a42081b
-[4/4] ASoC: dt-bindings: qcom,lpass-rx-macro: Add X1E80100 LPASS WSA
-      commit: 173a3b20a4980265bab52dbc60b616e739664b0d
+[1/1] ASoC: qcom: Fix trivial code style issues
+      commit: bb3392453d3ba44e60b85381e3bfa3c551a44e5d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
