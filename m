@@ -1,38 +1,38 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3FE18E1A
-	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 12:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7B618036
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 12:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJ2hldmm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJf7qCG8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702988834; x=1734524834;
+  t=1702988839; x=1734524839;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=AR/FTncpP3HZDm6f9IH+uJbJm+jxlPJQsQuijcUY4ak=;
-  b=WJ2hldmmoX8+fSuJuyl55196Q+EkNeLG48Gta3yV5v9OsGzYo8W4moXA
-   i6uGCUhDzf+5laBslkZHmwbpu0p4f9DDlz9p1OhhlIlTSa0p4JmJusXqC
-   4wyBbLz7nlLKAlTdkzD7QNS78iDZaTx53NoUgcLL4vAmpn8bUOBbrexyx
-   Vq/amW+fk0YaSlrWQcSL4ecrLKrSs7YhrnSKLKGSPT1P3OzhTjN1xay5R
-   YzbC5i/YtNYFvz6Kk0QqhRuoQrv+e2S9GEFe9vetJKaiB/Sdi9u1EmzKA
-   L8sLMkycHyhhSBvkGENwOHMM6v6mA6Q7PuoBsm5/LDp/uw598JMcYC7Fc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="14338227"
+  bh=XjeWIz1mpH5jVwObJLbapYiqEsmu7EHDGU47gm/OWGM=;
+  b=BJf7qCG8uqhfbvfBYB26fUfqrKCfCK9iGwTHVYRSkRJ3QawExRQZ9cXR
+   S5PJ7HfeARBduIEwdtkDEQ8vvMr0f5N8hYQnxeSLzmP+3n3UOhBQLjrHX
+   0WkDTQw+epL3r8vWK7L6K6jSK3F+/HlLjv5mM16faJaqgHSM1O4r4Xn9J
+   pIrnCE+m8qaLJjo0A+teIM+jowIfKvxbhFmg+IlTwMkF8fGrYfvWhp22n
+   LpDDBQ2iT56ElafG8Z8PueJ7ucI+ygE0f3AmafYqzaXZHo51wB/4dGucV
+   ghssiOBLUpTZnIOQg3RY7IJUm2MQrigx9y77xxZd1Nk94NXeMhRDBt5yt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="14338243"
 X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="14338227"
+   d="scan'208";a="14338243"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 04:27:13 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 04:27:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="1107335078"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="1107335187"
 X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="1107335078"
+   d="scan'208";a="1107335187"
 Received: from hierlema-mobl.ger.corp.intel.com (HELO [10.252.34.230]) ([10.252.34.230])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 04:27:08 -0800
-Message-ID: <a4bfdc56-b323-4c13-a09e-c0f5baf40450@linux.intel.com>
-Date: Mon, 18 Dec 2023 17:33:02 +0100
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 04:27:14 -0800
+Message-ID: <884fa264-8d6b-4ac2-af57-b6fc07040361@linux.intel.com>
+Date: Mon, 18 Dec 2023 17:44:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,8 +40,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
+Subject: Re: [RFC PATCH 07/16] soundwire: bus: add API for BPT protocol
 Content-Language: en-US
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org,
@@ -55,49 +54,53 @@ Cc: Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org,
  Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
  Oder Chiou <oder_chiou@realtek.com>
 References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <ZYAvoFbEP8RH_x0Y@matsya>
- <a5d0e3a7-e45c-4971-8ad7-7ba19702acf1@linux.intel.com>
- <20231218142946.GZ14858@ediswmail.ad.cirrus.com>
+ <20231207222944.663893-8-pierre-louis.bossart@linux.intel.com>
+ <ZYAy9ZM0o3uAk2qY@matsya>
+ <4f66f792-79c0-4221-82b5-a0d9ec5a898b@linux.intel.com>
+ <20231218145716.GA14858@ediswmail.ad.cirrus.com>
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20231218142946.GZ14858@ediswmail.ad.cirrus.com>
+In-Reply-To: <20231218145716.GA14858@ediswmail.ad.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 12/18/23 08:29, Charles Keepax wrote:
-> On Mon, Dec 18, 2023 at 01:58:47PM +0100, Pierre-Louis Bossart wrote:
->>> why not have a single API that does both? First check if it is supported
->>> and then allocate buffers and do the transfer.. What are the advantages
->>> of using this two step process
+On 12/18/23 08:57, Charles Keepax wrote:
+> On Mon, Dec 18, 2023 at 02:12:36PM +0100, Pierre-Louis Bossart wrote:
+>>> Is this a protocol requirement?
 >>
->> Symmetry is the only thing that comes to my mind. Open - close and send
->> - wait are natural matches, aren't they?
+>> No, it's an implementation requirement.
 >>
->> We do need a wait(), so bundling open() and send() would be odd.
+>> We could move this to host-specific parts but then the codec drivers
+>> will have to know about alignment requirements for each host they are
+>> use with. IOW, it's more work for codec drivers if we don't have a
+>> minimum bar for alignment requirement across all platforms.
 >>
 > 
-> I agree send->wait->close would be odd, But you just bundle close
-> into wait. So the API becomes just send->wait, which seems pretty
-> logical.
-
-Fair enough, send()/wait() would work indeed.
-
-I guess I wanted to keep the callbacks reasonably small (already 200
-lines for the open), but we can split the 'send' callback into smaller
-helpers to keep the code readable. There's no good reason to expose
-these smaller helpers to codec drivers.
-
->> But you have a point that the open() is not generic in that it also
->> prepares the DMA buffers for transmission. Maybe it's more natural to
->> follow the traditional open(), hw_params(), hw_free, close() from ALSA.
+> I do certainly see that side of the argument and it does probably
+> warrant some thought as to how a slave might learn the alignment
+> requirements. I guess maybe some sort of core helper function to
+> return the alignment? Or putting it in properties the slave can
+> access? One could even keep the check here, but just pull the
+> value from something system specific.
 > 
-> I think this just makes it worse, you are now adding even more
-> calls. The problem I see here is that, open and close (at least to
-> me) strongly implies that you can do multiple operations between
-> them and unless I have misunderstood something here you can't.
+> The danger with putting it in the core is IMHO:
+> 
+> a) It rules out certain use-cases, generally I think its a bad
+> idea if the framework design prohibits stuff the underlying bus
+> could do because someone will, at some point, want to do it.
 
-That's right, the open was not compatible with multiple operations.
-Collapsing open/send and wait/close sounds more logical, thanks for the
-feedback.
+SoundWire has lots of fancy and borderline nebulous concepts, my take is
+"let's do few things and do them well". We can always revisit new usages
+later, for now my main objective is "speed up downloads".
+
+> b) The core limit could get a bit out of hand once more
+> controllers are added. The core limit needs to be a multiple of
+> all the controller limits, if a controller comes along with a
+> weird alignment requirement, that gets problematic fast.
+
+I don't have any information on other controllers, but I wouldn't be
+surprised if most of the quirks are due to peripheral limitations and
+ambiguous interpretations of what 'ACK' means. I tried writing to
+reserved parts of the memory or non-existent registers and nothing bad
+was reported...
