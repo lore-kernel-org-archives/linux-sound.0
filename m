@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BA337D2D;
-	Tue, 19 Dec 2023 18:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2155839AC7
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 18:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WLAF0I+3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32572C433C9;
-	Tue, 19 Dec 2023 18:06:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5Fso2ZC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA685C433C8;
+	Tue, 19 Dec 2023 18:06:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703009203;
-	bh=2hRsDtJWTlv3D2t7ayBN7VifqP3cCgmJPM68zidIgsc=;
+	s=k20201202; t=1703009211;
+	bh=mX3mXPFqXXqC4VfTi5VYr6tit84H9mmIsAtrlGk12M4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WLAF0I+3homyRrth3xOkWlm1xgWrIyJJGNubn+ftfKtjU7VYr+jUxba/32LqsQKHI
-	 xWXsfY1BNu5M2jylG59rO4NdTkYFjMRb6160PHnljlLIOI3xmjBFqsEUqqS9OU1BaC
-	 ysE05CsTqI4n1sURw0TsJVpXtcKinJbrRwbDldbvWop7TZ43AyrdnGMFCE5jPmxGtw
-	 6ZO3Tb4n7xuBKyQoWP/m1r9CGjqLRYZUdgEq0phA3OPTWbb9e5kSofVjdNGZegqWnd
-	 KrWKBQKtPVnJluwd43gXBuRCKMwnAG6t/3wXiBPNlIcxubR89vbXmSNALBv4gED3Cw
-	 obgXwvvev9E+Q==
+	b=X5Fso2ZCkdNDxjJZZapeGbWEXbNpXHrr/4p5/ujJt/5RtrF3t8asF2x5nme2jy1N5
+	 7KTgrcZAY0pujvMa6oG5oJ2diHwOt6ruMB6o3odVE41XqPwh8IrO7+7SfOqrtGT8u4
+	 /cylYGU+K8WdpRjw0P9hVXKMYYpkMB1CKj82MX5R4jiY7+m+pbk7Ranq6/qrP2Yicu
+	 O3PL493IODo8cBQJcaygpw+7fAUN7j6f2Wmuzmm3waVPt5geVqDNWMv0Yoz3G/Q+fI
+	 7SolOBOKW9RNblTRIJ8SKVjRQN/vovtQY0ezs6Usd1iBwRiKwqqnwW4Ilmfaae6p4F
+	 fVbRINzxgN6rQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Marian Postevca <posteuca@mutex.one>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
- Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Rander Wang <rander.wang@intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
- Bard Liao <bard.liao@intel.com>, 
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Brent Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
  Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel@collabora.com
-In-Reply-To: <20231209203229.878730-1-cristian.ciocaltea@collabora.com>
-References: <20231209203229.878730-1-cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH 0/5] Improve AMD ACP Vangogh audio support for Steam
- Deck OLED
-Message-Id: <170300919992.125466.14486520202506235011.b4-ty@kernel.org>
-Date: Tue, 19 Dec 2023 18:06:39 +0000
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+ Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Fabio Estevam <festevam@gmail.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <87il5ebvom.wl-kuninori.morimoto.gx@renesas.com>
+References: <87il5ebvom.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/5] ASoC: don't use original dummy dlc
+Message-Id: <170300920760.125466.4732601724586976464.b4-ty@kernel.org>
+Date: Tue, 19 Dec 2023 18:06:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,15 +50,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-5c066
 
-On Sat, 09 Dec 2023 22:32:18 +0200, Cristian Ciocaltea wrote:
-> This patch series provides several fixes and improvements to AMD ACP drivers
-> targeting the Vangogh platform, as found on the Valve's new Steam Deck OLED.
+On Mon, 04 Dec 2023 01:31:10 +0000, Kuninori Morimoto wrote:
+> This patch-set try to not use original dummy dlc.
 > 
-> Although in theory the board should have been supported by both SOF and legacy
-> ACP drivers, as of next-20231208 the audio seems to be completely broken.
+> "Empty" dlc might be used on Platform, but "dummy" dlc is not needed
+> for it. [PATCH 1/5][PATCH 2/5] removes "dummy" dlc from Platform.
 > 
-> Please note this only restores the legacy support, while SOF will be handled in
-> a separate series.
+> Now ASoC have common dummy dlc (= snd_soc_dummy_dlc).
+> [PATCH 3/5][PATCH 4/5] will use it instead of original dummy dlc.
 > 
 > [...]
 
@@ -69,16 +67,16 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: amd: vangogh: Drop conflicting ACPI-based probing
-      commit: ddd1ee12a8fb6e4d6f86eddeba64c135eee56623
-[2/5] ASoC: amd: vangogh: Allow probing ACP PCI when SOF is disabled
-      commit: 2cef11ec3dfd5f14d8ddef917682408ed01e5805
-[3/5] ASoC: amd: vangogh: Switch to {RUNTIME,SYSTEM_SLEEP}_PM_OPS
-      commit: 78d3924675d4e076faa5600b48b8565fcb135ee0
-[4/5] ASoC: amd: acp-config: Add missing MODULE_DESCRIPTION
-      commit: 6e202e758b4b8d85dfb909c8eb710db8c6160303
-[5/5] ASoC: amd: acp: Add missing MODULE_DESCRIPTION in mach-common
-      commit: 576f3aef47f42f368db08fd5e3f49880c4493bf5
+[1/5] ASoC: fsl: fsl-asoc-card: don't need DUMMY Platform
+      commit: 7465582e0b18859d3681192ec2ccf22a81370040
+[2/5] ASoC: samsung: odroid: don't need DUMMY Platform
+      commit: 56558d6ab8c09c416bdb6d72b7e02894539a882a
+[3/5] ASoC: intel: hdaudio.c: use snd_soc_dummy_dlc
+      commit: c2dfe29f30d8850af324449f416491b171af19aa
+[4/5] ASoC: sof: use snd_soc_dummy_dlc
+      commit: e8776ff9ce9f5a8a9d8294101fd2924cebdd2da1
+[5/5] ASoC: soc.h: don't create dummy Component via COMP_DUMMY()
+      commit: 13f58267cda3d6946c8f4de368ad5d4a003baa61
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
