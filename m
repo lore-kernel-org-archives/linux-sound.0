@@ -1,71 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6471D522;
-	Tue, 19 Dec 2023 15:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437071D529;
+	Tue, 19 Dec 2023 16:05:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="buhQIoJL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E2E5C433C8;
-	Tue, 19 Dec 2023 15:24:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uiKanF4P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18136C433C7;
+	Tue, 19 Dec 2023 16:05:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702999497;
-	bh=Z5r2iggyiWlPUAZbWAbSjId+ThoZdOn1YxqIEOkmg14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=buhQIoJLeN5iHjaWohjmRrk5VWSZn6oA5JdwE633t2ZsQQzHMnDODzR8dPHY6nJ/G
-	 DFhEnNXKtocvSZVUCjyIoAq0by/qlC0oZzasjUvF2s1d1pUj+1SfXaRr3ZG3A+UtIN
-	 ZNmZqPw+9mz3ej65InMoq8E4hBPk9PaNcj43YVJac0e3WGbLTCeooBW1Cr16ip91lT
-	 AfgNXB/gKnnY3iPAx1exxOuTJHsT09D+l/LU8ZxWT4jIy/ixOEtWD4x+9ZQO6UGshB
-	 iKfjHWl8qGtoda1kXtVu19iAo0CgDkdSZPbOrKT0kja7UOHzsPq30wWccubUf12gsc
-	 jN+i5oI61hoYg==
-Date: Tue, 19 Dec 2023 15:24:51 +0000
+	s=k20201202; t=1703001940;
+	bh=mtSnw5oq09KGFtm0Le0UV134fhzHZdTO85S6QkPJg58=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uiKanF4PYVj8h6CgzoX6L0pBnVb5EATGCFcANIGSvZpVx8WA1VMY9YLkvjhc6YCx1
+	 +inbLAT2RKzKzBr+6ZGPaE3joLt3qyZo+3RzlXb0yeNMm5vEgUjpGYw2aIH1L4K9h9
+	 ba/+dMGYz0PZ95iKYNzkKTCTe7kmwNg2V6JM58sdLcSP9b1jiwOGswuK9o8hVXXEHA
+	 XY6V5kWKTtLl7UbC7+Kqz1ybLappf4U6KJ7y7mhSJvBHAxSSkrBcIc89BNQuTh2gOG
+	 Z7Vmt7P+aXPUmR3FQsZBEwgy46XW36pJbhrty257JxPSz/6cuVGs8wQ5fHspVFTe1G
+	 EfaYr5lpH+T8g==
 From: Mark Brown <broonie@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: wsa@kernel.org, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>, linux-i2c@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] i2c: make i2c_bus_type const
-Message-ID: <2512ee2f-05ce-4496-9ac3-f3b3a2e4a6b6@sirena.org.uk>
-References: <2023121942-jumble-unethical-3163@gregkh>
+To: perex@perex.cz, tiwai@suse.com, 
+ Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Marian Postevca <posteuca@mutex.one>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20231218143214.939885-1-himanshu.bhavani@siliconsignals.io>
+References: <20231218143214.939885-1-himanshu.bhavani@siliconsignals.io>
+Subject: Re: [PATCH] ASoC: amd: acp: Remove redundant ret variable
+Message-Id: <170300193880.59057.13762108753484482699.b4-ty@kernel.org>
+Date: Tue, 19 Dec 2023 16:05:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="afW+xaqZsOSbFAHv"
-Content-Disposition: inline
-In-Reply-To: <2023121942-jumble-unethical-3163@gregkh>
-X-Cookie: System restarting, wait...
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
+On Mon, 18 Dec 2023 20:02:08 +0530, Himanshu Bhavani wrote:
+> Removed Unneeded variable: "ret"
+> 
+> 
 
---afW+xaqZsOSbFAHv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Dec 19, 2023 at 04:22:43PM +0100, Greg Kroah-Hartman wrote:
-> Now that the driver core can properly handle constant struct bus_type,
-> move the i2c_bus_type variable to be a constant structure as well, placing
-> it into read-only memory which can not be modified at runtime.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks!
 
---afW+xaqZsOSbFAHv
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: amd: acp: Remove redundant ret variable
+      commit: 8b69dba103650b8247a336945c5fedc64ab5ddea
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWBtcIACgkQJNaLcl1U
-h9AWBgf9GIWnQ9OsLWyHoQ5nwfN1rt2XudsksR4RCKj8rPvwWV4xiTJr8Iwyp5Bx
-uHkUb0QULlGDAZmPQwWIeuEq3QlFMuc1K7ohvPcPhOdJ8ecvhmNdh9lha/whvlK3
-S4XnAlWBg4Jq4g3P6y/C3y7nnIzIbY0K/9uN8HfuGqu9fwo5gXkof3puksGa5ghB
-s3t2PrpYTByhEbroKX7SqMDhtAqLwl2yGbOICXka4zQh3ynthlZ3ycPywXf7/Hvx
-BPva1UzeezeEiDGSKhMvPbMxWh5vVMeoEkQEYmDZRAoAEd522vwZmob8Yawn9Bn1
-Ex2gRrHzcFRCr3D6s8U8hBe32grcLw==
-=PG7I
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---afW+xaqZsOSbFAHv--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
