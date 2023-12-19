@@ -1,130 +1,133 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C183218EB0
-	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 13:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8678B1BDD5;
+	Tue, 19 Dec 2023 13:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BSdLH83p"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3365752934bso3652551f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 05:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702992220; x=1703597020; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p3LPY/wP+4u8xv3gDTbgceni72i0f7dLsgXss15/0/U=;
-        b=BSdLH83p31k+tIUHs2OgUKaP5mj0WqM6uP4LL0JAKxcWhFOyQ94TeEmicKwQEBNMnB
-         AY8S43MmicreYgZhJx6Tkc7hwBSgaHlIpUPR1tlVTTlH/g3oF2kQyc0k8q6JyTr66LqV
-         mk7Suu+a1EN648qBoUyS+nNZERrTMpc5WA4vu+Bm0s7hlKLgE9pRQ/kWxGwlcu8pSTxl
-         0dOE7jppv98yEBcBtOEOwXnrRW30E3vixuYNLGE9riQXUcW5ra1CTZALtTOWmbxaRBZ3
-         0ln6T0NAOgy0Xt4c2tGFEzDcQEuMs9LmKKnkCaPjm4uA9UrTpzMnTymrbpFwqk38pxD/
-         Frsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702992220; x=1703597020;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p3LPY/wP+4u8xv3gDTbgceni72i0f7dLsgXss15/0/U=;
-        b=KyjUc44R3w3C6OtiqBa3t5QwQR3LA9bjlWKmjAMxKdJMNZBpjG9DXAGYvSGLWm/aAa
-         tA0GcC5zPMXuK0G4Gi++IEuJ+oZeogmeKwXULDLVn5VjCCi2qrwu8/CsyLAp2a6CIvkB
-         vW1WXRBRwhT3se6OcX9B5jlca4nA5rRdsTbj9kwnE1Dg3mZiZM/0TLHzoIC85hfrkGq/
-         VEVOoKP+N8OB2orAiO2ADQEUYEhQPG9bEC4WGs8l4NPXEuTgu0yF3SQHp/0yvF2Ty8jB
-         tSLKpjg5gD7mQSj/eL4Y7989IDvP8YxBrmZI8kNlRbmST4RR05TRuhTCgn7PnAwtoaK8
-         vKxA==
-X-Gm-Message-State: AOJu0Yy6YKyTTvedbmjGB6eBTNPV/XsWwJxK/D+DQaWUBXBgs3eGcIIs
-	UDRQo5PRKHaLkWQwYPPfyypZ2g==
-X-Google-Smtp-Source: AGHT+IFHYzvyDi0corcqB0NWZOjE5iHCoZWBmG8HzPdskcKE9UWUerE1vnbScokBVmD2OSU8t9HD/g==
-X-Received: by 2002:a5d:45cf:0:b0:336:578e:2bd1 with SMTP id b15-20020a5d45cf000000b00336578e2bd1mr3224416wrs.108.1702992219991;
-        Tue, 19 Dec 2023 05:23:39 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id j4-20020adfea44000000b00336471bc7ffsm15010151wrn.109.2023.12.19.05.23.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 05:23:39 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Tue, 19 Dec 2023 14:23:37 +0100
-Subject: [PATCH] ASoC: dt-bindings: qcom,lpass-va-macro: remove spurious
- contains in if statement
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Zxutq3kV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F42C433C8;
+	Tue, 19 Dec 2023 13:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1702992892;
+	bh=IRSSHnu68I519nHuE1LCsW+t+yzsh069i/48dm7XrHQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Zxutq3kVVurVLsiVmh8WHxeIwJ8taDRvmjv6ieT3MwVqbFV56ys1kdij2jJC12ngr
+	 b6VmlvjFuVFcsXbpt8ngK1PKoUl5emAWZ3Fpk8XQnr7AXV1t8Zk+RFRVV1ehzGW0mn
+	 IkYPQt9ypkpoOudg0TaB/WWqGbaQHBZZx4Wddko4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dawei Li <set_pte_at@outlook.com>,
+	Yu Liao <liaoyu15@huawei.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH] ALSA: mark all struct bus_type as const
+Date: Tue, 19 Dec 2023 14:34:46 +0100
+Message-ID: <2023121945-immersion-budget-d0aa@gregkh>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-topic-sm8x50-upstream-va-macro-bindings-fix-v1-1-ae133886f70e@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAFiZgWUC/x2NOw6DQAwFr4JcxxK7JFHIVSIKsxjiYj+yASEh7
- p5Vppsp3jvBWIUN3s0JyruY5FTF3RoIX0oLo0zVwbe+c971uOYiAS2+jkeLW7FVmSLuhJGCZhw
- lTZIWw1kO7P19rjyJOwd1sSjX/H/7DNf1A26qMf59AAAA
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1689;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=jX/VQsyuPIyHVsUjFUCTRKQIEp2WX+Su12Xn85ZrU+8=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlgZlaDrfW46D5usNUF+97Tkj84cNtskNX0ajIjSB4
- c2y3rGGJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZYGZWgAKCRB33NvayMhJ0YOND/
- 46yLraBMW6CnFYt7o5AHOdDFaYq3RCOhhkv53wUrp2UT+9o0dkTo/hdaKGwJlfGVtpIjkR1G/W1n0l
- p0DAmni76jmRO2lXdxtWY9XfPqYXaFDdgo6OOkaA4Y6CJwJvQqDsRo+wpXftMOvHtgjwbmum8DzLZW
- 70LxmqtfBXdA/5cxUDQecXMUtJt1RKpCDd84m1OsigYHQ0xVld+pem0MZRY1IHBZ8+e7NmeXKqwhJA
- 4pbEKd7WeekEhtE8IouZbs1TptF1VnkgL7tKBloFGy/6bh0fQj+nvKZG520uXczqi8u3kuDnJNn2dd
- Z7e/+jsEOq39jgYM8at/AGCksKx81laJRZ26/eXExBzOrtdCWQYrjq1rJI9/FeUK2MUSeESB6CS00J
- uGFsd0iaGjIU8mMWI6Swqf23/kR2ci/zLrdpPMsq97gyNbHQ8xq6zrAv5N5/TNMPA39cQ+cu+xDxjq
- zhODVdvJ2NDNBaMmRab4ZyGjH0WrzZgNeSXLuLU9DWtblMAJc/WjZFfq097FZhl0DkGiD1e3zZ31ej
- 1xr936utWiaifj2KSeILxMgX0zVAc+gO/BBC4tsvQZnSTOj0x0qzVmWh3dDsUBXG6eeCzsOs49NraC
- 176n4KxcOQHDA7kWYlN1tFI0aJFqGUNUfZh60WteKpzmVEaensgmrZU/UuDw==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3244; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=IRSSHnu68I519nHuE1LCsW+t+yzsh069i/48dm7XrHQ=; b=owGbwMvMwCRo6H6F97bub03G02pJDKmNs7+23U55/0hZacGkT5lTJp+JbBD/4LlqS98suQk/f NIUT7v5dsSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEkgMZFsxPlt22Ufld58Io Pr6tV3Kb4tUENzDM4Xq+W2rd+r8Wy10Ovim+npd36+i3pQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-Remove this spurious "contains" which causes the bindings check of
-qcom,sm8450-lpass-va-macro compatible to fail with:
-codec@33f0000: clocks: [[156, 57, 1], [156, 102, 1], [156, 103, 1], [156, 70, 1]] is too long
-        from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
-codec@33f0000: clock-names: ['mclk', 'macro', 'dcodec', 'npl'] is too long
-        from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
+Now that the driver core can properly handle constant struct bus_type,
+move all of the sound subsystem struct bus_type structures as const,
+placing them into read-only memory which can not be modified at runtime.
 
-Seems the double "contains" was considered as valid by the tool but broke
-the entire if statements.
+Note, this fixes a duplicate definition of ac97_bus_type, which somehow
+was declared extern in a .h file, and then static as a prototype in a .c
+file, and then properly later on in the same .c file.  Amazing that no
+compiler warning ever showed up for this.
 
-Fixes: f243ef746d0a ("ASoC: dt-bindings: qcom,lpass-va-macro: Add SM8650 LPASS VA")
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Dawei Li <set_pte_at@outlook.com>
+Cc: Yu Liao <liaoyu15@huawei.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ include/sound/ac97_codec.h | 2 +-
+ include/sound/hdaudio.h    | 2 +-
+ sound/ac97/bus.c           | 2 --
+ sound/ac97_bus.c           | 2 +-
+ sound/hda/hda_bus_type.c   | 2 +-
+ 5 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-index c03ff9472a85..6b483fa3c428 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-@@ -121,9 +121,8 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            contains:
--              enum:
--                - qcom,sm8550-lpass-va-macro
-+            enum:
-+              - qcom,sm8550-lpass-va-macro
-     then:
-       properties:
-         clocks:
-
----
-base-commit: aa4db8324c4d0e67aa4670356df4e9fae14b4d37
-change-id: 20231219-topic-sm8x50-upstream-va-macro-bindings-fix-924ffff6ae31
-
-Best regards,
+diff --git a/include/sound/ac97_codec.h b/include/sound/ac97_codec.h
+index c495c6d5fbe0..4bd3be3a3192 100644
+--- a/include/sound/ac97_codec.h
++++ b/include/sound/ac97_codec.h
+@@ -410,7 +410,7 @@ int snd_ac97_pcm_close(struct ac97_pcm *pcm);
+ int snd_ac97_pcm_double_rate_rules(struct snd_pcm_runtime *runtime);
+ 
+ /* ad hoc AC97 device driver access */
+-extern struct bus_type ac97_bus_type;
++extern const struct bus_type ac97_bus_type;
+ 
+ /* AC97 platform_data adding function */
+ static inline void snd_ac97_dev_add_pdata(struct snd_ac97 *ac97, void *data)
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index dd7c87bbc613..1517d752f750 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -33,7 +33,7 @@ struct hda_device_id;
+ /*
+  * exported bus type
+  */
+-extern struct bus_type snd_hda_bus_type;
++extern const struct bus_type snd_hda_bus_type;
+ 
+ /*
+  * generic arrays
+diff --git a/sound/ac97/bus.c b/sound/ac97/bus.c
+index 3173e9d98927..1dc7965eb14b 100644
+--- a/sound/ac97/bus.c
++++ b/sound/ac97/bus.c
+@@ -28,8 +28,6 @@ static DEFINE_MUTEX(ac97_controllers_mutex);
+ static DEFINE_IDR(ac97_adapter_idr);
+ static LIST_HEAD(ac97_controllers);
+ 
+-static struct bus_type ac97_bus_type;
+-
+ static inline struct ac97_controller*
+ to_ac97_controller(struct device *ac97_adapter)
+ {
+diff --git a/sound/ac97_bus.c b/sound/ac97_bus.c
+index c7aee8c42c55..7ea274c55900 100644
+--- a/sound/ac97_bus.c
++++ b/sound/ac97_bus.c
+@@ -75,7 +75,7 @@ int snd_ac97_reset(struct snd_ac97 *ac97, bool try_warm, unsigned int id,
+ }
+ EXPORT_SYMBOL_GPL(snd_ac97_reset);
+ 
+-struct bus_type ac97_bus_type = {
++const struct bus_type ac97_bus_type = {
+ 	.name		= "ac97",
+ };
+ 
+diff --git a/sound/hda/hda_bus_type.c b/sound/hda/hda_bus_type.c
+index 4cd94178df9f..cce2c30511a2 100644
+--- a/sound/hda/hda_bus_type.c
++++ b/sound/hda/hda_bus_type.c
+@@ -76,7 +76,7 @@ static int hda_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	return 0;
+ }
+ 
+-struct bus_type snd_hda_bus_type = {
++const struct bus_type snd_hda_bus_type = {
+ 	.name = "hdaudio",
+ 	.match = hda_bus_match,
+ 	.uevent = hda_uevent,
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.43.0
 
