@@ -1,76 +1,92 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9142881E;
-	Tue, 19 Dec 2023 03:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 0AFCF200584;
-	Tue, 19 Dec 2023 04:12:25 +0100 (CET)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id C653C2005A1;
-	Tue, 19 Dec 2023 04:12:24 +0100 (CET)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 0423E1802201;
-	Tue, 19 Dec 2023 11:12:22 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862DFC131
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 04:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="n4pVtjAF"
+Received: from pop-os.home ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id FRv4rqervb4TgFRv4rjXAp; Tue, 19 Dec 2023 05:41:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1702960888;
+	bh=cUzYcHCIluQtLI47YxLbQmZaKW4i/ciHI8Ppn0igCjw=;
+	h=From:To:Cc:Subject:Date;
+	b=n4pVtjAFR1nQ9jwRE978HzDHV4WihO5oeBif9lN/ekFNsTqr8TUjJJptyXGUc+Qcg
+	 FVoGWZfceeHRzTMI2DGnzPPlyrNNdvSfmZZkyO+hWcUnIWC5JvHv5J4UNpMgKFtKGK
+	 mXA3v343MUz7R/a7sNYw96q/Q7sPinC8X/KKwQ0P6hj3bdaKyTOb2eABkReShL3vNn
+	 DOOzvCwbNLcrDM6icYrm62NMNDC7/ftidCS3bG4ZGyrQtFcIukgWdfq5q5BqktlJBW
+	 ucF9z0oNOozTE8D0tVCCA0CKI2zAOqbvlRDKcEno2cg8Otm/giED5GCRjldFDs/wen
+	 zdgLpnhYR30Og==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 19 Dec 2023 05:41:28 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH v2] ASoC: fsl_sai: Fix channel swap issue on i.MX8MP
-Date: Tue, 19 Dec 2023 10:30:57 +0800
-Message-Id: <1702953057-4499-1-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: [PATCH] ASoC: sprd: Simplify memory allocation in sprd_platform_compr_dma_config()
+Date: Tue, 19 Dec 2023 05:41:19 +0100
+Message-Id: <d16f22ae0627249a9fc658927832590cd88c544e.1702960856.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-When flag mclk_with_tere and mclk_direction_output enabled,
-The SAI transmitter or receiver will be enabled in very early
-stage, that if FSL_SAI_xMR is set by previous case,
-for example previous case is one channel, current case is
-two channels, then current case started with wrong xMR in
-the beginning, then channel swap happen.
+'sg' is freed at the end sprd_platform_compr_dma_config() both in the
+normal and in the error handling path.
 
-The patch is to clear xMR in hw_free() to avoid such
-channel swap issue.
+There is no need to use the devm_kcalloc()/devm_kfree(), kcalloc()/kfree()
+is enough.
 
-Fixes: 3e4a82612998 ("ASoC: fsl_sai: MCLK bind with TX/RX enable bit")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
-changes in v2:
-- add fixes tag
+ sound/soc/sprd/sprd-pcm-compress.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- sound/soc/fsl/fsl_sai.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index 32bbe5056a63..546bd4e333b5 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -714,6 +714,9 @@ static int fsl_sai_hw_free(struct snd_pcm_substream *substream,
- 	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
- 	unsigned int ofs = sai->soc_data->reg_offset;
+diff --git a/sound/soc/sprd/sprd-pcm-compress.c b/sound/soc/sprd/sprd-pcm-compress.c
+index 6cfab8844d0f..57bd1a0728ac 100644
+--- a/sound/soc/sprd/sprd-pcm-compress.c
++++ b/sound/soc/sprd/sprd-pcm-compress.c
+@@ -160,7 +160,7 @@ static int sprd_platform_compr_dma_config(struct snd_soc_component *component,
+ 		return -ENODEV;
+ 	}
  
-+	/* Clear xMR to avoid channel swap with mclk_with_tere enabled case */
-+	regmap_write(sai->regmap, FSL_SAI_xMR(tx), 0);
-+
- 	regmap_update_bits(sai->regmap, FSL_SAI_xCR3(tx, ofs),
- 			   FSL_SAI_CR3_TRCE_MASK, 0);
+-	sgt = sg = devm_kcalloc(dev, sg_num, sizeof(*sg), GFP_KERNEL);
++	sgt = sg = kcalloc(sg_num, sizeof(*sg), GFP_KERNEL);
+ 	if (!sg) {
+ 		ret = -ENOMEM;
+ 		goto sg_err;
+@@ -250,12 +250,12 @@ static int sprd_platform_compr_dma_config(struct snd_soc_component *component,
+ 		dma->desc->callback_param = cstream;
+ 	}
  
+-	devm_kfree(dev, sg);
++	kfree(sg);
+ 
+ 	return 0;
+ 
+ config_err:
+-	devm_kfree(dev, sg);
++	kfree(sg);
+ sg_err:
+ 	dma_release_channel(dma->chan);
+ 	return ret;
 -- 
 2.34.1
 
