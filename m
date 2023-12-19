@@ -1,145 +1,101 @@
-Received: from mx.dolansoft.org (s2.dolansoft.org [212.51.146.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF08039AC7;
-	Tue, 19 Dec 2023 20:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brun.one
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brun.one
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F203A262;
+	Tue, 19 Dec 2023 21:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brun.one header.i=@brun.one header.b="HZDwUo/H"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=brun.one;
-	s=s1; h=MIME-Version:Message-ID:Date:Subject:Cc:To:From:In-Reply-To:
-	References:From:To:Subject:Date:Message-ID:Reply-To;
-	bh=zv1tp5EJGy8vjqEhUz2XKQPecD+fBNOlCqIMeS8hFok=; b=HZDwUo/HPafCCF6LR6WBQcfZB0
-	W/7uxNvRnhBNOfvvH7YLkV34y29UK0zD7dytiRTcakH0Lo20grPg17B1cnOTAx2jf5Xsam/Ev+Qt2
-	rO2K5x/z+iZbMB8nFA9KYKeJDoXTmFv0RQsJUTbUmybP/X+T4h3PZNjKu+F9eAdlrwAsYSQHZWYU3
-	v5+NKDpn+uuQhfFyWRX5QlOAXvCqHFvz8ylnFp8OEok11hNlH+OOx8ruh2a7v7xF0pzsQbACubwqc
-	7r32ZKNkXe780MnPvE1iA+rO6HkCCjCh/vePDlQHjm7eR3g99EQDUVQ1fLVj7YUMIrp48gGBY74oY
-	Al4B57rA==;
-Received: from [212.51.153.89] (helo=blacklava.cluster.local)
-	by mx.dolansoft.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <lorenz@dolansoft.org>)
-	id 1rFgUr-000rhY-1N;
-	Tue, 19 Dec 2023 20:15:21 +0000
-From: Lorenz Brun <lorenz@brun.one>
-To: James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda: cs35l41: Add HP override
-Date: Tue, 19 Dec 2023 21:15:11 +0100
-Message-ID: <20231219201513.2172580-1-lorenz@brun.one>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pe1h/d2N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46BFC433C8;
+	Tue, 19 Dec 2023 21:01:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703019687;
+	bh=lCKCo7ckizVWRpPEUPMezC6c+Ikwd4cEM0GhD64Wcpw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pe1h/d2NiKPz8zQPLeOKd+xemnO6jG6C1KnaaD3bcF5PqRauc/XAqHAYvSx4ELXZ3
+	 JItABcOM2aTcR7CIzxhsuPc63t9NvHYVdnSjb+Bo3h0H1BeGuSAYkAar1XD7toX99K
+	 2pxCq9W11iUUFEALv4fPfM/3qKGSmru0lWmAD/fQzFh+BNYpf19nbTVu+XTsQjuW8F
+	 C43FS4U9Xlu4nu0PFOoKUC3pd7QsLnm4gqKF4G0M9Hg0CKBev3hItdsirnG2oZMEC3
+	 s9v6zwq6tveNd70P/UEFE/Hjq/GxtEJrcrxP18nlBN4P2gMNSnn9PU4E3sTgIA2jpL
+	 rwKf0FyPEPaSg==
+Date: Tue, 19 Dec 2023 22:01:23 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>,
+	linux-i2c@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH] i2c: make i2c_bus_type const
+Message-ID: <ZYIEo8H6Vz0psGOB@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>,
+	linux-i2c@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+References: <2023121942-jumble-unethical-3163@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: lorenz@dolansoft.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gJv6Wj12fyHLJMkX"
+Content-Disposition: inline
+In-Reply-To: <2023121942-jumble-unethical-3163@gregkh>
 
-This adds an override for a series of notebooks using a common config
-taken from HP's proprietary Windows driver (csaudioext).
 
-This has been tested on a HP 15-ey0xxxx device (subsystem 103C8A31)
-together with another Realtek quirk and the calibration files from the
-proprietary driver.
+--gJv6Wj12fyHLJMkX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lorenz Brun <lorenz@brun.one>
----
- sound/pci/hda/cs35l41_hda_property.c | 59 ++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+On Tue, Dec 19, 2023 at 04:22:43PM +0100, Greg Kroah-Hartman wrote:
+> Now that the driver core can properly handle constant struct bus_type,
+> move the i2c_bus_type variable to be a constant structure as well, placing
+> it into read-only memory which can not be modified at runtime.
+>=20
+> Note, the sound/soc/rockchip/rk3399_gru_sound.c also needed tweaking as
+> it decided to save off a pointer to a bus type for internal stuff, and
+> it was using the i2c_bus_type as well.
+>=20
+> Cc: Wolfram Sang <wsa@kernel.org>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: linux-i2c@vger.kernel.org
+> Cc: linux-sound@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-rockchip@lists.infradead.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index c83328971728..8135ea532a94 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -6,6 +6,7 @@
- //
- // Author: Stefan Binding <sbinding@opensource.cirrus.com>
- 
-+#include <linux/acpi.h>
- #include <linux/gpio/consumer.h>
- #include <linux/string.h>
- #include "cs35l41_hda_property.h"
-@@ -81,6 +82,42 @@ static int hp_vision_acpi_fix(struct cs35l41_hda *cs35l41, struct device *physde
- 	return 0;
- }
- 
-+/*
-+ * HP 2-channel I2C configuration with internal boost (4.1A inductor current) with no _DSD,
-+ * reset GPIO can still be extracted from ACPI by index. Covers HP configurations 251, 252,
-+ * 253, 254, 351, 352 and 353 in the proprietary driver (csaudioext).
-+ */
-+static int hp_i2c_2ch_vbst_ipk41(struct cs35l41_hda *cs35l41, struct device *physdev, int id,
-+			      const char *hid)
-+{
-+	// In case a valid _DSD exists, use that instead of the override. This stops applying
-+	// the override in case HP ever fixes their firmware.
-+	if (device_property_count_u32(physdev, "cirrus,dev-index") > 0)
-+		return -ENOENT;
-+
-+	struct cs35l41_hw_cfg *hw_cfg = &cs35l41->hw_cfg;
-+
-+	cs35l41->index = id == 0x40 ? 0 : 1;
-+	cs35l41->channel_index = 0;
-+	// Get reset GPIO (shared for both instances) from ACPI GpioIo at index 0.
-+	cs35l41->reset_gpio = gpiod_get_index(physdev, NULL, 0, GPIOD_OUT_HIGH);
-+	// Speaker ID GPIO is ACPI GpioIo index 1.
-+	cs35l41->speaker_id = cs35l41_get_speaker_id(physdev, 0, 0, 1);
-+
-+	hw_cfg->spk_pos = cs35l41->index ? 1 : 0; // left:right
-+	hw_cfg->gpio1.func = CS35L41_NOT_USED;
-+	hw_cfg->gpio1.valid = true;
-+	hw_cfg->gpio2.func = CS35L41_INTERRUPT;
-+	hw_cfg->gpio2.valid = true;
-+	hw_cfg->bst_type = CS35L41_INT_BOOST;
-+	hw_cfg->bst_ind = 1000;
-+	hw_cfg->bst_ipk = 4100;
-+	hw_cfg->bst_cap = 10; // Exact value unknown, maps into correct range
-+	hw_cfg->valid = true;
-+
-+	return 0;
-+}
-+
- struct cs35l41_prop_model {
- 	const char *hid;
- 	const char *ssid;
-@@ -92,6 +129,28 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CLSA0100", NULL, lenovo_legion_no_acpi },
- 	{ "CLSA0101", NULL, lenovo_legion_no_acpi },
- 	{ "CSC3551", "103C89C6", hp_vision_acpi_fix },
-+	{ "CSC3551", "103C8A28", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A29", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A2A", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A2B", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A2C", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A2D", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A2E", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A30", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8A31", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BB3", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BB4", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BDF", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE0", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE1", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE2", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE9", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BDD", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BDE", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE3", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE5", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8BE6", hp_i2c_2ch_vbst_ipk41 },
-+	{ "CSC3551", "103C8B3A", hp_i2c_2ch_vbst_ipk41 },
- 	{}
- };
- 
--- 
-2.42.0
+Applied to for-next, thanks!
 
+
+--gJv6Wj12fyHLJMkX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWCBKMACgkQFA3kzBSg
+Kbbzvw/8DPBh44kdD/FS9nh7venOLDxhoqI+4TPeK6q6PfcV5hYrx5IA0J35w3r4
+eYBdFl6McEWJvQnUwhPAj3UAiUcMxNbEIbnBH/HB1OawmqyTlzuLD+c0arONMWEe
+eWCyBiqadts9huWTsy/WN1BZXDPF/QDzLA5sfn5L7kGbjcVi5iLQWsQ7h5FD06H8
+hbYFG+PkejM3XwNKbrY2M+N2nhcJpmpdVKntoHSNE4oF0LSp/FY40zgcTgwW6txX
+Bd83AYDqwEtKDefGYoYu+FefhdMyiIV7GJhf/A2Tg/Zt1a5Aah5i2dGIb2gmppZr
+fF6WiElKjh2bSdihivyYviwpidVtzwv2ZQnkLarY+zLKcu2GXv3QrZBzy2zJz3Qd
+CPuwwLv6MEeue2aEc49LUgsq83AenKmDxUwi37FNBDGhI3WOdC92AZipdqptbES/
+Z9yNoJamBfn26kBVq8NyIUjg4XR9eO7WD9GC1q+WgM4hY30KglREC0xL3pJUgGfu
+mlI+4t2A9k40qEOKSS7l6QdbHq1tcz4bt5NlIU4TBGwiUDdvLgXgo0fhqj9KD3kc
++tgdNT8e/ADcIvv0auqyzMjyF3ff/p4WkJxBLeqWEgAA5xvTZEw1qzgzdVPYYOGs
+WWjco3V8ZTAKy3V8qkX9hsKZIUtuLl1DvdbZMQeSgxTr8aNJMw0=
+=f8qM
+-----END PGP SIGNATURE-----
+
+--gJv6Wj12fyHLJMkX--
