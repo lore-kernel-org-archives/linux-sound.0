@@ -1,99 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD74381B8
-	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 17:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC43637D03
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 17:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRte6uDS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703005704; x=1734541704;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/wQo6ICqc15Zh13giXF+Imb5Y6zr40bNbquSO4cg7VU=;
-  b=TRte6uDSs7zUS3gAakXF0btmsR2xFOB5B20XxveVC5wAFR/SPATcEJMU
-   y4abS22huV2Y6SmNh0g19IaWIrXegJHte9YSbpn5DGxB6Cxd2SXjQdY90
-   e01+scf+HfyREEUMFbhJRKnK1nJJq61Q2AyHTsu04qgiIOzir2hgLIXdh
-   dOjUrHK0Z0Xs7yogiXHiWc8u7aMYA9/ccCf5Csu625k7HGXXrKZR2kMA+
-   0IJ7v1+uLdGHYxQNI6UFFlH7HMhjNAiurSgNa11D09rGFpO+yBAqIL5IE
-   9kHO/ktVax6npv+R4lAMAarSydlqbPk9/feN/ponjYU2RUJyWWz6sLd+6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2921380"
-X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="2921380"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 09:08:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="17669304"
-Received: from hierlema-mobl.ger.corp.intel.com (HELO [10.252.34.230]) ([10.252.34.230])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 09:08:18 -0800
-Message-ID: <f24a2a89-3d8a-4a6d-849a-cddbae4c1e03@linux.intel.com>
-Date: Tue, 19 Dec 2023 18:08:15 +0100
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="GyQqenbQ"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 432C4604B9F7; Wed, 20 Dec 2023 04:06:42 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 432C4604B9F7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1703007402; bh=w71tYLCSurTXhcu4POdZy7nJlWAOIgIw63TgCjTYSMY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GyQqenbQjZ1WXJfzAHedLWE2CsJXMwI+zmf0qoABFBAm81FglS1donj/rCe4Iifpw
+	 9BZToDtCMQK2we0ynaLW+JYIOaunU1BeKpQ7LL32vXrB5ifTSuuturw0vGCSoTH+NJ
+	 kANqPvRV/2vr9JBoxGVr/9SXJgqQl2tjMkHjWIwvmaZHh/AsT0giCAMWkCSgXJC2B3
+	 RHb+4dUJhoMuiC291AqHlQ1mTRZX0asnMAkfuxtmnLcLS4+VkqufHC0liDWCaWXllB
+	 9NJGKNMciXVrIj33wEZcOlyOcJCpqDqFt0mevqXkzjs7Ek6SFS0G6x/98hqDzyPrcb
+	 bXDUo5q0LCVog==
+Date: Wed, 20 Dec 2023 04:06:42 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: [PATCH 01/11] ALSA: scarlett2: Update maintainer info
+Message-ID: <62f32404eaa8663cc304648354b85bcb5914ce72.1703001053.git.g@b4.vu>
+References: <cover.1703001053.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
- vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, srinivas.kandagatla@linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- vijendar.mukunda@amd.com, Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
- Oder Chiou <oder_chiou@realtek.com>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
- <5b8e74ad-460f-4e68-a17b-3131d810f29b@linux.intel.com>
- <ZXOPWRWvrRddOWpT@finisterre.sirena.org.uk>
- <700e564d-7e87-463a-a764-c4713ddf11cd@linux.intel.com>
- <bec481f0-5361-4090-b69c-1123f83ac8ac@sirena.org.uk>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <bec481f0-5361-4090-b69c-1123f83ac8ac@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1703001053.git.g@b4.vu>
 
+Update MAINTAINERS and "enabled" message with GitHub repository links.
 
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ MAINTAINERS                 | 6 ++++--
+ sound/usb/mixer_scarlett2.c | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-On 12/19/23 17:53, Mark Brown wrote:
-> On Tue, Dec 19, 2023 at 05:50:30PM +0100, Pierre-Louis Bossart wrote:
-> 
->>> grep for regmap_.*async - cs_dsp.c is the upstream example in a driver,
->>> or there's the rbtree cache sync code which uses a back door to go into
->>> an async mode.  Basically just variants of all the normal regmap I/O
->>> calls with a _complete() call you can use to wait for everything to
->>> happen.  The implementation is a bit heavyweight since it was written to
->>> work with fairly slow buses.
-> 
->> I spent a fair amount of time this afternoon trying to understand the
->> regmap_async parts, and I am not following where in the code there is an
->> ordering requirement/enforcement between async and sync usages.
-> 
-> The only actual async implementation is SPI which processes things in
-> order of submission, the sync API wraps the async API.
-> 
->> Also is this just me spacing out or there is no regmap_raw_read_async()?
-> 
-> Right, there was never any need.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea790149af79..ae3f72f57854 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8272,11 +8272,13 @@ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/input/joystick/fsia6b.c
+ 
+-FOCUSRITE SCARLETT GEN 2/3 MIXER DRIVER
++FOCUSRITE SCARLETT2 MIXER DRIVER (Scarlett Gen 2+ and Clarett)
+ M:	Geoffrey D. Bennett <g@b4.vu>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+ S:	Maintained
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
++W:	https://github.com/geoffreybennett/scarlett-gen2
++B:	https://github.com/geoffreybennett/scarlett-gen2/issues
++T:	git https://github.com/geoffreybennett/scarlett-gen2.git
+ F:	sound/usb/mixer_scarlett2.c
+ 
+ FORCEDETH GIGABIT ETHERNET DRIVER
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index f7c57a2c3028..a0dbdf921745 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -4534,7 +4534,8 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
+ 
+ 	usb_audio_info(chip,
+ 		"Focusrite %s Mixer Driver enabled (pid=0x%04x); "
+-		"report any issues to g@b4.vu",
++		"report any issues to "
++		"https://github.com/geoffreybennett/scarlett-gen2/issues",
+ 		entry->series_name,
+ 		USB_ID_PRODUCT(chip->usb_id));
+ 
+-- 
+2.43.0
 
-ok. I am starting to think that we could have a new type of regmap, say
-"regmap-sdw-bra", where the use of write_raw_async() would rely on the
-send/wait bus primitives, and write_raw() would fallback to the regular
-read/write commands. We'd need a mutual exclusion to prevent parallel
-async/sync access to the same regmap.
-
-In other words, "memory" areas that are used for firmware downloads
-would be moved to a different regmap with async capabilities and no
-caching support.
