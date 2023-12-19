@@ -1,39 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CD639AC5;
-	Tue, 19 Dec 2023 18:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00CB39AD6
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 18:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbamb6wM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F8CCC433C7;
-	Tue, 19 Dec 2023 18:06:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NJrIVF9Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FA3EC433CA;
+	Tue, 19 Dec 2023 18:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703009215;
-	bh=75Es5ASDNV/OKxp/HlaSmARaKwxlUSU1EzBIpJTahRw=;
+	s=k20201202; t=1703009219;
+	bh=BkdpxdriLwhZmETXOsh3mZuFvfKehA1ZY7LfarcI37A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bbamb6wMIQTNf2EwRtb8UiN2rGhkeT3P8P/X+6ptYEgRlQK5Da0Dsmh+XELFHeiBw
-	 pbkfnuMPYvQpHiCXo99GPo74qlJW/vBKogHtjMGgJkEge+lCEBy1l5k5YiLW08nSi2
-	 YzNBgl3Scxhv0zJOG/HH9nfVsGWB9sIZo/C9VEELwDkWrVWsM6eB7EgRwq8pX8c4fC
-	 Mlx/oEX/JenyAaKtZ2zHR7PEAipdYLRY6TpQmPqv/NhJb1fSZxRhOU+5js1HhcbSZ7
-	 BO/sVIwYoObutr8vagWBI8lvIHRIzkYCTff8tKgQusvFu4BNvGCt4E0l5sj44sJpl/
-	 LqbEy6WVyTmlw==
+	b=NJrIVF9QxPBuJo7WsIDB/Es3w/CKkCO53d9JLL2vnVmlRCH/AVE0hAuVRF2oE+pMb
+	 jznN1ipl2rc2xkpAzRW7b7bK8zbCLtT+CEL9jkvGwWaZgns89xK34qq8dqhcSwqxKu
+	 9TiZ8F+NPN4yOT1WkLXBcVca3Zxm9OTAiElpMkEq6ZUOQ2IAqNoGhCASYkMxqOmOwp
+	 uevAVwQaVUjpYiwjFEsnjtjAlBfeB3O7EZbV4qxrmblH+BrtKxcpOjgf9wXiCuk8YW
+	 lRw+mOlfnaUePE4HLQICVfIPVDUhobQnN2eA2TH04QXIJ2z+CbfhAMsUucUYzF55wD
+	 ED7XiSTv5LHsA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-In-Reply-To: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
-References: <20231214-gpio-descriptors-sound-misc-v1-0-e3004176bd8b@linaro.org>
-Subject: Re: [PATCH 0/4] GPIO inclusion fixes to misc sound drivers
-Message-Id: <170300921190.125466.2748505947171245430.b4-ty@kernel.org>
-Date: Tue, 19 Dec 2023 18:06:51 +0000
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Brent Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+ Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Fabio Estevam <festevam@gmail.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <878r5q93sq.wl-kuninori.morimoto.gx@renesas.com>
+References: <878r5q93sq.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 0/5] ASoC: don't use original dummy dlc
+Message-Id: <170300921524.125466.13853663973005425398.b4-ty@kernel.org>
+Date: Tue, 19 Dec 2023 18:06:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,10 +50,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-5c066
 
-On Thu, 14 Dec 2023 14:15:41 +0100, Linus Walleij wrote:
-> Mostly dropping unused headers, and a single driver rewrite.
+On Tue, 19 Dec 2023 05:09:25 +0000, Kuninori Morimoto wrote:
+> This v2 patch-set try to not use original dummy dlc.
 > 
+> "Empty" dlc might be used on Platform, but "dummy" dlc is not needed
+> for it. [PATCH 1/5][PATCH 2/5] removes "dummy" dlc from Platform.
 > 
+> Now ASoC have common dummy dlc (= snd_soc_dummy_dlc).
+> [PATCH 3/5][PATCH 4/5] will use it instead of original dummy dlc.
+> 
+> [...]
 
 Applied to
 
@@ -55,14 +67,16 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: hisilicon: Drop GPIO include
-      commit: 487b467206fb2f3a21c93759d3b0ffe7044ed197
-[2/4] ASoC: qcom: sc7180: Drop GPIO include
-      commit: 809fc84b371a0364160254037d2bc34a8f5ce372
-[3/4] ASoC: simple-card-utils: Drop GPIO include
-      commit: 4504f63321e1a581a3c0cbc8de91bd0175d94783
-[4/4] ASoC: tegra: tegra20_ac97: Convert to use GPIO descriptors
-      commit: 26e91f61d6b91ccfb0bbb15cbc81845dd1d223af
+[1/5] ASoC: fsl: fsl-asoc-card: don't need DUMMY Platform
+      commit: 7465582e0b18859d3681192ec2ccf22a81370040
+[2/5] ASoC: samsung: odroid: don't need DUMMY Platform
+      commit: 56558d6ab8c09c416bdb6d72b7e02894539a882a
+[3/5] ASoC: intel: hdaudio.c: use snd_soc_dummy_dlc
+      commit: c2dfe29f30d8850af324449f416491b171af19aa
+[4/5] ASoC: sof: use snd_soc_dummy_dlc
+      commit: e8776ff9ce9f5a8a9d8294101fd2924cebdd2da1
+[5/5] ASoC: soc.h: don't create dummy Component via COMP_DUMMY()
+      commit: 13f58267cda3d6946c8f4de368ad5d4a003baa61
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
