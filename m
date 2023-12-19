@@ -1,221 +1,79 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C90D12B60
-	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 08:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023B212B69;
+	Tue, 19 Dec 2023 08:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RZFBePNl"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-336695c4317so1872143f8f.3
-        for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 00:26:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ErA7m7+q"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2339262835so297926166b.3;
+        Tue, 19 Dec 2023 00:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702974383; x=1703579183; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=44tWTX/RSFAs3xTgaKfAwubj6hvu6hnjcH+agLDrfuI=;
-        b=RZFBePNlvKK1/SmZLxoV0uLC3wND4aSou+pK00QdXHajnjSqDvBfImhZs9HW13G0l5
-         63FDyumdA7ivqVvtgOzFA/1UmqNh/e4ZacC+kIatzicFjLQ/ZnHK0Lpr0yldn/Kj5QMa
-         uZh8t4eGpEgBNKAOareAjep+3eGko73g0/O6+a/AYoGPNHr5rMdNRV6WtRiPCX/5iV9a
-         9iVq2vghUkizJIr5tB7JIDs6sSEVPj7LXHsPP6eFm5Pz764AcSltwxHoeWKEyHHrEl5q
-         RSc+IL1n2/JGkK8X910oLJMrNK78RSHxs3P4QWrf88fuxGBMfRSCmZGggJZb7TfA/sYN
-         oY0A==
+        d=gmail.com; s=20230601; t=1702974672; x=1703579472; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i5VFZBXoek/PmoENd13wHvQBkwNetTGq8HZiKbqScho=;
+        b=ErA7m7+qTMUR7pbg4F2Wtnx7qY3nyiu4ZkVc3WWVTTdd2YD1yWdRO6Tq2oCyKiUnTe
+         sH5CoBTUQ9sO2+/QWPekzPTsMxUt1MazxGqSuqpDt9jFVH6IyOwA5YCxaQ88gQssmKiN
+         5ntbzAO336FAVO+adDxOhh0Lez8cA2UkzonsaYrkiabIyKFRTSjrM/QnNZrJoPHW92Xw
+         rXn1mmqaHJR3Uo3W4UR9cY+pfQ6WS6HsbJyF/2BIEzPYuxTLdd40UeiICevI1uR2LpZb
+         aGcsGc6OY1UA4BKce/xOfTJQozZBQ0OhuuNpzEWVYDiUuMtKvak2bgu/JygRaEHDUpWD
+         tvvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702974383; x=1703579183;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=44tWTX/RSFAs3xTgaKfAwubj6hvu6hnjcH+agLDrfuI=;
-        b=dU5N6rBVDC2k9KKyMSE6fv5fhhKjv7HW5jq0EQOUbO+goOIlJjEGsD5oAIYdhYiX4f
-         3OpxG5Js9iR0FU0N7/u/kct1VAUCzDxnmCbOPDTSLv4wXGDO8o/X701hdTDVXT7bnogk
-         EiG/WjN44htiiCssLoImcltiiCJ290ouha0f2xdkDm1bo09B6+2i340kR8wb0wFoMpyv
-         euyhFjsH7V9JbYHW2VetZ5CBBVSx6ULhNY6RM72Jn+HfUOFOK6NGxhoj9PokKBZQXc38
-         t5WkcRH3j3fTyK9azc5f8cR5R+9Yj2j6Dwc/OqIuuTqeE8Zgw44cjPi4zUAb6AI/upSs
-         CKmg==
-X-Gm-Message-State: AOJu0YyHwroUFRblHh1mtQbkx5e/A0Zk2AwuHdNRaiw0fOm3N0C/w7RZ
-	CFo0h2wmyBCCQqNJ2OFeC3wYew==
-X-Google-Smtp-Source: AGHT+IFhixtyy2y9O5fWKScajlDY2zaXPIfDPrVd3MMvihiJ4///TFioM3EVhUMMvTdIrJts+xU3cQ==
-X-Received: by 2002:a5d:6801:0:b0:336:6e12:7c62 with SMTP id w1-20020a5d6801000000b003366e127c62mr861872wru.110.1702974383315;
-        Tue, 19 Dec 2023 00:26:23 -0800 (PST)
-Received: from [192.168.2.173] ([79.115.63.202])
-        by smtp.gmail.com with ESMTPSA id d5-20020a5d5385000000b0033662cf5e51sm6719841wrv.93.2023.12.19.00.26.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 00:26:22 -0800 (PST)
-Message-ID: <576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org>
-Date: Tue, 19 Dec 2023 10:26:20 +0200
+        d=1e100.net; s=20230601; t=1702974672; x=1703579472;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i5VFZBXoek/PmoENd13wHvQBkwNetTGq8HZiKbqScho=;
+        b=BeSougi1KngTlZL3inT97kzYqS97jTedu5P+K6YZo2GSMpnubE0h09RqRS0SBr7ze2
+         D+siDBM9h9tD2k+Z2JeLUR8drCJwNex8S+rSNqSU1MSHrUUsvZ0Lmm6EX6oXymKzIwtG
+         9m5SwwZptxszBaSAWgdIgZKqs4bTnqtxZ96CndFFJWWaoKpsc93OFCinFK+BcHjm+ZYN
+         kP5GdPW2rsLkIUcohAqlUIHCyGty+7/r+6whGGO7dCjfUr+/h7E0hBU3vRbpbJkbamJt
+         ZCnOE0y3ZrtZ1AlNiJOd1ZVHZ924hMHVv+zAGLH4kZlZlzjtVIhyL3GuVtxcbJ3/LTE2
+         qYcA==
+X-Gm-Message-State: AOJu0YydFM7ixNdt3lDzChSUIwfirWZuwDFXqqSrjpH403aA9/0u7JJw
+	iAShBxF2ITmrZTPS6Rh41alw3CwacwiOKLZmPEJwpezqlhJaRQ==
+X-Google-Smtp-Source: AGHT+IER0EeD0F3ccRgxlejZrbYe3okE2GAyGDFMLJmQCmcEpMASztGNOjgzLjUdLJ3YpMtcTgLDZ6UTQoCoNj/9/Fg=
+X-Received: by 2002:a17:906:d6:b0:a23:ff8:cda6 with SMTP id
+ 22-20020a17090600d600b00a230ff8cda6mr4758403eji.75.1702974672002; Tue, 19 Dec
+ 2023 00:31:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Content-Language: en-US
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>,
- "miquel.raynal@bootlin.com" <miquel.raynal@bootlin.com>,
- "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michael@walle.cc" <michael@walle.cc>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-8-amit.kumar-mahapatra@amd.com>
- <e2305642-55f1-4893-bea3-b170ac0a5348@linaro.org>
- <BN7PR12MB2802BEDFB821A1748185794CDC8AA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <f5a47024-514a-4846-bc16-08cf0f9af912@linaro.org>
- <BN7PR12MB2802BB3DA682D9C13EF7DE08DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <5a6f6764-6779-42b0-b6c6-3f638b85ef78@linaro.org>
- <BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org>
- <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
- <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org>
- <BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1702953057-4499-1-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <1702953057-4499-1-git-send-email-shengjiu.wang@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Tue, 19 Dec 2023 10:31:00 +0200
+Message-ID: <CAEnQRZDHrihcP5TGLWKTYW=C27XSrBis7pLd2nMrQ2byJQhAJg@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: fsl_sai: Fix channel swap issue on i.MX8MP
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Dec 19, 2023 at 5:12=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
+>
+> When flag mclk_with_tere and mclk_direction_output enabled,
+> The SAI transmitter or receiver will be enabled in very early
+> stage, that if FSL_SAI_xMR is set by previous case,
+> for example previous case is one channel, current case is
+> two channels, then current case started with wrong xMR in
+> the beginning, then channel swap happen.
+>
+> The patch is to clear xMR in hw_free() to avoid such
+> channel swap issue.
+>
+> Fixes: 3e4a82612998 ("ASoC: fsl_sai: MCLK bind with TX/RX enable bit")
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-
-On 15.12.2023 13:20, Mahapatra, Amit Kumar wrote:
-> Hello Tudor,
-> 
-
-Hi!
-
->> -----Original Message-----
->> From: Tudor Ambarus <tudor.ambarus@linaro.org>
->> Sent: Friday, December 15, 2023 4:03 PM
->> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>;
->> broonie@kernel.org; pratyush@kernel.org; miquel.raynal@bootlin.com;
->> richard@nod.at; vigneshr@ti.com; sbinding@opensource.cirrus.com;
->> lee@kernel.org; james.schulman@cirrus.com; david.rhodes@cirrus.com;
->> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com
->> Cc: linux-spi@vger.kernel.org; linux-kernel@vger.kernel.org; michael@walle.cc;
->> linux-mtd@lists.infradead.org; nicolas.ferre@microchip.com;
->> alexandre.belloni@bootlin.com; claudiu.beznea@tuxon.dev; Simek, Michal
->> <michal.simek@amd.com>; linux-arm-kernel@lists.infradead.org; alsa-
->> devel@alsa-project.org; patches@opensource.cirrus.com; linux-
->> sound@vger.kernel.org; git (AMD-Xilinx) <git@amd.com>;
->> amitrkcian2002@gmail.com
->> Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support
->> in spi-nor
->>
->>
->>
->> On 12/15/23 10:02, Mahapatra, Amit Kumar wrote:
->>> Hello Tudor,
->>
->> Hi,
->>
->>>
->>>> -----Original Message-----
->>>> From: Tudor Ambarus <tudor.ambarus@linaro.org>
->>>> Sent: Friday, December 15, 2023 1:40 PM
->>>> To: Mahapatra, Amit Kumar <amit.kumar-mahapatra@amd.com>;
->>>> broonie@kernel.org; pratyush@kernel.org; miquel.raynal@bootlin.com;
->>>> richard@nod.at; vigneshr@ti.com; sbinding@opensource.cirrus.com;
->>>> lee@kernel.org; james.schulman@cirrus.com; david.rhodes@cirrus.com;
->>>> rf@opensource.cirrus.com; perex@perex.cz; tiwai@suse.com
->>>> Cc: linux-spi@vger.kernel.org; linux-kernel@vger.kernel.org;
->>>> michael@walle.cc; linux-mtd@lists.infradead.org;
->>>> nicolas.ferre@microchip.com; alexandre.belloni@bootlin.com;
->>>> claudiu.beznea@tuxon.dev; Simek, Michal <michal.simek@amd.com>;
->>>> linux- arm-kernel@lists.infradead.org; alsa-devel@alsa-project.org;
->>>> patches@opensource.cirrus.com; linux-sound@vger.kernel.org; git (AMD-
->>>> Xilinx) <git@amd.com>; amitrkcian2002@gmail.com
->>>> Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories
->>>> support in spi-nor
->>>>
->>>>
->>>>
->>>> On 15.12.2023 09:55, Mahapatra, Amit Kumar wrote:
->>>>>> Thanks! Can you share with us what flashes you used for testing in
->>>>>> the stacked and parallel configurations?
->>>>> I used SPI-NOR QSPI flashes for testing stacked and parallel.
->>>>
->>>> I got that, I wanted the flash name or device ID.
->>>
->>> N25Q00A, MX66U2G45G, IS25LP01G & W25H02JV are some of the QSPI
->> flashes
->>> on which we tested. Additionally, we conducted tests on over 30
->>> different QSPI flashes from four distinct vendors (Miron, Winbond,
->> Macronix, and ISSI).
->>>
->>
->> Great.
->>
->>>> What I'm interested is if each flash is in its own package. Are they?
->>>
->>> I'm sorry, but I don't quite understand what you mean by "if each
->>> flash in its own package."
->>>
->>
->> There are flashes that are stacked at the physical level. It's a single flash with
->> multiple dies, that are all under a single physical package.
-> 
-> Got it. The W25H02JV QSPI flash I mentioned earlier is a device with 
-> with four dies that are stacked at the physical level.
-> 
->>
->> As I understand, your stacked flash model is at logical level. You have
->> 2 flashes each in its own package. 2 different entities. Is my understanding
->> correct?
-> 
-> Yes, that’s correct.
-> 
-> I'd like to contribute to your earlier point regarding the placement of 
-> the stacked layer. As you correctly highlighted, it should be in the 
-> spi-mem generic layer. For instance, when a read/write operation extends 
-> across multiple flashes (whether SPI-NOR or SPI-NAND), the stacked layer 
-> must handle the flash crossover. This requires setting the appropriate CS 
-> index in mem->spi->cs_index_mask to select the correct slave device and 
-> updating the data buffer, address & data length in spi_mem_op struct 
-> variable. Does this align with your understanding?
-> 
-
-This was the initial idea, yes, but we'll have to see how mtd concat
-fits in. Maybe the abstraction can be made at the mtd level, which I
-suspect mtd concat does. I have to read that driver, never opened it.
-
-Something else to consider: I see that Micron has a twin quad mode:
-https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25t/generation-b/mt25t_qljs_l_512_xba_0.pdf?rev=de70b770c5dc4da8b8ead06b57c03500
-
-The micron's "Separate Chip-Select and Clock Signals" resembles the
-AMD's dual parallel 8-bit.
-Micron's "Shared Chip-Select and Clock Signals" differs from the AMD's
-stacked mode, as Micron uses DQ[3:0] and DQ[7:4], whereas AMD considers
-both as DQ[3:0].
-
-I had a short chat with Michael and he highlighted that instead of the
-parallel mode, one would be better of with an octal device. I wonder
-whether the quad parallel is worth the effort. I see AMD can select
-either quad (single/stacked/parallel) or octal (single/stacked). Is the
-parallel mode considered obsolete for new IPs?
-
-Cheers,
-ta
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
