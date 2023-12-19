@@ -1,86 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AAB37146;
-	Tue, 19 Dec 2023 16:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213EC36AEA
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 16:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrqBKPcq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F59C433C8;
-	Tue, 19 Dec 2023 16:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703004304;
-	bh=YshGhGatuu0XiNpZYItbZPJD2MbgKrCUH+6Ej4/eD/s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LrqBKPcqgPoV0qNw9Xo+lHKYZoOUYOAmUKMfNh6KDuj+00QqYzBLdqxvNs6FskFUc
-	 BuN9r6l24sahQFlvTimo2FJ51ChGu/ommKHG2rTIWurP5haG1wUNICyJC8KTRRqtQp
-	 PDogK3syEoY9CAepcBYLEKyH71+pSuBB71y5sRB66HZ/uf85bgKS+rL8GcAp9fzTcw
-	 AWeQTOY36Ri42521gdewarHr/75FOqFD9J6RftJ4VZeAnfewjLVB1NEU7jilALNK1u
-	 hqoQ07dAnwFuyABDWdWlAJ6cZMJT1yqpQ9Vo4dMmKPyebckGaAsK0HcLsQo4rZJD0r
-	 xqErbISMcB4Mw==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20231219-topic-sm8x50-upstream-va-macro-bindings-fix-v1-1-ae133886f70e@linaro.org>
-References: <20231219-topic-sm8x50-upstream-va-macro-bindings-fix-v1-1-ae133886f70e@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: qcom,lpass-va-macro: remove
- spurious contains in if statement
-Message-Id: <170300430078.102048.8496688469911862862.b4-ty@kernel.org>
-Date: Tue, 19 Dec 2023 16:45:00 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQnneuqI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703004641; x=1734540641;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=o/k8w+KwAgcQoxX0YyOLJxZiQxvyrpoQFrxkS7/kYkc=;
+  b=PQnneuqI8uAt847flFT7BVdlTwbMHlEAOTC2ParFvcX0as2G3hq2pUvk
+   OINf8+FZydSZ7RfEcRWQD7E58BjFGcht36Qzz0LdiGjGssKPFIfW6aw1U
+   fh9kxxRpM+SqQPKveMiq3Sb9TY4Xi0ZAy/EKTdFY3Z/qG++E2l4UIHpkN
+   xZI/5RTjbrUr8LlxCJjPEIg0rOOVJ6j21Si1gXIn06rphqR4iCmQfYGSX
+   y1zwUDSQvoOseyxl+j902f4/cJbin4FnEG6dgJepSC2vWWdwxX/p5TXBo
+   lOw5bPZfy3anmfDSZIf+ymUm/W4uy0dynboA6YyVLWzFeRMt/OBGFe7Xc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="399518882"
+X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
+   d="scan'208";a="399518882"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 08:50:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="949224088"
+X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
+   d="scan'208";a="949224088"
+Received: from hierlema-mobl.ger.corp.intel.com (HELO [10.252.34.230]) ([10.252.34.230])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 08:50:33 -0800
+Message-ID: <700e564d-7e87-463a-a764-c4713ddf11cd@linux.intel.com>
+Date: Tue, 19 Dec 2023 17:50:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
+ description
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+ vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, srinivas.kandagatla@linaro.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ vijendar.mukunda@amd.com, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+ Oder Chiou <oder_chiou@realtek.com>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
+ <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
+ <5b8e74ad-460f-4e68-a17b-3131d810f29b@linux.intel.com>
+ <ZXOPWRWvrRddOWpT@finisterre.sirena.org.uk>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <ZXOPWRWvrRddOWpT@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
 
-On Tue, 19 Dec 2023 14:23:37 +0100, Neil Armstrong wrote:
-> Remove this spurious "contains" which causes the bindings check of
-> qcom,sm8450-lpass-va-macro compatible to fail with:
-> codec@33f0000: clocks: [[156, 57, 1], [156, 102, 1], [156, 103, 1], [156, 70, 1]] is too long
->         from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
-> codec@33f0000: clock-names: ['mclk', 'macro', 'dcodec', 'npl'] is too long
->         from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
+
+
+>>> This feels a lot like it could map onto the regmap async interface, it
+>>> would need a bit of a rework (mainly that currently they provide
+>>> ordering guarantees with respect to both each other and sync I/O) but
+>>> those could be removed with some care) but it's got the "here's a list
+>>> of I/O, here's another call to ensure it's all actually happened" thing.
+>>> It sounds very much like how I was thinking of the async API when I was
+>>> writing it and the initial users.
 > 
-> [...]
+>>> It's this bit that really got me thinking it could fit well into regmap.
+> 
+>> I really don't know anything about this async interface, if you have
+>> pointers on existing examples I am all ears....I am not aware of any
+>> Intel platform or codec used on an Intel platform making use of this API.
+> 
+> grep for regmap_.*async - cs_dsp.c is the upstream example in a driver,
+> or there's the rbtree cache sync code which uses a back door to go into
+> an async mode.  Basically just variants of all the normal regmap I/O
+> calls with a _complete() call you can use to wait for everything to
+> happen.  The implementation is a bit heavyweight since it was written to
+> work with fairly slow buses.
 
-Applied to
+I spent a fair amount of time this afternoon trying to understand the
+regmap_async parts, and I am not following where in the code there is an
+ordering requirement/enforcement between async and sync usages.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I do see this comment in the code
 
-Thanks!
+ * @async_write: Write operation which completes asynchronously,
+optional and must serialise with respect to non-async I/O.
 
-[1/1] ASoC: dt-bindings: qcom,lpass-va-macro: remove spurious contains in if statement
-      commit: c13cf1991f4231d38f1c43fcf51ec1cf29c8c82d
+But that 'must' is a requirement on the codec side, isn't it?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+When using regmap_raw_write_async(), the lock is released immediately. I
+don't see anything at the regmap level that would prevent a codec driver
+from using regmap_raw_write() immediately.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+That's probably a violation of the API to do so, but it's the same
+problem I was referring earlier in the conversation where 'regular'
+read/writes cannot happen in parallel with BTP/BRA transactions.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Also is this just me spacing out or there is no regmap_raw_read_async()?
 
