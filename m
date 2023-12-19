@@ -1,32 +1,32 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EED37D39
-	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 17:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E46737D00
+	for <linux-sound@vger.kernel.org>; Tue, 19 Dec 2023 17:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="G/3eEbQ+"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="TZEGIu7Q"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 50551604B9F7; Wed, 20 Dec 2023 04:09:23 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 50551604B9F7
+	id 6B491604B9CB; Wed, 20 Dec 2023 04:06:04 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 6B491604B9CB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703007563; bh=Wwcw9RjvBs9K31sVeM8U0U+Xy1IA51F7Ah/eptGSN5w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G/3eEbQ+yZ3imjDf8F2iRnOtUYpPbT2B/0/463WiEEpnVTl3GereBH1U4xfklNAHr
-	 7nLn6XxQEZ0cAZoGIB4bvbHbKof1oHYqFU03rTkvs+hda78fNlyeLDaGl/CBjWX/cr
-	 gfSTGBYlS4y3clVICar56hK2kXPkEtG946OSvyRd0cELVvWQpVm+6RXcFlt1LxUX5o
-	 J4BQKc6CopqCgNYRGCiaDwQP2lki9tntrv8iFuQ9KZPr2RkTx4bZPtaARF5XBD/1h5
-	 cbyT+mR1sSBZgZ36wmWYA7Lb0o73GYopSMXahHYaynnLfqz8MbAPub9AiKij4gzxwT
-	 oaKuS3GTpmUsQ==
-Date: Wed, 20 Dec 2023 04:09:23 +1030
+	t=1703007364; bh=4eLcQ5V9ALrS4VsOP0meqfbpIaC59gpIW/vF7BsylRo=;
+	h=Date:From:To:Cc:Subject:From;
+	b=TZEGIu7QRR7qyDsBr5xd4II5i+QTlRwpvjMZJ5rD1upmsbGH3WfLageloC7yGh7q2
+	 BZlSV2LOumC2FZnYq/odMV6rlCKNHewns9cVSFTb+Ldeu4dQzw5JNPNi6MZzaoS6TI
+	 94s55hFAgQcVQ37/Yrb5WlMYz7plnSp9jHaWIYh1QMFGeqhJM05SBfr7gDbwUTuacb
+	 V6c04cO9xXYZlkx1pjr5DuCkgg52Qfj5epJEcl0F3uYGJdYto21qInaN/GmLa0E7Jn
+	 jXOHgNyOVth0FbnAky2iEN2wr3+LQdNshxEnNwb5E6I9ZHq5kSxthlidmDDAYAnjtJ
+	 5wSKFNkwLu5Tg==
+Date: Wed, 20 Dec 2023 04:06:04 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH 09/11] ALSA: scarlett2: Add skeleton hwdep/ioctl interface
-Message-ID: <24ffcd47a8a02ebad3c8b2438104af8f0169164e.1703001053.git.g@b4.vu>
-References: <cover.1703001053.git.g@b4.vu>
+Subject: [PATCH 00/11] ALSA: scarlett2: Firmware Upgrade and Error Handling
+ Improvements
+Message-ID: <cover.1703001053.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,174 +35,102 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1703001053.git.g@b4.vu>
 
-Add skeleton hwdep/ioctl interface, beginning with
-SCARLETT2_IOCTL_PVERSION and SCARLETT2_IOCTL_REBOOT.
+Hi Takashi,
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
- MAINTAINERS                    |  1 +
- include/uapi/sound/scarlett2.h | 34 +++++++++++++++++
- sound/usb/mixer_scarlett2.c    | 67 +++++++++++++++++++++++++++++++++-
- 3 files changed, 101 insertions(+), 1 deletion(-)
+11 patches to improve error handling and add firmware upgrade support
+to the scarlett2 driver. The notes below incorporate your feedback &
+include answers to your questions in response to my previous RFC v2
+email.
+
+Patch 1 adds GitHub links for the repo where I share this code before
+submission here, and for issue reporting.
+
+Patches 2-5 add missing error/bounds checks.
+
+Patch 6 adds a missing lock.
+
+Patches 7-11 add support for firmware upgrades.
+
+The usage of the hwdep interface is as per my previous proposal:
+
+- ioctl pversion to check the protocol version
+- ioctl select_flash_segment SCARLETT2_SEGMENT_ID_SETTINGS
+- ioctl erase_flash_segment
+- ioctl get_erase_progress (optional)
+- ioctl select_flash_segment SCARLETT2_SEGMENT_ID_FIRMWARE
+- ioctl erase_flash_segment
+- ioctl get_erase_progress (optional)
+- write() the firmware
+- ioctl reboot
+
+Notes on the hwdep interface:
+
+- Conflicting mixer operations are denied with EBUSY.
+
+- The hwdep interface is marked as exclusive so there can't be
+  conflicting hwdep operations.
+
+- Invalid sequences of operations (e.g. erase before select, write
+  before erase) return an error.
+
+- The erase operation is asynchronous, and the progress can optionally
+  be monitored by calling get_erase_progress.
+
+- If the erase progress is not monitored then subsequent hwdep
+  operations will wait until the erase is complete.
+
+- The write operation is synchronous, but <1KB can be written per
+  call, and it returns very quickly. On the user-side it looks like
+  this with error checking omitted:
+
+  while (offset < len)
+    offset += snd_hwdep_write(hwdep, buf + offset, len - offset);
+
+- By using a subset of the firmware-upgrade steps, other useful
+  high-level operations can be performed: reset-to-factory-defaults,
+  reset-to-factory-firmware, or just reboot.
+
+- I considered combining the select and erase operations, but that
+  would prevent a future read-flash operation if that ever become
+  possible.
+
+- I considered separate one-shot ioctls for reset-to-factory, etc.,
+  but that prevents providing progress feedback.
+
+- In case the purpose of the other firmware segments is discovered in
+  the future, this implementation would be able to support
+  erase/write/read of them with minimal changes.
+
+Here is a user-space implementation of all of the above:
+https://github.com/geoffreybennett/scarlett2
+
+This has been tested by me on every supported Scarlett 2nd, 3rd, 4th
+Gen and Clarett+ device, and tested by a handful of others on their
+Scarlett 4th Gen devices.
+
+Thanks,
+Geoffrey.
+
+Geoffrey D. Bennett (11):
+  ALSA: scarlett2: Update maintainer info
+  ALSA: scarlett2: Add missing error check to scarlett2_config_save()
+  ALSA: scarlett2: Add missing error check to scarlett2_usb_set_config()
+  ALSA: scarlett2: Add missing error checks to *_ctl_get()
+  ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()
+  ALSA: scarlett2: Add missing mutex lock around get meter levels
+  ALSA: scarlett2: Add #defines for firmware upgrade
+  ALSA: scarlett2: Retrieve useful flash segment numbers
+  ALSA: scarlett2: Add skeleton hwdep/ioctl interface
+  ALSA: scarlett2: Add ioctl commands to erase flash segments
+  ALSA: scarlett2: Add support for uploading new firmware
+
+ MAINTAINERS                    |   7 +-
+ include/uapi/sound/scarlett2.h |  54 ++
+ sound/usb/mixer_scarlett2.c    | 914 ++++++++++++++++++++++++++++++---
+ 3 files changed, 901 insertions(+), 74 deletions(-)
  create mode 100644 include/uapi/sound/scarlett2.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ae3f72f57854..80c65096538c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8279,6 +8279,7 @@ S:	Maintained
- W:	https://github.com/geoffreybennett/scarlett-gen2
- B:	https://github.com/geoffreybennett/scarlett-gen2/issues
- T:	git https://github.com/geoffreybennett/scarlett-gen2.git
-+F:	include/uapi/sound/scarlett2.h
- F:	sound/usb/mixer_scarlett2.c
- 
- FORCEDETH GIGABIT ETHERNET DRIVER
-diff --git a/include/uapi/sound/scarlett2.h b/include/uapi/sound/scarlett2.h
-new file mode 100644
-index 000000000000..ec0b7da335ff
---- /dev/null
-+++ b/include/uapi/sound/scarlett2.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ *   Focusrite Scarlett 2 Protocol Driver for ALSA
-+ *   (including Scarlett 2nd Gen, 3rd Gen, Clarett USB, and Clarett+
-+ *   series products)
-+ *
-+ *   Copyright (c) 2023 by Geoffrey D. Bennett <g at b4.vu>
-+ */
-+#ifndef __UAPI_SOUND_SCARLETT2_H
-+#define __UAPI_SOUND_SCARLETT2_H
-+
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
-+
-+#define SCARLETT2_HWDEP_MAJOR 1
-+#define SCARLETT2_HWDEP_MINOR 0
-+#define SCARLETT2_HWDEP_SUBMINOR 0
-+
-+#define SCARLETT2_HWDEP_VERSION \
-+	((SCARLETT2_HWDEP_MAJOR << 16) | \
-+	 (SCARLETT2_HWDEP_MINOR << 8) | \
-+	  SCARLETT2_HWDEP_SUBMINOR)
-+
-+#define SCARLETT2_HWDEP_VERSION_MAJOR(v) (((v) >> 16) & 0xFF)
-+#define SCARLETT2_HWDEP_VERSION_MINOR(v) (((v) >> 8) & 0xFF)
-+#define SCARLETT2_HWDEP_VERSION_SUBMINOR(v) ((v) & 0xFF)
-+
-+/* Get protocol version */
-+#define SCARLETT2_IOCTL_PVERSION _IOR('S', 0x60, int)
-+
-+/* Reboot */
-+#define SCARLETT2_IOCTL_REBOOT _IO('S', 0x61)
-+
-+#endif /* __UAPI_SOUND_SCARLETT2_H */
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 34878f9f9a55..c0c96d7c19fb 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -146,6 +146,9 @@
- 
- #include <sound/control.h>
- #include <sound/tlv.h>
-+#include <sound/hwdep.h>
-+
-+#include <uapi/sound/scarlett2.h>
- 
- #include "usbaudio.h"
- #include "mixer.h"
-@@ -1439,6 +1442,16 @@ static int scarlett2_usb(
- 	/* validate the response */
- 
- 	if (err != resp_buf_size) {
-+
-+		/* ESHUTDOWN and EPROTO are valid responses to a
-+		 * reboot request
-+		 */
-+		if (cmd == SCARLETT2_USB_REBOOT &&
-+		    (err == -ESHUTDOWN || err == -EPROTO)) {
-+			err = 0;
-+			goto unlock;
-+		}
-+
- 		usb_audio_err(
- 			mixer->chip,
- 			"%s USB response result cmd %x was %d expected %zu\n",
-@@ -4697,6 +4710,49 @@ static int snd_scarlett2_controls_create(
- 	return 0;
- }
- 
-+/*** hwdep interface ***/
-+
-+/* Reboot the device. */
-+static int scarlett2_reboot(struct usb_mixer_interface *mixer)
-+{
-+	return scarlett2_usb(mixer, SCARLETT2_USB_REBOOT, NULL, 0, NULL, 0);
-+}
-+
-+static int scarlett2_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
-+				 unsigned int cmd, unsigned long arg)
-+{
-+	struct usb_mixer_interface *mixer = hw->private_data;
-+
-+	switch (cmd) {
-+
-+	case SCARLETT2_IOCTL_PVERSION:
-+		return put_user(SCARLETT2_HWDEP_VERSION,
-+				(int __user *)arg) ? -EFAULT : 0;
-+
-+	case SCARLETT2_IOCTL_REBOOT:
-+		return scarlett2_reboot(mixer);
-+
-+	default:
-+		return -ENOIOCTLCMD;
-+	}
-+}
-+
-+static int scarlett2_hwdep_init(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_hwdep *hw;
-+	int err;
-+
-+	err = snd_hwdep_new(mixer->chip->card, "Focusrite Control", 0, &hw);
-+	if (err < 0)
-+		return err;
-+
-+	hw->private_data = mixer;
-+	hw->exclusive = 1;
-+	hw->ops.ioctl = scarlett2_hwdep_ioctl;
-+
-+	return 0;
-+}
-+
- int snd_scarlett2_init(struct usb_mixer_interface *mixer)
- {
- 	struct snd_usb_audio *chip = mixer->chip;
-@@ -4738,11 +4794,20 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
- 		USB_ID_PRODUCT(chip->usb_id));
- 
- 	err = snd_scarlett2_controls_create(mixer, entry);
--	if (err < 0)
-+	if (err < 0) {
- 		usb_audio_err(mixer->chip,
- 			      "Error initialising %s Mixer Driver: %d",
- 			      entry->series_name,
- 			      err);
-+		return err;
-+	}
-+
-+	err = scarlett2_hwdep_init(mixer);
-+	if (err < 0)
-+		usb_audio_err(mixer->chip,
-+			      "Error creating %s hwdep device: %d",
-+			      entry->series_name,
-+			      err);
- 
- 	return err;
- }
 -- 
 2.43.0
 
