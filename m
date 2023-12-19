@@ -1,29 +1,29 @@
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0C11CAAC;
-	Tue, 19 Dec 2023 14:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D205374F3;
+	Tue, 19 Dec 2023 14:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="B96wPCLj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8B06440013;
-	Tue, 19 Dec 2023 14:54:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UFcfiK00"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 402C840016;
+	Tue, 19 Dec 2023 14:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702997689;
+	t=1702997692;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PDyTeU9usO3nPa3fs7kQ7qNlzGdPYLhGQTUhd4FhxwY=;
-	b=B96wPCLjTmdsJD900DmDDyWBYyQR63QedKxMVIFYAllO8UzR/7+MLZMuQRr1oxPqVHLdmO
-	wqA6h37ijE/3NphaWd+uLSe0Fc9/ntSHfmhnTu/GCJbS0V6ByORZiqZ6hFaDmI6Dq4+DGE
-	3hM4a98hdzQVVOFTBIwayVOkTrig86/1GbL183VD2Ms6bHkdMvjaJ6fW5U/NOJ5+B697U4
-	0zV6dplJh/+LM1dQwB0WLOL3A6gpF68bLbPyGYB2O4xiHFeVUFnQYYIZ7fM/if1mt3IVH8
-	J9k2qbJT/HRTvmrg+pWtqr853UDpnkCQPJB7sdEYHnoabdV5jV7OhBQj06GG1g==
+	bh=0cYAvtbYQmtBX1+AmSwcKknSfCzuBZ5CMRjyNDvr3P0=;
+	b=UFcfiK00j/VBVCdL8RcW9luAA2fO95lbia3p8M4aYIsiw5sDDCbodzKOe2BnFeNJMPluC7
+	SsLp+SH5bXVR0DBJmC8UrOwwX1svLnFOgajqXqjM6CHa0/aAVH0NOlKIrYkRIfH0LB950s
+	tX62I5atHBh7ODjLIMsf3ZDSrTGSfe5QLyhadCfHFmiKMb6lxTmnxTHqlGfbnHPRrPOfWK
+	yoL5MaEyBfZ/73Jwkf9e7SMSFr41Px/SpXikC37AZK+/uKg+p5f++r+t38k9MkMQRORtkM
+	d6ANJ03UH2ufbvCohFr+1G8/+1uQzqzyXzcWjQFl03/2K72tYW3n1PeuoQlvug==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 19 Dec 2023 15:54:18 +0100
-Subject: [PATCH v2 3/6] ASoC: core: add SOC_DOUBLE_RANGE_TLV() helper macro
+Date: Tue, 19 Dec 2023 15:54:20 +0100
+Subject: [PATCH v2 5/6] arm64: dts: rockchip: add i2s_8ch_2 and i2s_8ch_3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -32,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-rk3308-audio-codec-v2-3-c70d06021946@bootlin.com>
+Message-Id: <20231219-rk3308-audio-codec-v2-5-c70d06021946@bootlin.com>
 References: <20231219-rk3308-audio-codec-v2-0-c70d06021946@bootlin.com>
 In-Reply-To: <20231219-rk3308-audio-codec-v2-0-c70d06021946@bootlin.com>
 To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
@@ -48,47 +48,83 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-No macro currently allows handling a stereo control that has left and right
-in the same register and whose minimum register value is not zero. Add one
-that does that.
-
-Note that even though the snd_soc_*_volsw_range() look more appropriate
-given the _range suffix, they are not suitable because they don't honor the
-two shift values. The snd_soc_*_volsw() look more generic and are suitable
-for the task.
+These are I2S engines internally connected to the built-in audio codec.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-This patch is new in v2.
+Changed in v2:
+ nothing
 ---
- include/sound/soc.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3308.dtsi | 54 ++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 7792c393e238..41ba90bdbea9 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -149,6 +149,18 @@
- 		{.reg = xreg, .rreg = xreg, \
- 		.shift = shift_left, .rshift = shift_right, \
- 		.max = xmax, .min = xmin} }
-+#define SOC_DOUBLE_RANGE_TLV(xname, xreg, xshift_left, xshift_right, xmin, xmax, \
-+			     xinvert, tlv_array) \
-+{	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
-+	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
-+		  SNDRV_CTL_ELEM_ACCESS_READWRITE,\
-+	.tlv.p = (tlv_array), \
-+	.info = snd_soc_info_volsw, \
-+	.get = snd_soc_get_volsw, .put = snd_soc_put_volsw, \
-+	.private_value = (unsigned long)&(struct soc_mixer_control) \
-+		{.reg = xreg, .rreg = xreg, \
-+		 .shift = xshift_left, .rshift = xshift_right, \
-+		 .min = xmin, .max = xmax, .invert = xinvert} }
- #define SOC_DOUBLE_R_TLV(xname, reg_left, reg_right, xshift, xmax, xinvert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
+diff --git a/arch/arm64/boot/dts/rockchip/rk3308.dtsi b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
+index 2ae4bb7d5e62..fa34cae915a7 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3308.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
+@@ -573,6 +573,60 @@ dmac1: dma-controller@ff2d0000 {
+ 		#dma-cells = <1>;
+ 	};
+ 
++	/*
++	 * - can be clock producer or consumer
++	 * - up to 8 capture channels and 2 playback channels
++	 * - connected internally to audio codec
++	 */
++	i2s_8ch_2: i2s@ff320000 {
++		compatible = "rockchip,rk3308-i2s-tdm";
++		reg = <0x0 0xff320000 0x0 0x1000>;
++		interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
++		clock-names = "mclk_tx", "mclk_rx", "hclk",
++			      "mclk_tx_src", "mclk_rx_src",
++			      "mclk_root0", "mclk_root1";
++		clocks = <&cru SCLK_I2S2_8CH_TX>,
++			 <&cru SCLK_I2S2_8CH_RX>,
++			 <&cru HCLK_I2S2_8CH>,
++			 <&cru SCLK_I2S2_8CH_TX_SRC>,
++			 <&cru SCLK_I2S2_8CH_RX_SRC>,
++			 <&cru PLL_VPLL0>,
++			 <&cru PLL_VPLL1>;
++		dmas = <&dmac1 5>, <&dmac1 4>;
++		dma-names = "rx", "tx";
++		resets = <&cru SRST_I2S2_8CH_TX_M>, <&cru SRST_I2S2_8CH_RX_M>;
++		reset-names = "tx-m", "rx-m";
++		rockchip,grf = <&grf>;
++		status = "disabled";
++	};
++
++	/*
++	 * - can be clock consumer only
++	 * - up to 4 capture channels, no playback
++	 * - connected internally to audio codec
++	 */
++	i2s_8ch_3: i2s@ff330000 {
++		compatible = "rockchip,rk3308-i2s-tdm";
++		reg = <0x0 0xff330000 0x0 0x1000>;
++		interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
++		clock-names = "mclk_tx", "mclk_rx", "hclk",
++			      "mclk_tx_src", "mclk_rx_src",
++			      "mclk_root0", "mclk_root1";
++		clocks = <&cru SCLK_I2S3_8CH_TX>,
++			 <&cru SCLK_I2S3_8CH_RX>,
++			 <&cru HCLK_I2S3_8CH>,
++			 <&cru SCLK_I2S3_8CH_TX_SRC>,
++			 <&cru SCLK_I2S3_8CH_RX_SRC>,
++			 <&cru PLL_VPLL0>,
++			 <&cru PLL_VPLL1>;
++		dmas = <&dmac1 7>;
++		dma-names = "rx";
++		resets = <&cru SRST_I2S3_8CH_TX_M>, <&cru SRST_I2S3_8CH_RX_M>;
++		reset-names = "tx-m", "rx-m";
++		rockchip,grf = <&grf>;
++		status = "disabled";
++	};
++
+ 	i2s_2ch_0: i2s@ff350000 {
+ 		compatible = "rockchip,rk3308-i2s", "rockchip,rk3066-i2s";
+ 		reg = <0x0 0xff350000 0x0 0x1000>;
 
 -- 
 2.34.1
