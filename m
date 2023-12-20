@@ -1,89 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810783EA95
-	for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 18:29:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279CB482D8;
+	Wed, 20 Dec 2023 18:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeGZaNVc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51684C433C7;
-	Wed, 20 Dec 2023 18:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703096945;
-	bh=bwfx1VrVY/TB4NsCugn+B4teBHmThgHszcjdmmNdGtE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AeGZaNVc8nIoIRi5bdfhEOv5SnQ3PAoOnWrSLFIalUohTAEGNh0SSvA/Vo/Yc0JaH
-	 nlf+xJF4LeO2E4LBVyefLUbJDwV9aLQwBJKjvAH2dlHMmhoIG+R06T3IwZtzT4SEbC
-	 ZTWhMZ7jeV0Tyc7gofnm/+fCAG4o/ii6b8y3jhdg2Di88P8zyCDGXd3w83agGUwRU2
-	 +3PWY44u6ErbN8tWzTgMxhXauc3WHONHpTkDXGBOb/OwSXbXUvNz0BaoQ2Fxe/h4kR
-	 +pSbrumyilR6B9zqWXQXMLANLmIaeYXC8CyDw9poFpR41VnJS4/6RgYsocvzzsG/W5
-	 UWm0LE0y8wYPg==
-Date: Wed, 20 Dec 2023 18:28:59 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	tiwai@suse.de, vinod.koul@intel.com,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-Message-ID: <f555a9f3-2c84-4cff-9eed-725514fb443b@sirena.org.uk>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
- <5b8e74ad-460f-4e68-a17b-3131d810f29b@linux.intel.com>
- <ZXOPWRWvrRddOWpT@finisterre.sirena.org.uk>
- <700e564d-7e87-463a-a764-c4713ddf11cd@linux.intel.com>
- <bec481f0-5361-4090-b69c-1123f83ac8ac@sirena.org.uk>
- <f24a2a89-3d8a-4a6d-849a-cddbae4c1e03@linux.intel.com>
- <20231220151631.GD14858@ediswmail.ad.cirrus.com>
- <546d698c-3e23-4a92-9081-f1bebd6b33ae@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Cxv7yV7G"
+Received: from [192.168.1.18] ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id G1W8rNFQK2jhsG1W9r1NFu; Wed, 20 Dec 2023 19:42:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1703097731;
+	bh=1aXf5U5FDe/0i5BeeyH6/HI/O9yNNtu8EhsKznoQIpQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Cxv7yV7GcM2zJHWoh7iPmri0WsQP4Aic7YyNEp5OlKaRy8rS5NxQNobFKndYdNIBK
+	 jNgpJiNI543DfnT5miu9eEGeEjURVd/YLgBUCExYDvolVXxK6I9iCjves9U+E5sPsA
+	 NUkZA8FUt6AN4APbcE3FjkWW4sn59jGWtmPlQbn2yy9YF4c0BFLy7284mtPm56c8F2
+	 EpphfvKCcmu23K1+gcRSrOea5Ybj3f6YtZE3PM4hDboIZ7qbqwZsvx3I6cbWC7qdzf
+	 jl9B6sEIByvLrFijxMbG6O7MhkhyXEygDC0A9LGiYdHbR+QA9ttJHSl8ClXGLZ89Fm
+	 +OWOZrTyfZZLw==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 20 Dec 2023 19:42:11 +0100
+X-ME-IP: 92.140.202.140
+Message-ID: <1c9ec8e6-136f-4b69-a1ec-b1c24d85d80a@wanadoo.fr>
+Date: Wed, 20 Dec 2023 19:42:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="C8sfTuKxQW1uWAiD"
-Content-Disposition: inline
-In-Reply-To: <546d698c-3e23-4a92-9081-f1bebd6b33ae@linux.intel.com>
-X-Cookie: Apply only to affected area.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH linux-next] ASoC: soc-topology: Switch to use
+ dev_err_probe() helper
+To: yang.guang5@zte.com.cn, lgirdwood@gmail.com
+Cc: jiang.xuexin@zte.com.cn, chen.haonan2@zte.com.cn, cgel.zte@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <202312201057082362118@zte.com.cn>
+Content-Language: fr
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <202312201057082362118@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Le 20/12/2023 à 03:57, yang.guang5@zte.com.cn a écrit :
+> From: Yang Guang <yang.guang5@zte.com.cn>
+> 
+> dev_err() can be replace with dev_err_probe() which will
+> check if error code is -EPROBE_DEFER.
+> 
+> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
+> ---
+>   sound/soc/soc-topology.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+> index ba4890991f0d..c0d40162aff2 100644
+> --- a/sound/soc/soc-topology.c
+> +++ b/sound/soc/soc-topology.c
+> @@ -1736,8 +1736,7 @@ static int soc_tplg_fe_link_create(struct soc_tplg *tplg,
+> 
+>   	ret = snd_soc_add_pcm_runtimes(tplg->comp->card, link, 1);
+>   	if (ret < 0) {
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(tplg->dev, "ASoC: adding FE link failed\n");
+> +		dev_err_probe(tplg->dev, ret, "ASoC: adding FE link failed\n");
+>   		goto err;
+>   	}
+> 
+Hi,
 
---C8sfTuKxQW1uWAiD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+apparently, err: is
+err:
+	return ret;
+}
 
-On Wed, Dec 20, 2023 at 07:26:24PM +0100, Pierre-Louis Bossart wrote:
+So, you could probably, directly use return dev_err_probe(...); and also 
+save some { }.
 
-> Put differently: is there any sustained objection to the proposal of
-> extending regmap with async BRA transfers?
-
-Not from me, and I agree that it makes sense to do it once the
-underlying SoundWire bits are in place.
-
---C8sfTuKxQW1uWAiD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWDMmoACgkQJNaLcl1U
-h9BjQwf/dNHgBeN2zx7LCtcnwVHRQNvrDRedglZRXkijstSryyabkdcC0CyMyhjr
-b/B0oi8HSbl988Oo84IweKRh7xzSS5Gh4hD8r1iEHYpSO2/Jhi1Bkoiv+bRyaUrx
-m3XvTepWfmSZHQNNigiq/wdtl6zbY5uKuxEiTxIxkIJohIdm4Nwq8Cfrr0t/Ew7i
-thuk7rc8n/QO4KY3+csruF482kDATXr1wCJEo4wzs/jgDa8nRNiTUju/74XfUzG4
-5RAwx9bZZA++FgDLuODqlbDIXmngSStPp95xVMQThceYiH1cSA5PLRXbcW4rWi7b
-jJXiYlibo8+z+wBYcc2pjzCTbHGBqA==
-=j7/c
------END PGP SIGNATURE-----
-
---C8sfTuKxQW1uWAiD--
+CJ
