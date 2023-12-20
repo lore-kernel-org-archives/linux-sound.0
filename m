@@ -1,90 +1,84 @@
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CC81D52B
-	for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 06:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F3E179B5;
+	Wed, 20 Dec 2023 08:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="WTEfw2kB";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="I7V1QNB2"
-X-HalOne-ID: 1e2bb097-9f03-11ee-8bc0-a71ee59276a3
-Received: from mailrelay1.pub.mailoutpod3-cph3.one.com (unknown [104.37.34.38])
-	by mailrelay5 (Halon) with ESMTPS
-	id 1e2bb097-9f03-11ee-8bc0-a71ee59276a3;
-	Wed, 20 Dec 2023 06:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=czDnAIGqZkpfvoL/iiaTcwjziBrJyFAvdctS7icVWtc=;
-	b=WTEfw2kBTisB9iFEa9k6bTNf3ZeFtX6YS/mDbeFYMeHjQUFMj+djmcVbc1cef/pSFwCRLCub/jnhv
-	 2fHatP15emjbQbFiDThaWGqVzKmKZTqQ1B30zZ7bUqpGRIOScf1BV7XfkO0q+w/lvty/Pn0cL0On8W
-	 oqU+A1ANEhmyyXukEtwPJG+6D/eltnGFElclkTn/gw7ypdxput8jsuCt5HYFjedLwRgmL7k62wX2W5
-	 IiKKWdWv7A7Xvv0i7iN81LrU2MqpDrNWGFNT+dneqOhojAAtmAXX9/HCCeJ7aTlgviXPoBFtM6EX86
-	 AexoXyioyxNrhwepKSz3ee+qdLEEb0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=czDnAIGqZkpfvoL/iiaTcwjziBrJyFAvdctS7icVWtc=;
-	b=I7V1QNB20dvpYRV1erNIT0+pk9yXU6uliif9Cl438drmSB++wNLblgBunf6TvAnxaAm4ycM59iEKF
-	 M4AyopcBg==
-X-HalOne-ID: 1ce66959-9f03-11ee-964d-27feea414716
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay1 (Halon) with ESMTPSA
-	id 1ce66959-9f03-11ee-964d-27feea414716;
-	Wed, 20 Dec 2023 06:43:43 +0000 (UTC)
-Date: Wed, 20 Dec 2023 07:43:41 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>, Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/27] sparc32: Update defconfig to LEON SMP
-Message-ID: <20231220064341.GA847783@ravnborg.org>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
- <20231219-sam-sparc32-sunset-v3-v1-1-64bb44b598c5@ravnborg.org>
- <2fc75a39-a6f4-42f4-ab09-d7622cb23b10@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FLEsn+jv"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0E5411BF206;
+	Wed, 20 Dec 2023 08:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1703059812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WYCn55L9LYXcsrsa3rckB4VOR65FZbyXhZEd5vzTYvA=;
+	b=FLEsn+jvH9dNV8gOGvDfeG0dzegnfsD8OZ2ulskHYPqj7XJWuPqXZ86FyxJE9q+Ozzgr6W
+	lD45c5kOYXBphNxhpLxrv/NfvHfbyGODrpSFvuiw9w5C1mAWHM6tgzEtpbtiLihIH/P4u1
+	6bVQDyzPZvRWyN09ESlKfrECB65sczsh0Z/7flHjJwHR0PkfVBDbyRT02xZD+920NZH10K
+	sSh68dckm0feb5avQdgwYgVTkvpNxhAAcEj4+CoztxW1Pp/xX68SY0ODOkcWB3ocrXK9sQ
+	eTUSqqUOQTGPEoB9ahPOh7SVhhgkaILim6vCEcf5/2thagwQlDNcWg1hDeyNHg==
+Date: Wed, 20 Dec 2023 09:10:07 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: linux-rockchip@lists.infradead.org, Nicolas Frattaroli
+ <frattaroli.nicolas@gmail.com>, Mark Brown <broonie@kernel.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, linux-sound@vger.kernel.org, Liam Girdwood
+ <lgirdwood@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Heiko Stuebner <heiko@sntech.de>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v2 2/6] ASoC: dt-bindings: Add Rockchip RK3308 internal
+ audio codec
+Message-ID: <20231220091007.35e62af9@booty>
+In-Reply-To: <170302760623.2025074.2958729782154314139.robh@kernel.org>
+References: <20231219-rk3308-audio-codec-v2-0-c70d06021946@bootlin.com>
+	<20231219-rk3308-audio-codec-v2-2-c70d06021946@bootlin.com>
+	<170302760623.2025074.2958729782154314139.robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fc75a39-a6f4-42f4-ab09-d7622cb23b10@app.fastmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi Arnd,
+Hello,
 
-On Tue, Dec 19, 2023 at 10:23:05PM +0000, Arnd Bergmann wrote:
-> On Tue, Dec 19, 2023, at 22:03, Sam Ravnborg via B4 Relay wrote:
-> > From: Sam Ravnborg <sam@ravnborg.org>
-> >
-> > This is a copy of the leon_smp defconfig found in
-> > gaisler-buildroot-2023.02-1.0.
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Arnd Bergmann <arnd@kernel.org>
-> > Cc: Andreas Larsson <andreas@gaisler.com>
+On Tue, 19 Dec 2023 17:13:26 -0600
+Rob Herring <robh@kernel.org> wrote:
+
+> On Tue, 19 Dec 2023 15:54:17 +0100, Luca Ceresoli wrote:
+> > Add device tree bindings document for the internal audio codec of the
+> > Rockchip RK3308 SoC.
+
+...
+
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
 > 
-> I did not get a cover letter for the series, but I looked at
-You are listed as a receiver?!?
-
-It can be found here:
-https://lore.kernel.org/sparclinux/20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org/T/#m2fc5b3c23331efd12492a61ba39ac000a563ac52
-
-> all 27 patches and they all look good to me, nice cleanup!
+> yamllint warnings/errors:
 > 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-Thanks!
+> dtschema/dtc warnings/errors:
+> Error: Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.example.dts:20.20-21 syntax error
 
-	Sam
+Indeed:
+
+-    audio-codec: audio-codec@ff560000 {
++    audio_codec: audio-codec@ff560000 {
+
+Fixed locally, queued for v3.
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
