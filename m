@@ -1,155 +1,101 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAD51DA27;
-	Wed, 20 Dec 2023 08:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61121CA8C;
+	Wed, 20 Dec 2023 08:36:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yP2pDTrU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SB7ag+G9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yP2pDTrU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SB7ag+G9"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 67C2B21EA6;
-	Wed, 20 Dec 2023 08:10:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703059838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeeY1coWVj10KFZo2dtcob3FMIN2wLZHWXWf9T04zvM=;
-	b=yP2pDTrUVDVPCBGsaRh8ZGIkRH/EwbtfNgfd9Z5QI+YXYyL1XkOfLQBvooZcyPosXp3mMR
-	NTOkqmj1R7q2HEbRRrqcA9pK6g28iIH0d8nvCJeqh+eGDaHXMwg5+kNNyutMaLGZX3fDbx
-	eVSn6Oy+hCb5lCz9YPOhF1TL18d9V5A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703059838;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeeY1coWVj10KFZo2dtcob3FMIN2wLZHWXWf9T04zvM=;
-	b=SB7ag+G9nSt4alG06a8lMZHCwSaALRB1YxOVb42A2/CXu+IGHVgRzNRQZZA4Viy+6NX3AG
-	Dxzhq5Xhp2siinDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703059838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeeY1coWVj10KFZo2dtcob3FMIN2wLZHWXWf9T04zvM=;
-	b=yP2pDTrUVDVPCBGsaRh8ZGIkRH/EwbtfNgfd9Z5QI+YXYyL1XkOfLQBvooZcyPosXp3mMR
-	NTOkqmj1R7q2HEbRRrqcA9pK6g28iIH0d8nvCJeqh+eGDaHXMwg5+kNNyutMaLGZX3fDbx
-	eVSn6Oy+hCb5lCz9YPOhF1TL18d9V5A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703059838;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeeY1coWVj10KFZo2dtcob3FMIN2wLZHWXWf9T04zvM=;
-	b=SB7ag+G9nSt4alG06a8lMZHCwSaALRB1YxOVb42A2/CXu+IGHVgRzNRQZZA4Viy+6NX3AG
-	Dxzhq5Xhp2siinDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 467B913722;
-	Wed, 20 Dec 2023 08:10:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7ficEH6hgmW1RwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Dec 2023 08:10:38 +0000
-Date: Wed, 20 Dec 2023 09:10:37 +0100
-Message-ID: <s5h8r5puwea.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	<alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v1 2/2] ALSA: hda: cs35l41: Only add SPI CS GPIO if SPI is enabled in kernel
-In-Reply-To: <20231219162232.790358-3-sbinding@opensource.cirrus.com>
-References: <20231219162232.790358-1-sbinding@opensource.cirrus.com>
-	<20231219162232.790358-3-sbinding@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mEDYC2jQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF05C433C8;
+	Wed, 20 Dec 2023 08:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703061417;
+	bh=AdqAwz81NSKcWiMU11RDDZBgCQhJ9xWGLTtbQCSJNbU=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=mEDYC2jQqWm8vnT9Nkrs+3k0nHT+0K4lQ81FXcmNW9hquUi1VceiooL6YC+EoD/v3
+	 E45aScEhmnrdWxm4r26Vnxr3Rh7k+dJidaRRZ4RSjKfvl7q1yxCo6V4LpWHEdDgPhB
+	 ds7woxKIH/rFoQZYoLzGAzcU0D0XzSzCn4aVWulmweX5orveJg58kyG+GspFDnbkSb
+	 qSVBse1t2OgkYQQZ1c2Jrq7v7yzV4JoTZ2LsotOOEz1ScV10Ljpsk80fA5wHV3vze7
+	 xDgyn3V75H+2vBfcbDeCKMPzJyhox0V3p7xlDmTsj4T3jcyMiypTc9VYAHi2Tweq9O
+	 M2Pe3ZFztQnhg==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 8650227C0061;
+	Wed, 20 Dec 2023 03:36:55 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 20 Dec 2023 03:36:55 -0500
+X-ME-Sender: <xms:pqeCZVVgQ9feUAubE_UGRljNpRwTNFakBlr6_WNwG2tE7FM85ux4qg>
+    <xme:pqeCZVl-jvy4st4hso5ixDc_suLOsRu9EGHi-PSiZ-09bn9KA78kCkw5CJCPvYAQh
+    inqyHR-7xiP15wgrKE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduuddguddvtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
+    frrghtthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeeh
+    udegtdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudej
+    tddvgedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusg
+    druggv
+X-ME-Proxy: <xmx:pqeCZRYanC1WLiEFsG4-MAjWuA71k30OI4ivWyXUx3Ddq9cT3QLZzQ>
+    <xmx:pqeCZYVLEhDPnmxHjnu2xZge4p1LMU2JvFdnJbnWOeQMjLDlPoxCCg>
+    <xmx:pqeCZflpg3gqgULnEtvhu0bbQ5eyV2JyOrf1ABOQrweuKE4PBe8Rww>
+    <xmx:p6eCZS-EHB8GVnpcX6MaGvLUsgqvB2pxWXT_ilSCWGl1_CSKvPBxZA>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 4B72AB6008D; Wed, 20 Dec 2023 03:36:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.01 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.91)[86.10%]
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Score: -0.01
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Message-Id: <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
+In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+Date: Wed, 20 Dec 2023 08:36:36 +0000
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Sam Ravnborg" <sam@ravnborg.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>
+Cc: "Helge Deller" <deller@gmx.de>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Alan Stern" <stern@rowland.harvard.edu>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, sparclinux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
+Content-Type: text/plain
 
-On Tue, 19 Dec 2023 17:22:32 +0100,
-Stefan Binding wrote:
-> 
-> If CONFIG_SPI is not set in the kernel, there is no point in trying
-> to set the chip selects. We can selectively compile it.
+On Tue, Dec 19, 2023, at 22:03, Sam Ravnborg via B4 Relay wrote:
+> TODO before this can be applied:
+> - Ack from davem - as he is the principal sparc maintainer
+> - Tested-by: preferably on a target or QEMU (see above)
+>   I expect bugs as there are some involved changes!
+>
+> Ideas for the future
+> - Apply the most relevant downstream Gaisler patches
+>   - The ones introducing CAS should have preference as we then
+>     can drop the cmpxchg emulation
 
-I guess it should with IS_REACHABLE() instead of IS_ENABLED()?
-It can be still CONFIG_SPI=m while CONFIG_SND_HDA_*=y.
+One note about the CAS -- as far as I can tell, the absence
+of the futex() syscall on sparc32 kernels means that no glibc
+from the past decade can work correctly as it now requires futex
+for its internal locking, though it does work on sparc64 kernels
+in compat32 mode as well as the LEON3 kernel that adds futex
+support.
 
+There have been a number of other bugs in sun4m/sun4d support that
+ended up making the system unusable during the same timeframe,
+I remember sysvipc being broken in native 32-bit mode (but again
+not in compat mode) and I think Al Viro has a list of things that
+he fixed over the years.
 
-thanks,
+All of these were found through inspection rather than testing,
+so there is a good chance that other fatal kernel bugs prevent
+testing in qemu, at least until the fixes from Andreas' tree
+are included.
 
-Takashi
-
-
-> 
-> Fixes: 8c4c216db8fb ("ALSA: hda: cs35l41: Add config table to support many laptops without _DSD")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202312192256.lJelQEoZ-lkp@intel.com/
-> 
-> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-> ---
->  sound/pci/hda/cs35l41_hda_property.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-> index 73b304e6c83c..194e1179a253 100644
-> --- a/sound/pci/hda/cs35l41_hda_property.c
-> +++ b/sound/pci/hda/cs35l41_hda_property.c
-> @@ -210,6 +210,8 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
->  
->  	if (cfg->bus == SPI) {
->  		cs35l41->index = id;
-> +
-> +#if IS_ENABLED(CONFIG_SPI)
->  		/*
->  		 * Manually set the Chip Select for the second amp <cs_gpio_index> in the node.
->  		 * This is only supported for systems with 2 amps, since we cannot expand the
-> @@ -249,6 +251,7 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
->  				spi_setup(spi);
->  			}
->  		}
-> +#endif
->  	} else {
->  		if (cfg->num_amps > 2)
->  			/*
-> -- 
-> 2.34.1
-> 
+       Arnd
