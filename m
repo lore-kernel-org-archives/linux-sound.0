@@ -1,49 +1,49 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D6C40BE8
-	for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 15:47:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC9D46428
+	for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 15:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MP+2tZGJ"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d12b56a38so49698665e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 07:47:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ssUSOVn3"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e3845abdaso4855886e87.3
+        for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 07:48:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703087265; x=1703692065; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1703087316; x=1703692116; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gu9sJRQCjdtMHbOMOdx0upDqfMg1O7PB3vsX/aPyD14=;
-        b=MP+2tZGJuewb/BULsFBCZrTdFIZSZnE7OSgnx/gcgeHGydpXnhVFbULbvQynWzM7Lg
-         Sj5jdnkQdMHWn6o6DQX2cU8cWgaDK5K8W9yfVVScZlYX7NYBBoI0BDhTRin6ytmAynaC
-         y3FA/xibeaNOqX0a3YLGkLTmS/3tPozwfhvEi7JONYfg+j977Y68EJNGjrzNXrgIdzKo
-         guRa7AvpPaDj+9cYUCarYJaVYbZ9FCJiNsky8BHfkfPQeP3KuSsQ2IpjSg2tJ1RtCmGp
-         BUWZJrzXT4ybxJg0orfEZErn21o+7K1E5Ma7riFcqEbFtkEBbTiBgPE18sOu6hOlMdx2
-         hzbw==
+        bh=HrDN4knSY5/pNNlBl1UNEUTunvMaLDqI5I7tmtvHJhk=;
+        b=ssUSOVn3r3r7TZENUKnrTdZCWYnjrhpfdmDHo78u5FENnxkDeRQA9XJ8ptCLwc6bPh
+         rtDussvOpsFzUa2wfKOFEwPWMDhDIm21WHgqoROSGTeTevVvzqb9+c2fbRbB3L1fT0M7
+         jY1skQwnahshTAcMvTCzVExiSZxOoXnTNlNM+J24LWalH3lkr6nhVrJAzKQgY3v7qVWP
+         O2R5O1O0UBBHY5gILT6d6qNc9QddoI3RW7xYbi/drMRYuBMoPlXMANil7//U2E68FaCi
+         qYp+PKszlBRrcvG+a2C6hUEv2gmj4jUiVBVMcbsCu6J3y7pyzKxltb5of7LkFS7QZwsY
+         F6zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703087265; x=1703692065;
+        d=1e100.net; s=20230601; t=1703087316; x=1703692116;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gu9sJRQCjdtMHbOMOdx0upDqfMg1O7PB3vsX/aPyD14=;
-        b=VOTG11OzgZo9/Qp4H4A1tl4w46hFEmDo8agR6tT8L05rC4BeP0rveLEB+HqUsAzYCg
-         79tJEDPLD4zMrOTBjYjltN8M8a4ESzSanSCMLmBnDF1S28JpccZffg3BH9+tLg4wPVa8
-         d01L0ZZrzIJPz+e3HYHI6ZZUJ8vlYOcJss74OPNgtj7yCpdRWSgt9eDaEU6E5+xtMaZp
-         P/bZF1kkrVXYg362nKvnwg5e3X6aEvcw4AtSJjyXzAUH9CHSDWOI/wUuEDPzjclhbk/E
-         aScJ1nk2RJVFmsGHJG9YepAmGc2f0CHrkpyFqXpkYkKOWSKqrFZWrjHsSGev2/5wc3Mo
-         tDLg==
-X-Gm-Message-State: AOJu0YymTHHVeiIfzN8Rp7vN3m8oAJamIGPoDxslpOjKrmmjc47u57R3
-	3iGoKkUP+LVTXwe4QroqfjWOeQ==
-X-Google-Smtp-Source: AGHT+IGQkRTBgajqrIJ6eW8UGvONM1mVejKrJSNCZCoRtCzxa6YWrkksRRPbRbJsccZ35SvZ0TNrFw==
-X-Received: by 2002:a05:600c:4f87:b0:40c:3ea4:b550 with SMTP id n7-20020a05600c4f8700b0040c3ea4b550mr4640497wmq.270.1703087265577;
-        Wed, 20 Dec 2023 07:47:45 -0800 (PST)
+        bh=HrDN4knSY5/pNNlBl1UNEUTunvMaLDqI5I7tmtvHJhk=;
+        b=wgJsF2l7DDd7lGtgs8P8vzOOsSRT0cBt/8jyvdh+X4iJh3Lry5dXywIfvn6ZDDcgGZ
+         F9E6u3N5sAUNsdHZ9ot58Qn0nsja6606qNQUeZFYinyc9+1uMDlaGJMZDsH4XJI0LEUM
+         FKq+AtgKCvqJDDq8ye/t86l+1i7lgvswLGjcEBFUKwQG7ascpjTXEz9RJdhN/dXUJapc
+         t5A7prSvhiRbxOqI2GGLemVYB/IMSk5SO5biHrbxDZrsuBFYT3sXruEzEFMx19Yaxeoi
+         G6CBpaPxC7W9fcKkuYvGSOwThB9QkQMI5DXvIz7x7g8+2qkRy5vgHP8bfLlzZeMKUkSe
+         m54g==
+X-Gm-Message-State: AOJu0YzTCLdEyKiPMorm5GDy+W0p44UfYDqbkzJLIKgtohX6FYLrPvuF
+	66zTJ4V0xL+5cxDU14j/DRf8Og==
+X-Google-Smtp-Source: AGHT+IG0ZmZLOzdQjjsqYmo1GcnT1cDyKxyGO9CoOvWTBmoB3iAsCk0mCdFnPCPdOhiZ1Xc3mVrPcA==
+X-Received: by 2002:a05:6512:a8b:b0:50b:fc44:3155 with SMTP id m11-20020a0565120a8b00b0050bfc443155mr13103540lfu.5.1703087316579;
+        Wed, 20 Dec 2023 07:48:36 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id bi18-20020a05600c3d9200b0040d378623b1sm40439wmb.22.2023.12.20.07.47.44
+        by smtp.gmail.com with ESMTPSA id bi18-20020a05600c3d9200b0040d378623b1sm40439wmb.22.2023.12.20.07.48.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Dec 2023 07:47:45 -0800 (PST)
-Message-ID: <8d1188b8-e51d-4521-94e4-14a59113bfd0@linaro.org>
-Date: Wed, 20 Dec 2023 16:47:43 +0100
+        Wed, 20 Dec 2023 07:48:35 -0800 (PST)
+Message-ID: <e97d0273-0827-4510-ba23-3d09642a234f@linaro.org>
+Date: Wed, 20 Dec 2023 16:48:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: fsl-sai: Add power-domains
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: fsl-sai: Support Rx-only SAI
 Content-Language: en-US
 To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -60,6 +60,7 @@ To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
 References: <20231219122957.3358149-1-alexander.stein@ew.tq-group.com>
+ <20231219122957.3358149-2-alexander.stein@ew.tq-group.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,22 +106,24 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231219122957.3358149-1-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20231219122957.3358149-2-alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 19/12/2023 13:29, Alexander Stein wrote:
-> Some SoC like i.MX8QXP use a power-domain for this IP, so add it to the
-> supported properties.
+> On SoC like i.MX8QXP some SAI IP cores support only Rx path. Allow
+> specifying only an Rx DMA channel, while omitting the Tx one.
 > 
 > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+> The feature list in reference manual IMX8DQXPRM Rev. 0 05/2020
+> section 1.1.2 "Features" explicitly state that SAI2 and SAI3 is
+> receive only.
 > 
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Why aren't you constraining it per variant/device? If only some have one
+DMA channel, then I would normally expect allOf:if:then narrowing it for
+each device.
 
 Best regards,
 Krzysztof
