@@ -1,123 +1,133 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com (mailrelay2-1.pub.mailoutpod2-cph3.one.com [46.30.211.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FBB45BF5
-	for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 15:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F76481AE
+	for <linux-sound@vger.kernel.org>; Wed, 20 Dec 2023 15:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OU7qWuhi"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKFAu6j013270;
-	Wed, 20 Dec 2023 09:16:33 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=H40IqBOxm3jSi5g
-	QtOQ0V4uc0WBm+P5NltYmz5Hxiyc=; b=OU7qWuhiV4gvDR3uVcl2RGqDOv37Ft2
-	2P4VNcVU5enDwtHtX6KTsW5uUToTLLdeoRYnVN1phNMjev7AbZTqMnfkEw0GRdJ/
-	QhdOLa1ew70PcZfZkTWRAZy//BvQw/wimLqf1cTSx2XIj6KvZh1UlYvagdpfgxCb
-	S/pEQk1oeU0QLE2bEL+uPhQdfck2H3/6S4Cuz1vJQ701+OFGkaSOeMxh96QDLG6V
-	bI9fW5AwHyNVoixUStF4Syf0fTacxWEJWN1gQKKdQdb1/kT3n/zb0kB0Di6GJXku
-	ESL5vbnnc3ygpdEQ7SwWA3P8jsiOZNC/nN5b8IhBvey2VjAH1N2AN4Q==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3v1a625mqb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Dec 2023 09:16:33 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 20 Dec
- 2023 15:16:31 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
- Transport; Wed, 20 Dec 2023 15:16:31 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 69CD611D1;
-	Wed, 20 Dec 2023 15:16:31 +0000 (UTC)
-Date: Wed, 20 Dec 2023 15:16:31 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <tiwai@suse.de>, <vinod.koul@intel.com>,
-        Bard
- liao <yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>,
-        Krzysztof
- Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <vijendar.mukunda@amd.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Shuming Fan
-	<shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-        Oder Chiou
-	<oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-Message-ID: <20231220151631.GD14858@ediswmail.ad.cirrus.com>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
- <5b8e74ad-460f-4e68-a17b-3131d810f29b@linux.intel.com>
- <ZXOPWRWvrRddOWpT@finisterre.sirena.org.uk>
- <700e564d-7e87-463a-a764-c4713ddf11cd@linux.intel.com>
- <bec481f0-5361-4090-b69c-1123f83ac8ac@sirena.org.uk>
- <f24a2a89-3d8a-4a6d-849a-cddbae4c1e03@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="V7JO3Ufr";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="wuQzVB+0"
+X-HalOne-ID: 953c2511-9f4b-11ee-84df-a34c9b1f9040
+Received: from mailrelay3.pub.mailoutpod3-cph3.one.com (unknown [104.37.34.40])
+	by mailrelay2 (Halon) with ESMTPS
+	id 953c2511-9f4b-11ee-84df-a34c9b1f9040;
+	Wed, 20 Dec 2023 15:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=sfJdNm2lEIQrBamytj/tsjayfAn2mE9Fqg6pTRTtass=;
+	b=V7JO3UfrJBPi8Mr4OiXidEj06nbi+4dGqF8lTDUxAatPOa3Mlnk4cPWWCp6rGFSmlg84dMYhGH/wx
+	 4eh7YufTH9Qozp7hyl38p0/Vv1AI7NML/gCxBRIhhZLfnIbFn3caGKYQ/7wivxRtQN/16oNIZzSo2V
+	 N2s36hSKm4Pt5lKXpk0BXH5WGbx7T/X0mH1z2U+ITgvz27/1ufXwAp1FScDIWkBWTsDWNjTd/Emckp
+	 WETFeHTLl3ZUd/z5sZBLDt1vXIn83aLFyP3iYwoSs+yVIt/MXx8fX/UB1wnfyTb/ziMcH3Pr/2CIs5
+	 D2IOP+s/C4QBkFTkqlNSczAHv+lQTtg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=sfJdNm2lEIQrBamytj/tsjayfAn2mE9Fqg6pTRTtass=;
+	b=wuQzVB+0GMurqsA05DzExqKKRiWf8flOefeaAYoYt6rspJIl/01szyGy0a5mE+hUuX/vB2ZkfXV8H
+	 ABCWeGuDg==
+X-HalOne-ID: 938bf566-9f4b-11ee-b5cb-85e425223685
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay3 (Halon) with ESMTPSA
+	id 938bf566-9f4b-11ee-b5cb-85e425223685;
+	Wed, 20 Dec 2023 15:22:26 +0000 (UTC)
+Date: Wed, 20 Dec 2023 16:22:24 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Arnd Bergmann <arnd@kernel.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S . Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>, Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
+Message-ID: <20231220152224.GA867968@ravnborg.org>
+References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+ <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
+ <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
+ <dbb60b13-565f-43b8-8cb8-6f8cd98b06df@app.fastmail.com>
+ <3d733b57-884a-4755-a32a-74061b48e182@ilande.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f24a2a89-3d8a-4a6d-849a-cddbae4c1e03@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: z-sJ_nunaaRtA2h0EEviAt3_2TDvFNd3
-X-Proofpoint-ORIG-GUID: z-sJ_nunaaRtA2h0EEviAt3_2TDvFNd3
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <3d733b57-884a-4755-a32a-74061b48e182@ilande.co.uk>
 
-On Tue, Dec 19, 2023 at 06:08:15PM +0100, Pierre-Louis Bossart wrote:
-> On 12/19/23 17:53, Mark Brown wrote:
-> > On Tue, Dec 19, 2023 at 05:50:30PM +0100, Pierre-Louis Bossart wrote:
-> >>> grep for regmap_.*async - cs_dsp.c is the upstream example in a driver,
-> >>> or there's the rbtree cache sync code which uses a back door to go into
-> >>> an async mode.  Basically just variants of all the normal regmap I/O
-> >>> calls with a _complete() call you can use to wait for everything to
-> >>> happen.  The implementation is a bit heavyweight since it was written to
-> >>> work with fairly slow buses.
-> > 
-> >> I spent a fair amount of time this afternoon trying to understand the
-> >> regmap_async parts, and I am not following where in the code there is an
-> >> ordering requirement/enforcement between async and sync usages.
-> > 
-> > The only actual async implementation is SPI which processes things in
-> > order of submission, the sync API wraps the async API.
-> > 
-> >> Also is this just me spacing out or there is no regmap_raw_read_async()?
-> > 
-> > Right, there was never any need.
+Hi Mark,
+
+On Wed, Dec 20, 2023 at 11:30:27AM +0000, Mark Cave-Ayland wrote:
+> On 20/12/2023 10:47, Arnd Bergmann wrote:
 > 
-> ok. I am starting to think that we could have a new type of regmap, say
-> "regmap-sdw-bra", where the use of write_raw_async() would rely on the
-> send/wait bus primitives, and write_raw() would fallback to the regular
-> read/write commands. We'd need a mutual exclusion to prevent parallel
-> async/sync access to the same regmap.
+> > On Wed, Dec 20, 2023, at 09:54, John Paul Adrian Glaubitz wrote:
+> > > On Wed, 2023-12-20 at 08:36 +0000, Arnd Bergmann wrote:
+> > > > All of these were found through inspection rather than testing,
+> > > > so there is a good chance that other fatal kernel bugs prevent
+> > > > testing in qemu, at least until the fixes from Andreas' tree
+> > > > are included.
+> > > 
+> > > Andreas has fixes for these issues?
+> > 
+> > Not sure, all I know is that
+> > 
+> > - Andreas has some fixes for Leon in his tree
+> > - Sam is unable to boot mainline in qemu
+> > - There is an unknown set of bugs in sparc32 since it has not
+> >    been tested for many years without Andreas' patches
+> > 
+> > it appears that the qemu developers are still testing the sun4m
+> > model against old Linux and Solaris installations [1], but
+> > failure to run the leon3 model could still be any combination
+> > of kernel, qemu or configuration problems.
+> > 
+> >          Arnd
+> > 
+> > [1] https://wiki.qemu.org/Documentation/Platforms/SPARC#Compatibility
 > 
-> In other words, "memory" areas that are used for firmware downloads
-> would be moved to a different regmap with async capabilities and no
-> caching support.
+> Hi all: I'm one of the QEMU sun4m and sun4u maintainers so thought it would
+> be worth a few comments here.
 
-I would be a little inclined to say leave adding a regmap for a
-follow up series, whether we add it to the existing regmap or add
-a new one, or whatever, it should all sit happily on top of the
-API being added in this series. Makes it a little more contained
-to focus on one area at a time, and leave this series as adding
-core support for BRA. But that said, if we really want to I don't
-feel mega strongly on this one.
+I can imagine that the proposal to drop sun4m from the kernel is then
+not the best news this December - sorry about that.
 
-Thanks,
-Charles
+> 
+> My SPARC work on QEMU is unsponsored, so of course it is reliant upon me
+> finding time between work and family to fix various bugs. This means that I
+> simply don't have the time to constantly build and test the latest kernels:
+> what generally happens is that someone pings me a regression bug report when
+> something breaks and provides a test kernel/rootfs for me to look at. In the
+> past both Rob Landley and Guenter Roeck have often flagged regressions and
+> kindly provided these for me.
+> 
+> Other than that I just assume that everything is still working against the
+> upstream kernel.
+
+It is a fantastic tool that we can build and boot a kernel using qemu
+and your work is appreciated - thanks!
+
+> 
+> The leon3_generic machine is maintained by different people so I'd suggest
+> contacting them: see [1] for their contact details. I see there is an
+> avocado boot test for the leon3_generic machine included within the QEMU
+> source tree, but it uses a downloadable image of HelenOS rather than Linux.
+
+Thanks for the pointer, I will try to reach out to them when I have
+something a bit more solid than "it does not work".
+
+I tried to hack around a little in qemu and I have an idea where things
+goes wrong. The leon_generic assumes another address layout than what is
+used by the kernel, so the very first jump to a kernel address fails.
+
+	Sam
