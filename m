@@ -1,84 +1,124 @@
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279CB482D8;
-	Wed, 20 Dec 2023 18:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6114A988;
+	Wed, 20 Dec 2023 22:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Cxv7yV7G"
-Received: from [192.168.1.18] ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id G1W8rNFQK2jhsG1W9r1NFu; Wed, 20 Dec 2023 19:42:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1703097731;
-	bh=1aXf5U5FDe/0i5BeeyH6/HI/O9yNNtu8EhsKznoQIpQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Cxv7yV7GcM2zJHWoh7iPmri0WsQP4Aic7YyNEp5OlKaRy8rS5NxQNobFKndYdNIBK
-	 jNgpJiNI543DfnT5miu9eEGeEjURVd/YLgBUCExYDvolVXxK6I9iCjves9U+E5sPsA
-	 NUkZA8FUt6AN4APbcE3FjkWW4sn59jGWtmPlQbn2yy9YF4c0BFLy7284mtPm56c8F2
-	 EpphfvKCcmu23K1+gcRSrOea5Ybj3f6YtZE3PM4hDboIZ7qbqwZsvx3I6cbWC7qdzf
-	 jl9B6sEIByvLrFijxMbG6O7MhkhyXEygDC0A9LGiYdHbR+QA9ttJHSl8ClXGLZ89Fm
-	 +OWOZrTyfZZLw==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 20 Dec 2023 19:42:11 +0100
-X-ME-IP: 92.140.202.140
-Message-ID: <1c9ec8e6-136f-4b69-a1ec-b1c24d85d80a@wanadoo.fr>
-Date: Wed, 20 Dec 2023 19:42:04 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ix6Sr9v7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F192C433C8;
+	Wed, 20 Dec 2023 22:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703111153;
+	bh=1W+/BlCYRBWNRRrkM97ARP2nwR2lz+YRFgCUZtpqkN8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ix6Sr9v7aw0PTbt2XOtlQZh/iXeGLJYw1/NpnOXYP78dPf5N30NFmShIzimCfTOei
+	 +4Gl7fC7H5o6pjGsQzBNxS7rto/V4+rmBHZUFeoUcaCFyXSPdBEaIT/kJdh7BlcpxU
+	 xLyYUwauttasDqPy9pz4cj52MVaA8NZqwtG4/DrTEzswiCp5qxF8VLBspJwdhvj1JJ
+	 omAOry4wDGpkQc3VIgkMBUr+XZ2uUuZhkFm/Kp4NitzqwiU0pwyphpbMyaSzEGqvxB
+	 DI2urkt2cLKypkUwnDmxiwXbUoqxoujasKuOONvCn1vkFFBuTn5fv2tmjTUApwniVq
+	 6gPf/UbsMRO0Q==
+Received: (nullmailer pid 1236168 invoked by uid 1000);
+	Wed, 20 Dec 2023 22:25:50 -0000
+Date: Wed, 20 Dec 2023 16:25:50 -0600
+From: Rob Herring <robh@kernel.org>
+To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
+Subject: Re: [PATCHv3 RESEND 10/10] ASoC: dt-bindings: fsl-asoc-card: add
+ compatible for generic codec
+Message-ID: <20231220222550.GA1232936-robh@kernel.org>
+References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
+ <20231218124058.2047167-11-elinor.montmasson@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] ASoC: soc-topology: Switch to use
- dev_err_probe() helper
-To: yang.guang5@zte.com.cn, lgirdwood@gmail.com
-Cc: jiang.xuexin@zte.com.cn, chen.haonan2@zte.com.cn, cgel.zte@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <202312201057082362118@zte.com.cn>
-Content-Language: fr
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <202312201057082362118@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231218124058.2047167-11-elinor.montmasson@savoirfairelinux.com>
 
-Le 20/12/2023 à 03:57, yang.guang5@zte.com.cn a écrit :
-> From: Yang Guang <yang.guang5@zte.com.cn>
+On Mon, Dec 18, 2023 at 01:40:58PM +0100, Elinor Montmasson wrote:
+> Add documentation about new dts bindings following new support
+> for compatible "fsl,imx-audio-generic".
 > 
-> dev_err() can be replace with dev_err_probe() which will
-> check if error code is -EPROBE_DEFER.
+> Some CPU DAI don't require a real audio codec. The new compatible
+> "fsl,imx-audio-generic" allows using the driver with codec drivers
+> SPDIF DIT and SPDIF DIR as dummy codecs.
+> It also allows using not pre-configured audio codecs which
+> don't require specific control through a codec driver.
 > 
-> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
+> The new dts properties give the possibility to set some parameters
+> about the CPU DAI usually set through the codec configuration.
+> 
+> Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+> Co-authored-by: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
 > ---
->   sound/soc/soc-topology.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>  .../bindings/sound/fsl-asoc-card.txt          | 28 ++++++++++++++++++-
+>  1 file changed, 27 insertions(+), 1 deletion(-)
 > 
-> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
-> index ba4890991f0d..c0d40162aff2 100644
-> --- a/sound/soc/soc-topology.c
-> +++ b/sound/soc/soc-topology.c
-> @@ -1736,8 +1736,7 @@ static int soc_tplg_fe_link_create(struct soc_tplg *tplg,
-> 
->   	ret = snd_soc_add_pcm_runtimes(tplg->comp->card, link, 1);
->   	if (ret < 0) {
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(tplg->dev, "ASoC: adding FE link failed\n");
-> +		dev_err_probe(tplg->dev, ret, "ASoC: adding FE link failed\n");
->   		goto err;
->   	}
-> 
-Hi,
+> diff --git a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt b/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
+> index 4e8dbc5abfd1..f137ef2154e3 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
+> +++ b/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
+> @@ -17,6 +17,9 @@ Note: The card is initially designed for those sound cards who use AC'97, I2S
+>        and PCM DAI formats. However, it'll be also possible to support those non
+>        AC'97/I2S/PCM type sound cards, such as S/PDIF audio and HDMI audio, as
+>        long as the driver has been properly upgraded.
+> +      To use CPU DAIs that do not require a codec such as an S/PDIF controller,
+> +      or to use a DAI to output or capture raw I2S/TDM data, you can
+> +      use the compatible "fsl,imx-audio-generic".
+>  
+>  
+>  The compatible list for this generic sound card currently:
+> @@ -48,6 +51,8 @@ The compatible list for this generic sound card currently:
+>  
+>   "fsl,imx-audio-nau8822"
+>  
+> + "fsl,imx-audio-generic"
+> +
+>  Required properties:
+>  
+>    - compatible		: Contains one of entries in the compatible list.
+> @@ -56,7 +61,11 @@ Required properties:
+>  
+>    - audio-cpu		: The phandle of an CPU DAI controller
+>  
+> -  - audio-codec		: The phandle of an audio codec
+> +  - audio-codec		: The phandle of an audio codec.
+> +			  If using the "fsl,imx-audio-generic" compatible,
+> +			  give instead a pair of phandles with the
+> +			  spdif_transmitter first (driver SPDIF DIT) and the
+> +			  spdif_receiver second (driver SPDIF DIR).
+>  
+>  Optional properties:
+>  
+> @@ -87,6 +96,23 @@ Optional properties:
+>    - frame-inversion	: dai-link uses frame clock inversion, for details see simple-card.yaml.
+>    - bitclock-inversion	: dai-link uses bit clock inversion, for details see simple-card.yaml.
+>    - mclk-id		: main clock id, specific for each card configuration.
+> +			  For multi-codec configurations, an array of ids can be
+> +			  given, one for each codec.
+> +
+> +Optional, relevant only with the "fsl,imx-audio-generic" compatible:
+> +
+> +  - cpu-slot-width	: Indicates a specific TDM slot width in bits.
+> +  - cpu-slot-num	: Indicates a specific number of TDM slots per frame.
 
-apparently, err: is
-err:
-	return ret;
-}
+Pretty sure I've seen other bindings with TDM slot properties. A sign we 
+need something common if we don't already have something.
 
-So, you could probably, directly use return dev_err_probe(...); and also 
-save some { }.
+> +
+> +  - cpu-sysclk-freq-rx	: Frequency of the CPU DAI sys clock for Rx.
+> +  - cpu-sysclk-freq-tx	: Frequency of the CPU DAI sys clock for Tx.
+> +
+> +  - cpu-sysclk-dir-rx-out	: Boolean property. Specifies sys clock direction
+> +				  as 'out' on initialization for Rx.
+> +				  If not set, default direction is 'in'.
+> +  - cpu-sysclk-dir-tx-out	: Boolean property. Specifies sys clock direction
+> +				  as 'out' on initialization for Tx.
+> +				  If not set, default direction is 'in'.
 
-CJ
+Looks like clock stuff. Use the clock binding.
+
+Rob
