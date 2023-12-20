@@ -1,124 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6114A988;
-	Wed, 20 Dec 2023 22:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48E24F5E8;
+	Wed, 20 Dec 2023 22:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ix6Sr9v7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F192C433C8;
-	Wed, 20 Dec 2023 22:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703111153;
-	bh=1W+/BlCYRBWNRRrkM97ARP2nwR2lz+YRFgCUZtpqkN8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ix6Sr9v7aw0PTbt2XOtlQZh/iXeGLJYw1/NpnOXYP78dPf5N30NFmShIzimCfTOei
-	 +4Gl7fC7H5o6pjGsQzBNxS7rto/V4+rmBHZUFeoUcaCFyXSPdBEaIT/kJdh7BlcpxU
-	 xLyYUwauttasDqPy9pz4cj52MVaA8NZqwtG4/DrTEzswiCp5qxF8VLBspJwdhvj1JJ
-	 omAOry4wDGpkQc3VIgkMBUr+XZ2uUuZhkFm/Kp4NitzqwiU0pwyphpbMyaSzEGqvxB
-	 DI2urkt2cLKypkUwnDmxiwXbUoqxoujasKuOONvCn1vkFFBuTn5fv2tmjTUApwniVq
-	 6gPf/UbsMRO0Q==
-Received: (nullmailer pid 1236168 invoked by uid 1000);
-	Wed, 20 Dec 2023 22:25:50 -0000
-Date: Wed, 20 Dec 2023 16:25:50 -0600
-From: Rob Herring <robh@kernel.org>
-To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-Subject: Re: [PATCHv3 RESEND 10/10] ASoC: dt-bindings: fsl-asoc-card: add
- compatible for generic codec
-Message-ID: <20231220222550.GA1232936-robh@kernel.org>
-References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com>
- <20231218124058.2047167-11-elinor.montmasson@savoirfairelinux.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TKgc0VqK"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKMWoch009431;
+	Wed, 20 Dec 2023 22:46:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=OZnLJhD2Y8SzgZtjERKN
+	5XYH/06eB2NK8W1vp8cBCS4=; b=TKgc0VqKf3xCPv88T+LZTnFa+FXpQwbyzCQA
+	hiau/mu0qWMh3UZbvJaDApTYE4xFHvEbcv26w/Gwiqv22zmLTsupHWtRTFPbDSMs
+	jqo70ivuC/gBKpWMOr5E780fogYWYZKXH4WPcpqLQuXoD+w3S2y2eUEzQ7t4Ro6w
+	yYZDhVJe33W+YAmOliKZoGgxDOq8cd8ZwoBEpYG4yJGhQpi/s0LtJyJn6c7SC6EA
+	s7rbwUmJYct0YHZF1e9v4yPRWk00kYFHY6qJ4vLjLunRpnPMrJ7qBBe2eI4bQaT/
+	sSt3mA5CpwL8+bYxaWVLL7RIqqdBXQX9Bl05jdjTsXX61ADHug==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v3tnw2ebe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 22:46:01 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKMk0UR008332
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 22:46:00 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 20 Dec 2023 14:46:00 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
+        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <agross@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v11 22/41] ASoC: qcom: qdsp6: Ensure PCM format is supported by USB audio device
+Date: Wed, 20 Dec 2023 14:45:25 -0800
+Message-ID: <20231220224544.18031-23-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20231220224544.18031-1-quic_wcheng@quicinc.com>
+References: <20231220224544.18031-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231218124058.2047167-11-elinor.montmasson@savoirfairelinux.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EqKNic14d7VtDMJn9vOI2SAWVH6xAqus
+X-Proofpoint-ORIG-GUID: EqKNic14d7VtDMJn9vOI2SAWVH6xAqus
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 impostorscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=999 lowpriorityscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312200163
 
-On Mon, Dec 18, 2023 at 01:40:58PM +0100, Elinor Montmasson wrote:
-> Add documentation about new dts bindings following new support
-> for compatible "fsl,imx-audio-generic".
-> 
-> Some CPU DAI don't require a real audio codec. The new compatible
-> "fsl,imx-audio-generic" allows using the driver with codec drivers
-> SPDIF DIT and SPDIF DIR as dummy codecs.
-> It also allows using not pre-configured audio codecs which
-> don't require specific control through a codec driver.
-> 
-> The new dts properties give the possibility to set some parameters
-> about the CPU DAI usually set through the codec configuration.
-> 
-> Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-> Co-authored-by: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
-> ---
->  .../bindings/sound/fsl-asoc-card.txt          | 28 ++++++++++++++++++-
->  1 file changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt b/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-> index 4e8dbc5abfd1..f137ef2154e3 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-> +++ b/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-> @@ -17,6 +17,9 @@ Note: The card is initially designed for those sound cards who use AC'97, I2S
->        and PCM DAI formats. However, it'll be also possible to support those non
->        AC'97/I2S/PCM type sound cards, such as S/PDIF audio and HDMI audio, as
->        long as the driver has been properly upgraded.
-> +      To use CPU DAIs that do not require a codec such as an S/PDIF controller,
-> +      or to use a DAI to output or capture raw I2S/TDM data, you can
-> +      use the compatible "fsl,imx-audio-generic".
->  
->  
->  The compatible list for this generic sound card currently:
-> @@ -48,6 +51,8 @@ The compatible list for this generic sound card currently:
->  
->   "fsl,imx-audio-nau8822"
->  
-> + "fsl,imx-audio-generic"
-> +
->  Required properties:
->  
->    - compatible		: Contains one of entries in the compatible list.
-> @@ -56,7 +61,11 @@ Required properties:
->  
->    - audio-cpu		: The phandle of an CPU DAI controller
->  
-> -  - audio-codec		: The phandle of an audio codec
-> +  - audio-codec		: The phandle of an audio codec.
-> +			  If using the "fsl,imx-audio-generic" compatible,
-> +			  give instead a pair of phandles with the
-> +			  spdif_transmitter first (driver SPDIF DIT) and the
-> +			  spdif_receiver second (driver SPDIF DIR).
->  
->  Optional properties:
->  
-> @@ -87,6 +96,23 @@ Optional properties:
->    - frame-inversion	: dai-link uses frame clock inversion, for details see simple-card.yaml.
->    - bitclock-inversion	: dai-link uses bit clock inversion, for details see simple-card.yaml.
->    - mclk-id		: main clock id, specific for each card configuration.
-> +			  For multi-codec configurations, an array of ids can be
-> +			  given, one for each codec.
-> +
-> +Optional, relevant only with the "fsl,imx-audio-generic" compatible:
-> +
-> +  - cpu-slot-width	: Indicates a specific TDM slot width in bits.
-> +  - cpu-slot-num	: Indicates a specific number of TDM slots per frame.
+Check for if the PCM format is supported during the hw_params callback.  If
+the profile is not supported then the userspace ALSA entity will receive an
+error, and can take further action.
 
-Pretty sure I've seen other bindings with TDM slot properties. A sign we 
-need something common if we don't already have something.
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/soc/qcom/qdsp6/q6usb.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> +
-> +  - cpu-sysclk-freq-rx	: Frequency of the CPU DAI sys clock for Rx.
-> +  - cpu-sysclk-freq-tx	: Frequency of the CPU DAI sys clock for Tx.
-> +
-> +  - cpu-sysclk-dir-rx-out	: Boolean property. Specifies sys clock direction
-> +				  as 'out' on initialization for Rx.
-> +				  If not set, default direction is 'in'.
-> +  - cpu-sysclk-dir-tx-out	: Boolean property. Specifies sys clock direction
-> +				  as 'out' on initialization for Tx.
-> +				  If not set, default direction is 'in'.
-
-Looks like clock stuff. Use the clock binding.
-
-Rob
+diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+index bb37f2c58cf4..a3893ec96fe6 100644
+--- a/sound/soc/qcom/qdsp6/q6usb.c
++++ b/sound/soc/qcom/qdsp6/q6usb.c
+@@ -46,7 +46,11 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
+ 			   struct snd_pcm_hw_params *params,
+ 			   struct snd_soc_dai *dai)
+ {
+-	return 0;
++	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
++	int direction = substream->stream;
++
++	return snd_soc_usb_find_format(data->active_usb_chip_idx, params,
++					direction);
+ }
+ 
+ static const struct snd_soc_dai_ops q6usb_ops = {
