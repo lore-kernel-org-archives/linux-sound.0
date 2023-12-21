@@ -1,128 +1,135 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from irl.hu (irl.hu [95.85.9.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB48627F8
-	for <linux-sound@vger.kernel.org>; Thu, 21 Dec 2023 17:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oRpHoyB1"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cc63b3ed71so13640561fa.3
-        for <linux-sound@vger.kernel.org>; Thu, 21 Dec 2023 09:31:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703179894; x=1703784694; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bJEVjLD+6uczd4icO0P1JWsIXEAiz4/5EjrOw/SNWOg=;
-        b=oRpHoyB1luA8MxS570+wVa4kX6Yg9IU4oERrYdjHjMnlLeveTbntLrslMQ7M5rNwcJ
-         1LbisawhAzs62pjMQ/aMtXjc6mjUsJufY7cOeMwAXS6RB8FQU2ywgKIQCRmAVEiEMH80
-         RGSXswB79bLMUOl3+CKtEg6Dush6nIkRFvdLcye1jtuy2MuCqNoOrgkl7u6ypMfYAFKC
-         VNkWh1CrZA7Wj/AZEf4z0uMV+V4sx3303Uck0htY52kjjWUJBuM/Agafy9Rz6uh3m2P6
-         5PczAd04Haa9qWPGjuou9YiZ2zvzFN49Kd5u8Omfyt5if3bBkvAohS9Ev+LaWQ4pWjpW
-         tu2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703179894; x=1703784694;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bJEVjLD+6uczd4icO0P1JWsIXEAiz4/5EjrOw/SNWOg=;
-        b=JSvUwwpVR2VjCu96aES2vlLTsZOa6PsT0ig+BwA4eONZaam35eARWcZrzldII1KMVy
-         FhGhZfuIZEWr8R0B+AfdYio28d5P+C6qIUarYlG08cby4EVLojdmzN80p4X90p3VJO4h
-         OPDCbYjRw1Tnq0+uu8svRUaADo1WjR8pOiC68vCFma76KPO0Wc3RdaUAKZGTr9RhzJRW
-         KPqw1VOyCwFVTGS/B/lLnvikl1qDmspvPm7AKF+j4AeHx3qvO9kfgCBbfQdMXJvfj/85
-         JMXctDjlkN/atoE0jpJQZ19Pa931S7n1db7mfMkaN9sjxJHLpUBQcQpdBlcYnKN6rlik
-         sFxg==
-X-Gm-Message-State: AOJu0YygOH9wEhsYUFG2W6YTxPnUCZ3eC5AxGsOffaVM/wuZEIiSl+SB
-	YnNlxCoV6CTBDmOgS/tPnud6LQ==
-X-Google-Smtp-Source: AGHT+IH/gMv3N+gBtQF1MO5sCoFCrSSSnS4rfUBiPwIUwhGSV8nckoU5K97oYciHfBb9b+cm1rN9wg==
-X-Received: by 2002:a2e:8698:0:b0:2cc:8678:1bc with SMTP id l24-20020a2e8698000000b002cc867801bcmr2687340lji.32.1703179894553;
-        Thu, 21 Dec 2023 09:31:34 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id n4-20020a056402434400b005528265bc41sm1436066edc.0.2023.12.21.09.31.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 09:31:34 -0800 (PST)
-Message-ID: <2eeb19a0-5851-4684-836c-36ec53db6900@linaro.org>
-Date: Thu, 21 Dec 2023 18:31:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0879E78E9D;
+	Thu, 21 Dec 2023 23:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b681e3.dsl.pool.telekom.hu [::ffff:81.182.129.227])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000710DA.000000006584CEFF.0013B0FB; Fri, 22 Dec 2023 00:49:19 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+  Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>,
+  stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/tas2781: do not use regcache
+Date: Fri, 22 Dec 2023 00:48:56 +0100
+Message-ID: <491aeed0e2eecc3b704ec856f815db21bad3ba0e.1703202126.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563 from yaml
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Shenghao Ding <shenghao-ding@ti.com>
-Cc: broonie@kernel.org, conor+dt@kernel.org, robh+dt@kernel.org,
- kevin-lu@ti.com, baojun.xu@ti.com, devicetree@vger.kernel.org,
- lgirdwood@gmail.com, perex@perex.cz, pierre-louis.bossart@linux.intel.com,
- 13916275206@139.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com, soyer@irl.hu,
- tiwai@suse.de, peeyush@ti.com, navada@ti.com
-References: <20231221101346.429-1-shenghao-ding@ti.com>
- <ZYReyHQxMAe-DKq4@smile.fi.intel.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZYReyHQxMAe-DKq4@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-On 21/12/2023 16:50, Andy Shevchenko wrote:
-> On Thu, Dec 21, 2023 at 06:13:41PM +0800, Shenghao Ding wrote:
->> Remove tas2563 from tas2562, it will be supported in tas2781 to better
->> support dsp mode.
-> 
-> DSP
-> 
-> Shouldn't this patch go after the actual change happen?
+There are two problems with using regcache in this module.
 
-I would squash both, so device documentation does not disappear.
+The amplifier has 3 addressing levels (BOOK, PAGE, REG). The firmware
+contains blocks that must be written to BOOK 0x8C. The regcache doesn't
+know anything about BOOK, so regcache_sync writes invalid values to the
+actual BOOK.
 
-Best regards,
-Krzysztof
+The module handles 2 or more separate amplifiers. The amplifiers have
+different register values, and the module uses only one regmap/regcache
+for all the amplifiers. The regcache_sync only writes the last amplifier
+used.
+
+The module successfully restores all the written register values (RC
+profile, program, configuration, calibration) without regcache.
+
+Remove regcache functions and set regmap cache_type to REGCACHE_NONE.
+
+Link: https://lore.kernel.org/r/21a183b5a08cb23b193af78d4b1114cc59419272.1701906455.git.soyer@irl.hu/
+
+Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
+CC: stable@vger.kernel.org
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+---
+ sound/pci/hda/tas2781_hda_i2c.c   | 17 +----------------
+ sound/soc/codecs/tas2781-comlib.c |  2 +-
+ 2 files changed, 2 insertions(+), 17 deletions(-)
+
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 2fb1a7037c82..e4c54b2a012c 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -717,8 +717,6 @@ static int tas2781_runtime_suspend(struct device *dev)
+ 		tas_priv->tasdevice[i].cur_conf = -1;
+ 	}
+ 
+-	regcache_cache_only(tas_priv->regmap, true);
+-	regcache_mark_dirty(tas_priv->regmap);
+ 
+ 	mutex_unlock(&tas_priv->codec_lock);
+ 
+@@ -730,20 +728,11 @@ static int tas2781_runtime_resume(struct device *dev)
+ 	struct tasdevice_priv *tas_priv = dev_get_drvdata(dev);
+ 	unsigned long calib_data_sz =
+ 		tas_priv->ndev * TASDEVICE_SPEAKER_CALIBRATION_SIZE;
+-	int ret;
+ 
+ 	dev_dbg(tas_priv->dev, "Runtime Resume\n");
+ 
+ 	mutex_lock(&tas_priv->codec_lock);
+ 
+-	regcache_cache_only(tas_priv->regmap, false);
+-	ret = regcache_sync(tas_priv->regmap);
+-	if (ret) {
+-		dev_err(tas_priv->dev,
+-			"Failed to restore register cache: %d\n", ret);
+-		goto out;
+-	}
+-
+ 	tasdevice_prmg_load(tas_priv, tas_priv->cur_prog);
+ 
+ 	/* If calibrated data occurs error, dsp will still works with default
+@@ -752,10 +741,9 @@ static int tas2781_runtime_resume(struct device *dev)
+ 	if (tas_priv->cali_data.total_sz > calib_data_sz)
+ 		tas2781_apply_calib(tas_priv);
+ 
+-out:
+ 	mutex_unlock(&tas_priv->codec_lock);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int tas2781_system_suspend(struct device *dev)
+@@ -770,10 +758,7 @@ static int tas2781_system_suspend(struct device *dev)
+ 		return ret;
+ 
+ 	/* Shutdown chip before system suspend */
+-	regcache_cache_only(tas_priv->regmap, false);
+ 	tasdevice_tuning_switch(tas_priv, 1);
+-	regcache_cache_only(tas_priv->regmap, true);
+-	regcache_mark_dirty(tas_priv->regmap);
+ 
+ 	/*
+ 	 * Reset GPIO may be shared, so cannot reset here.
+diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
+index ffb26e4a7e2f..933cd008e9f5 100644
+--- a/sound/soc/codecs/tas2781-comlib.c
++++ b/sound/soc/codecs/tas2781-comlib.c
+@@ -39,7 +39,7 @@ static const struct regmap_range_cfg tasdevice_ranges[] = {
+ static const struct regmap_config tasdevice_regmap = {
+ 	.reg_bits = 8,
+ 	.val_bits = 8,
+-	.cache_type = REGCACHE_RBTREE,
++	.cache_type = REGCACHE_NONE,
+ 	.ranges = tasdevice_ranges,
+ 	.num_ranges = ARRAY_SIZE(tasdevice_ranges),
+ 	.max_register = 256 * 128,
+
+base-commit: 916d051730ae48aef8b588fd096fefca4bc0590a
+-- 
+2.43.0
 
