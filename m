@@ -1,107 +1,77 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F9F51C29;
-	Thu, 21 Dec 2023 10:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2899F7995C;
+	Thu, 21 Dec 2023 12:55:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rvNCEiKm"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BLAEHkq123049;
-	Thu, 21 Dec 2023 04:14:17 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1703153657;
-	bh=8h/5qNeBqZLu4DtB6QWlxRAttsKrDL6jdEBGySa6oNo=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=rvNCEiKmTkwd7qYnofyFNa2UVRy0l03p6FpkiGoBz5JOrZDyzYgUNLB6tADqJE/UX
-	 LkO8+2jG9Js2mum0Pn3UtQfrqz8mPY8KbhbDdBvG/HAN+dIC/RGaiQRK10LxhKkjgW
-	 7XqyFZSHt2CRP7KYs2C3hEccVFhYD4uyLdXShzOs=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BLAEGD8003965
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 21 Dec 2023 04:14:16 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 21
- Dec 2023 04:14:16 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 21 Dec 2023 04:14:16 -0600
-Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.210])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BLADoQf069419;
-	Thu, 21 Dec 2023 04:14:11 -0600
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <krzysztof.kozlowski@linaro.org>
-CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <kevin-lu@ti.com>, <baojun.xu@ti.com>, <devicetree@vger.kernel.org>,
-        <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <liam.r.girdwood@intel.com>, <soyer@irl.hu>, <tiwai@suse.de>,
-        <peeyush@ti.com>, <navada@ti.com>,
-        Shenghao Ding <shenghao-ding@ti.com>
-Subject: [PATCH v2 4/5] ASoC: tas2781: Add tas2563 into driver
-Date: Thu, 21 Dec 2023 18:13:44 +0800
-Message-ID: <20231221101346.429-4-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20231221101346.429-1-shenghao-ding@ti.com>
-References: <20231221101346.429-1-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCslwi3G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE2EC433C8;
+	Thu, 21 Dec 2023 12:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703163337;
+	bh=7NxpxM1STCMZ8Ns3Axc00mUiFhhRBcEYLIvZ8mqgJ+s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZCslwi3GvMMaQxEaTeZGHOEFbcCU6AuRFQJ6RYpGW7hpi4KDBbZV1pstpAf7wWHPY
+	 BM93nHNrkUIbxrxzLhthSeAmQX0xtBS2lbwxbrZ6pUiOF9RWzStLIwtlXkgPrQ5rWf
+	 IKElmG672O0pocCtANJbDKH4LRMUqItWQTD0maTOUxwstEz086HmwJAJi/i+9HHyqV
+	 tUy0+MFsRc8gfK8RXjhUY7fz6qq5FXTYINDrvPWchVcIOCgP+nVrFe00yWDB/LRfZQ
+	 9tyCeM9FEmAIpXDsDCUnQ1DbdUAdayojwaveqMrlTN92+AvhW8q6BO2Rr8jeEOHvVK
+	 UeKaRuO9sAaFA==
+Date: Thu, 21 Dec 2023 12:55:31 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Xingyu Wu <xingyu.wu@starfivetech.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Walker Chen <walker.chen@starfivetech.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence
+ Multi-Channel I2S Controller
+Message-ID: <861f9b28-863d-48b0-8491-add4a286597e@sirena.org.uk>
+References: <20231221033223.73201-1-xingyu.wu@starfivetech.com>
+ <20231221033223.73201-3-xingyu.wu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qiI6QTJLu38XlrMO"
+Content-Disposition: inline
+In-Reply-To: <20231221033223.73201-3-xingyu.wu@starfivetech.com>
+X-Cookie: Results are not typical.
 
-Add tas2563 to better support dsp mode.
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+--qiI6QTJLu38XlrMO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
----
-Change in v2:
- - Move tas2563 to tas2781 driver
----
- sound/soc/codecs/tas2781-i2c.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Thu, Dec 21, 2023 at 11:32:23AM +0800, Xingyu Wu wrote:
 
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index 55cd5e3c23a5..c6afc87f2c69 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -5,9 +5,9 @@
- // Copyright (C) 2022 - 2023 Texas Instruments Incorporated
- // https://www.ti.com
- //
--// The TAS2781 driver implements a flexible and configurable
-+// The TAS2781/TAS2563 driver implements a flexible and configurable
- // algo coefficient setting for one, two, or even multiple
--// TAS2781 chips.
-+// TAS2781/TAS2563 chips.
- //
- // Author: Shenghao Ding <shenghao-ding@ti.com>
- // Author: Kevin Lu <kevin-lu@ti.com>
-@@ -33,6 +33,7 @@
- 
- static const struct i2c_device_id tasdevice_id[] = {
- 	{ "tas2781", TAS2781 },
-+	{ "tas2563", TAS2563 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, tasdevice_id);
-@@ -40,6 +41,7 @@ MODULE_DEVICE_TABLE(i2c, tasdevice_id);
- #ifdef CONFIG_OF
- static const struct of_device_id tasdevice_of_match[] = {
- 	{ .compatible = "ti,tas2781" },
-+	{ .compatible = "ti,tas2563" },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, tasdevice_of_match);
--- 
-2.34.1
+>  sound/soc/starfive/cdns-jh8100-i2s-pcm.c | 262 ++++++++
+>  sound/soc/starfive/cdns-jh8100-i2s.c     | 727 +++++++++++++++++++++++
+>  sound/soc/starfive/cdns-jh8100-i2s.h     | 171 ++++++
 
+If this is a Cadence IP why is the entire driver SoC specific?
+
+--qiI6QTJLu38XlrMO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWENcMACgkQJNaLcl1U
+h9DmxQf/VKWNR8MkKD1nBaJ7Yag16lGPPoUKjVEA2U9WJHxwlAJ3QXQ5lsrIBeg4
+yhP0BWeL9nEb5kF6zN02LHhXrsRxU7li5HUT0hS0CArT8uQjR/g2DEr5iIfNiBmb
++6gKFGsbitTZCdp4VYcmNjUYGOz/5Zl4ZzmXYxBtiZLoCaJgcSLEDJI6BOK8vNJb
+/4fyTPW81F5T1Ww2lW9xSEW4sPaQCDYR1+SDNLd+tMZodWgOwLZ+QTUvdGEisUbk
+QvjM9CcrWIs79/sCqHq052zO4bWnEL4w1lTcz+oojP8kEinpg9O7nQl3TMkh2OeV
+ep3TrAzJvm3x176m5cODPhAJLYVlbg==
+=xQrw
+-----END PGP SIGNATURE-----
+
+--qiI6QTJLu38XlrMO--
