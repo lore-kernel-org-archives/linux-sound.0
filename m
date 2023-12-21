@@ -1,98 +1,167 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731D352F67;
-	Thu, 21 Dec 2023 09:34:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30EF4E626;
+	Thu, 21 Dec 2023 09:35:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2RzLsD9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddKNL9/Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703151248; x=1734687248;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=L+k5CS5sgC8pMM6kY4u78Belg2iE72BS8zZ13TBDiEs=;
-  b=k2RzLsD9anFS2xOvYcebFfeKXaDfc9nNThRLICBPlg8yiLXXs0+4m4wD
-   TgVO2MZ7XQguFD1ypxgEA6iW0yr0JVsi7nE3NXwAMwmAu7GRvCWFI0Btt
-   NB+WHjERNfoXEWGWxnRAAuOBfXLZv8wwyl+YbeZvVvT2QMoNEU+RR+jSq
-   gzx6tJbpLp2R8t7PTW17uenPfuE+YdoqukP5NGz4Z3S13n6oqDkJw/RGl
-   SIG7lLTbhxHcacvefEGaGZYqESrH6Jr8RA3/5UyTRq+iqG1f8S5Bx7UTm
-   UCClW4zjQJJqsoI6vzPk11chSSJ8sh1ojnTN2q6/n28b0RX2Qgn7bQkr0
+  t=1703151352; x=1734687352;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=nefW0/r+izKmFBlTuYxpkBcVSV/ZlT5aXEglOcLLB4U=;
+  b=ddKNL9/QByxkMy1tygv/VU2v8pgqbQpCUFq5L46Gcb6d2CiRiFlTHzWZ
+   qVKIfIghrwzAMrMNJOYtChW0aMi1XrfDu57YjqIZT2EOlHqggquL3vNOQ
+   UdsLkaQv0GWhVHXuPGeegn1ZYTob4S6ykL9fmjQFI8xVRrr5+Td5DMnu8
+   PMHxaiUHk2IkhYE4IHLm642Hn7dTKQz2GJIhTNFMjUy93hQTfvJrDvvcN
+   X3vSIlFVUvMYU+Yv8pfk6hSmcdaGGCZngwU3vFt1Ng0KY2u7ZTKrJ8e8y
+   U173eKM4ym1KtX35wGkRov93vKgyqk3MmW4APWaTZLLNo33MYKb5PD4/r
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="3188687"
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="3188865"
 X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
-   d="scan'208";a="3188687"
+   d="scan'208";a="3188865"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 01:34:08 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 01:35:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810918311"
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810918661"
 X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
-   d="scan'208";a="810918311"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by orsmga001.jf.intel.com with ESMTP; 21 Dec 2023 01:34:00 -0800
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	pandith.n@intel.com,
-	mallikarjunappa.sangannavar@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [RFC PATCH v2 10/10] ABI: pps: Add ABI documentation for Intel TIO
-Date: Thu, 21 Dec 2023 15:02:54 +0530
-Message-Id: <20231221093254.9599-11-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
-References: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
+   d="scan'208";a="810918661"
+Received: from sshurhav-mobl.ger.corp.intel.com (HELO localhost) ([10.252.34.227])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 01:35:44 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-arm-msm@vger.kernel.org, Emma Anholt <emma@anholt.net>, Maxime
+ Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4] ASoC: hdmi-codec: drop drm/drm_edid.h include
+In-Reply-To: <20231219121210.1076152-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231214092856.4019251-1-jani.nikula@intel.com>
+ <20231219121210.1076152-1-jani.nikula@intel.com>
+Date: Thu, 21 Dec 2023 11:35:42 +0200
+Message-ID: <8734vvuccx.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Tue, 19 Dec 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> hdmi-codec.h does not appear to directly need drm/drm_edid.h for
+> anything. Remove it.
+>
+> There are some files that get drm/edid.h by proxy; include it where
+> needed.
+>
+> v2-v4: Fix build (kernel test robot <lkp@intel.com>)
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> ---
+>
+> I'm pretty sure I haven't compiled everything that might implicitly
+> depend on the include. However, the right thing to do is to include
+> drm_edid.h where needed, not from somewhat random intermediate
+> headers. I hope this uncovers anything I missed.
 
-Document sysfs interface for Intel Timed I/O PPS driver
+The kernel test robot came back with clean results.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- 1 file changed, 7 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+Added a bunch more Cc's here. Ack to merge this via drm-misc-next,
+please?
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..d8be3a6d5795
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		January 2024
-+KernelVersion	6.8
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware(Enabled/Disabled).
+BR,
+Jani.
+
+
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
+>  drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
+>  include/sound/hdmi-codec.h                 | 1 -
+>  6 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index 9663601ce098..b9205d14d943 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -18,6 +18,7 @@
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index e971b75e90ad..f3f130c1ef0a 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -21,6 +21,7 @@
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 52d91a0df85e..fa63a21bdd1c 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -31,6 +31,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 1b88fb52726f..766c8d01e6b3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/of_irq.h>
+>  #include <linux/delay.h>
+>  #include <drm/display/drm_dp_aux_bus.h>
+> +#include <drm/drm_edid.h>
+>  
+>  #include "msm_drv.h"
+>  #include "msm_kms.h"
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index f05e2c95a60d..34f807ed1c31 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -35,6 +35,7 @@
+>  #include <drm/display/drm_scdc_helper.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <linux/clk.h>
+> diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+> index 9b162ac1e08e..5e1a9eafd10f 100644
+> --- a/include/sound/hdmi-codec.h
+> +++ b/include/sound/hdmi-codec.h
+> @@ -12,7 +12,6 @@
+>  
+>  #include <linux/of_graph.h>
+>  #include <linux/hdmi.h>
+> -#include <drm/drm_edid.h>
+>  #include <sound/asoundef.h>
+>  #include <sound/soc.h>
+>  #include <uapi/sound/asound.h>
+
 -- 
-2.35.3
-
+Jani Nikula, Intel
