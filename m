@@ -1,89 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAB2225D6;
-	Thu, 21 Dec 2023 09:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBA55102F;
+	Thu, 21 Dec 2023 10:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzlTHP+A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14724C433C7;
-	Thu, 21 Dec 2023 09:48:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703152094;
-	bh=c2g5y6kiflVeNGhN8PpT0D5trQyz7k/JpEp8prWhHD0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SzlTHP+AeHmHs9xY452PnUZTHwFg60YYT0FJu680NOPj0v9145EzPbhwRRtmA1Esj
-	 4ULy8sC4WkHmR9QGMMGTzXOluYJZMa2F+ndbnzGsF/OLd0hCRJOZgqe/XVTSGrniSK
-	 pklfkmNpf9mXVFn/k3PNvymX39dITY+51a6wURsydk51TIeiJ7w90zDED7Yap0huVP
-	 Nb7jFWRNpXWvKfLgyF1Oqr4EfpNwTVKPb7grehwdAHJcLjCaDUaYi1nw9CYKm9r1xw
-	 jT8DJ7nl0AzN8oj6sglFzNTo+GidWcqcVKQ+tN4pwmrDbM42e4syVQSMZtaKm4g/rL
-	 9/flXmtRsY6mQ==
-Date: Thu, 21 Dec 2023 10:48:11 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
-	Emma Anholt <emma@anholt.net>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v4] ASoC: hdmi-codec: drop drm/drm_edid.h include
-Message-ID: <eexfqzmhm7z4gausmjqhqklidz7crfq3io4vwxsspfixkd4uqx@cayecc5z6uvg>
-References: <20231214092856.4019251-1-jani.nikula@intel.com>
- <20231219121210.1076152-1-jani.nikula@intel.com>
- <8734vvuccx.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="umB+kXZ1"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BLAE3W4030693;
+	Thu, 21 Dec 2023 04:14:03 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1703153643;
+	bh=jIF3ygWneWyg4E9/HdJotb5ROUTYDslZO/q/Izyycnc=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=umB+kXZ1g2hALmaW4+Q+IXAAd0xtTIUWv+eUTvwTtpSY+vvNYuCElw1wm3uCrkaUR
+	 /1Tgm1uj1UZ7ATpFHPsiEj8UMuvVJgg3Qsw9YG77OunPyxAwRcNsjWljWID717TEqy
+	 063N6k20Rn6W11yzeFlLs8U8GLlaozmjKGR7FpJY=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BLAE36j003779
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 21 Dec 2023 04:14:03 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 21
+ Dec 2023 04:14:03 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 21 Dec 2023 04:14:03 -0600
+Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.210])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BLADoQd069419;
+	Thu, 21 Dec 2023 04:13:58 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>, <conor+dt@kernel.org>,
+        <krzysztof.kozlowski@linaro.org>
+CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <kevin-lu@ti.com>, <baojun.xu@ti.com>, <devicetree@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>,
+        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <liam.r.girdwood@intel.com>, <soyer@irl.hu>, <tiwai@suse.de>,
+        <peeyush@ti.com>, <navada@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v2 2/5] ASoC: tas2562: remove tas2563 into driver
+Date: Thu, 21 Dec 2023 18:13:42 +0800
+Message-ID: <20231221101346.429-2-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20231221101346.429-1-shenghao-ding@ti.com>
+References: <20231221101346.429-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7o3xr7p4t4lcajc6"
-Content-Disposition: inline
-In-Reply-To: <8734vvuccx.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
+Remove tas2563 from tas2562, it will be supported in tas2781 to better
+support dsp mode.
 
---7o3xr7p4t4lcajc6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-On Thu, Dec 21, 2023 at 11:35:42AM +0200, Jani Nikula wrote:
-> On Tue, 19 Dec 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> > hdmi-codec.h does not appear to directly need drm/drm_edid.h for
-> > anything. Remove it.
-> >
-> > There are some files that get drm/edid.h by proxy; include it where
-> > needed.
-> >
-> > v2-v4: Fix build (kernel test robot <lkp@intel.com>)
-> >
-> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >
-> > ---
-> >
-> > I'm pretty sure I haven't compiled everything that might implicitly
-> > depend on the include. However, the right thing to do is to include
-> > drm_edid.h where needed, not from somewhat random intermediate
-> > headers. I hope this uncovers anything I missed.
->=20
-> The kernel test robot came back with clean results.
->=20
-> Added a bunch more Cc's here. Ack to merge this via drm-misc-next,
-> please?
+---
+Change in v2:
+ - remove tas2563, which will be move to tas2781 driver
+---
+ sound/soc/codecs/tas2562.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+diff --git a/sound/soc/codecs/tas2562.c b/sound/soc/codecs/tas2562.c
+index 962c2cdfa017..54561ae598b8 100644
+--- a/sound/soc/codecs/tas2562.c
++++ b/sound/soc/codecs/tas2562.c
+@@ -59,7 +59,6 @@ struct tas2562_data {
+ 
+ enum tas256x_model {
+ 	TAS2562,
+-	TAS2563,
+ 	TAS2564,
+ 	TAS2110,
+ };
+@@ -721,7 +720,6 @@ static int tas2562_parse_dt(struct tas2562_data *tas2562)
+ 
+ static const struct i2c_device_id tas2562_id[] = {
+ 	{ "tas2562", TAS2562 },
+-	{ "tas2563", TAS2563 },
+ 	{ "tas2564", TAS2564 },
+ 	{ "tas2110", TAS2110 },
+ 	{ }
+@@ -770,7 +768,6 @@ static int tas2562_probe(struct i2c_client *client)
+ #ifdef CONFIG_OF
+ static const struct of_device_id tas2562_of_match[] = {
+ 	{ .compatible = "ti,tas2562", },
+-	{ .compatible = "ti,tas2563", },
+ 	{ .compatible = "ti,tas2564", },
+ 	{ .compatible = "ti,tas2110", },
+ 	{ },
+-- 
+2.34.1
 
-Maxime
-
---7o3xr7p4t4lcajc6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZYQJ2wAKCRDj7w1vZxhR
-xSW0AQCJlH99BsxjepYQObIU2W6v087aYxO8BzYL4hwVes27CgEAvgEDL2E/HZHk
-AfQBYylYm1Rf70+sI6J67z8P6Brc6QM=
-=yy41
------END PGP SIGNATURE-----
-
---7o3xr7p4t4lcajc6--
