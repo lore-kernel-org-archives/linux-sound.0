@@ -1,44 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7075436089
-	for <linux-sound@vger.kernel.org>; Thu, 21 Dec 2023 14:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0556B52F60;
+	Thu, 21 Dec 2023 15:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hhQX3TdJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051C4C433C7;
-	Thu, 21 Dec 2023 14:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703170203;
-	bh=FkGWRi5sZe9i5G/7+3x2Dpn2AKCY0J1cCujMB77+wP8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hhQX3TdJww9UCdvOo5jGM/GKNNSVXU+/7kWbHEZ4Or4dyyerklw+lTZgeD4/WTtlP
-	 owqIqGy8hJ2EbAuZnUcYgq7tQZkVNwT7AF6QUbIhIjqVIUSUp82fYt79O45G1ie3Lm
-	 HHbp7aDpmfjEfct2lR6/mv1+ow1ldcgfdM9sUwAsgD7PuYfoKtpHfVDJC9mCw74JpO
-	 vqcJYpVqHVkQ+dKIblY92GZAvve3wj+5H99MU16ATI9+VA7tW0jYXsnPXFHMuQMGSC
-	 VIafYR1DZBpYvz7LQ5cjdl2Zt0QlFeQPY4bIeDIdDe6CC6ZAtET65Ef+vAIuoL2tZG
-	 rOvTEbyw0rXvw==
-Date: Thu, 21 Dec 2023 20:19:58 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
-	broonie@kernel.org, vinod.koul@intel.com,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 07/16] soundwire: bus: add API for BPT protocol
-Message-ID: <ZYRQliKCliLcLAG0@matsya>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-8-pierre-louis.bossart@linux.intel.com>
- <ZYAy9ZM0o3uAk2qY@matsya>
- <4f66f792-79c0-4221-82b5-a0d9ec5a898b@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f0haTT01"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703173841; x=1734709841;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jEUQihnDzkmv8ekA6ouDy34WzKe2mVhUjC7xFNBQteY=;
+  b=f0haTT017d9UJL1FLVBwJV/G0QmfjBus5/vtG1sU0c/WpAyu+N0tOxpd
+   lBUUkDh+VthTe3qdhXgfl2TgMA/7Xpv2vnZEtB4wFc2iZ59m6+6T3NHBE
+   4oXI5c7ePN3u2S0zHxwPewH4zTfV4NYUoRUK+EW32HIv2jhI4omidXdDH
+   aidFkxovCd8WcKYtfETO47hR+Qb8b01C9CW94LStcalGJHjKSPzguD1LO
+   UYp71AnVYIbKJPn7lWOxARZ7U4eBR3wGBZ/GijKTIs6AkH30ixqAnDz2j
+   Fvt4PMeckXu2w3MHbfXdU6bn8VHZRE8dv3zV+ifUp11ZMRVxxtLlBfq5I
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="460327158"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="460327158"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 07:50:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="847150181"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="847150181"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 07:50:35 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rGLJg-00000007t2s-2P9L;
+	Thu, 21 Dec 2023 17:50:32 +0200
+Date: Thu, 21 Dec 2023 17:50:32 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
+	robh+dt@kernel.org, kevin-lu@ti.com, baojun.xu@ti.com,
+	devicetree@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de,
+	peeyush@ti.com, navada@ti.com
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563 from yaml
+Message-ID: <ZYReyHQxMAe-DKq4@smile.fi.intel.com>
+References: <20231221101346.429-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,150 +56,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f66f792-79c0-4221-82b5-a0d9ec5a898b@linux.intel.com>
+In-Reply-To: <20231221101346.429-1-shenghao-ding@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 18-12-23, 14:12, Pierre-Louis Bossart wrote:
-> 
-> >> +int sdw_bpt_open_stream(struct sdw_bus *bus,
-> >> +			struct sdw_slave *slave,
-> >> +			enum sdw_bpt_type mode,
-> >> +			struct sdw_bpt_msg *msg)
-> >> +{
-> >> +	int ret;
-> >> +
-> >> +	/* only Bulk Register Access (BRA) is supported for now */
-> >> +	if (mode != SDW_BRA)
-> >> +		return -EINVAL;
-> >> +
-> >> +	if (msg->len < SDW_BPT_MSG_MIN_BYTES) {
-> >> +		dev_err(bus->dev, "BPT message length %d, min supported %d\n",
-> >> +			msg->len, SDW_BPT_MSG_MIN_BYTES);
-> >> +		return -EINVAL;
-> >> +	}
-> >> +
-> >> +	if (msg->len % SDW_BPT_MSG_BYTE_ALIGNMENT) {
-> >> +		dev_err(bus->dev, "BPT message length %d is not a multiple of %d bytes\n",
-> >> +			msg->len, SDW_BPT_MSG_BYTE_ALIGNMENT);
-> >> +		return -EINVAL;
-> >> +	}
-> > 
-> > Is this a protocol requirement?
-> 
-> No, it's an implementation requirement.
-> 
-> We could move this to host-specific parts but then the codec drivers
-> will have to know about alignment requirements for each host they are
-> use with. IOW, it's more work for codec drivers if we don't have a
-> minimum bar for alignment requirement across all platforms.
-> 
-> > 
-> >> +
-> >> +	/* check device is enumerated */
-> >> +	if (slave->dev_num == SDW_ENUM_DEV_NUM ||
-> >> +	    slave->dev_num > SDW_MAX_DEVICES)
-> >> +		return -ENODEV;
-> >> +
-> >> +	/* make sure all callbacks are defined */
-> >> +	if (!bus->ops->bpt_open_stream ||
-> >> +	    !bus->ops->bpt_close_stream ||
-> >> +	    !bus->ops->bpt_send_async ||
-> >> +	    !bus->ops->bpt_wait)
-> >> +		return -ENOTSUPP;
-> > 
-> > should this not be checked at probe time, if device declares the support
-> 
-> sdw_bpt_open_stream() would be called by the peripheral driver (or
-> regmap as a proxy). The peripheral driver could also decide to check for
-> those callback during its probe, but that's beyond the scope of this
-> patchset.
+On Thu, Dec 21, 2023 at 06:13:41PM +0800, Shenghao Ding wrote:
+> Remove tas2563 from tas2562, it will be supported in tas2781 to better
+> support dsp mode.
 
-I would think that it is better to have capablities registered by the
-driver and those are checked at registration, so we know if bpt is
-supported or not for a particular platform.
+DSP
 
-This make more sense to me as some driver, depending on the SoC may or
-maynot support this, so easy way would be to turn off caps, what do you
-think?
+Shouldn't this patch go after the actual change happen?
+I don't know the answer myself, I would like to hear DT
+people on this.
 
-> 
-> These checks are just there for paranoia, in case a peripheral driver
-> uses BTP/BRA on a host where they are not supported.
-> 
-> It's not science-fiction, we see AMD- and INTEL-based platforms using
-> the same SoundWire-based codecs.
-
-Ofcourse, it is entrely reasonable thing to do, event across x86/arm64
-
-> 
-> >> +	ret = bus->ops->bpt_open_stream(bus, slave, mode, msg);
-> >> +	if (ret < 0)
-> >> +		dev_err(bus->dev, "BPT stream open, err %d\n", ret);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +EXPORT_SYMBOL(sdw_bpt_open_stream);
-> > 
-> > can we open multiple times (i dont see a check preventing that), how do
-> > we close..?
-> 
-> there's a refcount preventing multiples BTP streams from being opened.
-> 
-> > Re-iterating my comment on documentation patch, can we do with a async api
-> > and wait api, that makes symantics a lot simpler, right..?
-> 
-> see reply in previous email, combining open+send is weird IMHO.
-> 
-> >> +
-> >> +int sdw_bpt_send_async(struct sdw_bus *bus,
-> >> +		       struct sdw_slave *slave,
-> >> +		       struct sdw_bpt_msg *msg)
-> >> +{
-> >> +	if (msg->len > SDW_BPT_MSG_MAX_BYTES)
-> >> +		return -EINVAL;
-> >> +
-> >> +	return bus->ops->bpt_send_async(bus, slave, msg);
-> >> +}
-> >> +EXPORT_SYMBOL(sdw_bpt_send_async);
-> > 
-> > Can we call this multiple times after open, it is unclear to me. Can you
-> > please add kernel-doc comments about the APIs here as well
-> 
-> This can be called multiple times but it's useless: all the buffers are
-> prepared in the open() stage. This is the moral equivalent of a trigger
-> step, just enable data transfers.
-> 
-> > 
-> >>  struct sdw_master_ops {
-> >>  	int (*read_prop)(struct sdw_bus *bus);
-> >> @@ -869,6 +913,20 @@ struct sdw_master_ops {
-> >>  	void (*new_peripheral_assigned)(struct sdw_bus *bus,
-> >>  					struct sdw_slave *slave,
-> >>  					int dev_num);
-> >> +	int (*bpt_open_stream)(struct sdw_bus *bus,
-> >> +			       struct sdw_slave *slave,
-> >> +			       enum sdw_bpt_type mode,
-> >> +			       struct sdw_bpt_msg *msg);
-> >> +	int (*bpt_close_stream)(struct sdw_bus *bus,
-> >> +				struct sdw_slave *slave,
-> >> +				enum sdw_bpt_type mode,
-> >> +				struct sdw_bpt_msg *msg);
-> >> +	int (*bpt_send_async)(struct sdw_bus *bus,
-> >> +			      struct sdw_slave *slave,
-> >> +			      struct sdw_bpt_msg *msg);
-> >> +	int (*bpt_wait)(struct sdw_bus *bus,
-> >> +			struct sdw_slave *slave,
-> >> +			struct sdw_bpt_msg *msg);
-> > 
-> > do we need both bus and slave, that was a mistake in orignal design IMO.
-> > We should fix that for bpt_ apis
-> 
-> No disagreement. All the routines follow the same template, if we change
-> one we should also change the others.
-> 
-> The main question as discussed with Charles is whether we want to pass
-> the 'msg' argument in all routines.
-
-Lets revisit when we have new API
 
 -- 
-~Vinod
+With Best Regards,
+Andy Shevchenko
+
+
