@@ -1,47 +1,47 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349F223771
-	for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 15:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31369241E0
+	for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 15:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dYgS+xPs"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-554546fb201so649223a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 07:01:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nYXGyrQW"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-54c7744a93fso2249554a12.2
+        for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 07:01:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703257308; x=1703862108; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1703257309; x=1703862109; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vx3v1qGZeqQnkYVSrY5RSwpGT9fxdZloG/62JqqyTmE=;
-        b=dYgS+xPsMLUMdnAhOB4BpD3CsRBuYcoZ/a+ph7FCZ/g2I1WfER3aCwYMq62GgQ2ZYf
-         B3LeTwmpM2bdXvZkutwfaXd80+SX9nAbGl33jRRq17DtLPFs+TydW6R73Bfv7gyfXD6r
-         8/zelrMX1nGTg48NnFEmOrZRUJK/hdr5JtYj//qNxTROnc0MdDYg/dpdTVAGXvMPFs+o
-         Kpr/FKgTtH9vGjzt4zBo2zW5vqKSoZLpJDthPlywZk4YV/ywDnofpTojBEElTdnr/p9t
-         22OANkJ64nbmOkJHTK+anIoLPzhZ+2RHymlsUXMU11tD/IVoeskbeVa0FytrPk6aK2/9
-         Bfow==
+        bh=TIsLTUxJE1cxBBiiifVCcvawbyJ4lrohtOQb+rAqVac=;
+        b=nYXGyrQWwD7MRsataje2Inpu0xHSRBFOoVPKdqask2zVK4BQnUDwox2o01ESNT6aH7
+         zviTJxxNCdZd/zX0Zg1ODxecaIYqlY82p6GcxqwdxH4sylgO9yki+lNQnGc4LHZE8+kA
+         bi6lLBVu9UOeFCDk/NopA7JsTYnY5mKBZsp/canlb4pTw79NSO+q5GWY7Bhdyd85gR6i
+         3Mmxc/5ra8ilgpb/Lw6Wr+akFM8btuJVqJPJx8z2IGjB07QG9vX2NRjJ1O02PmIRM1Km
+         NnQao+b6O7SMUFhKsiD2FAeGH9PrL4Y/hNzw+wIV3ZgX+P3JeNi3u7FSSsmOv3iYPgeQ
+         uyCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703257308; x=1703862108;
+        d=1e100.net; s=20230601; t=1703257309; x=1703862109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vx3v1qGZeqQnkYVSrY5RSwpGT9fxdZloG/62JqqyTmE=;
-        b=bo6QrmhySwBPqF6Pz+sYUjcEI6NHYIkE52D5laaOx52CYONgVxNbGAWZUdOuhdTwVg
-         FXd5BNkt2ktPjAqWGbxBsIZnOCi0dWVVL9CtTAm0UL/JXPgvQZFBPq5Y8FtQkA1DDPLa
-         f3VdPl9QlTKJKxdSB3vfBwGyEiJw4CsQtEjkVR/736253u2C1TCsuL9zCYwyMd0g4SOb
-         I1BqZ6LC3eRYlE9Ivd2g1aTx0VDcZ06OWYq9d6VwVu6vFzlWvkrVWyTLpbLj/wpVvzbA
-         YbZE/Znku/7GF1mIvf9S/Ru/9IXnMphwFYrdQ5PPlGOhCmExZdgRlkjq6K1ls93PC17x
-         QEtQ==
-X-Gm-Message-State: AOJu0Yy+fbdI1RfqYUUKeA1n4brOrz2X+iuPPqhX14BNIcJyWpGiLWlf
-	NrrN9ZRIo/IbTYF4mHBc2IZBbyVnPj86Cg==
-X-Google-Smtp-Source: AGHT+IFSkPoU1vTjmyalz79sN5kxTWIe8tnjANHRIdEWKTqQBOahgPnI8lq+LbB2c3LndM4iYEf3iw==
-X-Received: by 2002:a17:906:eb12:b0:a23:333b:129a with SMTP id mb18-20020a170906eb1200b00a23333b129amr888281ejb.53.1703257308319;
-        Fri, 22 Dec 2023 07:01:48 -0800 (PST)
+        bh=TIsLTUxJE1cxBBiiifVCcvawbyJ4lrohtOQb+rAqVac=;
+        b=oFX0yLdQrcKKrBlaOmaftOfytqpksKTJkNUGkNgdisFY5QRPo+aDOsYl/w/vgre2JD
+         cbHeuzcF3AwdQuTmSG82Qt8lbKSg1oOw10w0RnLqh++wtxXfmX29V4LsL0/GGsHOjkcA
+         ilfwuHpn4acwddw4qmwlecmd0rzVSArqrYHeHah9R7qcEHfQXISmqrqb6yfzp7INZZPn
+         x0dxEhikoxc+u/pTRhxzSUMZ+ZJj+gG+TgcVFe64SRlrbLpzX47c7S4EJKmpOCAGk5Iz
+         /2akv2PV/w7vBPA+leybBv+XP9TNbQdTbdXKPQjw/m4c/cGewZUgqNEtXoI4XZ2LjLd7
+         QmLg==
+X-Gm-Message-State: AOJu0YyZQd8C7t+KuZryAOMDvZ/0P3Sl17CBPCIplrlPJkTwJ4uuzW05
+	JnmexbNl+HmKEIl8oNk3ZvyQgz38y7YhxA==
+X-Google-Smtp-Source: AGHT+IFOVAFE/3mSgxDg8r0BmeFffXjHPsKVAmnpzZGOR+G92xcuwjc1mM3+0AL59eOzOUdBtOOHBQ==
+X-Received: by 2002:a17:906:eb51:b0:a26:858b:b76e with SMTP id mc17-20020a170906eb5100b00a26858bb76emr831943ejb.105.1703257304630;
+        Fri, 22 Dec 2023 07:01:44 -0800 (PST)
 Received: from krzk-bin.. ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id h1-20020a17090791c100b00a26af35c171sm1275671ejz.0.2023.12.22.07.01.46
+        by smtp.gmail.com with ESMTPSA id h1-20020a17090791c100b00a26af35c171sm1275671ejz.0.2023.12.22.07.01.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 07:01:47 -0800 (PST)
+        Fri, 22 Dec 2023 07:01:44 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konrad.dybcio@linaro.org>,
@@ -63,9 +63,9 @@ To: Bjorn Andersson <andersson@kernel.org>,
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH 3/4] ASoC: dt-bindings: qcom,wsa8840: Add reset-gpios for shared line
-Date: Fri, 22 Dec 2023 16:01:32 +0100
-Message-Id: <20231222150133.732662-4-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/4] reset: instantiate reset GPIO controller for shared reset-gpios
+Date: Fri, 22 Dec 2023 16:01:30 +0100
+Message-Id: <20231222150133.732662-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org>
 References: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org>
@@ -77,55 +77,151 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On newer Qualcomm platforms, like X1E80100-CRD, the WSA884x speakers
-share SD_N GPIOs between two speakers, thus a coordinated assertion is
-needed.  Linux supports handling shared GPIO lines through "reset-gpios"
-property, thus allow specifying either powerdown or reset GPIOs (these
-are the same).
+Devices sharing a reset GPIO could use the reset framework for
+coordinated handling of that shared GPIO line.  We have several cases of
+such needs, at least for Devicetree-based platforms.
 
+If Devicetree-based device requests a reset line which is missing but
+there is a reset-gpios property, instantiate a new "reset-gpio" platform
+device which will handle such reset line.  This allows seamless handling
+of such shared reset-gpios without need of changing Devicetree binding [1].
+
+The "reset-gpio" driver follows shortly.
+
+Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/
 Cc: Bartosz Golaszewski <brgl@bgdev.pl>
 Cc: Sean Anderson <sean.anderson@seco.com>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
 ---
+ drivers/reset/core.c             | 70 +++++++++++++++++++++++++++-----
+ include/linux/reset-controller.h |  2 +
+ 2 files changed, 61 insertions(+), 11 deletions(-)
 
-If previous patches are fine, then this commit is independent and could
-be taken via ASoC.
----
- .../devicetree/bindings/sound/qcom,wsa8840.yaml          | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml
-index d717017b0fdb..4b4bcbeba9c1 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml
-@@ -28,6 +28,10 @@ properties:
-     description: Powerdown/Shutdown line to use (pin SD_N)
-     maxItems: 1
+diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+index 4d5a78d3c085..a1f0f515a7e0 100644
+--- a/drivers/reset/core.c
++++ b/drivers/reset/core.c
+@@ -10,9 +10,12 @@
+ #include <linux/export.h>
+ #include <linux/kernel.h>
+ #include <linux/kref.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/of_gpio.h>
+ #include <linux/acpi.h>
++#include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/reset-controller.h>
+ #include <linux/slab.h>
+@@ -813,13 +816,59 @@ static void __reset_control_put_internal(struct reset_control *rstc)
+ 	kref_put(&rstc->refcnt, __reset_control_release);
+ }
  
-+  reset-gpios:
-+    description: Powerdown/Shutdown line to use (pin SD_N)
-+    maxItems: 1
++static int __reset_add_reset_gpio_device(struct device_node *node,
++					 const struct gpio_desc **out)
++{
++	struct platform_device *pdev;
++	int gpio;
 +
-   '#sound-dai-cells':
-     const: 0
- 
-@@ -37,11 +41,14 @@ properties:
- required:
-   - compatible
-   - reg
--  - powerdown-gpios
-   - '#sound-dai-cells'
-   - vdd-1p8-supply
-   - vdd-io-supply
- 
-+oneOf:
-+  - powerdown-gpios
-+  - reset-gpios
++	/* Don't care about deprecated '-gpio' suffix. */
++	gpio = of_get_named_gpio(node, "reset-gpios", 0);
++	if (!gpio_is_valid(gpio))
++		return gpio;
 +
- unevaluatedProperties: false
++	pdev = platform_device_register_data(NULL, "reset-gpio",
++					     PLATFORM_DEVID_AUTO, &node,
++					     sizeof(node));
++	if (!IS_ERR(pdev))
++		*out = gpio_to_desc(gpio);
++
++	return PTR_ERR_OR_ZERO(pdev);
++}
++
++static struct reset_controller_dev *__reset_find_rcdev(const struct of_phandle_args *args,
++						       const void *cookie)
++{
++	struct reset_controller_dev *r, *rcdev;
++
++	lockdep_assert_held(&reset_list_mutex);
++
++	rcdev = NULL;
++	list_for_each_entry(r, &reset_controller_list, list) {
++		if (args && args->np) {
++			if (args->np == r->of_node) {
++				rcdev = r;
++				break;
++			}
++		} else if (cookie) {
++			if (cookie == r->cookie) {
++				rcdev = r;
++				break;
++			}
++		}
++	}
++
++	return rcdev;
++}
++
+ struct reset_control *
+ __of_reset_control_get(struct device_node *node, const char *id, int index,
+ 		       bool shared, bool optional, bool acquired)
+ {
++	const struct gpio_desc *gpio = NULL;
++	struct of_phandle_args args = {0};
+ 	struct reset_control *rstc;
+-	struct reset_controller_dev *r, *rcdev;
+-	struct of_phandle_args args;
++	struct reset_controller_dev *rcdev;
+ 	int rstc_id;
+ 	int ret;
  
- examples:
+@@ -839,17 +888,16 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
+ 					 index, &args);
+ 	if (ret == -EINVAL)
+ 		return ERR_PTR(ret);
+-	if (ret)
+-		return optional ? NULL : ERR_PTR(ret);
++	if (ret) {
++		ret = __reset_add_reset_gpio_device(node, &gpio);
++		if (ret)
++			return optional ? NULL : ERR_PTR(ret);
++
++		args.args_count = 1; /* reset-gpio has only one reset line */
++	}
+ 
+ 	mutex_lock(&reset_list_mutex);
+-	rcdev = NULL;
+-	list_for_each_entry(r, &reset_controller_list, list) {
+-		if (args.np == r->of_node) {
+-			rcdev = r;
+-			break;
+-		}
+-	}
++	rcdev = __reset_find_rcdev(&args, gpio);
+ 
+ 	if (!rcdev) {
+ 		rstc = ERR_PTR(-EPROBE_DEFER);
+diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
+index 0fa4f60e1186..c0a99a8ea29e 100644
+--- a/include/linux/reset-controller.h
++++ b/include/linux/reset-controller.h
+@@ -61,6 +61,7 @@ struct reset_control_lookup {
+  * @dev: corresponding driver model device struct
+  * @of_node: corresponding device tree node as phandle target
+  * @of_reset_n_cells: number of cells in reset line specifiers
++ * @cookie: for reset-gpios controllers: corresponding GPIO instead of of_node
+  * @of_xlate: translation function to translate from specifier as found in the
+  *            device tree to id as given to the reset control ops, defaults
+  *            to :c:func:`of_reset_simple_xlate`.
+@@ -74,6 +75,7 @@ struct reset_controller_dev {
+ 	struct device *dev;
+ 	struct device_node *of_node;
+ 	int of_reset_n_cells;
++	const void *cookie;
+ 	int (*of_xlate)(struct reset_controller_dev *rcdev,
+ 			const struct of_phandle_args *reset_spec);
+ 	unsigned int nr_resets;
 -- 
 2.34.1
 
