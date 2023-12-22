@@ -1,49 +1,49 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07D73306A
-	for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 15:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A3D23750
+	for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 15:17:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qyEfC4YF"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-55322dbabf6so2126683a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 07:09:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OIAuKHvA"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a1915034144so247366566b.0
+        for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 07:17:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703257761; x=1703862561; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1703258222; x=1703863022; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=klND5eviMWjqCFc2JRjl7wfCCC6ki6+noUjZExFi2BA=;
-        b=qyEfC4YFnzgX2Dc6rWGZVliQ+qzdPERjPo641cxfvI1eDWM8BVj1aKXUXmWucs6Pkm
-         tD1KawQNa6ENQwwUY2W5JaeltMytXlsXeS8mGrNMw2qDazW/gvEdj5H+b6bBJ37FT2dk
-         07Ioha7TC3wwqP7WAYq49Qn54wyPULk4E9+akJ5/jDRh0vaPR2eio2fyDakbhLmNekCY
-         Sop7v5qRq5GKlB8QN21UKuSuzd9Rz/nNMUfuQPmffNO2SzpBSVVCK/yjEHH57d/FjNT8
-         yqwjwFvn0PXU0D3QpM1c/SgF3LyzTOVEg3GIdbgJSPlhQ40cXtSkZcIGQz27M+jyt/ES
-         cxcA==
+        bh=8nbivf6JQ00DNNqOkZI3zn/7lSai7x6SkeaJzjc73tI=;
+        b=OIAuKHvAC8gJkYEaOFzWGN5GDhc0mWBmPnTiB1PaihA2ZZQisnDh8RyYqCx6kSXtlX
+         JWsepx2r3yl393fF/J78Vz747GJH+rtDsoPVWJm4qtJaFM+p9n0sZ15yGLhVYWleqvBi
+         dEzdxkEVV72usocwjtPikStBnaSqvXW5pKjOhHEWUHsacjZCpHN6rrARH+zkYw/vZnEi
+         n7bvxs1TpkpbEQ0hv2pS11Sc2Aa4AVlt7rZXZeQHaSmU9nFMWxN/Pi2qVf0zN4mqlO2Y
+         1ajmTzpVMIGx4gcrbvZQsb19XLC1CE55MT2s+Q3SkehjNhRMYYdkhnomO8mXiRd2zcXt
+         8CLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703257761; x=1703862561;
+        d=1e100.net; s=20230601; t=1703258222; x=1703863022;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=klND5eviMWjqCFc2JRjl7wfCCC6ki6+noUjZExFi2BA=;
-        b=Gnaxkf4Y+S8DekrZ14v7Px6MfVECxDV5etUjsUd8wcoLynxaUeKF9JKxIYYfwKggmU
-         G6bnFMDdOVFILxs4lCQnq7w1No8gLddLqUu0IZnElOyPRc3MEyV9/YFTIHhn2AolvAOl
-         4i3tR7qWhezrNHwBUgU8yheOSYtgsVIW2DMxUU9t2CzcOsJKSJFTgs9AMBR1uDGV5n3G
-         aWrT22SAQ1+X4Na5/r4cxZJVux6o8+BgEKpCREe7kawVcmwtRzD35m3CSZhQgRKO/xxH
-         ETwCpNxy2qZ2wbBsUR6IHoP2mtdFk1MM+jNt5b/rl35/1mCBmJTtp1eANQbucs+uXt5P
-         sA1g==
-X-Gm-Message-State: AOJu0Yy+W5nmr9sobbNTWgbK1lg7eIPdJr7joCX3b1v7D9cbJxLif7bV
-	cVVWeFz8QomlTuRq7E5NM0fXszOCGwbXlw==
-X-Google-Smtp-Source: AGHT+IE7ej6Twp4tGUiwq63QuEa+hvJMZkS7XMiI1DP0rx0M9RtceR1+vN2dE+tV/G2HjTzHykPm6g==
-X-Received: by 2002:a50:8d12:0:b0:553:2294:8170 with SMTP id s18-20020a508d12000000b0055322948170mr746312eds.11.1703257761123;
-        Fri, 22 Dec 2023 07:09:21 -0800 (PST)
+        bh=8nbivf6JQ00DNNqOkZI3zn/7lSai7x6SkeaJzjc73tI=;
+        b=F4P/0mc+isqGJ5GmHDiX1bgoV5XGrrw4O7wxQVQf13bzBTjLDFw/3skmV0j3/kp/PE
+         zL0xMwA5F/q9Xc/mfaZ0RKDZ3bOI2tsbdBd7Wk3RBLYUnYkKy5zNNkw6q4Pv9/BDAmBI
+         9pMj0Kwbu79BIRGcULabt6MMyfGJqGwiJymEQgrvRGNhy9jwb85WydueoyS/acJ7asGv
+         NVUTeOjF9xNwq5FTI5Txv/A/c5cvNihwpYhss/VtZ/tALnfwzAylRKirGKBJ1NpfZe+x
+         1ZT8FFBwpZGNegRBasehzyMy4EPn1aqxoYmOAYYQsb1EVn+gP9qKcuYRlze7RgRCB7fh
+         u4FQ==
+X-Gm-Message-State: AOJu0YzrDJ17hBZ8KSioYf14zxEHoEg4UMXHpcN6HXle5A4U2EtWp0Dl
+	xQwButqoToeKo8r/HEnKx1eSiLjml5N5rw==
+X-Google-Smtp-Source: AGHT+IG1N+vqCddcisCWaN5C4p3czVlmpXft3RrjQw2Kxyv7hs5Jfh3fxYlpjupeXFIdGLawZgbc5Q==
+X-Received: by 2002:a17:906:da:b0:a26:bf53:db0e with SMTP id 26-20020a17090600da00b00a26bf53db0emr515411eji.80.1703258222100;
+        Fri, 22 Dec 2023 07:17:02 -0800 (PST)
 Received: from [192.168.0.22] ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id ek19-20020a056402371300b0055383eb043csm2668141edb.56.2023.12.22.07.09.19
+        by smtp.gmail.com with ESMTPSA id j16-20020a170906051000b00a2304386f4bsm2125111eja.211.2023.12.22.07.17.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Dec 2023 07:09:20 -0800 (PST)
-Message-ID: <89256009-3c97-4a8a-8ea6-3d3bfa800fce@linaro.org>
-Date: Fri, 22 Dec 2023 16:09:19 +0100
+        Fri, 22 Dec 2023 07:17:01 -0800 (PST)
+Message-ID: <3cb40729-df3e-4427-8f11-55d449e41664@linaro.org>
+Date: Fri, 22 Dec 2023 16:16:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,11 +51,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] reset: gpio: ASoC: shared GPIO resets
+Subject: Re: [PATCH 3/4] ASoC: dt-bindings: qcom,wsa8840: Add reset-gpios for
+ shared line
 Content-Language: en-US
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Bjorn Andersson <andersson@kernel.org>,
+To: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -65,8 +64,11 @@ Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sean Anderson <sean.anderson@seco.com>
+ linux-kernel@vger.kernel.org
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Sean Anderson <sean.anderson@seco.com>
 References: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org>
+ <20231222150133.732662-4-krzysztof.kozlowski@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -112,20 +114,30 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231222150133.732662-4-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 22/12/2023 16:01, Krzysztof Kozlowski wrote:
-> Hi,
-> 
-> We have at least few cases where hardware engineers decided to use one
-> powerdown/shutdown/reset GPIO line for multiple devices:
-> 
+> @@ -37,11 +41,14 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - powerdown-gpios
+>    - '#sound-dai-cells'
+>    - vdd-1p8-supply
+>    - vdd-io-supply
+>  
+> +oneOf:
+> +  - powerdown-gpios
+> +  - reset-gpios
 
-Bartosz,
-Please kindly provide feedback whether my way of using "struct
-gpio_desc" to compare cookies is acceptable.
+And this obviously was not tested, so Krzysztof:
+
+It does not look like you tested the bindings, at least after quick
+look. Please run `make dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Maybe you need to update your dtschema and yamllint.
 
 Best regards,
 Krzysztof
