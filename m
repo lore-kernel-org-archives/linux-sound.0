@@ -1,349 +1,268 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB1428E13;
-	Fri, 22 Dec 2023 17:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97A228DBE
+	for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 17:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBDhPyyn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703264942; x=1734800942;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=jrbK3JxBO1NzBg6D2UAI0w9iU17c+JQnpCe0XS7kc6Y=;
-  b=nBDhPyynnvh/QOLBnUOsFkwXnbV0K/yfYMiyFLhsyprgYWmGmvBaXOCQ
-   DhuzgC0fvlq/10ZaFLb+F7lI6Lz+PieKLVAwOpvzWlzRv0svPV1qVQA/T
-   T/b5KPfkNcR18TsVScl8SjznaI5CvSryXe7Iy4PoGJAi3mzHxA2j48zTr
-   J30r8SaSKzvBpRkaeFUoS4xnjTq+0il6k8f6Y/7PaSKBGq0RPuJcjVzNk
-   ZH2ODrSpT2i9SGUlJ57Jkc0cikEHQ0yEjl+21maIaA83bxFGKMVLfJw74
-   H5pLUDHC0sJqGfqOm2aybltdrS10IklHy+odueATPg4N3Toz8QkWE+256
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="9536686"
-X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="9536686"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 09:09:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1108514958"
-X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="1108514958"
-Received: from kambika-mobl1.amr.corp.intel.com (HELO vcostago-mobl3) ([10.209.152.51])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 09:08:54 -0800
-From: Vinicius Costa Gomes <vinicius.gomes@intel.com>
-To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, jstultz@google.com,
- giometti@enneenne.com, corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com,
- jesse.brandeburg@intel.com, davem@davemloft.net,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
- anthony.l.nguyen@intel.com, pandith.n@intel.com,
- mallikarjunappa.sangannavar@intel.com, thejesh.reddy.t.r@intel.com,
- lakshmi.sowjanya.d@intel.com
-Subject: Re: [RFC PATCH v2 01/10] x86/tsc: Add base clock properties in
- clocksource structure
-In-Reply-To: <20231221093254.9599-2-lakshmi.sowjanya.d@intel.com>
-References: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
- <20231221093254.9599-2-lakshmi.sowjanya.d@intel.com>
-Date: Fri, 22 Dec 2023 14:08:51 -0300
-Message-ID: <87v88qjhb0.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="EyUOgtLV"
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-7cb6386a5ffso403241241.3
+        for <linux-sound@vger.kernel.org>; Fri, 22 Dec 2023 09:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1703266276; x=1703871076; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nNBg0y+Bd68VL0xW77WB7jMSRPSja3ZQujiu0gSBfM4=;
+        b=EyUOgtLVQisnCM5EAaMnDjLwyWrE7bAGR9sgsQy/yvKJVSHibwXDdRfUGmLDgDqeuD
+         qIqs8DdwPGiza/x/qTb4iLU+nRARbnKfbm8vowXdhkQxDo1rjQCYjFQCroUt2UYB3vJW
+         CRkTjHMWGfn1HxOlFB6XvXwNlrZWyH3NZ8i76Is/kJP4cd2rAvd8Xc6xtGpmHgPElF3u
+         l1ibA7aayUrPPCC0O0q6e0nxyNBr0s8G3arEPYHIUxoOSSOfSW25yk9AoseXwtBwbQVO
+         uQkrwAJcelIrhokcDc9fW0RFiVmP8+FsMSqgEacY0kAXW5+IGTFH/bhAV1V6XZtGfAsX
+         iv+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703266276; x=1703871076;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nNBg0y+Bd68VL0xW77WB7jMSRPSja3ZQujiu0gSBfM4=;
+        b=fo/5KRGR10a8qeQTc0AJ88cIeYcf6dvgo1swvhiekYnXZMhcK6cxbg1Q99yyxEetRf
+         sGUEuDW67rPCkrk5yjIhSB4DRLYN60iR4VgfUM86ljDJ14BOH5gIXPiCi1WL1t9uUP0i
+         xkHYJ57det5kUNsfni4mpPkFrG20q2BpDT77nMtsvAJnvTRz5gbC9D0BzOFtVe7CoZu3
+         sePp7GoWw7lhf1HsaBYMfm0+Pi0oX4IHibZnpEOal/my6768FKSr6o4RbaQC3jQB6v5C
+         rFsOSYMUzIvdEgj3KjM8I0PY7wibKo5BFvzc0EgEJBSVtN/m/xZfWGYLM9t/sSdmHUpc
+         dhXA==
+X-Gm-Message-State: AOJu0YwTQ/gufhpEuYOdW/wrfSIlf4IVeDvxzs+7cyvKAHAuYIssd3/l
+	2Mn1oIBXyile+IBjkW7Rslc1JPlYemVKS/LIW0eplbijkKz1CQ==
+X-Google-Smtp-Source: AGHT+IGqLB66JX2gzTB1urxa7lDtLfALa1+ydylvLoLSgnxVdq2TDvAEO7RX0xIhIqnPbSyiHZDZBoecmHefDqpDxl0=
+X-Received: by 2002:a05:6122:3bc3:b0:4b6:c5ae:26cc with SMTP id
+ ft3-20020a0561223bc300b004b6c5ae26ccmr719754vkb.14.1703266275645; Fri, 22 Dec
+ 2023 09:31:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org> <20231222150133.732662-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231222150133.732662-2-krzysztof.kozlowski@linaro.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 22 Dec 2023 18:31:04 +0100
+Message-ID: <CAMRc=MdYPuW8C_+EAY4UTCjqNggx6RAkp9OmLU-hRxjZNRQRHw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] reset: instantiate reset GPIO controller for shared reset-gpios
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Sean Anderson <sean.anderson@seco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-lakshmi.sowjanya.d@intel.com writes:
-
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Fri, Dec 22, 2023 at 4:01=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> Remove convert_art_to_tsc() and convert_art_ns_to_tsc(), as this patch
-> series introduces a generic function ktime_real_to_base_clock() to
-> convert realtime to base clock domain.
+> Devices sharing a reset GPIO could use the reset framework for
+> coordinated handling of that shared GPIO line.  We have several cases of
+> such needs, at least for Devicetree-based platforms.
 >
-> Add hardware abstraction, struct clocksource_base in clocksource.
+> If Devicetree-based device requests a reset line which is missing but
+> there is a reset-gpios property, instantiate a new "reset-gpio" platform
+> device which will handle such reset line.  This allows seamless handling
+> of such shared reset-gpios without need of changing Devicetree binding [1=
+].
 >
-> Add clocksource ID for x86 ART(Always Running Timer).
+> The "reset-gpio" driver follows shortly.
 >
-> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Co-developed-by: Christopher S. Hall <christopher.s.hall@intel.com>
-> Signed-off-by: Christopher S. Hall <christopher.s.hall@intel.com>
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
-
-This patch is breaking compilation. I guess it needs to be split into
-two.
-
-You are removing functions that drivers are using. You have to convert
-the drivers to the new abstractions, and only after all in-tree users
-are converted you remove the old functions.
-
->  arch/x86/include/asm/tsc.h      |  3 --
->  arch/x86/kernel/tsc.c           | 94 +++++++--------------------------
->  include/linux/clocksource.h     | 27 ++++++++++
->  include/linux/clocksource_ids.h |  1 +
->  4 files changed, 47 insertions(+), 78 deletions(-)
+>  drivers/reset/core.c             | 70 +++++++++++++++++++++++++++-----
+>  include/linux/reset-controller.h |  2 +
+>  2 files changed, 61 insertions(+), 11 deletions(-)
 >
-> diff --git a/arch/x86/include/asm/tsc.h b/arch/x86/include/asm/tsc.h
-> index 594fce0ca744..5e36495cc821 100644
-> --- a/arch/x86/include/asm/tsc.h
-> +++ b/arch/x86/include/asm/tsc.h
-> @@ -27,9 +27,6 @@ static inline cycles_t get_cycles(void)
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index 4d5a78d3c085..a1f0f515a7e0 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -10,9 +10,12 @@
+>  #include <linux/export.h>
+>  #include <linux/kernel.h>
+>  #include <linux/kref.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_gpio.h>
+>  #include <linux/acpi.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/reset.h>
+>  #include <linux/reset-controller.h>
+>  #include <linux/slab.h>
+> @@ -813,13 +816,59 @@ static void __reset_control_put_internal(struct res=
+et_control *rstc)
+>         kref_put(&rstc->refcnt, __reset_control_release);
 >  }
->  #define get_cycles get_cycles
->  
-> -extern struct system_counterval_t convert_art_to_tsc(u64 art);
-> -extern struct system_counterval_t convert_art_ns_to_tsc(u64 art_ns);
-> -
->  extern void tsc_early_init(void);
->  extern void tsc_init(void);
->  extern void mark_tsc_unstable(char *reason);
-> diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-> index 868f09966b0f..b45ce594cfef 100644
-> --- a/arch/x86/kernel/tsc.c
-> +++ b/arch/x86/kernel/tsc.c
-> @@ -51,9 +51,9 @@ int tsc_clocksource_reliable;
->  
->  static int __read_mostly tsc_force_recalibrate;
->  
-> -static u32 art_to_tsc_numerator;
-> -static u32 art_to_tsc_denominator;
-> -static u64 art_to_tsc_offset;
-> +static struct clocksource_base art_base_clk = {
-> +	.id    = CSID_X86_ART,
-> +};
->  static bool have_art;
->  
->  struct cyc2ns {
-> @@ -1075,7 +1075,7 @@ core_initcall(cpufreq_register_tsc_scaling);
->   */
->  static void __init detect_art(void)
->  {
-> -	unsigned int unused[2];
-> +	unsigned int unused;
->  
->  	if (boot_cpu_data.cpuid_level < ART_CPUID_LEAF)
->  		return;
-> @@ -1090,13 +1090,14 @@ static void __init detect_art(void)
->  	    tsc_async_resets)
->  		return;
->  
-> -	cpuid(ART_CPUID_LEAF, &art_to_tsc_denominator,
-> -	      &art_to_tsc_numerator, unused, unused+1);
-> +	cpuid(ART_CPUID_LEAF, &art_base_clk.denominator,
-> +		&art_base_clk.numerator, &art_base_clk.freq_khz, &unused);
->  
-> -	if (art_to_tsc_denominator < ART_MIN_DENOMINATOR)
-> +	art_base_clk.freq_khz /= KHZ;
-> +	if (art_base_clk.denominator < ART_MIN_DENOMINATOR)
->  		return;
->  
-> -	rdmsrl(MSR_IA32_TSC_ADJUST, art_to_tsc_offset);
-> +	rdmsrl(MSR_IA32_TSC_ADJUST, art_base_clk.offset);
->  
->  	/* Make this sticky over multiple CPU init calls */
->  	setup_force_cpu_cap(X86_FEATURE_ART);
-> @@ -1297,69 +1298,6 @@ int unsynchronized_tsc(void)
->  	return 0;
->  }
->  
-> -/*
-> - * Convert ART to TSC given numerator/denominator found in detect_art()
-> - */
-> -struct system_counterval_t convert_art_to_tsc(u64 art)
-> -{
-> -	u64 tmp, res, rem;
-> -
-> -	rem = do_div(art, art_to_tsc_denominator);
-> -
-> -	res = art * art_to_tsc_numerator;
-> -	tmp = rem * art_to_tsc_numerator;
-> -
-> -	do_div(tmp, art_to_tsc_denominator);
-> -	res += tmp + art_to_tsc_offset;
-> -
-> -	return (struct system_counterval_t) {
-> -		.cs_id = have_art ? CSID_X86_TSC : CSID_GENERIC,
-> -		.cycles = res
-> -	};
-> -}
-> -EXPORT_SYMBOL(convert_art_to_tsc);
-> -
-> -/**
-> - * convert_art_ns_to_tsc() - Convert ART in nanoseconds to TSC.
-> - * @art_ns: ART (Always Running Timer) in unit of nanoseconds
-> - *
-> - * PTM requires all timestamps to be in units of nanoseconds. When user
-> - * software requests a cross-timestamp, this function converts system timestamp
-> - * to TSC.
-> - *
-> - * This is valid when CPU feature flag X86_FEATURE_TSC_KNOWN_FREQ is set
-> - * indicating the tsc_khz is derived from CPUID[15H]. Drivers should check
-> - * that this flag is set before conversion to TSC is attempted.
-> - *
-> - * Return:
-> - * struct system_counterval_t - system counter value with the ID of the
-> - *	corresponding clocksource
-> - *	@cycles:	System counter value
-> - *	@cs_id:		Clocksource ID corresponding to system counter value.
-> - *			Used by timekeeping code to verify comparability of two
-> - *			cycle values.
-> - */
-> -
-> -struct system_counterval_t convert_art_ns_to_tsc(u64 art_ns)
-> -{
-> -	u64 tmp, res, rem;
-> -
-> -	rem = do_div(art_ns, USEC_PER_SEC);
-> -
-> -	res = art_ns * tsc_khz;
-> -	tmp = rem * tsc_khz;
-> -
-> -	do_div(tmp, USEC_PER_SEC);
-> -	res += tmp;
-> -
-> -	return (struct system_counterval_t) {
-> -		.cs_id = have_art ? CSID_X86_TSC : CSID_GENERIC,
-> -		.cycles = res
-> -	};
-> -}
-> -EXPORT_SYMBOL(convert_art_ns_to_tsc);
-> -
-> -
->  static void tsc_refine_calibration_work(struct work_struct *work);
->  static DECLARE_DELAYED_WORK(tsc_irqwork, tsc_refine_calibration_work);
->  /**
-> @@ -1461,8 +1399,10 @@ static void tsc_refine_calibration_work(struct work_struct *work)
->  	if (tsc_unstable)
->  		goto unreg;
->  
-> -	if (boot_cpu_has(X86_FEATURE_ART))
-> +	if (boot_cpu_has(X86_FEATURE_ART)) {
->  		have_art = true;
-> +		clocksource_tsc.base = &art_base_clk;
-> +	}
->  	clocksource_register_khz(&clocksource_tsc, tsc_khz);
->  unreg:
->  	clocksource_unregister(&clocksource_tsc_early);
-> @@ -1487,8 +1427,10 @@ static int __init init_tsc_clocksource(void)
->  	 * the refined calibration and directly register it as a clocksource.
->  	 */
->  	if (boot_cpu_has(X86_FEATURE_TSC_KNOWN_FREQ)) {
-> -		if (boot_cpu_has(X86_FEATURE_ART))
-> +		if (boot_cpu_has(X86_FEATURE_ART)) {
->  			have_art = true;
-> +			clocksource_tsc.base = &art_base_clk;
-> +		}
->  		clocksource_register_khz(&clocksource_tsc, tsc_khz);
->  		clocksource_unregister(&clocksource_tsc_early);
->  
-> @@ -1512,10 +1454,12 @@ static bool __init determine_cpu_tsc_frequencies(bool early)
->  
->  	if (early) {
->  		cpu_khz = x86_platform.calibrate_cpu();
-> -		if (tsc_early_khz)
-> +		if (tsc_early_khz) {
->  			tsc_khz = tsc_early_khz;
-> -		else
-> +		} else {
->  			tsc_khz = x86_platform.calibrate_tsc();
-> +			clocksource_tsc.freq_khz = tsc_khz;
-> +		}
->  	} else {
->  		/* We should not be here with non-native cpu calibration */
->  		WARN_ON(x86_platform.calibrate_cpu != native_calibrate_cpu);
-> diff --git a/include/linux/clocksource.h b/include/linux/clocksource.h
-> index 1d42d4b17327..0a1110a0e660 100644
-> --- a/include/linux/clocksource.h
-> +++ b/include/linux/clocksource.h
-> @@ -21,6 +21,7 @@
->  #include <asm/div64.h>
->  #include <asm/io.h>
->  
-> +struct clocksource_base;
->  struct clocksource;
->  struct module;
->  
-> @@ -48,6 +49,7 @@ struct module;
->   * @archdata:		Optional arch-specific data
->   * @max_cycles:		Maximum safe cycle value which won't overflow on
->   *			multiplication
-> + * @freq_khz:		Clocksource frequency in khz.
->   * @name:		Pointer to clocksource name
->   * @list:		List head for registration (internal)
->   * @rating:		Rating value for selection (higher is better)
-> @@ -70,6 +72,8 @@ struct module;
->   *			validate the clocksource from which the snapshot was
->   *			taken.
->   * @flags:		Flags describing special properties
-> + * @base:		Hardware abstraction for clock on which a clocksource
-> + *			is based
->   * @enable:		Optional function to enable the clocksource
->   * @disable:		Optional function to disable the clocksource
->   * @suspend:		Optional suspend function for the clocksource
-> @@ -105,12 +109,14 @@ struct clocksource {
->  	struct arch_clocksource_data archdata;
->  #endif
->  	u64			max_cycles;
-> +	u32			freq_khz;
->  	const char		*name;
->  	struct list_head	list;
->  	int			rating;
->  	enum clocksource_ids	id;
->  	enum vdso_clock_mode	vdso_clock_mode;
->  	unsigned long		flags;
-> +	struct clocksource_base *base;
->  
->  	int			(*enable)(struct clocksource *cs);
->  	void			(*disable)(struct clocksource *cs);
-> @@ -294,4 +300,25 @@ static inline void timer_probe(void) {}
->  extern ulong max_cswd_read_retries;
->  void clocksource_verify_percpu(struct clocksource *cs);
->  
-> +/**
-> + * struct clocksource_base - hardware abstraction for clock on which a clocksource
-> + *			is based
-> + * @id:			Defaults to CSID_GENERIC. The id value is used for conversion
-> + *			functions which require that the current clocksource is based
-> + *			on a clocksource_base with a particular ID in certain snapshot
-> + *			functions to allow callers to validate the clocksource from
-> + *			which the snapshot was taken.
-> + * @freq_khz:		Nominal frequency of the base clock in kHz
-> + * @offset:		Offset between the base clock and the clocksource
-> + * @numerator:		Numerator of the clock ratio between base clock and the clocksource
-> + * @denominator:	Denominator of the clock ratio between base clock and the clocksource
-> + */
-> +struct clocksource_base {
-> +	enum clocksource_ids	id;
-> +	u32			freq_khz;
-> +	u64			offset;
-> +	u32			numerator;
-> +	u32			denominator;
-> +};
+>
+> +static int __reset_add_reset_gpio_device(struct device_node *node,
+> +                                        const struct gpio_desc **out)
+> +{
+> +       struct platform_device *pdev;
+> +       int gpio;
 > +
->  #endif /* _LINUX_CLOCKSOURCE_H */
-> diff --git a/include/linux/clocksource_ids.h b/include/linux/clocksource_ids.h
-> index a4fa3436940c..2bb4d8c2f1b0 100644
-> --- a/include/linux/clocksource_ids.h
-> +++ b/include/linux/clocksource_ids.h
-> @@ -9,6 +9,7 @@ enum clocksource_ids {
->  	CSID_X86_TSC_EARLY,
->  	CSID_X86_TSC,
->  	CSID_X86_KVM_CLK,
-> +	CSID_X86_ART,
->  	CSID_MAX,
->  };
->  
-> -- 
-> 2.35.3
+> +       /* Don't care about deprecated '-gpio' suffix. */
+> +       gpio =3D of_get_named_gpio(node, "reset-gpios", 0);
+
+Sorry but NAK. This is a legacy API, we've managed to remove all of_
+GPIO interfaces but this one. Please don't use it. Any function that
+deals with the global GPIO numberspace is deprecated. See below how I
+would approach it.
+
+Side note: do we have any formal way of deprecating interfaces in the kerne=
+l?
+
+> +       if (!gpio_is_valid(gpio))
+> +               return gpio;
+> +
+> +       pdev =3D platform_device_register_data(NULL, "reset-gpio",
+> +                                            PLATFORM_DEVID_AUTO, &node,
+> +                                            sizeof(node));
+
+You seem to make an assumption (in __reset_find_rcdev()) that this
+device will get bound to its driver before this function returns.
+There is no such guarantee. There are many situations where this may
+not happen immediately (think loading the reset-gpio driver as a
+module from the filesystem). You should set up a notifier callback on
+the platform bus that will get invoked on bus events and wait for this
+device's BUS_NOTIFY_BOUND_DRIVER event.
+
+> +       if (!IS_ERR(pdev))
+> +               *out =3D gpio_to_desc(gpio);
+> +
+> +       return PTR_ERR_OR_ZERO(pdev);
+> +}
+> +
+> +static struct reset_controller_dev *__reset_find_rcdev(const struct of_p=
+handle_args *args,
+> +                                                      const void *cookie=
+)
+> +{
+> +       struct reset_controller_dev *r, *rcdev;
+> +
+> +       lockdep_assert_held(&reset_list_mutex);
+> +
+> +       rcdev =3D NULL;
+> +       list_for_each_entry(r, &reset_controller_list, list) {
+> +               if (args && args->np) {
+> +                       if (args->np =3D=3D r->of_node) {
+> +                               rcdev =3D r;
+> +                               break;
+> +                       }
+> +               } else if (cookie) {
+> +                       if (cookie =3D=3D r->cookie) {
+
+As I said in private: there's no guarantee that the same GPIO
+descriptor will always reference the same GPIO line. It happens to be
+the case currently but it's an implementation detail.
+
+> +                               rcdev =3D r;
+> +                               break;
+> +                       }
+> +               }
+> +       }
+> +
+> +       return rcdev;
+> +}
+> +
+>  struct reset_control *
+>  __of_reset_control_get(struct device_node *node, const char *id, int ind=
+ex,
+>                        bool shared, bool optional, bool acquired)
+>  {
+> +       const struct gpio_desc *gpio =3D NULL;
+> +       struct of_phandle_args args =3D {0};
+>         struct reset_control *rstc;
+> -       struct reset_controller_dev *r, *rcdev;
+> -       struct of_phandle_args args;
+> +       struct reset_controller_dev *rcdev;
+>         int rstc_id;
+>         int ret;
 >
+> @@ -839,17 +888,16 @@ __of_reset_control_get(struct device_node *node, co=
+nst char *id, int index,
+>                                          index, &args);
+>         if (ret =3D=3D -EINVAL)
+>                 return ERR_PTR(ret);
+> -       if (ret)
+> -               return optional ? NULL : ERR_PTR(ret);
+> +       if (ret) {
+> +               ret =3D __reset_add_reset_gpio_device(node, &gpio);
+> +               if (ret)
+> +                       return optional ? NULL : ERR_PTR(ret);
+> +
+> +               args.args_count =3D 1; /* reset-gpio has only one reset l=
+ine */
+> +       }
+>
+>         mutex_lock(&reset_list_mutex);
+> -       rcdev =3D NULL;
+> -       list_for_each_entry(r, &reset_controller_list, list) {
+> -               if (args.np =3D=3D r->of_node) {
+> -                       rcdev =3D r;
+> -                       break;
+> -               }
+> -       }
+> +       rcdev =3D __reset_find_rcdev(&args, gpio);
+>
+>         if (!rcdev) {
+>                 rstc =3D ERR_PTR(-EPROBE_DEFER);
+> diff --git a/include/linux/reset-controller.h b/include/linux/reset-contr=
+oller.h
+> index 0fa4f60e1186..c0a99a8ea29e 100644
+> --- a/include/linux/reset-controller.h
+> +++ b/include/linux/reset-controller.h
+> @@ -61,6 +61,7 @@ struct reset_control_lookup {
+>   * @dev: corresponding driver model device struct
+>   * @of_node: corresponding device tree node as phandle target
+>   * @of_reset_n_cells: number of cells in reset line specifiers
+> + * @cookie: for reset-gpios controllers: corresponding GPIO instead of o=
+f_node
+>   * @of_xlate: translation function to translate from specifier as found =
+in the
+>   *            device tree to id as given to the reset control ops, defau=
+lts
+>   *            to :c:func:`of_reset_simple_xlate`.
+> @@ -74,6 +75,7 @@ struct reset_controller_dev {
+>         struct device *dev;
+>         struct device_node *of_node;
+>         int of_reset_n_cells;
+> +       const void *cookie;
+>         int (*of_xlate)(struct reset_controller_dev *rcdev,
+>                         const struct of_phandle_args *reset_spec);
+>         unsigned int nr_resets;
+> --
+> 2.34.1
 >
 
--- 
-Vinicius
+I dislike this approach entirely. Here's what I would do:
+
+In the reset core: parse the phandle of the reset-gpios property. Use
+the resulting node with gpio_device_find_by_fwnode(). If the device is
+not up yet, defer probe. You'll now have the GPIO device object.
+Retrieve its label using gpio_device_get_label(). Now you should have
+everything you need (the offset and flags of the GPIO you'll get from
+__of_parse_phandle_with_args()) to set up the lookup tables. See
+include/linux/gpio/machine.h. An example of that would be in:
+bcm2835_spi_setup() in drivers/spi/spi-bcm2835.c.
+
+Then with a lookup table in place, you instantiate your device and
+it'll get its GPIO as it should. This is not ideal but much better
+than the above.
+
+Bartosz
