@@ -1,106 +1,90 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F0E11704;
-	Fri, 22 Dec 2023 10:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id 69C3B24E2E1;
-	Fri, 22 Dec 2023 18:04:30 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 22 Dec
- 2023 18:04:30 +0800
-Received: from [192.168.125.131] (113.72.145.47) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 22 Dec
- 2023 18:04:29 +0800
-Message-ID: <20c29117-2e4c-49c6-a90f-27ec507914ff@starfivetech.com>
-Date: Fri, 22 Dec 2023 17:56:07 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC4218038;
+	Fri, 22 Dec 2023 12:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7EACPxm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717BDC433C7;
+	Fri, 22 Dec 2023 12:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703248764;
+	bh=hFpzxk40jH07vGKrSWCqaia7hpuI2qY6e5LSmvyVvOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n7EACPxmrhepNnSpfUi/hpy99QHH46fkH104/LL0i/e0xDl6pmzSOyXZqJGaddhO5
+	 X0rcGrRR8vwmhv5hQ7EyC4Sl31McB+4U0a1GFTRKk/uQqgvDTvLiByHtLhUiONmEiN
+	 3CnYA17jsiTlkt887S2xZ3TnhMbDe8YfMLwymyvJOMXjNBwgkiFBQ1ZuGv2eU3W4Nc
+	 xS0i0nK0W9ER42wPLBv+d2haszXYzknS7yb6Wj+bzc/LYWv/HN2iGvkYKXRygYqQDO
+	 PfItA4SHCY6MrY6UcVkHXPIzybmKFMKy2JWmwbeWXRUeatozcvl/iETpm29WLVI7On
+	 8NP4URUVPKl5Q==
+Date: Fri, 22 Dec 2023 12:39:18 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Xingyu Wu <xingyu.wu@starfivetech.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Walker Chen <walker.chen@starfivetech.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence
+ Multi-Channel I2S Controller
+Message-ID: <27155281-573c-493d-96fe-1f28ebb0ce5e@sirena.org.uk>
+References: <20231221033223.73201-1-xingyu.wu@starfivetech.com>
+ <20231221033223.73201-3-xingyu.wu@starfivetech.com>
+ <861f9b28-863d-48b0-8491-add4a286597e@sirena.org.uk>
+ <c94b377a-1e21-4361-ae82-ca84d1dce60a@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: ASoC: Add Cadence I2S controller for
- StarFive JH8100 SoC
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Claudiu Beznea
-	<Claudiu.Beznea@microchip.com>, Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor.dooley@microchip.com>
-CC: Walker Chen <walker.chen@starfivetech.com>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>
-References: <20231221033223.73201-1-xingyu.wu@starfivetech.com>
- <20231221033223.73201-2-xingyu.wu@starfivetech.com>
- <2e74c513-40de-41b7-ba86-c5b345344ce4@linaro.org>
-From: Xingyu Wu <xingyu.wu@starfivetech.com>
-In-Reply-To: <2e74c513-40de-41b7-ba86-c5b345344ce4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GXw0TGVqm50qN3Wu"
+Content-Disposition: inline
+In-Reply-To: <c94b377a-1e21-4361-ae82-ca84d1dce60a@starfivetech.com>
+X-Cookie: Familiarity breeds attempt.
 
-On 2023/12/22 0:07, Krzysztof Kozlowski wrote:
-> On 21/12/2023 04:32, Xingyu Wu wrote:
->> +  dma-names:
->> +    items:
->> +      - const: tx
->> +      - const: rx
->> +    minItems: 1
->> +
->> +  cdns,i2s-max-channels:
-> 
-> Custom properties after generic, so after sound-dai-cells. The coding
-> style now mentions this.
-> 
 
-Noted.
+--GXw0TGVqm50qN3Wu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
->> +    description: |
->> +      Number of I2S max stereo channels supported by the hardware.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    minimum: 1
->> +    maximum: 8
->> +
->> +  "#sound-dai-cells":
->> +    const: 0
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +
->> +oneOf:
->> +  - required:
->> +      - dmas
->> +      - dma-names
->> +  - required:
->> +      - interrupts
->> +
->> +unevaluatedProperties: false
-> 
-> This is not correct without allOf: which should point you to missing
-> $ref to dai-common.
+On Fri, Dec 22, 2023 at 05:11:17PM +0800, Xingyu Wu wrote:
+> On 2023/12/21 20:55, Mark Brown wrote:
+> > On Thu, Dec 21, 2023 at 11:32:23AM +0800, Xingyu Wu wrote:
 
-Will fix.
+> >>  sound/soc/starfive/cdns-jh8100-i2s-pcm.c | 262 ++++++++
+> >>  sound/soc/starfive/cdns-jh8100-i2s.c     | 727 +++++++++++++++++++++++
+> >>  sound/soc/starfive/cdns-jh8100-i2s.h     | 171 ++++++
 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+> > If this is a Cadence IP why is the entire driver SoC specific?
 
-Thanks,
-Xingyu Wu
+> This a new driver about this Cadence I2S controller. Should I create a new folder and file like this:
 
+> sound/soc/cdns/cdns-i2s*
+
+> and I use different compatible to support other SoC like JH8100?
+
+Yes, that seems more what I'd expect - with a fallback compatible for
+things that don't need any special quirks.
+
+--GXw0TGVqm50qN3Wu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWFg3UACgkQJNaLcl1U
+h9DNPQf/Rl6ymRLUqxntVfRZKh7LXfMrl/p7IFbdJ3TL1Va26hUGWaxLaDYFOn0l
+eRZ3lJIhJzHDrMG5JHhKlHZtW8MkIc4rjiwMgnbeyuKAVYdXLmmKLEEj2vPCeM7P
+SqVOUSUEWTRl3WU7t1sOZF97OLaG/MXZY7toq0a3Rgbs83HLbBHfPFIbHEvVw4+P
+HQ0ZQBDfXGTVhwcihfQnDutiMNAjcwYJ4SvgEkLxaEovAEvbbUcJQG45Z8UWHz/r
+vh3cAf9wUAbywvC2PA6o9TzinDnijr/gqLDZ8ZES41LK9ixmYTWFER21atmgFT3O
+K/OhReCSQA/+/qK0INKuAIgDYp0Mxw==
+=J5Oy
+-----END PGP SIGNATURE-----
+
+--GXw0TGVqm50qN3Wu--
