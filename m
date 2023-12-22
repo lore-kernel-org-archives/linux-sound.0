@@ -1,28 +1,23 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3001FECE;
-	Fri, 22 Dec 2023 03:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="adaZShO4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Q6NjPgYJQtSodOzthdhnA37trDHql/uqNpeL2NkABuU=; b=adaZShO4wEcL4qF2GJqtyMR7Gt
-	Pm80sELUqhpf2d84fpt+taz4yQk7scuc4qKRMns6INFV0iFG+R63LMpi3zOAayxqZFD7rqGH0h0YZ
-	RUGYYkrDh4YtHObEFdLByHqIPPcNeMC8DdIuYzin7qpB5nPXHmPWJNGq4NXM8ksNKwHiPEh9rAJq+
-	g7d1gmeyNXT45W20wrg7R/ipvtoLVnavfbRYiMkAMYkWuv/TMvFZzpunUgZlw4unFjuK9yhn6nms9
-	i9QzPaBOm1pAnHvtDquRJLAV3N6/gGMJi7PG6YOT7iFccS7k9i0pZmC0nBXyxflRf9UhNKLO3FL+s
-	rHqiQPnw==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGW42-004jsp-0V;
-	Fri, 22 Dec 2023 03:19:08 +0000
-Message-ID: <0e7b22c0-4645-4403-9408-dfc8e86eda86@infradead.org>
-Date: Thu, 21 Dec 2023 19:19:05 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2218CFBE2;
+	Fri, 22 Dec 2023 09:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 6A19C24E2E6;
+	Fri, 22 Dec 2023 17:19:40 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 22 Dec
+ 2023 17:19:40 +0800
+Received: from [192.168.125.131] (113.72.145.47) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 22 Dec
+ 2023 17:19:39 +0800
+Message-ID: <c94b377a-1e21-4361-ae82-ca84d1dce60a@starfivetech.com>
+Date: Fri, 22 Dec 2023 17:11:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -30,55 +25,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/tas2781: fix typos in comment
+Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence
+ Multi-Channel I2S Controller
+To: Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Claudiu Beznea
+	<Claudiu.Beznea@microchip.com>, Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor.dooley@microchip.com>, Walker Chen <walker.chen@starfivetech.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
+References: <20231221033223.73201-1-xingyu.wu@starfivetech.com>
+ <20231221033223.73201-3-xingyu.wu@starfivetech.com>
+ <861f9b28-863d-48b0-8491-add4a286597e@sirena.org.uk>
 Content-Language: en-US
-To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <ead5609d63e71e8e87c13e1767decca5b272d696.1703203812.git.soyer@irl.hu>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ead5609d63e71e8e87c13e1767decca5b272d696.1703203812.git.soyer@irl.hu>
-Content-Type: text/plain; charset=UTF-8
+From: Xingyu Wu <xingyu.wu@starfivetech.com>
+In-Reply-To: <861f9b28-863d-48b0-8491-add4a286597e@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
 
-Hi--
-
-On 12/21/23 16:11, Gergo Koteles wrote:
-> Correct typos.
+On 2023/12/21 20:55, Mark Brown wrote:
+> On Thu, Dec 21, 2023 at 11:32:23AM +0800, Xingyu Wu wrote:
 > 
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> ---
->  sound/pci/hda/tas2781_hda_i2c.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>>  sound/soc/starfive/cdns-jh8100-i2s-pcm.c | 262 ++++++++
+>>  sound/soc/starfive/cdns-jh8100-i2s.c     | 727 +++++++++++++++++++++++
+>>  sound/soc/starfive/cdns-jh8100-i2s.h     | 171 ++++++
 > 
-> diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-> index fb802802939e..8f63e3099d3e 100644
-> --- a/sound/pci/hda/tas2781_hda_i2c.c
-> +++ b/sound/pci/hda/tas2781_hda_i2c.c
-> @@ -421,9 +421,9 @@ static void tas2781_apply_calib(struct tasdevice_priv *tas_priv)
->  	}
->  }
->  
+> If this is a Cadence IP why is the entire driver SoC specific?
 
-also:
+This a new driver about this Cadence I2S controller. Should I create a new folder and file like this:
 
-> -/* Update the calibrate data, including speaker impedance, f0, etc, into algo.
-> +/* Update the calibration data, including speaker impedance, f0, etc, into algo.
->   * Calibrate data is done by manufacturer in the factory. These data are used
+sound/soc/cdns/cdns-i2s*
 
-    * Calibration data
+and I use different compatible to support other SoC like JH8100?
 
-> - * by Algo for calucating the speaker temperature, speaker membrance excursion
-> + * by Algo for calculating the speaker temperature, speaker membrane excursion
->   * and f0 in real time during playback.
->   */
->  static int tas2781_save_calibration(struct tasdevice_priv *tas_priv)
-> 
-> base-commit: c7e37b07cc7564a07125ae48c11fd1ca2bcbeae2
-
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+Best regards,
+Xingyu Wu
