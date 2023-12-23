@@ -1,110 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7884E2E84B;
-	Fri, 22 Dec 2023 21:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25728F4E;
+	Sat, 23 Dec 2023 09:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nM96ILFf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703280877; x=1734816877;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dpqNdfS4ahJoafXVsQek4DZnUBoFniH8a9Xe1zk0FlM=;
-  b=nM96ILFfgAIzjBoeLubwMxtFp1AGhsOdrTQZBiNl4WnGLsW81mMzzcaJ
-   nzgOX1Miha+GRMQcIo3ZF0Xr2Wkth1An84a12F6o0oME2a0I1/eRinm26
-   bEmOQ74bTwfW8mx6vhD4297gh0vEAeJ3sv35uM39sL23mHa9zjf5kx0Hs
-   F2fVVipo7YuRB35O89uqwtVw+0u5078KfIopSUZk9x0DNz4pjy9ZKwfti
-   S4DosO1D0tPXgXVGJsGD4VujMC0FO5bnL87M4dNVx+wj5n2C+iXcHFI1K
-   pKUQIwooypQq/V6oRBmSqIS+9CxS0Iu27SgidLUCt4NDivX1e5clCp4HH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="395052344"
-X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="395052344"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 13:34:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="895566717"
-X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="895566717"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Dec 2023 13:34:33 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rGn9p-0009tc-1J;
-	Fri, 22 Dec 2023 21:34:16 +0000
-Date: Sat, 23 Dec 2023 05:32:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Claudiu Beznea <Claudiu.Beznea@microchip.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Walker Chen <walker.chen@starfivetech.com>,
-	Xingyu Wu <xingyu.wu@starfivetech.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence
- Multi-Channel I2S Controller
-Message-ID: <202312230525.gch9VlZT-lkp@intel.com>
-References: <20231221033223.73201-3-xingyu.wu@starfivetech.com>
+	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="I+mEfOTd"
+Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c08:73a3:0:640:6804:0])
+	by forward501b.mail.yandex.net (Yandex) with ESMTP id 488EE60FFE;
+	Sat, 23 Dec 2023 12:13:02 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id tCMesXBc0Os0-V3hE6yzp;
+	Sat, 23 Dec 2023 12:13:00 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
+	t=1703322780; bh=wRrzZn5duH4w8JvE1tgyoLXGclY5mY0J/Xp8ep3wT7g=;
+	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
+	b=I+mEfOTd/HhVtsgLl8P4bJlmK+xe/BHC5G4qGEcK5yI9fE4yNAbvURJYd9ebsbNPL
+	 ELVCWnXzpctwGO9/5E6Lh3j51mRZlNunB6U0Mz9Ob7UmkE2sFrGQRvIiTXfqFCBTJB
+	 6hHC1txfBTVi+nHDb1JfUThgM9rSEbD1FlaR3i6c=
+Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
+Message-ID: <d6e898200b96e816ea8c8c9a847307088ec5821c.camel@maquefel.me>
+Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
+From: Nikita Shubin <nikita.shubin@maquefel.me>
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Sebastian
+ Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck
+ <wim@linux-watchdog.org>,  Guenter Roeck <linux@roeck-us.net>, Thierry
+ Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, Sergey
+ Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org,  dmaengine@vger.kernel.org,
+ linux-watchdog@vger.kernel.org,  linux-pwm@vger.kernel.org,
+ linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-sound@vger.kernel.org, Arnd Bergmann
+ <arnd@arndb.de>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andrew Lunn
+ <andrew@lunn.ch>
+Date: Sat, 23 Dec 2023 12:12:56 +0300
+In-Reply-To: <ZXnxBtqbneUMbvwq@smile.fi.intel.com>
+References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
+	 <ZXnxBtqbneUMbvwq@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231221033223.73201-3-xingyu.wu@starfivetech.com>
 
-Hi Xingyu,
+Hello Andy!
 
-kernel test robot noticed the following build warnings:
+On Wed, 2023-12-13 at 19:59 +0200, Andy Shevchenko wrote:
+> On Tue, Dec 12, 2023 at 11:20:17AM +0300, Nikita Shubin wrote:
+> > No major changes since last version all changes are cometic.
+> >=20
+> > Following patches require attention from Stephen Boyd, as they were
+> > converted to aux_dev as suggested:
+> >=20
+> > - ARM: ep93xx: add regmap aux_dev
+> > - clk: ep93xx: add DT support for Cirrus EP93xx
+> >=20
+> > DMA related patches still require Acked or Reviewed tags.
+> >=20
+> > got approval LGTM from Miquel:
+> > - mtd: rawnand: add support for ts72xx
+> > Link: https://lore.kernel.org/lkml/20231004103911.2aa65354@xps-13/
+> >=20
+> > new patches:
+> >=20
+> > ARM: ep93xx:=C2=A0 Add terminator to gpiod_lookup_table
+> > =C2=A0 - fixed terminator in gpiod_lockup_table
+> >=20
+> > So mostly all patches got approval.
+> >=20
+> > Patches should be now formated with '--histogram'
+>=20
+> It _feels_ like some tags might be missing.
+> In any case I suggest to use `b4` tool to retrieve tags when
+> preparing
+> the next version:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git checkout -b vXX v6.7-=
+rcX
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0b4 am -slt $MSG_ID_OF_v(X=
+X-1)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git am ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0git rebase --interactive =
+... # to address comments
+>=20
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc6 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I moved to b4 a few iterations ago:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xingyu-Wu/dt-bindings-ASoC-Add-Cadence-I2S-controller-for-StarFive-JH8100-SoC/20231222-172628
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231221033223.73201-3-xingyu.wu%40starfivetech.com
-patch subject: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence Multi-Channel I2S Controller
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20231223/202312230525.gch9VlZT-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230525.gch9VlZT-lkp@intel.com/reproduce)
+```
+Calculating patch-ids from commits, this may take a moment...
+Checking change-id "20230605-ep93xx-01c76317e2d2"
+Grabbing search results from lore.kernel.org
+Grabbing thread from lore.kernel.org/all/20230424123522.18302-1-
+nikita.shubin%40maquefel.me/t.mbox.gz
+---
+NOTE: some trailers ignored due to from/email mismatches:
+    ! Trailer: Tested-by: Michael Peters <mpeters@embeddedTS.com>
+     Msg From: Kris Bahnsen <kris@embeddedTS.com>
+NOTE: Rerun with -S to apply them anyway
+No trailer updates found.
+```
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312230525.gch9VlZT-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> sound/soc/starfive/cdns-jh8100-i2s.c:519:12: warning: 'cdns_jh8100_i2s_runtime_resume' defined but not used [-Wunused-function]
-     519 | static int cdns_jh8100_i2s_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/cdns_jh8100_i2s_runtime_resume +519 sound/soc/starfive/cdns-jh8100-i2s.c
-
-   518	
- > 519	static int cdns_jh8100_i2s_runtime_resume(struct device *dev)
-   520	{
-   521		struct cdns_jh8100_i2s_dev *i2s = dev_get_drvdata(dev);
-   522	
-   523		return clk_prepare_enable(i2s->clks[1].clk); /* ICG clock */
-   524	}
-   525	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I haven't found any missing tags, that b4 didn't apply, the ones above
+refer to a very old iteration and were given to cover letter and i
+don't feel like they need to be included.
