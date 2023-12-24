@@ -1,31 +1,31 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5E2D2FA
-	for <linux-sound@vger.kernel.org>; Sun, 24 Dec 2023 19:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E8CD2F0
+	for <linux-sound@vger.kernel.org>; Sun, 24 Dec 2023 19:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="J32w5kDz"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="I2cg8hN7"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 0B20D604B9CB; Mon, 25 Dec 2023 05:52:47 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 0B20D604B9CB
+	id CE4FB604B9CB; Mon, 25 Dec 2023 05:53:40 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu CE4FB604B9CB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703445767; bh=WPbFVvOnODYjsM5Y+C0JH7HiECdgjq0wPHopET0ybuc=;
+	t=1703445820; bh=z1Wd0cZB/Jt4DD24Bw+Qwqz82dbDk0s5v8dDThahWm0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J32w5kDzyBX9bRk56NR1aaQM25LYhWKbu3LY6iPH4IvWjZxNMyo+kw4B7Fdrrrdhs
-	 sIhafoVfUGnzZGMIYKsqlxaQXmEETPH8cBt0jNsX8h4ufVmDhYUFkqOVA90assLTnV
-	 /tSqYUg6k4a6pp6JuGfIHaYOGLYHQs0GoWHgKWC3NkElOtWoJGXNPcCam6jG2NFl1e
-	 nV9oQh03Wx9sL96uidvuicWliDCvVkFVfXTkasgd1cCikWWSQBuOZ6H67DI0+w+4ie
-	 fhbT0LW7ZrOyoejKHaKDVEqk1CG65A9Cs+jMa0O1rph7XvTsqTy2U3CSauVMNu1+59
-	 fAqd6Pw3F9hew==
-Date: Mon, 25 Dec 2023 05:52:47 +1030
+	b=I2cg8hN7gheTfvKv2AWHSX9wG1luFxn8Y7b83NmPW4n55umK9PxGLDx+dyzQ+ER4f
+	 0zrTT+laKXFzlotRqA26yjFLK5OaF+YyKf25+QDg8ZHYkErRmhCfDRD0hFfPldUcuf
+	 STW4YbnLuuJ22BjIo8TvryzbG5GUybxdDdtcxtJtwCNQlaJYV8WOFbLYoyv7gdBeKe
+	 y9wv2EpoZFgJXDNoVe0+qjgKDX3LncgMSWPETCkb3f7sJm+ZiiivzfyxckBCV3sHCf
+	 u2p2ZWMRz6ClgCaKJAlZqj/ifTIkAGM5bC1TMkrVEykMfga/dD/NiNQ65pELeY6ihl
+	 7hj1m8E4lGNTA==
+Date: Mon, 25 Dec 2023 05:53:40 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 06/23] ALSA: scarlett2: Add config set struct
-Message-ID: <bfdb04cd6239af9a8c26a52da0537980f77c0437.1703444932.git.g@b4.vu>
+Subject: [PATCH 07/23] ALSA: scarlett2: Remove scarlett2_config_sets array
+Message-ID: <61f69519fb6fbb677e066891a3a6771aeeec106d.1703444932.git.g@b4.vu>
 References: <cover.1703444932.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,255 +37,530 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1703444932.git.g@b4.vu>
 
-Add struct scarlett2_config_set so that data which is common to all
-devices in a config set can be stored there rather than in the
-model-specific data.
+Replace array index into config sets with a pointer to a config set.
+Copy the config_set pointer to the scarlett2_data struct.
 
-Accordingly, rename scarlett2_config_items[] to
-scarlett2_config_sets[].
+This simplifies both the definition and use of the config sets.
 
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/usb/mixer_scarlett2.c | 167 +++++++++++++++++++-----------------
- 1 file changed, 89 insertions(+), 78 deletions(-)
+ sound/usb/mixer_scarlett2.c | 361 +++++++++++++++++-------------------
+ 1 file changed, 173 insertions(+), 188 deletions(-)
 
 diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index fc9f360d0e1e..6884b41b6dd6 100644
+index 6884b41b6dd6..bff777a93d65 100644
 --- a/sound/usb/mixer_scarlett2.c
 +++ b/sound/usb/mixer_scarlett2.c
-@@ -1226,119 +1226,130 @@ struct scarlett2_config {
- 	u8 activate;
+@@ -219,17 +219,6 @@ static const u16 scarlett2_mixer_values[SCARLETT2_MIXER_VALUE_COUNT] = {
+ /* Maximum number of meters (sum of output port counts) */
+ #define SCARLETT2_MAX_METERS 65
+ 
+-/* There are different sets of configuration parameters across the
+- * devices, dependent on series and model.
+- */
+-enum {
+-	SCARLETT2_CONFIG_SET_GEN_2,
+-	SCARLETT2_CONFIG_SET_GEN_3A,
+-	SCARLETT2_CONFIG_SET_GEN_3B,
+-	SCARLETT2_CONFIG_SET_CLARETT,
+-	SCARLETT2_CONFIG_SET_COUNT
+-};
+-
+ /* Hardware port types:
+  * - None (no input to mux)
+  * - Analogue I/O
+@@ -274,6 +263,161 @@ static const char *const scarlett2_dim_mute_names[SCARLETT2_DIM_MUTE_COUNT] = {
+ 	"Mute Playback Switch", "Dim Playback Switch"
  };
  
--static const struct scarlett2_config
--	scarlett2_config_items[SCARLETT2_CONFIG_SET_COUNT]
--			      [SCARLETT2_CONFIG_COUNT] =
++/* Configuration parameters that can be read and written */
++enum {
++	SCARLETT2_CONFIG_DIM_MUTE,
++	SCARLETT2_CONFIG_LINE_OUT_VOLUME,
++	SCARLETT2_CONFIG_MUTE_SWITCH,
++	SCARLETT2_CONFIG_SW_HW_SWITCH,
++	SCARLETT2_CONFIG_LEVEL_SWITCH,
++	SCARLETT2_CONFIG_PAD_SWITCH,
++	SCARLETT2_CONFIG_MSD_SWITCH,
++	SCARLETT2_CONFIG_AIR_SWITCH,
++	SCARLETT2_CONFIG_STANDALONE_SWITCH,
++	SCARLETT2_CONFIG_PHANTOM_SWITCH,
++	SCARLETT2_CONFIG_PHANTOM_PERSISTENCE,
++	SCARLETT2_CONFIG_DIRECT_MONITOR,
++	SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH,
++	SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE,
++	SCARLETT2_CONFIG_TALKBACK_MAP,
++	SCARLETT2_CONFIG_COUNT
++};
++
++/* Location, size, and activation command number for the configuration
++ * parameters. Size is in bits and may be 1, 8, or 16.
++ */
++struct scarlett2_config {
++	u8 offset;
++	u8 size;
++	u8 activate;
++};
++
 +struct scarlett2_config_set {
 +	const struct scarlett2_config items[SCARLETT2_CONFIG_COUNT];
 +};
 +
-+static const struct scarlett2_config_set
-+	scarlett2_config_sets[SCARLETT2_CONFIG_SET_COUNT] =
- 
- /* Gen 2 devices: 6i6, 18i8, 18i20 */
--{ {
--	[SCARLETT2_CONFIG_DIM_MUTE] = {
--		.offset = 0x31, .size = 8, .activate = 2 },
-+{ [SCARLETT2_CONFIG_SET_GEN_2] = {
++/* Gen 2 devices: 6i6, 18i8, 18i20 */
++static const struct scarlett2_config_set scarlett2_config_set_gen2 = {
 +	.items = {
 +		[SCARLETT2_CONFIG_DIM_MUTE] = {
 +			.offset = 0x31, .size = 8, .activate = 2 },
- 
--	[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
--		.offset = 0x34, .size = 16, .activate = 1 },
++
 +		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
 +			.offset = 0x34, .size = 16, .activate = 1 },
- 
--	[SCARLETT2_CONFIG_MUTE_SWITCH] = {
--		.offset = 0x5c, .size = 8, .activate = 1 },
++
 +		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
 +			.offset = 0x5c, .size = 8, .activate = 1 },
- 
--	[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
--		.offset = 0x66, .size = 8, .activate = 3 },
++
 +		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
 +			.offset = 0x66, .size = 8, .activate = 3 },
- 
--	[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
--		.offset = 0x7c, .size = 8, .activate = 7 },
++
 +		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
 +			.offset = 0x7c, .size = 8, .activate = 7 },
- 
--	[SCARLETT2_CONFIG_PAD_SWITCH] = {
--		.offset = 0x84, .size = 8, .activate = 8 },
++
 +		[SCARLETT2_CONFIG_PAD_SWITCH] = {
 +			.offset = 0x84, .size = 8, .activate = 8 },
- 
--	[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
--		.offset = 0x8d, .size = 8, .activate = 6 },
-+		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
-+			.offset = 0x8d, .size = 8, .activate = 6 },
-+	},
- 
- /* Gen 3 devices without a mixer (Solo and 2i2) */
--}, {
--	[SCARLETT2_CONFIG_MSD_SWITCH] = {
--		.offset = 0x04, .size = 8, .activate = 6 },
-+}, [SCARLETT2_CONFIG_SET_GEN_3A] = {
-+	.items = {
-+		[SCARLETT2_CONFIG_MSD_SWITCH] = {
-+			.offset = 0x04, .size = 8, .activate = 6 },
- 
--	[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
--		.offset = 0x05, .size = 8, .activate = 6 },
-+		[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
-+			.offset = 0x05, .size = 8, .activate = 6 },
- 
--	[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
--		.offset = 0x06, .size = 8, .activate = 3 },
-+		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
-+			.offset = 0x06, .size = 8, .activate = 3 },
- 
--	[SCARLETT2_CONFIG_DIRECT_MONITOR] = {
--		.offset = 0x07, .size = 8, .activate = 4 },
-+		[SCARLETT2_CONFIG_DIRECT_MONITOR] = {
-+			.offset = 0x07, .size = 8, .activate = 4 },
- 
--	[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
--		.offset = 0x08, .size = 1, .activate = 7 },
-+		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
-+			.offset = 0x08, .size = 1, .activate = 7 },
- 
--	[SCARLETT2_CONFIG_AIR_SWITCH] = {
--		.offset = 0x09, .size = 1, .activate = 8 },
-+		[SCARLETT2_CONFIG_AIR_SWITCH] = {
-+			.offset = 0x09, .size = 1, .activate = 8 },
-+	},
- 
- /* Gen 3 devices: 4i4, 8i6, 18i8, 18i20 */
--}, {
--	[SCARLETT2_CONFIG_DIM_MUTE] = {
--		.offset = 0x31, .size = 8, .activate = 2 },
-+}, [SCARLETT2_CONFIG_SET_GEN_3B] = {
-+	.items = {
-+		[SCARLETT2_CONFIG_DIM_MUTE] = {
-+			.offset = 0x31, .size = 8, .activate = 2 },
- 
--	[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
--		.offset = 0x34, .size = 16, .activate = 1 },
-+		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
-+			.offset = 0x34, .size = 16, .activate = 1 },
- 
--	[SCARLETT2_CONFIG_MUTE_SWITCH] = {
--		.offset = 0x5c, .size = 8, .activate = 1 },
-+		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
-+			.offset = 0x5c, .size = 8, .activate = 1 },
- 
--	[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
--		.offset = 0x66, .size = 8, .activate = 3 },
-+		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
-+			.offset = 0x66, .size = 8, .activate = 3 },
- 
--	[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
--		.offset = 0x7c, .size = 8, .activate = 7 },
-+		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
-+			.offset = 0x7c, .size = 8, .activate = 7 },
- 
--	[SCARLETT2_CONFIG_PAD_SWITCH] = {
--		.offset = 0x84, .size = 8, .activate = 8 },
-+		[SCARLETT2_CONFIG_PAD_SWITCH] = {
-+			.offset = 0x84, .size = 8, .activate = 8 },
- 
--	[SCARLETT2_CONFIG_AIR_SWITCH] = {
--		.offset = 0x8c, .size = 8, .activate = 8 },
-+		[SCARLETT2_CONFIG_AIR_SWITCH] = {
-+			.offset = 0x8c, .size = 8, .activate = 8 },
- 
--	[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
--		.offset = 0x95, .size = 8, .activate = 6 },
-+		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
-+			.offset = 0x95, .size = 8, .activate = 6 },
- 
--	[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
--		.offset = 0x9c, .size = 1, .activate = 8 },
-+		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
-+			.offset = 0x9c, .size = 1, .activate = 8 },
- 
--	[SCARLETT2_CONFIG_MSD_SWITCH] = {
--		.offset = 0x9d, .size = 8, .activate = 6 },
-+		[SCARLETT2_CONFIG_MSD_SWITCH] = {
-+			.offset = 0x9d, .size = 8, .activate = 6 },
- 
--	[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
--		.offset = 0x9e, .size = 8, .activate = 6 },
-+		[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
-+			.offset = 0x9e, .size = 8, .activate = 6 },
- 
--	[SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH] = {
--		.offset = 0x9f, .size = 1, .activate = 10 },
-+		[SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH] = {
-+			.offset = 0x9f, .size = 1, .activate = 10 },
- 
--	[SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE] = {
--		.offset = 0xa0, .size = 1, .activate = 10 },
-+		[SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE] = {
-+			.offset = 0xa0, .size = 1, .activate = 10 },
- 
--	[SCARLETT2_CONFIG_TALKBACK_MAP] = {
--		.offset = 0xb0, .size = 16, .activate = 10 },
-+		[SCARLETT2_CONFIG_TALKBACK_MAP] = {
-+			.offset = 0xb0, .size = 16, .activate = 10 },
-+	},
- 
- /* Clarett USB and Clarett+ devices: 2Pre, 4Pre, 8Pre */
--}, {
--	[SCARLETT2_CONFIG_DIM_MUTE] = {
--		.offset = 0x31, .size = 8, .activate = 2 },
-+}, [SCARLETT2_CONFIG_SET_CLARETT] = {
-+	.items = {
-+		[SCARLETT2_CONFIG_DIM_MUTE] = {
-+			.offset = 0x31, .size = 8, .activate = 2 },
- 
--	[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
--		.offset = 0x34, .size = 16, .activate = 1 },
-+		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
-+			.offset = 0x34, .size = 16, .activate = 1 },
- 
--	[SCARLETT2_CONFIG_MUTE_SWITCH] = {
--		.offset = 0x5c, .size = 8, .activate = 1 },
-+		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
-+			.offset = 0x5c, .size = 8, .activate = 1 },
- 
--	[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
--		.offset = 0x66, .size = 8, .activate = 3 },
-+		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
-+			.offset = 0x66, .size = 8, .activate = 3 },
- 
--	[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
--		.offset = 0x7c, .size = 8, .activate = 7 },
-+		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
-+			.offset = 0x7c, .size = 8, .activate = 7 },
- 
--	[SCARLETT2_CONFIG_AIR_SWITCH] = {
--		.offset = 0x95, .size = 8, .activate = 8 },
-+		[SCARLETT2_CONFIG_AIR_SWITCH] = {
-+			.offset = 0x95, .size = 8, .activate = 8 },
- 
--	[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
--		.offset = 0x8d, .size = 8, .activate = 6 },
++
 +		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
 +			.offset = 0x8d, .size = 8, .activate = 6 },
 +	}
- } };
++};
++
++/* Gen 3 devices without a mixer (Solo and 2i2) */
++static const struct scarlett2_config_set scarlett2_config_set_gen3a = {
++	.items = {
++		[SCARLETT2_CONFIG_MSD_SWITCH] = {
++			.offset = 0x04, .size = 8, .activate = 6 },
++
++		[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
++			.offset = 0x05, .size = 8, .activate = 6 },
++
++		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
++			.offset = 0x06, .size = 8, .activate = 3 },
++
++		[SCARLETT2_CONFIG_DIRECT_MONITOR] = {
++			.offset = 0x07, .size = 8, .activate = 4 },
++
++		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
++			.offset = 0x08, .size = 1, .activate = 7 },
++
++		[SCARLETT2_CONFIG_AIR_SWITCH] = {
++			.offset = 0x09, .size = 1, .activate = 8 },
++	}
++};
++
++/* Gen 3 devices: 4i4, 8i6, 18i8, 18i20 */
++static const struct scarlett2_config_set scarlett2_config_set_gen3b = {
++	.items = {
++		[SCARLETT2_CONFIG_DIM_MUTE] = {
++			.offset = 0x31, .size = 8, .activate = 2 },
++
++		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
++			.offset = 0x34, .size = 16, .activate = 1 },
++
++		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
++			.offset = 0x5c, .size = 8, .activate = 1 },
++
++		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
++			.offset = 0x66, .size = 8, .activate = 3 },
++
++		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
++			.offset = 0x7c, .size = 8, .activate = 7 },
++
++		[SCARLETT2_CONFIG_PAD_SWITCH] = {
++			.offset = 0x84, .size = 8, .activate = 8 },
++
++		[SCARLETT2_CONFIG_AIR_SWITCH] = {
++			.offset = 0x8c, .size = 8, .activate = 8 },
++
++		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
++			.offset = 0x95, .size = 8, .activate = 6 },
++
++		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
++			.offset = 0x9c, .size = 1, .activate = 8 },
++
++		[SCARLETT2_CONFIG_MSD_SWITCH] = {
++			.offset = 0x9d, .size = 8, .activate = 6 },
++
++		[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
++			.offset = 0x9e, .size = 8, .activate = 6 },
++
++		[SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH] = {
++			.offset = 0x9f, .size = 1, .activate = 10 },
++
++		[SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE] = {
++			.offset = 0xa0, .size = 1, .activate = 10 },
++
++		[SCARLETT2_CONFIG_TALKBACK_MAP] = {
++			.offset = 0xb0, .size = 16, .activate = 10 },
++	}
++};
++
++/* Clarett USB and Clarett+ devices: 2Pre, 4Pre, 8Pre */
++static const struct scarlett2_config_set scarlett2_config_set_clarett = {
++	.items = {
++		[SCARLETT2_CONFIG_DIM_MUTE] = {
++			.offset = 0x31, .size = 8, .activate = 2 },
++
++		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
++			.offset = 0x34, .size = 16, .activate = 1 },
++
++		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
++			.offset = 0x5c, .size = 8, .activate = 1 },
++
++		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
++			.offset = 0x66, .size = 8, .activate = 3 },
++
++		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
++			.offset = 0x7c, .size = 8, .activate = 7 },
++
++		[SCARLETT2_CONFIG_AIR_SWITCH] = {
++			.offset = 0x95, .size = 8, .activate = 8 },
++
++		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
++			.offset = 0x8d, .size = 8, .activate = 6 },
++	}
++};
++
+ /* Description of each hardware port type:
+  * - id: hardware ID of this port type
+  * - src_descr: printf format string for mux input selections
+@@ -356,7 +500,7 @@ struct scarlett2_meter_entry {
  
+ struct scarlett2_device_info {
+ 	/* which set of configuration parameters the device uses */
+-	u8 config_set;
++	const struct scarlett2_config_set *config_set;
+ 
+ 	/* line out hw volume is sw controlled */
+ 	u8 line_out_hw_vol;
+@@ -429,6 +573,7 @@ struct scarlett2_data {
+ 	u8 flash_write_state;
+ 	struct delayed_work work;
+ 	const struct scarlett2_device_info *info;
++	const struct scarlett2_config_set *config_set;
+ 	const char *series_name;
+ 	__u8 bInterfaceNumber;
+ 	__u8 bEndpointAddress;
+@@ -485,7 +630,7 @@ struct scarlett2_data {
+ /*** Model-specific data ***/
+ 
+ static const struct scarlett2_device_info s6i6_gen2_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
++	.config_set = &scarlett2_config_set_gen2,
+ 	.level_input_count = 2,
+ 	.pad_input_count = 2,
+ 
+@@ -535,7 +680,7 @@ static const struct scarlett2_device_info s6i6_gen2_info = {
+ };
+ 
+ static const struct scarlett2_device_info s18i8_gen2_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
++	.config_set = &scarlett2_config_set_gen2,
+ 	.level_input_count = 2,
+ 	.pad_input_count = 4,
+ 
+@@ -588,7 +733,7 @@ static const struct scarlett2_device_info s18i8_gen2_info = {
+ };
+ 
+ static const struct scarlett2_device_info s18i20_gen2_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_2,
++	.config_set = &scarlett2_config_set_gen2,
+ 	.line_out_hw_vol = 1,
+ 
+ 	.line_out_descrs = {
+@@ -646,7 +791,7 @@ static const struct scarlett2_device_info s18i20_gen2_info = {
+ };
+ 
+ static const struct scarlett2_device_info solo_gen3_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_3A,
++	.config_set = &scarlett2_config_set_gen3a,
+ 	.level_input_count = 1,
+ 	.level_input_first = 1,
+ 	.air_input_count = 1,
+@@ -656,7 +801,7 @@ static const struct scarlett2_device_info solo_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s2i2_gen3_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_3A,
++	.config_set = &scarlett2_config_set_gen3a,
+ 	.level_input_count = 2,
+ 	.air_input_count = 2,
+ 	.phantom_count = 1,
+@@ -665,7 +810,7 @@ static const struct scarlett2_device_info s2i2_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s4i4_gen3_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_3B,
++	.config_set = &scarlett2_config_set_gen3b,
+ 	.level_input_count = 2,
+ 	.pad_input_count = 2,
+ 	.air_input_count = 2,
+@@ -714,7 +859,7 @@ static const struct scarlett2_device_info s4i4_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s8i6_gen3_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_3B,
++	.config_set = &scarlett2_config_set_gen3b,
+ 	.level_input_count = 2,
+ 	.pad_input_count = 2,
+ 	.air_input_count = 2,
+@@ -772,7 +917,7 @@ static const struct scarlett2_device_info s8i6_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s18i8_gen3_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_3B,
++	.config_set = &scarlett2_config_set_gen3b,
+ 	.line_out_hw_vol = 1,
+ 	.has_speaker_switching = 1,
+ 	.level_input_count = 2,
+@@ -852,7 +997,7 @@ static const struct scarlett2_device_info s18i8_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info s18i20_gen3_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_GEN_3B,
++	.config_set = &scarlett2_config_set_gen3b,
+ 	.line_out_hw_vol = 1,
+ 	.has_speaker_switching = 1,
+ 	.has_talkback = 1,
+@@ -923,7 +1068,7 @@ static const struct scarlett2_device_info s18i20_gen3_info = {
+ };
+ 
+ static const struct scarlett2_device_info clarett_2pre_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_CLARETT,
++	.config_set = &scarlett2_config_set_clarett,
+ 	.line_out_hw_vol = 1,
+ 	.level_input_count = 2,
+ 	.air_input_count = 2,
+@@ -971,7 +1116,7 @@ static const struct scarlett2_device_info clarett_2pre_info = {
+ };
+ 
+ static const struct scarlett2_device_info clarett_4pre_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_CLARETT,
++	.config_set = &scarlett2_config_set_clarett,
+ 	.line_out_hw_vol = 1,
+ 	.level_input_count = 2,
+ 	.air_input_count = 4,
+@@ -1024,7 +1169,7 @@ static const struct scarlett2_device_info clarett_4pre_info = {
+ };
+ 
+ static const struct scarlett2_device_info clarett_8pre_info = {
+-	.config_set = SCARLETT2_CONFIG_SET_CLARETT,
++	.config_set = &scarlett2_config_set_clarett,
+ 	.line_out_hw_vol = 1,
+ 	.level_input_count = 2,
+ 	.air_input_count = 8,
+@@ -1197,161 +1342,6 @@ struct scarlett2_usb_volume_status {
+ 	s16 master_vol;
+ } __packed;
+ 
+-/* Configuration parameters that can be read and written */
+-enum {
+-	SCARLETT2_CONFIG_DIM_MUTE,
+-	SCARLETT2_CONFIG_LINE_OUT_VOLUME,
+-	SCARLETT2_CONFIG_MUTE_SWITCH,
+-	SCARLETT2_CONFIG_SW_HW_SWITCH,
+-	SCARLETT2_CONFIG_LEVEL_SWITCH,
+-	SCARLETT2_CONFIG_PAD_SWITCH,
+-	SCARLETT2_CONFIG_MSD_SWITCH,
+-	SCARLETT2_CONFIG_AIR_SWITCH,
+-	SCARLETT2_CONFIG_STANDALONE_SWITCH,
+-	SCARLETT2_CONFIG_PHANTOM_SWITCH,
+-	SCARLETT2_CONFIG_PHANTOM_PERSISTENCE,
+-	SCARLETT2_CONFIG_DIRECT_MONITOR,
+-	SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH,
+-	SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE,
+-	SCARLETT2_CONFIG_TALKBACK_MAP,
+-	SCARLETT2_CONFIG_COUNT
+-};
+-
+-/* Location, size, and activation command number for the configuration
+- * parameters. Size is in bits and may be 1, 8, or 16.
+- */
+-struct scarlett2_config {
+-	u8 offset;
+-	u8 size;
+-	u8 activate;
+-};
+-
+-struct scarlett2_config_set {
+-	const struct scarlett2_config items[SCARLETT2_CONFIG_COUNT];
+-};
+-
+-static const struct scarlett2_config_set
+-	scarlett2_config_sets[SCARLETT2_CONFIG_SET_COUNT] =
+-
+-/* Gen 2 devices: 6i6, 18i8, 18i20 */
+-{ [SCARLETT2_CONFIG_SET_GEN_2] = {
+-	.items = {
+-		[SCARLETT2_CONFIG_DIM_MUTE] = {
+-			.offset = 0x31, .size = 8, .activate = 2 },
+-
+-		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
+-			.offset = 0x34, .size = 16, .activate = 1 },
+-
+-		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
+-			.offset = 0x5c, .size = 8, .activate = 1 },
+-
+-		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
+-			.offset = 0x66, .size = 8, .activate = 3 },
+-
+-		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
+-			.offset = 0x7c, .size = 8, .activate = 7 },
+-
+-		[SCARLETT2_CONFIG_PAD_SWITCH] = {
+-			.offset = 0x84, .size = 8, .activate = 8 },
+-
+-		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
+-			.offset = 0x8d, .size = 8, .activate = 6 },
+-	},
+-
+-/* Gen 3 devices without a mixer (Solo and 2i2) */
+-}, [SCARLETT2_CONFIG_SET_GEN_3A] = {
+-	.items = {
+-		[SCARLETT2_CONFIG_MSD_SWITCH] = {
+-			.offset = 0x04, .size = 8, .activate = 6 },
+-
+-		[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
+-			.offset = 0x05, .size = 8, .activate = 6 },
+-
+-		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
+-			.offset = 0x06, .size = 8, .activate = 3 },
+-
+-		[SCARLETT2_CONFIG_DIRECT_MONITOR] = {
+-			.offset = 0x07, .size = 8, .activate = 4 },
+-
+-		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
+-			.offset = 0x08, .size = 1, .activate = 7 },
+-
+-		[SCARLETT2_CONFIG_AIR_SWITCH] = {
+-			.offset = 0x09, .size = 1, .activate = 8 },
+-	},
+-
+-/* Gen 3 devices: 4i4, 8i6, 18i8, 18i20 */
+-}, [SCARLETT2_CONFIG_SET_GEN_3B] = {
+-	.items = {
+-		[SCARLETT2_CONFIG_DIM_MUTE] = {
+-			.offset = 0x31, .size = 8, .activate = 2 },
+-
+-		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
+-			.offset = 0x34, .size = 16, .activate = 1 },
+-
+-		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
+-			.offset = 0x5c, .size = 8, .activate = 1 },
+-
+-		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
+-			.offset = 0x66, .size = 8, .activate = 3 },
+-
+-		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
+-			.offset = 0x7c, .size = 8, .activate = 7 },
+-
+-		[SCARLETT2_CONFIG_PAD_SWITCH] = {
+-			.offset = 0x84, .size = 8, .activate = 8 },
+-
+-		[SCARLETT2_CONFIG_AIR_SWITCH] = {
+-			.offset = 0x8c, .size = 8, .activate = 8 },
+-
+-		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
+-			.offset = 0x95, .size = 8, .activate = 6 },
+-
+-		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
+-			.offset = 0x9c, .size = 1, .activate = 8 },
+-
+-		[SCARLETT2_CONFIG_MSD_SWITCH] = {
+-			.offset = 0x9d, .size = 8, .activate = 6 },
+-
+-		[SCARLETT2_CONFIG_PHANTOM_PERSISTENCE] = {
+-			.offset = 0x9e, .size = 8, .activate = 6 },
+-
+-		[SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH] = {
+-			.offset = 0x9f, .size = 1, .activate = 10 },
+-
+-		[SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE] = {
+-			.offset = 0xa0, .size = 1, .activate = 10 },
+-
+-		[SCARLETT2_CONFIG_TALKBACK_MAP] = {
+-			.offset = 0xb0, .size = 16, .activate = 10 },
+-	},
+-
+-/* Clarett USB and Clarett+ devices: 2Pre, 4Pre, 8Pre */
+-}, [SCARLETT2_CONFIG_SET_CLARETT] = {
+-	.items = {
+-		[SCARLETT2_CONFIG_DIM_MUTE] = {
+-			.offset = 0x31, .size = 8, .activate = 2 },
+-
+-		[SCARLETT2_CONFIG_LINE_OUT_VOLUME] = {
+-			.offset = 0x34, .size = 16, .activate = 1 },
+-
+-		[SCARLETT2_CONFIG_MUTE_SWITCH] = {
+-			.offset = 0x5c, .size = 8, .activate = 1 },
+-
+-		[SCARLETT2_CONFIG_SW_HW_SWITCH] = {
+-			.offset = 0x66, .size = 8, .activate = 3 },
+-
+-		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
+-			.offset = 0x7c, .size = 8, .activate = 7 },
+-
+-		[SCARLETT2_CONFIG_AIR_SWITCH] = {
+-			.offset = 0x95, .size = 8, .activate = 8 },
+-
+-		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
+-			.offset = 0x8d, .size = 8, .activate = 6 },
+-	}
+-} };
+-
  /* proprietary request/response format */
-@@ -1514,7 +1525,7 @@ static int scarlett2_has_config_item(
+ struct scarlett2_usb_packet {
+ 	__le32 cmd;
+@@ -1523,11 +1513,7 @@ static int scarlett2_usb_get(
+ static int scarlett2_has_config_item(
+ 	struct scarlett2_data *private, int config_item_num)
  {
- 	const struct scarlett2_device_info *info = private->info;
- 	const struct scarlett2_config *config_item =
--		&scarlett2_config_items[info->config_set][config_item_num];
-+		&scarlett2_config_sets[info->config_set].items[config_item_num];
- 
- 	return !!config_item->offset;
+-	const struct scarlett2_device_info *info = private->info;
+-	const struct scarlett2_config *config_item =
+-		&scarlett2_config_sets[info->config_set].items[config_item_num];
+-
+-	return !!config_item->offset;
++	return !!private->config_set->items[config_item_num].offset;
  }
-@@ -1527,7 +1538,7 @@ static int scarlett2_usb_get_config(
+ 
+ /* Send a USB message to get configuration parameters; result placed in *buf */
+@@ -1536,9 +1522,8 @@ static int scarlett2_usb_get_config(
+ 	int config_item_num, int count, void *buf)
+ {
  	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
+-	const struct scarlett2_device_info *info = private->info;
  	const struct scarlett2_config *config_item =
--		&scarlett2_config_items[info->config_set][config_item_num];
-+	    &scarlett2_config_sets[info->config_set].items[config_item_num];
+-	    &scarlett2_config_sets[info->config_set].items[config_item_num];
++		&private->config_set->items[config_item_num];
  	int size, err, i;
  	u8 *buf_8;
  	u8 value;
-@@ -1589,7 +1600,7 @@ static int scarlett2_usb_set_config(
+@@ -1598,9 +1583,8 @@ static int scarlett2_usb_set_config(
+ 	int config_item_num, int index, int value)
+ {
  	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
+-	const struct scarlett2_device_info *info = private->info;
  	const struct scarlett2_config *config_item =
--	       &scarlett2_config_items[info->config_set][config_item_num];
-+	    &scarlett2_config_sets[info->config_set].items[config_item_num];
+-	    &scarlett2_config_sets[info->config_set].items[config_item_num];
++		&private->config_set->items[config_item_num];
  	struct {
  		__le32 offset;
  		__le32 bytes;
+@@ -4365,6 +4349,7 @@ static int scarlett2_init_private(struct usb_mixer_interface *mixer,
+ 	mixer->private_suspend = scarlett2_private_suspend;
+ 
+ 	private->info = entry->info;
++	private->config_set = entry->info->config_set;
+ 	private->series_name = entry->series_name;
+ 	scarlett2_count_mux_io(private);
+ 	private->scarlett2_seq = 0;
 -- 
 2.43.0
 
