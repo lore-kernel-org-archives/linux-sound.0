@@ -1,41 +1,21 @@
-Received: from mx.dolansoft.org (s2.dolansoft.org [212.51.146.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AE4DF4D;
-	Sat, 23 Dec 2023 15:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brun.one
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brun.one
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brun.one header.i=@brun.one header.b="VOcFAZgu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=brun.one;
-	s=s1; h=MIME-Version:Message-ID:Date:Subject:Cc:To:From:In-Reply-To:
-	References:From:To:Subject:Date:Message-ID:Reply-To;
-	bh=06NBae489p7VTnS5uQHaWu0R4s/Up1uW1AfzBZmeZH0=; b=VOcFAZgukQREzSY/Zq8WZZJmre
-	nXHGkKXNvxM1CNlK+iZag5B8qaMGeUtQW3fVsgWB9JGVOyoCavpZ1vB8mkjfQlUWqw6KP9y184M98
-	tBKFqBChzvrxLuFyk5AElL/8Vz/ZOftB85WzR0806utv0LUGqgiGOgmn6FqcNEBa+zsHVm50WZ+tT
-	V5Y68DAkJbHIXE0WZ/2CEH8ybGECxki90OdoSlgH8PNxHyLoXE18Fd8gzFGJ1wlPlPnH2fK4Jjaop
-	VnrAAPJqZ+g7/Si7jL80Y7yHp3twYJ5y8+holqOQPjbkG4+pGi593G5/P68Toaew1Q+MqLHe/SjvF
-	2Fv8L5xQ==;
-Received: from [212.51.153.89] (helo=blacklava.cluster.local)
-	by mx.dolansoft.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <lorenz@dolansoft.org>)
-	id 1rH3cr-000xdn-1C;
-	Sat, 23 Dec 2023 15:09:17 +0000
-From: Lorenz Brun <lorenz@brun.one>
-To: Stefan Binding <sbinding@opensource.cirrus.com>,
-	James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C100317D4;
+	Sun, 24 Dec 2023 08:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from luzhipeng.223.5.5.5 (unknown [122.235.137.177])
+	by mail-app3 (Coremail) with SMTP id cC_KCgCHjBkT64dlc81jAQ--.7486S2;
+	Sun, 24 Dec 2023 16:25:55 +0800 (CST)
+From: Zhipeng Lu <alexious@zju.edu.cn>
+To: alexious@zju.edu.cn
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda: cs35l41: Add HP override
-Date: Sat, 23 Dec 2023 16:09:11 +0100
-Message-ID: <20231223150912.3040328-1-lorenz@brun.one>
+Subject: [PATCH] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
+Date: Sun, 24 Dec 2023 16:25:31 +0800
+Message-Id: <20231224082533.3540468-1-alexious@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,92 +23,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: lorenz@dolansoft.org
+X-CM-TRANSID:cC_KCgCHjBkT64dlc81jAQ--.7486S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArW8ZFyDZr1kWrWxJF4UXFb_yoW8Cr48pF
+	WfG3yjkrW8JrWFkanrJw1DWrn0kFn7tay5WrWrC34Iyr1YywnYvF9Y9rWv9Fyagr1rWw4x
+	Kw4Fva45Cr1UtF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43
+	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJV
+	W8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU38n5UUUUU=
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
 
-This adds an override for a series of notebooks using a common config
-taken from HP's proprietary Windows driver.
+When snd_hdsp_load_firmware_from_cache and snd_hdsp_enable_io fails,
+the hdsp->fw_uploaded needs to be free.Or there could be memleaks in
+snd_hdsp_hwdep_ioctl.
 
-This has been tested on a HP 15-ey0xxxx device (subsystem 103C8A31)
-together with another Realtek quirk and the calibration files from the
-proprietary driver.
-
-Signed-off-by: Lorenz Brun <lorenz@brun.one>
+Fixes: 90caaef6a1ce ("ALSA: hdsp: improve firmware caching")
+Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
 ---
-Changes in v2:
-- Use newly-introduced config table instead of function
-- Change boost cap value from 10uF to 24uF after cross-referencing my
-  sources with the preexisting 103C89C6 entry.
+ sound/pci/rme9652/hdsp.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-Just noticed that yesterday I sent out another copy of v1 instead of v2,
-sorry about that.
-
- sound/pci/hda/cs35l41_hda_property.c | 46 ++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index c9eb70290973..c65b106ff1ab 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -42,6 +42,30 @@ static const struct cs35l41_config cs35l41_config_table[] = {
-  * in the ACPI. The Reset GPIO is also valid, so we can use the Reset defined in _DSD.
-  */
- 	{ "103C89C6", SPI, 2, INTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, 0, 0 }, -1, -1, -1, 1000, 4500, 24 },
-+
-+	{ "103C8A28", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A29", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2A", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2B", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2C", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2D", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2E", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A30", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A31", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BB3", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BB4", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BDF", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE0", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE1", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE2", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE9", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BDD", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BDE", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE3", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE5", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE6", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8B3A", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+
- 	{ "104312AF", SPI, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431433", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431463", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-@@ -374,6 +398,28 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431F12", generic_dsd_config },
- 	{ "CSC3551", "10431F1F", generic_dsd_config },
- 	{ "CSC3551", "10431F62", generic_dsd_config },
-+	{ "CSC3551", "103C8A28", generic_dsd_config },
-+	{ "CSC3551", "103C8A29", generic_dsd_config },
-+	{ "CSC3551", "103C8A2A", generic_dsd_config },
-+	{ "CSC3551", "103C8A2B", generic_dsd_config },
-+	{ "CSC3551", "103C8A2C", generic_dsd_config },
-+	{ "CSC3551", "103C8A2D", generic_dsd_config },
-+	{ "CSC3551", "103C8A2E", generic_dsd_config },
-+	{ "CSC3551", "103C8A30", generic_dsd_config },
-+	{ "CSC3551", "103C8A31", generic_dsd_config },
-+	{ "CSC3551", "103C8BB3", generic_dsd_config },
-+	{ "CSC3551", "103C8BB4", generic_dsd_config },
-+	{ "CSC3551", "103C8BDF", generic_dsd_config },
-+	{ "CSC3551", "103C8BE0", generic_dsd_config },
-+	{ "CSC3551", "103C8BE1", generic_dsd_config },
-+	{ "CSC3551", "103C8BE2", generic_dsd_config },
-+	{ "CSC3551", "103C8BE9", generic_dsd_config },
-+	{ "CSC3551", "103C8BDD", generic_dsd_config },
-+	{ "CSC3551", "103C8BDE", generic_dsd_config },
-+	{ "CSC3551", "103C8BE3", generic_dsd_config },
-+	{ "CSC3551", "103C8BE5", generic_dsd_config },
-+	{ "CSC3551", "103C8BE6", generic_dsd_config },
-+	{ "CSC3551", "103C8B3A", generic_dsd_config },
- 	{}
- };
+diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
+index e7d1b43471a2..6f6add2f7c42 100644
+--- a/sound/pci/rme9652/hdsp.c
++++ b/sound/pci/rme9652/hdsp.c
+@@ -4874,21 +4874,20 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
  
+ 		if (copy_from_user(hdsp->fw_uploaded, firmware_data,
+ 				   HDSP_FIRMWARE_SIZE)) {
+-			vfree(hdsp->fw_uploaded);
+-			hdsp->fw_uploaded = NULL;
+-			return -EFAULT;
++			err = -EFAULT;
++			goto free_fw_uploaded;
+ 		}
+ 
+ 		hdsp->state |= HDSP_FirmwareCached;
+ 
+ 		err = snd_hdsp_load_firmware_from_cache(hdsp);
+ 		if (err < 0)
+-			return err;
++			goto free_fw_uploaded;
+ 
+ 		if (!(hdsp->state & HDSP_InitializationComplete)) {
+ 			err = snd_hdsp_enable_io(hdsp);
+ 			if (err < 0)
+-				return err;
++				goto free_fw_uploaded;
+ 
+ 			snd_hdsp_initialize_channels(hdsp);
+ 			snd_hdsp_initialize_midi_flush(hdsp);
+@@ -4897,7 +4896,7 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
+ 			if (err < 0) {
+ 				dev_err(hdsp->card->dev,
+ 					"error creating alsa devices\n");
+-				return err;
++				goto free_fw_uploaded;
+ 			}
+ 		}
+ 		break;
+@@ -4912,6 +4911,11 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
+ 		return -EINVAL;
+ 	}
+ 	return 0;
++free_fw_uploaded:
++	vfree(hdsp->fw_uploaded);
++	hdsp->fw_uploaded = NULL;
++err:
++	return err;
+ }
+ 
+ static const struct snd_pcm_ops snd_hdsp_playback_ops = {
 -- 
-2.42.0
+2.34.1
 
