@@ -1,107 +1,81 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C100317D4;
-	Sun, 24 Dec 2023 08:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from luzhipeng.223.5.5.5 (unknown [122.235.137.177])
-	by mail-app3 (Coremail) with SMTP id cC_KCgCHjBkT64dlc81jAQ--.7486S2;
-	Sun, 24 Dec 2023 16:25:55 +0800 (CST)
-From: Zhipeng Lu <alexious@zju.edu.cn>
-To: alexious@zju.edu.cn
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-Date: Sun, 24 Dec 2023 16:25:31 +0800
-Message-Id: <20231224082533.3540468-1-alexious@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5B7DF68
+	for <linux-sound@vger.kernel.org>; Sun, 24 Dec 2023 19:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="ZgUMQZMg"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 15964604B9CB; Mon, 25 Dec 2023 05:48:35 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 15964604B9CB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1703445515; bh=QLLZyfnpe9U8bhEl35okB5639hIvl6fOvsNMUeOD5DY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ZgUMQZMgpf8bwAL1LIUPBv6/ZSq1t4FM1yj9KjBge5PBLZLmp+8hJJlHKSVeWoFiB
+	 w9qTt0CQAgzIl3KZlIJAH9cU88zXhCAg3zUrPmtO+N2UczagP+Ls3DCOJotP6BreUC
+	 3QFXU90UTh/+yDiyJ5RuyicrY8gzePZnF8XZOQ6Xj1/lP6cY9c+yXmtRP8u0hEwgYW
+	 Dc7o3VnLAUmO+g6aPbHJKnSDkgx8NxtK4QUhpi62hpLiQuhSCqg7AOnj4fPDgmbYPk
+	 2wyTVtPFhPfn7otWMvOtJwCcknvzO5w21Uggjd1nd1flzQl3t63FksMNBfToOElhZS
+	 fsvIhSQuAwqkg==
+Date: Mon, 25 Dec 2023 05:48:35 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 00/23] ALSA: scarlett2: Refactor in preparation for gen4
+Message-ID: <cover.1703444932.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cC_KCgCHjBkT64dlc81jAQ--.7486S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ArW8ZFyDZr1kWrWxJF4UXFb_yoW8Cr48pF
-	WfG3yjkrW8JrWFkanrJw1DWrn0kFn7tay5WrWrC34Iyr1YywnYvF9Y9rWv9Fyagr1rWw4x
-	Kw4Fva45Cr1UtF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43
-	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJV
-	W8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU38n5UUUUU=
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When snd_hdsp_load_firmware_from_cache and snd_hdsp_enable_io fails,
-the hdsp->fw_uploaded needs to be free.Or there could be memleaks in
-snd_hdsp_hwdep_ioctl.
+Hi Takashi,
 
-Fixes: 90caaef6a1ce ("ALSA: hdsp: improve firmware caching")
-Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
----
- sound/pci/rme9652/hdsp.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+This series is preparation for adding support for the Focusrite
+Scarlett 4th Gen devices. It applies on top of the previous series
+https://lore.kernel.org/linux-sound/cover.1703001053.git.g@b4.vu/
+"ALSA: scarlett2: Firmware Upgrade and Error Handling Improvements".
 
-diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
-index e7d1b43471a2..6f6add2f7c42 100644
---- a/sound/pci/rme9652/hdsp.c
-+++ b/sound/pci/rme9652/hdsp.c
-@@ -4874,21 +4874,20 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
- 
- 		if (copy_from_user(hdsp->fw_uploaded, firmware_data,
- 				   HDSP_FIRMWARE_SIZE)) {
--			vfree(hdsp->fw_uploaded);
--			hdsp->fw_uploaded = NULL;
--			return -EFAULT;
-+			err = -EFAULT;
-+			goto free_fw_uploaded;
- 		}
- 
- 		hdsp->state |= HDSP_FirmwareCached;
- 
- 		err = snd_hdsp_load_firmware_from_cache(hdsp);
- 		if (err < 0)
--			return err;
-+			goto free_fw_uploaded;
- 
- 		if (!(hdsp->state & HDSP_InitializationComplete)) {
- 			err = snd_hdsp_enable_io(hdsp);
- 			if (err < 0)
--				return err;
-+				goto free_fw_uploaded;
- 
- 			snd_hdsp_initialize_channels(hdsp);
- 			snd_hdsp_initialize_midi_flush(hdsp);
-@@ -4897,7 +4896,7 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
- 			if (err < 0) {
- 				dev_err(hdsp->card->dev,
- 					"error creating alsa devices\n");
--				return err;
-+				goto free_fw_uploaded;
- 			}
- 		}
- 		break;
-@@ -4912,6 +4911,11 @@ static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigne
- 		return -EINVAL;
- 	}
- 	return 0;
-+free_fw_uploaded:
-+	vfree(hdsp->fw_uploaded);
-+	hdsp->fw_uploaded = NULL;
-+err:
-+	return err;
- }
- 
- static const struct snd_pcm_ops snd_hdsp_playback_ops = {
+There should be no notable functional changes in this series, just
+refactoring/restructuring/renaming/reformatting.
+
+Regards,
+Geoffrey.
+
+Geoffrey D. Bennett (23):
+  ALSA: scarlett2: Simplify enums by removing explicit values
+  ALSA: scarlett2: Infer has_msd_mode from config items
+  ALSA: scarlett2: Infer standalone switch from config items
+  ALSA: scarlett2: Check for phantom persistence config item
+  ALSA: scarlett2: Check presence of mixer using mux_assignment
+  ALSA: scarlett2: Add config set struct
+  ALSA: scarlett2: Remove scarlett2_config_sets array
+  ALSA: scarlett2: Add check for config_item presence
+  ALSA: scarlett2: Refactor scarlett2_usb_set_config()
+  ALSA: scarlett2: Refactor scarlett2_config_save()
+  ALSA: scarlett2: Formatting fixes
+  ALSA: scarlett2: Parameterise notifications
+  ALSA: scarlett2: Change num_mux_* from int to u8
+  ALSA: scarlett2: Refactor common port_count lookups
+  ALSA: scarlett2: Remove struct scarlett2_usb_volume_status
+  ALSA: scarlett2: Split dim_mute_update from vol_updated
+  ALSA: scarlett2: Remove line_out_hw_vol device info entry
+  ALSA: scarlett2: Allow for interfaces without per-channel volume
+  ALSA: scarlett2: Add scarlett2_mixer_value_to_db()
+  ALSA: scarlett2: Add #define for SCARLETT2_MIX_MAX
+  ALSA: scarlett2: Rename db_scale_scarlett2_gain to volume
+  ALSA: scarlett2: Split input_other into level/pad/air/phantom
+  ALSA: scarlett2: Split direct_monitor out from monitor_other
+
+ sound/usb/mixer_scarlett2.c | 1536 ++++++++++++++++++++---------------
+ 1 file changed, 879 insertions(+), 657 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
