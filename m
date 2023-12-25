@@ -1,438 +1,114 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6632D515
-	for <linux-sound@vger.kernel.org>; Sun, 24 Dec 2023 19:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965AA10F1;
+	Mon, 25 Dec 2023 05:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="MkGEtcAg"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 1D282604B9CB; Mon, 25 Dec 2023 06:01:14 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 1D282604B9CB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703446274; bh=+cYfs+U8RcqeWqLNqcrjHQx34hzA8bE03CiFBhX/VwM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MkGEtcAgwV//xEri3AJreZjbq+fyyC5lpd2rhA3Q5IqWC51+klYLIWCaI+qnjVwZj
-	 38ibavfcWinTEvwnP3luhjraTMcTVI9LXdC0IFaQMSMmKh8P+P+5C8YD1/wISJu0fm
-	 3bdZ0/ZGZ2Kgg/05PWdz7MZnOA5RQEOg5f7vkCpQj7ETYNj2EWn7XznxrBycL2Jwlv
-	 uW3k7wNExiq7KcYTmFAFNMA5gKWTkc6qGdWI1eSjzds1+wxlBRiFVq9ZuauXuriAkr
-	 xzgs5ml54GEEsVRuKgjCf6NwwhKLTL/S3DgUvVGbQgIHZKRCqN9QEhPidnIu/w7bp6
-	 co0p3Mo82i2NA==
-Date: Mon, 25 Dec 2023 06:01:14 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 23/23] ALSA: scarlett2: Split direct_monitor out from
- monitor_other
-Message-ID: <9b56a483e3e9c1447684f18239a88652c1f01445.1703444932.git.g@b4.vu>
-References: <cover.1703444932.git.g@b4.vu>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="pEIXGY+1"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BP5e4FL002329;
+	Sun, 24 Dec 2023 23:40:04 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1703482804;
+	bh=HrK4CoxRPJxishw+m4OPd+FN7MY4k6voZtPY9fvBQXg=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=pEIXGY+1WzghaZdx6u7sMLBA3d7Vso4jwAw75avSyUMhHYFryHjhDWTeD4JyL9s//
+	 B1YupcKuoVTIbsord9xbfVIPr1OHkGPEcnPa+mbWPCzyYuj52i0IT6m659znG3RNZC
+	 R0AJMnaJKb7fWs/Zih1y65BRVWadilbCV2qjjFQI=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BP5e4tQ002095
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 24 Dec 2023 23:40:04 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 24
+ Dec 2023 23:40:04 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sun, 24 Dec 2023 23:40:04 -0600
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.160.240])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BP5defe118972;
+	Sun, 24 Dec 2023 23:39:57 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>, <conor+dt@kernel.org>,
+        <krzysztof.kozlowski@linaro.org>
+CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <kevin-lu@ti.com>, <baojun.xu@ti.com>, <devicetree@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>,
+        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <liam.r.girdwood@intel.com>, <soyer@irl.hu>, <tiwai@suse.de>,
+        <peeyush@ti.com>, <navada@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v3 3/5] ASoC: tas2781: Add tas2563 into header file for DSP mode
+Date: Mon, 25 Dec 2023 13:39:29 +0800
+Message-ID: <20231225053932.1138-3-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20231225053932.1138-1-shenghao-ding@ti.com>
+References: <20231225053932.1138-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1703444932.git.g@b4.vu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-The notification value for monitor_other on the large interfaces is
-the same as the notification value for direct_monitor on the 3rd Gen
-small interfaces. Add a separate scarlett3a_notifications array and
-split out the direct_monitor handling.
+Move tas2563 from tas2562 header file to tas2781 header file, because
+tas2563 only work in bypass-DSP mode with tas2562 driver. In oder to
+enable DSP mode for tas2563, it has been moved to tas2781 driver. As to
+the hardware part, such as register setting and DSP firmware, all these
+are stored in the binary firmware. What tas2781 drivder dooes is to parse
+the firmware and download them to the tas2781 or tas2563, then power on
+tas2781 or tas2563. So, tas2781 driver can be resued as tas2563 driver。
+Only attention will be paid to downloading corresponding firmware.
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+
 ---
- sound/usb/mixer_scarlett2.c | 289 ++++++++++++++++++++----------------
- 1 file changed, 158 insertions(+), 131 deletions(-)
+Change in v3:
+ - Move tas2563 to tas2781 driver
+ - Add more comments on why move tas2563 to tas2781 driver
+ - Provide rationale in terms of bindings and hardware, not in terms of driver.
+   Or at least not only.
+---
+ include/sound/tas2781.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 14597428ed05..e25f004e50e4 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -277,8 +277,10 @@ static void scarlett2_notify_dim_mute(struct usb_mixer_interface *mixer);
- static void scarlett2_notify_monitor(struct usb_mixer_interface *mixer);
- static void scarlett2_notify_input_other(struct usb_mixer_interface *mixer);
- static void scarlett2_notify_monitor_other(struct usb_mixer_interface *mixer);
-+static void scarlett2_notify_direct_monitor(struct usb_mixer_interface *mixer);
-+
-+/* Arrays of notification callback functions */
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index a6c808b22318..45be543110ac 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -1,13 +1,13 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ //
+-// ALSA SoC Texas Instruments TAS2781 Audio Smart Amplifier
++// ALSA SoC Texas Instruments TAS2781/TAS2563 Audio Smart Amplifier
+ //
+ // Copyright (C) 2022 - 2023 Texas Instruments Incorporated
+ // https://www.ti.com
+ //
+-// The TAS2781 driver implements a flexible and configurable
++// The TAS2781/TAS2563 driver implements a flexible and configurable
+ // algo coefficient setting for one, two, or even multiple
+-// TAS2781 chips.
++// TAS2781/TAS2563 chips.
+ //
+ // Author: Shenghao Ding <shenghao-ding@ti.com>
+ // Author: Kevin Lu <kevin-lu@ti.com>
+@@ -60,6 +60,7 @@
  
--/* Array of notification callback functions */
- static const struct scarlett2_notification scarlett2_notifications[] = {
- 	{ 0x00000001, NULL }, /* ack, gets ignored */
- 	{ 0x00000008, scarlett2_notify_sync },
-@@ -289,6 +291,13 @@ static const struct scarlett2_notification scarlett2_notifications[] = {
- 	{ 0, NULL }
+ enum audio_device {
+ 	TAS2781	= 0,
++	TAS2563
  };
  
-+static const struct scarlett2_notification scarlett3a_notifications[] = {
-+	{ 0x00000001, NULL }, /* ack, gets ignored */
-+	{ 0x00800000, scarlett2_notify_input_other },
-+	{ 0x01000000, scarlett2_notify_direct_monitor },
-+	{ 0, NULL }
-+};
-+
- /* Configuration parameters that can be read and written */
- enum {
- 	SCARLETT2_CONFIG_DIM_MUTE,
-@@ -379,7 +388,7 @@ static const struct scarlett2_config_set scarlett2_config_set_gen2b = {
- 
- /* Gen 3 devices without a mixer (Solo and 2i2) */
- static const struct scarlett2_config_set scarlett2_config_set_gen3a = {
--	.notifications = scarlett2_notifications,
-+	.notifications = scarlett3a_notifications,
- 	.items = {
- 		[SCARLETT2_CONFIG_MSD_SWITCH] = {
- 			.offset = 0x04, .size = 8, .activate = 6 },
-@@ -690,6 +699,7 @@ struct scarlett2_data {
- 	u8 input_air_updated;
- 	u8 input_phantom_updated;
- 	u8 monitor_other_updated;
-+	u8 direct_monitor_updated;
- 	u8 mux_updated;
- 	u8 speaker_switching_switched;
- 	u8 sync;
-@@ -3127,7 +3137,7 @@ static const struct snd_kcontrol_new scarlett2_phantom_persistence_ctl = {
- 	.put  = scarlett2_phantom_persistence_ctl_put,
- };
- 
--/*** Direct Monitor Control ***/
-+/*** Speaker Switching Control ***/
- 
- static int scarlett2_update_monitor_other(struct usb_mixer_interface *mixer)
- {
-@@ -3147,11 +3157,6 @@ static int scarlett2_update_monitor_other(struct usb_mixer_interface *mixer)
- 
- 	private->monitor_other_updated = 0;
- 
--	if (info->direct_monitor)
--		return scarlett2_usb_get_config(
--			mixer, SCARLETT2_CONFIG_DIRECT_MONITOR,
--			1, &private->direct_monitor_switch);
--
- 	/* if it doesn't do speaker switching then it also doesn't do
- 	 * talkback
- 	 */
-@@ -3196,119 +3201,6 @@ static int scarlett2_update_monitor_other(struct usb_mixer_interface *mixer)
- 	return 0;
- }
- 
--static int scarlett2_direct_monitor_ctl_get(
--	struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
--{
--	struct usb_mixer_elem_info *elem = kctl->private_data;
--	struct usb_mixer_interface *mixer = elem->head.mixer;
--	struct scarlett2_data *private = elem->head.mixer->private_data;
--	int err = 0;
--
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
--
--	if (private->monitor_other_updated) {
--		err = scarlett2_update_monitor_other(mixer);
--		if (err < 0)
--			goto unlock;
--	}
--	ucontrol->value.enumerated.item[0] = private->direct_monitor_switch;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
--}
--
--static int scarlett2_direct_monitor_ctl_put(
--	struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
--{
--	struct usb_mixer_elem_info *elem = kctl->private_data;
--	struct usb_mixer_interface *mixer = elem->head.mixer;
--	struct scarlett2_data *private = mixer->private_data;
--
--	int index = elem->control;
--	int oval, val, err = 0;
--
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
--
--	oval = private->direct_monitor_switch;
--	val = min(ucontrol->value.enumerated.item[0], 2U);
--
--	if (oval == val)
--		goto unlock;
--
--	private->direct_monitor_switch = val;
--
--	/* Send switch change to the device */
--	err = scarlett2_usb_set_config(
--		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR, index, val);
--	if (err == 0)
--		err = 1;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
--}
--
--static int scarlett2_direct_monitor_stereo_enum_ctl_info(
--	struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
--{
--	static const char *const values[3] = {
--		"Off", "Mono", "Stereo"
--	};
--
--	return snd_ctl_enum_info(uinfo, 1, 3, values);
--}
--
--/* Direct Monitor for Solo is mono-only and only needs a boolean control
-- * Direct Monitor for 2i2 is selectable between Off/Mono/Stereo
-- */
--static const struct snd_kcontrol_new scarlett2_direct_monitor_ctl[2] = {
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "",
--		.info = snd_ctl_boolean_mono_info,
--		.get  = scarlett2_direct_monitor_ctl_get,
--		.put  = scarlett2_direct_monitor_ctl_put,
--	},
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "",
--		.info = scarlett2_direct_monitor_stereo_enum_ctl_info,
--		.get  = scarlett2_direct_monitor_ctl_get,
--		.put  = scarlett2_direct_monitor_ctl_put,
--	}
--};
--
--static int scarlett2_add_direct_monitor_ctl(struct usb_mixer_interface *mixer)
--{
--	struct scarlett2_data *private = mixer->private_data;
--	const struct scarlett2_device_info *info = private->info;
--	const char *s;
--
--	if (!info->direct_monitor)
--		return 0;
--
--	s = info->direct_monitor == 1
--	      ? "Direct Monitor Playback Switch"
--	      : "Direct Monitor Playback Enum";
--
--	return scarlett2_add_new_ctl(
--		mixer, &scarlett2_direct_monitor_ctl[info->direct_monitor - 1],
--		0, 1, s, &private->direct_monitor_ctl);
--}
--
--/*** Speaker Switching Control ***/
--
- static int scarlett2_speaker_switch_enum_ctl_info(
- 	struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
- {
-@@ -4014,6 +3906,133 @@ static int scarlett2_add_mixer_ctls(struct usb_mixer_interface *mixer)
- 	return 0;
- }
- 
-+/*** Direct Monitor Control ***/
-+
-+static int scarlett2_update_direct_monitor(struct usb_mixer_interface *mixer)
-+{
-+	struct scarlett2_data *private = mixer->private_data;
-+
-+	private->direct_monitor_updated = 0;
-+
-+	if (!private->info->direct_monitor)
-+		return 0;
-+
-+	return scarlett2_usb_get_config(
-+		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR,
-+		1, &private->direct_monitor_switch);
-+}
-+
-+static int scarlett2_direct_monitor_ctl_get(
-+	struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct usb_mixer_interface *mixer = elem->head.mixer;
-+	struct scarlett2_data *private = elem->head.mixer->private_data;
-+	int err = 0;
-+
-+	mutex_lock(&private->data_mutex);
-+
-+	if (private->hwdep_in_use) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	if (private->direct_monitor_updated) {
-+		err = scarlett2_update_direct_monitor(mixer);
-+		if (err < 0)
-+			goto unlock;
-+	}
-+	ucontrol->value.enumerated.item[0] = private->direct_monitor_switch;
-+
-+unlock:
-+	mutex_unlock(&private->data_mutex);
-+	return err;
-+}
-+
-+static int scarlett2_direct_monitor_ctl_put(
-+	struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct usb_mixer_interface *mixer = elem->head.mixer;
-+	struct scarlett2_data *private = mixer->private_data;
-+
-+	int index = elem->control;
-+	int oval, val, err = 0;
-+
-+	mutex_lock(&private->data_mutex);
-+
-+	if (private->hwdep_in_use) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	oval = private->direct_monitor_switch;
-+	val = min(ucontrol->value.enumerated.item[0], 2U);
-+
-+	if (oval == val)
-+		goto unlock;
-+
-+	private->direct_monitor_switch = val;
-+
-+	/* Send switch change to the device */
-+	err = scarlett2_usb_set_config(
-+		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR, index, val);
-+	if (err == 0)
-+		err = 1;
-+
-+unlock:
-+	mutex_unlock(&private->data_mutex);
-+	return err;
-+}
-+
-+static int scarlett2_direct_monitor_stereo_enum_ctl_info(
-+	struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
-+{
-+	static const char *const values[3] = {
-+		"Off", "Mono", "Stereo"
-+	};
-+
-+	return snd_ctl_enum_info(uinfo, 1, 3, values);
-+}
-+
-+/* Direct Monitor for Solo is mono-only and only needs a boolean control
-+ * Direct Monitor for 2i2 is selectable between Off/Mono/Stereo
-+ */
-+static const struct snd_kcontrol_new scarlett2_direct_monitor_ctl[2] = {
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "",
-+		.info = snd_ctl_boolean_mono_info,
-+		.get  = scarlett2_direct_monitor_ctl_get,
-+		.put  = scarlett2_direct_monitor_ctl_put,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "",
-+		.info = scarlett2_direct_monitor_stereo_enum_ctl_info,
-+		.get  = scarlett2_direct_monitor_ctl_get,
-+		.put  = scarlett2_direct_monitor_ctl_put,
-+	}
-+};
-+
-+static int scarlett2_add_direct_monitor_ctl(struct usb_mixer_interface *mixer)
-+{
-+	struct scarlett2_data *private = mixer->private_data;
-+	const struct scarlett2_device_info *info = private->info;
-+	const char *s;
-+
-+	if (!info->direct_monitor)
-+		return 0;
-+
-+	s = info->direct_monitor == 1
-+	      ? "Direct Monitor Playback Switch"
-+	      : "Direct Monitor Playback Enum";
-+
-+	return scarlett2_add_new_ctl(
-+		mixer, &scarlett2_direct_monitor_ctl[info->direct_monitor - 1],
-+		0, 1, s, &private->direct_monitor_ctl);
-+}
-+
- /*** Mux Source Selection Controls ***/
- 
- static int scarlett2_mux_src_enum_ctl_info(struct snd_kcontrol *kctl,
-@@ -4639,7 +4658,7 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- 	if (err < 0)
- 		return err;
- 
--	err = scarlett2_update_monitor_other(mixer);
-+	err = scarlett2_update_direct_monitor(mixer);
- 	if (err < 0)
- 		return err;
- 
-@@ -4647,6 +4666,10 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- 	if (!scarlett2_has_mixer(private))
- 		return 0;
- 
-+	err = scarlett2_update_monitor_other(mixer);
-+	if (err < 0)
-+		return err;
-+
- 	if (scarlett2_has_config_item(private,
- 				      SCARLETT2_CONFIG_STANDALONE_SWITCH)) {
- 		err = scarlett2_usb_get_config(
-@@ -4843,9 +4866,7 @@ static void scarlett2_notify_input_other(struct usb_mixer_interface *mixer)
- 	scarlett2_notify_input_phantom(mixer);
- }
- 
--/* Notify on "monitor other" change (direct monitor, speaker
-- * switching, talkback)
-- */
-+/* Notify on "monitor other" change (speaker switching, talkback) */
- static void scarlett2_notify_monitor_other(struct usb_mixer_interface *mixer)
- {
- 	struct snd_card *card = mixer->chip->card;
-@@ -4854,12 +4875,6 @@ static void scarlett2_notify_monitor_other(struct usb_mixer_interface *mixer)
- 
- 	private->monitor_other_updated = 1;
- 
--	if (info->direct_monitor) {
--		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--			       &private->direct_monitor_ctl->id);
--		return;
--	}
--
- 	if (info->has_speaker_switching)
- 		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
- 			       &private->speaker_switching_ctl->id);
-@@ -4885,6 +4900,18 @@ static void scarlett2_notify_monitor_other(struct usb_mixer_interface *mixer)
- 	}
- }
- 
-+/* Notify on direct monitor switch change */
-+static void scarlett2_notify_direct_monitor(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_card *card = mixer->chip->card;
-+	struct scarlett2_data *private = mixer->private_data;
-+
-+	private->direct_monitor_updated = 1;
-+
-+	snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+		       &private->direct_monitor_ctl->id);
-+}
-+
- /* Interrupt callback */
- static void scarlett2_notify(struct urb *urb)
- {
+ enum device_catlog_id {
 -- 
-2.43.0
+2.34.1
 
