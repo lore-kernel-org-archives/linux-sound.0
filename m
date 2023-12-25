@@ -1,178 +1,165 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2071.outbound.protection.outlook.com [40.107.20.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914EE443E;
-	Mon, 25 Dec 2023 05:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0120015B0;
+	Mon, 25 Dec 2023 08:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="NU1/5+7N"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BP5eLIU002555;
-	Sun, 24 Dec 2023 23:40:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1703482821;
-	bh=/cJuzaMwBV9bj1owzJ1BkwCP1ERmEL8XbnhumEog2aY=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=NU1/5+7NkV+Tnr0pFQOv3BY5XDp9UBTRWADPZVzrfCWL+PB72rZAO4u+UKchVtYaW
-	 lFx1TfgOUGWDNmqXphkEHjTHB22a64qv2iCncEwGNLIzx8XRuX+J0+dSxLrSoRol2m
-	 hyX5pjWduaeQtidtc9tsmc3FHQpWvW2n+2vrUgxU=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BP5eLom034343
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 24 Dec 2023 23:40:21 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 24
- Dec 2023 23:40:21 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 24 Dec 2023 23:40:21 -0600
-Received: from LT5CG31242FY.dhcp.ti.com ([10.250.160.240])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BP5defg118972;
-	Sun, 24 Dec 2023 23:40:14 -0600
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <krzysztof.kozlowski@linaro.org>
-CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <kevin-lu@ti.com>, <baojun.xu@ti.com>, <devicetree@vger.kernel.org>,
-        <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <liam.r.girdwood@intel.com>, <soyer@irl.hu>, <tiwai@suse.de>,
-        <peeyush@ti.com>, <navada@ti.com>,
-        Shenghao Ding <shenghao-ding@ti.com>
-Subject: [PATCH v3 5/5] ASoC: dt-bindings: Add tas2563 into ti,ta2781.yaml to enable DSP mode
-Date: Mon, 25 Dec 2023 13:39:31 +0800
-Message-ID: <20231225053932.1138-5-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20231225053932.1138-1-shenghao-ding@ti.com>
-References: <20231225053932.1138-1-shenghao-ding@ti.com>
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="BuyfL0lv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jHIFr0QMd8WJLs5iLLdZKoaLLm2i57oF4DoTJt9LpSPW6vuQwFJYXpAmDI3M56AquKqvgl5d2UXkeOLPBMsaDFItgNnYzpF0rcdMfZ9BFIZjnTzRlknp29CLVVHg8OfOS6TRRGTRqOMVRDty7wxPTe9/+E2ym8sf3yJ9qnG5nfbEZh+MVAux1vt/RTOxK0/WxE3yrH2FRA6rxTlw4RJkDsPCnHqWERQzRfXu5L14eKYOn4zMmijNg68C4IT0FQ8ZP4QEanUZ83DHDmSA+DhTWHWnruxg3ndltHARsVLF9PP8h0awruxyA0I6NtMd5gPKK7x4I+7Y4S0LbnpyB5gsvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X+eM8lvNvRlnae/G7ZMO0TDgODGjMvjnUOoYW8Odyog=;
+ b=cdJl7UBkIA9h8/JeFg4SGLEX2R/FSxOe+9Lh1zhmaV/Msvh9/TSQSDN97HIuny1a7BlcxV6Ydkrl6qIPI4TAzOCLN6MiiTFcMTMoPhC0nYiX+80x2sSLlJ6Yz2V1jSJDyi1J53V3sQbnPyRJ/g5zMBioVdtoUdR7t6ZlwR294Xrmf6DLN6gUdi74BWz30bIdNVZ15q89tPso1blAw2UL5LIrSjilhcVS5drP0XX2+RS/m0Fclpy5qD6tTWO42olrWBjBSy1wBCHuL9oUq0UZy+CDGYTcYhlv8PC+SchYv3CDdRm6I9OSyT3RCu62swg5+8PDuIomSNgf28S03uwDUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X+eM8lvNvRlnae/G7ZMO0TDgODGjMvjnUOoYW8Odyog=;
+ b=BuyfL0lvXtfxn3Lbr2/VEIBaEDefurii3WSH5cUJEuhMXUYtJ5jjGfo5Luu5CWc1c4xlO0g14I3na9F8u5poLudw+PcYsJzjKp+X15xHIT9CRUMpDmb0r74SAbWnTw4vYvwGM3hOdBpZwG/XWp+3fDqH2MvOSYbsiRkETW3t5Ls=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
+ by DUZPR04MB9727.eurprd04.prod.outlook.com (2603:10a6:10:4b1::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.26; Mon, 25 Dec
+ 2023 08:06:42 +0000
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c]) by DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c%3]) with mapi id 15.20.7113.026; Mon, 25 Dec 2023
+ 08:06:42 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org
+Cc: Chancel Liu <chancel.liu@nxp.com>
+Subject: [PATCH] ASoC: fsl_rpmsg: Fix error handler with pm_runtime_enable
+Date: Mon, 25 Dec 2023 17:06:08 +0900
+Message-ID: <20231225080608.967953-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.42.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::18)
+ To DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|DUZPR04MB9727:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44b992ed-ec12-463b-da4f-08dc05206e0e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	48a3mshOtRHLH2BvaCpxRmPwDs2UDTCpnalg2QG3sNNmhp17v6x8sNCWmv2xJ8XQWgWJHDnx986s0eVLTF3cy/9leE7XyebkiCzJhzPBOqILD9Epn7+SdXAHDq5wMaV1NRP33TgKiwgC8Bt2SihpyzbeCoNlp7fgT7xr3Mzeg/oMrPxbaPS9ikffQRP8/OCXWeY8s/2NnKu0H7CEBdMRQ7ekkHJpyO15IXPT56Ry0GtLH5pNjTvuGeCFbT38QKV8N7DAI26sB1AAIdWXFgvploHafPzQOgdY6/dbJE7og5qu8QVDfHYTkT8lh0lvcrWwjHw27sowyrOnn0PQVlDwGT4V+F74dKGOcBY2do3iTFz+by4tVgV/VdFxCl0//qeG0HCg2+HzFPfaAUP5jcTl/OYR4Jir4zQGGsGZtZ76vcPVdoLpqBDywp7bk4o8KR+Gkd2lYzl1FKL4epHPRN904Az7ztsQCH8/bw0PkmO72iuFg9K931jtBvVRwpaKsx1W1e3MG1XthefJBsggzK83ZZCJL/1iRqqGFYMiChXHYmt/F0pgUXxX+0xnMOGqotaC2Mj8jEJ2kwZX7FZcrHo7mNhf9xU9xqA5qt3ZaaKVXeIDKPr8B/7D/FJljsMOoNZE
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(376002)(136003)(366004)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(86362001)(1076003)(2616005)(26005)(52116002)(6666004)(6512007)(6506007)(41300700001)(38100700002)(83380400001)(36756003)(44832011)(7416002)(6486002)(5660300002)(66946007)(38350700005)(8936002)(8676002)(4326008)(316002)(66556008)(921011)(66476007)(478600001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Tx742bQIOc3LOxc2k1K/VhsMLFbfAfJTlpqlNEr+ePLQ+jEgN+VNEk4y036B?=
+ =?us-ascii?Q?dIFZrf5YBZc+gZIwiMzxllYUfWFM3kxTyY2WR2SvPQZG0H83ec2bp4fbNS2M?=
+ =?us-ascii?Q?9Zzk8/Q9SG/ID6raOeJ0mFzGq4B3DE8znYtPM+EkI0+r70fdmXAkJ+VViO++?=
+ =?us-ascii?Q?qvmaPpUWbhZ5X+POnE8pVNorinnt33ArfvzYdCgnWY2tFGA19pq1mUe8UUa0?=
+ =?us-ascii?Q?s0wn0hNblAZwIJv/XTWr2hqgNR0+ANtjn+4qq9cfQVjNzpXpyAUTj0pGZU9K?=
+ =?us-ascii?Q?a7mIFc7i8Iu5JN5LEtiNs28QdbhVwPPz9DGPSgNQ85pJn9OUpGsTcmpMQFJm?=
+ =?us-ascii?Q?zjio1bW4D/rz5pKYJlDz0Q2Nqw8NyRzOwNRudfFShUiD6hNRfdCoZRVeF6P1?=
+ =?us-ascii?Q?Q1t1hh+CEYefuZvNym34hkHZ367jh6Z8ppDyU7OkWYp5kenvnVIZYz9SJMdy?=
+ =?us-ascii?Q?ayTdqPC/2E6V+xS2FwjGCIWi7oSlFJsQPhehR/B3kWShZ2nsYw9Yo1h/40mw?=
+ =?us-ascii?Q?gCQhBjxtdVcQHD6oWqKJSN5hOlWVAH6Gl9dC7E7PIODO5EDTiVOntypcfF9l?=
+ =?us-ascii?Q?s28nER4Dhw7wTD6zW6y9dP+ryAD6xreLZ56R5X2i99Xz8WfhUXQsRP9D7k7G?=
+ =?us-ascii?Q?MIfrDYQVqEYjegxYTGAJjK3g9C+bkRkP8k6mOXPPFSFXPRTvDNwNxTAGKoo/?=
+ =?us-ascii?Q?rEyXdDsfbMY4Sf2VErbVwe+1kSz4irIn+JHBcbtb2Z8LrX+HSlRUMnlHdExi?=
+ =?us-ascii?Q?/7uTyGPZoti18UW0+pTyZedwKDNOtOnK2guTE5oNsLpO5EL8v1M9rxoRmMxa?=
+ =?us-ascii?Q?Zzsbj/guKvChoAsSVdiXAbv29TkHPmLW4zMziv7JyAhVBJauBjBj4bp1bP9J?=
+ =?us-ascii?Q?3a+Fj/jEhI+Z24pRHUACvQ0xdQqnd/OBfCZ3mPTnOQ8Yg5M2zTuRYJSOeAkj?=
+ =?us-ascii?Q?Tk3twEyYbjVvv3vxq/Fs1tNid92Io7lVivDLHNa2qgJgtI3qNZfYvnCj992e?=
+ =?us-ascii?Q?Y05n1A2tIU4hczEwAi/orDqVHbTgwaf1rTl2+eU4GuS0SwFNT3yhKK0/rBh7?=
+ =?us-ascii?Q?tltNFXHR3QkzQbzO0KLPvc0b8reHSaBNd/1TfQEYBfGHXEoBtECjihXG9PMn?=
+ =?us-ascii?Q?PAACTcrjWU++f5TQAaYFObyLLYsOeuFPQ0QYvScIyozU1YIoorpZibffAVX3?=
+ =?us-ascii?Q?NC7hMon97Qp1TGq4CsgGcYPRsHc+3lxBIXSLbjjlQgGCfHfv5i88Uu3Yo1Zr?=
+ =?us-ascii?Q?KkPW49mdJdtiZfa2IfmBl19p/QkNBXMXDm/Appgi1FX9m99gzomCyOoKGL7X?=
+ =?us-ascii?Q?/WacUnfwyFXPznC861xGtK3S2u+/Y6aX5HS2gQ38DGtFN+DqNkmq94TCpXD4?=
+ =?us-ascii?Q?36v5vF+fkn2NZmQ/tVEbFt+2Z2Qtlvp0+NhylQsgGMWZKmGSZ6k3hUkO5xE2?=
+ =?us-ascii?Q?Bbyl5EI3gN8lWnkk3zpLYGXZ+f+Xo7Ax9NWfE8N/hAglRltc8BUhAAzYRYKu?=
+ =?us-ascii?Q?RHrUrv83rOm0WzaGh92DHc/6m6qzXwNR+CjNuGGiVShH24LQnIQj4ec5aDio?=
+ =?us-ascii?Q?8Q+OigL8E7H/WP77WIXYKJusaTPcY5T9zzcUHdJA?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44b992ed-ec12-463b-da4f-08dc05206e0e
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2023 08:06:42.4991
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mb6plim/JhOOPycSyqHKc3KqSzNaH5A6Xl/yNZ9Jb6dobQma4jr6GwFbjHiNq7bMx407NVE10OCjWTQfpRUFxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9727
 
-Move tas2563 from tas2562.yaml to tas2781.yaml, because tas2563 only work
-in bypass-DSP mode with tas2562 driver. In oder to enable DSP mode for
-tas2563, it has been moved to tas2781 driver. As to the hardware part,
-such as register setting and DSP firmware, all these are stored in the
-binary firmware. What tas2781 drivder dooes is to parse the firmware and
-download them to the tas2781 or tas2563, then power on tas2781 or tas2563.
-So, tas2781 driver can be resued as tas2563 driver. Only attention will be
-paid to downloading corresponding firmware.
+There is error message when defer probe happens:
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+fsl_rpmsg rpmsg_audio: Unbalanced pm_runtime_enable!
 
+Fix the error handler with pm_runtime_enable.
+
+Fixes: b73d9e6225e8 ("ASoC: fsl_rpmsg: Add CPU DAI driver for audio base on rpmsg")
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 ---
-Change in v3:
- - Add devicetree list and other list of necessary people and lists to CC
- - Express Compatibility in the bindings
- - Add more comments on why move tas2563 to tas2781 driver
- - Provide rationale in terms of bindings and hardware, not in terms of driver.
-   Or at least not only.
----
- .../devicetree/bindings/sound/ti,tas2781.yaml | 66 ++++++++++++++-----
- 1 file changed, 51 insertions(+), 15 deletions(-)
+ sound/soc/fsl/fsl_rpmsg.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-index a69e6c223308..bbe8e5f2c013 100644
---- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-@@ -5,36 +5,72 @@
- $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/sound/soc/fsl/fsl_rpmsg.c b/sound/soc/fsl/fsl_rpmsg.c
+index 5c5c04ce9db7..00852f174a69 100644
+--- a/sound/soc/fsl/fsl_rpmsg.c
++++ b/sound/soc/fsl/fsl_rpmsg.c
+@@ -238,7 +238,7 @@ static int fsl_rpmsg_probe(struct platform_device *pdev)
+ 	ret = devm_snd_soc_register_component(&pdev->dev, &fsl_component,
+ 					      &fsl_rpmsg_dai, 1);
+ 	if (ret)
+-		return ret;
++		goto err_pm_disable;
  
--title: Texas Instruments TAS2781 SmartAMP
-+title: Texas Instruments TAS2781/TAS2563 SmartAMP
+ 	rpmsg->card_pdev = platform_device_register_data(&pdev->dev,
+ 							 "imx-audio-rpmsg",
+@@ -248,16 +248,22 @@ static int fsl_rpmsg_probe(struct platform_device *pdev)
+ 	if (IS_ERR(rpmsg->card_pdev)) {
+ 		dev_err(&pdev->dev, "failed to register rpmsg card\n");
+ 		ret = PTR_ERR(rpmsg->card_pdev);
+-		return ret;
++		goto err_pm_disable;
+ 	}
  
- maintainers:
-   - Shenghao Ding <shenghao-ding@ti.com>
- 
- description:
--  The TAS2781 is a mono, digital input Class-D audio amplifier
--  optimized for efficiently driving high peak power into small
--  loudspeakers. An integrated on-chip DSP supports Texas Instruments
--  Smart Amp speaker protection algorithm. The integrated speaker
--  voltage and current sense provides for real time
-+  The TAS2781/TAS2563 is a mono, digital input Class-D audio
-+  amplifier optimized for efficiently driving high peak power into
-+  small loudspeakers. An integrated on-chip DSP supports Texas
-+  Instruments Smart Amp speaker protection algorithm. The
-+  integrated speaker voltage and current sense provides for real time
-   monitoring of loudspeaker behavior.
- 
- allOf:
-   - $ref: dai-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ti,tas2781
-+    then:
-+      properties:
-+        reg:
-+          description:
-+            I2C address, in multiple AMP case, all the i2c address
-+            aggregate as one Audio Device to support multiple audio slots.
-+          maxItems: 8
-+          minItems: 1
-+          items:
-+            minimum: 0x38
-+            maximum: 0x3f
-+    else:
-+      properties:
-+        reg:
-+          description:
-+            I2C address, in multiple AMP case, all the i2c address
-+            aggregate as one Audio Device to support multiple audio slots.
-+          maxItems: 4
-+          minItems: 1
-+          items:
-+            minimum: 0x4c
-+            maximum: 0x4f
- 
- properties:
-   compatible:
-+    description: |
-+      ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
-+      Protection and Audio Processing, 16/20/24/32bit stereo I2S or
-+      multichannel TDM.
+ 	return 0;
 +
-+      ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
-+      DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
-     enum:
-       - ti,tas2781
-+      - ti,tas2563
-+      # Tas781 driver can support both tas2563 and tas2781, because the
-+      # hardware part in the driver code, such as register setting and DSP
-+      # firmware, all these are stored in the binary firmware. What drivder
-+      # dooes is to parse the firmware and download it to the tas2781 or
-+      # tas2563, then control tas2781 or tas2563 to power on/off or switch
-+      # different dsp params. So, tas2781 driver can be resued as tas2563
-+      # driver. Only attention will be paid to downloading corresponding
-+      # firmware.
++err_pm_disable:
++	pm_runtime_disable(&pdev->dev);
++	return ret;
+ }
  
--  reg:
--    description:
--      I2C address, in multiple tas2781s case, all the i2c address
--      aggregate as one Audio Device to support multiple audio slots.
--    maxItems: 8
--    minItems: 1
--    items:
--      minimum: 0x38
--      maximum: 0x3f
-+  reg: true
+ static void fsl_rpmsg_remove(struct platform_device *pdev)
+ {
+ 	struct fsl_rpmsg *rpmsg = platform_get_drvdata(pdev);
  
-   reset-gpios:
-     maxItems: 1
++	pm_runtime_disable(&pdev->dev);
++
+ 	if (rpmsg->card_pdev)
+ 		platform_device_unregister(rpmsg->card_pdev);
+ }
 -- 
-2.34.1
+2.42.0
 
