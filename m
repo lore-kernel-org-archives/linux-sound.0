@@ -1,95 +1,100 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C29253E24;
-	Mon, 25 Dec 2023 18:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A9D537F1;
+	Mon, 25 Dec 2023 19:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LkZSt71s"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40d41555f9dso39654355e9.2;
-        Mon, 25 Dec 2023 10:14:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxYtli9Z"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-67f9fac086bso25831486d6.3;
+        Mon, 25 Dec 2023 11:55:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703528042; x=1704132842; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rz81Z+AsrglFOvFGWIx/vdHHlB2ARV8OVKRT2IbjlJE=;
-        b=LkZSt71std6SfDismfeOiJg2rVTb6A5Tiq21rf2QC07dKNoEhwVyGph5Ccf/7CGAdd
-         /+MNJvuJ27e14eUgd3oWGrdvpgFaH/mixO3seBDqINH/y+aZFerIYtqvhPAJD9+kzoBf
-         g5Kof0hLry4nBruiXp08RwqRC3yjJPSLc16sWieebFzIWZZiQ7g8OvKTvylR1dUfO///
-         D1Bj9BmFQovJnGG3IVMr447VAzNo9rE+2+ZzWS7XdBHUbRfDFIsKaGPzQZmLdbTWk0Uu
-         OBl05AhqINihs0J1ckBh9fYgl90Xx8wdJbfDLVb8S22jCmtRif9/Xf6LoTVJT6dDpOal
-         dYRw==
+        d=gmail.com; s=20230601; t=1703534157; x=1704138957; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v+5mdzcIi0J0U/jyti3PngFAcX/L3/DjChGGJD4WjO0=;
+        b=NxYtli9ZFO+nMhFI9jJM7AmM0UEQP1AYBBIsOQxfutncfFzrXXCl15MO/db7qTycZK
+         E+BH/bT9aSglTtOFm3KR2+eZigo1JECteRjB+Lf6D4H+VUekocZzQOW9kNtiT6vNAEdu
+         eyULYF4OpMBf9aO1e3D6n6vle9kAczFQsb+PP3Gpcj0oNr7p6TzgdohHThbsm/UKZGkI
+         b7vElq1p6YB//aONShEDs/fdGYpRWY/CXq75zdr+SSC1pzI1Yeu71uwlTIlo01Fasmfd
+         zmN59m49OnC7ZyKAwFOtXPoIG+DlBtpEIU1qiuOKJ3GnObSqiIA8sdeJ/CFmjuNqHnfP
+         vTTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703528042; x=1704132842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rz81Z+AsrglFOvFGWIx/vdHHlB2ARV8OVKRT2IbjlJE=;
-        b=YerrxOXeXRowrE1LRs1GYHy0ot1n6IFM+CDhzc1Ot3hzXnoinSwOYU3ArEvggGJaBO
-         kNdiLRQXqRygnaDG6KWO5okFbs76ieBHabLXTe0sKxBc0u+5G+kPEJEBgsB1fFvHYtc4
-         dKbaDAyQQJGiBluoMsBQUr2qtERj9oJLFSHRgPDzDCSQZwukhj/m+SqrDHS/rPBCC3+4
-         cZhH8D5YSN5e8XjTzGGE9NwdPUj1Q+UZBHi3nuI9Cdx5vcBG/rLuhMG5YsnA10HJChjR
-         +g3K5HsgtTgIgnTJzeYf/08uyVZ8XPWMTBks2WiqDFqkNGgh4JvHXzBnRvveOT+zNoC9
-         7zYg==
-X-Gm-Message-State: AOJu0Yxzys7tS7gGysU35STEWC9jADMkOrGNjuvBSAj0oBjzv765qcCQ
-	4CAwWpZRtbHE1A0IUDg01o8=
-X-Google-Smtp-Source: AGHT+IHsCJppzurm5GNWQBN+9kFR/KLp8m/kudotLA7VKadEEEmMdxDHCJg6uOmq586jCvIkIzsTeQ==
-X-Received: by 2002:a05:600c:1390:b0:40c:6c80:efa4 with SMTP id u16-20020a05600c139000b0040c6c80efa4mr3641775wmf.35.1703528042273;
-        Mon, 25 Dec 2023 10:14:02 -0800 (PST)
-Received: from localhost.localdomain ([2a02:842a:1ce:5301:f733:18af:2fff:3d3d])
-        by smtp.gmail.com with ESMTPSA id jg7-20020a05600ca00700b0040c46719966sm25640085wmb.25.2023.12.25.10.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 10:14:02 -0800 (PST)
-From: Dorian Cruveiller <doriancruveiller@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	andy.chi@canonical.com,
-	shenghao-ding@ti.com,
-	ruinairas1992@gmail.com,
-	l.guzenko@web.de,
-	yangyuchi66@gmail.com,
-	vitalyr@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Dorian Cruveiller <doriancruveiller@gmail.com>
-Subject: [PATCH] Add support for cirrus cs35l41 sound amplifier
-Date: Mon, 25 Dec 2023 19:13:52 +0100
-Message-ID: <20231225181352.185455-1-doriancruveiller@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1703534157; x=1704138957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v+5mdzcIi0J0U/jyti3PngFAcX/L3/DjChGGJD4WjO0=;
+        b=MfRAV5ecmWVJGgpiky0hi3GmiB0RSj+818pzkavsUq3u4xlw+Whbpcbc4NR5ck1qNu
+         mzcma0jmC70uzLWUrPKdfEreDwKq/4KUHcuv50N6x93Ea0w6D5niLKf+VqYbmmktx+dR
+         p/wzOi9BfKKdLdt4VCrQiHo7gACGfG9umiT0lEHhZ5QJd1G1H52wPrcp25SfIZSe3LJu
+         qsrKc7seUPyYM3N5xNz4c1jHqGLQbBsDPt3yFtFm9t9Evr+B6lr0lA9cg6lXJbFBJxGZ
+         N7io5fHfSC5x1GBHnVGrxyrUjEKl7ebN4OVw9EPlUrU//1Fuw8ySkFOPhyunRP3aN9l5
+         Q0KQ==
+X-Gm-Message-State: AOJu0YzROFql4ZIsbY1+HX9/cPP1tbA3e8CECrK5NuBBHPpoHCInyVBG
+	ikQqfEgCpEjx2AuIkPwvZPFRqML9CAnc1JlNO8I=
+X-Google-Smtp-Source: AGHT+IGXQ1DzDW/z7mbnW1aKOma9kP1mZ08AqBa7wFFHcRRfcWmagU8jQFFGhrorFhUOmpGd2hGTlBhrmy9h8xA7nx4=
+X-Received: by 2002:ad4:5c49:0:b0:67f:6982:edb4 with SMTP id
+ a9-20020ad45c49000000b0067f6982edb4mr13149244qva.14.1703534157222; Mon, 25
+ Dec 2023 11:55:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231212-ep93xx-v6-0-c307b8ac9aa8@maquefel.me>
+ <ZXnxBtqbneUMbvwq@smile.fi.intel.com> <d6e898200b96e816ea8c8c9a847307088ec5821c.camel@maquefel.me>
+In-Reply-To: <d6e898200b96e816ea8c8c9a847307088ec5821c.camel@maquefel.me>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 25 Dec 2023 21:55:20 +0200
+Message-ID: <CAHp75Vcx8oviLiCu=cnzKcdXjEq9wG=PCiBuPTBYe6FFfUcz7Q@mail.gmail.com>
+Subject: Re: [PATCH v6 00/40] ep93xx device tree conversion
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: Andy Shevchenko <andy@kernel.org>, Hartley Sweeten <hsweeten@visionengravers.com>, 
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andrew Lunn <andrew@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Link up the realtek audio chip to the cirrus cs35l41 sound amplifier chip
-on 2 two models of the Lenovo legion slim 7 gen 8 (2023). These models are
-16IRH8 and 16APH8.
+On Sat, Dec 23, 2023 at 11:13=E2=80=AFAM Nikita Shubin
+<nikita.shubin@maquefel.me> wrote:
+> On Wed, 2023-12-13 at 19:59 +0200, Andy Shevchenko wrote:
 
-Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 2 ++
- 1 file changed, 2 insertions(+)
+...
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c3a756528886..d8c8bb4c71b7 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10208,6 +10208,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL", ALC287_FIXUP_13S_GEN2_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3820, "Yoga Duet 7 13ITL6", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3824, "Legion Y9000X 2020", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
-+	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x3827, "Ideapad S740", ALC285_FIXUP_IDEAPAD_S740_COEF),
- 	SND_PCI_QUIRK(0x17aa, 0x3834, "Lenovo IdeaPad Slim 9i 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x383d, "Legion Y9000X 2019", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
--- 
-2.43.0
+> I haven't found any missing tags, that b4 didn't apply, the ones above
+> refer to a very old iteration and were given to cover letter and i
+> don't feel like they need to be included.
 
+When somebody gives you a tag against a cover letter, it means the
+entire series (if not spelled differently). `b4` even has a parameter
+-t for that IIRC.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
