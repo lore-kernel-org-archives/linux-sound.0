@@ -1,32 +1,31 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311515025C
-	for <linux-sound@vger.kernel.org>; Tue, 26 Dec 2023 18:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1545025C
+	for <linux-sound@vger.kernel.org>; Tue, 26 Dec 2023 18:08:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="DGRMyPaq"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="Ojj7sBnB"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 400B7604B1D6; Wed, 27 Dec 2023 04:38:28 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 400B7604B1D6
+	id 240FC604B1E4; Wed, 27 Dec 2023 04:38:34 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 240FC604B1E4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703614108; bh=v67oe/v5feaoTXm7fzhh8FSx5eyKkY0u+xb6x5H9PaQ=;
+	t=1703614114; bh=Z1wypPWyRwmNOqYEnSJ9Ayq84v0l+X7IAUmsB3CMjQA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DGRMyPaqduCSIV2xzp0F4fhODqV+84G9I8NF1bk5XnReRuFCTqpyJ81k3R941Ob+d
-	 92dNCGgyfEOGnPRX0p6b73od1Xh9H5b9K+KWHEBZc1P5Lnc2+WHBK/iP4yn5COsBL+
-	 xusfjoPR/DGqc3fkP5Y+8scwbbsKErEjXNZiXFNCZgYfzckm6Hh9tmgvPvtgTqOrDX
-	 h7JN4bro7r9ROJ6GhwPHhQW1muK2CufjbyxdSu0aNJDydWm10lT+EH6YhY/I12Cyu1
-	 Dzrnlm70CiXs97vwj3H35EpubYNZbebEzNvfoh0s7Bw9knOf2a4e59hcsu9X0c09Qc
-	 LLbIBlxVHHEuQ==
-Date: Wed, 27 Dec 2023 04:38:28 +1030
+	b=Ojj7sBnBy9qGcmhYbcLah13c7i8VbTeVCiRB3mzkOid5K/EqJR8hjUJ3ttfgKQEYZ
+	 gmtThMd9OFoS0yJIka2/fu3Mcui96jJMEFXddCLdXCNbJfB6nwmEBvAfToaF7Ahdm0
+	 ZlnGgJaLvdg856HwSjxCXAMvyTFNylspJSjomzjJLi+QvD6l2UN3ODZRUj2RKldRtI
+	 dHSkxSge/MgXqdphxIsVl/xXd85M5ltc8tM5Dbt9YIvsQC6e7/z3ConjBUJUQSY6ak
+	 q43S92WzwbepaI4z/9BeSKWvyC5C9Jd+nBOoxuLH4sJzElB6Hom277EhW4yVFLtfmZ
+	 44DOCPyBsNNNw==
+Date: Wed, 27 Dec 2023 04:38:34 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 14/20] ALSA: scarlett2: Add support for custom Gen 4 Direct
- Monitor mixes
-Message-ID: <96282a805b45f04560e5923d170745363906b7f3.1703612638.git.g@b4.vu>
+Subject: [PATCH 15/20] ALSA: scarlett2: Add support for DSP mux channels
+Message-ID: <b78bdb1a7624d55783f5bf0e1ffbfa47a9e9a800.1703612638.git.g@b4.vu>
 References: <cover.1703612638.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -38,241 +37,51 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1703612638.git.g@b4.vu>
 
-The mixes used by Direct Monitor feature on the Scarlett 4th Gen Solo
-and 2i2 interfaces are configurable. This patch adds ALSA controls for
-the gains which are copied to the mixer when Direct Monitor is
-enabled.
+The DSP mux channels in the Scarlett 4th Gen appear as
+SCARLETT2_PORT_TYPE_MIX ports but do not have corresponding mixer
+controls. Add a dsp_count option to the device info struct to exclude
+those DSP channels from the num_mix_in/num_mix_out counts.
 
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/usb/mixer_scarlett2.c | 145 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 141 insertions(+), 4 deletions(-)
+ sound/usb/mixer_scarlett2.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 50899e81e00e..1c6a493eb2ee 100644
+index 1c6a493eb2ee..5ac31fea9831 100644
 --- a/sound/usb/mixer_scarlett2.c
 +++ b/sound/usb/mixer_scarlett2.c
-@@ -213,6 +213,13 @@ static const u16 scarlett2_mixer_values[SCARLETT2_MIXER_VALUE_COUNT] = {
- /* Maximum number of mixer gain controls */
- #define SCARLETT2_MIX_MAX (SCARLETT2_INPUT_MIX_MAX * SCARLETT2_OUTPUT_MIX_MAX)
+@@ -706,6 +706,9 @@ struct scarlett2_device_info {
+ 	 */
+ 	u8 direct_monitor;
  
-+/* Maximum number of direct monitor mixer gain controls
-+ * 1 (Solo) or 2 (2i2) direct monitor selections (Mono & Stereo)
-+ * 2 Mix outputs (A/Left & B/Right)
-+ * 4 Mix inputs
-+ */
-+#define SCARLETT2_MONITOR_MIX_MAX (2 * 2 * 4)
++	/* the number of DSP channels */
++	u8 dsp_count;
 +
- /* Maximum size of the data in the USB mux assignment message:
-  * 20 inputs, 20 outputs, 25 matrix inputs, 12 spare
-  */
-@@ -344,6 +351,7 @@ enum {
- 	SCARLETT2_CONFIG_INPUT_LINK_SWITCH,
- 	SCARLETT2_CONFIG_POWER_EXT,
- 	SCARLETT2_CONFIG_POWER_STATUS,
-+	SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN,
- 	SCARLETT2_CONFIG_COUNT
- };
+ 	/* remap analogue outputs; 18i8 Gen 3 has "line 3/4" connected
+ 	 * internally to the analogue 7/8 outputs
+ 	 */
+@@ -5827,12 +5830,17 @@ static void scarlett2_count_io(struct scarlett2_data *private)
+ 	private->num_mux_srcs = srcs;
+ 	private->num_mux_dsts = dsts;
  
-@@ -742,6 +750,7 @@ struct scarlett2_data {
- 	u8 num_mix_in;
- 	u8 num_mix_out;
- 	u8 num_line_out;
-+	u8 num_monitor_mix_ctls;
- 	u32 firmware_version;
- 	u8 flash_segment_nums[SCARLETT2_SEGMENT_ID_COUNT];
- 	u8 flash_segment_blocks[SCARLETT2_SEGMENT_ID_COUNT];
-@@ -812,6 +821,7 @@ struct scarlett2_data {
- 	struct snd_kcontrol *power_status_ctl;
- 	u8 mux[SCARLETT2_MUX_MAX];
- 	u8 mix[SCARLETT2_MIX_MAX];
-+	u8 monitor_mix[SCARLETT2_MONITOR_MIX_MAX];
- };
+-	/* Mixer inputs are mux outputs and vice versa */
++	/* Mixer inputs are mux outputs and vice versa.
++	 * Scarlett Gen 4 DSP I/O uses SCARLETT2_PORT_TYPE_MIX but
++	 * doesn't have mixer controls.
++	 */
+ 	private->num_mix_in =
+-		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_OUT];
++		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_OUT] -
++			info->dsp_count;
  
- /*** Model-specific data ***/
-@@ -5108,6 +5118,28 @@ static int scarlett2_update_direct_monitor(struct usb_mixer_interface *mixer)
- 		1, &private->direct_monitor_switch);
- }
+ 	private->num_mix_out =
+-		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_IN];
++		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_IN] -
++			info->dsp_count;
  
-+static int scarlett2_update_monitor_mix(struct usb_mixer_interface *mixer)
-+{
-+	struct scarlett2_data *private = mixer->private_data;
-+	int err, i;
-+	u16 mix_values[SCARLETT2_MONITOR_MIX_MAX];
-+
-+	if (!private->num_monitor_mix_ctls)
-+		return 0;
-+
-+	err = scarlett2_usb_get_config(
-+		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN,
-+		private->num_monitor_mix_ctls, mix_values);
-+	if (err < 0)
-+		return err;
-+
-+	for (i = 0; i < private->num_monitor_mix_ctls; i++)
-+		private->monitor_mix[i] = scarlett2_mixer_value_to_db(
-+			mix_values[i]);
-+
-+	return 0;
-+}
-+
- static int scarlett2_direct_monitor_ctl_get(
- 	struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
- {
-@@ -5201,11 +5233,70 @@ static const struct snd_kcontrol_new scarlett2_direct_monitor_ctl[2] = {
- 	}
- };
- 
--static int scarlett2_add_direct_monitor_ctl(struct usb_mixer_interface *mixer)
-+static int scarlett2_monitor_mix_ctl_get(struct snd_kcontrol *kctl,
-+					 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct scarlett2_data *private = elem->head.mixer->private_data;
-+
-+	ucontrol->value.integer.value[0] = private->monitor_mix[elem->control];
-+
-+	return 0;
-+}
-+
-+static int scarlett2_monitor_mix_ctl_put(struct snd_kcontrol *kctl,
-+					 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct usb_mixer_interface *mixer = elem->head.mixer;
-+	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err = 0;
-+	int index = elem->control;
-+
-+	mutex_lock(&private->data_mutex);
-+
-+	if (private->hwdep_in_use) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	oval = private->monitor_mix[index];
-+	val = clamp(ucontrol->value.integer.value[0],
-+		    0L, (long)SCARLETT2_MIXER_MAX_VALUE);
-+
-+	if (oval == val)
-+		goto unlock;
-+
-+	private->monitor_mix[index] = val;
-+	err = scarlett2_usb_set_config(
-+		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN,
-+		index, scarlett2_mixer_values[val]);
-+	if (err == 0)
-+		err = 1;
-+
-+unlock:
-+	mutex_unlock(&private->data_mutex);
-+	return err;
-+}
-+
-+static const struct snd_kcontrol_new scarlett2_monitor_mix_ctl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
-+		  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-+	.name = "",
-+	.info = scarlett2_mixer_ctl_info,
-+	.get  = scarlett2_monitor_mix_ctl_get,
-+	.put  = scarlett2_monitor_mix_ctl_put,
-+	.private_value = SCARLETT2_MIXER_MAX_DB, /* max value */
-+	.tlv = { .p = db_scale_scarlett2_mixer }
-+};
-+
-+static int scarlett2_add_direct_monitor_ctls(struct usb_mixer_interface *mixer)
- {
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
- 	const char *s;
-+	int err, i, j, k, index;
- 
- 	if (!info->direct_monitor)
- 		return 0;
-@@ -5214,9 +5305,47 @@ static int scarlett2_add_direct_monitor_ctl(struct usb_mixer_interface *mixer)
- 	      ? "Direct Monitor Playback Switch"
- 	      : "Direct Monitor Playback Enum";
- 
--	return scarlett2_add_new_ctl(
-+	err = scarlett2_add_new_ctl(
- 		mixer, &scarlett2_direct_monitor_ctl[info->direct_monitor - 1],
- 		0, 1, s, &private->direct_monitor_ctl);
-+	if (err < 0)
-+		return err;
-+
-+	if (!private->num_monitor_mix_ctls)
-+		return 0;
-+
-+	/* 1 or 2 direct monitor selections (Mono & Stereo) */
-+	for (i = 0, index = 0; i < info->direct_monitor; i++) {
-+		const char * const format =
-+			"Monitor %sMix %c Input %02d Playback Volume";
-+		const char *mix_type;
-+
-+		if (info->direct_monitor == 1)
-+			mix_type = "";
-+		else if (i == 0)
-+			mix_type = "1 ";
-+		else
-+			mix_type = "2 ";
-+
-+		/* 2 Mix outputs, A/Left & B/Right */
-+		for (j = 0; j < 2; j++)
-+
-+			/* Mix inputs */
-+			for (k = 0; k < private->num_mix_in; k++, index++) {
-+				char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-+
-+				snprintf(name, sizeof(name), format,
-+					 mix_type, 'A' + j, k + 1);
-+
-+				err = scarlett2_add_new_ctl(
-+					mixer, &scarlett2_monitor_mix_ctl,
-+					index, 1, name, NULL);
-+				if (err < 0)
-+					return err;
-+			}
-+	}
-+
-+	return 0;
- }
- 
- /*** Mux Source Selection Controls ***/
-@@ -5708,6 +5837,10 @@ static void scarlett2_count_io(struct scarlett2_data *private)
  	/* Number of analogue line outputs */
  	private->num_line_out =
- 		port_count[SCARLETT2_PORT_TYPE_ANALOGUE][SCARLETT2_PORT_OUT];
-+
-+	/* Number of monitor mix controls */
-+	private->num_monitor_mix_ctls =
-+		info->direct_monitor * 2 * private->num_mix_in;
- }
- 
- /* Look through the interface descriptors for the Focusrite Control
-@@ -5938,6 +6071,10 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- 	if (!scarlett2_has_mixer(private))
- 		return 0;
- 
-+	err = scarlett2_update_monitor_mix(mixer);
-+	if (err < 0)
-+		return err;
-+
- 	err = scarlett2_update_monitor_other(mixer);
- 	if (err < 0)
- 		return err;
-@@ -6474,8 +6611,8 @@ static int snd_scarlett2_controls_create(
- 	if (err < 0)
- 		return err;
- 
--	/* Create the direct monitor control */
--	err = scarlett2_add_direct_monitor_ctl(mixer);
-+	/* Create the direct monitor control(s) */
-+	err = scarlett2_add_direct_monitor_ctls(mixer);
- 	if (err < 0)
- 		return err;
- 
 -- 
 2.43.0
 
