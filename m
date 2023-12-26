@@ -1,31 +1,31 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C62851009
-	for <linux-sound@vger.kernel.org>; Tue, 26 Dec 2023 18:08:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6692051009
+	for <linux-sound@vger.kernel.org>; Tue, 26 Dec 2023 18:08:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="Ea7l5UvV"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="edngYPMo"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 60AB4604B15B; Wed, 27 Dec 2023 04:38:46 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 60AB4604B15B
+	id 9AC1C604B10A; Wed, 27 Dec 2023 04:38:52 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 9AC1C604B10A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703614126; bh=2ns/TR+XHkn0m2vqqGKlwG1XloQdP9W7wfhuQrABEbo=;
+	t=1703614132; bh=c154WcOmzp/baeTyNKMo6GI+66AqUQCJXonGXdL1MMk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ea7l5UvVVWZVlG5RRUnmO/7UFTKk8qYCCImUjh8PKXlgIT0vsXotVrRIXHyR4rHEL
-	 QOeziDYdHhzdHL+whMolQCiuOaEoXb2hQNatfWPKtOq3yDOnuUxzGZnyFOyEACEG/l
-	 sMv+jWpvmfOu2IvILlC2PvKDRzXLp644pSGmS7/n+eRNa042oHx2mOmG6cFZD3v5un
-	 u5d+N1rgzA5RNr2dYqiG2VEB3jf/aLZfS0Ib/Qu9SUB7Wf7dcw1IV4L6bL/lxzPsXG
-	 y+czB2egbkNt5B5JFINrrw1OTh6WJntxCU7g/Q5ulzNQ6Q/5Rsn4qCMlz4LDP16P+9
-	 Y2JmHbvBhAuNQ==
-Date: Wed, 27 Dec 2023 04:38:46 +1030
+	b=edngYPMogD7pjF7a4uBqxe9u19QNjZ2Rhu+Pst/zVgmAW0nh5Xt5X0mbxMwbOrtzH
+	 Gr5vOMsOfo3//+2APMdXq+yHF30I4njyys+wHlFqXx9RtR8TVmz7A9et/aYV+raRxw
+	 kMMyFKs/F2cJF8pmw/kjIFFEn9hduboL5BbA4Zbwz9SxRjR1YLZ0y305aUSUD4M7vX
+	 l5qrneoVlgDH/Y8HLp+9Tdcho0diuPc+xEA9ovMc9ElHqoqSKWUXIsomC2JSG6w6vD
+	 qOvHUbG6E5i7JmeThYEtqDWFBgMX8r6t8qsFVtVPNx6o0tOdkOYggoLGdZh18EZ2pW
+	 KY1s/6RNJp/Iw==
+Date: Wed, 27 Dec 2023 04:38:52 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 17/20] ALSA: scarlett2: Add minimum firmware version check
-Message-ID: <5455a7e54bda81556066abd7f761b10e9c5f8a16.1703612638.git.g@b4.vu>
+Subject: [PATCH 18/20] ALSA: scarlett2: Add R/O headphone volume control
+Message-ID: <bd4a76da157f8cc3fbfa02eba96d02bdb86817c5.1703612638.git.g@b4.vu>
 References: <cover.1703612638.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,139 +37,167 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1703612638.git.g@b4.vu>
 
-Early firmware for the Scarlett Gen 4 devices has sufficient
-differences that it is better to enforce a minimum firmware version
-than to try and work around those differences. Add a minimum firmware
-version field to the device info struct, and display a message if the
-firmware version is too old. Only create the Firmware Version and MSD
-(optional) controls in this case.
+The Scarlett 4i4 Gen 4 adds a R/O headphone volume control in addition
+to a R/O master volume control (which is already supported).
+
+Mark the new scarlett2_notify_volume() function with __always_unused
+until it gets used when the Gen 4 notification callback function arrays
+are added.
 
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/usb/mixer_scarlett2.c | 73 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 67 insertions(+), 6 deletions(-)
+ sound/usb/mixer_scarlett2.c | 82 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 81 insertions(+), 1 deletion(-)
 
 diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 5c44793fe345..c21ea9fc38ab 100644
+index c21ea9fc38ab..fea22ae9b0ba 100644
 --- a/sound/usb/mixer_scarlett2.c
 +++ b/sound/usb/mixer_scarlett2.c
-@@ -660,6 +660,9 @@ struct scarlett2_device_info {
- 	/* which set of configuration parameters the device uses */
- 	const struct scarlett2_config_set *config_set;
+@@ -332,6 +332,7 @@ enum {
+ 	SCARLETT2_CONFIG_MUTE_SWITCH,
+ 	SCARLETT2_CONFIG_SW_HW_SWITCH,
+ 	SCARLETT2_CONFIG_MASTER_VOLUME,
++	SCARLETT2_CONFIG_HEADPHONE_VOLUME,
+ 	SCARLETT2_CONFIG_LEVEL_SWITCH,
+ 	SCARLETT2_CONFIG_PAD_SWITCH,
+ 	SCARLETT2_CONFIG_MSD_SWITCH,
+@@ -784,6 +785,7 @@ struct scarlett2_data {
+ 	u8 power_status_updated;
+ 	u8 sync;
+ 	u8 master_vol;
++	u8 headphone_vol;
+ 	u8 vol[SCARLETT2_ANALOGUE_MAX];
+ 	u8 vol_sw_hw_switch[SCARLETT2_ANALOGUE_MAX];
+ 	u8 mute_switch[SCARLETT2_ANALOGUE_MAX];
+@@ -809,6 +811,7 @@ struct scarlett2_data {
+ 	u8 meter_level_map[SCARLETT2_MAX_METERS];
+ 	struct snd_kcontrol *sync_ctl;
+ 	struct snd_kcontrol *master_vol_ctl;
++	struct snd_kcontrol *headphone_vol_ctl;
+ 	struct snd_kcontrol *vol_ctls[SCARLETT2_ANALOGUE_MAX];
+ 	struct snd_kcontrol *sw_hw_ctls[SCARLETT2_ANALOGUE_MAX];
+ 	struct snd_kcontrol *mute_ctls[SCARLETT2_ANALOGUE_MAX];
+@@ -3324,6 +3327,18 @@ static int scarlett2_update_volumes(struct usb_mixer_interface *mixer)
+ 					private->vol[i] = private->master_vol;
+ 	}
  
-+	/* minimum firmware version required */
-+	u16 min_firmware_version;
++	if (scarlett2_has_config_item(private,
++				      SCARLETT2_CONFIG_HEADPHONE_VOLUME)) {
++		err = scarlett2_usb_get_config(
++			mixer, SCARLETT2_CONFIG_HEADPHONE_VOLUME,
++			1, &vol);
++		if (err < 0)
++			return err;
 +
- 	/* support for main/alt speaker switching */
- 	u8 has_speaker_switching;
- 
-@@ -2352,6 +2355,45 @@ static int scarlett2_add_firmware_version_ctl(
- 				     0, 0, "Firmware Version", NULL);
++		private->headphone_vol = clamp(vol + SCARLETT2_VOLUME_BIAS,
++					       0, SCARLETT2_VOLUME_BIAS);
++	}
++
+ 	return 0;
  }
  
-+/*** Minimum Firmware Version Control ***/
-+
-+static int scarlett2_min_firmware_version_ctl_get(
+@@ -3367,6 +3382,34 @@ static int scarlett2_master_volume_ctl_get(struct snd_kcontrol *kctl,
+ 	return err;
+ }
+ 
++static int scarlett2_headphone_volume_ctl_get(
 +	struct snd_kcontrol *kctl,
 +	struct snd_ctl_elem_value *ucontrol)
 +{
 +	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct scarlett2_data *private = elem->head.mixer->private_data;
++	struct usb_mixer_interface *mixer = elem->head.mixer;
++	struct scarlett2_data *private = mixer->private_data;
++	int err = 0;
 +
-+	ucontrol->value.integer.value[0] = private->info->min_firmware_version;
++	mutex_lock(&private->data_mutex);
 +
-+	return 0;
-+}
-+
-+static int scarlett2_min_firmware_version_ctl_info(
-+	struct snd_kcontrol *kctl,
-+	struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new scarlett2_min_firmware_version_ctl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READ,
-+	.name = "",
-+	.info = scarlett2_min_firmware_version_ctl_info,
-+	.get  = scarlett2_min_firmware_version_ctl_get
-+};
-+
-+static int scarlett2_add_min_firmware_version_ctl(
-+	struct usb_mixer_interface *mixer)
-+{
-+	return scarlett2_add_new_ctl(mixer, &scarlett2_min_firmware_version_ctl,
-+				     0, 0, "Minimum Firmware Version", NULL);
-+}
-+
- /*** Sync Control ***/
- 
- /* Update sync control after receiving notification that the status
-@@ -6061,6 +6103,7 @@ static int scarlett2_get_flash_segment_nums(struct usb_mixer_interface *mixer)
- static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- {
- 	struct scarlett2_data *private = mixer->private_data;
-+	const struct scarlett2_device_info *info = private->info;
- 	int err, i;
- 
- 	if (scarlett2_has_config_item(private, SCARLETT2_CONFIG_MSD_SWITCH)) {
-@@ -6069,12 +6112,22 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- 			1, &private->msd_switch);
- 		if (err < 0)
- 			return err;
--
--		/* no other controls are created if MSD mode is on */
--		if (private->msd_switch)
--			return 0;
- 	}
- 
-+	if (private->firmware_version < info->min_firmware_version) {
-+		usb_audio_err(mixer->chip,
-+			      "Focusrite %s firmware version %d is too old; "
-+			      "need %d",
-+			      private->series_name,
-+			      private->firmware_version,
-+			      info->min_firmware_version);
-+		return 0;
++	if (private->hwdep_in_use) {
++		err = -EBUSY;
++		goto unlock;
 +	}
 +
-+	/* no other controls are created if MSD mode is on */
-+	if (private->msd_switch)
-+		return 0;
++	if (private->vol_updated) {
++		err = scarlett2_update_volumes(mixer);
++		if (err < 0)
++			goto unlock;
++	}
++	ucontrol->value.integer.value[0] = private->headphone_vol;
 +
- 	err = scarlett2_update_input_level(mixer);
- 	if (err < 0)
- 		return err;
-@@ -6595,6 +6648,11 @@ static int snd_scarlett2_controls_create(
- 	if (err < 0)
- 		return err;
- 
-+	/* Add minimum firmware version control */
-+	err = scarlett2_add_min_firmware_version_ctl(mixer);
-+	if (err < 0)
-+		return err;
++unlock:
++	mutex_unlock(&private->data_mutex);
++	return err;
++}
 +
- 	/* Read volume levels and controls from the interface */
- 	err = scarlett2_read_configs(mixer);
- 	if (err < 0)
-@@ -6605,8 +6663,11 @@ static int snd_scarlett2_controls_create(
- 	if (err < 0)
- 		return err;
+ static int line_out_remap(struct scarlett2_data *private, int index)
+ {
+ 	const struct scarlett2_device_info *info = private->info;
+@@ -3456,6 +3499,17 @@ static const struct snd_kcontrol_new scarlett2_master_volume_ctl = {
+ 	.tlv = { .p = db_scale_scarlett2_volume }
+ };
  
--	/* If MSD mode is enabled, don't create any other controls */
--	if (private->msd_switch)
-+	/* If MSD mode is enabled, or if the firmware version is too
-+	 * old, don't create any other controls
-+	 */
-+	if (private->msd_switch ||
-+	    private->firmware_version < private->info->min_firmware_version)
- 		return 0;
++static const struct snd_kcontrol_new scarlett2_headphone_volume_ctl = {
++	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
++	.access = SNDRV_CTL_ELEM_ACCESS_READ |
++		  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
++	.name = "",
++	.info = scarlett2_volume_ctl_info,
++	.get  = scarlett2_headphone_volume_ctl_get,
++	.private_value = 0, /* max value */
++	.tlv = { .p = db_scale_scarlett2_volume }
++};
++
+ static const struct snd_kcontrol_new scarlett2_line_out_volume_ctl = {
+ 	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+ 	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
+@@ -4806,6 +4860,18 @@ static int scarlett2_add_line_out_ctls(struct usb_mixer_interface *mixer)
+ 			return err;
+ 	}
  
- 	/* Create the analogue output controls */
++	/* Add R/O headphone volume control */
++	if (scarlett2_has_config_item(private,
++				      SCARLETT2_CONFIG_HEADPHONE_VOLUME)) {
++		snprintf(s, sizeof(s), "Headphone Playback Volume");
++		err = scarlett2_add_new_ctl(mixer,
++					    &scarlett2_headphone_volume_ctl,
++					    0, 1, s,
++					    &private->headphone_vol_ctl);
++		if (err < 0)
++			return err;
++	}
++
+ 	/* Remaining controls are only applicable if the device
+ 	 * has per-channel line-out volume controls.
+ 	 */
+@@ -6265,7 +6331,7 @@ static void scarlett2_notify_sync(struct usb_mixer_interface *mixer)
+ 		       &private->sync_ctl->id);
+ }
+ 
+-/* Notify on monitor change */
++/* Notify on monitor change (Gen 2/3) */
+ static void scarlett2_notify_monitor(struct usb_mixer_interface *mixer)
+ {
+ 	struct snd_card *card = mixer->chip->card;
+@@ -6286,6 +6352,20 @@ static void scarlett2_notify_monitor(struct usb_mixer_interface *mixer)
+ 				       &private->vol_ctls[i]->id);
+ }
+ 
++/* Notify on volume change (Gen 4) */
++static __always_unused void scarlett2_notify_volume(
++	struct usb_mixer_interface *mixer)
++{
++	struct scarlett2_data *private = mixer->private_data;
++
++	private->vol_updated = 1;
++
++	snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
++		       &private->master_vol_ctl->id);
++	snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
++		       &private->headphone_vol_ctl->id);
++}
++
+ /* Notify on dim/mute change */
+ static void scarlett2_notify_dim_mute(struct usb_mixer_interface *mixer)
+ {
 -- 
 2.43.0
 
