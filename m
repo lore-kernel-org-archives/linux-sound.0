@@ -1,31 +1,31 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DA850243
-	for <linux-sound@vger.kernel.org>; Tue, 26 Dec 2023 18:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208A850243
+	for <linux-sound@vger.kernel.org>; Tue, 26 Dec 2023 18:06:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="JaTOMP/V"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="hEXpWMmP"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 60A9E604B6AC; Wed, 27 Dec 2023 04:36:29 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 60A9E604B6AC
+	id 89D44604B5C9; Wed, 27 Dec 2023 04:36:38 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 89D44604B5C9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703613989; bh=2n4PkT4R2tqEkDzTK9RSQIELqe+5LZML+5kl5+FYu/8=;
+	t=1703613998; bh=xrL/UYbYgK8uJYOBPgoRIyT81pQgXYqY2qxjvjiSoKk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JaTOMP/VRurhmjAyd3N8ZOeRr9Jkm+U4YLDSaOGsrqKTK9DcW/grcHKKnzIX7kwE7
-	 C7ME1d9XBgyCxXsSzH3GybdhPDn1InaMI8QJ2rvNYdKGfBmPcyDH1NHBxdkUfrIx5J
-	 pSitor7KxqFpWNCmJJNpxBc0CxZjrzh7EgoDcDCLvKjM7lH0wb9dfDnnq3atpUcIlT
-	 mzDRPW5ugVIg08pJbRtRPNaatJAOus5D+M8leZ9CGqJaNQ8Ip+GQhSjLo6l7+UnmL5
-	 NxESBNhcp2n6smJ7MyLwIkSQbnFGYJyLdk72FCH7YIuepfrM0sJ7ndpzXHOKq1TTY0
-	 PS58QAUcR1Kjw==
-Date: Wed, 27 Dec 2023 04:36:29 +1030
+	b=hEXpWMmPvA1OWaNrPGF2LtwtAZxiG6KD7LJyZnVxFUFOcd33KhEUkvZ9t2iySh5he
+	 G1BmIpkx81KnPCmpX4mvfvJTpyybOt4Fk25gJA5N3yy5FQMspkn0EYPhdYYDVIvqA/
+	 8pQbdzPsAcX9I9aXNUmobbBh8lZZ4SfahiuHew383h6/nm6NpatHWB5g9GZWoM9mGL
+	 J1JDw4Fvf78vg7S4M7I3ykFTDU27P5plQujCHZOgoMVzDLgfrr7gMSEMlSmq8a/hgH
+	 1C0jHcMoZohCwsEU7rr14xuekfRt5paMI2wM7ljT+02if9zbO01Yf2U3FzzWA2F0je
+	 l2VbbzmtJfPSA==
+Date: Wed, 27 Dec 2023 04:36:38 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 04/20] ALSA: scarlett2: Add support for Gen 4 style parameters
-Message-ID: <1624e6d8a0c629c3bdfe53825b16e8b589724fc4.1703612638.git.g@b4.vu>
+Subject: [PATCH 05/20] ALSA: scarlett2: Allow for controls with a "mute mode"
+Message-ID: <f603cd16079c97fad910087e0302828a289d1c15.1703612638.git.g@b4.vu>
 References: <cover.1703612638.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,125 +37,101 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1703612638.git.g@b4.vu>
 
-Writing Scarlett Gen 4 parameters differs from Gen 2 and Gen 3:
-- the values are written into a shared write location
-- the values are only byte-sized
-- the read locations now extend beyond 0xFF
-- a separate NVRAM save step is no longer required
+Gen 2/3 interfaces would only use 0/1 values for input level and
+phantom power switch controls. Gen 4 interfaces use the second bit to
+indicate that the state should be changed (or is changing), and the
+input is to be muted (or is muted) while that happens.
 
-This patch implements that alternate write style, triggered by setting
-the config item size field to zero.
-
-The write address is specified through a new config set field
-gen4_write_addr.
+Add a "mute" flag to config items to enable this behaviour for the
+level/phantom controls.
 
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/usb/mixer_scarlett2.c | 53 +++++++++++++++++++++++++++++++++----
- 1 file changed, 48 insertions(+), 5 deletions(-)
+ sound/usb/mixer_scarlett2.c | 31 ++++++++++++++++++++++++++++---
+ 1 file changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 5c5198bb224a..09cd09799588 100644
+index 09cd09799588..3098d9d38e3f 100644
 --- a/sound/usb/mixer_scarlett2.c
 +++ b/sound/usb/mixer_scarlett2.c
-@@ -320,16 +320,21 @@ enum {
- };
- 
- /* Location, size, and activation command number for the configuration
-- * parameters. Size is in bits and may be 1, 8, or 16.
-+ * parameters. Size is in bits and may be 0, 1, 8, or 16.
+@@ -325,11 +325,18 @@ enum {
+  * A size of 0 indicates that the parameter is a byte-sized Scarlett
+  * Gen 4 configuration which is written through the gen4_write_addr
+  * location (but still read through the given offset location).
 + *
-+ * A size of 0 indicates that the parameter is a byte-sized Scarlett
-+ * Gen 4 configuration which is written through the gen4_write_addr
-+ * location (but still read through the given offset location).
++ * Some Gen 4 configuration parameters are written with 0x02 for a
++ * desired value of 0x01, and 0x03 for 0x00. These are indicated with
++ * mute set to 1. 0x02 and 0x03 are temporary values while the device
++ * makes the change and the channel and/or corresponding DSP channel
++ * output is muted.
   */
  struct scarlett2_config {
--	u8 offset;
-+	u16 offset;
+ 	u16 offset;
  	u8 size;
  	u8 activate;
++	u8 mute;
  };
  
  struct scarlett2_config_set {
- 	const struct scarlett2_notification *notifications;
-+	u16 gen4_write_addr;
- 	const struct scarlett2_config items[SCARLETT2_CONFIG_COUNT];
- };
+@@ -2177,6 +2184,15 @@ static int scarlett2_usb_get_meter_levels(struct usb_mixer_interface *mixer,
+ 	return 0;
+ }
  
-@@ -1612,9 +1617,12 @@ static int scarlett2_usb_get_config(
- 	if (!config_item->offset)
- 		return -EFAULT;
- 
-+	/* Gen 4 style parameters are always 1 byte */
-+	size = config_item->size ? config_item->size : 8;
++/* For config items with mute=1, xor bits 0 & 1 together to get the
++ * current/next state. This won't have any effect on values which are
++ * only ever 0/1.
++ */
++static uint8_t scarlett2_decode_muteable(uint8_t v)
++{
++	return (v ^ (v >> 1)) & 1;
++}
 +
- 	/* For byte-sized parameters, retrieve directly into buf */
--	if (config_item->size >= 8) {
--		size = config_item->size / 8 * count;
-+	if (size >= 8) {
-+		size = size / 8 * count;
- 		err = scarlett2_usb_get(mixer, config_item->offset, buf, size);
+ /*** Control Functions ***/
+ 
+ /* helper function to create a new control */
+@@ -2798,7 +2814,8 @@ static int scarlett2_level_enum_ctl_get(struct snd_kcontrol *kctl,
  		if (err < 0)
- 			return err;
-@@ -1684,8 +1692,9 @@ static int scarlett2_usb_set_config(
- 	int config_item_num, int index, int value)
- {
- 	struct scarlett2_data *private = mixer->private_data;
-+	const struct scarlett2_config_set *config_set = private->config_set;
- 	const struct scarlett2_config *config_item =
--		&private->config_set->items[config_item_num];
-+		&config_set->items[config_item_num];
- 	int offset, size;
- 	int err;
+ 			goto unlock;
+ 	}
+-	ucontrol->value.enumerated.item[0] = private->level_switch[index];
++	ucontrol->value.enumerated.item[0] = scarlett2_decode_muteable(
++		private->level_switch[index]);
  
-@@ -1695,6 +1704,36 @@ static int scarlett2_usb_set_config(
- 	if (!config_item->offset)
- 		return -EFAULT;
+ unlock:
+ 	mutex_unlock(&private->data_mutex);
+@@ -2831,6 +2848,10 @@ static int scarlett2_level_enum_ctl_put(struct snd_kcontrol *kctl,
  
-+	/* Gen 4 style writes are selected with size = 0;
-+	 * these are only byte-sized values written through a shared
-+	 * location, different to the read address
-+	 */
-+	if (!config_item->size) {
-+		if (!config_set->gen4_write_addr)
-+			return -EFAULT;
-+
-+		/* Place index in gen4_write_addr + 1 */
-+		err = scarlett2_usb_set_data(
-+			mixer, config_set->gen4_write_addr + 1, 1, index);
-+		if (err < 0)
-+			return err;
-+
-+		/* Place value in gen4_write_addr */
-+		err = scarlett2_usb_set_data(
-+			mixer, config_set->gen4_write_addr, 1, value);
-+		if (err < 0)
-+			return err;
-+
-+		/* Request the interface do the write */
-+		return scarlett2_usb_activate_config(
-+			mixer, config_item->activate);
-+	}
-+
-+	/* Not-Gen 4 style needs NVRAM save, supports
-+	 * bit-modification, and writing is done to the same place
-+	 * that the value can be read from
-+	 */
-+
- 	/* Cancel any pending NVRAM save */
- 	cancel_delayed_work_sync(&private->work);
+ 	private->level_switch[index] = val;
  
-@@ -1736,6 +1775,10 @@ static int scarlett2_usb_set_config(
- 	if (err < 0)
- 		return err;
- 
-+	/* Gen 2 style writes to Gen 4 devices don't need saving */
-+	if (config_set->gen4_write_addr)
-+		return 0;
++	/* To set the Gen 4 muteable controls, bit 1 gets set instead */
++	if (private->config_set->items[SCARLETT2_CONFIG_LEVEL_SWITCH].mute)
++		val = (!val) | 0x02;
 +
- 	/* Schedule the change to be written to NVRAM */
- 	if (config_item->activate != SCARLETT2_USB_CONFIG_SAVE)
- 		schedule_delayed_work(&private->work, msecs_to_jiffies(2000));
+ 	/* Send switch change to the device */
+ 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_LEVEL_SWITCH,
+ 				       index, val);
+@@ -3078,8 +3099,8 @@ static int scarlett2_phantom_ctl_get(struct snd_kcontrol *kctl,
+ 		if (err < 0)
+ 			goto unlock;
+ 	}
+-	ucontrol->value.integer.value[0] =
+-		private->phantom_switch[elem->control];
++	ucontrol->value.integer.value[0] = scarlett2_decode_muteable(
++		private->phantom_switch[elem->control]);
+ 
+ unlock:
+ 	mutex_unlock(&private->data_mutex);
+@@ -3112,6 +3133,10 @@ static int scarlett2_phantom_ctl_put(struct snd_kcontrol *kctl,
+ 
+ 	private->phantom_switch[index] = val;
+ 
++	/* To set the Gen 4 muteable controls, bit 1 gets set */
++	if (private->config_set->items[SCARLETT2_CONFIG_PHANTOM_SWITCH].mute)
++		val = (!val) | 0x02;
++
+ 	/* Send switch change to the device */
+ 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_PHANTOM_SWITCH,
+ 				       index + info->phantom_first, val);
 -- 
 2.43.0
 
