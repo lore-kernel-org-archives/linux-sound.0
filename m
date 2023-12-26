@@ -1,41 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229C02B9A9;
-	Tue, 26 Dec 2023 00:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143C61FB3;
+	Tue, 26 Dec 2023 00:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dOttoE7/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA801C433C7;
-	Tue, 26 Dec 2023 00:20:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4/JkUAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF1CC433CA;
+	Tue, 26 Dec 2023 00:21:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703550048;
-	bh=YwAUDk2O7jZ3ayjcOZqcpgvN3sizoAP2Yh7Qg+NPqhg=;
+	s=k20201202; t=1703550068;
+	bh=4Xo4SfAr1zYLkWGxWNFDUUfdfI5dg9HyRqOMSkSSL4U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dOttoE7/VrGFWvM83faNC6nx+jV4CpJmaOIgdMcGOPM89KKSoyht+IYoxrOMsCt9N
-	 aBMryAMbrUQitOMTgRW5ne32eBkxDMNRF4UsTRPTEvRSU8mq0d6PzH2+gZGYo/IU/s
-	 jIMPYWmp45YzpstcElKXWnRdXiZLokz527gy7KEhAZr4I7Ay4D9z3dUu/71CLTWnEq
-	 TxD414RiTarajc8Xvr6DygzpjE6sBmw6lSQILZacAOlynR1qIg/Ot7xUxG3Rk1y7w2
-	 zKkQlEb5lMS6aFRdfLM8qLvTVHrSd3018FAco/nKgSYzBx7XdoWoceQGSeOJMLZz1m
-	 K6awmspZZkTqw==
+	b=D4/JkUAJYc5UEfzKx0qTsUHGEyFfYgJ+icY3T926Tv1jyun6nRhbxpF5G0q+AxUPj
+	 aypZ3997SDpILBLyyq1eREwdS5i9FX04JJkjYJn1a/Ng8QyQEdVljIkzg+Un+HGdeL
+	 P57qt7xsN4P3L83IWuGFow2zZUTdPEVYPDCqj+jPDLbqgwTDuaCN0bnBtd9dl1zJ2/
+	 jAKc4ciDx31zRBiUcDLflsjHF8CATEtQI2uUCijWSFvc8mFMCF6jZuW2n+LLdpuACh
+	 R/rfxCe6eAwdhJwKrvjrTWXlYZgZyaqAt6Vz8wxc1S5rO5Q2LRIy3pFgfeoJ3828zG
+	 cXHg+8a+8MExw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 10/39] ASoC: cs35l45: Prevents spinning during runtime suspend
-Date: Mon, 25 Dec 2023 19:19:00 -0500
-Message-ID: <20231226002021.4776-10-sashal@kernel.org>
+	broonie@kernel.org,
+	shuah@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 17/39] kselftest: alsa: fixed a print formatting warning
+Date: Mon, 25 Dec 2023 19:19:07 -0500
+Message-ID: <20231226002021.4776-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
 References: <20231226002021.4776-1-sashal@kernel.org>
@@ -50,50 +46,35 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.8
 Content-Transfer-Encoding: 8bit
 
-From: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
+From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
 
-[ Upstream commit a0ffa8115e1ea9786b03edc3f431d2f4ef3e7a2e ]
+[ Upstream commit 13d605e32e4cfdedcecdf3d98d21710ffe887708 ]
 
-Masks the "DSP Virtual Mailbox 2 write" interrupt when before
-issuing the hibernate command to the DSP. The interrupt is
-unmasked when exiting runtime suspend as it is required for
-DSP operation.
+A statement used %d print formatter where %s should have
+been used. The same has been fixed in this commit.
 
-Without this change the DSP fires an interrupt when hibernating
-causing the system spin between runtime suspend and runtime
-resume.
-
-Signed-off-by: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Link: https://lore.kernel.org/r/20231206160318.1255034-4-rriveram@opensource.cirrus.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+Link: 5aaf9efffc57 ("kselftest: alsa: Add simplistic test for ALSA mixer controls kselftest")
+Link: https://lore.kernel.org/r/20231217080019.1063476-1-ghanshyam1898@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/cs35l45.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tools/testing/selftests/alsa/mixer-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
-index 310747b7689d3..9b9fc2d491089 100644
---- a/sound/soc/codecs/cs35l45.c
-+++ b/sound/soc/codecs/cs35l45.c
-@@ -775,6 +775,8 @@ static int cs35l45_enter_hibernate(struct cs35l45_private *cs35l45)
- 
- 	cs35l45_setup_hibernate(cs35l45);
- 
-+	regmap_set_bits(cs35l45->regmap, CS35L45_IRQ1_MASK_2, CS35L45_DSP_VIRT2_MBOX_MASK);
-+
- 	// Don't wait for ACK since bus activity would wake the device
- 	regmap_write(cs35l45->regmap, CS35L45_DSP_VIRT1_MBOX_1, CSPL_MBOX_CMD_HIBERNATE);
- 
-@@ -795,6 +797,8 @@ static int cs35l45_exit_hibernate(struct cs35l45_private *cs35l45)
- 					  CSPL_MBOX_CMD_OUT_OF_HIBERNATE);
- 			if (!ret) {
- 				dev_dbg(cs35l45->dev, "Wake success at cycle: %d\n", j);
-+				regmap_clear_bits(cs35l45->regmap, CS35L45_IRQ1_MASK_2,
-+						 CS35L45_DSP_VIRT2_MBOX_MASK);
- 				return 0;
+diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
+index 21e482b23f502..23df154fcdd77 100644
+--- a/tools/testing/selftests/alsa/mixer-test.c
++++ b/tools/testing/selftests/alsa/mixer-test.c
+@@ -138,7 +138,7 @@ static void find_controls(void)
+ 			err = snd_ctl_elem_info(card_data->handle,
+ 						ctl_data->info);
+ 			if (err < 0) {
+-				ksft_print_msg("%s getting info for %d\n",
++				ksft_print_msg("%s getting info for %s\n",
+ 					       snd_strerror(err),
+ 					       ctl_data->name);
  			}
- 			usleep_range(100, 200);
 -- 
 2.43.0
 
