@@ -1,45 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A273328C9;
-	Tue, 26 Dec 2023 00:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE29C5B1E8;
+	Tue, 26 Dec 2023 00:24:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DnobXJ1a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E274C433C8;
-	Tue, 26 Dec 2023 00:23:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmSKoEag"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9732DC433C7;
+	Tue, 26 Dec 2023 00:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703550220;
-	bh=7UjBDG3xVblL57gzTAC0xcXBmMOm+YHqeIBtyeY0KGc=;
+	s=k20201202; t=1703550289;
+	bh=AIlsXCwwqpTsj9Uig8XLmfard/AfzcW2z7U6xSLpS78=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DnobXJ1a/Q+H+ZDF1VLIiarl3VdxMm4FbFk06nq2SU2YC3O2SO92qmk0us+Z0Vi6j
-	 r4EGGm+XV2E+QhyOeM3nNPwI489F06PILjWl4NIK2enLMWAfQR6yfpAPFEs/dkqACc
-	 YTyqXp/cXO0D6AT8WA/HWcBDhy1v7t9a6pgMw7mExP8SokOICA6tmhRKgPY4SHRUdZ
-	 ODZGC10FE9gpgw/1YSI1KiGaF0z8sDS2ROgYkJ2z3wTEuskTMiLyCm6DW6mKe2RnAH
-	 U7thFS48FUJjWotiANeLDgIYnkg0h/IP2ZD/Cqsn3UtJyRSL99oQ01kdjzcp05eiL+
-	 4G6+1QMTss+Rg==
+	b=DmSKoEagWa+AXkGj6vRam6di+amOFjQeY0a5kbkvN1rtd1tQiS+60FT5KZz3n/8hm
+	 YEubwiIqw6WffRjGFqcKgtbcj7IN0f/kvxk/MG8MmtVIGKsso/M7Xu+EryhWpWLgnn
+	 wyDoxxy9/wQHzeLd5AHAOBLivsE/X9r/6l4DIVtFmxIjyMzBgg7ueOJjNUzf0duagD
+	 /X6hhpmb+T/Rb8S5c1VfsHLdDbMEJNuR4trttRGBn9j9PJ/Dh5hlpLf2RMggcdwGi/
+	 PR1S1HoPJYlXffLaFq66++z/9dkfgW5ku4koI0zBjN/ZQqiH2vPSvNhGQ2D3f8K/9R
+	 FrIsipK7J93xQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	andy.chi@canonical.com,
-	shenghao-ding@ti.com,
-	ruinairas1992@gmail.com,
-	l.guzenko@web.de,
-	yangyuchi66@gmail.com,
-	vitalyr@opensource.cirrus.com,
+	u.kleine-koenig@pengutronix.de,
+	andriy.shevchenko@linux.intel.com,
+	kuninori.morimoto.gx@renesas.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 15/24] ALSA: hda/realtek: Add quirks for ASUS Zenbook 2022 Models
-Date: Mon, 25 Dec 2023 19:22:08 -0500
-Message-ID: <20231226002255.5730-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 09/11] ASoC: Intel: bytcr_rt5640: Add quirk for the Medion Lifetab S10346
+Date: Mon, 25 Dec 2023 19:23:58 -0500
+Message-ID: <20231226002420.6303-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231226002255.5730-1-sashal@kernel.org>
-References: <20231226002255.5730-1-sashal@kernel.org>
+In-Reply-To: <20231226002420.6303-1-sashal@kernel.org>
+References: <20231226002420.6303-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,52 +51,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.69
+X-stable-base: Linux 5.15.145
 Content-Transfer-Encoding: 8bit
 
-From: Stefan Binding <sbinding@opensource.cirrus.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 51d976079976c800ef19ed1b542602fcf63f0edb ]
+[ Upstream commit 99c7bb44f5749373bc01b73af02b50b69bcbf43d ]
 
-These models use 2xCS35L41amps with HDA using SPI and I2C.
-Models use internal and external boost.
-All models require DSD support to be added inside
-cs35l41_hda_property.c
+Add a quirk for the Medion Lifetab S10346, this BYTCR tablet has no CHAN
+package in its ACPI tables and uses SSP0-AIF1 rather then SSP0-AIF2 which
+is the default for BYTCR devices.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-Link: https://lore.kernel.org/r/20231218151221.388745-6-sbinding@opensource.cirrus.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://msgid.link/r/20231217213221.49424-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ sound/soc/intel/boards/bytcr_rt5640.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index a7c361e0daebe..9342f89d4003a 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9766,17 +9766,20 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1d1f, "ASUS ROG Strix G17 2023 (G713PV)", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1d42, "ASUS Zephyrus G14 2022", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
-+	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
--	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU502_PINS),
- 	SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", ALC294_FIXUP_ASUS_G513_PINS),
- 	SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA401),
-+	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
- 	SND_PCI_QUIRK(0x1043, 0x3a20, "ASUS G614JZR", ALC245_FIXUP_CS35L41_SPI_2),
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 4df1be8170bb6..49dfbd29c5451 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -870,6 +870,18 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_SSP0_AIF1 |
+ 					BYT_RT5640_MCLK_EN),
+ 	},
++	{
++		/* Medion Lifetab S10346 */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
++			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
++			/* Above strings are much too generic, also match on BIOS date */
++			DMI_MATCH(DMI_BIOS_DATE, "10/22/2015"),
++		},
++		.driver_data = (void *)(BYTCR_INPUT_DEFAULTS |
++					BYT_RT5640_SSP0_AIF1 |
++					BYT_RT5640_MCLK_EN),
++	},
+ 	{	/* Mele PCG03 Mini PC */
+ 		.matches = {
+ 			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Mini PC"),
 -- 
 2.43.0
 
