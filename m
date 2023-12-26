@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757FC1DFF7;
-	Mon, 25 Dec 2023 22:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A6E366;
+	Tue, 26 Dec 2023 00:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJdYMkFh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdofeJaZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703544670; x=1735080670;
+  t=1703549005; x=1735085005;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qd8m4Zb1VE+AwX3lsSqH93CaM4ubS6DMcu9/thPDiYE=;
-  b=jJdYMkFhuvQ6pRq3JBaH21dF7vaSBQ1QWGdk9U9sThCi4AAXuNXnTzTQ
-   fod8Igia8FIXlGFqiW/HGYVuy/+aYYbiAe9gpCelEaxt8c3cfJnIu/1a0
-   gW7z6EwJYC91cmBLSmokdVk48IfbCj3jCfAVwnH7tWUP7/noLFFvQU+DD
-   AgyvV2XSHTP0qVLvzLQnQuLSjAR2xNFTcwTLv1+FiZQXXwplwvEc2yyXW
-   8TWm8tW1X8IeFQfrxuWFlAhNCP61MFz0vYOA/1ujdagX/XiUeGBFibzsL
-   iirSMZqlTccKOJNZI5fPqhdQia1PpMJSfGiKINCTSBDoIn1SilOKjemyT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="482482611"
+  bh=myF8xXPr0C6ZrGTFUZoPF4DkzDahLHZ50SatvHrH8kk=;
+  b=RdofeJaZk19HjUiikn3kBcOCAdDL1mCrGpDQZquec0EDjzefN/oWB8fd
+   Y2pHVkqdCt4uO/S0RKrp06zhuwAlV8mh+draGvBPlgDK+ei92NCVgTfQH
+   wMAONuXrAY98xTaskQ04PM2aMHCBuDb98rMr1JXqtJqvnHLbs8o1ky5li
+   gO1s+i5i1TA7nw2wcVt5qKI/0a0QUGzuomd1vkIfU/mH6npu5vUidJlND
+   ytIt6rSWDr6TZCobqbLrCeup8Zrp2Pczk11d9FK7rzBwWSiLAZAx48ESz
+   J2qtDyMvtw5FocdU0kHADu5gwmuDu2vCdOnUlhvQuDhPJOH8eZqcWjZ6L
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="482485081"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="482482611"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 14:51:08 -0800
+   d="scan'208";a="482485081"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 16:03:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="771026525"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848288689"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="771026525"
+   d="scan'208";a="848288689"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 25 Dec 2023 14:51:06 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 25 Dec 2023 16:03:22 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHtmq-000DkV-0e;
-	Mon, 25 Dec 2023 22:51:04 +0000
-Date: Tue, 26 Dec 2023 06:50:15 +0800
+	id 1rHuum-000Dnf-02;
+	Tue, 26 Dec 2023 00:03:20 +0000
+Date: Tue, 26 Dec 2023 08:03:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-Message-ID: <202312260629.HwV1r2MX-lkp@intel.com>
+Message-ID: <202312260721.mfXz0imt-lkp@intel.com>
 References: <20231224082533.3540468-1-alexious@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -68,28 +68,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Zhipeng-Lu/ALSA-hdsp-fix-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
 patch link:    https://lore.kernel.org/r/20231224082533.3540468-1-alexious%40zju.edu.cn
 patch subject: [PATCH] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-config: i386-buildonly-randconfig-004-20231225 (https://download.01.org/0day-ci/archive/20231226/202312260629.HwV1r2MX-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260629.HwV1r2MX-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231226/202312260721.mfXz0imt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260721.mfXz0imt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312260629.HwV1r2MX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312260721.mfXz0imt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/pci/rme9652/hdsp.c:4917:1: warning: unused label 'err' [-Wunused-label]
-   err:
-   ^~~~
->> sound/pci/rme9652/hdsp.c:4918:9: warning: variable 'err' is uninitialized when used here [-Wuninitialized]
-           return err;
-                  ^~~
-   sound/pci/rme9652/hdsp.c:4732:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   2 warnings generated.
+   sound/pci/rme9652/hdsp.c: In function 'snd_hdsp_hwdep_ioctl':
+>> sound/pci/rme9652/hdsp.c:4917:1: warning: label 'err' defined but not used [-Wunused-label]
+    4917 | err:
+         | ^~~
 
 
 vim +/err +4917 sound/pci/rme9652/hdsp.c
@@ -285,7 +278,7 @@ vim +/err +4917 sound/pci/rme9652/hdsp.c
   4915		vfree(hdsp->fw_uploaded);
   4916		hdsp->fw_uploaded = NULL;
 > 4917	err:
-> 4918		return err;
+  4918		return err;
   4919	}
   4920	
 
