@@ -1,287 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A6E366;
-	Tue, 26 Dec 2023 00:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF6412B88;
+	Tue, 26 Dec 2023 00:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdofeJaZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703549005; x=1735085005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=myF8xXPr0C6ZrGTFUZoPF4DkzDahLHZ50SatvHrH8kk=;
-  b=RdofeJaZk19HjUiikn3kBcOCAdDL1mCrGpDQZquec0EDjzefN/oWB8fd
-   Y2pHVkqdCt4uO/S0RKrp06zhuwAlV8mh+draGvBPlgDK+ei92NCVgTfQH
-   wMAONuXrAY98xTaskQ04PM2aMHCBuDb98rMr1JXqtJqvnHLbs8o1ky5li
-   gO1s+i5i1TA7nw2wcVt5qKI/0a0QUGzuomd1vkIfU/mH6npu5vUidJlND
-   ytIt6rSWDr6TZCobqbLrCeup8Zrp2Pczk11d9FK7rzBwWSiLAZAx48ESz
-   J2qtDyMvtw5FocdU0kHADu5gwmuDu2vCdOnUlhvQuDhPJOH8eZqcWjZ6L
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="482485081"
-X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="482485081"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 16:03:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848288689"
-X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="848288689"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Dec 2023 16:03:22 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rHuum-000Dnf-02;
-	Tue, 26 Dec 2023 00:03:20 +0000
-Date: Tue, 26 Dec 2023 08:03:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-Message-ID: <202312260721.mfXz0imt-lkp@intel.com>
-References: <20231224082533.3540468-1-alexious@zju.edu.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rmj/Njo0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59ABBC433CA;
+	Tue, 26 Dec 2023 00:20:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703550044;
+	bh=0a43TKMlt0s7STIrUAP1Uw+bes7XaSooWjnfNN9gFD4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Rmj/Njo0ZB/G20WJSbkUCPXb4eqHT9GSrDg45R6xWFGITU3gSPYGYq6xelpskx5iX
+	 vxLntghuKmYCy+S731znjMN4UE6+74Uujc4ntloswrZTS+GH5YcCrjkPV5XtvR2tZi
+	 09izuSD9pWbxNqvT5yCrp0eq78Cb65qu3w0pth55pMn82BBjOuyk1KCZkV3PfPjdF2
+	 /CjD/eYyxGwZriqa9RuWYtrmE13/4bvk7xXlwWZz45YJZhP3BSfN9CAAtHFrRz/JdO
+	 epyZ8Ooaqll8MQQkBO0x9BqeyGJ1hTRwJLf/W5RSL43AJ/wGio0JZ5RBHdEQZt+7ba
+	 YdDRSnS3owr5w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	james.schulman@cirrus.com,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 08/39] ASoC: cs35l45: Use modern pm_ops
+Date: Mon, 25 Dec 2023 19:18:58 -0500
+Message-ID: <20231226002021.4776-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
+References: <20231226002021.4776-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231224082533.3540468-1-alexious@zju.edu.cn>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.8
+Content-Transfer-Encoding: 8bit
 
-Hi Zhipeng,
+From: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
 
-kernel test robot noticed the following build warnings:
+[ Upstream commit 12e102b1bd22ee00361559d57a5876445bcb2407 ]
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Make use of the recently introduced EXPORT_GPL_DEV_PM_OPS() macro, to
+conditionally export the runtime/system PM functions.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhipeng-Lu/ALSA-hdsp-fix-some-memleaks-in-snd_hdsp_hwdep_ioctl/20231225-155210
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231224082533.3540468-1-alexious%40zju.edu.cn
-patch subject: [PATCH] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231226/202312260721.mfXz0imt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260721.mfXz0imt-lkp@intel.com/reproduce)
+Replace the old SET_{RUNTIME,SYSTEM_SLEEP,NOIRQ_SYSTEM_SLEEP}_PM_OPS()
+helpers with their modern alternatives and get rid of the now
+unnecessary '__maybe_unused' annotations on all PM functions.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312260721.mfXz0imt-lkp@intel.com/
+Additionally, use the pm_ptr() macro to fix the following errors when
+building with CONFIG_PM disabled:
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://lore.kernel.org/r/20231206160318.1255034-2-rriveram@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/codecs/cs35l45-i2c.c | 2 +-
+ sound/soc/codecs/cs35l45-spi.c | 2 +-
+ sound/soc/codecs/cs35l45.c     | 9 ++++-----
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-   sound/pci/rme9652/hdsp.c: In function 'snd_hdsp_hwdep_ioctl':
->> sound/pci/rme9652/hdsp.c:4917:1: warning: label 'err' defined but not used [-Wunused-label]
-    4917 | err:
-         | ^~~
-
-
-vim +/err +4917 sound/pci/rme9652/hdsp.c
-
-  4727	
-  4728	static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigned int cmd, unsigned long arg)
-  4729	{
-  4730		struct hdsp *hdsp = hw->private_data;
-  4731		void __user *argp = (void __user *)arg;
-  4732		int err;
-  4733	
-  4734		switch (cmd) {
-  4735		case SNDRV_HDSP_IOCTL_GET_PEAK_RMS: {
-  4736			struct hdsp_peak_rms __user *peak_rms = (struct hdsp_peak_rms __user *)arg;
-  4737	
-  4738			err = hdsp_check_for_iobox(hdsp);
-  4739			if (err < 0)
-  4740				return err;
-  4741	
-  4742			err = hdsp_check_for_firmware(hdsp, 1);
-  4743			if (err < 0)
-  4744				return err;
-  4745	
-  4746			if (!(hdsp->state & HDSP_FirmwareLoaded)) {
-  4747				dev_err(hdsp->card->dev,
-  4748					"firmware needs to be uploaded to the card.\n");
-  4749				return -EINVAL;
-  4750			}
-  4751	
-  4752			switch (hdsp->io_type) {
-  4753			case H9652:
-  4754				return hdsp_9652_get_peak(hdsp, peak_rms);
-  4755			case H9632:
-  4756				return hdsp_9632_get_peak(hdsp, peak_rms);
-  4757			default:
-  4758				return hdsp_get_peak(hdsp, peak_rms);
-  4759			}
-  4760		}
-  4761		case SNDRV_HDSP_IOCTL_GET_CONFIG_INFO: {
-  4762			struct hdsp_config_info info;
-  4763			unsigned long flags;
-  4764			int i;
-  4765	
-  4766			err = hdsp_check_for_iobox(hdsp);
-  4767			if (err < 0)
-  4768				return err;
-  4769	
-  4770			err = hdsp_check_for_firmware(hdsp, 1);
-  4771			if (err < 0)
-  4772				return err;
-  4773	
-  4774			memset(&info, 0, sizeof(info));
-  4775			spin_lock_irqsave(&hdsp->lock, flags);
-  4776			info.pref_sync_ref = (unsigned char)hdsp_pref_sync_ref(hdsp);
-  4777			info.wordclock_sync_check = (unsigned char)hdsp_wc_sync_check(hdsp);
-  4778			if (hdsp->io_type != H9632)
-  4779			    info.adatsync_sync_check = (unsigned char)hdsp_adatsync_sync_check(hdsp);
-  4780			info.spdif_sync_check = (unsigned char)hdsp_spdif_sync_check(hdsp);
-  4781			for (i = 0; i < ((hdsp->io_type != Multiface && hdsp->io_type != RPM && hdsp->io_type != H9632) ? 3 : 1); ++i)
-  4782				info.adat_sync_check[i] = (unsigned char)hdsp_adat_sync_check(hdsp, i);
-  4783			info.spdif_in = (unsigned char)hdsp_spdif_in(hdsp);
-  4784			info.spdif_out = (unsigned char)hdsp_toggle_setting(hdsp,
-  4785					HDSP_SPDIFOpticalOut);
-  4786			info.spdif_professional = (unsigned char)
-  4787				hdsp_toggle_setting(hdsp, HDSP_SPDIFProfessional);
-  4788			info.spdif_emphasis = (unsigned char)
-  4789				hdsp_toggle_setting(hdsp, HDSP_SPDIFEmphasis);
-  4790			info.spdif_nonaudio = (unsigned char)
-  4791				hdsp_toggle_setting(hdsp, HDSP_SPDIFNonAudio);
-  4792			info.spdif_sample_rate = hdsp_spdif_sample_rate(hdsp);
-  4793			info.system_sample_rate = hdsp->system_sample_rate;
-  4794			info.autosync_sample_rate = hdsp_external_sample_rate(hdsp);
-  4795			info.system_clock_mode = (unsigned char)hdsp_system_clock_mode(hdsp);
-  4796			info.clock_source = (unsigned char)hdsp_clock_source(hdsp);
-  4797			info.autosync_ref = (unsigned char)hdsp_autosync_ref(hdsp);
-  4798			info.line_out = (unsigned char)
-  4799				hdsp_toggle_setting(hdsp, HDSP_LineOut);
-  4800			if (hdsp->io_type == H9632) {
-  4801				info.da_gain = (unsigned char)hdsp_da_gain(hdsp);
-  4802				info.ad_gain = (unsigned char)hdsp_ad_gain(hdsp);
-  4803				info.phone_gain = (unsigned char)hdsp_phone_gain(hdsp);
-  4804				info.xlr_breakout_cable =
-  4805					(unsigned char)hdsp_toggle_setting(hdsp,
-  4806						HDSP_XLRBreakoutCable);
-  4807	
-  4808			} else if (hdsp->io_type == RPM) {
-  4809				info.da_gain = (unsigned char) hdsp_rpm_input12(hdsp);
-  4810				info.ad_gain = (unsigned char) hdsp_rpm_input34(hdsp);
-  4811			}
-  4812			if (hdsp->io_type == H9632 || hdsp->io_type == H9652)
-  4813				info.analog_extension_board =
-  4814					(unsigned char)hdsp_toggle_setting(hdsp,
-  4815						    HDSP_AnalogExtensionBoard);
-  4816			spin_unlock_irqrestore(&hdsp->lock, flags);
-  4817			if (copy_to_user(argp, &info, sizeof(info)))
-  4818				return -EFAULT;
-  4819			break;
-  4820		}
-  4821		case SNDRV_HDSP_IOCTL_GET_9632_AEB: {
-  4822			struct hdsp_9632_aeb h9632_aeb;
-  4823	
-  4824			if (hdsp->io_type != H9632) return -EINVAL;
-  4825			h9632_aeb.aebi = hdsp->ss_in_channels - H9632_SS_CHANNELS;
-  4826			h9632_aeb.aebo = hdsp->ss_out_channels - H9632_SS_CHANNELS;
-  4827			if (copy_to_user(argp, &h9632_aeb, sizeof(h9632_aeb)))
-  4828				return -EFAULT;
-  4829			break;
-  4830		}
-  4831		case SNDRV_HDSP_IOCTL_GET_VERSION: {
-  4832			struct hdsp_version hdsp_version;
-  4833			int err;
-  4834	
-  4835			if (hdsp->io_type == H9652 || hdsp->io_type == H9632) return -EINVAL;
-  4836			if (hdsp->io_type == Undefined) {
-  4837				err = hdsp_get_iobox_version(hdsp);
-  4838				if (err < 0)
-  4839					return err;
-  4840			}
-  4841			memset(&hdsp_version, 0, sizeof(hdsp_version));
-  4842			hdsp_version.io_type = hdsp->io_type;
-  4843			hdsp_version.firmware_rev = hdsp->firmware_rev;
-  4844			if (copy_to_user(argp, &hdsp_version, sizeof(hdsp_version)))
-  4845				return -EFAULT;
-  4846			break;
-  4847		}
-  4848		case SNDRV_HDSP_IOCTL_UPLOAD_FIRMWARE: {
-  4849			struct hdsp_firmware firmware;
-  4850			u32 __user *firmware_data;
-  4851			int err;
-  4852	
-  4853			if (hdsp->io_type == H9652 || hdsp->io_type == H9632) return -EINVAL;
-  4854			/* SNDRV_HDSP_IOCTL_GET_VERSION must have been called */
-  4855			if (hdsp->io_type == Undefined) return -EINVAL;
-  4856	
-  4857			if (hdsp->state & (HDSP_FirmwareCached | HDSP_FirmwareLoaded))
-  4858				return -EBUSY;
-  4859	
-  4860			dev_info(hdsp->card->dev,
-  4861				 "initializing firmware upload\n");
-  4862			if (copy_from_user(&firmware, argp, sizeof(firmware)))
-  4863				return -EFAULT;
-  4864			firmware_data = (u32 __user *)firmware.firmware_data;
-  4865	
-  4866			if (hdsp_check_for_iobox (hdsp))
-  4867				return -EIO;
-  4868	
-  4869			if (!hdsp->fw_uploaded) {
-  4870				hdsp->fw_uploaded = vmalloc(HDSP_FIRMWARE_SIZE);
-  4871				if (!hdsp->fw_uploaded)
-  4872					return -ENOMEM;
-  4873			}
-  4874	
-  4875			if (copy_from_user(hdsp->fw_uploaded, firmware_data,
-  4876					   HDSP_FIRMWARE_SIZE)) {
-  4877				err = -EFAULT;
-  4878				goto free_fw_uploaded;
-  4879			}
-  4880	
-  4881			hdsp->state |= HDSP_FirmwareCached;
-  4882	
-  4883			err = snd_hdsp_load_firmware_from_cache(hdsp);
-  4884			if (err < 0)
-  4885				goto free_fw_uploaded;
-  4886	
-  4887			if (!(hdsp->state & HDSP_InitializationComplete)) {
-  4888				err = snd_hdsp_enable_io(hdsp);
-  4889				if (err < 0)
-  4890					goto free_fw_uploaded;
-  4891	
-  4892				snd_hdsp_initialize_channels(hdsp);
-  4893				snd_hdsp_initialize_midi_flush(hdsp);
-  4894	
-  4895				err = snd_hdsp_create_alsa_devices(hdsp->card, hdsp);
-  4896				if (err < 0) {
-  4897					dev_err(hdsp->card->dev,
-  4898						"error creating alsa devices\n");
-  4899					goto free_fw_uploaded;
-  4900				}
-  4901			}
-  4902			break;
-  4903		}
-  4904		case SNDRV_HDSP_IOCTL_GET_MIXER: {
-  4905			struct hdsp_mixer __user *mixer = (struct hdsp_mixer __user *)argp;
-  4906			if (copy_to_user(mixer->matrix, hdsp->mixer_matrix, sizeof(unsigned short)*HDSP_MATRIX_MIXER_SIZE))
-  4907				return -EFAULT;
-  4908			break;
-  4909		}
-  4910		default:
-  4911			return -EINVAL;
-  4912		}
-  4913		return 0;
-  4914	free_fw_uploaded:
-  4915		vfree(hdsp->fw_uploaded);
-  4916		hdsp->fw_uploaded = NULL;
-> 4917	err:
-  4918		return err;
-  4919	}
-  4920	
-
+diff --git a/sound/soc/codecs/cs35l45-i2c.c b/sound/soc/codecs/cs35l45-i2c.c
+index 77e0f8750f375..bc2af1ed0fe9b 100644
+--- a/sound/soc/codecs/cs35l45-i2c.c
++++ b/sound/soc/codecs/cs35l45-i2c.c
+@@ -62,7 +62,7 @@ static struct i2c_driver cs35l45_i2c_driver = {
+ 	.driver = {
+ 		.name		= "cs35l45",
+ 		.of_match_table = cs35l45_of_match,
+-		.pm		= &cs35l45_pm_ops,
++		.pm		= pm_ptr(&cs35l45_pm_ops),
+ 	},
+ 	.id_table	= cs35l45_id_i2c,
+ 	.probe		= cs35l45_i2c_probe,
+diff --git a/sound/soc/codecs/cs35l45-spi.c b/sound/soc/codecs/cs35l45-spi.c
+index 5efb77530cc33..39e203a5f060c 100644
+--- a/sound/soc/codecs/cs35l45-spi.c
++++ b/sound/soc/codecs/cs35l45-spi.c
+@@ -64,7 +64,7 @@ static struct spi_driver cs35l45_spi_driver = {
+ 	.driver = {
+ 		.name		= "cs35l45",
+ 		.of_match_table = cs35l45_of_match,
+-		.pm		= &cs35l45_pm_ops,
++		.pm		= pm_ptr(&cs35l45_pm_ops),
+ 	},
+ 	.id_table	= cs35l45_id_spi,
+ 	.probe		= cs35l45_spi_probe,
+diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
+index be4f4229576c4..b1d0f2c8f2cad 100644
+--- a/sound/soc/codecs/cs35l45.c
++++ b/sound/soc/codecs/cs35l45.c
+@@ -810,7 +810,7 @@ static int cs35l45_exit_hibernate(struct cs35l45_private *cs35l45)
+ 	return -ETIMEDOUT;
+ }
+ 
+-static int __maybe_unused cs35l45_runtime_suspend(struct device *dev)
++static int cs35l45_runtime_suspend(struct device *dev)
+ {
+ 	struct cs35l45_private *cs35l45 = dev_get_drvdata(dev);
+ 
+@@ -827,7 +827,7 @@ static int __maybe_unused cs35l45_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused cs35l45_runtime_resume(struct device *dev)
++static int cs35l45_runtime_resume(struct device *dev)
+ {
+ 	struct cs35l45_private *cs35l45 = dev_get_drvdata(dev);
+ 	int ret;
+@@ -1289,10 +1289,9 @@ void cs35l45_remove(struct cs35l45_private *cs35l45)
+ }
+ EXPORT_SYMBOL_NS_GPL(cs35l45_remove, SND_SOC_CS35L45);
+ 
+-const struct dev_pm_ops cs35l45_pm_ops = {
+-	SET_RUNTIME_PM_OPS(cs35l45_runtime_suspend, cs35l45_runtime_resume, NULL)
++EXPORT_GPL_DEV_PM_OPS(cs35l45_pm_ops) = {
++	RUNTIME_PM_OPS(cs35l45_runtime_suspend, cs35l45_runtime_resume, NULL)
+ };
+-EXPORT_SYMBOL_NS_GPL(cs35l45_pm_ops, SND_SOC_CS35L45);
+ 
+ MODULE_DESCRIPTION("ASoC CS35L45 driver");
+ MODULE_AUTHOR("James Schulman, Cirrus Logic Inc, <james.schulman@cirrus.com>");
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
