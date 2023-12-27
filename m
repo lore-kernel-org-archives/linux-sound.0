@@ -1,127 +1,82 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE9D44C87;
-	Wed, 27 Dec 2023 13:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCCB45026;
+	Wed, 27 Dec 2023 16:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="QvvjZhiU"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BRDj5YI026292;
-	Wed, 27 Dec 2023 07:45:05 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1703684705;
-	bh=uQnVFQgOxFICd14iOj+b6LrPl6NWvE/dXUyz36ElLNM=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=QvvjZhiUAUjEDbOnHw/j+3zQ9kDfhv9z/UBSbQl3aGbl6jWzObfmwIdqZ3xh4tdmh
-	 7G76TLxrxPVvNLwwyLyCi1QPpvln12Q36hqG64pTKH7qW02PD7s2Jy2QKsAeB1oN8a
-	 cw/74KDP7ea9zHiklDfB0AVf4MYrU27XhiC7vA00=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BRDj4JM057289
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 27 Dec 2023 07:45:05 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 27
- Dec 2023 07:45:04 -0600
-Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
- DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
- 15.01.2507.023; Wed, 27 Dec 2023 07:45:03 -0600
-From: "Ding, Shenghao" <shenghao-ding@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-        "Lu,
- Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "perex@perex.cz"
-	<perex@perex.cz>,
-        "pierre-louis.bossart@linux.intel.com"
-	<pierre-louis.bossart@linux.intel.com>,
-        "13916275206@139.com"
-	<13916275206@139.com>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "liam.r.girdwood@intel.com"
-	<liam.r.girdwood@intel.com>,
-        "soyer@irl.hu" <soyer@irl.hu>, "tiwai@suse.de"
-	<tiwai@suse.de>,
-        "Gupta, Peeyush" <peeyush@ti.com>,
-        "Navada Kanyana, Mukund"
-	<navada@ti.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>
-Subject: RE: [EXTERNAL] Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563
- from yaml
-Thread-Topic: [EXTERNAL] Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563
- from yaml
-Thread-Index: AQHaM/ZoVp/s6ZS3j0yS0WAx9ZwYwbC0Y5uAgAhaZbCAAKVTgP//xSNw
-Date: Wed, 27 Dec 2023 13:45:03 +0000
-Message-ID: <f102855dd1904036b14b9c80ccc469c0@ti.com>
-References: <20231221101346.429-1-shenghao-ding@ti.com>
- <7362295b-4a01-4574-8d96-d10f405eaea0@linaro.org>
- <8285d102645b43f6b46b15c99321105a@ti.com>
- <ffc11f9c-6643-4e46-8bb2-8918e1179f72@linaro.org>
-In-Reply-To: <ffc11f9c-6643-4e46-8bb2-8918e1179f72@linaro.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IItrMSUU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703695829; x=1735231829;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ObRmrEKrCs/aQWLW4FO1dZ1wW4evOUSWu2vqRi+/2iI=;
+  b=IItrMSUUIkpv+F4wGGq0vs4mWeG2SDBM9xL3tzsfAaZj2BuMyK3Gr0rE
+   H0LjhBrx3LRsHOhIYCVd6U+K1u5Alkh/IQZ2rMfPorYAPYiJucM2Ox1py
+   vZmLJ+YI30zVTwBIz+ldLml3fdLNtn6K5EMEAxL6aS1pPjyJUrbJlPxbS
+   9bx5u2iBEvjK2TBf8GkjU7nmJvRIRXhV0uaUw9bEkfEm5RU+0zvcVEuTr
+   ejhv2/27E6GyvpKnXYgz0Y+fhIkraHYoX6oCyghIp/J1OAx9+pPVW492J
+   sgGN2XNrTv2luTNzuiJGl5OxgKRS8URmWv8+Em1Fi0r9XmgZFVpo/SjJv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="15131139"
+X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
+   d="scan'208";a="15131139"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:50:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="812571252"
+X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
+   d="scan'208";a="812571252"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:50:04 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rIX6X-00000009T1e-0jFF;
+	Wed, 27 Dec 2023 18:50:01 +0200
+Date: Wed, 27 Dec 2023 18:50:00 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
+	robh+dt@kernel.org, kevin-lu@ti.com, baojun.xu@ti.com,
+	devicetree@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de,
+	peeyush@ti.com, navada@ti.com
+Subject: Re: [PATCH v3 2/5] ASoC: tas2562: move tas2563 from tas2562 driver
+ to tas2781 driver
+Message-ID: <ZYxVuGwyw1ZA3XBv@smile.fi.intel.com>
+References: <20231225053932.1138-1-shenghao-ding@ti.com>
+ <20231225053932.1138-2-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231225053932.1138-2-shenghao-ding@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxv
-d3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8ub3JnPg0KPiBTZW50OiBXZWRuZXNkYXks
-IERlY2VtYmVyIDI3LCAyMDIzIDY6NTYgUE0NCj4gVG86IERpbmcsIFNoZW5naGFvIDxzaGVuZ2hh
-by1kaW5nQHRpLmNvbT4NCj4gQ2M6IHJvYmgrZHRAa2VybmVsLm9yZzsgYW5kcml5LnNoZXZjaGVu
-a29AbGludXguaW50ZWwuY29tOyBMdSwgS2V2aW4NCj4gPGtldmluLWx1QHRpLmNvbT47IFh1LCBC
-YW9qdW4gPGJhb2p1bi54dUB0aS5jb20+Ow0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsg
-bGdpcmR3b29kQGdtYWlsLmNvbTsgcGVyZXhAcGVyZXguY3o7IHBpZXJyZS0NCj4gbG91aXMuYm9z
-c2FydEBsaW51eC5pbnRlbC5jb207IDEzOTE2Mjc1MjA2QDEzOS5jb207IGxpbnV4LQ0KPiBzb3Vu
-ZEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpYW0u
-ci5naXJkd29vZEBpbnRlbC5jb207IHNveWVyQGlybC5odTsgdGl3YWlAc3VzZS5kZTsgR3VwdGEs
-IFBlZXl1c2gNCj4gPHBlZXl1c2hAdGkuY29tPjsgTmF2YWRhIEthbnlhbmEsIE11a3VuZCA8bmF2
-YWRhQHRpLmNvbT47DQo+IGJyb29uaWVAa2VybmVsLm9yZzsgY29ub3IrZHRAa2VybmVsLm9yZw0K
-PiBTdWJqZWN0OiBSZTogW0VYVEVSTkFMXSBSZTogW1BBVENIIHYyIDEvNV0gQVNvQzogZHQtYmlu
-ZGluZ3M6IHJlbW92ZQ0KPiB0YXMyNTYzIGZyb20geWFtbA0KPiANCj4gT24gMjcvMTIvMjAyMyAw
-ODowNywgRGluZywgU2hlbmdoYW8gd3JvdGU6DQo+ID4NCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5c3p0b2Yu
-a296bG93c2tpQGxpbmFyby5vcmc+DQo+ID4+IFNlbnQ6IEZyaWRheSwgRGVjZW1iZXIgMjIsIDIw
-MjMgMTozMSBBTQ0KPiA+PiBUbzogRGluZywgU2hlbmdoYW8gPHNoZW5naGFvLWRpbmdAdGkuY29t
-PjsgYnJvb25pZUBrZXJuZWwub3JnOw0KPiA+PiBjb25vcitkdEBrZXJuZWwub3JnDQo+ID4+IENj
-OiByb2JoK2R0QGtlcm5lbC5vcmc7IGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbTsg
-THUsIEtldmluDQo+ID4+IDxrZXZpbi1sdUB0aS5jb20+OyBYdSwgQmFvanVuIDxiYW9qdW4ueHVA
-dGkuY29tPjsNCj4gPj4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxnaXJkd29vZEBnbWFp
-bC5jb207IHBlcmV4QHBlcmV4LmN6Ow0KPiA+PiBwaWVycmUtIGxvdWlzLmJvc3NhcnRAbGludXgu
-aW50ZWwuY29tOyAxMzkxNjI3NTIwNkAxMzkuY29tOyBsaW51eC0NCj4gPj4gc291bmRAdmdlci5r
-ZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiA+PiBsaWFtLnIuZ2ly
-ZHdvb2RAaW50ZWwuY29tOyBzb3llckBpcmwuaHU7IHRpd2FpQHN1c2UuZGU7IEd1cHRhLA0KPiA+
-PiBQZWV5dXNoIDxwZWV5dXNoQHRpLmNvbT47IE5hdmFkYSBLYW55YW5hLCBNdWt1bmQgPG5hdmFk
-YUB0aS5jb20+DQo+ID4+IFN1YmplY3Q6IFtFWFRFUk5BTF0gUmU6IFtQQVRDSCB2MiAxLzVdIEFT
-b0M6IGR0LWJpbmRpbmdzOiByZW1vdmUNCj4gPj4gdGFzMjU2MyBmcm9tIHlhbWwNCj4gPj4NCj4g
-Pj4gT24gMjEvMTIvMjAyMyAxMToxMywgU2hlbmdoYW8gRGluZyB3cm90ZToNCj4gPj4+IFJlbW92
-ZSB0YXMyNTYzIGZyb20gdGFzMjU2MiwgaXQgd2lsbCBiZSBzdXBwb3J0ZWQgaW4gdGFzMjc4MSB0
-bw0KPiA+Pj4gYmV0dGVyIHN1cHBvcnQgZHNwIG1vZGUuDQo+ID4+DQo+ID4+IFBsZWFzZSBwcm92
-aWRlIHJhdGlvbmFsZSBpbiB0ZXJtcyBvZiBiaW5kaW5ncyBhbmQgaGFyZHdhcmUsIG5vdCBpbg0K
-PiA+PiB0ZXJtcyBvZiBkcml2ZXIuIE9yIGF0IGxlYXN0IG5vdCBvbmx5LiBGb3IgZXhhbXBsZSAi
-c3VwcG9ydGVkIGluDQo+ID4+IHRhczI3ODEiIGRvZXMgbm90IGZpdCBoYXJkd2FyZSBwYXJ0LCBz
-byB5b3Ugc3VyZSBtdXN0IGJlIHRhbGtpbmcNCj4gPj4gYWJvdXQgZHJpdmVycyB0aHVzIHdoeSBk
-cml2ZXIgY2hhbmdlIHdvdWxkIGFmZmVjdCBiaW5kaW5ncz8NCj4gPiBUaGlzIHBhdGNoIG1haW5s
-eSBjaGFuZ2UgdGhlIGJpbmRpbmcsIG5vdCB0aGUgZHJpdmVyIGNvZGUuIFRhczI1NjMgaXMNCj4g
-PiB1bmJvdW5kIHRvIHRhczI1NjIgZHJpdmVyLCBhbmQgYm91bmQgdG8gdGFzMjc4MSBkcml2ZXIu
-DQo+IA0KPiBUaGVuIHdoeSBkbyB5b3UgcmVmZXJlbmNlIGRyaXZlciAidGFzMjc4MSIgaGVyZT8N
-CkJvdGggdGFzMjU2MyBhbmQgdGFzMjc4MSBhcmUgZHNwLWluc2lkZSBhdWRpbyBhbXBsaWZpZXIs
-IA0KdGFzMjc4MSBkcml2ZXIgaXMgZGVzaWduZWQgZm9yIGRzcC1pbnNpZGUgc2VyaWVzIGNoaXBz
-LCANCm5vdCBvbmx5IGZvciB0YXMyNzgxLg0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0
-b2YNCg0K
+On Mon, Dec 25, 2023 at 01:39:28PM +0800, Shenghao Ding wrote:
+> Move tas2563 from tas2562 driver to tas2781 driver, because tas2563 only
+> work in bypass-DSP mode with tas2562 driver. In oder to enable DSP mode
+> for tas2563, it has been moved to tas2781 driver. As to the hardware part,
+> such as register setting and DSP firmware, all these are stored in the
+> binary firmware. What tas2781 drivder dooes is to parse the firmware and
+> download them to the tas2781 or tas2563, then power on tas2781 or tas2563.
+> So, tas2781 driver can be resued as tas2563 driver。 Only attention will
+> be paid to downloading corresponding firmware.
+
+I dunno if you got my emails, but my comments were completely ignored.
+You can't do this patch as after it the current users may have a regression.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
