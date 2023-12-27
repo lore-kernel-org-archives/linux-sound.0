@@ -1,126 +1,162 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985872C852;
-	Wed, 27 Dec 2023 10:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D1C29434
+	for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 10:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fm2deBjh"
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7bae735875bso115975739f.2;
-        Wed, 27 Dec 2023 02:14:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rV5daALz"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3367601a301so5008877f8f.2
+        for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 02:55:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703672042; x=1704276842; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jRme2CYkuej+oUl410fWyMnS0uLqwabA9u7BWCoKP+o=;
-        b=fm2deBjh4ywe7Mi6jhmDtX1AaSzeqVBSOljOvnNT5eDmK3jcbRtXXejVdVvkFxzOV5
-         7ueZb7FaXfXz2s4Axci5fWmGV/p+UfFvfFlDXkr+4C0+1MDeh1fRCyYDgMSau64p0WR8
-         RzUE5UP/b5VIPuDQGqWGp/GRPFQfaBQ+YtYcavu5rMdFkgkNgu9ElxuEyx9BlmK2dgUB
-         5K6+mrvA+sGuqGpT8gX/zDbl/C0e9XncGMEXVxvlX3Sa+k1SNvqHiDx0Xp75+KdTQKBF
-         TR7uUYXuk1lHxEonWkM6pnXumPqZw2D2BhJ9rstikNTQi6kVSASPZxadaz5S2RlJ7vIi
-         YLJg==
+        d=linaro.org; s=google; t=1703674555; x=1704279355; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=dq4Wg3sInsGjJll2pSpnEqdTyZFZWvCkPmk8fOtnaZs=;
+        b=rV5daALzWYMsfVbnNqN0lVnx4uc30WSbSHtcuMnVV/BTJyMSrwcs0Hh9Nfko7/7OUa
+         763IoRm65NsQOxoYcSX0dxcfPVpkq7rdDxLv5btPZCzokTox9HOSfPD4RgrYMc1nBr5B
+         NurQclYmYrrgl6NkWNDSnsfX22geX3hMh1fq3TxjPpaDFPx7/fryDgdYlbJndhfGwbGz
+         X0+oGldC17iSNEGH8IhqJ8cMV25RLzq2VDRdHWtoAqqq2jagJBgr4PkzpjRaUOGbRVgM
+         7yqyjJdrJZUlBZBM2a573AVxFhORmBHzFiN2EXAKEGVYwY7BpHlocvzmPwppYFJT4/Lj
+         9hIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703672042; x=1704276842;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jRme2CYkuej+oUl410fWyMnS0uLqwabA9u7BWCoKP+o=;
-        b=sIPMyFFOWwZ8VX6NnHEd72y1vZWyU+61nUjqRqO79Jtth9BWniRkcCxs5mMXys5aoS
-         /5z38fOcu8dZBomsoEKdAeLJ8D101fmk+tIxG7fJBNDzb9c7nTUbn3ISuhFfXJT7EXj5
-         kn9BhPGNnlB5KZeWu9ye/ubnYOKXIY2ZYV8H62dQbs+6pUVEgxw5/s1v7xLJMVgNacbP
-         R3kjon5D4NXsuLH1ezADnkmrtaqUPkH3E/e/41p5AXCtbHWkbmodKNHY6WQYrlu9N13p
-         SExL0tUtTPxS2rd+e1wevpDj6+2wNQb5d2pDu+2CGrzrtJLf0pZzZ0gbSMDCFxViVWiR
-         T3/Q==
-X-Gm-Message-State: AOJu0YwQ3bOfFbSr68ujvzjOCntx3uAuT+y8/hyUshyD/XeVF4Ap3hXV
-	v1PP1WlBzZjXXnzcqwmLXZEP/Z68kKMQw5xbbV0=
-X-Google-Smtp-Source: AGHT+IGX3kgTnoLFpwcULIR2XP64wsIvyR1qrnOqNlsZ5KnM2HAG0vPRlOFg+PwmfJmRT1lMaiTHvxcGaf3r8K23v0c=
-X-Received: by 2002:a92:c267:0:b0:35d:a84e:f729 with SMTP id
- h7-20020a92c267000000b0035da84ef729mr15136859ild.63.1703672042700; Wed, 27
- Dec 2023 02:14:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703674555; x=1704279355;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dq4Wg3sInsGjJll2pSpnEqdTyZFZWvCkPmk8fOtnaZs=;
+        b=tn0kwF/bQYw+2iJA5YyZbD/J5diHUmsxCTrxijhVD06uMuinIJp+YFOhq2ZhJFxRmS
+         aQ2FZ3gtDtk8qivzYN/CMqspminUBQcZOWzW+YQEVxvo93btDQ3PHObkjsq+i3F0bPnX
+         CZkE5Me1foKaPDh/wJ+mqz/wjAOlkA0fTjm+WJz4mYadiYEjSR5Sq580u4ezIRCOLmxU
+         dK+AMvFecuI+9qwEm4DZMxfLlk06Wzf7oYfq5vIiN2pVYVuOkZLL60S+s2jHnzQC/Ror
+         MmsoZI3MywMndjVtE6aWZeYMcY/XWkK0ZG0JBoc5cRmVyASIg0zUS0h75EfnholqacFq
+         nC+Q==
+X-Gm-Message-State: AOJu0YxLWfJ5rQVpI/fW+zwkpN/UfxgM6kyKuyckdu6z3+1JuvboQjMO
+	39zuT5L6/hxvUFf4PCgTuAfkkPsKQqCJOQ==
+X-Google-Smtp-Source: AGHT+IHMF2zqQo/m2lnVkVM+wA+VT1QUSuBSmdtliPtCQ8W14LS4KK9dtmUwlK+HPE63opIP34XHTQ==
+X-Received: by 2002:a5d:6ac1:0:b0:336:746a:541a with SMTP id u1-20020a5d6ac1000000b00336746a541amr3417825wrw.87.1703674555046;
+        Wed, 27 Dec 2023 02:55:55 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id s12-20020adfeccc000000b0033687672e48sm14141173wro.75.2023.12.27.02.55.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Dec 2023 02:55:54 -0800 (PST)
+Message-ID: <2bfda4d9-73a7-46cd-b1f9-271242e60d7b@linaro.org>
+Date: Wed, 27 Dec 2023 11:55:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231225080608.967953-1-chancel.liu@nxp.com>
-In-Reply-To: <20231225080608.967953-1-chancel.liu@nxp.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 27 Dec 2023 18:13:51 +0800
-Message-ID: <CAA+D8APY3KL6+7kpeqGLm-n_gLTLHOWvMoEZxhrRH2X+9O1d-w@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_rpmsg: Fix error handler with pm_runtime_enable
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563
+ from yaml
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "broonie@kernel.org" <broonie@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>, "Lu, Kevin" <kevin-lu@ti.com>,
+ "Xu, Baojun" <baojun.xu@ti.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
+ <perex@perex.cz>,
+ "pierre-louis.bossart@linux.intel.com"
+ <pierre-louis.bossart@linux.intel.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+ "soyer@irl.hu" <soyer@irl.hu>, "tiwai@suse.de" <tiwai@suse.de>,
+ "Gupta, Peeyush" <peeyush@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>
+References: <20231221101346.429-1-shenghao-ding@ti.com>
+ <ZYReyHQxMAe-DKq4@smile.fi.intel.com>
+ <2eeb19a0-5851-4684-836c-36ec53db6900@linaro.org>
+ <d6e28ecdb1e3458f9e8626a77483c6ab@ti.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <d6e28ecdb1e3458f9e8626a77483c6ab@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 25, 2023 at 4:06=E2=80=AFPM Chancel Liu <chancel.liu@nxp.com> w=
-rote:
->
-> There is error message when defer probe happens:
->
-> fsl_rpmsg rpmsg_audio: Unbalanced pm_runtime_enable!
->
-> Fix the error handler with pm_runtime_enable.
->
-> Fixes: b73d9e6225e8 ("ASoC: fsl_rpmsg: Add CPU DAI driver for audio base =
-on rpmsg")
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+On 27/12/2023 08:04, Ding, Shenghao wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Friday, December 22, 2023 1:32 AM
+>> To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>; Ding, Shenghao
+>> <shenghao-ding@ti.com>
+>> Cc: broonie@kernel.org; conor+dt@kernel.org; robh+dt@kernel.org; Lu,
+>> Kevin <kevin-lu@ti.com>; Xu, Baojun <baojun.xu@ti.com>;
+>> devicetree@vger.kernel.org; lgirdwood@gmail.com; perex@perex.cz; pierre-
+>> louis.bossart@linux.intel.com; 13916275206@139.com; linux-
+>> sound@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> liam.r.girdwood@intel.com; soyer@irl.hu; tiwai@suse.de; Gupta, Peeyush
+>> <peeyush@ti.com>; Navada Kanyana, Mukund <navada@ti.com>
+>> Subject: [EXTERNAL] Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563
+>> from yaml
+>>
+>> On 21/12/2023 16:50, Andy Shevchenko wrote:
+>>> On Thu, Dec 21, 2023 at 06:13:41PM +0800, Shenghao Ding wrote:
+>>>> Remove tas2563 from tas2562, it will be supported in tas2781 to
+>>>> better support dsp mode.
+>>>
+>>> DSP
+>>>
+>>> Shouldn't this patch go after the actual change happen?
+>>
+>> I would squash both, so device documentation does not disappear.
+> I do not fully understand "squash both", do you mean still to keep ti,tas2563 in tas2562.yaml?
 
-Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+I meant to squash both binding patches (git help rebase).
 
-Best regards
-wang shengjiu
-> ---
->  sound/soc/fsl/fsl_rpmsg.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/soc/fsl/fsl_rpmsg.c b/sound/soc/fsl/fsl_rpmsg.c
-> index 5c5c04ce9db7..00852f174a69 100644
-> --- a/sound/soc/fsl/fsl_rpmsg.c
-> +++ b/sound/soc/fsl/fsl_rpmsg.c
-> @@ -238,7 +238,7 @@ static int fsl_rpmsg_probe(struct platform_device *pd=
-ev)
->         ret =3D devm_snd_soc_register_component(&pdev->dev, &fsl_componen=
-t,
->                                               &fsl_rpmsg_dai, 1);
->         if (ret)
-> -               return ret;
-> +               goto err_pm_disable;
->
->         rpmsg->card_pdev =3D platform_device_register_data(&pdev->dev,
->                                                          "imx-audio-rpmsg=
-",
-> @@ -248,16 +248,22 @@ static int fsl_rpmsg_probe(struct platform_device *=
-pdev)
->         if (IS_ERR(rpmsg->card_pdev)) {
->                 dev_err(&pdev->dev, "failed to register rpmsg card\n");
->                 ret =3D PTR_ERR(rpmsg->card_pdev);
-> -               return ret;
-> +               goto err_pm_disable;
->         }
->
->         return 0;
-> +
-> +err_pm_disable:
-> +       pm_runtime_disable(&pdev->dev);
-> +       return ret;
->  }
->
->  static void fsl_rpmsg_remove(struct platform_device *pdev)
->  {
->         struct fsl_rpmsg *rpmsg =3D platform_get_drvdata(pdev);
->
-> +       pm_runtime_disable(&pdev->dev);
-> +
->         if (rpmsg->card_pdev)
->                 platform_device_unregister(rpmsg->card_pdev);
->  }
-> --
-> 2.42.0
->
+Best regards,
+Krzysztof
+
