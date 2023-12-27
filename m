@@ -1,110 +1,126 @@
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1552C688;
-	Wed, 27 Dec 2023 10:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 7350E1A0FC8;
-	Wed, 27 Dec 2023 11:09:37 +0100 (CET)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 39E1B1A06E1;
-	Wed, 27 Dec 2023 11:09:37 +0100 (CET)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 72BF4181D0E5;
-	Wed, 27 Dec 2023 18:09:35 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: pierre-louis.bossart@linux.intel.com,
-	lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com
-Subject: [PATCH] ASoC: SOF: imx: Add SNDRV_PCM_INFO_BATCH flag
-Date: Wed, 27 Dec 2023 17:27:43 +0800
-Message-Id: <1703669263-13832-1-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985872C852;
+	Wed, 27 Dec 2023 10:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fm2deBjh"
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7bae735875bso115975739f.2;
+        Wed, 27 Dec 2023 02:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703672042; x=1704276842; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jRme2CYkuej+oUl410fWyMnS0uLqwabA9u7BWCoKP+o=;
+        b=fm2deBjh4ywe7Mi6jhmDtX1AaSzeqVBSOljOvnNT5eDmK3jcbRtXXejVdVvkFxzOV5
+         7ueZb7FaXfXz2s4Axci5fWmGV/p+UfFvfFlDXkr+4C0+1MDeh1fRCyYDgMSau64p0WR8
+         RzUE5UP/b5VIPuDQGqWGp/GRPFQfaBQ+YtYcavu5rMdFkgkNgu9ElxuEyx9BlmK2dgUB
+         5K6+mrvA+sGuqGpT8gX/zDbl/C0e9XncGMEXVxvlX3Sa+k1SNvqHiDx0Xp75+KdTQKBF
+         TR7uUYXuk1lHxEonWkM6pnXumPqZw2D2BhJ9rstikNTQi6kVSASPZxadaz5S2RlJ7vIi
+         YLJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703672042; x=1704276842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jRme2CYkuej+oUl410fWyMnS0uLqwabA9u7BWCoKP+o=;
+        b=sIPMyFFOWwZ8VX6NnHEd72y1vZWyU+61nUjqRqO79Jtth9BWniRkcCxs5mMXys5aoS
+         /5z38fOcu8dZBomsoEKdAeLJ8D101fmk+tIxG7fJBNDzb9c7nTUbn3ISuhFfXJT7EXj5
+         kn9BhPGNnlB5KZeWu9ye/ubnYOKXIY2ZYV8H62dQbs+6pUVEgxw5/s1v7xLJMVgNacbP
+         R3kjon5D4NXsuLH1ezADnkmrtaqUPkH3E/e/41p5AXCtbHWkbmodKNHY6WQYrlu9N13p
+         SExL0tUtTPxS2rd+e1wevpDj6+2wNQb5d2pDu+2CGrzrtJLf0pZzZ0gbSMDCFxViVWiR
+         T3/Q==
+X-Gm-Message-State: AOJu0YwQ3bOfFbSr68ujvzjOCntx3uAuT+y8/hyUshyD/XeVF4Ap3hXV
+	v1PP1WlBzZjXXnzcqwmLXZEP/Z68kKMQw5xbbV0=
+X-Google-Smtp-Source: AGHT+IGX3kgTnoLFpwcULIR2XP64wsIvyR1qrnOqNlsZ5KnM2HAG0vPRlOFg+PwmfJmRT1lMaiTHvxcGaf3r8K23v0c=
+X-Received: by 2002:a92:c267:0:b0:35d:a84e:f729 with SMTP id
+ h7-20020a92c267000000b0035da84ef729mr15136859ild.63.1703672042700; Wed, 27
+ Dec 2023 02:14:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20231225080608.967953-1-chancel.liu@nxp.com>
+In-Reply-To: <20231225080608.967953-1-chancel.liu@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 27 Dec 2023 18:13:51 +0800
+Message-ID: <CAA+D8APY3KL6+7kpeqGLm-n_gLTLHOWvMoEZxhrRH2X+9O1d-w@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_rpmsg: Fix error handler with pm_runtime_enable
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The sof imx pcm device is a device which should support
-double buffering.
+On Mon, Dec 25, 2023 at 4:06=E2=80=AFPM Chancel Liu <chancel.liu@nxp.com> w=
+rote:
+>
+> There is error message when defer probe happens:
+>
+> fsl_rpmsg rpmsg_audio: Unbalanced pm_runtime_enable!
+>
+> Fix the error handler with pm_runtime_enable.
+>
+> Fixes: b73d9e6225e8 ("ASoC: fsl_rpmsg: Add CPU DAI driver for audio base =
+on rpmsg")
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 
-Found this issue with pipewire. When there is no
-SNDRV_PCM_INFO_BATCH flag in driver, the pipewire will
-set headroom to be zero, and because sof pcm device
-don't support residue report, when the latency setting
-is small, the "delay" always larger than "target" in
-alsa-pcm.c, that reading next period data is not
-scheduled on time.
+Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 
-With SNDRV_PCM_INFO_BATCH flag in driver, the pipewire
-will select a smaller period size for device, then
-the task of reading next period data will be scheduled
-on time.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/sof/imx/imx8.c    | 1 +
- sound/soc/sof/imx/imx8m.c   | 1 +
- sound/soc/sof/imx/imx8ulp.c | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 170740bce839..d777e70250ef 100644
---- a/sound/soc/sof/imx/imx8.c
-+++ b/sound/soc/sof/imx/imx8.c
-@@ -603,6 +603,7 @@ static struct snd_sof_dsp_ops sof_imx8x_ops = {
- 			SNDRV_PCM_INFO_MMAP_VALID |
- 			SNDRV_PCM_INFO_INTERLEAVED |
- 			SNDRV_PCM_INFO_PAUSE |
-+			SNDRV_PCM_INFO_BATCH |
- 			SNDRV_PCM_INFO_NO_PERIOD_WAKEUP
- };
- 
-diff --git a/sound/soc/sof/imx/imx8m.c b/sound/soc/sof/imx/imx8m.c
-index f088fd1a672b..1b976fa500aa 100644
---- a/sound/soc/sof/imx/imx8m.c
-+++ b/sound/soc/sof/imx/imx8m.c
-@@ -472,6 +472,7 @@ static struct snd_sof_dsp_ops sof_imx8m_ops = {
- 		SNDRV_PCM_INFO_MMAP_VALID |
- 		SNDRV_PCM_INFO_INTERLEAVED |
- 		SNDRV_PCM_INFO_PAUSE |
-+		SNDRV_PCM_INFO_BATCH |
- 		SNDRV_PCM_INFO_NO_PERIOD_WAKEUP,
- };
- 
-diff --git a/sound/soc/sof/imx/imx8ulp.c b/sound/soc/sof/imx/imx8ulp.c
-index ca6edb85ff71..2badca75782b 100644
---- a/sound/soc/sof/imx/imx8ulp.c
-+++ b/sound/soc/sof/imx/imx8ulp.c
-@@ -463,6 +463,7 @@ static struct snd_sof_dsp_ops sof_imx8ulp_ops = {
- 			SNDRV_PCM_INFO_MMAP_VALID |
- 			SNDRV_PCM_INFO_INTERLEAVED |
- 			SNDRV_PCM_INFO_PAUSE |
-+			SNDRV_PCM_INFO_BATCH |
- 			SNDRV_PCM_INFO_NO_PERIOD_WAKEUP,
- 
- 	/* PM */
--- 
-2.34.1
-
+Best regards
+wang shengjiu
+> ---
+>  sound/soc/fsl/fsl_rpmsg.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/sound/soc/fsl/fsl_rpmsg.c b/sound/soc/fsl/fsl_rpmsg.c
+> index 5c5c04ce9db7..00852f174a69 100644
+> --- a/sound/soc/fsl/fsl_rpmsg.c
+> +++ b/sound/soc/fsl/fsl_rpmsg.c
+> @@ -238,7 +238,7 @@ static int fsl_rpmsg_probe(struct platform_device *pd=
+ev)
+>         ret =3D devm_snd_soc_register_component(&pdev->dev, &fsl_componen=
+t,
+>                                               &fsl_rpmsg_dai, 1);
+>         if (ret)
+> -               return ret;
+> +               goto err_pm_disable;
+>
+>         rpmsg->card_pdev =3D platform_device_register_data(&pdev->dev,
+>                                                          "imx-audio-rpmsg=
+",
+> @@ -248,16 +248,22 @@ static int fsl_rpmsg_probe(struct platform_device *=
+pdev)
+>         if (IS_ERR(rpmsg->card_pdev)) {
+>                 dev_err(&pdev->dev, "failed to register rpmsg card\n");
+>                 ret =3D PTR_ERR(rpmsg->card_pdev);
+> -               return ret;
+> +               goto err_pm_disable;
+>         }
+>
+>         return 0;
+> +
+> +err_pm_disable:
+> +       pm_runtime_disable(&pdev->dev);
+> +       return ret;
+>  }
+>
+>  static void fsl_rpmsg_remove(struct platform_device *pdev)
+>  {
+>         struct fsl_rpmsg *rpmsg =3D platform_get_drvdata(pdev);
+>
+> +       pm_runtime_disable(&pdev->dev);
+> +
+>         if (rpmsg->card_pdev)
+>                 platform_device_unregister(rpmsg->card_pdev);
+>  }
+> --
+> 2.42.0
+>
