@@ -1,91 +1,53 @@
-Received: from smtp-200-110.mailtrap.live (smtp-200-110.mailtrap.live [5.181.200.110])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886074438D
-	for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 11:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tomzanna.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dnpw5703xzovsw6w.tomzanna.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smtp.mailtrap.live header.i=@smtp.mailtrap.live header.b="mi65+ORg";
-	dkim=pass (2048-bit key) header.d=tomzanna.com header.i=@tomzanna.com header.b="hAcAYe3X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=smtp.mailtrap.live; s=rwmt2;
-	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-	 subject:cc:to:from:feedback-id:from;
-	bh=sjZ5PCBt3D6/F+ea/52Yl440+MaFKi3LYeY4qE+sGwg=;
-	b=mi65+ORg4i2xzRK2zfahumJwUlQab5pFAdf3t/ype3St49VcqTkhm15gPfC++3YrUJsiKLVZU5WHb
-	 HoubKn5KIXl276IVVpnp+cI19BHncxCLNgRdcJI1aVHm2B4dc4qWgDnN0nUz+IquhMOXfHUTEMlFxQ
-	 bOI918P365AevRlQRt1Tzuo7L0gXzLiGfcty4Dik3PEo8I/r5wZr6eEKfYSC4AMJA1zTTUeora3DCG
-	 pmmuszcEv3IaO3waVnzxrE4bHLzd689gzizzzwr2N3uP/AzgSwZBGE65jKncCm8XLF014rntofJRZ0
-	 7mG+rwJqEbALQ9REQpHqhrMUK7NHJCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=tomzanna.com; s=rwmt2;
-	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-	 subject:cc:to:from:feedback-id:from;
-	bh=sjZ5PCBt3D6/F+ea/52Yl440+MaFKi3LYeY4qE+sGwg=;
-	b=hAcAYe3XwPVW381whTL3e9fdc43hYKvr5VNGFEDD0vVtXxlXRRNk11Tk5dYSss7Ve+tUJqqW2lItI
-	 yffb1XUBsXK1b/VYVq1egF0SZ8z6amzpEBQO9wmX2lhOzzXBCDHK3CPs8lE8a4wv3o1KuGRpNPwHq4
-	 LKPzvJUAPsIgEvmJdVyuMDSsbh9R3gRWno0YLodtreLbXTfDiiJ6hj6SVPwnpaMwcB8b372ERI0rFg
-	 PTg7FmIv8q1UmqgcC+cQDuFhyz2uKSXDVToEqZpFSvUPYcHHA23Hx2ApVMlWXaS4XCf7v3TCVUwjTI
-	 GJ9EDbjzgs58nUmPE2k59107wLtlWtA==
-X-Report-Abuse-To: abuse@mailtrap.io
-Received: from tomzanna.com by smtp.mailtrap.live with ESMTPSA
- 9a053d86-a4a4-11ee-9113-0a7c3e8c2873; Wed, Dec 27 2023 10:42:23 GMT
-Feedback-ID: default:73696:transactional:mailtrap.io
-X-MT-Message: 9ea52940-a4a4-11ee-0000-f10c5eea18c1
-X-MT-Domain: 6f3581fd-7900-47b4-af84-713a10caaa6f
-X-MT-Account: 173bcdf6-cb1f-4895-a024-3acc438f33ef
-From: Tommaso Zanotti <kernel@tomzanna.com>
-To: broonie@kernel.org
-Cc: Basavaraj.Hiregoudar@amd.com,
-	Sunil-kumar.Dommati@amd.com,
-	Syed.SabaKareem@amd.com,
-	Vijendar.Mukunda@amd.com,
-	alsa-devel@alsa-project.org,
-	bagasdotme@gmail.com,
-	kuninori.morimoto.gx@renesas.com,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	mario.limonciello@amd.com,
-	nicolas.ferre@microchip.com,
-	perex@perex.cz,
-	posteuca@mutex.one,
-	tiwai@suse.com,
-	u.kleine-koenig@pengutronix.de,
-	venkataprasad.potturu@amd.com
-Subject: Re: [RESEND] ASoC: amd: acp: add pm ops support for renoir platform.
-Date: Wed, 27 Dec 2023 11:42:09 +0100
-Message-ID: <20231227104209.6281-1-kernel@tomzanna.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <170267843699.316482.4350897389116089852.b4-ty@kernel.org>
-References: <170267843699.316482.4350897389116089852.b4-ty@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EDC446AB;
+	Wed, 27 Dec 2023 11:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b681e3.dsl.pool.telekom.hu [::ffff:81.182.129.227])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000071CB4.00000000658C0D40.001494F8; Wed, 27 Dec 2023 12:40:48 +0100
+Message-ID: <313b19531261e5b94870043be7bdd4666176f562.camel@irl.hu>
+Subject: Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for different laptops
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, linux-firmware@kernel.org
+Cc: kevin-lu@ti.com, baojun.xu@ti.com, 13916275206@139.com,
+  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  peeyush@ti.com, navada@ti.com
+Date: Wed, 27 Dec 2023 12:40:47 +0100
+In-Reply-To: <20231223141242.676-1-shenghao-ding@ti.com>
+References: <20231223141242.676-1-shenghao-ding@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 (3.50.2-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi Marc,
-first time writing on a kernel mailing list here.
+Hi Shenghao,
 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix)
+On Sat, 2023-12-23 at 22:12 +0800, Shenghao Ding wrote:
+>=20
+> +Licence: Allegedly GPLv2+, but no source visible. Marked:
+> +	 Copyright (C) 2023 Texas Instruments
+> +
+> +Found in hex form in kernel source.
 
-I noticed that this patch is scheduled to land in mainline on 6.8.
-However, it was the second of a two-part bugfix for a regression introduced
-in 6.6-rc1. You can find more info here:
-- https://lore.kernel.org/lkml/87a5v8szhc.fsf@mutex.one/
-- https://linux-regtracking.leemhuis.info/regzbot/regression/lore/87a5v8szhc.fsf@mutex.one/
+Is this true? Isn't this a new driver?
 
-Would be feasible to ship this patch already in the next 6.7-rc?
-Because with the stable 6.7 some Huawei laptops will finally receive audio
-support but due to this regression a workaround in user space is necessary.
+> \ No newline at end of file
+> diff --git a/ti/tas2781/TAS2XXX387D.bin b/ti/tas2781/TAS2XXX387D.bin
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3ce40ae9d715727092bffe1e1=
+8a6a7e50ea41eed
+> GIT binary patch
+> literal 64504
 
-Cheers,
-Tommaso
-
+Regards,
+Gergo
 
