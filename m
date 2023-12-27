@@ -1,220 +1,170 @@
 Received: from mail1.merlins.org (magic.merlins.org [209.81.13.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72422BA2B
-	for <linux-sound@vger.kernel.org>; Sun, 31 Dec 2023 17:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515358F58
+	for <linux-sound@vger.kernel.org>; Sun, 31 Dec 2023 17:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=merlins.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=merlins.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=merlins.org header.i=@merlins.org header.b="a5l+kBj1"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=merlins.org header.i=@merlins.org header.b="kvTEG2Vr"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=merlins.org
-	; s=key; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:
-	Resent-To:Resent-Message-ID:Resent-Date:Resent-From:Sender:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Sender:
-	Resent-Cc:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=sQGtRMLwhJiA64dXaQiBwayWp0yyNXejWjOF9De7knM=; b=a5l+kBj1Q8Gz6WC4EXBf1gEfF1
-	NEPatOBlGldfd3odYkPG1yUNlLmN51kf//k9DrH/LgZFvkyFzjBQdI+ykp1SFAeGEsw5x9PixApZo
-	Hm9J9S8mmLB2IYkPtyZ/1q3zBM+x/XPJhWG9SlJOuTcrE4Tw1biLqB8nBhf3Y5SB8T6N73HRUQ5De
-	Z3Gx3tGBzhMnmPRCpJGcrNrC4kzMQEZQDk3T/2w0/BiPdR0e1GHj6ED/2eyY4CINE09aU+Ka6IilO
-	JyQAiaBH8mC7/VAnMPoNCxCrgPbrghf/2alJGhDxmtB5uorLgTUHBU+RFtf46MteBmqMvYWuphaxJ
-	mf1leWSw==;
-Received: from lfbn-idf3-1-20-89.w81-249.abo.wanadoo.fr ([81.249.147.89]:55342 helo=sauron.svh.merlins.org)
+	; s=key; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:Message-ID:Subject:To:From:Date:Resent-To:Resent-Message-ID:
+	Resent-Date:Resent-From:Sender:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Sender:Resent-Cc:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=dURQrRvNoM8x1jWuJt7hXINGYTUMhNKDqJkQOB4RKLM=; b=kvTEG2VrNd+hn/7HEEmumM3XkC
+	NN6gy3cP9Ubvdzpx8/qU4NneFrNOgJL29qmjry4Wwk5G4Qu4uJPvnYng5NBMYOOMEhmLp96/BYAo+
+	54XIbUiydb7AMWNqjPihpXz7MDEbOZ3yZl8XtDLw4I5lk7IvjHmc3U3TVvDDnJkmoslcP5RQRRwkY
+	a++1rkGzrZNo8bnfvMg2bs8pvtJ7mFEZW7R1nN5r0F1AuAaRn74URFSEZ4zB9WUaBPm1vYMVVNM+/
+	PzTLFzkT9rs3F/GY4XAD8izILH0Hykb/WDu9Wp54O/deDzHbo+3kvUtc9jlMIm0KrCD6Gw8O0gsvE
+	S5tumX6w==;
+Received: from lfbn-idf3-1-20-89.w81-249.abo.wanadoo.fr ([81.249.147.89]:55850 helo=sauron.svh.merlins.org)
 	by mail1.merlins.org with esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim 4.94.2 #2)
-	id 1rJzvZ-0006oq-3v by authid <merlins.org> with srv_auth_plain
-	for <linux-sound@vger.kernel.org>; Sun, 31 Dec 2023 09:48:45 -0800
+	id 1rJzw5-0006ww-GX by authid <merlins.org> with srv_auth_plain
+	for <linux-sound@vger.kernel.org>; Sun, 31 Dec 2023 09:49:17 -0800
 Received: from merlin by sauron.svh.merlins.org with local (Exim 4.96)
 	(envelope-from <merlin@merlins.org>)
-	id 1rJzvX-001nk2-1m
+	id 1rJzw4-001nkP-1B
 	for linux-sound@vger.kernel.org;
-	Sun, 31 Dec 2023 09:48:43 -0800
+	Sun, 31 Dec 2023 09:49:16 -0800
 Resent-From: Marc MERLIN <marc@merlins.org>
-Resent-Date: Sun, 31 Dec 2023 09:48:43 -0800
-Resent-Message-ID: <ZZGpezHWazRs2PJY@merlins.org>
+Resent-Date: Sun, 31 Dec 2023 09:49:16 -0800
+Resent-Message-ID: <ZZGpnF_gV8krz_Kz@merlins.org>
 Resent-To: linux-sound@vger.kernel.org
-Date: Sat, 23 Dec 2023 15:44:30 -0800
+Date: Wed, 27 Dec 2023 11:02:02 -0800
 From: Marc MERLIN <marc@merlins.org>
 To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Rander Wang <rander.wang@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: sof-audio-pci-intel-tgl/soundwire 6.6.8 kernel outputs no sound on
- speakers but works on headphones
-Message-ID: <20231223234430.GA11359@merlins.org>
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: sof-audio-pci-intel-tgl/soundwire 6.6.8 kernel outputs no sound
+ on speakers but works on headphones
+Message-ID: <ZYx0qurc3PfaxfT5@merlins.org>
+References: <20231223234430.GA11359@merlins.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231223234430.GA11359@merlins.org>
 X-Sysadmin: BOFH
 X-URL: http://marc.merlins.org/
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-SA-Exim-Connect-IP: 81.249.147.89
 X-SA-Exim-Mail-From: marc@merlins.org
 
-Howdy,
+[adding linux-sound after no reply on alsa-devel which is now bouncing
+my Emails]
 
-First, apologies if I'm not sending this to the right place, I could not
-find an approrpriate soundwire/sof mailing list, please redirect me as
-needed (I had to find an old soundwire message for reference)
+I'm still stuck with no sound :-/
+I did more testing and 6.5.0-14-generic from ubuntu gives sound when I
+boot it in ubuntu 23, but the same kernel in debian 12, seems to load
+but gives a device that only gives sound via headphones. Nothing through
+the speakers, and they are not muted (as checked in alsamixer)
 
-laptop; Dell XPS 17 9730
-
-merlin:~# lspci | grep -i audio
-0000:00:1f.3 Multimedia audio controller: Intel Corporation Device 51ca (rev 01)
-
-stock mainline 6.6.8 shows the device, but no sound comes out, as if it
-were muted, but I do not see anyting muted in alsamixer. If I plug in
-headphones, sound works, if I unplug them, no sound on speakers. Nothing
-is shown as muted alsamixer and the sound levels look ok.
-I ran the test as root from console so that pulseaudio/pipewire doesn't
-get in the way.
-
-Under xorg pavucontrol detects when I plug in headphones, and says
-speaker unvailable, when I switch to headphones output it works, when I
-unplug the headphones, speaker unavailable goes back to speaker.
-
-So I kill X and pulseaudio, play audio on the console directly to alsa
-instead of pulse and same thing, it plays but no sound on the speakers,
-but sound on headphones when I plug them in
-
-Alsamixer is using
-default:0 sof-soundwire
-
-Any idea what could be muting the speakers if alsamixer shows them
-unmuted?
-
-It is a kernel bug or userspace bug?
-
-merlin:~# cat /proc/asound/*
-cat: /proc/asound/card0: Is a directory
- 0 [sofsoundwire   ]: sof-soundwire - sof-soundwire
-                      Intel Soundwire SOF
-  1:        : sequencer
-  2: [ 0- 0]: digital audio playback
-  3: [ 0- 1]: digital audio capture
-  4: [ 0- 2]: digital audio playback
-  5: [ 0- 4]: digital audio capture
-  6: [ 0- 5]: digital audio playback
-  7: [ 0- 6]: digital audio playback
-  8: [ 0- 7]: digital audio playback
-  9: [ 0- 2]: hardware dependent
- 10: [ 0]   : control
- 33:        : timer
-00-02: HDA Codec 2
- 0 snd_soc_sof_sdw
-cat: /proc/asound/oss: Is a directory
-00-00: Jack Out (*) :  : playback 1
-00-01: Jack In (*) :  : capture 1
-00-02: Speaker (*) :  : playback 1
-00-04: Microphone (*) :  : capture 1
-00-05: HDMI 1 (*) :  : playback 1
-00-06: HDMI 2 (*) :  : playback 1
-00-07: HDMI 3 (*) :  : playback 1
-cat: /proc/asound/seq: Is a directory
-cat: /proc/asound/sofsoundwire: Is a directory
-G0: system timer : 4000.000us (10000000 ticks)
-G3: HR timer : 0.001us (1000000000 ticks)
-  Client sequencer queue 1 : stopped
-P0-0-0: PCM playback 0-0-0 : 21333.333us (1 ticks) SLAVE
-P0-1-1: PCM capture 0-1-1 : SLAVE
-P0-2-0: PCM playback 0-2-0 : SLAVE
-P0-4-1: PCM capture 0-4-1 : SLAVE
-P0-5-0: PCM playback 0-5-0 : SLAVE
-P0-6-0: PCM playback 0-6-0 : SLAVE
-P0-7-0: PCM playback 0-7-0 : SLAVE
-Advanced Linux Sound Architecture Driver Version k6.6.8-amd64-volpre-sysrq-20231218.
-
-merlin:~# dmesg | grep -E '(snd|sof|soundcore)'
-[    0.090196] software IO TLB: area num 32.
-[    1.567086] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
-[    1.567087] software IO TLB: mapped [mem 0x0000000053683000-0x0000000057683000] (64MB)
-[   15.941644] snd_hda_intel 0000:00:1f.3: vgaarb: pci_notify
-[   15.941656] snd_hda_intel 0000:00:1f.3: runtime IRQ mapping not provided by arch
-[   15.941662] snd_hda_intel 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040100
-[   15.942126] snd_hda_intel 0000:00:1f.3: SoundWire enabled on CannonLake+ platform, using SOF driver
-[   15.942151] snd_hda_intel 0000:00:1f.3: vgaarb: pci_notify
-[   16.089302] sof-audio-pci-intel-tgl 0000:00:1f.3: vgaarb: pci_notify
-[   16.089311] sof-audio-pci-intel-tgl 0000:00:1f.3: runtime IRQ mapping not provided by arch
-[   16.089317] sof-audio-pci-intel-tgl 0000:00:1f.3: power state changed by ACPI to D0
-[   16.089320] sof-audio-pci-intel-tgl 0000:00:1f.3: ACPI _REG connect evaluation failed (5)
-[   16.089417] sof-audio-pci-intel-tgl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040100
-[   16.089503] sof-audio-pci-intel-tgl 0000:00:1f.3: SoundWire enabled on CannonLake+ platform, using SOF driver
-[   16.089542] sof-audio-pci-intel-tgl 0000:00:1f.3: enabling device (0000 -> 0002)
-[   16.089937] sof-audio-pci-intel-tgl 0000:00:1f.3: vgaarb: pci_notify
-[   16.090083] sof-audio-pci-intel-tgl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if 0x040100
-[   16.090473] sof-audio-pci-intel-tgl 0000:00:1f.3: bound 0000:00:02.0 (ops i915_audio_component_bind_ops [i915])
-[   16.102000] sof-audio-pci-intel-tgl 0000:00:1f.3: use msi interrupt mode
-[   16.102152] sof-audio-pci-intel-tgl 0000:00:1f.3: enabling bus mastering
-[   16.120035] sof-audio-pci-intel-tgl 0000:00:1f.3: hda codecs found, mask 4
-[   16.125472] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-[   16.125499] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-[   16.125522] sof-audio-pci-intel-tgl 0000:00:1f.3: unknown sof_ext_man header type 3 size 0x30
-[   16.218672] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-[   16.218704] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-[   16.235176] sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
-[   16.235457] sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
-[   16.285146] sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
-[   16.304414] input: sof-soundwire Headset Jack as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input12
-[   16.307681] input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input13
-[   16.314904] input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
-[   16.321892] input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+I ran a diff between dmesg between the 2 boots, and I do see when
+running the same kernel in debian12:
+input: sof-soundwire Headset Jack as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input27
+input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input28
+input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input29
+input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input30
+sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
 
 
-merlin:~# lsmod | grep -E "(^snd|sof|soundwire)"
-snd_seq_dummy          12288  0
-snd_hrtimer            12288  1
-snd_ctl_led            24576  0
-snd_soc_sof_sdw        86016  3
-snd_soc_intel_hda_dsp_common    16384  1 snd_soc_sof_sdw
-snd_soc_intel_sof_maxim_common    20480  1 snd_soc_sof_sdw
-snd_sof_probes         24576  0
-snd_soc_rt711_sdca     53248  1
-snd_soc_rt715_sdca     45056  1
-snd_hda_codec_hdmi     90112  1
-snd_soc_rt1316_sdw     28672  2
-snd_soc_dmic           12288  0
-snd_sof_pci_intel_tgl    12288  2
-snd_sof_intel_hda_common   208896  1 snd_sof_pci_intel_tgl
-snd_sof_intel_hda      24576  1 snd_sof_intel_hda_common
-snd_sof_pci            24576  2 snd_sof_intel_hda_common,snd_sof_pci_intel_tgl
-snd_sof_xtensa_dsp     12288  1 snd_sof_intel_hda_common
-snd_sof               352256  4 snd_sof_pci,snd_sof_intel_hda_common,snd_sof_probes,snd_sof_intel_hda
-snd_sof_utils          16384  1 snd_sof
-snd_soc_hdac_hda       24576  1 snd_sof_intel_hda_common
-snd_soc_acpi_intel_match    98304  2 snd_sof_intel_hda_common,snd_sof_pci_intel_tgl
-snd_soc_acpi           16384  2 snd_soc_acpi_intel_match,snd_sof_intel_hda_common
-snd_hda_intel          57344  0
-snd_intel_dspcfg       36864  3 snd_hda_intel,snd_sof,snd_sof_intel_hda_common
-snd_intel_sdw_acpi     16384  2 snd_sof_intel_hda_common,snd_intel_dspcfg
-snd_hda_codec         217088  5 snd_hda_codec_hdmi,snd_hda_intel,snd_soc_intel_hda_dsp_common,snd_soc_hdac_hda,snd_sof_intel_hda
-snd_hwdep              20480  1 snd_hda_codec
-soundwire_intel        69632  5 snd_sof_intel_hda_common
-snd_sof_intel_hda_mlink    40960  2 soundwire_intel,snd_sof_intel_hda_common
-soundwire_cadence      40960  1 soundwire_intel
-snd_hda_ext_core       40960  4 snd_sof_intel_hda_common,snd_soc_hdac_hda,snd_sof_intel_hda_mlink,snd_sof_intel_hda
-snd_hda_core          147456  8 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_ext_core,snd_hda_codec,snd_soc_intel_hda_dsp_common,snd_sof_intel_hda_common,snd_soc_hdac_hda,snd_sof_intel_hda
-soundwire_generic_allocation    12288  1 soundwire_intel
-snd_soc_core          421888  11 snd_soc_sof_sdw,snd_soc_rt715_sdca,snd_soc_rt1316_sdw,soundwire_intel,snd_sof,snd_sof_intel_hda_common,snd_soc_hdac_hda,snd_soc_rt711_sdca,snd_soc_intel_sof_maxim_common,snd_sof_probes,snd_soc_dmic
-snd_compress           28672  2 snd_soc_core,snd_sof_probes
-snd_pcm_dmaengine      16384  1 snd_soc_core
-snd_pcm               192512  16 snd_soc_rt715_sdca,snd_hda_codec_hdmi,snd_soc_rt1316_sdw,snd_hda_intel,snd_hda_codec,soundwire_intel,snd_sof,snd_sof_intel_hda_common,snd_compress,snd_soc_rt711_sdca,snd_soc_core,snd_sof_utils,snd_soc_intel_sof_maxim_common,snd_hda_core,snd_pcm_dmaengine
-snd_seq_midi           20480  0
-snd_seq_midi_event     16384  1 snd_seq_midi
-snd_rawmidi            53248  1 snd_seq_midi
-snd_seq               106496  9 snd_seq_midi,snd_seq_midi_event,snd_seq_dummy
-snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
-snd_timer              49152  3 snd_seq,snd_hrtimer,snd_pcm
-snd                   155648  21 snd_ctl_led,snd_soc_sof_sdw,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_sof,snd_timer,snd_compress,snd_soc_core,snd_pcm,snd_rawmidi
+merlin:/boot/sound# dmesg |grep intel-tgl
+[   14.629851] sof-audio-pci-intel-tgl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040100
+[   14.631966] sof-audio-pci-intel-tgl 0000:00:1f.3: SoundWire enabled on CannonLake+ platform, using SOF driver
+[   14.633819] sof-audio-pci-intel-tgl 0000:00:1f.3: enabling device (0000 -> 0002)
+[   14.635615] sof-audio-pci-intel-tgl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if 0x040100
+[   14.637179] sof-audio-pci-intel-tgl 0000:00:1f.3: bound 0000:00:02.0 (ops i915_audio_component_bind_ops [i915])
+[   14.650766] sof-audio-pci-intel-tgl 0000:00:1f.3: use msi interrupt mode
+[   14.668269] sof-audio-pci-intel-tgl 0000:00:1f.3: hda codecs found, mask 4
+[   14.674395] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+[   14.675880] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+[   14.677283] sof-audio-pci-intel-tgl 0000:00:1f.3: unknown sof_ext_man header type 3 size 0x30
+[   14.771750] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+[   14.773456] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+[   14.791223] sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+[   23.851544] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+[   23.851573] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+[   23.851575] sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+[   23.852609] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+[   23.852622] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+[   23.852630] sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+[   23.853634] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+[   23.853645] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+[   23.853653] sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
+[   23.854644] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
+[   23.854646] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
+(...) many lines deleted
+
+I realize that userspace is different and it could be a problem
+with pipewire and wireplumber, but the ASoC errors above look
+like a kernel issue. What do you think?
+
+
+merlin:/boot/sound$ diff -u inxi_aA_*
+--- inxi_aA_deb	2023-12-27 08:22:43.869118470 -0800
++++ inxi_aA_ubnt	2023-12-27 09:23:06.442760237 -0800
+@@ -1,9 +1,10 @@
+ Audio:
+-  Device-1: Intel vendor: Dell driver: sof-audio-pci-intel-tgl
++  Device-1: Intel Raptor Lake-P/U/H cAVS vendor: Dell
++    driver: sof-audio-pci-intel-tgl
+     alternate: snd_hda_intel,snd_sof_pci_intel_tgl bus-ID: 0000:00:1f.3
+     chip-ID: 8086:51ca class-ID: 0401
+-  API: ALSA v: k6.5.0-14-generic status: kernel-api with: aoss
+-    type: oss-emulator tools: alsamixer,amixer
+-  Server-1: PipeWire v: 0.3.65 status: active with: 1: pipewire-pulse
++  API: ALSA v: k6.5.0-14-generic status: kernel-api
++    tools: alsactl,alsamixer,amixer
++  Server-1: PipeWire v: 0.3.79 status: active with: 1: pipewire-pulse
+     status: active 2: wireplumber status: active 3: pipewire-alsa type: plugin
+-    4: pw-jack type: plugin tools: pactl,pw-cat,pw-cli,wpctl
++    tools: pw-cat,pw-cli,wpctl
+
+merlin:/boot/sound$ diff -u wpctl_status_*
+shows
+ Audio
+  ├─ Devices:
+  │      44. sof-soundwire                       [alsa]
+  │  
+  ├─ Sinks:
+- │  *   53. sof-soundwire Stereo                [vol: 1.00]
++ │      45. sof-soundwire HDMI / DisplayPort 3 Output [vol: 1.00]
++ │      46. sof-soundwire HDMI / DisplayPort 2 Output [vol: 1.00]
++ │      47. sof-soundwire HDMI / DisplayPort 1 Output [vol: 1.00]
++ │      48. sof-soundwire Headphones            [vol: 1.00]
++ │  *   49. sof-soundwire Speaker               [vol: 0.90]
+  │  
+  ├─ Sink endpoints:
+  │  
+  ├─ Sources:
++ │      50. sof-soundwire Headset Microphone    [vol: 1.00]
++ │  *   51. sof-soundwire SoundWire microphones [vol: 0.76]
 
 Thanks,
 Marc
 -- 
 "A mouse is a device used to point at the xterm you want to type in" - A.S.R.
  
-Home page: http://marc.merlins.org/  
+Home page: http://marc.merlins.org/                       | PGP 7F55D5F27AAF9D08
