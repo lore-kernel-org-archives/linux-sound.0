@@ -1,41 +1,41 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AF945026;
-	Wed, 27 Dec 2023 16:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318A946522;
+	Wed, 27 Dec 2023 17:41:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILT0Vugd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g0ojs7z1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703695914; x=1735231914;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1FN+0gAIWs30kH3qVNH2Jeq1+0ZvjeMAd9cEPUVtsfM=;
-  b=ILT0VugdjGKaTLALinKgug5wZdpiSp4so/PBCX4kDsR4l9DBezkEq7FX
-   0qqOsKhlco4GLBCVgJdfOSYaUDJdKhw9glxOk+fZ+wxmaIGcaLUoE1Kjp
-   P6X+rSH4rUPImqqRN6tJEXBvKp4YdtM7a0OodNZKzoqkGsHqrUdbdJ44a
-   9EONgfiL20JsUjnzavoiZhc7yyMeGX/c05WQfKGWc9grX3znLTl/Hykyt
-   XCPpQLvv2OLFAEmroiP6k7hQvsgRqgBGxdEqUme8k1dOg5nIUV/REBbCh
-   qRzU9Cj5wB0SSNTb/nHE7RliGo66jd7Tp3tGie4av+r/D/pyVsrhFTtf3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="381435525"
+  t=1703698892; x=1735234892;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=A1VfCaddzy2SDlg+XO8w3Lq94MaVqkU//Wetdj4bhzc=;
+  b=g0ojs7z1CBfFmJaMN071RkpghFZhuxb3gETKLkelAhsvLv55P3YIUmVe
+   J5MH/J/2SBAM7DcxHXSQqOwa9f47hO4mqMqX0lNaG7A8x7Le/0wZhYYn0
+   UWrI44BdWzni5XfLujD2d8X1ixcZlyg5ehxG3WnQUN86Qyu5tRUD/TL6z
+   KFkX9zDrxefR+SU+xGdIXyD+JJ9Vv8kEnCFaKH6RuWfnBeUbcA2tHzMq8
+   teryGbUABxhErZ8foHx6gTnU+y9YYhngWDUXMzW+F/pXejqQem9yqXQJA
+   b1beQknCKVcXuADXVOwBwOvC9pPvFE5vcq22nsw3OONXzc5lWbFY7uZ3S
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="381440462"
 X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="381435525"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:51:53 -0800
+   d="scan'208";a="381440462"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 09:41:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="868899368"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="812585943"
 X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="868899368"
+   d="scan'208";a="812585943"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:51:49 -0800
+  by orsmga001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 09:41:25 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.97)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rIX8E-00000009T2x-0TQX;
-	Wed, 27 Dec 2023 18:51:46 +0200
-Date: Wed, 27 Dec 2023 18:51:45 +0200
+	id 1rIXuE-00000009Tgl-06dW;
+	Wed, 27 Dec 2023 19:41:22 +0200
+Date: Wed, 27 Dec 2023 19:41:21 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Shenghao Ding <shenghao-ding@ti.com>
 Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
@@ -45,50 +45,44 @@ Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de,
 	peeyush@ti.com, navada@ti.com
-Subject: Re: [PATCH v3 4/5] ASoC: tas2781: Add tas2563 into driver
-Message-ID: <ZYxWIcnfNWyTJ9Tz@smile.fi.intel.com>
-References: <20231225053932.1138-1-shenghao-ding@ti.com>
- <20231225053932.1138-4-shenghao-ding@ti.com>
+Subject: Re: [PATCH v3 3/5] ASoC: tas2781: Add tas2563 into header file for
+ DSP mode
+Message-ID: <ZYxhwW97kFu1pp6p@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231225053932.1138-4-shenghao-ding@ti.com>
+Content-Transfer-Encoding: 8bit
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Dec 25, 2023 at 01:39:30PM +0800, Shenghao Ding wrote:
-> Move tas2563 from tas2562 driver to tas2781 driver, because tas2563 only
-> work in bypass-DSP mode with tas2562 driver. In oder to enable DSP mode
-> for tas2563, it has been moved to tas2781 driver. As to the hardware part,
-> such as register setting and DSP firmware, all these are stored in the
-> binary firmware. What tas2781 drivder dooes is to parse the firmware and
-> download them to the tas2781 or tas2563, then power on tas2781 or tas2563.
-> So, tas2781 driver can be resued as tas2563 driver. Only attention will be
-> paid to downloading corresponding firmware.
 
-> -// The TAS2781 driver implements a flexible and configurable
-> +// The TAS2781/TAS2563 driver implements a flexible and configurable
+On Mon, Dec 25, 2023 at 01:39:29PM +0800, Shenghao Ding wrote:
+> Move tas2563 from tas2562 header file to tas2781 header file, because
+> tas2563 only work in bypass-DSP mode with tas2562 driver. In oder to
+> enable DSP mode for tas2563, it has been moved to tas2781 driver. As to
+> the hardware part, such as register setting and DSP firmware, all these
+> are stored in the binary firmware. What tas2781 drivder dooes is to parse
+> the firmware and download them to the tas2781 or tas2563, then power on
+> tas2781 or tas2563. So, tas2781 driver can be resued as tas2563 driver。
+> Only attention will be paid to downloading corresponding firmware.
 
-> -// TAS2781 chips.
-> +// TAS2781/TAS2563 chips.
-
->  static const struct i2c_device_id tasdevice_id[] = {
->  	{ "tas2781", TAS2781 },
-> +	{ "tas2563", TAS2563 },
->  	{}
+>  enum audio_device {
+>  	TAS2781	= 0,
+> +	TAS2563
 >  };
 
->  static const struct of_device_id tasdevice_of_match[] = {
->  	{ .compatible = "ti,tas2781" },
-> +	{ .compatible = "ti,tas2563" },
->  	{},
->  };
+Please, make it ordered, it doesn't seem to be an ABI.
 
-In all cases make the lists ordered by a chip model.
+enum audio_device {
+	TAS2563,
+	TAS2781,
+};
+
+Yes, and leave comma as the last entry is _not_ a terminator.
 
 -- 
 With Best Regards,
