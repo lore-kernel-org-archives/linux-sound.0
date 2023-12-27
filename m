@@ -1,49 +1,49 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC71B44378
-	for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 10:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C1044374
+	for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 11:02:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X4UdEYh0"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40d60ad5f0bso405085e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 02:56:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DMAkY61M"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d5b159497so11109075e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 27 Dec 2023 03:02:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703674587; x=1704279387; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1703674973; x=1704279773; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LHce773lKvSW3d9PoMjyn58aiNhGgezLeBwW4a6Orpw=;
-        b=X4UdEYh0EcwHkjpcvcramlZh/emuYEimRUigpdNU1vuL5iXKQfSXcChGs1mk42xz6n
-         ECuGuChm0l8ivTwCIkQ8bAqT2mGBE+QZiVsWXLt1S7jl/ntZNBLfUbQCc3LUvcz5oxVm
-         6psW8gF7MfWvF+8XudzJZd6ETIhkxp3AeCtxLeUmj0vFvzaZJz2EyX6vfW2CzzG2IuP5
-         +iurSHCOU4SkLXafaE2bk7wqqQJmQxodfWAsMFNujqK48I31XjC+/b0ChLHm8zT3WTAu
-         1Gieaq4RCcF/BLP/16MvYMOH0TeWU41NkKRrDRyAKYQGdKoGhh8KE+VKlIUmy5NkdCY5
-         4njw==
+        bh=wJIrbNTFz6S/Q36AOT40voK6wVA75vC4IEUr/tVF8lw=;
+        b=DMAkY61Maa4oNGqZRDiU+3i9tjVlN472vixsqkIYUSI/PqJrDz2AatrfvJPM3ClJOR
+         WrZjUIUv2WKMFl9UmK3n4yWhSEj/K84KujjEkjLgXTMLa99J8IrY5+/oXdchV++cU8F8
+         XMS1Y/dS1EO/6y+vtc2VWqLBJMaIapoJsUEn8XmUkM+iHmH4Y8catNwMWXsUij6eBlzg
+         DdFLpwEnxGZ4/ilzxshncr8VYSedVNKM4NCaYGXSWi0xZhx9uI/vOJV/0qeH3yBMih6i
+         kq11SWrWTyV3gnexkHFxSrIvaE7W9630Lk3gCJWigyugcQCQyMnXXGlYDe5WydHhx0F7
+         uiWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703674587; x=1704279387;
+        d=1e100.net; s=20230601; t=1703674973; x=1704279773;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LHce773lKvSW3d9PoMjyn58aiNhGgezLeBwW4a6Orpw=;
-        b=veJZc2PHHZ73e1vh+fJiA3wZvZOFaeRafRdVurUNnPNnqe5f39yUyiyKyG78G20eVS
-         8ZsyygK81FXJH+SQKqEyNRmE2Z6R3UE+fAd+y+WhqO3rUlNW6U/KPM4fMxWedLAYhe5k
-         3m6yMovC1QyS0Bg926FVftoUWYHHTUy5PEYhQ2tejAXxL3UsZR8DAhFuJDrYM1ihbCA7
-         MS9uHDalddMgaXo64BRg2J16Ve+LSWlZ0duFlzdALj5GYVOHTWr9vRsEoiTMUsbAYIX3
-         P6f0LFpx3HGhG6A8IPTjh2Bcnu6dxArdSPg4rOYvL1Jkb74bCpKn6sb1gBdGeInOqpvY
-         gHnw==
-X-Gm-Message-State: AOJu0YzX0VubXuiAyH28YpIiws20xOm4N7tcaBnTsZRjT8ivmagVwsE3
-	/baxVNYUlTSkewePDfddSyvxMmdiDbXmKg==
-X-Google-Smtp-Source: AGHT+IE7PicW5CioiSRUJ2OW2wTwvR1bf06wN1vCmIc/JHED8Aw6ec5lsIUpR70J43IQWMjIfNXpsA==
-X-Received: by 2002:a1c:7c18:0:b0:40d:5c0d:1e3f with SMTP id x24-20020a1c7c18000000b0040d5c0d1e3fmr1054482wmc.84.1703674587066;
-        Wed, 27 Dec 2023 02:56:27 -0800 (PST)
+        bh=wJIrbNTFz6S/Q36AOT40voK6wVA75vC4IEUr/tVF8lw=;
+        b=gJPP4OHVXwDHnWv1M/FgkblBLf7E+cuyu4WeYd7VuKNH2gaWBeAp9jiIM/KxxGLHz6
+         aVsdcnSgj7CdxtPaEmoce9u7+/aRz3Jz+hr95Pb2zCXN1otF1RuEhzmNoNrBsKhkYJ1W
+         DpfFELiQDDA6PH4DAGBY+wePNLg7BWyHdrf0XNS3dkKs7RJdbAXQAnKmE1uZKpEd3gxr
+         4AxlAY742veaDK9lNnhyE/jp28SFNy6vBEisi27S5nr+xIV05eIn42O3K66vwUe7jEQr
+         mxv+1kDmCMVddh++os7lHHCYzmC3nxAI4f3yCdPaL3shZC/SPyzR7k0hNg4G7kLdypZ8
+         vtsQ==
+X-Gm-Message-State: AOJu0YyZUSJ6ujLZSbiP+wSNw1panD/+1gRSCA5hMOAqDUOm3F0mfUFR
+	3g6xqnUp56ytz5V3LGF7tvaq2zZlzbtGhw==
+X-Google-Smtp-Source: AGHT+IHECwD/OaL8m9NFsQrKYWOZel0XQxVa6HvaiLEs29HrzC1c7faF587Xbgfj9Vx62z/XQZJ/jg==
+X-Received: by 2002:a05:600c:5014:b0:40d:5ec8:31b4 with SMTP id n20-20020a05600c501400b0040d5ec831b4mr233577wmr.217.1703674972900;
+        Wed, 27 Dec 2023 03:02:52 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id s12-20020adfeccc000000b0033687672e48sm14141173wro.75.2023.12.27.02.56.25
+        by smtp.gmail.com with ESMTPSA id q28-20020adfab1c000000b0033690139ea5sm12213468wrc.44.2023.12.27.03.02.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Dec 2023 02:56:26 -0800 (PST)
-Message-ID: <ffc11f9c-6643-4e46-8bb2-8918e1179f72@linaro.org>
-Date: Wed, 27 Dec 2023 11:56:25 +0100
+        Wed, 27 Dec 2023 03:02:51 -0800 (PST)
+Message-ID: <2ea6a62a-ff0b-4cd9-9121-18cc063c3774@linaro.org>
+Date: Wed, 27 Dec 2023 12:02:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,8 +51,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563
- from yaml
+Subject: Re: [EXTERNAL] Re: [PATCH v3 5/5] ASoC: dt-bindings: Add tas2563 into
+ ti,ta2781.yaml to enable DSP mode
 Content-Language: en-US
 To: "Ding, Shenghao" <shenghao-ding@ti.com>
 Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>,
@@ -71,9 +71,10 @@ Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>,
  "Gupta, Peeyush" <peeyush@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>,
  "broonie@kernel.org" <broonie@kernel.org>,
  "conor+dt@kernel.org" <conor+dt@kernel.org>
-References: <20231221101346.429-1-shenghao-ding@ti.com>
- <7362295b-4a01-4574-8d96-d10f405eaea0@linaro.org>
- <8285d102645b43f6b46b15c99321105a@ti.com>
+References: <20231225053932.1138-1-shenghao-ding@ti.com>
+ <20231225053932.1138-5-shenghao-ding@ti.com>
+ <954a2ab8-3931-4022-a004-6a560c1a6a25@linaro.org>
+ <2a84eb1157a4421ba19900eeb2bfc7db@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -119,16 +120,16 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <8285d102645b43f6b46b15c99321105a@ti.com>
+In-Reply-To: <2a84eb1157a4421ba19900eeb2bfc7db@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/12/2023 08:07, Ding, Shenghao wrote:
+On 27/12/2023 07:58, Ding, Shenghao wrote:
 > 
 > 
 >> -----Original Message-----
 >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Friday, December 22, 2023 1:31 AM
+>> Sent: Monday, December 25, 2023 9:18 PM
 >> To: Ding, Shenghao <shenghao-ding@ti.com>; broonie@kernel.org;
 >> conor+dt@kernel.org
 >> Cc: robh+dt@kernel.org; andriy.shevchenko@linux.intel.com; Lu, Kevin
@@ -138,21 +139,218 @@ On 27/12/2023 08:07, Ding, Shenghao wrote:
 >> sound@vger.kernel.org; linux-kernel@vger.kernel.org;
 >> liam.r.girdwood@intel.com; soyer@irl.hu; tiwai@suse.de; Gupta, Peeyush
 >> <peeyush@ti.com>; Navada Kanyana, Mukund <navada@ti.com>
->> Subject: [EXTERNAL] Re: [PATCH v2 1/5] ASoC: dt-bindings: remove tas2563
->> from yaml
+>> Subject: [EXTERNAL] Re: [PATCH v3 5/5] ASoC: dt-bindings: Add tas2563 into
+>> ti,ta2781.yaml to enable DSP mode
 >>
->> On 21/12/2023 11:13, Shenghao Ding wrote:
->>> Remove tas2563 from tas2562, it will be supported in tas2781 to better
->>> support dsp mode.
+>> On 25/12/2023 06:39, Shenghao Ding wrote:
+>>> Move tas2563 from tas2562.yaml to tas2781.yaml, because tas2563 only
+>>> work in bypass-DSP mode with tas2562 driver. In oder to enable DSP
+>>> mode for tas2563, it has been moved to tas2781 driver. As to the
+>>> hardware part, such as register setting and DSP firmware, all these
+>>> are stored in the binary firmware. What tas2781 drivder dooes is to
+>>> parse the firmware and download them to the tas2781 or tas2563, then
+>> power on tas2781 or tas2563.
+>>> So, tas2781 driver can be resued as tas2563 driver. Only attention
+>>> will be paid to downloading corresponding firmware.
+>>>
+>>> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+>>>
+>>> ---
+>>> Change in v3:
+>>>  - Add devicetree list and other list of necessary people and lists to
+>>> CC
+>>>  - Express Compatibility in the bindings
 >>
->> Please provide rationale in terms of bindings and hardware, not in terms of
->> driver. Or at least not only. For example "supported in tas2781" does not fit
->> hardware part, so you sure must be talking about drivers thus why driver
->> change would affect bindings?
-> This patch mainly change the binding, not the driver code. Tas2563 is unbound 
-> to tas2562 driver, and bound to tas2781 driver.
+>> Where?
+>>
+>>>  - Add more comments on why move tas2563 to tas2781 driver
+>>>  - Provide rationale in terms of bindings and hardware, not in terms of
+>> driver.
+>>>    Or at least not only.
+>>> ---
+>>>  .../devicetree/bindings/sound/ti,tas2781.yaml | 66
+>>> ++++++++++++++-----
+>>>  1 file changed, 51 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+>>> b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+>>> index a69e6c223308..bbe8e5f2c013 100644
+>>> --- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+>>> @@ -5,36 +5,72 @@
+>>>  $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+>>>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>
+>>> -title: Texas Instruments TAS2781 SmartAMP
+>>> +title: Texas Instruments TAS2781/TAS2563 SmartAMP
+>>>
+>>>  maintainers:
+>>>    - Shenghao Ding <shenghao-ding@ti.com>
+>>>
+>>>  description:
+>>> -  The TAS2781 is a mono, digital input Class-D audio amplifier
+>>> -  optimized for efficiently driving high peak power into small
+>>> -  loudspeakers. An integrated on-chip DSP supports Texas Instruments
+>>> -  Smart Amp speaker protection algorithm. The integrated speaker
+>>> -  voltage and current sense provides for real time
+>>> +  The TAS2781/TAS2563 is a mono, digital input Class-D audio
+>>> + amplifier optimized for efficiently driving high peak power into
+>>> + small loudspeakers. An integrated on-chip DSP supports Texas
+>>> + Instruments Smart Amp speaker protection algorithm. The  integrated
+>>> + speaker voltage and current sense provides for real time
+>>>    monitoring of loudspeaker behavior.
+>>>
+>>>  allOf:
+>>>    - $ref: dai-common.yaml#
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - ti,tas2781
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          description:
+>>> +            I2C address, in multiple AMP case, all the i2c address
+>>> +            aggregate as one Audio Device to support multiple audio slots.
+>>> +          maxItems: 8
+>>> +          minItems: 1
+>>> +          items:
+>>> +            minimum: 0x38
+>>> +            maximum: 0x3f
+>>> +    else:
+>>
+>> How this else is possible? Please show me any DTS which triggers this else
+>> case.
+> Do you mean add two if and remove else branch. Like following
 
-Then why do you reference driver "tas2781" here?
+Apologies, maybe my comment was not right, because the context tricked
+me. The if:else usually goes with allOf: to the end of the file, after
+required: block. I think I assumed there is no compatible change, since
+you this is expected to be the last diff hunk in the patch.
+
+>   - if:
+>       properties:
+>         compatible:
+>           contains:
+>             enum:
+>               - ti,tas2781
+>     then:
+>       properties:
+>         reg:
+>           description:
+>             I2C address, in multiple-AMP case, all the i2c address
+>             aggregate as one Audio Device to support multiple audio slots.
+>           maxItems: 8
+>           minItems: 1
+>           items:
+>             minimum: 0x38
+>             maximum: 0x3f
+>   - if:
+>       properties:
+>         compatible:
+>           contains:
+>             enum:
+>               - ti,tas2563
+>     then:
+>       properties:
+>         reg:
+>           description:
+>             I2C address, in multiple-AMP case, all the i2c address
+>             aggregate as one Audio Device to support multiple audio slots.
+>           maxItems: 4
+>           minItems: 1
+>           items:
+>             minimum: 0x4c
+>             maximum: 0x4f
+>>
+>>
+>>> +      properties:
+>>> +        reg:
+>>> +          description:
+>>> +            I2C address, in multiple AMP case, all the i2c address
+>>> +            aggregate as one Audio Device to support multiple audio slots.
+>>> +          maxItems: 4
+>>> +          minItems: 1
+>>> +          items:
+>>> +            minimum: 0x4c
+>>> +            maximum: 0x4f
+>>>
+>>>  properties:
+>>>    compatible:
+>>> +    description: |
+>>> +      ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
+>>> +      Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+>>> +      multichannel TDM.
+>>> +
+>>> +      ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
+>>> +      DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
+>>>      enum:
+>>>        - ti,tas2781
+>>> +      - ti,tas2563
+>>
+>> Still nothing improved. Where is the fallback?
+> Do you mean to add following as fallback?
+>     oneOf:
+>       - items:
+>           - enum:
+>               - ti,tas2781
+>       - items:
+>           - enum:
+>               - ti,tas2563
+
+These are two separate list of items. What I meant is something like
+example schema:
+oneOf:
+ - enum
+ - items
+     - const
+     - const
+
+>>
+>>> +      # Tas781 driver can support both tas2563 and tas2781, because the
+>>> +      # hardware part in the driver code, such as register setting and DSP
+>>> +      # firmware, all these are stored in the binary firmware. What drivder
+>>> +      # dooes is to parse the firmware and download it to the tas2781 or
+>>> +      # tas2563, then control tas2781 or tas2563 to power on/off or switch
+>>> +      # different dsp params. So, tas2781 driver can be resued as tas2563
+>>> +      # driver. Only attention will be paid to downloading corresponding
+>>> +      # firmware.
+>>
+>> Don't write useless driver description and implement proper list of two
+>> compatibles using one as fallback for another. I already pointed you to
+>> example-schema which gives you nice example for this.
+>>
+>> It is third try not doing what I asked you. Probably we misunderstand each
+>> other, then please answer:
+>>
+>> 1. Please find example-schema.yaml and share whether this succeeded or not.
+>> 2. Open the example-schema.yaml in your editor.
+>> 3. Read the section about compatibles. You need oneOf and items, just like it
+>> is there.
+>>
+>> Now, please confirm that you did all these steps before you send v4 with
+>> more test.
+>>
+>>>
+>>> -  reg:
+>>> -    description:
+>>> -      I2C address, in multiple tas2781s case, all the i2c address
+>>> -      aggregate as one Audio Device to support multiple audio slots.
+>>> -    maxItems: 8
+>>> -    minItems: 1
+>>> -    items:
+>>> -      minimum: 0x38
+>>> -      maximum: 0x3f
+>>> +  reg: true
+>>
+>> OK, you clearly just keep ignoring my comments.
+>>
+>> This is a friendly reminder during the review process.
+
+Just to remind this - my previous comments about not removing widest
+constraints is still valid.
 
 Best regards,
 Krzysztof
