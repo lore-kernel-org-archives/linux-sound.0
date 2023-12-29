@@ -1,75 +1,104 @@
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2603E7472;
-	Fri, 29 Dec 2023 08:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 86F1B8068;
-	Fri, 29 Dec 2023 16:34:21 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 29 Dec
- 2023 16:34:21 +0800
-Received: from [192.168.125.131] (183.27.96.32) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 29 Dec
- 2023 16:34:20 +0800
-Message-ID: <48943ae1-1d7f-44a6-97de-d2999b5f72a2@starfivetech.com>
-Date: Fri, 29 Dec 2023 16:31:44 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF3E10A00
+	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 09:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3BT9TVuV42562275, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3BT9TVuV42562275
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 Dec 2023 17:29:31 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.32; Fri, 29 Dec 2023 17:29:32 +0800
+Received: from sw-server.localdomain (172.22.102.1) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 29 Dec 2023 17:29:31 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, <yuhsuan@google.com>,
+        Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH v2] ASoC: rt5663: cancel the work when system suspends
+Date: Fri, 29 Dec 2023 17:29:22 +0800
+Message-ID: <20231229092922.853-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence
- Multi-Channel I2S Controller
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Claudiu Beznea
-	<Claudiu.Beznea@microchip.com>, Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor.dooley@microchip.com>, Walker Chen <walker.chen@starfivetech.com>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-References: <20231221033223.73201-1-xingyu.wu@starfivetech.com>
- <20231221033223.73201-3-xingyu.wu@starfivetech.com>
- <861f9b28-863d-48b0-8491-add4a286597e@sirena.org.uk>
- <c94b377a-1e21-4361-ae82-ca84d1dce60a@starfivetech.com>
- <27155281-573c-493d-96fe-1f28ebb0ce5e@sirena.org.uk>
-From: Xingyu Wu <xingyu.wu@starfivetech.com>
-In-Reply-To: <27155281-573c-493d-96fe-1f28ebb0ce5e@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
+ RTEXMBS01.realtek.com.tw (172.21.6.94)
+X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-On 2023/12/22 20:39, Mark Brown wrote:
-> On Fri, Dec 22, 2023 at 05:11:17PM +0800, Xingyu Wu wrote:
->> On 2023/12/21 20:55, Mark Brown wrote:
->> > On Thu, Dec 21, 2023 at 11:32:23AM +0800, Xingyu Wu wrote:
-> 
->> >>  sound/soc/starfive/cdns-jh8100-i2s-pcm.c | 262 ++++++++
->> >>  sound/soc/starfive/cdns-jh8100-i2s.c     | 727 +++++++++++++++++++++++
->> >>  sound/soc/starfive/cdns-jh8100-i2s.h     | 171 ++++++
-> 
->> > If this is a Cadence IP why is the entire driver SoC specific?
-> 
->> This a new driver about this Cadence I2S controller. Should I create a new folder and file like this:
-> 
->> sound/soc/cdns/cdns-i2s*
-> 
->> and I use different compatible to support other SoC like JH8100?
-> 
-> Yes, that seems more what I'd expect - with a fallback compatible for
-> things that don't need any special quirks.
+From: Shuming Fan <shumingf@realtek.com>
 
-Okay, I will modify these in next version.
+This patch makes sure that the workqueue is completed before the system suspends.
 
-Thanks,
-Xingyu Wu
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt5663.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
+index 77246f84de29..9550492605ac 100644
+--- a/sound/soc/codecs/rt5663.c
++++ b/sound/soc/codecs/rt5663.c
+@@ -74,6 +74,7 @@ struct rt5663_priv {
+ 	int pll_out;
+ 
+ 	int jack_type;
++	unsigned int irq;
+ };
+ 
+ static const struct reg_sequence rt5663_patch_list[] = {
+@@ -3186,6 +3187,12 @@ static int rt5663_suspend(struct snd_soc_component *component)
+ {
+ 	struct rt5663_priv *rt5663 = snd_soc_component_get_drvdata(component);
+ 
++	if (rt5663->irq)
++		disable_irq(rt5663->irq);
++
++	cancel_delayed_work_sync(&rt5663->jack_detect_work);
++	cancel_delayed_work_sync(&rt5663->jd_unplug_work);
++
+ 	regcache_cache_only(rt5663->regmap, true);
+ 	regcache_mark_dirty(rt5663->regmap);
+ 
+@@ -3201,6 +3208,9 @@ static int rt5663_resume(struct snd_soc_component *component)
+ 
+ 	rt5663_irq(0, rt5663);
+ 
++	if (rt5663->irq)
++		enable_irq(rt5663->irq);
++
+ 	return 0;
+ }
+ #else
+@@ -3686,6 +3696,7 @@ static int rt5663_i2c_probe(struct i2c_client *i2c)
+ 				__func__, ret);
+ 			goto err_enable;
+ 		}
++		rt5663->irq = i2c->irq;
+ 	}
+ 
+ 	ret = devm_snd_soc_register_component(&i2c->dev,
+-- 
+2.34.1
+
