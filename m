@@ -1,74 +1,74 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BB9125A4
-	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 15:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB04125A4;
+	Fri, 29 Dec 2023 15:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FRVD7qeQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pzTmEvk3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FRVD7qeQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pzTmEvk3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SY+yDSdr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O+VqTc0i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qbPqNspp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QUehGdQG"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 49AFA1FD32;
-	Fri, 29 Dec 2023 15:08:54 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C90D221FE6;
+	Fri, 29 Dec 2023 15:15:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703862534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703862916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gQgIrfQv5/fxFKI+6NCuWK/yeY8eiMhu8aDJCVlquNU=;
-	b=FRVD7qeQc9e0FTz/o1c//sPPHaQ9Au1+r7j5ZdgBLu3Bv48mPBP9txYJw1oS9K0RgZnl8H
-	tmI7gwZgiP2y9JzkpjMoKSvru1Hvt87OCFZEXU9moTApBtM4S9RFQpaf63yx8ojMJ8U6Xw
-	xkyg2UthlcVUI/kBFBTTB5VSHYj6KK8=
+	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
+	b=SY+yDSdr5Ol+2ixDn0Ouxohw+7zwFDFG8v0MxkkSkaXksdqNU1dF5Jl3SxmE9aWKO4SYcY
+	TcRmnbo8+WmoZiXCJjiVzmdxSsSd9achxymBVLeDmWHn3Lm94ln8QZox5sAenIbz17K4l+
+	uNGLluTbV+373KapARKcMaUEMVp5vak=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703862534;
+	s=susede2_ed25519; t=1703862916;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gQgIrfQv5/fxFKI+6NCuWK/yeY8eiMhu8aDJCVlquNU=;
-	b=pzTmEvk3CTYJhU48xxot3jlMWt0WycqjhzcjAFrnKcy4up43mKv4sv04zQJEX6ZgqTz83c
-	7EVP3qTBdziUNRDA==
+	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
+	b=O+VqTc0iUW9SgWW0OaDokYY4LEF5uh3P1j6XpB/C7MSFYkV5XBLrtIAdxg+5cAmT+Rud1B
+	2GpXbq5zWpPMrdBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703862534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703862915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gQgIrfQv5/fxFKI+6NCuWK/yeY8eiMhu8aDJCVlquNU=;
-	b=FRVD7qeQc9e0FTz/o1c//sPPHaQ9Au1+r7j5ZdgBLu3Bv48mPBP9txYJw1oS9K0RgZnl8H
-	tmI7gwZgiP2y9JzkpjMoKSvru1Hvt87OCFZEXU9moTApBtM4S9RFQpaf63yx8ojMJ8U6Xw
-	xkyg2UthlcVUI/kBFBTTB5VSHYj6KK8=
+	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
+	b=qbPqNspptO3qhL+nXIk9Sueh2vtngKqRD0LMDltHDuBMqGmB1nyrsMyAfQJQrAJqnVa/Eb
+	RfquQwAnsq7QYITfXe+VeW15RWLqicY+u31LejkrC8/fhNVnd65dBgdwcR24K8VcO+h3wv
+	6cst2cwWEN9lu0HBVUMby7i69oTpsKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703862534;
+	s=susede2_ed25519; t=1703862915;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gQgIrfQv5/fxFKI+6NCuWK/yeY8eiMhu8aDJCVlquNU=;
-	b=pzTmEvk3CTYJhU48xxot3jlMWt0WycqjhzcjAFrnKcy4up43mKv4sv04zQJEX6ZgqTz83c
-	7EVP3qTBdziUNRDA==
+	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
+	b=QUehGdQGftgNhsQJgSWjrWQ67ONWWvdtZLBfyK9+q4RzkSGvjjR2eIrwm8UugSfJuix+7V
+	iH5mX2UWeWQR9TDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13078133E5;
-	Fri, 29 Dec 2023 15:08:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91E23133E5;
+	Fri, 29 Dec 2023 15:15:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FgYiAwbhjmWTAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 15:08:54 +0000
-Date: Fri, 29 Dec 2023 16:08:53 +0100
-Message-ID: <87cyupxcze.wl-tiwai@suse.de>
+	id aSTsIYPijmW3AwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 15:15:15 +0000
+Date: Fri, 29 Dec 2023 16:15:15 +0100
+Message-ID: <87a5ptxcos.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/11] ALSA: scarlett2: Firmware Upgrade and Error Handling Improvements
-In-Reply-To: <cover.1703001053.git.g@b4.vu>
-References: <cover.1703001053.git.g@b4.vu>
+To: bo liu <bo.liu@senarytech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Fix headset auto detect fail in cx8070 and SN6140
+In-Reply-To: <20231227071008.13665-1-bo.liu@senarytech.com>
+References: <20231227071008.13665-1-bo.liu@senarytech.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,123 +77,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: *
 X-Spam-Level: 
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.10 / 50.00];
+X-Spamd-Bar: /
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qbPqNspp;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QUehGdQG
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.75 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
 	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Score: -2.10
+	 BAYES_HAM(-0.24)[73.07%]
+X-Spam-Score: -0.75
+X-Rspamd-Queue-Id: C90D221FE6
 X-Spam-Flag: NO
 
-On Tue, 19 Dec 2023 18:36:04 +0100,
-Geoffrey D. Bennett wrote:
+On Wed, 27 Dec 2023 08:10:06 +0100,
+bo liu wrote:
 > 
-> Hi Takashi,
+> CX8070 and SN6140 will get wrong headset type when use OMTP headset, then the headset mic will not work.
 > 
-> 11 patches to improve error handling and add firmware upgrade support
-> to the scarlett2 driver. The notes below incorporate your feedback &
-> include answers to your questions in response to my previous RFC v2
-> email.
-> 
-> Patch 1 adds GitHub links for the repo where I share this code before
-> submission here, and for issue reporting.
-> 
-> Patches 2-5 add missing error/bounds checks.
-> 
-> Patch 6 adds a missing lock.
-> 
-> Patches 7-11 add support for firmware upgrades.
-> 
-> The usage of the hwdep interface is as per my previous proposal:
-> 
-> - ioctl pversion to check the protocol version
-> - ioctl select_flash_segment SCARLETT2_SEGMENT_ID_SETTINGS
-> - ioctl erase_flash_segment
-> - ioctl get_erase_progress (optional)
-> - ioctl select_flash_segment SCARLETT2_SEGMENT_ID_FIRMWARE
-> - ioctl erase_flash_segment
-> - ioctl get_erase_progress (optional)
-> - write() the firmware
-> - ioctl reboot
-> 
-> Notes on the hwdep interface:
-> 
-> - Conflicting mixer operations are denied with EBUSY.
-> 
-> - The hwdep interface is marked as exclusive so there can't be
->   conflicting hwdep operations.
-> 
-> - Invalid sequences of operations (e.g. erase before select, write
->   before erase) return an error.
-> 
-> - The erase operation is asynchronous, and the progress can optionally
->   be monitored by calling get_erase_progress.
-> 
-> - If the erase progress is not monitored then subsequent hwdep
->   operations will wait until the erase is complete.
-> 
-> - The write operation is synchronous, but <1KB can be written per
->   call, and it returns very quickly. On the user-side it looks like
->   this with error checking omitted:
-> 
->   while (offset < len)
->     offset += snd_hwdep_write(hwdep, buf + offset, len - offset);
-> 
-> - By using a subset of the firmware-upgrade steps, other useful
->   high-level operations can be performed: reset-to-factory-defaults,
->   reset-to-factory-firmware, or just reboot.
-> 
-> - I considered combining the select and erase operations, but that
->   would prevent a future read-flash operation if that ever become
->   possible.
-> 
-> - I considered separate one-shot ioctls for reset-to-factory, etc.,
->   but that prevents providing progress feedback.
-> 
-> - In case the purpose of the other firmware segments is discovered in
->   the future, this implementation would be able to support
->   erase/write/read of them with minimal changes.
-> 
-> Here is a user-space implementation of all of the above:
-> https://github.com/geoffreybennett/scarlett2
-> 
-> This has been tested by me on every supported Scarlett 2nd, 3rd, 4th
-> Gen and Clarett+ device, and tested by a handful of others on their
-> Scarlett 4th Gen devices.
-> 
-> Thanks,
-> Geoffrey.
-> 
-> Geoffrey D. Bennett (11):
->   ALSA: scarlett2: Update maintainer info
->   ALSA: scarlett2: Add missing error check to scarlett2_config_save()
->   ALSA: scarlett2: Add missing error check to scarlett2_usb_set_config()
->   ALSA: scarlett2: Add missing error checks to *_ctl_get()
->   ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()
->   ALSA: scarlett2: Add missing mutex lock around get meter levels
->   ALSA: scarlett2: Add #defines for firmware upgrade
->   ALSA: scarlett2: Retrieve useful flash segment numbers
->   ALSA: scarlett2: Add skeleton hwdep/ioctl interface
->   ALSA: scarlett2: Add ioctl commands to erase flash segments
->   ALSA: scarlett2: Add support for uploading new firmware
+> Signed-off-by: bo liu <bo.liu@senarytech.com>
 
-Now all patches have been merged to topic/scarlett2 branch (merged to
-for-next branch for 6.8).
+Well, the patch series has a serious problem, unfortunately.
+
+Basically the patch that is submitted to the upstream should be in the
+final form.  But this series puts the coding style errors and then
+corrects multiple times in the series.  This is absolutely no-go.
+
+Create a "perfect patch", and submit it, instead.
+
+For that, you'll need to give a bit more detailed patch description.
+Currently it says nothing but the problem.  It doesn't mention how and
+what to be fixed / changed.  Ideally speaking, the patch should have a
+description that is self-explanatory.
+
+Last but not least, please put the proper subject prefix.
+In your case, it'd be like "ALSA: hda/conexant:".
+
+Please try to address the above points and resubmit.
 
 
 thanks,
