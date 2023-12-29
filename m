@@ -1,35 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964C912B92;
-	Fri, 29 Dec 2023 18:39:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6E212E4D
+	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 19:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rW4QzQXs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EDC1C433C7;
-	Fri, 29 Dec 2023 18:39:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gNZh+I7U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082A2C433C8;
+	Fri, 29 Dec 2023 19:17:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703875150;
-	bh=sTxR6z5JOWgh+34pWTsQbRixIn+UfsgPr8ZOpdldSIg=;
+	s=k20201202; t=1703877463;
+	bh=EssejaHOimwjK9bryaSOEV53RhPCJf8JjO8DtqHlguQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rW4QzQXsxou3N/rtnJwoktJXEcINLWb+6cYcPwnu1jSUyQ/4Guh0j5AGr5fJeCsGi
-	 u3IBxg42F87pjcnhpE5NyrJ/u14mgxwUIu/06jXkJXgNUfAjk0ehb4+igcjBiV+kFS
-	 16TufM4Hc41S0hWv4vaf+24mf2qe/mnemI4BHe01NkbAoAWWvG5LkLbKeo03XiAISk
-	 6/UI4LPySjsbOLv3fPyTKdxYnmxcDp7If7nGNGTGzKuoEiYy70vSesajOxdd1uYhwz
-	 t51NAJJ/EE1oSMmBfUsQWEcNvsHrKD4ht76FY3HJaKyAvLltXuHhD996FfxuMCaxAn
-	 nQloDkoTHS5bQ==
+	b=gNZh+I7UtXyZO8S0jpRAO6nD1bjSDwDerMSKR4l19LVZqrdUlYd8yWGGc4ofF1xA3
+	 7Npb+5Ps2Uce/J+IYUz7YKDxnX2YgA1TV8I15mT1QolhVFuU8YtHMJ1tTX+TmWTlon
+	 vc/CkQSqq882URKK8nJYYB7C563dRSQi2RGMC6IxYZvzY4JOfY/6T9JPvbdwS7we01
+	 WHM+o9Gn6IZCJhksrquTUJ56bK8y9a5zG1LqJU6S2f2NlI/iXFSEBroiI8tnMd8ao+
+	 Mr6jVlKvRZ6xl+/iabMvL7gcnu+8m2wlIM15ocTB+JfN8KgeI95Llx1WmeyNc4tqgn
+	 0Q9cLTyoy9wQg==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- Eugen Hristev <eugen.hristev@collabora.com>
-Cc: matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
- allen-kh.cheng@mediatek.com, jiaxin.yu@mediatek.com, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kernel@collabora.com
-In-Reply-To: <20231229114342.195867-1-eugen.hristev@collabora.com>
-References: <20231229114342.195867-1-eugen.hristev@collabora.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8186: fix AUD_PAD_TOP register and
- offset
-Message-Id: <170387514707.3010118.10483161102893986503.b4-ty@kernel.org>
-Date: Fri, 29 Dec 2023 18:39:07 +0000
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ yuhsuan@google.com
+In-Reply-To: <20231229092922.853-1-shumingf@realtek.com>
+References: <20231229092922.853-1-shumingf@realtek.com>
+Subject: Re: [PATCH v2] ASoC: rt5663: cancel the work when system suspends
+Message-Id: <170387746062.3014555.4220246146701708625.b4-ty@kernel.org>
+Date: Fri, 29 Dec 2023 19:17:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,11 +37,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Fri, 29 Dec 2023 13:43:42 +0200, Eugen Hristev wrote:
-> AUD_PAD_TOP widget's correct register is AFE_AUD_PAD_TOP , and not zero.
-> Having a zero as register, it would mean that the `snd_soc_dapm_new_widgets`
-> would try to read the register at offset zero when trying to get the power
-> status of this widget, which is incorrect.
+On Fri, 29 Dec 2023 17:29:22 +0800, shumingf@realtek.com wrote:
+> This patch makes sure that the workqueue is completed before the system suspends.
 > 
 > 
 
@@ -54,8 +48,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt8186: fix AUD_PAD_TOP register and offset
-      commit: 38744c3fa00109c51076121c2deb4f02e2f09194
+[1/1] ASoC: rt5663: cancel the work when system suspends
+      commit: 5fa3bbb8eba7eaddd5c57952fca1f28bc3520d51
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
