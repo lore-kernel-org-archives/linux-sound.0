@@ -1,136 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E5311702
-	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 13:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E98311C82;
+	Fri, 29 Dec 2023 13:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FyNDAhz4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mRqCnywi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FyNDAhz4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mRqCnywi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B6C3B1F7B0;
-	Fri, 29 Dec 2023 13:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703856254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
-	b=FyNDAhz4yyByqq37nC7LZNUd/sN0OxwZr8zXdu+wwAjWYtcUzeL6hP8WcgdEXkaNa+XvJL
-	d2US28en5hGqb/Mz3wQ1NTHNpbdXWahHNTtrNcV+4c4qP3Ai5Pkm7B8VAey2H73UnHvzTv
-	0gpaGAsQgFWiBxbc/eZMjmbSMwhjdi0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703856254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
-	b=mRqCnywigndu5lIgfgW0TXBwl/MzC7+zRmwxKGuu32+Ye+rG3oJRQZTZUxf7E2OQPblXNh
-	ISosBc+kPmEhVSDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703856254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
-	b=FyNDAhz4yyByqq37nC7LZNUd/sN0OxwZr8zXdu+wwAjWYtcUzeL6hP8WcgdEXkaNa+XvJL
-	d2US28en5hGqb/Mz3wQ1NTHNpbdXWahHNTtrNcV+4c4qP3Ai5Pkm7B8VAey2H73UnHvzTv
-	0gpaGAsQgFWiBxbc/eZMjmbSMwhjdi0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703856254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
-	b=mRqCnywigndu5lIgfgW0TXBwl/MzC7+zRmwxKGuu32+Ye+rG3oJRQZTZUxf7E2OQPblXNh
-	ISosBc+kPmEhVSDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86AC0133E5;
-	Fri, 29 Dec 2023 13:24:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5KOYHn7IjmU6bwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 13:24:14 +0000
-Date: Fri, 29 Dec 2023 14:24:14 +0100
-Message-ID: <87msttxhtt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: opticXC <aabishmalik3337@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 6.6.7 1/1] ALSA: hda/realtek: mute led fix for HP Pavilion 14 ec1xxx series
-In-Reply-To: <20231218203659.32948-2-aabishmalik3337@gmail.com>
-References: <20231218203659.32948-2-aabishmalik3337@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="po3U1yBC"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 0A2DD9C330F;
+	Fri, 29 Dec 2023 08:45:45 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id RDHQVC7hAZsW; Fri, 29 Dec 2023 08:45:44 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 8E1B49C3380;
+	Fri, 29 Dec 2023 08:45:44 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 8E1B49C3380
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1703857544; bh=Lyk686/x2Ez5b2w7VD1NWpu9PQmISjz21nS2j3Knoo8=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=po3U1yBCDfCq7u3iTDEhMpY8CICqIY+mxPesFY9awIGMWGOZBSA/zcCmtcejahKEW
+	 NxEnYNdHTH3keUrQoK5VIZddX58OzHZF1Hff7Os09Z1MeHnvX14ykUwhVJpfvaEphu
+	 2xtN3k4Jbr//2Z+G7Lww8H0I944uvqDPcHqGbqwVRz4rYcmOR/C+O3cMFszFNaU/BS
+	 CBGXnjsKjfYSoQysu3xVtrJmDCqOSNfRojHHrAVWVqlSXpcpAkfhfViPUEzCTNjpL2
+	 ynpe8QHWMOaX0o7K/AQ+KC3XVGR9c//FwgX16u/rbZpvEm9na8cOAcv0dqSrRfDxxz
+	 0b26rCZdsiuaA==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id sSUMGHPKYEW5; Fri, 29 Dec 2023 08:45:44 -0500 (EST)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 515039C330F;
+	Fri, 29 Dec 2023 08:45:44 -0500 (EST)
+Date: Fri, 29 Dec 2023 08:45:44 -0500 (EST)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Daniel Baluta <daniel.baluta@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, 
+	shengjiu wang <shengjiu.wang@gmail.com>, 
+	Xiubo Lee <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound <linux-sound@vger.kernel.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	alsa-devel <alsa-devel@alsa-project.org>, 
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
+Message-ID: <361044647.7067.1703857544284.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <347346270.284192.1702989565367.JavaMail.zimbra@savoirfairelinux.com>
+References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com> <CAEnQRZAwk-USZqXwLOVuN3iTn7r-55BJH=Sqq5+2Od+DhrK0iw@mail.gmail.com> <347346270.284192.1702989565367.JavaMail.zimbra@savoirfairelinux.com>
+Subject: Re: [PATCHv3 RESEND 00/10] ASoC: fsl-asoc-card: compatibility
+ integration of a generic codec use case for use with S/PDIF controller
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.36
-X-Spamd-Result: default: False [-0.36 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.06)[61.50%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.8.15_GA_4581 (ZimbraWebClient - GC112 (Linux)/8.8.15_GA_4581)
+Thread-Topic: ASoC: fsl-asoc-card: compatibility integration of a generic codec use case for use with S/PDIF controller
+Thread-Index: lu32M+7WowvRn2WxYZZGeiz9hy0xKkRA+mdz
 
-On Mon, 18 Dec 2023 21:37:00 +0100,
-opticXC wrote:
-> 
-> The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
-> It needs the ALC287_FIXUP_HP_GPIO_LED quirk to enable the mute led.
-> 
-> 
-> Signed-off-by: opticXC <aabishmalik3337@gmail.com>
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index e45d4c405..416cda983 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -9881,6 +9881,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x89c6, "Zbook Fury 17 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x89ca, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->  	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-> +    SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+Hello
 
-The entry has a coding style problem; it uses 4 spaces instead of a
-hard tab stop.
+On Monday, 18 December, 2023 14:54:03, Daniel Baluta wrote 
+> I know this is extra-work but we would greatly appreciate if you first 
+> convert fsl-asoc-card.txt 
+> to yml format and then add your new properties. 
 
-Please use a hard tab stop and resubmit.
+DT schema must have at least one maintainer in the "maintainers" field.
+Who should I put for fsl-asoc-card.yaml ?
 
+Best regards, 
+Elinor Montmasson 
 
-thanks,
-
-Takashi
