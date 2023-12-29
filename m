@@ -1,85 +1,196 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B1512B66
-	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 17:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB43612B68;
+	Fri, 29 Dec 2023 17:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dAZULYCk"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5cdfbd4e8caso3968549a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 09:05:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703869507; x=1704474307; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VVq6K1sivNWffK1+EDGP+nw/EVVoxmj0q7djAv4OiO8=;
-        b=dAZULYCkuvTYoBV9jQsGW4rfrfli0tYJSFWrvyFqRaFnNWbA/5+NjlQ0Pl5bhOPmwD
-         aUpjiijn76a2fYbkgyYEDzLAMYxwW395EbPR0cI94oK2Jl9A/7NxnIpCnzR2MuzRdMcH
-         RGjAj4mpvaMmH0rZU2iXPUkqDaBfZXaRrssONCU4FqJo1EGuk2fcS7JeZucOk2a09uW6
-         gC3uOapg4gldOHg4cv8Bqp6qpKpvbnApgfbmML22moOJkgNiOmIGW/Aa7nWFXjh9emZX
-         wbCdlhEI7fQS6Fduu3DoSJWrCOXZBA6qcbZrqzRTE7mC1yxQrRIOtihpJaloiOVEdIjH
-         /hBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703869507; x=1704474307;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VVq6K1sivNWffK1+EDGP+nw/EVVoxmj0q7djAv4OiO8=;
-        b=JMKHEXc6jx2mdbJViEdt3W90tc/koANdUIaih89cVVa7IQ2vHphwXXbHQzZRpaQvx0
-         2WViq4oPLmHb8TfqY3RWFUBHJpPxT/aRF1yV9IZWkshynPH25LdNyhioCnT1ndI0jdsD
-         dk6i7gZX7l9Nwvb4q0oiqAkm1N0kElIthFJV2g7EWr3vE521S4Elo34Ys5jZcdoxsf8a
-         fZ//SG0POieWJyhsX7zzI91aYUMXeH//uCzey2IYY6AQuDK83a0nOftoxg6ZI5iGp63Y
-         l+Bn+OxuIc0PZ/OSySz9twlCWrTaivjAlOEjJrYXpcHZ9s8s6dnEr6kp3czlDjAw/JaG
-         EWMg==
-X-Gm-Message-State: AOJu0YxOQ0LhMbTl8urgsyXTjPu/VTInHFuLPspmdvZHh+2Wa2EZszWu
-	WkBs+YZYG53Cza5usUulLPmQ1f3vLm8fHg==
-X-Google-Smtp-Source: AGHT+IH5tcg5YTuhd7HBfqy9K+fjH9g03Tum5z3OgZ7vrifOGoToRuMPsn3jmV95HsxGkB2p8+lFNQ==
-X-Received: by 2002:a05:6a21:612:b0:194:f17b:f877 with SMTP id ll18-20020a056a21061200b00194f17bf877mr11391143pzb.61.1703869507438;
-        Fri, 29 Dec 2023 09:05:07 -0800 (PST)
-Received: from localhost.localdomain ([2409:4054:2082:5520:36b8:e959:4a3a:a2de])
-        by smtp.gmail.com with ESMTPSA id e17-20020a630f11000000b005c6007a13b5sm14729688pgl.25.2023.12.29.09.05.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 09:05:06 -0800 (PST)
-From: Aabish Malik <aabishmalik3337@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S/eGzVmA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rD9XuYYr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S/eGzVmA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rD9XuYYr"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B323821CF2;
+	Fri, 29 Dec 2023 17:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703869904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tZehKtOidM/ksrl2T81jqfsSZp7GZn6XIl7nNRgrGng=;
+	b=S/eGzVmAA6Ap3PuXn45nqNlTdrP2TIxrszu9GDoIwfM/hIItuegORKSbqkl4g7x9vrZyWg
+	6vojizgLs7Ep0wNvKj6ITcUGUsGovOJGRM+zd3Jlw82s4BlM8BO5vwnJZbvpFYvPFtS2+6
+	YX6Xns0fJC3ftU54pV11SuW8bM5UZls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703869904;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tZehKtOidM/ksrl2T81jqfsSZp7GZn6XIl7nNRgrGng=;
+	b=rD9XuYYrGWY+QjCpAVprJTrwz2N7yEqzQxaPnNIWB/zCeDtfIY7h13wWZsT+SjIdzu4hQ2
+	meSBlXwAe3zLE+CQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703869904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tZehKtOidM/ksrl2T81jqfsSZp7GZn6XIl7nNRgrGng=;
+	b=S/eGzVmAA6Ap3PuXn45nqNlTdrP2TIxrszu9GDoIwfM/hIItuegORKSbqkl4g7x9vrZyWg
+	6vojizgLs7Ep0wNvKj6ITcUGUsGovOJGRM+zd3Jlw82s4BlM8BO5vwnJZbvpFYvPFtS2+6
+	YX6Xns0fJC3ftU54pV11SuW8bM5UZls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703869904;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tZehKtOidM/ksrl2T81jqfsSZp7GZn6XIl7nNRgrGng=;
+	b=rD9XuYYrGWY+QjCpAVprJTrwz2N7yEqzQxaPnNIWB/zCeDtfIY7h13wWZsT+SjIdzu4hQ2
+	meSBlXwAe3zLE+CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42738133E5;
+	Fri, 29 Dec 2023 17:11:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MIFiDtD9jmVDFwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 17:11:44 +0000
+Date: Fri, 29 Dec 2023 18:11:43 +0100
+Message-ID: <874jg1x7ao.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: peter.ujfalusi@linux.intel.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	Aabish Malik <aabishmalik3337@gmail.com>
-Subject: [PATCH v2] ALSA:hda/realtek enable SND_PCI_QUIRK for hp pavilion 14-ec1xxx series
-Date: Fri, 29 Dec 2023 22:33:54 +0530
-Message-ID: <20231229170352.742261-3-aabishmalik3337@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+In-Reply-To: <ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
+	<87sf3lxiet.wl-tiwai@suse.de>
+	<ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.10 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[13];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,lists.linux.dev];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Score: -2.10
+X-Spam-Flag: NO
 
-The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
-The mute led can be enabled using the already existing ALC287_FIXUP_HP_GPIO_LED quirk.
-Tested on an HP Pavilion ec1003AU
+On Fri, 29 Dec 2023 16:24:18 +0100,
+Dominik Brodowski wrote:
+> 
+> Hi Takashi,
+> 
+> many thanks for your response. Your patch helps half-way: the oops goes
+> away, but so does the sound... With your patch, the decisive lines in dmesg
+> are:
+> 
+> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> 	platform sof_sdw: deferred probe pending
+> 
+> With a revert of the a0575b4add21, it is:
+> 
+> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+> 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
+> 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
+> 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
+> 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+> 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
+> 
+> Maybe this helps a bit further?
+
+Thanks for quick testing.
+It shows at least that my guess wasn't wrong.
+
+The problem could be the initialization order in the caller side.
+Can the patch below work instead?
 
 
-Signed-off-by: Aabish Malik <aabishmalik3337@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Takashi
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c3a756528..e2f68e502 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9881,6 +9881,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x89c6, "Zbook Fury 17 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x89ca, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
--- 
-2.43.0
-
+-- 8< --
+--- a/sound/soc/sof/intel/hda-codec.c
++++ b/sound/soc/sof/intel/hda-codec.c
+@@ -113,7 +113,9 @@ EXPORT_SYMBOL_NS_GPL(hda_codec_jack_check, SND_SOC_SOF_HDA_AUDIO_CODEC);
+ #define is_generic_config(x)	0
+ #endif
+ 
+-static struct hda_codec *hda_codec_device_init(struct hdac_bus *bus, int addr, int type)
++static struct hda_codec *hda_codec_device_init(struct hdac_bus *bus, int addr,
++					       int type,
++					       struct hdac_hda_priv *hda_priv)
+ {
+ 	struct hda_codec *codec;
+ 	int ret;
+@@ -126,6 +128,10 @@ static struct hda_codec *hda_codec_device_init(struct hdac_bus *bus, int addr, i
+ 
+ 	codec->core.type = type;
+ 
++	hda_priv->codec = codec;
++	hda_priv->dev_index = addr;
++	dev_set_drvdata(&codec->core.dev, hda_priv);
++
+ 	ret = snd_hdac_device_register(&codec->core);
+ 	if (ret) {
+ 		dev_err(bus->dev, "failed to register hdac device\n");
+@@ -163,15 +169,12 @@ static int hda_codec_probe(struct snd_sof_dev *sdev, int address)
+ 	if (!hda_priv)
+ 		return -ENOMEM;
+ 
+-	codec = hda_codec_device_init(&hbus->core, address, HDA_DEV_LEGACY);
++	codec = hda_codec_device_init(&hbus->core, address, HDA_DEV_LEGACY,
++				      hda_priv);
+ 	ret = PTR_ERR_OR_ZERO(codec);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	hda_priv->codec = codec;
+-	hda_priv->dev_index = address;
+-	dev_set_drvdata(&codec->core.dev, hda_priv);
+-
+ 	if ((resp & 0xFFFF0000) == IDISP_VID_INTEL) {
+ 		if (!hbus->core.audio_component) {
+ 			dev_dbg(sdev->dev,
