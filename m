@@ -1,142 +1,188 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB04125A4;
-	Fri, 29 Dec 2023 15:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SY+yDSdr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O+VqTc0i";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qbPqNspp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QUehGdQG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C90D221FE6;
-	Fri, 29 Dec 2023 15:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703862916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
-	b=SY+yDSdr5Ol+2ixDn0Ouxohw+7zwFDFG8v0MxkkSkaXksdqNU1dF5Jl3SxmE9aWKO4SYcY
-	TcRmnbo8+WmoZiXCJjiVzmdxSsSd9achxymBVLeDmWHn3Lm94ln8QZox5sAenIbz17K4l+
-	uNGLluTbV+373KapARKcMaUEMVp5vak=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703862916;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
-	b=O+VqTc0iUW9SgWW0OaDokYY4LEF5uh3P1j6XpB/C7MSFYkV5XBLrtIAdxg+5cAmT+Rud1B
-	2GpXbq5zWpPMrdBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703862915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
-	b=qbPqNspptO3qhL+nXIk9Sueh2vtngKqRD0LMDltHDuBMqGmB1nyrsMyAfQJQrAJqnVa/Eb
-	RfquQwAnsq7QYITfXe+VeW15RWLqicY+u31LejkrC8/fhNVnd65dBgdwcR24K8VcO+h3wv
-	6cst2cwWEN9lu0HBVUMby7i69oTpsKY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703862915;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hx89e7Kld1LDfMIBU8m+wQLqkRWhiPf9+drw6fxpFmI=;
-	b=QUehGdQGftgNhsQJgSWjrWQ67ONWWvdtZLBfyK9+q4RzkSGvjjR2eIrwm8UugSfJuix+7V
-	iH5mX2UWeWQR9TDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91E23133E5;
-	Fri, 29 Dec 2023 15:15:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aSTsIYPijmW3AwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 15:15:15 +0000
-Date: Fri, 29 Dec 2023 16:15:15 +0100
-Message-ID: <87a5ptxcos.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] Fix headset auto detect fail in cx8070 and SN6140
-In-Reply-To: <20231227071008.13665-1-bo.liu@senarytech.com>
-References: <20231227071008.13665-1-bo.liu@senarytech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25D5125A3;
+	Fri, 29 Dec 2023 15:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
+	by isilmar-4.linta.de (Postfix) with ESMTPSA id 987D82002B9;
+	Fri, 29 Dec 2023 15:24:46 +0000 (UTC)
+Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
+	id 0AAFAA0083; Fri, 29 Dec 2023 16:24:19 +0100 (CET)
+Date: Fri, 29 Dec 2023 16:24:18 +0100
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: peter.ujfalusi@linux.intel.com, lgirdwood@gmail.com, broonie@kernel.org,
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+Message-ID: <ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
+ <87sf3lxiet.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: *
-X-Spam-Level: 
-X-Spamd-Bar: /
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qbPqNspp;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QUehGdQG
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.75 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.24)[73.07%]
-X-Spam-Score: -0.75
-X-Rspamd-Queue-Id: C90D221FE6
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87sf3lxiet.wl-tiwai@suse.de>
 
-On Wed, 27 Dec 2023 08:10:06 +0100,
-bo liu wrote:
+Hi Takashi,
+
+many thanks for your response. Your patch helps half-way: the oops goes
+away, but so does the sound... With your patch, the decisive lines in dmesg
+are:
+
+	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+	sof_sdw sof_sdw: snd_soc_register_card failed -517
+	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+	sof_sdw sof_sdw: snd_soc_register_card failed -517
+	platform sof_sdw: deferred probe pending
+
+With a revert of the a0575b4add21, it is:
+
+	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
+	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
+	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
+	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
+
+Maybe this helps a bit further?
+
+Best,
+	Dominik
+
+Am Fri, Dec 29, 2023 at 02:11:38PM +0100 schrieb Takashi Iwai:
+> On Wed, 27 Dec 2023 08:37:07 +0100,
+> Dominik Brodowski wrote:
+> > 
+> > Hi,
+> > 
+> > unfortunately, the latest 6.7.0-rc7 and the two previous rc kernels cause an
+> > oops in hdac_hda_dev_probe(); sound and resume-from-suspend subsequently do
+> > not work:
+> > 
+> > 
+> > BUG: kernel NULL pointer dereference, address: 0000000000000078
+> > #PF: supervisor read access in kernel mode
+> > #PF: error_code(0x0000) - not-present page
+> > PGD 0
+> > P4D 0
+> > Oops: 0000 [#1] PREEMPT SMP NOPTI
+> > Hardware name: Dell Inc. XPS 9315/00KRKP, BIOS 1.1.3 05/11/2022
+> > Workqueue: events sof_probe_work
+> > 
+> > RIP: 0010:hdac_hda_dev_probe+0x42/0xf0
+> > Code: 48 8b 37 48 8b bb c8 04 00 00 e8 09 9b 0a 00 48 85 c0 48 89 c5 0f 84 a6 00 00 00 48 8b bb c8 04 00 00 48 89 c6 e8 1e 9a 0a 00 <41> 80 7c 24 78 00 75 46 b9 03 00 00 00 48 c7 c2 c0 b2 a1 ac 48 c7
+> > RSP: 0000:ffffc90000207b50 EFLAGS: 00010246
+> > 
+> > RAX: 0000000000000000 RBX: ffff88811495d000 RCX: 0000000000000000
+> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> > RBP: ffff888108691600 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+> > R13: 0000000000000000 R14: 0000000000000000 R15: ffff88811400b028
+> > FS:  0000000000000000(0000) GS:ffff88886f500000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 0000000000000078 CR3: 00000002b7a5a000 CR4: 0000000000f50ef0
+> > PKRU: 55555554
+> > Call Trace:
+> >  <TASK>
+> >  ? __die+0x1e/0x70
+> >  ? page_fault_oops+0x17c/0x4b0
+> >  ? snd_hdac_ext_bus_link_get+0x24/0xc0
+> >  ? exc_page_fault+0x462/0x8e0
+> >  ? asm_exc_page_fault+0x26/0x30
+> >  ? hdac_hda_dev_probe+0x42/0xf0
+> >  really_probe+0x166/0x300
+> >  ? __pfx___device_attach_driver+0x10/0x10
+> >  __driver_probe_device+0x6e/0x120
+> >  driver_probe_device+0x1a/0x90
+> >  __device_attach_driver+0x8e/0xd0
+> >  bus_for_each_drv+0x90/0xf0
+> >  __device_attach+0xac/0x1a0
+> >  bus_probe_device+0x93/0xb0
+> >  device_add+0x669/0x860
+> >  snd_hdac_device_register+0x10/0x60
+> >  hda_codec_probe_bus+0x189/0x290
+> >  hda_dsp_probe+0x211/0x550
+> >  sof_probe_work+0x2c/0x430
+> >  ? process_one_work+0x19c/0x500
+> >  process_one_work+0x205/0x500
+> >  worker_thread+0x1dc/0x3e0
+> > 
+> >  ? __pfx_worker_thread+0x10/0x10
+> >  kthread+0xea/0x120
+> >  ? __pfx_kthread+0x10/0x10
+> >  ret_from_fork+0x2c/0x50
+> >  ? __pfx_kthread+0x10/0x10
+> >  ret_from_fork_asm+0x1b/0x30
+> >  </TASK>
+> > Modules linked in:
+> > CR2: 0000000000000078
+> > ---[ end trace 0000000000000000 ]---
+> > RIP: 0010:hdac_hda_dev_probe+0x42/0xf0
+> > Code: 48 8b 37 48 8b bb c8 04 00 00 e8 09 9b 0a 00 48 85 c0 48 89 c5 0f 84 a6 00 00 00 48 8b bb c8 04 00 00 48 89 c6 e8 1e 9a 0a 00 <41> 80 7c 24 78 00 75 46 b9 03 00 00 00 48 c7 c2 c0 b2 a1 ac 48 c7
+> > RSP: 0000:ffffc90000207b50 EFLAGS: 00010246
+> > RAX: 0000000000000000 RBX: ffff88811495d000 RCX: 0000000000000000
+> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> > RBP: ffff888108691600 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+> > R13: 0000000000000000 R14: 0000000000000000 R15: ffff88811400b028
+> > FS:  0000000000000000(0000) GS:ffff88886f500000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 0000000000000078 CR3: 00000002b7a5a000 CR4: 0000000000f50ef0
+> > PKRU: 55555554
+> > note: kworker/2:0[24] exited with irqs disabled
+> > 
+> > 
+> > I was able to bisect the issue to commit a0575b4add21 ("ASoC: hdac_hda:
+> > Conditionally register dais for HDMI and Analog"). Reverting that patch on
+> > top of mainline fixes it.
 > 
-> CX8070 and SN6140 will get wrong headset type when use OMTP headset, then the headset mic will not work.
+> As I've been (and still am) off, I had too little time for taking a
+> deeper look now, unfortunately.  But my wild guess is that it's a NULL
+> dereference of the hdac_hda_priv referred via hdac dev.  If it's
+> correct, a oneliner like below should work around the crash.
+> Could you give it a try?
 > 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
-
-Well, the patch series has a serious problem, unfortunately.
-
-Basically the patch that is submitted to the upstream should be in the
-final form.  But this series puts the coding style errors and then
-corrects multiple times in the series.  This is absolutely no-go.
-
-Create a "perfect patch", and submit it, instead.
-
-For that, you'll need to give a bit more detailed patch description.
-Currently it says nothing but the problem.  It doesn't mention how and
-what to be fixed / changed.  Ideally speaking, the patch should have a
-description that is self-explanatory.
-
-Last but not least, please put the proper subject prefix.
-In your case, it'd be like "ALSA: hda/conexant:".
-
-Please try to address the above points and resubmit.
-
-
-thanks,
-
-Takashi
+> 
+> thanks,
+> 
+> Takashi
+> 
+> -- 8< --
+> --- a/sound/soc/codecs/hdac_hda.c
+> +++ b/sound/soc/codecs/hdac_hda.c
+> @@ -630,7 +630,7 @@ static int hdac_hda_dev_probe(struct hdac_device *hdev)
+>  	snd_hdac_ext_bus_link_get(hdev->bus, hlink);
+>  
+>  	/* ASoC specific initialization */
+> -	if (hda_pvt->need_display_power)
+> +	if (hda_pvt && hda_pvt->need_display_power)
+>  		ret = devm_snd_soc_register_component(&hdev->dev,
+>  						&hdac_hda_hdmi_codec, hdac_hda_hdmi_dais,
+>  						ARRAY_SIZE(hdac_hda_hdmi_dais));
+> 
