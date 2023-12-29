@@ -1,73 +1,73 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16625125A1
-	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 15:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCCB11CAE
+	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 15:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B92GTz9J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bp0jMUMI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B92GTz9J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bp0jMUMI"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m95tDeGX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ch8mrKZJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m95tDeGX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ch8mrKZJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5459B1FD32;
-	Fri, 29 Dec 2023 15:03:24 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2936721D37;
+	Fri, 29 Dec 2023 15:06:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703862204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703862367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bv/ML4eLEh7GG3zmCbLz0m4B/Hq7mESe3WqLqnP6FGM=;
-	b=B92GTz9JkqtT9pXnVACRL9Bo1fLujJfxGJpI8nKpvzme0Zs3OKKZmoMec+fgrjoNBmtdYB
-	zlW6Peh/DBoazmLA7wAchaqIwnwYZ5P+ays7IwMhv567Rgm7+7ymBtkXS0mSu3bbp8vPVK
-	rW2brS1gS95HWaNm24qBmDLnTd+Uppg=
+	bh=HwqCMucPmtHkjlFCwX+R+cA/MRClkUNqcPlGH8pUACg=;
+	b=m95tDeGXpJ9nuqsH+YRKr7DYydUZyh4z2VaZ7AkiKyouBHkdr5w/NHIZ5Jt0/Y3MsJWAvN
+	FMYdzyQJ8EKCZtwtXOwO5UKjrg5H3jIOi3gn0BwSvN4lZgKKsf92iexcEbg5ANuHLoGGLr
+	4CcV7ke0CCccE506+F2pTrQ+8JyoJsI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703862204;
+	s=susede2_ed25519; t=1703862367;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bv/ML4eLEh7GG3zmCbLz0m4B/Hq7mESe3WqLqnP6FGM=;
-	b=bp0jMUMI6FjgcE56J2EwOaUwmbW0qIx1E4y9nrsu8cjjQXxmwXJrCcpvcxb6V9u8YaFG4B
-	yNRaHJpUtkw3BKBA==
+	bh=HwqCMucPmtHkjlFCwX+R+cA/MRClkUNqcPlGH8pUACg=;
+	b=Ch8mrKZJLmbeIeDNpMlDXKoSqjw3l+dNigfug7w2Zdxaq0o0L61Jpy84sfeZ/Q3a2TLAfp
+	MET4q2DtcxaQNdBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703862204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703862367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bv/ML4eLEh7GG3zmCbLz0m4B/Hq7mESe3WqLqnP6FGM=;
-	b=B92GTz9JkqtT9pXnVACRL9Bo1fLujJfxGJpI8nKpvzme0Zs3OKKZmoMec+fgrjoNBmtdYB
-	zlW6Peh/DBoazmLA7wAchaqIwnwYZ5P+ays7IwMhv567Rgm7+7ymBtkXS0mSu3bbp8vPVK
-	rW2brS1gS95HWaNm24qBmDLnTd+Uppg=
+	bh=HwqCMucPmtHkjlFCwX+R+cA/MRClkUNqcPlGH8pUACg=;
+	b=m95tDeGXpJ9nuqsH+YRKr7DYydUZyh4z2VaZ7AkiKyouBHkdr5w/NHIZ5Jt0/Y3MsJWAvN
+	FMYdzyQJ8EKCZtwtXOwO5UKjrg5H3jIOi3gn0BwSvN4lZgKKsf92iexcEbg5ANuHLoGGLr
+	4CcV7ke0CCccE506+F2pTrQ+8JyoJsI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703862204;
+	s=susede2_ed25519; t=1703862367;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bv/ML4eLEh7GG3zmCbLz0m4B/Hq7mESe3WqLqnP6FGM=;
-	b=bp0jMUMI6FjgcE56J2EwOaUwmbW0qIx1E4y9nrsu8cjjQXxmwXJrCcpvcxb6V9u8YaFG4B
-	yNRaHJpUtkw3BKBA==
+	bh=HwqCMucPmtHkjlFCwX+R+cA/MRClkUNqcPlGH8pUACg=;
+	b=Ch8mrKZJLmbeIeDNpMlDXKoSqjw3l+dNigfug7w2Zdxaq0o0L61Jpy84sfeZ/Q3a2TLAfp
+	MET4q2DtcxaQNdBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 312AC133E5;
-	Fri, 29 Dec 2023 15:03:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB025133E5;
+	Fri, 29 Dec 2023 15:06:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hBu5CrzfjmWaAQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 15:03:24 +0000
-Date: Fri, 29 Dec 2023 16:03:23 +0100
-Message-ID: <87h6k1xd8k.wl-tiwai@suse.de>
+	id IInjL17gjmUGAgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 15:06:06 +0000
+Date: Fri, 29 Dec 2023 16:06:06 +0100
+Message-ID: <87frzlxd41.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Aabish Malik <aabishmalik3337@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] enable SND_PCI_QUIRK for hp pavilion 14-ec1xxx series
-In-Reply-To: <20231229145532.46629-2-aabishmalik3337@gmail.com>
-References: <20231229145532.46629-2-aabishmalik3337@gmail.com>
+Subject: Re: [PATCH 00/23] ALSA: scarlett2: Refactor in preparation for gen4
+In-Reply-To: <cover.1703444932.git.g@b4.vu>
+References: <cover.1703444932.git.g@b4.vu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,76 +76,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: *
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.41
-X-Spamd-Result: default: False [-0.41 / 50.00];
+X-Spamd-Bar: /
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.31 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
 	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 TO_DN_SOME(0.00)[];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.11)[65.87%]
-X-Spam-Flag: NO
+	 BAYES_HAM(-1.00)[87.16%]
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=m95tDeGX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ch8mrKZJ
+X-Spam-Score: -0.31
+X-Rspamd-Queue-Id: 2936721D37
 
-On Fri, 29 Dec 2023 15:55:33 +0100,
-Aabish Malik wrote:
+On Sun, 24 Dec 2023 20:18:35 +0100,
+Geoffrey D. Bennett wrote:
 > 
-> The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
-> The mute led can be enabled using the already existing
-> ALC287_FIXUP_HP_GPIO_LED quirk.
-> Tested on an HP Pavilion ec1003AU
+> Hi Takashi,
 > 
-> Signed-off-by: Aabish Malik <aabishmalik3337@gmail.com>
+> This series is preparation for adding support for the Focusrite
+> Scarlett 4th Gen devices. It applies on top of the previous series
+> https://lore.kernel.org/linux-sound/cover.1703001053.git.g@b4.vu/
+> "ALSA: scarlett2: Firmware Upgrade and Error Handling Improvements".
+> 
+> There should be no notable functional changes in this series, just
+> refactoring/restructuring/renaming/reformatting.
+> 
+> Regards,
+> Geoffrey.
+> 
+> Geoffrey D. Bennett (23):
+>   ALSA: scarlett2: Simplify enums by removing explicit values
+>   ALSA: scarlett2: Infer has_msd_mode from config items
+>   ALSA: scarlett2: Infer standalone switch from config items
+>   ALSA: scarlett2: Check for phantom persistence config item
+>   ALSA: scarlett2: Check presence of mixer using mux_assignment
+>   ALSA: scarlett2: Add config set struct
+>   ALSA: scarlett2: Remove scarlett2_config_sets array
+>   ALSA: scarlett2: Add check for config_item presence
+>   ALSA: scarlett2: Refactor scarlett2_usb_set_config()
+>   ALSA: scarlett2: Refactor scarlett2_config_save()
+>   ALSA: scarlett2: Formatting fixes
+>   ALSA: scarlett2: Parameterise notifications
+>   ALSA: scarlett2: Change num_mux_* from int to u8
+>   ALSA: scarlett2: Refactor common port_count lookups
+>   ALSA: scarlett2: Remove struct scarlett2_usb_volume_status
+>   ALSA: scarlett2: Split dim_mute_update from vol_updated
+>   ALSA: scarlett2: Remove line_out_hw_vol device info entry
+>   ALSA: scarlett2: Allow for interfaces without per-channel volume
+>   ALSA: scarlett2: Add scarlett2_mixer_value_to_db()
+>   ALSA: scarlett2: Add #define for SCARLETT2_MIX_MAX
+>   ALSA: scarlett2: Rename db_scale_scarlett2_gain to volume
+>   ALSA: scarlett2: Split input_other into level/pad/air/phantom
+>   ALSA: scarlett2: Split direct_monitor out from monitor_other
 
-Almost good, but...  Please test your patch by yourself before
-submission.  It's missing a comma at the new line, hence it gives the
-compilation error.
+Now applied all patches to topic/scarlett2 branch, which is merged to
+for-next branch.
 
-Also, the subject line could be improved.  We take usually "ALSA:"
-prefix, and also for this kind of stuff, "hda/realtek:" is used in
-addition, so the subject should be "ALSA: hda/realtek: enable
-SND_PCI_QUIRK for hp pavilion 14-ec1xxx series".
-
-And, when you resubmit a revised patch, put the revision number like
-"[PATCH v2]".
+There was a wrong sha id reference in some fixes tag and I corrected
+manually.
 
 
 thanks,
 
 Takashi
-
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index c3a756528..961555dfc 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -9881,6 +9881,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x89c6, "Zbook Fury 17 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x89ca, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->  	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-> +	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx" ALC287_FIXUP_HP_GPIO_LED)
->  	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->  	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
->  	SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
-> -- 
-> 2.43.0
-> 
