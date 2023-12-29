@@ -1,32 +1,44 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF3E10A00
-	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 09:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3BT9TVuV42562275, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3BT9TVuV42562275
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 Dec 2023 17:29:31 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.32; Fri, 29 Dec 2023 17:29:32 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 29 Dec 2023 17:29:31 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, <yuhsuan@google.com>,
-        Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH v2] ASoC: rt5663: cancel the work when system suspends
-Date: Fri, 29 Dec 2023 17:29:22 +0800
-Message-ID: <20231229092922.853-1-shumingf@realtek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED8F1118C;
+	Fri, 29 Dec 2023 11:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="P8P+qE2D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1703850229;
+	bh=/XUlLtN0OxNKjkOJY7EN5g0ejaPbJLN+tXv+cAsFoO0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P8P+qE2Dr4SdxxZxZVWTVycv0wuw0hQNA9rlk+75OvuRAOyl49K4sPBUsh7UVcrH1
+	 JQcdy0L1oHiDCwoh19hfvmHLy69+stMoc15UMGbS6v8lilmPSWNgawImb4zeONS/Ux
+	 1Tb2DYp0R88ewniCzT67LGc0tM3LvHpYsajTB/BYyNjznhbFLRFUqjdAN4EAih/Uib
+	 YIE8W0ivxVblq/f9Ow58CUxUUHSasWzd8Vf9Iu1JdkvHq3aq0NwtJEzxvdFfoeoiH6
+	 CRl/GyPC45TNODnsxvrdZ0R/+MSFT4bByCEYqyUVV+PeEoK40je76qTGAvG9Z2JCEB
+	 ryT/iDW3RXaYg==
+Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ehristev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 40DE73780894;
+	Fri, 29 Dec 2023 11:43:48 +0000 (UTC)
+From: Eugen Hristev <eugen.hristev@collabora.com>
+To: linux-sound@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Cc: broonie@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	allen-kh.cheng@mediatek.com,
+	jiaxin.yu@mediatek.com,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kernel@collabora.com,
+	Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH] ASoC: mediatek: mt8186: fix AUD_PAD_TOP register and offset
+Date: Fri, 29 Dec 2023 13:43:42 +0200
+Message-Id: <20231229114342.195867-1-eugen.hristev@collabora.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -35,70 +47,31 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
+AUD_PAD_TOP widget's correct register is AFE_AUD_PAD_TOP , and not zero.
+Having a zero as register, it would mean that the `snd_soc_dapm_new_widgets`
+would try to read the register at offset zero when trying to get the power
+status of this widget, which is incorrect.
 
-This patch makes sure that the workqueue is completed before the system suspends.
-
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
+Fixes: b65c466220b3 ("ASoC: mediatek: mt8186: support adda in platform driver")
+Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
 ---
- sound/soc/codecs/rt5663.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ sound/soc/mediatek/mt8186/mt8186-dai-adda.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
-index 77246f84de29..9550492605ac 100644
---- a/sound/soc/codecs/rt5663.c
-+++ b/sound/soc/codecs/rt5663.c
-@@ -74,6 +74,7 @@ struct rt5663_priv {
- 	int pll_out;
+diff --git a/sound/soc/mediatek/mt8186/mt8186-dai-adda.c b/sound/soc/mediatek/mt8186/mt8186-dai-adda.c
+index 85ae3f76d951..ad6d4b5cf697 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-dai-adda.c
++++ b/sound/soc/mediatek/mt8186/mt8186-dai-adda.c
+@@ -499,7 +499,7 @@ static const struct snd_soc_dapm_widget mtk_dai_adda_widgets[] = {
+ 			      SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
  
- 	int jack_type;
-+	unsigned int irq;
- };
- 
- static const struct reg_sequence rt5663_patch_list[] = {
-@@ -3186,6 +3187,12 @@ static int rt5663_suspend(struct snd_soc_component *component)
- {
- 	struct rt5663_priv *rt5663 = snd_soc_component_get_drvdata(component);
- 
-+	if (rt5663->irq)
-+		disable_irq(rt5663->irq);
-+
-+	cancel_delayed_work_sync(&rt5663->jack_detect_work);
-+	cancel_delayed_work_sync(&rt5663->jd_unplug_work);
-+
- 	regcache_cache_only(rt5663->regmap, true);
- 	regcache_mark_dirty(rt5663->regmap);
- 
-@@ -3201,6 +3208,9 @@ static int rt5663_resume(struct snd_soc_component *component)
- 
- 	rt5663_irq(0, rt5663);
- 
-+	if (rt5663->irq)
-+		enable_irq(rt5663->irq);
-+
- 	return 0;
- }
- #else
-@@ -3686,6 +3696,7 @@ static int rt5663_i2c_probe(struct i2c_client *i2c)
- 				__func__, ret);
- 			goto err_enable;
- 		}
-+		rt5663->irq = i2c->irq;
- 	}
- 
- 	ret = devm_snd_soc_register_component(&i2c->dev,
+ 	SND_SOC_DAPM_SUPPLY_S("AUD_PAD_TOP", SUPPLY_SEQ_ADDA_AUD_PAD_TOP,
+-			      0, 0, 0,
++			      AFE_AUD_PAD_TOP, RG_RX_FIFO_ON_SFT, 0,
+ 			      mtk_adda_pad_top_event,
+ 			      SND_SOC_DAPM_PRE_PMU),
+ 	SND_SOC_DAPM_SUPPLY_S("ADDA_MTKAIF_CFG", SUPPLY_SEQ_ADDA_MTKAIF_CFG,
 -- 
 2.34.1
 
