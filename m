@@ -1,83 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7066D1119E;
-	Fri, 29 Dec 2023 12:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7C211700;
+	Fri, 29 Dec 2023 12:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wvYnRPjD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Zg013Go";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wvYnRPjD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Zg013Go"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y1SJsrhU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mch25re2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y1SJsrhU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mch25re2"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BA5121E82;
-	Fri, 29 Dec 2023 12:44:25 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B354022079;
+	Fri, 29 Dec 2023 12:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703853865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703853943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
-	b=wvYnRPjDe4snZSvoIn2Mm4/Ut85eUT6oTuXqxlOkCZNE7czFJZEvwRrv/MXYFIozFG6Zth
-	QmAMpp20mRXxhHvglISamUonbp7DgbAJzvT5Q7519HZru+RAGHnTjR8yDsceUHOW5e3RUE
-	jpaycRaxf+OLIhU1631oEgTfPQ9Qtrs=
+	bh=I7Wfom3eiZsOxTmsNiOfUqJFjm7nHGnBwz7eB13WVM8=;
+	b=Y1SJsrhUaaooLYrM5oqGMT9wqnfNw7LbXg4i3rJkSJrULI0JndLP+e1bOLTLwFgoMYRJKS
+	WN/OjKO4Vl4UzlsEVHvHKykt5eBMLhqaClUBMAMzoeiCFwuCLcETnqWcOMbJ40V88ynfTQ
+	BuGncbnWFNeC8Q8rSC1Jh6dyfKLUdBE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703853865;
+	s=susede2_ed25519; t=1703853943;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
-	b=/Zg013Gon+ocWUGkcPFZqsgi6VkYiJOq3WS5zgbAVRdrFGL7LAU3xbB0ZPzsxh0Nkaq4/n
-	8yv4wR7OWHrbi7Bw==
+	bh=I7Wfom3eiZsOxTmsNiOfUqJFjm7nHGnBwz7eB13WVM8=;
+	b=mch25re2XeVd4pMrCHda6Tuo6sl+ttlPRTb1QHGzlxez5YlCMnxkBU3fKYZMYCNkjnoO04
+	l4HMIuq4EKwoRzCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703853865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703853943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
-	b=wvYnRPjDe4snZSvoIn2Mm4/Ut85eUT6oTuXqxlOkCZNE7czFJZEvwRrv/MXYFIozFG6Zth
-	QmAMpp20mRXxhHvglISamUonbp7DgbAJzvT5Q7519HZru+RAGHnTjR8yDsceUHOW5e3RUE
-	jpaycRaxf+OLIhU1631oEgTfPQ9Qtrs=
+	bh=I7Wfom3eiZsOxTmsNiOfUqJFjm7nHGnBwz7eB13WVM8=;
+	b=Y1SJsrhUaaooLYrM5oqGMT9wqnfNw7LbXg4i3rJkSJrULI0JndLP+e1bOLTLwFgoMYRJKS
+	WN/OjKO4Vl4UzlsEVHvHKykt5eBMLhqaClUBMAMzoeiCFwuCLcETnqWcOMbJ40V88ynfTQ
+	BuGncbnWFNeC8Q8rSC1Jh6dyfKLUdBE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703853865;
+	s=susede2_ed25519; t=1703853943;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
-	b=/Zg013Gon+ocWUGkcPFZqsgi6VkYiJOq3WS5zgbAVRdrFGL7LAU3xbB0ZPzsxh0Nkaq4/n
-	8yv4wR7OWHrbi7Bw==
+	bh=I7Wfom3eiZsOxTmsNiOfUqJFjm7nHGnBwz7eB13WVM8=;
+	b=mch25re2XeVd4pMrCHda6Tuo6sl+ttlPRTb1QHGzlxez5YlCMnxkBU3fKYZMYCNkjnoO04
+	l4HMIuq4EKwoRzCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBD03133E5;
-	Fri, 29 Dec 2023 12:44:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BE61133E5;
+	Fri, 29 Dec 2023 12:45:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H72LMyi/jmUCaAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 12:44:24 +0000
-Date: Fri, 29 Dec 2023 13:44:24 +0100
-Message-ID: <87zfxtxjo7.wl-tiwai@suse.de>
+	id fbsuGXe/jmVaaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 12:45:43 +0000
+Date: Fri, 29 Dec 2023 13:45:43 +0100
+Message-ID: <87y1ddxjm0.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Dorian Cruveiller <doriancruveiller@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	andy.chi@canonical.com,
-	shenghao-ding@ti.com,
-	ruinairas1992@gmail.com,
-	l.guzenko@web.de,
-	yangyuchi66@gmail.com,
-	vitalyr@opensource.cirrus.com,
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Add support for cirrus cs35l41 sound amplifier
-In-Reply-To: <20231225181352.185455-1-doriancruveiller@gmail.com>
-References: <20231225181352.185455-1-doriancruveiller@gmail.com>
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/tas2781: do not use regcache
+In-Reply-To: <491aeed0e2eecc3b704ec856f815db21bad3ba0e.1703202126.git.soyer@irl.hu>
+References: <491aeed0e2eecc3b704ec856f815db21bad3ba0e.1703202126.git.soyer@irl.hu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,70 +85,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-5.75 / 50.00];
-	 ARC_NA(0.00)[];
+X-Spamd-Result: default: False [-1.89 / 50.00];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
-	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_TWELVE(0.00)[14];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[perex.cz,suse.com,opensource.cirrus.com,realtek.com,ljones.dev,canonical.com,ti.com,gmail.com,web.de,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.94)[99.75%];
-	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from]
+	 BAYES_HAM(-2.79)[99.11%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[ti.com,perex.cz,suse.com,gmail.com,kernel.org,vger.kernel.org,alsa-project.org];
+	 RCVD_TLS_ALL(0.00)[]
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wvYnRPjD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/Zg013Go"
-X-Spam-Score: -5.75
-X-Rspamd-Queue-Id: 5BA5121E82
+	none
+X-Spam-Score: -1.89
+X-Spam-Flag: NO
 
-On Mon, 25 Dec 2023 19:13:52 +0100,
-Dorian Cruveiller wrote:
+On Fri, 22 Dec 2023 00:48:56 +0100,
+Gergo Koteles wrote:
 > 
-> Link up the realtek audio chip to the cirrus cs35l41 sound amplifier chip
-> on 2 two models of the Lenovo legion slim 7 gen 8 (2023). These models are
-> 16IRH8 and 16APH8.
+> There are two problems with using regcache in this module.
 > 
-> Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
-> ---
->  sound/pci/hda/patch_realtek.c | 2 ++
->  1 file changed, 2 insertions(+)
+> The amplifier has 3 addressing levels (BOOK, PAGE, REG). The firmware
+> contains blocks that must be written to BOOK 0x8C. The regcache doesn't
+> know anything about BOOK, so regcache_sync writes invalid values to the
+> actual BOOK.
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index c3a756528886..d8c8bb4c71b7 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10208,6 +10208,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL", ALC287_FIXUP_13S_GEN2_SPEAKERS),
->  	SND_PCI_QUIRK(0x17aa, 0x3820, "Yoga Duet 7 13ITL6", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
->  	SND_PCI_QUIRK(0x17aa, 0x3824, "Legion Y9000X 2020", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
-> +	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
-> +	SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x17aa, 0x3827, "Ideapad S740", ALC285_FIXUP_IDEAPAD_S740_COEF),
->  	SND_PCI_QUIRK(0x17aa, 0x3834, "Lenovo IdeaPad Slim 9i 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
->  	SND_PCI_QUIRK(0x17aa, 0x383d, "Legion Y9000X 2019", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
+> The module handles 2 or more separate amplifiers. The amplifiers have
+> different register values, and the module uses only one regmap/regcache
+> for all the amplifiers. The regcache_sync only writes the last amplifier
+> used.
+> 
+> The module successfully restores all the written register values (RC
+> profile, program, configuration, calibration) without regcache.
+> 
+> Remove regcache functions and set regmap cache_type to REGCACHE_NONE.
+> 
+> Link: https://lore.kernel.org/r/21a183b5a08cb23b193af78d4b1114cc59419272.1701906455.git.soyer@irl.hu/
+> 
+> Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
+> CC: stable@vger.kernel.org
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
 
-The table entries are sorted in PCI SSID order.
-Could you try to put at the right place and resubmit?
+Applied to for-linus branch now.  Thanks.
 
-
-thanks,
 
 Takashi
