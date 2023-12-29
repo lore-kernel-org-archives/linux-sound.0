@@ -1,74 +1,73 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA1711703;
-	Fri, 29 Dec 2023 13:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E5311702
+	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 13:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMnMj0P5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SyPFXpl2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMnMj0P5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SyPFXpl2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FyNDAhz4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mRqCnywi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FyNDAhz4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mRqCnywi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 432E12209E;
-	Fri, 29 Dec 2023 13:21:31 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B6C3B1F7B0;
+	Fri, 29 Dec 2023 13:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703856091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703856254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cTMDUEOCmZ1Qrqn6ErsZBP8qT5PCPSG5Mq6RwTP1Bt4=;
-	b=RMnMj0P5rvQ/ka9nSfCDw12NyZem5mnqje3ZDEwGG1K0eXn7bQRckZkcaJTGPOPSeFNbVJ
-	Q39Nnn6Lz+ZaTYvE8S1nkkjOqJTf2aCKAe0cJZc7h5wl4R+8erKZdRHKQql0hc4bxqW6g6
-	OdzrTPcBmkBYuJgEW3qlNNrLyLCwuzo=
+	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
+	b=FyNDAhz4yyByqq37nC7LZNUd/sN0OxwZr8zXdu+wwAjWYtcUzeL6hP8WcgdEXkaNa+XvJL
+	d2US28en5hGqb/Mz3wQ1NTHNpbdXWahHNTtrNcV+4c4qP3Ai5Pkm7B8VAey2H73UnHvzTv
+	0gpaGAsQgFWiBxbc/eZMjmbSMwhjdi0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703856091;
+	s=susede2_ed25519; t=1703856254;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cTMDUEOCmZ1Qrqn6ErsZBP8qT5PCPSG5Mq6RwTP1Bt4=;
-	b=SyPFXpl2M4OlPpBwxtBcfhqgNx342x1l0WsN6k943jNbusrDcW8WwIIc3YZ5f9Zhmkq2FP
-	nAWoojXL1Cg4wqAw==
+	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
+	b=mRqCnywigndu5lIgfgW0TXBwl/MzC7+zRmwxKGuu32+Ye+rG3oJRQZTZUxf7E2OQPblXNh
+	ISosBc+kPmEhVSDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703856091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703856254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cTMDUEOCmZ1Qrqn6ErsZBP8qT5PCPSG5Mq6RwTP1Bt4=;
-	b=RMnMj0P5rvQ/ka9nSfCDw12NyZem5mnqje3ZDEwGG1K0eXn7bQRckZkcaJTGPOPSeFNbVJ
-	Q39Nnn6Lz+ZaTYvE8S1nkkjOqJTf2aCKAe0cJZc7h5wl4R+8erKZdRHKQql0hc4bxqW6g6
-	OdzrTPcBmkBYuJgEW3qlNNrLyLCwuzo=
+	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
+	b=FyNDAhz4yyByqq37nC7LZNUd/sN0OxwZr8zXdu+wwAjWYtcUzeL6hP8WcgdEXkaNa+XvJL
+	d2US28en5hGqb/Mz3wQ1NTHNpbdXWahHNTtrNcV+4c4qP3Ai5Pkm7B8VAey2H73UnHvzTv
+	0gpaGAsQgFWiBxbc/eZMjmbSMwhjdi0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703856091;
+	s=susede2_ed25519; t=1703856254;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cTMDUEOCmZ1Qrqn6ErsZBP8qT5PCPSG5Mq6RwTP1Bt4=;
-	b=SyPFXpl2M4OlPpBwxtBcfhqgNx342x1l0WsN6k943jNbusrDcW8WwIIc3YZ5f9Zhmkq2FP
-	nAWoojXL1Cg4wqAw==
+	bh=8rD6UTGOoG+HhGRieIiWG2KuXHXZCgbFCxlWSsxbO3I=;
+	b=mRqCnywigndu5lIgfgW0TXBwl/MzC7+zRmwxKGuu32+Ye+rG3oJRQZTZUxf7E2OQPblXNh
+	ISosBc+kPmEhVSDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 116B4133E5;
-	Fri, 29 Dec 2023 13:21:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86AC0133E5;
+	Fri, 29 Dec 2023 13:24:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P590AtvHjmXUbgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 13:21:31 +0000
-Date: Fri, 29 Dec 2023 14:21:30 +0100
-Message-ID: <87o7e9xhyd.wl-tiwai@suse.de>
+	id 5KOYHn7IjmU6bwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 13:24:14 +0000
+Date: Fri, 29 Dec 2023 14:24:14 +0100
+Message-ID: <87msttxhtt.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-In-Reply-To: <20231227060322.3556052-1-alexious@zju.edu.cn>
-References: <20231227060322.3556052-1-alexious@zju.edu.cn>
+To: opticXC <aabishmalik3337@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 6.6.7 1/1] ALSA: hda/realtek: mute led fix for HP Pavilion 14 ec1xxx series
+In-Reply-To: <20231218203659.32948-2-aabishmalik3337@gmail.com>
+References: <20231218203659.32948-2-aabishmalik3337@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,53 +77,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Authentication-Results: smtp-out2.suse.de;
+	none
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.86 / 50.00];
+X-Spam-Score: -0.36
+X-Spamd-Result: default: False [-0.36 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[5];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TO_DN_SOME(0.00)[];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FREEMAIL_TO(0.00)[gmail.com];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.55)[92.09%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RMnMj0P5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SyPFXpl2
-X-Spam-Score: -2.86
-X-Rspamd-Queue-Id: 432E12209E
+	 BAYES_HAM(-0.06)[61.50%]
+X-Spam-Flag: NO
 
-On Wed, 27 Dec 2023 07:03:20 +0100,
-Zhipeng Lu wrote:
+On Mon, 18 Dec 2023 21:37:00 +0100,
+opticXC wrote:
 > 
-> When snd_hdsp_load_firmware_from_cache and snd_hdsp_enable_io fails,
-> the hdsp->fw_uploaded needs to be free.Or there could be memleaks in
-> snd_hdsp_hwdep_ioctl.
+> The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
+> It needs the ALC287_FIXUP_HP_GPIO_LED quirk to enable the mute led.
 > 
-> Fixes: 90caaef6a1ce ("ALSA: hdsp: improve firmware caching")
-> Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
+> 
+> Signed-off-by: opticXC <aabishmalik3337@gmail.com>
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index e45d4c405..416cda983 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -9881,6 +9881,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x89c6, "Zbook Fury 17 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+>  	SND_PCI_QUIRK(0x103c, 0x89ca, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>  	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+> +    SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
 
-Thanks for the patch, but the patch description is misleading.
-The allocated object isn't really "leaked"; it's released at the
-removal of the driver.
+The entry has a coding style problem; it uses 4 spaces instead of a
+hard tab stop.
 
-We may apply some optimization like you did, but then it should have a
-different description.
+Please use a hard tab stop and resubmit.
 
 
 thanks,
