@@ -1,79 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FAA12E4D;
-	Fri, 29 Dec 2023 19:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C736014AA1;
+	Fri, 29 Dec 2023 23:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="prhzLEOp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C53C433C7;
-	Fri, 29 Dec 2023 19:17:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703877466;
-	bh=7/isT/CdiiogTJpXSS1PN6AQNvMWmv+tZOqra//YCK4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=prhzLEOpIcASzb5PbttKFwhUYoq2jYXm1Y9y8eifFzvYzN1PX4z0aCdoavfKcqblY
-	 AX6NuFFgdLdlINZqWm/bnA1sCEBtDcIGvoUEpnqoNtZ3cZxi5hYlhyIDEeSC2oUyuK
-	 NzJocdf6RtthWJyWMurv2vyPCn2VE1mIlJv+40Tv6tefOfe74cSRqM0OBiVhVFRE4S
-	 AiPhMUlXt7Tft9ZOlgZV8xy/Ugm0QGIAHcsQr/oidt7RiGFexbIS+7GZ05srXr4RJo
-	 TEYnIFKM5+KZ1G7pfa2WXkKcATqPs/mbX0VEkQbRuqzpr74aag922l6cEBXS9YQbow
-	 FYalAiJfmkLkQ==
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231226200025.30870-1-duje.mihanovic@skole.hr>
-References: <20231226200025.30870-1-duje.mihanovic@skole.hr>
-Subject: Re: [PATCH RFC] ASoC: pxa: sspa: Don't select SND_ARM
-Message-Id: <170387746330.3014555.13529710502553873994.b4-ty@kernel.org>
-Date: Fri, 29 Dec 2023 19:17:43 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EqWHgWmY"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40d5a41143fso33339665e9.3;
+        Fri, 29 Dec 2023 15:05:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703891133; x=1704495933; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XuYPybffDFeo+aLlhJnUJLlzKhbvOFBWBB5vAdXznK8=;
+        b=EqWHgWmYHUQuEwoSK1L4EmmYak1sZsUmPwadc4avaObtp96opqqkCa+ez+1TSOQVIS
+         l7mwOoVQ7Kk6YnEp1F2G7r0h1xxIowFtjwZk2QrJAZEWpJslvhtRjsqdhrHF07Kcb/eD
+         BdthFOIPJzAaEdVeF9aaRZSkGfPDpItBRj8r2fjwIO0RSNXE0iXIx4bNZGaDeQpA5mAb
+         LgVcGGlJbxm0G7dWXrWrd/jKg67P5wXEowjz014XbZbnjrU7tDUai22bQWQhQzLJFCBb
+         XfSg1vjwB9d96jOg0hQbHMD5RA5i5fAbfb+pLqIgQaYzOK9ExQJORtDS8399DrDuGLLr
+         vJpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703891133; x=1704495933;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XuYPybffDFeo+aLlhJnUJLlzKhbvOFBWBB5vAdXznK8=;
+        b=MTJJmFBVDDtUnxdIJVBEhuWQ7ue8dgvoYfz8fb+v166ZtlKB+LnLRgUcXaZJdZUktx
+         QzLcJRW0OYH8W5jfb0LIZ97kki57SHmAreCNS4aEH+U3ny1wtfrF+JMxLN0oF3nu3dI9
+         fM5X0hcViRup96AOAaXAjKGaWQpDnUE46c9mhGCDzi1+un5TSUvXHUwT4K8kPc6ttaLd
+         jN69rcx09aXzwmz6177XsdpwrfRha3UepwOiM1vu9lCQf6CNUJ16Fy9XlNPi0Fapphrv
+         W8/Fck5+IhMJNeuF2/+/1iWEOb29s5K/JcJ88AP0G/vTsiefof8lx7xxnToIfJwJ0/Rq
+         Joag==
+X-Gm-Message-State: AOJu0YwtJRSHjNe4oW+egvKx5mgl3vwFQyvjuvrqAtJWrBw5BPX1iqUc
+	JrrzGsHyCN/PbobxuTF8rL4=
+X-Google-Smtp-Source: AGHT+IEtytzksgyHe4iTbHaGZ60tYGKlCKHfdT3GyPcNDKHH8LohnZvxjlD1MFvvh/AveDkd7tEpqg==
+X-Received: by 2002:a05:600c:1f8f:b0:40d:6572:e8e6 with SMTP id je15-20020a05600c1f8f00b0040d6572e8e6mr1680826wmb.124.1703891132607;
+        Fri, 29 Dec 2023 15:05:32 -0800 (PST)
+Received: from localhost.localdomain ([2a02:842a:1ce:5301:f733:18af:2fff:3d3d])
+        by smtp.gmail.com with ESMTPSA id j17-20020a05600c191100b0040d5f3ef2a2sm9938103wmq.16.2023.12.29.15.05.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Dec 2023 15:05:32 -0800 (PST)
+From: Dorian Cruveiller <doriancruveiller@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	l.guzenko@web.de,
+	ruinairas1992@gmail.com,
+	yangyuchi66@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Dorian Cruveiller <doriancruveiller@gmail.com>
+Subject: [PATCH 1/2] ALSA:hda/realtek enable SND_PCI_QUIRK for Lenovo Legion Slim 7 Gen 8 (2023) series
+Date: Sat, 30 Dec 2023 00:04:50 +0100
+Message-ID: <20231229230450.72291-1-doriancruveiller@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-0438c
 
-On Tue, 26 Dec 2023 21:00:24 +0100, Duje Mihanović wrote:
-> On ARM64 platforms, SND_ARM shouldn't be selectable, but enabling
-> SND_SOC_MMP_SSPA will enable SND_ARM and cause build errors if
-> SND_ARMAACI is enabled (which it is by default). Since the SSPA driver
-> doesn't depend on AACI nor PXA2XX_LIB, remove this false dependency.
-> 
-> 
+Link up the realtek audio chip to the cirrus cs35l41 sound amplifier chip
+on 4 models of the Lenovo legion slim 7 gen 8 (2023). These models are
+16IRH8 (2 differents subsystem id) and 16APH8 (2 differents subsystem ids).
 
-Applied to
+Subsystem ids list:
+ - 17AA38B4
+ - 17AA38B5
+ - 17AA38B6
+ - 17AA38B7
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks!
-
-[1/1] ASoC: pxa: sspa: Don't select SND_ARM
-      commit: 67508b874844b80ac49f70b78d67036c28b9fe7e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index c3a756528886..3918bf994756 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10226,6 +10226,10 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x38ba, "Yoga S780-14.5 Air AMD quad YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38bb, "Yoga S780-14.5 Air AMD quad AAC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38be, "Yoga S980-14.5 proX YC Dual", ALC287_FIXUP_TAS2781_I2C),
+-- 
+2.43.0
 
