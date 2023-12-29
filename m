@@ -1,202 +1,156 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256161118F
-	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 12:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7066D1119E;
+	Fri, 29 Dec 2023 12:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="SexFa7bw"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id C93AE604B1D5; Fri, 29 Dec 2023 22:49:23 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu C93AE604B1D5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1703852363; bh=IIDtS5l87RhlwRGtBY+MgB8DAuPPeQdYVYvLBSsHLQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SexFa7bwY2CSr7mStLVjqshxFa/gxAC0bPEYZ99n3LIS3azs0ziUTM9Eqlzofti+C
-	 4bnQzDt7/AkOMAd3Iwp3JV6d+s3uVSPPJzaKfZJqasCc92GHzb+bZQHT6/ZqGCCLrh
-	 vbuhItZLD0thPwO3bHbT8zSW2zSV+os7tBu7e8pgymk6zmNT/IKvpY0S5oaTJj6QQ5
-	 jsyk6/2kHPSm2JRR/B5kHogPuMWDbhHCdgxw9zA07wRlGgBG3wLchRZkjmLNUCqSvN
-	 Wf4QEXSfsJHk+zDaKghusSZBj3HaNB8z+n+3c2ZeADrUSa7GU9he/u8BlPfukUOZRk
-	 CfexN4WRtqtpw==
-Date: Fri, 29 Dec 2023 22:49:23 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2 11/11] ALSA: scarlett2: Add support for uploading new
- firmware
-Message-ID: <ZY65S0ojShSNSeRQ@m.b4.vu>
-References: <e295050a79057ee8b7bc555a65e295691abd1ede.1703001053.git.g@b4.vu>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wvYnRPjD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Zg013Go";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wvYnRPjD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Zg013Go"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BA5121E82;
+	Fri, 29 Dec 2023 12:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703853865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
+	b=wvYnRPjDe4snZSvoIn2Mm4/Ut85eUT6oTuXqxlOkCZNE7czFJZEvwRrv/MXYFIozFG6Zth
+	QmAMpp20mRXxhHvglISamUonbp7DgbAJzvT5Q7519HZru+RAGHnTjR8yDsceUHOW5e3RUE
+	jpaycRaxf+OLIhU1631oEgTfPQ9Qtrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703853865;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
+	b=/Zg013Gon+ocWUGkcPFZqsgi6VkYiJOq3WS5zgbAVRdrFGL7LAU3xbB0ZPzsxh0Nkaq4/n
+	8yv4wR7OWHrbi7Bw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703853865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
+	b=wvYnRPjDe4snZSvoIn2Mm4/Ut85eUT6oTuXqxlOkCZNE7czFJZEvwRrv/MXYFIozFG6Zth
+	QmAMpp20mRXxhHvglISamUonbp7DgbAJzvT5Q7519HZru+RAGHnTjR8yDsceUHOW5e3RUE
+	jpaycRaxf+OLIhU1631oEgTfPQ9Qtrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703853865;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PfSIuJOLoDBb/clSFRScf5DAtw9ldgb0edljZkRP9XM=;
+	b=/Zg013Gon+ocWUGkcPFZqsgi6VkYiJOq3WS5zgbAVRdrFGL7LAU3xbB0ZPzsxh0Nkaq4/n
+	8yv4wR7OWHrbi7Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBD03133E5;
+	Fri, 29 Dec 2023 12:44:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H72LMyi/jmUCaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 12:44:24 +0000
+Date: Fri, 29 Dec 2023 13:44:24 +0100
+Message-ID: <87zfxtxjo7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dorian Cruveiller <doriancruveiller@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	l.guzenko@web.de,
+	yangyuchi66@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Add support for cirrus cs35l41 sound amplifier
+In-Reply-To: <20231225181352.185455-1-doriancruveiller@gmail.com>
+References: <20231225181352.185455-1-doriancruveiller@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e295050a79057ee8b7bc555a65e295691abd1ede.1703001053.git.g@b4.vu>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-5.75 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[14];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[perex.cz,suse.com,opensource.cirrus.com,realtek.com,ljones.dev,canonical.com,ti.com,gmail.com,web.de,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.94)[99.75%];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from]
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wvYnRPjD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/Zg013Go"
+X-Spam-Score: -5.75
+X-Rspamd-Queue-Id: 5BA5121E82
 
-Add ops.write to the hwdep interface. Once the upgrade firmware flash
-segment has been erased, writes to the hwdep fd are permitted, and
-translated to SCARLETT2_USB_WRITE_SEGMENT commands to the device.
+On Mon, 25 Dec 2023 19:13:52 +0100,
+Dorian Cruveiller wrote:
+> 
+> Link up the realtek audio chip to the cirrus cs35l41 sound amplifier chip
+> on 2 two models of the Lenovo legion slim 7 gen 8 (2023). These models are
+> 16IRH8 and 16APH8.
+> 
+> Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
+> ---
+>  sound/pci/hda/patch_realtek.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index c3a756528886..d8c8bb4c71b7 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10208,6 +10208,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL", ALC287_FIXUP_13S_GEN2_SPEAKERS),
+>  	SND_PCI_QUIRK(0x17aa, 0x3820, "Yoga Duet 7 13ITL6", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+>  	SND_PCI_QUIRK(0x17aa, 0x3824, "Legion Y9000X 2020", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
+> +	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
+> +	SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x17aa, 0x3827, "Ideapad S740", ALC285_FIXUP_IDEAPAD_S740_COEF),
+>  	SND_PCI_QUIRK(0x17aa, 0x3834, "Lenovo IdeaPad Slim 9i 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+>  	SND_PCI_QUIRK(0x17aa, 0x383d, "Legion Y9000X 2019", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
+The table entries are sorted in PCI SSID order.
+Could you try to put at the right place and resubmit?
 
-Hi Takashi,
 
-I noticed that scarlett2_hwdep_write() was returning the wrong value
-for errors encountered after the kzalloc(). Since I don't think you've
-taken this set of patches yet, can you replace the previous patch 11
-with this version two? Sorry, I don't know if you'd prefer I resend
-all 11 patches but I erred on the side of fewer emails. Let me know if
-you would like me to do different this time or next time.
+thanks,
 
-Thanks,
-Geoffrey.
-
- sound/usb/mixer_scarlett2.c | 96 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 93 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index ca09d0cd0cae..1f3b07bd7b3f 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -266,7 +266,8 @@ enum {
- enum {
- 	SCARLETT2_FLASH_WRITE_STATE_IDLE = 0,
- 	SCARLETT2_FLASH_WRITE_STATE_SELECTED = 1,
--	SCARLETT2_FLASH_WRITE_STATE_ERASING = 2
-+	SCARLETT2_FLASH_WRITE_STATE_ERASING = 2,
-+	SCARLETT2_FLASH_WRITE_STATE_WRITE = 3
- };
- 
- static const char *const scarlett2_dim_mute_names[SCARLETT2_DIM_MUTE_COUNT] = {
-@@ -1176,6 +1177,7 @@ static int scarlett2_get_port_start_num(
- #define SCARLETT2_USB_METER_LEVELS_GET_MAGIC 1
- 
- #define SCARLETT2_FLASH_BLOCK_SIZE 4096
-+#define SCARLETT2_FLASH_WRITE_MAX 1024
- #define SCARLETT2_SEGMENT_NUM_MIN 1
- #define SCARLETT2_SEGMENT_NUM_MAX 4
- 
-@@ -5079,10 +5081,10 @@ static int scarlett2_ioctl_get_erase_progress(
- 		return -EFAULT;
- 
- 	/* If the erase is complete, change the state from ERASING to
--	 * IDLE.
-+	 * WRITE.
- 	 */
- 	if (progress.progress == 0xff)
--		private->flash_write_state = SCARLETT2_FLASH_WRITE_STATE_IDLE;
-+		private->flash_write_state = SCARLETT2_FLASH_WRITE_STATE_WRITE;
- 
- 	return 0;
- }
-@@ -5135,6 +5137,93 @@ static int scarlett2_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
- 	}
- }
- 
-+static long scarlett2_hwdep_write(struct snd_hwdep *hw,
-+				  const char __user *buf,
-+				  long count, loff_t *offset)
-+{
-+	struct usb_mixer_interface *mixer = hw->private_data;
-+	struct scarlett2_data *private = mixer->private_data;
-+	int segment_id, segment_num, err, len;
-+	int flash_size;
-+
-+	/* SCARLETT2_USB_WRITE_SEGMENT request data */
-+	struct {
-+		__le32 segment_num;
-+		__le32 offset;
-+		__le32 pad;
-+		u8 data[];
-+	} __packed *req;
-+
-+	/* Calculate the maximum permitted in data[] */
-+	const size_t max_data_size = SCARLETT2_FLASH_WRITE_MAX -
-+				     offsetof(typeof(*req), data);
-+
-+	/* If erasing, wait for it to complete */
-+	if (private->flash_write_state ==
-+	      SCARLETT2_FLASH_WRITE_STATE_ERASING) {
-+		err = scarlett2_wait_for_erase(mixer);
-+		if (err < 0)
-+			return err;
-+		private->flash_write_state = SCARLETT2_FLASH_WRITE_STATE_WRITE;
-+
-+	/* Check that an erase has been done & completed */
-+	} else if (private->flash_write_state !=
-+		     SCARLETT2_FLASH_WRITE_STATE_WRITE) {
-+		return -EINVAL;
-+	}
-+
-+	/* Check that we're writing to the upgrade firmware */
-+	segment_id = private->selected_flash_segment_id;
-+	if (segment_id != SCARLETT2_SEGMENT_ID_FIRMWARE)
-+		return -EINVAL;
-+
-+	segment_num = private->flash_segment_nums[segment_id];
-+	if (segment_num < SCARLETT2_SEGMENT_NUM_MIN ||
-+	    segment_num > SCARLETT2_SEGMENT_NUM_MAX)
-+		return -EFAULT;
-+
-+	/* Validate the offset and count */
-+	flash_size = private->flash_segment_blocks[segment_id] *
-+		     SCARLETT2_FLASH_BLOCK_SIZE;
-+
-+	if (count < 0 || *offset < 0 || *offset + count >= flash_size)
-+		return -EINVAL;
-+
-+	if (!count)
-+		return 0;
-+
-+	/* Limit the *req size to SCARLETT2_FLASH_WRITE_MAX */
-+	if (count > max_data_size)
-+		count = max_data_size;
-+
-+	/* Create and send the request */
-+	len = struct_size(req, data, count);
-+	req = kzalloc(len, GFP_KERNEL);
-+	if (!req)
-+		return -ENOMEM;
-+
-+	req->segment_num = cpu_to_le32(segment_num);
-+	req->offset = cpu_to_le32(*offset);
-+	req->pad = 0;
-+
-+	if (copy_from_user(req->data, buf, count)) {
-+		err = -EFAULT;
-+		goto error;
-+	}
-+
-+	err = scarlett2_usb(mixer, SCARLETT2_USB_WRITE_SEGMENT,
-+			    req, len, NULL, 0);
-+	if (err < 0)
-+		goto error;
-+
-+	*offset += count;
-+	err = count;
-+
-+error:
-+	kfree(req);
-+	return err;
-+}
-+
- static int scarlett2_hwdep_release(struct snd_hwdep *hw, struct file *file)
- {
- 	struct usb_mixer_interface *mixer = hw->private_data;
-@@ -5164,6 +5253,7 @@ static int scarlett2_hwdep_init(struct usb_mixer_interface *mixer)
- 	hw->exclusive = 1;
- 	hw->ops.open = scarlett2_hwdep_open;
- 	hw->ops.ioctl = scarlett2_hwdep_ioctl;
-+	hw->ops.write = scarlett2_hwdep_write;
- 	hw->ops.release = scarlett2_hwdep_release;
- 
- 	return 0;
--- 
-2.43.0
-
+Takashi
