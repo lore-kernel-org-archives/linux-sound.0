@@ -1,343 +1,245 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05hn2223.outbound.protection.outlook.com [52.100.175.223])
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D6EF4F6;
-	Thu, 28 Dec 2023 16:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=seco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seco.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE9A8813;
+	Fri, 29 Dec 2023 01:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=seco.com header.i=@seco.com header.b="nnKafV9N";
-	dkim=pass (2048-bit key) header.d=seco.com header.i=@seco.com header.b="nnKafV9N"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=V7fOp+WoK8z7n0V+9ftwkqtOD/t+P04KaPEk+l8LPoeG8bqruXoMb8L9OUIL2Uz04JVfR15Y44n1fC8qVkAxzdFhQA1PKcbUinIUno2QFMJAJvKfcI8dOMMdzZY3ujQ7dl8MRbocxFgoSrWkAnXtVROv+HSP1M5kcEazeoot6HDIap0ggilRfliceOOJUeTnruKpXPDaqfOpE8NWGTB2KJKGb0rYWCPMOVHPkLb0SIrqeC8JslYLZ6zGmdKG9qgbVXokUB0ppu5XG2bsLgtUOV7WqwlfTr6QWRszPOefJ8Y9zWMLwCf3EscbCinlMnOY+h4kF8wdK/O0WeZ0vs3c0A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x63fZZbPnEXYewDc3KTnWxQUXR7DidWUJeZeEQ9+loA=;
- b=kLQAQK0ZmO+S8UGDrzBt/hW194imt5zmPmMrmnDuckbuqahMOKy+LdoTOTh4XdOpJhDsCWAwOnAf3yum5OVShTBrS5W9J7WDjUSBb/rM2GZ0VSmedz/b4M0ZbYUdijFuWZfhnIcCtFaItnab/1VuiHhTLzNzKLTODZ4Xv/oG9rOowy3f23CWCXMFeQD8WluzfN3dEqQL6fYT/EktbYVLNrFWDXM2cbd8PoVxhpt9mprUxiIGGE/pUtVUp4uJgMTI62+JktS6UlhKXlLOkRlDqddfcKvU+FAunPM7OjZgZdhz0dqxCPU0ryISIlOmzv3MOMY+1zRyXz4Dow5Oi+UJCw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 20.160.56.81) smtp.rcpttodomain=alsa-project.org smtp.mailfrom=seco.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=seco.com;
- dkim=fail (no key for signature) header.d=seco.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=seco.com] dkim=[1,1,header.d=seco.com]
- dmarc=[1,1,header.from=seco.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x63fZZbPnEXYewDc3KTnWxQUXR7DidWUJeZeEQ9+loA=;
- b=nnKafV9NbvEF/PVd50UD5b5jmPfHJKq/CDVbgINeuFyCcCXZeonlDIm9ptP9Zo9IQxGFIY1+UzOcy8KIquh7P6p3bSxdtfsd+3FTGq1tz/g8MZHhRh4EAWv0QYgWDDUT62o2IZB3Xdljb6EuI4I34/PJVuWGhE06eciTbm5Yko9bKs0foMyzbCUBgcQ8wdBapSpM35PTjv6kTI5d4/ZfDyHjyXYtUj+j9QCK75fv9OXEoCeKfM7Ml+VrbBsvVsQzrVHMWP29o/yJ6xkTNo8p50+oXwkUbmjo2B2ReRszZlAg7bx8IbeB4J1pNrgvjEc2KuCj8uurSbtCn4HeApaiHw==
-Received: from AS9PR06CA0684.eurprd06.prod.outlook.com (2603:10a6:20b:49c::29)
- by AM9PR03MB7677.eurprd03.prod.outlook.com (2603:10a6:20b:418::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.20; Thu, 28 Dec
- 2023 16:05:58 +0000
-Received: from AM6EUR05FT029.eop-eur05.prod.protection.outlook.com
- (2603:10a6:20b:49c:cafe::c0) by AS9PR06CA0684.outlook.office365.com
- (2603:10a6:20b:49c::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.18 via Frontend
- Transport; Thu, 28 Dec 2023 16:05:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.81)
- smtp.mailfrom=seco.com; dkim=fail (no key for signature)
- header.d=seco.com;dmarc=pass action=none header.from=seco.com;
-Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
- 20.160.56.81 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.160.56.81; helo=repost-eu.tmcas.trendmicro.com; pr=C
-Received: from repost-eu.tmcas.trendmicro.com (20.160.56.81) by
- AM6EUR05FT029.mail.protection.outlook.com (10.233.240.74) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7135.20 via Frontend Transport; Thu, 28 Dec 2023 16:05:57 +0000
-Received: from outmta (unknown [192.168.82.140])
-	by repost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id ED9982009538A;
-	Thu, 28 Dec 2023 16:05:56 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (unknown [104.47.51.232])
-	by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id 3E0DF2008006E;
-	Thu, 28 Dec 2023 16:05:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g3sAYxgtHs1LGLQ4wJ4V+9yS6ze0KSkObYLwF0uouFbNpr7hybVlGVpMd6yE3UGzPCkBQacWAPOyzhN5vXwDRliNl5sqVAW/47qppJumQ0/mWuIh34BJuFn7/kXluYszyzThgTIOKg+YJ+Ru4gDiZsy/lcYZPQsSLTfKTAroIjZ9zNT6M69jUzNURNfZa6m8iAG6lKspFZ+4nP9H2MpItOgF6ZRS+zmtCDVSi3C51z2kdJ8qQdi3sSprKscW2bHsJDaIQWoAzD0S9wO+DzPMGvxFsZ91YI9+ARSRIJGy9T/JGK35aMhn2SVZNtvlNRri1jJmIU7bI1ef0tqTlkR/Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x63fZZbPnEXYewDc3KTnWxQUXR7DidWUJeZeEQ9+loA=;
- b=OVyZmaKSRqWp6LJ3jVUQJyWm5H1q8FkILNOLyj9AfIyQXal85R/BFr567TnGdi8RxBsThWXwOFLPJdu7c1lhsj2Ly50X8L5RV/Pqed2lVrknelRdoGG9ePhZefCaR8OeANOTexV0gHTswVIAa/YcjHWJ3hO30pyyCc7ixJyPwJhrHnA4vtUpe3ABZHbA1tu4TDspPNuX0Ok24qysVD2GzRXv+1XSqIdTBHcKYZJ61dQEqlhS9JRN+crDiJIPHZx1P5jeYoluq96vNXXpHUJVr3K68OAVnzqP7r7guZIEV4tlQtmFBHcj1IFrFgJWVUA98qs39sxmmS5qtqMRnw/gyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x63fZZbPnEXYewDc3KTnWxQUXR7DidWUJeZeEQ9+loA=;
- b=nnKafV9NbvEF/PVd50UD5b5jmPfHJKq/CDVbgINeuFyCcCXZeonlDIm9ptP9Zo9IQxGFIY1+UzOcy8KIquh7P6p3bSxdtfsd+3FTGq1tz/g8MZHhRh4EAWv0QYgWDDUT62o2IZB3Xdljb6EuI4I34/PJVuWGhE06eciTbm5Yko9bKs0foMyzbCUBgcQ8wdBapSpM35PTjv6kTI5d4/ZfDyHjyXYtUj+j9QCK75fv9OXEoCeKfM7Ml+VrbBsvVsQzrVHMWP29o/yJ6xkTNo8p50+oXwkUbmjo2B2ReRszZlAg7bx8IbeB4J1pNrgvjEc2KuCj8uurSbtCn4HeApaiHw==
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
- by PAXPR03MB7651.eurprd03.prod.outlook.com (2603:10a6:102:200::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.20; Thu, 28 Dec
- 2023 16:05:50 +0000
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::5cfa:9e05:d8dc:ba0f]) by DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::5cfa:9e05:d8dc:ba0f%7]) with mapi id 15.20.7135.019; Thu, 28 Dec 2023
- 16:05:50 +0000
-Message-ID: <530e3473-eb3b-477c-8599-e7aa12779640@seco.com>
-Date: Thu, 28 Dec 2023 11:05:41 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] reset: add GPIO-based reset controller
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org>
- <20231222150133.732662-3-krzysztof.kozlowski@linaro.org>
-From: Sean Anderson <sean.anderson@seco.com>
-In-Reply-To: <20231222150133.732662-3-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::34) To DB9PR03MB8847.eurprd03.prod.outlook.com
- (2603:10a6:10:3dd::13)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Gt7HwHFM"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BT1icx3102916;
+	Thu, 28 Dec 2023 19:44:38 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1703814278;
+	bh=FaxA5fwOZb/Z4U7VCoF0drUnbXm1Lqn0KQRa4A85p10=;
+	h=From:To:CC:Subject:Date;
+	b=Gt7HwHFM8wDLzcqYsIo1M4vSvjh3lSCgvCpYoZkqFNlbHkoI55HFnHJFsgh8hH2TG
+	 zapscOBQhJHaReTqv+ysIG+3wAkILYYg19R1ZWZETs610cjM0OiA6Fn8UUrSoxvelG
+	 q+C2WZ2bYSDSQN4UhiLW5+xYvjWR6PG4kQ1UmeLY=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BT1icSc113716
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 28 Dec 2023 19:44:38 -0600
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 28
+ Dec 2023 19:44:38 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 28 Dec 2023 19:44:38 -0600
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.161.188])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BT1iYPs103805;
+	Thu, 28 Dec 2023 19:44:35 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <linux-firmware@kernel.org>
+CC: <kevin-lu@ti.com>, <baojun.xu@ti.com>, <13916275206@139.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <soyer@irl.hu>, <peeyush@ti.com>, <navada@ti.com>,
+        Shenghao Ding
+	<shenghao-ding@ti.com>
+Subject: [PATCH v1] ASoC: tas2563: Add dsp firmware for laptops or other mobile devices
+Date: Fri, 29 Dec 2023 09:44:30 +0800
+Message-ID: <20231229014430.1367-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	DB9PR03MB8847:EE_|PAXPR03MB7651:EE_|AM6EUR05FT029:EE_|AM9PR03MB7677:EE_
-X-MS-Office365-Filtering-Correlation-Id: 63a874e7-34fb-4fa9-a25b-08dc07bee07e
-X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original:
- gpdotrbLQc9l3JG3beiZh9szuGl2jbV1ixZ5LVTNA/CBP7IL5bgfFX15bonAo44Eoa1OqiBTxcUXRDbCsbSv2h4jyslZA2lRFSF6INg9g+XQV4MTJgJWp+QSXrlrHmgcx+mcdNvJfCD8nVfOEouwD5U2t0JR4h8iEb785xl2t3nf/f9+QwfwMOvQyR+SGBMTQ9h5AgviF2wF4IWmyhlkwWZbt88B5+bnV/fXZlDGBM4aECu7zg49EK/0wO0K/A1WlRK9GhUG1q9xzQgYpxiGjj1lXsmR651gZ0QKSPEIeIh+KvMY82E46lMfuEqWy8qTaIg/b/CebCHtiemxYn1X77a+avNcIggnNJeB8736awqJ31ly8zcfuRmMk8lotUEXF/GQYlJ5hTLPF2MUAGtik1EPtHtgVysWZtGIAsXCUIMfAJa2jPwDNaCunKDaww7gpbd/RcH0Amw0CvGEbFCSB4MQjXlhdpG5keBhOF8gz3lFHdfQWepgpvfFOGVvKfRSBlW+CuG9zUeKSarNa2jxFDLZVLaTjNeRPScWHnnmptkMte4MFZ5krYmk07ihDYlYC04mAJnzjCjhCUhklB1NwGH+y1Srl/D9G+7d3csuM7owrtYdVVj27bj3q2TIPcHsOJ9vs9j6wqkP8JhVyjBvO8qkiAF6PXs4pWsUFMCZXS0u2LYnWAkBRSAA3bKrgN79pO6Ik5o7Zqb/RQka4w8gVQ==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(346002)(376002)(396003)(366004)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(6486002)(478600001)(316002)(6666004)(110136005)(8936002)(8676002)(66946007)(66556008)(66476007)(2616005)(26005)(83380400001)(6512007)(6506007)(53546011)(52116002)(2906002)(44832011)(5660300002)(41300700001)(4326008)(7416002)(38350700005)(36756003)(38100700002)(31696002)(86362001)(31686004)(921011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR03MB7651
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM6EUR05FT029.eop-eur05.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	375cfc29-8dc5-4e2c-9631-08dc07bedc7b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	YxE3kXE65/+K2gFfa6ci6RNx3kwuVwqvNmjAZvIta8aOHZTyyhbRycGdIF+Oco0/rQlKHwotd1cysfAAC/ItPH+MYfsgMDd4oBAkIuJeulRdWaGoY4dBGrPA8pM+PsKHZfX+zjQ9lR+LG7RLtfgkacd9o53KI2W8aNF4cd0Ckmo57Y9+rfmY6hk96rh/pd7ykpNgwXPan9hDS8sXhVQKgCnaU653P8bil8s/+UlgkYnRMZm8wfBuyxcpwTNa1437T/ZTpgtQFkFC+QbqEPnuNUEP8FqcWReOXaLCSYkOKTVqjreUA+VQ+FNjYqVjztGi1n5hzMQKomoH4kfRJbG38JpzREpCxTDhY6LiMVXhYY948hZ7OEvbgJjxrLpDr/tLUxO9pGVGjvzEsSqDRJHpk2GjFthcf4pZyIquemjbKu3lkNxjSkoU+Zh4Vq1MQoZRd/ww+3RAXHJlRwH9bw+4eqDsM3MMlPJr1xqtsSgR+daDTmqfyVQMpeaiYPINsp+waVH6Do5RpuAR0eZkG/M5YYwOaFhJm39rJRZAmwMc8Cwh5i3aXxtS7eKkXvJB+pDhf6Lk1ogQ3wednlz2GhnMcfkzhH/pO+IGR2HdNrfrDTj7EkL/dgbzIh74DuFoQ+ey8+kk+Gc1FXqqy7KBJw85LlawR3UaAm6tPyCpjlMewKAMuUPwEutypAP0dbdVokgh+d0ZqhgWalHUszOFbOu4RrpwnhIpSN6E9IRZ8mFddlHeUBfOdOlwbNim0udmInwQgE8HeSv5I9uGZwy89La5/U5AbUJoYnmr4L4XyCzpuWPuypo41LKtAWjazJ2ISLRL
-X-Forefront-Antispam-Report:
-	CIP:20.160.56.81;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:repost-eu.tmcas.trendmicro.com;PTR:repost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(39850400004)(346002)(230922051799003)(186009)(451199024)(82310400011)(5400799018)(1800799012)(64100799003)(46966006)(36840700001)(34070700002)(478600001)(5660300002)(83380400001)(8676002)(26005)(8936002)(921011)(6486002)(336012)(53546011)(86362001)(40480700001)(4326008)(70586007)(70206006)(36860700001)(31686004)(6512007)(44832011)(41300700001)(316002)(110136005)(2906002)(47076005)(31696002)(6506007)(36756003)(7636003)(2616005)(7416002)(82740400003)(356005)(7596003)(6666004)(43740500002)(12100799051);DIR:OUT;SFP:1501;
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2023 16:05:57.0875
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63a874e7-34fb-4fa9-a25b-08dc07bee07e
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.81];Helo=[repost-eu.tmcas.trendmicro.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM6EUR05FT029.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB7677
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 12/22/23 10:01, Krzysztof Kozlowski wrote:
-> Add simple driver to control GPIO-based resets using the reset
-> controller API for the cases when the GPIOs are shared and reset should
-> be coordinated.  The driver is expected to be used by reset core
-> framework for ad-hoc reset controllers.
+Add tas2563 dsp firmware for laptops or other mobile devices.
 
-How do we handle power sequencing? Often GPIOs need some pre/post delay in
-order to ensure proper power sequencing. For regular reset drivers, this is
-internal to the driver.
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+---
+ WHENCE                     |  13 +++++++++++++
+ ti/tas2563/INT8866RCA2.bin | Bin 0 -> 1076 bytes
+ ti/tas2563/TAS2XXX3870.bin | Bin 0 -> 20128 bytes
+ 3 files changed, 13 insertions(+)
+ create mode 100644 ti/tas2563/INT8866RCA2.bin
+ create mode 100644 ti/tas2563/TAS2XXX3870.bin
 
-Maybe something like
+diff --git a/WHENCE b/WHENCE
+index 6da8969..e48bd1c 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -7087,6 +7087,19 @@ Link: TAS2XXX38E0.bin -> ti/tas2781/TAS2XXX38E0.bin
+ Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+ Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+ 
++Licence: Allegedly GPLv2+, but no source visible. Marked:
++	 Copyright (C) 2023 Texas Instruments
++
++Found in hex form in kernel source.
++
++--------------------------------------------------------------------------
++
++Driver: ti-tas2563 - tas2563 firmware
++File: ti/tas2563/TAS2XXX3870.bin
++File: ti/tas2563/INT8866RCA2.bin
++Link: TAS2XXX3870.bin -> ti/tas2563/TAS2XXX3870.bin
++Link: INT8866RCA2.bin -> ti/tas2563/INT8866RCA2.bin
++
+ Licence: Allegedly GPLv2+, but no source visible. Marked:
+ 	 Copyright (C) 2023 Texas Instruments
+ 
+diff --git a/ti/tas2563/INT8866RCA2.bin b/ti/tas2563/INT8866RCA2.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..0dc1ee2267f39abdbefa5dcb3f8051c7944c188b
+GIT binary patch
+literal 1076
+zcmd^-ze>YU6vn@MbH&g~A3-8?QqkfcaByfvy19#kkj9Hdiw%hiE`pn@IJw&waPS!%
+zJ2?6h;?hCH@1zD1lYm*h;UhP>IbY82oCBD(@$$_Bpr$Bgqn8f_Xvaae3^!xy=}Xty
+z!GF2$oF!r49oWOzTCY`!+JU3y8R=3gy`US)s0BW6QyK=dP+HC!z_jM4dqC|CsBZx?
+zZJ>1rtUd$l_rS&+u(=DgAAwE>=(0x|+Ne>9-x2+8>DQ$n|5@tCS<ndle%Oos({OM?
+z+e)j5n_O6=GH$5~Ya=Y~{v<!iQ*x}mPU?~JU6sT!N#Xh(cRmOM>yf5ki9v#jIEMN8
+z<S_`F^fl#pFNn)w_>QxF9EFxBNp!s8^)4bmNhG;HEUk0qkaM#{k0vGa=W-5Z{w`Th
+KzN&Novk#vS5<}4d
 
-my-device {
-	reset-gpios = <&gpio 555 GPIO_ACTIVE_LOW>;
-        reset-gpios-post-deassert-us = <100>;
-};
+literal 0
+HcmV?d00001
 
-Of course, this is a bit ambiguous if you have multiple devices using the same
-GPIO with different delays. Maybe we take the max? But the driver below seems
-to only have access to one device. Which I suppose begs the question: how do
-we know when it's safe to deassert the reset (e.g. we've gotten to the point
-where all devices using this reset gpio have gotten far enough to detect that
-they use it)?
+diff --git a/ti/tas2563/TAS2XXX3870.bin b/ti/tas2563/TAS2XXX3870.bin
+new file mode 100644
+index 0000000000000000000000000000000000000000..47ad51020615a15ef0335ad03d8e86010521e87f
+GIT binary patch
+literal 20128
+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
 
---Sean
+literal 0
+HcmV?d00001
 
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  MAINTAINERS                |   5 ++
->  drivers/reset/Kconfig      |   9 ++++
->  drivers/reset/Makefile     |   1 +
->  drivers/reset/reset-gpio.c | 105 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 120 insertions(+)
->  create mode 100644 drivers/reset/reset-gpio.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7fe27cd60e1b..a0fbd4814bc7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8866,6 +8866,11 @@ F:	Documentation/i2c/muxes/i2c-mux-gpio.rst
->  F:	drivers/i2c/muxes/i2c-mux-gpio.c
->  F:	include/linux/platform_data/i2c-mux-gpio.h
->  
-> +GENERIC GPIO RESET DRIVER
-> +M:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> +S:	Maintained
-> +F:	drivers/reset/reset-gpio.c
-> +
->  GENERIC HDLC (WAN) DRIVERS
->  M:	Krzysztof Halasa <khc@pm.waw.pl>
->  S:	Maintained
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-> index ccd59ddd7610..bb1b5a326eb7 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -66,6 +66,15 @@ config RESET_BRCMSTB_RESCAL
->  	  This enables the RESCAL reset controller for SATA, PCIe0, or PCIe1 on
->  	  BCM7216.
->  
-> +config RESET_GPIO
-> +	tristate "GPIO reset controller"
-> +	help
-> +	  This enables a generic reset controller for resets attached via
-> +	  GPIOs.  Typically for OF platforms this driver expects "reset-gpios"
-> +	  property.
-> +
-> +	  If compiled as module, it will be called reset-gpio.
-> +
->  config RESET_HSDK
->  	bool "Synopsys HSDK Reset Driver"
->  	depends on HAS_IOMEM
-> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
-> index 8270da8a4baa..fd8b49fa46fc 100644
-> --- a/drivers/reset/Makefile
-> +++ b/drivers/reset/Makefile
-> @@ -11,6 +11,7 @@ obj-$(CONFIG_RESET_BCM6345) += reset-bcm6345.o
->  obj-$(CONFIG_RESET_BERLIN) += reset-berlin.o
->  obj-$(CONFIG_RESET_BRCMSTB) += reset-brcmstb.o
->  obj-$(CONFIG_RESET_BRCMSTB_RESCAL) += reset-brcmstb-rescal.o
-> +obj-$(CONFIG_RESET_GPIO) += reset-gpio.o
->  obj-$(CONFIG_RESET_HSDK) += reset-hsdk.o
->  obj-$(CONFIG_RESET_IMX7) += reset-imx7.o
->  obj-$(CONFIG_RESET_INTEL_GW) += reset-intel-gw.o
-> diff --git a/drivers/reset/reset-gpio.c b/drivers/reset/reset-gpio.c
-> new file mode 100644
-> index 000000000000..6952996dbc9f
-> --- /dev/null
-> +++ b/drivers/reset/reset-gpio.c
-> @@ -0,0 +1,105 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset-controller.h>
-> +
-> +struct reset_gpio_priv {
-> +	struct reset_controller_dev rc;
-> +	struct gpio_desc *reset;
-> +};
-> +
-> +static inline struct reset_gpio_priv
-> +*rc_to_reset_gpio(struct reset_controller_dev *rc)
-> +{
-> +	return container_of(rc, struct reset_gpio_priv, rc);
-> +}
-> +
-> +static int reset_gpio_assert(struct reset_controller_dev *rc, unsigned long id)
-> +{
-> +	struct reset_gpio_priv *priv = rc_to_reset_gpio(rc);
-> +
-> +	gpiod_set_value_cansleep(priv->reset, 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static int reset_gpio_deassert(struct reset_controller_dev *rc,
-> +			       unsigned long id)
-> +{
-> +	struct reset_gpio_priv *priv = rc_to_reset_gpio(rc);
-> +
-> +	gpiod_set_value_cansleep(priv->reset, 0);
-> +
-> +	return 0;
-> +}
-> +
-> +static int reset_gpio_status(struct reset_controller_dev *rc, unsigned long id)
-> +{
-> +	struct reset_gpio_priv *priv = rc_to_reset_gpio(rc);
-> +
-> +	return gpiod_get_value_cansleep(priv->reset);
-> +}
-> +
-> +static const struct reset_control_ops reset_gpio_ops = {
-> +	.assert = reset_gpio_assert,
-> +	.deassert = reset_gpio_deassert,
-> +	.status = reset_gpio_status,
-> +};
-> +
-> +static int reset_gpio_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node **platdata = dev_get_platdata(dev);
-> +	struct reset_gpio_priv *priv;
-> +
-> +	if (!platdata && !*platdata)
-> +		return -EINVAL;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, &priv->rc);
-> +	device_set_node(dev, of_fwnode_handle(*platdata));
-> +
-> +	/*
-> +	 * Need to get non-exclusive because it is used in reset core as cookie
-> +	 * to find existing controllers.  However the actual use is exclusive.
-> +	 */
-> +	priv->reset = devm_gpiod_get(dev, "reset",
-> +				     GPIOD_OUT_HIGH);
-> +	if (IS_ERR(priv->reset))
-> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				     "Could not get reset gpios\n");
-> +
-> +	priv->rc.ops = &reset_gpio_ops;
-> +	priv->rc.owner = THIS_MODULE;
-> +	priv->rc.dev = dev;
-> +	priv->rc.cookie = priv->reset;
-> +	priv->rc.nr_resets = 1;
-> +
-> +	return devm_reset_controller_register(dev, &priv->rc);
-> +}
-> +
-> +static const struct platform_device_id reset_gpio_ids[] = {
-> +	{ .name = "reset-gpio", },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(platform, reset_gpio_ids);
-> +
-> +static struct platform_driver reset_gpio_driver = {
-> +	.probe		= reset_gpio_probe,
-> +	.id_table	= reset_gpio_ids,
-> +	.driver	= {
-> +		.name = "reset-gpio",
-> +	},
-> +};
-> +module_platform_driver(reset_gpio_driver);
-> +
-> +MODULE_AUTHOR("Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>");
-> +MODULE_DESCRIPTION("Generic GPIO reset driver");
-> +MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
