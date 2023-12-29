@@ -1,80 +1,73 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFEF1171D;
-	Fri, 29 Dec 2023 14:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F103C11C82
+	for <linux-sound@vger.kernel.org>; Fri, 29 Dec 2023 14:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tUWWuixr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6SF+C2xV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tUWWuixr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6SF+C2xV"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zmvZh4Xa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ljqqFpOV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zmvZh4Xa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ljqqFpOV"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 318BE1F7B5;
-	Fri, 29 Dec 2023 14:19:33 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 256A31F7B9;
+	Fri, 29 Dec 2023 14:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703859573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703860827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sk1J0IKWRsXdd9QQ2UKg+dEA9+6uBeiucEsOi3WQhHw=;
-	b=tUWWuixrP8e4bv2+acfhqoGlfUNPd4+6PkdtkMEA/U3bWiUsKVRny93TaTrqpJOlHguCeK
-	pwns1TV2NN7lxCZ25HXN5hd2xQlTS408KAngmLaaGYdP2vM9rBD9VE4fhW1OUPDoBpm1Cx
-	kiOSVrH3BxZvus3sskWDb6qcUCFixg4=
+	bh=6ZFrIyrsoyE1a1N5hjjoD7plvaNI6lZtgk7Kb37Nqo4=;
+	b=zmvZh4XaX2DLKbXzLwT8XIheI4SWr0E31f7rRjjsG780Gkcay9y98JSXhn3oIYSu25YeXi
+	yxWXWhjqEqS7cC2BQrXPGXemo+PMJeqZ6wmDlyxgNiDiXJFHpBKMhbW5bb9B/vK/554kY6
+	//hGZSJM/NGQtbRHxBHQaOLkjdDf3fA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703859573;
+	s=susede2_ed25519; t=1703860827;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sk1J0IKWRsXdd9QQ2UKg+dEA9+6uBeiucEsOi3WQhHw=;
-	b=6SF+C2xVK72eGGuqchebbs5P0nty+nx4ZITZDA0HgN2m/H/Z5tGBg7MSoslduZ+c5P9nLN
-	IeI3eQjarp6TnAAQ==
+	bh=6ZFrIyrsoyE1a1N5hjjoD7plvaNI6lZtgk7Kb37Nqo4=;
+	b=ljqqFpOVCTXivfG+hIyFJhVTd9cKko9hyoMyrirnNgrOysu4mNRC8PPrNzedgXfADJ4DKv
+	A/I31v76z35LOMAA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703859573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703860827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sk1J0IKWRsXdd9QQ2UKg+dEA9+6uBeiucEsOi3WQhHw=;
-	b=tUWWuixrP8e4bv2+acfhqoGlfUNPd4+6PkdtkMEA/U3bWiUsKVRny93TaTrqpJOlHguCeK
-	pwns1TV2NN7lxCZ25HXN5hd2xQlTS408KAngmLaaGYdP2vM9rBD9VE4fhW1OUPDoBpm1Cx
-	kiOSVrH3BxZvus3sskWDb6qcUCFixg4=
+	bh=6ZFrIyrsoyE1a1N5hjjoD7plvaNI6lZtgk7Kb37Nqo4=;
+	b=zmvZh4XaX2DLKbXzLwT8XIheI4SWr0E31f7rRjjsG780Gkcay9y98JSXhn3oIYSu25YeXi
+	yxWXWhjqEqS7cC2BQrXPGXemo+PMJeqZ6wmDlyxgNiDiXJFHpBKMhbW5bb9B/vK/554kY6
+	//hGZSJM/NGQtbRHxBHQaOLkjdDf3fA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703859573;
+	s=susede2_ed25519; t=1703860827;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sk1J0IKWRsXdd9QQ2UKg+dEA9+6uBeiucEsOi3WQhHw=;
-	b=6SF+C2xVK72eGGuqchebbs5P0nty+nx4ZITZDA0HgN2m/H/Z5tGBg7MSoslduZ+c5P9nLN
-	IeI3eQjarp6TnAAQ==
+	bh=6ZFrIyrsoyE1a1N5hjjoD7plvaNI6lZtgk7Kb37Nqo4=;
+	b=ljqqFpOVCTXivfG+hIyFJhVTd9cKko9hyoMyrirnNgrOysu4mNRC8PPrNzedgXfADJ4DKv
+	A/I31v76z35LOMAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2EB4136D1;
-	Fri, 29 Dec 2023 14:19:32 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF7EA133E5;
+	Fri, 29 Dec 2023 14:40:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PJktMnTVjmXKeAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 14:19:32 +0000
-Date: Fri, 29 Dec 2023 15:19:32 +0100
-Message-ID: <87jzoxxf9n.wl-tiwai@suse.de>
+	id LgQGOVrajmVgfAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Dec 2023 14:40:26 +0000
+Date: Fri, 29 Dec 2023 15:40:26 +0100
+Message-ID: <87il4hxeat.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Lorenz Brun <lorenz@brun.one>
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
-	James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda: cs35l41: Add HP override
-In-Reply-To: <20231223150912.3040328-1-lorenz@brun.one>
-References: <20231223150912.3040328-1-lorenz@brun.one>
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: scarlett2: Convert meter levels from little-endian
+In-Reply-To: <ZYsBIE3DSKdi4YC/@m.b4.vu>
+References: <ZYsBIE3DSKdi4YC/@m.b4.vu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,50 +80,43 @@ X-Spam-Level:
 Authentication-Results: smtp-out2.suse.de;
 	none
 X-Spam-Level: 
-X-Spam-Score: -0.31
-X-Spamd-Result: default: False [-0.31 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.01)[48.27%];
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 MID_CONTAINS_FROM(1.00)[];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[99.98%]
 X-Spam-Flag: NO
 
-On Sat, 23 Dec 2023 16:09:11 +0100,
-Lorenz Brun wrote:
+On Tue, 26 Dec 2023 17:36:48 +0100,
+Geoffrey D. Bennett wrote:
 > 
-> This adds an override for a series of notebooks using a common config
-> taken from HP's proprietary Windows driver.
+> Add missing conversion from little-endian data to CPU-endian in
+> scarlett2_usb_get_meter_levels().
 > 
-> This has been tested on a HP 15-ey0xxxx device (subsystem 103C8A31)
-> together with another Realtek quirk and the calibration files from the
-> proprietary driver.
-> 
-> Signed-off-by: Lorenz Brun <lorenz@brun.one>
+> Fixes: 3473185f31df ("ALSA: scarlett2: Remap Level Meter values")
+> Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 > ---
-> Changes in v2:
-> - Use newly-introduced config table instead of function
-> - Change boost cap value from 10uF to 24uF after cross-referencing my
->   sources with the preexisting 103C89C6 entry.
+> 
+> Hi Takashi,
+> 
+> Can you add this to 6.7-rc8 please.
 
-This doesn't apply cleanly any longer after the merge of the latest
-series from Stefan, unfortunately.  Could you rebase on either
-for-next or topic/cs35l41 branch of sound.git tree and resubmit?
-
-Also, the prop_model_table[] is a sorted list.  Please add entries at
-the right positions.
+Applied to for-linus branch.  I'm going to send a PR for 6.7 final in
+the next week.
 
 
 thanks,
