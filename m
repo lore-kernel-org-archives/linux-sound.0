@@ -1,98 +1,148 @@
-Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB5B63D5;
-	Sat, 30 Dec 2023 07:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-X-isilmar-external: YES
-Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
-	by isilmar-4.linta.de (Postfix) with ESMTPSA id 5CD412002DB;
-	Sat, 30 Dec 2023 07:27:53 +0000 (UTC)
-Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
-	id 1B011A0083; Sat, 30 Dec 2023 08:27:43 +0100 (CET)
-Date: Sat, 30 Dec 2023 08:27:43 +0100
-From: Dominik Brodowski <linux@dominikbrodowski.net>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: peter.ujfalusi@linux.intel.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
-Message-ID: <ZY_Gb8-rncuOjRq-@shine.dominikbrodowski.net>
-References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
- <87sf3lxiet.wl-tiwai@suse.de>
- <ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
- <874jg1x7ao.wl-tiwai@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA57863A1
+	for <linux-sound@vger.kernel.org>; Sat, 30 Dec 2023 09:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vlM68mzB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zncj7KuJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vlM68mzB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zncj7KuJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D270B1F7FE;
+	Sat, 30 Dec 2023 09:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703927041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I+AQ5ukSZJr5eZW4K4YZwcsNBRUwmy9wo8+z408xX5Q=;
+	b=vlM68mzBb0f00hxWSzTqlk346jAjE7leoYPuwfcG8V9L9KbZFHKtqWYHVmSk1HHyS9mc38
+	IELuJ7YoAh5oYI4BTZ3lbdFiqNBZ87P4u9YMHFzMv/QXy15dNzlzycydkFuXjNor4qsGMQ
+	24Xp7PDHMmapBGSsQFOvYuEHz/6/8Gc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703927041;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I+AQ5ukSZJr5eZW4K4YZwcsNBRUwmy9wo8+z408xX5Q=;
+	b=Zncj7KuJaMp+LcMVax3jUHvU1kjMsv1QY7iFipc7xPXunerkBzqqr5sWwb7DdsLutrNWYY
+	I1a+YVdJK2w8GXDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703927041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I+AQ5ukSZJr5eZW4K4YZwcsNBRUwmy9wo8+z408xX5Q=;
+	b=vlM68mzBb0f00hxWSzTqlk346jAjE7leoYPuwfcG8V9L9KbZFHKtqWYHVmSk1HHyS9mc38
+	IELuJ7YoAh5oYI4BTZ3lbdFiqNBZ87P4u9YMHFzMv/QXy15dNzlzycydkFuXjNor4qsGMQ
+	24Xp7PDHMmapBGSsQFOvYuEHz/6/8Gc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703927041;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I+AQ5ukSZJr5eZW4K4YZwcsNBRUwmy9wo8+z408xX5Q=;
+	b=Zncj7KuJaMp+LcMVax3jUHvU1kjMsv1QY7iFipc7xPXunerkBzqqr5sWwb7DdsLutrNWYY
+	I1a+YVdJK2w8GXDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F1AE136D1;
+	Sat, 30 Dec 2023 09:04:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4BLsIAHdj2XVMwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 30 Dec 2023 09:04:01 +0000
+Date: Sat, 30 Dec 2023 10:04:01 +0100
+Message-ID: <87zfxsvz7i.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Geraldo Nascimento <geraldogabriel@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	opticXC <aabishmalik3337@gmail.com>,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 6.6.7 1/1] ALSA: hda/realtek: mute led fix for HP Pavilion 14 ec1xxx series
+In-Reply-To: <ZY9vVmMPKoMRN90p@geday>
+References: <20231218203659.32948-2-aabishmalik3337@gmail.com>
+	<87msttxhtt.wl-tiwai@suse.de>
+	<ZY9vVmMPKoMRN90p@geday>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874jg1x7ao.wl-tiwai@suse.de>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[suse.de,gmail.com,suse.com,perex.cz,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-Am Fri, Dec 29, 2023 at 06:11:43PM +0100 schrieb Takashi Iwai:
-> On Fri, 29 Dec 2023 16:24:18 +0100,
-> Dominik Brodowski wrote:
-> > 
-> > Hi Takashi,
-> > 
-> > many thanks for your response. Your patch helps half-way: the oops goes
-> > away, but so does the sound... With your patch, the decisive lines in dmesg
-> > are:
-> > 
-> > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-> > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-> > 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-> > 	sof_sdw sof_sdw: snd_soc_register_card failed -517
-> > 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-> > 	sof_sdw sof_sdw: snd_soc_register_card failed -517
-> > 	platform sof_sdw: deferred probe pending
-> > 
-> > With a revert of the a0575b4add21, it is:
-> > 
-> > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-> > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-> > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
-> > 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
-> > 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
-> > 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
-> > 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
-> > 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
-> > 
-> > Maybe this helps a bit further?
+On Sat, 30 Dec 2023 02:16:06 +0100,
+Geraldo Nascimento wrote:
 > 
-> Thanks for quick testing.
-> It shows at least that my guess wasn't wrong.
+> On Fri, Dec 29, 2023 at 02:24:14PM +0100, Takashi Iwai wrote:
+> > On Mon, 18 Dec 2023 21:37:00 +0100,
+> > opticXC wrote:
+> > > 
+> > > The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
+> > > It needs the ALC287_FIXUP_HP_GPIO_LED quirk to enable the mute led.
+> > > 
+> > > 
+> > > Signed-off-by: opticXC <aabishmalik3337@gmail.com>
+> > > ---
+> > >  sound/pci/hda/patch_realtek.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> > > index e45d4c405..416cda983 100644
+> > > --- a/sound/pci/hda/patch_realtek.c
+> > > +++ b/sound/pci/hda/patch_realtek.c
+> > > @@ -9881,6 +9881,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+> > >  	SND_PCI_QUIRK(0x103c, 0x89c6, "Zbook Fury 17 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> > >  	SND_PCI_QUIRK(0x103c, 0x89ca, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+> > >  	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+> > > +    SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+> > 
+> > The entry has a coding style problem; it uses 4 spaces instead of a
+> > hard tab stop.
+> > 
+> > Please use a hard tab stop and resubmit.
 > 
-> The problem could be the initialization order in the caller side.
-> Can the patch below work instead?
+> Hi Takashi, I also think his Signed-off-by line is a no-go unless he can
+> prove opticXC is a legal name.
 
-Unfortunately, no:
+Right.
 
-sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-sof_sdw sof_sdw: snd_soc_register_card failed -517
-sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-sof_sdw sof_sdw: snd_soc_register_card failed -517
-platform sof_sdw: deferred probe pending
 
-Thanks,	
-	Dominik
+Takashi
