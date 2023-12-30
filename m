@@ -1,106 +1,134 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A327481;
-	Sat, 30 Dec 2023 11:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC96B79C2;
+	Sat, 30 Dec 2023 11:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8ttRqSv"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d60a96533so30693275e9.1;
-        Sat, 30 Dec 2023 03:43:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703936595; x=1704541395; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qvrLNC3g/wzxAt5MvFq+hYUdLZQM7U+bQ6kKSNvKMdo=;
-        b=P8ttRqSv3oc0fejYUXtxsGch7A4bH2Vv8Nnv8hApq67kd9d5Pi6jd8f8r4bUN61lxs
-         FPVhm56+StElVCcuEJhh57lg4YYIaWMSyk0s3ZRHgkTeLGwKYWuBkSmL3hg8ge9Fl/MD
-         Sot4chW5pEjom2GEvFAzQJYMceS7V55lb/BAmSV/Bc9u5WpzvZtex7/RLEDah6XiXzg+
-         99NKOGImUCK1qidVsww8vdTuIoPLLIRQLI613Gcm4KNmNsxDMXAZ394SBCs1RsrAavvC
-         s0U3vudVxi5/tcZgMxe1aQ1oH2aFJF3vk0XgmTHWbGClxnm2bjtHTySYMoeXvZLF8/B7
-         KtWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703936595; x=1704541395;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qvrLNC3g/wzxAt5MvFq+hYUdLZQM7U+bQ6kKSNvKMdo=;
-        b=FTGkf1CUiyOfD7RA89J0TKvL4tJPTMP+0XrzCsvAd/7Ih4XhYLGbxkjASd+LEEXAxm
-         7lZm6Nh7IWXRNRXrAVcKlyx+cqdW1+qmTjHmlIdZBtl3lbX+4jMR4RoBTau4xyD3dhtU
-         TTRVpAQjGLU9gUkkp3opBDcmwxGiH63/N52UXmY1chTJyXSE9sEoswRSezPKQlSwkvXn
-         IgoI43dt0bt413ce6qjRSXgcIZoEZs631GYBR/PH+4GNYxuHwk9Qad367gSy/wTknF+v
-         R+uCoxvmLHYIRys+hFzyIg2PdKQFxjR8yJix+WfzMaMZ+/XxiuS9nH/Ph42xvdC3iGfZ
-         c4QA==
-X-Gm-Message-State: AOJu0Yw++A7isEq/mWUJf2mf4j835SxgGBp5oT2FkSDIkzH9E4/Ho3xT
-	MIdmLqQMp+AunOzDQR1HnHc=
-X-Google-Smtp-Source: AGHT+IF2hsAFPytjlDGngKmBi5SYH9/xT8jozGqndryZPjzVWQTFpFgzBFjbs714v/q7bbKsQM63HQ==
-X-Received: by 2002:a05:600c:1994:b0:40d:5f45:fa2c with SMTP id t20-20020a05600c199400b0040d5f45fa2cmr2931815wmq.27.1703936595540;
-        Sat, 30 Dec 2023 03:43:15 -0800 (PST)
-Received: from localhost.localdomain ([2a02:842a:1ce:5301:f733:18af:2fff:3d3d])
-        by smtp.gmail.com with ESMTPSA id z4-20020a5d4d04000000b00336a1f6ce7csm16845745wrt.19.2023.12.30.03.43.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Dec 2023 03:43:15 -0800 (PST)
-From: Dorian Cruveiller <doriancruveiller@gmail.com>
-To: james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wp8cm74A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YPc66DdU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wp8cm74A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YPc66DdU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D37CC21D74;
+	Sat, 30 Dec 2023 11:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703937529; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VpRQsOoqVYZv+qicTdREYXiCPnaI1kN7KRMd0EK1Ppw=;
+	b=Wp8cm74AiiBBFO3bvILNvUkFMTypFl02xfk9uIwgnTaodkGVFs+JLTwBg4anasWZa1dGVX
+	eLXmz5F25Usd99JZWm3NnyXDdrjVfWHaDfhVJJCBeO7aAlelv7SX4keRI3gx5o52KxUNor
+	WqbLriejL8pAoYeIpo/rzAkzpwHG6G4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703937529;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VpRQsOoqVYZv+qicTdREYXiCPnaI1kN7KRMd0EK1Ppw=;
+	b=YPc66DdURjNKPZml066q+HeJPwvFRiZIzhO4nzeIUhavduStu8z9hd3/q5fjdBIe7iQ1iw
+	g+hSuePVDZDX5wBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703937529; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VpRQsOoqVYZv+qicTdREYXiCPnaI1kN7KRMd0EK1Ppw=;
+	b=Wp8cm74AiiBBFO3bvILNvUkFMTypFl02xfk9uIwgnTaodkGVFs+JLTwBg4anasWZa1dGVX
+	eLXmz5F25Usd99JZWm3NnyXDdrjVfWHaDfhVJJCBeO7aAlelv7SX4keRI3gx5o52KxUNor
+	WqbLriejL8pAoYeIpo/rzAkzpwHG6G4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703937529;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VpRQsOoqVYZv+qicTdREYXiCPnaI1kN7KRMd0EK1Ppw=;
+	b=YPc66DdURjNKPZml066q+HeJPwvFRiZIzhO4nzeIUhavduStu8z9hd3/q5fjdBIe7iQ1iw
+	g+hSuePVDZDX5wBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B449136D1;
+	Sat, 30 Dec 2023 11:58:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WSxpGPkFkGUtUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 30 Dec 2023 11:58:49 +0000
+Date: Sat, 30 Dec 2023 12:58:49 +0100
+Message-ID: <87mstrx5om.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dorian Cruveiller <doriancruveiller@gmail.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	l.guzenko@web.de,
+	ruinairas1992@gmail.com,
+	yangyuchi66@gmail.com,
+	vitalyr@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Dorian Cruveiller <doriancruveiller@gmail.com>
-Subject: [PATCH v2 2/2] Add driver properties for cs35l41 for Lenovo Legion Slim 7 Gen 8 serie
-Date: Sat, 30 Dec 2023 12:43:12 +0100
-Message-ID: <20231230114312.22118-1-doriancruveiller@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231229230703.73876-1-doriancruveiller@gmail.com>
+Subject: Re: [PATCH v2 1/2] ALSA:hda/realtek enable SND_PCI_QUIRK for Lenovo Legion Slim 7 Gen 8 (2023) serie
+In-Reply-To: <20231230114001.19855-1-doriancruveiller@gmail.com>
 References: <20231229230703.73876-1-doriancruveiller@gmail.com>
+	<20231230114001.19855-1-doriancruveiller@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Level: 
+X-Spamd-Result: default: False [0.89 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[14];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[perex.cz,suse.com,opensource.cirrus.com,realtek.com,ljones.dev,canonical.com,ti.com,web.de,gmail.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.01)[46.19%]
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Score: 0.89
+X-Spam-Flag: NO
 
-Add driver properties on 4 models of this laptop serie since they don't
-have _DSD in the ACPI table
+On Sat, 30 Dec 2023 12:40:01 +0100,
+Dorian Cruveiller wrote:
+> 
+> Link up the realtek audio chip to the cirrus cs35l41 sound amplifier chip
+> on 4 models of the Lenovo legion slim 7 gen 8 (2023). These models are
+> 16IRH8 (2 differents subsystem id) and 16APH8 (2 differents subsystem ids).
+> 
+> Subsystem ids list:
+>  - 17AA38B4
+>  - 17AA38B5
+>  - 17AA38B6
+>  - 17AA38B7
+> 
+> Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
 
-Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
----
- sound/pci/hda/cs35l41_hda_property.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Applied both patches now.  Thanks.
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index be2b01b596c2..52820ca9c603 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -71,6 +71,10 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
- 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
-+	{ "17AA38B4", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-+	{ "17AA38B5", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-+	{ "17AA38B6", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-+	{ "17AA38B7", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{}
- };
- 
-@@ -381,6 +385,10 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431F12", generic_dsd_config },
- 	{ "CSC3551", "10431F1F", generic_dsd_config },
- 	{ "CSC3551", "10431F62", generic_dsd_config },
-+	{ "CSC3551", "17AA38B4", generic_dsd_config },
-+	{ "CSC3551", "17AA38B5", generic_dsd_config },
-+	{ "CSC3551", "17AA38B6", generic_dsd_config },
-+	{ "CSC3551", "17AA38B7", generic_dsd_config },
- 	{}
- };
- 
--- 
-2.43.0
 
+Takashi
