@@ -1,103 +1,83 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from irl.hu (irl.hu [95.85.9.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7409414F63;
-	Fri, 29 Dec 2023 23:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4fyKLTG"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40d5adef341so30847535e9.3;
-        Fri, 29 Dec 2023 15:07:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703891231; x=1704496031; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7vDk6yXubdjleW8KS/Yd5sSQPNErxsx6AQraKAf7z34=;
-        b=j4fyKLTGIIHjNof0pM1qcdiI9x77g1InHO/m9XreeA+oKmBhyje6qx22XWedSK5V+b
-         eUkgQPsGEYACZy6cVCX4Q2uekB9ICQcIFjtQyj4NU6pnk0XTQlRj3qXdvAWSy4JEumTj
-         T8+khs+WAbDvDS+qAhQt3EX9kS3CXc6jpV/YOHQwYC9Uc2x7Gsr/aJBZhEYptpjvbKLz
-         5O2ltO+pCzpwIxv+lsuvjKp0xYqu7LqpxRk++sShfX6/9h7uaPh83H0Ig5S0pQBFNERO
-         YDOOmpnQK8ZYK7JQA6YLG7n4+gIAOBFgF6lzAUZbri9ciucgrl7Mf6PN9s2GjP0DPRAE
-         fsNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703891231; x=1704496031;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7vDk6yXubdjleW8KS/Yd5sSQPNErxsx6AQraKAf7z34=;
-        b=InPybni4XTxzKtcK4sb7a4Ypa36v1hDyNZ08BnxdzEMojGhnM2oqtRSfSaj03TBqgk
-         9tU3M2m+ldXNwy3676VKFNYPgZgBUu0hCpAEHJhryFPJ+ylrzjiwpM+IFWvbuRKlrUP9
-         /oMmiugoscZF3PEic6/Q+GXoO4t6y0asKQFfSUkr/MTzbvy/0kk3uBbbr8aOn8oEvHHc
-         W5exKzIyEMiIzfS5Mafb+v3CHJ/SujHN4BZf2rqysaqYKnhixdA5hUc+y0ZBIn1m1I7k
-         s6Or4bApx6KcrcD6g7LbPVGm3nkErGRHHc8/NlHsgOh9FFAo2VxT5UalFAYHjJN8OZie
-         qRNQ==
-X-Gm-Message-State: AOJu0YwAc2i56HsZgN5OhWYWdEdieGU7rezmjM6QViIV4pEj7ek27wmv
-	srNuV30walDLGjtbDARgWV3c+9vTylahww==
-X-Google-Smtp-Source: AGHT+IF3UYBCxCiNIMXnJZC8QJViApDP2JWnU8Qnqn5rwy+SwWjB0hPF7mhaFrbh/V4dDhkOIOCtzA==
-X-Received: by 2002:a05:600c:4393:b0:40d:3cdb:5dca with SMTP id e19-20020a05600c439300b0040d3cdb5dcamr3992985wmn.316.1703891231325;
-        Fri, 29 Dec 2023 15:07:11 -0800 (PST)
-Received: from localhost.localdomain ([2a02:842a:1ce:5301:f733:18af:2fff:3d3d])
-        by smtp.gmail.com with ESMTPSA id hg10-20020a05600c538a00b0040d7c3d5454sm2922681wmb.3.2023.12.29.15.07.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 15:07:11 -0800 (PST)
-From: Dorian Cruveiller <doriancruveiller@gmail.com>
-To: james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Dorian Cruveiller <doriancruveiller@gmail.com>
-Subject: [PATCH 2/2] Add driver properties for cs35l41 for Lenovo Legion Slim 7 Gen 8 serie
-Date: Sat, 30 Dec 2023 00:07:03 +0100
-Message-ID: <20231229230703.73876-1-doriancruveiller@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8447F;
+	Sat, 30 Dec 2023 00:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b6838a.dsl.pool.telekom.hu [::ffff:81.182.131.138])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000071EB8.00000000658F5FCE.0014D494; Sat, 30 Dec 2023 01:09:50 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+  Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH v2 0/4] ALSA: hda/tas2781: Add tas2563 support
+Date: Sat, 30 Dec 2023 01:09:41 +0100
+Message-ID: <cover.1703891777.git.soyer@irl.hu>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1701906455.git.soyer@irl.hu>
+References: <cover.1701906455.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Add driver properties on 4 models of this laptop serie since they don't
-have _DSD in the ACPI table
+The tas2781-hda driver can be modified to support tas2563 as well.
+Before knowing this information, I created another series for a
+new driver.
+Link: https://lore.kernel.org/lkml/cover.1701733441.git.soyer@irl.hu/
 
-Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
----
- sound/pci/hda/cs35l41_hda_property.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+This series now extends tas2781-hda.
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 194e1179a253..8370da3d14a4 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -71,6 +71,10 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431F12", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431F1F", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
- 	{ "10431F62", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
-+	{ "17AA38B4", I2C, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-+	{ "17AA38B5", I2C, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-+	{ "17AA38B6", I2C, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-+	{ "17AA38B7", I2C, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{}
- };
- 
-@@ -377,6 +381,10 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431F12", generic_dsd_config },
- 	{ "CSC3551", "10431F1F", generic_dsd_config },
- 	{ "CSC3551", "10431F62", generic_dsd_config },
-+	{ "CSC3551", "17AA38B4", generic_dsd_config },
-+	{ "CSC3551", "17AA38B5", generic_dsd_config },
-+	{ "CSC3551", "17AA38B6", generic_dsd_config },
-+	{ "CSC3551", "17AA38B7", generic_dsd_config },
- 	{}
- };
- 
+The tas2563 is a smart amplifier. Similar to tas2562 but with DSP. Some
+Lenovo laptops have it to drive the bass speakers. By default, it is in
+software shutdown state.
+
+To make the DSP work it needs a firmware and some calibration data.
+The latter can be read from the EFI in Lenovo laptops.
+
+For the correct configuration it needs additional register data.
+It captured after running the Windows driver.
+
+The firmware can be extracted as TAS2563Firmware.bin from the Windows
+driver with innoextract.
+https://download.lenovo.com/consumer/mobiles/h5yd037fbfyy7kd0.exe
+
+The driver will search for it as TAS2XXX3870.bin with the Lenovo Yoga 7 
+14ARB7.
+
+The captured registers extracted with TI's regtool: 
+https://github.com/soyersoyer/tas2563rca/raw/main/INT8866RCA2.bin
+
+Changes since v1:
+- fixes were sent as individual patches
+- rebased onto for-next
+- adding the missed fixup
+
+Gergo Koteles (4):
+  ALSA: hda/tas2781: add ptrs to calibration functions
+  ALSA: hda/tas2781: add configurable global i2c address
+  ALSA: hda/tas2781: add TAS2563 support for 14ARB7
+  ALSA: hda/tas2781: add fixup for Lenovo 14ARB7
+
+ include/sound/tas2781.h           |   8 +++
+ sound/pci/hda/patch_realtek.c     |  14 ++++
+ sound/pci/hda/tas2781_hda_i2c.c   | 115 ++++++++++++++++++++++++++----
+ sound/soc/codecs/tas2781-comlib.c |  15 ++++
+ 4 files changed, 137 insertions(+), 15 deletions(-)
+
+
+base-commit: 64bf8dec54cfe57f416884a6b3d54c7f4259e93f
 -- 
 2.43.0
 
