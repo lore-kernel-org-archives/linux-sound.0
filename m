@@ -1,79 +1,78 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C903C0F;
-	Sat, 30 Dec 2023 09:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530742569;
+	Sat, 30 Dec 2023 09:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bHFdo5/k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iypEELcL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bHFdo5/k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iypEELcL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QiU/UuUf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yy7q7dR3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QiU/UuUf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yy7q7dR3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8C11822116;
-	Sat, 30 Dec 2023 09:19:27 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FA121F7FF;
+	Sat, 30 Dec 2023 09:51:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703927967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703929914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=URKImpaQyJorzPDB6yG8qAmmJpe9snvzzVaY0SrX8rM=;
-	b=bHFdo5/kTbXZRz3l2kbaFmeHTXzKzKXQZUyUpnO+NE51QN/czfzJ56YI3Xb96xU/qvxouW
-	9ax9wVhtPelHSoUA/AP/YpsebV25s7QkovHMns7401p3rEytzm5lKR1SlCXD1xclnolyij
-	AYSwpZaI1EH0+WwiiTlGtFJ7+UG5BHs=
+	bh=7SEnAfj7Gc7hlBZeB3BVW71blHARjm0RW3jbk3qL5/A=;
+	b=QiU/UuUfd6rUEgP3fXXLR6KFR4PgXvUAvD57qOIojYG69y2XS2LNJcu2gvmEL2Irc6XqGK
+	IjlcAQg31VydaUrx0zrb5mDeS6yBE5lNNRtmpWLknSTyTE2PngHcOvFYHfgFbccGTeXQkM
+	Bm6+nLQOzQFCDmUC5gqI7OPMe6islrU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703927967;
+	s=susede2_ed25519; t=1703929914;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=URKImpaQyJorzPDB6yG8qAmmJpe9snvzzVaY0SrX8rM=;
-	b=iypEELcLcsEGQ7PFSePp81LZY6j+hYPra2NjCO+BnKbUXXVTlunfjMS0WM5/v8IZ4fozmc
-	5+hNhpBxQX2PBFCw==
+	bh=7SEnAfj7Gc7hlBZeB3BVW71blHARjm0RW3jbk3qL5/A=;
+	b=yy7q7dR3QC73CTv2V7Eau08K2IlbtZ7qtlMyLkmGZbIv8iuXS1Py8srSLpDzQ7IKlRbVC0
+	6kleS27fLYERQTDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703927967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703929914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=URKImpaQyJorzPDB6yG8qAmmJpe9snvzzVaY0SrX8rM=;
-	b=bHFdo5/kTbXZRz3l2kbaFmeHTXzKzKXQZUyUpnO+NE51QN/czfzJ56YI3Xb96xU/qvxouW
-	9ax9wVhtPelHSoUA/AP/YpsebV25s7QkovHMns7401p3rEytzm5lKR1SlCXD1xclnolyij
-	AYSwpZaI1EH0+WwiiTlGtFJ7+UG5BHs=
+	bh=7SEnAfj7Gc7hlBZeB3BVW71blHARjm0RW3jbk3qL5/A=;
+	b=QiU/UuUfd6rUEgP3fXXLR6KFR4PgXvUAvD57qOIojYG69y2XS2LNJcu2gvmEL2Irc6XqGK
+	IjlcAQg31VydaUrx0zrb5mDeS6yBE5lNNRtmpWLknSTyTE2PngHcOvFYHfgFbccGTeXQkM
+	Bm6+nLQOzQFCDmUC5gqI7OPMe6islrU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703927967;
+	s=susede2_ed25519; t=1703929914;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=URKImpaQyJorzPDB6yG8qAmmJpe9snvzzVaY0SrX8rM=;
-	b=iypEELcLcsEGQ7PFSePp81LZY6j+hYPra2NjCO+BnKbUXXVTlunfjMS0WM5/v8IZ4fozmc
-	5+hNhpBxQX2PBFCw==
+	bh=7SEnAfj7Gc7hlBZeB3BVW71blHARjm0RW3jbk3qL5/A=;
+	b=yy7q7dR3QC73CTv2V7Eau08K2IlbtZ7qtlMyLkmGZbIv8iuXS1Py8srSLpDzQ7IKlRbVC0
+	6kleS27fLYERQTDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3905E136D1;
-	Sat, 30 Dec 2023 09:19:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B1062136D1;
+	Sat, 30 Dec 2023 09:51:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pJnSC5/gj2VwNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 30 Dec 2023 09:19:27 +0000
-Date: Sat, 30 Dec 2023 10:19:26 +0100
-Message-ID: <87v88gvyht.wl-tiwai@suse.de>
+	id tH8MKTnoj2WxOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 30 Dec 2023 09:51:53 +0000
+Date: Sat, 30 Dec 2023 10:51:53 +0100
+Message-ID: <87sf3kvwzq.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Dorian Cruveiller <doriancruveiller@gmail.com>
-Cc: james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Add driver properties for cs35l41 for Lenovo Legion Slim 7 Gen 8 serie
-In-Reply-To: <20231229230703.73876-1-doriancruveiller@gmail.com>
-References: <20231229230703.73876-1-doriancruveiller@gmail.com>
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/tas2781: configure the amp after firmware load
+In-Reply-To: <7f2f65d9212aa16edd4db8725489ae59dbe74c66.1703895108.git.soyer@irl.hu>
+References: <7f2f65d9212aa16edd4db8725489ae59dbe74c66.1703895108.git.soyer@irl.hu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -84,42 +83,47 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Spam-Level: 
-X-Spamd-Result: default: False [0.38 / 50.00];
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="QiU/UuUf";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yy7q7dR3
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.09 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[10];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[9];
 	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.52)[80.35%]
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Score: 0.38
+	 BAYES_HAM(-2.58)[98.13%]
+X-Spam-Score: -3.09
+X-Rspamd-Queue-Id: 1FA121F7FF
 X-Spam-Flag: NO
 
-On Sat, 30 Dec 2023 00:07:03 +0100,
-Dorian Cruveiller wrote:
+On Sat, 30 Dec 2023 01:13:41 +0100,
+Gergo Koteles wrote:
 > 
-> Add driver properties on 4 models of this laptop serie since they don't
-> have _DSD in the ACPI table
+> Make the amp available immediately after a module
+> load to avoid having to wait for a PCM hook action.
+> (eg. unloading & loading the module while listening
+> music)
 > 
-> Signed-off-by: Dorian Cruveiller <doriancruveiller@gmail.com>
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
 
-This doesn't seem applicable any longer, as the cs35l41_hda_property.c
-had some reworks.  Could you rebase on top of topic/cs35l41 (or
-for-next) branch of sound.git tree and resubmit both patches?
+Applied to for-next branch now.  Thanks.
 
-
-thanks,
 
 Takashi
