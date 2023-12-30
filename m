@@ -1,78 +1,73 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A4E63C4;
-	Sat, 30 Dec 2023 09:13:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4964416
+	for <linux-sound@vger.kernel.org>; Sat, 30 Dec 2023 09:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2IuES+5r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="918YNzGQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2IuES+5r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="918YNzGQ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1tDFCHNl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="azVlYIYU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1tDFCHNl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="azVlYIYU"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9F35622111;
-	Sat, 30 Dec 2023 09:13:15 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5F80622111;
+	Sat, 30 Dec 2023 09:14:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703927595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703927697; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=juDSCuSZKi75OdYbZI/wIeZL0Qy62bQFE+aWStVoyOM=;
-	b=2IuES+5rRL3i53Tzo/C8/VNiDWfzFbFLASJXH0jcOF4XDByCYob8nPQG1zbMDiasn7DHSL
-	/ekqh5g739Xnx3CZSPYFtsZuJlXLxfNT9b2f3gIbAE5r/VuJ49DPeh/GP37LBm/XCzcwOJ
-	nK59XCUn1QWwigNJi+OMq19ZpkAdIJE=
+	bh=Y/7fRuouZYe6gQQnWiYqQQeqdHJ4vFLxZMTerDh04Fo=;
+	b=1tDFCHNl4rTaJ+cSRcd+gv1hf90ePD8NvSVQQKVmFOy/i7TP82E492px4CWNyb126aB0ax
+	dV5XpD5By7tIfW2fFmcsS1Ju+YnXDlgxrWZhYlGGFlfBjO9B/tDlwYVIXbMQwbhNxnrs67
+	o9nKTHMOwnJ0uLeteH9NS2MR6RSHb5I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703927595;
+	s=susede2_ed25519; t=1703927697;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=juDSCuSZKi75OdYbZI/wIeZL0Qy62bQFE+aWStVoyOM=;
-	b=918YNzGQmkVOUdHr2qklOfiZ32z5HwCidcTvE+eFPNZ4Tc2gK4m0Ppzdl2KVJYbQkqgewA
-	mI6v2UC58bQkHZAg==
+	bh=Y/7fRuouZYe6gQQnWiYqQQeqdHJ4vFLxZMTerDh04Fo=;
+	b=azVlYIYUhbLSaV6lWUEFTbkAMYw2T9N9/i7T7TcBlT6PItyIi/g1WXeUPPXvBRQ8gC7W7y
+	Lxxe0pzhcZghIhCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1703927595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1703927697; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=juDSCuSZKi75OdYbZI/wIeZL0Qy62bQFE+aWStVoyOM=;
-	b=2IuES+5rRL3i53Tzo/C8/VNiDWfzFbFLASJXH0jcOF4XDByCYob8nPQG1zbMDiasn7DHSL
-	/ekqh5g739Xnx3CZSPYFtsZuJlXLxfNT9b2f3gIbAE5r/VuJ49DPeh/GP37LBm/XCzcwOJ
-	nK59XCUn1QWwigNJi+OMq19ZpkAdIJE=
+	bh=Y/7fRuouZYe6gQQnWiYqQQeqdHJ4vFLxZMTerDh04Fo=;
+	b=1tDFCHNl4rTaJ+cSRcd+gv1hf90ePD8NvSVQQKVmFOy/i7TP82E492px4CWNyb126aB0ax
+	dV5XpD5By7tIfW2fFmcsS1Ju+YnXDlgxrWZhYlGGFlfBjO9B/tDlwYVIXbMQwbhNxnrs67
+	o9nKTHMOwnJ0uLeteH9NS2MR6RSHb5I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1703927595;
+	s=susede2_ed25519; t=1703927697;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=juDSCuSZKi75OdYbZI/wIeZL0Qy62bQFE+aWStVoyOM=;
-	b=918YNzGQmkVOUdHr2qklOfiZ32z5HwCidcTvE+eFPNZ4Tc2gK4m0Ppzdl2KVJYbQkqgewA
-	mI6v2UC58bQkHZAg==
+	bh=Y/7fRuouZYe6gQQnWiYqQQeqdHJ4vFLxZMTerDh04Fo=;
+	b=azVlYIYUhbLSaV6lWUEFTbkAMYw2T9N9/i7T7TcBlT6PItyIi/g1WXeUPPXvBRQ8gC7W7y
+	Lxxe0pzhcZghIhCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A614136D1;
-	Sat, 30 Dec 2023 09:13:15 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 346C4136D1;
+	Sat, 30 Dec 2023 09:14:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r4FVFCvfj2U9NQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 30 Dec 2023 09:13:15 +0000
-Date: Sat, 30 Dec 2023 10:13:14 +0100
-Message-ID: <87y1dcvys5.wl-tiwai@suse.de>
+	id zRpUC5Hfj2WyNQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 30 Dec 2023 09:14:57 +0000
+Date: Sat, 30 Dec 2023 10:14:56 +0100
+Message-ID: <87wmswvypb.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Aabish Malik <aabishmalik3337@gmail.com>
 Cc: tiwai@suse.com,
 	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dawei Li <set_pte_at@outlook.com>,
-	Yu Liao <liaoyu15@huawei.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH] ALSA: mark all struct bus_type as const
-In-Reply-To: <2023121945-immersion-budget-d0aa@gregkh>
-References: <2023121945-immersion-budget-d0aa@gregkh>
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA:hda/realtek enable SND_PCI_QUIRK for hp pavilion 14-ec1xxx series
+In-Reply-To: <20231229170352.742261-3-aabishmalik3337@gmail.com>
+References: <20231229170352.742261-3-aabishmalik3337@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -84,60 +79,49 @@ Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Spam-Level: 
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2IuES+5r;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=918YNzGQ
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1tDFCHNl;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=azVlYIYU
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.53 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-2.02)[95.15%];
+X-Spamd-Result: default: False [-3.16 / 50.00];
 	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.com:email];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FREEMAIL_TO(0.00)[gmail.com];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[suse.com,perex.cz,vger.kernel.org,outlook.com,huawei.com,kernel.org,redhat.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.53
-X-Rspamd-Queue-Id: 9F35622111
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.65)[98.47%]
+X-Spam-Score: -3.16
+X-Rspamd-Queue-Id: 5F80622111
 X-Spam-Flag: NO
 
-On Tue, 19 Dec 2023 14:34:46 +0100,
-Greg Kroah-Hartman wrote:
+On Fri, 29 Dec 2023 18:03:54 +0100,
+Aabish Malik wrote:
 > 
-> Now that the driver core can properly handle constant struct bus_type,
-> move all of the sound subsystem struct bus_type structures as const,
-> placing them into read-only memory which can not be modified at runtime.
+> The HP Pavilion 14 ec1xxx series uses the HP mainboard 8A0F with the ALC287 codec.
+> The mute led can be enabled using the already existing ALC287_FIXUP_HP_GPIO_LED quirk.
+> Tested on an HP Pavilion ec1003AU
 > 
-> Note, this fixes a duplicate definition of ac97_bus_type, which somehow
-> was declared extern in a .h file, and then static as a prototype in a .c
-> file, and then properly later on in the same .c file.  Amazing that no
-> compiler warning ever showed up for this.
 > 
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: Dawei Li <set_pte_at@outlook.com>
-> Cc: Yu Liao <liaoyu15@huawei.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: linux-sound@vger.kernel.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Aabish Malik <aabishmalik3337@gmail.com>
 
-Applied to for-next branch now.  Thanks.
+Thanks, applied now.
 
 
 Takashi
