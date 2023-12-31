@@ -1,87 +1,87 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D31186C;
-	Sun, 31 Dec 2023 08:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E46B211C;
+	Sun, 31 Dec 2023 10:29:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HZVxcC/y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T5ztKVj1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HZVxcC/y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T5ztKVj1"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i4QjwUUn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UKJuc0vh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i4QjwUUn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UKJuc0vh"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 22E3421DFB;
-	Sun, 31 Dec 2023 08:33:44 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9FFAC21D10;
+	Sun, 31 Dec 2023 10:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704011624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1704018539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=N4RTRshVREzFDoQShoQSeJ7L1xCrv3rMfCKwpXDSiu4=;
-	b=HZVxcC/yybZy9ySs7R1EzckIbpfuTkvqsqaGiunMvFXeP0u/PWrW7ktJmLQO7ihlMWx6rR
-	9nuGxmsxp1tD50YZLX7GMmpiSzsurMftAsXFMU4cU2VcTcAUiORHrXmRTC21aQIToX7m0Z
-	gsqw7b5xpKmOVAL+CiDLa/B0byxFgbE=
+	bh=gU/7SX+x84Zafnu4sZDk7oJ3cJRBbNvRTFmeeU4ZD7U=;
+	b=i4QjwUUnP8EfCdJ6pSO98lkC2eo1ztbDer+ThE3OUzQxH/79lCPVN9DXf6uqHIDcqQdDGC
+	yEMVZipdE3Xcd0R//urWYxog+gCP55HGkBmmX28Dj+RlgcFX36Z3nzvpyKBOTCQAgwtCM4
+	MIi9XxAc81qC5ds7abr+u4L7grhtbqo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704011624;
+	s=susede2_ed25519; t=1704018539;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=N4RTRshVREzFDoQShoQSeJ7L1xCrv3rMfCKwpXDSiu4=;
-	b=T5ztKVj1Pk/2MNK6+rQHZd7Q0j92pkpdLJfYYfbyMMurDW0n3iYSVV6z6auWlXDEo1xSmE
-	wVVRnlF0bfXm6HAA==
+	bh=gU/7SX+x84Zafnu4sZDk7oJ3cJRBbNvRTFmeeU4ZD7U=;
+	b=UKJuc0vhL8oLAgU78kqQqELwPa2vszCdM0e6n2gqVa8WR9yZu/VLK8293dqrjjr1XJxYRf
+	GKoFoscWZFupInBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704011624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1704018539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=N4RTRshVREzFDoQShoQSeJ7L1xCrv3rMfCKwpXDSiu4=;
-	b=HZVxcC/yybZy9ySs7R1EzckIbpfuTkvqsqaGiunMvFXeP0u/PWrW7ktJmLQO7ihlMWx6rR
-	9nuGxmsxp1tD50YZLX7GMmpiSzsurMftAsXFMU4cU2VcTcAUiORHrXmRTC21aQIToX7m0Z
-	gsqw7b5xpKmOVAL+CiDLa/B0byxFgbE=
+	bh=gU/7SX+x84Zafnu4sZDk7oJ3cJRBbNvRTFmeeU4ZD7U=;
+	b=i4QjwUUnP8EfCdJ6pSO98lkC2eo1ztbDer+ThE3OUzQxH/79lCPVN9DXf6uqHIDcqQdDGC
+	yEMVZipdE3Xcd0R//urWYxog+gCP55HGkBmmX28Dj+RlgcFX36Z3nzvpyKBOTCQAgwtCM4
+	MIi9XxAc81qC5ds7abr+u4L7grhtbqo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704011624;
+	s=susede2_ed25519; t=1704018539;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=N4RTRshVREzFDoQShoQSeJ7L1xCrv3rMfCKwpXDSiu4=;
-	b=T5ztKVj1Pk/2MNK6+rQHZd7Q0j92pkpdLJfYYfbyMMurDW0n3iYSVV6z6auWlXDEo1xSmE
-	wVVRnlF0bfXm6HAA==
+	bh=gU/7SX+x84Zafnu4sZDk7oJ3cJRBbNvRTFmeeU4ZD7U=;
+	b=UKJuc0vhL8oLAgU78kqQqELwPa2vszCdM0e6n2gqVa8WR9yZu/VLK8293dqrjjr1XJxYRf
+	GKoFoscWZFupInBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B96031398B;
-	Sun, 31 Dec 2023 08:33:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C0691398B;
+	Sun, 31 Dec 2023 10:28:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4JsKKmcnkWWkHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 31 Dec 2023 08:33:43 +0000
-Date: Sun, 31 Dec 2023 09:33:43 +0100
-Message-ID: <87cyumwz2w.wl-tiwai@suse.de>
+	id 94VCDWtCkWUGNwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 31 Dec 2023 10:28:59 +0000
+Date: Sun, 31 Dec 2023 11:28:58 +0100
+Message-ID: <87a5pqwtqt.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+To: peter.ujfalusi@linux.intel.com
+Cc: Dominik Brodowski <linux@dominikbrodowski.net>,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
 	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v2 0/4] ALSA: hda/tas2781: Add tas2563 support
-In-Reply-To: <3933d97638cfe57de5f9651b1f9a168bf88e43a5.camel@irl.hu>
-References: <cover.1701906455.git.soyer@irl.hu>
-	<cover.1703891777.git.soyer@irl.hu>
-	<87il4fwrs1.wl-tiwai@suse.de>
-	<3933d97638cfe57de5f9651b1f9a168bf88e43a5.camel@irl.hu>
+	regressions@lists.linux.dev
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+In-Reply-To: <87plyovwg7.wl-tiwai@suse.de>
+References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
+	<87sf3lxiet.wl-tiwai@suse.de>
+	<ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+	<874jg1x7ao.wl-tiwai@suse.de>
+	<ZY_Gb8-rncuOjRq-@shine.dominikbrodowski.net>
+	<87plyovwg7.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,14 +89,14 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spamd-Bar: /
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [0.67 / 50.00];
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=i4QjwUUn;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UKJuc0vh
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -105,70 +105,83 @@ X-Spamd-Result: default: False [0.67 / 50.00];
 	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 DKIM_TRACE(0.00)[suse.de:+];
 	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[11];
+	 RCPT_COUNT_TWELVE(0.00)[13];
 	 MID_CONTAINS_FROM(1.00)[];
 	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[ti.com,perex.cz,suse.com,gmail.com,kernel.org,vger.kernel.org,alsa-project.org];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_CC(0.00)[dominikbrodowski.net,gmail.com,kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com,lists.linux.dev];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.02)[54.96%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="HZVxcC/y";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=T5ztKVj1
-X-Spam-Score: 0.67
-X-Rspamd-Queue-Id: 22E3421DFB
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 9FFAC21D10
+X-Spam-Flag: NO
 
-On Sat, 30 Dec 2023 21:18:06 +0100,
-Gergo Koteles wrote:
+On Sat, 30 Dec 2023 11:03:36 +0100,
+Takashi Iwai wrote:
 > 
-> Hi Takashi,
+> On Sat, 30 Dec 2023 08:27:43 +0100,
+> Dominik Brodowski wrote:
+> > 
+> > Am Fri, Dec 29, 2023 at 06:11:43PM +0100 schrieb Takashi Iwai:
+> > > On Fri, 29 Dec 2023 16:24:18 +0100,
+> > > Dominik Brodowski wrote:
+> > > > 
+> > > > Hi Takashi,
+> > > > 
+> > > > many thanks for your response. Your patch helps half-way: the oops goes
+> > > > away, but so does the sound... With your patch, the decisive lines in dmesg
+> > > > are:
+> > > > 
+> > > > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> > > > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> > > > 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > > > 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > > > 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > > > 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > > > 	platform sof_sdw: deferred probe pending
+> > > > 
+> > > > With a revert of the a0575b4add21, it is:
+> > > > 
+> > > > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> > > > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> > > > 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+> > > > 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
+> > > > 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
+> > > > 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
+> > > > 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+> > > > 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
+> > > > 
+> > > > Maybe this helps a bit further?
+> > > 
+> > > Thanks for quick testing.
+> > > It shows at least that my guess wasn't wrong.
+> > > 
+> > > The problem could be the initialization order in the caller side.
+> > > Can the patch below work instead?
+> > 
+> > Unfortunately, no:
+> > 
+> > sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> > sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> > sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > platform sof_sdw: deferred probe pending
 > 
-> On Sat, 2023-12-30 at 17:59 +0100, Takashi Iwai wrote:
-> > Thanks, I guess I'll take this series later for 6.8 unless any
-> > objection is raised from reviewers.
-> > 
-> > But, I'd like to hear clarifications of some points beforehand:
-> > 
-> > - Did we get consensus about the ACPI HID?  I didn't follow the
-> >   previous thread completely.
-> > 
-> 
-> The INT8866 is a (wrong) PNP ID, that should only be used by the owner
-> "Interphase Corporation".
-> Intel has also mistakenly used the INT PNP prefix in the past, and now
-> TI/leNovo.
+> Hm, then it might be the logical failure of that commit.
+> Peter?
 
-Yeah, and the question is whether TI / Lenovo recognize the problem
-and will avoid such a failure in future again.
+FWIW, there was a report on bugzilla, too:
+  https://bugzilla.kernel.org/show_bug.cgi?id=218304
 
-> >   Since those models have been already in the market for quite some
-> >   time, we'd have to accept "INT8866", I'm afraid.  But it's still
-> >   very important to know whether a similar problem can be avoided in
-> >   future.
-> > 
-> > - Will be the firmware files upstreamed to linux-firmware tree later?
-> >   Otherwise users will have significant difficulties.
-> 
-> Shenghao sent the two files to linux-firmware@kernel.org a few days
-> ago, but I think the "Allegedly GPLv2+ ... Found in hex form in kernel
-> source." Licence needs to be fixed before acceptance.
-
-OK, that sounds promising.
-
-> But even if it is not included in the linux-firmware package, it is
-> easier for users to put two files in place per OS installation than
-> patching the kernel.
-
-Sure.
-
-
-thanks,
 
 Takashi
