@@ -1,74 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7600C14F81;
-	Tue,  2 Jan 2024 15:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A3C14A8A;
+	Tue,  2 Jan 2024 15:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JOcRegzk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zv5WJ4SY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JOcRegzk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zv5WJ4SY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VMVgLxOt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y1xwT7kW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VMVgLxOt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y1xwT7kW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D5D31FD01;
-	Tue,  2 Jan 2024 15:11:54 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D6221FD01;
+	Tue,  2 Jan 2024 15:37:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704208314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1704209855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/JPp9CBVxTZIXJwFerBBgfFdcUZgr8/tjs7x7FZU538=;
-	b=JOcRegzkh2aEJ/PzXrIdhCnF8UWLId/pOyRd6v5DxAErAIWAWQC3pWcnhr4tA47LsQ2Et/
-	WjRimchH6z1Wy0kfxoaLlSILtfaoEjdsiWoPFBFAAbZRHALCmtYLA8ihNcLFIzc75vQA+f
-	pR9TQG5sozaYbSHTIxBtbOYcjaxU/cI=
+	bh=iFeSjnnhDL7UuXIIfB/Pi2bJdb0mIR0c/ug20ece57o=;
+	b=VMVgLxOt01P6HaMA7mmz1BGr+bjL1THr82uAhSoc/1Ti4hkcotJJ2bkjtaVjMPTsamniHt
+	IoxQqDI4nlVART/YOYi8hXgKKBXo3jLI1JXc9J5DxFiZ1suZuc8UvzD5Y6FjkeNpuNWL3B
+	SkxTDOo1kowN40N15/k5dz8EWccVe8Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704208314;
+	s=susede2_ed25519; t=1704209855;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/JPp9CBVxTZIXJwFerBBgfFdcUZgr8/tjs7x7FZU538=;
-	b=zv5WJ4SYCzIHIO6yWIv/FQh3HmG6hESgrxYu9vxIRpv5S59zdn2H7zuDsl6vjk3US2WzKF
-	AWRaH2snxmhdBJCQ==
+	bh=iFeSjnnhDL7UuXIIfB/Pi2bJdb0mIR0c/ug20ece57o=;
+	b=y1xwT7kW662Nawv0VmaTw9y2AV7W7WaUsEKoRUhpWq+ei2p434HwSn9DgF7udfzl5Esprz
+	tTdQPAKUCmEoHgCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704208314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1704209855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/JPp9CBVxTZIXJwFerBBgfFdcUZgr8/tjs7x7FZU538=;
-	b=JOcRegzkh2aEJ/PzXrIdhCnF8UWLId/pOyRd6v5DxAErAIWAWQC3pWcnhr4tA47LsQ2Et/
-	WjRimchH6z1Wy0kfxoaLlSILtfaoEjdsiWoPFBFAAbZRHALCmtYLA8ihNcLFIzc75vQA+f
-	pR9TQG5sozaYbSHTIxBtbOYcjaxU/cI=
+	bh=iFeSjnnhDL7UuXIIfB/Pi2bJdb0mIR0c/ug20ece57o=;
+	b=VMVgLxOt01P6HaMA7mmz1BGr+bjL1THr82uAhSoc/1Ti4hkcotJJ2bkjtaVjMPTsamniHt
+	IoxQqDI4nlVART/YOYi8hXgKKBXo3jLI1JXc9J5DxFiZ1suZuc8UvzD5Y6FjkeNpuNWL3B
+	SkxTDOo1kowN40N15/k5dz8EWccVe8Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704208314;
+	s=susede2_ed25519; t=1704209855;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/JPp9CBVxTZIXJwFerBBgfFdcUZgr8/tjs7x7FZU538=;
-	b=zv5WJ4SYCzIHIO6yWIv/FQh3HmG6hESgrxYu9vxIRpv5S59zdn2H7zuDsl6vjk3US2WzKF
-	AWRaH2snxmhdBJCQ==
+	bh=iFeSjnnhDL7UuXIIfB/Pi2bJdb0mIR0c/ug20ece57o=;
+	b=y1xwT7kW662Nawv0VmaTw9y2AV7W7WaUsEKoRUhpWq+ei2p434HwSn9DgF7udfzl5Esprz
+	tTdQPAKUCmEoHgCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 27B4713AC6;
-	Tue,  2 Jan 2024 15:11:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2696713AC6;
+	Tue,  2 Jan 2024 15:37:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q5w1CLonlGXAawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 02 Jan 2024 15:11:54 +0000
-Date: Tue, 02 Jan 2024 16:11:53 +0100
-Message-ID: <87wmsr7osm.wl-tiwai@suse.de>
+	id QBLJB78tlGVdcgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 02 Jan 2024 15:37:35 +0000
+Date: Tue, 02 Jan 2024 16:37:34 +0100
+Message-ID: <87sf3f7nlt.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
-In-Reply-To: <20240102060457.4917-1-bo.liu@senarytech.com>
-References: <20240102060457.4917-1-bo.liu@senarytech.com>
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v2 0/4] ALSA: hda/tas2781: Add tas2563 support
+In-Reply-To: <cover.1703891777.git.soyer@irl.hu>
+References: <cover.1701906455.git.soyer@irl.hu>
+	<cover.1703891777.git.soyer@irl.hu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,152 +84,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: *
 X-Spam-Level: 
 Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VMVgLxOt;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y1xwT7kW
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.47 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[11];
 	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_CC(0.00)[ti.com,perex.cz,suse.com,gmail.com,kernel.org,vger.kernel.org,alsa-project.org];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+	 BAYES_HAM(-1.96)[94.84%]
+X-Spam-Score: -2.47
+X-Rspamd-Queue-Id: 7D6221FD01
 X-Spam-Flag: NO
 
-On Tue, 02 Jan 2024 07:04:57 +0100,
-bo liu wrote:
+On Sat, 30 Dec 2023 01:09:41 +0100,
+Gergo Koteles wrote:
 > 
-> When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
-> the headset type detection circuit will recognize the headset type as CTIA.
-> At this point, plugout and plugin the headset will get the correct headset
-> type as OMTP.
-> The reason for the failure of headset type recognition is that the sound
-> card creation will enable the VREF voltage of the headset mic, which
-> interferes with the headset type automatic detection circuit. Plugout and
-> plugin the headset will restart the headset detection and get the correct
-> headset type.
-> The patch is disable the VREF voltage when the headset is not present, and
-> will enable the VREF voltage when the headset is present.
+> The tas2781-hda driver can be modified to support tas2563 as well.
+> Before knowing this information, I created another series for a
+> new driver.
+> Link: https://lore.kernel.org/lkml/cover.1701733441.git.soyer@irl.hu/
 > 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
-
-Thanks, this is *much* better than the previous version!
-
-However, something still need to be fixed in the content:
-
-> ---
->  sound/pci/hda/patch_conexant.c | 72 +++++++++++++++++++++++++++++++++-
->  1 file changed, 71 insertions(+), 1 deletion(-)
+> This series now extends tas2781-hda.
 > 
-> diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-> index a889cccdd607..e24befa1fad9 100644
-> --- a/sound/pci/hda/patch_conexant.c
-> +++ b/sound/pci/hda/patch_conexant.c
-> @@ -166,6 +166,7 @@ static void cxt_init_gpio_led(struct hda_codec *codec)
->  
->  static int cx_auto_init(struct hda_codec *codec)
->  {
-> +	unsigned int mic_persent;
->  	struct conexant_spec *spec = codec->spec;
->  	snd_hda_gen_init(codec);
->  	if (!spec->dynamic_eapd)
-> @@ -174,6 +175,22 @@ static int cx_auto_init(struct hda_codec *codec)
->  	cxt_init_gpio_led(codec);
->  	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
->  
-> +	switch (codec->core.vendor_id) {
-> +	case 0x14f11f86:
-> +	case 0x14f11f87:
+> The tas2563 is a smart amplifier. Similar to tas2562 but with DSP. Some
+> Lenovo laptops have it to drive the bass speakers. By default, it is in
+> software shutdown state.
+> 
+> To make the DSP work it needs a firmware and some calibration data.
+> The latter can be read from the EFI in Lenovo laptops.
+> 
+> For the correct configuration it needs additional register data.
+> It captured after running the Windows driver.
+> 
+> The firmware can be extracted as TAS2563Firmware.bin from the Windows
+> driver with innoextract.
+> https://download.lenovo.com/consumer/mobiles/h5yd037fbfyy7kd0.exe
+> 
+> The driver will search for it as TAS2XXX3870.bin with the Lenovo Yoga 7 
+> 14ARB7.
+> 
+> The captured registers extracted with TI's regtool: 
+> https://github.com/soyersoyer/tas2563rca/raw/main/INT8866RCA2.bin
+> 
+> Changes since v1:
+> - fixes were sent as individual patches
+> - rebased onto for-next
+> - adding the missed fixup
+> 
+> Gergo Koteles (4):
+>   ALSA: hda/tas2781: add ptrs to calibration functions
+>   ALSA: hda/tas2781: add configurable global i2c address
+>   ALSA: hda/tas2781: add TAS2563 support for 14ARB7
+>   ALSA: hda/tas2781: add fixup for Lenovo 14ARB7
 
-If those ID checks appear multiple times, it's better to make it as a
-flag in conexant_spec, and set it at the probe time.
-
-> +		/* fix some headset type recognize fail issue, such as EDIFIER headset */
-> +		snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
-> +		snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
-> +		snd_hda_codec_write(codec, 0x1c, 0, 0x4f0, 0x0eb);
-(snip)
-
-Those code can be better factored out to a function.
-It'll lead to less indentation, hence it makes easier to read, too.
-
-> @@ -192,6 +209,58 @@ static void cx_auto_free(struct hda_codec *codec)
->  	snd_hda_gen_free(codec);
->  }
->  
-> +static int headset_present_flag;
-
-It's bad to use a static variable here.  In theory, there can be
-multiple same codecs used on the bus.
-
-If any, put this into conexant_spec and use locally.
-
-> +static void cx_jack_unsol_event(struct hda_codec *codec, unsigned int res)
-> +{
-> +	unsigned int val, phone_present, mic_persent, phone_tag, mic_tag;
-> +	unsigned int count = 0;
-> +
-> +	switch (codec->core.vendor_id) {
-> +	case 0x14f11f86:
-> +	case 0x14f11f87:
-
-Again, use a different flag.  Also factor out the specific code into a
-function.
-
-> +		/* check hp&mic tag to process headset pulgin&plugout */
-> +		phone_tag = snd_hda_codec_read(codec, 0x16, 0, 0xf08, 0x0);
-> +		mic_tag = snd_hda_codec_read(codec, 0x19, 0, 0xf08, 0x0);
-
-Are those pins *always* fixed to 0x16 and 0x19?  Or they might be
-assigned to different pins...?   In the latter case, the pin nid
-should be taken from the parsed configuration instead of fixed
-numbers.
-
-> +		if ((phone_tag&(res>>26)) || (mic_tag&(res>>26))) {
-
-Some coding style issues here.  Consult scripts/checkpatch.pl.
-Also avoid a magic number.  0xf08 is AC_VERB_GET_UNSOLICITED_RESPONSE,
-and 26 is AC_UNSOL_RES_TAG_SHIFT, for example.
-
-> +			phone_present = snd_hda_codec_read(codec, 0x16, 0, 0xf09, 0x0);
-> +			if (!(phone_present&0x80000000)) {/* headphone plugout */
-
-Ditto.  0x80000000 is AC_PINSENSE_PRESENCE.
-
-> +				headset_present_flag = 0;
-
-Better to use an enum to hold the state instead of the raw 0, 1, 2.
-
-
-> +				break;
-> +			}
-> +			if (headset_present_flag == 0) {
-> +				headset_present_flag = 1;
-> +			} else if (headset_present_flag == 1) {
-> +				mic_persent = snd_hda_codec_read(codec, 0x19, 0, 0xf09, 0x0);
-> +				/* headset is present */
-> +				if ((phone_present&0x80000000) && (mic_persent&0x80000000)) {
-> +					/* wait headset detect done */
-> +					do {
-> +						msleep(20);
-> +						val = snd_hda_codec_read(codec, 0x1c,
-> +									0, 0xca0, 0x0);
-> +						count += 1;
-
-Usually we use "++" for increment.
+Applies all patches to for-next branch now.
 
 
 thanks,
