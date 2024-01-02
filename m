@@ -1,117 +1,153 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC87EC6;
-	Tue,  2 Jan 2024 04:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA20D1117
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jan 2024 05:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLLJDVSW"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-35fd902c6b5so79052905ab.3;
-        Mon, 01 Jan 2024 20:25:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704169540; x=1704774340; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bgu+L4a+/WjpDzPChrb4wmpOc+fKr17SKFK+8wM2uf0=;
-        b=gLLJDVSWAC5aoSmCG/cb+sRKwWEp0fIZgphSAZJS7tuKgcGyX5EDQ5PYYeO05J53Xo
-         3dNu1g2aAa2clTMI4visJln4BY4kdmpyksOrXyL7m+jc8whE6dyZjEsbTUXnvyI+kgH9
-         RZ6hykBXBILvj1xWxmOLP0evfBWFSRrbMFPSCXhkhtGqav19RfhoV+eoTZkuYnESi4Vn
-         uBTN9ja5Z6XYxUtzkX77WJPi1nmqf3taAWEYPDHjukwJm0j9Xp2FIS+DTz/0jP0fYwnM
-         td3MOrqENXaROuYhiyh2RB0vv3MN6OtbNvurG80Q9wn3UnzANlzsEfSkjobxDC+6FOLY
-         pTiQ==
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="cV44ltPJ"
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id AD1D93F744
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jan 2024 05:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1704174592;
+	bh=fLFoGUEkFptOzsytOMQgVkEYrrG8TjyytJsIzbEYWU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=cV44ltPJ3hjXDtlYRM5Of6ZdtQG1qKCiUV+qVbdLbt4UcKynKFVdQviUE3/2QDiCn
+	 ecm6MHehmRAswL8MtHsFk8GIQu3XddEW7zapwlDuXfsTOBo9Td9zatvMsiX0BxrnGZ
+	 PhBaqm8csHN8b48EkdIYYqAGv+0oZgIdoV9DWelxNPr0PlBj3Opq6/xKtO+T3F9gVh
+	 DQxZkrIOBCwpIkJo8I6YcjYe0Tc8unqt98m6aaYAynjAhef4Xg6CgzQBPTN+FS0OvS
+	 bPocQUBMtyFXaH0834QNA+8gpEctsyi1jv20PmGowLz0bqFDOAHN28JbPiicEH8JjI
+	 0G8ZEwPLF8JCA==
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-28c2033b552so9376162a91.2
+        for <linux-sound@vger.kernel.org>; Mon, 01 Jan 2024 21:49:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704169540; x=1704774340;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bgu+L4a+/WjpDzPChrb4wmpOc+fKr17SKFK+8wM2uf0=;
-        b=LFFyLloN2wc3djoQ604+4dYCDaES8HMc9XJ6c3HmnUoT/GEgxCAi34PuTUNZATVMYG
-         QTNpCAQKYT4dyqdjsxA32fqcj6wvYt/xckaE23MPgHcCO1bIDyXtGspwOA6TXKA2jywJ
-         NMReYQaeGfRfxamocp+mkdUmygBBKjiOJoS+ZDQKwmAnOxpVnTuq5T9zH03fJ+BF4jdS
-         +sC/Me7df/ZwqUqxSO8OgQsyelnngN8ecOaf20UeA9JgQrdgenqK0w86zwbM13yXC/fz
-         Rd4Qr1KRtRKbLbV8namvbXX9oUh52V4oXwW2xfryZv5s6LF6mMUYzhlJW6F00ZOCepWD
-         ZkOg==
-X-Gm-Message-State: AOJu0YwPR1jdc+Iadi4Es4vUkVVgS+75/wVoAudQ6/5sT/3kCn7AG7/9
-	Kl1BSH/I1X+DHVC02VQgjGI=
-X-Google-Smtp-Source: AGHT+IFWqjQSfHgcTGsot6wD9z4gdmFYaUUekqZrAob7I8yMqCSxqoX7FH4fPJY6HQWE6FjdSNi42g==
-X-Received: by 2002:a05:6e02:1d13:b0:35f:ccab:360e with SMTP id i19-20020a056e021d1300b0035fccab360emr26472618ila.1.1704169540585;
-        Mon, 01 Jan 2024 20:25:40 -0800 (PST)
-Received: from geday ([189.115.92.220])
-        by smtp.gmail.com with ESMTPSA id jd19-20020a170903261300b001d4ca3087dfsm44726plb.234.2024.01.01.20.25.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jan 2024 20:25:39 -0800 (PST)
-Date: Tue, 2 Jan 2024 01:26:18 -0300
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-To: Andy Chi <andy.chi@canonical.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Matthew Anderson <ruinairas1992@gmail.com>,
-	Luka Guzenko <l.guzenko@web.de>, Yuchi Yang <yangyuchi66@gmail.com>,
-	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for a HP ZBook
-Message-ID: <ZZOQamQsHUR7eEPd@geday>
-References: <20240102024916.19093-1-andy.chi@canonical.com>
+        d=1e100.net; s=20230601; t=1704174591; x=1704779391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fLFoGUEkFptOzsytOMQgVkEYrrG8TjyytJsIzbEYWU4=;
+        b=o3O0FVQXL/3we76H/VtLedOceIKYhtRWi9VemA9gJkY89nZZOCwpiPheB4aFT8LuaP
+         1GqgitC0PDil47HKS51ewkTK3KnOQtHFr7g5lPjTsP21IobKVuErgfJ7YCN2AJ0Bxw5d
+         0dq6gEV7IvWrO95GIbbw818k7Gq3bL99WX0YkTPSl4BLPcE7HUUGUvnBRT6ViUWDamnU
+         VMFeTOr2od9m084WxXrJfVCBhcxF4mRdTPnTlkV5pv86qxVe5rctGAOeb7Ge+dkWPxHF
+         1B1tLihQktwkMGkNxEaGd0cczAj8i0uViegnxga1Q6jgcCPCdivf3XaS3L33ZmU6nt+f
+         LmZw==
+X-Gm-Message-State: AOJu0Yzr1MrePTYxOZoUNaHFN6usNXaJewXFiaGzjhSbHlvJbIRU1FNf
+	1FwmxfSXigEPPz0E2S8p0yy6bhVDt3ziO6BgNt9e1dFb73+xRGB9SuJLdJQ0ZYZF13jajlXLu00
+	24sj0FWrsNxD0ZGk88tzxD3CxZNpcywDiphTO+dEBH8mDtgOMBPWofZlPTCC+LjE=
+X-Received: by 2002:a17:90a:728c:b0:28c:a26b:a26 with SMTP id e12-20020a17090a728c00b0028ca26b0a26mr3875981pjg.3.1704174591101;
+        Mon, 01 Jan 2024 21:49:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFZadO3MQRP5EEFtCFCY6qGF7arVqwj3G0vRp4Jp89v1SCIruOZUSGhtuaMJBetAy98YxsUg7ICU8Nrl1zzugw=
+X-Received: by 2002:a17:90a:728c:b0:28c:a26b:a26 with SMTP id
+ e12-20020a17090a728c00b0028ca26b0a26mr3875965pjg.3.1704174590831; Mon, 01 Jan
+ 2024 21:49:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240102024916.19093-1-andy.chi@canonical.com>
+References: <20240102024916.19093-1-andy.chi@canonical.com>
+ <ZZOQamQsHUR7eEPd@geday> <CAEzXkg3YiH_XQGz4vbFc7dptmMSWrVDrALdNJAmmQgWa17PP1A@mail.gmail.com>
+In-Reply-To: <CAEzXkg3YiH_XQGz4vbFc7dptmMSWrVDrALdNJAmmQgWa17PP1A@mail.gmail.com>
+From: Andy Chi <andy.chi@canonical.com>
+Date: Tue, 2 Jan 2024 13:49:40 +0800
+Message-ID: <CAEzXkg1DmR2PJ2SKF8hRdbRaPVVU8eWHjzjXHcJE-KqCU-8wqA@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for a HP ZBook
+To: Geraldo Nascimento <geraldogabriel@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Stefan Binding <sbinding@opensource.cirrus.com>, Kailang Yang <kailang@realtek.com>, 
+	"Luke D. Jones" <luke@ljones.dev>, Shenghao Ding <shenghao-ding@ti.com>, 
+	Matthew Anderson <ruinairas1992@gmail.com>, Luka Guzenko <l.guzenko@web.de>, 
+	Yuchi Yang <yangyuchi66@gmail.com>, Vitaly Rodionov <vitalyr@opensource.cirrus.com>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 02, 2024 at 10:49:15AM +0800, Andy Chi wrote:
-> There is a HP ZBook which using ALC236 codec and need the
-> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make mute LED
-> and micmute LED work.
+Hi Geraldo,
+Yes, this model is not yet publicly available, so I can't type the
+full name on this patch.
 
-Hi Andy,
+(change to text plain mode to send out again.)
 
-I know Takashi in the name of smooth operation usually takes this kind
-of simple patch, quickly, since it's a simple bugfix, unless there are
-any objections, so I must raise one.
+Kr,
+Andy
 
-Which HP ZBook? Which model?
 
-Is this a still unreleased model Canonical has had access under a NDA
-for example? Or perhaps there is some other reason why you cannot name
-the model yet?
-
-Either way, there is a need to publicly know the reason for the missing
-model information.
-
-> 
-> Signed-off-by: Andy Chi <andy.chi@canonical.com>
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 7e9d8c1cedfc..1c8d5b58eb64 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -9939,6 +9939,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-
-Same questioning as above. "HP" is IMHO unacceptable without a clear
-reason for the missing model information.
-
-Thanks,
-Geraldo Nascimento
-
->  	SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8ca7, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
-> -- 
-> 2.34.1
-> 
-> 
+On Tue, Jan 2, 2024 at 1:47=E2=80=AFPM Andy Chi <andy.chi@canonical.com> wr=
+ote:
+>
+> Hi Geraldo,
+> Yes, this model is not yet publicly available, so I can't type the full n=
+ame on this patch.
+>
+> Kr,
+> Andy
+>
+> On Tue, Jan 2, 2024 at 12:25=E2=80=AFPM Geraldo Nascimento <geraldogabrie=
+l@gmail.com> wrote:
+>>
+>> On Tue, Jan 02, 2024 at 10:49:15AM +0800, Andy Chi wrote:
+>> > There is a HP ZBook which using ALC236 codec and need the
+>> > ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make mute LED
+>> > and micmute LED work.
+>>
+>> Hi Andy,
+>>
+>> I know Takashi in the name of smooth operation usually takes this kind
+>> of simple patch, quickly, since it's a simple bugfix, unless there are
+>> any objections, so I must raise one.
+>>
+>> Which HP ZBook? Which model?
+>>
+>> Is this a still unreleased model Canonical has had access under a NDA
+>> for example? Or perhaps there is some other reason why you cannot name
+>> the model yet?
+>>
+>> Either way, there is a need to publicly know the reason for the missing
+>> model information.
+>>
+>> >
+>> > Signed-off-by: Andy Chi <andy.chi@canonical.com>
+>> > ---
+>> >  sound/pci/hda/patch_realtek.c | 1 +
+>> >  1 file changed, 1 insertion(+)
+>> >
+>> > diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realt=
+ek.c
+>> > index 7e9d8c1cedfc..1c8d5b58eb64 100644
+>> > --- a/sound/pci/hda/patch_realtek.c
+>> > +++ b/sound/pci/hda/patch_realtek.c
+>> > @@ -9939,6 +9939,7 @@ static const struct snd_pci_quirk alc269_fixup_t=
+bl[] =3D {
+>> >       SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIX=
+UP_CS35L41_I2C_2_HP_GPIO_LED),
+>> >       SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIX=
+UP_CS35L41_I2C_2_HP_GPIO_LED),
+>> >       SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIX=
+UP_CS35L41_I2C_2_HP_GPIO_LED),
+>> > +     SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MIC=
+MUTE_VREF),
+>>
+>> Same questioning as above. "HP" is IMHO unacceptable without a clear
+>> reason for the missing model information.
+>>
+>> Thanks,
+>> Geraldo Nascimento
+>>
+>> >       SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35=
+L41_SPI_2_HP_GPIO_LED),
+>> >       SND_PCI_QUIRK(0x103c, 0x8ca7, "HP ZBook Fury", ALC245_FIXUP_CS35=
+L41_SPI_2_HP_GPIO_LED),
+>> >       SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP=
+_CS35L41_SPI_4_HP_GPIO_LED),
+>> > --
+>> > 2.34.1
+>> >
+>> >
