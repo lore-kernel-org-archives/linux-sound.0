@@ -1,78 +1,177 @@
-Received: from mail1.merlins.org (magic.merlins.org [209.81.13.136])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE5A168A2;
-	Tue,  2 Jan 2024 21:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=merlins.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=merlins.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C90168BC;
+	Tue,  2 Jan 2024 21:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=merlins.org header.i=@merlins.org header.b="g7KAkPF0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=merlins.org
-	; s=key; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=jEUidlbRkh+sRXZoW4h6WobGnL5gbYzACItvfn2hM+U=; b=g7KAkPF0qoG7mLFbqBmO2qi8CY
-	XpyiPHFPcaiIiXMIViLFIM+WNYJHmwua303AS7aMg1KHF4DMdYXD6xESS3N4ATwfEPu1PRnZj6+fN
-	SnM4ymPxRALtu1lCSvsW6fgA8xCvv7GudddxcUDqp7vr4quYnB60M+Tgeo5FBGOmTQg7woxqDsRy7
-	sDy0DM3Wf4lKYEo67R6NrCY5EtIdoZQXJswZ636VHtt5OqUHmyWQtwA6dTq/SnMZf0vKuQo7Yy4LM
-	PTpFe6T5h2ses5bisb3e0rXOWUG7m6/zhDvxbPh70CXCaNXZHiqFZMI83l3ppVfpf4ORZ2Vuo0XXz
-	pTXkFU0A==;
-Received: from lfbn-idf3-1-20-89.w81-249.abo.wanadoo.fr ([81.249.147.89]:54622 helo=sauron.svh.merlins.org)
-	by mail1.merlins.org with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim 4.94.2 #2)
-	id 1rKmFY-00062a-7h by authid <merlins.org> with srv_auth_plain; Tue, 02 Jan 2024 13:24:36 -0800
-Received: from merlin by sauron.svh.merlins.org with local (Exim 4.96)
-	(envelope-from <marc@merlins.org>)
-	id 1rKmFW-0063xS-18;
-	Tue, 02 Jan 2024 13:24:34 -0800
-Date: Tue, 2 Jan 2024 13:24:34 -0800
-From: Marc MERLIN <marc@merlins.org>
-To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Rander Wang <rander.wang@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: sof-audio-pci-intel-tgl/soundwire 6.6.8 kernel outputs no sound
- on speakers but works on headphones => missing alsa-ucm-conf
-Message-ID: <ZZR_Et3vvv-bmQ0H@merlins.org>
-References: <20231223234430.GA11359@merlins.org>
- <alpine.DEB.2.22.394.2401021117370.14041@eliteleevi.tm.intel.com>
- <ZZRP8RqT83cE-S5m@merlins.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lOofI/ks"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 402LboY4007716;
+	Tue, 2 Jan 2024 21:46:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=TP9fyOwkywtfaOI9LqRo
+	kjI/c6lBCTPIOkl0CcpX2Ew=; b=lOofI/ks0a87JPGBnYnN+JheFSVBWMD2E5oj
+	59PY2pItYow1Q9omYsgJhhCHmB9TRmjvucecc7JpbvNH+R774rvp4LTCChQYWSF+
+	62xwvmy/HG3v/PTowHk8/kJH17Hz9Eaoi5iZ+zbMywWk7M+t+YHru35bjUPzjw41
+	2TO+jLZ6IhdtLuFC9obth54bweaXmurgleAXz5XyiIMWMP/yUDjXY4aHHXelr58x
+	qN0xVBesik4e45EjDqQPfU/0vu6tyXGty3LuolbROtVu254y7DwG6t+QfoIjVZEn
+	PhCqHrCVkOF0mpgiXb8cusT7VYw9KcvEx3J6nHS6T+8wA+7ouw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vcgub98m5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Jan 2024 21:46:28 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 402LkRjF003278
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 2 Jan 2024 21:46:27 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 2 Jan 2024 13:46:27 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
+        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <agross@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v12 32/41] ASoC: qcom: qdsp6: Add PCM ops to track current state
+Date: Tue, 2 Jan 2024 13:45:40 -0800
+Message-ID: <20240102214549.22498-33-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZZRP8RqT83cE-S5m@merlins.org>
-X-Sysadmin: BOFH
-X-URL: http://marc.merlins.org/
-X-SA-Exim-Connect-IP: 81.249.147.89
-X-SA-Exim-Mail-From: marc@merlins.org
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Nim_oPG2o0WMKjmPbFvESuyeysK_ot38
+X-Proofpoint-GUID: Nim_oPG2o0WMKjmPbFvESuyeysK_ot38
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=999 impostorscore=0 adultscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401020161
 
-On Tue, Jan 02, 2024 at 10:03:29AM -0800, Marc MERLIN wrote:
-> 1) for sure, debian package alsa-ucm-conf should be required, not
-> recommended. It's not big, people who can't keep track of everything
-> that changes all the time, have no idea that they need it, and really
-> need it installed by default if their hardware requires it.
-> I've filed a couple of bugs with them, including on the package
-> description that gives little clue that the package can be so essential
+Register PCM callbacks so that the Q6USB DPCM backend dai link can track
+and update the status of the PCM device.  Utilize the SOC USB state APIs to
+ensure that the SND kcontrol for the offload status is updated properly.
 
-Done:
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/soc/qcom/qdsp6/q6usb.c | 52 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 49 insertions(+), 3 deletions(-)
 
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1059871
-alsa-ucm-conf should be a required package by libasound2-data, it's essential on some sound hardware
-
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1059872
-alsa-ucm-conf should be a required package, it's essential on some sound hardware
-
-Marc
--- 
-"A mouse is a device used to point at the xterm you want to type in" - A.S.R.
+diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+index 61d30303a7bb..84543b34f2b7 100644
+--- a/sound/soc/qcom/qdsp6/q6usb.c
++++ b/sound/soc/qcom/qdsp6/q6usb.c
+@@ -30,6 +30,9 @@
+ struct q6usb_status {
+ 	struct snd_soc_usb_device *sdev;
+ 	unsigned int pcm_index;
++	bool prepared;
++	bool running;
++	int session_id;
+ };
  
-Home page: http://marc.merlins.org/                       | PGP 7F55D5F27AAF9D08
+ struct q6usb_port_data {
+@@ -81,14 +84,48 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
+ 		goto out;
+ 
+ 	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
++	data->status[data->sel_card_idx].prepared = true;
++	data->status[data->sel_card_idx].session_id =
++		snd_soc_usb_prepare_session(data->usb, data->sel_card_idx,
++						data->sel_pcm_idx);
+ out:
+ 	mutex_unlock(&data->mutex);
+ 
+ 	return ret;
+ }
+ 
++static int q6usb_prepare(struct snd_pcm_substream *substream,
++		struct snd_soc_dai *dai)
++{
++	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
++
++	mutex_lock(&data->mutex);
++	data->status[data->sel_card_idx].running = true;
++	snd_soc_usb_set_session_state(data->usb,
++			data->status[data->sel_card_idx].session_id,
++			SND_SOC_USB_RUNNING);
++	mutex_unlock(&data->mutex);
++
++	return 0;
++}
++
++static void q6usb_shutdown(struct snd_pcm_substream *substream,
++				struct snd_soc_dai *dai)
++{
++	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
++
++	mutex_lock(&data->mutex);
++	data->status[data->sel_card_idx].running = false;
++	data->status[data->sel_card_idx].prepared = false;
++	snd_soc_usb_shutdown_session(data->usb,
++			data->status[data->sel_card_idx].session_id);
++	mutex_unlock(&data->mutex);
++}
++
+ static const struct snd_soc_dai_ops q6usb_ops = {
+ 	.hw_params = q6usb_hw_params,
++	.prepare = q6usb_prepare,
++	.shutdown = q6usb_shutdown,
+ };
+ 
+ static struct snd_soc_dai_driver q6usb_be_dais[] = {
+@@ -149,10 +186,15 @@ static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
+ 	int pcmidx;
+ 	int cardidx;
+ 
++	mutex_lock(&data->mutex);
++
++	/* Don't allow changes to the offloading devices if session is busy */
++	if (data->sel_card_idx >= 0 && data->status[data->sel_card_idx].prepared)
++		goto out;
++
+ 	cardidx = ucontrol->value.integer.value[0];
+ 	pcmidx = ucontrol->value.integer.value[1];
+ 
+-	mutex_lock(&data->mutex);
+ 	if ((cardidx >= 0 && test_bit(cardidx, &data->available_card_slot))) {
+ 		data->sel_card_idx = cardidx;
+ 		changed = 1;
+@@ -203,8 +245,12 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
+ 
+ 	mutex_lock(&data->mutex);
+ 	if (connected) {
+-		/* We only track the latest USB headset plugged in */
+-		if (!data->idx_valid) {
++		/*
++		 * Update the latest USB headset plugged in, if session is
++		 * idle.
++		 */
++		if (!data->idx_valid &&
++			!data->status[data->sel_card_idx].prepared) {
+ 			data->sel_card_idx = sdev->card_idx;
+ 			data->sel_pcm_idx = 0;
+ 		}
