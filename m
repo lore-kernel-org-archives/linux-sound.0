@@ -1,170 +1,76 @@
-Received: from mail1.merlins.org (magic.merlins.org [209.81.13.136])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515358F58
-	for <linux-sound@vger.kernel.org>; Sun, 31 Dec 2023 17:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=merlins.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=merlins.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B397EBC;
+	Tue,  2 Jan 2024 03:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=merlins.org header.i=@merlins.org header.b="kvTEG2Vr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=merlins.org
-	; s=key; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:Message-ID:Subject:To:From:Date:Resent-To:Resent-Message-ID:
-	Resent-Date:Resent-From:Sender:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Sender:Resent-Cc:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=dURQrRvNoM8x1jWuJt7hXINGYTUMhNKDqJkQOB4RKLM=; b=kvTEG2VrNd+hn/7HEEmumM3XkC
-	NN6gy3cP9Ubvdzpx8/qU4NneFrNOgJL29qmjry4Wwk5G4Qu4uJPvnYng5NBMYOOMEhmLp96/BYAo+
-	54XIbUiydb7AMWNqjPihpXz7MDEbOZ3yZl8XtDLw4I5lk7IvjHmc3U3TVvDDnJkmoslcP5RQRRwkY
-	a++1rkGzrZNo8bnfvMg2bs8pvtJ7mFEZW7R1nN5r0F1AuAaRn74URFSEZ4zB9WUaBPm1vYMVVNM+/
-	PzTLFzkT9rs3F/GY4XAD8izILH0Hykb/WDu9Wp54O/deDzHbo+3kvUtc9jlMIm0KrCD6Gw8O0gsvE
-	S5tumX6w==;
-Received: from lfbn-idf3-1-20-89.w81-249.abo.wanadoo.fr ([81.249.147.89]:55850 helo=sauron.svh.merlins.org)
-	by mail1.merlins.org with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim 4.94.2 #2)
-	id 1rJzw5-0006ww-GX by authid <merlins.org> with srv_auth_plain
-	for <linux-sound@vger.kernel.org>; Sun, 31 Dec 2023 09:49:17 -0800
-Received: from merlin by sauron.svh.merlins.org with local (Exim 4.96)
-	(envelope-from <merlin@merlins.org>)
-	id 1rJzw4-001nkP-1B
-	for linux-sound@vger.kernel.org;
-	Sun, 31 Dec 2023 09:49:16 -0800
-Resent-From: Marc MERLIN <marc@merlins.org>
-Resent-Date: Sun, 31 Dec 2023 09:49:16 -0800
-Resent-Message-ID: <ZZGpnF_gV8krz_Kz@merlins.org>
-Resent-To: linux-sound@vger.kernel.org
-Date: Wed, 27 Dec 2023 11:02:02 -0800
-From: Marc MERLIN <marc@merlins.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Rander Wang <rander.wang@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: sof-audio-pci-intel-tgl/soundwire 6.6.8 kernel outputs no sound
- on speakers but works on headphones
-Message-ID: <ZYx0qurc3PfaxfT5@merlins.org>
-References: <20231223234430.GA11359@merlins.org>
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="ls3Hry8I"
+Received: from localhost.localdomain (unknown [10.101.197.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 872E83F2AE;
+	Tue,  2 Jan 2024 02:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1704163818;
+	bh=EWkKSm+nN6fBmS9JU50EaFN7HE3LdA/HGHMNIUbvCq4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=ls3Hry8IzfVXSA836/9OxoK9XjBXgHxcKgvwcyT9rXghBgKEeSH0SFBaaNY4J0+J5
+	 Uc0RmnN85cpCRc03ffP40NkY6h/EMqvYxvfVnWVu8XxHarQ+J6vnq3Gnk/hZJqWIxO
+	 czP7CaM8W65GAWDhTSm/2LnDUGIuUU+cbi42AnzkLWq9LEx4O/iiqvbUnwebzySr0n
+	 enZmEn9pfiHhl3xyFT2m/lHKPaw/vYw9btu4XDjaBNHr3qD162sdXlsa76pm/0XXIm
+	 B9g2ZryVXVWxrqV8JgWy21NB3UachkNE0sP0LO3qw+NhJPsveQ4deX4MNiU6J4it9l
+	 fLqsxjtIY03lA==
+From: Andy Chi <andy.chi@canonical.com>
+To: 
+Cc: andy.chi@canonical.com,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Matthew Anderson <ruinairas1992@gmail.com>,
+	Luka Guzenko <l.guzenko@web.de>,
+	Yuchi Yang <yangyuchi66@gmail.com>,
+	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for a HP ZBook
+Date: Tue,  2 Jan 2024 10:49:15 +0800
+Message-Id: <20240102024916.19093-1-andy.chi@canonical.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231223234430.GA11359@merlins.org>
-X-Sysadmin: BOFH
-X-URL: http://marc.merlins.org/
-X-SA-Exim-Connect-IP: 81.249.147.89
-X-SA-Exim-Mail-From: marc@merlins.org
 
-[adding linux-sound after no reply on alsa-devel which is now bouncing
-my Emails]
+There is a HP ZBook which using ALC236 codec and need the
+ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make mute LED
+and micmute LED work.
 
-I'm still stuck with no sound :-/
-I did more testing and 6.5.0-14-generic from ubuntu gives sound when I
-boot it in ubuntu 23, but the same kernel in debian 12, seems to load
-but gives a device that only gives sound via headphones. Nothing through
-the speakers, and they are not muted (as checked in alsamixer)
+Signed-off-by: Andy Chi <andy.chi@canonical.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I ran a diff between dmesg between the 2 boots, and I do see when
-running the same kernel in debian12:
-input: sof-soundwire Headset Jack as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input27
-input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input28
-input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input29
-input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input30
-sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-
-
-merlin:/boot/sound# dmesg |grep intel-tgl
-[   14.629851] sof-audio-pci-intel-tgl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040100
-[   14.631966] sof-audio-pci-intel-tgl 0000:00:1f.3: SoundWire enabled on CannonLake+ platform, using SOF driver
-[   14.633819] sof-audio-pci-intel-tgl 0000:00:1f.3: enabling device (0000 -> 0002)
-[   14.635615] sof-audio-pci-intel-tgl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if 0x040100
-[   14.637179] sof-audio-pci-intel-tgl 0000:00:1f.3: bound 0000:00:02.0 (ops i915_audio_component_bind_ops [i915])
-[   14.650766] sof-audio-pci-intel-tgl 0000:00:1f.3: use msi interrupt mode
-[   14.668269] sof-audio-pci-intel-tgl 0000:00:1f.3: hda codecs found, mask 4
-[   14.674395] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-[   14.675880] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-[   14.677283] sof-audio-pci-intel-tgl 0000:00:1f.3: unknown sof_ext_man header type 3 size 0x30
-[   14.771750] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-[   14.773456] sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-[   14.791223] sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
-[   23.851544] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-[   23.851573] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-[   23.851575] sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-[   23.852609] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-[   23.852622] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-[   23.852630] sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-[   23.853634] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-[   23.853645] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-[   23.853653] sof-audio-pci-intel-tgl 0000:00:1f.3: ASoC: error at snd_soc_pcm_component_hw_params on 0000:00:1f.3: -5
-[   23.854644] sof-audio-pci-intel-tgl 0000:00:1f.3: ipc tx error for 0x60010000 (msg/reply size: 108/20): -5
-[   23.854646] sof-audio-pci-intel-tgl 0000:00:1f.3: HW params ipc failed for stream 1
-(...) many lines deleted
-
-I realize that userspace is different and it could be a problem
-with pipewire and wireplumber, but the ASoC errors above look
-like a kernel issue. What do you think?
-
-
-merlin:/boot/sound$ diff -u inxi_aA_*
---- inxi_aA_deb	2023-12-27 08:22:43.869118470 -0800
-+++ inxi_aA_ubnt	2023-12-27 09:23:06.442760237 -0800
-@@ -1,9 +1,10 @@
- Audio:
--  Device-1: Intel vendor: Dell driver: sof-audio-pci-intel-tgl
-+  Device-1: Intel Raptor Lake-P/U/H cAVS vendor: Dell
-+    driver: sof-audio-pci-intel-tgl
-     alternate: snd_hda_intel,snd_sof_pci_intel_tgl bus-ID: 0000:00:1f.3
-     chip-ID: 8086:51ca class-ID: 0401
--  API: ALSA v: k6.5.0-14-generic status: kernel-api with: aoss
--    type: oss-emulator tools: alsamixer,amixer
--  Server-1: PipeWire v: 0.3.65 status: active with: 1: pipewire-pulse
-+  API: ALSA v: k6.5.0-14-generic status: kernel-api
-+    tools: alsactl,alsamixer,amixer
-+  Server-1: PipeWire v: 0.3.79 status: active with: 1: pipewire-pulse
-     status: active 2: wireplumber status: active 3: pipewire-alsa type: plugin
--    4: pw-jack type: plugin tools: pactl,pw-cat,pw-cli,wpctl
-+    tools: pw-cat,pw-cli,wpctl
-
-merlin:/boot/sound$ diff -u wpctl_status_*
-shows
- Audio
-  ├─ Devices:
-  │      44. sof-soundwire                       [alsa]
-  │  
-  ├─ Sinks:
-- │  *   53. sof-soundwire Stereo                [vol: 1.00]
-+ │      45. sof-soundwire HDMI / DisplayPort 3 Output [vol: 1.00]
-+ │      46. sof-soundwire HDMI / DisplayPort 2 Output [vol: 1.00]
-+ │      47. sof-soundwire HDMI / DisplayPort 1 Output [vol: 1.00]
-+ │      48. sof-soundwire Headphones            [vol: 1.00]
-+ │  *   49. sof-soundwire Speaker               [vol: 0.90]
-  │  
-  ├─ Sink endpoints:
-  │  
-  ├─ Sources:
-+ │      50. sof-soundwire Headset Microphone    [vol: 1.00]
-+ │  *   51. sof-soundwire SoundWire microphones [vol: 0.76]
-
-Thanks,
-Marc
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 7e9d8c1cedfc..1c8d5b58eb64 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9939,6 +9939,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ca7, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
 -- 
-"A mouse is a device used to point at the xterm you want to type in" - A.S.R.
- 
-Home page: http://marc.merlins.org/                       | PGP 7F55D5F27AAF9D08
+2.34.1
+
