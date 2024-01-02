@@ -1,167 +1,131 @@
-Received: from mail-m127207.xmail.ntesmail.com (mail-m127207.xmail.ntesmail.com [115.236.127.207])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9499D5382;
-	Tue,  2 Jan 2024 08:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
-Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
-	by mail-m12756.qiye.163.com (Hmail) with ESMTPA id 5D363DC083C;
-	Tue,  2 Jan 2024 14:05:08 +0800 (CST)
-From: bo liu <bo.liu@senarytech.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
-Date: Tue,  2 Jan 2024 14:04:57 +0800
-Message-Id: <20240102060457.4917-1-bo.liu@senarytech.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0BFCA64;
+	Tue,  2 Jan 2024 09:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxvC1E0L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704186479; x=1735722479;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ilO5IzhQ3Hwvx3JB2WQjM6kgLpNd1YFCiNdkM3lmNDU=;
+  b=VxvC1E0LDFpmnAAo975IjzJ+4JWxPweMKF1a5zAKP8nY/vBjFAR78/dz
+   hYxYo59mNqz4mtPUmo5Te4wBaReUmAlD5Rh4iYbyGRvSPUen5kt2lffnG
+   5tYCgxfq3AXAJlCcSDgYqoZpmFcMfWBErGeg21DvlfpeaoX+sTWtXYrps
+   6z+ExnV0JOos/ykCbA4AD6LoyQ9jpxqGmHF/X9RrHI7aSmb4/Wdf2O6Gl
+   1b5izKSUfbxhu35YZcQPpN2q9/ni/mKBMMr1aWzGD4whfXU1o/xaALCHk
+   0GBYuIMboarg4sGlDZBPquqfrLWzDYe7jSHPw6HgxX+0KVnftVoGI8xr+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="4192271"
+X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
+   d="scan'208";a="4192271"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 01:07:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="772784129"
+X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
+   d="scan'208";a="772784129"
+Received: from jomolloy-mobl.ger.corp.intel.com (HELO [10.252.51.93]) ([10.252.51.93])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 01:07:54 -0800
+Message-ID: <3260e806-a708-4462-9d4e-346e54143a65@linux.intel.com>
+Date: Tue, 2 Jan 2024 11:08:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, linux-kernel@vger.kernel.org,
+ regressions@lists.linux.dev
+References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
+ <87sf3lxiet.wl-tiwai@suse.de> <ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+ <874jg1x7ao.wl-tiwai@suse.de> <ZY_Gb8-rncuOjRq-@shine.dominikbrodowski.net>
+ <87plyovwg7.wl-tiwai@suse.de>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <87plyovwg7.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGkJCVkMYH0pCHR4ZSEwYSFUTARMWGhIXJBQOD1
-	lXWRgSC1lBWU1KVUpDSFVKT0hVTENZV1kWGg8SFR0UWUFZT0tIVUpNT0lMTlVKS0tVSkJLS1kG
-X-HM-Tid: 0a8cc8c69c0cb223kuuu5d363dc083c
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nxg6Tio*SzwyEUk6DUw3K0Ma
-	TUoKCzFVSlVKTEtPSkxOTktCSU1PVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
-	WU1KVUpDSFVKT0hVTENZV1kIAVlBTk9CTjcG
 
-When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
-the headset type detection circuit will recognize the headset type as CTIA.
-At this point, plugout and plugin the headset will get the correct headset
-type as OMTP.
-The reason for the failure of headset type recognition is that the sound
-card creation will enable the VREF voltage of the headset mic, which
-interferes with the headset type automatic detection circuit. Plugout and
-plugin the headset will restart the headset detection and get the correct
-headset type.
-The patch is disable the VREF voltage when the headset is not present, and
-will enable the VREF voltage when the headset is present.
 
-Signed-off-by: bo liu <bo.liu@senarytech.com>
----
- sound/pci/hda/patch_conexant.c | 72 +++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index a889cccdd607..e24befa1fad9 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -166,6 +166,7 @@ static void cxt_init_gpio_led(struct hda_codec *codec)
- 
- static int cx_auto_init(struct hda_codec *codec)
- {
-+	unsigned int mic_persent;
- 	struct conexant_spec *spec = codec->spec;
- 	snd_hda_gen_init(codec);
- 	if (!spec->dynamic_eapd)
-@@ -174,6 +175,22 @@ static int cx_auto_init(struct hda_codec *codec)
- 	cxt_init_gpio_led(codec);
- 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
- 
-+	switch (codec->core.vendor_id) {
-+	case 0x14f11f86:
-+	case 0x14f11f87:
-+		/* fix some headset type recognize fail issue, such as EDIFIER headset */
-+		snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
-+		snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
-+		snd_hda_codec_write(codec, 0x1c, 0, 0x4f0, 0x0eb);
-+		/* fix reboot headset type recognize fail issue */
-+		mic_persent = snd_hda_codec_read(codec, 0x19, 0, 0xf09, 0x0);
-+		if (mic_persent&0x80000000)
-+			snd_hda_codec_write(codec, 0x19, 0, 0x707, 0x24);
-+		else
-+			snd_hda_codec_write(codec, 0x19, 0, 0x707, 0x20);
-+		break;
-+	}
-+
- 	return 0;
- }
- 
-@@ -192,6 +209,58 @@ static void cx_auto_free(struct hda_codec *codec)
- 	snd_hda_gen_free(codec);
- }
- 
-+static int headset_present_flag;
-+static void cx_jack_unsol_event(struct hda_codec *codec, unsigned int res)
-+{
-+	unsigned int val, phone_present, mic_persent, phone_tag, mic_tag;
-+	unsigned int count = 0;
-+
-+	switch (codec->core.vendor_id) {
-+	case 0x14f11f86:
-+	case 0x14f11f87:
-+		/* check hp&mic tag to process headset pulgin&plugout */
-+		phone_tag = snd_hda_codec_read(codec, 0x16, 0, 0xf08, 0x0);
-+		mic_tag = snd_hda_codec_read(codec, 0x19, 0, 0xf08, 0x0);
-+		if ((phone_tag&(res>>26)) || (mic_tag&(res>>26))) {
-+			phone_present = snd_hda_codec_read(codec, 0x16, 0, 0xf09, 0x0);
-+			if (!(phone_present&0x80000000)) {/* headphone plugout */
-+				headset_present_flag = 0;
-+				snd_hda_codec_write(codec, 0x19, 0, 0x707, 0x20);
-+				break;
-+			}
-+			if (headset_present_flag == 0) {
-+				headset_present_flag = 1;
-+			} else if (headset_present_flag == 1) {
-+				mic_persent = snd_hda_codec_read(codec, 0x19, 0, 0xf09, 0x0);
-+				/* headset is present */
-+				if ((phone_present&0x80000000) && (mic_persent&0x80000000)) {
-+					/* wait headset detect done */
-+					do {
-+						msleep(20);
-+						val = snd_hda_codec_read(codec, 0x1c,
-+									0, 0xca0, 0x0);
-+						count += 1;
-+					} while ((count > 3) || (val&0x080));
-+					val = snd_hda_codec_read(codec, 0x1c, 0, 0xcb0, 0x0);
-+					if (val&0x800) {
-+						codec_dbg(codec, "headset plugin, type is CTIA\n");
-+						snd_hda_codec_write(codec, 0x19, 0, 0x707, 0x24);
-+					} else if (val&0x400) {
-+						codec_dbg(codec, "headset plugin, type is OMTP\n");
-+						snd_hda_codec_write(codec, 0x19, 0, 0x707, 0x24);
-+					} else {
-+						codec_dbg(codec, "headphone plugin\n");
-+					}
-+					headset_present_flag = 2;
-+				}
-+			}
-+		}
-+		break;
-+	}
-+
-+	snd_hda_jack_unsol_event(codec, res);
-+}
-+
- #ifdef CONFIG_PM
- static int cx_auto_suspend(struct hda_codec *codec)
- {
-@@ -205,7 +274,7 @@ static const struct hda_codec_ops cx_auto_patch_ops = {
- 	.build_pcms = snd_hda_gen_build_pcms,
- 	.init = cx_auto_init,
- 	.free = cx_auto_free,
--	.unsol_event = snd_hda_jack_unsol_event,
-+	.unsol_event = cx_jack_unsol_event,
- #ifdef CONFIG_PM
- 	.suspend = cx_auto_suspend,
- 	.check_power_status = snd_hda_gen_check_power_status,
-@@ -1042,6 +1111,7 @@ static int patch_conexant_auto(struct hda_codec *codec)
- 	codec->spec = spec;
- 	codec->patch_ops = cx_auto_patch_ops;
- 
-+	headset_present_flag = 0;
- 	cx_auto_parse_eapd(codec);
- 	spec->gen.own_eapd_ctl = 1;
- 
+On 30/12/2023 12:03, Takashi Iwai wrote:
+> On Sat, 30 Dec 2023 08:27:43 +0100,
+> Dominik Brodowski wrote:
+>>
+>> Am Fri, Dec 29, 2023 at 06:11:43PM +0100 schrieb Takashi Iwai:
+>>> On Fri, 29 Dec 2023 16:24:18 +0100,
+>>> Dominik Brodowski wrote:
+>>>>
+>>>> Hi Takashi,
+>>>>
+>>>> many thanks for your response. Your patch helps half-way: the oops goes
+>>>> away, but so does the sound... With your patch, the decisive lines in dmesg
+>>>> are:
+>>>>
+>>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+>>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+>>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+>>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+>>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+>>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+>>>> 	platform sof_sdw: deferred probe pending
+>>>>
+>>>> With a revert of the a0575b4add21, it is:
+>>>>
+>>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+>>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+>>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+>>>> 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
+>>>> 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
+>>>> 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
+>>>> 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+>>>> 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
+>>>>
+>>>> Maybe this helps a bit further?
+>>>
+>>> Thanks for quick testing.
+>>> It shows at least that my guess wasn't wrong.
+>>>
+>>> The problem could be the initialization order in the caller side.
+>>> Can the patch below work instead?
+>>
+>> Unfortunately, no:
+>>
+>> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+>> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+>> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+>> sof_sdw sof_sdw: snd_soc_register_card failed -517
+>> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+>> sof_sdw sof_sdw: snd_soc_register_card failed -517
+>> platform sof_sdw: deferred probe pending
+> 
+> Hm, then it might be the logical failure of that commit.
+> Peter?
+> 
+> Without a fix in the next few days, we'll have to revert it before
+> 6.7.
+
+The fix for this was sent early December:
+https://lore.kernel.org/linux-sound/20231207095425.19597-1-peter.ujfalusi@linux.intel.com/
+
+It had the correct Fixes tag but it did not made it to 6.7-rc while
+a0575b4add21 did made it.
+
+Mark, Takashi, can you pick the fix for 6.7 (it is in -next)? I think we
+might have time for it to land?
+
 -- 
-2.34.1
-
+Péter
