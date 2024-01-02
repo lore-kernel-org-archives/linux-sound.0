@@ -1,204 +1,114 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D10463D0;
-	Tue,  2 Jan 2024 09:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415BAEAC2;
+	Tue,  2 Jan 2024 11:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ttzh2bqT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N5682qh9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ttzh2bqT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N5682qh9"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 903A61FCED;
-	Tue,  2 Jan 2024 09:25:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704187501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=10ALmBdejT/UDcEl5ROuUx4qyQxUrE5NQXpj4f4LXhM=;
-	b=Ttzh2bqTXlR+ctkzKcEGO5U82EgJsVZmlsMID1iJI8iHitzJnSoO9kql9D8Ik6UlfE2MPp
-	Q/HSwPqijdFbNc2jQa0r0yhcTiEnrRWrsBomjmvKixTKb5fIT4s7K06IVMwjDeWOCfzD8H
-	M2VqJ7QzaYCFPq2scRGQtvZcdeLrP3k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704187501;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=10ALmBdejT/UDcEl5ROuUx4qyQxUrE5NQXpj4f4LXhM=;
-	b=N5682qh9z3GlftWXoHQBcq/L08wRXX07bHovWWirdPKPKiJQrL9ZBEK69eKSTTSIsPwgJF
-	2h+vvg7JI6azhcCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704187501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=10ALmBdejT/UDcEl5ROuUx4qyQxUrE5NQXpj4f4LXhM=;
-	b=Ttzh2bqTXlR+ctkzKcEGO5U82EgJsVZmlsMID1iJI8iHitzJnSoO9kql9D8Ik6UlfE2MPp
-	Q/HSwPqijdFbNc2jQa0r0yhcTiEnrRWrsBomjmvKixTKb5fIT4s7K06IVMwjDeWOCfzD8H
-	M2VqJ7QzaYCFPq2scRGQtvZcdeLrP3k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704187501;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=10ALmBdejT/UDcEl5ROuUx4qyQxUrE5NQXpj4f4LXhM=;
-	b=N5682qh9z3GlftWXoHQBcq/L08wRXX07bHovWWirdPKPKiJQrL9ZBEK69eKSTTSIsPwgJF
-	2h+vvg7JI6azhcCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 336B213AC6;
-	Tue,  2 Jan 2024 09:25:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rZVDC23Wk2XpCgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 02 Jan 2024 09:25:01 +0000
-Date: Tue, 02 Jan 2024 10:25:00 +0100
-Message-ID: <87y1d8ulxv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Dominik Brodowski <linux@dominikbrodowski.net>,
-	Mark Brown <broonie@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
-In-Reply-To: <3260e806-a708-4462-9d4e-346e54143a65@linux.intel.com>
-References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
-	<87sf3lxiet.wl-tiwai@suse.de>
-	<ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
-	<874jg1x7ao.wl-tiwai@suse.de>
-	<ZY_Gb8-rncuOjRq-@shine.dominikbrodowski.net>
-	<87plyovwg7.wl-tiwai@suse.de>
-	<3260e806-a708-4462-9d4e-346e54143a65@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="HfBx0L9S"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id DFB4E9C0888;
+	Tue,  2 Jan 2024 06:37:40 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id oH47By21Q_s9; Tue,  2 Jan 2024 06:37:40 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 50F959C0957;
+	Tue,  2 Jan 2024 06:37:40 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 50F959C0957
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1704195460; bh=bAsNfTDPGcy9UE/qR8q9C/MYhrYIBcUMKG2G3Oi4VLE=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=HfBx0L9SYhFxNTXnatyaVVD/0MKoxKv1DkFPwS4FhP21ZdGhZFAP2Yw2hgXG5W1+t
+	 DG22L6dYlNdqI/yA4nolhiQbAYRMk3Yvd1vhj35YZTZ1keQ1XC+emTImMoQmjgdIjh
+	 alA58hoYPXIYl8/8523fTVCfrQVCNMBqb6qPyKUQ1uoRLrwWFtxWeVm73HyoV71weA
+	 Vcvll8Fbldw/DCB9WQCaUVbMMf9+FXj0uatTbgq9RGC183UtRM5ockSfi6AD3jQlfV
+	 NlAXW2vSrvxzA0K2KrHkaWWkgrrQsn+4DCiJZlStF1JhWW5TYl6ACLELjZgkVicaEV
+	 5OCMfpqr9RX7g==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id 20Ly5X62OB9G; Tue,  2 Jan 2024 06:37:40 -0500 (EST)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 1AD139C0888;
+	Tue,  2 Jan 2024 06:37:40 -0500 (EST)
+Date: Tue, 2 Jan 2024 06:37:39 -0500 (EST)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, 
+	shengjiu wang <shengjiu.wang@gmail.com>, 
+	Xiubo Lee <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound <linux-sound@vger.kernel.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	alsa-devel <alsa-devel@alsa-project.org>, 
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
+Message-ID: <1300509761.24764.1704195459987.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <20231220222550.GA1232936-robh@kernel.org>
+References: <20231218124058.2047167-1-elinor.montmasson@savoirfairelinux.com> <20231218124058.2047167-11-elinor.montmasson@savoirfairelinux.com> <20231220222550.GA1232936-robh@kernel.org>
+Subject: Re: [PATCHv3 RESEND 10/10] ASoC: dt-bindings: fsl-asoc-card: add
+ compatible for generic codec
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[13];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[dominikbrodowski.net,kernel.org,gmail.com,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com,lists.linux.dev];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Score: -2.10
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.8.15_GA_4581 (ZimbraWebClient - GC112 (Linux)/8.8.15_GA_4581)
+Thread-Topic: ASoC: dt-bindings: fsl-asoc-card: add compatible for generic codec
+Thread-Index: r/qDupTL/n3XOuEH8yE+GIqg/zABBQ==
 
-On Tue, 02 Jan 2024 10:08:47 +0100,
-Péter Ujfalusi wrote:
-> 
-> 
-> 
-> On 30/12/2023 12:03, Takashi Iwai wrote:
-> > On Sat, 30 Dec 2023 08:27:43 +0100,
-> > Dominik Brodowski wrote:
-> >>
-> >> Am Fri, Dec 29, 2023 at 06:11:43PM +0100 schrieb Takashi Iwai:
-> >>> On Fri, 29 Dec 2023 16:24:18 +0100,
-> >>> Dominik Brodowski wrote:
-> >>>>
-> >>>> Hi Takashi,
-> >>>>
-> >>>> many thanks for your response. Your patch helps half-way: the oops goes
-> >>>> away, but so does the sound... With your patch, the decisive lines in dmesg
-> >>>> are:
-> >>>>
-> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-> >>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-> >>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
-> >>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-> >>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
-> >>>> 	platform sof_sdw: deferred probe pending
-> >>>>
-> >>>> With a revert of the a0575b4add21, it is:
-> >>>>
-> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
-> >>>> 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
-> >>>> 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
-> >>>> 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
-> >>>> 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
-> >>>> 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
-> >>>>
-> >>>> Maybe this helps a bit further?
-> >>>
-> >>> Thanks for quick testing.
-> >>> It shows at least that my guess wasn't wrong.
-> >>>
-> >>> The problem could be the initialization order in the caller side.
-> >>> Can the patch below work instead?
-> >>
-> >> Unfortunately, no:
-> >>
-> >> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
-> >> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
-> >> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-> >> sof_sdw sof_sdw: snd_soc_register_card failed -517
-> >> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
-> >> sof_sdw sof_sdw: snd_soc_register_card failed -517
-> >> platform sof_sdw: deferred probe pending
-> > 
-> > Hm, then it might be the logical failure of that commit.
-> > Peter?
-> > 
-> > Without a fix in the next few days, we'll have to revert it before
-> > 6.7.
-> 
-> The fix for this was sent early December:
-> https://lore.kernel.org/linux-sound/20231207095425.19597-1-peter.ujfalusi@linux.intel.com/
-> 
-> It had the correct Fixes tag but it did not made it to 6.7-rc while
-> a0575b4add21 did made it.
-> 
-> Mark, Takashi, can you pick the fix for 6.7 (it is in -next)? I think we
-> might have time for it to land?
+Hello,
 
-Oh that landed to Mark's for-next branch, i.e. only for 6.8.
-Mark, please cherry-pick and send a PR before 6.7 final.
+On Wednesday, 20 December, 2023 23:25:50, Rob Herring wrote:
+> On Mon, Dec 18, 2023 at 01:40:58PM +0100, Elinor Montmasson wrote: 
+> > +Optional, relevant only with the "fsl,imx-audio-generic" compatible: 
+> > + 
+> > + - cpu-slot-width : Indicates a specific TDM slot width in bits. 
+> > + - cpu-slot-num : Indicates a specific number of TDM slots per frame. 
+> 
+> Pretty sure I've seen other bindings with TDM slot properties. A sign we 
+> need something common if we don't already have something. 
 
-Meanwhile, Peter, please update the bugzilla entry to let people try
-the patch.
+That's right, "tdm-slot.txt" already defines TDM bindings, I will
+use them with the utility function snd_soc_of_parse_tdm_slot().
 
+> > + - cpu-sysclk-freq-rx : Frequency of the CPU DAI sys clock for Rx. 
+> > + - cpu-sysclk-freq-tx : Frequency of the CPU DAI sys clock for Tx. 
+> > + 
+> > + - cpu-sysclk-dir-rx-out : Boolean property. Specifies sys clock direction 
+> > + as 'out' on initialization for Rx. 
+> > + If not set, default direction is 'in'. 
+> > + - cpu-sysclk-dir-tx-out : Boolean property. Specifies sys clock direction 
+> > + as 'out' on initialization for Tx. 
+> > + If not set, default direction is 'in'. 
+> 
+> Looks like clock stuff. Use the clock binding. 
 
-thanks,
+simple-card defines similar properties at the dai level:
+"system-clock-frequency" and "system-clock-direction-out".
+The first is used if no "clocks" binding is specified for the dai node.
 
-Takashi
+Maybe I could use a similar logic with fsl-asoc-card ?
+* adding a "clock-cpu" phandle property which should be the cpu clock.
+It will be used to retreive the frequency for both RX and TX.
+* keeping "cpu-sysclk-freq-rx"/"cpu-sysclk-freq-tx", which are used if
+no clock is provided, like "system-clock-frequency" in simple-card.
+* keep using "cpu-sysclk-dir-rx-out"/"cpu-sysclk-dir-tx-out", like
+"system-clock-direction-out" in simple card.
+
+Also, maybe I could rename my new properties:
+cpu-system-clock-frequency-tx, cpu-system-clock-direction-out-rx, ...
+It would better match those in simple-card as they do the same thing.
+
+Best regards,
+Elinor Montmasson
