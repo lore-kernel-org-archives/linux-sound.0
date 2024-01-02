@@ -1,88 +1,121 @@
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
+Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0FC156D1
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jan 2024 16:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="iz2gtZve";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="ppjdj+bJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=7pKpo+sBmuDRPGTAU7DR6NOpi4cHG/Pa0KfY/BWs7xs=;
-	b=iz2gtZvep5v6iWlxT8TmXRPOqebPYxEz+YLB1YV3J8ky/wKDiC5dKO8fQiOxOnqvi496xq/C7/qbZ
-	 3kD3ap+RVx35g21stU3T+o3TyLQ3MpdPDf9NWxk7qdJ/A1hNu639hmFCwORV24DHHkkhIu4VKM4+DD
-	 12UNSYbvU8UCyij0+Grw9Aa3r1Ax+10yTFsgF2isq9KJoQZKCLFFF3ya6JJSG59enlCC7onpm72Dti
-	 2soGMgllhhvDgCorop3JZKLsIb1PI/EyaJrupT2WJgP1BSkv8MZXcecP3DUV2ozeUGeIwTUe3PZ5WQ
-	 DL1Budqpvs+iu/qNaaNvAtnFzeJ6oMA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=7pKpo+sBmuDRPGTAU7DR6NOpi4cHG/Pa0KfY/BWs7xs=;
-	b=ppjdj+bJv/kc4DB+tSOE73nHayIzOdvYjIV/deteqz8MnseJSyC3Q0Wluu76AS3imkD5hMqr+O2Aw
-	 FMclUj+CA==
-X-HalOne-ID: 5539e9de-a98c-11ee-8a73-2dc64a403fa2
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay4 (Halon) with ESMTPSA
-	id 5539e9de-a98c-11ee-8a73-2dc64a403fa2;
-	Tue, 02 Jan 2024 16:31:10 +0000 (UTC)
-Date: Tue, 2 Jan 2024 17:31:08 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>, Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 27/27] fbdev/p9100: Drop now unused driver p9100
-Message-ID: <20240102163108.GA564954@ravnborg.org>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
- <20231219-sam-sparc32-sunset-v3-v1-27-64bb44b598c5@ravnborg.org>
- <0fc5ba5d-4513-48b5-bde9-3eb311cdc535@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A45154A9;
+	Tue,  2 Jan 2024 17:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+Received: from shine.dominikbrodowski.net (shine.brodo.linta [10.2.0.112])
+	by isilmar-4.linta.de (Postfix) with ESMTPSA id 2AAD42002EC;
+	Tue,  2 Jan 2024 17:38:32 +0000 (UTC)
+Received: by shine.dominikbrodowski.net (Postfix, from userid 1000)
+	id E6FCBA0083; Tue,  2 Jan 2024 18:37:45 +0100 (CET)
+Date: Tue, 2 Jan 2024 18:37:45 +0100
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+Message-ID: <ZZRJ6VNJlQ97bnjF@shine.dominikbrodowski.net>
+References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
+ <87sf3lxiet.wl-tiwai@suse.de>
+ <ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+ <874jg1x7ao.wl-tiwai@suse.de>
+ <ZY_Gb8-rncuOjRq-@shine.dominikbrodowski.net>
+ <87plyovwg7.wl-tiwai@suse.de>
+ <3260e806-a708-4462-9d4e-346e54143a65@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <0fc5ba5d-4513-48b5-bde9-3eb311cdc535@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3260e806-a708-4462-9d4e-346e54143a65@linux.intel.com>
 
-Hi Thomas,
-
-On Tue, Jan 02, 2024 at 09:26:27AM +0100, Thomas Zimmermann wrote:
-> Hi Sam
+Am Tue, Jan 02, 2024 at 11:08:47AM +0200 schrieb Péter Ujfalusi:
 > 
-> Am 19.12.23 um 23:03 schrieb Sam Ravnborg via B4 Relay:
-> > From: Sam Ravnborg <sam@ravnborg.org>
+> 
+> On 30/12/2023 12:03, Takashi Iwai wrote:
+> > On Sat, 30 Dec 2023 08:27:43 +0100,
+> > Dominik Brodowski wrote:
+> >>
+> >> Am Fri, Dec 29, 2023 at 06:11:43PM +0100 schrieb Takashi Iwai:
+> >>> On Fri, 29 Dec 2023 16:24:18 +0100,
+> >>> Dominik Brodowski wrote:
+> >>>>
+> >>>> Hi Takashi,
+> >>>>
+> >>>> many thanks for your response. Your patch helps half-way: the oops goes
+> >>>> away, but so does the sound... With your patch, the decisive lines in dmesg
+> >>>> are:
+> >>>>
+> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> >>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> >>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> >>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> >>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> >>>> 	platform sof_sdw: deferred probe pending
+> >>>>
+> >>>> With a revert of the a0575b4add21, it is:
+> >>>>
+> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+> >>>> 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
+> >>>> 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
+> >>>> 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
+> >>>> 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+> >>>> 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
+> >>>>
+> >>>> Maybe this helps a bit further?
+> >>>
+> >>> Thanks for quick testing.
+> >>> It shows at least that my guess wasn't wrong.
+> >>>
+> >>> The problem could be the initialization order in the caller side.
+> >>> Can the patch below work instead?
+> >>
+> >> Unfortunately, no:
+> >>
+> >> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> >> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> >> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> >> sof_sdw sof_sdw: snd_soc_register_card failed -517
+> >> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> >> sof_sdw sof_sdw: snd_soc_register_card failed -517
+> >> platform sof_sdw: deferred probe pending
 > > 
-> > The p9100 driver is only relevant for the Sparcbook 3 machine,
-> > and with sun4m support removed this driver is no longer relevant.
+> > Hm, then it might be the logical failure of that commit.
+> > Peter?
 > > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Arnd Bergmann <arnd@kernel.org>
-> > Cc: Andreas Larsson <andreas@gaisler.com>
-> > Cc: Helge Deller <deller@gmx.de>
+> > Without a fix in the next few days, we'll have to revert it before
+> > 6.7.
 > 
-> Thanks for cleaning up.
-> 
-> Ack-by: Thomas Zimmermann <tzimmermann@suse.de>
-Thanks.
-> 
-> if the series is accepted.
-As you may have seen there is a maintainer vacuum at the moment :-(
-That holds up clean-up a bit, and I cannot find the motivation/time
-to offer it myself at the moment (no sponsor for this type of work).
+> The fix for this was sent early December:
+> https://lore.kernel.org/linux-sound/20231207095425.19597-1-peter.ujfalusi@linux.intel.com/
 
-	Sam
+Yes, that patch fixes the issue (all built-in here).
+
+Thanks,
+	Dominik
