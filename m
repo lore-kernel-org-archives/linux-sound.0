@@ -1,134 +1,49 @@
-Received: from mx.dolansoft.org (s2.dolansoft.org [212.51.146.245])
+Received: from mail-200167.simplelogin.co (mail-200167.simplelogin.co [176.119.200.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F12E171B6;
-	Tue,  2 Jan 2024 22:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brun.one
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brun.one
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8881773F
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jan 2024 23:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=willian.wang
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=willian.wang
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brun.one header.i=@brun.one header.b="E2npxgfi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=brun.one;
-	s=s1; h=MIME-Version:Message-ID:Date:Subject:Cc:To:From:In-Reply-To:
-	References:From:To:Subject:Date:Message-ID:Reply-To;
-	bh=tk05/deGlS4tuw8pDhigIISVFF8G63ZmEtVtmgFP+ks=; b=E2npxgfi8/c4idsH1/Hnvcq0ax
-	l7IuT51xDlloC1d+wTulBhV6qiDkBEf/+BzNDF+RWbqHBZe89s5aOgWu2foYq/9Ubt2D7ajNQMADZ
-	kb2/YsJ+iV4k8Yb2eyY7YDAAqpKSR3yDX1vFQHxgDfmX59XDq2Sxgo9N+M6XNUWJPwDtJ7S8tahd/
-	QRMyLP6fed+t06iymK5hahb4B+dG/9UV1+kMbmKbvRd5zL1Brp7j4yx6U1fP8J5N2W9Xuun2tZdf4
-	u9qNXfySN5EQrkJCd1UZleR7BMuw3mgwvK72KGs56fde0PSu3Xq/I7P17dbUt4z7qsg0V6+Gt7/bK
-	u9C/TkRg==;
-Received: from [212.51.153.89] (helo=blacklava.cluster.local)
-	by mx.dolansoft.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <lorenz@dolansoft.org>)
-	id 1rKmca-001AiL-2O;
-	Tue, 02 Jan 2024 21:48:24 +0000
-From: Lorenz Brun <lorenz@brun.one>
-To: Stefan Binding <sbinding@opensource.cirrus.com>,
-	James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ALSA: hda: cs35l41: Support more HP models without _DSD
-Date: Tue,  2 Jan 2024 22:48:20 +0100
-Message-ID: <20240102214821.3394810-1-lorenz@brun.one>
+	dkim=pass (1024-bit key) header.d=willian.wang header.i=@willian.wang header.b="hDZ6dqAk"
+ARC-Seal: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626; t=1704236204;
+	cv=none; b=Ax8fTMPZBMO2aleNAKrdI6n5Q5T9gbpiSjZNu42Tv4zKT6G6Gb6bRq2R3AI/x55+bZRk2/sAhAxWbGdQVJ63k09EF1D6vCDdrPGdyEjiXH7ninh3oQPCyv9g88qjsCwwoLxGvhwpXtsKQvEC781e9jtDme0O4OaS7aHzXF/9CyJnrBqfoGnqRYRrT0lW7Dupyh5OhZTjotx8e6wOzXwqXXoPyFIfGmHEtPW47+p4lJJxawSNY4rIK+MDu3DJ+51YGUQvzTmW4o0y6dlKb4xtj3VLX6HVKapJGw/nMqFISUhEest18g9eOhaLfjRjRHEH8b5DhSYBJ7DiPblYC87VAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626;
+	t=1704236204; c=relaxed/simple;
+	bh=kWAKk3nloB2r8KYY+fac/aEI7U47DszvlPld13tJ92g=;
+	h=DKIM-Signature:MIME-Version:Date:Subject:Content-Type:
+	 Content-Transfer-Encoding:From:To:Cc:Message-ID:X-SimpleLogin-Type:
+	 X-SimpleLogin-EmailLog-ID:X-SimpleLogin-Want-Signing; b=Emvct8kDiyW33WAhsQSjxeCF4ZtxYW/7Q/M1mzslXRhHv12g8fo7j4i/scv2haiV/pJyshivcjnq8JSyGSpHLpLhsmWYbGIRCIf5jzLq0bSMymQw3hwlXbJGecL5LBuM2b1fkxFf/31ogDv0aQ1anIQcugPIceNJ8SL/rzAddTmnC3fc6FmvOTy/RKNp9tWkh615RElMW7PnBHDFPnB1w/alYBu4KX6JbnQFz3NPom7wsCU0kmOBUkh0GdhUJ79sRKIyrGWwQWQGxFssfUDFiZ1SNXsIAdsfoMm03li+TrtommTebdfbt5oUhqZ1yszhymQmzGhZDtsvafafgNnD4w==
+ARC-Authentication-Results: i=1; mail.protonmail.ch
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=willian.wang;
+	s=dkim; t=1704236204;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kWAKk3nloB2r8KYY+fac/aEI7U47DszvlPld13tJ92g=;
+	b=hDZ6dqAkxJrIRdTQHVYPkGWrlfTSbj0zhH9W05oJHKmpOW4YEhOBm6d8HpNEUMOgcPXTjc
+	RdmQ2YAI9kFA4pdohowWN+V+LbxnHJYzexEcq95AJkXdtv+rj1qlcPyGtK5BT1As3k4Grh
+	uKDPcGdeia3V2W9ELwg6SbspVvqbgRI=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: lorenz@dolansoft.org
+Date: Tue, 2 Jan 2024 19:56:03 -0300
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+From: Willian Wang <kernel@willian.wang>
+To: peter.ujfalusi@linux.intel.com
+Cc: 
+ tiwai@suse.com,regressions@lists.linux.dev,tiwai@suse.de,ranjani.sridharan@linux.intel.com,pierre-louis.bossart@linux.intel.com,perex@perex.cz,linux-sound@vger.kernel.org,linux-kernel@vger.kernel.org,kai.vehmanen@linux.intel.com,lgirdwood@gmail.com,broonie@kernel.org,alsa-devel@alsa-project.org,linux@dominikbrodowski.net
+Message-ID: <170423620368.7.11626876748388238508.241693435@willian.wang>
+X-SimpleLogin-Type: Reply
+X-SimpleLogin-EmailLog-ID: 241693436
+X-SimpleLogin-Want-Signing: yes
 
-This adds overrides for a series of notebooks using a common config
-taken from HP's proprietary Windows driver.
-
-This has been tested on a HP 15-ey0xxxx device (subsystem 103C8A31)
-together with another Realtek quirk and the calibration files from the
-proprietary driver.
-
-Signed-off-by: Lorenz Brun <lorenz@brun.one>
----
-Changes in v2:
- - Use newly-introduced config table instead of function
- - Change boost cap value from 10uF to 24uF after cross-referencing my
-   sources with the preexisting 103C89C6 entry.
-
-Changes in v3:
- - Rebase onto sound/for-next
- - Sorted model table
- - Updated commit message
-
- sound/pci/hda/cs35l41_hda_property.c | 44 ++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
-
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 52820ca9c603..fcc605be51cf 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -42,6 +42,28 @@ static const struct cs35l41_config cs35l41_config_table[] = {
-  * in the ACPI. The Reset GPIO is also valid, so we can use the Reset defined in _DSD.
-  */
- 	{ "103C89C6", 2, INTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, 0, 0 }, -1, -1, -1, 1000, 4500, 24 },
-+	{ "103C8A28", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A29", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2A", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2B", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2C", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2D", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A2E", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A30", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8A31", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BB3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BB4", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BDF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE0", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE1", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE2", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE9", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE5", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8BE6", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-+	{ "103C8B3A", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-@@ -356,6 +378,28 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10280BEB", generic_dsd_config },
- 	{ "CSC3551", "10280C4D", generic_dsd_config },
- 	{ "CSC3551", "103C89C6", generic_dsd_config },
-+	{ "CSC3551", "103C8A28", generic_dsd_config },
-+	{ "CSC3551", "103C8A29", generic_dsd_config },
-+	{ "CSC3551", "103C8A2A", generic_dsd_config },
-+	{ "CSC3551", "103C8A2B", generic_dsd_config },
-+	{ "CSC3551", "103C8A2C", generic_dsd_config },
-+	{ "CSC3551", "103C8A2D", generic_dsd_config },
-+	{ "CSC3551", "103C8A2E", generic_dsd_config },
-+	{ "CSC3551", "103C8A30", generic_dsd_config },
-+	{ "CSC3551", "103C8A31", generic_dsd_config },
-+	{ "CSC3551", "103C8BB3", generic_dsd_config },
-+	{ "CSC3551", "103C8BB4", generic_dsd_config },
-+	{ "CSC3551", "103C8BDF", generic_dsd_config },
-+	{ "CSC3551", "103C8BE0", generic_dsd_config },
-+	{ "CSC3551", "103C8BE1", generic_dsd_config },
-+	{ "CSC3551", "103C8BE2", generic_dsd_config },
-+	{ "CSC3551", "103C8BE9", generic_dsd_config },
-+	{ "CSC3551", "103C8BDD", generic_dsd_config },
-+	{ "CSC3551", "103C8BDE", generic_dsd_config },
-+	{ "CSC3551", "103C8BE3", generic_dsd_config },
-+	{ "CSC3551", "103C8BE5", generic_dsd_config },
-+	{ "CSC3551", "103C8BE6", generic_dsd_config },
-+	{ "CSC3551", "103C8B3A", generic_dsd_config },
- 	{ "CSC3551", "104312AF", generic_dsd_config },
- 	{ "CSC3551", "10431433", generic_dsd_config },
- 	{ "CSC3551", "10431463", generic_dsd_config },
--- 
-2.42.0
+Hi, just tested the patch and both sound and resume-from-suspend are
+working like 6.6 again =F0=9F=91=8D
 
