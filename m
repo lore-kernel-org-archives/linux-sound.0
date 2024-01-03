@@ -1,98 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683F71C282;
-	Wed,  3 Jan 2024 11:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0391A596;
+	Wed,  3 Jan 2024 14:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7UGDIyH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704283044; x=1735819044;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ckkiO416SQGEhwV4zzqsvcHUPsFG/LHSPvD8m5tHmkY=;
-  b=F7UGDIyHnBXnU/CluuIQbooWBXxWzeaYzgPWTafJRJfo9OT6cdT9NnRp
-   sDSLBJYI3ADiwdcXaB3+UKVtME0CAUxLJq6hkA8woBJi3fNkd6niuhple
-   xTaqnvtE8+wtwwq5zAn5Y7oEVheqxKu+h++bnQop/iI/qaCU//RZ9zkM6
-   SN1RUhPyyN/BQWIM/SVzmAA9bPxJxuvp3LMg2S1/YjqOJlxW+QZTbEdGG
-   TeiLnOAbfz/+SzuWC4kJ1VuaRMDnZ9AbScMOMumA44fCiIzZ0zRFA4rhE
-   qGIN8RvRGOwEfjvK/dK3Q+E3wSJ/RaJa9liIjozbmBRynJFYlYpbjNuNh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="428169638"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="428169638"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 03:57:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="1111348156"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="1111348156"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Jan 2024 03:57:14 -0800
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EIhSiEnC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdCEDPm6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EIhSiEnC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdCEDPm6"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 65B1821E96;
+	Wed,  3 Jan 2024 14:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704292561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=neGn1jiNFuUjohraOc1BEPgti9cKQvU6vU5CdtXSqJY=;
+	b=EIhSiEnC18ukreeed9nWUKc1K4RndJxWpDmKlh0yRKi+KODhHt4ooZPIUKb14okCLlEqTE
+	5aftYoQHRumeZuey+BJDV+ncYaTr34dhJJcZrvhFWRZNSEwE/QsERDRud9zT3NDEUdCeZe
+	T6WYYBJ21OruHZ/kShSHr3CvJqjMkb0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704292561;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=neGn1jiNFuUjohraOc1BEPgti9cKQvU6vU5CdtXSqJY=;
+	b=gdCEDPm6SlJFXMcYQdjbROY+eczQFFIE3uPWCzaqbzUl2/hajUJKZRDL+JlKTq1F4TsrZT
+	2U1jriLAoSdq6TBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704292561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=neGn1jiNFuUjohraOc1BEPgti9cKQvU6vU5CdtXSqJY=;
+	b=EIhSiEnC18ukreeed9nWUKc1K4RndJxWpDmKlh0yRKi+KODhHt4ooZPIUKb14okCLlEqTE
+	5aftYoQHRumeZuey+BJDV+ncYaTr34dhJJcZrvhFWRZNSEwE/QsERDRud9zT3NDEUdCeZe
+	T6WYYBJ21OruHZ/kShSHr3CvJqjMkb0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704292561;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=neGn1jiNFuUjohraOc1BEPgti9cKQvU6vU5CdtXSqJY=;
+	b=gdCEDPm6SlJFXMcYQdjbROY+eczQFFIE3uPWCzaqbzUl2/hajUJKZRDL+JlKTq1F4TsrZT
+	2U1jriLAoSdq6TBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6E301340C;
+	Wed,  3 Jan 2024 14:36:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Pw7HNtBwlWXDSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 03 Jan 2024 14:36:00 +0000
+Date: Wed, 03 Jan 2024 15:36:00 +0100
+Message-ID: <87o7e2a3hr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Dominik Brodowski <linux@dominikbrodowski.net>,
+	Mark Brown <broonie@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	pandith.n@intel.com,
-	mallikarjunappa.sangannavar@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [RFC PATCH v3 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Date: Wed,  3 Jan 2024 17:26:02 +0530
-Message-Id: <20240103115602.19044-12-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240103115602.19044-1-lakshmi.sowjanya.d@intel.com>
-References: <20240103115602.19044-1-lakshmi.sowjanya.d@intel.com>
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: Oops in hdac_hda_dev_probe (6.7-rc7)
+In-Reply-To: <87y1d8ulxv.wl-tiwai@suse.de>
+References: <ZYvUIxtrqBQZbNlC@shine.dominikbrodowski.net>
+	<87sf3lxiet.wl-tiwai@suse.de>
+	<ZY7kosArPqhlCfOA@shine.dominikbrodowski.net>
+	<874jg1x7ao.wl-tiwai@suse.de>
+	<ZY_Gb8-rncuOjRq-@shine.dominikbrodowski.net>
+	<87plyovwg7.wl-tiwai@suse.de>
+	<3260e806-a708-4462-9d4e-346e54143a65@linux.intel.com>
+	<87y1d8ulxv.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: *
+X-Spam-Score: 1.20
+X-Spamd-Result: default: False [1.20 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
+	 RCPT_COUNT_TWELVE(0.00)[13];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[dominikbrodowski.net,kernel.org,gmail.com,perex.cz,suse.com,alsa-project.org,vger.kernel.org,linux.intel.com,lists.linux.dev];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Tue, 02 Jan 2024 10:25:00 +0100,
+Takashi Iwai wrote:
+> 
+> On Tue, 02 Jan 2024 10:08:47 +0100,
+> Péter Ujfalusi wrote:
+> > 
+> > 
+> > 
+> > On 30/12/2023 12:03, Takashi Iwai wrote:
+> > > On Sat, 30 Dec 2023 08:27:43 +0100,
+> > > Dominik Brodowski wrote:
+> > >>
+> > >> Am Fri, Dec 29, 2023 at 06:11:43PM +0100 schrieb Takashi Iwai:
+> > >>> On Fri, 29 Dec 2023 16:24:18 +0100,
+> > >>> Dominik Brodowski wrote:
+> > >>>>
+> > >>>> Hi Takashi,
+> > >>>>
+> > >>>> many thanks for your response. Your patch helps half-way: the oops goes
+> > >>>> away, but so does the sound... With your patch, the decisive lines in dmesg
+> > >>>> are:
+> > >>>>
+> > >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> > >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> > >>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > >>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > >>>> 	sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > >>>> 	sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > >>>> 	platform sof_sdw: deferred probe pending
+> > >>>>
+> > >>>> With a revert of the a0575b4add21, it is:
+> > >>>>
+> > >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> > >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> > >>>> 	sof-audio-pci-intel-tgl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+> > >>>> 	sof_sdw sof_sdw: ASoC: Parent card not yet available, widget card binding deferred
+> > >>>> 	sof_sdw sof_sdw: hda_dsp_hdmi_build_controls: no PCM in topology for HDMI converter 3
+> > >>>> 	input: sof-soundwire HDMI/DP,pcm=5 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input14
+> > >>>> 	input: sof-soundwire HDMI/DP,pcm=6 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input15
+> > >>>> 	input: sof-soundwire HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:1f.3/sof_sdw/sound/card0/input16
+> > >>>>
+> > >>>> Maybe this helps a bit further?
+> > >>>
+> > >>> Thanks for quick testing.
+> > >>> It shows at least that my guess wasn't wrong.
+> > >>>
+> > >>> The problem could be the initialization order in the caller side.
+> > >>> Can the patch below work instead?
+> > >>
+> > >> Unfortunately, no:
+> > >>
+> > >> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+> > >> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+> > >> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > >> sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > >> sof_sdw sof_sdw: ASoC: CODEC DAI intel-hdmi-hifi1 not registered
+> > >> sof_sdw sof_sdw: snd_soc_register_card failed -517
+> > >> platform sof_sdw: deferred probe pending
+> > > 
+> > > Hm, then it might be the logical failure of that commit.
+> > > Peter?
+> > > 
+> > > Without a fix in the next few days, we'll have to revert it before
+> > > 6.7.
+> > 
+> > The fix for this was sent early December:
+> > https://lore.kernel.org/linux-sound/20231207095425.19597-1-peter.ujfalusi@linux.intel.com/
+> > 
+> > It had the correct Fixes tag but it did not made it to 6.7-rc while
+> > a0575b4add21 did made it.
+> > 
+> > Mark, Takashi, can you pick the fix for 6.7 (it is in -next)? I think we
+> > might have time for it to land?
+> 
+> Oh that landed to Mark's for-next branch, i.e. only for 6.8.
+> Mark, please cherry-pick and send a PR before 6.7 final.
 
-Document sysfs interface for Intel Timed I/O PPS driver
+I ended up with cherry-picking by myself now.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- 1 file changed, 7 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+I'm going to send a PR to Linus for 6.7 final in tomorrow.
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..24a2eb591a05
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		March 2024
-+KernelVersion	6.9
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware(Enabled/Disabled).
--- 
-2.35.3
 
+thanks,
+
+Takashi
