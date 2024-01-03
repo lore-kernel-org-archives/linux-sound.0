@@ -1,84 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9481D530;
-	Wed,  3 Jan 2024 20:24:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247681DA3B;
+	Wed,  3 Jan 2024 22:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UsfZ5GLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DDEC433C7;
-	Wed,  3 Jan 2024 20:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704313495;
-	bh=7vxiVQamR3pRKvlcOZeP+eFNosrKWWV5Djb3Z0x4Wa4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UsfZ5GLY4QmiNBLcKHbUuoGVupm7p8Kps4Q30yw/O78ZuO1Rp+Nk0o4JmditS5dAC
-	 EpZKGZLk3FPOk/mDj2JbHjPPdXTeD/EeT2GC9Kyyq2xFbrJD5jlz5c+gfXTsTTv1ge
-	 L2Zpc5ldsfTj2lMupkyHNhu4tH0KGt8U+XGjyu0xqjZXomchIQ3PsMKHo1F91+EkPO
-	 Ca8xH1Bg1TSSQlnum6PqcpK6Hy5gbbGd+qE+cwprYoDdTzDWwSArztU8rVJZ5AplRj
-	 1YnPmqBKB6NGZKEHMuZIu6+lWG5uuhUOA/4l2BKL5JKLFpaKUZsXgrF206ZqZ9pO/U
-	 MNllPsFqa+A2A==
-From: Mark Brown <broonie@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240103-meson-enum-val-v1-0-424af7a8fb91@kernel.org>
-References: <20240103-meson-enum-val-v1-0-424af7a8fb91@kernel.org>
-Subject: Re: [PATCH 0/4] ASoC: meson: Fix issues with LibreTech Saphire
-Message-Id: <170431349265.3159626.5476717975051420559.b4-ty@kernel.org>
-Date: Wed, 03 Jan 2024 20:24:52 +0000
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TQgtpQwW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=fHwQ56i97OHIXttecD026MYSyAw2rlXnCq/U+o4NtQU=; b=TQgtpQwWC4q+uBbxLsGIu9TdMR
+	A1JMSyXBnIMP0z1jFR3+80MOnElOPNCfoV8Ar1xrBtaxE+GR50TysDT35s7Nv7qkGPpp554QbQ5ji
+	2Ce0EEGf8NBuN4a+FbV5WgaGxPPuCtDqVDreR2Cf0tR9okTRrwkB8mNrGeCA1UPV3EOS+vpiyLt/O
+	uJ+lMmAbXQgb1x6wPtzGmoInRuhGw1fEhoATgHtY3EGDH3cPt876igUx0ae0/BDzdBUkxk+Tv17vp
+	uioPCfzrK1NVkArGYtNJL5Fw7NSFc6bbEoU+p+UJuyVCmy3sjBhDyajVDQR7PchvBGVwEpBSBu2A6
+	9vTL2mOw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rL9U9-00CEYx-2Y;
+	Wed, 03 Jan 2024 22:13:13 +0000
+Message-ID: <3466355c-dc30-4638-9bbe-a7433477340c@infradead.org>
+Date: Wed, 3 Jan 2024 14:13:12 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 10/11] Documentation: driver-api: pps: Add Intel
+ Timed I/O PPS generator
+Content-Language: en-US
+To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, jstultz@google.com,
+ giometti@enneenne.com, corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, pandith.n@intel.com,
+ mallikarjunappa.sangannavar@intel.com, thejesh.reddy.t.r@intel.com
+References: <20240103115602.19044-1-lakshmi.sowjanya.d@intel.com>
+ <20240103115602.19044-11-lakshmi.sowjanya.d@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240103115602.19044-11-lakshmi.sowjanya.d@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
 
-On Wed, 03 Jan 2024 18:34:00 +0000, Mark Brown wrote:
-> This fixes a few issues I identified when integrating a LibreTech
-> Saphire (based on S905D3) into my CI.
+
+
+On 1/3/24 03:56, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > 
+> Add Intel Timed I/O PPS usage instructions.
 > 
+> Co-developed-by: Pandith N <pandith.n@intel.com>
+> Signed-off-by: Pandith N <pandith.n@intel.com>
+> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  Documentation/driver-api/pps.rst | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
+> index 78dded03e5d8..cb1e4d814d37 100644
+> --- a/Documentation/driver-api/pps.rst
+> +++ b/Documentation/driver-api/pps.rst
+> @@ -246,3 +246,25 @@ delay between assert and clear edge as small as possible to reduce system
+>  latencies. But if it is too small slave won't be able to capture clear edge
+>  transition. The default of 30us should be good enough in most situations.
+>  The delay can be selected using 'delay' pps_gen_parport module parameter.
+> +
+> +
+> +Intel Timed I/O PPS signal generator
+> +------------------------------------
+> +
+> +Intel Timed I/O is a high precision device, present on 2019 and newer Intel
+> +CPUs, that can generate PPS signal.
 
-Applied to
+              can generate a PPS signal.
+or
+              can generate PPS signals.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> +
+> +Timed I/O and system time are both driven by same hardware clock, The signal
 
-Thanks!
+                                                              clock. The signal is
 
-[1/4] ASoC: meson: g12a-toacodec: Validate written enum values
-      commit: 3150b70e944ead909260285dfb5707d0bedcf87b
-[2/4] ASoC: meson: g12a-tohdmitx: Validate written enum values
-      commit: 1e001206804be3f3d21f4a1cf16e5d059d75643f
-[3/4] ASoC: meson: g12a-toacodec: Fix event generation
-      commit: 172c88244b5f2d3375403ebb504d407be0fded59
-[4/4] ASoC: meson: g12a-tohdmitx: Fix event generation for S/PDIF mux
-      commit: b036d8ef3120b996751495ce25994eea58032a98
+> +generated with a precision of ~20 nanoseconds. The generated PPS signal
+> +is used to synchronize an external device with system clock. For example,
+> +Share your clock with a device that receives PPS signal, generated by
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+   share
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> +Timed I/O device. There are dedicated Timed I/O pins to deliver PPS signal
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+maybe:                                                  to deliver the PPS signal
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+> +to an external device.
+> +
+> +Usage of Intel Timed I/O as PPS generator:
+> +
+> +Start generating PPS signal::
+> +        $echo 1 > /sys/devices/platform/INTCxxxx\:00/enable
+> +
+> +Stop generating PPS signal::
+> +        $echo 0 > /sys/devices/platform/INTCxxxx\:00/enable
 
-Thanks,
-Mark
-
+-- 
+#Randy
