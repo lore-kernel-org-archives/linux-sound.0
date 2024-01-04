@@ -1,262 +1,88 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o90.zoho.com (sender4-pp-o90.zoho.com [136.143.188.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E626025114
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 16:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3B3225D7
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 18:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zoho.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zoho.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y6QUYLkd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gX/P2Msj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y6QUYLkd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gX/P2Msj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EC62E1FB3B;
-	Thu,  4 Jan 2024 16:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704386509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qn43avIOMx+kBvH7yLBNxRRxUqwoFyqtqibOgwygOjw=;
-	b=y6QUYLkd8iXsrFiINMJumEauEr2B9MQ8/3Ej5hKqimJRIzNBPZ91y3WFyvpUXDdw8nLZ/3
-	roPIKmRq/ETf5LcICIrVv55Qw+rz90OeN4a9zGePBLOS7fH0gtkNUUsBcnxtWzFDE2JTjl
-	EC0h8J61EEMxwkU4Z2g12BSAyL5Tqrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704386509;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qn43avIOMx+kBvH7yLBNxRRxUqwoFyqtqibOgwygOjw=;
-	b=gX/P2MsjLtuMkXcmoWkpBRMHdGo5ViuGnw9/T8DZk4kXJvMgMmKwSreqKPnW4M4Z9H6U6w
-	gwvP2hisi/7voXBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704386509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qn43avIOMx+kBvH7yLBNxRRxUqwoFyqtqibOgwygOjw=;
-	b=y6QUYLkd8iXsrFiINMJumEauEr2B9MQ8/3Ej5hKqimJRIzNBPZ91y3WFyvpUXDdw8nLZ/3
-	roPIKmRq/ETf5LcICIrVv55Qw+rz90OeN4a9zGePBLOS7fH0gtkNUUsBcnxtWzFDE2JTjl
-	EC0h8J61EEMxwkU4Z2g12BSAyL5Tqrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704386509;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qn43avIOMx+kBvH7yLBNxRRxUqwoFyqtqibOgwygOjw=;
-	b=gX/P2MsjLtuMkXcmoWkpBRMHdGo5ViuGnw9/T8DZk4kXJvMgMmKwSreqKPnW4M4Z9H6U6w
-	gwvP2hisi/7voXBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7EAC137E8;
-	Thu,  4 Jan 2024 16:41:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 31xYK8zflmVrYgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 04 Jan 2024 16:41:48 +0000
-Date: Thu, 04 Jan 2024 17:41:48 +0100
-Message-ID: <871qaxkq43.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Bernhard Seibold <mail@bernhard-seibold.de>
-Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] ALSA: hda: generic: Always add LED controls
-In-Reply-To: <20240104155838.7514-1-mail@bernhard-seibold.de>
-References: <20240104155838.7514-1-mail@bernhard-seibold.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=zoho.com header.i=dufresnep@zoho.com header.b="gbzsG6M7"
+ARC-Seal: i=1; a=rsa-sha256; t=1704393066; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=e7iFKZHqrV4tj6Jl7p5241TL8hYv70+9dLYL5xRJifjfE17DZRFowVPaeN+lp023wmhL5BFbGCmksYrf77zzM2eG/1YyKO0QsCK/r0LyGUAqqJHReYLTlWQeXY85gEyE8WBnG9CyE1zkDpcuBmXSnq+RUZkGjMa+n/T/0Lc1yD8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1704393066; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=e9UhHRUeR7tQMI2DYuhqUv4mvVXlx5qgcflbG4ffDVo=; 
+	b=Z3OnLKB1uDrc4y93a/WvqIKbg59EYsCuoDDXx652aEq2pNcLtlcfrEM1SOqhDcGw26hwdO5fZYMhtN2SoUjD1N9mUeXUDnr6l9McoU2jxnqUUsjTkfBaXeRLeiG+ciddaSwUbBhvl0HsZlzmjMPwNtoMR8YoQtKgAj/of0tCbR0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zoho.com;
+	spf=pass  smtp.mailfrom=dufresnep@zoho.com;
+	dmarc=pass header.from=<dufresnep@zoho.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1704393066;
+	s=zm2022; d=zoho.com; i=dufresnep@zoho.com;
+	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To:Cc;
+	bh=e9UhHRUeR7tQMI2DYuhqUv4mvVXlx5qgcflbG4ffDVo=;
+	b=gbzsG6M7RqKiqhkAsWSMtCjDFuOoxf9sgTFgK+7Z3IyXz2DH9ut4CkAjMyvXJ5gG
+	WasaY7E6yvnLdq9+lZ4M0cheBJn0PIO3w8okoBZYTSsLjhgC5p1uzSmWkoNsmXwOVve
+	CeWPGxI+1WJZ1zfQGAyVLMVh7wGoKrJwZddlin7E=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 170439305928271.97921450082617; Thu, 4 Jan 2024 10:30:59 -0800 (PST)
+Received: from  [66.129.153.16] by mail.zoho.com
+	with HTTP;Thu, 4 Jan 2024 10:30:59 -0800 (PST)
+Date: Thu, 04 Jan 2024 13:30:59 -0500
+From: Paul Dufresne <dufresnep@zoho.com>
+To: "linux-sound" <linux-sound@vger.kernel.org>
+Message-ID: <18cd5be2bc7.e19fbd7b17331.5233193232348276602@zoho.com>
+In-Reply-To: 
+Subject: Sound Blaster AE-9 freezing boot
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: EC62E1FB3B
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=y6QUYLkd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="gX/P2Msj"
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 URIBL_BLOCKED(0.00)[suse.de:dkim,bernhard-seibold.de:email];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr08011228e551e90cb0c0a5ae6bcaf7eb0000ed54410245a3db788d15d6c5c8e2f909d87d2b52d9ed18129154:zu080112271aa47fb4a24b785bd74fb727000073223816b246ebe54fce453c12ffaeeee577565ef51d929a12:rf08011232a283ac8e4669a5cea7ace7e80000ae2bdee5c14c6decfadddc3ba65e8477f18d66d0d6abcc78e6a190a42b5c3776c51da701:ZohoMail
 
-On Thu, 04 Jan 2024 16:58:38 +0100,
-Bernhard Seibold wrote:
-> 
-> LEDs for mute and microphone mute can be added to any system via the
-> audio-mute and audio-micmute triggers, e.g. via USB HID devices.
-> Therefore, add the LED controls unconditionally.
+My friend have the following card:
 
-Hmm...  Won't your change lead to the sysfs entries always,
-i.e. creating sysfs entries even if the device has no LED at all?
+04:00.0 0403: 1102:0010 (rev 01)
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Subsystem: 1102:0071
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Control: I/O- Mem+ BusMaster+ Sp=
+ecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Status: Cap+ 66MHz- UDF- FastB2B=
++ ParErr- DEVSEL=3Dmedium >TAbort- SERR- <PERR- INTx-
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Latency: 32 (4000ns min, 5000ns =
+max), Cache Line Size: 64 bytes
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Interrupt: pin A routed to IRQ 1=
+1
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Region 0: Memory at a4604000 (64=
+-bit, non-prefetchable) [size=3D16K]
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Region 2: Memory at a4600000 (64=
+-bit, non-prefetchable) [size=3D16K]
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Capabilities:=20
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Kernel modules: snd_hda_intel
+voir https://ca.creative.com/p/sound-blaster/sound-blaster-ae-9
+
+Using snd_hda_intel.enable=3DN,N,Y to activate only the Sound-Blaster card =
+I get:
+snd_hda_intel: probe of 0000:00.1f.3 failed with error -2
+snd_hda_intel: probe of 0000:04:00.0 failed with error -2
+snd_hda_intel: 0000:04:00.0: Disabling MSI
+snd_hda_intel: 0000:04:00.0: Force to non-snoop mode
+
+as last messages while booting Fedora 39 with debug on the linux line.
+
+For now, I am able to have sound from the motherboard using snd_hda_intel.e=
+nable=3DY,Y,N.
+
+I would be happy to try a patch, that could help to investigate what is cau=
+sing the freeze.
 
 
-Takashi
 
-> 
-> Signed-off-by: Bernhard Seibold <mail@bernhard-seibold.de>
-> ---
->  sound/pci/hda/hda_generic.c | 46 ++++++++++++++++++-------------------
->  sound/pci/hda/hda_generic.h |  2 --
->  2 files changed, 22 insertions(+), 26 deletions(-)
-> 
-> diff --git a/sound/pci/hda/hda_generic.c b/sound/pci/hda/hda_generic.c
-> index bf685d01259d..e78c0dd17c42 100644
-> --- a/sound/pci/hda/hda_generic.c
-> +++ b/sound/pci/hda/hda_generic.c
-> @@ -3644,8 +3644,7 @@ static int add_single_cap_ctl(struct hda_codec *codec, const char *label,
->  		return -ENOMEM;
->  	if (is_switch) {
->  		knew->put = cap_single_sw_put;
-> -		if (spec->mic_mute_led)
-> -			knew->access |= SNDRV_CTL_ELEM_ACCESS_MIC_LED;
-> +		knew->access |= SNDRV_CTL_ELEM_ACCESS_MIC_LED;
->  	}
->  	if (!inv_dmic)
->  		return 0;
-> @@ -3663,8 +3662,7 @@ static int add_single_cap_ctl(struct hda_codec *codec, const char *label,
->  		return -ENOMEM;
->  	if (is_switch) {
->  		knew->put = cap_single_sw_put;
-> -		if (spec->mic_mute_led)
-> -			knew->access |= SNDRV_CTL_ELEM_ACCESS_MIC_LED;
-> +		knew->access |= SNDRV_CTL_ELEM_ACCESS_MIC_LED;
->  	}
->  	return 0;
->  }
-> @@ -3706,8 +3704,7 @@ static int create_bind_cap_vol_ctl(struct hda_codec *codec, int idx,
->  		knew->index = idx;
->  		knew->private_value = sw_ctl;
->  		knew->subdevice = HDA_SUBDEV_AMP_FLAG;
-> -		if (spec->mic_mute_led)
-> -			knew->access |= SNDRV_CTL_ELEM_ACCESS_MIC_LED;
-> +		knew->access |= SNDRV_CTL_ELEM_ACCESS_MIC_LED;
->  	}
->  	return 0;
->  }
-> @@ -3979,7 +3976,6 @@ int snd_hda_gen_add_mute_led_cdev(struct hda_codec *codec,
->  	if (spec->vmaster_mute.hook)
->  		codec_err(codec, "vmaster hook already present before cdev!\n");
->  
-> -	spec->vmaster_mute_led = 1;
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(snd_hda_gen_add_mute_led_cdev);
-> @@ -4002,7 +3998,6 @@ int snd_hda_gen_add_micmute_led_cdev(struct hda_codec *codec,
->  				     int (*callback)(struct led_classdev *,
->  						     enum led_brightness))
->  {
-> -	struct hda_gen_spec *spec = codec->spec;
->  	int err;
->  
->  	if (callback) {
-> @@ -4013,7 +4008,6 @@ int snd_hda_gen_add_micmute_led_cdev(struct hda_codec *codec,
->  		}
->  	}
->  
-> -	spec->mic_mute_led = 1;
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(snd_hda_gen_add_micmute_led_cdev);
-> @@ -4973,8 +4967,7 @@ int snd_hda_gen_parse_auto_config(struct hda_codec *codec,
->  
->  	parse_user_hints(codec);
->  
-> -	if (spec->vmaster_mute_led || spec->mic_mute_led)
-> -		snd_ctl_led_request();
-> +	snd_ctl_led_request();
->  
->  	if (spec->mixer_nid && !spec->mixer_merge_nid)
->  		spec->mixer_merge_nid = spec->mixer_nid;
-> @@ -5173,6 +5166,7 @@ static const char * const follower_pfxs[] = {
->  int snd_hda_gen_build_controls(struct hda_codec *codec)
->  {
->  	struct hda_gen_spec *spec = codec->spec;
-> +	struct snd_kcontrol *kctl;
->  	int err;
->  
->  	if (spec->kctls.used) {
-> @@ -5211,19 +5205,23 @@ int snd_hda_gen_build_controls(struct hda_codec *codec)
->  		if (err < 0)
->  			return err;
->  	}
-> -	if (!spec->no_analog && !spec->suppress_vmaster &&
-> -	    !snd_hda_find_mixer_ctl(codec, "Master Playback Switch")) {
-> -		err = __snd_hda_add_vmaster(codec, "Master Playback Switch",
-> -					    NULL, follower_pfxs,
-> -					    "Playback Switch", true,
-> -					    spec->vmaster_mute_led ?
-> -						SNDRV_CTL_ELEM_ACCESS_SPK_LED : 0,
-> -					    &spec->vmaster_mute.sw_kctl);
-> -		if (err < 0)
-> -			return err;
-> -		if (spec->vmaster_mute.hook) {
-> -			snd_hda_add_vmaster_hook(codec, &spec->vmaster_mute);
-> -			snd_hda_sync_vmaster_hook(&spec->vmaster_mute);
-> +	if (!spec->no_analog && !spec->suppress_vmaster) {
-> +
-> +		kctl = snd_hda_find_mixer_ctl(codec, "Master Playback Switch");
-> +		if (!kctl) {
-> +			err = __snd_hda_add_vmaster(codec, "Master Playback Switch",
-> +						    NULL, follower_pfxs,
-> +						    "Playback Switch", true,
-> +						    SNDRV_CTL_ELEM_ACCESS_SPK_LED,
-> +						    &spec->vmaster_mute.sw_kctl);
-> +			if (err < 0)
-> +				return err;
-> +			if (spec->vmaster_mute.hook) {
-> +				snd_hda_add_vmaster_hook(codec, &spec->vmaster_mute);
-> +				snd_hda_sync_vmaster_hook(&spec->vmaster_mute);
-> +			}
-> +		} else {
-> +			kctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_SPK_LED;
->  		}
->  	}
->  
-> diff --git a/sound/pci/hda/hda_generic.h b/sound/pci/hda/hda_generic.h
-> index a8eea8367629..13db36528041 100644
-> --- a/sound/pci/hda/hda_generic.h
-> +++ b/sound/pci/hda/hda_generic.h
-> @@ -223,8 +223,6 @@ struct hda_gen_spec {
->  	unsigned int inv_dmic_split:1; /* inverted dmic w/a for conexant */
->  	unsigned int own_eapd_ctl:1; /* set EAPD by own function */
->  	unsigned int keep_eapd_on:1; /* don't turn off EAPD automatically */
-> -	unsigned int vmaster_mute_led:1; /* add SPK-LED flag to vmaster mute switch */
-> -	unsigned int mic_mute_led:1; /* add MIC-LED flag to capture mute switch */
->  	unsigned int indep_hp:1; /* independent HP supported */
->  	unsigned int prefer_hp_amp:1; /* enable HP amp for speaker if any */
->  	unsigned int add_stereo_mix_input:2; /* add aamix as a capture src */
-> -- 
-> 2.43.0
-> 
+
