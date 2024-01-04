@@ -1,86 +1,128 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29811D68D;
-	Thu,  4 Jan 2024 06:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFB01EA71;
+	Thu,  4 Jan 2024 08:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CM3dDIEk"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6da55cc8e78so123699b3a.0;
-        Wed, 03 Jan 2024 22:09:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704348542; x=1704953342; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ZvQW0xU+LOb9bzaqP41SYyg4D476cxr1BBMCgwep1I=;
-        b=CM3dDIEkdCwEq/fX96iKqcngPz1v4BV/QTxV2oToC1PWcFJ4BjrIP6640Eel3nJfdR
-         EGI8nYu14C9cw7S26Qntl5mFf0IL1BK8lZoDG5HhM8tsalSgnBUISspbIZtxRdDrGmmx
-         YrebOCtW/pC4NEHPSq2HlC/ciSmbRLyiTEpX5dzX6dY1sD+MBxr3mG6TOHpJNHGLsAX2
-         3c0cJESQsI7sV0+JYLBKUR4cgJo5NRkgaUzpW5MF0Vn7Y/w5rcbaqKVZHXSIbOI0f+af
-         DJw4BUIpGNbb7ipot6Hep7Sgcmb7hU2DuRXr5W9vY3cjuxCmf+UuyW1cb/sQa5kTiFob
-         IIyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704348542; x=1704953342;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5ZvQW0xU+LOb9bzaqP41SYyg4D476cxr1BBMCgwep1I=;
-        b=CZiTXBlDNh8cas5txrPY2E+Wi6gOdJ6Z0/jxzDnyaKjkX0pMLHW1c2QSPsJ3/cCe/q
-         QMppCpkJFmaQUS6SwaUz+E4qGJVL1gOjsnJjfPeL6e4KPIhKkJKbUC11HaQhmlTnJJwA
-         febWzarjR6xSvqtEu7WBu0ByECoHidxBQcbPnFYfJ7G7aYxAw2Xitn8Vk05qytBz5/IH
-         FI7rSurYYaTlZLl/7kOlu4YGOZVlJVxSr+tlh80X/+UsWx8Zon/UB4iXU87KXsyu8Yvx
-         EDy27jGi80ZXa+RfFRsl5U+n1SoUflXZOnWcFddfOLUsiit6oy/Z1kgnD0qo+PKU0b9v
-         SNQA==
-X-Gm-Message-State: AOJu0Yxifjax/3FDZkp+gD/EoWFB1QOue3C6mj0DITQyi4gbI1oKGS0Y
-	Q1ioxUSEuQa4vYIK+ezbhVM=
-X-Google-Smtp-Source: AGHT+IGPx7ipScYKtOWFT5j0xVd85A3lG6Rch/jPBtZBGlh0XwaA+0QEFOoH++nqD7CibZ/idq9h8g==
-X-Received: by 2002:aa7:9e42:0:b0:6da:2898:1d6c with SMTP id z2-20020aa79e42000000b006da28981d6cmr142773pfq.51.1704348541947;
-        Wed, 03 Jan 2024 22:09:01 -0800 (PST)
-Received: from arch-hp.. ([2409:40c2:1059:c189:c8af:e8c3:986e:aea2])
-        by smtp.gmail.com with ESMTPSA id m7-20020a62f207000000b006d9a846036asm19473072pfh.60.2024.01.03.22.08.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 22:09:01 -0800 (PST)
-From: Siddhesh Dharme <siddheshdharme18@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: alsa-devel@alsa-project.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xwZGXUtR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qfBUSdo4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xwZGXUtR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qfBUSdo4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 910DE21E73;
+	Thu,  4 Jan 2024 08:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704358416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60pY3+TKeowAJTEaVySctoSv+hCzrSmVwOvZhPv/TuE=;
+	b=xwZGXUtRJiRdVKlDQuXxAzS9QJHCdfY3oTf5juhly34nhize5xSUTJZoAh2CUalB+iCaNb
+	MrmxGH5cpeffpB8VjVkJjcv6kc8/dmLq5SZhctEhRVa+6hba5YV1sPIAjUFenP09ZXrUDB
+	gDnodDKckz7Nm2UDXSUU0AXLd1bwBAM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704358416;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60pY3+TKeowAJTEaVySctoSv+hCzrSmVwOvZhPv/TuE=;
+	b=qfBUSdo4Dz9Uw9vvrnfXEiR8x6mdnbYmZrk9lrkmX2SP64Upz/F0v7lDUIXmYw8iIU1xDB
+	D91wi1m732D3ooBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704358416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60pY3+TKeowAJTEaVySctoSv+hCzrSmVwOvZhPv/TuE=;
+	b=xwZGXUtRJiRdVKlDQuXxAzS9QJHCdfY3oTf5juhly34nhize5xSUTJZoAh2CUalB+iCaNb
+	MrmxGH5cpeffpB8VjVkJjcv6kc8/dmLq5SZhctEhRVa+6hba5YV1sPIAjUFenP09ZXrUDB
+	gDnodDKckz7Nm2UDXSUU0AXLd1bwBAM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704358416;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60pY3+TKeowAJTEaVySctoSv+hCzrSmVwOvZhPv/TuE=;
+	b=qfBUSdo4Dz9Uw9vvrnfXEiR8x6mdnbYmZrk9lrkmX2SP64Upz/F0v7lDUIXmYw8iIU1xDB
+	D91wi1m732D3ooBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A40313722;
+	Thu,  4 Jan 2024 08:53:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0BSLFBBylmUmVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 04 Jan 2024 08:53:36 +0000
+Date: Thu, 04 Jan 2024 09:53:35 +0100
+Message-ID: <87il49a38w.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Siddhesh Dharme <siddheshdharme18@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Siddhesh Dharme <siddheshdharme18@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP ProBook 440 G6
-Date: Thu,  4 Jan 2024 11:37:36 +0530
-Message-ID: <20240104060736.5149-1-siddheshdharme18@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP ProBook 440 G6
+In-Reply-To: <20240104060736.5149-1-siddheshdharme18@gmail.com>
+References: <20240104060736.5149-1-siddheshdharme18@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: *****
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xwZGXUtR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qfBUSdo4
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.46 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.95)[99.77%]
+X-Spam-Score: -4.46
+X-Rspamd-Queue-Id: 910DE21E73
+X-Spam-Flag: NO
 
-LEDs in 'HP ProBook 440 G6' laptop are controlled by ALC236 codec.
-Enable already existing quirk 'ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF'
-to fix mute and mic-mute LEDs.
+On Thu, 04 Jan 2024 07:07:36 +0100,
+Siddhesh Dharme wrote:
+> 
+> LEDs in 'HP ProBook 440 G6' laptop are controlled by ALC236 codec.
+> Enable already existing quirk 'ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF'
+> to fix mute and mic-mute LEDs.
+> 
+> Signed-off-by: Siddhesh Dharme <siddheshdharme18@gmail.com>
 
-Signed-off-by: Siddhesh Dharme <siddheshdharme18@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied now.  Thanks.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c80e2f3ac..1dcfba27e 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9825,6 +9825,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x84da, "HP OMEN dc0019-ur", ALC295_FIXUP_HP_OMEN),
- 	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP_HP_SPECTRE_X360),
-+	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_GPIO_AMP_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x869d, "HP", ALC236_FIXUP_HP_MUTE_LED),
--- 
-2.43.0
 
+Takashi
