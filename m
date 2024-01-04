@@ -1,49 +1,49 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EBE249FC
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 16:08:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCA524B35
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 16:11:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n+IbsgUX"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ccb923c4d2so7432321fa.1
-        for <linux-sound@vger.kernel.org>; Thu, 04 Jan 2024 08:08:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I6Lh4QL6"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a28aa47bd15so82061766b.2
+        for <linux-sound@vger.kernel.org>; Thu, 04 Jan 2024 08:11:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704384510; x=1704989310; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1704384703; x=1704989503; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KY5xP96Le0ZniVFZKeXdx8efJcLyHwWo4sSLgDSws3A=;
-        b=n+IbsgUXKQNOYo3iHX08pZWvwLBhS3rFOvOVVHKPTVOlXfaqjXmHERHVEJo33CyJkN
-         Ccv95sG5ZSPstsQVWzt58dJkzWKeU2yM33FNpLGvMoowKE7ZZEh88eeLd5FElLco/xhl
-         ORumfISNp6kS2PXMA/PwDIrNVuT7RNOknqVIKHMrvUiWSKwzDWbERdLNNBwRUYpp7Oml
-         A25GOmjgar98w5FwlYzBuMILYCWO9bgBlLzZSG3rF0Un7maKkb72wJtG8mcRlcQ9pblH
-         omkxVyQzQ7EOEyw253yNgOIbfKBJ2omQHlVWIVjD4Me7EsrD+uZXS9mPCTazotH7RUFX
-         Zr/g==
+        bh=mE6A3MF22wcuymbS0MlWpK9FBPSYnuu/R6nzxFOvHCw=;
+        b=I6Lh4QL6e13tT0ZcLFAFt+XJEpDGzmPTVOljm3iiJSQ1yPEuzwabqbA4509qJX/f7K
+         5kVmbcBC8t1iht0U+odMBfRqsyVsCyIVnLkKszEpmTEWeDvKDwaI+DoGmG6dU68/Q7DW
+         P8UxE/Vo2WlQTWL2/dpGLrmUhF2vRG3+iko6AbuTr0T9HO84EdImlc9E/Lw9bDSAhE9h
+         eoYt1ljjI4G4V9FoQz9O8w2wOFsoZZ90fEYp1N8lmc0v7lomXk4rR5MZsT1NF7v+CB/g
+         GlGFjb0BCClbSI/X0EB0DGnyPtJXxrEGguPAaiBS6DCW1UWInGyunTF3foQbHtQzG8tz
+         +tMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704384510; x=1704989310;
+        d=1e100.net; s=20230601; t=1704384703; x=1704989503;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KY5xP96Le0ZniVFZKeXdx8efJcLyHwWo4sSLgDSws3A=;
-        b=X+wRd6j/d5Jb7k+To9NBMc8i3UBrg6WteJPD8D1JVZCGo2lCQGsIZyY75Kwmdu5/KR
-         nNLEKVbN5iO1uUbFPOUeK3/4cjd0VYVODRgygrSbSITLiSWj/5Wf6pZ+2PyOwG2W2II3
-         oULPoeFGq798ZaM157n82RZsAhWdw29Mwc12ypR10zU5L7hH6gfd0mun9YSKxFg89j8k
-         p1YK1G9yGYxNKUSfcmtJ3FZ0H3Xshb1fb01NrEDeM9+LrRvbK6t5iQSNZXgbXUCts/Oq
-         quvGgZN9fG1RKfaS510PjyzXQ1wk90RRm6wQzbzvDWyDaitOnozFxPV0w8zUMuQtQxU0
-         AADQ==
-X-Gm-Message-State: AOJu0YwHkIX8xo4NRdHnF1zL9G1OQ3VA7XDaIJTcmJlRk4v56RK/UmdJ
-	DGX9rUr0t0K8Kw502yyDUMwA0RR/1OKaOIvtILPO4BipdA8=
-X-Google-Smtp-Source: AGHT+IFdBGTKty8FQQCh4+yOFP87gFD5uvSSfcnO9iQ1ufQbalsz+gQU82XLyiqDp3JaZhe3SckTJQ==
-X-Received: by 2002:ac2:44aa:0:b0:50e:8504:24c3 with SMTP id c10-20020ac244aa000000b0050e850424c3mr282750lfm.114.1704384509845;
-        Thu, 04 Jan 2024 08:08:29 -0800 (PST)
+        bh=mE6A3MF22wcuymbS0MlWpK9FBPSYnuu/R6nzxFOvHCw=;
+        b=PWhhgEtVG2mOnvgtNknuEmY4DxvFLq8I1ueovaxPp/a6+N1Gyzv7MyGeHtulwr3hom
+         MDo+Ai1jEhxfziPKrH+yOLwDQJ5+WcY3XvUilL6m0ygkI7ti1c04wx3NdoH+sl8AxZ3L
+         qYjXmy5DilhCN1s3dQpAu3Wfc3R/+/hdYyd79s1Y68dsk5OPJ0Mj/9Tt/7syJTTjFaMO
+         5OaezyKyVBDFHvudcZblHy41qDQAM0vRDOPgJVrTxTC4lLCQuZS2yNzTp/Hd4W01HeBY
+         3JipjqjYIhpPbnkqkwake2Ugf+XFzVKlYL40zeCSpuUNlJNHyLyxiLiOYt2aZHm1O1wm
+         0qgA==
+X-Gm-Message-State: AOJu0YxOsOTKsDw2A+22F0yYezmpBueP089NR/TXCg9SSu0q0upYJO4l
+	MYDYh4aL8WQ5pr8PMJVkYFb8+245ADhQJw==
+X-Google-Smtp-Source: AGHT+IE5CZ31I1LXnZ1vFBITPX99sgkerU5MhGC45J5mwEPr54H5BemGZG90cBHoO7H4jgkpWNjbug==
+X-Received: by 2002:a17:906:a3ca:b0:a26:a4bf:e8c4 with SMTP id ca10-20020a170906a3ca00b00a26a4bfe8c4mr365833ejb.47.1704384703001;
+        Thu, 04 Jan 2024 08:11:43 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id o6-20020a056402444600b0055473af90a6sm16421942edb.0.2024.01.04.08.08.26
+        by smtp.gmail.com with ESMTPSA id et10-20020a170907294a00b00a26a061eef8sm13813434ejc.69.2024.01.04.08.11.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 08:08:29 -0800 (PST)
-Message-ID: <fcbae47b-3b28-42f0-b93f-f83932025dc1@linaro.org>
-Date: Thu, 4 Jan 2024 17:08:26 +0100
+        Thu, 04 Jan 2024 08:11:42 -0800 (PST)
+Message-ID: <2e17654d-e2f5-480f-aca1-5ece8bc028e7@linaro.org>
+Date: Thu, 4 Jan 2024 17:11:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -121,68 +121,6 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/01/2024 17:04, Sean Anderson wrote:
-> On 1/4/24 03:57, Krzysztof Kozlowski wrote:
->> On 28/12/2023 17:05, Sean Anderson wrote:
->>> On 12/22/23 10:01, Krzysztof Kozlowski wrote:
->>>> Add simple driver to control GPIO-based resets using the reset
->>>> controller API for the cases when the GPIOs are shared and reset should
->>>> be coordinated.  The driver is expected to be used by reset core
->>>> framework for ad-hoc reset controllers.
->>>
->>> How do we handle power sequencing? Often GPIOs need some pre/post delay in
->>> order to ensure proper power sequencing. For regular reset drivers, this is
->>> internal to the driver.
->>
->> It's not part of this patchset. Power sequencing is an old topic and
->> generic solutions were failing, rejected, did not solve the problems,
->> etc (choose your reason).
->>
->> Delays are device specific, so they go to drivers (depending on the
->> compatible). Complex power sequencing is way too much for simplified
->> reset-framework handling, so anyway it is expected you do it in your driver.
-> 
-> Well, the reason to bring it up is twofold:
-> 
-> - Traditionally, drivers expect the reset controller to handle all
->   necessary delays. For example, reset-k210 includes a 10us delay
->   between asserting and deasserting the reset. There's a similar thing
->   in reset-imx7, and several other reset drivers.
-> - We would need to add custom assert/deassert delays to every driver
->   using this interface. These are not always added, since any given
->   device may require delays which can be inferred from its compatible.
->   However, an integrated system may require delays to be different from
->   what any individual device requires.
-> 
->>>
->>> Maybe something like
->>>
->>> my-device {
->>> 	reset-gpios = <&gpio 555 GPIO_ACTIVE_LOW>;
->>>         reset-gpios-post-deassert-us = <100>;
->>
->> Feel free to add it later. This patchset, and actually all patches
->> should, solves one problem while allowing you to extend it later.
-> 
-> Yes, but we should try to avoid creating problems for ourselves in the
-> future.
-> 
->> If there is a architectural problem in my approach not allowing you to
->> extend it later, then we should discuss it.
-> 
-> Well, I brought up just such an architectural issue below...
-
-Sorry, but where the issue? You did not present any arguments stating
-that it is not possible to add your feature.
-
-What is the problem to parse that property?
-
-> 
->>> };
->>>
->>> Of course, this is a bit ambiguous if you have multiple devices using the same
->>> GPIO with different delays.
-> 
-> This is the most concerning one to me.
 > 
 >>> Maybe we take the max? But the driver below seems
 >>> to only have access to one device. Which I suppose begs the question: how do
@@ -198,10 +136,10 @@ What is the problem to parse that property?
 > framework/controller is supposed to coordinate things so e.g. the device
 > doesn't get reset multiple times as multiple drivers all probe.
 
-
-Sorry, then I don't get what you refer to. The driver calls deassert
-when it is safe for it to do it, so the driver *knows*. Now, you claim
-that driver does not know that... core also does not know, so no one knows.
+Hm, wait, now maybe I understand your concern. Did you read the
+patchset? This is for the coordinated, shared, non-exclusive reset by
+design.  And as stated during previous discussions: that's the driver's
+job to be sure it is called like that.
 
 Best regards,
 Krzysztof
