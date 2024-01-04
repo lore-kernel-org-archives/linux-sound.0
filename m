@@ -1,128 +1,173 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B452D046
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 21:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A195328DB0;
+	Thu,  4 Jan 2024 22:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="sAi7NClL"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 26693D08;
-	Thu,  4 Jan 2024 22:46:11 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 26693D08
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1704404771; bh=bIwBm45RKRz2iGLfrMXh480pSDLiW0VDsvfPn7n/D9w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sAi7NClL31s6ljbUkMBE/Aa6lVX0khJqYNKbCnPJaMrR0imRXuGV3bwpw6ctRzsgX
-	 Yi8Hn2dxu3G1iYx4EJYETx6oqHeEsFIsfjQXiWU/bbC5wJhuc5l+w8DD4MpmStfdZU
-	 6zCZtKdXWWKhLoAH4PIAcjOBghEGpSbx8i9KgMCE=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu,  4 Jan 2024 22:46:05 +0100 (CET)
-Message-ID: <5aa91315-1f14-473f-877e-5d6b1aa3327a@perex.cz>
-Date: Thu, 4 Jan 2024 22:46:04 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="VJach6FS"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 404HdK1Z029968;
+	Thu, 4 Jan 2024 16:37:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=M
+	Shzt3LVhFxMMuG6ippnJ3aKDGhRinbXBUUZ94iQi08=; b=VJach6FSwwbzt9KmI
+	GWjCTzJzGjLLeGGhyU96URR9nObLd4F+tECWcYZVXnh9so3tG/UyD3OMzAekeJPR
+	yO/CLF3Cyt7sS9sZJyxiSlsdFeIczLXTD5+PjX+5DTlD0ryn/29hyd5YeCCMTar+
+	M/udBGMya454ibWyxn9mZERg12Gx+HFsP6vi67cBDnTcXnfDUQ4e5IDq+FZh07xm
+	2g4iFzL2z5yxYKuAfCFpe3VFVdbw7LwUZy0BJ72/MAisZP7A6Z1U4RqpguIX4THo
+	aixE2vx4Yx9W5aqLCMOJ1qbD5sAcq5X8nf12uir/DFeip6K2PC+GakcXUOR9tHSS
+	LIY4Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ve18src5a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Jan 2024 16:37:18 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 4 Jan
+ 2024 22:37:16 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Thu, 4 Jan 2024 22:37:01 +0000
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id E99CC474;
+	Thu,  4 Jan 2024 22:36:56 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: 
+CC: James Ogletree <jogletre@opensource.cirrus.com>,
+        James Ogletree
+	<james.ogletree@cirrus.com>,
+        Fred Treven <fred.treven@cirrus.com>,
+        Ben Bright
+	<ben.bright@cirrus.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rob
+ Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax
+	<ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Lee Jones <lee@kernel.org>, Liam Girdwood
+	<lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        James Schulman
+	<james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Alexandre Belloni
+	<alexandre.belloni@bootlin.com>,
+        Peng Fan <peng.fan@nxp.com>, Jacky Bai
+	<ping.bai@nxp.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Weidong Wang
+	<wangweidong.a@awinic.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        "Arnd
+ Bergmann" <arnd@arndb.de>, Shuming Fan <shumingf@realtek.com>,
+        Shenghao Ding
+	<13916275206@139.com>, Ryan Lee <ryans.lee@analog.com>,
+        Linus Walleij
+	<linus.walleij@linaro.org>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        "open
+ list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
+        "open
+ list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
+	<linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS" <devicetree@vger.kernel.org>,
+        open list
+	<linux-kernel@vger.kernel.org>,
+        "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+        "moderated list:CIRRUS LOGIC
+ AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
+Subject: [PATCH v5 0/5] Add support for CS40L50
+Date: Thu, 4 Jan 2024 22:36:33 +0000
+Message-ID: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: generic: Always add LED controls
-Content-Language: en-US
-To: Bernhard Seibold <mail@bernhard-seibold.de>, Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>
-References: <20240104155838.7514-1-mail@bernhard-seibold.de>
- <871qaxkq43.wl-tiwai@suse.de>
- <3253emuy3njov4thaognxfb4c4e32e2cj5xr25k4wjd4iewfl5@cz6sf4nhxdv7>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <3253emuy3njov4thaognxfb4c4e32e2cj5xr25k4wjd4iewfl5@cz6sf4nhxdv7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: rpOIz0vGtpWU2aw1DIz15-q1kEDNu-vQ
+X-Proofpoint-GUID: rpOIz0vGtpWU2aw1DIz15-q1kEDNu-vQ
+X-Proofpoint-Spam-Reason: safe
 
-On 04. 01. 24 20:14, Bernhard Seibold wrote:
-> On Thu, Jan 04, 2024 at 05:41:48PM +0100, Takashi Iwai wrote:
->> On Thu, 04 Jan 2024 16:58:38 +0100,
->> Bernhard Seibold wrote:
->>>
->>> LEDs for mute and microphone mute can be added to any system via the
->>> audio-mute and audio-micmute triggers, e.g. via USB HID devices.
->>> Therefore, add the LED controls unconditionally.
->>
->> Hmm...  Won't your change lead to the sysfs entries always,
->> i.e. creating sysfs entries even if the device has no LED at all?
-> 
-> This patch is not affecting create_mute_led_cdev, that function is still
-> only called for some special systems via fixups, to create the actual
-> LED classdevs that are present on there.
-> 
-> What I'm trying to change is to have the led-ctls always available. They
-> serve as input to the audio-mute and audio-micmute triggers, and these
-> triggers should work on any system with HD Audio, not just a few.
-> 
-> It would be even better to move the whole functionality into the sound
-> core so that it works with other drivers as well, but since yesterday was
-> the first time I even looked at sound code, I wouldn't even know where
-> to start.
+There is a massive delta from V4, so only the highlgihts are
+mentioned below. I intend for this version to address all
+feedback to-date, so if you find something left unaddressed
+then please let me know.
 
-You can attach controls using sysfs for special use cases. If the system has 
-audio LED driver controlled in other code, the HDA driver should be notified 
-somehow to create triggers, otherwise the default (current) functionality is 
-fine in my eyes.
+Changes in v5:
+- Added a codec sub-device to support I2S streaming
+- Moved write sequencer code from cirrus_haptics to cs_dsp
+- Reverted cirrus_haptics library; future Cirrus input
+  drivers will export and utilize cs40l50_vibra functions
+- Added more comments
+- Many small stylistic and logical improvements
 
-					Jaroslav
+Changes in v4:
+- Moved from Input to MFD
+- Moved common Cirrus haptic functions to a library
+- Incorporated runtime PM framework
+- Many style improvements
+
+Changes in v3:
+- YAML formatting corrections
+- Fixed typo in MAINTAINERS
+- Used generic node name "haptic-driver"
+- Fixed probe error code paths
+- Switched to "sizeof(*)"
+- Removed tree reference in MAINTAINERS
+
+Changes in v2:
+- Fixed checkpatch warnings
+
+James Ogletree (5):
+  firmware: cs_dsp: Add write sequencer interface
+  dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+  mfd: cs40l50: Add support for CS40L50 core driver
+  Input: cs40l50 - Add support for the CS40L50 haptic driver
+  ASoC: cs40l50: Support I2S streaming to CS40L50
+
+ .../bindings/input/cirrus,cs40l50.yaml        |  70 +++
+ MAINTAINERS                                   |  12 +
+ drivers/firmware/cirrus/cs_dsp.c              | 261 ++++++++
+ drivers/input/misc/Kconfig                    |  10 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/cs40l50-vibra.c            | 572 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  30 +
+ drivers/mfd/Makefile                          |   4 +
+ drivers/mfd/cs40l50-core.c                    | 536 ++++++++++++++++
+ drivers/mfd/cs40l50-i2c.c                     |  69 +++
+ drivers/mfd/cs40l50-spi.c                     |  69 +++
+ include/linux/firmware/cirrus/cs_dsp.h        |  28 +
+ include/linux/mfd/cs40l50.h                   | 128 ++++
+ sound/soc/codecs/Kconfig                      |  11 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/cs40l50-codec.c              | 304 ++++++++++
+ 16 files changed, 2107 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ create mode 100644 drivers/input/misc/cs40l50-vibra.c
+ create mode 100644 drivers/mfd/cs40l50-core.c
+ create mode 100644 drivers/mfd/cs40l50-i2c.c
+ create mode 100644 drivers/mfd/cs40l50-spi.c
+ create mode 100644 include/linux/mfd/cs40l50.h
+ create mode 100644 sound/soc/codecs/cs40l50-codec.c
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.25.1
 
