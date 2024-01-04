@@ -1,175 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail115-100.sinamail.sina.com.cn (mail115-100.sinamail.sina.com.cn [218.30.115.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA6220B00;
-	Thu,  4 Jan 2024 09:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zB3BJRwh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GHrZS6J3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zB3BJRwh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GHrZS6J3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E54E21F0F;
-	Thu,  4 Jan 2024 09:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704361628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=EMpOkek3UzbzqloIm6JwYe5MMwJcc3+DVcMOLpoJnf0=;
-	b=zB3BJRwh+uPkFPa53G4XEAMAcg7SpZOAlaiigRFvKe5aIXx3DFYfIod9gwZ60HBBDSw/7+
-	L5hyL0RuADAqcJEEMHxqfBSZN7Yqg6VcN+4n3Za2j7EEdiZcJHs89xGkOQ533vL3ItMqgz
-	KB/MAy6O+pXv0uNQ/AHG9rChyz8mjZU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704361628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=EMpOkek3UzbzqloIm6JwYe5MMwJcc3+DVcMOLpoJnf0=;
-	b=GHrZS6J37nBA04Vh8IB9jSLWziWwp6+YwkUhLnxrmYRxFYVV/YbNOZgqHmIq4LPhHCQFaR
-	K4s8aqXPzcgopzBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704361628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=EMpOkek3UzbzqloIm6JwYe5MMwJcc3+DVcMOLpoJnf0=;
-	b=zB3BJRwh+uPkFPa53G4XEAMAcg7SpZOAlaiigRFvKe5aIXx3DFYfIod9gwZ60HBBDSw/7+
-	L5hyL0RuADAqcJEEMHxqfBSZN7Yqg6VcN+4n3Za2j7EEdiZcJHs89xGkOQ533vL3ItMqgz
-	KB/MAy6O+pXv0uNQ/AHG9rChyz8mjZU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704361628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=EMpOkek3UzbzqloIm6JwYe5MMwJcc3+DVcMOLpoJnf0=;
-	b=GHrZS6J37nBA04Vh8IB9jSLWziWwp6+YwkUhLnxrmYRxFYVV/YbNOZgqHmIq4LPhHCQFaR
-	K4s8aqXPzcgopzBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D541E137E8;
-	Thu,  4 Jan 2024 09:47:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dfR+Mpt+lmWuZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 04 Jan 2024 09:47:07 +0000
-Date: Thu, 04 Jan 2024 10:47:07 +0100
-Message-ID: <8734vda0ro.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.7-final
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9359420DDF
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 10:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([113.118.67.178])
+	by sina.com (172.16.235.24) with ESMTP
+	id 65968E7A00004E93; Thu, 4 Jan 2024 18:54:53 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 67516645089256
+X-SMAIL-UIID: 53E238DDBF6C488EB38F1311581F63D6-20240104-185453-1
+From: Hillf Danton <hdanton@sina.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v12 02/41] xhci: add helper to stop endpoint and wait for completion
+Date: Thu,  4 Jan 2024 18:54:42 +0800
+Message-Id: <20240104105442.2820-1-hdanton@sina.com>
+In-Reply-To: <20240102214549.22498-3-quic_wcheng@quicinc.com>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: *
-X-Spam-Score: 1.20
-X-Spamd-Result: default: False [1.20 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 TO_DN_ALL(0.00)[];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Linus,
+On Tue, 2 Jan 2024 13:45:10 -0800
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> +/*
+> + * Synchronous XHCI stop endpoint helper.  Issues the stop endpoint command and
+> + * waits for the command completion before returning.
+> + */
+> +int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep, int suspend,
+> +			    gfp_t gfp_flags)
+> +{
+> +	struct xhci_command *command;
+> +	unsigned long flags;
+> +	int ret;
+> +
+> +	command = xhci_alloc_command(xhci, true, GFP_KERNEL);
 
-please pull sound fixes for v6.7-final from:
+Given unused gfp_flags, s/GFP_KERNEL/gfp_flags/ ?
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.7-final
-
-The topmost commit is b6ce6e6c79e4ec650887f1fe391a70e54972001a
-
-----------------------------------------------------------------
-
-sound fixes for 6.7-final
-
-It became more than wished, partly because of vacations.
-But all changes are fairly device-specific and should be safe to
-apply.
-
-- A regression fix for Oops at ASoC HD-audio probe
-- A series of TAS2781 HD-audio codec fixes
-- A random build regression fix with SPI helpers
-- Minor endianness fix for USB-audio mixer code
-- ASoC FSL driver error handling fix
-- ASoC Mediatek driver register fix
-- A series of ASoC meson g12a driver fixes
-- A few usual HD-audio oneliner quirks
-
-----------------------------------------------------------------
-
-Aabish Malik (1):
-      ALSA: hda/realtek: enable SND_PCI_QUIRK for hp pavilion 14-ec1xxx series
-
-Andy Chi (1):
-      ALSA: hda/realtek: fix mute/micmute LEDs for a HP ZBook
-
-Arnd Bergmann (1):
-      ALSA: hda: cs35l41: fix building without CONFIG_SPI
-
-Chancel Liu (1):
-      ASoC: fsl_rpmsg: Fix error handler with pm_runtime_enable
-
-Eugen Hristev (1):
-      ASoC: mediatek: mt8186: fix AUD_PAD_TOP register and offset
-
-Geoffrey D. Bennett (1):
-      ALSA: scarlett2: Convert meter levels from little-endian
-
-Gergo Koteles (4):
-      ALSA: hda/tas2781: do not use regcache
-      ALSA: hda/tas2781: fix typos in comment
-      ALSA: hda/tas2781: move set_drv_data outside tasdevice_init
-      ALSA: hda/tas2781: remove sound controls in unbind
-
-Mark Brown (4):
-      ASoC: meson: g12a-toacodec: Validate written enum values
-      ASoC: meson: g12a-tohdmitx: Validate written enum values
-      ASoC: meson: g12a-toacodec: Fix event generation
-      ASoC: meson: g12a-tohdmitx: Fix event generation for S/PDIF mux
-
-Peter Ujfalusi (1):
-      ASoC: SOF: Intel: hda-codec: Delay the codec device registration
-
-Siddhesh Dharme (1):
-      ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP ProBook 440 G6
-
----
- sound/pci/hda/cs35l41_hda_property.c        |   4 +-
- sound/pci/hda/patch_realtek.c               |   3 +
- sound/pci/hda/tas2781_hda_i2c.c             | 244 +++++++++++++++-------------
- sound/soc/codecs/tas2781-comlib.c           |   4 +-
- sound/soc/codecs/tas2781-i2c.c              |   2 +
- sound/soc/fsl/fsl_rpmsg.c                   |  10 +-
- sound/soc/mediatek/mt8186/mt8186-dai-adda.c |   2 +-
- sound/soc/meson/g12a-toacodec.c             |   5 +-
- sound/soc/meson/g12a-tohdmitx.c             |   8 +-
- sound/soc/sof/intel/hda-codec.c             |  18 +-
- sound/usb/mixer_scarlett2.c                 |   4 +-
- 11 files changed, 172 insertions(+), 132 deletions(-)
-
+> +	if (!command)
+> +		return -ENOMEM;
+> +
+> +	spin_lock_irqsave(&xhci->lock, flags);
+> +	ret = xhci_queue_stop_endpoint(xhci, command, ep->vdev->slot_id,
+> +				       ep->ep_index, suspend);
+> +	if (ret < 0) {
+> +		spin_unlock_irqrestore(&xhci->lock, flags);
+> +		goto out;
+> +	}
+> +
+> +	xhci_ring_cmd_db(xhci);
+> +	spin_unlock_irqrestore(&xhci->lock, flags);
+> +
+> +	ret = wait_for_completion_timeout(command->completion, msecs_to_jiffies(3000));
+> +	if (!ret)
+> +		xhci_warn(xhci, "%s: Unable to stop endpoint.\n",
+> +				__func__);
+> +
+> +	if (command->status == COMP_COMMAND_ABORTED ||
+> +	    command->status == COMP_COMMAND_RING_STOPPED) {
+> +		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
+> +		ret = -ETIME;
+> +	}
+> +out:
+> +	xhci_free_command(xhci, command);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_stop_endpoint_sync);
