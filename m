@@ -1,54 +1,192 @@
-Received: from sender4-pp-o90.zoho.com (sender4-pp-o90.zoho.com [136.143.188.90])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1922C1B3
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jan 2024 20:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zoho.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zoho.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BD22C68A;
+	Thu,  4 Jan 2024 20:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zoho.com header.i=dufresnep@zoho.com header.b="bhWtcP5A"
-ARC-Seal: i=1; a=rsa-sha256; t=1704398823; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=G5PBiPCTUM/n7hgYeqS/OF6PllZ2MtU5Ogn+iym4z7z5q6hJqEB317ZiaESug6dF/kEDJSmUYqBrQC9VzxTOC8hba1oSx4cjAJtVA7CvfOvnCBBcvzVIsA9O/MzmfAf+xNHhbUuaPfA9pMVc5th8+QhmUjjOXLJrMESlKGqIX6Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1704398823; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=ugqgT7WUa/4iSd2ZIpnA8hNpAxgMSiosGkgP9tB2blQ=; 
-	b=QYmnq7s69ZVTU8jdcQKgA4aa2ZNaWsJ61FXSeAybJ5tr1I2ASTBTYpUveP5ex47Jo9EXRrNX+Hko5L2zg0odtc3xLTuTEkdaPqvXLP8XoEBCQck0I3sTdHEOmg8wevEcOdE2gYlj9zVPa15MtqriDfGF7/YAioRU70+Nz/29W/Y=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zoho.com;
-	spf=pass  smtp.mailfrom=dufresnep@zoho.com;
-	dmarc=pass header.from=<dufresnep@zoho.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1704398823;
-	s=zm2022; d=zoho.com; i=dufresnep@zoho.com;
-	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To:Cc;
-	bh=ugqgT7WUa/4iSd2ZIpnA8hNpAxgMSiosGkgP9tB2blQ=;
-	b=bhWtcP5AXQER5E/38djXlS78OOwPX3TGMQFLYfSaMPfpt3D20HzzWEBFL2306EPO
-	vTXGj9QMKuhxcpAJqZq55p7SCkNLOiSBf8Qjx4wrtREp1s3+3586qXHKr8NWa1wMIuT
-	oYQepEH4rlbrFdS6HpI4W0d5NYGXZQhakDRcVjM4=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1704398817882824.0897225806434; Thu, 4 Jan 2024 12:06:57 -0800 (PST)
-Received: from  [66.129.153.16] by mail.zoho.com
-	with HTTP;Thu, 4 Jan 2024 12:06:57 -0800 (PST)
-Date: Thu, 04 Jan 2024 15:06:57 -0500
-From: Paul Dufresne <dufresnep@zoho.com>
-To: "linux-sound" <linux-sound@vger.kernel.org>
-Message-ID: <18cd6160a50.fab2d78b18060.4664531235381350291@zoho.com>
-In-Reply-To: <18cd5be2bc7.e19fbd7b17331.5233193232348276602@zoho.com>
-References: <18cd5be2bc7.e19fbd7b17331.5233193232348276602@zoho.com>
-Subject: =?UTF-8?Q?R=C3=A9=C2=A0:_Sound_Blaster_AE-9_freezing_boot?=
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ElQqqKfL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704399419; x=1735935419;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=QG7cZgfLPqhPz+2RD5M13z2nw+gbzX0cHbb88mnsuxA=;
+  b=ElQqqKfLYZL7LOVLMVp3LOF7gkUhKtLoaCa8pR6GkPhCzCH/ORBMxfRX
+   7Aa1bFa/j1JdU83bnXi1TbQVuYaMJMYccwK7k1bvY/03kMyx6vAqsuhpb
+   vYar8zhChmP7hVdQh70gpBp/ROHmLjVq1Xldotzl3HYneELe5Sz6YGxDA
+   hpCzpz8It9OaZVZiApJZiJtrDqZisKRRsirpNfTBEzTXzVL0sPNoB4eNn
+   Wh1bD+GWHB6FmW4xlw/2pPPUPVhmr92VBGWI/fcQlMbGI3AEk42t3awBO
+   GH6t9CjmM/oJkEgYWYqMVusX9xKwEypmhC7XBbICZ0CqdmaZpZV/Hezit
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="15976716"
+X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
+   d="scan'208";a="15976716"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 12:16:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="871037934"
+X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
+   d="scan'208";a="871037934"
+Received: from pdelarag-mobl.ger.corp.intel.com (HELO localhost) ([10.252.36.32])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 12:16:50 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com,
+	Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
+Date: Thu,  4 Jan 2024 22:16:32 +0200
+Message-Id: <20240104201632.1100753-3-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240104201632.1100753-1-jani.nikula@intel.com>
+References: <20240104201632.1100753-1-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr0801122846fc9860e9f5699a0eadb3da0000fee6804aeaa99b45f443ad7c5ac8766f080f5503ea2edcac0962:zu08011227ae7472d0fe21e32fdfb6ab390000b852da29f35b70e98b7db68572bb4b8551d7ce0d93eaa3fe77:rf08011232782c6a60dd4c3a71387f937200003f394de5b71b3eaf51956e1767beaa5a6b55c61fdafdd5bc3bc547157fd3b0393ef21478:ZohoMail
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-I have open a bug for this, and consider it the more appropriate place to respond:
-https://bugzilla.kernel.org/show_bug.cgi?id=218344
+hdmi-codec.h does not appear to directly need drm/drm_edid.h for
+anything. Remove it.
+
+There are some files that get drm/drm_edid.h by proxy; include it where
+needed.
+
+v2-v4: Fix build (kernel test robot <lkp@intel.com>)
+
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
+ drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
+ drivers/gpu/drm/tegra/hdmi.c               | 1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
+ include/sound/hdmi-codec.h                 | 1 -
+ 7 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 9663601ce098..b9205d14d943 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -18,6 +18,7 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index e971b75e90ad..f3f130c1ef0a 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -21,6 +21,7 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 52d91a0df85e..fa63a21bdd1c 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index d37d599aec27..c8e1bbebdffe 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -11,6 +11,7 @@
+ #include <linux/of_irq.h>
+ #include <linux/delay.h>
+ #include <drm/display/drm_dp_aux_bus.h>
++#include <drm/drm_edid.h>
+ 
+ #include "msm_drv.h"
+ #include "msm_kms.h"
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 417fb884240a..09987e372e3e 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_debugfs.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_eld.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_fourcc.h>
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index f05e2c95a60d..34f807ed1c31 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -35,6 +35,7 @@
+ #include <drm/display/drm_scdc_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <linux/clk.h>
+diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+index 9b162ac1e08e..5e1a9eafd10f 100644
+--- a/include/sound/hdmi-codec.h
++++ b/include/sound/hdmi-codec.h
+@@ -12,7 +12,6 @@
+ 
+ #include <linux/of_graph.h>
+ #include <linux/hdmi.h>
+-#include <drm/drm_edid.h>
+ #include <sound/asoundef.h>
+ #include <sound/soc.h>
+ #include <uapi/sound/asound.h>
+-- 
+2.39.2
 
