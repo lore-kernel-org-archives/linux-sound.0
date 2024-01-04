@@ -1,83 +1,86 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6D6366;
-	Thu,  4 Jan 2024 00:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.0.224] (ip5f5ae9b7.dynamic.kabel-deutschland.de [95.90.233.183])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 3B49F61E5FE01;
-	Thu,  4 Jan 2024 01:24:37 +0100 (CET)
-Message-ID: <d8dcef7e-3659-4af4-b391-169081343fba@molgen.mpg.de>
-Date: Thu, 4 Jan 2024 01:24:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29811D68D;
+	Thu,  4 Jan 2024 06:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CM3dDIEk"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6da55cc8e78so123699b3a.0;
+        Wed, 03 Jan 2024 22:09:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704348542; x=1704953342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ZvQW0xU+LOb9bzaqP41SYyg4D476cxr1BBMCgwep1I=;
+        b=CM3dDIEkdCwEq/fX96iKqcngPz1v4BV/QTxV2oToC1PWcFJ4BjrIP6640Eel3nJfdR
+         EGI8nYu14C9cw7S26Qntl5mFf0IL1BK8lZoDG5HhM8tsalSgnBUISspbIZtxRdDrGmmx
+         YrebOCtW/pC4NEHPSq2HlC/ciSmbRLyiTEpX5dzX6dY1sD+MBxr3mG6TOHpJNHGLsAX2
+         3c0cJESQsI7sV0+JYLBKUR4cgJo5NRkgaUzpW5MF0Vn7Y/w5rcbaqKVZHXSIbOI0f+af
+         DJw4BUIpGNbb7ipot6Hep7Sgcmb7hU2DuRXr5W9vY3cjuxCmf+UuyW1cb/sQa5kTiFob
+         IIyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704348542; x=1704953342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5ZvQW0xU+LOb9bzaqP41SYyg4D476cxr1BBMCgwep1I=;
+        b=CZiTXBlDNh8cas5txrPY2E+Wi6gOdJ6Z0/jxzDnyaKjkX0pMLHW1c2QSPsJ3/cCe/q
+         QMppCpkJFmaQUS6SwaUz+E4qGJVL1gOjsnJjfPeL6e4KPIhKkJKbUC11HaQhmlTnJJwA
+         febWzarjR6xSvqtEu7WBu0ByECoHidxBQcbPnFYfJ7G7aYxAw2Xitn8Vk05qytBz5/IH
+         FI7rSurYYaTlZLl/7kOlu4YGOZVlJVxSr+tlh80X/+UsWx8Zon/UB4iXU87KXsyu8Yvx
+         EDy27jGi80ZXa+RfFRsl5U+n1SoUflXZOnWcFddfOLUsiit6oy/Z1kgnD0qo+PKU0b9v
+         SNQA==
+X-Gm-Message-State: AOJu0Yxifjax/3FDZkp+gD/EoWFB1QOue3C6mj0DITQyi4gbI1oKGS0Y
+	Q1ioxUSEuQa4vYIK+ezbhVM=
+X-Google-Smtp-Source: AGHT+IGPx7ipScYKtOWFT5j0xVd85A3lG6Rch/jPBtZBGlh0XwaA+0QEFOoH++nqD7CibZ/idq9h8g==
+X-Received: by 2002:aa7:9e42:0:b0:6da:2898:1d6c with SMTP id z2-20020aa79e42000000b006da28981d6cmr142773pfq.51.1704348541947;
+        Wed, 03 Jan 2024 22:09:01 -0800 (PST)
+Received: from arch-hp.. ([2409:40c2:1059:c189:c8af:e8c3:986e:aea2])
+        by smtp.gmail.com with ESMTPSA id m7-20020a62f207000000b006d9a846036asm19473072pfh.60.2024.01.03.22.08.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 22:09:01 -0800 (PST)
+From: Siddhesh Dharme <siddheshdharme18@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Siddhesh Dharme <siddheshdharme18@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP ProBook 440 G6
+Date: Thu,  4 Jan 2024 11:37:36 +0530
+Message-ID: <20240104060736.5149-1-siddheshdharme18@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-wired-lan] [RFC PATCH v3 11/11] ABI: pps: Add ABI
- documentation for Intel TIO
-Content-Language: en-US
-To: lakshmi.sowjanya.d@intel.com
-Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org, christopher.s.hall@intel.com,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org, pandith.n@intel.com,
- x86@kernel.org, eddie.dong@intel.com, jesse.brandeburg@intel.com,
- linux-sound@vger.kernel.org, alexandre.torgue@foss.st.com,
- mallikarjunappa.sangannavar@intel.com, joabreu@synopsys.com,
- intel-wired-lan@lists.osuosl.org, mcoquelin.stm32@gmail.com,
- thejesh.reddy.t.r@intel.com, perex@perex.cz, anthony.l.nguyen@intel.com,
- andriy.shevchenko@linux.intel.com, davem@davemloft.net
-References: <20240103115602.19044-1-lakshmi.sowjanya.d@intel.com>
- <20240103115602.19044-12-lakshmi.sowjanya.d@intel.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20240103115602.19044-12-lakshmi.sowjanya.d@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Dear Lakshmi,
+LEDs in 'HP ProBook 440 G6' laptop are controlled by ALC236 codec.
+Enable already existing quirk 'ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF'
+to fix mute and mic-mute LEDs.
 
+Signed-off-by: Siddhesh Dharme <siddheshdharme18@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thank you for your patch.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index c80e2f3ac..1dcfba27e 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9825,6 +9825,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x84da, "HP OMEN dc0019-ur", ALC295_FIXUP_HP_OMEN),
+ 	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LED_MIC3),
+ 	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP_HP_SPECTRE_X360),
++	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x869d, "HP", ALC236_FIXUP_HP_MUTE_LED),
+-- 
+2.43.0
 
-Am 03.01.24 um 12:56 schrieb lakshmi.sowjanya.d@intel.com:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> 
-> Document sysfs interface for Intel Timed I/O PPS driver
-
-I’d add a dot/period at the end.
-
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> ---
->   Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
->   1 file changed, 7 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-> new file mode 100644
-> index 000000000000..24a2eb591a05
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-> @@ -0,0 +1,7 @@
-> +What:		/sys/devices/platform/INTCxxxx/enable
-> +Date:		March 2024
-> +KernelVersion	6.9
-> +Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> +Description:
-> +		(RW) Enable or disable PPS TIO generator output, read to
-> +		see the status of hardware(Enabled/Disabled).
-
-Please add a space before the (.
-
-Wouldn’t it be more intuitive, if it returned true/false?
-
-
-Kind regards,
-
-Paul
