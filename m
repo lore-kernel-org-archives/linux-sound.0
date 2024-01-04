@@ -1,126 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D044223748;
-	Thu,  4 Jan 2024 14:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96AF20DFF;
+	Thu,  4 Jan 2024 14:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPlcMVr2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704379623; x=1735915623;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=AgNpe/rQhXH4s/zrVu4O6NOZqlKS54MKFZBPb9+vKyQ=;
-  b=dPlcMVr2hjex705BPBxtdxY+dPlW18/Ezfq2Y+Gf/Bklt9mQDB9NPdYq
-   e62DRDhuO8OoxmfrS9G8T+alzrRnX4VZ05nL7jYu/BuB8c20OMnjPqF2D
-   GkrGWTbGofB65Gmt/q7wxNk9XtDPf3L9XEY90WXBwCiMPQPGmuWOlxgqR
-   YrDuA3gbCnytS/RcKV2TdylGTRGFG0XDPRqbHfddwViXZLKbGBTDmZncJ
-   9XZaojziSZs38fXvgvjsecLJa2AU2EYW8iisvQ7qgPA98rpB5VDk1hgNw
-   XKVH6QrNBRXi6pao4dcKO1taAtwaboCEJ5oKJg9BabegH42AxSOZtI9J+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="15895923"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="15895923"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 06:47:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773536659"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="773536659"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orsmga007.jf.intel.com with ESMTP; 04 Jan 2024 06:46:52 -0800
-Message-ID: <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
-Date: Thu, 4 Jan 2024 16:48:19 +0200
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uxunJUah"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 404EvoKY094833;
+	Thu, 4 Jan 2024 08:57:50 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1704380270;
+	bh=xh3RmFWtFRhsE0WfSJVrIa9/MFg7kvHXYymcnBeoVsg=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=uxunJUahTuhAa/rXdSnZuhs8v6jat9ergWlb86hLALancYy1nTWh0f+GL+2YoOGkD
+	 aDc6Wv1cDOGoutIBV10YizpQZgNMUvnoYsrkNgeZ/7PvPS+gBumFQDy90KYOGCRqeQ
+	 AF6BwD7op788FYSfoveLMcOKllIPXn3yR4y01pb4=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 404Evow4067796
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 4 Jan 2024 08:57:50 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 4
+ Jan 2024 08:57:49 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 4 Jan 2024 08:57:49 -0600
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.161.227])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 404EvPfO105959;
+	Thu, 4 Jan 2024 08:57:43 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>, <conor+dt@kernel.org>,
+        <krzysztof.kozlowski@linaro.org>
+CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <kevin-lu@ti.com>, <baojun.xu@ti.com>, <devicetree@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>,
+        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <liam.r.girdwood@intel.com>, <soyer@irl.hu>, <tiwai@suse.de>,
+        <peeyush@ti.com>, <navada@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v5 3/4] ASoC: tas2781: Add tas2563 into header file for DSP mode
+Date: Thu, 4 Jan 2024 22:57:18 +0800
+Message-ID: <20240104145721.1398-3-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20240104145721.1398-1-shenghao-ding@ti.com>
+References: <20240104145721.1398-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, gregkh@linuxfoundation.org, lgirdwood@gmail.com,
- andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- konrad.dybcio@linaro.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org,
- bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, agross@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
- <20240102214549.22498-5-quic_wcheng@quicinc.com>
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
- event ring events
-In-Reply-To: <20240102214549.22498-5-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 2.1.2024 23.45, Wesley Cheng wrote:
-> As part of xHCI bus suspend, the XHCI is halted.  However, if there are
-> pending events in the secondary event ring, it is observed that the xHCI
-> controller stops responding to further commands upon host or device
-> initiated bus resume.  Iterate through all pending events and update the
-> dequeue pointer to the beginning of the event ring.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-...
-> +/*
-> + * Move the event ring dequeue pointer to skip events kept in the secondary
-> + * event ring.  This is used to ensure that pending events in the ring are
-> + * acknowledged, so the XHCI HCD can properly enter suspend/resume.  The
-> + * secondary ring is typically maintained by an external component.
-> + */
-> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
-> +	struct xhci_ring *ring,	struct xhci_interrupter *ir)
-> +{
-> +	union xhci_trb *erdp_trb, *current_trb;
-> +	u64 erdp_reg;
-> +	u32 iman_reg;
-> +	dma_addr_t deq;
-> +
-> +	/* disable irq, ack pending interrupt and ack all pending events */
-> +	xhci_disable_interrupter(ir);
-> +	iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
-> +	if (iman_reg & IMAN_IP)
-> +		writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
-> +
-> +	/* last acked event trb is in erdp reg  */
-> +	erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
-> +	deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
-> +	if (!deq) {
-> +		xhci_err(xhci, "event ring handling not required\n");
-> +		return;
-> +	}
-> +
-> +	erdp_trb = current_trb = ir->event_ring->dequeue;
-> +	/* read cycle state of the last acked trb to find out CCS */
-> +	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
-> +
-> +	while (1) {
-> +		inc_deq(xhci, ir->event_ring);
-> +		erdp_trb = ir->event_ring->dequeue;
-> +		/* cycle state transition */
-> +		if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
-> +		    ring->cycle_state)
-> +			break;
-> +	}
-> +
-> +	xhci_update_erst_dequeue(xhci, ir, current_trb, true);
-> +}
+Move tas2563 from tas2562 header file to tas2781 header file to unbind
+tas2563 from tas2562 driver code and bind it to tas2781 driver code,
+because tas2563 only work in bypass-DSP mode with tas2562 driver. In
+order to enable DSP mode for tas2563, it has been moved to tas2781
+driver. As to the hardware part, such as register setting and DSP
+firmware, all these are stored in the binary firmware. What tas2781
+drivder does is to parse the firmware and download it to the chip,
+then power on the chip. So, tas2781 driver can be resued as tas2563
+driver. Only attention will be paid to downloading corresponding firmware.
 
-Code above is very similar to the existing event ring processing parts of xhci_irq()
-and xhci_handle_event()
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-I'll see if I can refactor the existing event ring processing, decouple it from
-event handling so that it could be used by primary and secondary interrupters with
-handlers, and this case where we just want to clear the event ring.
+---
+Change in v5:
+ - Move tas2563 to tas2781 driver.
+ - Add more comments on why move tas2563 to tas2781 driver.
+ - Provide rationale in terms of bindings and hardware, not in terms of driver.
+   Or at least not only.
+ - leave comma as the last entry is _not_ a terminator.
+ - Make the enum order, tas2563 is first, tas2781 is second.
+---
+ include/sound/tas2781.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Thanks
-Mathias
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index a6c808b22318..813cf9446a58 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -1,13 +1,13 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ //
+-// ALSA SoC Texas Instruments TAS2781 Audio Smart Amplifier
++// ALSA SoC Texas Instruments TAS2563/TAS2781 Audio Smart Amplifier
+ //
+ // Copyright (C) 2022 - 2023 Texas Instruments Incorporated
+ // https://www.ti.com
+ //
+-// The TAS2781 driver implements a flexible and configurable
++// The TAS2563/TAS2781 driver implements a flexible and configurable
+ // algo coefficient setting for one, two, or even multiple
+-// TAS2781 chips.
++// TAS2563/TAS2781 chips.
+ //
+ // Author: Shenghao Ding <shenghao-ding@ti.com>
+ // Author: Kevin Lu <kevin-lu@ti.com>
+@@ -59,7 +59,8 @@
+ #define TASDEVICE_CMD_FIELD_W		0x4
+ 
+ enum audio_device {
+-	TAS2781	= 0,
++	TAS2563,
++	TAS2781,
+ };
+ 
+ enum device_catlog_id {
+-- 
+2.34.1
 
