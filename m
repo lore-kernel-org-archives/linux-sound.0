@@ -1,272 +1,185 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2115.outbound.protection.outlook.com [40.107.113.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137321E507;
-	Fri,  5 Jan 2024 16:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF233174E;
+	Fri,  5 Jan 2024 17:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="bVkA0W2q"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G6PUzpQuJJAYpIYkED8iaWKoTIl0o8GE9FB/DGp1hu8F7BFop2G1kwy/W/e5AU3lM456bwxElyWakn/SEHVo3r9KU4VgW8d9r0gspVikEpZi7NJKKq/RVE6aWmkT3ZCwAmgh6E/9nw9ISuazRw9QB3VdtsUxWDLYTU7qjlT49DtY2lkstQ52w0tL1fKinhaFDVaSQhpGXQSOoWtkq0AMs8ckF+XQS7rwM1bplQjK8XQMLZ8V/7ouaTFpqpYJnIQey/3SlQiGcb2D7D24rLi/jPj+zv6s1WcTNN0EPW4KM2/PKVPzLDlu31PYVdfTL1req7eJBWz8B9dAF9FIoPx6jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w0k/V8C3LLLpC9xJrkIadpQyZcFBUEusZ1QCseXgXds=;
- b=TG64j0M4p+L480BZ5PfHEEVub7jaJLXr43VQelGJDR7JYFNni2wUVfLVHA2iflujDtFQHBKp98ldkVzZN8onPUGg/B6N71A6ID+pEUAn1Y7nrLu3o0h7jlq1NuPnnikTl6ph0+4Y2yjo1RAnRC4go8tbI4pvMRsX2b84M+2cGMvQwLzkjtoT/VRfnw++fQQOjsd/9VHwKJIy0HL60M9t8aKT22kL5JUmOrGZ9eJeiYi1B7iqMJCa0sA+tKi65+lBF2twwriraEJ65Kw1rEtZT9Nl8mOjxgK5BJbcijtw0icc3xA5b5+ra8rBnK877yObs6kwPUi5vqbIEip5M6/qWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w0k/V8C3LLLpC9xJrkIadpQyZcFBUEusZ1QCseXgXds=;
- b=bVkA0W2qyFjSSsX+xjS7L4y5g+ITUxhcp8kM1kyBWKb7CCMRfktIzzFhSTcU0gb9oAvSIv6bzYnYEkTI5i/RTf/j79GX8R/Wii5FL0LLccPXZxLdMyVDftFJN15OxIQDhFXDJ0IJKFkOhGDEsBotVcLdBtYsBb6OGhWxpJa4GaQ=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OS7PR01MB11583.jpnprd01.prod.outlook.com
- (2603:1096:604:241::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.10; Fri, 5 Jan
- 2024 16:39:53 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7181.009; Fri, 5 Jan 2024
- 16:39:51 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
-	<konrad.dybcio@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson
-	<sean.anderson@seco.com>
-Subject: RE: [PATCH v2 1/4] reset: gpio: Add GPIO-based reset controller
-Thread-Topic: [PATCH v2 1/4] reset: gpio: Add GPIO-based reset controller
-Thread-Index: AQHaP/BMp3VkzdSHW0qQi1Uk8IEbbrDLaurw
-Date: Fri, 5 Jan 2024 16:39:51 +0000
-Message-ID:
- <TYCPR01MB11269ABEDCD115064D449267486662@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240105155918.279657-1-krzysztof.kozlowski@linaro.org>
- <20240105155918.279657-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240105155918.279657-2-krzysztof.kozlowski@linaro.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS7PR01MB11583:EE_
-x-ms-office365-filtering-correlation-id: 31ca393c-e14c-429d-539a-08dc0e0cf064
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- UAyvrKT44mEBEyXr/DaPKeQGfklXEpAXTtcUntPnWjgIiSdCmJmQxt39iZT5cRRAUeVK1cH/RywEbeYum/PX+QvGKJ8BONn2uLgFACmiB1ZI/JWAZ+IGrDDGPlsBBd2Mml5Wk+rHuJ2bbYOu81SHC22QrXe7x1otXnO/5vcwbIDBA8X4/2BAfe9g1nHou9fUt5C8dxgkOntYy4t+paW0DztHOvJ3jYXrlIC69c3EcgR6vAYUdR7tojMQEVxj93I79JSf56wqKr79Ul0DdgEtDj76fSYqiSY5fQN3OxXS004py5g4pbIzT1+TUI5wZUjhj7Dfg9Z7Kdi02m3vKx3UtGPUiYFb4wxWDmLGKwPmPfYu1vTzf+8mvs5AlG8F4K4nlJqcrVpXiI1LaCKG5ZSNjHMOhkAwlifq55n66sBclLbH4QrymR1uBn4cj42PTsCdIcMN/7Vu0Te0kNj8vf3TI7RCdlL4PWqOsLVpMGkFw4XMHlM1xM85Fy/HqEjUmQQfhH8Bxq80OpB56YRwor2faHnkTzRAldBGVjtmlmBDzYRPJihO2g5kzFdZJEEhZ53q/SKDP4zBOBx3xXPbFCqzVQ9QJYyYNAo26P3pKAyTMi2aa16tYdmTTyp20M/TLrAyjmgptAJnoR79yGrZU4IuFA==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(346002)(39860400002)(366004)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(26005)(71200400001)(53546011)(9686003)(7696005)(6506007)(478600001)(83380400001)(7416002)(2906002)(41300700001)(76116006)(66556008)(54906003)(66446008)(316002)(66476007)(64756008)(66946007)(110136005)(8936002)(8676002)(52536014)(4326008)(38070700009)(921011)(38100700002)(5660300002)(122000001)(86362001)(33656002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?tNZ834xSi/r+mn4wBzGL9vKnm0SKBlX5qchn4RF9/IE2o1vf/3E3WNt0JUzo?=
- =?us-ascii?Q?B9usNobUhoDz2V35nBLULQr/G3dvNe9XClY4XfU+FZOXulWMSSJt4skqJBEk?=
- =?us-ascii?Q?JZ/WuhVmtimXyasBLU9mLnLrrsKWZxo82UHJSEi2V/FGtSsqE7hLS7wge00Z?=
- =?us-ascii?Q?m59hACrdgu2RSL40GzJjwwx6qtGCXR/WkO52VgJTb6b0RjBNpveQR8YW2v3/?=
- =?us-ascii?Q?njPZ3RPZEAlgYE8c37FdNrh2AcLkz8CTRW/DA0Bghk9EiHT3U+F7M6VSdACe?=
- =?us-ascii?Q?kLgYGy8iXTRs/iHc+Y02iWhWDJqHE8JKrtdYVh7Jy2AxZJBHF0TeIf5sVZpG?=
- =?us-ascii?Q?Jd0UmDo1SCyQe/k6jcXsZGsqTiBoPY8rEdvmpSqDfO0vjg1nOS6ioqqx7m3l?=
- =?us-ascii?Q?UsDE2gG54MyfX1d7L5tnqdppbpL8mgYVsIAJkA7Rs8F9+Oj+cbtkW87XRQDX?=
- =?us-ascii?Q?ol8l06nz4kY83ozvZVcMyyuSXKJ4VYz97O2fHicVCUAB/jAi6djvIJeGaNbO?=
- =?us-ascii?Q?i/6xXScOQ1aA/mJbXDiXMLHYKEAtPHlMiAqhe1SOu+muEpLR6bHj5FbKO0Yg?=
- =?us-ascii?Q?YC4cOOQLOLTPjM0NMEnclVLQuAqNRJe6YRWmah8RcGNj3CkAuevJ5A2m2CjW?=
- =?us-ascii?Q?dCLwptpmE2QFoDAP+H4YE+h2gN1IcFSpi3r7HXMUg6AbX+sG8gHq3zcj+Xvh?=
- =?us-ascii?Q?gee7t4KhaNn+PLdz2A4SyqC1bniAuMQh2GWPBHLVXmvEkpoFkyGDjXY/h3D3?=
- =?us-ascii?Q?1dwJmRnTGpb8fVdyosniPohRbpiAGqpjnE+FKoQJyj5kY17txpcvFFt41Ygo?=
- =?us-ascii?Q?i9GJ9FCzpD+zIoXIYimRBn+kYNBMJZw5WJorVDJGC05uVjfh5iD8wC/VNvdQ?=
- =?us-ascii?Q?1AV5vYqf3AbItn1pnRBOQcwB5EyzWliOKj3Ee/GY5qRWcv+Nte39fsObQRGC?=
- =?us-ascii?Q?rQ1ZR3KSQB8ZNLnMQLsOEUmbivOqz9K339kCW88MmttK79oUVnzlhnnMqozN?=
- =?us-ascii?Q?/tBJAcTIZkT9TrifHBdwTWp+JDGnds15Sx6f09iTpfWNddM1klLpoiidwbJj?=
- =?us-ascii?Q?GaJplVKovhMZtu9EMK/WAgbKMgJwTWN9tLWHEHw+kE3lHT9lkYp2DOzBlBJ7?=
- =?us-ascii?Q?aj1K+L4cUXGHz3JsGAYvQqt5BpA0Qn+t4eoEiDiPlnTVYeDIhLYbDWbCTM/i?=
- =?us-ascii?Q?6eywG+JPrW90fOW+bGqudMJG0cOVS9bezU4im6FirByyeWcjF2APPyM0FNUr?=
- =?us-ascii?Q?z9v6a207KWufvpl/6nV5cy8VZDs3CCzjH2VUpqfX97VKF6CG/kxituaaIPqg?=
- =?us-ascii?Q?xjMD5BkIDUHZMrOicLcp/9+iC7tybgU3rszfue0ZF8zHNsE1Q7SlSd/iESYC?=
- =?us-ascii?Q?DcxC3omB0rg6SJi/h+qPAt/SxSRR3qOnt9KcgdEVyCUU4t+adtA6MlRhcTAz?=
- =?us-ascii?Q?Lcjy5pGQs4BESLgXNLvYNyjHTLk8d5p1g3aia3QjRkeEyNTU+vYTZdFd+73s?=
- =?us-ascii?Q?tMHx9qIzuIii+DeQCjqdMbwgVohpUrZoS0pq/70ud+U/e6YLcvXHT6Ab8FpR?=
- =?us-ascii?Q?OBnbmohbBKQdu66z/OyCtVdHCZpyLAHxiq+jR+b+FwPY8DJVq2LQ/xIDbmqn?=
- =?us-ascii?Q?Vw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gokGGuTc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LE6evtG9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gokGGuTc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LE6evtG9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A09C1FB44;
+	Fri,  5 Jan 2024 17:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704474102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
+	b=gokGGuTcazv7gAyIeY0XWVhwKFWgr4lGSrT1TMHvGEkCjCfWkwWdNyHSaGlNNyNyZNIOud
+	qgEBrRnycsWUCC6tcBW/se+ltvNQ97vmRjInEHtMcTtxgxw7wFsIZcCJqW/xw2z4r+5az4
+	bW2VJsItw4oVPB3zHfFXgH4CGFrDCsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704474102;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
+	b=LE6evtG9TrFzZUktbOPlHhYUf90JBfn8dq5uC9wFaTmnGRN0mmvpzmJ3DMETXxC9fuHQnJ
+	tcIL51y22uA7HwBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704474102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
+	b=gokGGuTcazv7gAyIeY0XWVhwKFWgr4lGSrT1TMHvGEkCjCfWkwWdNyHSaGlNNyNyZNIOud
+	qgEBrRnycsWUCC6tcBW/se+ltvNQ97vmRjInEHtMcTtxgxw7wFsIZcCJqW/xw2z4r+5az4
+	bW2VJsItw4oVPB3zHfFXgH4CGFrDCsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704474102;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
+	b=LE6evtG9TrFzZUktbOPlHhYUf90JBfn8dq5uC9wFaTmnGRN0mmvpzmJ3DMETXxC9fuHQnJ
+	tcIL51y22uA7HwBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09956136F5;
+	Fri,  5 Jan 2024 17:01:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1pPjAPY1mGWoSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 05 Jan 2024 17:01:42 +0000
+Date: Fri, 05 Jan 2024 18:01:41 +0100
+Message-ID: <871qavk93e.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: bo liu <bo.liu@senarytech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
+In-Reply-To: <20240104111044.5880-1-bo.liu@senarytech.com>
+References: <20240104111044.5880-1-bo.liu@senarytech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31ca393c-e14c-429d-539a-08dc0e0cf064
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2024 16:39:51.4745
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OWn45HBXGTa3cHv1UincSWRwRWrBz6gnU1gaJauGHqAuhxVa7XIi0yoh74n7Q+4qpQPNKigmd+KRKwj3LN5vQemQLZkTcNuAFgdJzFumbis=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11583
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -0.30
+X-Spamd-Result: default: False [-0.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 URIBL_BLOCKED(0.00)[senarytech.com:email];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[33.13%]
+X-Spam-Flag: NO
 
-Hi Krzysztof Kozlowski,
+On Thu, 04 Jan 2024 12:10:44 +0100,
+bo liu wrote:
+> 
+> When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
+> the headset type detection circuit will recognize the headset type as CTIA.
+> At this point, plugout and plugin the headset will get the correct headset
+> type as OMTP.
+> The reason for the failure of headset type recognition is that the sound
+> card creation will enable the VREF voltage of the headset mic, which
+> interferes with the headset type automatic detection circuit. Plugout and
+> plugin the headset will restart the headset detection and get the correct
+> headset type.
+> The patch is disable the VREF voltage when the headset is not present, and
+> will enable the VREF voltage when the headset is present.
+> 
+> Signed-off-by: bo liu <bo.liu@senarytech.com>
 
-Thanks for the patch.
+Please put the revision number to the subject prefix, i.e.
+"Subject: [PATCH v3] ALSA: hda/conexant: ...."
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Sent: Friday, January 5, 2024 3:59 PM
-> Subject: [PATCH v2 1/4] reset: gpio: Add GPIO-based reset controller
->=20
-> Add a simple driver to control GPIO-based resets using the reset
-> controller API for the cases when the GPIOs are shared and reset should b=
-e
-> coordinated.  The driver is expected to be used by reset core framework
-> for ad-hoc reset controllers.
->=20
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  MAINTAINERS                |   5 ++
->  drivers/reset/Kconfig      |   9 +++
->  drivers/reset/Makefile     |   1 +
->  drivers/reset/reset-gpio.c | 121 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 136 insertions(+)
->  create mode 100644 drivers/reset/reset-gpio.c
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7fe27cd60e1b..a0fbd4814bc7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8866,6 +8866,11 @@ F:	Documentation/i2c/muxes/i2c-mux-gpio.rst
->  F:	drivers/i2c/muxes/i2c-mux-gpio.c
->  F:	include/linux/platform_data/i2c-mux-gpio.h
->=20
-> +GENERIC GPIO RESET DRIVER
-> +M:	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> +S:	Maintained
-> +F:	drivers/reset/reset-gpio.c
-> +
->  GENERIC HDLC (WAN) DRIVERS
->  M:	Krzysztof Halasa <khc@pm.waw.pl>
->  S:	Maintained
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig index
-> ccd59ddd7610..bb1b5a326eb7 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -66,6 +66,15 @@ config RESET_BRCMSTB_RESCAL
->  	  This enables the RESCAL reset controller for SATA, PCIe0, or PCIe1
-> on
->  	  BCM7216.
->=20
-> +config RESET_GPIO
-> +	tristate "GPIO reset controller"
-> +	help
-> +	  This enables a generic reset controller for resets attached via
-> +	  GPIOs.  Typically for OF platforms this driver expects "reset-
-> gpios"
-> +	  property.
-> +
-> +	  If compiled as module, it will be called reset-gpio.
-> +
->  config RESET_HSDK
->  	bool "Synopsys HSDK Reset Driver"
->  	depends on HAS_IOMEM
-> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile index
-> 8270da8a4baa..fd8b49fa46fc 100644
-> --- a/drivers/reset/Makefile
-> +++ b/drivers/reset/Makefile
-> @@ -11,6 +11,7 @@ obj-$(CONFIG_RESET_BCM6345) +=3D reset-bcm6345.o
->  obj-$(CONFIG_RESET_BERLIN) +=3D reset-berlin.o
->  obj-$(CONFIG_RESET_BRCMSTB) +=3D reset-brcmstb.o
->  obj-$(CONFIG_RESET_BRCMSTB_RESCAL) +=3D reset-brcmstb-rescal.o
-> +obj-$(CONFIG_RESET_GPIO) +=3D reset-gpio.o
->  obj-$(CONFIG_RESET_HSDK) +=3D reset-hsdk.o
->  obj-$(CONFIG_RESET_IMX7) +=3D reset-imx7.o
->  obj-$(CONFIG_RESET_INTEL_GW) +=3D reset-intel-gw.o diff --git
-> a/drivers/reset/reset-gpio.c b/drivers/reset/reset-gpio.c new file mode
-> 100644 index 000000000000..cf0a867cbc5f
-> --- /dev/null
-> +++ b/drivers/reset/reset-gpio.c
-> @@ -0,0 +1,121 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset-controller.h>
-> +
-> +struct reset_gpio_priv {
-> +	struct reset_controller_dev rc;
-> +	struct gpio_desc *reset;
-> +};
-> +
-> +static inline struct reset_gpio_priv
-> +*rc_to_reset_gpio(struct reset_controller_dev *rc) {
-> +	return container_of(rc, struct reset_gpio_priv, rc); }
-> +
-> +static int reset_gpio_assert(struct reset_controller_dev *rc, unsigned
-> +long id) {
-> +	struct reset_gpio_priv *priv =3D rc_to_reset_gpio(rc);
-> +
-> +	gpiod_set_value_cansleep(priv->reset, 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static int reset_gpio_deassert(struct reset_controller_dev *rc,
-> +			       unsigned long id)
+> +static void cx_fixup_headset_recog(struct hda_codec *codec)
 > +{
-> +	struct reset_gpio_priv *priv =3D rc_to_reset_gpio(rc);
+> +	unsigned int mic_persent;
 > +
-> +	gpiod_set_value_cansleep(priv->reset, 0);
-> +
-> +	return 0;
-> +}
-> +
-> +static int reset_gpio_status(struct reset_controller_dev *rc, unsigned
-> +long id) {
-> +	struct reset_gpio_priv *priv =3D rc_to_reset_gpio(rc);
-> +
-> +	return gpiod_get_value_cansleep(priv->reset);
-> +}
-> +
-> +static const struct reset_control_ops reset_gpio_ops =3D {
-> +	.assert =3D reset_gpio_assert,
-> +	.deassert =3D reset_gpio_deassert,
-> +	.status =3D reset_gpio_status,
+> +	/* fix some headset type recognize fail issue, such as EDIFIER headset */
+> +	snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
+> +	snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
+> +	snd_hda_codec_write(codec, 0x1c, 0, 0x4f0, 0x0eb);
+
+Please use the defined verbs in sound/hda_verbs.h.
+The arguments (0x320, 0x010) are (AC_VERB_SET_AMP_GAIN_MUTE, 0x2010)
+etc.
+
+Also, it's still not clear what if other nodes are used for headphone
+and mic pins -- or when either only headphone or only mic is present.
+A rare case, but we need to cover.
+
+> +	/* fix reboot headset type recognize fail issue */
+> +	mic_persent = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
+> +	if (mic_persent&0x80000000)
+
+A coding style problem.  Similar issues seen in a few other places,
+too.  Consult scripts/checkpatch.pl.
+
+> +enum {
+> +	CX_HEADSET_NOPRESENT = 0,
+> +	CX_HEADSET_PARTPRESENT,
+> +	CX_HEADSET_ALLPRESENT,
 > +};
-> +
-> +static void reset_gpio_of_args_put(void *data) {
-> +	of_node_put(data);
-> +}
-> +
-> +static int reset_gpio_probe(struct platform_device *pdev) {
-> +	struct device *dev =3D &pdev->dev;
-> +	struct device_node **platdata =3D dev_get_platdata(dev);
-> +	struct of_phandle_args gpio_args;
-> +	struct reset_gpio_priv *priv;
-> +	int ret;
-> +
-> +	if (!platdata || !*platdata)
 
-Maybe, if (!(platdata && *platdata)) which reduces 1 inversion operation.
+This should be defined earlier.  You can use the enum type for
+spec->headset_present_flag, too.
 
-Cheers,
-Biju
+> +static void cx_process_headset_plugin(struct hda_codec *codec)
+> +{
+> +	unsigned int val;
+> +	unsigned int count = 0;
+> +
+> +	/* Wait headset detect done. */
+> +	do {
+> +		val = snd_hda_codec_read(codec, 0x1c, 0, 0xca0, 0x0);
+
+Use the verb: AC_VERB_GET_PROC_COEF, 0xa000.
+At best, define the COEF values 0xa000 and 0xb000, and the
+corresponding value bits, too.
+
+> +static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
+> +{
+> +	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
+> +	struct conexant_spec *spec = codec->spec;
+> +
+> +	/* In cx8070 and sn6140, headset is fixed to use node 16 and node 19.
+
+Is it really guaranteed?  IMO, we should check the pin configs
+beforehand at the parsing time.
+
+
+thanks,
+
+Takashi
