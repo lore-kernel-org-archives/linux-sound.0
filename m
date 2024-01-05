@@ -1,185 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF233174E;
-	Fri,  5 Jan 2024 17:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F72935EF1;
+	Fri,  5 Jan 2024 18:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gokGGuTc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LE6evtG9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gokGGuTc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LE6evtG9"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A09C1FB44;
-	Fri,  5 Jan 2024 17:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704474102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
-	b=gokGGuTcazv7gAyIeY0XWVhwKFWgr4lGSrT1TMHvGEkCjCfWkwWdNyHSaGlNNyNyZNIOud
-	qgEBrRnycsWUCC6tcBW/se+ltvNQ97vmRjInEHtMcTtxgxw7wFsIZcCJqW/xw2z4r+5az4
-	bW2VJsItw4oVPB3zHfFXgH4CGFrDCsI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704474102;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
-	b=LE6evtG9TrFzZUktbOPlHhYUf90JBfn8dq5uC9wFaTmnGRN0mmvpzmJ3DMETXxC9fuHQnJ
-	tcIL51y22uA7HwBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704474102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
-	b=gokGGuTcazv7gAyIeY0XWVhwKFWgr4lGSrT1TMHvGEkCjCfWkwWdNyHSaGlNNyNyZNIOud
-	qgEBrRnycsWUCC6tcBW/se+ltvNQ97vmRjInEHtMcTtxgxw7wFsIZcCJqW/xw2z4r+5az4
-	bW2VJsItw4oVPB3zHfFXgH4CGFrDCsI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704474102;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I0pqSAo1a1EH5HTEcwTG0QckXYLZkoMIPOiDc1r0tpA=;
-	b=LE6evtG9TrFzZUktbOPlHhYUf90JBfn8dq5uC9wFaTmnGRN0mmvpzmJ3DMETXxC9fuHQnJ
-	tcIL51y22uA7HwBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09956136F5;
-	Fri,  5 Jan 2024 17:01:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1pPjAPY1mGWoSAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Jan 2024 17:01:42 +0000
-Date: Fri, 05 Jan 2024 18:01:41 +0100
-Message-ID: <871qavk93e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
-In-Reply-To: <20240104111044.5880-1-bo.liu@senarytech.com>
-References: <20240104111044.5880-1-bo.liu@senarytech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjZrp9kn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA156C433C8;
+	Fri,  5 Jan 2024 18:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704480502;
+	bh=RkFt9IIYomhELhaSYrco17mS19Uik7xg/MPUw5WN1mw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=BjZrp9knsEd0ZweLDzWv7N+f87DyNs5OkDTp+5ClbBUICCwtTt04lVT5BmSjVETjA
+	 9O8uzYpxNT7ZIZG0PDZwD7HATJuurUZQvPkbF6SoAHWBttvdaPqM6UhAHEMNEToVYE
+	 uNoc3diHnH1pTjPAg6CK+MtGA2sJwscDXHWjKzgQOeKaiLiDYLkuaRUC1kccOzt70Z
+	 sqxlgBrFr4SIbgt44EyO9UwD553bQ8woCEBrFaQPLbSDrxU6UesHANlPqlIsHIFSKM
+	 oYDkdMDgTHb8Cf/WkhBE8AproKezZiUSD1pOp+1WzXJ6ZSDum0cWyC3AcqYVG8Xswf
+	 9iaekUGjFVYrQ==
+From: Mark Brown <broonie@kernel.org>
+To: conor+dt@kernel.org, krzysztof.kozlowski@linaro.org, 
+ Shenghao Ding <shenghao-ding@ti.com>
+Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com, kevin-lu@ti.com, 
+ baojun.xu@ti.com, devicetree@vger.kernel.org, lgirdwood@gmail.com, 
+ perex@perex.cz, pierre-louis.bossart@linux.intel.com, 13916275206@139.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de, peeyush@ti.com, 
+ navada@ti.com
+In-Reply-To: <20240104145721.1398-1-shenghao-ding@ti.com>
+References: <20240104145721.1398-1-shenghao-ding@ti.com>
+Subject: Re: [PATCH v5 1/4] ASoC: dt-bindings: move tas2563 from
+ tas2562.yaml to tas2781.yaml
+Message-Id: <170448049855.417990.715024813727231807.b4-ty@kernel.org>
+Date: Fri, 05 Jan 2024 18:48:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.30
-X-Spamd-Result: default: False [-0.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 URIBL_BLOCKED(0.00)[senarytech.com:email];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[33.13%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-On Thu, 04 Jan 2024 12:10:44 +0100,
-bo liu wrote:
+On Thu, 04 Jan 2024 22:57:16 +0800, Shenghao Ding wrote:
+> Move tas2563 from tas2562.yaml to tas2781.yaml to unbind tas2563 from
+> tas2562 driver code and bind it to tas2781 driver code, because tas2563
+> only work in bypass-DSP mode with tas2562 driver. In order to enable DSP
+> mode for tas2563, it has been moved to tas2781 driver. As to the hardware
+> part, such as register setting and DSP firmware, all these are stored in
+> the binary firmware. What tas2781 drivder does is to parse the firmware
+> and download it to the chip, then power on the chip. So, tas2781 driver
+> can be resued as tas2563 driver. Only attention will be paid to
+> downloading corresponding firmware.
 > 
-> When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
-> the headset type detection circuit will recognize the headset type as CTIA.
-> At this point, plugout and plugin the headset will get the correct headset
-> type as OMTP.
-> The reason for the failure of headset type recognition is that the sound
-> card creation will enable the VREF voltage of the headset mic, which
-> interferes with the headset type automatic detection circuit. Plugout and
-> plugin the headset will restart the headset detection and get the correct
-> headset type.
-> The patch is disable the VREF voltage when the headset is not present, and
-> will enable the VREF voltage when the headset is present.
-> 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
+> [...]
 
-Please put the revision number to the subject prefix, i.e.
-"Subject: [PATCH v3] ALSA: hda/conexant: ...."
+Applied to
 
-> +static void cx_fixup_headset_recog(struct hda_codec *codec)
-> +{
-> +	unsigned int mic_persent;
-> +
-> +	/* fix some headset type recognize fail issue, such as EDIFIER headset */
-> +	snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
-> +	snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
-> +	snd_hda_codec_write(codec, 0x1c, 0, 0x4f0, 0x0eb);
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Please use the defined verbs in sound/hda_verbs.h.
-The arguments (0x320, 0x010) are (AC_VERB_SET_AMP_GAIN_MUTE, 0x2010)
-etc.
+Thanks!
 
-Also, it's still not clear what if other nodes are used for headphone
-and mic pins -- or when either only headphone or only mic is present.
-A rare case, but we need to cover.
+[1/4] ASoC: dt-bindings: move tas2563 from tas2562.yaml to tas2781.yaml
+      commit: 3dbb4e3602d217d7139b95a36077a6b7252dc290
+[2/4] ASoC: tas2562: move tas2563 from tas2562 driver to tas2781 driver
+      commit: 645994d21287a1ad2f637818d737f7a3d84e97d7
+[3/4] ASoC: tas2781: Add tas2563 into header file for DSP mode
+      commit: e9aa44736cb75e901d76ee59d80db1ae79d516f1
+[4/4] ASoC: tas2781: Add tas2563 into driver
+      commit: 9f1bcd16e2bd41d758438f1d74e5f2d35f1e8c8e
 
-> +	/* fix reboot headset type recognize fail issue */
-> +	mic_persent = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
-> +	if (mic_persent&0x80000000)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-A coding style problem.  Similar issues seen in a few other places,
-too.  Consult scripts/checkpatch.pl.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> +enum {
-> +	CX_HEADSET_NOPRESENT = 0,
-> +	CX_HEADSET_PARTPRESENT,
-> +	CX_HEADSET_ALLPRESENT,
-> +};
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-This should be defined earlier.  You can use the enum type for
-spec->headset_present_flag, too.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> +static void cx_process_headset_plugin(struct hda_codec *codec)
-> +{
-> +	unsigned int val;
-> +	unsigned int count = 0;
-> +
-> +	/* Wait headset detect done. */
-> +	do {
-> +		val = snd_hda_codec_read(codec, 0x1c, 0, 0xca0, 0x0);
+Thanks,
+Mark
 
-Use the verb: AC_VERB_GET_PROC_COEF, 0xa000.
-At best, define the COEF values 0xa000 and 0xb000, and the
-corresponding value bits, too.
-
-> +static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
-> +{
-> +	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
-> +	struct conexant_spec *spec = codec->spec;
-> +
-> +	/* In cx8070 and sn6140, headset is fixed to use node 16 and node 19.
-
-Is it really guaranteed?  IMO, we should check the pin configs
-beforehand at the parsing time.
-
-
-thanks,
-
-Takashi
