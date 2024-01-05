@@ -1,104 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD03024B5A;
-	Fri,  5 Jan 2024 14:33:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDCF2E3EC
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jan 2024 14:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eutmiK8m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435F0C433C8;
-	Fri,  5 Jan 2024 14:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704465208;
-	bh=PgXaKGN8DqZgvzqxm7EM/leplkV3k/W5tK0CswY8nxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eutmiK8mS7otKfg6XPGuMelGNRsbSuK9AVVvVKyRcSMEKSCGJCcM3oI0VFgUuBExW
-	 3lSEarA0liHmqyg1YBMLz6mDQJ1U8t1uKiVqFSPhB0unRzFwwAfoRw4EPEMSxkYEU+
-	 Z/0d0A6E6W4PNk+kVaGpZ2/FT4ZNrWs5bTR0be8EpZA8PZIdmN//fPUZffx/IZlvWR
-	 qSpmzpE6JcSmia1EWxAXjf9BVhKkp2AjRsMOPpi4f6a+Asuw14u2q+2uA+lgvK4gtu
-	 9rry/bIyj+eKO2dpcVWYjXm0tNIheQvePJQeGGrGWb9aOgJ1+bhVpNKFwgsRweBLb2
-	 iA8pe9otNIa3w==
-Date: Fri, 5 Jan 2024 14:33:21 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Sean Anderson <sean.anderson@seco.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH 2/4] reset: add GPIO-based reset controller
-Message-ID: <758c4fe3-1ea1-4a8c-bb6f-3a3df588da75@sirena.org.uk>
-References: <20231222150133.732662-1-krzysztof.kozlowski@linaro.org>
- <20231222150133.732662-3-krzysztof.kozlowski@linaro.org>
- <530e3473-eb3b-477c-8599-e7aa12779640@seco.com>
- <88bd6668-7e67-42c7-97b6-d7029f371349@linaro.org>
- <075990bb-5fdb-4d30-9484-9df6b978e805@seco.com>
- <fcbae47b-3b28-42f0-b93f-f83932025dc1@linaro.org>
- <2be19fbf-4c73-4594-be42-31587dc7b747@seco.com>
- <d2d17b94-6f29-423d-a7e0-e24513a8e59f@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lfRfRlBz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704466796; x=1736002796;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=59sdOAEezpYYlX6VZ1CBkJMWRbg+MYpHnYACm4VZvhM=;
+  b=lfRfRlBzDcD3/Ek6cmhhbk0brtvwxCB2+rq9gbQuGdVh0FORfPAs0ief
+   gISX/h76l8MZe3r/2L96G2xYNSXYDlkY7zYxJOHb5y7uLQQ5WKW24s55h
+   vAjN/TCWbK7oVdVT3LA+ViHhPO6DpxSTBjUCKiW8wD66IZaYcs3e8ovYR
+   zoYahqj+aH4PjBnhHMTBGOFPLzm6Sz/1VbIs278O6MBBqavI6dIqY0ixo
+   n4e2keJbYiHkjJhxGwDicZ8hJQqZQEXRy4UB+QdnB56VGnqj4zHLJPQZn
+   KHcZTt1KwEvCwvFfftT8HfvC6DYSSZ80H0jYNT5wAJZdII0t+HBZe3XiU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="4887388"
+X-IronPort-AV: E=Sophos;i="6.04,334,1695711600"; 
+   d="scan'208";a="4887388"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 06:59:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,334,1695711600"; 
+   d="scan'208";a="29137834"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.251.211.30]) ([10.251.211.30])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 06:59:53 -0800
+Message-ID: <d0afac78-c983-44c3-82f1-064033d4c07d@linux.intel.com>
+Date: Fri, 5 Jan 2024 17:00:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vImSMy+icUlzjZXl"
-Content-Disposition: inline
-In-Reply-To: <d2d17b94-6f29-423d-a7e0-e24513a8e59f@linaro.org>
-X-Cookie: Your step will soil many countries.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage"
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com, broonie@kernel.org, kamil.duljas@gmail.com
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel..com
+References: <20231214072954.3963-1-peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20231214072954.3963-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Mark,
 
---vImSMy+icUlzjZXl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 14/12/2023 09:29, Peter Ujfalusi wrote:
+> This reverts commit 8c91ca76f44804868d12aed20ebdbc2f89aa7d60.
+> 
+> The offending patch introduces memory leak when there is no error, the
+> memory allocated for the temporary storage is not freed up.
+> 
+> As I have commented, the original code was correct and cleaner to
+> follow but it was not obvious from the patch that it will introduce
+> regression.
 
-On Thu, Jan 04, 2024 at 08:08:50PM +0100, Krzysztof Kozlowski wrote:
-> On 04/01/2024 17:30, Sean Anderson wrote:
+Sorry to dump this, but can you take a look and pick this up?
+We are leaking memory in linux-next because of this.
 
-> > device post-assert delay post-deassert delay
-> > ====== ================= ===================
-> > A                  500us                 1ms
-> > B                    1ms               300us
+Thanks,
+Péter
 
-...
+> Link: https://lore.kernel.org/all/aec61f67-6b4f-49e6-b458-c332983a0ad6@linux.intel.com/
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> ---
+>  sound/soc/sof/ipc3-dtrace.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
+> index 93b189c2d2ee..0dca139322f3 100644
+> --- a/sound/soc/sof/ipc3-dtrace.c
+> +++ b/sound/soc/sof/ipc3-dtrace.c
+> @@ -137,7 +137,6 @@ static int trace_filter_parse(struct snd_sof_dev *sdev, char *string,
+>  			dev_err(sdev->dev,
+>  				"Parsing filter entry '%s' failed with %d\n",
+>  				entry, entry_len);
+> -			kfree(*out);
+>  			return -EINVAL;
+>  		}
+>  	}
+> @@ -209,13 +208,13 @@ static ssize_t dfsentry_trace_filter_write(struct file *file, const char __user
+>  		ret = ipc3_trace_update_filter(sdev, num_elems, elems);
+>  		if (ret < 0) {
+>  			dev_err(sdev->dev, "Filter update failed: %d\n", ret);
+> -			kfree(elems);
+>  			goto error;
+>  		}
+>  	}
+>  	ret = count;
+>  error:
+>  	kfree(string);
+> +	kfree(elems);
+>  	return ret;
+>  }
+>  
 
-> Now, if we are back to realistic cases - use just the longest reset time.
-
-Isn't the main concern here that when one device probes we don't yet
-know the times for the other devices?
-
-> > If we leave things up to the drivers, then whoever probes first will get
-> > to decide the reset sequence.
-
-> In current design yes, but it's not a problem to change it. Where is the
-> limitation? Just read other values and update the reset time.
-
-We might have already done a reset by that time and earlier devices
-might prevent later devices from resetting again.  It shouldn't be such
-an issue for the post delay, but might be one for the pre delay.
-
---vImSMy+icUlzjZXl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWYEzAACgkQJNaLcl1U
-h9AUFQf8DiBunWd33PprmdlKCI899IHnZ7UxbOoI6wrUZN2Sv3Eo8tBt+XXsK2ZV
-h61S9/tKulQcEi1z6NLrCKslrceGCewQP3dzTMmas5F14hBDSXE4WEfCrHpcLgtZ
-r6eqUUCKIQSDhBDodrHOPSHFxvizmJqcGoFNlj+UUF6U0Mqxo1S3DY3Q4/6edGqj
-p35k9Tud8KLEQJ4By0206b90rthRaUicLXQXuEqRYrrkLWQsKLIjjnZSZmrOogEb
-OmGTeyk5lY67DXPrhGxYnHI0R+XiaDK4SJm07EfQmJoBfD0ShMgMicPBXod/kkG1
-UUYU+vv8YIrLd/0AWrfdWORkiyteAA==
-=xDYl
------END PGP SIGNATURE-----
-
---vImSMy+icUlzjZXl--
