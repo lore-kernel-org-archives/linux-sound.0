@@ -1,125 +1,141 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85322E623;
-	Fri,  5 Jan 2024 15:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5422E824
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jan 2024 15:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OBU69Wcw"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 405Cpwp4012446;
-	Fri, 5 Jan 2024 09:01:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=hCR4EmcMYIBdHpq
-	zJzZE8aUhAR9GR9nB+1npMXbK+K4=; b=OBU69WcwJL0L7H1b4rm47LQphdjUCu6
-	TT9nJj8I2VcYIxXcXFNCjI92WD/6zgEd8dxGEC+u/tIvi2piWm39RRMBcd0xyrUO
-	5e8vDaUwDYLn66eEcspkfpEoLvdZP9shwQ4XaS5sQKL897NDRvAtQZ4SsnoqlFi/
-	8oO7VNws8qymx+sQ5UoGHyBZIAJlj0JyS/koXT0M21fOYChcnQGqd2o/tuTMXG5U
-	ih/yHp61QcvMZJ8q0PKOEDwvwWZEI82hb4RvP7K+6LLA4gvAeYbaFMrGYEgevoSP
-	4XRbQt7AyiG6QYgXVWSkEeeAMWhclGUMxKbb7EBErZeFcxhi7cr3QWQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ve9e8gqbg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jan 2024 09:01:21 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
- 2024 15:01:18 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
- Transport; Fri, 5 Jan 2024 15:01:03 +0000
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 81A6615A2;
-	Fri,  5 Jan 2024 15:01:03 +0000 (UTC)
-Date: Fri, 5 Jan 2024 15:01:03 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>
-CC: James Ogletree <james.ogletree@cirrus.com>,
-        Fred Treven
-	<fred.treven@cirrus.com>,
-        Ben Bright <ben.bright@cirrus.com>,
-        Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>,
-        Lee Jones <lee@kernel.org>, "Liam
- Girdwood" <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        James Schulman
-	<james.schulman@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Peng Fan
-	<peng.fan@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-        Sebastian Reichel
-	<sebastian.reichel@collabora.com>,
-        Jacky Bai <ping.bai@nxp.com>, Weidong Wang
-	<wangweidong.a@awinic.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Herve Codina
-	<herve.codina@bootlin.com>,
-        Shuming Fan <shumingf@realtek.com>,
-        Shenghao Ding
-	<13916275206@139.com>, Ryan Lee <ryans.lee@analog.com>,
-        Linus Walleij
-	<linus.walleij@linaro.org>,
-        "open list:CIRRUS LOGIC HAPTIC DRIVERS"
-	<patches@opensource.cirrus.com>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK,
- TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND
- FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-        open list
-	<linux-kernel@vger.kernel.org>,
-        "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
- POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-        "moderated list:CIRRUS LOGIC
- AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v5 4/5] Input: cs40l50 - Add support for the CS40L50
- haptic driver
-Message-ID: <20240105150103.GI14858@ediswmail.ad.cirrus.com>
-References: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
- <20240104223643.876292-5-jogletre@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nNGqpVmq"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e3712d259so10567945e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 05 Jan 2024 07:59:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704470363; x=1705075163; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ojBQKqXKo4lu+tyGs931tVbnWS1sxtV4aoVa4f902n4=;
+        b=nNGqpVmqfYsekBYwNqnTL9MtQT3xGER4o/P4DD2jxZds1UhuCvHf54Ams4AMwIHvYF
+         koimkBgwiWIUQhGylOhidELmYt0aBt2W23Ney5GyPi9fcLPU2gq0IIDhFda6Vil+6Oas
+         BtZm9nAdGPaX6PHsXjh9y/nog6UBCiJlVx1C+IDl8C6wOf7LtBOcmvGMhHMlnCmmJemB
+         iymZ4bJZZ9hkIuOjUx1bfGwS57ZD2jDi1zeMkWrbi2o5HQUDWg8wXdJmXseFhL00GyKG
+         zZDyTZyt3qkMkc/DXRih0uQbf+JJPwu+VvBCdsWIQaEDBXSjiTuOVLhN/EECSBK6wJWb
+         RLeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704470363; x=1705075163;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ojBQKqXKo4lu+tyGs931tVbnWS1sxtV4aoVa4f902n4=;
+        b=JQapzeyzuV9elLt9w2pN7tjZTS2N2rVkLXEYZvlGdwC9ozj/FHESEMRHUrmfmQ9oGM
+         CAdeVrYEaaF5ZqXRD+YR+rxuapZV0vQt2pobeGle1cov1mjJl4dqloOvNhPSdulT1WH7
+         +WHYSpce5hstyJSCVmcqXnLiSiaNyPpoNnCza9l1xc7Bd1Vn3J18Rs/4/hyvj48Ou0WA
+         HqtjGT70ej7o1CdTj8b+V9oUcF3z/efarEW5eDZGjFDSytW5zw8IkPfHFGASh3Ig4nFH
+         wlLtqF4qxyc54pdd8fSenVv4o7CxoMQTBicSKTIw3/dw9oBixQojsFN4tmq5musnzyup
+         Ix7g==
+X-Gm-Message-State: AOJu0YwIcfSXyXmIsC1FXONK5JHEaaiHodWwEowRc12Eb0yR2x4Pl3oZ
+	4LeMYXs9npOlpDyczB/q50EBSCgN4K6nZg==
+X-Google-Smtp-Source: AGHT+IGwV4OwKKATavp8Q64GytM17HdFfAv5ZKYAelGrsoZCfrrWxmUv3Kzk+4KdvDrMFQQkbNmewA==
+X-Received: by 2002:a05:600c:45c7:b0:40d:5f86:cef4 with SMTP id s7-20020a05600c45c700b0040d5f86cef4mr875290wmo.235.1704470363063;
+        Fri, 05 Jan 2024 07:59:23 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.112])
+        by smtp.gmail.com with ESMTPSA id su8-20020a17090703c800b00a29910a9366sm326024ejb.8.2024.01.05.07.59.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 07:59:22 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH v2 0/4] reset: gpio: ASoC: shared GPIO resets
+Date: Fri,  5 Jan 2024 16:59:14 +0100
+Message-Id: <20240105155918.279657-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240104223643.876292-5-jogletre@opensource.cirrus.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: nInpbhH6Gxayo2Puvzw74qxNoSGhXQlv
-X-Proofpoint-ORIG-GUID: nInpbhH6Gxayo2Puvzw74qxNoSGhXQlv
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 04, 2024 at 10:36:37PM +0000, James Ogletree wrote:
-> Introduce support for Cirrus Logic Device CS40L50: a
-> haptic driver with waveform memory, integrated DSP,
-> and closed-loop algorithms.
-> 
-> The input driver provides the interface for control of
-> haptic effects through the device.
-> 
-> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
-> ---
-> +#include <linux/input.h>
-> +#include <linux/mfd/cs40l50.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
+Hi,
 
-Need bitfield.h
+Changes in v2
+=============
+1. wsa884x.c: add missing return in wsa884x_get_reset(), correct comment.
+2. qcom,wsa8840.yaml: fix oneOf syntax.
+3. reset/core.c:
+   - Revise approach based on Bartosz comments: parse the reset-gpios phandle
+     with arguments, do not use deprecated API and do not rely on gpio_desc
+     pointer.
+   - Create a list of instantiated platform devices to avoid any duplicates.
+   - After creating reset-gpio platform device, try to get new reset controller
+     or return EPROBE_DEFER.
+   - Drop the "cookie" member and add new "of_args" to "struct
+     reset_controller_dev".
+4. reset-gpio.c:
+   - Fix smatch warning on platdata evaluation.
+   - Parse GPIO args and store them in rc.of_args.
 
-Thanks,
-Charles
+Description
+===========
+
+We have at least few cases where hardware engineers decided to use one
+powerdown/shutdown/reset GPIO line for multiple devices:
+
+1. WSA884x (this and previous patch):
+https://lore.kernel.org/all/b7aeda24-d638-45b7-8e30-80d287f498f8@sirena.org.uk/
+2. https://lore.kernel.org/all/20231027033104.1348921-1-chris.packham@alliedtelesis.co.nz/
+3. https://lore.kernel.org/lkml/20191030120440.3699-1-peter.ujfalusi@ti.com/
+4. https://lore.kernel.org/all/20211018234923.1769028-1-sean.anderson@seco.com/
+5. https://social.treehouse.systems/@marcan/111268780311634160
+
+I try to solve my case, hopefuly Chris' (2), partially Sean's (4) and maybe
+Hectors (5), using Rob's suggestion:
+
+https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/
+
+Best regards,
+Krzysztof
+
+Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Sean Anderson <sean.anderson@seco.com>
+
+Krzysztof Kozlowski (4):
+  reset: gpio: Add GPIO-based reset controller
+  reset: Instantiate reset GPIO controller for shared reset-gpios
+  ASoC: dt-bindings: qcom,wsa8840: Add reset-gpios for shared line
+  ASoC: codecs: wsa884x: Allow sharing reset GPIO
+
+ .../bindings/sound/qcom,wsa8840.yaml          |  11 +-
+ MAINTAINERS                                   |   5 +
+ drivers/reset/Kconfig                         |   9 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/core.c                          | 176 ++++++++++++++++--
+ drivers/reset/reset-gpio.c                    | 121 ++++++++++++
+ include/linux/reset-controller.h              |   4 +
+ sound/soc/codecs/wsa884x.c                    |  53 +++++-
+ 8 files changed, 356 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/reset/reset-gpio.c
+
+-- 
+2.34.1
+
