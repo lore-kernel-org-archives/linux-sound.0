@@ -1,91 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail115-79.sinamail.sina.com.cn (mail115-79.sinamail.sina.com.cn [218.30.115.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F72935EF1;
-	Fri,  5 Jan 2024 18:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjZrp9kn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA156C433C8;
-	Fri,  5 Jan 2024 18:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704480502;
-	bh=RkFt9IIYomhELhaSYrco17mS19Uik7xg/MPUw5WN1mw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BjZrp9knsEd0ZweLDzWv7N+f87DyNs5OkDTp+5ClbBUICCwtTt04lVT5BmSjVETjA
-	 9O8uzYpxNT7ZIZG0PDZwD7HATJuurUZQvPkbF6SoAHWBttvdaPqM6UhAHEMNEToVYE
-	 uNoc3diHnH1pTjPAg6CK+MtGA2sJwscDXHWjKzgQOeKaiLiDYLkuaRUC1kccOzt70Z
-	 sqxlgBrFr4SIbgt44EyO9UwD553bQ8woCEBrFaQPLbSDrxU6UesHANlPqlIsHIFSKM
-	 oYDkdMDgTHb8Cf/WkhBE8AproKezZiUSD1pOp+1WzXJ6ZSDum0cWyC3AcqYVG8Xswf
-	 9iaekUGjFVYrQ==
-From: Mark Brown <broonie@kernel.org>
-To: conor+dt@kernel.org, krzysztof.kozlowski@linaro.org, 
- Shenghao Ding <shenghao-ding@ti.com>
-Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com, kevin-lu@ti.com, 
- baojun.xu@ti.com, devicetree@vger.kernel.org, lgirdwood@gmail.com, 
- perex@perex.cz, pierre-louis.bossart@linux.intel.com, 13916275206@139.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- liam.r.girdwood@intel.com, soyer@irl.hu, tiwai@suse.de, peeyush@ti.com, 
- navada@ti.com
-In-Reply-To: <20240104145721.1398-1-shenghao-ding@ti.com>
-References: <20240104145721.1398-1-shenghao-ding@ti.com>
-Subject: Re: [PATCH v5 1/4] ASoC: dt-bindings: move tas2563 from
- tas2562.yaml to tas2781.yaml
-Message-Id: <170448049855.417990.715024813727231807.b4-ty@kernel.org>
-Date: Fri, 05 Jan 2024 18:48:18 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A4F523E
+	for <linux-sound@vger.kernel.org>; Sat,  6 Jan 2024 08:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([113.118.71.254])
+	by sina.com (10.75.12.45) with ESMTP
+	id 65991535000053A2; Sat, 6 Jan 2024 16:54:21 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 73732131458000
+X-SMAIL-UIID: 708C57B39F3247B4A02A0CF645A356FD-20240106-165421-1
+From: Hillf Danton <hdanton@sina.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: gregkh@linuxfoundation.org,
+	tiwai@suse.com,
+	robh+dt@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v12 00/41] Introduce QC USB SND audio offloading support
+Date: Sat,  6 Jan 2024 16:54:03 +0800
+Message-Id: <20240106085403.3076-1-hdanton@sina.com>
+In-Reply-To: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+Content-Transfer-Encoding: 8bit
 
-On Thu, 04 Jan 2024 22:57:16 +0800, Shenghao Ding wrote:
-> Move tas2563 from tas2562.yaml to tas2781.yaml to unbind tas2563 from
-> tas2562 driver code and bind it to tas2781 driver code, because tas2563
-> only work in bypass-DSP mode with tas2562 driver. In order to enable DSP
-> mode for tas2563, it has been moved to tas2781 driver. As to the hardware
-> part, such as register setting and DSP firmware, all these are stored in
-> the binary firmware. What tas2781 drivder does is to parse the firmware
-> and download it to the chip, then power on the chip. So, tas2781 driver
-> can be resued as tas2563 driver. Only attention will be paid to
-> downloading corresponding firmware.
+On Tue, 2 Jan 2024 13:45:08 -0800 Wesley Cheng <quic_wcheng@quicinc.com>
+> Changes in v2:
 > 
-> [...]
+> XHCI:
+> - Replaced XHCI and HCD changes with Mathias' XHCI interrupter changes
+> in his tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
+> 
+> Adjustments made to Mathias' changes:
+>   - Created xhci-intr.h to export/expose interrupter APIs versus exposing xhci.h.
+>     Moved dependent structures to this file as well. (so clients can parse out
+>     information from "struct xhci_interrupter")
+>   - Added some basic locking when requesting interrupters.
+>   - Fixed up some sanity checks.
+>   - Removed clearing of the ERSTBA during freeing of the interrupter. (pending
+>     issue where SMMU fault occurs if DMA addr returned is 64b - TODO)
+> 
+> - Clean up pending events in the XHCI secondary interrupter.  While testing USB
+> bus suspend, it was seen that on bus resume, the xHCI HC would run into a command
+> timeout.
+> - Added offloading APIs to xHCI to fetch transfer and event ring information.
+> 
+> ASoC:
+> - Modified soc-usb to allow for multiple USB port additions.  For this to work,
+> the USB offload driver has to have a reference to the USB backend by adding
+> a "usb-soc-be" DT entry to the device saved into XHCI sysdev.
 
-Applied to
+Could you tip point to where the usb-soc-be DT entry is added?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/4] ASoC: dt-bindings: move tas2563 from tas2562.yaml to tas2781.yaml
-      commit: 3dbb4e3602d217d7139b95a36077a6b7252dc290
-[2/4] ASoC: tas2562: move tas2563 from tas2562 driver to tas2781 driver
-      commit: 645994d21287a1ad2f637818d737f7a3d84e97d7
-[3/4] ASoC: tas2781: Add tas2563 into header file for DSP mode
-      commit: e9aa44736cb75e901d76ee59d80db1ae79d516f1
-[4/4] ASoC: tas2781: Add tas2563 into driver
-      commit: 9f1bcd16e2bd41d758438f1d74e5f2d35f1e8c8e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+> - Created separate dt-bindings for defining USB_RX port.
+> - Increased APR timeout to accommodate the situation where the AFE port start
+> command could be delayed due to having to issue a USB bus resume while
+> handling the QMI stream start command.
