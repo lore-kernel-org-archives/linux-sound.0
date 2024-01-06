@@ -1,44 +1,43 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA06FDDB1
-	for <linux-sound@vger.kernel.org>; Sat,  6 Jan 2024 17:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E07F9C2;
+	Sat,  6 Jan 2024 21:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alu.unizg.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="hGTQHy+d"
-Received: from eig-obgw-6006a.ext.cloudfilter.net ([10.0.30.182])
-	by cmsmtp with ESMTPS
-	id M1HtreU22oMN9MAUWrdSnY; Sat, 06 Jan 2024 17:29:48 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id MAUVrDRIDYjq0MAUVrF8kK; Sat, 06 Jan 2024 17:29:47 +0000
-X-Authority-Analysis: v=2.4 cv=afxyIDkt c=1 sm=1 tr=0 ts=65998e0b
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=GfQleyYEO+cc22AUyTT7qQ==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=dEuoMetlWLkA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=7YfXLusrAAAA:8 a=VwQbUJbxAAAA:8 a=Xv5lit1u7inJFwG0Rj4A:9 a=QEXdDO2ut3YA:10
- a=zgiPjhLxNE0A:10 a=SLz71HocmBbuEhFRYD3r:22 a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Kp3nPAn0Jw9fdBJE8vaNu80tZr2D5BJIDgFDgQoUEQY=; b=hGTQHy+dR2LgB/mfwf+U3j5CEh
-	k2lZZ4G2/Ubiw82MjKPvrdgU039R6nWl9t2rDbx5vzqELlRMadSf3ZQCmxmb3+tg7DuWUF9UJoRqs
-	S7H/+4Ovwmu76rrnrlcwIhHvnofT0Tp4M+7Hv17AxtifNJgIJ8GN+mwsFemkbAA4tLmW3gH0tsaVN
-	3bFco1r8ElQN+fanpPvv40PBFZ4AD9PvxcjgriO4gKBQC0CM9vfHHTmWCcnSl6K1vnfzCOoqDdPt9
-	S2FpaWAr5kXdgZmd41jp5lLvQiJMxNjmUg9jcuOEIhzVkX4gQfAypfqptbcLeGskGsutHXFhMjaP8
-	n78pEEhg==;
-Received: from 187.184.157.186.cable.dyn.cableonline.com.mx ([187.184.157.186]:54571 helo=[192.168.0.10])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1rMAUU-002YaE-1R;
-	Sat, 06 Jan 2024 11:29:46 -0600
-Message-ID: <ea9d5db7-6be7-4cda-85d2-6039483eabb4@embeddedor.com>
-Date: Sat, 6 Jan 2024 11:29:44 -0600
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="io8SxOGU";
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="wiG91a4O"
+Received: from localhost (localhost [127.0.0.1])
+	by domac.alu.hr (Postfix) with ESMTP id 1BF036017E;
+	Sat,  6 Jan 2024 22:22:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1704576138; bh=HEghdAHf2OKYHZqGEPG2Q6QZWWANdcfdstEIe037x7Y=;
+	h=Date:From:Subject:To:Cc:From;
+	b=io8SxOGUCiMm6CxLIoDDO1c8jF0PaeopV2fNsqrx4fyShU60orB7FQYAzI67Tklu5
+	 rP9OconP2IY+XKiKCHpujk8YoMEYnxjrGLDk/Gi5WGaWXivbUl+qF9UwzeI2SQh/JN
+	 LvySEXgKAF8ktYfPRK2dXp/sRoeV6/yRx+4TOTeln8EZfIT+b2Ld9KF5mMSPk1xY9U
+	 Mdgc/ncsPeDjNKEyheTqekjkSWx4Zz95mVMzFXDXjimEphCZx99xRFhdmGBS9X01lB
+	 Dn0APyqZ3BKDFRGtCBgi6UAhJinweevMDB7W37KPr7nyUkpYkaJtRBrm1ymoHo6jK0
+	 JWGQ4xWh8GfMQ==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cIT5aPRSWNP9; Sat,  6 Jan 2024 22:22:15 +0100 (CET)
+Received: from [192.168.92.51] (unknown [95.168.116.36])
+	by domac.alu.hr (Postfix) with ESMTPSA id 4623F60171;
+	Sat,  6 Jan 2024 22:22:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1704576135; bh=HEghdAHf2OKYHZqGEPG2Q6QZWWANdcfdstEIe037x7Y=;
+	h=Date:From:Subject:To:Cc:From;
+	b=wiG91a4O1YSbVh1kJaOISQh8b5bRvI3j6zYRL5qSNUMgUrBTpsNqqNuoHvedlAHzd
+	 hSvdoq1Vv42xtP7PFRC8nkHLWOvySbYOa5VPOOPZTn9A5l52kdJf+ndPmE0wRTIlB0
+	 sKJBH2N02e52x9rHgkuZZEHA1U5KNdMETwg+4NbDRSNPKyxAZBvoLLshmIC65Ic23W
+	 JN1uafLN2sZK5k61oQ+shmyLxoyQ4o1vmh83upRZgsDypAMxnMxfEx2mRELkybx16u
+	 DokFl5yYHe0YOtQbR9Mzih3NywomTeAQ2Itct0oDhhudLDYsCiQytROdeZT/OWMZQS
+	 FrUap4rmPcZLg==
+Message-ID: <36c37fba-fb1f-4e7e-bc92-c75b426ea72c@alu.unizg.hr>
+Date: Sat, 6 Jan 2024 22:22:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,74 +45,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: Use devm_kcalloc() instead of devm_kzalloc()
-Content-Language: en-US
-To: Erick Archer <erick.archer@gmx.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20240106171635.19881-1-erick.archer@gmx.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20240106171635.19881-1-erick.archer@gmx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.184.157.186
-X-Source-L: No
-X-Exim-ID: 1rMAUU-002YaE-1R
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187.184.157.186.cable.dyn.cableonline.com.mx ([192.168.0.10]) [187.184.157.186]:54571
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 14
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfAITnQLDS+aVZqJoO2A5mVu5ljQbZ++WcfzjUv0AY/kByjwIk0x0invUv882FEXQ50rtgLB8MBYXpcLVUak7HO2vBxVtjx0FOT/GWcBMf1NoOlRFIY5s
- iQ0sy0F3VTdki8wSYiTf/e4c2Nm1thOeoOupeXALomYaPLPzNZGUSjKYN7h8R7w/ZYEfkow7C3Nw/qcp5TNxtdoklPhjglgfrECcBh+lkrMJ6gWqVEt5ExrM
+Content-Language: en-US, hr
+From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+Subject: [BUG] selftests: alsa: conf.c: wrong parm passed to printf [FIXED]
+To: linux-kernel@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shuah Khan <shuah@kernel.org>,
+ linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hi, all,
+
+There is a minor omission in selftests/alsa/conf.c, returning errno where there is
+strerror(errno) passed in the sibling calls to printf().
+
+The bug was apparently introduced with the commit aba51cd0949ae
+("selftests: alsa - add PCM test").
+
+As a diff speaks like a thousand words, the fix is simple:
+
+Regards,
+Mirsad
+
+----- cut -----
+diff --git a/tools/testing/selftests/alsa/conf.c b/tools/testing/selftests/alsa/conf.c
+index 00925eb8d9f4..89e3656a042d 100644
+--- a/tools/testing/selftests/alsa/conf.c
++++ b/tools/testing/selftests/alsa/conf.c
+@@ -179,7 +179,7 @@ static char *sysfs_get(const char *sysfs_root, const char *id)
+        close(fd);
+        if (len < 0)
+                ksft_exit_fail_msg("sysfs: unable to read value '%s': %s\n",
+-                                  path, errno);
++                                  path, strerror(errno));
+        while (len > 0 && path[len-1] == '\n')
+                len--;
+        path[len] = '\0';
 
 
-
-On 1/6/24 11:16, Erick Archer wrote:
-> Use 2-factor multiplication argument form devm_kcalloc() instead
-> of devm_kzalloc().
-> 
-> Link: https://github.com/KSPP/linux/issues/162
-> Signed-off-by: Erick Archer <erick.archer@gmx.com>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
 -- 
-Gustavo
+Mirsad Goran Todorovac
+Sistem inženjer
+Grafički fakultet | Akademija likovnih umjetnosti
+Sveučilište u Zagrebu
+ 
+System engineer
+Faculty of Graphic Arts | Academy of Fine Arts
+University of Zagreb, Republic of Croatia
+The European Union
 
-> ---
->   sound/soc/qcom/common.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-> index 756706d5b493..747041fa7866 100644
-> --- a/sound/soc/qcom/common.c
-> +++ b/sound/soc/qcom/common.c
-> @@ -73,7 +73,7 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
->   	link = card->dai_link;
-> 
->   	for_each_available_child_of_node(dev->of_node, np) {
-> -		dlc = devm_kzalloc(dev, 2 * sizeof(*dlc), GFP_KERNEL);
-> +		dlc = devm_kcalloc(dev, 2, sizeof(*dlc), GFP_KERNEL);
->   		if (!dlc) {
->   			ret = -ENOMEM;
->   			goto err_put_np;
-> --
-> 2.25.1
-> 
-> 
+"I see something approaching fast ... Will it be friends with me?"
