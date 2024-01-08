@@ -1,113 +1,219 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1123F8BF9;
-	Mon,  8 Jan 2024 07:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC17BE49;
+	Mon,  8 Jan 2024 08:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BKRlJNEt"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50e7d6565b5so1479489e87.0;
-        Sun, 07 Jan 2024 23:51:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704700301; x=1705305101; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xB6dTmy7PPONUEqk9zrc11jGA1ahX/VsK6NLrJv8Ibo=;
-        b=BKRlJNEtsvPUNZqxMDLldvZ2I9yer42F1wk1zk2OGsPvzgcyZ0OFzXi59a/VtulcD+
-         2TZxNEQcodsHICX2wWDVrCnimvEjjngqYgTOOges0lE0DUgemupWAKkq9o2DVW8dbZxY
-         ojHI/mnfy3hvM9EDglJCDqOpXGKV5g1Dkx8eBgn9ArHNfrWOmZnSYYakzReVNw9rjWtR
-         MNYsV9Edoiyk5lzNp6OnO8vUUvcztmzG0/PhqkUOMtwF+yvrb7WZyUAUBGgh5HfbR7MS
-         TmyzFLzO+vH0qoW5bGnAIHf7yTBX7YD8/DiwqGf2zvZDmM/5v9yQlNuTDHBnBOnDdGgF
-         WQzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704700301; x=1705305101;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xB6dTmy7PPONUEqk9zrc11jGA1ahX/VsK6NLrJv8Ibo=;
-        b=e9eSY0V0+YSadMZUeE69lJXAzJaomJaEsNwTFAVUrIKtCejd1/j5dWbyGBsnedBxPc
-         EO6QIMCIVSWC3yaP50JdnaL/eFxuWktJGRfmsCtltoPxAVzCVEto+XSMMV0xoCCEMtPZ
-         MRbprn9LrbnA8V1PamZWhYuh6x9Bd9QbbqGHYJq7DSky3364SUXnbjZ1iAzh2ORRSRrr
-         3CYPxUe1DSkmFqdCvs5ZN4HJMdzy34NeKenzgDV8GGZa9yOwDBbVsUCRUJjafo8awTCl
-         Wr7XWAm+KAEwI6Vje/bTQVmv+CYoQJxnpcICFIm9GPIdl78O7sSg1lOyVqP2ZieGveTU
-         OI5g==
-X-Gm-Message-State: AOJu0YwVSxJPyybbZMu5HeJvw/xNRAFv4l0qPg+R83vbBzFeWF6dn0xf
-	2UDQ3JcXPE/zzpVud2CRTLw=
-X-Google-Smtp-Source: AGHT+IFgZcByQqbr97652HkUV9fLE574WgqqSfXCYtLKE0ke5xjsGHFQbJJlJSSp27L/fI7gvAQaBQ==
-X-Received: by 2002:a05:6512:48d1:b0:50e:7a04:2229 with SMTP id er17-20020a05651248d100b0050e7a042229mr1196568lfb.25.1704700300833;
-        Sun, 07 Jan 2024 23:51:40 -0800 (PST)
-Received: from [10.0.0.100] (host-213-145-197-219.kaisa-laajakaista.fi. [213.145.197.219])
-        by smtp.gmail.com with ESMTPSA id f26-20020ac2533a000000b0050e7a97ae32sm1062227lfh.78.2024.01.07.23.51.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Jan 2024 23:51:40 -0800 (PST)
-Message-ID: <20894f38-2e35-40c7-9e6c-f1b7f375a030@gmail.com>
-Date: Mon, 8 Jan 2024 09:52:14 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nqy+cecd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i6wVTFVv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nqy+cecd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i6wVTFVv"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CB44221FF6;
+	Mon,  8 Jan 2024 08:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704703358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xavgp20wJchhEiut1T9EaOus3HeMGe9zH5qTQoxluvE=;
+	b=nqy+cecd3COaFtxFUt2POZxT8TcUB9XWJmfb07PXCJUkPAJgrraALBxNuqdyIC8nrl1Abs
+	VcTVUZQ+MVU4qhYZzg1vu4okiH1mxyKDx0Wfn5j8WQGaP8wKY8rYmfRe+uYqNyfkIkjHWA
+	sdOJlCaXyygEiWuizQ6wRTY1nwAWUWM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704703358;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xavgp20wJchhEiut1T9EaOus3HeMGe9zH5qTQoxluvE=;
+	b=i6wVTFVve1JhZslr/4OiI4tRSj6o7QGkR2R5Lma6hGr/yi5KX6IR4ic2ncP3fGeTxlSj4W
+	p8iRWSjX/e8NycBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704703358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xavgp20wJchhEiut1T9EaOus3HeMGe9zH5qTQoxluvE=;
+	b=nqy+cecd3COaFtxFUt2POZxT8TcUB9XWJmfb07PXCJUkPAJgrraALBxNuqdyIC8nrl1Abs
+	VcTVUZQ+MVU4qhYZzg1vu4okiH1mxyKDx0Wfn5j8WQGaP8wKY8rYmfRe+uYqNyfkIkjHWA
+	sdOJlCaXyygEiWuizQ6wRTY1nwAWUWM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704703358;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xavgp20wJchhEiut1T9EaOus3HeMGe9zH5qTQoxluvE=;
+	b=i6wVTFVve1JhZslr/4OiI4tRSj6o7QGkR2R5Lma6hGr/yi5KX6IR4ic2ncP3fGeTxlSj4W
+	p8iRWSjX/e8NycBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F3171392C;
+	Mon,  8 Jan 2024 08:42:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZNx+IX61m2V6AgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 08 Jan 2024 08:42:38 +0000
+Date: Mon, 08 Jan 2024 09:42:38 +0100
+Message-ID: <87frz8i5c1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?wfWyqQ==?= <bo.liu@senarytech.com>
+Cc: "'Takashi Iwai'" <tiwai@suse.de>,
+	<perex@perex.cz>,
+	<tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
+In-Reply-To: <002401da41e2$f159f5f0$d40de1d0$@senarytech.com>
+References: <002401da41e2$f159f5f0$d40de1d0$@senarytech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: ti: Use devm_kcalloc() instead of devm_kzalloc()
-To: Erick Archer <erick.archer@gmx.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20240106162752.18599-1-erick.archer@gmx.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20240106162752.18599-1-erick.archer@gmx.com>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -0.30
+X-Spamd-Result: default: False [-0.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
 
-
-
-On 06/01/2024 18:27, Erick Archer wrote:
-> Use 2-factor multiplication argument form devm_kcalloc() instead
-> of devm_kzalloc().
+On Mon, 08 Jan 2024 04:29:51 +0100,
+Áõ²© wrote:
 > 
-> Link: https://github.com/KSPP/linux/issues/162
-> Signed-off-by: Erick Archer <erick.archer@gmx.com>
-
-Can you fix the commit title to:
-ASoC: ti: j721e-evm.: Use devm_kcalloc() instead of devm_kzalloc()
-
-and send v2 with my:
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
-> ---
->  sound/soc/ti/j721e-evm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> hi Takashi Iwai,
+> 	Thank you very much for your patient guidance. Below is the reply to
+> the question, please kindly correct it, thanks.
 > 
-> diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
-> index b4b158dc736e..d9d1e021f5b2 100644
-> --- a/sound/soc/ti/j721e-evm.c
-> +++ b/sound/soc/ti/j721e-evm.c
-> @@ -649,7 +649,7 @@ static int j721e_soc_probe_cpb(struct j721e_priv *priv, int *link_idx,
->  	 * Link 2: McASP10 <- pcm3168a_1 ADC
->  	 */
->  	comp_count = 6;
-> -	compnent = devm_kzalloc(priv->dev, comp_count * sizeof(*compnent),
-> +	compnent = devm_kcalloc(priv->dev, comp_count, sizeof(*compnent),
->  				GFP_KERNEL);
->  	if (!compnent) {
->  		ret = -ENOMEM;
-> @@ -763,7 +763,7 @@ static int j721e_soc_probe_ivi(struct j721e_priv *priv, int *link_idx,
->  	 *		   \ pcm3168a_b ADC
->  	 */
->  	comp_count = 8;
-> -	compnent = devm_kzalloc(priv->dev, comp_count * sizeof(*compnent),
-> +	compnent = devm_kcalloc(priv->dev, comp_count, sizeof(*compnent),
->  				GFP_KERNEL);
->  	if (!compnent) {
->  		ret = -ENOMEM;
-> --
-> 2.25.1
+> > +static void cx_fixup_headset_recog(struct hda_codec *codec) {
+> > +	unsigned int mic_persent;
+> > +
+> > +	/* fix some headset type recognize fail issue, such as EDIFIER
+> headset */
+> > +	snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
+> > +	snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
+> > +	snd_hda_codec_write(codec, 0x1c, 0, 0x4f0, 0x0eb);
 > 
+> Please use the defined verbs in sound/hda_verbs.h.
+> The arguments (0x320, 0x010) are (AC_VERB_SET_AMP_GAIN_MUTE, 0x2010) etc.
+> 
+> Re: (0x1c, 0x320) is not amp gain register, but vendor defined register as
+> rx control register. Use AC_VERB_SET_AMP_GAIN_MUTE will confused. It's
+> similar to 0x4f0 and 0xca0.
 
--- 
-PÃ©ter
+Ah interesting.  But the verb is actually seen as
+AC_VERB_SET_AMP_GAIN_MUTE -- although the resultant bits seem invalid.
+
+HD-audio combines the verb and the value into 20 bits, e.g. (0x320,
+0x10) is composed as 0x32010, and (0x3b0, 0xe10) is 0x3be10.
+0x3xx is translated as SET_AMP_GAIN_MUTE, but in your case, 0x32010
+leaves 0 to both the input/output bits (bits 14 and 15), which makes
+it as invalid.
+
+0x3be10 is another invalid verb, which sets SET_AMP_GAIN_MUTE with
+OUTPUT, but it sets both LEFT and RIGHT, and passes a high index
+(14).
+
+And, what actually (0x4f0, 0x0eb) does?  It's composed as 0x4f0eb, and
+in this case, it's a valid verb (SET_PROC_COEF + 0xf0eb).  But COEF is
+vendor-specific, so it can be translated in everything the chip
+wants.
+
+So, if those verbs are vendor-specific ones, please define them and/or
+give proper comments to explain what they do for each.
+
+
+> Also, it's still not clear what if other nodes are used for headphone and
+> mic pins -- or when either only headphone or only mic is present.
+> A rare case, but we need to cover.
+> 
+> Re: in cx8070 and sn6140, only 0x16 and 0x19 can be used together as
+> headset. Other nodes can be used separately as headphones or microphones,
+> but not as headset, 
+> so their configuration will not interfere with the type detection of
+> headset.
+
+OK, then explain this in comments, too (that we blindly assume those
+pins).
+
+
+> > +	/* fix reboot headset type recognize fail issue */
+> > +	mic_persent = snd_hda_codec_read(codec, 0x19, 0,
+> AC_VERB_GET_PIN_SENSE, 0x0);
+> > +	if (mic_persent&0x80000000)
+> 
+> A coding style problem.  Similar issues seen in a few other places, too.
+> Consult scripts/checkpatch.pl.
+> 
+> Re: was & need space? I have checked with scripts/checkpatch.pl before
+> submitting the patch and there are no warnings or errors.
+
+Yes.  Please put spaces around the operators.
+
+
+> > +static void cx_process_headset_plugin(struct hda_codec *codec) {
+> > +	unsigned int val;
+> > +	unsigned int count = 0;
+> > +
+> > +	/* Wait headset detect done. */
+> > +	do {
+> > +		val = snd_hda_codec_read(codec, 0x1c, 0, 0xca0, 0x0);
+> 
+> Use the verb: AC_VERB_GET_PROC_COEF, 0xa000.
+> At best, define the COEF values 0xa000 and 0xb000, and the corresponding
+> value bits, too.
+> 
+> Re: (0x1c, 0xca0) is not COEF register, but vendor defined register as
+> jacksense register.
+> 
+> > +static void cx_update_headset_mic_vref(struct hda_codec *codec, 
+> > +unsigned int res) {
+> > +	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
+> > +	struct conexant_spec *spec = codec->spec;
+> > +
+> > +	/* In cx8070 and sn6140, headset is fixed to use node 16 and node
+> 19.
+> 
+> Is it really guaranteed?  IMO, we should check the pin configs beforehand at
+> the parsing time.
+> 
+> Re: in cx8070 and sn6140, only 0x16 and 0x19 can be used together as
+> headset. The node 16 can only be config to headphone or disable,
+> The node 19 can only be config to microphone or disable. Only node 16 and
+> node 19 both enable, the patch will process.
+
+Then we still might need a check for the condition?
+
+
+thanks,
+
+Takashi
