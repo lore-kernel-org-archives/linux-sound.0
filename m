@@ -1,103 +1,125 @@
-Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97E541745;
-	Mon,  8 Jan 2024 13:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B059A41215;
+	Mon,  8 Jan 2024 13:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="E3ZBZNRd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1704718944; bh=0ub3HiEeynpEvWN9T9rYs29daqMSRNhQo+LY89G/pJQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E3ZBZNRdYmjh3Ih60sq6dzqptRKo6MnhtYf8yZmoket4Z15yS6hva6PMU5O5H3Br0
-	 Y7DJZ1fWjJTRQc8UGVh/Q/nWxpM3PsQ7e2f/e4HjQDswTAYFlNyWJoPOzPNtSrqsQk
-	 2NzTJHqB/TH/ZbflaOA1XyUfzXMD3IfjtGcsq+V4=
-Received: from levi-pc.. ([61.186.21.12])
-	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
-	id D5405488; Mon, 08 Jan 2024 20:53:20 +0800
-X-QQ-mid: xmsmtpt1704718402t7bah2boi
-Message-ID: <tencent_7D17862FAF1D04B210747D392317785A6508@qq.com>
-X-QQ-XMAILINFO: N26DAMVpW7UE8bEsG1DL1OQYT7OG4saY288xbYPEwBD89ZTWXtlQhFRinzLe4R
-	 oxEVR37D8UfJMiesvq3v3YB4fz79I8slxfUXVOntX6GCRMhyFjLiVsCeKCNtuMIlT8kZrbo0R/+d
-	 ACUy5wIcRlgfW+C+0TzcBUzoP7ufroOwxlu0EivkDwqGFXtBJY+hYi1/k/JqVkLDL0WTMJ/zTs1m
-	 nw40gsSPccOHFe1UTSOedvzun1/jC1+4cZY5Y531VO2g13Il7EJ4YizHbVA5soWKWzurqWb+LOh3
-	 usjjZzSYPKoB8GOBkZ9rvEG3kYRS0l8nxbTb38kieY+ucgX0+ywE0mKOzXebRG+2/tg5KSxNUzyX
-	 D7Ijh8LhtxxiACM7jFGpmhER9kYnRtgDX7W+IaBeKrH2swYUnchM2XO/6YP8JSqrtsJHRbVCquZb
-	 ZE7WwUO2kvytdlSmSX0tcP93pC2OP4BRQwPAhhFiXud8tjtlAj64Is3FA6Jj1MG5/5O2TsuxDed/
-	 yHZROdUEGa+7W8xBLsSbWMdRfmpOvRPugN/+0Q+YnjYyRYFGdND43SqarAMJ2tF5CxuAKMoKW1aZ
-	 m3jMYjgZU+zHob4wR2vOaM5t1lSaXoPfg0s/INTEUa4ty8fVI3kHtxtaQBKKO1Ue4gmXpJy9tqH8
-	 rCrKzutVmRsE8uzolFt/ptfJH4CdMu3yWSpcoGG7U9AahlB0ZW/jZuqWM41jXxLgmtS/3anTxtaX
-	 frZGvikKwXv86uKOBh+zXHECqLg41G3ob4iCBAY9WOcZl2n9h3NhtpUyPikoTuA7If5R28U74JiV
-	 mqlIy3TZL8+/0lzm4Owsw5tujPK8S0LGw4yP2OQO19+xFkCf9Prt1fF9PDW4aVsESUSIhJuFomVV
-	 BKOBqi68+z8EamdVXYBkg74lcKyX03v8Wtu03gapP0b8/HjDR36kRqeZhEoprDnzQ3fhQra5Z5ye
-	 ZRUp5obLRwMqrvwvZMGAVGgMAc0/rdsQqWNrrXq5bpEkEdesZYelMGPn84POT+EaZeveIL1iNfz8
-	 nsUZisrsuLAbqFrqJr
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-From: Huayu Zhang <932367230@qq.com>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	zhanghuayu.dev@gmail.com
-Subject: [PATCH] add DSD for ThinkBook 16p G4 IRH with Subsystem Id of : 0x17aa38a9
-Date: Mon,  8 Jan 2024 20:51:37 +0800
-X-OQ-MSGID: <20240108125137.15081-2-932367230@qq.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240108125137.15081-1-932367230@qq.com>
-References: <20240108125137.15081-1-932367230@qq.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jqqXa2xE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ox5Vej9b";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jqqXa2xE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ox5Vej9b"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A785E1F7A0;
+	Mon,  8 Jan 2024 13:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704719338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0o21J7nR/xVWxq9H8+akzo3UfGPo0sTHjBmxD9KITA=;
+	b=jqqXa2xELO1mVJ8Nlw38X3rwIzjeg3ODyYa1ttTfVsIm19hqmF4KAsaTdW4uBB0GEMJLWd
+	Cale0BffxBVAwy6m3uvwUK7xywe+vxj/ZD05U+D89vGfg9+Xj5ReDKh3Qhr6npJ/A1r3OK
+	WiyapG+q+yRCXo3nBtlkYaFuOkamiDA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704719338;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0o21J7nR/xVWxq9H8+akzo3UfGPo0sTHjBmxD9KITA=;
+	b=ox5Vej9bSL8rsyfsffoQSiixxpa61UEo/Lk6PyUk1grPJH1SS9CXiM5MhTh9/MkHffq/i8
+	TBUKmWFJR88oWyDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704719338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0o21J7nR/xVWxq9H8+akzo3UfGPo0sTHjBmxD9KITA=;
+	b=jqqXa2xELO1mVJ8Nlw38X3rwIzjeg3ODyYa1ttTfVsIm19hqmF4KAsaTdW4uBB0GEMJLWd
+	Cale0BffxBVAwy6m3uvwUK7xywe+vxj/ZD05U+D89vGfg9+Xj5ReDKh3Qhr6npJ/A1r3OK
+	WiyapG+q+yRCXo3nBtlkYaFuOkamiDA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704719338;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0o21J7nR/xVWxq9H8+akzo3UfGPo0sTHjBmxD9KITA=;
+	b=ox5Vej9bSL8rsyfsffoQSiixxpa61UEo/Lk6PyUk1grPJH1SS9CXiM5MhTh9/MkHffq/i8
+	TBUKmWFJR88oWyDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 727DC13686;
+	Mon,  8 Jan 2024 13:08:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BE8oGurzm2UjbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 08 Jan 2024 13:08:58 +0000
+Date: Mon, 08 Jan 2024 14:08:58 +0100
+Message-ID: <87bk9wt1jp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: bo liu <bo.liu@senarytech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
+In-Reply-To: <20240108110235.3867-1-bo.liu@senarytech.com>
+References: <20240108110235.3867-1-bo.liu@senarytech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-2.14 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.84)[94.10%]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.14
 
-From: Huayu Zhang <zhanghuayu.dev@gmail.com>
+On Mon, 08 Jan 2024 12:02:35 +0100,
+bo liu wrote:
+> 
+> When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
+> the headset type detection circuit will recognize the headset type as CTIA.
+> At this point, plugout and plugin the headset will get the correct headset
+> type as OMTP.
+> The reason for the failure of headset type recognition is that the sound
+> card creation will enable the VREF voltage of the headset mic, which
+> interferes with the headset type automatic detection circuit. Plugout and
+> plugin the headset will restart the headset detection and get the correct
+> headset type.
+> The patch is disable the VREF voltage when the headset is not present, and
+> will enable the VREF voltage when the headset is present.
+> 
+> Signed-off-by: bo liu <bo.liu@senarytech.com>
 
----
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
- sound/pci/hda/patch_realtek.c        | 1 +
- 2 files changed, 3 insertions(+)
+Thanks, applied now.
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 35277ce890a4..b1844224123f 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -93,6 +93,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
- 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
-+	{ "17AA38A9", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{ "17AA38B4", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{ "17AA38B5", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{ "17AA38B6", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
-@@ -427,6 +428,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431F12", generic_dsd_config },
- 	{ "CSC3551", "10431F1F", generic_dsd_config },
- 	{ "CSC3551", "10431F62", generic_dsd_config },
-+	{ "CSC3551", "17AA38A9", generic_dsd_config },
- 	{ "CSC3551", "17AA38B4", generic_dsd_config },
- 	{ "CSC3551", "17AA38B5", generic_dsd_config },
- 	{ "CSC3551", "17AA38B6", generic_dsd_config },
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 1dcfba27e075..3eae1a5d9bcd 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10256,6 +10256,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38a9, "ThinkBook 16p G4 IRH", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.34.1
 
+Takashi
