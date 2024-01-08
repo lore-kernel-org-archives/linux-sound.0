@@ -1,69 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBD254663;
-	Mon,  8 Jan 2024 17:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88E454FA6;
+	Mon,  8 Jan 2024 19:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rsTwT/i7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F89C433C7;
-	Mon,  8 Jan 2024 17:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704735484;
-	bh=eNUrttsVgFF4P/49UF3SSpefaOULOT3cYt21cVvtd8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rsTwT/i7gpjtBxKQ298UbzoZbtlAnCHmNdS8OTdB3dpoIW2/5pWIIxDlkb5TfK4hp
-	 08k1cGec+1eZlU8BdA7vEyBMjLRjkzQD09Y4onzWIvQ6ZUPoF7w7TIdWpV47T0bZib
-	 kir/k81p2l6uHumyys31uP1HeZj3pG2LuStz/wjy+ItH1/dQxDxbuUr/+gWtod2Lcg
-	 dZ7JF3Ip2RZiR5I/At2LGpeSYCW3ql3G/fKHRXPjd/B+9y6XzV3vEjEenyKQvtcWsz
-	 T/aTdQ6nIvzrYh38FlYWvdh2YHd7y45tti71XidueRgj0ExQHmDmhaM8bTV4U9bGBU
-	 mC/ISNL3U63bA==
-Date: Mon, 8 Jan 2024 17:37:59 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Cc: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH v2 4/4] kselftest/alsa - conf: Stringify the printed
- errno in sysfs_get()
-Message-ID: <0654c2d9-3980-4f5c-9c0f-eaafc44fee52@sirena.org.uk>
-References: <20240107173704.937824-1-mirsad.todorovac@alu.unizg.hr>
- <20240107173704.937824-5-mirsad.todorovac@alu.unizg.hr>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="W+6MyplU"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 408JHrGL021761;
+	Mon, 8 Jan 2024 19:19:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=lYLhdt2TaMhMnLwccdHPr7JOIJ9gLHN04/UeL40e/nY=; b=W+
+	6MyplUU1oEFdaIUTy5zRzgxiPivmnG+kR1DMx6hG+mC4jzfYymmtTqeKQ5d0kmsK
+	msqXIre8twEJsh9k+7swJNNcZVXJE/ZtwFgcHNW6mMEbpd/o8cw1VDe9XvBE9mOT
+	escN8SM2V0zDg/oAOrI6Ru4CxgAdnhLTCPQSWmgXnFYpFtyoSFgQci4XtlsxT9tk
+	LhG0Cg1Nh12ts1Lu2tGzySyrS9MGranY4IE+NeQR60ZSoQ5PRCPR4ZMD6fMqOqbg
+	+Y1LpyjrHHzQgw9GWqVDDdbFSz21fkSSMO+v1RKMEfquoPxGbudFFGWjnMgXUPGG
+	1SobtKdXrji1kis4XHrQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vgq2yr03m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jan 2024 19:19:10 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 408JJ9bp028859
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 8 Jan 2024 19:19:09 GMT
+Received: from [10.110.97.125] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 8 Jan
+ 2024 11:19:08 -0800
+Message-ID: <39f9f842-5e40-13af-beff-0078d5a92cce@quicinc.com>
+Date: Mon, 8 Jan 2024 11:19:03 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A8cnQTpSggv4PUgP"
-Content-Disposition: inline
-In-Reply-To: <20240107173704.937824-5-mirsad.todorovac@alu.unizg.hr>
-X-Cookie: Best if used before date on carton.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v12 00/41] Introduce QC USB SND audio offloading support
+Content-Language: en-US
+To: Hillf Danton <hdanton@sina.com>
+CC: <gregkh@linuxfoundation.org>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+ <20240106085403.3076-1-hdanton@sina.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20240106085403.3076-1-hdanton@sina.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: U6xr9sxnidqsUesypQZL-q3pZUjixxeQ
+X-Proofpoint-ORIG-GUID: U6xr9sxnidqsUesypQZL-q3pZUjixxeQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 malwarescore=0
+ mlxlogscore=607 clxscore=1011 priorityscore=1501 phishscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401080159
 
+Hi,
 
---A8cnQTpSggv4PUgP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 1/6/2024 12:54 AM, Hillf Danton wrote:
+> On Tue, 2 Jan 2024 13:45:08 -0800 Wesley Cheng <quic_wcheng@quicinc.com>
+>> Changes in v2:
+>>
+>> XHCI:
+>> - Replaced XHCI and HCD changes with Mathias' XHCI interrupter changes
+>> in his tree:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=feature_interrupters
+>>
+>> Adjustments made to Mathias' changes:
+>>    - Created xhci-intr.h to export/expose interrupter APIs versus exposing xhci.h.
+>>      Moved dependent structures to this file as well. (so clients can parse out
+>>      information from "struct xhci_interrupter")
+>>    - Added some basic locking when requesting interrupters.
+>>    - Fixed up some sanity checks.
+>>    - Removed clearing of the ERSTBA during freeing of the interrupter. (pending
+>>      issue where SMMU fault occurs if DMA addr returned is 64b - TODO)
+>>
+>> - Clean up pending events in the XHCI secondary interrupter.  While testing USB
+>> bus suspend, it was seen that on bus resume, the xHCI HC would run into a command
+>> timeout.
+>> - Added offloading APIs to xHCI to fetch transfer and event ring information.
+>>
+>> ASoC:
+>> - Modified soc-usb to allow for multiple USB port additions.  For this to work,
+>> the USB offload driver has to have a reference to the USB backend by adding
+>> a "usb-soc-be" DT entry to the device saved into XHCI sysdev.
+> 
+> Could you tip point to where the usb-soc-be DT entry is added?
+> 
 
-On Sun, Jan 07, 2024 at 06:37:08PM +0100, Mirsad Todorovac wrote:
-> GCC 13.2.0 reported the warning of the print format specifier:
+Intention is that the USB class driver needs to be able to reference the 
+ASoC DPCM USB backend dai, so the entry has to reside somewhere within 
+the USB bus.  In our case, it would be within the device node which is 
+saved under the bus->sysdev (XHCI based).  Specifically, for a DWC3 
+based implementation, it would be within the DWC3 node.
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---A8cnQTpSggv4PUgP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWcMvcACgkQJNaLcl1U
-h9BXwgf+PmizVcddynLN/+45MndOSyIGNHf+pdHPtqijnt/LK2KL++RVGqSO0qP3
-2SDNiL83pcKT7ojUAHHQNPoafXx1l32mA+Sv2mw8Mn770t+WhyQUzbkMKf/q9sjf
-Qd5EAX8cXGd1UzoALVA95FR/17ePC5Fm+/v8vhREFH+l3vwpqW+jTjx9UkyC+9Cy
-mkdGJ3xzgWc4LJ/sdT2+2SNL9rNOu24NO/9xe1Sz3RLUUPWPTxRUc9XC1qz3Viql
-fwH4eSGHXhd1/J7pcrM4hwejjdy9foW/p6numLkXqI6S6xaUTFkcqzoj3AVkO7H1
-N+ld18phJC+50RefKyYbua/c5QdBTQ==
-=P2F1
------END PGP SIGNATURE-----
-
---A8cnQTpSggv4PUgP--
+Thanks
+Wesley Cheng
