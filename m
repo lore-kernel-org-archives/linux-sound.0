@@ -1,64 +1,81 @@
-Received: from mail.catboys.cloud (mail.catboys.cloud [185.233.107.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA5F4C3BB;
-	Mon,  8 Jan 2024 15:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=catboys.cloud
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catboys.cloud
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9EB52F63
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jan 2024 15:48:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=catboys.cloud header.i=@catboys.cloud header.b="J/wBtsoX"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BEDE2C0B01;
-	Mon,  8 Jan 2024 16:15:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=catboys.cloud;
-	s=dkim; t=1704726924;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language;
-	bh=XYe40yUbAp9wLca9aCV+041knviU6Ai80qscE96Dorg=;
-	b=J/wBtsoXaj7CU2Ph0PGKCYixSirM1JW/q/M1Fip+0ph9jIjSN4ELaiMZHdoLk/ZriUvwW5
-	xsmfrOzhfQhCz0HUcSz5H6mhaf7Z+mGkjX2Lp5GQNfMvQweuAJz0hu/67rxZL03lrMs8LL
-	iNTo/Ln/cQ612XdqDJ+vuK8YkdlqZxFj+Aq5r7BT1VH7wzpI1tJcEPj9dSfjF5zzIAjgNv
-	4ATgArHCqrsKg3ciOkyuWHDXoLRn8utaXFN/+y0uG4OOM8qpEjEzDOj6/jgirLxACve0lc
-	j2wb77ehjOMkCziB40k7er5phPVUBIIDkT6uG1YNlAGVqZWS8RT6K3kzOm+wpw==
-Message-ID: <651b26e9-e86b-45dd-aa90-3e43d6b99823@catboys.cloud>
-Date: Mon, 8 Jan 2024 16:15:21 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcHa7rZn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ECA1C433C7;
+	Mon,  8 Jan 2024 15:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704728923;
+	bh=2qSZ9mASfAtI1ftwWTz27togVHEdCR7T79H3O+g3GJA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=GcHa7rZnrHmn5Zuim5zV+sGvCoU/4DikeZ1cBhhowQbqgUJB8yQzabsXpB9+dTOAB
+	 cvf6Q8Zg5ere4UfX0rfxN2ei5JQkSI+8AETtLbl8/ri0N/rzhDpp3PIsNLTr7hxrpj
+	 qUg5+QO8jY3UgU8VR2fndTEQ85kscstGIGsIlS7QjtWkM2/TiLDjg+sOh0odOXsmel
+	 ClGMvzrl8S4wepqb/2nPkzlEU7hnGfUSIzQuGqeFAyrHPGBgr2mLFv/sLr+ceyj6PY
+	 F8PA2iwjhV2LXa+u5NmHF4qcxbjcjzE4pRvNZ7fMgrhAzp8NVIuB8m4VlWKuTQZiXH
+	 FquHLjFpA47kg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ kuninori.morimoto.gx@renesas.com, yung-chuan.liao@linux.intel.com
+In-Reply-To: <20240108094842.28782-1-peter.ujfalusi@linux.intel.com>
+References: <20240108094842.28782-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: bxt*: Fix regression caused by
+ COMP_DUMMY changes
+Message-Id: <170472892107.39584.7010867901345096730.b4-ty@kernel.org>
+Date: Mon, 08 Jan 2024 15:48:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Tom Jason Schwanke <tom@catboys.cloud>
-Subject: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP Envy
- X360 13-ay0xxx
-To: perex@perex.cz, tiwai@suse.com
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Mailer: b4 0.13-dev-5c066
 
-This enables the mute and mic-mute LEDs on the HP Envy X360 13-ay0xxx convertibles.
-The quirk 'ALC245_FIXUP_HP_X360_MUTE_LEDS' already exists and is now enabled for this device.
-Fixes https://bugzilla.kernel.org/show_bug.cgi?id=216197
+On Mon, 08 Jan 2024 11:48:40 +0200, Peter Ujfalusi wrote:
+> We just noticed that
+> 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_DUMMY()")
+> caused regression (NULL pointer dereference) on GLK machines beacuse the
+> drivers are using the codec name or dai_name to find the link to apply a fixup.
+> 
+> 13f58267cda3 is sent for 6.8, so these patches are going to be needed to be able
+> to boot these machines.
+> 
+> [...]
 
-Signed-off-by: Tom Jason Schwanke <tom@catboys.cloud>
----
-  sound/pci/hda/patch_realtek.c | 1 +
-  1 file changed, 1 insertion(+)
+Applied to
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 1dcfba27e075..475d7e843ed3 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9875,6 +9875,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
-         SND_PCI_QUIRK(0x103c, 0x8870, "HP ZBook Fury 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
-         SND_PCI_QUIRK(0x103c, 0x8873, "HP ZBook Studio 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
-         SND_PCI_QUIRK(0x103c, 0x887a, "HP Laptop 15s-eq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-+       SND_PCI_QUIRK(0x103c, 0x876E, "HP ENVY x360 Convertible 13-ay0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
-         SND_PCI_QUIRK(0x103c, 0x888a, "HP ENVY x360 Convertible 15-eu0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
-         SND_PCI_QUIRK(0x103c, 0x888d, "HP ZBook Power 15.6 inch G8 Mobile Workstation PC", ALC236_FIXUP_HP_GPIO_LED),
-         SND_PCI_QUIRK(0x103c, 0x8895, "HP EliteBook 855 G8 Notebook PC", ALC285_FIXUP_HP_SPEAKERS_MICMUTE_LED),
----
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: Intel: bxt_da7219_max98357a: Fix kernel ops due to COMP_DUMMY change
+      commit: 59b946ea30806064c4ac78f0ac93642655dd4f2e
+[2/2] ASoC: Intel: bxt_rt298: Fix kernel ops due to COMP_DUMMY change
+      commit: 3ec71290db4de298b67659ef2bc2a8f84cf9537b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
