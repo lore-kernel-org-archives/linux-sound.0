@@ -1,224 +1,385 @@
-Received: from mail-m17214.xmail.ntesmail.com (mail-m17214.xmail.ntesmail.com [45.195.17.214])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F8E1400A;
-	Mon,  8 Jan 2024 11:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
-Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
-	by mail-m12756.qiye.163.com (Hmail) with ESMTPA id ABF93DC139A;
-	Mon,  8 Jan 2024 19:02:43 +0800 (CST)
-From: bo liu <bo.liu@senarytech.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH V2] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
-Date: Mon,  8 Jan 2024 19:02:35 +0800
-Message-Id: <20240108110235.3867-1-bo.liu@senarytech.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3D83FE48
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jan 2024 12:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rMoZR-000761-BP; Mon, 08 Jan 2024 13:17:33 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rMoZP-001FLT-Rm; Mon, 08 Jan 2024 13:17:31 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rMoZP-0008v2-2U;
+	Mon, 08 Jan 2024 13:17:31 +0100
+Message-ID: <c2abc08d1b442fdcba7c41e2e1cc1617516441b2.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/4] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami
+ <bgoswami@quicinc.com>,  Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>,  alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org,  linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson
+ <sean.anderson@seco.com>
+Date: Mon, 08 Jan 2024 13:17:31 +0100
+In-Reply-To: <20240105155918.279657-3-krzysztof.kozlowski@linaro.org>
+References: <20240105155918.279657-1-krzysztof.kozlowski@linaro.org>
+	 <20240105155918.279657-3-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDS0IdVk5NSh1IGElCT09DHlUTARMWGhIXJBQOD1
-	lXWRgSC1lBWU1KVUpDSFVKT0hVTENZV1kWGg8SFR0UWUFZT0tIVUpNT0lMTlVKS0tVSkJLS1kG
-X-HM-Tid: 0a8ce8bd3761b223kuuuabf93dc139a
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OAw6CAw5ATwjPjE2NR8BTzI6
-	PjQKCxxVSlVKTEtPTEpKTE1PTklJVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
-	WU1KVUpDSFVKT0hVTENZV1kIAVlBTElDQzcG
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
-the headset type detection circuit will recognize the headset type as CTIA.
-At this point, plugout and plugin the headset will get the correct headset
-type as OMTP.
-The reason for the failure of headset type recognition is that the sound
-card creation will enable the VREF voltage of the headset mic, which
-interferes with the headset type automatic detection circuit. Plugout and
-plugin the headset will restart the headset detection and get the correct
-headset type.
-The patch is disable the VREF voltage when the headset is not present, and
-will enable the VREF voltage when the headset is present.
+On Fr, 2024-01-05 at 16:59 +0100, Krzysztof Kozlowski wrote:
+> Devices sharing a reset GPIO could use the reset framework for
+> coordinated handling of that shared GPIO line.  We have several cases of
+> such needs, at least for Devicetree-based platforms.
+>=20
+> If Devicetree-based device requests a reset line, which is missing but
+                                                    ^^^^^^^^^^^^^^^^
+Nitpick: the "resets" property is missing, not the reset line.
 
-Signed-off-by: bo liu <bo.liu@senarytech.com>
----
- sound/pci/hda/patch_conexant.c | 115 ++++++++++++++++++++++++++++++++-
- 1 file changed, 113 insertions(+), 2 deletions(-)
+"If Devicetree-based device requests a reset line, but there only is a
+ reset-gpios property instead of a "resets" property, ..." maybe?
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index a889cccdd607..e8819e8a9876 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -21,6 +21,12 @@
- #include "hda_jack.h"
- #include "hda_generic.h"
- 
-+enum {
-+	CX_HEADSET_NOPRESENT = 0,
-+	CX_HEADSET_PARTPRESENT,
-+	CX_HEADSET_ALLPRESENT,
-+};
-+
- struct conexant_spec {
- 	struct hda_gen_spec gen;
- 
-@@ -42,7 +48,8 @@ struct conexant_spec {
- 	unsigned int gpio_led;
- 	unsigned int gpio_mute_led_mask;
- 	unsigned int gpio_mic_led_mask;
--
-+	unsigned int headset_present_flag;
-+	bool is_cx8070_sn6140;
- };
- 
- 
-@@ -164,6 +171,27 @@ static void cxt_init_gpio_led(struct hda_codec *codec)
- 	}
- }
- 
-+static void cx_fixup_headset_recog(struct hda_codec *codec)
-+{
-+	unsigned int mic_persent;
-+
-+	/* fix some headset type recognize fail issue, such as EDIFIER headset */
-+	/* set micbiasd output current comparator threshold from 66% to 55%. */
-+	snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
-+	/* set OFF voltage for DFET from -1.2V to -0.8V, set headset micbias registor
-+	 * value adjustment trim from 2.2K ohms to 2.0K ohms.
-+	 */
-+	snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
-+	/* fix reboot headset type recognize fail issue */
-+	mic_persent = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
-+	if (mic_persent & AC_PINSENSE_PRESENCE)
-+		/* enable headset mic VREF */
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
-+	else
-+		/* disable headset mic VREF */
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
-+}
-+
- static int cx_auto_init(struct hda_codec *codec)
- {
- 	struct conexant_spec *spec = codec->spec;
-@@ -174,6 +202,9 @@ static int cx_auto_init(struct hda_codec *codec)
- 	cxt_init_gpio_led(codec);
- 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
- 
-+	if (spec->is_cx8070_sn6140)
-+		cx_fixup_headset_recog(codec);
-+
- 	return 0;
- }
- 
-@@ -192,6 +223,77 @@ static void cx_auto_free(struct hda_codec *codec)
- 	snd_hda_gen_free(codec);
- }
- 
-+static void cx_process_headset_plugin(struct hda_codec *codec)
-+{
-+	unsigned int val;
-+	unsigned int count = 0;
-+
-+	/* Wait headset detect done. */
-+	do {
-+		val = snd_hda_codec_read(codec, 0x1c, 0, 0xca0, 0x0);
-+		if (val & 0x080) {
-+			codec_dbg(codec, "headset type detect done!\n");
-+			break;
-+		}
-+		msleep(20);
-+		count++;
-+	} while (count < 3);
-+	val = snd_hda_codec_read(codec, 0x1c, 0, 0xcb0, 0x0);
-+	if (val & 0x800) {
-+		codec_dbg(codec, "headset plugin, type is CTIA\n");
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
-+	} else if (val & 0x400) {
-+		codec_dbg(codec, "headset plugin, type is OMTP\n");
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
-+	} else {
-+		codec_dbg(codec, "headphone plugin\n");
-+	}
-+}
-+
-+static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
-+{
-+	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
-+	struct conexant_spec *spec = codec->spec;
-+
-+	/* In cx8070 and sn6140, the node 16 can only be config to headphone or disabled,
-+	 * the node 19 can only be config to microphone or disabled.
-+	 * Check hp&mic tag to process headset pulgin&plugout.
-+	 */
-+	phone_tag = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
-+	mic_tag = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
-+	if ((phone_tag & (res >> AC_UNSOL_RES_TAG_SHIFT)) ||
-+	    (mic_tag & (res >> AC_UNSOL_RES_TAG_SHIFT))) {
-+		phone_present = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_PIN_SENSE, 0x0);
-+		if (!(phone_present & AC_PINSENSE_PRESENCE)) {/* headphone plugout */
-+			spec->headset_present_flag = CX_HEADSET_NOPRESENT;
-+			snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
-+			return;
-+		}
-+		if (spec->headset_present_flag == CX_HEADSET_NOPRESENT) {
-+			spec->headset_present_flag = CX_HEADSET_PARTPRESENT;
-+		} else if (spec->headset_present_flag == CX_HEADSET_PARTPRESENT) {
-+			mic_persent = snd_hda_codec_read(codec, 0x19, 0,
-+							 AC_VERB_GET_PIN_SENSE, 0x0);
-+			/* headset is present */
-+			if ((phone_present & AC_PINSENSE_PRESENCE) &&
-+			    (mic_persent & AC_PINSENSE_PRESENCE)) {
-+				cx_process_headset_plugin(codec);
-+				spec->headset_present_flag = CX_HEADSET_ALLPRESENT;
-+			}
-+		}
-+	}
-+}
-+
-+static void cx_jack_unsol_event(struct hda_codec *codec, unsigned int res)
-+{
-+	struct conexant_spec *spec = codec->spec;
-+
-+	if (spec->is_cx8070_sn6140)
-+		cx_update_headset_mic_vref(codec, res);
-+
-+	snd_hda_jack_unsol_event(codec, res);
-+}
-+
- #ifdef CONFIG_PM
- static int cx_auto_suspend(struct hda_codec *codec)
- {
-@@ -205,7 +307,7 @@ static const struct hda_codec_ops cx_auto_patch_ops = {
- 	.build_pcms = snd_hda_gen_build_pcms,
- 	.init = cx_auto_init,
- 	.free = cx_auto_free,
--	.unsol_event = snd_hda_jack_unsol_event,
-+	.unsol_event = cx_jack_unsol_event,
- #ifdef CONFIG_PM
- 	.suspend = cx_auto_suspend,
- 	.check_power_status = snd_hda_gen_check_power_status,
-@@ -1042,6 +1144,15 @@ static int patch_conexant_auto(struct hda_codec *codec)
- 	codec->spec = spec;
- 	codec->patch_ops = cx_auto_patch_ops;
- 
-+	/* init cx8070/sn6140 flag and reset headset_present_flag */
-+	switch (codec->core.vendor_id) {
-+	case 0x14f11f86:
-+	case 0x14f11f87:
-+		spec->is_cx8070_sn6140 = true;
-+		spec->headset_present_flag = CX_HEADSET_NOPRESENT;
-+		break;
-+	}
-+
- 	cx_auto_parse_eapd(codec);
- 	spec->gen.own_eapd_ctl = 1;
- 
--- 
-2.34.1
+> there is a reset-gpios property, instantiate a new "reset-gpio" platform
+> device which will handle such reset line.  This allows seamless handling
+> of such shared reset-gpios without need of changing Devicetree binding [1=
+].
+>=20
+> All newly registered "reset-gpio" platform devices will be stored on
+> their own list to avoid any duplicated devices.
 
+That's not strictly true. The reset_gpio_device_list only contains the
+of_phandle_args for lookup.
+
+> The key to find each of
+> such platform device is the entire Devicetree GPIO specifier: phandle to
+> GPIO controller, GPIO number and GPIO flags.  If two devices have
+> conflicting "reset-gpios" property, e.g. with different ACTIVE_xxx
+> flags, this would spawn two separate "reset-gpio" devices, where the
+> second would fail probing on busy GPIO reques
+
+request.
+
+Is that true? The code below looks like overwrites of_phandle_args so
+that only one reset-gpio device is spawned for each gpio node.
+
+> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ [1=
+]
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/reset/core.c             | 176 ++++++++++++++++++++++++++++---
+>  include/linux/reset-controller.h |   4 +
+>  2 files changed, 167 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index 4d5a78d3c085..ec9b3ff419cf 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/acpi.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/reset.h>
+>  #include <linux/reset-controller.h>
+>  #include <linux/slab.h>
+> @@ -23,6 +24,10 @@ static LIST_HEAD(reset_controller_list);
+>  static DEFINE_MUTEX(reset_lookup_mutex);
+>  static LIST_HEAD(reset_lookup_list);
+> =20
+> +/* Protects reset_gpio_device_list */
+> +static DEFINE_MUTEX(reset_gpio_device_mutex);
+> +static LIST_HEAD(reset_gpio_device_list);
+
+I would call this reset_gpio_lookup_list or
+reset_gpio_phandle_args_list.
+
+> +
+>  /**
+>   * struct reset_control - a reset control
+>   * @rcdev: a pointer to the reset controller device
+> @@ -63,6 +68,16 @@ struct reset_control_array {
+>  	struct reset_control *rstc[] __counted_by(num_rstcs);
+>  };
+> =20
+> +/**
+> + * struct reset_gpio_device - ad-hoc created reset-gpio device
+> + * @of_args: phandle to the reset controller with all the args like GPIO=
+ number
+> + * @list: list entry for the reset_lookup_list
+> + */
+> +struct reset_gpio_device {
+
+Similarly, I would call this reset_gpio_lookup or
+reset_gpio_phandle_args.
+
+> +	struct of_phandle_args of_args;
+> +	struct list_head list;
+> +};
+> +
+>  static const char *rcdev_name(struct reset_controller_dev *rcdev)
+>  {
+>  	if (rcdev->dev)
+> @@ -813,13 +828,119 @@ static void __reset_control_put_internal(struct re=
+set_control *rstc)
+>  	kref_put(&rstc->refcnt, __reset_control_release);
+>  }
+> =20
+> +static bool __reset_gpios_args_match(const struct of_phandle_args *a1,
+> +				     const struct of_phandle_args *a2)
+> +{
+> +	unsigned int i;
+> +
+> +	if (!a2)
+> +		return false;
+> +
+> +	if (a1->args_count !=3D a2->args_count)
+> +		return false;
+> +
+> +	for (i =3D 0; i < a1->args_count; i++)
+> +		if (a1->args[i] !=3D a2->args[i])
+> +			break;
+
+Just return false in the loop and simplify the following to return
+true.
+
+> +
+> +	/* All args matched? */
+> +	if (i =3D=3D a1->args_count)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +/*
+> + * @node:	node of the device requesting reset
+> + * @reset_args:	phandle to the reset controller with all the args like G=
+PIO number
+> + */
+> +static int __reset_add_reset_gpio_device(struct device_node *node,
+> +					 struct of_phandle_args *args)
+> +{
+> +	struct reset_gpio_device *rgpio_dev;
+> +	struct platform_device *pdev;
+> +	int ret;
+> +
+> +	lockdep_assert_not_held(&reset_list_mutex);
+> +
+> +	mutex_lock(&reset_gpio_device_mutex);
+> +
+> +	list_for_each_entry(rgpio_dev, &reset_gpio_device_list, list) {
+> +		if (args->np =3D=3D rgpio_dev->of_args.np) {
+> +			if (__reset_gpios_args_match(args,
+> +						     &rgpio_dev->of_args)) {
+> +				ret =3D 0;
+> +				goto out_unlock;
+> +			}
+> +		}
+> +	}
+> +
+> +	/* Not freed in normal path, persisent subsyst data */
+> +	rgpio_dev =3D kzalloc(sizeof(*rgpio_dev), GFP_KERNEL);
+
+Since this is persistent, instead of letting the reset-gpio driver call
+of_parse_phandle_with_args() again, this could be passed in via
+platform data. Is there a reason not to do that instead?
+
+> +	if (!rgpio_dev) {
+> +		ret =3D -ENOMEM;
+> +		goto out_unlock;
+> +	}
+> +
+> +	rgpio_dev->of_args =3D *args;
+> +	pdev =3D platform_device_register_data(NULL, "reset-gpio",
+> +					     PLATFORM_DEVID_AUTO, &node,
+> +					     sizeof(node));
+> +	ret =3D PTR_ERR_OR_ZERO(pdev);
+> +	if (!ret)
+> +		list_add(&rgpio_dev->list, &reset_gpio_device_list);
+> +	else
+> +		kfree(rgpio_dev);
+> +
+> +out_unlock:
+> +	mutex_unlock(&reset_gpio_device_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static struct reset_controller_dev *__reset_find_rcdev(struct of_phandle=
+_args *args,
+> +						       bool gpio_fallback,
+> +						       const void *cookie)
+
+Unused cookie.
+
+> +{
+> +	struct reset_controller_dev *r, *rcdev;
+> +
+> +	lockdep_assert_held(&reset_list_mutex);
+> +
+> +	rcdev =3D NULL;
+> +	list_for_each_entry(r, &reset_controller_list, list) {
+> +		if (args->np =3D=3D r->of_node) {
+> +			if (gpio_fallback) {
+> +				if (__reset_gpios_args_match(args, r->of_args)) {
+> +					/*
+> +					 * Fake args (take first reset) and
+> +					 * args_count (to matcg reset-gpio
+
+match
+
+> +					 * of_reset_n_cells) because reset-gpio
+> +					 * has only one reset and does not care
+> +					 * about reset of GPIO specifier.
+> +					 */
+> +					args->args[0] =3D 0;
+> +					args->args_count =3D 1;
+
+I'd expect args to be an input-only argument, but here its contents are
+overwritten after a match. Why?
+
+This has an effect in __of_reset_control_get(), that I find hard to
+follow. See below.
+
+> +					rcdev =3D r;
+> +					break;
+> +				}
+> +			} else {
+> +				rcdev =3D r;
+> +				break;
+> +			}
+> +		}
+> +	}
+> +
+> +	return rcdev;
+> +}
+> +
+>  struct reset_control *
+>  __of_reset_control_get(struct device_node *node, const char *id, int ind=
+ex,
+>  		       bool shared, bool optional, bool acquired)
+>  {
+> +	struct of_phandle_args args =3D {0};
+> +	bool gpio_fallback =3D false;
+>  	struct reset_control *rstc;
+> -	struct reset_controller_dev *r, *rcdev;
+> -	struct of_phandle_args args;
+> +	struct reset_controller_dev *rcdev;
+>  	int rstc_id;
+>  	int ret;
+> =20
+> @@ -839,21 +960,50 @@ __of_reset_control_get(struct device_node *node, co=
+nst char *id, int index,
+>  					 index, &args);
+>  	if (ret =3D=3D -EINVAL)
+>  		return ERR_PTR(ret);
+> -	if (ret)
+> -		return optional ? NULL : ERR_PTR(ret);
+> +	if (ret) {
+> +		/*
+> +		 * There can be only one reset-gpio for regular devices, so
+> +		 * don't bother with GPIO index.
+> +		 */
+
+I don't understand this comment. The GPIO index should be checked as
+part of __reset_gpios_args_match(), or should it not?
+
+> +		ret =3D of_parse_phandle_with_args(node, "reset-gpios", "#gpio-cells",
+> +						 0, &args);
+> +		if (ret)
+> +			return optional ? NULL : ERR_PTR(ret);
+> =20
+> -	mutex_lock(&reset_list_mutex);
+> -	rcdev =3D NULL;
+> -	list_for_each_entry(r, &reset_controller_list, list) {
+> -		if (args.np =3D=3D r->of_node) {
+> -			rcdev =3D r;
+> -			break;
+> -		}
+> +		gpio_fallback =3D true;
+
+Is there a reason not just call __reset_add_reset_gpio_device() here?
+With that, there should be no need to call __reset_find_rcdev() twice.
+
+>  	}
+> =20
+> +	mutex_lock(&reset_list_mutex);
+> +	rcdev =3D __reset_find_rcdev(&args, gpio_fallback, NULL);
+
+This gets called with args as parsed. If there is a match, this will=20
+overwrite args (in the gpio_fallback case) and return NULL.
+
+> +
+>  	if (!rcdev) {
+> -		rstc =3D ERR_PTR(-EPROBE_DEFER);
+> -		goto out;
+> +		if (gpio_fallback) {
+> +			/*
+> +			 * Registering reset-gpio device might cause immediate
+> +			 * bind, thus taking reset_list_mutex lock via
+> +			 * reset_controller_register().
+> +			 */
+> +			mutex_unlock(&reset_list_mutex);
+> +			ret =3D __reset_add_reset_gpio_device(node, &args);
+
+So this will also be called with args as parsed.
+
+> +			mutex_lock(&reset_list_mutex);
+> +			if (ret) {
+> +				rstc =3D ERR_PTR(ret);
+> +				goto out;
+> +			}
+> +			/*
+> +			 * Success: reset-gpio could probe immediately, so
+> +			 * re-check the lookup.
+> +			 */
+> +			rcdev =3D __reset_find_rcdev(&args, gpio_fallback, NULL);
+
+And this will again be called with args as parsed and overwrite args
+again.
+
+> +			if (!rcdev) {
+> +				rstc =3D ERR_PTR(-EPROBE_DEFER);
+> +				goto out;
+> +			}
+> +			/* Success, rcdev is valid thus do not bail out */
+> +		} else {
+> +			rstc =3D ERR_PTR(-EPROBE_DEFER);
+> +			goto out;
+> +		}
+>  	}
+
+So at this point args is overwritten in the gpio_fallback case. I would
+find it much clearer to just overwrite args here and make the first
+parameter to __reset_find_rcdev() const.
+
+
+regards
+Philipp
