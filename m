@@ -1,129 +1,176 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD3B51C37;
-	Mon,  8 Jan 2024 15:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CAD524A8
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jan 2024 16:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZJQVvH7W";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eDZe2EO2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HjGvnfss";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c24dex0e"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 463E021D25;
-	Mon,  8 Jan 2024 15:55:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704729353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=otoEBLYRoxPbrNf5ndZA3E2Sne8+a1o3mng2AXb1V7w=;
-	b=ZJQVvH7W1X95OoXG34l0tc5Fhg14eC4KVJdQLFdIjJ9v33jVVQNZgzF0rQZpW1V8QAbzMs
-	YnsWbaZXng7ZYUBBafRRda6qrsHu9/sPczMyAJHgB8wU4O46Fzl4oE+mCeTK6/Dfgwav2D
-	F2JCQ/Kkdayqn3+bDWOY5GGFSIcboDY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704729353;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=otoEBLYRoxPbrNf5ndZA3E2Sne8+a1o3mng2AXb1V7w=;
-	b=eDZe2EO2dcsWupH4p3VXx+OrYyL4ncrgZaihev/KxUJdpJxBjP3+WE16VGPbV7LVKul+Jy
-	ZJht15S3FlrdqeDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704729352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=otoEBLYRoxPbrNf5ndZA3E2Sne8+a1o3mng2AXb1V7w=;
-	b=HjGvnfss//wX/DWEtqZmc2EEStma2Hd35QyN2Xn6t4smYxm3V8GQmAv5rRYKGo02F2ldU0
-	ke+qjD6x0Gs/kHzih2iAai5o+xxL+9IF0M1gsjpr7geFIltE8vzmDnGMCfNImdzKad4Ef4
-	jMJtbTm0WTdfWddt5gxEsA8xf6Lc4mc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704729352;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=otoEBLYRoxPbrNf5ndZA3E2Sne8+a1o3mng2AXb1V7w=;
-	b=c24dex0eU03cKRrUE0Tim4SIoN0ebcpbs7E0pccvi9yxT9P6ZXKugMfEdpAwS7tHYSu6S+
-	d1zNGKDS2wezIeBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0E45513686;
-	Mon,  8 Jan 2024 15:55:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fv+5AQgbnGVUawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 08 Jan 2024 15:55:52 +0000
-Date: Mon, 08 Jan 2024 16:55:51 +0100
-Message-ID: <87sf37sttk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Tom Jason Schwanke <tom@catboys.cloud>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP Envy X360 13-ay0xxx
-In-Reply-To: <651b26e9-e86b-45dd-aa90-3e43d6b99823@catboys.cloud>
-References: <651b26e9-e86b-45dd-aa90-3e43d6b99823@catboys.cloud>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ZLwJkO9W"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4087WATC017577;
+	Mon, 8 Jan 2024 10:11:57 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:references:in-reply-to:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=e7GrmHXlxvvRAJRgmruAFaDykHnLNpG7widRZqnl4JE=; b=
+	ZLwJkO9WnuO4Fd4oeZvNyVH2JuTDWRIcoj8tNrKCtgydDpfQ1IZJ6bL0dJDgMysm
+	6or6eQfxRQ8m+0dEMScOP/ai42twSsU/sS2KAJXR9ejt/RLT8x+IeT6chSjkGZiD
+	YN3xdl2oUYhNTAEK23yadd4+DRt0vAJqS8VE1NPln42Sgg3wYHm5C2xZLns2cmmO
+	SZ3m7UeyG76uuUcUWQpk9NdAVAt/EI1MOXActUWbtydjR//QeydQXyniLgUM/o5H
+	olEfXF/n56VBMA85IRB5kQOoefnYpYbnFFFCbuCIUiLA9R39qpoi1QBvS1iVFM9N
+	PykfuNrOXNh39ObHkbhWCA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vf45pjfqs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jan 2024 10:11:57 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 8 Jan
+ 2024 16:11:52 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 8 Jan 2024 16:11:52 +0000
+Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.65.232])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 47278474;
+	Mon,  8 Jan 2024 16:11:52 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: 'Huayu Zhang' <932367230@qq.com>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <james.schulman@cirrus.com>,
+        <david.rhodes@cirrus.com>, <rf@opensource.cirrus.com>,
+        <perex@perex.cz>, <kailang@realtek.com>, <zhanghuayu.dev@gmail.com>
+References: <tencent_BADE40D9A6A1C82B21811A844E5FE3881D06@qq.com>
+In-Reply-To: <tencent_BADE40D9A6A1C82B21811A844E5FE3881D06@qq.com>
+Subject: RE: [PATCH] [PATCH v2] ALSA: hda: Add _DSD for ThinkBook 16p G4 IRH with Subsystem Id of 0x17aa38a9.
+Date: Mon, 8 Jan 2024 16:11:52 +0000
+Message-ID: <000001da424d$645814a0$2d083de0$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: *
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 463E021D25
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HjGvnfss;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=c24dex0e
-X-Spam-Score: -1.41
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.41 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.90)[86.01%]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHXTbcUxrH9wZLiUHzw+OBEgS0+e7DV/jjQ
+Content-Language: en-gb
+X-Proofpoint-GUID: LIaHPWpiVwV6TgoPA_njU6FDO5HjQcUw
+X-Proofpoint-ORIG-GUID: LIaHPWpiVwV6TgoPA_njU6FDO5HjQcUw
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 08 Jan 2024 16:15:21 +0100,
-Tom Jason Schwanke wrote:
+Hi,
+
+> -----Original Message-----
+> From: Huayu Zhang <932367230@qq.com>
+> Sent: Monday, January 8, 2024 2:05 PM
+> To: tiwai@suse.com
+> Cc: linux-sound@vger.kernel.org; james.schulman@cirrus.com;
+> david.rhodes@cirrus.com; rf@opensource.cirrus.com; perex@perex.cz;
+> sbinding@opensource.cirrus.com; kailang@realtek.com;
+> zhanghuayu.dev@gmail.com; Huayu Zhang <932367230@qq.com>
+> Subject: [PATCH] [PATCH v2] ALSA: hda: Add _DSD for ThinkBook 16p G4
+> IRH with Subsystem Id of 0x17aa38a9.
 > 
-> This enables the mute and mic-mute LEDs on the HP Envy X360 13-ay0xxx convertibles.
-> The quirk 'ALC245_FIXUP_HP_X360_MUTE_LEDS' already exists and is now enabled for this device.
-> Fixes https://bugzilla.kernel.org/show_bug.cgi?id=216197
+> Add _DSD for ThinkBook 16p G4 IRH with Subsystem Id of 0x17aa38a9
+> because those info are missing in the ACPI table.
 > 
-> Signed-off-by: Tom Jason Schwanke <tom@catboys.cloud>
+> Before applying the changes: the laptop only have very poor and low
+> volumn with only up facing builtin speakers (down facing have no
+sound
+> at all).
+> 
+> After applying: both down facing (bass) and up facing bultin
+speakers
+> will have sound in a reasonable level.
+> 
+> But the behavior of volumn control is actually changing the
+frequency
+> division: adjust to louder
+> (which supposed to make overall louder) only makes the up facing
+bultin
+> speakers louder and downfacing gradually
+> lower its volumn at the meantime.
+> 
+> Wondering if this is related to ALSA or should make further changes
+on
+> the AMP settings?
+> 
+> Signed-off-by: Huayu Zhang <932367230@qq.com>
+> ---
+>  sound/pci/hda/cs35l41_hda_property.c | 2 ++
+>  sound/pci/hda/patch_realtek.c        | 1 +
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/sound/pci/hda/cs35l41_hda_property.c
+> b/sound/pci/hda/cs35l41_hda_property.c
+> index 35277ce890a4..b1844224123f 100644
+> --- a/sound/pci/hda/cs35l41_hda_property.c
+> +++ b/sound/pci/hda/cs35l41_hda_property.c
+> @@ -93,6 +93,7 @@ static const struct cs35l41_config
+> cs35l41_config_table[] = {
+>  	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 1000, 4500, 24 },
+>  	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, -1, 0, 0, 0, 0 },
+>  	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, 2, 0, 0, 0, 0 },
+> +	{ "17AA38A9", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
 
-The patch was somewhat based on the old kernel (and had a typical mail
-tab/space problem), so I adjusted and applied manually.
+This entry doesn't quite match the ACPI that I have access to for this
+laptop,
+though what I have might be out of date.
+Can you attach an acpidump of this laptop so I can compare it to this
+entry.
+The ACPI dump that I have states that the SPK-ID is GPIO index 2,
+rather
+than index 1 as described in this entry.
+
+You can generate the acpidump using the acpidump tool:
+$ acpidump > acpidump.out
+
+Thanks,
+Stefan
+
+>  	{ "17AA38B4", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+>  	{ "17AA38B5", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+>  	{ "17AA38B6", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+> @@ -427,6 +428,7 @@ static const struct cs35l41_prop_model
+> cs35l41_prop_model_table[] = {
+>  	{ "CSC3551", "10431F12", generic_dsd_config },
+>  	{ "CSC3551", "10431F1F", generic_dsd_config },
+>  	{ "CSC3551", "10431F62", generic_dsd_config },
+> +	{ "CSC3551", "17AA38A9", generic_dsd_config },
+>  	{ "CSC3551", "17AA38B4", generic_dsd_config },
+>  	{ "CSC3551", "17AA38B5", generic_dsd_config },
+>  	{ "CSC3551", "17AA38B6", generic_dsd_config },
+> diff --git a/sound/pci/hda/patch_realtek.c
+> b/sound/pci/hda/patch_realtek.c
+> index 1dcfba27e075..3eae1a5d9bcd 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10256,6 +10256,7 @@ static const struct snd_pci_quirk
+> alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL",
+> ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual",
+> ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual",
+> ALC287_FIXUP_TAS2781_I2C),
+> +	SND_PCI_QUIRK(0x17aa, 0x38a9, "ThinkBook 16p G4 IRH",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8",
+> ALC287_FIXUP_CS35L41_I2C_2),
+> --
+> 2.34.1
+> 
 
 
-thanks,
-
-Takashi
