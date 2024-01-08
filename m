@@ -1,38 +1,39 @@
-Received: from out203-205-251-60.mail.qq.com (out203-205-251-60.mail.qq.com [203.205.251.60])
+Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41C75644E;
-	Mon,  8 Jan 2024 12:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD11741744;
+	Mon,  8 Jan 2024 12:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="mOlAYhla"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Lcf1XyRU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1704717293; bh=0ub3HiEeynpEvWN9T9rYs29daqMSRNhQo+LY89G/pJQ=;
+	t=1704717132; bh=0ub3HiEeynpEvWN9T9rYs29daqMSRNhQo+LY89G/pJQ=;
 	h=From:To:Cc:Subject:Date;
-	b=mOlAYhla6tInPjvp4nllwhMtgn3+55onrvpjt+K5rJ1o3Ot//cvj0O9pYx7fLvBsR
-	 2tvspT0ZuEnDEglbrtPgPrgl7z1M1oIiiTF5rFotdSaGdmhitjRlMnefszGd7JWwt+
-	 x2u9hbAQAwXBKjIE3RhYcqJnqB8h0vk4xSjChieM=
+	b=Lcf1XyRUwj8JYaOdyYt0yt8lM1SJaU5PVJLxQHlR2LB81R61nbLCghBHO84A3p5C1
+	 pHA/xrYqZXDHh8qJI79D+XAn1aJN52ToJUGJnjSnopaSU0+ZO8EGOWK9m6NNCWGVu8
+	 G/dtGEy6tjPUN01fU1cq9Mi4xoiXQnjIr+O7yKBs=
 Received: from levi-pc.. ([61.186.21.12])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id 7291AE67; Mon, 08 Jan 2024 20:28:41 +0800
-X-QQ-mid: xmsmtpt1704716921tnwswvaia
-Message-ID: <tencent_CD95311972BE7A11FC41B4F5718E14E02D0A@qq.com>
-X-QQ-XMAILINFO: M/NR0wiIuy70B4sqURBSAfyGq5AxsWzh71hchYgD9jVJGaFCd7NH7ZvGyCOimW
-	 NDCsDxMDjLhnWT4NOG3WvuyMRVDFqMpoIf8vANzgixfGIZGiTiz/RohVDQUmxP4kAObi6h/YX68X
-	 y9Sejd7lGxQcGf62Avv5E7Vj1pBWFgmJKI5MXzRomqUD6yqbbyAq39Wkt3scl0Mg0y6xJhEbWGM8
-	 reGvalm7IpvsgWdkcJuA6t7uKSrSIN5e2VajQJPEMTGCqPKeEXojHA/L1cU7OLwLxje43zQT3kpV
-	 UZGR/EWFrNj3XWz+cU64IU5HLqEVUxyho1kcWOspqGtmXLPQ08kf4OjMWl3LhlyjRLEOJO7T44t9
-	 ZqLkPsVdxNJHWL0gjY/SRMvsIVxV5J41pOQ8Kfba7WJJiGJBzHZ3CvhrmVXoOLgmqI5Rm3qsJbx4
-	 QXVlp+t8pQkbjvAkbvmNG7iOgUJ1nFVNAGAhHlHeldK9ibuqeln1jpDAsj1EEtfSeI8c+ka4hM/0
-	 WXZwVd7B3hdF1zKZnXkB4eOTo7h+4aBnEtw+voeBav3Foy7xLgFwSy6Ii30oxHV8/hygZWS9qAcI
-	 AGcMZyjODEOQY8/8OXGM6G7AfDTfiyP9bU29ve+tpDmAP8CXO00dyBpR1bIZSZhOuXkZxbcBzWHH
-	 M4tqnc/6SiRmuOC5BQOt3BEX+qHTtKbx7vCwwg2zQQHnnjwMNMFJrwOhnchCFg76s2n+GhEYRFiG
-	 TWhO5IvrgwDmJ9oxwOrckPsXymPXFIixYCT7UXsgJs43yl/04DDa5Luh95r3AOpF396rFLwIFTsQ
-	 ecKtb3gmbXNiFYei1KKcfvPxgmMcTKwzPt5u6pEiognHy5ezkuxSEnEGpRRxIkOsynN7V1YKf4Lc
-	 UmxoszZTiK3mZNqiAMvoLIPIMcUSNlNd0LiAZ17TvovNDOxziVWKGGQQ+u8CMMcvp6O8+MNJFSn6
-	 gUK57JqVUEfJAZ0gS+dqmO5Vwbej03WbVGIhDy/Io=
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+	by newxmesmtplogicsvrsza1-0.qq.com (NewEsmtp) with SMTP
+	id 809A30F8; Mon, 08 Jan 2024 20:32:09 +0800
+X-QQ-mid: xmsmtpt1704717129t9llkx3wl
+Message-ID: <tencent_36BEBD114FBCA33263C3945743822F888907@qq.com>
+X-QQ-XMAILINFO: OKkKo7I1HxIeOOCsKVtKsyIlhIW7b/zjUV6pUrNrYZZI9XK2Oic147fEU5fTgm
+	 7kNxktRJnBnvLdamswo0GZFc92xuFBVxB17zsqa7/LhyZ9qzDko3/xwv9TOqP05NhUZkG89fqBv1
+	 0NMm9Mgvs+S/kpNQ41b+KH76jMuJnOKt/1K5YM/i2Azf6ojGpANPOCQopx4cLtm5LNrgLSnwDiOS
+	 MlKig5T9rWosJrznVdFICrqNcxenmYMs+q/HgzYZQM7lUEDCUIeqM7kQ2Iz2EOQG70fI//1rhVWL
+	 hJq82vghNBYXskuFwSKNAsafImf3OHGqZHZj+KvPc9RuOCYoMsCXdrWyYMGhkufZnXyH6F/BvsiV
+	 mV4LmTsobuiOOGy9R9uu5QQMfenA2KNCnOjvzRUFVstVrc+7OUzDj+eA0TqeIY4PlusiooukYsSn
+	 hjkrNJjSpLE56kVa7io8hPsUGRhaDufbgzGhMq/UZQ/CQjuArd1HH4KVfYuLife0hJL+NozqOSRG
+	 MSj5Hw+My+cz+3OlxaSTTX8B0zzpfR+gYyy1KycDZeJxodqI9M+nYlYdcNB4ysyfDwIZqpuTr5Vx
+	 cD/d8QYvcF3Ub9GuSHWJMSYhUovo8+bPVT8lNOnuXoVLqtuQgTsX4qQcKunFJ1bcLUTyvVBa1r4k
+	 6KHnSHB6nStfRQryQ3m1WlKoG+7DWXXaiRzvUnp9oeJdPoN6egITseJm2FcGt6GyyZRDrGVqloQT
+	 nk+hfLpOngRyTh/kz0ixtDhJQy3+3cuNOgKgczOwik+3AHBVmr/QlbDxVWHk5KXyp89LfXpkWr9G
+	 mKmitAa2yNjpRZYN1nZTC0gVb/wuY0ohqvVRfN2PP72189oc9hqjzVeiMEenAT5GK9sKu/b65sPl
+	 MC0a5k2oQd6SL2Shna3tREMfi6eyF72O88sP1tneINeZ2/XIUnlvVnADw4sOKbcg0stKfYPKwMsX
+	 JCcTGsOSSN+eNJH/xEmtC/K5scWMkOnGXvYW0QAoEbgiqV24OQhGuVpMDsC9vlRwzR1viJCs8vuP
+	 0LEvhF3JD0YF3FgOHO
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
 From: Huayu Zhang <932367230@qq.com>
 To: tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
@@ -45,8 +46,8 @@ Cc: linux-sound@vger.kernel.org,
 	kailang@realtek.com,
 	zhanghuayu.dev@gmail.com
 Subject: [PATCH] add DSD for ThinkBook 16p G4 IRH with Subsystem Id of : 0x17aa38a9
-Date: Mon,  8 Jan 2024 20:28:42 +0800
-X-OQ-MSGID: <20240108122842.12642-1-932367230@qq.com>
+Date: Mon,  8 Jan 2024 20:32:11 +0800
+X-OQ-MSGID: <20240108123211.13059-1-932367230@qq.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
