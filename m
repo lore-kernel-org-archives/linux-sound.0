@@ -1,85 +1,98 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE2F63B5
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jan 2024 03:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCD16124;
+	Tue,  9 Jan 2024 05:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alu.unizg.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="izpz8q5M"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cd64022164so3374811fa.3
-        for <linux-sound@vger.kernel.org>; Mon, 08 Jan 2024 19:44:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704771866; x=1705376666; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1IirnRXaj1MUEQGJO0zbDoWzQpnWpqMe52m35Flc2QA=;
-        b=izpz8q5MBW1FRzVC7qdMo3hQyPRbaEk4+TOL1ioe9j63uZUwoBqJxVCZFpjTuUfka0
-         KdSlAmoE5GNOpTdfpKrfyZ7eAxGcO+CxbOTmODMp0+u6IHygISfNWc10yChNUlN96ckg
-         VNLrh/P3v+L/XcKKeiFahtPMxkhZAJ4yzQp4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704771866; x=1705376666;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1IirnRXaj1MUEQGJO0zbDoWzQpnWpqMe52m35Flc2QA=;
-        b=P/MqkZ0bWJeKzpfF547yQDAZToNRYb6IitT1pLb5IrAI9nquBJIBwdNz2BhwsZzLjo
-         d785hElQgUNgPPOblmYiP7/mDngirQze0NQhS9zwAVP6Rp4rcAtnx5zef+S22scgp37R
-         8JoPEZA0mXLDyu5vrbict/4BBEk4gT0Uuf6ihs2MimI+VLxSHtSKP7405ovvuNRKWXNZ
-         lIBy/3VadZk6RQwjJjsOe40Y6YAXPDvulnoYZpHsn4yc6p8wPZNoStrR2zhCQFNcyCZG
-         5DavBdU0awcr+dX+N1KdSE2seuAnhrsbsEvsvZimbvsaMUyyoPmtTlrVbo6I4zOh5QII
-         SB/g==
-X-Gm-Message-State: AOJu0Yx7WcqXgTfpReoZUdGYcA1TpUhay5VxzZyilt+SKpO8rwmnyeMS
-	WDoLHbGnW43ICndzEZMhKnsJDIzVUEc4/sVK6/LU9lE2q1Fc
-X-Google-Smtp-Source: AGHT+IHYdJnZJ+ia5j3MDP+U7FWEJutaJ/CAtYrvXrMKolc4lrDjHs3uboOZeTMPAaG800e+FJBUDwDxKqaytC01MRg=
-X-Received: by 2002:a2e:9b18:0:b0:2cc:7718:edfe with SMTP id
- u24-20020a2e9b18000000b002cc7718edfemr2040200lji.41.1704771865390; Mon, 08
- Jan 2024 19:44:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="ZuW1i1aY";
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="ch2pMQcH"
+Received: from localhost (localhost [127.0.0.1])
+	by domac.alu.hr (Postfix) with ESMTP id BF02E6017C;
+	Tue,  9 Jan 2024 06:36:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1704778608; bh=PGZFsCN5bX9Fgj1fexQnuKUnpX+2oo8Uw7rRMuV5zzQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZuW1i1aYfe4FaNyzjl+XKMaiyGvlbH+rWnDopThJpI6pB8UcC+qzkvm0ZwjvxuQBj
+	 e0Oj3xeJbX2aO3mnzmgrqc0ikxTuSXi/bCeL5SUAY8cFa5djFs42p3STlQGzKSrFCN
+	 Ov5hIv2S4yGxH5eha6AETCYJhg68g8MF7ZoL5/iGUSZEi+jbZ/wMQ6SFoXaXRUUPqM
+	 Gn7itpudlxOTinKdzWBrtDmKjgGUfnVpHXS7AenD7f/lJRADZqDVe7WhqG7noNRpiv
+	 ZXL8bKga2BsGGTAlv9S4vTgrBa02wPxMu5iMmAH4isycg3EunH6JCI/3UTjO2pcvAF
+	 UBD0mu550FCzQ==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9vQO2rzvINSB; Tue,  9 Jan 2024 06:36:46 +0100 (CET)
+Received: from [192.168.239.51] (unknown [95.168.121.53])
+	by domac.alu.hr (Postfix) with ESMTPSA id 484A460171;
+	Tue,  9 Jan 2024 06:36:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1704778606; bh=PGZFsCN5bX9Fgj1fexQnuKUnpX+2oo8Uw7rRMuV5zzQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ch2pMQcHVRVaEOaBaYiRVBzgm3MbFuFaFf67vhIqf63015IuOrOzTFkibQ83wonK9
+	 7T8fctL70zMRN7OmUzruqlBf2uw33rtCvIQvvbBmp7YiRALe+Z2r3LU3lj/frfZGOP
+	 DyO8miHWKn+WUCcn4dCclWuyyJFh55rGz3/zdAOS3VuSI0nikzTpz9pkDgWtw3dQei
+	 60BUPdA6qlhSqaLbrbzQf8U28d6hTtz7NF/uMhb4Y7LmvjJnoFENr2Wcv4Qej3Ek4W
+	 FxCEhCpBmyL+oSwSHRhxqKG7zUGNKttEaKRLzKwIrCgMtlaQjGATniKbE/QXmU0itY
+	 GyuvaovdvnXmw==
+Message-ID: <e8f903e9-cca2-40ad-8b10-9f2f9cfdc750@alu.unizg.hr>
+Date: Tue, 9 Jan 2024 06:36:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108204508.691739-1-nfraprado@collabora.com>
-In-Reply-To: <20240108204508.691739-1-nfraprado@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 9 Jan 2024 11:44:14 +0800
-Message-ID: <CAGXv+5G_7OA8m=KENsLbu3wig9D_LOA+oWswQK34wEHtzHXOhQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8192: Check existence of dai_name
- before dereferencing
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: Mark Brown <broonie@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kernel@collabora.com, 
-	Jaroslav Kysela <perex@perex.cz>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	=?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado_via_Alsa=2Ddevel?= <alsa-devel@alsa-project.org>, 
-	Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] kselftest/alsa - conf: Stringify the printed errno
+ in sysfs_get()
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shuah Khan <shuah@kernel.org>
+References: <20240107173704.937824-1-mirsad.todorovac@alu.unizg.hr>
+ <20240107173704.937824-5-mirsad.todorovac@alu.unizg.hr>
+ <0654c2d9-3980-4f5c-9c0f-eaafc44fee52@sirena.org.uk>
+From: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+Autocrypt: addr=mirsad.todorovac@alu.unizg.hr; keydata=
+ xjMEYp0QmBYJKwYBBAHaRw8BAQdAI14D1/OE3jLBYycg8HaOJOYrvEaox0abFZtJf3vagyLN
+ Nk1pcnNhZCBHb3JhbiBUb2Rvcm92YWMgPG1pcnNhZC50b2Rvcm92YWNAYWx1LnVuaXpnLmhy
+ PsKPBBMWCAA3FiEEdCs8n09L2Xwp/ytk6p9/SWOJhIAFAmKdEJgFCQ0oaIACGwMECwkIBwUV
+ CAkKCwUWAgMBAAAKCRDqn39JY4mEgIf/AP9hx09nve6VH6D/F3m5jRT5m1lzt5YzSMpxLGGU
+ vGlI4QEAvOvGI6gPCQMhuQQrOfRr1CnnTXeaXHhlp9GaZEW45QzOOARinRCZEgorBgEEAZdV
+ AQUBAQdAqJ1CxZGdTsiS0cqW3AvoufnWUIC/h3W2rpJ+HUxm61QDAQgHwn4EGBYIACYWIQR0
+ KzyfT0vZfCn/K2Tqn39JY4mEgAUCYp0QmQUJDShogAIbDAAKCRDqn39JY4mEgIMnAQDPKMJJ
+ fs8+QnWS2xx299NkVTRsZwfg54z9NIvH5L3HiAD9FT3zfHfvQxIViWEzcj0q+FLWoRkOh02P
+ Ny0lWTyFlgc=
+Organization: Academy of Fine Arts, University of Zagreb
+In-Reply-To: <0654c2d9-3980-4f5c-9c0f-eaafc44fee52@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 9, 2024 at 4:47=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> Following commit 13f58267cda3 ("ASoC: soc.h: don't create dummy
-> Component via COMP_DUMMY()"), the dai_name field is only populated for
-> dummy components after the card is registered. This causes a null
-> pointer dereference in the mt8192-mt6359 sound card driver's probe
-> function when searching for a dai_name among all the card's dai links.
->
-> Verify that the dai_name is non-null before passing it to strcmp. While
-> at it, also check that there's at least one codec.
->
-> Reported-by: "kernelci.org bot" <bot@kernelci.org>
-> Closes: https://linux.kernelci.org/test/case/id/6582cd6d992645c680e13478/
-> Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_=
-DUMMY()")
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+On 1/8/2024 6:37 PM, Mark Brown wrote:
+> On Sun, Jan 07, 2024 at 06:37:08PM +0100, Mirsad Todorovac wrote:
+>> GCC 13.2.0 reported the warning of the print format specifier:
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+Thank you very much for the review.
 
-Audio now works again on my MT8192 Hayato.
+I guess now patchwork will do the rest required.
+
+Thanks,
+Mirsad
+
+-- 
+Mirsad Todorovac
+Sistem inženjer
+Grafički fakultet | Akademija likovnih umjetnosti
+Sveučilište u Zagrebu
+
+System engineer
+Faculty of Graphic Arts | Academy of Fine Arts
+University of Zagreb, Republic of Croatia
+tel. +385 (0)1 3711 451
+mob. +385 91 57 88 355
