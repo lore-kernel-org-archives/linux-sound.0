@@ -1,124 +1,114 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEBD39ACB;
-	Tue,  9 Jan 2024 14:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9969C38FB0;
+	Tue,  9 Jan 2024 14:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zgE6ROAX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rdyqfgWD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uG//rdsp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jF1thjI2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DF13E1F806;
-	Tue,  9 Jan 2024 14:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704809631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpa4DDcUFck9COiGV1cpqENWfAxZcIO+P3YbLq2DPTw=;
-	b=zgE6ROAXhe1eVKpqJ/3aZCJA6gAP1+Kxc20TSW/MT50LImr2L+IiYf2cyoUm8tp5QHB1b5
-	QZZOrF7ELRAsR5/upPaJMT3yGrU/dpVAHmy/QyjbIdDLfZ9zF0ZFg+whTf1Z9JO9t7qbT/
-	OL/JueVdw0c8uGDjlRafp6J28fPqz2k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704809631;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpa4DDcUFck9COiGV1cpqENWfAxZcIO+P3YbLq2DPTw=;
-	b=rdyqfgWDCE5RrzbTRi8gIyVf9Ue48YTLO8q7piNDOk9EN3lIAJSlS2j5k3j7YORWnWblr2
-	M+IGh3O3uZ096kCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704809630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpa4DDcUFck9COiGV1cpqENWfAxZcIO+P3YbLq2DPTw=;
-	b=uG//rdspZ85/CJGw21d6Q7HcwBQosT8Glqofv25l10s2Qy6uDVv1LC8nN9KH0Zn0B4vozh
-	Gp0WmLHkAR9kz2Ff+QSBQm7N1OtKykIO27x9iB3LGoNh1VQ3GCdNc5IlCuZLtOYn8hWxVw
-	L81rjbYOH/9pR5ui1p1J+F/RVR7nxyA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704809630;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpa4DDcUFck9COiGV1cpqENWfAxZcIO+P3YbLq2DPTw=;
-	b=jF1thjI2BpYUw5JwyFDwsEHARJqmxWsXkayV8Fq/SvexUTuFlWJea227wKJny9vNAdyCAv
-	MzUQBq8XLEHYJLDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C476134E8;
-	Tue,  9 Jan 2024 14:13:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tPq4IJ5UnWU6BgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 09 Jan 2024 14:13:50 +0000
-Date: Tue, 09 Jan 2024 15:13:50 +0100
-Message-ID: <87mster3vl.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: hda/tas2781: annotate calibration data endianness
-In-Reply-To: <3852ff28ea7d5d8f2086d8dd78aeff8d1d984991.1704748435.git.soyer@irl.hu>
-References: <3852ff28ea7d5d8f2086d8dd78aeff8d1d984991.1704748435.git.soyer@irl.hu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7IxSwhN"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a28b1095064so321723266b.2;
+        Tue, 09 Jan 2024 06:16:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704809779; x=1705414579; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XfKKmsgrBNevkxdWqBtR6SySOi1WLHhsxeOVYSFipik=;
+        b=b7IxSwhNwiEalVIX272dphlPd0yyO9OZBc52kNX/2l8oAHsLCbcjxf+GSokwbPLmLI
+         STKCgCXEHiCmNmWRjuw2ijkKJFuXQwC6yWXsCj6VI4rs+WvFOEsQf5NW2kDC1LZl+cJ0
+         NXY4InjFXq1rZ96AymBuyHJCp2SOsW+QnG+E/FhW9Np6UpWvRgEtSZKCFmzP2OFhZRad
+         T1bU3GuGCvwTYmF9iudUm8YHpCCBjQkf9dc+TCIhKJJgm1I0Yr7WBmvHOmMPqbQkle7c
+         miNMM7yvjQ9U37Qjjeo+txkd71wM9/6JHlNco3dndBDtmDLweuP6+Oh5nLv3GgAu0v3s
+         fBEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704809779; x=1705414579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XfKKmsgrBNevkxdWqBtR6SySOi1WLHhsxeOVYSFipik=;
+        b=pwxunlVGiMcxM2tBTneY/k6KiIJX0WgO+ImQW7Jmxx/jii/fc1dOQVVyyHTuyq5nyB
+         8TmXqiPDlojYHSrgg/9lo4kMEq9LFoGepYKKGfvJ/9YCVglT1VSA4Bus0x9rb4hDdN/r
+         clgh0FCg9WruiyC2v62FjI4rCiZBa4aZCsiuenk4055JaZqnTUaS19I0W7iokJjXjZig
+         uZ/sBJF6pL/Mw8tV/wWP+slgO/I6xURRwzLh+5ZxpgTU/7YiegHOB50l16vDStNApPAf
+         2qII8r2DuT6zPay1fGaFG7VBEFaqFv4fMqdv9m8KtruK289MU8U5uXA0/14ndI0TXOCx
+         4Y4Q==
+X-Gm-Message-State: AOJu0YyeT6iVcZQjlUHL71ATgEfKDQdxVDHicwwYipTl//8mfaI3zEgn
+	81xGTtsYbCGR81w2kip3IOFVJqhovKzaaYdvN0w=
+X-Google-Smtp-Source: AGHT+IHrnXDoXiFmgZB8pnUib0FZSixSpHYIUBlJTfVPoTkImZsXEmElnr3lXwcWDIqgM9foKbqDkNseDvscZLyDkgE=
+X-Received: by 2002:a17:907:2d09:b0:a29:1419:f522 with SMTP id
+ gs9-20020a1709072d0900b00a291419f522mr330417ejc.72.1704809778626; Tue, 09 Jan
+ 2024 06:16:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: *
-X-Spam-Score: 1.46
-X-Spamd-Result: default: False [1.46 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.74)[98.87%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20240109075551.870001-1-chancel.liu@nxp.com> <20240109075551.870001-4-chancel.liu@nxp.com>
+In-Reply-To: <20240109075551.870001-4-chancel.liu@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Tue, 9 Jan 2024 16:16:06 +0200
+Message-ID: <CAEnQRZAgwmNZ8ruV6rPJ_OTzjLHL0jgPLFNbBeW1fXYG+QjAbw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ASoC: dt-bindings: fsl,micfil: Add compatible string
+ for i.MX95 platform
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 08 Jan 2024 22:16:46 +0100,
-Gergo Koteles wrote:
-> 
-> Sparse reports an endian mismatch.
-> The amplifier expects the calibration data as big-endian.
-> Use the __be32 type to express endianness better.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202401072137.Oc7pQgRW-lkp@intel.com/
-> 
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+On Tue, Jan 9, 2024 at 9:58=E2=80=AFAM Chancel Liu <chancel.liu@nxp.com> wr=
+ote:
+>
+> Add compatible string "fsl,imx95-micfil" for i.MX95 platform.
+>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
+>  .../devicetree/bindings/sound/fsl,micfil.yaml     | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,micfil.yaml b/Do=
+cumentation/devicetree/bindings/sound/fsl,micfil.yaml
+> index b7e605835639..f0d3d11d07d2 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl,micfil.yaml
+> +++ b/Documentation/devicetree/bindings/sound/fsl,micfil.yaml
+> @@ -15,10 +15,17 @@ description: |
+>
+>  properties:
+>    compatible:
+> -    enum:
+> -      - fsl,imx8mm-micfil
+> -      - fsl,imx8mp-micfil
+> -      - fsl,imx93-micfil
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - fsl,imx95-micfil
+> +          - const: fsl,imx93-micfil
+> +
+> +      - items:
+> +          - enum:
+> +              - fsl,imx8mm-micfil
+> +              - fsl,imx8mp-micfil
+> +              - fsl,imx93-micfil
 
-Thanks, applied with the additional Fixes tag to the commit.
+My yaml knowledge is very limited. Can you describe in natural
+language in the commit what exactly we are doing here.
+
+Why something like this:
 
 
-Takashi
+>    compatible:
+>     enum:
+>       - fsl,imx8mm-micfil
+>       - fsl,imx8mp-micfil
+>       - fsl,imx93-micfil
++        - fsl,imx95-micfil
+
+Isn't enough?
