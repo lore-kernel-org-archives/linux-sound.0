@@ -1,108 +1,138 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E33C466;
-	Tue,  9 Jan 2024 18:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EBC3C694;
+	Tue,  9 Jan 2024 19:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alu.unizg.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b="B29xcGD9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
-	s=s31663417; t=1704823897; x=1705428697; i=erick.archer@gmx.com;
-	bh=PZABZvFu6YfewBVsfWRIsRfRTNc3fsB6tyPmtxoCWCw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=B29xcGD9pJnrAoiLFpmOkfTFB/SsYMSIyA5nwqm9eVATIxvpptcEVeM98ngs2bES
-	 pD1uHMpJ5ljFpXEhGCPMExkAnOBH/dY0Wiw0EwtMovH+k7OJtMrfl5PyFPqH1M+1V
-	 b6s8y/tIDgaJZCnBBQmu9kj1Ovinw7ZmvRoWVqKFEW6djOjOCsJep/kPOjqoiPx6K
-	 tOn2YukORtnKB/zZJLFG3nLZnubmy2x+FMsAYD+Lgn5DP1bTf+mOkuSC4PQJmsAZ9
-	 wmPHBXgJack0D08nkI51jCgot4RJyqgHL9iij66K8ZrY/xYs0bSVxqFHIZxd3dKwx
-	 Z1qPyn23mPZFHVqoSQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1N33Ed-1rAqX60qfl-013JkH; Tue, 09 Jan 2024 19:11:37 +0100
-From: Erick Archer <erick.archer@gmx.com>
-To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Erick Archer <erick.archer@gmx.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v2] ASoC: ti: j721e-evm: Use devm_kcalloc() instead of devm_kzalloc()
-Date: Tue,  9 Jan 2024 19:11:01 +0100
-Message-Id: <20240109181101.3806-1-erick.archer@gmx.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="NNW4P0j0";
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="WfvsBawM"
+Received: from localhost (localhost [127.0.0.1])
+	by domac.alu.hr (Postfix) with ESMTP id 3A2C360177;
+	Tue,  9 Jan 2024 20:23:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1704828217; bh=Y42GFyRmBuoPGe7vrd1pFvKR4nPAFlTjEu6yMmACWMk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NNW4P0j0tjh5YVjXiM7hl7aw1XnMcLEB9FfoKb9OKCf9HLcJlyVg2Bgmjy1pt30mf
+	 xKEx/p//SmZn7CfFvAd1xHbsCEfipYvUB7IziFxdDfT8TUiGIYd9VyWM9UbrImhLvc
+	 VmJ2As9DBXOtGEMdbZaK8GBFYal6f4TMF1jeQeqIfW6W+CnXxVDQKiC//skxkvccR9
+	 ybMjpT+xzh2GDsh9E4nEwnUurPB2QqJjHYJLppiGeZV5JMIzKqDOBo3aDBXD44/maI
+	 guHifM9mQnHiTQeUOfKlmpx+9aZMheabiqg7msFn9aPCz8jlsUD7YoP8UkhcpKvLRX
+	 isfO9ZpfllsjQ==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hy5WhOkhQeps; Tue,  9 Jan 2024 20:23:35 +0100 (CET)
+Received: from [192.168.239.51] (unknown [95.168.105.29])
+	by domac.alu.hr (Postfix) with ESMTPSA id 7E10960171;
+	Tue,  9 Jan 2024 20:23:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1704828215; bh=Y42GFyRmBuoPGe7vrd1pFvKR4nPAFlTjEu6yMmACWMk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WfvsBawM++od7CGSyM2LakCZVm9nXUPx07XHmbDwGPaE9ITsvnQOneOBXOnL7B1+Z
+	 Gd2BZz6/BQ3b6ubVaUdjpUPt8fn9wITqVp9xNRSrk4IzI7jhqU+lCfrMrYdYAwhIxl
+	 O9eApr+5RZDQLwWadDfQymoqZhnUtJb1hu1fzEVlQ39IQfiLnUe/4DdkNADtRTCSvD
+	 33jXdCuKVxB8lL7jHNoNyKf/rj4NmLWfpPXFghCPfsThDm9T+TRerazFBAqHJSJsJU
+	 itmOOeyZa8KXqtysYAcMgzv0HKJnI14Sex+jPmKsOihF2naMal9Ox6ZBE+A3XSMGWh
+	 6HugKS2lNrGkw==
+Message-ID: <056c0162-10cd-4402-999a-02dec87b34ad@alu.unizg.hr>
+Date: Tue, 9 Jan 2024 20:23:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+FQsFrpfyWYIKyTGfUr8bMQdMIgv0XDftz8xSNidl484g0foWv3
- QsSRpMhc5PM5K1X/QVF3MPErICODTv70QT4510g408rqnzAbuoEQiZR1vcelqJuQF4iPOmT
- J3q307fdOBJKiUQoTeX1O6wQbN5NXKwMbEjbo1uixPcJDUbrk10gHSclH/F1e+qOExIpIUq
- BMNRsVYowKU35EuYzwL1w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:HqM7Q25+xKA=;ZvHEBSr7KNi6TYu4C+KGhvAVlGP
- s4H5lD02JyV2eVDZIryDMPxkDN4wch7uGmKBucRuWBvCX5Km9GPVjpfyJ1+MDyPq9O5sEiDR5
- Co9Tvtz9GY8FisLl8famEPEwNTp50nsujR+9JS3NTNLmuBOlB0d0fdKrOt+M6qlPyxIiJMMEo
- rJ/o0NpJ4tu+E/aSLJ6sMI70KQPAaTSTRugOVtFLqC7D3M8mfFYEYS5Qsk2Hwax4UgeMNcDqN
- Y60c/TDS0GgxbmgxhWluzfpWIcNR0MmlHyhx1QL1NhuYeBBBWKdrfAHV7qJRmtGKe3VPdf5m8
- co/kioq+0lyGYTzRJ50/CPMvkcVTEc6sJKKGpF/5VQoL9N8LHJgyVQAm+GEL5RBVl0kg64BS9
- zmM3n41TymExB7k0851H3juNGz3APx10CTHTbC9uIa3cnkaKnQKDB0trKXpv+GOY9FKKjafBk
- +zqI9heJT2FKE2RTOmcM/91qiKS0Xq1zV+exknAnh/AeoJUAdgZOJMMkoEJJkgfJ4xvQTTyxi
- DIQpWvkIjuzySdtWl8Uv4gAdMhJTuGrblab2g+ExrpdJxNeb9L0TxDU9vC/XSGwMrE0NTUkCb
- vRGOk2rxZ88XOlJr7DXqLLiW6uIXEz4kTiwZNSJSLtbgJV3HM+giJrLRhqtNiTdcLzc2Xwczs
- 7/JMc9NJT0vcjGevcBUbEgpx+lO2GHkuhvIgoeGyO+NevhzJPephji6vg3T7pXEmvuGVM2OTg
- WSgZ0AQsVp9XK0sviU3z/3NQIxtJKIO/VwAMgwSVfHhCCaTIxGspThmvovRSXBBuZVrXOcjY0
- rv2x77IOJRMU20Qiv9guHs1b29h35202a9Ov7C4S9nVr59yn1QBoCHew7Sg8zjchZ0ekYkmtn
- DUZq5E4n+0h5JcEjnD4e69Udeu/dYvxnPhUzMqbzVYG5rO0YUHnMPPv7NhbiJTJ9UIPbH8Xcm
- KkHCdL/Xd5Qc/5RPsv5zlcoGkPQ=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] kselftest: alsa: Fix a couple of format specifiers
+ and function parameters
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shuah Khan <shuah@kernel.org>
+References: <20240107173704.937824-1-mirsad.todorovac@alu.unizg.hr>
+ <87le8yr3rf.wl-tiwai@suse.de>
+From: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+Autocrypt: addr=mirsad.todorovac@alu.unizg.hr; keydata=
+ xjMEYp0QmBYJKwYBBAHaRw8BAQdAI14D1/OE3jLBYycg8HaOJOYrvEaox0abFZtJf3vagyLN
+ Nk1pcnNhZCBHb3JhbiBUb2Rvcm92YWMgPG1pcnNhZC50b2Rvcm92YWNAYWx1LnVuaXpnLmhy
+ PsKPBBMWCAA3FiEEdCs8n09L2Xwp/ytk6p9/SWOJhIAFAmKdEJgFCQ0oaIACGwMECwkIBwUV
+ CAkKCwUWAgMBAAAKCRDqn39JY4mEgIf/AP9hx09nve6VH6D/F3m5jRT5m1lzt5YzSMpxLGGU
+ vGlI4QEAvOvGI6gPCQMhuQQrOfRr1CnnTXeaXHhlp9GaZEW45QzOOARinRCZEgorBgEEAZdV
+ AQUBAQdAqJ1CxZGdTsiS0cqW3AvoufnWUIC/h3W2rpJ+HUxm61QDAQgHwn4EGBYIACYWIQR0
+ KzyfT0vZfCn/K2Tqn39JY4mEgAUCYp0QmQUJDShogAIbDAAKCRDqn39JY4mEgIMnAQDPKMJJ
+ fs8+QnWS2xx299NkVTRsZwfg54z9NIvH5L3HiAD9FT3zfHfvQxIViWEzcj0q+FLWoRkOh02P
+ Ny0lWTyFlgc=
+Organization: Academy of Fine Arts, University of Zagreb
+In-Reply-To: <87le8yr3rf.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Use 2-factor multiplication argument form devm_kcalloc() instead
-of devm_kzalloc().
+On 1/9/2024 3:16 PM, Takashi Iwai wrote:
+> On Sun, 07 Jan 2024 18:37:00 +0100,
+> Mirsad Todorovac wrote:
+>>
+>> Minor fixes of compiler warnings and one bug in the number of parameters which
+>> would not crash the test but it is better fixed for correctness sake.
+>>
+>> As the general climate in the Linux kernel community is to fix all compiler
+>> warnings, this could be on the right track, even if only in the testing suite.
+>>
+>> Changelog:
+>>
+>> v1 -> v2:
+>> - Compared to v1, commit subject lines have been adjusted to reflect the style
+>>    of the subsystem, as suggested by Mark.
+>> - 1/4 was already acked and unchanged (adjusted the subject line as suggested)
+>>    (code unchanged)
+>> - 2/4 was acked with suggestion to adjust the subject line (done).
+>>    (code unchanged)
+>> - 3/4 The format specifier was changed from %d to %u as suggested.
+>> - The 4/4 submitted for review (in the v1 it was delayed by an omission).
+>>    (code unchanged)
+>>
+>> Mirsad Todorovac (4):
+>>    kselftest/alsa - mixer-test: fix the number of parameters to
+>>      ksft_exit_fail_msg()
+>>    kselftest/alsa - mixer-test: Fix the print format specifier warning
+>>    kselftest/alsa - mixer-test: Fix the print format specifier warning
+>>    kselftest/alsa - conf: Stringify the printed errno in sysfs_get()
+> 
+> Applied all patches now.  Thanks.
+> 
+> 
+> Takashi
 
-Link: https://github.com/KSPP/linux/issues/162
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-Signed-off-by: Erick Archer <erick.archer@gmx.com>
-=2D--
-Changes in v2:
-- Fix the commit title adding "j721e-evm"
-=2D--
- sound/soc/ti/j721e-evm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+No, thanks to you for your patient work. I realise that there are roughly
+2,000 patch emails each day.
 
-diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
-index b4b158dc736e..d9d1e021f5b2 100644
-=2D-- a/sound/soc/ti/j721e-evm.c
-+++ b/sound/soc/ti/j721e-evm.c
-@@ -649,7 +649,7 @@ static int j721e_soc_probe_cpb(struct j721e_priv *priv=
-, int *link_idx,
- 	 * Link 2: McASP10 <- pcm3168a_1 ADC
- 	 */
- 	comp_count =3D 6;
--	compnent =3D devm_kzalloc(priv->dev, comp_count * sizeof(*compnent),
-+	compnent =3D devm_kcalloc(priv->dev, comp_count, sizeof(*compnent),
- 				GFP_KERNEL);
- 	if (!compnent) {
- 		ret =3D -ENOMEM;
-@@ -763,7 +763,7 @@ static int j721e_soc_probe_ivi(struct j721e_priv *priv=
-, int *link_idx,
- 	 *		   \ pcm3168a_b ADC
- 	 */
- 	comp_count =3D 8;
--	compnent =3D devm_kzalloc(priv->dev, comp_count * sizeof(*compnent),
-+	compnent =3D devm_kcalloc(priv->dev, comp_count, sizeof(*compnent),
- 				GFP_KERNEL);
- 	if (!compnent) {
- 		ret =3D -ENOMEM;
-=2D-
-2.25.1
+This might seem like sugarcoating, but I realise the developers are under
+a great stress having to evaluate such number of patches each day. The kernel
+is now close to 35+ Mlines and I do not underestimate this work.
 
+I'm nowhere close to understanding all subsystems, but I recognise the need
+to be disciplined to make the maintainer's job easier and feasible in the
+long run.
+
+The time invested in the Linux kernel and operating system is a gift that
+keeps on giving :-)
+
+Regards,
+Mirsad
+
+
+-- 
+Mirsad Todorovac
+Sistem inženjer
+Grafički fakultet | Akademija likovnih umjetnosti
+Sveučilište u Zagrebu
+
+System engineer
+Faculty of Graphic Arts | Academy of Fine Arts
+University of Zagreb, Republic of Croatia
+tel. +385 (0)1 3711 451
+mob. +385 91 57 88 355
