@@ -1,63 +1,85 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFD455E77;
-	Mon,  8 Jan 2024 21:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b681dd.dsl.pool.telekom.hu [::ffff:81.182.129.221])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000072D22.00000000659C666B.00161D8E; Mon, 08 Jan 2024 22:17:30 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-  linux-sound@vger.kernel.org, Gergo Koteles <soyer@irl.hu>,
-  kernel test robot <lkp@intel.com>
-Subject: [PATCH] ALSA: hda/tas2781: annotate calibration data endianness
-Date: Mon,  8 Jan 2024 22:16:46 +0100
-Message-ID: <3852ff28ea7d5d8f2086d8dd78aeff8d1d984991.1704748435.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE2F63B5
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jan 2024 03:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="izpz8q5M"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cd64022164so3374811fa.3
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jan 2024 19:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704771866; x=1705376666; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1IirnRXaj1MUEQGJO0zbDoWzQpnWpqMe52m35Flc2QA=;
+        b=izpz8q5MBW1FRzVC7qdMo3hQyPRbaEk4+TOL1ioe9j63uZUwoBqJxVCZFpjTuUfka0
+         KdSlAmoE5GNOpTdfpKrfyZ7eAxGcO+CxbOTmODMp0+u6IHygISfNWc10yChNUlN96ckg
+         VNLrh/P3v+L/XcKKeiFahtPMxkhZAJ4yzQp4g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704771866; x=1705376666;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1IirnRXaj1MUEQGJO0zbDoWzQpnWpqMe52m35Flc2QA=;
+        b=P/MqkZ0bWJeKzpfF547yQDAZToNRYb6IitT1pLb5IrAI9nquBJIBwdNz2BhwsZzLjo
+         d785hElQgUNgPPOblmYiP7/mDngirQze0NQhS9zwAVP6Rp4rcAtnx5zef+S22scgp37R
+         8JoPEZA0mXLDyu5vrbict/4BBEk4gT0Uuf6ihs2MimI+VLxSHtSKP7405ovvuNRKWXNZ
+         lIBy/3VadZk6RQwjJjsOe40Y6YAXPDvulnoYZpHsn4yc6p8wPZNoStrR2zhCQFNcyCZG
+         5DavBdU0awcr+dX+N1KdSE2seuAnhrsbsEvsvZimbvsaMUyyoPmtTlrVbo6I4zOh5QII
+         SB/g==
+X-Gm-Message-State: AOJu0Yx7WcqXgTfpReoZUdGYcA1TpUhay5VxzZyilt+SKpO8rwmnyeMS
+	WDoLHbGnW43ICndzEZMhKnsJDIzVUEc4/sVK6/LU9lE2q1Fc
+X-Google-Smtp-Source: AGHT+IHYdJnZJ+ia5j3MDP+U7FWEJutaJ/CAtYrvXrMKolc4lrDjHs3uboOZeTMPAaG800e+FJBUDwDxKqaytC01MRg=
+X-Received: by 2002:a2e:9b18:0:b0:2cc:7718:edfe with SMTP id
+ u24-20020a2e9b18000000b002cc7718edfemr2040200lji.41.1704771865390; Mon, 08
+ Jan 2024 19:44:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+MIME-Version: 1.0
+References: <20240108204508.691739-1-nfraprado@collabora.com>
+In-Reply-To: <20240108204508.691739-1-nfraprado@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 9 Jan 2024 11:44:14 +0800
+Message-ID: <CAGXv+5G_7OA8m=KENsLbu3wig9D_LOA+oWswQK34wEHtzHXOhQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8192: Check existence of dai_name
+ before dereferencing
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kernel@collabora.com, 
+	Jaroslav Kysela <perex@perex.cz>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	=?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado_via_Alsa=2Ddevel?= <alsa-devel@alsa-project.org>, 
+	Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sparse reports an endian mismatch.
-The amplifier expects the calibration data as big-endian.
-Use the __be32 type to express endianness better.
+On Tue, Jan 9, 2024 at 4:47=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
+<nfraprado@collabora.com> wrote:
+>
+> Following commit 13f58267cda3 ("ASoC: soc.h: don't create dummy
+> Component via COMP_DUMMY()"), the dai_name field is only populated for
+> dummy components after the card is registered. This causes a null
+> pointer dereference in the mt8192-mt6359 sound card driver's probe
+> function when searching for a dai_name among all the card's dai links.
+>
+> Verify that the dai_name is non-null before passing it to strcmp. While
+> at it, also check that there's at least one codec.
+>
+> Reported-by: "kernelci.org bot" <bot@kernelci.org>
+> Closes: https://linux.kernelci.org/test/case/id/6582cd6d992645c680e13478/
+> Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_=
+DUMMY()")
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202401072137.Oc7pQgRW-lkp@intel.com/
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- sound/pci/hda/tas2781_hda_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 4805cf0b6480..2dd809de62e5 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -424,8 +424,8 @@ static const struct snd_kcontrol_new tas2781_dsp_conf_ctrl = {
- 
- static void tas2563_apply_calib(struct tasdevice_priv *tas_priv)
- {
--	unsigned int data;
- 	int offset = 0;
-+	__be32 data;
- 	int ret;
- 
- 	for (int i = 0; i < tas_priv->ndev; i++) {
-
-base-commit: 736c40609d31481b3b2fffe8c239f2c86fb2b54c
--- 
-2.43.0
-
+Audio now works again on my MT8192 Hayato.
