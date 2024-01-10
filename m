@@ -1,192 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13B83EA92;
-	Wed, 10 Jan 2024 09:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E0F3EA6D;
+	Wed, 10 Jan 2024 09:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvPUQsBb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704878651; x=1736414651;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=VF4GGDezjMD7BNAmxD35y69aoAxh53pgorC7gnT0ZLQ=;
-  b=mvPUQsBbc4/tB5lbsPuFkx/+fY0pmGbinBS86cLPhUYC4MgmrhUud5Pq
-   d6ajvmDUWhI0+sz2lJA9tnrd9UGkIQbdshZmjy5MDaZY7+HV1DVqyauqx
-   AWinBiFkFxtvekp17s6ApxVHmmC3c1ozJLQeLAEsKzuzgbWCS+PqbrPOL
-   UoStKmDMAxg0TZAJhK+YQll5lYRcNT8zogUiO8/FozzoFfr6A1BTVRtPp
-   5Oy/upDaHjSkP/mthByEegGDHe/6dsrtabLlu5zR88q53xogqrIqE0S0Q
-   qHZjktGJlXyUHUNRjf5BPEIOI+A+q4qg2UQoLiUvEPR16El0Z4uWPV7xl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5545830"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="5545830"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 01:24:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="16576374"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.36.240])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 01:24:04 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Andrzej
- Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, Maxime Ripard
- <mripard@kernel.org>
-Subject: Re: [PATCH 3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
-In-Reply-To: <20240104201632.1100753-3-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240104201632.1100753-1-jani.nikula@intel.com>
- <20240104201632.1100753-3-jani.nikula@intel.com>
-Date: Wed, 10 Jan 2024 11:24:01 +0200
-Message-ID: <87cyu9wngu.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="VslPg97f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1704878784; x=1736414784;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=6l/GvvMpHgayoh6ULHhITSaaXsxIDKvf/cwj/tXMf8I=;
+  b=VslPg97fzZawPlKMmA7SpjM26oHXAD7WH4mBal4mnKTSmTuS7zOP9pyJ
+   opNr2II95v9eirBP8cWzOyv2/siKrPRe1REdj4+3NRIClligkJPOpAQGC
+   Ic/jILo99EVppkIVQ6MYFv5Ps4Q32PvIcdFT95ahlxv8M/0Pa5IruB59v
+   tbQol9wSmIU/9TSwhwMIP4a/RCRVoisbWxTVieTYC8UPgNJ1Ja59bicg0
+   VNXEmce807izC42mkub3JU7WTzGsdin+W2T6+LryIblew/28pQ2113fvk
+   xEK7yZhg1S7c0kUWKbkyyQJof2FHrjxEKt5a4OnuNXKgl4UGZMHZK1qIa
+   g==;
+X-IronPort-AV: E=Sophos;i="6.04,184,1695679200"; 
+   d="scan'208";a="34823920"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 10 Jan 2024 10:26:20 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C2A05280075;
+	Wed, 10 Jan 2024 10:26:20 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: fsl-sai: Support Rx-only SAI
+Date: Wed, 10 Jan 2024 10:26:20 +0100
+Message-ID: <2928386.e9J7NaK4W3@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <e97d0273-0827-4510-ba23-3d09642a234f@linaro.org>
+References: <20231219122957.3358149-1-alexander.stein@ew.tq-group.com> <20231219122957.3358149-2-alexander.stein@ew.tq-group.com> <e97d0273-0827-4510-ba23-3d09642a234f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Thu, 04 Jan 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> hdmi-codec.h does not appear to directly need drm/drm_edid.h for
-> anything. Remove it.
+Hi Krzysztof,
 
-Jaroslav, Takashi, ack for merging this via the drm trees, please?
+Am Mittwoch, 20. Dezember 2023, 16:48:34 CET schrieb Krzysztof Kozlowski:
+> On 19/12/2023 13:29, Alexander Stein wrote:
+> > On SoC like i.MX8QXP some SAI IP cores support only Rx path. Allow
+> > specifying only an Rx DMA channel, while omitting the Tx one.
+> >=20
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > The feature list in reference manual IMX8DQXPRM Rev. 0 05/2020
+> > section 1.1.2 "Features" explicitly state that SAI2 and SAI3 is
+> > receive only.
+>=20
+> Why aren't you constraining it per variant/device? If only some have one
+> DMA channel, then I would normally expect allOf:if:then narrowing it for
+> each device.
 
-BR,
-Jani.
+I'm not sure I get what you want to constraint. In the very same SoC there =
+are=20
+SAI IP instances supporting Rx & Tx while others support Rx only.
+The feature list in RM IMX8DQXPRM Rev. 0 05/2020 states:
+>  4x SAI (SAI0 and SAI1 are transmit/receive; SAI2 and SAI3 are receive on=
+ly)
+
+An actual example can be seen at [1].
+
+Best regards,
+Alexander
+
+[1] https://lore.kernel.org/all/20231214150243.1991532-4-alexander.stein@ew=
+=2Etq-group.com/
+
+> Best regards,
+> Krzysztof
 
 
->
-> There are some files that get drm/drm_edid.h by proxy; include it where
-> needed.
->
-> v2-v4: Fix build (kernel test robot <lkp@intel.com>)
->
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
->  drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
->  drivers/gpu/drm/tegra/hdmi.c               | 1 +
->  drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
->  include/sound/hdmi-codec.h                 | 1 -
->  7 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 9663601ce098..b9205d14d943 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -18,6 +18,7 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index e971b75e90ad..f3f130c1ef0a 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -21,6 +21,7 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 52d91a0df85e..fa63a21bdd1c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -31,6 +31,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index d37d599aec27..c8e1bbebdffe 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -11,6 +11,7 @@
->  #include <linux/of_irq.h>
->  #include <linux/delay.h>
->  #include <drm/display/drm_dp_aux_bus.h>
-> +#include <drm/drm_edid.h>
->  
->  #include "msm_drv.h"
->  #include "msm_kms.h"
-> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-> index 417fb884240a..09987e372e3e 100644
-> --- a/drivers/gpu/drm/tegra/hdmi.c
-> +++ b/drivers/gpu/drm/tegra/hdmi.c
-> @@ -24,6 +24,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_debugfs.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_eld.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index f05e2c95a60d..34f807ed1c31 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -35,6 +35,7 @@
->  #include <drm/display/drm_scdc_helper.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  #include <linux/clk.h>
-> diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-> index 9b162ac1e08e..5e1a9eafd10f 100644
-> --- a/include/sound/hdmi-codec.h
-> +++ b/include/sound/hdmi-codec.h
-> @@ -12,7 +12,6 @@
->  
->  #include <linux/of_graph.h>
->  #include <linux/hdmi.h>
-> -#include <drm/drm_edid.h>
->  #include <sound/asoundef.h>
->  #include <sound/soc.h>
->  #include <uapi/sound/asound.h>
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
--- 
-Jani Nikula, Intel
+
