@@ -1,36 +1,37 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2EC3EA8C;
-	Wed, 10 Jan 2024 09:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D5D3EA91;
+	Wed, 10 Jan 2024 09:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Y8nuJpWW"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wW0951aF"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KIIg3O3azJi8Wfc8zWoXB2yirEyAkgNAVsXk6IUc9N/GQ4iU/FQcIQsmGsUcuU87ArYOadHCi8ebxGP1bCabTPhVJyLt06CCrxi+cKTpH3iaws6gutw/njPzHpXtmQHIOQIiWPB+H4jW9ChCHZawqgwbuBzs85muxQ6oLuCu9UFjdXxF8mg8vWtr/QPT9QyJBHHzqNhLVzraQ+r0RICdqgt+bJTiiT9fterKBIj6sdHh7nrGMRdyWyGXuOQ2sYRPD1Allry6MXR9RYY62sg0pm/cYOK3C6uhLPnSAUWFKKFgx5YfWGpS3AlFnFwQnYPdWJocDCSS4Xunuw13t2fr+Q==
+ b=PiV68bn7jQihaEi1KDBskL+6psaXPD3rITXqfs0MiLFdS/CcJGiLfBZXSCPLWe/BLGXA7eMieqE2SEZaQeFngojgb+MJhReALDf1twwSl24pFWTWnaeiwZqONAAgXFeZIoTiB+T+zo4YAygn0FOlAGtlOrkAz9g/WJYsjTMFSv3lldW7fTDKoXh8BQMfckKcH+rIb6YI8nTzerpbPT9LCQsJfJB74sVCq44MhKUPVPy6w/TqvnvDx2cGT4VLlUO3ThtZWRktDjeHQWsHQUVjWMHqRcADxRmaMJzybr+6AHn0X+uCTR/hMPbktJz8gqqclh8ZYkSC/zMPFTfhQ5jt1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3I5faMlbiK2WABI1X3s7NUbtTh8LQQWNgrQ5ilX7d0Y=;
- b=OU6srAv0ByKPCVn5LVqUY9ayl4irmgB9avxaXmyNDFEQKnYYwqCSzjGAUu527IPAj1+yeSuVP9H0ajk5vOyHywh5JiWvV9EMOBS6MzBnkCnwMd99ke1nd5nQCFrb1dD8NyAIQgrFxCK2gJ6p9OJcTkjR80TWz72H1w6pO2M5i90SZCdrgRwho8nEDN2B34PDLB37fqvuHcrrVetRXFBXwQyMYUFeEzyE3oUNuVCspeDwPXNMjyBTn4+mlK7g/wmRLGro/fIe+CTFx5xN3ldjA4qPRHK2X33jEbaywCzyqKymL5ESjKEf7evZWKcHcvPpprKKfTNVmO7EQp+7x+HR4A==
+ bh=1zC5WRwtu6+qO+9CXnFzJPWrGYlpkczne7vfVG5jg8k=;
+ b=GO9e/YI/gmsTigY8JlL7s+79QdeUHfPI5e5LDURr+7bbtKDRBPdVyNYT8QOwGUSeiYvIKNa5ZtI5PzioEBWK1mLIoEU8F0fOourX/QrF+XYjsT/ONGLiObrk9cou4kFK/q9Cv4Jo1lJLNSxZDVIHuvkgR0QWU4Huw/uI0WAeUelTt8kR9JB6yDSGQkOe+P3LHz/9abKfumygj95RKOGuO6DGYs41jWwgyjE+rQRG7v8Bk+pIiY+FzxMb//aNaWuqTW2lwpQIfvf8O1QKBg+znSZBPdi0IJVEAF6u6qBfMkyYDk+VXmjpi/pAFpXSwtbuoJ122iMO3ovy7zd54JcM0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3I5faMlbiK2WABI1X3s7NUbtTh8LQQWNgrQ5ilX7d0Y=;
- b=Y8nuJpWWzVUmv++umTScvv/Il6XUpGVUYPQUFiZYTSvHEXwwbV4zI+CMXoBxmv26nnX1ng+4Pe3XyZ7AAFYwmQL5DcQcl8vLKBzM8hXf1znZqiy74cdO74xqqslxiCh2nEiM8oEGtIT1vU3Fm1hOnfioaGexMP8uU0fvPXMoAdk=
-Received: from DM6PR01CA0014.prod.exchangelabs.com (2603:10b6:5:296::19) by
- DM4PR12MB7670.namprd12.prod.outlook.com (2603:10b6:8:105::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7159.23; Wed, 10 Jan 2024 09:45:15 +0000
-Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
- (2603:10b6:5:296:cafe::fc) by DM6PR01CA0014.outlook.office365.com
- (2603:10b6:5:296::19) with Microsoft SMTP Server (version=TLS1_2,
+ bh=1zC5WRwtu6+qO+9CXnFzJPWrGYlpkczne7vfVG5jg8k=;
+ b=wW0951aFk3TgpockNYd7ZRSr0wxwcWQYgB79N7UwMZH+5GuhNgo7+eNaLjc1KPkJWquwd7raN/o3QCH8PBG/CQnwBbuYut+iHEJARIxAtMevnX663ladqqdULoeC8CAfx+3Xw3w//QPfC6pwgNr8HF/Vk/CJiYq2hdEJ5wa0XKs=
+Received: from SN6PR05CA0006.namprd05.prod.outlook.com (2603:10b6:805:de::19)
+ by DM4PR12MB5796.namprd12.prod.outlook.com (2603:10b6:8:63::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Wed, 10 Jan
+ 2024 09:45:46 +0000
+Received: from SA2PEPF00001506.namprd04.prod.outlook.com
+ (2603:10b6:805:de:cafe::a9) by SN6PR05CA0006.outlook.office365.com
+ (2603:10b6:805:de::19) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.18 via Frontend
- Transport; Wed, 10 Jan 2024 09:45:15 +0000
+ Transport; Wed, 10 Jan 2024 09:45:46 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -38,31 +39,35 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
+ SA2PEPF00001506.mail.protection.outlook.com (10.167.242.38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7181.14 via Frontend Transport; Wed, 10 Jan 2024 09:45:15 +0000
+ 15.20.7181.14 via Frontend Transport; Wed, 10 Jan 2024 09:45:46 +0000
 Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 10 Jan
- 2024 03:45:04 -0600
+ 2024 03:45:41 -0600
 Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.34
- via Frontend Transport; Wed, 10 Jan 2024 03:44:59 -0600
+ via Frontend Transport; Wed, 10 Jan 2024 03:45:36 -0600
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <broonie@kernel.org>, <vkoul@kernel.org>
 CC: <alsa-devel@alsa-project.org>, <yung-chuan.liao@linux.intel.com>,
 	<pierre-louis.bossart@linux.intel.com>, <Basavaraj.Hiregoudar@amd.com>,
 	<Sunil-kumar.Dommati@amd.com>, <vinod.koul@intel.com>,
 	<venkataprasad.potturu@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Sanyog Kale <sanyog.r.kale@intel.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Syed Saba
- Kareem" <Syed.SabaKareem@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Marian
- Postevca" <posteuca@mutex.one>, open list <linux-kernel@vger.kernel.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
-	<linux-sound@vger.kernel.org>
-Subject: [PATCH V2 01/13] ASoC/soundwire: implement generic api for scanning amd soundwire controller
-Date: Wed, 10 Jan 2024 15:14:04 +0530
-Message-ID: <20240110094416.853610-2-Vijendar.Mukunda@amd.com>
+	Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, V sujith kumar Reddy
+	<Vsujithkumar.Reddy@amd.com>, Mastan Katragadda <Mastan.Katragadda@amd.com>,
+	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
+	<sound-open-firmware@alsa-project.org>, "open list:SOUND - SOC LAYER /
+ DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH V2 07/13] ASoC: SOF: amd: add code for invoking soundwire manager helper functions
+Date: Wed, 10 Jan 2024 15:14:10 +0530
+Message-ID: <20240110094416.853610-8-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240110094416.853610-1-Vijendar.Mukunda@amd.com>
 References: <20240110094416.853610-1-Vijendar.Mukunda@amd.com>
@@ -76,176 +81,248 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|DM4PR12MB7670:EE_
-X-MS-Office365-Filtering-Correlation-Id: f92c4040-4516-4fc8-7fae-08dc11c0d951
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001506:EE_|DM4PR12MB5796:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8f55c23-fc6f-4a73-8b1d-08dc11c0eb81
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	SW61RYNmTSFzyg8Kw+aaHard+S95epNu6tVkgQk0SgNVfc5aSWLtumfQ4lO1RxD41ziUfpH6tB2aKcW8bT46lYxErxwvB6r/jDopHzBCG9iSIscBQ2UwooxlJ3qUVOL79jhqEj8PQp54Du4bmPdJF5cyhbUIdHsrxRkg4lLnkXKPqM9bX84CWNx33iVbSWXjCi/H8A+vLOItVTXm8KEXDhxAzK0jL0Ty0sgDe3LMN6RtC00gUCzLVHLf+ztx63lQUfcTVJsoSY+Mpy8PBIi+MxhePXc45Wht5Gc5KCRYj4E/PHKjLrBrZC+ys3e5quUtzIs99VyvXZQlbvFQLUsc5U3akH+npVreceOwsTKJynED3zAHJuBvBVo803CB2aCah40Oue15TMb3TnmJ+KSpaNMDyogCLtty6ZsBLUmrdqTZwRSak0jMx5wpc7N3jb7VpphNbAF6i+44EN/l7gBbYUIxXI7nbKNM5hUCPu4b/uheFFW6cecg1TnQHoQnxWE8H+yDjGK5KsmjgjSUrMkRUZkVn8dbgO6BOdiXTZ+nTkUoB7Wfm9D0hf6Q0u/v4qVvy6yfCO+k/776vxwbgKWqihhsVdxsO16c72b2jpw86IpA2ltfNEg7DlGFkZVW7wOO/RTgRXiqVddLSFmk9n74DubwyjIw4qHJS0Mtj3F3ueMV5OEemRF8SnvSBD+qwknfMpVeRkXStwfiA4+iIpU9kb/ilQOKwRUwavWEWkJA8ZxtuPYjLR5FqmkFUrG5FRKdLN275R4CsJ5lXsGjUkDJ4NH7RVLGMU3uNZEyYniS28k=
+	eCisJIHdX/SUSY29y1xymO+O7sCW0RtODA41wV7WBR9egvwyMkE8IsUZddeyY5kzifIObv3e+hcAT5Nbnjmlyq4yXm6YV1g7LPQOEpYEaTPbdqSvCBumoA7Pos7T5/cSOyxUgetxb/Gv9tec85a+m7YdqJUWxmwmwERNR2CyQr7nGHLmZxoM8pzXuQHx44ijlJB1LHtKKHiOrTXOdk7dtELykAyIs51wzCaxVN3GNatLktYYXugXmXGdcxfGgIgXnUQbI3dZcVwzTRYTLF3hVGK5N4+EypVQQh//RP0axYRjfAEUfeCVEENMWGAU3FfArIFFVRcNl3JsImGKYVBLlY0y9u5brDYg/36d68k+3hcgBa8xMQV3F6eUavaEG41C5x+gsQ7FwGzvwkVcjtwncOz7aL4sYAKlic4sEnn7fXE/y2RmkqSsZP2jAjvE5+WmL0ZUuVABk7Cokbydk59lEGQgIA9AkNeCPigsn5C1NvNsP7m7ToR986lR+ZiQsbwCwSdxltAFUidy3d/t3sIbHbkGdVfpkJ3Fs/E7SvufFioWzbq2eLt95af9Q+KpIQlrFxz4Cm4oRH9HnTVm61Bj2ZAcncD+m6nb9AEtKC9raOTbDoFNoDqqDDQxs7pFtrZOx73DHVE/vRdEp7fabfUrRd/CARuC8w6nCNlOf275xNw97L1pSVAnPdSKCwyxqs8N+GwAPkXslSr5n6JVzxS5tcU7WX/ugUsM03WvlxVrwT2QlwG4vLvaeOb16KrmMdRyfuaqB1iahFcc7mNFShlOjw==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(39860400002)(136003)(346002)(230922051799003)(186009)(82310400011)(64100799003)(1800799012)(451199024)(36840700001)(46966006)(40470700004)(478600001)(4326008)(8676002)(8936002)(36860700001)(70206006)(426003)(110136005)(54906003)(316002)(336012)(70586007)(26005)(1076003)(83380400001)(7696005)(6666004)(2616005)(47076005)(5660300002)(2906002)(7416002)(41300700001)(36756003)(82740400003)(81166007)(356005)(86362001)(40480700001)(40460700003)(41533002)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(346002)(39860400002)(136003)(230922051799003)(451199024)(186009)(82310400011)(64100799003)(1800799012)(40470700004)(46966006)(36840700001)(83380400001)(26005)(336012)(426003)(2616005)(82740400003)(47076005)(1076003)(36860700001)(4326008)(8676002)(8936002)(7416002)(5660300002)(2906002)(7696005)(6666004)(478600001)(54906003)(316002)(110136005)(70586007)(41300700001)(70206006)(81166007)(356005)(36756003)(86362001)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 09:45:15.6064
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 09:45:46.1671
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f92c4040-4516-4fc8-7fae-08dc11c0d951
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8f55c23-fc6f-4a73-8b1d-08dc11c0eb81
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE37.namprd05.prod.outlook.com
+	SA2PEPF00001506.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7670
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5796
 
-Implement generic function for scanning SoundWire controller.
-Same function will be used for legacy and sof stack for AMD platforms.
+Add code for invoking Soundwire manager helper functions
+when SoundWire configuration is selected.
 
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- include/linux/soundwire/sdw_amd.h | 15 ++++++++
- sound/soc/amd/acp/Kconfig         |  7 ++++
- sound/soc/amd/acp/Makefile        |  2 +
- sound/soc/amd/acp/amd-sdw-acpi.c  | 62 +++++++++++++++++++++++++++++++
- 4 files changed, 86 insertions(+)
- create mode 100644 sound/soc/amd/acp/amd-sdw-acpi.c
+ sound/soc/sof/amd/Kconfig | 17 +++++++
+ sound/soc/sof/amd/acp.c   | 99 ++++++++++++++++++++++++++++++++++++++-
+ sound/soc/sof/amd/acp.h   | 15 +++++-
+ 3 files changed, 129 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/soundwire/sdw_amd.h b/include/linux/soundwire/sdw_amd.h
-index ceecad74aef9..41dd64941cef 100644
---- a/include/linux/soundwire/sdw_amd.h
-+++ b/include/linux/soundwire/sdw_amd.h
-@@ -6,6 +6,7 @@
- #ifndef __SDW_AMD_H
- #define __SDW_AMD_H
+diff --git a/sound/soc/sof/amd/Kconfig b/sound/soc/sof/amd/Kconfig
+index 19c5e27a193f..1cea1d75130c 100644
+--- a/sound/soc/sof/amd/Kconfig
++++ b/sound/soc/sof/amd/Kconfig
+@@ -60,6 +60,23 @@ config SND_SOC_SOF_ACP_PROBES
+ 	  This option is not user-selectable but automatically handled by
+ 	  'select' statements at a higher level
  
-+#include <linux/acpi.h>
- #include <linux/soundwire/sdw.h>
- 
- /* AMD pm_runtime quirk definitions */
-@@ -106,4 +107,18 @@ struct amd_sdw_manager {
- 
- 	struct sdw_amd_dai_runtime **dai_runtime_array;
- };
++config SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE
++	tristate
++	select SOUNDWIRE_AMD if SND_SOC_SOF_AMD_SOUNDWIRE != n
++	select SND_AMD_SOUNDWIRE_ACPI if ACPI
 +
-+/**
-+ * struct sdw_amd_acpi_info - Soundwire AMD information found in ACPI tables
-+ * @handle: ACPI controller handle
-+ * @count: maximum no of soundwire manager links supported on AMD platform.
-+ * @link_mask: bit-wise mask listing links enabled by BIOS menu
-+ */
-+struct sdw_amd_acpi_info {
-+	acpi_handle handle;
-+	int count;
-+	u32 link_mask;
-+};
-+
-+int amd_sdw_scan_controller(struct sdw_amd_acpi_info *info);
- #endif
-diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
-index 84c963241dc5..b3105ba9c3a3 100644
---- a/sound/soc/amd/acp/Kconfig
-+++ b/sound/soc/amd/acp/Kconfig
-@@ -101,6 +101,13 @@ config SND_SOC_AMD_MACH_COMMON
- 	help
- 	  This option enables common Machine driver module for ACP.
- 
-+config SND_AMD_SOUNDWIRE_ACPI
-+	tristate "AMD SoundWire ACPI Support"
-+	depends on ACPI
++config SND_SOC_SOF_AMD_SOUNDWIRE
++	tristate "SOF support for SoundWire based AMD platforms"
++	default SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE
++	depends on SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE
++	depends on ACPI && SOUNDWIRE
++	depends on !(SOUNDWIRE=m && SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE=y)
 +	help
-+	  This options enables ACPI helper functions for SoundWire
-+	  interface for AMD platforms.
++	  This adds support for SoundWire with Sound Open Firmware
++	  for AMD platforms.
++	  Say Y if you want to enable SoundWire links with SOF.
++	  If unsure select "N".
 +
- config SND_SOC_AMD_LEGACY_MACH
- 	tristate "AMD Legacy Machine Driver Support"
- 	depends on X86 && PCI && I2C
-diff --git a/sound/soc/amd/acp/Makefile b/sound/soc/amd/acp/Makefile
-index ff5f7893b81e..1fd581a2aa33 100644
---- a/sound/soc/amd/acp/Makefile
-+++ b/sound/soc/amd/acp/Makefile
-@@ -10,6 +10,7 @@ snd-acp-i2s-objs     := acp-i2s.o
- snd-acp-pdm-objs     := acp-pdm.o
- snd-acp-legacy-common-objs   := acp-legacy-common.o
- snd-acp-pci-objs     := acp-pci.o
-+snd-amd-sdw-acpi-objs := amd-sdw-acpi.o
+ config SND_SOC_SOF_AMD_ACP63
+ 	tristate "SOF support for ACP6.3 platform"
+ 	depends on SND_SOC_SOF_PCI
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 32a741fcb84f..f24cd6b7490f 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -491,6 +491,81 @@ int amd_sof_acp_resume(struct snd_sof_dev *sdev)
+ }
+ EXPORT_SYMBOL_NS(amd_sof_acp_resume, SND_SOC_SOF_AMD_COMMON);
  
- #platform specific driver
- snd-acp-renoir-objs     := acp-renoir.o
-@@ -33,6 +34,7 @@ obj-$(CONFIG_SND_AMD_ASOC_REMBRANDT) += snd-acp-rembrandt.o
- obj-$(CONFIG_SND_AMD_ASOC_ACP63) += snd-acp63.o
- obj-$(CONFIG_SND_AMD_ASOC_ACP70) += snd-acp70.o
- 
-+obj-$(CONFIG_SND_AMD_SOUNDWIRE_ACPI) += snd-amd-sdw-acpi.o
- obj-$(CONFIG_SND_SOC_AMD_MACH_COMMON) += snd-acp-mach.o
- obj-$(CONFIG_SND_SOC_AMD_LEGACY_MACH) += snd-acp-legacy-mach.o
- obj-$(CONFIG_SND_SOC_AMD_SOF_MACH) += snd-acp-sof-mach.o
-diff --git a/sound/soc/amd/acp/amd-sdw-acpi.c b/sound/soc/amd/acp/amd-sdw-acpi.c
-new file mode 100644
-index 000000000000..babd841d3296
---- /dev/null
-+++ b/sound/soc/amd/acp/amd-sdw-acpi.c
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
-+//
-+// This file is provided under a dual BSD/GPLv2 license. When using or
-+// redistributing this file, you may do so under either license.
-+//
-+// Copyright(c) 2023 Advanced Micro Devices, Inc. All rights reserved.
-+//
-+// Authors: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-+
-+/*
-+ * SDW AMD ACPI scan helper function
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/bits.h>
-+#include <linux/bitfield.h>
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/export.h>
-+#include <linux/fwnode.h>
-+#include <linux/module.h>
-+#include <linux/soundwire/sdw_amd.h>
-+#include <linux/string.h>
-+
-+int amd_sdw_scan_controller(struct sdw_amd_acpi_info *info)
++#if IS_ENABLED(CONFIG_SND_SOC_SOF_AMD_SOUNDWIRE)
++static int acp_sof_scan_sdw_devices(struct snd_sof_dev *sdev, u64 addr)
 +{
-+	struct acpi_device *adev = acpi_fetch_acpi_dev(info->handle);
-+	u32 sdw_bitmap = 0;
-+	u8 count = 0;
++	struct acpi_device *sdw_dev;
++	struct acp_dev_data *acp_data;
++	const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
++
++	if (!addr)
++		return -ENODEV;
++
++	acp_data = sdev->pdata->hw_pdata;
++	sdw_dev = acpi_find_child_device(ACPI_COMPANION(sdev->dev), addr, 0);
++	if (!sdw_dev)
++		return -ENODEV;
++
++	acp_data->info.handle = sdw_dev->handle;
++	acp_data->info.count = desc->sdw_max_link_count;
++
++	return amd_sdw_scan_controller(&acp_data->info);
++}
++
++static int amd_sof_sdw_probe(struct snd_sof_dev *sdev)
++{
++	struct acp_dev_data *acp_data;
++	struct sdw_amd_res sdw_res;
 +	int ret;
 +
-+	if (!adev)
-+		return -EINVAL;
++	acp_data = sdev->pdata->hw_pdata;
 +
-+	/* Found controller, find links supported */
-+	ret = fwnode_property_read_u32_array(acpi_fwnode_handle(adev),
-+					     "mipi-sdw-manager-list", &sdw_bitmap, 1);
-+	if (ret) {
-+		dev_err(&adev->dev,
-+			"Failed to read mipi-sdw-manager-list: %d\n", ret);
-+		return -EINVAL;
-+	}
-+	count = hweight32(sdw_bitmap);
-+	/* Check count is within bounds */
-+	if (count > info->count) {
-+		dev_err(&adev->dev, "Manager count %d exceeds max %d\n",
-+			count, info->count);
-+		return -EINVAL;
-+	}
++	memset(&sdw_res, 0, sizeof(sdw_res));
++	sdw_res.addr = acp_data->addr;
++	sdw_res.reg_range = acp_data->reg_range;
++	sdw_res.handle = acp_data->info.handle;
++	sdw_res.parent = sdev->dev;
++	sdw_res.dev = sdev->dev;
++	sdw_res.acp_lock = &acp_data->acp_lock;
++	sdw_res.count = acp_data->info.count;
++	sdw_res.link_mask = acp_data->info.link_mask;
++	sdw_res.mmio_base = sdev->bar[ACP_DSP_BAR];
 +
-+	if (!count) {
-+		dev_dbg(&adev->dev, "No SoundWire Managers detected\n");
-+		return -EINVAL;
-+	}
-+	dev_dbg(&adev->dev, "ACPI reports %d SoundWire Manager devices\n", count);
-+	info->link_mask = sdw_bitmap;
++	ret = sdw_amd_probe(&sdw_res, &acp_data->sdw);
++	if (ret)
++		dev_err(sdev->dev, "SoundWire probe failed\n");
++	return ret;
++}
++
++static int amd_sof_sdw_exit(struct snd_sof_dev *sdev)
++{
++	struct acp_dev_data *acp_data;
++
++	acp_data = sdev->pdata->hw_pdata;
++	if (acp_data->sdw)
++		sdw_amd_exit(acp_data->sdw);
++	acp_data->sdw = NULL;
++
 +	return 0;
 +}
-+EXPORT_SYMBOL_NS(amd_sdw_scan_controller, SND_AMD_SOUNDWIRE_ACPI);
 +
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("AMD SoundWire ACPI helpers");
++#else
++static int acp_sof_scan_sdw_devices(struct snd_sof_dev *sdev, u64 addr)
++{
++	return 0;
++}
++
++static int amd_sof_sdw_probe(struct snd_sof_dev *sdev)
++{
++	return 0;
++}
++
++static int amd_sof_sdw_exit(struct snd_sof_dev *sdev)
++{
++	return 0;
++}
++#endif
++
+ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ {
+ 	struct pci_dev *pci = to_pci_dev(sdev->dev);
+@@ -527,7 +602,9 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ 	}
+ 
+ 	pci_set_master(pci);
+-
++	adata->addr = addr;
++	adata->reg_range = chip->reg_end_addr - chip->reg_start_addr;
++	mutex_init(&adata->acp_lock);
+ 	sdev->pdata->hw_pdata = adata;
+ 	adata->smn_dev = pci_get_device(PCI_VENDOR_ID_AMD, chip->host_bridge_id, NULL);
+ 	if (!adata->smn_dev) {
+@@ -549,6 +626,21 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ 	if (ret < 0)
+ 		goto free_ipc_irq;
+ 
++	/* scan SoundWire capabilities exposed by DSDT */
++	ret = acp_sof_scan_sdw_devices(sdev, chip->sdw_acpi_dev_addr);
++	if (ret < 0) {
++		dev_dbg(sdev->dev, "skipping SoundWire, not detected with ACPI scan\n");
++		goto skip_soundwire;
++	}
++	ret = amd_sof_sdw_probe(sdev);
++	if (ret < 0) {
++		dev_err(sdev->dev, "error: SoundWire probe error\n");
++		free_irq(sdev->ipc_irq, sdev);
++		pci_dev_put(adata->smn_dev);
++		return ret;
++	}
++
++skip_soundwire:
+ 	sdev->dsp_box.offset = 0;
+ 	sdev->dsp_box.size = BOX_SIZE_512;
+ 
+@@ -596,6 +688,9 @@ void amd_sof_acp_remove(struct snd_sof_dev *sdev)
+ 	if (adata->smn_dev)
+ 		pci_dev_put(adata->smn_dev);
+ 
++	if (adata->sdw)
++		amd_sof_sdw_exit(sdev);
++
+ 	if (sdev->ipc_irq)
+ 		free_irq(sdev->ipc_irq, sdev);
+ 
+@@ -607,4 +702,6 @@ void amd_sof_acp_remove(struct snd_sof_dev *sdev)
+ EXPORT_SYMBOL_NS(amd_sof_acp_remove, SND_SOC_SOF_AMD_COMMON);
+ 
+ MODULE_DESCRIPTION("AMD ACP sof driver");
++MODULE_IMPORT_NS(SOUNDWIRE_AMD_INIT);
++MODULE_IMPORT_NS(SND_AMD_SOUNDWIRE_ACPI);
+ MODULE_LICENSE("Dual BSD/GPL");
+diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
+index c645aee216fd..e88d01330ec7 100644
+--- a/sound/soc/sof/amd/acp.h
++++ b/sound/soc/sof/amd/acp.h
+@@ -12,7 +12,7 @@
+ #define __SOF_AMD_ACP_H
+ 
+ #include <linux/dmi.h>
+-
++#include <linux/soundwire/sdw_amd.h>
+ #include "../sof-priv.h"
+ #include "../sof-audio.h"
+ 
+@@ -191,6 +191,10 @@ struct sof_amd_acp_desc {
+ 	u32 acp_clkmux_sel;
+ 	u32 fusion_dsp_offset;
+ 	u32 probe_reg_offset;
++	u32 reg_start_addr;
++	u32 reg_end_addr;
++	u32 sdw_max_link_count;
++	u64 sdw_acpi_dev_addr;
+ };
+ 
+ /* Common device data struct for ACP devices */
+@@ -199,6 +203,12 @@ struct acp_dev_data {
+ 	const struct firmware *fw_dbin;
+ 	/* DMIC device */
+ 	struct platform_device *dmic_dev;
++	/* mutex lock to protect ACP common registers access */
++	struct mutex acp_lock;
++	/* ACPI information stored between scan and probe steps */
++	struct sdw_amd_acpi_info info;
++	/* sdw context allocated by SoundWire driver */
++	struct sdw_amd_ctx *sdw;
+ 	unsigned int fw_bin_size;
+ 	unsigned int fw_data_bin_size;
+ 	unsigned int fw_sram_data_bin_size;
+@@ -207,6 +217,9 @@ struct acp_dev_data {
+ 	const char *fw_sram_data_bin;
+ 	u32 fw_bin_page_count;
+ 	u32 fw_data_bin_page_count;
++	u32 addr;
++	u32 reg_range;
++	u32 blk_type;
+ 	dma_addr_t sha_dma_addr;
+ 	u8 *bin_buf;
+ 	dma_addr_t dma_addr;
 -- 
 2.34.1
 
