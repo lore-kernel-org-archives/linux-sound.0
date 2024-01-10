@@ -1,112 +1,88 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B07447F71
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jan 2024 11:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150AC803;
+	Wed, 10 Jan 2024 11:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="owOMXJMe"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40e4d64a3d8so24950525e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jan 2024 03:20:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704885632; x=1705490432; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=vlqGHcDi/Sy4uBIl5Jnr3cngTZ3e/jHWYQNYtZZtTZE=;
-        b=owOMXJMeofa3oGLWuav2HeouMg7Kk20O8ydAAjBLgIwIHRLxsyOqgrY4eHB7GKGzIX
-         rQVLHRUnfg0DIPb5rH4VJn5wN++fX73XucgaZkA1bFYFuAeVVYF5jnGYZC+JUnCdPKFV
-         zrdJ+tNvYZ8xDqfcaJwY3zpayAXwPKTW7vdWvk3Lp7TAnx5hoK4a9PiWXaspTo8vba7+
-         F7XWJ4EpkA+o7NPAD3HrKuV0cxXDRYobTSnzIHDFhMQVMQrRG042F4t5hkOcSS539m1t
-         Fm3rcLi1AHCq0OS/3D0zn4IQAw8LabfUN9At4RKrDwpsnIpqzRsKB/nESQzI1kWweHP7
-         skaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704885632; x=1705490432;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vlqGHcDi/Sy4uBIl5Jnr3cngTZ3e/jHWYQNYtZZtTZE=;
-        b=eW3KSjQFDG/PP/tabqsmCRphMR08s5YfCGNr+JlXWErBx5W5Woi6iU7RfoMYhYcDZQ
-         Uy5zFnQkjkXqsGS03IcTvJqT31FwMUp6nnQF3msIA4F2i8IAaqspwYdnaNdQDhAZHQPc
-         JTl5Eod90D41D47UQpa/NVFTNQWQbYC0wR5G0HpjkTE19KUERsD+921WIV1FJ7Qw8Vym
-         RgJ3dordTqIJnKFUgz/G3ydOyIEW4hLtphq+fQfPjYLethvLxUeoqjnK2gXWmxsrPWbf
-         nKvGSdnd44dO+wcPLij11gWCva6dSVEnAKsZADWxxCHdPfUW31JfH40XQTNhINwD0v28
-         ZUyQ==
-X-Gm-Message-State: AOJu0YzQT6BMV0QkWlr/UkB7DX8kbJRo6BZAFoXwXcpOqQFRqMWrAQOP
-	T8nn1GxAwka1Y6LrTeOQoTBUz2Zg6Mxdrg==
-X-Google-Smtp-Source: AGHT+IHbFpGfeZfC9AI5PuT+WFKOB6Wfi932nxWEAg0oL5APRSxrD72gbhMFpBecRdk6idA3QUls+A==
-X-Received: by 2002:a05:600c:198a:b0:40e:3b3a:aeb0 with SMTP id t10-20020a05600c198a00b0040e3b3aaeb0mr455216wmq.156.1704885632252;
-        Wed, 10 Jan 2024 03:20:32 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:9eb:66c9:5f1b:87ab])
-        by smtp.gmail.com with ESMTPSA id n15-20020a05600c3b8f00b0040d5a5c523csm1858810wms.1.2024.01.10.03.20.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 03:20:31 -0800 (PST)
-References: <20240109213812.558492-1-krzysztof.kozlowski@linaro.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Mark Brown
- <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLl5KJoI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94CDAC433F1;
+	Wed, 10 Jan 2024 11:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704886634;
+	bh=mwJrCpsKvuUCqcMvNxsHnQZmtYyfQD9QX3G8uiaffuQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TLl5KJoIiS72N38mQw9egsP0cnZ89Kvj5RF5MUorG0cl7hSslxX8G7NxfXiwkdpyH
+	 SA+zfbuR12Cl/uUrInXED9S2i9I/2EdLGrpLU6rsPAV9eXK743H4NTqVBSONGyifJw
+	 7ko/f8B/4v5OjJYiaDcRTMNtOTIixdRa+ATiEf9dqCYDrP1f3SxwnbrzfonaU1lzxE
+	 0hQLPZArQDUy3izg6lsdcnMJnNhnUjHWH6NmBt1V1UfLaaS+9/h8jtJsm+60ZOetI5
+	 hFZKvmBFbmER3Xr7M8JakP5barYxMTf9laImGOteBPBs//hJAOjrsZAD6/fTyHBD1f
+	 3EtCKQ5rHeprA==
+Date: Wed, 10 Jan 2024 11:37:09 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ASoC: dt-bindings: dai-common: Narrow possible
  sound-dai-cells
-Date: Wed, 10 Jan 2024 12:07:30 +0100
-In-reply-to: <20240109213812.558492-1-krzysztof.kozlowski@linaro.org>
-Message-ID: <1ja5pdzb7k.fsf@starbuckisacylon.baylibre.com>
+Message-ID: <7e312b05-857f-40a6-a1a1-a954dfea7044@sirena.org.uk>
+References: <20240109213812.558492-1-krzysztof.kozlowski@linaro.org>
+ <1ja5pdzb7k.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uPIbnbsl4a7wx/f4"
+Content-Disposition: inline
+In-Reply-To: <1ja5pdzb7k.fsf@starbuckisacylon.baylibre.com>
+X-Cookie: Do you have lysdexia?
 
 
-On Tue 09 Jan 2024 at 22:38, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+--uPIbnbsl4a7wx/f4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Instead of accepting any value for sound-dai-cells, the common DAI
-> properties schema should narrow them to sane choice.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
+On Wed, Jan 10, 2024 at 12:07:30PM +0100, Jerome Brunet wrote:
+> On Tue 09 Jan 2024 at 22:38, Krzysztof Kozlowski <krzysztof.kozlowski@lin=
+aro.org> wrote:
+>=20
+> > Instead of accepting any value for sound-dai-cells, the common DAI
+> > properties schema should narrow them to sane choice.
 
-Adding a constraint solely based on current usage feels wrong.
+> Adding a constraint solely based on current usage feels wrong.
 
-A DAI provider in its generic form must have the sound-dai-cells to
-provide one. It says nothing about how many parameters an actual device
-might need. That is the idea behind this binding.
+> A DAI provider in its generic form must have the sound-dai-cells to
+> provide one. It says nothing about how many parameters an actual device
+> might need. That is the idea behind this binding.
 
-It is up to the device specific bindings to define that value.
+> It is up to the device specific bindings to define that value.
 
-If restricting things here is really important, defaulting to 0 (with a
-comment explaining it) and letting actual devices then override the
-value would feel less 'made up'
+> If restricting things here is really important, defaulting to 0 (with a
+> comment explaining it) and letting actual devices then override the
+> value would feel less 'made up'
 
-> ---
->
-> Mostly sound-dai-cells are 0 or 1, but
-> Documentation/devicetree/bindings/sound/amlogic,aiu.yaml has value of 2.
-> ---
->  Documentation/devicetree/bindings/sound/dai-common.yaml | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/sound/dai-common.yaml b/Documentation/devicetree/bindings/sound/dai-common.yaml
-> index 1aed2f0f1775..6db35887cbe6 100644
-> --- a/Documentation/devicetree/bindings/sound/dai-common.yaml
-> +++ b/Documentation/devicetree/bindings/sound/dai-common.yaml
-> @@ -13,6 +13,7 @@ allOf:
->    - $ref: component-common.yaml#
->  
->  properties:
-> -  '#sound-dai-cells': true
-> +  '#sound-dai-cells':
-> +    enum: [0, 1, 2]
->  
->  additionalProperties: true
+I tend to agree.
 
+--uPIbnbsl4a7wx/f4
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Jerome
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWegWQACgkQJNaLcl1U
+h9Dc7wf+P2n83klonD5EiADHNArTPBrzWtVooyEDf3soqckt8MR+DtlIo0460+NS
+2oTbfl6e2b1tYShEhraljnpAewMBnsexZWfnszWDt6aMtm1MBQxj0TnK0LTIp6lz
+CYr5voMqzQtQaJOO2XqdlExuT7oK34tf1JA8yg7699wqsdrrPrYq0cYZw3QOMCJx
+i0bTfY4dMNNmBahx9aNeoQdIOfu0272dk9Rj9d8U7TwN3vQSFnt0kz3/bswGhjCx
+gKs81/Kn/sChLbTOzZel4Ctw/AAFBUYpnVsm+JZwpp3ma77LTnmFWw1ogEXq4HZl
+yEfxszZgp4ylkHQ5WLPSFFkR9D5qHw==
+=W+Yk
+-----END PGP SIGNATURE-----
+
+--uPIbnbsl4a7wx/f4--
