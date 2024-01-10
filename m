@@ -1,246 +1,112 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A980B47762;
-	Wed, 10 Jan 2024 10:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B07447F71
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jan 2024 11:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZZyHrYV3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704884294;
-	bh=ejCQ/B2168XNcMV52MIKqts9e15VwfWaFghCB5BVK5M=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZZyHrYV3/0myTKoWch/rgpBIlOIGYxgRA1mywFfFpVBmqCBn9/9zFri/PCwHKtDm8
-	 VBzZXQF28pRNt3yryKEPWeLBMxIK8IdBwRk/3y4JnPUwgPg4yk/C2OiEmBFvOKAOzn
-	 9PyMICsaY/bVtP1YUh0qnXBcydNwdryl37wgf67EFayGxaZqFrZTL2q94jItQLKg/N
-	 Q0e8CnDgQa+GD6IqkcobAFTv/e8mRFvXh8kt3pbZZ4Li2y75ipw7pGUEqjeDVoqHbR
-	 /GHZLCtopQ4/BgvkMQ38FEJI2RinLXuQz6Bd5yEu+aKFzlS3KE/0Hiw7lAWyguGcdG
-	 1NDRZi+UR0WZw==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A85273780C21;
-	Wed, 10 Jan 2024 10:58:13 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	u.kleine-koenig@pengutronix.de,
-	kuninori.morimoto.gx@renesas.com,
-	trevor.wu@mediatek.com,
-	jernej.skrabec@gmail.com,
-	claudiu.beznea@tuxon.dev,
-	robh@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link
-Date: Wed, 10 Jan 2024 11:57:57 +0100
-Message-ID: <20240110105757.539089-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="owOMXJMe"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40e4d64a3d8so24950525e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jan 2024 03:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704885632; x=1705490432; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=vlqGHcDi/Sy4uBIl5Jnr3cngTZ3e/jHWYQNYtZZtTZE=;
+        b=owOMXJMeofa3oGLWuav2HeouMg7Kk20O8ydAAjBLgIwIHRLxsyOqgrY4eHB7GKGzIX
+         rQVLHRUnfg0DIPb5rH4VJn5wN++fX73XucgaZkA1bFYFuAeVVYF5jnGYZC+JUnCdPKFV
+         zrdJ+tNvYZ8xDqfcaJwY3zpayAXwPKTW7vdWvk3Lp7TAnx5hoK4a9PiWXaspTo8vba7+
+         F7XWJ4EpkA+o7NPAD3HrKuV0cxXDRYobTSnzIHDFhMQVMQrRG042F4t5hkOcSS539m1t
+         Fm3rcLi1AHCq0OS/3D0zn4IQAw8LabfUN9At4RKrDwpsnIpqzRsKB/nESQzI1kWweHP7
+         skaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704885632; x=1705490432;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vlqGHcDi/Sy4uBIl5Jnr3cngTZ3e/jHWYQNYtZZtTZE=;
+        b=eW3KSjQFDG/PP/tabqsmCRphMR08s5YfCGNr+JlXWErBx5W5Woi6iU7RfoMYhYcDZQ
+         Uy5zFnQkjkXqsGS03IcTvJqT31FwMUp6nnQF3msIA4F2i8IAaqspwYdnaNdQDhAZHQPc
+         JTl5Eod90D41D47UQpa/NVFTNQWQbYC0wR5G0HpjkTE19KUERsD+921WIV1FJ7Qw8Vym
+         RgJ3dordTqIJnKFUgz/G3ydOyIEW4hLtphq+fQfPjYLethvLxUeoqjnK2gXWmxsrPWbf
+         nKvGSdnd44dO+wcPLij11gWCva6dSVEnAKsZADWxxCHdPfUW31JfH40XQTNhINwD0v28
+         ZUyQ==
+X-Gm-Message-State: AOJu0YzQT6BMV0QkWlr/UkB7DX8kbJRo6BZAFoXwXcpOqQFRqMWrAQOP
+	T8nn1GxAwka1Y6LrTeOQoTBUz2Zg6Mxdrg==
+X-Google-Smtp-Source: AGHT+IHbFpGfeZfC9AI5PuT+WFKOB6Wfi932nxWEAg0oL5APRSxrD72gbhMFpBecRdk6idA3QUls+A==
+X-Received: by 2002:a05:600c:198a:b0:40e:3b3a:aeb0 with SMTP id t10-20020a05600c198a00b0040e3b3aaeb0mr455216wmq.156.1704885632252;
+        Wed, 10 Jan 2024 03:20:32 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:9eb:66c9:5f1b:87ab])
+        by smtp.gmail.com with ESMTPSA id n15-20020a05600c3b8f00b0040d5a5c523csm1858810wms.1.2024.01.10.03.20.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 03:20:31 -0800 (PST)
+References: <20240109213812.558492-1-krzysztof.kozlowski@linaro.org>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Mark Brown
+ <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: dai-common: Narrow possible
+ sound-dai-cells
+Date: Wed, 10 Jan 2024 12:07:30 +0100
+In-reply-to: <20240109213812.558492-1-krzysztof.kozlowski@linaro.org>
+Message-ID: <1ja5pdzb7k.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Remove the extra 'mt8195-afe-pcm-dai' component, register the DAI
-drivers to the main AFE component, and rework the DAI linking between
-the headset codec (RT5682/RT5682S) and the TDM interface in the probe
-function to stop assigning name, relying on the of_node of the codec.
-Also replace the COMP_DUMMY codec entry with a COMP_EMPTY for the
-ETDM2_IN and remove it entirely from ETDM1_OUT to fix the registration
-flow for this sound card.
 
-While at it, since we also need to swap the codec init function from
-ETDM2_IN to ETDM1_OUT, remove the static assignment of both `ops` and
-`init` for both, as we now assign these dynamically during probe.
+On Tue 09 Jan 2024 at 22:38, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_DUMMY()")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
+> Instead of accepting any value for sound-dai-cells, the common DAI
+> properties schema should narrow them to sane choice.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
 
-This was tested on the MT8195 Cherry Tomato Chromebook w/Pipewire:
-audio works again with both internal speakers and 3.5mm jack.
-As a (mostly personal) note, this driver's probe function should get
-refactored at some point to rely on snd_soc_of_parse_audio_routing()
-instead; I plan to do that as soon as I can (bandwidth permitting...!)
+Adding a constraint solely based on current usage feels wrong.
 
- sound/soc/mediatek/mt8195/mt8195-afe-pcm.c | 33 +----------------
- sound/soc/mediatek/mt8195/mt8195-mt6359.c  | 41 +++++++++++++++-------
- 2 files changed, 29 insertions(+), 45 deletions(-)
+A DAI provider in its generic form must have the sound-dai-cells to
+provide one. It says nothing about how many parameters an actual device
+might need. That is the idea behind this binding.
 
-diff --git a/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c b/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c
-index 1e33863c85ca..620d7ade1992 100644
---- a/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c
-@@ -1795,10 +1795,6 @@ static const struct snd_kcontrol_new mt8195_memif_controls[] = {
- 			    MT8195_AFE_IRQ_28),
- };
- 
--static const struct snd_soc_component_driver mt8195_afe_pcm_dai_component = {
--	.name = "mt8195-afe-pcm-dai",
--};
--
- static const struct mtk_base_memif_data memif_data[MT8195_AFE_MEMIF_NUM] = {
- 	[MT8195_AFE_MEMIF_DL2] = {
- 		.name = "DL2",
-@@ -3037,7 +3033,6 @@ static int mt8195_afe_pcm_dev_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct reset_control *rstc;
- 	int i, irq_id, ret;
--	struct snd_soc_component *component;
- 
- 	ret = of_reserved_mem_device_init(dev);
- 	if (ret)
-@@ -3170,36 +3165,12 @@ static int mt8195_afe_pcm_dev_probe(struct platform_device *pdev)
- 
- 	/* register component */
- 	ret = devm_snd_soc_register_component(dev, &mt8195_afe_component,
--					      NULL, 0);
-+					      afe->dai_drivers, afe->num_dai_drivers);
- 	if (ret) {
- 		dev_warn(dev, "err_platform\n");
- 		goto err_pm_put;
- 	}
- 
--	component = devm_kzalloc(dev, sizeof(*component), GFP_KERNEL);
--	if (!component) {
--		ret = -ENOMEM;
--		goto err_pm_put;
--	}
--
--	ret = snd_soc_component_initialize(component,
--					   &mt8195_afe_pcm_dai_component,
--					   dev);
--	if (ret)
--		goto err_pm_put;
--
--#ifdef CONFIG_DEBUG_FS
--	component->debugfs_prefix = "pcm";
--#endif
--
--	ret = snd_soc_add_component(component,
--				    afe->dai_drivers,
--				    afe->num_dai_drivers);
--	if (ret) {
--		dev_warn(dev, "err_dai_component\n");
--		goto err_pm_put;
--	}
--
- 	ret = regmap_multi_reg_write(afe->regmap, mt8195_afe_reg_defaults,
- 				     ARRAY_SIZE(mt8195_afe_reg_defaults));
- 	if (ret)
-@@ -3224,8 +3195,6 @@ static int mt8195_afe_pcm_dev_probe(struct platform_device *pdev)
- 
- static void mt8195_afe_pcm_dev_remove(struct platform_device *pdev)
- {
--	snd_soc_unregister_component(&pdev->dev);
--
- 	pm_runtime_disable(&pdev->dev);
- 	if (!pm_runtime_status_suspended(&pdev->dev))
- 		mt8195_afe_runtime_suspend(&pdev->dev);
-diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-index 4feb9fb76967..53fd8a897b9d 100644
---- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-+++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-@@ -934,12 +934,11 @@ SND_SOC_DAILINK_DEFS(ETDM1_IN_BE,
- 
- SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
- 		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM2_IN")),
--		     DAILINK_COMP_ARRAY(COMP_DUMMY()),
-+		     DAILINK_COMP_ARRAY(COMP_EMPTY()),
- 		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
- 
- SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
- 		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
--		     DAILINK_COMP_ARRAY(COMP_DUMMY()),
- 		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
- 
- SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
-@@ -1237,8 +1236,6 @@ static struct snd_soc_dai_link mt8195_mt6359_dai_links[] = {
- 			SND_SOC_DAIFMT_NB_NF |
- 			SND_SOC_DAIFMT_CBS_CFS,
- 		.dpcm_capture = 1,
--		.init = mt8195_rt5682_init,
--		.ops = &mt8195_rt5682_etdm_ops,
- 		.be_hw_params_fixup = mt8195_etdm_hw_params_fixup,
- 		SND_SOC_DAILINK_REG(ETDM2_IN_BE),
- 	},
-@@ -1249,7 +1246,6 @@ static struct snd_soc_dai_link mt8195_mt6359_dai_links[] = {
- 			SND_SOC_DAIFMT_NB_NF |
- 			SND_SOC_DAIFMT_CBS_CFS,
- 		.dpcm_playback = 1,
--		.ops = &mt8195_rt5682_etdm_ops,
- 		.be_hw_params_fixup = mt8195_etdm_hw_params_fixup,
- 		SND_SOC_DAILINK_REG(ETDM1_OUT_BE),
- 	},
-@@ -1381,7 +1377,7 @@ static int mt8195_mt6359_dev_probe(struct platform_device *pdev)
- 	struct snd_soc_dai_link *dai_link;
- 	struct mtk_soc_card_data *soc_card_data;
- 	struct mt8195_mt6359_priv *mach_priv;
--	struct device_node *platform_node, *adsp_node, *dp_node, *hdmi_node;
-+	struct device_node *platform_node, *adsp_node, *codec_node, *dp_node, *hdmi_node;
- 	struct mt8195_card_data *card_data;
- 	int is5682s = 0;
- 	int init6359 = 0;
-@@ -1401,8 +1397,12 @@ static int mt8195_mt6359_dev_probe(struct platform_device *pdev)
- 	if (!card->name)
- 		card->name = card_data->name;
- 
--	if (strstr(card->name, "_5682s"))
-+	if (strstr(card->name, "_5682s")) {
-+		codec_node = of_find_compatible_node(NULL, NULL, "realtek,rt5682s");
- 		is5682s = 1;
-+	} else
-+		codec_node = of_find_compatible_node(NULL, NULL, "realtek,rt5682i");
-+
- 	soc_card_data = devm_kzalloc(&pdev->dev, sizeof(*card_data), GFP_KERNEL);
- 	if (!soc_card_data)
- 		return -ENOMEM;
-@@ -1488,12 +1488,27 @@ static int mt8195_mt6359_dev_probe(struct platform_device *pdev)
- 				dai_link->codecs->dai_name = "i2s-hifi";
- 				dai_link->init = mt8195_hdmi_codec_init;
- 			}
--		} else if (strcmp(dai_link->name, "ETDM1_OUT_BE") == 0 ||
--			   strcmp(dai_link->name, "ETDM2_IN_BE") == 0) {
--			dai_link->codecs->name =
--				is5682s ? RT5682S_DEV0_NAME : RT5682_DEV0_NAME;
--			dai_link->codecs->dai_name =
--				is5682s ? RT5682S_CODEC_DAI : RT5682_CODEC_DAI;
-+		} else if (strcmp(dai_link->name, "ETDM1_OUT_BE") == 0) {
-+			if (!codec_node) {
-+				dev_err(&pdev->dev, "Codec not found!\n");
-+			} else {
-+				dai_link->codecs->of_node = codec_node;
-+				dai_link->codecs->name = NULL;
-+				dai_link->codecs->dai_name =
-+					is5682s ? RT5682S_CODEC_DAI : RT5682_CODEC_DAI;
-+				dai_link->init = mt8195_rt5682_init;
-+				dai_link->ops = &mt8195_rt5682_etdm_ops;
-+			}
-+		} else if (strcmp(dai_link->name, "ETDM2_IN_BE") == 0) {
-+			if (!codec_node) {
-+				dev_err(&pdev->dev, "Codec not found!\n");
-+			} else {
-+				dai_link->codecs->of_node = codec_node;
-+				dai_link->codecs->name = NULL;
-+				dai_link->codecs->dai_name =
-+					is5682s ? RT5682S_CODEC_DAI : RT5682_CODEC_DAI;
-+				dai_link->ops = &mt8195_rt5682_etdm_ops;
-+			}
- 		} else if (strcmp(dai_link->name, "DL_SRC_BE") == 0 ||
- 			   strcmp(dai_link->name, "UL_SRC1_BE") == 0 ||
- 			   strcmp(dai_link->name, "UL_SRC2_BE") == 0) {
+It is up to the device specific bindings to define that value.
+
+If restricting things here is really important, defaulting to 0 (with a
+comment explaining it) and letting actual devices then override the
+value would feel less 'made up'
+
+> ---
+>
+> Mostly sound-dai-cells are 0 or 1, but
+> Documentation/devicetree/bindings/sound/amlogic,aiu.yaml has value of 2.
+> ---
+>  Documentation/devicetree/bindings/sound/dai-common.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/sound/dai-common.yaml b/Documentation/devicetree/bindings/sound/dai-common.yaml
+> index 1aed2f0f1775..6db35887cbe6 100644
+> --- a/Documentation/devicetree/bindings/sound/dai-common.yaml
+> +++ b/Documentation/devicetree/bindings/sound/dai-common.yaml
+> @@ -13,6 +13,7 @@ allOf:
+>    - $ref: component-common.yaml#
+>  
+>  properties:
+> -  '#sound-dai-cells': true
+> +  '#sound-dai-cells':
+> +    enum: [0, 1, 2]
+>  
+>  additionalProperties: true
+
+
 -- 
-2.43.0
-
+Jerome
