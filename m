@@ -1,132 +1,148 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2107.outbound.protection.outlook.com [40.107.113.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD3723CE
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jan 2024 01:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8298EEDF
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jan 2024 08:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fJiqHbLu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WY3nyZ1N8MnEQRgvzsv429g5AxKcs8l+J7gzZMq1KJNtcKSmNtBqnrX5m3rjgL/LyAfwRBZlps8WGm0DGYC8ihEVLg4xsXXV+PuuaCb5C+0cTVDsdlJEHng2vDpXmnbmkfTyfzY0F122LaGGX3FIpueFFXq7KYlh2K3HHzgfSUYgqdNMRHTLOLqgVTC14U7hdglo/uMmlCFxMG1CBrtJQnM44Tztnn+l4S1S0+ow1reJ46niywfFFMPwzyAEiqYIsMOvy5h3RBmyrZwDvN+L/F+b7oysFW48gFM/BZtp/gha1wXkHYDgaLcTcMFLBRdsP6UVE2a5cTk69FtuON6Byg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2IUyM23PmUoT9MSPiG09dFBkFBMHSWXfMA8o1pe1uF8=;
- b=g4K9L/xo5yK1jzVhKniC8vlzffvj8+MS8SwUcXtF/IY7Zx2fUw2vVNeg7Y1IAVvRKIBr2Xc55+PrQdANsbNXdwTIuKuhtEgOl+tH1BBJiIaMPubRdGa/ShpTfkOz5eTAbINLpZOlSEB7li2ue6zLJWHqvUKvytx9rACEtBfkmBwTKc+EJi8F3huWOe1qrC7zIfK2R44pe5Q3OmVoYeeoGrgHAPm3kijtqlAHuJaBPU1U3GBNnm6n5Hcmn3uFGbsfHl93zb4Ziavb9vBEuuwEgrun00u/83sRZicbMv1+nrxd+noAa77DUZI7abHG5R8QI8KdRVMjlDRX7VC/ojIkMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2IUyM23PmUoT9MSPiG09dFBkFBMHSWXfMA8o1pe1uF8=;
- b=fJiqHbLuKDUqrEcnwdCK5qPji6RVEzc8tYeel+D3xChHKRAbg485D/kNDjV0KrZEM5sR/sTmkwf5gTadxFJ5k5cMSMxhYQOWdIROeABEvU8x3vj9P0lfqMze380WCtmO+gp8nIB/430S/34ZbtoI8ZcgshJstQgr8qc596+BO+0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8341.jpnprd01.prod.outlook.com
- (2603:1096:400:15c::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Wed, 10 Jan
- 2024 01:28:28 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::91d:1bfa:edc4:1c5b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::91d:1bfa:edc4:1c5b%7]) with mapi id 15.20.7181.015; Wed, 10 Jan 2024
- 01:28:28 +0000
-Message-ID: <87y1cyf03o.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH 6/6] ASoC: cirrus: use devm_snd_soc_register_card()
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dp/sCtAc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tKpJ2Agg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dp/sCtAc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tKpJ2Agg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 73ED8221C1;
+	Wed, 10 Jan 2024 08:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704875614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yQZzGN43E0SL4SCEDxq3yUCgNGZwogw3SRz8A7qLqXU=;
+	b=dp/sCtAcXFVbeRhjZqe82kYDEBjIX0M//eX4M6gcsz1Nvj7hkngMR9z9TV/fEeKl9tEW+i
+	kGUXJwV+Eg6mOniwG8h3xErsvMDKw0keG4cKnpQPCI5HtNg1u1obqNLcKvNwUL49ZUxoOj
+	Pku59XdMCAYH+8TVb/BptUlr131wzSA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704875614;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yQZzGN43E0SL4SCEDxq3yUCgNGZwogw3SRz8A7qLqXU=;
+	b=tKpJ2AggRSSDbKen7kQqfKCDiw2iCCb63vqLiMwSZS1exP4n3mXTF24CBFaziGTvgQBybc
+	08Ic+seEbjJTMABQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1704875614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yQZzGN43E0SL4SCEDxq3yUCgNGZwogw3SRz8A7qLqXU=;
+	b=dp/sCtAcXFVbeRhjZqe82kYDEBjIX0M//eX4M6gcsz1Nvj7hkngMR9z9TV/fEeKl9tEW+i
+	kGUXJwV+Eg6mOniwG8h3xErsvMDKw0keG4cKnpQPCI5HtNg1u1obqNLcKvNwUL49ZUxoOj
+	Pku59XdMCAYH+8TVb/BptUlr131wzSA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1704875614;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yQZzGN43E0SL4SCEDxq3yUCgNGZwogw3SRz8A7qLqXU=;
+	b=tKpJ2AggRSSDbKen7kQqfKCDiw2iCCb63vqLiMwSZS1exP4n3mXTF24CBFaziGTvgQBybc
+	08Ic+seEbjJTMABQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDDD313786;
+	Wed, 10 Jan 2024 08:33:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oVt1OF1WnmUHZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 10 Jan 2024 08:33:33 +0000
+Date: Wed, 10 Jan 2024 09:33:33 +0100
+Message-ID: <87zfxdpoyq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Peter Rosin <peda@axentia.se>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/6] ASoC: use devm_snd_soc_register_card()
 In-Reply-To: <877ckigepg.wl-kuninori.morimoto.gx@renesas.com>
 References: <877ckigepg.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 10 Jan 2024 01:28:27 +0000
-X-ClientProxiedBy: TYCP286CA0015.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8341:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf0ddd40-949c-41ee-99d6-08dc117b7276
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ttVWvbsKvHl1UP4wEWmcB34+JsEia6ftjSDfa4FbFIw7Qo6cvw7m1UolYvvKMHnedtLlKAErxLCo5UZ8k5DTIaTAn17d0D4VsCI5y6pztqn/QpkSvnINf5/E1y0UHyd4ZO5f8U9occOMe4azKtJd+eyVVOZTy64P6TJUP5E3lY2KeTH8NfcYIir8lIKnsfnMdLYNdhuLX07N6ivNivnfSewJZQ+qA9YGq9Mkg+EqDzutGaFj4mDMKTTitPPh43/xOt6oX5oKacolQENunUSKBak5eAL2RTsQ8vJeiLp2hyxluyu/anbLWpVdnqxxA9tcJ1FLvIrquyxZ9lxKqISIVQmBsqSdT5fG2CiBMdBHl7XZpUHFKdqYxok/Zrz0/DnrEclQDOXTgNKWdzemIXbYofxnfwyAWF7l49lhuVAKQyvI2pg9jvdEjlGI/zJRVLUFWvHWz77uJhzHoWYrjSx/zO3C2ZgW2XNFBpnb6/D9GK/N8lmq6S2OKRlvaZ6zNH7/hyHUPp3jp17nzruIxFj7rGVjxlg9F0okl9EM1eRL/vf7HRygpKbfuE1sWp2XmcbqBrFD+zSUpdfX6BGL030g9FVBjMKPCZdX18FaK4j3Lj15sYhEhS9tvDBPQtt/vMVi
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(39860400002)(136003)(376002)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(38100700002)(38350700005)(36756003)(86362001)(83380400001)(2616005)(26005)(66946007)(110136005)(6506007)(6512007)(478600001)(52116002)(316002)(8936002)(8676002)(6486002)(66556008)(66476007)(2906002)(4744005)(41300700001)(4326008)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1CrmEeDPG2LQWNGsIMOfXY/wWk1TIC6fFzSTJfTbt8QeBn7rmsxgMMTueV+l?=
- =?us-ascii?Q?oLsd4/NnI38A0GPx1QTBVQSbcyhGp18thNjl0k2URYVN/CPLqUVutreJ8Me0?=
- =?us-ascii?Q?ajcQdtxvawTSgL/X4SlhYx7nx9bpo8u0k98IuiRQarW5VBWiuETKhgDqSSca?=
- =?us-ascii?Q?1ied+xPXBfeanhk+KkH9G+fet0Fndg0nhRTSD4yhPb8LQkunvGG8ijCAFhXn?=
- =?us-ascii?Q?hm2UGhXo0NPhmxtdQILOlMSigjaFjTsIrYIkt/lTFf9+G36Cfi0AnU4ShLxY?=
- =?us-ascii?Q?h9b/Lgg0RJmD+upHUF/GbdwQu7UYkrCjnVBMpzkZBwkz/FcHtep2w5Vz/azH?=
- =?us-ascii?Q?cwE/trYjl5CtgtahSBOWC12C7RVF3XI1z+eHMk1/Y/Qa6I/mZAJwaS7c360x?=
- =?us-ascii?Q?T/CgIWvXd4ZvvZta0RaL7ZZiGOgPfs57xumK5nVeBW3Sx9oqXQjC14GQdXYb?=
- =?us-ascii?Q?KnH9nnRdrzXSzZoLCyZBHhlcrMVatR2u/hFHdD+cHjNHbqOrHNelP7ZWn7/A?=
- =?us-ascii?Q?yT8EnB4wuxzJgUWMHBcqMWfnOcHfx0ag9yaz/cWBJpLqSFZnN+8+HKHPfu6z?=
- =?us-ascii?Q?Hi+H47I2AMOZ9lLMvt1RjIU/OsFnGxl+iDaj/klAgOuxRnjENi7EJ2+U/Vbl?=
- =?us-ascii?Q?3KxNTRJGLotmI1L7WpBSNQ0xcFb8C2acjprfrMtSMlLrrRtWstjRhEaCMsRK?=
- =?us-ascii?Q?1YQo3wtja5lPoQ3Mwv376JoGH5Vhqnsl0iq0z+Deb0OYcqOHtOX7lAv8hnKt?=
- =?us-ascii?Q?LcKw8rWV4CBSMsX83exO7zbCgVhmt5STLBb4AVUthEMPLHEjJ9hAfHibygp/?=
- =?us-ascii?Q?g9XXzJyFYooUOv3VYAX4XbvQhpKdCP2q/n3qOTFAXdTtpwN6YQ1339bMlD6D?=
- =?us-ascii?Q?GwWphJK/UYhI72AYvbNVeuHIP5pArC3etY5/4hPVWg1a9mtoGN65YKXtoUWH?=
- =?us-ascii?Q?wrM7RXkvtbnBPE8oUi1mAqVMQ1Ho75bR4l2zWWOKgp4OlW+JSottHS7r4mSi?=
- =?us-ascii?Q?50+qoC5T8hWLKgrliEEuKbBJJosd7ajmIcc7oKqG0uCgcjTdlQzHxRaerVSR?=
- =?us-ascii?Q?RJIxMxMVloMvH4UL1XQXEeN1mLSHj6lR+yio71AFuuT+cF/kA2PvF+ZNTFLH?=
- =?us-ascii?Q?TY3//2N0/tyjLJWey7wmw6lCwPzGJ6RImlY2rmZQMTREWsw4tP5j8Z3jyM7T?=
- =?us-ascii?Q?Z9RdrVDrybfsjh+ZRp+VQRjLv5AbJDegJSGrdm6XsZ+TeLgUI7Fx901hpA0W?=
- =?us-ascii?Q?qARbfNnFCQzLb+lnVg2YTk7y0psCLx3UP17lYWcqMfCLcRxtyZDQzrqzR1E5?=
- =?us-ascii?Q?XHk1munCTJ4z8QDDlq11ZWYiZT0YdnKtbZ2UAcEez1Lro08B1GlBP5LDypWe?=
- =?us-ascii?Q?85jvlRFXu93HlJzfvTggHpPgLTnhr6lPFrM1DnF0/mnUAJNz5CKDg/8boSxy?=
- =?us-ascii?Q?IG/jH93RaT9xP7uUnoYZkyIevpReX/5Pis0xy3P/9Q13PzPXjoOcxYd7jdrX?=
- =?us-ascii?Q?4nMZHwJ8wmaL3/6OBDsUNQ8mcf6CKA+9gZ1Zlnc/lSxSbF2bg0d/KQiR/9jL?=
- =?us-ascii?Q?pJcPujRWMGR/DNuFOvxmbglwT022GuPn3T207VIJurlmdFxZNLcVV0UrDhlI?=
- =?us-ascii?Q?dWdqfhs1qNysRyj3iVAlBIg=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf0ddd40-949c-41ee-99d6-08dc117b7276
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 01:28:27.9893
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 75h9qg97397z6o4Bkg4ITSi45FA9sZrhXcOS8Jj56GYLsdolKII29wIx1PU3tJuPNYDPfLQcTbTkYb243056C+bk0y46g6WxBBUGOrIWt4l19+S1sPtxe93JxQT/mSTB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8341
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: ****
+X-Spamd-Bar: ++++
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="dp/sCtAc";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tKpJ2Agg
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [4.33 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-1.16)[88.77%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
+	 RCPT_COUNT_TWELVE(0.00)[16];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[bootlin.com,csie.org,tuxon.dev,bitmer.com,perex.cz,gmail.com,kernel.org,microchip.com,axentia.se,sholland.org,suse.com,alsa-project.org,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: 4.33
+X-Rspamd-Queue-Id: 73ED8221C1
+X-Spam-Flag: NO
 
-Let's use devm_snd_soc_register_card() instead of snd_soc_register_card()
-and ignore snd_soc_unregister_card()
+On Wed, 10 Jan 2024 02:27:39 +0100,
+Kuninori Morimoto wrote:
+> 
+> 
+> Hi Mark
+> 
+> We can use devm_snd_soc_register_card()
+> instead of      snd_soc_register_card(),  and is possible
+> to ignore       snd_soc_unregister_card().
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/cirrus/edb93xx.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+I haven't looked through all code changes, but in general, be careful
+when the driver is releasing something else than the devres-managed
+stuff.  Namely, the devres stuff is released *after* the call of
+remove callback.
 
-diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
-index 8bb67d7d2b4b..146ca2468bad 100644
---- a/sound/soc/cirrus/edb93xx.c
-+++ b/sound/soc/cirrus/edb93xx.c
-@@ -82,7 +82,7 @@ static int edb93xx_probe(struct platform_device *pdev)
- 
- 	card->dev = &pdev->dev;
- 
--	ret = snd_soc_register_card(card);
-+	ret = devm_snd_soc_register_card(&pdev->dev, card);
- 	if (ret) {
- 		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
- 			ret);
-@@ -94,9 +94,6 @@ static int edb93xx_probe(struct platform_device *pdev)
- 
+For example, in your patch for cirrus driver:
+
  static void edb93xx_remove(struct platform_device *pdev)
  {
 -	struct snd_soc_card *card = platform_get_drvdata(pdev);
@@ -135,6 +151,9 @@ index 8bb67d7d2b4b..146ca2468bad 100644
  	ep93xx_i2s_release();
  }
  
--- 
-2.25.1
+This will end up with different call orders of soc-unregister and
+ep93xx_i2s_release().  This kind of changes may easily be a hidden
+source of UAF.
 
+
+Takashi
