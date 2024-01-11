@@ -1,82 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2096.outbound.protection.outlook.com [40.107.113.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E2A4CB33;
-	Wed, 10 Jan 2024 16:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D954E15AC0
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 00:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJqRFiB3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43118C43394;
-	Wed, 10 Jan 2024 16:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704902597;
-	bh=wxt5E37GpoAUW7+xtOpR1biWeJ1ynUtUPy5bRry8n0w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LJqRFiB3mlGh1+j4qu4hv8AFXbWTnTmwx0EMXFoxarsuALChaldVkrHnYsktMMU0Z
-	 NvFc3cQqKSdWAJwq8HiD9mfs7a2tmKWhn4Ctq7N1EnchsRqqaKMli0TseJTrAW9mlg
-	 NCq8XcjgB/OL1xZbkUYlWwsehSFqHZ16h1p2fJfVoglMzhivx+a6U9W3qkHScqjr76
-	 OpPeRciHO91c+MNGLb9pkAPiB3BrrmhYIzageHXugtfmzIllp+B5mquPrZ7iIysXKC
-	 cscmenbgfx3EvY+oSMu13QDQYFd9limyajnBuhS31kaxsWdpf79JbaqSzcWAHEyzVK
-	 2accJDBoZ7Asg==
-From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- matthias.bgg@gmail.com, u.kleine-koenig@pengutronix.de, 
- kuninori.morimoto.gx@renesas.com, trevor.wu@mediatek.com, 
- jernej.skrabec@gmail.com, claudiu.beznea@tuxon.dev, robh@kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <20240110105757.539089-1-angelogioacchino.delregno@collabora.com>
-References: <20240110105757.539089-1-angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8195: Remove afe-dai component and
- rework codec link
-Message-Id: <170490259398.18995.11219791852170871212.b4-ty@kernel.org>
-Date: Wed, 10 Jan 2024 16:03:13 +0000
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="g4hKJKK8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DB3IU20FF2hGWgA2i72lKNDh4hkwfjSHEHCUFUPCqnloFPa1cQA4qRylAsLV10yvv0QDqTBo4cvUsi0Ybwh4up1hNszbhvv7OJLQmhM2TQu2tX4cfywHa8vd6q4XJ9Ys9mHgfmLRHk7Sk4z5lE6dqiAbjijkiE+dkHkxDViUWB9ZCAvF66DR3h3J/nN8kYS3dNZluXk1MEAA3X9IsDIdWv0ltvU6BGHtHZm7E2u3GWEfBw9X2E29+mdYtqCnLcWB1Za9fJAXMydbsVisKMTrb6c62EAK+K9u/XdatU5GPfVIMBNscBXYeTlj3DogI6zTJJGcHXAYEVqcCwHX+i9Z2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BrbPniPRs894WxtBhfrnIwNR7pL0f/jEOXy8wP4Z8Mw=;
+ b=GKGXbLT1LOL0+PzGQghquAE5W3JTUqatBsVZ9j972h/9MbrF2ywOBbhp4Yyln1qGjcYYnNKDYTpO2CvXmtWaw86mEq1tDRRGgoXn8tB+1By/Pb1SAY1aHimRBcjT1MOpSSPVGGKKwVkBUEVMegh0O4ZexoEP2EHWt6CFItIoReeiGATUcIK9bgc12FdtIIzdhp3FX7QOrXDdx5YkQxmv6bO8pbp+bD1J1PK3cCTikfvL/q6B/oljhmdHX1Qv7NvjiTWVrQ8NSGInbgTX2JCFScYoPaBpzmqBhAcIVubJAJz/2KI2UmeBd+w1klDcJhNh2A0bL3E7A9YWiZprEUaP3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BrbPniPRs894WxtBhfrnIwNR7pL0f/jEOXy8wP4Z8Mw=;
+ b=g4hKJKK89SzaFhOAXyyedHhirlZPL7fizx5BZ22KSv8vXdNazQPBKWUnolSACs1faLk3x8jm8DxengXB8bU7DhaQ46PfZPFYYRd0YdStRPaBvmUNaJO9ERsEOkcTM+NTyWdIp8oQqlVHTg/SKnW3L6ySMNaQq4g701HjNpxdoj4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYYPR01MB8167.jpnprd01.prod.outlook.com
+ (2603:1096:400:116::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Thu, 11 Jan
+ 2024 00:02:02 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::91d:1bfa:edc4:1c5b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::91d:1bfa:edc4:1c5b%7]) with mapi id 15.20.7181.015; Thu, 11 Jan 2024
+ 00:02:02 +0000
+Message-ID: <874jfkybye.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Peter Rosin <peda@axentia.se>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/6] ASoC: use devm_snd_soc_register_card()
+In-Reply-To: <87zfxdpoyq.wl-tiwai@suse.de>
+References: <877ckigepg.wl-kuninori.morimoto.gx@renesas.com>
+	<87zfxdpoyq.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 11 Jan 2024 00:02:02 +0000
+X-ClientProxiedBy: TYAPR01CA0150.jpnprd01.prod.outlook.com
+ (2603:1096:404:7e::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB8167:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3f0a833-640f-46fc-8325-08dc12388a17
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	JWtqePbI2TfnFoKoVFbJPJLHj/VOXlaCK94GCwlsMH4JqEvdb907MMSwMPiWpIyc3sU1Hxp3ECR15tvLz3MqVHCBedsvXlI/xcYGPoECd32OKObLguIfBX2hBLxP3RgsrwxYdwJWnDmVE0ncAfuz8Y7AJGjLVZQ9ml1kAGBVBxAD96imrIQUPkefcph3aY5fnkrNq6xDyHZZoNnXpfXRbgDezudGj6g/wV+cn42D3gQR/2hG1Rednvjto0hMFuXnEZmk8+MHtJhJcw01j0Amf1CZehd/rpNG8Uaqf4QHyXJpCEEn8kSiXZTMeS6+EPnlNhLli/cEXnm3iW7/lzt24zjcZzxyZQoy4yQM8vWxR7dOD+vPXRQE8UOJGOS5i9y0osbZfWQmx8S6O82/rFb//5zHx1+0/6Y98yM6Vn85sa23+Z5glfHkPal+KrhxUZnpbdHtYNmB8WfVvuqb/DLRVOvGQZj6TfhzEM55Nsb/yNblJFNwJJHlorpPrH5cjILkmnyKE99QlXTFRAtSzc5e82XU0Y/xILCLcQvMX7ZQx6aFZt3Za9MBOe8iqIiiKiYD+/jIB/IP/wzmpbbsmbqmnQtk5ZIOtvTmg7zo00Fc9T+sn4V+3ZkxB2shb0xnLM/z
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(366004)(346002)(396003)(136003)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(8936002)(8676002)(478600001)(52116002)(6486002)(6512007)(66946007)(6506007)(6916009)(316002)(54906003)(66476007)(26005)(2616005)(41300700001)(66556008)(2906002)(4744005)(7416002)(4326008)(5660300002)(38350700005)(36756003)(38100700002)(86362001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Yh6yn7P4Pcoghr4qU2/G2NqYqkjiHZl6+EdMTUPsllcwko1ujqG4PdleMdRq?=
+ =?us-ascii?Q?L3KHa3XS/12HSPDuWdq8ItBuz2Oh9GM3SZ351Id/mbBMjreWwZQnwe+AWcfr?=
+ =?us-ascii?Q?mU/L6RleddpJGICG/KxkNb4q4/UrCerGcJO/2aYrTqWEJLKeqiEFtFNVNqpj?=
+ =?us-ascii?Q?Ey6YqAKiao995xA9DrrwG4KEmB5g6tsSWDDXdZlMi+wQtGsaeDXEymwPw4vG?=
+ =?us-ascii?Q?uE4IpnHDkEa51IUVrNiyJXpHtGh5n/ThZQKiyCBRCJ3rtACeJfpILyeh7FIb?=
+ =?us-ascii?Q?yp+o9cqAQb1GMxcDm8Jjs6r/25qnTkTRv22M+fC0ZQ5Eoen20iB+28Ee49aW?=
+ =?us-ascii?Q?GNHCFSKHBKkWAEexd3IAzxK+hN0shyQ6a4WtCMww7deiGFdhyan18kzJS1V5?=
+ =?us-ascii?Q?Vm1TEHJyttXC7heAFmcxXHE7xrZIWrrIoe7Y5myqRz737Fh79fYIS3G7Xdre?=
+ =?us-ascii?Q?tm23TDBq4Hpr6mHwfdLiroN+rwOMmUAmiYT9mWNqVh2RBQc+ZwtcjHjHEPPV?=
+ =?us-ascii?Q?lQqEDm0eVgOmHfRCvWCRkgyzFZcPpeJ4LU6B1OrJAQdlb1MmqrJkeFqRrQjZ?=
+ =?us-ascii?Q?wcP8s7Yp1uOHsMBvwiN0N31xywlhWIXTS8Ho9zJNOIkZqrDCFCOKIPdUFrNB?=
+ =?us-ascii?Q?n0mDOjEidnuiNgOyZxSngUQqZX/d6VX4OhR0GSxe0vT6Oewq0tq85LzZ0581?=
+ =?us-ascii?Q?kH1BF8TZ2E9ni4pqH7BudBmZLs5O27SREv8UDkt/x9F29DCO/8Qtzb7zfxU4?=
+ =?us-ascii?Q?Bwz4wQLQVLrb8KkQtngbkOz9hE0zkG4IX9fHYMW0tUIZUet2XrM/tpKKoC0f?=
+ =?us-ascii?Q?H6Z5w5id/Oj20IIcVu2W8+qhNCKOJjiDk6iogQ0b3T7/hWwUdUkvwccVy/j+?=
+ =?us-ascii?Q?fiS8nCctql/8x5P5S+Pj9BNTJanVluuwtrhoSGf9z4X9qjlFXX2RpSDLwQdA?=
+ =?us-ascii?Q?08BmapmlncyZ+EkHWxCQgyp0BnxEumzIxeifp7KrzuTEhEnvnR9mrRBoCuDu?=
+ =?us-ascii?Q?8dFTIW9T9/L7h4ErOM/RfMRMKmlPNmt3xUiHfWIAHj9yekkZTkDq+520M8lk?=
+ =?us-ascii?Q?a1ftmdkapjtidKIx6yZUhL0Pss/oZ891qufgyLi5B5GReKGdW/IShep12rOO?=
+ =?us-ascii?Q?YUHqsaU1Q1CxfM/K4Z3oeKAQFAplIv3EiHCAVSe1mc5K7PHEm2bhWZdbxEmT?=
+ =?us-ascii?Q?JcCKsPOWh32iBqThLyeR8sDAP/DxFjPo/m44WvV4NaGZvgTigkk1TOOhgxYJ?=
+ =?us-ascii?Q?wnSfhl56KwiC8ayIaFWoFNf3q8oPRzZs0MAb0fr6QkfRZ32dYKPvxA1v/oE5?=
+ =?us-ascii?Q?zyfmDhlFdFFNtHGLLXjpjgzBylAWyIoeY01hdhcKglTpmfRiY1Re1RUQARLB?=
+ =?us-ascii?Q?BrcyohCCXMmlc7XEW/Y5j0k7Vpf7GilOoMKWBH6hThCdx/Ql7pqF2Qo/Y5OX?=
+ =?us-ascii?Q?9SPRQQsbfvbeIl/GPrfZxfVDMTDuw/QFLKtmRSeGX0mz8JDD8fkBFUy/DKpZ?=
+ =?us-ascii?Q?mPx7rdXwfDkq8uQn1IVDkM2mPw7Th3hgRVxV/Hc9LR3TT9wfoPEO/qgFb2OH?=
+ =?us-ascii?Q?H72Ja9F1suaB55bK4G45uRWxuPkdo9E2XejIVCzawKv0utmSPxDw6jcY0DtE?=
+ =?us-ascii?Q?U4Pxt2BsxFYBSkEfhQP2bLM=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3f0a833-640f-46fc-8325-08dc12388a17
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 00:02:02.6165
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7notiyiT6kg+FysOysdP8zVc8NrcykPiw6gwioiXQdwVGOgwkbr2tZS7WvZ5gah4HsKanWiutvMLDKjR+trDOXGZyhzmR1Y7o1RqN0KKEe+gSjW9E/Pg50X1dnp9zfDe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8167
 
-On Wed, 10 Jan 2024 11:57:57 +0100, AngeloGioacchino Del Regno wrote:
-> Remove the extra 'mt8195-afe-pcm-dai' component, register the DAI
-> drivers to the main AFE component, and rework the DAI linking between
-> the headset codec (RT5682/RT5682S) and the TDM interface in the probe
-> function to stop assigning name, relying on the of_node of the codec.
-> Also replace the COMP_DUMMY codec entry with a COMP_EMPTY for the
-> ETDM2_IN and remove it entirely from ETDM1_OUT to fix the registration
-> flow for this sound card.
-> 
-> [...]
 
-Applied to
+Hi Takashi, Peter
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> I haven't looked through all code changes, but in general, be careful
+> when the driver is releasing something else than the devres-managed
+> stuff.  Namely, the devres stuff is released *after* the call of
+> remove callback.
 
-Thanks!
+Thank you for pointing it. Indeed it should be cared.
+I will fix it and do it on simple unregister case only in v2
 
-[1/1] ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link
-      commit: e70b8dd26711704b1ff1f1b4eb3d048ba69e29da
+Thank you for your help !!
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards
+---
+Renesas Electronics
+Ph.D. Kuninori Morimoto
