@@ -1,211 +1,138 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D4BD26A;
-	Thu, 11 Jan 2024 07:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B198CF9C3
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 08:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BfygzK7L"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d54b86538aso24055495ad.0;
-        Wed, 10 Jan 2024 23:28:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PeaJAKh6"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a298accc440so610697366b.1
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 00:42:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704958090; x=1705562890; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=q7o2fp3va6PrIWcX8vUj5HYMxS4ZIp+2h3KD5TCjvz8=;
-        b=BfygzK7Ls24K3c3KFTCHSYb+UJLmcGwoBCMdxsEYkN8Dz48Pqw8nWdTbupZ6teu8QY
-         f+WGfnf/se3Qbk+XcobV7ibArXSGuyUKK4OYMzOdUNYS3QZD1qaOoXiAtF0CuS2HfeWq
-         hvxn9+pN3W9v2c+FpSw/edkoijGi04Nxn29IcNkQXlHVy8+1z+oRlRgR67i2dct4ya0t
-         7F2jh8OAoXi0+rVxwYtq6Klp5vBLAJki4GBOIYLYRkMvEDiU5jeoH0v/qHE4co9EEvLK
-         +WIXOz2HJeEW3oqbO0kwZoUMwiq6GqcUzfD6YEc1A+IKaGf6t8AfcNy03kt7cm4XMXJQ
-         QFzQ==
+        d=linaro.org; s=google; t=1704962538; x=1705567338; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=W+eVcDDUmv0txF8stBLHXcS3p3JThX1RqnAPKZAxyn4=;
+        b=PeaJAKh6vR0UEhl0mVEL0QPHiZ9ZiCFk2NnZuNCxWQQ4/KGswRR5v2rPNj6SpVaENY
+         geqlTGyioBVbUG2VX1Sf6FzPW37Blb6lgQswUiSNm+izgItxgKwlXLA5KfzAX/YPAuDc
+         hXOeOSsJLoZWoIfuolQkMTf8SHoEb6L8K207oPimZp+Zj7HP2jwydTEjRQs22a+ailfk
+         Ji/upz4wROEvvfy//knPx/IV8jt4FPpqf83xCm95iDYJgRDvsP3duFtPmDA+mSPjJSOr
+         7ON3cobsrVH4ENvQ1dv/Vxl0ERYututBMivFMDoLQqz7Izgg2oB90Z973J2YUDH+72o1
+         Oj0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704958090; x=1705562890;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7o2fp3va6PrIWcX8vUj5HYMxS4ZIp+2h3KD5TCjvz8=;
-        b=p7hSNrcTHYEu/4otZgOkkW+i/Eu+MBnzOjEUQL9xAjyB3f5aaUgS6GMUKGzgao2gQf
-         4Fxk9KXenu8TYT4kXtISEZSjxo1pSIqamiks/AEr+QGLz5LygmEe8qxTk5RXjwDF39f1
-         avklebJH9sLVRUv+uAEI7+R3Mvlawx9F/nqUJoxvq6futnhv+OT9CyqDOsLTSAwNlVrt
-         hSEyrOBYrsrz4G9QqqQu7tewiWVWUagDZc67C9e4hvb6vXcM7w+0EUvWUlWBXLjAQDAt
-         B01dNcnk7CjVXwnC7qSCAe8uiOsSswhuSV4mZgs8zfOGOSTeBj23QewvN9CAncMGdTGu
-         vZlQ==
-X-Gm-Message-State: AOJu0Yw94L2sHb2K7yPKdRF5ECCDiP294YeJtzGCk+PqURBtk9NDJuLf
-	66EXZXFqX/HfK0hgBxIbl/Q=
-X-Google-Smtp-Source: AGHT+IGl35uLlQRJwX4rvJzLGZrtgZstO0G3rpfy7BBTIi9UZR4sWdYeEO5QUbzFqaZyYXxS2sm4Lw==
-X-Received: by 2002:a17:903:28f:b0:1d4:2066:6b7 with SMTP id j15-20020a170903028f00b001d4206606b7mr986820plr.69.1704958090495;
-        Wed, 10 Jan 2024 23:28:10 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:70e2:a0a5:5166:fbbf])
-        by smtp.gmail.com with ESMTPSA id mm3-20020a1709030a0300b001d4bb7cdc11sm491328plb.88.2024.01.10.23.28.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 23:28:10 -0800 (PST)
-Date: Wed, 10 Jan 2024 23:28:06 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: James Ogletree <jogletre@opensource.cirrus.com>,
-	Fred Treven <Fred.Treven@cirrus.com>,
-	Ben Bright <Ben.Bright@cirrus.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	James Schulman <James.Schulman@cirrus.com>,
-	David Rhodes <David.Rhodes@cirrus.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Peng Fan <peng.fan@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Shuming Fan <shumingf@realtek.com>,
-	Shenghao Ding <13916275206@139.com>,
-	Ryan Lee <ryans.lee@analog.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"moderated list:CIRRUS LOGIC AUDIO CODEC DRIVERS" <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v5 4/5] Input: cs40l50 - Add support for the CS40L50
- haptic driver
-Message-ID: <ZZ-YhtIulqrSFc3R@google.com>
-References: <20240104223643.876292-1-jogletre@opensource.cirrus.com>
- <20240104223643.876292-5-jogletre@opensource.cirrus.com>
- <ZZoFUwOEF6NByIp2@google.com>
- <564A2601-4933-4BD7-B4E6-C973A585CA61@cirrus.com>
- <ZZ3JNuLp-ZfGOQRF@google.com>
- <42A07166-6569-4872-B5E0-6D71C6F3656D@cirrus.com>
+        d=1e100.net; s=20230601; t=1704962538; x=1705567338;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W+eVcDDUmv0txF8stBLHXcS3p3JThX1RqnAPKZAxyn4=;
+        b=ec0jUY37BRED5a+4zbpftintvbwBUsmYJfP318mA9FYf3t7EGLZT2Ei8y7m5GGC7bB
+         Pj7e0LeSYNThEX2OcExa1kWgeJjmZypnnk+aMsPm4/pLbLOUAsjODnyr/a9SoEdbVprp
+         ffcABq9hEsvR6PdCGA295+RbYsXJnMuVB+naDYyHVJQaYZEB76/v3oH2aZYEkZAjWhsR
+         d0TTQD73Sn/raOYCfpCoQRI6pcy8XqMvGGVJpaQPBx3daYHOXTXDm3y5mnCUcaw+4i0y
+         EjVtyiQWWvaG1d9thVSa71EakSozHU+x7+HjEjVbCM76jlsymEwKYpokefxQ4Ye0W1FK
+         kgPA==
+X-Gm-Message-State: AOJu0Yz3jCkl5efiGZX5P9nB475pzY8GgkoVp+sF7OElp64aFeBRfcjS
+	mPjinr9aURilPm+Wjuw7ingoNxA72P2gkA==
+X-Google-Smtp-Source: AGHT+IETaC3qvOZ98hvNXlBt/oilwEkam8Ww68VyZsVL7/u1je3QBDe11B+ZNh5mL/+gsJv5luefOQ==
+X-Received: by 2002:a17:907:6093:b0:a28:de82:1232 with SMTP id ht19-20020a170907609300b00a28de821232mr449874ejc.139.1704962538009;
+        Thu, 11 Jan 2024 00:42:18 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.112])
+        by smtp.gmail.com with ESMTPSA id ox9-20020a170907100900b00a2825a9e1d0sm306063ejb.174.2024.01.11.00.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jan 2024 00:42:17 -0800 (PST)
+Message-ID: <8ed559e8-1f97-45ee-acb9-c792752fd419@linaro.org>
+Date: Thu, 11 Jan 2024 09:42:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <42A07166-6569-4872-B5E0-6D71C6F3656D@cirrus.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: fsl,sai: Add compatible string for
+ i.MX95 platform
+To: Chancel Liu <chancel.liu@nxp.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <20240109075551.870001-1-chancel.liu@nxp.com>
+ <20240109075551.870001-2-chancel.liu@nxp.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240109075551.870001-2-chancel.liu@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 10, 2024 at 02:36:55PM +0000, James Ogletree wrote:
+On 09/01/2024 08:55, Chancel Liu wrote:
+> Add compatible string "fsl,imx95-sai" for i.MX95 platform.
 > 
-> > On Jan 9, 2024, at 4:31 PM, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> > 
-> > On Tue, Jan 09, 2024 at 10:03:02PM +0000, James Ogletree wrote:
-> >> Hi Dmitry,
-> >> 
-> >> Thank you for your excellent review. Just a few questions.
-> >> 
-> >>> On Jan 6, 2024, at 7:58 PM, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >>> 
-> >>> On Thu, Jan 04, 2024 at 10:36:37PM +0000, James Ogletree wrote:
-> >>>> +
-> >>>> + info->add_effect.u.periodic.custom_data = kcalloc(len, sizeof(s16), GFP_KERNEL);
-> >>>> + if (!info->add_effect.u.periodic.custom_data)
-> >>>> + return -ENOMEM;
-> >>>> +
-> >>>> + if (copy_from_user(info->add_effect.u.periodic.custom_data,
-> >>>> +   effect->u.periodic.custom_data, sizeof(s16) * len)) {
-> >>>> + info->add_error = -EFAULT;
-> >>>> + goto out_free;
-> >>>> + }
-> >>>> +
-> >>>> + queue_work(info->vibe_wq, &info->add_work);
-> >>>> + flush_work(&info->add_work);
-> >>> 
-> >>> I do not understand the need of scheduling a work here. You are
-> >>> obviously in a sleeping context (otherwise you would not be able to
-> >>> execute flush_work()) so you should be able to upload the effect right
-> >>> here.
-> >> 
-> >> Scheduling work here is to ensure its ordering with “playback" worker
-> >> items, which themselves are called in atomic context and so need
-> >> deferred work. I think this explains why we need a workqueue as well,
-> >> but please correct me.
-> >> 
-> >>> 
-> >>>> +
-> >>>> +static int vibra_playback(struct input_dev *dev, int effect_id, int val)
-> >>>> +{
-> >>>> + struct vibra_info *info = input_get_drvdata(dev);
-> >>>> +
-> >>>> + if (val > 0) {
-> >>> 
-> >>> value is supposed to signal how many times an effect should be repeated.
-> >>> It looks like you are not handling this at all.
-> >> 
-> >> For playbacks, we mandate that the input_event value field is set to either 1
-> > 
-> > I am sorry, who is "we"?
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Just a royal “I”. Apologies, no claim to authority intended here. :)
-> 
-> > 
-> >> or 0 to command either a start playback or stop playback respectively.
-> >> Values other than that should be rejected, so in the next version I will fix this
-> >> to explicitly check for 1 or 0.
-> > 
-> > No, please implement the API properly.
-> 
-> Ack.
-> 
-> > 
-> >> 
-> >>> 
-> >>>> + info->start_effect = &dev->ff->effects[effect_id];
-> >>>> + queue_work(info->vibe_wq, &info->vibe_start_work);
-> >>> 
-> >>> The API allows playback of several effects at once, the way you have it
-> >>> done here if multiple requests come at same time only one will be
-> >>> handled.
-> >> 
-> >> I think I may need some clarification on this point. Why would concurrent
-> >> start/stop playback commands get dropped? It seems they would all be
-> >> added to the workqueue and executed eventually.
-> > 
-> > You only have one instance of vibe_start_work, as well as only one
-> > "slot" to hold the effect you want to start. So if you issue 2 request
-> > back to back to play effect 1 and 2 you are likely to end with
-> > info->start_effect == 2 and that is what vibe_start_work handler will
-> > observe, effectively dropping request to play effect 1 on the floor.
-> 
-> Understood, ack.
-> 
-> > 
-> >> 
-> >>> 
-> >>>> + } else {
-> >>>> + queue_work(info->vibe_wq, &info->vibe_stop_work);
-> >>> 
-> >>> Which effect are you stopping? All of them? You need to stop a
-> >>> particular one.
-> >> 
-> >> Our implementation of “stop” stops all effects in flight which is intended.
-> >> That is probably unusual so I will add a comment here in the next
-> >> version.
-> > 
-> > Again, please implement the driver properly, not define your own
-> > carveouts for the expected behavior.
-> 
-> Ack, and a clarification question: the device is not actually able to
-> play multiple effects at once. In that case, does stopping a specific
-> effect entail just cancelling an effect in the queue?
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.yaml b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> index 088c26b001cc..f3d910aa2dc6 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> @@ -40,6 +40,7 @@ properties:
+>                - fsl,imx8ulp-sai
+>                - fsl,imx93-sai
+>                - fsl,vf610-sai
+> +              - fsl,imx95-sai
 
-In this case I believe the device should declare maximum number of
-effects as 1. Userspace is supposed to determine maximum number of
-simultaneously playable effects by issuing EVIOCGEFFECTS ioctl on the
-corresponding event device.
+Don't break the order, please.
 
-Thanks.
+Best regards,
+Krzysztof
 
--- 
-Dmitry
