@@ -1,50 +1,49 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B198CF9C3
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 08:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3831172D
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 09:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PeaJAKh6"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a298accc440so610697366b.1
-        for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 00:42:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GhC7MZlT"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-336788cb261so4263197f8f.3
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jan 2024 01:48:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704962538; x=1705567338; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=W+eVcDDUmv0txF8stBLHXcS3p3JThX1RqnAPKZAxyn4=;
-        b=PeaJAKh6vR0UEhl0mVEL0QPHiZ9ZiCFk2NnZuNCxWQQ4/KGswRR5v2rPNj6SpVaENY
-         geqlTGyioBVbUG2VX1Sf6FzPW37Blb6lgQswUiSNm+izgItxgKwlXLA5KfzAX/YPAuDc
-         hXOeOSsJLoZWoIfuolQkMTf8SHoEb6L8K207oPimZp+Zj7HP2jwydTEjRQs22a+ailfk
-         Ji/upz4wROEvvfy//knPx/IV8jt4FPpqf83xCm95iDYJgRDvsP3duFtPmDA+mSPjJSOr
-         7ON3cobsrVH4ENvQ1dv/Vxl0ERYututBMivFMDoLQqz7Izgg2oB90Z973J2YUDH+72o1
-         Oj0g==
+        d=linaro.org; s=google; t=1704966491; x=1705571291; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5adUtgne4jMaQu6ceUWNoNLxWhqRojcfBCn+PSBQ4qk=;
+        b=GhC7MZlTj9fogoNQw/Hwv/RsrUBD5L7p6t1v0JyI7Tt9IuMPQE8Mk8DbPGBc7y7+6t
+         e3nGNNQsWz9+7tdHfinoVUbSm48p+eFKY4AjXntYBpPFXkCUMNd4aFhocXW2fQW05Uq9
+         qLIhg3LheJR/MHIR8fe/P0Mupp070GNcHDOnBy1vKAUK4rLRsqcS8Mp2NY6kMBSaHDpt
+         DzvMUY1UztkcXvTCaHiwsZfhOjZWSqJ3xtyxs3sL2px57rvY7TJ1U5HP+wkeT0g0C8iK
+         JZPVKO41l62k2py+eh5gh5mGVAjVUTfRIY3K4NieNDricYY0Z5sVcjFxoPOZQLTPMxIU
+         jrnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704962538; x=1705567338;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W+eVcDDUmv0txF8stBLHXcS3p3JThX1RqnAPKZAxyn4=;
-        b=ec0jUY37BRED5a+4zbpftintvbwBUsmYJfP318mA9FYf3t7EGLZT2Ei8y7m5GGC7bB
-         Pj7e0LeSYNThEX2OcExa1kWgeJjmZypnnk+aMsPm4/pLbLOUAsjODnyr/a9SoEdbVprp
-         ffcABq9hEsvR6PdCGA295+RbYsXJnMuVB+naDYyHVJQaYZEB76/v3oH2aZYEkZAjWhsR
-         d0TTQD73Sn/raOYCfpCoQRI6pcy8XqMvGGVJpaQPBx3daYHOXTXDm3y5mnCUcaw+4i0y
-         EjVtyiQWWvaG1d9thVSa71EakSozHU+x7+HjEjVbCM76jlsymEwKYpokefxQ4Ye0W1FK
-         kgPA==
-X-Gm-Message-State: AOJu0Yz3jCkl5efiGZX5P9nB475pzY8GgkoVp+sF7OElp64aFeBRfcjS
-	mPjinr9aURilPm+Wjuw7ingoNxA72P2gkA==
-X-Google-Smtp-Source: AGHT+IETaC3qvOZ98hvNXlBt/oilwEkam8Ww68VyZsVL7/u1je3QBDe11B+ZNh5mL/+gsJv5luefOQ==
-X-Received: by 2002:a17:907:6093:b0:a28:de82:1232 with SMTP id ht19-20020a170907609300b00a28de821232mr449874ejc.139.1704962538009;
-        Thu, 11 Jan 2024 00:42:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704966491; x=1705571291;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5adUtgne4jMaQu6ceUWNoNLxWhqRojcfBCn+PSBQ4qk=;
+        b=KCyHneD4yIQgB6+mzr7FVhr53IEEnR0meLvSN6gsiEnz1RyVgF9DIQg6Ki+8lTUqIL
+         PzxASzqOVjBjlrIg90ZEp7lKja1YE9tHKg9a/JrXMAE1C1xS1RV+Y4luIrA4PM5+jy1T
+         S/Vu42Tk+ADYR02mY/CZ/5sbtS7Df5OkNUhlkh1yPqjZrVo30VivCGjkJqnDENoGLJTg
+         bXYklWsH842zoRDewXF2ycPGDMiaEjKoKTy+lu95FUUjv1bSCSEHLzj0mNTOSXSrmhBR
+         Xduk+rza5llwNlEKzNg2S3/KH4ZtdneoNrx4EInKwKWZ6dzIBYDPVhrRHbT0YvYb+4Hg
+         4v1g==
+X-Gm-Message-State: AOJu0Yzbrty2zpJmNcD5GI4V31C4Jp0dmE9+0F2KW+kIiyaNbG7WBWGG
+	TQVojBG3Jtz6L2zJGP6IgQl6gROFpVrytw==
+X-Google-Smtp-Source: AGHT+IHVM8NbyQMZ6OCgShlq1tvqwOzBs/0xPUGb+KmcocNAqwvQHqpajCUNbk4sQ0DM8PnyziRXRg==
+X-Received: by 2002:a5d:558e:0:b0:337:5d86:af03 with SMTP id i14-20020a5d558e000000b003375d86af03mr391634wrv.114.1704966491096;
+        Thu, 11 Jan 2024 01:48:11 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id ox9-20020a170907100900b00a2825a9e1d0sm306063ejb.174.2024.01.11.00.42.15
+        by smtp.gmail.com with ESMTPSA id q5-20020adf9dc5000000b003376dbc75e9sm753018wre.14.2024.01.11.01.48.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jan 2024 00:42:17 -0800 (PST)
-Message-ID: <8ed559e8-1f97-45ee-acb9-c792752fd419@linaro.org>
-Date: Thu, 11 Jan 2024 09:42:14 +0100
+        Thu, 11 Jan 2024 01:48:08 -0800 (PST)
+Message-ID: <fe7c0524-cbe9-4b02-bfec-5c5b5491cf17@linaro.org>
+Date: Thu, 11 Jan 2024 10:48:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,18 +51,28 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: fsl,sai: Add compatible string for
- i.MX95 platform
-To: Chancel Liu <chancel.liu@nxp.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
- festevam@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org
-References: <20240109075551.870001-1-chancel.liu@nxp.com>
- <20240109075551.870001-2-chancel.liu@nxp.com>
+Subject: Re: [PATCH v2 2/4] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
 Content-Language: en-US
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Sean Anderson <sean.anderson@seco.com>
+References: <20240105155918.279657-1-krzysztof.kozlowski@linaro.org>
+ <20240105155918.279657-3-krzysztof.kozlowski@linaro.org>
+ <c2abc08d1b442fdcba7c41e2e1cc1617516441b2.camel@pengutronix.de>
+ <767645a7-835d-4ac8-ac70-a701cea6df30@linaro.org>
+ <fda63ae95d050e46dcb2446f0d841e01354a8643.camel@pengutronix.de>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -109,29 +118,211 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240109075551.870001-2-chancel.liu@nxp.com>
+In-Reply-To: <fda63ae95d050e46dcb2446f0d841e01354a8643.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/01/2024 08:55, Chancel Liu wrote:
-> Add compatible string "fsl,imx95-sai" for i.MX95 platform.
+On 09/01/2024 12:58, Philipp Zabel wrote:
+>>>> +	/* Not freed in normal path, persisent subsyst data */
+>>>> +	rgpio_dev = kzalloc(sizeof(*rgpio_dev), GFP_KERNEL);
+>>>
+>>> Since this is persistent, instead of letting the reset-gpio driver call
+>>> of_parse_phandle_with_args() again, this could be passed in via
+>>> platform data. Is there a reason not to do that instead?
+>>
+>> We can pass it as read only platform data, but we cannot pass the
+>> ownership. This is associated with registered platform device, not with
+>> bound one device->driver.
+>>
+>> Imagine case:
+>> 1. modprobe reset-gpio,
+>> 2. Driver is bound to the device,
+>> 3. unbind  (echo > unbind)
+>> 4. rmmod
+>> 5. goto 1
 > 
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
-> ---
->  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.yaml b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> index 088c26b001cc..f3d910aa2dc6 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> @@ -40,6 +40,7 @@ properties:
->                - fsl,imx8ulp-sai
->                - fsl,imx93-sai
->                - fsl,vf610-sai
-> +              - fsl,imx95-sai
+> Keeping ownership on the list is fine, the reset-gpio driver makes its
+> own copy of of_phandle_args anyway. I was just wondering whether it
+> could make this copy from platform data instead of from the
+> of_parse_phandle_with_args() return value.
 
-Don't break the order, please.
+Looks like it could. This could save us few lines of code in
+reset-gpio.c. I'll try it.
+
+> 
+> [...]
+>>>
+>>>> @@ -839,21 +960,50 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
+>>>>  					 index, &args);
+>>>>  	if (ret == -EINVAL)
+>>>>  		return ERR_PTR(ret);
+>>>> -	if (ret)
+>>>> -		return optional ? NULL : ERR_PTR(ret);
+>>>> +	if (ret) {
+>>>> +		/*
+>>>> +		 * There can be only one reset-gpio for regular devices, so
+>>>> +		 * don't bother with GPIO index.
+>>>> +		 */
+>>>
+>>> I don't understand this comment. The GPIO index should be checked as
+>>> part of __reset_gpios_args_match(), or should it not?
+>>
+>> This and earlier comment are result of a bit hacky approach to the
+>> problem: how to find reset controllers for that GPIO?
+>>
+>> The point is that our reset gpio controller has only 1 reset, thus
+>> of_reset_n_cells=1. However args_count from of_parse_handle is >0, which
+>> later is compared in reset core:
+>>
+>> https://elixir.bootlin.com/linux/latest/source/drivers/reset/core.c#L859
+>>
+>> That part we need to match.
+>>
+>> I could make the reset-gpio driver to have of_reset_n_cells=2, but what
+>> would be the point? The rest of the cells are not really relevant,
+>> because you cannot refer to this reset gpio controller with any other
+>> arguments.
+>>
+>> To remind: my solution spawns one reset-gpio controller for one GPIO.
+> 
+> Thank you. I think we could also just make that check
+> 
+> 	if (WARN_ON(!rcdev->of_args && ...))
+> 
+> instead and skip the of_xlate call in that case (or implement of_xlate
+> in the reset-gpio driver to make this more explicit).
+
+Ack
+
+> 
+>>>
+>>>> +		ret = of_parse_phandle_with_args(node, "reset-gpios", "#gpio-cells",
+>>>> +						 0, &args);
+>>>> +		if (ret)
+>>>> +			return optional ? NULL : ERR_PTR(ret);
+>>>>  
+>>>> -	mutex_lock(&reset_list_mutex);
+>>>> -	rcdev = NULL;
+>>>> -	list_for_each_entry(r, &reset_controller_list, list) {
+>>>> -		if (args.np == r->of_node) {
+>>>> -			rcdev = r;
+>>>> -			break;
+>>>> -		}
+>>>> +		gpio_fallback = true;
+>>>
+>>> Is there a reason not just call __reset_add_reset_gpio_device() here?
+>>> With that, there should be no need to call __reset_find_rcdev() twice.
+>>
+>> Hm, could be, although not sure if code would be simpler.
+>>
+>> This entire function handles two cases:
+>> 1. Get normal reset controller ("resets" OF property),
+>> 2. If above fails, get reset-gpio controller ("reset-gpios" OF property)
+>>
+>> Therefore the entire solution is following approach:
+>> 1. of_parse_phandle(resets)
+>> 1b. error? Then of_parse_phandle(reset-gpios)
+>> 2. Find reset-controller based on any of above phandles.
+>> 3. error? Check if we created reset-gpios platform device. If not:
+>> create new reset-gpios platform device/
+>> 3b. Platform device could probe, so lookup again for reset controller or
+>> defer probe.
+>>
+>> What type of flow do you propose?
+> 
+> I propose to reorder after parsing the phandles: check/create the gpio
+> platform device right after parsing the gpio handle. Only then lock
+> reset_list_mutex look for the rcdev.
+> 
+> 1. of_parse_phandle(resets)
+> 1b. error? Then of_parse_phandle(reset-gpios)
+> 2b. gpio? Then check if we created reset-gpios platform device. If not:
+> create new reset-gpios platform device/, defer if probe failed
+> 3. Lock reset_list_mutex, find reset-controller based on any of above
+> phandles.
+
+Could work, let me try. I have impression this was my first approach
+which resulted in a bit more complicated code, but I don't remember the
+details now.
+
+> 
+>>
+>>>
+>>>>  	}
+>>>>  
+>>>> +	mutex_lock(&reset_list_mutex);
+>>>> +	rcdev = __reset_find_rcdev(&args, gpio_fallback, NULL);
+>>>
+>>> This gets called with args as parsed. If there is a match, this will 
+>>> overwrite args (in the gpio_fallback case) and return NULL.
+>>
+>> Overwrite not complete. It will only overwrite args_count and return a
+>> valid rcdev.
+>> I do not see overwriting in case of returning NULL.
+> 
+> Sorry, I meant to write
+> 
+> "This gets called with args as parsed. If there is a match, this will 
+>  overwrite args (in the gpio_fallback case) _or_ return NULL."
+> 
+> at least at the end, when I understood the following.
+> 
+>>>
+>>>> +
+>>>>  	if (!rcdev) {
+> 
+> So in this non-NULL branch there was no overwriting.
+> 
+>>>> -		rstc = ERR_PTR(-EPROBE_DEFER);
+>>>> -		goto out;
+>>>> +		if (gpio_fallback) {
+>>>> +			/*
+>>>> +			 * Registering reset-gpio device might cause immediate
+>>>> +			 * bind, thus taking reset_list_mutex lock via
+>>>> +			 * reset_controller_register().
+>>>> +			 */
+>>>> +			mutex_unlock(&reset_list_mutex);
+>>>> +			ret = __reset_add_reset_gpio_device(node, &args);
+>>>
+>>> So this will also be called with args as parsed.
+>>>
+>>>> +			mutex_lock(&reset_list_mutex);
+>>>> +			if (ret) {
+>>>> +				rstc = ERR_PTR(ret);
+>>>> +				goto out;
+>>>> +			}
+>>>> +			/*
+>>>> +			 * Success: reset-gpio could probe immediately, so
+>>>> +			 * re-check the lookup.
+>>>> +			 */
+>>>> +			rcdev = __reset_find_rcdev(&args, gpio_fallback, NULL);
+>>>
+>>> And this will again be called with args as parsed and overwrite args
+>>> again.>
+>>>> +			if (!rcdev) {
+>>>> +				rstc = ERR_PTR(-EPROBE_DEFER);
+>>>> +				goto out;
+>>>> +			}
+>>>> +			/* Success, rcdev is valid thus do not bail out */
+>>>> +		} else {
+>>>> +			rstc = ERR_PTR(-EPROBE_DEFER);
+>>>> +			goto out;
+>>>> +		}
+>>>>  	}
+>>>
+>>> So at this point args is overwritten in the gpio_fallback case. I would
+>>> find it much clearer to just overwrite args here and make the first
+>>> parameter to __reset_find_rcdev() const.
+>>
+>> I think I get your point. Overwriting happens after we store the
+>> original of_args, but the code is indeed not intuitive. I think I can
+>> move it further, as you suggested.
+> 
+> Now I think we can skip the overwriting altogether and just adapt the
+> following of_reset_n_cells check ad of_xlate call as mentioned above.
+
+
+Yep!
 
 Best regards,
 Krzysztof
