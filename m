@@ -1,250 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2069.outbound.protection.outlook.com [40.107.20.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0241846;
-	Fri, 12 Jan 2024 03:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23A65B5A3;
+	Fri, 12 Jan 2024 05:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hlDIU+Sk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705029282; x=1736565282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cwgXaGkg+9dlKT7vM6fOfd1vb77DgMTDItkjEAJYj2w=;
-  b=hlDIU+SkWcvRkn4O7AqzDoPYOmJhFg7keLGT1k892pIL0PFYZbmEx+iT
-   J0J9zYjaiJbqC25/kp6kw7WCQAorWnhfKLoN9zleCc/NQ6FQyzHty9SuS
-   fLK6YZcG+wgbdSbBVXBhESpHJ2mau3bQHgDQ2CCEcNFSBVQiWDvtOzN1w
-   WjgFtwatOL+9WZGD0thqn3SMoxVCB/lQSmDzGu+ZlkYUYpDOpuCBwYdSn
-   DpsOfObpU8054/E5yBwtft2hDtmLnnX3OQziAqH9kJ6qb6EF9PYxIYn8v
-   Nn7LvGt1NW4x9Y5QZRwyiIktXSy9P7XscvJ3B3D1U4lNvVpvRUi2VW0OP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397948519"
-X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
-   d="scan'208";a="397948519"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 19:14:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="732453627"
-X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
-   d="scan'208";a="732453627"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 11 Jan 2024 19:14:36 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rO80A-000906-0B;
-	Fri, 12 Jan 2024 03:14:34 +0000
-Date: Fri, 12 Jan 2024 11:13:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	lgirdwood@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, ribalda@chromium.org,
-	nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
-	kuninori.morimoto.gx@renesas.com, nfraprado@collabora.com,
-	alsa-devel@alsa-project.org, trevor.wu@mediatek.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/7] ASoC: mediatek: mt8192-afe-pcm: Simplify with
- dev_err_probe()
-Message-ID: <202401121019.EC2g0hQM-lkp@intel.com>
-References: <20240111105247.117766-7-angelogioacchino.delregno@collabora.com>
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="eBjFZUm1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nO4Epl8XTcVi7zMMw9LwCeMxNbuF+aa+HPwX95bDmulSQnshMBnTX6tH7bQtMNq5cG3ep2FiSrw3/9sYD0zqhJV+aVO7p5vLHqnjbZntz8jsY1XJqt8U/dqTyN3zGq+y4Y2NZkGu6b3SW5ZGESvxDuSnM/cpbOx2h7LZCTDjp3TsisSMivvjNNVOnwGtDM8X1z7m8KZ409YqpP7XR5YhP/2ZEsoSBYTX7eRWH5Y0mhfqYT9jrytolBodGJX9+8dt1n0TnEOXHDJwmycnQ6P+jPnETxjXWEv0FmudqFs2E40i2555aW85aQ1K1ixUvTyUyAatdryiRlz9atUE+/2N1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J7Npn6ZqWcPdNBtpdTJgCBd+0IKtZVth+kf2+I+MpUo=;
+ b=T5n0Q+GlgOtnj1Lgt+/A076SsDoh8nh/799UR9gvbrBU0RKQkKdSU8pgixxk9f5D60JDV1e4slti6EdtFRE23AOhqFipTyYwdFwv+taK/HC37M/5m7B61gWCga3PyR3S+o5mbf+f/y8jgNmpBU0f/Py+7uWhutKrTOh95Ci5eNjldt/cmXTHkpIZuIYvTTrs/wdNDIqIyJEAR0K0YVYLT1kEKbHr54AU+hOwaSAflVH3dZfhn1J58Cu8pCccGwPOUtqEymTCgVU/83bp3pFxRJGjPbrG69W9+GrmWe48NzOADk4i3vzicVZ75nmrpl9PXnRbtvLOz0AJc29ksuo6tA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J7Npn6ZqWcPdNBtpdTJgCBd+0IKtZVth+kf2+I+MpUo=;
+ b=eBjFZUm1HKZPZ2D6JMsUKHm9X8xqtWT5iB2h17qVT4M0iC7Phs0GgLqCZKcwxQIqslNWZsafGHXSbmRa0piRIdh0vDltDpt6XSaUiMa0hipMp8J4kXZukB/n4USwznFR/wVFU2MbHjxqjzQ8LwrMl5ToBSIh1msvHEQxxnO5xwc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
+ by VI1PR04MB9833.eurprd04.prod.outlook.com (2603:10a6:800:1da::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Fri, 12 Jan
+ 2024 05:43:54 +0000
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c]) by DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c%3]) with mapi id 15.20.7181.020; Fri, 12 Jan 2024
+ 05:43:53 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Cc: Chancel Liu <chancel.liu@nxp.com>
+Subject: [PATCH v2 0/3] ASoC: Support SAI and MICFIL on i.MX95 platform
+Date: Fri, 12 Jan 2024 14:43:28 +0900
+Message-ID: <20240112054331.3244104-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.42.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0043.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::12) To DB9PR04MB9498.eurprd04.prod.outlook.com
+ (2603:10a6:10:360::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111105247.117766-7-angelogioacchino.delregno@collabora.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|VI1PR04MB9833:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5835d68d-1124-48e3-5284-08dc13317627
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	3WI+yLtUIydle0fl0uMgqnzSiZmFj3PmSP6qpe88nac/1YcXupVfkugm8XEcpGyCMyI/z++qOGKabnuoHs8RQVkAT+Bl/D4KtBD2fOpBI4YwcxC363yh1LxeyF21W42AKOTXOO4Vt3bru7Y5DsZqmDBQiSVzNBF7laozFAOiVf48lsFy0UPrZCpDda19/F1ar9FmZt2qjWQ4t+aJEF7898bmW/M/5r7uO8GIU0MFgKEVHLJxykWosFG0H55SzJtkkYhd93SrQnKYK+9PSF8INAQD05VcEmKgPEdBc0FM3npVV6rOFEcx6bgVif4iBwULfVqK6JvBWR/6eFznCpBZCISist+LJQEgYgcscnVqKug0eKBkITbHLd3wQmyw2cEVIa8QFNxyPbTJBlLJn4mFmsNmcqsswEadRG8bbmpykWeMUrrusnVC74rjhjmChzKQ+/VNBCobK/SdZLb5Wz7JUKLxSg5223u31TArO6S2MtOwUJmFGWE0XH+/eXR3t8EqMRGHY7bubAeWjWJz+WYyslDx5z5749/V6fnKbQXDcPX0EJlwtFsaBFCAJvvjzjY+0YPQFRvAUaCoy8rMC2ncXxGZWhNlSp1BOZp127jb2UqG76IvBnQPx1Jr/FT3/5fbUEP02olJnq8sjgXS8A+FWw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(366004)(136003)(396003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(316002)(38100700002)(41300700001)(36756003)(2906002)(86362001)(83380400001)(6486002)(6506007)(66476007)(66946007)(52116002)(66556008)(6666004)(478600001)(7416002)(4744005)(6512007)(5660300002)(4326008)(2616005)(26005)(8936002)(44832011)(1076003)(8676002)(38350700005)(921011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8G5ZRHzVuV0EzXUy/lpaugJkw9NXmSzOKSavZY5VsZIVcp4YZZ4MLelxGSZx?=
+ =?us-ascii?Q?4j4vfX6LQ6sI8baRBPFQCaioCYVDI96yDhrK5tnFAlbTPvx085PK+E9j2By+?=
+ =?us-ascii?Q?Ue+3QVgIU72xwkzjBcl3qr6TltuFfa92+esSx/553mb6StdoiNsuMCPezdhC?=
+ =?us-ascii?Q?hBWN0/hnlm4oHHJUPxHo/gNn29bjKApZhU+rMui6+tU85PTq2Davp93NOjhj?=
+ =?us-ascii?Q?zUzWaF7omDckUbG44G9qJDhZVRbh4gQT/4hQey/Mz5mgAx385AqBB17FoV3o?=
+ =?us-ascii?Q?g44AUvTpdmTTsWpZHyAaGBFk+7ndO2Tdzh8+lKdPTyfUqW2r8Khw/fIVUHFS?=
+ =?us-ascii?Q?X+zIcLDocA4G+QfqVmwMsIdBSlrkW1XR6FlRvw7dij+WiW5jrwJrtmFZrIFh?=
+ =?us-ascii?Q?0GS6ApAJBhyaSv7KoHVxxnIgKpIfNlJAKHPT6OmL0uzCnwTopAX6H62+ptSg?=
+ =?us-ascii?Q?do7me87bI6IUir2hX9vL830LH3WO54MKrZlNrONtK0ce8QmuK9CSemy+8Jzr?=
+ =?us-ascii?Q?IUOz+HAgvXiOVcJDAH9XadQETbW0PegIPMZb412R7vIkUo1gmVaU03Poel5r?=
+ =?us-ascii?Q?iMFSereQQGGBUz4t5RK8eZGBNsFElB5ZoCJnc1SRhYx58vc5Qq82bU6UBrpf?=
+ =?us-ascii?Q?hbDXmv98hr9raezWTzTqjLZDoa3Igb54VUn6OpD6RkxCmS+OD/eGNRpPD3uc?=
+ =?us-ascii?Q?Yq6VaHO+fNd4cxn8YjBTunprpR+16Lhv2qZpqAxxu+qqacVu0PwQ4MmXzn/+?=
+ =?us-ascii?Q?aPA9cICg3LEMz59yj3OyMJpI5Pa4V76Ao61OpNnQCUmMQ5+K4X0NpvQixNHy?=
+ =?us-ascii?Q?NvaZNtgjz+eKZKegAK9K0fOlqvM3i8mCsaEigOmxGkCXzULxMlr8vjypUX0o?=
+ =?us-ascii?Q?iRRP3mVCfTfV2Yg9M4ImIrwyw4AzvpOuOvhz+pN5QnXsA7HQfCx+8WdWeCCx?=
+ =?us-ascii?Q?uLDyvNKOHepuhlx0meqhvELgKelctEon8yRobO8ZxGkx0vP/ekyaTirNGBsC?=
+ =?us-ascii?Q?8rO+i4jSCqM+AiWJdWW1eQF2D1GuH/xpEiq/w1FUE4Aw1F/Hol7G4SEIzxsp?=
+ =?us-ascii?Q?TEFwiPU1dCjVP1wYPNY1ZEXjh8k4rlrtPYG+oIydzie+fMyyUXmjUum9wV81?=
+ =?us-ascii?Q?7DXoBB2POXSQPlhn+TiJWR+tjpvvXpwK7vVF91vwA2OvaHNbWahra39zaTRn?=
+ =?us-ascii?Q?KpCTCCTdFgO6YpYttsRlbw/+Zkb07oylOAq2KSsRw0pNjuVk6b1pKJlrXwYI?=
+ =?us-ascii?Q?8yOtJ9TysLmNinzMdMCB3A+Ggx5YbEecJ4leHObLjBfpQrYf4viMr+bLaUqL?=
+ =?us-ascii?Q?hOaqNaH6Kj5BNR/7ik/SjSgpDqalRRDzd4qhiXkXv17EvAutv1S5yeqLLGil?=
+ =?us-ascii?Q?0ViIXP2sffPZKy6tCcaxINKmiNyl1hWtwaiIpA7gM4hRsfDpCEJU/EfJkvMu?=
+ =?us-ascii?Q?IuV15NYuxotsvfFPXCsQNm/sT9EGuOX8auH4F5z29hi7tfEK6MO+0Et+euKO?=
+ =?us-ascii?Q?7VXp3Aj7MwaUr6u7F6Cx8JfhlBrEDmSaQn7nk9JOzc1NDDkS5OEOYpifpnZE?=
+ =?us-ascii?Q?fPUW0Yhbu+c9aLuOj9+EFB6MBj1YuI5tFKfFD92p?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5835d68d-1124-48e3-5284-08dc13317627
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2024 05:43:53.9234
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cwcwdjP+JygfZAtEqxVirqGDAdOumrH95Cp9p5zEn+z7KgD3Zw+dQujs76Sf/ZJi7hfMaQktegQ8vkc2e3OO1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9833
 
-Hi AngeloGioacchino,
+Support SAI and MICFIL on i.MX95 platform
 
-kernel test robot noticed the following build warnings:
+changes in v2
+- Remove unnecessary "item" in fsl,micfil.yaml
+- Don't change alphabetical order in fsl,sai.yaml
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on broonie-spi/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.7 next-20240111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Chancel Liu (3):
+  ASoC: dt-bindings: fsl,sai: Add compatible string for i.MX95 platform
+  ASoC: fsl_sai: Add support for i.MX95 platform
+  ASoC: dt-bindings: fsl,micfil: Add compatible string for i.MX95
+    platform
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/ASoC-mediatek-mt8173-afe-pcm-Convert-to-devm_pm_runtime_enable/20240111-185734
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240111105247.117766-7-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH 6/7] ASoC: mediatek: mt8192-afe-pcm: Simplify with dev_err_probe()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240112/202401121019.EC2g0hQM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121019.EC2g0hQM-lkp@intel.com/reproduce)
+ .../devicetree/bindings/sound/fsl,micfil.yaml      | 14 ++++++++++----
+ .../devicetree/bindings/sound/fsl,sai.yaml         |  1 +
+ sound/soc/fsl/fsl_sai.c                            | 13 +++++++++++++
+ 3 files changed, 24 insertions(+), 4 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401121019.EC2g0hQM-lkp@intel.com/
+--
+2.42.0
 
-All warnings (new ones prefixed by >>):
-
-   sound/soc/mediatek/mt8192/mt8192-afe-pcm.c: In function 'mt8192_afe_pcm_dev_probe':
->> sound/soc/mediatek/mt8192/mt8192-afe-pcm.c:2284:67: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-    2284 |                         return dev_err_probe(afe->dev, ret, "dai %d register fail");
-         |                                                                  ~^
-         |                                                                   |
-         |                                                                   int
-
-
-vim +2284 sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
-
-  2172	
-  2173	static int mt8192_afe_pcm_dev_probe(struct platform_device *pdev)
-  2174	{
-  2175		struct mtk_base_afe *afe;
-  2176		struct mt8192_afe_private *afe_priv;
-  2177		struct device *dev;
-  2178		struct reset_control *rstc;
-  2179		int i, ret, irq_id;
-  2180	
-  2181		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
-  2182		if (ret)
-  2183			return ret;
-  2184	
-  2185		afe = devm_kzalloc(&pdev->dev, sizeof(*afe), GFP_KERNEL);
-  2186		if (!afe)
-  2187			return -ENOMEM;
-  2188		platform_set_drvdata(pdev, afe);
-  2189	
-  2190		afe->platform_priv = devm_kzalloc(&pdev->dev, sizeof(*afe_priv),
-  2191						  GFP_KERNEL);
-  2192		if (!afe->platform_priv)
-  2193			return -ENOMEM;
-  2194		afe_priv = afe->platform_priv;
-  2195	
-  2196		afe->dev = &pdev->dev;
-  2197		dev = afe->dev;
-  2198	
-  2199		/* init audio related clock */
-  2200		ret = mt8192_init_clock(afe);
-  2201		if (ret) {
-  2202			dev_err(dev, "init clock error\n");
-  2203			return ret;
-  2204		}
-  2205	
-  2206		/* reset controller to reset audio regs before regmap cache */
-  2207		rstc = devm_reset_control_get_exclusive(dev, "audiosys");
-  2208		if (IS_ERR(rstc))
-  2209			return dev_err_probe(dev, PTR_ERR(rstc), "could not get audiosys reset\n");
-  2210	
-  2211		ret = reset_control_reset(rstc);
-  2212		if (ret)
-  2213			return dev_err_probe(dev, ret, "failed to trigger audio reset\n");
-  2214	
-  2215		ret = devm_pm_runtime_enable(&pdev->dev);
-  2216		if (ret)
-  2217			return ret;
-  2218	
-  2219		/* regmap init */
-  2220		afe->regmap = syscon_node_to_regmap(dev->parent->of_node);
-  2221		if (IS_ERR(afe->regmap))
-  2222			return dev_err_probe(dev, PTR_ERR(afe->regmap),
-  2223					     "could not get regmap from parent");
-  2224	
-  2225		ret = regmap_attach_dev(dev, afe->regmap, &mt8192_afe_regmap_config);
-  2226		if (ret)
-  2227			return dev_err_probe(dev, ret, "regmap_attach_dev fail\n");
-  2228	
-  2229		/* enable clock for regcache get default value from hw */
-  2230		afe_priv->pm_runtime_bypass_reg_ctl = true;
-  2231		pm_runtime_get_sync(&pdev->dev);
-  2232	
-  2233		ret = regmap_reinit_cache(afe->regmap, &mt8192_afe_regmap_config);
-  2234		if (ret)
-  2235			return dev_err_probe(dev, ret, "regmap_reinit_cache fail\n");
-  2236	
-  2237		pm_runtime_put_sync(&pdev->dev);
-  2238		afe_priv->pm_runtime_bypass_reg_ctl = false;
-  2239	
-  2240		regcache_cache_only(afe->regmap, true);
-  2241		regcache_mark_dirty(afe->regmap);
-  2242	
-  2243		/* init memif */
-  2244		afe->memif_size = MT8192_MEMIF_NUM;
-  2245		afe->memif = devm_kcalloc(dev, afe->memif_size, sizeof(*afe->memif),
-  2246					  GFP_KERNEL);
-  2247		if (!afe->memif)
-  2248			return -ENOMEM;
-  2249	
-  2250		for (i = 0; i < afe->memif_size; i++) {
-  2251			afe->memif[i].data = &memif_data[i];
-  2252			afe->memif[i].irq_usage = memif_irq_usage[i];
-  2253			afe->memif[i].const_irq = 1;
-  2254		}
-  2255	
-  2256		mutex_init(&afe->irq_alloc_lock);	/* needed when dynamic irq */
-  2257	
-  2258		/* init irq */
-  2259		afe->irqs_size = MT8192_IRQ_NUM;
-  2260		afe->irqs = devm_kcalloc(dev, afe->irqs_size, sizeof(*afe->irqs),
-  2261					 GFP_KERNEL);
-  2262		if (!afe->irqs)
-  2263			return -ENOMEM;
-  2264	
-  2265		for (i = 0; i < afe->irqs_size; i++)
-  2266			afe->irqs[i].irq_data = &irq_data[i];
-  2267	
-  2268		/* request irq */
-  2269		irq_id = platform_get_irq(pdev, 0);
-  2270		if (irq_id < 0)
-  2271			return irq_id;
-  2272	
-  2273		ret = devm_request_irq(dev, irq_id, mt8192_afe_irq_handler,
-  2274				       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
-  2275		if (ret)
-  2276			return dev_err_probe(dev, ret, "could not request_irq for Afe_ISR_Handle\n");
-  2277	
-  2278		/* init sub_dais */
-  2279		INIT_LIST_HEAD(&afe->sub_dais);
-  2280	
-  2281		for (i = 0; i < ARRAY_SIZE(dai_register_cbs); i++) {
-  2282			ret = dai_register_cbs[i](afe);
-  2283			if (ret)
-> 2284				return dev_err_probe(afe->dev, ret, "dai %d register fail");
-  2285		}
-  2286	
-  2287		/* init dai_driver and component_driver */
-  2288		ret = mtk_afe_combine_sub_dai(afe);
-  2289		if (ret)
-  2290			return dev_err_probe(afe->dev, ret, "mtk_afe_combine_sub_dai fail\n");
-  2291	
-  2292		/* others */
-  2293		afe->mtk_afe_hardware = &mt8192_afe_hardware;
-  2294		afe->memif_fs = mt8192_memif_fs;
-  2295		afe->irq_fs = mt8192_irq_fs;
-  2296		afe->get_dai_fs = mt8192_get_dai_fs;
-  2297		afe->get_memif_pbuf_size = mt8192_get_memif_pbuf_size;
-  2298		afe->memif_32bit_supported = 1;
-  2299	
-  2300		afe->runtime_resume = mt8192_afe_runtime_resume;
-  2301		afe->runtime_suspend = mt8192_afe_runtime_suspend;
-  2302	
-  2303		/* register platform */
-  2304		ret = devm_snd_soc_register_component(&pdev->dev,
-  2305						      &mt8192_afe_component, NULL, 0);
-  2306		if (ret)
-  2307			return dev_err_probe(dev, ret, "Couldn't register AFE component\n");
-  2308	
-  2309		ret = devm_snd_soc_register_component(&pdev->dev,
-  2310						      &mt8192_afe_pcm_component,
-  2311						      afe->dai_drivers,
-  2312						      afe->num_dai_drivers);
-  2313		if (ret)
-  2314			return dev_err_probe(dev, ret, "Couldn't register AFE-PCM component\n");
-  2315	
-  2316		return 0;
-  2317	}
-  2318	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
