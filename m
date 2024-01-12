@@ -1,196 +1,143 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3AD5D8F7
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 08:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55C042057;
+	Fri, 12 Jan 2024 08:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P/HHYg1y"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2cd65f803b7so47211691fa.1
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 00:17:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705047471; x=1705652271; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZLUoJHH9vL1bZ2GgbR3YmRRkEoCjkjm9bBOPWHQDlGA=;
-        b=P/HHYg1yaD9tXJ/D9nGC0v8sCFr8Zx95lDaeN0Ac+qtmL21aP/E2CciwnHawuxxk8a
-         1CcCkM/Png3GlpQg0reO0My5ftHFr5rX9tKTb7Um6bz7luO1UckmmpCvfZ6nuM8PyKU6
-         SHiFQ5U6a2tpK9C1hi7ApJwnLbpzlbAYbWMiI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705047471; x=1705652271;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZLUoJHH9vL1bZ2GgbR3YmRRkEoCjkjm9bBOPWHQDlGA=;
-        b=wLqHDCLoB4Ny8vP7I9wXI13rBOPBN+tWtx1N6dWjEP+HINx7JXzHzV9AOr3O9O1xtd
-         cYwt9Kz76w2kcJS2eaxQtQetv5x8ViRlPC1VzJrkJ+LOHBq1Z05K63L277QvUrEYB4ZK
-         VUPuEs5LzSjRYEzdpia/x4lWOiT5uTz1z0j407NcH7mqzN3snwEU65EwO505+wbG+1Hd
-         vudVEHNQdmC15V/C6uo4pzikQLFVqnKUhUYHyCo0R/zlOeBJFaRwj6PSDchJPooQgBkz
-         5P2+84uAGmtQwr7TiRKOL/xvPQNXwXMFv9tEVT6/ZinSt09gwGYIrJWpBFsEx0ZRND8D
-         ZXxg==
-X-Gm-Message-State: AOJu0YwJwedkonvnjDC50RgbQNSqqa80yrmlMo1M6Vpzqkhf4vtmM22B
-	2AH46KFUPfukOvzf+47DncnB/fCpU4WsNMk3Zy8wXOfcyJVc
-X-Google-Smtp-Source: AGHT+IFnPq0abOqgKKGI/Lb7ZpqZ+iFRv9oNGRxuG8trKPUudrojUe1vsbrgqwS0pyK/Y0QND6YXPHJynUU7wm90eOs=
-X-Received: by 2002:a2e:8346:0:b0:2cc:e9de:3905 with SMTP id
- l6-20020a2e8346000000b002cce9de3905mr412718ljh.68.1705047471044; Fri, 12 Jan
- 2024 00:17:51 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zElDNEeG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jkh4AA8I";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zElDNEeG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jkh4AA8I"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B3DE1FC24;
+	Fri, 12 Jan 2024 08:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705049178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
+	b=zElDNEeGfpShF+8jwZ26dyAYpEBX+ZHyw7CES1ySvN0Vd1wdf7oOtIkMd/4oFXEiE42s/8
+	hpHVbCD0M+pyiD2ETyXP4etpUVqIY2MzVBsUjQZkmfAZ4uFN37nwFQe2/Rodl/v2PFh/kF
+	D97r89l6RRt73wCOXS1SecRooT6dhSs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705049178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
+	b=Jkh4AA8InzLyeIyFaJBbDLTt+1lgd5eFwy8FyRPww+XUHZnDyNBvuM/RshYV3lnyiYK9s3
+	hswbjdDzgxcLVpBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705049178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
+	b=zElDNEeGfpShF+8jwZ26dyAYpEBX+ZHyw7CES1ySvN0Vd1wdf7oOtIkMd/4oFXEiE42s/8
+	hpHVbCD0M+pyiD2ETyXP4etpUVqIY2MzVBsUjQZkmfAZ4uFN37nwFQe2/Rodl/v2PFh/kF
+	D97r89l6RRt73wCOXS1SecRooT6dhSs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705049178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
+	b=Jkh4AA8InzLyeIyFaJBbDLTt+1lgd5eFwy8FyRPww+XUHZnDyNBvuM/RshYV3lnyiYK9s3
+	hswbjdDzgxcLVpBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C8C3B13782;
+	Fri, 12 Jan 2024 08:46:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b0STL1n8oGUSKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 12 Jan 2024 08:46:17 +0000
+Date: Fri, 12 Jan 2024 09:46:17 +0100
+Message-ID: <87bk9rndly.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	ivan.orlov0322@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: aloop: Introduce a function to get if access is interleaved mode
+In-Reply-To: <20240111025219.2678764-1-chancel.liu@nxp.com>
+References: <20240111025219.2678764-1-chancel.liu@nxp.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240111105247.117766-1-angelogioacchino.delregno@collabora.com> <20240111105247.117766-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240111105247.117766-3-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 12 Jan 2024 16:17:40 +0800
-Message-ID: <CAGXv+5Grq8XrpP9yssduXtetxWBb3PB1z7O6rvvaW=CcSPB8Dg@mail.gmail.com>
-Subject: Re: [PATCH 2/7] ASoC: mediatek: mt8173-afe-pcm: Use devm_snd_soc_register_component()
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	matthias.bgg@gmail.com, ribalda@chromium.org, nicolas.ferre@microchip.com, 
-	u.kleine-koenig@pengutronix.de, kuninori.morimoto.gx@renesas.com, 
-	nfraprado@collabora.com, alsa-devel@alsa-project.org, trevor.wu@mediatek.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zElDNEeG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jkh4AA8I
+X-Spamd-Result: default: False [-2.74 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 BAYES_HAM(-2.93)[99.70%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 0B3DE1FC24
+X-Spam-Level: 
+X-Spam-Score: -2.74
+X-Spam-Flag: NO
 
-On Thu, Jan 11, 2024 at 6:53=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Function devm_snd_soc_register_component() allocates a new struct
-> snd_soc_component, adds components and initializes them; since this
-> is also devm, it automatically unregisters components and frees
-> memory upon destruction.
->
-> That's exactly what we're doing in the probe function of this driver:
-> switch to that function instead, allowing to remove the last goto and
-> to discard the .remove_new() callback for this driver.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  sound/soc/mediatek/mt8173/mt8173-afe-pcm.c | 58 +++-------------------
->  1 file changed, 8 insertions(+), 50 deletions(-)
->
-> diff --git a/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c b/sound/soc/media=
-tek/mt8173/mt8173-afe-pcm.c
-> index ea611730de9c..b887e10635fe 100644
-> --- a/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c
-> +++ b/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c
-> @@ -1129,72 +1129,31 @@ static int mt8173_afe_pcm_dev_probe(struct platfo=
-rm_device *pdev)
->         afe->runtime_resume =3D mt8173_afe_runtime_resume;
->         afe->runtime_suspend =3D mt8173_afe_runtime_suspend;
->
-> -       ret =3D devm_snd_soc_register_component(&pdev->dev,
-> -                                        &mtk_afe_pcm_platform,
-> -                                        NULL, 0);
-> +       ret =3D devm_snd_soc_register_component(&pdev->dev, &mtk_afe_pcm_=
-platform, NULL, 0);
->         if (ret)
->                 return ret;
->
-> -       comp_pcm =3D devm_kzalloc(&pdev->dev, sizeof(*comp_pcm), GFP_KERN=
-EL);
-> -       if (!comp_pcm)
-> -               return -ENOMEM;
-> -
-> -       ret =3D snd_soc_component_initialize(comp_pcm,
-> -                                          &mt8173_afe_pcm_dai_component,
-> -                                          &pdev->dev);
-> +       ret =3D devm_snd_soc_register_component(&pdev->dev, &mt8173_afe_p=
-cm_dai_component,
-> +                                             mt8173_afe_pcm_dais,
-> +                                             ARRAY_SIZE(mt8173_afe_pcm_d=
-ais));
->         if (ret)
->                 return ret;
->
-> -#ifdef CONFIG_DEBUG_FS
-> -       comp_pcm->debugfs_prefix =3D "pcm";
-> -#endif
+On Thu, 11 Jan 2024 03:52:19 +0100,
+Chancel Liu wrote:
+> 
+> There's a use case that playback stream of a loopback cable works on
+> RW_INTERLEAVED mode while capture stream works on MMAP_INTERLEAVED mode:
+> 
+> aplay -Dhw:Loopback,0,0 S32_48K_2ch.wav;
+> arecord -Dplughw:Loopback,1,0 -fS32_LE -r16000 -c2 cap.wav;
+> 
+> The plug plugin handles only slave PCM support MMAP mode. Not only plug
+> plugin but also other plugins like direct plugins(dmix/dsnoop/dshare)
+> work on MMAP access mode. In this case capture stream is the slave
+> PCM works on MMAP_INTERLEAVED mode. However loopback_check_format()
+> rejects this access setting and return:
+> 
+> arecord: pcm_read:2240: read error: Input/output error
+> 
+> To fix it a function called is_access_interleaved() is introduced to
+> get if access is interleaved mode. If both access of capture stream and
+> playback stream is interleaved mode loopback_check_format() will allow
+> this kind of access setting.
+> 
+> Fixes: 462494565c27 ("ALSA: aloop: Add support for the non-interleaved access mode")
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 
-To match existing behavior, can you move this to the component driver?
-In snd_soc_component_initialize(), component->debugfs_prefix will take
-component_driver->debugfs_prefix as default if it is not set.
+Applied now.  Thanks.
 
-Same for the HDMI component.
 
-ChenYu
-
-> -
-> -       ret =3D snd_soc_add_component(comp_pcm,
-> -                                   mt8173_afe_pcm_dais,
-> -                                   ARRAY_SIZE(mt8173_afe_pcm_dais));
-> +       ret =3D devm_snd_soc_register_component(&pdev->dev, &mt8173_afe_h=
-dmi_dai_component,
-> +                                             mt8173_afe_hdmi_dais,
-> +                                             ARRAY_SIZE(mt8173_afe_hdmi_=
-dais));
->         if (ret)
->                 return ret;
->
-> -       comp_hdmi =3D devm_kzalloc(&pdev->dev, sizeof(*comp_hdmi), GFP_KE=
-RNEL);
-> -       if (!comp_hdmi) {
-> -               ret =3D -ENOMEM;
-> -               goto err_cleanup_components;
-> -       }
-> -
-> -       ret =3D snd_soc_component_initialize(comp_hdmi,
-> -                                          &mt8173_afe_hdmi_dai_component=
-,
-> -                                          &pdev->dev);
-> -       if (ret)
-> -               goto err_cleanup_components;
-> -
-> -#ifdef CONFIG_DEBUG_FS
-> -       comp_hdmi->debugfs_prefix =3D "hdmi";
-> -#endif
-> -
-> -       ret =3D snd_soc_add_component(comp_hdmi,
-> -                                   mt8173_afe_hdmi_dais,
-> -                                   ARRAY_SIZE(mt8173_afe_hdmi_dais));
-> -       if (ret)
-> -               goto err_cleanup_components;
-> -
->         ret =3D devm_request_irq(afe->dev, irq_id, mt8173_afe_irq_handler=
-,
->                                0, "Afe_ISR_Handle", (void *)afe);
->         if (ret) {
->                 dev_err(afe->dev, "could not request_irq\n");
-> -               goto err_cleanup_components;
-> +               return ret;
->         }
->
->         dev_info(&pdev->dev, "MT8173 AFE driver initialized.\n");
->         return 0;
-> -
-> -err_cleanup_components:
-> -       snd_soc_unregister_component(&pdev->dev);
-> -       return ret;
-> -}
-> -
-> -static void mt8173_afe_pcm_dev_remove(struct platform_device *pdev)
-> -{
-> -       snd_soc_unregister_component(&pdev->dev);
->  }
->
->  static const struct of_device_id mt8173_afe_pcm_dt_match[] =3D {
-> @@ -1215,7 +1174,6 @@ static struct platform_driver mt8173_afe_pcm_driver=
- =3D {
->                    .pm =3D &mt8173_afe_pm_ops,
->         },
->         .probe =3D mt8173_afe_pcm_dev_probe,
-> -       .remove_new =3D mt8173_afe_pcm_dev_remove,
->  };
->
->  module_platform_driver(mt8173_afe_pcm_driver);
-> --
-> 2.43.0
->
->
+Takashi
