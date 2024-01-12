@@ -1,198 +1,123 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EB67E769
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 16:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899266DD08
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 16:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SJAM6Zhq"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40e68ca8e27so2799695e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 08:36:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705077390; x=1705682190; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+tAwGTFBvrjSR+D7qo0JkBwlnmAMUSdISzHDQJb3VJ8=;
-        b=SJAM6ZhqX5sQrxdeKesiLB2E7w0LvCgHKx799uY5OLzvjo4NxuzDGrBLhPq9BPHVdI
-         Z++P/Rah05n4B9lWwAR2+RA1/j9dKLQ1Yu74L6X+sx6eighuBIgINITPXCwGUqZycIAv
-         b7NUMuNA+hnOTUNoJz+xNwvfechsPnBh3M4vdYxOAF5q8mzeT0VYXxOsy+fjApbmvzy1
-         4TW3mGl7GGzcrqpfQM1hWEKqP8OjOYKPUmhKevd/XPabFaYHDDOnc/GCo9rvvvddM176
-         CKWfvGzBtaAk9txmeG+//CrjiT96qxRt1mZv78RjSMdfNlToQXQLHtt5cBc89f4W/s6a
-         ZFzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705077390; x=1705682190;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+tAwGTFBvrjSR+D7qo0JkBwlnmAMUSdISzHDQJb3VJ8=;
-        b=k+E6zTsEqw6IVHLvljVTB0VsQACHKOAlxw+Awf1jsFzPGBT1M2vojJB9fVlus9UdoO
-         wMMu62RbKOh1c+hGaVsvzXZKaDFen2VuOuT0ubo/2ctEKoAWiX9MsEpoI7fYFSiolkQl
-         dBLiWCSU13b1YneOQTtLXPiQEYDE18Bkyj/flRRg5JfPo1U+wSyIN/2QdVPHjCAU35rU
-         X8/5an0un5bo8A8lBw8cxL3Fj9TvEVgMoWref1KLrKLhrVBAEkyc/RkhApgfdpqDw8jH
-         Ap0pkvVpsAYQjE2O+EwigctvQe2eUMAYb9oMz9OWP4XbO9uPE1D5mPRyd3flelyJnkuW
-         wAWw==
-X-Gm-Message-State: AOJu0YyuphBVd9J26hy+VgB0RDnvL9E/UAmW5U5F2FS/I+DhUO/QxAS5
-	Gwap+0CSStp4y6rkaCg0t+BCntpcMUi/SA==
-X-Google-Smtp-Source: AGHT+IHwVLaqmPFUtKT7wAZTbrdSc8zyHUbK1fQIZbWvd0QlBC1T6c9jlGWVdUy5gdVHgvbYuB/lxQ==
-X-Received: by 2002:a05:600c:1c25:b0:40e:4613:daae with SMTP id j37-20020a05600c1c2500b0040e4613daaemr1033231wms.30.1705077389852;
-        Fri, 12 Jan 2024 08:36:29 -0800 (PST)
-Received: from krzk-bin.. ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id bd16-20020a05600c1f1000b0040e5a93ae53sm6573195wmb.22.2024.01.12.08.36.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 08:36:29 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Peter Rosin <peda@axentia.se>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH v3 5/5] i2c: muxes: pca954x: Allow sharing reset GPIO
-Date: Fri, 12 Jan 2024 17:36:08 +0100
-Message-Id: <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
-References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="guUYZfDf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MdD1AGxA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="guUYZfDf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MdD1AGxA"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 873171FCE1;
+	Fri, 12 Jan 2024 16:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705078086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
+	b=guUYZfDfLMaf26xuNKhXdcdfk/hAEyJURTzunoDeXUhXYxrakxDh+YCoaY0h7tAT5w4BAx
+	x03FbixVxRwayY1SmVhHP283aoE2zyO79d60ZxioWeBUsu9Lg5Hp16P5Kr8OMZDIU+/Z8O
+	hacg5CKADm40TzJrG3MskXAsNV/cuFg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705078086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
+	b=MdD1AGxAxGRsALPfDELtfnXeuqWrqZSrTD0K+lxfPTTOHb1ZVhBaOM+8XcZElU6pVYXoyr
+	f0Uqo1Ds17QXJbCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705078086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
+	b=guUYZfDfLMaf26xuNKhXdcdfk/hAEyJURTzunoDeXUhXYxrakxDh+YCoaY0h7tAT5w4BAx
+	x03FbixVxRwayY1SmVhHP283aoE2zyO79d60ZxioWeBUsu9Lg5Hp16P5Kr8OMZDIU+/Z8O
+	hacg5CKADm40TzJrG3MskXAsNV/cuFg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705078086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
+	b=MdD1AGxAxGRsALPfDELtfnXeuqWrqZSrTD0K+lxfPTTOHb1ZVhBaOM+8XcZElU6pVYXoyr
+	f0Uqo1Ds17QXJbCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C77C13782;
+	Fri, 12 Jan 2024 16:48:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +uciEUZtoWUOLwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 12 Jan 2024 16:48:06 +0000
+Date: Fri, 12 Jan 2024 17:48:05 +0100
+Message-ID: <87cyu6zeey.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.com>,	Cezary Rojewski
+ <cezary.rojewski@intel.com>,	=?ISO-8859-2?Q?=A3ukasz?= Majczak
+ <lma@chromium.org>,	linux-sound@vger.kernel.org,	Jaroslav Kysela
+ <perex@perex.cz>
+Subject: Re: [PATCH] ALSA: hda: Properly setup HDMI stream
+In-Reply-To: <20240112113349.2905328-1-amadeuszx.slawinski@linux.intel.com>
+References: <20240112113349.2905328-1-amadeuszx.slawinski@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [0.71 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.19)[71.05%]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: 0.71
 
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+On Fri, 12 Jan 2024 12:33:49 +0100,
+Amadeusz S³awiñski wrote:
+> 
+> Since commit 4005d1ba0a7e ("ASoC: soc-dai: don't call PCM audio ops if
+> the stream is not supported") HDMI playback is broken with avs driver.
+> This happens because for HDMI stream (unlike generic HDA one)
+> channels_min for stream is not set when creating PCMs. Fix this by
+> setting the value based on first available converter.
+> 
+> Fixes: 4005d1ba0a7e ("ASoC: soc-dai: don't call PCM audio ops if the stream is not supported")
+> Signed-off-by: Amadeusz S³awiñski <amadeuszx.slawinski@linux.intel.com>
 
-Some hardware designs with multiple PCA954x devices use a reset GPIO
-connected to all the muxes. Support this configuration by making use of
-the reset controller framework which can deal with the shared reset
-GPIOs. Fall back to the old GPIO descriptor method if the reset
-controller framework is not enabled.
+Thanks, applied now.
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Acked-by: Peter Rosin <peda@axentia.se>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Link: https://lore.kernel.org/r/20240108041913.7078-1-chris.packham@alliedtelesis.co.nz
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
----
-
-If previous patches are fine, then this commit is independent and could
-be taken via I2C.
-
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Sean Anderson <sean.anderson@seco.com>
----
- drivers/i2c/muxes/i2c-mux-pca954x.c | 46 ++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/i2c/muxes/i2c-mux-pca954x.c b/drivers/i2c/muxes/i2c-mux-pca954x.c
-index 2219062104fb..1702e8d49b91 100644
---- a/drivers/i2c/muxes/i2c-mux-pca954x.c
-+++ b/drivers/i2c/muxes/i2c-mux-pca954x.c
-@@ -49,6 +49,7 @@
- #include <linux/pm.h>
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <dt-bindings/mux/mux.h>
-@@ -102,6 +103,9 @@ struct pca954x {
- 	unsigned int irq_mask;
- 	raw_spinlock_t lock;
- 	struct regulator *supply;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct reset_control *reset_cont;
- };
- 
- /* Provide specs for the MAX735x, PCA954x and PCA984x types we know about */
-@@ -477,6 +481,35 @@ static int pca954x_init(struct i2c_client *client, struct pca954x *data)
- 	return ret;
- }
- 
-+static int pca954x_get_reset(struct device *dev, struct pca954x *data)
-+{
-+	data->reset_cont = devm_reset_control_get_optional_shared(dev, NULL);
-+	if (IS_ERR(data->reset_cont))
-+		return dev_err_probe(dev, PTR_ERR(data->reset_cont),
-+				     "Failed to get reset\n");
-+	else if (data->reset_cont)
-+		return 0;
-+
-+	/*
-+	 * fallback to legacy reset-gpios
-+	 */
-+	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(data->reset_gpio)) {
-+		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-+				     "Failed to get reset gpio");
-+	}
-+
-+	return 0;
-+}
-+
-+static void pca954x_reset_deassert(struct pca954x *data)
-+{
-+	if (data->reset_cont)
-+		reset_control_deassert(data->reset_cont);
-+	else
-+		gpiod_set_value_cansleep(data->reset_gpio, 0);
-+}
-+
- /*
-  * I2C init/probing/exit functions
-  */
-@@ -485,7 +518,6 @@ static int pca954x_probe(struct i2c_client *client)
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	struct i2c_adapter *adap = client->adapter;
- 	struct device *dev = &client->dev;
--	struct gpio_desc *gpio;
- 	struct i2c_mux_core *muxc;
- 	struct pca954x *data;
- 	int num;
-@@ -513,15 +545,13 @@ static int pca954x_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, ret,
- 				     "Failed to enable vdd supply\n");
- 
--	/* Reset the mux if a reset GPIO is specified. */
--	gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(gpio)) {
--		ret = PTR_ERR(gpio);
-+	ret = pca954x_get_reset(dev, data);
-+	if (ret)
- 		goto fail_cleanup;
--	}
--	if (gpio) {
-+
-+	if (data->reset_cont || data->reset_gpio) {
- 		udelay(1);
--		gpiod_set_value_cansleep(gpio, 0);
-+		pca954x_reset_deassert(data);
- 		/* Give the chip some time to recover. */
- 		udelay(1);
- 	}
--- 
-2.34.1
-
+Takashi
