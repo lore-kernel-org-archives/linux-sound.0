@@ -1,123 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899266DD08
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 16:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3E47762B
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 16:52:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="guUYZfDf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MdD1AGxA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="guUYZfDf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MdD1AGxA"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 873171FCE1;
-	Fri, 12 Jan 2024 16:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705078086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
-	b=guUYZfDfLMaf26xuNKhXdcdfk/hAEyJURTzunoDeXUhXYxrakxDh+YCoaY0h7tAT5w4BAx
-	x03FbixVxRwayY1SmVhHP283aoE2zyO79d60ZxioWeBUsu9Lg5Hp16P5Kr8OMZDIU+/Z8O
-	hacg5CKADm40TzJrG3MskXAsNV/cuFg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705078086;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
-	b=MdD1AGxAxGRsALPfDELtfnXeuqWrqZSrTD0K+lxfPTTOHb1ZVhBaOM+8XcZElU6pVYXoyr
-	f0Uqo1Ds17QXJbCw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705078086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
-	b=guUYZfDfLMaf26xuNKhXdcdfk/hAEyJURTzunoDeXUhXYxrakxDh+YCoaY0h7tAT5w4BAx
-	x03FbixVxRwayY1SmVhHP283aoE2zyO79d60ZxioWeBUsu9Lg5Hp16P5Kr8OMZDIU+/Z8O
-	hacg5CKADm40TzJrG3MskXAsNV/cuFg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705078086;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RrbRQr9X1cLQaWhEaK+g2TjLyzpaIA74Ub8EIfYs2lM=;
-	b=MdD1AGxAxGRsALPfDELtfnXeuqWrqZSrTD0K+lxfPTTOHb1ZVhBaOM+8XcZElU6pVYXoyr
-	f0Uqo1Ds17QXJbCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C77C13782;
-	Fri, 12 Jan 2024 16:48:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +uciEUZtoWUOLwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 12 Jan 2024 16:48:06 +0000
-Date: Fri, 12 Jan 2024 17:48:05 +0100
-Message-ID: <87cyu6zeey.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.com>,	Cezary Rojewski
- <cezary.rojewski@intel.com>,	=?ISO-8859-2?Q?=A3ukasz?= Majczak
- <lma@chromium.org>,	linux-sound@vger.kernel.org,	Jaroslav Kysela
- <perex@perex.cz>
-Subject: Re: [PATCH] ALSA: hda: Properly setup HDMI stream
-In-Reply-To: <20240112113349.2905328-1-amadeuszx.slawinski@linux.intel.com>
-References: <20240112113349.2905328-1-amadeuszx.slawinski@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncXXAYjp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDE3EC43390;
+	Fri, 12 Jan 2024 16:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705078362;
+	bh=xRo+4ACngJ8eJmQnuQpFB5LWdChd3MyH3BEY6GG4uog=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ncXXAYjpCG4pWUQiTNp0M1HqWuYZ2fZgyxunGwRfzeB45VBlkmvXVAknRXEMy2iYD
+	 6TUimQBtLpyinUgm/N0gWBemGWgs6pd6MXOd3SQBpWv4JLQGjDOm/E1qAqemSduFkA
+	 1Ps3MXnPo3dW71P1n/2/Iy8QI8UTQaPg0uxXAxN3k8Sq92v/My9n2QT+Bfj53hpEJo
+	 u6YbxKOas2H8/ML13Qn7K78FPPzFC6HQc8A+arGVdRzdKaNrSdIsS+7jeBC+Men2Kt
+	 EpQQ2hkbSHqscdaBTv0nld5URG/ImL9FMQqbPlbqP05a67meOdDMFrK5RDW+hDvOhs
+	 fX0M+0NUNh+Ag==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, kamil.duljas@gmail.com, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
+In-Reply-To: <20240112132749.28970-1-peter.ujfalusi@linux.intel.com>
+References: <20240112132749.28970-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2] ASoC: SOF: icp3-dtrace: Revert "Fix wrong kfree()
+ usage"
+Message-Id: <170507836050.29906.18129260050058430214.b4-ty@kernel.org>
+Date: Fri, 12 Jan 2024 16:52:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [0.71 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.19)[71.05%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: 0.71
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
-On Fri, 12 Jan 2024 12:33:49 +0100,
-Amadeusz S³awiñski wrote:
+On Fri, 12 Jan 2024 15:27:49 +0200, Peter Ujfalusi wrote:
+> The offending patch introduces memory leak when there is no error, the
+> memory allocated for the temporary storage is not freed up.
 > 
-> Since commit 4005d1ba0a7e ("ASoC: soc-dai: don't call PCM audio ops if
-> the stream is not supported") HDMI playback is broken with avs driver.
-> This happens because for HDMI stream (unlike generic HDA one)
-> channels_min for stream is not set when creating PCMs. Fix this by
-> setting the value based on first available converter.
+> As I have commented, the original code was correct and cleaner to
+> follow but it was not obvious from the patch that it will introduce
+> regression.
 > 
-> Fixes: 4005d1ba0a7e ("ASoC: soc-dai: don't call PCM audio ops if the stream is not supported")
-> Signed-off-by: Amadeusz S³awiñski <amadeuszx.slawinski@linux.intel.com>
+> [...]
 
-Thanks, applied now.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: SOF: icp3-dtrace: Revert "Fix wrong kfree() usage"
+      commit: 813c2f2925ee9c10dc4acd5aa7410cd3357e8da8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
