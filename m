@@ -1,134 +1,100 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AD917C87;
-	Fri, 12 Jan 2024 17:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C912560A;
+	Fri, 12 Jan 2024 18:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OR0GINHd"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40C6eAW6010272;
-	Fri, 12 Jan 2024 11:21:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:references:in-reply-to:subject:date:message-id
-	:mime-version:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=J3TCSGRnd9DnWnfS+rOSPwl8wXTlbWxJiNR59khbceE=; b=
-	OR0GINHd39SEt59Nux2WoWKhWSASQ9jvB27t7sO+ysdwQJu7DsyFMP0HPdaNmyDF
-	X1WEaldKQSjgjTR1VB2oklM1bG2GrxD7zhSZxuSRQP+8u/4ie4HIIxuvWq/+BhF8
-	C+kARahk1gR0x0ygxaChAhfeY5pLnf22bcMNVqmHsiBqidUbYKzQYPe8YXuGsNz3
-	CJwjhcghGzE/xR2hc1zR0aBf15J+9ba1IZsof94jtOPTvZ0MgnkAw6PuV3jm8Ddu
-	n4pF/t2lii8P2HdHIvdDzkjgX1plFVGpAkSvHZJE079Nnt3TWh35NqWZRhcpYMG0
-	kgGN6tlxlQaJurPTRgOx7g==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vf45prnsr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Jan 2024 11:21:58 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 12 Jan
- 2024 17:21:57 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 12 Jan 2024 17:21:57 +0000
-Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.65.232])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D3E2515A0;
-	Fri, 12 Jan 2024 17:21:56 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: 'Kenzo Gomez' <kenzo.sgomez@gmail.com>
-CC: 'James Schulman' <james.schulman@cirrus.com>,
-        'David Rhodes'
-	<david.rhodes@cirrus.com>,
-        'Richard Fitzgerald' <rf@opensource.cirrus.com>,
-        'Jaroslav Kysela' <perex@perex.cz>, 'Takashi Iwai' <tiwai@suse.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240112163239.59743-1-kenzo.sgomez@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ME5K2Wvg"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40d6b4e2945so78026195e9.0;
+        Fri, 12 Jan 2024 10:24:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705083855; x=1705688655; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pTWj3rihL8bSDfLhEga4c9xLiiLPW6jDT6R2juZX/CY=;
+        b=ME5K2Wvg+Ly1P0QIIXH02w1AXrfIzkpRFB1IDNNA4gQSGo5Kwy6bRImhx0gQL2Phwa
+         LK1niqzLSlVd9PbkUDmilltdB6PcP96dCqt/CdXL/Z0BsPeXlpLl2H2H0JdAtkEfpsSW
+         ccTa+8dADkTm01e+QqTBW+nnhGbejWN9FgbcYiumOFoYOckKBIQGjSfB5+T8CQZyVUFJ
+         cwsEqKp8LXsTKL7lix1mlOyvYMNNnMnp+B/AaND4oEvvSU58koH0z6quGP7vQT8YZ3fA
+         Xul82t6rPuLSSVFXTUFYTbbUKCh9InClf3raIUYQO83/wSGw3/I/lY6zjcF6BHRTeDAw
+         cYiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705083855; x=1705688655;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pTWj3rihL8bSDfLhEga4c9xLiiLPW6jDT6R2juZX/CY=;
+        b=hlAaDBeBrR3kBDCn+9N/67L6NhmIe5lOpNkiiX4QDpHyJUEiUv6VeQ+qNQ8sNMSlCb
+         pbim+vg6DOt8wgLX8JV6qIIQfrfzlNorivJK8cQvYfZSm1gzs5ibiHVfDEdg3khJrJin
+         v2EenQBbms/Sdq11klszsF2fSbLACx+sRTGUL5vP4sIi2+Z85HwwPu6VR++SpHjp/T0/
+         PrZO1d/tVL/ML+mnvNDQcfyofYslajlJXLhaUwSiOAIzgZ2JH6wyyb8YcwhdpEg6eFgm
+         K7lFUjIn3jkeW8gqnW7jJTCbutBQXEXhgCaIYutCqWPrwnxIGJr244NeR1Zv+iNQAzCv
+         BsSw==
+X-Gm-Message-State: AOJu0YwIl4QCdiy9GqjDjrPkXtkyRFdDS87yaT5RPuR8ylOp2lFs56U/
+	8FEJv10bPuslUWZuinQx9M469rhXBWyULA==
+X-Google-Smtp-Source: AGHT+IG7YWD6hzcwCjnkvQXzbiGmgtZPEtPzRB21len23MAiK4rXbujptBECL5ruziLhYjMSAtv0ig==
+X-Received: by 2002:a05:600c:4286:b0:40e:68da:dd2d with SMTP id v6-20020a05600c428600b0040e68dadd2dmr285867wmc.17.1705083854527;
+        Fri, 12 Jan 2024 10:24:14 -0800 (PST)
+Received: from kenzo-linux-laptop.bicolor-pike.ts.net (154.red-88-26-51.staticip.rima-tde.net. [88.26.51.154])
+        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040d91912f2csm6694521wmq.1.2024.01.12.10.24.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jan 2024 10:24:14 -0800 (PST)
+From: Kenzo Gomez <kenzo.sgomez@gmail.com>
+To: sbinding@opensource.cirrus.com
+Cc: Kenzo Gomez <kenzo.sgomez@gmail.com>,
+	James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: hda: cs35l41: Support additional ASUS Zenbook UX3402VA
+Date: Fri, 12 Jan 2024 19:20:34 +0100
+Message-ID: <20240112182113.70650-1-kenzo.sgomez@gmail.com>
+X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240112163239.59743-1-kenzo.sgomez@gmail.com>
-Subject: RE: [PATCH] ALSA: hda: cs35l41: Support additional ASUS Zenbook UX3402VA
-Date: Fri, 12 Jan 2024 17:21:56 +0000
-Message-ID: <000f01da457b$d8268cf0$8873a6d0$@opensource.cirrus.com>
+References: <20240112163239.59743-1-kenzo.sgomez@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQNavMYHpNy3oxQTxP/3AG71Wvly+63VfWQQ
-Content-Language: en-gb
-X-Proofpoint-GUID: dVLmaUESpk4yggWR00XD8W0QL271qo47
-X-Proofpoint-ORIG-GUID: dVLmaUESpk4yggWR00XD8W0QL271qo47
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Add new model entry into configuration table.
 
-> -----Original Message-----
-> From: Kenzo Gomez <kenzo.sgomez@gmail.com>
-> Sent: Friday, January 12, 2024 4:32 PM
-> To: sbinding@opensource.cirrus.com
-> Cc: Kenzo Gomez <kenzo.sgomez@gmail.com>; James Schulman
-> <james.schulman@cirrus.com>; David Rhodes
-> <david.rhodes@cirrus.com>; Richard Fitzgerald
-> <rf@opensource.cirrus.com>; Jaroslav Kysela <perex@perex.cz>;
-Takashi
-> Iwai <tiwai@suse.com>; alsa-devel@alsa-project.org;
-> patches@opensource.cirrus.com; linux-sound@vger.kernel.org; linux-
-> kernel@vger.kernel.org
-> Subject: [PATCH] ALSA: hda: cs35l41: Support additional ASUS Zenbook
-> UX3402VA
-> 
-> Add new model entry into configuration table.
-> 
-> Signed-off-by: Kenzo Gomez <kenzo.sgomez@gmail.com>
-> ---
->  sound/pci/hda/cs35l41_hda_property.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/pci/hda/cs35l41_hda_property.c
-> b/sound/pci/hda/cs35l41_hda_property.c
-> index c1afb721b4c6..adfb31a6bf1e 100644
-> --- a/sound/pci/hda/cs35l41_hda_property.c
-> +++ b/sound/pci/hda/cs35l41_hda_property.c
-> @@ -67,6 +67,7 @@ static const struct cs35l41_config
-> cs35l41_config_table[] = {
->  	{ "10431D1F", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->  	{ "10431DA2", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 1, 2, 0, 0, 0, 0 },
->  	{ "10431E02", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 1, 2, 0, 0, 0, 0 },
-> +	{ "104316A3", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 1, 2, 0, 0, 0, 0 },
+Signed-off-by: Kenzo Gomez <kenzo.sgomez@gmail.com>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This entry looks correct, but this table is supposed to be sorted by
-SSID,
-can you move the entry to its correct location?
-
->  	{ "10431EE2", I2C, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 0, -1, -1, 0, 0, 0 },
->  	{ "10431F12", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->  	{ "10431F1F", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT,
-> 0, 0 }, 1, -1, 0, 0, 0, 0 },
-> @@ -371,6 +372,7 @@ static const struct cs35l41_prop_model
-> cs35l41_prop_model_table[] = {
->  	{ "CSC3551", "10431D1F", generic_dsd_config },
->  	{ "CSC3551", "10431DA2", generic_dsd_config },
->  	{ "CSC3551", "10431E02", generic_dsd_config },
-> +	{ "CSC3551", "104316A3", generic_dsd_config },
-
-Same with this table, it should be sorted by SSID.
-
->  	{ "CSC3551", "10431EE2", generic_dsd_config },
->  	{ "CSC3551", "10431F12", generic_dsd_config },
->  	{ "CSC3551", "10431F1F", generic_dsd_config },
-> --
-> 2.43.0
-> 
-
-Thanks,
-Stefan
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index c1afb721b4c6..9ec5773e580e 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -54,6 +54,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "10431533", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431573", SPI, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+ 	{ "10431663", SPI, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 1000, 4500, 24 },
++	{ "104316A3", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "104316D3", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "104316F3", SPI, 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "104317F3", I2C, 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+@@ -358,6 +359,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "10431533", generic_dsd_config },
+ 	{ "CSC3551", "10431573", generic_dsd_config },
+ 	{ "CSC3551", "10431663", generic_dsd_config },
++	{ "CSC3551", "104316A3", generic_dsd_config },
+ 	{ "CSC3551", "104316D3", generic_dsd_config },
+ 	{ "CSC3551", "104316F3", generic_dsd_config },
+ 	{ "CSC3551", "104317F3", generic_dsd_config },
+-- 
+2.43.0
 
