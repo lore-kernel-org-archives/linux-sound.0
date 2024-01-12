@@ -1,143 +1,123 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55C042057;
-	Fri, 12 Jan 2024 08:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810CA63501
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jan 2024 11:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zElDNEeG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jkh4AA8I";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zElDNEeG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jkh4AA8I"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WWfS8bqU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VY5xju/s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WWfS8bqU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VY5xju/s"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B3DE1FC24;
-	Fri, 12 Jan 2024 08:46:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 39FE722292;
+	Fri, 12 Jan 2024 11:10:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705049178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
-	b=zElDNEeGfpShF+8jwZ26dyAYpEBX+ZHyw7CES1ySvN0Vd1wdf7oOtIkMd/4oFXEiE42s/8
-	hpHVbCD0M+pyiD2ETyXP4etpUVqIY2MzVBsUjQZkmfAZ4uFN37nwFQe2/Rodl/v2PFh/kF
-	D97r89l6RRt73wCOXS1SecRooT6dhSs=
+	t=1705057828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qmCDqZdXeFAbYESijbEja6ZC24qK7cgddQRu8Cfk5LI=;
+	b=WWfS8bqUZPjwFITbhCFqOP/O3wd47By8Bzca8/OzoPR/Q3xGFKqImDirwsDPBMU+0u8AcJ
+	KHFNVMPPkpj1hAS5Ik2xqU63na9SvQNt6HWAgMiydIG+ceZBGM5Rvlh2wuoaqegBpS2m7m
+	bNf8kh6XgQeHgyarIY582u/ZypGC9cg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705049178;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
-	b=Jkh4AA8InzLyeIyFaJBbDLTt+1lgd5eFwy8FyRPww+XUHZnDyNBvuM/RshYV3lnyiYK9s3
-	hswbjdDzgxcLVpBA==
+	s=susede2_ed25519; t=1705057828;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qmCDqZdXeFAbYESijbEja6ZC24qK7cgddQRu8Cfk5LI=;
+	b=VY5xju/sjBzQaJ2vuREL5iAL3Y0z0Dql4pyPJALo2EC1P9DL5axMqPZrAqClvjLVaVzVt/
+	yLLBLa01pONNyEDQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705049178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
-	b=zElDNEeGfpShF+8jwZ26dyAYpEBX+ZHyw7CES1ySvN0Vd1wdf7oOtIkMd/4oFXEiE42s/8
-	hpHVbCD0M+pyiD2ETyXP4etpUVqIY2MzVBsUjQZkmfAZ4uFN37nwFQe2/Rodl/v2PFh/kF
-	D97r89l6RRt73wCOXS1SecRooT6dhSs=
+	t=1705057828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qmCDqZdXeFAbYESijbEja6ZC24qK7cgddQRu8Cfk5LI=;
+	b=WWfS8bqUZPjwFITbhCFqOP/O3wd47By8Bzca8/OzoPR/Q3xGFKqImDirwsDPBMU+0u8AcJ
+	KHFNVMPPkpj1hAS5Ik2xqU63na9SvQNt6HWAgMiydIG+ceZBGM5Rvlh2wuoaqegBpS2m7m
+	bNf8kh6XgQeHgyarIY582u/ZypGC9cg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705049178;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FKd2vrnCJc+ZSoIlM3guxZ67+jWlztH2KbgryFDlQoo=;
-	b=Jkh4AA8InzLyeIyFaJBbDLTt+1lgd5eFwy8FyRPww+XUHZnDyNBvuM/RshYV3lnyiYK9s3
-	hswbjdDzgxcLVpBA==
+	s=susede2_ed25519; t=1705057828;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qmCDqZdXeFAbYESijbEja6ZC24qK7cgddQRu8Cfk5LI=;
+	b=VY5xju/sjBzQaJ2vuREL5iAL3Y0z0Dql4pyPJALo2EC1P9DL5axMqPZrAqClvjLVaVzVt/
+	yLLBLa01pONNyEDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C8C3B13782;
-	Fri, 12 Jan 2024 08:46:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CBD7136A4;
+	Fri, 12 Jan 2024 11:10:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b0STL1n8oGUSKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 12 Jan 2024 08:46:17 +0000
-Date: Fri, 12 Jan 2024 09:46:17 +0100
-Message-ID: <87bk9rndly.wl-tiwai@suse.de>
+	id XjuGBSQeoWU7UAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 12 Jan 2024 11:10:28 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	ivan.orlov0322@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: aloop: Introduce a function to get if access is interleaved mode
-In-Reply-To: <20240111025219.2678764-1-chancel.liu@nxp.com>
-References: <20240111025219.2678764-1-chancel.liu@nxp.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: oxygen: Fix right channel of capture volume mixer
+Date: Fri, 12 Jan 2024 12:10:23 +0100
+Message-Id: <20240112111023.6208-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zElDNEeG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jkh4AA8I
-X-Spamd-Result: default: False [-2.74 / 50.00];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [4.72 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 BAYES_HAM(-2.93)[99.70%];
 	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[6];
+	 TO_DN_NONE(0.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCPT_COUNT_ONE(0.00)[1];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,vger.kernel.org];
 	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 0B3DE1FC24
-X-Spam-Level: 
-X-Spam-Score: -2.74
+	 BAYES_HAM(-0.18)[70.20%]
+X-Spam-Level: ****
+X-Spam-Score: 4.72
 X-Spam-Flag: NO
 
-On Thu, 11 Jan 2024 03:52:19 +0100,
-Chancel Liu wrote:
-> 
-> There's a use case that playback stream of a loopback cable works on
-> RW_INTERLEAVED mode while capture stream works on MMAP_INTERLEAVED mode:
-> 
-> aplay -Dhw:Loopback,0,0 S32_48K_2ch.wav;
-> arecord -Dplughw:Loopback,1,0 -fS32_LE -r16000 -c2 cap.wav;
-> 
-> The plug plugin handles only slave PCM support MMAP mode. Not only plug
-> plugin but also other plugins like direct plugins(dmix/dsnoop/dshare)
-> work on MMAP access mode. In this case capture stream is the slave
-> PCM works on MMAP_INTERLEAVED mode. However loopback_check_format()
-> rejects this access setting and return:
-> 
-> arecord: pcm_read:2240: read error: Input/output error
-> 
-> To fix it a function called is_access_interleaved() is introduced to
-> get if access is interleaved mode. If both access of capture stream and
-> playback stream is interleaved mode loopback_check_format() will allow
-> this kind of access setting.
-> 
-> Fixes: 462494565c27 ("ALSA: aloop: Add support for the non-interleaved access mode")
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+There was a typo in oxygen mixer code that didn't update the right
+channel value properly for the capture volume.  Let's fix it.
 
-Applied now.  Thanks.
+This trivial fix was originally reported on Bugzilla.
 
+Fixes: a3601560496d ("[ALSA] oxygen: add front panel controls")
+Cc: <stable@vger.kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=156561
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/oxygen/oxygen_mixer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Takashi
+diff --git a/sound/pci/oxygen/oxygen_mixer.c b/sound/pci/oxygen/oxygen_mixer.c
+index 46705ec77b48..eb3aca16359c 100644
+--- a/sound/pci/oxygen/oxygen_mixer.c
++++ b/sound/pci/oxygen/oxygen_mixer.c
+@@ -718,7 +718,7 @@ static int ac97_fp_rec_volume_put(struct snd_kcontrol *ctl,
+ 	oldreg = oxygen_read_ac97(chip, 1, AC97_REC_GAIN);
+ 	newreg = oldreg & ~0x0707;
+ 	newreg = newreg | (value->value.integer.value[0] & 7);
+-	newreg = newreg | ((value->value.integer.value[0] & 7) << 8);
++	newreg = newreg | ((value->value.integer.value[1] & 7) << 8);
+ 	change = newreg != oldreg;
+ 	if (change)
+ 		oxygen_write_ac97(chip, 1, AC97_REC_GAIN, newreg);
+-- 
+2.35.3
+
