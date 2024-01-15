@@ -1,130 +1,147 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C8C1802E
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 17:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rPQom-0004EU-7Y; Mon, 15 Jan 2024 18:32:12 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rPQoh-00044H-MF; Mon, 15 Jan 2024 18:32:07 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rPQoh-000A5v-1x;
-	Mon, 15 Jan 2024 18:32:07 +0100
-Message-ID: <289c4af00bcc46e83555dacbc76f56477126d645.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/5] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>,  Banajit Goswami <bgoswami@quicinc.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,  Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Peter Rosin <peda@axentia.se>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-i2c@vger.kernel.org, Chris Packham
- <chris.packham@alliedtelesis.co.nz>,  Sean Anderson <sean.anderson@seco.com>
-Date: Mon, 15 Jan 2024 18:32:07 +0100
-In-Reply-To: <7f311659-9f49-44dc-ad40-977d34066d98@linaro.org>
-References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
-	 <20240112163608.528453-3-krzysztof.kozlowski@linaro.org>
-	 <CAMRc=MdcCZP5kgv7JBdy2m_naNbTSeq4MDE_3mk+1-5UD4ntwQ@mail.gmail.com>
-	 <7f311659-9f49-44dc-ad40-977d34066d98@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46A1802F
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 18:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AyoZ5iVo"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so10907242a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 10:11:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705342317; x=1705947117; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TP2RO2ZM/QWz8fTOo7P4b/AeuJ5Lrv4Ps+iKRZQ17yM=;
+        b=AyoZ5iVoTBVS/tigyYqUGGc+pCWoWYOOw9nkRCQLLVvkFPQzRGA8zW0j26xtIBJEYl
+         vm96h+TJ26F3zCoKOiQICR52ZhJJQQujqAuXNMya81ZNraUDyRKlPLyxS+DCPZQ3XXhI
+         VvMpxVpHAkJQAIjrCNruWyEtlOjRwHUNtJkk1sJqfrnLOdIUvSfijHxVRc4hjezTpcqL
+         pzYuA8G2JW6CCBNxeHTBAa6y8eP8OQWNPe1UaC5OvV+ilKWtYTRZ1NAaNQVlcCPSeuA5
+         uabdz9IdqiCWATmcKqHCZQtL2QX+gZwdb90HI3hMGtkGd7e3nAa4puKbARlRUxacKI9H
+         F7ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705342317; x=1705947117;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TP2RO2ZM/QWz8fTOo7P4b/AeuJ5Lrv4Ps+iKRZQ17yM=;
+        b=kZ7hJYrtw5IUVM42c4IlV0Mg7nNx5UhD64pDFi3u6sGHG36QM1evfmeqnLFYcKsGdq
+         RF4OtlN58en0YZhdXrJ3DgACZdA938BrAMMZo6JCTOQGv+wI/oVjcGe5XVxeTSCR7nOB
+         DMclAx6pYpRP4AYpyXa0hv3FxNxbiB5AH+/SxMcH3pvq8VkJ4+p91XLiaOIPULipNemi
+         /14okt4YJcTKVt3BmTvCs4oThGnY81EucWS5b0/3E+QSe5LovsdH7tUcHoN88XdsNlFJ
+         Lx4aCxgo6H8SxebeVNQv3wrGQr8VXrDqLzWrc9RusK287cQU4+v6xjiboly9WgTog5A4
+         o0rQ==
+X-Gm-Message-State: AOJu0Yy4gBnb0HfzgdBUXPU2SLWF7vUpLUjWFQlWMRYq2/0Iw1iK5VVm
+	/kG7ya+XY0pfAIxM+LjlpBaI2sxhuPJ8Kg==
+X-Google-Smtp-Source: AGHT+IFcu57Q62zy6UQ/83g9hWEvTMemAqi03ffAh1lc7ysmh3o3kyMwXrNezD1/PmjYX1EmaQtPfA==
+X-Received: by 2002:aa7:d5cb:0:b0:557:741c:7b8 with SMTP id d11-20020aa7d5cb000000b00557741c07b8mr1929241eds.55.1705342317491;
+        Mon, 15 Jan 2024 10:11:57 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id y10-20020aa7ccca000000b005572a1159b9sm5692305edt.22.2024.01.15.10.11.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jan 2024 10:11:56 -0800 (PST)
+Message-ID: <47bdc31c-50d2-4d33-9339-5132b6364539@linaro.org>
+Date: Mon, 15 Jan 2024 19:11:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: xmos,xvf3500: add bindings for
+ XMOS XVF3500
+Content-Language: en-US
+To: Javier Carrasco <javier.carrasco@wolfvision.net>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20240115-feature-xvf3500_driver-v1-0-ed9cfb48bb85@wolfvision.net>
+ <20240115-feature-xvf3500_driver-v1-2-ed9cfb48bb85@wolfvision.net>
+ <333c2986-c7c2-4a46-90cf-b59ae206e55a@linaro.org>
+ <96abddcc-fa65-4f27-84fe-2281fe0fcf1c@wolfvision.net>
+ <644f7f02-405d-47fb-bc72-4d54e897255f@linaro.org>
+ <5db4b898-93d5-446f-bfed-b57847f9967a@wolfvision.net>
+ <435f502c-1e1b-4d40-8dcc-34487905d69c@linaro.org>
+ <b7f76546-9998-43e0-abff-a4e73817dbae@wolfvision.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <b7f76546-9998-43e0-abff-a4e73817dbae@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mo, 2024-01-15 at 17:13 +0100, Krzysztof Kozlowski wrote:
-> On 15/01/2024 17:06, Bartosz Golaszewski wrote:
-> > > +
-> > > +static int __reset_add_reset_gpio_lookup(int id, struct device_node =
-*np,
-> > > +                                        unsigned int gpio,
-> > > +                                        unsigned int of_flags)
-> > > +{
-> > > +       struct gpiod_lookup_table *lookup __free(kfree) =3D NULL;
-> > > +       struct gpio_device *gdev __free(gpio_device_put) =3D NULL;
-> > > +       char *label __free(kfree) =3D NULL;
-> >=20
-> > I got yelled at by Linus Torvalds personally for doing it like this. I
-> > know this is a common pattern in code using GLib but Linus wants auto
-> > variables to be initialized where they're declared...
->=20
-> Declaration is here. Initialization is here. Therefore this is
-> initialized where it is declared. What's more it is initialized to a
-> valid value, because __free() accepts NULLs.
-[...]
-> > ... so this should become:
-> >=20
-> >   struct gpio_device *gdev __free(gpio_device_put) =3D gpio_device_find=
-(...)
-> >=20
-> > and same for the rest.
-> >=20
-> > Don't get me wrong, I love cleanup.h but there's a (unofficial for
-> > now) coding style.
->=20
-> So you just want to declare it not in top-part of the function but just
-> before first use?
+On 15/01/2024 17:24, Javier Carrasco wrote:
+> Do you mean that the XVF3500 should not be represented as a platform
+> device and instead it should turn into an USB device represented as a
+> node of an USB controller? Something like this (Rockchip SoC):
+> 
+> &usb_host1_xhci {
+> 	...
+> 
+> 	xvf3500 {
+> 		...
+> 	};
+> };
+> 
+> Did I get you right or is that not the correct representation? Thank you
+> again.
 
-IIUC, Linus wants exactly this:
+I believe it should be just like onboard hub. I don't understand why
+onboard hub was limited to hub, because other USB devices also could be
+designed similarly by hardware folks :/
 
-https://lore.kernel.org/all/CAHk-=3DwgRHiV5VSxtfXA4S6aLUmcQYEuB67u3BJPJPtuE=
-Ss1JyA@mail.gmail.com/
+And if we talk about Linux drivers, then your current solution does not
+support suspend/resume and device unbind.
 
-[...]
-> >=20
-> > > +               goto out_unlock;
-> > >         }
-> > >=20
-> > >         rstc_id =3D rcdev->of_xlate(rcdev, &args);
-> > >         if (rstc_id < 0) {
-> > >                 rstc =3D ERR_PTR(rstc_id);
-> > > -               goto out;
-> > > +               goto out_unlock;
-> > >         }
-> > >=20
-> > >         /* reset_list_mutex also protects the rcdev's reset_control l=
-ist */
-> > >         rstc =3D __reset_control_get_internal(rcdev, rstc_id, shared,=
- acquired);
-> > >=20
-> > > -out:
-> > > +out_unlock:
-> > >         mutex_unlock(&reset_list_mutex);
-> > > +out_put:
-> > >         of_node_put(args.np);
-> >=20
-> > I suggest reworking this to use cleanup.h as well.
->=20
-> It's independent task. This is an existing code and any refactoring to
-> cleanup or not is independent thing.
+Best regards,
+Krzysztof
 
-Seconded. Separate cleanup very welcome, but this series is about
-adding functionality.
-
-regards
-Philipp
