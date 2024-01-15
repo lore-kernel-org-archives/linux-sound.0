@@ -1,141 +1,281 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBB017597
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 14:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A7317BA4
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 14:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zK/eMiVR"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-558b5f4cf2dso3932172a12.2
-        for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 06:35:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="xbDeizeT"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-467ed334c40so1223783137.0
+        for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 06:45:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705329350; x=1705934150; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBl3NUkAH57VQ8h1RlzRvYz+47UYR+NG04LNwz4ru70=;
-        b=zK/eMiVRg8KWf0/zUTe999y7aD9tkUTAXA1s0SexphyHEGKcPxAbJHY1FKovSFGkv4
-         A5rjE5dWJWXfGURNg8t6et6H7J2v7OeBqPHmcJ7j1jFzk20n8l4KshZxeUJBio0dkqcO
-         UPJxVIIAGE+bUD870NZBOv399EguUuittFVbfNo5Gpoy8c7kEDRYz8htnFhswqOAscbC
-         JaMO7oGLPf+yAcWur5zBEpUpikBsmiUE/KqudUZohS7ubVtxRMBHji6cTj9HpttxWd1z
-         NHNQrPgNbCvw6IdbDGe6YQBKlAxGZXRWmI4YCKEWxGZkcHF+wwyGOhT0Grr+YF3EARC8
-         IgzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705329350; x=1705934150;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1705329907; x=1705934707; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JBl3NUkAH57VQ8h1RlzRvYz+47UYR+NG04LNwz4ru70=;
-        b=exk4A4G8G70ckU8VU3SV8L75ZDePx8Ud1arMJ3HEZ+DxIi4M+wnr1O7Pis7bT5sL7f
-         226X9GLhUzs/4j5ZEquh9DvILh89/ixyIHqiP9cb5hXirpqHvuX7G1XrWt5alcS7nZOl
-         pK/6Jl5MJjQ+EfotjaydM0bCIo/OQ2788h9rIl1Qo/QoRamr0rISwVY2zrxP4AfN7ZRW
-         LuF1McqegmLjfDpglpKV29PAW2dW5csVOGN0WxIOfb8kGAGmg/2Y3fTjWoQNJU/YPC3M
-         3oV65MulPVew7u1AEaaxjlo4fXyXgLXNXe/jQbsMYgLfi+Wzs8ZtjYtq6gigFZYMSq0i
-         IaTw==
-X-Gm-Message-State: AOJu0YyGnArJnY3TUGxKq8AwIPGbTXtEryIrwzNhi82k5OTYtIHVF93o
-	NURcxCLwCAFyWJUYbvr9Ea8hDAP62Lweig==
-X-Google-Smtp-Source: AGHT+IFSxI58BWQcA5iMedtFSx+BMRulQczzL4NJJmUYEGLfnw0mi4TT7+L1s8Gc1bzfitqI93BFxg==
-X-Received: by 2002:a17:906:b6cf:b0:a2a:f4a0:a00 with SMTP id ec15-20020a170906b6cf00b00a2af4a00a00mr2170072ejb.145.1705329350306;
-        Mon, 15 Jan 2024 06:35:50 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id v15-20020a170906180f00b00a28cf49520asm5316864eje.203.2024.01.15.06.35.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 06:35:49 -0800 (PST)
-Message-ID: <644f7f02-405d-47fb-bc72-4d54e897255f@linaro.org>
-Date: Mon, 15 Jan 2024 15:35:46 +0100
+        bh=SuVawFO9EzN+TBa58xh+36pumfMhcFBvr33I0w01EEI=;
+        b=xbDeizeTFR77qfQn/4lgShIRjYHatOyt6iUD7GFqJq1Kb429l94pL+i6xSU7O3wLRr
+         8vEoXgcy7rpzFD6GlFdgB7cBSt41PXrbW2wgZTL5ZnkbO7df6MMMVWbcDTwjk9CpeqMe
+         ELtInBdOY2+ctmHd2/e9cWRwqZwIDGhdh2LFlmyiPfXpGvUfOYpRGqSZzK3nDQnzP4G0
+         /1ACvPUBEnSkxzt5jnf0vnGceoGVlgsolRoPoBGlN45iFpUoDr3oGYE7vB/7RZD+OzYF
+         qOxnfFgtyIU8ZT4EW98+gqsUiVt+T+WxOBxUHUQ5D6rfy4UWPgOfMQbBUal0i1nboRGU
+         tgsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705329907; x=1705934707;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SuVawFO9EzN+TBa58xh+36pumfMhcFBvr33I0w01EEI=;
+        b=G7tG1vAp0kPobc6Xz4euC8ruI0BYCxZJCWPwQ4lMUcWohBiawueLzRRrEVLHO3+Yse
+         Osd+5gaoJ8XUklfJwTwuDD0iirwYLIrojsbdIAQSNTDqp+TVOBFBKHNOk3ivMak+5wdh
+         4ygW/ixH2108UG5DhXAieHM+hztTrJ9IMC67H85NMCucBlvpTAdBPdDabeVhnyHRE1Kp
+         SCmtls93pQNohz8JhmKpeiAEbKZ4CNBYF1Tkf/RWXV7fQtLBtnuWUmXHEBzBEfqmedfg
+         Ggp+a5/exIPGDFu/4RZHUuz4GMptbvl43cnanq1xkbfiMvb8yfLJC+PK8V4sldpjxhjx
+         pOUQ==
+X-Gm-Message-State: AOJu0Yz8JrQLREvy03A5QsmP89gchpKonOlYRnjiyIhG5XNglmavVMpA
+	s6bpHSMR0S9LAS/5w+X0n4dyecamgo41myWwwIAsoX6ksM5n1g==
+X-Google-Smtp-Source: AGHT+IGJDE4lOs0qLyW3K5JCXA+QxakNz3/fiIWWEpBYwSLgeMEoaJ+IBgFXwjixVSu78D7RMDJHh5Ff34cMI8dnNE0=
+X-Received: by 2002:a67:ed0e:0:b0:467:ac23:3ca2 with SMTP id
+ l14-20020a67ed0e000000b00467ac233ca2mr3160044vsp.8.1705329906237; Mon, 15 Jan
+ 2024 06:45:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] ASoC: dt-bindings: xmos,xvf3500: add bindings for
- XMOS XVF3500
-To: Javier Carrasco <javier.carrasco@wolfvision.net>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20240115-feature-xvf3500_driver-v1-0-ed9cfb48bb85@wolfvision.net>
- <20240115-feature-xvf3500_driver-v1-2-ed9cfb48bb85@wolfvision.net>
- <333c2986-c7c2-4a46-90cf-b59ae206e55a@linaro.org>
- <96abddcc-fa65-4f27-84fe-2281fe0fcf1c@wolfvision.net>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <96abddcc-fa65-4f27-84fe-2281fe0fcf1c@wolfvision.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org> <20240112163608.528453-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240112163608.528453-2-krzysztof.kozlowski@linaro.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 15 Jan 2024 15:44:55 +0100
+Message-ID: <CAMRc=Me6q9Qc_vDMraCrNf6FhZP_KH_WkByQdZ-0Q9KxD2o-zA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] reset: gpio: Add GPIO-based reset controller
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Peter Rosin <peda@axentia.se>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Sean Anderson <sean.anderson@seco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15/01/2024 14:58, Javier Carrasco wrote:
-> On 15.01.24 14:02, Krzysztof Kozlowski wrote:
->> On 15/01/2024 10:16, Javier Carrasco wrote:
->>> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
->>> multicore controller for voice processing.
->>>
->>> Add new bindings to define the device properties.
->>
->> I don't see any bus, so how does it work? How do you get the voice data
->> from it? I also do not see any DAI: neither here nor in the driver...
->>
-> The voice data and any other information can be retrieved directly via
-> USB from userspace. Once in normal operation, the device acts as a
-> regular "onboard" USB device and the driver does not need to do any
-> further management.
+On Fri, Jan 12, 2024 at 5:36=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Add a simple driver to control GPIO-based resets using the reset
+> controller API for the cases when the GPIOs are shared and reset should
+> be coordinated.  The driver is expected to be used by reset core
+> framework for ad-hoc reset controllers.
+>
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  MAINTAINERS                |   5 ++
+>  drivers/reset/Kconfig      |   9 +++
+>  drivers/reset/Makefile     |   1 +
+>  drivers/reset/reset-gpio.c | 121 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 136 insertions(+)
+>  create mode 100644 drivers/reset/reset-gpio.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7fe27cd60e1b..a0fbd4814bc7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8866,6 +8866,11 @@ F:       Documentation/i2c/muxes/i2c-mux-gpio.rst
+>  F:     drivers/i2c/muxes/i2c-mux-gpio.c
+>  F:     include/linux/platform_data/i2c-mux-gpio.h
+>
+> +GENERIC GPIO RESET DRIVER
+> +M:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +S:     Maintained
+> +F:     drivers/reset/reset-gpio.c
+> +
+>  GENERIC HDLC (WAN) DRIVERS
+>  M:     Krzysztof Halasa <khc@pm.waw.pl>
+>  S:     Maintained
+> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+> index ccd59ddd7610..bb1b5a326eb7 100644
+> --- a/drivers/reset/Kconfig
+> +++ b/drivers/reset/Kconfig
+> @@ -66,6 +66,15 @@ config RESET_BRCMSTB_RESCAL
+>           This enables the RESCAL reset controller for SATA, PCIe0, or PC=
+Ie1 on
+>           BCM7216.
+>
+> +config RESET_GPIO
+> +       tristate "GPIO reset controller"
+> +       help
+> +         This enables a generic reset controller for resets attached via
+> +         GPIOs.  Typically for OF platforms this driver expects "reset-g=
+pios"
+> +         property.
+> +
+> +         If compiled as module, it will be called reset-gpio.
+> +
+>  config RESET_HSDK
+>         bool "Synopsys HSDK Reset Driver"
+>         depends on HAS_IOMEM
+> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
+> index 8270da8a4baa..fd8b49fa46fc 100644
+> --- a/drivers/reset/Makefile
+> +++ b/drivers/reset/Makefile
+> @@ -11,6 +11,7 @@ obj-$(CONFIG_RESET_BCM6345) +=3D reset-bcm6345.o
+>  obj-$(CONFIG_RESET_BERLIN) +=3D reset-berlin.o
+>  obj-$(CONFIG_RESET_BRCMSTB) +=3D reset-brcmstb.o
+>  obj-$(CONFIG_RESET_BRCMSTB_RESCAL) +=3D reset-brcmstb-rescal.o
+> +obj-$(CONFIG_RESET_GPIO) +=3D reset-gpio.o
+>  obj-$(CONFIG_RESET_HSDK) +=3D reset-hsdk.o
+>  obj-$(CONFIG_RESET_IMX7) +=3D reset-imx7.o
+>  obj-$(CONFIG_RESET_INTEL_GW) +=3D reset-intel-gw.o
+> diff --git a/drivers/reset/reset-gpio.c b/drivers/reset/reset-gpio.c
+> new file mode 100644
+> index 000000000000..0fe482740f1b
+> --- /dev/null
+> +++ b/drivers/reset/reset-gpio.c
+> @@ -0,0 +1,121 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reset-controller.h>
+> +
+> +struct reset_gpio_priv {
+> +       struct reset_controller_dev rc;
+> +       struct gpio_desc *reset;
+> +};
+> +
+> +static inline struct reset_gpio_priv
+> +*rc_to_reset_gpio(struct reset_controller_dev *rc)
+> +{
+> +       return container_of(rc, struct reset_gpio_priv, rc);
+> +}
+> +
+> +static int reset_gpio_assert(struct reset_controller_dev *rc, unsigned l=
+ong id)
+> +{
+> +       struct reset_gpio_priv *priv =3D rc_to_reset_gpio(rc);
+> +
+> +       gpiod_set_value_cansleep(priv->reset, 1);
+> +
+> +       return 0;
+> +}
+> +
+> +static int reset_gpio_deassert(struct reset_controller_dev *rc,
+> +                              unsigned long id)
+> +{
+> +       struct reset_gpio_priv *priv =3D rc_to_reset_gpio(rc);
+> +
+> +       gpiod_set_value_cansleep(priv->reset, 0);
+> +
+> +       return 0;
+> +}
+> +
+> +static int reset_gpio_status(struct reset_controller_dev *rc, unsigned l=
+ong id)
+> +{
+> +       struct reset_gpio_priv *priv =3D rc_to_reset_gpio(rc);
+> +
+> +       return gpiod_get_value_cansleep(priv->reset);
+> +}
+> +
+> +static const struct reset_control_ops reset_gpio_ops =3D {
+> +       .assert =3D reset_gpio_assert,
+> +       .deassert =3D reset_gpio_deassert,
+> +       .status =3D reset_gpio_status,
+> +};
+> +
+> +static int reset_gpio_of_xlate(struct reset_controller_dev *rcdev,
+> +                              const struct of_phandle_args *reset_spec)
+> +{
+> +       return reset_spec->args[0];
+> +}
+> +
+> +static void reset_gpio_of_node_put(void *data)
+> +{
+> +       of_node_put(data);
+> +}
+> +
+> +static int reset_gpio_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev =3D &pdev->dev;
+> +       struct of_phandle_args *platdata =3D dev_get_platdata(dev);
+> +       struct reset_gpio_priv *priv;
+> +       int ret;
+> +
+> +       if (!platdata)
+> +               return -EINVAL;
+> +
+> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       platform_set_drvdata(pdev, &priv->rc);
+> +
+> +       /* Relies on GPIO_LOOKUP */
 
-So is this an USB device? If yes, then shouldn't be just auto-discovered
-and you add here some bindings for other device? This looks like coding
-power sequence not in USB node, but in some other, new node.
+That doesn't mean anything. The GPIO abstraction is there to hide
+*how* the GPIO is assigned to the device. This relies on regular GPIO
+infrastructure common to all drivers. If at some point this gets an OF
+compatible or is instantiated from ACPI or otherwise, the same code
+will still work and not rely on "GPIO_LOOKUP").
 
-Best regards,
-Krzysztof
+> +       priv->reset =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +       if (IS_ERR(priv->reset))
+> +               return dev_err_probe(dev, PTR_ERR(priv->reset),
+> +                                    "Could not get reset gpios\n");
+> +
+> +       priv->rc.ops =3D &reset_gpio_ops;
+> +       priv->rc.owner =3D THIS_MODULE;
+> +       priv->rc.dev =3D dev;
+> +       priv->rc.of_args =3D platdata;
+> +       priv->rc.of_node =3D of_node_get(platdata->np);
+> +       ret =3D devm_add_action_or_reset(dev, reset_gpio_of_node_put,
+> +                                      priv->rc.of_node);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /* Cells to match GPIO specifier, but it's not really used */
+> +       priv->rc.of_reset_n_cells =3D 2;
+> +       priv->rc.of_xlate =3D reset_gpio_of_xlate;
+> +       priv->rc.nr_resets =3D 1;
+> +
+> +       return devm_reset_controller_register(dev, &priv->rc);
+> +}
+> +
+> +static const struct platform_device_id reset_gpio_ids[] =3D {
+> +       { .name =3D "reset-gpio", },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(platform, reset_gpio_ids);
+> +
+> +static struct platform_driver reset_gpio_driver =3D {
+> +       .probe          =3D reset_gpio_probe,
+> +       .id_table       =3D reset_gpio_ids,
+> +       .driver =3D {
+> +               .name =3D "reset-gpio",
+> +       },
+> +};
+> +module_platform_driver(reset_gpio_driver);
+> +
+> +MODULE_AUTHOR("Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>");
+> +MODULE_DESCRIPTION("Generic GPIO reset driver");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.34.1
+>
 
+With the above dropped:
+
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
