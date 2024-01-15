@@ -1,121 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FC62C68A
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 11:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52642171A6
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 12:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jq50A1Iy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zvdKjrSZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jq50A1Iy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zvdKjrSZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DE46C21F34;
-	Mon, 15 Jan 2024 11:43:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705319005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cKYUIs8LOhJvH5ElLyrjy4ttc0LpXOsCJQSUlNKrYsI=;
-	b=Jq50A1IyTburzp77epdbT1D4zpGExaSKi3X58/npLmdLFvzkFYW4gugpYIL6koZ/hRIUTC
-	0B/J+Z3hPMrPDErg309R0A/RCQTUSneXwS/7DJN0NUiYiVglQ58zjSrnfPxKumk6Fyr40x
-	EE6UR6Klfff+TOpmtbWH3/Rojfh7wg8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705319005;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cKYUIs8LOhJvH5ElLyrjy4ttc0LpXOsCJQSUlNKrYsI=;
-	b=zvdKjrSZEnzWSWyJVkaUKVvFL3C4AqKsQI57+Wn/lIfWX7O61L6Nz27zZW7cdjN9bC7rLf
-	jQPnusd0WobXwcDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705319005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cKYUIs8LOhJvH5ElLyrjy4ttc0LpXOsCJQSUlNKrYsI=;
-	b=Jq50A1IyTburzp77epdbT1D4zpGExaSKi3X58/npLmdLFvzkFYW4gugpYIL6koZ/hRIUTC
-	0B/J+Z3hPMrPDErg309R0A/RCQTUSneXwS/7DJN0NUiYiVglQ58zjSrnfPxKumk6Fyr40x
-	EE6UR6Klfff+TOpmtbWH3/Rojfh7wg8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705319005;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cKYUIs8LOhJvH5ElLyrjy4ttc0LpXOsCJQSUlNKrYsI=;
-	b=zvdKjrSZEnzWSWyJVkaUKVvFL3C4AqKsQI57+Wn/lIfWX7O61L6Nz27zZW7cdjN9bC7rLf
-	jQPnusd0WobXwcDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A525113712;
-	Mon, 15 Jan 2024 11:43:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ViG5Jl0apWXiQAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 15 Jan 2024 11:43:25 +0000
-Date: Mon, 15 Jan 2024 12:43:25 +0100
-Message-ID: <877ckayg82.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: generic: Remove obsolete call to ledtrig_audio_get
-In-Reply-To: <3dc9167d-fb33-43a6-baa6-dbef8b5da7b9@gmail.com>
-References: <3dc9167d-fb33-43a6-baa6-dbef8b5da7b9@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wvy+MS05"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5542a7f1f3cso10514154a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 04:58:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705323487; x=1705928287; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OLJ8dQUYpTz4YaYY9rIIi5OWibaVHDrrajtcmBRhHgU=;
+        b=Wvy+MS05lfiHmHBprKjAS1O+byuIuaxMRrcDvsxW952bFcfkzjhrFToB6kb1EUWQT5
+         ItsDZ30C56peSZitCVc3J6T3bGQQbDYYJ06PVOXQQHxJ21khknYXSsoMnQ/7/1KwehQQ
+         qjBHAwyk2BEztyx3IJ3c2Suj+oR56wWBVhiAmNlG/KcfxSGOCbtl+3V2I5kMlo22Mzhj
+         ftGYKohjbMxoH9JMyuW5fxVRzUx7sCxSzpqDOtij2IstVvckgNapJGKrh885NyWXN7ef
+         Hd3JBFl35iFngk0ex/+YYMO5YzsPQ4NNYKEzGGxdbfL/jEPxoTfyVxMBYQMT7Iki19Zz
+         jNGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705323487; x=1705928287;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OLJ8dQUYpTz4YaYY9rIIi5OWibaVHDrrajtcmBRhHgU=;
+        b=NNKjcEMMWVTXITa+FGCz4jzqVhU4PARMdHWFjnnkCY09Qajklh7GjhJsZb82mxeddp
+         VPkH8mHL1u6JQ4lr9Q1XSlQMOsmumxfpj32AJS6SaMpdiSxmqkbvoTkcWcSap/RHCBcJ
+         +bDgXoN2Xp/fh3zLORzmXXQyOKdNYoEhc4nwSn2+sgdpgYTJwZTgaeFI8XehHLLLdNiE
+         YGZQCXNmVwseAWrDFJHSgASxeAXNNZymYSBrS9b8kfVBBlm1nUUIHVBpAAuJ+fd8YWDB
+         AFKmd/oLON8wOLYVG8uUA+H7z7crzXyuGeN9QIDumUnY+I8SoHlQMoAVa7lKaiXGytE4
+         ECMA==
+X-Gm-Message-State: AOJu0YyI3tu4BTAC/GS+ee+lMKGjMrmu1Da91G6iQYsVNgiaN5a+uCAx
+	iobUvKcAR1N6Tc3gMHtzreAp6e1VqJA0mw==
+X-Google-Smtp-Source: AGHT+IELJkRceRe+cZ9yMTICyrBDyA9ApZkxNyYFNzC79wOGLzAYNHrBGiD8FyNz/s7Rl642MGfwbA==
+X-Received: by 2002:aa7:d88c:0:b0:54c:b889:9c12 with SMTP id u12-20020aa7d88c000000b0054cb8899c12mr2414461edq.18.1705323487729;
+        Mon, 15 Jan 2024 04:58:07 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id q8-20020a056402040800b0055703db2c9fsm5468958edv.1.2024.01.15.04.58.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jan 2024 04:58:07 -0800 (PST)
+Message-ID: <d2152458-9d12-40f4-8bc7-7c7635ff41b6@linaro.org>
+Date: Mon, 15 Jan 2024 13:58:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [0.64 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.26)[73.59%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: 0.64
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add XMOS
+Content-Language: en-US
+To: Javier Carrasco <javier.carrasco@wolfvision.net>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20240115-feature-xvf3500_driver-v1-0-ed9cfb48bb85@wolfvision.net>
+ <20240115-feature-xvf3500_driver-v1-1-ed9cfb48bb85@wolfvision.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240115-feature-xvf3500_driver-v1-1-ed9cfb48bb85@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 13 Jan 2024 17:08:54 +0100,
-Heiner Kallweit wrote:
+On 15/01/2024 10:16, Javier Carrasco wrote:
+> Add prefix for XMOS Limited, a fabless semiconductor company that
+> develops audio products and multicore microcontrollers.
 > 
-> Since 64f67b5240db ("leds: trigger: audio: Add an activate callback to
-> ensure the initial brightness is set") the audio triggers have an
-> activate callback which sets the LED brightness as soon as the
-> (default) trigger is bound to the LED device. So we can remove the
-> call to ledtrig_audio_get.
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Positive side effect: We have no code dependency to ledtrig-audio any
-> longer, therefore, if built as module, it's no longer loaded if not
-> needed.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Thanks, applied now.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+Best regards,
+Krzysztof
 
-Takashi
