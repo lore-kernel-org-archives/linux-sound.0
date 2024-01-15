@@ -1,102 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA48C2C2
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jan 2024 09:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09E52C689;
+	Mon, 15 Jan 2024 11:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjfSzTst"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705310480; x=1736846480;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1CvfkUtJbnvNLxhokgGMJOSdnVq23dy+lml6OzvrKVA=;
-  b=MjfSzTstYoZ6Z5bTyftmKX1cnybxuvqiEpNxAlSB5Mt7E6aZ6u63vsza
-   kquM4VSpm8YxbxukRrvBYIBvGYv721dRsA86ZxGxW96FBiGqvgUok31gN
-   ThvaCNM3NlL9RaQmY1FJmOrHzBCj0aklljmOT6+e8szxADmlV3gQFuq01
-   yvNuUtnK/Me58Mgc2DoYeV8Jd88Y0HJV3HTImwGMUq7d39SLo91jJ+KjV
-   gLOhhdh8meblejvpKS+lSEbX4Te+s2rFvXWvsjkN06G0LUxUYi4GJMrJ+
-   rSK8m35jSrOzuJ8VNsQyH47FcEWtpA8zkrkqhmQP+xf372H4TTD8WEvRB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403332410"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
-   d="scan'208";a="403332410"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 01:21:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="733250993"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
-   d="scan'208";a="733250993"
-Received: from jofuegbe-mobl.amr.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.54.217])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 01:21:18 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	rander.wang@intel.com
-Subject: [PATCH 2/2] ASoC: SOF: ipc4-loader: remove the CPC check warnings
-Date: Mon, 15 Jan 2024 11:22:09 +0200
-Message-ID: <20240115092209.7184-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240115092209.7184-1-peter.ujfalusi@linux.intel.com>
-References: <20240115092209.7184-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUH71L6Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V8O65D+L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J+tfy3gE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vmyZlXtx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D0DCF1FD32;
+	Mon, 15 Jan 2024 11:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705318970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fa77VaAZn9UVOV4vrMGq9naLXzpjHArd8P1qmSRNbmw=;
+	b=oUH71L6Z4J/EgGXkRls1dCSZL+jk2X5LofEIlbjWPsEq7jt+xWs3PcYL0q6drkLBIOlm/z
+	aN2/Jnpqsy5BF5ycWotWquThD80lNRd4aPtX6ftF7r29IsIddxdpIOsgKTAw2luVUP+Ra9
+	eGcxwJOSyqB4hJAUawKW4moK5sVw00Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705318970;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fa77VaAZn9UVOV4vrMGq9naLXzpjHArd8P1qmSRNbmw=;
+	b=V8O65D+L/4bnpO+sE9xANk5xOWLpXOvUghl5aiKAA+a2pNniU5/zJUIVRQS2GoPvIBY3X2
+	mmBWWUujhGLwXIAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705318969; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fa77VaAZn9UVOV4vrMGq9naLXzpjHArd8P1qmSRNbmw=;
+	b=J+tfy3gElBbqY62Ix/9oq7H32RSHu53SXfkk4533yv8AKQywY7IMBfmlMNpnHk2HnJOwnS
+	CaSwYbIVTrskI0g7xkcyQrpnCwhKut8UKAgynPPVAw5FoDFXDW07VTqt4pGuL4030bjeYA
+	FOY7FWOfnXBsIt3SsSTzqVjzwFy+iaU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705318969;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fa77VaAZn9UVOV4vrMGq9naLXzpjHArd8P1qmSRNbmw=;
+	b=vmyZlXtx8TSl0fKGZ7fOHnU5qAXyb2gZ4q2iIwgRPUQDHp77CVYLVb/FsbhrxgPl113+Ad
+	FlG9aorv+pglFCDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94F0813712;
+	Mon, 15 Jan 2024 11:42:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vEidIDkapWW+QAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 15 Jan 2024 11:42:49 +0000
+Date: Mon, 15 Jan 2024 12:42:49 +0100
+Message-ID: <878r4qyg92.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-3?Q?=C7a=BBhan?= Demir <caghandemir@marun.edu.tr>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/relatek: Enable Mute LED on HP Laptop 15s-fq2xxx
+In-Reply-To: <20240113023734.10817-2-caghandemir@marun.edu.tr>
+References: <20240113023734.10817-2-caghandemir@marun.edu.tr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-3
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=J+tfy3gE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vmyZlXtx
+X-Spamd-Result: default: False [0.35 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.34)[76.10%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 0.35
+X-Rspamd-Queue-Id: D0DCF1FD32
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Bar: /
 
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+On Sat, 13 Jan 2024 03:37:33 +0100,
+Ça»han Demir wrote:
+> 
+> This HP Laptop uses ALC236 codec with COEF 0x07 idx 1 controlling
+> the mute LED. This patch enables the already existing quirk for
+> this device.
+> 
+> Signed-off-by: Ça»han Demir <caghandemir@marun.edu.tr>
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index b68c94757..124bee526 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -9876,6 +9876,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x8870, "HP ZBook Fury 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+>  	SND_PCI_QUIRK(0x103c, 0x8873, "HP ZBook Studio 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+>  	SND_PCI_QUIRK(0x103c, 0x887a, "HP Laptop 15s-eq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+> +	SND_PCI_QUIRK(0x103c, 0x87FE, "HP Laptop 15s-fq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 
-Warnings related to missing data in firmware manifest have
-proven to be too verbose. This relates to description of
-DSP module cost expressed in cycles per chunk (CPC). If
-a matching value is not found in the manifest, kernel will
-pass a zero value and DSP firmware will use a conservative
-value in its place.
+The entry is sorted in PCI SSID order.
+Could you put it at the right position?
+Also, the lower alphabets are used for hex numbers in general.
 
-Downgrade the warnings to dev_dbg().
 
-Fixes: d8a2c9879349 ("ASoC: SOF: ipc4-loader/topology: Query the CPC value from manifest")
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: PÃ©ter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/ipc4-loader.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+thanks,
 
-diff --git a/sound/soc/sof/ipc4-loader.c b/sound/soc/sof/ipc4-loader.c
-index 3539b0a66e1b..c79479afa8d0 100644
---- a/sound/soc/sof/ipc4-loader.c
-+++ b/sound/soc/sof/ipc4-loader.c
-@@ -482,13 +482,10 @@ void sof_ipc4_update_cpc_from_manifest(struct snd_sof_dev *sdev,
- 		msg = "No CPC match in the firmware file's manifest";
- 
- no_cpc:
--	dev_warn(sdev->dev, "%s (UUID: %pUL): %s (ibs/obs: %u/%u)\n",
--		 fw_module->man4_module_entry.name,
--		 &fw_module->man4_module_entry.uuid, msg, basecfg->ibs,
--		 basecfg->obs);
--	dev_warn_once(sdev->dev, "Please try to update the firmware.\n");
--	dev_warn_once(sdev->dev, "If the issue persists, file a bug at\n");
--	dev_warn_once(sdev->dev, "https://github.com/thesofproject/sof/issues/\n");
-+	dev_dbg(sdev->dev, "%s (UUID: %pUL): %s (ibs/obs: %u/%u)\n",
-+		fw_module->man4_module_entry.name,
-+		&fw_module->man4_module_entry.uuid, msg, basecfg->ibs,
-+		basecfg->obs);
- }
- 
- const struct sof_ipc_fw_loader_ops ipc4_loader_ops = {
--- 
-2.43.0
-
+Takashi
