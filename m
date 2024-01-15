@@ -1,230 +1,147 @@
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2053.outbound.protection.outlook.com [40.107.6.53])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CB41754C;
-	Mon, 15 Jan 2024 13:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBED17583;
+	Mon, 15 Jan 2024 14:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="vUiy9kGi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fr7Z/ot9nQkp+MnEpC2x/Jl7Iy2h5jZRTc6tg5T2ifeIda8MNy8UNOpFL3SAdtT6VTHsyG6CMsvSCKHFroeFWYEWRiIz6utJHCB1OukQsunQhO+GaLEDyQS6N0gUmf27evMyz0HCSHvco2sqa0X+oYtj2FzjOlV+COqq8DChLZ7yT7OdoIzCnzmDRneeWYO6zcbkFTffSuSd/m3baf+dXi4i0WvZhiKf6H1ym0Veopvof56tqz7qW2cLKNsRQtKCzkHN/aV8QRi9Fjmmp3hOLSSatZnPhHXB8gso9j2aylSbom5fniTBlqjr4jzhR5X6nLNwcMtPaB+XPDFB75Iqzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=br46TWzz8VRKPDC4imWbrMVSscmUVPipLXGI6K5S5HY=;
- b=TSM7+8aanHyoURh+nYJ1G2q1biun8fbDM251jecpfBHp4d5cIL0u+BxMbbyIlsV4ZDiUwjuesi+VWMGbL+rHi/hAixsaxXDgEdrGcN7sMrshOlptvztwXRZjwikr5qt/4mxa1jtmzED1ON8UQRCed00brx2Cr56v69RtsfqgaZWdXWXU7JRLvPP4i7BNueiocYq3sD9E4BxeTUIOSfyXkbA+5motaDrJVwwMToC1zJwNKanItiqlqEWn282U+CBEyHT+q4r2gRGw2pePw3QLQTr09TzHRfN9esMxHPC/VXT4/QpBnf+PI20YPKKd0CHdpNPcvMuEU6C0/lg+9h/18Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=br46TWzz8VRKPDC4imWbrMVSscmUVPipLXGI6K5S5HY=;
- b=vUiy9kGi4RCIk2KHel24XaiJ09ABnlXX8LO4CG7Y1XnGeS8+tn4UJu1OtUmBnDVmbq32A1LBdXcpzUWNLLIXbJ4RE0Hrmt+X9streziKP97yU6SOTZBhgs1+QSGv8GufOXppEHzGzskDJRtCwc8a1E46FCSWU9C7bRGN7pFps7w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by PAWPR08MB8959.eurprd08.prod.outlook.com (2603:10a6:102:33f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23; Mon, 15 Jan
- 2024 13:58:29 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::6b40:1e6f:7c94:71dc]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::6b40:1e6f:7c94:71dc%4]) with mapi id 15.20.7181.026; Mon, 15 Jan 2024
- 13:58:28 +0000
-Message-ID: <96abddcc-fa65-4f27-84fe-2281fe0fcf1c@wolfvision.net>
-Date: Mon, 15 Jan 2024 14:58:26 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] ASoC: dt-bindings: xmos,xvf3500: add bindings for
- XMOS XVF3500
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20240115-feature-xvf3500_driver-v1-0-ed9cfb48bb85@wolfvision.net>
- <20240115-feature-xvf3500_driver-v1-2-ed9cfb48bb85@wolfvision.net>
- <333c2986-c7c2-4a46-90cf-b59ae206e55a@linaro.org>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <333c2986-c7c2-4a46-90cf-b59ae206e55a@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: VI1PR04CA0072.eurprd04.prod.outlook.com
- (2603:10a6:802:2::43) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJu7BBnO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705327221; x=1736863221;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=n/RLhgyGoa+DPRyRCqq45dasWWYKEjc9SvpU3zeNWxA=;
+  b=DJu7BBnOuNj/SImDyBXORRaeLfB5ec7RkBklriuacBBKeIivqpouC2Fd
+   oArlJNI5YQxFshQTZxWRXd/ljUWeir9uGZTbJjI+Gbs/JZBDgH8YZM2OR
+   pNEBuBxGbV6rOzHg53Cm14Xkkp+E8f+NZtnicRiyahA/WHxeg6OmzgenN
+   6GKm1S19K0gvoVPqClRb2ZVT08D4hHMAXtD+CnxTQGff+90WqtVC+rYr8
+   4OoM/+p+IPbnkHVdF3iF7LVsuvglH+PVfmKmjQCPDXjpMKMCj7/biUYoK
+   ZkB54Fm/Y0WfOxuC/6vC8N19RV0Ku8OmTZc5kKks0dxYzBDPwRMlcBhrZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="463900313"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="463900313"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 06:00:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="733312147"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="733312147"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga003.jf.intel.com with ESMTP; 15 Jan 2024 06:00:14 -0800
+Message-ID: <2178e799-2068-7443-59b2-310dfdd1ddee@linux.intel.com>
+Date: Mon, 15 Jan 2024 16:01:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|PAWPR08MB8959:EE_
-X-MS-Office365-Filtering-Correlation-Id: b22aa0ba-ec63-4a69-6bd9-08dc15d20cf8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	CwUgcXkmuxGg/xlEiUC7fsWzesGV6w9inbrhJB9UafRS/wt6aMwENjbCdyCZrJ98zX/0vJN5MmmhsVWJJBkRfvMErKbrl2eJvmJMrJSuIBqCZO4K7m+g506ljyjJjK5zuuzQ/W8i9z7R2ewlwRfjF2ghkpzkcuXD6PanyA6Eo9GBqVpx8i8nAEPQKlkL+kVRT5+tvoWV0pJX0VMB1Te487/0ztClwKL+1GyJnrWYOwT/JIOXWI9VtlCsUuyqWhjD2R/EKUH7a8Jx7KcdwaEmJrXHHM6Ri/TE0COA6ZB87MjyBZos+Jh3lao/zNJ0aAMI49Cn9YxKD1JmXpC5hAjG6vs1oaAsP0MoOeyd25vlNbWJdH5Jjz9Tm+IHrzyNSZWgYut5dxrd7sFjzPdsV7FJZVhWR3D0XSyuujmM5/d3eVr2WnS4+UuPPieSpgdB/G9aPTModCMUHBb9CIoHpFtEs1N9n1LxD3u1j3Gg4tk1vaWJJmki7Bn7wHzDYB7nosK74MyjjoiE0sVSgyWunsMj1hCFLa7yFire6xbC7OgYE6mEmw5TjQjDTHsmWZbQ4/dOKGFrGss8bL/OsEXlJM3TBcuVoDCJPMSDV48tpiIWaCyyyi0bphxcbWvcdC/+lK1DAyRN/nlH7/WVBCoQ/V/COw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(39850400004)(346002)(136003)(376002)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(31696002)(86362001)(38100700002)(2616005)(31686004)(26005)(36756003)(83380400001)(6506007)(6512007)(966005)(316002)(6486002)(66476007)(110136005)(53546011)(66556008)(66946007)(2906002)(8936002)(44832011)(8676002)(7416002)(45080400002)(5660300002)(4326008)(478600001)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a2pqM093MnlsSy9BcU9GVFYyRnFhL0NzcWFiTVl6ckFTZy93MGxkZFA3WEd0?=
- =?utf-8?B?S2UySzF4Z053STBhRWdvRXVGYzJCQWlqK3ZwWjdyOWg4ZUExREpQZG42aHBP?=
- =?utf-8?B?WmE3MTlXbnA4cjRreEk1U0s2VldXelFucy9xZ1hoOWgxeEVDR1FZY1A4L3Iv?=
- =?utf-8?B?alQ5ZmxCeUtoVm94VXNZSDNMODZuTGlnb2pyTWtwZERuM3owVkE0QUZtTFd0?=
- =?utf-8?B?d0R3WmVlT2FWSnpPTHRDUUdkZ0pMbUVZQ1FNUmlWb0VLZit6TnY2MWYvVlJ3?=
- =?utf-8?B?amlOdkRETDBTYVFvS3FXYitBbjZOcG9pMGdzWXZlT3lRUXl4MFlhQmJxMDRG?=
- =?utf-8?B?ZEhuVjQvV1c5WVdiQ2ptV3pPSDJrTTVrRjVhWmZ6R1ZQcDN0bHNvK3doSWJy?=
- =?utf-8?B?MnYwUWd2Ry9rcitUN3ZCVnh2bnhkdUJhbEd3TGtxWUhhREhkaVU1RHVmL1VO?=
- =?utf-8?B?TUFYMkdhemlNejZKc3NmeVhUWjQ3ZXJIK2lYMTAySGFrSDk4dHRicFNIdXV4?=
- =?utf-8?B?dUFaN1JJVUFYVGdNVm5hQzR2enRJL3U0cEJNckpUMGhPSnNDQTlMNkgydENs?=
- =?utf-8?B?QTB6ZjhGVXBnWXpOY3JSK2drM0lkMDJLbG9CZno1OEZQSE41OEJSQVFvclZ3?=
- =?utf-8?B?bzIxMUVSVmJUS3FYOHNKR1haRDJuVTViZ2dycEhKUUZ4WU9hRElMS0hGMVBQ?=
- =?utf-8?B?akRhaWV4NmcyamtId2tXOXN0ZGQrd0c1SFhWQXMyYlhwcFN5Yno1eTE0LzY2?=
- =?utf-8?B?WktDZkRNT2VmN0M2NFFkU1J5SE5FMlJjc05aSnRYNDdzT203RmIwTUtxaE56?=
- =?utf-8?B?clNsZU85NXI5RnlKdG9nWVZDYkFRdjdJNXdYME1objZOb2FwOGM2Y2k2ZFVy?=
- =?utf-8?B?ZU1teCtocGwzRXVBdkFpUGQ3dWxrZzNmK1Jnd2pNalpOa2R5Q2VNQlZRRDg1?=
- =?utf-8?B?Y1NSVXhaM1dxd3p2a2FXaCtuMUVLZVlaMENDVlBIakhxOFNjcWozb0pKMEI1?=
- =?utf-8?B?VEJRaEVuT0FLdU9LUThnS3gxdTFvdGhWZUNlYnhBL2xxWVg1cWRLNy9BVit4?=
- =?utf-8?B?S3RsZ0Q3UzZLc0p4Y0lGa3N3c2o2dUloSXB1bmYzME5qeVdtWjRERkp2Z05N?=
- =?utf-8?B?NG4yR0dJK1J0ejNSaW1YaWRKalBlVlpDTWptWGwveUcwakhVQlovZ1IxUS94?=
- =?utf-8?B?bEFMbGE2R3BvTTRYSCtOanZKdGlndHppTGMxamVZc0x2ZjVxRWxvQW1jNmxK?=
- =?utf-8?B?RlZVSGdMUWxLUkZVZ2hHbWNacWtDaG5uSXZOSUl3cVRIRWthVWNjYkJnazhi?=
- =?utf-8?B?UGc1TTlmU2dhQkllUlpYZGt1Wnh5OVI3czZEcUREQUhwU3dFdkNjNTRZQ2hE?=
- =?utf-8?B?RXhZbXp1MUdvK01WMkJZMFVac05zYU1Lem5CZnpQQlFtRXUrNnJ6WXVFOGZk?=
- =?utf-8?B?OGpxRmFmdDRwS3VmbXRUL1FsNG1YK1FKeEIzNTNGUEI5bXFJdVBVOTNVbjFs?=
- =?utf-8?B?Z0dDaTljdnZNc0RTUnlzTmExNHA3RFRhZ2VLR0JsUGhIVU1nSjYwTU9Uc09p?=
- =?utf-8?B?MGtPeEJySkVHM0xZM1JBMEQ3b05WdUI3SjUxZFNrVzQwU3JvVWNTTE01RkFY?=
- =?utf-8?B?MU41Y0YvMTZWNE1TVHd1THpJZktKNjdYSTdna1RBb0F1R3FrdmN4UHdnd0Vk?=
- =?utf-8?B?cXcwYUFRU3JJSitKd1E0VW5JcHBWYVArUzNadzhHN0Nvd3NYQWZDSVlVcWxp?=
- =?utf-8?B?MG9nVXBMbko4Y3BpWHhYSDNwOWVFczQwZFlIQWkwcnV6VVk3YTRuWGlVVGxv?=
- =?utf-8?B?aURzZ1k1b2poVmtWd2FmSk45azN3V1Zsc1MzQmZRczRHeU5KbUVKVjFqSDA1?=
- =?utf-8?B?SWE4bHlXTUsxZ3E5RitHSHg5MDNpL1JkQUZnTUg2cGluenB4cThRL3hyclJu?=
- =?utf-8?B?VkE5S3dEc3VTVmJHdVVralRpVXYrUEpsVVJSWjE3WTFaTDYxSFp3eUIyeTVp?=
- =?utf-8?B?OGhUZjZwbVMyYThLbHlVOC9HdjhJZWVnOE9NdDBvOGJ4NVpCOW82cDZNSXpv?=
- =?utf-8?B?TVR4Qktac2RaY2M0Vk9hT2p0dVVNV3c5ZE9rdVBISVFYRnRjZUhlTGVLWDJl?=
- =?utf-8?B?U09aK3RscUtpWVhWZ2E1b0FJczhqaVBWb1lidFZhRFJjb25vVitoYTVRdDZx?=
- =?utf-8?B?VHc9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b22aa0ba-ec63-4a69-6bd9-08dc15d20cf8
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2024 13:58:28.6663
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ECv/6sgTRpZ/6yzohvve1M8bOfi9sZn3jThv0IB/RbJpGUgTqbhqPmn0pAqTnUtpRKqPubFOp3K8j1G4g9hXXQrpJDq1rz7m5xxpK5DPaQA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8959
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
+ event ring events
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, gregkh@linuxfoundation.org, lgirdwood@gmail.com,
+ andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ konrad.dybcio@linaro.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org,
+ bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, agross@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+ <20240102214549.22498-5-quic_wcheng@quicinc.com>
+ <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
+ <7b2ec96b-b72f-c848-7c35-36e61a4072ac@quicinc.com>
+ <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 15.01.24 14:02, Krzysztof Kozlowski wrote:
-> On 15/01/2024 10:16, Javier Carrasco wrote:
->> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
->> multicore controller for voice processing.
+On 10.1.2024 1.42, Wesley Cheng wrote:
+> Hi Mathias,
+> 
+> On 1/8/2024 12:51 PM, Wesley Cheng wrote:
+>> Hi Mathias,
 >>
->> Add new bindings to define the device properties.
-> 
-> I don't see any bus, so how does it work? How do you get the voice data
-> from it? I also do not see any DAI: neither here nor in the driver...
-> 
-The voice data and any other information can be retrieved directly via
-USB from userspace. Once in normal operation, the device acts as a
-regular "onboard" USB device and the driver does not need to do any
-further management.
-> If there is going to be any new version, then implement all following
-> comments:
-> 
-> A nit, subject: drop second/last, redundant "bindings for". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-> 
-> 
+>> On 1/4/2024 6:48 AM, Mathias Nyman wrote:
+>>> On 2.1.2024 23.45, Wesley Cheng wrote:
+>>>> As part of xHCI bus suspend, the XHCI is halted.  However, if there are
+>>>> pending events in the secondary event ring, it is observed that the xHCI
+>>>> controller stops responding to further commands upon host or device
+>>>> initiated bus resume.  Iterate through all pending events and update the
+>>>> dequeue pointer to the beginning of the event ring.
+>>>>
+>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>> ...
+>>>> +/*
+>>>> + * Move the event ring dequeue pointer to skip events kept in the secondary
+>>>> + * event ring.  This is used to ensure that pending events in the ring are
+>>>> + * acknowledged, so the XHCI HCD can properly enter suspend/resume. The
+>>>> + * secondary ring is typically maintained by an external component.
+>>>> + */
+>>>> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+>>>> +    struct xhci_ring *ring,    struct xhci_interrupter *ir)
+>>>> +{
+>>>> +    union xhci_trb *erdp_trb, *current_trb;
+>>>> +    u64 erdp_reg;
+>>>> +    u32 iman_reg;
+>>>> +    dma_addr_t deq;
+>>>> +
+>>>> +    /* disable irq, ack pending interrupt and ack all pending events */
+>>>> +    xhci_disable_interrupter(ir);
+>>>> +    iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
+>>>> +    if (iman_reg & IMAN_IP)
+>>>> +        writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
+>>>> +
+>>>> +    /* last acked event trb is in erdp reg  */
+>>>> +    erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+>>>> +    deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
+>>>> +    if (!deq) {
+>>>> +        xhci_err(xhci, "event ring handling not required\n");
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    erdp_trb = current_trb = ir->event_ring->dequeue;
+>>>> +    /* read cycle state of the last acked trb to find out CCS */
+>>>> +    ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
+>>>> +
+>>>> +    while (1) {
+>>>> +        inc_deq(xhci, ir->event_ring);
+>>>> +        erdp_trb = ir->event_ring->dequeue;
+>>>> +        /* cycle state transition */
+>>>> +        if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
+>>>> +            ring->cycle_state)
+>>>> +            break;
+>>>> +    }
+>>>> +
+>>>> +    xhci_update_erst_dequeue(xhci, ir, current_trb, true);
+>>>> +}
+>>>
+>>> Code above is very similar to the existing event ring processing parts of xhci_irq()
+>>> and xhci_handle_event()
+>>>
+>>> I'll see if I can refactor the existing event ring processing, decouple it from
+>>> event handling so that it could be used by primary and secondary interrupters with
+>>> handlers, and this case where we just want to clear the event ring.
+>>>
 >>
->> [1] https://www.xmos.com/xvf3500/
+>> Thanks, that makes sense.  Will take a look as well.
 >>
->> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->> ---
->>  .../devicetree/bindings/sound/xmos,xvf3500.yaml    | 51 ++++++++++++++++++++++
->>  1 file changed, 51 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml b/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml
->> new file mode 100644
->> index 000000000000..e93a735a0f1a
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml
->> @@ -0,0 +1,51 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/xmos,xvf3500.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: XMOS XVF3500 VocalFusion Voice Processor
->> +
->> +maintainers:
->> +  - Javier Carrasco <javier.carrasco@wolfvision.net>
->> +
->> +description: |-
 > 
-> Do not need '|-' unless you need to preserve formatting.
+> How about something like the below?  Tested this on my set up and everything looks to be working fine.  Had to add another param to struct xhci_interrupters to tell the XHCI interrupt handler to say if that particular interrupter wants to skip_events (handling).  This way, its something that the class driver utilizing the interrupter will have to tell XHCI sideband.  It would allow the user to determine if they want to use the interrupter to actually handle events or not on the proc running Linux.
 > 
-> 
->> +  The XMOS XVF3500 VocalFusion Voice Processor is a low-latency, 32-bit
->> +  multicore controller for voice processing.
->> +  https://www.xmos.com/xvf3500/
->> +
->> +properties:
->> +  compatible:
->> +    const: xmos,xvf3500
->> +
->> +  reset-gpios:
->> +    maxItems: 1
->> +
->> +  vcc1v0-supply:
->> +    description: |
-> 
-> Do not need '|' unless you need to preserve formatting.
-> 
-> 
->> +      Regulator for the 1V0 supply.
->> +
->> +  vcc3v3-supply:
->> +    description: |
-> 
-> Do not need '|' unless you need to preserve formatting.
-> 
->> +      Regulator for the 3V3 supply.
->> +
->> +additionalProperties: false
-> 
-> This goes after required: block.
-> 
->> +
->> +required:
->> +  - compatible
->> +  - reset-gpios
->> +  - vcc1v0-supply
->> +  - vcc3v3-supply
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    xvf3500: voice-processor {
-> 
-> Drop unused label.
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-Thank you for your feedback and best regards,
-Javier Carrasco
+
+Yes, I have something similar.
+I'll share it soon, just need to
+clean it up a bit fist.
+
+Thanks
+Mathias
+
