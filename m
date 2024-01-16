@@ -1,81 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCDE1C68D;
-	Tue, 16 Jan 2024 16:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612A1748D;
+	Tue, 16 Jan 2024 16:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpFhh3Ej"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705421671; x=1736957671;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=Laa0CQd0yJ+fDuLvFZPVswEPeD7Y0wSXSidO7YjTej4=;
-  b=MpFhh3EjpF6CUWhUua/FlBXzmjWuo4PcmbmPRtf7J6rnXV+a5dSBqmRM
-   jPR5y5Y1/C7k3M89QGdPJjG04Nmp5QcoSjmJpXzq+p8nKw88+bweV+/2Q
-   5QTA++/yB1MVdT7sLPzaSMSEbewjLYhuvbuJAXXrTfneI0sm2I9NHO9LK
-   XNA4xFIwbL5IzOltjokZjFZNe90CptlXwNsHNTwjIOZBGUDCjTgehHz3j
-   5LGTw7ydLSNB2lnPxXWnNqSo2yuj/9rd4dpY2Uy3eSqREhNoNVlYpCFef
-   6w3DvCnbc3Sl0lwS3jjsg6jsfjBaLgtocew4PTIjn5JqP6TDFwiLgOvru
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="466284394"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="466284394"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 08:14:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787497846"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="787497846"
-Received: from jfunnell-mobl.ger.corp.intel.com (HELO localhost) ([10.252.39.52])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 08:14:21 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Sarha, Jyri" <jyri.sarha@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "Hajda, Andrzej" <andrzej.hajda@intel.com>, "dmitry.baryshkov@linaro.org"
- <dmitry.baryshkov@linaro.org>, "rfoss@kernel.org" <rfoss@kernel.org>,
- "tiwai@suse.com" <tiwai@suse.com>, "linux-arm-msm@vger.kernel.org"
- <linux-arm-msm@vger.kernel.org>, "quic_abhinavk@quicinc.com"
- <quic_abhinavk@quicinc.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "mripard@kernel.org" <mripard@kernel.org>, "perex@perex.cz"
- <perex@perex.cz>, "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>
-Subject: Re: [3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
-In-Reply-To: <4eeb74d942acf24e468036e0732e5e32c6907f6f.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240104201632.1100753-3-jani.nikula@intel.com>
- <4eeb74d942acf24e468036e0732e5e32c6907f6f.camel@intel.com>
-Date: Tue, 16 Jan 2024 18:14:18 +0200
-Message-ID: <87v87tqmqt.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDcxDPja"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF5BC433C7;
+	Tue, 16 Jan 2024 16:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705423661;
+	bh=fCFQedqBtnHbk0RjkLAsOwMAS2Fb6uEfIUfJDT9Jjzo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VDcxDPjaqkX7bh/a5dvzL+zrOdvUXO+D68NLQwuZXoE/f0CIGUrTsK/jHv7+sYSEG
+	 60TM0eokPBmFx5U6RrzXiRFEE8FyxRrg6ch4s7jRk78m+BLB4KAqX9IpsfuULyJBY7
+	 OEzQ+IJjnV5xLp1GgevJmJZqx4RfNuu8dRIykZUN5E+NVS00ZoXW8krtyROk1yw9JN
+	 re/uUAvqbqaoJc4sky02cHWPwSsPSAsN7SAA3epwPZOuwvZkCYjsDejpPKNMln+2CE
+	 Sq7AEPzpLzeW1V4gXpz4Pgx85Z256Ex4WEErbPWlUu6VAVW5+qMc9+srB5jv1CnlG7
+	 ZH9L4Plv/tVPQ==
+Date: Tue, 16 Jan 2024 10:47:39 -0600
+From: Rob Herring <robh@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: dai-common: Narrow possible
+ sound-dai-cells
+Message-ID: <20240116164739.GA93647-robh@kernel.org>
+References: <20240109213812.558492-1-krzysztof.kozlowski@linaro.org>
+ <1ja5pdzb7k.fsf@starbuckisacylon.baylibre.com>
+ <7e312b05-857f-40a6-a1a1-a954dfea7044@sirena.org.uk>
+ <f9f5df54-dbeb-4246-b30f-52f3db7d94b3@linaro.org>
+ <3b1b956b-985c-45f2-bda3-018aaf897295@sirena.org.uk>
+ <445daac6-841a-4335-9b53-689e5bd2530c@linaro.org>
+ <1jjzohxpl7.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1jjzohxpl7.fsf@starbuckisacylon.baylibre.com>
 
-On Fri, 12 Jan 2024, "Sarha, Jyri" <jyri.sarha@intel.com> wrote:
-> Reviewed-by: <jyri.sarha@linux.intel.com>
->
-> Thanks,
-> The including of drm_edid.h in hdmi-codec.h is a relic from my pre
-> upstreaming version of hdmi-codec. I don't think it was ever needed
-> in any upsteam version.
+On Wed, Jan 10, 2024 at 02:36:01PM +0100, Jerome Brunet wrote:
+> 
+> On Wed 10 Jan 2024 at 14:24, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+> > On 10/01/2024 13:57, Mark Brown wrote:
+> >> On Wed, Jan 10, 2024 at 01:51:03PM +0100, Krzysztof Kozlowski wrote:
+> >>> On 10/01/2024 12:37, Mark Brown wrote:
+> >>>> On Wed, Jan 10, 2024 at 12:07:30PM +0100, Jerome Brunet wrote:
+> >> 
+> >>>>> If restricting things here is really important, defaulting to 0 (with a
+> >>>>> comment explaining it) and letting actual devices then override the
+> >>>>> value would feel less 'made up'
+> >> 
+> >>> Wait, what do you mean by "letting actual devices then override"? It's
+> >>> already like this. Nothing changed. What do you refer to?
+> >> 
+> >> The suggestion is that instead of limiting to 1 and having one device
+> >
+> > Nothing limits here to 0. I limit from all technically possible values
+> > to reasonable subset.
+> >
+> >> override limit to 0 and have all the devices that need 1 override as
+> >> well.
+> >
+> > I don't think that actual default value for this should be provided.
+> > This should be conscious choice when writing bindings and driver.
+> > Similarly we do already for some other #cells:
+> > #io-channel-cells, address/size-cells (dtschema), #mux-control-cells and
+> > others.
+> >
+> > I agree we do not restrict all of them, though. However I do not see
+> > single reason to allow developers use 3 as #sound-dai-cells.
+> >
+> 
+> Similarly, I do not see a reason to forbid it.
+> Submitter should not have to update the generic bindings every time we
+> come up with something new.
 
-Thanks for the reviews and acks, pushed to drm-misc-next, even if I
-didn't get an ack from Jaroslav or Takashi. Seems rather benign anyway.
+Why not? If someone comes up with a use for N cells, I'd like to know 
+about it which would be more easily seen here than hidden in some device 
+specific binding.
 
-BR,
-Jani.
+That being said, there's a global max of 8 in dtschema already, so 
+limiting here doesn't add that much.
 
-
--- 
-Jani Nikula, Intel
+Rob
