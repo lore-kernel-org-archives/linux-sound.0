@@ -1,82 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251451BF41;
-	Tue, 16 Jan 2024 15:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sQBmJlPe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EC60C433F1;
-	Tue, 16 Jan 2024 15:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705417813;
-	bh=B1FJIuGceQwGGUr1VdWXxI5e+Mbkrvt6mGSLavFdtRM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sQBmJlPeo0s/7USxGte5IlqP3pBJU3TX0Ms0p3AN/ACkQN1ZvtUv+Hfb8hGkjSsdw
-	 nZCx54vGUXhQXZqC5yaybqyjfbRayZ+FeyjVopDy62wGeb346r/imKBgGbHg10Htmk
-	 R5KdV7BAuHpDIwAb3zGjoSkB5eLnIZPFAL6COuYYWSYInKGnyfhLJGpPR/FeJa0ps5
-	 qYfRtTz1Sm9YQK97x6hztp8OqZjG8l8MxmsfVjG1N7XI8ayXGR+IbE2JTUah7GyYm7
-	 Zd7eavOKvMQr6+ltIHe8IhhtyfoEvwB+AoyTHx45YQSUbICdpRDoiFOFsbo3XAf8uX
-	 klsxHD33fhclQ==
-Date: Tue, 16 Jan 2024 15:10:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/7] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <029c8d1b-a621-41cb-a577-dd5829fe8427@sirena.org.uk>
-References: <20240116093903.19403-1-johan+linaro@kernel.org>
- <20240116093903.19403-2-johan+linaro@kernel.org>
- <1cc50979-741b-4341-9e9e-2fdee1dd2e65@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB901BF4D
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jan 2024 15:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rPlD3-0000to-Uy; Tue, 16 Jan 2024 16:18:37 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rPlD0-000Gxq-M0; Tue, 16 Jan 2024 16:18:34 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rPlD0-000D8R-1w;
+	Tue, 16 Jan 2024 16:18:34 +0100
+Message-ID: <800d202864c1730622a19998728c5a8b576d1931.camel@pengutronix.de>
+Subject: Re: [PATCH v3 5/5] i2c: muxes: pca954x: Allow sharing reset GPIO
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami
+ <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
+ Peter Rosin <peda@axentia.se>, Jaroslav Kysela <perex@perex.cz>,  Takashi
+ Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
+ alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org
+Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, Bartosz Golaszewski
+	 <brgl@bgdev.pl>, Sean Anderson <sean.anderson@seco.com>
+Date: Tue, 16 Jan 2024 16:18:34 +0100
+In-Reply-To: <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
+References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
+	 <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ShzZHTDGEX/OI1T3"
-Content-Disposition: inline
-In-Reply-To: <1cc50979-741b-4341-9e9e-2fdee1dd2e65@linaro.org>
-X-Cookie: Programmers do it bit by bit.
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
+On Fr, 2024-01-12 at 17:36 +0100, Krzysztof Kozlowski wrote:
+> From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+>=20
+> Some hardware designs with multiple PCA954x devices use a reset GPIO
+> connected to all the muxes. Support this configuration by making use of
+> the reset controller framework which can deal with the shared reset
+> GPIOs. Fall back to the old GPIO descriptor method if the reset
+> controller framework is not enabled.
+>=20
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> Acked-by: Peter Rosin <peda@axentia.se>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Link: https://lore.kernel.org/r/20240108041913.7078-1-chris.packham@allie=
+dtelesis.co.nz
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> ---
+>=20
+> If previous patches are fine, then this commit is independent and could
+> be taken via I2C.
+>=20
+> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> ---
+>  drivers/i2c/muxes/i2c-mux-pca954x.c | 46 ++++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/i2c/muxes/i2c-mux-pca954x.c b/drivers/i2c/muxes/i2c-=
+mux-pca954x.c
+> index 2219062104fb..1702e8d49b91 100644
+> --- a/drivers/i2c/muxes/i2c-mux-pca954x.c
+> +++ b/drivers/i2c/muxes/i2c-mux-pca954x.c
+> @@ -49,6 +49,7 @@
+>  #include <linux/pm.h>
+>  #include <linux/property.h>
+>  #include <linux/regulator/consumer.h>
+> +#include <linux/reset.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+>  #include <dt-bindings/mux/mux.h>
+> @@ -102,6 +103,9 @@ struct pca954x {
+>  	unsigned int irq_mask;
+>  	raw_spinlock_t lock;
+>  	struct regulator *supply;
+> +
+> +	struct gpio_desc *reset_gpio;
+> +	struct reset_control *reset_cont;
+>  };
+> =20
+>  /* Provide specs for the MAX735x, PCA954x and PCA984x types we know abou=
+t */
+> @@ -477,6 +481,35 @@ static int pca954x_init(struct i2c_client *client, s=
+truct pca954x *data)
+>  	return ret;
+>  }
+> =20
+> +static int pca954x_get_reset(struct device *dev, struct pca954x *data)
+> +{
+> +	data->reset_cont =3D devm_reset_control_get_optional_shared(dev, NULL);
+> +	if (IS_ERR(data->reset_cont))
+> +		return dev_err_probe(dev, PTR_ERR(data->reset_cont),
+> +				     "Failed to get reset\n");
+> +	else if (data->reset_cont)
+> +		return 0;
+> +
+> +	/*
+> +	 * fallback to legacy reset-gpios
+> +	 */
 
---ShzZHTDGEX/OI1T3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+devm_reset_control_get_optional_shared() won't return NULL if the
+"reset-gpios" property is found in the device tree, so the GPIO
+fallback is dead code.
 
-On Tue, Jan 16, 2024 at 11:11:47AM +0000, Srinivas Kandagatla wrote:
-> On 16/01/2024 09:38, Johan Hovold wrote:
-> > The current UCM configuration sets the speaker PA volume to 15 dB when
-> > enabling the speakers but this does not prevent the user from increasing
-> > the volume further.
-> >=20
-> > Limit the PA volume to 15 dB in the machine driver to reduce the risk of
-> > speaker damage until we have active speaker protection in place.
+> +	data->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HI=
+GH);
+> +	if (IS_ERR(data->reset_gpio)) {
+> +		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
+> +				     "Failed to get reset gpio");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
 
-> LGTM, We can get rid of this limit once we have Speaker protection inplac=
-e.
-
-There should be a userspace component for speaker protection so you'll
-need to limit things when that's not running.
-
---ShzZHTDGEX/OI1T3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWmnE8ACgkQJNaLcl1U
-h9Dbmgf+IblLPaBg7D2oSrtByTikbx592QEXrkcWHGjqquxgdEdDaTQXUNfUE9oR
-N7Dllk3rRDTEPEc78Gb5hFvjE7zut/xjfOoaGqSiwtv9/pA8TkEI8qBB65eQxSNt
-5Zpcy5Y2bZ3AkzcggF3JFZsUBx1pdE6CVi7BrR3SCOsvnZGowBpVRaMP+MWvZPO1
-I+mntld1hnmH2g/1fnMmPIpvXlGSKPQ3bbcqd7d7IVnxBagNzPdKyQVnpMlHTQM0
-5w2XCZc8Nikf/8UzUrM6DBL8AeNww6V9etfyjkquZ5COHeaW16quGxMksHtpO7bL
-2MAtAP7YlZTbCeQv/VmF4TshVtrPqw==
-=ukiF
------END PGP SIGNATURE-----
-
---ShzZHTDGEX/OI1T3--
+regards
+Philipp
