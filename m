@@ -1,142 +1,81 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB901BF4D
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jan 2024 15:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rPlD3-0000to-Uy; Tue, 16 Jan 2024 16:18:37 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rPlD0-000Gxq-M0; Tue, 16 Jan 2024 16:18:34 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rPlD0-000D8R-1w;
-	Tue, 16 Jan 2024 16:18:34 +0100
-Message-ID: <800d202864c1730622a19998728c5a8b576d1931.camel@pengutronix.de>
-Subject: Re: [PATCH v3 5/5] i2c: muxes: pca954x: Allow sharing reset GPIO
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami
- <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Peter Rosin <peda@axentia.se>, Jaroslav Kysela <perex@perex.cz>,  Takashi
- Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, Bartosz Golaszewski
-	 <brgl@bgdev.pl>, Sean Anderson <sean.anderson@seco.com>
-Date: Tue, 16 Jan 2024 16:18:34 +0100
-In-Reply-To: <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
-References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
-	 <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCDE1C68D;
+	Tue, 16 Jan 2024 16:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpFhh3Ej"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705421671; x=1736957671;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=Laa0CQd0yJ+fDuLvFZPVswEPeD7Y0wSXSidO7YjTej4=;
+  b=MpFhh3EjpF6CUWhUua/FlBXzmjWuo4PcmbmPRtf7J6rnXV+a5dSBqmRM
+   jPR5y5Y1/C7k3M89QGdPJjG04Nmp5QcoSjmJpXzq+p8nKw88+bweV+/2Q
+   5QTA++/yB1MVdT7sLPzaSMSEbewjLYhuvbuJAXXrTfneI0sm2I9NHO9LK
+   XNA4xFIwbL5IzOltjokZjFZNe90CptlXwNsHNTwjIOZBGUDCjTgehHz3j
+   5LGTw7ydLSNB2lnPxXWnNqSo2yuj/9rd4dpY2Uy3eSqREhNoNVlYpCFef
+   6w3DvCnbc3Sl0lwS3jjsg6jsfjBaLgtocew4PTIjn5JqP6TDFwiLgOvru
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="466284394"
+X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
+   d="scan'208";a="466284394"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 08:14:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787497846"
+X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
+   d="scan'208";a="787497846"
+Received: from jfunnell-mobl.ger.corp.intel.com (HELO localhost) ([10.252.39.52])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 08:14:21 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Sarha, Jyri" <jyri.sarha@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "Hajda, Andrzej" <andrzej.hajda@intel.com>, "dmitry.baryshkov@linaro.org"
+ <dmitry.baryshkov@linaro.org>, "rfoss@kernel.org" <rfoss@kernel.org>,
+ "tiwai@suse.com" <tiwai@suse.com>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "quic_abhinavk@quicinc.com"
+ <quic_abhinavk@quicinc.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "mripard@kernel.org" <mripard@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>, "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>
+Subject: Re: [3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
+In-Reply-To: <4eeb74d942acf24e468036e0732e5e32c6907f6f.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240104201632.1100753-3-jani.nikula@intel.com>
+ <4eeb74d942acf24e468036e0732e5e32c6907f6f.camel@intel.com>
+Date: Tue, 16 Jan 2024 18:14:18 +0200
+Message-ID: <87v87tqmqt.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: text/plain
 
-On Fr, 2024-01-12 at 17:36 +0100, Krzysztof Kozlowski wrote:
-> From: Chris Packham <chris.packham@alliedtelesis.co.nz>
->=20
-> Some hardware designs with multiple PCA954x devices use a reset GPIO
-> connected to all the muxes. Support this configuration by making use of
-> the reset controller framework which can deal with the shared reset
-> GPIOs. Fall back to the old GPIO descriptor method if the reset
-> controller framework is not enabled.
->=20
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> Acked-by: Peter Rosin <peda@axentia.se>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Link: https://lore.kernel.org/r/20240108041913.7078-1-chris.packham@allie=
-dtelesis.co.nz
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
-> ---
->=20
-> If previous patches are fine, then this commit is independent and could
-> be taken via I2C.
->=20
-> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> ---
->  drivers/i2c/muxes/i2c-mux-pca954x.c | 46 ++++++++++++++++++++++++-----
->  1 file changed, 38 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/i2c/muxes/i2c-mux-pca954x.c b/drivers/i2c/muxes/i2c-=
-mux-pca954x.c
-> index 2219062104fb..1702e8d49b91 100644
-> --- a/drivers/i2c/muxes/i2c-mux-pca954x.c
-> +++ b/drivers/i2c/muxes/i2c-mux-pca954x.c
-> @@ -49,6 +49,7 @@
->  #include <linux/pm.h>
->  #include <linux/property.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/reset.h>
->  #include <linux/slab.h>
->  #include <linux/spinlock.h>
->  #include <dt-bindings/mux/mux.h>
-> @@ -102,6 +103,9 @@ struct pca954x {
->  	unsigned int irq_mask;
->  	raw_spinlock_t lock;
->  	struct regulator *supply;
-> +
-> +	struct gpio_desc *reset_gpio;
-> +	struct reset_control *reset_cont;
->  };
-> =20
->  /* Provide specs for the MAX735x, PCA954x and PCA984x types we know abou=
-t */
-> @@ -477,6 +481,35 @@ static int pca954x_init(struct i2c_client *client, s=
-truct pca954x *data)
->  	return ret;
->  }
-> =20
-> +static int pca954x_get_reset(struct device *dev, struct pca954x *data)
-> +{
-> +	data->reset_cont =3D devm_reset_control_get_optional_shared(dev, NULL);
-> +	if (IS_ERR(data->reset_cont))
-> +		return dev_err_probe(dev, PTR_ERR(data->reset_cont),
-> +				     "Failed to get reset\n");
-> +	else if (data->reset_cont)
-> +		return 0;
-> +
-> +	/*
-> +	 * fallback to legacy reset-gpios
-> +	 */
+On Fri, 12 Jan 2024, "Sarha, Jyri" <jyri.sarha@intel.com> wrote:
+> Reviewed-by: <jyri.sarha@linux.intel.com>
+>
+> Thanks,
+> The including of drm_edid.h in hdmi-codec.h is a relic from my pre
+> upstreaming version of hdmi-codec. I don't think it was ever needed
+> in any upsteam version.
 
-devm_reset_control_get_optional_shared() won't return NULL if the
-"reset-gpios" property is found in the device tree, so the GPIO
-fallback is dead code.
+Thanks for the reviews and acks, pushed to drm-misc-next, even if I
+didn't get an ack from Jaroslav or Takashi. Seems rather benign anyway.
 
-> +	data->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HI=
-GH);
-> +	if (IS_ERR(data->reset_gpio)) {
-> +		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-> +				     "Failed to get reset gpio");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
+BR,
+Jani.
 
-regards
-Philipp
+
+-- 
+Jani Nikula, Intel
