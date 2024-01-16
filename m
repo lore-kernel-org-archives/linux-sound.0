@@ -1,126 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AE5125C4;
-	Tue, 16 Jan 2024 09:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF8B12B8D;
+	Tue, 16 Jan 2024 09:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1RMrtCQy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TukuqNgk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VLyvgA1P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vWs3yONw"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1D114220EE;
-	Tue, 16 Jan 2024 09:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705396566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ArBPrKm5RcSvKqAvi/Mho8YH7n96j32xhTlGZo9rzwg=;
-	b=1RMrtCQyHfB8sADu4/vlCFSJtdnUcuinAPB1IeQgO6zKsTc4EmHUzunIR7JCF0DDQXyByD
-	0ZifjNGr/j80aEQGqlZSe0GLvLmRt0b5Ok0iYY3qlxEnqWq44Uh32t1w7caC4yr/uqlBy7
-	iumqNQ96z+XamdO3Ir9BRzgVoYRg2Co=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705396566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ArBPrKm5RcSvKqAvi/Mho8YH7n96j32xhTlGZo9rzwg=;
-	b=TukuqNgktlkFrEgCQe1Wsb7Y2hK0OKsZRilVErdcC/E6L8YptvIQVD396FpyZX6a1jr04D
-	VvhfhQR54/RNLfAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705396565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ArBPrKm5RcSvKqAvi/Mho8YH7n96j32xhTlGZo9rzwg=;
-	b=VLyvgA1Pp24mv7CFm7gEAQzSDfGct2BhfgNM7JffdZu6eFQ0vnhgmZZFcrkzj8vqqaRccg
-	zA2mNMkDN9m/RuIULu1R/vWqL7ofU5A768cJO+NEaMVql3VMdhZWrUpMaUvEw4DTjCpynT
-	kE0bqcuElbzHapC/Gav2U2TXfLGRClg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705396565;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ArBPrKm5RcSvKqAvi/Mho8YH7n96j32xhTlGZo9rzwg=;
-	b=vWs3yONwGjyVOu4q4wBmnONccSVmiAp5CvGKUk5MCHp10gONqJhlPS1Dh8CuXWneXKwP49
-	AcEb0SYKsx0i7PBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A2E08132FA;
-	Tue, 16 Jan 2024 09:16:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qcdMJlRJpmUsDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 16 Jan 2024 09:16:04 +0000
-Date: Tue, 16 Jan 2024 10:16:04 +0100
-Message-ID: <8734uxwsdn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Yo-Jung Lin <leo.lin@canonical.com>
-Cc: andy.chi@canonical.com,
-	0xff07@gmail.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKmoRJkw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F772C43390;
+	Tue, 16 Jan 2024 09:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705397981;
+	bh=nvWSTvevOskToEZpfEU2EEaPDtMjqucztV5vWpemT2E=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RKmoRJkwvYt5VDdESK9KIx/LDj4F0E7M/8n1WuR0soKQjN424GIFu75fnOUmyxpvL
+	 zDStNl/RrkH00uMgg5wKY62Qycvcq9zeb7YceufvII03mCUVQJX1Zle4gPbYaJaMxZ
+	 xf6RVMgkxEBnYUsTIXVeyvj6RX2L/9bp1n3TUwVE/0fz6T/lTKpTyaFLR835+MnfJW
+	 9IbXMLS+JW4uMHe+h+t/VKyq3RxgyupwdfJtSK3orD0H46iJurVPSqIhNP8Np/IOTX
+	 KkrwvpT9FVjeMRrMrUDT+0wA3sZ0vXdjal0qWQrj+QRgOGN3DZpfsuN+OkgfVCoQoo
+	 W6g9qL1HrlqAw==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1rPfv6-00053R-0a;
+	Tue, 16 Jan 2024 10:39:44 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Matthew Anderson <ruinairas1992@gmail.com>,
-	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable mute/micmute LEDs and limit mic boost on HP ZBook
-In-Reply-To: <20240116020722.27236-1-leo.lin@canonical.com>
-References: <20240116020722.27236-1-leo.lin@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/7] ASoC: qcom: sc8280xp: limit speaker volumes
+Date: Tue, 16 Jan 2024 10:38:57 +0100
+Message-ID: <20240116093903.19403-2-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20240116093903.19403-1-johan+linaro@kernel.org>
+References: <20240116093903.19403-1-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.48
-X-Spamd-Result: default: False [-2.48 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[13];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[canonical.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[canonical.com,gmail.com,perex.cz,suse.com,opensource.cirrus.com,realtek.com,ljones.dev,ti.com,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.18)[96.07%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Jan 2024 03:07:19 +0100,
-Yo-Jung Lin wrote:
-> 
-> On some HP ZBooks, the audio LEDs can be enabled by
-> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF. So use it accordingly.
-> 
-> Signed-off-by: Yo-Jung Lin <leo.lin@canonical.com>
+The current UCM configuration sets the speaker PA volume to 15 dB when
+enabling the speakers but this does not prevent the user from increasing
+the volume further.
 
-Thanks, applied now.
+Limit the PA volume to 15 dB in the machine driver to reduce the risk of
+speaker damage until we have active speaker protection in place.
 
+Note that this will probably need to be generalised using
+machine-specific limits, but a common limit should do for now.
 
-Takashi
+Cc: stable@vger.kernel.org	# 6.5
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ sound/soc/qcom/sc8280xp.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index ed4bb551bfbb..aa43903421f5 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -32,12 +32,14 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	case WSA_CODEC_DMA_RX_0:
+ 	case WSA_CODEC_DMA_RX_1:
+ 		/*
+-		 * set limit of 0dB on Digital Volume for Speakers,
+-		 * this can prevent damage of speakers to some extent without
+-		 * active speaker protection
++		 * Set limit of 0 dB on Digital Volume and 15 dB on PA Volume
++		 * to reduce the risk of speaker damage until we have active
++		 * speaker protection in place.
+ 		 */
+ 		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 84);
+ 		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 84);
++		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 12);
++		snd_soc_limit_volume(card, "SpkrRight PA Volume", 12);
+ 		break;
+ 	default:
+ 		break;
+-- 
+2.41.0
+
