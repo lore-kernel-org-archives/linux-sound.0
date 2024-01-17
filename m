@@ -1,78 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4ED67499;
-	Wed, 17 Jan 2024 09:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B16D1D555
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 11:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705482498; cv=none; b=BcIT+z3nPaZZBnG86wOrsJS7RRIFeOGhMbkuqccufMun/G61XfaaKaFpKDqZ+AU70nSFlx+OM4cOVqVlfzW2Bpoysm+ZXtjLZlfXLPXEbOPzW8C1Si10W6yp8pTEDPik/KEEeDsuCeLz/JnpvaF6vCc5ys61IE9H0ZehjnJExKY=
+	t=1705490193; cv=none; b=OylI8bjfrEFsWkViluhNETYubIm3Y/bzIZpuxghwAE/VbiuhCKUrn8o8fExxKEvyKDPjZkvzJ8Y+amBj2//AINiJIp0z7PB4X5Q54OPTZN8w1n3VSjx/b4jwSYh3UQx7kxP8syc4zYEJw8qybFhtFsJykmGVUpNe2qPov84DaZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705482498; c=relaxed/simple;
-	bh=/dPCBxX9NtYra0koFE41eeYgs1qT5c5J5e0WBloEftE=;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rwXcoegeUIx/IVJqYsyx/Ta29DMbASz4OdXnPsDwyXoQog7bKOyglSt/MiYCqwRhmW8xImscKQga1C3Kewwv73mbw/inlqGCuZE+qh4qfw1YpzYq/HgvisizGkW5WVqOchPJbDwFQ1Ct2fQkG9k7sONJ1VsR5pYOkD8wcf6tiYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EwfFyoFP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EwfFyoFP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E08C433F1;
-	Wed, 17 Jan 2024 09:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705482498;
-	bh=/dPCBxX9NtYra0koFE41eeYgs1qT5c5J5e0WBloEftE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EwfFyoFPPJKIQlb/mKFQXjLoA42JHsJe7581uZAyH5PiUdNVZg9NuN7VRq6I/2yja
-	 +cgOn8V40goecsaz8cSraOaKDWK5tRQO9FU1Drtxhnar24j84hA1xrNhk3OiXwN2iN
-	 /a3hbEXzo8FB631BxwHPNohViqSGmghGJGieF8HIsqLl5UYEecSN2SVXvuVqvG3hW+
-	 0krW5ShJR2yPOVZBoJRHKK9A/Tn2mrwrUYfoe9H+L1dRxH36ci2FyUdOOrQsBNdjkx
-	 dyRAq3gbqN9DFYHH3kUBqSimdqTiV+8eAhxTsWhBN4KxnxqUQ5RM28S2Hs6mpTIgV7
-	 ix+zZs5w4rX/A==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rQ1uI-0008AG-3C;
-	Wed, 17 Jan 2024 10:08:23 +0100
-Date: Wed, 17 Jan 2024 10:08:22 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/7] ASoC: codecs: lpass-wsa-macro: fix compander volume
- hack
-Message-ID: <ZaeZBjKezfdslS2L@hovoldconsulting.com>
-References: <20240116093903.19403-1-johan+linaro@kernel.org>
- <20240116093903.19403-3-johan+linaro@kernel.org>
- <8bb1cad6-6a85-444a-b881-c03ab0051009@linaro.org>
- <ZaaAO8SMczq7YUAE@hovoldconsulting.com>
+	s=arc-20240116; t=1705490193; c=relaxed/simple;
+	bh=5qKlaLziljLZ5noa6CzlpJUbxw1PitV5B5D7RLl7cCY=;
+	h=Received:Received:Received:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:X-SA-Exim-Connect-IP:X-SA-Exim-Mail-From:
+	 X-SA-Exim-Scanned:X-PTX-Original-Recipient; b=Am9slT9+TQYjMrWHbwZeJDGp/O4iUbDZcbaoj7UBqQCs/O5tokrom1X+RsWfc4Axp2Qf3lG+pRjH8LR4+GmP5k4P4s7OJUKqBPX47peC/g1Eqf7A4CTurn/wCBAq/mhffwy3EH43ha65GnqzUKLmCRKCN2ABDx9X6f00h41gw2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rQ3tx-0002Yp-2t; Wed, 17 Jan 2024 12:16:09 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rQ3tt-000S1i-0W; Wed, 17 Jan 2024 12:16:05 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rQ3ts-0004u3-31;
+	Wed, 17 Jan 2024 12:16:04 +0100
+Message-ID: <568f2bcb1bea01c36f59650d5cc5a84612197f8b.camel@pengutronix.de>
+Subject: Re: [PATCH v3 5/5] i2c: muxes: pca954x: Allow sharing reset GPIO
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,  Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Peter Rosin <peda@axentia.se>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>,  "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "alsa-devel@alsa-project.org"
+ <alsa-devel@alsa-project.org>, "linux-sound@vger.kernel.org"
+ <linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-i2c@vger.kernel.org"
+ <linux-i2c@vger.kernel.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson
+ <sean.anderson@seco.com>
+Date: Wed, 17 Jan 2024 12:16:04 +0100
+In-Reply-To: <4c6c5d07-ac53-4da9-93e0-1286ca5eb44b@alliedtelesis.co.nz>
+References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
+	 <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
+	 <800d202864c1730622a19998728c5a8b576d1931.camel@pengutronix.de>
+	 <4c6c5d07-ac53-4da9-93e0-1286ca5eb44b@alliedtelesis.co.nz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZaaAO8SMczq7YUAE@hovoldconsulting.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Tue, Jan 16, 2024 at 02:10:19PM +0100, Johan Hovold wrote:
-> On Tue, Jan 16, 2024 at 11:10:21AM +0000, Srinivas Kandagatla wrote:
+On Di, 2024-01-16 at 19:58 +0000, Chris Packham wrote:
+> On 17/01/24 04:18, Philipp Zabel wrote:
+> > On Fr, 2024-01-12 at 17:36 +0100, Krzysztof Kozlowski wrote:
+> > > From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> > >=20
+> > > Some hardware designs with multiple PCA954x devices use a reset GPIO
+> > > connected to all the muxes. Support this configuration by making use =
+of
+> > > the reset controller framework which can deal with the shared reset
+> > > GPIOs. Fall back to the old GPIO descriptor method if the reset
+> > > controller framework is not enabled.
+> > >=20
+> > > Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> > > Acked-by: Peter Rosin <peda@axentia.se>
+> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > Link: https://scanmail.trustwave.com/?c=3D20988&d=3D8p6m5Tfi2yYJWYV9x=
+YGcYnz7UYxB6WTGTPkmGu7b8A&u=3Dhttps%3a%2f%2flore%2ekernel%2eorg%2fr%2f20240=
+108041913%2e7078-1-chris%2epackham%40alliedtelesis%2eco%2enz
+> > > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > >=20
+> > > ---
+> > >=20
+> > > If previous patches are fine, then this commit is independent and cou=
+ld
+> > > be taken via I2C.
+> > >=20
+> > > Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> > > Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> > > Cc: Sean Anderson <sean.anderson@seco.com>
+> > > ---
+> > >   drivers/i2c/muxes/i2c-mux-pca954x.c | 46 ++++++++++++++++++++++++--=
+---
+> > >   1 file changed, 38 insertions(+), 8 deletions(-)
+> > >=20
+> > > diff --git a/drivers/i2c/muxes/i2c-mux-pca954x.c b/drivers/i2c/muxes/=
+i2c-mux-pca954x.c
+> > > index 2219062104fb..1702e8d49b91 100644
+> > > --- a/drivers/i2c/muxes/i2c-mux-pca954x.c
+> > > +++ b/drivers/i2c/muxes/i2c-mux-pca954x.c
+> > > @@ -49,6 +49,7 @@
+> > >   #include <linux/pm.h>
+> > >   #include <linux/property.h>
+> > >   #include <linux/regulator/consumer.h>
+> > > +#include <linux/reset.h>
+> > >   #include <linux/slab.h>
+> > >   #include <linux/spinlock.h>
+> > >   #include <dt-bindings/mux/mux.h>
+> > > @@ -102,6 +103,9 @@ struct pca954x {
+> > >   	unsigned int irq_mask;
+> > >   	raw_spinlock_t lock;
+> > >   	struct regulator *supply;
+> > > +
+> > > +	struct gpio_desc *reset_gpio;
+> > > +	struct reset_control *reset_cont;
+> > >   };
+> > >  =20
+> > >   /* Provide specs for the MAX735x, PCA954x and PCA984x types we know=
+ about */
+> > > @@ -477,6 +481,35 @@ static int pca954x_init(struct i2c_client *clien=
+t, struct pca954x *data)
+> > >   	return ret;
+> > >   }
+> > >  =20
+> > > +static int pca954x_get_reset(struct device *dev, struct pca954x *dat=
+a)
+> > > +{
+> > > +	data->reset_cont =3D devm_reset_control_get_optional_shared(dev, NU=
+LL);
+> > > +	if (IS_ERR(data->reset_cont))
+> > > +		return dev_err_probe(dev, PTR_ERR(data->reset_cont),
+> > > +				     "Failed to get reset\n");
+> > > +	else if (data->reset_cont)
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * fallback to legacy reset-gpios
+> > > +	 */
+> > devm_reset_control_get_optional_shared() won't return NULL if the
+> > "reset-gpios" property is found in the device tree, so the GPIO
+> > fallback is dead code.
+>=20
+> Hmm, I was attempting to handle the case where CONFIG_RESET_GPIO wasn't=
+=20
+> set [...]
+> [...] it looks like we'd get -EPROBE_DEFER. I could change to check
+> for that or just remove the GPIO fallback entirely. Any preference?
 
-> > This is not a hack, wsa codec requires gain to be programmed after the 
-> > clk is enabled for that particular interpolator.
-> 
-> Ok, but then it's also broken as, as I mentioned off-list, these
-> registers are cached so unless companding is enabled, the write on
-> enable will have no effect.
+I hadn't considered this.
 
-I was obviously confused here, and indeed tests reveal that those writes
-are needed for any prior updates to take effect (e.g. volume changes
-while the codec is runtime suspended).
+If CONFIG_RESET_GPIO=3Dn, devm_reset_control_get_optional_shared()
+probably shouldn't return -EPROBE_DEFER. If we change that, the GPIO
+fallback here can stay as is.
 
-I've just sent a v2 here:
+The alternative would be to drop the fallback and select RESET_GPIO.
+Using -EPROBE_DEFER for fallback detection is no good, as there could
+be a valid probe deferral if reset-gpio is compiled as a module that
+will be loaded later.
 
-	https://lore.kernel.org/lkml/20240117090331.31111-1-johan+linaro@kernel.org/
-
-Johan
+regards
+Philipp
