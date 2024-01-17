@@ -1,57 +1,58 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856FB225AF
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 15:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9430D22EE8
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 15:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705504341; cv=none; b=EpmsW9FjXwk5QBEgW8YIcl42An4SUQZVjOzUhntYKaQ5TSKeeQb7EtuClNuu2/kvbiKEuJdQMnF155vgk5xgLXJDcZxbMkbkrfzJkcyLeh1JP04uI/FxwAyGtTkrEuTb1yq8zc4ZSKZvN+L2+y7WaLNFxPEi+umEidFQ8CnW28Y=
+	t=1705504343; cv=none; b=pUjH+RjmJiPdNFuPDAje2Qk/QRFeOfaOkDK1bV9xHrmQCy0CChLkokLDRKPmn1ZoV7FAVKUDU0nEw3xm32u0PBBXIzfzZWmGLHoinJ0HGhEx/sJXD/88+ZJ0pNPc2v/yyCG+mkdesgoLfIHDSa0DHXxnKa03g4ZvQxXN0lnyh3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705504341; c=relaxed/simple;
-	bh=zTLF4pKwDUhmIJpTw+ifYX48G8Y/tLdkZCXLW1dsOdg=;
+	s=arc-20240116; t=1705504343; c=relaxed/simple;
+	bh=CEoOOu3lx1F0t2DXMRp7Dd+POoFYCjzJbOK7DJcvqdM=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
-	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding; b=XW2K/vciHjy2+kQlN9cRjn4yAmcHff7/Bjxz9D6HcMb6xy37yU0G4sE2K6EC2uY95nH0+eWCHe7uYIbOwpVZ9JeQZz8+DB53sfYzUUiYx2/ZnnwrA72fUQ7GIWo9BUOGGdKY9PHSUrdOlvnE8IVXxud9yg65bDOFoUU/+1JsbrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IrakBhjW; arc=none smtp.client-ip=209.85.222.172
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding; b=gkvviWcHQZ9sWsliltY2Wahx/wUBgpZdZzb1aOBs7JxUACV1crgnJ/mk5kVxaRDORmz4v/2W1/+/RnrKB+lb+lzBSUKk+W8palxG5igla/IdC7/Im5Wt1a6QU7gQTMMbgJ6x+B86PiWyvRUEOja4lrxARPWKlTz291aGXeJugSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ImRlAvB2; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IrakBhjW"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-78329cb6742so550510785a.0
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 07:12:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ImRlAvB2"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7835aea8012so177073785a.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 07:12:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705504338; x=1706109138; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aZ5dWg/o67onmhTzNFtXrOTvUPTxoBK6DGUcni7z13M=;
-        b=IrakBhjWYcTx281uJkfflWwa2NOYOeI1bCsGnxGVZrm6IjaBFUx7p0duk6zyKECBmQ
-         dY/7X03ylYyCkWz59EehpkTbs8mKqgtBHJSZ/QWQeK9fDPI283k0wJ5UmQqtlYKrPGvm
-         OWbP23UZMsfMSm6B5xliduX7ujbSXRKph1AgCZgFWgKSMVdp1T9fLtX8ov9Ec9aeYYom
-         baa9xku1mtGfyq662seh7VQELl01Wg64sLh8kFd8W0DgONwth41KNlNEvdhFNdGIab1q
-         MyE30R3wPb+HvgHbmC1dHoBz3oqYYXHlpjMqxwL0GJYb5nPqsbQk+O9wFMXudX9GodPm
-         tceQ==
+        d=linaro.org; s=google; t=1705504340; x=1706109140; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jvT4DYI0xpteMdP3q2s5kHm3KTUWGSKMdy7WHIRX+6Q=;
+        b=ImRlAvB2VX2WoNVjVFkfAx2s7RCaWtKacz9r5L6xihfvPiTJ2k9Jke0HVphWCK1XDx
+         A3SRXZ1jdXTet/Ehp5MCjuDir0QX5kI3IEDABQwtvBLMKMwQxgMgV7HO4i3vQVHmKCGr
+         ppPA+SpLOyaVzQyWbAQROpeKG3RGadgMobg7ep1jSTbIp8UEDNgroZR23oSmdoxguDvi
+         GDf7oubtV+UJYuRf9Qb8AftsyxqofTE6kE8qpnNE8HNLoXV60FUALJpY825YZVHMjmTo
+         vD4QEDp+A8dsAtynAKDB1DX9GqOrvWpHqCR7N7aHvuAMfroH3NfuXqR0G0jG+1rV6xr6
+         CHfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705504338; x=1706109138;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aZ5dWg/o67onmhTzNFtXrOTvUPTxoBK6DGUcni7z13M=;
-        b=d2VZmuUhP9fgAqv3RZVeCyhQv72X/FMnhjFXQaJccVSwebYsKO5LJLHB0YqilfRvRc
-         j03+08JCbnhF7cEqNpyu2NSIw8YcACOUCfpJb/OZNpKLHf00+eyE6qESMItfPmMMMf/3
-         F0Tfz94ahvHGVkHpguCTMFKkrqVI52kznqKewJmPvhmZj8BHOlZjP3Q+Tiuc697ptfd+
-         NfqEv6S28BWT+/5XOd9UO6ZY/rGPB/RAds6D+zeaxgA/ogtevWm7Maj0x5EI+x5ihyvW
-         XQK9QLR94QN8/sG3DyURoI+/OZ4Fuw+RzswvP0lhZjJ+pW1Y0oKeJrmEgbZJdINMageG
-         3bcQ==
-X-Gm-Message-State: AOJu0YyLoleeCqjmw/ybM4stzJ78IEtz2YsyztC9JwLr9+D1tJMXh5ly
-	pYnmU2Q1rChZPcjEiliBqrqQ7u43FaM4eg==
-X-Google-Smtp-Source: AGHT+IFuzN2ZXkdL1furtqKyL/+PADgDDPC7U/QwREJrS3KVsloHm7pc6AYqgLOErGBf8DiUCfrogw==
-X-Received: by 2002:a05:620a:55b0:b0:783:54a1:136f with SMTP id vr16-20020a05620a55b000b0078354a1136fmr5882267qkn.58.1705504338226;
-        Wed, 17 Jan 2024 07:12:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705504340; x=1706109140;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jvT4DYI0xpteMdP3q2s5kHm3KTUWGSKMdy7WHIRX+6Q=;
+        b=xQehlJT2RX6xPHfGxJR3y2mYcnWoHMkW8/kdcwlY8NWKy5mLIQfKGC+Qu5b3B/kOWu
+         Yebh++n4+ad2+Q9lR8FvG58fT6I22LCiU/9H8TIFLJAQJ/FpLSGykyvdhiGU5fK2QI+j
+         TIkVkbNeQV00ISL3RjytlcMaoU6NTkMQEZGfOazHb/LIYoptbJgBnDCiTEiRY3oZe5Og
+         gvMwwkS/uUQbe3OMnonJ+jU98Rs5Oy5amMf/kT6IgclXKliPHZShgxXvtzEq++ZoG7a5
+         CCJO3rGegKizJrjeuWr+lZ5kzWsm2XDcwH5WLpDFoRAAhmQk5XV44V4pO3u1XwA+WzMm
+         g0Lw==
+X-Gm-Message-State: AOJu0Yz5lARtVuNJONfC3HjXtI85PhUAe1uwfg37VuEO+MTKWap9n9xq
+	WrQle/8W2Velwy7xQSfLMS7pKH2FkuarHA==
+X-Google-Smtp-Source: AGHT+IH39mkNRZQTB7lr0OTpjPsUCqmf9g+mw8wVtjmr6UAff5u+AAbQ2wJeHKe/MhvIiKUuawEWmw==
+X-Received: by 2002:a05:620a:10b4:b0:783:4e8a:6b19 with SMTP id h20-20020a05620a10b400b007834e8a6b19mr7348059qkk.14.1705504340607;
+        Wed, 17 Jan 2024 07:12:20 -0800 (PST)
 Received: from krzk-bin.. ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id m7-20020a05620a24c700b007816cf21f7asm4519337qkn.76.2024.01.17.07.12.15
+        by smtp.gmail.com with ESMTPSA id m7-20020a05620a24c700b007816cf21f7asm4519337qkn.76.2024.01.17.07.12.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 07:12:17 -0800 (PST)
+        Wed, 17 Jan 2024 07:12:20 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Banajit Goswami <bgoswami@quicinc.com>,
@@ -62,12 +63,13 @@ To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/3] ASoC: codecs: wcd938x: handle deferred probe
-Date: Wed, 17 Jan 2024 16:12:06 +0100
-Message-Id: <20240117151208.1219755-1-krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/3] ASoC: codecs: wcd938x: skip printing deferred probe failuers
+Date: Wed, 17 Jan 2024 16:12:07 +0100
+Message-Id: <20240117151208.1219755-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240117151208.1219755-1-krzysztof.kozlowski@linaro.org>
+References: <20240117151208.1219755-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,33 +78,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-WCD938x sound codec driver ignores return status of getting regulators
-and returns EINVAL instead of EPROBE_DEFER.  If regulator provider
-probes after the codec, system is left without probed audio:
+Probe calls wcd938x_populate_dt_data() which already prints all the
+error cases with dev_err_probe(), so skip the additional dev_err().
 
-  wcd938x_codec audio-codec: wcd938x_probe: Fail to obtain platform data
-  wcd938x_codec: probe of audio-codec failed with error -22
-
-Fixes: 16572522aece ("ASoC: codecs: wcd938x-sdw: add SoundWire driver")
-Cc: <stable@vger.kernel.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/wcd938x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/wcd938x.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-index faf8d3f9b3c5..0aaf494844aa 100644
+index 0aaf494844aa..54a21d2f5c40 100644
 --- a/sound/soc/codecs/wcd938x.c
 +++ b/sound/soc/codecs/wcd938x.c
-@@ -3589,7 +3589,7 @@ static int wcd938x_probe(struct platform_device *pdev)
+@@ -3587,10 +3587,8 @@ static int wcd938x_probe(struct platform_device *pdev)
+ 	mutex_init(&wcd938x->micb_lock);
+ 
  	ret = wcd938x_populate_dt_data(wcd938x, dev);
- 	if (ret) {
- 		dev_err(dev, "%s: Fail to obtain platform data\n", __func__);
--		return -EINVAL;
-+		return ret;
- 	}
+-	if (ret) {
+-		dev_err(dev, "%s: Fail to obtain platform data\n", __func__);
++	if (ret)
+ 		return ret;
+-	}
  
  	ret = wcd938x_add_slave_components(wcd938x, dev, &match);
+ 	if (ret)
 -- 
 2.34.1
 
