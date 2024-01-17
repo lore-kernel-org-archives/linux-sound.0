@@ -1,69 +1,139 @@
-Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E4B1DFC7;
-	Wed, 17 Jan 2024 12:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.16.128.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265B91DDFF;
+	Wed, 17 Jan 2024 12:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705493657; cv=none; b=c08L9wSW3OtLAvB6mfENkB8Pfv06YYK4JzYRn/L4hW2G+RGyveb3+bX50KbZBdHZZLBYFFC0e2zZlfR/bpyLS6NbdBPt89XYzbO/70YIfH2KvcPIqlBbN8iigGxQldSHckarbVOylSyHXQZPWqoSfheAVGogP1ki+UNRRw8RV4E=
+	t=1705494379; cv=none; b=jkvzeucYVHsj/ptBcQ+ClXroSbWwn4zjBVWyLbV1uZfyznwLHeMSOBVRy4QHAAZIEaE9x4zOt2rFqxIt03Cb9FXyqR9w79vG2ZflsSMy0DksYKfk0UDc8BmhCvWzcR2bVXJSPkvet/AB/kFSelylpUHFsP3L+kaTeUVi+axzdQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705493657; c=relaxed/simple;
-	bh=RlZFmj9rLo2wrABejOWSXj94vkocMEJnlyZj1KYaC+A=;
-	h=DKIM-Filter:Received:MIME-Version:Date:From:To:Subject:Message-ID:
-	 X-Sender:Content-Type:Content-Transfer-Encoding; b=Dnfi7m8GGEZ9MrJhApdZE6fWNBX18XjyzVAtjeCTPI0zf5xYq+aGqvs+JBymb/TnRh0DQzG4JZ0ngIDZc+UacqFsdIW+pLt09w3Zerh6DEuhzYPJj6s1jwh4b4xeVbFwh1uf+8uMDcoUWGrju0zAj/gjMO9EVdhXGHGlnjWtauM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nodmarc.danielabrecht.ch; spf=pass smtp.mailfrom=nodmarc.danielabrecht.ch; arc=none smtp.client-ip=94.16.128.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nodmarc.danielabrecht.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nodmarc.danielabrecht.ch
-DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li EE8F726B6536
-Received: from toucan.dmz.abrecht.li (unknown [IPv6:fc00:4::a3c:111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	s=arc-20240116; t=1705494379; c=relaxed/simple;
+	bh=dKEbtr22JSoM2eDC7MVGxfwSL8ybqJWGhJQldTcN6lQ=;
+	h=Received:DKIM-Filter:DKIM-Signature:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:Content-Language:To:References:
+	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	b=t1eulXJAieSskbliYP4erwpwzUZK2tnTSS/ZdjbtNAQ63ZENHvrpNO1/4imK2Q5DjsVTG+J1wSjgYcHGVg6J2klF734+rNtMV4XKeEGtDr6HH5qZ0twgJlaiabjnl+2+/0pT81vEH2vK8G9W/VzkvgYGkHxNLIY9WHp3CRzgAuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=ahjmqSdd; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="ahjmqSdd"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 617D93347;
+	Wed, 17 Jan 2024 13:20:17 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 617D93347
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1705494017; bh=gqVNwJd9myQDNzn0BB/yVFVboWoPFQOlC3FiaBFsGzk=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ahjmqSddrDRceTKPhmKEq0cJFidxd4tm0nuAI3QjmBiZu8tjQYF4NjS/ptOt/eegV
+	 aTm7vS0427H638/hfYKlh8gTylT0mPmmjMXSB5i1UyX1YSPgZvG0G8rmfAA83WxF/j
+	 dtFNShBzABakwI8scjP0YzuToMYgJRAlufB/y2jQ=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by abrecht.li (Postfix) with ESMTPSA id EE8F726B6536;
-	Wed, 17 Jan 2024 12:14:10 +0000 (UTC)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed, 17 Jan 2024 13:20:11 +0100 (CET)
+Message-ID: <473c1c2b-3426-4ec7-8319-dd08f3ae5a0c@perex.cz>
+Date: Wed, 17 Jan 2024 13:20:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 17 Jan 2024 13:14:10 +0100
-From: Daniel Abrecht <linux-sound@nodmarc.danielabrecht.ch>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: soc-core.c: Add "Unknown" and "Unknown Product" to
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: soc-core.c: Add "Unknown" and "Unknown Product" to
  dmi_blacklist
-Message-ID: <78a54997daea2b327ad59d495bc33851@abrecht.li>
-X-Sender: linux-sound@nodmarc.danielabrecht.ch
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Language: en-US
+To: Daniel Abrecht <linux-sound@nodmarc.danielabrecht.ch>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <78a54997daea2b327ad59d495bc33851@abrecht.li>
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <78a54997daea2b327ad59d495bc33851@abrecht.li>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-In U-Boot, the default for DMI vendor / product if not set is "Unknown" 
-and "Unknown Product".
-See 
-https://source.denx.de/u-boot/u-boot/-/blob/v2023.10/lib/smbios.c?ref_type=tags#L272
+On 17. 01. 24 13:14, Daniel Abrecht wrote:
+> In U-Boot, the default for DMI vendor / product if not set is "Unknown"
+> and "Unknown Product".
+> See
+> https://source.denx.de/u-boot/u-boot/-/blob/v2023.10/lib/smbios.c?ref_type=tags#L272
+> 
+> This patch adds them to the dmi_blacklist.
+> 
+> Signed-off-by: Daniel Abrecht <public@danielabrecht.ch>
 
-This patch adds them to the dmi_blacklist.
+I think that there's a whitespace issue, but for the contents:
 
-Signed-off-by: Daniel Abrecht <public@danielabrecht.ch>
----
-  sound/soc/soc-core.c | 2 ++
-  1 file changed, 2 insertions(+)
+Acked-by: Jaroslav Kysela <perex@perex.cz>
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index f8524b5bfb33..aa1a31abbe3a 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1804,6 +1804,8 @@ static const char * const dmi_blacklist[] = {
-      "Board Manufacturer",
-      "Board Vendor Name",
-      "Board Product Name",
-+    "Unknown",
-+    "Unknown Product",
-      NULL,    /* terminator */
-  };
+
+> ---
+>    sound/soc/soc-core.c | 2 ++
+>    1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+> index f8524b5bfb33..aa1a31abbe3a 100644
+> --- a/sound/soc/soc-core.c
+> +++ b/sound/soc/soc-core.c
+> @@ -1804,6 +1804,8 @@ static const char * const dmi_blacklist[] = {
+>        "Board Manufacturer",
+>        "Board Vendor Name",
+>        "Board Product Name",
+> +    "Unknown",
+> +    "Unknown Product",
+>        NULL,    /* terminator */
+>    };
+> 
 
 -- 
-2.39.2
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
