@@ -1,130 +1,144 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91D621369
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 16:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8440224EF
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 16:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705507312; cv=none; b=Pyd3Y0fqdCvF4mXGrwpF5KcKwV6lP13kE+j/1BdQkDkDR+1c7e+zt+Zb2WL2XZ2AgF8x/SFWX9tBcQWxZAuEcHFHF9fpaIIa9WhJzf8vjHVDdA3UkgMFPXEx1qr38igb+o2vpJbYzWGppZSjF26SkNiW0GLunecCVFRDTQ0Kocs=
+	t=1705510753; cv=none; b=dTYs8BUM1ZWTpoSIEXrk8uJa0GXYtRpyud5IJkmnlLGMzVwfBM9nX7Mp4F9cM2xmS5QQ2UQCsdgeoyQMiiYLyTkBFtv2/U9v0giT6jcxwNBQkd3sVI9aDBWqbeV83UI7Dsur5q+0UV/HwFVxrX7KIET4JckvT9XcGJ4hLR4ViDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705507312; c=relaxed/simple;
-	bh=wLSVYE15E2g90Dj0K7HUb1DitgDJMY1HXgqE3IAaJfE=;
+	s=arc-20240116; t=1705510753; c=relaxed/simple;
+	bh=YhH/3HshIoo3dgPbZ3pyYgPxnUChnWOGJo9s07vnbJQ=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
-	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding; b=HhRJ80c5BiAF2IyjgabeNZ0DVFWgEtUdzrNNezqRU8g/J4bhC0f/ZCryBxMrFmnelO8gNqoacMCd9XpbxBdVi2SAg222BdAPFJHwCQ1/iti0ujkOFa0nhLLmf193YWZRpMfaH7vmk8Gt5SKIl/gMI/UqbCaCG4NBQDlkxGdmaq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aqhsRBoW; arc=none smtp.client-ip=209.85.167.41
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding; b=W4lGjV4VFtDopWxjAdgSekhkd/67o5NzzsDNGfvaqucAnirGyKJcAxAtCZb+tzJkQOmYwf7D8TsXD9fpL5M4bBECmB2OLVbCrJfBzLbq87GwnhfV29ir16JdAugqNwrAjmpoBC0EYZ+TAL2wQn+4CUJm3lElP247m3u6voqFAgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WwH6kk7N; arc=none smtp.client-ip=209.85.208.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aqhsRBoW"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e741123acso13842174e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 08:01:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WwH6kk7N"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd0f4797aaso120629971fa.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 08:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705507308; x=1706112108; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RPUZBZDrfdYl4F0b5cPRIc1XdwQaC23i574HsCddaAI=;
-        b=aqhsRBoWYZsp3mXhbHvf3T+adEsrC3ucM+vcdeDWh3WEE8M1J7Mw9hkO0pG56pJqxK
-         WYmb/VNA0Qbv+EnwQZ0TlH4a1dqcyqnyJaSqUKOcVitMVredvmHsyv1aJisCLHlJ/U7H
-         ZmnnRuTjtp8sm/s6reLnDQ2+q8QIWWNzyyDvPReRRihmc+6NkN/sVadju/yJMEURVoe3
-         HtV5SkoaXP1FuJPH8wxIbmfx5lX8rKEFbAs/Sizb9Cvl/uWzzL/BTKbDQ1iAfJIELlSS
-         4UvIzm8SpQxya9F2BAlGvVE2I/+THQvK834oetxXF+myF1KdGb3MtRVEuqYcWdGb6rAU
-         kDOw==
+        d=linaro.org; s=google; t=1705510749; x=1706115549; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=ppAMvUi7/JWiSTy0Eb1ibmxLEJIvrTe/1134QJudpCU=;
+        b=WwH6kk7NLNzNwBRq3O7mpTEgegPhETG4Rn2CXCxw5oE9XY5rrQSKpIr3IALJrKQXjs
+         mmOzdurHJffF4VVjWb0iBjjyz9vqpcmM5MUxoCkbVO3Hr0Xhu7hHFoghw/OmZgmuQviY
+         kjDKnZZXpvhxH2wqhLRGhRPp/gzlNmPHH1mxxmREPu1DSpTOKPTpzKjZBKjen+9QOuJI
+         NIGjbd3EkerCX7f0Gg239gbTI1LEcBydAVZkZO4qTyzQeIb6gDpEFg0XQMJKLZuCRnoD
+         j9lQBGEdZKREK10seDNDMGGvwH/i+AKCI/Svs3QNcR+KWudyIpwvPIourBx/jUx6E6zu
+         +qWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705507308; x=1706112108;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RPUZBZDrfdYl4F0b5cPRIc1XdwQaC23i574HsCddaAI=;
-        b=gFs3q6XD7SZipCa6WkASDAOXwHKBKbTygSBMGZxHgC9JJ+GR+AexjCUgJ2RVffStSg
-         MwYSuQZlyJXZhoQS1WKyyOKLADJxe8Wiz7RiwSeUB4t9pGQePTgAF37fu8FE+WM666hb
-         2yKH+M/y+vLbLFlSYBqAnxii3rDPYncO2Y9lsqjI1l0dyn79XWceNFnHpMXEfR92zBAn
-         SCWbX5aYIvlTAFDROgP8JpK4tNETAJ+FPyCiqiBs06aZ91f1xbwvwVeWkmp+fjNrMIWo
-         jPOZZJUUmX3+5NVWC+HqyYBdnfgbsLd8cDU/Cl9rejzOcF0z8JBQpbMplxbN0+rOOJ+R
-         SezQ==
-X-Gm-Message-State: AOJu0YxUS/H71Ji7i6PQYTP5w01anNJo4Rkxo4hOhqGg985KJjcklupB
-	rUeTDzfdPqq/bx8Z0ohXmy+jIf7zPs9GRg==
-X-Google-Smtp-Source: AGHT+IGnzExKU0R4Qn+CYcC37yXpWuIxghDl3sUWiaidmjt27s2vQQnDPD+7b4ohIsNOYcVEgtoseQ==
-X-Received: by 2002:a05:6512:b19:b0:50e:2bf0:dd6a with SMTP id w25-20020a0565120b1900b0050e2bf0dd6amr5479909lfu.13.1705507307888;
-        Wed, 17 Jan 2024 08:01:47 -0800 (PST)
-Received: from krzk-bin.. ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id l18-20020a1709061c5200b00a2ed534f21esm834409ejg.63.2024.01.17.08.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 08:01:47 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: allow up to eight CPU/codec DAIs
-Date: Wed, 17 Jan 2024 17:01:44 +0100
-Message-Id: <20240117160144.1305127-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1705510750; x=1706115550;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ppAMvUi7/JWiSTy0Eb1ibmxLEJIvrTe/1134QJudpCU=;
+        b=FB9YAyAE3zqQSeJ+9sCn0SgwD4sbh0yC5K+4y252rtqS6NjBeXxvSBGJ4nCZ07FNSx
+         WpuVmuY2OVreas+pF/f1C+ogULOa8ig90unaP0G79z1EeEjmjZDI3GkJftQa+fXIvE/M
+         bhzbnD2rfoQPRR8hE9ee1gzgt0g28qkOfB6xzF2eRYzVUENWwCrIwadotJTbGFkglMms
+         vtboRPOJLbM4cr0bcsdUMZHp7WtHxibRI2ucY0L3jMyaSxt62dfGlHB3AN0vTnWsgBcS
+         SBS10OrfkAzbd5Gx8HjvLS776H7NsHljIaVOKwLyhzV7UwCNIPr7/LikQlQsf0C9Mgoz
+         KcFA==
+X-Gm-Message-State: AOJu0YypjKdbfzcDWgMH2n0+mHIsCXhqHv3KNOO5d3WHQ1GV6ooEz3S/
+	GoA+Lz89gUHM7TFpX7dvEr+J6M7EMEHBVw==
+X-Google-Smtp-Source: AGHT+IH73VRqy9CdE74/lWr5qMZR+O3eAriQCLIq8Xe4IMp20MSNakfz64dfgz1K9Cnj7JVZ7wzGHQ==
+X-Received: by 2002:a05:651c:10c:b0:2cd:2acc:e9ff with SMTP id a12-20020a05651c010c00b002cd2acce9ffmr4196360ljb.26.1705510749698;
+        Wed, 17 Jan 2024 08:59:09 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id a14-20020a05640213ce00b00559ba291d82sm1944378edx.82.2024.01.17.08.59.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jan 2024 08:59:09 -0800 (PST)
+Message-ID: <72988b7c-8a04-4bab-9341-9a0c9fae2ea5@linaro.org>
+Date: Wed, 17 Jan 2024 17:59:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: codecs: wcd938x: handle deferred probe
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20240117151208.1219755-1-krzysztof.kozlowski@linaro.org>
+ <8c30a417-20fb-4d61-b5e5-deb5cd579e50@sirena.org.uk>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <8c30a417-20fb-4d61-b5e5-deb5cd579e50@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sound card on Qualcomm X1E80100 CRD board will use eight DAIs in one DAI
-link, so increase the limit.
+On 17/01/2024 16:22, Mark Brown wrote:
+> On Wed, Jan 17, 2024 at 04:12:06PM +0100, Krzysztof Kozlowski wrote:
+> 
+>>  	if (ret) {
+>>  		dev_err(dev, "%s: Fail to obtain platform data\n", __func__);
+>> -		return -EINVAL;
+>> +		return ret;
+> 
+> Should this be a dev_err_probe() as well?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+It should be just dropped, which I do in the next patch. Errors are
+already printed in called wcd938x_populate_dt_data() (with
+dev_err_probe). However I decided to split them, as only this one is a
+candidate for backport, IMO. Feel free to squash the next (2/3) into
+this one.
 
----
-
-The sound card machine driver is already accepted, but the DTS was not
-posted yet. I plan to post the DTS soon, after merge window.  The
-almost-ready-work-in-progress showing 8 codecs is available here:
-
-https://github.com/krzk/linux/blob/n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ/arch/arm64/boot/dts/qcom/x1e80100-crd.dts#L175
----
- sound/soc/soc-core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index f8524b5bfb33..516350533e73 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1037,7 +1037,7 @@ static int soc_dai_link_sanity_check(struct snd_soc_card *card,
- 	return -EINVAL;
- }
- 
--#define MAX_DEFAULT_CH_MAP_SIZE 7
-+#define MAX_DEFAULT_CH_MAP_SIZE 8
- static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZE] = {
- 	{ .cpu = 0, .codec = 0 },
- 	{ .cpu = 1, .codec = 1 },
-@@ -1046,6 +1046,7 @@ static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZ
- 	{ .cpu = 4, .codec = 4 },
- 	{ .cpu = 5, .codec = 5 },
- 	{ .cpu = 6, .codec = 6 },
-+	{ .cpu = 7, .codec = 7 },
- };
- static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZE] = {
- 	{ .cpu = 0, .codec = 0 },
-@@ -1055,6 +1056,7 @@ static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZ
- 	{ .cpu = 0, .codec = 4 },
- 	{ .cpu = 0, .codec = 5 },
- 	{ .cpu = 0, .codec = 6 },
-+	{ .cpu = 0, .codec = 7 },
- };
- static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_SIZE] = {
- 	{ .cpu = 0, .codec = 0 },
-@@ -1064,6 +1066,7 @@ static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_S
- 	{ .cpu = 4, .codec = 0 },
- 	{ .cpu = 5, .codec = 0 },
- 	{ .cpu = 6, .codec = 0 },
-+	{ .cpu = 7, .codec = 0 },
- };
- static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
- 						     struct snd_soc_dai_link *dai_link)
--- 
-2.34.1
+Best regards,
+Krzysztof
 
