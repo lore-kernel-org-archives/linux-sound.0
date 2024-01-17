@@ -1,123 +1,69 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF281DFC3
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 11:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E4B1DFC7;
+	Wed, 17 Jan 2024 12:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.16.128.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705490830; cv=none; b=ftoJJbzbdhofblUdUKsoH7gQItml31hoHPhr22NCc2TYtwkd5+YZK/KSu4eZO+f/HTU0YilJu3n4DtycmCNAGrAiEGDsTQx0gcRouSVqYNWuXrCGqmJelQZaEE1kBgey7X8GgZGpd/jto0Mh3iKWO2MYtX8fYtqiuHS4dp6lxpI=
+	t=1705493657; cv=none; b=c08L9wSW3OtLAvB6mfENkB8Pfv06YYK4JzYRn/L4hW2G+RGyveb3+bX50KbZBdHZZLBYFFC0e2zZlfR/bpyLS6NbdBPt89XYzbO/70YIfH2KvcPIqlBbN8iigGxQldSHckarbVOylSyHXQZPWqoSfheAVGogP1ki+UNRRw8RV4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705490830; c=relaxed/simple;
-	bh=jBx3eKRjN7Z9dDzc9bnlFlDn2eT7AJ7HfCKi7xPOw+c=;
-	h=Received:Received:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-SA-Exim-Connect-IP:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned:X-PTX-Original-Recipient; b=W9NRB8zIhoebDGvOfgWjaUxCCZyTV8ubuRoxgJsbszVGe+oDXSdlEXS2EGcNo2Cy8gdcq0FtvRPZk2dDPKYQOsQ3wO7fF7Ti39WxpeJC0171ztL8nZYLNuzJgtYkk7E6buBvtaHgTasxR68GKfONEGK+/ZwZbpAXgabvyR8JCyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rQ44L-00031s-OS; Wed, 17 Jan 2024 12:26:53 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rQ44I-000S37-Tf; Wed, 17 Jan 2024 12:26:50 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rQ44I-00054q-2g;
-	Wed, 17 Jan 2024 12:26:50 +0100
-Message-ID: <5ad7badb85bdece735901a0f6317183b1d628a68.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/5] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami
- <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Peter Rosin <peda@axentia.se>, Jaroslav Kysela <perex@perex.cz>,  Takashi
- Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Chris Packham
- <chris.packham@alliedtelesis.co.nz>, Sean Anderson <sean.anderson@seco.com>
-Date: Wed, 17 Jan 2024 12:26:50 +0100
-In-Reply-To: <20240112163608.528453-3-krzysztof.kozlowski@linaro.org>
-References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
-	 <20240112163608.528453-3-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1705493657; c=relaxed/simple;
+	bh=RlZFmj9rLo2wrABejOWSXj94vkocMEJnlyZj1KYaC+A=;
+	h=DKIM-Filter:Received:MIME-Version:Date:From:To:Subject:Message-ID:
+	 X-Sender:Content-Type:Content-Transfer-Encoding; b=Dnfi7m8GGEZ9MrJhApdZE6fWNBX18XjyzVAtjeCTPI0zf5xYq+aGqvs+JBymb/TnRh0DQzG4JZ0ngIDZc+UacqFsdIW+pLt09w3Zerh6DEuhzYPJj6s1jwh4b4xeVbFwh1uf+8uMDcoUWGrju0zAj/gjMO9EVdhXGHGlnjWtauM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nodmarc.danielabrecht.ch; spf=pass smtp.mailfrom=nodmarc.danielabrecht.ch; arc=none smtp.client-ip=94.16.128.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nodmarc.danielabrecht.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nodmarc.danielabrecht.ch
+DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li EE8F726B6536
+Received: from toucan.dmz.abrecht.li (unknown [IPv6:fc00:4::a3c:111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by abrecht.li (Postfix) with ESMTPSA id EE8F726B6536;
+	Wed, 17 Jan 2024 12:14:10 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Date: Wed, 17 Jan 2024 13:14:10 +0100
+From: Daniel Abrecht <linux-sound@nodmarc.danielabrecht.ch>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: soc-core.c: Add "Unknown" and "Unknown Product" to
+ dmi_blacklist
+Message-ID: <78a54997daea2b327ad59d495bc33851@abrecht.li>
+X-Sender: linux-sound@nodmarc.danielabrecht.ch
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fr, 2024-01-12 at 17:36 +0100, Krzysztof Kozlowski wrote:
-[...]
->  struct reset_control *
->  __of_reset_control_get(struct device_node *node, const char *id, int ind=
-ex,
->  		       bool shared, bool optional, bool acquired)
->  {
-> +	struct of_phandle_args args =3D {0};
-> +	bool gpio_fallback =3D false;
->  	struct reset_control *rstc;
-> -	struct reset_controller_dev *r, *rcdev;
-> -	struct of_phandle_args args;
-> +	struct reset_controller_dev *rcdev;
->  	int rstc_id;
->  	int ret;
-> =20
-> @@ -839,39 +1028,49 @@ __of_reset_control_get(struct device_node *node, c=
-onst char *id, int index,
->  					 index, &args);
->  	if (ret =3D=3D -EINVAL)
->  		return ERR_PTR(ret);
-> -	if (ret)
-> -		return optional ? NULL : ERR_PTR(ret);
-> +	if (ret) {
+In U-Boot, the default for DMI vendor / product if not set is "Unknown" 
+and "Unknown Product".
+See 
+https://source.denx.de/u-boot/u-boot/-/blob/v2023.10/lib/smbios.c?ref_type=tags#L272
 
-I think this should continue to return optional ? NULL : ERR_PTR(ret)
-if !IS_ENABLED(CONFIG_RESET_GPIO), for example by just skipping the
-of_parse_phandle_with_args(). That should allow the GPIO fallback in
-patch 5 to work as expected.
+This patch adds them to the dmi_blacklist.
 
-> +		/*
-> +		 * There can be only one reset-gpio for regular devices, so
-> +		 * don't bother with GPIO index.
-> +		 */
-> +		ret =3D of_parse_phandle_with_args(node, "reset-gpios", "#gpio-cells",
-> +						 0, &args);
-> +		if (ret)
-> +			return optional ? NULL : ERR_PTR(ret);
-> =20
-> -	mutex_lock(&reset_list_mutex);
-> -	rcdev =3D NULL;
-> -	list_for_each_entry(r, &reset_controller_list, list) {
-> -		if (args.np =3D=3D r->of_node) {
-> -			rcdev =3D r;
-> -			break;
-> +		gpio_fallback =3D true;
-> +
-> +		ret =3D __reset_add_reset_gpio_device(&args);
-> +		if (ret) {
-> +			rstc =3D ERR_PTR(ret);
-> +			goto out_put;
->  		}
->  	}
+Signed-off-by: Daniel Abrecht <public@danielabrecht.ch>
+---
+  sound/soc/soc-core.c | 2 ++
+  1 file changed, 2 insertions(+)
 
-regards
-Philipp
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index f8524b5bfb33..aa1a31abbe3a 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1804,6 +1804,8 @@ static const char * const dmi_blacklist[] = {
+      "Board Manufacturer",
+      "Board Vendor Name",
+      "Board Product Name",
++    "Unknown",
++    "Unknown Product",
+      NULL,    /* terminator */
+  };
+
+-- 
+2.39.2
