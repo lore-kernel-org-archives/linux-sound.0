@@ -1,83 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E510C2136A;
-	Wed, 17 Jan 2024 15:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91D621369
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 16:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705504965; cv=none; b=ayF1EyXI7e3gNqt6Awsgiilf1uQL0c1YZwGTGLeKK5Nk+fvFts6kjLvSAnBwUK4hEXwBf+kBHThQ0P5o0hyg1lfKQvsUvllpoRF9LO2pH20CNg2qrA1pHrpX04AZsbO3YQqomRYIT1OG+Fnzv3xEnzSw7nhSb5oNP7Ojfhp1W1s=
+	t=1705507312; cv=none; b=Pyd3Y0fqdCvF4mXGrwpF5KcKwV6lP13kE+j/1BdQkDkDR+1c7e+zt+Zb2WL2XZ2AgF8x/SFWX9tBcQWxZAuEcHFHF9fpaIIa9WhJzf8vjHVDdA3UkgMFPXEx1qr38igb+o2vpJbYzWGppZSjF26SkNiW0GLunecCVFRDTQ0Kocs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705504965; c=relaxed/simple;
-	bh=6UDS8FkhexYyc0wVvVp2lu16oGdbc3OgmsT1Ttvx59s=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Cookie; b=ePWkRrX+rIHx7a8SvlhebTHG3CEslX/WXMh4HP/4GUEpZdR7AJ+dqOF93kxy8I7MZBwnE4dLdhI2prp48zyRhhd4y5HpKXj6WMnsJA26DrvFd7kNZ0pv1vDmFLFD3stsdeuJp1NKyKK5sdO1J0MTwDyEqSuRVpBV6oudlHtwqUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jW9TIUFP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705507312; c=relaxed/simple;
+	bh=wLSVYE15E2g90Dj0K7HUb1DitgDJMY1HXgqE3IAaJfE=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding; b=HhRJ80c5BiAF2IyjgabeNZ0DVFWgEtUdzrNNezqRU8g/J4bhC0f/ZCryBxMrFmnelO8gNqoacMCd9XpbxBdVi2SAg222BdAPFJHwCQ1/iti0ujkOFa0nhLLmf193YWZRpMfaH7vmk8Gt5SKIl/gMI/UqbCaCG4NBQDlkxGdmaq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aqhsRBoW; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jW9TIUFP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537DBC433C7;
-	Wed, 17 Jan 2024 15:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705504964;
-	bh=6UDS8FkhexYyc0wVvVp2lu16oGdbc3OgmsT1Ttvx59s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jW9TIUFP9KDG4Ij8h3pVU6tXgCy10WhUVNamkwrhWjcgaEdGH3EpulWFFa/O8r/aQ
-	 eXT/7OeVf84d98rPS5CIspPkHFAv9SPdbUqDJOF+8xWH/vIrFK/z3zTde+4/8Uw07G
-	 tAwd5DVPLPEAo0E+eKb9W3RMkC4zBgyTdEA2CzGOrwFXP0FeH2rbcQXIumEmu6kdRx
-	 mfAMwkgM78p1+i25aPvFZIJdtS0zMWxeEGYMiaZ9itMlb3iCHBGsybrkDyM+X+sJol
-	 sFGcpFK51Kvo9AauRdxRm2QvHVkJHhm9vbMI1DtpGr4QGd3aw/Tmuu/UaBTZLm16vi
-	 dyEWqwxH3mDcw==
-Date: Wed, 17 Jan 2024 15:22:39 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] ASoC: codecs: wcd938x: handle deferred probe
-Message-ID: <8c30a417-20fb-4d61-b5e5-deb5cd579e50@sirena.org.uk>
-References: <20240117151208.1219755-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aqhsRBoW"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e741123acso13842174e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 08:01:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705507308; x=1706112108; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RPUZBZDrfdYl4F0b5cPRIc1XdwQaC23i574HsCddaAI=;
+        b=aqhsRBoWYZsp3mXhbHvf3T+adEsrC3ucM+vcdeDWh3WEE8M1J7Mw9hkO0pG56pJqxK
+         WYmb/VNA0Qbv+EnwQZ0TlH4a1dqcyqnyJaSqUKOcVitMVredvmHsyv1aJisCLHlJ/U7H
+         ZmnnRuTjtp8sm/s6reLnDQ2+q8QIWWNzyyDvPReRRihmc+6NkN/sVadju/yJMEURVoe3
+         HtV5SkoaXP1FuJPH8wxIbmfx5lX8rKEFbAs/Sizb9Cvl/uWzzL/BTKbDQ1iAfJIELlSS
+         4UvIzm8SpQxya9F2BAlGvVE2I/+THQvK834oetxXF+myF1KdGb3MtRVEuqYcWdGb6rAU
+         kDOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705507308; x=1706112108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RPUZBZDrfdYl4F0b5cPRIc1XdwQaC23i574HsCddaAI=;
+        b=gFs3q6XD7SZipCa6WkASDAOXwHKBKbTygSBMGZxHgC9JJ+GR+AexjCUgJ2RVffStSg
+         MwYSuQZlyJXZhoQS1WKyyOKLADJxe8Wiz7RiwSeUB4t9pGQePTgAF37fu8FE+WM666hb
+         2yKH+M/y+vLbLFlSYBqAnxii3rDPYncO2Y9lsqjI1l0dyn79XWceNFnHpMXEfR92zBAn
+         SCWbX5aYIvlTAFDROgP8JpK4tNETAJ+FPyCiqiBs06aZ91f1xbwvwVeWkmp+fjNrMIWo
+         jPOZZJUUmX3+5NVWC+HqyYBdnfgbsLd8cDU/Cl9rejzOcF0z8JBQpbMplxbN0+rOOJ+R
+         SezQ==
+X-Gm-Message-State: AOJu0YxUS/H71Ji7i6PQYTP5w01anNJo4Rkxo4hOhqGg985KJjcklupB
+	rUeTDzfdPqq/bx8Z0ohXmy+jIf7zPs9GRg==
+X-Google-Smtp-Source: AGHT+IGnzExKU0R4Qn+CYcC37yXpWuIxghDl3sUWiaidmjt27s2vQQnDPD+7b4ohIsNOYcVEgtoseQ==
+X-Received: by 2002:a05:6512:b19:b0:50e:2bf0:dd6a with SMTP id w25-20020a0565120b1900b0050e2bf0dd6amr5479909lfu.13.1705507307888;
+        Wed, 17 Jan 2024 08:01:47 -0800 (PST)
+Received: from krzk-bin.. ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id l18-20020a1709061c5200b00a2ed534f21esm834409ejg.63.2024.01.17.08.01.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 08:01:47 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: allow up to eight CPU/codec DAIs
+Date: Wed, 17 Jan 2024 17:01:44 +0100
+Message-Id: <20240117160144.1305127-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QFFyemF5MjRQpF88"
-Content-Disposition: inline
-In-Reply-To: <20240117151208.1219755-1-krzysztof.kozlowski@linaro.org>
-X-Cookie: Nostalgia isn't what it used to be.
+Content-Transfer-Encoding: 8bit
 
+Sound card on Qualcomm X1E80100 CRD board will use eight DAIs in one DAI
+link, so increase the limit.
 
---QFFyemF5MjRQpF88
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Wed, Jan 17, 2024 at 04:12:06PM +0100, Krzysztof Kozlowski wrote:
+---
 
->  	if (ret) {
->  		dev_err(dev, "%s: Fail to obtain platform data\n", __func__);
-> -		return -EINVAL;
-> +		return ret;
+The sound card machine driver is already accepted, but the DTS was not
+posted yet. I plan to post the DTS soon, after merge window.  The
+almost-ready-work-in-progress showing 8 codecs is available here:
 
-Should this be a dev_err_probe() as well?
+https://github.com/krzk/linux/blob/n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ/arch/arm64/boot/dts/qcom/x1e80100-crd.dts#L175
+---
+ sound/soc/soc-core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
---QFFyemF5MjRQpF88
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index f8524b5bfb33..516350533e73 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1037,7 +1037,7 @@ static int soc_dai_link_sanity_check(struct snd_soc_card *card,
+ 	return -EINVAL;
+ }
+ 
+-#define MAX_DEFAULT_CH_MAP_SIZE 7
++#define MAX_DEFAULT_CH_MAP_SIZE 8
+ static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZE] = {
+ 	{ .cpu = 0, .codec = 0 },
+ 	{ .cpu = 1, .codec = 1 },
+@@ -1046,6 +1046,7 @@ static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZ
+ 	{ .cpu = 4, .codec = 4 },
+ 	{ .cpu = 5, .codec = 5 },
+ 	{ .cpu = 6, .codec = 6 },
++	{ .cpu = 7, .codec = 7 },
+ };
+ static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZE] = {
+ 	{ .cpu = 0, .codec = 0 },
+@@ -1055,6 +1056,7 @@ static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZ
+ 	{ .cpu = 0, .codec = 4 },
+ 	{ .cpu = 0, .codec = 5 },
+ 	{ .cpu = 0, .codec = 6 },
++	{ .cpu = 0, .codec = 7 },
+ };
+ static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_SIZE] = {
+ 	{ .cpu = 0, .codec = 0 },
+@@ -1064,6 +1066,7 @@ static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_S
+ 	{ .cpu = 4, .codec = 0 },
+ 	{ .cpu = 5, .codec = 0 },
+ 	{ .cpu = 6, .codec = 0 },
++	{ .cpu = 7, .codec = 0 },
+ };
+ static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
+ 						     struct snd_soc_dai_link *dai_link)
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWn8L4ACgkQJNaLcl1U
-h9D0ywf/ZnguSawFPSvLSmZVVE26qF0aj2D0OQ7gHQ8FtL2H9VCflICbGytH79B4
-2RSVIuvM5MNinmoWSanljMuwBI4feZeS10CmQJKnrqvGVhOnpvlmJew0W6KeJbIb
-46fOJDk52PGNpkMtXDpuhXy1/SsrH3WLQhEKhDHPtJRl7uCS2qS/8QE8y6eZ8drW
-+JlONFb5emSDvHvz2U0hPSZ0X6uEDI+M4xw4xlTbtBFCTdoj6Lmal/BWuIq5R474
-iIdPpur9UKzxXTkQWo0lFiZw5vIjaU91o5tczCZDAkhW/Y5Yrk/a9BqcgF1W1t2E
-Pnfa/E1hImH6vtUIPE3npI7IAhN7zw==
-=sotV
------END PGP SIGNATURE-----
-
---QFFyemF5MjRQpF88--
