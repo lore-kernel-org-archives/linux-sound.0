@@ -1,90 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B957465;
-	Wed, 17 Jan 2024 05:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38B413FFF;
+	Wed, 17 Jan 2024 09:03:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705469940; cv=none; b=LlJt2O2jjLhQIqczzW2N04znEexafvW7VGJuc3jilvbIakVOFvP+4AayR+N8FXR6APSr7UH3X2VvJ5IaaZZuNjggPax0CdKWHt98QLdEwRIg+4WSnEa42s1QnfApN/Pj18Y1yMZG/FsKJ7LxgFYPT5YCyz8dpno7FSJLZVlRZY0=
+	t=1705482224; cv=none; b=auiSn3WmbR3x2k3Wdpn2gKb5SrWSM+OFCCsDFoNn9Xn3xfIUIgmvXohHQEJFHedqUJIiRgEVHJBd1IhuPtMP+MRG9NTIX9w5CISFJZQ306dIcoe/MKe018rKbNfITd4k9hG6+0nWDxFh/OsQD0IntNa/6grCQvIp/Jb0XNBRksw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705469940; c=relaxed/simple;
-	bh=VmBEzt7GK0GHLsuyZ5vjXQma5EN6cK975TMTB3zN0hk=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=g4cKiNTgun1H4ICel9lXye+3TgfFlB0udm3ydFajCx3rVfsBafZh7b/llKBxG9zecahQp8U83NMJpSpG8zE+eDymxLXS+7oCrzWFuV15XZpK+7F+Ut/8svsDvWTHNmObqwsap0BXv3JGZa3CjxlulyJw+y92U9LV+WUTxwwwQ94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=liv4cjmy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705482224; c=relaxed/simple;
+	bh=i17ld0NFQa97QFBuw7o/jqfRb7C6LLoCeBGe1hJFLPM=;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding; b=B4AfLHK/N19MFm5qdtF3IBXeOVY7H+L1Pxru3JtgZQUpQaGyXvYB6zxMAOwt4tXa9PNv7+y1cpQ0nmD0/CM4AfR7U6iSieg8Jp5McmYCN0/HnaTzl6LDGkEGRb+j6JNRiTcLagaM2uAjvFhvCaNS1DTZJA3seTFD7kiZ8ENufT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QrhpPRAY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="liv4cjmy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D8DCC433F1;
-	Wed, 17 Jan 2024 05:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705469940;
-	bh=VmBEzt7GK0GHLsuyZ5vjXQma5EN6cK975TMTB3zN0hk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=liv4cjmyUMhpl/xoLpB84lL4KdyuoiJhA2+1LXSrdYJJSYOHZtnLup+6eiC62oKxc
-	 p3apNm5jCpUDsYcWpb63FB/o4TrUPNycXMyV3IqkOWuVRdreXfEfGQEPayi/AvLIX8
-	 U2ZgBkg49eKyrgA44G12MgyCqAiSUYp6haFZ68vY=
-Date: Wed, 17 Jan 2024 06:38:57 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Serge SIMON <serge.simon@gmail.com>
-Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: S/PDIF not detected anymore / regression on recent kernel 6.7 ?
-Message-ID: <2024011723-freeness-caviar-774c@gregkh>
-References: <CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QrhpPRAY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9E2C433C7;
+	Wed, 17 Jan 2024 09:03:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705482224;
+	bh=i17ld0NFQa97QFBuw7o/jqfRb7C6LLoCeBGe1hJFLPM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QrhpPRAYqKWIICjhvW+fdF36XLDjkM4tFHkyUpHf8lWZXG54jx90HhGsHVzbXbYwF
+	 G+LEa/vv4cI9poRBs8Lj4IpZfOSW6etkZA7ZHuqOFY7DOuX7T9OcxiLeEA3v6fC76B
+	 JhBsjOCR8ruvuUREs3USjx4j9DqymyXj+QW5iwzQDQ2wI4GLAt9fmzWYGAaMu8zJoq
+	 YjQDNL33u2o0usRIxt/T+E31cE0wJkOH8XeHJJH39pXdzlFn44dikF8g5VQRBKjjVB
+	 rQg0L2esBMDKlgP6P9Aguzn89nnxHqpwiJJsEHFsE/Z8rRw1yemyil11YmYc1gZPNT
+	 6z41o7oyF9N6w==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1rQ1ps-00086S-2s;
+	Wed, 17 Jan 2024 10:03:48 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH v2 0/3] ASoC: qcom: volume fixes and codec cleanups
+Date: Wed, 17 Jan 2024 10:03:28 +0100
+Message-ID: <20240117090331.31111-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 16, 2024 at 09:49:59PM +0100, Serge SIMON wrote:
-> Dear Kernel maintainers,
-> 
-> I think i'm encountering (for the first time in years !) a regression
-> with the "6.7.arch3-1" kernel (whereas no issues with
-> "6.6.10.arch1-1", on which i reverted).
-> 
-> I'm running a (up-to-date, and non-LTS) ARCHLINUX desktop, on a ASUS
-> B560-I motherboard, with 3 monitors (attached to a 4-HDMI outputs
-> card), plus an audio S/PDIF optic output at motherboard level.
-> 
-> With the latest kernel, the S/PIDF optic output of the motherboard is
-> NOT detected anymore (and i haven't been able to see / find anything
-> in the logs at quick glance, neither journalctl -xe nor dmesg).
-> 
-> Once reverted to 6.6.10, everything is fine again.
-> 
-> For example, in a working situation (6.6.10), i have :
-> 
-> cat /proc/asound/pcm
-> 00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
-> 00-01: ALC1220 Digital : ALC1220 Digital : playback 1
-> 00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
-> 01-03: HDMI 0 : HDMI 0 : playback 1
-> 01-07: HDMI 1 : HDMI 1 : playback 1
-> 01-08: HDMI 2 : HDMI 2 : playback 1
-> 01-09: HDMI 3 : HDMI 3 : playback 1
-> 
-> Whereas while on the latest 6.7 kernel, i only had the 4 HDMI lines
-> (linked to a NVIDIA T600 card, with 4 HDMI outputs) and not the three
-> first ones (attached to the motherboard).
-> 
-> (of course i did several tests with 6.7, reboot, ... without any changes)
-> 
-> Any idea ?
+To reduce the risk of speaker damage the PA gain needs to be limited on
+machines like the Lenovo Thinkpad X13s until we have active speaker
+protection in place.
 
-As this is a sound issue, perhaps send this to the
-linux-sound@vger.kernel.org mailing list (now added).
+Limit the gain to the current default setting provided by the UCM
+configuration which most user have so far been using (due to a bug in
+the configuration files which prevented hardware volume control [1]).
 
-Any chance you can do a 'git bisect' between 6.6 and 6.7 to track down
-the issue?  Or maybe the sound developers have some things to ask about
-as there are loads of debugging knobs in sound...
+Included is also a related fix for the LPASS WSA macro driver, which
+was changing the digital gain setting behind the back of user space and
+which can result in excessive (or too low) digital gain.
 
-thanks,
+There are further Qualcomm codec drivers that similarly appear to
+manipulate various gain settings, but on closer inspection it turns out
+that they only write back the current settings. Tests reveal that these
+writes are indeed needed for any prior updates to take effect (at least
+for the WSA and RX macros).
 
-greg k-h
+Johan
+
+[1] https://github.com/alsa-project/alsa-ucm-conf/pull/382
+
+
+Changes in v2
+ - keep the volume register write on power-on in lpass-wsa-macro
+ - drop the other patches removing volume register writes on DAPM events
+ - only drop the constant-zero gain offsets in wcd9335
+   
+
+Johan Hovold (3):
+  ASoC: qcom: sc8280xp: limit speaker volumes
+  ASoC: codecs: lpass-wsa-macro: fix compander volume hack
+  ASoC: codecs: wcd9335: drop unused gain hack remnant
+
+ sound/soc/codecs/lpass-wsa-macro.c | 7 -------
+ sound/soc/codecs/wcd9335.c         | 4 ----
+ sound/soc/qcom/sc8280xp.c          | 8 +++++---
+ 3 files changed, 5 insertions(+), 14 deletions(-)
+
+-- 
+2.41.0
+
