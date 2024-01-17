@@ -1,101 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D394714003;
-	Wed, 17 Jan 2024 09:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4ED67499;
+	Wed, 17 Jan 2024 09:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705482224; cv=none; b=I1x+Cf662Me76NKKCOJGfzH3Z27wmvRifBdb5Xq/oopDx6MG+Uf8RQH818V0MAIuzdsJYUwOV3e5td5ZG09+LdVHp4C4CEZ67Mm16bV4fBjqhbgpHG16Ol1P2wXEVcu8bXlkidrZwWlAKKy3Kl85CMWQ+wSxmQmFsSUB+6ZfyUY=
+	t=1705482498; cv=none; b=BcIT+z3nPaZZBnG86wOrsJS7RRIFeOGhMbkuqccufMun/G61XfaaKaFpKDqZ+AU70nSFlx+OM4cOVqVlfzW2Bpoysm+ZXtjLZlfXLPXEbOPzW8C1Si10W6yp8pTEDPik/KEEeDsuCeLz/JnpvaF6vCc5ys61IE9H0ZehjnJExKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705482224; c=relaxed/simple;
-	bh=ubf+Lb9lWCl+Bw/cYPU6tgtajk7KlSOrM82ga/TBaGE=;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding; b=RyMcKKTzrRAqR/m2B1K/w+H87CrTe5YOsg/16TEcQe4Z4SZWDfEtb8wZJwsr+2mshCBe8Vo3LOFMP5g7ZOB9kU31wVowpkbnWnqHcUKHvNPG4KIQAsQrvS0sPNBN8dADueM4DscklZjydUPxbmT8YQIOp2JmOKE22hiUHZ6YsOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ul+i8Cpz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705482498; c=relaxed/simple;
+	bh=/dPCBxX9NtYra0koFE41eeYgs1qT5c5J5e0WBloEftE=;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=rwXcoegeUIx/IVJqYsyx/Ta29DMbASz4OdXnPsDwyXoQog7bKOyglSt/MiYCqwRhmW8xImscKQga1C3Kewwv73mbw/inlqGCuZE+qh4qfw1YpzYq/HgvisizGkW5WVqOchPJbDwFQ1Ct2fQkG9k7sONJ1VsR5pYOkD8wcf6tiYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EwfFyoFP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ul+i8Cpz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CFBC433F1;
-	Wed, 17 Jan 2024 09:03:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EwfFyoFP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E08C433F1;
+	Wed, 17 Jan 2024 09:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705482224;
-	bh=ubf+Lb9lWCl+Bw/cYPU6tgtajk7KlSOrM82ga/TBaGE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ul+i8CpzEGX31XDcKOWiMUk/Mx/cPUlWS3k1ZWXNcmO+13+g+43kk7k7zsDou3Jqx
-	 2HCVy13ILqrFrpytfP7xQS4Q+s8uzGzVqomaFETJqYRFKTjMvHusVASImqm9CWLX1N
-	 HehEQcPMuOqpl8a/ZtW8lbbHdsU/PTb7d1fzDWjHi1fcOqHQlAJLy7IY1eHnJEGtKc
-	 uoQ9nmJxOhlhDfMz1RZZ6inqcS/ExtArgXGmWGG5CEgzHiKxkVos9PSHsNPOYpFjOR
-	 CzOuBnP7tlysEahDt+IyNQsbzoAVuEK1jjTUo31B9chHBTTutQzmXUQdXj7Gf0Tigb
-	 MMXYGK3cBqq+g==
+	s=k20201202; t=1705482498;
+	bh=/dPCBxX9NtYra0koFE41eeYgs1qT5c5J5e0WBloEftE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EwfFyoFPPJKIQlb/mKFQXjLoA42JHsJe7581uZAyH5PiUdNVZg9NuN7VRq6I/2yja
+	 +cgOn8V40goecsaz8cSraOaKDWK5tRQO9FU1Drtxhnar24j84hA1xrNhk3OiXwN2iN
+	 /a3hbEXzo8FB631BxwHPNohViqSGmghGJGieF8HIsqLl5UYEecSN2SVXvuVqvG3hW+
+	 0krW5ShJR2yPOVZBoJRHKK9A/Tn2mrwrUYfoe9H+L1dRxH36ci2FyUdOOrQsBNdjkx
+	 dyRAq3gbqN9DFYHH3kUBqSimdqTiV+8eAhxTsWhBN4KxnxqUQ5RM28S2Hs6mpTIgV7
+	 ix+zZs5w4rX/A==
 Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1rQ1pt-00086U-03;
-	Wed, 17 Jan 2024 10:03:49 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	(envelope-from <johan@kernel.org>)
+	id 1rQ1uI-0008AG-3C;
+	Wed, 17 Jan 2024 10:08:23 +0100
+Date: Wed, 17 Jan 2024 10:08:22 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Mark Brown <broonie@kernel.org>,
 	Banajit Goswami <bgoswami@quicinc.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 1/3] ASoC: qcom: sc8280xp: limit speaker volumes
-Date: Wed, 17 Jan 2024 10:03:29 +0100
-Message-ID: <20240117090331.31111-2-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240117090331.31111-1-johan+linaro@kernel.org>
-References: <20240117090331.31111-1-johan+linaro@kernel.org>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 2/7] ASoC: codecs: lpass-wsa-macro: fix compander volume
+ hack
+Message-ID: <ZaeZBjKezfdslS2L@hovoldconsulting.com>
+References: <20240116093903.19403-1-johan+linaro@kernel.org>
+ <20240116093903.19403-3-johan+linaro@kernel.org>
+ <8bb1cad6-6a85-444a-b881-c03ab0051009@linaro.org>
+ <ZaaAO8SMczq7YUAE@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZaaAO8SMczq7YUAE@hovoldconsulting.com>
 
-The current UCM configuration sets the speaker PA volume to 15 dB when
-enabling the speakers but this does not prevent the user from increasing
-the volume further.
+On Tue, Jan 16, 2024 at 02:10:19PM +0100, Johan Hovold wrote:
+> On Tue, Jan 16, 2024 at 11:10:21AM +0000, Srinivas Kandagatla wrote:
 
-Limit the PA volume to 15 dB in the machine driver to reduce the risk of
-speaker damage until we have active speaker protection in place.
+> > This is not a hack, wsa codec requires gain to be programmed after the 
+> > clk is enabled for that particular interpolator.
+> 
+> Ok, but then it's also broken as, as I mentioned off-list, these
+> registers are cached so unless companding is enabled, the write on
+> enable will have no effect.
 
-Note that this will probably need to be generalised using
-machine-specific limits, but a common limit should do for now.
+I was obviously confused here, and indeed tests reveal that those writes
+are needed for any prior updates to take effect (e.g. volume changes
+while the codec is runtime suspended).
 
-Cc: stable@vger.kernel.org	# 6.5
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- sound/soc/qcom/sc8280xp.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+I've just sent a v2 here:
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index ed4bb551bfbb..aa43903421f5 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -32,12 +32,14 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	case WSA_CODEC_DMA_RX_0:
- 	case WSA_CODEC_DMA_RX_1:
- 		/*
--		 * set limit of 0dB on Digital Volume for Speakers,
--		 * this can prevent damage of speakers to some extent without
--		 * active speaker protection
-+		 * Set limit of 0 dB on Digital Volume and 15 dB on PA Volume
-+		 * to reduce the risk of speaker damage until we have active
-+		 * speaker protection in place.
- 		 */
- 		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 84);
- 		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 84);
-+		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 12);
-+		snd_soc_limit_volume(card, "SpkrRight PA Volume", 12);
- 		break;
- 	default:
- 		break;
--- 
-2.41.0
+	https://lore.kernel.org/lkml/20240117090331.31111-1-johan+linaro@kernel.org/
 
+Johan
