@@ -1,168 +1,157 @@
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12olkn2061.outbound.protection.outlook.com [40.92.23.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053E724A0A
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jan 2024 19:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705521408; cv=none; b=DG5M3m6u4QV7nnf7N6BbKkix/Ik+anjnbf0EsmQ5o/ct6QYqd5c8EQS3iYUpfo36BRDLK7FPG1rphsqGr+wJvfZhu2rJOZIkLmqfVnF/43Jz25VGRxE+zHBOEeQU0hLFahUm87Ldv+11B6frF/ZHdHEgBLx9bhHRDX2lkZ+bx2Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705521408; c=relaxed/simple;
-	bh=UnsoBdnewPOL7DDxcUet3o5sW68t4dgCvhX11poPbWQ=;
-	h=Received:DKIM-Signature:Received:Received:Received:Received:From:
-	 To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
-	 In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
-	 X-MS-TNEF-Correlator:x-originating-ip:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:X-SEG-SpamProfiler-Analysis:
-	 X-SEG-SpamProfiler-Score; b=Tv6PdmlBrps+bhHdtOrn/XGaDTSea/QG+wW0JbrGMfAES4ZA4czlQjHZjOlauvIkzVS9aHLHEciC+YrZy+2774ndyMWUp31vmkMcNTJsYIDYDNs2T8lmPU5IFxexsz5prEvhf68cqeGLtTX4tGLo2Wffwtzei4vv6Hg2BvmUIx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=ef9bnGvR; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152F0125A2;
+	Thu, 18 Jan 2024 07:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.23.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705564385; cv=fail; b=ntDv5EgJRp0mwFywai3LJoigA1O4bUEOjSZDLsogTKjYOLiEpl9rRrQEJWIrJ/viUikkNAzKkQFkzEqbo0rZFfbZfyuzm0bd3EChdR0MMD/+omrTUxliJiZxIDlSxn8GwqZLMUoB1F+4daVCMgLwWjkeAZ/dCOffRtEdiYWzbYQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705564385; c=relaxed/simple;
+	bh=mPc9NxDUQlxuccu4OPgfovHOqeqc2+rUzE0YEckhENU=;
+	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
+	 Received:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 Content-Transfer-Encoding:Content-Type:X-TMN:X-ClientProxiedBy:
+	 X-Microsoft-Original-Message-ID:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SLBlob-MailProps:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped; b=jbabItuzzmBbUGyPbixLyEN6Wwhs2n7G1rClKa05cvB6hIKotI/5A729Y3MVo+dUhP7SfiPLvyii7L9r8sjO5JVZWnON54Q02s16VNbV/GRx4PAh7q3ZMSIBfcjTKkzB2NH0MW0d7a3pBzcWCzYcZC39AxrBzSvZVvPbsp7Zp64=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=OXIjAMjd; arc=fail smtp.client-ip=40.92.23.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="ef9bnGvR"
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id BBB132C04E6;
-	Thu, 18 Jan 2024 08:56:36 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1705521396;
-	bh=UnsoBdnewPOL7DDxcUet3o5sW68t4dgCvhX11poPbWQ=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=ef9bnGvRZCxcrYnEP1osWxaxpbjkxMrHjlaXz8raZD8qdt3NCMflKhk91SSN+2Hpf
-	 tBk0vO44r038CodJCMTETl+9GmfKdDsDNByxWamHn4yu80LsA7SwNVdkFnzYVNR3Pb
-	 qO/aoP32vmq9yHQ1OYh58L6jaELwrkLQYh2+ZUk9rSY4FrTtrS/rP3XfaNiXzvbsBh
-	 oxe6aAH01HYHMOMU58bJaCATR401QA0oon/FZWIYBbx46TMguZJcYlpZZEA/lPv9gL
-	 cI9uMZx+/uMsiAcJYYgiONmhsvTgOfmdT42xGVLGRGRwuiEPqb8ipLUEGAgDIUy0MN
-	 f0wFRio3G2D5Q==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B65a830f40001>; Thu, 18 Jan 2024 08:56:36 +1300
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1118.40; Thu, 18 Jan 2024 08:56:36 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
- SMTP Server (TLS) id 15.0.1497.48; Thu, 18 Jan 2024 08:56:36 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1118.040; Thu, 18 Jan 2024 08:56:36 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Krzysztof Kozlowski
-	<krzysztof.kozlowski@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
- Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Peter Rosin <peda@axentia.se>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-i2c@vger.kernel.org"
-	<linux-i2c@vger.kernel.org>
-CC: Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson
-	<sean.anderson@seco.com>
-Subject: Re: [PATCH v3 5/5] i2c: muxes: pca954x: Allow sharing reset GPIO
-Thread-Topic: [PATCH v3 5/5] i2c: muxes: pca954x: Allow sharing reset GPIO
-Thread-Index: AQHaRXWBLMixCZ8WK0+mNOuBScg1h7DbubEAgABOIQCAAQBzAIAAkW6A
-Date: Wed, 17 Jan 2024 19:56:36 +0000
-Message-ID: <273168dc-2cb8-4d00-b8d0-b68d4e766410@alliedtelesis.co.nz>
-References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
- <20240112163608.528453-6-krzysztof.kozlowski@linaro.org>
- <800d202864c1730622a19998728c5a8b576d1931.camel@pengutronix.de>
- <4c6c5d07-ac53-4da9-93e0-1286ca5eb44b@alliedtelesis.co.nz>
- <568f2bcb1bea01c36f59650d5cc5a84612197f8b.camel@pengutronix.de>
-In-Reply-To: <568f2bcb1bea01c36f59650d5cc5a84612197f8b.camel@pengutronix.de>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <95D05D6F344ED946A08E474726AD6AA3@atlnz.lc>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="OXIjAMjd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FTJnv+D9WCd4pjaI2ZD5LNLIH8cazpoKJRGGTn+GxBTFIbW9sUqX1VV8e+RJxUmgGsKBnZg3SIM3qGAYoes8fd63lSwYD7LG/brmVRIrDdxrUHu9kOiUjHQvHvFF8hNLzFKxSwDWQ+owlDjKca2gV7wipMg97EeKJ7xmYd0iMJDs+DwPW3LDpIdgVt2AKSicUZDsNX4T6Xji8LlCKJfQEI0M4py/dsFEv2KVu6cTrqL0auBa3oWKc9PKtGvpgMWKaFmvv9tGw9LqR6KhjRctQ0g+I+2cN9RnTCctoxqqnrL0yp9J2sHGoPvd9aA/HV9xlBU8BOS2FSdvVagG8MGoUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y7jroQRImK7HJFPSXtra+iWq0DC3T47qYc/FsxKvRNI=;
+ b=Rq5elhm1r0Ir+s/6euySTimSKU9Vv+nffai4Wacrby591ilxizrGmb5IvcyBt/YJHPNHTb07EZ0hazV2EdxIwLdX1layPeoJqtZtTxgAtj3RIdQUn04kZyp0jyBp+OvGiJGFvBZFkf40Xg8dZMXQ6FywoqfOgcDWua/4Pc92YPjwGYdQOPOoik0U68LjBAzicsj2sUYiEwxXNVexpQ20B5guQi0NVNLDiwimlchP87ibYF4Se3JXVUyaAx+MyVnrNW7RsXXFCOqV+NBupETMtkAKI8yl/JTE4yU0U5ujP6+xEuoxwc6QRDE5kwLq2fCnxMCQFqaBdHLv4xhnfkdBlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y7jroQRImK7HJFPSXtra+iWq0DC3T47qYc/FsxKvRNI=;
+ b=OXIjAMjdL7+cOwTD5jyaoXkg3iZfyzuWKKcDmsj544QJ0DvAoyCarSqtMqXAyrQtrtdRfJlxppL3nXsemSWvMGUt8f6ji5fVK6WyAkJRx3uQudfCWxycMiiQc7OyUHtrweojmBNLMiYdnJHtiT+ep8AQqPbOW90kXJN5/yDegT03hkKI3NmyqYGRPySKlsd2GbrOxUjZMgVZFJIi/WqWtQoJ4sFXItZZc4Fv9GBECa0M76E+eZ3fNL3dkL5ooQDL3l/Cw9OYM3VuOwzBJoTU2AjTQVEvS8eArYy9hVclAW7kqJ7+Dv2C9mLVlrMQvuKuvsmk6vgkjA5J5fv8W1Vrww==
+Received: from PH7PR20MB5925.namprd20.prod.outlook.com (2603:10b6:510:27f::21)
+ by CY8PR20MB6252.namprd20.prod.outlook.com (2603:10b6:930:6c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.21; Thu, 18 Jan
+ 2024 07:53:02 +0000
+Received: from PH7PR20MB5925.namprd20.prod.outlook.com
+ ([fe80::e1de:29a8:e090:5b7b]) by PH7PR20MB5925.namprd20.prod.outlook.com
+ ([fe80::e1de:29a8:e090:5b7b%4]) with mapi id 15.20.7202.020; Thu, 18 Jan 2024
+ 07:53:02 +0000
+From: Fullway Wang <fullwaywang@outlook.com>
+To: broonie@kernel.org,
+	srinivas.kandagatla@linaro.org,
+	bgoswami@quicinc.com,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	fullwaywang@tencent.com,
+	Fullway Wang <fullwaywang@outlook.com>
+Subject: [PATCH] sound: soc: wcd934x: fix an incorrect use of kstrndup()
+Date: Thu, 18 Jan 2024 15:52:49 +0800
+Message-ID:
+ <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [4ggwWj3tVpKr5hS1hH76ve6+VfRaLWA4ZdRS5Bf0UzQ=]
+X-ClientProxiedBy: SG2PR01CA0196.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::23) To PH7PR20MB5925.namprd20.prod.outlook.com
+ (2603:10b6:510:27f::21)
+X-Microsoft-Original-Message-ID:
+ <20240118075249.45253-1-fullwaywang@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=LZFCFQXi c=1 sm=1 tr=0 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=dEuoMetlWLkA:10 a=KKAkSRfTAAAA:8 a=62ntRvTiAAAA:8 a=VwQbUJbxAAAA:8 a=vE6nA0IPAAAA:8 a=8-3aiZTupm_KTbKaFEUA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=pToNdpNmrtiFLRE6bQ9Z:22 a=AjGcO6oz07-iQ99wixmX:22 a=_s8P6U4_B6QeRRtK5oEG:22
-X-SEG-SpamProfiler-Score: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR20MB5925:EE_|CY8PR20MB6252:EE_
+X-MS-Office365-Filtering-Correlation-Id: f530b032-d596-4c61-df7c-08dc17fa7f00
+X-MS-Exchange-SLBlob-MailProps:
+	9IecXKUgicApid5D7hNqGP6ceDGc17NycHlmEnra58VNrD1PmhQnCdkJdQNoS7CDUvfEF2wHLOuYEMJSyI4wlaVAKsAe0gnlLE1jnKaGeRyDleQZV9rvtx5vfBVVrGq/NbRfiQsX3nulv4qUDfAhFgu9N3F5Kp6Lonf/7nI0Onj0A6iWZiMlQSLYKuiVhollok8P+XmlmSdCgOFvHCu6erLuCAfDJ4CBdlS1tk6+VUpb2F1AZEY5cgvXFf0sc+AwrXAjkwTdk/f6djUskvXGSOdiGzY+PEArB4y6pWVoqBCq8lfId4zYWxi44znkOP7v7am9r191qUQP7Ay0MrqxZKvbGyNRCLV0+upQRw7cbxY9Y0kcgbui8US4gJCfe4N0ERQsCQZI+L3fykuvF2kg0SuH72kjqNUXo7d7z+uZ/ic6XGfeenuGRMSfhlVnKZ/JopoACPBc5O99r9UIqkkeFwVR1gpqmmOF8imkiNNkEYAvUS7d7dKflWOkOXMXBUYj+OKFdDJObdC9LgtmB5hz+j0r01qh74KDNN+CPX0kbEoWEyfLq9AciS/AThDXAgYLhIN4PFRL6Jc7tUXzRBauLe/cgVJcCdwcbawdAby/keDl8p0ZfCBPh3Vld/0y+eDqjaFhvZp06q1A0yvsDS/GkvBSAOfTIb96I0IvQORNY2Jm/OrEzozshZy86gVFw4RpPSELtlcMTcK1U/tSyUqI2r6jZHwBKZS3qLI/xqEtcltP8YDi2kL7dQ==
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	apE3Necutk+5K+hlOpzsSO7j1TNARBJ+zGpvDl3D0pJt08v2hfEG9/n2jUoqqtpJwVx1PdT4kjhVGkA5HQZEM/hva3D+3yPESTxU+NUIlVXx/624MJTtpZT9FLIDfbXT0mL7yyJSTboeGQFu736gfOC9/1VU2daxynyXRHabvps0DsfMKKiPqgFwdcSchbT+/y7R2Evu2GIVwl1vu6RQuqotHSlb2VhpwJ1wDcYA3HbrvVbfgxfoRdkrQkO9E7Kh0AN7NjX+St+bRc8llZJvbANLVuon77XeAQ8wy8wafui/fqFtZaQIywQClRh/x6Kywppv3MhozJSohnpl9kH+ZXrfskOFE4dCy6iGXb030aGQ2JcPbhvNSkyupD+47+u9p86kCt80gnl76uk4YINEMAVtCWPqAYMlaDInA81yFfrgpuyMBm8EtFBVcW42PUax+Z3fRH2CbSBOArYM3jlgofXFWymwGPI9ic/cGHT+YdfR7m6lJnIA08FuiZ3s+5lfyk9GuqVndeTYrNJR9wQtomVuVkpMs2l2ldx96X1IVv2mPYMmIs91rpvn/CEIZoG0Slgx3CWqiblV1sDtiwHfNk35XB0iAv6tahLnXAMMF5dHMcjibahAPreMsg2aoiab
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dZImLqd//U3B8jjPPDUjKdEaqxIauUqfY1RoHYor0rEjydUP3oiV62bfwXyE?=
+ =?us-ascii?Q?JfUydOHS7+YtQTi52kI33v/bsQWALZ8cqzAeSSozkzW0HvUwnYDNFLpd/mwI?=
+ =?us-ascii?Q?jYCvL08ihS+xlwJFR1WsrCtNY4SwE/8joBY4Fxt8g3rhG4Ui7R4puedjXP8+?=
+ =?us-ascii?Q?XR4h4txjmTwJCp8LQimKcGkpZ/gD/c0u5izVmNDmsu+88cFplIuimKa7mEs9?=
+ =?us-ascii?Q?6Oc4PzOC9l1bum+Z2oQ6X7tW4YsKk2GKpcoVE6T9gLbpCPG1dfZmiyj1W8Ox?=
+ =?us-ascii?Q?38mQ25hCioHAKam3zdePmohiYWc2Pxog4gH5Nm0zF3K33FG6kwiMZcD2B6/n?=
+ =?us-ascii?Q?X4c9SfFEnWm18M25yWpdZ3BDzUsHb/T0E4/2wdHJ59yi7Z47TBBCEsDzq3qV?=
+ =?us-ascii?Q?l8WPIjdZmQ6e+9RFtvm5q/fwpOcE0/0FyjLtOARng2oTo/+xaOj31xB/KKlZ?=
+ =?us-ascii?Q?+xCWgJgNYj1vQQx19PMTmCw6vz/RQhaZg6iECj92oi4r6nxrdyQ1IOwpOoYE?=
+ =?us-ascii?Q?yPjqHeANRf3dYeiDZKjRSyz6mEhKCOr3yIsy5UKfsYvtnuMTsfJgFtSbaknx?=
+ =?us-ascii?Q?S0rw03/boF+JMywpeGveikdd9xG0+iFcR9uOFKTNY7lm8hUXLZqFPKqMddgL?=
+ =?us-ascii?Q?ajPcE+9Pg6el7YMpu1xJI6HeEY5ksYRI2dtALswlPHi8Zglc9oJBN357zQkD?=
+ =?us-ascii?Q?MQVxEXXePudCugRJMCUbkaNpqanD3w/Ikytj8K6Uuipwt4VbslhzTNWCRWO8?=
+ =?us-ascii?Q?t/RMMpTfLi8dy61Xj5jNRAHF+U+q3dWS+gYXJGYep8+bAJmE08F5gXE92Fid?=
+ =?us-ascii?Q?d6146Hz/OkUXT5gucpQwqkzgPbPAPxrF3T/OoLBZr4uJjDvBFsdAq7hfg9oe?=
+ =?us-ascii?Q?e8v89AIfXfa+pHLbz66/GOvDiG1nnGIaluLPgRhOXvlBPPTAtq1agI0KsV7q?=
+ =?us-ascii?Q?gj7unNu1tGIfiv9r9QfxRjkC9n2KwbS/vm+uSSnwMxlhnziMbYPx6dsixy4Z?=
+ =?us-ascii?Q?UEqjIBofalLvuIomIo6v9SOcQFraCPXdXO4/g6nnPb5dCHCJQ/QDOl9fdLet?=
+ =?us-ascii?Q?ADgIiGT3006EWROEL1ebwDpfSURNRQNweJONccqExJum9gsXSE4A/NUvKiD1?=
+ =?us-ascii?Q?fSVLfKf0PZ5UwmKCI5GExb5jLiVD3s3eskb5indXXWWNmbDWZyenugn73Nmp?=
+ =?us-ascii?Q?voSAZhMwSq/h9eofQKowxNILWGtyaMos3ZzCaE+CHTOunVipXhYUDTdO8Mw?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f530b032-d596-4c61-df7c-08dc17fa7f00
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR20MB5925.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 07:53:02.4130
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR20MB6252
 
-DQpPbiAxOC8wMS8yNCAwMDoxNiwgUGhpbGlwcCBaYWJlbCB3cm90ZToNCj4gT24gRGksIDIwMjQt
-MDEtMTYgYXQgMTk6NTggKzAwMDAsIENocmlzIFBhY2toYW0gd3JvdGU6DQo+PiBPbiAxNy8wMS8y
-NCAwNDoxOCwgUGhpbGlwcCBaYWJlbCB3cm90ZToNCj4+PiBPbiBGciwgMjAyNC0wMS0xMiBhdCAx
-NzozNiArMDEwMCwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToNCj4+Pj4gRnJvbTogQ2hyaXMg
-UGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56Pg0KPj4+Pg0KPj4+PiBT
-b21lIGhhcmR3YXJlIGRlc2lnbnMgd2l0aCBtdWx0aXBsZSBQQ0E5NTR4IGRldmljZXMgdXNlIGEg
-cmVzZXQgR1BJTw0KPj4+PiBjb25uZWN0ZWQgdG8gYWxsIHRoZSBtdXhlcy4gU3VwcG9ydCB0aGlz
-IGNvbmZpZ3VyYXRpb24gYnkgbWFraW5nIHVzZSBvZg0KPj4+PiB0aGUgcmVzZXQgY29udHJvbGxl
-ciBmcmFtZXdvcmsgd2hpY2ggY2FuIGRlYWwgd2l0aCB0aGUgc2hhcmVkIHJlc2V0DQo+Pj4+IEdQ
-SU9zLiBGYWxsIGJhY2sgdG8gdGhlIG9sZCBHUElPIGRlc2NyaXB0b3IgbWV0aG9kIGlmIHRoZSBy
-ZXNldA0KPj4+PiBjb250cm9sbGVyIGZyYW1ld29yayBpcyBub3QgZW5hYmxlZC4NCj4+Pj4NCj4+
-Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxl
-c2lzLmNvLm56Pg0KPj4+PiBBY2tlZC1ieTogUGV0ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4N
-Cj4+Pj4gUmV2aWV3ZWQtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dz
-a2lAbGluYXJvLm9yZz4NCj4+Pj4gTGluazogaHR0cHM6Ly9zY2FubWFpbC50cnVzdHdhdmUuY29t
-Lz9jPTIwOTg4JmQ9X2JhbjVXM3hSektTaW1KOWlqVEo3NHAxMG90ZnE4Wk9OZmpWbkJyNkZ3JnU9
-aHR0cHMlM2ElMmYlMmZsb3JlJTJla2VybmVsJTJlb3JnJTJmciUyZjIwMjQwMTA4MDQxOTEzJTJl
-NzA3OC0xLWNocmlzJTJlcGFja2hhbSU0MGFsbGllZHRlbGVzaXMlMmVjbyUyZW56DQo+Pj4+IFNp
-Z25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dza2lAbGlu
-YXJvLm9yZz4NCj4+Pj4NCj4+Pj4gLS0tDQo+Pj4+DQo+Pj4+IElmIHByZXZpb3VzIHBhdGNoZXMg
-YXJlIGZpbmUsIHRoZW4gdGhpcyBjb21taXQgaXMgaW5kZXBlbmRlbnQgYW5kIGNvdWxkDQo+Pj4+
-IGJlIHRha2VuIHZpYSBJMkMuDQo+Pj4+DQo+Pj4+IENjOiBDaHJpcyBQYWNraGFtIDxjaHJpcy5w
-YWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+DQo+Pj4+IENjOiBCYXJ0b3N6IEdvbGFzemV3c2tp
-IDxicmdsQGJnZGV2LnBsPg0KPj4+PiBDYzogU2VhbiBBbmRlcnNvbiA8c2Vhbi5hbmRlcnNvbkBz
-ZWNvLmNvbT4NCj4+Pj4gLS0tDQo+Pj4+ICAgIGRyaXZlcnMvaTJjL211eGVzL2kyYy1tdXgtcGNh
-OTU0eC5jIHwgNDYgKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0NCj4+Pj4gICAgMSBmaWxl
-IGNoYW5nZWQsIDM4IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pDQo+Pj4+DQo+Pj4+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2kyYy9tdXhlcy9pMmMtbXV4LXBjYTk1NHguYyBiL2RyaXZlcnMv
-aTJjL211eGVzL2kyYy1tdXgtcGNhOTU0eC5jDQo+Pj4+IGluZGV4IDIyMTkwNjIxMDRmYi4uMTcw
-MmU4ZDQ5YjkxIDEwMDY0NA0KPj4+PiAtLS0gYS9kcml2ZXJzL2kyYy9tdXhlcy9pMmMtbXV4LXBj
-YTk1NHguYw0KPj4+PiArKysgYi9kcml2ZXJzL2kyYy9tdXhlcy9pMmMtbXV4LXBjYTk1NHguYw0K
-Pj4+PiBAQCAtNDksNiArNDksNyBAQA0KPj4+PiAgICAjaW5jbHVkZSA8bGludXgvcG0uaD4NCj4+
-Pj4gICAgI2luY2x1ZGUgPGxpbnV4L3Byb3BlcnR5Lmg+DQo+Pj4+ICAgICNpbmNsdWRlIDxsaW51
-eC9yZWd1bGF0b3IvY29uc3VtZXIuaD4NCj4+Pj4gKyNpbmNsdWRlIDxsaW51eC9yZXNldC5oPg0K
-Pj4+PiAgICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPg0KPj4+PiAgICAjaW5jbHVkZSA8bGludXgv
-c3BpbmxvY2suaD4NCj4+Pj4gICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL211eC9tdXguaD4NCj4+
-Pj4gQEAgLTEwMiw2ICsxMDMsOSBAQCBzdHJ1Y3QgcGNhOTU0eCB7DQo+Pj4+ICAgIAl1bnNpZ25l
-ZCBpbnQgaXJxX21hc2s7DQo+Pj4+ICAgIAlyYXdfc3BpbmxvY2tfdCBsb2NrOw0KPj4+PiAgICAJ
-c3RydWN0IHJlZ3VsYXRvciAqc3VwcGx5Ow0KPj4+PiArDQo+Pj4+ICsJc3RydWN0IGdwaW9fZGVz
-YyAqcmVzZXRfZ3BpbzsNCj4+Pj4gKwlzdHJ1Y3QgcmVzZXRfY29udHJvbCAqcmVzZXRfY29udDsN
-Cj4+Pj4gICAgfTsNCj4+Pj4gICAgDQo+Pj4+ICAgIC8qIFByb3ZpZGUgc3BlY3MgZm9yIHRoZSBN
-QVg3MzV4LCBQQ0E5NTR4IGFuZCBQQ0E5ODR4IHR5cGVzIHdlIGtub3cgYWJvdXQgKi8NCj4+Pj4g
-QEAgLTQ3Nyw2ICs0ODEsMzUgQEAgc3RhdGljIGludCBwY2E5NTR4X2luaXQoc3RydWN0IGkyY19j
-bGllbnQgKmNsaWVudCwgc3RydWN0IHBjYTk1NHggKmRhdGEpDQo+Pj4+ICAgIAlyZXR1cm4gcmV0
-Ow0KPj4+PiAgICB9DQo+Pj4+ICAgIA0KPj4+PiArc3RhdGljIGludCBwY2E5NTR4X2dldF9yZXNl
-dChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBwY2E5NTR4ICpkYXRhKQ0KPj4+PiArew0KPj4+
-PiArCWRhdGEtPnJlc2V0X2NvbnQgPSBkZXZtX3Jlc2V0X2NvbnRyb2xfZ2V0X29wdGlvbmFsX3No
-YXJlZChkZXYsIE5VTEwpOw0KPj4+PiArCWlmIChJU19FUlIoZGF0YS0+cmVzZXRfY29udCkpDQo+
-Pj4+ICsJCXJldHVybiBkZXZfZXJyX3Byb2JlKGRldiwgUFRSX0VSUihkYXRhLT5yZXNldF9jb250
-KSwNCj4+Pj4gKwkJCQkgICAgICJGYWlsZWQgdG8gZ2V0IHJlc2V0XG4iKTsNCj4+Pj4gKwllbHNl
-IGlmIChkYXRhLT5yZXNldF9jb250KQ0KPj4+PiArCQlyZXR1cm4gMDsNCj4+Pj4gKw0KPj4+PiAr
-CS8qDQo+Pj4+ICsJICogZmFsbGJhY2sgdG8gbGVnYWN5IHJlc2V0LWdwaW9zDQo+Pj4+ICsJICov
-DQo+Pj4gZGV2bV9yZXNldF9jb250cm9sX2dldF9vcHRpb25hbF9zaGFyZWQoKSB3b24ndCByZXR1
-cm4gTlVMTCBpZiB0aGUNCj4+PiAicmVzZXQtZ3Bpb3MiIHByb3BlcnR5IGlzIGZvdW5kIGluIHRo
-ZSBkZXZpY2UgdHJlZSwgc28gdGhlIEdQSU8NCj4+PiBmYWxsYmFjayBpcyBkZWFkIGNvZGUuDQo+
-PiBIbW0sIEkgd2FzIGF0dGVtcHRpbmcgdG8gaGFuZGxlIHRoZSBjYXNlIHdoZXJlIENPTkZJR19S
-RVNFVF9HUElPIHdhc24ndA0KPj4gc2V0IFsuLi5dDQo+PiBbLi4uXSBpdCBsb29rcyBsaWtlIHdl
-J2QgZ2V0IC1FUFJPQkVfREVGRVIuIEkgY291bGQgY2hhbmdlIHRvIGNoZWNrDQo+PiBmb3IgdGhh
-dCBvciBqdXN0IHJlbW92ZSB0aGUgR1BJTyBmYWxsYmFjayBlbnRpcmVseS4gQW55IHByZWZlcmVu
-Y2U/DQo+IEkgaGFkbid0IGNvbnNpZGVyZWQgdGhpcy4NCj4NCj4gSWYgQ09ORklHX1JFU0VUX0dQ
-SU89biwgZGV2bV9yZXNldF9jb250cm9sX2dldF9vcHRpb25hbF9zaGFyZWQoKQ0KPiBwcm9iYWJs
-eSBzaG91bGRuJ3QgcmV0dXJuIC1FUFJPQkVfREVGRVIuIElmIHdlIGNoYW5nZSB0aGF0LCB0aGUg
-R1BJTw0KPiBmYWxsYmFjayBoZXJlIGNhbiBzdGF5IGFzIGlzLg0KPg0KPiBUaGUgYWx0ZXJuYXRp
-dmUgd291bGQgYmUgdG8gZHJvcCB0aGUgZmFsbGJhY2sgYW5kIHNlbGVjdCBSRVNFVF9HUElPLg0K
-PiBVc2luZyAtRVBST0JFX0RFRkVSIGZvciBmYWxsYmFjayBkZXRlY3Rpb24gaXMgbm8gZ29vZCwg
-YXMgdGhlcmUgY291bGQNCj4gYmUgYSB2YWxpZCBwcm9iZSBkZWZlcnJhbCBpZiByZXNldC1ncGlv
-IGlzIGNvbXBpbGVkIGFzIGEgbW9kdWxlIHRoYXQNCj4gd2lsbCBiZSBsb2FkZWQgbGF0ZXIuDQpJ
-IGRpZCBjb25zaWRlciBhZGRpbmcgYHNlbGVjdCBSRVNFVF9HUElPYCAob3IgbWF5YmUganVzdCBg
-aW1wbHkgDQpSRVNFVF9HUElPYCkgaW5pdGlhbGx5IGJ1dCBkZWNpZGVkIG9uIHRoZSBmYWxsYmFj
-ayBhcyBhIHdheSBvZiBhdm9pZGluZyANCnN1cnByaXNlcyBmb3IgZXhpc3RpbmcgdXNlcnMuIEkn
-bGwgc2VlIGlmIGFueW9uZSBlbHNlIGhhcyBhIGRpZmZlcmVudCANCnN1Z2dlc3Rpb24gYnV0IGFz
-c3VtaW5nIG5vdGhpbmcgZWxzZSBjaGFuZ2VzIEknbGwgd29yayB3aXRoIEtyenlzdG9mIHRvIA0K
-Z2V0IGFuIHVwZGF0ZWQgcGF0Y2ggZm9yIHRoaXMgc2VyaWVzLg0K
+In wcd934x_codec_enable_dec(), kstrndup() is used to alloc memory.
+However, kmemdup_nul() should be used instead with the size known.
+
+This is similar to CVE-2019-12454 which was fixed in commit
+a549881.
+
+Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
+---
+ sound/soc/codecs/wcd934x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index 1b6e376f3833..4565a0e1877f 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -4990,7 +4990,7 @@ static int wcd934x_codec_enable_dec(struct snd_soc_dapm_widget *w,
+ 	char *dec;
+ 	u8 hpf_coff_freq;
+ 
+-	widget_name = kstrndup(w->name, 15, GFP_KERNEL);
++	widget_name = kmemdup_nul(w->name, 15, GFP_KERNEL);
+ 	if (!widget_name)
+ 		return -ENOMEM;
+ 
+-- 
+2.39.3 (Apple Git-145)
+
