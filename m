@@ -1,110 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6622CCD1;
-	Thu, 18 Jan 2024 16:58:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EF52C841;
+	Thu, 18 Jan 2024 17:21:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705597106; cv=none; b=qCtecmZTYDswLEk4E0crXRhWa0g1g+WBBu/2hLsa55ljw14ZaLJbYZyUhIJIyESx+tx3rbIBWnwRfR9oLHfp5VVpd42wk+Yl/ErPAKpCFBD38g0sNMI0S+4q7kjO9mBc10z6ZwP96KycOSjV43++NQDz1dslMaG20buYxJsxA8I=
+	t=1705598514; cv=none; b=ZcqwboHyU9VcoQ3FMBpEo7Y7HWE9MJKrmIiAgdZJMKdg6rVHLub8Ie5KY05dzvrnardmJri7iATX6CH9NqIj2aFXpOQg+bObqmzuXnclEEPPcp30zpD3QwpoGMi1QC4HuIseUFJlcrAaoz/BQR81jB0kZRmRy7oOVWx/iU5qnw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705597106; c=relaxed/simple;
-	bh=XqnUEmyZpWIygAVvpTrPmcqqd9rd5+DfFZrkq8MtP5c=;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding; b=M17iMmTIwvwjBPmA9zxJJS2Idy6nEhfJOkv8Y/114r90/PtqsR/zBi9mTRQEx70mdq4ePxU9Km9VbXCeVHJAoCQBjAssaxTI/sKymJPohVHobpDkPSdLWa6aicqz9RCoze42xSVS/Fojo4/0uaLJeKpogn0kdOBdSrh7RRFm38w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVlNCGgM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705598514; c=relaxed/simple;
+	bh=GrPaueWFVuj2nIlhecpLM8yjOxes4LcyBFVyKWotBuU=;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Cookie; b=LUcmz7vH4lFPP5q71PE8cy2AwTaDJD55QWfRYkm3A/eZf6eA0hQm6ALPFnMVUAC4elaOcjgDqCR4CTdV+n+3IqDu3OEwlWWt5eCdA7FwGtKTZyxeyuGAKt8yOTEXcQPFtS3tO/6dyqNJpS6MI1pqD1vGyypuZqQe2uk7BoC/ZhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIZqEuFM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVlNCGgM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8118C43399;
-	Thu, 18 Jan 2024 16:58:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIZqEuFM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D6BC433F1;
+	Thu, 18 Jan 2024 17:21:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705597105;
-	bh=XqnUEmyZpWIygAVvpTrPmcqqd9rd5+DfFZrkq8MtP5c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oVlNCGgM9k5EJKY9p0X+kAZGLgyEu12I/iszIVU2VW44hAO8wyqGi82go/A3okkfy
-	 psZr+Yxd4ARitIFCosuNcoh6hHVYEDw1YTQR7+T+ymP/QHKRsrtbd+Pb0aVmyvZrV4
-	 7UFOAc6TEXVJxG2dHJg7nSt4oh985u9Q3HhvuUojPEUjRgYwwvg4MsBVnfOU52N+qu
-	 UzzC6wk3HTCerUm9x2qmiIGilUJ94ka91u9pFYcPpDJcWiakzMswp5gJcvHf052S0q
-	 r2qUXDLRjXCvWUgvOHmW14C4Amf66cULbLikqYiLElgtjd2fRB5qzzZZd9ncWCgPm2
-	 NeoTJMJJ5Ml1A==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1rQVir-0003Z6-33;
-	Thu, 18 Jan 2024 17:58:33 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Mark Brown <broonie@kernel.org>
+	s=k20201202; t=1705598513;
+	bh=GrPaueWFVuj2nIlhecpLM8yjOxes4LcyBFVyKWotBuU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OIZqEuFMwThZFV05+1B5orwhq1cMrqpeVflPrts+sYmnqaeg/k9K95cOK5eBQa+L2
+	 20ZTDyndZtl4XwGiJq1b0cuOsg/iyIM/wVd8aMi6v8hdU0HA6YQUZ8reepERXH7HbS
+	 X6sPtErW1wEWKlZPmr5LVOdvEwuZ03DngA03VRf5XRnfGomBdUSrOeBTkpP/W08/XJ
+	 8CwxrvjmCk7w146GTFJgmyCkl2oMa99gVFxn36cO4Vj14hi4wq30cFc8Q8/IPILKQ/
+	 fzbKhx0tPhcWBPabKjRk8CzNI1W9rkL0XgRf3kec4GyOVXnJd65j1XmQpZhEd1dgV+
+	 CsPiKqj2y/Z0g==
+Date: Thu, 18 Jan 2024 17:21:48 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Johan Hovold <johan+linaro@kernel.org>
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Banajit Goswami <bgoswami@quicinc.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH v3 5/5] ASoC: codecs: wcd9335: drop unused gain hack remnant
-Date: Thu, 18 Jan 2024 17:58:11 +0100
-Message-ID: <20240118165811.13672-6-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240118165811.13672-1-johan+linaro@kernel.org>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] ASoC: codecs: wsa883x: lower default PA gain
+Message-ID: <dc33e198-e202-4287-960b-7826fb0b455c@sirena.org.uk>
 References: <20240118165811.13672-1-johan+linaro@kernel.org>
+ <20240118165811.13672-3-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+L9BHQTIa1dUbroA"
+Content-Disposition: inline
+In-Reply-To: <20240118165811.13672-3-johan+linaro@kernel.org>
+X-Cookie: FEELINGS are cascading over me!!!
 
-The vendor driver appears to be modifying the gain settings behind the
-back of user space but these hacks never made it upstream except for
-some essentially dead code that adds a constant zero to the current gain
-setting on DAPM events.
 
-Note that the volume registers still need to be written after enabling
-clocks in order for any prior updates to take effect.
+--+L9BHQTIa1dUbroA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- sound/soc/codecs/wcd9335.c | 4 ----
- 1 file changed, 4 deletions(-)
+On Thu, Jan 18, 2024 at 05:58:08PM +0100, Johan Hovold wrote:
+> The default PA gain is set to a pretty high level of 15 dB. Initialise
+> the register to the minimum -3 dB level instead.
+>=20
+> This is specifically needed to allow machine drivers to use the lowest
+> level as a volume limit.
 
-diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
-index 43c648efd0d9..deb15b95992d 100644
---- a/sound/soc/codecs/wcd9335.c
-+++ b/sound/soc/codecs/wcd9335.c
-@@ -3033,7 +3033,6 @@ static int wcd9335_codec_enable_mix_path(struct snd_soc_dapm_widget *w,
- {
- 	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
- 	u16 gain_reg;
--	int offset_val = 0;
- 	int val = 0;
- 
- 	switch (w->reg) {
-@@ -3073,7 +3072,6 @@ static int wcd9335_codec_enable_mix_path(struct snd_soc_dapm_widget *w,
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
- 		val = snd_soc_component_read(comp, gain_reg);
--		val += offset_val;
- 		snd_soc_component_write(comp, gain_reg, val);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
-@@ -3294,7 +3292,6 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
- 	u16 gain_reg;
- 	u16 reg;
- 	int val;
--	int offset_val = 0;
- 
- 	if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT0 INTERP"))) {
- 		reg = WCD9335_CDC_RX0_RX_PATH_CTL;
-@@ -3337,7 +3334,6 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
- 	case SND_SOC_DAPM_POST_PMU:
- 		wcd9335_config_compander(comp, w->shift, event);
- 		val = snd_soc_component_read(comp, gain_reg);
--		val += offset_val;
- 		snd_soc_component_write(comp, gain_reg, val);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
--- 
-2.41.0
+> @@ -722,7 +722,7 @@ static struct reg_default wsa883x_defaults[] =3D {
+>  	{ WSA883X_WAVG_PER_6_7, 0x88 },
+>  	{ WSA883X_WAVG_STA, 0x00 },
+>  	{ WSA883X_DRE_CTL_0, 0x70 },
+> -	{ WSA883X_DRE_CTL_1, 0x08 },
+> +	{ WSA883X_DRE_CTL_1, 0x1e },
 
+This is broken, the register defaults provided to regmap need to
+correspond to whatever the hardware default is since for example a
+register cache sync will not write back any default values (as they
+should already be there in the hardware).  Anything like this would need
+to be done by writes during init.
+
+--+L9BHQTIa1dUbroA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWpXisACgkQJNaLcl1U
+h9B1XQf+MDXMPds6Vj+stJmRI6lY95AnzLcfAg38B7M3jFWq3X5LCz+QUUWei/P7
+YygtokKnVOMb6pLwvHNI6s51GZQ5hqbmdFFi9mRmamIDeuYKHaOFmo4VB4WrdWoO
+AklL4KvrD+3Ju6e0J4mmPjpNFUbxk6WWIKjJ4T/QOCP3PLk4TIw3sT77QMybapbA
+/AgS986AbHbyBeqMmJd32I1uSBdHJW61IzKFikT1w17UNLXJMFBHtfmahwuM0aVu
+4XMz+1qCqEoN8Oale+5AwJZ4ZtY/tGasp0cTClrIjnCdDO7nsjkEdVY9ZLEnOWg3
+BH0YNeBArVibIrpeedgdNqcchmbTew==
+=7PAi
+-----END PGP SIGNATURE-----
+
+--+L9BHQTIa1dUbroA--
