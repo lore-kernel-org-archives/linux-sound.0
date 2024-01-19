@@ -1,136 +1,131 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5085B1D684
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jan 2024 07:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6248D51A;
+	Fri, 19 Jan 2024 07:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705650423; cv=none; b=Aix8aPQx2HAtz7Td1FsiQ2gGII+dIHIxXHuywXqpkGbmjlk/hng6l2BjefEO906V1FrkO5mArGBwHxZU/Vr8LE93zu4a98EhoNLXaUBCdvOuLs0N9YXOoQCaUjSXtlwDeEUwH0+eMbOwhmuuabkBmIJNCQ68lo9uBF5NGdnlqqE=
+	t=1705650554; cv=none; b=jWFPVZQe2ccQ1KYJCGQUKvAoYC760uWoVrH+B+d6mW5wUYVZDKrKJluKM1c5+PY3HPuQCAbKUhqr68asN+xE93a+fPzjM3tif1/Lau34kG97DXlKctY5N3pkBQDhVcVBKKOTgeYtQQv35+MEE/VcdR2aHGv2hJ/+tzVhJJIECMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705650423; c=relaxed/simple;
-	bh=8b0OH0xUnUIRqm4g1vnAVHY4vBjzdLIxY+MjcPSp0jc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NI5tqdvm64qYRcera2q9MGviQ7R+dXDZitv0WlLJ9UE6/1246Enor8UvNlmrLl4jW7ivLbjPhmLto7efg5zk/Os2QAqdtR2oLvV+83eZeIhnnA5SorspHoPzraRmhLYPE4PiQ/aHuXk6lP3GHlEPuRpQY8/c02kOlZvNo4xmeuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bL60ujW0; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1705650554; c=relaxed/simple;
+	bh=H3Uf7Js0UOTDnU9yKusaLcwDSQM/Nh+Ict3ZoBItJfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k9cUIcQD6S8KeGz9YZ3V+XXh99dIbS+BH2Ux3weLXyf4L4gYsDfmddziMprcK5YvL2wizPJTKIhzlwjjEy7sNriMNvP1Q5YBwkrgMrU9zaZdVEEhmUmnRbR8k0QUTTPnnTllUp/ADT8sefxtKGbbjw5FJ49L3KV6j5Fdig+jX/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZardnbwE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bL60ujW0"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-337d05b8942so504819f8f.3
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jan 2024 23:47:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705650418; x=1706255218; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CU1bMRxchSmRgivc/iAZKp78DVFdSvb1675ltw30IVs=;
-        b=bL60ujW0DcTmiq77GU+RAoxvktoUtmKWTHwA/hygTgxEBuCTaIsgLctA/zrwx1DtYh
-         ZrWIw31Sgu7eae0iVSiPMX1/H6BOaRixPUBn+8jkHlitzJSXhsYledrjU5h1QZRXv6qU
-         xmr0bJ/v6398ByRYCf8MSzw7rQL9ekbBbcaA8qGbaJi3Qb+BjROHQQB8vXZD+wCKstph
-         ae83zIJ0W8LjsaRcXyuvvfnrxIFMB02W2bBJjuNIxaQczHWudBBn3jYvJ1DJ8CcRr7dU
-         gILzi6C8pF7qxdZ2O/f1H7ghmzc3Q3CwNL09Axwva2YIoKg/ByGUxbWR/dCQB+/MGabR
-         03rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705650418; x=1706255218;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CU1bMRxchSmRgivc/iAZKp78DVFdSvb1675ltw30IVs=;
-        b=IDrQk0oo0HKsIBJKKemOyAB02RdBceFQ8BDkk5rmdTDY9FDQofEh0IgDn0yokI1KwR
-         UIdTgzXV2ZA/Kyod/c/T6aUoIivjrgoTvAmjd8LEQGHB2m28BNkGTnGAX9InxKtwLv2P
-         anwOQZi9kCAU+gyaVqBtiPmyaE6QLHeuExe4dLXR3sPNYzMVPjz0mUMozcHIQoTa/NAb
-         TrV5PeOVzGygBwHz8teJk3uf26CxDLH696+4yhYohIY6lVZpLT4p1aeX2Z3mzVnkWn4i
-         4Wdxt4RTo4XuwhhWeOBwOMo38DHOfujANL8F3wZBKzCYToC6RHB/qGFfNhKWyyWObij/
-         L6KQ==
-X-Gm-Message-State: AOJu0YxoB6ERfVeiUmErNCZLiNynHyUjHsmd6sQQwuMCiJbjiHfvV10P
-	Aq5Hu6g9vS9ua4PMTVcJg0F6T4WqWLX0yOr7TY/qQ9lOHEFeLvwvKpogl61sYS8=
-X-Google-Smtp-Source: AGHT+IEhw6s1pS2VfA22BXnpQeWJC5uAZOEj3NPjFPfG9FpToVt7TF8T+6POBzJJ7OClzcaST60Xjg==
-X-Received: by 2002:adf:b319:0:b0:336:6d62:7647 with SMTP id j25-20020adfb319000000b003366d627647mr1345275wrd.5.1705650418658;
-        Thu, 18 Jan 2024 23:46:58 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id i6-20020adfb646000000b00337bc2176f6sm5800237wre.81.2024.01.18.23.46.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 23:46:58 -0800 (PST)
-Message-ID: <456eaa3a-7f0c-4b28-aeca-2af60475011a@linaro.org>
-Date: Fri, 19 Jan 2024 07:46:57 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZardnbwE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 636ADC433C7;
+	Fri, 19 Jan 2024 07:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705650553;
+	bh=H3Uf7Js0UOTDnU9yKusaLcwDSQM/Nh+Ict3ZoBItJfw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZardnbwEoHWHVe1huoYuqGjGy5RMTQ2xqcP/ggeD/uYY40AHqvma5Q8pJRCDUHTbT
+	 +NBWsSD4TRLpUKaainwQgZUqyhdKENDQriHmg5bNwAlh84Kx04wpUac6uxAq+p91CE
+	 WOgNClmK7U+Bt5q2VKlDMfxxHxsvZm3dsjw2e+cM+LOTrg7eCjqqL0bc7GpHDusHu7
+	 mwFza30HiIXeORgiJK6rpPlF0wU4j2Msx4bCK57AkIdN4BSe7SXNw8oBfIyqX6uHO4
+	 mEHvr5bCZbgDAoUwrS6QnBkJYTbwSEQqtfFU5NufqDwYGaNMESR8ezW9+oRQMuoCOs
+	 4llD1WaH6oxzw==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan@kernel.org>)
+	id 1rQjcv-0004VT-38;
+	Fri, 19 Jan 2024 08:49:22 +0100
+Date: Fri, 19 Jan 2024 08:49:21 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] ASoC: codecs: wsa883x: fix PA volume control
+Message-ID: <ZaopgcKTV0ePamsC@hovoldconsulting.com>
+References: <20240118165811.13672-1-johan+linaro@kernel.org>
+ <20240118165811.13672-2-johan+linaro@kernel.org>
+ <3494d23f-2a56-4f13-a619-e240d208d300@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] ASoC: codecs: wcd9335: drop unused gain hack
- remnant
-Content-Language: en-US
-To: Johan Hovold <johan+linaro@kernel.org>, Mark Brown <broonie@kernel.org>
-Cc: Banajit Goswami <bgoswami@quicinc.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240118165811.13672-1-johan+linaro@kernel.org>
- <20240118165811.13672-6-johan+linaro@kernel.org>
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240118165811.13672-6-johan+linaro@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3494d23f-2a56-4f13-a619-e240d208d300@linaro.org>
 
+On Fri, Jan 19, 2024 at 07:14:03AM +0000, Srinivas Kandagatla wrote:
+> On 18/01/2024 16:58, Johan Hovold wrote:
+> > The PA gain can be set in steps of 1.5 dB from -3 dB to 18 dB, that is,
+> > in fifteen levels.
+> > 
+> > Fix the range of the PA volume control to avoid having the first
+> > sixteen levels all map to -3 dB.
 
+> TBH, we really don't know what unsupported values map to w.r.t dB.
 
-On 18/01/2024 16:58, Johan Hovold wrote:
-> The vendor driver appears to be modifying the gain settings behind the
-> back of user space but these hacks never made it upstream except for
-> some essentially dead code that adds a constant zero to the current gain
-> setting on DAPM events.
+I've verified experimentally that all values in the range 0..16 map to
+the same lowest setting, and only at level 17 is there a perceivable
+difference in gain.
+
+And the datasheet you have access to describes the range as -3 to 18 dB.
+
+> > Note that level 0 (-3 dB) does not mute the PA so the mute flag should
+> > also not be set.
+> > 
+> > Fixes: cdb09e623143 ("ASoC: codecs: wsa883x: add control, dapm widgets and map")
+> > Cc: stable@vger.kernel.org      # 6.0
+> > Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> > ---
+> >   sound/soc/codecs/wsa883x.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
+> > index cb83c569e18d..32983ca9afba 100644
+> > --- a/sound/soc/codecs/wsa883x.c
+> > +++ b/sound/soc/codecs/wsa883x.c
+> > @@ -1098,7 +1098,7 @@ static int wsa_dev_mode_put(struct snd_kcontrol *kcontrol,
+> >   	return 1;
+> >   }
+> >   
+> > -static const DECLARE_TLV_DB_SCALE(pa_gain, -300, 150, -300);
+> > +static const DECLARE_TLV_DB_SCALE(pa_gain, -300, 150, 0);
+> >   
+> >   static int wsa883x_get_swr_port(struct snd_kcontrol *kcontrol,
+> >   				struct snd_ctl_elem_value *ucontrol)
+> > @@ -1239,7 +1239,7 @@ static const struct snd_soc_dapm_widget wsa883x_dapm_widgets[] = {
+> >   
+> >   static const struct snd_kcontrol_new wsa883x_snd_controls[] = {
+> >   	SOC_SINGLE_RANGE_TLV("PA Volume", WSA883X_DRE_CTL_1, 1,
+> > -			     0x0, 0x1f, 1, pa_gain),
+> > +			     0x1, 0xf, 1, pa_gain),
 > 
-> Note that the volume registers still need to be written after enabling
-> clocks in order for any prior updates to take effect.
+> gain field in register is Bit[5:1], so the max value of 0x1f is correct 
+> here. However the range of gains that it can actually support is only 0-15.
 > 
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
+> If we are artificially setting the max value of 0xf here, then somewhere 
+> we should ensure that Bit[5] is set to zero while programming the gain.
 
-lgtm,
+Good point, but the reset value for that bit is 0 so we should be good
+here.
 
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+I'll also update patch 2/5 so that we explicitly set this register on
+probe in the unlikely event that something else has left that bit set
+before Linux boots (and the powerdown at probe isn't sufficient).
+ 
+> Whatever the mixer control is exposing is clearly reflecting what 
+> hardware is supporting.
 
+No, not at all. The range exported to user space is all wrong and this
+breaks volume control in pulseaudio which expects the dB values to
+reflect the hardware.
 
---srini
->   sound/soc/codecs/wcd9335.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
-> index 43c648efd0d9..deb15b95992d 100644
-> --- a/sound/soc/codecs/wcd9335.c
-> +++ b/sound/soc/codecs/wcd9335.c
-> @@ -3033,7 +3033,6 @@ static int wcd9335_codec_enable_mix_path(struct snd_soc_dapm_widget *w,
->   {
->   	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
->   	u16 gain_reg;
-> -	int offset_val = 0;
->   	int val = 0;
->   
->   	switch (w->reg) {
-> @@ -3073,7 +3072,6 @@ static int wcd9335_codec_enable_mix_path(struct snd_soc_dapm_widget *w,
->   	switch (event) {
->   	case SND_SOC_DAPM_POST_PMU:
->   		val = snd_soc_component_read(comp, gain_reg);
-> -		val += offset_val;
->   		snd_soc_component_write(comp, gain_reg, val);
->   		break;
->   	case SND_SOC_DAPM_POST_PMD:
-> @@ -3294,7 +3292,6 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
->   	u16 gain_reg;
->   	u16 reg;
->   	int val;
-> -	int offset_val = 0;
->   
->   	if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT0 INTERP"))) {
->   		reg = WCD9335_CDC_RX0_RX_PATH_CTL;
-> @@ -3337,7 +3334,6 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
->   	case SND_SOC_DAPM_POST_PMU:
->   		wcd9335_config_compander(comp, w->shift, event);
->   		val = snd_soc_component_read(comp, gain_reg);
-> -		val += offset_val;
->   		snd_soc_component_write(comp, gain_reg, val);
->   		break;
->   	case SND_SOC_DAPM_POST_PMD:
+If changing the range is a concern (as Mark mentioned), we at least have
+to fix the dB values.
+
+And if this is something that may differ between the WSA883x variants
+currently handled by the driver then that needs to be taken into account
+too. I only have access to wsa8835 (and no docs, unlike you).
+
+Johan
