@@ -1,106 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CCB4CDE3;
-	Fri, 19 Jan 2024 11:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AD654BC1;
+	Fri, 19 Jan 2024 15:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705663615; cv=none; b=TCv8J6qaiLCuvDyuD5rKbdYP5aAkzH5CY1SmFuES2fX/3Akw7NtEsXNAlGFCV/EpyDWbmC38xn8gx7AyOaD0ZWwyy2JS8Re8yhXL4wE8xxPZK56DFgQkWnUG4uSWWL7eBnoUTsT+4MBDjFof9KemzNpoAV60sEPBDuaiC2RMErE=
+	t=1705678012; cv=none; b=QcltcyG5TmtdfozmR6ACeC9ww0JopL0/n26FQVJ1fw5oMM0LKOACmSSTi1NRw8Y0ozwpEPetE+k9sZq05FNApbjnsaM3rUyKtmAygrePSMlk1DUqHPM6FKzw7bgYbN/KBSR+TtGZox2fJyQNMwJXeGxp1b2jW8qNWwbAvqfYZEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705663615; c=relaxed/simple;
-	bh=HuYa0Hs5Af/qVxD25qBo9TBTPaafJMPziE92BqysBBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ChN4GSNM8P3eSqfFE9l7+zA8Nj0pIAahZol2XJkfR/VFazJKttYaTJ9lf+C+tdRvIX1QJshbhlKS+SrzrKIXRVlmXjy11ySRd9kX7ZCdbKb6+dChe9k1QJnCGZlKubK4J5eUMAXBU3KUHItjLTfzHaN8V8HlZB28HkxkUojNYjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3nxEPkA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705678012; c=relaxed/simple;
+	bh=X/xd67Fr3PvF8lGpTMnDOMiobvUDHSVg02IBNzMqNGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nJpEtpYTquozelyFTV6KSYvk1YcwQpZ8WAHUHQVXBN1ms4gsqa4TJmLzI2YcsrabdiGfdsNhntN9pjOrbM/2pntq7s7G8dQjaPbTC4oHuH8OGiPT4agIVlzAkDeUIb9A0YuAebvGW8eBdyLia6VVP/ZZ4478XqeMyiBSVvAqdzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Smz9BHF+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3nxEPkA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28949C433B2;
-	Fri, 19 Jan 2024 11:26:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Smz9BHF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD31C43394;
+	Fri, 19 Jan 2024 15:26:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705663615;
-	bh=HuYa0Hs5Af/qVxD25qBo9TBTPaafJMPziE92BqysBBA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O3nxEPkA96L2O/NWjrzucPoxwhvHKV8dJJ77SyUattgWnQJGmC0BZiknQDuLdin16
-	 KzErDIsOJoMpmCI3lijwVL7Z5dHTJ0VfyjQjAtw43CX99KQYMvPUbEnSZQGJRiqMph
-	 Jvi0C3orFIfEwnwF8lpyUVk6acPb5cgoqfA1vigp6dL8eyXLorQ07wpci4/DJqCG7w
-	 vOZHcaKJqymR/pCEVqA5i6iancpP6k7+id8e+i4CkvbHFRgn/ltm9c3nIo8yuPZ3Rp
-	 xfus0YgQjQfSKZ1KO5JP4S3hcUH7fAH4BtnfKjXc/jr8HrmJH17fAbRqjL7AQqUVg3
-	 xxXOCKdrk3U7g==
+	s=k20201202; t=1705678011;
+	bh=X/xd67Fr3PvF8lGpTMnDOMiobvUDHSVg02IBNzMqNGw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Smz9BHF+haNafasg95JGgtPJYBBHgYlY+/gV8naiOscTv4jh4wJ879u65MnftYq6a
+	 HAUOFwKH1cDjAP5MHxOW36tw5KQInht3bZQ1BFVITR9Yzm9vXVmKVdow6S4SYtSqgK
+	 5P9fluDHo1/AH/VYLojyr6pEutOZvF53QmF8Xmc9bryktDxd8fom/RgoGR4lzDD5cG
+	 FPvOP3M7jePnZwQt9kQ2nPtv/mNf/zvOtRaTKCxC8PanmTYg2fMFrtE0YKiXhr1Y2l
+	 +80VKww/UwvBAfTpHO80c6pItmi8s1lvnZOvi9cprM9bVTGTVr9tUZgiS4FYb1QGtl
+	 TxW5g3tXcywrw==
 Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1rQn1b-0001xL-2w;
-	Fri, 19 Jan 2024 12:27:03 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	(envelope-from <johan@kernel.org>)
+	id 1rQqlo-0004QS-00;
+	Fri, 19 Jan 2024 16:27:00 +0100
+Date: Fri, 19 Jan 2024 16:26:59 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Banajit Goswami <bgoswami@quicinc.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Date: Fri, 19 Jan 2024 12:24:18 +0100
-Message-ID: <20240119112420.7446-3-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240119112420.7446-1-johan+linaro@kernel.org>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
+Message-ID: <ZaqUw-9XulJGKH7v@hovoldconsulting.com>
 References: <20240119112420.7446-1-johan+linaro@kernel.org>
+ <20240119112420.7446-3-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240119112420.7446-3-johan+linaro@kernel.org>
 
-The UCM configuration for the Lenovo ThinkPad X13s has up until now
-been setting the speaker PA volume to the minimum -3 dB when enabling
-the speakers, but this does not prevent the user from increasing the
-volume further.
+On Fri, Jan 19, 2024 at 12:24:18PM +0100, Johan Hovold wrote:
+> The UCM configuration for the Lenovo ThinkPad X13s has up until now
+> been setting the speaker PA volume to the minimum -3 dB when enabling
+> the speakers, but this does not prevent the user from increasing the
+> volume further.
+> 
+> Limit the digital gain and PA volumes to a combined -3 dB in the machine
+> driver to reduce the risk of speaker damage until we have active speaker
+> protection in place (or higher safe levels have been established).
+> 
+> Note that the PA volume limit cannot be set lower than 0 dB or
+> PulseAudio gets confused when the first 16 levels all map to -3 dB.
 
-Limit the digital gain and PA volumes to a combined -3 dB in the machine
-driver to reduce the risk of speaker damage until we have active speaker
-protection in place (or higher safe levels have been established).
+I tracked the down the root cause for this, which appears to be a bug
+(feature) in pulseaudio that causes it to reject the dB range if the
+maximum is negative:
 
-Note that the PA volume limit cannot be set lower than 0 dB or
-PulseAudio gets confused when the first 16 levels all map to -3 dB.
+	https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/447
 
-Also note that this will probably need to be generalised using
-machine-specific limits, but a common limit should do for now.
+This happened to work with v3 which limited the PA volume to the single
+lowest setting, but would similarly break if anyone wants to set a -1.5
+dB limit.
 
-Cc: stable@vger.kernel.org	# 6.5
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- sound/soc/qcom/sc8280xp.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index ed4bb551bfbb..b7fd503a1666 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -32,12 +32,14 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	case WSA_CODEC_DMA_RX_0:
- 	case WSA_CODEC_DMA_RX_1:
- 		/*
--		 * set limit of 0dB on Digital Volume for Speakers,
--		 * this can prevent damage of speakers to some extent without
--		 * active speaker protection
-+		 * Set limit of -3 dB on Digital Volume and 0 dB on PA Volume
-+		 * to reduce the risk of speaker damage until we have active
-+		 * speaker protection in place.
- 		 */
--		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 84);
--		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 84);
-+		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 81);
-+		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 81);
-+		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 17);
-+		snd_soc_limit_volume(card, "SpkrRight PA Volume", 17);
- 		break;
- 	default:
- 		break;
--- 
-2.41.0
-
+Johan
