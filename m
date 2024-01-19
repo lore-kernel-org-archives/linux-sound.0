@@ -1,109 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A7E24B2C;
-	Fri, 19 Jan 2024 08:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9514CB46;
+	Fri, 19 Jan 2024 11:26:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705651804; cv=none; b=Q+Ii7B06WPpPUHYej/rIc9y5csrPyQbr0tWcwuRQPXMNw9GAHOS/GBhjX1NPQAzguDSHkxctR4UrdnN2V1O/byynEF8NPuJLoEcjvN/ZB5nsslvmlozbZ5zis4x8SFWE7HDlM7x5K+xHarFO6TfzDtIxrGfaRKJAiQVaqATEuLA=
+	t=1705663615; cv=none; b=dDcIPBjBMpESYlMzFViyDE/SGuQ9mrgPEdODA2o3T2WfdAxybdzTy2LKV1gzBREphluuAluOPArljebsNqoZ03M+L1t682wv8iHE18oZ35iy5Y1LKst0QevkUgk55wQZIk+nTFWw4rkFwZqYVBewZiYK+hxKKQYn650MqFLmvBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705651804; c=relaxed/simple;
-	bh=sweX0lH8wV/qg+9x/p+aQgBhduMihO9OquglHodEy6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M/28jlak8t5V1qwbz5/ldOIFqLa6XvlxkE16vmGfkq6jrGgBtHeE9JmTx9iv29ycRNpR7xubwx6rZ3cDN56IQGXjZJWoNg8fO7DIcTW+Vfpayj4RjUCLvA59rnrIAj4rMXr7hi6g3oU6LMnbaoIBcWE7z9MaX0UWUOmYlyxwB9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q1GJpxsh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705663615; c=relaxed/simple;
+	bh=PpFYWvpWvaKjfmTGZlQiejgPJGGJTyWgcH0t98eImGc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=li83hnXA6Xn+6JI5URQE+8QRqfeR429DgjCTaKKdj+HHIUDGua9Wcgw4jx2i70jc+0iAAlYf29IynORtquaU4Sg1nSRfcpYXd9B7F1JyirgZBbm3Y1hxAcDwSAaq/HsKiy6/+OFZSqpuBqyN4//ZeihTv+hQKW+ynD0WxptfhME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LOv3dWTn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q1GJpxsh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED20C433F1;
-	Fri, 19 Jan 2024 08:10:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LOv3dWTn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF41C433F1;
+	Fri, 19 Jan 2024 11:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705651804;
-	bh=sweX0lH8wV/qg+9x/p+aQgBhduMihO9OquglHodEy6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q1GJpxshVNXbcnh+rHok44XHEi1GbciwMQyriaMljWZFwGl4NuvANC2ciTKw6Q9cE
-	 hwlcSSozhnAvGMVhQpmBpaIIa7gknJZyCgOznuRK52AWLr+Wq3azpdsofOO/1WoYj7
-	 h354lyLNSg7ewFAH3Vbgdz4gQNifLukLdqTmIHC3KbWVwS/lBrGkSAAILf1AA5ESFk
-	 RDlrxeExrwTtT+aleDaGhX4sxKYlXyAOCVT+yH45ChkypZaIBM3rgMCRSmtbCxgt1Z
-	 h0N9d4RqiTT8gmzQkYknAJBH7NioLfYjp1wIrRKHVjK9ydtBcZISqi0eW68RAGeajL
-	 pRbtzTGNveEbg==
+	s=k20201202; t=1705663615;
+	bh=PpFYWvpWvaKjfmTGZlQiejgPJGGJTyWgcH0t98eImGc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LOv3dWTn/xun4+yxYIoHQJHUvUT9bpLoYo7/MsTt7I5e8n6ZfMVgF6SoiZNeggqpT
+	 rIPzMilJGJEVZ7ynlvccEVWcfpY1BUTsl9KGTnT3JvPPqrG5HgX6/7D9yCzMjh0mbP
+	 bcrUe0BhnGRqvP6NyuddgUVvnchYROjsi4rIiZKF1jFVijuxkuUmhR6nGWz2qxN9tJ
+	 CuEzKSKjMZWPqgTcxqE4uX9mBrfftWaUDURjCIf6K1VGL6kgRx7jlKp+hReKApr+31
+	 kxazD5OXJGQHij/bCzSFIHg7qdHehD8ejedFLFX+avr27SYERF0ghtFZIzqmS1ISPp
+	 3UVsXfHKTyBbg==
 Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rQjx7-0004be-0S;
-	Fri, 19 Jan 2024 09:10:13 +0100
-Date: Fri, 19 Jan 2024 09:10:13 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Mark Brown <broonie@kernel.org>,
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1rQn1c-0001xP-0G;
+	Fri, 19 Jan 2024 12:27:04 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Banajit Goswami <bgoswami@quicinc.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] ASoC: codecs: lpass-wsa-macro: fix compander
- volume hack
-Message-ID: <ZaouZXdxWv3oahDl@hovoldconsulting.com>
-References: <20240118165811.13672-1-johan+linaro@kernel.org>
- <20240118165811.13672-5-johan+linaro@kernel.org>
- <6d8f77e2-7257-4a6c-96de-fd3f1c821b51@linaro.org>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH v4 4/4] ASoC: codecs: wcd9335: drop unused gain hack remnant
+Date: Fri, 19 Jan 2024 12:24:20 +0100
+Message-ID: <20240119112420.7446-5-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20240119112420.7446-1-johan+linaro@kernel.org>
+References: <20240119112420.7446-1-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6d8f77e2-7257-4a6c-96de-fd3f1c821b51@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 19, 2024 at 07:45:45AM +0000, Srinivas Kandagatla wrote:
-> On 18/01/2024 16:58, Johan Hovold wrote:
-> > The LPASS WSA macro codec driver is updating the digital gain settings
-> > behind the back of user space on DAPM events if companding has been
-> > enabled.
-> > 
-> > As compander control is exported to user space, this can result in the
-> > digital gain setting being incremented (or decremented) every time the
-> > sound server is started and the codec suspended depending on what the
-> > UCM configuration looks like.
-> > 
-> > Soon enough playback will become distorted (or too quiet).
-> > 
-> > This is specifically a problem on the Lenovo ThinkPad X13s as this
-> > bypasses the limit for the digital gain setting that has been set by the
-> > machine driver.
-> > 
-> > Fix this by simply dropping the compander gain offset hack. If someone
-> > cares about modelling the impact of the compander setting this can
-> > possibly be done by exporting it as a volume control later.
-> > 
-> > Note that the volume registers still need to be written after enabling
-> > clocks in order for any prior updates to take effect.
-> > 
-> > Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
-> > Cc: stable@vger.kernel.org      # 5.11
-> > Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > ---
-> >   sound/soc/codecs/lpass-wsa-macro.c | 7 -------
-> >   1 file changed, 7 deletions(-)
-> > 
-> > diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-> > index 7e21cec3c2fb..6ce309980cd1 100644
-> > --- a/sound/soc/codecs/lpass-wsa-macro.c
-> > +++ b/sound/soc/codecs/lpass-wsa-macro.c
-> > @@ -1584,7 +1584,6 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
-> >   	u16 gain_reg;
-> >   	u16 reg;
-> >   	int val;
-> > -	int offset_val = 0;
-> 
-> TBH, as discussed in my previous review we should just remove 
-> spkr_gain_offset and associated code path.
+The vendor driver appears to be modifying the gain settings behind the
+back of user space but these hacks never made it upstream except for
+some essentially dead code that adds a constant zero to the current gain
+setting on DAPM events.
 
-I don't understand what you are referring to. Are you talking about the
-"ear_spkr_gain" perhaps?
+Note that the volume registers still need to be written after enabling
+clocks in order for any prior updates to take effect.
 
-I left that hack in place for now, as it's not currently an issue. It
-could perhaps be removed later.
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ sound/soc/codecs/wcd9335.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Johan
+diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
+index 43c648efd0d9..deb15b95992d 100644
+--- a/sound/soc/codecs/wcd9335.c
++++ b/sound/soc/codecs/wcd9335.c
+@@ -3033,7 +3033,6 @@ static int wcd9335_codec_enable_mix_path(struct snd_soc_dapm_widget *w,
+ {
+ 	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
+ 	u16 gain_reg;
+-	int offset_val = 0;
+ 	int val = 0;
+ 
+ 	switch (w->reg) {
+@@ -3073,7 +3072,6 @@ static int wcd9335_codec_enable_mix_path(struct snd_soc_dapm_widget *w,
+ 	switch (event) {
+ 	case SND_SOC_DAPM_POST_PMU:
+ 		val = snd_soc_component_read(comp, gain_reg);
+-		val += offset_val;
+ 		snd_soc_component_write(comp, gain_reg, val);
+ 		break;
+ 	case SND_SOC_DAPM_POST_PMD:
+@@ -3294,7 +3292,6 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
+ 	u16 gain_reg;
+ 	u16 reg;
+ 	int val;
+-	int offset_val = 0;
+ 
+ 	if (!(snd_soc_dapm_widget_name_cmp(w, "RX INT0 INTERP"))) {
+ 		reg = WCD9335_CDC_RX0_RX_PATH_CTL;
+@@ -3337,7 +3334,6 @@ static int wcd9335_codec_enable_interpolator(struct snd_soc_dapm_widget *w,
+ 	case SND_SOC_DAPM_POST_PMU:
+ 		wcd9335_config_compander(comp, w->shift, event);
+ 		val = snd_soc_component_read(comp, gain_reg);
+-		val += offset_val;
+ 		snd_soc_component_write(comp, gain_reg, val);
+ 		break;
+ 	case SND_SOC_DAPM_POST_PMD:
+-- 
+2.41.0
+
