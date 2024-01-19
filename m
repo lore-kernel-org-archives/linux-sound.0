@@ -1,58 +1,58 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDBDD518
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jan 2024 07:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD44DDD4
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jan 2024 07:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705649838; cv=none; b=rzQG6bVvtc3n0OvSvS25ve7hra/L8tl7IqX0AosIPqw31OYB0RvDE5izxEhTPjVLQRTWL7DRFPVD4QeS7CZjOVeOFqWJkrf5fTfScW6sj+Fc9aoYBgL/LqPf9SBRxHKKKz128Z4gabWQ6XXlpnka1uZ8AYq7LAk4AvPenHXA6Cw=
+	t=1705650351; cv=none; b=pIf1OTwPpYjBatpPSrGLJ53f+0NM0CGIoj90AJdI31wNiZLFdWUEWsgSyC+A1ZEAKAFGZfjWD/jmuoKD9urS9dd8k8a/jkdzT8vrJuebIOS5SBOr9Tq/e/HQHsWfQ7yYs8xx8naKfxzfGkJoc02vlUsgmNxAjKqUv23yWg2UfOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705649838; c=relaxed/simple;
-	bh=wnMv6grck/8JUvYsXcxoc9iHXWWkN00HXHmU8cOzKA8=;
+	s=arc-20240116; t=1705650351; c=relaxed/simple;
+	bh=Q4LIJG2y70z4o4cUYu3Cup/EpTdk2M6eRV1q2WORKVY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TFwtBokA8rWZogZVpBlhxWjlf5pS3Sr9eHj1GB19J/GTcNCL7GUIuJ/E1V/lRyOfOhRARMW9Dz3/9ZTBk7vVGyVJtJ7VZdLFaIMzxByhbbNq4OzhqF5Qe+rycAYaWWslkWOTHzQRVkP9O8YAT0DYv8fpl9M50nXNf5r5PXLthBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I5+KXAKQ; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:Content-Type; b=LfKprlZMzU+LD4Jn4j1qGzYrtvqkFpcnZvlEyJn8RRNoN7LawKD/FN1YtQsgQdWyJe77xXUy50xBXAU2WHSrNcPq07f5GsMTAR0pJMaRnVkZ0DCB/0HHZzeb6WOgkEexf1dMhvpSjjIMCfUV1ZwSrGN2aj4AjpIJuTB+8fA5hYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L1XXYsT8; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I5+KXAKQ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40e9ed20ffcso1768665e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jan 2024 23:37:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L1XXYsT8"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e80046246so2502865e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 18 Jan 2024 23:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705649835; x=1706254635; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705650347; x=1706255147; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gRVEGEADVnU1rj2ZsZLhkpAgQRXYe6tlf4fK3vtgXN8=;
-        b=I5+KXAKQik2A/4uaJFwGY78VJkT3ikShSZt9pp+gU0mn96D7lMYsT1IEABJZacB0Bk
-         uuxcQ2gR8sczJ8eV7KM9CH9rqVdKZ+MROm1xyCpuaZu0/B0mmgiaspPl84O+DEnrN3Hr
-         Rh5HkvwEpAaCZGtH17deI3J+MVD/dl9VXTTXVD+375JzbOoYztyCYhn529TONifCihvX
-         aw78e2LQtEOJcD+CnlRKNgHDVB4SbDmCMX3931jUSs8gasXkJM38qrvVWdpjq1EIyU8Q
-         xvNaDr+p/gp8PA0VvDu6BcK1rdpmkltlK0AeIrdzfp1tDJpbYBC1jyAJsKDv+9EKiW8U
-         p9yQ==
+        bh=axlxMn3mKxrZ+z0NjINZroTLytSc1sa1mWx0FPrBc1I=;
+        b=L1XXYsT8dYS1hVglZuzYBiRt8v747GwbqwRhuaFYVzMelUvha9CtC+vDeTp4n7jE4e
+         qUbfy9N5XcRmfx6KwC71y6/1Xt1wqVFVjye32tCddB/8c+QDMlsToQf4LwXNFeiIxRqc
+         zMWxMywgpESrmFNb78GkNqCWLB4bFz6wDur+Xw7EbILe9neMPYeDPFsYSBr45s4d8m92
+         XvI0gdD0x3RFuoyMYRTM/LJ1QgMaf1SZyEdWdh3ZNKav2+yj/J9qdf89SNs4LPpS9JwV
+         kZWSRBBf4ZVSBGk/QakX5rsogiKLc7GJ1C/Wu0hqFQmhEXwqkQYOUrO/wORIuaD9vDv2
+         1PHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705649835; x=1706254635;
+        d=1e100.net; s=20230601; t=1705650347; x=1706255147;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gRVEGEADVnU1rj2ZsZLhkpAgQRXYe6tlf4fK3vtgXN8=;
-        b=mVkmddQRWVDQwGb8yW4ItXS3mis+4oNoOEm0l/OE4KhusGuathPF3ewne6kD16lf0T
-         SbqKB3vlji5cMFMB3msXqBTOmN6zItrI5hVTYliGKzbITJhcvEk/SjrR+H6sjgd1ie46
-         6oH4FGFQjWb+EXj9dIKUq+0RnlZRioRYguzFMOIzrjZkKO5yd+oLEby7+D69VM7NGbt1
-         Cog2V1+DRap6hh/+QaABmlur9neX7IexZST5udNtJ2xbec7PS4PtOH/cyJ8HgBv4bAN+
-         aTTBHEigda5LH7XYeblQwXn+quugunClNr4W/qgj35x89IeamAg9ubUdTEuhRqzRovHt
-         1ADw==
-X-Gm-Message-State: AOJu0YzTBKsdXq437SpadhZwRDijf3rxCO5v31xvNndt0HzMcTwNykKs
-	UZO7usKWzapS9KsJs8rEIstsS4UFGXe73+0lAfiU3B6sKNxDWCzqD6K6xpPK76c=
-X-Google-Smtp-Source: AGHT+IGuGmikPGSsHZHY9FIadEyh4MkIKPIZmnPKnfXBLGan0KHUJRVxzqp0unv1usUGifgHR7kXog==
-X-Received: by 2002:a7b:cbd7:0:b0:40d:87eb:fa98 with SMTP id n23-20020a7bcbd7000000b0040d87ebfa98mr1344916wmi.28.1705649835643;
-        Thu, 18 Jan 2024 23:37:15 -0800 (PST)
+        bh=axlxMn3mKxrZ+z0NjINZroTLytSc1sa1mWx0FPrBc1I=;
+        b=XwAQ7uYQEOIcV9wdSjYaq2JPf3z9SpVm+PFNrACDkC4gVIoAupnPL/YHyzm/YorgxE
+         2OscjQsbScwuxMR1Q3Vu2ZxiWgS+mzu/QFoNLZKIz8qBSZgGQE4hfGzelOXCtnXa1AT4
+         74dUEujMoKZiujIpjTR23079RF3cwBVTd2bU2AMHWai6aIJeC78Xo4eocK3f00YJrv1D
+         T+zjmJZrpkNMoYrJe/EhiiBJfe1nUBuvuoYAfds/aabTWl7jptjkWurCFH1CdV8byrZm
+         vL65zvSTJLlXbgJUYj2UNqMv+2OQhSCKX2sFuJ5dhzu7JWLSAlBg9Axs9HeyzwC9AxjH
+         RSQQ==
+X-Gm-Message-State: AOJu0YyvkXUWhjQwD5cUZL9aEgssiaXJpIjgPyo+AvfmmbAg00MNPA2a
+	u83hOUiMd55zSDnI19H1GGkHhDSnF4uCRc4IW40OEh2d7Nay+RUNOqdvMhYW15U=
+X-Google-Smtp-Source: AGHT+IFDofa/AFb3zEbQS9BWqodcUqjTtN/sp/WtGUkdrc4wTm5faoFC+sDHVcwObz4Ml2d7rzEcEA==
+X-Received: by 2002:a05:600c:4248:b0:40e:4380:c8e5 with SMTP id r8-20020a05600c424800b0040e4380c8e5mr261612wmm.49.1705650346897;
+        Thu, 18 Jan 2024 23:45:46 -0800 (PST)
 Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id l22-20020a05600c4f1600b0040d6b91efd9sm31782328wmq.44.2024.01.18.23.37.14
+        by smtp.googlemail.com with ESMTPSA id i6-20020adfb646000000b00337bc2176f6sm5800237wre.81.2024.01.18.23.45.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 23:37:15 -0800 (PST)
-Message-ID: <ac6eb9f9-9a5c-472d-9a57-ee509d9589f9@linaro.org>
-Date: Fri, 19 Jan 2024 07:37:14 +0000
+        Thu, 18 Jan 2024 23:45:46 -0800 (PST)
+Message-ID: <6d8f77e2-7257-4a6c-96de-fd3f1c821b51@linaro.org>
+Date: Fri, 19 Jan 2024 07:45:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,7 +60,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] ASoC: qcom: sc8280xp: limit speaker volumes
+Subject: Re: [PATCH v3 4/5] ASoC: codecs: lpass-wsa-macro: fix compander
+ volume hack
 Content-Language: en-US
 To: Johan Hovold <johan+linaro@kernel.org>, Mark Brown <broonie@kernel.org>
 Cc: Banajit Goswami <bgoswami@quicinc.com>,
@@ -69,65 +70,83 @@ Cc: Banajit Goswami <bgoswami@quicinc.com>,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
 References: <20240118165811.13672-1-johan+linaro@kernel.org>
- <20240118165811.13672-4-johan+linaro@kernel.org>
+ <20240118165811.13672-5-johan+linaro@kernel.org>
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240118165811.13672-4-johan+linaro@kernel.org>
+In-Reply-To: <20240118165811.13672-5-johan+linaro@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 18/01/2024 16:58, Johan Hovold wrote:
-> The UCM configuration for the Lenovo ThinkPad X13s has up until now
-> been setting the speaker PA volume to -3 dB when enabling the speakers,
-> but this does not prevent the user from increasing the volume further.
+> The LPASS WSA macro codec driver is updating the digital gain settings
+> behind the back of user space on DAPM events if companding has been
+> enabled.
 > 
-> Limit the PA volume to -3 dB in the machine driver to reduce the risk of
-> speaker damage until we have active speaker protection in place.
+> As compander control is exported to user space, this can result in the
+> digital gain setting being incremented (or decremented) every time the
+> sound server is started and the codec suspended depending on what the
+> UCM configuration looks like.
 > 
-> Note that this will probably need to be generalised using
-> machine-specific limits, but a common limit should do for now.
+> Soon enough playback will become distorted (or too quiet).
 > 
-> Cc: stable@vger.kernel.org	# 6.5
-> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> This is specifically a problem on the Lenovo ThinkPad X13s as this
+> bypasses the limit for the digital gain setting that has been set by the
+> machine driver.
+> 
+> Fix this by simply dropping the compander gain offset hack. If someone
+> cares about modelling the impact of the compander setting this can
+> possibly be done by exporting it as a volume control later.
+> 
+> Note that the volume registers still need to be written after enabling
+> clocks in order for any prior updates to take effect.
+> 
+> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
+> Cc: stable@vger.kernel.org      # 5.11
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > ---
->   sound/soc/qcom/sc8280xp.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   sound/soc/codecs/lpass-wsa-macro.c | 7 -------
+>   1 file changed, 7 deletions(-)
 > 
-> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-> index ed4bb551bfbb..a19bfa354af8 100644
-> --- a/sound/soc/qcom/sc8280xp.c
-> +++ b/sound/soc/qcom/sc8280xp.c
-> @@ -32,12 +32,14 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
->   	case WSA_CODEC_DMA_RX_0:
->   	case WSA_CODEC_DMA_RX_1:
->   		/*
-> -		 * set limit of 0dB on Digital Volume for Speakers,
-> -		 * this can prevent damage of speakers to some extent without
-> -		 * active speaker protection
-> +		 * Set limit of 0 dB on Digital Volume and -3 dB on PA Volume
-> +		 * to reduce the risk of speaker damage until we have active
-> +		 * speaker protection in place.
+> diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+> index 7e21cec3c2fb..6ce309980cd1 100644
+> --- a/sound/soc/codecs/lpass-wsa-macro.c
+> +++ b/sound/soc/codecs/lpass-wsa-macro.c
+> @@ -1584,7 +1584,6 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
+>   	u16 gain_reg;
+>   	u16 reg;
+>   	int val;
+> -	int offset_val = 0;
 
-I would prefer a 0dB here instead of -3dB, this could become issue if we 
-are testing speakers without any pluseaudio or any software 
-amplification. ex: console
+TBH, as discussed in my previous review we should just remove 
+spkr_gain_offset and associated code path.
 
 
->   		 */
->   		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 84);
->   		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 84);
-> +		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 1);
-> +		snd_soc_limit_volume(card, "SpkrRight PA Volume", 1)
+--srini
 
-It would be nice to consider using component->name_prefix here.
-
-
-thanks,
-srini
-;
-
->   		break;
->   	default:
->   		break;
+>   	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+>   
+>   	if (w->shift == WSA_MACRO_COMP1) {
+> @@ -1623,10 +1622,8 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
+>   					CDC_WSA_RX1_RX_PATH_MIX_SEC0,
+>   					CDC_WSA_RX_PGA_HALF_DB_MASK,
+>   					CDC_WSA_RX_PGA_HALF_DB_ENABLE);
+> -			offset_val = -2;
+>   		}
+>   		val = snd_soc_component_read(component, gain_reg);
+> -		val += offset_val;
+>   		snd_soc_component_write(component, gain_reg, val);
+>   		wsa_macro_config_ear_spkr_gain(component, wsa,
+>   						event, gain_reg);
+> @@ -1654,10 +1651,6 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
+>   					CDC_WSA_RX1_RX_PATH_MIX_SEC0,
+>   					CDC_WSA_RX_PGA_HALF_DB_MASK,
+>   					CDC_WSA_RX_PGA_HALF_DB_DISABLE);
+> -			offset_val = 2;
+> -			val = snd_soc_component_read(component, gain_reg);
+> -			val += offset_val;
+> -			snd_soc_component_write(component, gain_reg, val);
+>   		}
+>   		wsa_macro_config_ear_spkr_gain(component, wsa,
+>   						event, gain_reg);
