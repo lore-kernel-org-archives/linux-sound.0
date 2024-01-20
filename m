@@ -1,63 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842515A0FC;
-	Fri, 19 Jan 2024 21:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E854AD512
+	for <linux-sound@vger.kernel.org>; Sat, 20 Jan 2024 09:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705699652; cv=none; b=P3z/K6ZUpeMf88wQ8J6lcEJ6dkDi1qMn1wgrrr01SjJmO7W+s27rasyCx4JGhpTUBRhc7/XnMcidg7hhDH/nni6JGNMhHg9KMkHJjFmiNnygrDuPCtZBB/H/I06cQhaQKnR4WHll8hUZEQRLzlPMADbzCSBYjXss4D8LtojQ+Yc=
+	t=1705743746; cv=none; b=mpRNF6NWxebVKOmedUAzF8YO/ljV+/dECGZXF+Df+3eN3wvQc+1mxIjMMWiHL3Gx7JDcRF2UJmyg+2Y352CgU3b+EpTgl3l/BUgEQD5fHnUtoig98BKanthigWBlW9ysWusoER6SQ214GIWwktj0gM/3DAdp6LIBeFM8YWiGZTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705699652; c=relaxed/simple;
-	bh=T334S9SnGeJYV1sT5w/JaZHRqzOFCM2N93MbL9Z3PyI=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=IEYvE3f8XZa9JInLgstGvaRjqRku+K52x9eHpEPQrkpdLFWu9nB9CNFDnoH/PusuCqKdVz4d3fLfTtGi5xEg+IiACixlYdLZW1qfO+WE/jWFV7oWREJ0X65hCBwBCHdS1HV3Jqabc8EhjPnFONZaeu2kcuT+QyvyIpWPvEUPdMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBrksAes; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705743746; c=relaxed/simple;
+	bh=1+N3YmtcT/VrFLO1mZria8sCoBSPBU080hcNWd3hcB8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5Bww2i7pLKQCOkYhBlx5ZssU+RMf4KkWjGcehNK1fA8RdQpe18rRMbTr5A0UTu0ZRR5iQuND9insyJBfHs2ySgJR1owkkZABH4eBfGNBm16gWbv94c0nnUWeukb+dYjHQOOUPIidfd3usGZFBgwd81Un/d407xPAqR20MLQUQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=kUTgD7yL; arc=none smtp.client-ip=80.12.242.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBrksAes"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D39EC43399;
-	Fri, 19 Jan 2024 21:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705699652;
-	bh=T334S9SnGeJYV1sT5w/JaZHRqzOFCM2N93MbL9Z3PyI=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=CBrksAesiw8rESvRFl68lQwfIirk0lau+IdgP9g+Wgi0VCOVZiIGDdiw2NxWDhRX0
-	 7WoMhTuFlvdelGf97Z1U4ZoaoOIxxs82I/eOpN5Bnc5eafdTmhmEM/iNLZSI95FhvB
-	 uHzn1oAOIr0rndENj5NoYux3mJXkVSrK9OgzzuFU7XRnmngmD4xYW2y6ve/BFobFzV
-	 ti8PwBRBDGlHi9jeAO93KiGvI2Xzq0VkK6xTzdzBWuqPsbR4ZJMBicfQT96pv9IiA4
-	 OX6XxB9jVXF4dqg8D8R/orQJtHhfABBohpytD70CjCofm5DpxykHFjc/R8MutBFZtk
-	 fWbuvknkKaHLw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4E502D8C96C;
-	Fri, 19 Jan 2024 21:27:32 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.8-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <875xzps3f0.wl-tiwai@suse.de>
-References: <875xzps3f0.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <875xzps3f0.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.8-rc1
-X-PR-Tracked-Commit-Id: fb3c007fde80d9d3b4207943e74c150c9116cead
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: a1fe5b6d0dce12893f40f0f3cc4e3885456155fb
-Message-Id: <170569965231.21908.13717268739359800811.pr-tracker-bot@kernel.org>
-Date: Fri, 19 Jan 2024 21:27:32 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="kUTgD7yL"
+Received: from fedora.home ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id R7rirLBJA6LbeR7rjrquA5; Sat, 20 Jan 2024 10:42:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1705743735;
+	bh=jqkuByAneJ1tG1xwrZ5rETs0q0pFU+XkKF5W5mqRRsk=;
+	h=From:To:Cc:Subject:Date;
+	b=kUTgD7yLyeXMn4n1wcBXLPiynU/tLOC2Nv9PXTX52BE35qxpILX+MwppzmzvxZDW+
+	 WZf7sAn5wNb7FHfuKvYgyEvZDAQ8lMyqX/qlRl1wu98svDV626XGe61Zk4Aajn3PKK
+	 7y+3mDMw5nlqJ2xqs+YQI+Y3Ei/Rm72tbnnni0Cjy5IbHm2kt5PRGEYDWPpnVii5EZ
+	 T/H93MbpVy+lWZrC7OSzJYFkxtzPbOIwg3ZyrEtSo/awvqmP1cb+saNd8QRLbrD6H5
+	 +xOImqeUeLjEPHnW1Lq30gZ/7WSSPRYeyU+W613E6EpgJZv/ljs5b0UxMDQZVUe9e9
+	 THA+q/8Zs8YwQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 20 Jan 2024 10:42:15 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: synth: Save a few bytes of memory when registering a 'snd_emux'
+Date: Sat, 20 Jan 2024 10:42:12 +0100
+Message-ID: <9e7b94c852a25ed4be5382e5e48a7dd77e8d4d1a.1705743706.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Fri, 19 Jan 2024 17:17:55 +0100:
+snd_emux_register() calls pass a string literal as the 'name' parameter.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.8-rc1
+So kstrdup_const() can be used instead of kfree() to avoid a memory
+allocation in such cases.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/a1fe5b6d0dce12893f40f0f3cc4e3885456155fb
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ include/sound/emux_synth.h | 2 +-
+ sound/synth/emux/emux.c    | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Thank you!
-
+diff --git a/include/sound/emux_synth.h b/include/sound/emux_synth.h
+index 1cc530434b97..3f7f365ed248 100644
+--- a/include/sound/emux_synth.h
++++ b/include/sound/emux_synth.h
+@@ -103,7 +103,7 @@ struct snd_emux {
+ 	int ports[SNDRV_EMUX_MAX_PORTS];	/* The ports for this device */
+ 	struct snd_emux_port *portptrs[SNDRV_EMUX_MAX_PORTS];
+ 	int used;	/* use counter */
+-	char *name;	/* name of the device (internal) */
++	const char *name;	/* name of the device (internal) */
+ 	struct snd_rawmidi **vmidi;
+ 	struct timer_list tlist;	/* for pending note-offs */
+ 	int timer_active;
+diff --git a/sound/synth/emux/emux.c b/sound/synth/emux/emux.c
+index 0006c3ddb51d..a82af9374852 100644
+--- a/sound/synth/emux/emux.c
++++ b/sound/synth/emux/emux.c
+@@ -85,7 +85,7 @@ int snd_emux_register(struct snd_emux *emu, struct snd_card *card, int index, ch
+ 		return -EINVAL;
+ 
+ 	emu->card = card;
+-	emu->name = kstrdup(name, GFP_KERNEL);
++	emu->name = kstrdup_const(name, GFP_KERNEL);
+ 	emu->voices = kcalloc(emu->max_voices, sizeof(struct snd_emux_voice),
+ 			      GFP_KERNEL);
+ 	if (emu->name == NULL || emu->voices == NULL)
+@@ -140,7 +140,7 @@ int snd_emux_free(struct snd_emux *emu)
+ 	snd_emux_delete_hwdep(emu);
+ 	snd_sf_free(emu->sflist);
+ 	kfree(emu->voices);
+-	kfree(emu->name);
++	kfree_const(emu->name);
+ 	kfree(emu);
+ 	return 0;
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
