@@ -1,249 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56CB5FB82;
-	Mon, 22 Jan 2024 15:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53AD46B9B;
+	Mon, 22 Jan 2024 15:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935741; cv=none; b=H/Z8KMYVo/c1ZnnhMBaCfLcOagNqOcTu5UVrBySx5jSywqanSfhBSv4S5veOOMIA3X2Cu+iaRWnXvJISTsuKIq/lIcjLvhqBQtO60jhHLSDT98aAPrUzlIV0mEOyTxabz7O0dpf7MNq5MEmPi/jjxdCJwv+juJwWkGEbYWqiLJ4=
+	t=1705935782; cv=none; b=JjPeGHA9fMTzYque9MvDCViV+Eh7hHMHH2FkzssVjWX2Z4z68i7CYUmwi/gFhODJlRFiNwnmi0JsPs0Vc76MpJrcx/rdGg6yuE2+q/UcdgtiHfDelmAiF0JtxtP3m5GWyQAhsjZsMv3M2XNkxXAW9Y39qFZfRN3njCniFOWjmmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935741; c=relaxed/simple;
-	bh=v5lblB5HIWBpKL1xZFHrgqsw1lO2Xc8IWd4GEe+xRJY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EeFglPLPFAdrukT9sGK+6UVSOsA0AV6EYzLWYx7s+7Hoyqe66olOsrYCtF/ksGvoxcBr0zlDzcR062pMa0A26xqVs19Gq3G62t47ZBUojCgiVpWrVFB/j4sE4fkWY0tr3Od0hwkWS5aTbi2CHYY4MlL+8zhlqNcqh/sKf+dFMf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ptZgbpBx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705935782; c=relaxed/simple;
+	bh=SQf3HCTG9nGeUY31xrUKwFz3cZXNrJIrlswKVlLqEiM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bZQmPOUU1A2EAd1WDZdziub4ViXjksoFQ0TBnHUXMotapikyUIZv6Ry09tlCk+imDlcBuqaVJpJ+PgXBq3NsueFwFkgz+9ZRjMMgLkQzFcVWUVOiAenaXc3LlIYQ9FVnQkR1S15q6GPckuOSeuw7tSqhp3+p7PeRRSQRRq8bOp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=bjFtEG/P; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ptZgbpBx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE86C43142;
-	Mon, 22 Jan 2024 15:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705935741;
-	bh=v5lblB5HIWBpKL1xZFHrgqsw1lO2Xc8IWd4GEe+xRJY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ptZgbpBxD9ZoZCFCoNNS1xjCCBh9/oFuj55MlYwtA3lIXzQPBoE/8hJ4tnIAeeeXP
-	 62udfkGJQia1OaeO8a2eF+D/fJEyxGN2klv+T2XMuD/kBhfQ0ylhZRu+nplj/UVmaA
-	 u31eZk/qlc9HSasjVu5OwO0jx+N0kwliInRxZusHSxBh7RGU+1eG27ZHWsYNaspbEc
-	 yjZqXdJG+Xs/erUZlQ5y2fpWBS4GYJq52yRfNJ2R8ffhiBba/UuiUVsRaxfodXmZ2M
-	 WWyAN4YnXTAmUGUPrLU3UH6dqkt1SSBxZYdQ4klHHHi0HE8nXv8dtYYaOMSSqB8HQ0
-	 ioHqueXTsWRFw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: bo liu <bo.liu@senarytech.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 85/88] ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
-Date: Mon, 22 Jan 2024 09:51:58 -0500
-Message-ID: <20240122145608.990137-85-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
-References: <20240122145608.990137-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="bjFtEG/P"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40M5k6nu030313;
+	Mon, 22 Jan 2024 09:02:32 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=0
+	mPLhPK6fWPpvy8GLu7GR7nSQ3cSYPV0tcLCns0FbBg=; b=bjFtEG/PKALsZBM41
+	t96ASCeK0uTEF3J4zRfPJbUYzJ8p72ykL5/JwoIfcELfMXUb2KDPpDLtrVgFFmvA
+	n8pjGiinAEA9qY1ybIjdKv7kJIvFb/LSwm8f8PSQzmzVKHyzluWl8H1RzoIK77bT
+	QESYfLEDMKikMSUcjD/n4VuyRUvvci5MtHliDgXjo5JSMJXDZ4E70+x+XguqTxFY
+	+FUP53PBVovepA+B35UazteitlP3TEw+BTuMHQfw+2myLBCX4EGz1tJRNhB/EkD4
+	BoLoQhMBLQYNf2LKFg+rGgzBiRxqZSOJlZoWQ6TGyqqvD2nixnpjDUdL/vBxaxUN
+	Ierdg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vrcf32k5g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Jan 2024 09:02:30 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 22 Jan
+ 2024 15:01:57 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 22 Jan 2024 15:01:57 +0000
+Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C5C6511CC;
+	Mon, 22 Jan 2024 15:01:57 +0000 (UTC)
+From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Cezary Rojewski <cezary.rojewski@intel.com>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>,
+        Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Maciej Strozek
+	<mstrozek@opensource.cirrus.com>
+Subject: [PATCH] ASoC: Intel: mtl-match: Add cs42l43_l0 cs35l56_l23 for MTL
+Date: Mon, 22 Jan 2024 15:01:56 +0000
+Message-ID: <20240122150156.68983-1-mstrozek@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: W96pIoV5lf3ndjQOFSHOoXeQrBWQTuJU
+X-Proofpoint-GUID: W96pIoV5lf3ndjQOFSHOoXeQrBWQTuJU
+X-Proofpoint-Spam-Reason: safe
 
-From: bo liu <bo.liu@senarytech.com>
-
-[ Upstream commit 7aeb259086487417f0fecf66e325bee133e8813a ]
-
-When OMTP headset plugin the headset jack of CX8070 and SN6160 sound cards,
-the headset type detection circuit will recognize the headset type as CTIA.
-At this point, plugout and plugin the headset will get the correct headset
-type as OMTP.
-The reason for the failure of headset type recognition is that the sound
-card creation will enable the VREF voltage of the headset mic, which
-interferes with the headset type automatic detection circuit. Plugout and
-plugin the headset will restart the headset detection and get the correct
-headset type.
-The patch is disable the VREF voltage when the headset is not present, and
-will enable the VREF voltage when the headset is present.
-
-Signed-off-by: bo liu <bo.liu@senarytech.com>
-Link: https://lore.kernel.org/r/20240108110235.3867-1-bo.liu@senarytech.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 ---
- sound/pci/hda/patch_conexant.c | 115 ++++++++++++++++++++++++++++++++-
- 1 file changed, 113 insertions(+), 2 deletions(-)
+ .../intel/common/soc-acpi-intel-mtl-match.c   | 56 +++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index a889cccdd607..e8819e8a9876 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -21,6 +21,12 @@
- #include "hda_jack.h"
- #include "hda_generic.h"
- 
-+enum {
-+	CX_HEADSET_NOPRESENT = 0,
-+	CX_HEADSET_PARTPRESENT,
-+	CX_HEADSET_ALLPRESENT,
-+};
-+
- struct conexant_spec {
- 	struct hda_gen_spec gen;
- 
-@@ -42,7 +48,8 @@ struct conexant_spec {
- 	unsigned int gpio_led;
- 	unsigned int gpio_mute_led_mask;
- 	unsigned int gpio_mic_led_mask;
--
-+	unsigned int headset_present_flag;
-+	bool is_cx8070_sn6140;
+diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+index feb12c6c85d1..625f991b1ad4 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+@@ -377,6 +377,36 @@ static const struct snd_soc_acpi_adr_device cs35l56_2_adr[] = {
+ 	}
  };
  
- 
-@@ -164,6 +171,27 @@ static void cxt_init_gpio_led(struct hda_codec *codec)
- 	}
- }
- 
-+static void cx_fixup_headset_recog(struct hda_codec *codec)
-+{
-+	unsigned int mic_persent;
-+
-+	/* fix some headset type recognize fail issue, such as EDIFIER headset */
-+	/* set micbiasd output current comparator threshold from 66% to 55%. */
-+	snd_hda_codec_write(codec, 0x1c, 0, 0x320, 0x010);
-+	/* set OFF voltage for DFET from -1.2V to -0.8V, set headset micbias registor
-+	 * value adjustment trim from 2.2K ohms to 2.0K ohms.
-+	 */
-+	snd_hda_codec_write(codec, 0x1c, 0, 0x3b0, 0xe10);
-+	/* fix reboot headset type recognize fail issue */
-+	mic_persent = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
-+	if (mic_persent & AC_PINSENSE_PRESENCE)
-+		/* enable headset mic VREF */
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
-+	else
-+		/* disable headset mic VREF */
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
-+}
-+
- static int cx_auto_init(struct hda_codec *codec)
- {
- 	struct conexant_spec *spec = codec->spec;
-@@ -174,6 +202,9 @@ static int cx_auto_init(struct hda_codec *codec)
- 	cxt_init_gpio_led(codec);
- 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
- 
-+	if (spec->is_cx8070_sn6140)
-+		cx_fixup_headset_recog(codec);
-+
- 	return 0;
- }
- 
-@@ -192,6 +223,77 @@ static void cx_auto_free(struct hda_codec *codec)
- 	snd_hda_gen_free(codec);
- }
- 
-+static void cx_process_headset_plugin(struct hda_codec *codec)
-+{
-+	unsigned int val;
-+	unsigned int count = 0;
-+
-+	/* Wait headset detect done. */
-+	do {
-+		val = snd_hda_codec_read(codec, 0x1c, 0, 0xca0, 0x0);
-+		if (val & 0x080) {
-+			codec_dbg(codec, "headset type detect done!\n");
-+			break;
-+		}
-+		msleep(20);
-+		count++;
-+	} while (count < 3);
-+	val = snd_hda_codec_read(codec, 0x1c, 0, 0xcb0, 0x0);
-+	if (val & 0x800) {
-+		codec_dbg(codec, "headset plugin, type is CTIA\n");
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
-+	} else if (val & 0x400) {
-+		codec_dbg(codec, "headset plugin, type is OMTP\n");
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
-+	} else {
-+		codec_dbg(codec, "headphone plugin\n");
++static const struct snd_soc_acpi_adr_device cs35l56_2_r_adr[] = {
++	{
++		.adr = 0x00023301FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP3"
++	},
++	{
++		.adr = 0x00023201FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_3_endpoint,
++		.name_prefix = "AMP4"
 +	}
-+}
++};
 +
-+static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
-+{
-+	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
-+	struct conexant_spec *spec = codec->spec;
-+
-+	/* In cx8070 and sn6140, the node 16 can only be config to headphone or disabled,
-+	 * the node 19 can only be config to microphone or disabled.
-+	 * Check hp&mic tag to process headset pulgin&plugout.
-+	 */
-+	phone_tag = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
-+	mic_tag = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
-+	if ((phone_tag & (res >> AC_UNSOL_RES_TAG_SHIFT)) ||
-+	    (mic_tag & (res >> AC_UNSOL_RES_TAG_SHIFT))) {
-+		phone_present = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_PIN_SENSE, 0x0);
-+		if (!(phone_present & AC_PINSENSE_PRESENCE)) {/* headphone plugout */
-+			spec->headset_present_flag = CX_HEADSET_NOPRESENT;
-+			snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
-+			return;
-+		}
-+		if (spec->headset_present_flag == CX_HEADSET_NOPRESENT) {
-+			spec->headset_present_flag = CX_HEADSET_PARTPRESENT;
-+		} else if (spec->headset_present_flag == CX_HEADSET_PARTPRESENT) {
-+			mic_persent = snd_hda_codec_read(codec, 0x19, 0,
-+							 AC_VERB_GET_PIN_SENSE, 0x0);
-+			/* headset is present */
-+			if ((phone_present & AC_PINSENSE_PRESENCE) &&
-+			    (mic_persent & AC_PINSENSE_PRESENCE)) {
-+				cx_process_headset_plugin(codec);
-+				spec->headset_present_flag = CX_HEADSET_ALLPRESENT;
-+			}
-+		}
++static const struct snd_soc_acpi_adr_device cs35l56_3_l_adr[] = {
++	{
++		.adr = 0x00033001fa355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00033101fa355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
++		.name_prefix = "AMP2"
 +	}
-+}
++};
 +
-+static void cx_jack_unsol_event(struct hda_codec *codec, unsigned int res)
-+{
-+	struct conexant_spec *spec = codec->spec;
-+
-+	if (spec->is_cx8070_sn6140)
-+		cx_update_headset_mic_vref(codec, res);
-+
-+	snd_hda_jack_unsol_event(codec, res);
-+}
-+
- #ifdef CONFIG_PM
- static int cx_auto_suspend(struct hda_codec *codec)
- {
-@@ -205,7 +307,7 @@ static const struct hda_codec_ops cx_auto_patch_ops = {
- 	.build_pcms = snd_hda_gen_build_pcms,
- 	.init = cx_auto_init,
- 	.free = cx_auto_free,
--	.unsol_event = snd_hda_jack_unsol_event,
-+	.unsol_event = cx_jack_unsol_event,
- #ifdef CONFIG_PM
- 	.suspend = cx_auto_suspend,
- 	.check_power_status = snd_hda_gen_check_power_status,
-@@ -1042,6 +1144,15 @@ static int patch_conexant_auto(struct hda_codec *codec)
- 	codec->spec = spec;
- 	codec->patch_ops = cx_auto_patch_ops;
+ static const struct snd_soc_acpi_link_adr rt5682_link2_max98373_link0[] = {
+ 	/* Expected order: jack -> amp */
+ 	{
+@@ -554,6 +584,26 @@ static const struct snd_soc_acpi_link_adr mtl_cs42l43_cs35l56[] = {
+ 	{}
+ };
  
-+	/* init cx8070/sn6140 flag and reset headset_present_flag */
-+	switch (codec->core.vendor_id) {
-+	case 0x14f11f86:
-+	case 0x14f11f87:
-+		spec->is_cx8070_sn6140 = true;
-+		spec->headset_present_flag = CX_HEADSET_NOPRESENT;
-+		break;
-+	}
++static const struct snd_soc_acpi_link_adr cs42l43_link0_cs35l56_link2_link3[] = {
++	/* Expected order: jack -> amp */
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l43_0_adr),
++		.adr_d = cs42l43_0_adr,
++	},
++	{
++		.mask = BIT(2),
++		.num_adr = ARRAY_SIZE(cs35l56_2_r_adr),
++		.adr_d = cs35l56_2_r_adr,
++	},
++	{
++		.mask = BIT(3),
++		.num_adr = ARRAY_SIZE(cs35l56_3_l_adr),
++		.adr_d = cs35l56_3_l_adr,
++	},
++	{}
++};
 +
- 	cx_auto_parse_eapd(codec);
- 	spec->gen.own_eapd_ctl = 1;
- 
+ /* this table is used when there is no I2S codec present */
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
+ 	/* mockup tests need to be first */
+@@ -599,6 +649,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-mtl-rt1318-l12-rt714-l0.tplg"
+ 	},
++	{
++		.link_mask = BIT(0) | BIT(2) | BIT(3),
++		.links = cs42l43_link0_cs35l56_link2_link3,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-cs42l43-l0-cs35l56-l23.tplg",
++	},
+ 	{
+ 		.link_mask = GENMASK(2, 0),
+ 		.links = mtl_cs42l43_cs35l56,
 -- 
-2.43.0
+2.34.1
 
