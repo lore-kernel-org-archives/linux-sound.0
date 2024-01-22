@@ -1,46 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FCC145B38;
-	Mon, 22 Jan 2024 15:17:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3561814901C;
+	Mon, 22 Jan 2024 15:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936627; cv=none; b=qPbMPbeWM5oDYtf3QAr69t3fWW2rgoA5Mj7PaqE4zo2py4/rCwoxd23pKtkCZ6joBUjpXFP9byuDUWBwLZ399P+e7UInkDE2d20cGvTVui5WUojd9nj7EX+yEQLW1qlx41E3ofuyYQrOlvXTuS5oolT6r0k01Z9fmh7sw3UUPE4=
+	t=1705936650; cv=none; b=ZSo6wEe1yvC9HG9N/VF2UktncoyXWoNUaZhgPgrexbM8hsT9TFZbRGieGbWyODn5c+IzEwW8eFr5K9b6yq5I3KSr6q/joyIREjRTCydsS8RZOiY6tMoM5rZM3d93087Z0ETgmJ7gff3xH2/woi3CLvEyWTQx0VD8o8n9Ki7w+OA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936627; c=relaxed/simple;
-	bh=5G2vFEVxxjljbx2Tfhpnz8wRhi/UN3fGZcr43JDnvzk=;
+	s=arc-20240116; t=1705936650; c=relaxed/simple;
+	bh=SDhzb/QUr8R5tgrZEvlrjOq9Hm1fSVVzZ+B9W9gZ41E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mQLH6XMH4j+W+uGsnUERVhzqREbvfPn/3clexxSsOeBJgvrRyI5M4SRArnpWv2h25sQIN90CF1WFBqOD2QfOkIdux9SxSmbz+q/IcDsOJicXcMNp/QCG9P5rzfWXapGFxQ8MMbx0jm7FJxenQ0t1+HdIpiBlQ0TwHYtz+ag1ICI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYmtrNE7; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=hl7hgmr0loI5zGlvKrYqLQK0q60UFIZ3rPIe5FBxhLf9EI1sCum/NP8Nd+jTfjeN032Up4STy8vDmbQ4NIdTk9LzMINL771BeTsYSUB7TXykpCNdYUewstFWxBt+OhC5Xp5Doe1KM2UHuZU/3YDPUaMITskYHZwk7eSAzuDRUNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3Pxjmnb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYmtrNE7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D877EC433F1;
-	Mon, 22 Jan 2024 15:17:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3Pxjmnb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142E9C433F1;
+	Mon, 22 Jan 2024 15:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936627;
-	bh=5G2vFEVxxjljbx2Tfhpnz8wRhi/UN3fGZcr43JDnvzk=;
+	s=k20201202; t=1705936650;
+	bh=SDhzb/QUr8R5tgrZEvlrjOq9Hm1fSVVzZ+B9W9gZ41E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MYmtrNE7gUS83om+CGDp7+HuZFzFSh4eH20SmXk17KogQY8v6MTpcajQVpSZSt4tx
-	 C2WkrbLpkwe3Z9RBguCEgoWEdKKj9V+hcLknorB73RfhXMJ5FUz1H1NZk1SGuUNMun
-	 HsZxLp4zPObWKqk/d9ezis25Ei5BgLSw/Any+UdHK97P9Dp56KIHNwp8xg8iM2aJ6X
-	 wQvyMIWZQfZTCbAnennDtYijCT2PtJwG3kN8hoBAXIEj/n1v3NZyDQcKXQ9g7TA7ct
-	 Cc58MmgYTzO+NZYnFo00dqRCKy879ZVUgxXzohQl8MDmgrZyp7T8Ywu//cwseu6Hfg
-	 rqtNI82q9qQLg==
+	b=C3Pxjmnb1McesR77ea1XKhBQjEhF5S58M3r7AGEKCCyjlkyxXTwsYhqQgl4qPeh8P
+	 iojZGycVa0ZaP+SfUI6PKu7NDOFpXSqvV8avcrnjH/BwMkIOxbX5TOfSc4a+WoXhqS
+	 IjZHiwImSC89Oe7aaidOrvXw+s2lVBw/E7vIUK8axrdxIwslLl2mZeXP3NWMR8HGlR
+	 ApBocbgysydUdhLf22K968E8qvE0gSpY3vsAVvA3HTX1+dxGevUwl1vH1chvXTp0mP
+	 69BVSzSBJtYMgYVmHPRgHWhpdrC8jm0mUdpa/mRv6gZuk6ELXlxAFdqmx+SFZPyGAd
+	 vSp1VPh8GLPMg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	corbet@lwn.net,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 03/24] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
-Date: Mon, 22 Jan 2024 10:16:17 -0500
-Message-ID: <20240122151659.997085-3-sashal@kernel.org>
+	maarten.lankhorst@linux.intel.com,
+	chenhuacai@kernel.org,
+	siyanteng@loongson.cn,
+	amadeuszx.slawinski@linux.intel.com,
+	jasontao@glenfly.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 13/24] ALSA: hda: Intel: add HDA_ARL PCI ID support
+Date: Mon, 22 Jan 2024 10:16:27 -0500
+Message-ID: <20240122151659.997085-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
 References: <20240122151659.997085-1-sashal@kernel.org>
@@ -50,40 +55,42 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.4.267
 Content-Transfer-Encoding: 8bit
 
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit 67c7666fe808c3a7af3cc6f9d0a3dd3acfd26115 ]
+[ Upstream commit a31014ebad617868c246d3985ff80d891f03711e ]
 
-The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
-argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
-SND_SOC_NOPM definition.
+Yet another PCI ID.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Link: https://lore.kernel.org/r/20231121120751.77355-1-cristian.ciocaltea@collabora.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Acked-by: Mark Brown <broonie@kernel.org>
+Link: https://lore.kernel.org/r/20231204212710.185976-3-pierre-louis.bossart@linux.intel.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/sound/soc/dapm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/hda/hda_intel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
-index 8e44107933ab..c3154ce6e1b2 100644
---- a/Documentation/sound/soc/dapm.rst
-+++ b/Documentation/sound/soc/dapm.rst
-@@ -234,7 +234,7 @@ corresponding soft power control. In this case it is necessary to create
- a virtual widget - a widget with no control bits e.g.
- ::
- 
--  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_DAPM_NOPM, 0, 0, NULL, 0),
-+  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_NOPM, 0, 0, NULL, 0),
- 
- This can be used to merge to signal paths together in software.
- 
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index 0bf2e2656721..cc9b8b6595c8 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -2527,6 +2527,8 @@ static const struct pci_device_id azx_ids[] = {
+ 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE},
+ 	{ PCI_DEVICE(0x8086, 0x4b58),
+ 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE},
++	/* Arrow Lake */
++	{ PCI_DEVICE_DATA(INTEL, HDA_ARL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
+ 	/* Broxton-P(Apollolake) */
+ 	{ PCI_DEVICE(0x8086, 0x5a98),
+ 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON },
 -- 
 2.43.0
 
