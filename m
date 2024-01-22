@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A513EA88
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 21:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E3E3EA88;
+	Mon, 22 Jan 2024 21:54:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705960450; cv=none; b=DjjMNsqg8m6OBauEHFd1h4SSYWIACrruDZa2i7FKICFAA5wVH73eMlxgHZzQIIfZ6eD51KmV0F4slb/70T6VrTh64KJzVvh3Egu+I2DYr4K8YXfrUc8rUmN3H9DC77n3Hnx0pq7GF+cpJ2Yhwb1BiRO8FGxcVH4+SpKr2FLCLUk=
+	t=1705960453; cv=none; b=P/dnGyfL/xUzYANApJL/6KHSd/cRw31U1b/aUPGh+PF29VoqviYVubowvEezqqvDucbtVwxybaeoM6LZq5i17hFL5ib/MXRVp+urxsPB0bAPgMAb5ypeD2UlyNTq2p7Ba5qSr6j/nTdjuM16z80u11KrpcZ3ZsaeBai1s2j/8Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705960450; c=relaxed/simple;
-	bh=EeDjJlLHY6iFwJ0hkXfNBUcyQNF3sYQV0gkXYFzIUKc=;
+	s=arc-20240116; t=1705960453; c=relaxed/simple;
+	bh=BRieAgJwMkt/iTyWFI9nEq4QZqxLiCR6cBex9CyHfOQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eosC9ou0m2t7BMExOQ720+8DltB0ewVh+oZgN4xXDQwRo/MHZr2abmnLutWXS4rliYIJoEEgpct9YZA4fSjEQjzveOalckwhQUFWAe+GozuJSbJUaE2rBAFC09YFtWpj+J3QXQ0wiUWmPdaaD7WUb00sJxrwRv/ST+PNcDIDu2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qRGmZsG0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aZ668aeozLJC3Ci//xDgEgSJ5lSX8P2L4YkH12TcLQhZZLl9rIOpfCwEAUM8MewaVeSY0Rf6Q7Zt8b+BzCIqdFN4HZ+2iXXacN5oE1Dgfsu0Llv9irOTZPFIZFshftr/5FdFv2ozE8cc+FzR7eYb0ARpiW3Km6j3y88i7cCO+dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFMxYfJE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qRGmZsG0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7988C43390;
-	Mon, 22 Jan 2024 21:54:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFMxYfJE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2FAC433C7;
+	Mon, 22 Jan 2024 21:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705960449;
-	bh=EeDjJlLHY6iFwJ0hkXfNBUcyQNF3sYQV0gkXYFzIUKc=;
+	s=k20201202; t=1705960452;
+	bh=BRieAgJwMkt/iTyWFI9nEq4QZqxLiCR6cBex9CyHfOQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qRGmZsG0n0pbfTQwQgnz+TuBnM66swIVaH9h0QJShmFy6RXhQ3MCiJEqcFiTghpN6
-	 8IcbTwBtX7aC0i64PwbrEYEyO2n+56CjGtSmPjoG7+AGL+lrmlqDMZBzhknrdkvrgD
-	 YHofstpgXpfYwO+a5m22RQdeVErn2nkceiKmqzTPaIsc6m0SJ0O0dRbD6Y7cQ1llN6
-	 d/NvJu7O4cAMl9gdUn1Wn6OoMsZQQ2wKZvAshAUlFEeEIshN2O82WzybfYWDGZDGAA
-	 0XqAoc7JEy+1Q2v3TsZaNUJjvBEV1WIhqWpvozyq5NYHTsTwN2mTyBmLKCb0ZsLyg1
-	 nqNHLFSwhv3jg==
+	b=mFMxYfJELjYH5Dlj+tft8baT0xvFrRJVwfz0ukzOX3pvbKCTV28CI3Ol5niEYon+A
+	 gKyGCuhxwmoHa/Jtmb9+Bns5pfwI4YHmHwSy6K0IeeQaGDqAXo2Mv7oLdgBl7hGYjH
+	 fqfeWZxyk0Tg9H4kPNFc3NOiP9rUww4f1R2zURmeEmR98yufIF+/nB6bHIhrwZfYuo
+	 0yQ9N4FwpENh0C3wQ51rm2/aE2bCcpd8Pv1flgmhz3RPtenVJ1Gl2Yo5aNVYYlECIo
+	 12nhCRM+cpkGCVnFaRIALO3DJsenrFTM6SrSK1/GRNncxXbD3p4FTLR3VkHP73eAiW
+	 cau/apoTscqUw==
 From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Uwe_Kleine-K=C3=83=C2=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Jarkko Nikula <jarkko.nikula@bitmer.com>, Jaroslav Kysela <perex@perex.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <871qaoy9q7.wl-kuninori.morimoto.gx@renesas.com>
-References: <871qaoy9q7.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 0/3] ASoC: use devm_snd_soc_register_card()
-Message-Id: <170596044638.161959.8281079331696349966.b4-ty@kernel.org>
-Date: Mon, 22 Jan 2024 21:54:06 +0000
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240119112420.7446-1-johan+linaro@kernel.org>
+References: <20240119112420.7446-1-johan+linaro@kernel.org>
+Subject: Re: [PATCH v4 0/4] ASoC: qcom: volume fixes and codec cleanups
+Message-Id: <170596045016.161959.16318695944363636291.b4-ty@kernel.org>
+Date: Mon, 22 Jan 2024 21:54:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,16 +48,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-5c066
 
-On Thu, 11 Jan 2024 00:50:09 +0000, Kuninori Morimoto wrote:
-> These are v2 to use devm_snd_soc_register_card() on ASoC.
+On Fri, 19 Jan 2024 12:24:16 +0100, Johan Hovold wrote:
+> To reduce the risk of speaker damage the PA gain needs to be limited on
+> machines like the Lenovo Thinkpad X13s until we have active speaker
+> protection in place.
 > 
-> v1 -> v2
-> 	- focus only simple case.
-> 
-> Kuninori Morimoto (3):
->   ASoC: ti: use devm_snd_soc_register_card()
->   ASoC: fsl: use devm_snd_soc_register_card()
->   ASoC: atmel: use devm_snd_soc_register_card()
+> Limit the gain to the current default setting provided by the UCM
+> configuration which most user have so far been using (due to a bug in
+> the configuration files which prevented hardware volume control [1]).
 > 
 > [...]
 
@@ -70,12 +65,14 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: ti: use devm_snd_soc_register_card()
-      commit: 98e9645a35993f8cfe99e36c9ba3e6a8c1783d78
-[2/3] ASoC: fsl: use devm_snd_soc_register_card()
-      commit: a4005007161c9df8fa4f44a776c624f68ec34a69
-[3/3] ASoC: atmel: use devm_snd_soc_register_card()
-      commit: 00352af2504a90381ec733237c3ef444032d5f1f
+[1/4] ASoC: codecs: wsa883x: fix PA volume control
+      (no commit info)
+[2/4] ASoC: qcom: sc8280xp: limit speaker volumes
+      commit: c481016bb4f8a9c059c39ac06e7b65e233a61f6a
+[3/4] ASoC: codecs: lpass-wsa-macro: fix compander volume hack
+      (no commit info)
+[4/4] ASoC: codecs: wcd9335: drop unused gain hack remnant
+      (no commit info)
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
