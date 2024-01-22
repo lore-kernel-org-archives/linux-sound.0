@@ -1,167 +1,123 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2F3CF48
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 13:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792474174B;
+	Mon, 22 Jan 2024 14:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705929271; cv=none; b=loT9UnPDCdK9s2o7fomAV8p9wf0nqtOqUh1yB3+qd90YfzOa+B94xNCtUyVSNenaZh+SccmqEaBwhtGHx2xF1DFK1Im8SdRpDodCawaDaKRxyhRO1G8nMi9IY/v7OdetVVQ19PvvGzEwD2WAdDLhQnS35fdy/aqgm2DIpwD/ga4=
+	t=1705935375; cv=none; b=cQYlD7uY+bKgSFlGXJupFxkK/WH4kpHPyQ+G+o+NnjeUb0tIm+Hx0thN7+3nz5tsCH5+7Uezk4o7bU/BkmmZURcFEjY++oE3XfoJx/dj8fqWY+RG/OHup5U/JxmOiD+2OBMmZPYyQ1gVbRZytVpwupWF11rCu9Bju36O+qyopFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705929271; c=relaxed/simple;
-	bh=K30LieWFbuwgszGRYmUn5+kXRPSalW7eeHMf+IDE62g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u+WROWS50mx+o2C0pCsjghvXkxO1G+o56v2D1wSQuuXtEbrROdOXFxQR4H4aa0UDp2hMJ0nT86Q67pf5igEiSVQPIzEhdUb3Qs4yHOWnHIXszB7m2IaGfQguWSKJQ7schdKWWmZqxwTI+pJue8OWPw+1jgNLeZpm4KIv3uhquL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GcJwKeAd; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1705935375; c=relaxed/simple;
+	bh=PQgYt7o+gUgE7d9c9OZP21qdogIkHbNi1GtRSNglT/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VNBaBhkbfr2r5oZzDe29lwnaIhc6cwqyTENsJT2y93EZaYNtpag+utyYJYPiVI3lYDGiqiIzXHa4Xz4MIy0WSKahrwDnZo+evqm8k4WlIWvVvhki8qfoLpNkjGrHOAaHX/5of+Kgn8O86NpHcy4KRqACrgOqRzvmMopaFwcYwzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZFTQT7X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GcJwKeAd"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e76109cdeso36278335e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 05:14:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705929268; x=1706534068; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wFt+s6kaAmxwMWrnZJi1q/AOQW4iNIVpOYVaOF/Qrwc=;
-        b=GcJwKeAdUEOFTE/j1rH+2Lcp24e4WKQ3YcWrO6xvEApdX6kLJl/epjk0T18heFJ8kd
-         01u5wSxmV73Y9eFimgJRQkeRu2xDRY3WAcY7hnSlUlqE7xDGlKv7I6fAP46eZMMYgBMX
-         gWDtQnY2aaAUQGY7Ecro0/mWmTpd9/oMI1v7W+vPMsyd1Hb/ZAj7utMyFWxgn+sjwkcZ
-         TmdJsRiI/l1yTHSsCjx4HLSBKH+kwg3IWCfjBoZzGLkph3puG2Bf6k3kjvQypIKGZV6/
-         0AppotIrdC7BRpMvy7y7HbuPoS7LfkBFEV5mN5nPFKLHqM2CFgIjWxEDPPWLIQQVk35y
-         600g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705929268; x=1706534068;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wFt+s6kaAmxwMWrnZJi1q/AOQW4iNIVpOYVaOF/Qrwc=;
-        b=vlOxURfTYN2cN7yh+9xIp/AZU5tObBTdMectzMcBNVCwcVykhzleh5t0e46xTHtoNW
-         w/qJHVS5rWVe09MWXxTTQ0a+aBVvcsRfsMoZ5zM82SuMMUYr0Z7lXo7AmbJdfefIqZ58
-         Z+tXoE5+UBNMqIYNAJjHsh8azgrvRlq97hkPTd9hqJIWASPtE67VfZSvko7SVmwopBZs
-         OJ3Z/P62GrGCTRad3JX5P7N0cctySOm9kaTnWtESHdjbpK+e/Cgm1vSSRhAaPtxOVjWf
-         ZwUyfgY3IVdQiKKAQZ5Z66e4NEMRSKkueOLy0unFs5fwmW1TkWsQ5QsSaul7j3MoqpMd
-         a2Kg==
-X-Gm-Message-State: AOJu0YyPEY8DJ1ygBGdET2AHqmzpyoYdus9lrds0Ahci1Cr7/ASwBz9R
-	pnp98OgJimSt769ANd5P2D9ehFC5VEdnur0bfcIpFubNVdFdl4+ogJNzWoQq9C0=
-X-Google-Smtp-Source: AGHT+IFTsl8JkpDUNkti9RfnoRhGJyQBzy/Bb4U5+tC7t6ZkjxEXjF4CFKjcQdvCBTXnp3uhyZHpWA==
-X-Received: by 2002:a05:600c:228e:b0:40d:5c7e:6f69 with SMTP id 14-20020a05600c228e00b0040d5c7e6f69mr2714157wmf.147.1705929267644;
-        Mon, 22 Jan 2024 05:14:27 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0040e4ca7fcb4sm39267210wms.37.2024.01.22.05.14.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 05:14:27 -0800 (PST)
-Message-ID: <0b6a7895-bd87-4edb-b392-5000124ad133@linaro.org>
-Date: Mon, 22 Jan 2024 14:14:25 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZFTQT7X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86185C433C7;
+	Mon, 22 Jan 2024 14:56:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705935375;
+	bh=PQgYt7o+gUgE7d9c9OZP21qdogIkHbNi1GtRSNglT/0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OZFTQT7XU9SZCOLVNfzgSDsQ5tgn3R5pfry9tDQkkDakG+L2bw8gSikNF9bvxEVxH
+	 BzgB+9eeGbCVQ391DLxS6doNzIqTrdlk2EpMQbkRVXoaHJVcLz0HAXCymRLDhsJOOa
+	 DJ+heI9Ytkme3k6a0VGS8m7ph1GIOA21sF80IX2pOCL8innjsDkFvAyW8N9pU7ibNm
+	 qyjXdAB+2yxdvfmFnYVS498xo8bgGGiEuh6QUYsqdU/qyT36ZhGL9QoOgcDN/S2O/P
+	 vBu8vGBsI7pyLhF4WPDvgLO+n38jVu+vLdGOpiffSAxb9fWfBOG4wASFLk2AxeRxBi
+	 /y5edUKnjKC/A==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	cezary.rojewski@intel.com,
+	broonie@kernel.org,
+	zhangyiqun@phytium.com.cn,
+	chenhuacai@kernel.org,
+	siyanteng@loongson.cn,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 02/88] ALSA: hda: Refer to correct stream index at loops
+Date: Mon, 22 Jan 2024 09:50:35 -0500
+Message-ID: <20240122145608.990137-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
+References: <20240122145608.990137-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-Content-Language: en-US
-To: Philipp Zabel <p.zabel@pengutronix.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Peter Rosin <peda@axentia.se>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
- Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Sean Anderson <sean.anderson@seco.com>
-References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
- <20240112163608.528453-3-krzysztof.kozlowski@linaro.org>
- <5ad7badb85bdece735901a0f6317183b1d628a68.camel@pengutronix.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <5ad7badb85bdece735901a0f6317183b1d628a68.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.1
+Content-Transfer-Encoding: 8bit
 
-On 17/01/2024 12:26, Philipp Zabel wrote:
-> On Fr, 2024-01-12 at 17:36 +0100, Krzysztof Kozlowski wrote:
-> [...]
->>  struct reset_control *
->>  __of_reset_control_get(struct device_node *node, const char *id, int index,
->>  		       bool shared, bool optional, bool acquired)
->>  {
->> +	struct of_phandle_args args = {0};
->> +	bool gpio_fallback = false;
->>  	struct reset_control *rstc;
->> -	struct reset_controller_dev *r, *rcdev;
->> -	struct of_phandle_args args;
->> +	struct reset_controller_dev *rcdev;
->>  	int rstc_id;
->>  	int ret;
->>  
->> @@ -839,39 +1028,49 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
->>  					 index, &args);
->>  	if (ret == -EINVAL)
->>  		return ERR_PTR(ret);
->> -	if (ret)
->> -		return optional ? NULL : ERR_PTR(ret);
->> +	if (ret) {
-> 
-> I think this should continue to return optional ? NULL : ERR_PTR(ret)
-> if !IS_ENABLED(CONFIG_RESET_GPIO), for example by just skipping the
-> of_parse_phandle_with_args(). That should allow the GPIO fallback in
-> patch 5 to work as expected.
-> 
+From: Takashi Iwai <tiwai@suse.de>
 
-ack
+[ Upstream commit 26257869672fd4a06a60c2da841e15fb2cb47bbe ]
 
-Best regards,
-Krzysztof
+In a couple of loops over the all streams, we check the bitmap against
+the loop counter.  A more correct reference would be, however, the
+index of each stream, instead.
+
+This patch corrects the check of bitmaps to the stream index.
+
+Note that this change doesn't fix anything for now; all existing
+drivers set up the stream indices properly, hence the loop count is
+always equal with the stream index.  That said, this change is only
+for consistency.
+
+Link: https://lore.kernel.org/r/20231121154125.4888-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/hda/hdac_stream.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 6ce24e248f8e..610ea7a33cd8 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -671,17 +671,15 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 	struct hdac_stream *s;
+ 	bool inited = false;
+ 	u64 cycle_last = 0;
+-	int i = 0;
+ 
+ 	list_for_each_entry(s, &bus->stream_list, list) {
+-		if (streams & (1 << i)) {
++		if ((streams & (1 << s->index))) {
+ 			azx_timecounter_init(s, inited, cycle_last);
+ 			if (!inited) {
+ 				inited = true;
+ 				cycle_last = s->tc.cycle_last;
+ 			}
+ 		}
+-		i++;
+ 	}
+ 
+ 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+@@ -726,14 +724,13 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
+ 			  unsigned int streams)
+ {
+ 	struct hdac_bus *bus = azx_dev->bus;
+-	int i, nwait, timeout;
++	int nwait, timeout;
+ 	struct hdac_stream *s;
+ 
+ 	for (timeout = 5000; timeout; timeout--) {
+ 		nwait = 0;
+-		i = 0;
+ 		list_for_each_entry(s, &bus->stream_list, list) {
+-			if (!(streams & (1 << i++)))
++			if (!(streams & (1 << s->index)))
+ 				continue;
+ 
+ 			if (start) {
+-- 
+2.43.0
 
