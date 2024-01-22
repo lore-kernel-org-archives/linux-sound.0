@@ -1,96 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3561814901C;
-	Mon, 22 Jan 2024 15:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A972458116;
+	Mon, 22 Jan 2024 15:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936650; cv=none; b=ZSo6wEe1yvC9HG9N/VF2UktncoyXWoNUaZhgPgrexbM8hsT9TFZbRGieGbWyODn5c+IzEwW8eFr5K9b6yq5I3KSr6q/joyIREjRTCydsS8RZOiY6tMoM5rZM3d93087Z0ETgmJ7gff3xH2/woi3CLvEyWTQx0VD8o8n9Ki7w+OA=
+	t=1705936709; cv=none; b=oDbQ6VFO6vv3LfuLA7pj/399fIasqNb/IURvsgNW1hVKMzONcvGMVjzlqb21DnJsFP01YeXQv5hgDT0OrVsv7KMxsWTKCqRsFukHsLIO3RbpApsJPx9AJhM//ipSBTEyRGtR8sUmz9Adoh3dgrhsF/XdtDbk0EjAvKMeos5OhPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936650; c=relaxed/simple;
-	bh=SDhzb/QUr8R5tgrZEvlrjOq9Hm1fSVVzZ+B9W9gZ41E=;
+	s=arc-20240116; t=1705936709; c=relaxed/simple;
+	bh=HFYCk+hYTAIq1AVhr7RKr4+P/Q7WYAAq/us3zvVcSSk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hl7hgmr0loI5zGlvKrYqLQK0q60UFIZ3rPIe5FBxhLf9EI1sCum/NP8Nd+jTfjeN032Up4STy8vDmbQ4NIdTk9LzMINL771BeTsYSUB7TXykpCNdYUewstFWxBt+OhC5Xp5Doe1KM2UHuZU/3YDPUaMITskYHZwk7eSAzuDRUNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3Pxjmnb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=X1bSc8DgbYGIha5H1S2L0kQUg1uxr7jlbUz0MRQ9iggf9vB4X41NmSjjckDWcQX3oEQDkgQA0YEIMvN/NYt7PH2Om1nXByp3oXWj/6mxUVo5D3PDNXkmNC6N0Rt4eI2dJi6RuVMpmjciNDFqw6xCZ1zVwRN5lPQ+xHwn14EnmfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bD+KHZI8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3Pxjmnb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142E9C433F1;
-	Mon, 22 Jan 2024 15:17:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bD+KHZI8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3589C433C7;
+	Mon, 22 Jan 2024 15:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936650;
-	bh=SDhzb/QUr8R5tgrZEvlrjOq9Hm1fSVVzZ+B9W9gZ41E=;
+	s=k20201202; t=1705936709;
+	bh=HFYCk+hYTAIq1AVhr7RKr4+P/Q7WYAAq/us3zvVcSSk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C3Pxjmnb1McesR77ea1XKhBQjEhF5S58M3r7AGEKCCyjlkyxXTwsYhqQgl4qPeh8P
-	 iojZGycVa0ZaP+SfUI6PKu7NDOFpXSqvV8avcrnjH/BwMkIOxbX5TOfSc4a+WoXhqS
-	 IjZHiwImSC89Oe7aaidOrvXw+s2lVBw/E7vIUK8axrdxIwslLl2mZeXP3NWMR8HGlR
-	 ApBocbgysydUdhLf22K968E8qvE0gSpY3vsAVvA3HTX1+dxGevUwl1vH1chvXTp0mP
-	 69BVSzSBJtYMgYVmHPRgHWhpdrC8jm0mUdpa/mRv6gZuk6ELXlxAFdqmx+SFZPyGAd
-	 vSp1VPh8GLPMg==
+	b=bD+KHZI8Q2mSk+BLN4CYMABzGzW69kZGy0wrOi5gdct0GJtA1JJoNGWJcZ/34/KHA
+	 m9HD3RZ45EVfhiYLxizLf/jEvbSk4twCDLdAcIdgl8DiiTM7FPNveePN/eyzfY3n6e
+	 Ojf4DTAxUSoPDLk5tuSmGPJQPUA9ejRdhubPt7K5UygAh4cRoLXwo+Dwc+IPUXJFeq
+	 jrxxwMe6ZGjcNutpqPtzWBErmT8BU/9orMDL+9Rxj6eGYnyt0efx11IYvCZi49GJeS
+	 cfRXH2y9p05BVlaa21L0rOPjdg38Fm7pHmXlKPxfMsUW4oinyhUG6DCO+4twrEAVii
+	 x8ipQhEExkw7Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	maarten.lankhorst@linux.intel.com,
-	chenhuacai@kernel.org,
+	cezary.rojewski@intel.com,
+	broonie@kernel.org,
+	zhangyiqun@phytium.com.cn,
+	pierre-louis.bossart@linux.intel.com,
 	siyanteng@loongson.cn,
-	amadeuszx.slawinski@linux.intel.com,
-	jasontao@glenfly.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 13/24] ALSA: hda: Intel: add HDA_ARL PCI ID support
-Date: Mon, 22 Jan 2024 10:16:27 -0500
-Message-ID: <20240122151659.997085-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 02/23] ALSA: hda: Refer to correct stream index at loops
+Date: Mon, 22 Jan 2024 10:17:42 -0500
+Message-ID: <20240122151823.997644-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
-References: <20240122151659.997085-1-sashal@kernel.org>
+In-Reply-To: <20240122151823.997644-1-sashal@kernel.org>
+References: <20240122151823.997644-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.267
+X-stable-base: Linux 4.19.305
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit a31014ebad617868c246d3985ff80d891f03711e ]
+[ Upstream commit 26257869672fd4a06a60c2da841e15fb2cb47bbe ]
 
-Yet another PCI ID.
+In a couple of loops over the all streams, we check the bitmap against
+the loop counter.  A more correct reference would be, however, the
+index of each stream, instead.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/r/20231204212710.185976-3-pierre-louis.bossart@linux.intel.com
+This patch corrects the check of bitmaps to the stream index.
+
+Note that this change doesn't fix anything for now; all existing
+drivers set up the stream indices properly, hence the loop count is
+always equal with the stream index.  That said, this change is only
+for consistency.
+
+Link: https://lore.kernel.org/r/20231121154125.4888-1-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/hda/hdac_stream.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 0bf2e2656721..cc9b8b6595c8 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2527,6 +2527,8 @@ static const struct pci_device_id azx_ids[] = {
- 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE},
- 	{ PCI_DEVICE(0x8086, 0x4b58),
- 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE},
-+	/* Arrow Lake */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_ARL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Broxton-P(Apollolake) */
- 	{ PCI_DEVICE(0x8086, 0x5a98),
- 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON },
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 2569f82b6fa0..57379edd5dab 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -526,17 +526,15 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 	struct hdac_stream *s;
+ 	bool inited = false;
+ 	u64 cycle_last = 0;
+-	int i = 0;
+ 
+ 	list_for_each_entry(s, &bus->stream_list, list) {
+-		if (streams & (1 << i)) {
++		if ((streams & (1 << s->index))) {
+ 			azx_timecounter_init(s, inited, cycle_last);
+ 			if (!inited) {
+ 				inited = true;
+ 				cycle_last = s->tc.cycle_last;
+ 			}
+ 		}
+-		i++;
+ 	}
+ 
+ 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+@@ -579,14 +577,13 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
+ 			  unsigned int streams)
+ {
+ 	struct hdac_bus *bus = azx_dev->bus;
+-	int i, nwait, timeout;
++	int nwait, timeout;
+ 	struct hdac_stream *s;
+ 
+ 	for (timeout = 5000; timeout; timeout--) {
+ 		nwait = 0;
+-		i = 0;
+ 		list_for_each_entry(s, &bus->stream_list, list) {
+-			if (streams & (1 << i)) {
++			if (streams & (1 << s->index)) {
+ 				if (start) {
+ 					/* check FIFO gets ready */
+ 					if (!(snd_hdac_stream_readb(s, SD_STS) &
 -- 
 2.43.0
 
