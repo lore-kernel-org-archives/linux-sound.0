@@ -1,168 +1,123 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53AD46B9B;
-	Mon, 22 Jan 2024 15:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034F3604CF;
+	Mon, 22 Jan 2024 15:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935782; cv=none; b=JjPeGHA9fMTzYque9MvDCViV+Eh7hHMHH2FkzssVjWX2Z4z68i7CYUmwi/gFhODJlRFiNwnmi0JsPs0Vc76MpJrcx/rdGg6yuE2+q/UcdgtiHfDelmAiF0JtxtP3m5GWyQAhsjZsMv3M2XNkxXAW9Y39qFZfRN3njCniFOWjmmQ=
+	t=1705935878; cv=none; b=P0ehgjfquQhRN2ZvtI608n1kvq4rTERj9CXA8pXGLXD/fEO0CqvrWyoFy5OmqjUFwkB2FFD5iK88zblpHnW06d5YXwR9oQyu6KL8+XSrpnn6YkOAKDTX0Y70ac3G5LdFGpsDx39xCaTtzDogSmy2PLAXb/edXT70K3iTy5W1t7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935782; c=relaxed/simple;
-	bh=SQf3HCTG9nGeUY31xrUKwFz3cZXNrJIrlswKVlLqEiM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bZQmPOUU1A2EAd1WDZdziub4ViXjksoFQ0TBnHUXMotapikyUIZv6Ry09tlCk+imDlcBuqaVJpJ+PgXBq3NsueFwFkgz+9ZRjMMgLkQzFcVWUVOiAenaXc3LlIYQ9FVnQkR1S15q6GPckuOSeuw7tSqhp3+p7PeRRSQRRq8bOp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=bjFtEG/P; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1705935878; c=relaxed/simple;
+	bh=Jz1HmeThtcLH5WNGvoduX2Hcm/Ch1b20nxUWsbIL0dU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uGgPM643FvXA3IiFllVbJP15tSTtWgAAe0hb2+BNCmMpGDG/AWsflI3AYb7XKAIbj26pTJl2YUwAFVC4MPXrC71yGWZaQjaNLY0yflvGuPsa8lH0khPaP9OZpUed0zJSf4QHgUkfbpALmqgDdbMW40cl4AhG/z5UVLLmSpACypQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPmXQWTP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="bjFtEG/P"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40M5k6nu030313;
-	Mon, 22 Jan 2024 09:02:32 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=0
-	mPLhPK6fWPpvy8GLu7GR7nSQ3cSYPV0tcLCns0FbBg=; b=bjFtEG/PKALsZBM41
-	t96ASCeK0uTEF3J4zRfPJbUYzJ8p72ykL5/JwoIfcELfMXUb2KDPpDLtrVgFFmvA
-	n8pjGiinAEA9qY1ybIjdKv7kJIvFb/LSwm8f8PSQzmzVKHyzluWl8H1RzoIK77bT
-	QESYfLEDMKikMSUcjD/n4VuyRUvvci5MtHliDgXjo5JSMJXDZ4E70+x+XguqTxFY
-	+FUP53PBVovepA+B35UazteitlP3TEw+BTuMHQfw+2myLBCX4EGz1tJRNhB/EkD4
-	BoLoQhMBLQYNf2LKFg+rGgzBiRxqZSOJlZoWQ6TGyqqvD2nixnpjDUdL/vBxaxUN
-	Ierdg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vrcf32k5g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 Jan 2024 09:02:30 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 22 Jan
- 2024 15:01:57 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Mon, 22 Jan 2024 15:01:57 +0000
-Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C5C6511CC;
-	Mon, 22 Jan 2024 15:01:57 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Maciej Strozek
-	<mstrozek@opensource.cirrus.com>
-Subject: [PATCH] ASoC: Intel: mtl-match: Add cs42l43_l0 cs35l56_l23 for MTL
-Date: Mon, 22 Jan 2024 15:01:56 +0000
-Message-ID: <20240122150156.68983-1-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPmXQWTP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E0AC433B1;
+	Mon, 22 Jan 2024 15:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705935877;
+	bh=Jz1HmeThtcLH5WNGvoduX2Hcm/Ch1b20nxUWsbIL0dU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CPmXQWTPGR79N+NT/5mMpxPv/YXeVWVk7x/2AR/KkuB9VDIUGgsfv0imOKOQme5Kr
+	 FSZ5rAiwl2z+yOJA94gIisE0Mk6d1j+j+spew6hswLfBxEu4vFNv+zkjXJiWXs/Rln
+	 nFz15OtfU1zRBfU04WDuyvGCpLpt/QZpYn9gg+RyBmr67u8T80aPp0lOL2lU3q5gCy
+	 Uc/+VSOz2zpOPUTRuPYE6AO74eiYQMNEfStLUw+s6us9w6YLSHQaeceAHKHmGcfYDR
+	 CH7TU//hFiTWn1czxw9BWJPSmYBcQORcAam8xJwrIIw5BLCp77WxJXrgM7Vbd+FMBc
+	 ghbqMPrApgEkg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	cezary.rojewski@intel.com,
+	broonie@kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	siyanteng@loongson.cn,
+	zhangyiqun@phytium.com.cn,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 02/73] ALSA: hda: Refer to correct stream index at loops
+Date: Mon, 22 Jan 2024 10:01:16 -0500
+Message-ID: <20240122150432.992458-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
+References: <20240122150432.992458-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.13
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: W96pIoV5lf3ndjQOFSHOoXeQrBWQTuJU
-X-Proofpoint-GUID: W96pIoV5lf3ndjQOFSHOoXeQrBWQTuJU
-X-Proofpoint-Spam-Reason: safe
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+From: Takashi Iwai <tiwai@suse.de>
+
+[ Upstream commit 26257869672fd4a06a60c2da841e15fb2cb47bbe ]
+
+In a couple of loops over the all streams, we check the bitmap against
+the loop counter.  A more correct reference would be, however, the
+index of each stream, instead.
+
+This patch corrects the check of bitmaps to the stream index.
+
+Note that this change doesn't fix anything for now; all existing
+drivers set up the stream indices properly, hence the loop count is
+always equal with the stream index.  That said, this change is only
+for consistency.
+
+Link: https://lore.kernel.org/r/20231121154125.4888-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../intel/common/soc-acpi-intel-mtl-match.c   | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ sound/hda/hdac_stream.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index feb12c6c85d1..625f991b1ad4 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -377,6 +377,36 @@ static const struct snd_soc_acpi_adr_device cs35l56_2_adr[] = {
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 214a0680524b..fe0958f9969c 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -660,17 +660,15 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 	struct hdac_stream *s;
+ 	bool inited = false;
+ 	u64 cycle_last = 0;
+-	int i = 0;
+ 
+ 	list_for_each_entry(s, &bus->stream_list, list) {
+-		if (streams & (1 << i)) {
++		if ((streams & (1 << s->index))) {
+ 			azx_timecounter_init(s, inited, cycle_last);
+ 			if (!inited) {
+ 				inited = true;
+ 				cycle_last = s->tc.cycle_last;
+ 			}
+ 		}
+-		i++;
  	}
- };
  
-+static const struct snd_soc_acpi_adr_device cs35l56_2_r_adr[] = {
-+	{
-+		.adr = 0x00023301FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP3"
-+	},
-+	{
-+		.adr = 0x00023201FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP4"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_3_l_adr[] = {
-+	{
-+		.adr = 0x00033001fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00033101fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP2"
-+	}
-+};
-+
- static const struct snd_soc_acpi_link_adr rt5682_link2_max98373_link0[] = {
- 	/* Expected order: jack -> amp */
- 	{
-@@ -554,6 +584,26 @@ static const struct snd_soc_acpi_link_adr mtl_cs42l43_cs35l56[] = {
- 	{}
- };
+ 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+@@ -715,14 +713,13 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
+ 			  unsigned int streams)
+ {
+ 	struct hdac_bus *bus = azx_dev->bus;
+-	int i, nwait, timeout;
++	int nwait, timeout;
+ 	struct hdac_stream *s;
  
-+static const struct snd_soc_acpi_link_adr cs42l43_link0_cs35l56_link2_link3[] = {
-+	/* Expected order: jack -> amp */
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43_0_adr),
-+		.adr_d = cs42l43_0_adr,
-+	},
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(cs35l56_2_r_adr),
-+		.adr_d = cs35l56_2_r_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(cs35l56_3_l_adr),
-+		.adr_d = cs35l56_3_l_adr,
-+	},
-+	{}
-+};
-+
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -599,6 +649,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt1318-l12-rt714-l0.tplg"
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(2) | BIT(3),
-+		.links = cs42l43_link0_cs35l56_link2_link3,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-cs42l43-l0-cs35l56-l23.tplg",
-+	},
- 	{
- 		.link_mask = GENMASK(2, 0),
- 		.links = mtl_cs42l43_cs35l56,
+ 	for (timeout = 5000; timeout; timeout--) {
+ 		nwait = 0;
+-		i = 0;
+ 		list_for_each_entry(s, &bus->stream_list, list) {
+-			if (!(streams & (1 << i++)))
++			if (!(streams & (1 << s->index)))
+ 				continue;
+ 
+ 			if (start) {
 -- 
-2.34.1
+2.43.0
 
