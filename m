@@ -1,57 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9749238DDA;
-	Sun, 21 Jan 2024 21:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11E11FA1;
+	Mon, 22 Jan 2024 00:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705871880; cv=none; b=VQANal34uNIK2WxlNrdM4kxd0RJgX2wGLk7jLyRDP9MVwCZMp8Phe1gcx1XE5H/grizqAUHr6JuVmSgtvQWe06qu1yezscWligjX8S+UN0diabUzlEHppj45hwsSPpzA3CxBi8E2ao0iM3rh2Q9IFO1tA4MDA5y6GFCF9zTDeWI=
+	t=1705881840; cv=none; b=ejpdWbkbley3Y0AnPrw5cBZywMk07ZfwxDorPncpL5F78goaGgoFzjNxpB+4PGDBRAXrL7GTtDFUYReq4OGA9QrT8FQaJC9j1hKVwbfY77r0ORHxssn3QcXS37CM/I9Vh2LxeLD6sCpSkOPHWVYhuObIFwyjmzs8/UvQwNDmoL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705871880; c=relaxed/simple;
-	bh=h45STSfPy1P3Y2GbWo89YV/iBga1C9nJ+uPwiQ9NLLs=;
+	s=arc-20240116; t=1705881840; c=relaxed/simple;
+	bh=7oDI1XO154l1iaa0RraSQw5ES7TxoMVaLBOvKr6NGIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jrhXkxUzUXFrJVmf9c48ju/BQ+O8hjIqasNVgIh3AkOIwWzl5YBuBbFScPQYu3UOL8kiVlaNwtpib3DzKMc+6CUbEXIxurX4ETESvf9wZG+wcKjTTNE2+YhVMnKsXFilxZvY3oZsFw7Y51GwWCjSKAUJq5J6Ob5MUaMm9PMmhtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YhR+7g+N; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iMCcHpak7TP4gafOBUbvkw8ZLd0lDiWVcZkkM6Eamx3yT3DlFg5A0qM26b0PWogqD9BfwJpaOdIZ7Yez5grp9o7Dpl1CSKX2AAGPo7TdXHGcSVGrYdZ3/RpWT7A3cEUQp4jvj+xrWCC+0V9sBv6gQHJS/TXtXJSUQ1q8M7Asn14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8kyjonA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YhR+7g+N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A64EC433C7;
-	Sun, 21 Jan 2024 21:17:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8kyjonA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181DDC433C7;
+	Mon, 22 Jan 2024 00:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705871880;
-	bh=h45STSfPy1P3Y2GbWo89YV/iBga1C9nJ+uPwiQ9NLLs=;
+	s=k20201202; t=1705881840;
+	bh=7oDI1XO154l1iaa0RraSQw5ES7TxoMVaLBOvKr6NGIU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YhR+7g+N26Oh8TUBBWHDR4e4Ao5+BO0iPfaqNrwoueieSZ2Y25fB5bmyNN4lALQOf
-	 ZB6sWAyqtXi9S7gnUaSWKIA+mfRTZi4gUMswHz6vygxOk7mXg6jXDe1Ej8VqgW/2OP
-	 XczGEJz/GK9DaABwFFQjEjhalev7oivpob93FI3hG8uWQ8Ww9CPrBSTxrfmkExenw9
-	 QuSg0PpALT1HsFD/F1KRAM6hmWymcCaP8a+Virr5n8Hl+dneFGBqiIAV52bLtD6ChV
-	 UuCldWKDA1SJ+lcg+QlLfmz2LOt1sFIR0gXw+LNycpe3MIiM5ryukpuPUxN5a3PvqB
-	 bmy4uWMX+nlOg==
-Date: Sun, 21 Jan 2024 21:17:56 +0000
+	b=V8kyjonAFPfiubxozhOruWdoQ+UXUjbDUSLOYRIMizyMt/Y/BCZz5sbuvgDDM1qX9
+	 CvMVvcUha21MNi25rvqb5XINYtoNHVzyNTi8rkYfd/bTLwbgJcnZDM5+9lKeYrAe8g
+	 xgs7Pfv5KvD+eWAfBZ74aGZbLgUmkBXiD/0+WL9Zgq5TQQm07M18YfBSZbBgriDJK4
+	 Ad3aH+qNe53hChAvwcQVkyF9ZCdLwInlX3wXe6lbUCLbrvhA4Axl0fn3ST/S10diAo
+	 jlpAHKsB8UIF9EbZs6hPLOQ8LutAmlEvoGlivfAyn4JMreVapHTDWSlt0Z7CxmknB2
+	 3Bir742GDmMrQ==
+Date: Mon, 22 Jan 2024 00:03:55 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Michael Walle <michael@walle.cc>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	tudor.ambarus@linaro.org, pratyush@kernel.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	sbinding@opensource.cirrus.com, lee@kernel.org,
-	james.schulman@cirrus.com, david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
-	michal.simek@amd.com, linux-arm-kernel@lists.infradead.org,
-	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, git@amd.com, amitrkcian2002@gmail.com
-Subject: Re: [PATCH v11 03/10] spi: Add multi-cs memories support in SPI core
-Message-ID: <Za2KBNsUmE6xRqD6@finisterre.sirena.org.uk>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <20231125092137.2948-4-amit.kumar-mahapatra@amd.com>
- <3d3a11b1-8396-4d8e-9bb3-61ecb67e7efa@roeck-us.net>
- <d3c93c4c-3754-480c-84c2-9455ec8af702@roeck-us.net>
- <Zaxtm0JlQYU0/K/v@finisterre.sirena.org.uk>
- <ec7e7972-d48d-4a47-bd03-eec0c4334471@roeck-us.net>
- <9806d99fab46c928f337b30b21057b3e@walle.cc>
- <ed1de0d4-9a88-47b1-a280-b872f6fdecb6@roeck-us.net>
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
+Message-ID: <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
+References: <20240119112420.7446-1-johan+linaro@kernel.org>
+ <20240119112420.7446-3-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,37 +46,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tcmSRZRy9C5FJXV1"
+	protocol="application/pgp-signature"; boundary="ddqYfjTpQJcp+t1u"
 Content-Disposition: inline
-In-Reply-To: <ed1de0d4-9a88-47b1-a280-b872f6fdecb6@roeck-us.net>
-X-Cookie: You might have mail.
+In-Reply-To: <20240119112420.7446-3-johan+linaro@kernel.org>
+X-Cookie: 1: No code table for op: ++post
 
 
---tcmSRZRy9C5FJXV1
+--ddqYfjTpQJcp+t1u
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Jan 21, 2024 at 11:29:48AM -0800, Guenter Roeck wrote:
+On Fri, Jan 19, 2024 at 12:24:18PM +0100, Johan Hovold wrote:
+> The UCM configuration for the Lenovo ThinkPad X13s has up until now
+> been setting the speaker PA volume to the minimum -3 dB when enabling
+> the speakers, but this does not prevent the user from increasing the
+> volume further.
 
-> So I guess 8 would be the absolute minimum to re-enable support for
-> affected systems.
+This doesn't apply against current code, please check and resend.
 
-That's actually the number I went for, just waiting for CI to go
-through before I send it out.
-
---tcmSRZRy9C5FJXV1
+--ddqYfjTpQJcp+t1u
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWtigMACgkQJNaLcl1U
-h9Bupwf9ElV4f82yrrRTlzrth8zQZIj8vOQ1sXS02CQRaCYayGxIcjYRGvRCtLvO
-Rw0SV2fD+C7t+UMikK/3GPIstF42bYF7hpXWhIyvKXKS3jZiBE3Y21VQtvaDGVSO
-oNkyDqph/hbwQ09ps9TUi6AC5LOQWHdm3QLM9pOrZ2jMr6z56Vge/RlkK4VoLHYg
-PUIgguXVtDEK31eqYfmji9p8xByXg0B+88MH90buxC6H11PG2JIRnIMMTY95C8r4
-VDiaT2HCw+nf36cpv6LbkMr68qARlHcdOA1H3bvy9ofNDbkkLcvV3q8cj0IDeDRV
-xtlgLlOsbzrWoh7pcG6QTXtih3SIWg==
-=X0HL
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWtsOoACgkQJNaLcl1U
+h9A6sAf+MNxmG+32Oty1qqRKXBZ5RVX6g9r56r3iFPMAmhMHoSZSvmXUvPk2aG29
+7Oy3y1c5yFMKmSVNq5Oi8XzLAua0Prpx1ziOSwRCgQSdZ+DRjcgxnh3lfFjH4gJI
+8GbfQuWO6XYIU0Poi972LR/dofiuSOkcU6SriIdmoUIdWaplFT/hK0b9LwFMejzD
+7p8XuQw/G0JQgztd/KGtTr1S/UyqTKbcg5hK7ON4woYsSQKWCdKq+hqXx67tyTAv
+4fiRWsQoRqtTeAw2PCt0xi3yT6aMfeciOiScaz1uZwmym3Hs8gQ1H4TSV/ee6ieu
+nUHFZS8Xq3xiYmO7DN+Fnx/eYSi46Q==
+=0JpU
 -----END PGP SIGNATURE-----
 
---tcmSRZRy9C5FJXV1--
+--ddqYfjTpQJcp+t1u--
