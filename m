@@ -1,113 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51A53FE20;
-	Mon, 22 Jan 2024 18:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F357740C1E;
+	Mon, 22 Jan 2024 18:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705947128; cv=none; b=Bl2++bUxbMKsSyPrvQWX1g3sLpW8g8s3dJ3r2h6CdrP2q+xa7KizlHKNylpUtjPaG1snWjLnYlmQBRJNlOBXusiZyPN549IQ2iKdRl7s7JlJh9G2FEtCBfZ2pxa7+blHCpkkE96y+N1vMfSkkKou4UWZbG6SeubZ/T/BES8k+L8=
+	t=1705947335; cv=none; b=bDxUPy6tP7E+vnW9OnvLiVTQd2qx9ZTihyVy2VHbMrEJshW3843DAdHP1nyFkVMJUDXUl0Tt3mgWePnEt7XG5s9EbclkGQizJ5F8t6kKOJyXHYb6YbGYCEyOs64EV5KAoOmBOFAQaPgiAeI3agrn8QEnBjY1dl4LyMBH59iFp8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705947128; c=relaxed/simple;
-	bh=X7GfhZVrnsTjbrFniNSElkwaarUNiRIasEFIuqkBbsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=XpiI4M86cWTacKbd+mR2FtRLgqklB7SvgHVIf8Jv06zoSoDlskFNdTSDMWkxc+MAA5/S7RN8ULrkHAnkcQVJ95+TYhWApD/8t+1cc9pcF5cBwfCdC+AmLE4Hg7SW+xkZpukFcL3o55269DKWGofUbskb0SbjJ2gSS/h8zgcZ4Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RD8iuvLT; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RD8iuvLT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E09C433C7;
-	Mon, 22 Jan 2024 18:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705947127;
-	bh=X7GfhZVrnsTjbrFniNSElkwaarUNiRIasEFIuqkBbsc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=RD8iuvLT4Sv4aBKpW/AH0z/cICipgVW1lAjoC1YM1SyiKLBhrgz3HpvzH1fu0nXxq
-	 vQj2C7z9nKhUhA7/137/0FAZ1UBUIJEqX2EfctHJRDcwwbF0B3eM2QUwSTO0EFM+S8
-	 Yg16Li20dF9C76zTt/31v+fnBYVns0Nfn05p0rt7gygIitxU3Bb83OBnj1axDQ0+VJ
-	 EZwq7+GP7yVeDXZO1XkZwJDVdbVocBqnaLtJc502siNpXTksX+/aFBCBazIDD38kBZ
-	 t4xqOKiSwtjFP4ljsbSdg9zoGDHylXjw2ljwv+rHUHDX1WLpXQ1t5goVu8GYMzXfC7
-	 VPLhQabcjhzIA==
-Date: Mon, 22 Jan 2024 12:12:05 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	intel-xe@lists.freedesktop.org,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
- usage
-Message-ID: <20240122181205.GA275751@bhelgaas>
+	s=arc-20240116; t=1705947335; c=relaxed/simple;
+	bh=69GGm0pNRQTM69t2Rq+BKa1TrZijGf27F8TvqUvTRV4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=X4NB6i20KD+2doRKCHEBztaYmgFJwDQyVmV+mTjThnWxG4AutEZpOVX5zfzLFSWWE3xK8qfYCyRNEo57J2PH/istrguDBjX1DwuDctYgqS5OfT8Qh8+vvJcBUsvkjqua905CoSgMMq3Ly6RyahwmP0Spe/2l99sNoIRvKvzaBx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b68f75.dsl.pool.telekom.hu [::ffff:81.182.143.117])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000736C1.0000000065AEAF8C.00184B08; Mon, 22 Jan 2024 19:10:20 +0100
+Message-ID: <3ce7c90b5cebb56b1035eb51d7a75f49acfcbed9.camel@irl.hu>
+Subject: Re: [PATCH AUTOSEL 6.7 72/88] ALSA: hda/tas2781: add fixup for
+ Lenovo 14ARB7
+From: Gergo Koteles <soyer@irl.hu>
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+  stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>, perex@perex.cz, tiwai@suse.com,
+  sbinding@opensource.cirrus.com, kailang@realtek.com, luke@ljones.dev,
+  andy.chi@canonical.com, shenghao-ding@ti.com,
+  ruinairas1992@gmail.com, vitalyr@opensource.cirrus.com,
+  linux-sound@vger.kernel.org
+Date: Mon, 22 Jan 2024 19:10:19 +0100
+In-Reply-To: <20240122145608.990137-72-sashal@kernel.org>
+References: <20240122145608.990137-1-sashal@kernel.org>
+	 <20240122145608.990137-72-sashal@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240122114121.56752-2-sakari.ailus@linux.intel.com>
 
-On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
-> There are two ways to opportunistically increment a device's runtime PM
-> usage count, calling either pm_runtime_get_if_active() or
-> pm_runtime_get_if_in_use(). The former has an argument to tell whether to
-> ignore the usage count or not, and the latter simply calls the former with
-> ign_usage_count set to false. The other users that want to ignore the
-> usage_count will have to explitly set that argument to true which is a bit
-> cumbersome.
+Hi Sasha,
 
-s/explitly/explicitly/
+This patch needs additional patches to work:
 
-> To make this function more practical to use, remove the ign_usage_count
-> argument from the function. The main implementation is renamed as
-> pm_runtime_get_conditional().
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
-> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
-> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+dcaca1b5f0d4 ALSA: hda/tas2781: annotate calibration data endianness
+c3ca4458cc2f ALSA: hda/tas2781: add TAS2563 support for 14ARB7
+c021ca729fe8 ALSA: hda/tas2781: add configurable global i2c address
+76f5f55c45b9 ALSA: hda/tas2781: add ptrs to calibration functions
+68f7f3ff6c2a ALSA: hda/tas2781: configure the amp after firmware load
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
+Please add these if possible, or drop this patch from 6.6 and 6.7.
 
-> -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
-> +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
+Thanks,
+Gergo
 
-If pm_runtime_get_conditional() is exported, shouldn't it also be
-documented in Documentation/power/runtime_pm.rst?
 
-But I'm dubious about exporting it because
-__intel_runtime_pm_get_if_active() is the only caller, and you end up
-with the same pattern there that we have before this series in the PM
-core.  Why can't intel_runtime_pm.c be updated to use
-pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
-make pm_runtime_get_conditional() static?
+On Mon, 2024-01-22 at 09:51 -0500, Sasha Levin wrote:
+> From: Gergo Koteles <soyer@irl.hu>
+>=20
+> [ Upstream commit b5cb53fd32779f3a971c45bcd997ae2608aa1086 ]
+>=20
+> The 14ARB7 has two tas2563 amplifier on i2c.
+> Connect it to the tas2781 driver.
+>=20
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> Link: https://lore.kernel.org/r/abce9ee55689523562feb72383377171a489ddc7.=
+1703891777.git.soyer@irl.hu
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  sound/pci/hda/patch_realtek.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>=20
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.=
+c
+> index 70b17b08d4ff..9606f2448fda 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -6984,6 +6984,12 @@ static void tas2781_fixup_i2c(struct hda_codec *cd=
+c,
+>  	 tas2781_generic_fixup(cdc, action, "i2c", "TIAS2781");
+>  }
+> =20
+> +static void yoga7_14arb7_fixup_i2c(struct hda_codec *cdc,
+> +	const struct hda_fixup *fix, int action)
+> +{
+> +	 tas2781_generic_fixup(cdc, action, "i2c", "INT8866");
+> +}
+> +
+>  /* for alc295_fixup_hp_top_speakers */
+>  #include "hp_x360_helper.c"
+> =20
+> @@ -7454,6 +7460,7 @@ enum {
+>  	ALC236_FIXUP_DELL_DUAL_CODECS,
+>  	ALC287_FIXUP_CS35L41_I2C_2_THINKPAD_ACPI,
+>  	ALC287_FIXUP_TAS2781_I2C,
+> +	ALC287_FIXUP_YOGA7_14ARB7_I2C,
+>  	ALC245_FIXUP_HP_MUTE_LED_COEFBIT,
+>  	ALC245_FIXUP_HP_X360_MUTE_LEDS,
+>  	ALC287_FIXUP_THINKPAD_I2S_SPK,
+> @@ -9568,6 +9575,12 @@ static const struct hda_fixup alc269_fixups[] =3D =
+{
+>  		.chained =3D true,
+>  		.chain_id =3D ALC269_FIXUP_THINKPAD_ACPI,
+>  	},
+> +	[ALC287_FIXUP_YOGA7_14ARB7_I2C] =3D {
+> +		.type =3D HDA_FIXUP_FUNC,
+> +		.v.func =3D yoga7_14arb7_fixup_i2c,
+> +		.chained =3D true,
+> +		.chain_id =3D ALC285_FIXUP_THINKPAD_HEADSET_JACK,
+> +	},
+>  	[ALC245_FIXUP_HP_MUTE_LED_COEFBIT] =3D {
+>  		.type =3D HDA_FIXUP_FUNC,
+>  		.v.func =3D alc245_fixup_hp_mute_led_coefbit,
+> @@ -10221,6 +10234,7 @@ static const struct snd_pci_quirk alc269_fixup_tb=
+l[] =3D {
+>  	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA=
+7_14ITL_SPEAKERS),
+>  	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_1=
+6ITHG6),
+>  	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9=
+_14IAP7_BASS_SPK_PIN),
+> +	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA=
+7_14ARB7_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP=
+_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_=
+TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_T=
+AS2781_I2C),
 
-> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> @@ -246,7 +246,7 @@ static intel_wakeref_t __intel_runtime_pm_get_if_active(struct intel_runtime_pm
->  		 * function, since the power state is undefined. This applies
->  		 * atm to the late/early system suspend/resume handlers.
->  		 */
-> -		if (pm_runtime_get_if_active(rpm->kdev, ignore_usecount) <= 0)
-> +		if (pm_runtime_get_conditional(rpm->kdev, ignore_usecount) <= 0)
->  			return 0;
->  	}
-
-Bjorn
