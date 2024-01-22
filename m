@@ -1,86 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E4576909;
-	Mon, 22 Jan 2024 16:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDEB3D990;
+	Mon, 22 Jan 2024 17:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705941232; cv=none; b=sVTST+t/S0wvnFcvFqcq/BwNezoQstkPgt+WafBGggwaRs1F8bMVw2x4f/h2il640cgd+w26CmXjBRouwGqOYaNOXL8sTyKZOdoiYdji45gvKqyldQbtPq10czfYXG+Z/O37MtPakXM+VGsPHpUkVgStunNtv28l6fkJDI3BuNc=
+	t=1705943133; cv=none; b=nQ/nO1M0cHzn05oUl17dTLv0Q2E/Eqgi0UA2e2ITLwhJxXWqex1dCUlE7Sf3RDp2A2FZGMAha+9mx3lmseqgHSgLYxcDzCbcuEFEughPI2lLmTtlRD+P55bmsg/6JMj3P4YJv/qt8Or0IIgLp8yNNFLQb4fBhlkNVcK7+CnPPSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705941232; c=relaxed/simple;
-	bh=AnT6KpLa3u0hFMSAd/NwItFYFy+ZRbXGode8jH6ETD8=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GRrDBwGIPndGZ/8zIheLRPkyLgHlna7FoNnhhJ6ufsK813itCCfDUQv1pXQ1FI9zrsLvBlOFMI3lc4RBVSt4lidi+m+nXosX2Wi1QULAgTLq2LF2Bp8sDDbwF31XRx1aQ8p762pOkObYFJ2DDRUc31EZmYndTSFUtIRJEAjmMbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjRt5IdG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705943133; c=relaxed/simple;
+	bh=S1UkfK4/p0h181iT92j9rPEO3r0iRuL3QMMsPwiuSjY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iqQDlhH2w/n1h0DAXaGyB5Ah02UHJTKhnj/EI+G4ETAbUdf14S0e8NHwBY5+DkHFrITgtmIM2SPzGxfVSWeAyHF9nARNO+mWlyb5oAS0fP3D+/tHXRcUb/LQO8ZVh5aAyKxULXTle4pMlAWBOxDXDM8mQOsFW8cXQOckNEen99o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=We0IU1KN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjRt5IdG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34B4C433F1;
-	Mon, 22 Jan 2024 16:33:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="We0IU1KN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98346C433A6;
+	Mon, 22 Jan 2024 17:05:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705941232;
-	bh=AnT6KpLa3u0hFMSAd/NwItFYFy+ZRbXGode8jH6ETD8=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=kjRt5IdGhxzArXLJpc7SCLmDDSIaA/2Ig5oh1se3IdMxwIjOcHR3M1UCRwhDxEo27
-	 iO7Nvo62o3vYAkRD/LDE9Fzk9kfqlX8mgMc7++bxkQdyJi7jLhxJ8qjTE6iw6iJEZB
-	 7GZxxuL2Vyl5equD2BF7VEDUT86/Ccc/eTEJCN/0X2DVeSzWx6hFZEuxcndZjcz+Cl
-	 dJNVm6fRotlWc/LKC81A7HMGwUYxcRwbA+Z72irYKK3fEElvSa3ZazTcxbvUqQ2SUD
-	 K3WuV9vDhdDKt3H0G02Am/UjvNjwMju2oUgbQouT83KMYdz/tmyuyFRpUOUkidRGcW
-	 MigK+IxDxKYRA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Herve Codina <herve.codina@bootlin.com>, 
- Shengjiu Wang <shengjiu.wang@nxp.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240115182017.1610055-1-krzysztof.kozlowski@linaro.org>
-References: <20240115182017.1610055-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: Do not override firmware-name $ref
-Message-Id: <170594122964.63484.11012665627670215684.b4-ty@kernel.org>
-Date: Mon, 22 Jan 2024 16:33:49 +0000
+	s=k20201202; t=1705943132;
+	bh=S1UkfK4/p0h181iT92j9rPEO3r0iRuL3QMMsPwiuSjY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=We0IU1KNz5olxvNKbzGISxymnsCBPYNEmHnBPYe0KSnaa6SFlpW03oES+JnMoq8YC
+	 juiRstM9skTINNEATDvPHQnKam5PnTYkgPkjl75W4Uwc+hLPU5ivjvbKSei7e86HMd
+	 cZkSDUKl1F8DszivK2iiyOZ6e5c/AnwfwjECbGHRMXOfWGblEi5xvJbOMcq2UEW+PO
+	 KMJhRu7hoeT9sdEsnob11MVrjW48vsZA4IhXI8XEIL3mvpUIfrxnHmH8yD/HluAjzN
+	 p//aoMFPhYpwaUDmbEdrAfJpIDSz7ZsmyknDJAECmzoscNByaRjXo/2foseJm8Okxs
+	 Zf7i0qWj3zg/A==
+Received: by wens.tw (Postfix, from userid 1000)
+	id F13F66001C; Tue, 23 Jan 2024 01:05:29 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatible for H616
+Date: Tue, 23 Jan 2024 01:05:15 +0800
+Message-Id: <20240122170518.3090814-5-wens@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240122170518.3090814-1-wens@kernel.org>
+References: <20240122170518.3090814-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-5c066
+Content-Transfer-Encoding: 8bit
 
-On Mon, 15 Jan 2024 19:20:17 +0100, Krzysztof Kozlowski wrote:
-> dtschema package defines firmware-name as string-array, so individual
-> bindings should not make it a string but instead just narrow the number
-> of expected firmware file names.
-> 
-> 
+From: Chen-Yu Tsai <wens@csie.org>
 
-Applied to
+The DMA controllers found on the H616 and H618 are the same as the one
+found on the H6. The only difference is the DMA endpoint (DRQ) layout.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Since the number of channels and endpoints are described with additional
+generic properties, just add a new H616-specific compatible string and
+fallback to the H6 one.
 
-Thanks!
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-[1/1] ASoC: dt-bindings: Do not override firmware-name $ref
-      commit: 059870e53aa06831f1ccdc5e9cf29f933cdf284e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+index ec2d7a789ffe..e5693be378bd 100644
+--- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
++++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+@@ -28,6 +28,9 @@ properties:
+       - items:
+           - const: allwinner,sun8i-r40-dma
+           - const: allwinner,sun50i-a64-dma
++      - items:
++          - const: allwinner,sun50i-h616-dma
++          - const: allwinner,sun50i-h6-dma
+ 
+   reg:
+     maxItems: 1
+@@ -59,10 +62,14 @@ required:
+ if:
+   properties:
+     compatible:
+-      enum:
+-        - allwinner,sun20i-d1-dma
+-        - allwinner,sun50i-a100-dma
+-        - allwinner,sun50i-h6-dma
++      oneOf:
++        - enum:
++            - allwinner,sun20i-d1-dma
++            - allwinner,sun50i-a100-dma
++            - allwinner,sun50i-h6-dma
++        - items:
++            - const: allwinner,sun50i-h616-dma
++            - const: allwinner,sun50i-h6-dma
+ 
+ then:
+   properties:
+-- 
+2.39.2
 
