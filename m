@@ -1,87 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A575F872;
-	Mon, 22 Jan 2024 18:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51A53FE20;
+	Mon, 22 Jan 2024 18:12:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705946791; cv=none; b=OlIXUImKYfKmt/tzasu790Cozi80dulrUWfjAe1HjBPto0wXX3BjU6jxu/TPhwKwl5JDu8UliUuuzwVzXyy5jXrpfGVyfr6C5QQKdMezkuGUo9hsk/gXToDqPfUBD7Wz1/WLdfWtBUPEWa1qUbBChWveqVHidDqdEAIqxNfYTFY=
+	t=1705947128; cv=none; b=Bl2++bUxbMKsSyPrvQWX1g3sLpW8g8s3dJ3r2h6CdrP2q+xa7KizlHKNylpUtjPaG1snWjLnYlmQBRJNlOBXusiZyPN549IQ2iKdRl7s7JlJh9G2FEtCBfZ2pxa7+blHCpkkE96y+N1vMfSkkKou4UWZbG6SeubZ/T/BES8k+L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705946791; c=relaxed/simple;
-	bh=kyRl1N9Q/dQhytK5rUW6BG9+l/1vrFhgo42ePkJfkkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=llIRRvRuobhTEzcN4HjtDcHLkfXipXethk0YfKsuyeclqIT/ZpL/uEPg2DI1+uvbrh09zujPtGrXlGRhYagQcQPEMv5gwIIqf6DBOZgW9Z3VA4bDDXBs7PleZrL+P7i/pnCCek6cshqI2AyV7EJVpHTuANHR7efBQqc0q7BbhTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kEW3ozoj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705947128; c=relaxed/simple;
+	bh=X7GfhZVrnsTjbrFniNSElkwaarUNiRIasEFIuqkBbsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=XpiI4M86cWTacKbd+mR2FtRLgqklB7SvgHVIf8Jv06zoSoDlskFNdTSDMWkxc+MAA5/S7RN8ULrkHAnkcQVJ95+TYhWApD/8t+1cc9pcF5cBwfCdC+AmLE4Hg7SW+xkZpukFcL3o55269DKWGofUbskb0SbjJ2gSS/h8zgcZ4Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RD8iuvLT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kEW3ozoj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE0EC433C7;
-	Mon, 22 Jan 2024 18:06:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RD8iuvLT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E09C433C7;
+	Mon, 22 Jan 2024 18:12:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705946791;
-	bh=kyRl1N9Q/dQhytK5rUW6BG9+l/1vrFhgo42ePkJfkkI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kEW3ozojryUaFqJeewEJEvDyi2f/KWTnppNBa4N7s4zyU7sdQkK3ar00wfaNpRlhJ
-	 K3DiEMvUkVOswNvJWjEJRM+OczTCmLApyovnaWgJ+t6ZOh7tJqLIeQW3qOB19Btxxq
-	 rjuPe92x5BoG/KKtblBxXjFeJPzFd4j064Rze6cN1oM1KDjyBXPQIqQwW4MKFpfCvP
-	 w6OireLjH0tjGeb7eyfwhsVyUnlosSCpj+Y1+8xfhFUI7F9P5oY0n0qKAVT4D1XXEl
-	 zIenD0lJ4oyZyd3wn3RSsdT+0wwQbJrKDASIGVVcwO844i3fGlpVDMJo4yO0rmjhjN
-	 waIKUjbhX1iEg==
-Date: Mon, 22 Jan 2024 18:06:25 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <8c6fc7e6-7694-4718-be47-d9fc3f893947@sirena.org.uk>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <20240119112420.7446-3-johan+linaro@kernel.org>
- <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
- <Za4cR90XoAaATq8X@hovoldconsulting.com>
- <aca2b125-acf8-4791-a3eb-ea19826d3ee4@sirena.org.uk>
- <Za6l6EP7OqXPU9mj@hovoldconsulting.com>
+	s=k20201202; t=1705947127;
+	bh=X7GfhZVrnsTjbrFniNSElkwaarUNiRIasEFIuqkBbsc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=RD8iuvLT4Sv4aBKpW/AH0z/cICipgVW1lAjoC1YM1SyiKLBhrgz3HpvzH1fu0nXxq
+	 vQj2C7z9nKhUhA7/137/0FAZ1UBUIJEqX2EfctHJRDcwwbF0B3eM2QUwSTO0EFM+S8
+	 Yg16Li20dF9C76zTt/31v+fnBYVns0Nfn05p0rt7gygIitxU3Bb83OBnj1axDQ0+VJ
+	 EZwq7+GP7yVeDXZO1XkZwJDVdbVocBqnaLtJc502siNpXTksX+/aFBCBazIDD38kBZ
+	 t4xqOKiSwtjFP4ljsbSdg9zoGDHylXjw2ljwv+rHUHDX1WLpXQ1t5goVu8GYMzXfC7
+	 VPLhQabcjhzIA==
+Date: Mon, 22 Jan 2024 12:12:05 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	intel-xe@lists.freedesktop.org,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <20240122181205.GA275751@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PKIws8OF8mXQ1io0"
-Content-Disposition: inline
-In-Reply-To: <Za6l6EP7OqXPU9mj@hovoldconsulting.com>
-X-Cookie: Nice guys don't finish nice.
-
-
---PKIws8OF8mXQ1io0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240122114121.56752-2-sakari.ailus@linux.intel.com>
 
-On Mon, Jan 22, 2024 at 06:29:12PM +0100, Johan Hovold wrote:
+On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
+> There are two ways to opportunistically increment a device's runtime PM
+> usage count, calling either pm_runtime_get_if_active() or
+> pm_runtime_get_if_in_use(). The former has an argument to tell whether to
+> ignore the usage count or not, and the latter simply calls the former with
+> ign_usage_count set to false. The other users that want to ignore the
+> usage_count will have to explitly set that argument to true which is a bit
+> cumbersome.
 
-> Could you please try again, and tell me which patch fails to apply and
-> how it fails?
+s/explitly/explicitly/
 
-It was the specific patch I replied to, just the standard "this patch
-doesn't apply" message.
+> To make this function more practical to use, remove the ign_usage_count
+> argument from the function. The main implementation is renamed as
+> pm_runtime_get_conditional().
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
---PKIws8OF8mXQ1io0
-Content-Type: application/pgp-signature; name="signature.asc"
+Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
 
------BEGIN PGP SIGNATURE-----
+> -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
+> +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWurqEACgkQJNaLcl1U
-h9DSHAf/T3WNfXxLvAbJenp11DA/SEjMQj9/GAixxPGAr04YGXfFCHS+BU6RwG18
-nfNEGntA5qkyWDqYJl7XiMiRn6VcG5yklGOgJAM0BltZFbCGw13HsTnFaMOj2to2
-Oo9RdzNeY1iuE57nu5yvvTt3VkMAXaEtFskwAhcG6xXDBac0TWbTOb5WWCeijGua
-ZtVT0iG1DF7SEhqdee8Lwr9Q+46VBcu0pChiLmycGGkb/jN1lpT4D6YF2gKUIunH
-7f3yuN7asZHZ4VpP8YEsPkCyR2hsQfXYgzjufQWkIvH+YBetfle5X/3GecV3FIeS
-mH89vrcQ7v4mkN1BgRpac5XjX9oaqQ==
-=Vhot
------END PGP SIGNATURE-----
+If pm_runtime_get_conditional() is exported, shouldn't it also be
+documented in Documentation/power/runtime_pm.rst?
 
---PKIws8OF8mXQ1io0--
+But I'm dubious about exporting it because
+__intel_runtime_pm_get_if_active() is the only caller, and you end up
+with the same pattern there that we have before this series in the PM
+core.  Why can't intel_runtime_pm.c be updated to use
+pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
+make pm_runtime_get_conditional() static?
+
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -246,7 +246,7 @@ static intel_wakeref_t __intel_runtime_pm_get_if_active(struct intel_runtime_pm
+>  		 * function, since the power state is undefined. This applies
+>  		 * atm to the late/early system suspend/resume handlers.
+>  		 */
+> -		if (pm_runtime_get_if_active(rpm->kdev, ignore_usecount) <= 0)
+> +		if (pm_runtime_get_conditional(rpm->kdev, ignore_usecount) <= 0)
+>  			return 0;
+>  	}
+
+Bjorn
