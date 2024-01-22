@@ -1,46 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92584CB3F;
-	Mon, 22 Jan 2024 15:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0FA7E767;
+	Mon, 22 Jan 2024 15:10:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936198; cv=none; b=EadtaVnUrLD5oFEw2j1iULumHP3nA60x+ex4ALIXOiezCiZeL8Un16khUTGeV4wE+mG8/n73ZddzcKzrKzX8bL4Z3H3/eoAxLw0Phgo9zphB7D/JVkI9StzS1cIGhrn3wSzEQanPMFSSgytPriD7R0IThmZhxewEYx7bOrSA64k=
+	t=1705936205; cv=none; b=H7ZV/NzHnlyoL+b/OxhiGX8w3zY7iZaNGYT4fAW0QX0uJwk6eHpjd2fcH0KAckaN04Mm2Ojo0EXgfHFq83KuZH+bsxtwnJ/QtkDFYFRsTLnBdfhbp6tfbfKqcsCvBw6+EIt71DXX++M7mcSbS+A7fOfF1UHGHG2/6bDMpxhfdB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936198; c=relaxed/simple;
-	bh=5G2vFEVxxjljbx2Tfhpnz8wRhi/UN3fGZcr43JDnvzk=;
+	s=arc-20240116; t=1705936205; c=relaxed/simple;
+	bh=A0S/cY9h5f1v7f0qham4Hn8BDj9W4OtxXp3D12b51HA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ahGkZAgm8DFG5vBt+UWLfPNSfhPMaXmXNJpd6qZ5aF8KJxuP0gUV3J2n2lwqvKGYgU719DWcdyzHh6GQBga3jPqrwUGrhx1zGqQNLlKIiUiGWNVDVwlwcHeaMaTW3kCWmBs2LFvfft0WgVYd+fNnlBlLBjbYHXpYsoTnJfftuks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEdzEAHq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Es+2K19vowz+A+ac7LfQoJfNhGEXCDn0QsEtd/+m+pdtO+NoybVSAd3QzUTmkhI8CpJN3OfRf/pGGp9u0GBOaXSUU/R9kCNv7zRQkZhmTo7n4Y6GGd1N6qkeCJ/bVSmwsYIUKgB92Kjp6W7fVeAgnzky07SBRu5keLnY6Y/NJiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XVaEDS5I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEdzEAHq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3895FC433C7;
-	Mon, 22 Jan 2024 15:09:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XVaEDS5I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49AFC43390;
+	Mon, 22 Jan 2024 15:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936197;
-	bh=5G2vFEVxxjljbx2Tfhpnz8wRhi/UN3fGZcr43JDnvzk=;
+	s=k20201202; t=1705936205;
+	bh=A0S/cY9h5f1v7f0qham4Hn8BDj9W4OtxXp3D12b51HA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UEdzEAHqx53Fvf2HG6PBq0aLeAcUahh+lLOpWc6gYtSYprGFBMD08VigSFx460fEL
-	 R3G+jrfSjKxRxlJmfDrykF7e//nKgE4K6XqCXKjs6XdDLk1cFYb6OQc/5iL5gDuUip
-	 XcPCoS6rijXh/+aAAH4iNcrjItfKjY3DeeGDVOsdlXkgWR6Umi/g39EXyVzBKEdHQp
-	 ZWgNaZmEzzrtunw9zk1ZaLkxpeRNgAEnjSxrJgF9BrLqi58aQCGUIca5wpAMSfqQca
-	 DrRRSVvnxpYLsybtmQxL3hoEyomqNGaKlyUyqPm0cF2ij3lN20tLqcVZwNipaS168v
-	 jriqrq8cFLtag==
+	b=XVaEDS5IQSatFElimcEoqLw70B7s+lRXKnflgl+xkBqo9C+ZOLK6vC+x+arUCv4VV
+	 N1o2CnEybHl+jdMtm7L0RdAA1rVdKScT+RRTWxNzVaFwi7deENlEYEZv4kHW9yK1CX
+	 hGT5VV7mlTE8Ri7VHbTnYlP47WZ2AsFER9B3ujlIVcFhO03GlZ1RiKcZncglW3xlPq
+	 owqdMuNpGQXsnylj6L621nP5CAzJ4z+MsqxX1aiS9JyIufTaH3f55CMRkmfGU6wcoU
+	 hGsdc+ivIIaGFEVn9x+9UXkcfLwCzuK305K5fYNANavP0Zh4SCkA/jJPMtno7Khf7i
+	 xNRMpxR+oW4DQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+Cc: Kamil Duljas <kamil.duljas@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	pierre-louis.bossart@linux.intel.com,
 	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	corbet@lwn.net,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 03/53] ASoC: doc: Fix undefined SND_SOC_DAPM_NOPM argument
-Date: Mon, 22 Jan 2024 10:08:04 -0500
-Message-ID: <20240122150949.994249-3-sashal@kernel.org>
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 07/53] ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage
+Date: Mon, 22 Jan 2024 10:08:08 -0500
+Message-ID: <20240122150949.994249-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150949.994249-1-sashal@kernel.org>
 References: <20240122150949.994249-1-sashal@kernel.org>
@@ -55,34 +59,52 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.74
 Content-Transfer-Encoding: 8bit
 
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+From: Kamil Duljas <kamil.duljas@gmail.com>
 
-[ Upstream commit 67c7666fe808c3a7af3cc6f9d0a3dd3acfd26115 ]
+[ Upstream commit 8c91ca76f44804868d12aed20ebdbc2f89aa7d60 ]
 
-The virtual widget example makes use of an undefined SND_SOC_DAPM_NOPM
-argument passed to SND_SOC_DAPM_MIXER().  Replace with the correct
-SND_SOC_NOPM definition.
+trace_filter_parse() allocs memory for *out and when
+-ENOMEM is returned, caller function, dfsentry_trace_filter_write()
+trying to freed this memory.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Link: https://lore.kernel.org/r/20231121120751.77355-1-cristian.ciocaltea@collabora.com
+After this patch, the memory is freed in trace_filter_parse()
+before -EINVAL returned. In caller function removed kfree(elms)
+from error label
+
+Signed-off-by: Kamil Duljas <kamil.duljas@gmail.com>
+Link: https://lore.kernel.org/r/20231116220102.2097-2-kamil.duljas@gmail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/sound/soc/dapm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/sof/ipc3-dtrace.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
-index 8e44107933ab..c3154ce6e1b2 100644
---- a/Documentation/sound/soc/dapm.rst
-+++ b/Documentation/sound/soc/dapm.rst
-@@ -234,7 +234,7 @@ corresponding soft power control. In this case it is necessary to create
- a virtual widget - a widget with no control bits e.g.
- ::
- 
--  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_DAPM_NOPM, 0, 0, NULL, 0),
-+  SND_SOC_DAPM_MIXER("AC97 Mixer", SND_SOC_NOPM, 0, 0, NULL, 0),
- 
- This can be used to merge to signal paths together in software.
+diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
+index 8cf421577378..c626cefa0ec5 100644
+--- a/sound/soc/sof/ipc3-dtrace.c
++++ b/sound/soc/sof/ipc3-dtrace.c
+@@ -137,6 +137,7 @@ static int trace_filter_parse(struct snd_sof_dev *sdev, char *string,
+ 			dev_err(sdev->dev,
+ 				"Parsing filter entry '%s' failed with %d\n",
+ 				entry, entry_len);
++			kfree(*out);
+ 			return -EINVAL;
+ 		}
+ 	}
+@@ -215,13 +216,13 @@ static ssize_t dfsentry_trace_filter_write(struct file *file, const char __user
+ 		ret = ipc3_trace_update_filter(sdev, num_elems, elems);
+ 		if (ret < 0) {
+ 			dev_err(sdev->dev, "Filter update failed: %d\n", ret);
++			kfree(elems);
+ 			goto error;
+ 		}
+ 	}
+ 	ret = count;
+ error:
+ 	kfree(string);
+-	kfree(elems);
+ 	return ret;
+ }
  
 -- 
 2.43.0
