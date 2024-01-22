@@ -1,47 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4AE4B5C8;
-	Mon, 22 Jan 2024 14:56:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5314050248;
+	Mon, 22 Jan 2024 14:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935413; cv=none; b=Tn4YR9rCQblpdMqHXt5WpnpPHfp7PJSRzr8I0VndSfuHhsCrZmQy/N+PVjKsfKKmOuV3obP0tx4aRw2kWo4OaEwdEQ9/WBly3QS84hcVRkEyfL3btg+/cTI41IfSyAdsYzwmZpgY1GBf8zYD36yfr7p9PF3fmsLFeaz/GHGTHrg=
+	t=1705935490; cv=none; b=YBitFJm8ZQ5F9cbq7t1XWej53NGF5XyFRAvNzFMJiODNZTUwCPCAk3LhDGoaix6nqsYs3Mns/0i0AoPXjYqODui4s3K8NxHG1dLvhlMUIbQWkvbHHUNIcWyYmqxshXUG0I+2md342J3/OZ1UWal93VYLWLgP3MI2Nhz0P2lvnu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935413; c=relaxed/simple;
-	bh=QKDGJiDIBub2/mUyIE0u++Y6msmlrtpCaas4Ze4FJno=;
+	s=arc-20240116; t=1705935490; c=relaxed/simple;
+	bh=bLFvVis5PUMnsRFbLrxlTkQ0UnjNpmUtus/DCYCxO3Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EyKZliUDa/2jip259cF2I+c57UrgSl9Sh0sKXGScByNjnU1sfEVicP8jlpiqozy+kMeP9G90HfsrSfIcwBWuFSxuWLf7MFJKzqFzQQqTpZlMlIhnqO6GXWRASk7nj57oRNJu+X7mwF7ig6s7s9I5mC5dJOTBBgxTm4/S6F0Ytpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q0FTl3v/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=bkESlMFxbLfOvG0H7ouK1heRBHyvRidGxp95Ypxo5bmN9bRHSHjaq2+o2rs8rMbX6G32BJp8iY9razoyoRLhDJa82npUvu5mdzJIIHWWGF6T1rEjN2MCQJrJMle6+dwkGHUOrCAnJ/Dzl4JvAzLpuas6V6vJE1pLYS86IK1oPQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AySgtI7Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q0FTl3v/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF19BC43390;
-	Mon, 22 Jan 2024 14:56:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AySgtI7Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198EAC433C7;
+	Mon, 22 Jan 2024 14:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705935413;
-	bh=QKDGJiDIBub2/mUyIE0u++Y6msmlrtpCaas4Ze4FJno=;
+	s=k20201202; t=1705935489;
+	bh=bLFvVis5PUMnsRFbLrxlTkQ0UnjNpmUtus/DCYCxO3Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q0FTl3v/yHxSqcvAR8KjFfBklMs9g79uNk2wL/Xce8WHLYlx6pawhWUMf91QHnoWs
-	 UAWoCg/paMnZCV1HEzkeFwUnLToehNe8ITkErR9Nj6pIbSwM0lYk/q+bbxl1EndzFj
-	 BbrHJjumCNgqV5txGutKF+Z3wrjJBg/wJPsFJQSfX4UQFGY7i2GGrkNpULbVky3gwg
-	 EJs3qgCtOkr3G0qGu7o9do6w3Hgj3ilZK6+Fh/ABHP/2+zMjh5ERYttYyCQwUOOdXl
-	 GZMXB5vf9Xi+jOWt3jX8hW6bM51kxJRyf+TPB4OwoIoZKvW2mrJJ6gLqyVkQ30H6AI
-	 pq6I/23swO1dg==
+	b=AySgtI7ZbZqv0NzRwR9NMbizEWdoOMXm2KioN6R+gBeH3skOp8T0JoPf1PKrQZOmq
+	 j0u+47sBk/ITLaAP7cUDQkfxp0V3pkafmZhaie2ppwej5C8CGCf23EOne2uznfqV6u
+	 jUASCJcap9759CJ9XLkDC9vyPrtN73itcYJxH7IGIdkK+WPlums8QIOCLphG0VCV0S
+	 NPcpby3cy+CsENAe5EWAS4DLm0rvNNhwMXhDgFE7RPyR67zEBQja7106Z2nH/mkjax
+	 AD385QKheujv9sMrWJ8btpyr6ykW+PfSa2BsixZ+PUADUux9lY41sqFBmdFuQ/xXWd
+	 c1z8+Cq741JkQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	Vijendar.Mukunda@amd.com,
-	posteuca@mutex.one,
-	cristian.ciocaltea@collabora.com,
+	maarten.lankhorst@linux.intel.com,
+	cezary.rojewski@intel.com,
+	siyanteng@loongson.cn,
+	amadeuszx.slawinski@linux.intel.com,
+	jasontao@glenfly.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 16/88] ASoC: amd: Add new dmi entries for acp5x platform
-Date: Mon, 22 Jan 2024 09:50:49 -0500
-Message-ID: <20240122145608.990137-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 30/88] ALSA: hda: Intel: add HDA_ARL PCI ID support
+Date: Mon, 22 Jan 2024 09:51:03 -0500
+Message-ID: <20240122145608.990137-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -51,58 +55,42 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.1
 Content-Transfer-Encoding: 8bit
 
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit c3ab23a10771bbe06300e5374efa809789c65455 ]
+[ Upstream commit a31014ebad617868c246d3985ff80d891f03711e ]
 
-Add sys_vendor and product_name dmi entries for acp5x platform.
+Yet another PCI ID.
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Link: https://lore.kernel.org/r/20231206110620.1695591-1-venkataprasad.potturu@amd.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Acked-by: Mark Brown <broonie@kernel.org>
+Link: https://lore.kernel.org/r/20231204212710.185976-3-pierre-louis.bossart@linux.intel.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/acp-config.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ sound/pci/hda/hda_intel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-index 3bc4b2e41650..dea6d367b9e8 100644
---- a/sound/soc/amd/acp-config.c
-+++ b/sound/soc/amd/acp-config.c
-@@ -3,7 +3,7 @@
- // This file is provided under a dual BSD/GPLv2 license. When using or
- // redistributing this file, you may do so under either license.
- //
--// Copyright(c) 2021 Advanced Micro Devices, Inc.
-+// Copyright(c) 2021, 2023 Advanced Micro Devices, Inc.
- //
- // Authors: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
- //
-@@ -47,6 +47,19 @@ static const struct config_entry config_table[] = {
- 			{}
- 		},
- 	},
-+	{
-+		.flags = FLAG_AMD_LEGACY,
-+		.device = ACP_PCI_DEV_ID,
-+		.dmi_table = (const struct dmi_system_id []) {
-+			{
-+				.matches = {
-+					DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
-+					DMI_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
-+				},
-+			},
-+			{}
-+		},
-+	},
- 	{
- 		.flags = FLAG_AMD_SOF,
- 		.device = ACP_PCI_DEV_ID,
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index 2d1df3654424..2276adc84478 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -2504,6 +2504,8 @@ static const struct pci_device_id azx_ids[] = {
+ 	{ PCI_DEVICE_DATA(INTEL, HDA_LNL_P, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
+ 	/* Arrow Lake-S */
+ 	{ PCI_DEVICE_DATA(INTEL, HDA_ARL_S, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
++	/* Arrow Lake */
++	{ PCI_DEVICE_DATA(INTEL, HDA_ARL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
+ 	/* Apollolake (Broxton-P) */
+ 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
+ 	/* Gemini-Lake */
 -- 
 2.43.0
 
