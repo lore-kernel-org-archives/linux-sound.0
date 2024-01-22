@@ -1,53 +1,48 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B4E16410;
-	Mon, 22 Jan 2024 07:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F5439AC5;
+	Mon, 22 Jan 2024 09:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705909763; cv=none; b=tG6lkd9MUAJPcGB7dHmDQ5urBym9E6nawvW0hK/HFXE8gUe2D6gZvyoo0jPrCAP2EpFhm2g0MMgrTsBFAdGNdZf86OcbeHyLi4xS6SrM86aYuspxFkOYhyqCw7bZcI4kwAiu/RHvNyWXKc7nck8XuZL1rtk5tey8mx7mfIsk1kM=
+	t=1705914735; cv=none; b=YZGN7Wvc7nK7KhEjvC9t6dbTY0rm6uCk8p6K/+HFkpA/uz+Oi2iE56f1wcWi+aJRM/BEYYSLf8jH7zK99UHWx2baRvJv1tbZjEEv6jKtipu+1OZSf86MLpxqojOLKdo4MBaMVE7gP8i/5CtPJG0TRYiqzdZiSLqlbLpHHHlKnBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705909763; c=relaxed/simple;
-	bh=97zl6QgN9oNdGLUgQ8fFwCeVMViCX/2lSXi6MIcNxlc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rZbYPHt0E8CXro2RyuMeThxflaZYwOxINrDxrrYoPPEukudYTE+PRa+WZ/cShA30Pwv+gXvYUgfOCSP4EAjod+zZlfhI9wGF4y09ZPm4FVjFoD7M2unjJvPbZprKzfkVfbpq8+fqEupYSQ5wIAA5gH8aQ6YkJdMr54tdQPzH4MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=tFq/h1QD; arc=none smtp.client-ip=185.125.188.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1705914735; c=relaxed/simple;
+	bh=2fBoKCcegy/XwfiYfFjhAIztTEvocYf7E0NC0/GEvbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mInPPCJmMHRUcBUL+pLoeWsDwg4AT7lDpUCSMRSuHC91kLS1pT2Tk9v56yMnRjXUbcjIKGUfjPqLrF3idEcomRV5BcC/QWtiBnGltkvTwAAhImlUMJN5Z9c7LnNgz+HJVODB1BEfH1eQ7LZeE2nW5BXXW9JLwmjvRj0Lo0oZNCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKdz0JE1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="tFq/h1QD"
-Received: from localhost.localdomain (unknown [10.101.197.31])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 3EF583FB77;
-	Mon, 22 Jan 2024 07:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1705909753;
-	bh=8MR2CHTpKy5z3N+uu2SQ+FkKZNYuDPWJMZj4SqZeOr8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=tFq/h1QD+OTwt/eb0GRwrY7ui7KbbPi6PQqNBBi/HwQI53rmGeOuejNlknF6yetCg
-	 1Q5Q8ClAM00M7jNgjbVludyX2S/7YRHKVK9/rdaXJHit7nSAIhTfJ968Tz0kiPgPfX
-	 hyji4may9/UjmLXGWuewOqPRV0OaxzMnKP6jfLrnHZIiWYlapGOJTAk2023o8+OXnY
-	 a+rv0jG+Q27XZtrBW8jRi9q8fLhYOi3NTalYzXVCN2a3Jd9/TJ4124vthfaSKSdiOH
-	 VWMNzfQY02TJTiDarkgWYr0MxDDwIF3omHaKkcJSsHplf+vmn+Sao0YBKW9FM2NfP+
-	 JHNbdiY0YYBrw==
-From: Andy Chi <andy.chi@canonical.com>
-To: 
-Cc: andy.chi@canonical.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKdz0JE1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C62DC433F1;
+	Mon, 22 Jan 2024 09:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705914735;
+	bh=2fBoKCcegy/XwfiYfFjhAIztTEvocYf7E0NC0/GEvbw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vKdz0JE13pPip5mI1Oa+yl435logMUU4vyMM1h6xeHAdY0fXHfcFPNCEWL+vI69mf
+	 VDrk4h2N5ffm4ccvIrZ4M1hxKTDix67WGWHmw3t2dX89i34lRQf97cqAv21tbv7aLc
+	 G7VpwXIOhkDbi8Kj4qArT8Yt4IsYXBqKvYB1KmN/0asJdL5tnl+oTZo2WEoF4HIpwg
+	 30JuiA5gsXaoxULLWVRPpSgw/rBrhHOnixQlLZ4Gn0/FP5UluJUCYaHoaaVd1/YVd2
+	 kP0iys9hHkEP+zPV3UMLEEF5Tj/r3euVnFS4paIH4llSahDiT3c5EMUqccsPY+o9G5
+	 20VTZoMvMkWog==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1rRqLx-0000000079Q-1j8u;
+	Mon, 22 Jan 2024 10:12:26 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Matthew Anderson <ruinairas1992@gmail.com>,
-	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for HP ZBook Power
-Date: Mon, 22 Jan 2024 15:48:24 +0800
-Message-Id: <20240122074826.1020964-1-andy.chi@canonical.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: wcd938x: fix headphones volume controls
+Date: Mon, 22 Jan 2024 10:11:30 +0100
+Message-ID: <20240122091130.27463-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,28 +51,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HP ZBook Power using ALC236 codec which using 0x02 to
-control mute LED and 0x01 to control micmute LED.
-Therefore, add a quirk to make it works.
+The lowest headphones volume setting does not mute so the leave the TLV
+mute flag unset.
 
-Signed-off-by: Andy Chi <andy.chi@canonical.com>
+This is specifically needed to let the sound server use the lowest gain
+setting.
+
+Fixes: c03226ba15fe ("ASoC: codecs: wcd938x: fix dB range for HPHL and HPHR")
+Cc: stable@vger.kernel.org      # 6.5
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/wcd938x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index f6f16622f9cc..19f2eb26659d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9957,6 +9957,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c97, "HP ZBook", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8ca1, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8ca2, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ca7, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+index faf8d3f9b3c5..98055dd39b78 100644
+--- a/sound/soc/codecs/wcd938x.c
++++ b/sound/soc/codecs/wcd938x.c
+@@ -210,7 +210,7 @@ struct wcd938x_priv {
+ };
+ 
+ static const SNDRV_CTL_TLVD_DECLARE_DB_MINMAX(ear_pa_gain, 600, -1800);
+-static const DECLARE_TLV_DB_SCALE(line_gain, -3000, 150, -3000);
++static const DECLARE_TLV_DB_SCALE(line_gain, -3000, 150, 0);
+ static const SNDRV_CTL_TLVD_DECLARE_DB_MINMAX(analog_gain, 0, 3000);
+ 
+ struct wcd938x_mbhc_zdet_param {
 -- 
-2.34.1
+2.43.0
 
