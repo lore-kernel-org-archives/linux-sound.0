@@ -1,95 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B846B16410;
-	Mon, 22 Jan 2024 07:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B4E16410;
+	Mon, 22 Jan 2024 07:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705909309; cv=none; b=oNauoG96/P4snj4Y30c1PnuFLCAkWY+4g3B+OtnwYaqX6KpKpiNFwbtCPqfzdPy/tc2oAhA5miX560rudAPwZ4MpREuc4IQrS+WH5fvnVWX6UfCw1dc4AoJnmArxmGlSjvtnU77pbULpze45FFdY1ex+JfoeemCmcTo8GKuzWS0=
+	t=1705909763; cv=none; b=tG6lkd9MUAJPcGB7dHmDQ5urBym9E6nawvW0hK/HFXE8gUe2D6gZvyoo0jPrCAP2EpFhm2g0MMgrTsBFAdGNdZf86OcbeHyLi4xS6SrM86aYuspxFkOYhyqCw7bZcI4kwAiu/RHvNyWXKc7nck8XuZL1rtk5tey8mx7mfIsk1kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705909309; c=relaxed/simple;
-	bh=bNCnQp0ND/Bhd8jsEriViBmV+pDcacpd6HBwU8PIoQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qt7rX/FWFSJrkHbfWz0jJi58j7jzfblFd2CYsokAHOuw8+EVpLt1eB+NvS03SgwKdUiPb65OgGvmq+ml/lLB0aM8+Bg90ciGZLISInxtGxGfZ5kVv+kp/nEW4seJ0UPpYcK/ZFT7xVhPSiTTS+N6qzBp+3BLXHUVz+TThBDHRHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1uaOB34; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705909763; c=relaxed/simple;
+	bh=97zl6QgN9oNdGLUgQ8fFwCeVMViCX/2lSXi6MIcNxlc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rZbYPHt0E8CXro2RyuMeThxflaZYwOxINrDxrrYoPPEukudYTE+PRa+WZ/cShA30Pwv+gXvYUgfOCSP4EAjod+zZlfhI9wGF4y09ZPm4FVjFoD7M2unjJvPbZprKzfkVfbpq8+fqEupYSQ5wIAA5gH8aQ6YkJdMr54tdQPzH4MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=tFq/h1QD; arc=none smtp.client-ip=185.125.188.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1uaOB34"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D970C43390;
-	Mon, 22 Jan 2024 07:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705909309;
-	bh=bNCnQp0ND/Bhd8jsEriViBmV+pDcacpd6HBwU8PIoQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N1uaOB34gDFPl5VgCSojvtB3kJLoAuXALTXH8M8PXB48+q0RzPXLgeiOZWpGlithi
-	 qkFsXXxAmmVdkaObyI1c5dBA0XZvmGmQS5ZjOmsdELsxbqFHd/o1fgSu21/Qub1xzc
-	 4QWHiAXJlV+pgMtIWN7G/5uSZUkb79z6lK7eWfIQ2XLpScPtr6nsBxmRU7CgsiM53k
-	 7/JBW3HKmwzdTRZl5desoUu2GpDNwD1xNn8OXJWdeTOI5RU0VtPYgjRbAhIK/8fPR+
-	 VZs5/t9m/cS8yIQPJlHnAK9sS/D2ASIRHn2Oa9MbSZScGYOJOxE26iu3WP369JHIxT
-	 NEsU/yw3Jvv/w==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rRowR-0000000071i-3V5n;
-	Mon, 22 Jan 2024 08:41:59 +0100
-Date: Mon, 22 Jan 2024 08:41:59 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <Za4cR90XoAaATq8X@hovoldconsulting.com>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <20240119112420.7446-3-johan+linaro@kernel.org>
- <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="tFq/h1QD"
+Received: from localhost.localdomain (unknown [10.101.197.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 3EF583FB77;
+	Mon, 22 Jan 2024 07:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1705909753;
+	bh=8MR2CHTpKy5z3N+uu2SQ+FkKZNYuDPWJMZj4SqZeOr8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=tFq/h1QD+OTwt/eb0GRwrY7ui7KbbPi6PQqNBBi/HwQI53rmGeOuejNlknF6yetCg
+	 1Q5Q8ClAM00M7jNgjbVludyX2S/7YRHKVK9/rdaXJHit7nSAIhTfJ968Tz0kiPgPfX
+	 hyji4may9/UjmLXGWuewOqPRV0OaxzMnKP6jfLrnHZIiWYlapGOJTAk2023o8+OXnY
+	 a+rv0jG+Q27XZtrBW8jRi9q8fLhYOi3NTalYzXVCN2a3Jd9/TJ4124vthfaSKSdiOH
+	 VWMNzfQY02TJTiDarkgWYr0MxDDwIF3omHaKkcJSsHplf+vmn+Sao0YBKW9FM2NfP+
+	 JHNbdiY0YYBrw==
+From: Andy Chi <andy.chi@canonical.com>
+To: 
+Cc: andy.chi@canonical.com,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Matthew Anderson <ruinairas1992@gmail.com>,
+	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for HP ZBook Power
+Date: Mon, 22 Jan 2024 15:48:24 +0800
+Message-Id: <20240122074826.1020964-1-andy.chi@canonical.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6hBlhn91CWqsWzU0"
-Content-Disposition: inline
-In-Reply-To: <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
+Content-Transfer-Encoding: 8bit
 
+The HP ZBook Power using ALC236 codec which using 0x02 to
+control mute LED and 0x01 to control micmute LED.
+Therefore, add a quirk to make it works.
 
---6hBlhn91CWqsWzU0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andy Chi <andy.chi@canonical.com>
+---
+ sound/pci/hda/patch_realtek.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, Jan 22, 2024 at 12:03:55AM +0000, Mark Brown wrote:
-> On Fri, Jan 19, 2024 at 12:24:18PM +0100, Johan Hovold wrote:
-> > The UCM configuration for the Lenovo ThinkPad X13s has up until now
-> > been setting the speaker PA volume to the minimum -3 dB when enabling
-> > the speakers, but this does not prevent the user from increasing the
-> > volume further.
->=20
-> This doesn't apply against current code, please check and resend.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f6f16622f9cc..19f2eb26659d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9957,6 +9957,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8c97, "HP ZBook", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x8ca1, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8ca2, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ca7, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+-- 
+2.34.1
 
-These patches are based on Linus's tree after merging the sound updates
-and I just verified that they apply cleanly to 6.8-rc1.
-
-I couldn't find anything related in either linux-next or your ASoC tree
-that should interfere.
-
-Could you please try again or let me know which branch to rebase on?
-
-Johan
-
---6hBlhn91CWqsWzU0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCZa4cQwAKCRALxc3C7H1l
-CIxuAP40ZX5S3hcjEvbXjMLdYeKr/Nckfcn4BA2prKLZ4aqX+wD+Nete6gxhBX0l
-Ms5y+h/uAsuqbIqbgFwhpapBjxXd+w0=
-=Ejix
------END PGP SIGNATURE-----
-
---6hBlhn91CWqsWzU0--
