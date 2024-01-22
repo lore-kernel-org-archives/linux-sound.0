@@ -1,50 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE5050264;
-	Mon, 22 Jan 2024 14:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB55D72B;
+	Mon, 22 Jan 2024 15:01:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935493; cv=none; b=NHXtjLf+kIRs3yy1ppMsGXfqid0o0S0vNZIKIhs3oQWEFS88UkuiibM61ycYFHJQCt339exC42UU6maO4hrzKEc0hZ3U+f/gHYkSFuEyQPeOkYFvgaIsbGhYPv4Cy6hTFbzW0aYFRZBLIqa0xwWUULbbzJzgJozq2PM/rspZJqc=
+	t=1705935675; cv=none; b=q+EXg/h7p7KUkR2KD606R+dcEC1YsIBIWHfKpPS3tIkGfjuYd146GwwI2qMu8sYxp+Ub6TuahswOozdIVU60EWO96HEWVrYss3EPisTWUYq1k6MFOXbYWdtjxlfddnllkUGkKLN35MeAQnvzqgQ2VVPF1Ih8BafjVHDsmr16+KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935493; c=relaxed/simple;
-	bh=lYQ0v9BNAg7b1crERIXnaGONdNgAR+yxdq9wdPYxpoA=;
+	s=arc-20240116; t=1705935675; c=relaxed/simple;
+	bh=jMt1X1UPSGWztS6fWUz+xylWbP0lQWWMOLDrSFZxAZw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sc93Y67vZUSlo/NSru/7+Tf35y1YBK/8xlpzW0LauTjzzWVEIhI2sDVON8QH1SunuljW5eP2wfAMT7I8BqJvMB42Yn1Zb7hvZU6i/5m1arGXA7aIkLthBdR7hXNxVXa0mqd+tX/8xwlalMr46+BxVafoKQwpeFB9wy6kvTYExgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oB3pN6Pi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=LiRn24l/RqZDhIJmEsmMPbEDhndzod2HoNCYy97UxAZaH6vIElNkO/JQEvpeSBozi2TEbLA/8nxqeZCFZ4M969rIcEG25wp5yrfkXvVxjLKnbjNvrSywdVwzMDj0gBNld5PyHzwQr4pQK0N+aPL7QXJhKsomAvP+dO8LvqwboFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8Q39pps; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oB3pN6Pi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F424C43390;
-	Mon, 22 Jan 2024 14:58:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8Q39pps"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA12C433F1;
+	Mon, 22 Jan 2024 15:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705935493;
-	bh=lYQ0v9BNAg7b1crERIXnaGONdNgAR+yxdq9wdPYxpoA=;
+	s=k20201202; t=1705935674;
+	bh=jMt1X1UPSGWztS6fWUz+xylWbP0lQWWMOLDrSFZxAZw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oB3pN6Pi9ysWv5ciEN0U0fEKUScG7lOahpj6kpV4mwq39VX/9VlT8BCBv9gIH2pli
-	 oIcne8IcrhplipO5Vs6cLyKVAdFPhKccBpMXxNm9OBhUc6s8TWWKEArQoPg0KqwW7Z
-	 6F7IVY82vDTnQxaiEdRhj0OyMdQYnpMQvM1h6O3ZOpcvSWg6kX4/Boo2SuCktxVWjB
-	 2mo9jLbZNZopD3A6NmiHXbw8q15tqI9m3rB8/NyAzEk3hDgxUCkJ9rUFEOIDrexxEA
-	 6ZavPHgE+hCfvYBIS3LMdt0BrmMrn8C/2IedX5UMCWPtuhJh3Cz7qqGtfV3j7ZCKOd
-	 9Q6yZ0SND/ufA==
+	b=c8Q39ppsM/YaOVhAZ+2uRn/5CxSu2GYc30UsCt6XjnxgUo84H9kpleyqJxYQmDZDL
+	 Wut4D56+waMHf8yf8PipaErC8HSOpywwXrK5VOdGjaMi4DYyN5QT/ErwEcs2gzfr8/
+	 Tj4+uKn/gh2+ue09M+OEs2eijy1MWJXpU/m+fpOBK9/GMCgg+5WwYmpw8Vy28wgK3P
+	 +9uJQC0l3yD114RXKxYDD8CybK/jSud2thqzoSm9dGNYZ4BlKk90EcPeyxa9SdJBdJ
+	 4n0X5HULSdUf1tOpTNyI9ww9Wzj+vE2KZ/17/IYNEwHTKF7lQoErMyoWDVjEOpALx0
+	 QvqZqbtI3hzRA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Gergo Koteles <soyer@irl.hu>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com,
-	amadeuszx.slawinski@linux.intel.com,
-	bradynorander@gmail.com,
-	markhas@chromium.org,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	vitalyr@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 31/88] ALSA: hda: intel-dspcfg: add filters for ARL-S and ARL
-Date: Mon, 22 Jan 2024 09:51:04 -0500
-Message-ID: <20240122145608.990137-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 72/88] ALSA: hda/tas2781: add fixup for Lenovo 14ARB7
+Date: Mon, 22 Jan 2024 09:51:45 -0500
+Message-ID: <20240122145608.990137-72-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,50 +54,72 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.1
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Gergo Koteles <soyer@irl.hu>
 
-[ Upstream commit 7a9d6bbe8a663c817080be55d9fecf19a4a8fd8f ]
+[ Upstream commit b5cb53fd32779f3a971c45bcd997ae2608aa1086 ]
 
-Same usual filters, SOF is required for DMIC and/or SoundWire support.
+The 14ARB7 has two tas2563 amplifier on i2c.
+Connect it to the tas2781 driver.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/r/20231204212710.185976-4-pierre-louis.bossart@linux.intel.com
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+Link: https://lore.kernel.org/r/abce9ee55689523562feb72383377171a489ddc7.1703891777.git.soyer@irl.hu
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/hda/intel-dsp-config.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/pci/hda/patch_realtek.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
-index 756fa0aa69bb..6a384b922e4f 100644
---- a/sound/hda/intel-dsp-config.c
-+++ b/sound/hda/intel-dsp-config.c
-@@ -521,6 +521,16 @@ static const struct config_entry config_table[] = {
- 		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
- 		.device = PCI_DEVICE_ID_INTEL_HDA_MTL,
- 	},
-+	/* ArrowLake-S */
-+	{
-+		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_ARL_S,
-+	},
-+	/* ArrowLake */
-+	{
-+		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_ARL,
-+	},
- #endif
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 70b17b08d4ff..9606f2448fda 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6984,6 +6984,12 @@ static void tas2781_fixup_i2c(struct hda_codec *cdc,
+ 	 tas2781_generic_fixup(cdc, action, "i2c", "TIAS2781");
+ }
  
- /* Lunar Lake */
++static void yoga7_14arb7_fixup_i2c(struct hda_codec *cdc,
++	const struct hda_fixup *fix, int action)
++{
++	 tas2781_generic_fixup(cdc, action, "i2c", "INT8866");
++}
++
+ /* for alc295_fixup_hp_top_speakers */
+ #include "hp_x360_helper.c"
+ 
+@@ -7454,6 +7460,7 @@ enum {
+ 	ALC236_FIXUP_DELL_DUAL_CODECS,
+ 	ALC287_FIXUP_CS35L41_I2C_2_THINKPAD_ACPI,
+ 	ALC287_FIXUP_TAS2781_I2C,
++	ALC287_FIXUP_YOGA7_14ARB7_I2C,
+ 	ALC245_FIXUP_HP_MUTE_LED_COEFBIT,
+ 	ALC245_FIXUP_HP_X360_MUTE_LEDS,
+ 	ALC287_FIXUP_THINKPAD_I2S_SPK,
+@@ -9568,6 +9575,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
+ 	},
++	[ALC287_FIXUP_YOGA7_14ARB7_I2C] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = yoga7_14arb7_fixup_i2c,
++		.chained = true,
++		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
++	},
+ 	[ALC245_FIXUP_HP_MUTE_LED_COEFBIT] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_mute_led_coefbit,
+@@ -10221,6 +10234,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
 -- 
 2.43.0
 
