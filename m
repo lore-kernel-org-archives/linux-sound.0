@@ -1,104 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759B5140772;
-	Mon, 22 Jan 2024 15:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8034156776;
+	Mon, 22 Jan 2024 15:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936565; cv=none; b=OJktyk8vdBKZw0ovbJVUOyftdpyGDtRFM3XYmb7v+9bzP8HhnBDGOIo4KMTPRAlwSA+w8NJxvNB74khyKDQqqgzWBM8wqFEWUOZoJCJY8rcAU9pNxLhpFggUU+itIjEV3E5KsbRrR+WZdzgKTa/UV6J5RtKN8TY34G9FhrucyCY=
+	t=1705936625; cv=none; b=E5m53Q1C3wHJn570m7qbV8dz/EvKeGGFtDJMNJedkgNFDczq5xw9voCtOw129lbmbGX5j0ATzIK5t8NFqg1nQdCpAnA+fYQatoR06ZNQuaNAyfir8nuU/G0YYS0IV5Em7nbepOjiVyBlnlz73lwuiAMizzVFMcrIP+JSXEUbPWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936565; c=relaxed/simple;
-	bh=Co1hU6h6+FfNMHYhM0Md9CxnsIPY+jOY59OLGlmZ50w=;
+	s=arc-20240116; t=1705936625; c=relaxed/simple;
+	bh=8wZK5/mKd2QFneQq4dciiZ+LWwMHMu8Xaf3FxI4/OKs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Cj1w+sWaNZIyAkBkb22pKu+2a0SQGJl5KQB4OUHvqyiYc242l8S/jRoMTZYR3Vg9Zi8PY2mG2AYxaz/5/Qt8oa6M11xSdAdGtCqRygRoiJDj5C0dk7hGnuSSsZjsaqUK2Xhn6frRB5tevhM8T4UYZf5CpBmH32yDHYrSUZ6lRnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFZQpZfM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=DZ2gAHXZeuMrucjkiDmspahZeeVu+BBQeEgGiiOXNoFtQiofrP5QxVvvZJjxiMBClT9ClxdeDi2kEHmiMv+pnDcZWQGJrd/m60j8njPuDvKvmCVB8FEmYiPY8Ybul/dPp732y9R44uGvSOeZL6Rt5zjZRpubwEPo2VN6GdbPJM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFVRlfMJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFZQpZfM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05475C43390;
-	Mon, 22 Jan 2024 15:16:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFVRlfMJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC893C433C7;
+	Mon, 22 Jan 2024 15:17:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936565;
-	bh=Co1hU6h6+FfNMHYhM0Md9CxnsIPY+jOY59OLGlmZ50w=;
+	s=k20201202; t=1705936625;
+	bh=8wZK5/mKd2QFneQq4dciiZ+LWwMHMu8Xaf3FxI4/OKs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kFZQpZfMFi94Kk8P6hSYVRMN78MpurDwVwMK3dekw9A/tELvavEK7X+rofiQ88Bnd
-	 fJFMv5xqCkSwWropP2eqtYghUdSm1Kd6FWYJUMvVDcC3GdTi3WgqjecL3nWdCP1QG+
-	 eWi3ycwW5+0QDdhVVCLarC2Mt9c3YL0fE9vdCdiok02HQ/+Sq6JItSRERDHJho9SpH
-	 BTI9Pnipy6gS57VR5FhSzT5vnGQX81M0iT4ZIOoe93Lob16yBKzwSuWxRZy/oT8rbC
-	 yLtgsyzJQ2dX9BeBfU/+/o3gVoZoCv8eqotf+tkDPGRKFmefwV6TDLXN1Bsm+Mq8G2
-	 t2UPKDDzM1wyw==
+	b=eFVRlfMJwSvyKOv8coP5FNeKntEqoYdgfudfuG7N2WvG/KNZRjD593iOzCyjZ5QN/
+	 VagdqIIdNQ2d9l5RI5tp9mUK2sUgzfpGttHeQNx54JPhUzYXm7wgNAo/AoLPU6ygg6
+	 RrfWm2F9nJvDnc0GpwboTI5Is3E8shl8OINQgccUvvBntA+1gNv3hEdj0k6E7ZG6YP
+	 c5C7k47Jfab/Kkm80zYeuznanXztUakL2p2ezYTqpGIDHeI007r2YQJ5erYsneJ3ty
+	 4AyRO1nvPyZwbfZ0ginFn5i5f63+BmFpSsEw7YeAwoaG8dTNoGn69e49bXzJMkJPjA
+	 FPdqpXbrM1tKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	amadeuszx.slawinski@linux.intel.com,
-	markhas@chromium.org,
-	bradynorander@gmail.com,
+	cezary.rojewski@intel.com,
+	broonie@kernel.org,
+	zhangyiqun@phytium.com.cn,
+	chenhuacai@kernel.org,
+	siyanteng@loongson.cn,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 17/28] ALSA: hda: intel-dspcfg: add filters for ARL-S and ARL
-Date: Mon, 22 Jan 2024 10:14:43 -0500
-Message-ID: <20240122151521.996443-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 02/24] ALSA: hda: Refer to correct stream index at loops
+Date: Mon, 22 Jan 2024 10:16:16 -0500
+Message-ID: <20240122151659.997085-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122151521.996443-1-sashal@kernel.org>
-References: <20240122151521.996443-1-sashal@kernel.org>
+In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
+References: <20240122151659.997085-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.208
+X-stable-base: Linux 5.4.267
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 7a9d6bbe8a663c817080be55d9fecf19a4a8fd8f ]
+[ Upstream commit 26257869672fd4a06a60c2da841e15fb2cb47bbe ]
 
-Same usual filters, SOF is required for DMIC and/or SoundWire support.
+In a couple of loops over the all streams, we check the bitmap against
+the loop counter.  A more correct reference would be, however, the
+index of each stream, instead.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/r/20231204212710.185976-4-pierre-louis.bossart@linux.intel.com
+This patch corrects the check of bitmaps to the stream index.
+
+Note that this change doesn't fix anything for now; all existing
+drivers set up the stream indices properly, hence the loop count is
+always equal with the stream index.  That said, this change is only
+for consistency.
+
+Link: https://lore.kernel.org/r/20231121154125.4888-1-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/hda/intel-dsp-config.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/hda/hdac_stream.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
-index 48c78388c1d2..ea0a2b1d23a3 100644
---- a/sound/hda/intel-dsp-config.c
-+++ b/sound/hda/intel-dsp-config.c
-@@ -372,6 +372,16 @@ static const struct config_entry config_table[] = {
- 		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
- 		.device = 0x7e28,
- 	},
-+	/* ArrowLake-S */
-+	{
-+		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_ARL_S,
-+	},
-+	/* ArrowLake */
-+	{
-+		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_ARL,
-+	},
- #endif
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index f810f401c1de..bff931ff291c 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -598,17 +598,15 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 	struct hdac_stream *s;
+ 	bool inited = false;
+ 	u64 cycle_last = 0;
+-	int i = 0;
  
- /* Lunar Lake */
+ 	list_for_each_entry(s, &bus->stream_list, list) {
+-		if (streams & (1 << i)) {
++		if ((streams & (1 << s->index))) {
+ 			azx_timecounter_init(s, inited, cycle_last);
+ 			if (!inited) {
+ 				inited = true;
+ 				cycle_last = s->tc.cycle_last;
+ 			}
+ 		}
+-		i++;
+ 	}
+ 
+ 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+@@ -651,14 +649,13 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
+ 			  unsigned int streams)
+ {
+ 	struct hdac_bus *bus = azx_dev->bus;
+-	int i, nwait, timeout;
++	int nwait, timeout;
+ 	struct hdac_stream *s;
+ 
+ 	for (timeout = 5000; timeout; timeout--) {
+ 		nwait = 0;
+-		i = 0;
+ 		list_for_each_entry(s, &bus->stream_list, list) {
+-			if (streams & (1 << i)) {
++			if (streams & (1 << s->index)) {
+ 				if (start) {
+ 					/* check FIFO gets ready */
+ 					if (!(snd_hdac_stream_readb(s, SD_STS) &
 -- 
 2.43.0
 
