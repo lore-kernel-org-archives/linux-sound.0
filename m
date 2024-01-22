@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11E11FA1;
-	Mon, 22 Jan 2024 00:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF56161;
+	Mon, 22 Jan 2024 00:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705881840; cv=none; b=ejpdWbkbley3Y0AnPrw5cBZywMk07ZfwxDorPncpL5F78goaGgoFzjNxpB+4PGDBRAXrL7GTtDFUYReq4OGA9QrT8FQaJC9j1hKVwbfY77r0ORHxssn3QcXS37CM/I9Vh2LxeLD6sCpSkOPHWVYhuObIFwyjmzs8/UvQwNDmoL0=
+	t=1705881936; cv=none; b=N1Whtd5KOBolm1Dbbi8iPa8D+AXL1ak13lBYYRd7Ss4mOq0DYpFsPvYiq2iJ+AxoWuiHmhl/meDlmwsgxNJEHILca34+2kyENCxNc+/jr6/l+UCbf56tFnx6UxYL6/hqWnCEfd7Lshbf/l8SrxAITl63ce7W77vtkzqj372s6VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705881840; c=relaxed/simple;
-	bh=7oDI1XO154l1iaa0RraSQw5ES7TxoMVaLBOvKr6NGIU=;
+	s=arc-20240116; t=1705881936; c=relaxed/simple;
+	bh=Au8khH7Zv4k54FCEbuCumzTavqYrGgfeha/BOwnvUWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iMCcHpak7TP4gafOBUbvkw8ZLd0lDiWVcZkkM6Eamx3yT3DlFg5A0qM26b0PWogqD9BfwJpaOdIZ7Yez5grp9o7Dpl1CSKX2AAGPo7TdXHGcSVGrYdZ3/RpWT7A3cEUQp4jvj+xrWCC+0V9sBv6gQHJS/TXtXJSUQ1q8M7Asn14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8kyjonA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3MMs7VaJYYqMDA50STBV4dNBfpQ+/cqTe9uJB1tkbP3SXZg/Y6FFdbc5KutrlFDx19/1TYPGPOa9pYUQwZ4ZcJoXPFtXRmgsA+uHb4Ub3/HMVkeEhhyd6BVHBPDBsf9rZwBihIr7ouYaXJwwwKx3VcCFY72UOUgfdp5Ox1gp6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0U7WMZh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8kyjonA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181DDC433C7;
-	Mon, 22 Jan 2024 00:03:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0U7WMZh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78177C43390;
+	Mon, 22 Jan 2024 00:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705881840;
-	bh=7oDI1XO154l1iaa0RraSQw5ES7TxoMVaLBOvKr6NGIU=;
+	s=k20201202; t=1705881936;
+	bh=Au8khH7Zv4k54FCEbuCumzTavqYrGgfeha/BOwnvUWI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V8kyjonAFPfiubxozhOruWdoQ+UXUjbDUSLOYRIMizyMt/Y/BCZz5sbuvgDDM1qX9
-	 CvMVvcUha21MNi25rvqb5XINYtoNHVzyNTi8rkYfd/bTLwbgJcnZDM5+9lKeYrAe8g
-	 xgs7Pfv5KvD+eWAfBZ74aGZbLgUmkBXiD/0+WL9Zgq5TQQm07M18YfBSZbBgriDJK4
-	 Ad3aH+qNe53hChAvwcQVkyF9ZCdLwInlX3wXe6lbUCLbrvhA4Axl0fn3ST/S10diAo
-	 jlpAHKsB8UIF9EbZs6hPLOQ8LutAmlEvoGlivfAyn4JMreVapHTDWSlt0Z7CxmknB2
-	 3Bir742GDmMrQ==
-Date: Mon, 22 Jan 2024 00:03:55 +0000
+	b=Z0U7WMZhiHdgNJK8eFxrBHzkcN/VbL2sUtjrwivlrsFMLQ5LhCuDuC/hOQpqogDYD
+	 PUvW7V6sLvs2/L4F0ccC8ax7wgp9YOZOCbGnYMu0JU8gxLCfqRpgUp+5uGrIq6SOj7
+	 Tj78TjaHqAZ9Dp+zo2YS5sSqGpFeaAECDE+OL0i/wyRMvBCfjiy2GELcqwt6NW7XLp
+	 pOAHDn0Se4rlLQySl++TFSSq1rwbeJimHxeQWLqrkXWEWKEQOL9tf4yvV/V/tYG38w
+	 XPE3hTy4r1E6hrlK4NZAwhTZNRpAGv2qELISwpg4FZBTRyVQnvPr4iy8HxOv3f51Xl
+	 a4IFkcyiQBrDw==
+Date: Mon, 22 Jan 2024 00:05:31 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <20240119112420.7446-3-johan+linaro@kernel.org>
+To: Daniel Abrecht <linux-sound@nodmarc.danielabrecht.ch>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: soc-core.c: Add "Unknown" and "Unknown Product"
+ to dmi_blacklist
+Message-ID: <5e501a1d-a729-4844-b2c6-53d5ad332a69@sirena.org.uk>
+References: <7d11d0711ad93f2208efb9ab13fe915b@abrecht.li>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,37 +43,35 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ddqYfjTpQJcp+t1u"
+	protocol="application/pgp-signature"; boundary="U+17xNBKgTGscJDm"
 Content-Disposition: inline
-In-Reply-To: <20240119112420.7446-3-johan+linaro@kernel.org>
-X-Cookie: 1: No code table for op: ++post
+In-Reply-To: <7d11d0711ad93f2208efb9ab13fe915b@abrecht.li>
+X-Cookie: Your lucky color has faded.
 
 
---ddqYfjTpQJcp+t1u
+--U+17xNBKgTGscJDm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Jan 19, 2024 at 12:24:18PM +0100, Johan Hovold wrote:
-> The UCM configuration for the Lenovo ThinkPad X13s has up until now
-> been setting the speaker PA volume to the minimum -3 dB when enabling
-> the speakers, but this does not prevent the user from increasing the
-> volume further.
+On Wed, Jan 17, 2024 at 02:44:43PM +0100, Daniel Abrecht wrote:
+> In U-Boot, the default for DMI vendor / product if not set is "Unknown" and
+> "Unknown Product".
 
 This doesn't apply against current code, please check and resend.
 
---ddqYfjTpQJcp+t1u
+--U+17xNBKgTGscJDm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWtsOoACgkQJNaLcl1U
-h9A6sAf+MNxmG+32Oty1qqRKXBZ5RVX6g9r56r3iFPMAmhMHoSZSvmXUvPk2aG29
-7Oy3y1c5yFMKmSVNq5Oi8XzLAua0Prpx1ziOSwRCgQSdZ+DRjcgxnh3lfFjH4gJI
-8GbfQuWO6XYIU0Poi972LR/dofiuSOkcU6SriIdmoUIdWaplFT/hK0b9LwFMejzD
-7p8XuQw/G0JQgztd/KGtTr1S/UyqTKbcg5hK7ON4woYsSQKWCdKq+hqXx67tyTAv
-4fiRWsQoRqtTeAw2PCt0xi3yT6aMfeciOiScaz1uZwmym3Hs8gQ1H4TSV/ee6ieu
-nUHFZS8Xq3xiYmO7DN+Fnx/eYSi46Q==
-=0JpU
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWtsUoACgkQJNaLcl1U
+h9DtcAf+OakNOFcayihvk5bRMXUxk8S8CKm286BI5igstoC5Nmy9HY8CjQpcJeTM
+xZTx10eWu3HGcXob1q3Y4jej9ji5IiOulc/S9nAxxLuZfdefTFLS1ntb2HH6qdop
+vnRNGu8vtSRrB4+1Kwqnlnxx8bW/xR3E8s24mmvA/rfBkg/GnfcgMFtJwO8fMIRf
++IUjUrYvYbzrq0GRLsIKsx7HLwDqjIGYMwLbj1cxGOHPhLlEwVN50Qa8Uo1SSsXP
+fXvqh7CLA9qApLkVlHE/GfygEfT30Y4+cHbUMtXmOF72jjII7UbyJFBnam5qC/qJ
+JC8rmYmN6WJMz4hITVGpKDwy4gD8NQ==
+=s9Bt
 -----END PGP SIGNATURE-----
 
---ddqYfjTpQJcp+t1u--
+--U+17xNBKgTGscJDm--
