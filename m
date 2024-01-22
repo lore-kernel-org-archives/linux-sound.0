@@ -1,92 +1,149 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAC94776B;
-	Mon, 22 Jan 2024 11:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6BF3D3BC;
+	Mon, 22 Jan 2024 11:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705922513; cv=none; b=IRKNQFApo05PYVgESUaRElV+4UhSKGu2Jl1dl5+XqB2GJFR6DMQpq6Ep6/UKoajzkQjQOQijLNSdIgr7rrz30iNR+AkcaqMsp/9gna/Yh8XfWTZC9QFiiSXCWiVJUa8NXXTDGNCxjzpJEEXkiR7lQe0ej+5snNUvljJ2pp7+Oo4=
+	t=1705923695; cv=none; b=CLdveub9mrodnnLokbpOYDO7Jy30VB75F8ZiTW7QdtLlkK9CT+L4Q8TCBuKzMYQLiedQnSkAntCpreevKLWSgFIx620/nq8tAwfd072IHIC/gTHRs5tQnsGnN/OrkZa3zLaRg6uLH6hCo36nvKGRyMMfwrKv6UJ9f/SD/oQfxYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705922513; c=relaxed/simple;
-	bh=Aoa2uD6JhnOWVhqPLVHgP+kBp2d3drpGdH+IsOITYSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PDTtodwYEZ3okafor2qeDHQjGbxZw3MkR/l21P5RYYpb6AcQwOcvf8aDJ80vsMpUzctAcA7bR4HuwqC5vR9Fhlg+SexnycCdmxyTlJu6hE5a4BB1AYqnabCmm0fchZjYQUcpbqtdlPGxHzKdI2IUV1GWU9xSP3kvftIyfoE+q5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMrHQv8z; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705923695; c=relaxed/simple;
+	bh=TFWI6JTKREohL41oXLi1D5cttfNwbBSLh8m7YgHZDUg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PAm+J11DMDZdhjejr8I8mFu0dI8JjeBj0U13hmDx04PCun4TsUwHYRuAKP4u0oKwJBOtIUINCcGhsHADf6ibuJNFq83yWYC3FQiH66E5kOcBV9by73dEBV04WEZ8qC2JLCJynrfAVxe3HW8KnTnUKtNUDdZn1qFd/ayLRL+Ukiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zc0oP46+; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMrHQv8z"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5fc2e997804so25452057b3.3;
-        Mon, 22 Jan 2024 03:21:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705922511; x=1706527311; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Aoa2uD6JhnOWVhqPLVHgP+kBp2d3drpGdH+IsOITYSQ=;
-        b=WMrHQv8zwFo3Dvox9r3jp13jSM8o1d0aRYSjxjukF9d863tT1x1PS6CZMYSDofoWKb
-         DNjFpGJfj4++YgUKCmGY+4dNykQKYRYMeIJqAhaDX4i/1YyP0WD3jr/uZzNhHEkrxGMi
-         A6VtFYkweLyuONStIr3feIWV/QOt5/Mm24tJBzvXKN1esXdgV9vTBLcJSF5yvOR4BRuE
-         wW74f/AlmrwcB9BRzZHtWGJgwLIgOs3V7xZmWZINqgYA+u8KQSUtueHU72AfZngOJdot
-         XJg3cqWhukQ86nuIQQTnpe82R1tzHDk78kDj9Z3L4W/ZMYacY62gWSTofz6PltzgBjjT
-         S81Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705922511; x=1706527311;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Aoa2uD6JhnOWVhqPLVHgP+kBp2d3drpGdH+IsOITYSQ=;
-        b=O4nHF3835SjN87MwowKDJCIz2VfSvxwlcMCMlb4bu6zGvIO7D0PA7vsrtW8W6A38hk
-         /rGtPFy1ps04IBOmVha0JKs4+yR0FELT4GKwQUTkbkTCTM2+k7t6R/niVTGeH3kUOSS1
-         9JOQBxmaw+Xufvuf2sQZdmdy98nbdiZp7F1DOO/MQQeW9DPtpOcoMWnWTsVRN/jS/sQv
-         Ts+8pGhWKa/Q+5LdbZU1b7wRY3c/7vCotN6M0deefIUu5Map5ZZUwwvOEMi1Mll3LAN0
-         xR0wQfzeESGJX+/2Z1JMklzWPqbjYDjgaZAtjfuEcPdq1uNpRggPiUbOvYx928CK3/uy
-         T9yQ==
-X-Gm-Message-State: AOJu0Ywohywwu7aVjDgs/JgXi9/GKApYtNpfjcKGvL4iv+rC+IJJ2mUD
-	wU7seCHIub89Z47pIswIEBHBhtceYwTx4wwcCF2MaQsIQSrK4ERtimdvjk2BO/DCjoUJkIUl62A
-	usPgICsqFM7qRhhX19oJKU4zFTA==
-X-Google-Smtp-Source: AGHT+IF3tNBm3AaqbWBH2APl+K+A1l2FMfhzy88eG1EvSwkSOyNPO716qqkCrAEbgCBTWnAKulQ6FYnzhC/hyyHotkE=
-X-Received: by 2002:a81:5384:0:b0:5ff:617e:6edf with SMTP id
- h126-20020a815384000000b005ff617e6edfmr2939801ywb.34.1705922511434; Mon, 22
- Jan 2024 03:21:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zc0oP46+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705923693; x=1737459693;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TFWI6JTKREohL41oXLi1D5cttfNwbBSLh8m7YgHZDUg=;
+  b=Zc0oP46+2c3YTs6ZRrxSzC2w+MyvRR3FozqmHryTVPkMrdLyB+7weC6h
+   oYkTsZOCy2qDATPdtt+IWWCV9S9Z0XsZCPtJi/8jmc95uxSBU8/l7dJah
+   pvyPEcyUv+5DDxyPp+TEUOqdYKFJ8uozmbuJA36uPEoLkJpztIYyMh2xu
+   4jUCrak0xKNwf9zBE/D3ZhBaYi0CWY84mDxAJ1QTQxlTcGY6fgAyCwQsJ
+   ryCp5A54wFcldGpBDsFjZyO0o25ZkEuH6tj4lScMQNlWI7Bwx38gJ+2qG
+   pQcQmZ8wvgqoyCdgQjqqwhOhbCFwZuy2pGNYKEtNykWWyI80F9ec6xPu+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="432347123"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="432347123"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:41:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="904825864"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="904825864"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:41:26 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E3EFC11FAD4;
+	Mon, 22 Jan 2024 13:41:21 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-pm@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v3 0/2] Small runtime PM API changes
+Date: Mon, 22 Jan 2024 13:41:20 +0200
+Message-Id: <20240122114121.56752-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240122092338.25047-2-rsalvaterra@gmail.com> <0b6f3998-135f-4059-a8a8-e924281353f8@linux.intel.com>
-In-Reply-To: <0b6f3998-135f-4059-a8a8-e924281353f8@linux.intel.com>
-From: Rui Salvaterra <rsalvaterra@gmail.com>
-Date: Mon, 22 Jan 2024 11:21:40 +0000
-Message-ID: <CALjTZvZoH-+yZz5Z7237rhM5BxknFbG_Bt-dkperpgfLKfcAuQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda: Increase default bdl_pos_adj for Apollo Lake
-To: =?UTF-8?B?QW1hZGV1c3ogU8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi, Amadeusz,
+Hi folks,
 
-On Mon, 22 Jan 2024 at 11:05, Amadeusz S=C5=82awi=C5=84ski
-<amadeuszx.slawinski@linux.intel.com> wrote:
->
+Here's a small but a different set of patches for making two relatively
+minor changes to runtime PM API. I restarted version numbering as this is
+meaningfully different from the previous set.
 
-[snipped]
+pm_runtime_get_if_active() loses its second argument as it only made sense
+to have ign_usage_count argument true.
 
-> And seems like I've missed some IDs, when doing PCI IDs conversion.
-> Anyway, can you use PCI_DEVICE_ID_INTEL_HDA_APL instead of 0x5a98 as it
-> is self describing (no need for comment)?
+The other change is also small but it has an effect on callers:
+pm_runtime_put_autosuspend() will, in the future, be re-purposed to
+include a call to pm_runtime_mark_last_busy() as well. Before this,
+current users of the function are moved to __pm_runtime_put_autosuspend()
+(added by this patchset) which will continue to have the current
+behaviour.
 
-Oh, of course! I would have done it if I knew we had those constants define=
-d. :)
+I haven't included the conversion patches in this set as I only want to do
+that once this set has been approved and merged. The tree specific patches
+can be found here, on linux-next master (there are some V4L2 patches
+there, too, please ignore them for now):
+<URL:https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-next.git/log/?h=pm>
 
-> And if you want more patches in kernel - convert first 0x0f04 & 0x2284
-> to PCI_DEVICE_ID_INTEL_HDA_BYT & PCI_DEVICE_ID_INTEL_HDA_BSW and then do
-> the above change ;)
+Later on, users calling pm_runtime_mark_last_busy() immediately followed
+by __pm_runtime_put_autosuspend() will be switched back to
+pm_runtime_put_autosuspend() once its behaviour change has been done (a
+patch near top of that branch). I'll provide these once the preceding ones
+have been merged.
 
-Killing magic numbers is always a worthwhile goal. Expect a two-patch
-series soon, then. ;)
+Comments are welcome.
 
-Cheers,
-Rui
+since v2:
+
+- Rebase on v6.8-rc1 (no changes).
+
+- Add Rodrigo's Reviewed-by: to the 1st patch.
+
+since v1:
+
+- patch 1: Rename __pm_runtime_get_conditional() as
+  pm_runtime_get_conditional().
+
+- patch 1: Reword documentation on driver use of
+  pm_runtime_get_conditional().
+
+Sakari Ailus (2):
+  pm: runtime: Simplify pm_runtime_get_if_active() usage
+  pm: runtime: Add pm_runtime_put_autosuspend() replacement
+
+ Documentation/power/runtime_pm.rst      | 22 ++++++++-----
+ drivers/accel/ivpu/ivpu_pm.c            |  2 +-
+ drivers/base/power/runtime.c            | 10 ++++--
+ drivers/gpu/drm/i915/intel_runtime_pm.c |  2 +-
+ drivers/gpu/drm/xe/xe_pm.c              |  2 +-
+ drivers/media/i2c/ccs/ccs-core.c        |  2 +-
+ drivers/media/i2c/ov64a40.c             |  2 +-
+ drivers/media/i2c/thp7312.c             |  2 +-
+ drivers/net/ipa/ipa_smp2p.c             |  2 +-
+ drivers/pci/pci.c                       |  2 +-
+ include/linux/pm_runtime.h              | 44 ++++++++++++++++++++++---
+ sound/hda/hdac_device.c                 |  2 +-
+ 12 files changed, 68 insertions(+), 26 deletions(-)
+
+-- 
+2.39.2
+
