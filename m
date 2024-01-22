@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8015A487BB;
-	Mon, 22 Jan 2024 20:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E062E482CD;
+	Mon, 22 Jan 2024 21:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705956272; cv=none; b=eGsvbOC0izbkZUWY7XO/ezxGvijzUHZRHOnsNIaWbNeclMTNlUEIDrxeWa6gnNynrelo1z4UZE8y0UPTnMdTSgUy+dHPhhTyRLGgc+5ll0wLr8zIVTZNX0qlFk6TjbYx+jNCXHTkqUHckaAkmgoUoAhO8v2LAP+cJFJLrrRiMmg=
+	t=1705957692; cv=none; b=a3bwj2oI9MAVJKRsRf8lx2ZqUOnTLKYlBVc1LQ5ewL1gYBmZgugkRe4sx7GaKQiMC+QdUM20FClaxUVLLbgEHDh3isFcNnDXunjuk0mmyV2IQkqN16t6333P9SI6YjubkXHnc5isC7uAfnPR/0HkpmBDuQOrsN6hri67iQbzSPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705956272; c=relaxed/simple;
-	bh=oBgJLUj2aXKpW7e/hPKEHrVXPhS5AsGriZEEUK+OLxA=;
+	s=arc-20240116; t=1705957692; c=relaxed/simple;
+	bh=4avFRO6HirzW04Qxit8v5Uo32O/NhMy69h0hvlBJ0E4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Hfin3Me95ckfBHYnch4U0J55YPFK1uwMOcVi9qsANJjXQ+5PtxSiVXIS6HIunEPNgg4H5rEipt7rHa8t4+eg7XUn9byh+K5724cQSyBfqgMIL2hdSnOQey6o3zukohMcVqx2wHd/XtqRF0r4je//nVhv0e8DWYD20Fmvqt9l8Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSTU3F+h; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HumLIYbAqdYLJHMQujD7xdFyukGbfDf5LBlohgprT21lI9hhpByQU8HTF9Ul+RrjeslnAGatGCZ5QJQRgrqK1MeHSoe/zDxI71SqlCm6vM99Q9c3KSk9JCJ/bpz3avAxr8pWDcgHtkyfP+CXu55Avo7Z9e9qIFNy/N2IsvetIRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ie+8IZyp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSTU3F+h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 695D0C43399;
-	Mon, 22 Jan 2024 20:44:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ie+8IZyp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2045C433F1;
+	Mon, 22 Jan 2024 21:08:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705956272;
-	bh=oBgJLUj2aXKpW7e/hPKEHrVXPhS5AsGriZEEUK+OLxA=;
+	s=k20201202; t=1705957691;
+	bh=4avFRO6HirzW04Qxit8v5Uo32O/NhMy69h0hvlBJ0E4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cSTU3F+hsOTIk/Gp6atNQRDAgmD4KYRfKuwiI3vVcZvfcA7h9NC3UuRlUaXCGOh1Z
-	 npAmSqKI5yzAFtVoL/ddtZh/4Mp88MbHBAy/Hj47HrbtMbQzpQt9DjLG6qWODOZNZl
-	 tQ2vBhPoZBlhXP5oGltYIhIJr1PbGuHhyyJtrjlEZwiuHK+WOUUrlP8H3XaNmVyF3S
-	 CrkEAnkeg5p0a3SHifYzp3huvUCpVlZjpRclin1hVaR3iGZR6HLt4HBkuKAaD+pHDk
-	 ucmhaGx0x48317YBVsulw3foy5vTeLREHS5RuGu8ejZXAx17ZogQ7/7Ns73VFl81Wf
-	 PvQst8veXN5uw==
+	b=Ie+8IZyprW5VglUTWz1vGCYn9EtjFPb70LV6vkva0KNpAHR55ywWTvqbZqgLKxQpU
+	 idZZNcMSWVwnpwStEBCotM++yVgPNLOvnsjwYWxWDmH897KU//N+B5WC4HkM+LzJfi
+	 g6LG+h4M3YYVMgGKY2sB3lq+QGUHMrKAAPZ99ztEi8L4n4KmKAXAW0kh1CIxSBJ2go
+	 JVdRIH15z5gqVOk4eKGG9NW0uN6VLBYTm5aSZWLU4ctF2A1xOfhath+bvPGucmwH3s
+	 5o7FSo0paZ6MWYQ+C4gQ5kw6KyvPyVtfP/zgaiQ6wr1/PNJVGJfGtpqAkH88PviAdr
+	 szh66ZLoLd3ZA==
 From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20240122091130.27463-1-johan+linaro@kernel.org>
-References: <20240122091130.27463-1-johan+linaro@kernel.org>
-Subject: Re: [PATCH] ASoC: codecs: wcd938x: fix headphones volume controls
-Message-Id: <170595627015.145475.8123621699638951832.b4-ty@kernel.org>
-Date: Mon, 22 Jan 2024 20:44:30 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20231219122957.3358149-1-alexander.stein@ew.tq-group.com>
+References: <20231219122957.3358149-1-alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: fsl-sai: Add power-domains
+Message-Id: <170595768964.151865.7664679923610974250.b4-ty@kernel.org>
+Date: Mon, 22 Jan 2024 21:08:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +47,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-5c066
 
-On Mon, 22 Jan 2024 10:11:30 +0100, Johan Hovold wrote:
-> The lowest headphones volume setting does not mute so the leave the TLV
-> mute flag unset.
-> 
-> This is specifically needed to let the sound server use the lowest gain
-> setting.
+On Tue, 19 Dec 2023 13:29:56 +0100, Alexander Stein wrote:
+> Some SoC like i.MX8QXP use a power-domain for this IP, so add it to the
+> supported properties.
 > 
 > 
-> [...]
 
 Applied to
 
@@ -63,8 +59,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: wcd938x: fix headphones volume controls
-      commit: 4d0e8bdfa4a57099dc7230952a460903f2e2f8de
+[1/2] ASoC: dt-bindings: fsl-sai: Add power-domains
+      commit: 7084f0de2322d85f9802710b008da5c9e5e75222
+[2/2] ASoC: dt-bindings: fsl-sai: Support Rx-only SAI
+      commit: b6ea4284c7e756fab5f78f0129acdb74b35d759f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
