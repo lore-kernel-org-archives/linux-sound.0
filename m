@@ -1,96 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42109151CDF;
-	Mon, 22 Jan 2024 15:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A875F855;
+	Mon, 22 Jan 2024 15:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936730; cv=none; b=bHdlEVAmA9LnaTc86y+Vmj4SnWLZLPC0yuvPxpxzTSr8tbI1k27uV7eRJ8MpSbuZ/55pT3cugpZs2Ub62Qrb6/QX3VZXp+Lyq/4t6hxO60Q+ZexbfAfg3p1eRvf3dhz6I9NKmRzP+u/C5FWCrkrZiCVlUFVmy52TBfDN0iabABg=
+	t=1705937444; cv=none; b=Bs5J7LLX2/7W5z6xVdpvYq5SYFWz3rZdR/HzLTbvj13nRc83lrPgAcY0ArZpBjFnPF3C8ravwo+vaVbjhqUPkBTgTIJQBlNi7rl6+QMpPKO1we8EjsoKlWe33CxqxAN8PB8A7tCOpBIylTud8Wfb0hGzphjjf7mHQDOJO8FbjD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936730; c=relaxed/simple;
-	bh=8NSBXibqnXi/O8p7nhKbs2Ka0LHqvsAwtVA0dydJDVs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Asmax0vLpd4m5AnStF16CS3pZkK4D/hHxTchzVCs7qUbiwToQnl0FzhYRW4uALc8cr96NjrwBDDLYZIUNQsbEBywKrTn9+uywB+3prhWs8kE2/H0KpyJ45BwCumrj+rluvXTn7WnEogCO8PDZeM0G+SF4d2DrPty8UZA7+fQvYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPk/8P9X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705937444; c=relaxed/simple;
+	bh=9bNnmiH+8UI1sMbYl/o0a2aQj7h/T4wML5jeK7jIfLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sR/RLavcNTy1aAvzBQFJqH8vSdt69qgASqJyxKRn9PaxA9D/3McmGQJ9zot3STZsua3o5dLDavMeZI38LSjFd/12xBaqS6Vi+wq3OK1qfBklX3A6ykAbM5D7pncPfqvbP5FN3hHLRZX4H6ZOfNA6kDKvs4J50n+NG/AUFMkKOJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S52r1pOF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPk/8P9X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558F1C433A6;
-	Mon, 22 Jan 2024 15:18:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S52r1pOF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5FEC433F1;
+	Mon, 22 Jan 2024 15:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936730;
-	bh=8NSBXibqnXi/O8p7nhKbs2Ka0LHqvsAwtVA0dydJDVs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cPk/8P9XY5S18SWz3LgkVJVQd4JtRQ+Xbw4GuZGfYQMwg8JDJQParST8nQ+u6qL/0
-	 ZXpwYOaJWsCZFyC6f4QAzGP3o4rko82D2Br6KSRBQztneJPoeKh3R2W+AISyLnumOI
-	 3uOvE4Ab4ODQCp6DmXKmWSNQX3Yb8QrtEwQdQ0UL1kPWlzTwLc1HuKhTIoO8exyTpF
-	 clmbMXgM4q+wf8CnKs/j533rPt01Q5sb5DbmXQSn43RPgy7wAfZFu10BJ+bGRvIjvz
-	 J/9kkUXwUJok5F6qWjCXqFWJZWEqP7S1N7xX8D5K9+CR0h9sS4DMfm9UmQV9je9k+P
-	 jG2ALdjfUayOA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	maarten.lankhorst@linux.intel.com,
-	chenhuacai@kernel.org,
-	siyanteng@loongson.cn,
-	amadeuszx.slawinski@linux.intel.com,
-	jasontao@glenfly.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 12/23] ALSA: hda: Intel: add HDA_ARL PCI ID support
-Date: Mon, 22 Jan 2024 10:17:52 -0500
-Message-ID: <20240122151823.997644-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122151823.997644-1-sashal@kernel.org>
-References: <20240122151823.997644-1-sashal@kernel.org>
+	s=k20201202; t=1705937443;
+	bh=9bNnmiH+8UI1sMbYl/o0a2aQj7h/T4wML5jeK7jIfLQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S52r1pOFucH6amUFrPplJzUJA6WWuRXyKAGFvS3vhC/9FwYKOleIqdsBF4eyNfcFq
+	 0qGr2So+fGdTUMug81HDddK6ZtJvYO3xypBdB/7/gL4XFXSiakdzN+6E9C1Qi88OYR
+	 VLBpGvgY6P9HPDjtqbqtmj3nDT/Ftf1QIhJ94f6fRa3y1yhqvb4iFi2087NMwpBKGv
+	 vG/Pinz/+zkgXBRgu0Y9WxRYGTXPrGdu62k7HMTpWDBORZzJQ/WK/lokZeiH1IH7Jf
+	 y0MzwEYO1VikY+zMqnmaMc1GoqIqJbskbhzSeBtDTmnOkQ4eItDkD64A0LwTOIr+7H
+	 La+MUVN7brNjQ==
+Date: Mon, 22 Jan 2024 15:30:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Daniel Abrecht <linux-sound@nodmarc.danielabrecht.ch>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: soc-core.c: Add "Unknown" and "Unknown Product"
+ to dmi_blacklist
+Message-ID: <e90440a5-587b-48b2-a61f-0800aa8200d5@sirena.org.uk>
+References: <7d11d0711ad93f2208efb9ab13fe915b@abrecht.li>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.305
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fW75YJszql3fWvoQ"
+Content-Disposition: inline
+In-Reply-To: <7d11d0711ad93f2208efb9ab13fe915b@abrecht.li>
+X-Cookie: Poverty begins at home.
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit a31014ebad617868c246d3985ff80d891f03711e ]
+--fW75YJszql3fWvoQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yet another PCI ID.
+On Wed, Jan 17, 2024 at 02:44:43PM +0100, Daniel Abrecht wrote:
+> In U-Boot, the default for DMI vendor / product if not set is "Unknown" and
+> "Unknown Product".
+> See https://source.denx.de/u-boot/u-boot/-/blob/v2023.10/lib/smbios.c?ref_type=tags#L272
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/r/20231204212710.185976-3-pierre-louis.bossart@linux.intel.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+This is still corrupted according to git am unfortunately.  I can't
+immediately spot the issue.
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index e66d8729c72f..94a97832cf0f 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2615,6 +2615,8 @@ static const struct pci_device_id azx_ids[] = {
- 	/* Icelake */
- 	{ PCI_DEVICE(0x8086, 0x34c8),
- 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE},
-+	/* Arrow Lake */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_ARL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Broxton-P(Apollolake) */
- 	{ PCI_DEVICE(0x8086, 0x5a98),
- 	  .driver_data = AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON },
--- 
-2.43.0
+--fW75YJszql3fWvoQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWuih4ACgkQJNaLcl1U
+h9DY9gf/ZxevJ0vqxtuKyX7zMqcY/z9pxHbGxT9P47qpYQ+dcc+1OgwcB1ARTZuL
+wyqDn2q03F+F04rgu+clhRVmtfBAEY0IobyVriEw+bY+ZUbJfQQPdoDQ/7fAsoEC
+GQKPleM1i9KhdQc0/mIS1VN7x5yHykY0z7uj6BaEZo5fHig8gTMHBwGHXoQoXE2q
+0TNTdsjgJZutzp2TqvjJg9phemdm5GzMVgP5vU8xvdynE/yfoczVTXenE0C0DYfH
+UNNYhSlZbKse/oiTAlC+1DqAMrhfLiS6cZjBQOfCMwOLMmOZv87RW44TSQ2wbOIl
+hOlaIZWxqG0Ssic1J70qYIX8T7aX1Q==
+=32Ep
+-----END PGP SIGNATURE-----
+
+--fW75YJszql3fWvoQ--
