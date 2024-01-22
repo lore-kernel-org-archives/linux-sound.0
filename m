@@ -1,92 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714834D594;
-	Mon, 22 Jan 2024 16:05:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C33755C0A;
+	Mon, 22 Jan 2024 16:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705939543; cv=none; b=fMXX+gc8wN7hkOTqQ6o8hZWmtOUF5sdodctIPfyvk4nBv7IIiMq0IhBcCQu8+eP0lTnAl90XtZjD3k0Gd5VZvJs9ldupIiAEqoY3Pk4XhNa8h/0veL+EJd4CB2EFkwEi0exoW8qs7BPY6yDmveLydHIW7fJovLru97tfm1zs7lo=
+	t=1705941226; cv=none; b=n8QNbNwHInHiOFV8wIo6n43BAeDG0gjV6m+2BIQo/fKbigr2UJvkKHux4Mo3YMYhR2Zb5mrHZs07mvCRrlA/+KCFaaPY9OxUP2U7wOlcxFvkCCyTEBTOE53rx3/jJzokLfmyrpJOJiLngpUQhL2KrfgLL++H0QMWEjCFFvRp9Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705939543; c=relaxed/simple;
-	bh=1eEXVVdWTxV8z4waWaHTl3I6KXQypu95DXHvSvRdIHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uZNlLMjf2XjI5fUptP2wEQbkqsBIGPX5FMHx+veqWCLqojMkiOwWfaV0GOmK7P0VJ9BI/wkRemAX6PmYLQRyOJVl8LWBnFP/7A9VVNmAU9rf8av4pxDj76RJ55zy8iDp4bQTRJuCVnmV0nfeRKL2wadLhFWoJvuPCRLAGpp1XHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaE233g5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705941226; c=relaxed/simple;
+	bh=qx0slvzEJDNEhcWL6ARnxl5FKczNxXGG4ZvuQmczmUY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PYd+FnlCcrcN/hOvzNhF46WGiXTvTCgDa0bEoZ+wr2a1+ARMWavZiJJBGWz1dkOhB8RoBz16XlU9MixEQhsSaBqDCQgRzEzmZhv9oAnrarfCKEYJQ7C4gaZ4HO7Y/ob8OWLx99ohmisy9PeNcgIxAgUeR+aO2FwdnIPLYtJIIgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3ghcF4U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaE233g5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9638CC433C7;
-	Mon, 22 Jan 2024 16:05:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3ghcF4U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F67BC433C7;
+	Mon, 22 Jan 2024 16:33:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705939542;
-	bh=1eEXVVdWTxV8z4waWaHTl3I6KXQypu95DXHvSvRdIHs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HaE233g598PTRgikgKOs0OlamkpWc2K8+qqvyMr5yECHnFkRXLHBVd8n1YLmmP9Tf
-	 ISU6bGw0CwPUbfzi3h0Jzvfb8UzIcTuVaJTnRYO47UCDLIIYyHC6xP/HGwpCc5b7DV
-	 dZ+t7u9n93sPwykg6VBtD+lepTKcek9ZrBHV0EylXMaS6maq/v3qezUSWWaGew031B
-	 4ZwX7ykVqUD5LIrz7ZNbEE4gARFKbKFlyekx5JHVdSdyRcJhYYXNUW8ao8UtCS52s3
-	 DcchBjDXtJ1iE0DBabpPfSSKqzxCIBQiAJVKZHvIYAzqnqGf+qkHeodKZTH1zjZp/Q
-	 N543OSbMlzpsQ==
-Date: Mon, 22 Jan 2024 16:05:37 +0000
+	s=k20201202; t=1705941225;
+	bh=qx0slvzEJDNEhcWL6ARnxl5FKczNxXGG4ZvuQmczmUY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Y3ghcF4UrCUd9YkeyOT4JqiVFg+oSn3mn4svk02eISuC1tjXDUbOBo2hrbHRw1vSk
+	 rFYgXdt8kD/h5lFkjkYFCh2CQimZ2uJVrhf5EBj+w8m+gESgKn9ow7kxxDpz8nHMqa
+	 Mpk1XOJzQabJ3hmLC81iYEEVJRX2DFOPyQLK/AY8nH1zjDFU2zzbrNaZmFcTi62NMU
+	 MLWjyaTwxK7dThpCrMPwZGq1xsupEdsPiJKzFCdJelPIYEYVv+hEljN2F461m3121U
+	 DYKMilYhGFt9R4e4YBvT15goJhMO4etaEIcCXbBr+nq8qziqjCLZk0gUY8xSGTvcUm
+	 HERAy44RSFeog==
 From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <aca2b125-acf8-4791-a3eb-ea19826d3ee4@sirena.org.uk>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <20240119112420.7446-3-johan+linaro@kernel.org>
- <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
- <Za4cR90XoAaATq8X@hovoldconsulting.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Erick Archer <erick.archer@gmx.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+In-Reply-To: <20240106171635.19881-1-erick.archer@gmx.com>
+References: <20240106171635.19881-1-erick.archer@gmx.com>
+Subject: Re: [PATCH] ASoC: qcom: Use devm_kcalloc() instead of
+ devm_kzalloc()
+Message-Id: <170594122282.63484.7192392650857534262.b4-ty@kernel.org>
+Date: Mon, 22 Jan 2024 16:33:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pJm5Y4ijPdHAqAYt"
-Content-Disposition: inline
-In-Reply-To: <Za4cR90XoAaATq8X@hovoldconsulting.com>
-X-Cookie: Nice guys don't finish nice.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
+On Sat, 06 Jan 2024 18:16:35 +0100, Erick Archer wrote:
+> Use 2-factor multiplication argument form devm_kcalloc() instead
+> of devm_kzalloc().
+> 
+> 
 
---pJm5Y4ijPdHAqAYt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jan 22, 2024 at 08:41:59AM +0100, Johan Hovold wrote:
-> On Mon, Jan 22, 2024 at 12:03:55AM +0000, Mark Brown wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > This doesn't apply against current code, please check and resend.
+Thanks!
 
-> These patches are based on Linus's tree after merging the sound updates
-> and I just verified that they apply cleanly to 6.8-rc1.
+[1/1] ASoC: qcom: Use devm_kcalloc() instead of devm_kzalloc()
+      commit: 322ed3a10bf2dc85568aa9ed285aba448347080c
 
-> I couldn't find anything related in either linux-next or your ASoC tree
-> that should interfere.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> Could you please try again or let me know which branch to rebase on?
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-I was applying it against v6.8-rc1.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---pJm5Y4ijPdHAqAYt
-Content-Type: application/pgp-signature; name="signature.asc"
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Mark
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWuklAACgkQJNaLcl1U
-h9AfJwf/VeyDwDQeh8AWh4NRdjUo5Pk5BLZ6jqdmO7SqBALZpLh5xFy5FGfLXf8N
-UwJ6NHQih/rY3GI/hGT89cfC2I4UYOezJpjgdFxT9BG69bBIPHBoLcyMWFXXcMXz
-47xHUGVsLK6ouYeyZpupNV7RuMeR6AyuPwltxzzcKwC6/wx9dC+hDM5AMmG6XCb/
-yYOFjXRigXNlCVJVPMfwszrp0YhsRcIOR/mpEAazDmgNQGLnWuwAFMsDHt8HRT9b
-tJhHaJpT8qdb9uS77JM/1Z7Fah2bh0g95qKTBT0TC3sr37ciK84kmUGP9bDVShxi
-ba/11nuFNGeE381eTYk1OqblnnGwZw==
-=it3K
------END PGP SIGNATURE-----
-
---pJm5Y4ijPdHAqAYt--
