@@ -1,47 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F5439AC5;
-	Mon, 22 Jan 2024 09:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42D139AE2;
+	Mon, 22 Jan 2024 09:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705914735; cv=none; b=YZGN7Wvc7nK7KhEjvC9t6dbTY0rm6uCk8p6K/+HFkpA/uz+Oi2iE56f1wcWi+aJRM/BEYYSLf8jH7zK99UHWx2baRvJv1tbZjEEv6jKtipu+1OZSf86MLpxqojOLKdo4MBaMVE7gP8i/5CtPJG0TRYiqzdZiSLqlbLpHHHlKnBQ=
+	t=1705915428; cv=none; b=VJ13e7JqS/KhyEucJ0Q76tJNeq/kgBYBEvUB6y39VABg/jFkMmw7Q4W/gpA2THc50EhDyPInyW08l2ZJrI/rztZDKqFiH046fGwluQX9gY+hApcMuzg7eMWQaVYGP6f+7QXlDQzG+3YUr2mpV+H8aDKs+AmiGEmklxT3asGuJEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705914735; c=relaxed/simple;
-	bh=2fBoKCcegy/XwfiYfFjhAIztTEvocYf7E0NC0/GEvbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mInPPCJmMHRUcBUL+pLoeWsDwg4AT7lDpUCSMRSuHC91kLS1pT2Tk9v56yMnRjXUbcjIKGUfjPqLrF3idEcomRV5BcC/QWtiBnGltkvTwAAhImlUMJN5Z9c7LnNgz+HJVODB1BEfH1eQ7LZeE2nW5BXXW9JLwmjvRj0Lo0oZNCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKdz0JE1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705915428; c=relaxed/simple;
+	bh=vay+VqmlopxI655UNhNHoiATDbT3W+WrtjG1/9dKVXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=liQeLuAec/M4jtQGQ1Hk8M8B8DStwUBHL+BpCpmyZbG/qDaSXL5wp8mGjNNwrGQylOKiSaUyX7v77pjwrL9iiIug/GfYlSt0Tq3hzBKGwO+eDEA1WWxHH5HkFjT7bnD+EltL4Jy+QeK8DFRtS0XPlb+E37ykPMKVGT7EaLApo34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h4tPybXZ; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKdz0JE1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C62DC433F1;
-	Mon, 22 Jan 2024 09:12:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705914735;
-	bh=2fBoKCcegy/XwfiYfFjhAIztTEvocYf7E0NC0/GEvbw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=vKdz0JE13pPip5mI1Oa+yl435logMUU4vyMM1h6xeHAdY0fXHfcFPNCEWL+vI69mf
-	 VDrk4h2N5ffm4ccvIrZ4M1hxKTDix67WGWHmw3t2dX89i34lRQf97cqAv21tbv7aLc
-	 G7VpwXIOhkDbi8Kj4qArT8Yt4IsYXBqKvYB1KmN/0asJdL5tnl+oTZo2WEoF4HIpwg
-	 30JuiA5gsXaoxULLWVRPpSgw/rBrhHOnixQlLZ4Gn0/FP5UluJUCYaHoaaVd1/YVd2
-	 kP0iys9hHkEP+zPV3UMLEEF5Tj/r3euVnFS4paIH4llSahDiT3c5EMUqccsPY+o9G5
-	 20VTZoMvMkWog==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1rRqLx-0000000079Q-1j8u;
-	Mon, 22 Jan 2024 10:12:26 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h4tPybXZ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e86a9fbd9so32834815e9.1;
+        Mon, 22 Jan 2024 01:23:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705915425; x=1706520225; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9yHBHjM/RO1xCzBLcmgTsv25UAmmwT4Tay/bBv7LW0I=;
+        b=h4tPybXZ4ZGeZVowo2aVStvHHG6CxXKcDWfpVAp/WnAtSLP4yXoPTPhXtH3ImK4JTu
+         eWb7OwCh0KWaxJa2005wZZbPkTFyCSx+hj9RASMRE0FhAo232RcA8j7f1rWuVNAM+c32
+         nVybJG3haFZzQDpy1zvmgltyhf8gHnjPxiP547dLTy2EJfam1X4CF0jb20y675SiPTtc
+         4l7X9D6X52NJWDPERT1ZwSxrNlFgpSofkHnpCYPTCbPcRggF5PkJ9QeCYiDOSlwfZc0P
+         qG2rifNhIkDnaqJoPSYvy1BcjbqhApP4DTugD5eL2rwpXOzhw+H0+4MOS3aCRnWwmgI8
+         0dig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705915425; x=1706520225;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9yHBHjM/RO1xCzBLcmgTsv25UAmmwT4Tay/bBv7LW0I=;
+        b=JKUIPUwEzhNB7pAzFiQfarlh2QuJ6zwr+yHPx3j4Pyb1FQHv/jm/Atz4JRp7nOKxlB
+         63qiB467nhQAnsiXjwDpxLAmr7RtXl9lV23ITpTbd/pYgeRZZfdBFQlYO46Ish1xJdCG
+         y9dYG4bu/MQBM3p8u7eLmT9yuMnFCFU6oc5E1nd2/Q+PffVle3+2HKS/Kn7h0vEgnF3W
+         LHwpVa6aMerFxKEof6Kw3I1g1UPEC8PFXtxmyztCJeU6+oalWRd/RJqYc6jUQyZCXFM2
+         PxTvfy0IMxlH/z+7rqtwb7UuaRTeTVZJp+TsoIT71PWh+SeaYFbidmVqvkIKaDBUajFX
+         ddJw==
+X-Gm-Message-State: AOJu0YwYcyehjMbCY/5u+f4GGlO/2IDohR29jVGt4VjQWXGnnHepXgo9
+	k5C2NDANPc4bsCz4d/7DDhMkBm6zRhL4N3xHKk1H0E1APb1Beko=
+X-Google-Smtp-Source: AGHT+IEPKx1fb16j3UmGVvYLSZCw0H35x1y5xl8aO1KIIu27CgUoPmTtLeysTKSwlcfXYYVYN1V7QQ==
+X-Received: by 2002:a05:600c:4387:b0:40e:5333:2024 with SMTP id e7-20020a05600c438700b0040e53332024mr2366505wmn.53.1705915424823;
+        Mon, 22 Jan 2024 01:23:44 -0800 (PST)
+Received: from phoenix.rocket.std.lan (a95-93-126-153.cpe.netcabo.pt. [95.93.126.153])
+        by smtp.gmail.com with ESMTPSA id n16-20020a05600c4f9000b0040d62f97e3csm42248158wmq.10.2024.01.22.01.23.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jan 2024 01:23:44 -0800 (PST)
+From: Rui Salvaterra <rsalvaterra@gmail.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: wcd938x: fix headphones volume controls
-Date: Mon, 22 Jan 2024 10:11:30 +0100
-Message-ID: <20240122091130.27463-1-johan+linaro@kernel.org>
+	Rui Salvaterra <rsalvaterra@gmail.com>
+Subject: [PATCH] ALSA: hda: Increase default bdl_pos_adj for Apollo Lake
+Date: Mon, 22 Jan 2024 09:23:39 +0000
+Message-ID: <20240122092338.25047-2-rsalvaterra@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,33 +66,34 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The lowest headphones volume setting does not mute so the leave the TLV
-mute flag unset.
+Apollo Lake seems to also suffer from IRQ timing issues. After being up for ~4
+minutes, a Pentium N4200 system ends up falling back to workqueue-based IRQ
+handling:
 
-This is specifically needed to let the sound server use the lowest gain
-setting.
+[  208.019906] snd_hda_intel 0000:00:0e.0: IRQ timing workaround is activated
+for card #0. Suggest a bigger bdl_pos_adj.
 
-Fixes: c03226ba15fe ("ASoC: codecs: wcd938x: fix dB range for HPHL and HPHR")
-Cc: stable@vger.kernel.org      # 6.5
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+Unfortunately, the Baytrail and Braswell workaround value of 32 samples isn't
+enough to fix the issue here. Default to 64 samples.
+
+Signed-off-by: Rui Salvaterra <rsalvaterra@gmail.com>
 ---
- sound/soc/codecs/wcd938x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/hda/hda_intel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-index faf8d3f9b3c5..98055dd39b78 100644
---- a/sound/soc/codecs/wcd938x.c
-+++ b/sound/soc/codecs/wcd938x.c
-@@ -210,7 +210,7 @@ struct wcd938x_priv {
- };
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index 2276adc84478..9fb54813693c 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1732,6 +1732,8 @@ static int default_bdl_pos_adj(struct azx *chip)
+ 		case 0x0f04: /* Baytrail */
+ 		case 0x2284: /* Braswell */
+ 			return 32;
++		case 0x5a98: /* Apollo Lake */
++			return 64;
+ 		}
+ 	}
  
- static const SNDRV_CTL_TLVD_DECLARE_DB_MINMAX(ear_pa_gain, 600, -1800);
--static const DECLARE_TLV_DB_SCALE(line_gain, -3000, 150, -3000);
-+static const DECLARE_TLV_DB_SCALE(line_gain, -3000, 150, 0);
- static const SNDRV_CTL_TLVD_DECLARE_DB_MINMAX(analog_gain, 0, 3000);
- 
- struct wcd938x_mbhc_zdet_param {
 -- 
 2.43.0
 
