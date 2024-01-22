@@ -1,94 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6305C3D553;
-	Mon, 22 Jan 2024 18:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7684E482C0;
+	Mon, 22 Jan 2024 20:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705947649; cv=none; b=ZMxJTf3scJHo/S4pyoeWiglvIypcnOX4KTfEfYP1tag/mVYxbRNkxAbp73A7q6grNd23eVVXwPKlY56yoQmzynlAyqF6I5hF3l6D816Bs2TiNfBDVoGwRtLXJudzZr2T2HBLjMl6QRwr0exqWIyHfTPkWOTVgskY/fZWrNHwpvQ=
+	t=1705956255; cv=none; b=e7nn0xLo3zX/gAMmqEsHu7A3Cx5j/vK7yhYhuYzFeVzvcqKORnvJ/cDbTUWiW3hmxL5mb5qV6MuzGUKaLp3muFmBMZjahh9YLD6xQ5II3tFDIQK/SXnjpUj5ZzsAQnV37q8Spnc7/OxAWU/UP1iYLUaLNfRyyR1XaMPLk1cAbqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705947649; c=relaxed/simple;
-	bh=0sJKHQG49NpDF9oXlr8dzTMmdtReYYA/3/HvI32mt3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cjvXjgqAjtNAnRMN3Gre/KtVwHaYA6um/3rMzDQaiM9N4LJw9SEEmQwAR2oyj8ipHqvSJo5FVoi2aBNmWFr/m533P2wkJDu3/C59QseKqPOQAnmYkCqi3YuuxjLn1Ss3kZiDfsW1hag5w+9DG0WixUsF9GvNPN0OTzUNpGS4NFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCgAUbk5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705956255; c=relaxed/simple;
+	bh=jP30lAx8kMXkg0eWAT8+e0vfehU+8oEqT+be6BiK5j8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fSm4XKWCN1vRu4IwWGQeP955xei8zEZWlw7nM4a0FcISqzy530qR7OUAJMw5AQFJmqdHe4UXViAs+AKlmJZuH6i1Bb0foOvTCbgiURwi5paYHimHieH4xPwOW5lAyaXiVLReqT14sRrWblLqQL8vu2i7onIz4jfcPhmLswV2KyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JbJZySkp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCgAUbk5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F51C433F1;
-	Mon, 22 Jan 2024 18:20:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JbJZySkp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6614C433C7;
+	Mon, 22 Jan 2024 20:44:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705947648;
-	bh=0sJKHQG49NpDF9oXlr8dzTMmdtReYYA/3/HvI32mt3k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kCgAUbk5wO9/OcyNXeGVOEeNOJx2Z0zcXXV+pcVXVq6ZC13luQfhGm1aXZWEmlicy
-	 MjdrjHYGND4iwtjMVNRzlTEmq+5eJFN0iwV7khwWD2q1dl00DRGugUS/srimkX0Vmd
-	 qnx1ASTi/s4Di6GfmNKC01VjPy1VX1aeqytRhc5yC/Xw2zkgD1r+DsORl1wskKTTb4
-	 4R6DRmGNqVo2CNVnKM35LvAf/1oZ9BLKd5TIsojzlKHOkvbjwZPr0uIR2Ne8UiDKo1
-	 X2yAJUkeZgkGkPvTpjQovXDRcHLP/ktkvLM0pGVSgGDxIif/i45B15z5JV4Zhabnr5
-	 1isaAHiq35auQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rRyur-0000000014o-0z39;
-	Mon, 22 Jan 2024 19:21:01 +0100
-Date: Mon, 22 Jan 2024 19:21:01 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <Za6yDXTPp9MzC1bY@hovoldconsulting.com>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <20240119112420.7446-3-johan+linaro@kernel.org>
- <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
- <Za4cR90XoAaATq8X@hovoldconsulting.com>
- <aca2b125-acf8-4791-a3eb-ea19826d3ee4@sirena.org.uk>
- <Za6l6EP7OqXPU9mj@hovoldconsulting.com>
- <8c6fc7e6-7694-4718-be47-d9fc3f893947@sirena.org.uk>
+	s=k20201202; t=1705956255;
+	bh=jP30lAx8kMXkg0eWAT8+e0vfehU+8oEqT+be6BiK5j8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JbJZySkp7+mBwZvUK6oOtNcqB9fuLRH6BA+jpdkh7Gxyd5VdU7cZ/r5onQQ/fq7sd
+	 CTM44adcuaXzgkRZz1sMAx9qzCUKX+aGkOVFxtK/rnYRayWKL36GQUd+CexLazoU0Y
+	 0qF8/E/MUziz8YXjrvJDMRN63zH9S4CmI6Fg5LtnSbaN3pa2xqIZyp92Uld375KEHK
+	 9GWIT2gNsiYL+WbHZATaraf02EBXWZhz2tSvm7T/Xkr7a5m/BEAj6NI4FbPPMd63Zd
+	 XF24TalYJ1sr5jjmzU+Pjjzg4iEYWoQ05YTCUHwDP7inI3123uNpyvcGnHFFPFtEqY
+	 jhLt78GUK+0Ag==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Emil Velikov <emil.velikov@collabora.com>, 
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>, 
+ Mastan Katragadda <Mastan.Katragadda@amd.com>, 
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ sound-open-firmware@alsa-project.org, kernel@collabora.com
+In-Reply-To: <20231219030728.2431640-1-cristian.ciocaltea@collabora.com>
+References: <20231219030728.2431640-1-cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH v2 0/8] Improve SOF support for Steam Deck OLED
+Message-Id: <170595625065.145475.12588005064775574769.b4-ty@kernel.org>
+Date: Mon, 22 Jan 2024 20:44:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="SDkeIWwVz3rl8Ay6"
-Content-Disposition: inline
-In-Reply-To: <8c6fc7e6-7694-4718-be47-d9fc3f893947@sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-5c066
 
+On Tue, 19 Dec 2023 05:07:18 +0200, Cristian Ciocaltea wrote:
+> This patch series is a continuation of [1] to provide several fixes and
+> improvements to the SOF drivers targeting the Vangogh platform, as found on
+> Valve's Steam Deck OLED.  The previous series only handled the legacy ACP
+> drivers.
+> 
+> Also note that, since v2, this patch series requires an updated SOF
+> topology to provide a correct DAI link ID for the BT codec.  The binary
+> file should be located under:
+> 
+> [...]
 
---SDkeIWwVz3rl8Ay6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Mon, Jan 22, 2024 at 06:06:25PM +0000, Mark Brown wrote:
-> On Mon, Jan 22, 2024 at 06:29:12PM +0100, Johan Hovold wrote:
->=20
-> > Could you please try again, and tell me which patch fails to apply and
-> > how it fails?
->=20
-> It was the specific patch I replied to, just the standard "this patch
-> doesn't apply" message.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Ok, thanks. No idea what goes wrong here. I just sent the regenerated
-patches as a v5.
+Thanks!
 
-Johan
+[1/8] ASoC: amd: acp: Drop redundant initialization of machine driver data
+      commit: f0f1021fc9cb88ebdc241b6121107399ee4f2eb7
+[2/8] ASoC: amd: acp: Make use of existing *_CODEC_DAI macros
+      commit: 68ab29426d88294d16170919a6a6e764f375113f
+[3/8] ASoC: amd: acp: Add missing error handling in sof-mach
+      commit: d0ada20279db2649a7549a2b8a4a3379c59f238d
+[4/8] ASoC: amd: acp: Update MODULE_DESCRIPTION for sof-mach
+      commit: a4832a94688000662d4ebb8a1c05f086a9c98826
+[5/8] ASoC: SOF: amd: Fix memory leak in amd_sof_acp_probe()
+      commit: 222be59e5eed1554119294edc743ee548c2371d0
+[6/8] ASoC: SOF: amd: Optimize quirk for Valve Galileo
+      commit: a13f0c3c0e8fb3e61fbfd99c6b350cf9be0c4660
+[7/8] ASoC: SOF: core: Skip firmware test for custom loaders
+      commit: 369b997a1371aeecd0a1fb0f9f4ef3747a1d07a4
+[8/8] ASoC: SOF: amd: Compute file paths on firmware load
+      commit: d9cacc1a2af2e1cd781b5cd2a3e57fbde64f5a2d
 
---SDkeIWwVz3rl8Ay6
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCZa6yCQAKCRALxc3C7H1l
-CJxRAQCuI9Q8CVpoSadmK9bGHfSYEgp3BrhBbEZIhHjThFuJOwD7Bqj7D2tNHWON
-piUIM+AN1i4Eia0yv8PbzpYWcziIwQM=
-=fQyz
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---SDkeIWwVz3rl8Ay6--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
