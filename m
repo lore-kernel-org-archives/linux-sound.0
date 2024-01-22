@@ -1,58 +1,58 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8885020DD2
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 13:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2F3CF48
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 13:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705929104; cv=none; b=ipENg2kngeuOcpKhtjXMnwAxyl+R+mBoyVfmq54t0oto8htgGPmdUQIpfbFlI4akUS2ZllW5hsF1lO4QlEk2IepR4e46/YH1PxtkBvc1GBzM2DbevLqfhXIg3NshJ5qWdT5FSDvpVQHazdf7RHiO0cypiafhNp84Vc6Lwu0bzpo=
+	t=1705929271; cv=none; b=loT9UnPDCdK9s2o7fomAV8p9wf0nqtOqUh1yB3+qd90YfzOa+B94xNCtUyVSNenaZh+SccmqEaBwhtGHx2xF1DFK1Im8SdRpDodCawaDaKRxyhRO1G8nMi9IY/v7OdetVVQ19PvvGzEwD2WAdDLhQnS35fdy/aqgm2DIpwD/ga4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705929104; c=relaxed/simple;
-	bh=iFqukQALJCEAIiVjNq5raCIZC+Wze+COrL+a+qV52eY=;
+	s=arc-20240116; t=1705929271; c=relaxed/simple;
+	bh=K30LieWFbuwgszGRYmUn5+kXRPSalW7eeHMf+IDE62g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UdbNgOnvfSDfYrmofL0hMDfK7Qq0yra6L3/KrMmW+o63I3ObDctLMZ5zwpU6fmxrKs4DCcNFnEDCE+2LiUsvSdi/tcJz9eOVKpPpDfxrtIqqbDfJmxOmHpQq8/MDHBNTE2EvKLJ+nPg/PMSNuXW2VEKPWuDQH5m2V8NhOiIAdn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VCdI5w7f; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:Content-Type; b=u+WROWS50mx+o2C0pCsjghvXkxO1G+o56v2D1wSQuuXtEbrROdOXFxQR4H4aa0UDp2hMJ0nT86Q67pf5igEiSVQPIzEhdUb3Qs4yHOWnHIXszB7m2IaGfQguWSKJQ7schdKWWmZqxwTI+pJue8OWPw+1jgNLeZpm4KIv3uhquL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GcJwKeAd; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VCdI5w7f"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40e80046246so18367565e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 05:11:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GcJwKeAd"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e76109cdeso36278335e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 22 Jan 2024 05:14:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705929101; x=1706533901; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1705929268; x=1706534068; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=BJTj6wcyWR9x7Ucgj0b0lcsFzl50SFu9dv/wKBaBgMA=;
-        b=VCdI5w7fUY1u6Tj5b10GH4zay07JvivyjbNjXMoNGV5KLrwIC2uMgp2cWn0XEgc3cU
-         ZoC6XpfJJC3Gy53b8FeUkShNvN9d1Ub3j6OIATzUxl1wwOdK6w0AU3cCa0E0koNjjWXK
-         vODypDk34r0txnx90gvwe0RwaJA0EtxdLnnI9HU63HTQnkd1A6UTdusZue57WlS5pcLH
-         OW1YFgNwHxwm/afiyERmu4Zpp/KI335IUeNMS4OKDNCKOqQobCz83OKImZV0CU1Darfc
-         BztyUxivPRaDfVcDtXcbiIzwZMOYEMRCpCRORkH5yXjUY0aODD1NXxdBfKLhVbXaQSAa
-         Oi9A==
+        bh=wFt+s6kaAmxwMWrnZJi1q/AOQW4iNIVpOYVaOF/Qrwc=;
+        b=GcJwKeAdUEOFTE/j1rH+2Lcp24e4WKQ3YcWrO6xvEApdX6kLJl/epjk0T18heFJ8kd
+         01u5wSxmV73Y9eFimgJRQkeRu2xDRY3WAcY7hnSlUlqE7xDGlKv7I6fAP46eZMMYgBMX
+         gWDtQnY2aaAUQGY7Ecro0/mWmTpd9/oMI1v7W+vPMsyd1Hb/ZAj7utMyFWxgn+sjwkcZ
+         TmdJsRiI/l1yTHSsCjx4HLSBKH+kwg3IWCfjBoZzGLkph3puG2Bf6k3kjvQypIKGZV6/
+         0AppotIrdC7BRpMvy7y7HbuPoS7LfkBFEV5mN5nPFKLHqM2CFgIjWxEDPPWLIQQVk35y
+         600g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705929101; x=1706533901;
+        d=1e100.net; s=20230601; t=1705929268; x=1706534068;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJTj6wcyWR9x7Ucgj0b0lcsFzl50SFu9dv/wKBaBgMA=;
-        b=TfLUnmLpRpdsS3NjMd06N1iFccaZSKHti/1YzAwe1LxbbTi22W988RpebEKE5PFRxC
-         njeJ3ZizgdHFE1FKMNAWT5smEoJ8KMvnWRhGV0fGuyaDcpnLfgMR6gR9LtIEmRuVVFhB
-         YOWuIIcGb9PwzDIcmG6yiff/0aKV2DeiZXEjxbkQpVebgtzVva/x2YkGQMmFvu7gnXoG
-         ZmUy5hRaF97oc7lka7Q5MPt/HWnrxOdTTB4Vj2R2k22W/w6T6Cp17YWNyid+JX7yOWFo
-         vMXBSZ9jgyFwjk6z8CLmI8AoR5oGkE86RGpBqabETEgjNI3++i8ZVnRN4hmQ7G+efMUW
-         sYIA==
-X-Gm-Message-State: AOJu0Yxwy7Q4Lhp/HRWh0C9hntdRB49EF0OA6KAPWeBNB47P5nERSVta
-	EndFfYT1kvppPDZuuKIeMDV4+vObsnJVvgKmGyFAGe8yKxotIVTuWHlFkhNODGA=
-X-Google-Smtp-Source: AGHT+IHK2+u5+MnXNXD7DKeV3qS/mQwoZUY4TJrsybH5bmAYbgj9bb8ovK88rIKT2dPkIvOX2gIAYQ==
-X-Received: by 2002:a05:600c:4f55:b0:40e:a366:e718 with SMTP id m21-20020a05600c4f5500b0040ea366e718mr1867040wmq.42.1705929100682;
-        Mon, 22 Jan 2024 05:11:40 -0800 (PST)
+        bh=wFt+s6kaAmxwMWrnZJi1q/AOQW4iNIVpOYVaOF/Qrwc=;
+        b=vlOxURfTYN2cN7yh+9xIp/AZU5tObBTdMectzMcBNVCwcVykhzleh5t0e46xTHtoNW
+         w/qJHVS5rWVe09MWXxTTQ0a+aBVvcsRfsMoZ5zM82SuMMUYr0Z7lXo7AmbJdfefIqZ58
+         Z+tXoE5+UBNMqIYNAJjHsh8azgrvRlq97hkPTd9hqJIWASPtE67VfZSvko7SVmwopBZs
+         OJ3Z/P62GrGCTRad3JX5P7N0cctySOm9kaTnWtESHdjbpK+e/Cgm1vSSRhAaPtxOVjWf
+         ZwUyfgY3IVdQiKKAQZ5Z66e4NEMRSKkueOLy0unFs5fwmW1TkWsQ5QsSaul7j3MoqpMd
+         a2Kg==
+X-Gm-Message-State: AOJu0YyPEY8DJ1ygBGdET2AHqmzpyoYdus9lrds0Ahci1Cr7/ASwBz9R
+	pnp98OgJimSt769ANd5P2D9ehFC5VEdnur0bfcIpFubNVdFdl4+ogJNzWoQq9C0=
+X-Google-Smtp-Source: AGHT+IFTsl8JkpDUNkti9RfnoRhGJyQBzy/Bb4U5+tC7t6ZkjxEXjF4CFKjcQdvCBTXnp3uhyZHpWA==
+X-Received: by 2002:a05:600c:228e:b0:40d:5c7e:6f69 with SMTP id 14-20020a05600c228e00b0040d5c7e6f69mr2714157wmf.147.1705929267644;
+        Mon, 22 Jan 2024 05:14:27 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id u13-20020a05600c19cd00b0040e451fd602sm42841958wmq.33.2024.01.22.05.11.38
+        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0040e4ca7fcb4sm39267210wms.37.2024.01.22.05.14.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 05:11:40 -0800 (PST)
-Message-ID: <403b997a-ec01-4d41-a764-aea376f86362@linaro.org>
-Date: Mon, 22 Jan 2024 14:11:38 +0100
+        Mon, 22 Jan 2024 05:14:27 -0800 (PST)
+Message-ID: <0b6a7895-bd87-4edb-b392-5000124ad133@linaro.org>
+Date: Mon, 22 Jan 2024 14:14:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,7 +80,7 @@ Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
  Sean Anderson <sean.anderson@seco.com>
 References: <20240112163608.528453-1-krzysztof.kozlowski@linaro.org>
  <20240112163608.528453-3-krzysztof.kozlowski@linaro.org>
- <568dc713f0c2fa29e5ba7b25c2d1d0e2be96fa95.camel@pengutronix.de>
+ <5ad7badb85bdece735901a0f6317183b1d628a68.camel@pengutronix.de>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -126,273 +126,18 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <568dc713f0c2fa29e5ba7b25c2d1d0e2be96fa95.camel@pengutronix.de>
+In-Reply-To: <5ad7badb85bdece735901a0f6317183b1d628a68.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15/01/2024 17:55, Philipp Zabel wrote:
+On 17/01/2024 12:26, Philipp Zabel wrote:
 > On Fr, 2024-01-12 at 17:36 +0100, Krzysztof Kozlowski wrote:
->>  
->> +static bool __reset_gpios_args_match(const struct of_phandle_args *a1,
->> +				     const struct of_phandle_args *a2)
->> +{
->> +	unsigned int i;
->> +
->> +	if (!a2)
->> +		return false;
->> +
->> +	if (a1->args_count != a2->args_count)
->> +		return false;
->> +
->> +	for (i = 0; i < a1->args_count; i++)
->> +		if (a1->args[i] != a2->args[i])
->> +			return false;
->> +
->> +	return true;
->> +}
-> 
-> How about making this
-> 
-> 	return a2 &&
-> 	       a1->np == a2->np &&
-> 	       a1->args_count == a2->args_count &&
-> 	       !memcmp(a1->args, a2->args, sizeof(a1->args[0]) * a1->args_count);
-> 
-> ?
-> 
-> There's similar code in include/linux/cpufreq.h, maybe this could later
-> be lifted into a common of_phandle_args_equal().
-
-I'll make a helper because such long return is also not the fastest to
-parse by brain.
-
-> 
->> +
->> +static int __reset_add_reset_gpio_lookup(int id, struct device_node *np,
->> +					 unsigned int gpio,
->> +					 unsigned int of_flags)
->> +{
->> +	struct gpiod_lookup_table *lookup __free(kfree) = NULL;
->> +	struct gpio_device *gdev __free(gpio_device_put) = NULL;
->> +	char *label __free(kfree) = NULL;
->> +	unsigned int lookup_flags;
->> +
->> +	/*
->> +	 * Later we map GPIO flags between OF and Linux, however not all
->> +	 * constants from include/dt-bindings/gpio/gpio.h and
->> +	 * include/linux/gpio/machine.h match each other.
->> +	 */
->> +	if (of_flags > GPIO_ACTIVE_LOW) {
->> +		pr_err("reset-gpio code does not support GPIO flags %u for GPIO %u\n",
->> +			of_flags, gpio);
->> +		return -EINVAL;
->> +	}
->> +
->> +	gdev = gpio_device_find_by_fwnode(of_fwnode_handle(np));
->> +	if (!gdev)
->> +		return -EPROBE_DEFER;
->> +
->> +	label = kstrdup(gpio_device_get_label(gdev), GFP_KERNEL);
->> +	if (!label)
->> +		return -EINVAL;
-> 
-> The kstrdup() failure looks like it should be -ENOMEM to me.
-> I'd check the gpio_device_get_label(gdev) return value separately.
-
-OK, makes sense. One more local variable will be needed for that.
-
-> 
-> Is this going to be in v6.8-rc1, or does using gpio_device_get_label()
-> introduce a dependency?
-
-We were already in the merge window, so no problem here.
-gpio_device_get_label() is in v6.8-rc1.
-
-
-> 
->> +
->> +	/* Size: one lookup entry plus sentinel */
->> +	lookup = kzalloc(struct_size(lookup, table, 2), GFP_KERNEL);
->> +	if (!lookup)
->> +		return -ENOMEM;
->> +
->> +	lookup->dev_id = kasprintf(GFP_KERNEL, "reset-gpio.%d", id);
->> +	if (!lookup->dev_id)
->> +		return -ENOMEM;
->> +
->> +	lookup_flags = GPIO_PERSISTENT;
->> +	lookup_flags |= of_flags & GPIO_ACTIVE_LOW;
->> +	lookup->table[0] = GPIO_LOOKUP(no_free_ptr(label), gpio, "reset",
->> +				       lookup_flags);
->> +
->> +	gpiod_add_lookup_table(no_free_ptr(lookup));
->> +
->> +	return 0;
->> +}
->> +
->> +/*
->> + * @reset_args:	phandle to the GPIO provider with all the args like GPIO number
-> 
-> s/reset_//
-
-ack
-
-> 
->> + */
->> +static int __reset_add_reset_gpio_device(const struct of_phandle_args *args)
->> +{
->> +	struct reset_gpio_lookup *rgpio_dev;
->> +	struct platform_device *pdev;
->> +	int id, ret;
->> +
->> +	/*
->> +	 * Registering reset-gpio device might cause immediate
->> +	 * bind, resulting in its probe() registering new reset controller thus
->> +	 * taking reset_list_mutex lock via reset_controller_register().
->> +	 */
->> +	lockdep_assert_not_held(&reset_list_mutex);
->> +
->> +	mutex_lock(&reset_gpio_lookup_mutex);
->> +
->> +	list_for_each_entry(rgpio_dev, &reset_gpio_lookup_list, list) {
->> +		if (args->np == rgpio_dev->of_args.np) {
->> +			if (__reset_gpios_args_match(args, &rgpio_dev->of_args))
->> +				goto out; /* Already on the list, done */
->> +		}
->> +	}
->> +
->> +	id = ida_alloc(&reset_gpio_ida, GFP_KERNEL);
->> +	if (id < 0) {
->> +		ret = id;
->> +		goto err_unlock;
->> +	}
->> +
->> +	/*
->> +	 * Not freed in normal path, persisent subsystem data (which is assumed
->> +	 * also in the reset-gpio driver).
->> +	 */
->> +	rgpio_dev = kzalloc(sizeof(*rgpio_dev), GFP_KERNEL);
->> +	if (!rgpio_dev) {
->> +		ret = -ENOMEM;
->> +		goto err_ida_free;
->> +	}
->> +
->> +	ret = __reset_add_reset_gpio_lookup(id, args->np, args->args[0],
->> +					    args->args[1]);
->> +	if (ret < 0)
->> +		goto err_kfree;
->> +
->> +	rgpio_dev->of_args = *args;
->> +	/*
->> +	 * We keep the device_node reference, but of_args.np is put at the end
->> +	 * of __of_reset_control_get(), so get it one more time.
->> +	 * Hold reference as long as rgpio_dev memory is valid.
->> +	 */
->> +	of_node_get(rgpio_dev->of_args.np);
->> +	pdev = platform_device_register_data(NULL, "reset-gpio", id,
->> +					     &rgpio_dev->of_args,
->> +					     sizeof(rgpio_dev->of_args));
->> +	ret = PTR_ERR_OR_ZERO(pdev);
->> +	if (ret)
->> +		goto err_put;
->> +
->> +	list_add(&rgpio_dev->list, &reset_gpio_lookup_list);
->> +
->> +out:
->> +	mutex_unlock(&reset_gpio_lookup_mutex);
->> +
->> +	return 0;
->> +
->> +err_put:
->> +	of_node_put(rgpio_dev->of_args.np);
->> +err_kfree:
->> +	kfree(rgpio_dev);
->> +err_ida_free:
->> +	ida_free(&reset_gpio_ida, id);
->> +err_unlock:
->> +	mutex_unlock(&reset_gpio_lookup_mutex);
->> +
->> +	return ret;
->> +}
->> +
->> +static struct reset_controller_dev *__reset_find_rcdev(const struct of_phandle_args *args,
->> +						       bool gpio_fallback)
->> +{
->> +	struct reset_controller_dev *r, *rcdev;
-> 
-> Now that this is moved into a function, there's no need for the r,
-> rcdev split anymore. Just return a match when found, and NULL at the
-> end:
-> 
-> 	struct reset_controller_dev *rcdev;
-
-Indeed, thanks.
-
-> 
->> +
->> +	lockdep_assert_held(&reset_list_mutex);
->> +
->> +	rcdev = NULL;
->> +	list_for_each_entry(r, &reset_controller_list, list) {
-> 
-> 	list_for_each_entry(rcdev, &reset_controller_list, list) {
-> 
->> +		if (args->np == r->of_node) {
->> +			if (gpio_fallback) {
->> +				if (__reset_gpios_args_match(args, r->of_args)) {
->> +					rcdev = r;
->> +					break;
-> 
-> 					return rcdev;
-> 
->> +				}
->> +			} else {
->> +				rcdev = r;
->> +				break;
->> +			}
->> +		}
-> 
-> With the np check moved into __reset_gpios_args_match() above, the
-> whole loop could be turned into:
-> 
-> 		if (gpio_fallback) {
-> 			if (__reset_gpios_args_match(args, rcdev->of_args))
-> 				return rcdev;
-> 		} else {
-> 			if (args->np == rcdev->of_node)
-> 				return rcdev;
-> 		}
-> 
-> Explicitly checking against rcdev->of_args->np instead of rcdev-
->> of_node in gpio_fallback mode could avoid false positives in case
-> anybody ever creates a combined GPIO and reset controller device and
-> then uses its GPIOs to drive a shared reset line..
-
-ack
-
-> 
->> +	}
->> +
->> +	return rcdev;
-> 
-> 	return NULL;
-
-ack
-
-> 
->> +}
->>
+> [...]
 >>  struct reset_control *
 >>  __of_reset_control_get(struct device_node *node, const char *id, int index,
 >>  		       bool shared, bool optional, bool acquired)
 >>  {
 >> +	struct of_phandle_args args = {0};
-> 
-> Is this still needed?
-
-I will double check.
-
-> 
 >> +	bool gpio_fallback = false;
 >>  	struct reset_control *rstc;
 >> -	struct reset_controller_dev *r, *rcdev;
@@ -408,80 +153,14 @@ I will double check.
 >> -	if (ret)
 >> -		return optional ? NULL : ERR_PTR(ret);
 >> +	if (ret) {
->> +		/*
->> +		 * There can be only one reset-gpio for regular devices, so
->> +		 * don't bother with GPIO index.
->> +		 */
->> +		ret = of_parse_phandle_with_args(node, "reset-gpios", "#gpio-cells",
->> +						 0, &args);
->> +		if (ret)
->> +			return optional ? NULL : ERR_PTR(ret);
->>  
->> -	mutex_lock(&reset_list_mutex);
->> -	rcdev = NULL;
->> -	list_for_each_entry(r, &reset_controller_list, list) {
->> -		if (args.np == r->of_node) {
->> -			rcdev = r;
->> -			break;
->> +		gpio_fallback = true;
->> +
->> +		ret = __reset_add_reset_gpio_device(&args);
->> +		if (ret) {
->> +			rstc = ERR_PTR(ret);
->> +			goto out_put;
->>  		}
->>  	}
->>  
->> +	mutex_lock(&reset_list_mutex);
->> +	rcdev = __reset_find_rcdev(&args, gpio_fallback);
->>  	if (!rcdev) {
->>  		rstc = ERR_PTR(-EPROBE_DEFER);
->> -		goto out;
->> +		goto out_unlock;
->>  	}
->>  
->>  	if (WARN_ON(args.args_count != rcdev->of_reset_n_cells)) {
 > 
-> Nice. I like that the __of_reset_control_get() changes are much less
-> invasive now.
+> I think this should continue to return optional ? NULL : ERR_PTR(ret)
+> if !IS_ENABLED(CONFIG_RESET_GPIO), for example by just skipping the
+> of_parse_phandle_with_args(). That should allow the GPIO fallback in
+> patch 5 to work as expected.
 > 
->>  		rstc = ERR_PTR(-EINVAL);
->> -		goto out;
->> +		goto out_unlock;
->>  	}
->>  
->>  	rstc_id = rcdev->of_xlate(rcdev, &args);
->>  	if (rstc_id < 0) {
->>  		rstc = ERR_PTR(rstc_id);
->> -		goto out;
->> +		goto out_unlock;
->>  	}
->>  
->>  	/* reset_list_mutex also protects the rcdev's reset_control list */
->>  	rstc = __reset_control_get_internal(rcdev, rstc_id, shared, acquired);
->>  
->> -out:
->> +out_unlock:
->>  	mutex_unlock(&reset_list_mutex);
->> +out_put:
->>  	of_node_put(args.np);
->>  
->>  	return rstc;
->> diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
->> index 0fa4f60e1186..e064473215de 100644
->> --- a/include/linux/reset-controller.h
->> +++ b/include/linux/reset-controller.h
->> @@ -61,6 +61,9 @@ struct reset_control_lookup {
->>   * @dev: corresponding driver model device struct
->>   * @of_node: corresponding device tree node as phandle target
->>   * @of_reset_n_cells: number of cells in reset line specifiers
->> + * TODO: of_args have of_node, so we have here duplication
-> 
-> Any plans what to do about this? With the above changes we could
-> mandate that either of_node or of_args should be set, never both.
 
-Yes, makes sense. We could also drop of_node, but the code won't be more
-readable.
+ack
 
 Best regards,
 Krzysztof
