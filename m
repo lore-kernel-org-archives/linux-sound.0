@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0FA7E767;
-	Mon, 22 Jan 2024 15:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AED77FBBA;
+	Mon, 22 Jan 2024 15:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936205; cv=none; b=H7ZV/NzHnlyoL+b/OxhiGX8w3zY7iZaNGYT4fAW0QX0uJwk6eHpjd2fcH0KAckaN04Mm2Ojo0EXgfHFq83KuZH+bsxtwnJ/QtkDFYFRsTLnBdfhbp6tfbfKqcsCvBw6+EIt71DXX++M7mcSbS+A7fOfF1UHGHG2/6bDMpxhfdB8=
+	t=1705936225; cv=none; b=uNLNZrEiEZid1CnHP/j5QsEF7YRpI7KIi35CWs5ujXVfxSftyuk/OlP4i/dZwcASetyXl+EAuZ2ZjkJm6Yjbos5U8ZL86K7O8S2VNqW6LiNU4af0lPEh8FEYUR5k9boj4hJz6stDSm7oQHS8L2AdpxAZoY85JdIHawej/7h9vM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936205; c=relaxed/simple;
-	bh=A0S/cY9h5f1v7f0qham4Hn8BDj9W4OtxXp3D12b51HA=;
+	s=arc-20240116; t=1705936225; c=relaxed/simple;
+	bh=kVIYlOYLVqalaQnOMDEKOJ+nnyTguATuIPG6OEDzO/s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Es+2K19vowz+A+ac7LfQoJfNhGEXCDn0QsEtd/+m+pdtO+NoybVSAd3QzUTmkhI8CpJN3OfRf/pGGp9u0GBOaXSUU/R9kCNv7zRQkZhmTo7n4Y6GGd1N6qkeCJ/bVSmwsYIUKgB92Kjp6W7fVeAgnzky07SBRu5keLnY6Y/NJiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XVaEDS5I; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=F3UUduwof3l+VfblTWYmIKlKpqqR6Yj+imNeeQk4y7saZFVlj6EyjgHr4v6Dx2+S9m/+TtZhDjSfHuLFobAMqjQlb0dpgfbtMKUzBS4zy9r1Awyr/jaKzExsgNMLYeBk0iklFzXcpRsLjWQSBearJFa1EZKE2pv/yE9HxTy+q24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C78JlUop; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XVaEDS5I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49AFC43390;
-	Mon, 22 Jan 2024 15:10:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C78JlUop"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB761C433F1;
+	Mon, 22 Jan 2024 15:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705936205;
-	bh=A0S/cY9h5f1v7f0qham4Hn8BDj9W4OtxXp3D12b51HA=;
+	s=k20201202; t=1705936225;
+	bh=kVIYlOYLVqalaQnOMDEKOJ+nnyTguATuIPG6OEDzO/s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XVaEDS5IQSatFElimcEoqLw70B7s+lRXKnflgl+xkBqo9C+ZOLK6vC+x+arUCv4VV
-	 N1o2CnEybHl+jdMtm7L0RdAA1rVdKScT+RRTWxNzVaFwi7deENlEYEZv4kHW9yK1CX
-	 hGT5VV7mlTE8Ri7VHbTnYlP47WZ2AsFER9B3ujlIVcFhO03GlZ1RiKcZncglW3xlPq
-	 owqdMuNpGQXsnylj6L621nP5CAzJ4z+MsqxX1aiS9JyIufTaH3f55CMRkmfGU6wcoU
-	 hGsdc+ivIIaGFEVn9x+9UXkcfLwCzuK305K5fYNANavP0Zh4SCkA/jJPMtno7Khf7i
-	 xNRMpxR+oW4DQ==
+	b=C78JlUopUZJVkiya0fRTqslYfZy8soxwCwUvpxZxcDfMLp27X6nABG3M5+ssGHmeX
+	 dbo9CMRMlgclVvL02yfA7x5rPFAna0cmjdJPPQLHINwQ6g47uCIU58RxAcGi090u76
+	 Xujvg1j98fSUQ04nxjW+wFj5cnFLhIAK8qoovVHBr+EM4vVHvNAST8onRSdxw4vFX/
+	 NBO4H20YOjbM8AmxEOF6JG9CsUcdoJu2v5EINUO8GGyF7lpKLqePWVMgGMPcLX18AX
+	 quYKwY0iXkM3PVEMO4hdxiuoYB2jUeeyIoY5pCCWCC1UvnzhP6XucI6x0mE3b4kol3
+	 YjBdgjOr2lomQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kamil Duljas <kamil.duljas@gmail.com>,
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	pierre-louis.bossart@linux.intel.com,
 	lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	sound-open-firmware@alsa-project.org,
+	posteuca@mutex.one,
+	Vijendar.Mukunda@amd.com,
+	cristian.ciocaltea@collabora.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 07/53] ASoC: SOF: icp3-dtrace: Fix wrong kfree() usage
-Date: Mon, 22 Jan 2024 10:08:08 -0500
-Message-ID: <20240122150949.994249-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 13/53] ASoC: amd: Add new dmi entries for acp5x platform
+Date: Mon, 22 Jan 2024 10:08:14 -0500
+Message-ID: <20240122150949.994249-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150949.994249-1-sashal@kernel.org>
 References: <20240122150949.994249-1-sashal@kernel.org>
@@ -59,53 +56,53 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.74
 Content-Transfer-Encoding: 8bit
 
-From: Kamil Duljas <kamil.duljas@gmail.com>
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
 
-[ Upstream commit 8c91ca76f44804868d12aed20ebdbc2f89aa7d60 ]
+[ Upstream commit c3ab23a10771bbe06300e5374efa809789c65455 ]
 
-trace_filter_parse() allocs memory for *out and when
--ENOMEM is returned, caller function, dfsentry_trace_filter_write()
-trying to freed this memory.
+Add sys_vendor and product_name dmi entries for acp5x platform.
 
-After this patch, the memory is freed in trace_filter_parse()
-before -EINVAL returned. In caller function removed kfree(elms)
-from error label
-
-Signed-off-by: Kamil Duljas <kamil.duljas@gmail.com>
-Link: https://lore.kernel.org/r/20231116220102.2097-2-kamil.duljas@gmail.com
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Link: https://lore.kernel.org/r/20231206110620.1695591-1-venkataprasad.potturu@amd.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/ipc3-dtrace.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/soc/amd/acp-config.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
-index 8cf421577378..c626cefa0ec5 100644
---- a/sound/soc/sof/ipc3-dtrace.c
-+++ b/sound/soc/sof/ipc3-dtrace.c
-@@ -137,6 +137,7 @@ static int trace_filter_parse(struct snd_sof_dev *sdev, char *string,
- 			dev_err(sdev->dev,
- 				"Parsing filter entry '%s' failed with %d\n",
- 				entry, entry_len);
-+			kfree(*out);
- 			return -EINVAL;
- 		}
- 	}
-@@ -215,13 +216,13 @@ static ssize_t dfsentry_trace_filter_write(struct file *file, const char __user
- 		ret = ipc3_trace_update_filter(sdev, num_elems, elems);
- 		if (ret < 0) {
- 			dev_err(sdev->dev, "Filter update failed: %d\n", ret);
-+			kfree(elems);
- 			goto error;
- 		}
- 	}
- 	ret = count;
- error:
- 	kfree(string);
--	kfree(elems);
- 	return ret;
- }
- 
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 0932473b6394..9ee71a99a087 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -3,7 +3,7 @@
+ // This file is provided under a dual BSD/GPLv2 license. When using or
+ // redistributing this file, you may do so under either license.
+ //
+-// Copyright(c) 2021 Advanced Micro Devices, Inc.
++// Copyright(c) 2021, 2023 Advanced Micro Devices, Inc.
+ //
+ // Authors: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+ //
+@@ -35,6 +35,19 @@ static const struct config_entry config_table[] = {
+ 			{}
+ 		},
+ 	},
++	{
++		.flags = FLAG_AMD_LEGACY,
++		.device = ACP_PCI_DEV_ID,
++		.dmi_table = (const struct dmi_system_id []) {
++			{
++				.matches = {
++					DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
++					DMI_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
++				},
++			},
++			{}
++		},
++	},
+ 	{
+ 		.flags = FLAG_AMD_SOF,
+ 		.device = ACP_PCI_DEV_ID,
 -- 
 2.43.0
 
