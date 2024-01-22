@@ -1,115 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDBB46B99;
-	Mon, 22 Jan 2024 17:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6A44F201;
+	Mon, 22 Jan 2024 17:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.16.128.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705944541; cv=none; b=vFN2kjXvT/lAm7BSGdmzv7afn+LwiRH1rL6RkV8DHPgt6BjDoGipIA3Jt74f7fFNRSDaC+0x71Gabl3QPnSZPC5eVer1T/rVilgLRYpwJPcxNGY0EicFDOCn6J3UvoJgrbhwQofpcVdUUp2KI7We4KTIQcryRn0XCt4X9Zj68Cg=
+	t=1705946028; cv=none; b=uMNEI42JE2H7Zu9gz2kYwigcQdEveLK0o8FqZ0sIhP1c0fR3fwwgRe/gsF4qSzWmaLDT8sHVcx/cPSfUoqf7uU2QIHPCFE+7m6BuMR1UBwKxoqCk6d22zQewD/j/MLe5NKOq0btDrkaC4nRlFyodcHB74MDzPEf49C/MKCZExjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705944541; c=relaxed/simple;
-	bh=6FeAIXLL4BMXxP3NQlpVvmV8ek7N+/33fe5B2RSSNM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oLEc/Hnw+hGbkgvfmKgxDroTfUcqXyrDgbgZg9gYUHVeoa3FZr2GcSwVm+YtMdzYHKMMrSgxD9RYP82fNai2Pdg6oRQLgRh6ECIJLSI7efle/V2wUVdeuWr/Kx36a7xwPw2jvc5fW3q39GwRspbLiWkIYYQqJULgGH+ze22qgA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMJTWOsG; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMJTWOsG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADACC43390;
-	Mon, 22 Jan 2024 17:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705944540;
-	bh=6FeAIXLL4BMXxP3NQlpVvmV8ek7N+/33fe5B2RSSNM4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vMJTWOsGivJR62sg5NtIpQ4+SkzwUTtajCJivqs3X5LFdwl1WJMKpC9/sPpycZ7RE
-	 EMVL/5OB5lQHH2qXPZWRHyt9Z2IgGJB+gWzhEEVTd/XAC83KWiS45P087CIHvjBXMx
-	 doyKBdZB9FWdUx53efJBAi/UpMov+/tW9Ysm4o9ZRzOsENuhC3PuDGm7MKF/9BeY4j
-	 PnaV01wZHf/fxQLG5NQIEpUKVoNRzb1jarK1IBUSJsljfjam5k7Xcda5G/vWeCPvE8
-	 sSwuyaHTRs/FpHfSkZte7dAYMmW7pAXzevefBWDpXkGwnu6igaTC0TyUN8yjFcVLB/
-	 cMAsPztStzxaA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rRy6i-000000000rG-2U1d;
-	Mon, 22 Jan 2024 18:29:12 +0100
-Date: Mon, 22 Jan 2024 18:29:12 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: qcom: sc8280xp: limit speaker volumes
-Message-ID: <Za6l6EP7OqXPU9mj@hovoldconsulting.com>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <20240119112420.7446-3-johan+linaro@kernel.org>
- <d54d3640-49bf-4a2f-903b-4beeb0ebd56c@sirena.org.uk>
- <Za4cR90XoAaATq8X@hovoldconsulting.com>
- <aca2b125-acf8-4791-a3eb-ea19826d3ee4@sirena.org.uk>
+	s=arc-20240116; t=1705946028; c=relaxed/simple;
+	bh=MS+usYHqIFe+mQvkXUp3rrEmu5yhwLRfK6rfrQOCPpM=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=kwdatplhQ0FHYB/i3cOlMN9QVTK0FieYr0kscPVDwyZlVN8PhHy9n+WthLDoBzqmUHX7oRWON6ydMAuZrdC816SvxFQ5vwMbl9ruvj0wfffWK0DSQ2nfWhsunqRB8Yui2QH0wuhxEkLxwHa/xq/qTPyeMHMPhCX0C0iI4YS/kTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nodmarc.danielabrecht.ch; spf=pass smtp.mailfrom=nodmarc.danielabrecht.ch; arc=none smtp.client-ip=94.16.128.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nodmarc.danielabrecht.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nodmarc.danielabrecht.ch
+DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li 71223276322E
+Received: from toucan.dmz.abrecht.li (unknown [IPv6:fc00:4::a3c:111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by abrecht.li (Postfix) with ESMTPSA id 71223276322E;
+	Mon, 22 Jan 2024 17:53:42 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zuPb1ptY6OeW5Twe"
-Content-Disposition: inline
-In-Reply-To: <aca2b125-acf8-4791-a3eb-ea19826d3ee4@sirena.org.uk>
+Date: Mon, 22 Jan 2024 18:53:42 +0100
+From: Daniel Abrecht <linux-sound@nodmarc.danielabrecht.ch>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: soc-core.c: Add "Unknown" and "Unknown Product"
+ to dmi_blacklist
+In-Reply-To: <e90440a5-587b-48b2-a61f-0800aa8200d5@sirena.org.uk>
+References: <7d11d0711ad93f2208efb9ab13fe915b@abrecht.li>
+ <e90440a5-587b-48b2-a61f-0800aa8200d5@sirena.org.uk>
+Message-ID: <83d18087378efb6b6f1133573719ca57@nodmarc.danielabrecht.ch>
+X-Sender: linux-sound@nodmarc.danielabrecht.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Am 2024-01-22 16:30, schrieb Mark Brown:
+> On Wed, Jan 17, 2024 at 02:44:43PM +0100, Daniel Abrecht wrote:
+>> In U-Boot, the default for DMI vendor / product if not set is "Unknown" and
+>> "Unknown Product".
+>> See https://source.denx.de/u-boot/u-boot/-/blob/v2023.10/lib/smbios.c?ref_type=tags#L272
+> 
+> This is still corrupted according to git am unfortunately.  I can't
+> immediately spot the issue.
 
---zuPb1ptY6OeW5Twe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jan 22, 2024 at 04:05:37PM +0000, Mark Brown wrote:
-> On Mon, Jan 22, 2024 at 08:41:59AM +0100, Johan Hovold wrote:
-> > On Mon, Jan 22, 2024 at 12:03:55AM +0000, Mark Brown wrote:
->=20
-> > > This doesn't apply against current code, please check and resend.
->=20
-> > These patches are based on Linus's tree after merging the sound updates
-> > and I just verified that they apply cleanly to 6.8-rc1.
->=20
-> > I couldn't find anything related in either linux-next or your ASoC tree
-> > that should interfere.
->=20
-> > Could you please try again or let me know which branch to rebase on?
->=20
-> I was applying it against v6.8-rc1.
-
-That's what I assumed, but I still don't understand why it doesn't apply
-on your end:
-
-	$ git checkout -b tmp v6.8-rc1
-	$ b4 am 20240119112420.7446-1-johan+linaro@kernel.org
-	...
- 	$ git am ./v4_20240119_johan_linaro_asoc_qcom_volume_fixes_and_codec_clea=
-nups.mbx
-	Applying: ASoC: codecs: wsa883x: fix PA volume control
-	Applying: ASoC: qcom: sc8280xp: limit speaker volumes
-	Applying: ASoC: codecs: lpass-wsa-macro: fix compander volume hack
-	Applying: ASoC: codecs: wcd9335: drop unused gain hack remnant
-
-And if I generate patches from this branch, the diffs are identical to
-the v4 patches I sent.
-
-Could you please try again, and tell me which patch fails to apply and
-how it fails?
-
-Johan
-
---zuPb1ptY6OeW5Twe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCZa6l5AAKCRALxc3C7H1l
-CDS1AP9v09QUe0W/JBDJqz8b7Z8aLnAKxR6EToN186tpJEhmQQD/ZITVhd2YTnO0
-WgezFd6GQaMqTSjOQhoI/Zrt8Qu8Vw8=
-=IyN/
------END PGP SIGNATURE-----
-
---zuPb1ptY6OeW5Twe--
+The v3 I sent applies just fine with "git am" as far as I can tell. I just tested it again with the mail form the list.
+I think the v3 patch is fine, but this time, the v3 message ended up with the same message ID as the v2 message.
+Because of this, some mail clients may get confused, and the threading in mail clients is going to be broken.
