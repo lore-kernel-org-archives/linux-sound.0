@@ -1,104 +1,89 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB94E3A8DB;
-	Mon, 22 Jan 2024 11:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719B03A1A2;
+	Mon, 22 Jan 2024 11:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705923950; cv=none; b=O9XSmmxZ1k9+pCVzphxN7dFRC1E+SOSA1wv+ju/wwUBEyl3wOZ9dD6sC0CrTCT7cCr/FvaI094qOKgr1DMSBDlUoaFLkhLeWO5SCwKwyaw3EGE1tvPTaBCN/S28Ee8PgJkkAtluViCINV4cCEhgYzJnSTVom7YZXYHP8MuBpyrA=
+	t=1705924270; cv=none; b=K/xLeV5WPeE8KvGIcHhKjqKWN6sf2LZDa3CTrq90sKV3etF2W38kBdstsFzL8wiPWp0Q1hrADIf33GzQbe0woYo2t0za5hx/sJl9rkmd9xTrJGboo91lhrSnjUr5rHWZ29lbAu6Im0zClEXWoPHK36Z4Ci9tZKeUKPZbiychacU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705923950; c=relaxed/simple;
-	bh=SvFVbC+C++WLfOGYirGg6Fwp2Bp27iB5saetpjSVeo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LUITgksOPghOeoXawdfnu79AlZ+0LwUsV6ZITtTHoPLQycxw/wL4NUAeaK2BQu5gnvb8j9LSB+bRNua4guplfYgXHjny9w1KIzDRSgxw6tGs5uSy0QSSEdvIN0Uq6ugi/l9D9ywCkVHrUQsuh2xd125c/C8C49IiAdUkXxwxjlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LD9UqSaX; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705924270; c=relaxed/simple;
+	bh=R5qPfOY2yMDbPjZwN9+6J1nkzleSUXE5Ry2YBndlaVo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bO9r8WPNVsr9Yqoimf0Flr6mIbuc4nJkBmTP6WlcWc612+cfZgkeKnwasfPMncCEKSawsC2dcIIxKrIm2Qu9ZuCPMp9syesNYYv3Zhm0RwlL3DyvhfTI9Q8t2VdO9ja2ullzUBIOtEAIyL2dG1Nvrf7JweBg0/ZYoS5CN3CswRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lScOjwsO; arc=none smtp.client-ip=134.134.136.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LD9UqSaX"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e9d288f45so36678925e9.2;
-        Mon, 22 Jan 2024 03:45:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705923947; x=1706528747; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I2NxgDZZ+RtYFKDvLqUW2ETrJtJHmkdaPJy40LrEhoc=;
-        b=LD9UqSaXbGBEn64nIR0dupauQdjjJk8HDxv0oRJPQzyqeBjAfFdCN9T3EODiAfxJ+j
-         Fc5K2KG68OEhDBT/3WGamsJSWRQBYkF4cfyKHHH0ZkadWZWu8oHBJ+RzXYzC1m1W1Icr
-         Lvz92syz9zFXUObcwJt3XWhB6Ga8BzI+Z4xlv7k0Lo9RJ0LP0eaceQenq58iGXnG2D49
-         kVRzjh3NJTOSqdtTXzDbrttRN+5OA4ul2OjENBfb5gWB1W5maQgCihUqwGfgy/2q4jQL
-         j+FcQC6HPsmIcT/EsLWJ0XX2ARjPPt6YkgT2xIWrUQcxOuerhWsq0yG7SB72tDm8hFQI
-         vrpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705923947; x=1706528747;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I2NxgDZZ+RtYFKDvLqUW2ETrJtJHmkdaPJy40LrEhoc=;
-        b=bvfTQKbkTZ6OETLosuLMXvPbl/I0sNbAru96T25lZ+lJXXl+riycn1KMESRkVhbGww
-         JVWTFtMAhfnG5p3y3VN9/xvk+NVbBu6veJ1/yVpDXIN8lVkvjai18MM6xSvHa7SfrHdI
-         C+92Ek7rvfuhiKiq0yTR3u8t66utVtS1XsODRwYQ0UlGtPuccYqkPSJ1ps/6sJtQdGjG
-         LNwWGIFOuY/Dl2+FNWVdB1OOxO2D3ZxDzrO/a/FxWTHqhFfu0I07d1aYokHRQzEb9/Ba
-         ezEWritg4PGeVxG1Xka8XJw114LVgTZ2ArMF63FLJDQP3n46wEqLypiUfs9dI3e+3SQn
-         E/8g==
-X-Gm-Message-State: AOJu0YxlJssCcWiGP1mIf5R5zIdKK+o/f8B0fS0f/1l1RQkBXGqaq4ft
-	v2biYr4JCRdo8XAro1a7W4PAZ6XxrTo7zziplAQXXLJY/OYoQVE=
-X-Google-Smtp-Source: AGHT+IE3rLwGkX8ekqtF+WBWNT64BYf/HYPMyTRd0JcpBIG5vt4S4e+w96fZxl/DhTHQgouWfRnVHw==
-X-Received: by 2002:a05:600c:502a:b0:40e:5d1b:b1a1 with SMTP id n42-20020a05600c502a00b0040e5d1bb1a1mr1607731wmr.67.1705923946681;
-        Mon, 22 Jan 2024 03:45:46 -0800 (PST)
-Received: from phoenix.rocket.std.lan (a95-93-126-153.cpe.netcabo.pt. [95.93.126.153])
-        by smtp.gmail.com with ESMTPSA id j8-20020a05600c190800b0040d7b340e07sm38990358wmq.45.2024.01.22.03.45.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 03:45:46 -0800 (PST)
-From: Rui Salvaterra <rsalvaterra@gmail.com>
-To: amadeuszx.slawinski@linux.intel.com,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rui Salvaterra <rsalvaterra@gmail.com>
-Subject: [PATCH 2/2] ALSA: hda: Increase default bdl_pos_adj for Apollo Lake
-Date: Mon, 22 Jan 2024 11:45:13 +0000
-Message-ID: <20240122114512.55808-3-rsalvaterra@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122114512.55808-2-rsalvaterra@gmail.com>
-References: <20240122114512.55808-2-rsalvaterra@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lScOjwsO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705924268; x=1737460268;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=R5qPfOY2yMDbPjZwN9+6J1nkzleSUXE5Ry2YBndlaVo=;
+  b=lScOjwsO15dgV6/U9Jr6D6AiG6RXsHMo2oIKDO4ONi+J5trDGOISBIK7
+   ao+OCA9LGy3zpyQ+Dc6PqmButV+cETpFWO5BfDE197cKGkIzqf5Khgu+/
+   ldZqfDei4WN29Pn7AqEx1fcEXskF3sirwo8kjjTUjHoclVl1TA/6MlI4Y
+   sDzgcaJuL4aQj5Ayqvidp4c1SBU/1E2s1pUB2d/uZIFSnLe5TUaaippZq
+   lNUlnpnWFr2sdG21zAOX6jQnDD2w0xKoIp/UxkcNG/N/KRmow8jJjCVmx
+   Qc4+poi/rrgHFZScfC3FHSHLPYwAxtZbXYhiSgGi3foYeLA9hOkl+IkOE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="465448306"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="465448306"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:51:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="928968630"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="928968630"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:51:05 -0800
+Message-ID: <c21377fb-da4c-4cdb-994c-e469d4cb1e46@linux.intel.com>
+Date: Mon, 22 Jan 2024 12:51:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ALSA: hda: Replace numeric device IDs with constant
+ values
+Content-Language: en-US
+To: Rui Salvaterra <rsalvaterra@gmail.com>, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240122114512.55808-2-rsalvaterra@gmail.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240122114512.55808-2-rsalvaterra@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Apollo Lake seems to also suffer from IRQ timing issues. After being up for ~4
-minutes, a Pentium N4200 system ends up falling back to workqueue-based IRQ
-handling:
+On 1/22/2024 12:45 PM, Rui Salvaterra wrote:
+> We have self-explanatory constants for Intel HDA devices, let's use them instead
+> of magic numbers and code comments.
+> 
+> Signed-off-by: Rui Salvaterra <rsalvaterra@gmail.com>
+> ---
+>   sound/pci/hda/hda_intel.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+> index 2276adc84478..66f013ee160d 100644
+> --- a/sound/pci/hda/hda_intel.c
+> +++ b/sound/pci/hda/hda_intel.c
+> @@ -1729,8 +1729,8 @@ static int default_bdl_pos_adj(struct azx *chip)
+>   	/* some exceptions: Atoms seem problematic with value 1 */
+>   	if (chip->pci->vendor == PCI_VENDOR_ID_INTEL) {
+>   		switch (chip->pci->device) {
+> -		case 0x0f04: /* Baytrail */
+> -		case 0x2284: /* Braswell */
+> +		case PCI_DEVICE_ID_INTEL_HDA_BYT:
+> +		case PCI_DEVICE_ID_INTEL_HDA_BSW:
+>   			return 32;
+>   		}
+>   	}
 
-[  208.019906] snd_hda_intel 0000:00:0e.0: IRQ timing workaround is activated
-for card #0. Suggest a bigger bdl_pos_adj.
-
-Unfortunately, the Baytrail and Braswell workaround value of 32 samples isn't
-enough to fix the issue here. Default to 64 samples.
-
-Signed-off-by: Rui Salvaterra <rsalvaterra@gmail.com>
----
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 66f013ee160d..1b550c42db09 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -1732,6 +1732,8 @@ static int default_bdl_pos_adj(struct azx *chip)
- 		case PCI_DEVICE_ID_INTEL_HDA_BYT:
- 		case PCI_DEVICE_ID_INTEL_HDA_BSW:
- 			return 32;
-+		case PCI_DEVICE_ID_INTEL_HDA_APL:
-+			return 64;
- 		}
- 	}
- 
--- 
-2.43.0
-
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
