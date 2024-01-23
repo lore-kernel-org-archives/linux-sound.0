@@ -1,142 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE80524DC;
-	Tue, 23 Jan 2024 07:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED2352F77;
+	Tue, 23 Jan 2024 07:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705995916; cv=none; b=pRcsU14aQNLEOh/gd3dqvD+q5euXJfEfo0GhhCqT/l2wjkMxZrWODzzI0gNSkMLg5QMBlb1SWvhacnU62ixKYhRmR6BtGDyz/zWHirtu9pHMym/3SM33jdtwJM/R10nNrUmKpTzqO8Oa4r9yHQ0EZJHTy5raxsDxTZte7pJHKbU=
+	t=1705996266; cv=none; b=XwV/BsruBFNka/iz5hq4WML+zcSITM6qnxitCvbuIb3Ygkc0NgOgoD46NS16fFLxwOjFxSn9nlLCtuoVGs6EEhSNbI8R1hZhzcXCvR0QOpJ2I3bfkQG1o35Z6R3VnHWtRHB6xluK1Hw7rehYbyVRPifBZ8euEr2khRWZB6cHgsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705995916; c=relaxed/simple;
-	bh=gR1DaQBEiwp7b8LXQ3gqb1TinU2mUqOSau6sGyjnT/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFA8TbyE+uxp/hex/XOvsWPWp1Qeg3y5NEFgExC4UauoA89NoUplrQAIu8iKbFtQbRigIsSXZw6YhT6XZ98h4sMohyC5YVdmBys5P0FJFvg9tLPJ9J2ghxHJuaNgCQHSgvSE2ufDF9SnxRUma0vUIk3IOPbkwkjjMF8nME5dm5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1peFCRO; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1705996266; c=relaxed/simple;
+	bh=+FQ2dXwSPK4lKzUb9x6+Wx7xiSG9UCJSvsRF2UHO+Rc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LQu93m1xt1D50G54OOL824Gr/LQWEIPhaLxX+69SP0vql7Kc8MOfR8qgdZ1dMmEviigkVbMuSLnW4L5n0Twv1Pf+thwXKZmQLPsHTTl1wMrOVic5dVXiRIzrcNs/DqUL8uVy2J8p0c/iK2FCTDKnoYAeO5OTkOIBshDwet1SMJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HlQOCBJh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jZcjz8pE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HlQOCBJh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jZcjz8pE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1peFCRO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705995915; x=1737531915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=gR1DaQBEiwp7b8LXQ3gqb1TinU2mUqOSau6sGyjnT/I=;
-  b=h1peFCROm9fade0rEu976ABmV1J9R9L4GGyBGxIBuzOXGqiOsmu2gilY
-   P4omdRlUA6oAv9eUjAlumNfh9LO4+PjvCm9U0+IxQRGsCYCacxEvy/U5O
-   5BsWHfuAlZLu27bQFDuDQhGVoroqxkUQ51z9x5pRR5IsYSH1Wi4lMX664
-   zjzjUea6mCJ7o3ajNb/9jjbxv8hqel12Xf6/oxLNs+DfOA/SxBqKhGki/
-   8pANVaCC3DawY9yeoJXrgKiCPQJEVqdi3xiIl1WT6ZrZ/HGaLXbUdlSDq
-   Zb69fvlTviKiKnHo0FvKlrS+IIA1qOceOH/z1qA86DbiX/9v+zdD9oZqu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="1336526"
-X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
-   d="scan'208";a="1336526"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 23:45:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="909211748"
-X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
-   d="scan'208";a="909211748"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 23:45:06 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 81AD911FB9B;
-	Tue, 23 Jan 2024 09:45:03 +0200 (EET)
-Date: Tue, 23 Jan 2024 07:45:03 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pm@vger.kernel.org,
-	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	intel-xe@lists.freedesktop.org,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
- usage
-Message-ID: <Za9uf3icrVE6Ajbe@kekkonen.localdomain>
-References: <20240122114121.56752-2-sakari.ailus@linux.intel.com>
- <20240122181205.GA275751@bhelgaas>
- <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HlQOCBJh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jZcjz8pE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HlQOCBJh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jZcjz8pE"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DA85221F23;
+	Tue, 23 Jan 2024 07:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705996261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
+	b=HlQOCBJhCnHT+WCvO+jY2rIdyFVcFpI3bD06lU6FZWzwVRqRHJIvI9GfbAiBUvb/13QrB+
+	vPfCYw0DKdkQzHEDLBnLEjejy9yr1MIaXSXetvaWsZl6LC7GELUeb5eSZXoKafrH6AaXth
+	EZnb40fb38Po4UBXVv6mbVxtU4n/j9o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705996261;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
+	b=jZcjz8pEfVWzb8lwN/VLw7RNFOl7xBV2UGZ9qPmOOQ5PnpfJ9NIXmJfL9Lz7O3jlX3WhiO
+	4GFrD2+EPORF7rDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705996261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
+	b=HlQOCBJhCnHT+WCvO+jY2rIdyFVcFpI3bD06lU6FZWzwVRqRHJIvI9GfbAiBUvb/13QrB+
+	vPfCYw0DKdkQzHEDLBnLEjejy9yr1MIaXSXetvaWsZl6LC7GELUeb5eSZXoKafrH6AaXth
+	EZnb40fb38Po4UBXVv6mbVxtU4n/j9o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705996261;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
+	b=jZcjz8pEfVWzb8lwN/VLw7RNFOl7xBV2UGZ9qPmOOQ5PnpfJ9NIXmJfL9Lz7O3jlX3WhiO
+	4GFrD2+EPORF7rDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A89E2136A4;
+	Tue, 23 Jan 2024 07:51:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9S6qJ+Vvr2WiZQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 23 Jan 2024 07:51:01 +0000
+Date: Tue, 23 Jan 2024 08:51:01 +0100
+Message-ID: <87y1cgmqsa.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rui Salvaterra <rsalvaterra@gmail.com>
+Cc: amadeuszx.slawinski@linux.intel.com,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: hda: Replace numeric device IDs with constant values
+In-Reply-To: <20240122114512.55808-2-rsalvaterra@gmail.com>
+References: <20240122114512.55808-2-rsalvaterra@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.71
+X-Spamd-Result: default: False [-2.71 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.41)[97.29%]
+X-Spam-Flag: NO
 
-Hi Rafael, Björn,
-
-Thanks for the review.
-
-On Mon, Jan 22, 2024 at 07:16:54PM +0100, Rafael J. Wysocki wrote:
-> On Mon, Jan 22, 2024 at 7:12 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
-> > On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
-> > > There are two ways to opportunistically increment a device's runtime PM
-> > > usage count, calling either pm_runtime_get_if_active() or
-> > > pm_runtime_get_if_in_use(). The former has an argument to tell whether to
-> > > ignore the usage count or not, and the latter simply calls the former with
-> > > ign_usage_count set to false. The other users that want to ignore the
-> > > usage_count will have to explitly set that argument to true which is a bit
-> > > cumbersome.
-> >
-> > s/explitly/explicitly/
-> >
-> > > To make this function more practical to use, remove the ign_usage_count
-> > > argument from the function. The main implementation is renamed as
-> > > pm_runtime_get_conditional().
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
-> > > Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
-> > > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
-> > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >
-> > Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
-> >
-> > > -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
-> > > +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
-> >
-> > If pm_runtime_get_conditional() is exported, shouldn't it also be
-> > documented in Documentation/power/runtime_pm.rst?
-> >
-> > But I'm dubious about exporting it because
-> > __intel_runtime_pm_get_if_active() is the only caller, and you end up
-> > with the same pattern there that we have before this series in the PM
-> > core.  Why can't intel_runtime_pm.c be updated to use
-> > pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
-> > make pm_runtime_get_conditional() static?
+On Mon, 22 Jan 2024 12:45:12 +0100,
+Rui Salvaterra wrote:
 > 
-> Sounds like a good suggestion to me.
+> We have self-explanatory constants for Intel HDA devices, let's use them instead
+> of magic numbers and code comments.
+> 
+> Signed-off-by: Rui Salvaterra <rsalvaterra@gmail.com>
 
-The i915 driver uses both but I guess it's not too much different to check
-ignore_usecount separately than passing it to the API function?
+Applied both patches now.  Thanks.
 
-I'll add another patch to do this and moving
-pm_runtime_get_if_{active,in_use} implementations to runtime.c.
 
--- 
-Regards,
-
-Sakari Ailus
+Takashi
