@@ -1,126 +1,94 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED2352F77;
-	Tue, 23 Jan 2024 07:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F926121;
+	Tue, 23 Jan 2024 07:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705996266; cv=none; b=XwV/BsruBFNka/iz5hq4WML+zcSITM6qnxitCvbuIb3Ygkc0NgOgoD46NS16fFLxwOjFxSn9nlLCtuoVGs6EEhSNbI8R1hZhzcXCvR0QOpJ2I3bfkQG1o35Z6R3VnHWtRHB6xluK1Hw7rehYbyVRPifBZ8euEr2khRWZB6cHgsQ=
+	t=1705996689; cv=none; b=USwqqDGcPudz8XITau5SaDTGGyKW19L0o8ZTPlfSoF8LennqhILp8iJC9dc7+yJKnGsDKIZR1KVihNSzxf2ktGpu/FGiqhGDzUoQ0Cn2dBaKuN/Yf3ckyLONKmB7lX8yLI+vllEDztMEsP80uyfjOzHTxIsor1kCxpxnQW548OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705996266; c=relaxed/simple;
-	bh=+FQ2dXwSPK4lKzUb9x6+Wx7xiSG9UCJSvsRF2UHO+Rc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LQu93m1xt1D50G54OOL824Gr/LQWEIPhaLxX+69SP0vql7Kc8MOfR8qgdZ1dMmEviigkVbMuSLnW4L5n0Twv1Pf+thwXKZmQLPsHTTl1wMrOVic5dVXiRIzrcNs/DqUL8uVy2J8p0c/iK2FCTDKnoYAeO5OTkOIBshDwet1SMJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HlQOCBJh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jZcjz8pE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HlQOCBJh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jZcjz8pE; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1705996689; c=relaxed/simple;
+	bh=E87nD93jJ+vmxbmKH7yTTktP9lMuBJ2ulmspVtaJYKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NK4lnxMOEXczzIZbQi0fSJi88lwozS/kd+CzamkzId4ElVg/j9g1Xj0I3maeo4KOkEX4j2GvKJLbhy6f0R6YjLBen+92OuaN+XCjOTL/6g0zdnmRWfzNheJVcgbKl+NiIYk4TLS/oowJ2m8sOMvx64oPKx8djmdRX/fuqStrZ9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obrUMfBg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HlQOCBJh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jZcjz8pE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HlQOCBJh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jZcjz8pE"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DA85221F23;
-	Tue, 23 Jan 2024 07:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705996261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
-	b=HlQOCBJhCnHT+WCvO+jY2rIdyFVcFpI3bD06lU6FZWzwVRqRHJIvI9GfbAiBUvb/13QrB+
-	vPfCYw0DKdkQzHEDLBnLEjejy9yr1MIaXSXetvaWsZl6LC7GELUeb5eSZXoKafrH6AaXth
-	EZnb40fb38Po4UBXVv6mbVxtU4n/j9o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705996261;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
-	b=jZcjz8pEfVWzb8lwN/VLw7RNFOl7xBV2UGZ9qPmOOQ5PnpfJ9NIXmJfL9Lz7O3jlX3WhiO
-	4GFrD2+EPORF7rDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705996261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
-	b=HlQOCBJhCnHT+WCvO+jY2rIdyFVcFpI3bD06lU6FZWzwVRqRHJIvI9GfbAiBUvb/13QrB+
-	vPfCYw0DKdkQzHEDLBnLEjejy9yr1MIaXSXetvaWsZl6LC7GELUeb5eSZXoKafrH6AaXth
-	EZnb40fb38Po4UBXVv6mbVxtU4n/j9o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705996261;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+flJAd6H8oP/VR9Ty1oReEk9oo5tXSBeY0zG3mnicQ=;
-	b=jZcjz8pEfVWzb8lwN/VLw7RNFOl7xBV2UGZ9qPmOOQ5PnpfJ9NIXmJfL9Lz7O3jlX3WhiO
-	4GFrD2+EPORF7rDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A89E2136A4;
-	Tue, 23 Jan 2024 07:51:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9S6qJ+Vvr2WiZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 23 Jan 2024 07:51:01 +0000
-Date: Tue, 23 Jan 2024 08:51:01 +0100
-Message-ID: <87y1cgmqsa.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rui Salvaterra <rsalvaterra@gmail.com>
-Cc: amadeuszx.slawinski@linux.intel.com,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obrUMfBg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3462C433C7;
+	Tue, 23 Jan 2024 07:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705996688;
+	bh=E87nD93jJ+vmxbmKH7yTTktP9lMuBJ2ulmspVtaJYKI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=obrUMfBgK9Z0J3D4toVHkjnUI/BHbpboUTHMYupaer114w5skrzm8AcoVhyoLN9HZ
+	 3Z9l9amEBJ7YJ/E5V2tNjXlehcXVsfhw9U3rNsDF31Lfl/HeVUDYBH5CwGprrwsEdY
+	 VExOLl3zb/y0ZiEsJKv0EvgWVn7YAxEImEF6+f0RMiH0dzMiRvp2TZKG+zqb7y8lEH
+	 LOciS4+YztgnOmsIU2Bkkjec5qlAxPeHHZg9P7pwkm6UQTC7CD50gBF9jfuiQpJqVO
+	 CuiALrHaOe0eziCDFfDD5NXTFL3cBlDBZqHZwQvxkeIIZTXs2oiLiWbOOZdFyLwgZ+
+	 JShGXd4cJ3UIw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rSBfo-00000000267-3iRv;
+	Tue, 23 Jan 2024 08:58:20 +0100
+Date: Tue, 23 Jan 2024 08:58:20 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ALSA: hda: Replace numeric device IDs with constant values
-In-Reply-To: <20240122114512.55808-2-rsalvaterra@gmail.com>
-References: <20240122114512.55808-2-rsalvaterra@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: Re: [PATCH v4 0/4] ASoC: qcom: volume fixes and codec cleanups
+Message-ID: <Za9xnEXYczA5rsw3@hovoldconsulting.com>
+References: <20240119112420.7446-1-johan+linaro@kernel.org>
+ <170596045016.161959.16318695944363636291.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.71
-X-Spamd-Result: default: False [-2.71 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.41)[97.29%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <170596045016.161959.16318695944363636291.b4-ty@kernel.org>
 
-On Mon, 22 Jan 2024 12:45:12 +0100,
-Rui Salvaterra wrote:
+On Mon, Jan 22, 2024 at 09:54:10PM +0000, Mark Brown wrote:
+> On Fri, 19 Jan 2024 12:24:16 +0100, Johan Hovold wrote:
+> > To reduce the risk of speaker damage the PA gain needs to be limited on
+> > machines like the Lenovo Thinkpad X13s until we have active speaker
+> > protection in place.
+> > 
+> > Limit the gain to the current default setting provided by the UCM
+> > configuration which most user have so far been using (due to a bug in
+> > the configuration files which prevented hardware volume control [1]).
+> > 
+> > [...]
 > 
-> We have self-explanatory constants for Intel HDA devices, let's use them instead
-> of magic numbers and code comments.
+> Applied to
 > 
-> Signed-off-by: Rui Salvaterra <rsalvaterra@gmail.com>
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
+> Thanks!
+> 
+> [1/4] ASoC: codecs: wsa883x: fix PA volume control
+>       (no commit info)
+> [2/4] ASoC: qcom: sc8280xp: limit speaker volumes
+>       commit: c481016bb4f8a9c059c39ac06e7b65e233a61f6a
+> [3/4] ASoC: codecs: lpass-wsa-macro: fix compander volume hack
+>       (no commit info)
+> [4/4] ASoC: codecs: wcd9335: drop unused gain hack remnant
+>       (no commit info)
 
-Applied both patches now.  Thanks.
+Thanks, Mark. 
 
+Could you consider applying at least patches 1/4 and 3/4 for 6.8 as
+well?
 
-Takashi
+The former is needed for proper hardware volume control with the fixed
+UCM files, and the latter avoids ending up with the digital gain setting
+set too low or too high while by-passing the volume limit set by the
+machine driver.
+
+Johan
