@@ -1,88 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BBC5F840;
-	Tue, 23 Jan 2024 13:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E049D33097
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 14:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706018232; cv=none; b=FF6XStvMtmqxFj/hWGar4LLi7uZgmSpcMtM90x2vf4LnB0wVdib6Cx/m8Kku5Cuq7b8nGxbUGxS3TQ+e/aH3I5X6f9ShxcW9GBip/dN3jZXCaw8xERvTtxcSWNb7aDuhj67JGWpXyrc+IDbpv7E0CuubJ40YLSGhYy6dV5vSeQk=
+	t=1706019217; cv=none; b=K3CRwAWYB3ncQKIUiNoY4XFXH0mD8cAvArPyIYjwxOiOv1kS+QEmkqqKUcIwYdL3tIly5YKze4ZDeLoA2Z8jxFC+RIdfoK78cBbioe58OHP/APgkfwnaNHgmXzGDxFb6LbimcTrGztvdofS/R3iUutHWszCT36PB97FvmuFcAVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706018232; c=relaxed/simple;
-	bh=bjE7cKFCXNgqexa1XbHJgB/+EEGcugDZWlZbQses+y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HUmF5xLKxW7Zl+EEGCjcgs0366yItRDBtl6pS8uS9tz06c2ls1etPBAcikwvF9GhH3hAzOIQJXID7KvToIbL5eUnI6ZUGbYVzu7r9slucni8xGEmrw6CRKkPUCfz2YjJ5H+61cj0tExrOGngQBb3gEVTGUOreZ3dBcvB7Ech4dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=boMxB21b; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706019217; c=relaxed/simple;
+	bh=59g27bt8e6S4r2ETTP2EkFw+s31TUQk1QwcJu0PCIT0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bXQ1cZh8LgNS25n7bjKEVOa22qfyPx+IofcoESzkiN3GNxTavRajy0zHj64xwzO8rf6f/NYgRSpo1Uelqjcx+ODe7VlfUmyHFsm6XSYA9fSLVHFZSFx4YziVkR68xwx+oRH4aZ7RZe+wagQ/DUU2FLR8rYbeY2wQjvXz5YGOcRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m1WsWUtB; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="boMxB21b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24751C43141;
-	Tue, 23 Jan 2024 13:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706018232;
-	bh=bjE7cKFCXNgqexa1XbHJgB/+EEGcugDZWlZbQses+y4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=boMxB21b8V/JsPzmax4mUS3X3B46r/qfkuS2WXL6YSp3qOSqvWVYIJE4JLgE+/pUK
-	 StUQNLHlNgxRbahrI4qQD/2FAU1SIQs0612LK5G9NMiUGUWx+5oniMu/vlJ5mn1sDD
-	 7igsYCYu0f/2fjhApDopnkt+rLy1F29564CfJH+igbGQylQYpwcpIZkG6iB0yqt45H
-	 CkAG4aETuQ6ET/7Owun10hx4+Qv7WjkzG1RBliLLCHy4RcM8S0zTr+fMemtqbN5aib
-	 LAzbQ7VcxFA4CR89fqX6/8l/bVbgo0piu3Dh3bSGomc9TGdpDoGI09916oqzgoRHBG
-	 CdVlQXrPHXJmw==
-Date: Tue, 23 Jan 2024 13:57:05 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m1WsWUtB"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33929364bdaso2647085f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 06:13:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706019213; x=1706624013; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3wc/JiN8Loe+9s5GeVUhog8zNaIeXcbf5dgRtXCIKt4=;
+        b=m1WsWUtBOZ3TLoIvheeBvT4it6wBWUHe8ixOLD89llU1NNcf5h4ZcOwYYulY+OICHi
+         nPomRrMDlpFANNvoHYMsjSLNvFGOCmwk5AtQxPpw/DQaRUUtUpH2E+lMR3eU5nKfOoO6
+         hemdG1YsMfWUmfzzlSCZq15OT8fKVQ8Z/hTGdCdAhP6TekHA91oQTJXVp+SHDDUEIKAE
+         srWuNuMp8HxcTi83zPlGGekT82JQqWc2dwXhd4mZD+mAY9AgbHhzGzOJmiDbPdEkBxwh
+         yhORHiURN9oxQBxFyVp4Pk25gv++QYOZNEgXIFyhmZRDLAoUhZ02bgzyCCVIW71Kg2EY
+         Rocw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706019213; x=1706624013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3wc/JiN8Loe+9s5GeVUhog8zNaIeXcbf5dgRtXCIKt4=;
+        b=RWUqC8/G80tZWxUYm+Ve1EBPmccskU0wqCzv//UDTwtidl4Azc5AiZbjaKy0RPIjdB
+         YtXjtunVOYTEA9HtsVOKvl9qeFklTB+8B9xpv25XNswbq3x7hAey/68PsVwOlLH6/ujw
+         iP0ZuC3Mm6AUOpMcKT+BcMf6WiBmkAByfVyznHUDaoE6w3SWXElodF65/jjjMiY06FAr
+         X3u0g7ddCtCI9d1Fq2wCnkphKTOGkymEqS3GuRNCkcfHLVZwnVKVMth/LztBzPuPPShM
+         3MOhkuFl2gma4o3UlRhig0oz2wT3sABPSwLg0V0FtOSE2FV6dPZWqpW01RjaJrbyeqqp
+         5/dw==
+X-Gm-Message-State: AOJu0Yw4efvNSbeRRPAZTEo6cXKPvCJO2ksvihArd5TjbVI98Ip0+TqN
+	1O1EjQYKejOkwWRGz/nWxrwF9zhTzgY5FseWD2aRI1stH7E19eKoX9MMfMnNgRo=
+X-Google-Smtp-Source: AGHT+IGUwHiuIN/rr3Sfo3cQy+gFNAVnhehKWEZSRNQVxSnP0gfdhi5FegVHP6kGfQJRsqXageDuDw==
+X-Received: by 2002:a5d:4e0f:0:b0:336:6dad:2c71 with SMTP id p15-20020a5d4e0f000000b003366dad2c71mr3605582wrt.111.1706019213110;
+        Tue, 23 Jan 2024 06:13:33 -0800 (PST)
+Received: from krzk-bin.. ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id r8-20020adfe688000000b00337d97338b0sm12132298wrm.76.2024.01.23.06.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 06:13:32 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Banajit Goswami <bgoswami@quicinc.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] ASoC: qcom: volume fixes and codec cleanups
-Message-ID: <05c38299-bc8c-4f24-a82b-4c4e66801cce@sirena.org.uk>
-References: <20240119112420.7446-1-johan+linaro@kernel.org>
- <170596045016.161959.16318695944363636291.b4-ty@kernel.org>
- <Za9xnEXYczA5rsw3@hovoldconsulting.com>
- <93fee0e1-ce92-4aba-8e4b-0861f78c32c9@sirena.org.uk>
- <Za-_jrByhGnKJo66@hovoldconsulting.com>
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH v4 0/6] reset: gpio: ASoC: shared GPIO resets
+Date: Tue, 23 Jan 2024 15:13:05 +0100
+Message-Id: <20240123141311.220505-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BoaR20KATVigOpGy"
-Content-Disposition: inline
-In-Reply-To: <Za-_jrByhGnKJo66@hovoldconsulting.com>
-X-Cookie: Stay together, drag each other down.
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---BoaR20KATVigOpGy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Patch #2 (cpufreq: do not open-code of_phandle_args_equal()) and patch #4
+(reset: Instantiate reset GPIO controller for shared reset-gpios) depend on OF
+change (patch #1).
 
-On Tue, Jan 23, 2024 at 02:30:54PM +0100, Johan Hovold wrote:
+Changes in v4
+=============
+1. New patches:
+   of: add of_phandle_args_equal() helper
+   cpufreq: do not open-code of_phandle_args_equal()
 
-> The merge commit for the series does not include the volume limit patch,
-> so it looks like that one got applied separately before you applied the
-> rest of the series:
+2. reset-gpio.c:
+   - Drop unneeded comment (Bartosz), add Rb tag.
+   - Do not assign of_node.
 
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/?h=for-6.8&id=7c70825d1603001e09907b383ed5d1bd283d61a0
+3. reset/core.c:
+   - Implement most of Bartosz feedback (I responded to one which I did not
+     implement) and comments from Philipp.
+   - Expect either rcdev->of_args or rcdev->of_node.
+   - Drop __reset_gpios_args_match() and use common helper (Philipp).
+   - Move declarations of automatic-cleanup variables in
+     __reset_add_reset_gpio_lookup() to place of use (Bartosz).
+   - Separate gpio_device_get_label() and kstrdup() (Philipp).
+   - Correct doc for __reset_add_reset_gpio_device(), rewrite few comments.
+   - Drop unneeded "r" variable in __reset_find_rcdev() (Philipp).
+   - Drop of_phandle_args initialization in __of_reset_control_get (Philipp).
+   - Check if CONFIG_RESET_GPIO is enabled before trying to look up reset-gpios.
 
-Yes, loose patches go before serieses.
+4. Drop Chris' patch: "i2c: muxes: pca954x: Allow sharing reset GPIO", because
+   discussion is on going.
 
---BoaR20KATVigOpGy
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v3
+=============
+1. reset-gpio.c:
+  - Add reset_gpio_of_xlate (Philipp).
+  - reset_gpio_of_args_put->reset_gpio_of_node_put (Philipp).
+  - Expect via platdata of_phandle_args.
+  - Do not call device_set_node() to attach itself to reset consumer
+    (the final device).  This was questionable idea in the first place.
+    Bartosz suggested to use GPIO_LOOKUP to solve this.
 
------BEGIN PGP SIGNATURE-----
+2. reset/core.c, implement Philipp's feedback. That was a lot:
+  - Commit msg fixes.
+  - Add new platform_device earlier, when reset core found "reset-gpios" but
+    not "resets".
+  - Do not overwrite of_phandle_args.
+  - Expect matching .of_reset_n_cells.
+  - Pass of_phandle_args as platdata to reset-gpio.
+  - Rename reset_gpio_device->reset_gpio_lookup and others. Fix few comments
+    and code cleanup pointed on review.
+  - From Bartosz:
+    Use GPIO_LOOKUP and a lot of cleanup.h in __reset_add_reset_gpio_lookup().
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWvxbEACgkQJNaLcl1U
-h9Bdngf/atygantZE8Loeo+W18IGt6CE9ghCmzgjV5VSGh0boNMyi2DrhGABuQXC
-COMLo5JZPokZSO+TBTwD8z09fBXlNzW6n8uAT/hgKiH/8x2kI1FGN6StDilZiIJM
-AOZBBcZTRQauGIiLUhl66Vt3/UfCIBVykBpK9PIq/2L/Ys3tScF9v+LgV/K8KvMq
-CFOxyi9R0o1TvssNdrDUfw2ZKOOiqcCQNSCF6t0ZfTQVFSX0kV4MFqW5XVeTeguJ
-fD8wDpMq/SsD/KwFlaU0UDcH8i/P18dSlpp54kmAZUrvTVs5aujrOEtsa2o4dM7/
-LbqUxbpsO1o/QgzVSzrWuX41GtdkYg==
-=R1jG
------END PGP SIGNATURE-----
+3. Include here Chris' patch: "i2c: muxes: pca954x: Allow sharing reset GPIO".
 
---BoaR20KATVigOpGy--
+Changes in v2
+=============
+1. wsa884x.c: add missing return in wsa884x_get_reset(), correct comment.
+2. qcom,wsa8840.yaml: fix oneOf syntax.
+3. reset-gpio.c:
+   - Fix smatch warning on platdata evaluation.
+   - Parse GPIO args and store them in rc.of_args.
+4. reset/core.c:
+   - Revise approach based on Bartosz comments: parse the reset-gpios phandle
+     with arguments, do not use deprecated API and do not rely on gpio_desc
+     pointer.
+   - Create a list of instantiated platform devices to avoid any duplicates.
+   - After creating reset-gpio platform device, try to get new reset controller
+     or return EPROBE_DEFER.
+   - Drop the "cookie" member and add new "of_args" to "struct
+     reset_controller_dev".
+
+Description
+===========
+
+We have at least few cases where hardware engineers decided to use one
+powerdown/shutdown/reset GPIO line for multiple devices:
+
+1. WSA884x (this and previous patch):
+https://lore.kernel.org/all/b7aeda24-d638-45b7-8e30-80d287f498f8@sirena.org.uk/
+2. https://lore.kernel.org/all/20231027033104.1348921-1-chris.packham@alliedtelesis.co.nz/
+3. https://lore.kernel.org/lkml/20191030120440.3699-1-peter.ujfalusi@ti.com/
+4. https://lore.kernel.org/all/20211018234923.1769028-1-sean.anderson@seco.com/
+5. https://social.treehouse.systems/@marcan/111268780311634160
+
+I try to solve my case, hopefuly Chris' (2), partially Sean's (4) and maybe
+Hectors (5), using Rob's suggestion:
+
+https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/
+
+Best regards,
+Krzysztof
+
+Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Sean Anderson <sean.anderson@seco.com>
+
+Krzysztof Kozlowski (6):
+  of: Add of_phandle_args_equal() helper
+  cpufreq: do not open-code of_phandle_args_equal()
+  reset: gpio: Add GPIO-based reset controller
+  reset: Instantiate reset GPIO controller for shared reset-gpios
+  ASoC: dt-bindings: qcom,wsa8840: Add reset-gpios for shared line
+  ASoC: codecs: wsa884x: Allow sharing reset GPIO
+
+ .../bindings/sound/qcom,wsa8840.yaml          |  11 +-
+ MAINTAINERS                                   |   5 +
+ drivers/reset/Kconfig                         |   9 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/core.c                          | 213 ++++++++++++++++--
+ drivers/reset/reset-gpio.c                    | 119 ++++++++++
+ include/linux/cpufreq.h                       |   3 +-
+ include/linux/of.h                            |  16 ++
+ include/linux/reset-controller.h              |   4 +
+ sound/soc/codecs/wsa884x.c                    |  53 ++++-
+ 10 files changed, 408 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/reset/reset-gpio.c
+
+-- 
+2.34.1
+
