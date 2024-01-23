@@ -1,181 +1,85 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C9E5D747;
-	Tue, 23 Jan 2024 11:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A475FDB0;
+	Tue, 23 Jan 2024 13:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706009584; cv=none; b=YF3cMeUQPuLQ5mRigg/LccwxlT5WpfzqCmOXjgh11zJ0BSoKC1EP+yoG7wqsxZU46fXu1V+wzr2Gc5S78Pk7Y39b6K+/eKgVTkC/OVGtJ089bi03m+bTXl6Ud8T39OtIW0BfEejdty754Ra+g/QW4ijGPab+1ZLxYpE1W1Kuf94=
+	t=1706015127; cv=none; b=ZRub9tmvXgZU8E/HTY8+OweYTX1kR80Yf38Ot4yxPWp+yYBTycVB2W8eEqAnq14/bC9pn3iIdhA5M4hyBNbgq+Ka6tpCqL5s18vulTQ1kfcARcAPVJPWfy9ojMzbtOVq5bHXDJh1WWM98OBWrov2yZWrfIZ23IQYVU9ABcwvIPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706009584; c=relaxed/simple;
-	bh=twtRZ2kll5KW9N9kkXciaYDPMJ1u2zhZUwcgEU9uU8o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jmbOcfWe+jqaLa9R3j8pLjdwoHyc0jOcyV00QSkntgQ3WoIQgYIgc5iLMJDTrVaOsxdvkcL4Ws04Ui1O354cmdk5iwXarCxXditTALh2RyMbK2Qnak/ychzSxRTrMKUu1GiQHEY6PPggKa/IHThJc5HxMo+tWjyU75PTAO2hut8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=E35gdN8p; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706015127; c=relaxed/simple;
+	bh=NC2SBjf4G4LZDr8Uy1pZIztgxM81v01wdVZC8CaieWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t15RK8quLp7MzNNRYtXv6YdMYPw8B33cjEiBI7Up2U7WyS5fodAvHJTDQyJuMlQCyr4Bbr43zgE6tvsSVcHgQe4iADsTghexfWuMfg8XsOIWrEdbCSPGvYD2U6ifyiw3m9a07rs3qLqW37nGqeme90Tn0z1TflDRef5O7JFnp7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctr0fBBH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="E35gdN8p"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40N79viZ014543;
-	Tue, 23 Jan 2024 05:32:50 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=4
-	T+B66DEuygAYHn9hCMdllptWsqq7spVdej7e0tRy2M=; b=E35gdN8pWEmx9gHs8
-	lvLUYhxMqWBzgplu1+9LdNkLAGPvfhMO0Ik7tF15yjBaDvhqmz5AKLwFSnqKeoPf
-	DLO6QYJKQjqcNRsI53M3qyfNleTyYCvgmj7vCCKRGU1KI0y8JzIFOvo8oLr8b8Lp
-	TaNujfzpKHa6Qy2uviedcgYStPgyHEaUGm/mRBStMLu2DCtHvA6H0qqX037Wh+23
-	8AgusId4rVzQpwjAIIiCrCeGVzBit+j4GohmIXBg86XNlr2KE6jNAdfAQKVbdzNB
-	wwufnkUCQN4avlVK0oYOFtC7lZ3Ns3yYqeDR2EH2j+w9ZFN6NUkqfhC2zoJ2mnhz
-	H4FFA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vrbfpv08h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jan 2024 05:32:50 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 23 Jan
- 2024 11:32:48 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Tue, 23 Jan 2024 11:32:48 +0000
-Received: from upx-tgl-008-ubuntu.ad.cirrus.com (upx-tgl-008-ubuntu.ad.cirrus.com [198.90.251.167])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5642D820246;
-	Tue, 23 Jan 2024 11:32:48 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Maciej Strozek
-	<mstrozek@opensource.cirrus.com>
-Subject: [PATCH v3] ASoC: Intel: mtl-match: Add cs42l43_l0 cs35l56_l23 for MTL
-Date: Tue, 23 Jan 2024 11:32:46 +0000
-Message-ID: <20240123113246.75539-1-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctr0fBBH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1CBC32782;
+	Tue, 23 Jan 2024 13:05:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706015126;
+	bh=NC2SBjf4G4LZDr8Uy1pZIztgxM81v01wdVZC8CaieWY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ctr0fBBH7qw/d81eOGdjaoGoJLrOTMoko1RFXnVe1w4UD8O38W2UFMNfPoIGFN2Hw
+	 9qEY7yeNv9BIMnnjCV7h9Kxomlcfg/FSDUYbICnxB5IabrU7qTyeum9WdRbz3zyilU
+	 KiuQ2Fo1CnXHf7GlyqnXtVBbRhP6vMXTvmToh2+CVnlxLqwtTVqfpE5n3w9sjYRi67
+	 uPljZxLusAMZKADs/9xUd59GiosAT1HIBThb3bZD8HyKEYXFmwXHNFs5d4MbArkYdX
+	 5X+U4r6UGz3lWHtLbTYS9TT0IT0rj/EEn3KP7I6JS3qJCHUSDmRMnLT+qUTdKf0EWI
+	 +BCCQoce5ORnw==
+Date: Tue, 23 Jan 2024 13:05:21 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] ASoC: qcom: volume fixes and codec cleanups
+Message-ID: <93fee0e1-ce92-4aba-8e4b-0861f78c32c9@sirena.org.uk>
+References: <20240119112420.7446-1-johan+linaro@kernel.org>
+ <170596045016.161959.16318695944363636291.b4-ty@kernel.org>
+ <Za9xnEXYczA5rsw3@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: mPrvXXtcJcK4-aJCKt1zKhfeVQHatr58
-X-Proofpoint-GUID: mPrvXXtcJcK4-aJCKt1zKhfeVQHatr58
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="f373qjpYXgEyzeWN"
+Content-Disposition: inline
+In-Reply-To: <Za9xnEXYczA5rsw3@hovoldconsulting.com>
+X-Cookie: Stay together, drag each other down.
 
-The layout is configured as:
-- Link0: CS42L43 Jack and mics (2ch)
-- Link2: 2x CS35L56 Speaker (amps 3 and 4, right)
-- Link3: 2x CS35L56 Speaker (amps 1 and 2, left)
 
-Corresponding SOF topology:
-https://github.com/thesofproject/sof/pull/8773
+--f373qjpYXgEyzeWN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
-v2 -> v3: added layout description and link to required SOF topology
-v1 -> v2: swapped AMP3 and AMP4 prefixes
+On Tue, Jan 23, 2024 at 08:58:20AM +0100, Johan Hovold wrote:
 
- .../intel/common/soc-acpi-intel-mtl-match.c   | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+> Could you consider applying at least patches 1/4 and 3/4 for 6.8 as
+> well?
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index feb12c6c85d1..23eaf47b3f24 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -377,6 +377,37 @@ static const struct snd_soc_acpi_adr_device cs35l56_2_adr[] = {
- 	}
- };
+Please check git and resend anything you think has been missed.  When
+you resent the whole series rather than just the problematic patch that
+most likely confused b4.
 
-+static const struct snd_soc_acpi_adr_device cs35l56_2_r_adr[] = {
-+	{
-+		.adr = 0x00023201FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP3"
-+	},
-+	{
-+		.adr = 0x00023301FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP4"
-+	}
-+
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_3_l_adr[] = {
-+	{
-+		.adr = 0x00033001fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00033101fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP2"
-+	}
-+};
-+
- static const struct snd_soc_acpi_link_adr rt5682_link2_max98373_link0[] = {
- 	/* Expected order: jack -> amp */
- 	{
-@@ -554,6 +585,26 @@ static const struct snd_soc_acpi_link_adr mtl_cs42l43_cs35l56[] = {
- 	{}
- };
+--f373qjpYXgEyzeWN
+Content-Type: application/pgp-signature; name="signature.asc"
 
-+static const struct snd_soc_acpi_link_adr cs42l43_link0_cs35l56_link2_link3[] = {
-+	/* Expected order: jack -> amp */
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43_0_adr),
-+		.adr_d = cs42l43_0_adr,
-+	},
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(cs35l56_2_r_adr),
-+		.adr_d = cs35l56_2_r_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(cs35l56_3_l_adr),
-+		.adr_d = cs35l56_3_l_adr,
-+	},
-+	{}
-+};
-+
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -599,6 +650,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt1318-l12-rt714-l0.tplg"
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(2) | BIT(3),
-+		.links = cs42l43_link0_cs35l56_link2_link3,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-cs42l43-l0-cs35l56-l23.tplg",
-+	},
- 	{
- 		.link_mask = GENMASK(2, 0),
- 		.links = mtl_cs42l43_cs35l56,
---
-2.34.1
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWvuZAACgkQJNaLcl1U
+h9ArUQf/fqtc9mZcxQYwBT78ghoI6k7z1q3af7Iqh0gpSRanrp2nFO0pSY0zQBDy
+9+/cFUdlbrSqX2ldPE0vNIgM79WOp7nAUyVQfY6qntqSgYEaLbl+W50m8n8pknyt
+tnF1tCz9LWsEr4qw/9p3G/aNM2znSQamjXyiNVAXHSjDR3oe713e+OtpTMsJq8D9
+6x5c7K0I2FGmNEfvcjp3zn51GWp2jfnkbO/x3ikbKJsKFYbfzoic3RXFXlRHmAz4
+/ptS3k4pB0iInw/a2E2ma59NxxvzkUjzJVzRHLlAC51FqhBHags2j5jFWfD9lAV2
+7dnlGWlAbdS0kExjFwxAwc33hzkjVA==
+=Be7j
+-----END PGP SIGNATURE-----
+
+--f373qjpYXgEyzeWN--
