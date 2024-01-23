@@ -1,73 +1,78 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8704C56752;
-	Tue, 23 Jan 2024 08:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521965A781;
+	Tue, 23 Jan 2024 09:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705999765; cv=none; b=VzKigILjK10mz8RlvIY/pOHNSJaxlkCyEbHZI1t15j5Y+58sBt3MOGGpUNhYiD5CyRijz/24hD5arWteLAz/i93XUeC97+mYy/EzUSEd71cWaNTCMCZ8AAVqPMUHAujRmDzGOmgzLM3KwExbVJnVgz80xXCl+7Bd6ZQ9mJDj0S4=
+	t=1706003816; cv=none; b=bHg2nwWhBUeMCA/JA8mjh3wXry9s7GJOyQNHp2X8r9VwuiK1VzdK5uE0MliBMv3+u0mGPCAt8EW109k9XMzu8xi4fOEKlRPYovfoKREtDW9IHxtlJ3CVsaJpi1jBylqr5ndTm/ToGkMXvfm1yPsJ9J+pPMowysljvy04cMh/j70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705999765; c=relaxed/simple;
-	bh=dhY165tMS0Miq8EqkLLuTWzkti65/pXyDCZ6C1zNaAw=;
-	h=Message-ID:Subject:From:To:CC:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JscfuMZl+fL7cwewD11VUke3K+MWTc/KgmMcFKNTs9Dp1BrwU9PAK8MTfpJDRFt1ON+7Acf1jPCsnrn1FaHrl5H5Z6HGQMORs+vc1hNWwSehzx9zd7XD86AdgmLKjqrSN1Gg5NcOdCtpXcPnI+T6DFsCIetxqliKaO6jyAqSu9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QmYz032Q; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706003816; c=relaxed/simple;
+	bh=giqjHNiHA5lOOXvLyPmmD7zXAE91+Pqyfa9jWZiXxrk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Hvqli8CRUISjK/JNOIlQgZDwBdnAwQJekjwPf1LCcowhdMaNmJu8Vbijriv9WKfS4MLSJgrklqcWudLOOPa2StgVYwO7EUaTBHPtsJ3pkyDqH6wPe3Ut4pLFlAUpU70yR2KfeY1OpWVSyfMOy1GQt9iIUehcexy15qT8mmqqjoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbaLFC2f; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QmYz032Q"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40N5mRpw012720;
-	Tue, 23 Jan 2024 02:48:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:subject:from:to:cc:date:in-reply-to:references
-	:content-type:mime-version:content-transfer-encoding; s=
-	PODMain02222019; bh=6GVSsBOtJASVspjRjHj4J47rudy6/Dh7Gcb1mVujeKY=; b=
-	QmYz032QwQtAOpem/ebdhFIDrpoqX8j+gPEIIe+3iL4jNmepAdmq3QVBWTjxJT00
-	eWADrpfn9SezkbAcT/lPdP+gfBRK5S80HKCLFL0WdIxaE2nl81pEfgOXDX9t24uw
-	JcZlAXa1ET9sTLY5hFEDuyFQ8tej98za56xjO7SIzLTjQvWhGqusLyWNdoPssvYz
-	99RlpyNFm8Z4GxEVbXx+sFyi28FgidBQkANkcaf7Kp/AjZfRjYlS+WvWMwEkT/IR
-	qT54ie6+KGXJxmajbMbm8bppF6/vHNzgqlNrX7oYVctD3jevQ4IYiWw7yTLvP8T2
-	mc7pYyz+JXpK53v69eni6w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vrcf33scm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jan 2024 02:48:58 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 23 Jan
- 2024 08:48:56 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Tue, 23 Jan 2024 08:48:56 +0000
-Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.251.123])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id BCEA946C;
-	Tue, 23 Jan 2024 08:48:56 +0000 (UTC)
-Message-ID: <c41bdd66cdf02db82fece500f75296d23f4d8041.camel@opensource.cirrus.com>
-Subject: Re: [PATCH v2] ASoC: Intel: mtl-match: Add cs42l43_l0 cs35l56_l23
- for MTL
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Mark Brown
-	<broonie@kernel.org>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        "Bard
- Liao" <yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Date: Tue, 23 Jan 2024 08:48:56 +0000
-In-Reply-To: <30f022a5-7ab1-4b2d-b4c1-5a209ec67c5b@linux.intel.com>
-References: <20240122151545.69437-1-mstrozek@opensource.cirrus.com>
-	 <30f022a5-7ab1-4b2d-b4c1-5a209ec67c5b@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbaLFC2f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706003815; x=1737539815;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=giqjHNiHA5lOOXvLyPmmD7zXAE91+Pqyfa9jWZiXxrk=;
+  b=GbaLFC2fWlGW9+IB6Xgf8Bxcq4EaAD4lk3qS36kTvcsDd4X2bPqySXfJ
+   FN8/q3O1seoEDpsnFF8Rg7WiEON+yJ00GR6P+UykLHekxsbKxvFcin08u
+   mf03RParLv83OxPOlkMbZCtiaSK3ZAH1M0M9pX15UZkQKEgDSCtfPfpqG
+   gHBY1tW5akeBrR89MqGFBWod9THaczH0u39CV3GVk4vQWu/YCwLii3s80
+   UlTO4750NlOWHEF+T3XK6sTXi4r//zvWIeIPCfWY7aq6+DdXnUi9sEXur
+   DHUK2abtM2AZEVOwUpIsbFA8K3S0VfUfT886WVhpMHFkp6X5yqthXQTVQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="365646"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="365646"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 01:56:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="27962082"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 01:56:47 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2554111FC49;
+	Tue, 23 Jan 2024 11:56:43 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-pm@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v4 0/3] Small runtime PM API changes
+Date: Tue, 23 Jan 2024 11:56:41 +0200
+Message-Id: <20240123095642.97303-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,50 +80,78 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 0zZL-g3xvMlGVsP8krmjzLMFqwF3KYzY
-X-Proofpoint-GUID: 0zZL-g3xvMlGVsP8krmjzLMFqwF3KYzY
-X-Proofpoint-Spam-Reason: safe
 
-W dniu wto, 23.01.2024 o godzinie 09∶34 +0100, użytkownik Pierre-Louis
-Bossart napisał:
-> 
-> 
-> On 1/22/24 16:15, Maciej Strozek wrote:
-> 
-> It wouldn't hurt to add a brief commit message describing what the
-> hardware layout is, specifically how the mics are handled.
-> 
-> It's also best to submit the corresponding machine driver updates at
-> the
-> same time to check for consistency.
-> 
-Will add the message in the next version
+Hi folks,
 
-> 
-> >         },
-> > +       {
-> > +               .link_mask = BIT(0) | BIT(2) | BIT(3),
-> > +               .links = cs42l43_link0_cs35l56_link2_link3,
-> > +               .drv_name = "sof_sdw",
-> > +               .sof_tplg_filename = "sof-mtl-cs42l43-l0-cs35l56-
-> > l23.tplg",
-> 
-> was this topology submitted to the SOF tree? I don't see it, usually
-> we
-> review topology/acpi/machine stuff together to avoid disconnects.
-> 
-Not yet, sorry, I'm aiming to send the topology to the SOF repo today.
-Will include the link here in the next version.
+Here's a small but a different set of patches for making two relatively
+minor changes to runtime PM API. I restarted version numbering as this is
+meaningfully different from the previous set.
 
-> > +       },
-> >         {
-> >                 .link_mask = GENMASK(2, 0),
-> >                 .links = mtl_cs42l43_cs35l56,
-> > --
-> > 2.34.1
-> > 
+pm_runtime_get_if_active() loses its second argument as it only made sense
+to have ign_usage_count argument true.
+
+The other change is also small but it has an effect on callers:
+pm_runtime_put_autosuspend() will, in the future, be re-purposed to
+include a call to pm_runtime_mark_last_busy() as well. Before this,
+current users of the function are moved to __pm_runtime_put_autosuspend()
+(added by this patchset) which will continue to have the current
+behaviour.
+
+I haven't included the conversion patches in this set as I only want to do
+that once this set has been approved and merged. The tree specific patches
+can be found here, on linux-next master (there are some V4L2 patches
+there, too, please ignore them for now):
+<URL:https://git.kernel.org/pub/scm/linux/kernel/git/sailus/linux-next.git/log/?
+
+Later on, users calling pm_runtime_mark_last_busy() immediately followed
+by __pm_runtime_put_autosuspend() will be switched back to
+pm_runtime_put_autosuspend() once its behaviour change has been done (a
+patch near top of that branch). I'll provide these once the preceding ones
+have been merged.
+
+Comments are welcome.
+
+since v3:
+
+- patch 1: Drop the previously added documentation on driver use of
+  pm_runtime_get_conditional().
+
+- Add a patch to make pm_runtime_get_conditional() static, including
+  switching i915 to pm_runtime_get_if_{active,in_use}.
+
+since v2:
+
+- Rebase on v6.8-rc1 (no changes).
+
+- Add Rodrigo's Reviewed-by: to the 1st patch.
+
+since v1:
+
+- patch 1: Rename __pm_runtime_get_conditional() as
+  pm_runtime_get_conditional().
+
+- patch 1: Reword documentation on driver use of
+  pm_runtime_get_conditional().
+
+Sakari Ailus (3):
+  pm: runtime: Simplify pm_runtime_get_if_active() usage
+  pm: runtime: Make pm_runtime_get_if_conditional() private
+  pm: runtime: Add pm_runtime_put_autosuspend() replacement
+
+ Documentation/power/runtime_pm.rst      | 22 +++++++++-------
+ drivers/accel/ivpu/ivpu_pm.c            |  2 +-
+ drivers/base/power/runtime.c            | 34 +++++++++++++++++++++++--
+ drivers/gpu/drm/i915/intel_runtime_pm.c |  5 +++-
+ drivers/gpu/drm/xe/xe_pm.c              |  2 +-
+ drivers/media/i2c/ccs/ccs-core.c        |  2 +-
+ drivers/media/i2c/ov64a40.c             |  2 +-
+ drivers/media/i2c/thp7312.c             |  2 +-
+ drivers/net/ipa/ipa_smp2p.c             |  2 +-
+ drivers/pci/pci.c                       |  2 +-
+ include/linux/pm_runtime.h              | 30 +++++++++++-----------
+ sound/hda/hdac_device.c                 |  2 +-
+ 12 files changed, 72 insertions(+), 35 deletions(-)
 
 -- 
-Regards,
-Maciej
+2.39.2
 
