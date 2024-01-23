@@ -1,105 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4437FBA8;
-	Tue, 23 Jan 2024 17:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F86811F6;
+	Tue, 23 Jan 2024 17:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706030666; cv=none; b=gRZK9yJv0zGbgWFE+YB8ldNr0mVfg3txcBC7coR7kR8nArXej6rBtHkovJB/ap3XSe96P5NIaEXmcUlTRIjAZ7loHaWXcJq8ivt+Q6Ex5/ncXNro3h9welsj2rb6WAZtUm4PVSCtyYbiPb4wH6d2er3CWHymyKCG9BkvVa5R/1s=
+	t=1706032136; cv=none; b=uaYsDuD24rZeuSGenCEoQWJtJaCpnMkrNxNtZ/xk+6O1i+pdssjEtoAxWGrDFdvnn0qgFJnh5K9/WL4CSNKati7LDvGGP+JpeyF0HRUi2oUBuNTY4u/gUr+Ms+LHNDFNo6a4JcEF6NIylU1ejnmjp4pAFnUu8LQ4zy2xkLPacnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706030666; c=relaxed/simple;
-	bh=Oyao+3/Ux6TZycEPX8L/CtZdSt0adFVr9KdQJvVkrTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bdfmiHotMcJwCEalqx6XJULQBJdFTXgwfX9s/hhgPNt6pQQj0C8mRJsZOLpn3wO3oywJ8OcLYE3R9O7hzAtWVdC7smdWQiycEp0iyvSRsOd5fx6JWU2IkTsTnzaKhIIuuLV3jxLbjZmEWgEkuSi7ut9u+Qe+kepmRT5OTuWk5Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeSfU2Sm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706032136; c=relaxed/simple;
+	bh=QQ9uZ4Wazjii5m802qrsRtRIm765++713g/rq7dljig=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VgMQ2WYJDbQMVLoDBwPaeHE7VpTHhnLmm2/B0CkdwjVTZrcGJCw3NXbhQAggOwMt82Hr2kLT2RiseTJAV6f3Of/slMDE1L5g8Nm6/rfmWRY8ZukoA9qI5P04ZHtSh6ZM49tiyaqaFnmW4JYEf7G2jDUf+S/22BRKeUc6Ff95E2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8tDoqL4; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeSfU2Sm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70157C433C7;
-	Tue, 23 Jan 2024 17:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706030665;
-	bh=Oyao+3/Ux6TZycEPX8L/CtZdSt0adFVr9KdQJvVkrTM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=WeSfU2SmF+MThNV+FwS3jNLbx/lbHqp3O8rGmEOzabcSnXEgrwMlsQB9X+zP4Dj5G
-	 wd1fgHH0A7R0Tmo1hzTqTwsERG+4Gn3Cx5lBeFm5nnKu5zpyTImNwviF1z+B9Bs+B5
-	 FDxtofh709s2gjhWj2TwrRefwkgnofaBeH2IOycUb4sAH6b1twJSE7eTOxL5ZpB136
-	 XW94cTSytbK36zuZLvfHBZJyLBwQtXSssVanGsGSNlbp69amctnSVmvxMuZ0ytbIUw
-	 x0q8WUofOp/tNMPpmUcwMX0JnwNQI0b6OZ1iN5n7Qvk/bytqBMVrKlnALAAEsYlcQ0
-	 7dIeV9ibAJhkg==
-Date: Tue, 23 Jan 2024 11:24:23 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	intel-xe@lists.freedesktop.org,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] pm: runtime: Simplify pm_runtime_get_if_active()
- usage
-Message-ID: <20240123172423.GA317147@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8tDoqL4"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-337cf4eabc9so3753213f8f.3;
+        Tue, 23 Jan 2024 09:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706032133; x=1706636933; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EUjlyaIMA5LD+Pgub4rYNwex11S+1W6zP2cY/Lr1Xls=;
+        b=Y8tDoqL4P14FPmRdnia+YasCKacgcDoSIoz32rIb+nbjdKa444md6RAUiyPg3ABLRD
+         ll1+u+HbbU4Race4hgDflHeVGCseT6joltFc5xCt6IT61XEWQC/39lL7DmQdHCg1NCOF
+         ajICtrFwtMk7OYUFjLqS+o8U5+gp700tfR8iG0vRbuajRU+HtZpYDoErYQfTMGXu/C/R
+         Eh3s0cUeh0VNvYHwQpKtBO0r4Xebl1Yq4Owg49Nr8U//8DxMW/YCr25UOdsKIkShX36y
+         Xqiwyi3eN943waCFAgjxuUlnyvetHLAs47IRlZhAsxjZZAaZKD2h8NM+2rvP8AM7qs8j
+         miZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706032133; x=1706636933;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EUjlyaIMA5LD+Pgub4rYNwex11S+1W6zP2cY/Lr1Xls=;
+        b=RjihdfSsMYB7AlM+V5ROZZOy36FESy/x51lbC9XyqZqAtLtMJezQMuyNWIAeTOJs3B
+         GmiA2DxVEXgnzGy2sFwzZymnmibLpAf9jnREFns7hGBq8oRNUM9HGAJuQcM1jjGJEpTl
+         7LkHaD3FQgmtj7eqg7l3jbIOFy2WGxXrggI8xjFMrFdioHbnm3fVABAWnCCYNm1+sxdD
+         yR0ytozA25XN7yTwkj6JfujGqmqqBzj9N5BwNfegziV6rNRvYoo1zOped5VpordOHXf8
+         Zhkpubw14v2E6VIN6hyqs8nCOzfp876UJGIUJcZu+KjRqaaqHK1LVm9do7jwakq2vAbm
+         EWMg==
+X-Gm-Message-State: AOJu0Yzr6ofuctxXZg3q6RNTakKIkCz2ucZ3GEkwZiFpo/KzTZgD7MIl
+	HBBHDnbCAuYcNrJ3JZx3MvgWCNdB4aqqoJ63RNzHLiBo+5Wpw8to
+X-Google-Smtp-Source: AGHT+IGctHEVFEZp6eUBc8QU6uDhSqzejWNbzNEdCvC2potV0ciD/WNpi/cB1xLvCujpx1Tux5Yl1A==
+X-Received: by 2002:a05:6000:1089:b0:337:c80f:6e19 with SMTP id y9-20020a056000108900b00337c80f6e19mr3407648wrw.69.1706032132766;
+        Tue, 23 Jan 2024 09:48:52 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-14-70.dynamic.telemach.net. [86.58.14.70])
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d6146000000b003392f625adcsm7158392wrt.36.2024.01.23.09.48.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 09:48:52 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 1/7] dt-bindings: sound: sun4i-spdif: Fix requirements for H6
+Date: Tue, 23 Jan 2024 18:48:51 +0100
+Message-ID: <3271743.aeNJFYEL58@jernej-laptop>
+In-Reply-To: <20240122170518.3090814-2-wens@kernel.org>
+References:
+ <20240122170518.3090814-1-wens@kernel.org>
+ <20240122170518.3090814-2-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240123095642.97303-2-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Jan 23, 2024 at 11:56:42AM +0200, Sakari Ailus wrote:
-> There are two ways to opportunistically increment a device's runtime PM
-> usage count, calling either pm_runtime_get_if_active() or
-> pm_runtime_get_if_in_use(). The former has an argument to tell whether to
-> ignore the usage count or not, and the latter simply calls the former with
-> ign_usage_count set to false. The other users that want to ignore the
-> usage_count will have to explitly set that argument to true which is a bit
-> cumbersome.
+Dne ponedeljek, 22. januar 2024 ob 18:05:12 CET je Chen-Yu Tsai napisal(a):
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> To make this function more practical to use, remove the ign_usage_count
-> argument from the function. The main implementation is renamed as
-> pm_runtime_get_conditional().
+> When the H6 was added to the bindings, only the TX DMA channel was
+> added. As the hardware supports both transmit and receive functions,
+> the binding is missing the RX DMA channel and is thus incorrect.
+> Also, the reset control was not made mandatory.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
-> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
-> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Add the RX DMA channel for SPDIF on H6 by removing the compatible from
+> the list of compatibles that should only have a TX DMA channel. And add
+> the H6 compatible to the list of compatibles that require the reset
+> control to be present.
+> 
+> Fixes: b20453031472 ("dt-bindings: sound: sun4i-spdif: Add Allwinner H6 compatible")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-- Previous PM history uses "PM: " in the subject lines (not "pm: ").
+Best regards,
+Jernej
 
-- I don't know whether it's feasible, but it would be nice if the
-  intel_pm_runtime_pm.c rework could be done in one shot instead of
-  being split between patches 1/3 and 2/3.
 
-  Maybe it could be a preliminary patch that uses the existing
-  if_active/if_in_use interfaces, followed by the trivial if_active
-  updates in this patch.  I think that would make the history easier
-  to read than having the transitory pm_runtime_get_conditional() in
-  the middle.
-
-- Similarly, it would be nice if pm_runtime_get_conditional() never
-  had to be published in pm_runtime.h, instead of being temporarily
-  added there by this patch and then immediately made private by 2/3.
-  Maybe that's not practical, I dunno.
-
-Bjorn
