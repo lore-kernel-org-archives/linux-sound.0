@@ -1,96 +1,98 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01558004C;
-	Tue, 23 Jan 2024 17:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A7F481DC;
+	Tue, 23 Jan 2024 19:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706032444; cv=none; b=ZdVOQX0nLeHwgZrMd7BkTYwGQiTIroFozS+DtIiIx0XDjyerq7Kh8uUKLTMJrjc/DJpzLg+Bcpq+0BzAjkOm7oFWotVy9kdYBcs7/GUcZ7/J8wgp39YUPukZPHQX+7SzGzBarULijjDveXQTiRE1ExqYygrnIb91nmQKFi3v5Ns=
+	t=1706037241; cv=none; b=tuT4wB9EoW/ATeKuvFdnIWvC6OmH/KjYH4xHT0y5gc90DDrURWxbOXzBx/GiH3PzVovMYGwymutEXJFpWjiC1DMcn+3LMfxNCYDGf6txdBJcUozqQJdxs9UeMVFMeeYRi9IAdC4X6gZLxDakLRh0VZMnt8YTp5CS+4EFI/ec6os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706032444; c=relaxed/simple;
-	bh=/Lf65r0jEFfaCyx/YVAM+/B+UJeshYc86BaIyXbVHIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TtH+MO3EX4rPPhNaDHjAN6KePAnSQ8+BVQr7IsQ/YzDC78i97iGYCg1RWJTYtDRjSnnD/HP8x2bfu1YjG/s0dWsrl0rZs52KjmrPYr9VM+wNSmm3JR3mshJtb3RG54yTJWn2CfkrtmeKYWt/U5ZEi3eUbA4zbcQunsrBFVugtoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1RxQXQP; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706037241; c=relaxed/simple;
+	bh=Oijw2mPnsGQxqdOnmwSluoedvOV45guwWoQ6OhYQUoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSfgAYqg+YsSAoJOfhtr3pbSWJ5jYn4JMEao0jxB3/Av3R+sTULHWnjlKYUNiDvRQqkelsrMPkfcmPd+6AjpGo9YRWT58T26xbr+PkFNLDlUQ/os2vCaCl7RlU3Plx5laizpUmSbKeVuG5+WFQrBtcLUiOD06I6VvfKGVn6RZK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TR5/obcd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1RxQXQP"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40eacb6067dso28879555e9.1;
-        Tue, 23 Jan 2024 09:54:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706032441; x=1706637241; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T9axCURSdPj5O6k/8fwokenEz2T/EczgGrNIrYgrSFE=;
-        b=W1RxQXQPxmgC4hjde1Xra6NULCtL8wQd2yIwEfjwHTwRCf3E53PObHwNcWEOc6Jo5g
-         2wAOZu6VEh4QwXFFo4EexEcJezUBIUzLrHdZam78peBnD/K5aPT/PtqB1d6TffFpnVHy
-         B6FwUsydRWP9LBo/gk/9I8W+P7kPrXQNgwHrI7J+xAu+p5nhHVoRakBT6/01Zvc/nkiJ
-         8ufAjOreZuIsGvc6KvhII6NgAKAV8zelkG3OpPStipRoIXpNZyEuSfgBj+aHnaZRtRen
-         l/qs5cRKNryR7lrxhy5BSPHzjU7IM9nWXp7UXqoWC2Xw3LArVQSqjaC3NiUc03k1d0p2
-         cw9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706032441; x=1706637241;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T9axCURSdPj5O6k/8fwokenEz2T/EczgGrNIrYgrSFE=;
-        b=i3fd0V+uJBBIpFUUOlLbjeo4Qd4EY0dobjE2+8hDPzKf2pLTWcwMDz00ADsVUC6ALZ
-         IhLzkJU1uitd82reQlo8biGUS2eVc2M2Vd+QxgBbNbPXqN9cFxJJ7kWB//rE2q4V3hsc
-         VSZBKkuqUezB/fA3COZSbZE8fjDs1ppzbs3SS1RT+vqaqHpkz0vEKMAA/sOf0FDgH4E7
-         Hqiu9mcLm7Ofjd15sIIGeDZG65ne+Kd9g/zT4s6k0OuiU2BzGqpgClS6nTI57D0maqA1
-         HoOZmwSShyK0XvJV7zJ4ieVnzqECW117DJtH54yjlFMzxa2wZ6gETaJvOIkv096xCUvQ
-         HFMw==
-X-Gm-Message-State: AOJu0YwNPMD/ldS5Y+FYW5X8hwjPR2jZb7yPmcYJV/agSPuA+R8PSTNe
-	fYBEoY3NBe6rpd02wamIywpaRAjB5kmqLu+uhJeePlFfD/vsmq35bc2biGvNhWM=
-X-Google-Smtp-Source: AGHT+IHfolV3zQWbsCi6txDpI6lqMV3lpStI7mStzT3HOm8ywicmpEIYK00D6kIX3ljjceGHtRFaog==
-X-Received: by 2002:a05:600c:4657:b0:40e:5afe:a42e with SMTP id n23-20020a05600c465700b0040e5afea42emr409342wmo.247.1706032441017;
-        Tue, 23 Jan 2024 09:54:01 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-14-70.dynamic.telemach.net. [86.58.14.70])
-        by smtp.gmail.com with ESMTPSA id f18-20020a05600c155200b0040d87100733sm43414126wmg.39.2024.01.23.09.53.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 09:54:00 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] arm64: dts: allwinner: h616: Add SPDIF device node
-Date: Tue, 23 Jan 2024 18:53:59 +0100
-Message-ID: <3786260.kQq0lBPeGt@jernej-laptop>
-In-Reply-To: <20240122170518.3090814-8-wens@kernel.org>
-References:
- <20240122170518.3090814-1-wens@kernel.org>
- <20240122170518.3090814-8-wens@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TR5/obcd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D908C433C7;
+	Tue, 23 Jan 2024 19:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706037240;
+	bh=Oijw2mPnsGQxqdOnmwSluoedvOV45guwWoQ6OhYQUoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TR5/obcds3kYwRGzVZli1bcFhOcKx5nnLWF5IHRRURUkWHCmvY/+z/PbKXJuDZD66
+	 DANzIi4ztzbJyfXsSpU7wlyF0QwX/ycIFAgUED8dMF1PfbwdZcgBd328lGNakEkjPG
+	 UcSZOuE2M7wjazt3Iaclw4kI6sp67IKbYIyaGxNCYYQHkMWo1BI1HBFrDqU48AwX84
+	 96cOFvgHHUVCXeh3YE8J3+AFxTNd+rR5rN55Dcr5IIrMHkpuUxGlFhKNQJ6SYqhw0j
+	 mhQApamcUbuOe1wi3AwlZi2T6X2C43PJQ0P6slE1+6XvNghOiNpLR3B2mDAEc9GAkP
+	 GN39x7iRY/6Ww==
+Date: Tue, 23 Jan 2024 19:13:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, conor+dt@kernel.org,
+	robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+	kevin-lu@ti.com, baojun.xu@ti.com, devicetree@vger.kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz,
+	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, soyer@irl.hu, jkhuang3@ti.com,
+	tiwai@suse.de, pdjuandi@ti.com, j-mcpherson@ti.com, navada@ti.com
+Subject: Re: [PATCH v1 3/4] ASoc: pcm6240: Add compile item for pcm6240 codec
+ driver
+Message-ID: <8989fc5a-032e-49a2-b55f-9e7a526d8649@sirena.org.uk>
+References: <20240123111411.850-1-shenghao-ding@ti.com>
+ <20240123111411.850-3-shenghao-ding@ti.com>
+ <08809d8b-a474-42e8-8a25-edc94e7d9723@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Dne ponedeljek, 22. januar 2024 ob 18:05:18 CET je Chen-Yu Tsai napisal(a):
-> From: Chen-Yu Tsai <wens@csie.org>
-> 
-> The H616 SoC has an SPDIF transmitter hardware block, which has the same
-> layout as the one in the H6, minus the receiver side.
-> 
-> Add a device node for it, and a default pinmux.
-> 
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6AcwafjYfkmuuvQ+"
+Content-Disposition: inline
+In-Reply-To: <08809d8b-a474-42e8-8a25-edc94e7d9723@linaro.org>
+X-Cookie: Stay together, drag each other down.
 
 
+--6AcwafjYfkmuuvQ+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Jan 23, 2024 at 12:25:33PM +0100, Krzysztof Kozlowski wrote:
+> On 23/01/2024 12:14, Shenghao Ding wrote:
+> > PCM6240 driver implements a flexible and configurable setting for register
+> > and filter coefficients, to one, two or even multiple PCM6240 Family Audio
+> > chips.
+
+> So before you added dead code? No, please add a working code, so squash
+> the patches.
+
+This is a fairly normal way of adding completely new files that are
+split into multiple commits for whatever reason, and given that the
+main C file is 2600 lines and the header another couple of hundred I'm
+not going to object to something that makes them a bit easier to digest.
+This is especially true for a driver like this which is handling some
+hardware that's a bit interesting and therefore has more complicated
+code, it's not all big data tables like many ASoC drivers.
+
+It'd be even nicer to have things done a bit more incrementally in
+logical blocks but every little helps.
+
+--6AcwafjYfkmuuvQ+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWwD/AACgkQJNaLcl1U
+h9CD4Af/fu+SJnY++tUuDbtG4I57I0AjyiLnU2S/XRrj/F6oiPE3qWRORdxIt9ep
+5pzcfS3KX2w7a+NLsHlF/3VcDng+TLtqjRTKOq810il5MvviQ/UQ8uVrK0TE/ZN6
+tL+x9gfCYM/sE2Cz9HjClYjKSglg2xXDZ6IuBakesvRj+bJ9yaRSzZOulknv9YCk
+ztFl4NHf+Hfr69IsK5vsTj89DE65Lexmjv9GjRnAUdIFuAKVlvLU5GW32i+AO+db
+rCaG0AgD0WGLhZmxiUdJZyBAp6dXH6+FBHZkcJ2C2nAo1fEErPITLJhJ427/+ED4
+GBNiJ5jTohK29ac3f00qcK6CWEqO3Q==
+=u/Cs
+-----END PGP SIGNATURE-----
+
+--6AcwafjYfkmuuvQ+--
