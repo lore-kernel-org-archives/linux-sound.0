@@ -1,114 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FAD6DD10;
-	Tue, 23 Jan 2024 02:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE80524DC;
+	Tue, 23 Jan 2024 07:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705975402; cv=none; b=tD6KrPf0MpTFcHmA9PYopD6OdHjma9P7WB/lVwS+KQ7OtyjPTLdCILKJOViJ7WeRYil+cUaw25SoGlvhlkOKoo8hTkNjk4rKZYRcl/2m4DkVOLxjwyFM5uQGqb96AlCFiRQEdiABGVTGdxR/ijVL4kUm7RKIZW7zgcHZWDhSXyI=
+	t=1705995916; cv=none; b=pRcsU14aQNLEOh/gd3dqvD+q5euXJfEfo0GhhCqT/l2wjkMxZrWODzzI0gNSkMLg5QMBlb1SWvhacnU62ixKYhRmR6BtGDyz/zWHirtu9pHMym/3SM33jdtwJM/R10nNrUmKpTzqO8Oa4r9yHQ0EZJHTy5raxsDxTZte7pJHKbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705975402; c=relaxed/simple;
-	bh=d3K/yKOImQ36E1YGVhkcYMk7iS/P9a3IEySAfHcpSiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AQ4d7/TLUfFe+DyiIi/dxDEWWkvhFl3/41rhyjaTAjrZ54a80sskZE+9jdZWf0l5ufvG7Uswudvlq96pwH334/TSq3JLzaSc5JgzOKuyvof/rzI8TCE51Yzvx1NXSUVB9q9EGoAI9tFSt0KdMOaT+FPKDSPsteWYnKev2DTDE/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pKDYHnrz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705995916; c=relaxed/simple;
+	bh=gR1DaQBEiwp7b8LXQ3gqb1TinU2mUqOSau6sGyjnT/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qFA8TbyE+uxp/hex/XOvsWPWp1Qeg3y5NEFgExC4UauoA89NoUplrQAIu8iKbFtQbRigIsSXZw6YhT6XZ98h4sMohyC5YVdmBys5P0FJFvg9tLPJ9J2ghxHJuaNgCQHSgvSE2ufDF9SnxRUma0vUIk3IOPbkwkjjMF8nME5dm5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1peFCRO; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pKDYHnrz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D552C43394;
-	Tue, 23 Jan 2024 02:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705975402;
-	bh=d3K/yKOImQ36E1YGVhkcYMk7iS/P9a3IEySAfHcpSiA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pKDYHnrzFif/5I6d3pFGZfqlN/5nt5DDMVUw9ZDuv/2vPEGChx794FiwBminqvB90
-	 EOZ8xFK8+Nu8epYFzLS/Y5R0H0lqeDSefh3LWYca3ObvXBVTD9rm4aP2GqaWx4Q3Yp
-	 sZfYO85d4CNr8k40SAs+WMEG+NHLEBoSDIbRLtBw=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1peFCRO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705995915; x=1737531915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=gR1DaQBEiwp7b8LXQ3gqb1TinU2mUqOSau6sGyjnT/I=;
+  b=h1peFCROm9fade0rEu976ABmV1J9R9L4GGyBGxIBuzOXGqiOsmu2gilY
+   P4omdRlUA6oAv9eUjAlumNfh9LO4+PjvCm9U0+IxQRGsCYCacxEvy/U5O
+   5BsWHfuAlZLu27bQFDuDQhGVoroqxkUQ51z9x5pRR5IsYSH1Wi4lMX664
+   zjzjUea6mCJ7o3ajNb/9jjbxv8hqel12Xf6/oxLNs+DfOA/SxBqKhGki/
+   8pANVaCC3DawY9yeoJXrgKiCPQJEVqdi3xiIl1WT6ZrZ/HGaLXbUdlSDq
+   Zb69fvlTviKiKnHo0FvKlrS+IIA1qOceOH/z1qA86DbiX/9v+zdD9oZqu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="1336526"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="1336526"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 23:45:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="909211748"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="909211748"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 23:45:06 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 81AD911FB9B;
+	Tue, 23 Jan 2024 09:45:03 +0200 (EET)
+Date: Tue, 23 Jan 2024 07:45:03 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pm@vger.kernel.org,
+	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6 336/583] kselftest/alsa - conf: Stringify the printed errno in sysfs_get()
-Date: Mon, 22 Jan 2024 15:56:27 -0800
-Message-ID: <20240122235822.316368588@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122235812.238724226@linuxfoundation.org>
-References: <20240122235812.238724226@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	intel-xe@lists.freedesktop.org,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <Za9uf3icrVE6Ajbe@kekkonen.localdomain>
+References: <20240122114121.56752-2-sakari.ailus@linux.intel.com>
+ <20240122181205.GA275751@bhelgaas>
+ <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+Hi Rafael, Björn,
 
-------------------
+Thanks for the review.
 
-From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+On Mon, Jan 22, 2024 at 07:16:54PM +0100, Rafael J. Wysocki wrote:
+> On Mon, Jan 22, 2024 at 7:12 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> >
+> > On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
+> > > There are two ways to opportunistically increment a device's runtime PM
+> > > usage count, calling either pm_runtime_get_if_active() or
+> > > pm_runtime_get_if_in_use(). The former has an argument to tell whether to
+> > > ignore the usage count or not, and the latter simply calls the former with
+> > > ign_usage_count set to false. The other users that want to ignore the
+> > > usage_count will have to explitly set that argument to true which is a bit
+> > > cumbersome.
+> >
+> > s/explitly/explicitly/
+> >
+> > > To make this function more practical to use, remove the ign_usage_count
+> > > argument from the function. The main implementation is renamed as
+> > > pm_runtime_get_conditional().
+> > >
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
+> > > Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # drivers/accel/ivpu/
+> > > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
+> > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
+> >
+> > > -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
+> > > +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
+> >
+> > If pm_runtime_get_conditional() is exported, shouldn't it also be
+> > documented in Documentation/power/runtime_pm.rst?
+> >
+> > But I'm dubious about exporting it because
+> > __intel_runtime_pm_get_if_active() is the only caller, and you end up
+> > with the same pattern there that we have before this series in the PM
+> > core.  Why can't intel_runtime_pm.c be updated to use
+> > pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
+> > make pm_runtime_get_conditional() static?
+> 
+> Sounds like a good suggestion to me.
 
-[ Upstream commit fd38dd6abda589a8771e7872e4dea28c99c6a6ef ]
+The i915 driver uses both but I guess it's not too much different to check
+ignore_usecount separately than passing it to the API function?
 
-GCC 13.2.0 reported the warning of the print format specifier:
+I'll add another patch to do this and moving
+pm_runtime_get_if_{active,in_use} implementations to runtime.c.
 
-conf.c: In function ‘sysfs_get’:
-conf.c:181:72: warning: format ‘%s’ expects argument of type ‘char *’, \
-			but argument 3 has type ‘int’ [-Wformat=]
-  181 |                 ksft_exit_fail_msg("sysfs: unable to read value '%s': %s\n",
-      |                                                                       ~^
-      |                                                                        |
-      |                                                                        char *
-      |                                                                       %d
-
-The fix passes strerror(errno) as it was intended, like in the sibling error
-exit message.
-
-Fixes: aba51cd0949ae ("selftests: alsa - add PCM test")
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Acked-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/r/20240107173704.937824-5-mirsad.todorovac@alu.unizg.hr
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- tools/testing/selftests/alsa/conf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/alsa/conf.c b/tools/testing/selftests/alsa/conf.c
-index 2f1685a3eae1..ff09038fdce6 100644
---- a/tools/testing/selftests/alsa/conf.c
-+++ b/tools/testing/selftests/alsa/conf.c
-@@ -186,7 +186,7 @@ static char *sysfs_get(const char *sysfs_root, const char *id)
- 	close(fd);
- 	if (len < 0)
- 		ksft_exit_fail_msg("sysfs: unable to read value '%s': %s\n",
--				   path, errno);
-+				   path, strerror(errno));
- 	while (len > 0 && path[len-1] == '\n')
- 		len--;
- 	path[len] = '\0';
 -- 
-2.43.0
+Regards,
 
-
-
+Sakari Ailus
