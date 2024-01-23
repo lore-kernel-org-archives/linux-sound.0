@@ -1,190 +1,137 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E52D5FB83
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 15:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679EC5FF11
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 15:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706022266; cv=none; b=LZP4VMRXOyiYxS5+5aj+ANqKDl6olxZwowKsEdZWFmkR4RZcWGEEBc0DW33myCboa30ArQ2A1Tps8eSCKgJI26sz76qZguMXTLSPVB/dadoGrdelXcYu/xnI8NbV+k6VVQc4ThNeKUge2vyhCAt5pI6bzMUoSmDspRHhdHFsUCo=
+	t=1706022432; cv=none; b=j7B9GqnX8QCU87hMny4QBZou6J+LVyrtm9BuCAn7e8jf23ad+jmzqDsMPFfFFl0jgUDQq9BzsjiDFecVuUo8hw0H72w39F6pfRdak7KCLuu1YLtBCmd4FuRP5wzl51SaAp4GuvZara6D4pm18srajtMXAYoUGUKGDvKaD28P/7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706022266; c=relaxed/simple;
-	bh=Tu3cqFci8WaHOnBtzOdldpyunWVYVzEczy4GoS0Ccys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fj3OUtVhYLDi3q2vpxoR+KT1Tx3n7Tn8hR9oqQE5QDAvSqNsjUKKM6s3m+6JVn24HNiaSRDHYJ+zhXG862ThlK2TSjsrNG7uhrqLGkezntxdZ24Xpsd53Q0v6Umc2nihLQsFAPofjedRXfvTc+zln9xzv5cFYheiCra7F0xbTwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TzUFckTy; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TzUFckTy"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40eb033c1b0so21255795e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 07:04:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706022263; x=1706627063; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=D1fi6zHbgrXmr+/grPY97P7k3iob9AFkPeQ4v7MnMa8=;
-        b=TzUFckTybv6fzLsg/F0o2YJhyXBWLTWw2i623GGk3YLxqCYxrQXpDIxfbKTe+9ZI1B
-         Y9Rq7wfxSjKKeksnb6aq034vVO3SzhK2CwKO/ylbDz4cnBteccMmpi8ciaDXTFvRnqPJ
-         fjltADxb42OfNR0H4ULL49VMIHh2PDz93JmIwy09wSLJQNVKuRyp8dLEzXTi2/u6fXaq
-         C8uJEsKD6HiCAgH1/o0YTwfoFk2iA5Avdz1azairNwxQNng7tvfLXkzccPJ0aGx8kMW/
-         H1ZutVW3ba4YDJ2zlSML8efHb9D5vERYQoPvFIJUwoHtcghYyHYCwAl63Xl0Zgjns2EF
-         UBQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706022263; x=1706627063;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D1fi6zHbgrXmr+/grPY97P7k3iob9AFkPeQ4v7MnMa8=;
-        b=Ke8dayQatiCEQehgMRQKPkXE+g48I4qgTbjYvMHqSQtDXNozmpnr0L11S5i7WL2Qg2
-         PPfMSwkBw6pIttzZ2tQSlaM5yibQP2oonJrJWe6oLbl6l+hS5L8Rkl9HKQLIvE4WULtF
-         u5i/tRMrzGvFcmltXzyDRdxWgskMoF1wb9Otirfl15ab3NlX5Tljb4MQZqfPVME+yH5B
-         HqYPRlR2syJw8zOm1b87Y2/mfbjRPE0isgrJknMP0pPkUvyq3mUSMXsQgwktJoQkj74O
-         9K0h3ivxoSziwd7W+o7QthYPajswvUmPG2lngHXsFk4Wh53ittSXWMxFAPP4z5C328UO
-         HW/g==
-X-Gm-Message-State: AOJu0YwBV6HcJYR0c+QqGa6V2A3PsN0GRR2nUkFLzRSlDXPlnetBalNv
-	tDEnFmScOnPpbA3QFnM/9nh3UmntCOtL+KIIv2zSMXE3/A0fU3pCbmB1VdNUP8M=
-X-Google-Smtp-Source: AGHT+IHG1+N4DXUX6qaUZ5kW5x9YZdj37viEablJvTV/ZnuDBzsiR/mSJHZj/NPoGJYg20ErecOWRA==
-X-Received: by 2002:a05:600c:584a:b0:40e:6e67:36ac with SMTP id ka10-20020a05600c584a00b0040e6e6736acmr246141wmb.52.1706022263266;
-        Tue, 23 Jan 2024 07:04:23 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id t8-20020adff048000000b003366c058509sm8526482wro.23.2024.01.23.07.04.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jan 2024 07:04:22 -0800 (PST)
-Message-ID: <17fac295-5043-411e-8f1e-32f78ffe4027@linaro.org>
-Date: Tue, 23 Jan 2024 16:04:18 +0100
+	s=arc-20240116; t=1706022432; c=relaxed/simple;
+	bh=b0nsHC1LlsVf82gw0OcuACEz8HSMsfQcxZCNzRl/XfU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MRCnfALrQ3DOO/T65JahNhRmzYqGg8Ojwn3FVfEL6AkBRVZlq31LW/wzB6gU1Dm+vKx8DIao0OpjKRM12XXmdQ7UDTFi8+icPRoSKO+3oVs5pxr8zgOGBXNT3HSQgthY2PLSh9Fs/vDmFehjcLoGkkfhb24W43yzV3xpLB+Uldo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rSIMU-0001Fo-Gh; Tue, 23 Jan 2024 16:06:50 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rSIMR-001rL1-Fx; Tue, 23 Jan 2024 16:06:47 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rSIMR-000Ab1-1K;
+	Tue, 23 Jan 2024 16:06:47 +0100
+Message-ID: <b9d2e1e5fd8b5022890e05fcc33410360e0d11d7.camel@pengutronix.de>
+Subject: Re: [PATCH v4 4/6] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami
+ <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar
+ <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, Jaroslav
+ Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-arm-msm@vger.kernel.org,  alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-pm@vger.kernel.org
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Chris Packham
+ <chris.packham@alliedtelesis.co.nz>, Sean Anderson <sean.anderson@seco.com>
+Date: Tue, 23 Jan 2024 16:06:47 +0100
+In-Reply-To: <20240123141311.220505-5-krzysztof.kozlowski@linaro.org>
+References: <20240123141311.220505-1-krzysztof.kozlowski@linaro.org>
+	 <20240123141311.220505-5-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/4] ASoc: dt-bindings: Create yaml file for pcm6240
- codec driver
-To: Mark Brown <broonie@kernel.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, conor+dt@kernel.org,
- robh+dt@kernel.org, andriy.shevchenko@linux.intel.com, kevin-lu@ti.com,
- baojun.xu@ti.com, devicetree@vger.kernel.org, lgirdwood@gmail.com,
- perex@perex.cz, pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- liam.r.girdwood@intel.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
- pdjuandi@ti.com, j-mcpherson@ti.com, navada@ti.com
-References: <20240123111411.850-1-shenghao-ding@ti.com>
- <20240123111411.850-4-shenghao-ding@ti.com>
- <92c1a3f3-6b3b-47cb-a4bf-0d20e4af95e5@linaro.org>
- <9ed437f8-e429-4694-bffc-15931d57a48b@sirena.org.uk>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <9ed437f8-e429-4694-bffc-15931d57a48b@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On 23/01/2024 16:01, Mark Brown wrote:
-> On Tue, Jan 23, 2024 at 12:25:04PM +0100, Krzysztof Kozlowski wrote:
->> On 23/01/2024 12:14, Shenghao Ding wrote:
-> 
->>> ---
->>> Change in v1:
->>>  - Create yaml file for pcm6240 codec driver
-> 
->> I don't understand. v1 is the first version. Against what is this change?
-> 
-> This appears to be a perfectly clear description of the contents of the
-> first version, it's a change against the tree before the patch is
-> applied.  It's a bit unusual to include a per version changelog on the
-> first version but not a problem.
-> 
->>> +    enum:
->>> +      - ti,adc3120
->>> +      - ti,adc5120
->>> +      - ti,adc6120
->>> +      - ti,dix4192
->>> +      - ti,pcm1690
->>> +      - ti,pcm3120
->>> +      - ti,pcm3140
->>> +      - ti,pcm5120
->>> +      - ti,pcm5140
->>> +      - ti,pcm6120
->>> +      - ti,pcm6140
->>> +      - ti,pcm6240
->>> +      - ti,pcm6260
->>> +      - ti,pcm9211
->>> +      - ti,pcmd3140
->>> +      - ti,pcmd3180
->>> +      - ti,pcmd512x
->>> +      - ti,taa5212
->>> +      - ti,taa5412
->>> +      - ti,tad5212
->>> +      - ti,tad5412
-> 
->> And none of them are compatible with something?
-> 
-> No idea about these specific chips but that would be entirely normal for
-> CODECs, even where things are subsets there's often some tweaks needed
-> to initialisation or whatever.
+On Di, 2024-01-23 at 15:13 +0100, Krzysztof Kozlowski wrote:
+> Devices sharing a reset GPIO could use the reset framework for
+> coordinated handling of that shared GPIO line.  We have several cases of
+> such needs, at least for Devicetree-based platforms.
+>=20
+> If Devicetree-based device requests a reset line, while "resets"
+> Devicetree property is missing but there is a "reset-gpios" one,
+> instantiate a new "reset-gpio" platform device which will handle such
+> reset line.  This allows seamless handling of such shared reset-gpios
+> without need of changing Devicetree binding [1].
+>=20
+> To avoid creating multiple "reset-gpio" platform devices, store the
+> Devicetree "reset-gpios" GPIO specifiers used for new devices on a
+> linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
+> controller, GPIO number and GPIO flags) is used to check if reset
+> controller for given GPIO was already registered.
+>=20
+> If two devices have conflicting "reset-gpios" property, e.g. with
+> different ACTIVE_xxx flags, this would allow to spawn two separate
+> "reset-gpio" devices, where the second would fail probing on busy GPIO
+> request.
+>=20
+> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ [1=
+]
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I want to double check with the author.
+I'm nearly out of complaints, two tiny cosmetic issues remaining:
 
-> 
->>> +     two: pcmdevice@48 {
-> 
->> Node names should be generic. See also an explanation and list of
->> examples (not exhaustive) in DT specification:
->> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> Please be more specific about what you're looking to see there.
-> pcmdevice doesn't seem particularly more specific than something like
-> dsp, it certainly seems within what the text describes.
+[...]
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index 4d5a78d3c085..6e81b8d35055 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+[...]
+> @@ -813,12 +838,161 @@ static void __reset_control_put_internal(struct re=
+set_control *rstc)
+>  	kref_put(&rstc->refcnt, __reset_control_release);
+>  }
+> =20
+> +static int __reset_add_reset_gpio_lookup(int id, struct device_node *np,
+> +					 unsigned int gpio,
+> +					 unsigned int of_flags)
+> +{
+> +	unsigned int lookup_flags;
+> +	const char *label_tmp;
+> +
+> +	/*
+> +	 * Later we map GPIO flags between OF and Linux, however not all
+> +	 * constants from include/dt-bindings/gpio/gpio.h and
+> +	 * include/linux/gpio/machine.h match each other.
+> +	 */
+> +	if (of_flags > GPIO_ACTIVE_LOW) {
+> +		pr_err("reset-gpio code does not support GPIO flags %u for GPIO %u\n",
+> +			of_flags, gpio);
 
-pcm, codec, audio-codec
-"device" seems redundant, because almost everything is some sort of device.
+Alignment to parenthesis is slightly off.
 
-Best regards,
-Krzysztof
+> +		return -EINVAL;
+> +	}
+> +
+> +	struct gpio_device *gdev __free(gpio_device_put) =3D gpio_device_find_b=
+y_fwnode(of_fwnode_handle(np));
 
+Adding a local fwnode variable would make this fit in the 100 character
+limit again.
+
+regards
+Philipp
