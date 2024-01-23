@@ -1,80 +1,90 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FAC5FDBE
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 15:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E73760B8B;
+	Tue, 23 Jan 2024 15:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706022450; cv=none; b=q9afz1TGcYRAKDN0JkS1XJKW7lJQMyg6I/95MtYIReZtUFJFiPOW9r0czU9qJreTbu6Mzm3Ws/PiAA8YqrEzc5chljZJSNqtx2BcSK0whraEdEDu4OJ0ZD/yB7YZmDOLNxSpvXZMrRlyF1+BOuf6WMSM4UA9OfdioeuLNrMsx4g=
+	t=1706024721; cv=none; b=JdNY95eN5p6a/5s425Ebooa5A+uJQOZiUvOoa0/O5SwinwZ8i3EmE941GJgSB/VcT/pX4RlUgC/sQPg1Utx58U2ug07CGHwIYpwrFBfu73oiV+3iRFr5LZWAcI+iC6+qj2H5TrRBo+0yOc7zX5CSXl+UBQzV43Eyto36QzOdTRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706022450; c=relaxed/simple;
-	bh=08l0Ha6rh08av6IrPMxQjuFd50E7E9DewODPATbh6Uo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JKHUfg7+LZR0RP59hZ6/Sh/0SAYiBtpvalfZ/f+wNUiDkDqpXOpXHDhJ4h9dGyxt3q+J2VRtlYgvYWEpEGI800jpLGWQxhd3XnmvFHjdtgE/mAm6bPRyIHjeDn7gN07ntfcn2AS0GJCRbLWkCfftjJRDFg8V/E+eL2CfUXLIESk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rSIMs-0001IB-Cp; Tue, 23 Jan 2024 16:07:14 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rSIMr-001rL7-Tj; Tue, 23 Jan 2024 16:07:13 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rSIMr-000AdV-2i;
-	Tue, 23 Jan 2024 16:07:13 +0100
-Message-ID: <35f686e742fab537cf755322cecc97ce5be0a041.camel@pengutronix.de>
-Subject: Re: [PATCH v4 6/6] ASoC: codecs: wsa884x: Allow sharing reset GPIO
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami
- <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar
- <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org,  alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org,  devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-pm@vger.kernel.org
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson
- <sean.anderson@seco.com>
-Date: Tue, 23 Jan 2024 16:07:13 +0100
-In-Reply-To: <20240123141311.220505-7-krzysztof.kozlowski@linaro.org>
-References: <20240123141311.220505-1-krzysztof.kozlowski@linaro.org>
-	 <20240123141311.220505-7-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1706024721; c=relaxed/simple;
+	bh=FEgIO/MXi0/Ry2LcyALUJDlsd8mzcNT3svcs7B5JZdk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=n40JyPzeAN65fF2cOfc+5e9UdYzIy7naPrjLoyaTWj/kFfMFveZGWCZT3HWeN7ucrzNhXheXUzdZEVhXfPCQ6xzyeb8qXcRLFv5dE0WxyMHcRf9xTAkG4zG/0vSGhmQvvJ4OnVa2/zSDvS1/dl8wfs/3iBPIe6DeWRhH1pgYZeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rSIxc-0008Go-EM; Tue, 23 Jan 2024 16:45:12 +0100
+Message-ID: <7d16f013-7fdc-41f3-a966-973e8f5ccfdb@leemhuis.info>
+Date: Tue, 23 Jan 2024 16:45:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 03/10] spi: Add multi-cs memories support in SPI core
+Content-Language: en-US, de-DE
+From: "Linux regression tracking #update (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+To: Linux kernel regressions list <regressions@lists.linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+ <20231125092137.2948-4-amit.kumar-mahapatra@amd.com>
+ <3d3a11b1-8396-4d8e-9bb3-61ecb67e7efa@roeck-us.net>
+ <4c69cb61-1a43-4bfe-b01a-8118967ddbaf@leemhuis.info>
+In-Reply-To: <4c69cb61-1a43-4bfe-b01a-8118967ddbaf@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1706024719;12dfcb09;
+X-HE-SMSGID: 1rSIxc-0008Go-EM
 
-On Di, 2024-01-23 at 15:13 +0100, Krzysztof Kozlowski wrote:
-> On some boards with multiple WSA8840/WSA8845 speakers, the reset
-> (shutdown) GPIO is shared between two speakers.  Use the reset
-> controller framework and its "reset-gpio" driver to handle this case.
-> This allows bring-up and proper handling of all WSA884x speakers on
-> X1E80100-CRD board.
->=20
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-regards
-Philipp
+On 21.01.24 10:42, Linux regression tracking #adding (Thorsten Leemhuis)
+wrote:
+> On 12.01.24 20:11, Guenter Roeck wrote:
+>>
+>> On Sat, Nov 25, 2023 at 02:51:30PM +0530, Amit Kumar Mahapatra wrote:
+>>> AMD-Xilinx GQSPI controller has two advanced mode that allows the
+>>> controller to consider two flashes as one single device.
+>>>
+>>> One of these two mode is the parallel mode in which each byte of data is
+>>> stored in both devices, the even bits in the lower flash & the odd bits in
+>>> the upper flash. The byte split is automatically handled by the QSPI
+>>> controller.
+>> [...]
+>> With this patch in the mainline kernel, two of my qemu emulations
+>> (quanta-q71l-bmc and almetto-bmc) fail to instantiate the first SPI
+>> controller and thus fail to boot from SPI. The error message is
+>>
+>> [    3.006458] spi_master spi0: No. of CS is more than max. no. of supported CS
+>> [    3.006775] spi_master spi0: Failed to create SPI device for /ahb/spi@1e620000/flash@0
+>>
+>> The problem is no longer seen after reverting this patch.
+>> [...]
+>> # first bad commit: [4d8ff6b0991d5e86b17b235fc46ec62e9195cb9b] spi: Add multi-cs memories support in SPI core
+> 
+> Thanks for the report. To be sure the issue doesn't fall through the
+> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+> tracking bot:
+> 
+> #regzbot ^introduced 4d8ff6b0991d5e86b17b235fc46ec62e9195cb9
+> #regzbot title spi: qemu emulations quanta-q71l-bmc and almetto-bmc fail
+> to boot
+> #regzbot ignore-activity
+
+#regzbot fix: spi: Raise limit on number of chip selects
+#regzbot ignore-activity
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
