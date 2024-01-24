@@ -1,118 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6403E1AAB1;
-	Wed, 24 Jan 2024 11:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Received: from njjs-sys-mailin01.njjs.baidu.com (mx310.baidu.com [180.101.52.44])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 826A863104
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 12:26:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.101.52.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706096315; cv=none; b=LlB41ebEBM8yoY/iuD6yuAWclsWdQc+/OJTFAO5MsfUiP4tSznnhy7ldJ0CpzaNR+xTQMHVFqTiZ9iA1TXtQKtWfk3GYc4suplEuyhQqcC380deLQulC6Bspj9GQInt3Y+WY3kO7bezgKiLQ+2nPIkv6PdL33AcBOClJf0Iiy/s=
+	t=1706099218; cv=none; b=C8joBkbVRSQkcgUd1cVJK+jU2/AeihxH4vLg83zk83kyLr/2zJClRqpDN+hA7kW1dAmozPpT/FAnv8JtCYvJS69o6ldNRHDxSsF6QHjuHC31xoe78BfLJKZxHKM/5Z1P9qviTUeeD9jBhwE0c2336spkpr/1IZrTcEI4+/SkZHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706096315; c=relaxed/simple;
-	bh=4KDkITjThVdXmK+bUfn3eDscOtSdUbZiuDnwLDTI5eE=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=OUDrrop254cr00EAkCS69AzzZOD99cRwmVTddmbqRI4XYdTjRE/BPp0jIsUan/43YXLy4kUho1hfK5nEQyTR8di910WU1hQIMlA7/GjNsIrB9nQYl22wzM+QrObGMFG1IP9nxH/TBD3febsP1xzUeyO3XCscAomiXRSmOPLlQd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5fZQnAz; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5fZQnAz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706096313; x=1737632313;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=4KDkITjThVdXmK+bUfn3eDscOtSdUbZiuDnwLDTI5eE=;
-  b=Z5fZQnAzWketCuAZfYBBqmBKmDwO2T6cxkOA78eKiE+vUvVzUiewZO5i
-   KHZrd51dqv7bNgnkdGH27VYUKVMQQ3l7jtBphJ356WfWfArc+PNwNxo5b
-   w6sBvoxNGTG2X2XCgjzG7DwY/KBn/z48xTx03l23O6M+mUV0NgY2CRM0f
-   hDdC1wsbDItGs2LH2k95XQs68rVbjgVwur/PzZVk7n6nuUTSj+hkqCHzL
-   nqufUlFiBYbow+gCZGx8YVYmZo4lpD2NX90Tms1mtbQHmcbTYj0Xgwil/
-   ZvRAFCLTjcOIKlJ4cuc1/4ieHUzQdNh1jESpvX11+hUdW3zmuXVh5oKtr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1691926"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="1691926"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 03:38:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="820437647"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="820437647"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.246.48.46])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 03:38:23 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 24 Jan 2024 13:38:18 +0200 (EET)
-To: Francesco Dolcini <francesco@dolcini.it>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org, 
-    linux-mediatek@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, 
-    linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
-    chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-    linux-serial <linux-serial@vger.kernel.org>, linux-sound@vger.kernel.org, 
-    Francesco Dolcini <francesco.dolcini@toradex.com>, 
-    Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-    Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-    Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, 
-    Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-    Eric Dumazet <edumazet@google.com>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-    Hans de Goede <hdegoede@redhat.com>, Benson Leung <bleung@chromium.org>, 
-    Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2] treewide, serdev: change receive_buf() return type
- to size_t
-In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
-Message-ID: <7d4309e5-fdcd-13d7-2d4a-7139779e3fdd@linux.intel.com>
-References: <20240122180551.34429-1-francesco@dolcini.it>
+	s=arc-20240116; t=1706099218; c=relaxed/simple;
+	bh=C5c4sH4CaI7m2M5NSlfinxL7zAECwlDceD08znN1xdQ=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=OvlPxAwkmaknxjAJ7r2NXSz1sAKYBvcpuAk3F2VRkVnUhD3y5R2nMBoPmnZS3Z2P+Kjm9gUUdZCDc8bpkC1NmNo/BCR6j3pMxCfnD7q6MTCfTcj1iPGt5QUOgYGttIM7fUjl7HWt6El/7vIvQKsBKCdcA9WxSLGaUer9J0cL2BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=180.101.52.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+Received: from localhost (bjhw-sys-rpm015653cc5.bjhw.baidu.com [10.227.53.39])
+	by njjs-sys-mailin01.njjs.baidu.com (Postfix) with ESMTP id 8CFB67F0003D;
+	Wed, 24 Jan 2024 20:08:38 +0800 (CST)
+From: Li RongQing <lirongqing@baidu.com>
+To: anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	virtualization@lists.linux.dev,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Cc: Li RongQing <lirongqing@baidu.com>
+Subject: [PATCH] ALSA: virtio: remove duplicate check if queue is broken
+Date: Wed, 24 Jan 2024 20:08:34 +0800
+Message-Id: <20240124120834.49410-1-lirongqing@baidu.com>
+X-Mailer: git-send-email 2.9.4
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-695447939-1706096298=:1372"
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+virtqueue_enable_cb() will call virtqueue_poll() which will check if
+queue is broken at beginning, so remove the virtqueue_is_broken() call
 
---8323328-695447939-1706096298=:1372
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Signed-off-by: Li RongQing <lirongqing@baidu.com>
+---
+ sound/virtio/virtio_card.c    | 2 --
+ sound/virtio/virtio_ctl_msg.c | 2 --
+ sound/virtio/virtio_pcm_msg.c | 2 --
+ 3 files changed, 6 deletions(-)
 
-On Mon, 22 Jan 2024, Francesco Dolcini wrote:
+diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
+index e2847c0..b158c3c 100644
+--- a/sound/virtio/virtio_card.c
++++ b/sound/virtio/virtio_card.c
+@@ -91,8 +91,6 @@ static void virtsnd_event_notify_cb(struct virtqueue *vqueue)
+ 			virtsnd_event_dispatch(snd, event);
+ 			virtsnd_event_send(vqueue, event, true, GFP_ATOMIC);
+ 		}
+-		if (unlikely(virtqueue_is_broken(vqueue)))
+-			break;
+ 	} while (!virtqueue_enable_cb(vqueue));
+ 	spin_unlock_irqrestore(&queue->lock, flags);
+ }
+diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
+index 18dc5ac..9dabea0 100644
+--- a/sound/virtio/virtio_ctl_msg.c
++++ b/sound/virtio/virtio_ctl_msg.c
+@@ -303,8 +303,6 @@ void virtsnd_ctl_notify_cb(struct virtqueue *vqueue)
+ 		virtqueue_disable_cb(vqueue);
+ 		while ((msg = virtqueue_get_buf(vqueue, &length)))
+ 			virtsnd_ctl_msg_complete(msg);
+-		if (unlikely(virtqueue_is_broken(vqueue)))
+-			break;
+ 	} while (!virtqueue_enable_cb(vqueue));
+ 	spin_unlock_irqrestore(&queue->lock, flags);
+ }
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+index 542446c..8c32efa 100644
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -358,8 +358,6 @@ static inline void virtsnd_pcm_notify_cb(struct virtio_snd_queue *queue)
+ 		virtqueue_disable_cb(queue->vqueue);
+ 		while ((msg = virtqueue_get_buf(queue->vqueue, &written_bytes)))
+ 			virtsnd_pcm_msg_complete(msg, written_bytes);
+-		if (unlikely(virtqueue_is_broken(queue->vqueue)))
+-			break;
+ 	} while (!virtqueue_enable_cb(queue->vqueue));
+ 	spin_unlock_irqrestore(&queue->lock, flags);
+ }
+-- 
+2.9.4
 
-> From: Francesco Dolcini <francesco.dolcini@toradex.com>
->=20
-> receive_buf() is called from ttyport_receive_buf() that expects values
-> ">=3D 0" from serdev_controller_receive_buf(), change its return type fro=
-m
-> ssize_t to size_t.
->=20
-> The need for this clean-up was noticed while fixing a warning, see
-> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value")=
-=2E
-> Changing the callback prototype to return an unsigned seems the best way
-> to document the API and ensure that is properly used.
->=20
-> GNSS drivers implementation of serdev receive_buf() callback return
-> directly the return value of gnss_insert_raw(). gnss_insert_raw()
-> returns a signed int, however this is not an issue since the value
-> returned is always positive, because of the kfifo_in() implementation.
-> gnss_insert_raw() could be changed to return also an unsigned, however
-> this is not implemented here as request by the GNSS maintainer Johan
-> Hovold.
->=20
-> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
-> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@ke=
-rnel.org/
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
-
-Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-
---=20
- i.
-
---8323328-695447939-1706096298=:1372--
