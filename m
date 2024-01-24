@@ -1,98 +1,133 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735DE7E772
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 16:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C90F12A17A;
+	Wed, 24 Jan 2024 18:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706115375; cv=none; b=lf0FsK8i4s7hnUSLmcD3R1ZRU+k2Ke9FGv2smh83/RiOdOa8mxMmUSMyVhMdfBZS6h+OGmQ/nrybzhtQIIcQ6/f4tpKRtzpXFDOqKJGAF/wvvDzRRza6CDuKreckri3KN4IPnEJpaFgFljgDFUd08iN+C0vVvC9wPUVwPvvyzYU=
+	t=1706120420; cv=none; b=VDNsY7bzxSVBAjWZBbSI5fsSYXpsK9hUXk9X1caL0LwnGjLPHeV1c8S6d1HaumkF5TqIcMcPFoCj4hK8htQqvx8I1OnTub9DdUHfI8DvdNmV7KgIT9bAg5X+aeYBOpbWlwlKu72EX9VU5Ok7gDWslrQSVfD/3/vr64ckLkCVQsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706115375; c=relaxed/simple;
-	bh=Q598g3ES9DwULDvPn3Tu0gZTULbU0YAUntODedh3iwg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qe+uRv4MXDlIOFoVolKFSt7xsz4SV1dxW69Q5EsbnS63vAPLUV3ALfzive+0dL9XkBwSxAoCOHx53p0Xc5G+3JMeYeksWdmXgN/n3uDTjLjsX4XMvH67bBas8gbxLmN6u8gAKoiFV50PHa0M8RI1tJtacJa39Gdt3BrbkXLsmgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LAb8MMgJ; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706120420; c=relaxed/simple;
+	bh=8i7hW/P7gRwZbg6eJhfWSHuYfwNb6fjxwXNOYa+zX2M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uvbt8VOh2YMlU93dpHyDsHorJaND6nVPN7sVdVFF3QEvBGjfZGzNqa1wxVlHadVwURmoPNKBcShewV8t81J/hoIrTm8i8lJvdfAk+fT4KYT12tQJ9pnSdfVwNQRHzJKsS4jvGuFPpx73QsrlJ7bGCe3BAYmH/Us5Ew7xt8mEGlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Br4mhTz3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LAb8MMgJ"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40O7L4kw000450;
-	Wed, 24 Jan 2024 10:56:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=przA4QwCommAhJfz+ziW6gvkL1al7pQyEzCeV5NJhkc=; b=
-	LAb8MMgJ3s/tPLDHUmCmCEB2Ls9H3/Mm9L4bfGp/fn+Zt5vDzgmwT/XrgKZLIRYJ
-	gI2VQy+wUmAxFiJthAoT9/WzZOkmHdru+j0MemFpwsCGfD2XRHmBbeB5U9XvsauR
-	jxcSGpuotFaReh6CJvFyfaz2UqmGkquH13ITygF6mTi9YCQbK+8ZDienMRUP2DKN
-	Ia1+ZufRjF8J5JvpcO+MVrfK20ks4qLqisgbYoLAq4zP5poBPXknQmBdWM0PArN/
-	26fQYz3Kae7wGxpGaagNKAK8BJ243C28fm4wLcsAto38KUjml5c1+xz8cE5V9/5i
-	hqVV5XtTn66HZidxWAkI+Q==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhh44s-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Jan 2024 10:56:04 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 24 Jan
- 2024 16:55:59 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Wed, 24 Jan 2024 16:55:59 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0911782024A;
-	Wed, 24 Jan 2024 16:55:59 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <andy.shevchenko@gmail.com>, <lgirdwood@gmail.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>
-Subject: [PATCH 5/7] ASoC: cs42l43: Use USEC_PER_MSEC rather than hard coding
-Date: Wed, 24 Jan 2024 16:55:56 +0000
-Message-ID: <20240124165558.1876407-5-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240124165558.1876407-1-ckeepax@opensource.cirrus.com>
-References: <20240124165558.1876407-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Br4mhTz3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A92D4C41679;
+	Wed, 24 Jan 2024 18:20:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706120419;
+	bh=8i7hW/P7gRwZbg6eJhfWSHuYfwNb6fjxwXNOYa+zX2M=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Br4mhTz3ABsovsBh891iFtITCloETm7Xd3auyJ06H5OtOXYpmgIubWlxfBF2VAGmf
+	 OlGgldHJriEwX+TyBKeNai970ecogEG/P+gUzZX4GkxGns9Tk6eEXHb1JVxvu6/qbt
+	 skPzgvzkoqvZSI3fIk0qzZS1oVVsfORv8XNRdsm4o8jNjgkmRgXjCqeQuzGAQ/loQ0
+	 MNqC/og/U/JCX02ROA4VSt/31hoJJKyDJYB6eTiM5FtscPo50IXJxuwfPJcISYJ5Bo
+	 JVUzkTQyQJDT/DwPnh/6uJPHvZSstEkjmSaAd1oD/2eYSXBm+WQRf3GOuraJ/L6/c7
+	 dAa8p4/Z1vrVg==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cf13c259f3so21609701fa.2;
+        Wed, 24 Jan 2024 10:20:19 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxwpt606+LtDw54OIps+yrDeL+Duhbv0ZdkYRSgbE0kDoNurYaM
+	RRQVhBsZoRJHRy0yuNNyA0kCkqO7uUtAj6p6eoLQ0vZJz/tZFlQy1Y8PJsSjALFq6Y2v+oAYjAT
+	NdqZa/snRZCRp+bmrDS40Zs1R2g==
+X-Google-Smtp-Source: AGHT+IFQ7o9sj+x/bj/29pY9Rds1Cng62HUIvJOWJ1X7OlDRC8xWzyyEJAbOfVXOJaSePIJD48bw3TcKGaUGSzwtDq4=
+X-Received: by 2002:a05:6512:1295:b0:50e:ca83:887e with SMTP id
+ u21-20020a056512129500b0050eca83887emr2710515lfs.34.1706120417667; Wed, 24
+ Jan 2024 10:20:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Sc98E8Olr60-OpbYMNmPfSJRpSv6PJAM
-X-Proofpoint-GUID: Sc98E8Olr60-OpbYMNmPfSJRpSv6PJAM
-X-Proofpoint-Spam-Reason: safe
+References: <20240122180551.34429-1-francesco@dolcini.it>
+In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 24 Jan 2024 12:20:05 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKHjj5SfPTxhXUtmNh1nr1-eNKnL-Mmv-XdyONxgn9UVw@mail.gmail.com>
+Message-ID: <CAL_JsqKHjj5SfPTxhXUtmNh1nr1-eNKnL-Mmv-XdyONxgn9UVw@mail.gmail.com>
+Subject: Re: [PATCH v2] treewide, serdev: change receive_buf() return type to size_t
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	linux-bluetooth@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	greybus-dev@lists.linaro.org, linux-iio@vger.kernel.org, 
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-sound@vger.kernel.org, 
+	Francesco Dolcini <francesco.dolcini@toradex.com>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, 
+	"David S. Miller" <davem@davemloft.net>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- sound/soc/codecs/cs42l43-jack.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Mon, Jan 22, 2024 at 12:06=E2=80=AFPM Francesco Dolcini <francesco@dolci=
+ni.it> wrote:
+>
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+>
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">=3D 0" from serdev_controller_receive_buf(), change its return type fro=
+m
+> ssize_t to size_t.
+>
+> The need for this clean-up was noticed while fixing a warning, see
+> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value")=
+.
+> Changing the callback prototype to return an unsigned seems the best way
+> to document the API and ensure that is properly used.
+>
+> GNSS drivers implementation of serdev receive_buf() callback return
+> directly the return value of gnss_insert_raw(). gnss_insert_raw()
+> returns a signed int, however this is not an issue since the value
+> returned is always positive, because of the kfifo_in() implementation.
+> gnss_insert_raw() could be changed to return also an unsigned, however
+> this is not implemented here as request by the GNSS maintainer Johan
+> Hovold.
+>
+> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@ke=
+rnel.org/
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+> ---
+> v1:
+>  - https://lore.kernel.org/all/20231214170146.641783-1-francesco@dolcini.=
+it/
+> v2:
+>  - rebased on 6.8-rc1
+>  - add acked-by Jonathan
+>  - do not change gnss_insert_raw()
+>  - do not change the code style of the gnss code
+>  - commit message improvements, explain the reasons for doing only minima=
+l
+>    changes on the GNSS part
+> ---
+>  drivers/bluetooth/btmtkuart.c              |  4 ++--
+>  drivers/bluetooth/btnxpuart.c              |  4 ++--
+>  drivers/bluetooth/hci_serdev.c             |  4 ++--
+>  drivers/gnss/serial.c                      |  2 +-
+>  drivers/gnss/sirf.c                        |  2 +-
+>  drivers/greybus/gb-beagleplay.c            |  6 +++---
+>  drivers/iio/chemical/pms7003.c             |  4 ++--
+>  drivers/iio/chemical/scd30_serial.c        |  4 ++--
+>  drivers/iio/chemical/sps30_serial.c        |  4 ++--
+>  drivers/iio/imu/bno055/bno055_ser_core.c   |  4 ++--
+>  drivers/mfd/rave-sp.c                      |  4 ++--
+>  drivers/net/ethernet/qualcomm/qca_uart.c   |  2 +-
+>  drivers/nfc/pn533/uart.c                   |  4 ++--
+>  drivers/nfc/s3fwrn5/uart.c                 |  4 ++--
+>  drivers/platform/chrome/cros_ec_uart.c     |  4 ++--
+>  drivers/platform/surface/aggregator/core.c |  4 ++--
+>  drivers/tty/serdev/serdev-ttyport.c        | 10 ++++------
+>  include/linux/serdev.h                     |  8 ++++----
+>  sound/drivers/serial-generic.c             |  4 ++--
+>  19 files changed, 40 insertions(+), 42 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
-index 147c7017fd8b6..4bcf66cff566a 100644
---- a/sound/soc/codecs/cs42l43-jack.c
-+++ b/sound/soc/codecs/cs42l43-jack.c
-@@ -17,6 +17,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/property.h>
- #include <linux/regmap.h>
-+#include <linux/time.h>
- #include <linux/workqueue.h>
- #include <sound/control.h>
- #include <sound/jack.h>
-@@ -647,7 +648,7 @@ static int cs42l43_run_load_detect(struct cs42l43_codec *priv, bool mic)
- static int cs42l43_run_type_detect(struct cs42l43_codec *priv)
- {
- 	struct cs42l43 *cs42l43 = priv->core;
--	int timeout_ms = ((2 * priv->detect_us) / 1000) + 200;
-+	int timeout_ms = ((2 * priv->detect_us) / USEC_PER_MSEC) + 200;
- 	unsigned int type = 0xff;
- 	unsigned long time_left;
- 
--- 
-2.30.2
-
+Reviewed-by: Rob Herring <robh@kernel.org>
