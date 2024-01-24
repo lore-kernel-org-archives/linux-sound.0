@@ -1,80 +1,231 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A281353FE;
-	Wed, 24 Jan 2024 21:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DCA1353FC
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 21:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706133317; cv=none; b=B/dYVmSicFVc+u6H+DGwiqAS8b7uEsTbpi/082OA4QE4X9MYSF6f/zH6nC7szl6KODHvzZxgCoMstxyKTtaNoPQyhPwCs6zRNBSelbbgayNtjWjapnIbhb3hfcUB06JJMMYdXuj5GUKiQxwCMWiHsT+kyNa/ID/VZNpIqiLb05M=
+	t=1706133594; cv=none; b=fclEf/jfzed2OZn8DhZWjjGyrdFm3MbrpX3P9KPzbJTakfmJL97tCCmc3qXu79kA7g9xJocNRv2TXmVwXVik9Zav9gDotOxpdDBr3yLWESbWPzO59MKpj8sT3xTALmmLnIwKU+0FGWE4NomryGRdxWzI3l6vTJIFabsxa3vvv2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706133317; c=relaxed/simple;
-	bh=309aYL4WHgnoj7cp3YCClCX/HORT29FwxxqIu388QIM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MytwKrReNPe5jQJ3ZfQ0i783KajgsL5oTh2Foa3H3zk+BWf6A0GC6E54W2UMpFe/r44JxNQ4Zj8d7lI/hnSwGMoIQSJnX/M6pu0uBjodD0b03A4O5MSkgg0Szw/GzopnjCU+ScpxqPz/W9UKt1UO1pakD+i/BUL211RBFsRXVew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b68f75.dsl.pool.telekom.hu [::ffff:81.182.143.117])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000070DBE.0000000065B1873B.0018A6D1; Wed, 24 Jan 2024 22:55:07 +0100
-Message-ID: <4dbee9d8524da296b185ba0fe6827249c93eebd6.camel@irl.hu>
-Subject: Re: [PATCH 0/2] ALSA: hda: Move component binding support into
- separate library
-From: Gergo Koteles <soyer@irl.hu>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
-  shenghao-ding@ti.com
-Cc: perex@perex.cz, linux-kernel@vger.kernel.org,
-  linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-  patches@opensource.cirrus.com
-Date: Wed, 24 Jan 2024 22:55:07 +0100
-In-Reply-To: <20240124112607.77614-1-rf@opensource.cirrus.com>
-References: <20240124112607.77614-1-rf@opensource.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1706133594; c=relaxed/simple;
+	bh=s8xgUZHP3eLVBnQf9Aaqkp79I1G4orO/ySB5HyZFbGE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D5SoBWbWrILM8WRDIFqsjWVQYF+zR2iu1fAUGjjtVkbShhHxuzULaD25mocmx4Kk5F7j+PhbLUcmsNO98Nt0LWNpqX/VwICEib1b6reweW7g/756UvwgPpwvavv6Crg56Ipme08VgnH8O+mBWH85WNUak6XrBXjJGfaq1DI9ls0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=LPpd66cQ; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="LPpd66cQ"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7bc332d3a8cso389735239f.2
+        for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 13:59:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1706133590; x=1706738390; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5W3Zc4lw9OY5mCDTox2UyfPkd23B5LnUVm+szTHb4aA=;
+        b=LPpd66cQiH3I/nIN9CxxN48FIgGeWvshvkltzYLz50AYb6JCL2tFS0ho7S0e276Lv2
+         /Z1nnaOzwCTHml+FhamI6qsmcg8rkSywGQ9f28dDsg6Ivg6y6AZn9wFkGFzKZOTwwg9L
+         4Z71MwsGdbjl+vcjZZXQXNEQ+qzeTnJo7VI78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706133590; x=1706738390;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5W3Zc4lw9OY5mCDTox2UyfPkd23B5LnUVm+szTHb4aA=;
+        b=sClAqGtpz8bGc5V6MpALKQjYmE5K3FzTNdQgMYMSUCWOSrBYbKS6rs0dAuKHoo3jIp
+         Vt4ISiZm1XBtgulBF98wgR31ZnqgUTRRJvn4jpWpzvfu5Jny2tOEoDi31aoxuAkC+zu8
+         oUbcPj3ljYQAuTSiN6VjokCs2Zs3gJLc3JiQmOpDMZ3QE8y9h+vb4L6l42mcpplmIqs9
+         FzepbiYDKI0R3YE/aQY8qFGi2ylvgcI5aPTvZ1lLwLNSh2P42R699k7cp2nvSNkJ1xM9
+         GzxaT468np/LDT2EhDBnTJt+ktZgTgEasDNjwL/QuBoGYbmGRRfMilCw9XNTsVWPPTsX
+         NAJA==
+X-Gm-Message-State: AOJu0YwTJgUF4XtxENqCguqRVDCltoP3u/9oVb9dUQ+G8yQfwQ1qKcT1
+	o40mzRbcPiG5s12TSufK76DKzqQp8P7xQ1Wp2k8JpLG2vjzHLIEtzxSREJ5LCA==
+X-Google-Smtp-Source: AGHT+IFoErDfBnp90Aso6XiHus3HsXdUa1t+JDihc6T5l+sSuJErscvKMaONLo9iiGOiH+hMVMxlSA==
+X-Received: by 2002:a6b:e901:0:b0:7ba:8db3:2997 with SMTP id u1-20020a6be901000000b007ba8db32997mr140857iof.6.1706133589792;
+        Wed, 24 Jan 2024 13:59:49 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id dq16-20020a0566384d1000b0046e025d9fefsm4228174jab.48.2024.01.24.13.59.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jan 2024 13:59:49 -0800 (PST)
+Message-ID: <51d07f81-45f4-4772-915f-ed5dac602a40@ieee.org>
+Date: Wed, 24 Jan 2024 15:59:46 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] treewide, serdev: change receive_buf() return type to
+ size_t
+To: Francesco Dolcini <francesco@dolcini.it>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
+ linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Eric Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Rob Herring <robh@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <20240122180551.34429-1-francesco@dolcini.it>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
+On 1/22/24 12:05 PM, Francesco Dolcini wrote:
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> 
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">= 0" from serdev_controller_receive_buf(), change its return type from
+> ssize_t to size_t.
+> 
+> The need for this clean-up was noticed while fixing a warning, see
+> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value").
+> Changing the callback prototype to return an unsigned seems the best way
+> to document the API and ensure that is properly used.
+> 
+> GNSS drivers implementation of serdev receive_buf() callback return
+> directly the return value of gnss_insert_raw(). gnss_insert_raw()
+> returns a signed int, however this is not an issue since the value
+> returned is always positive, because of the kfifo_in() implementation.
 
-On Wed, 2024-01-24 at 11:26 +0000, Richard Fitzgerald wrote:
-> The Cirrus Logic amplifiers are currently paired with Realtek HDA codecs.
-> But they could be used with other codecs. To prepare for this, these two
-> patches move the manager side of the component binding out of the Realtek
-> driver into a library module.
->=20
-> The first patch tweaks the CS35L41 code so that it is not hardcoded to
-> CS35L41, and changes the TAS2781 handling so that it re-uses that code
-> instead of having a near-identical copy of it.
->=20
-> Can someone please test that these two patches don't break TAS2781?
-> I have checked that they should work in theory but I don't have hardware
-> to test on.
->=20
+Agreed.
 
-It works on a Lenovo Yoga 7 14ARB7 laptop.
+> gnss_insert_raw() could be changed to return also an unsigned, however
+> this is not implemented here as request by the GNSS maintainer Johan
+> Hovold.
 
-Tested-by: Gergo Koteles <soyer@irl.hu>
+I was going to suggest this, and suggest changing the "ret" in
+gnss_insert_raw() to return size_t.  But to really do that right
+it would include some other changes as well.  Leaving it as an
+int as Johan suggests preserves correct behavior.
 
-Regards,
-Gergo
+One minor point below, plus a couple comments affirming that
+an int return value is OK because it's always non-negative.
 
-> Richard Fitzgerald (2):
->   ALSA: hda: realtek: Re-work CS35L41 fixups to re-use for other amps
->   ALSA: hda: realtek: Move hda_component implementation to module
->=20
->  MAINTAINERS                   |   1 +
->  sound/pci/hda/Kconfig         |   4 +
->  sound/pci/hda/Makefile        |   2 +
->  sound/pci/hda/hda_component.c | 169 ++++++++++++++++++++++++++
->  sound/pci/hda/hda_component.h |  59 +++++++++
->  sound/pci/hda/patch_realtek.c | 217 ++++------------------------------
->  6 files changed, 261 insertions(+), 191 deletions(-)
->  create mode 100644 sound/pci/hda/hda_component.c
->=20
+Reviewed-by: Alex Elder <elder@linaro.org>
+
+
+> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@kernel.org/
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+> ---
+> v1:
+>   - https://lore.kernel.org/all/20231214170146.641783-1-francesco@dolcini.it/
+> v2:
+>   - rebased on 6.8-rc1
+>   - add acked-by Jonathan
+>   - do not change gnss_insert_raw()
+>   - do not change the code style of the gnss code
+>   - commit message improvements, explain the reasons for doing only minimal
+>     changes on the GNSS part
+> ---
+>   drivers/bluetooth/btmtkuart.c              |  4 ++--
+>   drivers/bluetooth/btnxpuart.c              |  4 ++--
+>   drivers/bluetooth/hci_serdev.c             |  4 ++--
+>   drivers/gnss/serial.c                      |  2 +-
+>   drivers/gnss/sirf.c                        |  2 +-
+>   drivers/greybus/gb-beagleplay.c            |  6 +++---
+>   drivers/iio/chemical/pms7003.c             |  4 ++--
+>   drivers/iio/chemical/scd30_serial.c        |  4 ++--
+>   drivers/iio/chemical/sps30_serial.c        |  4 ++--
+>   drivers/iio/imu/bno055/bno055_ser_core.c   |  4 ++--
+>   drivers/mfd/rave-sp.c                      |  4 ++--
+>   drivers/net/ethernet/qualcomm/qca_uart.c   |  2 +-
+>   drivers/nfc/pn533/uart.c                   |  4 ++--
+>   drivers/nfc/s3fwrn5/uart.c                 |  4 ++--
+>   drivers/platform/chrome/cros_ec_uart.c     |  4 ++--
+>   drivers/platform/surface/aggregator/core.c |  4 ++--
+>   drivers/tty/serdev/serdev-ttyport.c        | 10 ++++------
+>   include/linux/serdev.h                     |  8 ++++----
+>   sound/drivers/serial-generic.c             |  4 ++--
+>   19 files changed, 40 insertions(+), 42 deletions(-)
+> 
+
+. . .
+
+> diff --git a/drivers/mfd/rave-sp.c b/drivers/mfd/rave-sp.c
+> index 6ff84b2600c5..62a6613fb070 100644
+> --- a/drivers/mfd/rave-sp.c
+> +++ b/drivers/mfd/rave-sp.c
+> @@ -471,8 +471,8 @@ static void rave_sp_receive_frame(struct rave_sp *sp,
+>   		rave_sp_receive_reply(sp, data, length);
+>   }
+>   
+> -static ssize_t rave_sp_receive_buf(struct serdev_device *serdev,
+> -				   const u8 *buf, size_t size)
+> +static size_t rave_sp_receive_buf(struct serdev_device *serdev,
+> +				  const u8 *buf, size_t size)
+>   {
+>   	struct device *dev = &serdev->dev;
+>   	struct rave_sp *sp = dev_get_drvdata(dev);
+
+One return path in this function returns (src - buf), which is
+*almost* guaranteed to be positive.  The one case it wouldn't
+be is if the assignment of end wraps around, and that's not
+checked.
+
+I think it's fine, but... That seems theoretically possible.
+
+
+> diff --git a/drivers/net/ethernet/qualcomm/qca_uart.c b/drivers/net/ethernet/qualcomm/qca_uart.c
+> index 223321897b96..20f50bde82ac 100644
+
+. . .
+
+> diff --git a/drivers/platform/surface/aggregator/core.c b/drivers/platform/surface/aggregator/core.c
+> index 9591a28bc38a..ba550eaa06fc 100644
+> --- a/drivers/platform/surface/aggregator/core.c
+> +++ b/drivers/platform/surface/aggregator/core.c
+> @@ -227,8 +227,8 @@ EXPORT_SYMBOL_GPL(ssam_client_bind);
+>   
+>   /* -- Glue layer (serdev_device -> ssam_controller). ------------------------ */
+>   
+> -static ssize_t ssam_receive_buf(struct serdev_device *dev, const u8 *buf,
+> -				size_t n)
+> +static size_t ssam_receive_buf(struct serdev_device *dev, const u8 *buf,
+> +			       size_t n)
+>   {
+>   	struct ssam_controller *ctrl;
+>   	int ret;
+
+Here you the return value will be positive despite ret being
+a signed int.  So like the GNSS case, this is OK.
+
+> diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/serdev-ttyport.c
+> index e94e090cf0a1..3d7ae7fa5018 100644
+
+. . .
+
+> diff --git a/sound/drivers/serial-generic.c b/sound/drivers/serial-generic.c
+> index d6e5aafd697c..36409a56c675 100644
+> --- a/sound/drivers/serial-generic.c
+> +++ b/sound/drivers/serial-generic.c
+> @@ -100,8 +100,8 @@ static void snd_serial_generic_write_wakeup(struct serdev_device *serdev)
+>   	snd_serial_generic_tx_wakeup(drvdata);
+>   }
+>   
+> -static ssize_t snd_serial_generic_receive_buf(struct serdev_device *serdev,
+> -					      const u8 *buf, size_t count)
+> +static size_t snd_serial_generic_receive_buf(struct serdev_device *serdev,
+> +					     const u8 *buf, size_t count)
+>   {
+>   	int ret;
+>   	struct snd_serial_generic *drvdata = serdev_device_get_drvdata(serdev);
+
+Same thing here.
 
