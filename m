@@ -1,78 +1,116 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081FDEC5;
-	Wed, 24 Jan 2024 00:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421EDF9FF
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 05:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706057074; cv=none; b=FfUppzB4E0RLZi+vjqLX2VAkqKYDWbefpwoXnVlU1MqJxp4tyXLmInE+MKQBKFPrvDES/bQMttt538KkXSF1N2hUkYtuOUjG3byRz6Xc+8NnNCe/BtHLewHUhJ816QJOejrrFTUmuXHILX6VeBNQ7ChLNRhVBOejTzcvKeaoJE8=
+	t=1706075784; cv=none; b=Os2bfHLSqKX0QACmuCAnXPoZnPCfBJMrB4C0+BkrouZYmAYGJeaMc5CZ6wvjXiE8p/klsiMq9bi7mdnYWbY6BXOlavbgxM5Q9dLxV5nxrW5iPdLcawU8S9jubbH8Wraz+iA/LdoDC8/kAJ/tdejKtRGlYqnabK44rDjPEFQwnVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706057074; c=relaxed/simple;
-	bh=MsBFXOkvirWva83YIYZLGwPypy+AaQBKfn8SHtTTJVg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZFEp9IpfYwVaF8gL+kVAyzM07kI7rMZXzlLnBzisM9DsAGyeME4tbYajlrEFFtWVzMwvl/HgiC5IfGoDURY9mn85f1HUTkH/wY2zpLc7go2jLsPfntHpoaVOqpNpDvFL+C8+hKlUdaWKConKpJ8JC71bcCK1aDJ0WWEuuMW1fes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0W.E3rAK_1706057066;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0W.E3rAK_1706057066)
-          by smtp.aliyun-inc.com;
-          Wed, 24 Jan 2024 08:44:27 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH -next] ASoC: codecs: Remove unneeded semicolon
-Date: Wed, 24 Jan 2024 08:44:25 +0800
-Message-Id: <20240124004425.54020-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	s=arc-20240116; t=1706075784; c=relaxed/simple;
+	bh=3n6qbepBC/quy189WMpUt5s0sJ7FlfcHVamtdO7egM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lIRqxsizWD53iyFtGtqVW6fDNzikhhbERWwNhNKpTbJrTw0vA8JQRj0MfYI8rzJ4nGokPZW9Uphju3vOI+Wi2xj1yC+Rfn8cGCO7bgABQPlPQ4DB3YzaVsVXuxgEcBxVNZ7YkNN2chyT3XziXeKL8fvnqzC3sBZxwUIjnSnlSFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CQUPI0Gy; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CQUPI0Gy"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3bd884146e9so4044663b6e.0
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jan 2024 21:56:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706075782; x=1706680582; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=F7SahGLtspE/3Wi9Cd+JOw7KlfpX4OF2RIxiyIP7SV0=;
+        b=CQUPI0Gyf7iMVcA10t0J6r04j6YDF4Q6PiMRKcRAEg+WVj6KxdR5iSjMSH9izVJw1I
+         eWEctJIUL9aPKNRO8yJ0lyN7bSV/jDY1WG9r8EcyShbbGJe/c5xN79ViXN+JORHMajDY
+         3lVFKRVel0lAAFxssdot+ARQPurXeBX6M9tre1yECT9ZrE3S4aN4izbkIobsxqrD+gB2
+         PqqDggyVIjCgWAll2xtReuBmYA/XAr4VvzisMbLenDYR0AcUbxsn+W6KD51fBPCjDLml
+         IzviHy1wIPcxQkBILW8Wy4+qLFo6TwfpiR4yy3p0elIznif5BQuoB2TOGUB6aIO6pp1h
+         gYeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706075782; x=1706680582;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F7SahGLtspE/3Wi9Cd+JOw7KlfpX4OF2RIxiyIP7SV0=;
+        b=UMp3KBPjRdEi0qwzII7qaf2lNAh0dlGAhFW5Kcv68VM/1aVpoM8ygvXfujWYcto574
+         PC6wgsYe2rpZ94VmEmvN+ASrL+hCKyieoynMCd4/2CUY+CkHEMLG+nuJktSsdvmUGae0
+         aG4KQBJc/bIrUAz0EmxHNlt8NUf242K4js1vFpl/5UVyGR0bpOScb69akNGD+8ueAcRZ
+         oQU8/zx2+ktUSE8x/ZXd2KZfD/jO7o9m8K9jnkduDbKrIj23nMADzTlLECnYEQ7hjPD9
+         z8Vo3cu7d9nyTW5vE48GwjUdVt1Eobgun6/6W3XPIV5QlmMeQSJ/wvAauUNzJCbeZuiQ
+         oQDg==
+X-Gm-Message-State: AOJu0YxktF7F6G+0POGazxtg/8rmBlpqOG4lK7KAskxI21MHfAwXjhxy
+	ZJ+TWYANWXUozhMPD/3YBXPcNCNnsyo1iOmd0BGcBUSwL6HLkegZNYeUgfnUDUc=
+X-Google-Smtp-Source: AGHT+IGiCI/sj/mAtB23fTMLULvqgI87+dSZUJXZCXN7hV/stz02CWQa7d9iE2R5I1NHRIlUItj1Gw==
+X-Received: by 2002:a05:6808:10c2:b0:3bd:a6ea:1c6c with SMTP id s2-20020a05680810c200b003bda6ea1c6cmr1180274ois.116.1706075782222;
+        Tue, 23 Jan 2024 21:56:22 -0800 (PST)
+Received: from localhost ([122.172.81.83])
+        by smtp.gmail.com with ESMTPSA id ko18-20020a056a00461200b006dab0d72cd0sm12721062pfb.214.2024.01.23.21.56.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 21:56:20 -0800 (PST)
+Date: Wed, 24 Jan 2024 11:26:18 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] cpufreq: do not open-code of_phandle_args_equal()
+Message-ID: <20240124055618.5xppexdpvwnv6zng@vireshk-i7>
+References: <20240123141311.220505-1-krzysztof.kozlowski@linaro.org>
+ <20240123141311.220505-3-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240123141311.220505-3-krzysztof.kozlowski@linaro.org>
 
-In the wcd939x codec driver, there are two instances where semicolons
-are used after closing braces of a switch-case statement. These
-semicolons are not required and do not adhere to the coding style
-guidelines.
+On 23-01-24, 15:13, Krzysztof Kozlowski wrote:
+> Use newly added of_phandle_args_equal() helper to compare two
+> of_phandle_args.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Depends on previous of change.
+> ---
+>  include/linux/cpufreq.h | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+> index afda5f24d3dd..3cd06dafb04b 100644
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -1149,8 +1149,7 @@ static inline int of_perf_domain_get_sharing_cpumask(int pcpu, const char *list_
+>  		if (ret < 0)
+>  			continue;
+>  
+> -		if (pargs->np == args.np && pargs->args_count == args.args_count &&
+> -		    !memcmp(pargs->args, args.args, sizeof(args.args[0]) * args.args_count))
+> +		if (of_phandle_args_equal(pargs, &args))
+>  			cpumask_set_cpu(cpu, cpumask);
+>  
+>  		of_node_put(args.np);
 
-This patch removes the unnecessary semicolons at the end of the
-switch-case statements which cleans up the code and ensures consistency
-with the rest of the kernel coding style.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- sound/soc/codecs/wcd939x.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
-index 0ccc7b31d0c1..c49894aad8a5 100644
---- a/sound/soc/codecs/wcd939x.c
-+++ b/sound/soc/codecs/wcd939x.c
-@@ -970,7 +970,7 @@ static int wcd939x_codec_enable_dmic(struct snd_soc_dapm_widget *w,
- 	default:
- 		dev_err(component->dev, "%s: Invalid DMIC Selection\n", __func__);
- 		return -EINVAL;
--	};
-+	}
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
-@@ -1292,7 +1292,7 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
- 		dev_err(component->dev, "%s: Invalid micbias number: %d\n",
- 			__func__, micb_num);
- 		return -EINVAL;
--	};
-+	}
- 
- 	switch (req) {
- 	case MICB_PULLUP_ENABLE:
 -- 
-2.20.1.7.g153144c
-
+viresh
