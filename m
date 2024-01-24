@@ -1,72 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66700131E54;
-	Wed, 24 Jan 2024 19:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A281353FE;
+	Wed, 24 Jan 2024 21:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706123298; cv=none; b=eqp+YjaEs35a3TGtBGDiiGRKAzWmwNXsKURJNRdy91SY4snZrQlLAYEWiyqbRzKcbA6963B3ivmhLKsCyGa3chLSjsPgcH8+LOkagQF0yMkjmKIzaDrkBT0LfXRkyLswLqEWa9cKIgaMg55EtkeJTIXdcSi9spabytus6r8xUZ0=
+	t=1706133317; cv=none; b=B/dYVmSicFVc+u6H+DGwiqAS8b7uEsTbpi/082OA4QE4X9MYSF6f/zH6nC7szl6KODHvzZxgCoMstxyKTtaNoPQyhPwCs6zRNBSelbbgayNtjWjapnIbhb3hfcUB06JJMMYdXuj5GUKiQxwCMWiHsT+kyNa/ID/VZNpIqiLb05M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706123298; c=relaxed/simple;
-	bh=3DjOZTJU8qLa14fEc0+qZZ6+eeGgz0gs0aUO6Rqu96U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vkjd7xz06OBZFju5dP9wm7Jz3q9+Wxbegvpw0dNd26eJaJkh5HDV5ddyURgMGE6GUlY39kVXp2o/FNvnoVrihzAzyKObkIVyz8j8QTONOjx3M7AmWm3e7gzKnV7vvqxgYJFx5klt0S1dHhB1FpFRAzIN1mT7kh2itmM8wT8fUUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jM9QCaH+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jM9QCaH+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9634EC433C7;
-	Wed, 24 Jan 2024 19:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706123297;
-	bh=3DjOZTJU8qLa14fEc0+qZZ6+eeGgz0gs0aUO6Rqu96U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jM9QCaH+ccfHBzKKCRBkjwzy9qgOYeLh2cDJRGZQYn5csaUwNwoCPy9Xq145JrXfl
-	 iIkY6G06N6NDsS5NkV7yFFOtgh3T897MNyOB200qa9hDR3UG0QhnxoNFrb/kdoCoZS
-	 nkcjRMm+vcYMTePbeo6FDgakm/V6+4lhbK4Qyi7mN9rchz6ctaLDvdUY1st2CP2mDP
-	 Flthfx/b4wLnVna5FIsNn96COCUg+ZEaiFBER4/+uZ+QN8+GQgGBEJ9s21YM9wR54K
-	 E0wWprRM+mnONWswy//Q6BPt8dnwvFRkw9UBuJoIsADM2vyEFTm96RWx7EcOLvmDwO
-	 UvbC/UrHMp/Rg==
-From: Rob Herring <robh@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: audio-graph-port: Drop type from "clocks"
-Date: Wed, 24 Jan 2024 13:08:07 -0600
-Message-ID: <20240124190808.1555263-1-robh@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1706133317; c=relaxed/simple;
+	bh=309aYL4WHgnoj7cp3YCClCX/HORT29FwxxqIu388QIM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MytwKrReNPe5jQJ3ZfQ0i783KajgsL5oTh2Foa3H3zk+BWf6A0GC6E54W2UMpFe/r44JxNQ4Zj8d7lI/hnSwGMoIQSJnX/M6pu0uBjodD0b03A4O5MSkgg0Szw/GzopnjCU+ScpxqPz/W9UKt1UO1pakD+i/BUL211RBFsRXVew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b68f75.dsl.pool.telekom.hu [::ffff:81.182.143.117])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000070DBE.0000000065B1873B.0018A6D1; Wed, 24 Jan 2024 22:55:07 +0100
+Message-ID: <4dbee9d8524da296b185ba0fe6827249c93eebd6.camel@irl.hu>
+Subject: Re: [PATCH 0/2] ALSA: hda: Move component binding support into
+ separate library
+From: Gergo Koteles <soyer@irl.hu>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
+  shenghao-ding@ti.com
+Cc: perex@perex.cz, linux-kernel@vger.kernel.org,
+  linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+  patches@opensource.cirrus.com
+Date: Wed, 24 Jan 2024 22:55:07 +0100
+In-Reply-To: <20240124112607.77614-1-rf@opensource.cirrus.com>
+References: <20240124112607.77614-1-rf@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-"clocks" is a standard property which already has a type. Users only need
-to define how many clocks and what each clock is if more than 1 clock.
+Hi Richard,
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/sound/audio-graph-port.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2024-01-24 at 11:26 +0000, Richard Fitzgerald wrote:
+> The Cirrus Logic amplifiers are currently paired with Realtek HDA codecs.
+> But they could be used with other codecs. To prepare for this, these two
+> patches move the manager side of the component binding out of the Realtek
+> driver into a library module.
+>=20
+> The first patch tweaks the CS35L41 code so that it is not hardcoded to
+> CS35L41, and changes the TAS2781 handling so that it re-uses that code
+> instead of having a near-identical copy of it.
+>=20
+> Can someone please test that these two patches don't break TAS2781?
+> I have checked that they should work in theory but I don't have hardware
+> to test on.
+>=20
 
-diff --git a/Documentation/devicetree/bindings/sound/audio-graph-port.yaml b/Documentation/devicetree/bindings/sound/audio-graph-port.yaml
-index b13c08de505e..28b27e7e45de 100644
---- a/Documentation/devicetree/bindings/sound/audio-graph-port.yaml
-+++ b/Documentation/devicetree/bindings/sound/audio-graph-port.yaml
-@@ -51,7 +51,7 @@ definitions:
-           - $ref: /schemas/types.yaml#/definitions/phandle
-       clocks:
-         description: Indicates system clock
--        $ref: /schemas/types.yaml#/definitions/phandle
-+        maxItems: 1
-       system-clock-frequency:
-         $ref: simple-card.yaml#/definitions/system-clock-frequency
-       system-clock-direction-out:
--- 
-2.43.0
+It works on a Lenovo Yoga 7 14ARB7 laptop.
+
+Tested-by: Gergo Koteles <soyer@irl.hu>
+
+Regards,
+Gergo
+
+> Richard Fitzgerald (2):
+>   ALSA: hda: realtek: Re-work CS35L41 fixups to re-use for other amps
+>   ALSA: hda: realtek: Move hda_component implementation to module
+>=20
+>  MAINTAINERS                   |   1 +
+>  sound/pci/hda/Kconfig         |   4 +
+>  sound/pci/hda/Makefile        |   2 +
+>  sound/pci/hda/hda_component.c | 169 ++++++++++++++++++++++++++
+>  sound/pci/hda/hda_component.h |  59 +++++++++
+>  sound/pci/hda/patch_realtek.c | 217 ++++------------------------------
+>  6 files changed, 261 insertions(+), 191 deletions(-)
+>  create mode 100644 sound/pci/hda/hda_component.c
+>=20
 
