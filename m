@@ -1,151 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04C77F14;
-	Wed, 24 Jan 2024 13:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BA62BAE5;
+	Wed, 24 Jan 2024 15:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706103831; cv=none; b=JuI/83479zC3uEFS2n3k3gxCHGQlblIL2b9XEyNHju/XyGRkHjf+pbpc66K0e0OagOLxMMP5D3K4ek04xnRhGXs75mc5hDTPCWSyNsCJDP/NKeuUUSuOsXssHd9IkB5UqHRg9YASH5EiTTR+qwqu0AzChppia3EnOg4rWQVku8Y=
+	t=1706109934; cv=none; b=LntcJpn59oG1Uh6JzMBcXyCx5AUimmXf9c4gOIBdiB0E7gQidyr6TLVqKWJpryFxdCVyWkYg48yd8ZeF9Iqq7vgA3WUs0UCnvv9CwGAm4iTkwkWtGJ5qy8re6RlDWcvf9cczMa8IH+csY2ljGVlXatU+PmUCJ8p72jE84TUQYgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706103831; c=relaxed/simple;
-	bh=vMtRdSXgt7L8bMsRDxC0blHzjN8Dvs+MLmFOLF3aUE8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KLf6jiV8rymMiIFjKhczJjkxgcezH589XITwwq8i80Y8NKR4lG8xZ0uncwikmYsBEUaPJ299+6mifQN+fGEEtdAIoph6Lye0mwVoAOugl/SocOJsPSyt7WrfJxNWORNj1DIp01xW37/vxQvppmay7tC2KIi37cy9m00vBFYTO6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P2OicQ8p; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RCi9SLJT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WNFwW3T4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LdfouFrw; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706109934; c=relaxed/simple;
+	bh=h6gKgCOyMbUEFd07PJSrDnDe9rMzxnKmjXzcvpqKJlw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RXlrp0txbOmKRcvQEbpPzJRmdrGPNnSG8fp2+MmFpWyOYoGfNbUw7wIdR3j+FtBJgSfOtB6nLpMUwdTaO13mKXfmre4+wl1saBcYMI3hctIX02qYN7g3zpN3QwjS8kTsIZdS2SNlUYa7XGP2/85fgfpY2Ne9yJwfgVifeX09ZwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=jLfK4Ir+; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=RqAwVMX2; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P2OicQ8p";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RCi9SLJT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WNFwW3T4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LdfouFrw"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="jLfK4Ir+";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="RqAwVMX2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1706109334; bh=h6gKgCOyMbUEFd07PJSrDnDe9rMzxnKmjXzcvpqKJlw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jLfK4Ir+PWEN6fIkcwK5gNMUQhN1Dgk1VL7yKyzUD6YuZVgMfFgEoCEImOJUD8LbY
+	 LNjkWRyIcuBzTRViycy3KJF7g+jTG8tTOsnt7OWMAr0vSgFIl+10QtZ4/HGLiEzHOV
+	 NkPOIxxJzBR0fpSaY5f5KkA+7HdzSZmTslBj2rOM6xfvxoqLLUFutYP9iuVeQKoW0D
+	 2lPz/oSwj+IeDdmVvaSCYnxo25E/HeDxAG/WiG0cWo7XOT/SLa/NGNO5iy61pbkYyN
+	 G1FhCtinZOAPvJctgoSNUb+bk4OKLgkkhJyMLRjhWJs038HjIvwCrKImQCuhxF9t7L
+	 x2TOSwJZ/KZfA==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id C3E35100741; Wed, 24 Jan 2024 15:15:34 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1706109333; bh=h6gKgCOyMbUEFd07PJSrDnDe9rMzxnKmjXzcvpqKJlw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RqAwVMX2dDzUvfbJsEf/2lu1BSNBVcNjxvPnCbrBPJb3OM6v3dMW4ObwXtnFSf2a6
+	 F0eivZNyHX+gW6uYsgzuS1q8wFxJXahffSeOf/RgtY9r1300p9U7+iqC/WtZZbjr8g
+	 Ccwp/9GX0AGIUgA1aEezGlgPHo2J2tZu18ymWcs981OQxbSxjcieHi5peFzlV4mVWf
+	 t8KjgpMgws4uSGAT2ifzWrTzJIM+J5ZZRoiYV7AKfxCrXQER1EA/Xf1xTwPz1kw7Nk
+	 NSuURE6ZHYifrtBY3HoIyDlfVXqmqUtlkBNNv2ciGo/hiIE7Jk2+kynnBGp7HTSzlZ
+	 RYKZL/PiYZToA==
+Received: from bigcore.mess.org (bigcore.local [IPv6:2a02:8011:d000:212:bc3c:1b4a:a6fa:362f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D92B01FD64;
-	Wed, 24 Jan 2024 13:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706103828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ws3ePQym3fkrskSLqJwcWIdMaVWU/CiRF9N+1vjYBSo=;
-	b=P2OicQ8pGSacpqLm7iUQG2B5vy3P1/l/MrDvKZcJRNY37GObzFmMJNaX/WzlafZGKMWfG+
-	yKj8JYkOvdF1qehGfymALMWn1oJIQIHxJafby9kt0YQp5r/Skfp2Sh/H1yF6SWQz1UnOg6
-	wwNKiZ+8srHeBQzFZ+4qZ/RuwzXolBc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706103828;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ws3ePQym3fkrskSLqJwcWIdMaVWU/CiRF9N+1vjYBSo=;
-	b=RCi9SLJTxFtGi5sXX7JpxOq4DwrH/icBnW5ZhSEPWWQ/m0wX4UQKb2LpdP/16LRuH+kN85
-	Fqc/WdPAdE1X2nCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706103827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ws3ePQym3fkrskSLqJwcWIdMaVWU/CiRF9N+1vjYBSo=;
-	b=WNFwW3T4Erffs21hWG/t4hUxa+X71N58pWGz77On+c9oVDe4tFNsL7fREuxt0JO+Hl4p2U
-	WoeNsO+6ua1IbNWAq2SnsL7/VMjpTanGyvY5UWLPoEK2uYJ1s67++Z7TyTzeQ3q9fSyur2
-	nEVK8kk4loaoZpouqVM+MDnkTIaspbo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706103827;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ws3ePQym3fkrskSLqJwcWIdMaVWU/CiRF9N+1vjYBSo=;
-	b=LdfouFrwy/9nZX25I4wD7TEfabsZc/sJ0wNTGck81gSokJZUOiGmFW62VMg4s6oY+kO1lo
-	YYyUe7vC0GRU0yCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8190E13786;
-	Wed, 24 Jan 2024 13:43:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id INk1HhMUsWVJSwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 24 Jan 2024 13:43:47 +0000
-Date: Wed, 24 Jan 2024 14:43:47 +0100
-Message-ID: <87plxqlucs.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<soyer@irl.hu>,
-	<shenghao-ding@ti.com>,
-	<perex@perex.cz>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ALSA: hda: Move component binding support into separate library
-In-Reply-To: <20240124112607.77614-1-rf@opensource.cirrus.com>
-References: <20240124112607.77614-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by gofer.mess.org (Postfix) with ESMTPSA id 2B9671000B2;
+	Wed, 24 Jan 2024 15:15:33 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Sean Young <sean@mess.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: add quirk for RODE NT-USB+
+Date: Wed, 24 Jan 2024 15:15:24 +0000
+Message-ID: <20240124151524.23314-1-sean@mess.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WNFwW3T4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LdfouFrw
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.40 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.89)[94.41%]
-X-Spam-Score: -4.40
-X-Rspamd-Queue-Id: D92B01FD64
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 24 Jan 2024 12:26:05 +0100,
-Richard Fitzgerald wrote:
-> 
-> The Cirrus Logic amplifiers are currently paired with Realtek HDA codecs.
-> But they could be used with other codecs. To prepare for this, these two
-> patches move the manager side of the component binding out of the Realtek
-> driver into a library module.
-> 
-> The first patch tweaks the CS35L41 code so that it is not hardcoded to
-> CS35L41, and changes the TAS2781 handling so that it re-uses that code
-> instead of having a near-identical copy of it.
-> 
-> Can someone please test that these two patches don't break TAS2781?
-> I have checked that they should work in theory but I don't have hardware
-> to test on.
-> 
-> Richard Fitzgerald (2):
->   ALSA: hda: realtek: Re-work CS35L41 fixups to re-use for other amps
->   ALSA: hda: realtek: Move hda_component implementation to module
+The RODE NT-USB+ is marketed as a professional usb microphone, however the
+usb audio interface is a mess:
 
-Through a quick glance, it looks good.
-I'll wait for the verification for TAS codec for a while.
+[    1.130977] usb 1-5: new full-speed USB device number 2 using xhci_hcd
+[    1.503906] usb 1-5: config 1 has an invalid interface number: 5 but max is 4
+[    1.503912] usb 1-5: config 1 has no interface number 4
+[    1.519689] usb 1-5: New USB device found, idVendor=19f7, idProduct=0035, bcdDevice= 1.09
+[    1.519695] usb 1-5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[    1.519697] usb 1-5: Product: RØDE NT-USB+
+[    1.519699] usb 1-5: Manufacturer: RØDE
+[    1.519700] usb 1-5: SerialNumber: 1D773A1A
+[    8.327495] usb 1-5: 1:1: cannot get freq at ep 0x82
+[    8.344500] usb 1-5: 1:2: cannot get freq at ep 0x82
+[    8.365499] usb 1-5: 2:1: cannot get freq at ep 0x2
 
+Add QUIRK_FLAG_GET_SAMPLE_RATE to work around the broken sample rate get.
+I have asked Rode support to fix it, but they show no interest.
 
-thanks,
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Takashi
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 07cc6a201579a..6f1f0712e7dc5 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2179,6 +2179,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_FIXED_RATE),
+ 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
++		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 
+ 	/* Vendor matches */
+ 	VENDOR_FLG(0x045e, /* MS Lifecam */
+-- 
+2.43.0
+
