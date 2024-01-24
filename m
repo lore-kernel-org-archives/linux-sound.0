@@ -1,40 +1,40 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF777E76D
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 16:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B007E782
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 16:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706115374; cv=none; b=HcTICNRAPbSCksUjJTm8gjwjgHFtoohABs1dXQxwNyTJCjhjtyJ7YxK8KtfteAC8PgQlq00T+8d23LK5WhysRm78XpELTTbr4UiRB4AWt0/cHPrKm2oESsGgXjSUHLp6hOVCLwlsvrehl2t1yWD6+d+iuKemQQ5pzhVu/v+etb4=
+	t=1706115375; cv=none; b=ZGNq8g30FyP/g/QUg8B2grQOkOG4wvrlPCIzYudE58zp29Upd5wFgYqzAtkkRTy2Trp2KhrP0gJ8UYqPju/9z2KqAJL5rxGb4AXZ03klgWQkFqzbALtQD5vcFi347kDgAlDneaQOssonPXPetZJZ7407W7xY3ctFy9cDmzBBccE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706115374; c=relaxed/simple;
-	bh=/pWbttwiVFqyzU/ga3b2z9b+79klev0KH/busw3OVWc=;
+	s=arc-20240116; t=1706115375; c=relaxed/simple;
+	bh=rFXo5D5SioFkDyK6VjhPmdr1bMROSvMpZp+Tvd6jOS0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d46E2CYVhjn1JHDBQHDizRykU0B23zNkUjYhrxUP6SwbIJ8Kk5SFlJAXcugsQnvxhUcI22sWYvqR6zaA9wLvudV14S0T5cbNemO5a7gqFNE+9nFQ0v+106a5CRezsa1yGuJ5uh0gBlFnjxhos+enlxFrezAbMRQcuVaU7R9r/1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ZgjyqDES; arc=none smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=PwncMbikqYAGxtOe0gSyqkV31lM6QWk0BimFLPtI5GDNmkvK2ptm37RXU8w1dyTOGQJepy7eOUzGRh7mpGAWfgQ8qP459nMl0vhlI2c3tuad7vDRkVOx+3u0NX04SHBFFGjsHephZsTf+bRWaU5bIP0ZMjbJ1ewVkvWRdefMRD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c291I6d4; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ZgjyqDES"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c291I6d4"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40O6Pu39003749;
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40O7L4kv000450;
 	Wed, 24 Jan 2024 10:56:03 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=nlLlsNCSpaOmPb1UHn6JHOCtAJ0NsxCp2Jj9FnLQWWU=; b=
-	ZgjyqDESZK8q5cg5lJzyAFGWpTSIMLgsX2/WaGNbholUx76JADOerFkz04pX5LQz
-	y20Mbn3/w9lHNXD4k0b3cU+Tl712MPLKFcJk7Z4qiYni0W416J5b7kXI+8r/SBC8
-	kva1WB9VEMcjyvknEevB2wuKNlv0q3kq/D7jFw6acC4Qb8HHWvMcO1pgIUY5Kjiy
-	vfv97Mo7VqG3UX1Af+IWz+sLoCXVGBxTZyqeLRwBfLYtj1gF+iwapT5CvakNABnO
-	X9WWrYuZgP1vtVb6aQEUOevoJgrBVIQzBZtFFgts1Ete9UwCfsGeKzfYZiNvveOf
-	5CU1ztVqlzIL6F6BBE7uCQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhh44r-3
+	PODMain02222019; bh=/bB0aWLQIcUMUN+oS7zZcyIt9YxzCPVG8bPGBsbkSkE=; b=
+	c291I6d4a+NvHKcJuTAtmvHKkXG8bse2IpVDpZ/QOWFV1EEKA5KdH8SZ5vK6OAgA
+	MwgA+EFdnaHdOlOt6M8CbalowrFtSHpCSg9yQSSxGQqHpmhH3y1J/f1KASJK0A0Z
+	CWKpdEOLOFW6/Hd4fVRKLNYmKD202v3Ew4IiKXKewP/A/z/9Sg7cdm5+BYEkfurj
+	gNxMGbiq2bjF484RxotHy+WCvg24v1CZLobjVt0hQfqqixeNUTnyZt/BIzFtuUG2
+	UwuZj1bP7KrV570S/sqbUQG+OMB0YHdRAIxeDfdsrL6BMWLxifp9tc8SMoTzbIoF
+	Xmpsc+7/MwdSOt8e0n9Y2Q==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhh44s-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Wed, 24 Jan 2024 10:56:03 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 24 Jan
  2024 16:55:59 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
@@ -42,16 +42,16 @@ Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.40 via Frontend Transport; Wed, 24 Jan 2024 16:55:59 +0000
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 18122820270;
-	Wed, 24 Jan 2024 16:55:59 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id E52D4820248;
+	Wed, 24 Jan 2024 16:55:58 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <andy.shevchenko@gmail.com>, <lgirdwood@gmail.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <linux-sound@vger.kernel.org>
-Subject: [PATCH 7/7] ASoC: cs42l43: Use fls to calculate the pre-divider for the PLL
-Date: Wed, 24 Jan 2024 16:55:58 +0000
-Message-ID: <20240124165558.1876407-7-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 3/7] ASoC: cs42l43: Check error from device_property_read_u32_array
+Date: Wed, 24 Jan 2024 16:55:54 +0000
+Message-ID: <20240124165558.1876407-3-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240124165558.1876407-1-ckeepax@opensource.cirrus.com>
 References: <20240124165558.1876407-1-ckeepax@opensource.cirrus.com>
@@ -63,34 +63,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 934ndI-eOfSMlnBIa0sWJ-vOVgV6wF3O
-X-Proofpoint-GUID: 934ndI-eOfSMlnBIa0sWJ-vOVgV6wF3O
+X-Proofpoint-ORIG-GUID: o9VnvcpiXupZQOhTmdGd170qep8uftSS
+X-Proofpoint-GUID: o9VnvcpiXupZQOhTmdGd170qep8uftSS
 X-Proofpoint-Spam-Reason: safe
+
+Whilst reading cirrus,buttons-ohms the error from
+device_property_read_u32_array is not checked, whilst there is a
+preceding device_property_count_u32 which is checked the property read
+can still fail. Add the missing check.
 
 Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/cs42l43.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ sound/soc/codecs/cs42l43-jack.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index 05ca20d4fd622..ef154aa76d576 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -1336,10 +1336,9 @@ static int cs42l43_enable_pll(struct cs42l43_codec *priv)
+diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
+index d0569577a8699..147c7017fd8b6 100644
+--- a/sound/soc/codecs/cs42l43-jack.c
++++ b/sound/soc/codecs/cs42l43-jack.c
+@@ -106,8 +106,13 @@ int cs42l43_set_jack(struct snd_soc_component *component,
+ 			goto error;
+ 		}
  
- 	dev_dbg(priv->dev, "Enabling PLL at %uHz\n", freq);
- 
--	while (freq > cs42l43_pll_configs[ARRAY_SIZE(cs42l43_pll_configs) - 1].freq) {
--		div++;
--		freq /= 2;
--	}
-+	div = fls(freq) -
-+	      fls(cs42l43_pll_configs[ARRAY_SIZE(cs42l43_pll_configs) - 1].freq);
-+	freq /= 1 << div;
- 
- 	if (div <= CS42L43_PLL_REFCLK_DIV_MASK) {
- 		int i;
+-		device_property_read_u32_array(cs42l43->dev, "cirrus,buttons-ohms",
+-					       priv->buttons, ret);
++		ret = device_property_read_u32_array(cs42l43->dev, "cirrus,buttons-ohms",
++						     priv->buttons, ret);
++		if (ret < 0) {
++			dev_err(priv->dev, "Property cirrus,button-ohms malformed: %d\n",
++				ret);
++			goto error;
++		}
+ 	} else {
+ 		priv->buttons[0] = 70;
+ 		priv->buttons[1] = 185;
 -- 
 2.30.2
 
