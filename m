@@ -1,66 +1,67 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA97135403
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 22:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE66137C3C
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 22:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706136173; cv=none; b=oNkBd7x6LVQ1jv1qivqq0AElWssdkVFJ1EtW2uwaHH6ZYxq6Fmve8ndGJtECN+v62yHBT91qMrh4r8NCBhbfiqByyOYrpxO5lliOjl1TPdxVZLNnAy6q6lbLsm/Yy/gVziVlWFIpayKK+XXRvb+rBSJlUBh8/5x7/euuE105vyQ=
+	t=1706136508; cv=none; b=h9SocCwdC/Sp+yqytXXDiyEBkBPDPsMLkeRqdXsoaC8gKuGMbKTQwl7LIhEom2vCUupIEkOuSfKqv3fWBr/3T1owd8bTsClfmP7lQ4Lua4KLpgaRPoj7hIJ+Mcjledi9Wh8t2IIP6wtZBv4h5qm4QQKQexuIyvsec7vwKvFl9vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706136173; c=relaxed/simple;
-	bh=Qukh6NM4WCRaJv0AHT7llBYLpgcSaOJfBHV+ajCKoe0=;
+	s=arc-20240116; t=1706136508; c=relaxed/simple;
+	bh=2k1/oB1b1xsSx/hwwozwCabonaX31FYcHee9Ghg3YQM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Cyeg1EMetz99WR8lIDSW9Z22t7BO4vOfMhb4yLj1fui/TI3Ow2caoL9dcxKv4TgwsCG6sfvOa2bHNAsqh+ZIA/3oc8oyHZvnBwejARO6bPy9ElHxBP6uU8VhDxi8xUjoQ4m28xVjufI6x6L8KSxyaE4EEcJVeWHdJvJPyJIL3a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfjpdfB8; arc=none smtp.client-ip=209.85.218.52
+	 To:Cc:Content-Type; b=YeqmWg1OX9R/0EXBepelBAgbcZ9QT7lN+r8r9/EcwHzNdU5LTJ8HTJg5VtOkkRQMAHJabO/RxQCqTQthn+S17k+LRtPL3elbgrWdeDOHvTu/fwLF1s1sI2XfrVcpeUpXvB9JQ+3d+eWkJA+JldBsmNG49PM3fMH7S7+IuelhIgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CBc/uMzG; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfjpdfB8"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a26f73732c5so679285266b.3
-        for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 14:42:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBc/uMzG"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a315f43ecc3so31472566b.0
+        for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 14:48:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706136170; x=1706740970; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706136504; x=1706741304; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ue8zgG0OGtGYIx4fDzhlZnBCUkiqmZh3yBn/xzVgujc=;
-        b=SfjpdfB8A4Lf64+Tq+iQRE26BY7xyMepjoH4tEGIk9eRVlL4qbvZUpQ88A0+cEFASh
-         5xmGSMZYJiRdBVaGZlcmkNegQsfB213ROimmQyLefVptPfj+nUYNNDQS4kyOkoYMrtV2
-         zMHQcszTsAQjBXIoO7LvCRgKyDlQVsLjXMzM9u78adnRa8nP/WfIFuSe1Se/KOA2+xOU
-         3xSR+qK5MGzOYA1U/rh14UfWrTg1FEwVWa1pf1BAenoH5c21gicVt19IEacYIn8VCgUy
-         Jt7x+aKz/TcELWXfRPdHih+v/nlp1Sq738//v/g1qMGaQ8CVdMKwZqJPuAHom/rTPgT6
-         oM+A==
+        bh=m2lDJfHqgAnsylYiJMOYGwOrJ3u54Vpc6bMpn+gMMhE=;
+        b=CBc/uMzGdn6xiHDrfr1TixFOAR08xZikk5N27RgDXrwv23x4NwxY45ZXlt1CVpYWTA
+         70GtPBcg8IOv7ydK7hYLKub/mt/wHyg8p6L89m6Ky85xItk9sEpolyu5c+7miroOUNEC
+         kbjS3wpzbawkDMXw01sBiLA22A1B0jNHV5cYophG6BI4QyuP+a3mghrLIi3iM8usWsaK
+         bBstnDUva3PpGB/U7G5WQmGTevEKtU57QXUyZliNUwpGaWuiW4emJuoZOTJOLKGwRYj8
+         VHzrcdHVfllMR3H3GuNcguL56VC3ORylfA6TsDmmV1mt16/pJdzsnDVZ5gkdiw+diTG/
+         /8bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706136170; x=1706740970;
+        d=1e100.net; s=20230601; t=1706136504; x=1706741304;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ue8zgG0OGtGYIx4fDzhlZnBCUkiqmZh3yBn/xzVgujc=;
-        b=RVDy+SjBuI4d4DwfZWnVS3cp4gA2QyeZ7RJV+bHTM9Y3Nqc73YMe5CEfwCEdNrrmin
-         WsGXp/XoL9QshymE//slxH085C1R9BYm+A8UHXeOHFtP8pJQ64jnQh+lEQi3LwYbolSI
-         0rQ9URynSSvcxLSr5CLdos03YlQ/qSXemXLsrK+b2Q9D2tueGvRBec0F/0/Sa7ZsAQAT
-         j5hn8JKe9btE2VK1eL7tLlq4Dg2o5ovw7LaDhg2WcDP0S7Ip1acFIQWSzz+P/yXSRBTO
-         BRm5gl8yAQqKNnTGZxxlYUyDn6JZoMY2iWiw10Lj02yAxIzOM1VYtFHmaZgwCt8+1U7/
-         +HDQ==
-X-Gm-Message-State: AOJu0YxaWLI5bYMNUfkpuuQ4ltX0dUZxgjV7jxqvfv9rMuOQEqpGZciS
-	oQPTiyJUPUrb32DLfStDGZ3z7aLp002PL01+4kkA+MYBX9FiaGmXwHjtyE79i4nfpYdqgAnGLBl
-	qT/4YjlJEPOoVqnR8ygWdzkPKFI7RKCPhveg=
-X-Google-Smtp-Source: AGHT+IHchyYecXM5b6MLOfUREflDjiLwSN26eIdyuYW7kIh/JLcYrHnz1XXpmgVWcAxmhQD+yFqx0vDmPj+/iAGCXGI=
-X-Received: by 2002:a17:906:f6d4:b0:a31:953:5869 with SMTP id
- jo20-20020a170906f6d400b00a3109535869mr23245ejb.53.1706136169789; Wed, 24 Jan
- 2024 14:42:49 -0800 (PST)
+        bh=m2lDJfHqgAnsylYiJMOYGwOrJ3u54Vpc6bMpn+gMMhE=;
+        b=YyBtjSs8ij5oF9M/GCuXYVzwNzL8GURq544Slvld5nRvQK6KCLOVDBYYzhQ8iy6pnT
+         jLZDo1BusA17XHRwhEei837yEEA7uh5WeaVtAsz6u/q4qVKyjAg7/vW00DvYNOjTgvwa
+         kka1yaxGykrNep+qml5/xddfe8RCZVc6hTFqW4bo27fs35nJBMv0n5734Aad3sfO+FZR
+         RyfGQ4gNHUPNdeCTNb5JWi1VbH4sAB2WNQiyYfqWEl3k4CQEUTN8gIzGIOKlRoQVqVc7
+         tonNglTh2qmcraq4Y6ocNv/9cbt3ja6Jhlxb919Wxhb4vz3XEWRHCdjfIYm4hsmsQUWQ
+         M19Q==
+X-Gm-Message-State: AOJu0YwtrP3LtAarYgfgv6qkdZBmChjtjgNiMDmph360h9AorVg2A9Bk
+	zSF5nNNjEc1u7TCDUE9Ktm9Ped4AjK6e4NPOtPzmKAhgI3rgXryyW08I0LvmdTlv3do4qg/97uB
+	IGyFFygMdxsChMAyQUYclbdkq/TA=
+X-Google-Smtp-Source: AGHT+IHCheky8a8aA5K3Tecr1RkqI1DhEGpvVY5LyYTE7NlgxQkdJF+1lmYlOIPa6iL2VLYE6/P702J1Ts8m9SoehM8=
+X-Received: by 2002:a17:906:4091:b0:a2e:81c3:80c4 with SMTP id
+ u17-20020a170906409100b00a2e81c380c4mr17143ejj.159.1706136504221; Wed, 24 Jan
+ 2024 14:48:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240124165558.1876407-1-ckeepax@opensource.cirrus.com> <20240124165558.1876407-6-ckeepax@opensource.cirrus.com>
-In-Reply-To: <20240124165558.1876407-6-ckeepax@opensource.cirrus.com>
+References: <20240124165558.1876407-1-ckeepax@opensource.cirrus.com> <20240124165558.1876407-7-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20240124165558.1876407-7-ckeepax@opensource.cirrus.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 25 Jan 2024 00:42:13 +0200
-Message-ID: <CAHp75VdmpPXmQTDSJLotiYSxVO=4Fn27tWwQsByzYQuZwmHJ9A@mail.gmail.com>
-Subject: Re: [PATCH 6/7] ASoC: cs42l43: Refactor to use for_each_set_bit
+Date: Thu, 25 Jan 2024 00:47:48 +0200
+Message-ID: <CAHp75VfbgJMvOgjgEU49y5zPV4RPPPR5e-nKv+oqP7ED6AsndA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ASoC: cs42l43: Use fls to calculate the pre-divider
+ for the PLL
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: broonie@kernel.org, lgirdwood@gmail.com, alsa-devel@alsa-project.org, 
 	patches@opensource.cirrus.com, linux-sound@vger.kernel.org
@@ -69,48 +70,21 @@ Content-Transfer-Encoding: quoted-printable
 
 On Wed, Jan 24, 2024 at 6:56=E2=80=AFPM Charles Keepax
 <ckeepax@opensource.cirrus.com> wrote:
->
-> Refactor the code in cs42l43_mask_to_slots to use for_each_set_bit.
 
-..._bit()
+Commit message?
 
-...
-
->  #include <linux/bitops.h>
-
-> +#include <linux/bits.h>
-> +#include <linux/find.h>
-
-No need, it's included by bitops.h (and there is kinda guarantee for these)=
-.
+> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 ...
 
-> +       for_each_set_bit(slot, &mask, sizeof(mask) * BITS_PER_BYTE) {
+> +       div =3D fls(freq) -
+> +             fls(cs42l43_pll_configs[ARRAY_SIZE(cs42l43_pll_configs) - 1=
+].freq);
+> +       freq /=3D 1 << div;
 
-BITS_PER_TYPE() ?
-But actually it's unsigned long, so BITS_PER_LONG should suffice.
-BUT. Why not use ..._MAX_CHANNELS here directly as it was in the
-original loop? You might need a static_assert() that tells you it's
-not longer than bits in the mask, but it probably is an overkill
-check.
+  freq >>=3D div;
 
-...
-
-> +               if (i =3D=3D CS42L43_ASP_MAX_CHANNELS) {
-> +                       dev_warn(priv->dev, "Too many channels in TDM mas=
-k: %lx\n",
-> +                                mask);
-
-This is invariant to the loop, you may check even before it (I'm
-writing by memory, might have made mistake(s) in the snippet):
-
-  nslots =3D hweight_long(mask);
-  if (nslots >=3D ..._MAX_CHANNELS)
-    dev_warn(...);
-
->                         return;
-> +               }
 
 --=20
 With Best Regards,
