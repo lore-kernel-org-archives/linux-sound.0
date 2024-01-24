@@ -1,126 +1,135 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E396D1D6
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 12:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4F477F1B
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 13:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706100041; cv=none; b=dnG/zdnYUC1CNG3Pd3UARQqWots3CfZxKKXv5Wb4hkJ1NBRmn3TfutO7SQMy+HCh06omaJjb+BesR73pRbtZSdFcpns9CAJL3G9w98tQ1f5eoBzMAt1MVikjIQ8lHaEkDW4b0VqP+Njux3qIh9c+Iw2C+MjJnRvqaEvFB3AmZ6U=
+	t=1706103776; cv=none; b=Xc2voqicG51gZX1jckISNdQ7Jtpl/B2uNSzk04KttQo5PLFwk4REb2+4olmXFn+wdBOm9oG3bvzfVh02r8ZStwmAPeZROMW8Y3hFm3Qo5vP3Tetsv6+FlQgxRVWToN9jZgN5bBjxGpqR59455DX+r4RL2czGcc58n0x1RaImWq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706100041; c=relaxed/simple;
-	bh=FZFP8leP7RAq5kGQxJmipIwDZPPhQviPXOnLVnpMR5k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n8LPF0TkJD7pn1B2pb4BBJQJ6g2eKsRMDLjfqD4SD/vkUbxmEXV1YPJfkk5nXSiDa0eX86THgMklUrcVlPoEo63U88sLufbH0AkzfkS/QJi1q1Ilm5lMH3tnGc2+WSr0n2WD7Ph1bvfCpMEVof+Wa9aBSR5Ks2OikpkRHJ865H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e8Vs0uKj; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706103776; c=relaxed/simple;
+	bh=nMKBdjCsBZ3TqGyLrT8XtPzPuxEUUPnNT3AaX+dqYOY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N1m6MbLcRgpNBkFpopaMmrEpRvIDXnzow+LeatOXUcQOruUJwkpD4qsQzLF4eoAp2RHr7KcbHMD5v15k3YluC+frLaiD3bKCGNryILgA3zweR+UznTVAGC8V7ae6iY1IgOJoyv7KU9ZYzgiyytZ9c/9RRe/zNso8et8FqwQCZNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q0HQvmDX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4FDc8RDl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HgW6kEUV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UbunKMZg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e8Vs0uKj"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-599c38cd9f5so335705eaf.1
-        for <linux-sound@vger.kernel.org>; Wed, 24 Jan 2024 04:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706100039; x=1706704839; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWogWcbiiyuJh+FUerTxPBMWB5fr1e6cnL665YmIF/A=;
-        b=e8Vs0uKjYDqSj6CHUU7flIOLt40Ks+AtFEo7BaQEDN/08Ti6o/RiiuaK264l8shTXB
-         FyuRYmhD+qsmQRS0t3e/gJKCK9UAPPSNAaAmdrT6Tp4MUEQPrx7YYSVpX1z/aGKSes9J
-         q9Jchlkif4hK2sX6gSd/hA8Q4o8N4egs9dCtEgMUrMe319Ssq+LEwv4AWt226S82LOwk
-         A2b82b/K4NsGL+xl9jpYcEwCowltwf9ODmTFh3kKvDvtL6w2LQ/HPEN+c8tFS+oQeadp
-         Flkwt+JSeAG0ZM0yaq90iDQnVWp3KIbjJLS5hw7ciwV/kdX2MT3EmuTertrtY5qfP+9S
-         TK/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706100039; x=1706704839;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kWogWcbiiyuJh+FUerTxPBMWB5fr1e6cnL665YmIF/A=;
-        b=v2eQB60WFnpu6G2bFDgDQCRCkH1ep55h66/yW6tEu6cRCcaXdEjoXzQzEAzuSO3Tkf
-         dFko4EEkhWzLwQXIVuXR1O83lPaVLRVCC4aADptZpVSqBzIHK2lJAwp5hBeXbuHx2bHw
-         +5XlQ4ukuicpbRBzSKqJmXpQLOhf5acWWVPyNvQ6auTSFvRbgtvb9K6WePqDoRWmuqiy
-         DRsKIhZUc/NKASrabLHCkayxLS2eW9qXa93usHj8TwPNTtScA70tUzzHh/IWf5wL3ZE+
-         mNrBO5YGAzVXJ5HGyzys2uBJQSVEeOWFlBVc0PKWNQyXFOJnxDZtiL/CsGadQS5IXaaL
-         fH4w==
-X-Gm-Message-State: AOJu0YxaWw31xU5/prByn+qWrgLlm82wF4sSwvaqbPqN2L208cOzrZpp
-	obR9yiFykWEprfFeAPW520fj0PxJAZEgsM8OMoIhg8sA26o9VKRvEhN9zpmPdDecC6NM0BXBwG+
-	FCcq1ihm8TAvzm3MnOUinjTkApYp7kmCz
-X-Google-Smtp-Source: AGHT+IHyUNMoe1WPRltarBaK5ChqVz54utp+rmgY1rxh0GGzt82eqUUiuTyYaabcgKvybe1H2CF3w37Gbg8KjnLvC1Y=
-X-Received: by 2002:a4a:d00e:0:b0:599:79ce:67e5 with SMTP id
- h14-20020a4ad00e000000b0059979ce67e5mr1167571oor.8.1706100039049; Wed, 24 Jan
- 2024 04:40:39 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q0HQvmDX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4FDc8RDl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HgW6kEUV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UbunKMZg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ECC461FD60;
+	Wed, 24 Jan 2024 13:42:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706103773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0eNlWiBbfnLe7uwn0hD7uZLkeOMpIfrdyRclzBfd1w=;
+	b=q0HQvmDXMYY6nsyHxFfGovfe2KybPwFFbjDJRpSdYrlDeBEy5KKGC3E+9GfqaVDMc1HdaS
+	h+9KJ+1l6P70nQGLfi/PK09/PVJcZVWIRqESz+OVTkWFEKymMzxy3yxdiT8Uu9cUY1SqBX
+	ujFIsC4OUqj2xauT+z6gJFRpU75W2Z8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706103773;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0eNlWiBbfnLe7uwn0hD7uZLkeOMpIfrdyRclzBfd1w=;
+	b=4FDc8RDlVyTbYZzsbIZm0Df44WyVepvTXfZ/hpPrQw+wW+LvorMZNmHzepp+2PsW16tXQX
+	BticPyNGHGnyulBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706103772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0eNlWiBbfnLe7uwn0hD7uZLkeOMpIfrdyRclzBfd1w=;
+	b=HgW6kEUVoiRJX7ea7H5MVwa8w24xzEE60fkql/Ug29+2zNPpj6vRfTfTsrruoMQY7wXtxt
+	uyP9bvbFlPMz9GkFmSKra6gFBJ4uFBEJw1IOv+qNN9MVkbpClEqQ+Qz3/FGLQyA9cQ+RUk
+	4ZvrlArt6AFfBYTqiSF5JA3V7/c3v0E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706103772;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0eNlWiBbfnLe7uwn0hD7uZLkeOMpIfrdyRclzBfd1w=;
+	b=UbunKMZgV4rf3ioiD+q+EOAoBRJEmuvXTMgPP0Ts498S1V59Z6PVkibXfXbPbBTIjFVLbP
+	2z4/zg/imkHfgjCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6E1813786;
+	Wed, 24 Jan 2024 13:42:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lNXjJtwTsWX2SgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 24 Jan 2024 13:42:52 +0000
+Date: Wed, 24 Jan 2024 14:42:52 +0100
+Message-ID: <87sf2mlueb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Li RongQing <lirongqing@baidu.com>
+Cc: anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	virtualization@lists.linux.dev,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: virtio: remove duplicate check if queue is broken
+In-Reply-To: <20240124120834.49410-1-lirongqing@baidu.com>
+References: <20240124120834.49410-1-lirongqing@baidu.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240124120834.49410-1-lirongqing@baidu.com>
-In-Reply-To: <20240124120834.49410-1-lirongqing@baidu.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 24 Jan 2024 07:40:26 -0500
-Message-ID: <CAJSP0QXP9KFSCO9mFkNmms=GKmMi+h4EjrVKf3Ng_BQV-LFiSQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: virtio: remove duplicate check if queue is broken
-To: Li RongQing <lirongqing@baidu.com>
-Cc: anton.yakovlev@opensynergy.com, mst@redhat.com, perex@perex.cz, 
-	tiwai@suse.com, virtualization@lists.linux.dev, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HgW6kEUV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UbunKMZg
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.33 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.82)[99.23%]
+X-Spam-Score: -5.33
+X-Rspamd-Queue-Id: ECC461FD60
+X-Spam-Flag: NO
 
-On Wed, 24 Jan 2024 at 07:17, Li RongQing <lirongqing@baidu.com> wrote:
->
+On Wed, 24 Jan 2024 13:08:34 +0100,
+Li RongQing wrote:
+> 
 > virtqueue_enable_cb() will call virtqueue_poll() which will check if
 > queue is broken at beginning, so remove the virtqueue_is_broken() call
->
+> 
 > Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> ---
->  sound/virtio/virtio_card.c    | 2 --
->  sound/virtio/virtio_ctl_msg.c | 2 --
->  sound/virtio/virtio_pcm_msg.c | 2 --
->  3 files changed, 6 deletions(-)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Applied now.  Thanks.
 
->
-> diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-> index e2847c0..b158c3c 100644
-> --- a/sound/virtio/virtio_card.c
-> +++ b/sound/virtio/virtio_card.c
-> @@ -91,8 +91,6 @@ static void virtsnd_event_notify_cb(struct virtqueue *vqueue)
->                         virtsnd_event_dispatch(snd, event);
->                         virtsnd_event_send(vqueue, event, true, GFP_ATOMIC);
->                 }
-> -               if (unlikely(virtqueue_is_broken(vqueue)))
-> -                       break;
->         } while (!virtqueue_enable_cb(vqueue));
->         spin_unlock_irqrestore(&queue->lock, flags);
->  }
-> diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
-> index 18dc5ac..9dabea0 100644
-> --- a/sound/virtio/virtio_ctl_msg.c
-> +++ b/sound/virtio/virtio_ctl_msg.c
-> @@ -303,8 +303,6 @@ void virtsnd_ctl_notify_cb(struct virtqueue *vqueue)
->                 virtqueue_disable_cb(vqueue);
->                 while ((msg = virtqueue_get_buf(vqueue, &length)))
->                         virtsnd_ctl_msg_complete(msg);
-> -               if (unlikely(virtqueue_is_broken(vqueue)))
-> -                       break;
->         } while (!virtqueue_enable_cb(vqueue));
->         spin_unlock_irqrestore(&queue->lock, flags);
->  }
-> diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
-> index 542446c..8c32efa 100644
-> --- a/sound/virtio/virtio_pcm_msg.c
-> +++ b/sound/virtio/virtio_pcm_msg.c
-> @@ -358,8 +358,6 @@ static inline void virtsnd_pcm_notify_cb(struct virtio_snd_queue *queue)
->                 virtqueue_disable_cb(queue->vqueue);
->                 while ((msg = virtqueue_get_buf(queue->vqueue, &written_bytes)))
->                         virtsnd_pcm_msg_complete(msg, written_bytes);
-> -               if (unlikely(virtqueue_is_broken(queue->vqueue)))
-> -                       break;
->         } while (!virtqueue_enable_cb(queue->vqueue));
->         spin_unlock_irqrestore(&queue->lock, flags);
->  }
-> --
-> 2.9.4
->
->
+
+Takashi
