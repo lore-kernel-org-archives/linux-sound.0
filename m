@@ -1,105 +1,130 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A560E1CA82
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 10:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B3C2C68A;
+	Thu, 25 Jan 2024 10:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706178694; cv=none; b=NsBAW2OQdNiHU6gJ2yi9DskcKQT52hFe7Wa5VlJxo5zICt+F3T5+bw4ImU1pVa1pzGWTn/TyQyFtZPxwTqpLFWJIYczobFpqkZolYAe0Wrmbg9+UYtRgrdGJ+sY4ht9h+9uTp1cmlrFL4B1l5VkH8hh/LLGp2/AEJGXFHP9GhTk=
+	t=1706179353; cv=none; b=nw81h/hgHNL90AU6RqcHY4DE3qbLeLM72nMH5i0q3G2ydnHTAcHxPT6fY0akjC9jkrQ/fthYBs/Yd6MZ2bitnzhAl60LnKnhsqvtFbIPFmcnVtAZZtuBD++8u4EvDrquNRpv0tcc8cb3tGj6gi5uD+zX+sQRNrn9UndRwklmnzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706178694; c=relaxed/simple;
-	bh=74xy6bXGMuQCFhfauhIX2FmqVaxkq835O7ubysl9X9E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KVvTnSglSn1VWF8si2ObBayVWl0GgrW0crrSyHaZtpAyImpZabgYd7+H6mSyu61l6O303iVE8vb+wc+p0XahEO4CkQ+kcnEYOCU4SCZEfY8BCy9lCYh2XA1cI++LFGNEAuRY7Uv3CX+EBZfioxPAKqEFopc1jYZKIlL2XNrXoCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=JQdrJRU4; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706179353; c=relaxed/simple;
+	bh=1/AQZg5NNw9HG13KiYI6HfNvwqZ4xcS6GaNad1Jmb/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sObF5GHc+SYeKQleyaV+2r+GlSNgaqOv9UMB/CT6fvKecMkzEoGKYSpK3BB2T42hIfWrQEh1nGO5FatnE1Qjb5kV1i6swH9LG/iRCkV/EP8W41yg4hqtQo39QSYzSV8SMIStHSNOfCKySUcXcFAsAskPo//+zaJOP58AdfPIZC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+WC6q/p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="JQdrJRU4"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40P6oFQ8010841;
-	Thu, 25 Jan 2024 04:31:23 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=b00fmaNr6KFnOua3z2NJYeD2LfAVRCQxrGXVQrSrW00=; b=
-	JQdrJRU4kja38XML6pj9OvE9rwJaCDeDGq6eVaiPHhjUQNiHxhEt2WGDu7zisE8k
-	z/Meeoc1g5+PDiZ5w4ZRwOcjT+D22vuaYDaHc794ojAvnP4fEf0iWLOyXhEBH8Oi
-	z2mvjigUiAQFvy/sxLqly5dq+NeCEYOEk7Z6MYdNAESTdUWYp9SEIFNgOeL7alai
-	jbcQ0o2254aunOp6r8fpfPYKgRcomstEeOhR36Pf72lPibR4XjPLoyyukGiMbze8
-	h7AlTlUsGObGE5EhyhTxstBBu4cTtsNITroWByLMi6UbcyuS5MrD0VsI0/29sTpW
-	qX1ST5ip7xFKMl6CvFe/rA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhj3jn-5
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Jan 2024 04:31:23 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 25 Jan
- 2024 10:31:17 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Thu, 25 Jan 2024 10:31:17 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id AA5D5820270;
-	Thu, 25 Jan 2024 10:31:17 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <andy.shevchenko@gmail.com>, <lgirdwood@gmail.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>
-Subject: [PATCH v2 7/7] ASoC: cs42l43: Use fls to calculate the pre-divider for the PLL
-Date: Thu, 25 Jan 2024 10:31:17 +0000
-Message-ID: <20240125103117.2622095-7-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com>
-References: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+WC6q/p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25A8EC433C7;
+	Thu, 25 Jan 2024 10:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706179353;
+	bh=1/AQZg5NNw9HG13KiYI6HfNvwqZ4xcS6GaNad1Jmb/I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z+WC6q/pwbwzH6zhMdWS153JB6VUWqmZcSDN5fViUQMl+zNnFkr+L5iCIZC4Lmv2j
+	 bS4xt+Jc+fIKPiuc/kJRIJ6TAeALxfXs7+VoI8ancJ7e9QSMZf9u8wlf8juOT449Gm
+	 dGuxdVykXP+YbuK9da+3YP4AGDYrHkdmnPt65LdsuIx8gGLD4hTB/s1rjqbkVCKiUD
+	 oli8l8eXT1ku4I2e/jROQgRMNh1cOo8JM8FSB0c1qy9mR6qP4bCyS6fEZ4sW83WE4H
+	 dvME2O/MBNNvzFmFBAQf8Pqk3H35BFWj4WMW1H3tXE6hY7SpsHA0xe4mZ94kyccwIt
+	 HEVRnGIIo3ahQ==
+Date: Thu, 25 Jan 2024 10:42:23 +0000
+From: Lee Jones <lee@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, linux-bluetooth@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org,
+	linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Rob Herring <robh@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2] treewide, serdev: change receive_buf() return type to
+ size_t
+Message-ID: <20240125104223.GD74950@google.com>
+References: <20240122180551.34429-1-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: wTqMl6uxuAiMH9BltiOe4Yhf_F3B6Eqw
-X-Proofpoint-GUID: wTqMl6uxuAiMH9BltiOe4Yhf_F3B6Eqw
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
 
-Use fls to calculate the pre-divider and input frequency for the PLL,
-this is marginally faster than the previous loop.
+On Mon, 22 Jan 2024, Francesco Dolcini wrote:
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> 
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">= 0" from serdev_controller_receive_buf(), change its return type from
+> ssize_t to size_t.
+> 
+> The need for this clean-up was noticed while fixing a warning, see
+> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value").
+> Changing the callback prototype to return an unsigned seems the best way
+> to document the API and ensure that is properly used.
+> 
+> GNSS drivers implementation of serdev receive_buf() callback return
+> directly the return value of gnss_insert_raw(). gnss_insert_raw()
+> returns a signed int, however this is not an issue since the value
+> returned is always positive, because of the kfifo_in() implementation.
+> gnss_insert_raw() could be changed to return also an unsigned, however
+> this is not implemented here as request by the GNSS maintainer Johan
+> Hovold.
+> 
+> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+> Link: https://lore.kernel.org/all/087be419-ec6b-47ad-851a-5e1e3ea5cfcc@kernel.org/
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+> ---
+> v1:
+>  - https://lore.kernel.org/all/20231214170146.641783-1-francesco@dolcini.it/
+> v2:
+>  - rebased on 6.8-rc1
+>  - add acked-by Jonathan
+>  - do not change gnss_insert_raw()
+>  - do not change the code style of the gnss code
+>  - commit message improvements, explain the reasons for doing only minimal
+>    changes on the GNSS part
+> ---
+>  drivers/bluetooth/btmtkuart.c              |  4 ++--
+>  drivers/bluetooth/btnxpuart.c              |  4 ++--
+>  drivers/bluetooth/hci_serdev.c             |  4 ++--
+>  drivers/gnss/serial.c                      |  2 +-
+>  drivers/gnss/sirf.c                        |  2 +-
+>  drivers/greybus/gb-beagleplay.c            |  6 +++---
+>  drivers/iio/chemical/pms7003.c             |  4 ++--
+>  drivers/iio/chemical/scd30_serial.c        |  4 ++--
+>  drivers/iio/chemical/sps30_serial.c        |  4 ++--
+>  drivers/iio/imu/bno055/bno055_ser_core.c   |  4 ++--
 
-Changes since v1:
- - Change / into >>
+>  drivers/mfd/rave-sp.c                      |  4 ++--
 
-Thanks,
-Charles
+Acked-by: Lee Jones <lee@kernel.org>
 
- sound/soc/codecs/cs42l43.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/net/ethernet/qualcomm/qca_uart.c   |  2 +-
+>  drivers/nfc/pn533/uart.c                   |  4 ++--
+>  drivers/nfc/s3fwrn5/uart.c                 |  4 ++--
+>  drivers/platform/chrome/cros_ec_uart.c     |  4 ++--
+>  drivers/platform/surface/aggregator/core.c |  4 ++--
+>  drivers/tty/serdev/serdev-ttyport.c        | 10 ++++------
+>  include/linux/serdev.h                     |  8 ++++----
+>  sound/drivers/serial-generic.c             |  4 ++--
+>  19 files changed, 40 insertions(+), 42 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index 23e9557494afa..2c402086924d3 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -1338,10 +1338,9 @@ static int cs42l43_enable_pll(struct cs42l43_codec *priv)
- 
- 	dev_dbg(priv->dev, "Enabling PLL at %uHz\n", freq);
- 
--	while (freq > cs42l43_pll_configs[ARRAY_SIZE(cs42l43_pll_configs) - 1].freq) {
--		div++;
--		freq /= 2;
--	}
-+	div = fls(freq) -
-+	      fls(cs42l43_pll_configs[ARRAY_SIZE(cs42l43_pll_configs) - 1].freq);
-+	freq >>= div;
- 
- 	if (div <= CS42L43_PLL_REFCLK_DIV_MASK) {
- 		int i;
 -- 
-2.30.2
-
+Lee Jones [李琼斯]
