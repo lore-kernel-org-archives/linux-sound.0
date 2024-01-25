@@ -1,132 +1,164 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B72546BF;
-	Thu, 25 Jan 2024 14:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F243D6E2D1;
+	Thu, 25 Jan 2024 15:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706193961; cv=none; b=V+IpW9QNU1Ki8JWi4G/5BrMWUz2Pq8V+UZIx3T5aFKYWFOdDQffx+C9Tbw1XZHhEjlgFROYts/WvxW69TiGkfh3r5tgS+q6YVPBk3zDPr5GWdroubb6c2/E+e+wJZwQ4R4bcFJSws3CPF3nJ7lgcVmV++mQ2je9naj1rGuu7mQE=
+	t=1706195396; cv=none; b=dQWJ7tyHLzNwS1QIleD3wc5rLf/HN5GqmHVS2G/WL8WZyz2G1ngwBqr7YuNxDSx7xMME9je/aWpPZASdyaAecs30O95ePg75PHCkTo/q0Vjh1QnQbeX9DjIIbyYrOjuOBPM0J70nHI5LIYSUtZoQm8W5IY77o98ygP+Sobtg8Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706193961; c=relaxed/simple;
-	bh=bfVt/Qp6nnFYjEv4fNujG3FRQZPxd9dF8Ktl3posgQY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=udzYqn9S4v6zZihuWskkHquJgsDn+Nk1hLnsxiJuexWViO5VciNR08gjH9K14wiC0mXt9XWZUOFEr16X7Jy4QemtCAlbdH4pjRqOU6vs3kjY23upoZNMSnL4eBS5H/AjG6j073dw91eugSKNymqBvU9oHhtVszhgkP2/jfezLXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=chmcbZXQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p93GcxoR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=chmcbZXQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p93GcxoR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="chmcbZXQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p93GcxoR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="chmcbZXQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p93GcxoR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9DD9821F23;
-	Thu, 25 Jan 2024 14:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706193957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DGm5WEZ37sgB5OWaEWo1WkYoug1DC2BQn8LeaNqX+Ao=;
-	b=chmcbZXQpKrAJZflIygDobgKzyQAoUQxbISJAjG07DAI8FXXiMmH81sfqiB1jASWRiSSxm
-	mmIGcwGJitRIOCTlbWUkP2Y5gWGJBafgtj/2CnU6WL4Lx9JImhu03oTbMvYZKkGs/AhESK
-	M4gEsitqcU0zF85s7VFudrWZadSj5F4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706193957;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DGm5WEZ37sgB5OWaEWo1WkYoug1DC2BQn8LeaNqX+Ao=;
-	b=p93GcxoR2gnRAhMlSO4mxOnDD/ATtxJFuWBCY/f8eNTKFuzO/NyeMh4wJsYqAsmLGlOfzD
-	hl6hHO8s1ozd4FAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706193957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DGm5WEZ37sgB5OWaEWo1WkYoug1DC2BQn8LeaNqX+Ao=;
-	b=chmcbZXQpKrAJZflIygDobgKzyQAoUQxbISJAjG07DAI8FXXiMmH81sfqiB1jASWRiSSxm
-	mmIGcwGJitRIOCTlbWUkP2Y5gWGJBafgtj/2CnU6WL4Lx9JImhu03oTbMvYZKkGs/AhESK
-	M4gEsitqcU0zF85s7VFudrWZadSj5F4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706193957;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DGm5WEZ37sgB5OWaEWo1WkYoug1DC2BQn8LeaNqX+Ao=;
-	b=p93GcxoR2gnRAhMlSO4mxOnDD/ATtxJFuWBCY/f8eNTKFuzO/NyeMh4wJsYqAsmLGlOfzD
-	hl6hHO8s1ozd4FAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D31C134C3;
-	Thu, 25 Jan 2024 14:45:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4D6IECV0smV1WQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 25 Jan 2024 14:45:57 +0000
-Date: Thu, 25 Jan 2024 15:45:56 +0100
-Message-ID: <87sf2lii8r.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<perex@perex.cz>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<patches@opensource.cirrus.com>,
-	Simon Trimmer
-	<simont@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirks for HP G11 Laptops using CS35L56
-In-Reply-To: <20240125123301.41692-1-rf@opensource.cirrus.com>
-References: <20240125123301.41692-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1706195396; c=relaxed/simple;
+	bh=xkj76bvYfywTRnt3r/48EHdmO24JgVecEXm2TtbqqNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uYHt6UOlqfTmf0TiXq4mrHo+88KIwcy00wThnKXkipYPKom8OEigHYjQnQNBfI+t8fEA7dBPV+/YT7dvchf4mUXkbEtnZcBJM0l41Ixzb89oQmeG8S/FDffwGy40BYatN6ncRxHPm+Rv8Nr67UlmlJNPiBEj1GtPlb2ruQvkaAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D12211FB;
+	Thu, 25 Jan 2024 07:10:35 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D0A73F5A1;
+	Thu, 25 Jan 2024 07:09:49 -0800 (PST)
+Date: Thu, 25 Jan 2024 15:09:42 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
+ compatible for H616
+Message-ID: <20240125150942.2535a228@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v66UmLuWyLvvULZeW6MKFauM-xAMPAO9W_TPAByXYqKCBg@mail.gmail.com>
+References: <20240122170518.3090814-1-wens@kernel.org>
+	<20240122170518.3090814-5-wens@kernel.org>
+	<20240123004010.59cac5ad@minigeek.lan>
+	<CAGb2v66UmLuWyLvvULZeW6MKFauM-xAMPAO9W_TPAByXYqKCBg@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [0.79 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.11)[66.18%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: 0.79
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 25 Jan 2024 13:33:01 +0100,
-Richard Fitzgerald wrote:
-> 
-> From: Simon Trimmer <simont@opensource.cirrus.com>
-> 
-> Add quirks for two HP G11 laptops that use a Realtek HDA codec combined
-> with four CS35L56 amplifiers using SPI.
-> 
-> The CS35L56 driver uses the component binding interface, so uses the same
-> setup code as the CS35L41 quirks.
-> 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+On Thu, 25 Jan 2024 22:37:34 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
 
-Thanks, applied.
+Hi,
 
+> On Tue, Jan 23, 2024 at 8:41=E2=80=AFAM Andre Przywara <andre.przywara@ar=
+m.com> wrote:
+> >
+> > On Tue, 23 Jan 2024 01:05:15 +0800
+> > Chen-Yu Tsai <wens@kernel.org> wrote:
+> >
+> > Hi,
+> > =20
+> > > From: Chen-Yu Tsai <wens@csie.org>
+> > >
+> > > The DMA controllers found on the H616 and H618 are the same as the one
+> > > found on the H6. The only difference is the DMA endpoint (DRQ) layout=
+. =20
+> >
+> > That does not seem to be entirely true: The H616 encodes the two lowest
+> > bits in DMA_DESC_ADDR_REG differently: on the H6 they must be 0 (word
+> > aligned), on the H616 these contain bits [33:32] of the address of the
+> > DMA descriptor. The manual doesn't describe the descriptor format in
+> > much detail, but ec31c5c59492 suggests that those two bits are put in
+> > the "para" word of the descriptor. =20
+>=20
+> Good catch. So, same as the A100 I believe?
 
-Takashi
+Yes, that's what I got as well.
+
+> > The good thing it that this encoding is backwards compatible, so I
+> > think the fallback string still holds: Any driver just implementing the
+> > H6 encoding would be able to drive the H616.
+> >
+> > I think the A100 was mis-described, as mentioned here:
+> > https://lore.kernel.org/linux-arm-kernel/29e575b6-14cb-73f1-512d-9f0f93=
+4490ea@arm.com/
+> > I think we should:
+> > - make the A100 use: "allwinner,sun50i-a100-dma", "sun50i-h6-dma"
+> > - make the H616 use: "allwinner,sun50i-h616-dma", "allwinner,sun50i-a10=
+0-dma", "sun50i-h6-dma"
+> >
+> > Does that make sense? =20
+>=20
+> I wouldn't call that exactly backward compatible. Say the driver forgot to
+> clear the two bits. It would work fine on the H6, but the accessed address
+> could be way off on the A100 and H616.
+
+I don't know the exact boundaries of "compatible" here, but the H6 manual
+pretty clearly states "The descriptor address must be word-aligned."
+But since the A100 compatible is known and supported for a while, that
+doesn't really matter, practically speaking, I guess.
+
+One could check how the H6 DMA controller reacts to those bits not being
+0, not sure if I find the time, though.
+
+Cheers,
+Andre.
+
+> > Cheers,
+> > Andre
+> > =20
+> > > Since the number of channels and endpoints are described with additio=
+nal
+> > > generic properties, just add a new H616-specific compatible string and
+> > > fallback to the H6 one.
+> > >
+> > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> > > ---
+> > >  .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++--=
+--
+> > >  1 file changed, 11 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a=
+64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dm=
+a.yaml
+> > > index ec2d7a789ffe..e5693be378bd 100644
+> > > --- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.=
+yaml
+> > > +++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.=
+yaml
+> > > @@ -28,6 +28,9 @@ properties:
+> > >        - items:
+> > >            - const: allwinner,sun8i-r40-dma
+> > >            - const: allwinner,sun50i-a64-dma
+> > > +      - items:
+> > > +          - const: allwinner,sun50i-h616-dma
+> > > +          - const: allwinner,sun50i-h6-dma
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > > @@ -59,10 +62,14 @@ required:
+> > >  if:
+> > >    properties:
+> > >      compatible:
+> > > -      enum:
+> > > -        - allwinner,sun20i-d1-dma
+> > > -        - allwinner,sun50i-a100-dma
+> > > -        - allwinner,sun50i-h6-dma
+> > > +      oneOf:
+> > > +        - enum:
+> > > +            - allwinner,sun20i-d1-dma
+> > > +            - allwinner,sun50i-a100-dma
+> > > +            - allwinner,sun50i-h6-dma
+> > > +        - items:
+> > > +            - const: allwinner,sun50i-h616-dma
+> > > +            - const: allwinner,sun50i-h6-dma
+> > >
+> > >  then:
+> > >    properties: =20
+> > =20
+>=20
+
