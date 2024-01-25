@@ -1,141 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BBC745F0;
-	Thu, 25 Jan 2024 15:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B335573177;
+	Thu, 25 Jan 2024 16:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706197542; cv=none; b=fnLPjUXl8njtE8D5shq6wgZehl/SF0LIycSEakcBilYNqYnaaW7ohG61JdsbbJ8DUWTJjxvG2buqwDm/QaGvkwWgjypoGiCQiKAuxG2fS5ehO55doL35Odw/YTHsFphIEn8QiEcCF7+bEDrcBfeAYW07CXitBqaodKRkhw8S4zA=
+	t=1706200092; cv=none; b=iLn/TdK9YBE/aiHDqBpHTcFfktty1OU4sLicvIxrHH4XHOJI+ycwgJ+A+oOi7/p2dU5Mbk2KRDGnKvnIGRs80ZQZBV6m3pyFj736wldBxRfdgbhE8oQiBxTbTv/6vNeaIFr+BBp3LplHgI8jU8gaRffiMRWC3r+fGmf8rQV2l4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706197542; c=relaxed/simple;
-	bh=LSd+p9tqQe9xvQ1Ck8fwwM0f59A6GB2VqQdcIDtb1Ro=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V/hdSPR5ZmAwtUzLq5voaiA3wZpjQRINZ1Y3hOS85FDlHz/AtjSq+EkipTqZHVU4lqDCDSmj9vZfV0urBynAvsXmR/ufBoX09jGHah9F7BrXRHTicuup4kUijUydWZLjY3Ham0P6+ADiTwzFhS2B9MTPyS6MNi8azAtzN4Dnzbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgRkhNAK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706200092; c=relaxed/simple;
+	bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=leOczJezXoEqwpRd5ecJt6S4naWJRq9BjjAqHK88Bal/THJYw+YjNukXym4/2XKQkRnMTRUxS8AbyEYEBfV2sD1s9Vsg9ZAPx77vAEh1vVqR+G8aImHWnFPmxrv/pgxTrKl+L4UNCWLQ2iF4V+emhjgXoGQ1hueM1Ov7cv6NsWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hck4aF7H; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgRkhNAK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20E3C43609;
-	Thu, 25 Jan 2024 15:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706197541;
-	bh=LSd+p9tqQe9xvQ1Ck8fwwM0f59A6GB2VqQdcIDtb1Ro=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=BgRkhNAKYFlwMND1yFknrfT0HtJYdi9oC6rkMg48B0VjthqMcgypt5Ky3bcgESdqh
-	 DWc3wb38X3OSDRlolG2YN1qdJvEejGkv1QrkBq7S61HqZ4Pky01kKskpk1BJ5otP70
-	 94nsWXGUn02RMSU2RWK6ThV/mLnziZtPyJtX+K84jxEqTD+/u77igSNiXzzgDhlGjd
-	 70U/Xo08VlWOaa9ZKhrMbaqtX9UpFUpcgYgtg8f7H+20FUtMqZ/yTz6qJg15Xxej7O
-	 z2xwp4eFVJ7WBM2Z8iX7mMrHE2jid9wznrc2Ein4gmi7/EaYF/bc4mEsoim9lbEZZl
-	 n+jZvZYnOwUyA==
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5ce07cf1e5dso3884129a12.2;
-        Thu, 25 Jan 2024 07:45:41 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz5HErKUbrEKk4by9ixmD2KvqFzuIar86/F5Kc9H5hE3oJXfoIl
-	pjEHL0ExtRq2VzqAxxFOfZOCaITtNOaLQBNfVkGCWyv4psbvtn9YCsTA1u1BUgf66KYdvCSN2eH
-	vx1kngwP/upzhHuHSvr5pCT2jv9I=
-X-Google-Smtp-Source: AGHT+IEDkFC2HvIRERexWpUkVEZ2RLrKEk1HlzpxIR1iwtBWwHcQLFIsNry8fLlluicNYpj+4ciYmw8MPcuj72MuR/g=
-X-Received: by 2002:a05:6a20:432b:b0:19a:fa18:c306 with SMTP id
- h43-20020a056a20432b00b0019afa18c306mr1213214pzk.6.1706197541181; Thu, 25 Jan
- 2024 07:45:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hck4aF7H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706200090; x=1737736090;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
+  b=Hck4aF7HffONCk7xZzKOVMv8A2Et6FAAypStGW1B9gmKodAbZo5lwXqc
+   9f/2b7rsKyYK9c6fosfuFrKT1VSawein1nwOCdqZDy01iQ8bm5fLUljCH
+   bZQAuvy6/M56OPkwRAocPriWurTVFsZaixNrreUOb3Q5holezVd76VbVs
+   BgfkZkEPYa9SkLoq9et32MKdjmj3SkqvByJqGdO7V2bEegi4Hskg0kbD+
+   O5ewLrwG4J751FgVbhOFAz+0BeOK2GcPT93YzIX3z7tc8EmZaPj55utRX
+   Svb+VHS4Sl5F1ruKPlOISwi9fR4BBXipYM687tROhtInSB3IjzxwGK7YD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="15575268"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="15575268"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:28:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2309411"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 25 Jan 2024 08:28:04 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rT2a9-0000C0-0i;
+	Thu, 25 Jan 2024 16:28:01 +0000
+Date: Fri, 26 Jan 2024 00:27:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
+Message-ID: <202401260024.txulvo50-lkp@intel.com>
+References: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240122170518.3090814-1-wens@kernel.org> <20240122170518.3090814-5-wens@kernel.org>
- <20240123004010.59cac5ad@minigeek.lan> <CAGb2v66UmLuWyLvvULZeW6MKFauM-xAMPAO9W_TPAByXYqKCBg@mail.gmail.com>
- <20240125150942.2535a228@donnerap.manchester.arm.com>
-In-Reply-To: <20240125150942.2535a228@donnerap.manchester.arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 25 Jan 2024 23:45:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v650reNd9n-epiCYs6dkbvaG9xARbyP6Rn9eDAKc-sS6+Q@mail.gmail.com>
-Message-ID: <CAGb2v650reNd9n-epiCYs6dkbvaG9xARbyP6Rn9eDAKc-sS6+Q@mail.gmail.com>
-Subject: Re: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
- compatible for H616
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
 
-On Thu, Jan 25, 2024 at 11:09=E2=80=AFPM Andre Przywara <andre.przywara@arm=
-.com> wrote:
->
-> On Thu, 25 Jan 2024 22:37:34 +0800
-> Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> Hi,
->
-> > On Tue, Jan 23, 2024 at 8:41=E2=80=AFAM Andre Przywara <andre.przywara@=
-arm.com> wrote:
-> > >
-> > > On Tue, 23 Jan 2024 01:05:15 +0800
-> > > Chen-Yu Tsai <wens@kernel.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > > From: Chen-Yu Tsai <wens@csie.org>
-> > > >
-> > > > The DMA controllers found on the H616 and H618 are the same as the =
-one
-> > > > found on the H6. The only difference is the DMA endpoint (DRQ) layo=
-ut.
-> > >
-> > > That does not seem to be entirely true: The H616 encodes the two lowe=
-st
-> > > bits in DMA_DESC_ADDR_REG differently: on the H6 they must be 0 (word
-> > > aligned), on the H616 these contain bits [33:32] of the address of th=
-e
-> > > DMA descriptor. The manual doesn't describe the descriptor format in
-> > > much detail, but ec31c5c59492 suggests that those two bits are put in
-> > > the "para" word of the descriptor.
-> >
-> > Good catch. So, same as the A100 I believe?
->
-> Yes, that's what I got as well.
->
-> > > The good thing it that this encoding is backwards compatible, so I
-> > > think the fallback string still holds: Any driver just implementing t=
-he
-> > > H6 encoding would be able to drive the H616.
-> > >
-> > > I think the A100 was mis-described, as mentioned here:
-> > > https://lore.kernel.org/linux-arm-kernel/29e575b6-14cb-73f1-512d-9f0f=
-934490ea@arm.com/
-> > > I think we should:
-> > > - make the A100 use: "allwinner,sun50i-a100-dma", "sun50i-h6-dma"
-> > > - make the H616 use: "allwinner,sun50i-h616-dma", "allwinner,sun50i-a=
-100-dma", "sun50i-h6-dma"
-> > >
-> > > Does that make sense?
-> >
-> > I wouldn't call that exactly backward compatible. Say the driver forgot=
- to
-> > clear the two bits. It would work fine on the H6, but the accessed addr=
-ess
-> > could be way off on the A100 and H616.
->
-> I don't know the exact boundaries of "compatible" here, but the H6 manual
-> pretty clearly states "The descriptor address must be word-aligned."
-> But since the A100 compatible is known and supported for a while, that
-> doesn't really matter, practically speaking, I guess.
+Hi Kuninori,
 
-I'd say that makes the descriptor address register backward compatible,
+kernel test robot noticed the following build warnings:
 
-> One could check how the H6 DMA controller reacts to those bits not being
-> 0, not sure if I find the time, though.
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.8-rc1 next-20240125]
+[cannot apply to robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-but no idea about the parameter field in the descriptor. So for now I
-think we should just be cautious. Since as you mentioned the A100 is alread=
-y
-supported and listed separately, lets just keep that for now.
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/87fryoud8t.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
+config: i386-buildonly-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/reproduce)
 
-ChenYu
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401260024.txulvo50-lkp@intel.com/
 
-[...]
+All warnings (new ones prefixed by >>):
+
+>> drivers/of/property.c:681: warning: Function parameter or struct member 'port' not described in 'of_graph_get_next_endpoint_raw'
+>> drivers/of/property.c:681: warning: Excess function parameter 'parent' description in 'of_graph_get_next_endpoint_raw'
+
+
+vim +681 drivers/of/property.c
+
+   670	
+   671	/**
+   672	 * of_graph_get_next_endpoint_raw() - get next endpoint node
+   673	 * @parent: pointer to the target port node
+   674	 * @endpoint: current endpoint node, or NULL to get first
+   675	 *
+   676	 * Return: An 'endpoint' node pointer with refcount incremented. Refcount
+   677	 * of the passed @prev node is decremented.
+   678	 */
+   679	struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
+   680							   struct device_node *endpoint)
+ > 681	{
+   682		if (!port)
+   683			return NULL;
+   684	
+   685		do {
+   686			endpoint = of_get_next_child(port, endpoint);
+   687			if (!endpoint)
+   688				break;
+   689		} while (!of_node_name_eq(endpoint, "endpoint"));
+   690	
+   691		return endpoint;
+   692	}
+   693	EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
+   694	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
