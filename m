@@ -1,164 +1,95 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F243D6E2D1;
-	Thu, 25 Jan 2024 15:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698CB7316F
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 15:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706195396; cv=none; b=dQWJ7tyHLzNwS1QIleD3wc5rLf/HN5GqmHVS2G/WL8WZyz2G1ngwBqr7YuNxDSx7xMME9je/aWpPZASdyaAecs30O95ePg75PHCkTo/q0Vjh1QnQbeX9DjIIbyYrOjuOBPM0J70nHI5LIYSUtZoQm8W5IY77o98ygP+Sobtg8Vg=
+	t=1706196678; cv=none; b=rsmX2CkDNPRYg/mhW4uJ4Cl5TlIgzQrPtdrv/MFJnDsjsRVV9dDFx1+DxGPD8q0eBOo782vxEAA+Uitt5ePJH8hdmISuq6JNcka7U3BHpBt5YJaW3V3YZmTvXwSwED+MjY286+eYdBsQNZkn14Bi1oAVJBat0kHbji57ZAd7xn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706195396; c=relaxed/simple;
-	bh=xkj76bvYfywTRnt3r/48EHdmO24JgVecEXm2TtbqqNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uYHt6UOlqfTmf0TiXq4mrHo+88KIwcy00wThnKXkipYPKom8OEigHYjQnQNBfI+t8fEA7dBPV+/YT7dvchf4mUXkbEtnZcBJM0l41Ixzb89oQmeG8S/FDffwGy40BYatN6ncRxHPm+Rv8Nr67UlmlJNPiBEj1GtPlb2ruQvkaAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D12211FB;
-	Thu, 25 Jan 2024 07:10:35 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D0A73F5A1;
-	Thu, 25 Jan 2024 07:09:49 -0800 (PST)
-Date: Thu, 25 Jan 2024 15:09:42 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
- compatible for H616
-Message-ID: <20240125150942.2535a228@donnerap.manchester.arm.com>
-In-Reply-To: <CAGb2v66UmLuWyLvvULZeW6MKFauM-xAMPAO9W_TPAByXYqKCBg@mail.gmail.com>
-References: <20240122170518.3090814-1-wens@kernel.org>
-	<20240122170518.3090814-5-wens@kernel.org>
-	<20240123004010.59cac5ad@minigeek.lan>
-	<CAGb2v66UmLuWyLvvULZeW6MKFauM-xAMPAO9W_TPAByXYqKCBg@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1706196678; c=relaxed/simple;
+	bh=JhPsd+XYVzYVuRnn7sBxx/KvgxV7WjX72z6mVmTkqhk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ax6EMlXSdI9ykIdfuLMBqDghPcBIQo+qxYs0JL7MaY5hqA7FjYSbvN6E3InxZRgBI33+DlfXkOw9tlNNHpaR9cpqKeCSglNXKGFbELb3K3A8VdyhJyOu1U29SYViJ5+l62/JTNt3CUnMxt9COmXF+Biuib9Bs+Essl0zAnbn3SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uwIalc8o; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uwIalc8o"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e0ed26cc5eso2854862a34.3
+        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 07:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706196675; x=1706801475; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NYK0H+CKAoklRasOR981W3Bz82GZLK+0/kJxDe4J3gw=;
+        b=uwIalc8otI2cBDJW8UFBJV1fEtqsLbgcBB535e2mMRgSL7x54dUgaoghr32lTh6Xa0
+         SQfDVMKIi+G6F+MkWFo2oZCXhr+MpzMgZVCNLdznBk53c5kLWb65kPcTIXf/ERHCN+dS
+         ErvXNEbr0MOBg+XuI571nXTQVbHMVOwLLlshZMYr5lpBsW4N34CGb0OvxGEe2waVcOP5
+         l+kXl5D9vm2+YJwvkwKhVgll2HTpcZZnTZfz7qH920Fwe1qYyvlZoEoRpr3pW8p6R4LJ
+         MR9p7Zfq9KdpDwP3ii8f+IB1P1CSCEEd0U/jaja/POEAqLFi8SZ2Ci9l7Z/GGUf+70G3
+         8ycw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706196675; x=1706801475;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NYK0H+CKAoklRasOR981W3Bz82GZLK+0/kJxDe4J3gw=;
+        b=YiHjoXKQOlbWc7btbqv7oZyz1F/AzwEtWzZT074vwDzUtD6ldMNugBaYRy1KXyzXF7
+         qSKGkxDdatOhpC5AvZKORNUS9NvCQInt/poCBNfZmLnMMTJLkRXXCmOJaDFwEm+4kA2k
+         KevnkrNhtF+BWBcRn86rR9vW84w69scWi3xfH6Qz97SwOXiYwKke7AVdIp8/dhjjQxkW
+         eKIlJCtBLMrOH1vjeLzgO++tpKlLhD/iJdN6NZUEZdk8aZy/ylFOlIGX2GAU2qDatSRZ
+         ahoDeVdaLS845lqJw4qV1BtE41vF5TVRMAxFffOHKseX7pQdREm9qqKRmrnVvEJ4byGh
+         8fLQ==
+X-Gm-Message-State: AOJu0YxbznGR2Ur+920R7ckS3Lle1Dq/yOOLOxPIyTXDre3fwnUXj0g/
+	vyoMANs5WdhmKjZEC6XZVyQxE8pQDnajUzZdT9FztW4ScT5zFWfBSq+Aj7WgHaM=
+X-Google-Smtp-Source: AGHT+IEQzLbhD+YKInHXk9DGDwmHvSeNxQb2A7kdlkwqPHQz4iFJ9kjd/DWCpqFl/DPRheEcMOOZBQ==
+X-Received: by 2002:a4a:da05:0:b0:599:c127:a5b with SMTP id e5-20020a4ada05000000b00599c1270a5bmr1010116oou.2.1706196675383;
+        Thu, 25 Jan 2024 07:31:15 -0800 (PST)
+Received: from krzk-bin.. ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id d14-20020a4ad34e000000b00599f1741917sm63973oos.43.2024.01.25.07.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 07:31:15 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 0/2] ASoC: codecs: tx-macro: correct TX SMIC MUXn widgets on SM8350+
+Date: Thu, 25 Jan 2024 16:31:08 +0100
+Message-Id: <20240125153110.410295-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 25 Jan 2024 22:37:34 +0800
-Chen-Yu Tsai <wens@kernel.org> wrote:
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-> On Tue, Jan 23, 2024 at 8:41=E2=80=AFAM Andre Przywara <andre.przywara@ar=
-m.com> wrote:
-> >
-> > On Tue, 23 Jan 2024 01:05:15 +0800
-> > Chen-Yu Tsai <wens@kernel.org> wrote:
-> >
-> > Hi,
-> > =20
-> > > From: Chen-Yu Tsai <wens@csie.org>
-> > >
-> > > The DMA controllers found on the H616 and H618 are the same as the one
-> > > found on the H6. The only difference is the DMA endpoint (DRQ) layout=
-. =20
-> >
-> > That does not seem to be entirely true: The H616 encodes the two lowest
-> > bits in DMA_DESC_ADDR_REG differently: on the H6 they must be 0 (word
-> > aligned), on the H616 these contain bits [33:32] of the address of the
-> > DMA descriptor. The manual doesn't describe the descriptor format in
-> > much detail, but ec31c5c59492 suggests that those two bits are put in
-> > the "para" word of the descriptor. =20
->=20
-> Good catch. So, same as the A100 I believe?
+Changelog in individual patches.
 
-Yes, that's what I got as well.
+v1:
+https://lore.kernel.org/all/20230717140138.201745-1-krzysztof.kozlowski@linaro.org/
 
-> > The good thing it that this encoding is backwards compatible, so I
-> > think the fallback string still holds: Any driver just implementing the
-> > H6 encoding would be able to drive the H616.
-> >
-> > I think the A100 was mis-described, as mentioned here:
-> > https://lore.kernel.org/linux-arm-kernel/29e575b6-14cb-73f1-512d-9f0f93=
-4490ea@arm.com/
-> > I think we should:
-> > - make the A100 use: "allwinner,sun50i-a100-dma", "sun50i-h6-dma"
-> > - make the H616 use: "allwinner,sun50i-h616-dma", "allwinner,sun50i-a10=
-0-dma", "sun50i-h6-dma"
-> >
-> > Does that make sense? =20
->=20
-> I wouldn't call that exactly backward compatible. Say the driver forgot to
-> clear the two bits. It would work fine on the H6, but the accessed address
-> could be way off on the A100 and H616.
+Best regards,
+Krzysztof
 
-I don't know the exact boundaries of "compatible" here, but the H6 manual
-pretty clearly states "The descriptor address must be word-aligned."
-But since the A100 compatible is known and supported for a while, that
-doesn't really matter, practically speaking, I guess.
+Krzysztof Kozlowski (2):
+  ASoC: codecs: tx-macro: split widgets per different LPASS versions
+  ASoC: codecs: tx-macro: correct TX SMIC MUXn widgets on SM8350+
 
-One could check how the H6 DMA controller reacts to those bits not being
-0, not sure if I find the time, though.
+ sound/soc/codecs/lpass-macro-common.h |   7 +
+ sound/soc/codecs/lpass-tx-macro.c     | 666 +++++++++++++++++++-------
+ 2 files changed, 501 insertions(+), 172 deletions(-)
 
-Cheers,
-Andre.
-
-> > Cheers,
-> > Andre
-> > =20
-> > > Since the number of channels and endpoints are described with additio=
-nal
-> > > generic properties, just add a new H616-specific compatible string and
-> > > fallback to the H6 one.
-> > >
-> > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> > > ---
-> > >  .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++--=
---
-> > >  1 file changed, 11 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a=
-64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dm=
-a.yaml
-> > > index ec2d7a789ffe..e5693be378bd 100644
-> > > --- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.=
-yaml
-> > > +++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.=
-yaml
-> > > @@ -28,6 +28,9 @@ properties:
-> > >        - items:
-> > >            - const: allwinner,sun8i-r40-dma
-> > >            - const: allwinner,sun50i-a64-dma
-> > > +      - items:
-> > > +          - const: allwinner,sun50i-h616-dma
-> > > +          - const: allwinner,sun50i-h6-dma
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -59,10 +62,14 @@ required:
-> > >  if:
-> > >    properties:
-> > >      compatible:
-> > > -      enum:
-> > > -        - allwinner,sun20i-d1-dma
-> > > -        - allwinner,sun50i-a100-dma
-> > > -        - allwinner,sun50i-h6-dma
-> > > +      oneOf:
-> > > +        - enum:
-> > > +            - allwinner,sun20i-d1-dma
-> > > +            - allwinner,sun50i-a100-dma
-> > > +            - allwinner,sun50i-h6-dma
-> > > +        - items:
-> > > +            - const: allwinner,sun50i-h616-dma
-> > > +            - const: allwinner,sun50i-h6-dma
-> > >
-> > >  then:
-> > >    properties: =20
-> > =20
->=20
+-- 
+2.34.1
 
