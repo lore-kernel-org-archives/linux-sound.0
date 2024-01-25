@@ -1,87 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6329A58115;
-	Thu, 25 Jan 2024 13:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153586DCED;
+	Thu, 25 Jan 2024 14:32:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706189956; cv=none; b=byaCnv0EE8TL950pYIj9TN7oDP44u1HDwKVWx9xuaC6nhqkzbQGRBRhYfgFbg2Yo/rK3kh/L6fZfpQbb7TKq55JCgQvAp/DVhCZdNtQQCbP47s3A+TVl0loOarSannrJ95vFl/2dZN4Z7U0+MQ/wnIwPspBXif+NL1gQgiw52sg=
+	t=1706193128; cv=none; b=lB2X54qCIgYpCQHO/3yBc5NY4fH7m91PL9eJhOHEmWROfHQe9FIvyc846vTJW41TojolOakvUrCXXtLl3zx1lkLn0yYBU7T6jLj+K/IAxfOdjyYzbb4SK36AVCPnJ7TC5MaarqMcjnIT1uzFh6WS1D70NF4/9tNbQVLV5K3r8vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706189956; c=relaxed/simple;
-	bh=25UBNvhMxiqFOHiYLxmtgtWnMrtX2HH33lq0Ekw4/6U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=igSD3WC9aTjk/tTwH3l5B+hV5NFm5OXoORK9UcKp2QnIvOGNYLHOIT3tImcLlyDBKQF9FuXKrAxZfg0+lBnQbrIsFCE9pySnZviAs6gwR9s8COkCQ0aI6r79brGX/gmqvyHIuVXGyBip+Vy/NmanToLF+MQfOJLZnzRRftWkVfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p5eHH+W3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706193128; c=relaxed/simple;
+	bh=SJIO9VIDAxEd2fRuCQOCXVo5yJC9Bfk6F7wNGJj+PcI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m35dzHgDrTiUYk05YYh0WSInXKZbCjQNQPgUuEwJ5qc2dgEmjHBUykIkAz+pMH3U3wyaasE01DQT0KMxWTmHORYrsiiqQZpx39duXx57NcmmX2E9Y12hwaCNm9aN9ihOMyXLDg9gxhB8Nf9I2pRUD7/taKIqQIjF8UA2pmDaHJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVJA1mvh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p5eHH+W3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDDEC433F1;
-	Thu, 25 Jan 2024 13:39:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVJA1mvh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96214C433A6;
+	Thu, 25 Jan 2024 14:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706189955;
-	bh=25UBNvhMxiqFOHiYLxmtgtWnMrtX2HH33lq0Ekw4/6U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p5eHH+W3nPMe/y4cHYa4nd9DSYCc/HzO8CegT4O7m7P2Fen9uu+XjA+WEnMH3xPC7
-	 Okll24pHczi28dGuaMQCJjQoEbQ63Nxum50yd7VJ3NK1Yle0VbSL0eNS1SQoKTawCO
-	 vD1maq4cmFAApVm+cujpr10G+RcALTmfSLs4+Thwbh0ys1hxbrx0Ak2+wkPMBcof8Y
-	 8VDJn/RnBmDg9xYGuRzYkFXpqzm9xBrto4kx6qhuvmKV7349LFNeeOSXdQuhbLhpBZ
-	 KZtPf3G0aHF05WFpenHz9EUC8booijNYZHROIqcH9buPy1iHpd2y750y8lyDwK/159
-	 PvKbpLWeLoEtg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Yang Li <yang.lee@linux.alibaba.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240124004425.54020-1-yang.lee@linux.alibaba.com>
-References: <20240124004425.54020-1-yang.lee@linux.alibaba.com>
-Subject: Re: [PATCH -next] ASoC: codecs: Remove unneeded semicolon
-Message-Id: <170618995429.31781.12764498423630220145.b4-ty@kernel.org>
-Date: Thu, 25 Jan 2024 13:39:14 +0000
+	s=k20201202; t=1706193127;
+	bh=SJIO9VIDAxEd2fRuCQOCXVo5yJC9Bfk6F7wNGJj+PcI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=YVJA1mvh6RwBjLGjd1sfDBtmLYMeZk2Vb1Vxa9VgXpAdZSTyvCqebluNvJMNpga2H
+	 zIqQVyYC/2Itq6ME2zUndhbGU4wwQMJnTve1RG55b1fQ/wcezBKtWxmpEWMVKaRfPN
+	 VRi3BhTaZ65e1dTFRmPd9YdQ+AOzFYFMs0Aq/ftOmbbA6XWBUf17nr8Begw8wZ+jjY
+	 SK8tNApqDdTp/yh4/WxDr7l2WFY1/iBN3tKF1fuJAize0s0umkXhfRxinfpn7d4l8t
+	 9uNdR4vKJYZc9dL1X4CLmwfwL2Vl/NzNUFqD4CjjJ4/+K6Pal52rpWZtW4O4SsQSe1
+	 Lk+cu6IQtoPvQ==
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5ce942efda5so5115017a12.2;
+        Thu, 25 Jan 2024 06:32:07 -0800 (PST)
+X-Gm-Message-State: AOJu0YxHg+LyqLWzNAkbQzwQjk7TNIq1TH6Q/rkXiFbdc4GIE1t0uqX+
+	zIypEnfEKefWCKh0NZThdzffx6D1fH1wXw92aBSW6tz6tmocsyvmjhs/MNNawcfKkgfZ23kfjXD
+	0wNI79b4GsRoOOqznQI0TksZo5tY=
+X-Google-Smtp-Source: AGHT+IHrAfERyC/G24kGm+lJuLa6CaK8isz0YBY43lr4aF2Wssm2223XiVCbwz+daaJHCxHYabrneXLR5cWNqYl33Sk=
+X-Received: by 2002:a17:90a:cc0e:b0:28d:bd5f:1e5 with SMTP id
+ b14-20020a17090acc0e00b0028dbd5f01e5mr711022pju.44.1706193127134; Thu, 25 Jan
+ 2024 06:32:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+References: <20240122170518.3090814-1-wens@kernel.org> <20240122170518.3090814-5-wens@kernel.org>
+ <20240122-resemble-nearness-60dafde2e25d@spud>
+In-Reply-To: <20240122-resemble-nearness-60dafde2e25d@spud>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 25 Jan 2024 22:31:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65hGBVyhnok79fn9bgdXXeLHVZ0uUobqxaVU75Lh5-BCg@mail.gmail.com>
+Message-ID: <CAGb2v65hGBVyhnok79fn9bgdXXeLHVZ0uUobqxaVU75Lh5-BCg@mail.gmail.com>
+Subject: Re: [PATCH 4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add
+ compatible for H616
+To: Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 24 Jan 2024 08:44:25 +0800, Yang Li wrote:
-> In the wcd939x codec driver, there are two instances where semicolons
-> are used after closing braces of a switch-case statement. These
-> semicolons are not required and do not adhere to the coding style
-> guidelines.
-> 
-> This patch removes the unnecessary semicolons at the end of the
-> switch-case statements which cleans up the code and ensures consistency
-> with the rest of the kernel coding style.
-> 
-> [...]
+On Tue, Jan 23, 2024 at 2:18=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Tue, Jan 23, 2024 at 01:05:15AM +0800, Chen-Yu Tsai wrote:
+> > From: Chen-Yu Tsai <wens@csie.org>
+> >
+> > The DMA controllers found on the H616 and H618 are the same as the one
+> > found on the H6. The only difference is the DMA endpoint (DRQ) layout.
+> >
+> > Since the number of channels and endpoints are described with additiona=
+l
+> > generic properties, just add a new H616-specific compatible string and
+> > fallback to the H6 one.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> > ---
+> >  .../bindings/dma/allwinner,sun50i-a64-dma.yaml    | 15 +++++++++++----
+> >  1 file changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64=
+-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.=
+yaml
+> > index ec2d7a789ffe..e5693be378bd 100644
+> > --- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.ya=
+ml
+> > +++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.ya=
+ml
+> > @@ -28,6 +28,9 @@ properties:
+> >        - items:
+> >            - const: allwinner,sun8i-r40-dma
+> >            - const: allwinner,sun50i-a64-dma
+> > +      - items:
+> > +          - const: allwinner,sun50i-h616-dma
+> > +          - const: allwinner,sun50i-h6-dma
+> >
+> >    reg:
+> >      maxItems: 1
+> > @@ -59,10 +62,14 @@ required:
+> >  if:
+> >    properties:
+> >      compatible:
+> > -      enum:
+> > -        - allwinner,sun20i-d1-dma
+> > -        - allwinner,sun50i-a100-dma
+> > -        - allwinner,sun50i-h6-dma
+> > +      oneOf:
+> > +        - enum:
+> > +            - allwinner,sun20i-d1-dma
+> > +            - allwinner,sun50i-a100-dma
+> > +            - allwinner,sun50i-h6-dma
+> > +        - items:
+> > +            - const: allwinner,sun50i-h616-dma
+> > +            - const: allwinner,sun50i-h6-dma
+>
+> Instead of introducing this complexity, could you instead use "contains"
+> here? Unless I am missing soemthing, you can achieve the same thing here
+> with:
+> |if:
+> |  properties:
+> |    compatible:
+> |      constains:
+> |        enum:
+> |          - allwinner,sun20i-d1-dma
+> |          - allwinner,sun50i-a100-dma
+> |          - allwinner,sun50i-h6-dma
 
-Applied to
+Thank you for the reminder. I had a vague impression that something
+simpler worked, but couldn't remember what exactly.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codecs: Remove unneeded semicolon
-      commit: e7214441ca1562fbfb002200f46d7f83bbc2e621
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+ChenYu
