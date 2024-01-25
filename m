@@ -1,140 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B335573177;
-	Thu, 25 Jan 2024 16:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFFC1350E5
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 19:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706200092; cv=none; b=iLn/TdK9YBE/aiHDqBpHTcFfktty1OU4sLicvIxrHH4XHOJI+ycwgJ+A+oOi7/p2dU5Mbk2KRDGnKvnIGRs80ZQZBV6m3pyFj736wldBxRfdgbhE8oQiBxTbTv/6vNeaIFr+BBp3LplHgI8jU8gaRffiMRWC3r+fGmf8rQV2l4A=
+	t=1706209242; cv=none; b=ocVg6aTAZmv15RfwnsBlkdKmvIaRqjTaUjs7jKTxH64muYRUva3tPz9zTOtmsIfADeZT6OhPjjN//QmyQbqTi1BztE/dQoY7ymLMQ/2AA3m5uHaNTpEVJovTg6PiHW5xtnwYaj74H9hSMCwuvxH412kVrY0a0nR9mLl2taGE6GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706200092; c=relaxed/simple;
-	bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=leOczJezXoEqwpRd5ecJt6S4naWJRq9BjjAqHK88Bal/THJYw+YjNukXym4/2XKQkRnMTRUxS8AbyEYEBfV2sD1s9Vsg9ZAPx77vAEh1vVqR+G8aImHWnFPmxrv/pgxTrKl+L4UNCWLQ2iF4V+emhjgXoGQ1hueM1Ov7cv6NsWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hck4aF7H; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706209242; c=relaxed/simple;
+	bh=k4alKl4ZXoowv6FzIFl05GN/hgyHnj+4p9u8hin33Zk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dK/ayo4+JJPAYnlMTZeOkAo8Ar04aAJ/hoB4aGZ2z2pDzbhYyxp66PQ8sP6MjzXTdSpxG3VuR74Cte6drzPAbrKAbk3N6y/n16X220BBK9VzN2ozDEtHcoP4mNiAdhlqw+7axItLIM9tj5E0y4hS3hvwZriN523wQUiIQ8V7DJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YahIEBM/; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hck4aF7H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706200090; x=1737736090;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
-  b=Hck4aF7HffONCk7xZzKOVMv8A2Et6FAAypStGW1B9gmKodAbZo5lwXqc
-   9f/2b7rsKyYK9c6fosfuFrKT1VSawein1nwOCdqZDy01iQ8bm5fLUljCH
-   bZQAuvy6/M56OPkwRAocPriWurTVFsZaixNrreUOb3Q5holezVd76VbVs
-   BgfkZkEPYa9SkLoq9et32MKdjmj3SkqvByJqGdO7V2bEegi4Hskg0kbD+
-   O5ewLrwG4J751FgVbhOFAz+0BeOK2GcPT93YzIX3z7tc8EmZaPj55utRX
-   Svb+VHS4Sl5F1ruKPlOISwi9fR4BBXipYM687tROhtInSB3IjzxwGK7YD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="15575268"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="15575268"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:28:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2309411"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 25 Jan 2024 08:28:04 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rT2a9-0000C0-0i;
-	Thu, 25 Jan 2024 16:28:01 +0000
-Date: Fri, 26 Jan 2024 00:27:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
-Message-ID: <202401260024.txulvo50-lkp@intel.com>
-References: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YahIEBM/"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a314ca7852cso172059066b.3
+        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 11:00:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706209239; x=1706814039; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k4alKl4ZXoowv6FzIFl05GN/hgyHnj+4p9u8hin33Zk=;
+        b=YahIEBM/0WDwLNR37lGCbWjfo8XlPHuXapKq3GF76o6VujEIEiwW3nuaoyZgWRmUhv
+         wBYTV76Os3M0gOgBpFlOjMVcRSiP5W2hVJew+cG9xxI47zWmTyvSH+TTNsJ9DHJPKT79
+         hmtcbx7EMH0UWnKHwllxtvsLsGUXELRR1eNVB+zCg31fH97e5Yv+YE0Q2fbrf5g6qIaw
+         U8qPTtF7xW4T0DMgVK+8894sWxx1mx4ADqbo4uR9cKlXLITvmpO8S2MoayQn7YylBMgp
+         Ks2k2IKFHLQDvEfIAsi/vaEsGtp00ku3kEZ37wcVft3ZkEOCBXBrAHAW/DBea+/Fj4m0
+         k1xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706209239; x=1706814039;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k4alKl4ZXoowv6FzIFl05GN/hgyHnj+4p9u8hin33Zk=;
+        b=wZvx3iqK8g/aEAzbRQOVEKKDmD6m18S26G7Ochsq+0gFUS/kvY6RUvu9lYpwDSdroq
+         kiXMWWGSSbOlbYxqSCLZoG6xIKVAY8J+t2S+HkQm8nbnlQjxQkw4a9/GKOYFWWsk975Y
+         yp7XEwBlQ4Don/2KQD8VJqiKjzByuCOwNq90it25NRDXQamYZAmJfrDn+JN9KpPGYTZL
+         7BK8n4Sen+sL0ZDOkudOi+rdwXfpWcLAZ0dyO5Kr3SsDCnogo5pmIkdrjKhSOFcTFkYH
+         oM20ssD1Bpd2DDC6njGFWCIJCeLKYgWgqbR+6ds5I3If0W+uWbHpaGI6S9SldNFA/sUk
+         Xhuw==
+X-Gm-Message-State: AOJu0YxcuGPc3UBWkjuqGRs0NjorMMvcOVLASeWLlq07JcIUwoM7qM65
+	b/Tx/Ua30a0xwQz/VfD0mNtoffA21hkS6VJxqRhb9RNOlBkupKLWjWqnULmvB+mX37/NQlNcM30
+	VIayIOAXzeEuQ4gSLdBvyB5/oTXAnnWn+neQ=
+X-Google-Smtp-Source: AGHT+IH8LUXM8+5/hOq34RBERyrCuIHb0Q0VNE8VNaYRCZR0HhtyHp7VfZXdBR+c0W4guh0qyebXkCH2T/7DnipEds0=
+X-Received: by 2002:a17:906:b245:b0:a28:fe84:f2c6 with SMTP id
+ ce5-20020a170906b24500b00a28fe84f2c6mr30455ejb.15.1706209238613; Thu, 25 Jan
+ 2024 11:00:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
+References: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com> <20240125103117.2622095-4-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20240125103117.2622095-4-ckeepax@opensource.cirrus.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 25 Jan 2024 21:00:02 +0200
+Message-ID: <CAHp75Vd7CsZAMNKGY=a4+J6Wzb7a6oDa3-coXoDVK8AOgvKHGA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] ASoC: cs42l43: Add pm_ptr around the power ops
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, alsa-devel@alsa-project.org, 
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kuninori,
+On Thu, Jan 25, 2024 at 12:31=E2=80=AFPM Charles Keepax
+<ckeepax@opensource.cirrus.com> wrote:
+>
+> Add missing pm_ptr around the power ops.
 
-kernel test robot noticed the following build warnings:
+pm_ptr() (here and in the Subject), but it's a minor one.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on drm-misc/drm-misc-next linus/master v6.8-rc1 next-20240125]
-[cannot apply to robh/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/87fryoud8t.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
-config: i386-buildonly-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401260024.txulvo50-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/of/property.c:681: warning: Function parameter or struct member 'port' not described in 'of_graph_get_next_endpoint_raw'
->> drivers/of/property.c:681: warning: Excess function parameter 'parent' description in 'of_graph_get_next_endpoint_raw'
-
-
-vim +681 drivers/of/property.c
-
-   670	
-   671	/**
-   672	 * of_graph_get_next_endpoint_raw() - get next endpoint node
-   673	 * @parent: pointer to the target port node
-   674	 * @endpoint: current endpoint node, or NULL to get first
-   675	 *
-   676	 * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-   677	 * of the passed @prev node is decremented.
-   678	 */
-   679	struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-   680							   struct device_node *endpoint)
- > 681	{
-   682		if (!port)
-   683			return NULL;
-   684	
-   685		do {
-   686			endpoint = of_get_next_child(port, endpoint);
-   687			if (!endpoint)
-   688				break;
-   689		} while (!of_node_name_eq(endpoint, "endpoint"));
-   690	
-   691		return endpoint;
-   692	}
-   693	EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
-   694	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+With Best Regards,
+Andy Shevchenko
