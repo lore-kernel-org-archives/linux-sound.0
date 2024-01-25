@@ -1,139 +1,212 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967AA1B948
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 08:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F58C1B958
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 08:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706172605; cv=none; b=hJJ8thMm1+u/1LJzmoik8TvcsL/QL7uaDuA1f08Wmrzk8eHOt687Mb7iIvNAfQAek4jnNQELCBNF2U6EZOsunVclawL6Ve2l3zZpBk1KVToY9t/HFcz5AiOyesfFvSvnqk6ASqkd/C5xma0jdhxWbuvXBG9W9P7uZHWaXFrYWQg=
+	t=1706173074; cv=none; b=Q0aBf36rS6VjnTvABzrcypzqmhr5ZSS+/289+R30xeRB+ZEkaHXHoaxfsJdlGeHllPvRyTSgZA+CpW0FckDaypqAJG9xn9D+JNsla8Ik3A8wueH3b3eZwq85X1RGaf56TySgJmAO0x1Ei/39ipefosMT3cJUIJ8hz3JY1UIsJkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706172605; c=relaxed/simple;
-	bh=p4BO9u8QAGeKIOwzK1sY9h5zf9JQT29Y2W8Ay3uMVC4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ILtVe5bn0YiV2BMvxRJ5dd37bH57S5cxdJ5ysUTT+yQpjJDpHbPfgIsn4ctTOxH4Msy4XdqRNG05Yz+GM/GRpzT+7+3MoIFqp73Bvyuz82dbTEwm+lp+iMtUJod2pRZvNqCAKgirC6ntQpupcav7M56XWW+34GRdvdqs3c1tk2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=MT2saab9; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1706173074; c=relaxed/simple;
+	bh=ASSAcrZC686QXcaT0VDsrrNCHgxrvYn7vN/gCgNrBk8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IsSOWeYqnVL/qBgb/ATr0Q4v/IxTbWMIA4UFPgS+8gTpfLHXxaMeL3wsLtXGs5Qv7xRXEN85qPvBjMynT2yb+qo1SzQLlvvTRWoHlPUyuOvrR8o2KZ3iJ+rG5fsvCU68mRzUn26Ro9jvfM+h+rgdgDIhFvEynaydyzksvBaSPF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e325S8Q8; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="MT2saab9"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-46b165745deso120298137.0
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 00:50:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e325S8Q8"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e80046264so80997815e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 00:57:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1706172602; x=1706777402; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SsKffEL6mluctf+cUpjZAVkFUNhs9adzeOY5iA4Fn/I=;
-        b=MT2saab9IBoZTjEHtNwc+e3YAPImc+zomcBLT/Z0pgH9BWa8k/Hb3AxWLmjFlJmAGT
-         0TLiAuz0cPtnWzo4FyiWFDmHTBgagE6Ar9gaRxXI5sLXHPsZwZjiQ+QAIVlUqw88A4zI
-         QiMYBUPEEUP/KvRZYyIiAHUBXROiew+YB8vdnk5TA5YYICwHD7VCTYa8+cjbpK15BI+9
-         3r5GF8ai4OFseoskISp+36eNNwCVkr94epn5aau6RwKksvVBcO3LpoSKvPWgKvGMS2oT
-         E7lKks4Ma/PHKXBq4aymMCF0aAKf5VpxspSA3L7duNklPLUuuLe/ztgPSKxUdj99tsQ9
-         7aYw==
+        d=linaro.org; s=google; t=1706173071; x=1706777871; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=J7Fjy061af3WQwkrtjqs4ezbtKnwx+BKx0P5XcCzsUU=;
+        b=e325S8Q89BIDNrGXMUbTD+9zHwDroS1DIqV/Beb7+6mdUilUEfTd2GS8MUzm3m0ejo
+         WpswdzFhX/w5jNb7HdNgFwXzMw78CvwJcjY7pvoZqSsNM8/NtGotH1xYy9p2EqcRFn1Q
+         7Hq09aWlaV/ZgHd24JDVlpzVwU8rAqI5D1sqwdKwKYn+TitdqpTkZ1+L5/ZyUN4ESTkI
+         V9t8cdjc+uhOocXFfGdgdC5ENP4RRFsqmmATVVeY97kCIQWVImzK7kkNJY49kKtcHavF
+         APJAdK4TnxSsvrSs+errp+71+MFkJu+fD3RvKMmAfHt9qKQe9ghTxVBIEUjWfrN5Rc2b
+         JWew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706172602; x=1706777402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SsKffEL6mluctf+cUpjZAVkFUNhs9adzeOY5iA4Fn/I=;
-        b=IXhvjcIz5qBWW1K4saNXGldCnntyOOKN2a0DLAdesY6x+rOIlNYSMgwmljHbOqV2xo
-         mczh4lqQc84tzWYImjPP9x7n1Ql5KyMyBsafXYRGhW0R6OfAgwffUyMvIkEyxFwfL5/R
-         +XvMqeRQArta2yZNEjV4z5P/wRZpGQ9ND+t4cVgY+FF+SxleVpoSq5wV50yQmult/DlT
-         X/9BXKrTaxExZcyVY2CNICOJq3ieJ+1gIXw0rcnx4TNwz0mnhOqXHrxZTiR+rnkmr7gS
-         oqgVSzsCQo+gG1P+FbEoq+ASxCH3HarlV36GrHmsmTmLo4GIhR1nzw48yNp/baLdFCiZ
-         7t/Q==
-X-Gm-Message-State: AOJu0YxBFHYStphn/jmWv/GjF1OfIRWiCeSaDYr+hQo9xiPE6u9RPm2i
-	8Go2uJ9BKM2pByW6r1326+yQhiIpa2lD07freooAxzE8s2n3NGx3f1Pq1wz8+W5ceg9khontlul
-	nf011580CmNbxkIY50lkzrmqD84VWmoAQE3Uh2Q==
-X-Google-Smtp-Source: AGHT+IEXyAabzgXxr3HfBXhvXdKu2rg2zJk9uemqtcciakhWkSZRpFr5cM94Z5De7H+I5E8qdr6SFsVNIxfIMEQUhDg=
-X-Received: by 2002:a67:f752:0:b0:46a:fae3:d82c with SMTP id
- w18-20020a67f752000000b0046afae3d82cmr366729vso.22.1706172602526; Thu, 25 Jan
- 2024 00:50:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706173071; x=1706777871;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J7Fjy061af3WQwkrtjqs4ezbtKnwx+BKx0P5XcCzsUU=;
+        b=cqgWblhs7tOxwWpmMXpG2ZTceiJ0/uymAW1BbRVwHpOedxwP91dmMQHIGEPnUEv4B2
+         IIHVENVGgk57bDPtK2m+OmAv+xCd+0K0wRnXGqcIVef64LbtNcQLJb2GqA9ohqFfwhy5
+         oHVztW3+s0TPLSVJGVroLcrkrjHDWGmxlozxpnUtl1xLKOvmOhD2/AZBT6U/cIFNCbga
+         4cnFyKtkPs2gXcY/tmCTnptNSI7J8xVSDklyU1JJEqQiugxppsObcclaBmCWwzgNttmB
+         JJpY0X+SqxjtxiobaMmjyrKUsCA/nVf4y/QLjIYCCrW7e8iGucTe7W22gLBTYP2E1l0+
+         YGkQ==
+X-Gm-Message-State: AOJu0YzHW8LbsXqy121SbbYuBjVrWIMpvKmQBA11bg0Ao3Z83vjQwa5u
+	nBFrAZshx3lhQp1YQ9rPBNFsF4SS8a6NGdESHprtaCDqo5pDd7r2+mvhmCkRep8=
+X-Google-Smtp-Source: AGHT+IG92mHalxw+oDjOcxLes1wcOSJEjV0q4XNAGx+NRSjZz3FTyKXHHopr6lgobIiqar2MGSEslQ==
+X-Received: by 2002:a05:600c:384e:b0:40e:c1a9:6829 with SMTP id s14-20020a05600c384e00b0040ec1a96829mr280733wmr.120.1706173070864;
+        Thu, 25 Jan 2024 00:57:50 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.215.66])
+        by smtp.gmail.com with ESMTPSA id gv21-20020a170906f11500b00a28a66028bcsm794592ejb.91.2024.01.25.00.57.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jan 2024 00:57:50 -0800 (PST)
+Message-ID: <42a3038f-33b0-404d-b311-65426961c0c1@linaro.org>
+Date: Thu, 25 Jan 2024 09:57:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240124074527.48869-1-krzysztof.kozlowski@linaro.org>
- <20240124074527.48869-5-krzysztof.kozlowski@linaro.org> <cc9683c9-356c-4cd1-a838-4ca92ded612b@linaro.org>
-In-Reply-To: <cc9683c9-356c-4cd1-a838-4ca92ded612b@linaro.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 25 Jan 2024 09:49:51 +0100
-Message-ID: <CAMRc=MexZidVUf=0gHcXTUOxbSAtdDLZ2gBk6-2man1CSv18gQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Sean Anderson <sean.anderson@seco.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v1 4/4] ASoc: dt-bindings: Create yaml file
+ for pcm6240 codec driver
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>
+Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
+ <perex@perex.cz>,
+ "pierre-louis.bossart@linux.intel.com"
+ <pierre-louis.bossart@linux.intel.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+ "soyer@irl.hu" <soyer@irl.hu>, "Huang, Jonathan" <jkhuang3@ti.com>,
+ "tiwai@suse.de" <tiwai@suse.de>, "Djuandi, Peter" <pdjuandi@ti.com>,
+ "McPherson, Jeff" <j-mcpherson@ti.com>,
+ "Navada Kanyana, Mukund" <navada@ti.com>
+References: <20240123111411.850-1-shenghao-ding@ti.com>
+ <20240123111411.850-4-shenghao-ding@ti.com>
+ <92c1a3f3-6b3b-47cb-a4bf-0d20e4af95e5@linaro.org>
+ <a6c6cad6efc647ba8f0c828ffdb3a54f@ti.com>
+ <d8f00ea9-3bb2-4b17-bbc7-48800516e408@linaro.org>
+ <c107a70e42eb4327802748cda89d292f@ti.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <c107a70e42eb4327802748cda89d292f@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 25, 2024 at 9:02=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 24/01/2024 08:45, Krzysztof Kozlowski wrote:
-> > Devices sharing a reset GPIO could use the reset framework for
-> > coordinated handling of that shared GPIO line.  We have several cases o=
-f
-> > such needs, at least for Devicetree-based platforms.
-> >
-> > If Devicetree-based device requests a reset line, while "resets"
-> > Devicetree property is missing but there is a "reset-gpios" one,
-> > instantiate a new "reset-gpio" platform device which will handle such
-> > reset line.  This allows seamless handling of such shared reset-gpios
-> > without need of changing Devicetree binding [1].
-> >
-> > To avoid creating multiple "reset-gpio" platform devices, store the
-> > Devicetree "reset-gpios" GPIO specifiers used for new devices on a
-> > linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
-> > controller, GPIO number and GPIO flags) is used to check if reset
-> > controller for given GPIO was already registered.
-> >
-> > If two devices have conflicting "reset-gpios" property, e.g. with
-> > different ACTIVE_xxx flags, this would allow to spawn two separate
-> > "reset-gpio" devices, where the second would fail probing on busy GPIO
-> > request.
-> >
-> > Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ =
-[1]
-> > Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> > Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> > Cc: Sean Anderson <sean.anderson@seco.com>
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >
-> > ---
-> >
-> > Depends on previous of change.
-> > ---
-> >  drivers/reset/core.c             | 215 +++++++++++++++++++++++++++++--
-> >  include/linux/reset-controller.h |   4 +
-> >  2 files changed, 206 insertions(+), 13 deletions(-)
-> >
->
-> LKP reported issue when building !GPIOLIB:
-> https://lore.kernel.org/oe-kbuild-all/202401250958.YksQmnWj-lkp@intel.com=
-/
->
-> but I intend to solve it providing the stubs. Therefore this patch will
-> not change.
->
-> Best regards,
-> Krzysztof
->
+On 25/01/2024 09:46, Ding, Shenghao wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Thursday, January 25, 2024 3:50 PM
+>> To: Ding, Shenghao <shenghao-ding@ti.com>; broonie@kernel.org;
+>> conor+dt@kernel.org
+>> Cc: robh+dt@kernel.org; andriy.shevchenko@linux.intel.com; Lu, Kevin
+>> <kevin-lu@ti.com>; Xu, Baojun <baojun.xu@ti.com>;
+>> devicetree@vger.kernel.org; lgirdwood@gmail.com; perex@perex.cz;
+>> pierre-louis.bossart@linux.intel.com; 13916275206@139.com; linux-
+>> sound@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> liam.r.girdwood@intel.com; soyer@irl.hu; Huang, Jonathan
+>> <jkhuang3@ti.com>; tiwai@suse.de; Djuandi, Peter <pdjuandi@ti.com>;
+>> McPherson, Jeff <j-mcpherson@ti.com>; Navada Kanyana, Mukund
+>> <navada@ti.com>
+>> Subject: Re: [EXTERNAL] Re: [PATCH v1 4/4] ASoc: dt-bindings: Create yaml
+>> file for pcm6240 codec driver
+>>
+>> On 25/01/2024 08: 39, Ding, Shenghao wrote: >> >> Why do you repeat the
+>> reg constraints? This does not seem needed. >> >>> + interrupts: false >>>
+>> + >>> + - if: >>> + properties: >>> ZjQcmQRYFpfptBannerStart This message
+>> was sent from outside of Texas Instruments.
+>> Do not click links or open attachments unless you recognize the source of
+>> this email and know the content is safe.
+>>
+>> ZjQcmQRYFpfptBannerEnd
+>> On 25/01/2024 08:39, Ding, Shenghao wrote:
+>>>>
+>>>> Why do you repeat the reg constraints? This does not seem needed.
+>>>>
+>>>>> +        interrupts: false
+>>>>> +
+>>>>> +  - if:
+>>>>> +      properties:
+>>>>> +        compatible:
+>>>>> +          contains:
+>>>>> +            enum:
+>>>>> +              - ti,pcm3140
+>>>>> +              - ti,pcm5140
+>>>>> +              - ti,pcm6140
+>>>>> +              - ti,pcmd3180
+>>>>> +    then:
+>>>>> +      properties:
+>>>>> +        reg:
+>>>>> +          description:
+>>>>> +            I2C address, in multiple pcmdevices case, all the i2c address
+>>>>> +            aggregate as one Audio Device to support multiple audio slots.
+>>>>> +          maxItems: 4
+>>>>> +          minItems: 1
+>>>>
+>>
+>> You did not respond to any of other comments, therefore I assume you
+>> agree with them 100% and you will implement them fully.
+>>
+>>
+>>>> Drop entire if
+>>> How to convey ti,pcm1690 does not support interrupt, and others
+>>> support if I remove this if
+>>
+>> How? There is no pcm1690 here.
+> How can others know that pcm3140, pcm5140, pcm6140 and pcmd3180
+> Support i2c address from 0x4c to 0x4f, if this if branch was removed.
 
-Ah, so this is why you sent the patches. I don't like stubs in
-gpio/driver.h but I get why they're needed here. Maybe we should
-consider adding gpio/misc.h for that kind of stuff.
+They do not need anything to support any specific I2C address... If ever
+wondering, open some recent bindings and take a look how it is done there.
 
-Bart
+
+Best regards,
+Krzysztof
+
