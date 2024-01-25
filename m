@@ -1,132 +1,87 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F5E481BA;
-	Thu, 25 Jan 2024 12:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6329A58115;
+	Thu, 25 Jan 2024 13:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706186008; cv=none; b=ZkoLw5m9ze2KrTz9tT8St08nzkUCxk4s2bftzvM7IMOMg3P27mowbgXVUWYi+vPgCJsrm0ShlO9MN/pR7lG/0WDNNH1uikhrGnbDXmEkPm1FwH4c3a80bKFRSzGUOt6CuQm49wcGn4bLBY+gXNyTWrYdoW2eewM1rkJzwuP62P0=
+	t=1706189956; cv=none; b=byaCnv0EE8TL950pYIj9TN7oDP44u1HDwKVWx9xuaC6nhqkzbQGRBRhYfgFbg2Yo/rK3kh/L6fZfpQbb7TKq55JCgQvAp/DVhCZdNtQQCbP47s3A+TVl0loOarSannrJ95vFl/2dZN4Z7U0+MQ/wnIwPspBXif+NL1gQgiw52sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706186008; c=relaxed/simple;
-	bh=ibjJImIn88zs1YjIKt/2dvNQBau6ZoNe8tzjCHPrGx8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UKJXVgMz6BLtuWZFH5ILpewgm1mPvWBprEE9jomSQbip/wts4STJcESCC1XJKG8E5oMKH/uQCqnT97LQIb5jBJ9QZaGgK9F8uz1Us5uvVKe7Wcu31hQcJUwMD6CwpwC8BAgHps6L82PQYQoMcRpQ0y7ve+VRRizpV76joovTsVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=UHMpZcqz; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706189956; c=relaxed/simple;
+	bh=25UBNvhMxiqFOHiYLxmtgtWnMrtX2HH33lq0Ekw4/6U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=igSD3WC9aTjk/tTwH3l5B+hV5NFm5OXoORK9UcKp2QnIvOGNYLHOIT3tImcLlyDBKQF9FuXKrAxZfg0+lBnQbrIsFCE9pySnZviAs6gwR9s8COkCQ0aI6r79brGX/gmqvyHIuVXGyBip+Vy/NmanToLF+MQfOJLZnzRRftWkVfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p5eHH+W3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UHMpZcqz"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40P5Ph4a014771;
-	Thu, 25 Jan 2024 06:33:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=v
-	2Ut9bvfDLcV174M2sjh0LDuIb84AqNcxzdKd+no5Yc=; b=UHMpZcqz2HOVHxaVU
-	eYXwPsCDu8xsUliJ7Atcts1rLweaRaaUhwC9Rb2ZTBBq+y8xFFpXHz33DfbNER7W
-	F3adtZgQ5+r7g68JaBLdTNzFv1waw3/Zl/I4FOrTGwY03UnzhSIYEHuDlS4lAzMg
-	vETmZ3T+0NJCuucxUbzYy93ckVNNNCcVc64wqZdSKFmweNx7/SmfFtKGS7V04kiU
-	RvogChtTMta458tQBne8pG5WPQGQExF498u3ZoxoQ9ePfPomZxbSb+jicC/fPSqj
-	yE2/mBfgLwJ3J+34KAzfW8u7r7MvGQ0UjG0KdFIcFH+zdbNVNWQDBkXIIKILxDDd
-	G8+Cw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhj7s5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Jan 2024 06:33:04 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 25 Jan
- 2024 12:33:01 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Thu, 25 Jan 2024 12:33:01 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.251.117])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 52682820246;
-	Thu, 25 Jan 2024 12:33:01 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <perex@perex.cz>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <patches@opensource.cirrus.com>,
-        Simon Trimmer
-	<simont@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirks for HP G11 Laptops using CS35L56
-Date: Thu, 25 Jan 2024 12:33:01 +0000
-Message-ID: <20240125123301.41692-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p5eHH+W3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDDEC433F1;
+	Thu, 25 Jan 2024 13:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706189955;
+	bh=25UBNvhMxiqFOHiYLxmtgtWnMrtX2HH33lq0Ekw4/6U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=p5eHH+W3nPMe/y4cHYa4nd9DSYCc/HzO8CegT4O7m7P2Fen9uu+XjA+WEnMH3xPC7
+	 Okll24pHczi28dGuaMQCJjQoEbQ63Nxum50yd7VJ3NK1Yle0VbSL0eNS1SQoKTawCO
+	 vD1maq4cmFAApVm+cujpr10G+RcALTmfSLs4+Thwbh0ys1hxbrx0Ak2+wkPMBcof8Y
+	 8VDJn/RnBmDg9xYGuRzYkFXpqzm9xBrto4kx6qhuvmKV7349LFNeeOSXdQuhbLhpBZ
+	 KZtPf3G0aHF05WFpenHz9EUC8booijNYZHROIqcH9buPy1iHpd2y750y8lyDwK/159
+	 PvKbpLWeLoEtg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Yang Li <yang.lee@linux.alibaba.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240124004425.54020-1-yang.lee@linux.alibaba.com>
+References: <20240124004425.54020-1-yang.lee@linux.alibaba.com>
+Subject: Re: [PATCH -next] ASoC: codecs: Remove unneeded semicolon
+Message-Id: <170618995429.31781.12764498423630220145.b4-ty@kernel.org>
+Date: Thu, 25 Jan 2024 13:39:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Aera9NZcpbFVW9IWzhFtkvefyTwhzX4C
-X-Proofpoint-GUID: Aera9NZcpbFVW9IWzhFtkvefyTwhzX4C
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-a684c
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+On Wed, 24 Jan 2024 08:44:25 +0800, Yang Li wrote:
+> In the wcd939x codec driver, there are two instances where semicolons
+> are used after closing braces of a switch-case statement. These
+> semicolons are not required and do not adhere to the coding style
+> guidelines.
+> 
+> This patch removes the unnecessary semicolons at the end of the
+> switch-case statements which cleans up the code and ensures consistency
+> with the rest of the kernel coding style.
+> 
+> [...]
 
-Add quirks for two HP G11 laptops that use a Realtek HDA codec combined
-with four CS35L56 amplifiers using SPI.
+Applied to
 
-The CS35L56 driver uses the component binding interface, so uses the same
-setup code as the CS35L41 quirks.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/pci/hda/patch_realtek.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thanks!
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 42ee37af24bc..b2b289626323 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6819,6 +6819,11 @@ static void alc287_fixup_legion_16ithg6_speakers(struct hda_codec *cdc, const st
- 	comp_generic_fixup(cdc, action, "i2c", "CLSA0101", "-%s:00-cs35l41-hda.%d", 2);
- }
- 
-+static void cs35l56_fixup_spi_four(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
-+{
-+	comp_generic_fixup(cdc, action, "spi", "CSC3556", "-%s:00-cs35l56-hda.%d", 4);
-+}
-+
- static void tas2781_fixup_i2c(struct hda_codec *cdc,
- 	const struct hda_fixup *fix, int action)
- {
-@@ -7310,6 +7315,7 @@ enum {
- 	ALC2XX_FIXUP_HEADSET_MIC,
- 	ALC289_FIXUP_DELL_CS35L41_SPI_2,
- 	ALC294_FIXUP_CS35L41_I2C_2,
-+	ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -9461,6 +9467,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = cs35l41_fixup_i2c_two,
- 	},
-+	[ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = cs35l56_fixup_spi_four,
-+		.chained = true,
-+		.chain_id = ALC285_FIXUP_HP_GPIO_LED,
-+	},
- };
- 
- static const struct snd_pci_quirk alc269_fixup_tbl[] = {
-@@ -9789,6 +9801,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c49, "HP Elite x360 830 2-in-1 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c52, "HP EliteBook 1040 G11", ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c53, "HP Elite x360 1040 2-in-1 G11", ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
--- 
-2.30.2
+[1/1] ASoC: codecs: Remove unneeded semicolon
+      commit: e7214441ca1562fbfb002200f46d7f83bbc2e621
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
