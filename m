@@ -1,82 +1,119 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332081F60A
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 19:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF5F1386B9
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 20:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706210026; cv=none; b=V5wJMuawF8yWoZtsfIXpE50ECUHFpdV+TchUnDVuDXtlOlBd46xzrshGMUwP4pr211TUDQ+0vjI3Dhb005PNpM3+xMijpS2BTrhEx7TsC8TgJCvSzVZjg6FJv2Owza1PH8Sw/rYNuDbAGCz69AU3tVAcl7a4/Mc+71bxXZ0CtYA=
+	t=1706216113; cv=none; b=gF2PcCkiBRFhL+Y6WCvwUndFGOsR5ILaQh0qKMw/BvhiPuM0kfMUvTzXU3bcrT2zGXyIN8OMPYe41vsxtm4Zlnxu6uJYiMY6YdZdnslFvvuhQtldYKBsLjbDdDcyBpKrvpNRx5Ao6iq0iesDmhfK0ErwGPm8+dQxfpNavQpYMO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706210026; c=relaxed/simple;
-	bh=YP+ZACbPdPDNPp0wqbLMwoK7ybKxr6Ai3T/jgg7xKN4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zcq3wglGwm41gQKJkWfUMXpn02SQxqp0EDW59BM85HY4DBytTlDzN+8jen/cGX0LrlNkLqz+YU5IP4yvZwkEotuThFE8vyALaXY6GVG4yLlbmhljR8J0nY4kN9o095a/IVNaUMW8yu5pFSq7nNPsCYgDDNaykNoMiqyaRuasGqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I8T7jztk; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706216113; c=relaxed/simple;
+	bh=xYJVIJL2ocLD3M3GJdlapKVvrCU/7qNN3oE7Yr2gQS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=npj7ztKVenkdmarmIzDf9rhNw8pmCHlxPeKE45T+aAoVsXn0X5DUdv8PmnLfHlMdVM7tEjhU43kwMgr9qmz4IVOXE2iPKtbXOSphqZ0M7yOXSf2i8FCvIEaEMnyw45NLtKTgsA86EPC3s4jh89x6LZ3lB+TjiKusgmHfZBDRIsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=qXVCG/AR; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I8T7jztk"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so8491286a12.2
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 11:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706210023; x=1706814823; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YP+ZACbPdPDNPp0wqbLMwoK7ybKxr6Ai3T/jgg7xKN4=;
-        b=I8T7jztkRskud1UiJApM/pVjaFZJKJvrHjAWrW8gPd0ywa8wvA3t+GJ88eCkSeAAOU
-         lH9hs7a+eD0yyaDGTz9ohMBo0iVCEb737FJtFSYhNbQDgo5DTi3CkcgiwbqgJWTZfzjd
-         qPVPbbliSr/3AOtnHRqKOJshn94FcNkc2qPqraFpxDZ21U8kAi647CLRNUJ+c+Iiz1bb
-         aJP6zBrjYLRgKU/J+yA3aQ7AHghOxyS/v69VcBlGD5pgw6kJywT13rGL8VVcBszFIJNv
-         Ht0ILMSECkFWjvRxfFVKE5GuRQYgQSMn7cYT7yHOIZ5F5RsEAV0gSm1xdia7lO+aBptZ
-         hnjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706210023; x=1706814823;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YP+ZACbPdPDNPp0wqbLMwoK7ybKxr6Ai3T/jgg7xKN4=;
-        b=pBxQ6B3N/ptM7biQXZGjfOQfgqrCs+M/M4PNRg9s/ColtT1Ue2nVTe6DSfzjFFZ3OP
-         JUtlOeNLq8mRk+mpOqfOS1AFOiAX8JxFl6ysf4657HzRsD9hwAH1OGH9EHPs1ZS9G7VF
-         7tIzEFKOyOehqqpr5R8TKY9fxVPbHkC5o6AqyJsmudUJbS7fwiNjaWSa5F13J72eis3B
-         aEOrWoqMXF0eP/Z0fKDh4znCbkoHjMDp+1nZTf3j5y4X2+Npa4c5+ELrfiDWZuVwD+yM
-         7x+gcuMYKHfNsMpfLnlVOe9HXKvMU18ZbRr8ljMU74pUJNjxfnsRWTy1LjDh+BaP0rte
-         S0mA==
-X-Gm-Message-State: AOJu0Ywh3iBag9ENAEVAwmDnGeCxVZDY7/ZBpsEyNrDYI9+/Qk3T3PgQ
-	kow5w2UlC3PWpo9NxCQEkvv27Em3Ut6Mta/vMencDdBS38qbW4GAAmrGVKMzD7pLGOKngzKKsct
-	Nod16YbeywUzb4q3uoyzd4KR3J7A=
-X-Google-Smtp-Source: AGHT+IGfkSRCBrrvKqqMEq4ctCl5dmSmQpuhXdTB9wouHDjmCH/Ept/X7A8N+L60v5X4vx0N7tei2nyHpa4fgsdLG1M=
-X-Received: by 2002:a17:906:3e46:b0:a28:e6d8:dd15 with SMTP id
- t6-20020a1709063e4600b00a28e6d8dd15mr24850eji.33.1706210023157; Thu, 25 Jan
- 2024 11:13:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="qXVCG/AR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=IiSfffQQUFr9J5T+WnBjM0E4k0dpvmpjFIYfPhZ/few=; b=qXVCG/ARQgXh3t7se7BAQrWyC1
+	9JCwAh1UBWhrB+U2plM5p2MeWCyxKGif7nvmQ3Sk7eeFjsmtgEulQckpIJGd8yyi1HfA2t13Ddlfe
+	UgqOkasobRRKorBBStGW9WwfMSC+lK8iVCDPX6iiCI9om2JfRSFyHvqtGqU+RC2kDwP0=;
+Received: from [2a00:1370:819a:c53:3baa:da0a:1172:ed3d] (helo=home..)
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1rT6ke-00000002ELf-08WP;
+	Thu, 25 Jan 2024 23:55:08 +0300
+From: Alexander Tsoy <alexander@tsoy.me>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org
+Subject: [PATCH] ALSA: usb-audio: Support read-only clock selector control
+Date: Thu, 25 Jan 2024 23:54:57 +0300
+Message-ID: <20240125205457.28258-1-alexander@tsoy.me>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com>
-In-Reply-To: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 25 Jan 2024 21:13:07 +0200
-Message-ID: <CAHp75VfASF6RB0eyAEs342=i32YMG1=nzdmOYE7tKKUkRpUZKA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] ASoC: cs42l43: Tidy up header includes
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, alsa-devel@alsa-project.org, 
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: puleglot@puleglot.ru
 
-On Thu, Jan 25, 2024 at 12:31=E2=80=AFPM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
->
-> Use more forward declarations, move header guards to cover other
-> includes, and rely less on including headers through other headers.
+Clock selector control might be read-only. Add corresponding checks
+to prevent sending control requests that would fail.
 
-For patches 1-5,7
+Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+---
+ sound/usb/clock.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+diff --git a/sound/usb/clock.c b/sound/usb/clock.c
+index 94e4aaeafe58..7b259641adb5 100644
+--- a/sound/usb/clock.c
++++ b/sound/usb/clock.c
+@@ -261,6 +261,8 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
+ 	int ret, i, cur, err, pins, clock_id;
+ 	const u8 *sources;
+ 	int proto = fmt->protocol;
++	bool readable, writeable;
++	u32 bmControls;
+ 
+ 	entity_id &= 0xff;
+ 
+@@ -292,11 +294,27 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
+ 		sources = GET_VAL(selector, proto, baCSourceID);
+ 		cur = 0;
+ 
++		if (proto == UAC_VERSION_3)
++			bmControls = le32_to_cpu(*(__le32 *)(&selector->v3.baCSourceID[0] + pins));
++		else
++			bmControls = *(__u8 *)(&selector->v2.baCSourceID[0] + pins);
++
++		readable = uac_v2v3_control_is_readable(bmControls,
++							UAC2_CX_CLOCK_SELECTOR);
++		writeable = uac_v2v3_control_is_writeable(bmControls,
++							  UAC2_CX_CLOCK_SELECTOR);
++
+ 		if (pins == 1) {
+ 			ret = 1;
+ 			goto find_source;
+ 		}
+ 
++		/* for now just warn about buggy device */
++		if (!readable)
++			usb_audio_warn(chip,
++				"%s(): clock selector control is not readable, id %d\n",
++				__func__, clock_id);
++
+ 		/* the entity ID we are looking at is a selector.
+ 		 * find out what it currently selects */
+ 		ret = uac_clock_selector_get_val(chip, clock_id);
+@@ -326,7 +344,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
+ 		if (ret > 0) {
+ 			/* Skip setting clock selector again for some devices */
+ 			if (chip->quirk_flags & QUIRK_FLAG_SKIP_CLOCK_SELECTOR ||
+-			    pins == 1)
++			    pins == 1 || !writeable)
+ 				return ret;
+ 			err = uac_clock_selector_set_val(chip, entity_id, cur);
+ 			if (err < 0)
+@@ -337,6 +355,9 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
+ 			return ret;
+ 
+ 	find_others:
++		if (!writeable)
++			return -ENXIO;
++
+ 		/* The current clock source is invalid, try others. */
+ 		for (i = 1; i <= pins; i++) {
+ 			if (i == cur)
+-- 
+2.43.0
 
---=20
-With Best Regards,
-Andy Shevchenko
