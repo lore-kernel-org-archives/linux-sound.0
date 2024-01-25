@@ -1,194 +1,146 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F038C18E3A
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 08:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39381B948;
+	Thu, 25 Jan 2024 08:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706171276; cv=none; b=EURZh51E47U6rXQM2r4Bx2heshOOW3VmaiGugI/0l9Q/P2wxXmatdPvDrgjM94R3B4CNAd2GXUKIjyRN5+UhaHmDnkN9xy40yKSnWHcgxLL12h7WJ2oypMZNoiE91AjTNx11v6pip2/3nyaakCGFbywUOI6yjzGAqzNs56L7L4E=
+	t=1706172452; cv=none; b=BRAhQa8fpJhkXvCWMm+6Bi91E1xF2UkHeRei+p/n0UKTJkDRQ/X8xu50R6KnQKADIEqVbWcXED3E2xZfwUSdroX95LV6riiTnpFI9AswjhOD1zLWDEmiBozg3znQwUsRNxYNpdW75BSdgzz0nxOVHUIqArnu8S2JyPbb8VXe2ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706171276; c=relaxed/simple;
-	bh=2XiYbkPw3i5edkHdoGLqeOFp6GYs53ELzsqZ7MhTKYc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bWKXldAASgnlY3g3DQmZXVaKynl2cCYgehu+oZYBcBPH4PlazHertkO3G7H4yMMSH/AfQ+pXp2SLU9XwQOGCxJOZcLqZZcScW+riMUVz9M5xQOkYhcwGarLBVrGjei6gRusfUfSlQMYgHf42NIUIsIQx4Z2c0QHuxv1LThXJ4Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tpr8R5wO; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706172452; c=relaxed/simple;
+	bh=zSwWF0claKxQzQoWOkji0OUgq92XNb0vOhOBmzc21Qo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=NW/4kvyWh/Tjx6lyzZ+Vawr9iD6nyHnFMuhZK8jo6PqxPPgC/MwPWSmT5AHmG9i/ujRzab7Jsa0yiIX5iZGrkGPZvR06Hf2th1gJeq7SDJoU8UAU5hrIdZCfxjLfR892nHwOeFZsejII6qCilE1NjZHyY5N29Bh7ruoX2wrAEPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=lTyuOyAp; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tpr8R5wO"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40e8fec0968so82346515e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 00:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706171273; x=1706776073; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hdaT3eh+IWzZ9wRxEt609lH8JpOZmnfT+gedHYcaONU=;
-        b=Tpr8R5wOfD29f+mCowH8ji+CVy+00qVI08xq9LuMevGu5r8L01yUirOIM1tSFH/wJS
-         zYedsWmNhnF/zIE1ySX1K7Dtp79xI4USH2DDfNlCTbUJPVHb/n0pZawPq3L84eYextSL
-         AwrHyce2soqYMZ5yITe+pz/DcKs1HQeEaLL3vcJtH5IGmwxbEH2+7WMmRYu9Bb5q3Ahc
-         4cG8Wt+mLbg/3Xha6pGYERQbFobRkRyYWBLUbO1HnswJEAUnmtiRwx5J44WrQhpnJAcl
-         Tj9ew7YmZB9S6Rbif6O/OPTSQfnQDt4hVO69YsAXF39goTnZ9WkKAq4HeifEiI2P89dL
-         2gdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706171273; x=1706776073;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hdaT3eh+IWzZ9wRxEt609lH8JpOZmnfT+gedHYcaONU=;
-        b=D5qK4IZP27dTDh3062w891D9h8SYxrz0vaoPt4jwT2xCYRJdVCgdYwHb2IpN1d+1wy
-         n4+BPfIkVDjhWDUQtGipyhWVaq7lU+wAt1sU3UCQZzDDFovn4B+EeO3NB1ByzUcqYjec
-         Y3Xeb4ms/klm7pVCVmMEY8UUcUGm2Vo7i/P3ql2VwKBrZ08Y3BDzketSyP0q7EbtKFMq
-         pBesEzj4nG5CIryQQQliOkrmjJshxYF+BTf36pNlBkhjqY2r9NVgA2aFdFQ2XckH9cY1
-         4dcatYn9r3QhlK4yLn8f0+EhPmSk02ENg8y6TWffmAENvL/9RtC5cCBEJf+Db/R/WcPX
-         GDkw==
-X-Gm-Message-State: AOJu0YxubTjgYYeLO24OkKrsw3iE8ATbfj2woJ6/mFV69xn22m5153HW
-	BE86OycGxo41Z4lpNSZYS1laVgF3Aty9jNTjJ98w9CFM3oQQK76iCVyuHQHCAdFp63dCF43i80d
-	Nub+xIg==
-X-Google-Smtp-Source: AGHT+IFWw8xacpEPCFZ/YlUi4IIfiSG8qoo4jjTTTF9CDHtGBE7DgBDccglFMNdlYiGkPtAq5kIhhg==
-X-Received: by 2002:a7b:cbcd:0:b0:40e:3854:db2d with SMTP id n13-20020a7bcbcd000000b0040e3854db2dmr277842wmi.65.1706171273241;
-        Thu, 25 Jan 2024 00:27:53 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:1a7d:7b36:3842:9bc3? ([2a01:e0a:982:cbb0:1a7d:7b36:3842:9bc3])
-        by smtp.gmail.com with ESMTPSA id h21-20020a05600c351500b0040e47dc2e8fsm1716683wmq.6.2024.01.25.00.27.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jan 2024 00:27:52 -0800 (PST)
-Message-ID: <91158620-775e-4db1-9b8e-7154c6d66cd6@linaro.org>
-Date: Thu, 25 Jan 2024 09:27:51 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="lTyuOyAp"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40P8kaks054089;
+	Thu, 25 Jan 2024 02:46:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1706172396;
+	bh=zSwWF0claKxQzQoWOkji0OUgq92XNb0vOhOBmzc21Qo=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=lTyuOyApebTeO4Hz2PF8+GhoZ9ZACZUi78DQ55nT1sh/nahvtGUQc2ZijGmkqSNWq
+	 TxoQBRE8/R+Q+BYjqqOpfi8OxTI3kt1paVUEfztf0qlH/1MaRf/9Rfur6b1cs9oxVN
+	 5oHG4GLI/jSw3PwlxrFZcQJ7GlleTedvi/QlFTYw=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40P8kZ7J040244
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 25 Jan 2024 02:46:36 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 25
+ Jan 2024 02:46:35 -0600
+Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
+ DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
+ 15.01.2507.023; Thu, 25 Jan 2024 02:46:35 -0600
+From: "Ding, Shenghao" <shenghao-ding@ti.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "broonie@kernel.org"
+	<broonie@kernel.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>
+CC: "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+        "Lu,
+ Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "perex@perex.cz"
+	<perex@perex.cz>,
+        "pierre-louis.bossart@linux.intel.com"
+	<pierre-louis.bossart@linux.intel.com>,
+        "13916275206@139.com"
+	<13916275206@139.com>,
+        "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "liam.r.girdwood@intel.com"
+	<liam.r.girdwood@intel.com>,
+        "soyer@irl.hu" <soyer@irl.hu>, "Huang, Jonathan"
+	<jkhuang3@ti.com>,
+        "tiwai@suse.de" <tiwai@suse.de>, "Djuandi, Peter"
+	<pdjuandi@ti.com>,
+        "McPherson, Jeff" <j-mcpherson@ti.com>,
+        "Navada Kanyana,
+ Mukund" <navada@ti.com>
+Subject: RE: [EXTERNAL] Re: [PATCH v1 4/4] ASoc: dt-bindings: Create yaml file
+ for pcm6240 codec driver
+Thread-Topic: [EXTERNAL] Re: [PATCH v1 4/4] ASoc: dt-bindings: Create yaml
+ file for pcm6240 codec driver
+Thread-Index: AQHaTe1hznwq6igpf0+r29xPdjuRgbDnplkAgAKAPWCAAGhXgP//qoQg
+Date: Thu, 25 Jan 2024 08:46:35 +0000
+Message-ID: <c107a70e42eb4327802748cda89d292f@ti.com>
+References: <20240123111411.850-1-shenghao-ding@ti.com>
+ <20240123111411.850-4-shenghao-ding@ti.com>
+ <92c1a3f3-6b3b-47cb-a4bf-0d20e4af95e5@linaro.org>
+ <a6c6cad6efc647ba8f0c828ffdb3a54f@ti.com>
+ <d8f00ea9-3bb2-4b17-bbc7-48800516e408@linaro.org>
+In-Reply-To: <d8f00ea9-3bb2-4b17-bbc7-48800516e408@linaro.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v5 4/6] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-Content-Language: en-US, fr
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand
- <frowand.list@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
- Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Sean Anderson <sean.anderson@seco.com>
-References: <20240124074527.48869-1-krzysztof.kozlowski@linaro.org>
- <20240124074527.48869-5-krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20240124074527.48869-5-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 24/01/2024 08:45, Krzysztof Kozlowski wrote:
-> Devices sharing a reset GPIO could use the reset framework for
-> coordinated handling of that shared GPIO line.  We have several cases of
-> such needs, at least for Devicetree-based platforms.
-> 
-> If Devicetree-based device requests a reset line, while "resets"
-> Devicetree property is missing but there is a "reset-gpios" one,
-> instantiate a new "reset-gpio" platform device which will handle such
-> reset line.  This allows seamless handling of such shared reset-gpios
-> without need of changing Devicetree binding [1].
-> 
-> To avoid creating multiple "reset-gpio" platform devices, store the
-> Devicetree "reset-gpios" GPIO specifiers used for new devices on a
-> linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
-> controller, GPIO number and GPIO flags) is used to check if reset
-> controller for given GPIO was already registered.
-> 
-> If two devices have conflicting "reset-gpios" property, e.g. with
-> different ACTIVE_xxx flags, this would allow to spawn two separate
-> "reset-gpio" devices, where the second would fail probing on busy GPIO
-> request.
-> 
-> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ [1]
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Depends on previous of change.
-> ---
->   drivers/reset/core.c             | 215 +++++++++++++++++++++++++++++--
->   include/linux/reset-controller.h |   4 +
->   2 files changed, 206 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-> index 4d5a78d3c085..60a8a33c4419 100644
-> --- a/drivers/reset/core.c
-> +++ b/drivers/reset/core.c
-
-<snip>
-
-> +	}
-> +
-> +	ret = __reset_add_reset_gpio_lookup(id, args->np, args->args[0],
-> +					    args->args[1]);
-
-What would happen with gpio controllers using #gpio-cells = <3> (or more) like allwinner,sun4i-a10-pinctrl.yaml ?
-
-On this example the flags are args->args[2] so this would probably fail.
-
-This would also fails badly with #gpio-cells = <1>, args->args[1] value would be undefined.
-
-You should probably limit to args->args_count == 2 for now.
-
-Neil
-
-> +	if (ret < 0)
-> +		goto err_kfree;
-> +
-> +	rgpio_dev->of_args = *args;
-> +	/*
-> +	 * We keep the device_node reference, but of_args.np is put at the end
-> +	 * of __of_reset_control_get(), so get it one more time.
-> +	 * Hold reference as long as rgpio_dev memory is valid.
-> +	 */
-> +	of_node_get(rgpio_dev->of_args.np);
-> +	pdev = platform_device_register_data(NULL, "reset-gpio", id,
-> +					     &rgpio_dev->of_args,
-> +					     sizeof(rgpio_dev->of_args));
-
-<snip>
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxv
+d3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8ub3JnPg0KPiBTZW50OiBUaHVyc2RheSwg
+SmFudWFyeSAyNSwgMjAyNCAzOjUwIFBNDQo+IFRvOiBEaW5nLCBTaGVuZ2hhbyA8c2hlbmdoYW8t
+ZGluZ0B0aS5jb20+OyBicm9vbmllQGtlcm5lbC5vcmc7DQo+IGNvbm9yK2R0QGtlcm5lbC5vcmcN
+Cj4gQ2M6IHJvYmgrZHRAa2VybmVsLm9yZzsgYW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwu
+Y29tOyBMdSwgS2V2aW4NCj4gPGtldmluLWx1QHRpLmNvbT47IFh1LCBCYW9qdW4gPGJhb2p1bi54
+dUB0aS5jb20+Ow0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGdpcmR3b29kQGdtYWls
+LmNvbTsgcGVyZXhAcGVyZXguY3o7DQo+IHBpZXJyZS1sb3Vpcy5ib3NzYXJ0QGxpbnV4LmludGVs
+LmNvbTsgMTM5MTYyNzUyMDZAMTM5LmNvbTsgbGludXgtDQo+IHNvdW5kQHZnZXIua2VybmVsLm9y
+ZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gbGlhbS5yLmdpcmR3b29kQGludGVs
+LmNvbTsgc295ZXJAaXJsLmh1OyBIdWFuZywgSm9uYXRoYW4NCj4gPGpraHVhbmczQHRpLmNvbT47
+IHRpd2FpQHN1c2UuZGU7IERqdWFuZGksIFBldGVyIDxwZGp1YW5kaUB0aS5jb20+Ow0KPiBNY1Bo
+ZXJzb24sIEplZmYgPGotbWNwaGVyc29uQHRpLmNvbT47IE5hdmFkYSBLYW55YW5hLCBNdWt1bmQN
+Cj4gPG5hdmFkYUB0aS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbRVhURVJOQUxdIFJlOiBbUEFUQ0gg
+djEgNC80XSBBU29jOiBkdC1iaW5kaW5nczogQ3JlYXRlIHlhbWwNCj4gZmlsZSBmb3IgcGNtNjI0
+MCBjb2RlYyBkcml2ZXINCj4gDQo+IE9uIDI1LzAxLzIwMjQgMDg64oCKMzksIERpbmcsIFNoZW5n
+aGFvIHdyb3RlOiA+PiA+PiBXaHkgZG8geW91IHJlcGVhdCB0aGUNCj4gcmVnIGNvbnN0cmFpbnRz
+PyBUaGlzIGRvZXMgbm90IHNlZW0gbmVlZGVkLiA+PiA+Pj4gKyBpbnRlcnJ1cHRzOiBmYWxzZSA+
+Pj4NCj4gKyA+Pj4gKyAtIGlmOiA+Pj4gKyBwcm9wZXJ0aWVzOiA+Pj4gWmpRY21RUllGcGZwdEJh
+bm5lclN0YXJ0IFRoaXMgbWVzc2FnZQ0KPiB3YXMgc2VudCBmcm9tIG91dHNpZGUgb2YgVGV4YXMg
+SW5zdHJ1bWVudHMuDQo+IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
+bGVzcyB5b3UgcmVjb2duaXplIHRoZSBzb3VyY2Ugb2YNCj4gdGhpcyBlbWFpbCBhbmQga25vdyB0
+aGUgY29udGVudCBpcyBzYWZlLg0KPiANCj4gWmpRY21RUllGcGZwdEJhbm5lckVuZA0KPiBPbiAy
+NS8wMS8yMDI0IDA4OjM5LCBEaW5nLCBTaGVuZ2hhbyB3cm90ZToNCj4gPj4NCj4gPj4gV2h5IGRv
+IHlvdSByZXBlYXQgdGhlIHJlZyBjb25zdHJhaW50cz8gVGhpcyBkb2VzIG5vdCBzZWVtIG5lZWRl
+ZC4NCj4gPj4NCj4gPj4+ICsgICAgICAgIGludGVycnVwdHM6IGZhbHNlDQo+ID4+PiArDQo+ID4+
+PiArICAtIGlmOg0KPiA+Pj4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4+PiArICAgICAgICBjb21w
+YXRpYmxlOg0KPiA+Pj4gKyAgICAgICAgICBjb250YWluczoNCj4gPj4+ICsgICAgICAgICAgICBl
+bnVtOg0KPiA+Pj4gKyAgICAgICAgICAgICAgLSB0aSxwY20zMTQwDQo+ID4+PiArICAgICAgICAg
+ICAgICAtIHRpLHBjbTUxNDANCj4gPj4+ICsgICAgICAgICAgICAgIC0gdGkscGNtNjE0MA0KPiA+
+Pj4gKyAgICAgICAgICAgICAgLSB0aSxwY21kMzE4MA0KPiA+Pj4gKyAgICB0aGVuOg0KPiA+Pj4g
+KyAgICAgIHByb3BlcnRpZXM6DQo+ID4+PiArICAgICAgICByZWc6DQo+ID4+PiArICAgICAgICAg
+IGRlc2NyaXB0aW9uOg0KPiA+Pj4gKyAgICAgICAgICAgIEkyQyBhZGRyZXNzLCBpbiBtdWx0aXBs
+ZSBwY21kZXZpY2VzIGNhc2UsIGFsbCB0aGUgaTJjIGFkZHJlc3MNCj4gPj4+ICsgICAgICAgICAg
+ICBhZ2dyZWdhdGUgYXMgb25lIEF1ZGlvIERldmljZSB0byBzdXBwb3J0IG11bHRpcGxlIGF1ZGlv
+IHNsb3RzLg0KPiA+Pj4gKyAgICAgICAgICBtYXhJdGVtczogNA0KPiA+Pj4gKyAgICAgICAgICBt
+aW5JdGVtczogMQ0KPiA+Pg0KPiANCj4gWW91IGRpZCBub3QgcmVzcG9uZCB0byBhbnkgb2Ygb3Ro
+ZXIgY29tbWVudHMsIHRoZXJlZm9yZSBJIGFzc3VtZSB5b3UNCj4gYWdyZWUgd2l0aCB0aGVtIDEw
+MCUgYW5kIHlvdSB3aWxsIGltcGxlbWVudCB0aGVtIGZ1bGx5Lg0KPiANCj4gDQo+ID4+IERyb3Ag
+ZW50aXJlIGlmDQo+ID4gSG93IHRvIGNvbnZleSB0aSxwY20xNjkwIGRvZXMgbm90IHN1cHBvcnQg
+aW50ZXJydXB0LCBhbmQgb3RoZXJzDQo+ID4gc3VwcG9ydCBpZiBJIHJlbW92ZSB0aGlzIGlmDQo+
+IA0KPiBIb3c/IFRoZXJlIGlzIG5vIHBjbTE2OTAgaGVyZS4NCkhvdyBjYW4gb3RoZXJzIGtub3cg
+dGhhdCBwY20zMTQwLCBwY201MTQwLCBwY202MTQwIGFuZCBwY21kMzE4MA0KU3VwcG9ydCBpMmMg
+YWRkcmVzcyBmcm9tIDB4NGMgdG8gMHg0ZiwgaWYgdGhpcyBpZiBicmFuY2ggd2FzIHJlbW92ZWQu
+DQo+IA0KPiBCVFcsIGFkZCBtaXNzaW5nIGxpbmUgYnJlYWtzLCBlc3BlY2lhbGx5IGJlZm9yZSBu
+ZXh0IGJsb2NrcyBsaWtlDQo+IGFkZGl0aW9uYWxQcm9wZXJ0aWVzLg0KQWNjZXB0ZWQNCj4gDQo+
+ID4+DQo+ID4+PiArICAgICAgICAgIGl0ZW1zOg0KPiA+Pj4gKyAgICAgICAgICAgIG1pbmltdW06
+IDB4NGMNCj4gPj4+ICsgICAgICAgICAgICBtYXhpbXVtOiAweDRmDQo+ID4+PiArDQo+ID4NCj4g
+PiBCUg0KPiA+IFNoZW5naGFvIERpbmcNCj4gPg0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5
+c3p0b2YNCg0K
