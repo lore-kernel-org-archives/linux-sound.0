@@ -1,42 +1,64 @@
-Received: from puleglot.ru (puleglot.ru [195.201.32.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF5F1386B9
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 20:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587B4111AD;
+	Thu, 25 Jan 2024 22:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706216113; cv=none; b=gF2PcCkiBRFhL+Y6WCvwUndFGOsR5ILaQh0qKMw/BvhiPuM0kfMUvTzXU3bcrT2zGXyIN8OMPYe41vsxtm4Zlnxu6uJYiMY6YdZdnslFvvuhQtldYKBsLjbDdDcyBpKrvpNRx5Ao6iq0iesDmhfK0ErwGPm8+dQxfpNavQpYMO0=
+	t=1706222138; cv=none; b=MNkIehPa/Xpkr0Jev41SdSL35YVFsA+y2iXkQaJDV0R8ooeD01vZe/TNHPHqLF2mhlucoYUDVL2ewuTYBLK9/gvnXCLcrAYILwiI8GeVoPFj1dh9Fb5rWdj0czaPVtEATJmsgpSonx9k5SEYCWBc9RbtINCjdVlCLRLXc0R2PTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706216113; c=relaxed/simple;
-	bh=xYJVIJL2ocLD3M3GJdlapKVvrCU/7qNN3oE7Yr2gQS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=npj7ztKVenkdmarmIzDf9rhNw8pmCHlxPeKE45T+aAoVsXn0X5DUdv8PmnLfHlMdVM7tEjhU43kwMgr9qmz4IVOXE2iPKtbXOSphqZ0M7yOXSf2i8FCvIEaEMnyw45NLtKTgsA86EPC3s4jh89x6LZ3lB+TjiKusgmHfZBDRIsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=qXVCG/AR; arc=none smtp.client-ip=195.201.32.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+	s=arc-20240116; t=1706222138; c=relaxed/simple;
+	bh=Uqv69FjQ+FATXs+N7RcNWXRmI484OnB4UG1WlGfNxug=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YcHZZRnkG9EMTi7Q9EUSAbLk6R7fBgUmtnupdIXDkSp2XNcgOVeGBahfeVsuZ+IuZ0DV2tTaYF/NGv+F3e/s6wDJWUqk6u4w+TLq7UMln1qleKIJYpz1q57iQ1dLbU6mg2sY2VAGEnjYcNFTX6hMlHoFWOIGWvl8RsQ2GrkVVNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kb0FYpEM; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="qXVCG/AR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=IiSfffQQUFr9J5T+WnBjM0E4k0dpvmpjFIYfPhZ/few=; b=qXVCG/ARQgXh3t7se7BAQrWyC1
-	9JCwAh1UBWhrB+U2plM5p2MeWCyxKGif7nvmQ3Sk7eeFjsmtgEulQckpIJGd8yyi1HfA2t13Ddlfe
-	UgqOkasobRRKorBBStGW9WwfMSC+lK8iVCDPX6iiCI9om2JfRSFyHvqtGqU+RC2kDwP0=;
-Received: from [2a00:1370:819a:c53:3baa:da0a:1172:ed3d] (helo=home..)
-	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <puleglot@puleglot.ru>)
-	id 1rT6ke-00000002ELf-08WP;
-	Thu, 25 Jan 2024 23:55:08 +0300
-From: Alexander Tsoy <alexander@tsoy.me>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org
-Subject: [PATCH] ALSA: usb-audio: Support read-only clock selector control
-Date: Thu, 25 Jan 2024 23:54:57 +0300
-Message-ID: <20240125205457.28258-1-alexander@tsoy.me>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kb0FYpEM"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e60d74b81so10175635e9.1;
+        Thu, 25 Jan 2024 14:35:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706222131; x=1706826931; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZRFVAtNzf6+PVhrJOOZpzvV4WQX0zR7X/ikLU7ZJTXs=;
+        b=kb0FYpEM/L/l8XuT1At/qTKvyKfPOC7/7YuD3sIRbnYDjd00v84EcVn5kUTjwlXel0
+         JLbipUn9Z+ymRrvmsZOzH5yIU9rULzHJgS8HRAHo5CSWMUK8kGYRbMiV9byY66pyVbDt
+         OEIAdL8X01MD0bZiZHS1MDnsJkmi17s7I7XZUDXcnOwl3RIwvuEMu028V51Im4Kdlp5f
+         0IVAzg499N7DHIdnlOazgS6ONMPeWoS/7spXP/O/jtbF/Xn5gHa/oS4cphP5cRn0ZUEO
+         61NxBsvaKg4FEfZ8Xt5iQkKYFwzgEcGHxF2+crZbIv2j5MmmH05ptMRZxLnrmQeZONp/
+         1Uxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706222131; x=1706826931;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZRFVAtNzf6+PVhrJOOZpzvV4WQX0zR7X/ikLU7ZJTXs=;
+        b=FscNs0Stj5Jk3a5Vq8Kf8WMU+AWD7bMnPkBHOFNgQ/lRiz88SnyqhVWow3esIk2FRf
+         vRXGiGbExhB4a2ak4okF89FMllt+Oy2oOHpGEmOegyWqLX3kTeZL5ZyO6ZWiYo918bg5
+         yN7i5vQceyqLJd+EpdD25tQSsSL12GAdzm5IBDiRgkndp+DUce2SaVwkISxfLml6zoHF
+         uVxyRFsxgRhsNGd4CH+Xk5hUHTTvDArBeZInUBh2CoL8Ri2dRuk2ngZIusuFAm0RhNQ0
+         C0Dm1/lQde6jVbXpfGi9YWwFtlbk4gIWfhOoI5bREWcJpV5CTPinyRNVi/sbEfIMIEiP
+         lsHQ==
+X-Gm-Message-State: AOJu0Yw5ILfPtFZ5tJZrS4WZiHEUgUfnKEamgLhbK5z70vPeQHZDGLib
+	qvHA7Li6NRQmjP4/ya7P7WlW2AKAEtLK2fG+OfmFRdbBZ84I2+Xf
+X-Google-Smtp-Source: AGHT+IEU4r2sqDqmey0v+H7xvB+9ETTxcY4Ay3X1yHulwQjVliCKwdws7/3b5+P4uYgXtoL5iK92cw==
+X-Received: by 2002:a05:600c:1f8d:b0:40e:53ef:d9f8 with SMTP id je13-20020a05600c1f8d00b0040e53efd9f8mr566290wmb.1.1706222131256;
+        Thu, 25 Jan 2024 14:35:31 -0800 (PST)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:9829:5527:ea0f:1fac])
+        by smtp.gmail.com with ESMTPSA id b19-20020a05600c4e1300b0040d8d11bf63sm40012wmq.41.2024.01.25.14.35.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 14:35:30 -0800 (PST)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
+Date: Thu, 25 Jan 2024 22:35:19 +0000
+Message-Id: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,76 +66,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: puleglot@puleglot.ru
 
-Clock selector control might be read-only. Add corresponding checks
-to prevent sending control requests that would fail.
+Add 4 missing formats to 'snd_pcm_format_names' array in order to be
+able to get their names with 'snd_pcm_format_name' function.
 
-Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
 ---
- sound/usb/clock.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ sound/core/pcm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 94e4aaeafe58..7b259641adb5 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -261,6 +261,8 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 	int ret, i, cur, err, pins, clock_id;
- 	const u8 *sources;
- 	int proto = fmt->protocol;
-+	bool readable, writeable;
-+	u32 bmControls;
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index a09f0154e6a7..d0788126cbab 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -211,6 +211,10 @@ static const char * const snd_pcm_format_names[] = {
+ 	FORMAT(DSD_U32_LE),
+ 	FORMAT(DSD_U16_BE),
+ 	FORMAT(DSD_U32_BE),
++	FORMAT(S20_LE),
++	FORMAT(S20_BE),
++	FORMAT(U20_LE),
++	FORMAT(U20_BE),
+ };
  
- 	entity_id &= 0xff;
- 
-@@ -292,11 +294,27 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 		sources = GET_VAL(selector, proto, baCSourceID);
- 		cur = 0;
- 
-+		if (proto == UAC_VERSION_3)
-+			bmControls = le32_to_cpu(*(__le32 *)(&selector->v3.baCSourceID[0] + pins));
-+		else
-+			bmControls = *(__u8 *)(&selector->v2.baCSourceID[0] + pins);
-+
-+		readable = uac_v2v3_control_is_readable(bmControls,
-+							UAC2_CX_CLOCK_SELECTOR);
-+		writeable = uac_v2v3_control_is_writeable(bmControls,
-+							  UAC2_CX_CLOCK_SELECTOR);
-+
- 		if (pins == 1) {
- 			ret = 1;
- 			goto find_source;
- 		}
- 
-+		/* for now just warn about buggy device */
-+		if (!readable)
-+			usb_audio_warn(chip,
-+				"%s(): clock selector control is not readable, id %d\n",
-+				__func__, clock_id);
-+
- 		/* the entity ID we are looking at is a selector.
- 		 * find out what it currently selects */
- 		ret = uac_clock_selector_get_val(chip, clock_id);
-@@ -326,7 +344,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 		if (ret > 0) {
- 			/* Skip setting clock selector again for some devices */
- 			if (chip->quirk_flags & QUIRK_FLAG_SKIP_CLOCK_SELECTOR ||
--			    pins == 1)
-+			    pins == 1 || !writeable)
- 				return ret;
- 			err = uac_clock_selector_set_val(chip, entity_id, cur);
- 			if (err < 0)
-@@ -337,6 +355,9 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 			return ret;
- 
- 	find_others:
-+		if (!writeable)
-+			return -ENXIO;
-+
- 		/* The current clock source is invalid, try others. */
- 		for (i = 1; i <= pins; i++) {
- 			if (i == cur)
+ /**
 -- 
-2.43.0
+2.34.1
 
