@@ -1,136 +1,202 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D931BF50
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 10:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5DA1CA82
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 10:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706178424; cv=none; b=lHrKXqeY9mFp3GzXzLmW2Ce2tA68L4ZQvLTGz7nAkh2+HZnsmku0dibGbokSfSXBxMTV2tqwLfl39dHnJSohnjv0CSHJRx4llnVxwiWPlqcAjBV+sR1wQJjnycVaAmPJExmQJCNWBslL/jKQSzm15OkRQbF1MNh+V7SQHmQUH5g=
+	t=1706178688; cv=none; b=eBWuG2/SIsYzhY1tqlT31X7p+kFtBfZyOBdru4LJKG3CABDMnlhmna7XzLngNQOwqtuvFd2zDq0zeMM/HDsHjWXtQTvS/iUGUyYbtiMKvAp9A12wHEb/Iaf2nHVTxgswNKUH8biwHnMweymwuOob2j3rLClawEOFVfehlFiNxSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706178424; c=relaxed/simple;
-	bh=ilmTokB1LWWWxVbA7PtwOLj5XcOJPhdI5/h6+rHojrY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UsdCnH8+L+uiOn3/HLokPgbNbLhGNRP9Wdma5LnGKnSO9AeL7WL7jIZy7UvYugkHDOgWxJ7wXoa5tiqUlFTzpgyXiLroLzjLNQ1XmTqWrNparqKb4X9gio3saG7n8y87DDOs62w7DJOmIWyG4HPUQ/aBiTTIh65XTff+u1qGoUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lfck4IW6; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706178688; c=relaxed/simple;
+	bh=dP1nGXxsMCY2F5/u1k++YVby2qiBM6bGmD+FcrbasGY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IVQti3r1u8mnLhVMiv2W12yjupofYLyZ5aG/o63DshMae4PT8VC/+p97pRVFP1uQhBUce6Fp7m97iVok0JYpUq9HhGabPdn008Fc2L+RLzEwIUL9XxVpx1TRIPjHwhNVE6r2CY8b4pJjeMtk033Y10u1YypxXP/qUOxKnvmoxP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kIWbEIlk; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lfck4IW6"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a26fa294e56so664824366b.0
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jan 2024 02:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706178421; x=1706783221; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DdPYVs7bVu+QbH/ro/DzVVOcppC61kKhdHn4oYEGLCg=;
-        b=Lfck4IW6UD1Sl7w51fvpf2cKvpWWpESDNsBr/dGH4ZOt0Or1yZTY8bDacKpeo6ECvd
-         YE87Ewlt4zdN0eJyQtlX4XZOJvzpQndwaTM2lHpmo3kkuO8l7eXvRahdb72p7Dyf88vF
-         FP5WpaNhL3Ijq8A/vfagu4TthUgkvTB/ccEylWCjEUB5o7JgDLrA4SSXmiRdyJig2CVX
-         f1oyufxI8Ua8T7bP3sWPpbTOoa+LS7zmgd9cRlBueXunhi37znC/3yPVZEF41U2Zbge4
-         2taj341KuVFPOMSwc58YI6iFa68lywfizqyJXKtnhfiGeYXjF5onIRZoDWKSGm4ohc+S
-         Cyew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706178421; x=1706783221;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DdPYVs7bVu+QbH/ro/DzVVOcppC61kKhdHn4oYEGLCg=;
-        b=cLj41YTxv+L0Qs/GU1BLy5eYdvzu7ZbmBrROEASPpGrYYF9RLCYj+efTkvyDI1bN5P
-         uex+/YJ+WLpSA/gW2qIw9/UVWuweOpGlod6e9H9jIkRb+1hZQqY+2ilW1foLyLqmuAcY
-         hZtZIQMJoySk3O22jdyej0dgaSAgZTQgaHS6FcJtNSgzrD1o1uBNYr3casJwUlLwKuKX
-         2mZpzkNNu3YnR+/gIEO6EkgLyWRPH2qx188ghl2GTrd+QIyPluh3vJYiQh6gHUhKSBY4
-         Cpisrss+cebqYhfIj8EGty9/qOJMYx78C5XvN/FIr0/noIk/c9DqnQHCUAC2BLz8qBCA
-         bq9Q==
-X-Gm-Message-State: AOJu0Ywtpd3k0VWCckZKIkNWfnl42U/POVxxTQXV9o/2YYzdhuaLJ0CK
-	T63L3X574UDiPOn4U0ki8Kn2WWJ90NwglCcG1p4md4zfxa7A6/fzzwpHhBOk3oH8/5TL9f/ei7B
-	t
-X-Google-Smtp-Source: AGHT+IG4UOoSz6F19Cw8XbyiXZ1AHJ1p2OZb6yZxP9RwbfKLZ3Yc1sjZ1bM2+ZGZEotHOyH135Ph3Q==
-X-Received: by 2002:a17:907:bb8f:b0:a31:5ef5:792f with SMTP id xo15-20020a170907bb8f00b00a315ef5792fmr503015ejc.14.1706178420938;
-        Thu, 25 Jan 2024 02:27:00 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id fj5-20020a1709069c8500b00a318504ecadsm386588ejc.10.2024.01.25.02.26.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jan 2024 02:27:00 -0800 (PST)
-Message-ID: <a9d73aae-53ba-4134-84b8-b3da1b10f25b@linaro.org>
-Date: Thu, 25 Jan 2024 11:26:58 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kIWbEIlk"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40P6oFQ2010841;
+	Thu, 25 Jan 2024 04:31:20 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=q
+	YrlmXtQv18SjBS8+hZTJonIOBNbD4DOAkMk4mxdJ5w=; b=kIWbEIlk33UMbYwOy
+	/ceY/PFruGM5paYRW3cD6WJtwE/pCfh8kT3vFlF/2vLz0CCUmM2ldzbuaNUpUeDF
+	oc9r7Hm2HrTwJ1ZvJJ+75qeDfLcbH9eCaoDk6VEGQI1wCyhP9MNYmIWQbGtED5jH
+	XsRqftmADFzXyaS/3zt+YgIUQ+QJ4qbkY8kdULkwiPxY4rigZm0buMuW5rvUyUJ/
+	pUChDNpfgewacq2zxZX0gneQkNToER4J3HfWU09e/v0Nfiw4LpuyoNO7GoabEwV2
+	ic0yYNQfwvM0DgY54nQ+wOzhlBNYUEi6ke1yPuzDz13baSuUyf3HTjRnwBzym05y
+	6W6Yw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhj3jn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Jan 2024 04:31:19 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 25 Jan
+ 2024 10:31:17 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Thu, 25 Jan 2024 10:31:17 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 70A4A820246;
+	Thu, 25 Jan 2024 10:31:17 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <andy.shevchenko@gmail.com>, <lgirdwood@gmail.com>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>
+Subject: [PATCH v2 1/7] ASoC: cs42l43: Tidy up header includes
+Date: Thu, 25 Jan 2024 10:31:11 +0000
+Message-ID: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: samsung,tm2: Correct "audio-codec"
- constraints
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240124190754.1554899-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240124190754.1554899-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: fcZMI8xpfq7jlJIQx7NtCYEk9o8_2uur
+X-Proofpoint-GUID: fcZMI8xpfq7jlJIQx7NtCYEk9o8_2uur
+X-Proofpoint-Spam-Reason: safe
 
-On 24/01/2024 20:07, Rob Herring wrote:
-> The "audio-codec" constraints define how many entries(2), but not the
-> size of each entry. Each entry is a single phandle. Define the size with
-> an inner 'items' list.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Use more forward declarations, move header guards to cover other
+includes, and rely less on including headers through other headers.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
 
-Best regards,
-Krzysztof
+Changes since v1:
+ - Shuffle forward declarations around
+
+Thanks,
+Charles
+
+ sound/soc/codecs/cs42l43-jack.c |  5 +++++
+ sound/soc/codecs/cs42l43-sdw.c  |  1 +
+ sound/soc/codecs/cs42l43.c      |  8 ++++++++
+ sound/soc/codecs/cs42l43.h      | 21 ++++++++++++---------
+ 4 files changed, 26 insertions(+), 9 deletions(-)
+
+diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
+index 24a598f2ed9a3..1d8d7bf0a6b0d 100644
+--- a/sound/soc/codecs/cs42l43-jack.c
++++ b/sound/soc/codecs/cs42l43-jack.c
+@@ -6,19 +6,24 @@
+ //                         Cirrus Logic International Semiconductor Ltd.
+ 
+ #include <linux/build_bug.h>
++#include <linux/completion.h>
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/irq.h>
+ #include <linux/jiffies.h>
+ #include <linux/mfd/cs42l43.h>
+ #include <linux/mfd/cs42l43-regs.h>
++#include <linux/mutex.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/property.h>
++#include <linux/regmap.h>
++#include <linux/workqueue.h>
+ #include <sound/control.h>
+ #include <sound/jack.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc-component.h>
++#include <sound/soc-jack.h>
+ #include <sound/soc.h>
+ 
+ #include "cs42l43.h"
+diff --git a/sound/soc/codecs/cs42l43-sdw.c b/sound/soc/codecs/cs42l43-sdw.c
+index 388f95853b699..60c00c05da055 100644
+--- a/sound/soc/codecs/cs42l43-sdw.c
++++ b/sound/soc/codecs/cs42l43-sdw.c
+@@ -9,6 +9,7 @@
+ #include <linux/mfd/cs42l43.h>
+ #include <linux/mfd/cs42l43-regs.h>
+ #include <linux/module.h>
++#include <linux/soundwire/sdw.h>
+ #include <sound/pcm.h>
+ #include <sound/sdw.h>
+ #include <sound/soc-component.h>
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 6a64681767de8..f2332f90f8337 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -6,17 +6,25 @@
+ //                         Cirrus Logic International Semiconductor Ltd.
+ 
+ #include <linux/bitops.h>
++#include <linux/clk.h>
++#include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+ #include <linux/gcd.h>
+ #include <linux/irq.h>
++#include <linux/irqdomain.h>
+ #include <linux/jiffies.h>
+ #include <linux/mfd/cs42l43.h>
+ #include <linux/mfd/cs42l43-regs.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regmap.h>
+ #include <linux/string.h>
++#include <linux/workqueue.h>
+ #include <sound/control.h>
++#include <sound/cs42l43.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc-component.h>
+diff --git a/sound/soc/codecs/cs42l43.h b/sound/soc/codecs/cs42l43.h
+index 125e36861d5d5..9924c13e1eb53 100644
+--- a/sound/soc/codecs/cs42l43.h
++++ b/sound/soc/codecs/cs42l43.h
+@@ -6,19 +6,14 @@
+  *                         Cirrus Logic International Semiconductor Ltd.
+  */
+ 
+-#include <linux/clk.h>
++#ifndef CS42L43_ASOC_INT_H
++#define CS42L43_ASOC_INT_H
++
+ #include <linux/completion.h>
+-#include <linux/device.h>
+ #include <linux/mutex.h>
+-#include <linux/regmap.h>
+-#include <linux/soundwire/sdw.h>
+ #include <linux/types.h>
+-#include <sound/cs42l43.h>
++#include <linux/workqueue.h>
+ #include <sound/pcm.h>
+-#include <sound/soc-jack.h>
+-
+-#ifndef CS42L43_ASOC_INT_H
+-#define CS42L43_ASOC_INT_H
+ 
+ #define CS42L43_INTERNAL_SYSCLK		24576000
+ #define CS42L43_DEFAULT_SLOTS		0x3F
+@@ -37,6 +32,14 @@
+ 
+ #define CS42L43_N_BUTTONS	6
+ 
++struct clk;
++struct device;
++
++struct snd_soc_component;
++struct snd_soc_jack;
++
++struct cs42l43;
++
+ struct cs42l43_codec {
+ 	struct device *dev;
+ 	struct cs42l43 *core;
+-- 
+2.30.2
 
