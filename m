@@ -1,117 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F8720309;
-	Fri, 26 Jan 2024 17:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAB7249E4;
+	Fri, 26 Jan 2024 21:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706289829; cv=none; b=Co5zhZ5ORxPgU0BIX6jZs5Af9UbA2EwAA0a5FuZFXtS4uETP2Q5k6CsEB+zz0GiHigUoRhwKfoA6UV8Lw/stqIu4eMnod+xZl5b9O6Qc0XFRGeEllT7oq61Uzm0Lainzl062xhKOx3j0uPDSyqsvZ6Pn0+H6Cse/w76i3RYfA7M=
+	t=1706303653; cv=none; b=A5WJG9nDf3qtrQKnzHuSV15PYd30hjNytscUbkrfxV8xYaftBhN4KlYoY+T3aJFwGmPRSWzkZHin+EywMPz9LEvwmc+dBG1s8SNqSARVsSihU+/mP+4tq0m6lBFDGBbUJC5YuDvmq/eq8W/vzJBTdvASeQ0Xaa/3JlBhqwr3ffc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706289829; c=relaxed/simple;
-	bh=tSMX1Ae/bCy8FGpCcBWLPQYfg2LBDt1gaBUpHaOLi0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GoWVy8kDl7CDf+nGNVTX1nENFY6pMCJxanId3sg9MkTl7VlC1N0/8omrITeqn4pDE1wfMjDdnYgdJUd8oSMUHeF8YmpFmUVo4fmWkvWiOcxqeegaCzlqBo4hqgb5qv+00WK6gq0dHshrmDungGDNRn4xslW+f9iHbo+SsADGiQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGN2MhwY; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706303653; c=relaxed/simple;
+	bh=L7tkL9uE+dRQ6qVIAnwoFuhEHoFvU/FCcUmVi/Mw6js=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=nvUxTIfZSK+C78GrYO+Yz8Aubue3tHOcH3OOMx0e80yrQgpK5m3t+iIaV53nN242wmhAlFtiXccHPJL71xXwsni+1qHO4WTo7vWwGDjyYhY/RQJ+ZcW+NWrVTQu4oL96IZS9kGxnEoHmmOo3qSg3cZ4WMd3J/cl7BacUZGDdgI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=orqk+L+p; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGN2MhwY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706289828; x=1737825828;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tSMX1Ae/bCy8FGpCcBWLPQYfg2LBDt1gaBUpHaOLi0k=;
-  b=DGN2MhwY1qzdGQQuouBLgsHjbAKjNxJZVCkyR7K+a56/QEpmlAHljgcy
-   8TmhZ/wyano9KvxRn+onRjs3F5ZktguIiFrTVzJvZsmlmUa31YYKuSU6S
-   j+xiEjYRYIbPWqV28jBH6n8JM/mLhzqbje77Qtb87Rp6y8RrM2vOe783X
-   CXm8SHD6/3xym+wv1qh5mzUh8PYZf6BI59nB3pDFF48UZ2vI4u8QxwqTY
-   KwVyEmwVmxBOB7FNbuKN6UbLyyj2fkTliZef6pxF8xmThPQRzG7+JBCn8
-   7G7V+/HURLZvsQNW/HD2s2IX/4R5z+dcM+6nU2Jd40yjtPxjLntATwHsz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9900855"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9900855"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:23:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960260973"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="960260973"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:23:39 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BC8AF11FBD1;
-	Fri, 26 Jan 2024 19:23:36 +0200 (EET)
-Date: Fri, 26 Jan 2024 17:23:36 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Alex Elder <elder@ieee.org>
-Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
- usage
-Message-ID: <ZbPqmA4GkunkJqb0@kekkonen.localdomain>
-References: <20240122114121.56752-1-sakari.ailus@linux.intel.com>
- <20240122114121.56752-2-sakari.ailus@linux.intel.com>
- <912d4439-86cd-4060-a66d-baba5fa2bdec@ieee.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="orqk+L+p"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QKmJDx009339;
+	Fri, 26 Jan 2024 21:13:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:from:to:cc:references
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=FdQCEZSsPbYF4wExTxJzqosdxpMvq4tdD2TBXxuJrco=; b=or
+	qk+L+pL3QA4piAhppzLwHmqfZ88vZ/bbYFUO8nCN45Uqpe0XcHo+U56Z5YxReXds
+	zBHCMOynbRKDCJaQTAdPJ82rEPaIfcVohv8aCJTW512o62Zj4uD/b2sGxbf5owpV
+	JspzVaCbHrBxrKs/a7WumcJoZzfq1rilp+rM5q+cum5bgthSBcDDEL70GQdOekEW
+	dUJf1bbGovmGaj+ZW7RCvfG3GqCA3xGyd9TiiUNJQ+PXvIcApc0vtjzHBhzAhjvL
+	DFgG6UpsDqhH1+fRyvyhW1zakjZaQFoNyy7VuglDzZglGC+fZEbRwAgtgfy39RZh
+	NVv6OlP3K4/Ytvmn1VXA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv8e89km3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 21:13:46 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QLDj5R020019
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 21:13:45 GMT
+Received: from [10.110.17.111] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 13:13:44 -0800
+Message-ID: <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
+Date: Fri, 26 Jan 2024 13:13:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <912d4439-86cd-4060-a66d-baba5fa2bdec@ieee.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
+ event ring events
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
+        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <agross@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+ <20240102214549.22498-5-quic_wcheng@quicinc.com>
+ <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
+ <7b2ec96b-b72f-c848-7c35-36e61a4072ac@quicinc.com>
+ <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
+ <2178e799-2068-7443-59b2-310dfdd1ddee@linux.intel.com>
+ <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
+In-Reply-To: <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: I_bCQhXJsASqTNITaMpPE3gvQJrskugz
+X-Proofpoint-ORIG-GUID: I_bCQhXJsASqTNITaMpPE3gvQJrskugz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=820
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ clxscore=1011 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401260157
 
-Hi Alex,
+Hi Mathias,
 
-On Fri, Jan 26, 2024 at 09:12:02AM -0600, Alex Elder wrote:
-> On 1/22/24 5:41 AM, Sakari Ailus wrote:
-> > There are two ways to opportunistically increment a device's runtime PM
-> > usage count, calling either pm_runtime_get_if_active() or
-> > pm_runtime_get_if_in_use(). The former has an argument to tell whether to
-> > ignore the usage count or not, and the latter simply calls the former with
-> > ign_usage_count set to false. The other users that want to ignore the
-> > usage_count will have to explitly set that argument to true which is a bit
-> > cumbersome.
-> > 
-> > To make this function more practical to use, remove the ign_usage_count
-> > argument from the function. The main implementation is renamed as
-> > pm_runtime_get_conditional().
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
+On 1/16/2024 12:24 PM, Wesley Cheng wrote:
+> Hi Mathias,
 > 
-> I actually intended my "Reviewed-by" to cover the entire patch.  I
-> checked every caller and they all looked good to me.
+> On 1/15/2024 6:01 AM, Mathias Nyman wrote:
+>> On 10.1.2024 1.42, Wesley Cheng wrote:
+>>> Hi Mathias,
+>>>
+>>> On 1/8/2024 12:51 PM, Wesley Cheng wrote:
+>>>> Hi Mathias,
+>>>>
+>>>> On 1/4/2024 6:48 AM, Mathias Nyman wrote:
+>>>>> On 2.1.2024 23.45, Wesley Cheng wrote:
+>>>>>> As part of xHCI bus suspend, the XHCI is halted.  However, if 
+>>>>>> there are
+>>>>>> pending events in the secondary event ring, it is observed that 
+>>>>>> the xHCI
+>>>>>> controller stops responding to further commands upon host or device
+>>>>>> initiated bus resume.  Iterate through all pending events and 
+>>>>>> update the
+>>>>>> dequeue pointer to the beginning of the event ring.
+>>>>>>
+>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>> ...
+>>>>>> +/*
+>>>>>> + * Move the event ring dequeue pointer to skip events kept in the 
+>>>>>> secondary
+>>>>>> + * event ring.  This is used to ensure that pending events in the 
+>>>>>> ring are
+>>>>>> + * acknowledged, so the XHCI HCD can properly enter 
+>>>>>> suspend/resume. The
+>>>>>> + * secondary ring is typically maintained by an external component.
+>>>>>> + */
+>>>>>> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+>>>>>> +    struct xhci_ring *ring,    struct xhci_interrupter *ir)
+>>>>>> +{
+>>>>>> +    union xhci_trb *erdp_trb, *current_trb;
+>>>>>> +    u64 erdp_reg;
+>>>>>> +    u32 iman_reg;
+>>>>>> +    dma_addr_t deq;
+>>>>>> +
+>>>>>> +    /* disable irq, ack pending interrupt and ack all pending 
+>>>>>> events */
+>>>>>> +    xhci_disable_interrupter(ir);
+>>>>>> +    iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
+>>>>>> +    if (iman_reg & IMAN_IP)
+>>>>>> +        writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
+>>>>>> +
+>>>>>> +    /* last acked event trb is in erdp reg  */
+>>>>>> +    erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+>>>>>> +    deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
+>>>>>> +    if (!deq) {
+>>>>>> +        xhci_err(xhci, "event ring handling not required\n");
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    erdp_trb = current_trb = ir->event_ring->dequeue;
+>>>>>> +    /* read cycle state of the last acked trb to find out CCS */
+>>>>>> +    ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) 
+>>>>>> & TRB_CYCLE;
+>>>>>> +
+>>>>>> +    while (1) {
+>>>>>> +        inc_deq(xhci, ir->event_ring);
+>>>>>> +        erdp_trb = ir->event_ring->dequeue;
+>>>>>> +        /* cycle state transition */
+>>>>>> +        if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
+>>>>>> +            ring->cycle_state)
+>>>>>> +            break;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    xhci_update_erst_dequeue(xhci, ir, current_trb, true);
+>>>>>> +}
+>>>>>
+>>>>> Code above is very similar to the existing event ring processing 
+>>>>> parts of xhci_irq()
+>>>>> and xhci_handle_event()
+>>>>>
+>>>>> I'll see if I can refactor the existing event ring processing, 
+>>>>> decouple it from
+>>>>> event handling so that it could be used by primary and secondary 
+>>>>> interrupters with
+>>>>> handlers, and this case where we just want to clear the event ring.
+>>>>>
+>>>>
+>>>> Thanks, that makes sense.  Will take a look as well.
+>>>>
+>>>
+>>> How about something like the below?  Tested this on my set up and 
+>>> everything looks to be working fine.  Had to add another param to 
+>>> struct xhci_interrupters to tell the XHCI interrupt handler to say if 
+>>> that particular interrupter wants to skip_events (handling).  This 
+>>> way, its something that the class driver utilizing the interrupter 
+>>> will have to tell XHCI sideband.  It would allow the user to 
+>>> determine if they want to use the interrupter to actually handle 
+>>> events or not on the proc running Linux.
+>>>
+>>
+>> Yes, I have something similar.
+>> I'll share it soon, just need to
+>> clean it up a bit fist.
+>>
+> 
+> Sure, no worries.  Will test it when its available.  Thanks!
+> 
 
-Thanks, I'll drop the file name. AFAIR it was just below that file, so I
-added it, but I could be wrong, too.
+Was just wondering if you had the time to clean up the changes?  If not, 
+maybe you can provide a patch with whatever you have, and I can try my 
+best to clean it up to your liking?  Thanks!
 
-v5 will also squash the 2nd patch of v4 into this one
-<URL:https://lore.kernel.org/linux-pm/ZbBAWROxRKE8Y8VU@kekkonen.localdomain/T/#m76d34e679e12d8536a20eb29af6e826e2a85a24b>,
-I hope that's fine.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Thanks
+Wesley Cheng
