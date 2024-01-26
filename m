@@ -1,59 +1,47 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BFD1B81E
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 08:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6325644F;
+	Fri, 26 Jan 2024 09:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706257674; cv=none; b=VouDKMW9hWZE9wndG+tB5K7IiUik50c1Btahh/x8G7ZxdcQkr9TlsfGNn2DG1gornwuhZqCcy3LOOPVHzDNhIciHLsXQHrMWbKt0Rv8gPYoH/OVrHG5EL94SIkiS4BETtbEGID6uspsPFU5+x1Ooy/NyUtDQz9h8M/1qUVuSQuM=
+	t=1706259677; cv=none; b=B6uVBYvOhsSRiRXEmt7+zbNh1bpIBnSE6ib+KZpfogoL4Pn7XOOs0Wv/CSaWZU0sAfjDnypeSbIrkpMN653K+B4kERa5wbUt8cjQS6CHgouQjGBY1EAu/cPYvFt9Y1vnZ58QGg0jJ2J6LRoGWuELcNYnldTYgOkL4vDsjW78b4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706257674; c=relaxed/simple;
-	bh=iGtHLHEEHiS6uj0QwPvMFkaRW6WE8OwPPgr8M4LcXSs=;
+	s=arc-20240116; t=1706259677; c=relaxed/simple;
+	bh=bP6Pbyf0/1RfHTaipWWafRkw8/+6vZ8iLbsE5ssVdRc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rHfe8LYQ3xo8P/nfTqDRpgJSN3Oi80aPaiL896N5bb2yfi7ItWVrXMZeKp8zzBMFpGq/J5JR/VD4Kk+rwgnhdQqtrj289IZTlijOUbBg7rAbumx+YuKg4PvJG1cHggL3eMC+TJQ3B/YMJQRebGTi3ZqfPTwmI5qv4Z+Oh28OESg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g2M+A+H8; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=FZEdUv34rzgBFM6+bHloxBSllHrFfALLWDbWjjczY6AKyAGgxqPaXatHYw0Qp5GSyBjSQO8VADRe+SKd/evR30bwt9H5hueSEIEznBHKBv/PtEmJja9cZfSHrfmUJ8DdgBBBTD7BCJMC1oCvak3bUuePUMN2Lk9AYEIHs94toO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5A3qq6f; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g2M+A+H8"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-55cd798b394so2945469a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 00:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706257670; x=1706862470; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=/IPAH8DIzGg3QLNUNSBtjrthJB0vkfcBLJNMSgUZw60=;
-        b=g2M+A+H837337XkwCHOcCmhq7mfw8ubI9PV1JWQJ+tOhNIAl64mlgJ/bAEZ0uyutS5
-         kKuTfXADG6jFuQ5qsCRkcYAdqIIsQgYr53/UdbpgGb0Q65gMjASyAwnWyXyUb3XMZVT3
-         PI1qpo06eoVRQus0U+eWdtW0XOG60tq3YhsSC14yfV+0Q9mQ9RoVyHHiCVqRItFoBHal
-         HvCQQmbQN3/0C4L1rbzHyRGZXrYaAeOAeDeYqCL5D/7cTde4C1sWxII9O09tRNPUkbma
-         A0vmiwqTm2mfhFIJk13cenOXlB0IpB9oed7BL0gB2dNEMQE+S01IOYJWDjcecymGaMcf
-         sriQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706257670; x=1706862470;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/IPAH8DIzGg3QLNUNSBtjrthJB0vkfcBLJNMSgUZw60=;
-        b=hr/aScRUl0/60EZB2bg4gY72nIxXoJw9cxBucEN30+V/bMQ47teKeiDeiwtrrSgrhv
-         JUnwwS0v/C8Jl3ly9a7z/O/jfE6lQXWMzwN8q3oW0zTXcAvu5gUnj6NwsqwdwUXDnXhK
-         b5ganLT6Ugeyt60RPC4JQmfUG0saNf99y8TbExWSI1FXRg3IeHtngDbWVpc97mBAh1hQ
-         gHMYzkY62PGiF2M0onE41bzfZc14Gz+1qlE//1yDqs+o/zK23KmsL3kCcGU7L19UKH35
-         elnlAS+gahZogCqlf+53xL1cG2+bfmPTvNALOkMfC1FecgFuBIK8Je3djkjlK8rSxgXY
-         0X5Q==
-X-Gm-Message-State: AOJu0Yx5dRT3MPlcU1C4KxJ0TpiP7qXgmy3GLeF64ilNZgchzxfoxts3
-	hYWsdmi5ClwBCyVgaYNJEVuEapijInsr8s3R1OjPmvInGCvepmV8xt50GNYTgJQ=
-X-Google-Smtp-Source: AGHT+IEBZHD1wW7iPcP4z0alptoeDbgQjFkTTbrvST3VQjoPUHYb9ZlEtyTmeZdUd7cDEZIYVUOAdg==
-X-Received: by 2002:a17:907:f95:b0:a26:f7ea:7cb6 with SMTP id kb21-20020a1709070f9500b00a26f7ea7cb6mr680931ejc.16.1706257670372;
-        Fri, 26 Jan 2024 00:27:50 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id t12-20020a17090616cc00b00a317be75012sm374069ejd.27.2024.01.26.00.27.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 00:27:49 -0800 (PST)
-Message-ID: <f7a2de19-55c5-4aa9-b0a8-632f22b6c147@linaro.org>
-Date: Fri, 26 Jan 2024 09:27:47 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5A3qq6f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706259676; x=1737795676;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bP6Pbyf0/1RfHTaipWWafRkw8/+6vZ8iLbsE5ssVdRc=;
+  b=Q5A3qq6faFr3U7uA3r7Mgyck6mwqXjucNC6tWz/ke3RP2dr9s7N0+R9n
+   lfjBLmNddxg6/lQUFw7JXsMD5WrFWfNXCkhN7HFHoshng2IzrNX5KmpiY
+   z8843SE78XQmWb0AnElKjAl6d8iUjEWbsRINLnPhyQzZrj5QhSIq3MlhU
+   k1EyYjdi24l4KD0xCvcXLQx5Lja2RJch0uJ7rFgiPJ/b8L0/Fkd5na8I/
+   /IK94fK9w3Jb8KXCDD7EB4ybRg9yuOhFCT/fubc1apP6OOPSbNlPUoDe2
+   BNYXOF6K/WfNqpxDCJHOduv7FcK3/+1DGlxN014ooIfNx8co8AR4HHF2j
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2260496"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2260496"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 01:01:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787043910"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="787043910"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 01:01:13 -0800
+Message-ID: <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
+Date: Fri, 26 Jan 2024 10:01:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,307 +49,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] ASoc: dt-bindings: PCM6240: Add initial DT binding
-To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org,
- conor+dt@kernel.org
-Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com, kevin-lu@ti.com,
- baojun.xu@ti.com, devicetree@vger.kernel.org, v-po@ti.com,
- lgirdwood@gmail.com, perex@perex.cz, pierre-louis.bossart@linux.intel.com,
- 13916275206@139.com, mohit.chawla@ti.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com, soyer@irl.hu,
- jkhuang3@ti.com, tiwai@suse.de, pdjuandi@ti.com, j-mcpherson@ti.com,
- navada@ti.com
-References: <20240126035855.1785-1-shenghao-ding@ti.com>
- <20240126035855.1785-4-shenghao-ding@ti.com>
+Subject: Re: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240126035855.1785-4-shenghao-ding@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26/01/2024 04:58, Shenghao Ding wrote:
-> PCM6240 driver implements a flexible and configurable setting for register
-> and filter coefficients, to one, two or even multiple PCM6240 Family Audio
-> chips.
+On 1/25/2024 11:35 PM, Ivan Orlov wrote:
+> Add 4 missing formats to 'snd_pcm_format_names' array in order to be
+> able to get their names with 'snd_pcm_format_name' function.
 > 
+> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+> ---
+>   sound/core/pcm.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+> index a09f0154e6a7..d0788126cbab 100644
+> --- a/sound/core/pcm.c
+> +++ b/sound/core/pcm.c
+> @@ -211,6 +211,10 @@ static const char * const snd_pcm_format_names[] = {
+>   	FORMAT(DSD_U32_LE),
+>   	FORMAT(DSD_U16_BE),
+>   	FORMAT(DSD_U32_BE),
+> +	FORMAT(S20_LE),
+> +	FORMAT(S20_BE),
+> +	FORMAT(U20_LE),
+> +	FORMAT(U20_BE),
+>   };
+>   
+>   /**
 
-Subject: you just ignored my comment...
+Maybe we can also add some kind of static_assert to check at compile 
+time that all formats are handled, something like:
+static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
++ 1);
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC (and consider --no-git-fallback argument). It might
-happen, that command when run on an older kernel, gives you outdated
-entries. Therefore please be sure you base your patches on recent Linux
-kernel.
+Although looking at definitions there is a hole between 
+SNDRV_PCM_FORMAT_U20_BE & SNDRV_PCM_FORMAT_SPECIAL, which will cause 
+this idea to fail.
 
-Tools like b4 or scripts_getmaintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, use mainline), work on fork of kernel (don't, use
-mainline) or you ignore some maintainers (really don't). Just use b4 and
-all the problems go away.
-
-...
-
-> +      ti,pcmd3140: Four-channel PDM-input to TDM or I�S output converter.
-
-This does not look like proper encoding.
-
-> +
-> +      ti,pcmd3180: Eight-channel pulse-density-modulation input to TDM or
-> +      I�S output converter.
-> +
-> +      ti,taa5212: Low-power high-performance stereo audio ADC with 118-dB
-> +      dynamic range.
-> +
-> +      ti,tad5212: Low-power stereo audio DAC with 120-dB dynamic range.
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - ti,adc3120
-> +              - ti,adc5120
-> +              - ti,pcm3120
-> +              - ti,pcm5120
-> +              - ti,pcm6120
-> +          - const: ti,adc6120
-> +      - items:
-> +          - enum:
-> +              - ti,pcm6260
-> +              - ti,pcm6140
-> +              - ti,pcm3140
-> +              - ti,pcm5140
-> +          - const: ti,pcm6240
-> +      - items:
-> +          - const: ti,dix4192
-> +          - const: ti,pcm6240
-> +          - const: ti,adc6120
-
-It does not make sense. You said above adc6120 is not compatible with
-pcm6240.
-
-> +      - items:
-> +          - const: ti,pcm1690
-> +          - const: ti,pcm9211
-> +          - const: ti,pcmd512x
-> +      - items:
-> +          - enum:
-> +              - ti,pcmd3180
-> +          - const: ti,pcmd3140
-> +      - items:
-> +          - enum:
-> +              - taa5412
-> +          - const: ti,taa5212
-> +      - items:
-> +          - enum:
-> +              - tad5412
-> +          - const: ti,tad5212
-> +      - items:
-
-No need for items.
-
-> +          - enum:
-> +              - ti,pcm6240
-> +              - ti,pcmd3140
-> +              - ti,taa5212
-> +              - ti,tad5212
-> +              - ti,pcmd3180
-
-Where is adc6120 and others?
-
-Missing blank line.
-
-> +  reg:
-> +    description:
-> +      I2C address, in multiple pcmdevices case, all the i2c address
-> +      aggregate as one Audio Device to support multiple audio slots.
-> +    minItems: 1
-> +    maxItems: 4
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      Invalid only for ti,pcm1690 because of no INT pin.
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,pcm1690
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            minimum: 0x4c
-> +            maximum: 0x4f
-
-Nothing improved.
-
-> +        interrupts: false
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,adc3120
-> +              - ti,adc5120
-> +              - ti,adc6120
-> +              - ti,pcm3120
-> +              - ti,pcm5120
-> +              - ti,pcm6120
-> +              - ti,pcmd3140
-> +    then:
-> +      properties:
-> +        reg:
-> +          maxItems: 1
-> +          items:
-> +            maximum: 0x4e
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,dix4192
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            minimum: 0x70
-> +            maximum: 0x73
-
-Drop entire if
-
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,pcm6240
-> +              - ti,pcm6260
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 1
-> +          maxItems: 4
-> +          items:
-> +            minimum: 0x48
-> +            maximum: 0x4b
-
-Drop entire if
-
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,pcm9211
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            minimum: 0x40
-> +            maximum: 0x43
-
-Drop entire if
-
-
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,taa5212
-> +              - ti,taa5412
-> +              - ti,tad5212
-> +              - ti,tad5412
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            minimum: 0x50
-> +            maximum: 0x53
-
-Drop entire if
-
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +   #include <dt-bindings/gpio/gpio.h>
-> +   i2c {
-> +     /* example for two devices with interrupt support */
-> +     #address-cells = <1>;
-> +     #size-cells = <0>;
-> +     pcm6240: audio-codec@48 {
-> +       compatible = "ti,pcm6240";
-> +       reg = <0x48>, /* primary-device */
-> +            <0x4b>; /* secondary-device */
-
-Looks misaligned.
-
-
-
-Best regards,
-Krzysztof
-
+Perhaps with comment:
+static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
++ 1 - 2); /* -2 for formats reserved for future use */
+?
