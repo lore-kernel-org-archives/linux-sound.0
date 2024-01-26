@@ -1,58 +1,23 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32744111B7
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 14:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08C11CF8C;
+	Fri, 26 Jan 2024 14:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706280261; cv=none; b=RlLIJIHrqnkhlzbBWWl2E9OrcNvwD9lL9h6Y5jR2asBiCl6iQuXgQ7i/7CVQdhRdKlxJ5sfzUESMX4CHOiSXnwHPX5XCMhNXwnqry7n7GFfX7Kg2X0KANO9/wWY/lY87WdEoPTCN3a1mVvOdwtILZV9Es4/Oqx6b+kkj+lMDCrA=
+	t=1706280296; cv=none; b=Cz2vwnMP9Jsg7RVckT78ohsgw0e0AOvWRx16WHNzm9SOQxK7MF5oqVKBZzGwqCw9LeSj7BWOHtu2EZFllRRpAbNquJfTZWWQnqhmH+43MNncw3sxUpNFB6ZX0yOBu02NXU6nhKbD2YIZ5Wo2MODG49h5qXCwP4pw16x9cV2oBpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706280261; c=relaxed/simple;
-	bh=hHQdoIZ7VlUib1GYkkvTIRWDHU7nvqtsSBGy7EHWP4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=nOsvsR3VKXCg1AKJOInj7JtBRJzGSS3KHCt4GI+EFwM5BYQwc3oTtvx6s0hP6eL93cTe7UmnHxGtzhtDPTRbDrpaMO+X60p9p5XOhncBR6f5yshTGBGyWvGKpekJ3SMUNj5/AmoSL8mslLGy2YQYhM5venSd4/1XOTlMHMLWx1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MIYqPVOw; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MIYqPVOw"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5100cb238bcso822158e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 06:44:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706280258; x=1706885058; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yhxsc3ZvfErMuA2OU77vZ9+Nmhmoa72VnFOALwS5xI8=;
-        b=MIYqPVOwBOfw6wGCF1WQ/Uhf5DNW4twWxGKUU1ujUdHpxZm0COTqz2vq/WyptmRSQl
-         fBX2WmuVaZ14qLCpfUc8/mdtc0Ax4GcMcW3sAiIoqu9iYNRouR8ejLCukEaJNhtFquh5
-         8fdswamMmtg2ye8qOsYVzEZ5KwCPapvgIWVAjauJcFNqqCUEo2BkvexhK0ZOZaVBivjU
-         de5M28j2cEt1+mC1WRscBFR2mZb3gHt1FNKEtrOtacU9zkf+Tr8eCrVFVimirayzyW4y
-         vws1D5iolv1qTSfJmiBi+NL5MOhBVkKcTCq4IIfxLkwK6RbJm5T9LE2LdOvs+jhcaP2x
-         eehA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706280258; x=1706885058;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yhxsc3ZvfErMuA2OU77vZ9+Nmhmoa72VnFOALwS5xI8=;
-        b=h/zRbnTIfJAo10ftYOk6IP8vG+xeCziaLXjy/WKZ0xhfIQSse292alpdx0Nhifh0T4
-         xB4XXNVvtR81FA2g/0/hh/yFSTZq29QwGyZBD0c+ANVa8jpPA92j9+UlZqCNtcCw4ED4
-         SpiKBCRd19gOgxYMLCl12cTuV5Xi2d6I3OLN5b/UdeanWPPdEv43w2XiKX7ARofExQJV
-         khu6ougNnEJlOJON6TXmmRefrGGOcSvkrkyBkVluOwGvEq0j7I5H8YBOnedeKnOo+FOx
-         CLbmBnp6g5B3nZmU0yO5y7wC8K56K8IG3TptKZKro25RjU+HUi5nRHbZNXudK4n8DDh5
-         ykbA==
-X-Gm-Message-State: AOJu0YzGODYeZZqhDmmMBdm8wINj9pndvbQvicSvRDPElEIyUMvC0GJs
-	wk7YnOXyLb5pCfkCJcwYV5ys1FdZyTnLBPN21eIE/q/lBrJt83/shyn8GcNAzNg=
-X-Google-Smtp-Source: AGHT+IFKqrHw6xFuQbufj1vF3RjQN0vds2se+NOi9nrQ7pyJBHf0QPpUwAwiLCzgQvx848vZALQBsg==
-X-Received: by 2002:a05:651c:2107:b0:2cf:348c:776b with SMTP id a7-20020a05651c210700b002cf348c776bmr1005696ljq.67.1706280258073;
-        Fri, 26 Jan 2024 06:44:18 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id t23-20020a056402241700b00558b0c513e0sm659888eda.61.2024.01.26.06.44.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 06:44:17 -0800 (PST)
-Message-ID: <33e2fdb7-0de3-4840-988a-59d3d46810bc@linaro.org>
-Date: Fri, 26 Jan 2024 15:44:15 +0100
+	s=arc-20240116; t=1706280296; c=relaxed/simple;
+	bh=iKxKrZZumUw2D7E2QfLQOfnXzkK3E1UwnLFnz3pjiZU=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=K4CZfpcnset1Zlt5FllUb7Ty69xxMPozQ9xQvT/zlPyeozEd9AtzElPumEmNH67nTssumxf0+oxu21SgXH+/Z/TvL4CJXteyrBDne8dMR8Knv5rxmPMBUYIU5KDrE5Ylpsa6PcN8PHbRlOiJPYtel1nGtxHW2CjAwlLc6po2XLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rTNRl-0004oQ-P8; Fri, 26 Jan 2024 15:44:45 +0100
+Message-ID: <41fd54bd-aebd-43e6-841a-6d8fa9672ab8@leemhuis.info>
+Date: Fri, 26 Jan 2024 15:44:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,98 +25,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] ASoC: codecs: tx-macro: correct TX SMIC MUXn
- widgets on SM8350+
-Content-Language: en-US
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Banajit Goswami <bgoswami@quicinc.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20240125153110.410295-1-krzysztof.kozlowski@linaro.org>
- <4d377c8e-8cef-4da3-9b25-fc91a7dc3d49@linaro.org>
- <518642ba-56e1-4648-a253-2a841a787ee0@linaro.org>
- <62b6b3d1-d54a-46ab-8400-c1f48238b1db@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <62b6b3d1-d54a-46ab-8400-c1f48238b1db@linaro.org>
+Content-Language: en-US, de-DE
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+To: Takashi Iwai <tiwai@suse.com>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ LKML <linux-kernel@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: [regression] [Realtek ALC 1220] No sound from internal speakers on
+ Kernel 6.7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1706280293;9b5aae8d;
+X-HE-SMSGID: 1rTNRl-0004oQ-P8
 
-On 26/01/2024 15:42, Srinivas Kandagatla wrote:
-> 
-> 
-> On 26/01/2024 13:23, Krzysztof Kozlowski wrote:
->> On 26/01/2024 14:21, Srinivas Kandagatla wrote:
->>>
->>>
->>> On 25/01/2024 15:31, Krzysztof Kozlowski wrote:
->>>> Hi,
->>>>
->>>> Changelog in individual patches.
->>>>
->>>> v1:
->>>> https://lore.kernel.org/all/20230717140138.201745-1-krzysztof.kozlowski@linaro.org/
->>>>
->>>
->>> Unfortunately this is breaking mic on X13s.
->>
->> Did you update also your mixer? I was asking last time about this as well...
-> 
-> Updating to new mixer setting fixes the issue.
-> 
-> This is going to be a issue with the existing ucm which becomes broken 
-> with this new patches.
-> 
-> Are you going to send patches to fix the ucm too?
+Hi! Bagas (many thx!) pointed me to a report about a sound regression
+with 6.7: https://bugzilla.kernel.org/show_bug.cgi?id=218409
 
-I could, but we should really think whether affecting sc8280xp is worth.
-AFAIK, the microphones work there, so we do not need to fix them even
-though fix is correct. It's the other platforms which need the fix.
+The reporter did not bisect the issue and is unlikely to do that any
+time soon. But maybe you folks might nevertheless be interested in this
+or even some idea what might be wrong. That's why I decided to forward
+this issue by mail, as quite a few kernel developer miss if a report for
+their subsystem is submitted to bugzilla.kernel.org.
 
-Best regards,
-Krzysztof
+To quote from the comment with the initial report:
 
+> When I got this laptop, I had to run a modprobe: ``` options
+> snd-hda-intel model=clevo-p950 ``` to get sound from the internal
+> speakers. This worked fine up until Linux kernel version 6.6.10. When
+> I upgraded to Linux kernel version 6.7.0, the sound from the speakers
+> stopped working.
+> 
+> With a little detective work, we could see that the cards detected
+> have now changed order, where card0 used to the the Realteck one, on
+> kernel 6.7 if was the nvidia HDMI one.
+> 
+> I was finally able to get the card order right, and can see that the
+> clevo-p950 codec is loaded with the following modprobe line: ``` 
+> options snd-hda-intel index=1,0 model=clevo-p950 ```
+> 
+> Unfortunately, this still did not resolve the no sound from the
+> internal speakers. About the only thing I can see different on the
+> alsa-info outputs is that the IRQ has changed for the sound card. I
+> will of course attach all the logs I have.
+> 
+> Any help in resolving this issue would be highly appreciated.
+
+For other comment please see the bugzilla ticket.
+
+Ciao, Thorsten
