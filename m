@@ -1,85 +1,94 @@
-Received: from out3.rolmail.net (out3.rolmail.net [195.254.252.203])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF361DDCF
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 16:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.254.252.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5091D699;
+	Fri, 26 Jan 2024 16:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706285113; cv=none; b=sFFKhrHti7SKpW6juA9jYtJbKQNyoYGPbDBRjCRwUQR8se6o3Q0Jw94BHhVrhIB/3+k3Z7ZOSxOj3iP14jHMnEhZ52pidLhjuJLhxMpbM7mFD7XRtIwPIiPHjIYetN2qR3AMcTXnVrR3wzYBX8YwxS+sExPgaWuoTgd1sBNnnyY=
+	t=1706287233; cv=none; b=UKRaqvDKi5hEdzgaLT/gvKasCjO0sRN3xC+Mu/QXVpLDIcpx3k6DnkvPgxBHKnaXgsn12nCoLwJi+r0x+O7GcyXGN7u9m9wl7X8oLHdEZpM4l6GRQk2YB5yzi4L6XSlleEHuRTkgMm1+IoqOp9ZtlXqXQRFgoy4aBsSpSkDi9Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706285113; c=relaxed/simple;
-	bh=3q8CthiwRAlZq9cDw729ibepmQIk3HtDfrEVFGn5bt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GMVbtfCXoDSO5PCDyp70UtD7tVRJ6/W3vavliZO/qrQQvzx7R/fFxdtZxi50WjE9rZlBH+Jqaud5fJDSCalasdSIwIjcgUcR6t4W3Vdejg9UV5bugaR9VZBmMmU5YL/JwjRPrqjVS4j8FRyqIbw0vH8xo5MCdKQAqf73HaHeocA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rolmail.net; spf=pass smtp.mailfrom=rolmail.net; dkim=pass (1024-bit key) header.d=rolmail.net header.i=@rolmail.net header.b=ZePEw3Lg; arc=none smtp.client-ip=195.254.252.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rolmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rolmail.net
+	s=arc-20240116; t=1706287233; c=relaxed/simple;
+	bh=XZQHuTD5FIDvTNUrjY9LUKe33xlKgiI+9IzhlBCtJaw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X4ZwXJEsPNLPP8x2ONMuxKSIx/qqUyZp+rIMWMApMH34jL3qAg6bskEFuSk5/uuH6nYHGY97Sw3yIUQER2twtPCkKnoiuINKotD1v2aZc30tmQEGmNsaQTKpTlPkl+/9y1oVd5YS89BlY12y4fyJpg4t/8SQWGy7c/xFz1pzrgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hvZCoJXV; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rolmail.net header.i=@rolmail.net header.b="ZePEw3Lg"
-Received: from mf3.rolmail.net (mf3.rolmail.net [IPv6:2a02:2e8:0:2:0:25:1025:1])
-	by out3.rolmail.net (ROL Relay Out) with ESMTP id 231CA19F22F;
-	Fri, 26 Jan 2024 16:56:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rolmail.net; h=
-	content-transfer-encoding:mime-version:x-mailer:message-id:date
-	:date:subject:subject:to:from:from; s=rol; t=1706284607; bh=3q8C
-	thiwRAlZq9cDw729ibepmQIk3HtDfrEVFGn5bt0=; b=ZePEw3LgjLPArThN3++b
-	lv7XqwMcEerjQn+xUBAxiFo3h5lPPhdnvGBoQ6+3oYfRcv5PCBV5UAxqjmNY9tu5
-	M2x/ofhP1bS8uX5ZtaMSp9D7KC/vYF5zCMrfP7XMVFGK88cBaaEGS+lNj82zbOq4
-	hDk4hwL1sjcGgDQAB6C/3VA=
-Received: from relay-out1.konmail.net ([195.254.252.217])
-	by mf3.rolmail.net (mf3.rolmail.net [195.254.252.162]) (ROL Spam Gateway, port 10022)
-	with ESMTP id h92PvNiwBND7; Fri, 26 Jan 2024 16:56:47 +0100 (CET)
-Received: from fedora.. (srv-116.vc-graz.ac.at [193.171.126.116])
-	by relay-out1.konmail.net (Konverto AG Relay In) with ESMTPSA id 1F30719F138;
-	Fri, 26 Jan 2024 16:56:45 +0100 (CET)
-From: David Senoner <seda18@rolmail.net>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	seda18@rolmail.net
-Subject: [PATCH] ALSA: hda/realtek: Fix the external mic not being recognised for Acer Swift 1 SF114-32
-Date: Fri, 26 Jan 2024 16:56:26 +0100
-Message-ID: <20240126155626.2304465-1-seda18@rolmail.net>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hvZCoJXV"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QCpqG1002494;
+	Fri, 26 Jan 2024 10:40:16 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=x
+	+rYn+fBJ09p1znIq7mpKSHdq0YyMyl0BRtl4npcArQ=; b=hvZCoJXVt7ThopNOe
+	Sp2lucdOaQay7chiQneS17GpIJBYrlJXb5SnAUgzUG1LahhM/SgPGZ8NvAh55Y8K
+	kVqwgV2jB8c+zqPKQBpc6MemSLWm+xjFQT79P/njVo8mR5k5Stf1b9+Lia5jn9NH
+	1ouwcDPVb5krc3Gh9BFHc3/0rHXj6Mwemg+DF2YCzl4+Wxbb3H1BZENvSABdDI2X
+	XxDWDqat1qmbM24fYKR1aRRcPHGA7XNyFR2dd94WmdJlV4MzrqAZrdfF7AwNvhNW
+	0bJ+DQxC3npHrS/Sn6QAbQ5h1qU7v1L9fXbu//sDjfd6dWr/AzJngSVjqMgX6GbU
+	Vr2NA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmf9v1u9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 10:40:16 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 16:40:14 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Fri, 26 Jan 2024 16:40:14 +0000
+Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (LONNG2L6RQ3.ad.cirrus.com [198.90.238.116])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 17FEF820246;
+	Fri, 26 Jan 2024 16:40:14 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Stefan
+ Binding" <sbinding@opensource.cirrus.com>
+Subject: [PATCH v2 0/4] Support HP Models without _DSD
+Date: Fri, 26 Jan 2024 16:40:01 +0000
+Message-ID: <20240126164005.367021-1-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 3OGu4jccl7KovPSq68Yii0fAih0q1Dy9
+X-Proofpoint-ORIG-GUID: 3OGu4jccl7KovPSq68Yii0fAih0q1Dy9
+X-Proofpoint-Spam-Reason: safe
 
-If you connect an external headset/microphone to the 3.5mm jack on the
-  Acer Swift 1 SF114-32 it does not recognize the microphone. This fixes
-  that and gives the user the ability to choose between internal and
-  headset mic.
+Add Quirks and driver properties for Dell models.
+Driver properties are required since these models do not have _DSD.
+Some models require special handing for Speaker ID and cannot use
+the configuration table to add properties.
+Also fix an issue for Channel Index property, when set through the
+configuration table, to use the same method as when loading _DSD
+properties. This is needed for laptops with 4 amps where the
+channels do not alternate.
 
-Signed-off-by: David Senoner <seda18@rolmail.net>
+Changes from v1:
+- Rebase on latest for-next
 
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Stefan Binding (4):
+  ALSA: hda: cs35l41: Set Channel Index correctly when system is missing
+    _DSD
+  ALSA: hda: cs35l41: Support additional HP Envy Models
+  ALSA: hda: cs35l41: Support HP models without _DSD using dual Speaker
+    ID
+  ALSA: hda/realtek: Add quirks for various HP ENVY models
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.=
-c
-index 42ee37af24bc..f58a8a433370 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9489,6 +9489,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
-] =3D {
- 	SND_PCI_QUIRK(0x1025, 0x1247, "Acer vCopperbox", ALC269VC_FIXUP_ACER_VC=
-OPPERBOX_PINS),
- 	SND_PCI_QUIRK(0x1025, 0x1248, "Acer Veriton N4660G", ALC269VC_FIXUP_ACE=
-R_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x1269, "Acer SWIFT SF314-54", ALC256_FIXUP_ACER_=
-HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1025, 0x126a, "Acer Swift SF114-32", ALC256_FIXUP_ACER_=
-MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x128f, "Acer Veriton Z6860G", ALC286_FIXUP_ACER_=
-AIO_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1290, "Acer Veriton Z4860G", ALC286_FIXUP_ACER_=
-AIO_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1291, "Acer Veriton Z4660G", ALC286_FIXUP_ACER_=
-AIO_HEADSET_MIC),
---=20
-2.43.0
+ sound/pci/hda/cs35l41_hda_property.c | 90 +++++++++++++++++++++++-----
+ sound/pci/hda/patch_realtek.c        | 40 +++++++++++++
+ 2 files changed, 114 insertions(+), 16 deletions(-)
+
+-- 
+2.34.1
 
