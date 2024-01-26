@@ -1,141 +1,101 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770AA1CD34;
-	Fri, 26 Jan 2024 15:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44981CF99;
+	Fri, 26 Jan 2024 15:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706282101; cv=none; b=mC49LiTf5fyI2KLzy4vcKG8otLwpfL0M3Fcz6vhP2gkFg5qmTOCrGUDF4G8Zb93tqbt0hZ3Xcxb6IZh/4z5ooWEKqVcT55lYvXUBxJFCV0W+Qmo/Z+RMekejGtXdKw5DKEeW82mGz7JDuwWU1tCzSLpk5S+IoyXu+spfFEuG/9s=
+	t=1706283916; cv=none; b=cJnQUtzsFjFRuOkpyw1tX8HY1dVJV4dOYQVCLZDgbkGo6FJr1CSgGwcGmGR9JDc7GRIDiYNmmtiaqc7WT3wZoHKEVSYpTkmp7PT57ZFishHx37S13G4Y0rjz6FCXDZXfNHXuEl2KPmti6DLeXskfSnbV5YDyIAC5g9J/pjXKqNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706282101; c=relaxed/simple;
-	bh=xR5OqKJHgzoeSr73MWTEO6XlarE2SYI2VkCSpnevdKY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nD7wgp8AV2cIUAldqttO1JjuwJjIH2N8RXgG7coZruTJRdKM45GcT3gzT/cSWm5VNZf4Q6TIw+hEb+1mOsHsE8cyV2ccoHvbWJYAPCFSQHwQ19o7rEpLPEI7SWGLSQR5ZDWqeCpO3/wd4PFLd0OsO6KnaFA1cUyT+dom002SdwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6yvCaEW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wGfagHKN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6yvCaEW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wGfagHKN; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706283916; c=relaxed/simple;
+	bh=fqIG2jDZoTw9TE78+cnz0OxfSJ1D3qd3x/zWVd40lg4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=djjHx0Q0V3mt1W3CI4r6seUPwr5A0kxY6N+wdupDbfLjMbbGRDBi/NXOFIe3kLY4AS8w1Qeby1jxEixs9ugAM1fPZkJ8RQCzoK8WfD4GJ1FL2wiJKheAHdyRLrH3w51Kp3pYDA6x2MVAT/2gdtWKxcc+9LuBCWhOdltsGXzIvTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Ri8PJyjD; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6yvCaEW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wGfagHKN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6yvCaEW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wGfagHKN"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 54CF721DCF;
-	Fri, 26 Jan 2024 15:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706282097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4SUEWYijM+vF7TtPJURVmNeX8K+VvFmQtAMWbV0ogA=;
-	b=T6yvCaEWFmiN6iq977b+hnl19VCDk4Ndf8wJTFRj3l/8brTsEMDM7q7J4BPEOhMTeaJy2t
-	82yxPTPkgsKimrFakGEbqJItroFrcFtv07EuqERdczaOOkfAreJ03BKkCTSRw1OVGQw1gS
-	pMGQ/Yim/a0CrywxV5fLIfYyH8tpQ/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706282097;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4SUEWYijM+vF7TtPJURVmNeX8K+VvFmQtAMWbV0ogA=;
-	b=wGfagHKNEN6Y39n6r13lPlKa1yUJhNSQJhFUqp8KLJoDmpXQ5xqbdXGF1p4XM6CNHofRD0
-	mi814hTVqi4rp3Cg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706282097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4SUEWYijM+vF7TtPJURVmNeX8K+VvFmQtAMWbV0ogA=;
-	b=T6yvCaEWFmiN6iq977b+hnl19VCDk4Ndf8wJTFRj3l/8brTsEMDM7q7J4BPEOhMTeaJy2t
-	82yxPTPkgsKimrFakGEbqJItroFrcFtv07EuqERdczaOOkfAreJ03BKkCTSRw1OVGQw1gS
-	pMGQ/Yim/a0CrywxV5fLIfYyH8tpQ/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706282097;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4SUEWYijM+vF7TtPJURVmNeX8K+VvFmQtAMWbV0ogA=;
-	b=wGfagHKNEN6Y39n6r13lPlKa1yUJhNSQJhFUqp8KLJoDmpXQ5xqbdXGF1p4XM6CNHofRD0
-	mi814hTVqi4rp3Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 170BB134C3;
-	Fri, 26 Jan 2024 15:14:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +3UqBHHMs2X0fwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Jan 2024 15:14:57 +0000
-Date: Fri, 26 Jan 2024 16:14:56 +0100
-Message-ID: <87wmrwnn2n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	<alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH v1 0/4] Support HP Models without _DSD
-In-Reply-To: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
-References: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Ri8PJyjD"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QAV94J011624;
+	Fri, 26 Jan 2024 09:44:52 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=sTeLXv2n33njXj2pPXt/tcA9jUcN2EMferdUpNRom0c=; b=
+	Ri8PJyjDWJtzg8CIzUcE0ikkQ1nqkbryUAHzfBf0llpykpe3ffSObCi+gVCBOvv6
+	n4KEx4iA0veIgB0pKnPg46QOiXPpwp1sdzc8m6UXNWkWqlbI8G1t1Eon0Ty03z8i
+	hV/AbhvL3gRKHCue5Dz3gOZUG8TEW6KPql4/3dkWH0fMEFFOsMlwlUy2tuHx4pR1
+	1CHiHlvft8jpmqFbZun/9s4Ozy2otCZzE9zEBJf+4/kyPZEs5yESvpldsHurtgsj
+	RPihom5z4+IZrHmXJIL1N6CbER9KTUBSsyxLdmrMujcbFLmd8hplYX0AjOZEeP38
+	r8EtDkU9GnWU6VB5tJW4XQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhm3ha-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 09:44:51 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 15:44:49 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Fri, 26 Jan 2024 15:44:49 +0000
+Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 060D6820246;
+	Fri, 26 Jan 2024 15:44:49 +0000 (UTC)
+Message-ID: <0d2aee4d-edc4-4e6e-99c3-d548eb6d6e18@opensource.cirrus.com>
+Date: Fri, 26 Jan 2024 15:44:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.61
-X-Spamd-Result: default: False [-2.61 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.996];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.31)[96.79%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/4] Support HP Models without _DSD
+To: Takashi Iwai <tiwai@suse.de>,
+        Stefan Binding
+	<sbinding@opensource.cirrus.com>
+CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+References: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
+ <87wmrwnn2n.wl-tiwai@suse.de>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <87wmrwnn2n.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 0A87Bz0BkaY1TQM-BuRqLl5iY_Dge84p
+X-Proofpoint-GUID: 0A87Bz0BkaY1TQM-BuRqLl5iY_Dge84p
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, 26 Jan 2024 12:30:03 +0100,
-Stefan Binding wrote:
+On 26/01/2024 15:14, Takashi Iwai wrote:
+> On Fri, 26 Jan 2024 12:30:03 +0100,
+> Stefan Binding wrote:
+>>
+>> Add Quirks and driver properties for Dell models.
+>> Driver properties are required since these models do not have _DSD.
+>> Some models require special handing for Speaker ID and cannot use
+>> the configuration table to add properties.
+>> Also fix an issue for Channel Index property, when set through the
+>> configuration table, to use the same method as when loading _DSD
+>> properties. This is needed for laptops with 4 amps where the
+>> channels do not alternate.
+>>
+>> Stefan Binding (4):
+>>    ALSA: hda: cs35l41: Set Channel Index correctly when system is missing
+>>      _DSD
+>>    ALSA: hda: cs35l41: Support additional HP Envy Models
+>>    ALSA: hda: cs35l41: Support HP models without _DSD using dual Speaker
+>>      ID
+>>    ALSA: hda/realtek: Add quirks for various HP ENVY models
 > 
-> Add Quirks and driver properties for Dell models.
-> Driver properties are required since these models do not have _DSD.
-> Some models require special handing for Speaker ID and cannot use
-> the configuration table to add properties.
-> Also fix an issue for Channel Index property, when set through the
-> configuration table, to use the same method as when loading _DSD
-> properties. This is needed for laptops with 4 amps where the
-> channels do not alternate.
+> The last one conflicts with the latest for-next branch due to the
+> recent change from Cirrus.  Could you rebase and resubmit?
 > 
-> Stefan Binding (4):
->   ALSA: hda: cs35l41: Set Channel Index correctly when system is missing
->     _DSD
->   ALSA: hda: cs35l41: Support additional HP Envy Models
->   ALSA: hda: cs35l41: Support HP models without _DSD using dual Speaker
->     ID
->   ALSA: hda/realtek: Add quirks for various HP ENVY models
 
-The last one conflicts with the latest for-next branch due to the
-recent change from Cirrus.  Could you rebase and resubmit?
+Yes, sorry. That's my fault for not syncing up with Stefan before
+sending the other patch.
 
-
-thanks,
-
-Takashi
