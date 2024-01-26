@@ -1,100 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6325644F;
-	Fri, 26 Jan 2024 09:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3395314265;
+	Fri, 26 Jan 2024 11:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706259677; cv=none; b=B6uVBYvOhsSRiRXEmt7+zbNh1bpIBnSE6ib+KZpfogoL4Pn7XOOs0Wv/CSaWZU0sAfjDnypeSbIrkpMN653K+B4kERa5wbUt8cjQS6CHgouQjGBY1EAu/cPYvFt9Y1vnZ58QGg0jJ2J6LRoGWuELcNYnldTYgOkL4vDsjW78b4E=
+	t=1706268636; cv=none; b=SVls+rzxiuExjSsb88M9S1TbDSJwTGKzSEzr66YA34Xt+L8sKHoIa7fU9xAqmEKa5vAypbPRbUyIfnp0+xBLYM9BQ4v47/BO4/wuURz8HoL9sVTM9CJMz9Zo1WjciZnl8XSB3zIpiP9PsnOiUlnuczc1OUVQt4LTeM+F2zUrPgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706259677; c=relaxed/simple;
-	bh=bP6Pbyf0/1RfHTaipWWafRkw8/+6vZ8iLbsE5ssVdRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FZEdUv34rzgBFM6+bHloxBSllHrFfALLWDbWjjczY6AKyAGgxqPaXatHYw0Qp5GSyBjSQO8VADRe+SKd/evR30bwt9H5hueSEIEznBHKBv/PtEmJja9cZfSHrfmUJ8DdgBBBTD7BCJMC1oCvak3bUuePUMN2Lk9AYEIHs94toO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5A3qq6f; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706268636; c=relaxed/simple;
+	bh=aMFNEHURVJkKdqp4qghm6tQhsHtXoLfSATP3Qw8Drlk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dMqHMso8SVZDcppF72u7IDH83GjBXKvvR/9lv2LGJ8IYRd/GytcRHHRkthHz9zWm3hoOCsAIKPIPGQwZWqDPVxlcoePBwjcQQjMhRgt/M53Y/YVL2t5mlOfHOLJYrwnR7q7uSCtiYPn/5y1O0LV5M4ANKGoA3vua5t7DIW1nXw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ORhvMPla; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5A3qq6f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706259676; x=1737795676;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=bP6Pbyf0/1RfHTaipWWafRkw8/+6vZ8iLbsE5ssVdRc=;
-  b=Q5A3qq6faFr3U7uA3r7Mgyck6mwqXjucNC6tWz/ke3RP2dr9s7N0+R9n
-   lfjBLmNddxg6/lQUFw7JXsMD5WrFWfNXCkhN7HFHoshng2IzrNX5KmpiY
-   z8843SE78XQmWb0AnElKjAl6d8iUjEWbsRINLnPhyQzZrj5QhSIq3MlhU
-   k1EyYjdi24l4KD0xCvcXLQx5Lja2RJch0uJ7rFgiPJ/b8L0/Fkd5na8I/
-   /IK94fK9w3Jb8KXCDD7EB4ybRg9yuOhFCT/fubc1apP6OOPSbNlPUoDe2
-   BNYXOF6K/WfNqpxDCJHOduv7FcK3/+1DGlxN014ooIfNx8co8AR4HHF2j
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2260496"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2260496"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 01:01:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787043910"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="787043910"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 01:01:13 -0800
-Message-ID: <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
-Date: Fri, 26 Jan 2024 10:01:10 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ORhvMPla"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40Q5FRfx020176;
+	Fri, 26 Jan 2024 05:30:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PODMain02222019; bh=UPXkoRw2vL+RtRC57FFTWGm0OZI2iZrGhiK9uMrNTrg=; b=
+	ORhvMPlaWGm7fBEaTeHOtsT6S0jDRvc6nNw/xbTjIEKe7DBHsINsiWCxQUEq/OAm
+	JfmVL2wRX2fKPD0/Nkp3j7DQY2lIn3bPOSkmn06eE+WhAy+FI4sUM28zx1eK6LwK
+	r3qpicZ8q5zN56xeAxc60lTmIEWvpccN2ckCXDVJNrHgSYKbx19oww/F2lT2lb40
+	So0+KxZyCySNu4VOxmQsCjaE6mXUwvoyMGFUZbIwboKWpPbcDJtrGdssey/sMQvG
+	vdepZ2RUqFGoQe1WemF5Q1rw3eBIJCGz0ew2cWGwdrifIzTC87Tfp0Q8WDpEASxI
+	0JPfyufNZcnJ+MFY8JipOQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmfhksnq-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 05:30:20 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 11:30:17 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Fri, 26 Jan 2024 11:30:17 +0000
+Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (LONNG2L6RQ3.ad.cirrus.com [198.90.238.116])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B3BDD820243;
+	Fri, 26 Jan 2024 11:30:17 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Stefan
+ Binding" <sbinding@opensource.cirrus.com>
+Subject: [PATCH v1 3/4] ALSA: hda: cs35l41: Support HP models without _DSD using dual Speaker ID
+Date: Fri, 26 Jan 2024 11:30:06 +0000
+Message-ID: <20240126113007.4084-4-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
+References: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
-Content-Language: en-US
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: RnJ3qOuBtr-VW9y0VbZv5XTu_CKkcNm6
+X-Proofpoint-GUID: RnJ3qOuBtr-VW9y0VbZv5XTu_CKkcNm6
+X-Proofpoint-Spam-Reason: safe
 
-On 1/25/2024 11:35 PM, Ivan Orlov wrote:
-> Add 4 missing formats to 'snd_pcm_format_names' array in order to be
-> able to get their names with 'snd_pcm_format_name' function.
-> 
-> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
-> ---
->   sound/core/pcm.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-> index a09f0154e6a7..d0788126cbab 100644
-> --- a/sound/core/pcm.c
-> +++ b/sound/core/pcm.c
-> @@ -211,6 +211,10 @@ static const char * const snd_pcm_format_names[] = {
->   	FORMAT(DSD_U32_LE),
->   	FORMAT(DSD_U16_BE),
->   	FORMAT(DSD_U32_BE),
-> +	FORMAT(S20_LE),
-> +	FORMAT(S20_BE),
-> +	FORMAT(U20_LE),
-> +	FORMAT(U20_BE),
->   };
->   
->   /**
+Laptops 103C8C66, 103C8C67, 103C8C68, 103C8C6A use a dual speaker id
+system where each speaker has its own speaker id.
+The generic configuration table doesn't support this, so it needs its
+own function.
 
-Maybe we can also add some kind of static_assert to check at compile 
-time that all formats are handled, something like:
-static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
-+ 1);
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 40 ++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-Although looking at definitions there is a hole between 
-SNDRV_PCM_FORMAT_U20_BE & SNDRV_PCM_FORMAT_SPECIAL, which will cause 
-this idea to fail.
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index 6714740b85c8..5f8c214699d6 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -335,6 +335,42 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
+ 	return 0;
+ }
+ 
++/*
++ * Systems 103C8C66, 103C8C67, 103C8C68, 103C8C6A use a dual speaker id system - each speaker has
++ * its own speaker id.
++ */
++static int hp_i2c_int_2amp_dual_spkid(struct cs35l41_hda *cs35l41, struct device *physdev, int id,
++				      const char *hid)
++{
++	struct cs35l41_hw_cfg *hw_cfg = &cs35l41->hw_cfg;
++
++	/* If _DSD exists for this laptop, we cannot support it through here */
++	if (acpi_dev_has_props(cs35l41->dacpi))
++		return -ENOENT;
++
++	/* check I2C address to assign the index */
++	cs35l41->index = id == 0x40 ? 0 : 1;
++	cs35l41->channel_index = 0;
++	cs35l41->reset_gpio = gpiod_get_index(physdev, NULL, 0, GPIOD_OUT_HIGH);
++	if (cs35l41->index == 0)
++		cs35l41->speaker_id = cs35l41_get_speaker_id(physdev, 0, 0, 1);
++	else
++		cs35l41->speaker_id = cs35l41_get_speaker_id(physdev, 0, 0, 2);
++	hw_cfg->spk_pos = cs35l41->index;
++	hw_cfg->gpio2.func = CS35L41_INTERRUPT;
++	hw_cfg->gpio2.valid = true;
++	hw_cfg->valid = true;
++
++	hw_cfg->bst_type = CS35L41_INT_BOOST;
++	hw_cfg->bst_ind = 1000;
++	hw_cfg->bst_ipk = 4100;
++	hw_cfg->bst_cap = 24;
++	hw_cfg->gpio1.func = CS35L41_NOT_USED;
++	hw_cfg->gpio1.valid = true;
++
++	return 0;
++}
++
+ /*
+  * Device CLSA010(0/1) doesn't have _DSD so a gpiod_get by the label reset won't work.
+  * And devices created by serial-multi-instantiate don't have their device struct
+@@ -414,6 +450,10 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "103C8C4F", generic_dsd_config },
+ 	{ "CSC3551", "103C8C50", generic_dsd_config },
+ 	{ "CSC3551", "103C8C51", generic_dsd_config },
++	{ "CSC3551", "103C8C66", hp_i2c_int_2amp_dual_spkid },
++	{ "CSC3551", "103C8C67", hp_i2c_int_2amp_dual_spkid },
++	{ "CSC3551", "103C8C68", hp_i2c_int_2amp_dual_spkid },
++	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
+ 	{ "CSC3551", "103C8CDD", generic_dsd_config },
+ 	{ "CSC3551", "103C8CDE", generic_dsd_config },
+ 	{ "CSC3551", "104312AF", generic_dsd_config },
+-- 
+2.34.1
 
-Perhaps with comment:
-static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
-+ 1 - 2); /* -2 for formats reserved for future use */
-?
