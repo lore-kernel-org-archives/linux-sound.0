@@ -1,125 +1,102 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BC81AACD;
-	Fri, 26 Jan 2024 11:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739D41BDDE
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 13:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706268641; cv=none; b=jGHdAjKNi3ASs+NxNFmKz8tiLANIqecCE7iUxE59KC2K1sZzRJv8s5QYIZPeqto3HQVZKlptniqDwAemG9HayNDnRnXMJFwUTw9INmH5/I8XBLMBOlMhxc/Gqz6+Fq5l5ocrGjoeqBKsrghit2gTUBz3GZq5n/q9eV/SMas4ScY=
+	t=1706275310; cv=none; b=eGkce3kSpKxvRAyvCJYN6xTmxFIpCF6aLowv48tC05Gz5kuG0kdvEupWzLvzvH1065J9ML7EikcS83kLvmzShrm/4vBnv4cwy/dV6A6IQ72+FHH+XXLC7LoiLLYefJZDb1Foc1+i9GCLzzCjaV9TmgB6DmfU3YzyR6OYndB2dHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706268641; c=relaxed/simple;
-	bh=4zbQUjsj3dgdWCURhXT0L/NIrT+3lvP4U5SKuqfZawE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YUrcCcqzH444AvHZQSKdKrVV22GXWYa8eDt3LDpNdhmqkNMPOabT4XQqdPSJTjvhlxUSmNO5pgomjJj4xhjXS9ahb6qt0rXHehlyUjnehGzOSoKLbbbLCZAJUZ+HO5qWk8Ju3dVsjfWBjjWUhUdw0l8179GgqfmpTxnvgZr5y7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=F0n9LrC6; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706275310; c=relaxed/simple;
+	bh=1R9J06P8/ttwwRvg8nQKlDyvCSA8pRs99L0R7r43U3Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WyMORTZJBl3zN0nz2GQRH86RIn+gCO2Cd93mwjj+hNKdbL5syFQyEVbxikSeV6UufF7cX6f707JY/y7A6IXdgyKPq3N9i+iubkVR/Hw48NHcLYIf5VMusYkB+zu8h3vPIUq4Z8aYbcAQ7KUYAl4XYOFWq3uROWAWEuZqNw8x6CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tVkgNOv4; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="F0n9LrC6"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QAq09r023770;
-	Fri, 26 Jan 2024 05:30:20 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=HrfhbL45vt5QCqOJGS84ZDQ1gvDhC+TWwuE32OZjF54=; b=
-	F0n9LrC6RyFzVtmnuZ/G3aM0DvQHqHvxbx9XCiV0ytzgDba7WsDzfSu82gZ4M09+
-	PCuWPmMPpE6Pyb822tnGEGenPeBAiEopmvuHjaq6EAcZI15qg2x+M2hYSgQOJ3iV
-	85JIDmP9/PXdO7vaaTKlyXXYS9gxB3PiFrovNxw8UTlZC2DTwT41lVRO4xi0XdX7
-	5kozm3iC+w/U9QYBX5hZ8H/IVsVgWuo7ZJepfVGI9rHNa0rD34TPpavy1RfkysiZ
-	Awy5pycT+C3V+h1nZwq47d9HuY67pXT22/frXlWpfn6X2OrE2C9EXyJb+IJiV4X4
-	1RTxLk+zphMlSkSfXR21Ag==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmf9unnn-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jan 2024 05:30:19 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 11:30:17 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 26 Jan 2024 11:30:17 +0000
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (LONNG2L6RQ3.ad.cirrus.com [198.90.238.116])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3AF1A820247;
-	Fri, 26 Jan 2024 11:30:17 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v1 1/4] ALSA: hda: cs35l41: Set Channel Index correctly when system is missing _DSD
-Date: Fri, 26 Jan 2024 11:30:04 +0000
-Message-ID: <20240126113007.4084-2-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
-References: <20240126113007.4084-1-sbinding@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tVkgNOv4"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2cf4696b90fso3364131fa.1
+        for <linux-sound@vger.kernel.org>; Fri, 26 Jan 2024 05:21:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706275306; x=1706880106; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3LO4L/uqo4fUbqmSqa9g43rknnKsS+IuadX7TcgniBs=;
+        b=tVkgNOv4Fxvo6ah4sEw+tVds0xgdZZJpijzbLF3AKd4SkOC6iSVEyw9upki654ODbZ
+         hMX2SSzBMr+EEkcYdesK012Zohz8YnG/Wo/Ng9NlxDSlut9eUKMdBm2YSRfmusy3aFD4
+         N84R7dT29dw8gTeRf3ccm3d+mVYktSsu8azR5I+11jEgDxNQpVcZipLjfCToEo1M7mcU
+         aAWIdIFvvq2V1a21W0YOWDaK2aub0cUjBDFduEVJmb2B6EIdMqCz+FgOCXwaATpztWHk
+         nPjDn1QwHphguTk4FKkOxLBgJYd5FkfPLKjpMn7nL+gKWKIJp99bGX8c79VbnQBnGDhK
+         CozA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706275306; x=1706880106;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3LO4L/uqo4fUbqmSqa9g43rknnKsS+IuadX7TcgniBs=;
+        b=VKTrICqaig5ZWp6TmMgwpwc5Ds4M9BHc9BFP6dn6zhGPKizruClIOgPnC9fpSeE7ND
+         E/8qfYqPQwSWjYXSw2HVcC8jzq+W2jWf9A18oT1xG/jiSaBIqTTYbPo7FMdc+RrCu/KE
+         AeIIRMEXWhwDShsKUYoA2mWnegR3W1FSK5X2w0/5CgPAxB68ESqvCdVQby8yxZRL3l2B
+         SeFYrgVxnUMec/U4q5B6kYXMCZK6ATsogrCkBjYSwiwnjucY8rSqBm9Ba/beM6wlpsPt
+         YRuXdWwECzHhmv6Jom76buMPVaAcKlfhSI5HjINhA9/N5YGtZPdJkeazF0p4VzIlXL8a
+         YANg==
+X-Gm-Message-State: AOJu0YyYar9+tF4+1dFxMH9bm3TcWdLivL83b6IGhJClG8D2OxLNGX1W
+	mfcqUEd85/ZtwiotJEMGgjJoKLh1D9weyoEokX0adxBf0vXBm0Jd+wWAy9O78zg=
+X-Google-Smtp-Source: AGHT+IFectoDvTKDWCPxyJpIrX26HU7+8ZDwO0GAD5uqodN7Yfl756aMvZYORY1aJ3oXoJrNbb17Wg==
+X-Received: by 2002:a2e:9448:0:b0:2cf:34b4:63e0 with SMTP id o8-20020a2e9448000000b002cf34b463e0mr736158ljh.80.1706275306490;
+        Fri, 26 Jan 2024 05:21:46 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id l30-20020a50d6de000000b0055c875c2095sm612168edj.96.2024.01.26.05.21.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 05:21:46 -0800 (PST)
+Message-ID: <4d377c8e-8cef-4da3-9b25-fc91a7dc3d49@linaro.org>
+Date: Fri, 26 Jan 2024 13:21:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: KQncx-_J0paeHTWbhTIVOQhdMtQeq16K
-X-Proofpoint-ORIG-GUID: KQncx-_J0paeHTWbhTIVOQhdMtQeq16K
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] ASoC: codecs: tx-macro: correct TX SMIC MUXn
+ widgets on SM8350+
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Banajit Goswami <bgoswami@quicinc.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20240125153110.410295-1-krzysztof.kozlowski@linaro.org>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20240125153110.410295-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Current method to set Channel Index when the system is missing _DSD
-assumes that the channels alternate, which is not guaranteed.
-Instead use the same methodology as the main driver does when _DSD
-exists.
 
-Fixes: 8c4c216db8fb ("ALSA: hda: cs35l41: Add config table to support many laptops without _DSD")
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/pci/hda/cs35l41_hda_property.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+On 25/01/2024 15:31, Krzysztof Kozlowski wrote:
+> Hi,
+> 
+> Changelog in individual patches.
+> 
+> v1:
+> https://lore.kernel.org/all/20230717140138.201745-1-krzysztof.kozlowski@linaro.org/
+> 
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 35277ce890a4..87edf0d2fbb0 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -203,6 +203,7 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
- 	struct spi_device *spi;
- 	bool dsd_found;
- 	int ret;
-+	int i;
- 
- 	for (cfg = cs35l41_config_table; cfg->ssid; cfg++) {
- 		if (!strcasecmp(cfg->ssid, cs35l41->acpi_subsystem_id))
-@@ -288,16 +289,6 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
- 			cs35l41->index = id == 0x40 ? 0 : 1;
- 	}
- 
--	if (cfg->num_amps == 3)
--		/* 3 amps means a center channel, so no duplicate channels */
--		cs35l41->channel_index = 0;
--	else
--		/*
--		 * if 4 amps, there are duplicate channels, so they need different indexes
--		 * if 2 amps, no duplicate channels, channel_index would be 0
--		 */
--		cs35l41->channel_index = cs35l41->index / 2;
--
- 	cs35l41->reset_gpio = fwnode_gpiod_get_index(acpi_fwnode_handle(cs35l41->dacpi), "reset",
- 						     cs35l41->index, GPIOD_OUT_LOW,
- 						     "cs35l41-reset");
-@@ -305,6 +296,11 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
- 
- 	hw_cfg->spk_pos = cfg->channel[cs35l41->index];
- 
-+	cs35l41->channel_index = 0;
-+	for (i = 0; i < cs35l41->index; i++)
-+		if (cfg->channel[i] == hw_cfg->spk_pos)
-+			cs35l41->channel_index++;
-+
- 	if (cfg->boost_type == INTERNAL) {
- 		hw_cfg->bst_type = CS35L41_INT_BOOST;
- 		hw_cfg->bst_ind = cfg->boost_ind_nanohenry;
--- 
-2.34.1
+Unfortunately this is breaking mic on X13s.
 
+--srini
+
+> Best regards,
+> Krzysztof
+> 
+> Krzysztof Kozlowski (2):
+>    ASoC: codecs: tx-macro: split widgets per different LPASS versions
+>    ASoC: codecs: tx-macro: correct TX SMIC MUXn widgets on SM8350+
+> 
+>   sound/soc/codecs/lpass-macro-common.h |   7 +
+>   sound/soc/codecs/lpass-tx-macro.c     | 666 +++++++++++++++++++-------
+>   2 files changed, 501 insertions(+), 172 deletions(-)
+> 
