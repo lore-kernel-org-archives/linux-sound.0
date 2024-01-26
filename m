@@ -1,141 +1,117 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4501CD3F;
-	Fri, 26 Jan 2024 16:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F8720309;
+	Fri, 26 Jan 2024 17:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706287234; cv=none; b=FrxjMiCi3fwXgLgDlb6UIrFw7UsRmWmjGyfjnYHsUpgaXoSsfT5nY9zXczdv15cnFf1e+vB84ORb7XQavbhx73E9xuz2MZLA7MPm7kaNC8LdgebPfWVVeYigdTFBQtQK/grMYlhMQqRNAYL7e2NRn23N0YMkasxeVZjLqzmOgOI=
+	t=1706289829; cv=none; b=Co5zhZ5ORxPgU0BIX6jZs5Af9UbA2EwAA0a5FuZFXtS4uETP2Q5k6CsEB+zz0GiHigUoRhwKfoA6UV8Lw/stqIu4eMnod+xZl5b9O6Qc0XFRGeEllT7oq61Uzm0Lainzl062xhKOx3j0uPDSyqsvZ6Pn0+H6Cse/w76i3RYfA7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706287234; c=relaxed/simple;
-	bh=aMFNEHURVJkKdqp4qghm6tQhsHtXoLfSATP3Qw8Drlk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YhgJGT/LaML3gogYc32B+VcqNn71DGY5yYFp5jtBVK7JZB8ytLYBq3BcZcsf3bDsIogzBB+l6iG0iqWw+UMYAuaV1lIY9L+vEyk+rsaKxEX4sXhhHTlgjLi8NSYZliY8qwCFsDx6Yntj33rGNbvtg989kr/qFZxD6mbOS5TCPCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BUs7twFx; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706289829; c=relaxed/simple;
+	bh=tSMX1Ae/bCy8FGpCcBWLPQYfg2LBDt1gaBUpHaOLi0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GoWVy8kDl7CDf+nGNVTX1nENFY6pMCJxanId3sg9MkTl7VlC1N0/8omrITeqn4pDE1wfMjDdnYgdJUd8oSMUHeF8YmpFmUVo4fmWkvWiOcxqeegaCzlqBo4hqgb5qv+00WK6gq0dHshrmDungGDNRn4xslW+f9iHbo+SsADGiQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGN2MhwY; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BUs7twFx"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QCpkP0002374;
-	Fri, 26 Jan 2024 10:40:17 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=UPXkoRw2vL+RtRC57FFTWGm0OZI2iZrGhiK9uMrNTrg=; b=
-	BUs7twFx/YzG3EdTwedRwJapHrt/GfIM4NcsTtrDAib1ZAp3jAUayQ2jVpza186g
-	hwlXPt6+Laa3tbq5d+GKmmb/E9rvb6AxOlyxN/CcBGNaV+z8yaot36NXmadcZH8o
-	idmZvRwx3WEzQ3VN8N0ihPiQqtDfGUJrnT4cN6jayxdlT5qpK1vIEbXq6YIZ68VE
-	P+H2zg/OQBfUhsstZ0gTcFftcVAx1D+riWyjYXDZ/MD0LTliATpiXPSycCKKW9I3
-	4M2vEz3P4npafHkXjlmZ+R27TNtRDVrjTU2SxQpKep6KRYURqWFuwX7EvezRrb2X
-	WhEX4Vz9txEfDvI8ZsoOSQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vtmf9v1ua-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jan 2024 10:40:17 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 16:40:15 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Fri, 26 Jan 2024 16:40:15 +0000
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (LONNG2L6RQ3.ad.cirrus.com [198.90.238.116])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D6C59820248;
-	Fri, 26 Jan 2024 16:40:14 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v2 3/4] ALSA: hda: cs35l41: Support HP models without _DSD using dual Speaker ID
-Date: Fri, 26 Jan 2024 16:40:04 +0000
-Message-ID: <20240126164005.367021-4-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240126164005.367021-1-sbinding@opensource.cirrus.com>
-References: <20240126164005.367021-1-sbinding@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGN2MhwY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706289828; x=1737825828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tSMX1Ae/bCy8FGpCcBWLPQYfg2LBDt1gaBUpHaOLi0k=;
+  b=DGN2MhwY1qzdGQQuouBLgsHjbAKjNxJZVCkyR7K+a56/QEpmlAHljgcy
+   8TmhZ/wyano9KvxRn+onRjs3F5ZktguIiFrTVzJvZsmlmUa31YYKuSU6S
+   j+xiEjYRYIbPWqV28jBH6n8JM/mLhzqbje77Qtb87Rp6y8RrM2vOe783X
+   CXm8SHD6/3xym+wv1qh5mzUh8PYZf6BI59nB3pDFF48UZ2vI4u8QxwqTY
+   KwVyEmwVmxBOB7FNbuKN6UbLyyj2fkTliZef6pxF8xmThPQRzG7+JBCn8
+   7G7V+/HURLZvsQNW/HD2s2IX/4R5z+dcM+6nU2Jd40yjtPxjLntATwHsz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9900855"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="9900855"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:23:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960260973"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="960260973"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:23:39 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BC8AF11FBD1;
+	Fri, 26 Jan 2024 19:23:36 +0200 (EET)
+Date: Fri, 26 Jan 2024 17:23:36 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Alex Elder <elder@ieee.org>
+Cc: linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <ZbPqmA4GkunkJqb0@kekkonen.localdomain>
+References: <20240122114121.56752-1-sakari.ailus@linux.intel.com>
+ <20240122114121.56752-2-sakari.ailus@linux.intel.com>
+ <912d4439-86cd-4060-a66d-baba5fa2bdec@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: AXlvmX76xtSeLfc39-cAl1TP4Df4KSOM
-X-Proofpoint-ORIG-GUID: AXlvmX76xtSeLfc39-cAl1TP4Df4KSOM
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <912d4439-86cd-4060-a66d-baba5fa2bdec@ieee.org>
 
-Laptops 103C8C66, 103C8C67, 103C8C68, 103C8C6A use a dual speaker id
-system where each speaker has its own speaker id.
-The generic configuration table doesn't support this, so it needs its
-own function.
+Hi Alex,
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/pci/hda/cs35l41_hda_property.c | 40 ++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+On Fri, Jan 26, 2024 at 09:12:02AM -0600, Alex Elder wrote:
+> On 1/22/24 5:41 AM, Sakari Ailus wrote:
+> > There are two ways to opportunistically increment a device's runtime PM
+> > usage count, calling either pm_runtime_get_if_active() or
+> > pm_runtime_get_if_in_use(). The former has an argument to tell whether to
+> > ignore the usage count or not, and the latter simply calls the former with
+> > ign_usage_count set to false. The other users that want to ignore the
+> > usage_count will have to explitly set that argument to true which is a bit
+> > cumbersome.
+> > 
+> > To make this function more practical to use, remove the ign_usage_count
+> > argument from the function. The main implementation is renamed as
+> > pm_runtime_get_conditional().
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
+> 
+> I actually intended my "Reviewed-by" to cover the entire patch.  I
+> checked every caller and they all looked good to me.
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 6714740b85c8..5f8c214699d6 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -335,6 +335,42 @@ static int generic_dsd_config(struct cs35l41_hda *cs35l41, struct device *physde
- 	return 0;
- }
- 
-+/*
-+ * Systems 103C8C66, 103C8C67, 103C8C68, 103C8C6A use a dual speaker id system - each speaker has
-+ * its own speaker id.
-+ */
-+static int hp_i2c_int_2amp_dual_spkid(struct cs35l41_hda *cs35l41, struct device *physdev, int id,
-+				      const char *hid)
-+{
-+	struct cs35l41_hw_cfg *hw_cfg = &cs35l41->hw_cfg;
-+
-+	/* If _DSD exists for this laptop, we cannot support it through here */
-+	if (acpi_dev_has_props(cs35l41->dacpi))
-+		return -ENOENT;
-+
-+	/* check I2C address to assign the index */
-+	cs35l41->index = id == 0x40 ? 0 : 1;
-+	cs35l41->channel_index = 0;
-+	cs35l41->reset_gpio = gpiod_get_index(physdev, NULL, 0, GPIOD_OUT_HIGH);
-+	if (cs35l41->index == 0)
-+		cs35l41->speaker_id = cs35l41_get_speaker_id(physdev, 0, 0, 1);
-+	else
-+		cs35l41->speaker_id = cs35l41_get_speaker_id(physdev, 0, 0, 2);
-+	hw_cfg->spk_pos = cs35l41->index;
-+	hw_cfg->gpio2.func = CS35L41_INTERRUPT;
-+	hw_cfg->gpio2.valid = true;
-+	hw_cfg->valid = true;
-+
-+	hw_cfg->bst_type = CS35L41_INT_BOOST;
-+	hw_cfg->bst_ind = 1000;
-+	hw_cfg->bst_ipk = 4100;
-+	hw_cfg->bst_cap = 24;
-+	hw_cfg->gpio1.func = CS35L41_NOT_USED;
-+	hw_cfg->gpio1.valid = true;
-+
-+	return 0;
-+}
-+
- /*
-  * Device CLSA010(0/1) doesn't have _DSD so a gpiod_get by the label reset won't work.
-  * And devices created by serial-multi-instantiate don't have their device struct
-@@ -414,6 +450,10 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "103C8C4F", generic_dsd_config },
- 	{ "CSC3551", "103C8C50", generic_dsd_config },
- 	{ "CSC3551", "103C8C51", generic_dsd_config },
-+	{ "CSC3551", "103C8C66", hp_i2c_int_2amp_dual_spkid },
-+	{ "CSC3551", "103C8C67", hp_i2c_int_2amp_dual_spkid },
-+	{ "CSC3551", "103C8C68", hp_i2c_int_2amp_dual_spkid },
-+	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
- 	{ "CSC3551", "103C8CDD", generic_dsd_config },
- 	{ "CSC3551", "103C8CDE", generic_dsd_config },
- 	{ "CSC3551", "104312AF", generic_dsd_config },
+Thanks, I'll drop the file name. AFAIR it was just below that file, so I
+added it, but I could be wrong, too.
+
+v5 will also squash the 2nd patch of v4 into this one
+<URL:https://lore.kernel.org/linux-pm/ZbBAWROxRKE8Y8VU@kekkonen.localdomain/T/#m76d34e679e12d8536a20eb29af6e826e2a85a24b>,
+I hope that's fine.
+
 -- 
-2.34.1
+Kind regards,
 
+Sakari Ailus
