@@ -1,58 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7C22E635;
-	Sat, 27 Jan 2024 16:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111491E493;
+	Sat, 27 Jan 2024 16:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706373177; cv=none; b=ff30xOuK3T7GUzFFgQYaNEDqA991V/0tW+83nNDV/+kWrmz6rvHZE0sDiEdMt3FVjBr4gDTl/m2AT9tNFUIvtysti22HdMKhQNxjoQK6iK1g5TuRAsSRsMkDt76zDZV4zcHKX5dGDqLIERrxvMAtqcSa194joOWb4OkkK759rsQ=
+	t=1706374061; cv=none; b=AEW3mCk81TFrixxHGiBUR+3IQdQEID7LYkLiGElWMu6CP3UlN1k5h03XyvZBhRTg35olSHBuW+mOzELBfUR8jhQd1TWbqSPw1wr8xOAPxaQJmfPNd0lvoDOT3OGOKYoCHL1PrGWk/1lih36wWU1uv0PrHZdrZjYhu62eSJNyNDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706373177; c=relaxed/simple;
-	bh=eAd7srBbetTNuoTznQNyc5Zq6J7HU6wdNysZdYd3kxE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=izvwT0QqnBRlWUkDSAi7PJsXCJ3EcnkJlpIkppSQsyjXqGI2EtjOGE/2n39fS9DiIVBJO4FEmkjofvmMEV4ZNP9KS/y4UD9HwFiVJ2/6+wXy14MXEMVkTlmKdpX9otYPgIotqK5Eiy16YlsdDnAM9OfdxMIaPzf/D43hLqRJjq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfxcEB/P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706374061; c=relaxed/simple;
+	bh=P5inWfry6T1Czl6TsnTuVIoqd+ZhftxFosxgazH4yR8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mevy6hrbz81fGAoiGGVpp6jhcGzWHhn/PcfjCclq1O1X/d/sTO01uv2qSOrPrTPrgwRtb0AvcBPhObEcYUwZScm6AEE1hQ1Qa+B1kqFNDc0k/g+WqwhfEpEWXaH+TVznYimINfVAPqpwxE/EvhOJnflUS8NHv//Q/KMG1n9hyCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SPmD8xj9; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfxcEB/P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 300EBC32782;
-	Sat, 27 Jan 2024 16:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706373177;
-	bh=eAd7srBbetTNuoTznQNyc5Zq6J7HU6wdNysZdYd3kxE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZfxcEB/PjxKgjc/wwsQqMoHdUsXoHcutXwR54Zz40tbIJXiovoDWfeN2uMIdDB59T
-	 hM6+YDMoFZqvX6il/E5dr7lY6HkkXWdBiCpifCLQEUR5NwmlSdCKnzXY2qaJo/10sE
-	 NtZu6vr8Lxl5EBkdeY3/XyYXBJX+3XDG0lR/cH1WhoneVu0SMDVZZh6qLSf9oq+6w3
-	 GKjLZNe0SXeazRSN53MmOCtRbwLlr/q0iqSECdPaDJWIiqHFXX+cAPde9PawemAPgt
-	 Bec634DL1z171RBlA2cLg4ECC8TEDIl+4khHl52kIHZ/Bgf+9Zzj4UDFcU8P/i06cO
-	 HeusOAzAQND/g==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 925475FEC6; Sun, 28 Jan 2024 00:32:52 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	dmaengine@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPmD8xj9"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40e76626170so21918605e9.2;
+        Sat, 27 Jan 2024 08:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706374058; x=1706978858; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jq5nWV4gc+boSoV96VgLy7nj/n+DgQjkGxXgMwyJKWg=;
+        b=SPmD8xj9CHzf23D9cFGsX0aOts6W+BZi1tIlZMWEd2K04bbdeCjxURuIoNWnQQYyBn
+         vzYBIgDopQjk/FBgEKnKRAb7omH2CzYjGIpUxn2RFADCt9IpfOlmv0KfTylQRicrqtpU
+         QfiNWIu1/0IwQMgI9T081kgahwa+Fu2+iR/DNaItiNkhDhhxB650/yaP0Yh7Ok6zKgDt
+         F0aNE3ZBA708lG3jP+3BXg7qGokVb6UkqRLeZ4N52iJLZWCg6tefScjnq+mCVlPQy1KB
+         KKS2m/V0DsTJ9m6N0jZFoMdeXrbJ7L9cYHBGNeUXkuzoxCZTzS+5iK3Cx+CfT+Eg2ssS
+         /20Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706374058; x=1706978858;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jq5nWV4gc+boSoV96VgLy7nj/n+DgQjkGxXgMwyJKWg=;
+        b=FX/F65N2dhizPOTtO4ALFqj4kKJugEt3d76PCCOv5ZaADKxEQO+SG+VG0anTkNKFe+
+         3Kydk6vjLuNC1mY+9nvCePXG4xOSLV9U/eRzTHuERbaq6JHLTvy4fER4XUh7nsGVLGMJ
+         s089KGC7s4qej7Ce0zsskg3PSMhsLSl/TTTN20TghEbWjXKE+533mavg6tYf4QbhkLBz
+         IgX5yDo9ONhfQeDxql4S/azPw2geuvgKHQgEk4Go8cpygtL/8DfFkmJMJfb5X4lIXX2x
+         f67HLh/wc9r2nefVlzenVjTp7zbW0f9qCoHQtJTDB2W5q1eCGl/UUAENlvjoRtVcYzIE
+         Ewig==
+X-Gm-Message-State: AOJu0YxffyKUTDzgBeK9YqpVFf9uVJVCJgGbWxBt1uZFDPWgj6Zu7/Rv
+	0LnOBxYXXn4OeTHGKper5tUqT2k/PvnyvgmoRapMq24i52vwIzyq
+X-Google-Smtp-Source: AGHT+IG4fFkwwlanBWpqJW1F0dTLbqKbMH0i4rK9ABL48tuKQ/mudc3Aug7IIsmMoMMeS0psJTUOlQ==
+X-Received: by 2002:a05:600c:4ec8:b0:40e:ace6:4fc2 with SMTP id g8-20020a05600c4ec800b0040eace64fc2mr1439967wmq.24.1706374058012;
+        Sat, 27 Jan 2024 08:47:38 -0800 (PST)
+Received: from kenzo-linux-laptop.bicolor-pike.ts.net (154.red-88-26-51.staticip.rima-tde.net. [88.26.51.154])
+        by smtp.gmail.com with ESMTPSA id i9-20020a05600c354900b0040eee435571sm1895013wmq.45.2024.01.27.08.47.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jan 2024 08:47:37 -0800 (PST)
+From: Kenzo Gomez <kenzo.sgomez@gmail.com>
+To: tiwai@suse.de
+Cc: alsa-devel@alsa-project.org,
+	david.rhodes@cirrus.com,
+	james.schulman@cirrus.com,
+	kenzo.sgomez@gmail.com,
 	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH v2 7/7] arm64: dts: allwinner: h616: Add SPDIF device node
-Date: Sun, 28 Jan 2024 00:32:47 +0800
-Message-Id: <20240127163247.384439-8-wens@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
-References: <20240127163247.384439-1-wens@kernel.org>
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	perex@perex.cz,
+	rf@opensource.cirrus.com,
+	sbinding@opensource.cirrus.com,
+	tiwai@suse.com
+Subject: [PATCH v3] ALSA: hda: cs35l41: Support additional ASUS Zenbook UX3402VA
+Date: Sat, 27 Jan 2024 17:46:21 +0100
+Message-ID: <20240127164621.26431-1-kenzo.sgomez@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <874jfdwsfg.wl-tiwai@suse.de>
+References: <874jfdwsfg.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,58 +78,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chen-Yu Tsai <wens@csie.org>
+Add new model entry into configuration table.
 
-The H616 SoC has an SPDIF transmitter hardware block, which has the same
-layout as the one in the H6, minus the receiver side.
-
-Add a device node for it, and a default pinmux.
-
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Kenzo Gomez <kenzo.sgomez@gmail.com>
 ---
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 885809137b9d..b1bf4fb5fc58 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -253,6 +253,11 @@ spi1_cs0_pin: spi1-cs0-pin {
- 				function = "spi1";
- 			};
- 
-+			spdif_tx_pin: spdif-tx-pin {
-+				pins = "PH4";
-+				function = "spdif";
-+			};
-+
- 			uart0_ph_pins: uart0-ph-pins {
- 				pins = "PH0", "PH1";
- 				function = "uart0";
-@@ -550,6 +555,21 @@ mdio0: mdio {
- 			};
- 		};
- 
-+		spdif: spdif@5093000 {
-+			compatible = "allwinner,sun50i-h616-spdif";
-+			reg = <0x05093000 0x400>;
-+			interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_SPDIF>, <&ccu CLK_SPDIF>;
-+			clock-names = "apb", "spdif";
-+			resets = <&ccu RST_BUS_SPDIF>;
-+			dmas = <&dma 2>;
-+			dma-names = "tx";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&spdif_tx_pin>;
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		usbotg: usb@5100000 {
- 			compatible = "allwinner,sun50i-h616-musb",
- 				     "allwinner,sun8i-h3-musb";
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index 35277ce890a4..59504852adc6 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -76,6 +76,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+ 	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 1000, 4500, 24 },
++	{ "104316A3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "104317F3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+@@ -410,6 +411,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "10431533", generic_dsd_config },
+ 	{ "CSC3551", "10431573", generic_dsd_config },
+ 	{ "CSC3551", "10431663", generic_dsd_config },
++	{ "CSC3551", "104316A3", generic_dsd_config },
+ 	{ "CSC3551", "104316D3", generic_dsd_config },
+ 	{ "CSC3551", "104316F3", generic_dsd_config },
+ 	{ "CSC3551", "104317F3", generic_dsd_config },
 -- 
-2.39.2
+2.43.0
 
