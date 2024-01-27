@@ -1,182 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CF128DCA;
-	Sat, 27 Jan 2024 15:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C601B812;
+	Sat, 27 Jan 2024 16:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706371119; cv=none; b=ed3XUUE1usKS2KlgRWOUoJY7kXI8PD7UAVrquM79xLCRiVdAuPYQCNBWm4/ReyrRFSij7WEQYEazh9ot+rwqDRInVlzcCKI4sJ7hTUjLxFFtcSFSrhdYvB/4NpHzR0jfZDCykaSOBRLVVvRiMNEmvb5RkoztLI6CAR58GrL1gnc=
+	t=1706373175; cv=none; b=LKqKALkki6yiEn5jt+IYbulEPbaLif1Vf2mTKcOl91nBkwordNPPJKuxywoFN0YhQ1GiabUhLLoyUguMudBg7L+x12hp48PotpYgE2XplZywWocLGds+ZuVenjJFN6Uj4pyCoirJPGe8oeRXi7iVIBLwPlbI8OsBRFKSp43z6aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706371119; c=relaxed/simple;
-	bh=hBtf6FLBv/lirHB/qFxQDOfC3/JrgO9F5zuWntBY3Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3ZASke+vhXwK4tNZAOXWg0RlyYnwRNPDPs7n2RXcx9rabuWQ4/50Rmu1ovaVpULSveB3ZYKnzyollYrrAZ0/tyi7aV+vsCidzNe056YC1/tgf5ABKliyt4T+yivyB9TTAPFwtfwm1tjbuTPSjgieWIJUteXn3Y2s3QYX6yNNRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fa5J9WQd; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706373175; c=relaxed/simple;
+	bh=vsL0mbXsOusXWQQoLV0+ENppFAA94idE+K76ih4R3EY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YuTRKB3xexFcgSKSCeqgGBhF6wLtIRY+HEtST01mnrj7Jf7wlG6IzLzADBb24utOmyH7BhfnvkJLenY7fG3BqeSouoAxtttg9FlGygqzK7l9Rtk+5ZPtTTinBgZ0qqsixMwDa5cRH2P50m3AzLskwKMpRDKAgSoaZIIUmrWJg9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f5iClA6L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fa5J9WQd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706371116; x=1737907116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hBtf6FLBv/lirHB/qFxQDOfC3/JrgO9F5zuWntBY3Bo=;
-  b=fa5J9WQddtmcDXUGFz4Q66JK4ZipyxZBWTiROxl6qXEzrPzMIRTKdQqK
-   DP6y99H5WsPBYlzMsPVe3kK8PA7is+hxytcLLW8i/zb3hj4JVsM2RcB8A
-   Z8pWho1bBi8XGmpw3QD+j4O2jiJdFHc3xGQsOhCyDeJ84D54oAKufNNeQ
-   Zb7Z/9hoGiLLBtb5SYx6swh/Xl8G1hq7TSn8jtBNg7XgMw83dhknjX0yU
-   VxmvtpeP/Tp0+HwJVZMaRLaxP16EnNrvHBV+yuGV+dNVe8I1Er8cNp6Id
-   2hQ7HfBJ8dRMC3r/5XrRV/YsdR4fqrMx3n5BzP2+/1Uv7ewAUAqFJWQ0I
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="10074283"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="10074283"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 07:58:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787406022"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="787406022"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2024 07:58:29 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTl4c-0002UU-1g;
-	Sat, 27 Jan 2024 15:58:26 +0000
-Date: Sat, 27 Jan 2024 23:57:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f5iClA6L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B36B6C433C7;
+	Sat, 27 Jan 2024 16:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706373174;
+	bh=vsL0mbXsOusXWQQoLV0+ENppFAA94idE+K76ih4R3EY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=f5iClA6LGijEWwjkd3JAyCqVl96GzTg73GnRC2fvLKT+m6IUiGiC3W0oDeF6N4z5d
+	 RQfxt4c2fXpZXqd9Cq6MJpMqH9QSuM8ueQPpnfDfi7TNAy3sHueUo7KCjAs/BM4MNd
+	 w5iqzM3q8A/GqmDmI1o74TiGz1I2JhH8htUq8djsqyDpOYwwXn6Bk0EvZI0xrjoTM1
+	 OWOM7m7QRPaQnfcxwpBogHsvDWfiu4/+YVjtUSvDzVXheiJ4/byOV4lJqGQf0a5piF
+	 hvi1W1KfZPWkNqITxNhOB5R69uRMZR4Bm1igljypmNR4hP16HJ7N+31Ssfy53loYWU
+	 PnfYgW2gvwMSQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 4B4D15FA14; Sun, 28 Jan 2024 00:32:52 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 11/13] fbdev: omapfb: use of_graph_get_next_port()
-Message-ID: <202401272336.CCkvpjde-lkp@intel.com>
-References: <874jf4ud77.wl-kuninori.morimoto.gx@renesas.com>
+	Vinod Koul <vkoul@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 1/7] dt-bindings: sound: sun4i-spdif: Fix requirements for H6
+Date: Sun, 28 Jan 2024 00:32:41 +0800
+Message-Id: <20240127163247.384439-2-wens@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
+References: <20240127163247.384439-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874jf4ud77.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Kuninori,
+From: Chen-Yu Tsai <wens@csie.org>
 
-kernel test robot noticed the following build warnings:
+When the H6 was added to the bindings, only the TX DMA channel was
+added. As the hardware supports both transmit and receive functions,
+the binding is missing the RX DMA channel and is thus incorrect.
+Also, the reset control was not made mandatory.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.8-rc1 next-20240125]
-[cannot apply to robh/for-next drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Add the RX DMA channel for SPDIF on H6 by removing the compatible from
+the list of compatibles that should only have a TX DMA channel. And add
+the H6 compatible to the list of compatibles that require the reset
+control to be present.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/874jf4ud77.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH 11/13] fbdev: omapfb: use of_graph_get_next_port()
-config: i386-buildonly-randconfig-003-20240127 (https://download.01.org/0day-ci/archive/20240127/202401272336.CCkvpjde-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401272336.CCkvpjde-lkp@intel.com/reproduce)
+Fixes: b20453031472 ("dt-bindings: sound: sun4i-spdif: Add Allwinner H6 compatible")
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ .../devicetree/bindings/sound/allwinner,sun4i-a10-spdif.yaml    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401272336.CCkvpjde-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_init_ports':
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:925:9: error: implicit declaration of function 'of_graph_get_next_port'; did you mean 'of_get_next_parent'? [-Werror=implicit-function-declaration]
-     port = of_graph_get_next_port(parent, NULL);
-            ^~~~~~~~~~~~~~~~~~~~~~
-            of_get_next_parent
->> drivers/video/fbdev/omap2/omapfb/dss/dss.c:925:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     port = of_graph_get_next_port(parent, NULL);
-          ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:956:10: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-       (port = of_graph_get_next_port(parent, port)) != NULL);
-             ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_uninit_ports':
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:972:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     port = of_graph_get_next_port(parent, NULL);
-          ^
-   drivers/video/fbdev/omap2/omapfb/dss/dss.c:1003:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     } while ((port = of_graph_get_next_port(parent, port)) != NULL);
-                    ^
-   cc1: some warnings being treated as errors
-
-
-vim +925 drivers/video/fbdev/omap2/omapfb/dss/dss.c
-
-   915	
-   916	static int dss_init_ports(struct platform_device *pdev)
-   917	{
-   918		struct device_node *parent = pdev->dev.of_node;
-   919		struct device_node *port;
-   920		int r, ret = 0;
-   921	
-   922		if (parent == NULL)
-   923			return 0;
-   924	
- > 925		port = of_graph_get_next_port(parent, NULL);
-   926		if (!port)
-   927			return 0;
-   928	
-   929		if (dss.feat->num_ports == 0)
-   930			return 0;
-   931	
-   932		do {
-   933			enum omap_display_type port_type;
-   934			u32 reg;
-   935	
-   936			r = of_property_read_u32(port, "reg", &reg);
-   937			if (r)
-   938				reg = 0;
-   939	
-   940			if (reg >= dss.feat->num_ports)
-   941				continue;
-   942	
-   943			port_type = dss.feat->ports[reg];
-   944	
-   945			switch (port_type) {
-   946			case OMAP_DISPLAY_TYPE_DPI:
-   947				ret = dpi_init_port(pdev, port);
-   948				break;
-   949			case OMAP_DISPLAY_TYPE_SDI:
-   950				ret = sdi_init_port(pdev, port);
-   951				break;
-   952			default:
-   953				break;
-   954			}
-   955		} while (!ret &&
-   956			 (port = of_graph_get_next_port(parent, port)) != NULL);
-   957	
-   958		if (ret)
-   959			dss_uninit_ports(pdev);
-   960	
-   961		return ret;
-   962	}
-   963	
-
+diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-spdif.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-spdif.yaml
+index 8108c564dd78..98e2e053fa19 100644
+--- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-spdif.yaml
++++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-spdif.yaml
+@@ -62,6 +62,7 @@ allOf:
+             enum:
+               - allwinner,sun6i-a31-spdif
+               - allwinner,sun8i-h3-spdif
++              - allwinner,sun50i-h6-spdif
+ 
+     then:
+       required:
+@@ -73,7 +74,6 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun8i-h3-spdif
+-              - allwinner,sun50i-h6-spdif
+ 
+     then:
+       properties:
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
