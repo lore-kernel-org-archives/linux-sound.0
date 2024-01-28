@@ -1,273 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28022D61B;
-	Sun, 28 Jan 2024 15:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD0854659;
+	Sun, 28 Jan 2024 16:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706455671; cv=none; b=uKnWrGCdEvKn9rCay7Todwku01YSw88M8PVuGFhrBPAWv7jCd3ZWeTulYqKtTZjbB+mQz08LwtO67MUj+3ArcuSSlkgMBI0957oGu8Zy9A1t5SaTXEYW9hw8xh7ta630u0+gVZrEhWVsVfH9gdbcNohOGVyaBwroRCftbYnH2NI=
+	t=1706458332; cv=none; b=Lq9xoQI3jc5LRyZx9UjaMSu91360RJ1VNQcKdwUqmJwU1cyLEr4TnxOPie9vjofopN73SsDdoogU49uqycOSYI4mHpOfIz1fX2B960TqLsj/Ogb9hMCrvynZpVsfFRNpJappGpYP7x9MROyyWQfHZDZSb498lgVF6Zt6OlH6nYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706455671; c=relaxed/simple;
-	bh=JAN47VwN1SePpdyAoHFsl6vnWsIXfB8fiYqRy73CAS4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FmeodD34v2HTzHUNexPSSb+jWAW2ukIvGugn1iN4u9fJksQJbg4RX8WVsFBYdklQ2gB+yDTJMZ8l68RrhS/PULqtWLyGZNgZNpmEJ/W/IcLngDb1cbTi2o77tTyxR33ZhWWVNAWkHZUTU3ftPR13453AH5iCqw6TvQlzQdI2JsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OUvs9tGT; arc=none smtp.client-ip=192.55.52.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706458332; c=relaxed/simple;
+	bh=VWY9NpPEAlb28+/OE3xDNSNkYn1A2yBpJbSReKpyaOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IouULJrBYN/pxYYh4v6PO1d9GdUJy6Mxi8nfjyJZqjMNHlEHN/JsmD2V1nyai/OMuAirkPXGY9G2ZAj96Pp7FNfLB03Ew6QHjZCtbzBg7KWoEqhcghcHIgslJQIQmzbqmQhDdjV9nFENw/UdlW2fsJ6B7ScUEpGnLkUOObsCr8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aaxh3998; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUvs9tGT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706455670; x=1737991670;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JAN47VwN1SePpdyAoHFsl6vnWsIXfB8fiYqRy73CAS4=;
-  b=OUvs9tGT6sWcQSw7gk+ikGV67PwTrkMNmKoAv8hmI9ZoC8ahZnKtsda+
-   x57/qcVKdReX7BoAqEqnuQ0Laxvk5ne5nRVcrQoDjzr1DIY/XZo2hpsIK
-   9kehEREWI/3tx+cHiYApwunfdQiNOLIVtCms1CcbVpSbVD72HEtDM7700
-   BZllTGB5ljMliA/8d3P3VU52kBojnZq/PHtm2m8VcX2PFlAoTsYYc0G0d
-   GiyVekNgA84W3zadooKNsZjfPuYbSdkWglhb/W+zuF9FwZjtIAgdfNTS4
-   IiAbwuhMZV9pLNlHctASbHlwySvlV5SYnv+awIqBh+IoJpiNHO/v/k8uJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="433945030"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="433945030"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 07:27:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="737145749"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="737145749"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 07:27:44 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rU6oc-0000000HUFn-3Zl7;
-	Sun, 28 Jan 2024 17:11:22 +0200
-Date: Sun, 28 Jan 2024 17:11:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
-	robh+dt@kernel.org, kevin-lu@ti.com, baojun.xu@ti.com,
-	devicetree@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	liam.r.girdwood@intel.com, soyer@irl.hu, jkhuang3@ti.com,
-	tiwai@suse.de, pdjuandi@ti.com, j-mcpherson@ti.com, navada@ti.com
-Subject: Re: [PATCH v1 1/4] ASoc: pcm6240: Create pcm6240 codec driver code
-Message-ID: <ZbZumnfISSojuA80@smile.fi.intel.com>
-References: <20240123111411.850-1-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aaxh3998"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A60ACC43399;
+	Sun, 28 Jan 2024 16:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706458331;
+	bh=VWY9NpPEAlb28+/OE3xDNSNkYn1A2yBpJbSReKpyaOg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Aaxh3998KnIRbX0LNfqdSC47rdzbqIaYcq4yJMvzAw7rQA9wop2juw+FESa9m5lqo
+	 WUcwDF+tqvre5osFuNSPiVB9kECTBdU8QddEnYL2P4IGZJkOJJiFy+ahagKtpmf2wq
+	 cegOXXnCUHgvC3GJFpItfZmcZBu+5oSksWx2Zz97numNfZ0sATlrRMHOgzaISklCNP
+	 MgEavXMe/qRKBJR+NY2AcCNSmCD+z7VbE5IXCZaEv0JXj5xzBuf+Dbc//K6epbejuq
+	 UXumVdoJarN1K0/7yFtVmRtZGCrG7ZWULdJfTeeimurbSQFQnLCuav4WWEcXchfLlX
+	 wrkkgSzHLFIfg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: ChiYuan Huang <cy_huang@richtek.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 23/39] ASoC: codecs: rtq9128: Fix PM_RUNTIME usage
+Date: Sun, 28 Jan 2024 11:10:43 -0500
+Message-ID: <20240128161130.200783-23-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240128161130.200783-1-sashal@kernel.org>
+References: <20240128161130.200783-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240123111411.850-1-shenghao-ding@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.2
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 23, 2024 at 07:14:07PM +0800, Shenghao Ding wrote:
-> PCM6240 driver implements a flexible and configurable setting for register
-> and filter coefficients, to one, two or even multiple PCM6240 Family Audio
-> chips.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-...
+[ Upstream commit 35040410372ca27a33cec8382d42c90b6b6c99f6 ]
 
-> +#include <linux/of_gpio.h>
+If 'pm_runtime_resume_and_get' is used, must check the return value to
+prevent the active count not matched problem.
 
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Link: https://msgid.link/r/bebd9e2bed9e0528a7fd9c528d785da02caf4f1a.1703813842.git.cy_huang@richtek.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/codecs/rtq9128.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-No new code is supposed to use this header.
-Also the header inclusion here is a mess, please use IWYU principle
-(Include What You Use).
-
-...
-
-> +static struct pcmdevice_mixer_control adc5120_analog_gain_ctl[] = {
-> +	{
-> +		.shift = 1,
-> +		.reg = ADC5120_REG_CH1_ANALOG_GAIN,
-> +		.max = 0x54,
-> +		.invert = 0,
-
-Strictly speaking assignments to 0, false, NULL are unnecessary for static
-variables, but I'm not against this as it might make cleaner to see what's
-going on here. Btw, shouldn't these global variables be const?
-
-> +	},
-> +	{
-> +		.shift = 1,
-> +		.reg = ADC5120_REG_CH2_ANALOG_GAIN,
-> +		.max = 0x54,
-> +		.invert = 0,
-> +	}
-> +};
-
-...
-
-> +static int pcmdev_change_dev(struct pcmdevice_priv *pcm_priv,
-> +	unsigned short dev_no)
-> +{
-> +	struct i2c_client *client = (struct i2c_client *)pcm_priv->client;
-
-Why do you need casting? Is that variable is not void *?
-
-> +	struct regmap *map = pcm_priv->regmap;
-
-> +	int ret = 0;
-
-Unneeded assignment, just return 0 directly.
-
-> +
-> +	if (client->addr != pcm_priv->addr[dev_no]) {
-> +		client->addr = pcm_priv->addr[dev_no];
-> +		/* All pcmdevices share the same regmap, clear the page
-> +		 * inside regmap once switching to another pcmdevice.
-> +		 * Register 0 at any pages inside pcmdevice is the same
-> +		 * one for page-switching.
-> +		 */
-> +		ret = regmap_write(map, PCMDEVICE_PAGE_SELECT, 0);
-> +		if (ret < 0)
-> +			dev_err(pcm_priv->dev, "%s, E=%d\n", __func__, ret);
-> +	}
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int pcmdev_dev_read(struct pcmdevice_priv *pcm_dev,
-> +	unsigned int dev_no, unsigned int reg, unsigned int *val)
-> +{
-
-> +	int ret = -EINVAL;
-
-Unneeded assignment, use this value directly.
-
-> +	if (dev_no < pcm_dev->ndev) {
-> +		struct regmap *map = pcm_dev->regmap;
-> +
-> +		ret = pcmdev_change_dev(pcm_dev, dev_no);
-> +		if (ret < 0) {
-> +			dev_err(pcm_dev->dev, "%s, E=%d\n", __func__, ret);
-> +			goto out;
-> +		}
-> +
-> +		ret = regmap_read(map, reg, val);
-> +		if (ret < 0)
-> +			dev_err(pcm_dev->dev, "%s, E=%d\n", __func__, ret);
-> +	} else
-
-Besides broken style, this 'else' becomes redundant after proposed changes.
-
-> +		dev_err(pcm_dev->dev, "%s, no such channel(%d)\n", __func__,
-> +			dev_no);
-> +
-> +
-> +out:
-
-Useless label.
-
-> +	return ret;
-> +}
-
-I believe you may reduce code size by ~2-3% just by refactoring it in a better
-way. (Some examples are given above)
-
-...
-
-> +static int pcmdev_dev_bulk_write(struct pcmdevice_priv *pcm_dev,
-> +	unsigned int dev_no, unsigned int reg, unsigned char *data,
-> +	unsigned int len)
-
-Ditto and so on!
-
-...
-
-> +	struct snd_soc_component *codec
-> +		= snd_soc_kcontrol_component(kcontrol);
-
-= on the previous line, but you may just put all on one line.
-
-...
-
-> +	struct pcmdevice_priv *pcm_dev =
-> +		snd_soc_component_get_drvdata(codec);
-
-Ditto, and so on...
-
-
-> +	ucontrol->value.integer.value[0] = pcm_dev->cur_conf;
-> +
-> +	return 0;
-> +}
-
-...
-
-> +{
-> +	struct snd_soc_component *codec
-> +		= snd_soc_kcontrol_component(kcontrol);
-> +	struct pcmdevice_priv *pcm_dev =
-> +		snd_soc_component_get_drvdata(codec);
-
-> +	int ret = 0;
-
-Useless variable, return number directly.
-
-> +
-> +	if (pcm_dev->cur_conf != ucontrol->value.integer.value[0]) {
-> +		pcm_dev->cur_conf = ucontrol->value.integer.value[0];
-> +		ret = 1;
-> +	}
-> +
-> +	return ret;
-> +}
-
-...
-
-> +	unsigned int mask = (1 << fls(max)) - 1;
-
-BIT() ?
-
-...
-
-> +	mutex_lock(&pcm_dev->codec_lock);
-
-Why not using cleanup.h?
-
-> +	rc = pcmdev_dev_read(pcm_dev, dev_no, reg, &val);
-> +	if (rc) {
-> +		dev_err(pcm_dev->dev, "%s:read, ERROR, E=%d\n",
-> +			__func__, rc);
-> +		goto out;
-> +	}
-> +
-> +	val = (val >> shift) & mask;
-> +	val = (val > max) ? max : val;
-> +	val = mc->invert ? max - val : val;
-> +	ucontrol->value.integer.value[0] = val;
-
-> +out:
-> +	mutex_unlock(&pcm_dev->codec_lock);
-
-With cleanup.h becomes redundant.
-
-> +	return rc;
-
-Be consistent with name, ret, rc, what else?
-
-...
-
-> +};
-> +
-
-Unnecessary blank line.
-
-> +module_i2c_driver(pcmdevice_i2c_driver);
-
+diff --git a/sound/soc/codecs/rtq9128.c b/sound/soc/codecs/rtq9128.c
+index c22b047115cc..bda64f9eeb62 100644
+--- a/sound/soc/codecs/rtq9128.c
++++ b/sound/soc/codecs/rtq9128.c
+@@ -391,7 +391,11 @@ static int rtq9128_component_probe(struct snd_soc_component *comp)
+ 	unsigned int val;
+ 	int i, ret;
+ 
+-	pm_runtime_resume_and_get(comp->dev);
++	ret = pm_runtime_resume_and_get(comp->dev);
++	if (ret < 0) {
++		dev_err(comp->dev, "Failed to resume device (%d)\n", ret);
++		return ret;
++	}
+ 
+ 	val = snd_soc_component_read(comp, RTQ9128_REG_EFUSE_DATA);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
