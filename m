@@ -1,189 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.mutex.one (mail.mutex.one [62.77.152.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB4254729;
-	Sun, 28 Jan 2024 16:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7878225635;
+	Sun, 28 Jan 2024 17:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.77.152.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706458333; cv=none; b=K1sDhnTNkCsR0Jz+CLS6PDToQnwXiq6OX9TKTpcFxMD2NM7/lCwhju3VTfq9HFys2C2dw/gFTYA4B5IbcZ2xwf7boQB+3veEjtArcQ2aCjfI0LCHSuFjxveQcMgmX3B0e0Q/l0uz15k/u/KTKH7BSMtEAvg3vliaffNqpp4QXvU=
+	t=1706463781; cv=none; b=UKdoz0WuL/EAFd/p3TqlQg2Cp2TxxnSRJjIt8Z0ofxqvsodvmBYy+fipWxrwPA3V8ISZxyPWndZyhhs9x8X1+S2jidS0Lm14kaY0jVRu6L/0kJcXbUMn5bOs4Od6J2fhXXi/fPJNlgKhey1o7zPwpGowdlYEydsM7kY0S6xCQU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706458333; c=relaxed/simple;
-	bh=AYwjX9NZn8KyMuM5X9m/tzbJx+yYqjVr068BuOwxfGk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MFF1KhW+X6P4Wc+irw4yUnSbvBEXzqf/rx+5HHgF2w5PXblsJvDBL9n94lTbfAAKwz+rYPc+pM9kiCSxqHFFkv54Wg7QGOjMSzPFpotZapja+1d01SKaCQ4ZodF/u7EbutvLOGZNOf42jYlg6GOp4KjKu0hCnu5xcghNq7k6xiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoM2PIVR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706463781; c=relaxed/simple;
+	bh=B5WmwXGS0N9URrRmpETD90ykLr9gtHFmbUouXkfqDD0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UNJlYHDI36yjxsGHfMEy5BTWAc6s+ldaGgszbxPjHS7RiKbuKYXTWYDWtWivIihCEbCgl2UnL1Vg+vZAGAb2BFwoa0SSjLbzB2nkzM6NIQeDEAVsaf1c6d01EkDO3Sfqy5QWEgZ7E/qyFcLmUpZpA+dA4QjJ+/gArg+o5qgl9QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mutex.one; spf=pass smtp.mailfrom=mutex.one; dkim=pass (1024-bit key) header.d=mutex.one header.i=@mutex.one header.b=ALLGWWgI; arc=none smtp.client-ip=62.77.152.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mutex.one
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mutex.one
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoM2PIVR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32704C43394;
-	Sun, 28 Jan 2024 16:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706458333;
-	bh=AYwjX9NZn8KyMuM5X9m/tzbJx+yYqjVr068BuOwxfGk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AoM2PIVRqziyZzqKIQnklR5mulKFCAQVELK2aXtBoYwHioXLOsxkqeW+GLvWxxcID
-	 O5BJUc6irQSvO53GRl6pXIUbcjlePY7bR2ENOhYjVMQCrlIWYperUScNsGYufZATCO
-	 aJx+NH201ixMJwK2OQnp0RTtshG6dQMpbHxpUl0ErQ6tMDXO2IjKL2SDDPeNcd2F2n
-	 0m77R6pFCT44nKRbv6v5Pa0gUwputswfQlZWPUX3sJI2jhP86BfKbB69zy+VBZ81nt
-	 Hd5X7PO8oaD8VUHALv04b1QtrvDXwR8L1o0HsxhBGvArB/ftNsjV/E/7nKY7aUNiIs
-	 0bV8sJPo54KAg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: ChiYuan Huang <cy_huang@richtek.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 24/39] ASoC: codecs: rtq9128: Fix TDM enable and DAI format control flow
-Date: Sun, 28 Jan 2024 11:10:44 -0500
-Message-ID: <20240128161130.200783-24-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240128161130.200783-1-sashal@kernel.org>
-References: <20240128161130.200783-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=mutex.one header.i=@mutex.one header.b="ALLGWWgI"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.mutex.one (Postfix) with ESMTP id DC96116C0056;
+	Sun, 28 Jan 2024 19:22:32 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+	by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gUyIbahRNE3o; Sun, 28 Jan 2024 19:22:31 +0200 (EET)
+From: Marian Postevca <posteuca@mutex.one>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+	t=1706462551; bh=B5WmwXGS0N9URrRmpETD90ykLr9gtHFmbUouXkfqDD0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ALLGWWgIktmmIygr/yLFeHHgtNsZKDutoRH4IZiya3xyk0AgGh8ybUToCn2Jzz3y3
+	 XT/mWJeii2r2J0hVH3bXvwtNO2/0isOZ2FCpg7CxWUfQ6KJ2eFFNVpyBbtrZs59P85
+	 O1Kqt4dqvplBAtoGUwWVStzoWwm6naPQ1bcZHuWY=
+To: Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Marian Postevca <posteuca@mutex.one>
+Subject: [PATCH] ASoC: amd: acp: Fix support for a Huawei Matebook laptop
+Date: Sun, 28 Jan 2024 19:22:29 +0200
+Message-ID: <20240128172229.657142-1-posteuca@mutex.one>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.2
 Content-Transfer-Encoding: 8bit
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+Previous commit that added support for Huawei MateBook D16 2021
+with Ryzen 4600H (HVY-WXX9 M1010) was incomplete.
 
-[ Upstream commit 415d10ccef712f3ec73cd880c1fef3eb48601c3a ]
+To activate support for this laptop, the DMI table in
+acp3x-es83xx machine driver must also be updated.
 
-To enable TDM mode, the current control flow limits the function
-calling order should be 'set_tdm_slot->set_dai_fmt'. But not all
-platform sound card like as simeple card to follow this design.
-To bypass this limit, adjust the DAI format setting in runtime
-'hw_param' callback.
-
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-Link: https://msgid.link/r/c4c8df00d8d179b8b5b39a8521de3a85325c57e8.1703813842.git.cy_huang@richtek.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: b5338b1b901e ("ASoC: amd: acp: Add support for a new Huawei Matebook laptop")
+Signed-off-by: Marian Postevca <posteuca@mutex.one>
 ---
- sound/soc/codecs/rtq9128.c | 67 ++++++++++++++++++++------------------
- 1 file changed, 36 insertions(+), 31 deletions(-)
+ sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/soc/codecs/rtq9128.c b/sound/soc/codecs/rtq9128.c
-index bda64f9eeb62..aa3eadecd974 100644
---- a/sound/soc/codecs/rtq9128.c
-+++ b/sound/soc/codecs/rtq9128.c
-@@ -59,6 +59,7 @@
- 
- struct rtq9128_data {
- 	struct gpio_desc *enable;
-+	unsigned int daifmt;
- 	int tdm_slots;
- 	int tdm_slot_width;
- 	bool tdm_input_data2_select;
-@@ -441,10 +442,7 @@ static const struct snd_soc_component_driver rtq9128_comp_driver = {
- static int rtq9128_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- {
- 	struct rtq9128_data *data = snd_soc_dai_get_drvdata(dai);
--	struct snd_soc_component *comp = dai->component;
- 	struct device *dev = dai->dev;
--	unsigned int audfmt, fmtval;
--	int ret;
- 
- 	dev_dbg(dev, "%s: fmt 0x%8x\n", __func__, fmt);
- 
-@@ -454,35 +452,10 @@ static int rtq9128_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		return -EINVAL;
- 	}
- 
--	fmtval = fmt & SND_SOC_DAIFMT_FORMAT_MASK;
--	if (data->tdm_slots && fmtval != SND_SOC_DAIFMT_DSP_A && fmtval != SND_SOC_DAIFMT_DSP_B) {
--		dev_err(dev, "TDM is used, format only support DSP_A or DSP_B\n");
--		return -EINVAL;
--	}
-+	/* Store here and will be used in runtime hw_params for DAI format setting */
-+	data->daifmt = fmt;
- 
--	switch (fmtval) {
--	case SND_SOC_DAIFMT_I2S:
--		audfmt = 8;
--		break;
--	case SND_SOC_DAIFMT_LEFT_J:
--		audfmt = 9;
--		break;
--	case SND_SOC_DAIFMT_RIGHT_J:
--		audfmt = 10;
--		break;
--	case SND_SOC_DAIFMT_DSP_A:
--		audfmt = data->tdm_slots ? 12 : 11;
--		break;
--	case SND_SOC_DAIFMT_DSP_B:
--		audfmt = data->tdm_slots ? 4 : 3;
--		break;
--	default:
--		dev_err(dev, "Unsupported format 0x%8x\n", fmt);
--		return -EINVAL;
--	}
--
--	ret = snd_soc_component_write_field(comp, RTQ9128_REG_I2S_OPT, RTQ9128_AUDFMT_MASK, audfmt);
--	return ret < 0 ? ret : 0;
-+	return 0;
- }
- 
- static int rtq9128_dai_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
-@@ -558,10 +531,38 @@ static int rtq9128_dai_hw_params(struct snd_pcm_substream *stream, struct snd_pc
- 	unsigned int width, slot_width, bitrate, audbit, dolen;
- 	struct snd_soc_component *comp = dai->component;
- 	struct device *dev = dai->dev;
-+	unsigned int fmtval, audfmt;
- 	int ret;
- 
- 	dev_dbg(dev, "%s: width %d\n", __func__, params_width(param));
- 
-+	fmtval = FIELD_GET(SND_SOC_DAIFMT_FORMAT_MASK, data->daifmt);
-+	if (data->tdm_slots && fmtval != SND_SOC_DAIFMT_DSP_A && fmtval != SND_SOC_DAIFMT_DSP_B) {
-+		dev_err(dev, "TDM is used, format only support DSP_A or DSP_B\n");
-+		return -EINVAL;
-+	}
-+
-+	switch (fmtval) {
-+	case SND_SOC_DAIFMT_I2S:
-+		audfmt = 8;
-+		break;
-+	case SND_SOC_DAIFMT_LEFT_J:
-+		audfmt = 9;
-+		break;
-+	case SND_SOC_DAIFMT_RIGHT_J:
-+		audfmt = 10;
-+		break;
-+	case SND_SOC_DAIFMT_DSP_A:
-+		audfmt = data->tdm_slots ? 12 : 11;
-+		break;
-+	case SND_SOC_DAIFMT_DSP_B:
-+		audfmt = data->tdm_slots ? 4 : 3;
-+		break;
-+	default:
-+		dev_err(dev, "Unsupported format 0x%8x\n", fmtval);
-+		return -EINVAL;
-+	}
-+
- 	switch (width = params_width(param)) {
- 	case 16:
- 		audbit = 0;
-@@ -615,6 +616,10 @@ static int rtq9128_dai_hw_params(struct snd_pcm_substream *stream, struct snd_pc
- 		return -EINVAL;
- 	}
- 
-+	ret = snd_soc_component_write_field(comp, RTQ9128_REG_I2S_OPT, RTQ9128_AUDFMT_MASK, audfmt);
-+	if (ret < 0)
-+		return ret;
-+
- 	ret = snd_soc_component_write_field(comp, RTQ9128_REG_I2S_OPT, RTQ9128_AUDBIT_MASK, audbit);
- 	if (ret < 0)
- 		return ret;
+diff --git a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
+index f85b85ea4be9..2b0aa270a3e9 100644
+--- a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
++++ b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
+@@ -354,6 +354,14 @@ static const struct dmi_system_id acp3x_es83xx_dmi_table[] = {
+ 		},
+ 		.driver_data = (void *)(ES83XX_ENABLE_DMIC|ES83XX_48_MHZ_MCLK),
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "HUAWEI"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "HVY-WXX9"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "M1010"),
++		},
++		.driver_data = (void *)(ES83XX_ENABLE_DMIC),
++	},
+ 	{
+ 		.matches = {
+ 			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "HUAWEI"),
 -- 
 2.43.0
 
