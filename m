@@ -1,110 +1,115 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111491E493;
-	Sat, 27 Jan 2024 16:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB071EB29
+	for <linux-sound@vger.kernel.org>; Sun, 28 Jan 2024 10:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706374061; cv=none; b=AEW3mCk81TFrixxHGiBUR+3IQdQEID7LYkLiGElWMu6CP3UlN1k5h03XyvZBhRTg35olSHBuW+mOzELBfUR8jhQd1TWbqSPw1wr8xOAPxaQJmfPNd0lvoDOT3OGOKYoCHL1PrGWk/1lih36wWU1uv0PrHZdrZjYhu62eSJNyNDg=
+	t=1706438177; cv=none; b=sPV3HP8mr+MoVhMM5RRNpjU5Ty1a6CoyUoLuYDhpN8K2h81kLA/weWan3MEIwajQayeyNL00i8+QQSm8Lx1qKYKCUT4mSHYwv+rSLgPgievBQO9gQNu6t49y3XV24fxkyG2Q91olpoLzVaaTygZBETqoUcjbc8Bfcbixaga7+P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706374061; c=relaxed/simple;
-	bh=P5inWfry6T1Czl6TsnTuVIoqd+ZhftxFosxgazH4yR8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mevy6hrbz81fGAoiGGVpp6jhcGzWHhn/PcfjCclq1O1X/d/sTO01uv2qSOrPrTPrgwRtb0AvcBPhObEcYUwZScm6AEE1hQ1Qa+B1kqFNDc0k/g+WqwhfEpEWXaH+TVznYimINfVAPqpwxE/EvhOJnflUS8NHv//Q/KMG1n9hyCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SPmD8xj9; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706438177; c=relaxed/simple;
+	bh=PysUJPrwPRAXP68I0Rtgzr/rQ87OE0GEwEypUvcROZY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XHhuneMXI/sbpsS8a2YXIzpxDGkkY3R8qmkRUyvpPmPJXo2Vdm9UJei56O/Dv0QKQ30oQUQQ/YJHfSbcBcEHxH0WZ2MXD71yHFgtRirf9yvbM0uWa3lzn3SRYk+4vqviCAvVKoFbYdIHxhIWwdPS5q5SpClSnK4nyFb5pVIsJ+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=cBr2EUHG; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPmD8xj9"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40e76626170so21918605e9.2;
-        Sat, 27 Jan 2024 08:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706374058; x=1706978858; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jq5nWV4gc+boSoV96VgLy7nj/n+DgQjkGxXgMwyJKWg=;
-        b=SPmD8xj9CHzf23D9cFGsX0aOts6W+BZi1tIlZMWEd2K04bbdeCjxURuIoNWnQQYyBn
-         vzYBIgDopQjk/FBgEKnKRAb7omH2CzYjGIpUxn2RFADCt9IpfOlmv0KfTylQRicrqtpU
-         QfiNWIu1/0IwQMgI9T081kgahwa+Fu2+iR/DNaItiNkhDhhxB650/yaP0Yh7Ok6zKgDt
-         F0aNE3ZBA708lG3jP+3BXg7qGokVb6UkqRLeZ4N52iJLZWCg6tefScjnq+mCVlPQy1KB
-         KKS2m/V0DsTJ9m6N0jZFoMdeXrbJ7L9cYHBGNeUXkuzoxCZTzS+5iK3Cx+CfT+Eg2ssS
-         /20Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706374058; x=1706978858;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jq5nWV4gc+boSoV96VgLy7nj/n+DgQjkGxXgMwyJKWg=;
-        b=FX/F65N2dhizPOTtO4ALFqj4kKJugEt3d76PCCOv5ZaADKxEQO+SG+VG0anTkNKFe+
-         3Kydk6vjLuNC1mY+9nvCePXG4xOSLV9U/eRzTHuERbaq6JHLTvy4fER4XUh7nsGVLGMJ
-         s089KGC7s4qej7Ce0zsskg3PSMhsLSl/TTTN20TghEbWjXKE+533mavg6tYf4QbhkLBz
-         IgX5yDo9ONhfQeDxql4S/azPw2geuvgKHQgEk4Go8cpygtL/8DfFkmJMJfb5X4lIXX2x
-         f67HLh/wc9r2nefVlzenVjTp7zbW0f9qCoHQtJTDB2W5q1eCGl/UUAENlvjoRtVcYzIE
-         Ewig==
-X-Gm-Message-State: AOJu0YxffyKUTDzgBeK9YqpVFf9uVJVCJgGbWxBt1uZFDPWgj6Zu7/Rv
-	0LnOBxYXXn4OeTHGKper5tUqT2k/PvnyvgmoRapMq24i52vwIzyq
-X-Google-Smtp-Source: AGHT+IG4fFkwwlanBWpqJW1F0dTLbqKbMH0i4rK9ABL48tuKQ/mudc3Aug7IIsmMoMMeS0psJTUOlQ==
-X-Received: by 2002:a05:600c:4ec8:b0:40e:ace6:4fc2 with SMTP id g8-20020a05600c4ec800b0040eace64fc2mr1439967wmq.24.1706374058012;
-        Sat, 27 Jan 2024 08:47:38 -0800 (PST)
-Received: from kenzo-linux-laptop.bicolor-pike.ts.net (154.red-88-26-51.staticip.rima-tde.net. [88.26.51.154])
-        by smtp.gmail.com with ESMTPSA id i9-20020a05600c354900b0040eee435571sm1895013wmq.45.2024.01.27.08.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 08:47:37 -0800 (PST)
-From: Kenzo Gomez <kenzo.sgomez@gmail.com>
-To: tiwai@suse.de
-Cc: alsa-devel@alsa-project.org,
-	david.rhodes@cirrus.com,
-	james.schulman@cirrus.com,
-	kenzo.sgomez@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	perex@perex.cz,
-	rf@opensource.cirrus.com,
-	sbinding@opensource.cirrus.com,
-	tiwai@suse.com
-Subject: [PATCH v3] ALSA: hda: cs35l41: Support additional ASUS Zenbook UX3402VA
-Date: Sat, 27 Jan 2024 17:46:21 +0100
-Message-ID: <20240127164621.26431-1-kenzo.sgomez@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <874jfdwsfg.wl-tiwai@suse.de>
-References: <874jfdwsfg.wl-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="cBr2EUHG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+	:List-Post:List-Owner:List-Archive;
+	bh=PysUJPrwPRAXP68I0Rtgzr/rQ87OE0GEwEypUvcROZY=; b=cBr2EUHGCNw5UEGiI5CyMWbIT2
+	YH18//bEtOQbWnCzx4gp3HTkLRInpeWFots+4bQ077lmFWuou51Ir2belmEXAehRjZceGO5qpD3Tu
+	fjnu+NnTrOalfRO14btCQQoytAK5phuK7QK0jtPZb+jaRYW0GmjIl9kbO1mzW9N5y1lM=;
+Received: from [2a00:1370:819a:ceb:89dc:eced:962a:5b2f]
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1rU2WC-00000000AQ5-0S2l;
+	Sun, 28 Jan 2024 13:36:04 +0300
+Message-ID: <3d4b6eca78d222598f8313c1fca34f3b9ee0bdba.camel@tsoy.me>
+Subject: Re: [PATCH] ALSA: usb-audio: Skip setting clock selector for single
+ connections
+From: Alexander Tsoy <alexander@tsoy.me>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Jaroslav
+ Kysela <perex@perex.cz>
+Date: Sun, 28 Jan 2024 13:35:51 +0300
+In-Reply-To: <87mssw6sry.wl-tiwai@suse.de>
+References: <20240123134635.54026-1-alexander@tsoy.me>
+	 <87mssw6sry.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Sender: puleglot@puleglot.ru
 
-Add new model entry into configuration table.
+=D0=92 =D0=92=D1=82, 23/01/2024 =D0=B2 15:14 +0100, Takashi Iwai =D0=BF=D0=
+=B8=D1=88=D0=B5=D1=82:
+> > On Tue, 23 Jan 2024 14:46:35 +0100,
+> > Alexander Tsoy wrote:
+> > > >=20
+> > > > Since commit 086b957cc17f5 ("ALSA: usb-audio: Skip the clock
+> > > > selector
+> > > > inquiry for single connections") we are already skipping clock
+> > > > selector
+> > > > inquiry if only one clock source is connected, but we are still
+> > > > sending
+> > > > a set request. Lets skip that too.
+> > > >=20
+> > > > This should fix errors when setting a sample rate on devices
+> > > > that
+> > > > don't
+> > > > have any controls present within the clock selector. An example
+> > > > of
+> > > > such
+> > > > device is the new revision of MOTU M Series (07fd:000b):
+> > > >=20
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AudioControl Interface Descriptor:
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bLength=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 8
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bDescriptorType=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 36
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bDescriptorSubtype=C2=A0=
+=C2=A0=C2=A0=C2=A0 11 (CLOCK_SELECTOR)
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bClockID=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 1
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bNrInPins=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 baCSourceID(0)=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bmControls=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x00
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iClockSelector=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
+> > > >=20
+> > > > Perhaps we also should check if clock selectors are readable
+> > > > and
+> > > > writeable
+> > > > like we already do for clock sources, but this is out of scope
+> > > > of
+> > > > this
+> > > > patch.
+> > > >=20
+> > > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217601
+> > > > Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+> >=20
+> > Thanks, applied.
 
-Signed-off-by: Kenzo Gomez <kenzo.sgomez@gmail.com>
----
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+It looks like this patch will bring back problems with Behringer mixers
+[1]. So we probably should revert. The mentioned case with MOTU M
+Series should be also covered by "Support read-only clock selector
+control" commit.
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 35277ce890a4..59504852adc6 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -76,6 +76,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 1000, 4500, 24 },
-+	{ "104316A3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
- 	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
- 	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
- 	{ "104317F3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-@@ -410,6 +411,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431533", generic_dsd_config },
- 	{ "CSC3551", "10431573", generic_dsd_config },
- 	{ "CSC3551", "10431663", generic_dsd_config },
-+	{ "CSC3551", "104316A3", generic_dsd_config },
- 	{ "CSC3551", "104316D3", generic_dsd_config },
- 	{ "CSC3551", "104316F3", generic_dsd_config },
- 	{ "CSC3551", "104317F3", generic_dsd_config },
--- 
-2.43.0
-
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=3D199327
