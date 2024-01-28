@@ -1,136 +1,84 @@
-Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADC422EE8
-	for <linux-sound@vger.kernel.org>; Sun, 28 Jan 2024 13:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D60028DB3;
+	Sun, 28 Jan 2024 15:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706448441; cv=none; b=OAkw4ul6b4E6YGzRWKYmoqWAu5UgjGf0zV2RiuCm/yJJk4Fip6ccj6DJOdl+qRDhyKToZMuO1xkAoHhPkOvshiS9rAU2/IjjNQCu0paFPLjqQjQX9wJHNg9V7b9cRruUrJNH1lI9wNcuYjf99F5flVJAORdiySdyGXpwwv2rVKY=
+	t=1706455662; cv=none; b=PRH1klLmodOerJFJCgm0k+8ieFlaebhSLTGmnyO64/w4a/Da0nZZ0r7jrjOo7z1SwYUsmbBlOcBhGNbV+iffDn8skwZYjPq1o7xhYsnuqgBGE/gBstYIq4eR1UTOuOSfMB8nFQGC1yoExaWBiqA0cIK7bzQc8N/vUJiIga/CQXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706448441; c=relaxed/simple;
-	bh=wjtMckO8PW7oVoKjaFJ2U9jTcutNCSldHHN5+gEojZ0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uN7eRdKCuxOxkLixGG9mt1MgBtSOc/iyS6UDIVPTJ62A/G/wJU3B3RmZEivn72NUiFZF8n7i+63B6ZF9nMTe17uhHytBcZQQ9J+09eaHl19xQP4rTPhh1kfwhjCMqGeMsTrfKkEL/SECbgWdtDVsyN9dWdcHt0KDcVYbQu7DxiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=Ao/oJIHg; arc=none smtp.client-ip=195.201.32.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+	s=arc-20240116; t=1706455662; c=relaxed/simple;
+	bh=d3z0pGTHHXR91QTi8Hqm6CnadlCg2Xx2yCHKcRt/Th0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9gluJ0bJtdjmoISg+6mHf5tW2JCuzWq/QPj3TQ6L5Zdqa4mcV67AQtuExxuokbXMZ2cG+TSxRV66x+HhlmjZRIg7E0S/lm/cMWx/mubQV0KkzOY+12L9wzm4ER9/mk4UsFNZ4rRLFvQeBQepdVddRxdzXmR9IILuShmOEPQzCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOpWzM1P; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="Ao/oJIHg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
-	:List-Post:List-Owner:List-Archive;
-	bh=wjtMckO8PW7oVoKjaFJ2U9jTcutNCSldHHN5+gEojZ0=; b=Ao/oJIHgR66n62eC4k/097uYo9
-	mk0Ytddd2Ni4rU8S7wcGPNyH0NMhp0AaYxNgpns1gnZV0gyMPBDcjUOuwQl8DfQwyZ835gC04q9Zc
-	Cl4sEHDSH6RrLbjjGQbNiffcMJLuPmGDzEkN8qR+s/F/b7BDiRtbbzw6B0l800z0F3CE=;
-Received: from [2a00:1370:819a:ceb:89dc:eced:962a:5b2f]
-	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <puleglot@puleglot.ru>)
-	id 1rU5Bt-00000000B6x-0PxE;
-	Sun, 28 Jan 2024 16:27:17 +0300
-Message-ID: <d2273d0ac541c82025a01b137bc956ef6fed9261.camel@tsoy.me>
-Subject: Re: [PATCH] ALSA: usb-audio: Skip setting clock selector for single
- connections
-From: Alexander Tsoy <alexander@tsoy.me>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Jaroslav
- Kysela <perex@perex.cz>
-Date: Sun, 28 Jan 2024 16:27:04 +0300
-In-Reply-To: <8734uhoe0a.wl-tiwai@suse.de>
-References: <20240123134635.54026-1-alexander@tsoy.me>
-	 <87mssw6sry.wl-tiwai@suse.de>
-	 <3d4b6eca78d222598f8313c1fca34f3b9ee0bdba.camel@tsoy.me>
-	 <8734uhoe0a.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOpWzM1P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706455661; x=1737991661;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d3z0pGTHHXR91QTi8Hqm6CnadlCg2Xx2yCHKcRt/Th0=;
+  b=GOpWzM1PkQTwE1ur6r0G3bBrFdv76Rd97wE1reTpN0G+hHDr/1mxAzUx
+   YaehvL1Rfei64MSO9TiFU+ZMjhaFaUXUDY/yptooF2JNvVNn+42gb9v9f
+   QMvZBdCoZFtFq8IGhzd5Z2BlRt638mnGipl6+wXh1GbGu6j7gw1B0ym9N
+   I/CpkIuiswjxHRmu3FdIeqvvQa9SZ72CEGJY8XtjHBkrXExTMpkuQZa3K
+   td7ytunq7iZJbHqaOkWpyceGxo8QAkWzmz3SfAHcIQ9z5VGUIHBm5jwze
+   KUxGjSVrAADVQP4K7z0IorCo6PrNPHT53WcOTuAyG60SV76xbhaJI5TUN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="10168668"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="10168668"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 07:27:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="787594329"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="787594329"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 07:27:34 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rU702-0000000HUO7-0UBE;
+	Sun, 28 Jan 2024 17:23:10 +0200
+Date: Sun, 28 Jan 2024 17:23:09 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: broonie@kernel.org, conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
+	robh+dt@kernel.org, kevin-lu@ti.com, baojun.xu@ti.com,
+	devicetree@vger.kernel.org, v-po@ti.com, lgirdwood@gmail.com,
+	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
+	13916275206@139.com, mohit.chawla@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, soyer@irl.hu, jkhuang3@ti.com,
+	tiwai@suse.de, pdjuandi@ti.com, j-mcpherson@ti.com, navada@ti.com
+Subject: Re: [PATCH v2 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
+Message-ID: <ZbZxXTkomTvldqXW@smile.fi.intel.com>
+References: <20240126035855.1785-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Sender: puleglot@puleglot.ru
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240126035855.1785-1-shenghao-ding@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-=D0=92 =D0=92=D1=81, 28/01/2024 =D0=B2 13:09 +0100, Takashi Iwai =D0=BF=D0=
-=B8=D1=88=D0=B5=D1=82:
-> On Sun, 28 Jan 2024 11:35:51 +0100,
-> Alexander Tsoy wrote:
-> >=20
-> > =D0=92 =D0=92=D1=82, 23/01/2024 =D0=B2 15:14 +0100, Takashi Iwai =D0=BF=
-=D0=B8=D1=88=D0=B5=D1=82:
-> > > > On Tue, 23 Jan 2024 14:46:35 +0100,
-> > > > Alexander Tsoy wrote:
-> > > > > >=20
-> > > > > > Since commit 086b957cc17f5 ("ALSA: usb-audio: Skip the
-> > > > > > clock
-> > > > > > selector
-> > > > > > inquiry for single connections") we are already skipping
-> > > > > > clock
-> > > > > > selector
-> > > > > > inquiry if only one clock source is connected, but we are
-> > > > > > still
-> > > > > > sending
-> > > > > > a set request. Lets skip that too.
-> > > > > >=20
-> > > > > > This should fix errors when setting a sample rate on
-> > > > > > devices
-> > > > > > that
-> > > > > > don't
-> > > > > > have any controls present within the clock selector. An
-> > > > > > example
-> > > > > > of
-> > > > > > such
-> > > > > > device is the new revision of MOTU M Series (07fd:000b):
-> > > > > >=20
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AudioControl Interface Descripto=
-r:
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bLength=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 8
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bDescriptorType=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 36
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bDescriptorSubtype=
-=C2=A0=C2=A0=C2=A0=C2=A0 11 (CLOCK_SELECTOR)
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bClockID=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 1
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bNrInPins=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- 1
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 baCSourceID(0)=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bmControls=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x00
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iClockSelector=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
-> > > > > >=20
-> > > > > > Perhaps we also should check if clock selectors are
-> > > > > > readable
-> > > > > > and
-> > > > > > writeable
-> > > > > > like we already do for clock sources, but this is out of
-> > > > > > scope
-> > > > > > of
-> > > > > > this
-> > > > > > patch.
-> > > > > >=20
-> > > > > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217601
-> > > > > > Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
-> > > >=20
-> > > > Thanks, applied.
-> >=20
-> > It looks like this patch will bring back problems with Behringer
-> > mixers
-> > [1]. So we probably should revert. The mentioned case with MOTU M
-> > Series should be also covered by "Support read-only clock selector
-> > control" commit.
-> >=20
-> > [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D199327
->=20
-> OK, care to submit a patch to revert it?
+On Fri, Jan 26, 2024 at 11:58:51AM +0800, Shenghao Ding wrote:
+> PCM6240 driver implements a flexible and configurable setting for register
+> and filter coefficients, to one, two or even multiple PCM6240 Family Audio
+> chips.
 
-Sure, done!
+Same comments applied as per previous version, please read my email and address
+them.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
