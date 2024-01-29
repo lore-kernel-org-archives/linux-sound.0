@@ -1,82 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844C653801
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 08:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD8652F65
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 08:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706515586; cv=none; b=Kx9/5rFZOCvV8q/oWQyx7AiAirguVCjvEwNAKHN0d2AZz0iUCkKn3LUDe5NvFzmt3c+SzrYAKyNDNticy+IICQDFXoSj+RXiwjQhsfD+/CdLOloRHSHZK1UbmxJveKiMFKNkpmGESNQJGfg/nP3GyY7QFJMuXeY4g8WrTpkrCeM=
+	t=1706515845; cv=none; b=CiMPWDwyPJpQKko7EdRc4SpDuU+Tt8DaRmB8w5M1b23MJttWqcFcI+Y46ReE/bU3b0gw92yl6gMoim49q0enakQfpkGv2X4bgAE+hmH8UtD+0irbnuycHlvrJ62E5u0lzZ2vVomFwnnfvIy9QH4hxQs0A7gkbAhxzFogF4YfHwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706515586; c=relaxed/simple;
-	bh=eLnHlNQCTabSovyFAty4+4kU2dSjZiltt6eo3Dq2hYg=;
+	s=arc-20240116; t=1706515845; c=relaxed/simple;
+	bh=XEbsdlOqsFxhqyay4HPRioN/YF76CHzLUAnIf+ww4Jg=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ldSArVEadW5gCNpX14gEMf6IPzZcrFEmFxQ2p7+lir6FgLbpFL2498bpPJ2V3CCtErF9+5Ar/WLXVyIBLBWUdh7wg/6Y8zL2aTc2uOSnmcOtpoiYH6JSevMv+N6Tcf6BSMbzBhFDSo50/aQXPJW4UkQjcNxUaKxmfVRVR0BBUIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kuBenNe2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ubhXF8BK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kuBenNe2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ubhXF8BK; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=ZxaLDGdzFFs6cIQKM9+Sla41i7huqKU39naaMX/m2GKjur6pHtvmZBe5NSl3hgLd3Qsj4zpVt094ar0a062oin0WKaqFaoSh7ghRHQDiDSCAIgi8xXxZZA2klJuRPwGiQfSUQ5LHlIjMxY1w626unNvQCLuKEMLzdoVi8VLcqok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g/itNrtE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qpNyev7d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UtX/0Q2h; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4ulzpf+m; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kuBenNe2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ubhXF8BK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kuBenNe2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ubhXF8BK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g/itNrtE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qpNyev7d";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UtX/0Q2h";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4ulzpf+m"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8FCD11FCF0;
-	Mon, 29 Jan 2024 08:06:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B8DA22284;
+	Mon, 29 Jan 2024 08:10:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706515581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1706515841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UkpMHUCPiSHUXT8Rd0J4WyNNCLXedpeh1w8EiwDFSgs=;
-	b=kuBenNe2JqQCj6+gbDgIWp0zmH3VQCtRYTBeLgok14/yWKCTgZKp90SrsZ5O1zZ40LrNbT
-	M0fLxl2DIYFTD9p1GA+5k9Z6wY1ppMqyYz6XK7qrxH150qXabECeuoqnmVOGXTOAR3rtGQ
-	1Mbpw/oWm7+arP5s8jMY04sihCS9/is=
+	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
+	b=g/itNrtEwk3mYlFN80FZlrneydu2fUWi2t0LfkpF7EmtXsI+clFlZAvlIyaKcLDrfZs+al
+	iULk2WFItE6ksBD8geHKPDxLs2KxpMN7UnEWiIdlnH5NxKLB08wMcGpleSjetia9OaY2LL
+	QGXrReHSLSKqwgMjd7Yfxn9oRoBy25Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706515581;
+	s=susede2_ed25519; t=1706515841;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UkpMHUCPiSHUXT8Rd0J4WyNNCLXedpeh1w8EiwDFSgs=;
-	b=ubhXF8BKPKDlMKybC9qOfb10XvGSWM80w6iJvkKTNWryGIlQz6JZ9b2QwI+hLPQzXsnbfX
-	PLxKKHxxywlmzRCQ==
+	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
+	b=qpNyev7dnkpyq+/0Gvy9Ik9Uhfdw5bVdp6WFFms7ACfWm+ml8WaMIosA7bZxMOJnLi6u6J
+	whPzAHu7vvK5ZdCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706515581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1706515840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UkpMHUCPiSHUXT8Rd0J4WyNNCLXedpeh1w8EiwDFSgs=;
-	b=kuBenNe2JqQCj6+gbDgIWp0zmH3VQCtRYTBeLgok14/yWKCTgZKp90SrsZ5O1zZ40LrNbT
-	M0fLxl2DIYFTD9p1GA+5k9Z6wY1ppMqyYz6XK7qrxH150qXabECeuoqnmVOGXTOAR3rtGQ
-	1Mbpw/oWm7+arP5s8jMY04sihCS9/is=
+	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
+	b=UtX/0Q2hPx7BNErMC+wyPvTxzQgOvDhVTlqfyZzoj37k1NCCvPuuzCpd2yTYMpqXo0RO6j
+	UkXRhLvd6wmsY1At3IxRBAS9EGUnsJfptM7EWTxOt3/WQErTnM2ABcrebZQBSeUHNbhaxQ
+	fNHiNE2nX0yJFsuOXV9JihjwkM9LYl4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706515581;
+	s=susede2_ed25519; t=1706515840;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UkpMHUCPiSHUXT8Rd0J4WyNNCLXedpeh1w8EiwDFSgs=;
-	b=ubhXF8BKPKDlMKybC9qOfb10XvGSWM80w6iJvkKTNWryGIlQz6JZ9b2QwI+hLPQzXsnbfX
-	PLxKKHxxywlmzRCQ==
+	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
+	b=4ulzpf+m2DnCBs+ZUCkCOwyfgMilux2htjXdDefsivY8t7KSc4BmbqeRwA/a4dHYJV0JgD
+	22qswqt79Z/mklAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A23312FF7;
-	Mon, 29 Jan 2024 08:06:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11B7B12FF7;
+	Mon, 29 Jan 2024 08:10:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OTRXGH1ct2W6WwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Jan 2024 08:06:21 +0000
-Date: Mon, 29 Jan 2024 09:06:21 +0100
-Message-ID: <87plxkmuma.wl-tiwai@suse.de>
+	id UWE9AoBdt2WbXAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Jan 2024 08:10:40 +0000
+Date: Mon, 29 Jan 2024 09:10:39 +0100
+Message-ID: <87mssomuf4.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: David Senoner <seda18@rolmail.net>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix the external mic not being recognised for Acer Swift 1 SF114-32
-In-Reply-To: <20240126155626.2304465-1-seda18@rolmail.net>
-References: <20240126155626.2304465-1-seda18@rolmail.net>
+To: Alexander Tsoy <alexander@tsoy.me>
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] Revert "ALSA: usb-audio: Skip setting clock selector for single connections"
+In-Reply-To: <20240128132338.819273-1-alexander@tsoy.me>
+References: <20240128132338.819273-1-alexander@tsoy.me>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -85,41 +84,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.37
-X-Spamd-Result: default: False [-2.37 / 50.00];
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="UtX/0Q2h";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4ulzpf+m
+X-Spamd-Result: default: False [-2.05 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
+	 RCPT_COUNT_THREE(0.00)[3];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-0.94)[-0.944];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[tsoy.me:email,suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.12)[95.76%]
+	 BAYES_HAM(-2.74)[98.85%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3B8DA22284
+X-Spam-Level: 
+X-Spam-Score: -2.05
 X-Spam-Flag: NO
 
-On Fri, 26 Jan 2024 16:56:26 +0100,
-David Senoner wrote:
+On Sun, 28 Jan 2024 14:23:38 +0100,
+Alexander Tsoy wrote:
 > 
-> If you connect an external headset/microphone to the 3.5mm jack on the
->   Acer Swift 1 SF114-32 it does not recognize the microphone. This fixes
->   that and gives the user the ability to choose between internal and
->   headset mic.
+> This reverts commit 67794f882adca00d043899ac248bc002751da9f6.
 > 
-> Signed-off-by: David Senoner <seda18@rolmail.net>
+> We need to explicitly set up the clock selector to workaround a problem
+> with the Behringer mixers. This was originally done in d2e8f641257d
+> ("ALSA: usb-audio: Explicitly set up the clock selector")
+> 
+> The problem with MOTU M Series mentioned in commit message was fixed in
+> a different way by checking control capabilities of clock selectors.
+> 
+> Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
 
-Thanks, applied now.
+Thanks, applied.
 
 
 Takashi
