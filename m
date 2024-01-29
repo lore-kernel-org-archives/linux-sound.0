@@ -1,123 +1,201 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A43524CE;
-	Mon, 29 Jan 2024 08:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114F654BCF
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 08:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706515944; cv=none; b=PhQNj42gFikLHG9b1s+LB9Knay/KJLdvWgb4lzXSScJ2A/F8x2H3Zff+tHLNnIzVQBdBkVL97i0gEhCxAnFrYKPAhWsuL90HRV2PIq0Ea4jNSZ59Y96rgCR/UnskA2cwRzNrFamLS6Sdfwda6aPHSx66pngTPpbpJYFW5UafDkg=
+	t=1706517981; cv=none; b=nMO9IYIUeeXf7Wel17cG7+JC1V89I/hTIYvo9IkeHPRGRyY2UoYSomuUi+TpE5B4zGXEecMshlEsj2H9JU3FG0sL1GbR85Exv+6UX0tMzo1Ye6cR3jjI5euGROlXB/Cw+ivCGnmSf7HCtFvpaxLDe0uAM7exKkE311ZHAPcdk9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706515944; c=relaxed/simple;
-	bh=5VqrWAknAf4vZSdzkIS4gQaU0K5FRkZTMDj9ZAY53bo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DWt0dbZmG0uqdLRypCjFBJRMtcP8BF9eN88+/7fU3MK9lIhzd9Ub9cEwMRVItUyhmW8FAGb2CPhgI8IA1cCUo4d7yKYqdNYWTMFCI3KgXhriIWQzEINwBiEXwpHoAfZoWWA1t8dRasZAB5lW9KQbsaqaEXNOBv8CERdnrMRdj2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VD1BEonD; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706517981; c=relaxed/simple;
+	bh=3CcUQkJplSAWZQi0wpk1P/jePL1swe+mJdZDZU/kl/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YRAL4mLsJQ+culf0pNstcHa0RzObbjIdXgCQfX9mlb55gX8A2bCEDR2gqhhF8w4+ZI7mj+rwefNFNStHOnQR8d66fo3/VGD46GzD1TC2cAtLqmSLrFIsezJ5mbWO+Brvnf8qXi4e/Emc3w79JHJjcu7ndDGzbkwPkKyZqTiRufM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JPOPaMl5; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VD1BEonD"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so1271888a12.1;
-        Mon, 29 Jan 2024 00:12:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JPOPaMl5"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so256104766b.2
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 00:46:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706515942; x=1707120742; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MSxxqBbmSAk+hLfPyvlrEnyP1Xg9bGPv059b4tYhpX0=;
-        b=VD1BEonDOp1QWFRYdPLua3oNYef/CleNJ14CqdqtHPKeuQ/h8KwdT3Z4aPmTr6QVZh
-         vbDO7pZIdr0vFafvacp6REOXIOlD3YfEu6XHgVxyiLavN2h/j2VjS5hX+8zKcHssiSbf
-         uh7/Y0WP2MJU8xbx+pU6QrfHd+ppNDmll5283p0GDAqZvP0SxR8ZD+SFZ1A/13HcjTP7
-         AEaOKXccO0AfzQOdguGwtgIePBx0cfJ9XR+hicAzRveJ9TcsUUpiFo1Iq4qdWMSn7zMq
-         ydgpyJD6gdRkiUfLbQp+9FEvD4y5ijRVhg4pnOaxqS1MzKIaLv0tQoVCOIsKn80PZf4V
-         giXQ==
+        d=linaro.org; s=google; t=1706517976; x=1707122776; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SIN9Uxh3GqmnyZ27qKSl2rXpIAzPJ++nm03FnGJ+5zg=;
+        b=JPOPaMl5txAcpV8h2zSi792n31z/36J2tD2p1tCZAK8FhGkJcNmP4cb2Abv7z/+zkp
+         WgV20xdcQEcomlwP2BfgiVtPXqJGAUU3Wg6kux5ukmpfGX1+q0L3wlYNi0Qg7BSmLljP
+         ma+RAaVg6sRCYz8tglTaye3dgI1eU4af495jIbQQBY5QlUQvU3cpWJDafRcNaXyhyogJ
+         QxtE9uslWKdQqIQK6kSyHmnIc9Gk47W5/U6Kr/jCyMpxeL7dgaeFI4tlki4EkQwAu2L3
+         0Ped0kUkSWSxBe9GVvK0a/K/NQTM1DS2Bilz5Tt8d2uUrcJkPacId8aSbKrvV1pJpdvj
+         jxng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706515942; x=1707120742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MSxxqBbmSAk+hLfPyvlrEnyP1Xg9bGPv059b4tYhpX0=;
-        b=osOGve9cL8B5ar2gUEMg4U21AfyAtOvWXxs15eFoUPTB69qC76Of6OCTSBkLJZE2A3
-         NruFcImBsKirWsnLIPkqVIPj2pRfiub3TKqEdIkg+0Kp3hnlix2xvlHb7wmA8cMjlTmJ
-         vpQ/19sIQ8hnoz2i8lm36hDm1TQiTqfH2jlba8PjpVYcXNHyy7/K9LPn2o7TsKeQJrLI
-         DE+6HKU2YNS+rESPrR+L4wkuYFen+GIFq2VeZE2/zqx++LBW1687+Pg/O8m279Pa2M6H
-         cCZ2QfCzBaiNrk/+5nL38gt0AVWdqPAaXTl7bMqTrPLY2LbFHCCPQJYvvnJGEIql/rZP
-         lC8g==
-X-Gm-Message-State: AOJu0YwACMf0uY2JNoHVghm+5v2uJ3nHFbo2MbAxvRUjTG7qYHohbn1I
-	cIgEW9eW9QJIN1+E7svEjqJuluM/5k/SNw341v8RqO+4FQwo+bEKrZ3wmwOr1qc=
-X-Google-Smtp-Source: AGHT+IGTXUnS6bRrzQSKuMiJIaKfOGq//Kb0v09jd8dvmDoHQ/HSS6xV9zvUDljJ7xT9I9rpqdMRxQ==
-X-Received: by 2002:a05:6a20:d90f:b0:19c:a7c0:acd8 with SMTP id jd15-20020a056a20d90f00b0019ca7c0acd8mr921760pzb.0.1706515942524;
-        Mon, 29 Jan 2024 00:12:22 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id ja3-20020a170902efc300b001d8cfb5541csm2011229plb.25.2024.01.29.00.12.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 00:12:21 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 10BA6184798E6; Mon, 29 Jan 2024 15:12:16 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Sound System <linux-sound@vger.kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jeremy Soller <jeremy@system76.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Techno Mooney <techno.mooney@gmail.com>,
-	stable@vger.kernel.org,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for MSI Bravo 15 C7VF
-Date: Mon, 29 Jan 2024 15:11:47 +0700
-Message-ID: <20240129081148.1044891-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1706517976; x=1707122776;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SIN9Uxh3GqmnyZ27qKSl2rXpIAzPJ++nm03FnGJ+5zg=;
+        b=F1EiEnt9pNJ8gWtN0zDQbqlDTTcOP2tpxMrO6lqn+kI87L1MImjTRJc8FeKhIyNl43
+         FlnNTqiYPeo4SVlouRkLJJ3xrJ9/c+1kbRxpdMNSBIEe8jn/M++BjAym3qHJeKk7VeDU
+         xsMxCDMji2xInc4Hbf55K3v2CPbEF8YDdq7ejGj05CW87MvgEZg1fBGWI0DHyJNm0dy6
+         Bo41KCEn2ttf0bzPrbsBMKU2hlQ2DKlm292EHYNTKkHCIGXn4b7ib4bk8aFqSdSGfE9X
+         oYThb0zxLeWYj1hNxM8OjKVvgLfm4BLpM1hLTeX/B82DqLsAoFlelFC1kJmSW13SM7si
+         UROA==
+X-Gm-Message-State: AOJu0YzNMFAH9bjZUs0/N5VQMw5g4+pCocRkz55C+8XTHWs7puLOe6ys
+	B+j/cGMn+DAthSQFfiq+NN33cYZlcJT8jguutfeXAzXyGs/MVUkNj27i/myZ+Z8=
+X-Google-Smtp-Source: AGHT+IGbgYZqKJ1ICrrjDjcW6SUy4j7BOdF5HOHXXdTAjzTmDRduFMqPltF+sYjUChhBq/vJ2bq/Yw==
+X-Received: by 2002:a17:906:5f95:b0:a31:4405:50b with SMTP id a21-20020a1709065f9500b00a314405050bmr3479624eju.56.1706517976003;
+        Mon, 29 Jan 2024 00:46:16 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id vo1-20020a170907a80100b00a35e4b460b1sm221396ejc.222.2024.01.29.00.46.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 00:46:15 -0800 (PST)
+Message-ID: <63e9ab78-3e5a-4d2f-8a67-c002142ca852@linaro.org>
+Date: Mon, 29 Jan 2024 09:46:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=bagasdotme@gmail.com; h=from:subject; bh=lVtZEm/LYxr9FC6NvuxOG7LoAhbDsr6Aui6cxNvhA48=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnbY8JczFR23H1eu2rVi1PPdTe++dd+8SyzwP1MwTkmJ 089ypNf2VHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJdDxnZHjSv8f0yPTm35dX ubjNOavQGCRgMssu4cufnL63x5cwntjNyNB0zuslX4PRjK+tGcek6qZ/kVm7bkqRfs+uiAiO2z2 fjZkA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/6] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
+Content-Language: en-US
+To: neil.armstrong@linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand
+ <frowand.list@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ Sean Anderson <sean.anderson@seco.com>
+References: <20240124074527.48869-1-krzysztof.kozlowski@linaro.org>
+ <20240124074527.48869-5-krzysztof.kozlowski@linaro.org>
+ <91158620-775e-4db1-9b8e-7154c6d66cd6@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <91158620-775e-4db1-9b8e-7154c6d66cd6@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Techno Mooney <techno.mooney@gmail.com>
+On 25/01/2024 09:27, neil.armstrong@linaro.org wrote:
+> On 24/01/2024 08:45, Krzysztof Kozlowski wrote:
+>> Devices sharing a reset GPIO could use the reset framework for
+>> coordinated handling of that shared GPIO line.  We have several cases of
+>> such needs, at least for Devicetree-based platforms.
+>>
+>> If Devicetree-based device requests a reset line, while "resets"
+>> Devicetree property is missing but there is a "reset-gpios" one,
+>> instantiate a new "reset-gpio" platform device which will handle such
+>> reset line.  This allows seamless handling of such shared reset-gpios
+>> without need of changing Devicetree binding [1].
+>>
+>> To avoid creating multiple "reset-gpio" platform devices, store the
+>> Devicetree "reset-gpios" GPIO specifiers used for new devices on a
+>> linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
+>> controller, GPIO number and GPIO flags) is used to check if reset
+>> controller for given GPIO was already registered.
+>>
+>> If two devices have conflicting "reset-gpios" property, e.g. with
+>> different ACTIVE_xxx flags, this would allow to spawn two separate
+>> "reset-gpio" devices, where the second would fail probing on busy GPIO
+>> request.
+>>
+>> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ [1]
+>> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+>> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+>> Cc: Sean Anderson <sean.anderson@seco.com>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Depends on previous of change.
+>> ---
+>>   drivers/reset/core.c             | 215 +++++++++++++++++++++++++++++--
+>>   include/linux/reset-controller.h |   4 +
+>>   2 files changed, 206 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+>> index 4d5a78d3c085..60a8a33c4419 100644
+>> --- a/drivers/reset/core.c
+>> +++ b/drivers/reset/core.c
+> 
+> <snip>
+> 
+>> +	}
+>> +
+>> +	ret = __reset_add_reset_gpio_lookup(id, args->np, args->args[0],
+>> +					    args->args[1]);
+> 
+> What would happen with gpio controllers using #gpio-cells = <3> (or more) like allwinner,sun4i-a10-pinctrl.yaml ?
+> 
+> On this example the flags are args->args[2] so this would probably fail.
+> 
+> This would also fails badly with #gpio-cells = <1>, args->args[1] value would be undefined.
+> 
+> You should probably limit to args->args_count == 2 for now.
 
-The laptop requires a quirk ID to enable its internal microphone. Add
-it to the DMI quirk table.
+Hm, good point. Both cells are actually possible, so I need to check it.
+Thanks.
 
-Reported-by: Techno Mooney <techno.mooney@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218402
-Cc: stable@vger.kernel.org
-Signed-off-by: Techno Mooney <techno.mooney@gmail.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- I'm not sure about reporter's identity (which also authored the quirk
- patch), hence I derived his name instead.
 
- Techno Mooney: is it OK to use above Reported-by: identity as-is?
- Developers: In this case, is it better to just use
- `Reported-by: <reporter's email>`?
 
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index d83cb6e4c62aec..23d44a50d81572 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -297,6 +297,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 B7ED"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VF"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
-
-base-commit: aa8e3ef4fe5332c2ce33507e874b20d9c0077c21
--- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+Krzysztof
 
