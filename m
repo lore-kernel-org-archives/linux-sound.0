@@ -1,134 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD8652F65
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 08:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A43524CE;
+	Mon, 29 Jan 2024 08:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706515845; cv=none; b=CiMPWDwyPJpQKko7EdRc4SpDuU+Tt8DaRmB8w5M1b23MJttWqcFcI+Y46ReE/bU3b0gw92yl6gMoim49q0enakQfpkGv2X4bgAE+hmH8UtD+0irbnuycHlvrJ62E5u0lzZ2vVomFwnnfvIy9QH4hxQs0A7gkbAhxzFogF4YfHwU=
+	t=1706515944; cv=none; b=PhQNj42gFikLHG9b1s+LB9Knay/KJLdvWgb4lzXSScJ2A/F8x2H3Zff+tHLNnIzVQBdBkVL97i0gEhCxAnFrYKPAhWsuL90HRV2PIq0Ea4jNSZ59Y96rgCR/UnskA2cwRzNrFamLS6Sdfwda6aPHSx66pngTPpbpJYFW5UafDkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706515845; c=relaxed/simple;
-	bh=XEbsdlOqsFxhqyay4HPRioN/YF76CHzLUAnIf+ww4Jg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZxaLDGdzFFs6cIQKM9+Sla41i7huqKU39naaMX/m2GKjur6pHtvmZBe5NSl3hgLd3Qsj4zpVt094ar0a062oin0WKaqFaoSh7ghRHQDiDSCAIgi8xXxZZA2klJuRPwGiQfSUQ5LHlIjMxY1w626unNvQCLuKEMLzdoVi8VLcqok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g/itNrtE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qpNyev7d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UtX/0Q2h; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4ulzpf+m; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706515944; c=relaxed/simple;
+	bh=5VqrWAknAf4vZSdzkIS4gQaU0K5FRkZTMDj9ZAY53bo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DWt0dbZmG0uqdLRypCjFBJRMtcP8BF9eN88+/7fU3MK9lIhzd9Ub9cEwMRVItUyhmW8FAGb2CPhgI8IA1cCUo4d7yKYqdNYWTMFCI3KgXhriIWQzEINwBiEXwpHoAfZoWWA1t8dRasZAB5lW9KQbsaqaEXNOBv8CERdnrMRdj2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VD1BEonD; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g/itNrtE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qpNyev7d";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UtX/0Q2h";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4ulzpf+m"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B8DA22284;
-	Mon, 29 Jan 2024 08:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706515841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
-	b=g/itNrtEwk3mYlFN80FZlrneydu2fUWi2t0LfkpF7EmtXsI+clFlZAvlIyaKcLDrfZs+al
-	iULk2WFItE6ksBD8geHKPDxLs2KxpMN7UnEWiIdlnH5NxKLB08wMcGpleSjetia9OaY2LL
-	QGXrReHSLSKqwgMjd7Yfxn9oRoBy25Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706515841;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
-	b=qpNyev7dnkpyq+/0Gvy9Ik9Uhfdw5bVdp6WFFms7ACfWm+ml8WaMIosA7bZxMOJnLi6u6J
-	whPzAHu7vvK5ZdCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706515840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
-	b=UtX/0Q2hPx7BNErMC+wyPvTxzQgOvDhVTlqfyZzoj37k1NCCvPuuzCpd2yTYMpqXo0RO6j
-	UkXRhLvd6wmsY1At3IxRBAS9EGUnsJfptM7EWTxOt3/WQErTnM2ABcrebZQBSeUHNbhaxQ
-	fNHiNE2nX0yJFsuOXV9JihjwkM9LYl4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706515840;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lWng3G5iwpWjfc5vUBBHcYqppV/C/zfWmjLSTSmt9mQ=;
-	b=4ulzpf+m2DnCBs+ZUCkCOwyfgMilux2htjXdDefsivY8t7KSc4BmbqeRwA/a4dHYJV0JgD
-	22qswqt79Z/mklAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11B7B12FF7;
-	Mon, 29 Jan 2024 08:10:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UWE9AoBdt2WbXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Jan 2024 08:10:40 +0000
-Date: Mon, 29 Jan 2024 09:10:39 +0100
-Message-ID: <87mssomuf4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alexander Tsoy <alexander@tsoy.me>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH] Revert "ALSA: usb-audio: Skip setting clock selector for single connections"
-In-Reply-To: <20240128132338.819273-1-alexander@tsoy.me>
-References: <20240128132338.819273-1-alexander@tsoy.me>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VD1BEonD"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so1271888a12.1;
+        Mon, 29 Jan 2024 00:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706515942; x=1707120742; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MSxxqBbmSAk+hLfPyvlrEnyP1Xg9bGPv059b4tYhpX0=;
+        b=VD1BEonDOp1QWFRYdPLua3oNYef/CleNJ14CqdqtHPKeuQ/h8KwdT3Z4aPmTr6QVZh
+         vbDO7pZIdr0vFafvacp6REOXIOlD3YfEu6XHgVxyiLavN2h/j2VjS5hX+8zKcHssiSbf
+         uh7/Y0WP2MJU8xbx+pU6QrfHd+ppNDmll5283p0GDAqZvP0SxR8ZD+SFZ1A/13HcjTP7
+         AEaOKXccO0AfzQOdguGwtgIePBx0cfJ9XR+hicAzRveJ9TcsUUpiFo1Iq4qdWMSn7zMq
+         ydgpyJD6gdRkiUfLbQp+9FEvD4y5ijRVhg4pnOaxqS1MzKIaLv0tQoVCOIsKn80PZf4V
+         giXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706515942; x=1707120742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MSxxqBbmSAk+hLfPyvlrEnyP1Xg9bGPv059b4tYhpX0=;
+        b=osOGve9cL8B5ar2gUEMg4U21AfyAtOvWXxs15eFoUPTB69qC76Of6OCTSBkLJZE2A3
+         NruFcImBsKirWsnLIPkqVIPj2pRfiub3TKqEdIkg+0Kp3hnlix2xvlHb7wmA8cMjlTmJ
+         vpQ/19sIQ8hnoz2i8lm36hDm1TQiTqfH2jlba8PjpVYcXNHyy7/K9LPn2o7TsKeQJrLI
+         DE+6HKU2YNS+rESPrR+L4wkuYFen+GIFq2VeZE2/zqx++LBW1687+Pg/O8m279Pa2M6H
+         cCZ2QfCzBaiNrk/+5nL38gt0AVWdqPAaXTl7bMqTrPLY2LbFHCCPQJYvvnJGEIql/rZP
+         lC8g==
+X-Gm-Message-State: AOJu0YwACMf0uY2JNoHVghm+5v2uJ3nHFbo2MbAxvRUjTG7qYHohbn1I
+	cIgEW9eW9QJIN1+E7svEjqJuluM/5k/SNw341v8RqO+4FQwo+bEKrZ3wmwOr1qc=
+X-Google-Smtp-Source: AGHT+IGTXUnS6bRrzQSKuMiJIaKfOGq//Kb0v09jd8dvmDoHQ/HSS6xV9zvUDljJ7xT9I9rpqdMRxQ==
+X-Received: by 2002:a05:6a20:d90f:b0:19c:a7c0:acd8 with SMTP id jd15-20020a056a20d90f00b0019ca7c0acd8mr921760pzb.0.1706515942524;
+        Mon, 29 Jan 2024 00:12:22 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id ja3-20020a170902efc300b001d8cfb5541csm2011229plb.25.2024.01.29.00.12.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 00:12:21 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 10BA6184798E6; Mon, 29 Jan 2024 15:12:16 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Sound System <linux-sound@vger.kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jeremy Soller <jeremy@system76.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Techno Mooney <techno.mooney@gmail.com>,
+	stable@vger.kernel.org,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for MSI Bravo 15 C7VF
+Date: Mon, 29 Jan 2024 15:11:47 +0700
+Message-ID: <20240129081148.1044891-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="UtX/0Q2h";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4ulzpf+m
-X-Spamd-Result: default: False [-2.05 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[tsoy.me:email,suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.74)[98.85%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3B8DA22284
-X-Spam-Level: 
-X-Spam-Score: -2.05
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=bagasdotme@gmail.com; h=from:subject; bh=lVtZEm/LYxr9FC6NvuxOG7LoAhbDsr6Aui6cxNvhA48=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnbY8JczFR23H1eu2rVi1PPdTe++dd+8SyzwP1MwTkmJ 089ypNf2VHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJdDxnZHjSv8f0yPTm35dX ubjNOavQGCRgMssu4cufnL63x5cwntjNyNB0zuslX4PRjK+tGcek6qZ/kVm7bkqRfs+uiAiO2z2 fjZkA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Sun, 28 Jan 2024 14:23:38 +0100,
-Alexander Tsoy wrote:
-> 
-> This reverts commit 67794f882adca00d043899ac248bc002751da9f6.
-> 
-> We need to explicitly set up the clock selector to workaround a problem
-> with the Behringer mixers. This was originally done in d2e8f641257d
-> ("ALSA: usb-audio: Explicitly set up the clock selector")
-> 
-> The problem with MOTU M Series mentioned in commit message was fixed in
-> a different way by checking control capabilities of clock selectors.
-> 
-> Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+From: Techno Mooney <techno.mooney@gmail.com>
 
-Thanks, applied.
+The laptop requires a quirk ID to enable its internal microphone. Add
+it to the DMI quirk table.
 
+Reported-by: Techno Mooney <techno.mooney@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218402
+Cc: stable@vger.kernel.org
+Signed-off-by: Techno Mooney <techno.mooney@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ I'm not sure about reporter's identity (which also authored the quirk
+ patch), hence I derived his name instead.
 
-Takashi
+ Techno Mooney: is it OK to use above Reported-by: identity as-is?
+ Developers: In this case, is it better to just use
+ `Reported-by: <reporter's email>`?
+
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index d83cb6e4c62aec..23d44a50d81572 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -297,6 +297,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 B7ED"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VF"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+
+base-commit: aa8e3ef4fe5332c2ce33507e874b20d9c0077c21
+-- 
+An old man doll... just what I always wanted! - Clara
+
