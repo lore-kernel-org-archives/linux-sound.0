@@ -1,98 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40F751C38;
-	Mon, 29 Jan 2024 23:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C006951C31
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 23:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706569732; cv=none; b=imrsvivn8LOfVswc6TCkAeQvuyCZ7LR/efDGGVXvvUEk67kL6+gwaE8xKdfFNKrLeCSH1zp4XXtdiuaVId/SB9lZIKFWQQlZnb8ByK10/sTQELYg7/YT+7pXLzS6w2GpOBKRIXkny8hp6N4XvRwX+BLWMOaoNzURo59EKuxfpW8=
+	t=1706571963; cv=none; b=GOVt4H7NArIpCyuuqXZ6q2rOwAsP86SDt+KmA1In7WuuI09wmw9iDzo1Qj+SjUb8n1r0HVG4IVRmcm0FzFMN+IhshHZMTbao+76ZMPig3MloyblIb4RN4gcenU1RG6RYjJ4wNcB+1zwmsYiAw+GJ/k0cZQP1qkx07jZfa3SQqLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706569732; c=relaxed/simple;
-	bh=lItnbNGGXomc1ezwmJocmF4YnmIqkbj5vgu4qZ5idUI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MN2TAFcL6DmZVgptFxxv32RQ7/45fvHfnlpJcnSY+dWZem0FKUZFoJISV/SgzEUhtY6c/hyoWTyh/NDbHKXK3y2RtoZefQ7lDxt91JHNn4wLsuh2ehcTmU14j+uBV428X5520aI5ThZRRQnrDKJNmZziGCdikn+te65b/SDuVxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tKH0RC7L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706571963; c=relaxed/simple;
+	bh=RmMEV0VNyUZYA7LEC4ivbBMd8RW8rDgiGw7jNtlMQ7c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iAFiu25VLJe9BBLJ3nfDhn3H6wKALbgwLPeFQTqyORuJHGOtfVWnfZzaXICnqy9ZaTY/Ib9YCPSSUuhiQTpMzQ4g4WZXn8byYH5irtfVMAV1Fd8nAkm+N+u7ViPJ2oBlzgO9A0Vz6PiDrskGZlb1JexPX1PPHQXvr3z3gtMQ0LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIPwbGVj; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKH0RC7L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 684AEC43390;
-	Mon, 29 Jan 2024 23:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706569731;
-	bh=lItnbNGGXomc1ezwmJocmF4YnmIqkbj5vgu4qZ5idUI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=tKH0RC7Lz0TRXF7WE7pjITfFTLoXHk6LbjuaSpf35QJ8RhZVWxz2w+i1B4HTxPE8k
-	 arGMTBdQ6xdeK0mUGtUWP0HGpy3UF/3jV4Iq52jEBxJhQAzIJBolkSGIZyUo7aEcLS
-	 UR1kHkfRI3xGkVq0b/qP9iG49KIyqlHOewUXX+v5/LTpZAFYx+f/OiRdbCSxh/sp9N
-	 WdZBjQOxzDEQg+hUNlpWoDLA9P6rDUQMUSeqkk+xZh/1lZAWwvuTC0lyerGwiJk/zG
-	 fesIEUMkRpeWjAVP4IaRvpeYyoKm/voq+Hx4lEyZOqScKmbblD6pmgrbtvkIm0GmCP
-	 4b0G90Ih8w39Q==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-sound@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
-References: <20240127163247.384439-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v2 0/7] arm64: sun50i-h616: Add DMA and SPDIF
- controllers
-Message-Id: <170656972816.167619.13760688172149565550.b4-ty@kernel.org>
-Date: Mon, 29 Jan 2024 23:08:48 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIPwbGVj"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5101cd91017so3584358e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 15:46:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706571960; x=1707176760; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PlEQjUIJB7dCheHxxvwo8H1ivYBLyeVZnOGfAR0f2hA=;
+        b=eIPwbGVjCuhyWIDldDw5Kn3f76Kn8BQDgoVumbc4x/+s6MXAerrtvjNwqmMuaFteR7
+         i4dNj5QlbunXSQC9Dj1KEZd7Z9fdsYBst6BTa1XWW+aRBlmZ/WLa873zOfVh7uPQH7kM
+         3qkJf2m/xSC2FV9Gv3YB/n5O5WEUd9aq4aTcP+in2EbHjmbGJAy186iIxir5tejIekYL
+         7bVOKQQCijDSapW9kOYMY515V4c2D8eAnYTXY6p8iEZmQpDica1bbnh6BN7NRnPxMSQB
+         q3n/Ij7tJp4H3TIF/eDlpFBG3p0HGRdGCPaHMf6Vap8ykCMZryfVphQgavgYsPT3RJUE
+         6kJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706571960; x=1707176760;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PlEQjUIJB7dCheHxxvwo8H1ivYBLyeVZnOGfAR0f2hA=;
+        b=lMZ/n7qwAWG0u++XXGR53alMTD3N1Nz/f0uO5LPcrqpSW2wu8Eq5ogQV7nkyv0lhPQ
+         hv4wVhy4UscyXNpucILBhP1jKFmViJr5jcnWddRE9ILSwD0InZc2kgNOsjrzNETN1xzE
+         LxxscbkUOgfEHgDFRkFu4RrFxfR/sGLCn6YfyR22F3IBk1Vqihh+0W+hrpymDfKAkMGj
+         C/ed2sqOqh+i5oMuFJMR9wTzeL2RCo3hy8S5WbKXxrCwKS5ATiqqYhj5yz0tyUZoP4xv
+         V7cYlFbaHlofUh212JGL08m6qY5m0U+GFgFU8A0Ny4mohk5oRVrLZfwAN73HUJn+tkpv
+         6qFA==
+X-Gm-Message-State: AOJu0YwdE/On/L4SPLyz/pyIzip79AoeRs8GR0DNx7grFaUYVsx1sZRm
+	csI4+v37NZ9KE7QCC7MLrdPOXplyn5RrtLnCDsQRJuSsViRXJ4MSEIkYX0R9DvsgmsduyFCWehq
+	OMFZt3LM1TD35AJjlTDsiRiabSHMxVFQpEl4=
+X-Google-Smtp-Source: AGHT+IEMCNcr5oDi70Ke5cV/vgOCbRD3N1i1GKSz6ZKS5FmjnqHJhrby7FOraHiKdFHhIg4p+a5BVIJEN6oTJ+TEBnI=
+X-Received: by 2002:ac2:4c12:0:b0:510:1a2f:cf51 with SMTP id
+ t18-20020ac24c12000000b005101a2fcf51mr3535808lfq.7.1706571959426; Mon, 29 Jan
+ 2024 15:45:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+References: <20240125103117.2622095-1-ckeepax@opensource.cirrus.com>
+ <20240125103117.2622095-6-ckeepax@opensource.cirrus.com> <CAHp75Ver-NMTtHmeE9+sdnt1FVH2iGhXQxQf21jjDGOn+6mbhw@mail.gmail.com>
+ <ZbfR3IzRYpP7YCns@ediswmail9.ad.cirrus.com>
+In-Reply-To: <ZbfR3IzRYpP7YCns@ediswmail9.ad.cirrus.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 30 Jan 2024 01:45:23 +0200
+Message-ID: <CAHp75Vf-HBn1gdaZipuvP0NtKO8s833apH_Kfb2Ur1jnLxH1QA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] ASoC: cs42l43: Refactor to use for_each_set_bit()
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, alsa-devel@alsa-project.org, 
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 28 Jan 2024 00:32:40 +0800, Chen-Yu Tsai wrote:
-> This is v2 of my H616/H618 DMA and SPDIF controller series.
-> 
-> Changes since v1:
-> - Switch to "contains" for if-properties statement
-> - Fall back to A100 instead of H6
-> - Add DMA channels for r_i2c
-> 
-> [...]
+On Mon, Jan 29, 2024 at 6:27=E2=80=AFPM Charles Keepax
+<ckeepax@opensource.cirrus.com> wrote:
+> On Thu, Jan 25, 2024 at 09:11:44PM +0200, Andy Shevchenko wrote:
+> > On Thu, Jan 25, 2024 at 12:31=E2=80=AFPM Charles Keepax
+> > <ckeepax@opensource.cirrus.com> wrote:
+> > Adding nslots parameter is a good idea, but I still think the code can
+> > be refactored better (have you checked the code generation, btw? I
+> > believe my version would be better or not worse).
+> >
+> > > +       for_each_set_bit(slot, &mask, BITS_PER_TYPE(mask)) {
+> > > +               if (i =3D=3D nslots) {
+> > > +                       dev_warn(priv->dev, "Too many channels in TDM=
+ mask: %lx\n",
+> > > +                                mask);
+> > >                         return;
+> > > +               }
+> > >
+> > > +               slots[i++] =3D slot;
+> > >         }
+> >
+> >        i =3D 0;
+> >        for_each_set_bit(slot, &mask, CS42L43_ASP_MAX_CHANNELS)
+> >                slots[i++] =3D slot;
+> >
+> >        if (hweight_long(mask) >=3D CS42L43_ASP_MAX_CHANNELS)
+> >                dev_warn(priv->dev, "Too many channels in TDM mask\n");
+> >
+> > The code is simpler and behaviour is not changed.
+>
+> I don't think this works, the limit here is on the number of
+> channels not on the position of those channels. The last parameter
+> of for_each_set_bits appears to measure against the bit position
+> not the number of set bits. So for example 0xFC000000 would be a
+> valid 6 channel mask, but would result in no slot positions being
+> set in the above code.
 
-Applied to
+Ah, indeed. Then BITS_PER_LONG is the correct approach.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/7] dt-bindings: sound: sun4i-spdif: Fix requirements for H6
-      commit: 57b3c130d97e45b8a07586e0ae113e43776c5ea8
-[2/7] dt-bindings: sound: sun4i-spdif: Add Allwinner H616 compatible
-      commit: 7a9dc944f129bb56ef855d9c0b0647bc3e98a56f
-[3/7] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
-      commit: 0adf963b8463faa44653e22e56ce55f747e68868
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--=20
+With Best Regards,
+Andy Shevchenko
