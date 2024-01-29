@@ -1,126 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E3B612FE;
-	Mon, 29 Jan 2024 13:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5F1657D6;
+	Mon, 29 Jan 2024 14:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706535650; cv=none; b=S22EwhsLIRvQxQj5EwLXj8HjTPdb1HENgAG4bjCwM8DTGpHDs4ut4/i0/rfA8AjUzdM81SppHeYnidANMUNLgR/lhnsmjwzvtP7t/Ns7ak64xaKV2ExiGlulzZRZDc6Cv5CahDHZLN+XntQTiyY32cloopATd41WS4IdsMuNaUQ=
+	t=1706538213; cv=none; b=SAZJrd5d8l2Tx7P1X5rv6KrUCPLQ487fY40mAugfm9TcC81yjzkAyZ0kWXSOVJiblPWlwfS4CHNJTQZObKDK1TVkW/iWq2pu6id3XHTLCvgLEgrWX4j/PIi8LuYrETdm9LJck5y4J7iQ7Mn9K3lzn3yk2yWWHt+uIwz/3cM+sKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706535650; c=relaxed/simple;
-	bh=myYtOyQpPG13KAG+Jfjgn0hzsfD9Kx1Zu98b8RETqnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEeR2JDh2ciP1J0Mhx1Z80F6+LW0WBhpej0Ro7y9RP1/TiWaGTJ36POqTTZ/w44uocN6hdn6DO/VmiVAYbypyhWg4/jdbZWuomp9ZMSoiAqtWZLlSrPsFVsttbj+1CeACJyQdLskLQ0dC5Py8tIlLgOfthuqvZVB5yFSKdu08Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKvyrcZ7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706538213; c=relaxed/simple;
+	bh=vW6TNIkeck9BpwYQUg+4uWlPjC9obh2Y2AixNJRS0k4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aj8uRCZRzN7ETwEtaMIWIelGJdktKRK9Vn1nBx1qLwHOR2oSmPY5y/infsZqWs5yNcqVaSwIJSMaXKQZLBh58k/ZwVCI2/F8FqzXFiphtr6x0my6L7UVnwL1XQ5O6BX8lq3geMQ0gNbkKceUEvCsgDtU6sOATofJtitNWNkwiT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pIvpz/tM; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKvyrcZ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9736C433F1;
-	Mon, 29 Jan 2024 13:40:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706535650;
-	bh=myYtOyQpPG13KAG+Jfjgn0hzsfD9Kx1Zu98b8RETqnA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sKvyrcZ7UjClhy7LEb2Fw37rHo77QPoiM+4zbmX8dA2tp90YgGt5gXUUyWBXpvb8o
-	 p61PHtTg9Gw/Pg3V8ZRnltW500xu5TIWQ7ZxTs8prLIzVKwqA6ek5XUMOUbNxC+sRn
-	 3CB3RW4khTD/jBvITNGq5zMLZ6QehQZYRr6WrHXmQyLXgIAqcd3ICkMYVSkRWSDkdo
-	 53BHcGc/e7vzphQ2FGdOzfsd3P1MeClj61bcwwQGJVzfAm9qBbZnTqsdrJ6PkUDJKD
-	 sgj0lmx4bMsil2WAGAUYBGL5rPf4MB84DxvQrUaNJrINb9KH1yYtvwcsUmojKrhLox
-	 8neiCg+nICL0w==
-Date: Mon, 29 Jan 2024 13:40:42 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Ding, Shenghao" <shenghao-ding@ti.com>
-Cc: "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"P O, Vijeth" <v-po@ti.com>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"perex@perex.cz" <perex@perex.cz>,
-	"pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>,
-	"13916275206@139.com" <13916275206@139.com>,
-	"Chawla, Mohit" <mohit.chawla@ti.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
-	"soyer@irl.hu" <soyer@irl.hu>, "Huang, Jonathan" <jkhuang3@ti.com>,
-	"tiwai@suse.de" <tiwai@suse.de>, "Djuandi, Peter" <pdjuandi@ti.com>,
-	"McPherson, Jeff" <j-mcpherson@ti.com>,
-	"Navada Kanyana, Mukund" <navada@ti.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v2 1/4] ASoc: PCM6240: Create PCM6240
- Family driver code
-Message-ID: <00acc379-2812-43da-aa14-4a43a0d25f79@sirena.org.uk>
-References: <20240126035855.1785-1-shenghao-ding@ti.com>
- <6c1d04be-c558-4aa4-96a3-ac21ae36bfae@sirena.org.uk>
- <39804840911a44c8b9da9478f7b4c05d@ti.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pIvpz/tM"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40T4qVf0031043;
+	Mon, 29 Jan 2024 08:23:10 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=EYYIOSJVY3d6bCG
+	KoPIC2EeJcrPTQrMYy67pwh4YFx4=; b=pIvpz/tMT4GpaHkLwy4YIHa2toYpVoo
+	rv8Tr0BfBpi3Ff64G4bcySN8S2tFwzz0FpTkACTLl17QUWzL2aA8bi0ZcjDsU9rA
+	Oqo8LpeSMaPsRcpKd0vJ0eygQe+5bNmMQDZlJmjsl2lDrOD1lpGYoeeiTWV+F8Zv
+	xzUotVP3SQRTCZqAvaJEMXIpxM1Ogezak18fjtBqDQV5iYu6PEhTIt6XN2I93VSl
+	3NGWDmvbF7oDKrX8AVldDow80CNmT80uRqocOXb537+2afAR4efD+w1sohry5fBG
+	7bV9CnDHvxt4/u92NPdzGeuSUvZruFhE8FQ2bhHVDQoXEyzA8avQ0Ng==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3vw043t3sk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Jan 2024 08:23:09 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 29 Jan
+ 2024 14:23:07 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Mon, 29 Jan 2024 14:23:07 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 42AB4820242;
+	Mon, 29 Jan 2024 14:23:07 +0000 (UTC)
+Date: Mon, 29 Jan 2024 14:23:06 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>,
+        Cezary Rojewski
+	<cezary.rojewski@intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] ASoC: Intel: mtl-match: Add cs42l43_l0 cs35l56_l23
+ for MTL
+Message-ID: <Zbe0yi5Qo1eG5yCk@ediswmail9.ad.cirrus.com>
+References: <20240123113246.75539-1-mstrozek@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gp4iAJ9213u/5udW"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <39804840911a44c8b9da9478f7b4c05d@ti.com>
-X-Cookie: Jenkinson's Law:
+In-Reply-To: <20240123113246.75539-1-mstrozek@opensource.cirrus.com>
+X-Proofpoint-ORIG-GUID: -_gIoV694mP0SnotpE1zKJindY_rtzTY
+X-Proofpoint-GUID: -_gIoV694mP0SnotpE1zKJindY_rtzTY
+X-Proofpoint-Spam-Reason: safe
 
+On Tue, Jan 23, 2024 at 11:32:46AM +0000, Maciej Strozek wrote:
+> The layout is configured as:
+> - Link0: CS42L43 Jack and mics (2ch)
+> - Link2: 2x CS35L56 Speaker (amps 3 and 4, right)
+> - Link3: 2x CS35L56 Speaker (amps 1 and 2, left)
+> 
+> Corresponding SOF topology:
+> https://github.com/thesofproject/sof/pull/8773
+> 
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> ---
 
---Gp4iAJ9213u/5udW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-On Mon, Jan 29, 2024 at 05:03:48AM +0000, Ding, Shenghao wrote:
-
-> > It might be better to request the firmware in the I2C probe rather than=
- in the
-> > ASoC level probe, that way there's more time for the firmware to be loa=
-ded
-> > before we actually need it.  That does mean you can't register the cont=
-rols
-> > immediately though so it may be more trouble than it's worth.
-
-> I once put request_firmware_nowait in i2c_probe, but it sometimes returne=
-d=20
-> error in some platforms. So my customer suggest that it would be moved in=
-to=20
-> the codec_probe. It seemed filesystem is not completely ready in some=20
-> platform during calling the i2c_probe.
-
-That indicates that this is still racy - shuffling things around has
-papered over a timing issue on their particular system but it's still
-possible to have the card come up before the filesystems are fully ready
-(especially if all the drivers are built in).  If the DSP firmware is
-essential to the device's operation the driver should defer registration
-with the core until the firmware has loaded.  wm8958 should have an
-example of this IIRC.
-
-> > Similarly for the reset, if we reset as early as possible that seems be=
-tter.
-
-> As to reset, it is also from my customers' suggestion. they found the iss=
-ue that=20
-> i2c access error in i2c_probe in some platform. So they put it into codec=
-_probe.
-
-That suggests the reset might be missing some delays or something and
-again there might be some issues.
-
---Gp4iAJ9213u/5udW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmW3qtoACgkQJNaLcl1U
-h9DGDgf8Ddtf4ZwjLwPbD5U+SfhXdG5PnDKCAG+Dm/99/W5j65NEv4NLVzKe8GO6
-1A+qnYNIQ+8pqs2PpaBUrrVTODhNOk5MEkICREVOVjNwDqmbOhGVe6vw3d9fiST0
-VJOq6t1HQX4BV8TRuYWKr1FQQSc5OkzCccAnNleZrdrnVsQCR5XvzyaNtE1SXaYF
-DJDZ3H6W1p1zOzeOGTErOha62WUjtaaAZ1e7cZmKp5mljc1BUkHAELBJCuUukMkS
-QwnDiHApQ0XspY8efCWcvf5MYu2uBesQaEIxkCp9k4pT7g0iAmD12bf4BpasHeXy
-CNyYPPIVDy9JB/DrXNJYCoFLw+4ULg==
-=19Xl
------END PGP SIGNATURE-----
-
---Gp4iAJ9213u/5udW--
+Thanks,
+Charles
