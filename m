@@ -1,226 +1,126 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E880A651AC;
-	Mon, 29 Jan 2024 13:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706535466; cv=pass; b=JbGrB3gOG4CGRXMLSJubmyzeYJaki0s/6dVEL5ZzFSHizj33ii+/p1H6vM7vQk8qLRG22BF9gO77TYjUhrqyU12UvjqocOYDGP0cC3DWDfWJXZ9fAZzKC0cbh14ybttxmnVEXkihk7YurG9dgDeNuS47UCsVdMKBrfIU1thFe10=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706535466; c=relaxed/simple;
-	bh=1Q2ncB17EOSNxTDez7UD4M4c7Sx/P3AtArVJ1O+fXSA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E3B612FE;
+	Mon, 29 Jan 2024 13:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706535650; cv=none; b=S22EwhsLIRvQxQj5EwLXj8HjTPdb1HENgAG4bjCwM8DTGpHDs4ut4/i0/rfA8AjUzdM81SppHeYnidANMUNLgR/lhnsmjwzvtP7t/Ns7ak64xaKV2ExiGlulzZRZDc6Cv5CahDHZLN+XntQTiyY32cloopATd41WS4IdsMuNaUQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706535650; c=relaxed/simple;
+	bh=myYtOyQpPG13KAG+Jfjgn0hzsfD9Kx1Zu98b8RETqnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pH0lyP/IYeTpIQvGBjwdD5F7wSWcnlzYYcE0ickwg5vj9XeIhk9we/d8vl5Oi/h40tnyqyDdCGgvbdF+b30oJD+MefAZFhEnjg61YzUoig8rhhCRiLYRJ0d8uDc+8gH6WgbwFii7NrnJnReDLo9Qo4UmTLgC4oBcXOZc35tLBKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=L9iZfGuS; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	 Content-Type:Content-Disposition:In-Reply-To; b=GEeR2JDh2ciP1J0Mhx1Z80F6+LW0WBhpej0Ro7y9RP1/TiWaGTJ36POqTTZ/w44uocN6hdn6DO/VmiVAYbypyhWg4/jdbZWuomp9ZMSoiAqtWZLlSrPsFVsttbj+1CeACJyQdLskLQ0dC5Py8tIlLgOfthuqvZVB5yFSKdu08Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKvyrcZ7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="L9iZfGuS"
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TNq9S6zH6zyPp;
-	Mon, 29 Jan 2024 15:37:31 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1706535454;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j01SVC6SiusGZa0TumiabawLGRRmQcP48TE8VEU49Xc=;
-	b=L9iZfGuSfD83n9B3LK8HTFxMOBQQbuaA5j7AEy89zlHiObFEoq0DumP2/ceRG4wRbTNcri
-	jQheHk1RhPt3nAaDfTj1oaiShOyeAb4PEmxL5BQaBzcBEnCwa/tMzEBcCJKnZ3L5/ZlLs+
-	EAHcb8xB10Bb949XRrbwSJ46+zVPXMA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1706535454;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j01SVC6SiusGZa0TumiabawLGRRmQcP48TE8VEU49Xc=;
-	b=CHWrNpP1vI20eioGflr1i1/sTNwlo+7UMqSxrp5Fa1ljTaeEhApV4kGEY2HOU3BGiF0KuE
-	vpFhnOlcLRNRExKR+XZQx/3n5v1bqOD9MTQ4tJL21+mp9Cw2vNCVaena8gYwoQwzJxbGWm
-	FR/E2LRXpOCpOStEerututhefS1KamU=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1706535454; a=rsa-sha256; cv=none;
-	b=ZB05vLhHMe4jcm6BJfmZSOQT5XiXsY2DINFJDbDSOy1Al2XbWvrSD0mYIQe334KcV6F36+
-	D0iTA5fMPLZz8axEa8SJ6ZsPgQS3BmX0rxtmopfbk0bBSiZxm0Vlm5Kplk08vbA7ju1f0F
-	OdtQOEcYRLxI++AwJYvJADhA+VmXPUs=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AD9B5634C93;
-	Mon, 29 Jan 2024 15:37:30 +0200 (EET)
-Date: Mon, 29 Jan 2024 13:37:30 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 03/13] of: property: add
- of_graph_get_next_endpoint_raw()
-Message-ID: <ZbeqGhfBiXarlhtu@valkosipuli.retiisi.eu>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <87bk95klgc.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKvyrcZ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9736C433F1;
+	Mon, 29 Jan 2024 13:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706535650;
+	bh=myYtOyQpPG13KAG+Jfjgn0hzsfD9Kx1Zu98b8RETqnA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sKvyrcZ7UjClhy7LEb2Fw37rHo77QPoiM+4zbmX8dA2tp90YgGt5gXUUyWBXpvb8o
+	 p61PHtTg9Gw/Pg3V8ZRnltW500xu5TIWQ7ZxTs8prLIzVKwqA6ek5XUMOUbNxC+sRn
+	 3CB3RW4khTD/jBvITNGq5zMLZ6QehQZYRr6WrHXmQyLXgIAqcd3ICkMYVSkRWSDkdo
+	 53BHcGc/e7vzphQ2FGdOzfsd3P1MeClj61bcwwQGJVzfAm9qBbZnTqsdrJ6PkUDJKD
+	 sgj0lmx4bMsil2WAGAUYBGL5rPf4MB84DxvQrUaNJrINb9KH1yYtvwcsUmojKrhLox
+	 8neiCg+nICL0w==
+Date: Mon, 29 Jan 2024 13:40:42 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "Ding, Shenghao" <shenghao-ding@ti.com>
+Cc: "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"P O, Vijeth" <v-po@ti.com>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>,
+	"13916275206@139.com" <13916275206@139.com>,
+	"Chawla, Mohit" <mohit.chawla@ti.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+	"soyer@irl.hu" <soyer@irl.hu>, "Huang, Jonathan" <jkhuang3@ti.com>,
+	"tiwai@suse.de" <tiwai@suse.de>, "Djuandi, Peter" <pdjuandi@ti.com>,
+	"McPherson, Jeff" <j-mcpherson@ti.com>,
+	"Navada Kanyana, Mukund" <navada@ti.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v2 1/4] ASoc: PCM6240: Create PCM6240
+ Family driver code
+Message-ID: <00acc379-2812-43da-aa14-4a43a0d25f79@sirena.org.uk>
+References: <20240126035855.1785-1-shenghao-ding@ti.com>
+ <6c1d04be-c558-4aa4-96a3-ac21ae36bfae@sirena.org.uk>
+ <39804840911a44c8b9da9478f7b4c05d@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Gp4iAJ9213u/5udW"
+Content-Disposition: inline
+In-Reply-To: <39804840911a44c8b9da9478f7b4c05d@ti.com>
+X-Cookie: Jenkinson's Law:
+
+
+--Gp4iAJ9213u/5udW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87bk95klgc.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Morimoto-san,
+On Mon, Jan 29, 2024 at 05:03:48AM +0000, Ding, Shenghao wrote:
 
-On Mon, Jan 29, 2024 at 12:54:59AM +0000, Kuninori Morimoto wrote:
-> We already have of_graph_get_next_endpoint(), but it is not intuitive
-> to use.
-> 
-> (X)	node {
-> (Y)		ports {
-> 			port@0 { endpoint { remote-endpoint = ...; };};
-> (A1)			port@1 { endpoint { remote-endpoint = ...; };
-> (A2)				 endpoint { remote-endpoint = ...; };};
-> (B)			port@2 { endpoint { remote-endpoint = ...; };};
-> 		};
-> 	};
-> 
-> For example, if I want to handle port@1's 2 endpoints (= A1, A2),
-> I want to use like below
-> 
-> 	A1 = of_graph_get_next_endpoint(port1, NULL);
-> 	A2 = of_graph_get_next_endpoint(port1, A1);
-> 
-> But 1st one will be error, because of_graph_get_next_endpoint() requested
-> "parent" means "node" (X) or "ports" (Y), not "port".
-> Below are OK
-> 
-> 	of_graph_get_next_endpoint(node,  NULL); // node/ports/port@0/endpoint
-> 	of_graph_get_next_endpoint(ports, NULL); // node/ports/port@0/endpoint
-> 
-> In other words, we can't handle A1/A2 directly via
-> of_graph_get_next_endpoint() so far.
-> 
-> There is another non intuitive behavior on of_graph_get_next_endpoint().
-> In case of if I could get A1 pointer for some way, and if I want to
-> handle port@1 things, I would like use it like below
-> 
-> 	/*
-> 	 * "endpoint" is now A1, and handle port1 things here,
-> 	 * but we don't know how many endpoints port1 has.
-> 	 *
-> 	 * Because "endpoint" is non NULL, we can use port1
-> 	 * as of_graph_get_next_endpoint(port1, xxx)
-> 	 */
-> 	do {
-> 		/* do something for port1 specific things here */
-> 	} while (endpoint = of_graph_get_next_endpoint(port1, endpoint))
-> 
-> But it also not worked as I expected.
-> I expect it will be A1 -> A2 -> NULL,
-> but      it will be A1 -> A2 -> B,    because of_graph_get_next_endpoint()
-> will fetch endpoint beyond the port.
-> 
-> It is not useful on generic driver like Generic Sound Card.
-> It uses of_get_next_child() instead for now, but it is not intuitive,
-> and not check node name (= "endpoint").
-> 
-> To handle endpoint more intuitive, create of_graph_get_next_endpoint_raw()
-> 
-> 	of_graph_get_next_endpoint_raw(port1, NULL); // A1
-> 	of_graph_get_next_endpoint_raw(port1, A1);   // A2
-> 	of_graph_get_next_endpoint_raw(port1, A2);   // NULL
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/of/property.c    | 26 +++++++++++++++++++++++++-
->  include/linux/of_graph.h |  2 ++
->  2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 14ffd199c9b1..37dbb1b0e742 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -667,6 +667,30 @@ struct device_node *of_graph_get_next_port(const struct device_node *parent,
->  }
->  EXPORT_SYMBOL(of_graph_get_next_port);
->  
-> +/**
-> + * of_graph_get_next_endpoint_raw() - get next endpoint node
-> + * @port: pointer to the target port node
-> + * @endpoint: current endpoint node, or NULL to get first
-> + *
-> + * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-> +						   struct device_node *endpoint)
-> +{
-> +	if (!port)
-> +		return NULL;
+> > It might be better to request the firmware in the I2C probe rather than=
+ in the
+> > ASoC level probe, that way there's more time for the firmware to be loa=
+ded
+> > before we actually need it.  That does mean you can't register the cont=
+rols
+> > immediately though so it may be more trouble than it's worth.
 
-of_get_next_child() returns NULL if node is NULL, hence there's no need to
-check this.
+> I once put request_firmware_nowait in i2c_probe, but it sometimes returne=
+d=20
+> error in some platforms. So my customer suggest that it would be moved in=
+to=20
+> the codec_probe. It seemed filesystem is not completely ready in some=20
+> platform during calling the i2c_probe.
 
-> +
-> +	do {
-> +		endpoint = of_get_next_child(port, endpoint);
-> +		if (!endpoint)
-> +			break;
-> +	} while (!of_node_name_eq(endpoint, "endpoint"));
-> +
-> +	return endpoint;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
-> +
->  /**
->   * of_graph_get_next_endpoint() - get next endpoint node
->   * @parent: pointer to the parent device node
-> @@ -708,7 +732,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->  		 * getting the next child. If the previous endpoint is NULL this
->  		 * will return the first child.
->  		 */
-> -		endpoint = of_get_next_child(port, prev);
-> +		endpoint = of_graph_get_next_endpoint_raw(port, prev);
->  		if (endpoint) {
->  			of_node_put(port);
->  			return endpoint;
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index fff598640e93..427905a6e8c3 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -57,6 +57,8 @@ int of_graph_get_port_count(const struct device_node *np);
->  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
->  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->  					struct device_node *previous);
-> +struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
-> +						   struct device_node *prev);
->  struct device_node *of_graph_get_next_port(const struct device_node *parent,
->  					   struct device_node *previous);
->  struct device_node *of_graph_get_endpoint_by_regs(
+That indicates that this is still racy - shuffling things around has
+papered over a timing issue on their particular system but it's still
+possible to have the card come up before the filesystems are fully ready
+(especially if all the drivers are built in).  If the DSP firmware is
+essential to the device's operation the driver should defer registration
+with the core until the firmware has loaded.  wm8958 should have an
+example of this IIRC.
 
--- 
-Kind regards,
+> > Similarly for the reset, if we reset as early as possible that seems be=
+tter.
 
-Sakari Ailus
+> As to reset, it is also from my customers' suggestion. they found the iss=
+ue that=20
+> i2c access error in i2c_probe in some platform. So they put it into codec=
+_probe.
+
+That suggests the reset might be missing some delays or something and
+again there might be some issues.
+
+--Gp4iAJ9213u/5udW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmW3qtoACgkQJNaLcl1U
+h9DGDgf8Ddtf4ZwjLwPbD5U+SfhXdG5PnDKCAG+Dm/99/W5j65NEv4NLVzKe8GO6
+1A+qnYNIQ+8pqs2PpaBUrrVTODhNOk5MEkICREVOVjNwDqmbOhGVe6vw3d9fiST0
+VJOq6t1HQX4BV8TRuYWKr1FQQSc5OkzCccAnNleZrdrnVsQCR5XvzyaNtE1SXaYF
+DJDZ3H6W1p1zOzeOGTErOha62WUjtaaAZ1e7cZmKp5mljc1BUkHAELBJCuUukMkS
+QwnDiHApQ0XspY8efCWcvf5MYu2uBesQaEIxkCp9k4pT7g0iAmD12bf4BpasHeXy
+CNyYPPIVDy9JB/DrXNJYCoFLw+4ULg==
+=19Xl
+-----END PGP SIGNATURE-----
+
+--Gp4iAJ9213u/5udW--
