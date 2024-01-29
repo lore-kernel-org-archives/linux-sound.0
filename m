@@ -1,183 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE07D154C07;
-	Mon, 29 Jan 2024 15:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FEB154436
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 15:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706543019; cv=none; b=hyraUHWUxhktfGnycxuRz4DV1wOFC/ktVhEKTtMAExRhG7VqP+CIYZBOXE7hKAkMsVanxbi+VX3O9+Gkp5tGy4wfFpSi+b4VHvlhTXvkgiM8vjCPDYixfXOA4fzEKfLAEXdk0B0PP0YP77nkTq3+YPnn0HyVv+TE6rQYnV0zj+s=
+	t=1706543319; cv=none; b=DF8jY1AFjTGJ4IIGLZ3W8Ud6qyfj/wKCL9JWdTVkeQJENv8F+SqYQiPTZhN2nAWmIXgtAgr5P3XeC8KLRihWzZ0X5UtJLK803UeONSiYKrNM0pLG+yJkrthzCfi1oPgY8Vm8vUAoP11jpAR5JmNSZKvIocG3+rvsx7BQrP5kKYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706543019; c=relaxed/simple;
-	bh=n8a6DcN34MCg2EL+T3oLmFAy3UeopUFYPMC/oHMiox8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
-	 In-Reply-To:Content-Type; b=tJQHLkf0+wz6VVFlXlwMntx6130f1IylE8swOY1yh5kUjQiTAH5pk/o3F80r8qt6406yDLk9jQx2gxyCYoo3SApbE3hyyDk7aPIkspzldu1cJYAo//O+WsWFrnf4VceKLfFWd03AUnZ9EIfENrGaAnhXrptPdnWzyaOnCuHsmw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6BQG4Rw; arc=none smtp.client-ip=192.55.52.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706543319; c=relaxed/simple;
+	bh=ZBeINZczaGWk7YpO/vUWjA9wH+oqPxsQELbhYWq5XlU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DzdrAobn+/NPwcFyl1DHZj4X+iZhCgNFmgkTPXb2e2ORDpssIWR8pXFdh2JRTaSDTFRvZu+6vyaj480+5LyZoRHCjoAy36YOVx333c/VDuJpoey9mm0asFQCRW0oXkYXI5T+ocJrT2FS0esbjsr2HWpCzdaI19UQ/zDUj09aJvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I8Ev72vM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sCJocLu7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=laAwEwRW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fkzYpioS; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6BQG4Rw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706543016; x=1738079016;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=n8a6DcN34MCg2EL+T3oLmFAy3UeopUFYPMC/oHMiox8=;
-  b=A6BQG4RwneBFN8Q4gWtiXBLKGTsuaebuepLrO3TglQ93JZ3mevmg9oRm
-   EmgU5AwqtyssKKIAXrEnmIio4ghC5e0mXkmJ4YzujE5ba2Q+VCBLJSvZF
-   iFryVKhwFL1kI+5LXp5HwJKPTQfMNtPmku4NTHlr5Ups+6oSNmw34JnUM
-   W8yNIZvOVq5I7kjyOA/tVr8lsU/9lMPF06KTYAeHc5cFTB8Mlt3bPwr4l
-   yUJf7JAHD0G+CB+fm1zd+U6/QRVOUEf6AmsLb9Mn9unh8datVb41pH7tI
-   FrfDoUu/EgyH9tjl/YL+sCIQWKnlgneyF5dCUULtRK1A1YSfgMOdfGxeU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="434159615"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="434159615"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 07:43:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="960921358"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="960921358"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orsmga005.jf.intel.com with ESMTP; 29 Jan 2024 07:43:25 -0800
-Message-ID: <44a3d4db-7759-dd93-782a-1efbebfdb22c@linux.intel.com>
-Date: Mon, 29 Jan 2024 17:44:58 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I8Ev72vM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sCJocLu7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="laAwEwRW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fkzYpioS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 93B971F7F5;
+	Mon, 29 Jan 2024 15:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706543315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
+	b=I8Ev72vMkM8hIH9ZjNz2F80DC4ZMniWAlkeJoKjr4LsZno6WkcYa3NFFWqpPRs9Qq4rfM+
+	5sXtzyzJtFRxB8mZz8gDqlwFGTGtMXmxct6WOmLvkhNpjBI6qSoR6rVTocgVN1rEcEUidM
+	S/KucNMWh2T4YIShJwUqujeheoOViqc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706543315;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
+	b=sCJocLu7ISblTsBFJnxXB9w53nNKIlfbiZFAAVbbj0KmuyJsltxQNY1H8868pApwqM+q/r
+	ScGTl5htHFtVNaDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706543313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
+	b=laAwEwRWIy+EYFplD+Vp13TzOVSK5YMjYCbRrnktKY+Iux3bP7Mwd6GwmtIaXQAM4UmO1M
+	EYF/u1kUuqLp7e8yH64m6tokblg28kdE7r0juuqwQhXw6vlsYhc9xE5qwgLCUA4URN/wIh
+	fDpuEJaYHLqIe8331YIiX61kmqKLjQo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706543313;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
+	b=fkzYpioSMebr2PMwwGe84OUFkyLB6I49j3UV8hhkDuSLiQkllD/B/pJHmeMHDsjl1PP46D
+	xPX1tX5PwteKbhBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 751CB13647;
+	Mon, 29 Jan 2024 15:48:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id q2BoG9HIt2UCSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Jan 2024 15:48:33 +0000
+Date: Mon, 29 Jan 2024 16:48:33 +0100
+Message-ID: <87jzns5eem.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Alexander Tsoy <alexander@tsoy.me>
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: usb-audio: Check presence of valid altsetting control
+In-Reply-To: <20240129121254.3454481-1-alexander@tsoy.me>
+References: <20240129121254.3454481-1-alexander@tsoy.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, gregkh@linuxfoundation.org, lgirdwood@gmail.com,
- andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- konrad.dybcio@linaro.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org,
- bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, agross@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org, "Neronin, Niklas" <niklas.neronin@intel.com>
-References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
- <20240102214549.22498-5-quic_wcheng@quicinc.com>
- <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
- <7b2ec96b-b72f-c848-7c35-36e61a4072ac@quicinc.com>
- <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
- <2178e799-2068-7443-59b2-310dfdd1ddee@linux.intel.com>
- <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
- <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
- event ring events
-In-Reply-To: <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=laAwEwRW;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fkzYpioS
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[3];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,tsoy.me:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 93B971F7F5
+X-Spam-Flag: NO
 
-On 26.1.2024 23.13, Wesley Cheng wrote:
-> Hi Mathias,
+On Mon, 29 Jan 2024 13:12:54 +0100,
+Alexander Tsoy wrote:
 > 
-> On 1/16/2024 12:24 PM, Wesley Cheng wrote:
->> Hi Mathias,
->>
->> On 1/15/2024 6:01 AM, Mathias Nyman wrote:
->>> On 10.1.2024 1.42, Wesley Cheng wrote:
->>>> Hi Mathias,
->>>>
->>>> On 1/8/2024 12:51 PM, Wesley Cheng wrote:
->>>>> Hi Mathias,
->>>>>
->>>>> On 1/4/2024 6:48 AM, Mathias Nyman wrote:
->>>>>> On 2.1.2024 23.45, Wesley Cheng wrote:
->>>>>>> As part of xHCI bus suspend, the XHCI is halted.  However, if there are
->>>>>>> pending events in the secondary event ring, it is observed that the xHCI
->>>>>>> controller stops responding to further commands upon host or device
->>>>>>> initiated bus resume.  Iterate through all pending events and update the
->>>>>>> dequeue pointer to the beginning of the event ring.
->>>>>>>
->>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>>>> ...
->>>>>>> +/*
->>>>>>> + * Move the event ring dequeue pointer to skip events kept in the secondary
->>>>>>> + * event ring.  This is used to ensure that pending events in the ring are
->>>>>>> + * acknowledged, so the XHCI HCD can properly enter suspend/resume. The
->>>>>>> + * secondary ring is typically maintained by an external component.
->>>>>>> + */
->>>>>>> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
->>>>>>> +    struct xhci_ring *ring,    struct xhci_interrupter *ir)
->>>>>>> +{
->>>>>>> +    union xhci_trb *erdp_trb, *current_trb;
->>>>>>> +    u64 erdp_reg;
->>>>>>> +    u32 iman_reg;
->>>>>>> +    dma_addr_t deq;
->>>>>>> +
->>>>>>> +    /* disable irq, ack pending interrupt and ack all pending events */
->>>>>>> +    xhci_disable_interrupter(ir);
->>>>>>> +    iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
->>>>>>> +    if (iman_reg & IMAN_IP)
->>>>>>> +        writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
->>>>>>> +
->>>>>>> +    /* last acked event trb is in erdp reg  */
->>>>>>> +    erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
->>>>>>> +    deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
->>>>>>> +    if (!deq) {
->>>>>>> +        xhci_err(xhci, "event ring handling not required\n");
->>>>>>> +        return;
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    erdp_trb = current_trb = ir->event_ring->dequeue;
->>>>>>> +    /* read cycle state of the last acked trb to find out CCS */
->>>>>>> +    ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
->>>>>>> +
->>>>>>> +    while (1) {
->>>>>>> +        inc_deq(xhci, ir->event_ring);
->>>>>>> +        erdp_trb = ir->event_ring->dequeue;
->>>>>>> +        /* cycle state transition */
->>>>>>> +        if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
->>>>>>> +            ring->cycle_state)
->>>>>>> +            break;
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    xhci_update_erst_dequeue(xhci, ir, current_trb, true);
->>>>>>> +}
->>>>>>
->>>>>> Code above is very similar to the existing event ring processing parts of xhci_irq()
->>>>>> and xhci_handle_event()
->>>>>>
->>>>>> I'll see if I can refactor the existing event ring processing, decouple it from
->>>>>> event handling so that it could be used by primary and secondary interrupters with
->>>>>> handlers, and this case where we just want to clear the event ring.
->>>>>>
->>>>>
->>>>> Thanks, that makes sense.  Will take a look as well.
->>>>>
->>>>
->>>> How about something like the below?  Tested this on my set up and everything looks to be working fine.  Had to add another param to struct xhci_interrupters to tell the XHCI interrupt handler to say if that particular interrupter wants to skip_events (handling).  This way, its something that the class driver utilizing the interrupter will have to tell XHCI sideband.  It would allow the user to determine if they want to use the interrupter to actually handle events or not on the proc running Linux.
->>>>
->>>
->>> Yes, I have something similar.
->>> I'll share it soon, just need to
->>> clean it up a bit fist.
->>>
->>
->> Sure, no worries.  Will test it when its available.  Thanks!
->>
+> Many devices with a single alternate setting do not have a Valid
+> Alternate Setting Control and validation performed by
+> validate_sample_rate_table_v2v3() doesn't work on them and is not
+> really needed. So check the presense of control before sending
+> altsetting validation requests.
 > 
-> Was just wondering if you had the time to clean up the changes?  If not, maybe you can provide a patch with whatever you have, and I can try my best to clean it up to your liking?  Thanks!
+> MOTU Microbook IIc is suffering the most without this check. It
+> takes up to 40 seconds to bootup due to how slow it switches
+> sampling rates:
+> 
+> [ 2659.164824] usb 3-2: New USB device found, idVendor=07fd, idProduct=0004, bcdDevice= 0.60
+> [ 2659.164827] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [ 2659.164829] usb 3-2: Product: MicroBook IIc
+> [ 2659.164830] usb 3-2: Manufacturer: MOTU
+> [ 2659.166204] usb 3-2: Found last interface = 3
+> [ 2679.322298] usb 3-2: No valid sample rate available for 1:1, assuming a firmware bug
+> [ 2679.322306] usb 3-2: 1:1: add audio endpoint 0x3
+> [ 2679.322321] usb 3-2: Creating new data endpoint #3
+> [ 2679.322552] usb 3-2: 1:1 Set sample rate 96000, clock 1
+> [ 2684.362250] usb 3-2: 2:1: cannot get freq (v2/v3): err -110
+> [ 2694.444700] usb 3-2: No valid sample rate available for 2:1, assuming a firmware bug
+> [ 2694.444707] usb 3-2: 2:1: add audio endpoint 0x84
+> [ 2694.444721] usb 3-2: Creating new data endpoint #84
+> [ 2699.482103] usb 3-2: 2:1 Set sample rate 96000, clock 1
+> 
+> Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
 
-Sure, got stuck fixing other issues.
+Thanks, applied now.
 
-Code is not yet cleaned up, commit messages are not ready etc, but current work is in
-a fix_eventhandling branch:
+But at the next time, please put maintainers to Cc, so that it can be
+caught better.
 
-git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git  fix_eventhandling
-https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=fix_eventhandling
 
-I was in the middle of figuring out when and where the ip_autoclear and interrupt
-moderation values should be set for secondary interrupters
-
-Thanks
-Mathias
-
+Takashi
