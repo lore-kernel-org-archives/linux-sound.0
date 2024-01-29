@@ -1,133 +1,117 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE3752F93;
-	Tue, 30 Jan 2024 07:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706600436; cv=pass; b=k55dZQPR9qL0dqWB13hdi94zSEiInUEALjNmCUR+Ni9fqkTL46Pp6AYxyskxwGyLkqk41exfbB38eNVYYZgpMwsAC2NrYSyOjvTj6r9ogP2STELrcmQA2zpB28QEFv+1nRQnftubMOOzw9xl/JKX29zVdVUe56D4UtVvLRsa7GE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706600436; c=relaxed/simple;
-	bh=gQFi/hgfA9MVHBETu5aazZyA13OZc9rH5VvRgCcJmsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OoFfLGVKic/q29LogRV2ISwUnQlC01cX1g+U4yFgqcYFXE0KngjfcMds7b/xpYLHs5kxYUPA6SuC3t50vE3KKzwhgrXdV694QtCVre5A0VcJgU2tiAWSQJ+oHqM448ILYmWCAikxAUqjbUIzzjJLAyjxS22qIXC6v+97yV7NViw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=mmg4Uety; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B663537E0;
+	Tue, 30 Jan 2024 09:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706605887; cv=none; b=tmJc8S0ZO78LlwbcF/z59Nn1K1AFxTztRXlcwthPn/AheKJOOOAauOBo3UNKQdGlWjZzuEDDVhm5bjCggSs8Qm/2YNY/ADqG0RSUDr3JdSAbN+6dXHObEw97PAYd0VJ64lQBgftPx3/JVC4acLA7nHHWCuA3hEHpr6oBl0i6xaU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706605887; c=relaxed/simple;
+	bh=RvaoRqi6d2649HMPir89XZBkoGY4LvB2aJ08/fzLesM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OwIoCxdBp5hZxuRZ25uccirHrW/xfc0uVG65KgwzNU77ZrQN2wRDHLXoWE7NYYqqMHhr3ZQLGTy4K8VyAoKNRnAnbWZTY0NBXZoozc/ZD0dDNnym1AbiOKYVH/Ybn5vqo8RcBhnnCFPT1obXy9xSQ0R6a+pOodnUwbPGjiXYm1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WWOOqlyo; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="mmg4Uety"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TPHBy1PY0zyPp;
-	Tue, 30 Jan 2024 09:40:25 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1706600429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XXYG2rIBeg/NNZorp9z2BhKReEh61TvwReLHXvCjaww=;
-	b=mmg4UetyKwlC7TSRMl0nDOWPi+zjDxXpOp3M6L3+Qb/TsTqYbPp/4uUv261XYGZBcYHB6U
-	T7T3x9ynxedfSLrcBFH+i/H93sAwKym2r1tj/D1GB2T/SkFWrq1/Kt+oc8YHFDjfatHaM9
-	GduB0g58fL7yX+1xcHMtDKkvA1Pp1X0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1706600429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XXYG2rIBeg/NNZorp9z2BhKReEh61TvwReLHXvCjaww=;
-	b=UJJzQlqCs9VrKm5FbkOAbRgkCMTr9auA3UukM+Cirg/lszktkvqF9Eq5X0OOPQzqyY1zgH
-	1sd2TE0evQiwof0Rp/NhS9QPgZ738HW3BhaVRDZmAvDKyv1e/CfDJchauGIeZMEks+FKYO
-	Gs5KxF3RtGS38UkWzoFa/p1ytG0AjEw=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1706600429; a=rsa-sha256; cv=none;
-	b=b8I/5XUpD8zAG3kEkB9ylC36TMUKxkOVnd3GUPE359jInhtZl89CjKZLsuC/UJuUeEnO3o
-	h5OdGhfPjjgmquLay5oDg7lo+L5ojRZUBSC8QI62oKmUlDJpF6udc9tAur01+JX+nmf0Ct
-	HTROci/T7MAOf+H9Af+iDXNYkNT9M9s=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3FC86634C93;
-	Tue, 30 Jan 2024 09:40:24 +0200 (EET)
-Date: Tue, 30 Jan 2024 07:40:24 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] of: property: add port base loop
-Message-ID: <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <20240129122736.GC8131@pendragon.ideasonboard.com>
- <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
- <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
- <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
- <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WWOOqlyo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706605885; x=1738141885;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=RvaoRqi6d2649HMPir89XZBkoGY4LvB2aJ08/fzLesM=;
+  b=WWOOqlyobAZ/aHu/H5+bqb2uPi9W00i74sxn2oTn9h3jOe9lwbLRmQG7
+   C6y12SuuoOW3selaV5Ut3dycE9IyRJ4Ar88Th5fm3j38D/kD69PrkigyM
+   hSLHmKZP1JaKGsBf/Y00ad3FzQ6aRMwwt6+bVW8+uswOTm7fiz8X50b2/
+   84MoCEeBw45Tc7NXk5wBTEZo+R8tLTaPOyTP3MZH1NoyiaDLTAnWLLneY
+   INZxTRykTqeuMVslw0IF4RLP8kKKJarfRdW5nyXzNX+fwICWxkrEM0QtV
+   fS0iiCXNG0pxEFi9VbE2kC3EzN6/xWvhieuTpxML5Tt/S83o4A7ep2Y3V
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3055983"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="3055983"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:08:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="931378461"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="931378461"
+Received: from vkamysba-mobl1.amr.corp.intel.com (HELO [10.254.116.178]) ([10.254.116.178])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:07:25 -0800
+Message-ID: <4f54a12c-c8a3-414c-b4df-3f7b25e6d524@linux.intel.com>
+Date: Mon, 29 Jan 2024 18:15:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/18] ASoC: cs35l56: Fix default SDW TX mixer registers
+Content-Language: en-US
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
+ tiwai@suse.com
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20240129162737.497-1-rf@opensource.cirrus.com>
+ <20240129162737.497-9-rf@opensource.cirrus.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240129162737.497-9-rf@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 30, 2024 at 09:37:42AM +0200, Tomi Valkeinen wrote:
-> On 30/01/2024 09:31, Sakari Ailus wrote:
-> > Hi Morimoto-san,
-> > 
-> > On Tue, Jan 30, 2024 at 12:34:55AM +0000, Kuninori Morimoto wrote:
-> > > 
-> > > Hi Laurent, Sakari
-> > > 
-> > > Thank you for your review
-> > > 
-> > > > > The strategy sounds good to me. However, I'm wondering if you shouldn't
-> > > > > take one more step in the core, and implement these as fwnode
-> > > > > operations. Or is there a reason why OF is special, and iterating over
-> > > > > ports would be useful for drivers on OF systems but not on other types
-> > > > > of systems ?
-> > > > 
-> > > > I'd prefer that, too.
-> > > 
-> > > It is very easy reason, because I'm not fwnode user ;P
-> > > I'm not familiar with fwnode, but in my quick check, it seems it is easy
-> > > to expand fwnode side functions if of_graph side function exist ?
-> > 
-> > That would be one way to do that, yes, but I suggested using the existing
-> > endpoint iterators as that would keep the firmware specific implementation
-> > more simple. The (slight) drawback is that for each node returned, you'd
-> > need to check its parent (i.e. port node) is the same as the port you're
-> > interested in. The alternative may involve reworking the struct
-> > fwnode_operations interface somewhat, including swnode, DT and ACPI
-> > implementations.
-> > 
+
+
+On 1/29/24 17:27, Richard Fitzgerald wrote:
+> Patch the SDW TX mixer registers to silicon defaults.
 > 
-> But we still need the of_* versions, don't we, for patches 4 to 13?
+> CS35L56 is designed for SDCA and a generic SDCA driver would
+> know nothing about these chip-specific registers. So the
+> firmware sets up the SDW TX mixer registers to whatever audio
+> is relevant on a specific system.
+> 
+> This means that the driver cannot assume the initial values
+> of these registers. But Linux has ALSA controls to configure
+> routing, so the registers can be patched to silicon default and
+> the ALSA controls used to select what audio to feed back to the
+> host capture path.
 
-Yes, my comment was indeed about the fwnode property API only.
+humm, which has the precedence then?
+a) the values set by firmware
+b) the default values set by the driver?
 
--- 
-Sakari Ailus
+Also if the firmware touches those registers shouldn't they be marked as
+'volatile'?
+
+
+> Backport note:
+> This won't apply to kernels older than v6.6.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Fixes: e49611252900 ("ASoC: cs35l56: Add driver for Cirrus Logic CS35L56")
+> ---
+>  sound/soc/codecs/cs35l56-shared.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+> index 35789ffc63af..a812abf90836 100644
+> --- a/sound/soc/codecs/cs35l56-shared.c
+> +++ b/sound/soc/codecs/cs35l56-shared.c
+> @@ -12,6 +12,15 @@
+>  #include "cs35l56.h"
+>  
+>  static const struct reg_sequence cs35l56_patch[] = {
+> +	/*
+> +	 * Firmware can change these to non-defaults to satisfy SDCA.
+> +	 * Ensure that they are at known defaults.
+> +	 */
+> +	{ CS35L56_SWIRE_DP3_CH1_INPUT,		0x00000018 },
+> +	{ CS35L56_SWIRE_DP3_CH2_INPUT,		0x00000019 },
+> +	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
+> +	{ CS35L56_SWIRE_DP3_CH4_INPUT,		0x00000028 },
+> +
+>  	/* These are not reset by a soft-reset, so patch to defaults. */
+>  	{ CS35L56_MAIN_RENDER_USER_MUTE,	0x00000000 },
+>  	{ CS35L56_MAIN_RENDER_USER_VOLUME,	0x00000000 },
