@@ -1,87 +1,42 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C34D60DC7
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 11:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756AD5FEEF
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 12:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706529158; cv=none; b=sig1v7Aph8J1DcNlAGfTCa/XQBbs76f7b/Q4WJsX3us/nlv9bbsrksmvJCUVpfqWrx2DZWhjMd8i6RqHJrGOgz55DGILSWYGqFd9ShKvNs22nHwSCrVB4q/gQl8tEf3hRkKGV3ueq7CZzYPOQdmzgtvNvApI6ZE4iZT0Z8ts3i8=
+	t=1706530399; cv=none; b=ux+oterqKopMxGaOWkfGUaUIrXV/N99oyzVWTpu6dUgux0AEs40RDcgy+oJgcEf9N34swZj6FdXHy0NNle4hQE3aOiGmVtfVR8Aq3Mu6WNZp75P3nfxsSaycotZbzgThOYkri5n8Z2nUR5/6OtTZSEhe72qYBrmPZnoKId/Su4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706529158; c=relaxed/simple;
-	bh=oh0sTMif6CnOQLiL5a5MmyT0hcKnwI/jjGqAII0YSDc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cmiWTse6EagNV/nu1T07bxPcIaRkgUdMmAvM7kGtHeh/6jvpLbSk3+jXomHOBIoi86ByTLKNJAf7pc0UBH0flGt+57Y2PqyyybpnHJ6T8T/liFfeIqkVykgOK4fFI4Ujv/4lJjk88pPnUB+ClmKAnfS0+ddh45wBT2tvE4lXuHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L2VxAzQW; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706530399; c=relaxed/simple;
+	bh=oBuZea6heJ7+Wxl0TVWX2gcSc5ish753ULJigMrE9xI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BcE5kZ/6ODMa+WupnTcIAjmbRGf2b7xBWdxN+y4c/9wr++uPnAcu1yOUBXs+N+a/taLPg4fUb4Sis17p1W8d6uouw4tZFgVVsrdqxRB0GJ+Sa1mFXq1yKfxRfObs8m5Da8ivLniVdAKLkIRgoN3735H26U0STvXJKhHwOX99Za8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=TsyFufUg; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L2VxAzQW"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-55ee686b5d5so1449770a12.0
-        for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 03:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706529155; x=1707133955; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lRX88GpgU1fgsZxup3Gn93xc8N0Fj24AFUmctHwLfn4=;
-        b=L2VxAzQWX1GxMHZawNcSSglVzdU8GE/dTzhkaUYCwbLIfIFdfglH4xrCZUS2u10rn0
-         PZHJHmisvtHx2Q3t5CI7wtlfZuO+QnZ6uF2ZpdPLJWj9DWiiswTD/l36yGhVR8uS8cKu
-         sNu2o27nCbjhlx07Wg5HPEtPXXS3yi70FL4WCOY1KbTkKWek1g4rqJcnoM0aYkZJCwKT
-         A1cZ5NLK7jChQZPG0e+ew2gUAjE3gDDF9UmCXqWtnFDD/w6IRonTSQUvM4pMCYsGFZN+
-         9sX6h2hphk5RQrhagev6fNM1JiVw9sxK+lxK+qstUEArGIOCuj5gYOWOPtaAN23F8+Sk
-         /9fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706529155; x=1707133955;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lRX88GpgU1fgsZxup3Gn93xc8N0Fj24AFUmctHwLfn4=;
-        b=Qv1dcStN0s0oKebn9QWsDLx/wzd6aggDW+fHBjolG8DtiBTOda4bhlIfwT0AQD4XZa
-         N0sPfGmwwFxtJYhuW4y4t1N5VnvrgcLIsh+EPgtRbRQgi627qX+v5wEJ8NtmdmyPc/kR
-         BW/ZMt3YuS5WTUTxabjDSr0wx2gt/orJodnS7tFLT91gUSPy80CHt5hfz8/Y8nZ+kNLN
-         b2i83hkwp/uFOysxEqARu3uf4hwsuKrc/WHIpsnrTZg4XHtGFyDD37HeWbq57sM0r5iv
-         g86iJJuDDrLz4pI6U06DvFM0BjTJ9/g12GmrGRa3wIQtv2x2Hj04bK2MffGwz+Mgeu8d
-         ghxw==
-X-Gm-Message-State: AOJu0YyKpAAfbttAcxEF2M/DoARSjdxcnL4abQlMDSMEpsWNMhLCTndv
-	EStJ81nrNPQuWbHQg2PP2bl+JwKSc6iMqjGyt+tfrr8D4ku8yp3dtutn03GduAE=
-X-Google-Smtp-Source: AGHT+IEdaNoU/u2ZWAjjwYyfTwmF1ZYX/t6iKURfjubU1MuWVDghYTbMVUM9h4+w4ZCmDBHTCFQd+A==
-X-Received: by 2002:aa7:d695:0:b0:55f:72f:5caf with SMTP id d21-20020aa7d695000000b0055f072f5cafmr1120034edr.11.1706529154944;
-        Mon, 29 Jan 2024 03:52:34 -0800 (PST)
-Received: from krzk-bin.. ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id ec19-20020a0564020d5300b0055f29ececeasm19907edb.57.2024.01.29.03.52.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 03:52:34 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH v6 6/6] ASoC: codecs: wsa884x: Allow sharing reset GPIO
-Date: Mon, 29 Jan 2024 12:52:16 +0100
-Message-Id: <20240129115216.96479-7-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
-References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="TsyFufUg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=lAKhp3HhpQcd3g/DJcsNokMhcaki3Px2Zzl26uwuP1s=; b=TsyFufUgBzE4P41EpNnV/PQkhs
+	PYVWKk2muHCP2ZToFlhztcOhmSf1oHuqtYFb4s0C/nwi4+UF0GedyCKsaGvylgUEMCEgHFkOrhkuq
+	rCt16hy7fBKNFW241g7ye7SqbHkupL+ObNtmTExPE/T6JOHOzg0FO1TWuesO5IfllszA=;
+Received: from [2a00:1370:819a:ceb:89dc:eced:962a:5b2f] (helo=home..)
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1rUQVd-000000003C6-1tQ2;
+	Mon, 29 Jan 2024 15:13:05 +0300
+From: Alexander Tsoy <alexander@tsoy.me>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org
+Subject: [PATCH] ALSA: usb-audio: Check presence of valid altsetting control
+Date: Mon, 29 Jan 2024 15:12:54 +0300
+Message-ID: <20240129121254.3454481-1-alexander@tsoy.me>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,125 +44,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: puleglot@puleglot.ru
 
-On some boards with multiple WSA8840/WSA8845 speakers, the reset
-(shutdown) GPIO is shared between two speakers.  Use the reset
-controller framework and its "reset-gpio" driver to handle this case.
-This allows bring-up and proper handling of all WSA884x speakers on
-X1E80100-CRD board.
+Many devices with a single alternate setting do not have a Valid
+Alternate Setting Control and validation performed by
+validate_sample_rate_table_v2v3() doesn't work on them and is not
+really needed. So check the presense of control before sending
+altsetting validation requests.
 
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Sean Anderson <sean.anderson@seco.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+MOTU Microbook IIc is suffering the most without this check. It
+takes up to 40 seconds to bootup due to how slow it switches
+sampling rates:
+
+[ 2659.164824] usb 3-2: New USB device found, idVendor=07fd, idProduct=0004, bcdDevice= 0.60
+[ 2659.164827] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[ 2659.164829] usb 3-2: Product: MicroBook IIc
+[ 2659.164830] usb 3-2: Manufacturer: MOTU
+[ 2659.166204] usb 3-2: Found last interface = 3
+[ 2679.322298] usb 3-2: No valid sample rate available for 1:1, assuming a firmware bug
+[ 2679.322306] usb 3-2: 1:1: add audio endpoint 0x3
+[ 2679.322321] usb 3-2: Creating new data endpoint #3
+[ 2679.322552] usb 3-2: 1:1 Set sample rate 96000, clock 1
+[ 2684.362250] usb 3-2: 2:1: cannot get freq (v2/v3): err -110
+[ 2694.444700] usb 3-2: No valid sample rate available for 2:1, assuming a firmware bug
+[ 2694.444707] usb 3-2: 2:1: add audio endpoint 0x84
+[ 2694.444721] usb 3-2: Creating new data endpoint #84
+[ 2699.482103] usb 3-2: 2:1 Set sample rate 96000, clock 1
+
+Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
 ---
+ sound/usb/format.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-If previous patches are fine, then this commit is independent and could
-be taken via ASoC.
----
- sound/soc/codecs/wsa884x.c | 53 +++++++++++++++++++++++++++++++-------
- 1 file changed, 43 insertions(+), 10 deletions(-)
-
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index f2653df84e4a..a9767ef0e39d 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -13,6 +13,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
-@@ -699,6 +700,7 @@ struct wsa884x_priv {
- 	struct sdw_stream_runtime *sruntime;
- 	struct sdw_port_config port_config[WSA884X_MAX_SWR_PORTS];
- 	struct gpio_desc *sd_n;
-+	struct reset_control *sd_reset;
- 	bool port_prepared[WSA884X_MAX_SWR_PORTS];
- 	bool port_enable[WSA884X_MAX_SWR_PORTS];
- 	unsigned int variant;
-@@ -1799,9 +1801,22 @@ static struct snd_soc_dai_driver wsa884x_dais[] = {
- 	},
- };
- 
--static void wsa884x_gpio_powerdown(void *data)
-+static void wsa884x_reset_powerdown(void *data)
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index ab5fed9f55b6..3b45d0ee7693 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -470,9 +470,11 @@ static int validate_sample_rate_table_v2v3(struct snd_usb_audio *chip,
+ 					   int clock)
  {
--	gpiod_direction_output(data, 1);
-+	struct wsa884x_priv *wsa884x = data;
-+
-+	if (wsa884x->sd_reset)
-+		reset_control_assert(wsa884x->sd_reset);
-+	else
-+		gpiod_direction_output(wsa884x->sd_n, 1);
-+}
-+
-+static void wsa884x_reset_deassert(struct wsa884x_priv *wsa884x)
-+{
-+	if (wsa884x->sd_reset)
-+		reset_control_deassert(wsa884x->sd_reset);
-+	else
-+		gpiod_direction_output(wsa884x->sd_n, 0);
- }
+ 	struct usb_device *dev = chip->dev;
++	struct usb_host_interface *alts;
+ 	unsigned int *table;
+ 	unsigned int nr_rates;
+ 	int i, err;
++	u32 bmControls;
  
- static void wsa884x_regulator_disable(void *data)
-@@ -1809,6 +1824,27 @@ static void wsa884x_regulator_disable(void *data)
- 	regulator_bulk_disable(WSA884X_SUPPLIES_NUM, data);
- }
+ 	/* performing the rate verification may lead to unexpected USB bus
+ 	 * behavior afterwards by some unknown reason.  Do this only for the
+@@ -481,6 +483,24 @@ static int validate_sample_rate_table_v2v3(struct snd_usb_audio *chip,
+ 	if (!(chip->quirk_flags & QUIRK_FLAG_VALIDATE_RATES))
+ 		return 0; /* don't perform the validation as default */
  
-+static int wsa884x_get_reset(struct device *dev, struct wsa884x_priv *wsa884x)
-+{
-+	wsa884x->sd_reset = devm_reset_control_get_optional_shared(dev, NULL);
-+	if (IS_ERR(wsa884x->sd_reset))
-+		return dev_err_probe(dev, PTR_ERR(wsa884x->sd_reset),
-+				     "Failed to get reset\n");
-+	else if (wsa884x->sd_reset)
++	alts = snd_usb_get_host_interface(chip, fp->iface, fp->altsetting);
++	if (!alts)
 +		return 0;
-+	/*
-+	 * else: NULL, so use the backwards compatible way for powerdown-gpios,
-+	 * which does not handle sharing GPIO properly.
-+	 */
-+	wsa884x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
-+						GPIOD_OUT_HIGH);
-+	if (IS_ERR(wsa884x->sd_n))
-+		return dev_err_probe(dev, PTR_ERR(wsa884x->sd_n),
-+				     "Shutdown Control GPIO not found\n");
 +
-+	return 0;
-+}
++	if (fp->protocol == UAC_VERSION_3) {
++		struct uac3_as_header_descriptor *as = snd_usb_find_csint_desc(
++				alts->extra, alts->extralen, NULL, UAC_AS_GENERAL);
++		bmControls = le32_to_cpu(as->bmControls);
++	} else {
++		struct uac2_as_header_descriptor *as = snd_usb_find_csint_desc(
++				alts->extra, alts->extralen, NULL, UAC_AS_GENERAL);
++		bmControls = as->bmControls;
++	}
 +
- static int wsa884x_probe(struct sdw_slave *pdev,
- 			 const struct sdw_device_id *id)
- {
-@@ -1838,11 +1874,9 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	if (ret)
- 		return ret;
- 
--	wsa884x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
--						GPIOD_OUT_HIGH);
--	if (IS_ERR(wsa884x->sd_n))
--		return dev_err_probe(dev, PTR_ERR(wsa884x->sd_n),
--				     "Shutdown Control GPIO not found\n");
-+	ret = wsa884x_get_reset(dev, wsa884x);
-+	if (ret)
-+		return ret;
- 
- 	dev_set_drvdata(dev, wsa884x);
- 	wsa884x->slave = pdev;
-@@ -1858,9 +1892,8 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	pdev->prop.sink_dpn_prop = wsa884x_sink_dpn_prop;
- 	pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
- 
--	/* Bring out of reset */
--	gpiod_direction_output(wsa884x->sd_n, 0);
--	ret = devm_add_action_or_reset(dev, wsa884x_gpio_powerdown, wsa884x->sd_n);
-+	wsa884x_reset_deassert(wsa884x);
-+	ret = devm_add_action_or_reset(dev, wsa884x_reset_powerdown, wsa884x);
- 	if (ret)
- 		return ret;
- 
++	if (!uac_v2v3_control_is_readable(bmControls,
++				UAC2_AS_VAL_ALT_SETTINGS))
++		return 0;
++
+ 	table = kcalloc(fp->nr_rates, sizeof(*table), GFP_KERNEL);
+ 	if (!table)
+ 		return -ENOMEM;
 -- 
-2.34.1
+2.43.0
 
