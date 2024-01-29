@@ -1,155 +1,228 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FEB154436
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jan 2024 15:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221261552FE;
+	Mon, 29 Jan 2024 16:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706543319; cv=none; b=DF8jY1AFjTGJ4IIGLZ3W8Ud6qyfj/wKCL9JWdTVkeQJENv8F+SqYQiPTZhN2nAWmIXgtAgr5P3XeC8KLRihWzZ0X5UtJLK803UeONSiYKrNM0pLG+yJkrthzCfi1oPgY8Vm8vUAoP11jpAR5JmNSZKvIocG3+rvsx7BQrP5kKYE=
+	t=1706544200; cv=none; b=MmfNlaSpV2el8432DzCoHR8p+XnrqtiEEweNXFnkE9lZGvJGyenXY4sWGJyomPmADpybp7b4gkmIYEKnlZuQivnV8DpyXZ4N8MZsvCtp3PZ7ElKhc+J8Va+kZUstq0KpwiWlc3pzhxfufhUPYFZLzcaAv0IG9AUCAmE2ln0PU/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706543319; c=relaxed/simple;
-	bh=ZBeINZczaGWk7YpO/vUWjA9wH+oqPxsQELbhYWq5XlU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DzdrAobn+/NPwcFyl1DHZj4X+iZhCgNFmgkTPXb2e2ORDpssIWR8pXFdh2JRTaSDTFRvZu+6vyaj480+5LyZoRHCjoAy36YOVx333c/VDuJpoey9mm0asFQCRW0oXkYXI5T+ocJrT2FS0esbjsr2HWpCzdaI19UQ/zDUj09aJvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I8Ev72vM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sCJocLu7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=laAwEwRW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fkzYpioS; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I8Ev72vM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sCJocLu7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="laAwEwRW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fkzYpioS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 93B971F7F5;
-	Mon, 29 Jan 2024 15:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706543315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
-	b=I8Ev72vMkM8hIH9ZjNz2F80DC4ZMniWAlkeJoKjr4LsZno6WkcYa3NFFWqpPRs9Qq4rfM+
-	5sXtzyzJtFRxB8mZz8gDqlwFGTGtMXmxct6WOmLvkhNpjBI6qSoR6rVTocgVN1rEcEUidM
-	S/KucNMWh2T4YIShJwUqujeheoOViqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706543315;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
-	b=sCJocLu7ISblTsBFJnxXB9w53nNKIlfbiZFAAVbbj0KmuyJsltxQNY1H8868pApwqM+q/r
-	ScGTl5htHFtVNaDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706543313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
-	b=laAwEwRWIy+EYFplD+Vp13TzOVSK5YMjYCbRrnktKY+Iux3bP7Mwd6GwmtIaXQAM4UmO1M
-	EYF/u1kUuqLp7e8yH64m6tokblg28kdE7r0juuqwQhXw6vlsYhc9xE5qwgLCUA4URN/wIh
-	fDpuEJaYHLqIe8331YIiX61kmqKLjQo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706543313;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2piSA/L0xGXRF3p4mL65FwT4JjlOO72QInXPEV3YXQ=;
-	b=fkzYpioSMebr2PMwwGe84OUFkyLB6I49j3UV8hhkDuSLiQkllD/B/pJHmeMHDsjl1PP46D
-	xPX1tX5PwteKbhBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 751CB13647;
-	Mon, 29 Jan 2024 15:48:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q2BoG9HIt2UCSgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Jan 2024 15:48:33 +0000
-Date: Mon, 29 Jan 2024 16:48:33 +0100
-Message-ID: <87jzns5eem.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alexander Tsoy <alexander@tsoy.me>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH] ALSA: usb-audio: Check presence of valid altsetting control
-In-Reply-To: <20240129121254.3454481-1-alexander@tsoy.me>
-References: <20240129121254.3454481-1-alexander@tsoy.me>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1706544200; c=relaxed/simple;
+	bh=RswJ+iNMz4CBtV4Cr8CVMktyR4DJrm705yqMfUqSDd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aquAqiFyk4fddEhWzh36t2Q0ITrDlRxIiuL3V/AgTBXBTwRVPIVYOdMHXWc3Hy5Z4FHarGcwDlQXA+TKZ16mSB5A01M91lo4wb85LVNCq0ExGj0TOxy1LgHYRGVKf8LFBjF+LuEoGk+oIAtDHe2vMolNEYYhi5265EL8NUQbgbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E2AEDA7;
+	Mon, 29 Jan 2024 08:04:00 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 508083F738;
+	Mon, 29 Jan 2024 08:03:14 -0800 (PST)
+Date: Mon, 29 Jan 2024 16:03:11 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] arm64: dts: allwinner: h616: Add DMA controller
+ and DMA channels
+Message-ID: <20240129160311.359d322d@donnerap.manchester.arm.com>
+In-Reply-To: <20240127163247.384439-7-wens@kernel.org>
+References: <20240127163247.384439-1-wens@kernel.org>
+	<20240127163247.384439-7-wens@kernel.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=laAwEwRW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fkzYpioS
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,tsoy.me:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 93B971F7F5
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 7bit
 
-On Mon, 29 Jan 2024 13:12:54 +0100,
-Alexander Tsoy wrote:
+On Sun, 28 Jan 2024 00:32:46 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
+
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> Many devices with a single alternate setting do not have a Valid
-> Alternate Setting Control and validation performed by
-> validate_sample_rate_table_v2v3() doesn't work on them and is not
-> really needed. So check the presense of control before sending
-> altsetting validation requests.
+> The DMA controllers found on the H616 and H618 are the same as the one
+> found on the A100. The only difference is the DMA endpoint (DRQ) layout.
 > 
-> MOTU Microbook IIc is suffering the most without this check. It
-> takes up to 40 seconds to bootup due to how slow it switches
-> sampling rates:
+> Add a device node for it, and add DMA channels for existing peripherals.
+
+Thanks for the changes! I compared all bits against the manual: they match.
+
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+> Changes since v1:
+> - Fall back to A100 instead of H6
+> - Add DMA channels for r_i2c
 > 
-> [ 2659.164824] usb 3-2: New USB device found, idVendor=07fd, idProduct=0004, bcdDevice= 0.60
-> [ 2659.164827] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-> [ 2659.164829] usb 3-2: Product: MicroBook IIc
-> [ 2659.164830] usb 3-2: Manufacturer: MOTU
-> [ 2659.166204] usb 3-2: Found last interface = 3
-> [ 2679.322298] usb 3-2: No valid sample rate available for 1:1, assuming a firmware bug
-> [ 2679.322306] usb 3-2: 1:1: add audio endpoint 0x3
-> [ 2679.322321] usb 3-2: Creating new data endpoint #3
-> [ 2679.322552] usb 3-2: 1:1 Set sample rate 96000, clock 1
-> [ 2684.362250] usb 3-2: 2:1: cannot get freq (v2/v3): err -110
-> [ 2694.444700] usb 3-2: No valid sample rate available for 2:1, assuming a firmware bug
-> [ 2694.444707] usb 3-2: 2:1: add audio endpoint 0x84
-> [ 2694.444721] usb 3-2: Creating new data endpoint #84
-> [ 2699.482103] usb 3-2: 2:1 Set sample rate 96000, clock 1
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 41 +++++++++++++++++++
+>  1 file changed, 41 insertions(+)
 > 
-> Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> index d549d277d972..885809137b9d 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> @@ -133,6 +133,19 @@ ccu: clock@3001000 {
+>  			#reset-cells = <1>;
+>  		};
+>  
+> +		dma: dma-controller@3002000 {
+> +			compatible = "allwinner,sun50i-h616-dma",
+> +				     "allwinner,sun50i-a100-dma";
+> +			reg = <0x03002000 0x1000>;
+> +			interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_DMA>, <&ccu CLK_MBUS_DMA>;
+> +			clock-names = "bus", "mbus";
+> +			dma-channels = <16>;
+> +			dma-requests = <49>;
+> +			resets = <&ccu RST_BUS_DMA>;
+> +			#dma-cells = <1>;
+> +		};
+> +
+>  		sid: efuse@3006000 {
+>  			compatible = "allwinner,sun50i-h616-sid", "allwinner,sun50i-a64-sid";
+>  			reg = <0x03006000 0x1000>;
+> @@ -339,6 +352,8 @@ uart0: serial@5000000 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART0>;
+> +			dmas = <&dma 14>, <&dma 14>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART0>;
+>  			status = "disabled";
+>  		};
+> @@ -350,6 +365,8 @@ uart1: serial@5000400 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART1>;
+> +			dmas = <&dma 15>, <&dma 15>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART1>;
+>  			status = "disabled";
+>  		};
+> @@ -361,6 +378,8 @@ uart2: serial@5000800 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART2>;
+> +			dmas = <&dma 16>, <&dma 16>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART2>;
+>  			status = "disabled";
+>  		};
+> @@ -372,6 +391,8 @@ uart3: serial@5000c00 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART3>;
+> +			dmas = <&dma 17>, <&dma 17>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART3>;
+>  			status = "disabled";
+>  		};
+> @@ -383,6 +404,8 @@ uart4: serial@5001000 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART4>;
+> +			dmas = <&dma 18>, <&dma 18>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART4>;
+>  			status = "disabled";
+>  		};
+> @@ -394,6 +417,8 @@ uart5: serial@5001400 {
+>  			reg-shift = <2>;
+>  			reg-io-width = <4>;
+>  			clocks = <&ccu CLK_BUS_UART5>;
+> +			dmas = <&dma 19>, <&dma 19>;
+> +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART5>;
+>  			status = "disabled";
+>  		};
+> @@ -405,6 +430,8 @@ i2c0: i2c@5002000 {
+>  			reg = <0x05002000 0x400>;
+>  			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C0>;
+> +			dmas = <&dma 43>, <&dma 43>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C0>;
+>  			pinctrl-names = "default";
+>  			pinctrl-0 = <&i2c0_pins>;
+> @@ -420,6 +447,8 @@ i2c1: i2c@5002400 {
+>  			reg = <0x05002400 0x400>;
+>  			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C1>;
+> +			dmas = <&dma 44>, <&dma 44>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C1>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -433,6 +462,8 @@ i2c2: i2c@5002800 {
+>  			reg = <0x05002800 0x400>;
+>  			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C2>;
+> +			dmas = <&dma 45>, <&dma 45>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C2>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -446,6 +477,8 @@ i2c3: i2c@5002c00 {
+>  			reg = <0x05002c00 0x400>;
+>  			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C3>;
+> +			dmas = <&dma 46>, <&dma 46>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C3>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -459,6 +492,8 @@ i2c4: i2c@5003000 {
+>  			reg = <0x05003000 0x400>;
+>  			interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_I2C4>;
+> +			dmas = <&dma 47>, <&dma 47>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_I2C4>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -472,6 +507,8 @@ spi0: spi@5010000 {
+>  			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
+>  			clock-names = "ahb", "mod";
+> +			dmas = <&dma 22>, <&dma 22>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_SPI0>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -485,6 +522,8 @@ spi1: spi@5011000 {
+>  			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_SPI1>;
+>  			clock-names = "ahb", "mod";
+> +			dmas = <&dma 23>, <&dma 23>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&ccu RST_BUS_SPI1>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
+> @@ -734,6 +773,8 @@ r_i2c: i2c@7081400 {
+>  			reg = <0x07081400 0x400>;
+>  			interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&r_ccu CLK_R_APB2_I2C>;
+> +			dmas = <&dma 48>, <&dma 48>;
+> +			dma-names = "rx", "tx";
+>  			resets = <&r_ccu RST_R_APB2_I2C>;
+>  			status = "disabled";
+>  			#address-cells = <1>;
 
-Thanks, applied now.
-
-But at the next time, please put maintainers to Cc, so that it can be
-caught better.
-
-
-Takashi
