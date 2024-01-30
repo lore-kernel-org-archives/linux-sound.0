@@ -1,107 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B921265BCD;
-	Tue, 30 Jan 2024 09:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CAB537F3;
+	Tue, 30 Jan 2024 11:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706608608; cv=none; b=XvAsafkaoU1arseMb/KzurWN/mAlU58LehRo8FmexkWCIWl7qbqVoD4WuhOa4h7+8l7/mKQeCQuPeu2Vnyw0un96Y7OmrQGGJBU1/Qa0tfE9QyVDUbH45032LCh7nhFX8rVVwY43f/p2y/7DDDckxttWNvLaIqRTSj9mf4l5Gtg=
+	t=1706612683; cv=none; b=VXzsZiu6JQeTxmxwxBEcQUXg6M+7sqVpaWwMlFYCbElU7nbQm3o34o6NQHl4N2oDH+Ss4oNuvWN8o/Dd7zH5CXJxfjqVa2fi6rD96VDs7VxoMrRQ8eTNyuRDlxxZC0GY6LbFj4VS8Fy1fpJjcyo5W26JAwFFP7Lpswb8Aer5grk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706608608; c=relaxed/simple;
-	bh=2VPEHzexv7amn45miqUGZIow01lrVch6FhfSAsTulbI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oBNB0qO8FsFXDEm7KA4cu1gtg/e0k41OwuP7ZxQhs/TrxcZUtlGbXUyJxpJ76aynbgWjx1CFiG3AjWTaaf+Cn3CvX/isooA9CtXMlvVGTE7CpFCwICJV6oLVk1J7iGAjSkrQUlbFX8e8crHkrac0QB47z6iIWrIfp5M8629J/SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lixVOgru; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706612683; c=relaxed/simple;
+	bh=wrZt8z8zTmzW8IvQQjwBzRY7jmPtbq4xDEZvOvmBoRQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r2elb8ZnwKJ//V4F3bSBh1cgDB77ThGIfVVtV+zq+GyM2RCHVhXuUkU/puenx2/wOBwFhgvdy2zCUGBJ93tYHj8QHkOU61rnsbHrXyZanxpEKBlluZ0frFZrqAA0tuzCX7cfMSRI1Wa9y0Wg95nwW1ylN9/Y2HTdVXl3NEDTtoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j3VR5Dby; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yvHBdjZQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j3VR5Dby; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yvHBdjZQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lixVOgru"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706608607; x=1738144607;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=2VPEHzexv7amn45miqUGZIow01lrVch6FhfSAsTulbI=;
-  b=lixVOgruDwwDPGQWr4a0FcxSnnTj5bSXkAfyUjs5dOLvVDfkvstg2ctR
-   YsZ2m3ttn01ndURRrTfuUbxlKMFCc5B/uaRh2q3AA0bLrhKgpO18/bXUe
-   fpL+Id9e0ex60HKrd+P3Q7czELTNmi9cAILBOGxIIfU382+kj6MpYSH1A
-   Ma7GfUmI0om2oXoqRbe34S6HxDEPnptfYCjcjmmtgYhNDu4GNH7nD3Ukl
-   YjYv5Ao1vRDx/jNuEmbyCMhXPCEteUJYYsQP9cYG47YfkZndLU/HPGvDW
-   4U9fyzzrpm/rsKJZggLoICmewnv8lIv+yzDBXbHaSFmwu2T01IcssRQ4X
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="21747643"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="21747643"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:56:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="29852762"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:56:43 -0800
-Message-ID: <8c92d33d-923b-4805-abdf-752e8943072e@linux.intel.com>
-Date: Tue, 30 Jan 2024 10:56:41 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j3VR5Dby";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yvHBdjZQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j3VR5Dby";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yvHBdjZQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 500DB222DD;
+	Tue, 30 Jan 2024 11:04:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706612680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YEVz5JmWBEANKaFyMPvbOuOMOWYWEZA86IFpZQWLBn4=;
+	b=j3VR5DbyoEcoY2hfmObv/PKnjl7aUb2689QjE+gcKoIQEbCOPQdbuJP5yGMNUmR5XfLK1B
+	HgdLFWF2jr2qJv7NMfsVT06uni39tXwpA9/WjNbNqq/lPugVCcBp48xC82A09XL3b/O2BW
+	BmLEf/7i69238PTN9UmjxjDAqddWgzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706612680;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YEVz5JmWBEANKaFyMPvbOuOMOWYWEZA86IFpZQWLBn4=;
+	b=yvHBdjZQthgfG6zpBOFsG6QnIvlJswOuf8brj2d/ZdRm0ChkyAl0i0Bf49QgoPuibHRMz2
+	fpJ1DUp68i+/WKCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706612680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YEVz5JmWBEANKaFyMPvbOuOMOWYWEZA86IFpZQWLBn4=;
+	b=j3VR5DbyoEcoY2hfmObv/PKnjl7aUb2689QjE+gcKoIQEbCOPQdbuJP5yGMNUmR5XfLK1B
+	HgdLFWF2jr2qJv7NMfsVT06uni39tXwpA9/WjNbNqq/lPugVCcBp48xC82A09XL3b/O2BW
+	BmLEf/7i69238PTN9UmjxjDAqddWgzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706612680;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YEVz5JmWBEANKaFyMPvbOuOMOWYWEZA86IFpZQWLBn4=;
+	b=yvHBdjZQthgfG6zpBOFsG6QnIvlJswOuf8brj2d/ZdRm0ChkyAl0i0Bf49QgoPuibHRMz2
+	fpJ1DUp68i+/WKCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFF5D12FF7;
+	Tue, 30 Jan 2024 11:04:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jUMhOcfXuGU4PQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 30 Jan 2024 11:04:39 +0000
+Date: Tue, 30 Jan 2024 12:04:39 +0100
+Message-ID: <87jznr3wvs.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kenzo Gomez <kenzo.sgomez@gmail.com>
+Cc: alsa-devel@alsa-project.org,
+	david.rhodes@cirrus.com,
+	james.schulman@cirrus.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	perex@perex.cz,
+	rf@opensource.cirrus.com,
+	sbinding@opensource.cirrus.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v3] ALSA: hda: cs35l41: Support additional ASUS Zenbook UX3402VA
+In-Reply-To: <20240127164621.26431-1-kenzo.sgomez@gmail.com>
+References: <874jfdwsfg.wl-tiwai@suse.de>
+	<20240127164621.26431-1-kenzo.sgomez@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sound: soc: wcd934x: fix an incorrect use of kstrndup()
-Content-Language: en-US
-To: Fullway Wang <fullwaywang@outlook.com>, broonie@kernel.org,
- srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- fullwaywang@tencent.com
-References: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-0.60 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[11];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -0.60
 
-On 1/18/2024 8:52 AM, Fullway Wang wrote:
-> In wcd934x_codec_enable_dec(), kstrndup() is used to alloc memory.
-> However, kmemdup_nul() should be used instead with the size known.
+On Sat, 27 Jan 2024 17:46:21 +0100,
+Kenzo Gomez wrote:
 > 
-> This is similar to CVE-2019-12454 which was fixed in commit
-> a549881.
+> Add new model entry into configuration table.
 > 
-> Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
+> Signed-off-by: Kenzo Gomez <kenzo.sgomez@gmail.com>
+
+Cirrus people, could you take a look?
+I'm inclined to take as is, unless you have any objections.
+
+
+thanks,
+
+Takashi
+
 > ---
->   sound/soc/codecs/wcd934x.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  sound/pci/hda/cs35l41_hda_property.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-> index 1b6e376f3833..4565a0e1877f 100644
-> --- a/sound/soc/codecs/wcd934x.c
-> +++ b/sound/soc/codecs/wcd934x.c
-> @@ -4990,7 +4990,7 @@ static int wcd934x_codec_enable_dec(struct snd_soc_dapm_widget *w,
->   	char *dec;
->   	u8 hpf_coff_freq;
->   
-> -	widget_name = kstrndup(w->name, 15, GFP_KERNEL);
-> +	widget_name = kmemdup_nul(w->name, 15, GFP_KERNEL);
->   	if (!widget_name)
->   		return -ENOMEM;
->   
-
-This change looks weird to me, and looking at code I'm even more 
-confused. As far as I can tell code tries to find a number in w->name. 
-It shouldn't need a duplicate string for this, it can search in existing 
-one, same applies to referenced commit.
-
-And when it comes to a549881 as already mentioned in 
-https://lore.kernel.org/alsa-devel/7573d8ce-7160-39b1-8901-be9155c451a1@suse.cz/ 
-the size is at most 15 not equal to, so change was misguided. If you 
-look at actual code widget name is around 8 characters.
-
-Also it seems like consensus was that CVE was bogus and it was a wrong 
-change:
-https://lore.kernel.org/alsa-devel/20190618230527.GE6248@lindsey/
-there was a revert send, but it seems like it was not applied:
-https://lore.kernel.org/alsa-devel/20190612133040.5kgtio7gidxx64gh@xylophone.i.decadent.org.uk/
-
-
-
+> diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+> index 35277ce890a4..59504852adc6 100644
+> --- a/sound/pci/hda/cs35l41_hda_property.c
+> +++ b/sound/pci/hda/cs35l41_hda_property.c
+> @@ -76,6 +76,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+>  	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+>  	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+>  	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 1000, 4500, 24 },
+> +	{ "104316A3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+>  	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+>  	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+>  	{ "104317F3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+> @@ -410,6 +411,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+>  	{ "CSC3551", "10431533", generic_dsd_config },
+>  	{ "CSC3551", "10431573", generic_dsd_config },
+>  	{ "CSC3551", "10431663", generic_dsd_config },
+> +	{ "CSC3551", "104316A3", generic_dsd_config },
+>  	{ "CSC3551", "104316D3", generic_dsd_config },
+>  	{ "CSC3551", "104316F3", generic_dsd_config },
+>  	{ "CSC3551", "104317F3", generic_dsd_config },
+> -- 
+> 2.43.0
+> 
