@@ -1,222 +1,103 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2070.outbound.protection.outlook.com [40.107.7.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E7C59165;
-	Tue, 30 Jan 2024 13:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.7.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706622195; cv=fail; b=NaMKbbLc7EuS9V1CX0GHyLceL+i9l1peEgfpqVM266j+GOyX7pqFVbPQ48CJOyu2Gu2DkOiSrpILTTTvz/Uq1N43hD8NMrIowlBW+HCmWUhGYvm/kh5bAtvX3+AB7kC8ofygr6cS+JxQiVR3iTRsYafdtwYKm2OYa01axqLvfBs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706622195; c=relaxed/simple;
-	bh=I7SYEJnEZB3CClQTqq5JQtCPhGQwthl06zhQ/SLqxm0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=g4zta8Vh+TN4vtPNAI09pFgTyFgzSuRNu/3E/8UEswPW0I9C3aQuvkZjdbykBJ8GSo6k/J6jaHnJIg0R83PHFzFq1fwU8d0DxEr1TY77Duo5Xj+AG0Cut3yMTEsyAwB8nYawn95HPHsDX7+Az/lMrKYQGQUcG6vDMexROlgXWwc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=sZPz5MO1; arc=fail smtp.client-ip=40.107.7.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44037E571;
+	Tue, 30 Jan 2024 15:08:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706627334; cv=none; b=kAddFpAVaOJvEAZeCgp+kIlMUcJRcrU4dC5qlpLo4cwIRJXTlWJIPUyDuVl54Oo5DhNJdffY89XvKasShh67V473ClvRT24f6i9bHL4telteWzTbKWzwBWtNXmm2JlxaSm/lSnoC/9DKaxigqD8DVhVoWgkaeRsKyMU6/yOXir4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706627334; c=relaxed/simple;
+	bh=gt6ZBFTnKL/5sBV+c5oeWXN02iUnRArxPefZndY3Pnk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d/nqKerMBQm4+wSSTK5Q4ycAYp9fO9qnh0/SVA2Vkcbgm1R0QWwPqhFt3vRGYHzm/3R3cWlTAOStCeX+nBob5tuROnpPNZH0E6GSnXEDO6HgBudL85TuhbCmF3LOhDGh91VG4qopmlz6Die0T5007eZaB1MwqdBYRDZPl0dAvIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRm4fMm6; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="sZPz5MO1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZHa6bzmE+I97kkcDzKVE0Gi2YKfe/GI0o2/SSb3HFFlwKtPQlDM5QCcXwnXN/4yKPZYu0INKIkzkVsV54PVflGUU2rxa+4rSgE/NMLKopUzVSfZhvUwUhffV/qYPusn1QrhHjZi8a+25fCZKzpNNZ4f1TLLRbhl1rE1uMPsl6woxoU3CKUSrsmiR5qE1CG60YFLcQTYyHC3raIR0736eZtdi+Sgj2hz3CNT2DN1+4oMdOieLMgGV9g21VFkPMI2eXJml9T3AoFHsEdw8+2PtHO8Ke9HjNV7WPY2XbtOp1bnbiOrZxAfh3Xnv2Rg9BtUChYyG75dBcp7EjvOJ92AVGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=npttPUu846/xRLQiFFMXnOZgMlEsxqqAmmGW5IYBRzM=;
- b=ZxlbzCz2/JasfWgZ+GhcNsasRI0QspMY5oUlvxIwyKfBHtatj1jAjh6n3yZhgGUAQEzitaq+gAzcPsEQFqQrFzfjo2SoOgwxEi1OjGHIZV2rOrjXLw0vaa7W9o6HS0syWr2t/d+YcBcE6l77rxxzA9cJyv5FRpBS94tIpcgd3RgEtGg7e3CzeFbQCGTGWgM6j78FfC29tXP2QaYxnlYM0JCWpV+dM4JIbskZnFwLURAS8yE3PB2yOD39HNhKhndC70GWlXpSVFUHdDY5oLmhZCYkKKfuMTYr90GDExhlpVmvv3FQJmuGZCHlCU6btLoal9qEYfoyv6Jl4W1/LGRQTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=npttPUu846/xRLQiFFMXnOZgMlEsxqqAmmGW5IYBRzM=;
- b=sZPz5MO1hDQFRGH8hYgMzL7GK160puuIIZiEbC2IwPZ+dw1AAjUc4hRbgmVPBqI5KTBTmR8ka33cXErbuqXvBr3Bi8PfzUc3Bi8cwJ8KqPoFL4sE68PFW75mcn4AtB+MIS5g/lXBftKzP7ArRNRoK/FPhUmzB7uKZ+LgSF1NSiM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by GV1PR08MB7777.eurprd08.prod.outlook.com (2603:10a6:150:55::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.32; Tue, 30 Jan
- 2024 13:43:07 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::c8ee:9414:a0c6:42ab]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::c8ee:9414:a0c6:42ab%7]) with mapi id 15.20.7228.029; Tue, 30 Jan 2024
- 13:43:07 +0000
-Message-ID: <f3bd1cd4-5f19-4710-a016-85d38dff11f1@wolfvision.net>
-Date: Tue, 30 Jan 2024 14:43:04 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: xmos,xvf3500: add XMOS XVF3500
- voice processor
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20240130-onboard_xvf3500-v1-0-51b5398406cb@wolfvision.net>
- <20240130-onboard_xvf3500-v1-1-51b5398406cb@wolfvision.net>
- <ceb75d84-3e6f-40cd-97cb-ee6ccb14e7a6@linaro.org>
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <ceb75d84-3e6f-40cd-97cb-ee6ccb14e7a6@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: VI1P195CA0072.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:802:59::25) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRm4fMm6"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33af4a0beb3so1142022f8f.2;
+        Tue, 30 Jan 2024 07:08:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706627331; x=1707232131; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KtGjQl1d9FfHCqjjrdy9wKAjB2t+XgpMCiYod9Q5V/Q=;
+        b=NRm4fMm6/UB3dZZxrW/vLL75nZGAmVYLlHDj7yanWQQXHiwX4VSwslRB2V0HSuTzmj
+         t53lhi8+Kt+u+Zp18w2SNsL7Dc3j/DQTnH9MFEk+aYJJNtcJTDwjghd4nmae+7F/h0og
+         0Wh/rWXuK7Yzcr3jRvNxuSBNDPtuq5fwuqLL0O2WGFLQoUPFUclycGjsHzcEQdyZZBwy
+         HXaP3OsaEZEcLYxSZbAr8RHC1ErLr3GD2F/PRCbrBUsz+ZgYZsnD99Vec5hhuKV2VFv2
+         qZ7iP72qF7Rc0tFlxeaiyV1cnDCtkUVXA4yu/JzyvWi+0sd2lgiYI8y5fNkZH0a5wGZo
+         s8Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706627331; x=1707232131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KtGjQl1d9FfHCqjjrdy9wKAjB2t+XgpMCiYod9Q5V/Q=;
+        b=jYVcMRfD/jiTGQ0rJETysr4bh54L4GOJMeQDwZ72rNY45hNbQUWd0x78Iho0VyIa/U
+         lvdSKhE0OZ3tsgXVN0ukKorCdXYyzZMs9v3D0eTU/Y80K6+u27CTJ8jUg+AsPwc2RLpq
+         VVLMvyn8LHn/yuG505xhfi5K+EoSvYWoIatG8FPi3S0TrPaTBmzwM9IMnOdLTfdoFi7x
+         cCzFlMuPmy3iLrAgee47MyAHe1aWuZ/X3Ngu0K8EWKQK5HcMFSKBGyZ38BR94v44hIHh
+         cwPAMQeyI1cZqzG/1LbPIR3Lkij3YrPa6t6eDPYrofbpSETAB0mM+oR0AlC7rk7W8jU7
+         3VSw==
+X-Gm-Message-State: AOJu0YynCVGKPIB8Mr8A3Z0NHOh+otE3XL3q30eruuFlHvxf4B6SQoR3
+	vj87+U3FdVuAqOAq6PMmson70K3+3vtHFYfpeSAst3SjaksuQ7hYav0JyeEf
+X-Google-Smtp-Source: AGHT+IH0TasqRgTVunzA7WkX9JfHL9rnihj1JwXqPzmOH1JcDmRE5c9xJSHuLlRAPT3DAvbPCfCRAg==
+X-Received: by 2002:adf:f9c4:0:b0:33a:fd2b:bcc0 with SMTP id w4-20020adff9c4000000b0033afd2bbcc0mr920850wrr.5.1706627330713;
+        Tue, 30 Jan 2024 07:08:50 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2500:a01:1b62:fd0:29f3:5f7b])
+        by smtp.gmail.com with ESMTPSA id u11-20020a056000038b00b0033aed5feea4sm5821983wrf.54.2024.01.30.07.08.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jan 2024 07:08:50 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] ASoC: sh: rz-ssi: Fix error message print
+Date: Tue, 30 Jan 2024 15:08:22 +0000
+Message-Id: <20240130150822.327434-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|GV1PR08MB7777:EE_
-X-MS-Office365-Filtering-Correlation-Id: 671ab9fd-9f8d-4a7a-4bbc-08dc219963dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	4E4qilu3knZwD/yauxggUiYjJwh8FP/ZVwov81YszLbIu5NHzUyfpkhecCTCzr/bvhgDigCwr0xF7+khwRJpxERUAqh26L4Eekew/xIEnfb7qHWBgpC7cPb38taMzVLxHNup4ntqc6oJPKbbszWY3+3WfLA6jDyGLCaokq3IXvITUu+dy1HrLUKWGtPCjBd7xAYBuZCQDQekHrTYQUF/fCAoVbyBlbwFqQTU92s0GjcpOf6AxKa6bQLRIDzDLZXKyz/mjl+WO6Bmlje0IZAElLrCLGOa1wH4oeNxautDQu23kvXjbQjvoaMO4ZpEkwviqeYxixn6FkOJBSbhLrnsFEJKYyou07RNRM0i6F+trdjA/0wXB3CPxzJzJGpL1QPvaxsqewaVIZh/tgINIBgomJEEesla48OEnaDfoa7572SaHXZJxfw3HRkeDHoYHkuHJ59GTE4UvFdiPsyYvk8IPZb1vOLBw6d5+3tFuP11ZuXblNNT/ZGOHGNm4bKPscDv+Ag/dJ7I+8exl06LkhLJ+CteUUK2T4QYGu+MPMPVc3tLTRKzdhTxRYX/kwqaA+WsM5FF7OIXYbDNhyCA0ria52ELqDRWJPoXhJY4DVkEi/RwjFePMav9WYN8dogbk21BrZJw7dXs/K/2VvdL8NBYfeyS+dUw3a9BtYV2uIXlAWE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39850400004)(346002)(136003)(396003)(376002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(2616005)(2013699003)(41300700001)(26005)(31686004)(66556008)(66476007)(316002)(478600001)(36756003)(966005)(6512007)(53546011)(6506007)(6486002)(45080400002)(6666004)(38100700002)(5660300002)(7416002)(31696002)(66946007)(2906002)(86362001)(110136005)(4326008)(8936002)(8676002)(44832011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cnZ2YW5SWHNBM2g5cjhGTEFDTWdxakZRaVJPZ0V1TEpNRFBWNkNxMnlxU25H?=
- =?utf-8?B?UHlLNkVzTFpsdUszWnZ1NU5QUVk1TE9nVEVUTTIyVXdJdXQ0elRlWktXR041?=
- =?utf-8?B?amd4d2RIbnUzenJDcWdZU0Z1YVdic1RnQTB5MkI4L0Q0RGFlZENXaThGelVh?=
- =?utf-8?B?eHZyUFhrUStlN0VYS3pBbEJuVDlxVlNYU2MzWmpEeW9uWXIwNzRjQjE3Z0pa?=
- =?utf-8?B?eE1qOE02YUFMSm5GU09vRzM1bmYwOGNWZ0dXYjNmay81NnFnTDNMRm9nN2M4?=
- =?utf-8?B?STlRQVVCbUpqZWdWMUh1V0ppUTZZSUhuWUZnL0U5eVJBRTNKZEIyVUZzNzZE?=
- =?utf-8?B?Mks5RVpoU2I5a3Q0VWtDU2Q0YVdCeGtmcHdLMlY0ZnRDcXlwUmw0eUx1enRy?=
- =?utf-8?B?dUl4dDNtakZxS3N2bDZHQ3RQL25LTTd0Mk1hSnYrZG1rZEUzeWEwRytFM0tN?=
- =?utf-8?B?RWNqc2tZMEhzOUZ5Tjh1dFlkR1RTZk1aSkhlZTAzWUxLOHZNSWZzdVZQWVpw?=
- =?utf-8?B?UWgyRUVTR1NYa0UrWmxPY1NlL0ZXaGdxYnhqcnV4TmxKWVBOWHYvTCsvMmlX?=
- =?utf-8?B?eGlZbkhPVHNNRlhzdDFuUnZZWjVmZXJ1Y2pwdHdVSzBMdFozTFZ3bWlIQVlG?=
- =?utf-8?B?S0JockE4SkROUk1KdEZPclpuMmZDTFZFQWNpUUlGRHd2eWlQbTR1am54M0hk?=
- =?utf-8?B?bTdjZytYcHdFTE0vYm5ZeEJUWDY2dnNTNUpnZ3dtKy9YamcvKzJSbDlUUElh?=
- =?utf-8?B?a3RpRFdTZ1A5TFl6cWY2cnJoRWIyak0xZmJlak13dWdQMHZpU3grcEtiQVZT?=
- =?utf-8?B?NlVGb3ZGM0pYNUEzUXpYQ1FYL3hCNzBCR05YQlRFVVZZR3ZaanFWaWErYTNh?=
- =?utf-8?B?ZTMzazVZeXZvNURxblVDRWJwN0F6UVEzSXlKRXFuYWs3YXcvRW9rV2RINGZF?=
- =?utf-8?B?MU41L21LOG9ORlhnWlpNQ216Q21HMU5SMDlLTU9qdlNqd05WZTFDdWNGeEl5?=
- =?utf-8?B?R29EcHpuaTV6Y2Y3Wk55Uzl3MTFHamdRZXBuSmdkaGFwcDhYVkI4UDNQWUs5?=
- =?utf-8?B?RnBYTS9ULys4WUVqR0dWNXZRcnl1a3oxTXJyZDZCeG5YOTJteVFJWlc4c0ll?=
- =?utf-8?B?ZkJudVYySWh1d1JWSVdvRFhjMVIyRmJQT2x3cEZ6ck0ybzZaMlVWeTR1TXI2?=
- =?utf-8?B?WTJZQ1dISjB6cVlqam5tQTl4aERhdXdWdTBzcWZhMm51ZlV0eHJnRnVnRzh0?=
- =?utf-8?B?RlMxSzFQRWViR205b0FtTlo4NVdmWFNBVHdLWkxsOWR6MUUwYThzdkY1ZGwr?=
- =?utf-8?B?VVJ6aW1VM0Z1a2FCUGJnL1VEUVUwU2hJOGVlZkZtYmp0b0ZueEc0d2gwMC8v?=
- =?utf-8?B?UXhsVlBUYXBIYVhwbGpVYndnNmhLbkcrRkpnS0tLWEloeGh4QUNYdkFMS2lU?=
- =?utf-8?B?ZDk5NkRDME84b09OekluWU0yQzBuaDVSWmdITXNqNHprYnNNdDBJQ05OQ3Nm?=
- =?utf-8?B?Z29ySy9ub0JuN05OREhTUkRnNUlZbUpXMi84Qi9qdFRndjhoaU5rWXBvUHBL?=
- =?utf-8?B?eHFJQldsYXJoMUJ1aTUrSGMrNjVhdkIyejBHQjgzQlNYUGRiZUVkeU1ObURj?=
- =?utf-8?B?NTdxQVZVd2xWUU9lNUVaMWhEM1FTQkxmQ25Cb29tVkd6ZEZFMmhBRXpabGdG?=
- =?utf-8?B?MGpnL09CclRjQS9rcVpQWVZldTJRbkhLdzBhR2VoWjQ2Vmt0REhuWlFFSCtn?=
- =?utf-8?B?YmVmZ2w5RXovOHlhUGJnUE0vUS96UzJVUlF6WFNsVzdDMkdNcHFpWkFtODRq?=
- =?utf-8?B?dSs0ekxMaURBVUpUNFBBb2xOemtoNGpQRjlTd0kyQUd2Tmpna2hLUXZHMEtM?=
- =?utf-8?B?WjFaNmJzbEdJMzFnZ1FDUGQ4TUlnckxtaHYraTRXSmZ1UXh5SlJyR3dDVkc0?=
- =?utf-8?B?UXIrb2FUVmNaUDI0dFZKNTUxQk1QSUJRd1RxejRwQi9VRTdJcEFYcy9JZlRr?=
- =?utf-8?B?SjJROTU0dGFHSi9mVHpZMlFuNFdoVDZsbERlNit1VDkwdnUzMXgxbS94MGtJ?=
- =?utf-8?B?MUhTUFUzR3hweEVPNXVwaGp3QmFabmc2eGJXQndac2dTMVRXNjZ6b1dSRVdK?=
- =?utf-8?B?WHB5VnNRU3QzWDJWcTYzMHNMWjJXQ1FpbUYwcWdFeVVaTnd2eWJxcGJpL0xB?=
- =?utf-8?B?cGc9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 671ab9fd-9f8d-4a7a-4bbc-08dc219963dc
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 13:43:07.0223
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iIN31rIO+6tFVJ0XLwIccjDpP/jfliNZ4b3qmeYXqEBNa92riwMgT1jPePZ2HAsU26c0a2qFfMbQDwrap6WidE8SqVGTVnfj4DPduXpl2ig=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7777
+Content-Transfer-Encoding: 8bit
 
-On 30.01.24 13:34, Krzysztof Kozlowski wrote:
-> On 30/01/2024 13:26, Javier Carrasco wrote:
->> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
->> multicore controller for voice processing.
->>
->> Add new bindings to define the device properties.
->>
->> [1] https://www.xmos.com/xvf3500/
->>
->> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->> ---
-> 
-> This should be v2. Also, please provide changelog either here or in
-> cover letter.
-> 
-That would also have saved me from giving a reference to a previous
-discussion. In that case I will use v3 for the next version and the
-previous series for the sound subsystem will be mentioned in the
-changelog as v1.
->>  .../devicetree/bindings/sound/xmos,xvf3500.yaml    | 51 ++++++++++++++++++++++
->>  1 file changed, 51 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml b/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml
->> new file mode 100644
->> index 000000000000..d7d5bda23b1b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml
->> @@ -0,0 +1,51 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/xmos,xvf3500.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: XMOS XVF3500 VocalFusion Voice Processor
->> +
->> +maintainers:
->> +  - Javier Carrasco <javier.carrasco@wolfvision.net>
->> +
->> +description:
->> +  The XMOS XVF3500 VocalFusion Voice Processor is a low-latency, 32-bit
->> +  multicore controller for voice processing.
->> +  https://www.xmos.com/xvf3500/
->> +
->> +properties:
->> +  compatible:
->> +    const: usb20b1,0013
->> +
->> +  reset-gpios:
->> +    maxItems: 1
->> +
->> +  vdd-supply:
->> +    description:
->> +      Regulator for the 1V0 supply.
->> +
->> +  vdd2-supply:
->> +    description:
->> +      Regulator for the 3V3 supply.
->> +
->> +required:
->> +  - compatible
->> +  - reset-gpios
->> +  - vdd-supply
->> +  - vdd2-supply
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    xvf3500 {
-> 
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> Previous version had different code here, so I don't understand why this
-> became model number.
-> 
-Thanks for the reference, I will change it to the previous "voice-processor"
-> Best regards,
-> Krzysztof
-> 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Best regards,
-Javier Carrasco
+The devm_request_irq() call is done for "dma_rt" interrupt but the error
+message printed "dma_tx" interrupt on failure, fix this by updating
+dma_tx -> dma_rt in dev_err_probe() message. While at it aligned the code.
+
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ sound/soc/sh/rz-ssi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
+index 14cf1a41fb0d..9d103646973a 100644
+--- a/sound/soc/sh/rz-ssi.c
++++ b/sound/soc/sh/rz-ssi.c
+@@ -1015,7 +1015,7 @@ static int rz_ssi_probe(struct platform_device *pdev)
+ 					       dev_name(&pdev->dev), ssi);
+ 			if (ret < 0)
+ 				return dev_err_probe(&pdev->dev, ret,
+-						"irq request error (dma_tx)\n");
++						     "irq request error (dma_rt)\n");
+ 		} else {
+ 			if (ssi->irq_tx < 0)
+ 				return ssi->irq_tx;
+-- 
+2.34.1
 
