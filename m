@@ -1,60 +1,64 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43FB66B29;
-	Tue, 30 Jan 2024 11:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74206BB34;
+	Tue, 30 Jan 2024 11:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706613575; cv=none; b=Eu813VhJ3wDdY5GJXSEoQGUYlvsS2lgY6pWu1AGB80h/FHE2guv350E0BxdjmPsDrgU/E+2o1JP/8GoaxF6X3AbDA1fCQoPGYNheIs3b0C9zixkErP5+2+xoJuffDQbj4nmRtUYJ5t95VLO9nrrwhRdR+jDy/5WX1KzOsM/0z54=
+	t=1706613588; cv=none; b=h6keGb3pQ2xtTVI0Pl+wJ1cXg+aA7+xrXjZDjBMpXkrV7dGMTZt4F/sfqsFk86nFTfIKimb1nlHwohSDdAhIzlcL1CI3C6QGot5unktkBror4/AlR1lXsuqiIkKqfYzF5r5VeNJ83oHLD+aX5Qhiwo/1hR5aALhk71iJ5ApSto8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706613575; c=relaxed/simple;
-	bh=s70PcDfdKXIabz66bTOUuUFV2uNNbNxl1c/riZr0MiQ=;
+	s=arc-20240116; t=1706613588; c=relaxed/simple;
+	bh=eVKTN5aZD14ysRn5DdnFUUMpDWXE/AboMcyV1o2Xpbc=;
 	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Cs+VhR8VpjZw+k2od27kUpHdvBIYJl7RVunWShvW2n2jgrAsdj029/7iEJUZgruep33M0H5eZcOianuQ93CqNZfchl3Ma+0NldQ9D5GcRvvNczkjvmoSMCr8z/gGFx13N19D2hzL/dkgwOn+UeDyCJu31S+vibm0b/ixPOrhsq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=UES6Peze; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=ApNTNDBmNWiyE3Fvc5nG3b4nfWil/D/+QhlaL7FzTbAyZNPsqet6SSFJZyAH0wqsD/CGFeRw0+9E+cgKbZn6rAZj3TBXNeW30Pj/dybDODdaz3CuxjqiuD4gQxkPCyeqy6L7O7y/94WyoMf0zBiG4Xrq37ZuYagfwY+eQBi9K24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DGLz/eeY; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UES6Peze"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DGLz/eeY"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40U6iRsK012474;
-	Tue, 30 Jan 2024 05:19:19 -0600
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40U5tDAh019737;
+	Tue, 30 Jan 2024 05:19:39 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
 	from:to:cc:references:in-reply-to:subject:date:message-id
 	:mime-version:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=Ukr1kR4PFuuto5kMeCHeJHaq5ynfZ1UT2dmL/7dyb4k=; b=
-	UES6PezeE76ROxOmmxDiwBhE2hq3PdiS2dOR1RgbbD7snLVIEjpAEnIe038MG4CS
-	EEMB7feNI4IaZTgMVTyd468BE5CU19w9FPFc2k13QuKlFLPSHbh2wHQIikU6uIQ/
-	BlNGCE91LjNvSww2/NhX5dVcN31H+dGTzF7jBabFe3l4fgxejWe+bGHVYUvX6/c/
-	hG2fJKVIwl22PRVONIMYWNBneYzUAQscTz9XDQCcJEqbkdykFuUa0VT4kQmEcE75
-	kiOxpAHQ/TibXwPOdcemDVTlliQHmYLh9ZxJ3eguZ41CS/axqCy5J7JCGJG8ZGh6
-	0hO1Dv3UKR4JSBo4bLhIdA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vvy4nu8bs-1
+	PODMain02222019; bh=1md0/+DFGXhuMmn6zyLi7ooEyZ2b5ftMM6ksvLmC2To=; b=
+	DGLz/eeY5rCTJkdzi5q+jBvaQSoWVMx3Wwm+a7LXEGppX1VSabD0AAk2OXr10cM5
+	26YVJ3fjGbXF1Ri4Gdi+KVeZknYyUM7WHuv5Gzpg450WgQ46ikcYxqk8MCO8lZWM
+	kbPD5QcKYzjHr/wDOt3R6HstuVwwdX+Hrc3SXK4MReNeFY4bo1IgtxRTLF43SF+K
+	7pwfd/eHq1u9M/ros7DpRm+SPJbEkgyqKTLLBNp4Wcp7XfCOtj+ZaNTaPnJL3Dim
+	WWPRp9p0hNWT2MoK9F4nkxl+kDuwHa8ITDWtLs/zBWyK20Z61azJctzyjJBQkHBC
+	6rTUBTF3O0rvF+5VfTOA/Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3vvy4nu8bx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jan 2024 05:19:18 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 30 Jan 2024 05:19:38 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 30 Jan
- 2024 11:19:17 +0000
+ 2024 11:19:37 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Tue, 30 Jan 2024 11:19:17 +0000
+ 15.2.1118.40 via Frontend Transport; Tue, 30 Jan 2024 11:19:37 +0000
 Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.65.148])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0CD31820241;
-	Tue, 30 Jan 2024 11:19:17 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1279B820241;
+	Tue, 30 Jan 2024 11:19:37 +0000 (UTC)
 From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: 'Takashi Iwai' <tiwai@suse.de>, 'Kenzo Gomez' <kenzo.sgomez@gmail.com>
-CC: <alsa-devel@alsa-project.org>, <david.rhodes@cirrus.com>,
-        <james.schulman@cirrus.com>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <perex@perex.cz>, <rf@opensource.cirrus.com>, <tiwai@suse.com>
-References: <874jfdwsfg.wl-tiwai@suse.de>	<20240127164621.26431-1-kenzo.sgomez@gmail.com> <87jznr3wvs.wl-tiwai@suse.de>
-In-Reply-To: <87jznr3wvs.wl-tiwai@suse.de>
-Subject: RE: [PATCH v3] ALSA: hda: cs35l41: Support additional ASUS Zenbook UX3402VA
-Date: Tue, 30 Jan 2024 11:19:16 +0000
-Message-ID: <001401da536e$29b9a070$7d2ce150$@opensource.cirrus.com>
+To: 'Takashi Iwai' <tiwai@suse.de>, 'Chhayly Leang' <clw.leang@gmail.com>
+CC: 'Takashi Iwai' <tiwai@suse.com>, <patches@opensource.cirrus.com>,
+        "'James
+ Schulman'" <james.schulman@cirrus.com>,
+        'David Rhodes'
+	<david.rhodes@cirrus.com>,
+        'Richard Fitzgerald' <rf@opensource.cirrus.com>,
+        'Jaroslav Kysela' <perex@perex.cz>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20240126080912.87422-1-clw.leang@gmail.com> <87il3b3wub.wl-tiwai@suse.de>
+In-Reply-To: <87il3b3wub.wl-tiwai@suse.de>
+Subject: RE: [PATCH] ALSA: hda: cs35l41: Support ASUS Zenbook UM3402YAR
+Date: Tue, 30 Jan 2024 11:19:36 +0000
+Message-ID: <001601da536e$35a56270$a0f02750$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,34 +69,35 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 16.0
 Content-Language: en-gb
-Thread-Index: AQMwSTp61jXDtCjZqGhsSN60gQXN/ADh2+gYAkptiTOuLOdmIA==
-X-Proofpoint-ORIG-GUID: FiXCtoKUHx4eaglYTZ9jVRv6zeFZnGXQ
-X-Proofpoint-GUID: FiXCtoKUHx4eaglYTZ9jVRv6zeFZnGXQ
+Thread-Index: AQJ251DEbDtU4Ub6108ES0yN5WkQpgKO1N6zr6SXE5A=
+X-Proofpoint-ORIG-GUID: qHlTe7WycikxKQhWyfkSCMseqP5ak77C
+X-Proofpoint-GUID: qHlTe7WycikxKQhWyfkSCMseqP5ak77C
 X-Proofpoint-Spam-Reason: safe
 
 Hi,
 
 > -----Original Message-----
 > From: Takashi Iwai <tiwai@suse.de>
-> Sent: Tuesday, January 30, 2024 11:05 AM
-> To: Kenzo Gomez <kenzo.sgomez@gmail.com>
-> Cc: alsa-devel@alsa-project.org; david.rhodes@cirrus.com;
-> james.schulman@cirrus.com; linux-kernel@vger.kernel.org; linux-
-> sound@vger.kernel.org; patches@opensource.cirrus.com;
-> perex@perex.cz; rf@opensource.cirrus.com;
-> sbinding@opensource.cirrus.com; tiwai@suse.com
-> Subject: Re: [PATCH v3] ALSA: hda: cs35l41: Support additional ASUS
-> Zenbook UX3402VA
+> Sent: Tuesday, January 30, 2024 11:06 AM
+> To: Chhayly Leang <clw.leang@gmail.com>
+> Cc: Stefan Binding <sbinding@opensource.cirrus.com>; Takashi Iwai
+> <tiwai@suse.com>; patches@opensource.cirrus.com; James Schulman
+> <james.schulman@cirrus.com>; David Rhodes
+> <david.rhodes@cirrus.com>; Richard Fitzgerald
+> <rf@opensource.cirrus.com>; Jaroslav Kysela <perex@perex.cz>; linux-
+> sound@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH] ALSA: hda: cs35l41: Support ASUS Zenbook
+> UM3402YAR
 > 
-> On Sat, 27 Jan 2024 17:46:21 +0100,
-> Kenzo Gomez wrote:
+> On Fri, 26 Jan 2024 09:09:12 +0100,
+> Chhayly Leang wrote:
 > >
-> > Add new model entry into configuration table.
+> > Adds sound support for ASUS Zenbook UM3402YAR with missing DSD
 > >
-> > Signed-off-by: Kenzo Gomez <kenzo.sgomez@gmail.com>
+> > Signed-off-by: Chhayly Leang <clw.leang@gmail.com>
 > 
-> Cirrus people, could you take a look?
-> I'm inclined to take as is, unless you have any objections.
+> Yet another missing entry; can Cirrus people review this before I
+> merge?
 
 Looks good to me.
 
@@ -111,36 +116,36 @@ Stefan
 > >
 > > diff --git a/sound/pci/hda/cs35l41_hda_property.c
 > b/sound/pci/hda/cs35l41_hda_property.c
-> > index 35277ce890a4..59504852adc6 100644
+> > index 35277ce890a..2af083183d8 100644
 > > --- a/sound/pci/hda/cs35l41_hda_property.c
 > > +++ b/sound/pci/hda/cs35l41_hda_property.c
 > > @@ -76,6 +76,7 @@ static const struct cs35l41_config
 > cs35l41_config_table[] = {
-> >  	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 0, 1, -1, 1000, 4500, 24 },
-> >  	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 1, 2, 0, 1000, 4500, 24 },
-> >  	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 1, -1, 0, 1000, 4500, 24 },
-> > +	{ "104316A3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 1, 2, 0, 0, 0, 0 },
-> >  	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 1, 2, 0, 0, 0, 0 },
-> >  	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 1, 2, 0, 0, 0, 0 },
-> >  	{ "104317F3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
-> 0 }, 0, 1, -1, 1000, 4500, 24 },
+> >  	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 1000, 4500, 24 },
+> >  	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, 2, 0, 1000, 4500, 24 },
+> >  	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, -1, 0, 1000, 4500, 24 },
+> > +	{ "10431683", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+> >  	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, 2, 0, 0, 0, 0 },
+> >  	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, 2, 0, 0, 0, 0 },
+> >  	{ "104317F3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 1000, 4500, 24 },
 > > @@ -410,6 +411,7 @@ static const struct cs35l41_prop_model
 > cs35l41_prop_model_table[] = {
 > >  	{ "CSC3551", "10431533", generic_dsd_config },
 > >  	{ "CSC3551", "10431573", generic_dsd_config },
 > >  	{ "CSC3551", "10431663", generic_dsd_config },
-> > +	{ "CSC3551", "104316A3", generic_dsd_config },
+> > +	{ "CSC3551", "10431683", generic_dsd_config },
 > >  	{ "CSC3551", "104316D3", generic_dsd_config },
 > >  	{ "CSC3551", "104316F3", generic_dsd_config },
 > >  	{ "CSC3551", "104317F3", generic_dsd_config },
 > > --
-> > 2.43.0
+> > 2.42.0
 > >
 
 
