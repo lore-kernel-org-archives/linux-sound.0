@@ -1,87 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D4585C67;
-	Tue, 30 Jan 2024 15:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7527CF1E
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 16:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706629423; cv=none; b=kJ3aES5lM5TxNKXGRxsQrs1ki0FCH5s/64xnBylS+0g6i/80AHqzOO/kwHPwcs9DpGcq6uvk0W+LxMFCXH376PMKIYbRYHzjTLD3Hdc4U6hOS/t/6YjT4eJiKkHAWNov/RhHh0Bxy+4rgmIknoyBAH8k5R9tKxkFjdPwcZvp1qw=
+	t=1706631092; cv=none; b=NER2vL7nG2niV2TwfcWBp68IO0PiEPAxBRsjvxSc+I2gyx3GjkbGULYk8qgqS/gUF5ospSY9M5zsIVlPWuQcbFrARcazBTbvp7dYK/xlaX85Wp6H2U9DSXOGGoytcyJq1YxwoGuf5fP+8XFCb5MEQlQJdTDpqZlG5NFwEYvai8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706629423; c=relaxed/simple;
-	bh=pNWT5OlTiyqv3QvYZIhiFVUlSQd/qptTPUKWYGPAt34=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FQr59VYtGkeOkb/CEZH/WyeHQ8A7u6uz+ehA8ibl5/SL2omdo7f84Eowvj9KuMSdXt/Gg3u8IWPy8z2ovJD30wOswp92qOx5by5SbUN1TIQWRiCTvd+VPI9l1S0sNchAxln2ltvcQZfjtWNBph4/XdUH4US+2GnPdQ82SjnOpuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fet2r2Xm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706631092; c=relaxed/simple;
+	bh=sYWsCKIWnBM4AENxDQMd45ylfzFl6TepGmycJDjJUG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B1iYZRl5qP52fmLVHD5CAbWyh1VQOA/foE6ngLtXI2qvWBAqPFhHwl1QIXtCHOFyGHZiLLyS0QYP2h4MfbAktYGlpui7dPJj5pCSGeQFYOBQAsyXVt9E+wi2irYnXb3MhYkmFYFX0p9BjDE6Syt6Zr0uL7Ly3kLGosOcvGTOfyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Cy/SV3Ri; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fet2r2Xm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62165C433C7;
-	Tue, 30 Jan 2024 15:43:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706629422;
-	bh=pNWT5OlTiyqv3QvYZIhiFVUlSQd/qptTPUKWYGPAt34=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fet2r2Xm6Hv0hxJ4p3lKxYY2NgGYhROGyBg+6Qm6jYw5bYYYmpZ+b7kPRcl5xeMwH
-	 ZfFx/npdn4MnpeJZ+bCxa5NBy71p+NB0p7d7r9z4Tw1KoKbB5VXpKxQ2K3r6KDGWtZ
-	 1a/y+t0YOWRKAH/41yTF8Yx+sPclwVIOxhrTAykT48757Wa4lbBMhY9Vf6R1oXuBTp
-	 Mp4DMzsXa231wzkToqVw5R+3wr+ZhC3b9nOQ9FwMba9S2p14hB95v1T2J8xYDI8XYB
-	 gGNq+iB6Q8QOKF18TtlgZLIgvUm8Plwyniu5rMfxK27Yhb3yKb6OWlGrl3tW8YvqrT
-	 fPeJqh+o/Pm3Q==
-From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, tiwai@suse.com, 
- Fullway Wang <fullwaywang@outlook.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- fullwaywang@tencent.com
-In-Reply-To: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
-References: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
-Subject: Re: [PATCH] sound: soc: wcd934x: fix an incorrect use of
- kstrndup()
-Message-Id: <170662942110.37296.1277489815994094565.b4-ty@kernel.org>
-Date: Tue, 30 Jan 2024 15:43:41 +0000
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Cy/SV3Ri"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7bf2c826a5aso168026139f.0
+        for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 08:11:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706631090; x=1707235890; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bycNLFVVPkFg+rgPX8u0j7Km8vshueoEwQ1p4ROc4C8=;
+        b=Cy/SV3RiyoPPMsmVaZXxEHPO34JAkE/pIPClbSvwgwEMMpH2pD8NOiB6FzTJrGNlgO
+         vf8DHoSLKJM7TOeTjXBdzaU7oKMfpXJCIh3K2xSvNaQWjIzCPdhtLUY3AYgxY0dx85VM
+         hLc0O4O58mPqULm5omiC7o4MdwJ9xUcRl3YFk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706631090; x=1707235890;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bycNLFVVPkFg+rgPX8u0j7Km8vshueoEwQ1p4ROc4C8=;
+        b=eRzdBa0vr0J8k+Fk/Mw2vBIrUZqT2ZnAJeD9NQW/AdypGCU95J+j/UX3p2w95LKW08
+         87nCBYNnQeq8Pwa7hNvWS2v2RS9ghAM/5pdaAHOy0/0I/ljECxcusJMkmt3pHOt8eGp/
+         d8teWLP7NAfHbGPS58pVPEqYIJByWI75PH/oDdYeS49PwPTf3ozbqXWWp5PTf3bKMEV4
+         8URjj1FatcOv44PTzFCUb+Mdh20zv3a/RGD8hOlUyzpOMOtTbjrXsnhcgI76nl4Pw0DU
+         GqwNWsv//MZTGkeka+y2juqq5ElO3iUQWtezReaIdYCkZkmVRIiW0d0PjIcnOyxoDNSF
+         lrJQ==
+X-Gm-Message-State: AOJu0YzxYZCnHT3lBO2ihu6F3OkQiBjRrzJD0/X0ots+oDuIgCz4x4ez
+	ZvUCaZnFeT0I6gxU/E30DqyBVJjl7dIiifIUEWVmzlXYswMyC9beR0hlsk5ESg==
+X-Google-Smtp-Source: AGHT+IG5sSkp5z9PUe5cWJUnvBDvMkF79YkCb7M0iKqqHEhgc5zAuPWw8mr3XF3mNKLQkDLYuCx6Uw==
+X-Received: by 2002:a05:6602:2d89:b0:7bf:b56c:ac25 with SMTP id k9-20020a0566022d8900b007bfb56cac25mr15008085iow.0.1706631090289;
+        Tue, 30 Jan 2024 08:11:30 -0800 (PST)
+Received: from localhost (110.41.72.34.bc.googleusercontent.com. [34.72.41.110])
+        by smtp.gmail.com with UTF8SMTPSA id p5-20020a02b385000000b0046ebddc03fbsm2312569jan.33.2024.01.30.08.11.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 08:11:29 -0800 (PST)
+Date: Tue, 30 Jan 2024 16:11:29 +0000
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: misc: onboard_hub: add support for XMOS XVF3500
+Message-ID: <ZbkfsVr-1pOTa1ic@google.com>
+References: <20240130-onboard_xvf3500-v1-0-51b5398406cb@wolfvision.net>
+ <20240130-onboard_xvf3500-v1-2-51b5398406cb@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240130-onboard_xvf3500-v1-2-51b5398406cb@wolfvision.net>
 
-On Thu, 18 Jan 2024 15:52:49 +0800, Fullway Wang wrote:
-> In wcd934x_codec_enable_dec(), kstrndup() is used to alloc memory.
-> However, kmemdup_nul() should be used instead with the size known.
+Hi Javier,
+
+I understand your motivation for using the onboard_usb_hub driver
+for powering up a non-hub device, it feels a bit hacky to use it
+as is though. Re-using the driver might be the right thing to do,
+but then it should probably be renamed to onboard_usb_dev (or
+similar) and do the hub specific bits as special case.
+
+Greg, do you have any thoughts on this?
+
+Also there is an implication that might not matter for the
+XVF3500, but could for other non-hub devices with wakeup support:
+by default the driver powers the hub/device down during suspend,
+unless (in case of a hub) wakeup capable devices are connected.
+This behavior can be changed through sysfs, but the default
+would still be unexpected. In hindsight I think the default
+should have been to keep the hub powered. Not sure if it's an
+option to change the default at this point, since folks might
+rely on it (I know systems that do, but those could be adapted).
+We could possibly change the behavior for non-hub devices and
+keep the device powered if wakeup is supported and enabled
+
+m.
+
+On Tue, Jan 30, 2024 at 01:26:57PM +0100, Javier Carrasco wrote:
+> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
+> multicore controller for voice processing.
 > 
-> This is similar to CVE-2019-12454 which was fixed in commit
-> a549881.
+> This device requires a specific power sequence, which consists of
+> enabling the regulators that control the 3V3 and 1V0 device supplies,
+> and a reset de-assertion after a delay of at least 100ns. Such power
+> sequence is already supported by the onboard_hub driver, and it can be
+> reused for non-hub USB devices as well.
 > 
+> Once in normal operation, the XVF3500 registers itself as a USB device,
+> and it does not require any device-specific operations in the driver.
 > 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] sound: soc: wcd934x: fix an incorrect use of kstrndup()
-      commit: eeab239d6a2418fc5d2cd7ea76187085a97acde0
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+> [1] https://www.xmos.com/xvf3500/
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  drivers/usb/misc/onboard_usb_hub.c | 2 ++
+>  drivers/usb/misc/onboard_usb_hub.h | 6 ++++++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+> index 0dd2b032c90b..f16ea3053f84 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.c
+> +++ b/drivers/usb/misc/onboard_usb_hub.c
+> @@ -366,6 +366,7 @@ static struct platform_driver onboard_hub_driver = {
+>  #define VENDOR_ID_REALTEK	0x0bda
+>  #define VENDOR_ID_TI		0x0451
+>  #define VENDOR_ID_VIA		0x2109
+> +#define VENDOR_ID_XMOS		0x20B1
+>  
+>  /*
+>   * Returns the onboard_hub platform device that is associated with the USB
+> @@ -458,6 +459,7 @@ static const struct usb_device_id onboard_hub_id_table[] = {
+>  	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
+>  	{ USB_DEVICE(VENDOR_ID_VIA, 0x0817) }, /* VIA VL817 3.1 */
+>  	{ USB_DEVICE(VENDOR_ID_VIA, 0x2817) }, /* VIA VL817 2.0 */
+> +	{ USB_DEVICE(VENDOR_ID_XMOS, 0x0013) }, /* XMOS XVF3500 */
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(usb, onboard_hub_id_table);
+> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+> index f360d5cf8d8a..1809c0923b98 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.h
+> +++ b/drivers/usb/misc/onboard_usb_hub.h
+> @@ -56,6 +56,11 @@ static const struct onboard_hub_pdata vialab_vl817_data = {
+>  	.num_supplies = 1,
+>  };
+>  
+> +static const struct onboard_hub_pdata xmos_xvf3500_data = {
+> +	.reset_us = 1,
+> +	.num_supplies = 2,
+> +};
+> +
+>  static const struct of_device_id onboard_hub_match[] = {
+>  	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
+>  	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
+> @@ -77,6 +82,7 @@ static const struct of_device_id onboard_hub_match[] = {
+>  	{ .compatible = "usbbda,5414", .data = &realtek_rts5411_data, },
+>  	{ .compatible = "usb2109,817", .data = &vialab_vl817_data, },
+>  	{ .compatible = "usb2109,2817", .data = &vialab_vl817_data, },
+> +	{ .compatible = "usb20b1,0013", .data = &xmos_xvf3500_data, },
+>  	{}
+>  };
+>  
+> 
+> -- 
+> 2.39.2
+> 
