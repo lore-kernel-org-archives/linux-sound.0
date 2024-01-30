@@ -1,49 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722D3823AA;
-	Tue, 30 Jan 2024 16:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF8726AC6;
+	Tue, 30 Jan 2024 17:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706633462; cv=none; b=ZgOZqxmXBpGbQ3igZq3ibD8s/z0M2nsfTvCb6OcyQjNq2X3skpkBR6FJGsZ5IKCyI0rzxWHuoB03uAW6y50PWVrHEG5QA6UVz6it+wgwS1PDhk3NTAb9zr4z0B311AwzxWdt7pEHImujXStyO3B7ZWop9MkUo53bu4EW+McfQDA=
+	t=1706635054; cv=none; b=aYW+/Y5dbN57GufBjjFOoMIxCjSSd0g+x2BkKMRBy4Bx1BAHJhPgxmR/P7RXmNsCa0Ro7nEPuPWFZeuUWjScW8Urbp1/ciAHZqmTudBNuE+JK0bcGgS031+nGRpKT+ie0tqzcil7beDP7WxlRlkJTrDmofnmQux6BZFy+yFQNa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706633462; c=relaxed/simple;
-	bh=RaXuGC+ILopm/118dxaYm1RJctuzPkfs9VeKd+ZeDMA=;
+	s=arc-20240116; t=1706635054; c=relaxed/simple;
+	bh=MnZBnXfxIIxuDyaKPabyaRiPDaKlbXQ7jfRPYg1t358=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=e5rWHQgA5e9ZDI7cR6yGLhoJ4VOj9iho05xKrktSW1s9DClT/psA3kDXrj0nGQCl19OTQZY5dsEzuYqXXyC75Py4EUjSBfcGcpHU/Vl0Hl+ZYDJZBMhQg7lHnMrSRC4ansFKcecKhlp0LUnGp69h++CakXfDXCIjbZC1SlsNekU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nkl0C6Bd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VebBtc7mOZV9f58L3xTpncaMXV0fj9pKcoOstk76FFTVhZj2bIEn0pYEh40rpKXh5NscQ0EWZAuQHSMajii9VH3Azz/9RAJW7aeMAtioap/hYR4EwM6NEMq5DG3KMAEhhv19mfNbTQzykKoktEudCn+m9JHjVYkNYUrQ0h7fnQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qIgnMAAc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nkl0C6Bd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805D4C433F1;
-	Tue, 30 Jan 2024 16:50:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qIgnMAAc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628E0C433C7;
+	Tue, 30 Jan 2024 17:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706633461;
-	bh=RaXuGC+ILopm/118dxaYm1RJctuzPkfs9VeKd+ZeDMA=;
+	s=k20201202; t=1706635053;
+	bh=MnZBnXfxIIxuDyaKPabyaRiPDaKlbXQ7jfRPYg1t358=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Nkl0C6BdHutK53KDb6YR6uBWAvoa5ov9DxEKxaAj6AeP7mAxBMvwJMYVWodkhFPDd
-	 c5ceZMK1ANtGz8in5Xyo/yLq5PZLU8xaYoCKkYQMPUyx0C+zw1jzZ5g5gYMnWXP7zg
-	 N3980lVu7ENNCE3NmxsKI/Qg6KjcW+IV+Fyg03xrz6xrhhAAxxiQ7QQEPRNlWNNhL2
-	 D8fP8klfI8Hrc94c41ON7HpxmULAScJFDbHqfJRJnnUpFk8LeGr6b/R2F6atkUeeu+
-	 ugNc60cnWh8Ry/SDaM/dc921YP8q+NzwqkUQSzSrvgVfJezwG3dDvBLY9xT65Ld/Zq
-	 hBnjhdg+luEKw==
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-sound@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
-References: <20240127163247.384439-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v2 0/7] arm64: sun50i-h616: Add DMA and SPDIF
- controllers
-Message-Id: <170663345601.658154.16420910246714061637.b4-ty@kernel.org>
-Date: Tue, 30 Jan 2024 22:20:56 +0530
+	b=qIgnMAAccYlmeMW27BgsXrAO+T7DIHaqc4iwQGmaEIOq8IoCjobyVyYBHYSuW5ye7
+	 w+hHsaUILIJEXwWGLmfYY7E87gxhe85Gjxqg/WLyz2wrqUAxgpZ/vuSB5BnDEvDmhK
+	 W0Cj6SqfdWytj+pu8HJGSOJ7n1AKtBZxbi75TcAlLdedXDjGoWlhiYQ2Po7aVLYILR
+	 a1Yfs+ScI1F0b/dxpcrxUoSqffrxoiZuXLxizyIuohYQ6y6NdQihNrgaUd83AmXY1g
+	 LrV+Ymn4HkKX+0Ldur0xpAtr3VLah90RMetsmrB748i7i6AAC84m9zx+BWcGH/S9l+
+	 qbDRuSITlTYuA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240130150822.327434-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240130150822.327434-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: sh: rz-ssi: Fix error message print
+Message-Id: <170663505112.44782.17133777488665631333.b4-ty@kernel.org>
+Date: Tue, 30 Jan 2024 17:17:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,26 +46,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+X-Mailer: b4 0.13-dev-a684c
 
-
-On Sun, 28 Jan 2024 00:32:40 +0800, Chen-Yu Tsai wrote:
-> This is v2 of my H616/H618 DMA and SPDIF controller series.
+On Tue, 30 Jan 2024 15:08:22 +0000, Prabhakar wrote:
+> The devm_request_irq() call is done for "dma_rt" interrupt but the error
+> message printed "dma_tx" interrupt on failure, fix this by updating
+> dma_tx -> dma_rt in dev_err_probe() message. While at it aligned the code.
 > 
-> Changes since v1:
-> - Switch to "contains" for if-properties statement
-> - Fall back to A100 instead of H6
-> - Add DMA channels for r_i2c
 > 
-> [...]
 
-Applied, thanks!
+Applied to
 
-[4/7] dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatible for H616
-      commit: b32eb97edeb8d69092d57419917b19c909ff962a
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Best regards,
--- 
-~Vinod
+Thanks!
 
+[1/1] ASoC: sh: rz-ssi: Fix error message print
+      commit: 9a6d7c4fb2801b675a9c31a7ceb78c84b8c439bc
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
