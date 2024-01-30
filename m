@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6382558AB8;
-	Tue, 30 Jan 2024 09:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B921265BCD;
+	Tue, 30 Jan 2024 09:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706605888; cv=none; b=R0fGWHniJodI2YSdwvsWOhF86ek48JUoBN+r+iMORYGk4ZZThCFC2zqNOX+gKF40E8TVALMHBTdph0xidprlcP7UhFO+xJmWf4SY641l3R//sNbvYz9gXX4pM7h/WPWfeYknnQNEBlsFzavzGMlyJ0fTgNnk9yIBnqvmmMsTa6I=
+	t=1706608608; cv=none; b=XvAsafkaoU1arseMb/KzurWN/mAlU58LehRo8FmexkWCIWl7qbqVoD4WuhOa4h7+8l7/mKQeCQuPeu2Vnyw0un96Y7OmrQGGJBU1/Qa0tfE9QyVDUbH45032LCh7nhFX8rVVwY43f/p2y/7DDDckxttWNvLaIqRTSj9mf4l5Gtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706605888; c=relaxed/simple;
-	bh=+alcMqWzoqRZ7JJ8HhnU4GL4SH7uxxmtulwhpdyc7mE=;
+	s=arc-20240116; t=1706608608; c=relaxed/simple;
+	bh=2VPEHzexv7amn45miqUGZIow01lrVch6FhfSAsTulbI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iD+QtBzZP+SvJE5WDudIlNhoF6GLdBCXkgdkNMrBCB8q37Rt/XzMJNrWLrR1piERcOxgBxs1NyQHRtL+HQlaFEPGyPLjXgXF/f7qMI/Pm5yUz4N8CoCk/4KZ90T1hfK8bo5V5uJ47cnLGkh9DxHCfWVtN5s1DBt2q8BFlx2hEmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APd92PAP; arc=none smtp.client-ip=192.198.163.12
+	 In-Reply-To:Content-Type; b=oBNB0qO8FsFXDEm7KA4cu1gtg/e0k41OwuP7ZxQhs/TrxcZUtlGbXUyJxpJ76aynbgWjx1CFiG3AjWTaaf+Cn3CvX/isooA9CtXMlvVGTE7CpFCwICJV6oLVk1J7iGAjSkrQUlbFX8e8crHkrac0QB47z6iIWrIfp5M8629J/SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lixVOgru; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APd92PAP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lixVOgru"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706605887; x=1738141887;
+  t=1706608607; x=1738144607;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=+alcMqWzoqRZ7JJ8HhnU4GL4SH7uxxmtulwhpdyc7mE=;
-  b=APd92PAP2Gw4u2Xh2liTbhLin/SU7To85sf0mIdPxMF1cHrzIb9Vovhm
-   mAHNwGE034sC8OYBg0Xluu1yD+E/Mvxie4J9Y4SQPnvgVCkcSrWCMPZPJ
-   72+0SGK59A1j2AKdhL6guvhBNbIhserkBc0jxqJdGJ5m5I6NKSr25jFny
-   bSdukDJWOTa49qnhSH9pUfUPxsRMaKLzzbrU1zus79Ko6eKtg7ok47s2a
-   UafIHYX/hNGnia174lyz+klwac4Gi/zekomgpY2Dk+xakQefE3l5/SnCS
-   Xccy0T6e4n+2V8HY1fZ08HgqOjDyG3F/rna0DR6OFxRq4e8C/VlBoYUC4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3055992"
+  bh=2VPEHzexv7amn45miqUGZIow01lrVch6FhfSAsTulbI=;
+  b=lixVOgruDwwDPGQWr4a0FcxSnnTj5bSXkAfyUjs5dOLvVDfkvstg2ctR
+   YsZ2m3ttn01ndURRrTfuUbxlKMFCc5B/uaRh2q3AA0bLrhKgpO18/bXUe
+   fpL+Id9e0ex60HKrd+P3Q7czELTNmi9cAILBOGxIIfU382+kj6MpYSH1A
+   Ma7GfUmI0om2oXoqRbe34S6HxDEPnptfYCjcjmmtgYhNDu4GNH7nD3Ukl
+   YjYv5Ao1vRDx/jNuEmbyCMhXPCEteUJYYsQP9cYG47YfkZndLU/HPGvDW
+   4U9fyzzrpm/rsKJZggLoICmewnv8lIv+yzDBXbHaSFmwu2T01IcssRQ4X
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="21747643"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3055992"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:08:06 -0800
+   d="scan'208";a="21747643"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:56:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="931378672"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="931378672"
-Received: from vkamysba-mobl1.amr.corp.intel.com (HELO [10.254.116.178]) ([10.254.116.178])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:07:21 -0800
-Message-ID: <fb5e670d-1814-4f96-96a0-ea14bdd551bf@linux.intel.com>
-Date: Mon, 29 Jan 2024 18:10:32 +0100
+   d="scan'208";a="29852762"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:56:43 -0800
+Message-ID: <8c92d33d-923b-4805-abdf-752e8943072e@linux.intel.com>
+Date: Tue, 30 Jan 2024 10:56:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,43 +48,60 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ASoC: Intel: mtl-match: Add cs42l43_l0 cs35l56_l23 for
- MTL
+Subject: Re: [PATCH] sound: soc: wcd934x: fix an incorrect use of kstrndup()
 Content-Language: en-US
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
- Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, alsa-devel@alsa-project.org,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240123113246.75539-1-mstrozek@opensource.cirrus.com>
- <Zbe0yi5Qo1eG5yCk@ediswmail9.ad.cirrus.com>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <Zbe0yi5Qo1eG5yCk@ediswmail9.ad.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+To: Fullway Wang <fullwaywang@outlook.com>, broonie@kernel.org,
+ srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ fullwaywang@tencent.com
+References: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 1/29/24 15:23, Charles Keepax wrote:
-> On Tue, Jan 23, 2024 at 11:32:46AM +0000, Maciej Strozek wrote:
->> The layout is configured as:
->> - Link0: CS42L43 Jack and mics (2ch)
->> - Link2: 2x CS35L56 Speaker (amps 3 and 4, right)
->> - Link3: 2x CS35L56 Speaker (amps 1 and 2, left)
->>
->> Corresponding SOF topology:
->> https://github.com/thesofproject/sof/pull/8773
->>
->> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
->> ---
+On 1/18/2024 8:52 AM, Fullway Wang wrote:
+> In wcd934x_codec_enable_dec(), kstrndup() is used to alloc memory.
+> However, kmemdup_nul() should be used instead with the size known.
 > 
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> This is similar to CVE-2019-12454 which was fixed in commit
+> a549881.
+> 
+> Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
+> ---
+>   sound/soc/codecs/wcd934x.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+> index 1b6e376f3833..4565a0e1877f 100644
+> --- a/sound/soc/codecs/wcd934x.c
+> +++ b/sound/soc/codecs/wcd934x.c
+> @@ -4990,7 +4990,7 @@ static int wcd934x_codec_enable_dec(struct snd_soc_dapm_widget *w,
+>   	char *dec;
+>   	u8 hpf_coff_freq;
+>   
+> -	widget_name = kstrndup(w->name, 15, GFP_KERNEL);
+> +	widget_name = kmemdup_nul(w->name, 15, GFP_KERNEL);
+>   	if (!widget_name)
+>   		return -ENOMEM;
+>   
 
-Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+This change looks weird to me, and looking at code I'm even more 
+confused. As far as I can tell code tries to find a number in w->name. 
+It shouldn't need a duplicate string for this, it can search in existing 
+one, same applies to referenced commit.
+
+And when it comes to a549881 as already mentioned in 
+https://lore.kernel.org/alsa-devel/7573d8ce-7160-39b1-8901-be9155c451a1@suse.cz/ 
+the size is at most 15 not equal to, so change was misguided. If you 
+look at actual code widget name is around 8 characters.
+
+Also it seems like consensus was that CVE was bogus and it was a wrong 
+change:
+https://lore.kernel.org/alsa-devel/20190618230527.GE6248@lindsey/
+there was a revert send, but it seems like it was not applied:
+https://lore.kernel.org/alsa-devel/20190612133040.5kgtio7gidxx64gh@xylophone.i.decadent.org.uk/
+
+
 
