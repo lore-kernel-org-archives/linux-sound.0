@@ -1,134 +1,189 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A352274E0D;
-	Tue, 30 Jan 2024 13:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFD560ED3;
+	Tue, 30 Jan 2024 13:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706620504; cv=none; b=LN0aYNDPT0GaZcAe/YRQbAL2npY8LG6e3ITTrTVswtb3auxu+CtupSp/CtANAI0parmmp5z/lczM/vuqvCo0AW/ILxc8uvujBpMMD+tqmY2zKfAWFgp5cGtNrviW2GHgbQ/PEHv/N4NaOdotRWbK/tJ86noXkH6+2omGPhVmglM=
+	t=1706621772; cv=none; b=ZcJlLi62SZUnCfW7+x2KVgW3i+BW97OsVwMvl8fig3kuEKiTiLorT9e+Wtc3CwhaEQ/463/Y8xAjWlz31Oa+rdPKnkkteOgKAtnKg2Il8yj0WtpDZC8WKPb8OTip9yAY5kZ+Hkzhcd8tlsQXS+fBVLPbG5HAubiAPHR0w/coOOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706620504; c=relaxed/simple;
-	bh=XzgL+n4cnmh65E3tupGX/Y9mODh/MkIzXKMo80VVDsM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J2pTI2O3KsnM1rV/+yyldk44xxaqIohn8GBfhkn1v3c/mRITxYdSLzXjc/mNIcW/7gAIYrCl9yU7cINCb8aEukKUfCZOeYNZ6eH9kg4SUY3ftzvu+e+I3D8DFfMy3/O8x/JibSY3sEeie89QTDd4u/63DA4sd+mOb8sY1+PWEzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j7p6M2rS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fcbkxqsP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j7p6M2rS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fcbkxqsP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706621772; c=relaxed/simple;
+	bh=8oAMdxYBFetttydjmWPCSo5s+7Jc7Mw7JFAbAL32jwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dbE8cBlezD4rLphAroVcxaxcmWvSEig1aswBv3fvq5HYUYFP+M2U35Xns3pIKnChVOmQ6R+YGjBN0K/UlbpFiE9epZU64ZstmfRQ7gxnMH52sgNeObcAm89H+tEPffmBPi5uOysCILvTKv+8Nc7nTwEynt927ioCT4ooymETwO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6KwfjwQ; arc=none smtp.client-ip=192.55.52.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j7p6M2rS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fcbkxqsP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j7p6M2rS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fcbkxqsP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E4EA91F84B;
-	Tue, 30 Jan 2024 13:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706620500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C20JTUPpSyGGJZB6BpIGKouuM36f4VjdkcvrYvd2OG8=;
-	b=j7p6M2rSxY1fqRrfGnnEUjHSyodlEuP1g/51oxlwIP3MVG1mUZ8I4JRaSSQbJNOBvl6Jaf
-	67W1wKvZXIq2I77CSXO0E9jS7CxYUpCOEG5n29l4QPltP4JfItm8iWAY1pwrmPHhYUiInT
-	/ioE7bdZPCAo87tcaAB6ReoWHwPXbOg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706620500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C20JTUPpSyGGJZB6BpIGKouuM36f4VjdkcvrYvd2OG8=;
-	b=fcbkxqsP011Fc7c4WBBUKhvmV16eMMTLcJADCcgw5CCmc/ojHQm+s5pnkZxXiQurPTL+i3
-	lKm/+Y190oo+XEAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706620500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C20JTUPpSyGGJZB6BpIGKouuM36f4VjdkcvrYvd2OG8=;
-	b=j7p6M2rSxY1fqRrfGnnEUjHSyodlEuP1g/51oxlwIP3MVG1mUZ8I4JRaSSQbJNOBvl6Jaf
-	67W1wKvZXIq2I77CSXO0E9jS7CxYUpCOEG5n29l4QPltP4JfItm8iWAY1pwrmPHhYUiInT
-	/ioE7bdZPCAo87tcaAB6ReoWHwPXbOg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706620500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C20JTUPpSyGGJZB6BpIGKouuM36f4VjdkcvrYvd2OG8=;
-	b=fcbkxqsP011Fc7c4WBBUKhvmV16eMMTLcJADCcgw5CCmc/ojHQm+s5pnkZxXiQurPTL+i3
-	lKm/+Y190oo+XEAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD88F12FF7;
-	Tue, 30 Jan 2024 13:15:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FL7DKFT2uGW5WQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Jan 2024 13:15:00 +0000
-Date: Tue, 30 Jan 2024 14:15:00 +0100
-Message-ID: <87wmrr2ca3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
-In-Reply-To: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
-References: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6KwfjwQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706621770; x=1738157770;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8oAMdxYBFetttydjmWPCSo5s+7Jc7Mw7JFAbAL32jwk=;
+  b=A6KwfjwQlUre8Ed23KKNKSGAZJ0ZQLEJSpIeHNrZb53CyVBqllKolHYu
+   0aXnQXIHowjbHiDeuZYNrFoEetKJjPhSTXEKl094Sxh41fsOHa7jcnkRj
+   Hr4aR8t2HlHNvuNsnihXJ/lSzF3Wrltrbkkr/Dbhx+g9l+zoBkGKnlYJZ
+   h23A6s6gcxKK99e2TcCAH0KgnP+xj8/7RKWn/q6fwfv2M2mCcQAowlzB1
+   J+hiQEZrXm2L301/9jBuQLXnStlUxTyuI24ApVf5pk0Jm9zNju3vZvnMO
+   rAgmBiLPVLlHxzJ45oEaPJ+HVRYvLOMx+Dx+lZ1gn47Ve+UJNdX2tdzC8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="402907061"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="402907061"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 05:36:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="3705399"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2024 05:36:03 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUoHN-0000L2-2t;
+	Tue, 30 Jan 2024 13:35:58 +0000
+Date: Tue, 30 Jan 2024 21:35:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 05/13] media: xilinx-tpg: use
+ of_graph_get_next_endpoint_raw()
+Message-ID: <202401302148.K0ZR110q-lkp@intel.com>
+References: <878r49klg1.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.30
-X-Spamd-Result: default: False [0.30 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.90)[86.07%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878r49klg1.wl-kuninori.morimoto.gx@renesas.com>
 
-On Thu, 25 Jan 2024 23:35:19 +0100,
-Ivan Orlov wrote:
-> 
-> Add 4 missing formats to 'snd_pcm_format_names' array in order to be
-> able to get their names with 'snd_pcm_format_name' function.
-> 
-> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+Hi Kuninori,
 
-Now applied all three patches.  This first one is to for-linus, while
-the rest two are to for-next for 6.9 kernel.
+kernel test robot noticed the following build errors:
 
-For further improvements (e.g. Amadeusz suggested), let's apply on top
-of that.
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on drm-misc/drm-misc-next linus/master v6.8-rc2 next-20240130]
+[cannot apply to robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240129-085726
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/878r49klg1.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH v2 05/13] media: xilinx-tpg: use of_graph_get_next_endpoint_raw()
+config: mips-randconfig-r113-20240130 (https://download.01.org/0day-ci/archive/20240130/202401302148.K0ZR110q-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240130/202401302148.K0ZR110q-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401302148.K0ZR110q-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/xilinx/xilinx-tpg.c:747:15: error: implicit declaration of function 'of_graph_get_next_endpoint_raw' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           endpoint = of_graph_get_next_endpoint_raw(port, NULL);
+                                      ^
+   drivers/media/platform/xilinx/xilinx-tpg.c:747:15: note: did you mean 'acpi_graph_get_next_endpoint'?
+   include/linux/acpi.h:1409:1: note: 'acpi_graph_get_next_endpoint' declared here
+   acpi_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
+   ^
+>> drivers/media/platform/xilinx/xilinx-tpg.c:747:13: warning: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
+                           endpoint = of_graph_get_next_endpoint_raw(port, NULL);
+                                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-thanks,
+vim +/of_graph_get_next_endpoint_raw +747 drivers/media/platform/xilinx/xilinx-tpg.c
 
-Takashi
+   705	
+   706	/* -----------------------------------------------------------------------------
+   707	 * Platform Device Driver
+   708	 */
+   709	
+   710	static int xtpg_parse_of(struct xtpg_device *xtpg)
+   711	{
+   712		struct device *dev = xtpg->xvip.dev;
+   713		struct device_node *node = xtpg->xvip.dev->of_node;
+   714		struct device_node *ports;
+   715		struct device_node *port;
+   716		unsigned int nports = 0;
+   717		bool has_endpoint = false;
+   718	
+   719		ports = of_get_child_by_name(node, "ports");
+   720		if (ports == NULL)
+   721			ports = node;
+   722	
+   723		for_each_child_of_node(ports, port) {
+   724			const struct xvip_video_format *format;
+   725			struct device_node *endpoint;
+   726	
+   727			if (!of_node_name_eq(port, "port"))
+   728				continue;
+   729	
+   730			format = xvip_of_get_format(port);
+   731			if (IS_ERR(format)) {
+   732				dev_err(dev, "invalid format in DT");
+   733				of_node_put(port);
+   734				return PTR_ERR(format);
+   735			}
+   736	
+   737			/* Get and check the format description */
+   738			if (!xtpg->vip_format) {
+   739				xtpg->vip_format = format;
+   740			} else if (xtpg->vip_format != format) {
+   741				dev_err(dev, "in/out format mismatch in DT");
+   742				of_node_put(port);
+   743				return -EINVAL;
+   744			}
+   745	
+   746			if (nports == 0) {
+ > 747				endpoint = of_graph_get_next_endpoint_raw(port, NULL);
+   748				if (endpoint)
+   749					has_endpoint = true;
+   750				of_node_put(endpoint);
+   751			}
+   752	
+   753			/* Count the number of ports. */
+   754			nports++;
+   755		}
+   756	
+   757		if (nports != 1 && nports != 2) {
+   758			dev_err(dev, "invalid number of ports %u\n", nports);
+   759			return -EINVAL;
+   760		}
+   761	
+   762		xtpg->npads = nports;
+   763		if (nports == 2 && has_endpoint)
+   764			xtpg->has_input = true;
+   765	
+   766		return 0;
+   767	}
+   768	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
