@@ -1,166 +1,176 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7527CF1E
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 16:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5EA86AE8
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 16:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706631092; cv=none; b=NER2vL7nG2niV2TwfcWBp68IO0PiEPAxBRsjvxSc+I2gyx3GjkbGULYk8qgqS/gUF5ospSY9M5zsIVlPWuQcbFrARcazBTbvp7dYK/xlaX85Wp6H2U9DSXOGGoytcyJq1YxwoGuf5fP+8XFCb5MEQlQJdTDpqZlG5NFwEYvai8o=
+	t=1706631500; cv=none; b=dIACvz/GZRGQ0oANLyv53l6ZRRnSB0V3gIlD8DprREt+VGrRcFRu3dy3l/jMpC5c9MRJvMmdkqtOA2pBVzv4nC7RbfP1dXF40lzhYGPGca7IqOZwkimIUQabiUp1h9qrFsq6CDuxhFiKuE3MxlqrbCqV5nfBuZw0yBH9dWZapPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706631092; c=relaxed/simple;
-	bh=sYWsCKIWnBM4AENxDQMd45ylfzFl6TepGmycJDjJUG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1iYZRl5qP52fmLVHD5CAbWyh1VQOA/foE6ngLtXI2qvWBAqPFhHwl1QIXtCHOFyGHZiLLyS0QYP2h4MfbAktYGlpui7dPJj5pCSGeQFYOBQAsyXVt9E+wi2irYnXb3MhYkmFYFX0p9BjDE6Syt6Zr0uL7Ly3kLGosOcvGTOfyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Cy/SV3Ri; arc=none smtp.client-ip=209.85.166.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1706631500; c=relaxed/simple;
+	bh=T51l3Mw0GfK8/kqY/gmUNHU2zGcBRab2jAFjRZleRAw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PcKQhhWUFBQNTn5BUNity3Yow0XxmLKC0UDV4rUuyju4PTMuE/s0N291P1CU8PTh3iUqKZ71H/CArTlweAtTyRyF/CURcnbBa4cBi2xnhWyuprRgXChGHNGsgwuEtudcjWyMR5mXHvM+i/j71vvDBX1lxXOE+m4eZjPdxHSVUgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zoaNHzyB; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Cy/SV3Ri"
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7bf2c826a5aso168026139f.0
-        for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 08:11:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zoaNHzyB"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a350bfcc621so456626166b.0
+        for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 08:18:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706631090; x=1707235890; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bycNLFVVPkFg+rgPX8u0j7Km8vshueoEwQ1p4ROc4C8=;
-        b=Cy/SV3RiyoPPMsmVaZXxEHPO34JAkE/pIPClbSvwgwEMMpH2pD8NOiB6FzTJrGNlgO
-         vf8DHoSLKJM7TOeTjXBdzaU7oKMfpXJCIh3K2xSvNaQWjIzCPdhtLUY3AYgxY0dx85VM
-         hLc0O4O58mPqULm5omiC7o4MdwJ9xUcRl3YFk=
+        d=linaro.org; s=google; t=1706631496; x=1707236296; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oZXon35I9vWe/z+8fo28XYH3xXWTxWnPiT1+wYSZZe0=;
+        b=zoaNHzyBH4Nrzv3P9LZ/uXCBTWYF7ns24UIWzr7uojk8ZoI9titU+GDZigGjf2dpYM
+         K60G5xV9St8nJhfBukmUizIod/sc5oqsPfcTZDxpIQPUOf0VeZSlNoIia2TTdDRdOCfE
+         ipUt9pY+QExNPJZ3GPiPFj3TW3vrNOQ5zIrIV7Y68Hjs64WaArkwbXN2piIxyQMP0w5K
+         MXj/O0e5DvwPLf4Qt1n/iAXrPbaE9boaLquh+8zNb0TyXilHZUdnavt7gVSG3d04VWqp
+         UDQVVxCOAAz3ZLrMXiNaI8H48xIL36kA3e4FSfzhNb02KIRv696ChCoFkeeyHX77JVeW
+         8SaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706631090; x=1707235890;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bycNLFVVPkFg+rgPX8u0j7Km8vshueoEwQ1p4ROc4C8=;
-        b=eRzdBa0vr0J8k+Fk/Mw2vBIrUZqT2ZnAJeD9NQW/AdypGCU95J+j/UX3p2w95LKW08
-         87nCBYNnQeq8Pwa7hNvWS2v2RS9ghAM/5pdaAHOy0/0I/ljECxcusJMkmt3pHOt8eGp/
-         d8teWLP7NAfHbGPS58pVPEqYIJByWI75PH/oDdYeS49PwPTf3ozbqXWWp5PTf3bKMEV4
-         8URjj1FatcOv44PTzFCUb+Mdh20zv3a/RGD8hOlUyzpOMOtTbjrXsnhcgI76nl4Pw0DU
-         GqwNWsv//MZTGkeka+y2juqq5ElO3iUQWtezReaIdYCkZkmVRIiW0d0PjIcnOyxoDNSF
-         lrJQ==
-X-Gm-Message-State: AOJu0YzxYZCnHT3lBO2ihu6F3OkQiBjRrzJD0/X0ots+oDuIgCz4x4ez
-	ZvUCaZnFeT0I6gxU/E30DqyBVJjl7dIiifIUEWVmzlXYswMyC9beR0hlsk5ESg==
-X-Google-Smtp-Source: AGHT+IG5sSkp5z9PUe5cWJUnvBDvMkF79YkCb7M0iKqqHEhgc5zAuPWw8mr3XF3mNKLQkDLYuCx6Uw==
-X-Received: by 2002:a05:6602:2d89:b0:7bf:b56c:ac25 with SMTP id k9-20020a0566022d8900b007bfb56cac25mr15008085iow.0.1706631090289;
-        Tue, 30 Jan 2024 08:11:30 -0800 (PST)
-Received: from localhost (110.41.72.34.bc.googleusercontent.com. [34.72.41.110])
-        by smtp.gmail.com with UTF8SMTPSA id p5-20020a02b385000000b0046ebddc03fbsm2312569jan.33.2024.01.30.08.11.29
+        d=1e100.net; s=20230601; t=1706631496; x=1707236296;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oZXon35I9vWe/z+8fo28XYH3xXWTxWnPiT1+wYSZZe0=;
+        b=HqTUhkSUdDt8Fzzlqwl9abLOPp0jAEHWDXOsjaGyPrsFj9VJCspMoyItB3DabsFtFP
+         5tFeq0iMTk515gx40hK77en133a2UsjPqFZbTjyu73p2H7CwTe4OMcuh5hY7SOLjidmT
+         KHw/ZT2XFNMFs9RHAFWI+X+0X1SbQ3+Fh189BLhwGwi7IqiKhjnKR3iApJXZG0s96sQc
+         JoPlbAfwHdAF7Yc9ojVVWhWR/YsQ1LOuY1jfpBs9gtCnkyiw8XU+Drdx0ObC5zyLa8DD
+         HeM0zjwWXFPkqUpxQwTkzhtuf5dIEER4vzWL0X5BDIVw5hY9xplZG5nYQGh6BSpgbghy
+         N8sw==
+X-Gm-Message-State: AOJu0YwV9q73cXrs/GhvNyva1Bp0ee36/gwYCq/0haypIajczPwb7na/
+	N1Xa+hZZ/C6uHgs847ve9ODducr1xJceMgl/zmvsLlpQEGsyaA1eG0F1GWbNQuI=
+X-Google-Smtp-Source: AGHT+IENuGAoEzF34wRY6bp8yCjEbKBDtK0zbTjjHzlRa0LYXFTSHFlAyyRvLosaxMI51Hdeu2mDvw==
+X-Received: by 2002:a17:906:a013:b0:a34:bc0d:3ca5 with SMTP id p19-20020a170906a01300b00a34bc0d3ca5mr6528524ejy.13.1706631496519;
+        Tue, 30 Jan 2024 08:18:16 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVyuQZAaN+Uxv5hLMx0ydBhGAdEuAZ06eHHTMZJ4F/SnFmIkQ7L6nVaTaQDmmfD4K4mQf3NqVpEHmVUYHaCuJBcnKx9BFJrddcvnu5pqdZ5zBhAjmZ5qSh2AN0Gpefs0bwjATv+r9kjWW/jaQDHhft7pArNOhb5FeMahwqNvEv0mEv4/iLXi+o7J4JQW1siUhXZ1fiXFL12uZ2SjhwN6c6yW1aEDvFzOEjb9EaHOV1kqgulOIGAb8+mW+pJL3TGpTXAnnGuyo8PN+P+5wLgGl2fWBYnw+FrAWd0wj0XUMC4L7D2CJJN2ss9zlkhVudnyY1tpNLi6J3xAZAEveMKFGqJJYENdcd1Yrg+LdV5AcJOx+l8njbDbEKa+/oZHkD3e6BgIYRZW41fs9xyHufHuzjilFa/k4s5qQmw4+n5tGYepmXLdJKM/lps2QtPCTfzvibJa2u5TkIw8aJUdkuwr3FQYDUHrSK9pFQT9gSCwPsk1+cR/3xWq+ltqcl7fp+BKEmIvKZoknNQ0Xn+f1IKmgOcO8J7LFLV3wGsCHG/svCDgY0R3oQDxvtimpHuHZyu8hJaC4pMtRePchQIgYEf4AJ7VQfBKYowjypAXcsZkrAKplS34nUH+RCDMIZYl3qFY+8CJo+61UMLzFDS9EYAc7zcqQA=
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id vs6-20020a170907a58600b00a3542a13eb3sm4090032ejc.138.2024.01.30.08.18.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 08:11:29 -0800 (PST)
-Date: Tue, 30 Jan 2024 16:11:29 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: misc: onboard_hub: add support for XMOS XVF3500
-Message-ID: <ZbkfsVr-1pOTa1ic@google.com>
-References: <20240130-onboard_xvf3500-v1-0-51b5398406cb@wolfvision.net>
- <20240130-onboard_xvf3500-v1-2-51b5398406cb@wolfvision.net>
+        Tue, 30 Jan 2024 08:18:16 -0800 (PST)
+Message-ID: <dc867ca4-e579-47f5-8490-ebefbc3c2875@linaro.org>
+Date: Tue, 30 Jan 2024 17:18:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240130-onboard_xvf3500-v1-2-51b5398406cb@wolfvision.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v2 4/4] ASoc: dt-bindings: PCM6240: Add
+ initial DT binding
+Content-Language: en-US
+To: "Ding, Shenghao" <shenghao-ding@ti.com>
+Cc: "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "P O, Vijeth" <v-po@ti.com>, "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "perex@perex.cz" <perex@perex.cz>,
+ "pierre-louis.bossart@linux.intel.com"
+ <pierre-louis.bossart@linux.intel.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "Chawla, Mohit" <mohit.chawla@ti.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+ "soyer@irl.hu" <soyer@irl.hu>, "Huang, Jonathan" <jkhuang3@ti.com>,
+ "tiwai@suse.de" <tiwai@suse.de>, "Djuandi, Peter" <pdjuandi@ti.com>,
+ "McPherson, Jeff" <j-mcpherson@ti.com>,
+ "Navada Kanyana, Mukund" <navada@ti.com>, Mark Brown <broonie@kernel.org>
+References: <20240126035855.1785-1-shenghao-ding@ti.com>
+ <20240126035855.1785-4-shenghao-ding@ti.com>
+ <f7a2de19-55c5-4aa9-b0a8-632f22b6c147@linaro.org>
+ <f5357751-ed4d-49ad-9d65-199c49f4cbdf@sirena.org.uk>
+ <015abf2c43a44c478726c270bfa17fc0@ti.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <015abf2c43a44c478726c270bfa17fc0@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Javier,
+On 29/01/2024 05:43, Ding, Shenghao wrote:
+>>
+>> On Fri, Jan 26, 2024 at 09:27:47AM +0100, Krzysztof Kozlowski wrote:
+>>> On 26/01/2024 04:58, Shenghao Ding wrote:
+>>
+>>>> +  - if:
+>>>> +      properties:
+>>>> +        compatible:
+>>>> +          contains:
+>>>> +            enum:
+>>>> +              - ti,pcm1690
+>>>> +    then:
+>>>> +      properties:
+>>>> +        reg:
+>>>> +          items:
+>>>> +            minimum: 0x4c
+>>>> +            maximum: 0x4f
+>>
+>>> Nothing improved.
+>>
+>> Shenghao explained what what this is doing - I'm not sure what the actual
+>> problem is here?  It's an actual restriction on the values that are valid.
+> 
+> Hi, Krzysztof. May I have the privilege to petition on behalf of my customers? They 
+> want to keep these if branches and the i2c address in yaml file. As you know, most 
+> of my customers used to make mistakes and confuse with the i2c address. Listing 
+> them here can help them to get the information easily.
 
-I understand your motivation for using the onboard_usb_hub driver
-for powering up a non-hub device, it feels a bit hacky to use it
-as is though. Re-using the driver might be the right thing to do,
-but then it should probably be renamed to onboard_usb_dev (or
-similar) and do the hub specific bits as special case.
+To which cases this exception will apply? Your patches, all TI?
 
-Greg, do you have any thoughts on this?
+Bindings are not supposed to be so detailed to create DTS out if it,
+because it makes them more difficult to maintain. Such amount of
+if:then: makes it trickier, for no real gain.
 
-Also there is an implication that might not matter for the
-XVF3500, but could for other non-hub devices with wakeup support:
-by default the driver powers the hub/device down during suspend,
-unless (in case of a hub) wakeup capable devices are connected.
-This behavior can be changed through sysfs, but the default
-would still be unexpected. In hindsight I think the default
-should have been to keep the hub powered. Not sure if it's an
-option to change the default at this point, since folks might
-rely on it (I know systems that do, but those could be adapted).
-We could possibly change the behavior for non-hub devices and
-keep the device powered if wakeup is supported and enabled
+Best regards,
+Krzysztof
 
-m.
-
-On Tue, Jan 30, 2024 at 01:26:57PM +0100, Javier Carrasco wrote:
-> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
-> multicore controller for voice processing.
-> 
-> This device requires a specific power sequence, which consists of
-> enabling the regulators that control the 3V3 and 1V0 device supplies,
-> and a reset de-assertion after a delay of at least 100ns. Such power
-> sequence is already supported by the onboard_hub driver, and it can be
-> reused for non-hub USB devices as well.
-> 
-> Once in normal operation, the XVF3500 registers itself as a USB device,
-> and it does not require any device-specific operations in the driver.
-> 
-> [1] https://www.xmos.com/xvf3500/
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  drivers/usb/misc/onboard_usb_hub.c | 2 ++
->  drivers/usb/misc/onboard_usb_hub.h | 6 ++++++
->  2 files changed, 8 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-> index 0dd2b032c90b..f16ea3053f84 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.c
-> +++ b/drivers/usb/misc/onboard_usb_hub.c
-> @@ -366,6 +366,7 @@ static struct platform_driver onboard_hub_driver = {
->  #define VENDOR_ID_REALTEK	0x0bda
->  #define VENDOR_ID_TI		0x0451
->  #define VENDOR_ID_VIA		0x2109
-> +#define VENDOR_ID_XMOS		0x20B1
->  
->  /*
->   * Returns the onboard_hub platform device that is associated with the USB
-> @@ -458,6 +459,7 @@ static const struct usb_device_id onboard_hub_id_table[] = {
->  	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
->  	{ USB_DEVICE(VENDOR_ID_VIA, 0x0817) }, /* VIA VL817 3.1 */
->  	{ USB_DEVICE(VENDOR_ID_VIA, 0x2817) }, /* VIA VL817 2.0 */
-> +	{ USB_DEVICE(VENDOR_ID_XMOS, 0x0013) }, /* XMOS XVF3500 */
->  	{}
->  };
->  MODULE_DEVICE_TABLE(usb, onboard_hub_id_table);
-> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
-> index f360d5cf8d8a..1809c0923b98 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.h
-> +++ b/drivers/usb/misc/onboard_usb_hub.h
-> @@ -56,6 +56,11 @@ static const struct onboard_hub_pdata vialab_vl817_data = {
->  	.num_supplies = 1,
->  };
->  
-> +static const struct onboard_hub_pdata xmos_xvf3500_data = {
-> +	.reset_us = 1,
-> +	.num_supplies = 2,
-> +};
-> +
->  static const struct of_device_id onboard_hub_match[] = {
->  	{ .compatible = "usb424,2412", .data = &microchip_usb424_data, },
->  	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
-> @@ -77,6 +82,7 @@ static const struct of_device_id onboard_hub_match[] = {
->  	{ .compatible = "usbbda,5414", .data = &realtek_rts5411_data, },
->  	{ .compatible = "usb2109,817", .data = &vialab_vl817_data, },
->  	{ .compatible = "usb2109,2817", .data = &vialab_vl817_data, },
-> +	{ .compatible = "usb20b1,0013", .data = &xmos_xvf3500_data, },
->  	{}
->  };
->  
-> 
-> -- 
-> 2.39.2
-> 
