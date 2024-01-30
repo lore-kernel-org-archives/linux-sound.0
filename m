@@ -1,130 +1,154 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566C869DE8
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 19:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F0C383BA;
+	Tue, 30 Jan 2024 19:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706642752; cv=none; b=sMQ5WsICK2Gbgddga54pVq3K/sxrI1A34rmwluAF12QtqphzBqQH22STtonV6AeRbcl41GLeBpgpuD7zztA7lHT7/Cru+dBuDmd3EnIHXJKe1ieupyk0syscA487yXSmZ43WUOGiZi2oTeZk0uiq6jUEkLNJWCa/ya2gnsEQLrw=
+	t=1706644128; cv=none; b=UbWBVQa7xTEeUkYRcdmSMAcy6PPdi+Q309spzF3WqXz8Y0rKINzICYjGhCdC/DsH6GUaMoE9nBAWjxmnit9FwZ8q9ZejBfknoi5cdY55++yCInyorl/6rBfM9X2hCB8rBwec/XBtIIJZfTVxjIjMRUteBSzSWYkp7Ft/HgBGk94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706642752; c=relaxed/simple;
-	bh=y7sKyH0SPS+OBne38MmgWqGPlM/4L8s9/P00IjCurwY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jiqe3RQBxHhkX0ISTGnObS3UtNFj2BenEKbcUMWN0wfCpDlyd1rl52LH/msl4UjKwIQvag+nhmEvuHb9h+xhhS0sW6mQURnJq4T0DLf0Me9yUo8hrN/D/51xlC5vqA6jEfVJiuZzKTcXIzM0CUBTzFV4a6duGGLMCDYmchvCshY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtSTmlPy; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1706644128; c=relaxed/simple;
+	bh=hnS05lukx2Rc7Jjyk2rgzbNfJHNBRDEpUQ7Lv4HY3vQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=itvhioLoWkKoKlOohz/kysUV6XmK/CjDyuDYylVAnAZcZZPR6PvLXaQee3Ga1+9RTW482uUOyknAF8nXuDanxsJsGldcm1w/xhfoKyEgRbzd3dQ47sBy/SrbJ4Cjq1olIdFTr6kGcT8qEseSYvX9RbbgW3QNAKzm0srdiFGo8qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QkxMaNfK; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtSTmlPy"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33afcfc40e2so523835f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 30 Jan 2024 11:25:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QkxMaNfK"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-55f496d60e4so1300838a12.2;
+        Tue, 30 Jan 2024 11:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706642748; x=1707247548; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fitVwU9NFH8ALfwqOPkqvEJCaIpXpcoNegj7fJ4FgfU=;
-        b=mtSTmlPyFhzMf3JrUEr4YaO4XbraXk8Dxa7E3cOD2rP563buzs/6PoLXCfmcyHys6T
-         cOl80LZ07/AwWfOYT0Rsi3Za3K5tSz9dNkGtPZ5n48OVPz7c0nFZVSzbj68iUUkin2Ok
-         CvxixA/uJ7gZUSIS9NyEwo/FA15kE7bU4FJTP1JuocTSAgEwiW2rryDgJ2LsG0vfZuXf
-         lsgJBa5stXb5lUySa+qwWA0cBsp77yrHMjpXh08P8UWIm4AEZvRkSfrRssXztC+8BWON
-         Peu8HcS7UTSaQXJkbAT9CaJWPTEClXCF4sGDGEVkzrpfus+VHFpra1UqCNhv5XO+l9Fw
-         bPCw==
+        d=gmail.com; s=20230601; t=1706644124; x=1707248924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rJeQzLZeVsfqqVy/IRIzUBnzfv+gRBsQWCb8iOaJluA=;
+        b=QkxMaNfKlxZqGZx1MyRaBO/dxH+TZwiFMHHjGlhGBqekHBNRQ4RLcfL0phF2BHE6o0
+         hXdsqTjuu+rirC69uRLGYh5h1MnK11wtfrl8nxPiDyl66+Cui8xyFt7rlFsN7I7N0a3X
+         LZ0phri7oYWmnLC2GZY48X/hcTI5wsnRmeYv01BBD0ry5OkRMGW9Lt7iVT8BHXJmosQ5
+         Oia3AHJsEuPOGdpts2drHcrncg1zf0Tl6t6ZPex7AtOf749tAMntybsxdGl+cJUXyNKh
+         PgwgBn/bd8DulF8jDD9k9CdtiG5ZyDKGoF04++cGbrQgnGz8gujVzk8ngn+yc736zpfS
+         J6NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706642748; x=1707247548;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fitVwU9NFH8ALfwqOPkqvEJCaIpXpcoNegj7fJ4FgfU=;
-        b=m7V8QOwipGItJt+6BXdOkn8Sr7nRarwcCLN90DqS8LR0QqpCM9QXKtdV3P/3nDNt1E
-         IeN+f2kNegS4qGjyvuHFGbNU8Mh+nmEuPM1tmaTvXbhboHP3yNss1HUa2KZwKNxYrWxv
-         NZnPo7wMATe8ZxZEJO572bi2egVEeoElnul5gNXBcyUfAK5aIO53Zcc70MCn1z4tQmE4
-         nsPYA/93cR2mBLNd7SkxD1zfEtKMO2HoER8WWaq5jnAjXNGhxBzOmIHVsXJjmZqlBG1N
-         JaF1lO1sWTcGuynoub+xU6AyB2QCvUR93cNxFtSylq0kquuYrJexs+PfkAa5rCRwTF26
-         uP1w==
-X-Gm-Message-State: AOJu0YwzcNJt4vdP+l4zD0F1NGW3LHmnbNwclArOFPxR36BWZSi7Zyz3
-	rviMrY/KvBy+pv9ywpuJ7Ymkhh9c/V5O0Gs1UKE5J7oXBV5WwulT
-X-Google-Smtp-Source: AGHT+IGKtQ4O8NtcU8SOEhJtQNtZ6R+vZO6OKv35qHtOtGRQtbtypse1ngK3LTX7iZrTw8gdXnfjYw==
-X-Received: by 2002:a5d:5981:0:b0:337:ab22:e1e2 with SMTP id n1-20020a5d5981000000b00337ab22e1e2mr8546879wri.37.1706642748403;
-        Tue, 30 Jan 2024 11:25:48 -0800 (PST)
-Received: from aquecedor-3-0.lan ([2001:818:e81c:ce00:7193:3bd:90d8:9d8])
-        by smtp.gmail.com with ESMTPSA id ce2-20020a5d5e02000000b0033af4848124sm4611891wrb.109.2024.01.30.11.25.47
+        d=1e100.net; s=20230601; t=1706644124; x=1707248924;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rJeQzLZeVsfqqVy/IRIzUBnzfv+gRBsQWCb8iOaJluA=;
+        b=Z6bVGRkYSs/rgqMsPjpNX44/rOTJCsHTYu6jDKIiySG9CWQXnBvfWYacB9aysD8ZKK
+         vu/5s86c25+4Ebk9FjfrNIi269a4XAwLg469IqLMIFqB9HMD5j3ak9Gxh/bQKiFISryL
+         Xhf64/wmhUy4L31+QxD3DHWuHIjwG/Rr4VQxdkdKm4wYuj+109MsXHtRvpUvjWUNC6fi
+         ockk67tvYOSlAn/6N4uZZq8V+JWM2zaRcT+DvVNz2y39dEBaJ3RQT8fJ95AXxcZgBTgH
+         eHK8PK/7PVITKtJOdspuAG5DrMt/iLfr+ytYihbIWnCKGhPF6auX6eT7WgOGCBjSm8xX
+         jsLg==
+X-Gm-Message-State: AOJu0YyHpEju0UX7301Lom6Z/RJRCDgiUTc3v80ox8qHuZNGmifNY66r
+	D19p5U2cn7g128xKJ2Qqtq6zvJiWSQiVIP2Xn71QgCNDw5lEthZm++RcgV4A
+X-Google-Smtp-Source: AGHT+IFf3uIFgKLDiLg9UvZu2Lh1EJ+Gp9y7um4mQ5+zM0LwgiEuvgFwE4KceV9gO1NkGgepHcxJpA==
+X-Received: by 2002:a17:906:4088:b0:a35:b7e6:e6f1 with SMTP id u8-20020a170906408800b00a35b7e6e6f1mr4382872ejj.1.1706644124332;
+        Tue, 30 Jan 2024 11:48:44 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-14-70.dynamic.telemach.net. [86.58.14.70])
+        by smtp.gmail.com with ESMTPSA id p2-20020a17090628c200b00a311092d2f8sm5378460ejd.169.2024.01.30.11.48.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 11:25:47 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Relvas?= <josemonsantorelvas@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>,
-	=?UTF-8?q?Jos=C3=A9=20Relvas?= <josemonsantorelvas@gmail.com>
-Subject: [PATCH] Apply headset jack fixup for alc287 thinkpads
-Date: Tue, 30 Jan 2024 19:25:36 +0000
-Message-ID: <20240130192536.10298-1-josemonsantorelvas@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 30 Jan 2024 11:48:44 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] arm64: sun50i-h616: Add DMA and SPDIF controllers
+Date: Tue, 30 Jan 2024 20:48:42 +0100
+Message-ID: <2170768.irdbgypaU6@jernej-laptop>
+In-Reply-To: <20240127163247.384439-1-wens@kernel.org>
+References: <20240127163247.384439-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Thinkpads have a fixup for alc285 which enables headset media buttons, but not for alc287.
-This patch removes the chain to the X1 gen 7 fixup in the alc285 headset fixup, making it applicable for models without bass speakers.
-It then chains said headset fixup with every alc287 thinkpad fixup, making headset media buttons work for these laptops.
+Dne sobota, 27. januar 2024 ob 17:32:40 CET je Chen-Yu Tsai napisal(a):
+> From: Chen-Yu Tsai <wens@csie.org>
+> 
+> Hi everyone,
+> 
+> This is v2 of my H616/H618 DMA and SPDIF controller series.
+> 
+> Changes since v1:
+> - Switch to "contains" for if-properties statement
+> - Fall back to A100 instead of H6
+> - Add DMA channels for r_i2c
+> 
+> This series adds DMA and SPDIF controllers for the H616 and H618.
+> There's also a fix for SPDIF on H6: the controller also has a
+> receiver that was not correctly modeled.
+> 
+> Patch 1 fixes the binding for the SPDIF controller on the H6 by adding
+> the RX DMA channel.
+> 
+> Patch 2 adds a compatible string for the H616's SPDIF transmitter to the
+> binding.
+> 
+> Patch 3 adds a compatible string for the H616's SPDIF transmitter to the
+> driver.
+> 
+> Patch 4 adds a compatible string for the H616's DMA controller.
+> 
+> Patch 5 adds the RX DMA channel to the SPDIF controller on the H6.
+> 
+> Patch 6 adds a device node for the H616's DMA controller.
+> 
+> Patch 7 adds a device node for the H616's SPDIF controller.
+> 
+> 
+> This was tested on the Orange Pi Zero 3 with SPI flash transfers and
+> SPDIF audio output. The H6 SPDIF change is superficial as the driver
+> does not support receiving / capturing an audio stream.
+> 
+> Please have a look. I expect the first three patches to go through the
+> ASoC tree, the fourth patch to either go through the DMA tree, or
+> through the sunxi tree with an Ack, and the last three through the sunxi
+> tree.
+> 
+> 
+> Thanks
+> ChenYu
+> 
+> 
+> Chen-Yu Tsai (7):
+>   dt-bindings: sound: sun4i-spdif: Fix requirements for H6
+>   dt-bindings: sound: sun4i-spdif: Add Allwinner H616 compatible
+>   ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
+>   dt-bindings: dma: allwinner,sun50i-a64-dma: Add compatible for H616
+>   arm64: dts: allwinner: h6: Add RX DMA channel for SPDIF
+>   arm64: dts: allwinner: h616: Add DMA controller and DMA channels
+>   arm64: dts: allwinner: h616: Add SPDIF device node
+> 
+>  .../dma/allwinner,sun50i-a64-dma.yaml         | 12 ++--
+>  .../sound/allwinner,sun4i-a10-spdif.yaml      |  5 +-
+>  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  2 +
+>  .../boot/dts/allwinner/sun50i-h6-tanix.dtsi   |  2 +
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |  7 +--
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 61 +++++++++++++++++++
+>  sound/soc/sunxi/sun4i-spdif.c                 |  5 ++
+>  7 files changed, 85 insertions(+), 9 deletions(-)
+> 
+> 
 
-Signed-off-by: José Relvas <josemonsantorelvas@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+Applied patches 5-7 to sunxi tree, thanks!
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c80e2f3acfcc..21d10c62964c 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -8796,13 +8796,13 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc285_fixup_thinkpad_x1_gen7,
- 		.chained = true,
--		.chain_id = ALC269_FIXUP_THINKPAD_ACPI
-+		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK
- 	},
- 	[ALC285_FIXUP_THINKPAD_HEADSET_JACK] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc_fixup_headset_jack,
- 		.chained = true,
--		.chain_id = ALC285_FIXUP_THINKPAD_X1_GEN7
-+		.chain_id = ALC269_FIXUP_THINKPAD_ACPI
- 	},
- 	[ALC294_FIXUP_ASUS_HPE] = {
- 		.type = HDA_FIXUP_VERBS,
-@@ -9577,7 +9577,7 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = cs35l41_fixup_i2c_two,
- 		.chained = true,
--		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
-+		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
- 	},
- 	[ALC287_FIXUP_TAS2781_I2C] = {
- 		.type = HDA_FIXUP_FUNC,
-@@ -9604,6 +9604,8 @@ static const struct hda_fixup alc269_fixups[] = {
- 	[ALC287_FIXUP_THINKPAD_I2S_SPK] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc287_fixup_bind_dacs,
-+                .chained = true,
-+                .chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK
- 	},
- 	[ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD] = {
- 		.type = HDA_FIXUP_FUNC,
-@@ -10206,8 +10208,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x224c, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
- 	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
- 	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
--	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
--	SND_PCI_QUIRK(0x17aa, 0x22be, "Thinkpad X1 Carbon 8th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
-+	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_X1_GEN7),
-+	SND_PCI_QUIRK(0x17aa, 0x22be, "Thinkpad X1 Carbon 8th", ALC285_FIXUP_THINKPAD_X1_GEN7),
- 	SND_PCI_QUIRK(0x17aa, 0x22c1, "Thinkpad P1 Gen 3", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
- 	SND_PCI_QUIRK(0x17aa, 0x22c2, "Thinkpad X1 Extreme Gen 3", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
- 	SND_PCI_QUIRK(0x17aa, 0x22f1, "Thinkpad", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
--- 
-2.43.0
+Best regards,
+Jernej
+
+
+
 
