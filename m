@@ -1,163 +1,106 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F29664BB;
-	Tue, 30 Jan 2024 11:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F4E66B20;
+	Tue, 30 Jan 2024 11:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706612737; cv=none; b=Rnk9JaI42KrRnajWGkHD5rghan0xD18mvMupAZgjZf2R/sf+hJuqtC/ybZ1jjeVdS4RBpfWGM+CRhXzPGmT15Ie1NTdKqI7bG+02XLx61G3skU+SF7igdI6fz1ZQ56xktnLMtpCu3tNUHbY+evpoDM5HP/zUhvcpjCpCbq6Ulk0=
+	t=1706613176; cv=none; b=IRwttsR/wEoNlGkSdddJcgmHBOAm6lZhB+yBOsV9iKYTIUM4uTOl2Fup848hqeQ4A5PVcKvx2hNzXVGiZMLOf8xMquQ+lH1RHfXqgmbcMXs02XuzW/ZqXsr+RyH1cQ7dAtBXw7laUjQyezg/hRXwptduxhE+nsQVEtVgl0jCzb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706612737; c=relaxed/simple;
-	bh=bA6oiIJ/ZMUKaMCF87cC9UASHPrEnY7xDEMlpEbuvbI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qIWrSwKsugHZvaTP5MsnxR3RSxbgSPfhYE6fckz2W7Wyy2L8pr+d4QeaLVXh8qn5/MubNv5u+Sh3AC/Z2dQsboWTnxtOCMIgnPhVO1sr+ANJmktu6K1x7CMUj1Hpu47jUfkCNF7PUTlEZ2hrlyqAPpo18DXg1BHf9Z+GSpc6HWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IADt+4EB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JxOUfGh2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IADt+4EB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JxOUfGh2; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706613176; c=relaxed/simple;
+	bh=M0lpIKLgHsHcpNnO2aKdjqw9uhZZRpl1IB/C3sBX9co=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PPNZhvvftTEWEl1WmyD4vThAivgCkvIPthvCbw1DyG0nYw/I2zZ8o3CAuYTIZ/t13Q9zRq9TTYr9q5Bp4atpERLhZpqiT5S4WJBOigXthEmFpieb1yNYZ7WlyNX2crNSEOFpObUOya0QxOadl2EWzXpquXEoYT5E8B18K+pkguw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KoUzgfh9; arc=none smtp.client-ip=134.134.136.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IADt+4EB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JxOUfGh2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IADt+4EB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JxOUfGh2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 520DF222DE;
-	Tue, 30 Jan 2024 11:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706612733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XHa2+/RV9Q49g5mVEupkk6ydWd6AuIwK8lzXmqDcRUc=;
-	b=IADt+4EBl2bU99+MBfsG1F076DnSP2i7/qOLQsgO+2dFTS5lRId2vQq97ZY5XAeOk24EZc
-	Kf4ti75J7cVnpyznvYLqS8ovdoHEiudEwYaJhMrm3T86BmSvMgxOCubsyxHmI+uJA2S+JC
-	waJIYyYCG1ZFZqu5nSnwoLg20avckk4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706612733;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XHa2+/RV9Q49g5mVEupkk6ydWd6AuIwK8lzXmqDcRUc=;
-	b=JxOUfGh2RNH48wOpvh20XKRzZv+tDKCa7oHUoJu8FM1/ESIiDGJZIgM6JRMhVoBtyCFlXP
-	Te6H7rCo3dYdl5AQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706612733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XHa2+/RV9Q49g5mVEupkk6ydWd6AuIwK8lzXmqDcRUc=;
-	b=IADt+4EBl2bU99+MBfsG1F076DnSP2i7/qOLQsgO+2dFTS5lRId2vQq97ZY5XAeOk24EZc
-	Kf4ti75J7cVnpyznvYLqS8ovdoHEiudEwYaJhMrm3T86BmSvMgxOCubsyxHmI+uJA2S+JC
-	waJIYyYCG1ZFZqu5nSnwoLg20avckk4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706612733;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XHa2+/RV9Q49g5mVEupkk6ydWd6AuIwK8lzXmqDcRUc=;
-	b=JxOUfGh2RNH48wOpvh20XKRzZv+tDKCa7oHUoJu8FM1/ESIiDGJZIgM6JRMhVoBtyCFlXP
-	Te6H7rCo3dYdl5AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFFE512FF7;
-	Tue, 30 Jan 2024 11:05:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MP7/OPzXuGVfPQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Jan 2024 11:05:32 +0000
-Date: Tue, 30 Jan 2024 12:05:32 +0100
-Message-ID: <87il3b3wub.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Chhayly Leang <clw.leang@gmail.com>
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	patches@opensource.cirrus.com,
-	James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: cs35l41: Support ASUS Zenbook UM3402YAR
-In-Reply-To: <20240126080912.87422-1-clw.leang@gmail.com>
-References: <20240126080912.87422-1-clw.leang@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KoUzgfh9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706613175; x=1738149175;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=M0lpIKLgHsHcpNnO2aKdjqw9uhZZRpl1IB/C3sBX9co=;
+  b=KoUzgfh9n8A2B8Ev1opiuLvvxA/A14oG+L2zWA6sgDIJ2vgLrhO7lC7D
+   t6Gf15bj/59NoFqmVCfG+7XxcmEAtmpiAYsuqdtoCKSai2iqYUzm1G7Lr
+   sQ9wcOMnv4h5lmQF76647gGThtUoz00hEcyeTV0CvSPfTgGdmq2OQSaMq
+   7t9n0aFvkdjUwVZz1QNsEEZ2JnhfJgS4c45Yp9kp5CxB8/rBwrCx+tD6w
+   VtMRxJjDTpyBSJxpxd5G5fwYBKLrwzCfOWtGpnrUR7he862KhB5qZhq6K
+   aU9ShgOZrjvYZubc7EBn4lsZOjN84Qn/WetcSLH+3Jm+neLBsJRmlKovz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="467503953"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="467503953"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 03:12:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="29873042"
+Received: from aravikum-mobl1.amr.corp.intel.com (HELO [10.209.88.191]) ([10.209.88.191])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 03:12:53 -0800
+Message-ID: <11280dec-cf3d-1694-d837-2bf263ad148a@linux.intel.com>
+Date: Tue, 30 Jan 2024 12:12:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.1
+Subject: Re: [PATCH 08/18] ASoC: cs35l56: Fix default SDW TX mixer registers
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
+ tiwai@suse.com
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20240129162737.497-1-rf@opensource.cirrus.com>
+ <20240129162737.497-9-rf@opensource.cirrus.com>
+ <4f54a12c-c8a3-414c-b4df-3f7b25e6d524@linux.intel.com>
+ <a8432725-6dc6-4765-831f-178dcee8b829@opensource.cirrus.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <a8432725-6dc6-4765-831f-178dcee8b829@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 26 Jan 2024 09:09:12 +0100,
-Chhayly Leang wrote:
+
+>>> CS35L56 is designed for SDCA and a generic SDCA driver would
+>>> know nothing about these chip-specific registers. So the
+>>> firmware sets up the SDW TX mixer registers to whatever audio
+>>> is relevant on a specific system.
+>>>
+>>> This means that the driver cannot assume the initial values
+>>> of these registers. But Linux has ALSA controls to configure
+>>> routing, so the registers can be patched to silicon default and
+>>> the ALSA controls used to select what audio to feed back to the
+>>> host capture path.
+>>
+>> humm, which has the precedence then?
+>> a) the values set by firmware
+>> b) the default values set by the driver?
+>>
+>> Also if the firmware touches those registers shouldn't they be marked as
+>> 'volatile'?
+>>
 > 
-> Adds sound support for ASUS Zenbook UM3402YAR with missing DSD
+> The firmware was designed to work with Windows, so it looks a bit
+> strange if you are coming at it from ALSA. There's not really any
+> defined 'precedence'. The firmware will setup the feedback monitor paths
+> to something that satisfies SDCA and Windows expectations.
 > 
-> Signed-off-by: Chhayly Leang <clw.leang@gmail.com>
-
-Yet another missing entry; can Cirrus people review this before I
-merge?
-
-
-thanks,
-
-Takashi
-
-> ---
->  sound/pci/hda/cs35l41_hda_property.c | 2 ++
->  1 file changed, 2 insertions(+)
+> We don't care about that in Linux, the firmware on the Intel DSP
+> probably isn't running the same algorithms for Linux, and we have ALSA
+> controls to configure those paths. So we patch the mixers back to their
+> silicon defaults and take over complete control of them.
 > 
-> diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-> index 35277ce890a..2af083183d8 100644
-> --- a/sound/pci/hda/cs35l41_hda_property.c
-> +++ b/sound/pci/hda/cs35l41_hda_property.c
-> @@ -76,6 +76,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
->  	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->  	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
->  	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 1000, 4500, 24 },
-> +	{ "10431683", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
->  	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
->  	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
->  	{ "104317F3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-> @@ -410,6 +411,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
->  	{ "CSC3551", "10431533", generic_dsd_config },
->  	{ "CSC3551", "10431573", generic_dsd_config },
->  	{ "CSC3551", "10431663", generic_dsd_config },
-> +	{ "CSC3551", "10431683", generic_dsd_config },
->  	{ "CSC3551", "104316D3", generic_dsd_config },
->  	{ "CSC3551", "104316F3", generic_dsd_config },
->  	{ "CSC3551", "104317F3", generic_dsd_config },
-> -- 
-> 2.42.0
-> 
+> The firmware only writes them during its power-up sequence so they
+> will only change when we are rebooting the firmware or coming out of
+> low-power standby, which is under the control of the driver. When that
+> happens regmap will re-apply the patch and then sync up the registers
+> again. The firmware won't touch them after boot, so we can avoid having
+> to mark them volatile (which would mean implementing our own manual
+> caching of the settings).
+
+ok, thanks for the explanations.
+
