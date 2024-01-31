@@ -1,144 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4FC79DB6
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 13:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97E379DB6
+	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 13:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706706826; cv=none; b=LWHEUAda2ljpwnhnnXegCTe0eskFEwVksONEcc8ZfgZLIH1SRvgb8X2/+X6DsRzL7zVswOL7iP8k1hH5MkZSbNZ4RoqviSXBoJvA7XANLcUeytd/9awLPCCADt+zBB92GocE7dFrkUiUPsXwF1vpSLK4VI9CA5UoJtS9mR/6JvE=
+	t=1706707088; cv=none; b=jcamRKXniVm3qBzpODWIIW5s89mHb5MaRcNiDex/X0AYZ0Mqy8MHrhCtUdPA6xb6SM+jx76CSPoYo9RXCBueUY4d2MZ8TYului0YJ5wm2W6R6r3sahtZJ6G+jqYgzpVjjxBoMSqk+r3d44NM7IFYYhQ/k/iWT7p02ByDGfoLr/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706706826; c=relaxed/simple;
-	bh=VHOAeAYf4Nnn465d5f8AjTzL9eyeXb9sZNor7V0ayLk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o3DN6xqQriqfm8MbLTKjVm2RFXXgELujlLBdRaNk+cPf5Jkq/DaVFGpEMnUh8e+nOjMPULAzODr3LsGeK5r+eFKNzoM42A2AumIeGz1OkW/Y6E9lPb8xtSaT0npxM69bEtdKKsmdL9rDBHyMpo1HRxSfyd3Qr5XlJtkIbaJvKPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w4QiGBcZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3PZ9vNs0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w4QiGBcZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3PZ9vNs0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706707088; c=relaxed/simple;
+	bh=dr6D8tcSVVpexu92k5w3N7i9nF+7FRKOS7uUR00A6YM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X617LQlgBbi4FDnhj+xWXtCWA3cgNQMtq8BgAro0olvih+t7jKOOjaY07Ee1Q335i5a87Om3bVRF45xr+oMrG6995bhXBnOwOdcL4avnfLowty43ZvSgvoJWpkSTPd3/Nd/r3Xm2Hpaej+jN3Mp39hcQA/xyJIvjKUKbPa4jPTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QnI8TbWG; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w4QiGBcZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3PZ9vNs0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w4QiGBcZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3PZ9vNs0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F1EE220BF;
-	Wed, 31 Jan 2024 13:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706706822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nIQC80suH7U4AQNOiyXPRwJomiVUvbW2qOQKp/mknFA=;
-	b=w4QiGBcZTj8F8CFrPyRUEP3zixXfhSIn3A67vFKTWsKYbOEdJQYNs3/c7Zbqt5mzhgBgmy
-	B24eJVergZdDpUJvqTzH/PluKWTDTo+e1ZQqbJQzrl9PkGTb1B4H7fKzdborfFuNwvRxOA
-	R3+wsNOyrHTn2syt1cEwfGhOkw/eDdc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706706822;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nIQC80suH7U4AQNOiyXPRwJomiVUvbW2qOQKp/mknFA=;
-	b=3PZ9vNs0dh0lHUHXp+56nf4DEbygiFCOwZEj0vVSxzJCHOZ8jdx0+N7wFmwAva6sRqdWfV
-	VYy+0dJN/V0jp/CQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706706822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nIQC80suH7U4AQNOiyXPRwJomiVUvbW2qOQKp/mknFA=;
-	b=w4QiGBcZTj8F8CFrPyRUEP3zixXfhSIn3A67vFKTWsKYbOEdJQYNs3/c7Zbqt5mzhgBgmy
-	B24eJVergZdDpUJvqTzH/PluKWTDTo+e1ZQqbJQzrl9PkGTb1B4H7fKzdborfFuNwvRxOA
-	R3+wsNOyrHTn2syt1cEwfGhOkw/eDdc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706706822;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nIQC80suH7U4AQNOiyXPRwJomiVUvbW2qOQKp/mknFA=;
-	b=3PZ9vNs0dh0lHUHXp+56nf4DEbygiFCOwZEj0vVSxzJCHOZ8jdx0+N7wFmwAva6sRqdWfV
-	VYy+0dJN/V0jp/CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 685DA1347F;
-	Wed, 31 Jan 2024 13:13:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Kq1QGIZHumWkAwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 31 Jan 2024 13:13:42 +0000
-Date: Wed, 31 Jan 2024 14:13:42 +0100
-Message-ID: <87wmrp1w8p.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Jos=E9?= Relvas <josemonsantorelvas@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH V2] Apply headset jack quirk for non-bass alc287 thinkpads
-In-Reply-To: <20240131113407.34698-3-josemonsantorelvas@gmail.com>
-References: <20240131113407.34698-3-josemonsantorelvas@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QnI8TbWG"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-603e086c05bso30869717b3.3
+        for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 05:18:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706707086; x=1707311886; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dr6D8tcSVVpexu92k5w3N7i9nF+7FRKOS7uUR00A6YM=;
+        b=QnI8TbWG2XKPFB9aozCWTavISGyEjEIeKvQBhFVZ5daEc2Gvbg1a+uRaA9AEr1386U
+         0xudJNvDJ30LyjyFJmsPwFu/u7Hxt8SIIBM4vL+b/JJRqFYk5NMC3lOENIkHYFOrbVxh
+         GF57jP3AFv8Xg2eMG0Hb1EPlibZ0ZyS3kqTNZHy8iuxaX7s2XpL6+15F89GUjAoDWNXD
+         MMfPk55M/V13sFxB+NHHhB3FiOQLnkaGO5GgUogGV91PZepnmTwbXwl7JBq2lwTO80KD
+         0OQe5pFIf2uRB9A6KAJL0XvN1CspSRq3q2brtC/BDwHx7OAeIrhTEdKgC5qtkeOxjk2V
+         hvFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706707086; x=1707311886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dr6D8tcSVVpexu92k5w3N7i9nF+7FRKOS7uUR00A6YM=;
+        b=bkc+TS5NbzgNhdfuJJ8k5wp4d53tFMuRQHWTjkG0C+giBiTBCn8UAtH5KcqypfwiAN
+         03TlBMURtg11Z4Gx4+LkYQHFpRzGrzkxlM4IMSkn0IAW/l8jDdxCluTXKsPUANk++Lbf
+         1mrA+RjRSfZLbybx31IQrP1S+4u26tVV0fZRgEUV6DfE+jEG2UUVQ+3NV+d6Qr/n3ipT
+         6lNP1rdaTJnHoSjNxh2sdbcp1g1ZGZTecyL5YS+nCOTHVf3wp9JIbK8wF1CZ7tQEon95
+         1ZBJXo1BQcV5FFoTBr42fq2phmV7VYLwvGBItILOA5KDKAr4lmnvSFpEHg8Pn4A0I67a
+         jCmA==
+X-Gm-Message-State: AOJu0YyJD+v8cdKU5PxgyiXy4wKxFqoe3SxbMgPuWY0cxuSgHkLZ30lL
+	rg11fRPC7Z0KHYwF0nvEIQqfO65Uq16Ej5d0Rj1aChQdy/NlhzEPn+MYyN3iSijvdu15fyLwidA
+	aOOkF96mI6295cJZDkpvaWl4fhHJPfX6aooxHQQ==
+X-Google-Smtp-Source: AGHT+IFVACpGX4CJfjjGDw2bakc2klq/FcD8fSXKF03+Z3ok8uxur5h6A7nnyOGYfn7248iMkpgzntKDjCWeB+kOfoE=
+X-Received: by 2002:a81:79d5:0:b0:5ff:f756:8804 with SMTP id
+ u204-20020a8179d5000000b005fff7568804mr1275150ywc.45.1706707085871; Wed, 31
+ Jan 2024 05:18:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=w4QiGBcZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3PZ9vNs0
-X-Spamd-Result: default: False [-4.25 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.94)[99.76%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 8F1EE220BF
-X-Spam-Level: 
-X-Spam-Score: -4.25
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+ <20240129115216.96479-5-krzysztof.kozlowski@linaro.org> <CACRpkdYf4HUaV-Pjr81WjLbzy9zdAnyFWs9gPayPC6-3OjHQwA@mail.gmail.com>
+ <CAMRc=Mc1SGLeUOWmKg=fvCdM+RR6FSu2QkFuR17s7L99eRMGug@mail.gmail.com>
+In-Reply-To: <CAMRc=Mc1SGLeUOWmKg=fvCdM+RR6FSu2QkFuR17s7L99eRMGug@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 31 Jan 2024 14:17:54 +0100
+Message-ID: <CACRpkdbaxqTzwL9L02vCpMMdBYsubNP1VkNuJ8mXB_=4E3Kjaw@mail.gmail.com>
+Subject: Re: [PATCH v6 4/6] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Sean Anderson <sean.anderson@seco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 31 Jan 2024 12:34:09 +0100,
-José Relvas wrote:
-> 
-> There currently exists two thinkpad headset jack fixups:
-> ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK
-> ALC285_FIXUP_THINKPAD_HEADSET_JACK
-> 
-> The latter is applied to alc285 and alc287 thinkpads which contain bass speakers.
-> However, the former was only being applied to alc285 thinkpads,
-> leaving non-bass alc287 thinkpads with no headset button controls.
-> This patch fixes that by adding ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK
-> to the alc287 chains, allowing the detection of headset buttons.
-> 
-> Signed-off-by: José Relvas <josemonsantorelvas@gmail.com>
+On Wed, Jan 31, 2024 at 10:37=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
+> wrote:
 
-Applied now.  Thanks.
+> [Me]
+> > reset -> virtual "gpio" -> many physical gpios[0..n]
+>
+> This is a different problem: it supports many users enabling the same
+> GPIO (in Krzysztof's patch it's one but could be more if needed) but -
+> unlike the broken NONEXCLUSIVE GPIOs in GPIOLIB - it counts the number
+> of users and doesn't disable the GPIO for as long as there's at least
+> one.
 
+I don't know if the NONEXCLUSIVE stuff is broken, if you mean reference
+counting isn't working on them, then that is by design because they were
+invented for regulators and such use cases that do their own reference
+counting. It's also used for hacks where people need to look up a desc in
+a second spot, (perhaps we can fix those better).
 
-Takashi
+As I say in commit b0ce7b29bfcd090ddba476f45a75ec0a797b048a
+"This solution with a special flag is not entirely elegant and should ideal=
+ly
+be replaced by something more careful as this makes it possible for
+several consumers to enable/disable the same GPIO line to the left
+and right without any consistency."
+
+I think for regulators (which is the vast majority using it) it isn't broke=
+n
+because the regulator reference counting is working.
+
+So if we solve that problem for reset, we probably should put it in
+drivers/gpio/* somewhere so we can reuse the same solution for
+regulators and get rid of NONEXCLUSIVE altogether I think?
+
+The NONEXCLUSIVE stuff was prompted by converting regulators to
+gpio descriptors, so it was for the greater good one can say. Or the
+lesser evil :( my judgement can be questioned here.
+
+Yours,
+Linus Walleij
