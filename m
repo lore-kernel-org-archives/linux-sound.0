@@ -1,58 +1,59 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550BD12DD85;
-	Wed, 31 Jan 2024 17:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56F212CDBE;
+	Wed, 31 Jan 2024 17:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706722874; cv=none; b=ABfePHgCiyoIXZy0EOrHmh77PLNGfg+v5cU9Gerj3Q5+BeHc9pnw9z6phvu6oKAfGHnv2tpBAUbObUl9cHt8IrhU1vml9I8arS/9h1cSN4et7SEVRX3FG3aklgjtEzTOzZ3hnL8AGqHDYXIwZsJyNYcONPucZFGTQQk1zO2rHQY=
+	t=1706722977; cv=none; b=f9heSAt9P5ehRHBWFiMgo8bbhj9nk82FJ5DygNA2oK4yurhGdHFq8o5dtWKWsUaOTKF4uIMs6SdUtoFTjamtDrSDJhFv45rZQWD1CH8WBRmf1QGD2npCDCHhmUicfm/3YkLzHSQva6CsRe0p7do87uUV6GCuUDCOrFnE0m8C0pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706722874; c=relaxed/simple;
-	bh=vAdeHRVoSIIqAH5Ez7lwMhgx5z/HQ+XRmlVVJBmXAv8=;
+	s=arc-20240116; t=1706722977; c=relaxed/simple;
+	bh=5mBrqsdSSNX4K1OVtEiQXCeAYA1ovM5trdUHizHWMCw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q/pB4eYLDGc++swBwnB9dMRuZf1TnyytFXTEU3BEjZ9QVRBl55kPzKd3s3bcpG8L//WpWEfdn1SxSjgztXXS/WD7Pe2UXaMDGB/N0IuJgeI9TKsmCcIRNj16sDr9vjirRghUA2l41cS29Y7BC2r2ijvyPBDzeJ2JgVJVlOa9n/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBFXvR+A; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:Content-Type; b=J35WGWzcknwCJ/NWIflFlazHpGengieU70FHO3XFMHtdMVVsame/Qa8JfJpVKFJgv19PrkqA+Nn0pAEBXZ8A+C2meVSRdYurnCp8+F6hCWJ+pSq38lIQNTwbJcTK96/+2fPvSGmlUOfIAunrNLvd7e6XgT5aVGOjK7upFr7LWwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QYhqb3iX; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBFXvR+A"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40efd8d7ecbso105015e9.1;
-        Wed, 31 Jan 2024 09:41:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYhqb3iX"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33aeac77bc4so4006f8f.0;
+        Wed, 31 Jan 2024 09:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706722870; x=1707327670; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706722974; x=1707327774; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0EbZlNLfHk6MB2DvUgj7PDUK/qmWoKpZYnt8oXMpFHo=;
-        b=IBFXvR+Aa1i7W7/Yby3ddQ9fjHyt1zc4+AvPG1nF5SJVY2AUZy89UEqqfZrGEX3sZc
-         ho5BlC3tuj8lFb7PU74rnJ1PEJfE8slHhkOt+C29RsUhaRG/xvH9NUUdNiCGaA+4Vz8h
-         1zD9V3jv3DFwE83tB89I6Qv88OonQm1dVqzcrCFjaSDuAVaPjT1m3os4HJGvj7kx3/Kn
-         OGGmZnQApnqOKr2ZtWWj6zu4uu3ZLbkRDv18GTGYX0at0GxspJC3/WlIEKh8n+4Ry5rZ
-         TZLRgByP1J81NInlDlwQC5iWb1L8qVm0BMIefwPxFiaIDbW+4s6tdyAdippyeru6LnJ7
-         Z8OQ==
+        bh=AgYafR8d8OW74/fEtUK5QU/2T1EGv4L7kpyAYQKPOoA=;
+        b=QYhqb3iXn+Y/gcqtUkW9CVw4Vqs7Ff4bplP5GrfYGeS0t4OuZqhdC0qaNsP90WC4sf
+         eVD2mO4WK9X3vgMOBrKTSeUXr4VD3EJK1MgQdTTjiSlSxfDAJ8jBl4cfnQwpTbM/XNaQ
+         FGyPxLkr9SqyuX6Ta0yH7Uo6ns0jRrCWNb8IgmFQU3aLHa4YGn8diKkPcIc4TQ/yHfOQ
+         0IA2QGyPW3ckSE6Xf29PpDSunSuxSoHXW/BGCAacGr94Tl8kmQeYWkrqwBmIRKoGh48o
+         KtRNxnT4nZf2XE4PvFaZuvtCAkm3YHBUN4Nku8i9q0A0rTx4nfP3/lxoZjNxRuco9Pb1
+         k/Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706722870; x=1707327670;
+        d=1e100.net; s=20230601; t=1706722974; x=1707327774;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0EbZlNLfHk6MB2DvUgj7PDUK/qmWoKpZYnt8oXMpFHo=;
-        b=fAyEnhIMTf3z+RCtH8Hvvjuk4ir5T4s/2ATY0GMeHwpdGCwYZUAF8/FfMeYWhQzG7q
-         1tU8eYFhEFVY9PaaNFNuMlXodkAhesnWf8ipS2WvSW52TrmAEmEvKScVu8Z0oFCQnZtl
-         94+l9cEmILM/yAiFLf1dSfwlAlG1ztiE4cfMJn5db0DLsJwgT3qtI4mZawgBe6m5QXhw
-         P9q8IfIxrmrOWs8LyhYP8RwaIMPO+V30JYLUmZp98JJJjh4S1xUNs8Yum81xGXCQWGwa
-         nTS303YtOdF2llteULoNKdfOukJVfYkS4aSOirHpvav5ZPk76KVQ8E7afyUtNnmxx6VF
-         FIhA==
-X-Gm-Message-State: AOJu0YwoUlnQKadFT+jWZQdqTQZdhWu/QPCUjXKoWfeyIxlm2rYf9Y6k
-	b+ZzXINgP/WCvpYPe+9n4Hsaa7E0Gc7qDGvCn0UjxOot0zwB7cEublazhkSI
-X-Google-Smtp-Source: AGHT+IE7BWYwNtJxIsBIrVyd6V2SdxrO2f9e8E+IpcUXVwQO65/fpemICb8VpUrc82R3P+aBFnAs0A==
-X-Received: by 2002:a05:600c:4e16:b0:40f:afb6:5ceb with SMTP id b22-20020a05600c4e1600b0040fafb65cebmr168938wmq.4.1706722870289;
-        Wed, 31 Jan 2024 09:41:10 -0800 (PST)
+        bh=AgYafR8d8OW74/fEtUK5QU/2T1EGv4L7kpyAYQKPOoA=;
+        b=dX9knFTWzbqDMpf/QRbUI5FVS7b8CnVfuJUBktaWECgnM4BKIQiWupA6Nwfni9ftTt
+         yTarN7Id+Nm8/FXRsyh4QG/tmS8pTwsIInOrAjlR89PUEpTKy03R5006seOZB75AVkmH
+         qCU05FOirERBjsUx+D2rrbyAFuZ3p4UoMxbVLdh6xxcjvVZ6CMqtKhjIL9NAu4V5NE0x
+         mUMd82P42skZyO2mZHBGi3e36JKUkICidsNZ7c7vIZ3qFGE3n/A1TMWolzSi/iDRGtpF
+         qmRPX3Raxyj3Uy/v6srRbPPPGAnv3JVqjVhDKtawxQZPsXB88JzkkZeF1wkK63x3fxpM
+         yXkw==
+X-Forwarded-Encrypted: i=0; AJvYcCWTdArYqC/KXEvf6pv+NLsgSr9hvmoPUJBE5MubMOuXGqecl4IFKdgGcC41MYAlxBe9vkX3kpHeT03Ocme17ZUd38k5IJahgu6tbPyFgK/Kv1jaWCL3KTN3RioYYgc0rQQILF0PESOOLZg=
+X-Gm-Message-State: AOJu0YxVphPxEwLkWLmx1djG17WtFdMgsnmWPWz8g/sFu6M8vV6eylop
+	Q2sG6jF+Pi4m2qpV5NrRJ9KPNYE/aCl7Qg4H+z4DY+pFDEmXUSuV
+X-Google-Smtp-Source: AGHT+IHvk5WBJhdQvfPQj27osRuS4nNxP4VNndtdOFRqHSGbSaGTg8fwBOQCt4G7SehYlD0Tnj0p+g==
+X-Received: by 2002:a5d:69c1:0:b0:33b:1126:7326 with SMTP id s1-20020a5d69c1000000b0033b11267326mr118212wrw.4.1706722973991;
+        Wed, 31 Jan 2024 09:42:53 -0800 (PST)
 Received: from [172.16.102.38] ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id u1-20020a05600c138100b0040f035bebfcsm2196161wmf.12.2024.01.31.09.41.09
+        by smtp.gmail.com with ESMTPSA id ay12-20020a5d6f0c000000b0033ad47d7b86sm14137987wrb.27.2024.01.31.09.42.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jan 2024 09:41:09 -0800 (PST)
-Message-ID: <c4498c59-cf64-4a8b-82b9-01d0571779c7@gmail.com>
-Date: Wed, 31 Jan 2024 17:41:08 +0000
+        Wed, 31 Jan 2024 09:42:53 -0800 (PST)
+Message-ID: <a01a5a20-1dcc-4f90-9a72-29dc83d0d5f0@gmail.com>
+Date: Wed, 31 Jan 2024 17:42:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,60 +63,40 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
 Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
- <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
+ <87wmrr2ca3.wl-tiwai@suse.de>
 From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
+In-Reply-To: <87wmrr2ca3.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 1/26/24 09:01, Amadeusz Sławiński wrote:
-> On 1/25/2024 11:35 PM, Ivan Orlov wrote:
+On 1/30/24 13:15, Takashi Iwai wrote:
+> On Thu, 25 Jan 2024 23:35:19 +0100,
+> Ivan Orlov wrote:
+>>
 >> Add 4 missing formats to 'snd_pcm_format_names' array in order to be
 >> able to get their names with 'snd_pcm_format_name' function.
 >>
 >> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
->> ---
->>   sound/core/pcm.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
->> index a09f0154e6a7..d0788126cbab 100644
->> --- a/sound/core/pcm.c
->> +++ b/sound/core/pcm.c
->> @@ -211,6 +211,10 @@ static const char * const snd_pcm_format_names[] = {
->>       FORMAT(DSD_U32_LE),
->>       FORMAT(DSD_U16_BE),
->>       FORMAT(DSD_U32_BE),
->> +    FORMAT(S20_LE),
->> +    FORMAT(S20_BE),
->> +    FORMAT(U20_LE),
->> +    FORMAT(U20_BE),
->>   };
->>   /**
 > 
-> Maybe we can also add some kind of static_assert to check at compile 
-> time that all formats are handled, something like:
-> static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
-> + 1);
+> Now applied all three patches.  This first one is to for-linus, while
+> the rest two are to for-next for 6.9 kernel.
 > 
-> Although looking at definitions there is a hole between 
-> SNDRV_PCM_FORMAT_U20_BE & SNDRV_PCM_FORMAT_SPECIAL, which will cause 
-> this idea to fail.
+> For further improvements (e.g. Amadeusz suggested), let's apply on top
+> of that.
 > 
-> Perhaps with comment:
-> static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
-> + 1 - 2); /* -2 for formats reserved for future use */
-> ?
+> 
+> thanks,
+> 
+> Takashi
 
-Hi Amadeusz,
+Hi Takashi,
 
-Thank you for the review and sorry for the late answer. Yes, I believe 
-it could be a nice improvement! Could I send a patch and specify you in 
-Suggested-by tag?
+Thank you for applying this changes! I'll send the patch with the 
+improvements suggested by Amadeusz as soon as possible.
 
 -- 
 Kind regards,
