@@ -1,109 +1,202 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC25578681
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 11:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A0869DE2
+	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 11:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706701012; cv=none; b=ZKZ+bTWQgPICGwjNgZ13s4PNonBIhWw3gQMa1HNzReZ3jnltD5P77oRYDv6+L+0PPHXs1Znwi3A5R2WF9cr2GeAqOxzjBRXYIlFMbFzRWf6Coswtx3zvzfz3ELxpkqZz2dYKmhBpk0rqjFSGNGisGD/WiieASQ4DzJ9teTisWCs=
+	t=1706701144; cv=none; b=AxFHXBeKtKnIP13bdc6OpTlgvIczbpEoSYhkmB+jkQDJ5F5LaM9AO6hiQQPoK8JVS2iGTO0j7zi+drK9YZtZZrNI12ZIBYG3XgfKDrncUHynDyIGRG5MXlAH34PYKgEOU0GCLzvx6P2v+UR6hXRwOEbb4HHUz6Vt8hFIVRfz1ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706701012; c=relaxed/simple;
-	bh=Z767grEPJAg7ZmFSaNTvUlbErQGY8m3qRZzccW69p34=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dny53pC1/TV4KgaUnqwbkZKbOtjj8BimIGZucX8Iyyy/5VtE2BK8fJfGcz5glu3ktAqkQvFPdWZ8ZDQAS5cQvSrokFJu8lKiFLzDUss5lSGWpqrZU3ZO/CvIy6RGyoimVY/hol3bXQejRwxoSZFaZwq6wm1r36PgGCkV0Fyqxig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zj1K/aHR; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706701144; c=relaxed/simple;
+	bh=gLnIrQPXjCDqCNxkIWLt7M/AlqXmgs5XozfNkialA0U=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L6v/nbyd+Rw6P6JJtn9A1DmDL+BhyGREChVQncX8tf429eXL5TZErW+/mTUL9bGZbmOJeG5EDVK/9HGe1aJ4vSVAI8jV4y263gdzqhoNQIPLm9nduaSOX+PL43eowtlPVak6pMy6r3yNUT1zouIYkNatpT76yhldyo9+sTxVLzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h3JwTkhI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uzq+Gat+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h3JwTkhI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uzq+Gat+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zj1K/aHR"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-511207d62b6so1913124e87.1
-        for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 03:36:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706701009; x=1707305809; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=86xD66Gk37rW4CX9zN+ILHdX1OsLTE5Vxv7eKal7nD8=;
-        b=Zj1K/aHRwQmiWdWZ/6kRRBz+BJesU1vV6vDttBdqdryR6ZyEAIzTZiFU95kkL+xiRz
-         0b2t/qaRfozvst1jNqIxfHhUv9y3VtzKydgj5z8UZvraOshw8slJmC0yihTtRUD3KgIc
-         7xjjnOM4rhLFzFDrB42iLiuD7U5NiTPpzd7xr/+jjlPM7xv1Er4Uv4jp4GIccMU8IBoD
-         evls5s+kkqyniHGtzI3lWZkQBvhVJmc1YarPlH4HhaDu5dY/xnlmQH6n5iAmZutssWDJ
-         LA2mH6PeT0JjF/uKdWm5rHdrrQNUJqMggqSoiyowCIq9IRf+4h2YKmdrxg9nYH3lq/KC
-         Mx9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706701009; x=1707305809;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=86xD66Gk37rW4CX9zN+ILHdX1OsLTE5Vxv7eKal7nD8=;
-        b=rorjcQqSmITnkbewCjBaM9YVla9MHSbm4JVgnTcCaIARhsK/24cFQu8G1+4R4Xh+Qp
-         /XNK5qEVN83T6fcLzgmdcqMQ+WZ+B+LBFEIU7O1hgct6L6rwReeE6IISmhHZ2/kJhguG
-         zLVk2e3NH/X9a9O4f+9UT6cy7b5dElj0VBmmATkvRt5hymRfi9FCTGSZN0UJqhDJ4k4K
-         QYQFltcGDcQa4WKngcr4pLXBGOXP3zXcTMdSuB144i5xT/DDl7X4l2XmLiw/CSjZRnUn
-         qIJnEJAijtiqqryFgHQPQT54ZLNBFN53HL0ex7nNJ9GoFTyxIilTlRpDMCGefjSIkqqW
-         uSOw==
-X-Gm-Message-State: AOJu0YyjAaLNZbL5Uq1tvLW6wsXLAtm4nNwd3z+FdlJX2Ak+H3y51Eoj
-	m3HNDjs/4qydvevr/3b6bgD3q7nNpqr0ID7Wij1ZiPqXILm99Z55
-X-Google-Smtp-Source: AGHT+IGnvC2j4ExO2oJYrv7RBfNpMIifxOLK1ZUUhtQOzD2sgvovY4A6Rrt2+6p+95MLFyNb92fBfw==
-X-Received: by 2002:ac2:5b9c:0:b0:511:f41:dff7 with SMTP id o28-20020ac25b9c000000b005110f41dff7mr953202lfn.56.1706701008603;
-        Wed, 31 Jan 2024 03:36:48 -0800 (PST)
-Received: from aquecedor-3-0.lan ([2001:818:e81c:ce00:7193:3bd:90d8:9d8])
-        by smtp.gmail.com with ESMTPSA id cl3-20020a5d5f03000000b0033afd49cac7sm3445383wrb.43.2024.01.31.03.36.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 03:36:47 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Relvas?= <josemonsantorelvas@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h3JwTkhI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uzq+Gat+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h3JwTkhI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uzq+Gat+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C01F01FB7B;
+	Wed, 31 Jan 2024 11:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706701140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=awx1hK1eDhuF1k6TZnUfNxHetA6RYJwc7dPCqdqOpmE=;
+	b=h3JwTkhI82TxyKieRO350vB28MLHHqBh/m2FEkV67XcyJ54oGTqO087EiH56tHj4ryCk1P
+	1O5TJ78tgeABd9LOjvis19WHuIy+DnFIXGMntWndRboSTtc2UKzwCJ1Ts8KS6tZsEZEAdh
+	5edP/Ktdfaw4wkxCiRGDKnNd71fNvas=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706701140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=awx1hK1eDhuF1k6TZnUfNxHetA6RYJwc7dPCqdqOpmE=;
+	b=Uzq+Gat+Lu5WOV2ECwMeH/SjXpgL6SMqhil4+rJcXG7lvNORQsBP2IIb8NNgqseWpV9v4N
+	hgyJI808ExqJP1Dg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706701140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=awx1hK1eDhuF1k6TZnUfNxHetA6RYJwc7dPCqdqOpmE=;
+	b=h3JwTkhI82TxyKieRO350vB28MLHHqBh/m2FEkV67XcyJ54oGTqO087EiH56tHj4ryCk1P
+	1O5TJ78tgeABd9LOjvis19WHuIy+DnFIXGMntWndRboSTtc2UKzwCJ1Ts8KS6tZsEZEAdh
+	5edP/Ktdfaw4wkxCiRGDKnNd71fNvas=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706701140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=awx1hK1eDhuF1k6TZnUfNxHetA6RYJwc7dPCqdqOpmE=;
+	b=Uzq+Gat+Lu5WOV2ECwMeH/SjXpgL6SMqhil4+rJcXG7lvNORQsBP2IIb8NNgqseWpV9v4N
+	hgyJI808ExqJP1Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB0C71347F;
+	Wed, 31 Jan 2024 11:39:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id akgiKVQxumWZbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 31 Jan 2024 11:39:00 +0000
+Date: Wed, 31 Jan 2024 12:39:00 +0100
+Message-ID: <87a5ol3f6z.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Jos=E9?= Relvas <josemonsantorelvas@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?Jos=C3=A9=20Relvas?= <josemonsantorelvas@gmail.com>
-Subject: [PATCH V2] Apply headset jack quirk for non-bass alc287 thinkpads
-Date: Wed, 31 Jan 2024 11:34:09 +0000
-Message-ID: <20240131113407.34698-3-josemonsantorelvas@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-sound@vger.kernel.org,
+	Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH] Apply headset jack fixup for alc287 thinkpads
+In-Reply-To: <Zboqfadxk-4OcEg9@aquecedor-3-0>
+References: <20240130192536.10298-1-josemonsantorelvas@gmail.com>
+	<871q9y2cle.wl-tiwai@suse.de>
+	<Zbogv_GdHlz5dZsQ@aquecedor-3-0>
+	<87eddx3hhj.wl-tiwai@suse.de>
+	<Zboqfadxk-4OcEg9@aquecedor-3-0>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-There currently exists two thinkpad headset jack fixups:
-ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK
-ALC285_FIXUP_THINKPAD_HEADSET_JACK
+On Wed, 31 Jan 2024 12:09:49 +0100,
+JosÈ Relvas wrote:
+> 
+> Thanks for the feedback! So if my understanding is correct, the headset jack quirk is currently *only* applied to models with bass speakers?
 
-The latter is applied to alc285 and alc287 thinkpads which contain bass speakers.
-However, the former was only being applied to alc285 thinkpads,
-leaving non-bass alc287 thinkpads with no headset button controls.
-This patch fixes that by adding ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK
-to the alc287 chains, allowing the detection of headset buttons.
+AFAIK, it looks yes; at least the majority of machines are actually
+with bass speakers.
 
-Signed-off-by: Jos√© Relvas <josemonsantorelvas@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> bass thinkpad -> headset thinkpad quirk -> bass thinkpad quirk (both quirks applied)
+> normal thinkpad -X> headset thinkpad quirk -X> bass thinkpad quirk (neither quirks applied) 
+>
+> I'll go back to the drawing board, just making sure I'm not missing anything.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index dde21bebed17..4c78cd07e80b 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9419,7 +9419,7 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = cs35l41_fixup_i2c_two,
- 		.chained = true,
--		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
-+		.chain_id = ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK,
- 	},
- 	[ALC287_FIXUP_TAS2781_I2C] = {
- 		.type = HDA_FIXUP_FUNC,
-@@ -9446,6 +9446,8 @@ static const struct hda_fixup alc269_fixups[] = {
- 	[ALC287_FIXUP_THINKPAD_I2S_SPK] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc287_fixup_bind_dacs,
-+		.chained = true,
-+		.chain_id = ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK,
- 	},
- 	[ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD] = {
- 		.type = HDA_FIXUP_FUNC,
--- 
-2.43.0
+Maybe it'd be helpful to rename the current one to be more explicit
+with bass speakers at first :)
 
+
+Takashi
+
+> JosÈ Relvas
+> 
+> On Wed, Jan 31, 2024 at 11:49:28AM +0100, Takashi Iwai wrote:
+> > On Wed, 31 Jan 2024 11:28:15 +0100,
+> > JosÈ Relvas wrote:
+> > > 
+> > > Thanks for the reply!
+> > > 
+> > > Sorry about the misformatted patch. I did send in a second one through git-send-email. Is it not correct either? 
+> > > 
+> > > Anyways, the reason I'm editing the existing quirks is mostly because ALC285_FIXUP_THINKPAD_HEADSET_JACK was actually wrong.
+> > > It was actually always linking to the X1 gen 7 quirk, which has some kcontrol changes only meant for a few models with bass speakers.
+> > 
+> > Yes, and that's the intentional behavior.
+> > There is the match with the pin table, not only the explicit PCI
+> > SSID, and those are with bass speakers.
+> > 
+> > > It looks like this: 
+> > > 
+> > > /* Quirk for Thinkpad X1 7th and 8th Gen
+> > >  * The following fixed routing needed
+> > >  * DAC1 (NID 0x02) -> Speaker (NID 0x14); some eq applied secretly
+> > >  * DAC2 (NID 0x03) -> Bass (NID 0x17) & Headphone (NID 0x21); sharing a DAC
+> > >  * DAC3 (NID 0x06) -> Unused, due to the lack of volume amp
+> > > */
+> > > static void alc285_fixup_thinkpad_x1_gen7(struct hda_codec *codec,
+> > > 					  const struct hda_fixup *fix, int action)
+> > > {
+> > > 	static const hda_nid_t conn[] = { 0x02, 0x03 }; /* exclude 0x06 */
+> > > 	static const hda_nid_t preferred_pairs[] = {
+> > > 		0x14, 0x02, 0x17, 0x03, 0x21, 0x03, 0
+> > > 	};
+> > > 	struct alc_spec *spec = codec->spec;
+> > > 
+> > > 	switch (action) {
+> > > 	case HDA_FIXUP_ACT_PRE_PROBE:
+> > > 		snd_hda_override_conn_list(codec, 0x17, ARRAY_SIZE(conn), conn);
+> > > 		spec->gen.preferred_dacs = preferred_pairs;
+> > > 		break;
+> > > 	case HDA_FIXUP_ACT_BUILD:
+> > > 		/* The generic parser creates somewhat unintuitive volume ctls
+> > > 		 * with the fixed routing above, and the shared DAC2 may be
+> > > 		 * confusing for PA.
+> > > 		 * Rename those to unique names so that PA doesn't touch them
+> > > 		 * and use only Master volume.
+> > > 		 */
+> > > 		rename_ctl(codec, "Front Playback Volume", "DAC1 Playback Volume");
+> > > 		rename_ctl(codec, "Bass Speaker Playback Volume", "DAC2 Playback Volume");
+> > > 		break;
+> > > 	}
+> > > }
+> > > 
+> > > On second review, this does break some routing with older alc285, as the speaker and headphone NIDs are still 0x02 and 0x03.
+> > > Maybe cloning the x1 gen 7 fixup, but without the renamed ctls, is the more appropriate solution here? Let me know what your thoughts are.
+> > 
+> > I believe it's safer to make a specific quirk for X7 gen7.
+> > There are too many dependencies on the existing chains.
+> > 
+> > 
+> > Takashi
