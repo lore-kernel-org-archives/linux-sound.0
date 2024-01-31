@@ -1,56 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F8A339AE;
-	Wed, 31 Jan 2024 18:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796F639AD0;
+	Wed, 31 Jan 2024 21:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706727592; cv=none; b=Tb7oth4AUdE6kIn+MymcKHmCJRuNCU53/FG8gup7eGs8VULp7FsXQnt/4qMtAW3Fm2140E+tpjmdzNRTaqmkZMdoO28nhhYx5DsVkQ5+faUwgfYWpEdOjkRsdP27AGi+XrVQmBfjCqLm2iKgLeOtod0RUQEupoejPr27gfW35jY=
+	t=1706737047; cv=none; b=H7KzhbaH/SExzoa4OOdSMfey+NA+ApD4jPXv9uBNW9k7WlzUftN4BuAfYYEgMtCuqnxROPuSGEqB4sF29etSPVj32XX+KpnenMLNPenX7xJg5AkXG/sR1olGLd+NApIfEB/ChJujQKjJBOH8nNLDDRhB20ysMs0MH1snMmGiW70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706727592; c=relaxed/simple;
-	bh=zhKuq+LkCXaKbrjTf0rz7m44R1nLItf93tzKRFen818=;
+	s=arc-20240116; t=1706737047; c=relaxed/simple;
+	bh=QHYllCIGxd1fjN/1dMkGWsl3/gWwu0OX4RZLlXlxc7s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KDZ20ObtDsLSjLtxshjv4n8k7F0xJ1mqExJW67ADRvcn7XZ0MXYnv7Ku/WWWBRzLSeUPgO2wbi8xno2GgjyI/zVTHEopcnjJsSLfYYAHfTon5sugBuNBAGN4IxBQjk+gL5zo/OweGMwJFgL0AIKIqQRLcxuD/YlOnzfuyq9D9lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2T2tZJE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LbOEvoVyCGyoAg76A8hMyH10yR5GJv1bfQglI+a1XD67IvVYNHPN6zbRzm7+wHxz6C05L+Wt72UV5IBa+GXKy+aTgY35ROTvDUrBrnfIHet+VmZqxIuw3qBB23g2YXsKfh7JGWVHqRxWjToXL6tBf96TKdMt9V6AjAn7jFuZ1w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YteWpJAR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2T2tZJE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B6DC433C7;
-	Wed, 31 Jan 2024 18:59:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YteWpJAR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97085C43390;
+	Wed, 31 Jan 2024 21:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706727591;
-	bh=zhKuq+LkCXaKbrjTf0rz7m44R1nLItf93tzKRFen818=;
+	s=k20201202; t=1706737046;
+	bh=QHYllCIGxd1fjN/1dMkGWsl3/gWwu0OX4RZLlXlxc7s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J2T2tZJEsLoBpHrkqTKdor3Ee8fR4osEdkaiIsbw0pFM+JUAISnyhSeqEXLzx1zHW
-	 tDWEjLTaTOZ+IySnxgNoy/AkBn3s/9CRKSqPMOk4D/+TyVZxprDrOPnqFIdegcTrAE
-	 QcDTN8RN3UhFnEYNy4/+hRJfLDx5XO2xp6flSfxddWXTHT9mNL38pghll2fTkxV4FE
-	 8VeVNXUgKLEGn+QwFZYUjkYhrhAVqcOcTTWduvG93lYLSzqXtkF+L3mo6vE1ZEThiL
-	 /JcbcL/4cAsG3IRKMKK9njFUPPKYCz2amdTdITfWYfX0ri0I97rF51GHMZzgZl8JUb
-	 04l6+s8vY7qJQ==
-Date: Wed, 31 Jan 2024 12:59:49 -0600
+	b=YteWpJARLEUBMao0ZpwP3Ffr9YUO9eD4UBe+MMrzEgKMZ/wifiivArxXcgh08eoym
+	 JU5G6ptyI3kkUiaK8W5yhUFmq28v8y/ilJAw6e7grquE+ykKxp4HOq4cKvmcAf6qKo
+	 zSQaDfGmtwBH2kNgWis+59bVGSzp17AuHsu/KblzOFXlxX9i+4jOQVka915iKKpOZD
+	 CRVuMgfkXPEi87H56y7avZWVKdZFxgZ20+OwDeayiuO6r1lJ+I07wqxR+v1SrCWxoO
+	 hYry8yiWxnN2xplwgIXToM3oVkh545jkLagxOM2pAu264XigQ0N1R25/decthPdh7y
+	 VDHOrXY7Q0AYQ==
+Date: Wed, 31 Jan 2024 15:37:24 -0600
 From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 01/13] of: property: add port base loop
-Message-ID: <20240131185949.GC1906672-robh@kernel.org>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <87ede1klgr.wl-kuninori.morimoto.gx@renesas.com>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: xmos,xvf3500: add XMOS XVF3500
+ voice processor
+Message-ID: <20240131213724.GA2334002-robh@kernel.org>
+References: <20240130-onboard_xvf3500-v1-0-51b5398406cb@wolfvision.net>
+ <20240130-onboard_xvf3500-v1-1-51b5398406cb@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,16 +49,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ede1klgr.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20240130-onboard_xvf3500-v1-1-51b5398406cb@wolfvision.net>
 
-On Mon, Jan 29, 2024 at 12:54:44AM +0000, Kuninori Morimoto wrote:
-> We have endpoint base functions
-> 	- of_graph_get_next_endpoint()
-> 	- of_graph_get_endpoint_count()
-> 	- for_each_endpoint_of_node()
+On Tue, Jan 30, 2024 at 01:26:56PM +0100, Javier Carrasco wrote:
+> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
+> multicore controller for voice processing.
+> 
+> Add new bindings to define the device properties.
+> 
+> [1] https://www.xmos.com/xvf3500/
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  .../devicetree/bindings/sound/xmos,xvf3500.yaml    | 51 ++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml b/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml
+> new file mode 100644
+> index 000000000000..d7d5bda23b1b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/xmos,xvf3500.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/xmos,xvf3500.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: XMOS XVF3500 VocalFusion Voice Processor
+> +
+> +maintainers:
+> +  - Javier Carrasco <javier.carrasco@wolfvision.net>
+> +
+> +description:
+> +  The XMOS XVF3500 VocalFusion Voice Processor is a low-latency, 32-bit
+> +  multicore controller for voice processing.
+> +  https://www.xmos.com/xvf3500/
+> +
+> +properties:
+> +  compatible:
+> +    const: usb20b1,0013
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description:
+> +      Regulator for the 1V0 supply.
+> +
+> +  vdd2-supply:
+> +    description:
+> +      Regulator for the 3V3 supply.
+> +
+> +required:
+> +  - compatible
+> +  - reset-gpios
+> +  - vdd-supply
+> +  - vdd2-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    xvf3500 {
+> +      compatible = "usb20b1,0013";
+> +      reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
+> +      vdd-supply = <&vcc1v0>;
+> +      vdd2-supply = <&vcc3v3>;
+> +    };
 
-I also noticed that your mail setup has an issue. You have some utf-8 
-encoded email names, but the headers say it is ascii. git-send-email 
-should do the right thing here, but maybe Exchange is messing things up.
+A USB device should hang off a USB hub (or root hub). Looks like you 
+just have a random node here. You should also have a $ref to 
+usb-device.yaml. You'll see you need a reg property for example.
 
 Rob
