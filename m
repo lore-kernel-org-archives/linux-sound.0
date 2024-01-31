@@ -1,292 +1,123 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A185A7A1
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 15:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550BD12DD85;
+	Wed, 31 Jan 2024 17:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706714229; cv=none; b=CBwDvwtElAJIl4K8dBTuDcN2M+XjvuGO/d2yIgUNPREuQRRd29xjrS1Exwi2w+nw8GWJAphmd3XFVCi51ASRqCFBuxh4PEOSwhq5+qAC57iim++eIDaWmv0Zrh/UsDurHJpsvcerwmDw+bk6fDd2ebZTOWt0VsM+KGRnirGQzjY=
+	t=1706722874; cv=none; b=ABfePHgCiyoIXZy0EOrHmh77PLNGfg+v5cU9Gerj3Q5+BeHc9pnw9z6phvu6oKAfGHnv2tpBAUbObUl9cHt8IrhU1vml9I8arS/9h1cSN4et7SEVRX3FG3aklgjtEzTOzZ3hnL8AGqHDYXIwZsJyNYcONPucZFGTQQk1zO2rHQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706714229; c=relaxed/simple;
-	bh=rvoPV7YF0BQFuz5WXAMWHk0kjn6mutG4Kwy0QVvRjOM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ru50FnSgzsQ5O9yGHBWd1clsSWeLApS4S6x9ptUB/4BxhyRhI6JhgTy3G7BR9L03P59uEhrq8Uixb95Jy7NROHtBLYnC5hb2jNNVkmnWi1B5GvCPyiX7S4HUyRI9jVwO8qIhyfdUSvEY5eWNr8VeTjDhly41ylXTdzWG7xVSIAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=zVz9ij/T; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1706722874; c=relaxed/simple;
+	bh=vAdeHRVoSIIqAH5Ez7lwMhgx5z/HQ+XRmlVVJBmXAv8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q/pB4eYLDGc++swBwnB9dMRuZf1TnyytFXTEU3BEjZ9QVRBl55kPzKd3s3bcpG8L//WpWEfdn1SxSjgztXXS/WD7Pe2UXaMDGB/N0IuJgeI9TKsmCcIRNj16sDr9vjirRghUA2l41cS29Y7BC2r2ijvyPBDzeJ2JgVJVlOa9n/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBFXvR+A; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="zVz9ij/T"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id E84354699;
-	Wed, 31 Jan 2024 16:10:12 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz E84354699
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1706713813; bh=PmkRuhFG0M+aUQb24QYcEyjPsQqWh0kNf5CiR/ptAGs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=zVz9ij/T31ozv6VY6nxW3ODVonTFzHDSs0fqNRVBN/7zyO82Pa9vxXN0lgg11cbs6
-	 45Ks8mrEc/CKqEwlZKc+OS/OrdoOoMZobdxj77X7A4e8m724PRpMeJNoHG2kZeDQWU
-	 y5KbgZ+v7FtxflsGh3V2REPFAMHaWq3MWu/5/VQI=
-Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 31 Jan 2024 16:10:09 +0100 (CET)
-From: Jaroslav Kysela <perex@perex.cz>
-To:  <linux-sound@vger.kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: [PATCH] ALSA: hda: use azx_stream() helper in all places
-Date: Wed, 31 Jan 2024 16:10:01 +0100
-Message-ID: <20240131151001.737372-1-perex@perex.cz>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBFXvR+A"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40efd8d7ecbso105015e9.1;
+        Wed, 31 Jan 2024 09:41:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706722870; x=1707327670; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0EbZlNLfHk6MB2DvUgj7PDUK/qmWoKpZYnt8oXMpFHo=;
+        b=IBFXvR+Aa1i7W7/Yby3ddQ9fjHyt1zc4+AvPG1nF5SJVY2AUZy89UEqqfZrGEX3sZc
+         ho5BlC3tuj8lFb7PU74rnJ1PEJfE8slHhkOt+C29RsUhaRG/xvH9NUUdNiCGaA+4Vz8h
+         1zD9V3jv3DFwE83tB89I6Qv88OonQm1dVqzcrCFjaSDuAVaPjT1m3os4HJGvj7kx3/Kn
+         OGGmZnQApnqOKr2ZtWWj6zu4uu3ZLbkRDv18GTGYX0at0GxspJC3/WlIEKh8n+4Ry5rZ
+         TZLRgByP1J81NInlDlwQC5iWb1L8qVm0BMIefwPxFiaIDbW+4s6tdyAdippyeru6LnJ7
+         Z8OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706722870; x=1707327670;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0EbZlNLfHk6MB2DvUgj7PDUK/qmWoKpZYnt8oXMpFHo=;
+        b=fAyEnhIMTf3z+RCtH8Hvvjuk4ir5T4s/2ATY0GMeHwpdGCwYZUAF8/FfMeYWhQzG7q
+         1tU8eYFhEFVY9PaaNFNuMlXodkAhesnWf8ipS2WvSW52TrmAEmEvKScVu8Z0oFCQnZtl
+         94+l9cEmILM/yAiFLf1dSfwlAlG1ztiE4cfMJn5db0DLsJwgT3qtI4mZawgBe6m5QXhw
+         P9q8IfIxrmrOWs8LyhYP8RwaIMPO+V30JYLUmZp98JJJjh4S1xUNs8Yum81xGXCQWGwa
+         nTS303YtOdF2llteULoNKdfOukJVfYkS4aSOirHpvav5ZPk76KVQ8E7afyUtNnmxx6VF
+         FIhA==
+X-Gm-Message-State: AOJu0YwoUlnQKadFT+jWZQdqTQZdhWu/QPCUjXKoWfeyIxlm2rYf9Y6k
+	b+ZzXINgP/WCvpYPe+9n4Hsaa7E0Gc7qDGvCn0UjxOot0zwB7cEublazhkSI
+X-Google-Smtp-Source: AGHT+IE7BWYwNtJxIsBIrVyd6V2SdxrO2f9e8E+IpcUXVwQO65/fpemICb8VpUrc82R3P+aBFnAs0A==
+X-Received: by 2002:a05:600c:4e16:b0:40f:afb6:5ceb with SMTP id b22-20020a05600c4e1600b0040fafb65cebmr168938wmq.4.1706722870289;
+        Wed, 31 Jan 2024 09:41:10 -0800 (PST)
+Received: from [172.16.102.38] ([167.98.27.226])
+        by smtp.gmail.com with ESMTPSA id u1-20020a05600c138100b0040f035bebfcsm2196161wmf.12.2024.01.31.09.41.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jan 2024 09:41:09 -0800 (PST)
+Message-ID: <c4498c59-cf64-4a8b-82b9-01d0571779c7@gmail.com>
+Date: Wed, 31 Jan 2024 17:41:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
+Content-Language: en-US
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
+ <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Make code more readable with azx_stream() helper. No functional change.
+On 1/26/24 09:01, Amadeusz Sławiński wrote:
+> On 1/25/2024 11:35 PM, Ivan Orlov wrote:
+>> Add 4 missing formats to 'snd_pcm_format_names' array in order to be
+>> able to get their names with 'snd_pcm_format_name' function.
+>>
+>> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+>> ---
+>>   sound/core/pcm.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+>> index a09f0154e6a7..d0788126cbab 100644
+>> --- a/sound/core/pcm.c
+>> +++ b/sound/core/pcm.c
+>> @@ -211,6 +211,10 @@ static const char * const snd_pcm_format_names[] = {
+>>       FORMAT(DSD_U32_LE),
+>>       FORMAT(DSD_U16_BE),
+>>       FORMAT(DSD_U32_BE),
+>> +    FORMAT(S20_LE),
+>> +    FORMAT(S20_BE),
+>> +    FORMAT(U20_LE),
+>> +    FORMAT(U20_BE),
+>>   };
+>>   /**
+> 
+> Maybe we can also add some kind of static_assert to check at compile 
+> time that all formats are handled, something like:
+> static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
+> + 1);
+> 
+> Although looking at definitions there is a hole between 
+> SNDRV_PCM_FORMAT_U20_BE & SNDRV_PCM_FORMAT_SPECIAL, which will cause 
+> this idea to fail.
+> 
+> Perhaps with comment:
+> static_assert(ARRAY_SIZE(snd_pcm_format_names) == SNDRV_PCM_FORMAT_LAST 
+> + 1 - 2); /* -2 for formats reserved for future use */
+> ?
 
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
----
- sound/pci/hda/hda_controller.c | 20 +++++++-------
- sound/pci/hda/hda_intel.c      | 50 +++++++++++++++++-----------------
- 2 files changed, 35 insertions(+), 35 deletions(-)
+Hi Amadeusz,
 
-diff --git a/sound/pci/hda/hda_controller.c b/sound/pci/hda/hda_controller.c
-index 3e7bfeee84fd..0ec1e7192d72 100644
---- a/sound/pci/hda/hda_controller.c
-+++ b/sound/pci/hda/hda_controller.c
-@@ -117,9 +117,9 @@ static int azx_pcm_hw_params(struct snd_pcm_substream *substream,
- 		goto unlock;
- 	}
- 
--	azx_dev->core.bufsize = 0;
--	azx_dev->core.period_bytes = 0;
--	azx_dev->core.format_val = 0;
-+	azx_stream(azx_dev)->bufsize = 0;
-+	azx_stream(azx_dev)->period_bytes = 0;
-+	azx_stream(azx_dev)->format_val = 0;
- 
- unlock:
- 	dsp_unlock(azx_dev);
-@@ -182,13 +182,13 @@ static int azx_pcm_prepare(struct snd_pcm_substream *substream)
- 
- 	snd_hdac_stream_setup(azx_stream(azx_dev), false);
- 
--	stream_tag = azx_dev->core.stream_tag;
-+	stream_tag = azx_stream(azx_dev)->stream_tag;
- 	/* CA-IBG chips need the playback stream starting from 1 */
- 	if ((chip->driver_caps & AZX_DCAPS_CTX_WORKAROUND) &&
- 	    stream_tag > chip->capture_streams)
- 		stream_tag -= chip->capture_streams;
- 	err = snd_hda_codec_prepare(apcm->codec, hinfo, stream_tag,
--				     azx_dev->core.format_val, substream);
-+				     azx_stream(azx_dev)->format_val, substream);
- 
-  unlock:
- 	if (!err)
-@@ -240,7 +240,7 @@ static int azx_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 		if (s->pcm->card != substream->pcm->card)
- 			continue;
- 		azx_dev = get_azx_dev(s);
--		sbits |= 1 << azx_dev->core.index;
-+		sbits |= 1 << azx_stream(azx_dev)->index;
- 		snd_pcm_trigger_done(s, substream);
- 	}
- 
-@@ -288,7 +288,7 @@ EXPORT_SYMBOL_GPL(azx_get_pos_posbuf);
- unsigned int azx_get_position(struct azx *chip,
- 			      struct azx_dev *azx_dev)
- {
--	struct snd_pcm_substream *substream = azx_dev->core.substream;
-+	struct snd_pcm_substream *substream = azx_stream(azx_dev)->substream;
- 	unsigned int pos;
- 	int stream = substream->stream;
- 	int delay = 0;
-@@ -298,7 +298,7 @@ unsigned int azx_get_position(struct azx *chip,
- 	else /* use the position buffer as default */
- 		pos = azx_get_pos_posbuf(chip, azx_dev);
- 
--	if (pos >= azx_dev->core.bufsize)
-+	if (pos >= azx_stream(azx_dev)->bufsize)
- 		pos = 0;
- 
- 	if (substream->runtime) {
-@@ -386,7 +386,7 @@ static int azx_get_sync_time(ktime_t *device,
- 	do {
- 		timeout = 100;
- 		dma_select = (direction << GTSCC_CDMAS_DMA_DIR_SHIFT) |
--					(azx_dev->core.stream_tag - 1);
-+					(azx_stream(azx_dev)->stream_tag - 1);
- 		snd_hdac_chip_writel(azx_bus(chip), GTSCC, dma_select);
- 
- 		/* Enable the capture */
-@@ -501,7 +501,7 @@ static int azx_get_time_info(struct snd_pcm_substream *substream,
- 
- 		snd_pcm_gettime(substream->runtime, system_ts);
- 
--		nsec = timecounter_read(&azx_dev->core.tc);
-+		nsec = timecounter_read(&azx_stream(azx_dev)->tc);
- 		if (audio_tstamp_config->report_delay)
- 			nsec = azx_adjust_codec_delay(substream, nsec);
- 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 2276adc84478..beca47989327 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -572,7 +572,7 @@ static void hda_intel_init_chip(struct azx *chip, bool full_reset)
- static int azx_get_delay_from_lpib(struct azx *chip, struct azx_dev *azx_dev,
- 				   unsigned int pos)
- {
--	struct snd_pcm_substream *substream = azx_dev->core.substream;
-+	struct snd_pcm_substream *substream = azx_stream(azx_dev)->substream;
- 	int stream = substream->stream;
- 	unsigned int lpib_pos = azx_get_pos_lpib(chip, azx_dev);
- 	int delay;
-@@ -582,16 +582,16 @@ static int azx_get_delay_from_lpib(struct azx *chip, struct azx_dev *azx_dev,
- 	else
- 		delay = lpib_pos - pos;
- 	if (delay < 0) {
--		if (delay >= azx_dev->core.delay_negative_threshold)
-+		if (delay >= azx_stream(azx_dev)->delay_negative_threshold)
- 			delay = 0;
- 		else
--			delay += azx_dev->core.bufsize;
-+			delay += azx_stream(azx_dev)->bufsize;
- 	}
- 
--	if (delay >= azx_dev->core.period_bytes) {
-+	if (delay >= azx_stream(azx_dev)->period_bytes) {
- 		dev_info(chip->card->dev,
- 			 "Unstable LPIB (%d >= %d); disabling LPIB delay counting\n",
--			 delay, azx_dev->core.period_bytes);
-+			 delay, azx_stream(azx_dev)->period_bytes);
- 		delay = 0;
- 		chip->driver_caps &= ~AZX_DCAPS_COUNT_LPIB_DELAY;
- 		chip->get_delay[stream] = NULL;
-@@ -636,7 +636,7 @@ static int azx_position_check(struct azx *chip, struct azx_dev *azx_dev)
-  */
- static int azx_position_ok(struct azx *chip, struct azx_dev *azx_dev)
- {
--	struct snd_pcm_substream *substream = azx_dev->core.substream;
-+	struct snd_pcm_substream *substream = azx_stream(azx_dev)->substream;
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int stream = substream->stream;
- 	u32 wallclk;
-@@ -650,8 +650,8 @@ static int azx_position_ok(struct azx *chip, struct azx_dev *azx_dev)
- 	if (chip->driver_type == AZX_DRIVER_LOONGSON)
- 		return 1;
- 
--	wallclk = azx_readl(chip, WALLCLK) - azx_dev->core.start_wallclk;
--	if (wallclk < (azx_dev->core.period_wallclk * 2) / 3)
-+	wallclk = azx_readl(chip, WALLCLK) - azx_stream(azx_dev)->start_wallclk;
-+	if (wallclk < (azx_stream(azx_dev)->period_wallclk * 2) / 3)
- 		return -1;	/* bogus (too early) interrupt */
- 
- 	if (chip->get_position[stream])
-@@ -674,19 +674,19 @@ static int azx_position_ok(struct azx *chip, struct azx_dev *azx_dev)
- 		}
- 	}
- 
--	if (pos >= azx_dev->core.bufsize)
-+	if (pos >= azx_stream(azx_dev)->bufsize)
- 		pos = 0;
- 
--	if (WARN_ONCE(!azx_dev->core.period_bytes,
-+	if (WARN_ONCE(!azx_stream(azx_dev)->period_bytes,
- 		      "hda-intel: zero azx_dev->period_bytes"))
- 		return -1; /* this shouldn't happen! */
--	if (wallclk < (azx_dev->core.period_wallclk * 5) / 4 &&
--	    pos % azx_dev->core.period_bytes > azx_dev->core.period_bytes / 2)
-+	if (wallclk < (azx_stream(azx_dev)->period_wallclk * 5) / 4 &&
-+	    pos % azx_stream(azx_dev)->period_bytes > azx_stream(azx_dev)->period_bytes / 2)
- 		/* NG - it's below the first next period boundary */
- 		return chip->bdl_pos_adj ? 0 : -1;
--	azx_dev->core.start_wallclk += wallclk;
-+	azx_stream(azx_dev)->start_wallclk += wallclk;
- 
--	if (azx_dev->core.no_period_wakeup)
-+	if (azx_stream(azx_dev)->no_period_wakeup)
- 		return 1; /* OK, no need to check period boundary */
- 
- 	if (runtime->hw_ptr_base != runtime->hw_ptr_interrupt)
-@@ -794,7 +794,7 @@ static unsigned int azx_via_get_position(struct azx *chip,
- 	unsigned int fifo_size;
- 
- 	link_pos = snd_hdac_stream_get_pos_lpib(azx_stream(azx_dev));
--	if (azx_dev->core.substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+	if (azx_stream(azx_dev)->substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
- 		/* Playback, no problem using link position */
- 		return link_pos;
- 	}
-@@ -803,8 +803,8 @@ static unsigned int azx_via_get_position(struct azx *chip,
- 	/* For new chipset,
- 	 * use mod to get the DMA position just like old chipset
- 	 */
--	mod_dma_pos = le32_to_cpu(*azx_dev->core.posbuf);
--	mod_dma_pos %= azx_dev->core.period_bytes;
-+	mod_dma_pos = le32_to_cpu(*azx_stream(azx_dev)->posbuf);
-+	mod_dma_pos %= azx_stream(azx_dev)->period_bytes;
- 
- 	fifo_size = azx_stream(azx_dev)->fifo_size;
- 
-@@ -817,20 +817,20 @@ static unsigned int azx_via_get_position(struct azx *chip,
- 	}
- 
- 	if (link_pos <= fifo_size)
--		mini_pos = azx_dev->core.bufsize + link_pos - fifo_size;
-+		mini_pos = azx_stream(azx_dev)->bufsize + link_pos - fifo_size;
- 	else
- 		mini_pos = link_pos - fifo_size;
- 
- 	/* Find nearest previous boudary */
--	mod_mini_pos = mini_pos % azx_dev->core.period_bytes;
--	mod_link_pos = link_pos % azx_dev->core.period_bytes;
-+	mod_mini_pos = mini_pos % azx_stream(azx_dev)->period_bytes;
-+	mod_link_pos = link_pos % azx_stream(azx_dev)->period_bytes;
- 	if (mod_link_pos >= fifo_size)
- 		bound_pos = link_pos - mod_link_pos;
- 	else if (mod_dma_pos >= mod_mini_pos)
- 		bound_pos = mini_pos - mod_mini_pos;
- 	else {
--		bound_pos = mini_pos - mod_mini_pos + azx_dev->core.period_bytes;
--		if (bound_pos >= azx_dev->core.bufsize)
-+		bound_pos = mini_pos - mod_mini_pos + azx_stream(azx_dev)->period_bytes;
-+		if (bound_pos >= azx_stream(azx_dev)->bufsize)
- 			bound_pos = 0;
- 	}
- 
-@@ -843,7 +843,7 @@ static unsigned int azx_via_get_position(struct azx *chip,
- /* get the current DMA position with FIFO size correction */
- static unsigned int azx_get_pos_fifo(struct azx *chip, struct azx_dev *azx_dev)
- {
--	struct snd_pcm_substream *substream = azx_dev->core.substream;
-+	struct snd_pcm_substream *substream = azx_stream(azx_dev)->substream;
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	unsigned int pos, delay;
- 
-@@ -865,7 +865,7 @@ static unsigned int azx_get_pos_fifo(struct azx *chip, struct azx_dev *azx_dev)
- 	/* correct the DMA position for capture stream */
- 	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
- 		if (pos < delay)
--			pos += azx_dev->core.bufsize;
-+			pos += azx_stream(azx_dev)->bufsize;
- 		pos -= delay;
- 	}
- 
-@@ -875,7 +875,7 @@ static unsigned int azx_get_pos_fifo(struct azx *chip, struct azx_dev *azx_dev)
- static int azx_get_delay_from_fifo(struct azx *chip, struct azx_dev *azx_dev,
- 				   unsigned int pos)
- {
--	struct snd_pcm_substream *substream = azx_dev->core.substream;
-+	struct snd_pcm_substream *substream = azx_stream(azx_dev)->substream;
- 
- 	/* just read back the calculated value in the above */
- 	return substream->runtime->delay;
+Thank you for the review and sorry for the late answer. Yes, I believe 
+it could be a nice improvement! Could I send a patch and specify you in 
+Suggested-by tag?
+
 -- 
-2.43.0
+Kind regards,
+Ivan Orlov
 
