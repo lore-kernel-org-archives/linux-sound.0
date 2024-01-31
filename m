@@ -1,258 +1,191 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2050.outbound.protection.outlook.com [40.107.7.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA4C69D10
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 09:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706694768; cv=none; b=qVTfTY15K1R6Ggxyk/ESGwGGOS8OoCn3idFwBhQ3lYSVAwTYGp82g1fVllG2K3zyZLcN9cSlLH5PtWKzfZLvIFnIwNtRgFZf6cM1HLX8v9VDuwYYw5fzFuWCl54x4cG0vPUDVBGxiG1F7UD5U+4qrQAr7YA7JPCIr6TvZDtwpew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706694768; c=relaxed/simple;
-	bh=fTIfhqGw1d/HJR+aqs5SB6WwWZFYD2zxuQWrfL/S1dw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Z82845dbC3rb3wzYZPq0E8Ka6f6EQZpL9+GvgwQoV0hLBwSeIZudgk16uGGojkcubvMfpwfJY22zbasxZdwfx0wEuqU9Vo0KoU3GflDWUVJU3oxFTUk0lf0RoGqVMQtiiR8/vJrvZ7Mao0JHIvbbij4cKTdQ7o4BH3G+J5/YQLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yzjLKPOU; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A62969D0A;
+	Wed, 31 Jan 2024 10:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.7.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706696724; cv=fail; b=h3b5sVqjrpkDSsZfSVOHN/G9AKL4tdiFNo6g6kdcbeglEbM+2fwwt0vb9mlhkKJx6N66IMBo4lj+C+YhWHZmjRq9hh5FYSJ+Jd/rhV+77hjFkquMAqkO0CAEDpBJtu+JYUvfULZ8xCAK3eHnJP4KmY1ULtdL8reqbpajas2eLIY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706696724; c=relaxed/simple;
+	bh=jsN1reSX+vofWCG02FQw99rh3oTIgbgRqj/C5c+ZQyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=XM8q1q10kqNS8cQkd4iOkMqlcUM5FA2aoJKKHozMjQgD9y5+Voc32jwYmdoteUeGRpHRNahUs99M4o/wI/pbtzdh0eVs3HbnjH6BXF2NGPgMpXgXj543zuicL28DT5tgGaDZd51nAPeqcbbhx58ZiDE3o/maDlMUdBYe01IBjlk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=CYf20RDC; arc=fail smtp.client-ip=40.107.7.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yzjLKPOU"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d05b06b5f9so20585051fa.3
-        for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 01:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706694764; x=1707299564; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vy9ag9vSpz3bXWFEemDbbZ5ICpPB9T59zqDCvXFR710=;
-        b=yzjLKPOUNm3mJDC3SFmHZl1dctH7oKC138Dz3reVC7HoFSUfQlGcHtGgfGNlaeLM9R
-         8fIf789R23hoo6mFHYERKNhPvxvj4nz4I+qII5qTNLjm5FvE3erdHHaT8Y6535qahWvQ
-         lacEcFKS8OgMdomLin3kISR+BBxz//VEqnxPO+DVGNDoTeJ06cJ2FpoPVv2ixzw3QM0J
-         tjRr8VpKJJnkaoFGnGN/HKqck5nS2QtAGLYD6G75Ki5glrUA5HYDgn/UIKfCpSHgxcnB
-         Udj4p7xlhoMSAmqSTxIaiFt5jWQF54cE0PzaP+3SMzMwwGMKkYzzBVUsyGK6uOUDyo2N
-         zwDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706694764; x=1707299564;
-        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vy9ag9vSpz3bXWFEemDbbZ5ICpPB9T59zqDCvXFR710=;
-        b=STYodyWI4hpJNYjFgsYyMQ44hbxU8PZko+dB8Vng/vMLL+op+mGd6Zgrwo9lA/PVZl
-         e0A/7OtTjiB+K2k3NQakP/Q7vF3bA0Y828IekIEsFBZ2JIZL2qH+9SfCUVi/apVaYdS7
-         Yu2BbQJQos4VQvZdK2yibNtJapweZXxw08/1a0PCdDX+KECDKKDrfcX2ozSTYk3Ah/Wg
-         vAMPzeJ8fSncJ8rL/ddD795cBlcZH2GwFhFCYtVIplaRjF1xs2Fffejp2Tcc820tdgcY
-         Gv5/rft3v58JUYKqPdA1B3Rcqx4Zc9xxAObzV5teKn1dnBJnNgUhTQ9BQnipbUh9oJPM
-         rLtw==
-X-Gm-Message-State: AOJu0Yy5TRPEhO8W6+c0X1krLYUSeQibojQswEL9/pClpmjurl0gxG40
-	69vjy6Rfg4MgIkZG+Yysb4lDh55F5eNswN3FMp60rktHoBF8m7RGOVJAz+PFr5k=
-X-Google-Smtp-Source: AGHT+IG6Xu1C1j6SyDZmreNSX8+xfoVcpAMVxiflT3WbYkQ3umBoKf9MN0TWAMy06KSGoLm0U6GKsA==
-X-Received: by 2002:a2e:84cd:0:b0:2cf:2db4:cd84 with SMTP id q13-20020a2e84cd000000b002cf2db4cd84mr772150ljh.49.1706694764460;
-        Wed, 31 Jan 2024 01:52:44 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVn6dszHl2gPrVUm94CT0J4a9x7kfsAG5Hj3PD80ZzNLeSwkoamvLdSKKTaKtRk6oSlN90EMwaN63rcgt/tJPc5cFZkCN1yV2ChH0Ujbe57KAWr2E2BgTQ2d8dz5W8p6F/2T89v+tEN8rFblqbb8aJVQ07BvyslkrD8XTmmTn4ZnaQICNStWkmmxswOuUqTyApWOFIDmrgvrWer56bdOTO14h8gY/8GJYnVO+ikOw6ggTQajutJj0oH6qYlUNWB6ZmocLNeTufdb/g+wJwpqWCogykXmnfgx3RUFPcKqXKdI/49WbaBVgm/anhAu+K5cH2iwtQj5A7BP4Muuds6wLD+gmohkhr9w6vzNHy6KJtIAVvkkXZfzMVhUSh0kkNRjB5oRltTV4w2/Qgk/8PFwtIF+YnbRSorbmzqxlmTqCl2jTKWpW8ZATL0xI/LSlNQLjy06ON752/jClZj3CCeENZRjv1vnkWskxO15uWAWiz9OvbEZhT8nx8UwUZ2XELt7wN3V489ZXnhTSdzXytxVx4pd/RXSC3Ml84zhUysoaMS0du2ncpX9fB6Fn3D2wJE+SO4EoaXYDyVjRgkb/HnBX9g9F4YfHjIPQDS+LK5nU+ccR5rNYc8TjttcZHfFn5gqHCUx/fPqekaXMt/G7jgBtYHIYly+Zoy63J53TBMZ+lBww7evLpFrdMUYIiI4pwLFcYu2L0MX8s9GtPXIpHrZgw0iILaA58qzlUSevF7S1znTdvBR/GlzgK2K8gY3jz+Q6ioTvisMTIJeKhZIShhZb5/4lJFBqmm4m+SBkQzwsYCmfMKDZeSYbcxAcBlbTasFfeBeW+9dw==
-Received: from [192.168.1.20] ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id di11-20020a056402318b00b0055ef0105f2fsm3426803edb.80.2024.01.31.01.52.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jan 2024 01:52:43 -0800 (PST)
-Message-ID: <3f906732-74b7-4219-88ee-59509bff8459@linaro.org>
-Date: Wed, 31 Jan 2024 10:52:41 +0100
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="CYf20RDC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vgr8m4FbS38HErHjZ+vOYMDdkkUFENmgP7nGCHFMxsTVXLV2FbyKvaZTXZPKREdQoBbZMgc/qmI7PSAHKOaUcBoZho37+HNJI8SSxKHx8cTm/UOgBAwWDZJEThnmNVC8Wz5+bZ3XvLgNdGUUR2SDvKwmndfpQ3H2p8+Gaf8I3lnJp19Ep97K7/NURwLQOpsogwEFKNpkMpJFJGj2mEAMksWKXSPZ/YGrgg1KtsWN1BaJJ37eishFZvn3dDmljJE2Y3vXrzOAAznPX+2AnP+Ie2e4ADgAtQKxw6tcevfGBEHdJvjlU2c4g8phd6CytmoswiYu2JKMqO3lMFSZo9PtIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v/yCEP2efY3BDLsHt2sHwe1I3OZZrrBn/cRgVy0WhdI=;
+ b=RyIvyTWyz99NTxml5y6xhp+gh9n52ZWuitTNMLpD4dLiZYzosEk3oDS/med7glhkUUwEeysKOBKUdgTC+ewJlpL7pLXuGlzihd6kDOH2Plpw0TheFEpvFuJaomz6oyZ3YDHORMk7RFGCBuAqvrgTgKxm61jqEkuEssjltWp8l+4Jx5578Qqnykdl/lmC2xINSBSzZ2yN+xZHyloVjXPJddrSZuDTuA6WNkzKA4t6o+AQ9EDZE7cl6/ZdkJl7zpo2c/418gqEoDKTAWWiFV17M9/xuVOztSwkeGzeexrq8KEfuHuu002tnmBlzlTpSkPbI/oectmg5UGmHmouG+GsOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v/yCEP2efY3BDLsHt2sHwe1I3OZZrrBn/cRgVy0WhdI=;
+ b=CYf20RDCBEdIQ8ij99TzJHkl8yXs2N6eriOTnDHNvIil8NfIczUrY4o/2+mjlugVXgcONZNIJv67N7PUeNjTXVJCdoJWKNoRYzI3izfU08TpBC6inetdz6JTcFnya4fG1y4S9Pv6p3LU4HaWLPTuIP+etnAL4DgfLGp+nrT2Ass=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
+ by DBAPR04MB7448.eurprd04.prod.outlook.com (2603:10a6:10:1a6::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
+ 2024 10:25:18 +0000
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c]) by DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::2a3c:9a90:b09f:293c%3]) with mapi id 15.20.7228.029; Wed, 31 Jan 2024
+ 10:25:18 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Chancel Liu <chancel.liu@nxp.com>
+Subject: [PATCH v2] ASoC: soc-core.c: Prefer to return dai->driver->name in snd_soc_dai_name_get()
+Date: Wed, 31 Jan 2024 19:23:51 +0900
+Message-ID: <20240131102351.469214-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0015.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::21) To DB9PR04MB9498.eurprd04.prod.outlook.com
+ (2603:10a6:10:360::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/6] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand
- <frowand.list@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Sean Anderson <sean.anderson@seco.com>
-References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
- <20240129115216.96479-5-krzysztof.kozlowski@linaro.org>
- <CACRpkdYf4HUaV-Pjr81WjLbzy9zdAnyFWs9gPayPC6-3OjHQwA@mail.gmail.com>
- <6473952d-893d-4591-9bfd-dd983313bee9@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <6473952d-893d-4591-9bfd-dd983313bee9@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|DBAPR04MB7448:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88b3c61a-8f33-4ceb-04cc-08dc2246ec46
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	3cRcVr5Iz+UTCmcIAapKeg2tFE8IQpod09ytOoDxvPaGla3x8spFsa/n6vEX87faxytmOnXIveBPFwNq1oNVsnR2UwAF5Sv/b4LZNj5Z6EqiF74gWl2muLGOvLMafwfLJblD/9sH/wJecdP5RFKvXIZ6d03WlWmt37ksGQUVw3o8ru1Uii1YAHs4jPVUplxo7XgUqiGMZjYrsB6eG64ryIL69K0Of5vedmypxzi6catOac1/gAs1BV7Y3Ck2VQx7sCt5Oik5QBLGRHX/TOU/3s7NEncqxJqj28RDcYLcZXRdqh5w70gzx6xq15SUxGYkt8nIoiDDdAj+dRtVv6zviVPka/5/5pQqfwCSuXNhnk3cmndhUC20bkodrf/2GzMLsBw8Bo9g3HJEAJjUPiisb2nZ3enc+cD6qby/GEgwIeYWQGJtl5G81Oyi2A8He8n6qmrRLceTmgQn/ZBpzfpHvLVwX83f32+WQVr1mWtQdWG9csDXUHgRFXeuVuvSd+vbk1qt4Rx3kKXdDF454OGBc6bXpoCo9HWNM0AXUHRc4c9+0zkkfQlM/GucXGB5hWK6hThmPTCFN+jt1FA1oIBi29FRZXgFzS+hC6UvdwEsgTwqnLnwYj8g3H5WUh33IZIg
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(346002)(136003)(376002)(396003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(41300700001)(26005)(1076003)(2616005)(6486002)(38350700005)(36756003)(478600001)(6506007)(52116002)(6512007)(6666004)(83380400001)(38100700002)(316002)(86362001)(2906002)(5660300002)(66476007)(66556008)(66946007)(8936002)(8676002)(4326008)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?s5kjyfj87mzRwBTM16bKRdJasTXST5U/Ov+7aD9+jEcgz5/S30j/dCer14Iz?=
+ =?us-ascii?Q?B6vqT1IrsaeOGDFBt87Kr3jeo22Wh5GVtQfxT67dcGiWr77usQBd21lRwvl7?=
+ =?us-ascii?Q?YFCzvo9u+S8wmDy0Jdm7Nvw+zosJLOnEnSRBxPlMbxg/drMMTVHyOS/xN7CE?=
+ =?us-ascii?Q?tWZpe9WfOZmsJV1mo7QrsYrSYIWzeA2vLPZTV0rP++Pf7XO2L+AubwEM5wWf?=
+ =?us-ascii?Q?IJBweMxCDPKOsuWiOxSc1cnAywjqTPXpnNQn5pm4tlO6xzx4B9c2AHfzgRP3?=
+ =?us-ascii?Q?W7NpzgnwVcK33OI3J9E3/1g/A/xPavGgp8jpXy+fqhCcHFOltVrsWH+Yk6QD?=
+ =?us-ascii?Q?4SAScW4XH/ETlhVCISs3yQnX3MNWQSibg1lPhSzxSvB8cmQKau31fpzb7rt4?=
+ =?us-ascii?Q?HuqZcGNaCu2FnbayM7emlUxx+G96KnkDKPTtasCNDwix/Wr5PYEY8Q53ANQd?=
+ =?us-ascii?Q?tBRWRVYPaWhJJ/nXUbsJzpby9G71+TqxaCTvZtJ2cnMmQybDOc8Ozkb/YFNT?=
+ =?us-ascii?Q?qteoCTHgj3UMieLIvv7sLHy0j114Omz0L4C8kAdkaDM+DMUtqnzJXpyXVSL5?=
+ =?us-ascii?Q?ohxTWSu34uzYdYN62xHk5N2fXWj/N9KYtHtMWOF0hMO61qdttt/AxWsNH/KI?=
+ =?us-ascii?Q?NG620vNrKUT8zNE5umk0faVs50PU5u08rfwalTW1Mu8ODPIKvFbcZWHUw9dh?=
+ =?us-ascii?Q?Cz57M9ddA8qHVzkM9F83jumFo9n4JN3dda9PCRyUUkT2XewjwL1//n59JHDH?=
+ =?us-ascii?Q?Egel9zbxMIw15U3JjpqS63vWztBkpWjgyDStmx7YBZU5UN0VJXljcNJZ+F3n?=
+ =?us-ascii?Q?EuCLfKn6o6UdiZPxNoY8smEl66fFfiRb7h6tLO61iot4igF4SLEonMtWNSPg?=
+ =?us-ascii?Q?NhFiuhLamz2UBz5NQtydLhb/cI5cwvrzFbYK0Bd+cka+JSlIV/6RVwpmmk0y?=
+ =?us-ascii?Q?5shLyVQ1GtqiO3C1rGXJ5TSUSbEjELzM/mOGJA0+goypcExlDls1pdD969Uf?=
+ =?us-ascii?Q?FtxqE1uIrTiKd+RoWm39DYW6wpPmHvtjvgAdeHIr/J/RpOszYVFBksauuHTP?=
+ =?us-ascii?Q?lyUqt9mi9A4vRXG0+pV7smO5zRxdPTk35J6XPK/BZQD3ItmledKplRgEBjEJ?=
+ =?us-ascii?Q?HL0mVE0q+ZAWcVrKN30BFm34p5oc0XH8DiXR8Vg5fwvH3ZSYz9bKho1wv4En?=
+ =?us-ascii?Q?lpav2MXreU+YDbI3+NtSLj2/Wrfj04E29fmoOmW2qDABZANk9/ZiyjiI4lKt?=
+ =?us-ascii?Q?Uwh7QB1P+kUA6lLceSf/RNeRGSb0KtkwUycGbbDP+Pw2u9VziURm8a3kJuCU?=
+ =?us-ascii?Q?KJ46FD8n19KP1cKHCf5fiS22s6TrjqRafquOap8ekgwjTwUkxNy9wSfW1DNF?=
+ =?us-ascii?Q?tJa2lpgm58X4SRSjmvprXix/0yNJThpElAaUePaH1EtC8Bw5J6fB6uDBWyAN?=
+ =?us-ascii?Q?1k54kkCIVHktdeUwFS48IyHhsoftQ+NMQsWFL5W91gwHA3WNXfcthyz8Ihm4?=
+ =?us-ascii?Q?U/DKpf/SKLs8WpYkS04zIfOt5u+LB7ZsS7mwKgokcBq1CXP57eq0Bm7lgfUt?=
+ =?us-ascii?Q?6jBs3w8kNWqQno+Q5OmUqEnKi5Eb+UCFjFbrL+/n?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88b3c61a-8f33-4ceb-04cc-08dc2246ec46
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 10:25:18.8635
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oquSCJSxaWyZTAFaG24QeGtaQf/75vbDsqW2MHLWZe5Vb8bD/Y7p6bohN7VkF+Ei6wkBCIEUka5QZ5zR4l4Wtg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7448
 
-On 31/01/2024 10:50, Krzysztof Kozlowski wrote:
-> On 31/01/2024 09:57, Linus Walleij wrote:
->> Hi Krzysztof,
->>
->> something is odd with the addresses on this patch, because neither GPIO
-> 
-> Nothing is odd - I use get_maintainers.pl which just don't print your
-> names. I can add your addresses manually, no problem, but don't blame
-> the contributor that get_maintainers.pl has a missing content-regex. If
-> you want to be Cced on usage of GPIOs, you need to be sure that
-> MAINTAINERS file has appropriate pattern.
-> 
-> 
->> maintainer is on CC nor linux-gpio@vger, and it's such a GPIO-related
->> patch. We only saw it through side effects making <linux/gpio/driver.h>
->> optional, as required by this patch.
->>
->> Please also CC Geert Uytterhoeven, the author of the GPIO aggregator.
-> 
-> 
->>
->> i.e. this:
->>> 2. !GPIOLIB stub:
->>>    https://lore.kernel.org/all/20240125081601.118051-3-krzysztof.kozlowski@linaro.org/
->>
->> On Mon, Jan 29, 2024 at 12:53 PM Krzysztof Kozlowski
->> <krzysztof.kozlowski@linaro.org> wrote:
->>
->>> Devices sharing a reset GPIO could use the reset framework for
->>> coordinated handling of that shared GPIO line.  We have several cases of
->>> such needs, at least for Devicetree-based platforms.
->>>
->>> If Devicetree-based device requests a reset line, while "resets"
->>> Devicetree property is missing but there is a "reset-gpios" one,
->>> instantiate a new "reset-gpio" platform device which will handle such
->>> reset line.  This allows seamless handling of such shared reset-gpios
->>> without need of changing Devicetree binding [1].
->>>
->>> To avoid creating multiple "reset-gpio" platform devices, store the
->>> Devicetree "reset-gpios" GPIO specifiers used for new devices on a
->>> linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
->>> controller, GPIO number and GPIO flags) is used to check if reset
->>> controller for given GPIO was already registered.
->>>
->>> If two devices have conflicting "reset-gpios" property, e.g. with
->>> different ACTIVE_xxx flags, this would allow to spawn two separate
->>> "reset-gpio" devices, where the second would fail probing on busy GPIO
->>> request.
->>>
->>> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ [1]
->>> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
->>> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
->>> Cc: Sean Anderson <sean.anderson@seco.com>
->>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> (...)
->>
->> In my naive view, this implements the following:
->>
->> reset -> virtual "gpio" -> many physical gpios[0..n]
-> 
-> It does not, there is no single GPIO here. There is a single reset
-> controller, though, but still multiple GPIOs in DTS.
-> 
->>
->> So if there was already a way in the kernel to map one GPIO to
->> many GPIOs, the framework could just use that with a simple
->> single GPIO?
->>
->> See the bindings in:
->> Documentation/devicetree/bindings/gpio/gpio-delay.yaml
->>
->> This is handled by drivers/gpio/gpio-aggregator.c.
->>
->> This supports a 1-to-1 map: one GPIO in, one GPIO out, same offset.
->> So if that is extended to support 1-to-many, this problem is solved.
-> 
-> It does not match the hardware thus I don't know how to implement it in
-> DTS while keeping the requirement that we are describing hardware, not
-> OS abstractions.
-> 
->>
->> Proposed solution: add a single boolean property such as
->> aggregate-all-gpios; to the gpio-delay node, making it provide
->> one single gpio at offset 0 on the consumer side, and refuse any
->> more consumers.
-> 
-> And how do you solve the reset requirements? The problem is not just to
-> share GPIO. The problem is to share in a way that devices operate
-> properly when they assert/deassert reset.
-> 
->>
->> This will also solve the problem with induced delays on
->> some GPIO lines as I can see was discussed in the bindings,
->> the gpio aggregator already supports that, but it would work
->> fine with a delay being zero as well.
->>
->> This avoids all the hackery with driver stubs etc as well.
-> 
-> 
-> So none of these ideas were posted in previous threads, just because you
-> were not CCed (except one thread)?
-> 
-> https://lore.kernel.org/lkml/20191030120440.3699-1-peter.ujfalusi@ti.com/
-> https://lore.kernel.org/all/9eebec9b-e6fd-4a22-89ea-b434f446e061@linaro.org/
-> https://lore.kernel.org/all/20231018100055.140847-1-krzysztof.kozlowski@linaro.org/
-> https://social.treehouse.systems/@marcan/111268780311634160
-> 
+ASoC machine driver can use snd_soc_{of_}get_dlc() (A) to get DAI name
+for dlc (snd_soc_dai_link_component). In this function call
+dlc->dai_name is parsed via snd_soc_dai_name_get() (B).
 
-And here:
+(A)	int snd_soc_get_dlc(...)
+	{
+		...
+(B)		dlc->dai_name = snd_soc_dai_name_get(dai);
+		...
+	}
 
-https://lore.kernel.org/all/CAL_JsqL3oZXJJ5_i4BRGpvWu1X8QFB7OGG=D+zLvvWb=UR1mWg@mail.gmail.com/
-which the place where this idea of using resets appeared. I agree that
-you were not CCed there, but that only means you miss lei filters or
-pattern in MAINTAINERS.
+(B) has a priority to return dai->name as dlc->dai_name. In most cases
+card can probe successfully. However it has an issue that ASoC tries to
+rebind card. Here is a simplified flow for example:
 
-Best regards,
-Krzysztof
+ |	a) Card probes successfully at first
+ |	b) One of the component bound to this card is removed for some
+ |	   reason the component->dev is released
+ |	c) That component is re-registered
+ v	d) ASoC calls snd_soc_try_rebind_card()
+
+a) points dlc->dai_name to dai->name. b) releases all resource of the
+old DAI. c) creates new DAI structure. In result d) can not use
+dlc->dai_name to add new created DAI.
+
+So it's reasonable that prefer to return dai->driver->name in
+snd_soc_dai_name_get() because dai->driver is a pre-defined global
+variable. Also update snd_soc_is_matching_dai() for alignment.
+
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+---
+ sound/soc/soc-core.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 516350533e73..847f92721fdb 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -283,13 +283,13 @@ static int snd_soc_is_matching_dai(const struct snd_soc_dai_link_component *dlc,
+ 
+ 	/* see snd_soc_dai_name_get() */
+ 
+-	if (strcmp(dlc->dai_name, dai->name) == 0)
+-		return 1;
+-
+ 	if (dai->driver->name &&
+ 	    strcmp(dai->driver->name, dlc->dai_name) == 0)
+ 		return 1;
+ 
++	if (strcmp(dlc->dai_name, dai->name) == 0)
++		return 1;
++
+ 	if (dai->component->name &&
+ 	    strcmp(dlc->dai_name, dai->component->name) == 0)
+ 		return 1;
+@@ -300,12 +300,12 @@ static int snd_soc_is_matching_dai(const struct snd_soc_dai_link_component *dlc,
+ const char *snd_soc_dai_name_get(struct snd_soc_dai *dai)
+ {
+ 	/* see snd_soc_is_matching_dai() */
+-	if (dai->name)
+-		return dai->name;
+-
+ 	if (dai->driver->name)
+ 		return dai->driver->name;
+ 
++	if (dai->name)
++		return dai->name;
++
+ 	if (dai->component->name)
+ 		return dai->component->name;
+ 
+-- 
+2.43.0
 
