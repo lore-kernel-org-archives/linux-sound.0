@@ -1,152 +1,158 @@
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB107319D;
-	Wed, 31 Jan 2024 12:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BBC7B3EC
+	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 12:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706703511; cv=none; b=p/bmGFB93dP/KIga110X+pyCUC+TWaPWfhR54RY/UsnvjHzqrdTNXqcB0xqoYabmFGruNJwAmHk+1m0Sp7TYBZx9oRFYTUajs1uxP9QKfPq7OcoAvBX+qSSpBHQO3Xtz9R+o94JOTiRLaBljX2FSCY2MK8NZImrWk+2VvGs90+Y=
+	t=1706705450; cv=none; b=UkjG8TLIUXIVKTbIB9WtzCiut7OgGzOEYlKqngkbRe+tUSuttK1R4DgK8+huY+ycg6ksSuTAF9LZtqzy4ZDkd6sWxW8yefVPz2QiIr8S4n6bIeK+ly9VnBEouQ1z63UK1xigWj1DD1AGKIYWw71ZHRnnYOGMsMPP5a1cQ4jMULI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706703511; c=relaxed/simple;
-	bh=kY/nfN3StEs524jZ+xz9fo8BvAXypmxWDqDm3ovUVqs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=k6Ap+Ydzpi1edLp9pgX0d/yg3UHjyf3BUrroiLffGo6sliMr5wmeuHr++Q9U27Bn84m8IODdEJslV86BIYr3KU5PHWmXK0zeemCZJLiT5ICX0gEmHP0VwjIgJ0TWWh/lggqx2BrFH8Hn7Giq+HXQFcoaMxfiHIunadlTE0bu6/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=aEjEsiyB; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1706705450; c=relaxed/simple;
+	bh=yebtIyQCYDZ5e+sLn4mg7pl47yIXsLOdVhcRWu+i57I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rJE1FXQcJKKeaZeePJ3d6UCceusbXplU4pWIhB0qtRiganbdZK3rpJsmAiHRCgG0F3dH5l4Ic4kQW6XBJjTw1DqOAuQgnivQ+3T4A7qKGWEIWt5VJSFgdNIlDH6AmhKNhWIn6XfOrbhpjixK44ZEArTKvrK/8pZxZ+vrIq0p+OY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y1MJ9Uz1; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="aEjEsiyB"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40VCHOVH100330;
-	Wed, 31 Jan 2024 06:17:24 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1706703444;
-	bh=kY/nfN3StEs524jZ+xz9fo8BvAXypmxWDqDm3ovUVqs=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=aEjEsiyBJvl9pQuDYfuzgOGq33WSNU676/e9e3JTOrwbruuuS8EkZFwIsQWFmSSSh
-	 wGbucqPdRgMvon0Xr58LD6lTgYtCaoR2JZk/ZqMoF0raUZFNfyzP6QvxPBtP1oyCgT
-	 OE+5pTwSQlyrUv+FapZeg8KGyzvO/Wf4mkhNGc5Q=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40VCHOoe018987
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 31 Jan 2024 06:17:24 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 31
- Jan 2024 06:17:23 -0600
-Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
- DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
- 15.01.2507.023; Wed, 31 Jan 2024 06:17:23 -0600
-From: "Ding, Shenghao" <shenghao-ding@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "robh+dt@kernel.org"
-	<robh+dt@kernel.org>,
-        "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>,
-        "Lu, Kevin" <kevin-lu@ti.com>, "Xu,
- Baojun" <baojun.xu@ti.com>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "P O, Vijeth" <v-po@ti.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "perex@perex.cz"
-	<perex@perex.cz>,
-        "pierre-louis.bossart@linux.intel.com"
-	<pierre-louis.bossart@linux.intel.com>,
-        "13916275206@139.com"
-	<13916275206@139.com>,
-        "Chawla, Mohit" <mohit.chawla@ti.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
-        "soyer@irl.hu"
-	<soyer@irl.hu>, "Huang, Jonathan" <jkhuang3@ti.com>,
-        "tiwai@suse.de"
-	<tiwai@suse.de>, "Djuandi, Peter" <pdjuandi@ti.com>,
-        "McPherson, Jeff"
-	<j-mcpherson@ti.com>,
-        "Navada Kanyana, Mukund" <navada@ti.com>,
-        Mark Brown
-	<broonie@kernel.org>
-Subject: RE: [EXTERNAL] Re: [PATCH v2 4/4] ASoc: dt-bindings: PCM6240: Add
- initial DT binding
-Thread-Topic: [EXTERNAL] Re: [PATCH v2 4/4] ASoc: dt-bindings: PCM6240: Add
- initial DT binding
-Thread-Index: AQHaUAwUI8E/PZj0r0in3/wm+owNo7DsJ5KAgABZ9gCAA7KFIIACwEkAgADnt+A=
-Date: Wed, 31 Jan 2024 12:17:23 +0000
-Message-ID: <d3655fa4a6854ed5a19c8764885295dd@ti.com>
-References: <20240126035855.1785-1-shenghao-ding@ti.com>
- <20240126035855.1785-4-shenghao-ding@ti.com>
- <f7a2de19-55c5-4aa9-b0a8-632f22b6c147@linaro.org>
- <f5357751-ed4d-49ad-9d65-199c49f4cbdf@sirena.org.uk>
- <015abf2c43a44c478726c270bfa17fc0@ti.com>
- <dc867ca4-e579-47f5-8490-ebefbc3c2875@linaro.org>
-In-Reply-To: <dc867ca4-e579-47f5-8490-ebefbc3c2875@linaro.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y1MJ9Uz1"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6040d33380cso6074627b3.1
+        for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 04:50:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706705447; x=1707310247; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yebtIyQCYDZ5e+sLn4mg7pl47yIXsLOdVhcRWu+i57I=;
+        b=y1MJ9Uz1MsjC/W9kArtu7ja9OR5QPxqKHE5mvsWZCNX2eNrUSRJ/QWYP0HtOWuomam
+         0X1gpJs+UpgGW46IFSYi8VWrk4GhdnV0WHf08SyRfkZQCrVXrBwrgAThk6rSvrdKDqhZ
+         pbhB6R38O0s3h1X9380CWdJsAIy7NqAYBwy9z8keTVSjq9erwFvToO6CoSgoUZ2+giXN
+         BQ9fXxJ6Ux1KVBxa8lVAKKgxERvqevyi8TsA5GPRfmi9Cy5V2pPnq0xfhjFwt7nlI6BV
+         7xj7JSfEi/g3rB/+u9M60b5C1RvMuOaYfU7Gk35DU+btf3U/k1wqpD9nPpUIxs8kyp9k
+         z+yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706705447; x=1707310247;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yebtIyQCYDZ5e+sLn4mg7pl47yIXsLOdVhcRWu+i57I=;
+        b=dMmpbPoHHHHkrntTm3ojgr7ClXi6XYSwnbEfnWcOGFdpohXV1IW2WEoGZVkyFMuOmx
+         zgAAqj7qZ4Pmlet1OKhPy/A0IRPfeZXJ0B09vmIb9T9SSuB0llOCdwOsTh2L/2jEk7uV
+         mf5PvrkpIR7h5qmmOWJbSKNRo9cktQVw3z+x2UQ5mfjFo7El5yyqjBpocs7i1qyYh/bN
+         JwNyM81GurSQvGpH1mrHSGuvAWFEFCG607isKXQN+Nfr374b2KnxKRbcSuZYFNhaWdgO
+         fGzbZ77fGScTdCLMASlvnFXfcCBwjkj+lfz/ptZp9hKwCOt5V9fTl01r7Pb9ZeEN4QoK
+         WP8Q==
+X-Gm-Message-State: AOJu0Yz5R4Fx+fDKalnINAdWY8PDU+HmIuZrIgQoY3oGjrVfN3L2IYs7
+	w5aSXt4rQjIOLvGmrAConGzwIAHhIQHiQpOCRDQZiGG9a/Ho+scfFMUWAvQHUojgcgrLOebGHJP
+	TtamOnbulJ6NvFo/ERXpNIw4JrgOqG7Xj9Df0dQ==
+X-Google-Smtp-Source: AGHT+IFRSU9w1zRrdHbJcJCYqCSrYAoOV1MiQgaqBk9Y+Gvph7b4F0E+eyUKljpNB45qUnX3uDUarVJh+rLHzPjrEnc=
+X-Received: by 2002:a25:6943:0:b0:dbd:7491:368f with SMTP id
+ e64-20020a256943000000b00dbd7491368fmr1373182ybc.7.1706705447230; Wed, 31 Jan
+ 2024 04:50:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+ <20240129115216.96479-5-krzysztof.kozlowski@linaro.org> <CACRpkdYf4HUaV-Pjr81WjLbzy9zdAnyFWs9gPayPC6-3OjHQwA@mail.gmail.com>
+ <6473952d-893d-4591-9bfd-dd983313bee9@linaro.org>
+In-Reply-To: <6473952d-893d-4591-9bfd-dd983313bee9@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 31 Jan 2024 13:50:35 +0100
+Message-ID: <CACRpkdZ6GH94EdBsoB61FbEW5dV1+dRCV9O7TUFCMBBdVJBPuQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/6] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Sean Anderson <sean.anderson@seco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxv
-d3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8ub3JnPg0KPiBTZW50OiBXZWRuZXNkYXks
-IEphbnVhcnkgMzEsIDIwMjQgMTI6MTggQU0NCj4gVG86IERpbmcsIFNoZW5naGFvIDxzaGVuZ2hh
-by1kaW5nQHRpLmNvbT4NCj4gQ2M6IGNvbm9yK2R0QGtlcm5lbC5vcmc7IHJvYmgrZHRAa2VybmVs
-Lm9yZzsNCj4gYW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tOyBMdSwgS2V2aW4gPGtl
-dmluLWx1QHRpLmNvbT47IFh1LCBCYW9qdW4NCj4gPGJhb2p1bi54dUB0aS5jb20+OyBkZXZpY2V0
-cmVlQHZnZXIua2VybmVsLm9yZzsgUCBPLCBWaWpldGggPHYtDQo+IHBvQHRpLmNvbT47IGxnaXJk
-d29vZEBnbWFpbC5jb207IHBlcmV4QHBlcmV4LmN6OyBwaWVycmUtDQo+IGxvdWlzLmJvc3NhcnRA
-bGludXguaW50ZWwuY29tOyAxMzkxNjI3NTIwNkAxMzkuY29tOyBDaGF3bGEsIE1vaGl0DQo+IDxt
-b2hpdC5jaGF3bGFAdGkuY29tPjsgbGludXgtc291bmRAdmdlci5rZXJuZWwub3JnOyBsaW51eC0N
-Cj4ga2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGlhbS5yLmdpcmR3b29kQGludGVsLmNvbTsgc295
-ZXJAaXJsLmh1OyBIdWFuZywNCj4gSm9uYXRoYW4gPGpraHVhbmczQHRpLmNvbT47IHRpd2FpQHN1
-c2UuZGU7IERqdWFuZGksIFBldGVyDQo+IDxwZGp1YW5kaUB0aS5jb20+OyBNY1BoZXJzb24sIEpl
-ZmYgPGotbWNwaGVyc29uQHRpLmNvbT47IE5hdmFkYQ0KPiBLYW55YW5hLCBNdWt1bmQgPG5hdmFk
-YUB0aS5jb20+OyBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+DQo+IFN1YmplY3Q6IFJl
-OiBbRVhURVJOQUxdIFJlOiBbUEFUQ0ggdjIgNC80XSBBU29jOiBkdC1iaW5kaW5nczogUENNNjI0
-MDoNCj4gQWRkIGluaXRpYWwgRFQgYmluZGluZw0KPiANCj4gT24gMjkvMDEvMjAyNCAwNTrigIo0
-MywgRGluZywgU2hlbmdoYW8gd3JvdGU6ID4+ID4+IE9uIEZyaSwgSmFuIDI2LCAyMDI0IGF0DQo+
-IDA5OuKAijI3OuKAijQ3QU0gKzAxMDAsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6ID4+PiBP
-biAyNi8wMS8yMDI0IDA0OuKAijU4LA0KPiBTaGVuZ2hhbyBEaW5nIHdyb3RlOiA+PiA+Pj4+ICsg
-LSBpZjogPj4+PiArIHByb3BlcnRpZXM6DQo+IFpqUWNtUVJZRnBmcHRCYW5uZXJTdGFydCBUaGlz
-IG1lc3NhZ2Ugd2FzIHNlbnQgZnJvbSBvdXRzaWRlIG9mIFRleGFzDQo+IEluc3RydW1lbnRzLg0K
-PiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29n
-bml6ZSB0aGUgc291cmNlIG9mDQo+IHRoaXMgZW1haWwgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMg
-c2FmZS4NCj4gDQo+IFpqUWNtUVJZRnBmcHRCYW5uZXJFbmQNCj4gT24gMjkvMDEvMjAyNCAwNTo0
-MywgRGluZywgU2hlbmdoYW8gd3JvdGU6DQo+ID4+DQo+ID4+IE9uIEZyaSwgSmFuIDI2LCAyMDI0
-IGF0IDA5OjI3OjQ3QU0gKzAxMDAsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+ID4+PiBP
-biAyNi8wMS8yMDI0IDA0OjU4LCBTaGVuZ2hhbyBEaW5nIHdyb3RlOg0KPiA+Pg0KPiA+Pj4+ICsg
-IC0gaWY6DQo+ID4+Pj4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4+Pj4gKyAgICAgICAgY29tcGF0
-aWJsZToNCj4gPj4+PiArICAgICAgICAgIGNvbnRhaW5zOg0KPiA+Pj4+ICsgICAgICAgICAgICBl
-bnVtOg0KPiA+Pj4+ICsgICAgICAgICAgICAgIC0gdGkscGNtMTY5MA0KPiA+Pj4+ICsgICAgdGhl
-bjoNCj4gPj4+PiArICAgICAgcHJvcGVydGllczoNCj4gPj4+PiArICAgICAgICByZWc6DQo+ID4+
-Pj4gKyAgICAgICAgICBpdGVtczoNCj4gPj4+PiArICAgICAgICAgICAgbWluaW11bTogMHg0Yw0K
-PiA+Pj4+ICsgICAgICAgICAgICBtYXhpbXVtOiAweDRmDQo+ID4+DQo+ID4+PiBOb3RoaW5nIGlt
-cHJvdmVkLg0KPiA+Pg0KPiA+PiBTaGVuZ2hhbyBleHBsYWluZWQgd2hhdCB3aGF0IHRoaXMgaXMg
-ZG9pbmcgLSBJJ20gbm90IHN1cmUgd2hhdCB0aGUNCj4gPj4gYWN0dWFsIHByb2JsZW0gaXMgaGVy
-ZT8gIEl0J3MgYW4gYWN0dWFsIHJlc3RyaWN0aW9uIG9uIHRoZSB2YWx1ZXMgdGhhdCBhcmUNCj4g
-dmFsaWQuDQo+ID4NCj4gPiBIaSwgS3J6eXN6dG9mLiBNYXkgSSBoYXZlIHRoZSBwcml2aWxlZ2Ug
-dG8gcGV0aXRpb24gb24gYmVoYWxmIG9mIG15DQo+ID4gY3VzdG9tZXJzPyBUaGV5IHdhbnQgdG8g
-a2VlcCB0aGVzZSBpZiBicmFuY2hlcyBhbmQgdGhlIGkyYyBhZGRyZXNzIGluDQo+ID4geWFtbCBm
-aWxlLiBBcyB5b3Uga25vdywgbW9zdCBvZiBteSBjdXN0b21lcnMgdXNlZCB0byBtYWtlIG1pc3Rh
-a2VzIGFuZA0KPiA+IGNvbmZ1c2Ugd2l0aCB0aGUgaTJjIGFkZHJlc3MuIExpc3RpbmcgdGhlbSBo
-ZXJlIGNhbiBoZWxwIHRoZW0gdG8gZ2V0IHRoZQ0KPiBpbmZvcm1hdGlvbiBlYXNpbHkuDQo+IA0K
-PiBUbyB3aGljaCBjYXNlcyB0aGlzIGV4Y2VwdGlvbiB3aWxsIGFwcGx5PyBZb3VyIHBhdGNoZXMs
-IGFsbCBUST8NCj4gDQpTb21lIEFJIGN1c3RvbWVycyB1c3VhbGx5IGxpa2UgdG8gdHJ5IHNvbWUg
-aW5ub3ZhdGl2ZSBwcm9qZWN0cywgc3VjaCBhcyB0aGVpciBtdWx0aXBsZS1zbG90IFRETSANCmRl
-dmljZXMgd2l0aCBzZXJ2YWwgZGlmZmVyZW50IEFEQ3Mgb3IgREFDIG9uIGRpZmZlcmVudCBpMmMg
-YnVzZXMuIFRyYWRpdGlvbmFsIGRyaXZlciBjb2RlIHJlYWxseSANCmNhbid0IG1lZXQgdGhlaXIg
-cmVxdWlyZW1lbnRzLg0KPiBCaW5kaW5ncyBhcmUgbm90IHN1cHBvc2VkIHRvIGJlIHNvIGRldGFp
-bGVkIHRvIGNyZWF0ZSBEVFMgb3V0IGlmIGl0LCBiZWNhdXNlIGl0DQo+IG1ha2VzIHRoZW0gbW9y
-ZSBkaWZmaWN1bHQgdG8gbWFpbnRhaW4uIFN1Y2ggYW1vdW50IG9mDQo+IGlmOnRoZW46IG1ha2Vz
-IGl0IHRyaWNraWVyLCBmb3Igbm8gcmVhbCBnYWluLg0KPiANCkFjY2VwdA0KDQogQmVzdCByZWdh
-cmRzLA0KU2hlbmdoYW8gRGluZw0KDQo=
+On Wed, Jan 31, 2024 at 10:50=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+
+> Nothing is odd - I use get_maintainers.pl which just don't print your
+> names. I can add your addresses manually, no problem, but don't blame
+> the contributor that get_maintainers.pl has a missing content-regex. If
+> you want to be Cced on usage of GPIOs, you need to be sure that
+> MAINTAINERS file has appropriate pattern.
+
+I think that is over-reliance on tooling, I think if I author a patch
+creating a struct gpio_chip it's natural to CC the GPIO maintainers,
+just by intuition. Maybe that's just me.
+
+I guess if one wants to automate maybe get_maintainers should
+CC GPIO maintainers on patches that has a + #include <linux/gpio/driver.h>
+in the patch body but it seems like stretching it to me, it's just too
+much process.
+
+> > reset -> virtual "gpio" -> many physical gpios[0..n]
+>
+> It does not, there is no single GPIO here. There is a single reset
+> controller, though, but still multiple GPIOs in DTS.
+
+Aha so this is problem similar to what regulators are doing,
+where they had this problem that a single GPIO can contain a
+regulator used by many devices?
+
+There the solution is something along the line that the first
+consumer turns on the light when it arrives and the last consumer
+turns it off when it leaves, at least that is the idea.
+
+That solution isn't the pretties either :/
+
+But if we find a solution for the reset controller, it appears to
+me that the pattern should be re-usable for regulators too?
+
+I think Bartosz says in another reply that *_NONEXCLUSIVE that
+the regulators are using is broken so if we are to invent something
+new we should make it available for everyone.
+
+> > This supports a 1-to-1 map: one GPIO in, one GPIO out, same offset.
+> > So if that is extended to support 1-to-many, this problem is solved.
+>
+> It does not match the hardware thus I don't know how to implement it in
+> DTS while keeping the requirement that we are describing hardware, not
+> OS abstractions.
+
+OK fair enough I got it wrong.
+
+(the rest of comments are probably fallouts from the misunderstanding).
+
+> So none of these ideas were posted in previous threads, just because you
+> were not CCed (except one thread)?
+>
+> https://lore.kernel.org/lkml/20191030120440.3699-1-peter.ujfalusi@ti.com/
+> https://lore.kernel.org/all/9eebec9b-e6fd-4a22-89ea-b434f446e061@linaro.o=
+rg/
+> https://lore.kernel.org/all/20231018100055.140847-1-krzysztof.kozlowski@l=
+inaro.org/
+> https://social.treehouse.systems/@marcan/111268780311634160
+>
+> Please implement some custom lei filter, so you will get such
+> notifications earlier. We keep discussing this for many months on
+> various attempts and this specific attempt already reached v6.
+
+Yeah I should really look at lei!
+
+I just haven't had time to get into it, because it appears it appeals
+most to people who use local clients like mutt. And I use gmail
+(yeah ...) I guess I would have to change my whole workflow to
+accomodate for lei, but it may very well be the right thing to do, I
+did change everything for b4 already.
+
+Yours,
+Linus Walleij
