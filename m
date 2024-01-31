@@ -1,158 +1,151 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1B369D37
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 08:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0116997E;
+	Wed, 31 Jan 2024 09:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706691434; cv=none; b=hkHo268PULybQiRpAp1K0lg8xBmKiMu3v+ZU3GwGU8aql0pxKkCR0f3P8c8tU0ndkWw4UE+aI026HXN3rGwezRVmfpVZ0ND1Gnn8HrhByHVQ7aCE7ev2AlC2HuAKEBXhqCUYVyOHqGEdMTuEftkM+sLr71Xsi/er21rsvWQT3RA=
+	t=1706692043; cv=none; b=Bfd3e4ROgbXAeGpGMkCUTlVSnoLzyMYq6/oNEdHVynhm/aQ22mR8jj7TQ/nJKaDrYt4a3mUFhY1LDi2PdT83qCZXsTPVQn4AD5103HC0z6ZyNoB3Qwqjwa7DL7cIzkUPZTCwdTk91X1CrutWq5GsYyCXLD662rnjmwMqr4e6TTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706691434; c=relaxed/simple;
-	bh=i/0xGVWxmLGZ/l4MKKj0oTxK2I+o2zUxh3bsKs/n+Iw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LvU3uReTnHLtZVWFVGJklzPa7gnNeX6MIt8X52pwVeMNvIKrwp1qKukJGC6Kqsw679luogDKdEc4cDoTTb2kx1B7SGHNiX2gKqs34sB87K/ziJr6JUKyBYmkH2uPnlYJ0FG1ESaFqrs6q6Nd9XK3wLSxJ1zi4BnuHbMgrhgu8iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZlZoqKvn; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706692043; c=relaxed/simple;
+	bh=0RuTS+kPwr4+e0G8exQO+9NVYj16oJYi6dt0lNc9JzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Lt2/W2fGTFX4rWxp5SEcFLDNBFyoSyNCPObPJELlg4lpTvFLgSVm0JGnEzjWxKcXvXSFQj1RTwzVAg+kReuxk1gTiGSklwHol3P6bUiaQRAeITqDWYP4GHF2hD838FPiyAHh+6m7n6z9yHxWaNQsx7BfZ0ywFNiHtQknr7BzUOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IpopKANJ; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZlZoqKvn"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc6c4a5bf2fso204352276.1
-        for <linux-sound@vger.kernel.org>; Wed, 31 Jan 2024 00:57:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706691432; x=1707296232; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=19iyMKPgVV/OnzcKafV91f/kV0b2fJZ+DHL/skL3AYc=;
-        b=ZlZoqKvnK9OMXxhyDnAHPKZgYrPCtuhp7e1LksxIle5ypFPscvs+hduyajZzs2TsSX
-         RYtsEUu4xAzDEkY49ltoJ7lIGqG7G0rK6numdJxC4EvFci0hvUDp8tpx6A0DUs6i5KDM
-         1eKhPoxhKPrzQgdE5Sbx8fVxdd0T9zA4dLZUHYRnULQpAF0+QagNHE+FNc4uqelEK9nx
-         qA9/80W/aungYw0rIh4aDr26uyquHOWEDT/Tz8/uoZkavhvW27iFUkUhdtfJmgBhtUZi
-         pbKEekHZNNVxIWXfvAWfRHImycGZwF1ggyonJH5IRMLR/Ke0VhT6dhH4rdEjenBJ7KDm
-         gXcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706691432; x=1707296232;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=19iyMKPgVV/OnzcKafV91f/kV0b2fJZ+DHL/skL3AYc=;
-        b=MQvqky6sQcHFfgq61g7Ns+ajsHDSq4U/LEPYDKBRy/9TJsqX9JZC05ynEl4L6wes4G
-         KxjqYHu4oa09qLAsQroI2m+R7st4tVnBntgpSrU6846+Ji0sS1VZg5mJqaeS4Kftkl/Z
-         JsGNu/2W5uR9wIppPUt2GAT4GHxNai8NJiRIUIxmoYRFroaaxvNWran9Y1zbkrbasBpn
-         HxNssGOdX+BIRqtgl/VzPyZR80Gem/ju9/hyNx7UsiEhzdJcW2NMWIyP9C9Istv4Qnhu
-         P0L13QBrZvfacUdS3Hg7qvHNAPqL/Rg99vuS/pqnjmEAlcqeSChyrKy4FGDHNI47MxcY
-         zw4w==
-X-Gm-Message-State: AOJu0YzOl/Rs+w+jDYFoyylSxyWSOQVm0PkI1SGf5tmDtuEynwSLIJT1
-	cND7lXaAaMr0i3Oh457go6g66+eu3Ag98TfjObNerAf7tyHyPhfwboOeSyU4Uonv68MM4z4FaOF
-	PVAV/jSwGAX6v+4PAPYkNYT7HYVIWCFuaj5cONw==
-X-Google-Smtp-Source: AGHT+IF+kfDZ/YF7mxYh80knn1UBEiVlr7hp7DfiTZ/EqM7NpiukfxSx7V7h2n9hbAXhnmqW7UvF5OBBTxTaOE6Q4vE=
-X-Received: by 2002:a25:7904:0:b0:dc6:7e97:ae62 with SMTP id
- u4-20020a257904000000b00dc67e97ae62mr1105679ybc.21.1706691431753; Wed, 31 Jan
- 2024 00:57:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IpopKANJ"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94A901C0003;
+	Wed, 31 Jan 2024 09:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706692038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txVeyDCwCa0PTblW/GH4Mt4FMs2okstRsQIFGpgZpIA=;
+	b=IpopKANJvPwzP+cqcm/nV8tIJeOl95Z+pm5ZBFxwXGnXRcK3j8Pw+g5PpTHYdFLZ+S68Mp
+	Zsj2PczR2iFjVt4JmxgdVtBXXEmZpd6iYEY+KPRCxNu2fQPiuG18FsmsoFfZfWkaW1KPbB
+	G1MSsTLhcCIWapF7QsFR2x2AIjii8HyIxhHt1myJcrQtSSLsH8641MOW1xBoMgS5kgngcd
+	HpasEnyJS3TgeESvACXjoa9KiuEvYQs3iCmPPe7m0RCMy1Q343Sq2P0VW3xur3FbmOGHKH
+	v498LDl6jvgqLJTyZWKLJSC9wenFYUOzH2yWAnMS8h04WN1KqPaw/M4Qidd9Fw==
+Date: Wed, 31 Jan 2024 10:07:01 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Lad,  Prabhakar"
+ <prabhakar.csengg@gmail.com>, "Niklas =?UTF-8?Q?S=C3=83=C2=B6derlund?="
+ <niklas.soderlund+renesas@ragnatech.se>, "Uwe =?UTF-8?Q?Kleine-K=C3=83?=
+ =?UTF-8?Q?=C2=B6nig?=" <u.kleine-koenig@pengutronix.de>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Alexander Stein
+ <alexander.stein@ew.tq-group.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson
+ <andersson@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel
+ Vetter <daniel@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Eugen Hristev <eugen.hristev@collabora.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Frank Rowand
+ <frowand.list@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, Jacopo Mondi
+ <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>, James Clark
+ <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Liu Ying <victor.liu@nxp.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Marek Vasut <marex@denx.de>, Mark
+ Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>, Michal
+ Simek <michal.simek@amd.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan
+ Chancellor <nathan@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Rob Clark <robdclark@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, Russell King
+ <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Saravana Kannan <saravanak@google.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sowjanya
+ Komatineni <skomatineni@nvidia.com>, Stefan Agner <stefan@agner.ch>, Suzuki
+ K Poulose <suzuki.poulose@arm.com>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tim
+ Harvey <tharvey@gateworks.com>, Todor Tomov <todor.too@gmail.com>, Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alim Akhtar <alim.akhtar@samsung.com>, Fabio
+ Estevam <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet
+ <jbrunet@baylibre.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas
+ Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Mike Leach <mike.leach@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>, Tom Rix
+ <trix@redhat.com>, coresight@lists.linaro.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+ linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3 14/24] of: property: add of_graph_get_next_endpoint()
+Message-ID: <20240131100701.754a95ee@booty>
+In-Reply-To: <874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+	<874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org> <20240129115216.96479-5-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240129115216.96479-5-krzysztof.kozlowski@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 31 Jan 2024 09:57:00 +0100
-Message-ID: <CACRpkdYf4HUaV-Pjr81WjLbzy9zdAnyFWs9gPayPC6-3OjHQwA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/6] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Sean Anderson <sean.anderson@seco.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi Krzysztof,
+Hello Kuninori Morimoto,
 
-something is odd with the addresses on this patch, because neither GPIO
-maintainer is on CC nor linux-gpio@vger, and it's such a GPIO-related
-patch. We only saw it through side effects making <linux/gpio/driver.h>
-optional, as required by this patch.
+On Wed, 31 Jan 2024 05:06:36 +0000
+Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-Please also CC Geert Uytterhoeven, the author of the GPIO aggregator.
+> To handle endpoint more intuitive, create of_graph_get_next_endpoint()
+> 
+> 	of_graph_get_next_endpoint(port1, NULL); // A1
+> 	of_graph_get_next_endpoint(port1, A1);   // A2
+> 	of_graph_get_next_endpoint(port1, A2);   // NULL
 
-i.e. this:
-> 2. !GPIOLIB stub:
->    https://lore.kernel.org/all/20240125081601.118051-3-krzysztof.kozlowsk=
-i@linaro.org/
+The idea looks good. My only concern is about reusing the
+of_graph_get_next_endpoint() name after having removed the old, different
+function having the same name. This can be confusing in the first
+place to who is used to the old function, and also to anybody rebasing
+their patches on top of a new kernel to find their code behaving
+differently.
 
-On Mon, Jan 29, 2024 at 12:53=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+Also, as now we'd have two similar variants of this function, it would
+be good if each of them were having a name that clearly identifies in
+which way they differ from the other.
 
-> Devices sharing a reset GPIO could use the reset framework for
-> coordinated handling of that shared GPIO line.  We have several cases of
-> such needs, at least for Devicetree-based platforms.
->
-> If Devicetree-based device requests a reset line, while "resets"
-> Devicetree property is missing but there is a "reset-gpios" one,
-> instantiate a new "reset-gpio" platform device which will handle such
-> reset line.  This allows seamless handling of such shared reset-gpios
-> without need of changing Devicetree binding [1].
->
-> To avoid creating multiple "reset-gpio" platform devices, store the
-> Devicetree "reset-gpios" GPIO specifiers used for new devices on a
-> linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
-> controller, GPIO number and GPIO flags) is used to check if reset
-> controller for given GPIO was already registered.
->
-> If two devices have conflicting "reset-gpios" property, e.g. with
-> different ACTIVE_xxx flags, this would allow to spawn two separate
-> "reset-gpio" devices, where the second would fail probing on busy GPIO
-> request.
->
-> Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ [1=
-]
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-(...)
+So a better name for this function would probably be
+of_graph_get_next_port_endpoint() I guess, to clearly differentiate from
+of_graph_get_next_device_endpoint().
 
-In my naive view, this implements the following:
+Luca
 
-reset -> virtual "gpio" -> many physical gpios[0..n]
-
-So if there was already a way in the kernel to map one GPIO to
-many GPIOs, the framework could just use that with a simple
-single GPIO?
-
-See the bindings in:
-Documentation/devicetree/bindings/gpio/gpio-delay.yaml
-
-This is handled by drivers/gpio/gpio-aggregator.c.
-
-This supports a 1-to-1 map: one GPIO in, one GPIO out, same offset.
-So if that is extended to support 1-to-many, this problem is solved.
-
-Proposed solution: add a single boolean property such as
-aggregate-all-gpios; to the gpio-delay node, making it provide
-one single gpio at offset 0 on the consumer side, and refuse any
-more consumers.
-
-This will also solve the problem with induced delays on
-some GPIO lines as I can see was discussed in the bindings,
-the gpio aggregator already supports that, but it would work
-fine with a delay being zero as well.
-
-This avoids all the hackery with driver stubs etc as well.
-
-Yours,
-Linus Walleij
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
