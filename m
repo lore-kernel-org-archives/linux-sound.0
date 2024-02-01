@@ -1,86 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE178664A;
-	Thu,  1 Feb 2024 12:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B47BA4D
+	for <linux-sound@vger.kernel.org>; Thu,  1 Feb 2024 12:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706791780; cv=none; b=BZpSwqOElPqqfJl9LA1PRWBMJZ5dthaosWZXzaihZKEN+HUqy6la1f8dnQvJFMV3Z4BRWoUHyZCGd1qPuO/gQTmAr/oTA4azBoEj1l8KOgKyKX3vEw4F6PsfmPq4bBq3ckS5LL7XpTTInUL5qCoyBO6/f6r+pEmid5m96+OM/cg=
+	t=1706791879; cv=none; b=CsionXmYoQqXCnw/ZQdtDzhr3vD7OOIVtv8gNSk2aWBk5YXaNmelx4/KsEC6CLLaawPJ7qz9y9eRCbWwH/nHMqhqx4cB7lWmhoyzS0vMx59dfCo3xUX07iF2oBZrFer8h5uITC9vY3XCpC/8ccdBgZ9lXTzt1mQbX3h9yFBZz0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706791780; c=relaxed/simple;
-	bh=73yNjbX3V5CwANTEQjLTld89ILQCh/j/Q6b2MYKvOug=;
+	s=arc-20240116; t=1706791879; c=relaxed/simple;
+	bh=343a9e1WFUuOnEOu9+au4m0gA+bLOdwwLZSK8bIBbJA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jr9bWKz0dCeNmXvng7GQHVjoGmQgCi4YFf6OvoA6EwqoioxnObDg28p611qKIfAxKtLW69d9OW4qt9MVIk36VuF80tMP2ekk9urw379XZ8sXRxdzXk0M8GVYl2PMo3kDfHkysK6xdRf7eogSfLBVVgbjbaSpEGXlCUs4Yca52XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sVkuvq9M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U3iAOdW4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=igZEU4SK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5n7VExPE; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=U8HOcAj+ixU02YcXDDZV3yQce/9PG4FnXgyf6sOgH9LVTgTNcJvBXOd8OCnA6OJpGf6bF77P7qdeHz9LH0vK3ITQp3SHLbW5yd4+Kj3qRw/PFkdgFEImeKr6n7holKH+XQcqgA6HvyYjKQ/CcdR6//RCw4+pZM8+8Aaq4ylqIqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sGwVcA39; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=67GPQQus; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sGwVcA39; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=67GPQQus; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sVkuvq9M";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U3iAOdW4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="igZEU4SK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5n7VExPE"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sGwVcA39";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="67GPQQus";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sGwVcA39";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="67GPQQus"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E79B61FB83;
-	Thu,  1 Feb 2024 12:49:34 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 03A7D21EF1;
+	Thu,  1 Feb 2024 12:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706791775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1706791876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0OPATdqXvb+caoegnnSuXx1SUc1odadlEih9NfSLUgs=;
-	b=sVkuvq9My99tel6yzls+aOPbmI5KRf2qL6l4MgCTWKRZLCxJrpAGURLWLPE3tKKo5vRt16
-	5YLG9O9ZasCyiEf1H0Yeigsr/Zyo7c6+WRqB2NcAJfV/tVb2ShJeICKfmNIMBeLGGG6Zgk
-	WTbazjGlEuEmFzsKlh4e2i9QCpjiBDA=
+	bh=bpSbK7+BN8UmNhYXG1qx7P8+E4GboGNSjolIn2XEwdc=;
+	b=sGwVcA39IYabFCxRAczfBAu4ci+6Fon/CjKqmC3ieBGR8Ffvn6Rm/xo8nQoFvxcaCD9SSm
+	Q69VKhJZHniz4x5BW0djzfUoQdePBCcD7z6Wsg6xpnN5+yW1J9TRBvsIDIwRJJbIeqg9v2
+	XE+c1HzwpWPgWeePzg8iBh54FJ+cqA8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706791775;
+	s=susede2_ed25519; t=1706791876;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0OPATdqXvb+caoegnnSuXx1SUc1odadlEih9NfSLUgs=;
-	b=U3iAOdW4Mhkj2iThF5ZtIKItLDpdXCEseESa7zVN4wxEPqCxcY400oVuPch5xsKMCZ+7bY
-	Hvb5oKkNtw5kWWAA==
+	bh=bpSbK7+BN8UmNhYXG1qx7P8+E4GboGNSjolIn2XEwdc=;
+	b=67GPQQusTsRI6X/THTl4vLRUt/rxsofyXPUW26zGagnzeH+LsyeBOq/unAvfBWVFxTfQE1
+	UYLh9Z5zVPjbS5Cw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706791774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1706791876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0OPATdqXvb+caoegnnSuXx1SUc1odadlEih9NfSLUgs=;
-	b=igZEU4SKS2Hu9A5IDMqwX9MDFkJ9hQUfhB6qKDGEceK6QjdnB4EXiZoOA+AL/JidoftTsI
-	QjRe0szEKCJPz8SI0Z00GWAphEb+nLV8ls+z4szoF18sSEk3XMB6UDAy3P2DI3Mdye6upy
-	JL5QAjIxg4G6M93N8Qi5NRTsx1r2I58=
+	bh=bpSbK7+BN8UmNhYXG1qx7P8+E4GboGNSjolIn2XEwdc=;
+	b=sGwVcA39IYabFCxRAczfBAu4ci+6Fon/CjKqmC3ieBGR8Ffvn6Rm/xo8nQoFvxcaCD9SSm
+	Q69VKhJZHniz4x5BW0djzfUoQdePBCcD7z6Wsg6xpnN5+yW1J9TRBvsIDIwRJJbIeqg9v2
+	XE+c1HzwpWPgWeePzg8iBh54FJ+cqA8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706791774;
+	s=susede2_ed25519; t=1706791876;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0OPATdqXvb+caoegnnSuXx1SUc1odadlEih9NfSLUgs=;
-	b=5n7VExPEYQcJR3mjewXySgWcwTfX1DyLpogo/QHlF6xs4za9C6VuNJRkIR4ONS2A/YBQ/a
-	HVBWwDHJX29KvgBQ==
+	bh=bpSbK7+BN8UmNhYXG1qx7P8+E4GboGNSjolIn2XEwdc=;
+	b=67GPQQusTsRI6X/THTl4vLRUt/rxsofyXPUW26zGagnzeH+LsyeBOq/unAvfBWVFxTfQE1
+	UYLh9Z5zVPjbS5Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD037139B1;
-	Thu,  1 Feb 2024 12:49:34 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C43E2139B1;
+	Thu,  1 Feb 2024 12:51:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WJwOKV6Tu2XkOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 01 Feb 2024 12:49:34 +0000
-Date: Thu, 01 Feb 2024 13:49:34 +0100
-Message-ID: <87msskz6w1.wl-tiwai@suse.de>
+	id KY5oLsOTu2XPOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 01 Feb 2024 12:51:15 +0000
+Date: Thu, 01 Feb 2024 13:51:15 +0100
+Message-ID: <87le84z6t8.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	tiwai@suse.com,
+To: Alexander Tsoy <alexander@tsoy.me>
+Cc: linux-sound@vger.kernel.org,
 	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 00/18] ALSA: Various fixes for Cirrus Logic CS35L56 support
-In-Reply-To: <1cc8d9c7-2af5-43f1-a022-75624deae51f@sirena.org.uk>
-References: <20240129162737.497-1-rf@opensource.cirrus.com>
-	<1cc8d9c7-2af5-43f1-a022-75624deae51f@sirena.org.uk>
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH] ALSA: usb-audio: Ignore clock selector errors for single connection
+In-Reply-To: <20240201115308.17838-1-alexander@tsoy.me>
+References: <20240201115308.17838-1-alexander@tsoy.me>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,52 +86,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=igZEU4SK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5n7VExPE
-X-Spamd-Result: default: False [-0.39 / 50.00];
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-2.10 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.08)[87.99%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -0.39
-X-Rspamd-Queue-Id: E79B61FB83
+	 BAYES_HAM(-3.00)[100.00%]
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spamd-Bar: /
+X-Spam-Score: -2.10
 
-On Thu, 01 Feb 2024 13:47:38 +0100,
-Mark Brown wrote:
+On Thu, 01 Feb 2024 12:53:08 +0100,
+Alexander Tsoy wrote:
 > 
-> On Mon, Jan 29, 2024 at 04:27:19PM +0000, Richard Fitzgerald wrote:
-> > This chain of patches fixes various things that were undocumented, unknown
-> > or uncertain when the original driver code was written. And also a few
-> > things that were just bugs.
-> > 
-> > The HDA patches have dependencies on the ASoC patches, except for the final
-> > patch that removes a bogus test stub function.
+> For devices with multiple clock sources connected to a selector, we need
+> to check what a clock selector control request has returned. This is
+> needed to ensure that a requested clock source is indeed selected and for
+> autoclock feature to work.
 > 
-> Takashi, should I apply the ALSA bits of this via ASoC?
+> For devices with single clock source connected, if we get an error there
+> is nothing else we can do about it. We can't skip clock selector setup as
+> it is required by some devices. So lets just ignore error in this case.
+> 
+> This should fix various buggy Mackie devices:
+> 
+> [  649.109785] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
+> [  649.111946] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
+> [  649.113822] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
+> 
+> There is also interesting info from the Windows documentation [1] (this
+> is probably why manufacturers dont't even test this feature):
+> 
+> "The USB Audio 2.0 driver doesn't support clock selection. The driver
+> uses the Clock Source Entity, which is selected by default and never
+> issues a Clock Selector Control SET CUR request."
+> 
+> Link: https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/usb-2-0-audio-drivers [1]
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217314
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=218175
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=218342
+> Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+> ---
+>  sound/usb/clock.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/usb/clock.c b/sound/usb/clock.c
+> index a8204c6d6fac..60fcb872a80b 100644
+> --- a/sound/usb/clock.c
+> +++ b/sound/usb/clock.c
+> @@ -347,8 +347,16 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
+>  			    !writeable)
+>  				return ret;
+>  			err = uac_clock_selector_set_val(chip, entity_id, cur);
+> -			if (err < 0)
+> +			if (err < 0) {
+> +				if (pins == 1) {
+> +					usb_audio_dbg(chip,
+> +						      "%s(): selector returned an error, "
+> +						      "assuming a firmware bug, id %d, ret %d\n",
+> +						      __func__, clock_id, err);
+> +					return ret;
+> +				}
+>  				return err;
+> +			}
 
-Judging from the amount, better to go through your tree.
-Please go ahead.
+Hmm, what's the difference of the behavior except for the additional
+debug message?  Both returns ret, so I don't see how it fixes.
 
 
 thanks,
