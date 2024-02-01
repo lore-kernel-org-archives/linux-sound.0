@@ -1,89 +1,97 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9944DA05;
-	Thu,  1 Feb 2024 10:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25C64DA0C;
+	Thu,  1 Feb 2024 11:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706782126; cv=none; b=HDToFPwC6BIKASiMdCDBcdzwAT0xEn1eU8QMTMopzZy5/aNSBTt/eVwoZbrlBrW2t+1qteSjRcjZIA40rNrS0XJiWvlAjdKuI2tDonFK7unSBrZUM0kvQMrdxIhajsss9f9Jz6VMqMG51Q1/ks/hZI+zWoPOL5gIczNEdBnRo48=
+	t=1706786737; cv=none; b=FOqUBTssYlh3fJlh6TX3Gn65rBqyWm9vhAtJEDB5eU+ta2Aj/VaHHNnNkBTf48dbTytqiOU/uEy4yHrdVDdHawUdJxGo1SwUXZlLD9mBzN6/nck0B/piremyPQqD9hLKrCuVEBqCS0mOAVkkf9pgfYA4ilIvg8AL6OdG+q0VQ4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706782126; c=relaxed/simple;
-	bh=Zbw1duyIkUff9kk8iVE8KbWbqATyvr/EHkllKd6B7Ow=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=haX6GbYJtVWDhFLtT2bmZqeV5njgJDONmM+bBIj1Wg5CjCDaqUGkc0McshjMHtUZqEmYKoC1ukmN/yblawy/Al7mmjmF5wCnjW0qZBy6iynnLcdANvlcWeHsI4Gf25nrjCNcV1Ce7ao4xdkcO3Wn5xQFpcenbQcXn85n19Z5+dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z86UnYCO; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1706786737; c=relaxed/simple;
+	bh=8FsMzGJfsM0aOcmxMpvBjhVsj+8VYxKWtsJcxs8GM5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkbLdDHco06nXWVHQdkn1wyoqUQcz1Y4slm4xo1ber1ckGSwxpnB7VAFHCQmbVLTNyIC0Qn5uLb44wfC1SPABvqJPC0/cBEQCIVrJUPj0iRHR4titi3swu2VeTxQqrED34LQ6Kguz1b6z9B+r8sUKUz1Pk1FLW5aV46SmJ6MWvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZz4QSq+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z86UnYCO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706782122;
-	bh=Zbw1duyIkUff9kk8iVE8KbWbqATyvr/EHkllKd6B7Ow=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z86UnYCO3n19Iz57kNWMmT0uZdLi3ScTKbcJBmq+uANG3S3GFbOPzIJkYnPiv7imu
-	 lUc7yeFkPdCt1D4SWAlRkJ8B/BsZD6IYrfSd+xZBOlFrLQ816gy5lOIt941oiRm0Ir
-	 ZfDcRnAIDX5dU+tz1hR7gRSy2AOHRMOM63MJ5/Z4ih8wod/lPXx0uf9/3kfepJA2gJ
-	 Z5qbo6PXrGxXuqUMFy63bWX4u+24WaAd50oE9I+koZVzdR+b9VjNd6jR7nx4l9dMTI
-	 ad35+HPNKXoUiFt6v0zKjmmEKsRK/ewKAWOoey7c5HZApJ8cwmxuVO+bhpWWyUsytp
-	 8eGV6rRexID+g==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A3A5B3782081;
-	Thu,  1 Feb 2024 10:08:41 +0000 (UTC)
-Message-ID: <cace3472-7ee3-459b-ab2c-51764db99bd7@collabora.com>
-Date: Thu, 1 Feb 2024 11:08:41 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZz4QSq+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7EC9C433F1;
+	Thu,  1 Feb 2024 11:25:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706786737;
+	bh=8FsMzGJfsM0aOcmxMpvBjhVsj+8VYxKWtsJcxs8GM5A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OZz4QSq+RagaDlfjVVz5KtwyqN+z6+sFOtdgVwirtr8OUVEyjsqZmctO07hi8NI32
+	 7CXregjsqNFCRgNzAQC6LkIWzv5+FlZ5wptO3v4wdXf9QnO1eGpacIgLM+ofZOdYxj
+	 hAVJ2KjiNLCky+UQLUuEHvtkt1AjCPRNtR+Gf4R7opVdUrpjheRe1N1Z6Ile36juWk
+	 LyEHXJ1jGYRdeA/3Qd/ypbl0w5N5Zld3EkS/FrAXVZWt29xWDcW/7+Tb1+hdFwMFor
+	 epg+86jqzzvkzy+KV9xJKQ8Wb03jVceOWng1nGR8KT30YOw61WiY7hww8gsNtTPFGI
+	 B1ljn8Z04DlNA==
+Date: Thu, 1 Feb 2024 11:25:27 +0000
+From: Mark Brown <broonie@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: perex@perex.cz, tiwai@suse.com, matthias.bgg@gmail.com,
+	ribalda@chromium.org, nicolas.ferre@microchip.com,
+	u.kleine-koenig@pengutronix.de, kuninori.morimoto.gx@renesas.com,
+	nfraprado@collabora.com, alsa-devel@alsa-project.org,
+	trevor.wu@mediatek.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, lgirdwood@gmail.com
+Subject: Re: [PATCH 0/7] ASoC: mediatek: AFE drivers cleanups
+Message-ID: <6f7a34b6-6f65-42c3-a92d-6b064bf9dee1@sirena.org.uk>
+References: <20240111105247.117766-1-angelogioacchino.delregno@collabora.com>
+ <cace3472-7ee3-459b-ab2c-51764db99bd7@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] ASoC: mediatek: AFE drivers cleanups
-Content-Language: en-US
-To: broonie@kernel.org
-Cc: perex@perex.cz, tiwai@suse.com, matthias.bgg@gmail.com,
- ribalda@chromium.org, nicolas.ferre@microchip.com,
- u.kleine-koenig@pengutronix.de, kuninori.morimoto.gx@renesas.com,
- nfraprado@collabora.com, alsa-devel@alsa-project.org,
- trevor.wu@mediatek.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, lgirdwood@gmail.com
-References: <20240111105247.117766-1-angelogioacchino.delregno@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240111105247.117766-1-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PVPGHszu86wFrqHg"
+Content-Disposition: inline
+In-Reply-To: <cace3472-7ee3-459b-ab2c-51764db99bd7@collabora.com>
+X-Cookie: You can't cheat the phone company.
 
-Il 11/01/24 11:52, AngeloGioacchino Del Regno ha scritto:
-> This series converts MediaTek AFE drivers' probe functions to use
-> dev_err_probe() and devm functions where possible and, in some
-> cases, dropping the .remove_new() callback, reducing the size.
-> 
-> Cheers!
 
-Gentle ping for this series, afraid that went out of the radar :-)
+--PVPGHszu86wFrqHg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Angelo
+On Thu, Feb 01, 2024 at 11:08:41AM +0100, AngeloGioacchino Del Regno wrote:
+> Il 11/01/24 11:52, AngeloGioacchino Del Regno ha scritto:
+> > This series converts MediaTek AFE drivers' probe functions to use
+> > dev_err_probe() and devm functions where possible and, in some
+> > cases, dropping the .remove_new() callback, reducing the size.
 
-> 
-> AngeloGioacchino Del Regno (7):
->    ASoC: mediatek: mt8173-afe-pcm: Convert to devm_pm_runtime_enable()
->    ASoC: mediatek: mt8173-afe-pcm: Use devm_snd_soc_register_component()
->    ASoC: mediatek: mt8183-afe-pcm: Convert to devm_pm_runtime_enable()
->    ASoC: mediatek: mt8183-afe-pcm: Simplify with dev_err_probe()
->    ASoC: mediatek: mt8192-afe-pcm: Convert to devm_pm_runtime_enable()
->    ASoC: mediatek: mt8192-afe-pcm: Simplify with dev_err_probe()
->    ASoC: mediatek: mt8195-afe-pcm: Drop .remove_new() callback
-> 
->   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c |  78 +++------------
->   sound/soc/mediatek/mt8183/mt8183-afe-pcm.c | 108 +++++++--------------
->   sound/soc/mediatek/mt8192/mt8192-afe-pcm.c |  95 ++++++------------
->   sound/soc/mediatek/mt8195/mt8195-afe-pcm.c |  12 +--
->   4 files changed, 81 insertions(+), 212 deletions(-)
-> 
+> Gentle ping for this series, afraid that went out of the radar :-)
 
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
+
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--PVPGHszu86wFrqHg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmW7f6cACgkQJNaLcl1U
+h9CaHgf8CtVCkC6J116wxuSCyfeBTiCzoyj46PgrA3xwNRTTduzax3JoO/1grpq3
+5NlOg1xyh3YtqEDvxa2wBDCc6fM3zw9mAQPKiXCqHHI2A8WH8xMPSJzvlhfrC14S
+SDY7qm/mG8CiXyEI84YBRHdgoxBnBqECwRehV975FL3ZvrDYSQTFO4EbYI0I1oNI
+arokA5pQoEzgBMazkodUtmgDueOoBVtbT7HQMsMTjtn+iQ7dMAhf2wGc8uhMC3K1
+8jB9piZTC2sZHVRli3Rbzrs4TMYz8Ji5ey/zUMcsfKBO1/awWWGrYqm8eEZJiME4
+TtANCMujJdC2XSTWBBod6hXZGV07oQ==
+=z6oI
+-----END PGP SIGNATURE-----
+
+--PVPGHszu86wFrqHg--
