@@ -1,125 +1,137 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321745336C
-	for <linux-sound@vger.kernel.org>; Thu,  1 Feb 2024 13:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D21F5D475
+	for <linux-sound@vger.kernel.org>; Thu,  1 Feb 2024 14:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706793681; cv=none; b=DqH7YKr0VZ3FvOyWlxcos71bAP4/SqXY+XX+qSQuGf1eiaDUlmUFm1tNauKn+NrygzH4VfltWJC67y8UnRMRjkzGMuKsK0Chqu7x7uOdyM93iiOzIHa6x8bm0oM3xQpA7jWczOtKOhWqgZLIJWjOLTDS8G2+RUZJPXy2q2Fev/Y=
+	t=1706796825; cv=none; b=K+EUK86ajOzQQqTxYIYBKJKrWgLKdQtUFNvon2It47K46b5s9jl9cgqyMH7bzrqCA4biibGKHHv1RNcBn1GxTvrMMskAyi9c6JyEZUuOL2bwBsFt88+J7sggBoOzjKLXL+vBWw4PcDSYF5+jjenkW5decVUWqPLKZ+4uglExEGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706793681; c=relaxed/simple;
-	bh=rhbLmFzvADcqZXcXSHWdmOBpxK/f4XpbO7Aop3iwtt8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fXerl7lUzfIFdZpMV3lgQF1NDRyGk9u+orS5lbMQT93P6K8dclBWF9RE8qGLDNVgv747P0DBBXKqWp8OA1YEzSNpLZGPcdL+DWXZbw94bRi/GlI16OfNrNpA8tMwShwwSysr6HqHFc5rybcldw0cAHDajlg37QQj8i7Uls1v3os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=TUxUUUUS; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1706796825; c=relaxed/simple;
+	bh=ECkhvJTSiwtqcsjiUJstiQ6wao8GGDI7wuIUzGHetV0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=opuR5hOFVX5JidzSTtwQUUEupadw3hCnCKGzh4uAWv1ejL6SczYzbdwDGDcQWcfYb5J4ecxJpSlS4zLMNVBZuJpgniDbPBvfXlVJu3jz++QcHaMl2vyya8UXhaLyLpEmaGjZDIWbK8ZK6AB0WMLo7+irvP553UJOnpYSa+7o2IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=TBIluyxF; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="TUxUUUUS"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id BE9A046A3;
-	Thu,  1 Feb 2024 14:21:11 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz BE9A046A3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1706793671; bh=6cBFzQxe6jVp+rioxHUZ+JSjnmJk0Lyl3tNl0AL20C8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TUxUUUUSoCVK5mkoxa7PZBLv1ZM48Ud0sGckQJ/Ia8HzVXh6Q8RVpAQugBdXs009y
-	 2DixeDXA8MTNvaydgcbn0QM+09wr+eZwy5nRA8Wc//QfluxW2dYwWvXBcWzwBNShCs
-	 27HcM/hPCf2FXZN3fXTn9XMZLuwdMeBSFRLFA8vs=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu,  1 Feb 2024 14:21:09 +0100 (CET)
-Message-ID: <a0aaccb8-6823-4a35-931a-a07750d2ced2@perex.cz>
-Date: Thu, 1 Feb 2024 14:21:09 +0100
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="TBIluyxF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+	:List-Post:List-Owner:List-Archive;
+	bh=+NSjZq6XHGcqL3FInz/Fdm3h+tMVGOHalEiYvpOjEMU=; b=TBIluyxF7nJjqWEALZtEgWRGxM
+	foFyCfB+4Xn7u2CDvVkjj6GcqDC9oNQsAnYU3kJSAWwtZplBhXtNfFGIH1ZpTYIBgnHGq4R0xzRII
+	KwqgFDotJq8j5PHCb+l4KF0rW9CnNwM/HIEUexnG1d8AMY24qyUDdPtlFfM4G/jfw+Yc=;
+Received: from [10.8.10.223]
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1rVXov-00000000zUI-3P8O;
+	Thu, 01 Feb 2024 17:13:37 +0300
+Message-ID: <63f56132a10263e29a7b667225a756e3ed4223dd.camel@tsoy.me>
+Subject: Re: [PATCH] ALSA: usb-audio: Ignore clock selector errors for
+ single connection
+From: Alexander Tsoy <alexander@tsoy.me>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Takashi Iwai
+	 <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Date: Thu, 01 Feb 2024 17:12:51 +0300
+In-Reply-To: <87le84z6t8.wl-tiwai@suse.de>
+References: <20240201115308.17838-1-alexander@tsoy.me>
+	 <87le84z6t8.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: use azx_stream() helper in all places
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-References: <20240131151001.737372-1-perex@perex.cz>
- <87il38z6nj.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <87il38z6nj.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Sender: puleglot@puleglot.ru
 
-On 01. 02. 24 13:54, Takashi Iwai wrote:
-> On Wed, 31 Jan 2024 16:10:01 +0100,
-> Jaroslav Kysela wrote:
->>
->> Make code more readable with azx_stream() helper. No functional change.
->>
->> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-> 
-> I have no much preference, but using the macro doesn't look like a
-> significant improvement to me, honestly speaking...
+=D0=92 =D0=A7=D1=82, 01/02/2024 =D0=B2 13:51 +0100, Takashi Iwai =D0=BF=D0=
+=B8=D1=88=D0=B5=D1=82:
+> On Thu, 01 Feb 2024 12:53:08 +0100,
+> Alexander Tsoy wrote:
+> >=20
+> > For devices with multiple clock sources connected to a selector, we
+> > need
+> > to check what a clock selector control request has returned. This
+> > is
+> > needed to ensure that a requested clock source is indeed selected
+> > and for
+> > autoclock feature to work.
+> >=20
+> > For devices with single clock source connected, if we get an error
+> > there
+> > is nothing else we can do about it. We can't skip clock selector
+> > setup as
+> > it is required by some devices. So lets just ignore error in this
+> > case.
+> >=20
+> > This should fix various buggy Mackie devices:
+> >=20
+> > [=C2=A0 649.109785] usb 1-1.3: parse_audio_format_rates_v2v3(): unable
+> > to find clock source (clock -32)
+> > [=C2=A0 649.111946] usb 1-1.3: parse_audio_format_rates_v2v3(): unable
+> > to find clock source (clock -32)
+> > [=C2=A0 649.113822] usb 1-1.3: parse_audio_format_rates_v2v3(): unable
+> > to find clock source (clock -32)
+> >=20
+> > There is also interesting info from the Windows documentation [1]
+> > (this
+> > is probably why manufacturers dont't even test this feature):
+> >=20
+> > "The USB Audio 2.0 driver doesn't support clock selection. The
+> > driver
+> > uses the Clock Source Entity, which is selected by default and
+> > never
+> > issues a Clock Selector Control SET CUR request."
+> >=20
+> > Link:
+> > https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/usb-2-=
+0-audio-drivers
+> > =C2=A0[1]
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217314
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218175
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218342
+> > Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+> > ---
+> > =C2=A0sound/usb/clock.c | 10 +++++++++-
+> > =C2=A01 file changed, 9 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/sound/usb/clock.c b/sound/usb/clock.c
+> > index a8204c6d6fac..60fcb872a80b 100644
+> > --- a/sound/usb/clock.c
+> > +++ b/sound/usb/clock.c
+> > @@ -347,8 +347,16 @@ static int __uac_clock_find_source(struct
+> > snd_usb_audio *chip,
+> > =C2=A0			=C2=A0=C2=A0=C2=A0 !writeable)
+> > =C2=A0				return ret;
+> > =C2=A0			err =3D uac_clock_selector_set_val(chip,
+> > entity_id, cur);
+> > -			if (err < 0)
+> > +			if (err < 0) {
+> > +				if (pins =3D=3D 1) {
+> > +					usb_audio_dbg(chip,
+> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%s():
+> > selector returned an error, "
+> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "assuming a
+> > firmware bug, id %d, ret %d\n",
+> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __func__,
+> > clock_id, err);
+> > +					return ret;
+> > +				}
+> > =C2=A0				return err;
+> > +			}
+>=20
+> Hmm, what's the difference of the behavior except for the additional
+> debug message?=C2=A0 Both returns ret, so I don't see how it fixes.
 
-If you look to some functions, there's a mixture of azx_stream() and ->core. 
-access to the same structure members. I found that it's an extra step for the 
-reader to identify that both are same source. I don't mind to remove 
-azx_stream macro or use it everywhere as I proposed, too.
-
-I just dig to the sources wondering if 192k analog support is possible and 
-this was visible mismatch.
-
-More patches will probably follow.
-
-						Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+If pins =3D=3D 1, then ret is returned, otherwise err is returned. They are
+not equal here. But yes, the code is a bit confusing.
 
