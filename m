@@ -1,210 +1,392 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38018665E
-	for <linux-sound@vger.kernel.org>; Thu,  1 Feb 2024 14:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2331F60F;
+	Thu,  1 Feb 2024 16:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706797639; cv=none; b=YHKCeRiypeq1R8+7Wtd2OgyPzWt69D47H1VyVmWTTPoQvTMRgmR7HEiG7R4hWa3laoa0ItjikvTwzoDU2OP8gFSV5tBKQK2aew8199laUca828V9BacrFhCvsOGUHF9JFKJH8ByzxOhKKKECH0l7HnuLyO1bEIa/H2gFaeS9vMo=
+	t=1706806505; cv=none; b=fFHOxDTktNbysbtqgJPFhTLdUO3ZTMIcCOve9BOkR5uwjORd1vzCfuVzxSb5YRXhOE/8IQCcWnVkZZiKXTRx+6e9UMOtINaEp1s1im98VZCX42wlsoc2zk014/D0NcNR//wgVXFBiOj3aFcaxO+53Ka5Oy90hqitelOeqGTYMZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706797639; c=relaxed/simple;
-	bh=Fe9UQfEggsnOs+3YIncuqaa5Wxqy2ZMz/nyaakVEG1A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JPogsUAFNrXB+5VyHeARuL+yW4AxVng6/ejEQHe72MSFUXxzJyzzWwdhF+HDZOji2kkc+cq4ty/11L8bdj52XecfgL/kx6945aWhE5Fb8+XBny4fYwteuTOnB8usFmL1I7vQVfZQoTF1tml4rs+Z4sSKQ/i3SYTvzTUzmu/nOq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U/4Rp45H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3LXiIE2y; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NjxcaULI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A8JCbF56; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1706806505; c=relaxed/simple;
+	bh=S9aqOhi7FfCfUW110X68Pu/3ngg4TBhJ6fh8tSbJTJg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h064h3aRzrTCdRmKwQdsYHvCGIVyIcAEkuuMxNl0JfphEkEOQ6nSTVtLE0pTlhBZ+VDI2+S48Rlmgcsu3fHzeD4U5ffTW4xgJKh0sbcLPRIsIDu0UhIx0btjFqL7CQX1QI2GE2By7b72SBcKeVINeyzawEwTBmF076+5VSUPYiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZrC0RLl; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U/4Rp45H";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3LXiIE2y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NjxcaULI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A8JCbF56"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DC1E91FBB3;
-	Thu,  1 Feb 2024 14:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706797635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n1uXP3mGdz6A3teYkkXBd909669EOB+li8akYK/XwSI=;
-	b=U/4Rp45HXaNcVwK3voGqnT0uvX0rJT596esL7GSbvRvX8DSlg8kmgeRnduoybDE/qQt5f+
-	rKmwYurUvI+Bpmtq9nvEKiX0uC13BZjpGcFzZ20KnsDv3AnPheu3XFQ8M+KZrFH30msV7C
-	8xeH5jeiJ6OL0jOmvvoxEz768swp5yU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706797635;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n1uXP3mGdz6A3teYkkXBd909669EOB+li8akYK/XwSI=;
-	b=3LXiIE2yEigUmVPhAaCurW85kNCDGmko38XFoGsxx3VLFn7gGU8WvAbgt5i9PGg/3xt8y9
-	5/Px2QBK5JADzIDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706797634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n1uXP3mGdz6A3teYkkXBd909669EOB+li8akYK/XwSI=;
-	b=NjxcaULIMVCAlCpWuCffkmIjPSBcQ4oi+xccMdr5Jf2ivTz1fjtES7LS/BlnAP5A7ZEszn
-	zotIT9sTx7jYvNLSRjfqK8s0KMATM7lb80HhWMVdIsds1xu+5H4bjp5QyL15JiBUaa4yfa
-	h5OtfO5lwiOSweueTTBrR8Fax4O/zpc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706797634;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n1uXP3mGdz6A3teYkkXBd909669EOB+li8akYK/XwSI=;
-	b=A8JCbF565fZ9wNGLm+0/YmHkggOYiYZkIxpPmK3RxC0Vds5G5a4H4uGQDCPv/tf8wHdB8n
-	/PZlDhRJdmYmbVAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A842C13672;
-	Thu,  1 Feb 2024 14:27:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +Y/xJ0Kqu2VVVAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 01 Feb 2024 14:27:14 +0000
-Date: Thu, 01 Feb 2024 15:27:14 +0100
-Message-ID: <877cjoz2d9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alexander Tsoy <alexander@tsoy.me>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	Takashi Iwai
-	 <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH] ALSA: usb-audio: Ignore clock selector errors for single connection
-In-Reply-To: <63f56132a10263e29a7b667225a756e3ed4223dd.camel@tsoy.me>
-References: <20240201115308.17838-1-alexander@tsoy.me>
-	<87le84z6t8.wl-tiwai@suse.de>
-	<63f56132a10263e29a7b667225a756e3ed4223dd.camel@tsoy.me>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZrC0RLl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706806503; x=1738342503;
+  h=date:from:to:cc:subject:message-id;
+  bh=S9aqOhi7FfCfUW110X68Pu/3ngg4TBhJ6fh8tSbJTJg=;
+  b=TZrC0RLll90vHI6g48JeFEj3QR4TwqKBzR4dYsa9mwo77HWIAh2Jz4iQ
+   OcEQQLopV7O6O0+4XmddeP+CvkPt3fM1t7iWR/VCLpy1Whg2D2YyNLeN0
+   1RLsnI6FvLdyngnEV2+5HlOBIgLj+0/1w0F06owFIzTxQ4hyJLS1n06Pf
+   BNBxGas9MVS8u1BYAdTQDApPc5ZwGg11WVQtT4SZ6fYpwxaCDxfiXZ8jI
+   mV66nZaIGtVTTirjcP25gUGc7QfCppeg2UOlQEvxckAW48he9PuAp3xp6
+   lIPs3JtalPQrx+R9j98dYis4ZUxAv0i4E5y3lKKJKjuGtmrkeZaMdvJkd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="22438924"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="22438924"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 08:55:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="4436160"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 01 Feb 2024 08:54:59 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVaL2-0002zN-2N;
+	Thu, 01 Feb 2024 16:54:56 +0000
+Date: Fri, 02 Feb 2024 00:54:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-bcachefs@vger.kernel.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev
+Subject: [linux-next:master] BUILD REGRESSION
+ 51b70ff55ed88edd19b080a524063446bcc34b62
+Message-ID: <202402020037.EMvofdJ6-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
 
-On Thu, 01 Feb 2024 15:12:51 +0100,
-Alexander Tsoy wrote:
-> 
-> ÷ þÔ, 01/02/2024 × 13:51 +0100, Takashi Iwai ÐÉÛÅÔ:
-> > On Thu, 01 Feb 2024 12:53:08 +0100,
-> > Alexander Tsoy wrote:
-> > > 
-> > > For devices with multiple clock sources connected to a selector, we
-> > > need
-> > > to check what a clock selector control request has returned. This
-> > > is
-> > > needed to ensure that a requested clock source is indeed selected
-> > > and for
-> > > autoclock feature to work.
-> > > 
-> > > For devices with single clock source connected, if we get an error
-> > > there
-> > > is nothing else we can do about it. We can't skip clock selector
-> > > setup as
-> > > it is required by some devices. So lets just ignore error in this
-> > > case.
-> > > 
-> > > This should fix various buggy Mackie devices:
-> > > 
-> > > [š 649.109785] usb 1-1.3: parse_audio_format_rates_v2v3(): unable
-> > > to find clock source (clock -32)
-> > > [š 649.111946] usb 1-1.3: parse_audio_format_rates_v2v3(): unable
-> > > to find clock source (clock -32)
-> > > [š 649.113822] usb 1-1.3: parse_audio_format_rates_v2v3(): unable
-> > > to find clock source (clock -32)
-> > > 
-> > > There is also interesting info from the Windows documentation [1]
-> > > (this
-> > > is probably why manufacturers dont't even test this feature):
-> > > 
-> > > "The USB Audio 2.0 driver doesn't support clock selection. The
-> > > driver
-> > > uses the Clock Source Entity, which is selected by default and
-> > > never
-> > > issues a Clock Selector Control SET CUR request."
-> > > 
-> > > Link:
-> > > https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/usb-2-0-audio-drivers
-> > > š[1]
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=217314
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=218175
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=218342
-> > > Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
-> > > ---
-> > > šsound/usb/clock.c | 10 +++++++++-
-> > > š1 file changed, 9 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-> > > index a8204c6d6fac..60fcb872a80b 100644
-> > > --- a/sound/usb/clock.c
-> > > +++ b/sound/usb/clock.c
-> > > @@ -347,8 +347,16 @@ static int __uac_clock_find_source(struct
-> > > snd_usb_audio *chip,
-> > > š			ššš !writeable)
-> > > š				return ret;
-> > > š			err = uac_clock_selector_set_val(chip,
-> > > entity_id, cur);
-> > > -			if (err < 0)
-> > > +			if (err < 0) {
-> > > +				if (pins == 1) {
-> > > +					usb_audio_dbg(chip,
-> > > +						ššššš "%s():
-> > > selector returned an error, "
-> > > +						ššššš "assuming a
-> > > firmware bug, id %d, ret %d\n",
-> > > +						ššššš __func__,
-> > > clock_id, err);
-> > > +					return ret;
-> > > +				}
-> > > š				return err;
-> > > +			}
-> > 
-> > Hmm, what's the difference of the behavior except for the additional
-> > debug message?š Both returns ret, so I don't see how it fixes.
-> 
-> If pins == 1, then ret is returned, otherwise err is returned. They are
-> not equal here. But yes, the code is a bit confusing.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 51b70ff55ed88edd19b080a524063446bcc34b62  Add linux-next specific files for 20240201
 
-Ah yeah, ret and err...  OK, I'll take it.
+Error/Warning reports:
 
+https://lore.kernel.org/oe-kbuild-all/202402011430.vDOuYPku-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402011519.RwyEbkrS-lkp@intel.com
 
-thanks,
+Error/Warning: (recently discovered and may have been fixed)
 
-Takashi
+iptable_nat.c:(.rodata+0x58): undefined reference to `ipt_do_table'
+iptable_nat.c:(.text+0x228): undefined reference to `ipt_alloc_initial_table'
+iptable_nat.c:(.text+0x294): undefined reference to `ipt_register_table'
+iptable_nat.c:(.text+0x8): undefined reference to `ipt_unregister_table_exit'
+ld.lld: error: undefined symbol: snd_pcm_format_big_endian
+ld.lld: error: undefined symbol: snd_pcm_format_little_endian
+ld.lld: error: undefined symbol: snd_pcm_format_name
+ld.lld: error: undefined symbol: snd_pcm_format_physical_width
+ld.lld: error: undefined symbol: snd_pcm_format_set_silence
+ld.lld: error: undefined symbol: snd_pcm_format_signed
+ld.lld: error: undefined symbol: snd_pcm_format_unsigned
+ld.lld: error: undefined symbol: snd_pcm_format_width
+loongarch64-linux-ld: iptable_nat.c:(.rodata+0x80): undefined reference to `ipt_do_table'
+make[2]: *** kselftest/livepatch/test_modules: No such file or directory.  Stop.
 
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arm-randconfig-001-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm-randconfig-004-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm-sama5_defconfig
+|   |-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_CYCLIC-not-described-in-enum-atc_status
+|   `-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_PAUSED-not-described-in-enum-atc_status
+|-- arm64-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm64-randconfig-004-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- csky-randconfig-r131-20240201
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- sound-core-sound_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-snd_pcm_format_t-usertype-format-got-int
+|   `-- sound-core-sound_kunit.c:sparse:sparse:restricted-snd_pcm_format_t-degrades-to-integer
+|-- i386-buildonly-randconfig-001-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-buildonly-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-buildonly-randconfig-006-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-141-20240201
+|   `-- mm-huge_memory.c-thpsize_create()-warn:Calling-kobject_put-get-with-state-initialized-unset-from-line:
+|-- loongarch-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- loongarch-randconfig-r004-20230730
+|   |-- iptable_nat.c:(.rodata):undefined-reference-to-ipt_do_table
+|   |-- iptable_nat.c:(.text):undefined-reference-to-ipt_alloc_initial_table
+|   |-- iptable_nat.c:(.text):undefined-reference-to-ipt_register_table
+|   |-- iptable_nat.c:(.text):undefined-reference-to-ipt_unregister_table_exit
+|   `-- loongarch64-linux-ld:iptable_nat.c:(.rodata):undefined-reference-to-ipt_do_table
+|-- loongarch-randconfig-r123-20240201
+|   |-- mm-mempolicy.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-__to-got-unsigned-char-noderef-usertype-__rcu-new
+|   `-- mm-mempolicy.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-__from-got-unsigned-char-noderef-usertype-__rcu-old
+|-- m68k-randconfig-r111-20240201
+|   `-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|-- microblaze-randconfig-r133-20240201
+|   |-- drivers-regulator-qcom_smd-regulator.c:sparse:sparse:symbol-smd_vreg_rpm-was-not-declared.-Should-it-be-static
+|   `-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|-- mips-allyesconfig
+|   |-- (.ref.text):relocation-truncated-to-fit:R_MIPS_26-against-start_secondary
+|   `-- (.text):relocation-truncated-to-fit:R_MIPS_26-against-kernel_entry
+|-- powerpc-randconfig-003-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- sh-allmodconfig
+|   `-- standard-input:Error:unknown-pseudo-op:cfi_def_
+|-- sparc64-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-allnoconfig
+|   `-- Warning:Documentation-gpu-amdgpu-display-display-contributing.rst-references-a-file-that-doesn-t-exist:Documentation-GPU-amdgpu-display-mpo-overview.rst
+|-- x86_64-buildonly-randconfig-003-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-005-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-015-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-071-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-074-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-161-20240201
+|   |-- fs-bcachefs-btree_locking.c-bch2_trans_relock()-warn:passing-zero-to-PTR_ERR
+|   |-- fs-bcachefs-buckets.c-bch2_trans_account_disk_usage_change()-error:we-previously-assumed-trans-disk_res-could-be-null-(see-line-)
+|   `-- mm-huge_memory.c-thpsize_create()-warn:Calling-kobject_put-get-with-state-initialized-unset-from-line:
+|-- x86_64-randconfig-r123-20240201
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+|-- x86_64-randconfig-r132-20240201
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+`-- x86_64-rhel-8.3-bpf
+    `-- make:kselftest-livepatch-test_modules:No-such-file-or-directory.-Stop.
+clang_recent_errors
+|-- arm-defconfig
+|   |-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_CYCLIC-not-described-in-enum-atc_status
+|   `-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_PAUSED-not-described-in-enum-atc_status
+|-- arm-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm-randconfig-004-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm64-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- hexagon-randconfig-r015-20220417
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_big_endian
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_little_endian
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_name
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_physical_width
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_set_silence
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_signed
+|   |-- ld.lld:error:undefined-symbol:snd_pcm_format_unsigned
+|   `-- ld.lld:error:undefined-symbol:snd_pcm_format_width
+|-- hexagon-randconfig-r113-20240201
+|   |-- drivers-regulator-qcom_smd-regulator.c:sparse:sparse:symbol-smd_vreg_rpm-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   `-- net-core-sock_diag.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- riscv-randconfig-002-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-buildonly-randconfig-003-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-006-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-072-20240201
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-122-20240201
+|   `-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+`-- x86_64-rhel-8.3-rust
+    `-- error-E0425:cannot-find-value-WORK_CPU_UNBOUND-in-crate-bindings
+
+elapsed time: 731m
+
+configs tested: 176
+configs skipped: 4
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240201   gcc  
+arc                   randconfig-002-20240201   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                     davinci_all_defconfig   clang
+arm                                 defconfig   clang
+arm                        mvebu_v5_defconfig   clang
+arm                             mxs_defconfig   clang
+arm                         orion5x_defconfig   clang
+arm                   randconfig-001-20240201   gcc  
+arm                   randconfig-002-20240201   clang
+arm                   randconfig-002-20240201   gcc  
+arm                   randconfig-003-20240201   gcc  
+arm                   randconfig-004-20240201   clang
+arm                   randconfig-004-20240201   gcc  
+arm                           sama5_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240201   gcc  
+arm64                 randconfig-002-20240201   clang
+arm64                 randconfig-002-20240201   gcc  
+arm64                 randconfig-003-20240201   gcc  
+arm64                 randconfig-004-20240201   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240201   gcc  
+csky                  randconfig-002-20240201   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240201   clang
+hexagon               randconfig-002-20240201   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240201   gcc  
+i386         buildonly-randconfig-002-20240201   gcc  
+i386         buildonly-randconfig-003-20240201   gcc  
+i386         buildonly-randconfig-004-20240201   gcc  
+i386         buildonly-randconfig-005-20240201   gcc  
+i386         buildonly-randconfig-006-20240201   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240201   gcc  
+i386                  randconfig-002-20240201   gcc  
+i386                  randconfig-003-20240201   gcc  
+i386                  randconfig-004-20240201   gcc  
+i386                  randconfig-005-20240201   gcc  
+i386                  randconfig-006-20240201   gcc  
+i386                  randconfig-011-20240201   clang
+i386                  randconfig-012-20240201   clang
+i386                  randconfig-013-20240201   clang
+i386                  randconfig-014-20240201   clang
+i386                  randconfig-015-20240201   clang
+i386                  randconfig-016-20240201   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240201   gcc  
+loongarch             randconfig-002-20240201   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+m68k                            q40_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                           gcw0_defconfig   gcc  
+mips                            gpr_defconfig   gcc  
+mips                      loongson3_defconfig   gcc  
+mips                      malta_kvm_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240201   gcc  
+nios2                 randconfig-002-20240201   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc                randconfig-001-20240201   gcc  
+parisc                randconfig-002-20240201   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                     ep8248e_defconfig   gcc  
+powerpc                      ppc64e_defconfig   clang
+powerpc               randconfig-001-20240201   clang
+powerpc               randconfig-001-20240201   gcc  
+powerpc               randconfig-002-20240201   clang
+powerpc               randconfig-002-20240201   gcc  
+powerpc               randconfig-003-20240201   gcc  
+powerpc64             randconfig-001-20240201   clang
+powerpc64             randconfig-002-20240201   clang
+powerpc64             randconfig-003-20240201   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   clang
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20240201   gcc  
+riscv                 randconfig-002-20240201   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240201   gcc  
+s390                  randconfig-002-20240201   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          lboxre2_defconfig   gcc  
+sh                    randconfig-001-20240201   gcc  
+sh                    randconfig-002-20240201   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240201   gcc  
+sparc64               randconfig-002-20240201   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240201   gcc  
+um                    randconfig-002-20240201   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240201   clang
+x86_64       buildonly-randconfig-002-20240201   clang
+x86_64       buildonly-randconfig-003-20240201   clang
+x86_64       buildonly-randconfig-003-20240201   gcc  
+x86_64       buildonly-randconfig-004-20240201   clang
+x86_64       buildonly-randconfig-005-20240201   clang
+x86_64       buildonly-randconfig-006-20240201   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240201   clang
+x86_64                randconfig-002-20240201   gcc  
+x86_64                randconfig-003-20240201   gcc  
+x86_64                randconfig-004-20240201   gcc  
+x86_64                randconfig-005-20240201   gcc  
+x86_64                randconfig-006-20240201   clang
+x86_64                randconfig-011-20240201   clang
+x86_64                randconfig-012-20240201   gcc  
+x86_64                randconfig-013-20240201   gcc  
+x86_64                randconfig-014-20240201   clang
+x86_64                randconfig-015-20240201   gcc  
+x86_64                randconfig-016-20240201   gcc  
+x86_64                randconfig-071-20240201   gcc  
+x86_64                randconfig-072-20240201   clang
+x86_64                randconfig-073-20240201   clang
+x86_64                randconfig-074-20240201   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240201   gcc  
+xtensa                randconfig-002-20240201   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
