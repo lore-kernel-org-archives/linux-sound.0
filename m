@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86101158D9B;
-	Thu,  1 Feb 2024 08:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A30159571;
+	Thu,  1 Feb 2024 09:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706777685; cv=none; b=Um0N9cjk2uXObnuGKtjGIfPMyLQVoEXDHsZVGifD3CZvHwUF+6i+4hsCSK4KZNBXgi6TPYcELWjriT4EX3yEUqjQ0j+bCfJcCEU1XYyqrWvw7yVk0ovhYSMDahr4CVKKvSuivaX3yA79/s45POyq5uKatOZVwXqusxvwq3VXAa0=
+	t=1706778270; cv=none; b=VeKCMafNKb38g2QPJNBRdZkY4pj8zKmgSn7LZ02zfzrUFUYaASF3mzywa1j5u5BjXjaFxliSZLWPph/ZS839QvCUKeSx7e2fqFHuUBbzZyVwh6aolNcxdpbvdknXIYU6ET8/PKhEd38AQA+Hus4oDAxU8DJ+7T3NZcTUbKTGJNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706777685; c=relaxed/simple;
-	bh=ZYTPFYWIhU6NVatVJgH96At0DlWX7QBubehHR0HaCZk=;
+	s=arc-20240116; t=1706778270; c=relaxed/simple;
+	bh=WEHuLNNIYqe3ayWos7yXk/oWPTdphOv3MXqYZro4v7A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MKdAu07DvJbY9iD3MNobs7Y0yyYIrxCpZOgXK50xP2OzxgzsKIA0kb5K4QCo5v1gbNy+IbDsOClyJ+Yj/PzMLjxiISEnRa6TObKdPZAsjfml9dc2xbGqCQ9OVSU0tSUWaohw/Fx3lj2cxQkLIJruIHO/kwS09iTrLQ8aA8LNbrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oJ1MULe6; arc=none smtp.client-ip=134.134.136.65
+	 In-Reply-To:Content-Type; b=QZjXtHRDum2wMrZNxwY1SL33q12vzAYBDiWAdtEHP9Qm8FqNo9fCJQSkky6w9uM7qGx3GhaaJGQLxPOV9fDWtMBxzddZJbsC3zr72eJWHXHttCtroBKpMR0PisbcxE6Wy27yFA9VH/abs1pdd2twIyX7x8W23smqFbHrsEj7y+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g19CADUd; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJ1MULe6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g19CADUd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706777683; x=1738313683;
+  t=1706778269; x=1738314269;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=ZYTPFYWIhU6NVatVJgH96At0DlWX7QBubehHR0HaCZk=;
-  b=oJ1MULe6UxL3wl+DLDe/3bZwI9L8ZaVtg5R15dQoBLmPSufOuid0tGoE
-   sIgIupUFn19UJg1TU4a7BCIfcfVBjzUg+uFRuw+XMH5UDrmv642AESrT2
-   azhBkAIMloZLbHTOYPTYDvmtsOIFpdey1b4kIWbmPDOOUwQkIk0O7XBAG
-   ydDEssic9ec93Uy1p3CHRKoZMVZ2suCGJPyp/ZZ38ITnqQaLFoPCDcgRT
-   qfANdbD2Gzwy811nU5bsFKAKCSIERx1HkmIhwAceEv9mIe1tIiMFnbaqa
-   kl6K0ckZXU/Ug+W5OTMIDOnAIIpH6+I95rXisdVvv1HPVbZu4vK25oST4
+  bh=WEHuLNNIYqe3ayWos7yXk/oWPTdphOv3MXqYZro4v7A=;
+  b=g19CADUdW82uaxad2aW6jy+n1Ed6wEMGPXkh0Ai09aKdXbPd0UrKNAeR
+   eWQ1KLlCh5nZ8zlOCStNlGQplJXElN2d1v5jlh1I5FRAmqCC1e4ab4IIp
+   Glm1uHQeEXcATC9es8HpTbZhdiUOG9mizQNZRljFy1opWy+zathnUhnsy
+   ovn+2VGdmi3tdKdExD9U6iW+caPlhFNqfqy1OB6kh4MHC+Zoetie3zq4r
+   d9oEjOrlwGz0eE/D3zOw2ipnTEiijGz3z9uiJ2fA4f+BXO46V0TIKLest
+   9FAt+KgmSr6LP0VPav+6wwLV4jGTN/NYCEvVHh6ugmjUU6LOVJwFUwu7S
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="407564466"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="60331"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="407564466"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 00:54:42 -0800
+   d="scan'208";a="60331"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 01:04:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="30089"
+   d="scan'208";a="4366156"
 Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 00:54:41 -0800
-Message-ID: <b8761b25-9754-45be-9025-e03c474b955b@linux.intel.com>
-Date: Thu, 1 Feb 2024 09:54:39 +0100
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 01:04:25 -0800
+Message-ID: <dde96dd7-eb33-41ca-9b08-3a2788164d02@linux.intel.com>
+Date: Thu, 1 Feb 2024 10:04:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,70 +48,43 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ALSA: pcm: Add missing formats to formats list
+Subject: Re: [PATCH] sound: soc: wcd934x: fix an incorrect use of kstrndup()
 Content-Language: en-US
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240125223522.1122765-1-ivan.orlov0322@gmail.com>
- <3b5bf4b7-a4ec-44be-975b-04590777a965@linux.intel.com>
- <c4498c59-cf64-4a8b-82b9-01d0571779c7@gmail.com>
+To: Mark Brown <broonie@kernel.org>, srinivas.kandagatla@linaro.org,
+ bgoswami@quicinc.com, tiwai@suse.com, Fullway Wang <fullwaywang@outlook.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ fullwaywang@tencent.com
+References: <PH7PR20MB59255EF9DFFB022CB1BBB574BF712@PH7PR20MB5925.namprd20.prod.outlook.com>
+ <170662942110.37296.1277489815994094565.b4-ty@kernel.org>
 From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
  <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <c4498c59-cf64-4a8b-82b9-01d0571779c7@gmail.com>
+In-Reply-To: <170662942110.37296.1277489815994094565.b4-ty@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 1/31/2024 6:41 PM, Ivan Orlov wrote:
-> On 1/26/24 09:01, Amadeusz Sławiński wrote:
->> On 1/25/2024 11:35 PM, Ivan Orlov wrote:
->>> Add 4 missing formats to 'snd_pcm_format_names' array in order to be
->>> able to get their names with 'snd_pcm_format_name' function.
->>>
->>> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
->>> ---
->>>   sound/core/pcm.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
->>> index a09f0154e6a7..d0788126cbab 100644
->>> --- a/sound/core/pcm.c
->>> +++ b/sound/core/pcm.c
->>> @@ -211,6 +211,10 @@ static const char * const snd_pcm_format_names[] 
->>> = {
->>>       FORMAT(DSD_U32_LE),
->>>       FORMAT(DSD_U16_BE),
->>>       FORMAT(DSD_U32_BE),
->>> +    FORMAT(S20_LE),
->>> +    FORMAT(S20_BE),
->>> +    FORMAT(U20_LE),
->>> +    FORMAT(U20_BE),
->>>   };
->>>   /**
+On 1/30/2024 4:43 PM, Mark Brown wrote:
+> On Thu, 18 Jan 2024 15:52:49 +0800, Fullway Wang wrote:
+>> In wcd934x_codec_enable_dec(), kstrndup() is used to alloc memory.
+>> However, kmemdup_nul() should be used instead with the size known.
 >>
->> Maybe we can also add some kind of static_assert to check at compile 
->> time that all formats are handled, something like:
->> static_assert(ARRAY_SIZE(snd_pcm_format_names) == 
->> SNDRV_PCM_FORMAT_LAST + 1);
+>> This is similar to CVE-2019-12454 which was fixed in commit
+>> a549881.
 >>
->> Although looking at definitions there is a hole between 
->> SNDRV_PCM_FORMAT_U20_BE & SNDRV_PCM_FORMAT_SPECIAL, which will cause 
->> this idea to fail.
 >>
->> Perhaps with comment:
->> static_assert(ARRAY_SIZE(snd_pcm_format_names) == 
->> SNDRV_PCM_FORMAT_LAST + 1 - 2); /* -2 for formats reserved for future 
->> use */
->> ?
+>> [...]
 > 
-> Hi Amadeusz,
+> Applied to
 > 
-> Thank you for the review and sorry for the late answer. Yes, I believe 
-> it could be a nice improvement! Could I send a patch and specify you in 
-> Suggested-by tag?
+>     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
+> Thanks!
 > 
 
 Hi,
 
-yes, go for it!
-
-Amadeusz
+Mark, my other comment was meant to stop this patch from being applied 
+;), perhaps I could have been more clear? kmemdup_nul() in this case 
+will copy bytes behind the end of widget name when copying. Widgets to 
+which it applies are named: "ADX MUX0", "ADC MUX1" and so on, until "ADC 
+MUX 8", which is 10 bytes including '\0', and kmemdup_nul() will copy 15 
+using memcpy().
