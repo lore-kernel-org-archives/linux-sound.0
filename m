@@ -1,120 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1D241757;
-	Thu,  1 Feb 2024 18:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B303E49B;
+	Thu,  1 Feb 2024 21:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706812782; cv=none; b=DpsK9tnMvJkyGv0pQhkze+vitNHeHlRrHJrgW6o3A3V9ikM/HAAJ9Ppattwt2d7un5B4kr/TREGhdLWDqTFA89HNFhKnGhmx+ZsVtmyHvDXT/AGCqPSEOWghClI3ic1wi5FQmCqfKhP+BjHQd5O+KM74IWJSVt6s3rwj3A+RMKs=
+	t=1706824139; cv=none; b=i+NxGUhVmfmEMe077A/NOFhkBRBUFg54fpJ43r9UzapuKvWTS5OqHFzw+603Y4JDIT1W+P94B+AWiJcjWxIykuaSsDx1zkKb6cZ4OdnhWqFLa/7RAdYp7Ui3cRqlfXWLy1vGm8GSYvoCpJSsqSLbnqp311vOKheV0NY7JPKqbec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706812782; c=relaxed/simple;
-	bh=tgw4+yNSXYvoHx+l8Du/I6ui5/EiC9XA6FnewlYo6Ds=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=K82pyEUO9QUSwM1WfX5k7m01hfvcebFD1m+raVWaSYoXM8uxgseKuuRcGoaYo0BEjvSNg3+4Td1NOfM/TAD/VA+pYBuXtwAOflxsHqc6E9UBS6J6TpaKPibdRAuJvz1XMMD+ctFtWItb7pDhLRT3F3lhZF5AVYPW9NqtCsMx7Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uAjMXxKM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706824139; c=relaxed/simple;
+	bh=rSHU6aazqPrj76ScVaVd+/urj28owCl17xdltFDfGv8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fi8RlJ65RyS9W9JFQfK131J/KjooE1jEcvwL2HlNOCGyh3JiGnbZA+H3lZdUYsiT/ZOTiykFfZOLblBL1iMK+le7DJAJL7suMAxtKAkCcAc0+9HeSCH9ZMhCwJkFI7YiTQW5ISjeESIgJ5bHy14jA0BZiAr8vUm5OaGQF8CQJGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+mgcVlS; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uAjMXxKM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A25AC433F1;
-	Thu,  1 Feb 2024 18:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706812781;
-	bh=tgw4+yNSXYvoHx+l8Du/I6ui5/EiC9XA6FnewlYo6Ds=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uAjMXxKMTVJzhSaQ6MunzoQr2LwnkYgozso/cc6+ZUewd58ICKl5RCUR8UYtxzWfD
-	 QfajRXeB36x7zyK5WDXuh1esYUYTH0jW2QKjolsI1T5q4kYYG5LiYXQBd2o8x+ZR3T
-	 bDCl8Qg+kfA1tIXXmSqL5UATJENyM8l8qMu2BpN2hvu12jLbGVHQoEXM0v7hA7Yw4/
-	 wPsWe6Hq8QslfG8Ki4IPgaqTC680aHdlay95vZ8Xva3DWsNP/DHEprwbhE8rT4RoG/
-	 NZkorIl6P9YBlQ3OTneFgjVEBzuQRrDLAXmobKcwZnAQC+lmPvxYfyzZ5E39Jja8VV
-	 EKqLrSYNUXBrg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240129162737.497-1-rf@opensource.cirrus.com>
-References: <20240129162737.497-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 00/18] ALSA: Various fixes for Cirrus Logic CS35L56
- support
-Message-Id: <170681278028.203738.8808339176775600542.b4-ty@kernel.org>
-Date: Thu, 01 Feb 2024 18:39:40 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+mgcVlS"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40fb7427044so2707575e9.0;
+        Thu, 01 Feb 2024 13:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706824136; x=1707428936; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ccFRB8QaiBoxKb88/t50XVL/tuz3mXapjnDD+Xt2TcA=;
+        b=Y+mgcVlSfbHBf034eBdX3/1MKeYTU0ynOZICzV4+217671nyQw4iSX9fw0e97zL1tV
+         kUWDNjgfzlcU+0eMn/rOu5cCtu3MLFED7Sk+flXus/otPITWI/KjAUBaAxLdKdxanjvt
+         NKG/J7zkdSaCgvWfhXSJ+UMqD/thB6N8HdxdLhMCiv0sRRKdw0shLtd6loNOaF2auZfv
+         qrmGrEP213IpzCpRY5DYGmTXBmLwWC6ulc6/qnt8zJUYtv9qE6No1dkzzYypGqo7bFV7
+         BqXWehck9Vt6kasrp/gfcQPCz8gCvkt4NJQMvDzOfxkoMxl6jduOhrqztfdv5ErRXInq
+         g5ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706824136; x=1707428936;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ccFRB8QaiBoxKb88/t50XVL/tuz3mXapjnDD+Xt2TcA=;
+        b=WJauEYk4txgKe+HrqA4h0HcnJB6c/81qq6B2XcfhhQHLhM9E3J3BISUW5MN02IKJdQ
+         aLEv2IFr5w/h9GxIbHuSK0UtuvyA52bMPH9i/zB95D7Z5xwtseQJEy9Z7nVLzs7ApAYQ
+         X33PasHP8CsIGIQWIiy/8eYtonoZuXHyrrA4KKTfjL4mklXkZGKUj1ERUQkJS4DVriyl
+         YeVHtBGMt8AuhEu6B0iIUteGt7HhwVkdO3pHSqeOHJP4TeH/LFzo4/TqospeHdVesddn
+         6XIY4Auo7QZxoDo4oiOKIMNROlx0jVw2xrsrU/kMPuwhj/vWfjRkF/+a/ChSYJSJBOyY
+         GRNw==
+X-Forwarded-Encrypted: i=0; AJvYcCVB00Wz41WterqcZWiZQ3JFcI4HbQpaxGFIrnAqXx4qTu2ZlKMckTHSe0WXta7k6pTIDIZZRs8a3igduePv8VsgNHdDpU9kJtdOIDHmvqKsHjmBOZr2BcFO0gpYJh155StHBAgAA7yZzoY=
+X-Gm-Message-State: AOJu0Ywe8CUJeUBhdY93PA7v/E5ggMUZtrDjQNd5m+43pC8QqvUW6ESD
+	GP1Bys8rLS9K8MDR4/YqsxSng1Ih5h8NUEH067oUw7QDqHXdC0FK
+X-Google-Smtp-Source: AGHT+IGqGPEQQhHkKPiWJ51qrMY+zi1COBdmmS7NwairIDUSg8mU6oWiq8/mUQhDBbG+cwpndOEmvA==
+X-Received: by 2002:a05:600c:1e05:b0:40f:c5d9:57f with SMTP id ay5-20020a05600c1e0500b0040fc5d9057fmr79814wmb.3.1706824136106;
+        Thu, 01 Feb 2024 13:48:56 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVpI5Q2PnsKruJb2ME0QLiDgRbWZyuDnK5CU8zGEz20XHZ7VEclbJ39QxiIbxNxLL1TVizHeNcX6inCn0hOLh9jIk3LZ8CsE4u9PnD02oVWrEaJJxKNA1/dFbWIc9E6HfIGy4WBTBdhDGwMEEDI3yVkcBvYeZmKiytO
+Received: from ?IPV6:2a01:4b00:d20e:7300:6518:5489:98df:7ab6? ([2a01:4b00:d20e:7300:6518:5489:98df:7ab6])
+        by smtp.gmail.com with ESMTPSA id p9-20020a05600c468900b0040fb6295018sm735061wmo.12.2024.02.01.13.48.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Feb 2024 13:48:55 -0800 (PST)
+Message-ID: <16443928-07b3-4271-b36e-c0f26eb3329b@gmail.com>
+Date: Thu, 1 Feb 2024 21:48:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: core: Fix dependencies for SND_CORE_TEST
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240201094604.1347793-1-ivan.orlov0322@gmail.com>
+ <87eddwz667.wl-tiwai@suse.de>
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <87eddwz667.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
 
-On Mon, 29 Jan 2024 16:27:19 +0000, Richard Fitzgerald wrote:
-> This chain of patches fixes various things that were undocumented, unknown
-> or uncertain when the original driver code was written. And also a few
-> things that were just bugs.
+On 2/1/24 13:05, Takashi Iwai wrote:
 > 
-> The HDA patches have dependencies on the ASoC patches, except for the final
-> patch that removes a bogus test stub function.
+> It should rather select instead of depends-on.  User can't enable
+> CONFIG_SND_PCM explicitly, but it's selected by the top-level
+> drivers.
 > 
-> [...]
+> Also, please add Fixes tag.  It's a clear regression fix.
+> 
 
-Applied to
+Alright, I'll send the V2 with suggested changes.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[01/18] ASoC: wm_adsp: Fix firmware file search order
-        commit: 3657e4cb5a8abd9edf6c944e022fe9ef06989960
-[02/18] ASoC: wm_adsp: Don't overwrite fwf_name with the default
-        commit: daf3f0f99cde93a066240462b7a87cdfeedc04c0
-[03/18] ASoC: cs35l56: cs35l56_component_remove() must clear cs35l56->component
-        commit: ae861c466ee57e15a29d97629e1c564e3f714a4f
-[04/18] ASoC: cs35l56: cs35l56_component_remove() must clean up wm_adsp
-        commit: cd38ccbecdace1469b4e0cfb3ddeec72a3fad226
-[05/18] ASoC: cs35l56: Don't add the same register patch multiple times
-        commit: 07687cd0539f8185b6ba0c0afba8473517116d6a
-[06/18] ASoC: cs35l56: Remove buggy checks from cs35l56_is_fw_reload_needed()
-        commit: 3739cc0733ba7eeafc08d4d4208d1f3c2451eabd
-[07/18] ASoC: cs35l56: Fix to ensure ASP1 registers match cache
-        commit: 72a77d7631c6e392677c0134343cf5edcd3a4572
-[08/18] ASoC: cs35l56: Fix default SDW TX mixer registers
-        commit: 782e6c538be43a17e34f552ab49e8c713cac7883
-[09/18] ALSA: hda: cs35l56: Initialize all ASP1 registers
-        commit: 856ce8982169acb31a25c5f2ecd2570ab8a6af46
-[10/18] ASoC: cs35l56: Fix for initializing ASP1 mixer registers
-        commit: 07f7d6e7a124d3e4de36771e2a4926d0e31c2258
-[11/18] ASoC: cs35l56: Fix misuse of wm_adsp 'part' string for silicon revision
-        commit: f6c967941c5d6fa526fdd64733a8d86bf2bfab31
-[12/18] ASoC: cs35l56: Firmware file must match the version of preloaded firmware
-        commit: f4ef5149953f2fc04907ca5b34db3df667dcddef
-[13/18] ASoC: cs35l56: Load tunings for the correct speaker models
-        commit: 245eeff18d7a37693815250ae15979ce98c3d190
-[14/18] ASoC: cs35l56: Allow more time for firmware to boot
-        commit: 9e92b77ceb6f362eb2e7995dad6c7f9863053d97
-[15/18] ALSA: hda: cs35l56: Fix order of searching for firmware files
-        commit: 77c60722ded7d6739805e045e9648cda82dde5ed
-[16/18] ALSA: hda: cs35l56: Fix filename string field layout
-        commit: e82bc517c6ef5d5c04b845420406e694c31bdb8a
-[17/18] ALSA: hda: cs35l56: Firmware file must match the version of preloaded firmware
-        commit: 6f8ad0480d82245961dae4d3280908611633872d
-[18/18] ALSA: hda: cs35l56: Remove unused test stub function
-        commit: 28876c1ae8b8cd1dacef50bd6c0555824774f0d2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Thank you for the review!
+-- 
+Kind regards,
+Ivan Orlov
 
