@@ -1,92 +1,99 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B303E49B;
-	Thu,  1 Feb 2024 21:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F263405CF;
+	Thu,  1 Feb 2024 22:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706824139; cv=none; b=i+NxGUhVmfmEMe077A/NOFhkBRBUFg54fpJ43r9UzapuKvWTS5OqHFzw+603Y4JDIT1W+P94B+AWiJcjWxIykuaSsDx1zkKb6cZ4OdnhWqFLa/7RAdYp7Ui3cRqlfXWLy1vGm8GSYvoCpJSsqSLbnqp311vOKheV0NY7JPKqbec=
+	t=1706825488; cv=none; b=lwqNNDJUWh9BA0nt9L4WeNFPI2DdtUStHFb1GuCEgmdII9/tLb0ZfgrcXvydn1flPCvsVSuTzKFxFZRGo9aKBoDIkqgHoaD6NlPhq/9X5yaCLQZrUMOLYdz4pURsQA1ScEyVfwlyOoNhnf1ap6LN9nYZ5f/OaVHEXBekEjj3m00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706824139; c=relaxed/simple;
-	bh=rSHU6aazqPrj76ScVaVd+/urj28owCl17xdltFDfGv8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fi8RlJ65RyS9W9JFQfK131J/KjooE1jEcvwL2HlNOCGyh3JiGnbZA+H3lZdUYsiT/ZOTiykFfZOLblBL1iMK+le7DJAJL7suMAxtKAkCcAc0+9HeSCH9ZMhCwJkFI7YiTQW5ISjeESIgJ5bHy14jA0BZiAr8vUm5OaGQF8CQJGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+mgcVlS; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1706825488; c=relaxed/simple;
+	bh=Ssyx/JAS2CDbyhyG3dsAH7vxQvDIszH2q5ay8Zxn33M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=szX8U0BRF76RCKsAEdA7ywCpPMXEdGYq4VuNvT9Xm7ctF95je8yWVyTpI4jpjAWf30OWQj8nNyK8QgbD1AEzbc70ggEVzQtwAvtwOY2sYmGFvOIe0ykA4qCoxwQoF0MJxj0duyxruiAUIZlGuPlCPp84utXzvrErumNCm65l4TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jSIdDW6G; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+mgcVlS"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40fb7427044so2707575e9.0;
-        Thu, 01 Feb 2024 13:48:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jSIdDW6G"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33b17b89a08so147802f8f.0;
+        Thu, 01 Feb 2024 14:11:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706824136; x=1707428936; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ccFRB8QaiBoxKb88/t50XVL/tuz3mXapjnDD+Xt2TcA=;
-        b=Y+mgcVlSfbHBf034eBdX3/1MKeYTU0ynOZICzV4+217671nyQw4iSX9fw0e97zL1tV
-         kUWDNjgfzlcU+0eMn/rOu5cCtu3MLFED7Sk+flXus/otPITWI/KjAUBaAxLdKdxanjvt
-         NKG/J7zkdSaCgvWfhXSJ+UMqD/thB6N8HdxdLhMCiv0sRRKdw0shLtd6loNOaF2auZfv
-         qrmGrEP213IpzCpRY5DYGmTXBmLwWC6ulc6/qnt8zJUYtv9qE6No1dkzzYypGqo7bFV7
-         BqXWehck9Vt6kasrp/gfcQPCz8gCvkt4NJQMvDzOfxkoMxl6jduOhrqztfdv5ErRXInq
-         g5ew==
+        d=gmail.com; s=20230601; t=1706825485; x=1707430285; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rgCLkBwgH/Cdp07/Ys8kcbbnDNfGaAeuAJIUl3VFESA=;
+        b=jSIdDW6GQfMOcpBqpW2GPJaXOOiZuccYFcB0fL7EHAmzXreMYyNbdfpBAmnnIy2wWR
+         mHWlfdJ+nIzA2o3S2HiFGQow4n1Mvn9ADqPBDnEDfR60XHTKOI+fvSYAyWVTUb0Ytssj
+         Ki3W49cHzujGhJfRGgvXuk5T7N8EmSIXk1xiT7OcWVJOnb1YDMqHyHiEMxPX2gFdgbLR
+         p9kuyd5w1Fz/ofj7M/86hcDNBA2QcmrXZHhePMWwsJHSYSG/vXMfmZN/A+cztFbgCeJj
+         NBVdbe75t9Ft7h3v/nvqEQFPqQuNmct02tZp/z7VNhCJWjuMifLqZ8ect6lobpezdROv
+         Ow0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706824136; x=1707428936;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ccFRB8QaiBoxKb88/t50XVL/tuz3mXapjnDD+Xt2TcA=;
-        b=WJauEYk4txgKe+HrqA4h0HcnJB6c/81qq6B2XcfhhQHLhM9E3J3BISUW5MN02IKJdQ
-         aLEv2IFr5w/h9GxIbHuSK0UtuvyA52bMPH9i/zB95D7Z5xwtseQJEy9Z7nVLzs7ApAYQ
-         X33PasHP8CsIGIQWIiy/8eYtonoZuXHyrrA4KKTfjL4mklXkZGKUj1ERUQkJS4DVriyl
-         YeVHtBGMt8AuhEu6B0iIUteGt7HhwVkdO3pHSqeOHJP4TeH/LFzo4/TqospeHdVesddn
-         6XIY4Auo7QZxoDo4oiOKIMNROlx0jVw2xrsrU/kMPuwhj/vWfjRkF/+a/ChSYJSJBOyY
-         GRNw==
-X-Forwarded-Encrypted: i=0; AJvYcCVB00Wz41WterqcZWiZQ3JFcI4HbQpaxGFIrnAqXx4qTu2ZlKMckTHSe0WXta7k6pTIDIZZRs8a3igduePv8VsgNHdDpU9kJtdOIDHmvqKsHjmBOZr2BcFO0gpYJh155StHBAgAA7yZzoY=
-X-Gm-Message-State: AOJu0Ywe8CUJeUBhdY93PA7v/E5ggMUZtrDjQNd5m+43pC8QqvUW6ESD
-	GP1Bys8rLS9K8MDR4/YqsxSng1Ih5h8NUEH067oUw7QDqHXdC0FK
-X-Google-Smtp-Source: AGHT+IGqGPEQQhHkKPiWJ51qrMY+zi1COBdmmS7NwairIDUSg8mU6oWiq8/mUQhDBbG+cwpndOEmvA==
-X-Received: by 2002:a05:600c:1e05:b0:40f:c5d9:57f with SMTP id ay5-20020a05600c1e0500b0040fc5d9057fmr79814wmb.3.1706824136106;
-        Thu, 01 Feb 2024 13:48:56 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVpI5Q2PnsKruJb2ME0QLiDgRbWZyuDnK5CU8zGEz20XHZ7VEclbJ39QxiIbxNxLL1TVizHeNcX6inCn0hOLh9jIk3LZ8CsE4u9PnD02oVWrEaJJxKNA1/dFbWIc9E6HfIGy4WBTBdhDGwMEEDI3yVkcBvYeZmKiytO
-Received: from ?IPV6:2a01:4b00:d20e:7300:6518:5489:98df:7ab6? ([2a01:4b00:d20e:7300:6518:5489:98df:7ab6])
-        by smtp.gmail.com with ESMTPSA id p9-20020a05600c468900b0040fb6295018sm735061wmo.12.2024.02.01.13.48.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Feb 2024 13:48:55 -0800 (PST)
-Message-ID: <16443928-07b3-4271-b36e-c0f26eb3329b@gmail.com>
-Date: Thu, 1 Feb 2024 21:48:55 +0000
+        d=1e100.net; s=20230601; t=1706825485; x=1707430285;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rgCLkBwgH/Cdp07/Ys8kcbbnDNfGaAeuAJIUl3VFESA=;
+        b=fkEK3dK0YSMYfwY7AQULqsxUhw00MdX7u5nHn6iXRNvcLvcRpwCwsq6npFhOnAeRut
+         tRO3u1e5XrCjjP18J7U9k4UuyhbJ8Sy3YizzvB7u17dNid8g1dDmtx82c5hCZ1KLuIPZ
+         YuB2QE7zGCpBYSnscumKct5XQMm6eTBOYZTYSjtiUlH/qfE9rC7A68DqIbKAurDHN/wH
+         ftNUqK77j4AO4hRHONA+3JQDJxBfaOeLaeBGea2DfNzL95kGd8tzcH/CFsusgR3ZX27h
+         L6ZDCu7Th4RoHf5AKtdgwMjvrVc9NixE6PIESEviv7JFJfgVuKxCpc1/wMMU/rz0bpmv
+         Gkrw==
+X-Forwarded-Encrypted: i=0; AJvYcCV03MaNNi2MZbncRng6FHfuRyGxE7MYlDiByM963s6OJfIGEgtayxORlaoXKtEbraDOQCANVmETQn3P7XqEPhlr2zQx/QYnhb77T6bvtU/Zm/HDWCMu8BLOClQoo6+kGSpmztW3zJQAEE4=
+X-Gm-Message-State: AOJu0YwOJw2NaHARb61XX+EEGjashGzvGxNB61ImNtDZHMGP/buMTjB/
+	D9HvSF/7Vo0mBjpaSwcEj2Hm7NWf+KOz266OOsmXAj5mstxV0Zed
+X-Google-Smtp-Source: AGHT+IFHVDFGSXBvDSGM8Hul600Eny5NU2xBrFgwFVYeV2jHJeUbSKbE68xYPrPxNccVDuoCxBd5nw==
+X-Received: by 2002:a05:600c:5022:b0:40f:c400:eb00 with SMTP id n34-20020a05600c502200b0040fc400eb00mr584716wmr.3.1706825485272;
+        Thu, 01 Feb 2024 14:11:25 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXyIYYjp5c3Fdm01++kIIWDKmuFK2MD3iy9KOaEW0glaOf71MTGWhOf9Lt8odzF6+kT0B0bo47fWx3pDbU/m7SYJR7JhqrhmD+LoxvSf5Wwqy/wYfYRWKYfqbruGWDG4wrr1y1v+xp9aU4=
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:6518:5489:98df:7ab6])
+        by smtp.gmail.com with ESMTPSA id az39-20020a05600c602700b0040e596320bfsm119021wmb.0.2024.02.01.14.11.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 14:11:24 -0800 (PST)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: core: Fix dependencies for SND_CORE_TEST
+Date: Thu,  1 Feb 2024 22:11:22 +0000
+Message-Id: <20240201221122.16627-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: core: Fix dependencies for SND_CORE_TEST
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240201094604.1347793-1-ivan.orlov0322@gmail.com>
- <87eddwz667.wl-tiwai@suse.de>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <87eddwz667.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/1/24 13:05, Takashi Iwai wrote:
-> 
-> It should rather select instead of depends-on.  User can't enable
-> CONFIG_SND_PCM explicitly, but it's selected by the top-level
-> drivers.
-> 
-> Also, please add Fixes tag.  It's a clear regression fix.
-> 
+Select CONFIG_SND_PCM when enabling CONFIG_SND_CORE_TEST, as the test
+uses symbols from 'pcm_misc.c'.
 
-Alright, I'll send the V2 with suggested changes.
+Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+V1 -> V2:
+- Change 'depends' with 'select', as the user can't enable SND_PCM
+  explicitly.
+- Add 'Fixes' tag since it is a regression fix.
 
-Thank you for the review!
+ sound/core/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/core/Kconfig b/sound/core/Kconfig
+index 664c6ee2b5a1..8077f481d84f 100644
+--- a/sound/core/Kconfig
++++ b/sound/core/Kconfig
+@@ -42,6 +42,7 @@ config SND_UMP_LEGACY_RAWMIDI
+ config SND_CORE_TEST
+ 	tristate "Sound core KUnit test"
+ 	depends on KUNIT
++	select SND_PCM
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  This options enables the sound core functions KUnit test.
 -- 
-Kind regards,
-Ivan Orlov
+2.34.1
 
