@@ -1,44 +1,72 @@
-Received: from puleglot.ru (puleglot.ru [195.201.32.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1451A4D9FF
-	for <linux-sound@vger.kernel.org>; Thu,  1 Feb 2024 11:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146DE15DBA6;
+	Thu,  1 Feb 2024 12:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706788406; cv=none; b=NJ4c3FLElyj9jbNQC2JuZn3Go5wS0cUqJgB2urr6l9Jy4CTXQvXxZhu+7sGfZr2AY4sJ7JqkBn1sOjgH2bvIg4JOo9yZDCPuKs/iqkvpv5Ph5XOn7vVxS7PxlDIMxZnnh9/z0FECL9P83cLpDV219cYo5xr9IHC3TvS+X8i9FrA=
+	t=1706790128; cv=none; b=N7l+oHf4auzFLbSj5wGll3lCnv0ON7KXRBloMWuM/VJG75fvTMZ5C7eW/Dfuw0s42TioICHMFTWk9tO4fD3REIcxpk+TF7d4n3IdP4AycAW0FsFlvglxLbFvdUznsuUrehX2ZRsI3CMf3ow9Yn/3trWB4EDUjhJ09SQNddqgS04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706788406; c=relaxed/simple;
-	bh=5oOP4bht1T8GSC5S5pLB/bIDrJgVU/QccsXrdiC1fh8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PAfczF0WU3TYWPEISvKrlL5oyNsE4N1NJxutyP/Q6YmLiVz2EZIfcCiSDkcVrZGrFKbKSur0SV9lHUmL2ns6jmW7Nw/yb2jqaP5jDTZq1V8unK9MB1WU0D06ze5h0AuX0AscdYUyCHkEowH7HgdSMbDCQgWPGgrOFEe1M9NFl1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=p1s4HjkT; arc=none smtp.client-ip=195.201.32.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+	s=arc-20240116; t=1706790128; c=relaxed/simple;
+	bh=Mo3g/8cqomXn8ixe5bxoeElp6dyY7KpGNezYRF7gozc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ukLvx+99YDF8o3WdkfxNd3YIModLSxCSIFwHLgLXSVvQurw9UQKzrHKF4a/em0uuSDALtRFO8T0Vu5VLhfplpcYTuegrVE2/zAcqdjFa79UDbobqEsZIUIG/aXBD3ZLWD5ieiTRiJsySAkumYdeX+7l4L5dQ+HKWPos5VzOifjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dd/CU1EV; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="p1s4HjkT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=HfyPbCpGNXGGHMMxOtkxYsa+qUDoLnWX4zlJhqQCbsE=; b=p1s4HjkTw9CV8ewj8cDFnyQEnS
-	oOThLLWh5iStoLMXz1ZLRB9e3A87c9EfP35cnozsHTQ8EjgM/FjWvthTeY7FVLb5y8yPzM+VoLjHA
-	sZn06q8V/wZsuHPKP6CMo4mOfZFej51WDTPWluEnd+pfujoHGOVHuIgUeBCNmIa9npNk=;
-Received: from [2a00:1370:819a:ceb:89dc:eced:962a:5b2f] (helo=home..)
-	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <puleglot@puleglot.ru>)
-	id 1rVVd9-00000000yzA-3Twx;
-	Thu, 01 Feb 2024 14:53:19 +0300
-From: Alexander Tsoy <alexander@tsoy.me>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: [PATCH] ALSA: usb-audio: Ignore clock selector errors for single connection
-Date: Thu,  1 Feb 2024 14:53:08 +0300
-Message-ID: <20240201115308.17838-1-alexander@tsoy.me>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dd/CU1EV"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6de0f53f8e8so1578851b3a.0;
+        Thu, 01 Feb 2024 04:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706790126; x=1707394926; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P+0tF3oqmWl88v5P0WDQqvV2piKFSEOQwx64jG9GX/g=;
+        b=dd/CU1EVN3wJdZBHHapkCQzyCkg0Q8IQqlskVp210EOwcG4hwIJKEsMgn0gmQg8sy+
+         upfd3A/sd5P0Lox10aIWnKEUd7yqR4cH2D31ZTLq1VIYtaPet2M6w1GIjaemP11JNInT
+         gGUyt1DAIKm5kasapH8D8G4QuESOAMSlHEXb+aQPRX5eY2TOb5sORB9+cp/Jny9rQ3ph
+         v9/RADRbsjKQ9OF7j9VKn+oQo8RAZvNxVTwhzMJ7H5QkPJPyibj8ukmRA/AglxrXjd7a
+         voT9pHZNLP1M92NTM4VQ/itiD1CiGA8HuckmTs/EeFbA3+N19v/GO+t4dXgKzbkR83v7
+         m3Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706790126; x=1707394926;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P+0tF3oqmWl88v5P0WDQqvV2piKFSEOQwx64jG9GX/g=;
+        b=d/CI706mFF1KCMoBxlwfgOTMdO+tnLicgJ8U5R+IlWZojlcHigTdt4KmqLkx6QdrTs
+         rL1tj2BMYRrELCcmVKUkSeFzeTJ0AkidMh2ogB68kSBvoymAw+ua1XJX8US1CI/Naoc9
+         PM2L0TucMNTMb0vCTLNJJ7wlqkc7+Hry/gvwS6lDMUJoPBL7D/toTDrPBIHOuCwEDmWx
+         TbtuP+9VaHtZky0nxy/i0TZk+MpwimllIjprVsvXGRYJZdXtTeN6hcvMXOTZKx8WXKo6
+         W2MSb9KXrNtAMRnMxycuaApmdtcV3kircfsQ6jVFVx4LLsxJ77H/JgKLFNQUWOxXr2sv
+         k5kw==
+X-Gm-Message-State: AOJu0Yz1j0HwRQYCoBtKy4xJme+w8M5xpOeJKff/yeGKkqfnmcfpF/TX
+	A1dsSPxGf9ZWOcE65k074L1mV6Jyv+BUq/aIBJNSPCidpHJ/LV9H
+X-Google-Smtp-Source: AGHT+IG9gpalsHvSnUxG7Yy8G0uxD3AHxw960cD+IgMRdCRWYT1npBwaey2rQ8AU3FjJoh5SPnm9Vg==
+X-Received: by 2002:a05:6a20:5488:b0:19e:2d00:10c6 with SMTP id i8-20020a056a20548800b0019e2d0010c6mr9710167pzk.23.1706790126178;
+        Thu, 01 Feb 2024 04:22:06 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWZ8y9IWd+JVNOWEgD5RZ41nNxvIcSPAs/ylZWl4Vu73kE0OyGH5yy1PGj+dihySpi1brvoN11cC2zSOIR2fWwDnBWvoDMAFKYSPNx94xVfriRnrYA+yX7V3MVHr0KnezZJl5+Ivg4ehQoFzxASw+lb9vbaYqTLlrGhzPoMQbFzB2WcYyvqjL4AVQQtWhNQYs4CKH1u7/fFMpSgNjmNL5fZkpamqZ5/jHpo399XHOY/ry7JINovAMFWJqO2gMWDJqL1Kh0bFuhqGEpIf6N0pH3HOtHvP0J4awqQPOAWrGCLei0BXoSpPqrVVk+4Dt5tx2vJTLEkrKx8jUTNqqD6wl+6EYq/qvr9yIMVHJbVRB19amlzOmZp6BzSo2fwqQhbiehbHwtQLbY2McWa94qnw/E=
+Received: from localhost.localdomain ([187.17.230.203])
+        by smtp.gmail.com with ESMTPSA id l2-20020a63f302000000b005cd8044c6fesm12363894pgh.23.2024.02.01.04.22.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 04:22:05 -0800 (PST)
+From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	edson.drosdeck@gmail.com
+Subject: [PATCH] ALSA: hda/realtek: Enable headset mic on Vaio VJFE-ADL
+Date: Thu,  1 Feb 2024 09:21:14 -0300
+Message-Id: <20240201122114.30080-1-edson.drosdeck@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,61 +74,27 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: puleglot@puleglot.ru
 
-For devices with multiple clock sources connected to a selector, we need
-to check what a clock selector control request has returned. This is
-needed to ensure that a requested clock source is indeed selected and for
-autoclock feature to work.
+Vaio VJFE-ADL is equipped with ALC269VC, and it needs
+ALC298_FIXUP_SPK_VOLUME quirk to make its headset mic work.
 
-For devices with single clock source connected, if we get an error there
-is nothing else we can do about it. We can't skip clock selector setup as
-it is required by some devices. So lets just ignore error in this case.
-
-This should fix various buggy Mackie devices:
-
-[  649.109785] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
-[  649.111946] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
-[  649.113822] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
-
-There is also interesting info from the Windows documentation [1] (this
-is probably why manufacturers dont't even test this feature):
-
-"The USB Audio 2.0 driver doesn't support clock selection. The driver
-uses the Clock Source Entity, which is selected by default and never
-issues a Clock Selector Control SET CUR request."
-
-Link: https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/usb-2-0-audio-drivers [1]
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217314
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218175
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218342
-Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
 ---
- sound/usb/clock.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index a8204c6d6fac..60fcb872a80b 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -347,8 +347,16 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 			    !writeable)
- 				return ret;
- 			err = uac_clock_selector_set_val(chip, entity_id, cur);
--			if (err < 0)
-+			if (err < 0) {
-+				if (pins == 1) {
-+					usb_audio_dbg(chip,
-+						      "%s(): selector returned an error, "
-+						      "assuming a firmware bug, id %d, ret %d\n",
-+						      __func__, clock_id, err);
-+					return ret;
-+				}
- 				return err;
-+			}
- 		}
- 
- 		if (!validate || ret > 0 || !chip->autoclock)
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f6f16622f9cc..c7e8b27d486e 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10322,6 +10322,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
++	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
+ 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+ 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
+ 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
 -- 
-2.43.0
+2.39.2
 
