@@ -1,140 +1,93 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3D3159583;
-	Thu,  1 Feb 2024 09:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706779148; cv=pass; b=HYRZM3vH55U/e3KUsyDzIeNn5DFyiAgWvdoNZoXm6/j7ZKhMGoFRSKottQxLtowDTGgom3BfC277ceNZTvJtwXSf8XqxlJTlQ5q2tinC9Nw+Lv2/Z/tGjnQYU6GLP/s70BYTF28fN+QEoH+Ehg0pwPyAZ2uwnfEMFgmOhwVBzqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706779148; c=relaxed/simple;
-	bh=R2/KugRaeWca7L8ElD1e0FLg7bs8qEI5wiMRWQAzd80=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MPh1JsxgM55xeNPI1fExecM0lYQLuMqvK8j2VW0CUdP9kPfB+60MVTlP3jyGhVCg6ezv8l03OFw61VJZEKNgdNoJmx2c87HquBavPkU6y12EDjCgYmxNpV0IbXgI4Qw/0IvtJiA+tCHZtg5eipUV6L9k+wY92l5L+Z7v2/MJa2E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QLzeQBYW; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9534D9F3;
+	Thu,  1 Feb 2024 09:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706780771; cv=none; b=J19+Z7ZfMlutWLA+XLIEbl+SRpfzkHQ5BbJEfBX4qHkFJCqwiuvhUfA2wkAOgGUL/fVvh8grWeaqciGAHr3tEzHyIwMPgijquov2TsTkAdhabljommLn4IeEo6vgnS6fXvJiTTvrqGYuV8FqrzIcw98S4OWn8AIMxGa/qCfDTbc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706780771; c=relaxed/simple;
+	bh=TPXMi1Cd07luB88h99QffwCCm9xYEkN6S84aODXMdyc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uOAgmrVgD3w1e5G344p5M13iEH+5JzodQKJ6/IWX7/iCH7EbibsA6RpAjPZhLrkO7FzekD3qaKYC/RDbg1LaVUu6w0bxF/hGJLtmiMpP4CNQBMLArN0oTs6oKHxVLazKAsvH/wqDljkgVHWn6dI8fk029xY5O39BgQWTN1ycNn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E4GFc6xi; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QLzeQBYW"
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4TQYHk0RBKz49Q4M;
-	Thu,  1 Feb 2024 11:18:57 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1706779139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Fpy/KbSzjZ8m/Xpg84MM6yz5okV9u4UdrP7s0ILl8o=;
-	b=QLzeQBYWyIizNCEdOO0UnX0HbEbBMsM6ktPq78KqRpoDIQ8DmizFrGfVVnqwyqtUM/JaQ+
-	erh45k6PJI0YU0dVIUAuNMpYqhechz6r7RLjPhP0fCld4o9s92kwIfth9sixHAur8GV2ye
-	G2lFy1SdeH9AtNZFleuMzdFQqETUVPDqw+urOJfKPNLmyuvp4bBGSIV+V4ig0+XrumyWw8
-	07fO25P6bDSPhfUBeJnaRCgXxunatKkjhJf6ewRWNftJ32L9nbl7zxsY62LhrL6VcpImO1
-	cu/F04Wn3EOnsDbdb61x+zQZO1Yl5mrbRGKmKp8rOJ1aKctoF/qjfKxyftAoLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1706779139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Fpy/KbSzjZ8m/Xpg84MM6yz5okV9u4UdrP7s0ILl8o=;
-	b=NknHwVeZQJph2n5Ymg8Coj2j1/Q2mhhDK6vMUerjuy1o4kzQBFLyw6FjOzTBjxdEHsyG5l
-	mGxwX+TYvyaeBrDhVHKBQEpF3iFhU6h9WDDTUXmLIDiwLhwnGaWiQE7J54Gz4I+J6Xsfkd
-	0XKjFaruAqV8fQa78frFvSmUxR09PvGIFkumiQy+u5QzJuymMuyEzzZzdhePLaudoRtmi+
-	H00XLzwqiTuH2uJ2jx7uUy5JYxlmfWZ3UNNc34jvL6Y53pYP1Sfaw5ysl05YQTVbelZj7M
-	qrK3owq9nvbhux0AG2BXRMCG37dovyKGhjdI1NAXn511Tfdk8kQ+Dsnc+eUzHQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1706779139; a=rsa-sha256;
-	cv=none;
-	b=NXxTkNsVQcVrRPfV3ZqrLN9BDgTVvbgp7hawQ7Q6lKlQaDSt++h0qI6VuOwvJvBLnyCz2N
-	sGZ+lNoYYhWvTGiUU7Bf2GwvZ+WJedRCZNClnC5pZzjA4JKpjpBXsUOc/2qBSERXjSVbFF
-	1kUXTsWurtS6VjuyIEFk594JHCAhlyMxRNZPNtFALs/nyBqKa1pE9ZXCtmqlhAvhs47v6x
-	Zr9qQ8tQ0DEeUNNVFnBzVgvDYhgiqkt/0isTXz8cq9vVKlFUoLg/56p24AjjeXPzwMs5+X
-	vOzDNbGz+dH9WCIlxrE9bSo2nb6QIlWzGvwiKZ/ftfGIOgSJJHSC0KxxDGfyTA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B5FC0634C93;
-	Thu,  1 Feb 2024 11:18:56 +0200 (EET)
-Date: Thu, 1 Feb 2024 09:18:56 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] of: property: add port base loop
-Message-ID: <ZbtiAJklkLaXWY20@valkosipuli.retiisi.eu>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <20240129122736.GC8131@pendragon.ideasonboard.com>
- <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
- <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
- <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
- <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
- <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
- <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E4GFc6xi"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33b17b89a08so49559f8f.0;
+        Thu, 01 Feb 2024 01:46:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706780768; x=1707385568; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GI7k9TIXMsyUsEptHwDW0LSrQzilihr/z0PyebfdxsE=;
+        b=E4GFc6xilblQetCUgH+h8Ft+BHBPb52WLF6wEgUtSqchkiu/lxnKE+1vCQk77GgnJO
+         FGGz2zfQFPwioMRfkGBWiNog4eIAFVS8dKA3pfmT0P58Fyenjrr1BNDB7+NgVZL8zJzf
+         D9JTvT24eGR8q+oG9t9yJi3acZ6ZPWloFBFynaT9Vm2OHwuagsEXZ0kL1qv2IBOzjOwD
+         ++i4z/Z49BwoLPXYQ+itM0tYyD+Or15WHNcXjb0q/IxkWB87slVZrqSM8TcKr1hp4zTV
+         h0eYb9xsZtE5/fCoFiOGafzIRxjRbUETfpNEIRy93m4YTVgarF1foOLWjr09DCRmObsR
+         xi3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706780768; x=1707385568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GI7k9TIXMsyUsEptHwDW0LSrQzilihr/z0PyebfdxsE=;
+        b=Qrdy7a8rhIq/BzlnEa1TiSxnMb/b6hP6N8A35syYDrDlUEW+Fxi9qMfljyFO0mhekQ
+         lE+jZZ0Z9TkGQmnwYDS3Buud15aJ41WVxgr0B+iXkTe58tAWtyd4MmDYrUQrQwVtE+MT
+         +v07nY4DP2KcLTiMKYKwSSf0hb2Sc0T/pHevUOPa2kOWTNLYAWqlz4uhJQB9TPr4g2eY
+         0F7tNEN7ntMT942qlcMW8NJioV0HaHmny5uFC3jc3NTt+1Nj2eKb0MpePAfFWt2Ww78F
+         YP8YM7icYlFJs5KLig+yYHWqxRox57TFUvY+Isa98Ff6tW2dUGK38gTaxQUmFsHy7+g1
+         eL+w==
+X-Forwarded-Encrypted: i=0; AJvYcCWbfGusXO17H+o3AREMn2+LkCzWNUrWykvcvMbf0RoYcMaGBBo8HS0jKsZ/5X4sJpr0CWfOIq9EOQNj77pbUmxxua4jBIzPBu4IE/Xy8Z224/yanS8W8IvDOsziLyiN1q3KWhTZRt9zHRQ=
+X-Gm-Message-State: AOJu0YwcLuFr/cCWYyBY16H5X418o5Hm4dCWngKYrer1ANX4Uyg15BY0
+	W+Uwec87234i3IFryNQDcLfQPlggGUwH2CTPh+QLh8/857HCBz/Y
+X-Google-Smtp-Source: AGHT+IE0NSBZ/IDEO2V/oEfZPA4CVRgC8sptmeczL/M6p6HN3fBc4RkXQHR3YxFl1ltdO9xg+sgbfg==
+X-Received: by 2002:a05:6000:259:b0:33b:1383:12cd with SMTP id m25-20020a056000025900b0033b138312cdmr950116wrz.7.1706780767726;
+        Thu, 01 Feb 2024 01:46:07 -0800 (PST)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:34a8:87bc:414d:acfe])
+        by smtp.gmail.com with ESMTPSA id 4-20020a056000154400b0033b06fdb8f9sm3398203wry.37.2024.02.01.01.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 01:46:07 -0800 (PST)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: core: Fix dependencies for SND_CORE_TEST
+Date: Thu,  1 Feb 2024 09:46:04 +0000
+Message-Id: <20240201094604.1347793-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Morimoto-san,
+Add the CONFIG_SND_PCM dependency for CONFIG_SND_CORE_TEST config entry
+as the test uses symbols from 'pcm_misc.c'.
 
-On Tue, Jan 30, 2024 at 11:24:07PM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Sakari
-> 
-> > > > > I'm not familiar with fwnode, but in my quick check, it seems it is easy
-> > > > > to expand fwnode side functions if of_graph side function exist ?
-> > > > 
-> > > > That would be one way to do that, yes, but I suggested using the existing
-> > > > endpoint iterators as that would keep the firmware specific implementation
-> > > > more simple. The (slight) drawback is that for each node returned, you'd
-> > > > need to check its parent (i.e. port node) is the same as the port you're
-> > > > interested in. The alternative may involve reworking the struct
-> > > > fwnode_operations interface somewhat, including swnode, DT and ACPI
-> > > > implementations.
-> > > > 
-> > > 
-> > > But we still need the of_* versions, don't we, for patches 4 to 13?
-> > 
-> > Yes, my comment was indeed about the fwnode property API only.
-> 
-> Thank you for your suggestion.
-> But I'm not familiar with fwnode, and it seems we still need of_*,
-> I will keep current style (= non fwnode) in v3
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+ sound/core/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-The fwnode API should be kept in sync with the OF (and other firmware
-specific) API. Merging your set in its current form would leave fwnode API
-impaired. Therefore I'd very much prefer to see this set add similar fwnode
-APIs, too.
-
+diff --git a/sound/core/Kconfig b/sound/core/Kconfig
+index 664c6ee2b5a1..9a44f259ccca 100644
+--- a/sound/core/Kconfig
++++ b/sound/core/Kconfig
+@@ -42,6 +42,7 @@ config SND_UMP_LEGACY_RAWMIDI
+ config SND_CORE_TEST
+ 	tristate "Sound core KUnit test"
+ 	depends on KUNIT
++	depends on SND_PCM
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  This options enables the sound core functions KUnit test.
 -- 
-Regards,
+2.34.1
 
-Sakari Ailus
