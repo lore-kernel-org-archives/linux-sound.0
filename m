@@ -1,99 +1,133 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F263405CF;
-	Thu,  1 Feb 2024 22:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A031AAB1;
+	Fri,  2 Feb 2024 08:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706825488; cv=none; b=lwqNNDJUWh9BA0nt9L4WeNFPI2DdtUStHFb1GuCEgmdII9/tLb0ZfgrcXvydn1flPCvsVSuTzKFxFZRGo9aKBoDIkqgHoaD6NlPhq/9X5yaCLQZrUMOLYdz4pURsQA1ScEyVfwlyOoNhnf1ap6LN9nYZ5f/OaVHEXBekEjj3m00=
+	t=1706861840; cv=none; b=o4AMoZomk2AcCMWcKKG94Oaq6n5RoOczryGFWesqkwda1dfUAMzd74/zJBWI8QzZmfoOvSRkKMv3G0+qOGrTEjMVIevsG7/xd49VvIsXCDwAcNlM+yN1d4pCUE3to33tiaKP7ElwsXf9gaYndh6zT7LjCZEV4bcMxdmlz6xCv0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706825488; c=relaxed/simple;
-	bh=Ssyx/JAS2CDbyhyG3dsAH7vxQvDIszH2q5ay8Zxn33M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=szX8U0BRF76RCKsAEdA7ywCpPMXEdGYq4VuNvT9Xm7ctF95je8yWVyTpI4jpjAWf30OWQj8nNyK8QgbD1AEzbc70ggEVzQtwAvtwOY2sYmGFvOIe0ykA4qCoxwQoF0MJxj0duyxruiAUIZlGuPlCPp84utXzvrErumNCm65l4TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jSIdDW6G; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706861840; c=relaxed/simple;
+	bh=/ZwwgSNDdMT7eOjgjcfY+3VobjfrMFAGXehTLfvkE18=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SVMalsgrhAYBZ+rJlMXPW3EEhrLWSBBI+TJle2edDlFm2BugyRAmi/9RHd9oSft0S2dSho7AHyPt2g5dLJiua7PSWs0on/OPepDDSTR0PuMtqiV3MbXMRDC3wCPhOR+ETdbfjkojXZ7Tz9Zs6rnClvzmpFT3m4CozYbaNRQ4gHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JsEP5sN2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eUu0rwB+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JsEP5sN2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eUu0rwB+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jSIdDW6G"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33b17b89a08so147802f8f.0;
-        Thu, 01 Feb 2024 14:11:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706825485; x=1707430285; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rgCLkBwgH/Cdp07/Ys8kcbbnDNfGaAeuAJIUl3VFESA=;
-        b=jSIdDW6GQfMOcpBqpW2GPJaXOOiZuccYFcB0fL7EHAmzXreMYyNbdfpBAmnnIy2wWR
-         mHWlfdJ+nIzA2o3S2HiFGQow4n1Mvn9ADqPBDnEDfR60XHTKOI+fvSYAyWVTUb0Ytssj
-         Ki3W49cHzujGhJfRGgvXuk5T7N8EmSIXk1xiT7OcWVJOnb1YDMqHyHiEMxPX2gFdgbLR
-         p9kuyd5w1Fz/ofj7M/86hcDNBA2QcmrXZHhePMWwsJHSYSG/vXMfmZN/A+cztFbgCeJj
-         NBVdbe75t9Ft7h3v/nvqEQFPqQuNmct02tZp/z7VNhCJWjuMifLqZ8ect6lobpezdROv
-         Ow0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706825485; x=1707430285;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rgCLkBwgH/Cdp07/Ys8kcbbnDNfGaAeuAJIUl3VFESA=;
-        b=fkEK3dK0YSMYfwY7AQULqsxUhw00MdX7u5nHn6iXRNvcLvcRpwCwsq6npFhOnAeRut
-         tRO3u1e5XrCjjP18J7U9k4UuyhbJ8Sy3YizzvB7u17dNid8g1dDmtx82c5hCZ1KLuIPZ
-         YuB2QE7zGCpBYSnscumKct5XQMm6eTBOYZTYSjtiUlH/qfE9rC7A68DqIbKAurDHN/wH
-         ftNUqK77j4AO4hRHONA+3JQDJxBfaOeLaeBGea2DfNzL95kGd8tzcH/CFsusgR3ZX27h
-         L6ZDCu7Th4RoHf5AKtdgwMjvrVc9NixE6PIESEviv7JFJfgVuKxCpc1/wMMU/rz0bpmv
-         Gkrw==
-X-Forwarded-Encrypted: i=0; AJvYcCV03MaNNi2MZbncRng6FHfuRyGxE7MYlDiByM963s6OJfIGEgtayxORlaoXKtEbraDOQCANVmETQn3P7XqEPhlr2zQx/QYnhb77T6bvtU/Zm/HDWCMu8BLOClQoo6+kGSpmztW3zJQAEE4=
-X-Gm-Message-State: AOJu0YwOJw2NaHARb61XX+EEGjashGzvGxNB61ImNtDZHMGP/buMTjB/
-	D9HvSF/7Vo0mBjpaSwcEj2Hm7NWf+KOz266OOsmXAj5mstxV0Zed
-X-Google-Smtp-Source: AGHT+IFHVDFGSXBvDSGM8Hul600Eny5NU2xBrFgwFVYeV2jHJeUbSKbE68xYPrPxNccVDuoCxBd5nw==
-X-Received: by 2002:a05:600c:5022:b0:40f:c400:eb00 with SMTP id n34-20020a05600c502200b0040fc400eb00mr584716wmr.3.1706825485272;
-        Thu, 01 Feb 2024 14:11:25 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXyIYYjp5c3Fdm01++kIIWDKmuFK2MD3iy9KOaEW0glaOf71MTGWhOf9Lt8odzF6+kT0B0bo47fWx3pDbU/m7SYJR7JhqrhmD+LoxvSf5Wwqy/wYfYRWKYfqbruGWDG4wrr1y1v+xp9aU4=
-Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:6518:5489:98df:7ab6])
-        by smtp.gmail.com with ESMTPSA id az39-20020a05600c602700b0040e596320bfsm119021wmb.0.2024.02.01.14.11.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Feb 2024 14:11:24 -0800 (PST)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: perex@perex.cz
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JsEP5sN2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eUu0rwB+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JsEP5sN2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eUu0rwB+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B809E1F6E6;
+	Fri,  2 Feb 2024 08:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706861836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GEygOBYVbTy8p0b9vlbsDN79cPT+wKXNDCxum3hoToA=;
+	b=JsEP5sN2A8Wtnv7iQV+0bkbKtG/i2e/eAjYAO+WCoPkwR2FBJ5prsX/m9Khf96e0oK7sMN
+	Z2lP+Zfdo8YR3FmB0tRCVwU0iqeGQAedK0+qbQIAr6IaYo1Cw+FMqui28BKkzLDqUg2wnd
+	MMdA0gmmgXDOXZ8X4wVia9TRs53USJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706861836;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GEygOBYVbTy8p0b9vlbsDN79cPT+wKXNDCxum3hoToA=;
+	b=eUu0rwB+AjEBoJm3sdclqgkyjsKCmUeegdN2Qcr+0ed9L9NLfrnC4cfaddgo/K2iIbb/7W
+	XJ5I+mAtDSv6y7Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706861836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GEygOBYVbTy8p0b9vlbsDN79cPT+wKXNDCxum3hoToA=;
+	b=JsEP5sN2A8Wtnv7iQV+0bkbKtG/i2e/eAjYAO+WCoPkwR2FBJ5prsX/m9Khf96e0oK7sMN
+	Z2lP+Zfdo8YR3FmB0tRCVwU0iqeGQAedK0+qbQIAr6IaYo1Cw+FMqui28BKkzLDqUg2wnd
+	MMdA0gmmgXDOXZ8X4wVia9TRs53USJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706861836;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GEygOBYVbTy8p0b9vlbsDN79cPT+wKXNDCxum3hoToA=;
+	b=eUu0rwB+AjEBoJm3sdclqgkyjsKCmUeegdN2Qcr+0ed9L9NLfrnC4cfaddgo/K2iIbb/7W
+	XJ5I+mAtDSv6y7Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 898AB13A58;
+	Fri,  2 Feb 2024 08:17:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ed7CHwylvGUXPAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 02 Feb 2024 08:17:16 +0000
+Date: Fri, 02 Feb 2024 09:17:16 +0100
+Message-ID: <87fryb2sc3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: perex@perex.cz,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: core: Fix dependencies for SND_CORE_TEST
-Date: Thu,  1 Feb 2024 22:11:22 +0000
-Message-Id: <20240201221122.16627-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH v2] ALSA: core: Fix dependencies for SND_CORE_TEST
+In-Reply-To: <20240201221122.16627-1-ivan.orlov0322@gmail.com>
+References: <20240201221122.16627-1-ivan.orlov0322@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JsEP5sN2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eUu0rwB+
+X-Spamd-Result: default: False [-3.61 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.30)[96.75%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: B809E1F6E6
+X-Spam-Level: 
+X-Spam-Score: -3.61
+X-Spam-Flag: NO
 
-Select CONFIG_SND_PCM when enabling CONFIG_SND_CORE_TEST, as the test
-uses symbols from 'pcm_misc.c'.
+On Thu, 01 Feb 2024 23:11:22 +0100,
+Ivan Orlov wrote:
+> 
+> Select CONFIG_SND_PCM when enabling CONFIG_SND_CORE_TEST, as the test
+> uses symbols from 'pcm_misc.c'.
+> 
+> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
 
-Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
-V1 -> V2:
-- Change 'depends' with 'select', as the user can't enable SND_PCM
-  explicitly.
-- Add 'Fixes' tag since it is a regression fix.
+Thanks, applied now.
 
- sound/core/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/core/Kconfig b/sound/core/Kconfig
-index 664c6ee2b5a1..8077f481d84f 100644
---- a/sound/core/Kconfig
-+++ b/sound/core/Kconfig
-@@ -42,6 +42,7 @@ config SND_UMP_LEGACY_RAWMIDI
- config SND_CORE_TEST
- 	tristate "Sound core KUnit test"
- 	depends on KUNIT
-+	select SND_PCM
- 	default KUNIT_ALL_TESTS
- 	help
- 	  This options enables the sound core functions KUnit test.
--- 
-2.34.1
-
+Takashi
