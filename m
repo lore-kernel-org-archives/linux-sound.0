@@ -1,57 +1,56 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899E614C594;
-	Fri,  2 Feb 2024 17:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC17514533A;
+	Fri,  2 Feb 2024 17:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706893737; cv=none; b=sdl5X3A+bhKDsXfDRL9EQYestTqmSz7PPVlqom8JumNxCZ/nglduE0YJcppDZfhvhTnrJ2+fUnC64+eOq7lIdEC9OxUj2vpqWivB/PWjdHZIondDlWdCD9xUnFa4k474thCvGzcCvYFs54fhw6/HHHG2thVz6FnZaW47Tez8hfs=
+	t=1706895821; cv=none; b=GUJDJZdfmef0BcCuw5BCIG7sed3V/oHeo8tMlQs8Q5cFFafzlAP426HiOhMRAJUSJQUAO1PGhaCYZy+g4N6bOogYsEp4HLSZYFEj90lOYTsFCqEsHF4+lYnZtuJzxuk3IQKyeUq5QsBtmHpSJgRHVgD4DhrozZpAzqnb/KdUQsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706893737; c=relaxed/simple;
-	bh=n7dJMVI068abkx41i1owQt7AFxVmgCir8E9N+Q7lsug=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GzicGtiPFdR27JO/wmwAsO+j/s9wOOnsfk6TyxHLDDfWCMIfxfI6rusvDRJHnqQTpBbiNgUw2Wy/LKwME1HoWO2HlDey6RrUmqESoRUZtB1W3TWGJIvUDGVT2eHqAYaTnuuCR1FRV5IGRYrmRhL5KI/Cz1aFdV6rt4mVNVa8U4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YNpPnRm0; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1706895821; c=relaxed/simple;
+	bh=LLN9y61AoFj7+BGhIcNuEpEgy1jM9vokgbzH/7xzzEM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=S+xZ++ZaG2HpmUEjDi5QUHCXWMRP/SEGW3lM5XADlauFNhQa0YC9DbKQwG09Hwi9ZOKSaw6VGWMHkkLXEDPRKfUXMoxyM5I5AAoNZdB7Lt/dIgxImw9JyzSTfsmfd6PjxwlWWkHOBnoF2S9Qtmp6gaM+H9EnG8321J0cAF/Q+Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ox/DJBfx; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YNpPnRm0"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 412G7M2j013161;
-	Fri, 2 Feb 2024 11:08:46 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ox/DJBfx"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 412GOZ3A012362;
+	Fri, 2 Feb 2024 17:43:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=o
-	Y+0TBrmVbqVRe9GsKH89Cjn0lEAjYQJNhHXZcdhOnQ=; b=YNpPnRm0NwDchvvwK
-	moKgLtwKB0r9shYJ+IUhVgMaKFQN3swErYgqrviPoa/MPnG3tx8e2t7cLqw8bJNs
-	Ro9CG/O/T0p4OKt+DEIaf7xz6XPRHF6cx7XagMqNnEbIFBGrXbSTRqnQQmiZV2F6
-	ChYl6EsdBWv7ijqCoiwJz2JRDjkFw2VxvYt5UOQ4kGI4DCjN7+lGOLSo99o0NhWP
-	SP8IOXOB0IB9xoQy4uyK3WiAA6C0CoZpkzsZlC91Ze1UH1cg26k5DdZjeVgjQe91
-	WIl64wikmAWL8wuutkZT3BSXshKglu5Ce4UwHkvBlAAlag57m/HQqrNQMTnnmXZH
-	QPNOA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w0pwx0sd0-1
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=w9TDcpG
+	+ViqU0k0LnHjATuGvwzj+eqaumBwSjgdKJyc=; b=Ox/DJBfxa++at7M+Vhk90Qb
+	y/y6BnhhEY/OSBnxjxhoDHIXdqbLbXnjJHSMN97jKXubolDTvtebAZBYDCkh0Ao2
+	w6kR88FuvFihPufCk2c8BhqHsT4tELAL20qD/VOu7w88EwFgNVNuGn2XXdG07xpm
+	MZaGo6iieIodWFOjlTZabcg/DefXvuNCZBuCfgSTWfeZlzwKRdtr7TCLRpJ4W0pk
+	+j5tSVC19Uuk4HmNeov/vXe0kr3bOVnJ9R0TNb5scFrAN5KJfhEmRzWsUl32/0nB
+	77d92Oex1w6SllexGjJb0645aAD6rCxQt5uIsbRZQGqBFcZwF9RzuyuMFr/wcZw=
+	=
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0ptvj0q4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Feb 2024 11:08:46 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 2 Feb
- 2024 17:08:44 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+	Fri, 02 Feb 2024 17:43:34 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412HhX0i001484
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 2 Feb 2024 17:43:33 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Fri, 2 Feb 2024 17:08:44 +0000
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.64.191])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 64B59820246;
-	Fri,  2 Feb 2024 17:08:44 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v2] ALSA: hda/realtek: Remove two HP Laptops using CS35L41
-Date: Fri, 2 Feb 2024 17:08:42 +0000
-Message-ID: <20240202170842.321818-1-sbinding@opensource.cirrus.com>
+ 15.2.1118.40; Fri, 2 Feb 2024 09:43:32 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <judyhsiao@chromium.org>, <quic_bjorande@quicinc.com>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jeffrey Hugo
+	<quic_jhugo@quicinc.com>
+Subject: [PATCH] ASoC: dt-bindings: google,sc7280-herobrine: Drop bouncing @codeaurora
+Date: Fri, 2 Feb 2024 10:43:13 -0700
+Message-ID: <20240202174313.4113670-1-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,31 +60,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: nh77Ipbv6KCK5tgXpCvkIzzUfG8HapK2
-X-Proofpoint-ORIG-GUID: nh77Ipbv6KCK5tgXpCvkIzzUfG8HapK2
-X-Proofpoint-Spam-Reason: safe
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: x0I-X33R-5sBKvv7YPz6LWqnJl2RaALZ
+X-Proofpoint-ORIG-GUID: x0I-X33R-5sBKvv7YPz6LWqnJl2RaALZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_11,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=550 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ mlxscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020128
 
-The SKUs, and associated SSIDs, are no longer going to include the
-CS35L41. They may come back, but will need a different quirk.
+The servers for the @codeaurora domain have long been retired and any
+messages sent there bounce.  Srinivasa Rao Mandadapu has left the
+company and there does not appear to be an updated address to suggest,
+so drop Srinivasa as maintainer of the binding.  The binding still
+appears to be maintined as Judy is listed.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- sound/pci/hda/patch_realtek.c | 2 --
- 1 file changed, 2 deletions(-)
+ .../devicetree/bindings/sound/google,sc7280-herobrine.yaml       | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 348505edf063..3d7e7b32fcf4 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9855,8 +9855,6 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8cdd, "HP Spectre", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8cde, "HP Spectre", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
--	SND_PCI_QUIRK(0x103c, 0x8d01, "HP EliteBook G12", ALC287_FIXUP_CS35L41_I2C_4),
--	SND_PCI_QUIRK(0x103c, 0x8d08, "HP EliteBook 1045 G12", ALC287_FIXUP_CS35L41_I2C_4),
- 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
- 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+diff --git a/Documentation/devicetree/bindings/sound/google,sc7280-herobrine.yaml b/Documentation/devicetree/bindings/sound/google,sc7280-herobrine.yaml
+index ec4b6e547ca6..cdcd7c6f21eb 100644
+--- a/Documentation/devicetree/bindings/sound/google,sc7280-herobrine.yaml
++++ b/Documentation/devicetree/bindings/sound/google,sc7280-herobrine.yaml
+@@ -7,7 +7,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Google SC7280-Herobrine ASoC sound card driver
+ 
+ maintainers:
+-  - Srinivasa Rao Mandadapu <srivasam@codeaurora.org>
+   - Judy Hsiao <judyhsiao@chromium.org>
+ 
+ description:
 -- 
 2.34.1
 
