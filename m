@@ -1,218 +1,332 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3EC48CC8;
-	Sat,  3 Feb 2024 02:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D2879C0;
+	Sat,  3 Feb 2024 03:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706927904; cv=none; b=tPVDQ5Y/XfwN+UFqWDR9EPhGUM6ACC5p/F4IksOQKVfnZDXkCU0J/Buo97keRuwftjiW0l420Ahvdjt4xQI4hOAkFc+UsPuytvJsGIlAXHZBE337woeZ9AP/bbPjuNG8O9tgJKfA6GQ7dkuKcnql+YtwPvHC8dU75eaSkySxuow=
+	t=1706929717; cv=none; b=EjlYOngMan7Rj8eRZzpRN+evte57vkKKYQfqZiapyV//Juh8O/Pqx7xmQRiRasJWVLL+zTQlwE7RNPBEsw+mY8HLQrYCdHBc08xIiCuVHRO2QJTBzLb97xiMYBkH8Rv85IgYD3jdGD5UG4YOsb8tFVGj/HuA3vd5GbGLk7pPndY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706927904; c=relaxed/simple;
-	bh=5j0LD4cU0Gyh4u94KaYfLWqCDiM58ryYVYdm0d3ckJ0=;
+	s=arc-20240116; t=1706929717; c=relaxed/simple;
+	bh=vK5dW/PRRoIO6MZcxfMO5hEmtNmPer552nVlJ/dQ3tM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=drEDBHI+L4Qoq4yF6wL2wMsS8qHtH3Dr7HZi6aN9QszffM4fhD1fZ8Sgc4ymj1BrtDZd09TcyF1iaoC4y/X+YO15PGURoBMwavI58Y0XSPVxkvqAMcIMK/PdhYc0LN7l3kGbCiPZxZlBnJt4MiqsOAm2TTgTU5n9wCFM5y/apXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MS4hlyNP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	 MIME-Version:Content-Type; b=FqhmtOgkm/h0zGxw+m9d8N9t3P+0F61ndZKOatMOrYvWB62Of6+ta14xyEk3/xqUR4kNAOVVaESxwGZQUGvgv5lNzdDRzOEZK2bdl6LQu+wp4xZZXafKk86ocBNyYlzRP6Bu2iDClV3903x+lp5AkDo6weHvuBaf9WJ66KRWan8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=hPuLUHxg; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MS4hlyNP"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4132Q51D004181;
-	Sat, 3 Feb 2024 02:38:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=7VZfx/Bay9jjE9Iv4MJz
-	JiR4uxKr/xQofmWH8gbXo0Y=; b=MS4hlyNPK3M+7a4w+eUQ4Uf0h/FmwZAWKjzc
-	sQB262Wm/T/KwKzXYZeAXr2hVs1w2m+4zSiPZqNs3D8Ns2gnxYgBiyEwPeM4EXfD
-	BUGNPhJ3guW+KrwgGVdMprbXCmo+q4xZmYzkmFZI2Hzt2fte+pHBL5kp5zHTF1A5
-	S6JKqm6KbzHicrrW5HATTjSry805CI4m3bCSRKkynaHj/zWAY10ZLG2gLWzFsLoC
-	9F8A7oFwU0EGfOiy4EMHIGYAWMlrY6q//GgeqSg37BmU6x5Rceh74BiQ6nupvwKK
-	OR5nfZeLmINSF3gX+h8b1NkIGEb3FYTk7zEPS+QTvdZAad6uuA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0pwjjuj9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 03 Feb 2024 02:38:05 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bUB0004284
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 3 Feb 2024 02:37:30 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 2 Feb 2024 18:37:29 -0800
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v13 41/53] ASoC: Introduce SND kcontrols to select sound card and PCM device
-Date: Fri, 2 Feb 2024 18:36:33 -0800
-Message-ID: <20240203023645.31105-42-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240203023645.31105-1-quic_wcheng@quicinc.com>
-References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hPuLUHxg"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41335oDM013030;
+	Fri, 2 Feb 2024 21:05:50 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1706929550;
+	bh=993adIjBeKvC8pKrVaumjq+I7IEyGHVR7caepVpb+QI=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=hPuLUHxggKhRTIXdeNkGXgTIppqDNKdRPGkG5voEAPD02Qc6kdqA3uZ7tPtUXb7hc
+	 j3UUWSj9QYOGFFAHnyNyCNfZDzWaOSu1Oo/J1aVatSn6Vcwbm2OiE3zHL2UdvAaCOn
+	 KCgAwLZnVfNp5nzCb96POvuV1T+TfQDUqANuLCW0=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41335oTb022971
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 2 Feb 2024 21:05:50 -0600
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 2
+ Feb 2024 21:05:50 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 2 Feb 2024 21:05:50 -0600
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.162.93])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 413358h8021917;
+	Fri, 2 Feb 2024 21:05:41 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>, <conor+dt@kernel.org>,
+        <krzysztof.kozlowski@linaro.org>, <devicetree@vger.kernel.org>,
+        <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <linux-sound@vger.kernel.org>, <liam.r.girdwood@intel.com>,
+        <lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>
+CC: <kevin-lu@ti.com>, <baojun.xu@ti.com>, <v-po@ti.com>, <navada@ti.com>,
+        <perex@perex.cz>, <j-mcpherson@ti.com>,
+        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
+        <mohit.chawla@ti.com>, <soyer@irl.hu>, <jkhuang3@ti.com>,
+        <tiwai@suse.de>, <pdjuandi@ti.com>, <manisha.agrawal@ti.com>,
+        <s-hari@ti.com>, <aviel@ti.com>, <hnagalla@ti.com>, <praneeth@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add initial DT binding
+Date: Sat, 3 Feb 2024 11:05:02 +0800
+Message-ID: <20240203030504.1724-4-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20240203030504.1724-1-shenghao-ding@ti.com>
+References: <20240203030504.1724-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 9HxCtAv8oQakOhJsPFDxs9FhU7a2yUtv
-X-Proofpoint-ORIG-GUID: 9HxCtAv8oQakOhJsPFDxs9FhU7a2yUtv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-02_16,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 phishscore=0 mlxlogscore=999
- malwarescore=0 suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402030015
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add SND kcontrol to SOC USB, which will allow for userpsace to determine
-which USB card number and PCM device to offload.  This allows for userspace
-to potentially tag an alternate path for a specific USB SND card and PCM
-device.  Previously, control was absent, and the offload path would be
-enabled on the last USB SND device which was connected.  This logic will
-continue to be applicable if no mixer input is received for specific device
-selection.
+PCM6240 family chips are popular among audio customers, in spite of only a
+portion of the functionality of codec, such as ADC or DAC, and so on, for
+different Specifications, range from Personal Electric to Automotive
+Electric, even some professional fields.yet their audio performance is far
+superior to the codec's, and cost is lower than codec, and much easier to
+program than codec.
 
-An example to configure the offload device using tinymix:
-tinymix -D 0 set 'SNDUSB OFFLD device select' 1 0
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-The above command will configure the offload path to utilize card#1 and PCM
-stream#0.
-
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- include/sound/soc-usb.h |  7 ++++-
- sound/soc/soc-usb.c     | 65 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+), 1 deletion(-)
+Change in v3:
+ - Rewrite the subject to match something similar to other commits.
+ - And none of them are compatible with something.
+ - minItems, then maxItems.
+ - Drop reset-gpios description
+ - Remove the repeated reg descriptions and reg constraints.
+ - Drop redundant spaces.
+ - Add missing line breaks between blocks and additionalProperties.
+ - Correct compatibility issue on adc6120 and pcm6240.
+ - All these chips have only a portion of the functionality of codec,
+   such as ADC or DAC, and so on, but their audio performance is far
+   superior to the codec's, and cost is lower than codec, and much easier
+   to program than codec. Simply one or two register settings can enable
+   them to work. Init for these chips are hardware reset or software reset.
+   As to some audio filter params for internal filters, it is up to the
+   special user cases, which can be saved into the bin file. The default
+   value also can work well.
+ - Add blank line before reg.
+ - remove unneeded items and if branches.
+ - Add missing compatible devices, such as adc6120, etc.
+ - Add necessary people into the list for DTS review
+ - correct misaligned.
+---
+ .../devicetree/bindings/sound/ti,pcm6240.yaml | 214 ++++++++++++++++++
+ 1 file changed, 214 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
 
-diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
-index d9fc83180c56..20d7b32bba07 100644
---- a/include/sound/soc-usb.h
-+++ b/include/sound/soc-usb.h
-@@ -26,14 +26,19 @@ struct snd_soc_usb_device {
-  * @dev - USB backend device reference
-  * @component - reference to ASoC component
-  * @connection_status_cb - callback to notify connection events
-+ * @put_offload_dev - callback to select USB sound card/PCM device
-+ * @get_offload_dev - callback to fetch selected USB sound card/PCM device
-  * @priv_data - driver data
-  **/
- struct snd_soc_usb {
- 	struct list_head list;
--	struct device *dev;
- 	struct snd_soc_component *component;
- 	int (*connection_status_cb)(struct snd_soc_usb *usb,
- 			struct snd_soc_usb_device *sdev, bool connected);
-+	int (*put_offload_dev)(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol);
-+	int (*get_offload_dev)(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol);
- 	void *priv_data;
- };
- 
-diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
-index cad8e1d798e4..c568c67e3e4a 100644
---- a/sound/soc/soc-usb.c
-+++ b/sound/soc/soc-usb.c
-@@ -15,6 +15,9 @@ static struct device_node *snd_soc_find_phandle(struct device *dev)
- {
- 	struct device_node *node;
- 
-+	if (!dev)
-+		return ERR_PTR(-ENODEV);
+diff --git a/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml b/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+new file mode 100644
+index 000000000000..c0f8e8cf1d06
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+@@ -0,0 +1,214 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2022 - 2024 Texas Instruments Incorporated
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,pcm6240.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	node = of_parse_phandle(dev->of_node, "usb-soc-be", 0);
- 	if (!node)
- 		return ERR_PTR(-ENODEV);
-@@ -38,6 +41,64 @@ static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device_node *node)
- 	return NULL;
- }
- 
-+/* SOC USB sound kcontrols */
-+static int soc_usb_put_offload_dev(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
-+	int ret = 0;
++title: Texas Instruments PCM6240 Family Audio ADC/DAC
 +
-+	mutex_lock(&ctx_mutex);
-+	if (ctx && ctx->put_offload_dev)
-+		ret = ctx->put_offload_dev(kcontrol, ucontrol);
-+	mutex_unlock(&ctx_mutex);
++maintainers:
++  - Shenghao Ding <shenghao-ding@ti.com>
 +
-+	return ret;
-+}
++description: |
++  The PCM6240 Family is a big family of Audio ADC/DAC for
++  different Specifications, range from Personal Electric
++  to Automotive Electric, even some professional fields.
 +
-+static int soc_usb_get_offload_dev(struct snd_kcontrol *kcontrol,
-+				   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
-+	int ret = 0;
++  Specifications about the audio chip can be found at:
++    https://www.ti.com/lit/gpn/tlv320adc3120
++    https://www.ti.com/lit/gpn/tlv320adc5120
++    https://www.ti.com/lit/gpn/tlv320adc6120
++    https://www.ti.com/lit/gpn/dix4192
++    https://www.ti.com/lit/gpn/pcm1690
++    https://www.ti.com/lit/gpn/pcm3120-q1
++    https://www.ti.com/lit/gpn/pcm3140-q1
++    https://www.ti.com/lit/gpn/pcm5120-q1
++    https://www.ti.com/lit/gpn/pcm6120-q1
++    https://www.ti.com/lit/gpn/pcm6260-q1
++    https://www.ti.com/lit/gpn/pcm9211
++    https://www.ti.com/lit/gpn/pcmd3140
++    https://www.ti.com/lit/gpn/pcmd3180
++    https://www.ti.com/lit/gpn/taa5212
++    https://www.ti.com/lit/gpn/tad5212
 +
-+	mutex_lock(&ctx_mutex);
-+	if (ctx && ctx->get_offload_dev)
-+		ret = ctx->get_offload_dev(kcontrol, ucontrol);
-+	mutex_unlock(&ctx_mutex);
++properties:
++  compatible:
++    description: |
++      ti,adc3120: Stereo-channel, 768-kHz, Burr-Brown™ audio analog-to-
++      digital converter (ADC) with 106-dB SNR.
 +
-+	return ret;
++      ti,adc5120: 2-Channel, 768-kHz, Burr-Brown™ Audio ADC with 120-dB SNR.
 +
-+}
++      ti,adc6120: Stereo-channel, 768-kHz, Burr-Brown™ audio analog-to-
++      digital converter (ADC) with 123-dB SNR.
 +
-+static int soc_usb_offload_dev_info(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = -1;
-+	uinfo->value.integer.max = SNDRV_CARDS;
++      ti,pcm1690: Automotive Catalog 113dB SNR 8-Channel Audio DAC with
++      Differential Outputs.
 +
-+	return 0;
-+}
++      ti,pcm3120: Automotive, stereo, 106-dB SNR, 768-kHz, low-power
++      software-controlled audio ADC.
 +
-+static const struct snd_kcontrol_new soc_usb_dev_ctrl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.name = "SNDUSB OFFLD device select",
-+	.info = soc_usb_offload_dev_info,
-+	.get = soc_usb_get_offload_dev,
-+	.put = soc_usb_put_offload_dev,
-+};
++      ti,pcm3140: Automotive, Quad-Channel, 768-kHz, Burr-Brown™ Audio ADC
++      with 106-dB SNR.
 +
-+static int snd_soc_usb_control_init(struct snd_soc_component *component)
-+{
-+	return snd_ctl_add(component->card->snd_card,
-+				snd_ctl_new1(&soc_usb_dev_ctrl, component));
-+}
++      ti,pcm5120: Automotive, stereo, 120-dB SNR, 768-kHz, low-power
++      software-controlled audio ADC.
 +
- /**
-  * snd_soc_usb_get_components_tag() - Retrieve SOC USB component tag
-  * @playback: direction of audio stream
-@@ -157,7 +218,11 @@ EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
-  */
- int snd_soc_usb_add_port(struct snd_soc_usb *usb)
- {
-+	int ret;
- 
-+	ret = snd_soc_usb_control_init(usb->component);
-+	if (ret < 0)
-+		return ret;
- 
- 	mutex_lock(&ctx_mutex);
- 	list_add_tail(&usb->list, &usb_ctx_list);
++      ti,pcm5140: Automotive, Quad-Channel, 768-kHz, Burr-Brown™ Audio ADC
++      with 120-dB SNR.
++
++      ti,pcm6120: Automotive, stereo, 123-dB SNR, 768-kHz, low-power
++      software-controlled audio ADC.
++
++      ti,pcm6140: Automotive, Quad-Channel, 768-kHz, Burr-Brown™ Audio ADC
++      with 123-dB SNR.
++
++      ti,pcm6240: Automotive 4-ch audio ADC with integrated programmable mic
++      bias, boost and input diagnostics.
++
++      ti,pcm6260: Automotive 6-ch audio ADC with integrated programmable mic
++      bias, boost and input diagnostics.
++
++      ti,pcm9211: 216-kHz Digital Audio Interface Transceiver (DIX)
++      With Stereo ADC and Routing.
++
++      ti,pcmd3140: Four-channel PDM-input to TDM or I2S output converter.
++
++      ti,pcmd3180: Eight-channel pulse-density-modulation input to TDM or
++      I2S output converter.
++
++      ti,taa5212: Low-power high-performance stereo audio ADC with 118-dB
++      dynamic range.
++
++      ti,tad5212: Low-power stereo audio DAC with 120-dB dynamic range.
++    oneOf:
++      - items:
++          - enum:
++              - ti,adc3120
++              - ti,adc5120
++              - ti,pcm3120
++              - ti,pcm5120
++              - ti,pcm6120
++          - const: ti,adc6120
++      - items:
++          - enum:
++              - ti,pcm6260
++              - ti,pcm6140
++              - ti,pcm3140
++              - ti,pcm5140
++          - const: ti,pcm6240
++      - items:
++          - const: ti,dix4192
++          - const: ti,pcm6240
++      - items:
++          - const: ti,adc6120
++          - const: ti,pcmd512x
++      - items:
++          - const: ti,pcm1690
++          - const: ti,pcm9211
++      - items:
++          - enum:
++              - ti,pcmd3180
++          - const: ti,pcmd3140
++      - items:
++          - enum:
++              - ti,taa5412
++          - const: ti,taa5212
++      - items:
++          - enum:
++              - ti,tad5412
++          - const: ti,tad5212
++      - enum:
++          - ti,pcm6240
++          - ti,pcmd3140
++          - ti,taa5212
++          - ti,tad5212
++          - ti,pcmd3180
++
++  reg:
++    description:
++      I2C address, in multiple pcmdevices case, all the i2c address
++      aggregate as one Audio Device to support multiple audio slots.
++    minItems: 1
++    maxItems: 4
++
++  reset-gpios:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      Invalid only for ti,pcm1690 because of no INT pin.
++
++  '#sound-dai-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++
++allOf:
++  - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,pcm1690
++    then:
++      properties:
++        interrupts: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,adc3120
++              - ti,adc5120
++              - ti,adc6120
++              - ti,pcm3120
++              - ti,pcm5120
++              - ti,pcm6120
++              - ti,pcmd3140
++    then:
++      properties:
++        reg:
++          maxItems: 1
++          items:
++            maximum: 0x4e
++
++additionalProperties: false
++
++examples:
++  - |
++   #include <dt-bindings/gpio/gpio.h>
++   i2c {
++     /* example for two devices with interrupt support */
++     #address-cells = <1>;
++     #size-cells = <0>;
++     pcm6240: audio-codec@48 {
++       compatible = "ti,pcm6240";
++       reg = <0x48>, /* primary-device */
++             <0x4b>; /* secondary-device */
++       #sound-dai-cells = <0>;
++       reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
++       interrupt-parent = <&gpio1>;
++       interrupts = <15>;
++     };
++   };
++  - |
++   #include <dt-bindings/gpio/gpio.h>
++   i2c {
++     /* example for one device without interrupt support*/
++     #address-cells = <1>;
++     #size-cells = <0>;
++     pcmd3180: audio-codec@4c {
++       compatible = "ti,pcmd3180";
++       reg = <0x4c>;
++       #sound-dai-cells = <0>;
++       reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
++     };
++   };
++...
+-- 
+2.34.1
+
