@@ -1,140 +1,104 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B5FDDB9;
-	Sat,  3 Feb 2024 03:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A11018AED;
+	Sat,  3 Feb 2024 08:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706930597; cv=none; b=V64ndPL+ALFTZFRK8mwWPsb5rpm+DFC8fbnOHYKfGE461mVeG0nswG5rG5CVGoA/94C7ZvajonvUrCMyvCnvD7BKZ6hb7c9x5nNfyti+/daZUBGRduL2Uzl8vNXxcnofii9iJezsPqu7aKFleb44z5PQVuz3W1JO3GEzGjK+wvo=
+	t=1706949370; cv=none; b=a8kpuYMipd5m3p3IoZzIVVKF65I/WrZKniKeNMUJM4Ov/2GoMxvis9p6os0E2KWTh8UxWKkgbIgHrjyLWfGvk3bWD74yTyG8T/IB3nt7ypQgDp2LcpfPSKH6rlZv5V1NTv+MQnHOqiGLd60/dHx89rFvGm7eB7qEEgDU0rsnciY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706930597; c=relaxed/simple;
-	bh=pl5mevhg053MSwJpfMNnevNBs7+OoCG8Dih7hF225FM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kn1EdvC6VZYCP8g+DuP5dgV8b7vAJ62IM+uJbziWKduulkeM2Z2fHcSS9EDEU5fq7uI1PGQYlXErNUfL+qFoYd4JrRQ/1EEHRkkzYuNbvZfxdRBwvN0uDkTLAaRbY0fdpqt01cgV/NTYKa+UKLiHVq6yYLj9+4LPq28KDk21lWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Pa2+uuQR; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1706949370; c=relaxed/simple;
+	bh=OebqqDe2OlNfuBtKrA2Fp5NrNdfMmgRR0lEDATDNxjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OvNOmLeVWVa3I0OTOZw5Wf16V+qKfUomnesjCi5+T0Bhgl7KGQn3p8UCOq42Upm4ICdcMO2oRPc7Gz7PvkbbH/qA/8+vIXpj5O6FEtYp2CBLqZRJqAN8hvjoZnjD9Gz+eMml4zCd2Rb3Fn46HGr3/4HHERmR5OgZnS1gFOiotKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c57KYkkV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Pa2+uuQR"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41335dwo113894;
-	Fri, 2 Feb 2024 21:05:39 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1706929539;
-	bh=VzveIJ7lnw8nPDn6FbM/pFi9om9p1gwFyoLJcQ4Xugg=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=Pa2+uuQRQqCwY36CkFfhDpyMHYEboXE5xuAiLHt5uhCGSxhIP8+GNpqeZ3rQ0M7/L
-	 fTUZbqZcV9iLEULtgl1J2hNYwMkZRcbufFEu1KBTWCkrKTiP7JJ1jjW8cGZ3ErHelF
-	 kpUUuiqxyTUtimXrj6+B+zJxx8DhlDhPs4EowGdg=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41335dFm047895
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 2 Feb 2024 21:05:39 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 2
- Feb 2024 21:05:39 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 2 Feb 2024 21:05:39 -0600
-Received: from LT5CG31242FY.dhcp.ti.com ([10.250.162.93])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 413358h7021917;
-	Fri, 2 Feb 2024 21:05:30 -0600
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <krzysztof.kozlowski@linaro.org>, <devicetree@vger.kernel.org>,
-        <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <linux-sound@vger.kernel.org>, <liam.r.girdwood@intel.com>,
-        <lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>
-CC: <kevin-lu@ti.com>, <baojun.xu@ti.com>, <v-po@ti.com>, <navada@ti.com>,
-        <perex@perex.cz>, <j-mcpherson@ti.com>,
-        <pierre-louis.bossart@linux.intel.com>, <13916275206@139.com>,
-        <mohit.chawla@ti.com>, <soyer@irl.hu>, <jkhuang3@ti.com>,
-        <tiwai@suse.de>, <pdjuandi@ti.com>, <manisha.agrawal@ti.com>,
-        <s-hari@ti.com>, <aviel@ti.com>, <hnagalla@ti.com>, <praneeth@ti.com>,
-        Shenghao Ding <shenghao-ding@ti.com>
-Subject: [PATCH v3 3/4] ASoc: PCM6240: Add compile item for PCM6240 Family driver
-Date: Sat, 3 Feb 2024 11:05:01 +0800
-Message-ID: <20240203030504.1724-3-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20240203030504.1724-1-shenghao-ding@ti.com>
-References: <20240203030504.1724-1-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c57KYkkV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86D83C433F1;
+	Sat,  3 Feb 2024 08:36:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706949369;
+	bh=OebqqDe2OlNfuBtKrA2Fp5NrNdfMmgRR0lEDATDNxjg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c57KYkkVPqqrokvDQtm1sj0j77mgbmS3lGSlsPbfDVoefIQoMSPzBEjqYlqzRHZZM
+	 3NM60BEci5Nn93/V+71Jf5PB8hV4UvKW+fcNAfB4V+ZrE0Fo/yl1jC9bTRrI0dXOLN
+	 SlKcx7VEItswRYP6THbLa4zAxTBv9vk5tFlw9wb5OQpWbkPd7LgSAFHJc+d00ddaL1
+	 26XLGnfBTdseCexgHfuKhTKvrWRwzeRGHHiKUhyA+P/gS72mXegcXVxXiSnvlsYJMs
+	 qc5isvtBauDQTI/9ajrRshRl419Ikh3wYN1e5UCkN9A2upsCqksPhYzX3cU++2j7d2
+	 qw7RRTZRHanYQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rWBVW-000000000M0-2H7G;
+	Sat, 03 Feb 2024 09:36:14 +0100
+Date: Sat, 3 Feb 2024 09:36:14 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Cc: Johan Hovold <johan+linaro@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Stable backport request (was: [PATCH v5 0/4] ASoC: qcom: volume
+ fixes and codec cleanups)
+Message-ID: <Zb36_mlapsfSLHEy@hovoldconsulting.com>
+References: <20240122181819.4038-1-johan+linaro@kernel.org>
+ <170596045583.161959.6600754837297158632.b4-ty@kernel.org>
+ <ZbjxUF2IV3A5zNw5@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZbjxUF2IV3A5zNw5@hovoldconsulting.com>
 
-PCM6240 driver implements a flexible and configurable setting for register
-and filter coefficients, to one, two or even multiple PCM6240 Family Audio
-chips.
+Hi Greg and Sasha,
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+On Tue, Jan 30, 2024 at 01:53:37PM +0100, Johan Hovold wrote:
+> On Mon, Jan 22, 2024 at 09:54:15PM +0000, Mark Brown wrote:
+> > On Mon, 22 Jan 2024 19:18:15 +0100, Johan Hovold wrote:
+> > > To reduce the risk of speaker damage the PA gain needs to be limited on
+> > > machines like the Lenovo Thinkpad X13s until we have active speaker
+> > > protection in place.
+> > > 
+> > > Limit the gain to the current default setting provided by the UCM
+> > > configuration which most user have so far been using (due to a bug in
+> > > the configuration files which prevented hardware volume control [1]).
+> > > 
+> > > [...]
+> > 
+> > Applied to
+> > 
+> >    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
+> alsa-ucm-conf 1.2.11 was released yesterday, which means that it is now
+> very urgent to get the speaker volume limitation backported to the
+> stable trees.
+> 
+> Could you please try to make sure that these fixes get to Linus this
+> week?
 
----
-Change in v3:
- - All these chips have only a portion of the codec's functionality, such
-   as ADC or DAC, and so on, but their audio performance is far superior
-   to the codec's, and cost is lower than codec, and much easier to
-   program than codec.
----
- sound/soc/codecs/Kconfig  | 10 ++++++++++
- sound/soc/codecs/Makefile |  2 ++
- 2 files changed, 12 insertions(+)
+This series (and a related headphone codec fix) were merged into Linus's
+tree yesterday.
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 59f9742e9ff4..bab0ed032b5d 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -178,6 +178,7 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_PCM5102A
- 	imply SND_SOC_PCM512x_I2C
- 	imply SND_SOC_PCM512x_SPI
-+	imply SND_SOC_PCM6240
- 	imply SND_SOC_PEB2466
- 	imply SND_SOC_RK3328
- 	imply SND_SOC_RK817
-@@ -1389,6 +1390,15 @@ config SND_SOC_PCM512x_SPI
- 	select SND_SOC_PCM512x
- 	select REGMAP_SPI
- 
-+config SND_SOC_PCM6240
-+	tristate "Texas Instruments PCM6240 Family Audio chips based on I2C"
-+	depends on I2C
-+	help
-+	  Enable support for Texas Instruments PCM6240 Family Audio chips.
-+	  Note the PCM6240 driver implements a flexible and configurable
-+	  setting for register and filter coefficients, to one, two or
-+	  even multiple PCM6240 Family Audio chips.
-+
- config SND_SOC_PEB2466
- 	tristate "Infineon PEB2466 quad PCM codec"
- 	depends on SPI
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index f53baa2b9565..c2ae573b62dd 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -201,6 +201,7 @@ snd-soc-pcm5102a-objs := pcm5102a.o
- snd-soc-pcm512x-objs := pcm512x.o
- snd-soc-pcm512x-i2c-objs := pcm512x-i2c.o
- snd-soc-pcm512x-spi-objs := pcm512x-spi.o
-+snd-soc-pcm6240-objs := pcm6240.o
- snd-soc-peb2466-objs := peb2466.o
- snd-soc-rk3328-objs := rk3328_codec.o
- snd-soc-rk817-objs := rk817_codec.o
-@@ -586,6 +587,7 @@ obj-$(CONFIG_SND_SOC_PCM5102A)	+= snd-soc-pcm5102a.o
- obj-$(CONFIG_SND_SOC_PCM512x)	+= snd-soc-pcm512x.o
- obj-$(CONFIG_SND_SOC_PCM512x_I2C)	+= snd-soc-pcm512x-i2c.o
- obj-$(CONFIG_SND_SOC_PCM512x_SPI)	+= snd-soc-pcm512x-spi.o
-+obj-$(CONFIG_SND_SOC_PCM6240)	+= snd-soc-pcm6240.o
- obj-$(CONFIG_SND_SOC_PEB2466)	+= snd-soc-peb2466.o
- obj-$(CONFIG_SND_SOC_RK3328)	+= snd-soc-rk3328.o
- obj-$(CONFIG_SND_SOC_RK817)	+= snd-soc-rk817.o
--- 
-2.34.1
+I saw that the 6.7.4 stable patches were sent out for review over night,
+but could it be possible to squeeze in also the following four fixes in
+6.7.4 (and 6.6.16)?
 
+	c481016bb4f8 ASoC: qcom: sc8280xp: limit speaker volumes
+	4d0e8bdfa4a5 ASoC: codecs: wcd938x: fix headphones volume controls
+	46188db080bd ASoC: codecs: lpass-wsa-macro: fix compander volume hack
+	b53cc6144a3f ASoC: codecs: wsa883x: fix PA volume control
+
+These are needed for proper volume control and, importantly, to prevent
+users of the Lenovo ThinkPad X13s from potentially damaging their
+speakers when the distros ship the latest UCM configuration files which
+were released on Monday.
+
+Johan
