@@ -1,63 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614838061F;
-	Fri,  2 Feb 2024 21:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCBE63CB;
+	Sat,  3 Feb 2024 02:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706907621; cv=none; b=iwlzlnTSexftHYLZxaFFdL42Rf+g/mni0BqdOFTTudOmpQzlO5U607SnmYiUl+8lOvs3p4Wx5VNwkxXg4aIbIdb8K6w2I2Us7cV7+bsrHXcISlTpzzzl5rp4FaMbICJV5W0v9MMnxiB1spPUwubKv2Jrt7p8+g24T/98QmNGQ2Q=
+	t=1706927867; cv=none; b=VoC2po23mSiWfizB1aEQl7jEAU4END7kgJLczRd/wbE106oM28wqFbtokyQ3os7l7aqYCiY9KXBW1vuyF8ia7As0KSd/mWF9DHev2kjh2Uucbi1Qws/mmmqG/1F6SWyirDdTgg19Du3Zm+hE3+53cRyBIMun8YrHF2evzdlRsBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706907621; c=relaxed/simple;
-	bh=OQ5nbFiEtivjhJxUZSfz9gQDcLZLItn5nCWd8cF0eD4=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=UpU1+q92dd5cY9KB2CtW5U38Wr9myhz6D3lDf6ywsryTuzyXA6NxNUL8IGzdn1WInF9sM3O8dwtmnVwHOvxUbZrfhr9OBUBnchpn2ETCvZIUOBGTX8gP/Soaxd7T52P3CvX+0H+5hyWykaXkwu07SX2imzdx6WFvreUz0Od6iUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KrH23P0m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706927867; c=relaxed/simple;
+	bh=/ctydeO9BP9IDNCKzOW84UaD1pWVBJmsNl/Vixk3Z5M=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gOyfGnsoBARHWl5CI1Lm54GA98zSdTWHjhazycGmTbzYzwh95BkpoVWp5S+a93jtpZGV7zkOmAzsUgchpTxf7bBH1p+sbUQ5aOZfPaPXuIFhNSrRWnkoJ6Q1paQN/z8xaWAFqJ3gD1y6jHd657jOGWOkK+XKBdDYwuDcwco/2KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TksxWt9w; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KrH23P0m"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 42E54C43394;
-	Fri,  2 Feb 2024 21:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706907621;
-	bh=OQ5nbFiEtivjhJxUZSfz9gQDcLZLItn5nCWd8cF0eD4=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=KrH23P0mKqLVgIzZYi1tBCO3+1LuzgOAiUl1pk0kIp+6KusMk/bUp2rAsqnEG0vhY
-	 ZW9ChkNI97h5fK1hLJuElAe+Q5Hb9/ZDU+gkbBgIsfchs/Wd0yk/Jw336jnv20kqUC
-	 ihbNZqjkQZL7wAjuSG7Yij95w+jl24+/vsCdetMbN1gw238HPWkxsx/YugXe5ZFl+3
-	 1TmAj5Ag2zY8c0tUhdl8F9/gR71eXBmC69XbUyYu7TfyVDHjQBYqJ3PMLC8l5mjTGq
-	 GTETkdKZART4MqaUQPcS7D/Xj6nMJ/5F7s/eJFJICBpwAXPrtnF11HmDUmd2vu6syo
-	 /KB5GRmLq16tQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2D103C04E27;
-	Fri,  2 Feb 2024 21:00:21 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.8-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <875xz7e0fs.wl-tiwai@suse.de>
-References: <875xz7e0fs.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <875xz7e0fs.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8-rc3
-X-PR-Tracked-Commit-Id: d4ea2bd1bb502c54380cc44a4130660494679bb8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 01370ceb2ae66ffc1b35dd4907bf1f6009bac200
-Message-Id: <170690762117.8980.12652723445190810749.pr-tracker-bot@kernel.org>
-Date: Fri, 02 Feb 2024 21:00:21 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TksxWt9w"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4131vpjH015339;
+	Sat, 3 Feb 2024 02:37:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=2sOcjxKmnstL/5ftZf58
+	41vds3YmEI4sRJLRwbFI4Jw=; b=TksxWt9wD+hoE1wZM0dYR9Mip7EhGUvIUp0I
+	H3YzlTxhKDLq1Ayl0YbckWnl52CBK4mJFQGq/svusRBpOoCcqongn1y5QXZ2HgTx
+	L3dFxmD2rvVi3Q2TeGYemG/ITGYW6JqeJ1Lclz70icWi9ugkmup9OvuXBHOfZEDi
+	fg5IT1Ne2OJgpyH4y16C4VYijU4G10OTqMkwt7WOM0Ri5ohBxyNAaDo74wxgkKPu
+	6zVM7E2Gz8WSH79zd4KPSQhsUvKPieh25ZO+kSkT6Z8T3Q3tA0zNGPK5pe6RMBC6
+	o+lvVXBJk9vxNAUzBd9ttqa5U92WQ3R5GjBJHTqDPSjS+HuKbA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w1ax4849a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 03 Feb 2024 02:37:18 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bHsY008154
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 3 Feb 2024 02:37:17 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 2 Feb 2024 18:37:17 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v13 01/53] xhci: fix possible null pointer dereference at secondary interrupter removal
+Date: Fri, 2 Feb 2024 18:35:53 -0800
+Message-ID: <20240203023645.31105-2-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: nvPhaEaUOS4conh-P7-RduoJTWJsxWOX
+X-Proofpoint-GUID: nvPhaEaUOS4conh-P7-RduoJTWJsxWOX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_16,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402030015
 
-The pull request you sent on Fri, 02 Feb 2024 09:26:47 +0100:
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8-rc3
+Don't try to remove a secondary interrupter that is known to be invalid.
+Also check if the interrupter is valid inside the spinlock that protects
+the array of interrupters.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/01370ceb2ae66ffc1b35dd4907bf1f6009bac200
+Found by smatch static checker
 
-Thank you!
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/linux-usb/ffaa0a1b-5984-4a1f-bfd3-9184630a97b9@moroto.mountain/
+Fixes: c99b38c41234 ("xhci: add support to allocate several interrupters")
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20240125152737.2983959-2-mathias.nyman@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-mem.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 4460fa7e9fab..d00d4d937236 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1861,14 +1861,14 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	unsigned int intr_num;
+ 
++	spin_lock_irq(&xhci->lock);
++
+ 	/* interrupter 0 is primary interrupter, don't touch it */
+-	if (!ir || !ir->intr_num || ir->intr_num >= xhci->max_interrupters)
++	if (!ir || !ir->intr_num || ir->intr_num >= xhci->max_interrupters) {
+ 		xhci_dbg(xhci, "Invalid secondary interrupter, can't remove\n");
+-
+-	/* fixme, should we check xhci->interrupter[intr_num] == ir */
+-	/* fixme locking */
+-
+-	spin_lock_irq(&xhci->lock);
++		spin_unlock_irq(&xhci->lock);
++		return;
++	}
+ 
+ 	intr_num = ir->intr_num;
+ 
