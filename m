@@ -1,91 +1,126 @@
-Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com (mailrelay2-1.pub.mailoutpod2-cph3.one.com [46.30.211.177])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DAD250E0
-	for <linux-sound@vger.kernel.org>; Sun,  4 Feb 2024 19:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.211.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C38025558;
+	Sun,  4 Feb 2024 20:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707074567; cv=none; b=MsuIqXzNQBghkSHHBU8iDbFf1/wbfC5LfU/CR6Dp/ngmWwhZANJpG3bPMqZ0UZjWzo7TmEhRTlcy7+lZ30rVFA20zWpGST4d19koiNhU5hJt6RWuM6QzCKSqzv2Ifp2am3qrPJKg9gjg/v5PRar+sxxvZLhSCSmQHWf8WqFFMbU=
+	t=1707077209; cv=none; b=uk5LMuteNNAlhFLfZcnp/zLA1D00O9v9MxetZiGslD0r+fhNWa9fB4jG702MRb7ECRKCYiUbR3OuF+MLaPEeRe2I/zptHy24nUtKVkfnAXEBrosc2Ag1FUn9Ln/N4V56RQU0hE6bkFfn8g3Ublwr+n3h5ZrASxFFpuFikzklo6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707074567; c=relaxed/simple;
-	bh=BhS7llerz0XxSfqMKsPaxpwBnH6uQCzYexdrBKauA7c=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lv4vd2sgTWK4cZWyfbBkbUrS91a/oziIObDthUXKxEj+OOzzjOW/xGdApH7IljR3EMKrj5CzUKK5crn4tl2lT2g+G0pYLJfQBvWDm34ozq4vvKpcz6Ci5RztpJghOfwrQkAjdtGSmvhLu4Cc3ZTXveOa+7KYX1ZhyUaCjHEwF3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org; spf=none smtp.mailfrom=ravnborg.org; dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=H64FwgkV; dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=80V/cH2H; arc=none smtp.client-ip=46.30.211.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="H64FwgkV";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="80V/cH2H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:to:from:
-	 date:from;
-	bh=fpJe+ZWxuYGRqiTWDJhGrptuD0C5OKl3hDjFax0lIjw=;
-	b=H64FwgkV5WZ4jw3sVS4I3jHDmdQheACk3uS6z+GzDDnTxABipZMyPZqiiDkP95NduZDXM5Yv/53Yo
-	 1I1QRB/kF8RIohD6zt2MgYsB0H0mT5fu37fHJfGFZejhH8Kc6EYpqtD+9jD1J8ZBYKC0wkUjPB3kZz
-	 eyJpZHIOUTb1s9oYe+tOYOWjgSCkx7KSe8ox3F3ct2CYEiMlwE1uJq+doULNvx43AllqL+GeKqUnLT
-	 2b6l0cXMDNCN024IsspAijbf/ZEfs6nXpAQPFFkosmOGKsyMTQKp1WI5m1mqnNTHNiRdTEtc+u6xXN
-	 Arn8bHYgBZopHj8qCQZxPbRBFUs5EHQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:to:from:
-	 date:from;
-	bh=fpJe+ZWxuYGRqiTWDJhGrptuD0C5OKl3hDjFax0lIjw=;
-	b=80V/cH2HNCxHVLy7b/Oi7n46poVf24quLfcg0PY17uNn3UYE7AtbM/m5JYa7O28gsIXzj9K8gf0D4
-	 IuBv35bAg==
-X-HalOne-ID: 9c002278-c392-11ee-980a-b520e3c7e1da
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay2.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id 9c002278-c392-11ee-980a-b520e3c7e1da;
-	Sun, 04 Feb 2024 19:21:35 +0000 (UTC)
-Date: Sun, 4 Feb 2024 20:21:34 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "David S. Miller" <davem@davemloft.net>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>, Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
-Message-ID: <20240204192134.GB896678@ravnborg.org>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+	s=arc-20240116; t=1707077209; c=relaxed/simple;
+	bh=tpbjTw4X23EhfXeKly94uyy0NFWMMOuT2ePsQRoyPa0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=ZgslfUj0tW8w1rOP61nEEo1di2cuBRSBjF6OCimdXqHQptFSZyAsBG/3qz9aZLKCBKhXUjIq/YNfg9GIm9gTaYuLyAQOro49rPP72yFmHaNzmRciL+M97/SvC//zq4q9ZigLXjlk8QmRItzzXeHczAIW+6sE+MPbAvkMPUPm77w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b68916.dsl.pool.telekom.hu [::ffff:81.182.137.22])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 000000000007429F.0000000065BFED1F.001A84E5; Sun, 04 Feb 2024 21:01:35 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+  Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>,
+  stable@vger.kernel.org
+Subject: [PATCH] ASoC: tas2781: add module parameter to tascodec_init()
+Date: Sun,  4 Feb 2024 21:01:17 +0100
+Message-ID: <118dad922cef50525e5aab09badef2fa0eb796e5.1707076603.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Hi Andreas.
+The tascodec_init() of the snd-soc-tas2781-comlib module is called from
+snd-soc-tas2781-i2c and snd-hda-scodec-tas2781-i2c modules. It calls
+request_firmware_nowait() with parameter THIS_MODULE and a cont/callback
+from the latter modules.
 
-Congratulation being the new sparc co-maintainer!
+The latter modules can be removed while their callbacks are running,
+resulting in a general protection failure.
 
-On Tue, Dec 19, 2023 at 11:03:05PM +0100, Sam Ravnborg via B4 Relay wrote:
-> This is the second attempt to sunset sun4m and sun4d.
-> See [1] for the inital attempt.
+Add module parameter to tascodec_init() so request_firmware_nowait() can
+be called with the module of the callback.
 
-I have now verified that the kernel can boot with qemu.
-There was a bug in the uart driver that is fixed and upstream, and then
-using the instructions you provided I could use buildroot with an
-external kernel tree to get a booting kernel.
+Fixes: ef3bcde75d06 ("ASoC: tas2781: Add tas2781 driver")
+CC: stable@vger.kernel.org
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+---
+ include/sound/tas2781.h           | 1 +
+ sound/pci/hda/tas2781_hda_i2c.c   | 2 +-
+ sound/soc/codecs/tas2781-comlib.c | 3 ++-
+ sound/soc/codecs/tas2781-i2c.c    | 2 +-
+ 4 files changed, 5 insertions(+), 3 deletions(-)
 
-Assuming you agree with the patchset how do you want me to move forward?
-I can rebase on top of the latest -rc and collect acks if that helps.
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index b00d65417c31..9aff384941de 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -142,6 +142,7 @@ struct tasdevice_priv {
+ 
+ void tas2781_reset(struct tasdevice_priv *tas_dev);
+ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
++	struct module *module,
+ 	void (*cont)(const struct firmware *fw, void *context));
+ struct tasdevice_priv *tasdevice_kzalloc(struct i2c_client *i2c);
+ int tasdevice_init(struct tasdevice_priv *tas_priv);
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 2dd809de62e5..1bfb00102a77 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -710,7 +710,7 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
+ 
+ 	strscpy(comps->name, dev_name(dev), sizeof(comps->name));
+ 
+-	ret = tascodec_init(tas_hda->priv, codec, tasdev_fw_ready);
++	ret = tascodec_init(tas_hda->priv, codec, THIS_MODULE, tasdev_fw_ready);
+ 	if (!ret)
+ 		comps->playback_hook = tas2781_hda_playback_hook;
+ 
+diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
+index b7e56ceb1acf..5d0e5348b361 100644
+--- a/sound/soc/codecs/tas2781-comlib.c
++++ b/sound/soc/codecs/tas2781-comlib.c
+@@ -267,6 +267,7 @@ void tas2781_reset(struct tasdevice_priv *tas_dev)
+ EXPORT_SYMBOL_GPL(tas2781_reset);
+ 
+ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
++	struct module *module,
+ 	void (*cont)(const struct firmware *fw, void *context))
+ {
+ 	int ret = 0;
+@@ -280,7 +281,7 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
+ 		tas_priv->dev_name, tas_priv->ndev);
+ 	crc8_populate_msb(tas_priv->crc8_lkp_tbl, TASDEVICE_CRC8_POLYNOMIAL);
+ 	tas_priv->codec = codec;
+-	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
++	ret = request_firmware_nowait(module, FW_ACTION_UEVENT,
+ 		tas_priv->rca_binaryname, tas_priv->dev, GFP_KERNEL, tas_priv,
+ 		cont);
+ 	if (ret)
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 32913bd1a623..b5abff230e43 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -566,7 +566,7 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+ {
+ 	struct tasdevice_priv *tas_priv = snd_soc_component_get_drvdata(codec);
+ 
+-	return tascodec_init(tas_priv, codec, tasdevice_fw_ready);
++	return tascodec_init(tas_priv, codec, THIS_MODULE, tasdevice_fw_ready);
+ }
+ 
+ static void tasdevice_deinit(void *context)
 
-Arnd promised to pick up the patches until you got a git tree up,
-but I do not expect Arnd to pick up anything unless you have acked or
-reviewed said patch(es).
+base-commit: d4ea2bd1bb502c54380cc44a4130660494679bb8
+-- 
+2.43.0
 
-If I rebase the patch-set I will likely include a few bug-fix patches that
-was prepared in the meantime.
-I can also send them as a separate series, no worries.
-
-	Sam
