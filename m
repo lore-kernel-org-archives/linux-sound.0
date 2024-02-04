@@ -1,126 +1,85 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C38025558;
-	Sun,  4 Feb 2024 20:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328DC2C1BA;
+	Sun,  4 Feb 2024 21:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707077209; cv=none; b=uk5LMuteNNAlhFLfZcnp/zLA1D00O9v9MxetZiGslD0r+fhNWa9fB4jG702MRb7ECRKCYiUbR3OuF+MLaPEeRe2I/zptHy24nUtKVkfnAXEBrosc2Ag1FUn9Ln/N4V56RQU0hE6bkFfn8g3Ublwr+n3h5ZrASxFFpuFikzklo6o=
+	t=1707081701; cv=none; b=ixvyK+AmiBBZ+Ao5vaYdkCKYG/BdVien/aYBjs2HRG0/mCm11iohbuxNzXhbij18xdIRJIIsMn8GS+QL9sZbD0ibPd+dR1AAHrD1LNKEW0/fbUOrdnckAAmU+4ERirWavvRWywl4Yy3mJbMZ+Y4uOtmpqHNaI7bgWk8asJd81zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707077209; c=relaxed/simple;
-	bh=tpbjTw4X23EhfXeKly94uyy0NFWMMOuT2ePsQRoyPa0=;
-	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=ZgslfUj0tW8w1rOP61nEEo1di2cuBRSBjF6OCimdXqHQptFSZyAsBG/3qz9aZLKCBKhXUjIq/YNfg9GIm9gTaYuLyAQOro49rPP72yFmHaNzmRciL+M97/SvC//zq4q9ZigLXjlk8QmRItzzXeHczAIW+6sE+MPbAvkMPUPm77w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b68916.dsl.pool.telekom.hu [::ffff:81.182.137.22])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 000000000007429F.0000000065BFED1F.001A84E5; Sun, 04 Feb 2024 21:01:35 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-  Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>,
-  stable@vger.kernel.org
-Subject: [PATCH] ASoC: tas2781: add module parameter to tascodec_init()
-Date: Sun,  4 Feb 2024 21:01:17 +0100
-Message-ID: <118dad922cef50525e5aab09badef2fa0eb796e5.1707076603.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1707081701; c=relaxed/simple;
+	bh=46lfg4YvExRXyYOJW3a3RfaHnPfPgRlFNivzHCniyQY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sWoUSgCPKzUg7iCmKQ9jXTjgI1K5UgL+68USKMCqG6x64uhxgGnH87OVkPaFQayLmKBnyeVtXCvEcGI7CArMWrovRTO2KFiNyGxUv0EnhVc8LmVouX073SKSJddyWgHvT1spixkl663olCgbn1cRl2UxrJ8qz3zQPrIo+l29QWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NhbfXbv7; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NhbfXbv7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AA86C433F1;
+	Sun,  4 Feb 2024 21:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707081700;
+	bh=46lfg4YvExRXyYOJW3a3RfaHnPfPgRlFNivzHCniyQY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NhbfXbv7OsKRFXgM/C8i8RC/iRkajLh1NfWDxS3lNten1YhaVI3w4gSjrZRf61r0g
+	 9TLWQV6hTJzy10YWjaChJ038FNORS35+P8nlSFOsUgPiqH14VU166lPWjmhshP1dbJ
+	 XXA0zT+E4nPGXZYgAdkq9HUOZ4Ku+8SvxGLRwVzGykefwZd8cpS1tVGlrI83OC6Xv8
+	 ookMAUO8Q0ormhwNYtEteJuT7o/rFjxlPxnKEnKa5WgR73ipwTRhGpPjYxuE8eLP96
+	 1QC3IhWQIV88pnAo3apgDB2V2Yid+VyQMbHmBzKnXJ2kC8fZM/GUsBdvYCb83uHZPM
+	 XfP5wYxHmy7LA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: core: fix unit test dependencies
+Date: Sun,  4 Feb 2024 22:21:29 +0100
+Message-Id: <20240204212135.3158722-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The tascodec_init() of the snd-soc-tas2781-comlib module is called from
-snd-soc-tas2781-i2c and snd-hda-scodec-tas2781-i2c modules. It calls
-request_firmware_nowait() with parameter THIS_MODULE and a cont/callback
-from the latter modules.
+From: Arnd Bergmann <arnd@arndb.de>
 
-The latter modules can be removed while their callbacks are running,
-resulting in a general protection failure.
+The Kunit tests fail to link when PCM support is disabled:
 
-Add module parameter to tascodec_init() so request_firmware_nowait() can
-be called with the module of the callback.
+aarch64-linux-ld: sound/core/sound_kunit.o: in function `test_pcm_format_name':
+sound_kunit.c:(.text+0x4c): undefined reference to `snd_pcm_format_name'
+aarch64-linux-ld: sound_kunit.c:(.text+0x12c): undefined reference to `snd_pcm_format_name'
+aarch64-linux-ld: sound/core/sound_kunit.o: in function `_test_fill_silence':
+sound_kunit.c:(.text+0x284): undefined reference to `snd_pcm_format_set_silence'
+aarch64-linux-ld: sound/core/sound_kunit.o: in function `test_format_signed':
+sound_kunit.c:(.text+0x400): undefined reference to `snd_pcm_format_signed'
+aarch64-linux-ld: sound_kunit.c:(.text+0x470): undefined reference to `snd_pcm_format_unsigned'
+aarch64-linux-ld: sound/core/sound_kunit.o: in function `test_format_width':
+sound_kunit.c:(.text+0x64c): undefined reference to `snd_pcm_format_width'
+aarch64-linux-ld: sound_kunit.c:(.text+0x71c): undefined reference to `snd_pcm_format_width'
 
-Fixes: ef3bcde75d06 ("ASoC: tas2781: Add tas2781 driver")
-CC: stable@vger.kernel.org
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
+Add the appropriate dependencies.
+
+Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- include/sound/tas2781.h           | 1 +
- sound/pci/hda/tas2781_hda_i2c.c   | 2 +-
- sound/soc/codecs/tas2781-comlib.c | 3 ++-
- sound/soc/codecs/tas2781-i2c.c    | 2 +-
- 4 files changed, 5 insertions(+), 3 deletions(-)
+ sound/core/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index b00d65417c31..9aff384941de 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -142,6 +142,7 @@ struct tasdevice_priv {
- 
- void tas2781_reset(struct tasdevice_priv *tas_dev);
- int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
-+	struct module *module,
- 	void (*cont)(const struct firmware *fw, void *context));
- struct tasdevice_priv *tasdevice_kzalloc(struct i2c_client *i2c);
- int tasdevice_init(struct tasdevice_priv *tas_priv);
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 2dd809de62e5..1bfb00102a77 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -710,7 +710,7 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
- 
- 	strscpy(comps->name, dev_name(dev), sizeof(comps->name));
- 
--	ret = tascodec_init(tas_hda->priv, codec, tasdev_fw_ready);
-+	ret = tascodec_init(tas_hda->priv, codec, THIS_MODULE, tasdev_fw_ready);
- 	if (!ret)
- 		comps->playback_hook = tas2781_hda_playback_hook;
- 
-diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
-index b7e56ceb1acf..5d0e5348b361 100644
---- a/sound/soc/codecs/tas2781-comlib.c
-+++ b/sound/soc/codecs/tas2781-comlib.c
-@@ -267,6 +267,7 @@ void tas2781_reset(struct tasdevice_priv *tas_dev)
- EXPORT_SYMBOL_GPL(tas2781_reset);
- 
- int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
-+	struct module *module,
- 	void (*cont)(const struct firmware *fw, void *context))
- {
- 	int ret = 0;
-@@ -280,7 +281,7 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
- 		tas_priv->dev_name, tas_priv->ndev);
- 	crc8_populate_msb(tas_priv->crc8_lkp_tbl, TASDEVICE_CRC8_POLYNOMIAL);
- 	tas_priv->codec = codec;
--	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
-+	ret = request_firmware_nowait(module, FW_ACTION_UEVENT,
- 		tas_priv->rca_binaryname, tas_priv->dev, GFP_KERNEL, tas_priv,
- 		cont);
- 	if (ret)
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index 32913bd1a623..b5abff230e43 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -566,7 +566,7 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
- {
- 	struct tasdevice_priv *tas_priv = snd_soc_component_get_drvdata(codec);
- 
--	return tascodec_init(tas_priv, codec, tasdevice_fw_ready);
-+	return tascodec_init(tas_priv, codec, THIS_MODULE, tasdevice_fw_ready);
- }
- 
- static void tasdevice_deinit(void *context)
-
-base-commit: d4ea2bd1bb502c54380cc44a4130660494679bb8
+diff --git a/sound/core/Kconfig b/sound/core/Kconfig
+index 664c6ee2b5a1..9a44f259ccca 100644
+--- a/sound/core/Kconfig
++++ b/sound/core/Kconfig
+@@ -42,6 +42,7 @@ config SND_UMP_LEGACY_RAWMIDI
+ config SND_CORE_TEST
+ 	tristate "Sound core KUnit test"
+ 	depends on KUNIT
++	depends on SND_PCM
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  This options enables the sound core functions KUnit test.
 -- 
-2.43.0
+2.39.2
 
