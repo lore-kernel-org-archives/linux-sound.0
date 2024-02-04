@@ -1,82 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA2E16423;
-	Sun,  4 Feb 2024 09:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5614D16419;
+	Sun,  4 Feb 2024 09:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707037358; cv=none; b=iBGbEKwhxzfoNB9ElC+F7FpT+/raovmVpYa98pQmZLMWS6Z4OtF1IDYow0y+ryvjizz1k4nWMLzi6IV7vbBHTj3lMDu+ZD7ui6HxnFZoqvJS5KY4AxMarwTDrInl61C1nxwkiYkBkisdl1amYStJqHmijZIU0H/e73FwKE6jKKI=
+	t=1707037511; cv=none; b=enC9IrA6GdT3NvQKhE4eLY1pcnB4VqiyQoeND/vedyiogTfx0M2FL4dk3x9QxHdaq0cfD01wZPTWHHCKQhNB599CQF5XPXObrAqWULV4IEyoR21oiwWUM7PwqyNEWJRU5rGuO8Y694HKnf5blf//CrgzToX6wBa9nulDhxkE/aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707037358; c=relaxed/simple;
-	bh=5ptrkBTCp9PnqC2wnOM4MZCSA/1n9Rx4gG6x/LT81BM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UK+vFTegNhGXpheQ9A9T46U0cLvLn8TNsfC/nNFZCnAYpywBCtPwtxIOP39uev1Hl3rY5uznqdctcAV3Mneq3e+usnpIhR9lVJMWJ0ztvJoxHFXj5FlUALtaQ08fbc4LUGsx0T8GGH8qB1u5/Zo9smYXx0JLRV+bvBHBhylMH34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d4fBkaNl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707037511; c=relaxed/simple;
+	bh=PpMQUkIvbUJJcD9sjioO5DzOWwA59EhQZWArD7QiRFU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pgLuhzc0rPKJHHCAF1HTRh7cY70UrYCgX+KDJT9nQFrYCgw5LPeXrY7700yvnRU+2QAzoW3ePChA75tYVaKdS7yWCs7A3vn8jN7RD2ivx16hJi6MVitVKGDInZuEIJeDb+8rK4ChnZTUMdHbzNLVBaVrv8/2V/22HNzU/zFmpaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1PgbuxE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d4fBkaNl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 889FEC433C7;
-	Sun,  4 Feb 2024 09:02:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1PgbuxE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD14EC43394;
+	Sun,  4 Feb 2024 09:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707037358;
-	bh=5ptrkBTCp9PnqC2wnOM4MZCSA/1n9Rx4gG6x/LT81BM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=d4fBkaNlmIohjQOfFjusKff/PEusCcpJGH4Pd9FZFLEzEFGr3MKukgVrB6eQxQw5n
-	 pvm+v6xWWNV0ApHHp+p7URCckBbDffgZ86nkgmkYrRnUHTMgBY0y6hnxdJrYqbz6bL
-	 N9hp2dlf+9gucV3l6d+361qg2AsFpIUlzExJLeOKPbpiEL5w1Y0OThGn4Gk29zgsvA
-	 FYVvVtUllMhPMLe9U9nii0S0saPFy5Ztx3d/Zcdp4G/8vQbvGG8IPq9ibBZmqiwU2J
-	 Lr0T169FSQ9rEtybalEfImD5Ku3gZKvTODv3IuYUxOud8thWaZIgz1ZKo/pvjTN6jd
-	 ws52zUppuKVcg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	linux-arm-kernel@lists.infradead.org,
-	Mark Brown <broonie@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] sound: remove duplicated CONFIG_SND_PXA2XX_AC97 entry
-Date: Sun,  4 Feb 2024 18:02:23 +0900
-Message-Id: <20240204090223.37621-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1707037510;
+	bh=PpMQUkIvbUJJcD9sjioO5DzOWwA59EhQZWArD7QiRFU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=e1PgbuxERyiKjDKbKAAYo13KkOdHnlPRROPXQbgTP/wS/f6quvdJvwyBZ2ievdBJR
+	 ppw5HPP3CozHpWNN7U3nOI6x58XcUg9LNm2Qzem2aASPMnF22SnW+zcimytYz3TQj/
+	 0UdXPd3Z6B3G0kADMe96eA48w1k+UNNZUHPUdUmQ+43ZDFL/Mej+GIr+u/vAO/QDeg
+	 GrblHiv86bYTvKB8vrgAFJ5h6DLf2P4vICsEqq5JEkByTpoCIwCVJqsIXvRUecrRiK
+	 GHzWwXfDxHbzFThMffaCyMGuA7Oyg3XE0XNsIyZgmrjHN+mr9MzosXPPW9WNenxc4S
+	 gTL7T5mjVt6PA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5114cd44fdbso337658e87.2;
+        Sun, 04 Feb 2024 01:05:10 -0800 (PST)
+X-Gm-Message-State: AOJu0YwVgvqP7KMaRX98GlOGklIrNGKIBwpOZPCPouebyQQN+4CUn4YG
+	Y7F93tY+IzHvLCojuaXA9u1eOwIRzCgMD9jPqu9bHEcMGCpC/6ih0UUn/8RhkL567fO09ViVU/6
+	ASqtWIFRG8gOyJ3H7P1r8WWTxfWg=
+X-Google-Smtp-Source: AGHT+IFUbcG1fcbBl/y42lfmxlF6FQBVFmx5ngxsoX0yGzVUghsuPZs0hTJQOr93QQPT8lKlhygq79ZOF5Ptk6CIySs=
+X-Received: by 2002:a05:6512:522:b0:50e:76cd:f3f with SMTP id
+ o2-20020a056512052200b0050e76cd0f3fmr6722479lfc.54.1707037509338; Sun, 04 Feb
+ 2024 01:05:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240204090223.37621-1-masahiroy@kernel.org>
+In-Reply-To: <20240204090223.37621-1-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 4 Feb 2024 18:04:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQExdrSmucgzj8UHcgvXjKjdLqkiww+cuUN6EBzkJAy3w@mail.gmail.com>
+Message-ID: <CAK7LNAQExdrSmucgzj8UHcgvXjKjdLqkiww+cuUN6EBzkJAy3w@mail.gmail.com>
+Subject: Re: [PATCH] sound: remove duplicated CONFIG_SND_PXA2XX_AC97 entry
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, linux-arm-kernel@lists.infradead.org, 
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-'config SND_PXA2XX_AC97' is already present in sound/arm/Kconfig with
-a prompt.
+Maybe, the patch subject "ASoC: pxa:" might be better than "sound:"
+so it matches the change history in this directory.
 
-Commit 734c2d4bb7cf ("[ALSA] ASoC pxa2xx build support") redundantly
-added the second one to sound/soc/pxa/Kconfig.
 
-Remove it.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+On Sun, Feb 4, 2024 at 6:02=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> 'config SND_PXA2XX_AC97' is already present in sound/arm/Kconfig with
+> a prompt.
+>
+> Commit 734c2d4bb7cf ("[ALSA] ASoC pxa2xx build support") redundantly
+> added the second one to sound/soc/pxa/Kconfig.
+>
+> Remove it.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  sound/soc/pxa/Kconfig | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/sound/soc/pxa/Kconfig b/sound/soc/pxa/Kconfig
+> index f03c74809324..e05d6ce4c8fa 100644
+> --- a/sound/soc/pxa/Kconfig
+> +++ b/sound/soc/pxa/Kconfig
+> @@ -8,9 +8,6 @@ config SND_PXA2XX_SOC
+>           the PXA2xx AC97, I2S or SSP interface. You will also need
+>           to select the audio interfaces to support below.
+>
+> -config SND_PXA2XX_AC97
+> -       tristate
+> -
+>  config SND_PXA2XX_SOC_AC97
+>         tristate "SoC AC97 support for PXA2xx"
+>         depends on SND_PXA2XX_SOC
+> --
+> 2.40.1
+>
 
- sound/soc/pxa/Kconfig | 3 ---
- 1 file changed, 3 deletions(-)
 
-diff --git a/sound/soc/pxa/Kconfig b/sound/soc/pxa/Kconfig
-index f03c74809324..e05d6ce4c8fa 100644
---- a/sound/soc/pxa/Kconfig
-+++ b/sound/soc/pxa/Kconfig
-@@ -8,9 +8,6 @@ config SND_PXA2XX_SOC
- 	  the PXA2xx AC97, I2S or SSP interface. You will also need
- 	  to select the audio interfaces to support below.
- 
--config SND_PXA2XX_AC97
--	tristate
--
- config SND_PXA2XX_SOC_AC97
- 	tristate "SoC AC97 support for PXA2xx"
- 	depends on SND_PXA2XX_SOC
--- 
-2.40.1
-
+--=20
+Best Regards
+Masahiro Yamada
