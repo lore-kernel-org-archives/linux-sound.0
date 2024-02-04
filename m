@@ -1,289 +1,112 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m6017.netease.com (mail-m6017.netease.com [210.79.60.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728FD10A12
-	for <linux-sound@vger.kernel.org>; Sat,  3 Feb 2024 20:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8240C6FA8;
+	Sun,  4 Feb 2024 06:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.79.60.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706992994; cv=none; b=CmueB1NBj04iCgnwPWPrBFjNG8cslh/bzrrDlqLs+8FuPHIu8UrDxJ00Fp/bpzo6BSh2DBv0TmOMbqkz0aHVs0uOTgszKMtC93fDchBcwgqAmf9Lk+1jUteirx8s83Dt+2VxfX/68Yo2mlL+10G1HhxPKgETYew97Ebm4ERrrow=
+	t=1707027146; cv=none; b=PNwVNs/t9L/nklrb3UCwxCTWQm0m54A+YPUZkXy+NTCISzLE3YMfnFgdtUvkOX9onq2Lm8kslZDH0lZlOxnY2CE+U8BsxfzbaqLBHQGoW5Q4uQLv3SxOb+GnzCAXB38blTTmvtkmLQ5HQ1+VTBzWuc14wgGUtMwoJiTe+iQ51X4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706992994; c=relaxed/simple;
-	bh=2lrfPDCqSS7NAJwXBEvAR94g/4G427g05mpape2ibPY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=K/l/4vM1Qsi0pDGRTGt8x6J5E4U6A2z/VFiP9S2GXwnE4CTaFxDOfCDkNluIKyhpNn7tL+L3/yGGjy/G3quXJaH3IphCbXwGPfluQqIgHcVsE+mYMeyY/7p8hshu7uTgr8uVyx1KKoOG7vJ+qsCVZ1XibchGu8pcOXVdhvrjo2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c3KcuJfs; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c3KcuJfs"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40fd72f70d2so282325e9.3
-        for <linux-sound@vger.kernel.org>; Sat, 03 Feb 2024 12:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706992990; x=1707597790; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bMNDt0VF60A4vY0AmfUHHO2VBEaxyGHYhnhM3g2+/gw=;
-        b=c3KcuJfsCIstl0YrJjcnud4vZKlnXg7ALWix3oISvGcNvYTSeUVHqPVzkw4KlX7ci/
-         M2oUcc2ruqI1u9jMhA4OHY6T2YP7N/f3pU8axJWPSl7/Qn1EP+abV7vY1S/9oOW4g0Ud
-         ImipJRYhFpf1VadIL8k1keqDcgW0wRHNqQne4nyHIGcv7ZYvGZ0DAY0pcyihd4d4tWVd
-         GSfWsKfhhei5ROULHtTfceWOmU6S2xxOKNzpTMyEm+1jN//3Jvc/5Sxv2M20D5UKK2Ql
-         tk5iXoXnY2CnX9LYIUu9jCrOm60VwEfqTtbsPUhritW+ue99LoH9B1FqfyPw9c7dnIn3
-         VO3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706992990; x=1707597790;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bMNDt0VF60A4vY0AmfUHHO2VBEaxyGHYhnhM3g2+/gw=;
-        b=gHT+QGrHgomDP/XxomfEOn3M9vX+nJm8W869DMoyo4CPN4S+3RP5F+UaZfsdtSuVrU
-         agPGH0xqN64i7Z+FXvSIwL3387Vh60QevXiWBPJFxe1EhpfXMuvzSqjdMSKl69ZV80Xx
-         YnOmTqv0MF/V0KG10uZydyeG/jROY20qJ+HFVWulSQTd8nRWMfGIxDZa+V1qnCefqVp1
-         iBlZl0jDpmH9q6r05j0Ns8ojRj6DoFMKrnfOEVJlThvfG9Hxy5Qg821xgpiWRX4+7bk9
-         +r+9ddSlSnh1WesQ2n7y2VJXqFYdPuWc2kxEtx4x7qTTMqU1r/8lKuniWEaY6DApLtUr
-         aWbA==
-X-Gm-Message-State: AOJu0Ywrw/5kQzN0FVfl/CCPQeUoO9yHha99X5ozKUw9LPkz/8sBY7Mo
-	MCJd4JljVAgAmj4mzw518Vd2TvXZvaYk2lwCCubQd9j37/xwygJzVjEY3RMWWfg=
-X-Google-Smtp-Source: AGHT+IFapDA83nP1CnYzAQCvfdU/0u/tlk1UCzimQhH/gsO2nslbT9UXBPTsz30etucR0eFEczyBFg==
-X-Received: by 2002:a05:600c:2111:b0:40f:b33a:a6f8 with SMTP id u17-20020a05600c211100b0040fb33aa6f8mr1557375wml.18.1706992990460;
-        Sat, 03 Feb 2024 12:43:10 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUWBOkiMTlKguz+uLn2QF3XaTQIw7z04b4wq0WCm+0hR6QiXj4UUHx779X5BlPGKkESrd69az9Njj82vZLunzdnQ9UdSSc/4owP1owkqTbeEKAINGAxsZpcq8DEPFspod1276I6l/Nueg2TgEBJiG+ODRqMEIZ5yGd7DDVtHP58jxg7dcqFT+oCQSM1yqd/x+Wp/PSIYO83gcMW1c486bO4oVIBld0n2T8QUKSCxs5WXBqVH54Cg5RNIXv01eryeEb4OrBcUYfTuDgJ2wv1wP3CfgkTo/O9xRY/J7S0ipSVcDJLMvDp8VuV5JoKCDVvlmSPZHFMFx+3TEaHMa1NcimVMtQ/
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id g15-20020a05600c310f00b0040fd0c11bb0sm2565613wmo.40.2024.02.03.12.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 12:43:09 -0800 (PST)
-From: neil.armstrong@linaro.org
-Date: Sat, 03 Feb 2024 21:43:05 +0100
-Subject: [PATCH v2] ASoC: codecs: va-macro: add npl clk
+	s=arc-20240116; t=1707027146; c=relaxed/simple;
+	bh=L7VU0mrvuL1+eMtSkEdZOhT+A1UBXWPT4kmvv04CzjA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LWYmxEt7MZTooh8WJF/WTPp4raO3OTKAHHPNNu2dn68gJGjSNyJnpvpO4Vm8z8MTiC6axzwqGH4kJ3N++kbNG147Z8rGtnHIYg9xmUslw29TpFZKKyoehs+yHwoLQrSF5MmJBFwxK6DV2HqTn7+htrnjKTg8pV73FIxjMM9dgzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=210.79.60.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id A04D6900172;
+	Sun,  4 Feb 2024 12:53:51 +0800 (CST)
+From: bo liu <bo.liu@senarytech.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH] ALSA: hda/conexant: Add quirk for SWS JS201D
+Date: Sun,  4 Feb 2024 12:53:44 +0800
+Message-Id: <20240204045344.48397-1-bo.liu@senarytech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240203-topic-sm8x50-upstream-va-macro-npl-v2-1-f2db82ae3359@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAFilvmUC/x3NywqDQAxA0V+RrBuYRmsfv1K6mI6xDXQeJFYE8
- d8dXJ7NvSsYq7DBo1lBeRaTnCro1ED4+vRhlKEayFHnyLU45SIBLd6Wi8N/sUnZR5w9Rh80Yyo
- /7M7ju+/vV2ppgBoqyqMsx+T52rYddkTxLHQAAAA=
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5914;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=pbI+ApNRMSqb3DUJLNH/cJKajCRO5lHynlEoSBOrCw4=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlvqVcXyhND2mBzamIR1UQn3/Q6t1l36JYyoWZ8dx9
- MHmbCfyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZb6lXAAKCRB33NvayMhJ0f7bEA
- Cf2yrIiOlGYBc7pBdBAKkhwSk414qGbUOa2PXJ002qvh1p6HWqVo5XStbS/AxEVk1x4YQ6ENCBaw8b
- le0N7bcVP5tXyq+X3Igdops7ylTviILWF9+6E1OerL8yAzO0IbMBO2lPWT7BfSnoBvE4IdnJ7jF+I0
- yYZxUE7Iy3mJ6JqaDAQTNimpu1XPTI2+soKCv9gMshiB/pLGfEWFTeclrC7mZRqRpYXHU+U+4SvEGd
- pV2lZEi7tbmf4iBdAL6pqgJ31y6WyT4CggJW3hDzKUJpSekpWmmv6D+MLSitKkay/BFr7RZG85Eq7D
- GK+cvmvaSpJ/4LVSa5f0RMy5c8IAjPmrnUfJj5b9NjV40AfgeJQ8SZlD2/oYwNzfIJ9BS5ON8c7Jto
- nhUz2UZe5l4EUQ6FpVBKTEtroEZ1dKuY09OxkRC636DGbdT8LmVyX/5zcDdW02wD0Px3QLd+pK/j1R
- roXGK2DlgJoDbllTBZ4TwoSb9nrpVSct+i5cqzkMq/W/qU/Kqnosvq8M4rqmrV32qWpU329OnCEYUf
- N7CL9ids5j1O7beQo4KLldMAfqV0KaNWnJ/9UwMpVvXw+vE4gwU0Qo/bqbk9BEeMT5Qrf4ImVrRWod
- zZucAbtjN4GhblpvINwitgv+jhKp2P44yBpU73i5xEpqvi8GgCD5cpK3GVOg==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHUpJVkNPQ0gZSE5LT0JLGFUTARMWGhIXJBQOD1
+	lXWRgSC1lBWU1KVUpDSFVKT0hVTENZV1kWGg8SFR0UWUFZT0tIVUpNT0lMTlVKS0tVSkJLS1kG
+X-HM-Tid: 0a8d7277361203a9kunma04d6900172
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ni46HTo*ITMISD8#Ii0vET4W
+	IzkaCxxVSlVKTEtMS0lJT0hJSklDVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
+	WU1KVUpDSFVKT0hVTENZV1kIAVlBSEtKTTcG
 
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+The SWS JS201D need a different pinconfig from windows driver.
+Add a quirk to use a specific pinconfig to SWS JS201D.
 
-New versions of VA Macro has soundwire integrated, so handle the soundwire npl
-clock correctly in the codec driver.
-
-Introduce has_npl_clk and handle the sm8550 case separately because
-it has soundwire integrated but doesn't have an npl clock.
-
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: bo liu <bo.liu@senarytech.com>
 ---
-Changes since v2: 
-- Dropped already applied/upstreamed patch 1
-- Rebased on next-20240202
-- Switch to has_npl_clk and add sm8550 compat using Krzysztof's changes
-- Link to v2: https://lore.kernel.org/all/20221118071849.25506-1-srinivas.kandagatla@linaro.org/
+ sound/pci/hda/patch_conexant.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Changes since v1:
-- updated bindings as per Kryz comments.
-- added error handling during npl and mclk enable.
-- Link to v1: https://lore.kernel.org/all/20221115105541.16322-1-srinivas.kandagatla@linaro.org/
----
- sound/soc/codecs/lpass-va-macro.c | 57 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index b71ef03c4aef..6eceeff10bf6 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -201,10 +201,12 @@ struct va_macro {
- 	unsigned long active_ch_cnt[VA_MACRO_MAX_DAIS];
- 	u16 dmic_clk_div;
- 	bool has_swr_master;
-+	bool has_npl_clk;
- 
- 	int dec_mode[VA_MACRO_NUM_DECIMATORS];
- 	struct regmap *regmap;
- 	struct clk *mclk;
-+	struct clk *npl;
- 	struct clk *macro;
- 	struct clk *dcodec;
- 	struct clk *fsgen;
-@@ -225,14 +227,22 @@ struct va_macro {
- 
- struct va_macro_data {
- 	bool has_swr_master;
-+	bool has_npl_clk;
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index e8819e8a9876..a0bb4d91502b 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -344,6 +344,7 @@ enum {
+ 	CXT_FIXUP_HP_ZBOOK_MUTE_LED,
+ 	CXT_FIXUP_HEADSET_MIC,
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
++	CXT_PINCFG_SWS_JS201D,
  };
  
- static const struct va_macro_data sm8250_va_data = {
- 	.has_swr_master = false,
-+	.has_npl_clk = false,
- };
- 
- static const struct va_macro_data sm8450_va_data = {
- 	.has_swr_master = true,
-+	.has_npl_clk = true,
-+};
-+
-+static const struct va_macro_data sm8550_va_data = {
-+	.has_swr_master = true,
-+	.has_npl_clk = false,
- };
- 
- static bool va_is_volatile_register(struct device *dev, unsigned int reg)
-@@ -1332,6 +1342,12 @@ static int fsgen_gate_enable(struct clk_hw *hw)
- 	struct regmap *regmap = va->regmap;
- 	int ret;
- 
-+	if (va->has_swr_master) {
-+		ret = clk_prepare_enable(va->mclk);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = va_macro_mclk_enable(va, true);
- 	if (va->has_swr_master)
- 		regmap_update_bits(regmap, CDC_VA_CLK_RST_CTRL_SWR_CONTROL,
-@@ -1350,6 +1366,8 @@ static void fsgen_gate_disable(struct clk_hw *hw)
- 			   CDC_VA_SWR_CLK_EN_MASK, 0x0);
- 
- 	va_macro_mclk_enable(va, false);
-+	if (va->has_swr_master)
-+		clk_disable_unprepare(va->mclk);
- }
- 
- static int fsgen_gate_is_enabled(struct clk_hw *hw)
-@@ -1378,6 +1396,9 @@ static int va_macro_register_fsgen_output(struct va_macro *va)
- 	struct clk_init_data init;
- 	int ret;
- 
-+	if (va->has_npl_clk)
-+		parent = va->npl;
-+
- 	parent_clk_name = __clk_get_name(parent);
- 
- 	of_property_read_string(np, "clock-output-names", &clk_name);
-@@ -1500,10 +1521,21 @@ static int va_macro_probe(struct platform_device *pdev)
- 
- 	data = of_device_get_match_data(dev);
- 	va->has_swr_master = data->has_swr_master;
-+	va->has_npl_clk = data->has_npl_clk;
- 
- 	/* mclk rate */
- 	clk_set_rate(va->mclk, 2 * VA_MACRO_MCLK_FREQ);
- 
-+	if (va->has_npl_clk) {
-+		va->npl = devm_clk_get(dev, "npl");
-+		if (IS_ERR(va->npl)) {
-+			ret = PTR_ERR(va->npl);
-+			goto err;
-+		}
-+
-+		clk_set_rate(va->npl, 2 * VA_MACRO_MCLK_FREQ);
-+	}
-+
- 	ret = clk_prepare_enable(va->macro);
- 	if (ret)
- 		goto err;
-@@ -1516,6 +1548,12 @@ static int va_macro_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_mclk;
- 
-+	if (va->has_npl_clk) {
-+		ret = clk_prepare_enable(va->npl);
-+		if (ret)
-+			goto err_npl;
-+	}
-+
- 	if (va->has_swr_master) {
- 		/* Set default CLK div to 1 */
- 		regmap_update_bits(va->regmap, CDC_VA_TOP_CSR_SWR_MIC_CTL0,
-@@ -1564,6 +1602,9 @@ static int va_macro_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_clkout:
-+	if (va->has_npl_clk)
-+		clk_disable_unprepare(va->npl);
-+err_npl:
- 	clk_disable_unprepare(va->mclk);
- err_mclk:
- 	clk_disable_unprepare(va->dcodec);
-@@ -1579,6 +1620,9 @@ static void va_macro_remove(struct platform_device *pdev)
- {
- 	struct va_macro *va = dev_get_drvdata(&pdev->dev);
- 
-+	if (va->has_npl_clk)
-+		clk_disable_unprepare(va->npl);
-+
- 	clk_disable_unprepare(va->mclk);
- 	clk_disable_unprepare(va->dcodec);
- 	clk_disable_unprepare(va->macro);
-@@ -1593,6 +1637,9 @@ static int __maybe_unused va_macro_runtime_suspend(struct device *dev)
- 	regcache_cache_only(va->regmap, true);
- 	regcache_mark_dirty(va->regmap);
- 
-+	if (va->has_npl_clk)
-+		clk_disable_unprepare(va->npl);
-+
- 	clk_disable_unprepare(va->mclk);
- 
- 	return 0;
-@@ -1609,6 +1656,15 @@ static int __maybe_unused va_macro_runtime_resume(struct device *dev)
- 		return ret;
- 	}
- 
-+	if (va->has_npl_clk) {
-+		ret = clk_prepare_enable(va->npl);
-+		if (ret) {
-+			clk_disable_unprepare(va->mclk);
-+			dev_err(va->dev, "unable to prepare npl\n");
-+			return ret;
-+		}
-+	}
-+
- 	regcache_cache_only(va->regmap, false);
- 	regcache_sync(va->regmap);
- 
-@@ -1624,6 +1680,7 @@ static const struct of_device_id va_macro_dt_match[] = {
- 	{ .compatible = "qcom,sc7280-lpass-va-macro", .data = &sm8250_va_data },
- 	{ .compatible = "qcom,sm8250-lpass-va-macro", .data = &sm8250_va_data },
- 	{ .compatible = "qcom,sm8450-lpass-va-macro", .data = &sm8450_va_data },
-+	{ .compatible = "qcom,sm8550-lpass-va-macro", .data = &sm8550_va_data },
- 	{ .compatible = "qcom,sc8280xp-lpass-va-macro", .data = &sm8450_va_data },
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -841,6 +842,17 @@ static const struct hda_pintbl cxt_pincfg_lemote[] = {
  	{}
  };
-
----
-base-commit: 076d56d74f17e625b3d63cf4743b3d7d02180379
-change-id: 20240203-topic-sm8x50-upstream-va-macro-npl-41fb6697232d
-
-Best regards,
+ 
++/* SuoWoSi/South-holding JS201D with sn6140 */
++static const struct hda_pintbl cxt_pincfg_sws_js201d[] = {
++	{ 0x16, 0x03211040 }, /* hp out */
++	{ 0x17, 0x91170110 }, /* SPK/Class_D */
++	{ 0x18, 0x95a70130 }, /* Internal mic */
++	{ 0x19, 0x03a11020 }, /* Headset Mic */
++	{ 0x1a, 0x40f001f0 }, /* Not used */
++	{ 0x21, 0x40f001f0 }, /* Not used */
++	{}
++};
++
+ static const struct hda_fixup cxt_fixups[] = {
+ 	[CXT_PINCFG_LENOVO_X200] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -996,6 +1008,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = CXT_FIXUP_HEADSET_MIC,
+ 	},
++	[CXT_PINCFG_SWS_JS201D] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = cxt_pincfg_sws_js201d,
++	},
+ };
+ 
+ static const struct snd_pci_quirk cxt5045_fixups[] = {
+@@ -1091,6 +1107,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", CXT_FIXUP_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
+ 	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
++	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
+ 	{}
+ };
+ 
+@@ -1109,6 +1126,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
+ 	{ .id = CXT_FIXUP_HP_ZBOOK_MUTE_LED, .name = "hp-zbook-mute-led" },
+ 	{ .id = CXT_FIXUP_HP_MIC_NO_PRESENCE, .name = "hp-mic-fix" },
+ 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
++	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
+ 	{}
+ };
+ 
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.34.1
 
