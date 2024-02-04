@@ -1,85 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19FB16423;
-	Sun,  4 Feb 2024 09:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E0A1BDCE;
+	Sun,  4 Feb 2024 10:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707038077; cv=none; b=C6cuFPlkmsa6FLiHfngnTBpHNW7eYV0BRNAst61pJbDtMcjD2VOM7XT3ARwC6zGe6sS1GzyPC0WfoLLGEFWV7iHv0hc6xWkgayB/R4gEPyDh9yqzIxcS/NG3usOPe5SsWTxBYqYE7972DN5yQ+n8GvaVFrkF7iXeR0blL789ewU=
+	t=1707042637; cv=none; b=sTiz+F+EgMbEP1smL6rtEAKmVfSthVFSzFUW0mjqlCYnm2xRFgs7eQVFRg19Uw4pkCWMQFAIaLYLuLhFOwjd/h7se52cQUT1KrHch9vDZvogAv2FhJ7nkfpSAxbUl7+F3RfZaXcp2Exj/Dzu+xFBVNZBGytfjtxlzpYrzticXtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707038077; c=relaxed/simple;
-	bh=tdJoA0gAQ+yEvvOzhSgqgVWMe4V3tFRmkcVSf9FiZeI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sjd/PBnG8LLhJvGbJRNbG1vXF0itgWw4s7eqi4OMKAR6zK41qxPCygWEVAI3EHp3ImIYAs44NM0EwxOh25cN7LeaDtFRM3wQrRq1l+6auF273v3OgE2OWP5HmReusFVMXDKvDGX9MJ62bvllCnO3C9IrD3DwhlmTu6TYFSNJ3SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqIqYawP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqIqYawP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76F94C433F1;
-	Sun,  4 Feb 2024 09:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707038077;
-	bh=tdJoA0gAQ+yEvvOzhSgqgVWMe4V3tFRmkcVSf9FiZeI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IqIqYawPB2UqaopXb4BOlBNtLNHNY/WLA+C24JK1AJ2MkQtyrjTrHdQclMFQCj7io
-	 q+QFXcytpGrJuKMfqgQQOSSN7b2/PHdFe/pBNLpFbQ8EuGYyeC5R6DWcnxr7m3tQ0U
-	 RcyfeWVZTtudxYDLm+T6yaDJoeQxy4kc1rIFtVEizf80deWHtSUpyUyEmU08CgCghl
-	 J+ckg6x+5zZ6zACK7zWmNZDYoVFfvayNQJoY2FJmxras1wSUS14gORkxiMJ5GzLf4U
-	 T+457NBb7aF9By83MAjJcjEI309sbG3DS3kQ0aeVQTmtVIy2SvXlpX+FxuEkGRuyGY
-	 AA3leXz5jeF/w==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	linux-arm-kernel@lists.infradead.org,
-	Mark Brown <broonie@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: pxa: remove duplicated CONFIG_SND_PXA2XX_AC97 entry
-Date: Sun,  4 Feb 2024 18:14:24 +0900
-Message-Id: <20240204091424.38306-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=arc-20240116; t=1707042637; c=relaxed/simple;
+	bh=WSt0ugTObffRIZxYeEJE8GCvAYp/dWhBtbXraMzfmZ8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=tV8llCWC/z6WX892bJrM0NCZM8kmbx8gyF9pHHsCUQOzt1z5lDUKKXxeuS+MtbPmnAiwQQAHjCwPaHgYABD7aqQJHogozGTJ92pLAkaVzumrfmMNmHLI6vQwhHCmP2p25PrCqFsgusFbGmFCfgp462hZdg3YUM2a4GZ2IqkEotk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rWZlb-0004gP-2L; Sun, 04 Feb 2024 11:30:27 +0100
+Message-ID: <c5d7aa0c-de4b-4409-a3cb-63771f91dd6b@leemhuis.info>
+Date: Sun, 4 Feb 2024 11:30:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: [regression] ASUS G712LV audio apparently never worked OOTB and since
+ 6.7 not at all anymore
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ LKML <linux-kernel@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Language: en-US, de-DE
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1707042635;1b2349a9;
+X-HE-SMSGID: 1rWZlb-0004gP-2L
 
-'config SND_PXA2XX_AC97' is already present in sound/arm/Kconfig with
-a prompt.
+Hi! Bagas (many thx!) pointed me to a report about a sound regression
+with 6.7: https://bugzilla.kernel.org/show_bug.cgi?id=218429
 
-Commit 734c2d4bb7cf ("[ALSA] ASoC pxa2xx build support") redundantly
-added the second one to sound/soc/pxa/Kconfig.
+The reporter did not bisect the issue. But maybe you folks might
+nevertheless be interested in this or even have some idea what might be
+wrong. That's why I decided to write this mail, as quite a few kernel
+developer miss if a report for their subsystem is submitted to
+bugzilla.kernel.org.
 
-Remove it.
+To quote from the comment with the initial report:
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+> 2020 Asus ROG Strix G17 Laptop - Model: G712LV
+> Intel i7 10750H Comet Lake CPU
+> 16GB DDR4 RAM
+> 
+> Issues with Intel HD Audio controller
+> Fresh install of any Linux distro leaves no audio from Intel HD Audio controller.
+> Controller is detected and Linux thinks audio is playing, but nothing comes out of speakers.
+> 
+> Custom modprobe needs to be created to restore basic sound output functionality.
+> Add "options snd-hda-intel model=asus-zenbook" to /etc/modprobe.d/alsa-base.conf
+> This allows for audio output, but volume is either 100% or 0%.  There is no volume control.
+> 
+> The above setting worked fine with both pulseaudio and pipewire under kernels from 5.14-6.6.  This no longer works under kernel 6.7
 
-Changes in v2:
-  - Change the commit subject
+For other comment please see the bugzilla ticket.
 
- sound/soc/pxa/Kconfig | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/sound/soc/pxa/Kconfig b/sound/soc/pxa/Kconfig
-index f03c74809324..e05d6ce4c8fa 100644
---- a/sound/soc/pxa/Kconfig
-+++ b/sound/soc/pxa/Kconfig
-@@ -8,9 +8,6 @@ config SND_PXA2XX_SOC
- 	  the PXA2xx AC97, I2S or SSP interface. You will also need
- 	  to select the audio interfaces to support below.
- 
--config SND_PXA2XX_AC97
--	tristate
--
- config SND_PXA2XX_SOC_AC97
- 	tristate "SoC AC97 support for PXA2xx"
- 	depends on SND_PXA2XX_SOC
--- 
-2.40.1
-
+Ciao, Thorsten
