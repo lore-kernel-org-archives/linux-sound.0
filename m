@@ -1,133 +1,133 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673F410A0F;
-	Mon,  5 Feb 2024 07:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D1211193;
+	Mon,  5 Feb 2024 07:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707117982; cv=none; b=gv6FLhzK37UKgVSVA9BJ7xLxz0bE5K+2uSY6ZYw4VDMfvADA7uj2XCMy+WRDWx2Gfhqk/dVXQ0QwxyZSu82t2E3gzIPbGAmDKo4Q7T8k9phMjy22T132RhJWtD1Dr62i6oikRPC+NW93QXfzysexPZl+GfryriAAWqHcXzAcZbw=
+	t=1707118533; cv=none; b=KQXkuEG2rP6zCuZSQkivLedh1bZYcmabxoq1KoinkteWPMghXApINcDaXmwuM1g1zcdoatP25tjw+Hr1NcAPzv1WGIIjyfJUdvo8eraGydH2sYGCblUomOb7tEf7S03F4DjIEtdWRUBapUQRhDMSoaHouMdfONhbmM2jsQ1Akec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707117982; c=relaxed/simple;
-	bh=FKzo+iDb4GSIYbAuvyhQyvsbKcySjX23LRYwxAQVApE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MSdovNcW7m95NeVSAedfjtm7VKuuniCPo54WM3uAOGeAjuoHJ0sH/VAMEvafCc9TfcCPUiT+fJFy9xN5edbHim9UE5vEK+JU/RW/BZruCNBdUPMMGPOMndRk3hLp3Xco0jbiNNNCPRCSEjCnwMl5SE18yGQY43F9h4nzwTEy/3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CuzPOd4Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wYJQrgn/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CuzPOd4Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wYJQrgn/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CuzPOd4Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wYJQrgn/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CuzPOd4Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wYJQrgn/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 75DB221F18;
-	Mon,  5 Feb 2024 07:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707117977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=au0mlfS5y3gIEFvklIKhtZf/nyYZ3PkgsCXwnAl+Z1A=;
-	b=CuzPOd4Q6kLZO1MITou6ZPb5oW08eLEG+OwqPfK1z/NNCpUykg6YPDBR5B2Dr6B7KQyYj4
-	vjuxyAqMlAs/vJ61Mo8f0hdJM9hkZ1AULNjy/QMjNW/tS9gVWjxxj0nkQ6YcAbd3LLx9Ey
-	eSYDQ52HGcqfWdA8zGWZHwSsW1w+0Yk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707117977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=au0mlfS5y3gIEFvklIKhtZf/nyYZ3PkgsCXwnAl+Z1A=;
-	b=wYJQrgn/KF5dUKjODE/yPMig+QWqIN7E7q0xG5vSFW51p16zXyZ0m9zfJWfqR3+YQ0nJrM
-	U5Xm0+rgpqqO8lDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707117977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=au0mlfS5y3gIEFvklIKhtZf/nyYZ3PkgsCXwnAl+Z1A=;
-	b=CuzPOd4Q6kLZO1MITou6ZPb5oW08eLEG+OwqPfK1z/NNCpUykg6YPDBR5B2Dr6B7KQyYj4
-	vjuxyAqMlAs/vJ61Mo8f0hdJM9hkZ1AULNjy/QMjNW/tS9gVWjxxj0nkQ6YcAbd3LLx9Ey
-	eSYDQ52HGcqfWdA8zGWZHwSsW1w+0Yk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707117977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=au0mlfS5y3gIEFvklIKhtZf/nyYZ3PkgsCXwnAl+Z1A=;
-	b=wYJQrgn/KF5dUKjODE/yPMig+QWqIN7E7q0xG5vSFW51p16zXyZ0m9zfJWfqR3+YQ0nJrM
-	U5Xm0+rgpqqO8lDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3FEF4136F5;
-	Mon,  5 Feb 2024 07:26:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qCqJDZmNwGVefgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 05 Feb 2024 07:26:17 +0000
-Date: Mon, 05 Feb 2024 08:26:16 +0100
-Message-ID: <87r0hr9xt3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] ALSA: hda/conexant: Add quirk for SWS JS201D
-In-Reply-To: <20240205013802.51907-1-bo.liu@senarytech.com>
-References: <20240205013802.51907-1-bo.liu@senarytech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1707118533; c=relaxed/simple;
+	bh=5aTSrCYKf9FMbG5bWnxBlEmn0e03fsCoBTEYrJ7KGDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IoK8rf/NeMf0sBhufBbj+cADpXrjZNOOLiEfB+j26ysONjVgqwIdKsLYXAG3UgV5kZnyXeYqRp/RRg0nhj5ffbzB8IlZod18vaVET+mRv88QQGKHhazmDUcPx4lvhOmWtsl6k4UCxdL9mHu0wANn9P83FMlCs1ggWjCGDVNzLus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rWtVp-0004Wt-6y; Mon, 05 Feb 2024 08:35:29 +0100
+Message-ID: <bf07c1bc-b38e-4672-9bb0-24c16054569a@leemhuis.info>
+Date: Mon, 5 Feb 2024 08:35:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CuzPOd4Q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="wYJQrgn/"
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.23 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.72)[98.76%]
-X-Spam-Score: -5.23
-X-Rspamd-Queue-Id: 75DB221F18
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: S/PDIF not detected anymore / regression on recent kernel 6.7 ?
+Content-Language: en-US, de-DE
+To: Serge SIMON <serge.simon@gmail.com>, linux-sound@vger.kernel.org,
+ regressions@lists.linux.dev
+Cc: stable@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>
+References: <CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
+ <2024011723-freeness-caviar-774c@gregkh>
+ <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1707118531;cb06fef0;
+X-HE-SMSGID: 1rWtVp-0004Wt-6y
 
-On Mon, 05 Feb 2024 02:38:02 +0100,
-bo liu wrote:
+On 05.02.24 08:09, Serge SIMON wrote:
 > 
-> The SWS JS201D need a different pinconfig from windows driver.
-> Add a quirk to use a specific pinconfig to SWS JS201D.
+> Any news on this ?
+
+Apparently not. I added the sound maintainers just to be sure they are
+aware of this.
+
+> Just to say that i tried the 6.7.3 version and i have the exact same
+> problem as described below
+> ("linux-headers-6.7.3.arch1-2-x86_64.pkg.tar.zst" for the exact ARCH
+> package, of course with a system fully up-to-date and rebooted) : no
+> more S/PDIF device detected after reboot (only the monitors are
+> detected, but not anymore the S/PDIF output at motherboard level-
+> which is what i'm using).
 > 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
+> Reverting to 6.6.10 does solve the issue, so per what i'm seeing,
+> something has definitely been broken between 6.6.10 and 6.7.0 on that
+> topic.
 
-Thanks, applied now.
+Unless the sound maintainers come up with something, we most likely need
+a bisection from you to resolve this.
+
+In case you want to perform a bisection, this guide I'm currently
+working on might help:
+
+https://www.leemhuis.info/files/misc/How%20to%20bisect%20a%20Linux%20kernel%20regression%20%e2%80%94%20The%20Linux%20Kernel%20documentation.html
+
+> Is this tracked by a bug somewhere ? Does i have to open one (in
+> addition to these mails) ?
+
+No, this thread (for now) is enough.
+
+Ciao, Thorsten
 
 
-Takashi
+> On Wed, Jan 17, 2024 at 6:39 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>>
+>> On Tue, Jan 16, 2024 at 09:49:59PM +0100, Serge SIMON wrote:
+>>> Dear Kernel maintainers,
+>>>
+>>> I think i'm encountering (for the first time in years !) a regression
+>>> with the "6.7.arch3-1" kernel (whereas no issues with
+>>> "6.6.10.arch1-1", on which i reverted).
+>>>
+>>> I'm running a (up-to-date, and non-LTS) ARCHLINUX desktop, on a ASUS
+>>> B560-I motherboard, with 3 monitors (attached to a 4-HDMI outputs
+>>> card), plus an audio S/PDIF optic output at motherboard level.
+>>>
+>>> With the latest kernel, the S/PIDF optic output of the motherboard is
+>>> NOT detected anymore (and i haven't been able to see / find anything
+>>> in the logs at quick glance, neither journalctl -xe nor dmesg).
+>>>
+>>> Once reverted to 6.6.10, everything is fine again.
+>>>
+>>> For example, in a working situation (6.6.10), i have :
+>>>
+>>> cat /proc/asound/pcm
+>>> 00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
+>>> 00-01: ALC1220 Digital : ALC1220 Digital : playback 1
+>>> 00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
+>>> 01-03: HDMI 0 : HDMI 0 : playback 1
+>>> 01-07: HDMI 1 : HDMI 1 : playback 1
+>>> 01-08: HDMI 2 : HDMI 2 : playback 1
+>>> 01-09: HDMI 3 : HDMI 3 : playback 1
+>>>
+>>> Whereas while on the latest 6.7 kernel, i only had the 4 HDMI lines
+>>> (linked to a NVIDIA T600 card, with 4 HDMI outputs) and not the three
+>>> first ones (attached to the motherboard).
+>>>
+>>> (of course i did several tests with 6.7, reboot, ... without any changes)
+>>>
+>>> Any idea ?
+>>
+>> As this is a sound issue, perhaps send this to the
+>> linux-sound@vger.kernel.org mailing list (now added).
+>>
+>> Any chance you can do a 'git bisect' between 6.6 and 6.7 to track down
+>> the issue?  Or maybe the sound developers have some things to ask about
+>> as there are loads of debugging knobs in sound...
+>>
+>> thanks,
+>>
+>> greg k-h
+> 
+> 
+
+
