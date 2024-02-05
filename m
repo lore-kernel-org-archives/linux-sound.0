@@ -1,178 +1,175 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D284C2C848;
-	Mon,  5 Feb 2024 15:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C865D3FE54;
+	Mon,  5 Feb 2024 16:55:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707145505; cv=none; b=s/X0UKP6h24xxyULZt5GeotqNCwG3+rU2DX3zovsTIPVRJWXyiBvGD/4sFRqXPiUEKBHjxkBvu1U0JONVyXOLdQRaFAiEUCN/YEK+WWULfov+Zf2oYkU9yK7f3ougbnp+Zmfo0BktMi+BavCKFcp4B272CzzJIcDhAPd7J42qYg=
+	t=1707152122; cv=none; b=nIMEgsST0yfmnalMi2G0NQCrAdkqN1UyigsmawSr9F331/XItNXtgIvzNIfeK6CxPW4seSVRnb9EWKL0bvDw/+SxiT5vQrEMbN+B2oAl/V1kbXLlNPQ1K3hoLpaGxaD2WTf8tyYVRdCiLnaoPF3v/5Yv0WS+D3yjAf+NB00CaCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707145505; c=relaxed/simple;
-	bh=Yfk/4+9czy4PCreT5ugg9ESrBcCZP7CYrSDkqcGFwJQ=;
+	s=arc-20240116; t=1707152122; c=relaxed/simple;
+	bh=sVWDGae8We/GTqGu3KZXsI4ao8GOXiioemxExEsLxqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X2x4AhYQ0j3KGL+RrSJF3nylu+4VmseY48EUkSXUc52Csl1r6UOectgSZMAQ2C2/Xer8VNSKoJMjcitE+c4OnbJcIZzzVxf5+LXRm9HZYk7XDS85RZn7Edzq0/Q+ZRItYaGGqDK6cU26v5kKWgKdhG0Sout97d8hG20lD4Dqvdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EmqBH4uM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhhDLcpWtO+goVeU9SsbuIwSaKsrpYvvA8BswlZSaf5Nqb/gGJh7O4ky9lutcZYsaeJsLhY7NtaiyDVnrY4jKFBs4YSNnTk+mN1h1z3G+StxvG43zgHmFb8ViC3yxSE9XhyxA0LMIX6u/p3Mrj6n2PpMi7sLsUCTjp170VDg9i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4NzN+xx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EmqBH4uM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 178D5C433C7;
-	Mon,  5 Feb 2024 15:05:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4NzN+xx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FFCAC433B1;
+	Mon,  5 Feb 2024 16:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707145505;
-	bh=Yfk/4+9czy4PCreT5ugg9ESrBcCZP7CYrSDkqcGFwJQ=;
+	s=k20201202; t=1707152121;
+	bh=sVWDGae8We/GTqGu3KZXsI4ao8GOXiioemxExEsLxqU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EmqBH4uM3l0y4S8L/czVQGJzlHiBpNTnZ6i8odDonDEDNBBLlWz8vxea17SptzhIX
-	 BZkqhHIvNIIX89nGFysge/VSytT4gmEjTOsk8U9OxSj9vdMOmt637BsV85TfjxzCjD
-	 zQS3OcXGg+Ps1pkpjZdyitTGjyeGNvJJdmLADxB2sLcUqypoEHAyFv9wTIAWovrvXn
-	 nhs7Bku0G+ZYk9W4x8hNhrKfumASXnwLGEUVc0IqxCPEF8B3wuBHE5DI5Ws3HjgPu1
-	 2tCqFS8MXiBWX1u25XletqA9Q51p3HKziPE7kc/e4qF8hL68HYnmeWzqJl8OD3IGQN
-	 tQUsZAzVbLgcw==
-Date: Mon, 5 Feb 2024 15:05:02 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: conor+dt@kernel.org, krzysztof.kozlowski@linaro.org,
-	devicetree@vger.kernel.org, robh+dt@kernel.org,
-	andriy.shevchenko@linux.intel.com, linux-sound@vger.kernel.org,
-	liam.r.girdwood@intel.com, lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org, kevin-lu@ti.com, baojun.xu@ti.com,
-	v-po@ti.com, navada@ti.com, perex@perex.cz, j-mcpherson@ti.com,
-	pierre-louis.bossart@linux.intel.com, 13916275206@139.com,
-	mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
-	pdjuandi@ti.com, manisha.agrawal@ti.com, s-hari@ti.com,
-	aviel@ti.com, hnagalla@ti.com, praneeth@ti.com
-Subject: Re: [PATCH v3 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
-Message-ID: <ZcD5HjnxSJkQ6QYT@finisterre.sirena.org.uk>
-References: <20240203030504.1724-1-shenghao-ding@ti.com>
+	b=V4NzN+xxV2kwpgpmvzwCZPjJxe0p8svapOJGajeWjpEEriWr006tLpAtpBBcG14NI
+	 l7fHkZZTCCS2aZun+9xT18fkoZ/FMtKy9LlDCrv1uFwhHjeK2n19B4nBN7o649VSjD
+	 kYGKpO0o3BwY+Ahh0TeOWYCXz8+otRo3yXnErLJRN29uNdXJLWcsE4UEYU9xBrYL0Y
+	 5EBIyjafRZpDVbbOWCUrKL9UVViaDMskAXZEUX2zUclSY3mEzo3VIqcDhKNa3FKHrK
+	 rehOGq4a9IDtDYOiom3YhLrNbFEjmM7KUgyXugv+FwASEWfoMD6zmOeVRIwz7AMYR2
+	 3iJTbqU63Gc+A==
+Date: Mon, 5 Feb 2024 16:55:17 +0000
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	"Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	=?iso-8859-1?Q?=22Niklas_S=C3=B6derlund=22?= <niklas.soderlund+renesas@ragnatech.se>,
+	=?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andy Gross <agross@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Emma Anholt <emma@anholt.net>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Helge Deller <deller@gmx.de>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Jacopo Mondi <jacopo@jmondi.org>, James Clark <james.clark@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Liu Ying <victor.liu@nxp.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Todor Tomov <todor.too@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Jonas Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+	Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>,
+	coresight@lists.linaro.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3 05/24] media: i2c: switch to use
+ of_graph_get_next_device_endpoint()
+Message-ID: <20240205165517.GA3486840-robh@kernel.org>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+ <87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
+ <20240202174941.GA310089-robh@kernel.org>
+ <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GVpQNZhUL4tDuEAO"
-Content-Disposition: inline
-In-Reply-To: <20240203030504.1724-1-shenghao-ding@ti.com>
-X-Cookie: You might have mail.
-
-
---GVpQNZhUL4tDuEAO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
 
-On Sat, Feb 03, 2024 at 11:04:59AM +0800, Shenghao Ding wrote:
+On Sun, Feb 04, 2024 at 11:44:39PM +0000, Kuninori Morimoto wrote:
+> 
+> Hi Rob
+> 
+> > This is assuming there's just 1 port and 1 endpoint, but let's be 
+> > specific as the bindings are (first endpoint on port 0):
+> > 
+> > of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
+> > 
+> > Note we could ask for endpoint 0 here, but the bindings generally allow 
+> > for more than 1.
+> > 
+> > I imagine most of the other cases here are the same.
+> 
+> I will do it on new patch-set
+> 
+> > > -	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
+> > > +	for_each_device_endpoint_of_node(state->dev->of_node, ep_np) {
+> > 
+> > I would skip the rename.
+> 
+> It is needed to avoid confuse, because new function will add
+> another endpoint loop.
+> 
+> see
+> https://lore.kernel.org/r/20240131100701.754a95ee@booty
 
-> +static int pcmdev_dev_update_bits(struct pcmdevice_priv *pcm_dev,
-> +	unsigned int dev_no, unsigned int reg, unsigned int mask,
-> +	unsigned int value)
-> +{
-> +	struct regmap *map = pcm_dev->regmap;
-> +	int ret;
-> +
-> +	if (dev_no >= pcm_dev->ndev) {
-> +		dev_err(pcm_dev->dev, "%s, no such channel(%d)\n", __func__,
-> +			dev_no);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = pcmdev_change_dev(pcm_dev, dev_no);
-> +	if (ret < 0) {
-> +		dev_err(pcm_dev->dev, "%s, E=%d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_update_bits(map, reg, mask, value);
-> +	if (ret < 0)
-> +		dev_err(pcm_dev->dev, "update_bits ERROR, E=%d\n",
-> +			ret);
-> +
-> +	return ret;
-> +}
+I've read the threads already and think you should skip the rename. Just 
+put 'port' in the name of the new one. That and taking a port number 
+param should be enough distinction.
 
-retmap_update_bits() will return 0 on a successful write...
-
-> +static int pcmdev_put_volsw(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol, int vol_ctrl_type)
-> +{
-
-> +	err = pcmdev_dev_update_bits(pcm_dev, dev_no, reg, val_mask, val);
-> +	if (err)
-> +		dev_err(pcm_dev->dev, "%s:update_bits, ERROR, E=%d\n",
-> +			__func__, err);
-> +
-> +	mutex_unlock(&pcm_dev->codec_lock);
-> +	return err;
-
-...so this and other controls will return 0 when the value changes,
-brekaing event generation.  Please use the mixer-test kselftest to check
-for this and other issues.
-
-> +static int pcmdevice_codec_probe(struct snd_soc_component *codec)
-> +{
-
-> +	/* device-name[defined in pcmdevice_i2c_id]-i2c-bus_id[0,1,...,N]-
-> +	 * sum[1,2,...,4]dev-reg.bin stores the firmware including register
-> +	 * setting and params for different filters inside chips, it must be
-> +	 * copied into firmware folder. The same types of pcmdevices sitting
-> +	 * on the same i2c bus will be aggregated as one single codec,
-> +	 * all of them share the same bin file.
-> +	 */
-> +	scnprintf(pcm_dev->regbin_name, PCMDEVICE_REGBIN_FILENAME_LEN,
-> +		"%s-i2c-%d-%udev-reg.bin", pcm_dev->dev_name, adap->nr,
-> +		pcm_dev->ndev);
-> +
-> +	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
-> +		pcm_dev->regbin_name, pcm_dev->dev, GFP_KERNEL, pcm_dev,
-> +		pcmdev_regbin_ready);
-> +	if (ret) {
-> +		dev_err(pcm_dev->dev, "load %s error = %d\n",
-> +			pcm_dev->regbin_name, ret);
-> +		goto out;
-> +	}
-
-This does still seem like it'd be better placed in the main probe()
-function with the component registration happening once firmware is
-ready so...
-
-> +static int pcmdevice_startup(struct snd_pcm_substream *substream,
-> +	struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *codec = dai->component;
-> +	struct pcmdevice_priv *pcm_priv = snd_soc_component_get_drvdata(codec);
-> +
-> +	if (pcm_priv->fw_state != PCMDEVICE_FW_LOAD_OK) {
-> +		dev_err(pcm_priv->dev, "DSP bin file not loaded\n");
-> +		return -EBUSY;
-> +	}
-> +
-> +	return 0;
-> +}
-
-...issues like this can be avoided.  The device is fundamentally reliant
-on the firmware being there AFAICT.
-
-> +
-> +		} else
-> +			dev_err(pcm_dev->dev, "%s: GPIO %d request error\n",
-> +				__func__, pcm_dev->irq_info.gpio);
-> +	} else
-> +		dev_err(pcm_dev->dev, "Looking up irq-gpio failed %d\n",
-> +			pcm_dev->irq_info.gpio);
-
-If one side of the if/else has a braces both should.
-
---GVpQNZhUL4tDuEAO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXA+QYACgkQJNaLcl1U
-h9Baxwf/UwNBAiiC4ati9dw7ukq1Tllnshu6jV0qXya/RRLvUIki4AsbMjqg/W3V
-Qc3e6dtcKLCBYGDxcNqpJRQDCwTjbusYvWvF5ZcXrPoLDVSVeInIctkUALopLlFs
-1T2UY86bZ/ikv/4NJI/qc6r04ibK+cEa1TTjfA1j/GWEtzKBE4AU6qMhwN2BnRm2
-ADElVSM3dbrkM5hC9N+/kef+gc+wc3kfVPuYu/w1UyHLIDb7vIsQ47DKp+VJabvJ
-t6eLFIEu1B+9US29BUEmcrVkK2zA7czWxiD8YpOjX6mMA9X0aPkFfBiV3TNpmECB
-qMPlBr4F3cDcGCioXrh0JkW/badInA==
-=BXQw
------END PGP SIGNATURE-----
-
---GVpQNZhUL4tDuEAO--
+Rob
