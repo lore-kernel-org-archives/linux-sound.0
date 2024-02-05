@@ -1,104 +1,108 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DD61CD04
-	for <linux-sound@vger.kernel.org>; Mon,  5 Feb 2024 12:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044F81CA97
+	for <linux-sound@vger.kernel.org>; Mon,  5 Feb 2024 12:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707137079; cv=none; b=U+kIWR7VTghVhOAvyzScv5GO3SNdJLUNvGYEBhH7gs792l5WlhbexeBFV4pnjrsbchyfQVqrsD2L/eISuOAvPIqG1aTyNBnCxIEHT+JZWMlIr+M0rnUEyTgxcv4LpmZ7mHZ0fAQV41P9Hl5paJkt7s2KqhnauortWeGVIz3j+70=
+	t=1707137453; cv=none; b=PalU1SpetFs1cfjJnHNBjbs1+7dyoVC0gB05uZWbw+0ny4AvGggB4ALjji9wcJVOK6CeS9+s4jdhFLkjBKkKnqlJwFYw8swxBjaq3Ojvvm+SrP1l8wHicOdiuj5H08cHg6YLi6hLMObXtKNe22ldUDuKX2DJlnMwYAr11EuitrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707137079; c=relaxed/simple;
-	bh=2LucDbaKWnc43eYl6V2+NFUWC00In0EAYHQmGvq+4OE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=USGmLUAyDQJNoH9abQ5I0msKBojj4xp2hDCgVVUPye7DBm6Z+tSK4ZZzysf8fiKj/xJtglu3S2RWR2xt6waNv2rjwudU4ke0FBZzlAGJBcTHfFMjmCflGiRavjtStRuDqLksnVWYVI4vZ+buxGxyWtyPPTwfbylpvoKElEzI4TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QsFq9+aY; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707137453; c=relaxed/simple;
+	bh=5eEdab9FqcF8g3wauGMH4df50DrOMqXSnLgMVhU1UfU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=FM0u6HRFZvid1n7kvdO/c4Cr0k+8bdLqk/E2uM0UsdayYjYYd9+zQVBJeeFWWjHS/Q2vjnl65Ul8kpQ/tCq6dJTWX7fZChjCrgEddCQs7EBWeUP4W9WwpUnWdk17UrKrVHChn2JGD+Eh4Jil7hzRsoSdQDwZOA4cf1v/Y8z0hEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TjYPFUX/; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QsFq9+aY"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-55cca88b6a5so5154965a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 05 Feb 2024 04:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707137074; x=1707741874; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G4Vl82m2zEorDZ7pWMk9i0Xlp64g/8z9zNmyXXlM3Ww=;
-        b=QsFq9+aYmq8eoNC+vBZJUfqY3wHp2qxaDBzJO2GTqVezsx/mYHUouoAwYbLEar77SB
-         NKyIcRqzIsYBDJb8orbHAGgc2gXtD1GlkanV65kGe000pzbVOPkrWcq/oLMo1+4/DKpM
-         pL6nHJN5gAhFg/R4WO2kE/wL9NYmgqYGjUA8uaK75CYmiQ0saAZpQqlz72uhf77ZBzm4
-         Vi5a/OnJW6H84c6SxlWfBHhkCOoWM/57Voo0y4xABziRcyiL1rEm40/utuWildNb8mvv
-         fPlUNEoM+J3XzJ90QEFp7NuTXsRlleEcE/526m8vyaMsa7CmTFPaJ+QBTkamFAv4Ua/B
-         bNzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707137074; x=1707741874;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G4Vl82m2zEorDZ7pWMk9i0Xlp64g/8z9zNmyXXlM3Ww=;
-        b=mnpYYwj2U0pMuVfcpNQYgp97qEtP0cS60lFH50ulknc+To3BzGX3xOZjQUyyjtSHdw
-         bD4cyn4RH/3fDvAq5evEgUH6N16NiHhXbVP71mGsZ3l1afoVRT7tdHiA50s797leQKVq
-         cu4mWWvo8XnUyHzDY0mrZxhA6ugbRYj2NTQNJ67ftszUwxLGBINwz4l3F1Q2Pn2BkpnP
-         EEgDmN4/0fHnFFpi/VXT79DZQel3+Rxbs4QeHKf4HPd0X/X5Kg9LHjHNAmFKKGjnr1uO
-         sJyLyGX5sPNNWFyDPsQ0MMi4Af8Gh869M4E3JFV3R3wXqAcGjJJb/RpS+zIcG54+/2d6
-         ulFg==
-X-Gm-Message-State: AOJu0YxNBCmTjGDkv64wu1ZLn1NSVVmJbrdiFBHqflk3fUoBjlLj5g87
-	2fQAO7mXG4QMApGHvQoQje0++WDA7NU9uYMYP4UwCz+csPXSCHw3k4ds5NhRQi8=
-X-Google-Smtp-Source: AGHT+IFcCBosTBE78GusQ6RADTjnIHb6MB9A+FrK1+MA3FZHOcbc8Iblcq/I7+Slr1+SiFtgUSoo3g==
-X-Received: by 2002:a17:906:7853:b0:a31:4e96:f40a with SMTP id p19-20020a170906785300b00a314e96f40amr7218077ejm.26.1707137074271;
-        Mon, 05 Feb 2024 04:44:34 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW4WiNmIJTwOQBdIusFKWvbUqNu81vffJtRd1DoC8f/9LiqEWIS+V1mSm6nQfEhW2qzARfp0/POzL6npsKHd4796GaGtgSCgHsBz0U9VlZ+EXQIo/iGEct5EQS4b/XYC3ioesFeptDuF6egOuCSjybk/ot9TKooH4FYvAnK1K5nFyTCNePDxDUQlTi4OkRPT9IUM6z9teerFQfOWaZ6fVMa6NJN7RDxeS5/J6mEW8oQHi9myZFSZjVF1/XrmkCdjuNUYFhngJlFP9pLH30RQgQpM//LR7gFDCmsY2O0NuXClfBWn53ENpktlgzxg4hFCOrHzb1cSQgX0jCHn6f2FhdaMt9h9sQMr8Pql2NoAf77yWtbPNmgUU5PVO5VpEPJKXSwJuOB91nHnHgNzhVYJyP/nrS/dkPlJmOUh72rKCfPFtdJ
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id th7-20020a1709078e0700b00a3742b09617sm3102294ejc.182.2024.02.05.04.44.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 04:44:33 -0800 (PST)
-Date: Mon, 5 Feb 2024 15:44:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: cs35l56: fix reversed if statement in
- cs35l56_dspwait_asp1tx_put()
-Message-ID: <0c254c07-d1c0-4a5c-a22b-7e135cab032c@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TjYPFUX/"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5AC7060008;
+	Mon,  5 Feb 2024 12:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707137447;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=J4pDxE7xU94TRPLPqyHKkEOLh7/PGbJ8DkHJCmBwnrE=;
+	b=TjYPFUX/DcrbgD8WQkAKlBTXNwebyhkiodbk0Zgp3ORLVirashQvrAQp6qHIkOmHJvxuvz
+	62QELGJGL1b3oIRhDOy2r18ePkh1cfDY5MGb/0Qkv14IMfngCQE1NzPhVC2tbkA8UbOG+M
+	fq7F64T61phMb1DYQKk29ZrHGHN37X+ZFPDfgpNHL6lsQDJ8rcDyuilskPG5Dnw4pUa6u/
+	BBqZnjo9Kuxtd+5Ctqapj9SkAik+u+SrCwmW8qgIHsiTJa/PN6BjuNdUgheoYELcn8FadD
+	iCGx6Sk3S+GqNLkFabtxhdk7U/5A1QCTkSVUq85FAIkc+C5Ao8DX2iZhK6SxQw==
+Date: Mon, 5 Feb 2024 13:50:46 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
+ <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Zeno Endemann <zeno.endemann@mailbox.org>, Alexandre Belloni 
+ <alexandre.belloni@bootlin.com>
+Subject: Obsolete frames being played at the end of a sample
+Message-ID: <20240205135046.0a1e9adf@xps-13>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-It looks like the "!" character was added accidentally.  The
-regmap_update_bits_check() function is normally going to succeed.  This
-means the rest of the function is unreachable and we don't handle the
-situation where "changed" is true correctly.
+Hello,
 
-Fixes: 07f7d6e7a124 ("ASoC: cs35l56: Fix for initializing ASP1 mixer registers")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-From static analysis and review, not tested.
----
- sound/soc/codecs/cs35l56.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am currently working with a PCI audio card using the mainline Xilinx
+XDMA controller driver through the PCM DMAengine abstraction. The
+driver for the audio card is out-of-tree but does not matter much in
+this case, as the card is always sampling the data.
 
-diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-index c23e29da4cfb..ebed5ab1245b 100644
---- a/sound/soc/codecs/cs35l56.c
-+++ b/sound/soc/codecs/cs35l56.c
-@@ -115,7 +115,7 @@ static int cs35l56_dspwait_asp1tx_put(struct snd_kcontrol *kcontrol,
- 
- 	ret = regmap_update_bits_check(cs35l56->base.regmap, addr,
- 				       CS35L56_ASP_TXn_SRC_MASK, val, &changed);
--	if (!ret)
-+	if (ret)
- 		return ret;
- 
- 	if (changed)
--- 
-2.43.0
+During playback, the DMA engine is configured in cyclic mode, and raises
+an interrupt at the end of each period. The core is made aware of the
+elapsed period with a very standard vchan_cyclic_callback(). This is
+all very usual, I believe.
 
+The problem I see is related to the end of the playback. When the very
+last period is being played, the following periods in the buffer are
+not being written anymore. When the last interrupt fires, the core is
+made aware of the playback being done and consequently stops the DMA
+engine. But in practice, there is always a small delay between the
+interrupt firing and the DMA engine being actually stopped. If this
+delay is bigger than the time between two frames (let's say 20=C2=B5s at
+48kHz), the very next (obsolete) frame will be played.
+
+As long as it is a single frame, it is probably not really noticeable,
+but Xilinx DMA engine behaves slightly differently. The controller can
+only stop between transfers, so if a transfer (a period in this case)
+was started, it will be processed until the end. A full period being
+played with old audio samples is really bad and can be eared very
+distinctly as a repetition of the end of the end of the sound file.
+
+Maybe this DMA engine is a bit too greedy? But in any case just the
+latency of the system (in particular on server installations) should
+lead to regular glitches on many systems. Maybe the fact that the audio
+card cannot really "stop" is also a root cause? But I would definitely
+expect a way to tell the upper layer that the DMA controller needs some
+more time to stop. For instance, knowing that a file would last 17
+periods (the sample lasts 16.5 periods, and there is 0.5 period
+of silence automatically added), I've tried the following hack. When
+the 16th period has been played, I actually tell the core that 17
+periods elapsed. The core mandates the termination of the DMA transfer,
+which is being processed by the DMA engine during the 17th period. When
+the 17th period has been fully processed, the DMA engine knows it has
+to stop and no parasitic sound can be heard.
+
+I've looked in the sound subsystem, there are some "silencing" and
+"draining" mechanisms but none of them seems to be linked to the DMA
+engine layer. I would expect either one of these two capabilities to be
+forwarded to the upper layers:
+- "I cannot stop immediately, please fill the whole buffer with silence
+  after the last useful period because some more samples will be
+  played."
+- "I cannot stop immediately, please tell me earlier when to stop."
+
+Any hints on how to properly handle situations like this and avoid
+underruns?
+
+Thanks a lot!
+Miqu=C3=A8l
