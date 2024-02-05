@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC8D45957
-	for <linux-sound@vger.kernel.org>; Mon,  5 Feb 2024 16:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC983C097;
+	Mon,  5 Feb 2024 16:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707152323; cv=none; b=kjpfqB969uABwaBLiBezJZt+L/BrS1jR18rFtyE7GUW6HdcHfyEpZxomMgjBb65y443mFrnFHlaAtasl4G6V12p0YfjxqNQ109ZXsNmawyI2sAiFuUvPsLLUmdzSL9P9Pboe83WmZ0BjLGlH/tybklpwBb48t6VeT+tS7XZ68zs=
+	t=1707152326; cv=none; b=kH/9kDYsPK+aWKYUSILY+kx5BYOpXYEuV7VvLmcJPbnyFCGX7/kkvSLdIYcKxvNFYJAz3MItl6oUSwGNSaGizg814+8b2vvsug5pSul6LXapvx8BKNg84VexgEEQb+0jHiAm1/f3WoR1+XKFObQrJcEuenpc+I6HtK4i4SjQOps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707152323; c=relaxed/simple;
-	bh=KIiF0znJX7pu7g5ceO0tvUe1EFCxoVX/gkYbJJRRHKk=;
+	s=arc-20240116; t=1707152326; c=relaxed/simple;
+	bh=VRTN3Dv3YqaGLWiQ45v40VoTuQnxlGeffm0Q415W9do=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fWBpajtojh8ARdOms8QFHGBmRRzno2c2xBNxRay6QbdBTjDwbxM+xysYmPNzgEfY0s4NAVHE1HAf4noCum6peAbJcp8AE4qo6wBJVvIIO1SGR9VrSOXoF6CoPreJbZr6eF25zNx2PxREDaPx9VhvBMowOIiHaIInMYvwYk+oTIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tSR0Uwba; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Y9L5mQJTx07T94IY3BvH/ooHOGjb1TCOChEcqXCtPrdYolmnyZe/E900uVkk3ULoaVA500WdUvZn4fIurryCsHiemL2YbRfI9HeEr/1uaChN5bdOl4F4kPjsV73hU98W3HgwBRsIJ/zjeBm1HwUyA7UavvGaLbVOZWFWX10ZzZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sMQfKs7b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tSR0Uwba"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 377EBC433C7;
-	Mon,  5 Feb 2024 16:58:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sMQfKs7b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04722C43399;
+	Mon,  5 Feb 2024 16:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707152322;
-	bh=KIiF0znJX7pu7g5ceO0tvUe1EFCxoVX/gkYbJJRRHKk=;
+	s=k20201202; t=1707152326;
+	bh=VRTN3Dv3YqaGLWiQ45v40VoTuQnxlGeffm0Q415W9do=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=tSR0UwbaPhOpSQXBC9TIaf6XsaKaS2DV7Nek+GLRfy+qvfPkfqmzeZkZYz+A0rAWw
-	 TDtDxke2RV+Gt9O0AEVSN1/MA+QRog4AYq2lL2Y3sJK2ApeYw9YnrrDRVTKIL0V9Ad
-	 2/NCXi6+o3r3N6rmx1cDekNnPdSFDPlhmQoUVmSSM3ecDNqrPSKFfZVPX8ckC+YJIO
-	 PnZb8cgpWNO3+1hyJAGGCX6mCvG/joBymfDzJvENt3lLbJyrPZdujNPBBCdILHpVn8
-	 CjjZegW1wvImvwpmz+pPORMc0I+tKkdP/g2rO+/vVin/FJ6SnDAw8kySASokwv0C9c
-	 bJ7Br/F6SOTyA==
+	b=sMQfKs7bfBQW8WnJ0FfpCcai0NlmCFM8t7X6YmNoatsPD3MywYRbT44Ju8TBU2BGM
+	 7yxmmvUBxY57qK9QAJ1hIZwvg9TEmLJf5nX18N3w3D3SwXKerD/r7HJyyw7r+dMHEo
+	 bqQIdlok+mZTcJJHIKgRXhMTSdRoz4WlP7PPqV2xfFSVYccMgUxy05zyLue7cURGZE
+	 eoh5mE0m/6eQK4AF4nWMnVWwCi0S4KOOoJNE7AQ9Xi/2XhsMfHa+1c05obkReNZLV9
+	 yLXjACvOEd7SLJ8ZJun8VBhjc4JQEsSZLgpu6X++CFvaQUMlK/u0aiUkokT8etZSe1
+	 tSID3QpVwESzg==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
- pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
-In-Reply-To: <20240202114901.1002127-1-cezary.rojewski@intel.com>
-References: <20240202114901.1002127-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH] ASoC: Intel: avs: Fix pci_probe() error path
-Message-Id: <170715231987.801804.1736027462162326166.b4-ty@kernel.org>
-Date: Mon, 05 Feb 2024 16:58:39 +0000
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Gergo Koteles <soyer@irl.hu>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, stable@vger.kernel.org
+In-Reply-To: <118dad922cef50525e5aab09badef2fa0eb796e5.1707076603.git.soyer@irl.hu>
+References: <118dad922cef50525e5aab09badef2fa0eb796e5.1707076603.git.soyer@irl.hu>
+Subject: Re: [PATCH] ASoC: tas2781: add module parameter to tascodec_init()
+Message-Id: <170715232269.801804.9210971697925067313.b4-ty@kernel.org>
+Date: Mon, 05 Feb 2024 16:58:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +48,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Fri, 02 Feb 2024 12:49:01 +0100, Cezary Rojewski wrote:
-> Recent changes modified operation-order in the probe() function without
-> updating its error path accordingly. If snd_hdac_i915_init() exists with
-> status EPROBE_DEFER the error path must cleanup allocated IRQs before
-> leaving the scope.
+On Sun, 04 Feb 2024 21:01:17 +0100, Gergo Koteles wrote:
+> The tascodec_init() of the snd-soc-tas2781-comlib module is called from
+> snd-soc-tas2781-i2c and snd-hda-scodec-tas2781-i2c modules. It calls
+> request_firmware_nowait() with parameter THIS_MODULE and a cont/callback
+> from the latter modules.
 > 
+> The latter modules can be removed while their callbacks are running,
+> resulting in a general protection failure.
 > 
+> [...]
 
 Applied to
 
@@ -60,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: avs: Fix pci_probe() error path
-      commit: b5fbde22684af5456d1de60758950944d69d69ad
+[1/1] ASoC: tas2781: add module parameter to tascodec_init()
+      commit: 34a1066981a967eab619938e7b35a9be6b4c34e1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
