@@ -1,112 +1,83 @@
-Received: from mail-m17220.xmail.ntesmail.com (mail-m17220.xmail.ntesmail.com [45.195.17.220])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7238C8F49;
-	Mon,  5 Feb 2024 02:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.17.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C55C8F51
+	for <linux-sound@vger.kernel.org>; Mon,  5 Feb 2024 03:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707099443; cv=none; b=hGEckK9odSdatSTmuPDFndb/aeR+n7uMwWioM/BjMHbz7MO7o1He/sOa44YSlQfJXCHPck0csdW2mCqpyJcwh4BxIaoSIlbZ8Cp2OjbNde5WR0lCNz/wN8tzD3kKspZ7mDw4/HAYMbjfpSg7h0U59lNt6wXfOuuWmpzE8Pe2kWo=
+	t=1707104920; cv=none; b=HxjRh62EYWyZLYJm6HtKPF821r7c0BNYhm0Xk2ovdfBSweLB5R/dSL8ipsZk/Tm5PdYf2kISZPSXU36x3hpgFATKiSAPxwZBnwM4jk5bxjxTD2eMXR0t+WTPQmuHdUtAEWhLX2eagfcWlvDkSVyJZAPZ4UI3iUsWcCpmT6/YQlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707099443; c=relaxed/simple;
-	bh=ooej1WUzjhcOCoPGj+R0vq6AQhsg2NTgBZGX2jSGTOw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rLsXfPMvjJJsqTnHbdH5FMItBvFbhqfY6ZyXB7rTQz7/cupXX8c3w4kwe0236Fl1A1PUu+hmY1Dvo5VFYKLWHDaH0q/x9Mxr1JDqP4wsTvCfiWRBS6dZx8IRnS9EasEHryZAAfbOsP3ymk16A45zgXrTDMPFnKusbUwnsYXVlDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=45.195.17.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
-Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id A70DD900119;
-	Mon,  5 Feb 2024 09:38:05 +0800 (CST)
-From: bo liu <bo.liu@senarytech.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH V2] ALSA: hda/conexant: Add quirk for SWS JS201D
-Date: Mon,  5 Feb 2024 09:38:02 +0800
-Message-Id: <20240205013802.51907-1-bo.liu@senarytech.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1707104920; c=relaxed/simple;
+	bh=E403e1qkTiyl6aGx/m+h046jeUu9XUev9Q4AoU/sH5g=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=MOpKyRYPfdrJkJCD69DY2yaB0GinRcSr6Cp2BDVT/jUARmswDQoKTeKTxSA9WD0F7FauWlw63KBK7UfHFgw/FZj6fvrLwX8tzqAcCKrR/+w0FQofIfvWjuFWU9zzarrGqQ0+4cRKrPZiKrLCveOPHuM0UAP2ECPN3vQWSFkhlYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=marcelg@gmx.com header.b=asRya9Ho; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=marcelg@gmx.com header.b="asRya9Ho"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+	s=s31663417; t=1707104916; x=1707709716; i=marcelg@gmx.com;
+	bh=E403e1qkTiyl6aGx/m+h046jeUu9XUev9Q4AoU/sH5g=;
+	h=X-UI-Sender-Class:Date:From:Subject:To;
+	b=asRya9HobR+i8vQzncIw46uzxB345PlZyJ3kD7Red6Oszr8es0p3jT8g9pze94YE
+	 02Toieu0tSm7Dl8clriAqfu5vGOWk29TUbbxrpal7ONzC/loLaPVKsLovoYihDior
+	 O+F4khEItE/lFnLaEsLkZ3VLWgGk0eMlIPi0MSa6X6euwgX7YD7XUaAAxrAkLM6zB
+	 rgNdcecbSeKWN+8CyIiEmcf5WW1LBFcLXuhYLBATrCxomnPXjh6gB1jRahUwADxjw
+	 QSV4lyJpe8lQYylCvpKLZG9I6Ch7VmI6ZS/OgmZXkSMthZv9/YC3uUeu7suX8obsf
+	 I+N3pT1/j32IAKD91A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.141.65.70] ([103.108.231.70]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MEm2D-1rn4KO3DCt-00GGXo for
+ <linux-sound@vger.kernel.org>; Mon, 05 Feb 2024 04:48:36 +0100
+Message-ID: <655fb630-e5a8-4993-8706-085476c7fe2f@gmx.com>
+Date: Mon, 5 Feb 2024 11:48:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDQ0tDVh9JSR0dGElKS0tDQlUTARMWGhIXJBQOD1
-	lXWRgSC1lBWU1KVUpDSFVKT0hVTENZV1kWGg8SFR0UWUFZT0tIVUpNT0lMTlVKS0tVSkJLS1kG
-X-HM-Tid: 0a8d76ea575d03a9kunma70dd900119
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBA6Fww*FzMKIT0sODRNAh05
-	KBgaCxRVSlVKTEtMS0JMS0NNSUpCVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
-	WU1KVUpDSFVKT0hVTENZV1kIAVlBSElPTjcG
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: marcel <marcelg@gmx.com>
+Subject: [PATCH] Add Asus VivoBook S 16X to quirks table for acp6x
+To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:lxGVFWGjy8HcFj6w7X0rmnHB+ysyAnsewGse+Ps6e/3pTItV7Sg
+ hKEFbTfVFv78o4J5wXkAk6t+uyt5aVI4Id2mkRLWZhuDb1G0BnKmNQyIMgP076ptv3g0UV3
+ ARK8TAuL6iWWc2JesZCqzWBL0JkuilPlTC1QRTMhc9PWkFRFfsm2IUBKC53pOS65OsGPla3
+ Vy8PiVXCl6ef5MvfdoHWw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/rr4gj3aheA=;3gFoP/TMs9csXhgwG819cQ2d+gT
+ pRpofh1GEcl6aGV2JvewX4QU3FucbgLbZhc5RqON9HH/R2qdeiDiSbjwlRS4f1JUwbU/WV3Bk
+ CllA0zpUnwnfoqRhuDgYZQNosQq8wvrpiSqEnjq9mQso0pgM12nG61xctA6OIanabukzaqNAa
+ SA5JlIYP7WGn/yiCuiTL2iG1F4DV9VEawGQswrjwPE2tPhZQisA2yriDdHsJo9fuH7X7bGTXM
+ +Zcf8Gh+6WJUYdmLjw7DgfqYOvcR2QB/G+hAgmhUwJ8LWAd4R5gTSB/Vv345VrGSKqAgN/Jlc
+ xflEbfXsv86zp+ahC0HiJnJJYLw95I5quCOzBi7nHxW6yKHEf67o9P/m0pRJ7Ifh7mF7QRrxA
+ /B+tnRXmHVA/POTOuT0rBUiKaTVt9yVwMm8v8ZYPlE1Do8x8lptJc/0jGBASIwVIXV7cNffwX
+ Iudd3brMF/vE/sUzxefNsXIh08dnArpvmuPDa4sTid7mByhyBABNmL9js6y7nT1IdZZoG/aUE
+ PociJYRMmAvsEBDmi5TPA6o26K9DLeRtRVcS0KCrSUca3hc8v2bmfvJQtrE+Edqbp2rSCNujV
+ 9pVX9/cyW3o7Oq7pjJkCSARKeIK3SIPfYGX/HZK6tRsYIO+rItOyhnpQcyAspJim2gxwwQv8j
+ 3ZKEUb+dagCCYrRvoxuH6IhBHNpt+KAMJc4bwQ3b2yq3luO64vtBPDYQBdfMDk1x5/azQuWsd
+ NKzTRaIQb5KqeIoNl390MAGWeWyp1sij03yZAfL+wrb+h3bZXsXRj6OvjVAGew9ErAZPzVg7P
+ lNXh2RKLHyoTmtj1qPa7IaRG3HinxAA4I5l2bY59xyY/U=
 
-The SWS JS201D need a different pinconfig from windows driver.
-Add a quirk to use a specific pinconfig to SWS JS201D.
-
-Signed-off-by: bo liu <bo.liu@senarytech.com>
----
- sound/pci/hda/patch_conexant.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index e8819e8a9876..e8209178d87b 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -344,6 +344,7 @@ enum {
- 	CXT_FIXUP_HP_ZBOOK_MUTE_LED,
- 	CXT_FIXUP_HEADSET_MIC,
- 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
-+	CXT_PINCFG_SWS_JS201D,
- };
- 
- /* for hda_fixup_thinkpad_acpi() */
-@@ -841,6 +842,17 @@ static const struct hda_pintbl cxt_pincfg_lemote[] = {
- 	{}
- };
- 
-+/* SuoWoSi/South-holding JS201D with sn6140 */
-+static const struct hda_pintbl cxt_pincfg_sws_js201d[] = {
-+	{ 0x16, 0x03211040 }, /* hp out */
-+	{ 0x17, 0x91170110 }, /* SPK/Class_D */
-+	{ 0x18, 0x95a70130 }, /* Internal mic */
-+	{ 0x19, 0x03a11020 }, /* Headset Mic */
-+	{ 0x1a, 0x40f001f0 }, /* Not used */
-+	{ 0x21, 0x40f001f0 }, /* Not used */
-+	{}
-+};
-+
- static const struct hda_fixup cxt_fixups[] = {
- 	[CXT_PINCFG_LENOVO_X200] = {
- 		.type = HDA_FIXUP_PINS,
-@@ -996,6 +1008,10 @@ static const struct hda_fixup cxt_fixups[] = {
- 		.chained = true,
- 		.chain_id = CXT_FIXUP_HEADSET_MIC,
- 	},
-+	[CXT_PINCFG_SWS_JS201D] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = cxt_pincfg_sws_js201d,
-+	},
- };
- 
- static const struct snd_pci_quirk cxt5045_fixups[] = {
-@@ -1069,6 +1085,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
-+	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
- 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
- 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
- 	SND_PCI_QUIRK(0x17aa, 0x215e, "Lenovo T410", CXT_PINCFG_LENOVO_TP410),
-@@ -1109,6 +1126,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
- 	{ .id = CXT_FIXUP_HP_ZBOOK_MUTE_LED, .name = "hp-zbook-mute-led" },
- 	{ .id = CXT_FIXUP_HP_MIC_NO_PRESENCE, .name = "hp-mic-fix" },
- 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
-+	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
- 	{}
- };
- 
--- 
-2.34.1
-
+VGhpcyBwYXRjaCBlbmFibGVzIG1pY3JvcGhvbmUgZHJpdmVyIG9uIEFzdXMgVml2b2Jvb2sgUyAx
+NlggbGFwdG9wIGJ5IA0KYWRkaW5nIGl0IHRvIHF1aXJrcyB0YWJsZS4NCg0KU2lnbmVkLW9mZi1i
+eTogTWFyY2VsIEdlcmFsdG93c2tpIDxtYXJjZWxnQGdteC5jb20+DQoNCi0gLSAtDQoNCi0tLSBz
+b3VuZC9zb3VuZC9zb2MvYW1kL3ljL2FjcDZ4LW1hY2guYy5vcmlnwqDCoMKgIDIwMjQtMDItMDUg
+DQoxMDoyNjoxMS4xMjM4OTcyMzMgKzA4MDANCisrKyBzb3VuZC9zb3VuZC9zb2MvYW1kL3ljL2Fj
+cDZ4LW1hY2guY8KgwqDCoCAyMDI0LTAyLTA1IDExOjA0OjQwLjU1NDU2NjkwOSANCiswODAwDQpA
+QCAtMjYyLDYgKzI2MiwxMyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRtaV9zeXN0ZW1faWQgeWNf
+YWNwDQogwqDCoMKgwqAgwqDCoMKgIMKgwqDCoCBETUlfTUFUQ0goRE1JX1BST0RVQ1RfTkFNRSwg
+Ik01NDAyUkEiKSwNCiDCoMKgwqDCoCDCoMKgwqAgfQ0KIMKgwqDCoMKgIH0sDQorwqDCoMKgwqDC
+oMKgwqAgew0KK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuZHJpdmVyX2RhdGEgPSAm
+YWNwNnhfY2FyZCwNCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLm1hdGNoZXMgPSB7
+DQorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBETUlfTUFU
+Q0goRE1JX0JPQVJEX1ZFTkRPUiwgIkFTVVNUZUsgQ09NUFVURVIgDQpJTkMuIiksDQorwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBETUlfTUFUQ0goRE1JX1BS
+T0RVQ1RfTkFNRSwgIk01NjAyUkEiKSwNCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fQ0KK8KgwqDCoMKgwqDCoMKgIH0sDQogwqDCoMKgwqAgew0KIMKgwqDCoMKgIMKgwqDCoCAuZHJp
+dmVyX2RhdGEgPSAmYWNwNnhfY2FyZCwNCiDCoMKgwqDCoCDCoMKgwqAgLm1hdGNoZXMgPSB7DQoN
+Cg==
