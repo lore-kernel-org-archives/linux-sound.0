@@ -1,103 +1,88 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39B028DD1;
-	Mon,  5 Feb 2024 14:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783552C197;
+	Mon,  5 Feb 2024 14:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707141705; cv=none; b=bqguUDMIsMhnAcCn04wG7RA4p3ulTrMwu1XuTW5/0e/PxOBjJ1XxCkqSQkOcR0QDSqane1B7TPPA9sWKXBsTuWaGIZHQoSjrhRQqzBFPYWZFcRawErb7FYQsdraSO4K2mMBbTbrc+bc+Tm/Oal7dY2iWVLWgX3lyWj+zyE+SiAM=
+	t=1707143790; cv=none; b=IusV2UoMHCfKmsZzAfj8sopNRZKWg4/qJPbMm+T68zqqFY7h92/rp+KbNBNBoCpTPibgmQXYYqhGer84tFrKnl0VBA9J69QiYpNmsGWA9Riej34luPuLEdGONkBMOjxhrAMtzDVxNnu+eCXUy2qtSiumpAxAhQt/yUanhTjCJqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707141705; c=relaxed/simple;
-	bh=AQ9rJJsSMiX+vo7iSm3VkhpLNuASv5tw8v6zztJtpa8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TjYTv2H38q8ZD/p7fr8O9uJyLFM9Gn53trc0Ebi8jaLeohknm6XfspzxBtp3u2WfxEI+PxmbtvAHLQelNj3WEdpwFzGKOEZUbBnxr9MfnL1dihlAP6uvTnZ6DXjTf56H452nLdostGkL1o5/G4U4oZPVCb3xWMVu4p+DuxPIJ/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nhvuxBxD; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1707143790; c=relaxed/simple;
+	bh=TQBPDAmFUjmyp+0rnwZNqMJCXIT6ZMLHiSBMkaF8co4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TrGS4YLq1kStxaOdw829XcHAMfp89e0TMM+MroS8kszCS1ZNWX8vJ6XeIvG0lpUZ/cwMIvAZWVLs/7BooV5g8/kOu6swTJsYZfd01gI6re/QGsG7J3EOJAotEkXhEWmTF/81kcK8yTUbd5nO6rCqQbOf4jyWnuf9AipVxFsBSeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqJR7F2z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nhvuxBxD"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4155VpcZ002122;
-	Mon, 5 Feb 2024 08:01:08 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=KkdSVvZBpNy6UICQTjzXbhDmnHH8Se+KrDnsL2G3J/E=; b=
-	nhvuxBxD495qcJk3Dwfn+Er1TmmkZ7aJl4efkUIbbRZgzbGmi15fN6u6L0pQsS8m
-	oizA2n3YqQi918+XB4wYEvGZbCAZERLf6z7PoPWBL6CgeUn6VnT6NmDupNW9GTvT
-	1OutoakT1s0SKSbllebVm5FLZy+RPSpylL3B8goAarXiDQeLi9Yu5opBm006u0vh
-	Rin8D06cqaadWvMwBHLeKHYsAlC1Ai1/JzEvNBGygzmXFKBcMTCXDg34tPFL74JS
-	da4YSkg3HXId+hWhheJZBLCFkmgPuukxddu7ePknDbuGLoiTJSsKW9cZyuuPBjEM
-	GZ4YM+x5ksEclSEt6EyFIg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w1ks29ybc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 05 Feb 2024 08:01:05 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 5 Feb
- 2024 14:01:03 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Mon, 5 Feb 2024 14:01:03 +0000
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8A88B820241;
-	Mon,  5 Feb 2024 14:01:03 +0000 (UTC)
-Message-ID: <5a2872d4-7eb3-465a-aace-c848919b1f2a@opensource.cirrus.com>
-Date: Mon, 5 Feb 2024 14:01:03 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqJR7F2z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 889C3C433F1;
+	Mon,  5 Feb 2024 14:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707143790;
+	bh=TQBPDAmFUjmyp+0rnwZNqMJCXIT6ZMLHiSBMkaF8co4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bqJR7F2z0RutzJ+trP+hqeWZ+7u5ctKNBmybXKMMmHtXpz8QS3fxI8omVM9Db+Knb
+	 wjTaraTvkUztBbGtuULOp1Dq4BuNFZFviFQgaHxpwO20nq4r2tpWVfioC6pZt781J8
+	 aBKOK2A4kuFqP4oIkZ0MN/Tms3q8EOO1qftWM/IaGaQ3bhUMPIbv5gXBlV8dgoPSUZ
+	 6uh/9BteAyi8bj+TTxGlcVdEwVEN26kE5d+SSIeOxgGqhtj0Df7tVZrWAOD0MxAG5m
+	 a/RzbfidlC/1b5cgnbdLHQ8YzwDDLnHYkAcwcLiU+BNOTSBHRcdkXtayCP5lF93ELl
+	 Km3J18MHoH1hQ==
+Date: Mon, 5 Feb 2024 14:36:25 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: SOF: amd: fix SND_AMD_SOUNDWIRE_ACPI
+ dependencies
+Message-ID: <ZcDyaUoaBT9gSsd+@finisterre.sirena.org.uk>
+References: <20240204212207.3158914-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs35l56: fix reversed if statement in
- cs35l56_dspwait_asp1tx_put()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>
-References: <0c254c07-d1c0-4a5c-a22b-7e135cab032c@moroto.mountain>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <0c254c07-d1c0-4a5c-a22b-7e135cab032c@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 5xdR__uDpewbfPRVIWR6S2KgtvLy6a5n
-X-Proofpoint-ORIG-GUID: 5xdR__uDpewbfPRVIWR6S2KgtvLy6a5n
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Pa4f4aDKEaEPk88N"
+Content-Disposition: inline
+In-Reply-To: <20240204212207.3158914-1-arnd@kernel.org>
+X-Cookie: You might have mail.
 
-On 05/02/2024 12:44, Dan Carpenter wrote:
-> It looks like the "!" character was added accidentally.  The
-> regmap_update_bits_check() function is normally going to succeed.  This
-> means the rest of the function is unreachable and we don't handle the
-> situation where "changed" is true correctly.
-> 
-> Fixes: 07f7d6e7a124 ("ASoC: cs35l56: Fix for initializing ASP1 mixer registers")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->>From static analysis and review, not tested.
-> ---
->   sound/soc/codecs/cs35l56.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-> index c23e29da4cfb..ebed5ab1245b 100644
-> --- a/sound/soc/codecs/cs35l56.c
-> +++ b/sound/soc/codecs/cs35l56.c
-> @@ -115,7 +115,7 @@ static int cs35l56_dspwait_asp1tx_put(struct snd_kcontrol *kcontrol,
->   
->   	ret = regmap_update_bits_check(cs35l56->base.regmap, addr,
->   				       CS35L56_ASP_TXn_SRC_MASK, val, &changed);
-> -	if (!ret)
-> +	if (ret)
->   		return ret;
->   
->   	if (changed)
 
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+--Pa4f4aDKEaEPk88N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Feb 04, 2024 at 10:22:01PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The snd-amd-sdw-acpi.ko module is under CONFIG_SND_SOC_AMD_ACP_COMMON but
+> selected from SoF, which causes build failures in some randconfig builds
+> that enable SOF but not ACP:
+
+Please don't needlessly combine tangentially related things into a
+single series, it just makes things harder to manage when they should go
+to different branches.
+
+--Pa4f4aDKEaEPk88N
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXA8mgACgkQJNaLcl1U
+h9A/vwf+J1Fu9RGe+hksZU7MhfRrchcEBnUZpNRYIJh8+uznAT705LBf2VVOcSXZ
+hxCCaYckGrMTgI4RRXwufrz//TlTaiXMS4SQV2fnixF/K+S2tGHp8nRC0BVVf5wx
+7GwxYaYkOWakjyN8boD/707zKs+RjR7wgaOg4i4v/Dr4eV2TyZkjumqVV5ZzGW0c
+6yg8XTuXBWxg8NafLyHa2jOj+k+p2Z93cTuYQu6fWkrNCXt5SzeYVY8O7nEm+Ipe
+3N8GfzQy7my8Boi8bxaGQACsl3jDLtIFqpap230x9D9JRdrVecv+NHX7kHcA0Zh4
+Zx4zaVoTNh0SQDR8g5b+hJ9FPK9LtA==
+=wKBL
+-----END PGP SIGNATURE-----
+
+--Pa4f4aDKEaEPk88N--
