@@ -1,137 +1,116 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE05125A4
-	for <linux-sound@vger.kernel.org>; Mon,  5 Feb 2024 09:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDDE125B7;
+	Mon,  5 Feb 2024 09:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707124633; cv=none; b=qtu6yePUfWi96nTY34ig5zF+DNpv/s6P/TNUFZoin3npHygap/ZIjr2KtBviJ7PbLpLRPmgpOHOsgtzf571ThBHy51T4YNENvKogGlBFvA4FoTldga/2u+3LC2vtv6iRGOlb0Ks3TDOV/gMDzXWIfd1XGiGUBmdvkwZMEX5B/9o=
+	t=1707125207; cv=none; b=Y5ijBQmsL1Pps1NbBsW3Czt1lPidAp/reOjEYWiLSuKm7VsDqLlWF84oGdSXvN2iS0KItth9YWXWuA94VmT9RfLaj1s0FH+vaT9TBls3KYsopm9gqauIedhxHUePIDOi8NgB6m1GFwU5P+KY1VC2beuf4FWSUTncv0JOZ7XjTuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707124633; c=relaxed/simple;
-	bh=XWd9xLylyBT5M2/7A5vWEGIu3STuJdYfP6gbM9CuVeM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=um/Rh9TNdIOB45EKNgFrhnRZrHQOJ002iANjr2TooVZzYC4TKmleYW1mEfdao0FR6D8p5a7PaTZFuYcIOYzYQzMEyIeiT39OCV63ftA7DBbcGIUsDyUJz0H3zQpCVvaTlRKFLY2G6XVz7cFfcUljyAcuBJ95cJZHfeQxhiqcby8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bfSPgbGk; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707125207; c=relaxed/simple;
+	bh=rHMp+3HUl38fXd92yWtNbr68AI7/ldR3UAk7XKf8c/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSsN+8shkbb90uiwqQksoNQKcHnB9bEPCGP3iWH8CjFz4BG2Ip2d9AK+XYykYAxw5cpmXxY0W2rYKLXO46Y/fAtmWl8uU2h/kQpz4YNWbS2g1A4P3n0+6Fp+YWZ2BNU2bcq6al4SLsNwE0bPhaLphSwK9AKL5OnnioeEU4HAWnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=foU6YdKK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bfSPgbGk"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a358ec50b7cso501188366b.0
-        for <linux-sound@vger.kernel.org>; Mon, 05 Feb 2024 01:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707124628; x=1707729428; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uW7j7d5sbc2SmZcVmQSuT/FkqOppes1I54urMyUkMBw=;
-        b=bfSPgbGk0DTiq7G0x6RnZidSpYiEyAqMQo9Qy1lYjkw74UH95ERA/ONrIR0Y1LAuL5
-         zy/Mzx03aZJK4zLBjB8XnB2ke7VpaDhsgKGWfyIR0CNpAQxjgHyCQynZHQY08qLovxGD
-         f7vmGctO9joq0BpdLpwRWiibHFksaVfn8DM+wd7+yOUr7xQ+hxgUkw6+vusU+seb7xyr
-         71oK1FsJ1rshjMat0EzeZtK42lAmEj2Ku6399f/zaBGLA1UBhHd1x5Bdqtxax0647eCX
-         7QiNfwXebHup8TWr3vohP92w4Akf/M4VEThEqk+fDIz+Be4jku66Z+xFcnzSfbpI2qt1
-         UHoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707124628; x=1707729428;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uW7j7d5sbc2SmZcVmQSuT/FkqOppes1I54urMyUkMBw=;
-        b=obPjJbZ8MRPCA80YKcHWPq2a/NGJw77uwjetbC5mcLgl8GvStKn8pAebkgkM0yDXvQ
-         PWx4Xqw1vhTZzgrLSWnCCVjhI2JeYf7GIcR/MP5YrYQi4cYk4Mv8z1W2MEyJx5AKhMYA
-         MZgdEW+ZSI1WRA2mlCsfrUJRyZYmjTw6BUcBnJv/NOkLmQBtcnV4ewusrVNpmL6kBdgg
-         RqPJmFSy/Fduvb3xia0prOJx2kgvwWEZJCiWfjG3ZiHyuIkErAfheHp2bcc6Wos3yOGE
-         qk5WxcDZbcF8L6BC4df/HZFl9ZdAfuHXkY7DnWTSejCRwhTbMWDkByxVUJclqN7Euh5y
-         q45w==
-X-Gm-Message-State: AOJu0YycsFNewI5o+c6zcQlAEZrfylfsHmakPIfBDgrQ5uH5BA4i2eNA
-	UJ8puqW3CluqD8z9qXzQ6c6VrpcMge+MDWmjF8uVHCPO86+tarpVtg32WDV7DOo=
-X-Google-Smtp-Source: AGHT+IHnj9U9lbDBD85awyLuSi3vUQNcSa2u1OEiNYT/3QWWa+mAuSgIgnVUSpnMm2XMmMHP6zpQgA==
-X-Received: by 2002:a17:906:6849:b0:a35:3718:997c with SMTP id a9-20020a170906684900b00a353718997cmr5303367ejs.28.1707124628451;
-        Mon, 05 Feb 2024 01:17:08 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWxGC3PgVm6l/xGP/xoxc36Nku/wr2DzIIOZsrTE5XBc3AOiKJKcpf12ica5EhunbM+POqURgj13zIJJcMl6EVlHbQgeUyexrp2rZBProMEvdmhXO7gxeKo+vnS+rKOp8cOUAntNc1kRZgQjnGF4fQBQ1aQCrelG8iIOQ4r+xx8OaUYXAPZCcld08l+slrF3xSoSUU+0gcTpcLiIf+aWhO3v1AAhrBUoHYXMp6d9jPOCqu3czezJ+tPTR+UmPBxHHrXFE+xixO4pBNCAQ93AA5ved8TCH6fYswWJDP+EcEGh9atvsyjcpaMW9Njk1GoqUuccK2nbxQ1CyVJCrBr+kdTc9j+KJx4o+p7X0IwiogmHs0U0WhOMKPPW4k2AbTuu3iSitLT7AHAL4JpPZo=
-Received: from [192.168.1.20] ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id vh11-20020a170907d38b00b00a36fdfd5f52sm3973064ejc.204.2024.02.05.01.17.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 01:17:07 -0800 (PST)
-Message-ID: <e3844aed-6e23-4a5f-ade8-61bb3e6c06a9@linaro.org>
-Date: Mon, 5 Feb 2024 10:17:06 +0100
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="foU6YdKK"
+Received: from pendragon.ideasonboard.com (99.141-128-109.adsl-dyn.isp.belgacom.be [109.128.141.99])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC5A4268;
+	Mon,  5 Feb 2024 10:25:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707125120;
+	bh=rHMp+3HUl38fXd92yWtNbr68AI7/ldR3UAk7XKf8c/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=foU6YdKKlM9CYYob1znc8ZbHPp9AotBroDPzPQoXy+b/czrpSr2+sCa6G+Ae/kfVB
+	 25qzq1p6Da4NtDQRhfuNtUSKEzqrSE5R9H5IWOWjoTkOmLgq8fFGITxV+PjOybBUQL
+	 lYZr6XhiRpmFvuU+yPl8n7b2fWnhBNp6lHkspcAE=
+Date: Mon, 5 Feb 2024 11:26:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Uwe =?utf-8?B?S2xlaW5lLUvDg8K2bmln?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 00/13] of: property: add port base loop
+Message-ID: <20240205092644.GK6804@pendragon.ideasonboard.com>
+References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
+ <20240129122736.GC8131@pendragon.ideasonboard.com>
+ <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
+ <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
+ <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
+ <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
+ <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
+ <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
+ <ZbtiAJklkLaXWY20@valkosipuli.retiisi.eu>
+ <87ttmncw9f.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: google,sc7280-herobrine: Drop bouncing
- @codeaurora
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, judyhsiao@chromium.org, quic_bjorande@quicinc.com
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240202174313.4113670-1-quic_jhugo@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240202174313.4113670-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87ttmncw9f.wl-kuninori.morimoto.gx@renesas.com>
 
-On 02/02/2024 18:43, Jeffrey Hugo wrote:
-> The servers for the @codeaurora domain have long been retired and any
-> messages sent there bounce.  Srinivasa Rao Mandadapu has left the
-> company and there does not appear to be an updated address to suggest,
-> so drop Srinivasa as maintainer of the binding.  The binding still
-> appears to be maintined as Judy is listed.
+Hello Morimoto-san,
+
+On Mon, Feb 05, 2024 at 05:31:25AM +0000, Kuninori Morimoto wrote:
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
+> Hi Sakari
+> 
+> > > Thank you for your suggestion.
+> > > But I'm not familiar with fwnode, and it seems we still need of_*,
+> > > I will keep current style (= non fwnode) in v3
+> > 
+> > The fwnode API should be kept in sync with the OF (and other firmware
+> > specific) API. Merging your set in its current form would leave fwnode API
+> > impaired. Therefore I'd very much prefer to see this set add similar fwnode
+> > APIs, too.
+> 
+> I will keep current fwnode API behavior, but I can't test it.
 
+The fwnode API is an abstraction layer on top of the OF or ACPI APIs,
+and allows drivers to work on both without needing to support OF and
+ACPI explicitly and separately. You should be able to convert the
+drivers you're using to the fwnode API, and it should work exactly the
+same as when using the OF-specific functions. That will give you a way
+to test the API.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+For instance, if you look at the drivers/media/platform/rcar_drif.c
+driver, you will see
 
-Best regards,
-Krzysztof
+        if (!fwnode_property_read_u32(fwnode, "sync-active", &val))
 
+which, on OF platforms, is equivalent to
+
+        if (!of_property_read_u32(np, "sync-active", &val))
+
+This particular driver will never be used on an ACPI-based system, but
+drivers are still encouraged to use the fwnode API. 
+
+> Now, I'm separating the patch-set into small stages.
+> There is no problem for a while, but I think I will ask you to test it in the
+> final stage.
+
+-- 
+Regards,
+
+Laurent Pinchart
