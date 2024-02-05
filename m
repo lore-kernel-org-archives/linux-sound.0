@@ -1,116 +1,104 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDDE125B7;
-	Mon,  5 Feb 2024 09:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DD61CD04
+	for <linux-sound@vger.kernel.org>; Mon,  5 Feb 2024 12:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707125207; cv=none; b=Y5ijBQmsL1Pps1NbBsW3Czt1lPidAp/reOjEYWiLSuKm7VsDqLlWF84oGdSXvN2iS0KItth9YWXWuA94VmT9RfLaj1s0FH+vaT9TBls3KYsopm9gqauIedhxHUePIDOi8NgB6m1GFwU5P+KY1VC2beuf4FWSUTncv0JOZ7XjTuo=
+	t=1707137079; cv=none; b=U+kIWR7VTghVhOAvyzScv5GO3SNdJLUNvGYEBhH7gs792l5WlhbexeBFV4pnjrsbchyfQVqrsD2L/eISuOAvPIqG1aTyNBnCxIEHT+JZWMlIr+M0rnUEyTgxcv4LpmZ7mHZ0fAQV41P9Hl5paJkt7s2KqhnauortWeGVIz3j+70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707125207; c=relaxed/simple;
-	bh=rHMp+3HUl38fXd92yWtNbr68AI7/ldR3UAk7XKf8c/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSsN+8shkbb90uiwqQksoNQKcHnB9bEPCGP3iWH8CjFz4BG2Ip2d9AK+XYykYAxw5cpmXxY0W2rYKLXO46Y/fAtmWl8uU2h/kQpz4YNWbS2g1A4P3n0+6Fp+YWZ2BNU2bcq6al4SLsNwE0bPhaLphSwK9AKL5OnnioeEU4HAWnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=foU6YdKK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1707137079; c=relaxed/simple;
+	bh=2LucDbaKWnc43eYl6V2+NFUWC00In0EAYHQmGvq+4OE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=USGmLUAyDQJNoH9abQ5I0msKBojj4xp2hDCgVVUPye7DBm6Z+tSK4ZZzysf8fiKj/xJtglu3S2RWR2xt6waNv2rjwudU4ke0FBZzlAGJBcTHfFMjmCflGiRavjtStRuDqLksnVWYVI4vZ+buxGxyWtyPPTwfbylpvoKElEzI4TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QsFq9+aY; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="foU6YdKK"
-Received: from pendragon.ideasonboard.com (99.141-128-109.adsl-dyn.isp.belgacom.be [109.128.141.99])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC5A4268;
-	Mon,  5 Feb 2024 10:25:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707125120;
-	bh=rHMp+3HUl38fXd92yWtNbr68AI7/ldR3UAk7XKf8c/k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=foU6YdKKlM9CYYob1znc8ZbHPp9AotBroDPzPQoXy+b/czrpSr2+sCa6G+Ae/kfVB
-	 25qzq1p6Da4NtDQRhfuNtUSKEzqrSE5R9H5IWOWjoTkOmLgq8fFGITxV+PjOybBUQL
-	 lYZr6XhiRpmFvuU+yPl8n7b2fWnhBNp6lHkspcAE=
-Date: Mon, 5 Feb 2024 11:26:44 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Uwe =?utf-8?B?S2xlaW5lLUvDg8K2bmln?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QsFq9+aY"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-55cca88b6a5so5154965a12.1
+        for <linux-sound@vger.kernel.org>; Mon, 05 Feb 2024 04:44:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707137074; x=1707741874; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G4Vl82m2zEorDZ7pWMk9i0Xlp64g/8z9zNmyXXlM3Ww=;
+        b=QsFq9+aYmq8eoNC+vBZJUfqY3wHp2qxaDBzJO2GTqVezsx/mYHUouoAwYbLEar77SB
+         NKyIcRqzIsYBDJb8orbHAGgc2gXtD1GlkanV65kGe000pzbVOPkrWcq/oLMo1+4/DKpM
+         pL6nHJN5gAhFg/R4WO2kE/wL9NYmgqYGjUA8uaK75CYmiQ0saAZpQqlz72uhf77ZBzm4
+         Vi5a/OnJW6H84c6SxlWfBHhkCOoWM/57Voo0y4xABziRcyiL1rEm40/utuWildNb8mvv
+         fPlUNEoM+J3XzJ90QEFp7NuTXsRlleEcE/526m8vyaMsa7CmTFPaJ+QBTkamFAv4Ua/B
+         bNzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707137074; x=1707741874;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G4Vl82m2zEorDZ7pWMk9i0Xlp64g/8z9zNmyXXlM3Ww=;
+        b=mnpYYwj2U0pMuVfcpNQYgp97qEtP0cS60lFH50ulknc+To3BzGX3xOZjQUyyjtSHdw
+         bD4cyn4RH/3fDvAq5evEgUH6N16NiHhXbVP71mGsZ3l1afoVRT7tdHiA50s797leQKVq
+         cu4mWWvo8XnUyHzDY0mrZxhA6ugbRYj2NTQNJ67ftszUwxLGBINwz4l3F1Q2Pn2BkpnP
+         EEgDmN4/0fHnFFpi/VXT79DZQel3+Rxbs4QeHKf4HPd0X/X5Kg9LHjHNAmFKKGjnr1uO
+         sJyLyGX5sPNNWFyDPsQ0MMi4Af8Gh869M4E3JFV3R3wXqAcGjJJb/RpS+zIcG54+/2d6
+         ulFg==
+X-Gm-Message-State: AOJu0YxNBCmTjGDkv64wu1ZLn1NSVVmJbrdiFBHqflk3fUoBjlLj5g87
+	2fQAO7mXG4QMApGHvQoQje0++WDA7NU9uYMYP4UwCz+csPXSCHw3k4ds5NhRQi8=
+X-Google-Smtp-Source: AGHT+IFcCBosTBE78GusQ6RADTjnIHb6MB9A+FrK1+MA3FZHOcbc8Iblcq/I7+Slr1+SiFtgUSoo3g==
+X-Received: by 2002:a17:906:7853:b0:a31:4e96:f40a with SMTP id p19-20020a170906785300b00a314e96f40amr7218077ejm.26.1707137074271;
+        Mon, 05 Feb 2024 04:44:34 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCW4WiNmIJTwOQBdIusFKWvbUqNu81vffJtRd1DoC8f/9LiqEWIS+V1mSm6nQfEhW2qzARfp0/POzL6npsKHd4796GaGtgSCgHsBz0U9VlZ+EXQIo/iGEct5EQS4b/XYC3ioesFeptDuF6egOuCSjybk/ot9TKooH4FYvAnK1K5nFyTCNePDxDUQlTi4OkRPT9IUM6z9teerFQfOWaZ6fVMa6NJN7RDxeS5/J6mEW8oQHi9myZFSZjVF1/XrmkCdjuNUYFhngJlFP9pLH30RQgQpM//LR7gFDCmsY2O0NuXClfBWn53ENpktlgzxg4hFCOrHzb1cSQgX0jCHn6f2FhdaMt9h9sQMr8Pql2NoAf77yWtbPNmgUU5PVO5VpEPJKXSwJuOB91nHnHgNzhVYJyP/nrS/dkPlJmOUh72rKCfPFtdJ
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id th7-20020a1709078e0700b00a3742b09617sm3102294ejc.182.2024.02.05.04.44.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 04:44:33 -0800 (PST)
+Date: Mon, 5 Feb 2024 15:44:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] of: property: add port base loop
-Message-ID: <20240205092644.GK6804@pendragon.ideasonboard.com>
-References: <87fryhklhb.wl-kuninori.morimoto.gx@renesas.com>
- <20240129122736.GC8131@pendragon.ideasonboard.com>
- <ZbeoPBvGJlaJco_J@valkosipuli.retiisi.eu>
- <87zfwnirps.wl-kuninori.morimoto.gx@renesas.com>
- <Zbil22dm9x2ZudJC@valkosipuli.retiisi.eu>
- <582ede29-2df7-4f01-a03b-da59d9f56d74@ideasonboard.com>
- <Zbin6Pg6oNp0cTNO@valkosipuli.retiisi.eu>
- <87ttmu76co.wl-kuninori.morimoto.gx@renesas.com>
- <ZbtiAJklkLaXWY20@valkosipuli.retiisi.eu>
- <87ttmncw9f.wl-kuninori.morimoto.gx@renesas.com>
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: cs35l56: fix reversed if statement in
+ cs35l56_dspwait_asp1tx_put()
+Message-ID: <0c254c07-d1c0-4a5c-a22b-7e135cab032c@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ttmncw9f.wl-kuninori.morimoto.gx@renesas.com>
+X-Mailer: git-send-email haha only kidding
 
-Hello Morimoto-san,
+It looks like the "!" character was added accidentally.  The
+regmap_update_bits_check() function is normally going to succeed.  This
+means the rest of the function is unreachable and we don't handle the
+situation where "changed" is true correctly.
 
-On Mon, Feb 05, 2024 at 05:31:25AM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Sakari
-> 
-> > > Thank you for your suggestion.
-> > > But I'm not familiar with fwnode, and it seems we still need of_*,
-> > > I will keep current style (= non fwnode) in v3
-> > 
-> > The fwnode API should be kept in sync with the OF (and other firmware
-> > specific) API. Merging your set in its current form would leave fwnode API
-> > impaired. Therefore I'd very much prefer to see this set add similar fwnode
-> > APIs, too.
-> 
-> I will keep current fwnode API behavior, but I can't test it.
+Fixes: 07f7d6e7a124 ("ASoC: cs35l56: Fix for initializing ASP1 mixer registers")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+From static analysis and review, not tested.
+---
+ sound/soc/codecs/cs35l56.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The fwnode API is an abstraction layer on top of the OF or ACPI APIs,
-and allows drivers to work on both without needing to support OF and
-ACPI explicitly and separately. You should be able to convert the
-drivers you're using to the fwnode API, and it should work exactly the
-same as when using the OF-specific functions. That will give you a way
-to test the API.
-
-For instance, if you look at the drivers/media/platform/rcar_drif.c
-driver, you will see
-
-        if (!fwnode_property_read_u32(fwnode, "sync-active", &val))
-
-which, on OF platforms, is equivalent to
-
-        if (!of_property_read_u32(np, "sync-active", &val))
-
-This particular driver will never be used on an ACPI-based system, but
-drivers are still encouraged to use the fwnode API. 
-
-> Now, I'm separating the patch-set into small stages.
-> There is no problem for a while, but I think I will ask you to test it in the
-> final stage.
-
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index c23e29da4cfb..ebed5ab1245b 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -115,7 +115,7 @@ static int cs35l56_dspwait_asp1tx_put(struct snd_kcontrol *kcontrol,
+ 
+ 	ret = regmap_update_bits_check(cs35l56->base.regmap, addr,
+ 				       CS35L56_ASP_TXn_SRC_MASK, val, &changed);
+-	if (!ret)
++	if (ret)
+ 		return ret;
+ 
+ 	if (changed)
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
