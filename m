@@ -1,24 +1,46 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D1211193;
-	Mon,  5 Feb 2024 07:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FDE11185;
+	Mon,  5 Feb 2024 08:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707118533; cv=none; b=KQXkuEG2rP6zCuZSQkivLedh1bZYcmabxoq1KoinkteWPMghXApINcDaXmwuM1g1zcdoatP25tjw+Hr1NcAPzv1WGIIjyfJUdvo8eraGydH2sYGCblUomOb7tEf7S03F4DjIEtdWRUBapUQRhDMSoaHouMdfONhbmM2jsQ1Akec=
+	t=1707121234; cv=none; b=Vm0c0AMVylIlSDtR1iwmxSqCelGrXdGpwooB5j2FAUWDmaep3kV5Mr5U37p8cbN9M2tor22tw/akOLuKi+1Dwlk481X5BElvKhTnzUi93dl2P2hh26cDq3+PhPP6a+Kp05HHfBxLm424rlSXYI4m7+HEC2/0crQmGfcSjF5a9+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707118533; c=relaxed/simple;
-	bh=5aTSrCYKf9FMbG5bWnxBlEmn0e03fsCoBTEYrJ7KGDM=;
+	s=arc-20240116; t=1707121234; c=relaxed/simple;
+	bh=p7VIl6MhCIqATnPphkUNjx22KAhNDEK+6bbzQyPLhPQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IoK8rf/NeMf0sBhufBbj+cADpXrjZNOOLiEfB+j26ysONjVgqwIdKsLYXAG3UgV5kZnyXeYqRp/RRg0nhj5ffbzB8IlZod18vaVET+mRv88QQGKHhazmDUcPx4lvhOmWtsl6k4UCxdL9mHu0wANn9P83FMlCs1ggWjCGDVNzLus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rWtVp-0004Wt-6y; Mon, 05 Feb 2024 08:35:29 +0100
-Message-ID: <bf07c1bc-b38e-4672-9bb0-24c16054569a@leemhuis.info>
-Date: Mon, 5 Feb 2024 08:35:28 +0100
+	 In-Reply-To:Content-Type; b=eqjuflvAarAdrPCkHHiZZg3LDFH7gFf8Q4lboiOikXmJzpR0aREtxBKsR6ROUis57v7GXUNbICzfiPQgYdMlBGDYaZzGORAWuIwSsw1mmXIMDR/Tc4Fk9F3iBU41qnGOvrWAPCacdT3ou6jB8utYW/3DpOu8PWpocoim72MF8MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M26sS6Pi; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M26sS6Pi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707121234; x=1738657234;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=p7VIl6MhCIqATnPphkUNjx22KAhNDEK+6bbzQyPLhPQ=;
+  b=M26sS6PiLtaeWB9+F4n6nNXW2tIfN9gF3OHGZyMocr1nk3NHQhzj24Vl
+   phdvCu38+8yEXhE5JVtLQ5JI+5TGRQgM6QaDNRa9nFJlKkn0eVFfyXPpB
+   N6AMhhEFAVPSPqe9zNYfgOmAhFL+HairrUZQCPAjTpqY97Sq9bLPX+324
+   wokcQGQfbYTgrdVy34X+oknBJX4IfjFBGg3YkAjkgNH3P8COciKb3m8rl
+   ShzBq1WKQJZbPBMIenUjDnh0pR8pp+u9XPKuUQ88u0umDoMrq/qlsYiHn
+   x5ST5cb64kYMD+hTB92wHHm6PG9dXOyWnEMIH5QLW1q4gdH4sfx6EKx7X
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11566172"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="11566172"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 00:20:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="5401061"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 00:20:23 -0800
+Message-ID: <2abb6c0b-ea66-4649-b205-bafe49340aee@linux.intel.com>
+Date: Mon, 5 Feb 2024 09:20:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -26,108 +48,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: S/PDIF not detected anymore / regression on recent kernel 6.7 ?
-Content-Language: en-US, de-DE
-To: Serge SIMON <serge.simon@gmail.com>, linux-sound@vger.kernel.org,
- regressions@lists.linux.dev
-Cc: stable@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
- Jaroslav Kysela <perex@perex.cz>
-References: <CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
- <2024011723-freeness-caviar-774c@gregkh>
- <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1707118531;cb06fef0;
-X-HE-SMSGID: 1rWtVp-0004Wt-6y
+Subject: Re: [PATCH v13 20/53] ASoC: Add SOC USB APIs for adding an USB
+ backend
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+ Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
+ tiwai@suse.com, robh+dt@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+ <20240203023645.31105-21-quic_wcheng@quicinc.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240203023645.31105-21-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 05.02.24 08:09, Serge SIMON wrote:
+On 2/3/2024 3:36 AM, Wesley Cheng wrote:
+> Some platforms may have support for offloading USB audio devices to a
+> dedicated audio DSP.  Introduce a set of APIs that allow for management of
+> USB sound card and PCM devices enumerated by the USB SND class driver.
+> This allows for the ASoC components to be aware of what USB devices are
+> available for offloading.
 > 
-> Any news on this ?
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
 
-Apparently not. I added the sound maintainers just to be sure they are
-aware of this.
+...
 
-> Just to say that i tried the 6.7.3 version and i have the exact same
-> problem as described below
-> ("linux-headers-6.7.3.arch1-2-x86_64.pkg.tar.zst" for the exact ARCH
-> package, of course with a system fully up-to-date and rebooted) : no
-> more S/PDIF device detected after reboot (only the monitors are
-> detected, but not anymore the S/PDIF output at motherboard level-
-> which is what i'm using).
-> 
-> Reverting to 6.6.10 does solve the issue, so per what i'm seeing,
-> something has definitely been broken between 6.6.10 and 6.7.0 on that
-> topic.
+> +
+> +/**
+> + * snd_soc_usb_add_port() - Add a USB backend port
+> + * @dev: USB backend device
+> + * @priv: private data
+> + * @connection_cb: connection status callback
+> + *
+> + * Register a USB backend device to the SND USB SOC framework.  Memory is
+> + * allocated as part of the USB backend device.
+> + *
+> + */
+> +int snd_soc_usb_add_port(struct snd_soc_usb *usb)
+> +{
+> +
+> +
 
-Unless the sound maintainers come up with something, we most likely need
-a bisection from you to resolve this.
+Cosmetic, but why is there white space between start of function and 
+body of function?
 
-In case you want to perform a bisection, this guide I'm currently
-working on might help:
-
-https://www.leemhuis.info/files/misc/How%20to%20bisect%20a%20Linux%20kernel%20regression%20%e2%80%94%20The%20Linux%20Kernel%20documentation.html
-
-> Is this tracked by a bug somewhere ? Does i have to open one (in
-> addition to these mails) ?
-
-No, this thread (for now) is enough.
-
-Ciao, Thorsten
-
-
-> On Wed, Jan 17, 2024 at 6:39 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->>
->> On Tue, Jan 16, 2024 at 09:49:59PM +0100, Serge SIMON wrote:
->>> Dear Kernel maintainers,
->>>
->>> I think i'm encountering (for the first time in years !) a regression
->>> with the "6.7.arch3-1" kernel (whereas no issues with
->>> "6.6.10.arch1-1", on which i reverted).
->>>
->>> I'm running a (up-to-date, and non-LTS) ARCHLINUX desktop, on a ASUS
->>> B560-I motherboard, with 3 monitors (attached to a 4-HDMI outputs
->>> card), plus an audio S/PDIF optic output at motherboard level.
->>>
->>> With the latest kernel, the S/PIDF optic output of the motherboard is
->>> NOT detected anymore (and i haven't been able to see / find anything
->>> in the logs at quick glance, neither journalctl -xe nor dmesg).
->>>
->>> Once reverted to 6.6.10, everything is fine again.
->>>
->>> For example, in a working situation (6.6.10), i have :
->>>
->>> cat /proc/asound/pcm
->>> 00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
->>> 00-01: ALC1220 Digital : ALC1220 Digital : playback 1
->>> 00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
->>> 01-03: HDMI 0 : HDMI 0 : playback 1
->>> 01-07: HDMI 1 : HDMI 1 : playback 1
->>> 01-08: HDMI 2 : HDMI 2 : playback 1
->>> 01-09: HDMI 3 : HDMI 3 : playback 1
->>>
->>> Whereas while on the latest 6.7 kernel, i only had the 4 HDMI lines
->>> (linked to a NVIDIA T600 card, with 4 HDMI outputs) and not the three
->>> first ones (attached to the motherboard).
->>>
->>> (of course i did several tests with 6.7, reboot, ... without any changes)
->>>
->>> Any idea ?
->>
->> As this is a sound issue, perhaps send this to the
->> linux-sound@vger.kernel.org mailing list (now added).
->>
->> Any chance you can do a 'git bisect' between 6.6 and 6.7 to track down
->> the issue?  Or maybe the sound developers have some things to ask about
->> as there are loads of debugging knobs in sound...
->>
->> thanks,
->>
->> greg k-h
-> 
-> 
-
+> +	mutex_lock(&ctx_mutex);
+> +	list_add_tail(&usb->list, &usb_ctx_list);
+> +	mutex_unlock(&ctx_mutex);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_soc_usb_add_port);
+> +
 
