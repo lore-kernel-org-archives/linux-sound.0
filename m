@@ -1,34 +1,68 @@
-Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D796D51D;
-	Tue,  6 Feb 2024 17:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D42ADF5B
+	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 17:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707239172; cv=none; b=jAMM8IeakMVRUSo35WbIXmfcoFgYbf7W1P4PsYW/HzhA6SPGuFSy9H7HM+2AMr+cjYNTuwKulMRtPgVPlt5Lrx1knGU92q4XpzUPQnG8ACYisEkaZcgjbERbisGz6oGUE4wJXY6B0vWP8LtOhhUCBXCkeoKYb5I9+yI7Ozn3TEU=
+	t=1707242145; cv=none; b=aObPGOXC9OKzFXBEbej5gRs74Mwu5tGpgwR8SQG0IHgw2cQ6Jl39A3U+ArWA183FgjxNNzotZcJKTHaxp4MFuRROba4JAwKl2puzeGomfEzlZHF+i01lsiNdrUPUsOJVXLxHBunyxxoJUCAzKwHQ7y1OY/UwRxI5sgEqfpcVZ44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707239172; c=relaxed/simple;
-	bh=/SJzBE/l9/HRQYdjO25GdAcjKLkwXspjpaOOc+6xQJ0=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=bAK1JITfSoK0vLj1LMzaB4MI/EiISIekz2f3QIwlfZa4pv3kuklGd9lhYgwfH1ycpB7pdDR8niYCY1FdEUOOTjABbLcMoxWEVovQDwRN04OZwxvf0BG2iRqdi6cs0un0DbhAHtniB4hxLJeWAOXChBVOw1tHkomkBH0YobWWEeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id ACA7C4D153;
-	Tue,  6 Feb 2024 18:06:01 +0100 (CET)
-Received: from zimbra-e1-03.priv.proxad.net (unknown [172.20.243.151])
-	by smtp4-g21.free.fr (Postfix) with ESMTP id E894E19F738;
-	Tue,  6 Feb 2024 18:05:53 +0100 (CET)
-Date: Tue, 6 Feb 2024 18:05:53 +0100 (CET)
-From: =?utf-8?Q?Jean-Lo=C3=AFc?= Charroud <lagiraudiere+linux@free.fr>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: =?utf-8?Q?Jean-Lo=C3=AFc?= Charroud <lagiraudiere+linux@free.fr>, 
-	Stefan Binding <sbinding@opensource.cirrus.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@opensource.cirrus.com
-Message-ID: <726559913.576332068.1707239153891.JavaMail.zimbra@free.fr>
-Subject: Re: [PATCH v2] ALSA: hda/realtek: cs35l41: Fix internal speaker
- support for ASUS UM3402 with missing DSD
+	s=arc-20240116; t=1707242145; c=relaxed/simple;
+	bh=8lFdlTAXaMQYKNjhcwZCI4u14lmHP8FD8O7vw6uNBZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttvNXkEgERqctl0DqJ9UVISD7vhj7Z037ZF4n/ZV8T4YkQHu9zEuXoMRe9zqXn9yNQFPciOe5icYJNH2F7h0cI7p5rtxF042IMNopZpv0RhkLhdQ4NbvWT9FJHnTrTe65+GkiS7XiY5AM94hUJ4LOduvh+B+0VSlr5Xxcu8xkoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XY9ZOgm5; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XY9ZOgm5"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7bf7e37dc60so54759439f.3
+        for <linux-sound@vger.kernel.org>; Tue, 06 Feb 2024 09:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1707242143; x=1707846943; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NoNQuT/2/fYcMZPqf8XcAEgjNV4wPgIdnAAOu6x91K0=;
+        b=XY9ZOgm5/p7f0cITAw5R5STD9/m4vztf2a+1CbtByPFPW4j+9031Ca8qbMzqbc9pFY
+         tB3zm7aNwrgxQP4hSWeGJ7+ESvHaEMzzhCeOUCoV2FiI9UeWFPgWNymA5Q5CAcAMaXS+
+         JRFnrI3K4b4tcY6/th8HQX6nXTCdsGFauBYnI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707242143; x=1707846943;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NoNQuT/2/fYcMZPqf8XcAEgjNV4wPgIdnAAOu6x91K0=;
+        b=viKm7MkzGegl2mzMh31usJ/9Bsryl1Hm0BjJ6Aad/P5vW8aMywE7zphHulh9FqJN6y
+         0oO9OKEn1v0W+1nre/g5gtzIMYQUuQFVl2MQ8/dG003GewtL41uDtL+V2WiaxDBQ/YJj
+         699X232byhLNDCTpdXIyQ/uAn5/LQVqTCv0cRbBocHNLMPKVkLgnFn2+cNpDI7nTb39p
+         QXZR+Kq3vCaFRUS0BbrJNvsPGt83HSgfvf6F9l5dv3qN+cXYLFombVHTNvYQKbWn6Hco
+         89YftHncPExadSwcJq6vJ6ktPrDEjsnEMr9my6Hb2EJdrLbsP7rrsz8vccABHyTW6Tnh
+         bOpg==
+X-Gm-Message-State: AOJu0YyFXLmY8Y+p8o0X+Ns9TiRD+27waB641wSqOlBt5KipY5Z6yk94
+	8ev3cVGHYNW/9Aov1fjzorOv2fuIFZl7p4yCs8cv02XijZi3KgFImL3pzMYoFQ==
+X-Google-Smtp-Source: AGHT+IEVs438WCFZF1kK2HB0aGcq/yB68iTGDfvVSMMD5jxwmp/5TBU9sTW45w4vD83h4xkb1nJHJg==
+X-Received: by 2002:a92:dac6:0:b0:363:d92b:1059 with SMTP id o6-20020a92dac6000000b00363d92b1059mr552805ilq.32.1707242143168;
+        Tue, 06 Feb 2024 09:55:43 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVOv6k/uIi6TER3yW5X2CcHQLUchbsdeMDRUV2ZGVMnoARCp25REp8WK6CAX9YqMnO6ShNlLthKZ9iwBKPq490/nWwCLp9kvcBFXxXmwwUJZ2hhdH+YDcR0bIf50QwoAq2nRrIM7vJDlnnZOoQfRta9GxbZ9k7TQVgMQDSZJtpUsm5PjGrizdSkIkWrt2oQln1BeCt4I/wP5mTJF6+8Ab70K8OXP7Y2TKopBXCWjPHP5atheHWwSCezVxXe7zLXNxBY3l2r3epPRGylAhsLcfUnSQFgjvqJHg2ujlMKZ56QN+2c84h+wejIrmX7abD30vPbrtoyftcgLElq+bDdnECAbCEzbAvJU+tZS76XWBsaEBiz3dFt51WWcaBv5SnY9mZ/SntevpBmGR4L2w+POVquK8mqAO3IJuy9D5szMJ6U+IPyKA==
+Received: from localhost (147.220.222.35.bc.googleusercontent.com. [35.222.220.147])
+        by smtp.gmail.com with UTF8SMTPSA id l2-20020a922902000000b0036381c9572fsm644000ilg.43.2024.02.06.09.55.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Feb 2024 09:55:42 -0800 (PST)
+Date: Tue, 6 Feb 2024 17:55:42 +0000
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	Matthias Kaehlcke <matthias@kaehlcke.net>
+Subject: Re: [PATCH v3 1/7] usb: misc: onboard_hub: rename to onboard_dev
+Message-ID: <ZcJynrwp7zcs-aIT@google.com>
+References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
+ <20240206-onboard_xvf3500-v3-1-f85b04116688@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,102 +70,124 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 9.0.0_GA_1337 (ZimbraWebClient - FF122 (Linux)/9.0.0_GA_1337)
-Thread-Index: QSromOq1WhBGWcizfa0FVmBVLqOw2Q==
-Thread-Topic: ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
+Content-Disposition: inline
+In-Reply-To: <20240206-onboard_xvf3500-v3-1-f85b04116688@wolfvision.net>
 
-Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
-Add _DSD values for "ASUS UM3402" to cs35l41_config_table[].
-Reorder alc269_fixup_tbl[] by device id and remove duplicate QUIRK
-entry for device {0x1043, 0x1f62, "ASUS UX7602ZM"}.
+Hi Javier,
 
-Signed-off-by: Jean-Lo=C3=AFc Charroud <lagiraudiere+linux@free.fr>
----
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
- sound/pci/hda/patch_realtek.c        | 7 +++----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+a few comments inline
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_h=
-da_property.c
-index 923c0813fa08..d8cd62ef6afc 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -102,6 +102,7 @@ static const struct cs35l41_config cs35l41_config_table=
-[] =3D {
- =09{ "10431D1F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 1000, 4500, 24 },
- =09{ "10431DA2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2,=
- 0, 0, 0, 0 },
- =09{ "10431E02", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2,=
- 0, 0, 0, 0 },
-+=09{ "10431E12", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 0, 0, 0 },
- =09{ "10431EE2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1=
-, -1, 0, 0, 0 },
- =09{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 1000, 4500, 24 },
- =09{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1=
-, 0, 0, 0, 0 },
-@@ -485,6 +486,7 @@ static const struct cs35l41_prop_model cs35l41_prop_mod=
-el_table[] =3D {
- =09{ "CSC3551", "10431D1F", generic_dsd_config },
- =09{ "CSC3551", "10431DA2", generic_dsd_config },
- =09{ "CSC3551", "10431E02", generic_dsd_config },
-+=09{ "CSC3551", "10431E12", generic_dsd_config },
- =09{ "CSC3551", "10431EE2", generic_dsd_config },
- =09{ "CSC3551", "10431F12", generic_dsd_config },
- =09{ "CSC3551", "10431F1F", generic_dsd_config },
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 7aa88ed04bde..16cb19eee589 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9893,6 +9893,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
-=3D {
- =09SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SP=
-K),
- =09SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV", ALC285_FIXUP_=
-ASUS_HEADSET_MIC),
- =09SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2=
-C_2),
-+=09SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI=
-_2),
- =09SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
- =09SND_PCI_QUIRK(0x1043, 0x16d3, "ASUS UX5304VA", ALC245_FIXUP_CS35L41_SPI=
-_2),
- =09SND_PCI_QUIRK(0x1043, 0x16e3, "ASUS UX50", ALC269_FIXUP_STEREO_DMIC),
-@@ -9936,14 +9937,12 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
-] =3D {
- =09SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
- =09SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_=
-SPI_2),
- =09SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI=
-_2),
--=09SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI=
-_2),
--=09SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI=
-_2),
- =09SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA=
-502),
--=09SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_=
-I2C_2),
-+=09SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2=
-),
- =09SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU=
-502_PINS),
- =09SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", ALC294_FIXUP_ASUS_=
-G513_PINS),
- =09SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA=
-401),
--=09SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2=
-),
-+=09SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_=
-I2C_2),
- =09SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_AS=
-US_GA401),
- =09SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA=
-401),
- =09SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2=
-),
---=20
-2.40.1
+On Tue, Feb 06, 2024 at 02:59:29PM +0100, Javier Carrasco wrote:
+> This patch prepares onboad_hub to support non-hub devices by renaming
+> the driver files and their content, the headers and their references.
+> 
+> The comments and descriptions have been slightly modified to keep
+> coherence and account for the specific cases that only affect onboard
+> hubs (e.g. peer-hub).
+> 
+> The "hub" variables in functions where "dev" (and similar names) variables
+> already exist have been renamed to onboard_dev for clarity, which adds a
+> few lines in cases where more than 80 characters are used.
+> 
+> No new functionality has been added.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+
+> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
+> new file mode 100644
+> index 000000000000..e2e1e1e30c1e
+> --- /dev/null
+> +++ b/drivers/usb/misc/onboard_usb_dev.c
+>
+> ...
+>
+> +/*
+> + * Use generic names, as the actual names might differ between cevices. If a new
+
+s/cevices/devices/
+
+<snip>
+
+> +static int __maybe_unused onboard_dev_suspend(struct device *dev)
+> +{
+> +	struct onboard_dev *onboard_dev = dev_get_drvdata(dev);
+> +	struct usbdev_node *node;
+> +	bool power_off = true;
+> +
+> +	if (onboard_dev->always_powered_in_suspend)
+> +		return 0;
+> +
+> +	mutex_lock(&onboard_dev->lock);
+> +
+> +	list_for_each_entry(node, &onboard_dev->udev_list, list) {
+> +		if (!device_may_wakeup(node->udev->bus->controller))
+> +			continue;
+> +
+> +		if (usb_wakeup_enabled_descendants(node->udev)) {
+> +			power_off = false;
+> +			break;
+> +		}
+
+The above branch should probably be limited to hub devices (though in practice it
+shouldn't make a difference). This should be done by "usb: misc: onboard_dev:
+add support for non-hub devices", commenting here since this patch includes the
+code.
+
+> +static struct onboard_dev *_find_onboard_dev(struct device *dev)
+> +{
+> +	struct platform_device *pdev;
+> +	struct device_node *np;
+> +	struct onboard_dev *onboard_dev;
+> +
+> +	pdev = of_find_device_by_node(dev->of_node);
+> +	if (!pdev) {
+> +		np = of_parse_phandle(dev->of_node, "peer-hub", 0);
+> +		if (!np) {
+> +			dev_err(dev, "failed to find device node for peer hub\n");
+> +			return ERR_PTR(-EINVAL);
+> +		}
+> +
+> +		pdev = of_find_device_by_node(np);
+> +		of_node_put(np);
+> +
+> +		if (!pdev)
+> +			return ERR_PTR(-ENODEV);
+> +	}
+
+The above branch should probably be guarded by 'if (!onboard_dev->pdata->is_hub)',
+this is also a change for ""usb: misc: onboard_dev: add support for non-hub devices"
+
+> diff --git a/drivers/usb/misc/onboard_usb_hub_pdevs.c b/drivers/usb/misc/onboard_usb_dev_pdevs.c
+> similarity index 68%
+> rename from drivers/usb/misc/onboard_usb_hub_pdevs.c
+> rename to drivers/usb/misc/onboard_usb_dev_pdevs.c
+> index ed22a18f4ab7..fce860b65958 100644
+> --- a/drivers/usb/misc/onboard_usb_hub_pdevs.c
+> +++ b/drivers/usb/misc/onboard_usb_dev_pdevs.c
+>
+> ...
+>
+>  /**
+> - * onboard_hub_create_pdevs -- create platform devices for onboard USB hubs
+> - * @parent_hub	: parent hub to scan for connected onboard hubs
+> - * @pdev_list	: list of onboard hub platform devices owned by the parent hub
+> + * onboard_dev_create_pdevs -- create platform devices for onboard USB devices
+> + * @parent_hub	: parent hub to scan for connected onboard devices
+> + * @pdev_list	: list of onboard platform devices owned by the parent hub
+>   *
+> - * Creates a platform device for each supported onboard hub that is connected to
+> - * the given parent hub. The platform device is in charge of initializing the
+> - * hub (enable regulators, take the hub out of reset, ...) and can optionally
+> - * control whether the hub remains powered during system suspend or not.
+> + * Creates a platform device for each supported onboard device that is connected
+> + * to * the given parent hub. The platform device is in charge of initializing
+> + * the * device (enable regulators, take the device out of reset, ...) and can
+> + * optionally * control whether the device remains powered during system suspend
+
+Remove '*'s in the above 3 lines.
+
+I'm doubting whether the option to power down the device during system suspend
+should be limited to hubs. In particular I'm concerned about the default of
+powering the device down, which could be unexpected. Then again, it might be
+desired to power down a device if it consumes significant power during  suspend
+on a battery powered system.
