@@ -1,107 +1,86 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5513341C
-	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 15:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A9213474A;
+	Tue,  6 Feb 2024 16:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707234579; cv=none; b=BzYB7IVQtF3FmjWP4kcviNhHSCelPwEBday7CzZnUk0tZPBGAlFj1ecYYPBLEy3ibwT/zNtLe26HWcX3Ka0flecRQMZJ5hBhl24Qj8Q1puK/Vv3cu0LqrAIonzkpatGkOioyxxfQxSdqsDqWoH46huB1eexMHsZ7DepcG0ZGBz0=
+	t=1707235855; cv=none; b=ffce3tdvnJgMvQuW+3u0l2vBj88ES7LJuEaLPcVCtIahUWbfkHA5ZRg8gHUPeT2cwoGHUSRei/vZhecMq/ACJA9qxtsDKKdY8DCD9OxGeLxzIJNRW6E1LfALMEwvGprdKctdrwGnZCEii4Kzc9yAkbFegR9hBBr3+hvTMS2PUR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707234579; c=relaxed/simple;
-	bh=bdl37jmtCEivilMOrqGrJq6Jlst6fkKekum2b0E0mjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CX1v9PKxQmbYCORILHS254QEGi0V1UWxO2A1KjQZ846Pu1QZwnZze5cqiBcUJUVhQCEX+W8vik6qcSYJZlkcxcqJePNXhnVOSMfs6Jdq7hlhp8ylmkE/jGOyxqJ1jn4mC/klGDkhLbcLfYE7PpPahB4aHPnLtgpuXnvfVNl5LHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h5fqMoi6; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1707235855; c=relaxed/simple;
+	bh=rt2gbomlAKzHf86rD0Rdi08EvEQCBWqCJ3uvmPmjTF4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ur0G2VJrNBCohvwbsa9TUTjHps9q2gUVJ6JQD2VNBD8HeTmTDirsp/6AbxfMwbadmbU3Ivpw3YRwzeiiT4EegbtQ61WlgpP/ho69KbMh8gpQM3aEL2KyK9FZLmpmIaMRzSoO3S+7JLJFxKFxc8QoFHJoolkyHqxMcxXj5/9VBYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hhjk+TCu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h5fqMoi6"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-363b6848f95so15694785ab.3
-        for <linux-sound@vger.kernel.org>; Tue, 06 Feb 2024 07:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707234576; x=1707839376; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zCqPj3GZFJlmXLFLaYfVOm5VLNMuP0812vX0CpyGkb8=;
-        b=h5fqMoi65rZvMyPbhKq1SyUhBIHoyXhy5BUXfUr2B8LMfMkQtXvZu7Oo4AaLA7ctHD
-         9bFXRn1zS5dZD426J9L2jXm0t2dACzUQoCw/pv72t+M6IPQR3tWOsm5SF2FYiER8MJHI
-         EnQdFEq3RkgmNxCpbWOkNs4AyXWuKHHR0mNMo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707234576; x=1707839376;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zCqPj3GZFJlmXLFLaYfVOm5VLNMuP0812vX0CpyGkb8=;
-        b=k2UraPJzMK4dDNS5AOL6k3gpx23HcV/gpVUgLrSPfvNN4PGOEwm+PO27WlUikcLON1
-         rdOwbC4PKAfmmaoWZb0V6e6KG+TCf0GW9AjgueDGCiJPho15qFhQTeePpjlf91ys/SXU
-         f2bb4i02mUYGTX6T5i1wLkOuFXXQE50RU6SfIH+Mrz6zXQ3JmwsvIkuQy64SrPBdizaa
-         IKwaRgX9ENuWu1oucwTzr1a+wxsmyM96b0d6YeEv+Ebf1CBjUaDcxBzAzA2/cl88W0z/
-         QZoL1xBQ1qiYy3SkGwM4x0bFCrpzRqm1ekUE2T9mHw1Nc+m+xuVjzUQY34cTqGkKj+iQ
-         xuxg==
-X-Gm-Message-State: AOJu0YzZfsE1Wl9R2oR/Ojb45iCdsfCXPmAMqDSET2xyvNCoJFTYfnlR
-	8cToyDbJH+FspPyhN5nlvfb2X8gubJgf4APS5KmXY6CHRoT82RXHbAjaXqnQgA==
-X-Google-Smtp-Source: AGHT+IFIEPMtHymxpfWYxcgZHzqkoP18uLj2m3G0KSirljW2704g78xPq+vrE/pwaTgUYtR+AfppAA==
-X-Received: by 2002:a05:6e02:318b:b0:363:9f50:9715 with SMTP id cb11-20020a056e02318b00b003639f509715mr3945451ilb.31.1707234576759;
-        Tue, 06 Feb 2024 07:49:36 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW/L96TBq5qchBhAn0e6I03zaNcO4TTP3E7jPFQqVTVF4Xw7sqIMfXoYxWFZSVxC0LF9fReknnkcM1CdGcu9VDCGKfdNrWFv2WY8R0Dx6sIHC/wvEur6toWcSiuGiujz+d2GwvENcuzSH7Jp62GsdfM9OMxUD9beAjwYPmPs06TJyE2y6FMlF7jcGcgyyPMXOcXD3s0e0GeLZcM/kclZS+m+/mOoZPFKgHPL9qVP9fWK2oKNSqYDd7x5KE+CMsSeF3/zYCaj2Dk+mYSixB/InDUxDTB6sv9g0uquZg1N8my4gzoN5vTlIehSM5FkesArKUaSflAOoBdwIWdJGW4D/MJ6jqeFuKtAxILkcqad5fRf+6YNkpP15mOWh+SnqzJEjQy6hlPonNbUuZhYn3u
-Received: from localhost (147.220.222.35.bc.googleusercontent.com. [35.222.220.147])
-        by smtp.gmail.com with UTF8SMTPSA id fo10-20020a056638648a00b0047136dd0dabsm568883jab.158.2024.02.06.07.49.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 07:49:36 -0800 (PST)
-Date: Tue, 6 Feb 2024 15:49:35 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Javier Carrasco <javier.carrasco@wolfvision.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] ASoC: dt-bindings: xmos,xvf3500: add XMOS XVF3500
- voice processor
-Message-ID: <ZcJVD4CGhlWRwgfM@google.com>
-References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
- <20240206-onboard_xvf3500-v3-6-f85b04116688@wolfvision.net>
- <ZcJDFi+iIQOWzgYw@finisterre.sirena.org.uk>
- <7b472cb2-6658-446a-ae47-411d08798cca@wolfvision.net>
- <ZcJR0LrwaS5GAf5h@finisterre.sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hhjk+TCu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D417C433F1;
+	Tue,  6 Feb 2024 16:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707235854;
+	bh=rt2gbomlAKzHf86rD0Rdi08EvEQCBWqCJ3uvmPmjTF4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hhjk+TCu3GJOkW+S758ybNCIvyn0Ca9BCVhLHQNZh6SjtHrezuEaCl3XkfQGZ8+Vn
+	 v+aRDxg7dZjeohPRgS4SpBASCui4OkuhFI4lmTgUkkqPw8/ZFSoLuNe+YEOp8azYsP
+	 4jGCbrEIJkA5cX261dvVWc/e+PMoulXuhL/sd6FGdlucxsz6o9icMmqMGM8EPJHEY9
+	 0OPc84SEqC3K7fLP2OA2IGep5FjG6W7m9D9ke+yrre8qjYJcxbWqAwJFM0MlFhgCPF
+	 pnyStuxBke7AIYmD/6x5Pwd5MoOqGSp6u4zTdByF4simCNAhQxHXFJFZgse26HrD3H
+	 Ezs5RO08eGmKA==
+From: Mark Brown <broonie@kernel.org>
+To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, 
+ Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: hari.prasathge@microchip.com
+In-Reply-To: <20240206064418.237377-1-dharma.b@microchip.com>
+References: <20240206064418.237377-1-dharma.b@microchip.com>
+Subject: Re: [linux][PATCH] ASoC: dt-bindings: atmel,sam9x5-wm8731: Convert
+ to json-schema
+Message-Id: <170723585073.1032228.17039996472357795011.b4-ty@kernel.org>
+Date: Tue, 06 Feb 2024 16:10:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZcJR0LrwaS5GAf5h@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-On Tue, Feb 06, 2024 at 03:35:44PM +0000, Mark Brown wrote:
-> On Tue, Feb 06, 2024 at 04:05:15PM +0100, Javier Carrasco wrote:
+On Tue, 06 Feb 2024 12:14:18 +0530, Dharma Balasubiramani wrote:
+> Convert atmel sam9x5-wm8731-audio devicetree binding to json-schema.
 > 
-> > The names in the datasheet are vdd for the 1V0 supply and vddio for the
-> > 3V3 supply. I named the latter vdd2 instead because this device does not
-> > have its own driver and instead it uses the onboard_usb_hub generic
-> > driver, where the supplies are named vdd and vdd2.
 > 
-> > Those are the names used for devm_regulator_bulk_get(). Is that not the
-> > right way to match them?
-> 
-> The binding should really use vddio instead of vdd2 but if that's an
-> existing binding then it gets more annoying, probably that existing
-> binding is wrong too since vddio does sound like an entirely plausible
-> standard name for a 3.3V supply. :/  At the very least the binding
-> should document the weird mapping, though ideally the driver would be
-> tought to request names matching the datasheet if the compatible is the
-> one for this device.  Doing the better naming might be too much hassle
-> though.
 
-Initially the driver targeted a device with a single supply, the name
-'vdd' was kept generic since it was expected that other devices would be
-supported (except for a couple of minor bits the driver is not device
-specific). Later support for a device with two supplies was added, with
-the generic name 'vdd2' to support other devices with multiple regulators.
+Applied to
 
-Using the correct naming would be doable, with the caveat that the old
-naming still needs to be supported for backwards compatibility.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: dt-bindings: atmel,sam9x5-wm8731: Convert to json-schema
+      commit: a15f859ca312feb4730c93320bbe46929d0f9d26
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
