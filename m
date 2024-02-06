@@ -1,184 +1,105 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from irl.hu (irl.hu [95.85.9.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E37C134B2
-	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 18:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C2D18EA8;
+	Tue,  6 Feb 2024 20:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707244862; cv=none; b=hBcSakPsIyx2zI++bPIAB9Sh6EH6Sc+qbsDzIlsFVp5aN6b9sSotkwH7UzUB22OffIXzoPj4AGNtkWqHGbLXJrUh8RiJsh27axL8THgMTPnsRFki6BpMBR5F1o0/w23nD0wx5taUYhdpl9jINBvhZ7I0TLxK2IfqBDypLFl6wqE=
+	t=1707251172; cv=none; b=nS/xI0JAkYsegd7F7exe/ycrFOL2DuJxoIWI78HQg9JexAAfgTJAYuqtQS5lQiJ90M2ss9Rf8FgqWkfGsAMnPx2sAHvd99wzNwniYR6gQlqCdHRm8zG0nHoTe02Z2oYFlnqrvlLVS0WRzenV5ZhsIge9VcYJsZn8n2kA3sQDiQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707244862; c=relaxed/simple;
-	bh=4iMUCDRK0tbwCoq9ax96HYxDL0mnKXeCT6CGUsUHlLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B4hNrOkYw0eakmn1I4EYrbe6NPh61dfEMSeNKdmpWlPSyPy4w8aVy4UA4gftA+LkU6yXxKyzP5W63OseVRNKrDM50t0HLnahFa35Lb2h5OZ1u0sNdpn4SO1/850PZtOmmoWwarGuvNYQcXkyWIBxLneJXtmdKAUVdPYrFExS8+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DPsh6ovd; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DPsh6ovd"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-363c7d490d1so3726905ab.0
-        for <linux-sound@vger.kernel.org>; Tue, 06 Feb 2024 10:41:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707244859; x=1707849659; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Xv9kD5QhjTCn8Q0pWh79kSOAjDdZQG/rInb+Rd12sQ=;
-        b=DPsh6ovd0cSK3rj11e7ONTc9yz4uuL4plAcyRNbUMiqMVKxKvyoTCkcn8eft79qa5n
-         E5Ej7nCko1mRC8nRJD0d9KbAaJ0swKBgccCdwXXQe94PGxgWjNayxEJDXRCvnLiF72Lb
-         VX3PPsAlCLzAeL78dYMIlvMKjrTUdDn4fOhzI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707244859; x=1707849659;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Xv9kD5QhjTCn8Q0pWh79kSOAjDdZQG/rInb+Rd12sQ=;
-        b=blARsqXraxyRRO+YgOSPLn26low8Jl+ainmFEn8Hz7LxfLbSZMe+djXyQxainqMgyd
-         VOpv3Bj2UdX/FuO6DG8uOnwB9V5x0mODMJA9wA49CU3O7FwpIJJ5MYpT/XoO5FxhBLU9
-         Gt8fXzj+yZtWwFfpaqeETPYfwgUnMaQwHUfCm7HCIKl6ZlMLKboaK6gE4TiWRpw7lr86
-         qAApTdJucqmVERVjr8y4uWbc+kCRJYv9+yQ40EqMe2ggkk3gP74YYIuroKlnwcJtlF/u
-         ALJG0giz1Oam33L3ohMRYIBmK1/O3xR22ndtXjqU54H2fSkyKQlVG1qAICialczWd89n
-         vNyg==
-X-Gm-Message-State: AOJu0YwrxStBPjEKsnTcbEGGWxxsefbjUTn08QtIlaTbiunQ+Igi3SBn
-	1wGtHP/SYl8d5VqDu2MR221PexzBZIht6abkaDJ6pnPqIiRAoHsWfr4POX6mMQ==
-X-Google-Smtp-Source: AGHT+IH/hHo4kYBuL5vCw54nvX8pPrZtO2JH3Q3ZlUbStO7TCJYcZnDxXL5gfiQUMQeIheFecJGkuw==
-X-Received: by 2002:a92:cd83:0:b0:363:bc81:47f8 with SMTP id r3-20020a92cd83000000b00363bc8147f8mr4910691ilb.21.1707244859728;
-        Tue, 06 Feb 2024 10:40:59 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVr5FtOxk/NPujxjkxVAGBIFYTCd68ni8q4C1vR0Wa9BaHegqYv6Q/GEOczSL0kI7ZNx6NBqpgs/wUd+QwVY/bt2uow70wn0cCw60Ehlx08PSO77hd2EZVpWqo4AapEYw3YL4eqqbIbPqWQvR9Vt9O/5t6PDaYGIr6qV9Wo+TcT2yRmiwA05PSd2BW/A89Jy5THeLi8iOxte+gFCo/IFA90t0CNAvJJioD9eBrRbpV5AncwkM3WxgE2x00ewnfaOKO586M2Yl7Qqd7ZjwbfjLgVhi4450iNxIsjGrTDiEyFnWfNuVRNSlm5cPa4vc6uuER8wO0H2XAkA5IJrM7V/CkTgUi6u6hHVcMi1hWrzGjYQF5tV2O5tZJxKLpEVsa4UbBs1Dpa2gEoJfTnLFc=
-Received: from localhost (147.220.222.35.bc.googleusercontent.com. [35.222.220.147])
-        by smtp.gmail.com with UTF8SMTPSA id t5-20020a05663801e500b00471476d36a1sm234311jaq.116.2024.02.06.10.40.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 10:40:59 -0800 (PST)
-Date: Tue, 6 Feb 2024 18:40:58 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 2/7] usb: misc: onboard_dev: add support for non-hub
- devices
-Message-ID: <ZcJ9OnYOtUVMu2Yk@google.com>
-References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
- <20240206-onboard_xvf3500-v3-2-f85b04116688@wolfvision.net>
+	s=arc-20240116; t=1707251172; c=relaxed/simple;
+	bh=GCZTOpyn0Zr/27ByvG88St2jXBibIhL8nI1Rez9DQwA=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=plN5cEaaUmnV9bimE8iSiRjbAXADw8QP9IQNlUDzmKZKfK6TpZXT0zEnpJsM3ONJ8SKnJtQcT1gxvoXC7XpefgHzFb5BXS72krCZ+StJcRGr/0PdbNSDHtx5TzZbnR0RWhf8Lg8/555+P0HWXa0iZDaYOW8HzW14XO/7SDwLp/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b69e54.dsl.pool.telekom.hu [::ffff:81.182.158.84])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000729AE.0000000065C295D9.001AD416; Tue, 06 Feb 2024 21:26:01 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+  Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>,
+  stable@vger.kernel.org
+Subject: [PATCH] ASoC: tas2781: remove unused acpi_subysystem_id
+Date: Tue,  6 Feb 2024 21:25:50 +0100
+Message-ID: <df5c94396256e9573b772962182def52d20c50d4.1707250969.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240206-onboard_xvf3500-v3-2-f85b04116688@wolfvision.net>
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-On Tue, Feb 06, 2024 at 02:59:30PM +0100, Javier Carrasco wrote:
-> Most of the functionality this driver provides can be used by non-hub
-> devices as well.
-> 
-> To account for the hub-specific code, add a flag to the device data
-> structure and check its value for hub-specific code.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  drivers/usb/misc/onboard_usb_dev.c |  3 +++
->  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> index e2e1e1e30c1e..3ac21ec38ac0 100644
-> --- a/drivers/usb/misc/onboard_usb_dev.c
-> +++ b/drivers/usb/misc/onboard_usb_dev.c
-> @@ -123,6 +123,9 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
->  	if (onboard_dev->always_powered_in_suspend)
->  		return 0;
->  
-> +	if (!onboard_dev->pdata->is_hub)
-> +		return onboard_dev_power_off(onboard_dev);
+The acpi_subysystem_id is only written and freed, not read, so
+unnecessary.
 
-Why turn the device always off when it isn't a hub? It could be a device
-with wakeup support.
+Fixes: ef3bcde75d06 ("ASoC: tas2781: Add tas2781 driver")
+CC: stable@vger.kernel.org
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+---
+ include/sound/tas2781.h           |  1 -
+ sound/pci/hda/tas2781_hda_i2c.c   | 10 ----------
+ sound/soc/codecs/tas2781-comlib.c |  1 -
+ 3 files changed, 12 deletions(-)
 
-I really regret making 'off in suspend' the default :(
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index 9aff384941de..99ca3e401fd1 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -103,7 +103,6 @@ struct tasdevice_priv {
+ 	struct tm tm;
+ 
+ 	enum device_catlog_id catlog_id;
+-	const char *acpi_subsystem_id;
+ 	unsigned char cal_binaryname[TASDEVICE_MAX_CHANNELS][64];
+ 	unsigned char crc8_lkp_tbl[CRC8_TABLE_SIZE];
+ 	unsigned char coef_binaryname[64];
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 1bfb00102a77..02c85084aca5 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -129,18 +129,8 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+ 
+ 	acpi_dev_free_resource_list(&resources);
+ 	strscpy(p->dev_name, hid, sizeof(p->dev_name));
+-	physdev = get_device(acpi_get_first_physical_node(adev));
+ 	acpi_dev_put(adev);
+ 
+-	/* No side-effect to the playback even if subsystem_id is NULL*/
+-	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+-	if (IS_ERR(sub))
+-		sub = NULL;
+-
+-	p->acpi_subsystem_id = sub;
+-
+-	put_device(physdev);
+-
+ 	return 0;
+ 
+ err:
+diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
+index 5d0e5348b361..3aa81514dad7 100644
+--- a/sound/soc/codecs/tas2781-comlib.c
++++ b/sound/soc/codecs/tas2781-comlib.c
+@@ -408,7 +408,6 @@ void tasdevice_remove(struct tasdevice_priv *tas_priv)
+ {
+ 	if (gpio_is_valid(tas_priv->irq_info.irq_gpio))
+ 		gpio_free(tas_priv->irq_info.irq_gpio);
+-	kfree(tas_priv->acpi_subsystem_id);
+ 	mutex_destroy(&tas_priv->codec_lock);
+ }
+ EXPORT_SYMBOL_GPL(tasdevice_remove);
 
-> +
->  	mutex_lock(&onboard_dev->lock);
->  
->  	list_for_each_entry(node, &onboard_dev->udev_list, list) {
-> diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
-> index f13d11a84371..ebe83e19d818 100644
-> --- a/drivers/usb/misc/onboard_usb_dev.h
-> +++ b/drivers/usb/misc/onboard_usb_dev.h
-> @@ -9,51 +9,61 @@
->  struct onboard_dev_pdata {
->  	unsigned long reset_us;		/* reset pulse width in us */
->  	unsigned int num_supplies;	/* number of supplies */
-> +	bool is_hub;
->  };
->  
->  static const struct onboard_dev_pdata microchip_usb424_data = {
->  	.reset_us = 1,
->  	.num_supplies = 1,
-> +	.is_hub = true,
+base-commit: 610010737f74482a61896596a0116876ecf9e65c
+-- 
+2.43.0
 
-Depending on when 'is_hub' is checked it could be an option to initialize
-it at runtime (depending on USB_CLASS_HUB), e.g. in onboard_dev_add_usbdev().
-Might not be worth the hassle tough if more than the current check(s) get
-added.
-
->  };
->  
->  static const struct onboard_dev_pdata microchip_usb5744_data = {
->  	.reset_us = 0,
->  	.num_supplies = 2,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata realtek_rts5411_data = {
->  	.reset_us = 0,
->  	.num_supplies = 1,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata ti_tusb8041_data = {
->  	.reset_us = 3000,
->  	.num_supplies = 1,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata cypress_hx3_data = {
->  	.reset_us = 10000,
->  	.num_supplies = 2,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata cypress_hx2vl_data = {
->  	.reset_us = 1,
->  	.num_supplies = 1,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata genesys_gl850g_data = {
->  	.reset_us = 3,
->  	.num_supplies = 1,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata genesys_gl852g_data = {
->  	.reset_us = 50,
->  	.num_supplies = 1,
-> +	.is_hub = true,
->  };
->  
->  static const struct onboard_dev_pdata vialab_vl817_data = {
->  	.reset_us = 10,
->  	.num_supplies = 1,
-> +	.is_hub = true,
->  };
->  
->  static const struct of_device_id onboard_dev_match[] = {
-> 
-> -- 
-> 2.40.1
-> 
