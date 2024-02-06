@@ -1,167 +1,197 @@
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2126.outbound.protection.outlook.com [40.107.247.126])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D705B1E866;
-	Tue,  6 Feb 2024 15:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.247.126
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707231922; cv=fail; b=r4dS7vrAl4iEstm3vj8E6NRc+GAuMgV2Vy9BcpEby3mpoBhFgT1uQKEzyzApJ2pAeazDecm2dL23dVsKLzbzMbGQKPhLPEAUzLStzm6BvrWsVpPJ+sL2vusLiZQJJzye7zOpOO8m0Gp20Og1dj7Egn/aZzWZJa4Oa2NMD7YZb2s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707231922; c=relaxed/simple;
-	bh=MjOcOqjJtXJNTK/OFnHYxslAQhtd4J23yj7J7cHcYh0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rkk7DvkXn+u/UReo9Qts05YPz+qrsH00u3QueN46/j7bggLDTT8nO01GMqquJX5oClWWC6wRQf3GLrAQLEuV7e0KXPPXK5szVJo7JFVFUvXopXiTIDgofIaZtOtcUKEdFOfVdzEU/OzUB2+62f3m2oqYfr+A7JcKNDeM5U7mFCs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=viI+jqxa; arc=fail smtp.client-ip=40.107.247.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3986132C3A;
+	Tue,  6 Feb 2024 15:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707232462; cv=none; b=cHNd/Kr9chP1wRkg3KgQZGogyjiUW2ARj0x9mSux9yc/u5hdTQgRFwe/bBIf2htzdznVenJwXDF9LoKJ8gFApe7Yj6EQKmlnuX6Xd6KLqk/0uLR0d3VcgL0RYkvWZJ+cYOu9MMQYc27yUJvtyBwAbwRQpBIcs9v/8XSOBaHuYds=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707232462; c=relaxed/simple;
+	bh=EPeSj6f1QZiCdHf/0eB8Tu/HxRiJ7wNAmDTVeh8CVA0=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=d/7oH9zDA8yxvxd2LgGyypr50loVcPsRN1646opUVacplo37qfcaZvfwCyaFIwouR0B15dEY6L4DjEH8Wxq88ssxjLT08esgzQV+rQJ7bSqfNSyfbzqAf1/bOKCWFgbCvJ4336rcGH56PhnV70gRbz4hQyYwxAKuECyv0Nt7xqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=l402dICw; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="viI+jqxa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AhFxCRrfLhnKKMgXeSB35kZNLbM7nzqLA/4NgHtkY97Qv9p9lDGNxAciB+3WA7WiR2yE9ftctwf5cMHoqNUWhlDuhWyNCHwfPezd7Ak+8pe0A+KrXHYrVvOzlBIdkOzfkjy0dVDuDYUHadVRca8uhQirysmiQ7gNONKBJ/uB0eV4ft0I4zD2+ajxWY+9TN0U34mkiaLiji2rimE5DVRnK2C3QoI0dDuFtCTaaOnqq7tWcdtmYnQzsEcOom2Cuz9penjmiONR1QgrJ86KAmuWEzqniOB8sI6A8BYzbYClu4hSj2WXQP73HreCnFYEa0VyR6QrxteL/YA1FGYT57Dhew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yq3gYyZWWMSoTsck3ZUhPidu2DAsOs8HPVZnwvMBSsU=;
- b=T3q21Okw1kQBDRdQ8NvFyynum4hrpgZUHoiqcv1ojMifRC5rtGAd51KXRyVe0a0139iskVHD2TG9DznXAf1o/jR9jvjl01XoFPkzd8iW27fbdUjgNJRu8wDGBxkUP9A9KnOv6PidXkzZSrYtX9xw1lqCWeHjeJytSpwIP5kcgEmF9dn/Lx0CA2CfnYwKgkO8ZkDsMTwg5wwb6xhXxO4IL0aS0NY1YVQZo3rq1APEFD+WE/E4uSOCVhPu00WGzqYa2edbFAqbVUxWsNPkOcBePY9ajyBEr0moYn7o+TG5ct6QmRJEg47BugHNM3dyJs8u75XBpGksOllknF4F6Gzb5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yq3gYyZWWMSoTsck3ZUhPidu2DAsOs8HPVZnwvMBSsU=;
- b=viI+jqxaWc6vSj1lDi+scQKkl9ImbTyA+dY4lGJ6c+0EZmXGUsrqf9CZlN6PrOPr8e5F/hBg1cMpd3ZiTuC+4hl+OuYr8dbEZzR+JsAYafBDusIc+TZXYhCcqPdIpa0zcIFsD140nqr6nvE3LCOE06GO0O6c8xERSGGgvMFOMXo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by PA6PR08MB10443.eurprd08.prod.outlook.com (2603:10a6:102:3cf::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Tue, 6 Feb
- 2024 15:05:17 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::c8ee:9414:a0c6:42ab]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::c8ee:9414:a0c6:42ab%7]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
- 15:05:17 +0000
-Message-ID: <7b472cb2-6658-446a-ae47-411d08798cca@wolfvision.net>
-Date: Tue, 6 Feb 2024 16:05:15 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/7] ASoC: dt-bindings: xmos,xvf3500: add XMOS XVF3500
- voice processor
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
- <20240206-onboard_xvf3500-v3-6-f85b04116688@wolfvision.net>
- <ZcJDFi+iIQOWzgYw@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <ZcJDFi+iIQOWzgYw@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR06CA0192.eurprd06.prod.outlook.com
- (2603:10a6:803:c8::49) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="l402dICw"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 416ASLPw031615;
+	Tue, 6 Feb 2024 09:13:59 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:references:in-reply-to:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=G7p/ujgjigJOBj0DMsg5N1d8ZSv4Oe/fO8U9pz5Hryc=; b=
+	l402dICwxWEWJvKh+TQT2Ri4Ohlb44UJKh55J/LdQk3ezYfgJ3ULj1dNIN/mN/oS
+	UUWvqMX7gIO6ZZtfe6Jh4tfHr9i54fIoF91pf1p2+2W116vlaYEJ6tLJoBz9G+1Y
+	PCEXHwYBd+UI6mdiFegOaYJE8NDA118DBFQ2Nt+Nx4Wn7mvCv6Rv0Feb9DBVTFqG
+	pL8FX+NkMRX/+EYrhxnT9NTidPmWu3fgBgvXo6yIPH2nc/ZF1UjbKWf1Hc9WHrbN
+	9dIffE4bI+U7I0CiJdA3b5REyeBc4Nlz5b/JsAsknKLBXr/8uNRYbI2/ZFsjl2dz
+	+rMu3pR92CwaUb2/b/1j5w==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w1ks2bkee-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 Feb 2024 09:13:58 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 6 Feb
+ 2024 15:13:56 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Tue, 6 Feb 2024 15:13:56 +0000
+Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.64.158])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1A332820241;
+	Tue,  6 Feb 2024 15:13:56 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: =?utf-8?Q?'Jean-Lo=C3=AFc_Charroud'?= <lagiraudiere+linux@free.fr>,
+        'Jaroslav Kysela' <perex@perex.cz>, 'Takashi Iwai' <tiwai@suse.com>
+CC: 'Richard Fitzgerald' <rf@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+References: <eac660b7-5202-4ea1-836c-8d3cdb97c5d4@free.fr>
+In-Reply-To: <eac660b7-5202-4ea1-836c-8d3cdb97c5d4@free.fr>
+Subject: RE: [PATCH] ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
+Date: Tue, 6 Feb 2024 15:13:55 +0000
+Message-ID: <000f01da590f$1a5af100$4f10d300$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|PA6PR08MB10443:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8216a4c3-a3a1-431d-93fa-08dc27250780
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	07sIu1XxU1Mhi8LlGDsA+ryMeo+Ik10mh8d00DcAMvat7rQv/rEMdwIUD7+5QwNdHQiMLDUuiHHXaqmAbR80MoVyEQXbSfQzh9EGBIOxoq+OQhSDGC8zZtTDIpH5LoleOW2OvsMXMgB/8vdFfxHKxZZVGMvGBB7plWwranaIXEqqUXk/HedO7tbeEvHAfyCb0nOq7tJOvLUFdUfovbt+4VXhlv2SvUt9MizwM3OhcZW4dLI8dDcBOE3vp4JAa2/b58TevRAkcpVALbmohZkV7/gOtUzCvsczzGvJbAbBk4xlhN6NCrjQW3l0vEusD7uKMuwLS41oOVZcOkjrTPKeI/Y5I4Om0Z7O79pIV5ZSD1YmxYcLviYCt2sPKh/WhlmsoflJ0RFUcQwmewoEvYdh8kxsU6HJfzyFMCfC+FA1wvwOcyNwW9Ru+Dh2cyZIYp7syM3NsaVTeQ9SMOk7Ucg2v4pMin5XjC7w/JBzNkExj9YHeNx5vezG6kH+U6Dqpi62DXgfJgov+5tWRRbUziHZbxugMqiX00NGDsKyddn5IR8jOthNNrR+IveiTBNB1MM7bfRckS9XJxoUxgoeqqFlW2bzJjvJughVvHx7iwmt+v20wgS8ox5M6ejswp57+e8lfsXy07ukDC4a+XDr6742LQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(136003)(376002)(396003)(346002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(41300700001)(66476007)(66946007)(54906003)(66556008)(4326008)(8676002)(44832011)(8936002)(316002)(6916009)(31686004)(26005)(86362001)(5660300002)(38100700002)(7416002)(2906002)(36756003)(6506007)(478600001)(6486002)(2616005)(53546011)(6512007)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VERoWUpzcUp6SStBcjRCQmRFL0MvdXRxcWxhcC82VFM3V2FMUVBDZTNLQnZ6?=
- =?utf-8?B?VDNlMEFlbWhzc0tac0ppVUtCdGhRbkNyZEZoN2U1MGhYRVBmZVhydmhGQ0Jn?=
- =?utf-8?B?aGxFWUJyQjhVOWp6T1FZdXZrZmFsRnVTUUVrQWNnRGU4WE9lc0U3eW1RcjVz?=
- =?utf-8?B?UGR4UjJzcGN4eGw4Z1J1UEFDTFh5UFJROFpGRmlScVU3WDF1V0REQS9DM0RI?=
- =?utf-8?B?QnlzaXJrMTVQUlh1T2x2ZXBMRHk3dmFnMXRFdllPQ2xhTkFOZlNtMnFuS29F?=
- =?utf-8?B?VEdoSHhnVkUrdmpvRDZoSyt1VzBCVEV1bGx6WjZyd2VwRXBoNmFSZVFHYUhO?=
- =?utf-8?B?WXNwNDFPdm5NZ2R3Q3BUM08rRFFHSFNqMXhDbkVQeUM1dWRka052am92UVJV?=
- =?utf-8?B?c1E3UVhNTytKeTlydlArYldRTTlyMmdMVXNKN2hHU0gwYWlDekJJUUI2S1Yr?=
- =?utf-8?B?YTJaNVU1elY1TEQ2OHdOYmNhNUd0b1k2YW9pWWtQMFVQY1dUZSt3eGluSFRn?=
- =?utf-8?B?RkFHVnIwYzBXRy9YMTBxVU9nRC96RHFiQWg3cEdmWHNRL3FnREhjMkRFRC81?=
- =?utf-8?B?UFJFVVlCZGw4S21nVmswZllHVWpLR1pFNW1XVzJ3TFFVR1paTXpBc092RkxY?=
- =?utf-8?B?dG9BQitEbzhIMkRnVzI3dzUrREdDT3Z0cnZzajNOY3R6ZHkyOENpdUI4Z0ZZ?=
- =?utf-8?B?YVlnRzVFaEt5cElYMHZwWGpOdk1SODZpT0FSakQ2U3Q5Vi9Sd3UrbEJOUVg2?=
- =?utf-8?B?dllXYjlXM1Y0ejQ4Y1M5U1czU1FMNGZncHRBdEZweEw4bnFoVHZZeTBpMm1J?=
- =?utf-8?B?UzIzSTZDejJObUpaRDkzR3BMbkNrdVJWZlVQNUM2eFFoc0ErWjlOWGNVZGti?=
- =?utf-8?B?YkZnSUo0aVR4VVRzSFVpSFo5c1NxeVFXb09vRlJFa1lNVThkOE1HQVR3MHZC?=
- =?utf-8?B?UjU0NnVGM0lkK3VWbERDa0tRL2ROL1ZJYmcyOVRyQkdXTDZRU1V2Z0xRZ3Jh?=
- =?utf-8?B?Z29hblhHcjN6TFlRS3JzNjJwUFppV29wVzdQUVIzYmoydm9hNE9CUFRYVGJB?=
- =?utf-8?B?MXhoOFI3SHZyNmZPT21JMGtvcEhFTVVYOVJXNDN1dTI5S3FRbDFSSmd6ckRB?=
- =?utf-8?B?Rnl5Y3h1UytnQ2FrcmtzQmtiU3F5WFduT1hHenQvcGwyS1FwZnVUR25XUTdT?=
- =?utf-8?B?N0czM0tNTVJuSDZlMTFURndtdHVmcVowVXBtMURoS1UrUm5telo2Y1lxZGx2?=
- =?utf-8?B?eDNqUDh4YU9JOXFacEJ0QTZFdEZuVWxndXg1YTVlc3JXWUFxdUZZenlKYnhV?=
- =?utf-8?B?RklKMmRvU3pTVnlIRHE0UDhvaXpDYUozaWJZbVNZUGNGazNPSmZKOEg0Nzdy?=
- =?utf-8?B?cE5PYjNKdjlRc1VjL3d0UFViQ0JQbi80VG5BYjZkd1VXZHVYK2QvaGZtd2NQ?=
- =?utf-8?B?dWo3UTVPUWJoTkVLYWVoV0dxTlZkbVBFSWcyL295ejlQUE1lZ0wzSFdKMjha?=
- =?utf-8?B?NFNEeVZkU3grVW9NcWNyNjNDWHh4dU90OC9kYWN2Ri9FcXU5NFB2YWFjTWxT?=
- =?utf-8?B?dGFIY1BicCt1QTZOL0ZubjNUTzMvQ012K1JPOXRTVVIwTi80UXlRVGNYZUZW?=
- =?utf-8?B?aHRCSC9VbHpDK3I3VjRWc2JkVWZSNHNSQ3hMVXJBK0hiL3dtRmlyMmJDM3I4?=
- =?utf-8?B?MlVySVkydDYzbXJCemlkbVN1T3F4WGZjZTlMRE5IL3ZEVDVTYkYwWjZGanV1?=
- =?utf-8?B?Z1d4Y2VhQm1xU1VHdVpaWVQ5OGNlK1F3ZXNsMnZGU3Z1ZkhLbTBDb3IweURq?=
- =?utf-8?B?MnJBQTlKQnI2Z2RDV1ZNa1RTbjA5TnRiN0R6K1pvN0R3bTJGQ2dLaDM2MWE1?=
- =?utf-8?B?WEREN3VnNklreFFCNS8xQmEvVGN5TU1GSzlmN3FjblJRTHo5bnFsTGhXOWtp?=
- =?utf-8?B?eU1qa082c3ZJTlVhQVUxaE1Fc3JKZFFNcFRqWUZOZDNLQ0pDekxCWWZtU1Np?=
- =?utf-8?B?N1dTYW1QWkY2SmJQWk5JQTQ2VG83RHFYWm84R3lML0thd3gyOVdNS1JYcVY0?=
- =?utf-8?B?U2NsV0tEUTJFbkkrZi8xT0I2aVkwYzQ5ZStiOVB5RVhOY0RRQnF6VEFZZGVQ?=
- =?utf-8?B?QzNpZFJ2VkpxR0piS0NxcDAzMzJqSVlSd20wN0tOd1JQUDcvQ2dZK29vYmRD?=
- =?utf-8?Q?RlHANYBQNmXo+i/kkwYTI10=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8216a4c3-a3a1-431d-93fa-08dc27250780
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2024 15:05:17.4151
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tW7Gy416mRZWfTQiNTqkU9lyeGS7JchMzpIsxsH8Al0tV1bu0vRnYV1ZO3JXkOqrfQ3e8C4Y68JHHSee+wCjQKqlG3v1pzDU7JkYwkvQCsQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB10443
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQIZBNFQCfMVKTgQiiU+9hTe2Y3XprCAFAyQ
+X-Proofpoint-GUID: zlVCvnWLzN0FgqEA0_DSd6UiBxnLxOkI
+X-Proofpoint-ORIG-GUID: zlVCvnWLzN0FgqEA0_DSd6UiBxnLxOkI
+X-Proofpoint-Spam-Reason: safe
 
-On 06.02.24 15:32, Mark Brown wrote:
-> On Tue, Feb 06, 2024 at 02:59:34PM +0100, Javier Carrasco wrote:
-> 
->> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
->> multicore controller for voice processing.
-> 
-> Acked-by: Mark Brown <broonie@kernel.org>
-> 
-> though...
-> 
->> +  vdd-supply:
->> +    description:
->> +      Regulator for the 1V0 supply.
->> +
->> +  vdd2-supply:
->> +    description:
->> +      Regulator for the 3V3 supply.
-> 
-> ...it's a bit weird that the supplies are named like this, usually
-> there'd be some sort of meaningful name (even if it's just VDD_1V0 and
-> VDD_3V3 or something).  Are you sure these are the actual names?
+Hi,
 
-The names in the datasheet are vdd for the 1V0 supply and vddio for the
-3V3 supply. I named the latter vdd2 instead because this device does not
-have its own driver and instead it uses the onboard_usb_hub generic
-driver, where the supplies are named vdd and vdd2.
+Config looks ok to me.
 
-Those are the names used for devm_regulator_bulk_get(). Is that not the
-right way to match them?
+Thanks,
+Stefan
 
-Thank you and best regards,
-Javier Carrasco
+> -----Original Message-----
+> From: Jean-Lo=C3=AFc Charroud <lagiraudiere+linux@free.fr>
+> Sent: Tuesday, February 6, 2024 9:14 AM
+> To: Stefan Binding <sbinding@opensource.cirrus.com>; Jaroslav Kysela
+> <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>
+> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>; linux-
+> sound@vger.kernel.org; linux-kernel@vger.kernel.org;
+> patches@opensource.cirrus.com
+> Subject: [PATCH] ALSA: hda/realtek: cs35l41: Fix internal speaker =
+support
+> for ASUS UM3402 with missing DSD
+>=20
+> Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
+> Add DSD values for "ASUS UM3402" to cs35l41_config_table[].
+> Reorder alc269_fixup_tbl[] by device id and remove duplicate QUIRK
+> entry for device {0x1043, 0x1f62, "ASUS UX7602ZM"}.
+>=20
+> Signed-off-by: Jean-Lo=C3=AFc Charroud <lagiraudiere+linux@free.fr>
+> ---
+>   sound/pci/hda/cs35l41_hda_property.c | 2 ++
+>   sound/pci/hda/patch_realtek.c        | 7 +++----
+>   2 files changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/sound/pci/hda/cs35l41_hda_property.c
+> b/sound/pci/hda/cs35l41_hda_property.c
+> index 923c0813fa08..d8cd62ef6afc 100644
+> --- a/sound/pci/hda/cs35l41_hda_property.c
+> +++ b/sound/pci/hda/cs35l41_hda_property.c
+> @@ -102,6 +102,7 @@ static const struct cs35l41_config
+> cs35l41_config_table[] =3D {
+>       { "10431D1F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 =
+},
+> 0, 1, -1, 1000, 4500, 24 },
+>       { "10431DA2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 =
+},
+> 1, 2, 0, 0, 0, 0 },
+>       { "10431E02", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 =
+},
+> 1, 2, 0, 0, 0, 0 },
+> +    { "10431E12", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
+> 0, 1, -1, 0, 0, 0 },
+>       { "10431EE2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 =
+},
+> 0, -1, -1, 0, 0, 0 },
+>       { "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 =
+},
+> 0, 1, -1, 1000, 4500, 24 },
+>       { "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 =
+},
+> 1, -1, 0, 0, 0, 0 },
+> @@ -485,6 +486,7 @@ static const struct cs35l41_prop_model
+> cs35l41_prop_model_table[] =3D {
+>       { "CSC3551", "10431D1F", generic_dsd_config },
+>       { "CSC3551", "10431DA2", generic_dsd_config },
+>       { "CSC3551", "10431E02", generic_dsd_config },
+> +    { "CSC3551", "10431E12", generic_dsd_config },
+>       { "CSC3551", "10431EE2", generic_dsd_config },
+>       { "CSC3551", "10431F12", generic_dsd_config },
+>       { "CSC3551", "10431F1F", generic_dsd_config },
+> diff --git a/sound/pci/hda/patch_realtek.c
+> b/sound/pci/hda/patch_realtek.c
+> index 7aa88ed04bde..16cb19eee589 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -9893,6 +9893,7 @@ static const struct snd_pci_quirk
+> alc269_fixup_tbl[] =3D {
+>       SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH",
+> ALC294_FIXUP_ASUS_DUAL_SPK),
+>       SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV",
+> ALC285_FIXUP_ASUS_HEADSET_MIC),
+>       SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR",
+> ALC287_FIXUP_CS35L41_I2C_2),
+> +    SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA",
+> ALC245_FIXUP_CS35L41_SPI_2),
+>       SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603",
+> ALC289_FIXUP_ASUS_GA401),
+>       SND_PCI_QUIRK(0x1043, 0x16d3, "ASUS UX5304VA",
+> ALC245_FIXUP_CS35L41_SPI_2),
+>       SND_PCI_QUIRK(0x1043, 0x16e3, "ASUS UX50",
+> ALC269_FIXUP_STEREO_DMIC),
+> @@ -9936,14 +9937,12 @@ static const struct snd_pci_quirk
+> alc269_fixup_tbl[] =3D {
+>       SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420",
+> ALC256_FIXUP_ASUS_HPE),
+>       SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD",
+> ALC245_FIXUP_CS35L41_SPI_2),
+>       SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA",
+> ALC245_FIXUP_CS35L41_SPI_2),
+> -    SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA",
+> ALC245_FIXUP_CS35L41_SPI_2),
+> -    SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM",
+> ALC245_FIXUP_CS35L41_SPI_2),
+>       SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15",
+> ALC289_FIXUP_ASUS_GA502),
+> -    SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM6702RA/RC",
+> ALC287_FIXUP_CS35L41_I2C_2),
+> +    SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>       SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15",
+> ALC294_FIXUP_ASUS_GU502_PINS),
+>       SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513",
+> ALC294_FIXUP_ASUS_G513_PINS),
+>       SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15",
+> ALC289_FIXUP_ASUS_GA401),
+> -    SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM3402",
+> ALC287_FIXUP_CS35L41_I2C_2),
+> +    SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>       SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022",
+> ALC289_FIXUP_ASUS_GA401),
+>       SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14",
+> ALC289_FIXUP_ASUS_GA401),
+>       SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302",
+> ALC287_FIXUP_CS35L41_I2C_2),
+> --
+> 2.40.1
+
 
