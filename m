@@ -1,113 +1,202 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E859956B72
-	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 02:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EAB74E03;
+	Tue,  6 Feb 2024 06:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707187025; cv=none; b=GBvlEUx2e5mbHFjJu/EnU8tXTX0P7Z/WM/7af/PUp0eQX02OB3CYB3tSxbFWytDK3Pg4VVqHCpPjoSDRgkA8qax/Y0RWyXuEl9VKGMMEtsl00Dy4L+stweaMKO+XYRclNib6j7bryvtbSiaY7/5gpGxk/TG1ym4bgmWfmmRRRZw=
+	t=1707201889; cv=none; b=WukSVx9l/AKtS9hkbPgglbtOFXWjhmkz/rCt/sDsr292Ivuvmj6hSorHE2sAkSAcsI6pApW6d4AvegnKI+jwJ3d+qP5pdpVkzdAwdRuInNh1qZp3pnYXdkbg0Ofxf44jc8F7DVTXPalDz7isw+Q3HRHBQnXFQB8WMwmP+2uAGPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707187025; c=relaxed/simple;
-	bh=8Xkka2VFabTnCBLDqMz2cIzHNyFuUmNuTTpO0wkcFSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N9WKJr9T5/Dzt+djcveNkmffEY4jbH4DLBZ60SLWIS98WpAHmdjDVMacvuKxayyJtB3Kx0D7qhwKcQfLQAxainTTNR2eUuvURPstlEnc3mAb3l6QWq8kMG7z41Gmu+3haJO9Z8AEKwZxr73enXGMPjMM1VohHzJzpR4raCSs5F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g9vR9qwV; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707201889; c=relaxed/simple;
+	bh=6NTsi8MTHhKSU1zdGgcR2NazjNxpJ4OkB7k2y0vpsVc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Um/SOg5awqsqq+yAT21qfAy+vWHDQMNZVmbQ4K1zmYM5k64PucXoMdsOQXnD2eo+0fSQz/MYDeS9z+1W5BLMQECuY0RRnoccXde2vI2jI/0VJZH1vb8b46xqUNV5h690ulvUY6ceQiwPW/TlCIR7mIfVczP6Kgef7CuJvrWn5c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=QW0XFVx0; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g9vR9qwV"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-295c67ab2ccso3780265a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 05 Feb 2024 18:37:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707187023; x=1707791823; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7nTHO+j4WJ3VIuZ9aAjBZclH7p87DwAuMSYpHRTHG9Y=;
-        b=g9vR9qwVBsGyzuGHY/sGDKUCkL2UPWQO4RkGoWbo6q27FEm6SKWDC6LBuYRelayQnD
-         yXJmRUYfbaLTNFPhkbMsq1GtTWIMVVN7jH5ECTp+GCHffP6W6ZMb/Rm7L1MX6xKUCEvz
-         zRqwnSAZfm+bYX+agCICGko3aJda8O6j7rAfyEvVmB6y+dl0jO2inM0ggFNE4HeeGP30
-         xxbOfXiuqzRLMckN1d0vizWL/tLSxhxrJMFnnVT2ChR66R7QqKSWAYCYBQ6naopnG4K5
-         /PHizbHYNnRIYNU5sWLHlSY+7x6NRhG87YvWFR46+rA3Fta8GxG7RxpVQIeZ5GDxY74W
-         DLHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707187023; x=1707791823;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7nTHO+j4WJ3VIuZ9aAjBZclH7p87DwAuMSYpHRTHG9Y=;
-        b=Q86qWwJD0L4f73MK+dAiLaWKZtSMQW6na0Fql/FndZbEpxfBjnwZ2/mYW3eCob/C4C
-         eEh1oU/8owHiU2CN/rNHDpQKtOM+poq0mOWPrsnWoO/QCyzmgFasPxIwDpYNLmPYAC9T
-         ku1Vzu324kopN9Y4UdT2yUCE2rPVeTomIBJak9QZPchqnbjv/FoX5QMAElBU9C1uH0RW
-         94QVxHcOT29GH4Op9jb0wKqHEMf2q5egarukvU5uxsaCo8GxTq2FWd1SuEIaabMC77lZ
-         ZwXAgeSVMdR1cOM1DsYhkFHTHShdMlr/c++kUTUL/2TuU78u7V22uZPtrQgUqAPw4V6r
-         5AZQ==
-X-Gm-Message-State: AOJu0Ywf5BlCdt1rPSyRdoXaBYipRIJSF2UkbCaQ/aPqHJe3xagFSqtV
-	OZbPMCitjuI8auoWfxeD2a/zJw2szXL2i9gG3BOCjMt96IEMGCud
-X-Google-Smtp-Source: AGHT+IF4/4hdiG77LysRcru2uTehnOgq23jKGhz0pFEvcQsEZby2Q9cOwE4Gob6D1YF0lKzFrKSyqw==
-X-Received: by 2002:a17:90b:3789:b0:296:3a5:6fb8 with SMTP id mz9-20020a17090b378900b0029603a56fb8mr1088310pjb.25.1707187023101;
-        Mon, 05 Feb 2024 18:37:03 -0800 (PST)
-Received: from geday ([2804:7f2:8006:a4e4:f8a1:8e75:ca57:fd8d])
-        by smtp.gmail.com with ESMTPSA id y6-20020a17090a154600b00296c018f070sm244254pja.52.2024.02.05.18.37.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 18:37:02 -0800 (PST)
-Date: Mon, 5 Feb 2024 23:37:12 -0300
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-To: marcel <marcelg@gmx.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] Add Asus VivoBook S 16X to quirks table for acp6x
-Message-ID: <ZcGbWHRJ9ewRvAa7@geday>
-References: <655fb630-e5a8-4993-8706-085476c7fe2f@gmx.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="QW0XFVx0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1707201887; x=1738737887;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6NTsi8MTHhKSU1zdGgcR2NazjNxpJ4OkB7k2y0vpsVc=;
+  b=QW0XFVx0W4bIgxRyjfqq+pFfEuYe3xkNBsylx+bukq8ijz1jYcK2i7w0
+   zls27XP7hxNrS78lLTpMY6SFpeOkNY4txX+J9LHpNvSuHSCfB1VgxveoR
+   Nq6z+Fh1U1JUYeLP4zLdfZZDSr/Z/ipJGYOD5tjLV4WiEJJf/vET3Q7/1
+   NKZxz4ffTR9iOZ06aM69rRM8oETJ9JkMbss7mZMDGxhK2pHHhYeXeT+ev
+   wATix8nzKjbCS0Oz9LmVmjA4X8PVGBPRFAmiQlgcM4qS6WK1HmJVc791/
+   +QczhlXcTWtv9iS2Wauj5fI2GV4txOZ9hlBiQ8QdEA/zgPAo7NWoHoa7x
+   A==;
+X-CSE-ConnectionGUID: 5cKW/z4QQq6KFQyHa1Y4Bg==
+X-CSE-MsgGUID: xRRXybZ8QuS7vPMPAREMRA==
+X-IronPort-AV: E=Sophos;i="6.05,246,1701154800"; 
+   d="scan'208";a="15812734"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Feb 2024 23:44:45 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 5 Feb 2024 23:44:29 -0700
+Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 5 Feb 2024 23:44:23 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>, <dharma.b@microchip.com>,
+	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <hari.prasathge@microchip.com>
+Subject: [linux][PATCH] ASoC: dt-bindings: atmel,sam9x5-wm8731: Convert to json-schema
+Date: Tue, 6 Feb 2024 12:14:18 +0530
+Message-ID: <20240206064418.237377-1-dharma.b@microchip.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <655fb630-e5a8-4993-8706-085476c7fe2f@gmx.com>
+Content-Type: text/plain
 
-On Mon, Feb 05, 2024 at 11:48:31AM +0800, marcel wrote:
-> This patch enables microphone driver on Asus Vivobook S 16X laptop by 
-> adding it to quirks table.
-> 
-> Signed-off-by: Marcel Geraltowski <marcelg@gmx.com>
+Convert atmel sam9x5-wm8731-audio devicetree binding to json-schema.
 
-Hi Marcel, thanks for the patch.
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+---
+ .../sound/atmel,sam9x5-wm8731-audio.yaml      | 76 +++++++++++++++++++
+ .../sound/atmel-sam9x5-wm8731-audio.txt       | 35 ---------
+ 2 files changed, 76 insertions(+), 35 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt
 
-Remember to add the correct subsystem and driver name just after the
-[PATCH v?] subject. While the change in and of itself is OK, you sorted
-it, etc., your MUA ate the tab characters and replaced it with spaces.
-This is a big no-no.
+diff --git a/Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml b/Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml
+new file mode 100644
+index 000000000000..33717b728f63
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/atmel,sam9x5-wm8731-audio.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Atmel at91sam9x5ek wm8731 audio complex
++
++maintainers:
++  - Dharma Balasubiramani <dharma.b@microchip.com>
++
++description:
++  The audio complex configuration for Atmel at91sam9x5ek with WM8731 audio codec.
++
++properties:
++  compatible:
++    const: atmel,sam9x5-wm8731-audio
++
++  atmel,model:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: The user-visible name of this sound complex.
++
++  atmel,ssc-controller:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of the SSC controller.
++
++  atmel,audio-codec:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of the WM8731 audio codec.
++
++  atmel,audio-routing:
++    description:
++      A list of the connections between audio components. Each entry is a pair
++      of strings, the first being the connection's sink, the second being the
++      connection's source.
++    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
++    items:
++      enum:
++        # Board Connectors
++        - Headphone Jack
++        - Line In Jack
++
++        # CODEC Pins
++        - LOUT
++        - ROUT
++        - LHPOUT
++        - RHPOUT
++        - LLINEIN
++        - RLINEIN
++        - MICIN
++
++required:
++  - compatible
++  - atmel,model
++  - atmel,ssc-controller
++  - atmel,audio-codec
++  - atmel,audio-routing
++
++additionalProperties: false
++
++examples:
++  - |
++    sound {
++        compatible = "atmel,sam9x5-wm8731-audio";
++
++        atmel,model = "wm8731 @ AT91SAM9X5EK";
++
++        atmel,audio-routing =
++                "Headphone Jack", "RHPOUT",
++                "Headphone Jack", "LHPOUT",
++                "LLINEIN", "Line In Jack",
++                "RLINEIN", "Line In Jack";
++
++        atmel,ssc-controller = <&ssc0>;
++        atmel,audio-codec = <&wm8731>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt b/Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt
+deleted file mode 100644
+index 8facbce53db8..000000000000
+--- a/Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt
++++ /dev/null
+@@ -1,35 +0,0 @@
+-* Atmel at91sam9x5ek wm8731 audio complex
+-
+-Required properties:
+-  - compatible: "atmel,sam9x5-wm8731-audio"
+-  - atmel,model: The user-visible name of this sound complex.
+-  - atmel,ssc-controller: The phandle of the SSC controller
+-  - atmel,audio-codec: The phandle of the WM8731 audio codec
+-  - atmel,audio-routing: A list of the connections between audio components.
+-    Each entry is a pair of strings, the first being the connection's sink,
+-    the second being the connection's source.
+-
+-Available audio endpoints for the audio-routing table:
+-
+-Board connectors:
+- * Headphone Jack
+- * Line In Jack
+-
+-wm8731 pins:
+-cf Documentation/devicetree/bindings/sound/wlf,wm8731.yaml
+-
+-Example:
+-sound {
+-	compatible = "atmel,sam9x5-wm8731-audio";
+-
+-	atmel,model = "wm8731 @ AT91SAM9X5EK";
+-
+-	atmel,audio-routing =
+-		"Headphone Jack", "RHPOUT",
+-		"Headphone Jack", "LHPOUT",
+-		"LLINEIN", "Line In Jack",
+-		"RLINEIN", "Line In Jack";
+-
+-	atmel,ssc-controller = <&ssc0>;
+-	atmel,audio-codec = <&wm8731>;
+-};
+-- 
+2.25.1
 
-Also remember to add the maintainers to the Cc:, in this case Jaroslav
-Kysela and Takashi Iwai. Failure to do that may result in unnoticed and
-thus missing patches.
-
-Thank you,
-Geraldo Nascimento
-> 
-> - - -
-> 
-> --- sound/sound/soc/amd/yc/acp6x-mach.c.orig    2024-02-05 
-> 10:26:11.123897233 +0800
-> +++ sound/sound/soc/amd/yc/acp6x-mach.c    2024-02-05 11:04:40.554566909 
-> +0800
-> @@ -262,6 +262,13 @@ static const struct dmi_system_id yc_acp
->               DMI_MATCH(DMI_PRODUCT_NAME, "M5402RA"),
->           }
->       },
-> +        {
-> +                .driver_data = &acp6x_card,
-> +                .matches = {
-> +                        DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER 
-> INC."),
-> +                        DMI_MATCH(DMI_PRODUCT_NAME, "M5602RA"),
-> +                }
-> +        },
->       {
->           .driver_data = &acp6x_card,
->           .matches = {
-> 
