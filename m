@@ -1,22 +1,23 @@
 Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C2D18EA8;
-	Tue,  6 Feb 2024 20:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE201B948;
+	Tue,  6 Feb 2024 21:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707251172; cv=none; b=nS/xI0JAkYsegd7F7exe/ycrFOL2DuJxoIWI78HQg9JexAAfgTJAYuqtQS5lQiJ90M2ss9Rf8FgqWkfGsAMnPx2sAHvd99wzNwniYR6gQlqCdHRm8zG0nHoTe02Z2oYFlnqrvlLVS0WRzenV5ZhsIge9VcYJsZn8n2kA3sQDiQo=
+	t=1707255266; cv=none; b=EhWyIluoTDl3eSMYqNQ9XzOh2onXB43x7R0La252mJkK4WYp4XVNvFXj871mQXuuPom1KRRMlaKQ2XbcFagWAJH2SbnloynqOXSG2VfCvKXGkIDWmu/Madwbf3Hv18cvSXAtYizYqHBPOcEAwVDS73XhiHK1t+ZTH0mCrRwjiWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707251172; c=relaxed/simple;
-	bh=GCZTOpyn0Zr/27ByvG88St2jXBibIhL8nI1Rez9DQwA=;
-	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=plN5cEaaUmnV9bimE8iSiRjbAXADw8QP9IQNlUDzmKZKfK6TpZXT0zEnpJsM3ONJ8SKnJtQcT1gxvoXC7XpefgHzFb5BXS72krCZ+StJcRGr/0PdbNSDHtx5TzZbnR0RWhf8Lg8/555+P0HWXa0iZDaYOW8HzW14XO/7SDwLp/0=
+	s=arc-20240116; t=1707255266; c=relaxed/simple;
+	bh=lN/DzMj73K1wgPn7GGx2AO9rEBiIvV4udCd5v0dcclE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=lYazsjToX+v5KrciIJChqBLiZDtm05/2q+7Uv66yuATSAffwsyAwORmL8HVn9lu+zfIY1UJEymuCQxiIJn80OulpR2LurjgcxhT29HOZho+NqUzj39HUvDuVoA0pxW4NoxodzkGQglCYvNURnyE2rsd5QDHmpOwCIGhVYhbr5Uc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
 Received: from fedori.lan (51b69e54.dsl.pool.telekom.hu [::ffff:81.182.158.84])
   (AUTH: CRAM-MD5 soyer@irl.hu, )
   by irl.hu with ESMTPSA
-  id 00000000000729AE.0000000065C295D9.001AD416; Tue, 06 Feb 2024 21:26:01 +0100
+  id 0000000000073787.0000000065C2A5DD.001AD62E; Tue, 06 Feb 2024 22:34:21 +0100
 From: Gergo Koteles <soyer@irl.hu>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
   Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -25,10 +26,12 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
   alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>,
   stable@vger.kernel.org
-Subject: [PATCH] ASoC: tas2781: remove unused acpi_subysystem_id
-Date: Tue,  6 Feb 2024 21:25:50 +0100
-Message-ID: <df5c94396256e9573b772962182def52d20c50d4.1707250969.git.soyer@irl.hu>
+Subject: [PATCH v2] ASoC: tas2781: remove unused acpi_subysystem_id
+Date: Tue,  6 Feb 2024 22:34:15 +0100
+Message-ID: <631722b9ec0a4a2667d68f4747f01f3f7eb8ceb8.1707255177.git.soyer@irl.hu>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <df5c94396256e9573b772962182def52d20c50d4.1707250969.git.soyer@irl.hu>
+References: <df5c94396256e9573b772962182def52d20c50d4.1707250969.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,9 +50,9 @@ CC: stable@vger.kernel.org
 Signed-off-by: Gergo Koteles <soyer@irl.hu>
 ---
  include/sound/tas2781.h           |  1 -
- sound/pci/hda/tas2781_hda_i2c.c   | 10 ----------
+ sound/pci/hda/tas2781_hda_i2c.c   | 11 -----------
  sound/soc/codecs/tas2781-comlib.c |  1 -
- 3 files changed, 12 deletions(-)
+ 3 files changed, 13 deletions(-)
 
 diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
 index 9aff384941de..99ca3e401fd1 100644
@@ -64,10 +67,18 @@ index 9aff384941de..99ca3e401fd1 100644
  	unsigned char crc8_lkp_tbl[CRC8_TABLE_SIZE];
  	unsigned char coef_binaryname[64];
 diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 1bfb00102a77..02c85084aca5 100644
+index 1bfb00102a77..2fd391bc693a 100644
 --- a/sound/pci/hda/tas2781_hda_i2c.c
 +++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -129,18 +129,8 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+@@ -111,7 +111,6 @@ static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
+ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+ {
+ 	struct acpi_device *adev;
+-	struct device *physdev;
+ 	LIST_HEAD(resources);
+ 	const char *sub;
+ 	int ret;
+@@ -129,18 +128,8 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
  
  	acpi_dev_free_resource_list(&resources);
  	strscpy(p->dev_name, hid, sizeof(p->dev_name));
