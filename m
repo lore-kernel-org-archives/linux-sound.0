@@ -1,97 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE11133402;
-	Tue,  6 Feb 2024 14:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ED31E4BE;
+	Tue,  6 Feb 2024 14:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707229978; cv=none; b=m3LQZREYKsPivkYW8Vy9FgdWYtCKebFfXk5oxmIefkqlX7QAvPklHEFSlsK4qkKnnF88nt3I8MZxrmNXwbBwkaM2k9CxqXfTsxZOhEhZe5wTOS1SSWV5MvtOOHpJfejZBKpgi1IoCWWt+4h3EkQnpXnOx6IjuAy+kiss93uv1SI=
+	t=1707231024; cv=none; b=ZLq5JClHXDOvF1O4Phd791iZAht+njlIPCDlOY+ehsD3ylI/X/0mQ+ItgNPZcfvDz7O6mao99iddl8yNnfRrhstupKLT5oFcsOnu1DLu2EauVPobJm14cmodz+2WaJPW27tGZpxGqiYlvfvhSD6ieSF7dcQPdgsT02SAvkZuuWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707229978; c=relaxed/simple;
-	bh=9UD8b+TFEEK4uaC9hJArAphziHujlpaWwwUyIgLBMxM=;
+	s=arc-20240116; t=1707231024; c=relaxed/simple;
+	bh=TRNOZ2E0jVFr1j4Jk3WeOB19Tmkl0WCO11cXpH5xx0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WhlpqjEEjE4emdEyizvScn+xMxS8q8vK24Z+Lva08VObi57BBxBPQhcWASFQtpMa9QjEl7sEI69IwIrjvAC/Tbhdxbp5f5+M5am5TAcxbZOfqMSzfT5eT55ZtcGOZbO1YD8LKTXOgc0j2GO8Ne5seoQ6JkslE+yP/bR6IP96qII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q7jNBJ38; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uLehfM0Tm/ri9VGKbGbGne2qY3konLpMXzCtKnFbP9yzWeW0U0FzFJxCWO66irpNJkCcjfDyygqDAwn/qIP+50BiBOmG8pjNAM8SehKqoX9T+a3NaDuqpyaE7Bji0aCzRlMDD5fC6JW6TKxyuWWVGRGTxU0xKrVXzjiyJVE053w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kLFOOydV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q7jNBJ38"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91ADC433C7;
-	Tue,  6 Feb 2024 14:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707229978;
-	bh=9UD8b+TFEEK4uaC9hJArAphziHujlpaWwwUyIgLBMxM=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kLFOOydV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742AAC433C7;
+	Tue,  6 Feb 2024 14:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707231024;
+	bh=TRNOZ2E0jVFr1j4Jk3WeOB19Tmkl0WCO11cXpH5xx0c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q7jNBJ38XIV3H3zCuCxJsKOiGWqCQhJwh2J4ojbgeQQlLzZ9I39+4pY+LK5QR5UJD
-	 KVk6U7n6+3DRXpTHA4fzjgSdepmDinVheDwDpOKJM50iSKlp27Fw5WH9KfztmuPae0
-	 i4Wc8DUZMspWmB2dIn0ZTmtSxbtxASicKnXisYz+/GNTTCAb1mncM7lrhR39vA/jA/
-	 qQE8r/wWcI+/1a9ALjyMFhCJ6oRsGps1mmNAiscAAfwI7WTBxENuVYlu7wAzZ/ixJW
-	 tr54XmjUxaB8ymcwokWfi8gMDLuVU5fjAzlUSAm58lE3rK/1rQUdxeh50sWfmwGYug
-	 YWVifAk5sTWsw==
-Date: Tue, 6 Feb 2024 14:32:54 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] ASoC: dt-bindings: xmos,xvf3500: add XMOS XVF3500
- voice processor
-Message-ID: <ZcJDFi+iIQOWzgYw@finisterre.sirena.org.uk>
-References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
- <20240206-onboard_xvf3500-v3-6-f85b04116688@wolfvision.net>
+	b=kLFOOydVz8hY/tZlvFGGUr5yxRLIh5a3MMj5zIRocdMkLDC1jdALkpy9OA3M9F8lD
+	 uRpBnMXQLY+8ovJ86Mu/N+WBHiVZCawbZRCXM749gkLpVYkyUjNoqP4OZx2B7X+6le
+	 95uqhpXCNWzr+Hy9rLJ6CQwMVmoMMdIisEZbF31o=
+Date: Tue, 6 Feb 2024 14:50:21 +0000
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
+	robh+dt@kernel.org, konrad.dybcio@linaro.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v13 32/53] ALSA: usb-audio: Check for support for
+ requested audio format
+Message-ID: <2024020617-limb-name-f852@gregkh>
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+ <20240203023645.31105-33-quic_wcheng@quicinc.com>
+ <87wmrhvir7.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="09qaS/n52Yq+UYa2"
-Content-Disposition: inline
-In-Reply-To: <20240206-onboard_xvf3500-v3-6-f85b04116688@wolfvision.net>
-X-Cookie: You might have mail.
-
-
---09qaS/n52Yq+UYa2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <87wmrhvir7.wl-tiwai@suse.de>
 
-On Tue, Feb 06, 2024 at 02:59:34PM +0100, Javier Carrasco wrote:
+On Tue, Feb 06, 2024 at 02:12:44PM +0100, Takashi Iwai wrote:
+> On Sat, 03 Feb 2024 03:36:24 +0100,
+> Wesley Cheng wrote:
+> > 
+> > Allow for checks on a specific USB audio device to see if a requested PCM
+> > format is supported.  This is needed for support when playback is
+> > initiated by the ASoC USB backend path.
+> > 
+> > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> 
+> Just cosmetic:
+> 
+> > +struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+> > +			struct snd_pcm_hw_params *params, int direction)
+> > +{
+> > +	struct snd_usb_audio *chip;
+> > +	struct snd_usb_substream *subs;
+> > +	struct snd_usb_stream *as;
+> > +	const struct audioformat *fmt;
+> > +
+> > +	/*
+> > +	 * Register mutex is held when populating and clearing usb_chip
+> > +	 * array.
+> > +	 */
+> > +	mutex_lock(&register_mutex);
+> > +	chip = usb_chip[card_idx];
+> > +	if (!chip) {
+> > +		mutex_unlock(&register_mutex);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	if (enable[card_idx]) {
+> > +		list_for_each_entry(as, &chip->pcm_list, list) {
+> > +			subs = &as->substream[direction];
+> > +			fmt = snd_usb_find_substream_format(subs, params);
+> > +			if (fmt) {
+> > +				mutex_unlock(&register_mutex);
+> > +				return as;
+> > +			}
+> > +		}
+> > +	}
+> > +	mutex_unlock(&register_mutex);
+> 
+> I prefer having the single lock/unlock call pair, e.g.
+> 
+> 	struct snd_usb_stream *as, *ret;
+> 
+> 	ret = NULL;
+> 	mutex_lock(&register_mutex);
+> 	chip = usb_chip[card_idx];
+> 	if (chip && enable[card_idx]) {
+> 		list_for_each_entry(as, &chip->pcm_list, list) {
+> 			subs = &as->substream[direction];
+> 			if (snd_usb_find_substream_format(subs, params)) {
+> 				ret = as;
+> 				break;
+> 			}
+> 		}
+> 	}
+> 	mutex_unlock(&register_mutex);
+> 	return ret;
+> }
+> 
+> In this case, we shouldn't reuse "as" for the return value since it
+> can be non-NULL after the loop end.
 
-> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
-> multicore controller for voice processing.
+Why not just use guard(mutex) for this, making it all not an issue?
 
-Acked-by: Mark Brown <broonie@kernel.org>
+thanks,
 
-though...
-
-> +  vdd-supply:
-> +    description:
-> +      Regulator for the 1V0 supply.
-> +
-> +  vdd2-supply:
-> +    description:
-> +      Regulator for the 3V3 supply.
-
-...it's a bit weird that the supplies are named like this, usually
-there'd be some sort of meaningful name (even if it's just VDD_1V0 and
-VDD_3V3 or something).  Are you sure these are the actual names?
-
---09qaS/n52Yq+UYa2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXCQxYACgkQJNaLcl1U
-h9BNHgf+JiPymHHAj2dWCTh3dcHIcsDDkVwzN5R4Ue5BSiQ+iVD4G0zQZHA9KlEc
-7TNtUN+LdLUnPZ9DldK5GMEfoNJAflLR5MSyICkP3YPJl+9pcMaT98l9asluFMqS
-Qex5uI3PwAMH9vqgj+xvk2OJM0Bp8LvTD9thGRXXh6N0QukDwovKqtVTLEVSUTkb
-/v5VhN6YhrOGy6Mlo27m0otmD2ERRhK2uGMHbf5Ghgp8qObCCHXVmEeRNRs8fulC
-WKjunt8FUP48V18SRPNKAxZl6bFJPzPer/IAF2CXd/crpUP5EdBxTbke8aJwe0vm
-JHzm5NTNpB9v+Ou15VrdXNWi1iPXHA==
-=6G9h
------END PGP SIGNATURE-----
-
---09qaS/n52Yq+UYa2--
+greg k-h
