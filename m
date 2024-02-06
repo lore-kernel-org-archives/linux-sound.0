@@ -1,202 +1,135 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EAB74E03;
-	Tue,  6 Feb 2024 06:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C685B687;
+	Tue,  6 Feb 2024 09:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707201889; cv=none; b=WukSVx9l/AKtS9hkbPgglbtOFXWjhmkz/rCt/sDsr292Ivuvmj6hSorHE2sAkSAcsI6pApW6d4AvegnKI+jwJ3d+qP5pdpVkzdAwdRuInNh1qZp3pnYXdkbg0Ofxf44jc8F7DVTXPalDz7isw+Q3HRHBQnXFQB8WMwmP+2uAGPs=
+	t=1707210862; cv=none; b=TUzaRRJj0/lF1aSA7PsdUisXCP1PEVL1vZLZP5KiF58TvEAx01s6pvWKuNU+HWfW5g6jXZjRw75v5d/LiqceG8hNKVEjxq2Mr2ILM5lIJNZVNlkkPxGh5oHKD/7KoSFjs2iiVmDO7M5y7rqggCslKrt8RZNK9SY9ozFaCWOSmT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707201889; c=relaxed/simple;
-	bh=6NTsi8MTHhKSU1zdGgcR2NazjNxpJ4OkB7k2y0vpsVc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Um/SOg5awqsqq+yAT21qfAy+vWHDQMNZVmbQ4K1zmYM5k64PucXoMdsOQXnD2eo+0fSQz/MYDeS9z+1W5BLMQECuY0RRnoccXde2vI2jI/0VJZH1vb8b46xqUNV5h690ulvUY6ceQiwPW/TlCIR7mIfVczP6Kgef7CuJvrWn5c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=QW0XFVx0; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="QW0XFVx0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1707201887; x=1738737887;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6NTsi8MTHhKSU1zdGgcR2NazjNxpJ4OkB7k2y0vpsVc=;
-  b=QW0XFVx0W4bIgxRyjfqq+pFfEuYe3xkNBsylx+bukq8ijz1jYcK2i7w0
-   zls27XP7hxNrS78lLTpMY6SFpeOkNY4txX+J9LHpNvSuHSCfB1VgxveoR
-   Nq6z+Fh1U1JUYeLP4zLdfZZDSr/Z/ipJGYOD5tjLV4WiEJJf/vET3Q7/1
-   NKZxz4ffTR9iOZ06aM69rRM8oETJ9JkMbss7mZMDGxhK2pHHhYeXeT+ev
-   wATix8nzKjbCS0Oz9LmVmjA4X8PVGBPRFAmiQlgcM4qS6WK1HmJVc791/
-   +QczhlXcTWtv9iS2Wauj5fI2GV4txOZ9hlBiQ8QdEA/zgPAo7NWoHoa7x
-   A==;
-X-CSE-ConnectionGUID: 5cKW/z4QQq6KFQyHa1Y4Bg==
-X-CSE-MsgGUID: xRRXybZ8QuS7vPMPAREMRA==
-X-IronPort-AV: E=Sophos;i="6.05,246,1701154800"; 
-   d="scan'208";a="15812734"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Feb 2024 23:44:45 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 5 Feb 2024 23:44:29 -0700
-Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 5 Feb 2024 23:44:23 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-	<conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <dharma.b@microchip.com>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <hari.prasathge@microchip.com>
-Subject: [linux][PATCH] ASoC: dt-bindings: atmel,sam9x5-wm8731: Convert to json-schema
-Date: Tue, 6 Feb 2024 12:14:18 +0530
-Message-ID: <20240206064418.237377-1-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1707210862; c=relaxed/simple;
+	bh=bEoN3M17mEv9B3162HEP9uHxhQ9Pp2M9knWH2/SA5EY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=kwF1dzDrNwRvXfKguHF6AkKS7nhvX7p+iwKCq626HIlHQcW37FH3u5QpQdxJy1lWMsMKEUTYXobq9M+rxzNw9OUgzg4kLdQG3hZ1/fSc/Dnj5onx1kAR51DjUn4DxC04gnY56ssGs9V79Akh2VISlhb6IQSxRl12RIDPzKZIxas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from [IPV6:2a01:e34:ec1e:c710:76bc:3b92:8186:7430] (unknown [IPv6:2a01:e34:ec1e:c710:76bc:3b92:8186:7430])
+	(Authenticated sender: lagiraudiere@free.fr)
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 0F4BA2005A5;
+	Tue,  6 Feb 2024 10:14:04 +0100 (CET)
+Message-ID: <eac660b7-5202-4ea1-836c-8d3cdb97c5d4@free.fr>
+Date: Tue, 6 Feb 2024 10:14:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: =?UTF-8?Q?Jean-Lo=C3=AFc_Charroud?= <lagiraudiere+linux@free.fr>
+Subject: [PATCH] ALSA: hda/realtek: cs35l41: Fix internal speaker support for
+ ASUS UM3402 with missing DSD
+To: Stefan Binding <sbinding@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+Content-Language: en-US, fr-FR
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Convert atmel sam9x5-wm8731-audio devicetree binding to json-schema.
+Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
+Add DSD values for "ASUS UM3402" to cs35l41_config_table[].
+Reorder alc269_fixup_tbl[] by device id and remove duplicate QUIRK
+entry for device {0x1043, 0x1f62, "ASUS UX7602ZM"}.
 
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Signed-off-by: Jean-Loïc Charroud <lagiraudiere+linux@free.fr>
 ---
- .../sound/atmel,sam9x5-wm8731-audio.yaml      | 76 +++++++++++++++++++
- .../sound/atmel-sam9x5-wm8731-audio.txt       | 35 ---------
- 2 files changed, 76 insertions(+), 35 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt
+  sound/pci/hda/cs35l41_hda_property.c | 2 ++
+  sound/pci/hda/patch_realtek.c        | 7 +++----
+  2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml b/Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml
-new file mode 100644
-index 000000000000..33717b728f63
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/atmel,sam9x5-wm8731-audio.yaml
-@@ -0,0 +1,76 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/atmel,sam9x5-wm8731-audio.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel at91sam9x5ek wm8731 audio complex
-+
-+maintainers:
-+  - Dharma Balasubiramani <dharma.b@microchip.com>
-+
-+description:
-+  The audio complex configuration for Atmel at91sam9x5ek with WM8731 audio codec.
-+
-+properties:
-+  compatible:
-+    const: atmel,sam9x5-wm8731-audio
-+
-+  atmel,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex.
-+
-+  atmel,ssc-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the SSC controller.
-+
-+  atmel,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the WM8731 audio codec.
-+
-+  atmel,audio-routing:
-+    description:
-+      A list of the connections between audio components. Each entry is a pair
-+      of strings, the first being the connection's sink, the second being the
-+      connection's source.
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    items:
-+      enum:
-+        # Board Connectors
-+        - Headphone Jack
-+        - Line In Jack
-+
-+        # CODEC Pins
-+        - LOUT
-+        - ROUT
-+        - LHPOUT
-+        - RHPOUT
-+        - LLINEIN
-+        - RLINEIN
-+        - MICIN
-+
-+required:
-+  - compatible
-+  - atmel,model
-+  - atmel,ssc-controller
-+  - atmel,audio-codec
-+  - atmel,audio-routing
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "atmel,sam9x5-wm8731-audio";
-+
-+        atmel,model = "wm8731 @ AT91SAM9X5EK";
-+
-+        atmel,audio-routing =
-+                "Headphone Jack", "RHPOUT",
-+                "Headphone Jack", "LHPOUT",
-+                "LLINEIN", "Line In Jack",
-+                "RLINEIN", "Line In Jack";
-+
-+        atmel,ssc-controller = <&ssc0>;
-+        atmel,audio-codec = <&wm8731>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt b/Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt
-deleted file mode 100644
-index 8facbce53db8..000000000000
---- a/Documentation/devicetree/bindings/sound/atmel-sam9x5-wm8731-audio.txt
-+++ /dev/null
-@@ -1,35 +0,0 @@
--* Atmel at91sam9x5ek wm8731 audio complex
--
--Required properties:
--  - compatible: "atmel,sam9x5-wm8731-audio"
--  - atmel,model: The user-visible name of this sound complex.
--  - atmel,ssc-controller: The phandle of the SSC controller
--  - atmel,audio-codec: The phandle of the WM8731 audio codec
--  - atmel,audio-routing: A list of the connections between audio components.
--    Each entry is a pair of strings, the first being the connection's sink,
--    the second being the connection's source.
--
--Available audio endpoints for the audio-routing table:
--
--Board connectors:
-- * Headphone Jack
-- * Line In Jack
--
--wm8731 pins:
--cf Documentation/devicetree/bindings/sound/wlf,wm8731.yaml
--
--Example:
--sound {
--	compatible = "atmel,sam9x5-wm8731-audio";
--
--	atmel,model = "wm8731 @ AT91SAM9X5EK";
--
--	atmel,audio-routing =
--		"Headphone Jack", "RHPOUT",
--		"Headphone Jack", "LHPOUT",
--		"LLINEIN", "Line In Jack",
--		"RLINEIN", "Line In Jack";
--
--	atmel,ssc-controller = <&ssc0>;
--	atmel,audio-codec = <&wm8731>;
--};
+diff --git a/sound/pci/hda/cs35l41_hda_property.c 
+b/sound/pci/hda/cs35l41_hda_property.c
+index 923c0813fa08..d8cd62ef6afc 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -102,6 +102,7 @@ static const struct cs35l41_config 
+cs35l41_config_table[] = {
+      { "10431D1F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+0, 1, -1, 1000, 4500, 24 },
+      { "10431DA2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+1, 2, 0, 0, 0, 0 },
+      { "10431E02", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+1, 2, 0, 0, 0, 0 },
++    { "10431E12", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+0, 1, -1, 0, 0, 0 },
+      { "10431EE2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+0, -1, -1, 0, 0, 0 },
+      { "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+0, 1, -1, 1000, 4500, 24 },
+      { "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 
+1, -1, 0, 0, 0, 0 },
+@@ -485,6 +486,7 @@ static const struct cs35l41_prop_model 
+cs35l41_prop_model_table[] = {
+      { "CSC3551", "10431D1F", generic_dsd_config },
+      { "CSC3551", "10431DA2", generic_dsd_config },
+      { "CSC3551", "10431E02", generic_dsd_config },
++    { "CSC3551", "10431E12", generic_dsd_config },
+      { "CSC3551", "10431EE2", generic_dsd_config },
+      { "CSC3551", "10431F12", generic_dsd_config },
+      { "CSC3551", "10431F1F", generic_dsd_config },
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 7aa88ed04bde..16cb19eee589 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9893,6 +9893,7 @@ static const struct snd_pci_quirk 
+alc269_fixup_tbl[] = {
+      SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", 
+ALC294_FIXUP_ASUS_DUAL_SPK),
+      SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV", 
+ALC285_FIXUP_ASUS_HEADSET_MIC),
+      SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", 
+ALC287_FIXUP_CS35L41_I2C_2),
++    SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", 
+ALC245_FIXUP_CS35L41_SPI_2),
+      SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
+      SND_PCI_QUIRK(0x1043, 0x16d3, "ASUS UX5304VA", 
+ALC245_FIXUP_CS35L41_SPI_2),
+      SND_PCI_QUIRK(0x1043, 0x16e3, "ASUS UX50", ALC269_FIXUP_STEREO_DMIC),
+@@ -9936,14 +9937,12 @@ static const struct snd_pci_quirk 
+alc269_fixup_tbl[] = {
+      SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
+      SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", 
+ALC245_FIXUP_CS35L41_SPI_2),
+      SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", 
+ALC245_FIXUP_CS35L41_SPI_2),
+-    SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", 
+ALC245_FIXUP_CS35L41_SPI_2),
+-    SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", 
+ALC245_FIXUP_CS35L41_SPI_2),
+      SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", 
+ALC289_FIXUP_ASUS_GA502),
+-    SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM6702RA/RC", 
+ALC287_FIXUP_CS35L41_I2C_2),
++    SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", 
+ALC287_FIXUP_CS35L41_I2C_2),
+      SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", 
+ALC294_FIXUP_ASUS_GU502_PINS),
+      SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", 
+ALC294_FIXUP_ASUS_G513_PINS),
+      SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", 
+ALC289_FIXUP_ASUS_GA401),
+-    SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM3402", 
+ALC287_FIXUP_CS35L41_I2C_2),
++    SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", 
+ALC287_FIXUP_CS35L41_I2C_2),
+      SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", 
+ALC289_FIXUP_ASUS_GA401),
+      SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", 
+ALC289_FIXUP_ASUS_GA401),
+      SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", 
+ALC287_FIXUP_CS35L41_I2C_2),
 -- 
-2.25.1
+2.40.1
 
