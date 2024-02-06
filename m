@@ -1,204 +1,183 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46263130AEA;
-	Tue,  6 Feb 2024 13:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716A6131729
+	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 13:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707225173; cv=none; b=Ztt+VafRm2LBGrInCf3agQPpD0eoC2WYAZnE/eISCqRt/jk0v6K6Z1KxL6hSq+zuVEq4xSPd/as3UzG4jjXz4fdz9J5b9PN4Ru/u+hU/5KiwCODvRTaNqLJgaREmIqXmTsTif3cse+RLrP0yCP1lWB6lSZjLqU6uwMqQLpKhhH8=
+	t=1707227568; cv=none; b=natTvJBhAVMMyugDoIfI42mEv14VrMK7Yd6Fe6kpQaHPSvLGS1/cHiMgZ2e3eavmplsFMJKIrjr4mxMOX1ldSErp2JMNZQZ+tof4SaiaU7RGCeV2QsvC8iZJx0qRPORZeDVeOMeuXfsuwDcYI6CjlPYksZDV2oG8eevfNcW1UDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707225173; c=relaxed/simple;
-	bh=pQ5978DNg56uJKXZdg/gf4ds5wQ+oWnn70I2+3ozUwk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E9iGO1XMlvYZzItdvV60LDEjFY+T9iM5d9mVkfXqnOz8WHCf07b8cer+BChb/zz+HHg74QpnTKXOTdkl36+YvLhNsv5GPSS7amgfr8PzsXhql8yicqN5lXC9EOaiG9DhbFPyT77IW362Syg23BDGWG/JHIJC/ygcc6lj2nqbqxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nzRqkNa9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJkjNn/l; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nzRqkNa9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJkjNn/l; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1707227568; c=relaxed/simple;
+	bh=cxKKyV4U1iYb7es+ijrP2Z8sDWgNjJ3Ft5xTUdTfIjA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nq3/OpAYMsHhJfmnm5LODOuhGvSj877u14ZPohYKOn72CaNMrgTYopr+ceQzpIweuydMhbtjwS8qZwwOD1cETbnkcyLXq0PqVzZEy7DCCIUsFS395xZbm+DY3kJaM0iTaiBZTgSPAR4/5bVx3snsWaXLCN4tUce2lG05kqhOLRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uCnE3us/; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nzRqkNa9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJkjNn/l";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nzRqkNa9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJkjNn/l"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 45FA121F23;
-	Tue,  6 Feb 2024 13:12:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707225169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pu0AmyhNLblBGibwDuGJkfaRqWe4VLl/6YMlZsow0qs=;
-	b=nzRqkNa9xazo+VgyphXV+yGCSIvuhLB7QRfansFESogku2rqIFhrJ29YwNG/odg7xHZJeL
-	pVSS7Q6U4QQGhO389T7FaAKxsyPi8WPslGHa/XfZ80qfVaQFD0s5o2AIQ5ybWlXPDzgQNe
-	YF3QOT2yvdQFM+Af+oTsPzNhEoGwNYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707225169;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pu0AmyhNLblBGibwDuGJkfaRqWe4VLl/6YMlZsow0qs=;
-	b=xJkjNn/lmurCkg39PYsOcnXXO3go57x86ZHTuH8mOB28zShJ2cADmDVcBKuGrl5UZhMxEa
-	muEzCM8RIed52rDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707225169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pu0AmyhNLblBGibwDuGJkfaRqWe4VLl/6YMlZsow0qs=;
-	b=nzRqkNa9xazo+VgyphXV+yGCSIvuhLB7QRfansFESogku2rqIFhrJ29YwNG/odg7xHZJeL
-	pVSS7Q6U4QQGhO389T7FaAKxsyPi8WPslGHa/XfZ80qfVaQFD0s5o2AIQ5ybWlXPDzgQNe
-	YF3QOT2yvdQFM+Af+oTsPzNhEoGwNYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707225169;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pu0AmyhNLblBGibwDuGJkfaRqWe4VLl/6YMlZsow0qs=;
-	b=xJkjNn/lmurCkg39PYsOcnXXO3go57x86ZHTuH8mOB28zShJ2cADmDVcBKuGrl5UZhMxEa
-	muEzCM8RIed52rDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0911C132DD;
-	Tue,  6 Feb 2024 13:12:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Iky2AVEwwmUuOQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 06 Feb 2024 13:12:49 +0000
-Date: Tue, 06 Feb 2024 14:12:44 +0100
-Message-ID: <87wmrhvir7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh+dt@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v13 32/53] ALSA: usb-audio: Check for support for requested audio format
-In-Reply-To: <20240203023645.31105-33-quic_wcheng@quicinc.com>
-References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
-	<20240203023645.31105-33-quic_wcheng@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uCnE3us/"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40efcb37373so7631445e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 06 Feb 2024 05:52:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707227565; x=1707832365; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q5+il3Q4JooGpJcjPwkL152K3WCQCZ42apDFBFqdO08=;
+        b=uCnE3us/crKFdxhDPAi9bvGPPYg5UhXBuNNnSZrgARCDwLJJqkoo//w3NUel34MBvr
+         ZmiO2S6Ob6H97rg0AjAYvtOliOWyso8YmmU8ynGBoZb+SdmCaMhralN/cAtuRlo2ZWp0
+         xZ/eUhsCmcnJZoFNnpJiAoFzC6e8D3z9T5Z/qKKas6AiJ6/A5216JVRpRf+kZwMi054l
+         6R4iBE/ZNPECCPLAoxUk2MPYaesDs22Utoq5goexff97EC8amu7illF30371tlSi9oxx
+         CkI0YB9YW8nSMJ9QSMu23H2zNvmYTVVsofh6N2ON2/pjj1sE5LpHXEd3tw9Slca3+w3q
+         ljWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707227565; x=1707832365;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q5+il3Q4JooGpJcjPwkL152K3WCQCZ42apDFBFqdO08=;
+        b=BpxoSnsFYEFC2qg78nrbC4oj8/kfC5f0IEr8omVmKhQd+U4Nhse33liQy2MynKJjz8
+         M6AX9meHZfuTXvcTdu7QjmAigjR0ZdxjNG1MNoeiTPmocJOnUR6ItJRtk0oq5JPbKsd7
+         5UzpfPpey4BXSgLJ/+AZAd2FMErMr4n7yOYPIFzaN4b+xgq7r/0gcRnpP7IVT9Vg+PKZ
+         7aa4BXuhXlpAI/XPHJputwOOlVCiAKx8YxlH3bR2qV+PiJihSCu66kBYlcnEjatXzDvW
+         XOz1Ax/e2yA1SSwtG/V7CGj3KSrBceACT6/gKxuPZz673fbE0V6TIfqTKpVxdBw9UPER
+         2iEg==
+X-Gm-Message-State: AOJu0YxjcGdJhoLF2R4kGa0Sc2kfhX+30iWpUzJFl8Wj33Zz1zHO6GkG
+	xshy5AEwHFnQH4AI+H2GHf2gUKiVzyG9aAeAjfs3pinCi1jp7F4q+PC2RtlyDCc=
+X-Google-Smtp-Source: AGHT+IGNdD5G84DmSHU/b36Z20lt00aR690Cm3mQbuLYcXgKdKpmFuaW3ORDH2JbMAIq69V34uvLeQ==
+X-Received: by 2002:a05:600c:602a:b0:40f:f4e0:cd0a with SMTP id az42-20020a05600c602a00b0040ff4e0cd0amr326408wmb.19.1707227564431;
+        Tue, 06 Feb 2024 05:52:44 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWQxZwbkTyLgHYU23aodGlKv7bLPTq1NO1vObvdfPuEHfUTAUpEMVi+UuwCNQxx4V9H3hrezSlmLgUHtKFey0zDv8Nixdf0mIXCco3AL4X5AqCCZqCgYDTsaVdv6ssI+c4+qymIiMS63tPDrXZ/eqHNZM9uUswQUHWfste5rQQye8lu/7GycegO90utb7PA+tgHIjr6rLynEJylJijF1FRry2qApW94vJIjcE8/8rbWHrxFkXKSyld0NeEcAHDYwbSxpZbSWiUGyMNKuJV+jKamgR+BxUw4ewK5t2+UQRHvrphlo9sMgp12V7spX2avvCoCi0IPbVh1mCzzC6YMvXB0MCnTysTnMAbd5icdw309j/buhSgbqxzTVyP3honPYzPxF7tdY6nbF513PExxYX1ZZ1jro5flHH0pfmkqGbfYu6SxV6hThZoaL5FJTpGDpziwxnZHXOsxiB9ZKXBAVs+sTOz7++Ia6bgsffo0wR8SnqVTwlCsbBnM2X1q65CjPu7S2yfFWe7/uSCFiBYGc1A54bsdBnHKeJhoaHPJgWeL9I7Mtw+c1o3UvqM3nU0bOOBqThmXoaSKL0nXPEcwbnhMtkHFV6gxL5Fk626izIUNPpuuOj4fq1eK6WGYoeXtSs65FR08OeN+2q7BqmqCZBUk+x7p2a8L3uEwZplJWLC4hYxE5E0DDd86wWQDdCtW371OAMdfiIMHtHfyMWa/qar22MJXEDyiadeGd4wmL28DQ0Pz04s0ZZPgMEdeK4MDK8ZPHiZ1/gDyde1zh0Mn
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id e5-20020adfe7c5000000b0033b44355a08sm2188528wrn.5.2024.02.06.05.52.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Feb 2024 05:52:43 -0800 (PST)
+Message-ID: <ac4b73f6-0c2c-4586-98d6-e97c575b3df7@linaro.org>
+Date: Tue, 6 Feb 2024 14:52:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [2.37 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-0.03)[56.46%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[dt];
-	 MIME_GOOD(-0.10)[text/plain];
-	 R_RATELIMIT(0.00)[to_ip_from(RLjs3ec4aura4kmsd6wxjjm4hg)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[quicinc.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: **
-X-Spam-Score: 2.37
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add initial DT binding
+Content-Language: en-US
+To: Shenghao Ding <shenghao-ding@ti.com>, broonie@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org, robh+dt@kernel.org,
+ andriy.shevchenko@linux.intel.com, linux-sound@vger.kernel.org,
+ liam.r.girdwood@intel.com, lgirdwood@gmail.com, linux-kernel@vger.kernel.org
+Cc: kevin-lu@ti.com, baojun.xu@ti.com, v-po@ti.com, navada@ti.com,
+ perex@perex.cz, j-mcpherson@ti.com, pierre-louis.bossart@linux.intel.com,
+ 13916275206@139.com, mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com,
+ tiwai@suse.de, pdjuandi@ti.com, manisha.agrawal@ti.com, s-hari@ti.com,
+ aviel@ti.com, hnagalla@ti.com, praneeth@ti.com
+References: <20240203030504.1724-1-shenghao-ding@ti.com>
+ <20240203030504.1724-4-shenghao-ding@ti.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240203030504.1724-4-shenghao-ding@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 03 Feb 2024 03:36:24 +0100,
-Wesley Cheng wrote:
-> 
-> Allow for checks on a specific USB audio device to see if a requested PCM
-> format is supported.  This is needed for support when playback is
-> initiated by the ASoC USB backend path.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-
-Just cosmetic:
-
-> +struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
-> +			struct snd_pcm_hw_params *params, int direction)
-> +{
-> +	struct snd_usb_audio *chip;
-> +	struct snd_usb_substream *subs;
-> +	struct snd_usb_stream *as;
-> +	const struct audioformat *fmt;
+On 03/02/2024 04:05, Shenghao Ding wrote:
 > +
-> +	/*
-> +	 * Register mutex is held when populating and clearing usb_chip
-> +	 * array.
-> +	 */
-> +	mutex_lock(&register_mutex);
-> +	chip = usb_chip[card_idx];
-> +	if (!chip) {
-> +		mutex_unlock(&register_mutex);
-> +		return NULL;
-> +	}
+> +      ti,tad5212: Low-power stereo audio DAC with 120-dB dynamic range.
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - ti,adc3120
+> +              - ti,adc5120
+> +              - ti,pcm3120
+> +              - ti,pcm5120
+> +              - ti,pcm6120
+> +          - const: ti,adc6120
+> +      - items:
+> +          - enum:
+> +              - ti,pcm6260
+> +              - ti,pcm6140
+> +              - ti,pcm3140
+> +              - ti,pcm5140
+> +          - const: ti,pcm6240
+> +      - items:
+> +          - const: ti,dix4192
+> +          - const: ti,pcm6240
+
+Why dix4192 is not part of previous enum?
+
+> +      - items:
+> +          - const: ti,adc6120
+> +          - const: ti,pcmd512x
+> +      - items:
+> +          - const: ti,pcm1690
+> +          - const: ti,pcm9211
+> +      - items:
+> +          - enum:
+> +              - ti,pcmd3180
+> +          - const: ti,pcmd3140
+> +      - items:
+> +          - enum:
+> +              - ti,taa5412
+> +          - const: ti,taa5212
+> +      - items:
+> +          - enum:
+> +              - ti,tad5412
+> +          - const: ti,tad5212
+> +      - enum:
+> +          - ti,pcm6240
+> +          - ti,pcmd3140
+> +          - ti,taa5212
+> +          - ti,tad5212
+> +          - ti,pcmd3180
+
+This one is duplicated.
+
 > +
-> +	if (enable[card_idx]) {
-> +		list_for_each_entry(as, &chip->pcm_list, list) {
-> +			subs = &as->substream[direction];
-> +			fmt = snd_usb_find_substream_format(subs, params);
-> +			if (fmt) {
-> +				mutex_unlock(&register_mutex);
-> +				return as;
-> +			}
-> +		}
-> +	}
-> +	mutex_unlock(&register_mutex);
-
-I prefer having the single lock/unlock call pair, e.g.
-
-	struct snd_usb_stream *as, *ret;
-
-	ret = NULL;
-	mutex_lock(&register_mutex);
-	chip = usb_chip[card_idx];
-	if (chip && enable[card_idx]) {
-		list_for_each_entry(as, &chip->pcm_list, list) {
-			subs = &as->substream[direction];
-			if (snd_usb_find_substream_format(subs, params)) {
-				ret = as;
-				break;
-			}
-		}
-	}
-	mutex_unlock(&register_mutex);
-	return ret;
-}
-
-In this case, we shouldn't reuse "as" for the return value since it
-can be non-NULL after the loop end.
 
 
-thanks,
+Best regards,
+Krzysztof
 
-Takashi
