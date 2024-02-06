@@ -1,86 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A9213474A;
-	Tue,  6 Feb 2024 16:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FE1134CC6;
+	Tue,  6 Feb 2024 16:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707235855; cv=none; b=ffce3tdvnJgMvQuW+3u0l2vBj88ES7LJuEaLPcVCtIahUWbfkHA5ZRg8gHUPeT2cwoGHUSRei/vZhecMq/ACJA9qxtsDKKdY8DCD9OxGeLxzIJNRW6E1LfALMEwvGprdKctdrwGnZCEii4Kzc9yAkbFegR9hBBr3+hvTMS2PUR4=
+	t=1707236097; cv=none; b=WvpALxjJHMJRa/NvYfi8cdG4S7wJK/CshmZXiXBEzQEGpZWkzD15anNHHGgCnXeD9/mqqcnRvrrzC3gqfaZsFaaidIAJxGpFnRYeMavi444NjI6RU0RkeynE3TjU/Qb1N63tXec27fEEUXEBsvN8ycOAYk4x7pVuJyhyQ4UmbqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707235855; c=relaxed/simple;
-	bh=rt2gbomlAKzHf86rD0Rdi08EvEQCBWqCJ3uvmPmjTF4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ur0G2VJrNBCohvwbsa9TUTjHps9q2gUVJ6JQD2VNBD8HeTmTDirsp/6AbxfMwbadmbU3Ivpw3YRwzeiiT4EegbtQ61WlgpP/ho69KbMh8gpQM3aEL2KyK9FZLmpmIaMRzSoO3S+7JLJFxKFxc8QoFHJoolkyHqxMcxXj5/9VBYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hhjk+TCu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707236097; c=relaxed/simple;
+	bh=rYgMKuXeeYNNmpYJbDLDGfYk707E0qHWmVKLXAui73k=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D6rF2Pfb/pDpQiIEvzWdNbjDzxrSVby44t7T48hWMP1Qso4lL0vw2RsfWT9DsZLaniIK3OCs1uIDCCrCoC3xulRSXKUBVllbgBFdUp4O4lmPDrTsbcpIEX2JMlCCAbi0A9gaR/sb2w3Sy5QkfrEpKVY3moKGdlcibI+CTxorMZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iMtyp49N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JRtN7CXY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lXiP/ZYD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IDJJySEM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hhjk+TCu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D417C433F1;
-	Tue,  6 Feb 2024 16:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707235854;
-	bh=rt2gbomlAKzHf86rD0Rdi08EvEQCBWqCJ3uvmPmjTF4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hhjk+TCu3GJOkW+S758ybNCIvyn0Ca9BCVhLHQNZh6SjtHrezuEaCl3XkfQGZ8+Vn
-	 v+aRDxg7dZjeohPRgS4SpBASCui4OkuhFI4lmTgUkkqPw8/ZFSoLuNe+YEOp8azYsP
-	 4jGCbrEIJkA5cX261dvVWc/e+PMoulXuhL/sd6FGdlucxsz6o9icMmqMGM8EPJHEY9
-	 0OPc84SEqC3K7fLP2OA2IGep5FjG6W7m9D9ke+yrre8qjYJcxbWqAwJFM0MlFhgCPF
-	 pnyStuxBke7AIYmD/6x5Pwd5MoOqGSp6u4zTdByF4simCNAhQxHXFJFZgse26HrD3H
-	 Ezs5RO08eGmKA==
-From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: hari.prasathge@microchip.com
-In-Reply-To: <20240206064418.237377-1-dharma.b@microchip.com>
-References: <20240206064418.237377-1-dharma.b@microchip.com>
-Subject: Re: [linux][PATCH] ASoC: dt-bindings: atmel,sam9x5-wm8731: Convert
- to json-schema
-Message-Id: <170723585073.1032228.17039996472357795011.b4-ty@kernel.org>
-Date: Tue, 06 Feb 2024 16:10:50 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iMtyp49N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JRtN7CXY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lXiP/ZYD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IDJJySEM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CE2822211D;
+	Tue,  6 Feb 2024 16:14:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707236094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4N5m6Gf+OHcDb2SVGZM06tiTZHwCdlGokSrfyyYoxjk=;
+	b=iMtyp49Np6kRjAglceliOVxQxpMofrzhDOr2C0EOXbenYv4Edkk+9MYGWosVXUrrOhBDTY
+	sJzBTPXrdWhxe59M7+GbqPtep0EBKAs7u+Qj7V7dG8PlUZP+Zpk7d4f97B1azaCWbU0GHS
+	RyOw6ZZ34zeHKx2IfayXe/DHV65EF9Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707236094;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4N5m6Gf+OHcDb2SVGZM06tiTZHwCdlGokSrfyyYoxjk=;
+	b=JRtN7CXYAAk8c88QJyr1WkA8DnF44d/sXmTcwv0hyxH3KfaEEb4lafLci8vlI0ZPhJgjNI
+	fEkKrLH25n5/hmDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707236093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4N5m6Gf+OHcDb2SVGZM06tiTZHwCdlGokSrfyyYoxjk=;
+	b=lXiP/ZYDU0aTkoJ2nydfrogFvBQSdcV9SaCykLSk1MenNCY65YGetDSLAcygpdPR0zUbAD
+	kMPrh2xfYgtf5gLyx92PnHYYQr8pEZrYRul+Z5WaSTOhk/bUePW4zkkv90zpcTrFLYajqB
+	ZlotnV+8gBUdjxJ9eFrufIbNX8e/Ypo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707236093;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4N5m6Gf+OHcDb2SVGZM06tiTZHwCdlGokSrfyyYoxjk=;
+	b=IDJJySEMEE4JolTPgptTnastNKZs6s3aJkAfj2wokW8AtWYYFuPcCi6KmhZmE2mev6YXiE
+	ui2NRbeEG+wPLGCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88A8A139D8;
+	Tue,  6 Feb 2024 16:14:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cPWlH/1awmVSbwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 06 Feb 2024 16:14:53 +0000
+Date: Tue, 06 Feb 2024 17:14:53 +0100
+Message-ID: <87o7ct7eo2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Jean-Lo=EFc?= Charroud <lagiraudiere+linux@free.fr>
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
+In-Reply-To: <eac660b7-5202-4ea1-836c-8d3cdb97c5d4@free.fr>
+References: <eac660b7-5202-4ea1-836c-8d3cdb97c5d4@free.fr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="lXiP/ZYD";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IDJJySEM
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.56 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_TO(0.00)[free.fr];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-2.05)[95.35%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[free.fr];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[linux];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: -2.56
+X-Rspamd-Queue-Id: CE2822211D
+X-Spam-Flag: NO
 
-On Tue, 06 Feb 2024 12:14:18 +0530, Dharma Balasubiramani wrote:
-> Convert atmel sam9x5-wm8731-audio devicetree binding to json-schema.
+On Tue, 06 Feb 2024 10:14:04 +0100,
+Jean-Loïc Charroud wrote:
 > 
+> Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
+> Add DSD values for "ASUS UM3402" to cs35l41_config_table[].
+> Reorder alc269_fixup_tbl[] by device id and remove duplicate QUIRK
+> entry for device {0x1043, 0x1f62, "ASUS UX7602ZM"}.
 > 
+> Signed-off-by: Jean-Loïc Charroud <lagiraudiere+linux@free.fr>
 
-Applied to
+The patch isn't cleanly applicable, the tabs and spaces got broken
+likely by your mailer.
+Could you fix your mailer setup and resubmit?  At best with
+git-send-email.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+thanks,
 
-[1/1] ASoC: dt-bindings: atmel,sam9x5-wm8731: Convert to json-schema
-      commit: a15f859ca312feb4730c93320bbe46929d0f9d26
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
