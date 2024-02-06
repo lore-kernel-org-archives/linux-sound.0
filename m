@@ -1,54 +1,54 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D42ADF5B
-	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 17:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E37C134B2
+	for <linux-sound@vger.kernel.org>; Tue,  6 Feb 2024 18:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707242145; cv=none; b=aObPGOXC9OKzFXBEbej5gRs74Mwu5tGpgwR8SQG0IHgw2cQ6Jl39A3U+ArWA183FgjxNNzotZcJKTHaxp4MFuRROba4JAwKl2puzeGomfEzlZHF+i01lsiNdrUPUsOJVXLxHBunyxxoJUCAzKwHQ7y1OY/UwRxI5sgEqfpcVZ44=
+	t=1707244862; cv=none; b=hBcSakPsIyx2zI++bPIAB9Sh6EH6Sc+qbsDzIlsFVp5aN6b9sSotkwH7UzUB22OffIXzoPj4AGNtkWqHGbLXJrUh8RiJsh27axL8THgMTPnsRFki6BpMBR5F1o0/w23nD0wx5taUYhdpl9jINBvhZ7I0TLxK2IfqBDypLFl6wqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707242145; c=relaxed/simple;
-	bh=8lFdlTAXaMQYKNjhcwZCI4u14lmHP8FD8O7vw6uNBZ8=;
+	s=arc-20240116; t=1707244862; c=relaxed/simple;
+	bh=4iMUCDRK0tbwCoq9ax96HYxDL0mnKXeCT6CGUsUHlLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttvNXkEgERqctl0DqJ9UVISD7vhj7Z037ZF4n/ZV8T4YkQHu9zEuXoMRe9zqXn9yNQFPciOe5icYJNH2F7h0cI7p5rtxF042IMNopZpv0RhkLhdQ4NbvWT9FJHnTrTe65+GkiS7XiY5AM94hUJ4LOduvh+B+0VSlr5Xxcu8xkoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XY9ZOgm5; arc=none smtp.client-ip=209.85.166.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4hNrOkYw0eakmn1I4EYrbe6NPh61dfEMSeNKdmpWlPSyPy4w8aVy4UA4gftA+LkU6yXxKyzP5W63OseVRNKrDM50t0HLnahFa35Lb2h5OZ1u0sNdpn4SO1/850PZtOmmoWwarGuvNYQcXkyWIBxLneJXtmdKAUVdPYrFExS8+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DPsh6ovd; arc=none smtp.client-ip=209.85.166.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XY9ZOgm5"
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7bf7e37dc60so54759439f.3
-        for <linux-sound@vger.kernel.org>; Tue, 06 Feb 2024 09:55:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DPsh6ovd"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-363c7d490d1so3726905ab.0
+        for <linux-sound@vger.kernel.org>; Tue, 06 Feb 2024 10:41:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707242143; x=1707846943; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1707244859; x=1707849659; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NoNQuT/2/fYcMZPqf8XcAEgjNV4wPgIdnAAOu6x91K0=;
-        b=XY9ZOgm5/p7f0cITAw5R5STD9/m4vztf2a+1CbtByPFPW4j+9031Ca8qbMzqbc9pFY
-         tB3zm7aNwrgxQP4hSWeGJ7+ESvHaEMzzhCeOUCoV2FiI9UeWFPgWNymA5Q5CAcAMaXS+
-         JRFnrI3K4b4tcY6/th8HQX6nXTCdsGFauBYnI=
+        bh=+Xv9kD5QhjTCn8Q0pWh79kSOAjDdZQG/rInb+Rd12sQ=;
+        b=DPsh6ovd0cSK3rj11e7ONTc9yz4uuL4plAcyRNbUMiqMVKxKvyoTCkcn8eft79qa5n
+         E5Ej7nCko1mRC8nRJD0d9KbAaJ0swKBgccCdwXXQe94PGxgWjNayxEJDXRCvnLiF72Lb
+         VX3PPsAlCLzAeL78dYMIlvMKjrTUdDn4fOhzI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707242143; x=1707846943;
+        d=1e100.net; s=20230601; t=1707244859; x=1707849659;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NoNQuT/2/fYcMZPqf8XcAEgjNV4wPgIdnAAOu6x91K0=;
-        b=viKm7MkzGegl2mzMh31usJ/9Bsryl1Hm0BjJ6Aad/P5vW8aMywE7zphHulh9FqJN6y
-         0oO9OKEn1v0W+1nre/g5gtzIMYQUuQFVl2MQ8/dG003GewtL41uDtL+V2WiaxDBQ/YJj
-         699X232byhLNDCTpdXIyQ/uAn5/LQVqTCv0cRbBocHNLMPKVkLgnFn2+cNpDI7nTb39p
-         QXZR+Kq3vCaFRUS0BbrJNvsPGt83HSgfvf6F9l5dv3qN+cXYLFombVHTNvYQKbWn6Hco
-         89YftHncPExadSwcJq6vJ6ktPrDEjsnEMr9my6Hb2EJdrLbsP7rrsz8vccABHyTW6Tnh
-         bOpg==
-X-Gm-Message-State: AOJu0YyFXLmY8Y+p8o0X+Ns9TiRD+27waB641wSqOlBt5KipY5Z6yk94
-	8ev3cVGHYNW/9Aov1fjzorOv2fuIFZl7p4yCs8cv02XijZi3KgFImL3pzMYoFQ==
-X-Google-Smtp-Source: AGHT+IEVs438WCFZF1kK2HB0aGcq/yB68iTGDfvVSMMD5jxwmp/5TBU9sTW45w4vD83h4xkb1nJHJg==
-X-Received: by 2002:a92:dac6:0:b0:363:d92b:1059 with SMTP id o6-20020a92dac6000000b00363d92b1059mr552805ilq.32.1707242143168;
-        Tue, 06 Feb 2024 09:55:43 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVOv6k/uIi6TER3yW5X2CcHQLUchbsdeMDRUV2ZGVMnoARCp25REp8WK6CAX9YqMnO6ShNlLthKZ9iwBKPq490/nWwCLp9kvcBFXxXmwwUJZ2hhdH+YDcR0bIf50QwoAq2nRrIM7vJDlnnZOoQfRta9GxbZ9k7TQVgMQDSZJtpUsm5PjGrizdSkIkWrt2oQln1BeCt4I/wP5mTJF6+8Ab70K8OXP7Y2TKopBXCWjPHP5atheHWwSCezVxXe7zLXNxBY3l2r3epPRGylAhsLcfUnSQFgjvqJHg2ujlMKZ56QN+2c84h+wejIrmX7abD30vPbrtoyftcgLElq+bDdnECAbCEzbAvJU+tZS76XWBsaEBiz3dFt51WWcaBv5SnY9mZ/SntevpBmGR4L2w+POVquK8mqAO3IJuy9D5szMJ6U+IPyKA==
+        bh=+Xv9kD5QhjTCn8Q0pWh79kSOAjDdZQG/rInb+Rd12sQ=;
+        b=blARsqXraxyRRO+YgOSPLn26low8Jl+ainmFEn8Hz7LxfLbSZMe+djXyQxainqMgyd
+         VOpv3Bj2UdX/FuO6DG8uOnwB9V5x0mODMJA9wA49CU3O7FwpIJJ5MYpT/XoO5FxhBLU9
+         Gt8fXzj+yZtWwFfpaqeETPYfwgUnMaQwHUfCm7HCIKl6ZlMLKboaK6gE4TiWRpw7lr86
+         qAApTdJucqmVERVjr8y4uWbc+kCRJYv9+yQ40EqMe2ggkk3gP74YYIuroKlnwcJtlF/u
+         ALJG0giz1Oam33L3ohMRYIBmK1/O3xR22ndtXjqU54H2fSkyKQlVG1qAICialczWd89n
+         vNyg==
+X-Gm-Message-State: AOJu0YwrxStBPjEKsnTcbEGGWxxsefbjUTn08QtIlaTbiunQ+Igi3SBn
+	1wGtHP/SYl8d5VqDu2MR221PexzBZIht6abkaDJ6pnPqIiRAoHsWfr4POX6mMQ==
+X-Google-Smtp-Source: AGHT+IH/hHo4kYBuL5vCw54nvX8pPrZtO2JH3Q3ZlUbStO7TCJYcZnDxXL5gfiQUMQeIheFecJGkuw==
+X-Received: by 2002:a92:cd83:0:b0:363:bc81:47f8 with SMTP id r3-20020a92cd83000000b00363bc8147f8mr4910691ilb.21.1707244859728;
+        Tue, 06 Feb 2024 10:40:59 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVr5FtOxk/NPujxjkxVAGBIFYTCd68ni8q4C1vR0Wa9BaHegqYv6Q/GEOczSL0kI7ZNx6NBqpgs/wUd+QwVY/bt2uow70wn0cCw60Ehlx08PSO77hd2EZVpWqo4AapEYw3YL4eqqbIbPqWQvR9Vt9O/5t6PDaYGIr6qV9Wo+TcT2yRmiwA05PSd2BW/A89Jy5THeLi8iOxte+gFCo/IFA90t0CNAvJJioD9eBrRbpV5AncwkM3WxgE2x00ewnfaOKO586M2Yl7Qqd7ZjwbfjLgVhi4450iNxIsjGrTDiEyFnWfNuVRNSlm5cPa4vc6uuER8wO0H2XAkA5IJrM7V/CkTgUi6u6hHVcMi1hWrzGjYQF5tV2O5tZJxKLpEVsa4UbBs1Dpa2gEoJfTnLFc=
 Received: from localhost (147.220.222.35.bc.googleusercontent.com. [35.222.220.147])
-        by smtp.gmail.com with UTF8SMTPSA id l2-20020a922902000000b0036381c9572fsm644000ilg.43.2024.02.06.09.55.42
+        by smtp.gmail.com with UTF8SMTPSA id t5-20020a05663801e500b00471476d36a1sm234311jaq.116.2024.02.06.10.40.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 09:55:42 -0800 (PST)
-Date: Tue, 6 Feb 2024 17:55:42 +0000
+        Tue, 06 Feb 2024 10:40:59 -0800 (PST)
+Date: Tue, 6 Feb 2024 18:40:58 +0000
 From: Matthias Kaehlcke <mka@chromium.org>
 To: Javier Carrasco <javier.carrasco@wolfvision.net>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -57,12 +57,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	Matthias Kaehlcke <matthias@kaehlcke.net>
-Subject: Re: [PATCH v3 1/7] usb: misc: onboard_hub: rename to onboard_dev
-Message-ID: <ZcJynrwp7zcs-aIT@google.com>
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 2/7] usb: misc: onboard_dev: add support for non-hub
+ devices
+Message-ID: <ZcJ9OnYOtUVMu2Yk@google.com>
 References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
- <20240206-onboard_xvf3500-v3-1-f85b04116688@wolfvision.net>
+ <20240206-onboard_xvf3500-v3-2-f85b04116688@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -71,123 +71,114 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240206-onboard_xvf3500-v3-1-f85b04116688@wolfvision.net>
+In-Reply-To: <20240206-onboard_xvf3500-v3-2-f85b04116688@wolfvision.net>
 
-Hi Javier,
-
-a few comments inline
-
-On Tue, Feb 06, 2024 at 02:59:29PM +0100, Javier Carrasco wrote:
-> This patch prepares onboad_hub to support non-hub devices by renaming
-> the driver files and their content, the headers and their references.
+On Tue, Feb 06, 2024 at 02:59:30PM +0100, Javier Carrasco wrote:
+> Most of the functionality this driver provides can be used by non-hub
+> devices as well.
 > 
-> The comments and descriptions have been slightly modified to keep
-> coherence and account for the specific cases that only affect onboard
-> hubs (e.g. peer-hub).
-> 
-> The "hub" variables in functions where "dev" (and similar names) variables
-> already exist have been renamed to onboard_dev for clarity, which adds a
-> few lines in cases where more than 80 characters are used.
-> 
-> No new functionality has been added.
+> To account for the hub-specific code, add a flag to the device data
+> structure and check its value for hub-specific code.
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-
+> ---
+>  drivers/usb/misc/onboard_usb_dev.c |  3 +++
+>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
+>  2 files changed, 13 insertions(+)
+> 
 > diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> new file mode 100644
-> index 000000000000..e2e1e1e30c1e
-> --- /dev/null
+> index e2e1e1e30c1e..3ac21ec38ac0 100644
+> --- a/drivers/usb/misc/onboard_usb_dev.c
 > +++ b/drivers/usb/misc/onboard_usb_dev.c
->
-> ...
->
-> +/*
-> + * Use generic names, as the actual names might differ between cevices. If a new
+> @@ -123,6 +123,9 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
+>  	if (onboard_dev->always_powered_in_suspend)
+>  		return 0;
+>  
+> +	if (!onboard_dev->pdata->is_hub)
+> +		return onboard_dev_power_off(onboard_dev);
 
-s/cevices/devices/
+Why turn the device always off when it isn't a hub? It could be a device
+with wakeup support.
 
-<snip>
+I really regret making 'off in suspend' the default :(
 
-> +static int __maybe_unused onboard_dev_suspend(struct device *dev)
-> +{
-> +	struct onboard_dev *onboard_dev = dev_get_drvdata(dev);
-> +	struct usbdev_node *node;
-> +	bool power_off = true;
 > +
-> +	if (onboard_dev->always_powered_in_suspend)
-> +		return 0;
-> +
-> +	mutex_lock(&onboard_dev->lock);
-> +
-> +	list_for_each_entry(node, &onboard_dev->udev_list, list) {
-> +		if (!device_may_wakeup(node->udev->bus->controller))
-> +			continue;
-> +
-> +		if (usb_wakeup_enabled_descendants(node->udev)) {
-> +			power_off = false;
-> +			break;
-> +		}
+>  	mutex_lock(&onboard_dev->lock);
+>  
+>  	list_for_each_entry(node, &onboard_dev->udev_list, list) {
+> diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
+> index f13d11a84371..ebe83e19d818 100644
+> --- a/drivers/usb/misc/onboard_usb_dev.h
+> +++ b/drivers/usb/misc/onboard_usb_dev.h
+> @@ -9,51 +9,61 @@
+>  struct onboard_dev_pdata {
+>  	unsigned long reset_us;		/* reset pulse width in us */
+>  	unsigned int num_supplies;	/* number of supplies */
+> +	bool is_hub;
+>  };
+>  
+>  static const struct onboard_dev_pdata microchip_usb424_data = {
+>  	.reset_us = 1,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
 
-The above branch should probably be limited to hub devices (though in practice it
-shouldn't make a difference). This should be done by "usb: misc: onboard_dev:
-add support for non-hub devices", commenting here since this patch includes the
-code.
+Depending on when 'is_hub' is checked it could be an option to initialize
+it at runtime (depending on USB_CLASS_HUB), e.g. in onboard_dev_add_usbdev().
+Might not be worth the hassle tough if more than the current check(s) get
+added.
 
-> +static struct onboard_dev *_find_onboard_dev(struct device *dev)
-> +{
-> +	struct platform_device *pdev;
-> +	struct device_node *np;
-> +	struct onboard_dev *onboard_dev;
-> +
-> +	pdev = of_find_device_by_node(dev->of_node);
-> +	if (!pdev) {
-> +		np = of_parse_phandle(dev->of_node, "peer-hub", 0);
-> +		if (!np) {
-> +			dev_err(dev, "failed to find device node for peer hub\n");
-> +			return ERR_PTR(-EINVAL);
-> +		}
-> +
-> +		pdev = of_find_device_by_node(np);
-> +		of_node_put(np);
-> +
-> +		if (!pdev)
-> +			return ERR_PTR(-ENODEV);
-> +	}
-
-The above branch should probably be guarded by 'if (!onboard_dev->pdata->is_hub)',
-this is also a change for ""usb: misc: onboard_dev: add support for non-hub devices"
-
-> diff --git a/drivers/usb/misc/onboard_usb_hub_pdevs.c b/drivers/usb/misc/onboard_usb_dev_pdevs.c
-> similarity index 68%
-> rename from drivers/usb/misc/onboard_usb_hub_pdevs.c
-> rename to drivers/usb/misc/onboard_usb_dev_pdevs.c
-> index ed22a18f4ab7..fce860b65958 100644
-> --- a/drivers/usb/misc/onboard_usb_hub_pdevs.c
-> +++ b/drivers/usb/misc/onboard_usb_dev_pdevs.c
->
-> ...
->
->  /**
-> - * onboard_hub_create_pdevs -- create platform devices for onboard USB hubs
-> - * @parent_hub	: parent hub to scan for connected onboard hubs
-> - * @pdev_list	: list of onboard hub platform devices owned by the parent hub
-> + * onboard_dev_create_pdevs -- create platform devices for onboard USB devices
-> + * @parent_hub	: parent hub to scan for connected onboard devices
-> + * @pdev_list	: list of onboard platform devices owned by the parent hub
->   *
-> - * Creates a platform device for each supported onboard hub that is connected to
-> - * the given parent hub. The platform device is in charge of initializing the
-> - * hub (enable regulators, take the hub out of reset, ...) and can optionally
-> - * control whether the hub remains powered during system suspend or not.
-> + * Creates a platform device for each supported onboard device that is connected
-> + * to * the given parent hub. The platform device is in charge of initializing
-> + * the * device (enable regulators, take the device out of reset, ...) and can
-> + * optionally * control whether the device remains powered during system suspend
-
-Remove '*'s in the above 3 lines.
-
-I'm doubting whether the option to power down the device during system suspend
-should be limited to hubs. In particular I'm concerned about the default of
-powering the device down, which could be unexpected. Then again, it might be
-desired to power down a device if it consumes significant power during  suspend
-on a battery powered system.
+>  };
+>  
+>  static const struct onboard_dev_pdata microchip_usb5744_data = {
+>  	.reset_us = 0,
+>  	.num_supplies = 2,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata realtek_rts5411_data = {
+>  	.reset_us = 0,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata ti_tusb8041_data = {
+>  	.reset_us = 3000,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata cypress_hx3_data = {
+>  	.reset_us = 10000,
+>  	.num_supplies = 2,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata cypress_hx2vl_data = {
+>  	.reset_us = 1,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata genesys_gl850g_data = {
+>  	.reset_us = 3,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata genesys_gl852g_data = {
+>  	.reset_us = 50,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct onboard_dev_pdata vialab_vl817_data = {
+>  	.reset_us = 10,
+>  	.num_supplies = 1,
+> +	.is_hub = true,
+>  };
+>  
+>  static const struct of_device_id onboard_dev_match[] = {
+> 
+> -- 
+> 2.40.1
+> 
