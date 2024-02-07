@@ -1,108 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E51524B2C;
-	Wed,  7 Feb 2024 06:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C23B1CFAF;
+	Wed,  7 Feb 2024 07:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707286219; cv=none; b=lTIHc9A84j+YsAaY8TRnRjkFkgZmLC1GmBtCJbi32XwOiclJ54PeWa4AibNeDvHsiG/tAz8c1S+xGtY5upfDQO6LmredQWjvDCznGeSYHZ8BcCcbYEyBDAOX6jTn4FpKbJEWgE8tY6Cb1INW3DlLEI64q6DTaL3AZphxl2Ybj+8=
+	t=1707289219; cv=none; b=DQ2M1/ONG63hLRVj+KM6TMWN4/RmwmP1D3QZsy+GyMG+mRLZRA8clD0lLedjqIxoE9cr4IbISMvW798IruvIhipINpuyL0cMhD8o8z2/YXQXB6xw7XzPuRxff0SZa+2Qs0Am68ayj/MJEhLDmQypLqrRANt9qgL2e88yk/s2VFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707286219; c=relaxed/simple;
-	bh=h5RpRwAivJEkMgOQGPSE31O4QbdHWmr5WM+YPfbxP60=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q84qk5Az/16ylgFku4keNv7rKR3wa13mY2SLmaCMDW7gbLgTitgIfszk1mCP6DQT5dxAoPfUiHlFkRzWKOR65h/mq8dAdxoBlGhW1OaaRKt+foSbrA5xfb3UjtxWEiKRR2ppDK2etMRw4a30QmonsifTp+kgCD3mURTD0FCDQBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/QGJuhJ; arc=none smtp.client-ip=192.55.52.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707289219; c=relaxed/simple;
+	bh=v7msrzpyw2ptuE2fVKl5DgGja6IcIfOGzZaserJmkIY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IogYYbC0WVS1xK7Bf003ce32ZRVddOZm52jRd8oI5osOvLJ1mfHy5hESHLnGGiF8n36v8UP6Rt99mUWR/dxSCRDcG1Iv88KDFLTKYa1VhAisTjhiplJ86h2nMzCZ5//GaBhdGcgbSLFBmJSkNvERM0VgdjqwRhP16x4V3SpTTf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AaqypUD/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=854zUxh0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AaqypUD/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=854zUxh0; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/QGJuhJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707286217; x=1738822217;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=h5RpRwAivJEkMgOQGPSE31O4QbdHWmr5WM+YPfbxP60=;
-  b=R/QGJuhJeH6vyZzDlQ586EVPCWAifHvtjB3ViCDvQdJvr+nE3UZGUEbg
-   /wXJhUxDRc7esyM9g+VUimKnfkL7SCywKNshUe5/1NElsmWQQmWri3nkp
-   ItR+N7NyRrCWz4rxR+9QZgWgJjEG/I/dJeX51OLSUk5ihR/SUI3M7MNVh
-   5A/ex+jxK3XMKOyFs/0G2uGb/zJkn2MoZloonIkXAyjTR78zz0xrtoaYz
-   NK7ABAdpHNJnK/6Fyv/ElElJ2o1gUr3DEi1nUtEokBvhmUaU5YJUhqgFy
-   Hg+3RQtmJv+550p8TnFkrkKZ71hEI6CfvGjuy7WoD+J5lKVYYZ5MWNbIk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="436054113"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="436054113"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 22:10:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="5849952"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Feb 2024 22:10:10 -0800
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com,
-	pandith.n@intel.com,
-	mallikarjunappa.sangannavar@intel.com,
-	subramanian.mohan@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [PATCH v4 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Date: Wed,  7 Feb 2024 11:38:54 +0530
-Message-Id: <20240207060854.6524-12-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240207060854.6524-1-lakshmi.sowjanya.d@intel.com>
-References: <20240207060854.6524-1-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AaqypUD/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="854zUxh0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AaqypUD/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="854zUxh0"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 679411F456;
+	Wed,  7 Feb 2024 07:00:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707289202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fq3JEuDRzhumdt/uENPOAy/8jwo374BpY8aqwtGc6x4=;
+	b=AaqypUD/ThwT5mQhX1+4Zyy1K1xtovP5sTiL+EQppv/EeGB13qVbepfFo0E9GsHdhVt1xv
+	JqBzZ3vqCuUk9uD+ig0PLJSOqmZXVy0w3ELqzQe+DhedjpT0lJgRHtXGErbVi3ZVltkhyp
+	L7GkqQFhYAZ4D7XlgW/tydX9Xr92ogM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707289202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fq3JEuDRzhumdt/uENPOAy/8jwo374BpY8aqwtGc6x4=;
+	b=854zUxh0IZJu0GRTU3i/YEtzchcM+UVIokiuwRAsnvtvh6v6zTdgm2w9BkaiOhAb0IWf1a
+	8QzZZcpnWnF631Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707289202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fq3JEuDRzhumdt/uENPOAy/8jwo374BpY8aqwtGc6x4=;
+	b=AaqypUD/ThwT5mQhX1+4Zyy1K1xtovP5sTiL+EQppv/EeGB13qVbepfFo0E9GsHdhVt1xv
+	JqBzZ3vqCuUk9uD+ig0PLJSOqmZXVy0w3ELqzQe+DhedjpT0lJgRHtXGErbVi3ZVltkhyp
+	L7GkqQFhYAZ4D7XlgW/tydX9Xr92ogM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707289202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fq3JEuDRzhumdt/uENPOAy/8jwo374BpY8aqwtGc6x4=;
+	b=854zUxh0IZJu0GRTU3i/YEtzchcM+UVIokiuwRAsnvtvh6v6zTdgm2w9BkaiOhAb0IWf1a
+	8QzZZcpnWnF631Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DEDDF139D8;
+	Wed,  7 Feb 2024 07:00:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id weg+NXEqw2XlKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 07:00:01 +0000
+Date: Wed, 07 Feb 2024 08:00:01 +0100
+Message-ID: <878r3w7o9a.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>,
+	<perex@perex.cz>,
+	<conor+dt@kernel.org>,
+	<corbet@lwn.net>,
+	<lgirdwood@gmail.com>,
+	<andersson@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>,
+	<gregkh@linuxfoundation.org>,
+	<Thinh.Nguyen@synopsys.com>,
+	<broonie@kernel.org>,
+	<bgoswami@quicinc.com>,
+	<tiwai@suse.com>,
+	<robh+dt@kernel.org>,
+	<konrad.dybcio@linaro.org>,
+	<linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v13 48/53] ALSA: usb-audio: mixer: Add USB offloading mixer control
+In-Reply-To: <dbe544de-dc04-59a8-6642-883fc00214f3@quicinc.com>
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+	<20240203023645.31105-49-quic_wcheng@quicinc.com>
+	<871q9pwy0l.wl-tiwai@suse.de>
+	<dbe544de-dc04-59a8-6642-883fc00214f3@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="AaqypUD/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=854zUxh0
+X-Spamd-Result: default: False [2.16 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[dt];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_HAM(-0.03)[56.23%];
+	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[23];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[quicinc.com:email,suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 2.16
+X-Rspamd-Queue-Id: 679411F456
+X-Spam-Level: **
+X-Spam-Flag: NO
+X-Spamd-Bar: ++
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Wed, 07 Feb 2024 02:24:46 +0100,
+Wesley Cheng wrote:
+> 
+> Hi Takashi,
+> 
+> On 2/6/2024 4:57 AM, Takashi Iwai wrote:
+> > On Sat, 03 Feb 2024 03:36:40 +0100,
+> > Wesley Cheng wrote:
+> >> 
+> >> In order to allow userspace/applications know about USB offloading status,
+> >> expose a sound kcontrol that fetches information about which sound card
+> >> index is associated with the ASoC platform card supporting offloading.  In
+> >> the USB audio offloading framework, the ASoC BE DAI link is the entity
+> >> responsible for registering to the SOC USB layer.  SOC USB will expose more
+> >> details about the current offloading status, which includes the USB sound
+> >> card and USB PCM device indexes currently being used.
+> >> 
+> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> > 
+> > The concept is understandable, but the control element name ("SNDUSB
+> > OFFLD playback available") looks non-intrusive and non-conformant.
+> > Use a bit more understandable name instead.
+> > 
+> > This provides a card number where the offload driver is bound, and the
+> > name should indicate something about that.
+> > 
+> 
+> Hmmm, does USB sound have a naming convention that it usually follows
+> for mixer/control interfaces?
 
-Document sysfs interface for Intel Timed I/O PPS driver.
+The old rule is found in Documentation/sound/designs/control-names.rst
+(although the prefix and the suffix are often dropped for non-standard
+controls).
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- 1 file changed, 7 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+> For something that is more closely related, how about:
+> "USB offload capable card"
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..b9b8c97a7840
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		March 2024
-+KernelVersion	6.9
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware (Enabled/Disabled).
--- 
-2.35.3
+Yes, it looks better.  But usually each word begins with an upper
+letter.
 
+
+Takashi
