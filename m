@@ -1,193 +1,212 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF63023745;
-	Wed,  7 Feb 2024 09:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9790E25603
+	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 09:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707299504; cv=none; b=Rp9VLBch3TO/Fbp5eEVLTB1cjUWue6oONTf7E8YTdaOFPqPGFtnJJa6ZUN5xRcIX4n3WNJJKW/g2ZOPg8wFzUF8CimT0VNz9clVCfCCK7yeOxDWuzuPZJii5oksJGMx1L675mjVmCeQaOsDXd1hgnMqmIk0bfjthCLmrYUPeVq0=
+	t=1707299616; cv=none; b=r9wD5fXIvcYz4JSx4VQPP9P49hwfWhbDyUyWVEoUUoLL3YFywVfqHvBr7bLPVBuC12T0D0OFNLOR8K5iRHmBIgPCZTYPoYf9Vn7DJcuDg1jp29pvye8RRd5EYx1+QDn1eOjJPvb9nBk+JqMDKjQMRmiyDuKqElHJ7VNGOd4wPJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707299504; c=relaxed/simple;
-	bh=nxBqeWL0d1U1qVe7h+N5GcZWZBAxhmQuqYyK6pjO2bQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bno/xNcYhIOgonSLYIhh+yQzvSdSLn+L46jWD5casKs+VMkcxPNC1czRqMwHsdWGJgapzLqlhhxzPizI8Pw3enCb1F0bXzBnXyDr1H3icGC+50RacepmHH5cx09iAQHR2YUiREUCW4jn99mDuUR9opZxWcCSK8ro5KRGvIcaa6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FBqN7qxN; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1707299616; c=relaxed/simple;
+	bh=f6UJyEw9i5rteqhbf8vMuiqLur1lK6pyVLjptQL1iDE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QJip9pb3BS91pcoKc+jFki3BkrNHkmtiEamyuFqoWe/IYF9ZmCUN9LTP2cYLWMPV/t3wNpl8WIzxnriI2a57CJQvc1I7vIPHoX6EXkSLA0PNI3tLx3/FC/eS9ZzpVoNhomwQIbXcUAFDjEO604TEJPiwZbiz9250Z14VQug6r0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IsM44Qc9; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FBqN7qxN"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4179oqUD014863;
-	Wed, 7 Feb 2024 03:50:52 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707299452;
-	bh=nxBqeWL0d1U1qVe7h+N5GcZWZBAxhmQuqYyK6pjO2bQ=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=FBqN7qxNgtUXypruSROzFl0cIEBMTPJyy/LpyyfykjW2X2YJLjAvD3TSgm0W813a2
-	 npjkBPis8AJVVnIQ9vjQfAsay9S3HPw1a+wcvWVCfEBzdqveFLBCByHan9JdiJSwKY
-	 dXNBQPKr/ePE0smKIflhpgKEox1wFqgNXJdHk1pQ=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4179oqVQ015094
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 7 Feb 2024 03:50:52 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
- Feb 2024 03:50:52 -0600
-Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
- DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
- 15.01.2507.023; Wed, 7 Feb 2024 03:50:52 -0600
-From: "Ding, Shenghao" <shenghao-ding@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
-        "P O,
- Vijeth" <v-po@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>,
-        "perex@perex.cz" <perex@perex.cz>,
-        "McPherson, Jeff" <j-mcpherson@ti.com>,
-        "pierre-louis.bossart@linux.intel.com"
-	<pierre-louis.bossart@linux.intel.com>,
-        "13916275206@139.com"
-	<13916275206@139.com>,
-        "Chawla, Mohit" <mohit.chawla@ti.com>, "soyer@irl.hu"
-	<soyer@irl.hu>,
-        "Huang, Jonathan" <jkhuang3@ti.com>, "tiwai@suse.de"
-	<tiwai@suse.de>,
-        "Djuandi, Peter" <pdjuandi@ti.com>,
-        "Agrawal, Manisha"
-	<manisha.agrawal@ti.com>,
-        "Hari, Raj" <s-hari@ti.com>, "Yashar, Avi"
-	<aviel@ti.com>,
-        "Nagalla, Hari" <hnagalla@ti.com>,
-        "Bajjuri, Praneeth"
-	<praneeth@ti.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [EXTERNAL] Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add
- initial DT binding
-Thread-Topic: [EXTERNAL] Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add
- initial DT binding
-Thread-Index: AQHaVk3kv2C9l+KpeUSliV0WealeY7D9v3qAgADk+SCAAAT5YA==
-Date: Wed, 7 Feb 2024 09:50:51 +0000
-Message-ID: <0a1f20ae254746b1adbfbdf7b4027518@ti.com>
-References: <20240203030504.1724-1-shenghao-ding@ti.com>
- <20240203030504.1724-4-shenghao-ding@ti.com>
- <ac4b73f6-0c2c-4586-98d6-e97c575b3df7@linaro.org>
- <8fe0b2d1990346efa056d6c2245412c3@ti.com>
-In-Reply-To: <8fe0b2d1990346efa056d6c2245412c3@ti.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IsM44Qc9"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-337cc8e72f5so322106f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 07 Feb 2024 01:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707299613; x=1707904413; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=48P2qL1gH0dQ6fHTQ76ksb1Xd1qjgcR6h7LjpWAx3E8=;
+        b=IsM44Qc9R7A/UTWt6jxFoqxH7cG02NPGq0PVtrHCuR0pUskRz6tIyr55tPn9avvyfu
+         I6aZWbDWspkVnYDaKhs+YvzCQJ7Rt6eL6k4DtY8yaT9sFJJaRBj0YJoduiCO7lzmK/6L
+         NrS0mrz1ZF9/M5idx02kW63TnKVeylVmB0pESIMspjG9I8f19bW5efF94xoPjbhwvZGO
+         7XW0S/b5emXT6Kqh8XXZFbGthZhaoq1NQGg46OciXT0CF0jRm3nQ2cqQlVrNrEaMWxmE
+         Qgim2KAIdLJsuyb+wa9JO6ixC3uWTaPNNFhpTVcbb8jnrOaUQOPzX73B70fhDFY/jjbx
+         bKxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707299613; x=1707904413;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=48P2qL1gH0dQ6fHTQ76ksb1Xd1qjgcR6h7LjpWAx3E8=;
+        b=irCiIiHrd9pLFWQEZGF6Id55MD0dAXPeQNa/BtwhLTiJopajZ7Ajmkn+ROz6iWvzO5
+         PXnAZrgu5Ky3izkyBrsWzd8jRjds5627MhG9BWkrkiyD6+ntjcNVdzJ4cv4YweKTnPZy
+         7EHK6jzX9xC0y4GNGWxhcl+WdCe/FBOHwCgiwgTeftuqmzOc/BZenddUdNdv4XolvnPg
+         V1slwAqY3t2H1nC/ozArsLTm5BoXClBQBaZhLJoLujf/b7ubJoBwjrjFQcxSl1gqO4aZ
+         YGKvcPvliEnAkkCbLxEGt1kpv0u9L438rkGDrcIXKJ+WEfrKzSay0E0pTOdMirh//O7J
+         LpdQ==
+X-Gm-Message-State: AOJu0YzGMek/S5bMHT3KjRE7uoHiGIxmr4hMkdYaGuiHAULXcAGZAp74
+	bDZuOrWPgb7qQ+h5fSVJE8X13AIVnWftGXOBrZFSA0Fxo3OwF95s5wXit+38GkU=
+X-Google-Smtp-Source: AGHT+IFRJY/crKfhr+4TJQ3MY6snvhsHCaf0dsjBr+P8mHGFvkHhupWDao5D9UxxcPXdlTwvPgN6IA==
+X-Received: by 2002:adf:ec92:0:b0:33a:f84b:22ee with SMTP id z18-20020adfec92000000b0033af84b22eemr3345895wrn.12.1707299612912;
+        Wed, 07 Feb 2024 01:53:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUlQ+57aIaTVy+XtVNf6j1JEM6Jch3bsxVdjPxf14dabGbQcFhE7cn6CWDbaIWXakSKRkNUG604IKh3kWJWzewfazl628QtiO/+ft4w5MAK00Ik8dJ2+gmCP312XBSgdKWw0ROXtxKHzhE385jPpVcjaJwWVZafMNEr3dsfVoidG54NQgLYblLEdsSSpJKl3WJ95UimV9ZmbCRf/Ty05sb4l1IQpY1TK4HfV658z+MAxCFrvt4saX57y8AemskGRjqcR2mF72rY39Z6vUzpWb7glXXnLqYfcix/fSNW0Okbkxi8RbFB3TVQPeKIyk3jaBrpqf4LPkOEN1we8QNKavL5UmwpKlivcjQ7Nd7i91pjU2mu6WKKTJvb9wXVgt/p4gmUf0p7CkoiOkE+HqCGKuJ6QhK5AAVOeYCdUOUFKalySJjuhghRFpa2E5sdtMmcsgT528lm58XdOxfArFpTkhd45+zLlSaKi+3k4tPd6xjx7eRz8NYKZLA85WoefJUjV9pFWblFM8vc+axHjBMbx0nX60IrBbrhWAz204SX2L6Pc1JSZ6DROxwdKcdyMKiJ9OLClqRfySXYggr5qYD2Rw+uVzGJs/PrmBIvA96nvLTfln7Qph+RB3OW0qsW0xPnV+utJOOl5JFUkHcyndMii95nZFfbvOxI7oBLdSlmETwtHlP4LzOC2ayA0sNadRdUfjYrKzlKp1fVEQr3szMQHjtG1gNfaFkJlD3GAl9NTBEKk38RHj5B4jTNDR3cYh+0YXQ9TQ5oDAfsQlX1CIwg
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id b15-20020a05600010cf00b0033b4e58746asm1020055wrx.69.2024.02.07.01.53.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Feb 2024 01:53:32 -0800 (PST)
+Message-ID: <e61999e6-8c82-40a2-a2b9-e19d636364f5@linaro.org>
+Date: Wed, 7 Feb 2024 10:53:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add
+ initial DT binding
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+ "P O, Vijeth" <v-po@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>,
+ "perex@perex.cz" <perex@perex.cz>, "McPherson, Jeff" <j-mcpherson@ti.com>,
+ "pierre-louis.bossart@linux.intel.com"
+ <pierre-louis.bossart@linux.intel.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "Chawla, Mohit" <mohit.chawla@ti.com>, "soyer@irl.hu" <soyer@irl.hu>,
+ "Huang, Jonathan" <jkhuang3@ti.com>, "tiwai@suse.de" <tiwai@suse.de>,
+ "Djuandi, Peter" <pdjuandi@ti.com>, "Agrawal, Manisha"
+ <manisha.agrawal@ti.com>, "Hari, Raj" <s-hari@ti.com>,
+ "Yashar, Avi" <aviel@ti.com>, "Nagalla, Hari" <hnagalla@ti.com>,
+ "Bajjuri, Praneeth" <praneeth@ti.com>
+References: <20240203030504.1724-1-shenghao-ding@ti.com>
+ <20240203030504.1724-4-shenghao-ding@ti.com>
+ <ac4b73f6-0c2c-4586-98d6-e97c575b3df7@linaro.org>
+ <8fe0b2d1990346efa056d6c2245412c3@ti.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <8fe0b2d1990346efa056d6c2245412c3@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRGluZywgU2hlbmdoYW8g
-PHNoZW5naGFvLWRpbmdAdGkuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDcsIDIw
-MjQgNTo0OCBQTQ0KPiBUbzogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3Nr
-aUBsaW5hcm8ub3JnPjsNCj4gYnJvb25pZUBrZXJuZWwub3JnOyBjb25vcitkdEBrZXJuZWwub3Jn
-OyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsNCj4gcm9iaCtkdEBrZXJuZWwub3JnOyBhbmRy
-aXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb207IGxpbnV4LQ0KPiBzb3VuZEB2Z2VyLmtlcm5l
-bC5vcmc7IGxpYW0uci5naXJkd29vZEBpbnRlbC5jb207IGxnaXJkd29vZEBnbWFpbC5jb207DQo+
-IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IEx1LCBLZXZpbiA8a2V2aW4tbHVA
-dGkuY29tPjsgWHUsIEJhb2p1biA8YmFvanVuLnh1QHRpLmNvbT47IFAgTywgVmlqZXRoDQo+IDx2
-LXBvQHRpLmNvbT47IE5hdmFkYSBLYW55YW5hLCBNdWt1bmQgPG5hdmFkYUB0aS5jb20+Ow0KPiBw
-ZXJleEBwZXJleC5jejsgTWNQaGVyc29uLCBKZWZmIDxqLW1jcGhlcnNvbkB0aS5jb20+OyBwaWVy
-cmUtDQo+IGxvdWlzLmJvc3NhcnRAbGludXguaW50ZWwuY29tOyAxMzkxNjI3NTIwNkAxMzkuY29t
-OyBDaGF3bGEsIE1vaGl0DQo+IDxtb2hpdC5jaGF3bGFAdGkuY29tPjsgc295ZXJAaXJsLmh1OyBI
-dWFuZywgSm9uYXRoYW4NCj4gPGpraHVhbmczQHRpLmNvbT47IHRpd2FpQHN1c2UuZGU7IERqdWFu
-ZGksIFBldGVyIDxwZGp1YW5kaUB0aS5jb20+Ow0KPiBBZ3Jhd2FsLCBNYW5pc2hhIDxtYW5pc2hh
-LmFncmF3YWxAdGkuY29tPjsgSGFyaSwgUmFqIDxzLWhhcmlAdGkuY29tPjsNCj4gWWFzaGFyLCBB
-dmkgPGF2aWVsQHRpLmNvbT47IE5hZ2FsbGEsIEhhcmkgPGhuYWdhbGxhQHRpLmNvbT47IEJhamp1
-cmksDQo+IFByYW5lZXRoIDxwcmFuZWV0aEB0aS5jb20+DQo+IFN1YmplY3Q6IFJFOiBbRVhURVJO
-QUxdIFJlOiBbUEFUQ0ggdjMgNC80XSBBU29jOiBkdC1iaW5kaW5nczogUENNNjI0MDoNCj4gQWRk
-IGluaXRpYWwgRFQgYmluZGluZw0KPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLSA+
-IEZyb206IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi7igIoNCj4gPiBrb3psb3dza2lA
-4oCKbGluYXJvLuKAim9yZz4gPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSA2LCAyMDI0IDk64oCK
-NTMgUE0gPg0KPiA+IFRvOiBEaW5nLCBTaGVuZ2hhbyA8c2hlbmdoYW8tZGluZ0DigIp0aS7igIpj
-b20+OyBicm9vbmllQOKAimtlcm5lbC7igIpvcmc7ID4NCj4gPiBjb25vcitkdEDigIprZXJuZWwu
-4oCKb3JnOw0KPiBaalFjbVFSWUZwZnB0QmFubmVyU3RhcnQNCj4gVGhpcyBtZXNzYWdlIHdhcyBz
-ZW50IGZyb20gb3V0c2lkZSBvZiBUZXhhcyBJbnN0cnVtZW50cy4NCj4gRG8gbm90IGNsaWNrIGxp
-bmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSByZWNvZ25pemUgdGhlIHNvdXJjZSBv
-Zg0KPiB0aGlzIGVtYWlsIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuDQo+IA0KPiBaalFj
-bVFSWUZwZnB0QmFubmVyRW5kDQo+IA0KPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
-LQ0KPiA+IEZyb206IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dza2lAbGlu
-YXJvLm9yZz4NCj4gPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSA2LCAyMDI0IDk6NTMgUE0NCj4g
-PiBUbzogRGluZywgU2hlbmdoYW8gPHNoZW5naGFvLWRpbmdAdGkuY29tPjsgYnJvb25pZUBrZXJu
-ZWwub3JnOw0KPiA+IGNvbm9yK2R0QGtlcm5lbC5vcmc7IGRldmljZXRyZWVAdmdlci5rZXJuZWwu
-b3JnOyByb2JoK2R0QGtlcm5lbC5vcmc7DQo+ID4gYW5kcml5LnNoZXZjaGVua29AbGludXguaW50
-ZWwuY29tOyBsaW51eC1zb3VuZEB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gbGlhbS5yLmdpcmR3b29k
-QGludGVsLmNvbTsgbGdpcmR3b29kQGdtYWlsLmNvbTsgbGludXgtDQo+ID4ga2VybmVsQHZnZXIu
-a2VybmVsLm9yZw0KPiA+IENjOiBMdSwgS2V2aW4gPGtldmluLWx1QHRpLmNvbT47IFh1LCBCYW9q
-dW4gPGJhb2p1bi54dUB0aS5jb20+OyBQIE8sDQo+ID4gVmlqZXRoIDx2LXBvQHRpLmNvbT47IE5h
-dmFkYSBLYW55YW5hLCBNdWt1bmQgPG5hdmFkYUB0aS5jb20+Ow0KPiA+IHBlcmV4QHBlcmV4LmN6
-OyBNY1BoZXJzb24sIEplZmYgPGotbWNwaGVyc29uQHRpLmNvbT47IHBpZXJyZS0NCj4gPiBsb3Vp
-cy5ib3NzYXJ0QGxpbnV4LmludGVsLmNvbTsgMTM5MTYyNzUyMDZAMTM5LmNvbTsgQ2hhd2xhLCBN
-b2hpdA0KPiA+IDxtb2hpdC5jaGF3bGFAdGkuY29tPjsgc295ZXJAaXJsLmh1OyBIdWFuZywgSm9u
-YXRoYW4NCj4gPiA8amtodWFuZzNAdGkuY29tPjsgdGl3YWlAc3VzZS5kZTsgRGp1YW5kaSwgUGV0
-ZXIgPHBkanVhbmRpQHRpLmNvbT47DQo+ID4gQWdyYXdhbCwgTWFuaXNoYSA8bWFuaXNoYS5hZ3Jh
-d2FsQHRpLmNvbT47IEhhcmksIFJhaiA8cy1oYXJpQHRpLmNvbT47DQo+ID4gWWFzaGFyLCBBdmkg
-PGF2aWVsQHRpLmNvbT47IE5hZ2FsbGEsIEhhcmkgPGhuYWdhbGxhQHRpLmNvbT47IEJhamp1cmks
-DQo+ID4gUHJhbmVldGggPHByYW5lZXRoQHRpLmNvbT4NCj4gPiBTdWJqZWN0OiBbRVhURVJOQUxd
-IFJlOiBbUEFUQ0ggdjMgNC80XSBBU29jOiBkdC1iaW5kaW5nczogUENNNjI0MDogQWRkDQo+ID4g
-aW5pdGlhbCBEVCBiaW5kaW5nDQo+ID4NCj4gPiBPbiAwMy8wMi8yMDI0IDA0OuKAijA1LCBTaGVu
-Z2hhbyBEaW5nIHdyb3RlOiA+ICsgPiArIHRpLHRhZDUyMTI6DQo+ID4gTG93LXBvd2VyIHN0ZXJl
-byBhdWRpbyBEQUMgd2l0aCAxMjAtZEIgZHluYW1pYyByYW5nZS4gPiArIG9uZU9mOiA+ICsgLQ0K
-PiA+IGl0ZW1zOiA+ICsgLQ0KPiA+IGVudW06ID4gKyAtIHRpLGFkYzMxMjAgPiArIC0gdGksYWRj
-NTEyMCA+ICsgLSB0aSxwY20zMTIwID4gKyAtDQo+ID4gdGkscGNtNTEyMCBaalFjbVFSWUZwZnB0
-QmFubmVyU3RhcnQgVGhpcyBtZXNzYWdlIHdhcyBzZW50IGZyb20NCj4gb3V0c2lkZQ0KPiA+IG9m
-IFRleGFzIEluc3RydW1lbnRzLg0KPiA+IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFj
-aG1lbnRzIHVubGVzcyB5b3UgcmVjb2duaXplIHRoZSBzb3VyY2UNCj4gPiBvZiB0aGlzIGVtYWls
-IGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuDQo+ID4NCj4gPiBaalFjbVFSWUZwZnB0QmFu
-bmVyRW5kDQo+ID4gT24gMDMvMDIvMjAyNCAwNDowNSwgU2hlbmdoYW8gRGluZyB3cm90ZToNCj4g
-PiA+ICsNCj4gPiA+ICsgICAgICB0aSx0YWQ1MjEyOiBMb3ctcG93ZXIgc3RlcmVvIGF1ZGlvIERB
-QyB3aXRoIDEyMC1kQiBkeW5hbWljIHJhbmdlLg0KPiA+ID4gKyAgICBvbmVPZjoNCj4gPiA+ICsg
-ICAgICAtIGl0ZW1zOg0KPiA+ID4gKyAgICAgICAgICAtIGVudW06DQo+ID4gPiArICAgICAgICAg
-ICAgICAtIHRpLGFkYzMxMjANCj4gPiA+ICsgICAgICAgICAgICAgIC0gdGksYWRjNTEyMA0KPiA+
-ID4gKyAgICAgICAgICAgICAgLSB0aSxwY20zMTIwDQo+ID4gPiArICAgICAgICAgICAgICAtIHRp
-LHBjbTUxMjANCj4gPiA+ICsgICAgICAgICAgICAgIC0gdGkscGNtNjEyMA0KPiA+ID4gKyAgICAg
-ICAgICAtIGNvbnN0OiB0aSxhZGM2MTIwDQo+ID4gPiArICAgICAgLSBpdGVtczoNCj4gPiA+ICsg
-ICAgICAgICAgLSBlbnVtOg0KPiA+ID4gKyAgICAgICAgICAgICAgLSB0aSxwY202MjYwDQo+ID4g
-PiArICAgICAgICAgICAgICAtIHRpLHBjbTYxNDANCj4gPiA+ICsgICAgICAgICAgICAgIC0gdGks
-cGNtMzE0MA0KPiA+ID4gKyAgICAgICAgICAgICAgLSB0aSxwY201MTQwDQo+ID4gPiArICAgICAg
-ICAgIC0gY29uc3Q6IHRpLHBjbTYyNDANCj4gPiA+ICsgICAgICAtIGl0ZW1zOg0KPiA+ID4gKyAg
-ICAgICAgICAtIGNvbnN0OiB0aSxkaXg0MTkyDQo+ID4gPiArICAgICAgICAgIC0gY29uc3Q6IHRp
-LHBjbTYyNDANCj4gPg0KPiA+IFdoeSBkaXg0MTkyIGlzIG5vdCBwYXJ0IG9mIHByZXZpb3VzIGVu
-dW0/DQo+IA0KPiBkaXg0MTkyIGlzIG5vdCB0cmFkaXRpb25hbCBBREMgb3IgREFDLCBidXQgYW4g
-SW50ZWdyYXRlZCBEaWdpdGFsIEF1ZGlvDQo+IEludGVyZmFjZSBSZWNlaXZlciBhbmQgVHJhbnNt
-aXR0ZXIsIGxpa2UgYW4gYXVkaW8gYnJpZGdlIHRvIGNvbm5lY3QgZGlmZmVyZW50DQo+IGRpZ2l0
-YWwgYXVkaW8gcHJvdG9jb2wsIGNvbXBhdGlibGUgd2l0aCB0aGUgQUVTMywgUy9QRElGLCBJRUMg
-NjA5NTgsIGFuZCBFSUFKDQo+IENQLTEyMDEgaW50ZXJmYWNlIHN0YW5kYXJkcywgTGVmdC1KdXN0
-aWZpZWQsIFJpZ2h0LUp1c3RpZmllZCwgYW5kIFBoaWxpcHMgSTJT4oSiDQo+IERhdGEgRm9ybWF0
-cy4NCj4gU28ga2VlcCBpdCBhbG9uZSBmb3IgcHJvZmVzc2lvbmFsIHB1cnBvc2UuDQpJIHdpbGwg
-YWRkIGRldGFpbCBkaXg0MTkxIGRlc2NyaXB0aW9uIGluIG5leHQgcGF0Y2guDQo+IA0KPiA+DQo+
-ID4gPiArICAgICAgLSBpdGVtczoNCj4gPiA+ICsgICAgICAgICAgLSBjb25zdDogdGksYWRjNjEy
-MA0KPiA+ID4gKyAgICAgICAgICAtIGNvbnN0OiB0aSxwY21kNTEyeA0KPiA+ID4gKyAgICAgIC0g
-aXRlbXM6DQo+ID4gPiArICAgICAgICAgIC0gY29uc3Q6IHRpLHBjbTE2OTANCj4gPiA+ICsgICAg
-ICAgICAgLSBjb25zdDogdGkscGNtOTIxMQ0KPiA+ID4gKyAgICAgIC0gaXRlbXM6DQo+ID4gPiAr
-ICAgICAgICAgIC0gZW51bToNCj4gPiA+ICsgICAgICAgICAgICAgIC0gdGkscGNtZDMxODANCj4g
-PiA+ICsgICAgICAgICAgLSBjb25zdDogdGkscGNtZDMxNDANCj4gPiA+ICsgICAgICAtIGl0ZW1z
-Og0KPiA+ID4gKyAgICAgICAgICAtIGVudW06DQo+ID4gPiArICAgICAgICAgICAgICAtIHRpLHRh
-YTU0MTINCj4gPiA+ICsgICAgICAgICAgLSBjb25zdDogdGksdGFhNTIxMg0KPiA+ID4gKyAgICAg
-IC0gaXRlbXM6DQo+ID4gPiArICAgICAgICAgIC0gZW51bToNCj4gPiA+ICsgICAgICAgICAgICAg
-IC0gdGksdGFkNTQxMg0KPiA+ID4gKyAgICAgICAgICAtIGNvbnN0OiB0aSx0YWQ1MjEyDQo+ID4g
-PiArICAgICAgLSBlbnVtOg0KPiA+ID4gKyAgICAgICAgICAtIHRpLHBjbTYyNDANCj4gPiA+ICsg
-ICAgICAgICAgLSB0aSxwY21kMzE0MA0KPiA+ID4gKyAgICAgICAgICAtIHRpLHRhYTUyMTINCj4g
-PiA+ICsgICAgICAgICAgLSB0aSx0YWQ1MjEyDQo+ID4gPiArICAgICAgICAgIC0gdGkscGNtZDMx
-ODANCj4gPg0KPiA+IFRoaXMgb25lIGlzIGR1cGxpY2F0ZWQuDQo+IGFjY2VwdA0KPiA+DQo+ID4g
-PiArDQo+ID4NCj4gPg0KPiA+IEJlc3QgcmVnYXJkcywNCj4gPiBLcnp5c3p0b2YNCg0K
+On 07/02/2024 10:47, Ding, Shenghao wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Tuesday, February 6, 2024 9:53 PM
+>> To: Ding, Shenghao <shenghao-ding@ti.com>; broonie@kernel.org;
+>> conor+dt@kernel.org; devicetree@vger.kernel.org; robh+dt@kernel.org;
+>> andriy.shevchenko@linux.intel.com; linux-sound@vger.kernel.org;
+>> liam.r.girdwood@intel.com; lgirdwood@gmail.com; linux-
+>> kernel@vger.kernel.org
+>> Cc: Lu, Kevin <kevin-lu@ti.com>; Xu, Baojun <baojun.xu@ti.com>; P O, Vijeth
+>> <v-po@ti.com>; Navada Kanyana, Mukund <navada@ti.com>;
+>> perex@perex.cz; McPherson, Jeff <j-mcpherson@ti.com>; pierre-
+>> louis.bossart@linux.intel.com; 13916275206@139.com; Chawla, Mohit
+>> <mohit.chawla@ti.com>; soyer@irl.hu; Huang, Jonathan
+>> <jkhuang3@ti.com>; tiwai@suse.de; Djuandi, Peter <pdjuandi@ti.com>;
+>> Agrawal, Manisha <manisha.agrawal@ti.com>; Hari, Raj <s-hari@ti.com>;
+>> Yashar, Avi <aviel@ti.com>; Nagalla, Hari <hnagalla@ti.com>; Bajjuri,
+>> Praneeth <praneeth@ti.com>
+>> Subject: [EXTERNAL] Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add
+>> initial DT binding
+>>
+>> On 03/02/2024 04: 05, Shenghao Ding wrote: > + > + ti,tad5212: Low-power
+>> stereo audio DAC with 120-dB dynamic range. > + oneOf: > + - items: > + -
+>> enum: > + - ti,adc3120 > + - ti,adc5120 > + - ti,pcm3120 > + - ti,pcm5120
+>> ZjQcmQRYFpfptBannerStart This message was sent from outside of Texas
+>> Instruments.
+>> Do not click links or open attachments unless you recognize the source of
+>> this email and know the content is safe.
+>>
+>> ZjQcmQRYFpfptBannerEnd
+>> On 03/02/2024 04:05, Shenghao Ding wrote:
+>>> +
+>>> +      ti,tad5212: Low-power stereo audio DAC with 120-dB dynamic range.
+>>> +    oneOf:
+>>> +      - items:
+>>> +          - enum:
+>>> +              - ti,adc3120
+>>> +              - ti,adc5120
+>>> +              - ti,pcm3120
+>>> +              - ti,pcm5120
+>>> +              - ti,pcm6120
+>>> +          - const: ti,adc6120
+>>> +      - items:
+>>> +          - enum:
+>>> +              - ti,pcm6260
+>>> +              - ti,pcm6140
+>>> +              - ti,pcm3140
+>>> +              - ti,pcm5140
+>>> +          - const: ti,pcm6240
+>>> +      - items:
+>>> +          - const: ti,dix4192
+>>> +          - const: ti,pcm6240
+>>
+>> Why dix4192 is not part of previous enum?
+> 
+> dix4192 is not traditional ADC or DAC, but an Integrated Digital Audio Interface 
+> Receiver and Transmitter, like an audio bridge to connect different digital audio 
+> protocol, compatible with the AES3, S/PDIF, IEC 60958, and EIAJ CP-1201 
+> interface standards, Left-Justified, Right-Justified, and Philips I2S™ Data Formats. 
+> So keep it alone for professional purpose. 
+
+Hm, it is a bit surprising to see some PCM6240-compatible devices 100%
+different from other PCM6240-compatible. PCM6240 is ADC. DIX4192 is not
+ADC, not even DAC. How can it be compatible with PCM6240 in such case?
+
+Best regards,
+Krzysztof
+
