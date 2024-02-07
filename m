@@ -1,47 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2831552FC;
-	Wed,  7 Feb 2024 21:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E51415699C;
+	Wed,  7 Feb 2024 21:25:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341116; cv=none; b=u9SChr5WZep5i1ApgW+qWhMAKfeP7/DvH3EfpD2TKxwG1wlXjI8TZfhus1ynL28EaWHMQPeJ2x4+af5bv8Y+faL287pG8vDO4BVJf/MIKHpzngj4GbCINDkLMyC6yBRRcQejOHRuAKs1SWn9sLFzZ1+Xs82lrkMWkeszBiP0UDc=
+	t=1707341125; cv=none; b=SB0JDqXDD/R8iog+kphf3thcRoMpN9trnal/ehCtIq0oGLCCeshC/oC+2TsOJO0kBI1tpdHu4XHsTA9tTwsOinGNHe/yowc58OHEQOQ9jHyjginI8soDSStqbk8gEJAQGkxHwSX3k5jlWqehiqPHpFDac0RCB/XSk7bRfQLjFD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341116; c=relaxed/simple;
-	bh=ZEs2TzHH+d3Wm5jhxzkC1qvnQNqoUe+++fHFK2VxUtA=;
+	s=arc-20240116; t=1707341125; c=relaxed/simple;
+	bh=GeYMdViIZNwyqOKQLAvWZAyDii0ag5jF9idqaEjWLqI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FZmtaKBNeyNvyWm/RRWl6KrpGhT/lZpg5iAzE6pUGVeqmjT60isq0dws6V0MpnCgApDSQomIeZhIRFIPXsxxFjoLDobGb2dud7vbm4pgmRcgm1P7ys+XE/QbNPeD2v0wCxGWhe2mu5RlcN9iRPIBCGXx1FjOVhhAqmwpX4Ar9i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q9NFWHO6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=puLaDD5KPR+cg4AdCYsXsu6vB9e8DpDy/yoXTYyiiFZ/JH2JjMq6PZ0fsrPlGupioJuUuikfuryk6DcL/kVLQzZBLIXzvjr5IbGUIQu0EHUJx4GqtphunZF5Zj7S8p3sMnBvYoKW6tGcwmGAEPIX5lgTQMBIXAev+CKxtOouhhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbhkpxmK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q9NFWHO6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439B2C43399;
-	Wed,  7 Feb 2024 21:25:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbhkpxmK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D09DDC43399;
+	Wed,  7 Feb 2024 21:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341115;
-	bh=ZEs2TzHH+d3Wm5jhxzkC1qvnQNqoUe+++fHFK2VxUtA=;
+	s=k20201202; t=1707341123;
+	bh=GeYMdViIZNwyqOKQLAvWZAyDii0ag5jF9idqaEjWLqI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q9NFWHO6U0iLZf0Uk/Bawq6HOy+QCafe+ptx1iYVGJLpzJvIWEuo5hy3lE97hSNTG
-	 Rp2mSNE4VRkEmEc+xXc+xLo9N/WIplWgWGAVI5S1tue1keWuONXS/T21PYt0QxyIiB
-	 fxvUwgM9MXx7c1jeb6OQwu1ZLoRECXysfCY80m/NZll3fKTNxNKh4MkZ68DAfVT74e
-	 kTyfognxjvAQZE7gt9EkC/b8swNFg+wIai3ngUCZA7UigGBD8Yolu4doivBAGxIpth
-	 22vNyv4FALJUtmdfX7Vbao1GJmKyOfC/9+lCdLxWbcvi95Si3rYOkGKjNmQioeh1Oj
-	 W2PtSjtmjNHUg==
+	b=lbhkpxmKYvOTCVhUZyQvuhpOXQrb+rE3TgaCrsmWRIqn/mZWzvrjnJh7Fr1bnByae
+	 mUlPNW48NGDfgaLTqySK7MN/3oZuwqYKSXKUlJ+bASFMDRFtUwZ6LQfVCO8Wq5cdPQ
+	 CnsFVtXCRhS00PReFjT9czX6Egy3VS2j8+jylleLX2449wMI5BARqfkckR9Kts26/k
+	 WEG8WvDCYgTaTakcbwAAMR+DqM1snwa02l1jlnmWoiXz2ag8n33DvCP01kc1pZsBl+
+	 eqdxOcoKPRODOwWg6YvjX2ZqxKA2qMmE3C8c59cgZsAoZy0FgtZHagJR8VbF1Qybfx
+	 3fjY0APxw2EGg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Alexander Tsoy <alexander@tsoy.me>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	srinivas.kandagatla@linaro.org,
-	bgoswami@quicinc.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 06/29] ASoC: codecs: wcd934x: drop unneeded regulator include
-Date: Wed,  7 Feb 2024 16:24:31 -0500
-Message-ID: <20240207212505.3169-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 10/29] ALSA: usb-audio: Check presence of valid altsetting control
+Date: Wed,  7 Feb 2024 16:24:35 -0500
+Message-ID: <20240207212505.3169-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212505.3169-1-sashal@kernel.org>
 References: <20240207212505.3169-1-sashal@kernel.org>
@@ -56,33 +52,84 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.77
 Content-Transfer-Encoding: 8bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Alexander Tsoy <alexander@tsoy.me>
 
-[ Upstream commit 35314e39dabcfb256832654ad0e856a9fba744bd ]
+[ Upstream commit 346f59d1e8ed0eed41c80e1acb657e484c308e6a ]
 
-Driver does not use any regulator code, so drop redundant include of
-regulator/consumer.h header.
+Many devices with a single alternate setting do not have a Valid
+Alternate Setting Control and validation performed by
+validate_sample_rate_table_v2v3() doesn't work on them and is not
+really needed. So check the presense of control before sending
+altsetting validation requests.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Link: https://msgid.link/r/20240117151208.1219755-3-krzysztof.kozlowski@linaro.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
+MOTU Microbook IIc is suffering the most without this check. It
+takes up to 40 seconds to bootup due to how slow it switches
+sampling rates:
+
+[ 2659.164824] usb 3-2: New USB device found, idVendor=07fd, idProduct=0004, bcdDevice= 0.60
+[ 2659.164827] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[ 2659.164829] usb 3-2: Product: MicroBook IIc
+[ 2659.164830] usb 3-2: Manufacturer: MOTU
+[ 2659.166204] usb 3-2: Found last interface = 3
+[ 2679.322298] usb 3-2: No valid sample rate available for 1:1, assuming a firmware bug
+[ 2679.322306] usb 3-2: 1:1: add audio endpoint 0x3
+[ 2679.322321] usb 3-2: Creating new data endpoint #3
+[ 2679.322552] usb 3-2: 1:1 Set sample rate 96000, clock 1
+[ 2684.362250] usb 3-2: 2:1: cannot get freq (v2/v3): err -110
+[ 2694.444700] usb 3-2: No valid sample rate available for 2:1, assuming a firmware bug
+[ 2694.444707] usb 3-2: 2:1: add audio endpoint 0x84
+[ 2694.444721] usb 3-2: Creating new data endpoint #84
+[ 2699.482103] usb 3-2: 2:1 Set sample rate 96000, clock 1
+
+Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
+Link: https://lore.kernel.org/r/20240129121254.3454481-1-alexander@tsoy.me
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/wcd934x.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/usb/format.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index 0b5999c819db..86d0907a5f97 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -13,7 +13,6 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
--#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/slimbus.h>
- #include <sound/pcm_params.h>
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index ab5fed9f55b6..3b45d0ee7693 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -470,9 +470,11 @@ static int validate_sample_rate_table_v2v3(struct snd_usb_audio *chip,
+ 					   int clock)
+ {
+ 	struct usb_device *dev = chip->dev;
++	struct usb_host_interface *alts;
+ 	unsigned int *table;
+ 	unsigned int nr_rates;
+ 	int i, err;
++	u32 bmControls;
+ 
+ 	/* performing the rate verification may lead to unexpected USB bus
+ 	 * behavior afterwards by some unknown reason.  Do this only for the
+@@ -481,6 +483,24 @@ static int validate_sample_rate_table_v2v3(struct snd_usb_audio *chip,
+ 	if (!(chip->quirk_flags & QUIRK_FLAG_VALIDATE_RATES))
+ 		return 0; /* don't perform the validation as default */
+ 
++	alts = snd_usb_get_host_interface(chip, fp->iface, fp->altsetting);
++	if (!alts)
++		return 0;
++
++	if (fp->protocol == UAC_VERSION_3) {
++		struct uac3_as_header_descriptor *as = snd_usb_find_csint_desc(
++				alts->extra, alts->extralen, NULL, UAC_AS_GENERAL);
++		bmControls = le32_to_cpu(as->bmControls);
++	} else {
++		struct uac2_as_header_descriptor *as = snd_usb_find_csint_desc(
++				alts->extra, alts->extralen, NULL, UAC_AS_GENERAL);
++		bmControls = as->bmControls;
++	}
++
++	if (!uac_v2v3_control_is_readable(bmControls,
++				UAC2_AS_VAL_ALT_SETTINGS))
++		return 0;
++
+ 	table = kcalloc(fp->nr_rates, sizeof(*table), GFP_KERNEL);
+ 	if (!table)
+ 		return -ENOMEM;
 -- 
 2.43.0
 
