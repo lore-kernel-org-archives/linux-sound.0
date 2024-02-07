@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA23A59B61
-	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 12:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32ECC5A0EA
+	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 12:09:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707307771; cv=none; b=Wp3lH21bWslhoCrTolHmFqFIgPA+xE8TD4hKI5HgF5kavGcEL/YxRUMn4C9EgBF4gqpJWZuv5entpFuJc6lfVaPLr5uwxzN7kE+nsN0MNnOs9gAX4NAr1pFBTw6jlTaB4mU01bfRIpqg6muMM6um7sihTA1+co4GhJnL/0m0Ydw=
+	t=1707307772; cv=none; b=qZXMiCVZYbbgbcDF9iK9VYGhXzxCgKe/TftY6HGiuxzSimnQShKZKIeldJipsMo1boitJb8b2rSzb8zTPYAfvad2hfXsmwbIZoy3xgfn8KRf/psayqaspTZw6bSaxaOXbw23BiOEyLK/ZqS9zg+SE9DJuCmUDEsI4dv4uHMpVU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707307771; c=relaxed/simple;
-	bh=RtezLeKtYqzMMlD7l4M22QwSiNc/vjvRHMceNkkvGLc=;
+	s=arc-20240116; t=1707307772; c=relaxed/simple;
+	bh=3EZnFFp/gd0ui05wvvPdp7bRW8LUPHGbujPQM+g/nSg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OosCEx/1Bfc1lVmKpRDgVdWL71NgBHSmhcHVVCMTtns4o8GQZI0TmyVxNzH2+wpdl5DR5NoS85iWZzP15YZOzpVehiH1y6R8+yDKZnagGe2RbSNRJzhrPLKqGhYl8jhYz0Edn5kA/Y2Jtg2ST2LnHd18IDnlbWJ0QvjH3B+YcZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kN58ZzBn; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version:Content-Type; b=QliL9uiEdBm7sbCQAtJkw2Z87EDjvMw3jziNvV8e3rlbCWp1V+ai0hY1ryd0/03Ofpm23p2HoJ1mNh+xLGPJh6amfjvStz0cxG5hoRfN4CbAzzk2y9mj8/qSw9WVpN208+307+U3B04yxa9LJLDrinix0npyj+llCrCouFnchlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qwa3398U; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kN58ZzBn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qwa3398U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707307763; x=1738843763;
+  t=1707307766; x=1738843766;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RtezLeKtYqzMMlD7l4M22QwSiNc/vjvRHMceNkkvGLc=;
-  b=kN58ZzBn4UE9x9v2S3Udj/+t4Lcs37VN8WBaJSiYUSQbuwD4Omuj6YHI
-   5Ky5tS4XaHhe7fEZDqVbg5v2Ohi62xqsDVMEwtC0v+12p4dNLLaLrdBKp
-   j4sWDfRHs92EYTDGJU+523OqBkleXkhhtXsLdoa5zkMOqqQoI55FXNtv2
-   U6F5GCT3dVkn1aHjZX0oCEMa/Pgo8bEEJFpgu7btPr+XRdG7WLYGRkmqa
-   UG3Jbpl4fLZEo0/Jm+CdJVGKJMCHNSwBphOF31vh0Uu4LAO1LAF/TDVJg
-   I6OW+OST0Mp9qom8DMQNOWqP8E3HiQi/kvfQt8awRUWeS/R6sR/lXDQrG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="4757845"
+  bh=3EZnFFp/gd0ui05wvvPdp7bRW8LUPHGbujPQM+g/nSg=;
+  b=Qwa3398UN5dmbO94+LjyaaABvvHljJWiEiP83rA+uCbsqCTDNXFp1Aif
+   KtUai+2A7G/jxp+tv39v3RVfslsLR977AKzXv8nK9LUZ8ASmGy+oyKT9Q
+   TuHhDg4Ip/dLYy6IsPgER/+8XmH1iNme8vigbUrPZ9vjAJCKLCdmlS3ob
+   horEYaCe3uZoR+X6q7naWrKi2T4flTO++66PD55JCZ7djXfNEX4DB1Hhu
+   Alds3WGq/Ei3PSWxIdykhhIGvp5Awrh33L8LA1B1fQJpU/RptjbVrCLX6
+   0q/9A9zE/kVu13+s0SmOH7i+4kS4Ng23F/78STunDOkdO9mvPV2FH0xK2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="4757853"
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="4757845"
+   d="scan'208";a="4757853"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 04:09:21 -0800
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 04:09:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1631801"
+   d="scan'208";a="1631804"
 Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orviesa007.jf.intel.com with ESMTP; 07 Feb 2024 04:09:18 -0800
+  by orviesa007.jf.intel.com with ESMTP; 07 Feb 2024 04:09:20 -0800
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -48,9 +48,9 @@ Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	linux-sound@vger.kernel.org,
 	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH 1/3] ASoC: Intel: avs: UAPI: Add tokens for initial config feature
-Date: Wed,  7 Feb 2024 13:09:44 +0100
-Message-Id: <20240207120946.2140480-2-amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH 2/3] ASoC: Intel: avs: Add topology parsing support for initial config
+Date: Wed,  7 Feb 2024 13:09:45 +0100
+Message-Id: <20240207120946.2140480-3-amadeuszx.slawinski@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240207120946.2140480-1-amadeuszx.slawinski@linux.intel.com>
 References: <20240207120946.2140480-1-amadeuszx.slawinski@linux.intel.com>
@@ -63,50 +63,266 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Allow for defining initial config which will be send after module
-initialization to configure initial module state. This is only useful
-for modules which need to be configured on init.
+Add topology parsing for initial config.
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 ---
- include/uapi/sound/intel/avs/tokens.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/soc/intel/avs/topology.c | 163 ++++++++++++++++++++++++++++++++-
+ sound/soc/intel/avs/topology.h |  13 +++
+ 2 files changed, 174 insertions(+), 2 deletions(-)
 
-diff --git a/include/uapi/sound/intel/avs/tokens.h b/include/uapi/sound/intel/avs/tokens.h
-index 4ffe546aa409a..4beca03405c07 100644
---- a/include/uapi/sound/intel/avs/tokens.h
-+++ b/include/uapi/sound/intel/avs/tokens.h
-@@ -19,6 +19,8 @@ enum avs_tplg_token {
- 	AVS_TKN_MANIFEST_NUM_MODCFGS_EXT_U32		= 6,
- 	AVS_TKN_MANIFEST_NUM_PPLCFGS_U32		= 7,
- 	AVS_TKN_MANIFEST_NUM_BINDINGS_U32		= 8,
-+	AVS_TKN_MANIFEST_NUM_CONDPATH_TMPLS_U32		= 9,
-+	AVS_TKN_MANIFEST_NUM_INIT_CONFIGS_U32		= 10,
- 
- 	/* struct avs_tplg_library */
- 	AVS_TKN_LIBRARY_ID_U32				= 101,
-@@ -109,6 +111,8 @@ enum avs_tplg_token {
- 	AVS_TKN_MOD_PROC_DOMAIN_U8			= 1705,
- 	AVS_TKN_MOD_MODCFG_EXT_ID_U32			= 1706,
- 	AVS_TKN_MOD_KCONTROL_ID_U32			= 1707,
-+	AVS_TKN_MOD_INIT_CONFIG_NUM_IDS_U32		= 1708,
-+	AVS_TKN_MOD_INIT_CONFIG_ID_U32			= 1709,
- 
- 	/* struct avs_tplg_path_template */
- 	AVS_TKN_PATH_TMPL_ID_U32			= 1801,
-@@ -125,6 +129,11 @@ enum avs_tplg_token {
- 
- 	/* struct avs_tplg_kcontrol */
- 	AVS_TKN_KCONTROL_ID_U32				= 2301,
+diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
+index 778236d3fd280..4bdb4e0ce144a 100644
+--- a/sound/soc/intel/avs/topology.c
++++ b/sound/soc/intel/avs/topology.c
+@@ -1118,6 +1118,21 @@ static const struct avs_tplg_token_parser module_parsers[] = {
+ 		.offset = offsetof(struct avs_tplg_module, ctl_id),
+ 		.parse = avs_parse_byte_token,
+ 	},
++	{
++		.token = AVS_TKN_MOD_INIT_CONFIG_NUM_IDS_U32,
++		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
++		.offset = offsetof(struct avs_tplg_module, num_config_ids),
++		.parse = avs_parse_byte_token,
++	},
++};
 +
-+	/* struct avs_tplg_init_config */
-+	AVS_TKN_INIT_CONFIG_ID_U32			= 2401,
-+	AVS_TKN_INIT_CONFIG_PARAM_U8			= 2402,
-+	AVS_TKN_INIT_CONFIG_LENGTH_U32			= 2403,
++static const struct avs_tplg_token_parser init_config_parsers[] = {
++	{
++		.token = AVS_TKN_MOD_INIT_CONFIG_ID_U32,
++		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
++		.offset = 0,
++		.parse = avs_parse_word_token,
++	},
  };
  
- #endif
+ static struct avs_tplg_module *
+@@ -1125,17 +1140,50 @@ avs_tplg_module_create(struct snd_soc_component *comp, struct avs_tplg_pipeline
+ 		       struct snd_soc_tplg_vendor_array *tuples, u32 block_size)
+ {
+ 	struct avs_tplg_module *module;
++	u32 esize;
+ 	int ret;
+ 
++	/* See where config id block starts. */
++	ret = avs_tplg_vendor_entry_size(tuples, block_size,
++					 AVS_TKN_MOD_INIT_CONFIG_ID_U32, &esize);
++	if (ret)
++		return ERR_PTR(ret);
++
+ 	module = devm_kzalloc(comp->card->dev, sizeof(*module), GFP_KERNEL);
+ 	if (!module)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	ret = avs_parse_tokens(comp, module, module_parsers,
+-			       ARRAY_SIZE(module_parsers), tuples, block_size);
++			       ARRAY_SIZE(module_parsers), tuples, esize);
+ 	if (ret < 0)
+ 		return ERR_PTR(ret);
+ 
++	block_size -= esize;
++	/* Parse trailing config ids if any. */
++	if (block_size) {
++		u32 num_config_ids = module->num_config_ids;
++		u32 *config_ids;
++
++		if (!num_config_ids)
++			return ERR_PTR(-EINVAL);
++
++		config_ids = devm_kcalloc(comp->card->dev, num_config_ids, sizeof(*config_ids),
++					   GFP_KERNEL);
++		if (!config_ids)
++			return ERR_PTR(-ENOMEM);
++
++		tuples = avs_tplg_vendor_array_at(tuples, esize);
++		ret = parse_dictionary_entries(comp, tuples, block_size,
++					       config_ids, num_config_ids, sizeof(*config_ids),
++					       AVS_TKN_MOD_INIT_CONFIG_ID_U32,
++					       init_config_parsers,
++					       ARRAY_SIZE(init_config_parsers));
++		if (ret)
++			return ERR_PTR(ret);
++
++		module->config_ids = config_ids;
++	}
++
+ 	module->owner = owner;
+ 	INIT_LIST_HEAD(&module->node);
+ 
+@@ -1416,6 +1464,81 @@ avs_tplg_path_template_create(struct snd_soc_component *comp, struct avs_tplg *o
+ 	return template;
+ }
+ 
++static const struct avs_tplg_token_parser mod_init_config_parsers[] = {
++	{
++		.token = AVS_TKN_MOD_INIT_CONFIG_ID_U32,
++		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
++		.offset = offsetof(struct avs_tplg_init_config, id),
++		.parse = avs_parse_word_token,
++	},
++	{
++		.token = AVS_TKN_INIT_CONFIG_PARAM_U8,
++		.type = SND_SOC_TPLG_TUPLE_TYPE_BYTE,
++		.offset = offsetof(struct avs_tplg_init_config, param),
++		.parse = avs_parse_byte_token,
++	},
++	{
++		.token = AVS_TKN_INIT_CONFIG_LENGTH_U32,
++		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
++		.offset = offsetof(struct avs_tplg_init_config, length),
++		.parse = avs_parse_word_token,
++	},
++};
++
++static int avs_tplg_parse_initial_configs(struct snd_soc_component *comp,
++					   struct snd_soc_tplg_vendor_array *tuples,
++					   u32 block_size)
++{
++	struct avs_soc_component *acomp = to_avs_soc_component(comp);
++	struct avs_tplg *tplg = acomp->tplg;
++	int ret, i;
++
++	/* Parse tuple section telling how many init configs there are. */
++	ret = parse_dictionary_header(comp, tuples, (void **)&tplg->init_configs,
++				      &tplg->num_init_configs,
++				      sizeof(*tplg->init_configs),
++				      AVS_TKN_MANIFEST_NUM_INIT_CONFIGS_U32);
++	if (ret)
++		return ret;
++
++	block_size -= le32_to_cpu(tuples->size);
++	/* With header parsed, move on to parsing entries. */
++	tuples = avs_tplg_vendor_array_next(tuples);
++
++	for (i = 0; i < tplg->num_init_configs; i++) {
++		struct avs_tplg_init_config *config = &tplg->init_configs[i];
++		struct snd_soc_tplg_vendor_array *tmp;
++		void *init_config_data;
++		u32 esize;
++
++		/*
++		 * Usually to get section length we search for first token of next group of data,
++		 * but in this case we can't as tuples are followed by raw data.
++		 */
++		tmp = avs_tplg_vendor_array_next(tuples);
++		esize = le32_to_cpu(tuples->size) + le32_to_cpu(tmp->size);
++
++		ret = parse_dictionary_entries(comp, tuples, esize, config, 1, sizeof(*config),
++					       AVS_TKN_MOD_INIT_CONFIG_ID_U32,
++					       mod_init_config_parsers,
++					       ARRAY_SIZE(mod_init_config_parsers));
++
++		block_size -= esize;
++
++		/* handle raw data section */
++		init_config_data = (void *)tuples + esize;
++		esize = config->length;
++
++		config->data = devm_kmemdup(comp->card->dev, init_config_data, esize, GFP_KERNEL);
++		if (!config->data)
++			return -ENOMEM;
++
++		tuples = init_config_data + esize;
++	}
++
++	return 0;
++}
++
+ static int avs_route_load(struct snd_soc_component *comp, int index,
+ 			  struct snd_soc_dapm_route *route)
+ {
+@@ -1571,6 +1694,7 @@ static int avs_manifest(struct snd_soc_component *comp, int index,
+ 	struct snd_soc_tplg_vendor_array *tuples = manifest->priv.array;
+ 	struct avs_soc_component *acomp = to_avs_soc_component(comp);
+ 	size_t remaining = le32_to_cpu(manifest->priv.size);
++	bool has_init_config = true;
+ 	u32 offset;
+ 	int ret;
+ 
+@@ -1668,8 +1792,43 @@ static int avs_manifest(struct snd_soc_component *comp, int index,
+ 	remaining -= offset;
+ 	tuples = avs_tplg_vendor_array_at(tuples, offset);
+ 
++	ret = avs_tplg_vendor_array_lookup(tuples, remaining,
++					   AVS_TKN_MANIFEST_NUM_CONDPATH_TMPLS_U32, &offset);
++	if (ret) {
++		dev_err(comp->dev, "condpath lookup failed: %d\n", ret);
++		return ret;
++	}
++
+ 	/* Bindings dictionary. */
+-	return avs_tplg_parse_bindings(comp, tuples, remaining);
++	ret = avs_tplg_parse_bindings(comp, tuples, offset);
++	if (ret < 0)
++		return ret;
++
++	remaining -= offset;
++	tuples = avs_tplg_vendor_array_at(tuples, offset);
++
++	ret = avs_tplg_vendor_array_lookup(tuples, remaining,
++					   AVS_TKN_MANIFEST_NUM_INIT_CONFIGS_U32, &offset);
++	if (ret == -ENOENT) {
++		dev_dbg(comp->dev, "init config lookup failed: %d\n", ret);
++		has_init_config = false;
++	} else if (ret) {
++		dev_err(comp->dev, "init config lookup failed: %d\n", ret);
++		return ret;
++	}
++
++	if (!has_init_config)
++		return 0;
++
++	remaining -= offset;
++	tuples = avs_tplg_vendor_array_at(tuples, offset);
++
++	/* Initial configs dictionary. */
++	ret = avs_tplg_parse_initial_configs(comp, tuples, remaining);
++	if (ret < 0)
++		return ret;
++
++	return 0;
+ }
+ 
+ #define AVS_CONTROL_OPS_VOLUME	257
+diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
+index 6e1c8e9b24964..6a59dd766603f 100644
+--- a/sound/soc/intel/avs/topology.h
++++ b/sound/soc/intel/avs/topology.h
+@@ -33,6 +33,9 @@ struct avs_tplg {
+ 	u32 num_pplcfgs;
+ 	struct avs_tplg_binding *bindings;
+ 	u32 num_bindings;
++	u32 num_condpath_tmpls;
++	struct avs_tplg_init_config *init_configs;
++	u32 num_init_configs;
+ 
+ 	struct list_head path_tmpl_list;
+ };
+@@ -147,6 +150,14 @@ struct avs_tplg_path_template {
+ 	struct list_head node;
+ };
+ 
++struct avs_tplg_init_config {
++	u32 id;
++
++	u8 param;
++	size_t length;
++	void *data;
++};
++
+ struct avs_tplg_path {
+ 	u32 id;
+ 
+@@ -183,6 +194,8 @@ struct avs_tplg_module {
+ 	u8 domain;
+ 	struct avs_tplg_modcfg_ext *cfg_ext;
+ 	u32 ctl_id;
++	u32 num_config_ids;
++	u32 *config_ids;
+ 
+ 	struct avs_tplg_pipeline *owner;
+ 	/* Pipeline modules management. */
 -- 
 2.34.1
 
