@@ -1,143 +1,120 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721987993D;
-	Wed,  7 Feb 2024 13:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8222C374E0;
+	Wed,  7 Feb 2024 14:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707313347; cv=none; b=a6Rr8w0eFkSX1u2TzOf0RXXo2eJseveOzRYH00Z3S/zzl9fb7N4XQRCb95yI0bl6ml1kouU4eguvVj9pDpN23iuFiF67qlrKyJ1P4BMRa2+Yysm7dY/Y0Slmg1lXa7mls+1JPzRz5EgTfnKJEtjr5jlEj6oz7eHIjpLK1rBZpns=
+	t=1707316266; cv=none; b=coH475KIczGwj5DaV74LgK1sxY1cnY+mWs3HjzgGdJqKeXQaIYVv6FQ8ZUKwMldVjx6kLYWjSUxWQl9MFYu9uHNN0kUVFrnwQM77wtXydbs3hO6kUqAryo9bq6vs+iFxn5vrUZLBD/+CAOD4BLIS3DKa0IoYnlPZf+90SL9VQaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707313347; c=relaxed/simple;
-	bh=biTnfIR0P6z4A+HuIjLWtAZ/odQWEGrcuiQOu0E4WKo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gSXvH577EFNTR1JGR1r55AP1GkmjMsYrOCKqMzsuEiTD9ltWUiIeJbAaFK6RlWl8rLgwRUOKip+vEC/1bpHSMGrjc+f4wVzRNKupcpElz7S80gbO8Ctg/D6kHMWUaYEyE98bTrQ01O+K4r1nWdpHiTq9b2q5WTUE42T7gpa2IQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sdUhc/Sj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8UqOy8GD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sdUhc/Sj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8UqOy8GD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sdUhc/Sj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8UqOy8GD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sdUhc/Sj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8UqOy8GD"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 91B541FC04;
-	Wed,  7 Feb 2024 13:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707313343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
-	b=sdUhc/Sjbs2A0k+Pym4m6CwUvQKkyCQ2hR7gijqD2Jc+t4xUru8lwzYaK0+9gU5SJpZdFl
-	1NrLD8Qw72bJPWxhCPW2qENFySj27/dUgjVvcK3QxjkplpwkhLBX2x+5nyN4YXrEKRtoF/
-	8nMuvnOUpTi4+AQJwjCRnnDeiWWYNSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707313343;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
-	b=8UqOy8GDOjAR3qhJOSFIw2RfUbNLFOPvXVz+l/jqZAy0+eTi6TXvKkvJO4Z1CsjwAfbmtR
-	Ut0XkK7Lu8XxmMAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707313343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
-	b=sdUhc/Sjbs2A0k+Pym4m6CwUvQKkyCQ2hR7gijqD2Jc+t4xUru8lwzYaK0+9gU5SJpZdFl
-	1NrLD8Qw72bJPWxhCPW2qENFySj27/dUgjVvcK3QxjkplpwkhLBX2x+5nyN4YXrEKRtoF/
-	8nMuvnOUpTi4+AQJwjCRnnDeiWWYNSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707313343;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
-	b=8UqOy8GDOjAR3qhJOSFIw2RfUbNLFOPvXVz+l/jqZAy0+eTi6TXvKkvJO4Z1CsjwAfbmtR
-	Ut0XkK7Lu8XxmMAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 477DB139B9;
-	Wed,  7 Feb 2024 13:42:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EOvzD7+Iw2WdHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 13:42:23 +0000
-Date: Wed, 07 Feb 2024 14:42:22 +0100
-Message-ID: <87o7cs5r29.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Jean-Lo=EFc?= Charroud <lagiraudiere+linux@free.fr>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v2] ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
-In-Reply-To: <726559913.576332068.1707239153891.JavaMail.zimbra@free.fr>
-References: <726559913.576332068.1707239153891.JavaMail.zimbra@free.fr>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1707316266; c=relaxed/simple;
+	bh=y0KWZrJXOyRC5CIPTz+1fodmZg6ChjIlV0scfDMLO1g=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=vEEp8keN7P+m1ofpKFvoG2TSXdhz8LUZo3RSJtIXUx1Ku262ZToZZc8KMGHJrSIEe9vcteUKZGjUPv4L01GYUDz/1oLPzaUmWBQloDfO0NPLKvQYCm7Uq77NvlnFJ88+WFxC1L9eY7R5T0aovfG+ZUPXV4mIX+320pS5D1Tuwtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 9DE684C8FA;
+	Wed,  7 Feb 2024 15:30:54 +0100 (CET)
+Received: from zimbra-e1-03.priv.proxad.net (unknown [172.20.243.151])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id AD34A13F8A7;
+	Wed,  7 Feb 2024 15:30:46 +0100 (CET)
+Date: Wed, 7 Feb 2024 15:30:46 +0100 (CET)
+From: =?utf-8?Q?Jean-Lo=C3=AFc?= Charroud <lagiraudiere+linux@free.fr>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	linux-sound <linux-sound@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	patches <patches@opensource.cirrus.com>
+Message-ID: <1366935939.585144512.1707316246651.JavaMail.zimbra@free.fr>
+In-Reply-To: <87o7cs5r29.wl-tiwai@suse.de>
+References: <726559913.576332068.1707239153891.JavaMail.zimbra@free.fr> <87o7cs5r29.wl-tiwai@suse.de>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: cs35l41: Fix internal speaker
+ support for ASUS UM3402 with missing DSD
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [2.07 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-0.33)[75.89%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[free.fr];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[linux];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[free.fr];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: **
-X-Spam-Score: 2.07
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 9.0.0_GA_1337 (ZimbraWebClient - FF122 (Linux)/9.0.0_GA_1337)
+Thread-Topic: ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
+Thread-Index: mkayzFxE17dOTxly0rkuWXxYNN7URQ==
 
-On Tue, 06 Feb 2024 18:05:53 +0100,
-Jean-Loïc Charroud wrote:
-> 
-> Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
-> Add _DSD values for "ASUS UM3402" to cs35l41_config_table[].
+Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
+Add DSD values for "ASUS UM3402" to cs35l41_config_table[].
 
-So far, so good, but...
+Signed-off-by: Jean-Lo=C3=AFc Charroud <lagiraudiere+linux@free.fr>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ sound/pci/hda/patch_realtek.c        | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-> Reorder alc269_fixup_tbl[] by device id and remove duplicate QUIRK
-> entry for device {0x1043, 0x1f62, "ASUS UX7602ZM"}.
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_h=
+da_property.c
+index 923c0813fa08..d8cd62ef6afc 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -102,6 +102,7 @@ static const struct cs35l41_config cs35l41_config_table=
+[] =3D {
+ =09{ "10431D1F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
+ -1, 1000, 4500, 24 },
+ =09{ "10431DA2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2,=
+ 0, 0, 0, 0 },
+ =09{ "10431E02", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2,=
+ 0, 0, 0, 0 },
++=09{ "10431E12", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
+ -1, 0, 0, 0 },
+ =09{ "10431EE2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1=
+, -1, 0, 0, 0 },
+ =09{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
+ -1, 1000, 4500, 24 },
+ =09{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1=
+, 0, 0, 0, 0 },
+@@ -485,6 +486,7 @@ static const struct cs35l41_prop_model cs35l41_prop_mod=
+el_table[] =3D {
+ =09{ "CSC3551", "10431D1F", generic_dsd_config },
+ =09{ "CSC3551", "10431DA2", generic_dsd_config },
+ =09{ "CSC3551", "10431E02", generic_dsd_config },
++=09{ "CSC3551", "10431E12", generic_dsd_config },
+ =09{ "CSC3551", "10431EE2", generic_dsd_config },
+ =09{ "CSC3551", "10431F12", generic_dsd_config },
+ =09{ "CSC3551", "10431F1F", generic_dsd_config },
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 7aa88ed04bde..fe81a628d7c8 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9939,11 +9939,11 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
+] =3D {
+ =09SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI=
+_2),
+ =09SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI=
+_2),
+ =09SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA=
+502),
+-=09SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_=
+I2C_2),
++=09SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2=
+),
+ =09SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU=
+502_PINS),
+ =09SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", ALC294_FIXUP_ASUS_=
+G513_PINS),
+ =09SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA=
+401),
+-=09SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2=
+),
++=09SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_=
+I2C_2),
+ =09SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_AS=
+US_GA401),
+ =09SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA=
+401),
+ =09SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2=
+),
+--=20
+2.40.1
 
-Don't mix up multiple things in a single patch.
-The sort of the existing entries has little to do with your change.
-Leave it to another patch instead (with Fixes tag for the
-corresponding commit, too).
-
-
-thanks,
-
-Takashi
