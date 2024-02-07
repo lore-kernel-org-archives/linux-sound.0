@@ -1,48 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23BE136669;
-	Wed,  7 Feb 2024 21:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA8313A872;
+	Wed,  7 Feb 2024 21:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707340941; cv=none; b=Vg4/dKuZn4AOhxOl1gOOx6/u/R6lHl4v5weUrVGa6gUppZp6xLPjIoRzglEnrDa7h34RR6Z7zr33dCR4YqQC9KMdkhSDnnv7ez25kl9ycwLpBenO/77pZkWuQ0na8mcQf4Tww/J3DpdadjIMI/s17FchUKBxUn+uwTc7NqGRMJk=
+	t=1707340977; cv=none; b=qUaIKEd8bdHzILwwR2GsiUO4RCNZefMkwX5l2VAfBghj5Wkup1RYpheLl5lGQpMiFuD0Yu38PiYA2jJKrGx5TahyVSKX9T8F0HsufoVdFCyDEfRkMxLD/vVdBuonlYwFGxa/c6a+bUgkS9nTDpfm7d50ruzErKKqMciKWlGtbZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707340941; c=relaxed/simple;
-	bh=hx0NIquIStvIVqnK2ueS87oqXDRKn5bR+M5RcazlOwo=;
+	s=arc-20240116; t=1707340977; c=relaxed/simple;
+	bh=gDRNblByWudPqtmACzfywtYaVP/MXhvcEbDElazg6NU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pWDinPYGyHLi2ygf8rF5zR2myQODsKk4floUqPXA/tuXIuEfvzSeSimc99f3hnrzc45vk8NmoXMay9uNiA66m7ofRQ/7XQhFr4GFBNpQoSZkIWg5SuRtJQW0eNJTuBHJdeOY4uzIZnIUZtYlU1mTMDzbxLIsp4ss/k8jnjWN6Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mh9ZZwya; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=N4ADtOSKtI3N/H7nFWE6DFsg92LVX+dVrnK/STBlqQpbuIqxWgQ09AmXo1taHj0U1YNLn73BqymncYI7XVWo703dIU4O1MmClrB+Tu+frUh7Zzge70re2+ClUizdRbXOwb/mkzoItK36BuhekJboVkDHcEq6BBTwOxbtec61ZrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8OiHkTG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mh9ZZwya"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9ED3C433C7;
-	Wed,  7 Feb 2024 21:22:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8OiHkTG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7ADC433C7;
+	Wed,  7 Feb 2024 21:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707340939;
-	bh=hx0NIquIStvIVqnK2ueS87oqXDRKn5bR+M5RcazlOwo=;
+	s=k20201202; t=1707340977;
+	bh=gDRNblByWudPqtmACzfywtYaVP/MXhvcEbDElazg6NU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Mh9ZZwyaMox510p11hjJfZSakFaTIX5b93Nc9IHWMPHK7U7FZ7Bcn4KaZ3kQ5nDDs
-	 FY0uHTYP5Oefm4HjHBUUT1CdeQ7qVnx2JUs9iVop+hHUvtzc79zYdR7dq3YIcqk7jW
-	 WBv1YS6pcNUBQ7xuEE6pAXfeQBgFRwuN1+HmGdPyV8drx20rEtNnW9ksWosr2IUxrf
-	 tUjzXqu1kn6cJlXLah8860MnznCLRWcGZ8fh4wSzRM18Y1OBlivGvEjbEJ8PlmgW/k
-	 OWpEyb/0UnUZYvnLM5N254QrCeZNJxjjeItX6YUXQv6a1bs95PrnyP0Af0wxHKN4OA
-	 Wult3ggF77RWQ==
+	b=e8OiHkTGxYsyzchJALLjVnXXpPvteQtYaEC6oqqod8JG+yQd/IJerhKJKjJxJ6Aim
+	 q01oL+OvkHt+tJ/VdUB+lDkz3IEJYh/hfpar0lZrXz35cD6Rq9LPvrD7REWqkmZuH/
+	 7JI11DT3z14khiUhXKjiizxCzBXx/SbmMAsKl7X/nsgXz4LuD4xIecTxwu8YIMLdoQ
+	 1jKRPEfWz9Fc7gln+CZsgvBrQl9mV2YP35c10mjxQl1uYw0Z1Z30UWbZ9naT9XxLar
+	 Cbr3p+Ueyiqu+MxUEET7OAYgB7LjRXTj6AAZMAQyo9joyYf+o7Ut9eoZGD2x+F1i3W
+	 d5LMotLHW09Fw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Chhayly Leang <clw.leang@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
+	simont@opensource.cirrus.com,
+	kuninori.morimoto.gx@renesas.com,
+	dinghao.liu@zju.edu.cn,
+	ckeepax@opensource.cirrus.com,
 	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 18/44] ALSA: hda: cs35l41: Support ASUS Zenbook UM3402YAR
-Date: Wed,  7 Feb 2024 16:20:45 -0500
-Message-ID: <20240207212142.1399-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 29/44] ASoC: wm_adsp: Don't overwrite fwf_name with the default
+Date: Wed,  7 Feb 2024 16:20:56 -0500
+Message-ID: <20240207212142.1399-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
 References: <20240207212142.1399-1-sashal@kernel.org>
@@ -57,40 +58,100 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.4
 Content-Transfer-Encoding: 8bit
 
-From: Chhayly Leang <clw.leang@gmail.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-[ Upstream commit be220d2e5544ff094142d263db5cf94d034b5e39 ]
+[ Upstream commit daf3f0f99cde93a066240462b7a87cdfeedc04c0 ]
 
-Adds sound support for ASUS Zenbook UM3402YAR with missing DSD
+There's no need to overwrite fwf_name with a kstrdup() of the cs_dsp part
+name. It is trivial to select either fwf_name or cs_dsp.part as the string
+to use when building the filename in wm_adsp_request_firmware_file().
 
-Signed-off-by: Chhayly Leang <clw.leang@gmail.com>
-Link: https://lore.kernel.org/r/20240126080912.87422-1-clw.leang@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+This leaves fwf_name entirely owned by the codec driver.
+
+It also avoids problems with freeing the pointer. With the original code
+fwf_name was either a pointer owned by the codec driver, or a kstrdup()
+created by wm_adsp. This meant wm_adsp must free it if it set it, but not
+if the codec driver set it. The code was handling this by using
+devm_kstrdup().
+But there is no absolute requirement that wm_adsp_common_init() must be
+called from probe(), so this was a pseudo-memory leak - each new call to
+wm_adsp_common_init() would allocate another block of memory but these
+would only be freed if the owning codec driver was removed.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://msgid.link/r/20240129162737.497-3-rf@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/wm_adsp.c | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 59504852adc6..d74cf11eef1e 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -76,6 +76,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431533", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431573", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431663", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 1000, 4500, 24 },
-+	{ "10431683", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{ "104316A3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
- 	{ "104316D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
- 	{ "104316F3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
-@@ -411,6 +412,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431533", generic_dsd_config },
- 	{ "CSC3551", "10431573", generic_dsd_config },
- 	{ "CSC3551", "10431663", generic_dsd_config },
-+	{ "CSC3551", "10431683", generic_dsd_config },
- 	{ "CSC3551", "104316A3", generic_dsd_config },
- 	{ "CSC3551", "104316D3", generic_dsd_config },
- 	{ "CSC3551", "104316F3", generic_dsd_config },
+diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
+index c01e31175015..9c0accf5e188 100644
+--- a/sound/soc/codecs/wm_adsp.c
++++ b/sound/soc/codecs/wm_adsp.c
+@@ -739,19 +739,25 @@ static int wm_adsp_request_firmware_file(struct wm_adsp *dsp,
+ 					 const char *filetype)
+ {
+ 	struct cs_dsp *cs_dsp = &dsp->cs_dsp;
++	const char *fwf;
+ 	char *s, c;
+ 	int ret = 0;
+ 
++	if (dsp->fwf_name)
++		fwf = dsp->fwf_name;
++	else
++		fwf = dsp->cs_dsp.name;
++
+ 	if (system_name && asoc_component_prefix)
+ 		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s-%s-%s.%s", dir, dsp->part,
+-				      dsp->fwf_name, wm_adsp_fw[dsp->fw].file, system_name,
++				      fwf, wm_adsp_fw[dsp->fw].file, system_name,
+ 				      asoc_component_prefix, filetype);
+ 	else if (system_name)
+ 		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s-%s.%s", dir, dsp->part,
+-				      dsp->fwf_name, wm_adsp_fw[dsp->fw].file, system_name,
++				      fwf, wm_adsp_fw[dsp->fw].file, system_name,
+ 				      filetype);
+ 	else
+-		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s.%s", dir, dsp->part, dsp->fwf_name,
++		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s.%s", dir, dsp->part, fwf,
+ 				      wm_adsp_fw[dsp->fw].file, filetype);
+ 
+ 	if (*filename == NULL)
+@@ -863,29 +869,18 @@ static int wm_adsp_request_firmware_files(struct wm_adsp *dsp,
+ 	}
+ 
+ 	adsp_err(dsp, "Failed to request firmware <%s>%s-%s-%s<-%s<%s>>.wmfw\n",
+-		 cirrus_dir, dsp->part, dsp->fwf_name, wm_adsp_fw[dsp->fw].file,
+-		 system_name, asoc_component_prefix);
++		 cirrus_dir, dsp->part,
++		 dsp->fwf_name ? dsp->fwf_name : dsp->cs_dsp.name,
++		 wm_adsp_fw[dsp->fw].file, system_name, asoc_component_prefix);
+ 
+ 	return -ENOENT;
+ }
+ 
+ static int wm_adsp_common_init(struct wm_adsp *dsp)
+ {
+-	char *p;
+-
+ 	INIT_LIST_HEAD(&dsp->compr_list);
+ 	INIT_LIST_HEAD(&dsp->buffer_list);
+ 
+-	if (!dsp->fwf_name) {
+-		p = devm_kstrdup(dsp->cs_dsp.dev, dsp->cs_dsp.name, GFP_KERNEL);
+-		if (!p)
+-			return -ENOMEM;
+-
+-		dsp->fwf_name = p;
+-		for (; *p != 0; ++p)
+-			*p = tolower(*p);
+-	}
+-
+ 	return 0;
+ }
+ 
 -- 
 2.43.0
 
