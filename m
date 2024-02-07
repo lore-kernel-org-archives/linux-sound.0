@@ -1,38 +1,38 @@
 Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AA52032D;
-	Wed,  7 Feb 2024 23:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D3B535B4;
+	Wed,  7 Feb 2024 23:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707348274; cv=none; b=ARGKzgdw9oz+7iWoO35Q9I2bioZEhYq2UK9BQ+DixsCfbPGCxHE8hsaOsuCCzKH8TrPZOphDdpuxce9bH1HUrGSSlFUKlcAp9Vs34J9p/CdU0G3hm3gGiH99Kp7ki01JBuGeUKrwtI1dM2o3H6v+LdJ1eJSFflupbVPu1gjaEc0=
+	t=1707349755; cv=none; b=eh7ZM8ShDHfvqfb9YEytwtETDjMeotHprNziOCWJTijDDQhGjmqkm2lHbNlahnz0imr9CGadBaSFmKQ6IHo5gcIoKRDhktY8o3kbADVP/e7aQrn7ZOB5xMeP8kmQWFPLAKx2IMwNY37m/SF4DJsAnkxRvVFLvikpJISqmB983XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707348274; c=relaxed/simple;
-	bh=YfRV9IXEHzwUlaK44nivdzdyF+BT5NriNyRCfusq6cE=;
+	s=arc-20240116; t=1707349755; c=relaxed/simple;
+	bh=byES4n0K3so3aUygYY5m0e3z3k70nM326q/F378hiBQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fd5tv8m+PhUjzCFeKZbsT1IMm1aSb8Lxbi016UiGWuJPCaBjAkDwb5BQMel+UyzFVXkagsGustAmuL6DGux1/1+xNTgOWIgK2oMk0XjT300Ir0azj3JTgxrVETYxQ27rqMgPDUv9mEY79jr/jcuUXnmJvP6+DlMTu8I/Zy+9/l8=
+	 Content-Type:MIME-Version; b=gNbhfb0nBUwVvoqXtWVl7+mYxuSmZH3pKG8VSyh6TtDsXeg6xJOL1wTHBvORdn2gltbMdT9X40Suy/bHzE6/3d+zSCeIXWuwE4IL4fVXNKveIXHVtmnAW7QSt3JBhHRGwrvr2vJ0dYtxABwPDP5WBTcvbBiu9UyZIKp/BI73O9g=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
 Received: from [192.168.2.4] (51b69e54.dsl.pool.telekom.hu [::ffff:81.182.158.84])
   (AUTH: CRAM-MD5 soyer@irl.hu, )
   by irl.hu with ESMTPSA
-  id 000000000007450D.0000000065C41127.001B0535; Thu, 08 Feb 2024 00:24:23 +0100
-Message-ID: <f49b85d2045fc6960088166374c73f79b551f6c2.camel@irl.hu>
-Subject: Re: [PATCH] ASoC: tas2781: remove unused acpi_subysystem_id
+  id 0000000000074519.0000000065C416F7.001B05BA; Thu, 08 Feb 2024 00:49:11 +0100
+Message-ID: <b762e167bb15c8dca954ba4bea4a27e06a019a9d.camel@irl.hu>
+Subject: Re: [PATCH v3] ASoC: tas2781: remove unused acpi_subysystem_id
 From: Gergo Koteles <soyer@irl.hu>
-To: Greg KH <gregkh@linuxfoundation.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
   Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
   Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-  Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
-  linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-  stable@vger.kernel.org
-Date: Thu, 08 Feb 2024 00:24:22 +0100
-In-Reply-To: <2024020745-freight-slush-9ae7@gregkh>
+  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, stable@vger.kernel.org
+Date: Thu, 08 Feb 2024 00:49:10 +0100
+In-Reply-To: <ZcNWcqYEmUjtusfe@finisterre.sirena.org.uk>
 References: 
 	<df5c94396256e9573b772962182def52d20c50d4.1707250969.git.soyer@irl.hu>
-	 <2024020745-freight-slush-9ae7@gregkh>
+	 <7f056a4148fec176812ff6cc490860bf565b161c.1707255917.git.soyer@irl.hu>
+	 <ZcNWcqYEmUjtusfe@finisterre.sirena.org.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
@@ -43,33 +43,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi Greg,
+Hi Mark,
 
-On Wed, 2024-02-07 at 10:02 +0000, Greg KH wrote:
-> On Tue, Feb 06, 2024 at 09:25:50PM +0100, Gergo Koteles wrote:
+On Wed, 2024-02-07 at 10:07 +0000, Mark Brown wrote:
+> On Tue, Feb 06, 2024 at 10:49:29PM +0100, Gergo Koteles wrote:
 > > The acpi_subysystem_id is only written and freed, not read, so
 > > unnecessary.
-> >=20
-> > Fixes: ef3bcde75d06 ("ASoC: tas2781: Add tas2781 driver")
 >=20
-> What does this really "fix"?  It's just a cleanup.
->=20
-> > CC: stable@vger.kernel.org
->=20
-> Again, what bug is this fixing?
->=20
-> Please read:
->     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.ht=
-ml
-> about what should be tagged for stable kernels, which this patch series
-> does not seem to fix.
->=20
+> Please don't send new patches in reply to old patches or serieses, this
+> makes it harder for both people and tools to understand what is going
+> on - it can bury things in mailboxes and make it difficult to keep track
+> of what current patches are, both for the new patches and the old ones.
 
-Yes, you are right, this is not really a bug.
-I took the scope of "oh, that's not good" too wide.
+Alright. I read somewhere once.
 Sorry for the noise.
 
 thanks,
 Gergo
-
 
