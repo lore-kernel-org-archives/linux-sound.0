@@ -1,47 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A74B12EBC1;
-	Wed,  7 Feb 2024 21:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D240213247A;
+	Wed,  7 Feb 2024 21:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707340916; cv=none; b=AZy66/3Mx+5n5xZKS649m2G7Q3TPHjWEQpETJF159eHfD7ZZETi5AWYFbeMFf2h/9XlyuVrOMAWmR6bhVPqDpF45aPLcWrGXIq1nwHjAgH/oGzFtQxfTB4WM2ojKYuNiA1G8mty/dFQPSMdZqibSzOmGFnRnZW5MGMVnUL9irOY=
+	t=1707340921; cv=none; b=Kj0ldkZt5dUShx1PCz1TSs9KBYj8c3i+O3m4SoHeZoJo7CVUifv05yJIWnrbM/O8ejustxPWtKta8+UdhyQoGgTKqPLIDyh3n0cvVTyqKYu1RvL+LXGDvfoZX1s2K4nk8kKf3ogzCQQHoUY46K9BzNNHN8fGiA0Mma/Z7WLNPRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707340916; c=relaxed/simple;
-	bh=I6ACf0rheCfaTgMnCYw/5BfgrO0NFpeYQB8WyEw7xzQ=;
+	s=arc-20240116; t=1707340921; c=relaxed/simple;
+	bh=/5nl6Iew2ZZ6v34fHncyB6p62geweUKDTTaTWheOpiY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JKjEYBq9GXuEpppxyB8jnW29MhE4PhItIDtKOi6hyv816hm+uocxOoUNMM/LONEJs9231K3+1WC+MsczWFomYIMfK7zh5Ama32SFECbK6Bpyd+t35FjZ82jZ1w1Ssfo5nde0XT0VlUF6rFe5asooZKn+lpHcvzp5/Up5WYDtWGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p6G92GWT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=YvPaNlG7jTeH/kCfaWLr6qoqaBN9K+HzfL+4Rs+6GfZE22kmBIIOqUIK9r2r1Pl3VJwpnVpCL0X20/CksyhNMEY2/jrXRedOU02Qtd+BIqoDXWr1j4a2NZ8HEAdG4N9xd0nSGmGLmwmBqvfqdhzhzww+9ZBllL4wqhAZJLQdSbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HHKw68Ft; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p6G92GWT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D479C433C7;
-	Wed,  7 Feb 2024 21:21:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HHKw68Ft"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07B2AC433F1;
+	Wed,  7 Feb 2024 21:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707340916;
-	bh=I6ACf0rheCfaTgMnCYw/5BfgrO0NFpeYQB8WyEw7xzQ=;
+	s=k20201202; t=1707340921;
+	bh=/5nl6Iew2ZZ6v34fHncyB6p62geweUKDTTaTWheOpiY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p6G92GWTlBVh1F8qfOiGV7r824mxZPaXEeaGCqRsua6EsOVaMqZll1HUCLZiZ9kyy
-	 gVf16Lz/5L6d4GTAeZ9TTpmxWdCLoLkLSUItJIi1Ya29D2IVN44duSjRPkeC0Nnheg
-	 BGCX/+TPoVUWgqk3v/NdfXtiWMw9VS23F5VHoVyEds1GBsjCe8UBzFOAnVrJ9W2c7S
-	 ZBcrcE7bVtlX9iOx2FIHF3R63SsG7nMiCdUoea5vKaKlwHwlQnz6qDouCxe5TdmfrG
-	 Bx1mgydhy4yaHh0fLx2dPkXOh4Xa5deYihkYbP+frpfGe3X3ZDAymxQfZl+f5j8p+l
-	 XyAVtkmnCgX+w==
+	b=HHKw68FtSJqJLTHXAGHI5G+UBSKzt0+G+TyqzjTU66xdoIHfxfKgxO09h8Xxp6bsq
+	 AXSF1eNkZGCIfOk5F9kdkh8jXT/KVdHXeh9yP/6x7HizHTSkfH+ebkD3eQwSwxFNCx
+	 QHvRmrJOaatI6NkPGw8WaGWE4A4Bd6p3RyfDM6XyQUwiaDMOC7CJEdXBZTaZ6LRMNQ
+	 PEMXLl0MkqXoC+roQlgo/vwKIXe5aQnRr3B7V6kstNaaFINiKBLiVxhq85IaBfdL61
+	 eaLQFpwjHo5Cm6vRiOHftj29+/H5UkOolG9rZdcUY9+gQkN/f/SOsdMT0Rbt6sPCas
+	 +KrIBaUNmYxag==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Rui Salvaterra <rsalvaterra@gmail.com>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	srinivas.kandagatla@linaro.org,
-	bgoswami@quicinc.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	maarten.lankhorst@linux.intel.com,
+	siyanteng@loongson.cn,
+	jasontao@glenfly.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 07/44] ASoC: codecs: wcd934x: drop unneeded regulator include
-Date: Wed,  7 Feb 2024 16:20:34 -0500
-Message-ID: <20240207212142.1399-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 10/44] ALSA: hda: Replace numeric device IDs with constant values
+Date: Wed,  7 Feb 2024 16:20:37 -0500
+Message-ID: <20240207212142.1399-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
 References: <20240207212142.1399-1-sashal@kernel.org>
@@ -51,38 +53,43 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.4
 Content-Transfer-Encoding: 8bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Rui Salvaterra <rsalvaterra@gmail.com>
 
-[ Upstream commit 35314e39dabcfb256832654ad0e856a9fba744bd ]
+[ Upstream commit 3526860f26febbe46960f9b37f5dbd5ccc109ea8 ]
 
-Driver does not use any regulator code, so drop redundant include of
-regulator/consumer.h header.
+We have self-explanatory constants for Intel HDA devices, let's use them instead
+of magic numbers and code comments.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Link: https://msgid.link/r/20240117151208.1219755-3-krzysztof.kozlowski@linaro.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Rui Salvaterra <rsalvaterra@gmail.com>
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Link: https://lore.kernel.org/r/20240122114512.55808-2-rsalvaterra@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/wcd934x.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/pci/hda/hda_intel.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index 1b6e376f3833..6813268e6a19 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -13,7 +13,6 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
--#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/slimbus.h>
- #include <sound/pcm_params.h>
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index 2d1df3654424..98b162c8eab6 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1729,8 +1729,8 @@ static int default_bdl_pos_adj(struct azx *chip)
+ 	/* some exceptions: Atoms seem problematic with value 1 */
+ 	if (chip->pci->vendor == PCI_VENDOR_ID_INTEL) {
+ 		switch (chip->pci->device) {
+-		case 0x0f04: /* Baytrail */
+-		case 0x2284: /* Braswell */
++		case PCI_DEVICE_ID_INTEL_HDA_BYT:
++		case PCI_DEVICE_ID_INTEL_HDA_BSW:
+ 			return 32;
+ 		}
+ 	}
 -- 
 2.43.0
 
