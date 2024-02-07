@@ -1,81 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668C680BE6
-	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 15:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C2F8005D
+	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 15:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707321130; cv=none; b=dlMNRXPujOn+9oxe4B+r19HDwU0RcW4uvPrGc0hdwaDWlitA2Tir/2zfJdjUKHbRvOK5yKlleiwX3wFMey4EiXYd4n84hRGwEDZKeqw5R8qiI6yb/rU9ryZCkMcI4ELng38UU706Z6lPkQx5dJLnHvLT668jjbEUUoSOcK7nzV4=
+	t=1707321131; cv=none; b=q+25FN03iI0FzBFrLwX/kJ/UkkBhySdoTd5zN3C/MBnqwe1Ky6eUIC5cMBDG+de2Zjzjzf8uB8teXUf7oLFjbOXppdMF3yFrXogeZ4Voqq3WER2ru8FReLvpJeXNCqFHnNB+hDAQwpSs/fIKMCQaOPjlX3NfJaPI+J7u7Ahigiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707321130; c=relaxed/simple;
-	bh=TtULtGEypVyIrr2BOIIU4bONm0RjM3rTVPB/BWs4gDk=;
+	s=arc-20240116; t=1707321131; c=relaxed/simple;
+	bh=LiGTHVfxQWmQFA39jq5dthx5eSYgVqWK1qRf8ZiuijI=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tn704O6Hzfc1TPTPcBEf2O+xHmSB/jL5ACdnUm96k5PvrTAYLEVMnuZMykiziKIgGZnBqC/mawQ+7AQDRqNKUGK3EQx1NUIZaGt3j0PVehvtKuci4MSS++Yw2Pjg56evZcr10zpm9KTp7zfb4jhmZ/cDoawS3W9PJ5DG4nHLcQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f4yF34cF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hXPDeptT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f4yF34cF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hXPDeptT; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Q00ig8xtvDkew4+RipNOwooOFaxzYemue1h/BjutquLbz2I/zpuELvm1eTP235FfXvvN9Khi2yn7gYt39TT3+7fAnrBkSh5mShxQqirr7iPkZrm2tzJBLyAOpYPVaTb5tQ42FMfjmuCbJqeOybnXbdRKrrmEePVZ80baPh5WjHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ilGHbvVe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fCkiIYk7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ilGHbvVe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fCkiIYk7; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f4yF34cF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hXPDeptT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f4yF34cF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hXPDeptT"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ilGHbvVe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fCkiIYk7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ilGHbvVe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fCkiIYk7"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3259F1FC30;
-	Wed,  7 Feb 2024 15:52:01 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6B6352233A;
+	Wed,  7 Feb 2024 15:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707321121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1707321122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HDo72WBboH+JOvfy8J/FoBdZHbIOVqhIZaF9fkVE0Ts=;
-	b=f4yF34cFAJKLu5ej63ziiCT3uiGp3CIUlSEtg1dcP9h/aeDLvRT/zEhhn9UG1pdxRJouAT
-	LdbKtKvJP7ZWt+xacZBDpePSrSvLHNzs5mp9DT1YGndEiXTfsmzlcSBjICZFN36IkNgj0s
-	f/z62zK/c/F44kfen+AgThILOm/JiQc=
+	bh=OO1Zz3kgy1EvVqAS2uodh90ZoX0RTFNfkVwA2IR3Vfk=;
+	b=ilGHbvVehs3cCmA7/b0wJTwRIRncID+3NzQALSvLKza44Zy/P/boyt+PtZrdLLbkMfZYB5
+	NyGJA2n3Ms3TTsXVkW1AzxyVEmwnbzstDQ598UiTvlM1saTq4Ga1GY44d8BLsIwVz/rMY7
+	1e+F6XqFwKmqUv3FakraNDw4kfO7Fzs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707321121;
+	s=susede2_ed25519; t=1707321122;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HDo72WBboH+JOvfy8J/FoBdZHbIOVqhIZaF9fkVE0Ts=;
-	b=hXPDeptTgSYwBpPNppe+rRGajSy4BMa40SbhK/O8gcv+nCB13qLbckJNXGYKd1Exs1obtT
-	77knPew73dwEPOBw==
+	bh=OO1Zz3kgy1EvVqAS2uodh90ZoX0RTFNfkVwA2IR3Vfk=;
+	b=fCkiIYk7gdKJMd9YRrpQc3Z+/G/GrILFJtfzx4quyTHlzgRIhpQyKB9DbaN9xh6jBRDeH6
+	dqFat+JhOtJdgcAw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707321121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1707321122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HDo72WBboH+JOvfy8J/FoBdZHbIOVqhIZaF9fkVE0Ts=;
-	b=f4yF34cFAJKLu5ej63ziiCT3uiGp3CIUlSEtg1dcP9h/aeDLvRT/zEhhn9UG1pdxRJouAT
-	LdbKtKvJP7ZWt+xacZBDpePSrSvLHNzs5mp9DT1YGndEiXTfsmzlcSBjICZFN36IkNgj0s
-	f/z62zK/c/F44kfen+AgThILOm/JiQc=
+	bh=OO1Zz3kgy1EvVqAS2uodh90ZoX0RTFNfkVwA2IR3Vfk=;
+	b=ilGHbvVehs3cCmA7/b0wJTwRIRncID+3NzQALSvLKza44Zy/P/boyt+PtZrdLLbkMfZYB5
+	NyGJA2n3Ms3TTsXVkW1AzxyVEmwnbzstDQ598UiTvlM1saTq4Ga1GY44d8BLsIwVz/rMY7
+	1e+F6XqFwKmqUv3FakraNDw4kfO7Fzs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707321121;
+	s=susede2_ed25519; t=1707321122;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HDo72WBboH+JOvfy8J/FoBdZHbIOVqhIZaF9fkVE0Ts=;
-	b=hXPDeptTgSYwBpPNppe+rRGajSy4BMa40SbhK/O8gcv+nCB13qLbckJNXGYKd1Exs1obtT
-	77knPew73dwEPOBw==
+	bh=OO1Zz3kgy1EvVqAS2uodh90ZoX0RTFNfkVwA2IR3Vfk=;
+	b=fCkiIYk7gdKJMd9YRrpQc3Z+/G/GrILFJtfzx4quyTHlzgRIhpQyKB9DbaN9xh6jBRDeH6
+	dqFat+JhOtJdgcAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13DA6139D8;
-	Wed,  7 Feb 2024 15:52:01 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EE10139B9;
+	Wed,  7 Feb 2024 15:52:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6KVQAyGnw2UsRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 15:52:01 +0000
+	id gCnWESKnw2UsRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 15:52:02 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 20/29] ALSA: echoaudio: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Wed,  7 Feb 2024 16:51:31 +0100
-Message-Id: <20240207155140.18238-21-tiwai@suse.de>
+Subject: [PATCH 28/29] ALSA: via82xx: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  7 Feb 2024 16:51:39 +0100
+Message-Id: <20240207155140.18238-29-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240207155140.18238-1-tiwai@suse.de>
 References: <20240207155140.18238-1-tiwai@suse.de>
@@ -88,9 +88,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spamd-Bar: /
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=f4yF34cF;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hXPDeptT
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ilGHbvVe;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fCkiIYk7
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-0.01 / 50.00];
 	 ARC_NA(0.00)[];
@@ -115,128 +115,128 @@ X-Spamd-Result: default: False [-0.01 / 50.00];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[]
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[25.55%]
 X-Spam-Score: -0.01
-X-Rspamd-Queue-Id: 3259F1FC30
+X-Rspamd-Queue-Id: 6B6352233A
 X-Spam-Flag: NO
 
 Use the new DEFINE_SIMPLE_DEV_PM_OPS() instead of SIMPLE_DEV_PM_OPS()
 for code-simplification.  We need no longer CONFIG_PM_SLEEP ifdefs.
 
-This ends up with the allocation of firmware caches if it's not really
-used without CONFIG_PM, but the code simplification should justify the
-cost.
+This ends up with the allocation of a few additional bytes for the
+state dumps even if it's not really used, but the code simplification
+should justify the cost.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/echoaudio/echoaudio.c | 21 ++-------------------
- sound/pci/echoaudio/echoaudio.h |  2 --
- 2 files changed, 2 insertions(+), 21 deletions(-)
+ sound/pci/via82xx.c       | 15 ++-------------
+ sound/pci/via82xx_modem.c |  9 ++-------
+ 2 files changed, 4 insertions(+), 20 deletions(-)
 
-diff --git a/sound/pci/echoaudio/echoaudio.c b/sound/pci/echoaudio/echoaudio.c
-index c70c3ac4e99a..7484de255a3e 100644
---- a/sound/pci/echoaudio/echoaudio.c
-+++ b/sound/pci/echoaudio/echoaudio.c
-@@ -34,7 +34,6 @@ static int get_firmware(const struct firmware **fw_entry,
- 	int err;
- 	char name[30];
+diff --git a/sound/pci/via82xx.c b/sound/pci/via82xx.c
+index d8666ff7bdfa..89838b4fb118 100644
+--- a/sound/pci/via82xx.c
++++ b/sound/pci/via82xx.c
+@@ -347,13 +347,11 @@ struct via82xx {
  
+ 	unsigned char old_legacy;
+ 	unsigned char old_legacy_cfg;
 -#ifdef CONFIG_PM_SLEEP
- 	if (chip->fw_cache[fw_index]) {
- 		dev_dbg(chip->card->dev,
- 			"firmware requested: %s is cached\n",
-@@ -42,7 +41,6 @@ static int get_firmware(const struct firmware **fw_entry,
- 		*fw_entry = chip->fw_cache[fw_index];
- 		return 0;
- 	}
+ 	unsigned char legacy_saved;
+ 	unsigned char legacy_cfg_saved;
+ 	unsigned char spdif_ctrl_saved;
+ 	unsigned char capture_src_saved[2];
+ 	unsigned int mpu_port_saved;
 -#endif
  
- 	dev_dbg(chip->card->dev,
- 		"firmware requested: %s\n", card_fw[fw_index].data);
-@@ -51,10 +49,8 @@ static int get_firmware(const struct firmware **fw_entry,
- 	if (err < 0)
- 		dev_err(chip->card->dev,
- 			"get_firmware(): Firmware not available (%d)\n", err);
+ 	unsigned char playback_volume[4][2]; /* for VIA8233/C/8235; default = 0 */
+ 	unsigned char playback_volume_c[2]; /* for VIA8233/C/8235; default = 0 */
+@@ -2031,9 +2029,7 @@ static int snd_via686_init_misc(struct via82xx *chip)
+ 		if (mpu_port >= 0x200) {	/* force MIDI */
+ 			mpu_port &= 0xfffc;
+ 			pci_write_config_dword(chip->pci, 0x18, mpu_port | 0x01);
 -#ifdef CONFIG_PM_SLEEP
- 	else
- 		chip->fw_cache[fw_index] = *fw_entry;
+ 			chip->mpu_port_saved = mpu_port;
 -#endif
- 	return err;
- }
- 
-@@ -63,18 +59,13 @@ static int get_firmware(const struct firmware **fw_entry,
- static void free_firmware(const struct firmware *fw_entry,
- 			  struct echoaudio *chip)
- {
--#ifdef CONFIG_PM_SLEEP
- 	dev_dbg(chip->card->dev, "firmware not released (kept in cache)\n");
--#else
--	release_firmware(fw_entry);
--#endif
- }
- 
- 
- 
- static void free_firmware_cache(struct echoaudio *chip)
- {
--#ifdef CONFIG_PM_SLEEP
- 	int i;
- 
- 	for (i = 0; i < 8 ; i++)
-@@ -82,8 +73,6 @@ static void free_firmware_cache(struct echoaudio *chip)
- 			release_firmware(chip->fw_cache[i]);
- 			dev_dbg(chip->card->dev, "release_firmware(%d)\n", i);
+ 		} else {
+ 			mpu_port = pci_resource_start(chip->pci, 2);
  		}
--
+@@ -2085,10 +2081,8 @@ static int snd_via686_init_misc(struct via82xx *chip)
+ 
+ 	snd_via686_create_gameport(chip, &legacy);
+ 
+-#ifdef CONFIG_PM_SLEEP
+ 	chip->legacy_saved = legacy;
+ 	chip->legacy_cfg_saved = legacy_cfg;
 -#endif
+ 
+ 	return 0;
  }
- 
- 
-@@ -2146,8 +2135,6 @@ static int snd_echo_probe(struct pci_dev *pci,
- }
- 
- 
--#if defined(CONFIG_PM_SLEEP)
--
- static int snd_echo_suspend(struct device *dev)
- {
- 	struct echoaudio *chip = dev_get_drvdata(dev);
-@@ -2237,11 +2224,7 @@ static int snd_echo_resume(struct device *dev)
+@@ -2234,7 +2228,6 @@ static int snd_via82xx_chip_init(struct via82xx *chip)
  	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(snd_echo_pm, snd_echo_suspend, snd_echo_resume);
--#define SND_ECHO_PM_OPS	&snd_echo_pm
--#else
--#define SND_ECHO_PM_OPS	NULL
--#endif /* CONFIG_PM_SLEEP */
-+static DEFINE_SIMPLE_DEV_PM_OPS(snd_echo_pm, snd_echo_suspend, snd_echo_resume);
+-#ifdef CONFIG_PM_SLEEP
+ /*
+  * power management
+  */
+@@ -2287,11 +2280,7 @@ static int snd_via82xx_resume(struct device *dev)
+ 	return 0;
+ }
  
- /******************************************************************************
- 	Everything starts and ends here
-@@ -2253,7 +2236,7 @@ static struct pci_driver echo_driver = {
- 	.id_table = snd_echo_ids,
- 	.probe = snd_echo_probe,
+-static SIMPLE_DEV_PM_OPS(snd_via82xx_pm, snd_via82xx_suspend, snd_via82xx_resume);
+-#define SND_VIA82XX_PM_OPS	&snd_via82xx_pm
+-#else
+-#define SND_VIA82XX_PM_OPS	NULL
+-#endif /* CONFIG_PM_SLEEP */
++static DEFINE_SIMPLE_DEV_PM_OPS(snd_via82xx_pm, snd_via82xx_suspend, snd_via82xx_resume);
+ 
+ static void snd_via82xx_free(struct snd_card *card)
+ {
+@@ -2576,7 +2565,7 @@ static struct pci_driver via82xx_driver = {
+ 	.id_table = snd_via82xx_ids,
+ 	.probe = snd_via82xx_probe,
  	.driver = {
--		.pm = SND_ECHO_PM_OPS,
-+		.pm = &snd_echo_pm,
+-		.pm = SND_VIA82XX_PM_OPS,
++		.pm = &snd_via82xx_pm,
  	},
  };
  
-diff --git a/sound/pci/echoaudio/echoaudio.h b/sound/pci/echoaudio/echoaudio.h
-index d51de3e4edfa..511f2fcc0fb9 100644
---- a/sound/pci/echoaudio/echoaudio.h
-+++ b/sound/pci/echoaudio/echoaudio.h
-@@ -422,9 +422,7 @@ struct echoaudio {
- 	u32 __iomem *dsp_registers;		/* DSP's register base */
- 	u32 active_mask;			/* Chs. active mask or
- 						 * punks out */
--#ifdef CONFIG_PM_SLEEP
- 	const struct firmware *fw_cache[8];	/* Cached firmwares */
--#endif
+diff --git a/sound/pci/via82xx_modem.c b/sound/pci/via82xx_modem.c
+index ca7f024bf8ec..a0a49b8d1511 100644
+--- a/sound/pci/via82xx_modem.c
++++ b/sound/pci/via82xx_modem.c
+@@ -1008,7 +1008,6 @@ static int snd_via82xx_chip_init(struct via82xx_modem *chip)
+ 	return 0;
+ }
  
- #ifdef ECHOCARD_HAS_MIDI
- 	u16 mtc_state;				/* State for MIDI input parsing state machine */
+-#ifdef CONFIG_PM_SLEEP
+ /*
+  * power management
+  */
+@@ -1042,11 +1041,7 @@ static int snd_via82xx_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(snd_via82xx_pm, snd_via82xx_suspend, snd_via82xx_resume);
+-#define SND_VIA82XX_PM_OPS	&snd_via82xx_pm
+-#else
+-#define SND_VIA82XX_PM_OPS	NULL
+-#endif /* CONFIG_PM_SLEEP */
++static DEFINE_SIMPLE_DEV_PM_OPS(snd_via82xx_pm, snd_via82xx_suspend, snd_via82xx_resume);
+ 
+ static void snd_via82xx_free(struct snd_card *card)
+ {
+@@ -1168,7 +1163,7 @@ static struct pci_driver via82xx_modem_driver = {
+ 	.id_table = snd_via82xx_modem_ids,
+ 	.probe = snd_via82xx_probe,
+ 	.driver = {
+-		.pm = SND_VIA82XX_PM_OPS,
++		.pm = &snd_via82xx_pm,
+ 	},
+ };
+ 
 -- 
 2.35.3
 
