@@ -1,230 +1,160 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A747B2376C;
-	Wed,  7 Feb 2024 09:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCF420B14;
+	Wed,  7 Feb 2024 09:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707298967; cv=none; b=S53PCiW22+mY4isrzG/fwTYi2z9RT/oyMIcoNLGP79LfVzC659G8kKrFkyJfUqUNLwHJpdC6xj22VjKiyo6sB9KFpVt9BJoqU4lRtr+rO+XUJBTJ190SZfBAS8ELCIVvgqAs6W+lROufLh0V0awDz+sa8Srbwb3+6hpooLlqL/w=
+	t=1707299333; cv=none; b=JjJG3ar6Xh6yRdS1pUaFP+v5G/CTiyQq6pjrNezf7Ae7RlFzYma2STk4kQwnzqYDcnEHqvfnEEFv0nOy6NWyGCeA6Ss7TA/AMmUk70g9+guBtcih39oJPoHWFrcRnUWuLPAJrxrkuFV3geBoQfNCBqXDXqNYHDhwKOnnYi+vRd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707298967; c=relaxed/simple;
-	bh=eaPjoMfznAH4IZPj/39ikg5X854USdvackzLWMpCGwI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DIg6Kfz+kcv0geC004dwYEMnCBZLINNAQ9/lFwoJZo3wqHNCv+gs2/tFiNF/IfebLj3oPTj8oghsUa6PD60kLJQlSNc/XDj6J0vo4LGpiB1M9uoFLSKtRVMxY2kmEf6ubeGRC4Zpj/SAlDKs0VnBx5DHZ/FBW5KhMhcd4jOG0EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=pmFBVayh; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1707299333; c=relaxed/simple;
+	bh=Bw3nI1352z8vEjNQFvPE2329jopo2oNYApt9B+Y/sBs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iQgBmcjPR2uIGHxqlQ+ZgTl2tXresFV3/a69CbaeSPnFSdxaBM0GzpwcdEiLZPjNz6vO2k94ylGwa0zwzIwZAflNASIHPaV1Fb30hQUDhetGd5kkHWTNkEKVOrLp+R3f1gilerHJYZ/2FL5SHyrBqslU3Fr5WYl6CZLfQqB4714=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ETnJVvk/; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="pmFBVayh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1707298964; x=1738834964;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eaPjoMfznAH4IZPj/39ikg5X854USdvackzLWMpCGwI=;
-  b=pmFBVayhw9A7DBhzegwByBBKtQt/h1IUSR+a4UHUePar1OFPhxMoQIaX
-   ToBG/z6knZSgnrzP9Ja611bWSQkzwSTpiyymbMm7gxPXun2qAV4SA2EbV
-   R0mfJux/hU6xFTKq/JdYrORXkuUBM8UM+RxKwqZOkKYx7qSe1HaIKgp46
-   walrdMykclpBxduihHr4wBU9r6hQr2r0UvgDR1m+AYhqhwUz3L4v922Dg
-   YU2QCKwiXbCYw1ROUhgWMCk4za4eWx9clOhrlA3gKoQc493jPljpvaOTO
-   p0RRoAym0xoJvNeHJU1ioJ9/fY2Tk0wheO1h+anfdIa+TDinPRC4dxGjY
-   w==;
-X-CSE-ConnectionGUID: fRBUDne2SeOxScIZjr2Gpg==
-X-CSE-MsgGUID: gMnZzN7ETgKrlsrBwpz63Q==
-X-IronPort-AV: E=Sophos;i="6.05,250,1701154800"; 
-   d="scan'208";a="15884586"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 07 Feb 2024 02:42:43 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 7 Feb 2024 02:41:55 -0700
-Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 7 Feb 2024 02:41:49 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-	<conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <dharma.b@microchip.com>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ETnJVvk/"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4179luKJ079147;
+	Wed, 7 Feb 2024 03:47:56 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1707299276;
+	bh=Bw3nI1352z8vEjNQFvPE2329jopo2oNYApt9B+Y/sBs=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=ETnJVvk/JSVn7cLGEuOgOct9lVTPP5BMQM54MxjcUKEuq+eX4l+rSjUVBLr7U3IQn
+	 G3/GS4bxrWK4nwvgjY2R732bqJgQ+EFUzQUHgdiA8GxgucMRxlUlEdfBygjvoO5j0i
+	 jJij99Gb5JJrZWPQmAnKuV9XvdBPgw+QKTq8nE0k=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4179luor026981
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 7 Feb 2024 03:47:56 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
+ Feb 2024 03:47:55 -0600
+Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
+ DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
+ 15.01.2507.023; Wed, 7 Feb 2024 03:47:55 -0600
+From: "Ding, Shenghao" <shenghao-ding@ti.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "broonie@kernel.org"
+	<broonie@kernel.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "linux-kernel@vger.kernel.org"
 	<linux-kernel@vger.kernel.org>
-CC: <hari.prasathge@microchip.com>
-Subject: [PATCH] ASoC: dt-bindings: atmel,asoc-wm8904: Convert to json-schema
-Date: Wed, 7 Feb 2024 15:11:44 +0530
-Message-ID: <20240207094144.195397-1-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
+CC: "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+        "P O,
+ Vijeth" <v-po@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>,
+        "perex@perex.cz" <perex@perex.cz>,
+        "McPherson, Jeff" <j-mcpherson@ti.com>,
+        "pierre-louis.bossart@linux.intel.com"
+	<pierre-louis.bossart@linux.intel.com>,
+        "13916275206@139.com"
+	<13916275206@139.com>,
+        "Chawla, Mohit" <mohit.chawla@ti.com>, "soyer@irl.hu"
+	<soyer@irl.hu>,
+        "Huang, Jonathan" <jkhuang3@ti.com>, "tiwai@suse.de"
+	<tiwai@suse.de>,
+        "Djuandi, Peter" <pdjuandi@ti.com>,
+        "Agrawal, Manisha"
+	<manisha.agrawal@ti.com>,
+        "Hari, Raj" <s-hari@ti.com>, "Yashar, Avi"
+	<aviel@ti.com>,
+        "Nagalla, Hari" <hnagalla@ti.com>,
+        "Bajjuri, Praneeth"
+	<praneeth@ti.com>
+Subject: RE: [EXTERNAL] Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add
+ initial DT binding
+Thread-Topic: [EXTERNAL] Re: [PATCH v3 4/4] ASoc: dt-bindings: PCM6240: Add
+ initial DT binding
+Thread-Index: AQHaVk3kv2C9l+KpeUSliV0WealeY7D9v3qAgADk+SA=
+Date: Wed, 7 Feb 2024 09:47:55 +0000
+Message-ID: <8fe0b2d1990346efa056d6c2245412c3@ti.com>
+References: <20240203030504.1724-1-shenghao-ding@ti.com>
+ <20240203030504.1724-4-shenghao-ding@ti.com>
+ <ac4b73f6-0c2c-4586-98d6-e97c575b3df7@linaro.org>
+In-Reply-To: <ac4b73f6-0c2c-4586-98d6-e97c575b3df7@linaro.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Convert atmel,asoc-wm8904 devicetree binding to json-schema.
-
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
----
- .../bindings/sound/atmel,asoc-wm8904.yaml     | 84 +++++++++++++++++++
- .../bindings/sound/atmel-wm8904.txt           | 55 ------------
- 2 files changed, 84 insertions(+), 55 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/atmel,asoc-wm8904.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/atmel-wm8904.txt
-
-diff --git a/Documentation/devicetree/bindings/sound/atmel,asoc-wm8904.yaml b/Documentation/devicetree/bindings/sound/atmel,asoc-wm8904.yaml
-new file mode 100644
-index 000000000000..89a67f8e33b6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/atmel,asoc-wm8904.yaml
-@@ -0,0 +1,84 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/atmel,asoc-wm8904.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel wm8904 audio codec complex
-+
-+maintainers:
-+  - Dharma Balasubiramani <dharma.b@microchip.com>
-+
-+description:
-+  The ASoC audio complex configuration for Atmel with WM8904 audio codec.
-+
-+properties:
-+  compatible:
-+    const: atmel,asoc-wm8904
-+
-+  atmel,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex.
-+
-+  atmel,ssc-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the SSC controller.
-+
-+  atmel,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the WM8731 audio codec.
-+
-+  atmel,audio-routing:
-+    description:
-+      A list of the connections between audio components. Each entry is a pair
-+      of strings, the first being the connection's sink, the second being the
-+      connection's source.
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    items:
-+      enum:
-+        # Board Connectors
-+        - Headphone Jack
-+        - Line In Jack
-+        - Mic
-+        # WM8904 CODEC Pins
-+        - IN1L
-+        - IN1R
-+        - IN2L
-+        - IN2R
-+        - IN3L
-+        - IN3R
-+        - HPOUTL
-+        - HPOUTR
-+        - LINEOUTL
-+        - LINEOUTR
-+        - MICBIAS
-+
-+required:
-+  - compatible
-+  - atmel,model
-+  - atmel,audio-routing
-+  - atmel,ssc-controller
-+  - atmel,audio-codec
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "atmel,asoc-wm8904";
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_pck0_as_mck>;
-+
-+        atmel,model = "wm8904 @ AT91SAM9N12EK";
-+
-+        atmel,audio-routing =
-+                "Headphone Jack", "HPOUTL",
-+                "Headphone Jack", "HPOUTR",
-+                "IN2L", "Line In Jack",
-+                "IN2R", "Line In Jack",
-+                "Mic", "MICBIAS",
-+                "IN1L", "Mic";
-+
-+        atmel,ssc-controller = <&ssc0>;
-+        atmel,audio-codec = <&wm8904>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/atmel-wm8904.txt b/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
-deleted file mode 100644
-index 8bbe50c884b6..000000000000
---- a/Documentation/devicetree/bindings/sound/atmel-wm8904.txt
-+++ /dev/null
-@@ -1,55 +0,0 @@
--Atmel ASoC driver with wm8904 audio codec complex
--
--Required properties:
--  - compatible: "atmel,asoc-wm8904"
--  - atmel,model: The user-visible name of this sound complex.
--  - atmel,audio-routing: A list of the connections between audio components.
--    Each entry is a pair of strings, the first being the connection's sink,
--    the second being the connection's source. Valid names for sources and
--    sinks are the WM8904's pins, and the jacks on the board:
--
--    WM8904 pins:
--
--    * IN1L
--    * IN1R
--    * IN2L
--    * IN2R
--    * IN3L
--    * IN3R
--    * HPOUTL
--    * HPOUTR
--    * LINEOUTL
--    * LINEOUTR
--    * MICBIAS
--
--    Board connectors:
--
--    * Headphone Jack
--    * Line In Jack
--    * Mic
--
--  - atmel,ssc-controller: The phandle of the SSC controller
--  - atmel,audio-codec: The phandle of the WM8904 audio codec
--
--Optional properties:
--  - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
--
--Example:
--sound {
--	compatible = "atmel,asoc-wm8904";
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_pck0_as_mck>;
--
--	atmel,model = "wm8904 @ AT91SAM9N12EK";
--
--	atmel,audio-routing =
--		"Headphone Jack", "HPOUTL",
--		"Headphone Jack", "HPOUTR",
--		"IN2L", "Line In Jack",
--		"IN2R", "Line In Jack",
--		"Mic", "MICBIAS",
--		"IN1L", "Mic";
--
--	atmel,ssc-controller = <&ssc0>;
--	atmel,audio-codec = <&wm8904>;
--};
--- 
-2.25.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxv
+d3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8ub3JnPg0KPiBTZW50OiBUdWVzZGF5LCBG
+ZWJydWFyeSA2LCAyMDI0IDk6NTMgUE0NCj4gVG86IERpbmcsIFNoZW5naGFvIDxzaGVuZ2hhby1k
+aW5nQHRpLmNvbT47IGJyb29uaWVAa2VybmVsLm9yZzsNCj4gY29ub3IrZHRAa2VybmVsLm9yZzsg
+ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IHJvYmgrZHRAa2VybmVsLm9yZzsNCj4gYW5kcml5
+LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tOyBsaW51eC1zb3VuZEB2Z2VyLmtlcm5lbC5vcmc7
+DQo+IGxpYW0uci5naXJkd29vZEBpbnRlbC5jb207IGxnaXJkd29vZEBnbWFpbC5jb207IGxpbnV4
+LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IENjOiBMdSwgS2V2aW4gPGtldmluLWx1QHRp
+LmNvbT47IFh1LCBCYW9qdW4gPGJhb2p1bi54dUB0aS5jb20+OyBQIE8sIFZpamV0aA0KPiA8di1w
+b0B0aS5jb20+OyBOYXZhZGEgS2FueWFuYSwgTXVrdW5kIDxuYXZhZGFAdGkuY29tPjsNCj4gcGVy
+ZXhAcGVyZXguY3o7IE1jUGhlcnNvbiwgSmVmZiA8ai1tY3BoZXJzb25AdGkuY29tPjsgcGllcnJl
+LQ0KPiBsb3Vpcy5ib3NzYXJ0QGxpbnV4LmludGVsLmNvbTsgMTM5MTYyNzUyMDZAMTM5LmNvbTsg
+Q2hhd2xhLCBNb2hpdA0KPiA8bW9oaXQuY2hhd2xhQHRpLmNvbT47IHNveWVyQGlybC5odTsgSHVh
+bmcsIEpvbmF0aGFuDQo+IDxqa2h1YW5nM0B0aS5jb20+OyB0aXdhaUBzdXNlLmRlOyBEanVhbmRp
+LCBQZXRlciA8cGRqdWFuZGlAdGkuY29tPjsNCj4gQWdyYXdhbCwgTWFuaXNoYSA8bWFuaXNoYS5h
+Z3Jhd2FsQHRpLmNvbT47IEhhcmksIFJhaiA8cy1oYXJpQHRpLmNvbT47DQo+IFlhc2hhciwgQXZp
+IDxhdmllbEB0aS5jb20+OyBOYWdhbGxhLCBIYXJpIDxobmFnYWxsYUB0aS5jb20+OyBCYWpqdXJp
+LA0KPiBQcmFuZWV0aCA8cHJhbmVldGhAdGkuY29tPg0KPiBTdWJqZWN0OiBbRVhURVJOQUxdIFJl
+OiBbUEFUQ0ggdjMgNC80XSBBU29jOiBkdC1iaW5kaW5nczogUENNNjI0MDogQWRkDQo+IGluaXRp
+YWwgRFQgYmluZGluZw0KPiANCj4gT24gMDMvMDIvMjAyNCAwNDrigIowNSwgU2hlbmdoYW8gRGlu
+ZyB3cm90ZTogPiArID4gKyB0aSx0YWQ1MjEyOiBMb3ctcG93ZXINCj4gc3RlcmVvIGF1ZGlvIERB
+QyB3aXRoIDEyMC1kQiBkeW5hbWljIHJhbmdlLiA+ICsgb25lT2Y6ID4gKyAtIGl0ZW1zOiA+ICsg
+LQ0KPiBlbnVtOiA+ICsgLSB0aSxhZGMzMTIwID4gKyAtIHRpLGFkYzUxMjAgPiArIC0gdGkscGNt
+MzEyMCA+ICsgLSB0aSxwY201MTIwDQo+IFpqUWNtUVJZRnBmcHRCYW5uZXJTdGFydCBUaGlzIG1l
+c3NhZ2Ugd2FzIHNlbnQgZnJvbSBvdXRzaWRlIG9mIFRleGFzDQo+IEluc3RydW1lbnRzLg0KPiBE
+byBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29nbml6
+ZSB0aGUgc291cmNlIG9mDQo+IHRoaXMgZW1haWwgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMgc2Fm
+ZS4NCj4gDQo+IFpqUWNtUVJZRnBmcHRCYW5uZXJFbmQNCj4gT24gMDMvMDIvMjAyNCAwNDowNSwg
+U2hlbmdoYW8gRGluZyB3cm90ZToNCj4gPiArDQo+ID4gKyAgICAgIHRpLHRhZDUyMTI6IExvdy1w
+b3dlciBzdGVyZW8gYXVkaW8gREFDIHdpdGggMTIwLWRCIGR5bmFtaWMgcmFuZ2UuDQo+ID4gKyAg
+ICBvbmVPZjoNCj4gPiArICAgICAgLSBpdGVtczoNCj4gPiArICAgICAgICAgIC0gZW51bToNCj4g
+PiArICAgICAgICAgICAgICAtIHRpLGFkYzMxMjANCj4gPiArICAgICAgICAgICAgICAtIHRpLGFk
+YzUxMjANCj4gPiArICAgICAgICAgICAgICAtIHRpLHBjbTMxMjANCj4gPiArICAgICAgICAgICAg
+ICAtIHRpLHBjbTUxMjANCj4gPiArICAgICAgICAgICAgICAtIHRpLHBjbTYxMjANCj4gPiArICAg
+ICAgICAgIC0gY29uc3Q6IHRpLGFkYzYxMjANCj4gPiArICAgICAgLSBpdGVtczoNCj4gPiArICAg
+ICAgICAgIC0gZW51bToNCj4gPiArICAgICAgICAgICAgICAtIHRpLHBjbTYyNjANCj4gPiArICAg
+ICAgICAgICAgICAtIHRpLHBjbTYxNDANCj4gPiArICAgICAgICAgICAgICAtIHRpLHBjbTMxNDAN
+Cj4gPiArICAgICAgICAgICAgICAtIHRpLHBjbTUxNDANCj4gPiArICAgICAgICAgIC0gY29uc3Q6
+IHRpLHBjbTYyNDANCj4gPiArICAgICAgLSBpdGVtczoNCj4gPiArICAgICAgICAgIC0gY29uc3Q6
+IHRpLGRpeDQxOTINCj4gPiArICAgICAgICAgIC0gY29uc3Q6IHRpLHBjbTYyNDANCj4gDQo+IFdo
+eSBkaXg0MTkyIGlzIG5vdCBwYXJ0IG9mIHByZXZpb3VzIGVudW0/DQoNCmRpeDQxOTIgaXMgbm90
+IHRyYWRpdGlvbmFsIEFEQyBvciBEQUMsIGJ1dCBhbiBJbnRlZ3JhdGVkIERpZ2l0YWwgQXVkaW8g
+SW50ZXJmYWNlIA0KUmVjZWl2ZXIgYW5kIFRyYW5zbWl0dGVyLCBsaWtlIGFuIGF1ZGlvIGJyaWRn
+ZSB0byBjb25uZWN0IGRpZmZlcmVudCBkaWdpdGFsIGF1ZGlvIA0KcHJvdG9jb2wsIGNvbXBhdGli
+bGUgd2l0aCB0aGUgQUVTMywgUy9QRElGLCBJRUMgNjA5NTgsIGFuZCBFSUFKIENQLTEyMDEgDQpp
+bnRlcmZhY2Ugc3RhbmRhcmRzLCBMZWZ0LUp1c3RpZmllZCwgUmlnaHQtSnVzdGlmaWVkLCBhbmQg
+UGhpbGlwcyBJMlPihKIgRGF0YSBGb3JtYXRzLiANClNvIGtlZXAgaXQgYWxvbmUgZm9yIHByb2Zl
+c3Npb25hbCBwdXJwb3NlLiANCg0KPiANCj4gPiArICAgICAgLSBpdGVtczoNCj4gPiArICAgICAg
+ICAgIC0gY29uc3Q6IHRpLGFkYzYxMjANCj4gPiArICAgICAgICAgIC0gY29uc3Q6IHRpLHBjbWQ1
+MTJ4DQo+ID4gKyAgICAgIC0gaXRlbXM6DQo+ID4gKyAgICAgICAgICAtIGNvbnN0OiB0aSxwY20x
+NjkwDQo+ID4gKyAgICAgICAgICAtIGNvbnN0OiB0aSxwY205MjExDQo+ID4gKyAgICAgIC0gaXRl
+bXM6DQo+ID4gKyAgICAgICAgICAtIGVudW06DQo+ID4gKyAgICAgICAgICAgICAgLSB0aSxwY21k
+MzE4MA0KPiA+ICsgICAgICAgICAgLSBjb25zdDogdGkscGNtZDMxNDANCj4gPiArICAgICAgLSBp
+dGVtczoNCj4gPiArICAgICAgICAgIC0gZW51bToNCj4gPiArICAgICAgICAgICAgICAtIHRpLHRh
+YTU0MTINCj4gPiArICAgICAgICAgIC0gY29uc3Q6IHRpLHRhYTUyMTINCj4gPiArICAgICAgLSBp
+dGVtczoNCj4gPiArICAgICAgICAgIC0gZW51bToNCj4gPiArICAgICAgICAgICAgICAtIHRpLHRh
+ZDU0MTINCj4gPiArICAgICAgICAgIC0gY29uc3Q6IHRpLHRhZDUyMTINCj4gPiArICAgICAgLSBl
+bnVtOg0KPiA+ICsgICAgICAgICAgLSB0aSxwY202MjQwDQo+ID4gKyAgICAgICAgICAtIHRpLHBj
+bWQzMTQwDQo+ID4gKyAgICAgICAgICAtIHRpLHRhYTUyMTINCj4gPiArICAgICAgICAgIC0gdGks
+dGFkNTIxMg0KPiA+ICsgICAgICAgICAgLSB0aSxwY21kMzE4MA0KPiANCj4gVGhpcyBvbmUgaXMg
+ZHVwbGljYXRlZC4NCmFjY2VwdA0KPiANCj4gPiArDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0K
+PiBLcnp5c3p0b2YNCg0K
