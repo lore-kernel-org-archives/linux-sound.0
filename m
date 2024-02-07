@@ -1,46 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E994013541D;
-	Wed,  7 Feb 2024 21:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B86136643;
+	Wed,  7 Feb 2024 21:27:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341198; cv=none; b=mK6LjxdrO1+Nzy2IMO7To2tqLJjDqCnunD/7ZkX1jHDis+LKnPQuP36FW8bySejjLmU99tpCPPo288rU2JbPhm7mjrTDUDkifTaMptGKmZ/71eYFGBWn/LZzucy25/7FguEtlOwx9iQ06Gvb7MfaHEy7Cb2K744nM7Ae/Zc4VlE=
+	t=1707341228; cv=none; b=SwG7Qk2ogHuIAS9ZnjBtPaKJ5IM6bVuuVk3y7YRToPuOytbxM1YVR6cjvuuQA8IGVPctubTYjfLxfaA+k1GdegVcwlDO67sOaY5T88gQkqRhfvAJCdMwk5JgV74nd7lNB1vMjxILmlXWoORlqzu11eGpfGfa13yeh4FveRsajCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341198; c=relaxed/simple;
-	bh=vLGX9cgNvvE7OOqZYy6JEy2ZFuLj5csREoW758lScko=;
+	s=arc-20240116; t=1707341228; c=relaxed/simple;
+	bh=wG0sK8XFHjHc0nOKGs+2WnDbeM8qvPvmjUhVq3j+FIY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TOeTNxVO1ZBZWVOHErNh38wr0oATTEkOYGkz0REhUweaY4I4DZqQRPo85uxR1CIXgDQHSCF+UMIiYbbXza5GCcckiWfoVi24NvIJIvZJwarXhCHHybYTGrvfJwpT5dgfffp7mFwd8EzuehvkPsT48LFsKShWbmTQwhzA/J+6D+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GzUH6k2y; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=m74TI+Mk+8mUZ5tn134t0ezRgIipmDcAuDwz7oPsmAlyfX4IB4xe07RYANBjbHEX2r3Rhq0v8ziUqSJkyNTJvw71EGakkSI77Y5tI+BETnyFHTqBRWnKQSmKK3/wn2JnvyYS9bZJZ8h0JdIKLo36gGWYMvevSOJYj/exvJrypto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScPlpuNv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GzUH6k2y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A715C433F1;
-	Wed,  7 Feb 2024 21:26:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScPlpuNv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D03C433B1;
+	Wed,  7 Feb 2024 21:27:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341197;
-	bh=vLGX9cgNvvE7OOqZYy6JEy2ZFuLj5csREoW758lScko=;
+	s=k20201202; t=1707341228;
+	bh=wG0sK8XFHjHc0nOKGs+2WnDbeM8qvPvmjUhVq3j+FIY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GzUH6k2yLQ0mOpCEQfg5Gsgxcv6Oz0HinexVkte5Xl9tL9KOtGCfOPkIK5E9FJ0B2
-	 pAJPQCXuaz8F/8SSxfkzxZStrUufqFUgmUD4fguIpTCkGJevFdITFGsI/5oyMqidIZ
-	 xwkqiIlaImXb85VylDXs4wVua2V/CTEaxNeglzj0xXJr9hTMMvnPtMJQZPegyRgnxx
-	 f0UrgAFVBiffeGFDTHDsyZvY/gB8z+P6B0d5fif4JeDcwgVkV9wgqA6+q7UB/St1ob
-	 A5PTZ0Q1rOMcj8zdM4Fs88+8/FZtitf297yywsjVA7Mlq7Bkh7VZn+jfXxcZDD2g45
-	 HF0F/4yH0Wbcw==
+	b=ScPlpuNv9llbNWTZLlGQ8xbcuT2zUp9pafczcB1nhFXM0MwwbHZfPoD0f/sqPy4nM
+	 Yb8CJZyLGPuOZcsXasrFbCNRkYcQ22ZxGUhKu8IPw/Fc8udewlPRnR7UCv1UjuDCTh
+	 4I+ax0RKi66GCsypHLA2yR1hDqktMzipsBlGhg95btCuTQW3SqBAzGWmpErEzYK1ut
+	 v1a2JUaECC9jsmDSm4bFyyxbrnnaPhjAhqY1P7mwVPUQfKUANprUqYfQuFFyZCfvd+
+	 8V2I3qRFQXnyMS3zdx98HYdL0GlArqLOis0eMSjWTlhLAECRST9VtuwSpZ86qa3LOv
+	 7qWSQZFiPnzuQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alexander Tsoy <alexander@tsoy.me>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	srinivas.kandagatla@linaro.org,
+	bgoswami@quicinc.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 13/23] ALSA: usb-audio: Ignore clock selector errors for single connection
-Date: Wed,  7 Feb 2024 16:25:54 -0500
-Message-ID: <20240207212611.3793-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 04/16] ASoC: codecs: wcd934x: drop unneeded regulator include
+Date: Wed,  7 Feb 2024 16:26:44 -0500
+Message-ID: <20240207212700.4287-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212611.3793-1-sashal@kernel.org>
-References: <20240207212611.3793-1-sashal@kernel.org>
+In-Reply-To: <20240207212700.4287-1-sashal@kernel.org>
+References: <20240207212700.4287-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,69 +53,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.148
+X-stable-base: Linux 5.10.209
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Tsoy <alexander@tsoy.me>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-[ Upstream commit eaa1b01fe709d6a236a9cec74813e0400601fd23 ]
+[ Upstream commit 35314e39dabcfb256832654ad0e856a9fba744bd ]
 
-For devices with multiple clock sources connected to a selector, we need
-to check what a clock selector control request has returned. This is
-needed to ensure that a requested clock source is indeed selected and for
-autoclock feature to work.
+Driver does not use any regulator code, so drop redundant include of
+regulator/consumer.h header.
 
-For devices with single clock source connected, if we get an error there
-is nothing else we can do about it. We can't skip clock selector setup as
-it is required by some devices. So lets just ignore error in this case.
-
-This should fix various buggy Mackie devices:
-
-[  649.109785] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
-[  649.111946] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
-[  649.113822] usb 1-1.3: parse_audio_format_rates_v2v3(): unable to find clock source (clock -32)
-
-There is also interesting info from the Windows documentation [1] (this
-is probably why manufacturers dont't even test this feature):
-
-"The USB Audio 2.0 driver doesn't support clock selection. The driver
-uses the Clock Source Entity, which is selected by default and never
-issues a Clock Selector Control SET CUR request."
-
-Link: https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/usb-2-0-audio-drivers [1]
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217314
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218175
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218342
-Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
-Link: https://lore.kernel.org/r/20240201115308.17838-1-alexander@tsoy.me
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Link: https://msgid.link/r/20240117151208.1219755-3-krzysztof.kozlowski@linaro.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/usb/clock.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ sound/soc/codecs/wcd934x.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index ccca9efa7d33..970e14ff54d1 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -328,8 +328,16 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 			if (chip->quirk_flags & QUIRK_FLAG_SKIP_CLOCK_SELECTOR)
- 				return ret;
- 			err = uac_clock_selector_set_val(chip, entity_id, cur);
--			if (err < 0)
-+			if (err < 0) {
-+				if (pins == 1) {
-+					usb_audio_dbg(chip,
-+						      "%s(): selector returned an error, "
-+						      "assuming a firmware bug, id %d, ret %d\n",
-+						      __func__, clock_id, err);
-+					return ret;
-+				}
- 				return err;
-+			}
- 		}
- 
- 		if (!validate || ret > 0 || !chip->autoclock)
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index 104751ac6cd1..dbed3a646524 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -13,7 +13,6 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+-#include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/slimbus.h>
+ #include <sound/pcm_params.h>
 -- 
 2.43.0
 
