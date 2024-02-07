@@ -1,175 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248B459B72
-	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 12:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721987993D;
+	Wed,  7 Feb 2024 13:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707308684; cv=none; b=As9ruD8zR1rwMzRXbMDrmDUW1TDZ9hL1W9YVu4CjWMKSimLNXSCbJ8IcS1JqqrxBgRfmRJ/Lt9RJ7naSwdmIw96NLne/IBbhelOlQ4p43E78gPjeg3LiiR7Gdp5Q7tbI/2S5Sf81o4uMAnhjl/LghTvYfy0vTJta744d8vqzqkQ=
+	t=1707313347; cv=none; b=a6Rr8w0eFkSX1u2TzOf0RXXo2eJseveOzRYH00Z3S/zzl9fb7N4XQRCb95yI0bl6ml1kouU4eguvVj9pDpN23iuFiF67qlrKyJ1P4BMRa2+Yysm7dY/Y0Slmg1lXa7mls+1JPzRz5EgTfnKJEtjr5jlEj6oz7eHIjpLK1rBZpns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707308684; c=relaxed/simple;
-	bh=WJiPnGQnpL8D5hbUv1rOxOUv6OpRKLHCtAzNkuXyfhw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=BSjBMZ6lTjbymeHD9PlAxo1Avlgbafr+N4PCHAw2oHzKXCs62uIHmhsNrtjud8IMVkKAoMdzz+l03UsHgrtEMLsskt25Eu6ATeicmidILWJXNt7E5dg/wFS/tlgIzNn2U2WXFMpwOBGEonadxFQTMsUeKoSRbI33LmQ/xAsfVa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6PIcNNa; arc=none smtp.client-ip=192.55.52.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707313347; c=relaxed/simple;
+	bh=biTnfIR0P6z4A+HuIjLWtAZ/odQWEGrcuiQOu0E4WKo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gSXvH577EFNTR1JGR1r55AP1GkmjMsYrOCKqMzsuEiTD9ltWUiIeJbAaFK6RlWl8rLgwRUOKip+vEC/1bpHSMGrjc+f4wVzRNKupcpElz7S80gbO8Ctg/D6kHMWUaYEyE98bTrQ01O+K4r1nWdpHiTq9b2q5WTUE42T7gpa2IQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sdUhc/Sj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8UqOy8GD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sdUhc/Sj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8UqOy8GD; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6PIcNNa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707308683; x=1738844683;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WJiPnGQnpL8D5hbUv1rOxOUv6OpRKLHCtAzNkuXyfhw=;
-  b=l6PIcNNa9Ra6P8QvRbxh5DZrwjc99hvU8cOavtPJb7kpg8sdHvcYgkWJ
-   oFHg/Zx6BZG/tZOxWMF+7Sd5Gn/bRBZHhTvroTHhSkYMXE+MeK8BhiAXT
-   FUrzs5SFRVD8PIhq/atoRkVq9Fl3Ty8DH8ikpfYKsTlQFcdnVtCQCw44v
-   DmaPSHZiQ78sJCHe8OmOfMH9NvG7M8rkXft1NfCZTO8H4ghSA10141FSM
-   m2/l6J4rZcPk6hSqhuhpWjKYN29ARR52pX3/wo7yiQtfeY4fKX141XsRp
-   gCGGLUB70MT6P1KWNe98R1nIs2d6GBQLrvDbV28ThvWMmf0hOogB8pLKy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="436110927"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="436110927"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 04:24:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="38748625"
-Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orviesa001.jf.intel.com with ESMTP; 07 Feb 2024 04:24:39 -0800
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sdUhc/Sj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8UqOy8GD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sdUhc/Sj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8UqOy8GD"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 91B541FC04;
+	Wed,  7 Feb 2024 13:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707313343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
+	b=sdUhc/Sjbs2A0k+Pym4m6CwUvQKkyCQ2hR7gijqD2Jc+t4xUru8lwzYaK0+9gU5SJpZdFl
+	1NrLD8Qw72bJPWxhCPW2qENFySj27/dUgjVvcK3QxjkplpwkhLBX2x+5nyN4YXrEKRtoF/
+	8nMuvnOUpTi4+AQJwjCRnnDeiWWYNSE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707313343;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
+	b=8UqOy8GDOjAR3qhJOSFIw2RfUbNLFOPvXVz+l/jqZAy0+eTi6TXvKkvJO4Z1CsjwAfbmtR
+	Ut0XkK7Lu8XxmMAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707313343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
+	b=sdUhc/Sjbs2A0k+Pym4m6CwUvQKkyCQ2hR7gijqD2Jc+t4xUru8lwzYaK0+9gU5SJpZdFl
+	1NrLD8Qw72bJPWxhCPW2qENFySj27/dUgjVvcK3QxjkplpwkhLBX2x+5nyN4YXrEKRtoF/
+	8nMuvnOUpTi4+AQJwjCRnnDeiWWYNSE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707313343;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlakNdSdjpymzVj6r977DOdnguJBAVAgJvVlaPKXIko=;
+	b=8UqOy8GDOjAR3qhJOSFIw2RfUbNLFOPvXVz+l/jqZAy0+eTi6TXvKkvJO4Z1CsjwAfbmtR
+	Ut0XkK7Lu8XxmMAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 477DB139B9;
+	Wed,  7 Feb 2024 13:42:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EOvzD7+Iw2WdHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 13:42:23 +0000
+Date: Wed, 07 Feb 2024 14:42:22 +0100
+Message-ID: <87o7cs5r29.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Jean-Lo=EFc?= Charroud <lagiraudiere+linux@free.fr>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
-	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] ASoC: Intel: avs: Expose FW version with sysfs
-Date: Wed,  7 Feb 2024 13:25:09 +0100
-Message-Id: <20240207122509.2222214-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v2] ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
+In-Reply-To: <726559913.576332068.1707239153891.JavaMail.zimbra@free.fr>
+References: <726559913.576332068.1707239153891.JavaMail.zimbra@free.fr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [2.07 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.33)[75.89%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[free.fr];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[linux];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[free.fr];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Level: **
+X-Spam-Score: 2.07
+X-Spam-Flag: NO
 
-From: Cezary Rojewski <cezary.rojewski@intel.com>
+On Tue, 06 Feb 2024 18:05:53 +0100,
+Jean-Lo�c Charroud wrote:
+> 
+> Fix device ID for "ASUS UM3402" and "ASUS UM6702RA/RC".
+> Add _DSD values for "ASUS UM3402" to cs35l41_config_table[].
 
-Add functionality to read version of loaded FW from sysfs.
+So far, so good, but...
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
----
- .../ABI/testing/sysfs-bus-pci-devices-avs     |  8 +++++
- sound/soc/intel/avs/Makefile                  |  3 +-
- sound/soc/intel/avs/avs.h                     |  4 +++
- sound/soc/intel/avs/core.c                    |  1 +
- sound/soc/intel/avs/sysfs.c                   | 35 +++++++++++++++++++
- 5 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-avs
- create mode 100644 sound/soc/intel/avs/sysfs.c
+> Reorder alc269_fixup_tbl[] by device id and remove duplicate QUIRK
+> entry for device {0x1043, 0x1f62, "ASUS UX7602ZM"}.
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-avs b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
-new file mode 100644
-index 0000000000000..abfdecd85f204
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
-@@ -0,0 +1,8 @@
-+What:		/sys/devices/pci0000:00/<dev>/fw_version
-+Date:		February 2024
-+Contact:	Cezary Rojewski <cezary.rojewski@intel.com>
-+Description:
-+		Version of AudioDSP firmware ASoC avs driver is communicating
-+		with.
-+
-+		Format: %d.%d.%d.%d, type:major:minor:build.
-diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
-index 460ee6599daf0..a3fad926d0fb0 100644
---- a/sound/soc/intel/avs/Makefile
-+++ b/sound/soc/intel/avs/Makefile
-@@ -1,7 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
- snd-soc-avs-objs := dsp.o ipc.o messages.o utils.o core.o loader.o \
--		    topology.o path.o pcm.o board_selection.o control.o
-+		    topology.o path.o pcm.o board_selection.o control.o \
-+		    sysfs.o
- snd-soc-avs-objs += cldma.o
- snd-soc-avs-objs += skl.o apl.o
- 
-diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index d694e08e44e18..69c912feb8a7e 100644
---- a/sound/soc/intel/avs/avs.h
-+++ b/sound/soc/intel/avs/avs.h
-@@ -392,4 +392,8 @@ static inline void avs_debugfs_init(struct avs_dev *adev) { }
- static inline void avs_debugfs_exit(struct avs_dev *adev) { }
- #endif
- 
-+/* Filesystems integration */
-+
-+extern const struct attribute_group *avs_attr_groups[];
-+
- #endif /* __SOUND_SOC_INTEL_AVS_H */
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index db78eb2f01080..273a902168562 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -776,6 +776,7 @@ static struct pci_driver avs_pci_driver = {
- 	.probe = avs_pci_probe,
- 	.remove = avs_pci_remove,
- 	.shutdown = avs_pci_shutdown,
-+	.dev_groups = avs_attr_groups,
- 	.driver = {
- 		.pm = &avs_dev_pm,
- 	},
-diff --git a/sound/soc/intel/avs/sysfs.c b/sound/soc/intel/avs/sysfs.c
-new file mode 100644
-index 0000000000000..cce21636fbc02
---- /dev/null
-+++ b/sound/soc/intel/avs/sysfs.c
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// Copyright(c) 2021-2024 Intel Corporation. All rights reserved.
-+//
-+// Authors: Cezary Rojewski <cezary.rojewski@intel.com>
-+//          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
-+//
-+
-+#include <linux/sysfs.h>
-+#include "avs.h"
-+
-+static ssize_t fw_version_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct avs_dev *adev = to_avs_dev(dev);
-+	struct avs_fw_version *fw_version = &adev->fw_cfg.fw_version;
-+
-+	return sysfs_emit(buf, "%d.%d.%d.%d\n", fw_version->major, fw_version->minor,
-+			  fw_version->hotfix, fw_version->build);
-+}
-+static DEVICE_ATTR_RO(fw_version);
-+
-+static struct attribute *avs_fw_attrs[] = {
-+	&dev_attr_fw_version.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group avs_attr_group = {
-+	.name = "avs",
-+	.attrs = avs_fw_attrs,
-+};
-+
-+const struct attribute_group *avs_attr_groups[] = {
-+	&avs_attr_group,
-+	NULL
-+};
--- 
-2.34.1
+Don't mix up multiple things in a single patch.
+The sort of the existing entries has little to do with your change.
+Leave it to another patch instead (with Fixes tag for the
+corresponding commit, too).
 
+
+thanks,
+
+Takashi
