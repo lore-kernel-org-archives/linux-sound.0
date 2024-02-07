@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895FE59B73
-	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 12:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248B459B72
+	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 12:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707307779; cv=none; b=bmTyTKfXTQQIW2wtnsrMNDAXCJwGzTT+VQlca8YNyUnhDwKI3f4jmdgGQCTdi93ylFQV2jEC0DkvsEWSyWs5dL1XPPy53PlhKlOBDnE+/URDOD/DjaQYRA4tMNoMIO2h2AKPTdFKN7RlMVSzhuDlUjgTU+/LyOWiIx8E1pBAXyg=
+	t=1707308684; cv=none; b=As9ruD8zR1rwMzRXbMDrmDUW1TDZ9hL1W9YVu4CjWMKSimLNXSCbJ8IcS1JqqrxBgRfmRJ/Lt9RJ7naSwdmIw96NLne/IBbhelOlQ4p43E78gPjeg3LiiR7Gdp5Q7tbI/2S5Sf81o4uMAnhjl/LghTvYfy0vTJta744d8vqzqkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707307779; c=relaxed/simple;
-	bh=Ko10ZkzkLNKDt3XPWSA4Pl4GxMkRRlKq5pWgyGeCp8g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IYsJUlQ8e/nFOi9dhVrUzzFmppFfUcJv7LmogXSZUxs0M9hoHHurQGeqkKboSEjtaHxzGczNrLoULkiYpuf2oNfTqhsI8RFn5Nlb+FF55AcrnmQZb6v6Je46NzcmPh/idlXvIlQC+WMpN2JGcVkefyGKzPyu+BmuhrP6oXmP++k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bT4Jdjdz; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1707308684; c=relaxed/simple;
+	bh=WJiPnGQnpL8D5hbUv1rOxOUv6OpRKLHCtAzNkuXyfhw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=BSjBMZ6lTjbymeHD9PlAxo1Avlgbafr+N4PCHAw2oHzKXCs62uIHmhsNrtjud8IMVkKAoMdzz+l03UsHgrtEMLsskt25Eu6ATeicmidILWJXNt7E5dg/wFS/tlgIzNn2U2WXFMpwOBGEonadxFQTMsUeKoSRbI33LmQ/xAsfVa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6PIcNNa; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bT4Jdjdz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6PIcNNa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707307772; x=1738843772;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ko10ZkzkLNKDt3XPWSA4Pl4GxMkRRlKq5pWgyGeCp8g=;
-  b=bT4JdjdzGe5I+jhHYUP8JxWNujYewUAX2ExvTI8UQSvbG9I5nQdmyQXu
-   mSDBgG0ABT89OQt6ctUEs7Ors+Vs0tLsPiNdiaVTxLJch9rAKrUGV4mqy
-   mCWsLgiljJ/Pp2DRdP1UOVmXE9k/r7QR/4MunfCDetalKsB4byhkHv5P4
-   8c95RLXJOSVN2zCe/vLvCd+5daYFtxR2Xup1cvUvT8+kfLK8OHB03kTlr
-   6o/TypBokcFvu9rD0aB9juvkvMHJT+OiDRLt+3r2PMJ9LNmU48OiChG08
-   Q566Yp66ek+xtUTp2CkICvNV5LkrTUeEcC+xhFYEa4EOZmN8MvBDES5iq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="4757859"
+  t=1707308683; x=1738844683;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WJiPnGQnpL8D5hbUv1rOxOUv6OpRKLHCtAzNkuXyfhw=;
+  b=l6PIcNNa9Ra6P8QvRbxh5DZrwjc99hvU8cOavtPJb7kpg8sdHvcYgkWJ
+   oFHg/Zx6BZG/tZOxWMF+7Sd5Gn/bRBZHhTvroTHhSkYMXE+MeK8BhiAXT
+   FUrzs5SFRVD8PIhq/atoRkVq9Fl3Ty8DH8ikpfYKsTlQFcdnVtCQCw44v
+   DmaPSHZiQ78sJCHe8OmOfMH9NvG7M8rkXft1NfCZTO8H4ghSA10141FSM
+   m2/l6J4rZcPk6hSqhuhpWjKYN29ARR52pX3/wo7yiQtfeY4fKX141XsRp
+   gCGGLUB70MT6P1KWNe98R1nIs2d6GBQLrvDbV28ThvWMmf0hOogB8pLKy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="436110927"
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="4757859"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 04:09:25 -0800
+   d="scan'208";a="436110927"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 04:24:41 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1631810"
+   d="scan'208";a="38748625"
 Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orviesa007.jf.intel.com with ESMTP; 07 Feb 2024 04:09:22 -0800
+  by orviesa001.jf.intel.com with ESMTP; 07 Feb 2024 04:24:39 -0800
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -48,12 +47,10 @@ Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	linux-sound@vger.kernel.org,
 	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH 3/3] ASoC: Intel: avs: Send initial config to module if present
-Date: Wed,  7 Feb 2024 13:09:46 +0100
-Message-Id: <20240207120946.2140480-4-amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH] ASoC: Intel: avs: Expose FW version with sysfs
+Date: Wed,  7 Feb 2024 13:25:09 +0100
+Message-Id: <20240207122509.2222214-1-amadeuszx.slawinski@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240207120946.2140480-1-amadeuszx.slawinski@linux.intel.com>
-References: <20240207120946.2140480-1-amadeuszx.slawinski@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,65 +60,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If there are initial configs to send to module on init do send them.
+From: Cezary Rojewski <cezary.rojewski@intel.com>
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Add functionality to read version of loaded FW from sysfs.
+
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 ---
- sound/soc/intel/avs/path.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ .../ABI/testing/sysfs-bus-pci-devices-avs     |  8 +++++
+ sound/soc/intel/avs/Makefile                  |  3 +-
+ sound/soc/intel/avs/avs.h                     |  4 +++
+ sound/soc/intel/avs/core.c                    |  1 +
+ sound/soc/intel/avs/sysfs.c                   | 35 +++++++++++++++++++
+ 5 files changed, 50 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-avs
+ create mode 100644 sound/soc/intel/avs/sysfs.c
 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index 3aa16ee8d34c1..e785fc2a7008f 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -547,6 +547,33 @@ static int avs_path_module_type_create(struct avs_dev *adev, struct avs_path_mod
- 	return avs_modext_create(adev, mod);
- }
+diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-avs b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
+new file mode 100644
+index 0000000000000..abfdecd85f204
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
+@@ -0,0 +1,8 @@
++What:		/sys/devices/pci0000:00/<dev>/fw_version
++Date:		February 2024
++Contact:	Cezary Rojewski <cezary.rojewski@intel.com>
++Description:
++		Version of AudioDSP firmware ASoC avs driver is communicating
++		with.
++
++		Format: %d.%d.%d.%d, type:major:minor:build.
+diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
+index 460ee6599daf0..a3fad926d0fb0 100644
+--- a/sound/soc/intel/avs/Makefile
++++ b/sound/soc/intel/avs/Makefile
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
  
-+static int avs_path_module_send_init_configs(struct avs_dev *adev, struct avs_path_module *mod)
+ snd-soc-avs-objs := dsp.o ipc.o messages.o utils.o core.o loader.o \
+-		    topology.o path.o pcm.o board_selection.o control.o
++		    topology.o path.o pcm.o board_selection.o control.o \
++		    sysfs.o
+ snd-soc-avs-objs += cldma.o
+ snd-soc-avs-objs += skl.o apl.o
+ 
+diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
+index d694e08e44e18..69c912feb8a7e 100644
+--- a/sound/soc/intel/avs/avs.h
++++ b/sound/soc/intel/avs/avs.h
+@@ -392,4 +392,8 @@ static inline void avs_debugfs_init(struct avs_dev *adev) { }
+ static inline void avs_debugfs_exit(struct avs_dev *adev) { }
+ #endif
+ 
++/* Filesystems integration */
++
++extern const struct attribute_group *avs_attr_groups[];
++
+ #endif /* __SOUND_SOC_INTEL_AVS_H */
+diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+index db78eb2f01080..273a902168562 100644
+--- a/sound/soc/intel/avs/core.c
++++ b/sound/soc/intel/avs/core.c
+@@ -776,6 +776,7 @@ static struct pci_driver avs_pci_driver = {
+ 	.probe = avs_pci_probe,
+ 	.remove = avs_pci_remove,
+ 	.shutdown = avs_pci_shutdown,
++	.dev_groups = avs_attr_groups,
+ 	.driver = {
+ 		.pm = &avs_dev_pm,
+ 	},
+diff --git a/sound/soc/intel/avs/sysfs.c b/sound/soc/intel/avs/sysfs.c
+new file mode 100644
+index 0000000000000..cce21636fbc02
+--- /dev/null
++++ b/sound/soc/intel/avs/sysfs.c
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// Copyright(c) 2021-2024 Intel Corporation. All rights reserved.
++//
++// Authors: Cezary Rojewski <cezary.rojewski@intel.com>
++//          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
++//
++
++#include <linux/sysfs.h>
++#include "avs.h"
++
++static ssize_t fw_version_show(struct device *dev, struct device_attribute *attr, char *buf)
 +{
-+	struct avs_soc_component *acomp;
++	struct avs_dev *adev = to_avs_dev(dev);
++	struct avs_fw_version *fw_version = &adev->fw_cfg.fw_version;
 +
-+	acomp = to_avs_soc_component(mod->template->owner->owner->owner->owner->comp);
-+
-+	u32 num_ids = mod->template->num_config_ids;
-+	u32 *ids = mod->template->config_ids;
-+
-+	for (int i = 0; i < num_ids; i++) {
-+		struct avs_tplg_init_config *config = &acomp->tplg->init_configs[ids[i]];
-+		size_t len = config->length;
-+		void *data = config->data;
-+		u32 param = config->param;
-+		int ret;
-+
-+		ret = avs_ipc_set_large_config(adev, mod->module_id, mod->instance_id,
-+					       param, data, len);
-+		if (ret) {
-+			dev_err(adev->dev, "send initial module config failed: %d\n", ret);
-+			return AVS_IPC_RET(ret);
-+		}
-+	}
-+
-+	return 0;
++	return sysfs_emit(buf, "%d.%d.%d.%d\n", fw_version->major, fw_version->minor,
++			  fw_version->hotfix, fw_version->build);
 +}
++static DEVICE_ATTR_RO(fw_version);
 +
- static void avs_path_module_free(struct avs_dev *adev, struct avs_path_module *mod)
- {
- 	kfree(mod);
-@@ -580,6 +607,12 @@ avs_path_module_create(struct avs_dev *adev,
- 		return ERR_PTR(ret);
- 	}
- 
-+	ret = avs_path_module_send_init_configs(adev, mod);
-+	if (ret) {
-+		kfree(mod);
-+		return ERR_PTR(ret);
-+	}
++static struct attribute *avs_fw_attrs[] = {
++	&dev_attr_fw_version.attr,
++	NULL
++};
 +
- 	return mod;
- }
- 
++static const struct attribute_group avs_attr_group = {
++	.name = "avs",
++	.attrs = avs_fw_attrs,
++};
++
++const struct attribute_group *avs_attr_groups[] = {
++	&avs_attr_group,
++	NULL
++};
 -- 
 2.34.1
 
