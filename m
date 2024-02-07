@@ -1,227 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAEE127B5C
-	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 21:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4AD12E1FE;
+	Wed,  7 Feb 2024 21:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707340221; cv=none; b=YrphM5Uidd507VZhtnYuL0OqDQYl2SdRdcq8WxS3BQLE6DNeF0gSo6MFrcc+RQZNdh+nqImt2fe35n/gQlKYkRDFPu/KtuzUl5zVHTMjqRPYujG4fdU7gMvSJ7ESyYCHg8dQ7vLv6yrxfQXloykHhaWPivEPB4VtSx+nnFQ5Vds=
+	t=1707340914; cv=none; b=d6rY1nE/5ojwcj75rkF/aLMunpnOMY+qQ+CHjxnhMCzP/+9MrclyDikdpQ8G+V6HzLBduQoJ+rmNgrjMuQ/Bbmf242JGvKrhKeB3jp+KdFjGJaPj7fDJL4jLtQoJR0nJgNuhFv5ONgPveZ33Xg4oTQ4cavTQsJj5uSIav0oachM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707340221; c=relaxed/simple;
-	bh=YF5W5h5FJ2BTof0Z5hlJe4uKw4I2TVKX3szp6tcd8Yw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l18vwPdo/uKKkcijXZ2eazW3IgCA0CFJeiJu7iKB+TseKZf95NdBfYvxifVEGLltkEyXYY+9yv+il3nLLJ1LNwVvolKzuTRaFj+U94V9uuHTBUyLWb85/S1U+b9qDTJjDjsds09z+58f+R+Qln+33s+MMu+tCz0qBCJEIH+FjmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfTcm14d; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707340914; c=relaxed/simple;
+	bh=0VOhKIivJpvUBI1Diu2IvdC9acapXaOv9s1dqEnVZFE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SMTD10TEkQBpsbr/rr2xYnfhxlAbVDiSpkgjR2e9kcsyktPcSEn8hp82BMyi7g1Ro1pf2oSept1DfJGaElRE2TBt2Webge1rhV4Q+0htcmXGWVCK/NnNI9jIz80HAzRxWRgPI+wsMbG0v30GMzkhk/Oce/uwnprjgGqsT8KRLDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sAl8kDKe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfTcm14d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707340218; x=1738876218;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YF5W5h5FJ2BTof0Z5hlJe4uKw4I2TVKX3szp6tcd8Yw=;
-  b=dfTcm14d0MnxXfyZTlmTbnv9Et8pTJ9vn3J1D4XGMLaVbPmmzaNdKsP6
-   4z86bcy0AJ+ns3na8j1Jmnbcod02rUiErh8CD6v5R6uwRDqYPBaMb8O+2
-   IIIJZU9KiLSk1V9KUN/B/n1UanXZAs8e3fiY//sx8qev0IublC4om7ZAQ
-   3L5lWcmbGMX0Lk4bDQq0HjEZGx42rdw7i+G/AhgnIaXJujXhKw02HIMN1
-   vl2nJgU86WxtQEN9ZnuREMNBiul1lQCi82vE+mOzFBT/1ynrCZOxoLePq
-   k8tox683sjZ0OrvtYo4upd2LfVmYIHhU51jgQrArJktt3GU3Xlf0F9/iU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="4901644"
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="4901644"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 13:10:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="1445149"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Feb 2024 13:10:14 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXpBL-00033A-2j;
-	Wed, 07 Feb 2024 21:10:11 +0000
-Date: Thu, 8 Feb 2024 05:09:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	=?utf-8?Q?=C5=81ukasz?= Majczak <lma@chromium.org>,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Subject: Re: [PATCH 2/3] ASoC: Intel: avs: Add topology parsing support for
- initial config
-Message-ID: <202402080403.reu2fMfN-lkp@intel.com>
-References: <20240207120946.2140480-3-amadeuszx.slawinski@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sAl8kDKe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1047FC4160D;
+	Wed,  7 Feb 2024 21:21:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707340914;
+	bh=0VOhKIivJpvUBI1Diu2IvdC9acapXaOv9s1dqEnVZFE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sAl8kDKe5NbYX3aOUiSsMF2rzvtCqTluQt+q4fHdiFXMcT48HMv9z3TZLw1C8rlVz
+	 o16+Wbk82BTEucMV22zR/AVmRGImlprTqG8MSQtEABjF6qTW5/498CVl5YFPUsobuf
+	 Aajnmj4Qe70F+ctG8oab/tXKIYRtYLZDXyKdIeXHPOU6NuU6h1fAYeLGsBBtA3ammx
+	 8N6YbnUg5BLMMF26jml9KVOQoG7MKq/mhStDyWnJFDxeLolJfZftSbZCNxP1fOnSvy
+	 +RIy/yE66VtEZtulK9dJqmE1t1o8wlnvk6oOrbIkIhlYIAOAKD6NaZYZh7B7OuW2an
+	 wErV/o2iyULMA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	Syed.SabaKareem@amd.com,
+	alpernebiyasak@gmail.com,
+	cristian.ciocaltea@collabora.com,
+	kuninori.morimoto.gx@renesas.com,
+	posteuca@mutex.one,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 06/44] ASoC: amd: acp: Add check for cpu dai link initialization
+Date: Wed,  7 Feb 2024 16:20:33 -0500
+Message-ID: <20240207212142.1399-6-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
+References: <20240207212142.1399-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207120946.2140480-3-amadeuszx.slawinski@linux.intel.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.4
+Content-Transfer-Encoding: 8bit
 
-Hi Amadeusz,
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
 
-kernel test robot noticed the following build warnings:
+[ Upstream commit 6cc2aa9a75f2397d42b78d4c159bc06722183c78 ]
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.8-rc3 next-20240207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Add condition check for cpu dai link initialization for amplifier
+codec path, as same pcm id uses for both headset and speaker path
+for RENOIR platforms.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amadeusz-S-awi-ski/ASoC-Intel-avs-UAPI-Add-tokens-for-initial-config-feature/20240207-201212
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240207120946.2140480-3-amadeuszx.slawinski%40linux.intel.com
-patch subject: [PATCH 2/3] ASoC: Intel: avs: Add topology parsing support for initial config
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240208/202402080403.reu2fMfN-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080403.reu2fMfN-lkp@intel.com/reproduce)
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Link: https://msgid.link/r/20240118143023.1903984-3-venkataprasad.potturu@amd.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/amd/acp/acp-mach-common.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402080403.reu2fMfN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from sound/soc/intel/avs/topology.c:11:
-   In file included from include/sound/soc.h:21:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from sound/soc/intel/avs/topology.c:11:
-   In file included from include/sound/soc.h:21:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from sound/soc/intel/avs/topology.c:11:
-   In file included from include/sound/soc.h:21:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> sound/soc/intel/avs/topology.c:1490:13: warning: parameter 'block_size' set but not used [-Wunused-but-set-parameter]
-    1490 |                                            u32 block_size)
-         |                                                ^
-   13 warnings generated.
-
-
-vim +/block_size +1490 sound/soc/intel/avs/topology.c
-
-  1487	
-  1488	static int avs_tplg_parse_initial_configs(struct snd_soc_component *comp,
-  1489						   struct snd_soc_tplg_vendor_array *tuples,
-> 1490						   u32 block_size)
-  1491	{
-  1492		struct avs_soc_component *acomp = to_avs_soc_component(comp);
-  1493		struct avs_tplg *tplg = acomp->tplg;
-  1494		int ret, i;
-  1495	
-  1496		/* Parse tuple section telling how many init configs there are. */
-  1497		ret = parse_dictionary_header(comp, tuples, (void **)&tplg->init_configs,
-  1498					      &tplg->num_init_configs,
-  1499					      sizeof(*tplg->init_configs),
-  1500					      AVS_TKN_MANIFEST_NUM_INIT_CONFIGS_U32);
-  1501		if (ret)
-  1502			return ret;
-  1503	
-  1504		block_size -= le32_to_cpu(tuples->size);
-  1505		/* With header parsed, move on to parsing entries. */
-  1506		tuples = avs_tplg_vendor_array_next(tuples);
-  1507	
-  1508		for (i = 0; i < tplg->num_init_configs; i++) {
-  1509			struct avs_tplg_init_config *config = &tplg->init_configs[i];
-  1510			struct snd_soc_tplg_vendor_array *tmp;
-  1511			void *init_config_data;
-  1512			u32 esize;
-  1513	
-  1514			/*
-  1515			 * Usually to get section length we search for first token of next group of data,
-  1516			 * but in this case we can't as tuples are followed by raw data.
-  1517			 */
-  1518			tmp = avs_tplg_vendor_array_next(tuples);
-  1519			esize = le32_to_cpu(tuples->size) + le32_to_cpu(tmp->size);
-  1520	
-  1521			ret = parse_dictionary_entries(comp, tuples, esize, config, 1, sizeof(*config),
-  1522						       AVS_TKN_MOD_INIT_CONFIG_ID_U32,
-  1523						       mod_init_config_parsers,
-  1524						       ARRAY_SIZE(mod_init_config_parsers));
-  1525	
-  1526			block_size -= esize;
-  1527	
-  1528			/* handle raw data section */
-  1529			init_config_data = (void *)tuples + esize;
-  1530			esize = config->length;
-  1531	
-  1532			config->data = devm_kmemdup(comp->card->dev, init_config_data, esize, GFP_KERNEL);
-  1533			if (!config->data)
-  1534				return -ENOMEM;
-  1535	
-  1536			tuples = init_config_data + esize;
-  1537		}
-  1538	
-  1539		return 0;
-  1540	}
-  1541	
-
+diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
+index 34b14f2611ba..12ff0a558ea8 100644
+--- a/sound/soc/amd/acp/acp-mach-common.c
++++ b/sound/soc/amd/acp/acp-mach-common.c
+@@ -1428,8 +1428,13 @@ int acp_sofdsp_dai_links_create(struct snd_soc_card *card)
+ 	if (drv_data->amp_cpu_id == I2S_SP) {
+ 		links[i].name = "acp-amp-codec";
+ 		links[i].id = AMP_BE_ID;
+-		links[i].cpus = sof_sp_virtual;
+-		links[i].num_cpus = ARRAY_SIZE(sof_sp_virtual);
++		if (drv_data->platform == RENOIR) {
++			links[i].cpus = sof_sp;
++			links[i].num_cpus = ARRAY_SIZE(sof_sp);
++		} else {
++			links[i].cpus = sof_sp_virtual;
++			links[i].num_cpus = ARRAY_SIZE(sof_sp_virtual);
++		}
+ 		links[i].platforms = sof_component;
+ 		links[i].num_platforms = ARRAY_SIZE(sof_component);
+ 		links[i].dpcm_playback = 1;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
