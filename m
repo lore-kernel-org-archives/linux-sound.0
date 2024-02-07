@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086008063C
-	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 15:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669D880BE8
+	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 15:52:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707321131; cv=none; b=kzE6x2nVkjs2CN+VOYMc48HlsExkCroTM+RpY0ZFSiKR3mWGyKDCmIgHqnRM7TcR/URb4MNxOxBAXm8zdYLDEoGdHuyZnib6/i5Dm9XTatrLWyggEjlNJ2b0K/p5yEGSvOMQhnpjmwdZxzVG3MmV1f0nqStzQoxLyIqAh7vkhIg=
+	t=1707321131; cv=none; b=roRwOJ+rOz92xcD7vQPHUflJlsn1cV41NAsaaUMtVPCF3n9yq7PlrPnaVQ0X2AcTrFLOx/4T8WRalrlG4AMlhjpnM5S6dFUiaN4iuQrzMZvR+LhvZMX9vMh3OkE22JH5tzGs0T84phn1PuzkB34SgF929r7HDejCv8M3kZP9BuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707321131; c=relaxed/simple;
-	bh=kUSahc+1IDWx7cmStE1yAyD98pZzPjAkE3e/SNL1zi8=;
+	bh=zn2xnT5ktJlHbqaEKfKnqjynXEckUI9juZ5wJ9rQl5c=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RMIX5NGE7zG6T4gkvW7HNH9nMOigv9CDAwcEyxM/NuRKbe0Op9mTT5DDhSVTwJU1vKgSXfsX+AUQrcHIdE9nDh+rxffnbfByyPOTq7jgW6faNbbbnaMi0hU5i055yTUs0AqgoIrfXVK4uwd+94x8Qg6ovNJ04ck145RTIP+skYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xbb+96p2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gRh9RWIt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xbb+96p2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gRh9RWIt; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=mPRXssKTfKXWBpWklXKFnLGK5TJjw1Uhwmco0dIaO5dyoGEa7dSsL72OvBXhg+0w7QWXzW2ctTwTpxs182G1t7OFc+gn9CpmV5y/QBIYiizj3VPv+DdfkNu4k9PTQsLu6BPoy5bdNtiinaED7i4Fg+P/e8GhOjtrdtHPIL6ZWOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SXSTffIF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2Som04ng; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SXSTffIF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2Som04ng; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xbb+96p2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gRh9RWIt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xbb+96p2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gRh9RWIt"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SXSTffIF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2Som04ng";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SXSTffIF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2Som04ng"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CEC7822338;
-	Wed,  7 Feb 2024 15:52:01 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 22389222CF;
+	Wed,  7 Feb 2024 15:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707321121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1707321122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+YMArDc8aR3Wmg1nRPYI2uXhA5bjCAix4Xp14nbBVn4=;
-	b=Xbb+96p2cyB3GfhsDIV8Gf1132nd0tQ91wurPkGiVHQMtMNkyiHbcmNbbA6z1J9hPmIXdl
-	I07eOcTrySF7mtC6L0tHNh2A/AMZyt5FKskVzFKjAGZZZE54Zr+FqIrnRtB73x9eEj2B19
-	+ibQTbRW21LLzChwdN4SM31kph8PVZI=
+	bh=V4KDZHUqFX6qBLv8U1utusalBfBNHsYYgHfcSmeeurQ=;
+	b=SXSTffIFnwAjmGrbi4FqBFpVPCylq7WYZ6eX5qcKsy4/FxwMwLB74ZGrnLMiYG0cpp1JmP
+	KLjrfqH2Chis1esy+jwX+TcdWMEiP5BbMd43e4NDpWLd1YZ5l8G730ML7A1JHkqKpkdPiL
+	QCbawQ8qzPHNqZip6yYhJ/M68Ef9A4s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707321121;
+	s=susede2_ed25519; t=1707321122;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+YMArDc8aR3Wmg1nRPYI2uXhA5bjCAix4Xp14nbBVn4=;
-	b=gRh9RWItTUrNZtSzsGvnpu1WyM1dbLCt75RmyfvtixwG8gpdKSDE6C0OYzOp1BsQtMrTxg
-	oNbPiTUuz2ScgNCg==
+	bh=V4KDZHUqFX6qBLv8U1utusalBfBNHsYYgHfcSmeeurQ=;
+	b=2Som04ngGbKSm2iopIuRWlN/K1Her70Qr5DCdSnCN9/tBaDCWYPxS0nEJs1BsInu5WNeoN
+	2nGPeU1mtzVYawAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707321121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1707321122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+YMArDc8aR3Wmg1nRPYI2uXhA5bjCAix4Xp14nbBVn4=;
-	b=Xbb+96p2cyB3GfhsDIV8Gf1132nd0tQ91wurPkGiVHQMtMNkyiHbcmNbbA6z1J9hPmIXdl
-	I07eOcTrySF7mtC6L0tHNh2A/AMZyt5FKskVzFKjAGZZZE54Zr+FqIrnRtB73x9eEj2B19
-	+ibQTbRW21LLzChwdN4SM31kph8PVZI=
+	bh=V4KDZHUqFX6qBLv8U1utusalBfBNHsYYgHfcSmeeurQ=;
+	b=SXSTffIFnwAjmGrbi4FqBFpVPCylq7WYZ6eX5qcKsy4/FxwMwLB74ZGrnLMiYG0cpp1JmP
+	KLjrfqH2Chis1esy+jwX+TcdWMEiP5BbMd43e4NDpWLd1YZ5l8G730ML7A1JHkqKpkdPiL
+	QCbawQ8qzPHNqZip6yYhJ/M68Ef9A4s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707321121;
+	s=susede2_ed25519; t=1707321122;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+YMArDc8aR3Wmg1nRPYI2uXhA5bjCAix4Xp14nbBVn4=;
-	b=gRh9RWItTUrNZtSzsGvnpu1WyM1dbLCt75RmyfvtixwG8gpdKSDE6C0OYzOp1BsQtMrTxg
-	oNbPiTUuz2ScgNCg==
+	bh=V4KDZHUqFX6qBLv8U1utusalBfBNHsYYgHfcSmeeurQ=;
+	b=2Som04ngGbKSm2iopIuRWlN/K1Her70Qr5DCdSnCN9/tBaDCWYPxS0nEJs1BsInu5WNeoN
+	2nGPeU1mtzVYawAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE283139D8;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04CD4139D8;
 	Wed,  7 Feb 2024 15:52:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WN8NKSGnw2UsRAAAD6G6ig
+	id WGtbOyGnw2UsRAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 15:52:01 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 24/29] ALSA: maestro3: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Wed,  7 Feb 2024 16:51:35 +0100
-Message-Id: <20240207155140.18238-25-tiwai@suse.de>
+Subject: [PATCH 26/29] ALSA: rme96: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  7 Feb 2024 16:51:37 +0100
+Message-Id: <20240207155140.18238-27-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240207155140.18238-1-tiwai@suse.de>
 References: <20240207155140.18238-1-tiwai@suse.de>
@@ -87,9 +87,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xbb+96p2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gRh9RWIt
-X-Spamd-Result: default: False [4.68 / 50.00];
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SXSTffIF;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2Som04ng
+X-Spamd-Result: default: False [4.69 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -110,10 +110,10 @@ X-Spamd-Result: default: False [4.68 / 50.00];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.01)[51.33%]
+	 BAYES_HAM(-0.00)[34.01%]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 4.68
-X-Rspamd-Queue-Id: CEC7822338
+X-Spam-Score: 4.69
+X-Rspamd-Queue-Id: 22389222CF
 X-Spam-Level: ****
 X-Spam-Flag: NO
 X-Spamd-Bar: ++++
@@ -121,91 +121,96 @@ X-Spamd-Bar: ++++
 Use the new DEFINE_SIMPLE_DEV_PM_OPS() instead of SIMPLE_DEV_PM_OPS()
 for code-simplification.  We need no longer CONFIG_PM_SLEEP ifdefs.
 
-The area for register dump is conditionally allocated instead of
-ifdef now.
+The temporary buffers for PCM stream backups are conditionally
+allocated since the sizes aren't too small.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/maestro3.c | 29 ++++++++++-------------------
- 1 file changed, 10 insertions(+), 19 deletions(-)
+ sound/pci/rme96.c | 30 ++++++++++--------------------
+ 1 file changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/sound/pci/maestro3.c b/sound/pci/maestro3.c
-index 305cbd24a391..f4d211970d7e 100644
---- a/sound/pci/maestro3.c
-+++ b/sound/pci/maestro3.c
-@@ -769,9 +769,7 @@ struct snd_m3 {
+diff --git a/sound/pci/rme96.c b/sound/pci/rme96.c
+index 6b5ffb18197b..d50ad25574ad 100644
+--- a/sound/pci/rme96.c
++++ b/sound/pci/rme96.c
+@@ -220,12 +220,10 @@ struct rme96 {
  
- 	unsigned int in_suspend;
+ 	u8 rev; /* card revision number */
  
 -#ifdef CONFIG_PM_SLEEP
- 	u16 *suspend_mem;
+ 	u32 playback_pointer;
+ 	u32 capture_pointer;
+ 	void *playback_suspend_buffer;
+ 	void *capture_suspend_buffer;
 -#endif
  
- 	const struct firmware *assp_kernel_image;
- 	const struct firmware *assp_minisrc_image;
-@@ -2354,9 +2352,7 @@ static void snd_m3_free(struct snd_card *card)
- 		outw(0, chip->iobase + HOST_INT_CTRL); /* disable ints */
+ 	struct snd_pcm_substream *playback_substream;
+ 	struct snd_pcm_substream *capture_substream;
+@@ -1543,10 +1541,8 @@ snd_rme96_free(struct rme96 *rme96)
+ 		rme96->areg &= ~RME96_AR_DAC_EN;
+ 		writel(rme96->areg, rme96->iobase + RME96_IO_ADDITIONAL_REG);
  	}
+-#ifdef CONFIG_PM_SLEEP
+ 	vfree(rme96->playback_suspend_buffer);
+ 	vfree(rme96->capture_suspend_buffer);
+-#endif
+ }
+ 
+ static void
+@@ -2329,8 +2325,6 @@ snd_rme96_create_switches(struct snd_card *card,
+  * Card initialisation
+  */
  
 -#ifdef CONFIG_PM_SLEEP
- 	vfree(chip->suspend_mem);
--#endif
- 	release_firmware(chip->assp_kernel_image);
- 	release_firmware(chip->assp_minisrc_image);
- }
-@@ -2365,7 +2361,6 @@ static void snd_m3_free(struct snd_card *card)
- /*
-  * APM support
-  */
--#ifdef CONFIG_PM_SLEEP
- static int m3_suspend(struct device *dev)
+-
+ static int rme96_suspend(struct device *dev)
  {
  	struct snd_card *card = dev_get_drvdata(dev);
-@@ -2439,11 +2434,7 @@ static int m3_resume(struct device *dev)
+@@ -2392,11 +2386,7 @@ static int rme96_resume(struct device *dev)
  	return 0;
  }
  
--static SIMPLE_DEV_PM_OPS(m3_pm, m3_suspend, m3_resume);
--#define M3_PM_OPS	&m3_pm
+-static SIMPLE_DEV_PM_OPS(rme96_pm, rme96_suspend, rme96_resume);
+-#define RME96_PM_OPS	&rme96_pm
 -#else
--#define M3_PM_OPS	NULL
+-#define RME96_PM_OPS	NULL
 -#endif /* CONFIG_PM_SLEEP */
-+static DEFINE_SIMPLE_DEV_PM_OPS(m3_pm, m3_suspend, m3_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(rme96_pm, rme96_suspend, rme96_resume);
  
- #ifdef CONFIG_SND_MAESTRO3_INPUT
- static int snd_m3_input_register(struct snd_m3 *chip)
-@@ -2587,14 +2578,14 @@ snd_m3_create(struct snd_card *card, struct pci_dev *pci,
- 	chip->irq = pci->irq;
- 	card->sync_irq = chip->irq;
- 
+ static void snd_rme96_card_free(struct snd_card *card)
+ {
+@@ -2432,14 +2422,14 @@ __snd_rme96_probe(struct pci_dev *pci,
+ 	if (err)
+ 		return err;
+ 	
 -#ifdef CONFIG_PM_SLEEP
--	chip->suspend_mem =
--		vmalloc(array_size(sizeof(u16),
--				   REV_B_CODE_MEMORY_LENGTH +
--					REV_B_DATA_MEMORY_LENGTH));
--	if (chip->suspend_mem == NULL)
--		dev_warn(card->dev, "can't allocate apm buffer\n");
+-	rme96->playback_suspend_buffer = vmalloc(RME96_BUFFER_SIZE);
+-	if (!rme96->playback_suspend_buffer)
+-		return -ENOMEM;
+-	rme96->capture_suspend_buffer = vmalloc(RME96_BUFFER_SIZE);
+-	if (!rme96->capture_suspend_buffer)
+-		return -ENOMEM;
 -#endif
 +	if (IS_ENABLED(CONFIG_PM_SLEEP)) {
-+		chip->suspend_mem =
-+			vmalloc(array_size(sizeof(u16),
-+					   REV_B_CODE_MEMORY_LENGTH +
-+					   REV_B_DATA_MEMORY_LENGTH));
-+		if (!chip->suspend_mem)
-+			dev_warn(card->dev, "can't allocate apm buffer\n");
++		rme96->playback_suspend_buffer = vmalloc(RME96_BUFFER_SIZE);
++		if (!rme96->playback_suspend_buffer)
++			return -ENOMEM;
++		rme96->capture_suspend_buffer = vmalloc(RME96_BUFFER_SIZE);
++		if (!rme96->capture_suspend_buffer)
++			return -ENOMEM;
 +	}
  
- 	err = snd_m3_mixer(chip);
- 	if (err < 0)
-@@ -2706,7 +2697,7 @@ static struct pci_driver m3_driver = {
- 	.id_table = snd_m3_ids,
- 	.probe = snd_m3_probe,
+ 	strcpy(card->driver, "Digi96");
+ 	switch (rme96->pci->device) {
+@@ -2483,7 +2473,7 @@ static struct pci_driver rme96_driver = {
+ 	.id_table = snd_rme96_ids,
+ 	.probe = snd_rme96_probe,
  	.driver = {
--		.pm = M3_PM_OPS,
-+		.pm = &m3_pm,
+-		.pm = RME96_PM_OPS,
++		.pm = &rme96_pm,
  	},
  };
- 	
+ 
 -- 
 2.35.3
 
