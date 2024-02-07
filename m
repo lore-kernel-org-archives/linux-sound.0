@@ -1,90 +1,191 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A727FBAA;
-	Wed,  7 Feb 2024 15:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155FD7FBBE
+	for <linux-sound@vger.kernel.org>; Wed,  7 Feb 2024 15:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707319866; cv=none; b=JxL3vXlDcnyiQXtzd8sZZj4CKTOFs5eb8iDodgM8YJHKavlTKiaDeAdBm2gOS7uxv/LRwq4mLgs6yNlcgqKmrxfIjAe3Dij5iW9fHhaBc+d8MCYm7Q966I7DJJ8b1Eu28+BDa8nOqT9EACw+sgc58b5wD+sXGW8syBx4YyxcBkQ=
+	t=1707321117; cv=none; b=WWu1bxFUjvYv8ZQyGYrbeSV4BAJBF6dzCDbXAnCUVabIlzt64P2INj8nUgUAy98T1/+XJWku7RLrsz/HagntG+l+peShtEPYq5nK0Wk0Ldrq9oZ0C27loRdLt+pwPxIiQPR4R7G5e0ee1n2fmY1jq2yFm4wzGv+m+Za1J91vFsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707319866; c=relaxed/simple;
-	bh=eJeLndhWGRvAdTc5kciWtPegu1uaVizibVG6t8sSW7A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=P7PPlaKe0sF5QCjEF/VsBpsEV9CaUr6y+aCD2grZA8vYCPN8DgUXLCOy7eG0RI1Sip1nfGTmUnWpEvyF67gCxeBq1mQj1cEdTvCefsS700BGKSQtc1pvJKfF4OcWo1SS9eaCRoROL+3T59EywIjWkzKH+SCX9tq5DqU3tTDKH/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pX3LTP6j; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rd8/9nVM; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1707321117; c=relaxed/simple;
+	bh=NmPf/jBpDoas//7CAyrIy9m5BgQn9hY+qihYWHOvu2M=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=pHgMU0W4IsvBK4vbAPRZAkAcNZ1BDAaPSJp5NfPwd2B3QOXOs/VK6qFEgCk3x7LIebTl6R6/jmAFW003GobgBLpRxyH7ui78/1mPap+CPoEG264d/WU+Eex8VzDHT0zuLmuTifLiOUgqgzRV8yUH1pY7Tw7yH95exZHHsVDqYnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H4oUkUQe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aaDCOlHU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H4oUkUQe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aaDCOlHU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pX3LTP6j";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rd8/9nVM"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1707319863;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c04kwZUxrvzi0qvbSSBFwoEI3C7fipYQbJIv4qBO2mM=;
-	b=pX3LTP6jV2sgdSLm1wYHtfx8ErZl1KpxVfPY9rb03KkNx8HshqzA+MQcD1oD+pi1+98JnT
-	hukHm/rQE4T/Lr0aLnUxVqVvqkE0SolHJ/yHRTHKhMDUDtp0CvUlgAXyz3HCF10+FoOdYz
-	IJEsyZlpaw3Vl+KUtMsDd3Ev5iCeIl3bNmEbHx0zde9t7+1gvIJ2x2N2xH0LzDgNQxSKj3
-	9yTiqHI/Ds4eZBsIRW9Lgdb+gtmkus9yy91OC+l1pbflBSuHxvfOEsSJ+IJZmVXCyL3zmN
-	TxDv/fPfWOpMNNhgZ4GKkOJlg/J7BeDb/iQCkcKbXsDjLp3f/uk2NESKg/0wFw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1707319863;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c04kwZUxrvzi0qvbSSBFwoEI3C7fipYQbJIv4qBO2mM=;
-	b=rd8/9nVMjgPNsldK9YDX7YWT5kRNdt7AE4DtqnZ0JUjYD/Rpywr6xjdjT/asiFcpRtTF+B
-	CWRJeVKy5QeunoCw==
-To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com,
- jesse.brandeburg@intel.com, davem@davemloft.net,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
- anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
- pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
- subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com,
- lakshmi.sowjanya.d@intel.com
-Subject: Re: [PATCH v4 07/11] ice/ptp: remove convert_art_to_tsc()
-In-Reply-To: <20240207060854.6524-8-lakshmi.sowjanya.d@intel.com>
-References: <20240207060854.6524-1-lakshmi.sowjanya.d@intel.com>
- <20240207060854.6524-8-lakshmi.sowjanya.d@intel.com>
-Date: Wed, 07 Feb 2024 16:31:02 +0100
-Message-ID: <87bk8smguh.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H4oUkUQe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aaDCOlHU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H4oUkUQe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aaDCOlHU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A83B222CF;
+	Wed,  7 Feb 2024 15:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707321114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IrJUqY2AoZ/QkxGyEw0ZvRAV/q6PSLmM2/GsRHQd074=;
+	b=H4oUkUQe1r+55D4IUluN+HVLpgg53cWvjSd87Y67x4Aq6/ElFB0N0tzlBNYFoN5CUq9iJz
+	E03G64Y8vPDOQLmODp/Sv2w7zIr+oDz+WbMBOu9+YfTSEnWEkRup1uH/npS8SjJjv/bk+I
+	1BStPZuFor6uqB/KqGeuOCOu/N6Sbo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707321114;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IrJUqY2AoZ/QkxGyEw0ZvRAV/q6PSLmM2/GsRHQd074=;
+	b=aaDCOlHU/nEU8prnXb8ACCvg6WUHDrdj6NjqQ6kS8eR1Q5AKgRjEPpSXsQpWIfOjcfE1X9
+	25ObuBk2duCFqJAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707321114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IrJUqY2AoZ/QkxGyEw0ZvRAV/q6PSLmM2/GsRHQd074=;
+	b=H4oUkUQe1r+55D4IUluN+HVLpgg53cWvjSd87Y67x4Aq6/ElFB0N0tzlBNYFoN5CUq9iJz
+	E03G64Y8vPDOQLmODp/Sv2w7zIr+oDz+WbMBOu9+YfTSEnWEkRup1uH/npS8SjJjv/bk+I
+	1BStPZuFor6uqB/KqGeuOCOu/N6Sbo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707321114;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IrJUqY2AoZ/QkxGyEw0ZvRAV/q6PSLmM2/GsRHQd074=;
+	b=aaDCOlHU/nEU8prnXb8ACCvg6WUHDrdj6NjqQ6kS8eR1Q5AKgRjEPpSXsQpWIfOjcfE1X9
+	25ObuBk2duCFqJAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C1AE139B9;
+	Wed,  7 Feb 2024 15:51:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0PJ7ARqnw2UsRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Feb 2024 15:51:54 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 00/29] ALSA: Clean up with DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  7 Feb 2024 16:51:11 +0100
+Message-Id: <20240207155140.18238-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_NONE(0.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCPT_COUNT_ONE(0.00)[1];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-On Wed, Feb 07 2024 at 11:38, lakshmi sowjanya d. wrote:
+Hi,
 
-> From: Thomas Gleixner <tglx@linutronix.de>
->
-> Remove convert_art_to_tsc() function call, Pass system clock cycles and
-> clocksource ID as input to get_device_system_crosststamp().
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> ---
->  drivers/net/ethernet/intel/ice/ice_ptp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/net/ethernet/intel/ice/ice_ptp.c b/drivers/net/ethernet/intel/ice/ice_ptp.c
-> index 3b6605c8585e..104b3f7a7cfc 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_ptp.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_ptp.c
-> @@ -2101,7 +2101,7 @@ ice_ptp_get_syncdevicetime(ktime_t *device,
->  			hh_ts_lo = rd32(hw, GLHH_ART_TIME_L);
->  			hh_ts_hi = rd32(hw, GLHH_ART_TIME_H);
->  			hh_ts = ((u64)hh_ts_hi << 32) | hh_ts_lo;
-> -			*system = convert_art_ns_to_tsc(hh_ts);
-> +			system->cycles = hh_ts;
+this is a patch set to clean up the use of the deprecated
+SIMPLE_DEV_PM_OPS() with DEFINE_SIPMLE_DEV_PM_OPS().
 
-Fails to set the ID.
+Most of changes are strightforward, but some needed tweaks, either
+defining the dummy functions for non-PM configs or unconditionally
+enabling a few bytes for the storage.
+
+There are still a few leftover SIMPLE_DEV_PM_OPS() even after this
+patch; those are with the lots of build dependencies, so the change
+would be non-trivial.
+
+
+Takashi
+
+===
+
+Takashi Iwai (29):
+  ALSA: aloop: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: dummy: Replace with DEFINE_SIPMLE_DEV_PM_OPS()
+  ALSA: pcsp: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: als300: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: als4000: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: atiixp: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: ens137x: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: intel8x0: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: nm256: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: aoa: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: aaci: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: pxa2xx-ac97: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ASoC: pxa2xx-ac97: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: at73c213: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: ali5451: Embed suspend image into struct snd_ali
+  ALSA: ali5451: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: azt3328: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: cmipci: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: cs4281: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: echoaudio: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: es1938: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: es1968: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: fm801: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: maestro3: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: riptide: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: rme96: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: sis7019: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: via82xx: Simplify with DEFINE_SIMPLE_DEV_PM_OPS()
+  ALSA: doc: Use DEFINE_SIMPLE_DEV_PM_OPS()
+
+ .../kernel-api/writing-an-alsa-driver.rst     |  6 ++--
+ include/sound/ak4531_codec.h                  |  3 ++
+ include/sound/sb.h                            |  3 ++
+ sound/aoa/fabrics/layout.c                    |  7 +---
+ sound/arm/aaci.c                              | 10 ++----
+ sound/arm/pxa2xx-ac97.c                       |  7 +---
+ sound/drivers/aloop.c                         |  9 ++----
+ sound/drivers/dummy.c                         |  9 ++----
+ sound/drivers/pcsp/pcsp.c                     |  9 ++----
+ sound/pci/ali5451/ali5451.c                   | 32 +++----------------
+ sound/pci/als300.c                            |  9 ++----
+ sound/pci/als4000.c                           |  9 ++----
+ sound/pci/atiixp.c                            | 12 ++-----
+ sound/pci/atiixp_modem.c                      | 11 ++-----
+ sound/pci/azt3328.c                           | 11 ++-----
+ sound/pci/cmipci.c                            | 11 ++-----
+ sound/pci/cs4281.c                            | 13 ++------
+ sound/pci/echoaudio/echoaudio.c               | 21 ++----------
+ sound/pci/echoaudio/echoaudio.h               |  2 --
+ sound/pci/ens1370.c                           |  9 ++----
+ sound/pci/es1938.c                            | 11 ++-----
+ sound/pci/es1968.c                            | 17 ++--------
+ sound/pci/fm801.c                             | 11 ++-----
+ sound/pci/intel8x0.c                          |  9 ++----
+ sound/pci/intel8x0m.c                         |  9 ++----
+ sound/pci/maestro3.c                          | 29 ++++++-----------
+ sound/pci/nm256/nm256.c                       |  9 ++----
+ sound/pci/riptide/riptide.c                   | 11 ++-----
+ sound/pci/rme96.c                             | 30 ++++++-----------
+ sound/pci/sis7019.c                           | 13 ++------
+ sound/pci/via82xx.c                           | 15 ++-------
+ sound/pci/via82xx_modem.c                     |  9 ++----
+ sound/soc/pxa/pxa2xx-ac97.c                   |  6 +---
+ sound/spi/at73c213.c                          | 11 ++-----
+ 34 files changed, 86 insertions(+), 307 deletions(-)
+
+-- 
+2.35.3
+
