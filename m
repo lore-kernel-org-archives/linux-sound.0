@@ -1,47 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B86136643;
-	Wed,  7 Feb 2024 21:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426A16F521;
+	Wed,  7 Feb 2024 21:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341228; cv=none; b=SwG7Qk2ogHuIAS9ZnjBtPaKJ5IM6bVuuVk3y7YRToPuOytbxM1YVR6cjvuuQA8IGVPctubTYjfLxfaA+k1GdegVcwlDO67sOaY5T88gQkqRhfvAJCdMwk5JgV74nd7lNB1vMjxILmlXWoORlqzu11eGpfGfa13yeh4FveRsajCk=
+	t=1707341235; cv=none; b=oJsyVb/Rkv0xYlBBuH+7rkuqVHx0DUVCW9hgFNTB1P0WdlG1McARMPH/gbJDC7WceRWXSSquhpC5gW9uUOEJVNPJSBE5Pzn556f0Od5Dtm3b3umElLIakwgT++JtXERzav4bCUAhA+fzgQTEeh50VkD11YBx/2D14PS7m0PtMOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341228; c=relaxed/simple;
-	bh=wG0sK8XFHjHc0nOKGs+2WnDbeM8qvPvmjUhVq3j+FIY=;
+	s=arc-20240116; t=1707341235; c=relaxed/simple;
+	bh=lxCjGoMz1GPeg4iphNIXQdTpaiA/vfzyJn8/wK9k3AE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m74TI+Mk+8mUZ5tn134t0ezRgIipmDcAuDwz7oPsmAlyfX4IB4xe07RYANBjbHEX2r3Rhq0v8ziUqSJkyNTJvw71EGakkSI77Y5tI+BETnyFHTqBRWnKQSmKK3/wn2JnvyYS9bZJZ8h0JdIKLo36gGWYMvevSOJYj/exvJrypto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScPlpuNv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=kZdLSFaUQIXGDgWRpoiWDXWI21xD4UDE2gFKuAzSX3oIhVdHdx7xmLDPRqqhouUAuetcm3yFxOtPVu00W2/mtuMxvbpmXN0ekqzB6iCL47xzWVbwq9ojQBv1PmZHTKqN2VSw56O4C/lIGGhzYTdFPfEPqpNkgVEi2lzOLLM1OdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQU/jNlH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScPlpuNv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D03C433B1;
-	Wed,  7 Feb 2024 21:27:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQU/jNlH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81A72C433C7;
+	Wed,  7 Feb 2024 21:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341228;
-	bh=wG0sK8XFHjHc0nOKGs+2WnDbeM8qvPvmjUhVq3j+FIY=;
+	s=k20201202; t=1707341234;
+	bh=lxCjGoMz1GPeg4iphNIXQdTpaiA/vfzyJn8/wK9k3AE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ScPlpuNv9llbNWTZLlGQ8xbcuT2zUp9pafczcB1nhFXM0MwwbHZfPoD0f/sqPy4nM
-	 Yb8CJZyLGPuOZcsXasrFbCNRkYcQ22ZxGUhKu8IPw/Fc8udewlPRnR7UCv1UjuDCTh
-	 4I+ax0RKi66GCsypHLA2yR1hDqktMzipsBlGhg95btCuTQW3SqBAzGWmpErEzYK1ut
-	 v1a2JUaECC9jsmDSm4bFyyxbrnnaPhjAhqY1P7mwVPUQfKUANprUqYfQuFFyZCfvd+
-	 8V2I3qRFQXnyMS3zdx98HYdL0GlArqLOis0eMSjWTlhLAECRST9VtuwSpZ86qa3LOv
-	 7qWSQZFiPnzuQ==
+	b=OQU/jNlHdGNFQncLTSi/gXL3aLQsIaP6sNnfCRrjr7RIfd2KU76wr5qTQuvEAJTlk
+	 mVstpx/5IbVNDvafRHiRzyzRzS1IF12wg6qTr+Y9GwqZIb6WW83uHiPrPtN5t8Uqfp
+	 j7oS96lScIPEjMxU7vuV66b5Qegrw2WMgHUOIK4tAruEg/AfmsazsgNrSFqF1T3obY
+	 y90hw1FBrYa1E5UmnBlUuHWnvCVs7S2OWq/YtAf+O/jFYQTIzNPrGfzAZ103rnS0RG
+	 NepTZMx3dJVNavXheXMrCJUcmZMth+FwzuWNXv3STl/xK4gF4zqKTKlEEedjDwKa4m
+	 zQGZeKOpJ8rSA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	srinivas.kandagatla@linaro.org,
-	bgoswami@quicinc.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 04/16] ASoC: codecs: wcd934x: drop unneeded regulator include
-Date: Wed,  7 Feb 2024 16:26:44 -0500
-Message-ID: <20240207212700.4287-4-sashal@kernel.org>
+	samuel@sholland.org,
+	kuninori.morimoto.gx@renesas.com,
+	nicolas.ferre@microchip.com,
+	robh@kernel.org,
+	ruanjinjie@huawei.com,
+	u.kleine-koenig@pengutronix.de,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.10 07/16] ASoC: sunxi: sun4i-spdif: Add support for Allwinner H616
+Date: Wed,  7 Feb 2024 16:26:47 -0500
+Message-ID: <20240207212700.4287-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212700.4287-1-sashal@kernel.org>
 References: <20240207212700.4287-1-sashal@kernel.org>
@@ -56,33 +63,43 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.209
 Content-Transfer-Encoding: 8bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Chen-Yu Tsai <wens@csie.org>
 
-[ Upstream commit 35314e39dabcfb256832654ad0e856a9fba744bd ]
+[ Upstream commit 0adf963b8463faa44653e22e56ce55f747e68868 ]
 
-Driver does not use any regulator code, so drop redundant include of
-regulator/consumer.h header.
+The SPDIF hardware block found in the H616 SoC has the same layout as
+the one found in the H6 SoC, except that it is missing the receiver
+side.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Link: https://msgid.link/r/20240117151208.1219755-3-krzysztof.kozlowski@linaro.org
+Since the driver currently only supports the transmit function, support
+for the H616 is identical to what is currently done for the H6.
+
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://msgid.link/r/20240127163247.384439-4-wens@kernel.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/wcd934x.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/sunxi/sun4i-spdif.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index 104751ac6cd1..dbed3a646524 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -13,7 +13,6 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
--#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/slimbus.h>
- #include <sound/pcm_params.h>
+diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
+index 228485fe0734..6dcad1aa2503 100644
+--- a/sound/soc/sunxi/sun4i-spdif.c
++++ b/sound/soc/sunxi/sun4i-spdif.c
+@@ -464,6 +464,11 @@ static const struct of_device_id sun4i_spdif_of_match[] = {
+ 		.compatible = "allwinner,sun50i-h6-spdif",
+ 		.data = &sun50i_h6_spdif_quirks,
+ 	},
++	{
++		.compatible = "allwinner,sun50i-h616-spdif",
++		/* Essentially the same as the H6, but without RX */
++		.data = &sun50i_h6_spdif_quirks,
++	},
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
 -- 
 2.43.0
 
