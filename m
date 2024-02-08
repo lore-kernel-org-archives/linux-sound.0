@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04B048CD1;
-	Thu,  8 Feb 2024 20:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9C84C3D4
+	for <linux-sound@vger.kernel.org>; Thu,  8 Feb 2024 20:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707425787; cv=none; b=tdlfi/mG8gdJmXG8qiX4A32DT6YvqDyGI6yCpChjWuOfMh4qLL31kYSwAtE3Qsm66pzNzESR8+2CgJldtnNEs4h6ZuW/stdUrsIrYsmr284HtdxlW9G/x4pV+eqRphurKvkbX2c1uQs460P4udnywxdYzHgc5Xp6PE1AW3sgAV0=
+	t=1707425789; cv=none; b=Q2aW3E7GJBtIcaO6nbXxtXJD5zJL74ib1eTEa1zoUAks5sUAinjZwL/IYH2w0hipRzv+GCUUAFmP7zVXY55FoX0dWUuBAMPh3OprrJb/d+qPqWp7aDPG+NuIC7E26otKWhqljL3oeXG60awR0z1GqcsntT3KJlEDpBzwZPO4TEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707425787; c=relaxed/simple;
-	bh=T8EwgSBfhLdOsFciFuw6X5d9/0+41gQ0AA16Ecb/rcU=;
+	s=arc-20240116; t=1707425789; c=relaxed/simple;
+	bh=c4MBkbTMeZx0zTdqw1Ny9GkiiubPJWD6N2b0zTixMJs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HChk7CWgexCAMfVxKLcNaNCdLGG3xcYgE93T9sSc3VHHsdhz+Q6VVCDsv888kZT3cu+1XyDbiRH4aTRfApGb/6vVB0LKnM35uuMWzN+kq3kFGcPkpfY1UbK55vKZ/1685ktTyncmchJ3wTmWmIWpfZS7GHjdn5y9QJArIYj9ioA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+3Bx4Xa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=B3a99a9IPuv9flyH/g26EidAwGxok+JO6XnYkoumt2W2gtHKBb8oXRVaEnkD9wFymakb23tZF8Yj11eWMTmP8vOhCUzIhav6SCwiBp2MsgbrL0TXu88Bmf/MqNyJWoqRuDLXdMybbZJCxLKiWEYdJ2+Lplzm0C1LZUZlyuq/W3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aEgchDKe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+3Bx4Xa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B0D7C433C7;
-	Thu,  8 Feb 2024 20:56:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aEgchDKe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E8AC433F1;
+	Thu,  8 Feb 2024 20:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707425786;
-	bh=T8EwgSBfhLdOsFciFuw6X5d9/0+41gQ0AA16Ecb/rcU=;
+	s=k20201202; t=1707425788;
+	bh=c4MBkbTMeZx0zTdqw1Ny9GkiiubPJWD6N2b0zTixMJs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=e+3Bx4Xa4325tK8mGNO/Jhz450pjYzUveah8U9GEFNEVNETIXzBDCIL0hMqyJRNMp
-	 hkMIKP8aTyBdPP6zXFrfShdRBFeVDyoNM/E4fdxxSVpKon/5Gs1K0NWcyqqOMwsjOf
-	 l+imnJ7ff+linFqmKB9Hy1V1B1y/kJ2hfwBvv1X9N+Caq/VIxA1e5uRHfCHs+pDDsN
-	 Bd+BT4sgZbHkbxypldvwp2Kd4SXmciQ3dT67PqSC31WwgOQhWaFNB0J1A8CPwVSQLg
-	 LTZ4RNobnmr70yKt/r30QM4wBiIpWDQ1z7KQ88kBKzPFEs1pHUtHN0J+j87J0EDBDM
-	 g4eha5M4qEqWg==
+	b=aEgchDKebHBI8qvnEprptRXS8WfUu2ujwTpk1LhtzsW34HLr1fI5cpkb8vyzvLLw9
+	 zLp0Xlh4qM/mPTZ3BBwXcStG3AknaTg+pQnnkSTuz80inAFLIx77lI0QdMIXVqqpjT
+	 W5qJ5leh8GMhzQo0UaUO4J5uZDh2IXRgQDJ+PbaBlYrHFb74n5ltIbxycIqIcWpqlO
+	 xletU0wSxzBuJlHHfZfieSpyTYcWvqINyHlca+oWXVbefoYByGkA4pIAbGmXu262qg
+	 o5Dm9nNf0SMDOARmpVyhFXy+mMzs6zizm/si+nzaEwhBtIWYnck+Hc660ZVVZV46s7
+	 DHVqSjiagiY5A==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240208123742.1278104-1-rf@opensource.cirrus.com>
-References: <20240208123742.1278104-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH v2] ASoC: cs35l56: Fix deadlock in ASP1 mixer register
- initialization
-Message-Id: <170742578487.2206785.11509531249240507855.b4-ty@kernel.org>
-Date: Thu, 08 Feb 2024 20:56:24 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
+In-Reply-To: <20240208133432.1688-1-peter.ujfalusi@linux.intel.com>
+References: <20240208133432.1688-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc3-topology: Fix pipeline tear down logic
+Message-Id: <170742578669.2206785.14742293801368885196.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 20:56:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,15 +45,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Thu, 08 Feb 2024 12:37:42 +0000, Richard Fitzgerald wrote:
-> Rewrite the handling of ASP1 TX mixer mux initialization to prevent a
-> deadlock during component_remove().
-> 
-> The firmware can overwrite the ASP1 TX mixer registers with
-> system-specific settings. This is mainly for hardware that uses the
-> ASP as a chip-to-chip link controlled by the firmware. Because of this
-> the driver cannot know the starting state of the ASP1 mixer muxes until
-> the firmware has been downloaded and rebooted.
+On Thu, 08 Feb 2024 15:34:32 +0200, Peter Ujfalusi wrote:
+> With the change in the widget free logic to power down the cores only
+> when the scheduler widgets are freed, we need to ensure that the
+> scheduler widget is freed only after all the widgets associated with the
+> scheduler are freed. This is to ensure that the secondary core that the
+> scheduler is scheduled to run on is kept powered on until all widgets
+> that need them are in use. While this works well for dynamic pipelines,
+> in the case of static pipelines the current logic does not take this into
+> account and frees all widgets in the order they occur in the
+> widget_list. So, modify this to ensure that the scheduler widgets are freed
+> only after all other types of widgets in the widget_list are freed.
 > 
 > [...]
 
@@ -64,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs35l56: Fix deadlock in ASP1 mixer register initialization
-      commit: c14f09f010cc569ae7e2f6ef02374f6bfef9917e
+[1/1] ASoC: SOF: ipc3-topology: Fix pipeline tear down logic
+      commit: d7332c4a4f1a7d16f054c6357fb65c597b6a86a7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
