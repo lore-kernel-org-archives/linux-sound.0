@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1255281AAA
-	for <linux-sound@vger.kernel.org>; Thu,  8 Feb 2024 16:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABE68002D
+	for <linux-sound@vger.kernel.org>; Thu,  8 Feb 2024 16:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707411371; cv=none; b=jdAbIdRUiDtkvXLERXBgbd5oNPLTr33D69f4RaFpYt+g1Ponive/+P2rPNEyZJedchmrRVYYgqnhw0VHIPqOr33TSCmMCmsYDuLn0THupMHy5FWgXvLx4tJgGj5PlHOcmixcabyZfYx4caudNv0IKIEVHAUUWLV+GfMVqJBWaNU=
+	t=1707411371; cv=none; b=dS6Y8ddKMG4HGfcLchWRifiw3ef2d6pc97P8sEC0dttZKkfvWefKKVd+coQQvHX2YVbHmboJaRlk0Xb6018V2WxLDKNo5FVzIvnkn3HUQ7VEC/DLEyS8+Pdi4s4ri4wxEgvzbLTL2Zk/XcKX9wNcxOrGOebp9B2MraXRuW14oBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707411371; c=relaxed/simple;
-	bh=bBqCF2/OnOSVb2gLZk/AQzWEjtWBOf6SkDQcoEfQ+BM=;
+	bh=iRATeZtRrW+PHtKv+nCULUFBqBZO+V/KE5hbLZcj5RU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pr1rMgBnTZt9jFajMRK4XmW2hA8njW8M/NmFOuGvwCUmYmS9uU2egVinwua/qxxjsz+3RPivYGUX8cPRUgKw96FDL5OmsXhkhhsBvXGaxmkeGhzM8etI7NDyMkcWz381X05w2p6PuuOqVe8WAnNjb08NrEnrywMcpoWl/TM01S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FjZOm1wK; arc=none smtp.client-ip=134.134.136.20
+	 MIME-Version; b=r+TzzJ/VKS4uK/gfszuFxoOpE79dhqs3APfSdkhWEuSK3dDdp4Fy1JH3qJ25CrGIja8LR3jNfnw/rDov08yYKzgjcFQMo7m3cRwDcM++yRW55l/kW4ADqtFMkHNka1cTN7u2IrxRwCzNxz/iw7PJFMr2+9cezPdyLAPNXPmH9To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SE97ualz; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FjZOm1wK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SE97ualz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707411369; x=1738947369;
+  t=1707411370; x=1738947370;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bBqCF2/OnOSVb2gLZk/AQzWEjtWBOf6SkDQcoEfQ+BM=;
-  b=FjZOm1wK3aGGsQwyf3tBc4R8KShgZ3xWpGdhh0LtWCE5eAB0ZCIGXpE3
-   L++dMPCLyw2XjYBHcG9jEgiLzhzBKvj2BBcJGGX8LFt9WtWnGry30KMsY
-   ipmLTr04lIX8d1W7UwVlnT/15KzioiWV2sta9VgpMVqWPJIoI9GmQl+0y
-   pWJojh7sGsnpwCE6SQwEU2cfDVGFboxxzmkgG9igABQ4uvrPlRAqx1N0f
-   kOqmU4Lp4bW4Z/5jw8p2cpHinKAdKDxZe2I6FPYGJf/fk9bAAKE4Hs5Ha
-   ayrifQIQJx85mfBoO2Up93SGT2C08jOMjutbGvDFbSdOXL4iheZjAEQKx
+  bh=iRATeZtRrW+PHtKv+nCULUFBqBZO+V/KE5hbLZcj5RU=;
+  b=SE97ualzC321zTd6rot03k2SNo09KdlKRcnaDlPqN1GDd5+zAprDXBpT
+   GfI6ryG/LfpTsdNMCHwPliIHPiNODARFSpMTzEPYlaviGCSX6p0QSODBo
+   fFJ8tNgL1D+Fi53Aq0L6QTvgCOX0eGI3Dle0nJM/W8IjJwd70bhDpe9OI
+   Kjd//uS/q1f0U3FRTVeGJR+GlE8+4D3uXLpJHfssUpuw+Y798nYY+6R0X
+   0WztAZZhSRlseym2TvJ/bf6l2WUko8aMk+nkXSd1hyS5imQY+WVR/PS1L
+   hnxEuEhvM63Del6sqChJKw64WQvFAVwWWM9JlYcArDC4v6lmpvBQ0As/r
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="395675440"
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="395675445"
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="395675440"
+   d="scan'208";a="395675445"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 08:56:06 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 08:56:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1690279"
+   d="scan'208";a="1690284"
 Received: from stang1-mobl1.amr.corp.intel.com (HELO localhost.localdomain) ([10.212.92.130])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 08:56:06 -0800
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 08:56:07 -0800
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -47,9 +47,9 @@ Cc: alsa-devel@alsa-project.org,
 	Chao Song <chao.song@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 22/24] ASoC: Intel: soc-acpi: add RT712 support for LNL
-Date: Thu,  8 Feb 2024 10:55:43 -0600
-Message-Id: <20240208165545.93811-23-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 23/24] ASoC: Intel: soc-acpi-intel-lnl-match: Add rt722 support
+Date: Thu,  8 Feb 2024 10:55:44 -0600
+Message-Id: <20240208165545.93811-24-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240208165545.93811-1-pierre-louis.bossart@linux.intel.com>
 References: <20240208165545.93811-1-pierre-louis.bossart@linux.intel.com>
@@ -63,24 +63,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Chao Song <chao.song@linux.intel.com>
 
-This patch adds RT712 support for LNL.
+This patch adds match table for rt722 multiple
+function codec on link 0.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Chao Song <chao.song@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-lnl-match.c   | 53 +++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ .../intel/common/soc-acpi-intel-lnl-match.c   | 49 +++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
 diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index 5897bb6b28b8..3d48e161cb33 100644
+index 3d48e161cb33..74d6dcd7471f 100644
 --- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
 +++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -36,6 +36,21 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1,
+@@ -51,6 +51,31 @@ static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
+ 	},
  };
  
-+static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
++/*
++ * RT722 is a multi-function codec, three endpoints are created for
++ * its headset, amp and dmic functions.
++ */
++static const struct snd_soc_acpi_endpoint rt722_endpoints[] = {
 +	{
 +		.num = 0,
 +		.aggregated = 0,
@@ -93,50 +98,42 @@ index 5897bb6b28b8..3d48e161cb33 100644
 +		.group_position = 0,
 +		.group_id = 0,
 +	},
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
 +};
 +
  static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
  	{
  		.adr = 0x000030025D071101ull,
-@@ -45,6 +60,24 @@ static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
+@@ -78,6 +103,15 @@ static const struct snd_soc_acpi_adr_device rt1712_3_single_adr[] = {
  	}
  };
  
-+static const struct snd_soc_acpi_adr_device rt712_2_single_adr[] = {
++static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
 +	{
-+		.adr = 0x000230025D071201ull,
-+		.num_endpoints = ARRAY_SIZE(rt712_endpoints),
-+		.endpoints = rt712_endpoints,
-+		.name_prefix = "rt712"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt1712_3_single_adr[] = {
-+	{
-+		.adr = 0x000330025D171201ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "rt712-dmic"
++		.adr = 0x000030025d072201ull,
++		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
++		.endpoints = rt722_endpoints,
++		.name_prefix = "rt722"
 +	}
 +};
 +
  static const struct snd_soc_acpi_adr_device rt1316_2_group1_adr[] = {
  	{
  		.adr = 0x000230025D131601ull,
-@@ -81,6 +114,20 @@ static const struct snd_soc_acpi_link_adr lnl_rvp[] = {
+@@ -128,6 +162,15 @@ static const struct snd_soc_acpi_link_adr lnl_712_only[] = {
  	{}
  };
  
-+static const struct snd_soc_acpi_link_adr lnl_712_only[] = {
++static const struct snd_soc_acpi_link_adr lnl_rt722_only[] = {
 +	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(rt712_2_single_adr),
-+		.adr_d = rt712_2_single_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt1712_3_single_adr),
-+		.adr_d = rt1712_3_single_adr,
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(rt722_0_single_adr),
++		.adr_d = rt722_0_single_adr,
 +	},
 +	{}
 +};
@@ -144,15 +141,15 @@ index 5897bb6b28b8..3d48e161cb33 100644
  static const struct snd_soc_acpi_link_adr lnl_3_in_1_sdca[] = {
  	{
  		.mask = BIT(0),
-@@ -138,6 +185,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+@@ -191,6 +234,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-lnl-rt711.tplg",
+ 		.sof_tplg_filename = "sof-lnl-rt712-l2-rt1712-l3.tplg",
  	},
 +	{
-+		.link_mask = BIT(2) | BIT(3),
-+		.links = lnl_712_only,
++		.link_mask = BIT(0),
++		.links = lnl_rt722_only,
 +		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-lnl-rt712-l2-rt1712-l3.tplg",
++		.sof_tplg_filename = "sof-lnl-rt722-l0.tplg",
 +	},
  	{},
  };
