@@ -1,45 +1,45 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3F650A83;
-	Thu,  8 Feb 2024 23:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D563650A87;
+	Thu,  8 Feb 2024 23:14:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707434081; cv=none; b=TdRTpLVS4f3fMOlhEAsWNkXL4POTdG+wWBkwrLi1/1P2SIn7xsQWWZIKrYHPsvCo+crGXGCyM0KGK16osNDmRmfx5qgpU1S3XVSuPGauMNMTOEn3INz+9n6pgBKlE1yUOKZF4HHnt1QBl0G9RLId+VYQjMw/IPcIsLgopKCw25Y=
+	t=1707434081; cv=none; b=U8IgOOySWgAisVknGiKv9ZTet+FymUbTUMDRyWlYlzgjv2pV6qpGF66gL/iPUDas8eVFvp5nFh2SXOFMUaraZy32AjfbtTEVgP0UP4gZjxLWQYRAfI3auNYCNf5xWUUdYN2XTWPTbxT5o9TIrIJhL3GxdvK1myQHTQ85bjXlcUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707434081; c=relaxed/simple;
-	bh=+Lw1+4MAX2LtZpd2jn62R4vA+ALFex1PxyuYDKU/fN0=;
+	bh=/yIRGDVuWTwN01jjLu9D99BsT38c9Fll4aPsKtVd2WA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=atVKWWjdCr+Dsqmdzy7G4+3jAdV/QZwzpSfIrxbjEGjDebKfN2grV+XR/o4tEXo+OQdch/FC9G8HTo2hebM23oqpkxhgUzEBhXLaWn7w07fSa4CdYZdJkyB/2QpGAYJY/i/wUcEqwLFqWXkxiKI1g040sCl5uQYnRlOpeLHKmWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mqP9cIx0; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=ipe7Wkm7t5ckAMhTpaTuRz01abHNpzxZcJfpmUI7k/KMrOWdtN+CljTQwXEreML5OE6A094EgosUiRMQ/oSMAafe7ys3bVrRLxsY8wIxVaX4deAVxhQgDJMVYJoAb+KKlqQRT/jF3JNUrUHsoGMVX7RNqYkwoWfB16PWYQHtKsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PFP+Tkzu; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mqP9cIx0"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PFP+Tkzu"
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 418MmN3S002112;
-	Thu, 8 Feb 2024 23:14:18 GMT
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 418MX69C006565;
+	Thu, 8 Feb 2024 23:14:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=CAxjiLONN0FsfVJGEMs1
-	T7t8zj114/9U4ixQ4PoMPaY=; b=mqP9cIx0InFl7OdHAQAPRVMprKdpURH8hyxv
-	UkPKn/HWmUHuuA4F+zYlg1O5JcoK+ZFTzUjtOSf8gaL3aXDNUH2JT0tky+Rf4nqr
-	IABYPGzZ8jiD1Kn5mskLYL+gwVfF+Gdyny3J35ZTx1AQsVYwv9DUaWY7dG1Ifen0
-	mCMe8b1bG1h1y5CxnrIT8KoRQU03gemSmR3OFof3tyNWnq6RoqZmsvk51ngGXCmu
-	ffuWPcmDxPpwrCoesUIRfPJ7m12Hnnz/o2MMra5UcXurAI4/kYD+FedAedqwAQSZ
-	i8bfMIfweDzyvqrG9c7Ed+IU4VGhjcJZsgXGALQuWiI5rPPjew==
+	:mime-version:content-type; s=qcppdkim1; bh=b6o1DZWRuc04fm5lKH0e
+	0QE9KkK0X5y0QOEParzZU0g=; b=PFP+Tkzu6Ic+PNGn7f8cqqxIlG4j82O8Qi7S
+	bIg6UHS4yRMT7gzL3M4+hZ96WR6moTrpDxS294oO4hFPNsP8CIgZIb812f6pScI3
+	VA9zGk4VR7dwe4daWFkcztS/dE7Qb/oNnamdiJS/vLUVupFhHpjb+gHS7Z4XxIK5
+	k/toL5TzQUux5qXzdMevWXk9W6DBqedvfliIz+GNMyojo2en/tbgmm65NligvK6Y
+	GHc0O1kB7UPGEnZtZIG+nsdVYeCWsgxwKRW/rscJdaHtwWkMDHEBs8bwegzZbNRO
+	xmzQELdF9DS2Al0Vc6ZS/gqDGug+PG3m2KoKknnlTI3HEitz7w==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4frwujtu-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4frwuju3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 08 Feb 2024 23:14:17 +0000 (GMT)
+	Thu, 08 Feb 2024 23:14:24 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 418NEGLm013078
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 418NENcu013164
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 8 Feb 2024 23:14:16 GMT
+	Thu, 8 Feb 2024 23:14:23 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 8 Feb 2024 15:14:16 -0800
+ 15.2.1118.40; Thu, 8 Feb 2024 15:14:23 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -51,12 +51,10 @@ To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v14 03/53] xhci: Add interrupt pending autoclear flag to each interrupter
-Date: Thu, 8 Feb 2024 15:13:16 -0800
-Message-ID: <20240208231406.27397-4-quic_wcheng@quicinc.com>
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v14 28/53] usb: dwc3: Specify maximum number of XHCI interrupters
+Date: Thu, 8 Feb 2024 15:13:41 -0800
+Message-ID: <20240208231406.27397-29-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240208231406.27397-1-quic_wcheng@quicinc.com>
 References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
@@ -71,105 +69,114 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: jV9Z2PR1PTwfQH0bOBidFR4StK83vaMM
-X-Proofpoint-GUID: jV9Z2PR1PTwfQH0bOBidFR4StK83vaMM
+X-Proofpoint-ORIG-GUID: fZjWp2rJ0_xxJDs5NbhYeGQX5yMlGWmQ
+X-Proofpoint-GUID: fZjWp2rJ0_xxJDs5NbhYeGQX5yMlGWmQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-08_11,2024-02-08_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
  malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 phishscore=0
- clxscore=1015 lowpriorityscore=0 mlxlogscore=742 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxlogscore=811 adultscore=0
  priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.19.0-2401310000 definitions=main-2402080131
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Allow for the DWC3 host driver to pass along XHCI property that defines
+how many interrupters to allocate.  This is in relation for the number of
+event rings that can be potentially used by other processors within the
+system.
 
-Each interrupter has an interrupt pending (IP) bit that should be cleared
-in the interrupt handler. This is done automatically for systems using
-MSI/MSI-X interrupts.
-
-Secondary interrupters used by audio offload may not actually trigger
-MSI/MSI-X messages, so driver may need to clear the IP bit manually for
-these, even if the primary interrupter IP is cleared automatically.
-
-Add an ip_autoclear flag to each interrupter that driver can configure
-when requesting an interrupt for that xHC interrupter, and move
-the interrupt pending clearing code to its own helper function.
-Use this ip_autoclear flag instead of the current hcd->msi_enabled
-to check if IP flag is cleared by software.
-
-[Moved ip_autoclear into xhci and set based on msi_enabled -wcheng]
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-ring.c | 21 +++++++++++++++------
- drivers/usb/host/xhci.c      |  3 +++
- drivers/usb/host/xhci.h      |  1 +
- 3 files changed, 19 insertions(+), 6 deletions(-)
+ drivers/usb/dwc3/core.c | 12 ++++++++++++
+ drivers/usb/dwc3/core.h |  2 ++
+ drivers/usb/dwc3/host.c |  5 ++++-
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 33806ae966f9..f8e78068c36f 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -3013,6 +3013,19 @@ static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 	xhci_write_64(xhci, temp_64, &ir->ir_set->erst_dequeue);
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 3b68e8e45b8b..7ac02339458e 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1485,6 +1485,7 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	u8			tx_thr_num_pkt_prd = 0;
+ 	u8			tx_max_burst_prd = 0;
+ 	u8			tx_fifo_resize_max_num;
++	u16			num_hc_interrupters;
+ 	const char		*usb_psy_name;
+ 	int			ret;
+ 
+@@ -1507,6 +1508,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	 */
+ 	tx_fifo_resize_max_num = 6;
+ 
++	/* default to a single XHCI interrupter */
++	num_hc_interrupters = 1;
++
+ 	dwc->maximum_speed = usb_get_maximum_speed(dev);
+ 	dwc->max_ssp_rate = usb_get_maximum_ssp_rate(dev);
+ 	dwc->dr_mode = usb_get_dr_mode(dev);
+@@ -1558,6 +1562,12 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				&tx_thr_num_pkt_prd);
+ 	device_property_read_u8(dev, "snps,tx-max-burst-prd",
+ 				&tx_max_burst_prd);
++	device_property_read_u16(dev, "num-hc-interrupters",
++				&num_hc_interrupters);
++	/* DWC3 core allowed to have a max of 8 interrupters */
++	if (num_hc_interrupters > 8)
++		num_hc_interrupters = 8;
++
+ 	dwc->do_fifo_resize = device_property_read_bool(dev,
+ 							"tx-fifo-resize");
+ 	if (dwc->do_fifo_resize)
+@@ -1649,6 +1659,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 	dwc->imod_interval = 0;
+ 
+ 	dwc->tx_fifo_resize_max_num = tx_fifo_resize_max_num;
++
++	dwc->num_hc_interrupters = num_hc_interrupters;
  }
  
-+/* Clear the interrupt pending bit for a specific interrupter. */
-+static void xhci_clear_interrupt_pending(struct xhci_hcd *xhci,
-+					 struct xhci_interrupter *ir)
-+{
-+	if (!ir->ip_autoclear) {
-+		u32 irq_pending;
-+
-+		irq_pending = readl(&ir->ir_set->irq_pending);
-+		irq_pending |= IMAN_IP;
-+		writel(irq_pending, &ir->ir_set->irq_pending);
-+	}
-+}
-+
- /*
-  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
-  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
-@@ -3062,12 +3075,8 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
+ /* check whether the core supports IMOD */
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index df544ec730d2..a851ea0ea2c6 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1068,6 +1068,7 @@ struct dwc3_scratchpad_array {
+  * @tx_max_burst_prd: max periodic ESS transmit burst size
+  * @tx_fifo_resize_max_num: max number of fifos allocated during txfifo resize
+  * @clear_stall_protocol: endpoint number that requires a delayed status phase
++ * @num_hc_interrupters: number of host controller interrupters
+  * @hsphy_interface: "utmi" or "ulpi"
+  * @connected: true when we're connected to a host, false otherwise
+  * @softconnect: true when gadget connect is called, false when disconnect runs
+@@ -1305,6 +1306,7 @@ struct dwc3 {
+ 	u8			tx_max_burst_prd;
+ 	u8			tx_fifo_resize_max_num;
+ 	u8			clear_stall_protocol;
++	u16			num_hc_interrupters;
  
- 	/* This is the handler of the primary interrupter */
- 	ir = xhci->interrupters[0];
--	if (!hcd->msi_enabled) {
--		u32 irq_pending;
--		irq_pending = readl(&ir->ir_set->irq_pending);
--		irq_pending |= IMAN_IP;
--		writel(irq_pending, &ir->ir_set->irq_pending);
--	}
+ 	const char		*hsphy_interface;
+ 
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index 4957b9765dc5..3abf3b7d7c88 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -105,7 +105,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
+ 
+ int dwc3_host_init(struct dwc3 *dwc)
+ {
+-	struct property_entry	props[4];
++	struct property_entry	props[5];
+ 	struct platform_device	*xhci;
+ 	int			ret, irq;
+ 	int			prop_idx = 0;
+@@ -158,6 +158,9 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
+ 
++	props[prop_idx++] = PROPERTY_ENTRY_U16("num-hc-interrupters",
++						dwc->num_hc_interrupters);
 +
-+	xhci_clear_interrupt_pending(xhci, ir);
- 
- 	if (xhci->xhc_state & XHCI_STATE_DYING ||
- 	    xhci->xhc_state & XHCI_STATE_HALTED) {
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index c057c42c36f4..0886829d53e5 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -538,6 +538,9 @@ int xhci_run(struct usb_hcd *hcd)
- 	 */
- 
- 	hcd->uses_new_polling = 1;
-+	if (hcd->msi_enabled)
-+		ir->ip_autoclear = true;
-+
- 	if (!usb_hcd_is_primary_hcd(hcd))
- 		return xhci_run_finished(xhci);
- 
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index c6349e7e1e95..daee202cd369 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1431,6 +1431,7 @@ struct xhci_interrupter {
- 	struct xhci_erst	erst;
- 	struct xhci_intr_reg __iomem *ir_set;
- 	unsigned int		intr_num;
-+	bool			ip_autoclear;
- 	/* For interrupter registers save and restore over suspend/resume */
- 	u32	s3_irq_pending;
- 	u32	s3_irq_control;
+ 	if (prop_idx) {
+ 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+ 		if (ret) {
