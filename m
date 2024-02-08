@@ -1,85 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918C66E2DC;
-	Thu,  8 Feb 2024 11:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169CF6F079;
+	Thu,  8 Feb 2024 11:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707392278; cv=none; b=mzK62N0bOHWzT70+ozuYdfdL7Xz4eAGm2wKQI/tGUZRAa6XR9iZU8UWwoovBxWCaihKn7yAFbXhDnbNfVSww+2ErMaEdq3LgT8GR65mq3docbIcYnduHteA9SxuXzIRfpvNwXD5tU8jGFjRE/hkFRB7TylyXlsnR6wymQsm+RWA=
+	t=1707392522; cv=none; b=W2Too8xkFOZB2Vzhfp9ct3Dhxb2Br2jmzAlbcD/+TSorJyyopyANuA59jOKvd9EoLS5PzuvVi/g3pVHLPAXjThfpD13OsdZIkv0HWEhnMtUxzTWalxyzjKM/6zdfWtqm8nOPIjzI6SYJ+dmrKogDQmY5mOGmf8/jXr8B2mzb9oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707392278; c=relaxed/simple;
-	bh=r71RoIKN+p7IBDsZxy3keLwQy6qjvh5Oo6IsPvi4Tis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n5/elzhyzcYkdhPWxgdr+iJSRpOIZpvT5+NcKHECoinsR7n1d2GPEF3b5WOK0gTd1+cATfN28qL7EmZ56truW5GAu2QszTiBHYLu1zrNTPS0v3uzhAj07BkpL+l9ppKGw90/mF7fIzQAg/ujT5WrROu6vX8P5SxXaBBQOIQLcak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHjFfK91; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707392522; c=relaxed/simple;
+	bh=Qo52dT+MaX4Zu1tDJ9IE+j+kFhpRPJkdsCNMZCVnhdo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=btrqQO9w12QCPh1ylCMigrIMLACsg8oC2bEjczrQ5p993PGJW1IAt4MYnV6csn3JVtqNERPetFP9qf5MjWUnAdQtxQixlJ5XUAGWXUDUhwL11xyajnACRtjUhsND05jim5OTHqb+2kAxcJQo9SMUi6tRjDa8gp0R21rulZSeiJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kh5Pr4uZ; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHjFfK91"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A63DC433C7;
-	Thu,  8 Feb 2024 11:37:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707392278;
-	bh=r71RoIKN+p7IBDsZxy3keLwQy6qjvh5Oo6IsPvi4Tis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oHjFfK91dIuW9AMFWub1Z+oEXlaXk57o4+Ixv+EAwjqiBeWl2rwu8ARxmArj0N6se
-	 4nnZObUba5Nx2jPwxEjAwURTJL9Dr3Md/XIpb+MPZ4H5ZznpUJWR4sw/7153MAxwEX
-	 qUXcO/2Vb2Edka+umtf+LQggsUB+ozia6PPiRsg/EifbG0s9R+AjsfW7dA9GugsABK
-	 rbyU0iEie4+5KekGPjdbMW0wxnfGZCTK2TV8p2xtpC7CBBzE4+I7hghJBbQGbL5PYj
-	 ykwfNmqWNdZWX0UuDnAlLEg81aUFt00AfVlTSeOzEQiSxF3Sv2TYKygio+1hGuU2+U
-	 cL0IWzUE64oAg==
-Date: Thu, 8 Feb 2024 11:37:54 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	srinivas.kandagatla@linaro.org, bgoswami@quicinc.com,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.7 07/44] ASoC: codecs: wcd934x: drop unneeded
- regulator include
-Message-ID: <ZcS9EmcM1rtsNYy0@finisterre.sirena.org.uk>
-References: <20240207212142.1399-1-sashal@kernel.org>
- <20240207212142.1399-7-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kh5Pr4uZ"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 418BfEYW056871;
+	Thu, 8 Feb 2024 05:41:14 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1707392474;
+	bh=7opL0zSVFjKbMr+AvWF+mEU7KwHnfICtgBJY8r+XMu0=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=kh5Pr4uZ9bNB422m4GmJLusPFaielrlnUg57OTc4QxJZN9/tooLUCK+hlZm6CdCM/
+	 q129OUYktvXmqKwxU3nvwj5ol7RtODEpMkDHPHPbKNdf57XgjuySSdswcuNbr5X7CC
+	 /gfZa8LqxtouARCEgLxLxsQGUt5PowLqgSPwEL7I=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 418BfEah093691
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 8 Feb 2024 05:41:14 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
+ Feb 2024 05:41:14 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 8 Feb 2024 05:41:14 -0600
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.162.93])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 418BepBw007761;
+	Thu, 8 Feb 2024 05:41:08 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <perex@perex.cz>, <tiwai@suse.com>, <13916275206@139.com>,
+        <mohit.chawla@ti.com>, <soyer@irl.hu>, <jkhuang3@ti.com>,
+        <tiwai@suse.de>, <pdjuandi@ti.com>, <manisha.agrawal@ti.com>,
+        <s-hari@ti.com>, <aviel@ti.com>, <hnagalla@ti.com>, <praneeth@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [RESEND PATCH v4 3/4] ASoc: PCM6240: Add compile item for PCM6240 Family driver
+Date: Thu, 8 Feb 2024 19:40:47 +0800
+Message-ID: <20240208114049.1429-3-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20240208114049.1429-1-shenghao-ding@ti.com>
+References: <20240208114049.1429-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Y3Ic8DwDm+OAu+TF"
-Content-Disposition: inline
-In-Reply-To: <20240207212142.1399-7-sashal@kernel.org>
-X-Cookie: You might have mail.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
+PCM6240 driver implements a flexible and configurable setting for register
+and filter coefficients, to one, two or even multiple PCM6240 Family Audio
+chips.
 
---Y3Ic8DwDm+OAu+TF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-On Wed, Feb 07, 2024 at 04:20:34PM -0500, Sasha Levin wrote:
-> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
-> [ Upstream commit 35314e39dabcfb256832654ad0e856a9fba744bd ]
->=20
-> Driver does not use any regulator code, so drop redundant include of
-> regulator/consumer.h header.
+---
+Change in v4:
+ - All these chips have only a portion of the codec's functionality, such
+   as ADC or DAC, and so on, but their audio performance is far superior
+   to the codec's, and cost is lower than codec, and much easier to
+   program than codec.
+---
+ sound/soc/codecs/Kconfig  | 10 ++++++++++
+ sound/soc/codecs/Makefile |  2 ++
+ 2 files changed, 12 insertions(+)
 
-This doesn't seem like an obvious stable candidate...
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 59f9742e9ff4..bab0ed032b5d 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -178,6 +178,7 @@ config SND_SOC_ALL_CODECS
+ 	imply SND_SOC_PCM5102A
+ 	imply SND_SOC_PCM512x_I2C
+ 	imply SND_SOC_PCM512x_SPI
++	imply SND_SOC_PCM6240
+ 	imply SND_SOC_PEB2466
+ 	imply SND_SOC_RK3328
+ 	imply SND_SOC_RK817
+@@ -1389,6 +1390,15 @@ config SND_SOC_PCM512x_SPI
+ 	select SND_SOC_PCM512x
+ 	select REGMAP_SPI
+ 
++config SND_SOC_PCM6240
++	tristate "Texas Instruments PCM6240 Family Audio chips based on I2C"
++	depends on I2C
++	help
++	  Enable support for Texas Instruments PCM6240 Family Audio chips.
++	  Note the PCM6240 driver implements a flexible and configurable
++	  setting for register and filter coefficients, to one, two or
++	  even multiple PCM6240 Family Audio chips.
++
+ config SND_SOC_PEB2466
+ 	tristate "Infineon PEB2466 quad PCM codec"
+ 	depends on SPI
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index f53baa2b9565..c2ae573b62dd 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -201,6 +201,7 @@ snd-soc-pcm5102a-objs := pcm5102a.o
+ snd-soc-pcm512x-objs := pcm512x.o
+ snd-soc-pcm512x-i2c-objs := pcm512x-i2c.o
+ snd-soc-pcm512x-spi-objs := pcm512x-spi.o
++snd-soc-pcm6240-objs := pcm6240.o
+ snd-soc-peb2466-objs := peb2466.o
+ snd-soc-rk3328-objs := rk3328_codec.o
+ snd-soc-rk817-objs := rk817_codec.o
+@@ -586,6 +587,7 @@ obj-$(CONFIG_SND_SOC_PCM5102A)	+= snd-soc-pcm5102a.o
+ obj-$(CONFIG_SND_SOC_PCM512x)	+= snd-soc-pcm512x.o
+ obj-$(CONFIG_SND_SOC_PCM512x_I2C)	+= snd-soc-pcm512x-i2c.o
+ obj-$(CONFIG_SND_SOC_PCM512x_SPI)	+= snd-soc-pcm512x-spi.o
++obj-$(CONFIG_SND_SOC_PCM6240)	+= snd-soc-pcm6240.o
+ obj-$(CONFIG_SND_SOC_PEB2466)	+= snd-soc-peb2466.o
+ obj-$(CONFIG_SND_SOC_RK3328)	+= snd-soc-rk3328.o
+ obj-$(CONFIG_SND_SOC_RK817)	+= snd-soc-rk817.o
+-- 
+2.34.1
 
---Y3Ic8DwDm+OAu+TF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXEvREACgkQJNaLcl1U
-h9BN2Af/USv2MQK7rWzBfIWGhMZ4Xk4a2piJqomP7DM4NMIIDgUMNwjDHJjGLnt6
-n4IThpQeGFxDWva3CapyOTthWZcu6KvzR6AzoiT0+aEEvmJ7USKck6KGqgkDZdBG
-vgY79RdHhNsVSvHMqHhl+66BkUzhA1Pz/Trn3HrxNYZbiVAIuqZWY73sgbSVXYp/
-g/yzWtGih1JY+CdXGOsdPObR5pI9S40ptWERUhppeB672t+yY/TM86HXpXRqpVKA
-YJ7lXThB3kZaCc2t1LhGEmBtgxdBzAfopPldgpfJrb/eAVauMV7N/M94FalJvwgQ
-zPb0RfE3fKuJW/VnM1ljgNxFwL04zw==
-=wjDO
------END PGP SIGNATURE-----
-
---Y3Ic8DwDm+OAu+TF--
