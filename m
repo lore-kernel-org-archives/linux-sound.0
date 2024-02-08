@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7D638385
-	for <linux-sound@vger.kernel.org>; Thu,  8 Feb 2024 20:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04B048CD1;
+	Thu,  8 Feb 2024 20:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707423722; cv=none; b=q5IC+uDo10k6zi/dPyQR3K/dbSxvyQgL/35vXvMGCV8YkNQlloM2CBPq3YHhdKpwxwXA7v0rINq0tjr5zCvzx44hjYVn9AOzZARyZW867ZF14/uYdCL1JMMuE2Os32UBHP7p6dxIAfLYjBZRpz/krGcCDLcPeHj3qPphoLVLf6g=
+	t=1707425787; cv=none; b=tdlfi/mG8gdJmXG8qiX4A32DT6YvqDyGI6yCpChjWuOfMh4qLL31kYSwAtE3Qsm66pzNzESR8+2CgJldtnNEs4h6ZuW/stdUrsIrYsmr284HtdxlW9G/x4pV+eqRphurKvkbX2c1uQs460P4udnywxdYzHgc5Xp6PE1AW3sgAV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707423722; c=relaxed/simple;
-	bh=AwnJISLAcr+jBWBhT8Idv4eVNhgvLSP3fAzQTR1pX9o=;
+	s=arc-20240116; t=1707425787; c=relaxed/simple;
+	bh=T8EwgSBfhLdOsFciFuw6X5d9/0+41gQ0AA16Ecb/rcU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GlmdCVrshhia5YzoxqR7dEQKwFm9fbhs849eEC69lDRHSIEB5iIpw6PXQvpmpXd6kpXhnAKIlRxOouVe98GFKc5vdXsXE1cJuvIgI5kSs7GDLtTWrZZp2BR7OIT6kDKe1BXH6ZXX8texEV8PDUav3lQ23gK3bfVPykQ0xcDEuE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULp/gQv4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HChk7CWgexCAMfVxKLcNaNCdLGG3xcYgE93T9sSc3VHHsdhz+Q6VVCDsv888kZT3cu+1XyDbiRH4aTRfApGb/6vVB0LKnM35uuMWzN+kq3kFGcPkpfY1UbK55vKZ/1685ktTyncmchJ3wTmWmIWpfZS7GHjdn5y9QJArIYj9ioA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+3Bx4Xa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULp/gQv4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF01C433F1;
-	Thu,  8 Feb 2024 20:22:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+3Bx4Xa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B0D7C433C7;
+	Thu,  8 Feb 2024 20:56:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707423721;
-	bh=AwnJISLAcr+jBWBhT8Idv4eVNhgvLSP3fAzQTR1pX9o=;
+	s=k20201202; t=1707425786;
+	bh=T8EwgSBfhLdOsFciFuw6X5d9/0+41gQ0AA16Ecb/rcU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ULp/gQv4RebT7gcbxaL3CpfrFYFPhdb/guXPCtRT4ECFXXlpKRmp9sasfkPtjO0Ni
-	 eJ3W3voHTcsw0Un0dlpT5Z731xjfgTJhrh1Bxlf5t+GXfqx+uZEEkOQ9rWpp00xEK5
-	 8ocpTOdpoXDcRVwVbINse4JVkCF80nIXhIlaZKijueCyeX+celCdBUZXHyvja98O0Q
-	 vuwMdTQ7g5U3+UdBI3OfbYiNzVnkKmfXcNQuwbttsDIJckR+Gw321PHa5AHJPO5FkU
-	 UfmLPfKcC0SEank5bgJkxlbCwL1h+kSbwUt3yI7y04q6/frakRPGB9Pjo74EamUz+E
-	 T5iHviSU8uwjw==
+	b=e+3Bx4Xa4325tK8mGNO/Jhz450pjYzUveah8U9GEFNEVNETIXzBDCIL0hMqyJRNMp
+	 hkMIKP8aTyBdPP6zXFrfShdRBFeVDyoNM/E4fdxxSVpKon/5Gs1K0NWcyqqOMwsjOf
+	 l+imnJ7ff+linFqmKB9Hy1V1B1y/kJ2hfwBvv1X9N+Caq/VIxA1e5uRHfCHs+pDDsN
+	 Bd+BT4sgZbHkbxypldvwp2Kd4SXmciQ3dT67PqSC31WwgOQhWaFNB0J1A8CPwVSQLg
+	 LTZ4RNobnmr70yKt/r30QM4wBiIpWDQ1z7KQ88kBKzPFEs1pHUtHN0J+j87J0EDBDM
+	 g4eha5M4qEqWg==
 From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- =?utf-8?q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-In-Reply-To: <20240208102400.2497791-1-amadeuszx.slawinski@linux.intel.com>
-References: <20240208102400.2497791-1-amadeuszx.slawinski@linux.intel.com>
-Subject: Re: [PATCH v2 0/3] ASoC: Intel: avs: Add support for sending
- initial module config
-Message-Id: <170742372000.1997067.17428489843842276238.b4-ty@kernel.org>
-Date: Thu, 08 Feb 2024 20:22:00 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20240208123742.1278104-1-rf@opensource.cirrus.com>
+References: <20240208123742.1278104-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH v2] ASoC: cs35l56: Fix deadlock in ASP1 mixer register
+ initialization
+Message-Id: <170742578487.2206785.11509531249240507855.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 20:56:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,19 +43,18 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-0438c
 
-On Thu, 08 Feb 2024 11:23:57 +0100, Amadeusz Sławiński wrote:
-> In some cases it may be desirable to provide default initial
-> configuration for FW module using payload. To facilitate such solution
-> extend topology to contain initial config information, parse it and then
-> send data to FW if present.
+On Thu, 08 Feb 2024 12:37:42 +0000, Richard Fitzgerald wrote:
+> Rewrite the handling of ASP1 TX mixer mux initialization to prevent a
+> deadlock during component_remove().
 > 
-> Amadeusz Sławiński (3):
->   ASoC: Intel: avs: UAPI: Add tokens for initial config feature
->   ASoC: Intel: avs: Add topology parsing support for initial config
->   ASoC: Intel: avs: Send initial config to module if present
+> The firmware can overwrite the ASP1 TX mixer registers with
+> system-specific settings. This is mainly for hardware that uses the
+> ASP as a chip-to-chip link controlled by the firmware. Because of this
+> the driver cannot know the starting state of the ASP1 mixer muxes until
+> the firmware has been downloaded and rebooted.
 > 
 > [...]
 
@@ -67,12 +64,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: Intel: avs: UAPI: Add tokens for initial config feature
-      commit: a5766cd479fd212e9831ceef8e9ab630c91445ab
-[2/3] ASoC: Intel: avs: Add topology parsing support for initial config
-      commit: 1b4217ebbb3e9d9b014db660618a4ddb61b3c321
-[3/3] ASoC: Intel: avs: Send initial config to module if present
-      commit: 8a49ef789b1be68242624d460df2ada8087308a7
+[1/1] ASoC: cs35l56: Fix deadlock in ASP1 mixer register initialization
+      commit: c14f09f010cc569ae7e2f6ef02374f6bfef9917e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
