@@ -1,289 +1,351 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422BC73181;
-	Thu,  8 Feb 2024 11:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C6A2EB1A;
+	Thu,  8 Feb 2024 12:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707392532; cv=none; b=lcIalDWoJoF3W3yyOe6luFhwsrqiZqrP3R1FwpbWmipS8LEX0NS3bXGVQDXxtOY/3gYsoJ8ItlXt6tV03Vw1Gqa1Xq+xaJ5p21z4YIg3Y6zCt6VyOH/Y0LHiINCX7oyi+VC2UVOzJWjV8XxpAg8WXg5HMbHEHi/W4/GFvF3Fzf0=
+	t=1707395883; cv=none; b=J4mmiXc5ziXSQ3KbO2k+k4Nsm5J8/2DMLlAgeYcGkgiJ3cLeXrqGNxIP02n9fEnkI7ZL+CAum2Rv7J05Btyf3KdFwGUwGavBX97Yt0TdYB95Xn+k46LF4mG8QqE7k+MBSsIpMX/RgILkT/oTKG9hfHd7TCrrfrJK59LsmjxK/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707392532; c=relaxed/simple;
-	bh=A7EVTIDLHtGX9lO4EdDXrAGB8NfIUDtJqg9uBTSY2ak=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UECySTCgWDbTEDehL3M1+Ofm7Pcezf1RKeSgXdCFcONHf7En7O6m8jVjzqEqaF9z8JxmzwWsW5yhqeFIaoSxd6+JRHWU7n4x1zWKCeK98jKQs0+X5/iizOQTPr1QxNXB5xkpotp72WnQHyLI/9uATdyAipe99Ntna+ddnNntMUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dGfqvEQ1; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1707395883; c=relaxed/simple;
+	bh=HZzncMa1loKAptgv6gflUpOFjRo79b9uJM1kXN47xGc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oIQvGxFRowCvzVu6vBdVrWLts/Jc8paWJcPa5jDu19UrLEhsIn4v6sT+w7nFNN9yCppSKZm28WEwF9LnJNPDRxYuMf6a9DoCg9kL878Vp1E2rUf5xz7Zw32ofYS4UZwrwetm2RnPRhkvrUQj8TNctx99orTu5gSoCPWifQt7qNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=bDjnh/MN; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dGfqvEQ1"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 418BfMu8057672;
-	Thu, 8 Feb 2024 05:41:22 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707392482;
-	bh=i66KRsT5MXiCMeRUrNYxeiPCd7Z1pAneWKX/rWP8R50=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=dGfqvEQ1JzgAqtWGw2+20+CzKARBxpWSBtxIq8yRbg1+dIY5GagVnpDjCLqbDxGFO
-	 77YGa89Jh8aXTmTgb+m8cKX/kj6WZnSWTallKhUyagUq2E67zFQmYu4r4f7z3tcDwq
-	 ljQeLZ2/NZnDP8rvAIEO+toS86lUx7niVETYF4Gg=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 418BfM9k025668
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 8 Feb 2024 05:41:22 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
- Feb 2024 05:41:21 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 8 Feb 2024 05:41:21 -0600
-Received: from LT5CG31242FY.dhcp.ti.com ([10.250.162.93])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 418BepBx007761;
-	Thu, 8 Feb 2024 05:41:15 -0600
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <perex@perex.cz>, <tiwai@suse.com>, <13916275206@139.com>,
-        <mohit.chawla@ti.com>, <soyer@irl.hu>, <jkhuang3@ti.com>,
-        <tiwai@suse.de>, <pdjuandi@ti.com>, <manisha.agrawal@ti.com>,
-        <s-hari@ti.com>, <aviel@ti.com>, <hnagalla@ti.com>, <praneeth@ti.com>,
-        Shenghao Ding <shenghao-ding@ti.com>
-Subject: [RESEND PATCH v4 4/4] ASoc: dt-bindings: PCM6240: Add initial DT binding
-Date: Thu, 8 Feb 2024 19:40:48 +0800
-Message-ID: <20240208114049.1429-4-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20240208114049.1429-1-shenghao-ding@ti.com>
-References: <20240208114049.1429-1-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="bDjnh/MN"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4186JW3N008734;
+	Thu, 8 Feb 2024 06:37:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=7
+	4XCr7k1XvhAmhVcog1O5kNHi22exXfgDeHijOgc4xY=; b=bDjnh/MN29+klW2+e
+	Ew+M9lPoQZTWpD7dAijxTDK3j51ix1yw542icHT4JnmCmjnTy/DAnEBs7Zgnnos8
+	1W8nErV5Bj2IrQL/yAMFSuTgBNGMuXbAVzd5bvBtOds0TchdSWad2um66V5fKmPJ
+	L9IgQX/aufrhe4KiYatryn1ODFyE9YL22/y5eq6gKDwB1mRqlt2IAQheGOsVzRR3
+	FrlODMi9qZwzfTabB8akyp4vE7B20teBQKs3NiyRmGEvLksmaCu3uqc/HzJS06Sw
+	8rFFNaQhXWir/MugUVEXU8I6ycD+Db++iRP2SQLFhUCxYhTTeNnUmYnLmclvEvPC
+	G0saA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w1ks2efqd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 08 Feb 2024 06:37:45 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 8 Feb
+ 2024 12:37:43 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Thu, 8 Feb 2024 12:37:43 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 03891820243;
+	Thu,  8 Feb 2024 12:37:43 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>
+Subject: [PATCH v2] ASoC: cs35l56: Fix deadlock in ASP1 mixer register initialization
+Date: Thu, 8 Feb 2024 12:37:42 +0000
+Message-ID: <20240208123742.1278104-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain
+X-Proofpoint-GUID: OhepnhnjI61Oe4jBOFSHOemIu85yXJzc
+X-Proofpoint-ORIG-GUID: OhepnhnjI61Oe4jBOFSHOemIu85yXJzc
+X-Proofpoint-Spam-Reason: safe
 
-PCM6240 family chips are popular among audio customers, in spite of only a
-portion of the functionality of codec, such as ADC or DAC, and so on, for
-different Specifications, range from Personal Electric to Automotive
-Electric, even some professional fields.yet their audio performance is far
-superior to the codec's, and cost is lower than codec, and much easier to
-program than codec.
+Rewrite the handling of ASP1 TX mixer mux initialization to prevent a
+deadlock during component_remove().
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+The firmware can overwrite the ASP1 TX mixer registers with
+system-specific settings. This is mainly for hardware that uses the
+ASP as a chip-to-chip link controlled by the firmware. Because of this
+the driver cannot know the starting state of the ASP1 mixer muxes until
+the firmware has been downloaded and rebooted.
 
+The original workaround for this was to queue a work function from the
+dsp_work() job. This work then read the register values (populating the
+regmap cache the first time around) and then called
+snd_soc_dapm_mux_update_power(). The problem with this is that it was
+ultimately triggered by cs35l56_component_probe() queueing dsp_work,
+which meant that it would be running in parallel with the rest of the
+ASoC component and card initialization. To prevent accessing DAPM before
+it was fully initialized the work function took the card mutex. But this
+would deadlock if cs35l56_component_remove() was called before the work job
+had completed, because ASoC calls component_remove() with the card mutex
+held.
+
+This new version removes the work function. Instead the regmap cache and
+DAPM mux widgets are initialized the first time any of the associated ALSA
+controls is read or written.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 07f7d6e7a124 ("ASoC: cs35l56: Fix for initializing ASP1 mixer registers")
 ---
-Change in v4:
- - Rewrite the subject to match something similar to other commits.
- - And none of them are compatible with something.
- - minItems, then maxItems.
- - Drop reset-gpios description
- - Remove the repeated reg descriptions and reg constraints.
- - Drop redundant spaces.
- - Add missing line breaks between blocks and additionalProperties.
- - Correct compatibility issue on adc6120 and pcm6240.
- - All these chips have only a portion of the functionality of codec,
-   such as ADC or DAC, and so on, but their audio performance is far
-   superior to the codec's, and cost is lower than codec, and much easier
-   to program than codec. Simply one or two register settings can enable
-   them to work. Init for these chips are hardware reset or software reset.
-   As to some audio filter params for internal filters, it is up to the
-   special user cases, which can be saved into the bin file. The default
-   value also can work well.
- - Add blank line before reg.
- - remove unneeded items and if branches.
- - Add missing compatible devices, such as adc6120, etc.
- - Add necessary people into the list for DTS review
- - correct misaligned.
- - Remove dix4192
- - simplify the compatibility
+Change from V1:
+Move the check of asp1_mixer_widgets_initialized into
+cs35l56_sync_asp1_mixer_widgets_with_firmware().
 ---
- .../devicetree/bindings/sound/ti,pcm6240.yaml | 172 ++++++++++++++++++
- 1 file changed, 172 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+ sound/soc/codecs/cs35l56.c | 157 +++++++++++++++++--------------------
+ sound/soc/codecs/cs35l56.h |   2 +-
+ 2 files changed, 75 insertions(+), 84 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml b/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
-new file mode 100644
-index 000000000000..05fcb5459920
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
-@@ -0,0 +1,172 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2022 - 2024 Texas Instruments Incorporated
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,pcm6240.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index ebed5ab1245b..98d3957c66e7 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -68,6 +68,66 @@ static const char * const cs35l56_asp1_mux_control_names[] = {
+ 	"ASP1 TX1 Source", "ASP1 TX2 Source", "ASP1 TX3 Source", "ASP1 TX4 Source"
+ };
+ 
++static int cs35l56_sync_asp1_mixer_widgets_with_firmware(struct cs35l56_private *cs35l56)
++{
++	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(cs35l56->component);
++	const char *prefix = cs35l56->component->name_prefix;
++	char full_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
++	const char *name;
++	struct snd_kcontrol *kcontrol;
++	struct soc_enum *e;
++	unsigned int val[4];
++	int i, item, ret;
 +
-+title: Texas Instruments PCM6240 Family Audio ADC/DAC
++	if (cs35l56->asp1_mixer_widgets_initialized)
++		return 0;
 +
-+maintainers:
-+  - Shenghao Ding <shenghao-ding@ti.com>
++	/*
++	 * Resume so we can read the registers from silicon if the regmap
++	 * cache has not yet been populated.
++	 */
++	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
++	if (ret < 0)
++		return ret;
 +
-+description: |
-+  The PCM6240 Family is a big family of Audio ADC/DAC for
-+  different Specifications, range from Personal Electric
-+  to Automotive Electric, even some professional fields.
++	/* Wait for firmware download and reboot */
++	cs35l56_wait_dsp_ready(cs35l56);
 +
-+  Specifications about the audio chip can be found at:
-+    https://www.ti.com/lit/gpn/tlv320adc3120
-+    https://www.ti.com/lit/gpn/tlv320adc5120
-+    https://www.ti.com/lit/gpn/tlv320adc6120
-+    https://www.ti.com/lit/gpn/pcm1690
-+    https://www.ti.com/lit/gpn/pcm3120-q1
-+    https://www.ti.com/lit/gpn/pcm3140-q1
-+    https://www.ti.com/lit/gpn/pcm5120-q1
-+    https://www.ti.com/lit/gpn/pcm6120-q1
-+    https://www.ti.com/lit/gpn/pcm6260-q1
-+    https://www.ti.com/lit/gpn/pcm9211
-+    https://www.ti.com/lit/gpn/pcmd3140
-+    https://www.ti.com/lit/gpn/pcmd3180
-+    https://www.ti.com/lit/gpn/taa5212
-+    https://www.ti.com/lit/gpn/tad5212
++	ret = regmap_bulk_read(cs35l56->base.regmap, CS35L56_ASP1TX1_INPUT,
++			       val, ARRAY_SIZE(val));
 +
-+properties:
-+  compatible:
-+    description: |
-+      ti,adc3120: Stereo-channel, 768-kHz, Burr-Brown™ audio analog-to-
-+      digital converter (ADC) with 106-dB SNR.
++	pm_runtime_mark_last_busy(cs35l56->base.dev);
++	pm_runtime_put_autosuspend(cs35l56->base.dev);
 +
-+      ti,adc5120: 2-Channel, 768-kHz, Burr-Brown™ Audio ADC with 120-dB SNR.
++	if (ret) {
++		dev_err(cs35l56->base.dev, "Failed to read ASP1 mixer regs: %d\n", ret);
++		return ret;
++	}
 +
-+      ti,adc6120: Stereo-channel, 768-kHz, Burr-Brown™ audio analog-to-
-+      digital converter (ADC) with 123-dB SNR.
++	for (i = 0; i < ARRAY_SIZE(cs35l56_asp1_mux_control_names); ++i) {
++		name = cs35l56_asp1_mux_control_names[i];
 +
-+      ti,pcm1690: Automotive Catalog 113dB SNR 8-Channel Audio DAC with
-+      Differential Outputs.
++		if (prefix) {
++			snprintf(full_name, sizeof(full_name), "%s %s", prefix, name);
++			name = full_name;
++		}
 +
-+      ti,pcm3120: Automotive, stereo, 106-dB SNR, 768-kHz, low-power
-+      software-controlled audio ADC.
++		kcontrol = snd_soc_card_get_kcontrol(dapm->card, name);
++		if (!kcontrol) {
++			dev_warn(cs35l56->base.dev, "Could not find control %s\n", name);
++			continue;
++		}
 +
-+      ti,pcm3140: Automotive, Quad-Channel, 768-kHz, Burr-Brown™ Audio ADC
-+      with 106-dB SNR.
++		e = (struct soc_enum *)kcontrol->private_value;
++		item = snd_soc_enum_val_to_item(e, val[i] & CS35L56_ASP_TXn_SRC_MASK);
++		snd_soc_dapm_mux_update_power(dapm, kcontrol, item, e, NULL);
++	}
 +
-+      ti,pcm5120: Automotive, stereo, 120-dB SNR, 768-kHz, low-power
-+      software-controlled audio ADC.
++	cs35l56->asp1_mixer_widgets_initialized = true;
 +
-+      ti,pcm5140: Automotive, Quad-Channel, 768-kHz, Burr-Brown™ Audio ADC
-+      with 120-dB SNR.
++	return 0;
++}
 +
-+      ti,pcm6120: Automotive, stereo, 123-dB SNR, 768-kHz, low-power
-+      software-controlled audio ADC.
+ static int cs35l56_dspwait_asp1tx_get(struct snd_kcontrol *kcontrol,
+ 				      struct snd_ctl_elem_value *ucontrol)
+ {
+@@ -78,9 +138,9 @@ static int cs35l56_dspwait_asp1tx_get(struct snd_kcontrol *kcontrol,
+ 	unsigned int addr, val;
+ 	int ret;
+ 
+-	/* Wait for mux to be initialized */
+-	cs35l56_wait_dsp_ready(cs35l56);
+-	flush_work(&cs35l56->mux_init_work);
++	ret = cs35l56_sync_asp1_mixer_widgets_with_firmware(cs35l56);
++	if (ret)
++		return ret;
+ 
+ 	addr = cs35l56_asp1_mixer_regs[index];
+ 	ret = regmap_read(cs35l56->base.regmap, addr, &val);
+@@ -106,9 +166,9 @@ static int cs35l56_dspwait_asp1tx_put(struct snd_kcontrol *kcontrol,
+ 	bool changed;
+ 	int ret;
+ 
+-	/* Wait for mux to be initialized */
+-	cs35l56_wait_dsp_ready(cs35l56);
+-	flush_work(&cs35l56->mux_init_work);
++	ret = cs35l56_sync_asp1_mixer_widgets_with_firmware(cs35l56);
++	if (ret)
++		return ret;
+ 
+ 	addr = cs35l56_asp1_mixer_regs[index];
+ 	val = snd_soc_enum_item_to_val(e, item);
+@@ -124,70 +184,6 @@ static int cs35l56_dspwait_asp1tx_put(struct snd_kcontrol *kcontrol,
+ 	return changed;
+ }
+ 
+-static void cs35l56_mark_asp1_mixer_widgets_dirty(struct cs35l56_private *cs35l56)
+-{
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(cs35l56->component);
+-	const char *prefix = cs35l56->component->name_prefix;
+-	char full_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+-	const char *name;
+-	struct snd_kcontrol *kcontrol;
+-	struct soc_enum *e;
+-	unsigned int val[4];
+-	int i, item, ret;
+-
+-	/*
+-	 * Resume so we can read the registers from silicon if the regmap
+-	 * cache has not yet been populated.
+-	 */
+-	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
+-	if (ret < 0)
+-		return;
+-
+-	ret = regmap_bulk_read(cs35l56->base.regmap, CS35L56_ASP1TX1_INPUT,
+-			       val, ARRAY_SIZE(val));
+-
+-	pm_runtime_mark_last_busy(cs35l56->base.dev);
+-	pm_runtime_put_autosuspend(cs35l56->base.dev);
+-
+-	if (ret) {
+-		dev_err(cs35l56->base.dev, "Failed to read ASP1 mixer regs: %d\n", ret);
+-		return;
+-	}
+-
+-	snd_soc_card_mutex_lock(dapm->card);
+-	WARN_ON(!dapm->card->instantiated);
+-
+-	for (i = 0; i < ARRAY_SIZE(cs35l56_asp1_mux_control_names); ++i) {
+-		name = cs35l56_asp1_mux_control_names[i];
+-
+-		if (prefix) {
+-			snprintf(full_name, sizeof(full_name), "%s %s", prefix, name);
+-			name = full_name;
+-		}
+-
+-		kcontrol = snd_soc_card_get_kcontrol(dapm->card, name);
+-		if (!kcontrol) {
+-			dev_warn(cs35l56->base.dev, "Could not find control %s\n", name);
+-			continue;
+-		}
+-
+-		e = (struct soc_enum *)kcontrol->private_value;
+-		item = snd_soc_enum_val_to_item(e, val[i] & CS35L56_ASP_TXn_SRC_MASK);
+-		snd_soc_dapm_mux_update_power(dapm, kcontrol, item, e, NULL);
+-	}
+-
+-	snd_soc_card_mutex_unlock(dapm->card);
+-}
+-
+-static void cs35l56_mux_init_work(struct work_struct *work)
+-{
+-	struct cs35l56_private *cs35l56 = container_of(work,
+-						       struct cs35l56_private,
+-						       mux_init_work);
+-
+-	cs35l56_mark_asp1_mixer_widgets_dirty(cs35l56);
+-}
+-
+ static DECLARE_TLV_DB_SCALE(vol_tlv, -10000, 25, 0);
+ 
+ static const struct snd_kcontrol_new cs35l56_controls[] = {
+@@ -936,14 +932,6 @@ static void cs35l56_dsp_work(struct work_struct *work)
+ 	else
+ 		cs35l56_patch(cs35l56, firmware_missing);
+ 
+-
+-	/*
+-	 * Set starting value of ASP1 mux widgets. Updating a mux takes
+-	 * the DAPM mutex. Post this to a separate job so that DAPM
+-	 * power-up can wait for dsp_work to complete without deadlocking
+-	 * on the DAPM mutex.
+-	 */
+-	queue_work(cs35l56->dsp_wq, &cs35l56->mux_init_work);
+ err:
+ 	pm_runtime_mark_last_busy(cs35l56->base.dev);
+ 	pm_runtime_put_autosuspend(cs35l56->base.dev);
+@@ -989,6 +977,13 @@ static int cs35l56_component_probe(struct snd_soc_component *component)
+ 	debugfs_create_bool("can_hibernate", 0444, debugfs_root, &cs35l56->base.can_hibernate);
+ 	debugfs_create_bool("fw_patched", 0444, debugfs_root, &cs35l56->base.fw_patched);
+ 
++	/*
++	 * The widgets for the ASP1TX mixer can't be initialized
++	 * until the firmware has been downloaded and rebooted.
++	 */
++	regcache_drop_region(cs35l56->base.regmap, CS35L56_ASP1TX1_INPUT, CS35L56_ASP1TX4_INPUT);
++	cs35l56->asp1_mixer_widgets_initialized = false;
 +
-+      ti,pcm6140: Automotive, Quad-Channel, 768-kHz, Burr-Brown™ Audio ADC
-+      with 123-dB SNR.
-+
-+      ti,pcm6240: Automotive 4-ch audio ADC with integrated programmable mic
-+      bias, boost and input diagnostics.
-+
-+      ti,pcm6260: Automotive 6-ch audio ADC with integrated programmable mic
-+      bias, boost and input diagnostics.
-+
-+      ti,pcm9211: 216-kHz Digital Audio Interface Transceiver (DIX)
-+      With Stereo ADC and Routing.
-+
-+      ti,pcmd3140: Four-channel PDM-input to TDM or I2S output converter.
-+
-+      ti,pcmd3180: Eight-channel pulse-density-modulation input to TDM or
-+      I2S output converter.
-+
-+      ti,taa5212: Low-power high-performance stereo audio ADC with 118-dB
-+      dynamic range.
-+
-+      ti,tad5212: Low-power stereo audio DAC with 120-dB dynamic range.
-+    oneOf:
-+      - items:
-+          - enum:
-+              - ti,adc3120
-+              - ti,adc5120
-+              - ti,pcm3120
-+              - ti,pcm5120
-+              - ti,pcm6120
-+          - const: ti,adc6120
-+      - items:
-+          - enum:
-+              - ti,pcmd512x
-+              - ti,pcm9211
-+              - ti,taa5212
-+              - ti,tad5212
-+          - const: ti,adc6120
-+      - items:
-+          - enum:
-+              - ti,pcm6260
-+              - ti,pcm6140
-+              - ti,pcm3140
-+              - ti,pcm5140
-+          - const: ti,pcm6240
-+      - items:
-+          - enum:
-+              - ti,pcmd3140
-+              - ti,pcmd3180
-+              - ti,pcm1690
-+              - ti,taa5412
-+              - ti,tad5412
-+          - const: ti,pcm6240
-+      - enum:
-+          - ti,adc6120
-+          - ti,pcm6240
-+
-+  reg:
-+    description:
-+      I2C address, in multiple pcmdevices case, all the i2c address
-+      aggregate as one Audio Device to support multiple audio slots.
-+    minItems: 1
-+    maxItems: 4
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+    description:
-+      Invalid only for ti,pcm1690 because of no INT pin.
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ti,pcm1690
-+    then:
-+      properties:
-+        interrupts: false
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+   #include <dt-bindings/gpio/gpio.h>
-+   i2c {
-+     /* example for two devices with interrupt support */
-+     #address-cells = <1>;
-+     #size-cells = <0>;
-+     pcm6240: audio-codec@48 {
-+       compatible = "ti,pcm6240";
-+       reg = <0x48>, /* primary-device */
-+             <0x4b>; /* secondary-device */
-+       #sound-dai-cells = <0>;
-+       reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
-+       interrupt-parent = <&gpio1>;
-+       interrupts = <15>;
-+     };
-+   };
-+...
+ 	queue_work(cs35l56->dsp_wq, &cs35l56->dsp_work);
+ 
+ 	return 0;
+@@ -999,7 +994,6 @@ static void cs35l56_component_remove(struct snd_soc_component *component)
+ 	struct cs35l56_private *cs35l56 = snd_soc_component_get_drvdata(component);
+ 
+ 	cancel_work_sync(&cs35l56->dsp_work);
+-	cancel_work_sync(&cs35l56->mux_init_work);
+ 
+ 	if (cs35l56->dsp.cs_dsp.booted)
+ 		wm_adsp_power_down(&cs35l56->dsp);
+@@ -1070,10 +1064,8 @@ int cs35l56_system_suspend(struct device *dev)
+ 
+ 	dev_dbg(dev, "system_suspend\n");
+ 
+-	if (cs35l56->component) {
++	if (cs35l56->component)
+ 		flush_work(&cs35l56->dsp_work);
+-		cancel_work_sync(&cs35l56->mux_init_work);
+-	}
+ 
+ 	/*
+ 	 * The interrupt line is normally shared, but after we start suspending
+@@ -1224,7 +1216,6 @@ static int cs35l56_dsp_init(struct cs35l56_private *cs35l56)
+ 		return -ENOMEM;
+ 
+ 	INIT_WORK(&cs35l56->dsp_work, cs35l56_dsp_work);
+-	INIT_WORK(&cs35l56->mux_init_work, cs35l56_mux_init_work);
+ 
+ 	dsp = &cs35l56->dsp;
+ 	cs35l56_init_cs_dsp(&cs35l56->base, &dsp->cs_dsp);
+diff --git a/sound/soc/codecs/cs35l56.h b/sound/soc/codecs/cs35l56.h
+index 596b141e3f96..b000e7365e40 100644
+--- a/sound/soc/codecs/cs35l56.h
++++ b/sound/soc/codecs/cs35l56.h
+@@ -34,7 +34,6 @@ struct cs35l56_private {
+ 	struct wm_adsp dsp; /* must be first member */
+ 	struct cs35l56_base base;
+ 	struct work_struct dsp_work;
+-	struct work_struct mux_init_work;
+ 	struct workqueue_struct *dsp_wq;
+ 	struct snd_soc_component *component;
+ 	struct regulator_bulk_data supplies[CS35L56_NUM_BULK_SUPPLIES];
+@@ -52,6 +51,7 @@ struct cs35l56_private {
+ 	u8 asp_slot_count;
+ 	bool tdm_mode;
+ 	bool sysclk_set;
++	bool asp1_mixer_widgets_initialized;
+ 	u8 old_sdw_clock_scale;
+ };
+ 
 -- 
-2.34.1
+2.30.2
 
