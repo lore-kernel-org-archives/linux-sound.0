@@ -1,95 +1,170 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A0D3F9C0;
-	Fri,  9 Feb 2024 14:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94E16BFD6;
+	Fri,  9 Feb 2024 15:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707490637; cv=none; b=jfFuNag311+Re6LWPLKZeU8Egcq1L//jz/MTwxSa7SXCRf9Wu9xgvP0GL48lfNl7q1dTCt1uN3JAwtTnkTef2BycLLKU0waomNQNPk7HbVNwp8cLuFEBASFI1WRMafcgKHSGibSOgj0/id483eXAeEb07x3i3mUwWhuuRQ111i0=
+	t=1707494221; cv=none; b=DjdWUUDUzl8ss03MgKRpLJZk/KMCDuq9IbcqfqyujMc8uIHuf3n685KrvyDheU/W755HepGIns3YPNggGRu4M9aub4la68Gyz99VwBFsZxXV9/4MO999jp3AwjIyYDLmfezpbNwkaKukYB+VeXsT/kFKwtWXw+diiEDeXeSLMEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707490637; c=relaxed/simple;
-	bh=wO38Yt4tXTY92INv32gdo8g+xlsn6zHVAdq7e+Xxp0k=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tEl6+nMrDMZWCTTtAj1AiVBjJqynKMfmzs60hLATF8OAl8Egeuzkmj9nmlC5Mb3NW7npmjt0I3c+9oEreIsIKwnPLZzkDUWruMPEQ3nl9ZpRtNflgPmW5RJzBfMPnvAea3JDWu5YFXFMt3Necp9K/8bsGeREl4UjXJXpue3Xqu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=fNTJr+CM; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1707494221; c=relaxed/simple;
+	bh=1Py4UFKVG/mP2yurJX7hEGwtHJpXMmiQ6Q1WRDmX8xc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lSTPzruh8WXMlEvY7xQHK99a3QN+oY+ziIgN6pKY4SPgmHaCh6h17Qy1jciEKNiJxEYq6RKkIiNsyuzX9kpLutfD3uyXtFMW1z+ZfKpWy/XPvCrCbKZp6TLgYSIccw806q22BAdVJ+GrGwUU//yNMUIQgetfpIja/osGy7fT4zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1EpISaC; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fNTJr+CM"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4199AB9n000674;
-	Fri, 9 Feb 2024 08:57:02 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=/
-	8ZkQK18xlzwxeIuyhUWjvqXdyTGQv17yphhR0arZB8=; b=fNTJr+CM+26yf+JQe
-	+aWvSfE1KDRgDGk2eCawIV32aAFw8m4+BLqVKaLSl2tr1f/N7NCKC0mSzyU4tjiD
-	MHaWTM+dvnpUquN4BFLny+ZHUPeDoF7wnH9eBBP+FY/GdGesix7JshmRGYyq+jO6
-	F6YB4Gu1rDxJkKrT3xHxu1Bpg4gegEk42DYkUCwJTI03KQR+e+VmFHco/R1PdhqP
-	QjkC6Tbd0t1Q7OpDoi5VAoIJlt6QpLZ9An5Qaq9mE+lLMpVfdya13wjK22UIVZLv
-	w7C9hdzJqu+uuVtNzEYdVSGdjoWquhh9ovgk5VzlRz+C6KIRpE948x5ZrxzMxDLS
-	kjiqg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w1ks2g1sc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 Feb 2024 08:57:02 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
- 2024 14:57:00 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 9 Feb 2024 14:57:00 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3AB74820243;
-	Fri,  9 Feb 2024 14:57:00 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH] ASoC: cs35l56: Remove default from IRQ1_CFG register
-Date: Fri, 9 Feb 2024 14:57:00 +0000
-Message-ID: <20240209145700.1555950-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1EpISaC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707494220; x=1739030220;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=1Py4UFKVG/mP2yurJX7hEGwtHJpXMmiQ6Q1WRDmX8xc=;
+  b=Y1EpISaCrQrk6iXtsa8lnM6Hd0aUxwyGY43YlK2gCVB2fpd8gAtUH3qk
+   44Un1m4TRKGVYIWGELuJj+rJYzY0oCU3Sfihl4qglVOTVh2irolrDmfI2
+   5lkYXDrTYBYdpJb+xCfQaFJW9ndU57gpFZIgZukHoBtCNN2We22hkmYG2
+   llaIQ4Vn7sfjOeInHnW1rz2yW9fZaGeTXoebPaFRI3JVZYbpfdFsTq2t3
+   qDfw20V5CdEJddC+Heaqo0KgXyQob819r70bL51owP/1o7NPqvTFZSKUo
+   j9px1I2KBPovPmAZokVVJRVM1f8MMKpatJ9xr2F5hZ7/p7GCdRKKKQYpT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12823531"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="12823531"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 07:56:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="1956636"
+Received: from csromei-mobl1.amr.corp.intel.com (HELO [10.212.93.94]) ([10.212.93.94])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 07:56:56 -0800
+Message-ID: <d65cf9f4-1617-2962-2786-bcaf7907dd67@linux.intel.com>
+Date: Fri, 9 Feb 2024 09:44:25 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: Ra__ikqGi0ZyXfYsS1F3WyRJeJ8lXdt2
-X-Proofpoint-ORIG-GUID: Ra__ikqGi0ZyXfYsS1F3WyRJeJ8lXdt2
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.1
+Subject: Re: [PATCH v4 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+ "P O, Vijeth" <v-po@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>,
+ "perex@perex.cz" <perex@perex.cz>, "McPherson, Jeff" <j-mcpherson@ti.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "Chawla, Mohit" <mohit.chawla@ti.com>, "soyer@irl.hu" <soyer@irl.hu>,
+ "Huang, Jonathan" <jkhuang3@ti.com>, "tiwai@suse.de" <tiwai@suse.de>,
+ "Djuandi, Peter" <pdjuandi@ti.com>, "Agrawal, Manisha"
+ <manisha.agrawal@ti.com>, "Hari, Raj" <s-hari@ti.com>,
+ "Yashar, Avi" <aviel@ti.com>, "Nagalla, Hari" <hnagalla@ti.com>,
+ "Bajjuri, Praneeth" <praneeth@ti.com>
+References: <20240208095255.1508-1-shenghao-ding@ti.com>
+ <160173b0-098e-493f-93b1-8b831838e0a0@linux.intel.com>
+ <0ac563b32399400897b8f3adce6195c3@ti.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <0ac563b32399400897b8f3adce6195c3@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The driver never uses the IRQ1_CFG register so there's no need to provide
-a default value. It's set as a readable register only for debugging
-through the regmap registers file.
 
-A system-specific firmware could overwrite this register with a non-default
-value. Therefore the driver can't hardcode what the initial value actually
-is. As the register is only for debugging the value can be left unknown
-until someone wants to read it through debugfs.
+>>> +static const char *const pcmdev_ctrl_name[] = {
+>>> +	"%s-i2c-%d-dev%d-ch%d-ana-gain",
+>>> +	"%s-i2c-%d-dev%d-ch%d-digi-gain",
+>>> +	"%s-i2c-%d-dev%d-ch%d-fine-gain",
+>>> +};
+>>
+>> Controls are exposed to user-space, and it helps if it's easy to identify which
+>> device is which.
+>>
+>> But below you are using the I2C address, is this 'stable' enough so that
+>> userspace can still identify the controls and set them accordingly with amixer
+>> or UCM?
+>>
+> So far, I have no good way to handle the devices with multiple pcmdevices sitting in different i2c buses.
+> As you know, the gain value highly depends on both the mic-phone position and the mic-phone's own
+>   characters. All these controls have to be open to the product developer or manufacturer. They might
+> rename them per their products if they want.
+> As to the stable, my customers and I had developed many productors on arm-based paltforms. At least,
+> the i2c number is same as the one defined in dts.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/soc/codecs/cs35l56-shared.c | 1 -
- 1 file changed, 1 deletion(-)
+IIRC there is a codec prefix that can be used to uniquify controls, 
+that's what we used when we have identical amplifier devices in the same 
+system. Using this prefix would avoid this sort of hard-coding of the 
+control names proper, in other words let the ASoC framework add a prefix 
+if needed.
 
-diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
-index 02fba4bc0a14..995d979b6d87 100644
---- a/sound/soc/codecs/cs35l56-shared.c
-+++ b/sound/soc/codecs/cs35l56-shared.c
-@@ -51,7 +51,6 @@ static const struct reg_default cs35l56_reg_defaults[] = {
- 	{ CS35L56_SWIRE_DP3_CH2_INPUT,		0x00000019 },
- 	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
- 	{ CS35L56_SWIRE_DP3_CH4_INPUT,		0x00000028 },
--	{ CS35L56_IRQ1_CFG,			0x00000000 },
- 	{ CS35L56_IRQ1_MASK_1,			0x83ffffff },
- 	{ CS35L56_IRQ1_MASK_2,			0xffff7fff },
- 	{ CS35L56_IRQ1_MASK_4,			0xe0ffffff },
--- 
-2.30.2
+>>> +static int pcmdevice_codec_probe(struct snd_soc_component *codec) {
+>>> +	struct pcmdevice_priv *pcm_dev =
+>> snd_soc_component_get_drvdata(codec);
+>>> +	struct i2c_adapter *adap = pcm_dev->client->adapter;
+>>> +	int ret, i, j;
+>>> +
+>>> +	mutex_lock(&pcm_dev->codec_lock);
+>>> +	pcm_dev->component = codec;
+>>> +	pcm_dev->fw_state = PCMDEVICE_FW_LOAD_OK;
+>>> +
+>>> +	for (i = 0; i < pcm_dev->ndev; i++) {
+>>> +		for (j = 0; j < 2; j++) {
+>>> +			ret = pcmdev_gain_ctrl_add(pcm_dev, i, j);
+>>> +			if (ret < 0)
+>>> +				goto out;
+>>> +		}
+>>> +	}
+>>> +
+>>> +	/* device-name[defined in pcmdevice_i2c_id]-i2c-bus_id[0,1,...,N]-
+>>> +	 * sum[1,2,...,4]dev-reg.bin stores the firmware including register
+>>> +	 * setting and params for different filters inside chips, it must be
+>>> +	 * copied into firmware folder. The same types of pcmdevices sitting
+>>> +	 * on the same i2c bus will be aggregated as one single codec,
+>>> +	 * all of them share the same bin file.
+>>> +	 */
+>>> +	scnprintf(pcm_dev->regbin_name,
+>> PCMDEVICE_REGBIN_FILENAME_LEN,
+>>> +		"%s-i2c-%d-%udev-reg.bin", pcm_dev->dev_name, adap->nr,
+>>> +		pcm_dev->ndev);
+>>> +
+>>> +	ret = request_firmware_nowait(THIS_MODULE,
+>> FW_ACTION_UEVENT,
+>>> +		pcm_dev->regbin_name, pcm_dev->dev, GFP_KERNEL,
+>> pcm_dev,
+>>> +		pcmdev_regbin_ready);
+>>
+>> I already had a question early on whether these addresses are 'stable', but
+>> here the device address is used to fetch firmware, and there is no prefix or
+>> directory to identify platform-specific settings.
+>>
+>> I don't know how this might work for a distribution. There needs to be a way
+>> to detect what system this is at run-time, and make sure we don't use
+>> settings for platform XYZ on platform ABC.
+>>
+> In PC, hwid, subsysid and vendorid can help to identify the platform.
+>   But it seemed difficult to get platform id on non-PC system. More often,
+> different productors from different customers might use the same platform.
+> In my view, the products developer or manufacturer might rename the firmware
+>   per their products if they want, not limited to the platform.
+
+It's not "might rename", it's "are required to rename".
+
+Your solution works if everything is build and configured for ONE board. 
+That's pretty limiting, even for your own CI and tests.
+
+Could we not add a prefix for the firmware path that either either set 
+with a subsys_id or vendor_id, and if it doesn't exist with a kernel 
+parameter or a quirk?
+
+Renaming firmware files is a never-ending source of problems IMHO.
 
