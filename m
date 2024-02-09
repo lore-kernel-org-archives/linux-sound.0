@@ -1,181 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A88664A4
-	for <linux-sound@vger.kernel.org>; Fri,  9 Feb 2024 08:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441A267E84;
+	Fri,  9 Feb 2024 10:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707468756; cv=none; b=J2XX7prilUhU1kKD8N98fNi1sCV6K4Rly9hfuw52zKs6Ih6KpzQFkKtcYemQdOGQ1bPcp94PbuSIjYRnFTlpA6wMNShkCArSGlSHkp6KWG2FsJ/vJvO3y+T1DV1tYPX/dAu+H4S8MJfWWCs7FUL7jPZVwI/1ntrMikXDHfO15FM=
+	t=1707473392; cv=none; b=XuZjSo1i1HyOKZgx49aIT/4sSHrJgAN9eG01p3m8wbqFlaYHtx3IaTho9QbpwkdH+aq8o/OKXFEef24c49rp3szPr/ixsMCqCv7oBfhF0Ua6yzsrz/Sv8kZ1c5TUNpK1AIBjkQJJaE1HmCM32y0o1q5hmWZ0XA+5gXkC1cDgIPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707468756; c=relaxed/simple;
-	bh=nBOwufcJKX3rOqeiUYDP5rWcbiNGvqPqiRENy/6jTDM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=b2XyJ9bdM7sJFITRh1KmX8xVRhLyD/grDB2uGs0x1QTTjdVcLXtXBiGbc5RZWKXhb+6MmuPowT/PcyEiDqYd1xiOUFgXThPmr4+mP5IZ5glOGEmQTs4x6d9Ly0MAX5qk8yi6pzS2uwj2WAKMh84pjal8wZwrI9OWVOs9veIGt2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6t+UDkk; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707473392; c=relaxed/simple;
+	bh=yRNoC0/A8esDUggePK0DVBtZR9HduL2lxp3Yk/zSuBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=efpLjbPZJIRo+/U6/VJ73zBT8G+L3jfme20IJSYaBnY5Se+n4t6CmzfrQ4X6UglnZ3BV2QZYGYYMlS7wGI7JL52m+5p+0uaVF8M5d4emaY4fQtPlDtwqJN61JvJjtQSFgwQoFSnhAUpflm+k+tudRRqssUOy3U5aV3CV6as79HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpXS4CvE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6t+UDkk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707468755; x=1739004755;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nBOwufcJKX3rOqeiUYDP5rWcbiNGvqPqiRENy/6jTDM=;
-  b=Y6t+UDkkVgBj2a03sMjTBbGmtfaQTzEVkloux7zIQip3+Lmw36w/Cgtq
-   SpW0SFfiigvB9aaz5Xii4+kxC0Pv76ERC65Hb8IAZDfnqVLDOHME8RnWu
-   RoivOVPi4A1syhBtPnjvtA75op3gCnttcW2AXo7Ngcgm13jJzx6RDtY9J
-   P3zAcIvOtvybdxy+XtjL5qHR9oX/9dPQN3Ua7iPf9sYi2cniRX9CqgA07
-   yu4ThENRSfmX0CadF11iVjs2hnJa7rKp3bZ18DkI4XxIOE6RClRW3ZdTB
-   myWDYADhU6splMw3ae70R+mZZTuJ1zXl8nNE+XTu9hG5OB6e/A9x/qJCL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="18808769"
-X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="18808769"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 00:52:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="2196047"
-Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2024 00:52:32 -0800
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH v2] ASoC: Intel: avs: Expose FW version with sysfs
-Date: Fri,  9 Feb 2024 09:52:56 +0100
-Message-Id: <20240209085256.121261-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpXS4CvE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ACEBC433C7;
+	Fri,  9 Feb 2024 10:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707473391;
+	bh=yRNoC0/A8esDUggePK0DVBtZR9HduL2lxp3Yk/zSuBQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bpXS4CvERq0AdZglblnmTRHUmE7ZFupb2IMYMzqrdsF5G4bmypyFYcQnfURzWLdv8
+	 Ropi/cUuUeV3dkMuhDIrWmjLDinQRR9/T/ii67CIqvjVHjaua1+dzZ2uIe8pUSEXqo
+	 aD6SI9UDsudGcR50Jv+jASJex/9aaFKuOLOH0CsscbJjq0a9l2a3KL4f6V+y4O7cnq
+	 JOJn9s1Ly2V9HH38aJTCSrgoRDbJRbdq6J6vygrYXBXlCsQj5CoAmaHCLpLeOvd07i
+	 GdrG9IItxrQsNPQ/rrXWjwcUpLbw/IEk22bA1W3UeTObplIqqx78SfvoS4auKTApMG
+	 DbXSHUwPTkybQ==
+Date: Fri, 9 Feb 2024 10:09:48 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH] ASoC: SOF: amd: Fix locking in ACP IRQ handler
+Message-ID: <ZcX57PGUn5cABns1@finisterre.sirena.org.uk>
+References: <20240208234315.2182048-1-cristian.ciocaltea@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IuqgEAM0x+m4fEnK"
+Content-Disposition: inline
+In-Reply-To: <20240208234315.2182048-1-cristian.ciocaltea@collabora.com>
+X-Cookie: You might have mail.
 
-From: Cezary Rojewski <cezary.rojewski@intel.com>
 
-Add functionality to read version of loaded FW from sysfs.
+--IuqgEAM0x+m4fEnK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
----
+On Fri, Feb 09, 2024 at 01:43:14AM +0200, Cristian Ciocaltea wrote:
 
-Changes in v2:
- - Adjust path in Documentation to correct one
+> 1707255557.133976 kernel: BUG: sleeping function called from invalid context at include/linux/sched/mm.h:315
+> 1707255557.134068 kernel: in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 502, name: irq/66-AudioDSP
+> 1707255557.134089 kernel: preempt_count: 1, expected: 0
 
----
- .../ABI/testing/sysfs-bus-pci-devices-avs     |  8 +++++
- sound/soc/intel/avs/Makefile                  |  3 +-
- sound/soc/intel/avs/avs.h                     |  4 +++
- sound/soc/intel/avs/core.c                    |  1 +
- sound/soc/intel/avs/sysfs.c                   | 35 +++++++++++++++++++
- 5 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-avs
- create mode 100644 sound/soc/intel/avs/sysfs.c
+Please think hard before including complete backtraces in upstream
+reports, they are very large and contain almost no useful information
+relative to their size so often obscure the relevant content in your
+message. If part of the backtrace is usefully illustrative (it often is
+for search engines if nothing else) then it's usually better to pull out
+the relevant sections.
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-avs b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
-new file mode 100644
-index 0000000000000..ebff3fa12055d
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
-@@ -0,0 +1,8 @@
-+What:		/sys/devices/pci0000:00/<dev>/avs/fw_version
-+Date:		February 2024
-+Contact:	Cezary Rojewski <cezary.rojewski@intel.com>
-+Description:
-+		Version of AudioDSP firmware ASoC avs driver is communicating
-+		with.
-+
-+		Format: %d.%d.%d.%d, type:major:minor:build.
-diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
-index 460ee6599daf0..a3fad926d0fb0 100644
---- a/sound/soc/intel/avs/Makefile
-+++ b/sound/soc/intel/avs/Makefile
-@@ -1,7 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
- snd-soc-avs-objs := dsp.o ipc.o messages.o utils.o core.o loader.o \
--		    topology.o path.o pcm.o board_selection.o control.o
-+		    topology.o path.o pcm.o board_selection.o control.o \
-+		    sysfs.o
- snd-soc-avs-objs += cldma.o
- snd-soc-avs-objs += skl.o apl.o
- 
-diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index d694e08e44e18..69c912feb8a7e 100644
---- a/sound/soc/intel/avs/avs.h
-+++ b/sound/soc/intel/avs/avs.h
-@@ -392,4 +392,8 @@ static inline void avs_debugfs_init(struct avs_dev *adev) { }
- static inline void avs_debugfs_exit(struct avs_dev *adev) { }
- #endif
- 
-+/* Filesystems integration */
-+
-+extern const struct attribute_group *avs_attr_groups[];
-+
- #endif /* __SOUND_SOC_INTEL_AVS_H */
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index db78eb2f01080..273a902168562 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -776,6 +776,7 @@ static struct pci_driver avs_pci_driver = {
- 	.probe = avs_pci_probe,
- 	.remove = avs_pci_remove,
- 	.shutdown = avs_pci_shutdown,
-+	.dev_groups = avs_attr_groups,
- 	.driver = {
- 		.pm = &avs_dev_pm,
- 	},
-diff --git a/sound/soc/intel/avs/sysfs.c b/sound/soc/intel/avs/sysfs.c
-new file mode 100644
-index 0000000000000..cce21636fbc02
---- /dev/null
-+++ b/sound/soc/intel/avs/sysfs.c
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// Copyright(c) 2021-2024 Intel Corporation. All rights reserved.
-+//
-+// Authors: Cezary Rojewski <cezary.rojewski@intel.com>
-+//          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
-+//
-+
-+#include <linux/sysfs.h>
-+#include "avs.h"
-+
-+static ssize_t fw_version_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct avs_dev *adev = to_avs_dev(dev);
-+	struct avs_fw_version *fw_version = &adev->fw_cfg.fw_version;
-+
-+	return sysfs_emit(buf, "%d.%d.%d.%d\n", fw_version->major, fw_version->minor,
-+			  fw_version->hotfix, fw_version->build);
-+}
-+static DEVICE_ATTR_RO(fw_version);
-+
-+static struct attribute *avs_fw_attrs[] = {
-+	&dev_attr_fw_version.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group avs_attr_group = {
-+	.name = "avs",
-+	.attrs = avs_fw_attrs,
-+};
-+
-+const struct attribute_group *avs_attr_groups[] = {
-+	&avs_attr_group,
-+	NULL
-+};
--- 
-2.34.1
+--IuqgEAM0x+m4fEnK
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXF+esACgkQJNaLcl1U
+h9DSxQf/d6GVw2tDhiA3reBn1nr1lpMNoJpqSmW9LI7+ZwfXBtwfK+1xI3DjoqFM
+90ukE68PxF5SJ4L1xYBUD5lHeTrpV78UQbKjHIJKQgPi2n2Hxj6dLHJzLQYIt2JW
+TT+OglBQD5JsaLl5glwxVlSDXit6EIe7TtFJvkXQvMla1fwsHqsTF4ciKKeX9iKP
+bDfIsFeveHpMaqRFZ7rLvpIA/Q7TnqPAJtnDBFe2+IOQykH8kDrA67mh5iE65NaO
+3vputeWoemUczl1iYaxTJZ6R2b057TQ9GdApVXhWuxv6OQoB5zRDmonETjwBx25e
+giAumOOzNxhN76YmbPT5ltFLb62jRg==
+=wgNY
+-----END PGP SIGNATURE-----
+
+--IuqgEAM0x+m4fEnK--
