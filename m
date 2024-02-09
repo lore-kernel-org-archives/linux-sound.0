@@ -1,85 +1,173 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4091DA52;
-	Fri,  9 Feb 2024 10:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF79C1DA59;
+	Fri,  9 Feb 2024 10:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707475427; cv=none; b=jJdlgoChvmvZ00wWlHwaLggxp1CAO82LIdiUsUdUqlBlN7L42b7C3uGo7Kyzdv8AeaFyUiHHOKkPz/khYk4IvQvfJ1hqvMUhwdOe44wpcZMVbO6Q2nfFoajqI0c57rQE0p/Y+7VRH0Bd0mLyazMirdu7uGiTBr8bQaPJu7FBdQI=
+	t=1707476102; cv=none; b=KzYM7wUnnxU43pA6MbUPzo7nISlpfuDZadn2h76lAb7m9oMrpOXYTvnhiGw+xpkyC0kyxWJc39iCvBJu7lNE1CaKa9HK09Q0E0XXXQmTWZldeuCKURzkhWQcT6sFrVgoRVdjwbHOW2Liotpimi6f0zrE8BWHAHS7xZsMlsA7L3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707475427; c=relaxed/simple;
-	bh=XGOcEQpCEz7+aBrJ/3advf05cWhhKVfgPNw4Gll2W6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q03TVEvNfcIoHtd62pkezKswtYUWIpd9hobaN8Np71AYNsXoGMxq6YOkdffba5yQHQSHueGhQH6zJst1kvO1SYhGZKaXfzGcJ9dhrSZfHscLzdpXPLuL/8pvDVlOPJ7eqejqryxCi4YbKQdViIklQ9gIP8onJrmsrTW6vo7cQD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Uo5bmkFy; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1707476102; c=relaxed/simple;
+	bh=RzCj/wjUmQAdnlPi3yHNMR9znSA3zmdXvQ3SsxyGDUQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Wc0fPZVagm6kFdTUiP2QsImq41SN7qv9uvtj9TPI9ejh/5Fh5trx7y3UQZF/W+rz6iqEuQcdvuSXO0HO7yujARLrDoHQdULhjHAeRgRpUCOMdF2EZImwCT8LL/9fsSvboK6FvfYlRfP5813V+GwZceJF27RZSTDR9OwjtXniU5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X3A0p7Oo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sxDKMLGk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X3A0p7Oo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sxDKMLGk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Uo5bmkFy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707475424;
-	bh=XGOcEQpCEz7+aBrJ/3advf05cWhhKVfgPNw4Gll2W6Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Uo5bmkFyaOON7oMs67Ewrv6kTDqWYGpmY3I3yCwMdOFmLsf5N5yp0rmKkjvh6TGIv
-	 ZyjCXA3h94b9oeudN7dvSH3/I8eq90SEOjFN7NpdQ1ubMNXHADRv2D9vWNX55hdQhl
-	 DaeHkSo2DwMVnVYPuLQ7qfoNu4eoM/teNLdmsl695KzATyDVasHlbEkdCn/IMGRExw
-	 A6FCc1f5aVTbTkNmfeE8pVtWI3ooSlYlnwbVhqC1JnF9hpSpvSExZFVNBU7hysgUOY
-	 FH2Dm91U/XQFD948FehzzJh1mqrWU8cfXCLgjOg3xoGlQdXBO1kc33HZLg4/QRnkjv
-	 QcqibOg/gHviQ==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X3A0p7Oo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sxDKMLGk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X3A0p7Oo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sxDKMLGk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7B2503782078;
-	Fri,  9 Feb 2024 10:43:43 +0000 (UTC)
-Message-ID: <c47db4cb-cfb3-4e1c-88c9-f8b82c805b31@collabora.com>
-Date: Fri, 9 Feb 2024 12:43:42 +0200
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F10221F7F9;
+	Fri,  9 Feb 2024 10:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707476099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mei8ER/v1qZQ1A3xvXCrGn5Qp6d30zZIBW+eYO6/mIM=;
+	b=X3A0p7Oo15P0tX5i2rgPG3EKTpts4Nhv3pOf6Mg3Yun/YQ0XhUw2F63TUoK8E+tTWEnkyt
+	INOu/E/O+H3JWWIwtD/YBcVULJ5aaFxCLb5KlsCIn6ZmkEtd3Ayoymj/w6PnajnXbOo/Bg
+	6gehD2lI+W6sSJpPo5oiq+IxMyRFBYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707476099;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mei8ER/v1qZQ1A3xvXCrGn5Qp6d30zZIBW+eYO6/mIM=;
+	b=sxDKMLGkxfmZDv/IoUa7wHover2llMtx5EbV+pvmzVazlEERbUt+v3ZT+/ZgpjsxleyCpy
+	/6Qz9Lvooo5Q2dDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707476099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mei8ER/v1qZQ1A3xvXCrGn5Qp6d30zZIBW+eYO6/mIM=;
+	b=X3A0p7Oo15P0tX5i2rgPG3EKTpts4Nhv3pOf6Mg3Yun/YQ0XhUw2F63TUoK8E+tTWEnkyt
+	INOu/E/O+H3JWWIwtD/YBcVULJ5aaFxCLb5KlsCIn6ZmkEtd3Ayoymj/w6PnajnXbOo/Bg
+	6gehD2lI+W6sSJpPo5oiq+IxMyRFBYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707476099;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mei8ER/v1qZQ1A3xvXCrGn5Qp6d30zZIBW+eYO6/mIM=;
+	b=sxDKMLGkxfmZDv/IoUa7wHover2llMtx5EbV+pvmzVazlEERbUt+v3ZT+/ZgpjsxleyCpy
+	/6Qz9Lvooo5Q2dDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 45FBA1326D;
+	Fri,  9 Feb 2024 10:54:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id n3phD4IExmXGLAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 09 Feb 2024 10:54:58 +0000
+Date: Fri, 09 Feb 2024 11:54:57 +0100
+Message-ID: <87r0hl29ha.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>,
+	<perex@perex.cz>,
+	<conor+dt@kernel.org>,
+	<corbet@lwn.net>,
+	<lgirdwood@gmail.com>,
+	<andersson@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>,
+	<gregkh@linuxfoundation.org>,
+	<Thinh.Nguyen@synopsys.com>,
+	<broonie@kernel.org>,
+	<bgoswami@quicinc.com>,
+	<tiwai@suse.com>,
+	<robh+dt@kernel.org>,
+	<konrad.dybcio@linaro.org>,
+	<linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v14 20/53] ASoC: Add SOC USB APIs for adding an USB backend
+In-Reply-To: <20240208231406.27397-21-quic_wcheng@quicinc.com>
+References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
+	<20240208231406.27397-21-quic_wcheng@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: amd: Fix locking in ACP IRQ handler
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20240208234315.2182048-1-cristian.ciocaltea@collabora.com>
- <ZcX57PGUn5cABns1@finisterre.sirena.org.uk>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <ZcX57PGUn5cABns1@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Bar: /
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=X3A0p7Oo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sxDKMLGk
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.23 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-1.22)[89.32%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[dt];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[23];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,quicinc.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: -0.23
+X-Rspamd-Queue-Id: F10221F7F9
+X-Spam-Flag: NO
 
-On 2/9/24 12:09, Mark Brown wrote:
-> On Fri, Feb 09, 2024 at 01:43:14AM +0200, Cristian Ciocaltea wrote:
+On Fri, 09 Feb 2024 00:13:33 +0100,
+Wesley Cheng wrote:
 > 
->> 1707255557.133976 kernel: BUG: sleeping function called from invalid context at include/linux/sched/mm.h:315
->> 1707255557.134068 kernel: in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 502, name: irq/66-AudioDSP
->> 1707255557.134089 kernel: preempt_count: 1, expected: 0
+> Some platforms may have support for offloading USB audio devices to a
+> dedicated audio DSP.  Introduce a set of APIs that allow for management of
+> USB sound card and PCM devices enumerated by the USB SND class driver.
+> This allows for the ASoC components to be aware of what USB devices are
+> available for offloading.
 > 
-> Please think hard before including complete backtraces in upstream
-> reports, they are very large and contain almost no useful information
-> relative to their size so often obscure the relevant content in your
-> message. If part of the backtrace is usefully illustrative (it often is
-> for search engines if nothing else) then it's usually better to pull out
-> the relevant sections.
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+(snip)
+> --- a/sound/soc/Makefile
+> +++ b/sound/soc/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
+> +snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-usb.o soc-utils.o soc-dai.o soc-component.o
+>  snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
+>  snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
 
-The commit message got indeed larger than I initially expected as I
-tried to document two different contexts.  Should I try to shrink this
-up a bit and resend the patch?
+Do we really want to build this into ASoC core unconditionally?
+This is very specific to Qualcomm USB-offload stuff, so it's better to
+factor out.
 
-Thanks,
-Cristian
+
+thanks,
+
+Takashi
