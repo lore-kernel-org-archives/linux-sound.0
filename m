@@ -1,182 +1,120 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4A815CB;
-	Fri,  9 Feb 2024 01:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2970957305;
+	Fri,  9 Feb 2024 05:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707441584; cv=none; b=JJB68n0hKcRkY2HWDJN14GtKbkwQ5UVCbrurY5L4Bf2lE9b//dIRFmANVIAqygG5pFnusIwjewVmR1efjle54l0VVhn6onFKbbHYkMRXO1Cmc+U+BMXjXzMv5HXLvUk7D9KxRGc/zDCBT9looqyWmWshkgpDOyoTvH6QUh1YI98=
+	t=1707458388; cv=none; b=MQNlGm6wHlFuV6Wei/wFbxGOS+A4M532KmxzEUAWUqL3CmD8iWCD5jdLBN460Y6S/91MAugQDYjb613mjFURUxty2OTBS0VMwyCIKoGKYxSXPjftyES8oM2B/w670HEBiSvrMvXklePSpmI2MpDH/WneeasPoC+FsC9trhYzkCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707441584; c=relaxed/simple;
-	bh=0wVFDmI0+jW33EAXeYu8I6pNcVeSL60c5dCEWwO8FJI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PfAtmc3rUo2lzFGWPfIpTjmt0kf5EpEfv+ffwO7IL3Ma/lk0Rv0n5pK2eDe6KDLI1xqRfmCf7pU7S7sDE5mSmxbC9SdiYMpzyZtrKgXQTM9548dbvN/GARQNG1FfobayWVoS3YxkKwxc6Zucut7O/8YrQNM6O4PmsK7nNf9vNW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=S1jCk+Ai; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="S1jCk+Ai"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4191Iea9131003;
-	Thu, 8 Feb 2024 19:18:40 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707441520;
-	bh=0wVFDmI0+jW33EAXeYu8I6pNcVeSL60c5dCEWwO8FJI=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=S1jCk+AiNjfeqE71S37Fb2Nnu1ddLJZf9LaD+MVPOxQwg7cXEFPv0i6uFYxB5jGPD
-	 xCjgvo7ZSKYIosC7ljpzgcWl7pssmKrKup8bItfrXaOGE3BE0qvXAhRbIRTC+yg9Yo
-	 +csjjMC28uY4pQMOfuKTCliaig5uk/gjWtbBxWPg=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4191IeTD040651
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 8 Feb 2024 19:18:40 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
- Feb 2024 19:18:40 -0600
-Received: from DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c]) by
- DLEE101.ent.ti.com ([fe80::91ee:60bc:bfb7:851c%18]) with mapi id
- 15.01.2507.023; Thu, 8 Feb 2024 19:18:40 -0600
-From: "Ding, Shenghao" <shenghao-ding@ti.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "conor+dt@kernel.org"
-	<conor+dt@kernel.org>,
-        "krzysztof.kozlowski@linaro.org"
-	<krzysztof.kozlowski@linaro.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: "Lu, Kevin" <kevin-lu@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
-        "P O,
- Vijeth" <v-po@ti.com>, "Navada Kanyana, Mukund" <navada@ti.com>,
-        "perex@perex.cz" <perex@perex.cz>,
-        "McPherson, Jeff" <j-mcpherson@ti.com>,
-        "13916275206@139.com" <13916275206@139.com>,
-        "Chawla, Mohit"
-	<mohit.chawla@ti.com>, "soyer@irl.hu" <soyer@irl.hu>,
-        "Huang, Jonathan"
-	<jkhuang3@ti.com>, "tiwai@suse.de" <tiwai@suse.de>,
-        "Djuandi, Peter"
-	<pdjuandi@ti.com>,
-        "Agrawal, Manisha" <manisha.agrawal@ti.com>,
-        "Hari, Raj"
-	<s-hari@ti.com>, "Yashar, Avi" <aviel@ti.com>,
-        "Nagalla, Hari"
-	<hnagalla@ti.com>,
-        "Bajjuri, Praneeth" <praneeth@ti.com>
-Subject: RE: [PATCH v4 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
-Thread-Topic: [PATCH v4 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
-Thread-Index: AQHaWnSfDeO74bOuYEul5lAt29DtqLEA6IQAgAA6qQA=
-Date: Fri, 9 Feb 2024 01:18:39 +0000
-Message-ID: <0ac563b32399400897b8f3adce6195c3@ti.com>
-References: <20240208095255.1508-1-shenghao-ding@ti.com>
- <160173b0-098e-493f-93b1-8b831838e0a0@linux.intel.com>
-In-Reply-To: <160173b0-098e-493f-93b1-8b831838e0a0@linux.intel.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1707458388; c=relaxed/simple;
+	bh=fI6cNqUhngSVtPXix0fMo3wRWmm06WucGdKiFh3SYuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=HVMKHPwsIEC/IGojQEgBxGzccPr76eYPwSNus+ejeV2Oyi0qliWELfm9mPQoarZQcUYp96PklyhAGJ45o7wpI0n+MKK/iPXnYM20ahENwYFbVHRpxDpCwsvGjm7kyAbR5NJRQt2sa6LvTOAhGSX+qZEcQfm6c7LRIxq66ytaNUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b69e54.dsl.pool.telekom.hu [::ffff:81.182.158.84])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000071F9D.0000000065C5BF49.001B3A7F; Fri, 09 Feb 2024 06:59:37 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+  Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH v4] ASoC: tas2781: remove unused acpi_subysystem_id
+Date: Fri,  9 Feb 2024 06:59:34 +0100
+Message-ID: <454639336be28d2b50343e9c8366a56b0975e31d.1707456753.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-SGkgUGllcnJlDQpUaGFua3MgZm9yIHlvdXIgY29tbWVudHMsIGFuc3dlcnMgYXJlIGlubGluZQ0K
-TG9va2luZyBmb3J3YXJkIHRvIHlvdXIgY29tbWVudHMuDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQo+IEZyb206IFBpZXJyZS1Mb3VpcyBCb3NzYXJ0IDxwaWVycmUtbG91aXMuYm9zc2Fy
-dEBsaW51eC5pbnRlbC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBGZWJydWFyeSA4LCAyMDI0IDEw
-OjM4IFBNDQo+IFRvOiBEaW5nLCBTaGVuZ2hhbyA8c2hlbmdoYW8tZGluZ0B0aS5jb20+OyBicm9v
-bmllQGtlcm5lbC5vcmc7DQo+IGNvbm9yK2R0QGtlcm5lbC5vcmc7IGtyenlzenRvZi5rb3psb3dz
-a2lAbGluYXJvLm9yZzsNCj4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IHJvYmgrZHRAa2Vy
-bmVsLm9yZzsNCj4gYW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tOyBsaW51eC1zb3Vu
-ZEB2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpYW0uci5naXJkd29vZEBpbnRlbC5jb207IGxnaXJkd29v
-ZEBnbWFpbC5jb207IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IENjOiBMdSwg
-S2V2aW4gPGtldmluLWx1QHRpLmNvbT47IFh1LCBCYW9qdW4gPGJhb2p1bi54dUB0aS5jb20+OyBQ
-IE8sIFZpamV0aA0KPiA8di1wb0B0aS5jb20+OyBOYXZhZGEgS2FueWFuYSwgTXVrdW5kIDxuYXZh
-ZGFAdGkuY29tPjsNCj4gcGVyZXhAcGVyZXguY3o7IE1jUGhlcnNvbiwgSmVmZiA8ai1tY3BoZXJz
-b25AdGkuY29tPjsNCj4gMTM5MTYyNzUyMDZAMTM5LmNvbTsgQ2hhd2xhLCBNb2hpdCA8bW9oaXQu
-Y2hhd2xhQHRpLmNvbT47DQo+IHNveWVyQGlybC5odTsgSHVhbmcsIEpvbmF0aGFuIDxqa2h1YW5n
-M0B0aS5jb20+OyB0aXdhaUBzdXNlLmRlOyBEanVhbmRpLA0KPiBQZXRlciA8cGRqdWFuZGlAdGku
-Y29tPjsgQWdyYXdhbCwgTWFuaXNoYSA8bWFuaXNoYS5hZ3Jhd2FsQHRpLmNvbT47DQo+IEhhcmks
-IFJhaiA8cy1oYXJpQHRpLmNvbT47IFlhc2hhciwgQXZpIDxhdmllbEB0aS5jb20+OyBOYWdhbGxh
-LCBIYXJpDQo+IDxobmFnYWxsYUB0aS5jb20+OyBCYWpqdXJpLCBQcmFuZWV0aCA8cHJhbmVldGhA
-dGkuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDEvNF0gQVNvYzogUENNNjI0MDogQ3Jl
-YXRlIFBDTTYyNDAgRmFtaWx5IGRyaXZlcg0KPiBjb2RlDQo+IA0KPiANCj4gDQo+IA0KPiA+ICtz
-dGF0aWMgY29uc3QgY2hhciAqY29uc3QgcGNtZGV2X2N0cmxfbmFtZVtdID0gew0KPiA+ICsJIiVz
-LWkyYy0lZC1kZXYlZC1jaCVkLWFuYS1nYWluIiwNCj4gPiArCSIlcy1pMmMtJWQtZGV2JWQtY2gl
-ZC1kaWdpLWdhaW4iLA0KPiA+ICsJIiVzLWkyYy0lZC1kZXYlZC1jaCVkLWZpbmUtZ2FpbiIsDQo+
-ID4gK307DQo+IA0KPiBDb250cm9scyBhcmUgZXhwb3NlZCB0byB1c2VyLXNwYWNlLCBhbmQgaXQg
-aGVscHMgaWYgaXQncyBlYXN5IHRvIGlkZW50aWZ5IHdoaWNoDQo+IGRldmljZSBpcyB3aGljaC4N
-Cj4gDQo+IEJ1dCBiZWxvdyB5b3UgYXJlIHVzaW5nIHRoZSBJMkMgYWRkcmVzcywgaXMgdGhpcyAn
-c3RhYmxlJyBlbm91Z2ggc28gdGhhdA0KPiB1c2Vyc3BhY2UgY2FuIHN0aWxsIGlkZW50aWZ5IHRo
-ZSBjb250cm9scyBhbmQgc2V0IHRoZW0gYWNjb3JkaW5nbHkgd2l0aCBhbWl4ZXINCj4gb3IgVUNN
-Pw0KPiANClNvIGZhciwgSSBoYXZlIG5vIGdvb2Qgd2F5IHRvIGhhbmRsZSB0aGUgZGV2aWNlcyB3
-aXRoIG11bHRpcGxlIHBjbWRldmljZXMgc2l0dGluZyBpbiBkaWZmZXJlbnQgaTJjIGJ1c2VzLg0K
-QXMgeW91IGtub3csIHRoZSBnYWluIHZhbHVlIGhpZ2hseSBkZXBlbmRzIG9uIGJvdGggdGhlIG1p
-Yy1waG9uZSBwb3NpdGlvbiBhbmQgdGhlIG1pYy1waG9uZSdzIG93bg0KIGNoYXJhY3RlcnMuIEFs
-bCB0aGVzZSBjb250cm9scyBoYXZlIHRvIGJlIG9wZW4gdG8gdGhlIHByb2R1Y3QgZGV2ZWxvcGVy
-IG9yIG1hbnVmYWN0dXJlci4gVGhleSBtaWdodA0KcmVuYW1lIHRoZW0gcGVyIHRoZWlyIHByb2R1
-Y3RzIGlmIHRoZXkgd2FudC4NCkFzIHRvIHRoZSBzdGFibGUsIG15IGN1c3RvbWVycyBhbmQgSSBo
-YWQgZGV2ZWxvcGVkIG1hbnkgcHJvZHVjdG9ycyBvbiBhcm0tYmFzZWQgcGFsdGZvcm1zLiBBdCBs
-ZWFzdCwgDQp0aGUgaTJjIG51bWJlciBpcyBzYW1lIGFzIHRoZSBvbmUgZGVmaW5lZCBpbiBkdHMu
-IA0KPiANCj4gPiArCWVyciA9IHBjbWRldl9kZXZfdXBkYXRlX2JpdHMocGNtX2RldiwgZGV2X25v
-LCByZWcsIHZhbF9tYXNrLCB2YWwpOw0KPiA+ICsJaWYgKGVycikNCj4gPiArCQlkZXZfZXJyKHBj
-bV9kZXYtPmRldiwgIiVzOnVwZGF0ZV9iaXRzLCBFUlJPUiwgRT0lZFxuIiwNCj4gPiArCQkJX19m
-dW5jX18sIGVycik7DQo+IA0KPiBnZW5lcmljIGNvbW1lbnQgZm9yIHRoaXMgcGF0Y2g6IHlvdSBt
-YXkgd2FudCB0byBmb2xsb3cgdGhlIHNhbWUNCj4gY29udmVudGlvbiBmb3IgZXJyb3IgbG9nLCBz
-b21ldGltZXMgaXQncyAlcywgb3IgJXM6IG9yIG5vICVzDQo+IA0KQWNjZXB0DQo+IA0KPiA+ICtz
-dGF0aWMgaW50IHBjbWRldmljZV9jb2RlY19wcm9iZShzdHJ1Y3Qgc25kX3NvY19jb21wb25lbnQg
-KmNvZGVjKSB7DQo+ID4gKwlzdHJ1Y3QgcGNtZGV2aWNlX3ByaXYgKnBjbV9kZXYgPQ0KPiBzbmRf
-c29jX2NvbXBvbmVudF9nZXRfZHJ2ZGF0YShjb2RlYyk7DQo+ID4gKwlzdHJ1Y3QgaTJjX2FkYXB0
-ZXIgKmFkYXAgPSBwY21fZGV2LT5jbGllbnQtPmFkYXB0ZXI7DQo+ID4gKwlpbnQgcmV0LCBpLCBq
-Ow0KPiA+ICsNCj4gPiArCW11dGV4X2xvY2soJnBjbV9kZXYtPmNvZGVjX2xvY2spOw0KPiA+ICsJ
-cGNtX2Rldi0+Y29tcG9uZW50ID0gY29kZWM7DQo+ID4gKwlwY21fZGV2LT5md19zdGF0ZSA9IFBD
-TURFVklDRV9GV19MT0FEX09LOw0KPiA+ICsNCj4gPiArCWZvciAoaSA9IDA7IGkgPCBwY21fZGV2
-LT5uZGV2OyBpKyspIHsNCj4gPiArCQlmb3IgKGogPSAwOyBqIDwgMjsgaisrKSB7DQo+ID4gKwkJ
-CXJldCA9IHBjbWRldl9nYWluX2N0cmxfYWRkKHBjbV9kZXYsIGksIGopOw0KPiA+ICsJCQlpZiAo
-cmV0IDwgMCkNCj4gPiArCQkJCWdvdG8gb3V0Ow0KPiA+ICsJCX0NCj4gPiArCX0NCj4gPiArDQo+
-ID4gKwkvKiBkZXZpY2UtbmFtZVtkZWZpbmVkIGluIHBjbWRldmljZV9pMmNfaWRdLWkyYy1idXNf
-aWRbMCwxLC4uLixOXS0NCj4gPiArCSAqIHN1bVsxLDIsLi4uLDRdZGV2LXJlZy5iaW4gc3RvcmVz
-IHRoZSBmaXJtd2FyZSBpbmNsdWRpbmcgcmVnaXN0ZXINCj4gPiArCSAqIHNldHRpbmcgYW5kIHBh
-cmFtcyBmb3IgZGlmZmVyZW50IGZpbHRlcnMgaW5zaWRlIGNoaXBzLCBpdCBtdXN0IGJlDQo+ID4g
-KwkgKiBjb3BpZWQgaW50byBmaXJtd2FyZSBmb2xkZXIuIFRoZSBzYW1lIHR5cGVzIG9mIHBjbWRl
-dmljZXMgc2l0dGluZw0KPiA+ICsJICogb24gdGhlIHNhbWUgaTJjIGJ1cyB3aWxsIGJlIGFnZ3Jl
-Z2F0ZWQgYXMgb25lIHNpbmdsZSBjb2RlYywNCj4gPiArCSAqIGFsbCBvZiB0aGVtIHNoYXJlIHRo
-ZSBzYW1lIGJpbiBmaWxlLg0KPiA+ICsJICovDQo+ID4gKwlzY25wcmludGYocGNtX2Rldi0+cmVn
-YmluX25hbWUsDQo+IFBDTURFVklDRV9SRUdCSU5fRklMRU5BTUVfTEVOLA0KPiA+ICsJCSIlcy1p
-MmMtJWQtJXVkZXYtcmVnLmJpbiIsIHBjbV9kZXYtPmRldl9uYW1lLCBhZGFwLT5uciwNCj4gPiAr
-CQlwY21fZGV2LT5uZGV2KTsNCj4gPiArDQo+ID4gKwlyZXQgPSByZXF1ZXN0X2Zpcm13YXJlX25v
-d2FpdChUSElTX01PRFVMRSwNCj4gRldfQUNUSU9OX1VFVkVOVCwNCj4gPiArCQlwY21fZGV2LT5y
-ZWdiaW5fbmFtZSwgcGNtX2Rldi0+ZGV2LCBHRlBfS0VSTkVMLA0KPiBwY21fZGV2LA0KPiA+ICsJ
-CXBjbWRldl9yZWdiaW5fcmVhZHkpOw0KPiANCj4gSSBhbHJlYWR5IGhhZCBhIHF1ZXN0aW9uIGVh
-cmx5IG9uIHdoZXRoZXIgdGhlc2UgYWRkcmVzc2VzIGFyZSAnc3RhYmxlJywgYnV0DQo+IGhlcmUg
-dGhlIGRldmljZSBhZGRyZXNzIGlzIHVzZWQgdG8gZmV0Y2ggZmlybXdhcmUsIGFuZCB0aGVyZSBp
-cyBubyBwcmVmaXggb3INCj4gZGlyZWN0b3J5IHRvIGlkZW50aWZ5IHBsYXRmb3JtLXNwZWNpZmlj
-IHNldHRpbmdzLg0KPiANCj4gSSBkb24ndCBrbm93IGhvdyB0aGlzIG1pZ2h0IHdvcmsgZm9yIGEg
-ZGlzdHJpYnV0aW9uLiBUaGVyZSBuZWVkcyB0byBiZSBhIHdheQ0KPiB0byBkZXRlY3Qgd2hhdCBz
-eXN0ZW0gdGhpcyBpcyBhdCBydW4tdGltZSwgYW5kIG1ha2Ugc3VyZSB3ZSBkb24ndCB1c2UNCj4g
-c2V0dGluZ3MgZm9yIHBsYXRmb3JtIFhZWiBvbiBwbGF0Zm9ybSBBQkMuDQo+IA0KSW4gUEMsIGh3
-aWQsIHN1YnN5c2lkIGFuZCB2ZW5kb3JpZCBjYW4gaGVscCB0byBpZGVudGlmeSB0aGUgcGxhdGZv
-cm0uDQogQnV0IGl0IHNlZW1lZCBkaWZmaWN1bHQgdG8gZ2V0IHBsYXRmb3JtIGlkIG9uIG5vbi1Q
-QyBzeXN0ZW0uIE1vcmUgb2Z0ZW4sDQpkaWZmZXJlbnQgcHJvZHVjdG9ycyBmcm9tIGRpZmZlcmVu
-dCBjdXN0b21lcnMgbWlnaHQgdXNlIHRoZSBzYW1lIHBsYXRmb3JtLg0KSW4gbXkgdmlldywgdGhl
-IHByb2R1Y3RzIGRldmVsb3BlciBvciBtYW51ZmFjdHVyZXIgbWlnaHQgcmVuYW1lIHRoZSBmaXJt
-d2FyZQ0KIHBlciB0aGVpciBwcm9kdWN0cyBpZiB0aGV5IHdhbnQsIG5vdCBsaW1pdGVkIHRvIHRo
-ZSBwbGF0Zm9ybS4NCj4gDQo+ID4gK3N0YXRpYyBpbnQgcGNtZGV2aWNlX3NldF9kYWlfc3lzY2xr
-KHN0cnVjdCBzbmRfc29jX2RhaSAqY29kZWNfZGFpLA0KPiA+ICsJaW50IGNsa19pZCwgdW5zaWdu
-ZWQgaW50IGZyZXEsIGludCBkaXIpIHsNCj4gPiArCXN0cnVjdCBwY21kZXZpY2VfcHJpdiAqcGNt
-X2RldiA9DQo+IHNuZF9zb2NfZGFpX2dldF9kcnZkYXRhKGNvZGVjX2RhaSk7DQo+ID4gKw0KPiA+
-ICsJcGNtX2Rldi0+c3lzY2xrID0gZnJlcTsNCj4gDQo+IGNoZWNrIGNsb2NrIHZhbHVlcz8NCj4g
-DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCg0K
+The acpi_subysystem_id is only written and freed, not read, so
+unnecessary.
+
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+---
+Changes since v3:
+- remove Fixes and CC tags from commit message
+- remove In-Reply-To from header
+- rebase onto for-next
+- link to v3: https://lore.kernel.org/lkml/7f056a4148fec176812ff6cc490860bf565b161c.1707255917.git.soyer@irl.hu/
+Changes since v2: remove sub from tas2781_read_acpi
+Changes since v1: remove physdev from tas2781_read_acpi
+---
+ include/sound/tas2781.h           |  1 -
+ sound/pci/hda/tas2781_hda_i2c.c   | 12 ------------
+ sound/soc/codecs/tas2781-comlib.c |  1 -
+ 3 files changed, 14 deletions(-)
+
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index 9aff384941de..99ca3e401fd1 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -103,7 +103,6 @@ struct tasdevice_priv {
+ 	struct tm tm;
+ 
+ 	enum device_catlog_id catlog_id;
+-	const char *acpi_subsystem_id;
+ 	unsigned char cal_binaryname[TASDEVICE_MAX_CHANNELS][64];
+ 	unsigned char crc8_lkp_tbl[CRC8_TABLE_SIZE];
+ 	unsigned char coef_binaryname[64];
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 1bfb00102a77..4c9a788c3501 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -111,9 +111,7 @@ static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
+ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+ {
+ 	struct acpi_device *adev;
+-	struct device *physdev;
+ 	LIST_HEAD(resources);
+-	const char *sub;
+ 	int ret;
+ 
+ 	adev = acpi_dev_get_first_match_dev(hid, NULL, -1);
+@@ -129,18 +127,8 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+ 
+ 	acpi_dev_free_resource_list(&resources);
+ 	strscpy(p->dev_name, hid, sizeof(p->dev_name));
+-	physdev = get_device(acpi_get_first_physical_node(adev));
+ 	acpi_dev_put(adev);
+ 
+-	/* No side-effect to the playback even if subsystem_id is NULL*/
+-	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+-	if (IS_ERR(sub))
+-		sub = NULL;
+-
+-	p->acpi_subsystem_id = sub;
+-
+-	put_device(physdev);
+-
+ 	return 0;
+ 
+ err:
+diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
+index 5d0e5348b361..3aa81514dad7 100644
+--- a/sound/soc/codecs/tas2781-comlib.c
++++ b/sound/soc/codecs/tas2781-comlib.c
+@@ -408,7 +408,6 @@ void tasdevice_remove(struct tasdevice_priv *tas_priv)
+ {
+ 	if (gpio_is_valid(tas_priv->irq_info.irq_gpio))
+ 		gpio_free(tas_priv->irq_info.irq_gpio);
+-	kfree(tas_priv->acpi_subsystem_id);
+ 	mutex_destroy(&tas_priv->codec_lock);
+ }
+ EXPORT_SYMBOL_GPL(tasdevice_remove);
+
+base-commit: aa0dc84513e94a6ee2df360cf5e3b207abf734e0
+-- 
+2.43.0
+
