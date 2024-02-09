@@ -1,120 +1,114 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2970957305;
-	Fri,  9 Feb 2024 05:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4278A804;
+	Fri,  9 Feb 2024 08:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707458388; cv=none; b=MQNlGm6wHlFuV6Wei/wFbxGOS+A4M532KmxzEUAWUqL3CmD8iWCD5jdLBN460Y6S/91MAugQDYjb613mjFURUxty2OTBS0VMwyCIKoGKYxSXPjftyES8oM2B/w670HEBiSvrMvXklePSpmI2MpDH/WneeasPoC+FsC9trhYzkCQ=
+	t=1707466854; cv=none; b=HIsWp9nU7Ksmbd+VPstjMeWi05+8bmHjq4wgFX2+hPOK7I+g2K8TUtm9MMwmeQiBGCxyvHzYbtxw4nsZIOd3D5NNvGAbZPeIbdxx6z7vsRiHAUdyaKVBU8GOl+jH/oKHWShfDdg9OIhAcCj4WVhIESG7dYmFLTg1wuUWbkF4TL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707458388; c=relaxed/simple;
-	bh=fI6cNqUhngSVtPXix0fMo3wRWmm06WucGdKiFh3SYuw=;
-	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=HVMKHPwsIEC/IGojQEgBxGzccPr76eYPwSNus+ejeV2Oyi0qliWELfm9mPQoarZQcUYp96PklyhAGJ45o7wpI0n+MKK/iPXnYM20ahENwYFbVHRpxDpCwsvGjm7kyAbR5NJRQt2sa6LvTOAhGSX+qZEcQfm6c7LRIxq66ytaNUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b69e54.dsl.pool.telekom.hu [::ffff:81.182.158.84])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000071F9D.0000000065C5BF49.001B3A7F; Fri, 09 Feb 2024 06:59:37 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-  Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH v4] ASoC: tas2781: remove unused acpi_subysystem_id
-Date: Fri,  9 Feb 2024 06:59:34 +0100
-Message-ID: <454639336be28d2b50343e9c8366a56b0975e31d.1707456753.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1707466854; c=relaxed/simple;
+	bh=UGZeq7C8AXSDp6QEFpOyY2J9Cw2Ay2NUaHO+BuuL4sA=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=gCC7xL+Vx5NjmqZaQoeys3AYUF5hvEKMaWBD/TLb2I1N8q+JhaY6RQpiMWhm/u9TNxCZiscKaaF14kpwmgYKZWQgXyCnZ08opszUHSw7rkBvF+ehqEdBz95nXK/SpdNrCs5npTesURbM2lyW0XEooGCxoUT0J3NMLOICNzxIusU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mDjd1MW2; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mDjd1MW2"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3122b70439so75757066b.3;
+        Fri, 09 Feb 2024 00:20:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707466851; x=1708071651; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lOGM2ox03bKKsQ2BwwS9WHFj8/IxNhRH949PvmjrUH8=;
+        b=mDjd1MW24uQIwcN2HLfYaWOudyUdsuxVwqt704/IG+J4aFUDHAU63HornqI4cuQVMP
+         bNlvH3r/Vm/zve/BauLl1t4EVrB3Gc1Nz3VEZJNHszvx5oxXBHBa+SNiOeC0cRA1++ss
+         Haxkc5JkmRVkHplZmzgWlbvNCM/+KFeYROadZ5C2/X83k0WVpCzsci+VkE2TzhZjvVpS
+         IA5xAoDYFBXVwdoYhcfE0AOwcvWwlS5l4AOnFBllT8tnIl52NaPwe6ZRECnRe9Q0CWuh
+         867VnksYs61btWvibxqWNG7DvtJ5z0jgTJDEnsDSsqHDCfprAnn8j1AvP70CkZfMU7dP
+         EtvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707466851; x=1708071651;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lOGM2ox03bKKsQ2BwwS9WHFj8/IxNhRH949PvmjrUH8=;
+        b=TCAydemKfhbyVumhqr+Ws+JOaQLFsuiDIKwqUBQnGwWY5rbjvYFQwr1YkyIvgdDKvY
+         Z4W0mlmdZyx2g6coqApH0LRA+31NcScyohgxFGZgKDgZ0L2RZ1QyjYWAcbi20o5/++XE
+         4tIhz61fzZHYNN0imBzgllMSworA6OBDZp0PxtWsLxurkfFJQkSRWVptu2tXftulcIcS
+         ULNb6z8RV8cxsO0v1FcZNGa/E8MqtFDrCZTLCP5zvyg1vZS5BBUYrLyOIF//iJljnE8R
+         C3Wz1Yj5qQv18K7bnISMAMTaT2p8F7wTbGhb+VMD8pp1qME7lzNosNCXht86baLnRe4q
+         HYDg==
+X-Gm-Message-State: AOJu0YxN0bKrjmxKirgG/yU+TsB7NlhglkhoNC0I8nO/nLnxYN7NM2n3
+	AfOOFWMN8SzOO0bUdqB/l9IA53P6iwlQZzOE9O8YIvUwUXwMNZlZ
+X-Google-Smtp-Source: AGHT+IGxinuR90ywB1Bc/RKcrV95AXr/pJxq1Y3/6duqSH25zwQRFd/o7pNJRB+OcLkMPgCXulYRBQ==
+X-Received: by 2002:a17:906:874c:b0:a37:7f72:574c with SMTP id hj12-20020a170906874c00b00a377f72574cmr472254ejb.68.1707466851266;
+        Fri, 09 Feb 2024 00:20:51 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV4eR9GD9M+KuD19uCHflWV+fAiD7/NLXBZ6dyFie4GJz0WB43lazdCx6+rHPp8TGoZqYqS+SNsljDAmJSpdt2yAi43PwktlTQ+ReVwBkw5DUJcTksGPvCkflJfYXWNjgonU1N0PL0RJ8VsiyfktUGD2aUViKMNUV02kWn4IrspDlWAGEHXa5iYOUUgqEGPqVEWaHi5tBBbLp48HVrWmbwa53XpPaE209R6IIQZcq1lkXquQKfc31cl6FsSmyfQvRqFlJHZVjw5AZMI
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:cc99:64b5:3ac3:6096])
+        by smtp.gmail.com with ESMTPSA id t10-20020a170906a10a00b00a3bd7052c22sm518897ejy.60.2024.02.09.00.20.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 00:20:50 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] ALSA: hda/cs35l56: select intended config FW_CS_DSP
+Date: Fri,  9 Feb 2024 09:20:44 +0100
+Message-Id: <20240209082044.3981-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-The acpi_subysystem_id is only written and freed, not read, so
-unnecessary.
+Commit 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic
+CS35L56 amplifier") adds configs SND_HDA_SCODEC_CS35L56_{I2C,SPI},
+which selects the non-existing config CS_DSP. Note the renaming in
+commit d7cfdf17cb9d ("firmware: cs_dsp: Rename KConfig symbol CS_DSP ->
+FW_CS_DSP"), though.
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
+Select the intended config FW_CS_DSP.
+
+This broken select command probably was not noticed as the configs also
+select SND_HDA_CS_DSP_CONTROLS and this then selects FW_CS_DSP. So, the
+select FW_CS_DSP could actually be dropped, but we will keep this
+redundancy in place as the author originally also intended to have this
+redundancy of selects in place.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
-Changes since v3:
-- remove Fixes and CC tags from commit message
-- remove In-Reply-To from header
-- rebase onto for-next
-- link to v3: https://lore.kernel.org/lkml/7f056a4148fec176812ff6cc490860bf565b161c.1707255917.git.soyer@irl.hu/
-Changes since v2: remove sub from tas2781_read_acpi
-Changes since v1: remove physdev from tas2781_read_acpi
----
- include/sound/tas2781.h           |  1 -
- sound/pci/hda/tas2781_hda_i2c.c   | 12 ------------
- sound/soc/codecs/tas2781-comlib.c |  1 -
- 3 files changed, 14 deletions(-)
+ sound/pci/hda/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index 9aff384941de..99ca3e401fd1 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -103,7 +103,6 @@ struct tasdevice_priv {
- 	struct tm tm;
- 
- 	enum device_catlog_id catlog_id;
--	const char *acpi_subsystem_id;
- 	unsigned char cal_binaryname[TASDEVICE_MAX_CHANNELS][64];
- 	unsigned char crc8_lkp_tbl[CRC8_TABLE_SIZE];
- 	unsigned char coef_binaryname[64];
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 1bfb00102a77..4c9a788c3501 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -111,9 +111,7 @@ static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
- static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- {
- 	struct acpi_device *adev;
--	struct device *physdev;
- 	LIST_HEAD(resources);
--	const char *sub;
- 	int ret;
- 
- 	adev = acpi_dev_get_first_match_dev(hid, NULL, -1);
-@@ -129,18 +127,8 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- 
- 	acpi_dev_free_resource_list(&resources);
- 	strscpy(p->dev_name, hid, sizeof(p->dev_name));
--	physdev = get_device(acpi_get_first_physical_node(adev));
- 	acpi_dev_put(adev);
- 
--	/* No side-effect to the playback even if subsystem_id is NULL*/
--	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
--	if (IS_ERR(sub))
--		sub = NULL;
--
--	p->acpi_subsystem_id = sub;
--
--	put_device(physdev);
--
- 	return 0;
- 
- err:
-diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
-index 5d0e5348b361..3aa81514dad7 100644
---- a/sound/soc/codecs/tas2781-comlib.c
-+++ b/sound/soc/codecs/tas2781-comlib.c
-@@ -408,7 +408,6 @@ void tasdevice_remove(struct tasdevice_priv *tas_priv)
- {
- 	if (gpio_is_valid(tas_priv->irq_info.irq_gpio))
- 		gpio_free(tas_priv->irq_info.irq_gpio);
--	kfree(tas_priv->acpi_subsystem_id);
- 	mutex_destroy(&tas_priv->codec_lock);
- }
- EXPORT_SYMBOL_GPL(tasdevice_remove);
-
-base-commit: aa0dc84513e94a6ee2df360cf5e3b207abf734e0
+diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
+index 20d757e38f94..26da739eea82 100644
+--- a/sound/pci/hda/Kconfig
++++ b/sound/pci/hda/Kconfig
+@@ -159,7 +159,7 @@ config SND_HDA_SCODEC_CS35L56_I2C
+ 	depends on I2C
+ 	depends on ACPI || COMPILE_TEST
+ 	depends on SND_SOC
+-	select CS_DSP
++	select FW_CS_DSP
+ 	select SND_HDA_GENERIC
+ 	select SND_SOC_CS35L56_SHARED
+ 	select SND_HDA_SCODEC_CS35L56
+@@ -174,7 +174,7 @@ config SND_HDA_SCODEC_CS35L56_SPI
+ 	depends on SPI_MASTER
+ 	depends on ACPI || COMPILE_TEST
+ 	depends on SND_SOC
+-	select CS_DSP
++	select FW_CS_DSP
+ 	select SND_HDA_GENERIC
+ 	select SND_SOC_CS35L56_SHARED
+ 	select SND_HDA_SCODEC_CS35L56
 -- 
-2.43.0
+2.17.1
 
