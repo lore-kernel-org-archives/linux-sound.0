@@ -1,106 +1,141 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908AB376F2
-	for <linux-sound@vger.kernel.org>; Fri,  9 Feb 2024 13:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02E5376F6
+	for <linux-sound@vger.kernel.org>; Fri,  9 Feb 2024 14:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707483743; cv=none; b=kBrpxiY4MltcxF6O/LNX+Av6gSLn5gWtqk9NP1K3Suy/i5nvOafE17Wb1HV7lLRAIye+TJm0c75WUBw4ZnkqGczS8BPJ72BBGmVvuUQYJQOPWdGHV/Lhd9CQ8Twa7wLQO0ZsLu0almnlyf3a8mK+G0ZT2hMO/UWLF4vyV3HG+Hs=
+	t=1707488284; cv=none; b=IBmQkaXz70zaHwulrvfJ+iosrA27TYqY3JiVhuR6bT6acSplJNuiBjZ5S65Uvx3tJ6AkR0URPd1/ozrE8Syu1N+X7CIY4N9AoAra9avE0gVYwkp3LQhjkBOSN4X0S4+hyAfA+PepYetptygBTJQIzN7OZP68FLR9ofHA/HBLmDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707483743; c=relaxed/simple;
-	bh=f7GZuFfz/b9JhqGQIt1IzzcdKqz5xKX7YwzzJ1JOQlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I8RcYJp6w9ItYcab5hY0JCzf13mAA7/3+i8Sn1gLoQAZT3TB0frTjBqiOEUrD4QyrIkxBr6O8aJNlX76G1YNzrJ/w4k9QFSF/8KEioQpZT5ZijbE38AVd5KHj34Obe2FRnxXVPfZcg3r6LPnsVGAnTopB8LOjc1wW+pFE3rL7Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w1zxl2Da; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707488284; c=relaxed/simple;
+	bh=UCxlyAg/a2MYNuONkchPOYtImrK3EBH+0TjW3zSWeAc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jKos/tk97mh8bp4LBlCYPfpQcqsRBte0lL0ancCq/ol0YRJySyDVEy1umdXMdQG1pnEscAMtFDNrUkJ808ElQAUYbfFrOwpTKvGGAIK7tpXZxQOIEpHqDX9xcyMUTzGvf6JVeTuUETlLtPYvySbCYo2inWRKlJ4fVGNheXYNniQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GhHkXYEH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w1zxl2Da"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so124881266b.0
-        for <linux-sound@vger.kernel.org>; Fri, 09 Feb 2024 05:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707483740; x=1708088540; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NUKtKA5PQgc2ohgTX2ul6KjbHH8/opO9tMZEq5ncFHI=;
-        b=w1zxl2Daeu+MVSdys/IkYIh3vl7eRT+PN9CSZURPiRHCoGdzfHVgUWzAEOo6c2bMRP
-         sWV0WI6FOzDkgt9WFYgB5iizAjP1LOft4GHoCIYqoCz+JpeA5F3KdJu8UgZwwtujj0Ol
-         gHGDoknYAHTgpCvd2QJDAjKj03PY4zoVpm7w0Au5KZ739tWj3cXFQSVLlMkmccuOmM0D
-         HJRpoNlb6/DGvDeLGaofritegYHypwWRBEq1ksVMEhiQ6T72ps2mCVan1BqXbbrWI6u2
-         oA8UWxgJgJYSDPC945WgJ0PRIu+uL91s9Yvd7il7f4PqqiCgHznBwji/WxakpOVvi9Hg
-         YRyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707483740; x=1708088540;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NUKtKA5PQgc2ohgTX2ul6KjbHH8/opO9tMZEq5ncFHI=;
-        b=wM/4HesJvTR70mPZWH2kkuFxJiIElPoNWRKYYk5ZQC6/OJM8EDkIp8Dn0lQZBdEfmj
-         0t3pU44HQ4/xlqxi5T9tn0bFmT/N1i/t/reU5QfqVqStQN5cE3c8ZtCpvG9RqHo7q4xD
-         y3x3XzJwlkOsca29ZgcsnpK68UzMyz4kiIkAkI35rtjoH+n6lxqWNuk4/1uY4jnZ9VU+
-         RlC1jSQnE1zS8x+kWUUSksnYPQCMatHUYFxysnJkwXotZME1SwFYAis1QntbI1MDIsQy
-         Od2kL77lrWOCsjYuO6oqrhbWIAAUooP/ON8ySLV2ckAIFjBTP1T7usMxwLY/HzNojkWz
-         Gl+A==
-X-Forwarded-Encrypted: i=1; AJvYcCViKxK26XA6PsG8dwTz3VnN8fQlCal0901aiiaVFt4qyf3zT/Kpg0uvt6dKbBpGdqZxzr0Nekn20h+SJgsKqBX9v6HJ63HGQLpeC7o=
-X-Gm-Message-State: AOJu0YwsbFLzegqXhc9cwNsWf2dQjjRU6h/jTyYJ1+TXKHAIB0AK7hNs
-	uYhPlq4VYCbCclxDcicF0OnRfa78G34PPgOsDcHFBhaPkeOwpdySRG1LmmKx48cdqr7mJ5YWBT6
-	i
-X-Google-Smtp-Source: AGHT+IFVhkx7LhzyB7e7l1QguxXFgUlo/kYuQodTA9Wx4dGpn0Unm/Z4m0tI6DXnNy9amLuIQwAwDg==
-X-Received: by 2002:a17:906:c28f:b0:a38:3ec3:9379 with SMTP id r15-20020a170906c28f00b00a383ec39379mr1033826ejz.44.1707483739784;
-        Fri, 09 Feb 2024 05:02:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVfmM9ZYYYYAhCtOvAd02GyyM2a5rau2KzAaKyzbK+sHeXX4dGwyEmZGCbR3tEQdYmFuiJKImr+m84uY2IGqSwC2XdPT4tGDRj/UiG8xPfRBr3qSmi9t8EkeelvN5WeXcrlIhHutkJe2GSCNntNuEhlaRTmN+nUTe2F1GJFhAPIgUejYLaRwVa6YEIfS++0/T18Z91kebqOE+xPvU9TaZz6dNp31q+u7DTbfDPDDnTAdkykemR3wqxJvrsbZe2AWQR23+TU1jrGNzdQwVeTOyxG00xSRDF9iIRC46PWTexGNYn1Aj0fulduoMjBphpjFxXE/+qKVvy+ASWixuzyB6OrjnEGri3gkUj0F+PWXOP/9OITnkMGWkeN3oH33XwV1VvoAH7giyC63uLZkhUJzbqL10g0GA2gPczDwntPVPKVCsLBcXVLSUf6AItX875IBKnwSTZnjhwz5GmbrKXCGpFPmp7AGNEDGurKfB4nbdAf2Lcf5PIxOfXeM4F1o4JNCt0i5TNcnMXaSYDE7JTuKELTebYZg668FA==
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id un8-20020a170907cb8800b00a37669280d1sm740179ejc.141.2024.02.09.05.02.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 05:02:19 -0800 (PST)
-Date: Fri, 9 Feb 2024 16:02:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: Add some bounds checking to firmware data
-Message-ID: <5593d147-058c-4de3-a6f5-540ecb96f6f8@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GhHkXYEH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FEDC433C7;
+	Fri,  9 Feb 2024 14:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707488283;
+	bh=UCxlyAg/a2MYNuONkchPOYtImrK3EBH+0TjW3zSWeAc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=GhHkXYEHxSBVkn/p3VFI8Uu1yR75GhVQdPMBn9TRkO1b83zArvrTjA2/0Wk1aqduj
+	 PUN5kmWZtE+8kPiHbrAhcOFD21kS+4lWqqOCG9G2vy6CgjjHuj4VfR21BxYPHc11XR
+	 Jj31lI0d+eI7uXq8AiVhAjEieIBZdk/bDMxxq7oTEINeIyXyE8hX/O38X3YCbo5gzG
+	 +tTSmwz87TcAZMOakl35TTFp4q/GEbmmH485Cs4OUM0f4a4Uq1qCSbfJC6N+Sza1pj
+	 gfqa5svOa9tYolp6YFpKwb8BDi3pSR9Ga+ld1G2cu5+1wQeizy4owZ+EKF69q1Sr67
+	 pdjP/g28qr9/Q==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de
+In-Reply-To: <20240208165545.93811-1-pierre-louis.bossart@linux.intel.com>
+References: <20240208165545.93811-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 00/24] ASoC: Intel: Machine driver updates for 6.9
+Message-Id: <170748828205.2342323.15381374372489233860.b4-ty@kernel.org>
+Date: Fri, 09 Feb 2024 14:18:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-Smatch complains about "head->full_size - head->header_size" can
-underflow.  To some extent, we're always going to have to trust the
-firmware a bit.  However, it's easy enough to add a check for negatives,
-and let's add a upper bounds check as well.
+On Thu, 08 Feb 2024 10:55:21 -0600, Pierre-Louis Bossart wrote:
+> A fairly large update this time, with Brent Lu's continued cleanup of
+> Chromebook cards, and updates for new SoundWire configurations.
+> 
+> Bard Liao (11):
+>   ASoC: Intel: sof_sdw: use single rtd_init for rt_amps
+>   ASoC: Intel: add get_codec_dai_by_name helper function
+>   ASoC: Intel: sof_sdw_rt_sdca_jack_common: use helper to get codec dai
+>     by name
+>   ASoC: Intel: sof_sdw_rt711: use helper to get codec dai by name
+>   ASoC: Intel: sof_sdw_rt712_sdca: use helper to get codec dai by name
+>   ASoC: Intel: sof_sdw_rt700: use helper to get codec dai by name
+>   ASoC: Intel: sof_sdw_cs42l42: use helper to get codec dai by name
+>   ASoC: Intel: sof_sdw_rt5682: use helper to get codec dai by name
+>   ASoC: Intel: sof_sdw: add common sdw dai link init
+>   ASoC: Intel: sof_sdw: remove .init callbacks
+>   ASoC: Intel: sof_sdw: starts non sdw BE id with the highest sdw BE id
+> 
+> [...]
 
-Fixes: d2458baa799f ("ASoC: SOF: ipc3-loader: Implement firmware parsing and loading")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/soc/sof/ipc3-loader.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied to
 
-diff --git a/sound/soc/sof/ipc3-loader.c b/sound/soc/sof/ipc3-loader.c
-index 28218766d211..6e3ef0672110 100644
---- a/sound/soc/sof/ipc3-loader.c
-+++ b/sound/soc/sof/ipc3-loader.c
-@@ -148,6 +148,8 @@ static size_t sof_ipc3_fw_parse_ext_man(struct snd_sof_dev *sdev)
- 
- 	head = (struct sof_ext_man_header *)fw->data;
- 	remaining = head->full_size - head->header_size;
-+	if (remaining < 0 || remaining > sdev->basefw.fw->size)
-+		return -EINVAL;
- 	ext_man_size = ipc3_fw_ext_man_size(sdev, fw);
- 
- 	/* Assert firmware starts with extended manifest */
--- 
-2.43.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[01/24] ASoC: Intel: sof_rt5682: board id cleanup for jsl boards
+        commit: 9be229ffc7a46c645a39d5993a2709d9936e046a
+[02/24] ASoC: Intel: sof_rt5682: board id cleanup for tgl boards
+        commit: dbda8647fb9ff39a957018673249d6bc0b1ccbf1
+[03/24] ASoC: Intel: sof_rt5682: board id cleanup for adl boards
+        commit: 41333c351da82a2277bb232aa74cda4181041328
+[04/24] ASoC: Intel: sof_rt5682: board id cleanup for rpl boards
+        commit: 19ec6b2ef8b6d1320866d2a2508cd16f95738640
+[05/24] ASoC: Intel: sof_rt5682: board id cleanup for mtl boards
+        commit: 922edacfadf8ca0c9a13788badaf18d41db29cd1
+[06/24] ASoC: Intel: sof_rt5682: dmi quirk cleanup for mtl boards
+        commit: 7a2a8730d51f95b263a1e8b888598dc6395220dc
+[07/24] ASoC: Intel: board_helpers: support DAI link order customization
+        commit: fff04329ac4bd21951d65f29934c15ff7e4b03a1
+[08/24] ASoC: Intel: sof_cs42l42: use common module for DAI link generation
+        commit: 1ad55ee7b5cd6bf6b7d06dd7262a4ddcc057c8ca
+[09/24] ASoC: Intel: sof_sdw: use single rtd_init for rt_amps
+        commit: 9f3763b3628def09440f1f0405cc127104c31634
+[10/24] ASoC: Intel: add get_codec_dai_by_name helper function
+        commit: 4ca5ba58f15ae5a9ad1fa7a5f0d0e50b03b36614
+[11/24] ASoC: Intel: sof_sdw_rt_sdca_jack_common: use helper to get codec dai by name
+        commit: 49f679a175b4fbdea88ba8787c22bce90c60565b
+[12/24] ASoC: Intel: sof_sdw_rt711: use helper to get codec dai by name
+        commit: 91a959d8913e3f2d3c3baed0a8469f878c838ff2
+[13/24] ASoC: Intel: sof_sdw_rt712_sdca: use helper to get codec dai by name
+        commit: c44f69bbcc7f0f4fd17ecc9ba13f9a91a6b5ccec
+[14/24] ASoC: Intel: sof_sdw_rt700: use helper to get codec dai by name
+        commit: 3e522c9852bc22ee4c257062fa6d57b4dd6b0f61
+[15/24] ASoC: Intel: sof_sdw_cs42l42: use helper to get codec dai by name
+        commit: 5e052fba621c2c57172fc6a1a9d73692fcc6d06d
+[16/24] ASoC: Intel: sof_sdw_rt5682: use helper to get codec dai by name
+        commit: 7bc6ceba7d354564d6b49d23830fa9d366e8ed31
+[17/24] ASoC: Intel: sof_sdw: add common sdw dai link init
+        commit: 8266c73126b75eabbebefe7ce489a798e9ef2662
+[18/24] ASoC: Intel: sof_sdw: remove .init callbacks
+        commit: 579d6596ebea488ad661bfa484c771c2b47eecc5
+[19/24] ASoC: Intel: common: DMI remap for rebranded Intel NUC M15 (LAPRC710) laptops
+        commit: c13e03126a5be90781084437689724254c8226e1
+[20/24] ASoC: Intel: ssp-common: Add stub for sof_ssp_get_codec_name
+        commit: c1469c3a8a306e5f1eab1ae9585640d08e183f87
+[21/24] ASoC: Intel: sof_sdw: Remove unused function prototypes
+        commit: 36fe7a495e32465b3d989459c497f0acf614be47
+[22/24] ASoC: Intel: soc-acpi: add RT712 support for LNL
+        commit: 0bbb0136b4e7729f533b1b3eb805c4217086e4ce
+[23/24] ASoC: Intel: soc-acpi-intel-lnl-match: Add rt722 support
+        commit: 7fa43af5b4cc78c4616d8345740203807593ed43
+[24/24] ASoC: Intel: sof_sdw: starts non sdw BE id with the highest sdw BE id
+        commit: 6b4c7d4d8297a9f395ff4addba8e5fde7f730c37
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
