@@ -1,114 +1,181 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4278A804;
-	Fri,  9 Feb 2024 08:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A88664A4
+	for <linux-sound@vger.kernel.org>; Fri,  9 Feb 2024 08:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707466854; cv=none; b=HIsWp9nU7Ksmbd+VPstjMeWi05+8bmHjq4wgFX2+hPOK7I+g2K8TUtm9MMwmeQiBGCxyvHzYbtxw4nsZIOd3D5NNvGAbZPeIbdxx6z7vsRiHAUdyaKVBU8GOl+jH/oKHWShfDdg9OIhAcCj4WVhIESG7dYmFLTg1wuUWbkF4TL0=
+	t=1707468756; cv=none; b=J2XX7prilUhU1kKD8N98fNi1sCV6K4Rly9hfuw52zKs6Ih6KpzQFkKtcYemQdOGQ1bPcp94PbuSIjYRnFTlpA6wMNShkCArSGlSHkp6KWG2FsJ/vJvO3y+T1DV1tYPX/dAu+H4S8MJfWWCs7FUL7jPZVwI/1ntrMikXDHfO15FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707466854; c=relaxed/simple;
-	bh=UGZeq7C8AXSDp6QEFpOyY2J9Cw2Ay2NUaHO+BuuL4sA=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=gCC7xL+Vx5NjmqZaQoeys3AYUF5hvEKMaWBD/TLb2I1N8q+JhaY6RQpiMWhm/u9TNxCZiscKaaF14kpwmgYKZWQgXyCnZ08opszUHSw7rkBvF+ehqEdBz95nXK/SpdNrCs5npTesURbM2lyW0XEooGCxoUT0J3NMLOICNzxIusU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mDjd1MW2; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707468756; c=relaxed/simple;
+	bh=nBOwufcJKX3rOqeiUYDP5rWcbiNGvqPqiRENy/6jTDM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=b2XyJ9bdM7sJFITRh1KmX8xVRhLyD/grDB2uGs0x1QTTjdVcLXtXBiGbc5RZWKXhb+6MmuPowT/PcyEiDqYd1xiOUFgXThPmr4+mP5IZ5glOGEmQTs4x6d9Ly0MAX5qk8yi6pzS2uwj2WAKMh84pjal8wZwrI9OWVOs9veIGt2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6t+UDkk; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mDjd1MW2"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3122b70439so75757066b.3;
-        Fri, 09 Feb 2024 00:20:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707466851; x=1708071651; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lOGM2ox03bKKsQ2BwwS9WHFj8/IxNhRH949PvmjrUH8=;
-        b=mDjd1MW24uQIwcN2HLfYaWOudyUdsuxVwqt704/IG+J4aFUDHAU63HornqI4cuQVMP
-         bNlvH3r/Vm/zve/BauLl1t4EVrB3Gc1Nz3VEZJNHszvx5oxXBHBa+SNiOeC0cRA1++ss
-         Haxkc5JkmRVkHplZmzgWlbvNCM/+KFeYROadZ5C2/X83k0WVpCzsci+VkE2TzhZjvVpS
-         IA5xAoDYFBXVwdoYhcfE0AOwcvWwlS5l4AOnFBllT8tnIl52NaPwe6ZRECnRe9Q0CWuh
-         867VnksYs61btWvibxqWNG7DvtJ5z0jgTJDEnsDSsqHDCfprAnn8j1AvP70CkZfMU7dP
-         EtvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707466851; x=1708071651;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lOGM2ox03bKKsQ2BwwS9WHFj8/IxNhRH949PvmjrUH8=;
-        b=TCAydemKfhbyVumhqr+Ws+JOaQLFsuiDIKwqUBQnGwWY5rbjvYFQwr1YkyIvgdDKvY
-         Z4W0mlmdZyx2g6coqApH0LRA+31NcScyohgxFGZgKDgZ0L2RZ1QyjYWAcbi20o5/++XE
-         4tIhz61fzZHYNN0imBzgllMSworA6OBDZp0PxtWsLxurkfFJQkSRWVptu2tXftulcIcS
-         ULNb6z8RV8cxsO0v1FcZNGa/E8MqtFDrCZTLCP5zvyg1vZS5BBUYrLyOIF//iJljnE8R
-         C3Wz1Yj5qQv18K7bnISMAMTaT2p8F7wTbGhb+VMD8pp1qME7lzNosNCXht86baLnRe4q
-         HYDg==
-X-Gm-Message-State: AOJu0YxN0bKrjmxKirgG/yU+TsB7NlhglkhoNC0I8nO/nLnxYN7NM2n3
-	AfOOFWMN8SzOO0bUdqB/l9IA53P6iwlQZzOE9O8YIvUwUXwMNZlZ
-X-Google-Smtp-Source: AGHT+IGxinuR90ywB1Bc/RKcrV95AXr/pJxq1Y3/6duqSH25zwQRFd/o7pNJRB+OcLkMPgCXulYRBQ==
-X-Received: by 2002:a17:906:874c:b0:a37:7f72:574c with SMTP id hj12-20020a170906874c00b00a377f72574cmr472254ejb.68.1707466851266;
-        Fri, 09 Feb 2024 00:20:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV4eR9GD9M+KuD19uCHflWV+fAiD7/NLXBZ6dyFie4GJz0WB43lazdCx6+rHPp8TGoZqYqS+SNsljDAmJSpdt2yAi43PwktlTQ+ReVwBkw5DUJcTksGPvCkflJfYXWNjgonU1N0PL0RJ8VsiyfktUGD2aUViKMNUV02kWn4IrspDlWAGEHXa5iYOUUgqEGPqVEWaHi5tBBbLp48HVrWmbwa53XpPaE209R6IIQZcq1lkXquQKfc31cl6FsSmyfQvRqFlJHZVjw5AZMI
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:cc99:64b5:3ac3:6096])
-        by smtp.gmail.com with ESMTPSA id t10-20020a170906a10a00b00a3bd7052c22sm518897ejy.60.2024.02.09.00.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 00:20:50 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6t+UDkk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707468755; x=1739004755;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nBOwufcJKX3rOqeiUYDP5rWcbiNGvqPqiRENy/6jTDM=;
+  b=Y6t+UDkkVgBj2a03sMjTBbGmtfaQTzEVkloux7zIQip3+Lmw36w/Cgtq
+   SpW0SFfiigvB9aaz5Xii4+kxC0Pv76ERC65Hb8IAZDfnqVLDOHME8RnWu
+   RoivOVPi4A1syhBtPnjvtA75op3gCnttcW2AXo7Ngcgm13jJzx6RDtY9J
+   P3zAcIvOtvybdxy+XtjL5qHR9oX/9dPQN3Ua7iPf9sYi2cniRX9CqgA07
+   yu4ThENRSfmX0CadF11iVjs2hnJa7rKp3bZ18DkI4XxIOE6RClRW3ZdTB
+   myWDYADhU6splMw3ae70R+mZZTuJ1zXl8nNE+XTu9hG5OB6e/A9x/qJCL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="18808769"
+X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
+   d="scan'208";a="18808769"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 00:52:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
+   d="scan'208";a="2196047"
+Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2024 00:52:32 -0800
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	Takashi Iwai <tiwai@suse.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] ALSA: hda/cs35l56: select intended config FW_CS_DSP
-Date: Fri,  9 Feb 2024 09:20:44 +0100
-Message-Id: <20240209082044.3981-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	Jaroslav Kysela <perex@perex.cz>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH v2] ASoC: Intel: avs: Expose FW version with sysfs
+Date: Fri,  9 Feb 2024 09:52:56 +0100
+Message-Id: <20240209085256.121261-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Commit 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic
-CS35L56 amplifier") adds configs SND_HDA_SCODEC_CS35L56_{I2C,SPI},
-which selects the non-existing config CS_DSP. Note the renaming in
-commit d7cfdf17cb9d ("firmware: cs_dsp: Rename KConfig symbol CS_DSP ->
-FW_CS_DSP"), though.
+From: Cezary Rojewski <cezary.rojewski@intel.com>
 
-Select the intended config FW_CS_DSP.
+Add functionality to read version of loaded FW from sysfs.
 
-This broken select command probably was not noticed as the configs also
-select SND_HDA_CS_DSP_CONTROLS and this then selects FW_CS_DSP. So, the
-select FW_CS_DSP could actually be dropped, but we will keep this
-redundancy in place as the author originally also intended to have this
-redundancy of selects in place.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 ---
- sound/pci/hda/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index 20d757e38f94..26da739eea82 100644
---- a/sound/pci/hda/Kconfig
-+++ b/sound/pci/hda/Kconfig
-@@ -159,7 +159,7 @@ config SND_HDA_SCODEC_CS35L56_I2C
- 	depends on I2C
- 	depends on ACPI || COMPILE_TEST
- 	depends on SND_SOC
--	select CS_DSP
-+	select FW_CS_DSP
- 	select SND_HDA_GENERIC
- 	select SND_SOC_CS35L56_SHARED
- 	select SND_HDA_SCODEC_CS35L56
-@@ -174,7 +174,7 @@ config SND_HDA_SCODEC_CS35L56_SPI
- 	depends on SPI_MASTER
- 	depends on ACPI || COMPILE_TEST
- 	depends on SND_SOC
--	select CS_DSP
-+	select FW_CS_DSP
- 	select SND_HDA_GENERIC
- 	select SND_SOC_CS35L56_SHARED
- 	select SND_HDA_SCODEC_CS35L56
+Changes in v2:
+ - Adjust path in Documentation to correct one
+
+---
+ .../ABI/testing/sysfs-bus-pci-devices-avs     |  8 +++++
+ sound/soc/intel/avs/Makefile                  |  3 +-
+ sound/soc/intel/avs/avs.h                     |  4 +++
+ sound/soc/intel/avs/core.c                    |  1 +
+ sound/soc/intel/avs/sysfs.c                   | 35 +++++++++++++++++++
+ 5 files changed, 50 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-avs
+ create mode 100644 sound/soc/intel/avs/sysfs.c
+
+diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-avs b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
+new file mode 100644
+index 0000000000000..ebff3fa12055d
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-avs
+@@ -0,0 +1,8 @@
++What:		/sys/devices/pci0000:00/<dev>/avs/fw_version
++Date:		February 2024
++Contact:	Cezary Rojewski <cezary.rojewski@intel.com>
++Description:
++		Version of AudioDSP firmware ASoC avs driver is communicating
++		with.
++
++		Format: %d.%d.%d.%d, type:major:minor:build.
+diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
+index 460ee6599daf0..a3fad926d0fb0 100644
+--- a/sound/soc/intel/avs/Makefile
++++ b/sound/soc/intel/avs/Makefile
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+ snd-soc-avs-objs := dsp.o ipc.o messages.o utils.o core.o loader.o \
+-		    topology.o path.o pcm.o board_selection.o control.o
++		    topology.o path.o pcm.o board_selection.o control.o \
++		    sysfs.o
+ snd-soc-avs-objs += cldma.o
+ snd-soc-avs-objs += skl.o apl.o
+ 
+diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
+index d694e08e44e18..69c912feb8a7e 100644
+--- a/sound/soc/intel/avs/avs.h
++++ b/sound/soc/intel/avs/avs.h
+@@ -392,4 +392,8 @@ static inline void avs_debugfs_init(struct avs_dev *adev) { }
+ static inline void avs_debugfs_exit(struct avs_dev *adev) { }
+ #endif
+ 
++/* Filesystems integration */
++
++extern const struct attribute_group *avs_attr_groups[];
++
+ #endif /* __SOUND_SOC_INTEL_AVS_H */
+diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+index db78eb2f01080..273a902168562 100644
+--- a/sound/soc/intel/avs/core.c
++++ b/sound/soc/intel/avs/core.c
+@@ -776,6 +776,7 @@ static struct pci_driver avs_pci_driver = {
+ 	.probe = avs_pci_probe,
+ 	.remove = avs_pci_remove,
+ 	.shutdown = avs_pci_shutdown,
++	.dev_groups = avs_attr_groups,
+ 	.driver = {
+ 		.pm = &avs_dev_pm,
+ 	},
+diff --git a/sound/soc/intel/avs/sysfs.c b/sound/soc/intel/avs/sysfs.c
+new file mode 100644
+index 0000000000000..cce21636fbc02
+--- /dev/null
++++ b/sound/soc/intel/avs/sysfs.c
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// Copyright(c) 2021-2024 Intel Corporation. All rights reserved.
++//
++// Authors: Cezary Rojewski <cezary.rojewski@intel.com>
++//          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
++//
++
++#include <linux/sysfs.h>
++#include "avs.h"
++
++static ssize_t fw_version_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct avs_dev *adev = to_avs_dev(dev);
++	struct avs_fw_version *fw_version = &adev->fw_cfg.fw_version;
++
++	return sysfs_emit(buf, "%d.%d.%d.%d\n", fw_version->major, fw_version->minor,
++			  fw_version->hotfix, fw_version->build);
++}
++static DEVICE_ATTR_RO(fw_version);
++
++static struct attribute *avs_fw_attrs[] = {
++	&dev_attr_fw_version.attr,
++	NULL
++};
++
++static const struct attribute_group avs_attr_group = {
++	.name = "avs",
++	.attrs = avs_fw_attrs,
++};
++
++const struct attribute_group *avs_attr_groups[] = {
++	&avs_attr_group,
++	NULL
++};
 -- 
-2.17.1
+2.34.1
 
