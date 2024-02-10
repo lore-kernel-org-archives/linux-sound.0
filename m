@@ -1,59 +1,102 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75885C8FB;
-	Sat, 10 Feb 2024 18:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5380D210EE;
+	Sat, 10 Feb 2024 19:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707589702; cv=none; b=u8MFXzJ7r1At9gskR8yEH4GwEckV25Xt1a3oHE8XmvVGQCxdtN/H6fhqe68eXQJbldOjs8GlVFsj9TBJhbod3S2UuteIO7YkiYnMZPU06FhwjVcNFnC6SMNrOFw7FOoe0ELZcWm54w2dxoj7uzGCA3j7C+igcCxGbZa8B0ACDEU=
+	t=1707593387; cv=none; b=Mz6v3YK1CS0zFvbEqSgjKX/9vFfwIp8f434R5sJsIofg3t/u2s7O8s+L4SWXmTTMcRgu0cfFQu6gA/jFLSLfXzgue4Z5tAtBj1Mp2VawHNFuIt1rllTjwTgwI21hXWuOSMUyqkuuhe/kPezv90QkhjIKYijlqxeK3HPAorp9Mgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707589702; c=relaxed/simple;
-	bh=J1Ii1pmB0KX+fGzm1v3fncbFEfo+qoV5oXPke2TDW+s=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mqoRl/4+lN5fOcD4HoeI9+K4C1EbTXO45ndFefXPT8nVCjcSuNabPeOWPq/un0CKDpz7pvC+6WWz9oZcFVX2SnEhNwK8TiafJ+OKKrhrOAQCMlvzL94NS04/A9vAfDH/uGidJX4TwPIBohQgcpe2J103BKUHYdMOYBR3sZpsuDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b69e54.dsl.pool.telekom.hu [::ffff:81.182.158.84])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000073B2A.0000000065C7C03D.001B780A; Sat, 10 Feb 2024 19:28:12 +0100
-Message-ID: <79751864914857d6ed83a58acbd3134e79a3591f.camel@irl.hu>
-Subject: Re: [PATCH] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-From: Gergo Koteles <soyer@irl.hu>
-To: Attila =?UTF-8?Q?T=C5=91k=C3=A9s?= <attitokes@gmail.com>,
-  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Sat, 10 Feb 2024 19:28:12 +0100
-In-Reply-To: <20240210164703.141745-1-attitokes@gmail.com>
-References: <20240210164703.141745-1-attitokes@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+	s=arc-20240116; t=1707593387; c=relaxed/simple;
+	bh=KU+LyuoLoBParnVjDFENTlgWEKKyx/4rdYR/ilGeQTQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bzyScLzbjT6j8IFl8n62Z+1Ou+L0xO+/8eaoEp2XqV97OR9ecOjt3kuhAG073/mZQTOETFT/30h8k3yv/VGv/L/Evsoh0iWEGZIRtDJytdj8PaVSJFR96Z9mfPiGyAj2oeTQSeaX28Es3r2vxjTpOqXKOXDfx44UcdY47eUfTls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EnQAerpi; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EnQAerpi"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41068e36cbbso13893515e9.2;
+        Sat, 10 Feb 2024 11:29:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707593384; x=1708198184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7y4YKyttMpKUVwZxQNCkTT0b17KqO06VPlIQug/wxEY=;
+        b=EnQAerpiFoUlHT1n6ln87exc/S6VjACkLupzzSoZeVrTbG+T9Pgj2MrSRGXJO2E9yN
+         ExDdmpsbN2itraXPkiEZPPwwMoVecnGtiOTXFbcuwCjix3KjzzLHTIzVQ0YPvBnPhjYX
+         NOQ5hpr8cxFyT9XQoS1omC5pXe4fSE5nLMhfJSt4P8xNuYHz/Tc4kFqlMar/Mj0EAl1i
+         V+GTQWn9iOAPXh2PN3vxnruRP7Oo3opELpwTWWgBTZybTnaXzw/DnWAt7Y5FI7qZzmae
+         7sDxbfiTED+77zMsxfzaKIbLE/oHCSYVf46VQn1vxC+709GkISqOlk7q9yPS0iHplHU7
+         r44w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707593384; x=1708198184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7y4YKyttMpKUVwZxQNCkTT0b17KqO06VPlIQug/wxEY=;
+        b=qgC3iRbW6YNFm6rv0vllulxbaPP2unFbGcBe+9MFAXPjomaj1JjvVq+Z6/9e+4gOwz
+         6EWZMJ50oGdC3hQ12rDepaGq/JwhzFKAif4aon45VQdtTZirQBlnhU2Nlz9ncfScVTQk
+         /r7/bXaYTV9JLOwsc1ECaTZF5Wquw+ZflCohB7ZQMBY/AUAC1hjUhndHPnxW8mWVTqVc
+         oKDw7tEAQTZwPg/nMTzNBRwBf9Fv2VOuAPjTImbewMmJ6mmlKjcO3nwJKxKc+TxB/DLg
+         zbTuLYq6lSCeqhDs0dWqgVX+ZdD5koPiPgwYaT/aGEQLd9KbJz5aWczDzDYVbyj3TfTW
+         mOYg==
+X-Gm-Message-State: AOJu0YzPJNSl9K3blHOvNoGJEVB5Pw5/XYgyEUU4r+E79TTX6QDFZjVS
+	Lo6Pdr4X/DS6q3HGvTocp5UwG+FUUVN8shmfQ4AP8N888diNDLaWznYh3aHyd94=
+X-Google-Smtp-Source: AGHT+IEtRN8jWq3itereeY01awfCLrbkLiagfMM/5xvfb7PW1whrXNrqYPeqjs++vG+UKqHtE/ZKTw==
+X-Received: by 2002:a05:600c:6007:b0:410:9ce0:2001 with SMTP id az7-20020a05600c600700b004109ce02001mr1446644wmb.38.1707593384317;
+        Sat, 10 Feb 2024 11:29:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX0ei8tZOc+SDcJw4EIEbkfPdJUW2RN78ZjruBoQfB8ky8n2his3bxu8rYaan0WfPPEgxK8no+YLecaEzzH/KpXS9nXlQ0YgD/xbsgHqi9G6PoyffJDpVxdZk3tCWyYyW0HtS2aFdwNjAWD+v6PTDmAEHq0qQG/BgAPVmpYUkdUhlj36o1S4tbw+GP5ZYJqIF6KzmJTJDI+MI57QgvH
+Received: from Attila-PC.. ([188.24.48.22])
+        by smtp.gmail.com with ESMTPSA id bv15-20020a0560001f0f00b0033b48190e5esm2540372wrb.67.2024.02.10.11.29.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Feb 2024 11:29:44 -0800 (PST)
+From: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
+Date: Sat, 10 Feb 2024 21:29:34 +0200
+Message-Id: <20240210192934.143491-1-attitokes@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Attila,
+Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
+needs a quirk entry for the internal microphone to function.
 
-On Sat, 2024-02-10 at 18:47 +0200, Attila T=C5=91k=C3=A9s wrote:
-> Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
-> needs a quirk entry for the internal microphone to function.
-> ---
+Signed-off-by: Attila Tőkés <attitokes@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Looks like you missed the Signed-off-by tag.
-It is required for every patch:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign=
--your-work-the-developer-s-certificate-of-origin
-
-I think you can also add a
-Cc: stable@vger.kernel.org
-tag.
-
-Regards,
-Gergo
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 23d44a50d815..864976a81393 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -234,6 +234,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "82UG"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82UU"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.34.1
 
