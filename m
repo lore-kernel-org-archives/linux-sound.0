@@ -1,55 +1,56 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5380D210EE;
-	Sat, 10 Feb 2024 19:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600A9339AD;
+	Sat, 10 Feb 2024 19:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707593387; cv=none; b=Mz6v3YK1CS0zFvbEqSgjKX/9vFfwIp8f434R5sJsIofg3t/u2s7O8s+L4SWXmTTMcRgu0cfFQu6gA/jFLSLfXzgue4Z5tAtBj1Mp2VawHNFuIt1rllTjwTgwI21hXWuOSMUyqkuuhe/kPezv90QkhjIKYijlqxeK3HPAorp9Mgg=
+	t=1707593837; cv=none; b=PfIgxUJLvBCfqVMMV4xYH2Ms2IRxCw5nzD/1IMiANSWizkI1GVx+AklPixqv4B37EHkDa8KKy/27D+Hwsm/yOnPqUbhCeZwzgoPyr/J7tQicWuDdr8cJ5MPw8DXBf0gq00JoEOYrH/dGAJqUzkr5fQc+TODSePZkqbK3cdtj4ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707593387; c=relaxed/simple;
-	bh=KU+LyuoLoBParnVjDFENTlgWEKKyx/4rdYR/ilGeQTQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bzyScLzbjT6j8IFl8n62Z+1Ou+L0xO+/8eaoEp2XqV97OR9ecOjt3kuhAG073/mZQTOETFT/30h8k3yv/VGv/L/Evsoh0iWEGZIRtDJytdj8PaVSJFR96Z9mfPiGyAj2oeTQSeaX28Es3r2vxjTpOqXKOXDfx44UcdY47eUfTls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EnQAerpi; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1707593837; c=relaxed/simple;
+	bh=Jn//OSKGthFe6OAP058JSis/CXn03TlnUxflYAOTjTE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Cx13b1UyCxQV/F1Z9RJBxAY4z9mBZgAmCov1QovWq8lSQbEmfw0NwIigU8JJu2eawA8lNLx0V8I/QIiW3GovOHQhwbzhfe5Wofp3k8mA0dQdkjXr5dH5y3pbJdAMw0GnGIFmIuEPme3ESapp7NnCVkLHUzIRN36TA0jWEfTytb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjMNnWuq; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EnQAerpi"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41068e36cbbso13893515e9.2;
-        Sat, 10 Feb 2024 11:29:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjMNnWuq"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-41090edfeb3so4418935e9.2;
+        Sat, 10 Feb 2024 11:37:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707593384; x=1708198184; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1707593834; x=1708198634; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7y4YKyttMpKUVwZxQNCkTT0b17KqO06VPlIQug/wxEY=;
-        b=EnQAerpiFoUlHT1n6ln87exc/S6VjACkLupzzSoZeVrTbG+T9Pgj2MrSRGXJO2E9yN
-         ExDdmpsbN2itraXPkiEZPPwwMoVecnGtiOTXFbcuwCjix3KjzzLHTIzVQ0YPvBnPhjYX
-         NOQ5hpr8cxFyT9XQoS1omC5pXe4fSE5nLMhfJSt4P8xNuYHz/Tc4kFqlMar/Mj0EAl1i
-         V+GTQWn9iOAPXh2PN3vxnruRP7Oo3opELpwTWWgBTZybTnaXzw/DnWAt7Y5FI7qZzmae
-         7sDxbfiTED+77zMsxfzaKIbLE/oHCSYVf46VQn1vxC+709GkISqOlk7q9yPS0iHplHU7
-         r44w==
+        bh=X5Ch8/R/ytcGd/WSniu0Y6nEnaIWMCRnox19MKHusmU=;
+        b=LjMNnWuq2FyADt4aJCLbGQwcxP6GHZAOhecWd/Bc7qyXxh0tbxNX4UohgpL35PNjGV
+         1ijPcOMc0bqqdihqbtpMJOWqhMuZbEAS+YXD8CfHJM8Q+0CuvjFnlbddnrAdigkzqWtd
+         nxhygwK1oKslyGUNdbqyKbI4KVD1MhFrVQpDOWd1dfkQHOuHArk3tsoxEF4xyOJNb77m
+         2teFLpl/0gdRj+6SyNBqVvP/efW4Q3INh8dDmMxfPmsmLrCDhnv4SFe2H+Wc8kdUVS6B
+         lMZ0v26tC4mPtmaf0R2QzUhtHpcW1Ju9ZsuqKZn/kX73UAMG+5AEkQFkYO99lmEuwO8O
+         NBAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707593384; x=1708198184;
+        d=1e100.net; s=20230601; t=1707593834; x=1708198634;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7y4YKyttMpKUVwZxQNCkTT0b17KqO06VPlIQug/wxEY=;
-        b=qgC3iRbW6YNFm6rv0vllulxbaPP2unFbGcBe+9MFAXPjomaj1JjvVq+Z6/9e+4gOwz
-         6EWZMJ50oGdC3hQ12rDepaGq/JwhzFKAif4aon45VQdtTZirQBlnhU2Nlz9ncfScVTQk
-         /r7/bXaYTV9JLOwsc1ECaTZF5Wquw+ZflCohB7ZQMBY/AUAC1hjUhndHPnxW8mWVTqVc
-         oKDw7tEAQTZwPg/nMTzNBRwBf9Fv2VOuAPjTImbewMmJ6mmlKjcO3nwJKxKc+TxB/DLg
-         zbTuLYq6lSCeqhDs0dWqgVX+ZdD5koPiPgwYaT/aGEQLd9KbJz5aWczDzDYVbyj3TfTW
-         mOYg==
-X-Gm-Message-State: AOJu0YzPJNSl9K3blHOvNoGJEVB5Pw5/XYgyEUU4r+E79TTX6QDFZjVS
-	Lo6Pdr4X/DS6q3HGvTocp5UwG+FUUVN8shmfQ4AP8N888diNDLaWznYh3aHyd94=
-X-Google-Smtp-Source: AGHT+IEtRN8jWq3itereeY01awfCLrbkLiagfMM/5xvfb7PW1whrXNrqYPeqjs++vG+UKqHtE/ZKTw==
-X-Received: by 2002:a05:600c:6007:b0:410:9ce0:2001 with SMTP id az7-20020a05600c600700b004109ce02001mr1446644wmb.38.1707593384317;
-        Sat, 10 Feb 2024 11:29:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX0ei8tZOc+SDcJw4EIEbkfPdJUW2RN78ZjruBoQfB8ky8n2his3bxu8rYaan0WfPPEgxK8no+YLecaEzzH/KpXS9nXlQ0YgD/xbsgHqi9G6PoyffJDpVxdZk3tCWyYyW0HtS2aFdwNjAWD+v6PTDmAEHq0qQG/BgAPVmpYUkdUhlj36o1S4tbw+GP5ZYJqIF6KzmJTJDI+MI57QgvH
+        bh=X5Ch8/R/ytcGd/WSniu0Y6nEnaIWMCRnox19MKHusmU=;
+        b=RgZTX8JhNkHicsYHHYt0vHWuSMnG23X1O7yHr8fGu+sqE/kBBBayxp812LraaopaHg
+         TvAE5PTV98HdjTn7Ym0IQtfFkU4dhrfIyg52iAKdpnbfB2FosnBrytjsupQnEws+akwx
+         Bi2UZduC3v4H5AnBmpTlqsstGBlParZrK2Vv6+keWnp4N3D4b1lFM9BgB/6zfFAAtgiw
+         AL1yIR9cXpM6jOaBsq7vtp1DyANF9FwfPgvxkWxuK7aYtGaWXdGcm2MHecibCOaFsMlR
+         KANDj4i0x4MbsGDV+/CEdSSvRlHVgf4VDLjcN9j6OeeEK2tMg8Y9smIIoc5WY4mF97VW
+         /QIg==
+X-Forwarded-Encrypted: i=1; AJvYcCXoHgzf+qYuuG3kteFfiQ2TpI9u3VXp6nptFialv+sf2JedztkFqB0Q/ypHyns0g0V3y6lzBIl9h1mrS61pyga4X8RUu7u7pf7VfApbaKkhnnI1vJSMSpL7gALOlYu6ZMk/xrmkWTTddefFbPD1p1PzzzmRWUhF800rUE7Z7wRfkRw=
+X-Gm-Message-State: AOJu0YwrtZkjUopunQsohA5fGlByI1e5n+6oCZT9ObYYsUvorXlyb+JO
+	loEMEJ8VVm7T3jE2TZDzBOvhyCTbd/wvPpW2D1BU6UKcKBS50nJkCn7bGDMSzyE=
+X-Google-Smtp-Source: AGHT+IEAWbVZRqKIqx8VVon5/TdWZcx3X05PXfOs8rrphlHw6EuNLFAnwpwtoJphUp8NmJ+rHd8fuw==
+X-Received: by 2002:a05:600c:4588:b0:40f:cf69:3e1a with SMTP id r8-20020a05600c458800b0040fcf693e1amr2231427wmo.39.1707593834295;
+        Sat, 10 Feb 2024 11:37:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWGcE+ZpdumaAMlVGsSifSbReIenuTLF4/RaZStUKXx+01NZuKFK23K82L+BOjfRgjKgX7wSMTj1QlvU1Plhc/LeEXUyw+NR5dUJcZi+JBcEANLy1l9r8Xfoegv+PjNyJ6KT4LHR1mq9s0V87YzB42eNwt2OAsI6x7scmOTultVla+trhErYT4P44aGHME02IiFg/2b3VXJXLKLSCTv6asxsmqkMMS1AIbgQbFH0wVL5PPieDZG
 Received: from Attila-PC.. ([188.24.48.22])
-        by smtp.gmail.com with ESMTPSA id bv15-20020a0560001f0f00b0033b48190e5esm2540372wrb.67.2024.02.10.11.29.43
+        by smtp.gmail.com with ESMTPSA id f26-20020a7bc8da000000b0041076151a8csm4018344wml.14.2024.02.10.11.37.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Feb 2024 11:29:44 -0800 (PST)
+        Sat, 10 Feb 2024 11:37:14 -0800 (PST)
 From: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -57,10 +58,11 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>
+Cc: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>,
+	stable@vger.kernel.org
 Subject: [PATCH] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-Date: Sat, 10 Feb 2024 21:29:34 +0200
-Message-Id: <20240210192934.143491-1-attitokes@gmail.com>
+Date: Sat, 10 Feb 2024 21:36:38 +0200
+Message-Id: <20240210193638.144028-1-attitokes@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,6 +76,7 @@ Content-Transfer-Encoding: 8bit
 Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
 needs a quirk entry for the internal microphone to function.
 
+Cc: stable@vger.kernel.org
 Signed-off-by: Attila Tőkés <attitokes@gmail.com>
 ---
  sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
