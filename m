@@ -1,197 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3098B23DB;
-	Sat, 10 Feb 2024 08:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD125C8F6;
+	Sat, 10 Feb 2024 16:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707552521; cv=none; b=OwGFxKA5M57o6TbtJYLLJec8nayWveFq4/A6TXx5fMIUV1lkxPDn1dlbXvWhAqlqi4MiqJoaDXXlIJu1EDfGu8RvX6Y6aA5fhx5x/uaJPaXGG7UZiCvxF3S4YRJfX80Z9IoTP12Y1wL1dGzmSKMHCnureubc92+3q6WPk8ThUt8=
+	t=1707583640; cv=none; b=WJ8vQjuZ+Y8gvjHG1iF6/PUu3cUbimDXZcafKHTUTQAyn5XJvUq2LzjCqqx+i2fYTHXeVPSE/26VMEHAfvoUJ0U6/uq1mLC/jasR374Z5FKIxBN2NRRIr2kxTHROonZpocC+3id3pXj1rdzmMMABoVr8fjC0UEk+hYsm4LnN9h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707552521; c=relaxed/simple;
-	bh=F8DGyIH//SMvI1ax+96o/ObM1ZtA0zzCYF6zYzURkuY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VhCY1L1lQi+MdjZS2jWDSFdycXNRwKP6xvGQD9BN6rFJ46d/6ijPOmZjlHzIeZsrJVepws8kchAfqha3LIIX59Sh/XEIaNfdRXHG05bJsHTw+vOXcb0JV42fnPdjdVE2aDEMqgRdN8OVNE7xmZkxnrmohCXGCl6VehNhjxbGRIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KJoW4J71; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DALLQMtL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZTWz1/eC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJIBcXYS; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1707583640; c=relaxed/simple;
+	bh=UAqQD3oelYDMRM+Gfif5+1OVPXLKKMD6QFg8/vJG2+M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Eceh/3LEnQjlI2nRHkAe2f3ff7g4XrWOpSs6rgnkFb88Vyw8UVE/x4eu72kGPFaIqFAQoL/xi+lk7YHNPFb73ijNgwcHKctZAx/dFfZTstJh1DQes+6GgwoEnUIKz+Kd6xKwJQe7O5ygEP4c0BkWcvKg6zP/wCMhknJdW4cIOAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7a0/Rn8; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KJoW4J71";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DALLQMtL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZTWz1/eC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJIBcXYS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5A6711F871;
-	Sat, 10 Feb 2024 08:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707552517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=KJoW4J71U9ZLJ7gO2a8d/PIy4nhqzxY0s2zlnSK3EfY+kPyH4g9TEVPDrbfiXtcc/TIc19
-	rBz1R3rMMqHBFpfdklsVYAvJUBGeIBd1yEeUbyG+S4pvPUI3SlQWCdSERiYlNcqQK8aMbi
-	FLTcGWIGmoltnHEJ9DbUUfL3K59u3Cs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707552517;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=DALLQMtLxjWwWSgCINWrel5oJJeUceaqE4HtJb6m4CQza+kjwh0s/IV8ugvQhrrR/EzT5b
-	Us/14GhwwZ1wBUAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707552515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=ZTWz1/eCrW4xLIfHtnBLB6BnNE2Hyv+DpxtveF0h6zNq9n2cM02p5thixj/s3MPSNtnQ1z
-	oWVlRIw4qVHxPrc9pXXKeC739EKUY3jDKS0izOgEk9N/+8AYvkDEcvuryy8bu1Wg0PaJqU
-	w8ZfhTZZRJjf5urEpo/4ELDawf/K784=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707552515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=xJIBcXYSPUlRFsJAH686aURuAcIgKNqRNMW8Sp8PsxJ1wmcHs6/sbp65Meumml9uDAWSPz
-	lg4vL/0gbcQppkBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A58C613867;
-	Sat, 10 Feb 2024 08:08:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dyCTJgIvx2VMcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 10 Feb 2024 08:08:34 +0000
-Date: Sat, 10 Feb 2024 09:08:34 +0100
-Message-ID: <875xywzqpp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh+dt@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v14 20/53] ASoC: Add SOC USB APIs for adding an USB backend
-In-Reply-To: <b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
-References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
-	<20240208231406.27397-21-quic_wcheng@quicinc.com>
-	<87r0hl29ha.wl-tiwai@suse.de>
-	<b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7a0/Rn8"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51187830d6dso87732e87.3;
+        Sat, 10 Feb 2024 08:47:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707583636; x=1708188436; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hk/SbajI1jl+xk0jp4p0+2kr+POyWtdnYXXg+LfRCFo=;
+        b=A7a0/Rn8HNYavaFIK/h7Ot19czVPvX+siwj8QJvs0FqFkBptfgaZ5Bo54AZSeNNQWs
+         xnUXb8tPGxyXzR68qIHM9SNA+tqLP5kvh418A659oP3aJP37COcFgyVsPvoY4bU0hsXL
+         RGqb5I2oCNLiYEOLz6m1iu7HkqO4nu8bEYW4+AJa/5e9FLGS+BWXiEcsLaDVoK16jWwY
+         2MNyKci8q/7ztPR2ohNkBtM2t1lefMVMaWcUnTacQvgbB9azlcztpNDnVm5zBMxnFPaT
+         dBIslfGrVmpkS38mzy2+rUlNBF2JSbiJgJHn9mMWqtfE/XXOuCWAbUPhjHkSQJnD8dwd
+         LOgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707583636; x=1708188436;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hk/SbajI1jl+xk0jp4p0+2kr+POyWtdnYXXg+LfRCFo=;
+        b=RXUql4sYTudboTtjPNmdg4RuT/EbPPLkwCOmBJtiwvwvZdxEt1mm587vIcEVjBEeSa
+         KZZI5uV1bnQAjQ762GvisWSOJ2KPUIgRwIqtm38iq2r5GeW2RAS13x3d3mSmTaXkFRjV
+         S22dGP+3X9KO8mhxbLndRmQufWsja23tAK25RtrcRBTKt0D2xKdoDEfTvcRGcG4zfNEt
+         voeyCzsTnIJd55jd0ir1+iu9fMw5GW5aK0gg9tatmwQo/NzxqWr6hJO2TCvPfDQSOLhp
+         HvVZX+MnBobPQ7K23PUyM8rRc8PBwpGLWjZSRgHT1rZGSHn3DEZmN41vhR/FVkSwtsqM
+         6W1w==
+X-Gm-Message-State: AOJu0YxymGK3TO4UVnffJciO/9u2ohbvKiHdbrnKsImCBN7SVXnlKntF
+	hC0NhV3fNxbTCHEYrxz+Wdc0VpjVUiYKXQ5XMQmb9kN57qmpI44u
+X-Google-Smtp-Source: AGHT+IGVY56txG6C8RZcWR/I0QF4yI6Jei8H/VFea7K6RLSF4cd76cG16pi4Kf0qUF67FHg5mtyvwg==
+X-Received: by 2002:ac2:548a:0:b0:511:4f21:4517 with SMTP id t10-20020ac2548a000000b005114f214517mr1310341lfk.33.1707583636294;
+        Sat, 10 Feb 2024 08:47:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVzAkW4XcByi5FH0mI93yicy17IKOxLWelYfbMecJ/SZVjWuzTX+EeI3oN66NFThGh6N3eGGqc5vUh3Vm7fKXOPK9p1hDnqfEZdocAfkhVF21kD+QceHX4sUqQdHLI09lgW6E/0iXA6vrsgfLufvzMBVvVE92RKmbegfUaxb8cWzqag2/iidkzavwKgrZOdPWAqnrWb8IC15PhGZ4fh
+Received: from Attila-PC.. ([188.24.48.22])
+        by smtp.gmail.com with ESMTPSA id jn14-20020a05600c6b0e00b004104bc8d841sm3804718wmb.13.2024.02.10.08.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Feb 2024 08:47:16 -0800 (PST)
+From: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
+Date: Sat, 10 Feb 2024 18:47:03 +0200
+Message-Id: <20240210164703.141745-1-attitokes@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ZTWz1/eC";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xJIBcXYS
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[dt];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,quicinc.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 5A6711F871
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 09 Feb 2024 21:34:39 +0100,
-Wesley Cheng wrote:
-> 
-> Hi Takashi,
-> 
-> On 2/9/2024 2:54 AM, Takashi Iwai wrote:
-> > On Fri, 09 Feb 2024 00:13:33 +0100,
-> > Wesley Cheng wrote:
-> >> 
-> >> Some platforms may have support for offloading USB audio devices to a
-> >> dedicated audio DSP.  Introduce a set of APIs that allow for management of
-> >> USB sound card and PCM devices enumerated by the USB SND class driver.
-> >> This allows for the ASoC components to be aware of what USB devices are
-> >> available for offloading.
-> >> 
-> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > (snip)
-> >> --- a/sound/soc/Makefile
-> >> +++ b/sound/soc/Makefile
-> >> @@ -1,5 +1,5 @@
-> >>   # SPDX-License-Identifier: GPL-2.0
-> >> -snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
-> >> +snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-usb.o soc-utils.o soc-dai.o soc-component.o
-> >>   snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
-> >>   snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
-> > 
-> > Do we really want to build this into ASoC core unconditionally?
-> > This is very specific to Qualcomm USB-offload stuff, so it's better to
-> > factor out.
-> > 
-> 
-> Ideally, the SOC USB part shouldn't be Qualcomm specific.  Since I
-> don't have access or insight into how other vendors are achieving the
-> same thing, I can only base the soc-usb layer to work with the
-> information that is required to get the audio stream up and running on
-> the QC platforms.  In its simplest form, its basically just a SW
-> entity that notifies ASoC components about changes occurring from USB
-> SND, and I think all vendors that have an ASoC based platform card
-> handling the offload will need this notification.
+Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
+needs a quirk entry for the internal microphone to function.
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Yes, but it's not necessarily built into the snd-soc-core module at
-all, but can be split to another module, right?  Otherwise all
-machines must load this code even if it doesn't use at all.
-If this were common among various chips, it'd be worth to be merged
-into the default common module.  But I don't think that's the case.
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 23d44a50d815..864976a81393 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -234,6 +234,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "82UG"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82UU"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.34.1
 
-
-thanks,
-
-Takashi
