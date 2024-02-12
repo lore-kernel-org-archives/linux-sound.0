@@ -1,63 +1,75 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEDA3E49B;
-	Mon, 12 Feb 2024 17:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F4943AC0
+	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 18:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707759102; cv=none; b=WkO2HCXCeUta5vgTZR80u5wbSxAAdd4yFGth9BXx0diCdK3LwwlfY2ktqmH9wYQR82HYDyNO7lsoewEWuFS2gyoh5d8QXwu5wYS68c7MimhoFEbZmZ/S6klginxO6npCZfPVLIEbBd7ohZuYCQtPkOqHy4GNKT+pLz6Cwq1RxXE=
+	t=1707763093; cv=none; b=ldCLamWHZJQhzNd8VpLFgh6fUiVVrtJ4qy6/CxkaoOE4pRKTJGLM/r6mvMrNss+3kSpvPwYmpJf/Av9lFF0C/UvkrXLNZdxC2L85PVLzvtrtcOBeCnMLFA20d1SavXaADBN2VZ7qbEXUVT02QTvJpFUatN9B80MbUCsIjQLJG2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707759102; c=relaxed/simple;
-	bh=uZVnMAlSFnhCbJQrkUZZQlL8AyCiltV9+5I66A/UbBA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xpwfh5PdDbj5caD6qqVKVuaVMdL00hAQNqrNBhSwBrdnD6SSSj1vNXC6gQkQSdeRZ4ZdnGNwcQOhBS8DboWAqBrdJPshoZl/NH2KbN9mU97vG19p1dyO6N3x+OiltVXMEIfTeXbSQLaueX5G9Cf+n5qB1wpDsNaFFQqTj1irNXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kyQ4eyPB; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1707763093; c=relaxed/simple;
+	bh=DXZJ8SdU6CyY1sR3YPxqZTR4REG8xqBS+RKXIMzNoAQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dt7Y/3W1wXlQOw1aJXrvkTt4xuGQGQ7pqqmKlgE4rWFCs/njCKR3PU9UnAlcQCbDAFUFVI3v1ZZwfcMuui5QICgPrD6P+vcUj/lWziCTG1Gxg6NCWbEc0F1ia+hWGzaZGXxoqHWc2Reb9+Rz86lrmfAcGNhOaMqSKbKS+2WMfeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mxt0im9n; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kyQ4eyPB"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41CHUwes002183;
-	Mon, 12 Feb 2024 11:31:22 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=+2VcnyCY0Z86MmANPR3fnGBmoXSvwdSP9cna6XRhhMM=; b=
-	kyQ4eyPBOK4bwHtSg6ugd2XQtXXOm3HYVXzC1UyzFCPExXCGfIxj88f5I05S6x9P
-	a4V44HocbMDDgziHzCGo/fcU/8I1R47fBYusrt8YYKU6fDzfYUx3qKClEl61b0aO
-	rnXfBAI0KAgrLQWQFEmG6tdCKfxpJF6PorlZGNV4MXd5anM1md/1haBg/SIt/RZj
-	9gEP/CQMJxOIH6Bf1/gRZQU/rM0kk7aqwygtUubvlu8YAEqN8xHqB2i0MVc+CppG
-	lM8W5WOwV06p1FaZ2edDQLATiPdNzAjWiHezkSNyt4FY96nVtTnjS82nJKaAqW+H
-	bc2qCqBG6lFK8Xp+a1Pryw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w66ep25rj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 12 Feb 2024 11:31:22 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
- 2024 17:31:20 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Mon, 12 Feb 2024 17:31:20 +0000
-Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id EFA55820243;
-	Mon, 12 Feb 2024 17:31:18 +0000 (UTC)
-From: James Ogletree <jogletre@opensource.cirrus.com>
-To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
-CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        James Ogletree
-	<jogletre@opensource.cirrus.com>
-Subject: [PATCH v7 1/5] firmware: cs_dsp: Add write sequencer interface
-Date: Mon, 12 Feb 2024 17:31:07 +0000
-Message-ID: <20240212173111.771107-2-jogletre@opensource.cirrus.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
-References: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mxt0im9n"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-411adaa8d13so1555305e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 10:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707763090; x=1708367890; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yfY1ZB/UR7wkcYg1UUPlepgpCujw5oq7QYtIrjgAB+Y=;
+        b=Mxt0im9nvt59lD83BBYUrPtR36Q2bs+p17osVcrPpCmnIORUA4s8KXzG5ZR53us5JI
+         4jJwoaJEzjSmK1ryidsMLO8nqLRbkGXk+lNXdBFHoyz7Uiaco/iPG+9Ykm4erZJLqqnl
+         vGisHThGT0rNv385g2SLKiY1b4NsZvjYhx9yDPWPuPf+w5FBjqOKPM7Et3ltsXcdpcbt
+         YkdsZNuRLDf2tYw6qUw6Wp4q4f250kosQfXn6oc9tP9mtF4qxsg3Tk8VoZczI8q3lu/y
+         qWb7BgGDrjOohkD9N+Ubujs7eYLf2YVlbuL93gDCkEXLWEN2gMtiJUQnLgPZ5MlGY+rx
+         iGaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707763090; x=1708367890;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yfY1ZB/UR7wkcYg1UUPlepgpCujw5oq7QYtIrjgAB+Y=;
+        b=eX1sXH/yaJOhe9VNhXqWk2H/xClx3N2epMNkz7+NzNAsdzgSzeHmPl99BinMnpLITN
+         +dAg1I31HDwAqUqjZEWyE2lypXpKi1HpMLMDqMoTSZvmJYGkaG+l9ZT/+4KXh1rRNYna
+         BTP0odyZx/Q6sDR/qxgASddupSIYQR62jJL4inmVucy24B7nhSIeV/Bw7IbYvp6RNVKF
+         /Decr/UuMHdVIrz4A1mps/GoUIJLHe4VxAowyDJ8WeDFslMUsb/chRDXFOswOxZCJUVP
+         je/PB9NkRsIhQTrL0MIGa24ZKf5k6IUalMsGskksX2o4v7B/4bYxGgbhMl4DM21jKgOw
+         BE9A==
+X-Gm-Message-State: AOJu0Ywp0m/HLlo/3dCzRTbBPuoHlOj5oz4OwFbfS1hpUR3ulMyCRSGB
+	PojNbpZtorCQfuY4Cj3VMxLShULFXdlQz/TN3df1jSZ33rdj/ualKrh2GLLk3SM=
+X-Google-Smtp-Source: AGHT+IF/hwYTN5gLQ3qKoL/DyWJ6yvMswElKu2UQ/C7ATTeBnESdqrjORtlS1g8/T6sopeOxxWDqTA==
+X-Received: by 2002:adf:e6c9:0:b0:33b:26be:c5c4 with SMTP id y9-20020adfe6c9000000b0033b26bec5c4mr5070145wrm.58.1707763089714;
+        Mon, 12 Feb 2024 10:38:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX7FwCqc3uSItW9zR6KcTc+WJpnm2J7Ag+uFwzHbEezPbTiJaygZkxJx+XyzmpzoumVzh/kUWE9s+ujy3btOIRxOBbWcTsl3baVUVjAW+kBNP58Zgh5iyJBuq+OYyr1hm9XfVfZcJOXrn125Gd7Wu5NwnW8n8C8E4+zzpr1eMqYM4HKfr68ddz6O7DChsNT/g9geQCsrKcdzrUsUUk/3XyneUs7a6yOEPxmejAY5avb12SGkt1FXm3xZBJYLvGGSwWg6G6qSeDOZcEJNxZQyNsOnn2bsSvA1UN5G8/lDQQVCzTIqc4iuHTt3iLmYk4EAcjWyfeum7hjE4CIlKxEJstNCZTNs9hGnBGy1NlfwYdRL0m75u2j9Z4+fCAwqgGhxoMD3OPza07sIlgT5Obg1+sIsGIa8O5TSLURBB9AtFC7qdQEZTTCnQM7l81GDdg3J6kDDFvh0stEkP7uxYICEW5K
+Received: from krzk-bin.. ([178.197.223.6])
+        by smtp.gmail.com with ESMTPSA id v8-20020a5d43c8000000b0033b512b2031sm7447163wrr.114.2024.02.12.10.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 10:38:07 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: dt-bindings: qcom,sm8250: Allow up to 8 codec DAIs
+Date: Mon, 12 Feb 2024 19:38:00 +0100
+Message-Id: <20240212183800.243017-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,353 +77,34 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: cHD14TMp0iJr_wnwumY_G2h-dMKFHjN_
-X-Proofpoint-GUID: cHD14TMp0iJr_wnwumY_G2h-dMKFHjN_
-X-Proofpoint-Spam-Reason: safe
 
-A write sequencer is a sequence of register addresses
-and values executed by some Cirrus DSPs following
-power state transitions.
+Sound card on Qualcomm X1E80100 CRD board has eight DAIs in one DAI
+link (for WSA speakers).  Boards with older SoCs could technically have
+similar setup, even if it was not observed on mainlined devices.
 
-Add support for Cirrus drivers to update or add to a
-write sequencer present in firmware.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
 ---
- drivers/firmware/cirrus/cs_dsp.c       | 265 +++++++++++++++++++++++++
- include/linux/firmware/cirrus/cs_dsp.h |  28 +++
- 2 files changed, 293 insertions(+)
 
-diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-index 79d4254d1f9b..2c754e7c5da1 100644
---- a/drivers/firmware/cirrus/cs_dsp.c
-+++ b/drivers/firmware/cirrus/cs_dsp.c
-@@ -275,6 +275,12 @@
- #define HALO_MPU_VIO_ERR_SRC_MASK           0x00007fff
- #define HALO_MPU_VIO_ERR_SRC_SHIFT                   0
+DTS with X1E80100 sound card using this:
+https://lore.kernel.org/linux-devicetree/20240212172335.124845-5-krzysztof.kozlowski@linaro.org/T/#u
+---
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+index 6f419747273e..2ab6871e89e5 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+@@ -107,7 +107,7 @@ patternProperties:
+         properties:
+           sound-dai:
+             minItems: 1
+-            maxItems: 4
++            maxItems: 8
  
-+/*
-+ * Write Sequence
-+ */
-+#define WSEQ_OP_MAX_WORDS	3
-+#define WSEQ_END_OF_SCRIPT	0xFFFFFF
-+
- struct cs_dsp_ops {
- 	bool (*validate_version)(struct cs_dsp *dsp, unsigned int version);
- 	unsigned int (*parse_sizes)(struct cs_dsp *dsp,
-@@ -3339,6 +3345,265 @@ int cs_dsp_chunk_read(struct cs_dsp_chunk *ch, int nbits)
- }
- EXPORT_SYMBOL_NS_GPL(cs_dsp_chunk_read, FW_CS_DSP);
- 
-+
-+struct cs_dsp_wseq_op {
-+	struct list_head list;
-+	u32 address;
-+	u32 data;
-+	u16 offset;
-+	u8 operation;
-+};
-+
-+static int cs_dsp_populate_wseq(struct cs_dsp *dsp, struct cs_dsp_wseq *wseq)
-+{
-+	struct cs_dsp_wseq_op *op = NULL;
-+	struct cs_dsp_chunk ch;
-+	u8 *words;
-+	int ret;
-+
-+	if (!wseq->ctl) {
-+		cs_dsp_err(dsp, "No control for write sequence\n");
-+		return -EINVAL;
-+	}
-+
-+	words = kzalloc(wseq->ctl->len, GFP_KERNEL);
-+	if (!words)
-+		return -ENOMEM;
-+
-+	ret = cs_dsp_coeff_read_ctrl(wseq->ctl, 0, words, wseq->ctl->len);
-+	if (ret) {
-+		cs_dsp_err(dsp, "Failed to read %s: %d\n", wseq->ctl->subname, ret);
-+		goto err_free;
-+	}
-+
-+	INIT_LIST_HEAD(&wseq->ops);
-+
-+	ch = cs_dsp_chunk(words, wseq->ctl->len);
-+
-+	while (!cs_dsp_chunk_end(&ch)) {
-+		op = devm_kzalloc(dsp->dev, sizeof(*op), GFP_KERNEL);
-+		if (!op) {
-+			ret = -ENOMEM;
-+			goto err_free;
-+		}
-+
-+		op->offset = cs_dsp_chunk_bytes(&ch);
-+		op->operation = cs_dsp_chunk_read(&ch, 8);
-+
-+		switch (op->operation) {
-+		case CS_DSP_WSEQ_END:
-+			op->data = WSEQ_END_OF_SCRIPT;
-+			break;
-+		case CS_DSP_WSEQ_UNLOCK:
-+			op->data = cs_dsp_chunk_read(&ch, 16);
-+			break;
-+		case CS_DSP_WSEQ_ADDR8:
-+			op->address = cs_dsp_chunk_read(&ch, 8);
-+			op->data = cs_dsp_chunk_read(&ch, 32);
-+			break;
-+		case CS_DSP_WSEQ_H16:
-+		case CS_DSP_WSEQ_L16:
-+			op->address = cs_dsp_chunk_read(&ch, 24);
-+			op->data = cs_dsp_chunk_read(&ch, 16);
-+			break;
-+		case CS_DSP_WSEQ_FULL:
-+			op->address = cs_dsp_chunk_read(&ch, 32);
-+			op->data = cs_dsp_chunk_read(&ch, 32);
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			cs_dsp_err(dsp, "Unsupported op: %X\n", op->operation);
-+			goto err_free;
-+		}
-+
-+		list_add_tail(&op->list, &wseq->ops);
-+
-+		if (op->operation == CS_DSP_WSEQ_END)
-+			break;
-+	}
-+
-+	if (op && op->operation != CS_DSP_WSEQ_END) {
-+		cs_dsp_err(dsp, "Write sequence missing end terminator\n");
-+		ret = -ENOENT;
-+	}
-+
-+err_free:
-+	kfree(words);
-+
-+	return ret;
-+}
-+
-+/**
-+ * cs_dsp_wseq_init() - Initialize write sequences contained within the loaded DSP firmware
-+ * @dsp: Pointer to DSP structure
-+ * @wseqs: List of write sequences to initialize
-+ * @num_wseqs: Number of write sequences to initialize
-+ *
-+ * Return: Zero for success, a negative number on error.
-+ */
-+int cs_dsp_wseq_init(struct cs_dsp *dsp, struct cs_dsp_wseq *wseqs, unsigned int num_wseqs)
-+{
-+	int i, ret = 0;
-+
-+	mutex_lock(&dsp->pwr_lock);
-+
-+	for (i = 0; i < num_wseqs; i++) {
-+		ret = cs_dsp_populate_wseq(dsp, &wseqs[i]);
-+		if (ret)
-+			break;
-+	}
-+
-+	mutex_unlock(&dsp->pwr_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_wseq_init, FW_CS_DSP);
-+
-+static struct cs_dsp_wseq_op *cs_dsp_wseq_find_op(u32 addr, u8 op_code,
-+						  struct list_head *wseq_ops)
-+{
-+	struct cs_dsp_wseq_op *op;
-+
-+	list_for_each_entry(op, wseq_ops, list) {
-+		if (op->operation == op_code && op->address == addr)
-+			return op;
-+	}
-+
-+	return NULL;
-+}
-+
-+/**
-+ * cs_dsp_wseq_write() - Add or update an entry in a write sequence
-+ * @dsp: Pointer to a DSP structure
-+ * @wseq: Write sequence to write to
-+ * @addr: Address of the register to be written to
-+ * @data: Data to be written
-+ * @op_code: The type of operation of the new entry
-+ * @update: If true, searches for the first entry in the write sequence with
-+ * the same address and op_code, and replaces it. If false, creates a new entry
-+ * at the tail.
-+ *
-+ * This function formats register address and value pairs into the format
-+ * required for write sequence entries, and either updates or adds the
-+ * new entry into the write sequence.
-+ *
-+ * If update is set to true and no matching entry is found, it will add a new entry.
-+ *
-+ * Return: Zero for success, a negative number on error.
-+ */
-+int cs_dsp_wseq_write(struct cs_dsp *dsp, struct cs_dsp_wseq *wseq,
-+		      u32 addr, u32 data, u8 op_code, bool update)
-+{
-+	struct cs_dsp_wseq_op *op_end, *op_new = NULL;
-+	u32 words[WSEQ_OP_MAX_WORDS];
-+	struct cs_dsp_chunk ch;
-+	int new_op_size, ret;
-+
-+	if (update)
-+		op_new = cs_dsp_wseq_find_op(addr, op_code, &wseq->ops);
-+
-+	/* If entry to update is not found, treat it as a new operation */
-+	if (!op_new) {
-+		op_end = cs_dsp_wseq_find_op(0, CS_DSP_WSEQ_END, &wseq->ops);
-+		if (!op_end) {
-+			cs_dsp_err(dsp, "Missing write sequence list terminator\n");
-+			return -EINVAL;
-+		}
-+
-+		op_new = devm_kzalloc(dsp->dev, sizeof(*op_new), GFP_KERNEL);
-+		if (!op_new)
-+			return -ENOMEM;
-+
-+		op_new->operation = op_code;
-+		op_new->address = addr;
-+		op_new->offset = op_end->offset;
-+		update = false;
-+	}
-+
-+	op_new->data = data;
-+
-+	ch = cs_dsp_chunk(words, sizeof(words));
-+	cs_dsp_chunk_write(&ch, 8, op_new->operation);
-+	switch (op_code) {
-+	case CS_DSP_WSEQ_FULL:
-+		cs_dsp_chunk_write(&ch, 32, op_new->address);
-+		cs_dsp_chunk_write(&ch, 32, op_new->data);
-+		break;
-+	case CS_DSP_WSEQ_L16:
-+	case CS_DSP_WSEQ_H16:
-+		cs_dsp_chunk_write(&ch, 24, op_new->address);
-+		cs_dsp_chunk_write(&ch, 16, op_new->data);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		cs_dsp_err(dsp, "Op code not supported: %X\n", op_code);
-+		goto op_new_free;
-+	}
-+
-+	new_op_size = cs_dsp_chunk_bytes(&ch);
-+
-+	if (!update) {
-+		if (wseq->ctl->len - op_end->offset < new_op_size) {
-+			cs_dsp_err(dsp, "Not enough memory in write sequence for entry\n");
-+			ret = -ENOMEM;
-+			goto op_new_free;
-+		}
-+
-+		op_end->offset += new_op_size;
-+
-+		ret = cs_dsp_coeff_write_ctrl(wseq->ctl, op_end->offset / sizeof(u32),
-+					      &op_end->data, sizeof(u32));
-+		if (ret)
-+			goto op_new_free;
-+
-+		list_add_tail(&op_new->list, &wseq->ops);
-+	}
-+
-+	ret = cs_dsp_coeff_write_ctrl(wseq->ctl, op_new->offset / sizeof(u32),
-+				      words, new_op_size);
-+	if (ret)
-+		goto op_new_free;
-+
-+	return 0;
-+
-+op_new_free:
-+	devm_kfree(dsp->dev, op_new);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_wseq_write, FW_CS_DSP);
-+
-+/**
-+ * cs_dsp_wseq_multi_write() - Add or update multiple entries in the write sequence
-+ * @dsp: Pointer to a DSP structure
-+ * @wseq: Write sequence to write to
-+ * @reg_seq: List of address-data pairs
-+ * @num_regs: Number of address-data pairs
-+ * @op_code: The types of operations of the new entries
-+ * @update: If true, searches for the first entry in the write sequence with the same
-+ * address and op code, and replaces it. If false, creates a new entry at the tail.
-+ *
-+ * This function calls cs_dsp_wseq_write() for multiple address-data pairs.
-+ *
-+ * Return: Zero for success, a negative number on error.
-+ */
-+int cs_dsp_wseq_multi_write(struct cs_dsp *dsp, struct cs_dsp_wseq *wseq,
-+			    const struct reg_sequence *reg_seq, int num_regs,
-+			    u8 op_code, bool update)
-+{
-+	int ret, i;
-+
-+	for (i = 0; i < num_regs; i++) {
-+		ret = cs_dsp_wseq_write(dsp, wseq, reg_seq[i].reg,
-+					reg_seq[i].def, update, op_code);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_wseq_multi_write, FW_CS_DSP);
-+
- MODULE_DESCRIPTION("Cirrus Logic DSP Support");
- MODULE_AUTHOR("Simon Trimmer <simont@opensource.cirrus.com>");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 29cd11d5a3cf..cfeab75772f6 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -42,6 +42,16 @@
- #define CS_DSP_ACKED_CTL_MIN_VALUE           0
- #define CS_DSP_ACKED_CTL_MAX_VALUE           0xFFFFFF
- 
-+/*
-+ * Write sequence operation codes
-+ */
-+#define CS_DSP_WSEQ_FULL	0x00
-+#define CS_DSP_WSEQ_ADDR8	0x02
-+#define CS_DSP_WSEQ_L16		0x04
-+#define CS_DSP_WSEQ_H16		0x05
-+#define CS_DSP_WSEQ_UNLOCK	0xFD
-+#define CS_DSP_WSEQ_END		0xFF
-+
- /**
-  * struct cs_dsp_region - Describes a logical memory region in DSP address space
-  * @type:	Memory region type
-@@ -255,6 +265,24 @@ struct cs_dsp_alg_region *cs_dsp_find_alg_region(struct cs_dsp *dsp,
- 
- const char *cs_dsp_mem_region_name(unsigned int type);
- 
-+/**
-+ * struct cs_dsp_wseq - Describes a write sequence
-+ * @name:	Name of cs_dsp control
-+ * @ctl:	Write sequence cs_dsp control
-+ * @ops:	Operations contained within this write sequence
-+ */
-+struct cs_dsp_wseq {
-+	struct cs_dsp_coeff_ctl *ctl;
-+	struct list_head ops;
-+};
-+
-+int cs_dsp_wseq_init(struct cs_dsp *dsp, struct cs_dsp_wseq *wseqs, unsigned int num_wseqs);
-+int cs_dsp_wseq_write(struct cs_dsp *dsp, struct cs_dsp_wseq *wseq, u32 addr, u32 data,
-+		      u8 op_code, bool update);
-+int cs_dsp_wseq_multi_write(struct cs_dsp *dsp, struct cs_dsp_wseq *wseq,
-+			    const struct reg_sequence *reg_seq, int num_regs,
-+			    u8 op_code, bool update);
-+
- /**
-  * struct cs_dsp_chunk - Describes a buffer holding data formatted for the DSP
-  * @data:	Pointer to underlying buffer memory
+     required:
+       - link-name
 -- 
-2.25.1
+2.34.1
 
