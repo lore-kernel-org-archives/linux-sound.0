@@ -1,61 +1,61 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B783BB3E
-	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 13:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7303D3C47A
+	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 13:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707743433; cv=none; b=VClEkzV7nYm2onb/GOd1zhM90XMMOias09FtUhbmt7hMKiNzy/wJwM7Zdr9bB1E6bPPXsAkzAtwHauEvlwvTB/2x4HsmggHA4KxMjK/WoRngHs01uXqn0UFrv251UefYlf0LffEF7VbUFChYoVLrb8NSNO87ISxjKAH92xAonQw=
+	t=1707743436; cv=none; b=GXeePTUIb7nI4PAIAKJDygdn9xOHpj2051bEao6KWLJQ8yhlhZLkqQhD/kxy2jwEExJj/9fuESfZQG7kgzaxD5TG9SthYEXjlVlFlueiGEl4QYlnzrTEL/zfd8TP5dkWQhTJA7s3f9mFEPAoeENaEOkFMLdit9M8RI+G5QuyrDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707743433; c=relaxed/simple;
-	bh=BYxMMgnfl6Vo3FvICtt90++r+JIBRmHZBJczJMyhSwk=;
+	s=arc-20240116; t=1707743436; c=relaxed/simple;
+	bh=MgGMsg8PJAMVkpQQ8WXu4KK3GFUd7QqW2NVKRDqIWlU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q6dn9ciAhAT/V2KW2SI7cyn+1nigi+NhmkgnytNKr8hhpRGJuQLtyUhz09kEkP2eF+1CJziHj4StLww/tplLPaV0FQwOUqVYbg3CAII1US1A968CGO8j7GBS9r/QVu2Sy1C6cM7XQ0PXulYrP9CmEeQGMJzKjdBefDJQFThXpVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y3UUm0NV; arc=none smtp.client-ip=209.85.167.54
+	 In-Reply-To:To:Cc; b=iWUi9mP5ZxUcgZG/Jsqnv+eG7fxSk/uZ5FyN89dWjMR+Xsmc6I6C990laiOY//lHNjlg/lIBkdtjQHUIWoH8eR7UXpb5w4TIydsYJySHj59cPIdWJEdBYM29ult64HffMvzSjr0KtI2mcUS6b3yvmWYGtK6jjO2aVim3V1ZGzY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fcoCKyix; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y3UUm0NV"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-511898b6c9eso1170677e87.3
-        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 05:10:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fcoCKyix"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a2a17f3217aso409905166b.2
+        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 05:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707743429; x=1708348229; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1707743432; x=1708348232; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UqViFHK+D1LRqA6EZxzjCFX8jqipAbwRXLuah7Y53vo=;
-        b=Y3UUm0NV/E/BOnK+SRca4LJF0GYF0PMaqlMLUStHYirbdEbOUau88XjdRHlyAXtvMA
-         cPWqhfbUR5SvivuVYqjnPNQggdLkgwfvPamSszoEQWN9IB2bY/8N1PPetJXXxFGMAE29
-         JTWsMs1X3ip1aukRG4Ul5tE38snL8IEQxgzWsgOXyr6qrMiSZDc0ngFgA8WpN/NsGIZv
-         1e4MbUd9pHB+LesVguk6Uf1ruzMuidBbyVzM/avTemQVO/sU40lYqINLjnfKEYG/7npk
-         OYZmEbnBKeDGsNCvlPzwuY+9JdbdB8OnC831xHyu7BgPC4aAnXCSQ82ADbsd2kTHV2De
-         Ek0w==
+        bh=xoA+yBVNdi1njW3vF3aXzPCABd0kr7iht4u+fgdDNYw=;
+        b=fcoCKyixc5VHWurchwY1IOtBycX9lO6b8uBhOqpcwiCdtjLJnjRfDyTeD95qoaTbz/
+         cgxBiHlMmI9JWu+OjGh+1b7qc0cQow1YfRqD2eesG7KzhNBOsei5dgYjIPbS6pELTV8G
+         QcAmzv/8K6CktBY1VRmjuwh4+7HjKTVMSMs6K5nRQgow0F0ZQ5UsbykAN/VN/epzMJkg
+         0JIRitCthVBkQSR4eR4eKAe29ekYzKjre5j5k/zNbVUZRgb8iMIMtqtpZ8nZnWtuvSHA
+         0a3N2Gzn0sqMgTUmn2fLlYARZoNgJjJGkyPQcu0VCmZq2GhJa8lq/7kfG4JBALVi9bJs
+         0TLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707743429; x=1708348229;
+        d=1e100.net; s=20230601; t=1707743432; x=1708348232;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UqViFHK+D1LRqA6EZxzjCFX8jqipAbwRXLuah7Y53vo=;
-        b=Ms/zpdeohu701QoTLR7NA4XGAhHFYTcdByTUFacp++nn5dtTpxp1+9LdFQGmwF4olx
-         tIq+KP+AUYWHF5V2f1s/CXewiAPPU/+9XJFnhwDLozxarA8lOK32Rd8JVR6plyaA6XGV
-         PqiQKTS8uUVH8b9RFpYglubY9d2n/bhkMY9nAeUss43YPeg8ZlurFGexr+V6Lw4jQKxu
-         z7/e9TljZC/6VMx8Bcomf0cxYdIDr10psF7++sd8+mLxd1utW/od3RwBJ7035zgL8eGL
-         claQQ1fklWgdPeJWCkUu70R9NSsgqVs9rJtgqoI1SfMtSK0Mg+aykc3tF7yC3GBCe7mT
-         7reQ==
-X-Gm-Message-State: AOJu0Yy1YPfV8pdZs4R1TNrWZ5VdtnZ0asq6a+PTPNDdaYzJWZF6rpMU
-	6HMer/+L6hGaTGG7jIwTRGWeQ9t2Pa333UQozqJLqC9ZdF+UAcm+QaqqDaqs+nTcZ1+9btK9FpE
-	a
-X-Google-Smtp-Source: AGHT+IEIjIjw+diayxYIeTsT9G192l7yKdFJ/iVb+VW8lcuPZDuHCAr/3pX7O0bpKKbpqT9hdsHqsA==
-X-Received: by 2002:ac2:518d:0:b0:511:694b:245a with SMTP id u13-20020ac2518d000000b00511694b245amr3856676lfi.58.1707743429537;
-        Mon, 12 Feb 2024 05:10:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXFrtR0Ppr2O4QZdyJXB7qGZICmVbwC7Rsf94s77wQdlGqR8ZRG3VjABkpzDKHbyAGrmol358V47jw7xw1GrngmiOx37dS5qi0CzfblGgee8jP1nWKP+/u2YsUZQEf88oWgsbOyjff2sbWyiz1Xdi0a/Z7odfUDOTMHB7rKjF56EnVW+4P0H+1uG2YK8jd8d/VQBsHFiMQ0ccvFy2JDynLKZMvR15VLFqVBl7meiEg/14OKvof3W3krdpPnJJzGsg+6ynQPo8PMxeGOZDEOKiJlhtkpaw5/u0FCzXkTp6Q2mcax3d9YgoztvEecSG93je24junf8RG9B8MDWlvvyHkOHfSr4/BjKMyT5MYKWbVf1YA3c7rkHMuIMHHF4ZVQ2UAqesgLiM7zZafZvOFdk7fWIGK6UtfJzjOK0om36TNk5WAKUH5jFk5oMQoPp/xSATSQ0l09H3o0Xjfxta0bBaD/ZI1pjKShYMq8/dUx5FLTVwtBrdbTISj0gvl0j+EofmTZ+eZwfZ/TIMfv4RwpfpdQs1C/R1iuQI+Q1j4sgjh0GNRviJv9q7eEMmHH0wA54AkgCaDcVfz1osiMvlsJLDWBJgUvMU63rm8ILcOys5zQMynWE3QObjj68b9bfVmmG8LE+CdS1mN7YEhCGPPe3dZrCuAW17uzy27QWgN5uLNLEWh3Hv/Sry5+FCaujwCnThMZqHy6QfmTH+lSrGr12ebcldRBaqxfd852DH9yfT03qsR80BSYP8HOtLawYXGHo18++xqsal+56RSzakx1IKJ7UPwkhaSrnQGz8l1PI/5kNNBKDdbOx8F16oCDysBL/Qae2yboFy3o8Ag/G0ag0oCc9134
+        bh=xoA+yBVNdi1njW3vF3aXzPCABd0kr7iht4u+fgdDNYw=;
+        b=dGVX2cnVDA51rAoxJPCfMDvW2NLXVEqmDgVRtoq0WlS7k9POXD+W5lhLaOH2FPudek
+         PeTFxmtsZl0mk+w0sMYenHq3mC0dYm3mtnTbSSxLJRWPZ1W9Q9uCRZquVVgJ1J20h7MA
+         jTlqsdgadIGPzlG57MjaO3zAhVYdX7eqlkUYjj/Bfdd8uG0CtUr2T1AfNcH8GTgA9QWM
+         moj0JV8X578WH4CuunLI/Zeb4zgn/KLLqIUPTNAgzl2p3+uZpwnqlSpviXldn5YBgaSO
+         RM0cQEYLvaNP0lwH7dskd/01pgjff5AwNdueLBpOKR3nh2bS/rKZhZrGicG64hoBSFFM
+         LVDw==
+X-Gm-Message-State: AOJu0YzTCD/Of5ev+99ZBzc33YxcA3p3FSJxetRIPa0sv7v5T0LVr3yI
+	ByuFkkybn08JTKfcgO4Mf/b4A9riGkOi2iAQD0cOTU/19Jcg5PrMJt5sclnnt7YfgC2SkB67PJO
+	M
+X-Google-Smtp-Source: AGHT+IF1L5yNVoQli8PRuWJoFBDUTQ1JqNuxwlnuj7G3XoPbpS0jCyR+DCXueJcfOK/lSlltkTON0A==
+X-Received: by 2002:a17:906:b42:b0:a38:984e:2e5a with SMTP id v2-20020a1709060b4200b00a38984e2e5amr4389737ejg.33.1707743432301;
+        Mon, 12 Feb 2024 05:10:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXLku8sUVcaZo8prr0iSAHJOY+x+SrSpO2++Y8v1BMcWJwS5CMz5Oe0BnKEcb/ySFjHO7S3GcHY+b2TBA3TwzN/0m3wlj6MjLzGx3TdgaQwt64FytU462QI1ADlz0k+aXEDwXskXxrBXm+oMg7e59SGeHS4ObHkmZ+zdWY/ysHKc3NObC0DPJnBkTFEqkxfl6vchytzVStKteVjZGvvwPmQRP+9uKqDcbNLu2JRdy5n6koiZMSLFlecf31B8JzIqKA3HzzoAPFhf/UcBxkACwkkeJWYZTMm7dGEsgiMw5klgkRTSn3OYHmuaSzOnjI7c0TyrRRbOv6X6adizw+GBPHkMm4OouTdJilI9N/I80fvLmXechj0LD0plGi860uBjagoxrpkpnA+4ZIqy1YZCcFxwuoFUzg72hIrnrUTwtuiQq3gUnKIKK57K8UQ4GiiyG3jN8u8SWGLTXR5dfpJre3VC1Ny+d2gl6AjYVexQnMdGz4iQxVbjRxH1+Zjx5Uym2JvmiMmeN+UIO6pIZ+uhw50qnUEBXLrYj4QJaqBqKWFkZFdyTSW5Sy+xRSW27NCa2tXEqDizD7HhXxkz7KRRU45kJQO9IlXAhtFidL+qACjXmCfnw3+4TlWKDPdNzL2cljWkHFC6mEgEOuA+sfM0XbVBMbRZrBDwLqqbaj38Co06E7paGG7aJEnVdGxWf8qjE7OCKyw5hwXWAesQw6CdP1S4P+v9ZrrhvP+Wv3miRAGsdOLPFXq0ii0NpsXEsn8wCvz4JGcOELmPh8ekPnOMd1s7zlSySku8lhraveqNhHBzpoNs2EGnoDQCns2zXU9MIYKoYIZMCN/Ge4OxSAkHd0vnBLb
 Received: from [10.167.154.1] (037008245233.garwolin.vectranet.pl. [37.8.245.233])
-        by smtp.gmail.com with ESMTPSA id gz9-20020a170906f2c900b00a3515b35be4sm193052ejb.104.2024.02.12.05.10.27
+        by smtp.gmail.com with ESMTPSA id gz9-20020a170906f2c900b00a3515b35be4sm193052ejb.104.2024.02.12.05.10.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 05:10:29 -0800 (PST)
+        Mon, 12 Feb 2024 05:10:31 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 12 Feb 2024 14:10:13 +0100
-Subject: [PATCH 5/7] arm64: dts: qcom: sm8550: Add missing DWC3 quirks
+Date: Mon, 12 Feb 2024 14:10:14 +0100
+Subject: [PATCH 6/7] arm64: dts: qcom: sm8550: Mark DWC3 as dma-coherent
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240210-topic-1v-v1-5-fda0db38e29b@linaro.org>
+Message-Id: <20240210-topic-1v-v1-6-fda0db38e29b@linaro.org>
 References: <20240210-topic-1v-v1-0-fda0db38e29b@linaro.org>
 In-Reply-To: <20240210-topic-1v-v1-0-fda0db38e29b@linaro.org>
 To: James Schulman <james.schulman@cirrus.com>, 
@@ -86,48 +86,32 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-hardening@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1707743413; l=1404;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1707743413; l=756;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=BYxMMgnfl6Vo3FvICtt90++r+JIBRmHZBJczJMyhSwk=;
- b=BVfXqO9pGrNZlcLW0yoUdDXyI3lwhL79E0y5sKgoORe9P1VUu8jT9h9S437tWRb7sucOC99Un
- AjovaL1EEYHB/X+0xku+/Crr4sQF+pNyJPi2ZtBEhDgXAfmCPQHRuRd
+ bh=MgGMsg8PJAMVkpQQ8WXu4KK3GFUd7QqW2NVKRDqIWlU=;
+ b=omHcjQyuLjkm+7U15GBNGZL8yj2dbtXdzfMhbPh1XOM6zq40Am+Hcqlnla6o2fLA7Ae+BdUTV
+ XcSScpA7kLEBoOeZwRrM+CkmUYtkSr6XbmwfRW86Q1Xy29GfuKwNj77
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-As expected, Qualcomm DWC3 implementation come with a sizable number
-of quirks. Make sure to account for all of them.
+In a fairly new development, Qualcomm somehow made the DWC3 block
+cache-coherent. Annotate that.
 
 Fixes: 7f7e5c1b037f ("arm64: dts: qcom: sm8550: Add USB PHYs and controller nodes")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8550.dtsi | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/qcom/sm8550.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-index 868d48b85555..925e56317fb0 100644
+index 925e56317fb0..e845c8814fb9 100644
 --- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-@@ -3193,12 +3193,20 @@ usb_1_dwc3: usb@a600000 {
- 				reg = <0x0 0x0a600000 0x0 0xcd00>;
- 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
- 				iommus = <&apps_smmu 0x40 0x0>;
--				snps,dis_u2_susphy_quirk;
--				snps,dis_enblslpm_quirk;
--				snps,usb3_lpm_capable;
- 				phys = <&usb_1_hsphy>,
- 				       <&usb_dp_qmpphy QMP_USB43DP_USB3_PHY>;
- 				phy-names = "usb2-phy", "usb3-phy";
-+				snps,hird-threshold = /bits/ 8 <0x0>;
-+				snps,usb2-gadget-lpm-disable;
-+				snps,dis_u2_susphy_quirk;
-+				snps,dis_enblslpm_quirk;
-+				snps,dis-u1-entry-quirk;
-+				snps,dis-u2-entry-quirk;
-+				snps,is-utmi-l1-suspend;
-+				snps,usb3_lpm_capable;
-+				snps,usb2-lpm-disable;
-+				snps,has-lpm-erratum;
-+				tx-fifo-resize;
+@@ -3207,6 +3207,7 @@ usb_1_dwc3: usb@a600000 {
+ 				snps,usb2-lpm-disable;
+ 				snps,has-lpm-erratum;
+ 				tx-fifo-resize;
++				dma-coherent;
  
  				ports {
  					#address-cells = <1>;
