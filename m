@@ -1,46 +1,48 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5997E28389;
-	Mon, 12 Feb 2024 14:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D303D3CF52;
+	Mon, 12 Feb 2024 15:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707749082; cv=none; b=Uak7I5M2dpIzM14CYXLHJ3CzjeoNOnPM9Wkd3PTsXKooB9P8OP+z6yYNzFhotkboh7V4YZ1IRGvLOvHJRNw5rRAT0nnXislAkp3zSXqH1sHym1KGTPDKOMTdJuq3FPnBp8fjynI6Q6vtWV1/tpHWlP3ATTgtU3XiOT5ZYbIClsk=
+	t=1707753232; cv=none; b=PahyXOYamyiaGRzqnPBphrBxltpm60QNWM3jVpbsw96LV4onbR4QoecpuwcI1Pw4s86OMrhuPL6/bH7e4u12KK2IHsECPPauVACqG/jr1gUl2lw605CFbv3xuRC9uxu3ABSSPsamgguH4CCa0Ou8e568biBp5m5/gqjcpiGB8jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707749082; c=relaxed/simple;
-	bh=WaeIv7+ItDIkBtIePy0VDoxQcmIyIXt+XWTOFfl0jWw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tL1itjgRAvLBNmlAeunY3tBMqMOGEGPWuRBIUyfmxjWhSTDTyUsEyflTp+LkTuRae65R6nSvah9HSiP6thdVOMqUVFGDbg5Va5/vqqrweR1Gqt8sApzSCSA3T5g306MSJ+PYCc4A//0tmLrtBhho1tMqwkprHyHyyK/H07VHlLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mail2.sysu.edu.cn; spf=pass smtp.mailfrom=mail2.sysu.edu.cn; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mail2.sysu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail2.sysu.edu.cn
-X-QQ-mid: bizesmtp75t1707748998tos1jfhl
-X-QQ-Originating-IP: XCxMfl4zxjZgVvN+Wm6q5OKrDL4vr/ck+nFLjccppeQ=
-Received: from VM-16-2-ubuntu.. ( [122.51.61.190])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 12 Feb 2024 22:43:16 +0800 (CST)
-X-QQ-SSF: 01400000000000B0R000000A0000000
-X-QQ-FEAT: +ynUkgUhZJlWkuX9oFjGafb11b8pHgwFDTjbDZpXFPQ0hz636G6iKTeRs6sWY
-	We1Bue9Kefq8A23K+Iquc9xKYw0YWy66JmbAFeeArZc8obFs5RsvdEzHRcCWU6p2bseX3HJ
-	eXynXHlbJ0gpPtXzBZA83/clTSRXhbTPC0rqbCxlEAHKmKEmm+BGKQ0VqVpwNrmx61+pAtn
-	LQHCsuCa+r1u4S4RYM0hrqaI5aA21FEHUMnoRj/dnuwg/hW5mDbSjgybu9o8nql2jgH/6Lx
-	8KO0k0nTu12Kmgo3wnVVM/t9Vx0hMUxCU0FrQ+rg5z9TD3JfqwHrMGK9ienYuvSuB6EX+18
-	TkZRIXBXR/F0ps7hq0MRxCd6RGwrdTABXby4eKfKkvQCaXq99MY3ECep9dxKiCKZGgUtkex
-	WSNVJkeBxeo=
-X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 9194800066344149808
-From: Yinchuan Guo <guoych37@mail2.sysu.edu.cn>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	s=arc-20240116; t=1707753232; c=relaxed/simple;
+	bh=spy70HfjoheqAjWploJYPJrRSAN4AXykUGUgKoklCc8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rJIHF6JwxXv4G6kkIftpRtOJnulNOwb/BdgzZV5KokHqQ0zv7DrFoTyKqPfSn/mu+0k508pRuGCGW/YVeKAOyGTLknCCAenjL14TA9Lf1EyOh8mRJVtBL/MdzuPQr5ONRIE5imzeStYZpLvSv9G8qSR1Xmi9N/FRhhYDO85Q/lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=Pxkb/jWE; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="Pxkb/jWE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=yUpIoVx1qo/FtfUPPy1ERNngaKI9xiKtsIUKmgw0teU=; b=Pxkb/jWERnVbCQtZNIMSGMidTq
+	mbmODKjEWysQcHkMkFbStR0cSVg8djSN6A0Ao9wG9XDXJ7Y+gTFrWGm02NFSF7jMQ8pMl0wNcICUB
+	Ov0ZQSwAv3b4tbna+y43S1xZsw9ms5D8FDCDxstcwx/bbo926fRBDcwWQ2aOvU9aUhiY=;
+Received: from [2a00:1370:819a:f1b4:f5a8:7291:14f0:548b] (helo=home..)
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1rZYEt-00000001IST-0T4L;
+	Mon, 12 Feb 2024 18:28:59 +0300
+From: Alexander Tsoy <alexander@tsoy.me>
+To: linux-usb@vger.kernel.org
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Yinchuan Guo <guoych37@mail2.sysu.edu.cn>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: fix TYPO 'reguest' to 'request' in error log
-Date: Mon, 12 Feb 2024 22:42:45 +0800
-Message-Id: <20240212144247.43744-1-guoych37@mail2.sysu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	Nikolay Yakimov <root@livid.pp.ru>,
+	Saranya Gopal <saranya.gopal@intel.com>
+Subject: [PATCH] USB: Always select config with the highest supported UAC version
+Date: Mon, 12 Feb 2024 18:28:48 +0300
+Message-ID: <20240212152848.44782-1-alexander@tsoy.me>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,184 +50,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:mail2.sysu.edu.cn:qybglogicsvrsz:qybglogicsvrsz3a-1
+Sender: puleglot@puleglot.ru
 
-This patch corrects a common misspelling of "request" as "reguest" found
-in error log across multiple files within sound/soc/codecs.
+Config with the highest supported UAC version is always preferable because
+it usually provides more features.
 
-Signed-off-by: Yinchuan Guo <guoych37@mail2.sysu.edu.cn>
+Main motivation for this change is to improve support for several UAC2
+devices which have UAC1 config as the first one for compatibility reasons.
+UAC2 mode provides a wider range of supported sampling rates on these
+devices. Also when UAC4 support is implemented, it will need just one
+additional case line without changing the logic.
+
+Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
 ---
- sound/soc/codecs/rt274.c      | 2 +-
- sound/soc/codecs/rt286.c      | 2 +-
- sound/soc/codecs/rt298.c      | 2 +-
- sound/soc/codecs/rt5514-spi.c | 2 +-
- sound/soc/codecs/rt5645.c     | 2 +-
- sound/soc/codecs/rt5651.c     | 2 +-
- sound/soc/codecs/rt5659.c     | 2 +-
- sound/soc/codecs/rt5663.c     | 2 +-
- sound/soc/codecs/rt5665.c     | 2 +-
- sound/soc/codecs/rt5668.c     | 2 +-
- sound/soc/codecs/rt5682-i2c.c | 2 +-
- sound/soc/codecs/rt5682s.c    | 2 +-
- 12 files changed, 12 insertions(+), 12 deletions(-)
+ drivers/usb/core/generic.c | 39 +++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/codecs/rt274.c b/sound/soc/codecs/rt274.c
-index 9a33e3776b55..6e7843484250 100644
---- a/sound/soc/codecs/rt274.c
-+++ b/sound/soc/codecs/rt274.c
-@@ -1192,7 +1192,7 @@ static int rt274_i2c_probe(struct i2c_client *i2c)
- 			IRQF_TRIGGER_HIGH | IRQF_ONESHOT, "rt274", rt274);
- 		if (ret != 0) {
- 			dev_err(&i2c->dev,
--				"Failed to reguest IRQ: %d\n", ret);
-+				"Failed to request IRQ: %d\n", ret);
- 			return ret;
+diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
+index b134bff5c3fe..8aeb180e1cf9 100644
+--- a/drivers/usb/core/generic.c
++++ b/drivers/usb/core/generic.c
+@@ -48,9 +48,16 @@ static bool is_audio(struct usb_interface_descriptor *desc)
+ 	return desc->bInterfaceClass == USB_CLASS_AUDIO;
+ }
+ 
+-static bool is_uac3_config(struct usb_interface_descriptor *desc)
++static bool is_supported_uac(struct usb_interface_descriptor *desc)
+ {
+-	return desc->bInterfaceProtocol == UAC_VERSION_3;
++	switch(desc->bInterfaceProtocol) {
++	case UAC_VERSION_1:
++	case UAC_VERSION_2:
++	case UAC_VERSION_3:
++		return true;
++	default:
++		return false;
++	}
+ }
+ 
+ int usb_choose_configuration(struct usb_device *udev)
+@@ -135,22 +142,28 @@ int usb_choose_configuration(struct usb_device *udev)
  		}
- 	}
-diff --git a/sound/soc/codecs/rt286.c b/sound/soc/codecs/rt286.c
-index 981155b046fd..f8994f4968c5 100644
---- a/sound/soc/codecs/rt286.c
-+++ b/sound/soc/codecs/rt286.c
-@@ -1237,7 +1237,7 @@ static int rt286_i2c_probe(struct i2c_client *i2c)
- 			IRQF_TRIGGER_HIGH | IRQF_ONESHOT, "rt286", rt286);
- 		if (ret != 0) {
- 			dev_err(&i2c->dev,
--				"Failed to reguest IRQ: %d\n", ret);
-+				"Failed to request IRQ: %d\n", ret);
- 			return ret;
- 		}
- 	}
-diff --git a/sound/soc/codecs/rt298.c b/sound/soc/codecs/rt298.c
-index ad3783ade1b5..03d9839a5de3 100644
---- a/sound/soc/codecs/rt298.c
-+++ b/sound/soc/codecs/rt298.c
-@@ -1284,7 +1284,7 @@ static int rt298_i2c_probe(struct i2c_client *i2c)
- 			IRQF_TRIGGER_HIGH | IRQF_ONESHOT, "rt298", rt298);
- 		if (ret != 0) {
- 			dev_err(&i2c->dev,
--				"Failed to reguest IRQ: %d\n", ret);
-+				"Failed to request IRQ: %d\n", ret);
- 			return ret;
- 		}
- 	}
-diff --git a/sound/soc/codecs/rt5514-spi.c b/sound/soc/codecs/rt5514-spi.c
-index 3ee6d85268ba..f475c8cfadae 100644
---- a/sound/soc/codecs/rt5514-spi.c
-+++ b/sound/soc/codecs/rt5514-spi.c
-@@ -279,7 +279,7 @@ static int rt5514_spi_pcm_probe(struct snd_soc_component *component)
- 			rt5514_dsp);
- 		if (ret)
- 			dev_err(&rt5514_spi->dev,
--				"%s Failed to reguest IRQ: %d\n", __func__,
-+				"%s Failed to request IRQ: %d\n", __func__,
- 				ret);
- 		else
- 			device_init_wakeup(rt5514_dsp->dev, true);
-diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
-index 5150d6ee3748..61624c502261 100644
---- a/sound/soc/codecs/rt5645.c
-+++ b/sound/soc/codecs/rt5645.c
-@@ -4197,7 +4197,7 @@ static int rt5645_i2c_probe(struct i2c_client *i2c)
- 			IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			| IRQF_ONESHOT, "rt5645", rt5645);
- 		if (ret) {
--			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
-+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
- 			goto err_enable;
- 		}
- 	}
-diff --git a/sound/soc/codecs/rt5651.c b/sound/soc/codecs/rt5651.c
-index 0cee4fd1c84b..33a34bd0b405 100644
---- a/sound/soc/codecs/rt5651.c
-+++ b/sound/soc/codecs/rt5651.c
-@@ -2261,7 +2261,7 @@ static int rt5651_i2c_probe(struct i2c_client *i2c)
- 			       IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			       | IRQF_ONESHOT | IRQF_NO_AUTOEN, "rt5651", rt5651);
- 	if (ret) {
--		dev_warn(&i2c->dev, "Failed to reguest IRQ %d: %d\n",
-+		dev_warn(&i2c->dev, "Failed to request IRQ %d: %d\n",
- 			 rt5651->irq, ret);
- 		rt5651->irq = -ENXIO;
- 	}
-diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-index a061028a16d8..fb094c0fe740 100644
---- a/sound/soc/codecs/rt5659.c
-+++ b/sound/soc/codecs/rt5659.c
-@@ -4292,7 +4292,7 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
- 			rt5659_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			| IRQF_ONESHOT, "rt5659", rt5659);
- 		if (ret)
--			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
-+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
  
- 		/* Enable IRQ output for GPIO1 pin any way */
- 		regmap_update_bits(rt5659->regmap, RT5659_GPIO_CTRL_1,
-diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
-index 9550492605ac..161dcb3915f9 100644
---- a/sound/soc/codecs/rt5663.c
-+++ b/sound/soc/codecs/rt5663.c
-@@ -3692,7 +3692,7 @@ static int rt5663_i2c_probe(struct i2c_client *i2c)
- 			IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			| IRQF_ONESHOT, "rt5663", rt5663);
- 		if (ret) {
--			dev_err(&i2c->dev, "%s Failed to reguest IRQ: %d\n",
-+			dev_err(&i2c->dev, "%s Failed to request IRQ: %d\n",
- 				__func__, ret);
- 			goto err_enable;
- 		}
-diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
-index a39de4a7df00..6f778c8f0832 100644
---- a/sound/soc/codecs/rt5665.c
-+++ b/sound/soc/codecs/rt5665.c
-@@ -4929,7 +4929,7 @@ static int rt5665_i2c_probe(struct i2c_client *i2c)
- 			rt5665_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			| IRQF_ONESHOT, "rt5665", rt5665);
- 		if (ret)
--			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
-+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
+ 		/*
+-		 * Select first configuration as default for audio so that
+-		 * devices that don't comply with UAC3 protocol are supported.
+-		 * But, still iterate through other configurations and
+-		 * select UAC3 compliant config if present.
++		 * Iterate through audio configurations and select the first of
++		 * the highest supported UAC versions. Select the first config
++		 * if no supported UAC configs are found.
+ 		 */
+ 		if (desc && is_audio(desc)) {
+-			/* Always prefer the first found UAC3 config */
+-			if (is_uac3_config(desc)) {
+-				best = c;
+-				break;
+-			}
++			struct usb_interface_descriptor	*best_desc = NULL;
++
++			if (best)
++				best_desc = &best->intf_cache[0]->altsetting->desc;
  
- 	}
+-			/* If there is no UAC3 config, prefer the first config */
+-			else if (i == 0)
++			if (i == 0)
+ 				best = c;
  
-diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
-index 4623b3e62487..6d8e228ccb57 100644
---- a/sound/soc/codecs/rt5668.c
-+++ b/sound/soc/codecs/rt5668.c
-@@ -2580,7 +2580,7 @@ static int rt5668_i2c_probe(struct i2c_client *i2c)
- 			rt5668_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			| IRQF_ONESHOT, "rt5668", rt5668);
- 		if (ret)
--			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
-+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
- 
- 	}
- 
-diff --git a/sound/soc/codecs/rt5682-i2c.c b/sound/soc/codecs/rt5682-i2c.c
-index fbad1ed06626..62f26ce9d476 100644
---- a/sound/soc/codecs/rt5682-i2c.c
-+++ b/sound/soc/codecs/rt5682-i2c.c
-@@ -266,7 +266,7 @@ static int rt5682_i2c_probe(struct i2c_client *i2c)
- 		if (!ret)
- 			rt5682->irq = i2c->irq;
- 		else
--			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
-+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
- 	}
- 
- #ifdef CONFIG_COMMON_CLK
-diff --git a/sound/soc/codecs/rt5682s.c b/sound/soc/codecs/rt5682s.c
-index 3322056bbb3b..12741668fdb3 100644
---- a/sound/soc/codecs/rt5682s.c
-+++ b/sound/soc/codecs/rt5682s.c
-@@ -3283,7 +3283,7 @@ static int rt5682s_i2c_probe(struct i2c_client *i2c)
- 		if (!ret)
- 			rt5682s->irq = i2c->irq;
- 		else
--			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
-+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
- 	}
- 
- 	return devm_snd_soc_register_component(&i2c->dev, &rt5682s_soc_component_dev,
++			/* Assume that bInterfaceProtocol value is always
++			 * growing when UAC versions are incremented, so that
++			 * the direct comparison is possible. */
++			else if (is_supported_uac(desc) && best_desc &&
++				 (!is_supported_uac(best_desc) ||
++				  (desc->bInterfaceProtocol >
++				   best_desc->bInterfaceProtocol)))
++					best = c;
++
+ 			/* Unconditional continue, because the rest of the code
+ 			 * in the loop is irrelevant for audio devices, and
+ 			 * because it can reassign best, which for audio devices
 -- 
-2.34.1
+2.43.0
 
