@@ -1,134 +1,117 @@
-Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D303D3CF52;
-	Mon, 12 Feb 2024 15:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B970B3C473;
+	Mon, 12 Feb 2024 15:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707753232; cv=none; b=PahyXOYamyiaGRzqnPBphrBxltpm60QNWM3jVpbsw96LV4onbR4QoecpuwcI1Pw4s86OMrhuPL6/bH7e4u12KK2IHsECPPauVACqG/jr1gUl2lw605CFbv3xuRC9uxu3ABSSPsamgguH4CCa0Ou8e568biBp5m5/gqjcpiGB8jE=
+	t=1707753377; cv=none; b=apV1loz64EOwzzDoejNm0L+WBRDVXvMNtgHfvLiy9yu+FIVWrZNkpy+G2GMX1RO1nsWAgU/E06Zw7gaJ0osM94T0fhHjRgctX0R1ZMrfshW1JfGcadxWcjHjoZ+2iYAySHc4qvNX9LTep7YWnEhKXMsFLoDx7LeU+jC3AZ7DkKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707753232; c=relaxed/simple;
-	bh=spy70HfjoheqAjWploJYPJrRSAN4AXykUGUgKoklCc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rJIHF6JwxXv4G6kkIftpRtOJnulNOwb/BdgzZV5KokHqQ0zv7DrFoTyKqPfSn/mu+0k508pRuGCGW/YVeKAOyGTLknCCAenjL14TA9Lf1EyOh8mRJVtBL/MdzuPQr5ONRIE5imzeStYZpLvSv9G8qSR1Xmi9N/FRhhYDO85Q/lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=Pxkb/jWE; arc=none smtp.client-ip=195.201.32.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+	s=arc-20240116; t=1707753377; c=relaxed/simple;
+	bh=UEoUzI0eopOfpfMWL9+ubXLmnf6UPKl4bf+SH/FfhF8=;
+	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:Date:CC:
+	 Message-ID:References:To; b=f/PNH0VE/4LcNtjcSvRC3BxycJUq2PbfzXMqiNKlSiNkAZp8JPMvL20Afu5E7suYsWj0ahSfphyeIpyy6glYl2xEKJq4l9ncrsQKBHr/ILDKuWplqtoIRA9EdEUumts0QUp6tZwJ0WeIdqXTTULvUAXbWKGtcsZsAhEqNAZ8rSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kHJS4noC; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="Pxkb/jWE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-	s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=yUpIoVx1qo/FtfUPPy1ERNngaKI9xiKtsIUKmgw0teU=; b=Pxkb/jWERnVbCQtZNIMSGMidTq
-	mbmODKjEWysQcHkMkFbStR0cSVg8djSN6A0Ao9wG9XDXJ7Y+gTFrWGm02NFSF7jMQ8pMl0wNcICUB
-	Ov0ZQSwAv3b4tbna+y43S1xZsw9ms5D8FDCDxstcwx/bbo926fRBDcwWQ2aOvU9aUhiY=;
-Received: from [2a00:1370:819a:f1b4:f5a8:7291:14f0:548b] (helo=home..)
-	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <puleglot@puleglot.ru>)
-	id 1rZYEt-00000001IST-0T4L;
-	Mon, 12 Feb 2024 18:28:59 +0300
-From: Alexander Tsoy <alexander@tsoy.me>
-To: linux-usb@vger.kernel.org
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Nikolay Yakimov <root@livid.pp.ru>,
-	Saranya Gopal <saranya.gopal@intel.com>
-Subject: [PATCH] USB: Always select config with the highest supported UAC version
-Date: Mon, 12 Feb 2024 18:28:48 +0300
-Message-ID: <20240212152848.44782-1-alexander@tsoy.me>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kHJS4noC"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41C7wuOt021531;
+	Mon, 12 Feb 2024 09:55:47 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to; s=
+	PODMain02222019; bh=UEoUzI0eopOfpfMWL9+ubXLmnf6UPKl4bf+SH/FfhF8=; b=
+	kHJS4noCFaqhHA00df2Nyt5FmY+gB7OQUEEpeP6D0ExctWUJA3mYo5WEuWviyrsZ
+	zHrY3ylV93fWTxp591elNivJTtdqJyFz84ghlZhNvVbLM/Li4w8cSVjED4gkx51C
+	s4zl9UzYuYZNN7Cg86cNIsX6NftCxBvhN8UlXkMfAlPN4EYP+owuwTQYVAA60zpa
+	gxzz2LJgSv2+w2XisaJbdqntbrL1ARM57umBDUA/n2AN0PAqEf/xCTXMjvqdanPN
+	JbN6nYOJQL1XQf5Rhm61D1HnvGjI82/rS/IijKmAjCLoHhqhKYdTqliVB8S9UqRP
+	vA+9bmzebhDR/jr8EXGHwQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w67e220gf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Feb 2024 09:55:47 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
+ 2024 15:55:45 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 12 Feb 2024 15:55:45 +0000
+Received: from smtpclient.apple (unknown [141.131.76.118])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 7CA6A820242;
+	Mon, 12 Feb 2024 15:55:41 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: puleglot@puleglot.ru
+MIME-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH 1/7] dt-bindings: ASoC: cs35l45: Add interrupts
+From: "Rivera-Matos, Ricardo" <rriveram@opensource.cirrus.com>
+In-Reply-To: <ac5cbfbf-45ea-4d34-ac3d-d3a0fc6ff061@linaro.org>
+Date: Mon, 12 Feb 2024 09:55:29 -0600
+CC: James Schulman <james.schulman@cirrus.com>,
+        David Rhodes
+	<david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        "Sai Prakash Ranjan" <quic_saipraka@quicinc.com>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        Kees Cook <keescook@chromium.org>, Tony Luck
+	<tony.luck@intel.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+Message-ID: <C8A97AB6-A3BB-4018-A8E3-CEEECFCBECE2@opensource.cirrus.com>
+References: <20240210-topic-1v-v1-0-fda0db38e29b@linaro.org>
+ <20240210-topic-1v-v1-1-fda0db38e29b@linaro.org>
+ <ac5cbfbf-45ea-4d34-ac3d-d3a0fc6ff061@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
+X-Proofpoint-ORIG-GUID: HVAAhL2KDvY-331du_lPmDeJ2OJzJ91Y
+X-Proofpoint-GUID: HVAAhL2KDvY-331du_lPmDeJ2OJzJ91Y
+X-Proofpoint-Spam-Reason: safe
 
-Config with the highest supported UAC version is always preferable because
-it usually provides more features.
+Konrad,
 
-Main motivation for this change is to improve support for several UAC2
-devices which have UAC1 config as the first one for compatibility reasons.
-UAC2 mode provides a wider range of supported sampling rates on these
-devices. Also when UAC4 support is implemented, it will need just one
-additional case line without changing the logic.
+> On Feb 12, 2024, at 7:25=E2=80=AFAM, Krzysztof Kozlowski =
+<krzysztof.kozlowski@linaro.org> wrote:
+>=20
+> On 12/02/2024 14:10, Konrad Dybcio wrote:
+>> This chip seems to have an IRQ line, let us describe it.
+>>=20
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>=20
+> Subject: ASoC: dt-bindings: cs35l45=E2=80=A6=E2=80=A6
+ditto
+>=20
+>=20
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com =
+<mailto:rriveram@opensource.cirrus.com>>
+>=20
+> Best regards,
+> Krzysztof
+>=20
 
-Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
----
- drivers/usb/core/generic.c | 39 +++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
-index b134bff5c3fe..8aeb180e1cf9 100644
---- a/drivers/usb/core/generic.c
-+++ b/drivers/usb/core/generic.c
-@@ -48,9 +48,16 @@ static bool is_audio(struct usb_interface_descriptor *desc)
- 	return desc->bInterfaceClass == USB_CLASS_AUDIO;
- }
- 
--static bool is_uac3_config(struct usb_interface_descriptor *desc)
-+static bool is_supported_uac(struct usb_interface_descriptor *desc)
- {
--	return desc->bInterfaceProtocol == UAC_VERSION_3;
-+	switch(desc->bInterfaceProtocol) {
-+	case UAC_VERSION_1:
-+	case UAC_VERSION_2:
-+	case UAC_VERSION_3:
-+		return true;
-+	default:
-+		return false;
-+	}
- }
- 
- int usb_choose_configuration(struct usb_device *udev)
-@@ -135,22 +142,28 @@ int usb_choose_configuration(struct usb_device *udev)
- 		}
- 
- 		/*
--		 * Select first configuration as default for audio so that
--		 * devices that don't comply with UAC3 protocol are supported.
--		 * But, still iterate through other configurations and
--		 * select UAC3 compliant config if present.
-+		 * Iterate through audio configurations and select the first of
-+		 * the highest supported UAC versions. Select the first config
-+		 * if no supported UAC configs are found.
- 		 */
- 		if (desc && is_audio(desc)) {
--			/* Always prefer the first found UAC3 config */
--			if (is_uac3_config(desc)) {
--				best = c;
--				break;
--			}
-+			struct usb_interface_descriptor	*best_desc = NULL;
-+
-+			if (best)
-+				best_desc = &best->intf_cache[0]->altsetting->desc;
- 
--			/* If there is no UAC3 config, prefer the first config */
--			else if (i == 0)
-+			if (i == 0)
- 				best = c;
- 
-+			/* Assume that bInterfaceProtocol value is always
-+			 * growing when UAC versions are incremented, so that
-+			 * the direct comparison is possible. */
-+			else if (is_supported_uac(desc) && best_desc &&
-+				 (!is_supported_uac(best_desc) ||
-+				  (desc->bInterfaceProtocol >
-+				   best_desc->bInterfaceProtocol)))
-+					best = c;
-+
- 			/* Unconditional continue, because the rest of the code
- 			 * in the loop is irrelevant for audio devices, and
- 			 * because it can reassign best, which for audio devices
--- 
-2.43.0
+Thanks,
+Ricardo
 
