@@ -1,83 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF3B4D584;
-	Mon, 12 Feb 2024 21:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DABD4EB45
+	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 21:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707772934; cv=none; b=XJduA8VkuFPixZPFJvQfeU8NedV2DjqwhVFhQQTrlILdSsiVzFvMEt0MWBYqOW3TedExprrbhlPvo5SSLRtLvmd2dGNETrZ/2PeOKmVEB5ciGmBJGEP5HzbX2nV+4Sq6v3EKaaCu79iTKwa4pK5Rk36uulWbza4IK4DfyA8wNQg=
+	t=1707773591; cv=none; b=TbhlgWvmHvZlM3mM832zYssS931SQ7pRytw6+LUwCVuAweNgPxyBKMl217rRIL8Mn0mHahfOTx5kAGSeFnJ0Mnem/nn7UBSK6B1ejuRXMrZq+/dfidXvPNU6BwPYRYqT9+ALqlCqMzdpC24Uozdlcb4xjkznr5gHMKe+sH4P7+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707772934; c=relaxed/simple;
-	bh=y2iLG0GQmpYJsdLmgkXsj9hiys9+uUHJH94V7RjpizA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XZwLwc5X2gEFrEwzjtzEo/Ckge2v2DPaY0JaR7bz0x+o2rql78tY8ybIqe6dRYi8qjgXDtNWp//qViPjYgtqRW3s9j4Ut2U9znjxTsGJ+02ICyZCBkFhGIoesEHEC8YcTirKuLqqRWVjeiEFMy9H0CZU9SYCMoPhgxy3oWebv/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m4RZVVPq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707773591; c=relaxed/simple;
+	bh=UccBZcWyRgHb8CdqI4SfdswhlCvqeiofHLzpJGOSCIM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SwIHUfGsGsPYojLyKGvqeRdFjk5Mk0mwEaCc5XCEA9dJSTkiESTAR0P6otUM9Umo2Eyhihg1SY8iuGlooulqCcHusvmGwhwV2Xp0c222oqgthJc51OsUzjC5mBqvAzPhKTCvwo0MyGb5iC5h2cjNpvStNmsqkf+RDWfGpC8SEGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=UYkLqjxT; arc=none smtp.client-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m4RZVVPq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C76C43390;
-	Mon, 12 Feb 2024 21:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707772934;
-	bh=y2iLG0GQmpYJsdLmgkXsj9hiys9+uUHJH94V7RjpizA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=m4RZVVPq1QGp85ewCwpCVn7qNgnLPNRaTK8gROHssMUgf+NNIvNxrN4lC0IazDAGW
-	 WZHePeRKV9IXp6Ojy9/meY4tMTECtYpEdtUfQHK4hC233ettFrt5fwC88EUf4BaWDG
-	 TZ/DTrTp7sal7p6WAf5KOLDTtTLSl0NQvPlPRJriA1YUj/EjPlj2CFjALTMerzVHT+
-	 YyqYDW/fHD1Dz17FukZdrRuSkqhPsuszWdQzWtzkdxQwBH2V3v0NAyDtxh9FrIeDYt
-	 rjYLsroxAaULMZln5h8/zL0fX9ANyYzLlOpdJ4gwY1OHNf+Awslg9vglaKM0mqsMpm
-	 b9NXyixrygbDg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Attila_T=C5=91k=C3=A9s?= <attitokes@gmail.com>
-Cc: stable@vger.kernel.org
-In-Reply-To: <20240210193638.144028-1-attitokes@gmail.com>
-References: <20240210193638.144028-1-attitokes@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-Message-Id: <170777293259.73793.11135148439756356388.b4-ty@kernel.org>
-Date: Mon, 12 Feb 2024 21:22:12 +0000
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="UYkLqjxT"
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-4c009d2053fso724496e0c.3
+        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 13:33:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1707773587; x=1708378387; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FJH2iY95UEJbzAWLAhKcrIml1wV+F91i2EVUBYNcdJo=;
+        b=UYkLqjxT9GoSJnOQq93tXQa+t0FQEHckVJXzZ4Jk2drByJPW6AwZFaxvGLKlhTGEFi
+         fIC2RwbEQumys6l1cZt1ESJw6pvC5N7OCy9a717BecKgaHCOBtBM8jDfYvUDUUxC6hXU
+         CcjdrbpP+U3US/7ljiib3qOQfgLiS+PVQrQWCwwuUm+KWCVEynGTYESjb6Es50mKIkFb
+         VYgQM00Qdwc/ULLhUEa24iTyV5/OXUXrzGqzuo+X7Qi34NUFTec7UZjSEX12Js2XUc0C
+         1I0MbGz8i740ZFB+MBT4+S4og+EaSnQsTs8gm+jn1dzEi95J6p7mbRtsXInOnTo3ftYp
+         7Kng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707773587; x=1708378387;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FJH2iY95UEJbzAWLAhKcrIml1wV+F91i2EVUBYNcdJo=;
+        b=OMKnDLIeNt1EovqLZ1GTexL71wEUhQqz+pG6vV2ddadVKOxkhD1QfBiyG8kssfuFih
+         n7j0ESrIw5qeD+NEQbyvoNZ835t4YfyWATZNmuVQ26IZqkO9er7ZsUlx0cQhBojGmRV1
+         z++blgawU40+5tWcKIufsD1sF2CqaqHd8LFSvQ/dJPjphOEB4mqGHULnaMjvQqUH727G
+         a7Xn0KEL4O2PYdw+OXHXtddj38cHRGJ0RMKD90v3MpOluSk8nMlL4MUBtKIyS4fZZMTP
+         /sMJdD+AK66wviTD+M6fmXurvCfnVivcu1+lMf2pIh0tr8qWfn8QfnTH70GshUEwnkuo
+         ToTg==
+X-Gm-Message-State: AOJu0YxfvfyOD/BxdcByr9Oe+cKLqKz190O4n9GzrM9wJVEObW4VfkC+
+	QFSoTmMfsYzkuK+C8SyYlIU1aHMUlG+iTXVceu+h42sSyPyc+GyVff8qb9h870wzsnt8Vq19mcI
+	BdiAdL10b9TlJemrS55ieJka4RTLmALlzbdXwZQ==
+X-Google-Smtp-Source: AGHT+IG9JhWk1ypXImx7gtdukOOrn/OVeJ91OyJ0AaFvoBMaRZsO4e81KwtlPywmU6wMBSTdbrnt6I7BaNpH/6tSHa8=
+X-Received: by 2002:a1f:e7c3:0:b0:4c0:21c4:3a9b with SMTP id
+ e186-20020a1fe7c3000000b004c021c43a9bmr4103383vkh.15.1707773587581; Mon, 12
+ Feb 2024 13:33:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-a684c
+References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+ <20240129115216.96479-5-krzysztof.kozlowski@linaro.org> <CACRpkdbMFHPK0SBSxiZ3FOqChQFCBdOny0yYG--6V+1S=CKgiw@mail.gmail.com>
+In-Reply-To: <CACRpkdbMFHPK0SBSxiZ3FOqChQFCBdOny0yYG--6V+1S=CKgiw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 12 Feb 2024 22:32:56 +0100
+Message-ID: <CAMRc=MeEPvhB1nTwBT5fG7p0G4L2J5FjJfM0GMusQuDnnEN35g@mail.gmail.com>
+Subject: Re: [PATCH v6 4/6] reset: Instantiate reset GPIO controller for
+ shared reset-gpios
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Sean Anderson <sean.anderson@seco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 10 Feb 2024 21:36:38 +0200, Attila Tőkés wrote:
-> Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
-> needs a quirk entry for the internal microphone to function.
-> 
-> 
+On Mon, Feb 12, 2024 at 9:48=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Mon, Jan 29, 2024 at 12:53=E2=80=AFPM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>
+> > Devices sharing a reset GPIO could use the reset framework for
+> > coordinated handling of that shared GPIO line.  We have several cases o=
+f
+> > such needs, at least for Devicetree-based platforms.
+> >
+> > If Devicetree-based device requests a reset line, while "resets"
+> > Devicetree property is missing but there is a "reset-gpios" one,
+> > instantiate a new "reset-gpio" platform device which will handle such
+> > reset line.  This allows seamless handling of such shared reset-gpios
+> > without need of changing Devicetree binding [1].
+> >
+> > To avoid creating multiple "reset-gpio" platform devices, store the
+> > Devicetree "reset-gpios" GPIO specifiers used for new devices on a
+> > linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
+> > controller, GPIO number and GPIO flags) is used to check if reset
+> > controller for given GPIO was already registered.
+> >
+> > If two devices have conflicting "reset-gpios" property, e.g. with
+> > different ACTIVE_xxx flags, this would allow to spawn two separate
+> > "reset-gpio" devices, where the second would fail probing on busy GPIO
+> > request.
+> >
+> > Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ =
+[1]
+> > Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> > Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> > Cc: Sean Anderson <sean.anderson@seco.com>
+> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> I can't think of anything better, that is reasonable to ask for.
+>
+> I feel slightly icky about the way the code reaches into gpiolib, and I t=
+hink
 
-Applied to
+As long as it doesn't include gpiolib.h, I'm fine with it.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> regulators should be able to reuse the code, but unfortunately only the d=
+ay
+> they have no board files left :/
+>
+> I do feel the core code handling "reset-gpios" could as well have been
+> used to handle "enable-gpios" in regulators, just that the regulator code
+> has more requirements, and would be really hard to rewrite, and deals
+> with descriptors passed in from drivers instead of centralizing it.
+>
+> Like regulators, reset grows core support for handling GPIO for resets
+> which is *long due*, given how common it must be. We really need
+> something like this, and this is certainly elegant enough to do the job.
+>
+> Yours,
+> Linus Walleij
 
-Thanks!
+Agreed.
 
-[1/1] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-      commit: f7fe85b229bc30cb5dc95b4e9015a601c9e3a8cd
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+I will pick up the stub patches tomorrow and send a tag for Philipp to pull=
+.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Bartosz
