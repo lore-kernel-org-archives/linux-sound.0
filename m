@@ -1,238 +1,185 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504693D99E
-	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 17:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A333CF4C;
+	Mon, 12 Feb 2024 17:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707758790; cv=none; b=DeJY3G4+dRv1d9/+3boO5aPsi8ybsHvpFqhlqDN41kKra7hdazDWEJr48MW15ON9EXaQ1dQabsVOXvDbBBxvZgFLj3fePCEybni7+HoL6GSG8EFiQe1qc+JP0FTEqkkjtNf/YWm4WLhyjf6vaMBmYMk6o2q1Ee1Jk66RNWX4Bfw=
+	t=1707759094; cv=none; b=Z+GpcBEeFnLfseDiJ+XlhJpODl6yqgNWEq/ZGAqSGstR4cGbnvNYvTLINtX+H9VfrZqW0GWIRbLkocoNLV1W3Xu8k1uTadpiLl/rDOtuKhAsAHW6yJNOoCrRrgD2aOMZk5W+v35KfPf1vNhpIYm5VW7Uf/t/4xIlEBlXyOzN7MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707758790; c=relaxed/simple;
-	bh=zBRQ2L3YSqKZCX6QoGtUVNjjBN/0fESkwN55NmvyBrc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=epT0fQkmoe2Mr/UURJsdlDjN0N6InbUbulUIAbu+xTUMID+fPykCl82s45CWZVGl0BJ95Fgj9nPE7wwFQeRHgbES8BjnjyID4IZwz7EXoz7BFGcgk9Jo8CcF0mi44qJtvJiDmf7foOTDMPZN2y1Wg4BCWhEFC2cWArilH98y5zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KW9yYVlc; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707759094; c=relaxed/simple;
+	bh=wTxDmVzfPdXcHQSwlW4KF2mssI4Lscw01gT+paiaLMk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NVGaDUGv6I60WWP9FrSWpzlBp1/N4CGld2PEPcphaZ9zMjIdjvFR/VaI7vljX3hEQ0ldgfZiJSdtTNqq8iIzyrjBpdFc6hZ/Oqo/sDRSD8qnOgKMEXClb+fV6M6sy5Toefg0Qm0oNycpxXVTaRR0BZV9XGMKA8o78Tx5jUfJFek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=aDTUCBMm; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KW9yYVlc"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-410c1ebf5e4so11537335e9.2
-        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 09:26:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707758786; x=1708363586; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5qTYop8QJp36+jtIGblbi7k/WDzukfUFb0T7VOK2lcU=;
-        b=KW9yYVlciCU4sAD+p+Z47yEQ0QmsOldtnq2DpSRyY9pkV40IfmEBmy/L5u7agnP0PN
-         Qi1ja4Tzwdp1AwS+PgkQmYYDpRc9uZd5KH2BWFdpahjWwukZTrWplT7Np/pYQ5X4KJ1g
-         ynflWJ0/mM7qRSN9fDIwFVfblvIZxkj03XaUHd8HJtVSGhZ5m6jbUmxrO7RMTI1A8pTX
-         ZGghWeRij179YUd7GW1RexbSd6U7/45Y18zFr9vZbF0l2nPYp8hGkV+PAJisc7jFRUG9
-         7AQ3yf3NaAu9WIEIjmOCd7FhalMVfmoYzrwCG6vw42Mv35auRZLNiTkGNIPvcrE8FNeD
-         Sx3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707758786; x=1708363586;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5qTYop8QJp36+jtIGblbi7k/WDzukfUFb0T7VOK2lcU=;
-        b=UTIJDNgWaexUSczE5h82lApbY/9xBjjJWjzYGgQqiYX36ggBsXn//b/bi3s4V/MbMK
-         x1z5n+GmqxXpaHxvel093X8926wYH6oPSJMruDYbIacMigSnxTbED2qEdz7G2SqidRuo
-         JztCuRw0RML3APSeXKam0DjdKJBxVSvrGWvW1DDJS+3W1QmM4MdKgwZt4vMTD25qPZzz
-         jdPTJ50aDk4ixoC+IPe/NQjVmoYogAf+2bmUIBsE4spevsK9yC2w+yHtYfzfjWr2O4LB
-         etW66hw6U763OYtMumeHtSMvCPeUqtwux7wqUfgDIkl/h7suq+6x1aoHcig86M+oxxJy
-         jdNw==
-X-Gm-Message-State: AOJu0Ywt0fppTnaXiB/Xosy+AvS1MZCrx3JoD3eeBI9sL9hzqB4htqvq
-	Ti7RHGvEjk/FI5g59M8+/5AMFmaYFH0b4jfCWN9oZ92Fc4uvBYgYVPdFEY6cG20=
-X-Google-Smtp-Source: AGHT+IFg0NVPNFM5l0rC92f6lBNwnb2GJ+wbCi1upTvwnBA2YxnXHVtsK9iZZAP6HRMoOFnFFV1yyw==
-X-Received: by 2002:adf:f709:0:b0:33b:640c:a7d2 with SMTP id r9-20020adff709000000b0033b640ca7d2mr5390324wrp.24.1707758786633;
-        Mon, 12 Feb 2024 09:26:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVvbjdJf7EnWY5OfIXA6faJ7b6TknrkFAmcqH3a7ILu+FC3dnOIKbNffShVRrSxo8p0tugA49APOWnKdJ/7kBIkftUwKsdYD7+LsGYVwgkE/ook6qdruSBqCLj1NuccDmWDxfAWMHycjuYDHy9+saDE3rkq5Z1xywcvXr0hbJqnqe/yPhTgrIGz/BhG8guIp5q14zoAAstrUiTE86b01ZxOKheJGdFn/aGzWZmvB/P/zQQchFi1Tppl/FE+Hg4oyTWNb9usojjxcHl0aMbtJJbR3c+quFStM2LGX511kwhKIk9IGyXQsq/gyhv62POQJmfd/nZjLNNLWVgwmfp9q3U9NLaneyNxFLFYpLCQhy/u2wY7g2MdxPY3iTMlMa5IGKSqaPVjP5nFHZhlVCfYpA/5XXaan/Hqpj/G1Kn+0d0xCMb96mrc0AY8gRTVsEipnawPS9mhnU/moFved7XtHZincYEZHw4OFmibBljFK/8IjJdN4PZoSNTlIYXqGHeoHpJjvvn9F7SSSW3cy0KsKa/z+K6L+lVlUpF6RWDvikyTTqzTwUHEPIovkBjZVT7rSdH5/bNFeVfA/j3OvuVGVC8xZUq74iZw/koEyH+Rlx6SfNLbHQe/LVfhVqwcFzG3Wf0C5wrQULE6hzgflcICX+YPheKN/HHcdGlXIQdWW1EqSXMMKdccdBlI5dkKcwPxnpPhDndstWTqgffNL27Kjz9yPEYrL1blUOOkYHQAcpFSYtEd02ZPmWTXQWE8evboKOZ3EgLPufzr9eoO2K0c2bds0Jfhsk4NuH75n1YHpg9BYvRt3j72DZFjAA==
-Received: from ?IPV6:2a01:e0a:982:cbb0:fcee:f026:296d:135f? ([2a01:e0a:982:cbb0:fcee:f026:296d:135f])
-        by smtp.gmail.com with ESMTPSA id k14-20020a056000004e00b0033afc81fc00sm7266685wrx.41.2024.02.12.09.26.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 09:26:26 -0800 (PST)
-Message-ID: <05e6f92c-388c-4bc6-a4cd-e9d981166d1c@linaro.org>
-Date: Mon, 12 Feb 2024 18:26:24 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="aDTUCBMm"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41CHUUt8011290;
+	Mon, 12 Feb 2024 11:31:26 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PODMain02222019; bh=47IHhsRme6l9Ja8GxBg5XecVkHApII8gwWqYXN4mq3Y=; b=
+	aDTUCBMm0UscHfNtP3ue1YYqAK+eE7XQt2DGnbdaE5T0mhISpXLYjk9gBL78+Z0r
+	oPpeO/9vftGKSQRuA/Z0VonYxVk31LTlk+rUzrN9nQ0T9QEdKcRsNHbmOagwBRIP
+	Kja5yKlPvqmDCArMIoOcUIJAXGKcHD9TA39OWg0vgNm7fefH/E2Wj5peIwoHSS47
+	LequP/ycajuJJ9KxLbdTs8aXGt2ahICW4Lqi276hdCtJJ6E923jbmp5uYsjWvjtU
+	xCk4qC+L3icoLnj/G5qCXRf9DXWteUX2rUIQx5RdrDIl+Rx1IwZzoJX6pgg5iQUE
+	iuSwnnIGqANKyQZJzZTcoA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w67e224y4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Feb 2024 11:31:26 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
+ 2024 17:31:22 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Mon, 12 Feb 2024 17:31:22 +0000
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id DBD82820243;
+	Mon, 12 Feb 2024 17:31:20 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v7 2/5] dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+Date: Mon, 12 Feb 2024 17:31:08 +0000
+Message-ID: <20240212173111.771107-3-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
+References: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 7/7] arm64: dts: qcom: Add SM8550 Xperia 1 V
-Content-Language: en-US, fr
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
- Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
- Kees Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>,
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20240210-topic-1v-v1-0-fda0db38e29b@linaro.org>
- <20240210-topic-1v-v1-7-fda0db38e29b@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20240210-topic-1v-v1-7-fda0db38e29b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: TOtSl4qMNX9VPyzqSoX43LqpKj68L9ce
+X-Proofpoint-GUID: TOtSl4qMNX9VPyzqSoX43LqpKj68L9ce
+X-Proofpoint-Spam-Reason: safe
 
-On 12/02/2024 14:10, Konrad Dybcio wrote:
-> Add support for Sony Xperia 1 V, a.k.a PDX234. This device is a part
-> of the SoMC SM8550 Yodo platform.
-> 
-> This commit brings support for:
-> * Remoteprocs (sans modem for now)
-> * Flash LED (the notification LED is gone :((((()
-> * SD Card
-> * USB (*including SuperSpeed*) + PMIC_GLINK (it's funky, requires a replug
->    with an cable flip sometimes..)
-> * Most regulators
-> * Part of I2C-connected peripherals (notably no touch due to a
-> driver bug)
-> * PCIe0 (PCIe1 is unused)
-> 
-> Do note display via simplefb is not supported, as the display is blanked
-> upon exiting XBL.
-> 
-> To create a working boot image, you need to run:
-> cat arch/arm64/boot/Image.gz arch/arm64/boot/dts/qcom/sm8550-sony-xperia-\
-> yodo-pdx234.dtb > .Image.gz-dtb
-> 
-> mkbootimg \
-> --kernel .Image.gz-dtb \
-> --ramdisk some_initrd.img \
-> --pagesize 4096 \
-> --base 0x0 \
-> --kernel_offset 0x8000 \
-> --ramdisk_offset 0x1000000 \
-> --tags_offset 0x100 \
-> --cmdline "SOME_CMDLINE" \
-> --dtb_offset 0x1f00000 \
-> --header_version 2 \
-> -o boot.img-sony-xperia-pdx234
-> 
-> Then, you need to flash it on the device and get rid of all the
-> vendor_boot/dtbo mess:
-> 
-> // You have to either pull vbmeta{"","_system"} from
-> // /dev/block/bootdevice/by-name/ or build one as a part of AOSP build process
-> fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img
-> fastboot --disable-verity --disable-verification flash vbmeta_system \
-> vbmeta_system.img
-> 
-> fastboot flash boot boot.img-sony-xperia-pdx234
-> fastboot erase vendor_boot
-> fastboot erase recovery
-> fastboot flash dtbo emptydtbo.img
-> fastboot erase init_boot // ? I don't remember if it's necessary, sorry
-> fastboot continue
-> 
-> Where emptydtbo.img is a tiny file that consists of 2 bytes (all zeroes), doing
-> a "fastboot erase" won't cut it, the bootloader will go crazy and things will
-> fall apart when it tries to overlay random bytes from an empty partition onto a
-> perfectly good appended DTB.
+The CS40L50 is a haptic driver with waveform memory,
+integrated DSP, and closed-loop algorithms.
 
+Add a YAML DT binding document for this device.
 
-DTBc check reports:
-arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: pcie-1-phy-aux-clk: 'clock-frequency' is a required property
-        from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+---
+ .../bindings/input/cirrus,cs40l50.yaml        | 70 +++++++++++++++++++
+ MAINTAINERS                                   |  8 +++
+ 2 files changed, 78 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
 
-So you'll probably need:
-&pcie_1_phy_aux_clk {
-	status = "disabled";
-};
+diff --git a/Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml b/Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+new file mode 100644
+index 000000000000..6a5bdafed56b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/cirrus,cs40l50.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cirrus Logic CS40L50 Advanced Haptic Driver
++
++maintainers:
++  - James Ogletree <james.ogletree@cirrus.com>
++
++description:
++  CS40L50 is a haptic driver with waveform memory,
++  integrated DSP, and closed-loop algorithms.
++
++properties:
++  compatible:
++    enum:
++      - cirrus,cs40l50
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  va-supply:
++    description: Power supply for internal analog circuits.
++
++  vp-supply:
++    description: Power supply for always-on circuits.
++
++  vio-supply:
++    description: Power supply for digital input/output.
++
++  vamp-supply:
++    description: Power supply for the Class D amplifier.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - reset-gpios
++  - vp-supply
++  - vio-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      haptic-driver@34 {
++        compatible = "cirrus,cs40l50";
++        reg = <0x34>;
++        interrupt-parent = <&gpio>;
++        interrupts = <113 IRQ_TYPE_LEVEL_LOW>;
++        reset-gpios = <&gpio 112 GPIO_ACTIVE_LOW>;
++        vp-supply = <&vreg>;
++        vio-supply = <&vreg>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dd5de540ec0b..b71017a187f8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4933,6 +4933,14 @@ F:	sound/pci/hda/cs*
+ F:	sound/pci/hda/hda_cs_dsp_ctl.*
+ F:	sound/soc/codecs/cs*
+ 
++CIRRUS LOGIC HAPTIC DRIVERS
++M:	James Ogletree <james.ogletree@cirrus.com>
++M:	Fred Treven <fred.treven@cirrus.com>
++M:	Ben Bright <ben.bright@cirrus.com>
++L:	patches@opensource.cirrus.com
++S:	Supported
++F:	Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
++
+ CIRRUS LOGIC DSP FIRMWARE DRIVER
+ M:	Simon Trimmer <simont@opensource.cirrus.com>
+ M:	Charles Keepax <ckeepax@opensource.cirrus.com>
+-- 
+2.25.1
 
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->   arch/arm64/boot/dts/qcom/Makefile                  |   1 +
->   .../dts/qcom/sm8550-sony-xperia-yodo-pdx234.dts    | 779 +++++++++++++++++++++
->   2 files changed, 780 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> index f7c5662213e4..9bbea531660d 100644
-> --- a/arch/arm64/boot/dts/qcom/Makefile
-> +++ b/arch/arm64/boot/dts/qcom/Makefile
-> @@ -237,6 +237,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8450-sony-xperia-nagara-pdx224.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-hdk.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-mtp.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-qrd.dtb
-> +dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-sony-xperia-yodo-pdx234.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-mtp.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-qrd.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-crd.dtb
-> diff --git a/arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dts b/arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dts
-> new file mode 100644
-> index 000000000000..85e0d3d66e16
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dts
-> @@ -0,0 +1,779 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/*
-> + * Copyright (c) 2023, Linaro Limited
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include <dt-bindings/firmware/qcom,scm.h>
-> +#include <dt-bindings/leds/common.h>
-> +#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
-> +#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-> +#include <dt-bindings/sound/cs35l45.h>
-> +#include "sm8550.dtsi"
-> +#include "pm8010.dtsi"
-> +#include "pm8550.dtsi"
-> +#include "pm8550b.dtsi"
-> +#define PMK8550VE_SID 5
-> +#include "pm8550ve.dtsi"
-> +#include "pm8550vs.dtsi"
-> +#include "pmk8550.dtsi"
-> +/* TODO: Only one SID of PMR735D seems accessible? */
-
-
-What's reported by the cpuinfo pmic array  ?
-
-<snip>
-
-With the pcie thing fixed:
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
