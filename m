@@ -1,121 +1,125 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01D540C03
-	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 18:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3F741208;
+	Mon, 12 Feb 2024 19:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707763913; cv=none; b=gPlvXwfSTDq0zIPdoPXLZDq9JznFX7Odz1NJjbe4LZfPjpqskaVJJVWQwKNSmjFKHMePGJbtmMchGK7IIWcyTS/895AOU9ctOhq2GpSSZVc6mkLKGFnJVBed8oSjCzclvvUrTr7DkIdXPsHwNwVf4nYMVGqRi8E2WllzCwh0ryw=
+	t=1707766426; cv=none; b=PhCpRzzeDlGbNs44rylRP4hwGXl9yeZGjc/MiH3EzT8V3yFTBpHBFHiPWmTCBq9ofSAFzLT3/Kr9hnL4cNsIPCzJkUdA0Rm9V7fZn/8iTGivcSobXpStcvIwsoOpWnfUnqm4zL0dJjgR9Rjep0ei2fSV003CGDYZ/ZLBZBPqN0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707763913; c=relaxed/simple;
-	bh=GTS3knEn3U37SHf/wqemlrktyAqbrDzvlYNJt5L8bzg=;
-	h=From:Date:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mPrpheDDQJRe/XqILp+tFTb4uNBTPKzcxqpdsurVEC4j2CtlpkLlEcpmAtClREqWDLfspK8fYG5rcfeHok8i524O6k4NH8K4W3SAcfXNGzHhSue9CoWBgCn4EzJismkWPWojkVUhJlH4w0vl7S2Hl7qc7Kxe7gbg19BfjK7f3rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LZc6u6+M; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1707766426; c=relaxed/simple;
+	bh=VHD7V7W4qwRQhqwPSDefa6gX+ovxXlDZA21Vs4ZGEfg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VxuhgMLV3OYrTo7cH44H8FzW6yU4NkKd39tcpR6t85Jd8JirbMW93vwkL4Aci1ZbmUjKTx+Iyubr9AV7JVmZs+kzSqwJgx6kgakbmE6MYvJdb71kGDbzXJnx58SjojK8hPfIkp1fJ/8nW9ZsY/gElDJ3ka4LsBbN/i8umYRyo5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zeprw5OP; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LZc6u6+M"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d72f71f222so27532805ad.1
-        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 10:51:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zeprw5OP"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d0dc3fdd1bso37237631fa.0;
+        Mon, 12 Feb 2024 11:33:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707763911; x=1708368711; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mPGSiRqCPFqmFEWSJFO1d43GTTlaRz0f+e2eVAoQklI=;
-        b=LZc6u6+M3QXmf+mklCLv4nvYl4cE4F8WthRQeV0lG699Fm3xSLuFBJiSy7JFa6zeI9
-         +L1GWeahScedXT5h+2MY86yMXaPRXfnlghV0+BeSputyWoF83Rhiqrg1RJjazZ4dmw3R
-         Pghs2IEr54xMsGevUqsjmPkccrysWHMzatiYU=
+        d=gmail.com; s=20230601; t=1707766422; x=1708371222; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oum1jt+Q8dDAhYrJmUGRUjhcfu3Z0CZYzh6RXzXRq4o=;
+        b=Zeprw5OPYTpbybUt6cHCMv2QIRsycKomuoMpngNnzgp1u1j4NsWAfEuaOzTXkyDdJb
+         mx4BtWFx3pauEWGtxVCdurUOL71KIIeKSo7cqa8a6CoRww1BFozdiA/XQkRhrhkjsBe4
+         Wn0JUZECtIuluYBIxrXFa259ry3JEOlX+J5yt6IVBM8SEW0pC2eXxYBvw/fMzsv5IOnh
+         HiET0MuL2TLY7iUnr9tigpAnb1NRwfBpzOjHHBoVD90SeWUPr8OCWVIzwU5xttdeFoSz
+         wSNnGGGA+XshkCci7S7BOBKr1by4zOt6az07dckIHaNpn+iohP6EV8P3ocZO/qUez9hY
+         Pbog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707763911; x=1708368711;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mPGSiRqCPFqmFEWSJFO1d43GTTlaRz0f+e2eVAoQklI=;
-        b=oXzCmUhDl766mxjdviJD/2QJIFFf/gEE/tAhaLsrt+FebgJlrONY+cul2nj9nIMwfh
-         Ar6/9KMxaRpbk6FDoHc8gFbNpVDLf1qYomLy43ZvD2lADv9G41Ljpx1jq8zdzEB19VmI
-         h4FuqrY8pkdIvnnYSSBdH6a72zhE6fWcVuWdT5AHdpCXjddCk3h/2eQmhbA94COimoTm
-         KfUQ0RCROP6DoSkcBmKzHKt900neo+hvDZ2jMLxvy4SmeLscu1XcnV3Z49LcBV7GBqjS
-         WHUrWvl3OpgqykfSTODKTsN8SZwuL21pEDFW5/mMYIwXI75RFaJzAaaFCMBvbBLdSPp4
-         T8Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCWEHa23ivV0Ag1dTfwh48vnvQ0taD+heI60ancOyFiNuGOpQaeQyZRBWYvVVcFvZhY5fQ3QrRrjI007QrANAu3zBikRPqnb6e1dmYo=
-X-Gm-Message-State: AOJu0Yxcc/COYlVTgSUpUy5bZY55n0rnjI4JLasfhTzTNN25rS9IQQ8I
-	n1Omf9IvTB7eTG6SahaFPbX1vNe26mDvK4qsgRFLUkvlfZLoew31qkVicpoWdg==
-X-Google-Smtp-Source: AGHT+IFiP4XqEVFPUe0AQ5sfHfutAVORBuy6ctbchagD56aaWb7k8kuXps4xMsVwiJ9ZHG46ydaEYA==
-X-Received: by 2002:a17:902:e5c7:b0:1d9:a647:5579 with SMTP id u7-20020a170902e5c700b001d9a6475579mr5817557plf.1.1707763911196;
-        Mon, 12 Feb 2024 10:51:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWVMXpMNIhotAYcYiqvNVCkUE02lF5spebU9llp4fc83Uutkz2jejMC03XmEIikgbWSldV5H3FNfAtE/6Jgii8cDrbgJCUgH3FC06zl/KgIj9f0r9uzQf62jhBRN7BKOi1tZOnRyWmjtO7PY6+GSekpCARKo/B9UBpkn+azS/Cmmzi9TXICwENuOXYbDsVLW+aNl5BNyMY3j4f4tfwfGghjhJcNsUZ6UbcCDRZwnBmZD5vN27Xpt2chVq15/1Tj6eg7VCkbJz8orDtPaf0/GidfJtGvk+NZZPo9yUI35lJxR138j6xF646MPyb2DcV92qgf2IShUDlLrbaOWviiuXiOzIENe3ZZ1bXgGWRrVUEl1L12s9CLURo4SeY620eR/lcDl2m//IprO4DY6HkY9R14CW6xhIJkrV47ecHxKR84yndQsDXM3NJqMcpiu4M6Y+P8kbk2+ZWg8t1RBE4uXWXtDWTxFaVA9585IKWuec4srYj5WnES1gkpMYxVgbudrRnPzxYH+H7a4hODicJw9+ImmaeqZYgOPYsAmQk=
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id u11-20020a170903308b00b001d9fa58f5a4sm675012plc.48.2024.02.12.10.51.50
+        d=1e100.net; s=20230601; t=1707766422; x=1708371222;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oum1jt+Q8dDAhYrJmUGRUjhcfu3Z0CZYzh6RXzXRq4o=;
+        b=bOMpjJrz0wYjGl3PpCzY16JVhcl/lM9yIFxf9EAvmP3Y0J1sLhvX5rZETsCKI+fiFx
+         shverDm4Du9FTpZjY/a7QtPFIYDNp405Ut5IHLzwHULxo43xETpSB+9DW49ftnnoO0Yg
+         D77jcbT2hCXIUDitpVBbc/E814pTUpzdf184zVHORU0aH7avO3uKSltf3/5y0tGWBcLL
+         L+UDPaZV5E77HQrvDv7l+n2RgPLObWOIXB31DUjej7XYrUZypc4ECRKRQqgspBy/Y+5s
+         YUC4ddAzpFuOdfS9Uyor5FVgYhvSw6NEOjORGMrtkWcfJZc7WmuTaWbLT3PY7NWIozxS
+         Otew==
+X-Gm-Message-State: AOJu0YyodPxpiZTIMFx9Uy59pRrh4RURNFz+vBcpOB4Xq4slaWBzzv3O
+	3osQNipXS3ZEMnzZnXlYh9CIS7Ws7F0nUfrCq2W0NlUlsMxmUAMn
+X-Google-Smtp-Source: AGHT+IF4novuZ4Y+eA7hevM2fEuPwi4qeOPqKqpoEiAhRwgn1+MjD52hUUFLrsPXmYD3imwC5WJV+g==
+X-Received: by 2002:a2e:9786:0:b0:2d0:7a98:a493 with SMTP id y6-20020a2e9786000000b002d07a98a493mr4846826lji.39.1707766422053;
+        Mon, 12 Feb 2024 11:33:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWoXX0vLop0ktvQhx4o6Q8IadytmX76FfJx/4Dz2GhnX8qNSE9lpa0Fp3T0rMcCPyfLqcRdfwMpebyEsY9Am8HG4orbqp+J1fS0slepcN47i42j07t58Wk3QyXZgqS09uapXkwrjpNsu3dSvATOEuv+fLHfhQZvE8XanUVnzdZucA9lTdOfr5tfQceK53hNGSjcoIeZ06I/JTDEoxEl249x0k51sSPLE6fhgVY6ocLYIRyMjwRTga2q2u7xMWVdJy+ZvGrVWOlzbal/YSqRo+W0wC6UKOTOeHP7j56isxWx9PTPrjtRO5s7i6OUJQFynIN8noEJ0tW6X+o2f1sfLuYZwHsG2JVrlhw73Usfa/mf//bhJAP0uQjNctesk6pI9b4QE2uGBUVFQcYQsoiImh+tpGLLIedkjm+yp3Ze0qoKhlIvpX3nfV1WT7BNjaHyCnA6BVt75Pl8Uk6joTGwYNy+M1mnUO0gaUIRwTOkJ4TDIRUswW2n+9Hv9iZaOSJFQCf6aCr1vhUXwjVuzUH/Dm8LuAbIfmDsHxSAuhES19435g6m5rA=
+Received: from tkudela.. (c156-103.icpnet.pl. [85.221.156.103])
+        by smtp.gmail.com with ESMTPSA id d13-20020a170906370d00b00a3c66ac5146sm501104ejc.120.2024.02.12.11.33.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 10:51:50 -0800 (PST)
-From: coverity-bot <keescook@chromium.org>
-X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
-Date: Mon, 12 Feb 2024 10:51:50 -0800
-To: Anton Yakovlev <anton.yakovlev@opensynergy.com>
-Cc: Jason Wang <jasowang@redhat.com>, Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	Aiswarya Cyriac <aiswarya.cyriac@opensynergy.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Coverity: virtsnd_kctl_tlv_op(): Uninitialized variables
-Message-ID: <202402121051.B091CCC4B@keescook>
+        Mon, 12 Feb 2024 11:33:41 -0800 (PST)
+From: "T. Kudela" <ramzes005@gmail.com>
+To: james.schulman@cirrus.com,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: "T. Kudela" <ramzes005@gmail.com>
+Subject: [PATCH] Add Lenovo Legion 7i gen7 sound quirk
+Date: Mon, 12 Feb 2024 20:33:27 +0100
+Message-Id: <20240212193327.59507-1-ramzes005@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hello!
+Add sound support for the Legion 7i gen7 laptop (16IAX7).
 
-This is an experimental semi-automated report about issues detected by
-Coverity from a scan of next-20240212 as part of the linux-next scan project:
-https://scan.coverity.com/projects/linux-next-weekly-scan
+Signed-off-by: T. Kudela <ramzes005@gmail.com>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ sound/pci/hda/patch_realtek.c        | 1 +
+ 2 files changed, 3 insertions(+)
 
-You're getting this email because you were associated with the identified
-lines of code (noted below) that were touched by commits:
-
-  Fri Feb 9 14:01:15 2024 +0100
-    d6568e3de42d ("ALSA: virtio: add support for audio controls")
-
-Coverity reported the following:
-
-*** CID 1583619:  Uninitialized variables  (UNINIT)
-sound/virtio/virtio_kctl.c:294 in virtsnd_kctl_tlv_op()
-288
-289     		break;
-290     	}
-291
-292     	kfree(tlv);
-293
-vvv     CID 1583619:  Uninitialized variables  (UNINIT)
-vvv     Using uninitialized value "rc".
-294     	return rc;
-295     }
-296
-297     /**
-298      * virtsnd_kctl_get_enum_items() - Query items for the ENUMERATED element type.
-299      * @snd: VirtIO sound device.
-
-If this is a false positive, please let us know so we can mark it as
-such, or teach the Coverity rules to be smarter. If not, please make
-sure fixes get into linux-next. :) For patches fixing this, please
-include these lines (but double-check the "Fixes" first):
-
-Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1583619 ("Uninitialized variables")
-Fixes: d6568e3de42d ("ALSA: virtio: add support for audio controls")
-
-Thanks for your attention!
-
-(Human comment: looks like there's no "default" case in the switch
-statement.)
-
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index d74cf11eef1e..8a6b484b2184 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -95,6 +95,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
+ 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
++	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
+ 	{ "17AA38B4", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
+ 	{ "17AA38B5", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
+ 	{ "17AA38B6", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
+@@ -431,6 +432,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "10431F12", generic_dsd_config },
+ 	{ "CSC3551", "10431F1F", generic_dsd_config },
+ 	{ "CSC3551", "10431F62", generic_dsd_config },
++	{ "CSC3551", "17AA386F", generic_dsd_config },
+ 	{ "CSC3551", "17AA38B4", generic_dsd_config },
+ 	{ "CSC3551", "17AA38B5", generic_dsd_config },
+ 	{ "CSC3551", "17AA38B6", generic_dsd_config },
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 6994c4c5073c..0029f61d4693 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10260,6 +10260,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion 7i 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
 -- 
-Coverity-bot
+2.34.1
+
