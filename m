@@ -1,154 +1,94 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE86C5C8FB;
-	Sun, 11 Feb 2024 17:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A2C10E3;
+	Mon, 12 Feb 2024 00:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707671971; cv=none; b=htfVwN5PBX4smesG5hldRlwBUjQufG6REdsnjmj1IpECHJauguspJ4dNxUUbuDjpCbpfbMqiGqBUdLJS9I/IJjJdnbf2gVYsRs/yFGbbsf3pB9oU+66D5s3kqzWL8LJE7Pkukk91MeDh0U1fx5Ls0ZMJBcLGEi1yiJ37s3LY43I=
+	t=1707699454; cv=none; b=k9181TCJayc2iMRGHV2ykFp0IsnoIuAsS7FoAo3ZSKuEJ8xZTMk0m8BCOLADwaWV4uS6ty+ctnFUyK+I3fXgtx7Nh5YqHkOW5YldyZez1EP2zTxrpWv4uLXkPlUjgjUu28B6gXKBdWgUzGFtbVsCAskjxFEB7Ulg7mYlABMSj+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707671971; c=relaxed/simple;
-	bh=tmRILceoo1jZqIaugfbYrGkCcLlq2wsdDRgfARcE6Vg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d/a10RBH0XoW16WVhL+3LA7vtfoiy3NZueWeCGfE5YpvncrB7b6uP5tZCIK+j2kIQSwxm/7B7Hk27LL6AzZm3p43MNCEzl9StfZpZIc+CEqYClZvyyOn8/L0njpft8XbHEqOriCkQYUkBrNLjw8XIUxnRnjX0JqTMJ57IWj1qm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rZDUE-0006km-Df; Sun, 11 Feb 2024 18:19:26 +0100
-Message-ID: <7a0cd63f-8a83-4dc5-8763-63dcdae8d68a@leemhuis.info>
-Date: Sun, 11 Feb 2024 18:19:25 +0100
+	s=arc-20240116; t=1707699454; c=relaxed/simple;
+	bh=UjSBFa2JSiRKfOnN+/YDukdaZ2mWb6/Pp9XHdBkmxZ0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OJFEu0oPS5SuON9HIZB6gn3u0kAHV4Mwb/Vz03WY7zDpJ+4eNhWgcPLR/HG+5XtbCUlz/ZKmip7vh4+lDnsC1zqQeNJIhJwe2Iz1xz7ZwDrd1HSH9vwx+WiZJJNWITB2rgc33FwmJweITQoaEMPLPYsa3HxGovHMlJUCiGd5AiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BP31ZqYu; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BP31ZqYu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55600C433C7;
+	Mon, 12 Feb 2024 00:57:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707699454;
+	bh=UjSBFa2JSiRKfOnN+/YDukdaZ2mWb6/Pp9XHdBkmxZ0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=BP31ZqYulSD7X8sIRfQQ0+WLVCQcArYu2SiYdJqRdFNICs64L4QMUSa3xDwA6O36e
+	 9lOlYWE7cdUwL774XkXcIMNJybyeKIMSJXWWBf1mtmHNjJZccVo8bb4aB1lqpiL5cO
+	 3wujtMXB8KzXh+iSgdPraXeART5urvBJjvmNkd6FfWdRQ6JAVVsoVrnX5bmmZpCG8m
+	 J1yOKq70peskan+BzlLIJ7S8iPFS9Vb5wiJNhAyVCFT1hifkQbZtgy+fGnP/f6Ge7D
+	 11QtcxWWBr2i9pcb3QTgazuigJTjM8CVQEUfSqbZNhyapnAKjJw8b2KatSEIDlv1FW
+	 lna+eRC1/EUfQ==
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+In-Reply-To: <20240208234315.2182048-1-cristian.ciocaltea@collabora.com>
+References: <20240208234315.2182048-1-cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH] ASoC: SOF: amd: Fix locking in ACP IRQ handler
+Message-Id: <170769944944.2475236.12312495340853191634.b4-ty@kernel.org>
+Date: Mon, 12 Feb 2024 00:57:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Acp5x probing regression introduced between kernel
- 6.7.2 -> 6.7.4
-Content-Language: en-US, de-DE
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: regressions@lists.linux.dev, stable@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- broonie@kernel.org, linux-sound@vger.kernel.org,
- alsa-devel@alsa-project.org, LKML <linux-kernel@vger.kernel.org>
-References: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1707671969;4e117639;
-X-HE-SMSGID: 1rZDUE-0006km-Df
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-[CCing a few people]
+On Fri, 09 Feb 2024 01:43:14 +0200, Cristian Ciocaltea wrote:
+> A recent change in acp_irq_thread() was meant to address a potential race
+> condition while trying to acquire the hardware semaphore responsible for
+> the synchronization between firmware and host IPC interrupts.
+> 
+> This resulted in an improper use of the IPC spinlock, causing normal
+> kernel memory allocations (which may sleep) inside atomic contexts:
+> 
+> [...]
 
-On 11.02.24 15:34, Ted Chang wrote:
-> 
-> I noticed 6.7.4  has introduced a regression for the steam deck. The LCD
-> steam deck can no longer probe the acp5x audio chipset anymore. This
-> regression does not affect the 6.8.x series.  I did not test kernel
-> 6.7.3 because Opensuse tumbleweed skipped the update on my machine.
+Applied to
 
-Thx for your report. FWIW, problems like this can be caused by all
-sorts of changes, but obviously those in the area of audio support
-are most likely to cause this. There are just a few in the 
-v6.7.2..v6.7.4 range[1]. Among them a commit that is related to
-acp5x, that's why I CCed its author as well (Venkata Prasad Potturu). 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Maybe one of the new recipients will have an idea. If not, you most
-likely will have to bisect this and check if mainline is affected
-as well.[2]
+Thanks!
 
-Ciao, Thorsten
+[1/1] ASoC: SOF: amd: Fix locking in ACP IRQ handler
+      commit: c4b603c6e2df3a17831731d8bbec5c16fa7bbdf8
 
-[1]
-$ git log --oneline  v6.7.2..v6.7.4 sound/ 
-f3570675bf09af ASoC: codecs: wsa883x: fix PA volume control
-2f8e9b77ca2fea ASoC: codecs: lpass-wsa-macro: fix compander volume hack
-5b465d6384e4eb ASoC: codecs: wcd938x: fix headphones volume controls
-1673211a38012e ASoC: qcom: sc8280xp: limit speaker volumes
-242b5bffa23a9c ASoC: codecs: rtq9128: Fix TDM enable and DAI format control flow
-2c272ff9859601 ASoC: codecs: rtq9128: Fix PM_RUNTIME usage
-4a28302b2c681e ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140
-e37a96941fdd53 ALSA: hda: intel-dspcfg: add filters for ARL-S and ARL
-ffa3eea886c6fe ALSA: hda: Intel: add HDA_ARL PCI ID support
-4b6986b170f2f2 ASoC: amd: Add new dmi entries for acp5x platform
-e38ad4ace20b4d ALSA: hda: Refer to correct stream index at loops
-a434c75e0671f9 soundwire: fix initializing sysfs for same devices on different buses
- 
-[2] I'm working on a guide that describes what's needed:
-https://www.leemhuis.info/files/misc/How%20to%20bisect%20a%20Linux%20kernel%20regression%20%e2%80%94%20The%20Linux%20Kernel%20documentation.html
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> Steps to reproduce the problem
-> 1. Obtain a steam deck
-> 2. Install kernel 6.7.4
-> 3. Boot the device and you will see dummy output in gnome shell
-> 
-> Observed kernel logs.
-> 
-> [    8.755614] cs35l41 spi-VLV1776:00: supply VA not found, using dummy regulator
-> [    8.760506] cs35l41 spi-VLV1776:00: supply VP not found, using dummy regulator
-> [    8.777148] cs35l41 spi-VLV1776:00: Cirrus Logic CS35L41 (35a40), Revision: B2
-> [    8.777471] cs35l41 spi-VLV1776:01: supply VA not found, using dummy regulator
-> [    8.777532] cs35l41 spi-VLV1776:01: supply VP not found, using dummy regulator
-> [    8.777709] cs35l41 spi-VLV1776:01: Reset line busy, assuming shared reset
-> [    8.788465] cs35l41 spi-VLV1776:01: Cirrus Logic CS35L41 (35a40), Revision: B2
-> [    8.877280] snd_hda_intel 0000:04:00.1: enabling device (0000 -> 0002)
-> [    8.877595] snd_hda_intel 0000:04:00.1: Handle vga_switcheroo audio client
-> [    8.889913] snd_acp_pci 0000:04:00.5: enabling device (0000 -> 0002)
-> [    8.890063] snd_acp_pci 0000:04:00.5: Unsupported device revision:0x50
-> [    8.890129] snd_acp_pci: probe of 0000:04:00.5 failed with error -22
-> [    8.906136] snd_hda_intel 0000:04:00.1: bound 0000:04:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu]
-> 
-> 
-> No kernel module in use shown.
-> 
-> 04:00.5 Multimedia controller [0480]: Advanced Micro Devices, Inc. [AMD]
-> ACP/ACP3X/ACP6x Audio Coprocessor [1022:15e2] (rev 50)
-> Subsystem: Valve Software Device [1e44:1776]
-> Flags: fast devsel, IRQ 70, IOMMU group 4
-> Memory at 80380000 (32-bit, non-prefetchable) [size=256K]
-> Capabilities: <access denied>
-> Kernel modules: snd_pci_acp3x, snd_rn_pci_acp3x, snd_pci_acp5x,
-> snd_pci_acp6x, snd_acp_pci, snd_rpl_pci_acp6x, snd_pci_ps,
-> snd_sof_amd_renoir, snd_sof_amd_rembrandt, snd_sof_amd_vangogh,
-> snd_sof_amd_acp63
-> 
-> 
-> Information for package kernel-default:
-> ---------------------------------------
-> Repository     : openSUSE-Tumbleweed-Oss
-> Name           : kernel-default
-> Version        : 6.7.4-1.1
-> Arch           : x86_64
-> Vendor         : openSUSE
-> Installed Size : 240.3 MiB
-> Installed      : Yes
-> Status         : up-to-date
-> Source package : kernel-default-6.7.4-1.1.nosrc
-> Upstream URL   : https://www.kernel.org/ <https://www.kernel.org/>
-> Summary        : The Standard Kernel
-> Description    : 
->     The standard kernel for both uniprocessor and multiprocessor systems.
-> 
-> 
->     Source Timestamp: 2024-02-06 05:32:37 +0000
->     GIT Revision: 01735a3e65287585dd830a6a3d33d909a4f9ae7f
->     GIT Branch: stable
-> 
-> Handle 0x0000, DMI type 0, 26 bytes
-> BIOS Information
-> 	Vendor: Valve
-> 	Version: F7A0120
-> 	Release Date: 12/01/2023
-> 	Address: 0xE0000
-> 	Runtime Size: 128 kB
-> 	BIOS Revision: 1.20
-> 	Firmware Revision: 1.16
-> 
-> #regzbot introduced: v6.7.2..v6.7.4
-> 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
