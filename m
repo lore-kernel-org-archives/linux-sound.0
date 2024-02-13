@@ -1,234 +1,232 @@
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2124.outbound.protection.outlook.com [40.107.247.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1DC24B29;
-	Tue, 13 Feb 2024 10:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.247.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707818451; cv=fail; b=IdY2evk3HQPvYiqALIcFW/cH39FYui5dT/in2ot0Id1WeWlR5CMvo0OnI4MHaGLafdsmpEl+P3VD5YNkqNkKRmu35eJUbpJEfrY/0uKhpXIK3raD7K3NZaBSz63qvNbmEmp+ImtR11UcBBdj9dCu809jbbTUxC21YqMdhnb3mAI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707818451; c=relaxed/simple;
-	bh=zq2Ctr7Ikpi3NVpXHsOHCIZRNNg5a//MpocQahu9/3Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TCjjtyYeK3XNIiASaTAv65NmINxYXwlXUaVu3zg5RU2TeZqpvdo8i5PzxpQnHOH/hWI4/ByU7o4Knyp7IucLUzqeYZ6uE/4zyCRyQ+EjOPwJkGvYiG85CcfmNeI3AiLhwdB73WhoSfgctmEe4KtV45Q5BImMHVTWLuPkJDbvqWw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=ghA2HRJH; arc=fail smtp.client-ip=40.107.247.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DBA224E6;
+	Tue, 13 Feb 2024 10:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707819026; cv=none; b=tr1NuoGIev474NycY9/cmZn6Yx4kh8L7g/8QWlX9Cq7vmkw5LqR2fveXXARcXwJ/4kyiQVrnBJhfae66Ne9CPkfqYC29hN8m7B0sXHg+I37jxh1U5Mn06jGh8VrmXL5fHee898/Nbm6HBXtsMtL88wrmhSqS58K+ErlbfMJQK/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707819026; c=relaxed/simple;
+	bh=w5dtS5XYoH5xYbJtlCqzMWy5gRh0p5BGjVx/CjsDQco=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HbSx/K8fLM094SY4yp9+kJGykVLYv10OWOLQp8vkjXFad28e9zTFz9m18gW5OZRViIgs7mJte4lp5pzpVlv+1SGoI1I7oOPG2D+pN+h/uxK5kNX5JMPoBE60dGDR49vTawcSeTClvQlfFKt129LOIs0MzYCgQo7WOFzPg6TbKHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxfnLvrP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="ghA2HRJH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BHvZ3Tey4x7reoRkcy7dXqll1ISLx9n3sMqmM198qoAFGwpjCnWi/IuJat06/w6HM+u4LW6W+04H5VydBDYnD5wdsmMX5Lyoc7h39lzR50nrMSw6QjVjBwBsoh8RIhgKSGbvJJrmZyPfzsIUJ3aR/lEOERNgS61HExBf+KWEfkFUMl+L336mJBhDG+zf75O749hsFmqFpYxKWu7G9+eMPmhQfdQ2dTgwTjIEqTzyrnhrRh+pK0UoWjdqzvMmF2QKIAjtF2MnRYESpjiXtgC8mU+2cLzUZL8xg+yZi21Qg95+Uz+Qh2AqE+VbCYtpcm6/H7bQ2ZKC5gDN3CpvMBm69g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xHR5ijszBJNSecrVm8u7zia1vQA3cXNLw5iWdxahQ+Y=;
- b=c6tsBtJLC2W56uU2SSKucqEdVAFj8gLdSNv1l9Tg/P74OUDSUfVECcCOkyYFKIwUd4kQTkLtf1uUf1cnhDhK63foqLPfmFqG3JTfr0l5zzH8HDVhsniLnSjGdTDTRXRxfiM38IjWhvXkVyeAC3ej118VHCcqCVmNilSTf7/aEUbsPNZ/9eZQOQ1N59FIz7z12kkXOPKNW/CajQ0nfjf9RdNYMOQmEHWynzYMs6luIneNWSizS4flFuAJPN6nByL7Di6x4q5PxF7TOIXnKTBOMsxCw8u+PU/XxmSdOSf7JTlHz8YZehXpWzMIWev26tufh1bv3cHJeaMQY3lwOvkp+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xHR5ijszBJNSecrVm8u7zia1vQA3cXNLw5iWdxahQ+Y=;
- b=ghA2HRJHm9VQMIl/UEy7uXeSsBAM6Ae60S4l3PNfiUt5n7C0pSx7L1jLWjmibDMfgWvkaWzlOlqptlmcYJjwHPaJ78mhF+ixvHYjgWeOY0oI6Ao6a43kLeLjzNICjigZvg7KKsmuLl0uEzQXU9Yoz1btdwF1dz99ipwZ2BIFL7A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by AM0PR08MB5300.eurprd08.prod.outlook.com (2603:10a6:208:18e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.38; Tue, 13 Feb
- 2024 10:00:46 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::e661:f010:4f67:a6c]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::e661:f010:4f67:a6c%6]) with mapi id 15.20.7270.031; Tue, 13 Feb 2024
- 10:00:45 +0000
-Message-ID: <2a23817d-b797-4659-a4e6-5c8a75864c90@wolfvision.net>
-Date: Tue, 13 Feb 2024 11:00:43 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] usb: misc: onboard_dev: add support for non-hub
- devices
-To: Matthias Kaehlcke <mka@chromium.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20240206-onboard_xvf3500-v3-0-f85b04116688@wolfvision.net>
- <20240206-onboard_xvf3500-v3-2-f85b04116688@wolfvision.net>
- <ZcJ9OnYOtUVMu2Yk@google.com>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <ZcJ9OnYOtUVMu2Yk@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1P189CA0029.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:802:2a::42) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxfnLvrP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73167C433F1;
+	Tue, 13 Feb 2024 10:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707819026;
+	bh=w5dtS5XYoH5xYbJtlCqzMWy5gRh0p5BGjVx/CjsDQco=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OxfnLvrPJSOSHEYQr0yLc7o8hpE/rZo/D0kLg49rakf0sB5DBcUm4umlYh+7aV/5X
+	 dTUng5qFz/HCPSt5RVAxRew1c2tZyMTMPxFbhDj+ZzDUzVgnKwPBKyzHSHpzxrr+ba
+	 mi/Wie0N9GZUa6UwUSCabvjL90LZjQIDlmJboSYTmz/VONvl5c7nURFs4dkC3bTtIL
+	 hM5Z9NaZ6UY4JVhepQhHNCu2/Pj7ERGQk4aJ/zbf0kZ0ZIu5ZUFGsAL5jPqYXSxfBC
+	 IgFIizNnVifkP9IenL4xQwEa+juY/WQwsXvNtasgbIQOlN1G+IVhdtEzO32UHe20bC
+	 RZzBY1lzSWIVA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Curtis Malainey <cujomalainey@chromium.org>,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] ALSA: fix function cast warnings
+Date: Tue, 13 Feb 2024 11:09:56 +0100
+Message-Id: <20240213101020.459183-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|AM0PR08MB5300:EE_
-X-MS-Office365-Filtering-Correlation-Id: 940d5c64-0078-46d5-79b5-08dc2c7aa565
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	XAWOCE7U46S1NFUSqXX0sPWzZ/BzJ+j+6FVyg5rcert/1oWr7rnQF9ntAUyxDQW78EeoN2T8KQaMhlXXDzIXW94PW0I+646oWM0585ApJJ9HYQb5YQ2j5UZk6jGZFfa6Pr5isfapembVXeYJlH9O//G1lEMZeSDHcsrq9fMMSwp42rU1Vz5owPamgaVY/bIpyVfqFEjJw35fLOoT/71sDpd9JP9l4A0kIh9cnzhNIx2Cnut+Gq6ShoePtBGIKFF/74KBpmLofGSOh5jfWq57nJ7fGrRWeypvCf7R8zEyiT1qwwlrug5oNz3+Ee7f2MnAorbqhsuKMvwSpX0B7LLSJ+5LJ85GHBAvpc5ytbD/I8h09a4qdFqc6MFxhxFzm7pi0z7BlUCK31aTRVhP6CIhNf5CLU3v/Dom0k+JlW6NCslczm3L2habpiGZd2o9Tg8TfVY9vksseonaZGSjEt4rC7f8Av6y6KNIgHKmdDfO+C9zwbc84dzjcbclT8UTaiPalVlE6U52KSkPm/bG6ocGwX2IlKZAnGfCYUeffjrJHcTTjGvXBbQZyY08Q7cy7y2X
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(136003)(366004)(396003)(346002)(376002)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(2906002)(44832011)(31686004)(41300700001)(26005)(2616005)(478600001)(4326008)(7416002)(54906003)(5660300002)(6916009)(53546011)(8676002)(8936002)(66946007)(66556008)(66476007)(83380400001)(36756003)(316002)(86362001)(6506007)(6512007)(31696002)(38100700002)(6486002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y2dhdkRkY0RSM2Q4R3gzdWhxTW8ydXM5OHJnbWI5YzhGemo4UE9RRDhCRFAv?=
- =?utf-8?B?Y3kwY3UwWms2MmFCdjd6bmpWQW5XdWlJVGx5NGVPazFlbzZXSXlEY2R2Ry9W?=
- =?utf-8?B?WDk5cUdaUjUyZWxoUFQ0N3lwZmQ0K0RkOEFrNnArczlpYkQ3d2N0U0tKd0Y2?=
- =?utf-8?B?cEFVeERmdnZsMEl6SjJKWE41eVBaVWtKZjd6blRwTWlQNlFYTVRKTkwyQ1Ay?=
- =?utf-8?B?QjR5SWthWU1rVHhUZTNKUG51dUxHSk5lbmlGN1RqM2NidkVXM0UrUWt1MDRx?=
- =?utf-8?B?NGI3UDdkSFhyTGo0UHFSZTNDMjBUa1Z0SERDMlFsM0xDQTdORUVkaVpwWGY1?=
- =?utf-8?B?VjlUN2RPSE1TeW51YndVRld0cHdSc0M5cEN3RGZRUko2V2RkOVBqL3hValV1?=
- =?utf-8?B?QkNRZXJsS1V5bkhacXNVcnNqQnZBYy9JVDNnWGRYMDdlU0dEZVNzLzlLZFpP?=
- =?utf-8?B?aUpGalN3M2w4NXJJcklGTTZhdzEzTCtyemVCTmVVUUNnWFBTR0tpOUdPVGxM?=
- =?utf-8?B?eDN3cUp5cjNIZ2pYdWl1SkptdXVvYXNhcHZHbkEzVHZIUjZ6SE5tV0wwMVUr?=
- =?utf-8?B?YWFWRDNaa3BidEFyQVVXMVorcWVCd2VyNGtuUkF3Sk1Rd1lVdUZOYTh2YjJ2?=
- =?utf-8?B?Umdyc1c2THorVUd2aEtoL0dOa08vdWM5VUozMFd0SDkySWVaUDdkT29SSi9F?=
- =?utf-8?B?UmpiNWlpTWdwU2YrYUhHV2ZUSlNYMFJIVmk4QmYzcHlmV3lZMzJRdjQzZEtP?=
- =?utf-8?B?SGo0SGN6dEY3UVlTYzdVdkQxdFZVdEYwOTlNVjY3VHVCSVBMOS9FdXZ5cm5X?=
- =?utf-8?B?bkd2eSsvQnNtRlRyUkVxS0JCc0w0RGxCMFNHeEk0U2VaRURBRExUSGhXYWxL?=
- =?utf-8?B?eXA2NjNQYUROTjdqdXdrWnlrUEVKS1pOUlN1Z3ZINDRsU3JhTytELzhUY29x?=
- =?utf-8?B?WStiY1lLTWx4K2RSSkw5dytaNUJWWGlDVEh1RHlJVSs4UURUNWV3Y2JJbEFS?=
- =?utf-8?B?VGM3NzlkOUpOTlI1NXpxSEtramlaSjJxVG16NXM3dVJJbzB2Y0RmUUFvNlU3?=
- =?utf-8?B?MVBrYXNKNHAxRmR3djJjMnVMejMzR1hYSU9OU3lzMlEyVUw4emRIUy9RUmlS?=
- =?utf-8?B?MXk3TzczamNBMG5udWRGZTk2SVFjd1VjQStqbi9SYTZrNE1ReXNuUG9MS0po?=
- =?utf-8?B?NWJaalk0c043Q25GSTlKUEUzNyt6aWhxN2p4eGRxWStBRjFuUEFaWnovLzVt?=
- =?utf-8?B?WE1VY3dVRm9NVlpsVUFuQXJreEVpbW9NUlBnTVZCbG9RWFlhR3pZOXlGV0Z5?=
- =?utf-8?B?SnBTM0YyMDFwYkxsN3ZORE5JT2NnMlVkZGxMWHpFYU9DOXRUYWQ4UElQTkNq?=
- =?utf-8?B?Yzd3Ykk2STlhNmR2Q3F5c2UrRHNJTC9qMllEMno4VUVXNlpER3Z6bjRob2ND?=
- =?utf-8?B?eDFaZW1HQnVIZkZtVmNVVnJuU0M3SnFVV25sa05Za2ZySkNkRjg0a3ZLUXFy?=
- =?utf-8?B?d2NSNit2NVcvbUlETVBJRi9abFdHU1NzMjltRGlNbERVS3hzMTU3YVk0RDVw?=
- =?utf-8?B?ZndZUDVEaXlCS3RoZ0UreEdEeHprcUpWNHVvejVLbzBRTkFHOUYzMXMwL3o5?=
- =?utf-8?B?ODUvbjJKbzUvSmZyUjZ6NHZSbGJ1aTFIT1ZjN0NQeGlTV0MwQTRaSFk5VmFJ?=
- =?utf-8?B?R2p0QU54U0dmUTZtUGZjcFpaUUYrc0x0a05CaVhnRmZqUUgwK2k5VktNUWxo?=
- =?utf-8?B?d0R3UTlId2Q4NktlZVVFQUMwVlYyYTd2OHJzbm9IRFBRWlZtdU85a0RlQUhi?=
- =?utf-8?B?RnFwMWFJU21ycHNVNjRlVWRuRDNhOU0vQ1M0R2xXalF3T2taZHRSZjF4ZVVS?=
- =?utf-8?B?WWVoSEcyMlZwWmFkcCt4MUhldXcrQlE1WWwwb3g5cXV1dzVKUWdWZlBLY0Rm?=
- =?utf-8?B?QmR6NThzRU1tYzBNZFJXSTVRcVRKVmRLa0w1NjRyNnluRUFoRkQwQnQyZGly?=
- =?utf-8?B?OXNsbkwrNWsvYnpwTWV2L1FHekM3ZGdTdUFuR3F2YnM2WGlaOU9DK3daRGll?=
- =?utf-8?B?ZE5nNm9NTDhkTEgwcVMyK0pCb0JYV0VXWlBkdEJXdjRuZUJpUHpaUUVTcXRw?=
- =?utf-8?B?V1BNUTZrY2dNbnZ3Uk1SUXUwbXdVRG5LMkNFQjlIRm1RZU9MUFdzWmNob0RS?=
- =?utf-8?B?VkE9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 940d5c64-0078-46d5-79b5-08dc2c7aa565
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2024 10:00:45.3922
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RlJmBj4ibowwyCLS89kK0Mf+sGrD0FPQzBVwpMKzqj/eN8uvp6qaSJ/hHQk2RMO9ATVTAOKCtS4yfMNXS4MAxViw07cE7lzc1NY/z/cbt2U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5300
+Content-Transfer-Encoding: 8bit
 
-On 06.02.24 19:40, Matthias Kaehlcke wrote:
-> On Tue, Feb 06, 2024 at 02:59:30PM +0100, Javier Carrasco wrote:
->> Most of the functionality this driver provides can be used by non-hub
->> devices as well.
->>
->> To account for the hub-specific code, add a flag to the device data
->> structure and check its value for hub-specific code.
->>
->> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->> ---
->>  drivers/usb/misc/onboard_usb_dev.c |  3 +++
->>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
->>  2 files changed, 13 insertions(+)
->>
->> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
->> index e2e1e1e30c1e..3ac21ec38ac0 100644
->> --- a/drivers/usb/misc/onboard_usb_dev.c
->> +++ b/drivers/usb/misc/onboard_usb_dev.c
->> @@ -123,6 +123,9 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
->>  	if (onboard_dev->always_powered_in_suspend)
->>  		return 0;
->>  
->> +	if (!onboard_dev->pdata->is_hub)
->> +		return onboard_dev_power_off(onboard_dev);
-> 
-> Why turn the device always off when it isn't a hub? It could be a device
-> with wakeup support.
-> 
-> I really regret making 'off in suspend' the default :(
-> 
+From: Arnd Bergmann <arnd@arndb.de>
 
+clang-16 points out a control flow integrity (kcfi) issue when event
+callbacks get converted to incompatible types:
 
-The power management seems to be a critical point to consider.
+sound/core/seq/seq_midi.c:135:30: error: cast from 'int (*)(struct snd_rawmidi_substream *, const char *, int)' to 'snd_seq_dump_func_t' (aka 'int (*)(void *, void *, int)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  135 |                 snd_seq_dump_var_event(ev, (snd_seq_dump_func_t)dump_midi, substream);
+      |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sound/core/seq/seq_virmidi.c:83:31: error: cast from 'int (*)(struct snd_rawmidi_substream *, const unsigned char *, int)' to 'snd_seq_dump_func_t' (aka 'int (*)(void *, void *, int)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+   83 |                         snd_seq_dump_var_event(ev, (snd_seq_dump_func_t)snd_rawmidi_receive, vmidi->substream);
+      |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Maybe we keep the current implementation and add support to non-hub
-devices by simply adding a check to set power_off to false:
+Change these both to take a 'const void *' buffer and a 'void *' context,
+converting to the respective types in the callee. The change to 'const'
+buffers propagates to a couple of other functions.
 
-static int __maybe_unused onboard_dev_suspend(struct device *dev)
+The code was originally added with the initial ALSA merge in linux-2.5.4.
 
-{
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ include/sound/rawmidi.h            | 3 +--
+ include/sound/seq_kernel.h         | 2 +-
+ sound/core/rawmidi.c               | 6 +++---
+ sound/core/seq/oss/seq_oss_readq.c | 4 ++--
+ sound/core/seq/oss/seq_oss_readq.h | 2 +-
+ sound/core/seq/seq_memory.c        | 4 ++--
+ sound/core/seq/seq_midi.c          | 5 +++--
+ sound/core/seq/seq_virmidi.c       | 2 +-
+ 8 files changed, 14 insertions(+), 14 deletions(-)
 
-        struct onboard_dev *onboard_dev = dev_get_drvdata(dev);
-
-        struct usbdev_node *node;
-
-        bool power_off = true;
-
-
-
-        if (onboard_dev->always_powered_in_suspend)
-
-                return 0;
-
-
-
-        mutex_lock(&onboard_dev->lock);
-
-
-
-        list_for_each_entry(node, &onboard_dev->udev_list, list) {
-
-                if (!device_may_wakeup(node->udev->bus->controller))
-
-                        continue;
-
-
-
-~                if (usb_wakeup_enabled_descendants(node->udev) ||
-
-+                    !onboard_dev->pdata->is_hub) {
-
-                        power_off = false;
-
-                        break;
-
-                }
-
-        }
-
-
-
-        mutex_unlock(&onboard_dev->lock);
-
-
-
-        if (!power_off)
-
-                return 0;
-
-
-
-        return onboard_dev_power_off(onboard_dev);
-
-}
-
-
-Best regards,
-Javier Carrasco
+diff --git a/include/sound/rawmidi.h b/include/sound/rawmidi.h
+index f31cabf0158c..91947fb16e07 100644
+--- a/include/sound/rawmidi.h
++++ b/include/sound/rawmidi.h
+@@ -161,8 +161,7 @@ int snd_rawmidi_free(struct snd_rawmidi *rmidi);
+ 
+ /* callbacks */
+ 
+-int snd_rawmidi_receive(struct snd_rawmidi_substream *substream,
+-			const unsigned char *buffer, int count);
++int snd_rawmidi_receive(void *ptr, const void *buffer, int count);
+ int snd_rawmidi_transmit_empty(struct snd_rawmidi_substream *substream);
+ int snd_rawmidi_transmit_peek(struct snd_rawmidi_substream *substream,
+ 			      unsigned char *buffer, int count);
+diff --git a/include/sound/seq_kernel.h b/include/sound/seq_kernel.h
+index c8621671fa70..804194d7c606 100644
+--- a/include/sound/seq_kernel.h
++++ b/include/sound/seq_kernel.h
+@@ -67,7 +67,7 @@ int snd_seq_kernel_client_ctl(int client, unsigned int cmd, void *arg);
+ #define SNDRV_SEQ_EXT_USRPTR	0x80000000
+ #define SNDRV_SEQ_EXT_CHAINED	0x40000000
+ 
+-typedef int (*snd_seq_dump_func_t)(void *ptr, void *buf, int count);
++typedef int (*snd_seq_dump_func_t)(void *ptr, const void *buf, int count);
+ int snd_seq_expand_var_event(const struct snd_seq_event *event, int count, char *buf,
+ 			     int in_kernel, int size_aligned);
+ int snd_seq_expand_var_event_at(const struct snd_seq_event *event, int count,
+diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
+index 1431cb997808..ad588dcf857f 100644
+--- a/sound/core/rawmidi.c
++++ b/sound/core/rawmidi.c
+@@ -1165,9 +1165,9 @@ static struct timespec64 get_framing_tstamp(struct snd_rawmidi_substream *substr
+  *
+  * Return: The size of read data, or a negative error code on failure.
+  */
+-int snd_rawmidi_receive(struct snd_rawmidi_substream *substream,
+-			const unsigned char *buffer, int count)
++int snd_rawmidi_receive(void *ptr, const void *buffer, int count)
+ {
++	struct snd_rawmidi_substream *substream = ptr;
+ 	unsigned long flags;
+ 	struct timespec64 ts64 = get_framing_tstamp(substream);
+ 	int result = 0, count1;
+@@ -1195,7 +1195,7 @@ int snd_rawmidi_receive(struct snd_rawmidi_substream *substream,
+ 	} else if (count == 1) {	/* special case, faster code */
+ 		substream->bytes++;
+ 		if (runtime->avail < runtime->buffer_size) {
+-			runtime->buffer[runtime->hw_ptr++] = buffer[0];
++			runtime->buffer[runtime->hw_ptr++] = ((u8 *)buffer)[0];
+ 			runtime->hw_ptr %= runtime->buffer_size;
+ 			runtime->avail++;
+ 			result++;
+diff --git a/sound/core/seq/oss/seq_oss_readq.c b/sound/core/seq/oss/seq_oss_readq.c
+index f0db5d3dcba4..3679938c0ad9 100644
+--- a/sound/core/seq/oss/seq_oss_readq.c
++++ b/sound/core/seq/oss/seq_oss_readq.c
+@@ -86,7 +86,7 @@ snd_seq_oss_readq_clear(struct seq_oss_readq *q)
+  * put a midi byte
+  */
+ int
+-snd_seq_oss_readq_puts(struct seq_oss_readq *q, int dev, unsigned char *data, int len)
++snd_seq_oss_readq_puts(struct seq_oss_readq *q, int dev, const unsigned char *data, int len)
+ {
+ 	union evrec rec;
+ 	int result;
+@@ -113,7 +113,7 @@ struct readq_sysex_ctx {
+ 	int dev;
+ };
+ 
+-static int readq_dump_sysex(void *ptr, void *buf, int count)
++static int readq_dump_sysex(void *ptr, const void *buf, int count)
+ {
+ 	struct readq_sysex_ctx *ctx = ptr;
+ 
+diff --git a/sound/core/seq/oss/seq_oss_readq.h b/sound/core/seq/oss/seq_oss_readq.h
+index 38d0c4682b29..bb99743fec7d 100644
+--- a/sound/core/seq/oss/seq_oss_readq.h
++++ b/sound/core/seq/oss/seq_oss_readq.h
+@@ -30,7 +30,7 @@ struct seq_oss_readq *snd_seq_oss_readq_new(struct seq_oss_devinfo *dp, int maxl
+ void snd_seq_oss_readq_delete(struct seq_oss_readq *q);
+ void snd_seq_oss_readq_clear(struct seq_oss_readq *readq);
+ unsigned int snd_seq_oss_readq_poll(struct seq_oss_readq *readq, struct file *file, poll_table *wait);
+-int snd_seq_oss_readq_puts(struct seq_oss_readq *readq, int dev, unsigned char *data, int len);
++int snd_seq_oss_readq_puts(struct seq_oss_readq *readq, int dev, const unsigned char *data, int len);
+ int snd_seq_oss_readq_sysex(struct seq_oss_readq *q, int dev,
+ 			    struct snd_seq_event *ev);
+ int snd_seq_oss_readq_put_event(struct seq_oss_readq *readq, union evrec *ev);
+diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
+index e705e7538118..3be3ee178e20 100644
+--- a/sound/core/seq/seq_memory.c
++++ b/sound/core/seq/seq_memory.c
+@@ -135,7 +135,7 @@ EXPORT_SYMBOL(snd_seq_dump_var_event);
+  * expand the variable length event to linear buffer space.
+  */
+ 
+-static int seq_copy_in_kernel(void *ptr, void *src, int size)
++static int seq_copy_in_kernel(void *ptr, const void *src, int size)
+ {
+ 	char **bufptr = ptr;
+ 
+@@ -144,7 +144,7 @@ static int seq_copy_in_kernel(void *ptr, void *src, int size)
+ 	return 0;
+ }
+ 
+-static int seq_copy_in_user(void *ptr, void *src, int size)
++static int seq_copy_in_user(void *ptr, const void *src, int size)
+ {
+ 	char __user **bufptr = ptr;
+ 
+diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
+index 18320a248aa7..e6547da31b09 100644
+--- a/sound/core/seq/seq_midi.c
++++ b/sound/core/seq/seq_midi.c
+@@ -94,8 +94,9 @@ static void snd_midi_input_event(struct snd_rawmidi_substream *substream)
+ 	}
+ }
+ 
+-static int dump_midi(struct snd_rawmidi_substream *substream, const char *buf, int count)
++static int dump_midi(void *ptr, const void *buf, int count)
+ {
++	struct snd_rawmidi_substream *substream = ptr;
+ 	struct snd_rawmidi_runtime *runtime;
+ 	int tmp;
+ 
+@@ -132,7 +133,7 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
+ 			pr_debug("ALSA: seq_midi: invalid sysex event flags = 0x%x\n", ev->flags);
+ 			return 0;
+ 		}
+-		snd_seq_dump_var_event(ev, (snd_seq_dump_func_t)dump_midi, substream);
++		snd_seq_dump_var_event(ev, dump_midi, substream);
+ 		snd_midi_event_reset_decode(msynth->parser);
+ 	} else {
+ 		if (msynth->parser == NULL)
+diff --git a/sound/core/seq/seq_virmidi.c b/sound/core/seq/seq_virmidi.c
+index 1b9260108e48..ef8536408af4 100644
+--- a/sound/core/seq/seq_virmidi.c
++++ b/sound/core/seq/seq_virmidi.c
+@@ -80,7 +80,7 @@ static int snd_virmidi_dev_receive_event(struct snd_virmidi_dev *rdev,
+ 		if (ev->type == SNDRV_SEQ_EVENT_SYSEX) {
+ 			if ((ev->flags & SNDRV_SEQ_EVENT_LENGTH_MASK) != SNDRV_SEQ_EVENT_LENGTH_VARIABLE)
+ 				continue;
+-			snd_seq_dump_var_event(ev, (snd_seq_dump_func_t)snd_rawmidi_receive, vmidi->substream);
++			snd_seq_dump_var_event(ev, snd_rawmidi_receive, vmidi->substream);
+ 			snd_midi_event_reset_decode(vmidi->parser);
+ 		} else {
+ 			len = snd_midi_event_decode(vmidi->parser, msg, sizeof(msg), ev);
+-- 
+2.39.2
 
