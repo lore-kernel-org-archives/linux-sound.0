@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BA522F0A
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 10:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F21E22F0A
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 10:12:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707819168; cv=none; b=tVhAIbTnF2Hegd//RLAJ10nkMz9aMLLjPTgdqdwO7xv8aJjvAYN6YDdMcNXcpBNkUFlaZeuaJFO8NFVC84hyvNjaW9eugeH04kkG/TT4bP7pXYjVnnt1NAnmyIEMPCUDTHGc/F1m93mXqqqEOQD8ysvj/56GQ//HcY8HWXHpUzo=
+	t=1707819170; cv=none; b=d37nf3VWfZhgI+crGnh9pFNQ8KEqb3b7iYMnBB/FsnEiO9hhYNk0Jf9x+iaxbhMtzWRlAa6kIj3TGBZdiIGN+IuRiuMjw6DyJB5T4EJzYPSaOTX325gpOvCDqwLX9GNJ1oKkUZiKDalt7ecVY6jAN06HF4Q4A42UN9IA1XRU8Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707819168; c=relaxed/simple;
-	bh=BT13nTaSKLZPkPXA4uhleotdp00zgwfDkpHDpxIwY9k=;
+	s=arc-20240116; t=1707819170; c=relaxed/simple;
+	bh=sfqgN8MdDQLESgNYvD+ncOhJBU6ZVSR571zpHo1kuUI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JBdIbk7CXy1B2XxOtw5SE+wn9wUr2g4ZVieZXZwnr4aucd+AwzchDCt3PbMk7Ed1My1PZwALBOf81Mz8fyvNbiPWxG63kRini4Zt/qEyKI8bhWCEc50EL1KmvnsHXJ30NLXw9Rb3+AEkNCIWGc+aU9OS5JrpfuoycQVict73Nb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gb1w6J+D; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version; b=mPG6eZI4A8HS+8CxL3epCdzT1sqC4geGuxQ5BClIaASSpl9rcRIYJ0+A5sYYTxcnv9XAW6YxeJU1F8hkFcjOhrcZ0rk/ojiJZmAbjf3ZmVXLHZnnHAalIIuJRBPqhs5SE10ZXDZJZGRdZfCJV9x+Gnco0u+b76AqyuW9/v5i4Mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heqJ8K80; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gb1w6J+D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heqJ8K80"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707819167; x=1739355167;
+  t=1707819169; x=1739355169;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=BT13nTaSKLZPkPXA4uhleotdp00zgwfDkpHDpxIwY9k=;
-  b=Gb1w6J+DjDokwkMW+4HDVrVvb9/SZwf/UpqqXGRzTsvuiOtghqxkzkq4
-   ZL8wlmEuFUsFocgbt3G22rLZZvdyFdJnw7U9rpHQlCujl1Ag8PLc20wbI
-   7QAo4M8mjyG2Dw5Bh2TAhlKv2fBLFwxKRBgzLI9Foh1FgEo3dU2oq4b7Q
-   sbkuI7BH4lxc6C4x5nWtDdhltsrh+i8qMCDUbY45hxArhOyOIn7wr61Au
-   GqvSAkZmiLaFw3UPJe1R8i+utXzsBEv1yNpdu3DTcQc+xu+/hmkhYWySv
-   dF5RL3LyPUnzVkjWmrPZZpoyLnl7ssBj4vFBNd3BRBvNWN79sooWj6JNe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27260157"
+  bh=sfqgN8MdDQLESgNYvD+ncOhJBU6ZVSR571zpHo1kuUI=;
+  b=heqJ8K80n+JRyjr5xkTVTM74tM76aoQpLPJr8C8FSZCWCNOBZzRKeoL9
+   UBArUWejlZ4+11sVcEzWeZ9+pINXsQmurFSYFLqpjt5yK1spCOjTVi1M2
+   66jVuTqOTfJ4zDX0jlwW4azElUe3jaAAdLjRAKfosc70v2cXvW+xdF5e5
+   CwmhKz0XOx6625gPWGxGaE5NZg4xTwJbxQ9D0KMcVWHLLC3BjSbJ4cHvN
+   qSRNK0dv3qsVvgBU4muxYH3JmLFfyjHyC0/DGRtRIMxAgK9IO5Sa2dMpt
+   bOQCc6dZYTTYReSoCVCKvFMlOT43z29zlqZKj7TyIHnB3x2XcCPU8NNPg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27260162"
 X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="27260157"
+   d="scan'208";a="27260162"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:12:46 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:12:49 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7498018"
+   d="scan'208";a="7498028"
 Received: from dcoroian-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.42.253])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:12:44 -0800
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:12:47 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -47,9 +47,9 @@ Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com
-Subject: [PATCH 03/15] ASoC: SOF: Intel: hda: add 'is_chain_dma_supported' callback
-Date: Tue, 13 Feb 2024 12:12:35 +0200
-Message-ID: <20240213101247.28887-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 04/15] ASoC: SOF: Intel: hda-dai-ops: enable chain_dma for ALH
+Date: Tue, 13 Feb 2024 12:12:36 +0200
+Message-ID: <20240213101247.28887-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
 References: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
@@ -63,167 +63,73 @@ Content-Transfer-Encoding: 8bit
 
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Reuse existing function to get the interface mask and expose it to the
-SOF core with a callback - the main user is the IPC4 topology so only
-HDaudio platforms provide this callback.
+Use the existing callbacks and mix/match of HDaudio and SoundWire
+support.
 
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Rander Wang <rander.wang@intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/intel/hda-common-ops.c |  1 +
- sound/soc/sof/intel/hda.c            | 63 ++++++++++++++++++++++------
- sound/soc/sof/intel/hda.h            |  5 +++
- sound/soc/sof/sof-priv.h             |  7 ++++
- 4 files changed, 64 insertions(+), 12 deletions(-)
+ sound/soc/sof/intel/hda-dai-ops.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-common-ops.c b/sound/soc/sof/intel/hda-common-ops.c
-index 26105d8f1bdc..2b385cddc385 100644
---- a/sound/soc/sof/intel/hda-common-ops.c
-+++ b/sound/soc/sof/intel/hda-common-ops.c
-@@ -83,6 +83,7 @@ struct snd_sof_dsp_ops sof_hda_common_ops = {
- 	/* DAI drivers */
- 	.drv		= skl_dai,
- 	.num_drv	= SOF_SKL_NUM_DAIS,
-+	.is_chain_dma_supported	= hda_is_chain_dma_supported,
- 
- 	/* PM */
- 	.suspend		= hda_dsp_suspend,
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index fe4ae349dad5..0bae439feb8b 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -46,44 +46,83 @@
- #define EXCEPT_MAX_HDR_SIZE	0x400
- #define HDA_EXT_ROM_STATUS_SIZE 8
- 
--static u32 hda_get_interface_mask(struct snd_sof_dev *sdev)
-+static void hda_get_interfaces(struct snd_sof_dev *sdev, u32 *interface_mask)
- {
- 	const struct sof_intel_dsp_desc *chip;
--	u32 interface_mask[2] = { 0 };
- 
- 	chip = get_chip_info(sdev->pdata);
- 	switch (chip->hw_ip_version) {
- 	case SOF_INTEL_TANGIER:
- 	case SOF_INTEL_BAYTRAIL:
- 	case SOF_INTEL_BROADWELL:
--		interface_mask[0] =  BIT(SOF_DAI_INTEL_SSP);
-+		interface_mask[SOF_DAI_DSP_ACCESS] =  BIT(SOF_DAI_INTEL_SSP);
- 		break;
- 	case SOF_INTEL_CAVS_1_5:
- 	case SOF_INTEL_CAVS_1_5_PLUS:
--		interface_mask[0] = BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC) |
--				    BIT(SOF_DAI_INTEL_HDA);
--		interface_mask[1] = BIT(SOF_DAI_INTEL_HDA);
-+		interface_mask[SOF_DAI_DSP_ACCESS] =
-+			BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC) | BIT(SOF_DAI_INTEL_HDA);
-+		interface_mask[SOF_DAI_HOST_ACCESS] = BIT(SOF_DAI_INTEL_HDA);
- 		break;
- 	case SOF_INTEL_CAVS_1_8:
- 	case SOF_INTEL_CAVS_2_0:
- 	case SOF_INTEL_CAVS_2_5:
- 	case SOF_INTEL_ACE_1_0:
--		interface_mask[0] = BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC) |
--				    BIT(SOF_DAI_INTEL_HDA) | BIT(SOF_DAI_INTEL_ALH);
--		interface_mask[1] = BIT(SOF_DAI_INTEL_HDA);
-+		interface_mask[SOF_DAI_DSP_ACCESS] =
-+			BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC) |
-+			BIT(SOF_DAI_INTEL_HDA) | BIT(SOF_DAI_INTEL_ALH);
-+		interface_mask[SOF_DAI_HOST_ACCESS] = BIT(SOF_DAI_INTEL_HDA);
- 		break;
- 	case SOF_INTEL_ACE_2_0:
--		interface_mask[0] = BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC) |
--				    BIT(SOF_DAI_INTEL_HDA) | BIT(SOF_DAI_INTEL_ALH);
--		interface_mask[1] = interface_mask[0]; /* all interfaces accessible without DSP */
-+		interface_mask[SOF_DAI_DSP_ACCESS] =
-+			BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC) |
-+			BIT(SOF_DAI_INTEL_HDA) | BIT(SOF_DAI_INTEL_ALH);
-+		 /* all interfaces accessible without DSP */
-+		interface_mask[SOF_DAI_HOST_ACCESS] =
-+			interface_mask[SOF_DAI_DSP_ACCESS];
- 		break;
- 	default:
- 		break;
- 	}
-+}
-+
-+static u32 hda_get_interface_mask(struct snd_sof_dev *sdev)
-+{
-+	u32 interface_mask[SOF_DAI_ACCESS_NUM] = { 0 };
-+
-+	hda_get_interfaces(sdev, interface_mask);
- 
- 	return interface_mask[sdev->dspless_mode_selected];
- }
- 
-+bool hda_is_chain_dma_supported(struct snd_sof_dev *sdev, u32 dai_type)
-+{
-+	u32 interface_mask[SOF_DAI_ACCESS_NUM] = { 0 };
-+	const struct sof_intel_dsp_desc *chip;
-+
-+	if (sdev->dspless_mode_selected)
-+		return false;
-+
-+	hda_get_interfaces(sdev, interface_mask);
-+
-+	if (!(interface_mask[SOF_DAI_DSP_ACCESS] & BIT(dai_type)))
-+		return false;
-+
-+	if (dai_type == SOF_DAI_INTEL_HDA)
-+		return true;
-+
-+	switch (dai_type) {
-+	case SOF_DAI_INTEL_SSP:
-+	case SOF_DAI_INTEL_DMIC:
-+	case SOF_DAI_INTEL_ALH:
-+		chip = get_chip_info(sdev->pdata);
-+		if (chip->hw_ip_version < SOF_INTEL_ACE_2_0)
-+			return false;
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
- 
- /*
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index 1592e27bc14d..b36eb7c78913 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -573,6 +573,11 @@ struct sof_intel_hda_stream {
- 
- #define SOF_STREAM_SD_OFFSET_CRST 0x1
- 
-+/*
-+ * DAI support
-+ */
-+bool hda_is_chain_dma_supported(struct snd_sof_dev *sdev, u32 dai_type);
-+
- /*
-  * DSP Core services.
-  */
-diff --git a/sound/soc/sof/sof-priv.h b/sound/soc/sof/sof-priv.h
-index 6c163c008607..5e5c5a36c3c9 100644
---- a/sound/soc/sof/sof-priv.h
-+++ b/sound/soc/sof/sof-priv.h
-@@ -157,6 +157,13 @@ struct sof_firmware {
- 	u32 payload_offset;
+diff --git a/sound/soc/sof/intel/hda-dai-ops.c b/sound/soc/sof/intel/hda-dai-ops.c
+index 55ce75db23e5..f58539d2f937 100644
+--- a/sound/soc/sof/intel/hda-dai-ops.c
++++ b/sound/soc/sof/intel/hda-dai-ops.c
+@@ -522,6 +522,17 @@ static const struct hda_dai_widget_dma_ops hda_ipc4_chain_dma_ops = {
+ 	.get_hlink = hda_get_hlink,
  };
  
-+enum sof_dai_access {
-+	SOF_DAI_DSP_ACCESS,	/* access from DSP only */
-+	SOF_DAI_HOST_ACCESS,	/* access from host only */
-+
-+	SOF_DAI_ACCESS_NUM
++static const struct hda_dai_widget_dma_ops sdw_ipc4_chain_dma_ops = {
++	.get_hext_stream = hda_get_hext_stream,
++	.assign_hext_stream = hda_assign_hext_stream,
++	.release_hext_stream = hda_release_hext_stream,
++	.setup_hext_stream = hda_setup_hext_stream,
++	.reset_hext_stream = hda_reset_hext_stream,
++	.trigger = hda_trigger,
++	.calc_stream_format = generic_calc_stream_format,
++	.get_hlink = sdw_get_hlink,
 +};
 +
- /*
-  * SOF DSP HW abstraction operations.
-  * Used to abstract DSP HW architecture and any IO busses between host CPU
+ static int hda_ipc3_post_trigger(struct snd_sof_dev *sdev, struct snd_soc_dai *cpu_dai,
+ 				 struct snd_pcm_substream *substream, int cmd)
+ {
+@@ -620,6 +631,8 @@ hda_select_dai_widget_ops(struct snd_sof_dev *sdev, struct snd_sof_widget *swidg
+ 	}
+ 	case SOF_IPC_TYPE_4:
+ 	{
++		struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
++		struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
+ 		struct sof_ipc4_copier *ipc4_copier = sdai->private;
+ 		const struct sof_intel_dsp_desc *chip;
+ 
+@@ -627,15 +640,10 @@ hda_select_dai_widget_ops(struct snd_sof_dev *sdev, struct snd_sof_widget *swidg
+ 
+ 		switch (ipc4_copier->dai_type) {
+ 		case SOF_DAI_INTEL_HDA:
+-		{
+-			struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
+-			struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
+-
+ 			if (pipeline->use_chain_dma)
+ 				return &hda_ipc4_chain_dma_ops;
+ 
+ 			return &hda_ipc4_dma_ops;
+-		}
+ 		case SOF_DAI_INTEL_SSP:
+ 			if (chip->hw_ip_version < SOF_INTEL_ACE_2_0)
+ 				return NULL;
+@@ -647,6 +655,8 @@ hda_select_dai_widget_ops(struct snd_sof_dev *sdev, struct snd_sof_widget *swidg
+ 		case SOF_DAI_INTEL_ALH:
+ 			if (chip->hw_ip_version < SOF_INTEL_ACE_2_0)
+ 				return NULL;
++			if (pipeline->use_chain_dma)
++				return &sdw_ipc4_chain_dma_ops;
+ 			return &sdw_ipc4_dma_ops;
+ 
+ 		default:
 -- 
 2.43.0
 
