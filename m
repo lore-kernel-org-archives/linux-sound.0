@@ -1,58 +1,58 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC69962A18
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 21:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF75263116
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 21:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707861500; cv=none; b=hJ4L6bplBYnAFP0XFN5yNYW4YPDzUY4Z5385o9AMeIeoFJkNfH2H95S13IOfXUCnyM2zTKoNf7LhWP4tSgIIw+3G9gmvLZd2/Q20P/zqFBEJ9gBp8DWsjNEz8VwgZrsyhoMv+50UDp+hUcO5QxEJdCgBHvx2Lzzt/jj72ao9tIY=
+	t=1707861502; cv=none; b=isIR9bWorXDaRl0q//waPy1CfMORtA8ff8BWG9iat+pyUTKuY6kjJmmYIAuRcBE6ToFddfOo8pdAdUlXL90ekJXhMbOX5EssHjrzpMNsZpu5SPqalCbyE8ODd4RbitVtIZ9XOaAFs72ToBlYjejvgIbu5NItV7NeomJIFmidt8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707861500; c=relaxed/simple;
-	bh=XCEzGiySNrzVsGywGANcAcUebyxPHAJnm9xzwLcysLY=;
+	s=arc-20240116; t=1707861502; c=relaxed/simple;
+	bh=jfZkHq9HMbZcPnc0fldRolB1xckrU5dTpOn3zFrSjtk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bAeg/k9ZXIDSammlRiyEMI5nHmR+/UEvfKypBmj1ODtoy8Udqw+PL1ICmamxllwMN8bRQcvr/VjqcA243xjN8kRO2T2EQhJUE5YzkAzV8KRWC28+LI5EwjaNVqLL9uzEaQIEpcnBStNv3NfV4GmwRNwmspCDwCEzAF5P0A9nYIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Y82wqYvx; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=iSCnHu3iQG5DBU+7T7/RTVn9pcZx74dNChj+v5abgXhX2a8AS4KmWHuMfwOpt+wzaOQsqPjeYs1SqewgJ5M30H9FGoV+UiqOf/UypQG6566yf05JfyWNACE4OUQI8W8YmJhrG0ykQP5t1NoMu9z5AcnCIBE9zgdixRgxcOJBeEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BmWQ659L; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Y82wqYvx"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40efcb37373so38651855e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 13:58:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BmWQ659L"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-411c93e6bfaso7162415e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 13:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707861497; x=1708466297; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707861498; x=1708466298; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fqyuBahTPLTAYF+110cUFRV0sBjf6cZZgU9lFVSbKt0=;
-        b=Y82wqYvxcxh7adCikFQ8fzf9Zs9jaKLOkLJWN2TUWBoC6upJwmFLTnLrlln1oNFudt
-         KbnV9JmcjdOb+K6kY395dYrRU8X+dGrlgLKtKkYJBULnhDJTeunHigTv1c+6rUh5ExmG
-         Zhfwd3EVaGma+hNxPDLI8U7EnB1xCxXSkow3fnituaxCCryk4udu4TlztVP8PRnR3vua
-         2u0PTo17hVOflZqkwtfQXYUprgniD3zdE3Ix8c3E8g0r6nKiEvR4Mf1pLfGmbMGIBGPo
-         PgMNfVDv0lmPZjflq85U0SRKHuVHcE01bLEHfHDm21UMq9yek0QSMW+/aAC86inV7CQW
-         vMwQ==
+        bh=QhlnphO38kFK64rZw6/MYfY4vE6pLo1I8JNTrKfTc6I=;
+        b=BmWQ659LSRlnERUOvz0ZO6omAKBtcF7GLPQuL6lTdp6dtpuJcYeBCAq4Ph1CT7r64n
+         ZT91gnTnq9B/DZrZPkEII/3jqJOXC9Iz68a+Kc0zn9XyqNJQv4vkxVHywa+Z/SHgpQgH
+         e0dJ+Rij9JCGcKwF1o1XJUYyo2CBtHgtmkgdhVuC460zO1WbRJjRkhTuNDmIYyzFcF0h
+         HB2MqpMifV8NmUT82aWirVt51ovy4v8WOFsQm+Q0+x9wb4tnFtF3Epyf6MSd+46hpcqC
+         bBwkzdYDrb6Xw8nDVmaHWAcudF0k5EggbEKieCaTES8WY82KQ0cjT0899RpWAzeTr7l8
+         Uz5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707861497; x=1708466297;
+        d=1e100.net; s=20230601; t=1707861498; x=1708466298;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fqyuBahTPLTAYF+110cUFRV0sBjf6cZZgU9lFVSbKt0=;
-        b=uM9mNeFvb9eRtNAoBPFjsEBvSlzWDyieJMZ2mlmeX3YDdgAJB8UbVmYoaaM7KjUC8S
-         rNOiFAJpQXnLc1viA85giOx33iXdRB8Ssg0+t6jZhKNml0CsTwah8yQLsj74jc5QFZtH
-         pnOPu6pPzOiDQKGz7CKf8Yeyg45CCQNv5to9mW5vOaH/tUg1e6GVNDM8HmQtCwBH0fM6
-         QLauYI/t4W6qQRhUnGP4SxdkLvt8TL4jYAT5hliJXgonxGwSsTGRfA8cfvmI+MKztIaQ
-         oHTAcBWeKKz9JnR/Oss3Jjz46Q381W4AcTygvChxMf781u6jO7gxwnKlUzgWtAOPs/aB
-         Jurw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUsuKH/2jV1OvPrDVbISD90l1HzjkzSGIm7w97Pz8FOCP9HeMwSa3PxW0/5MIYRu0bRLa3GkeKTwLTeINZUqmLjx/E9q92rzlvqb0=
-X-Gm-Message-State: AOJu0YyoRZed1SZ7PpmwpNFE3f9G3uQmZgq3Uz+4ww4clmNNSByA0lGZ
-	TfEp3Wu4KFVgPPdqT4oQ7ZFR2kYiV7A/oyldPqKZIcBTj4VBAzknlU3zeYYeJMQ=
-X-Google-Smtp-Source: AGHT+IFQmIg0n0GJLfQcjyAmY5aOtHbpVk0kKAcJWpMWmARHiy2H/vQt8V6epQv+QeBGgNL4tEMGfw==
-X-Received: by 2002:a5d:6ac3:0:b0:33c:e2d9:ad36 with SMTP id u3-20020a5d6ac3000000b0033ce2d9ad36mr369591wrw.20.1707861497019;
-        Tue, 13 Feb 2024 13:58:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXatIVkhfi4XEgXz5p/gNLbo1vWmEs55v5qyHuI9D0zr8zRt8TJ8ZvxAEkAOJ8a3kznQNaB9CwA0yXFBxNMvj53rHwJ036OVmcocDuLVPfg+PhWLsrC9mlRpniTJxWwH6grCm6vDtmEPJKmWES7/cqSCgpdP/SP1XUCZZN/cAwDr9J27u3hbZyUxvljt3BMCZHmzTpd0QV0bB1cqVdFgl8r1MWmfH7UPkPZq5G2SLjKlWyYV1Bny7ioTDZ9a0tYFo0aVVX3mZT8YahfGGdNcI0a2y2v5rR2Q//H/EU2oWk+rBkR2RDeq8lDwto1myB3M5HTP7it3hesDm99vHUtWHz2n2VKv4Q4O3O2jjAJiuJUqYaCCLIdo0fHDM/dFr/tAaBy30Q6tJz0fcYSUXI8mhoAxW/AWT/oJ1y9vKLuEWj5f8/2i42oUMG6NlN/UzLWMOBw3vS/ecrqYiEobhSloI9qEMgg2SNdaAJXIWgEP2QA8Ev5ZO4piJzUKTZcua59IhWs2zPvSJydJocUe7HdqVKGsdBiuUkwwPb1YyCR9TYWE9OrWora9hpg0mrQsWDgwKLvGk2X3utxRuNVkTTdirRufduCj547YWj/gaQCGXx+o44FtvU=
+        bh=QhlnphO38kFK64rZw6/MYfY4vE6pLo1I8JNTrKfTc6I=;
+        b=NB+Oym4D8XlrOKcCOdXMD66VGXmbK9fxexUGYr3cWeJEwg4VKOpl9BpxvDNR1VBhJE
+         g9I+i2YOlb5GdVUHtyn+WL9gGNEzdL+UOKVD0KtD1+idWDXKAyl07zjj9ZKp5KBbTq2v
+         d6ZK26LManvAXaODYI/U45GbkHtqk6G0fCHsIgA5Cb9GPP2nWbhXF3x/FibX3hW2VrQq
+         FSt9EBdlyrz6aA+fmCysBnbUQWNcsp6X696hWxnF2MiSDF9P+ciNqLuClBDK+KNMZ9s3
+         PZCAKIDjKjmJOu06r9VpimXEmceMICCEpIx2AAcvgw6Fd5tKXG35fsxuN/2hkCTLn3mk
+         y5NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLFlBH7dIj+Rr81gwuP+TUteFG3F0YrQUW0ydZSK3zP17ddppr1t6CoaABtmjRoYEzP8F20j16/EJZMSanpY8oJZOhhR+ibP7MAhs=
+X-Gm-Message-State: AOJu0YzILaTnMJMj2+HBwAWySXOjgt+YPqPu9MX0vTQCwmvnSeXOTazM
+	zU5NoujnIANV8V/EvLHHvJlyuVAs6XKod6mhcplLxfrfCdcheGE6SVGThmU4zu4=
+X-Google-Smtp-Source: AGHT+IFZ3n4e4596jcQPvb4/M0w5BxopAfbxvEnr7lIBU6iDbCf0cnXOAXxypGjN46bUXfIJV5p8/Q==
+X-Received: by 2002:a05:6000:8c:b0:33b:eef:86bf with SMTP id m12-20020a056000008c00b0033b0eef86bfmr388447wrx.25.1707861498107;
+        Tue, 13 Feb 2024 13:58:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVJ0VVy771lMRNflwR2yXi3R6/+dub54OOGnNJcvbuYIcEQsS5QlZrroSyMaWyijwq5c2hC2NvAD1pLPuWErPD4resXTwAhLmgxRmddslpV+8WAJTZhqazEat8FROH6ieAWumwv9lwt2Yn+FPrC6KmppIxwT/69asnfrePkZYVyJm3MK8h6ONvWc4IVBliqIFds5PZnsuGbkN5YWb7v+EZ3lPaVlx8GQXS98E5BHdIkhe2fksr9g6fEQtBkmWZfjgIWHMdjABQC/Deor8k9BzNBZ/jZxeieUroSwXKpwXdAHo9GV7XRnDmuBhbRO+C92L59xtUs95jer13d1n3ZBFTan8/bDFyhPVJtW6W85pRJdzcG8SMhFTgzPnvTI9XyGvrfPCYEwTn2530CpHXZlnm58uKPeqEc/f4S8CjWah4EKiga/vB75UKu5a61ol+z+cTSNM2/+4nM0LDdsn3Xe02hOUew7hU8xN0JxTWaapP3O2LfNImUG8yZiMxgbypKxrbgjYv0pwfGsy5NiexdQymHchYp1g1/WlBYRa30jRBImDVuDC3qnO+VtTeO4PfPh4VlA4esexQfeGrSzLs05LRvxWwnxHyNEIOclcbc1msQ1BOqA/4=
 Received: from toaster.lan ([2a01:e0a:3c5:5fb1:af6b:4350:776e:dcda])
-        by smtp.googlemail.com with ESMTPSA id r3-20020adfca83000000b0033cdbe335bcsm2415244wrh.71.2024.02.13.13.58.15
+        by smtp.googlemail.com with ESMTPSA id r3-20020adfca83000000b0033cdbe335bcsm2415244wrh.71.2024.02.13.13.58.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 13:58:16 -0800 (PST)
+        Tue, 13 Feb 2024 13:58:17 -0800 (PST)
 From: Jerome Brunet <jbrunet@baylibre.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Jerome Brunet <jbrunet@baylibre.com>,
@@ -73,9 +73,9 @@ Cc: Jerome Brunet <jbrunet@baylibre.com>,
 	linux-amlogic@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH v2 1/2] ASoC: meson: aiu: fix function pointer type mismatch
-Date: Tue, 13 Feb 2024 22:58:03 +0100
-Message-ID: <20240213215807.3326688-2-jbrunet@baylibre.com>
+Subject: [PATCH v2 2/2] ASoC: meson: t9015: fix function pointer type mismatch
+Date: Tue, 13 Feb 2024 22:58:04 +0100
+Message-ID: <20240213215807.3326688-3-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240213215807.3326688-1-jbrunet@baylibre.com>
 References: <20240213215807.3326688-1-jbrunet@baylibre.com>
@@ -91,72 +91,70 @@ Content-Transfer-Encoding: 8bit
 clang-16 warns about casting functions to incompatible types, as is done
 here to call clk_disable_unprepare:
 
-sound/soc/meson/aiu.c:243:12: error: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-  243 |                                        (void(*)(void *))clk_disable_unprepare,
+sound/soc/meson/t9015.c:274:4: error: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  274 |                         (void(*)(void *))clk_disable_unprepare,
 
 The pattern of getting, enabling and setting a disable callback for a
 clock can be replaced with devm_clk_get_enabled(), which also fixes
 this warning.
 
-Fixes: 6ae9ca9ce986 ("ASoC: meson: aiu: add i2s and spdif support")
+Fixes: 33901f5b9b16 ("ASoC: meson: add t9015 internal DAC driver")
 Reported-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- sound/soc/meson/aiu.c | 19 ++++---------------
- sound/soc/meson/aiu.h |  1 -
- 2 files changed, 4 insertions(+), 16 deletions(-)
+ sound/soc/meson/t9015.c | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-index 7109b81cc3d0..5d1419ed7a62 100644
---- a/sound/soc/meson/aiu.c
-+++ b/sound/soc/meson/aiu.c
-@@ -212,11 +212,12 @@ static const char * const aiu_spdif_ids[] = {
- static int aiu_clk_get(struct device *dev)
- {
- 	struct aiu *aiu = dev_get_drvdata(dev);
+diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
+index 9c6b4dac6893..571f65788c59 100644
+--- a/sound/soc/meson/t9015.c
++++ b/sound/soc/meson/t9015.c
+@@ -48,7 +48,6 @@
+ #define POWER_CFG	0x10
+ 
+ struct t9015 {
+-	struct clk *pclk;
+ 	struct regulator *avdd;
+ };
+ 
+@@ -249,6 +248,7 @@ static int t9015_probe(struct platform_device *pdev)
+ 	struct t9015 *priv;
+ 	void __iomem *regs;
+ 	struct regmap *regmap;
 +	struct clk *pclk;
  	int ret;
  
--	aiu->pclk = devm_clk_get(dev, "pclk");
--	if (IS_ERR(aiu->pclk))
--		return dev_err_probe(dev, PTR_ERR(aiu->pclk), "Can't get the aiu pclk\n");
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+@@ -256,26 +256,14 @@ static int t9015_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	platform_set_drvdata(pdev, priv);
+ 
+-	priv->pclk = devm_clk_get(dev, "pclk");
+-	if (IS_ERR(priv->pclk))
+-		return dev_err_probe(dev, PTR_ERR(priv->pclk), "failed to get core clock\n");
 +	pclk = devm_clk_get_enabled(dev, "pclk");
 +	if (IS_ERR(pclk))
-+		return dev_err_probe(dev, PTR_ERR(pclk), "Can't get the aiu pclk\n");
++		return dev_err_probe(dev, PTR_ERR(pclk), "failed to get core clock\n");
  
- 	aiu->spdif_mclk = devm_clk_get(dev, "spdif_mclk");
- 	if (IS_ERR(aiu->spdif_mclk))
-@@ -233,18 +234,6 @@ static int aiu_clk_get(struct device *dev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Can't get the spdif clocks\n");
+ 	priv->avdd = devm_regulator_get(dev, "AVDD");
+ 	if (IS_ERR(priv->avdd))
+ 		return dev_err_probe(dev, PTR_ERR(priv->avdd), "failed to AVDD\n");
  
--	ret = clk_prepare_enable(aiu->pclk);
+-	ret = clk_prepare_enable(priv->pclk);
 -	if (ret) {
--		dev_err(dev, "peripheral clock enable failed\n");
+-		dev_err(dev, "core clock enable failed\n");
 -		return ret;
 -	}
 -
 -	ret = devm_add_action_or_reset(dev,
--				       (void(*)(void *))clk_disable_unprepare,
--				       aiu->pclk);
+-			(void(*)(void *))clk_disable_unprepare,
+-			priv->pclk);
 -	if (ret)
--		dev_err(dev, "failed to add reset action on pclk");
+-		return ret;
 -
- 	return ret;
- }
- 
-diff --git a/sound/soc/meson/aiu.h b/sound/soc/meson/aiu.h
-index 393b6c2307e4..0f94c8bf6081 100644
---- a/sound/soc/meson/aiu.h
-+++ b/sound/soc/meson/aiu.h
-@@ -33,7 +33,6 @@ struct aiu_platform_data {
- };
- 
- struct aiu {
--	struct clk *pclk;
- 	struct clk *spdif_mclk;
- 	struct aiu_interface i2s;
- 	struct aiu_interface spdif;
+ 	ret = device_reset(dev);
+ 	if (ret) {
+ 		dev_err(dev, "reset failed\n");
 -- 
 2.43.0
 
