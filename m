@@ -1,129 +1,168 @@
-Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD0924B23;
-	Tue, 13 Feb 2024 09:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B53F241E0;
+	Tue, 13 Feb 2024 10:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707818186; cv=none; b=QI7nBdzTdNc4W0bA9jmM5hHsnvmhg/HKtoT/6Mk+y/tZUirFBIeCclB//pfVQ611ADmfF7v6xH9FzT8c58o77YDIlvvwYWCrkLXTnt6FAZ74wFdfDMe8h/q/aE3diqXcuKWLcwh26l9aMUT/sBRi8udWRZEXGW67LNluUaYk9tM=
+	t=1707818436; cv=none; b=kDRQRXfO7QkXKl+0WBwZ5SJNi/rXk81w3pz2PQxxFmSik/LgkbvIhUCwYF5UzulLcudPij2Kzo1yn1UeUupOQz7CEiK14dSNuyVrE1FKI7+xJ2BFnPjExP8pwNLQK27OJ8bVc9mv+sQE0d7jRrlgkz6C+A+bsvud045LFrle4cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707818186; c=relaxed/simple;
-	bh=BNSX9WQo4fdZixPgrChnndimSE1LeUip7SbHQG3EiRk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lnVHOfnO/tsUVI4Dqx9fzVPhFcYxDlxJLDe7xuZgHe1Ld7yh54uLGNwD6EeINwBugvtkNZw1W36Tt2BL9uErg9apphFAj82+QqqWfQ50RFTi9oTJYxTD/7iT7t31xoNP/L1/fI9zk6scWUsKoD/hRAkc1QDXr2UYPgfZ6FdX6Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me; spf=pass smtp.mailfrom=maquefel.me; dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b=tHSpq6lL; arc=none smtp.client-ip=178.154.239.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
+	s=arc-20240116; t=1707818436; c=relaxed/simple;
+	bh=cVV/IHvHgosEFZwF8TVZgUPovyuJO6ZLbQNTlYmYIms=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=U4gBiVMqD1tU5cbN8ajJ8z4irWhPxcMaADVQU1pL6lPrRD5tl5+aloDA5XIYUq9HHhNivsXVHVqx/Qr6M5Fllt/GVhxx+Uz3sTmi+qmI/aM62HDuN+8XYjsRe2kSogxy0ghCMDKAS2fv+9zdy5Evp3dhUomLcTjutzpLqePCSmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DJ6FBow3; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="tHSpq6lL"
-Received: from mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:3019:0:640:a0d4:0])
-	by forward500b.mail.yandex.net (Yandex) with ESMTPS id 9CCD561154;
-	Tue, 13 Feb 2024 12:48:16 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id Amja449YvOs0-Ohe7AJJt;
-	Tue, 13 Feb 2024 12:48:14 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
-	t=1707817694; bh=BNSX9WQo4fdZixPgrChnndimSE1LeUip7SbHQG3EiRk=;
-	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
-	b=tHSpq6lLbJRzMUl5S+AQdH+yFWqgLs5dAvYesqMe255xcZfmaDSgVPRqcA1r0bzrw
-	 TkfIPDSLR62NkdUlPI+s/lCQcEhokM08txNkwukmx6USimZGbDh66EHaLNxEHxEu27
-	 3BeQU0snEq2nQPzdmEknsfQ0A1hkYVGjcAylct3Y=
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
-Message-ID: <84444657b86c7a25ea2e6031ea85978917f33342.camel@maquefel.me>
-Subject: Re: [PATCH v7 00/39] ep93xx device tree conversion
-From: Nikita Shubin <nikita.shubin@maquefel.me>
-To: andy.shevchenko@gmail.com, Vinod Koul <vkoul@kernel.org>, Stephen Boyd
-	 <sboyd@kernel.org>
-Cc: Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Thierry Reding
- <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, Sergey
- Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>,  "Wu,
- Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, Olof Johansson
- <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org,  devicetree@vger.kernel.org,
- dmaengine@vger.kernel.org,  linux-watchdog@vger.kernel.org,
- linux-pwm@vger.kernel.org,  linux-spi@vger.kernel.org,
- netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
- linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>
-Date: Tue, 13 Feb 2024 12:48:11 +0300
-In-Reply-To: <Zb_DfISgoNyTKWMp@surfacebook.localdomain>
-References: <20240118-ep93xx-v7-0-d953846ae771@maquefel.me>
-	 <Zb_DfISgoNyTKWMp@surfacebook.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DJ6FBow3"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41D6usn6030912;
+	Tue, 13 Feb 2024 04:00:07 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:references:in-reply-to:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=RLSQFPTXCZBB55mewGC3/S3cyEfZxcsMBJJpNhdcNt4=; b=
+	DJ6FBow3hk9Y64sQGT+Sibpc0GPRWb1aMIf1T6YR2E1g1b2Q0xZPjwBGyWdVhJ8P
+	v0lXstwqh/pcFmenTwfnvKWhHH5c19bCHOc4MN5Lm7esb3bp7yPWCNN6OhgbJXll
+	tt+uxHBrwD+WiVv/wwoJmtS/2b58IP7VT1i/IVByczEwSdKw07Wsv58RkGwZ1SvR
+	qbHLZdctdqnMBL8Am/Xstlc7D8e1V3Vn9T/8qZuKb7iXdbMAshc8KEBU2vSGPPlY
+	pjNwr/0dhVm6ZmpXs7qnbMA/jqYG6B0iYd9nK/G3KGOPKk757e9oOXJ8rgtJ90rd
+	EpEjVGU451Np8bWgVBijpw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w67e22y13-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 04:00:07 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
+ 2024 10:00:03 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Tue, 13 Feb 2024 10:00:03 +0000
+Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.64.235])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 53A2F820243;
+	Tue, 13 Feb 2024 10:00:03 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: 'Tomasz Kudela' <ramzes005@gmail.com>
+CC: <alsa-devel@alsa-project.org>, <andy.chi@canonical.com>,
+        <david.rhodes@cirrus.com>, <james.schulman@cirrus.com>,
+        <kailang@realtek.com>, <linux-kernel@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <luke@ljones.dev>,
+        <patches@opensource.cirrus.com>, <perex@perex.cz>,
+        <rf@opensource.cirrus.com>, <ruinairas1992@gmail.com>,
+        <shenghao-ding@ti.com>, <tiwai@suse.com>,
+        <vitalyr@opensource.cirrus.com>
+References: <20240212193327.59507-1-ramzes005@gmail.com> <20240213082116.15049-1-ramzes005@gmail.com>
+In-Reply-To: <20240213082116.15049-1-ramzes005@gmail.com>
+Subject: RE: [PATCH v2] Add Lenovo Legion 7i gen7 sound quirk
+Date: Tue, 13 Feb 2024 10:00:03 +0000
+Message-ID: <000101da5e63$6a2565e0$3e7031a0$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQL5cxh77Ymk4rKL11VQD0BqvrFTygGP9Uvorr1f3IA=
+X-Proofpoint-ORIG-GUID: 4w35IuzkN3UfhFYAz8bRE5jDqIfh_Shl
+X-Proofpoint-GUID: 4w35IuzkN3UfhFYAz8bRE5jDqIfh_Shl
+X-Proofpoint-Spam-Reason: safe
 
-On Sun, 2024-02-04 at 19:03 +0200, andy.shevchenko@gmail.com wrote:
-> Thu, Jan 18, 2024 at 11:20:43AM +0300, Nikita Shubin kirjoitti:
-> > The goal is to recieve ACKs for all patches in series to merge it
-> > via Arnd branch.
-> >=20
-> > No major changes since last version (v6) all changes are cometic.
-> >=20
-> > Following patches require attention from Stephen Boyd, as they were
-> > converted to aux_dev as suggested:
-> >=20
-> > - ARM: ep93xx: add regmap aux_dev
-> > - clk: ep93xx: add DT support for Cirrus EP93xx
-> >=20
-> > Following patches require attention from Vinod Koul:
-> >=20
-> > - dma: cirrus: Convert to DT for Cirrus EP93xx
-> > - dma: cirrus: remove platform code
-> >=20
-> > Following patches are dropped:
-> > - dt-bindings: wdt: Add ts72xx (pulled requested by Wim Van
-> > Sebroeck)
-> >=20
-> > Big Thanks to Andy Shevchenko once again.
->=20
-> You're welcome!
->=20
+Hi,
 
-Thank you Andy!
+> -----Original Message-----
+> From: Tomasz Kudela <ramzes005@gmail.com>
+> Sent: Tuesday, February 13, 2024 8:21 AM
+> To: ramzes005@gmail.com
+> Cc: alsa-devel@alsa-project.org; andy.chi@canonical.com;
+> david.rhodes@cirrus.com; james.schulman@cirrus.com;
+> kailang@realtek.com; linux-kernel@vger.kernel.org; linux-
+> sound@vger.kernel.org; luke@ljones.dev;
+> patches@opensource.cirrus.com; perex@perex.cz;
+> rf@opensource.cirrus.com; ruinairas1992@gmail.com;
+> sbinding@opensource.cirrus.com; shenghao-ding@ti.com;
+> tiwai@suse.com; vitalyr@opensource.cirrus.com
+> Subject: [PATCH v2] Add Lenovo Legion 7i gen7 sound quirk
+> 
+> From: "T. Kudela" <ramzes005@gmail.com>
+> 
+> Add sound support for the Legion 7i gen7 laptop (16IAX7).
+> 
+> Signed-off-by: Tomasz Kudela <ramzes005@gmail.com>
+> ---
+>  sound/pci/hda/cs35l41_hda_property.c | 2 ++
+>  sound/pci/hda/patch_realtek.c        | 1 +
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/sound/pci/hda/cs35l41_hda_property.c
+> b/sound/pci/hda/cs35l41_hda_property.c
+> index d74cf11eef1e..8a6b484b2184 100644
+> --- a/sound/pci/hda/cs35l41_hda_property.c
+> +++ b/sound/pci/hda/cs35l41_hda_property.c
+> @@ -95,6 +95,7 @@ static const struct cs35l41_config
+> cs35l41_config_table[] = {
+>  	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 1000, 4500, 24 },
+>  	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, -1, 0, 0, 0, 0 },
+>  	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 1, 2, 0, 0, 0, 0 },
+> +	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
 
-> I have a few minor comments, I believe if you send a new version it
-> will be
-> final (at least from my p.o.v.).
->=20
+I don't believe this laptop has a Speaker ID, so this configuration
+should be:
 
-Still waiting for some comment from Stephen Boyd and Vinod Koul on:
+{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0,
+-1, -1, 0, 0, 0 },
 
-- ARM: ep93xx: add regmap aux_dev
-- clk: ep93xx: add DT support for Cirrus EP93xx
+Thanks,
+Stefan
 
-- dma: cirrus: Convert to DT for Cirrus EP93xx
-- dma: cirrus: remove platform code
-
-
-
+>  	{ "17AA38B4", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+>  	{ "17AA38B5", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+>  	{ "17AA38B6", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 1, -1, 0, 0, 0 },
+> @@ -431,6 +432,7 @@ static const struct cs35l41_prop_model
+> cs35l41_prop_model_table[] = {
+>  	{ "CSC3551", "10431F12", generic_dsd_config },
+>  	{ "CSC3551", "10431F1F", generic_dsd_config },
+>  	{ "CSC3551", "10431F62", generic_dsd_config },
+> +	{ "CSC3551", "17AA386F", generic_dsd_config },
+>  	{ "CSC3551", "17AA38B4", generic_dsd_config },
+>  	{ "CSC3551", "17AA38B5", generic_dsd_config },
+>  	{ "CSC3551", "17AA38B6", generic_dsd_config },
+> diff --git a/sound/pci/hda/patch_realtek.c
+> b/sound/pci/hda/patch_realtek.c
+> index 6994c4c5073c..0029f61d4693 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10260,6 +10260,7 @@ static const struct snd_pci_quirk
+> alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5",
+> ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+>  	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6",
+> ALC287_FIXUP_LEGION_16ITHG6),
+>  	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7",
+> ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+> +	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion 7i 16IAX7",
+> ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7",
+> ALC287_FIXUP_YOGA7_14ARB7_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC",
+> ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC",
+> ALC287_FIXUP_TAS2781_I2C),
+> --
+> 2.34.1
+> 
 
 
