@@ -1,160 +1,120 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF75263116
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 21:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8636310E;
+	Tue, 13 Feb 2024 22:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707861502; cv=none; b=isIR9bWorXDaRl0q//waPy1CfMORtA8ff8BWG9iat+pyUTKuY6kjJmmYIAuRcBE6ToFddfOo8pdAdUlXL90ekJXhMbOX5EssHjrzpMNsZpu5SPqalCbyE8ODd4RbitVtIZ9XOaAFs72ToBlYjejvgIbu5NItV7NeomJIFmidt8o=
+	t=1707864559; cv=none; b=lLDL71mF/gGaJ+uYT/tWcDORvxMTZetx4JfZfOgrb9NM4171ETajiO3FWriEqvFFhC92GTjup8dOPBkm2FUNaUpgqvlem0V4RAE1CnGa7hHC5sVuN4G16hzQx2uhpijERlHDC9bPoaA5eOSe6Fz6TPYU95lEP1WBwBdi8eAJlyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707861502; c=relaxed/simple;
-	bh=jfZkHq9HMbZcPnc0fldRolB1xckrU5dTpOn3zFrSjtk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iSCnHu3iQG5DBU+7T7/RTVn9pcZx74dNChj+v5abgXhX2a8AS4KmWHuMfwOpt+wzaOQsqPjeYs1SqewgJ5M30H9FGoV+UiqOf/UypQG6566yf05JfyWNACE4OUQI8W8YmJhrG0ykQP5t1NoMu9z5AcnCIBE9zgdixRgxcOJBeEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BmWQ659L; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1707864559; c=relaxed/simple;
+	bh=jHvv+4ryYbSvF7PPwhAN75HK+TodxoZw2ak0Ibxc0XA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=f9nfOLhtiNRbhKXwnZwDJXRUuoPMzzRHnC+aRa4RW7pqeHkzkoqlKzkbxOnGRmQEKPcg7fylDE82vWfsO87IoZX+Yyi2xn4oZw9rpqDIC7XNqfDeJtLiLI6/ol68ITlVrjVShNOKqKCymwNToEtGigEQXW42DnbRqvbj6FE0Msw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IYveZ237; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BmWQ659L"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-411c93e6bfaso7162415e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 13:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707861498; x=1708466298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QhlnphO38kFK64rZw6/MYfY4vE6pLo1I8JNTrKfTc6I=;
-        b=BmWQ659LSRlnERUOvz0ZO6omAKBtcF7GLPQuL6lTdp6dtpuJcYeBCAq4Ph1CT7r64n
-         ZT91gnTnq9B/DZrZPkEII/3jqJOXC9Iz68a+Kc0zn9XyqNJQv4vkxVHywa+Z/SHgpQgH
-         e0dJ+Rij9JCGcKwF1o1XJUYyo2CBtHgtmkgdhVuC460zO1WbRJjRkhTuNDmIYyzFcF0h
-         HB2MqpMifV8NmUT82aWirVt51ovy4v8WOFsQm+Q0+x9wb4tnFtF3Epyf6MSd+46hpcqC
-         bBwkzdYDrb6Xw8nDVmaHWAcudF0k5EggbEKieCaTES8WY82KQ0cjT0899RpWAzeTr7l8
-         Uz5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707861498; x=1708466298;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QhlnphO38kFK64rZw6/MYfY4vE6pLo1I8JNTrKfTc6I=;
-        b=NB+Oym4D8XlrOKcCOdXMD66VGXmbK9fxexUGYr3cWeJEwg4VKOpl9BpxvDNR1VBhJE
-         g9I+i2YOlb5GdVUHtyn+WL9gGNEzdL+UOKVD0KtD1+idWDXKAyl07zjj9ZKp5KBbTq2v
-         d6ZK26LManvAXaODYI/U45GbkHtqk6G0fCHsIgA5Cb9GPP2nWbhXF3x/FibX3hW2VrQq
-         FSt9EBdlyrz6aA+fmCysBnbUQWNcsp6X696hWxnF2MiSDF9P+ciNqLuClBDK+KNMZ9s3
-         PZCAKIDjKjmJOu06r9VpimXEmceMICCEpIx2AAcvgw6Fd5tKXG35fsxuN/2hkCTLn3mk
-         y5NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLFlBH7dIj+Rr81gwuP+TUteFG3F0YrQUW0ydZSK3zP17ddppr1t6CoaABtmjRoYEzP8F20j16/EJZMSanpY8oJZOhhR+ibP7MAhs=
-X-Gm-Message-State: AOJu0YzILaTnMJMj2+HBwAWySXOjgt+YPqPu9MX0vTQCwmvnSeXOTazM
-	zU5NoujnIANV8V/EvLHHvJlyuVAs6XKod6mhcplLxfrfCdcheGE6SVGThmU4zu4=
-X-Google-Smtp-Source: AGHT+IFZ3n4e4596jcQPvb4/M0w5BxopAfbxvEnr7lIBU6iDbCf0cnXOAXxypGjN46bUXfIJV5p8/Q==
-X-Received: by 2002:a05:6000:8c:b0:33b:eef:86bf with SMTP id m12-20020a056000008c00b0033b0eef86bfmr388447wrx.25.1707861498107;
-        Tue, 13 Feb 2024 13:58:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVJ0VVy771lMRNflwR2yXi3R6/+dub54OOGnNJcvbuYIcEQsS5QlZrroSyMaWyijwq5c2hC2NvAD1pLPuWErPD4resXTwAhLmgxRmddslpV+8WAJTZhqazEat8FROH6ieAWumwv9lwt2Yn+FPrC6KmppIxwT/69asnfrePkZYVyJm3MK8h6ONvWc4IVBliqIFds5PZnsuGbkN5YWb7v+EZ3lPaVlx8GQXS98E5BHdIkhe2fksr9g6fEQtBkmWZfjgIWHMdjABQC/Deor8k9BzNBZ/jZxeieUroSwXKpwXdAHo9GV7XRnDmuBhbRO+C92L59xtUs95jer13d1n3ZBFTan8/bDFyhPVJtW6W85pRJdzcG8SMhFTgzPnvTI9XyGvrfPCYEwTn2530CpHXZlnm58uKPeqEc/f4S8CjWah4EKiga/vB75UKu5a61ol+z+cTSNM2/+4nM0LDdsn3Xe02hOUew7hU8xN0JxTWaapP3O2LfNImUG8yZiMxgbypKxrbgjYv0pwfGsy5NiexdQymHchYp1g1/WlBYRa30jRBImDVuDC3qnO+VtTeO4PfPh4VlA4esexQfeGrSzLs05LRvxWwnxHyNEIOclcbc1msQ1BOqA/4=
-Received: from toaster.lan ([2a01:e0a:3c5:5fb1:af6b:4350:776e:dcda])
-        by smtp.googlemail.com with ESMTPSA id r3-20020adfca83000000b0033cdbe335bcsm2415244wrh.71.2024.02.13.13.58.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 13:58:17 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v2 2/2] ASoC: meson: t9015: fix function pointer type mismatch
-Date: Tue, 13 Feb 2024 22:58:04 +0100
-Message-ID: <20240213215807.3326688-3-jbrunet@baylibre.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240213215807.3326688-1-jbrunet@baylibre.com>
-References: <20240213215807.3326688-1-jbrunet@baylibre.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IYveZ237"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41DMNqvB013597;
+	Tue, 13 Feb 2024 22:48:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=kS0BuS/dFc0Sb2CDmjSXKeRKMVaweomB8kr69lr3DUI=; b=IY
+	veZ237BYo3/8kkpCqtX8a0sQz3ISSeSw1tccp3RkOlE6Y43Axf71iYjuE2NSieSv
+	09W7xZATnKZfM+C7VArnuqvb/mqOn8+hfN6Irq8zT7seH9rqT6SAMcGkUu2FCZlF
+	Iprk/CyP+3OLlBJ6gS+QTOsqPHtdI5JD74oarLbPAp8Rs8Wf4ChGdUWXXRJTMSf8
+	aQWUiCHRcr+QQBQPOPQ9bXOB7u5GeOXd7AUq+/CrKHcVQsTRQyNlcat5kB8mndON
+	n1cHkAmUFWFO5DqBIWsyb73MUimvr2IeLhKT/zWMxDS4aAH5cOsWZgwidmCYpwiR
+	dderqNLjSn7fbZJk4sFw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7yh329ba-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 22:48:37 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DMma8G004283
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 22:48:36 GMT
+Received: from [10.110.76.255] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
+ 2024 14:48:36 -0800
+Message-ID: <289ae266-c1a4-796a-1f87-387d8ec98646@quicinc.com>
+Date: Tue, 13 Feb 2024 14:48:31 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v15 29/50] ALSA: usb-audio: qcom: Introduce QC USB SND
+ offloading support
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+ <20240213005422.3121-30-quic_wcheng@quicinc.com>
+ <87wmr8y6hi.wl-tiwai@suse.de>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <87wmr8y6hi.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: CPkrbzsESQIWkFFv2CJithY9DWfBhg74
+X-Proofpoint-GUID: CPkrbzsESQIWkFFv2CJithY9DWfBhg74
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-13_14,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ mlxlogscore=666 phishscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ suspectscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130179
 
-clang-16 warns about casting functions to incompatible types, as is done
-here to call clk_disable_unprepare:
+Hi Takashi,
 
-sound/soc/meson/t9015.c:274:4: error: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-  274 |                         (void(*)(void *))clk_disable_unprepare,
+On 2/13/2024 2:59 AM, Takashi Iwai wrote:
+> On Tue, 13 Feb 2024 01:54:01 +0100,
+> Wesley Cheng wrote:
+>> +static int __init qc_usb_audio_offload_init(void)
+>> +{
+>> +	struct uaudio_qmi_svc *svc;
+>> +	int ret;
+>> +
+>> +	svc = kzalloc(sizeof(struct uaudio_qmi_svc), GFP_KERNEL);
+>> +	if (!svc)
+>> +		return -ENOMEM;
+>> +
+>> +	svc->uaudio_wq = create_singlethread_workqueue("uaudio_svc");
+>> +	if (!svc->uaudio_wq) {
+>> +		ret = -ENOMEM;
+>> +		goto free_svc;
+>> +	}
+> 
+> Do we need a dedicated workqueue?  I don't mind much, but an own
+> workqueue isn't usually needed unless specifically required such as
+> the request quantity control or isolation.
+> 
 
-The pattern of getting, enabling and setting a disable callback for a
-clock can be replaced with devm_clk_get_enabled(), which also fixes
-this warning.
+I think we can remove this.  I checked the QMI interface implementation 
+and looks like they are running all the notifications on its own WQ, so 
+doing duplicate work with queuing to our own WQ here in qc_audio_offload.
 
-Fixes: 33901f5b9b16 ("ASoC: meson: add t9015 internal DAC driver")
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- sound/soc/meson/t9015.c | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
-
-diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
-index 9c6b4dac6893..571f65788c59 100644
---- a/sound/soc/meson/t9015.c
-+++ b/sound/soc/meson/t9015.c
-@@ -48,7 +48,6 @@
- #define POWER_CFG	0x10
- 
- struct t9015 {
--	struct clk *pclk;
- 	struct regulator *avdd;
- };
- 
-@@ -249,6 +248,7 @@ static int t9015_probe(struct platform_device *pdev)
- 	struct t9015 *priv;
- 	void __iomem *regs;
- 	struct regmap *regmap;
-+	struct clk *pclk;
- 	int ret;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -256,26 +256,14 @@ static int t9015_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, priv);
- 
--	priv->pclk = devm_clk_get(dev, "pclk");
--	if (IS_ERR(priv->pclk))
--		return dev_err_probe(dev, PTR_ERR(priv->pclk), "failed to get core clock\n");
-+	pclk = devm_clk_get_enabled(dev, "pclk");
-+	if (IS_ERR(pclk))
-+		return dev_err_probe(dev, PTR_ERR(pclk), "failed to get core clock\n");
- 
- 	priv->avdd = devm_regulator_get(dev, "AVDD");
- 	if (IS_ERR(priv->avdd))
- 		return dev_err_probe(dev, PTR_ERR(priv->avdd), "failed to AVDD\n");
- 
--	ret = clk_prepare_enable(priv->pclk);
--	if (ret) {
--		dev_err(dev, "core clock enable failed\n");
--		return ret;
--	}
--
--	ret = devm_add_action_or_reset(dev,
--			(void(*)(void *))clk_disable_unprepare,
--			priv->pclk);
--	if (ret)
--		return ret;
--
- 	ret = device_reset(dev);
- 	if (ret) {
- 		dev_err(dev, "reset failed\n");
--- 
-2.43.0
-
+Thanks
+Wesley Cheng
