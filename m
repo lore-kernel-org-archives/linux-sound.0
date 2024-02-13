@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADB510A1F
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 18:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453EEBE76
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 18:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707849099; cv=none; b=HJNwHjiV0Vt3ZrK4PUNI2mg/j08Z5RUw7Q3DMAcTgXu8LMGy1jnp8A3XfdltP/gRxSMUJ3ppFG71zJnRUsnjKvrx7mfXPLrc+fOHncIHpJVukbVQF06j2+LNZfgdGci9nzT8aHl2QgseTdp3lZJVZM6a2rb0J/dyuvKwK6OaDYQ=
+	t=1707849101; cv=none; b=e4xZkGc9+OFO3kcwBDtRSEaAssGU6CiurlaftvE5OajwmCukaqnh9kYqE+fda8Uz3TWRP6k/jdb1bJktKZBvVqn9GdcQvOXk4d24shStfX3o/2hwJgUSSsuAMiO21cmeIgqwwTjFM5lboXNGxsFye5S7S3DLqmQ5qxxBNE14dxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707849099; c=relaxed/simple;
-	bh=8Ujm7pBOmLNG8NFh+tGCFiwQgnkKWMXG15sGYBA7Tnc=;
+	s=arc-20240116; t=1707849101; c=relaxed/simple;
+	bh=Wt8DchYvY1C9NOvqjvzgp6DIO+lZ35HJSUT2mPaoqGY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ciWF5SXU361nnHhEa/H6bZZGbY0ibYIHLOogWK8As2OgO4nbf3K5eJWwz9kJC0YIfPf61NHeOiU2CqFfcJsGTG8YfBZZSbmKGg/dJpWPM6EDxC035G+r9VVen3Gu0nPmx0RBY04/2zGIFCBu7S2T1Mns8xaBGfej/2mTBs/nsD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHyZHlxr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=EhzRBXYR2ja/8uX6sZuXCci7VFdeloZ1SJZVGyY/YDkWXCqTUFqJ9y+YIizXk6luV6tbGrPQS2Z92w/sSO1k35ZrpeZCAbZnzml9deLR+YfHST1zBN/J/NfWT/hYEBKWyNxZlnzA0IpxROfpzedRoWsxgii2ZIAQYrefhN4365I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6zauee6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHyZHlxr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E3EC433C7;
-	Tue, 13 Feb 2024 18:31:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6zauee6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4C3C43390;
+	Tue, 13 Feb 2024 18:31:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707849099;
-	bh=8Ujm7pBOmLNG8NFh+tGCFiwQgnkKWMXG15sGYBA7Tnc=;
+	s=k20201202; t=1707849101;
+	bh=Wt8DchYvY1C9NOvqjvzgp6DIO+lZ35HJSUT2mPaoqGY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DHyZHlxrIsRK+Y5RhEiF76KmCJIcJ2BjdLh4Pu/SPvRE1fiEFWY6rJOgmwkVgEk1P
-	 aBF0+QjDlv3hink46LBTe7d7IkJnaYy1hNSyqvH6bq7RD1cDHDpyXlbYMK9VxXP9q8
-	 jnJtnVVpaRa6IbTgPV0sDQJzfoNL6WqEO0d3n6quiUQAU2zrH5bDdKgOUOKC4hmd18
-	 2J2eLfinMLnEr8opxV/04CyFCoFCHKQbCCO2RhxVlRNDIviMvBEDbQmH6hxIFnLCVM
-	 hAJib4mFu0VB8M3eBKa1+3IrZz/BKs4+HzoIoWZR5Cpnxw9TOyUG4xlyqNoMX1WxSq
-	 NFuw+BSdOEbmQ==
+	b=S6zauee6ZTK5wniiMZ3T/nPNE7/J3Z2b9/QEHmwm4TLCA6lTXIGdn12QPPITKLU5z
+	 1kdckNHFRqO6Et4NmTaZ4KPQauwF6x/NzFw9Ze7eGe2ijkPg323uFgxhhT/wMGhq9y
+	 BJvvB0irovWM5iG66aDRC2wgK4bZvc75DmMNFlRWSVgMy3P/TY8KaAlKIsWL2GPlJa
+	 h/uMUNEKZvWq9n2/AVQ/32GY3Csm6RJB+ABuGEUHf9IQWyLvsYRMswQV6dk1NiDx0M
+	 3tMSXpkCemQZ5tfrJCA26Dn/n30aRUfLBh9/x0TpVxrGn7m7dGcoX4y01Mq6oC8oJ6
+	 NHr2o2Yq/Ptmg==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
-In-Reply-To: <20240213114729.7055-1-peter.ujfalusi@linux.intel.com>
-References: <20240213114729.7055-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Fix runtime pm usage counter balance after
- fw exception
-Message-Id: <170784909787.647645.7620637770716706286.b4-ty@kernel.org>
-Date: Tue, 13 Feb 2024 18:31:37 +0000
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com
+In-Reply-To: <20240213123007.29956-1-peter.ujfalusi@linux.intel.com>
+References: <20240213123007.29956-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: set config_length based on
+ device_count
+Message-Id: <170784909950.647645.16375450834176377252.b4-ty@kernel.org>
+Date: Tue, 13 Feb 2024 18:31:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +47,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Tue, 13 Feb 2024 13:47:29 +0200, Peter Ujfalusi wrote:
-> If the retain context is enabled we will unconditionally increment the
-> device's pm use count on each exception and when the drivers are unloaded
-> we do not correct this (as we don't know how many times we 'prevented
-> d3 entry').
-> Introduce a flag to make sure that we do not increment the use count more
-> than once and on module unload decrement the use count if needed to
-> balance it.
+On Tue, 13 Feb 2024 14:30:07 +0200, Peter Ujfalusi wrote:
+> Set ipc4_copier->data.gtw_cfg.config_length dynamically based on
+> blob->alh_cfg.device_count to align with the other OS.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -63,8 +59,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Fix runtime pm usage counter balance after fw exception
-      commit: b30289e7fa927f921bfb4d0d04727461706ae822
+[1/1] ASoC: SOF: ipc4-topology: set config_length based on device_count
+      commit: e49676a5fc83e5d396f45ce4b90ca9c44736c69a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
