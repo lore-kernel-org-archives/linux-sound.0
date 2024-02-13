@@ -1,136 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B2D134D8;
-	Tue, 13 Feb 2024 11:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE43364BD
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 11:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707822350; cv=none; b=UKNQ582+6laARgNsKEfx43by8Zyx57BTBz+IVX7qIbRJUjb65g3Rkp2/2tYy2kaHwlRWj3S9shZaDXqmCq1UNHDm2sX23l5eUeFaNCpvKDwfB7wXCBslx0kjCqYfBK0wklsxQENgvYmIkMFztYMLkJcxSuBqAESH9n5oa91BaOc=
+	t=1707822423; cv=none; b=Jg1C40fwX+jrkrx7PK505JrarM49ot3U14xhbmj3bFkpcNbWYg7A7gEZvQoezuw0J9WIdfchFFNCYzs9uDzGhjP+kjeOoj25pOl75bxPoIr3VJKwo+ff7CPpvNjCuPnajck78BeanBvYh9+5pEuQbN7Py/qqc3JPJ00Vse5nPWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707822350; c=relaxed/simple;
-	bh=saEEW2K86dM6FLv55BUHxbVrfwkcPU+hjYCqovDchuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZEob2ZKIZapb+K4gtAn4taiNU/WkP9us60oZZgjNn+yi636wKfcSYw5kTEgbqUZLIXOcAE0i09UiD7IezwO/VLnb7Zn8R2TzK4wrMv2MUIZOgM+yoJyXhy4Gal2nRXLFZW8RulfdT5Q/bIZxvapvIvs8AQNWAZUIxqB3Rc9Kg6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WWslb2Hf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707822423; c=relaxed/simple;
+	bh=jZshnvYzJyENbxKnnWUvg4QIShBinMiOHaz5tAnO8Ns=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IspYzGqn6raXgeKKc829g7F4iCI12hMnZprxaHoFkeMtZUhPgQ4BYjACQJbceaxL/Vyq/M5bvQ4IvZjBZFbQhSCpENow4ITNlfbOV/0nik9ChZeAPgjvdIBHHIFagYJXaBBVCMclBFJd+/L9qUnvxIXkCmuAzpp7fy302F1BnPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9/mwr1u; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WWslb2Hf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99541C433F1;
-	Tue, 13 Feb 2024 11:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707822350;
-	bh=saEEW2K86dM6FLv55BUHxbVrfwkcPU+hjYCqovDchuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WWslb2HfAr2jGZgmRghTVvSL5AEn56kpCKX3evrc60iEsvE4AjaW4BFwJjmNatY9Q
-	 YOWGnFGCoYtz6OD7dQ9qU7wL/z6Xb2My0+oMtxmX3vhKil5rDh9UIPC2PlszYW3sH0
-	 FhV2jViRZJUoRYZM6aHBIhveIufTmt87SNWxLIas=
-Date: Tue, 13 Feb 2024 12:05:47 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alexander Tsoy <alexander@tsoy.me>
-Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Nikolay Yakimov <root@livid.pp.ru>,
-	Saranya Gopal <saranya.gopal@intel.com>
-Subject: Re: [PATCH] USB: Always select config with the highest supported UAC
- version
-Message-ID: <2024021353-reversing-waltz-7402@gregkh>
-References: <20240212152848.44782-1-alexander@tsoy.me>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9/mwr1u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707822422; x=1739358422;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jZshnvYzJyENbxKnnWUvg4QIShBinMiOHaz5tAnO8Ns=;
+  b=T9/mwr1uYAE66p9nWX7pqaWUAokzNYkfctXZhXyrREbhXs+cltXqXxXG
+   77BPmBtxOuYNVawotkK32bAka3+cSVWSmXie5zBt6ghj1TCJ5K1VFsV5l
+   FEMILcap2ij/448dBZiobrxspZ5GOOT/o/O+1BYyIqPkawULvbww7uU27
+   /2ely68hTbWf5dRxDDjIdg9jFM4KevbJayX4N4RvcxqY3wfOSMvDJwuAw
+   IS7WUo4al4Hks33isuV/Oty0q+V2n9sVycikO98pEPgJCiDmPzVKq7HJZ
+   /eO6mz48R+VMoKmJyBF5tgoMZN0uBuGC5kyQZcAgC05vYd2czxGF1VONW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="13217362"
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
+   d="scan'208";a="13217362"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 03:06:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
+   d="scan'208";a="2828930"
+Received: from dcoroian-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.42.253])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 03:06:52 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	liam.r.girdwood@intel.com,
+	rander.wang@intel.com
+Subject: [PATCH] ASoC: SOF: Intel: hda-dsp: Skip IMR boot on ACE platforms in case of S3 suspend
+Date: Tue, 13 Feb 2024 13:07:01 +0200
+Message-ID: <20240213110701.12818-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212152848.44782-1-alexander@tsoy.me>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 12, 2024 at 06:28:48PM +0300, Alexander Tsoy wrote:
-> Config with the highest supported UAC version is always preferable because
-> it usually provides more features.
-> 
-> Main motivation for this change is to improve support for several UAC2
-> devices which have UAC1 config as the first one for compatibility reasons.
-> UAC2 mode provides a wider range of supported sampling rates on these
-> devices. Also when UAC4 support is implemented, it will need just one
-> additional case line without changing the logic.
-> 
-> Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
-> ---
->  drivers/usb/core/generic.c | 39 +++++++++++++++++++++++++-------------
->  1 file changed, 26 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
-> index b134bff5c3fe..8aeb180e1cf9 100644
-> --- a/drivers/usb/core/generic.c
-> +++ b/drivers/usb/core/generic.c
-> @@ -48,9 +48,16 @@ static bool is_audio(struct usb_interface_descriptor *desc)
->  	return desc->bInterfaceClass == USB_CLASS_AUDIO;
->  }
->  
-> -static bool is_uac3_config(struct usb_interface_descriptor *desc)
-> +static bool is_supported_uac(struct usb_interface_descriptor *desc)
->  {
-> -	return desc->bInterfaceProtocol == UAC_VERSION_3;
-> +	switch(desc->bInterfaceProtocol) {
-> +	case UAC_VERSION_1:
-> +	case UAC_VERSION_2:
-> +	case UAC_VERSION_3:
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
->  }
->  
->  int usb_choose_configuration(struct usb_device *udev)
-> @@ -135,22 +142,28 @@ int usb_choose_configuration(struct usb_device *udev)
->  		}
->  
->  		/*
-> -		 * Select first configuration as default for audio so that
-> -		 * devices that don't comply with UAC3 protocol are supported.
-> -		 * But, still iterate through other configurations and
-> -		 * select UAC3 compliant config if present.
-> +		 * Iterate through audio configurations and select the first of
-> +		 * the highest supported UAC versions. Select the first config
-> +		 * if no supported UAC configs are found.
->  		 */
->  		if (desc && is_audio(desc)) {
-> -			/* Always prefer the first found UAC3 config */
-> -			if (is_uac3_config(desc)) {
-> -				best = c;
-> -				break;
-> -			}
-> +			struct usb_interface_descriptor	*best_desc = NULL;
-> +
-> +			if (best)
-> +				best_desc = &best->intf_cache[0]->altsetting->desc;
+SoCs with ACE architecture are tailored to use s2idle instead deep (S3)
+suspend state and the IMR content is lost when the system is forced to
+enter even to S3.
+When waking up from S3 state the IMR boot will fail as the content is lost.
+Set the skip_imr_boot flag to make sure that we don't try IMR in this case.
 
-Are you sure you always have a intf_cache[0] pointer?  What about
-altsetting?  Remember, invalid descriptors happen all the time, and are
-a known "attack vector" against the USB stack.
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+---
+ sound/soc/sof/intel/hda-dsp.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
->  
-> -			/* If there is no UAC3 config, prefer the first config */
-> -			else if (i == 0)
-> +			if (i == 0)
->  				best = c;
->  
-> +			/* Assume that bInterfaceProtocol value is always
-> +			 * growing when UAC versions are incremented, so that
-> +			 * the direct comparison is possible. */
+diff --git a/sound/soc/sof/intel/hda-dsp.c b/sound/soc/sof/intel/hda-dsp.c
+index 2445ae7f6b2e..1506982a56c3 100644
+--- a/sound/soc/sof/intel/hda-dsp.c
++++ b/sound/soc/sof/intel/hda-dsp.c
+@@ -681,17 +681,27 @@ static int hda_suspend(struct snd_sof_dev *sdev, bool runtime_suspend)
+ 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
+ 	const struct sof_intel_dsp_desc *chip = hda->desc;
+ 	struct hdac_bus *bus = sof_to_bus(sdev);
++	bool imr_lost = false;
+ 	int ret, j;
+ 
+ 	/*
+-	 * The memory used for IMR boot loses its content in deeper than S3 state
+-	 * We must not try IMR boot on next power up (as it will fail).
+-	 *
++	 * The memory used for IMR boot loses its content in deeper than S3
++	 * state on CAVS platforms.
++	 * On ACE platforms due to the system architecture the IMR content is
++	 * lost at S3 state already, they are tailored for s2idle use.
++	 * We must not try IMR boot on next power up in these cases as it will
++	 * fail.
++	 */
++	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
++	    (chip->hw_ip_version >= SOF_INTEL_ACE_1_0 &&
++	     sdev->system_suspend_target == SOF_SUSPEND_S3))
++		imr_lost = true;
++
++	/*
+ 	 * In case of firmware crash or boot failure set the skip_imr_boot to true
+ 	 * as well in order to try to re-load the firmware to do a 'cold' boot.
+ 	 */
+-	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
+-	    sdev->fw_state == SOF_FW_CRASHED ||
++	if (imr_lost || sdev->fw_state == SOF_FW_CRASHED ||
+ 	    sdev->fw_state == SOF_FW_BOOT_FAILED)
+ 		hda->skip_imr_boot = true;
+ 
+-- 
+2.43.0
 
-How do we know this assumption is always true?  What happens when it is not?
-
-> +			else if (is_supported_uac(desc) && best_desc &&
-> +				 (!is_supported_uac(best_desc) ||
-> +				  (desc->bInterfaceProtocol >
-> +				   best_desc->bInterfaceProtocol)))
-> +					best = c;
-
-I really can't understand this if logic, sorry, can you describe it
-better so that we can maintain it over time?
-
-thanks,
-
-greg k-h
