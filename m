@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9981C5FDBA
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 17:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6A25F84B;
+	Tue, 13 Feb 2024 17:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707844359; cv=none; b=tg+9KSZ1e1UUlXYBwbcFsDhLFQ4tvqLghzAQgmIoocakgZoILkFwMTH+bV0HsxilrGgGDHEDKwo5xIftioK8Do7MQGPwMHYExiGukHaOG7Ie43teYJKdC9DBBwBYk+hdcF4tfzbZN93HTWYJymdIgQTSxlNlM7P3t+pHI2mkIok=
+	t=1707844362; cv=none; b=cw5KQyZc5IV2Fhj9OqO9ZQRBTECj6dAaAxDx0JCfeTbG4XLX4jlg+qDRSuhB0WRFhbpz+RBTu/79gB3Jirhp952YboCmuEHCHK97V6+e7KBmHex9iL3KAIzr/1F/TlgKu6J/u3m1FqG/zaInHYWinM6qvDPx3+2TQGu+GmCVuJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707844359; c=relaxed/simple;
-	bh=Zk1VVUSPuiMS+puiXACqPjlQNY+t+VUPTl22O448IxU=;
+	s=arc-20240116; t=1707844362; c=relaxed/simple;
+	bh=DODOhjUD2slZ/cgfwysouYBG0XDvcKxiIpc358gSyao=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QzBE2ZS2oBEphxcTDBeFzNR8yhn7F9z/S+lT9O3Ie65tlN27OUTau+EKr66oyHx/9tlkCKsNq7fwNT02sjUesFe2GgmO+M/UKK25rmidLRlBOyFAFsNxPIV/nlUxZhw+ant/MkXIv7kR0q9msid+KRYln+5FA/rVHh2zb8E3CFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7QiT871; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=G5UWNceocbCCfAhD+sV/SzikIBcazZvUcwYeLEpIU/Lo2NASJEaxcn0lDeQvJuTiJzgZ7cx5cAwB8p7ervFVmdTayClBx1dePffsRIBkJ/A2JGeMa7A+QGXzpumvXqByt7aSvVmYFK3sa/WAqKWGQAWXumpJq2OcvhdnoICBVlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M7DUp+U4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7QiT871"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18991C43394;
-	Tue, 13 Feb 2024 17:12:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M7DUp+U4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4590C433C7;
+	Tue, 13 Feb 2024 17:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707844359;
-	bh=Zk1VVUSPuiMS+puiXACqPjlQNY+t+VUPTl22O448IxU=;
+	s=k20201202; t=1707844361;
+	bh=DODOhjUD2slZ/cgfwysouYBG0XDvcKxiIpc358gSyao=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=B7QiT871XeZFeBP+Ja8kTWepVUS8SK1ZNrIukJvMi/TXaSLMsTThyB6k4VHW+EmrN
-	 JmI93n8ob0u/GmAyPIAxLrN/YFy9Sq4edjWb/JV64Px12bhNQP5RceNOHSBRGotc/Y
-	 Bkwz4ZQVf1ZeBWWo7jzBAQpvTzdv1UJvGVdCfGY7igJWgrH9oPDu8Rw0xEi7QNSc1p
-	 MgfsAJiYH6Vap/3sQqoSl5N4FxrrSfrHkE0acOfwxP952qDA+Tr05FgLwa4IdKC9TS
-	 hUGTpb3DVeVmmRxrI2eGDlD9vjXKhVODsHBaz9WXJYPLTaLIS3zk2ys1Gr1f561nNq
-	 P8ba0r1/SZUYA==
+	b=M7DUp+U4yRiCZkSDg4dYkigqH4LdxlXWe1xFiEvofBwXWa3L8UySlRO//QOdQ5ZG5
+	 /BOCvYYBTIiL9UFL6LxFGTsd5EvecRPyH8tZcOMMmBxWQrv4s4xLIh3Qb142KEDE3h
+	 8dA+Feb4mBjlET/D/b+2Y0pmUAAMZM+l8KVmLkcRLsN/yyRzW2AAJSwatdi5eJR3vm
+	 rpO02OHmfZ6WQP90h/bPidM3BpJv6ubkLGfldxH7LDJ7+A1t51KyWj1en+ufak1jJH
+	 4JGuRxuf5iaki+lkRArZsHbWdmDNiMQ3b4mQ+rgUXN3ODQv/uw7JQRDPHrjKQBnsff
+	 4XYEunu/HDLVg==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
  kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- yung-chuan.liao@linux.intel.com
-In-Reply-To: <20240213115233.15716-1-peter.ujfalusi@linux.intel.com>
-References: <20240213115233.15716-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Workaround for crashed firmware
- on system suspend
-Message-Id: <170784435783.387832.161975827217906863.b4-ty@kernel.org>
-Date: Tue, 13 Feb 2024 17:12:37 +0000
+ timvp@google.com, cujomalainey@chromium.org, daniel.baluta@nxp.com, 
+ stable@vger.kernel.org
+In-Reply-To: <20240213123834.4827-1-peter.ujfalusi@linux.intel.com>
+References: <20240213123834.4827-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: IPC3: fix message bounds on ipc ops
+Message-Id: <170784435966.387832.16439838513913761669.b4-ty@kernel.org>
+Date: Tue, 13 Feb 2024 17:12:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,21 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Tue, 13 Feb 2024 13:52:33 +0200, Peter Ujfalusi wrote:
-> When the system is suspended while audio is active, the
-> sof_ipc4_pcm_hw_free() is invoked to reset the pipelines since during
-> suspend the DSP is turned off, streams will be re-started after resume.
+On Tue, 13 Feb 2024 14:38:34 +0200, Peter Ujfalusi wrote:
+> commit 74ad8ed65121 ("ASoC: SOF: ipc3: Implement rx_msg IPC ops")
+> introduced a new allocation before the upper bounds check in
+> do_rx_work. As a result A DSP can cause bad allocations if spewing
+> garbage.
 > 
-> If the firmware crashes during while audio is running (or when we reset
-> the stream before suspend) then the sof_ipc4_set_multi_pipeline_state()
-> will fail with IPC error and the state change is interrupted.
-> This will cause misalignment between the kernel and firmware state on next
-> DSP boot resulting errors returned by firmware for IPC messages, eventually
-> failing the audio resume.
-> On stream close the errors are ignored so the kernel state will be
-> corrected on the next DSP boot, so the second boot after the DSP panic.
 > 
-> [...]
 
 Applied to
 
@@ -69,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4-pcm: Workaround for crashed firmware on system suspend
-      commit: c40aad7c81e5fba34b70123ed7ce3397fa62a4d2
+[1/1] ASoC: SOF: IPC3: fix message bounds on ipc ops
+      commit: fcbe4873089c84da641df75cda9cac2e9addbb4b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
