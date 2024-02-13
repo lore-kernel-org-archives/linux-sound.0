@@ -1,88 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245A263100;
-	Tue, 13 Feb 2024 23:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E961E5FF09;
+	Tue, 13 Feb 2024 23:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707866625; cv=none; b=N7rb301o1BFYRAmI3kumz9RxudLQcdBJMWY3omgg8a0JzLfjl6NuLkbEphKlJ/Xq5jTUhQqLEL3L2rn8MEKKBguym8EMI8NH8pJ9dLDklbrJrUpaHpJtb7n9GfKYQVK9/PPq/9Vd3VLG0nWwL1KOJxwWAQJTJalsA3fyu7gmGL4=
+	t=1707867454; cv=none; b=Z34rzjF7HuRvjuUJCOxOTWD/z/t2CuOeLBfmJMjmMj0Puc1plnheNlyrIijwqADxdvfFAN7xtgHb85emN6cwkoQUX3sqmsz3M0xPwwllnaHYjKLMe4bT+1Ef2jhenH5sOS3Dibbf2I1uB4eGFc3Sf0PD/CfgyNB7FoN9SdnvUQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707866625; c=relaxed/simple;
-	bh=cVB0ouQDPy5ygm5QzJjPDylrMnOO/mLpWOWbxzBzNww=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Kuivu9zuEbd5E1RW2vGEOvmynk2jLhX9OnWgY1dhseQ1pWU2UOUJWTN1mcNyillM2h8YQZfcnnJz07sf01tIByERpcr5bsdRQcv0dtvxdUo5eYP3YSZFR0Qt7eNOWAz2tHy6wF52WHiHbFPQpgJR98RN15KQZ1S0IEPeEaZI7FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqh09BEg; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqh09BEg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9501CC433C7;
-	Tue, 13 Feb 2024 23:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707866624;
-	bh=cVB0ouQDPy5ygm5QzJjPDylrMnOO/mLpWOWbxzBzNww=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aqh09BEgg0yQXxTYlV2WyI6pjKy7CkoypAwcJyEvfQLdWiASXnK6+Snq6zfzrvoJL
-	 0q8KSjT5rULNQJn+Sx9NHcBKb6ERq9ihrX6A9lr7ALCvImXcEXRyemEXrNvXnnsJcv
-	 mjC2e7AntJkusUy5EI/UVbJvi5l2lzhkSBwsoYLkXL+iogi6Llgn9TgcDYqWRAPyZS
-	 cmNis6tjfNbR0ysXSBBkf977KYLJthJodqyK+tBT3a12oiUBnXEcZM5tR09wh0Kqwm
-	 HMAl9XIhSTOynMK5t3BEsSZms1FIkuB0GBGY354uOdvgUWl8EC7dbFNdOBhlNsOuNQ
-	 effzgn9xXB7dg==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240209111840.1543630-1-rf@opensource.cirrus.com>
-References: <20240209111840.1543630-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Workaround for ACPI with broken
- spk-id-gpios property
-Message-Id: <170786662332.1076782.7482522938030150798.b4-ty@kernel.org>
-Date: Tue, 13 Feb 2024 23:23:43 +0000
+	s=arc-20240116; t=1707867454; c=relaxed/simple;
+	bh=l4zlABakHG1SEs5TKwTDVAnsPVbwPbPjfVKmGSFErxw=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=efP6vtpX2l0f7oQYRBohdOAc+bBdGwtOVAvX3qLmPybfAROCT7wuBv50lYDVV9Fz/Qh+wSyU+7dKZ0kgPFud5TwGTsqcJ3tjYcb93CC6hrfhK72Xj12HavJegPDAJYERn+MESsXwtT5wOJOhcckwwbGx4A77PsFftNvCf6adj/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from zimbra-e1-03.priv.proxad.net (unknown [172.20.243.151])
+	by smtp5-g21.free.fr (Postfix) with ESMTP id 42F485FF95;
+	Wed, 14 Feb 2024 00:37:23 +0100 (CET)
+Date: Wed, 14 Feb 2024 00:37:23 +0100 (CET)
+From: =?utf-8?Q?Jean-Lo=C3=AFc?= Charroud <lagiraudiere+linux@free.fr>
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound <linux-sound@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	patches <patches@opensource.cirrus.com>
+Message-ID: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
+Subject: [PATCH v3 0/3] ALSA: hda/realtek: cs35l41: Fix internal speaker
+ support for ASUS UM3402 with missing DSD
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 9.0.0_GA_1337 (ZimbraWebClient - FF122 (Linux)/9.0.0_GA_1337)
+Thread-Index: b1DHXbQj7eN1w6/I0T0Clij1GRQ0gA==
+Thread-Topic: ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
 
-On Fri, 09 Feb 2024 11:18:40 +0000, Richard Fitzgerald wrote:
-> The ACPI in some SoundWire laptops has a spk-id-gpios property but
-> it points to the wrong Device node. This patch adds a workaround to
-> try to get the GPIO directly from the correct Device node.
-> 
-> If the attempt to get the GPIOs from the property fails, the workaround
-> looks for the SDCA node "AF01", which is where the GpioIo resource is
-> defined. If this exists, a spk-id-gpios mapping is added to that node
-> and then the GPIO is got from that node using the property.
-> 
-> [...]
+This patch set adds the missing DSD properties, to make the internal speake=
+r works for the "ASUS UM3402" and does some cleanup.=20
 
-Applied to
+Following feedback, I've divided the initial patch into three independent p=
+arts and adjusted the explanations:=20
+- Patch 1 : Add internal speaker support for ASUS UM3402 with missing DSD=
+=20
+- Patch 2 : Fix device ID / model name (no functional changes)=20
+- Patch 3 : Fix order and duplicates entry in quirks table (cleanup, no fun=
+ctional changes)=20
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Thank you Takashi for your guidance=20
+I hope everything is in good shape now.=20
 
-Thanks!
+Regards=20
+Lo=C3=AFc=20
 
-[1/1] ASoC: cs35l56: Workaround for ACPI with broken spk-id-gpios property
-      commit: 0db0c1770834f39e11a2902e20e1f11a482f4465
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+sound/pci/hda/cs35l41_hda_property.c | 2 ++=20
+sound/pci/hda/patch_realtek.c | 7 +++----=20
+2 files changed, 5 insertions(+), 4 deletions(-)
