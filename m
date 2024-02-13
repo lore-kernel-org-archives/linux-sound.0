@@ -1,151 +1,175 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DABD4EB45
-	for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 21:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730D0631;
+	Tue, 13 Feb 2024 00:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707773591; cv=none; b=TbhlgWvmHvZlM3mM832zYssS931SQ7pRytw6+LUwCVuAweNgPxyBKMl217rRIL8Mn0mHahfOTx5kAGSeFnJ0Mnem/nn7UBSK6B1ejuRXMrZq+/dfidXvPNU6BwPYRYqT9+ALqlCqMzdpC24Uozdlcb4xjkznr5gHMKe+sH4P7+U=
+	t=1707785696; cv=none; b=sAq5TgbNkTvcO+5tJEKp5ANVF2b6IUjZFDmqKcBUPC1V3/vFztW/KUGvr37TTs4ulGWHD/kBA/E5b13NRkG9/yhuGGn0w2dYG3GL5Ez58zPC75MvXExU+jxk2wWS7Ij92F8ewAN4euBJbFJEBEtme9+GJ8v+XsiYKmdp7iepP98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707773591; c=relaxed/simple;
-	bh=UccBZcWyRgHb8CdqI4SfdswhlCvqeiofHLzpJGOSCIM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SwIHUfGsGsPYojLyKGvqeRdFjk5Mk0mwEaCc5XCEA9dJSTkiESTAR0P6otUM9Umo2Eyhihg1SY8iuGlooulqCcHusvmGwhwV2Xp0c222oqgthJc51OsUzjC5mBqvAzPhKTCvwo0MyGb5iC5h2cjNpvStNmsqkf+RDWfGpC8SEGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=UYkLqjxT; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1707785696; c=relaxed/simple;
+	bh=9xhUO2oBg3VGby3vuFrh+xyofs8aRXlLZClt/1/wQLY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EYil5c7OmrqnjpemOF3ykc5LHlLU/UVntlzCtD68sIRSqwH7his7cAAWKFNL9s4mixVXD4IKOjl8Cm5AcZlKd9ccq1wfB3vNRLBzk4S1HKwr9jG9aoAx7HcGGtgLAwhMXFIYaR5RqR6URzOsBFwa4B1DW0g/q5Dutc49OFk0TkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aBrqkdTZ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="UYkLqjxT"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-4c009d2053fso724496e0c.3
-        for <linux-sound@vger.kernel.org>; Mon, 12 Feb 2024 13:33:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1707773587; x=1708378387; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FJH2iY95UEJbzAWLAhKcrIml1wV+F91i2EVUBYNcdJo=;
-        b=UYkLqjxT9GoSJnOQq93tXQa+t0FQEHckVJXzZ4Jk2drByJPW6AwZFaxvGLKlhTGEFi
-         fIC2RwbEQumys6l1cZt1ESJw6pvC5N7OCy9a717BecKgaHCOBtBM8jDfYvUDUUxC6hXU
-         CcjdrbpP+U3US/7ljiib3qOQfgLiS+PVQrQWCwwuUm+KWCVEynGTYESjb6Es50mKIkFb
-         VYgQM00Qdwc/ULLhUEa24iTyV5/OXUXrzGqzuo+X7Qi34NUFTec7UZjSEX12Js2XUc0C
-         1I0MbGz8i740ZFB+MBT4+S4og+EaSnQsTs8gm+jn1dzEi95J6p7mbRtsXInOnTo3ftYp
-         7Kng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707773587; x=1708378387;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FJH2iY95UEJbzAWLAhKcrIml1wV+F91i2EVUBYNcdJo=;
-        b=OMKnDLIeNt1EovqLZ1GTexL71wEUhQqz+pG6vV2ddadVKOxkhD1QfBiyG8kssfuFih
-         n7j0ESrIw5qeD+NEQbyvoNZ835t4YfyWATZNmuVQ26IZqkO9er7ZsUlx0cQhBojGmRV1
-         z++blgawU40+5tWcKIufsD1sF2CqaqHd8LFSvQ/dJPjphOEB4mqGHULnaMjvQqUH727G
-         a7Xn0KEL4O2PYdw+OXHXtddj38cHRGJ0RMKD90v3MpOluSk8nMlL4MUBtKIyS4fZZMTP
-         /sMJdD+AK66wviTD+M6fmXurvCfnVivcu1+lMf2pIh0tr8qWfn8QfnTH70GshUEwnkuo
-         ToTg==
-X-Gm-Message-State: AOJu0YxfvfyOD/BxdcByr9Oe+cKLqKz190O4n9GzrM9wJVEObW4VfkC+
-	QFSoTmMfsYzkuK+C8SyYlIU1aHMUlG+iTXVceu+h42sSyPyc+GyVff8qb9h870wzsnt8Vq19mcI
-	BdiAdL10b9TlJemrS55ieJka4RTLmALlzbdXwZQ==
-X-Google-Smtp-Source: AGHT+IG9JhWk1ypXImx7gtdukOOrn/OVeJ91OyJ0AaFvoBMaRZsO4e81KwtlPywmU6wMBSTdbrnt6I7BaNpH/6tSHa8=
-X-Received: by 2002:a1f:e7c3:0:b0:4c0:21c4:3a9b with SMTP id
- e186-20020a1fe7c3000000b004c021c43a9bmr4103383vkh.15.1707773587581; Mon, 12
- Feb 2024 13:33:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aBrqkdTZ"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41D09Ysj016771;
+	Tue, 13 Feb 2024 00:54:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=e3ZP4UGfMJHN9tb9hE1a
+	TUT7cHSD1ZLTE7FnRsZFK6Q=; b=aBrqkdTZ61OWT36+l02qdAEAkAsimqWgdDmw
+	nHMayodPCCY6qLVgFbN9ZnKe2gHxCF0Os1moVwEx9AcZsZ2TQ+rE9fQPUOoaIlYO
+	kpRZBCi1+lptgzCkzLtNMziCh8yHdxmYdFIGmTxckTxD0Lmq0dkjU4dhw6d48Xko
+	ZZKPlrltq3InzhICLF7kulH4KRQTbUrrCC+BzwX0wOtfWIyX6oULu8suJfAni/Ad
+	ciaUmFx/DuGl2zHLhWFnPkTVvLO8FNsHOFwyrbVpNaaRYWk4sJNgQ9R7G8zORO6v
+	Hud64NxIeuc3aQJns8pc64Yb5ic9MzME4xqVGHgJaJjR0ZB6vg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w62kt4ty8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 00:54:35 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D0sYjR026763
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 00:54:34 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 12 Feb 2024 16:54:34 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v15 05/50] xhci: update event ring dequeue pointer position to controller correctly
+Date: Mon, 12 Feb 2024 16:53:37 -0800
+Message-ID: <20240213005422.3121-6-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
- <20240129115216.96479-5-krzysztof.kozlowski@linaro.org> <CACRpkdbMFHPK0SBSxiZ3FOqChQFCBdOny0yYG--6V+1S=CKgiw@mail.gmail.com>
-In-Reply-To: <CACRpkdbMFHPK0SBSxiZ3FOqChQFCBdOny0yYG--6V+1S=CKgiw@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 12 Feb 2024 22:32:56 +0100
-Message-ID: <CAMRc=MeEPvhB1nTwBT5fG7p0G4L2J5FjJfM0GMusQuDnnEN35g@mail.gmail.com>
-Subject: Re: [PATCH v6 4/6] reset: Instantiate reset GPIO controller for
- shared reset-gpios
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Sean Anderson <sean.anderson@seco.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: U3voO1VJLncFRE04Fk3igBRQ06DGSlg8
+X-Proofpoint-ORIG-GUID: U3voO1VJLncFRE04Fk3igBRQ06DGSlg8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-12_20,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130005
 
-On Mon, Feb 12, 2024 at 9:48=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
->
-> On Mon, Jan 29, 2024 at 12:53=E2=80=AFPM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->
-> > Devices sharing a reset GPIO could use the reset framework for
-> > coordinated handling of that shared GPIO line.  We have several cases o=
-f
-> > such needs, at least for Devicetree-based platforms.
-> >
-> > If Devicetree-based device requests a reset line, while "resets"
-> > Devicetree property is missing but there is a "reset-gpios" one,
-> > instantiate a new "reset-gpio" platform device which will handle such
-> > reset line.  This allows seamless handling of such shared reset-gpios
-> > without need of changing Devicetree binding [1].
-> >
-> > To avoid creating multiple "reset-gpio" platform devices, store the
-> > Devicetree "reset-gpios" GPIO specifiers used for new devices on a
-> > linked list.  Later such Devicetree GPIO specifier (phandle to GPIO
-> > controller, GPIO number and GPIO flags) is used to check if reset
-> > controller for given GPIO was already registered.
-> >
-> > If two devices have conflicting "reset-gpios" property, e.g. with
-> > different ACTIVE_xxx flags, this would allow to spawn two separate
-> > "reset-gpio" devices, where the second would fail probing on busy GPIO
-> > request.
-> >
-> > Link: https://lore.kernel.org/all/YXi5CUCEi7YmNxXM@robh.at.kernel.org/ =
-[1]
-> > Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> > Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> > Cc: Sean Anderson <sean.anderson@seco.com>
-> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
->
-> I can't think of anything better, that is reasonable to ask for.
->
-> I feel slightly icky about the way the code reaches into gpiolib, and I t=
-hink
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-As long as it doesn't include gpiolib.h, I'm fine with it.
+The event ring dequeue pointer field (ERDP) in xHC hardware is used to
+inform controller how far the driver has processed events on the event
+ring.
 
-> regulators should be able to reuse the code, but unfortunately only the d=
-ay
-> they have no board files left :/
->
-> I do feel the core code handling "reset-gpios" could as well have been
-> used to handle "enable-gpios" in regulators, just that the regulator code
-> has more requirements, and would be really hard to rewrite, and deals
-> with descriptors passed in from drivers instead of centralizing it.
->
-> Like regulators, reset grows core support for handling GPIO for resets
-> which is *long due*, given how common it must be. We really need
-> something like this, and this is certainly elegant enough to do the job.
->
-> Yours,
-> Linus Walleij
+In the case all events are handled and event ring is empty then the
+address of the TRB after the last processed one should be written.
+This TRB is both the enqueue and dequeue pointer.
 
-Agreed.
+But in case we are writing the ERDP in the middle of processing
+several events then ERDP field should be written with the "up to and
+including" address of the last handled event TRB.
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Currenly each ERDP write by driver is done as if all events are handled
+and ring is empty.
 
-I will pick up the stub patches tomorrow and send a tag for Philipp to pull=
-.
+Fix this by adjusting the order when software dequeue "inc_deq()"
+is called and hardware dequeue "xhci_update_erst_dequeue()" is updated.
 
-Bartosz
+Details in xhci 1.2 specification section 4.9.4:
+
+"System software shall write the Event Ring Dequeue Pointer (ERDP)
+ register to inform the xHC that it has completed the processing of Event
+ TRBs up to and including the Event TRB referenced by the ERDP.
+
+ The detection of a Cycle bit mismatch in an Event TRB processed by
+ software indicates the location of the xHC Event Ring Enqueue Pointer
+ and that the Event Ring is empty. Software shall write the ERDP with
+ the address of this TRB to indicate that it has processed all Events
+ in the ring"
+
+This change depends on fixes made to relocate inc_deq() calls captured
+in the below commits:
+
+  commit 3321f84bfae0 ("xhci: simplify event ring dequeue tracking for
+  transfer events")
+
+  commit d1830364e963 ("xhci: Simplify event ring dequeue pointer update
+  for port change events")
+
+Fixes: dc0ffbea5729 ("usb: host: xhci: update event ring dequeue pointer on purpose")
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-ring.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index a9d2e876d62b..0289d77839cf 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2966,9 +2966,6 @@ static int xhci_handle_event(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ 		return 0;
+ 	}
+ 
+-	/* Update SW event ring dequeue pointer */
+-	inc_deq(xhci, ir->event_ring);
+-
+ 	/* Are there more items on the event ring?  Caller will call us again to
+ 	 * check.
+ 	 */
+@@ -3091,15 +3088,21 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
+ 	 * that clears the EHB.
+ 	 */
+ 	while (xhci_handle_event(xhci, ir) > 0) {
+-		if (event_loop++ < TRBS_PER_SEGMENT / 2)
+-			continue;
+-		xhci_update_erst_dequeue(xhci, ir, false);
++		/*
++		 * If half a segment of events have been handled in one go then
++		 * update ERDP, and force isoc trbs to interrupt more often
++		 */
++		if (event_loop++ > TRBS_PER_SEGMENT / 2) {
++			xhci_update_erst_dequeue(xhci, ir, false);
++
++			if (ir->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
++				ir->isoc_bei_interval = ir->isoc_bei_interval / 2;
+ 
+-		/* ring is half-full, force isoc trbs to interrupt more often */
+-		if (ir->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
+-			ir->isoc_bei_interval = ir->isoc_bei_interval / 2;
++			event_loop = 0;
++		}
+ 
+-		event_loop = 0;
++		/* Update SW event ring dequeue pointer */
++		inc_deq(xhci, ir->event_ring);
+ 	}
+ 
+ 	xhci_update_erst_dequeue(xhci, ir, true);
