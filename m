@@ -1,98 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAC95EE65;
-	Tue, 13 Feb 2024 14:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FDB5F84B;
+	Tue, 13 Feb 2024 17:12:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707835623; cv=none; b=A62ur7tlANma/n2g9lIxL0Ksr/CDVpqqTQEqOmvJmASloV6YqdvFx00ZowOSsJZwgL72iTTPD0xpOeAARfCy9snS4A3xG+REyijvvYPP3l4nLvNXw07rmvZUMllYl2M0BgE7Cy1WbgPFk8SENyTk/haGzNM6ngR2kzMVrHpjz9w=
+	t=1707844358; cv=none; b=dNe2mI0k2R3yKtTN9xsVU0yBHqQMc+2rnKGuwwItzcb17n+fi/HeC43BHLx0TUbp3oMy1swi6XP8BJ/rGseZrI3ZTroN4YHX7jt4Im8LORjrGxmCCAtNJzrO1L4GvHC0q6fIwdtv4TN94CcuwroHD2eJzTcoW8mMbqzzxZ/+3Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707835623; c=relaxed/simple;
-	bh=y41JaSKfeWVzFEq+5e6C1oXttwhw87cx5j4UR/t5CEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IZcBH/OUlM7A4HK1bo+ategRkp3EoupNhSeN6j+wbIbuXWdWZ0AFOG2rMCkci2h3lOQtBaX2oSRg1nBip1GM/BslUwtQ4QWsJ5fK65Hh+NuoIkeL5C/Hptv22zJBrEcwk2KOO3xdeqB0bEWmTFOMl8nG1d1Ighzu69yMO6hwOLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xolAhlOy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707844358; c=relaxed/simple;
+	bh=4a+evY0mZO8wIOkZmZjF8xeTorrvG9xu5R33q/440cc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=U1rQB4GTTsXZv9p8RLmssoa7E+Cp7MUMmf4o0uYP28wAe7b3mrEpkX9aDPpjRPSRWE+1guwzteVTIAgyGM3NNtyT/gdIIckeuyJ3+ewed3L0+Zqbyjb/E1G9ab9gN6tFJwTRLp9+QMo+EPxwRFNXuBfKNrqt/hs6zpoYxGw943o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5gbgqNn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xolAhlOy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17313C433C7;
-	Tue, 13 Feb 2024 14:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707835622;
-	bh=y41JaSKfeWVzFEq+5e6C1oXttwhw87cx5j4UR/t5CEQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xolAhlOyVyuVZiyTDvGcKEtXr91VbRn3NP78HOEfVuOkMh+wvKqU4weNl61OENra5
-	 IxxbbSXJx9PMEBajc4PuoKVJVt1atEh3kJBNEfy9J/TeOa30svjeMS1kzQIXlXn1d9
-	 WLiZIyv76SL0gDQgCB4g09P7JnF2bsKhydBDnXvU=
-Date: Tue, 13 Feb 2024 15:46:59 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Ted Chang <tedchang2010@gmail.com>, stable@vger.kernel.org,
-	regressions@lists.linux.dev, venkataprasad.potturu@amd.com,
-	"perex@perex.cz" <perex@perex.cz>, alsa-devel@alsa-project.org,
-	broonie@kernel.org, linux@leemhuis.info,
-	linux-sound@vger.kernel.org
-Subject: Re: [REGRESSION] Acp5x probing regression introduced between kernel
- 6.7.2 -> 6.7.4
-Message-ID: <2024021342-overshoot-percent-a329@gregkh>
-References: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
- <CAD_nV8B=KSyOrASsbth=RmDV9ZUCipxhdJY3jY02C2jQ6Y34iA@mail.gmail.com>
- <87bk8kkcbg.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5gbgqNn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86985C433C7;
+	Tue, 13 Feb 2024 17:12:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707844357;
+	bh=4a+evY0mZO8wIOkZmZjF8xeTorrvG9xu5R33q/440cc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=O5gbgqNnELJoOwNQZXjLj0clNFzyt8oKYwWxMOmLctax6JAVNisqhgXmz2FTX/G5T
+	 C2e2OGYqhOrhPHZTACDV+/AdiwkDH98NvVTHqrIy+G6ZZyKBrvxHrrnhudlfCS1grv
+	 v4Gsb1EUoS801fCJn3I5Vmjpke7CYey/j8AFFLmqilW/ioTEaqLxGd5NsNSL+8GGSd
+	 NRAHgdt/xArWE9qiw+ezxKWwlv3tOCuZGuS9H+Z86vmwFDHB87CrTgUlrHm1DN0j1P
+	 SFnFBbFPknXr6lqyU1TfmQNYNQVaZGEwMA8ABm/TMDj1CTsByX8m1yhKi+gJ18zMLn
+	 M9pubAtLB5IGA==
+From: Mark Brown <broonie@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev
+In-Reply-To: <20240213101105.459402-1-arnd@kernel.org>
+References: <20240213101105.459402-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: q6dsp: fix event handler prototype
+Message-Id: <170784435426.387832.9390509804321653971.b4-ty@kernel.org>
+Date: Tue, 13 Feb 2024 17:12:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bk8kkcbg.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-a684c
 
-On Tue, Feb 13, 2024 at 09:17:39AM +0100, Takashi Iwai wrote:
-> On Mon, 12 Feb 2024 15:32:45 +0100,
-> Ted Chang wrote:
-> > 
-> > 
-> > Hi everyone,
-> > Takashi Iwai suggested that I test OBS home:tiwai:bsc1219789 repo. His comment
-> > suggest he reverted commit
-> > c3ab23a10771bbe06300e5374efa809789c65455 ASoC: amd: Add new dmi entries for
-> > acp5x platform. My audio seems to work again
-> > 
-> > [    7.420289] acpi_cpufreq: overriding BIOS provided _PSD data
-> > [    7.439331] snd_pci_acp5x 0000:04:00.5: enabling device (0000 -> 0002)
-> > [    7.574796] snd_hda_intel 0000:04:00.1: enabling device (0000 -> 0002)
-> > [    7.574980] snd_hda_intel 0000:04:00.1: Handle vga_switcheroo audio client
-> > [    7.577788] kvm_amd: TSC scaling supported
-> > [    7.577794] kvm_amd: Nested Virtualization enabled
-> > [    7.577796] kvm_amd: Nested Paging enabled
-> > [    7.577799] kvm_amd: SEV enabled (ASIDs 1 - 14)
-> > [    7.577802] kvm_amd: SEV-ES disabled (ASIDs 0 - 0)
-> > [    7.577824] kvm_amd: Virtual VMLOAD VMSAVE supported
-> > [    7.577825] kvm_amd: Virtual GIF supported
-> > [    7.577827] kvm_amd: LBR virtualization supported
-> > [    7.589223] MCE: In-kernel MCE decoding enabled.
-> > [    7.590386] snd_hda_intel 0000:04:00.1: bound 0000:04:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
-> > [    7.591577] cs35l41 spi-VLV1776:00: supply VA not found, using dummy regulator
-> > [    7.591644] cs35l41 spi-VLV1776:00: supply VP not found, using dummy regulator
-> > [    7.595880] input: HD-Audio Generic HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:08.1/0000:04:00.1/sound/card0/input17
-> > [    7.596790] input: HD-Audio Generic HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:08.1/0000:04:00.1/sound/card0/input18
-> > 
-> > https://build.opensuse.org/project/show/home:tiwai:bsc1219789
-> > 
-> > Now I'm building a test kernel with the revert of the suspected backport patch.
-> > It's being built in OBS home:tiwai:bsc1219789 repo.  Please give it a try later once after the build finishes (takes an hour or so).
-> > 
-> > So the culprit was the stable commit 4b6986b170f2f23e390bbd2d50784caa9cb67093, which is the upstream commit c3ab23a10771bbe06300e5374efa809789c65455
-> >     ASoC: amd: Add new dmi entries for acp5x platform
+On Tue, 13 Feb 2024 11:10:46 +0100, Arnd Bergmann wrote:
+> clang-16 points out a mismatch in function types that was hidden
+> by a typecast:
 > 
-> Greg, could you revert the commit
-> 4b6986b170f2f23e390bbd2d50784caa9cb67093 on 6.7.y?
+> sound/soc/qcom/qdsp6/q6apm-dai.c:355:38: error: cast from 'void (*)(uint32_t, uint32_t, uint32_t *, void *)' (aka 'void (*)(unsigned int, unsigned int, unsigned int *, void *)') to 'q6apm_cb' (aka 'void (*)(unsigned int, unsigned int, void *, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+>   355 |         prtd->graph = q6apm_graph_open(dev, (q6apm_cb)event_handler, prtd, graph_id);
+> sound/soc/qcom/qdsp6/q6apm-dai.c:499:38: error: cast from 'void (*)(uint32_t, uint32_t, uint32_t *, void *)' (aka 'void (*)(unsigned int, unsigned int, unsigned int *, void *)') to 'q6apm_cb' (aka 'void (*)(unsigned int, unsigned int, void *, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+>   499 |         prtd->graph = q6apm_graph_open(dev, (q6apm_cb)event_handler_compr, prtd, graph_id);
 > 
-> Apparently it caused the regression on Steam Deck, the driver probe
-> failed with that backport alone.
+> [...]
 
-Now reverted, as well as on 6.6.y and 6.1.y.
+Applied to
 
-thanks,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-greg k-h
+Thanks!
+
+[1/1] ASoC: q6dsp: fix event handler prototype
+      commit: 5b5089e2a1e753ffe9ee2bf101a9e06784ec5e1a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
