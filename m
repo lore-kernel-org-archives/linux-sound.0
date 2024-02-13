@@ -1,117 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE4C1774A
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 10:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC862BB0E;
+	Tue, 13 Feb 2024 10:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707819197; cv=none; b=Kna1y0Q8QEs8Zc5s5ya+avkZDYvR3CRL1LmInZv0u1/omm3lprZr9eOEGHEMcJ0zqCaR/itvrNu3AQJSOChJq+LR32qs8E4O2fMXl9JHMdGI7sx1VZtHU9GVkq8t8gucHSClqPjtsPejGc9Jh2kzB2FH3EvLq5dwfi89GKtRGfY=
+	t=1707819213; cv=none; b=DDvv77hYZ3FSWfDXewmEkRKOrtLyf+V1BZgPcaZ5HARCabyR8L33Xex7ihgzSpWzszeTaXsGjisrwpjgydSVizP6Chu3BazftJz0yw7lwxxgJm1x6H+kQmYfOKKEN+ctcuBXezS5hj8vqq5k4uDOWa8Pm/uc+nVBxvzAluK5Vw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707819197; c=relaxed/simple;
-	bh=Hj08XuYPBgqzIM4Qklm1smDpNSf225cvdVMZE+xpTUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JYsEhp7BmvsZzXDHmiMWzEKV+uQNM5GL2gPjm+tpnAtr0XDgzzbyKdN1tVXYxHcAhU872+j9Hi032+vioj5m8XPeKf4o5QkwIF45aakfNYUWckZehyaDgikI2gG1fpfdJ/mlaYrnvxfE4/G/ippvwyI9QHYSDguyt3zuIjGI01w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jELMHlB6; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707819213; c=relaxed/simple;
+	bh=3+IG0j3O1LBG7lwMQUhmH60xhIv6owNHQLirTIxa6kk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CPaoXG8j9aFL22O0Yf/fPhupNBkYa4xrPQvUJ7nXt2GR7hRQX6Vr8j1I50gDGhmnv2Goedovhen6o/3a+g8BMrf5OcbToPv7/b2tMREK4NX1ulUsJNZA/m2O+eW1594mhIpNWygZcUdNUxTsjejmgJHZl4iqsyMIGn+yRHinUKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0yAQdle; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jELMHlB6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707819196; x=1739355196;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Hj08XuYPBgqzIM4Qklm1smDpNSf225cvdVMZE+xpTUU=;
-  b=jELMHlB6nAus/+LGoJXZY+/LyJ78DxWRNFaITTZAS8zAZHl36f6PIjyP
-   1lt+i8kJl8LEL/ljU6w1FzRqSWB1TxYiUN/0cWQ64kCYCqarN6AkPYUzQ
-   D9UpBk7mV6Gf49uBPPLNDWBE3YKgE1GiMf9OEWNBv2dsvWnakTzrpNcxE
-   qU9CtLrizumWHo6ioq2zpfdPAsdnq5UBoklO5frUz6fLaWP4lqYKoRBZy
-   DLIYxCuq0zLKoLaSjv/D4uTwPFNGtWs+bFNaK7HV5WtBVZxlF0SkS9hAG
-   nioZPuAsI0MR7xpu61+WV1RRWfnUOfuPZjpX88SnwlK2zMhMPfCjOayfe
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27260203"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="27260203"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:13:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7498141"
-Received: from dcoroian-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.42.253])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:13:14 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com
-Subject: [PATCH 15/15] ASoC: SOF: Intel: hda-dai: add support for dspless mode beyond HDAudio
-Date: Tue, 13 Feb 2024 12:12:47 +0200
-Message-ID: <20240213101247.28887-16-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
-References: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0yAQdle"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CDBC433C7;
+	Tue, 13 Feb 2024 10:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707819213;
+	bh=3+IG0j3O1LBG7lwMQUhmH60xhIv6owNHQLirTIxa6kk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=K0yAQdleEJ+O3q3zOzf4XOypaOaV/eEjVm3b3YzNKsgRXtANa8APVm9A10agKVXC0
+	 xXypXSc4MQXAt6rMsWRPRgg/9M0FYksQMoZK9IwhyynJzaYZtNTczewNt3NrJroWeE
+	 /wx+mFn+n+i0iFZy49CU5U43qMJpX3gb6wQLh1ErClWVifIMHr6HPCK1DR/XHYDKYA
+	 /bhctPo13V4f2xs0nJJNGP21zlj0FRL3qTagmBOPRevP6SaLu+StB9d6Fn8pDEuttY
+	 couhC2vlbrwPUnHPBQnPkG74p2lg6eoDhqIOOdzQKpZez00KyCFQJ2bW9jMB5C6Zxj
+	 EsVXm0GjGlS4g==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Cedric Bregardis <cedric.bregardis@free.fr>,
+	Jean-Christian Hassler <jhassler@free.fr>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] ALSA: aw2: avoid casting function pointers
+Date: Tue, 13 Feb 2024 11:13:19 +0100
+Message-Id: <20240213101327.460191-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-For SoundWire/ALH, we need to have a dai configured, but we don't want
-to send a DMA_TLV to firmware. Add additional code branches.
+clang-16 started warning about incompatible function pointers here:
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+sound/pci/aw2/aw2-alsa.c:363:11: error: cast from 'void (*)(struct snd_pcm_substream *)' to 'snd_aw2_saa7146_it_cb' (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  363 |                                                     (snd_aw2_saa7146_it_cb)
+      |                                                     ^~~~~~~~~~~~~~~~~~~~~~~
+  364 |                                                     snd_pcm_period_elapsed,
+      |                                                     ~~~~~~~~~~~~~~~~~~~~~~
+sound/pci/aw2/aw2-alsa.c:392:10: error: cast from 'void (*)(struct snd_pcm_substream *)' to 'snd_aw2_saa7146_it_cb' (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  392 |                                                    (snd_aw2_saa7146_it_cb)
+      |                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+  393 |                                                    snd_pcm_period_elapsed,
+      |                                                    ~~~~~~~~~~~~~~~~~~~~~~
+
+Add a forward declaration for struct snd_pcm_substrea to allow it to just
+use the correct prototype.
+
+Fixes: 98f2a97f207a ("[ALSA] Emagic Audiowerk 2 ALSA driver.")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- sound/soc/sof/intel/hda-dai.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ sound/pci/aw2/aw2-saa7146.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
-index 4bffd9ea21a9..c1682bcdb5a6 100644
---- a/sound/soc/sof/intel/hda-dai.c
-+++ b/sound/soc/sof/intel/hda-dai.c
-@@ -83,6 +83,11 @@ hda_dai_get_ops(struct snd_pcm_substream *substream, struct snd_soc_dai *cpu_dai
+diff --git a/sound/pci/aw2/aw2-saa7146.h b/sound/pci/aw2/aw2-saa7146.h
+index b5c5a71c0ac3..3a3de56b9b07 100644
+--- a/sound/pci/aw2/aw2-saa7146.h
++++ b/sound/pci/aw2/aw2-saa7146.h
+@@ -19,11 +19,12 @@
  
- 	sdev = widget_to_sdev(w);
+ #define NUM_STREAM_CAPTURE_ANA 0
  
-+	if (!swidget) {
-+		dev_err(sdev->dev, "%s: swidget is NULL\n", __func__);
-+		return NULL;
-+	}
-+
- 	if (sdev->dspless_mode_selected)
- 		return hda_select_dai_widget_ops(sdev, swidget);
+-typedef void (*snd_aw2_saa7146_it_cb) (void *);
++struct snd_pcm_substream;
++typedef void (*snd_aw2_saa7146_it_cb) (struct snd_pcm_substream *);
  
-@@ -364,8 +369,11 @@ static int non_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
+ struct snd_aw2_saa7146_cb_param {
+ 	snd_aw2_saa7146_it_cb p_it_callback;
+-	void *p_callback_param;
++	struct snd_pcm_substream *p_callback_param;
+ };
  
--	/* get stream_id */
- 	sdev = widget_to_sdev(w);
-+	if (sdev->dspless_mode_selected)
-+		goto skip_tlv;
-+
-+	/* get stream_id */
- 	hext_stream = ops->get_hext_stream(sdev, cpu_dai, substream);
- 
- 	if (!hext_stream) {
-@@ -398,6 +406,7 @@ static int non_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	dma_config->dma_stream_channel_map.device_count = 0; /* mapping not used */
- 	dma_config->dma_priv_config_size = 0;
- 
-+skip_tlv:
- 	return 0;
- }
- 
+ /* definition of the chip-specific record */
 -- 
-2.43.0
+2.39.2
 
