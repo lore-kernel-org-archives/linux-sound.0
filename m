@@ -1,151 +1,123 @@
-Received: from puleglot.ru (puleglot.ru [195.201.32.202])
+Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2946355794;
-	Tue, 13 Feb 2024 12:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C189D4DA01;
+	Tue, 13 Feb 2024 12:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707828193; cv=none; b=jmDBP/kNBMbC7YmbO0Nq8I6O8ZvtM4Gf4AT48aRRrb4gjNU0La4XfDDqUCbxwMe7v+kpj4aEVcP90k+NNVkRN+IeptOSotzr0SlvI3Elka2YM4/LPZhwjP4U/puso8A4EU6q/Iqw5eGCjblJMh3qiJEa94fhZNxAeh9FV9QKro8=
+	t=1707828345; cv=none; b=fZvxk1WWpoqzuNExbNRDwuIrS6c5TUbG51iFNFsI+19amPDGpLIp9NGqY5MzUS8Dl6xLI35JthFdoOa7/TARoe8dELSCBZEiWzjwAa0q68ma5fJ0KwI/hWtKkqD8p+TSEUfZQqg+yJNPVLWrBzVZAh66B3SsOVr3inq5TdpyYys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707828193; c=relaxed/simple;
-	bh=isVT3swz7BX2lSLns3AewMrJcOXQ42RCXPUYDhjUlgM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DS8zJpOSkfr5K5IHKVy874gQzGE/c5Cm4ijfwN4nsTa4kjAMylRc4hQmRX5hu7I/i0jei/EtM5fTG4cyC8yLF3RHSTpAVAPzCuqmYjslw2bu47iWzzj6ZzqKmkjvev6dMzjTM2wG1VzpfyexoU6OZwspFj22Fr/KNf68+Wp3+e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=NBat4QhS; arc=none smtp.client-ip=195.201.32.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
+	s=arc-20240116; t=1707828345; c=relaxed/simple;
+	bh=Wlfk7dY0wWDXuDYy0panziIsiJR/AG6s30SqLg65+G0=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=tpu2KVngm5wmnUgT5a89lYpIU6d7nmGA/S85FN3bcGfWc43t5bi3nerQdswISg2+zt67xOXbG+HvpaWSXig8byZMX5jU3nAK4smhuqnq6nntiG+0c2Gl4iZnzlpI5ycGqR/zFzoC57Kyb8YJe4/kG+q5+xPCX34ydIpNQPHEhf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=MVKdScji; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TBER6n7G; arc=none smtp.client-ip=64.147.123.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="NBat4QhS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
-	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
-	:List-Post:List-Owner:List-Archive;
-	bh=aapO+1NwCqHDBlHbx8Ce0IIDPV5ZOXBr3A2aFyBpNAQ=; b=NBat4QhSU7CU+g68EzUOH3nH2H
-	Nai1+JWcpXa3qQmxJ4utVW5AflijC41zg118pDIHRLAMDm1NJzIBfhB547ThIqEu3tiVS2rk0HwVV
-	IGxBwl6wXDbu3FUoKX0HQkMxyurU3ZJmiw4dYVPZFM1iOaW+QK3cA/CYnj0NXOhKmjQ0=;
-Received: from [2a00:1370:819a:f1b4:f5a8:7291:14f0:548b]
-	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <puleglot@puleglot.ru>)
-	id 1rZs7s-00000002MQX-2pHo;
-	Tue, 13 Feb 2024 15:43:04 +0300
-Message-ID: <4cf2602f203dc960a70751c48a22f73b3548f04d.camel@tsoy.me>
-Subject: Re: [PATCH] USB: Always select config with the highest supported
- UAC version
-From: Alexander Tsoy <alexander@tsoy.me>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org, 
-	alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela
-	 <perex@perex.cz>, Nikolay Yakimov <root@livid.pp.ru>, Saranya Gopal
-	 <saranya.gopal@intel.com>
-Date: Tue, 13 Feb 2024 15:42:51 +0300
-In-Reply-To: <2024021353-reversing-waltz-7402@gregkh>
-References: <20240212152848.44782-1-alexander@tsoy.me>
-	 <2024021353-reversing-waltz-7402@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="MVKdScji";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TBER6n7G"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 5A0A818000B3;
+	Tue, 13 Feb 2024 07:45:41 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 13 Feb 2024 07:45:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1707828340; x=1707914740; bh=USQ9m9LRrK
+	EPc6jBigxNFqy6LATxlEiA3y2icE1wmKU=; b=MVKdScjiFTQgmJvjhZ/2M90i23
+	l/fpMktEDMfJppqKTT+/khsgDio7EHjaZpT3+9qAwiIYyrPwVot9zpcK61giOCak
+	sIqQPDL6MwOZ6UxG6xt+gOngE22lnvjTE+cWfkiUp7+CkBaS5PTqPtRevSihjC6N
+	jF0VG3bXfrlI0qoJWP96QJj4OMcsLGphzGOjK+mwZ7keX6moZ6CeTN2y6SGv4IS6
+	/BeeBELwCArYgSZ9aULHv5tu1QPUHusDXOUBQ4g2ShQKjZvqPfwVjN/C1Ydg1vf1
+	UFu7ZAzc1PCrIOeNKl2RtjXW69ZzJKCKIlJ4kMGU9r4KrDldt6RBwtYqWGvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1707828340; x=1707914740; bh=USQ9m9LRrKEPc6jBigxNFqy6LATx
+	lEiA3y2icE1wmKU=; b=TBER6n7G5KS+2jvixiyf2/8+env6bDAeIKdQkwLvkZ9l
+	iUVf4w89ofi1RB6FWoUfCYdKZiz5bWGUzvEDR48HK3qdMp7M14hcOV008HKa0515
+	tqsN1Ufogx5x+o5dO4kXPewWYmEdLZLXzJZWZ5Q8VvZL4MfHCAT7Jhd+qJgPpzS+
+	yh36/WcKtzvE8Ip/rLHsrsTxjQRPmQDYjOmpbLOA/BfSnD7fvMICgzixFkHsZssE
+	SP8E3pOsFhc4YE0j+D0x9gbNQei92jFDfdqICSWsno6APWJv8kZG217EJAY4y/5y
+	EkFSwgwgQmrjStWhlA+6K0Ysk0CooMERyftl1YjZYw==
+X-ME-Sender: <xms:dGTLZeOFthVxaGlMlICy2zGBpA0Z9TCq6WI-dId3lOjYJ7lkzg5UuA>
+    <xme:dGTLZc8PO8q9wAStqrNZzGENQ0Xgjydxie-zGhbHrV87qBUbjrsjyr0kyMGwdcFLX
+    3liXcS8Kvt18b56rQM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudehgdegfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:dGTLZVQNjjdd2aSfuCueS9pgZNw49IrY36p83cr-ASUb7aFulkrusA>
+    <xmx:dGTLZeuQyK3SCb7oueqV76z-aoKjGHEm4s-SqW7YEoJYfnCDg1HMFg>
+    <xmx:dGTLZWeagM_-E5iIblPxOi26bQkryjltXKLm3wz-gheyUySQle4jYA>
+    <xmx:dGTLZTCmdRiDL29BNyTl9Wf2np2S9JNbm_VBLoSQq3WyfxCaVWOMriXxAjc>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 6D8F2B6008D; Tue, 13 Feb 2024 07:45:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Sender: puleglot@puleglot.ru
+Message-Id: <bcd477f9-8619-4121-83ce-fa8ba05a36aa@app.fastmail.com>
+In-Reply-To: <1j7cj8k2se.fsf@starbuckisacylon.baylibre.com>
+References: <20240213101220.459641-1-arnd@kernel.org>
+ <1jbk8kk5pk.fsf@starbuckisacylon.baylibre.com>
+ <c61d7daf-1b13-4ff8-aeae-7dcd8dd02131@app.fastmail.com>
+ <1j7cj8k2se.fsf@starbuckisacylon.baylibre.com>
+Date: Tue, 13 Feb 2024 13:45:19 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jerome Brunet" <jbrunet@baylibre.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>,
+ "Mark Brown" <broonie@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Kevin Hilman" <khilman@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] ASoC: meson: add helpers for clk_disable_unprepare
+Content-Type: text/plain
 
-=D0=92 =D0=92=D1=82, 13/02/2024 =D0=B2 12:05 +0100, Greg Kroah-Hartman =D0=
-=BF=D0=B8=D1=88=D0=B5=D1=82:
-> On Mon, Feb 12, 2024 at 06:28:48PM +0300, Alexander Tsoy wrote:
-> > Config with the highest supported UAC version is always preferable
-> > because
-> > it usually provides more features.
-> >=20
-> > Main motivation for this change is to improve support for several
-> > UAC2
-> > devices which have UAC1 config as the first one for compatibility
-> > reasons.
-> > UAC2 mode provides a wider range of supported sampling rates on
-> > these
-> > devices. Also when UAC4 support is implemented, it will need just
-> > one
-> > additional case line without changing the logic.
-> >=20
-> > Signed-off-by: Alexander Tsoy <alexander@tsoy.me>
-> > ---
-> > =C2=A0drivers/usb/core/generic.c | 39 +++++++++++++++++++++++++--------=
--
-> > ----
-> > =C2=A01 file changed, 26 insertions(+), 13 deletions(-)
-> >=20
-> > diff --git a/drivers/usb/core/generic.c
-> > b/drivers/usb/core/generic.c
-> > index b134bff5c3fe..8aeb180e1cf9 100644
-> > --- a/drivers/usb/core/generic.c
-> > +++ b/drivers/usb/core/generic.c
-> > @@ -48,9 +48,16 @@ static bool is_audio(struct
-> > usb_interface_descriptor *desc)
-> > =C2=A0	return desc->bInterfaceClass =3D=3D USB_CLASS_AUDIO;
-> > =C2=A0}
-> > =C2=A0
-> > -static bool is_uac3_config(struct usb_interface_descriptor *desc)
-> > +static bool is_supported_uac(struct usb_interface_descriptor
-> > *desc)
-> > =C2=A0{
-> > -	return desc->bInterfaceProtocol =3D=3D UAC_VERSION_3;
-> > +	switch(desc->bInterfaceProtocol) {
-> > +	case UAC_VERSION_1:
-> > +	case UAC_VERSION_2:
-> > +	case UAC_VERSION_3:
-> > +		return true;
-> > +	default:
-> > +		return false;
-> > +	}
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0int usb_choose_configuration(struct usb_device *udev)
-> > @@ -135,22 +142,28 @@ int usb_choose_configuration(struct
-> > usb_device *udev)
-> > =C2=A0		}
-> > =C2=A0
-> > =C2=A0		/*
-> > -		 * Select first configuration as default for audio
-> > so that
-> > -		 * devices that don't comply with UAC3 protocol
-> > are supported.
-> > -		 * But, still iterate through other configurations
-> > and
-> > -		 * select UAC3 compliant config if present.
-> > +		 * Iterate through audio configurations and select
-> > the first of
-> > +		 * the highest supported UAC versions. Select the
-> > first config
-> > +		 * if no supported UAC configs are found.
-> > =C2=A0		 */
-> > =C2=A0		if (desc && is_audio(desc)) {
-> > -			/* Always prefer the first found UAC3
-> > config */
-> > -			if (is_uac3_config(desc)) {
-> > -				best =3D c;
-> > -				break;
-> > -			}
-> > +			struct
-> > usb_interface_descriptor	*best_desc =3D NULL;
-> > +
-> > +			if (best)
-> > +				best_desc =3D &best->intf_cache[0]-
-> > >altsetting->desc;
->=20
-> Are you sure you always have a intf_cache[0] pointer?=C2=A0 What about
-> altsetting?=C2=A0 Remember, invalid descriptors happen all the time, and
-> are
-> a known "attack vector" against the USB stack.
->=20
->=20
+On Tue, Feb 13, 2024, at 12:09, Jerome Brunet wrote:
+> On Tue 13 Feb 2024 at 11:52, "Arnd Bergmann" <arnd@arndb.de> wrote:
+>
+>> On Tue, Feb 13, 2024, at 11:36, Jerome Brunet wrote:
+>>> On Tue 13 Feb 2024 at 11:11, Arnd Bergmann <arnd@kernel.org> wrote:
+>>
+>>> This probably pre-dates the introduction of devm_clk_get_enabled()
+>>> It would probably be better to use that instead of duplicating helper
+>>> functions which do the same thing.
+>>
+>> Ah, I had not thought of that interface either, so you are probably
+>> right that this is the best way to do it.
+>> Can you send a replacement patch then and add my Reported-by?
+>
+> Sure.
+>
+> How may I reproduce the problem ?
+> Just tried with 'Debian clang version 16.0.6 (19)', no warning.
+>
+> I suppose I need to add something ?
 
-Well, similar code exists at the beginning of the loop. But I just
-discovered that according to the Backwards Compatibility sections of
-UAC 3.0 and UAC 4.0 specs, we need to look at the bFunctionProtocol
-field of the Interface Association descriptor. So the current code that
-selects UAC3 configuration is also not entirely correct AFAIS.
+The warning is currently only enabled at W=1 level until
+we have fixed all the existing diagnostic output. I have
+sent the other ones today, but for now, please test with
+'make W=1'.
+
+     Arnd
