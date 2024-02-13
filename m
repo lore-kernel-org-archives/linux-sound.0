@@ -1,137 +1,293 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824B622F02
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 10:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D3022F02;
+	Tue, 13 Feb 2024 10:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707819187; cv=none; b=gQSVwNuJWWTe0G1cg1kFiGsNTSrlX7Svs5m4ZAL0lOj7JR8ivjqp2HNaCxLh84a20d4/Psfiw9aocGIdLv+Qowib4C7gLT2KseaQW7nF5RU11rb/sbqTdLikg7LNjxiKJP5uzV/9vurY2YzQbzTKt5gJEQ1uuUcq4DfqwvNAw1c=
+	t=1707819188; cv=none; b=gmXMdRWoQa6AVN7rnWriiyK2zrPdb7O5Yv9V3Fkk1zm3/lQSe5UkB0nmVulwt5dyhYZ7gOZVFPQMRaUh9ALIFYAyiwTZ2vqiQixDZnnnQ+pkjyeCvnwv2JysEv/Uwf8gL+pGtsHe5m9qCfwYlF4wz5pAGvMl3ezcqte2aqjrfIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707819187; c=relaxed/simple;
-	bh=Lz3/IdjEJJ8GNbC0uRSoVlLagsLEtOI+blfdYrcCCWo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H0Tajw+pIabRiSM0b3gTrYiyan/AvlIIsesLdV/NCyW0MkrkEKZGExtzGTPA+OzwmStdGFqv4sNyArxHKIXWZyGhp2NXoBqqNS7DEtrs1Bz1/xXCgUb9Ekf/73IwrcA4XAW0bTAv5C88cbTFh74tHyYC6Fmbro3rvilCzCPFKOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtVDwUb5; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707819188; c=relaxed/simple;
+	bh=uKIQ1Nctqeju4Pl5cuBowlVWxJ3okEk/Sw8LIufw8xE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gEgbAFSpRHoRmvnVbeHLb/0aXCaIHBRaNBU9zJfe7ck92PNbstwJzWCZkyK5memqZqreaa+GZWcTJqff1t52PkxOUmzMOoKb7IebdZlMSzYoKdmu72OySmEP7+R2OO3miSBxLhp73g7PJVUHYvCRQm62UMW9qvBoAV2Pp8sLMHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfyBgvoQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtVDwUb5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707819186; x=1739355186;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Lz3/IdjEJJ8GNbC0uRSoVlLagsLEtOI+blfdYrcCCWo=;
-  b=BtVDwUb503i7LT5nESsQ9IzyjTxApeSMj3QNIU52Er9VSBElTrX4NJTX
-   /K5bm7DcgI4jutTgjgSOLYVEn0lOAkC/F5OkWgrkbG9wP9Td17STZjPZV
-   5Wxr2ZWtNbey2+N+fxq7C2TvBH9/5DNPtyyhN/QDXcHJ9U3oOb+TfJSMI
-   uUo5QkqbLyLBxGMpV2opoRewjDZbc4qQX90ntukeTm+3eVK/nVjnieq74
-   iA8ZpJix9KDDlw5ErXN9OCStlBeekWt8+9Am0s3AA7yIOtVBQ+ifPCk1R
-   +mS6afqvCWas7vJZtZNqDGWVeQmXqXgC0g02UG5ft1UJZbWxSjN1kv6QH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27260187"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="27260187"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:13:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7498082"
-Received: from dcoroian-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.42.253])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 02:13:04 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com
-Subject: [PATCH 11/15] ASoC: SOF: topology: Parse DAI type token for dspless mode
-Date: Tue, 13 Feb 2024 12:12:43 +0200
-Message-ID: <20240213101247.28887-12-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
-References: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfyBgvoQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABF7AC433F1;
+	Tue, 13 Feb 2024 10:13:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707819188;
+	bh=uKIQ1Nctqeju4Pl5cuBowlVWxJ3okEk/Sw8LIufw8xE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UfyBgvoQxnUzP/7Xdi954fvjl8/LMFJMz2EQKKKSq6IdLsjF0osBzoLRMKbu2Z+cd
+	 CMKunuMkOVqPYRIw8jZxPHx/c+lP3OIJTDN8wEIJEVCiAwDaRs/WIt0hKIeiJVXCXu
+	 1/c99Y5W7xh4ZH3oom/g1lx6cvh1UbmnaolGCejc0u1gARSxrsi1TMJybBpw3wsZLd
+	 6bQcdINswAvbVjC8dy7D/JxBWnNnUIj4WQ9FBG4zn3Rl4G0KcjowDDa86Ql3cGF59o
+	 3wGT2uxuUi998vL+mwcKbCnH0yroPPqNY5Z+1oxAR2mdj3b7RIM/MDB+sW/TdvZC0y
+	 8cDpgbLyV6O1A==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Wai Yew CHAY <wychay@ctl.creative.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: ctxfi: avoid casting function pointers
+Date: Tue, 13 Feb 2024 11:12:46 +0100
+Message-Id: <20240213101303.460008-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-Starting with LunarLake, the dspless mode can handle SoundWire/ALH,
-DMIC and SSPs, so we need to identify the dai type from topology.
+This driver creates an abstraction for different components by casting function
+pointers to slightly incompatible types for each one to get the correct
+argument even when the caller does not know those types. This is a
+bit unreliable and not allowed in combination with control flow integrity
+(KCFI):
 
-Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+sound/pci/ctxfi/ctatc.c:115:25: error: cast from 'int (*)(struct hw *, struct src_mgr **)' to 'create_t' (aka 'int (*)(struct hw *, void **)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  115 |         [SRC]           = { .create     = (create_t)src_mgr_create,
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+sound/pci/ctxfi/ctatc.c:116:20: error: cast from 'int (*)(struct src_mgr *)' to 'destroy_t' (aka 'int (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  116 |                             .destroy    = (destroy_t)src_mgr_destroy    },
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+sound/pci/ctxfi/ctatc.c:117:27: error: cast from 'int (*)(struct hw *, struct srcimp_mgr **)' to 'create_t' (aka 'int (*)(struct hw *, void **)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  117 |         [SRCIMP]        = { .create     = (create_t)srcimp_mgr_create,
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+sound/pci/ctxfi/ctatc.c:118:20: error: cast from 'int (*)(struct srcimp_mgr *)' to 'destroy_t' (aka 'int (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  118 |                             .destroy    = (destroy_t)srcimp_mgr_destroy },
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Change these to always pass void pointers and move the abstraction one level
+down.
+
+Fixes: 8cc72361481f ("ALSA: SB X-Fi driver merge")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- sound/soc/sof/ipc4-topology.c |  1 +
- sound/soc/sof/sof-audio.h     |  1 +
- sound/soc/sof/topology.c      | 12 ++++++++++++
- 3 files changed, 14 insertions(+)
+ sound/pci/ctxfi/ctamixer.c | 10 ++++++----
+ sound/pci/ctxfi/ctamixer.h |  8 ++++----
+ sound/pci/ctxfi/ctatc.c    | 23 ++++++++++-------------
+ sound/pci/ctxfi/ctdaio.c   |  5 +++--
+ sound/pci/ctxfi/ctdaio.h   |  4 ++--
+ sound/pci/ctxfi/ctsrc.c    | 10 ++++++----
+ sound/pci/ctxfi/ctsrc.h    |  8 ++++----
+ 7 files changed, 35 insertions(+), 33 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 98e2f83b1c09..43d4abd79f44 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -549,6 +549,7 @@ static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
- 	dev_dbg(scomp->dev, "dai %s node_type %u dai_type %u dai_index %d\n", swidget->widget->name,
- 		node_type, ipc4_copier->dai_type, ipc4_copier->dai_index);
+diff --git a/sound/pci/ctxfi/ctamixer.c b/sound/pci/ctxfi/ctamixer.c
+index d074727c3e21..397900929aa6 100644
+--- a/sound/pci/ctxfi/ctamixer.c
++++ b/sound/pci/ctxfi/ctamixer.c
+@@ -292,7 +292,7 @@ static int put_amixer_rsc(struct amixer_mgr *mgr, struct amixer *amixer)
+ 	return 0;
+ }
  
-+	dai->type = ipc4_copier->dai_type;
- 	ipc4_copier->data.gtw_cfg.node_id = SOF_IPC4_NODE_TYPE(node_type);
- 
- 	pipe_widget = swidget->spipe->pipe_widget;
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index f98242a404db..9ea2ac5adac7 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -514,6 +514,7 @@ struct snd_sof_route {
- struct snd_sof_dai {
- 	struct snd_soc_component *scomp;
- 	const char *name;
-+	u32 type;
- 
- 	int number_configs;
- 	int current_config;
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 915c2e88e32b..bcdb499c96a0 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2354,7 +2354,10 @@ static int sof_dspless_widget_ready(struct snd_soc_component *scomp, int index,
- 				    struct snd_soc_tplg_dapm_widget *tw)
+-int amixer_mgr_create(struct hw *hw, struct amixer_mgr **ramixer_mgr)
++int amixer_mgr_create(struct hw *hw, void **ramixer_mgr)
  {
- 	if (WIDGET_IS_DAI(w->id)) {
-+		static const struct sof_topology_token dai_tokens[] = {
-+			{SOF_TKN_DAI_TYPE, SND_SOC_TPLG_TUPLE_TYPE_STRING, get_token_dai_type, 0}};
- 		struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
-+		struct snd_soc_tplg_private *priv = &tw->priv;
- 		struct snd_sof_widget *swidget;
- 		struct snd_sof_dai *sdai;
- 		int ret;
-@@ -2369,6 +2372,15 @@ static int sof_dspless_widget_ready(struct snd_soc_component *scomp, int index,
- 			return -ENOMEM;
- 		}
+ 	int err;
+ 	struct amixer_mgr *amixer_mgr;
+@@ -321,8 +321,9 @@ int amixer_mgr_create(struct hw *hw, struct amixer_mgr **ramixer_mgr)
+ 	return err;
+ }
  
-+		ret = sof_parse_tokens(scomp, &sdai->type, dai_tokens, ARRAY_SIZE(dai_tokens),
-+				       priv->array, le32_to_cpu(priv->size));
-+		if (ret < 0) {
-+			dev_err(scomp->dev, "Failed to parse DAI tokens for %s\n", tw->name);
-+			kfree(swidget);
-+			kfree(sdai);
-+			return ret;
-+		}
-+
- 		ret = sof_connect_dai_widget(scomp, w, tw, sdai);
- 		if (ret) {
- 			kfree(swidget);
+-int amixer_mgr_destroy(struct amixer_mgr *amixer_mgr)
++int amixer_mgr_destroy(void *ptr)
+ {
++	struct amixer_mgr *amixer_mgr = ptr;
+ 	rsc_mgr_uninit(&amixer_mgr->mgr);
+ 	kfree(amixer_mgr);
+ 	return 0;
+@@ -446,7 +447,7 @@ static int put_sum_rsc(struct sum_mgr *mgr, struct sum *sum)
+ 	return 0;
+ }
+ 
+-int sum_mgr_create(struct hw *hw, struct sum_mgr **rsum_mgr)
++int sum_mgr_create(struct hw *hw, void **rsum_mgr)
+ {
+ 	int err;
+ 	struct sum_mgr *sum_mgr;
+@@ -475,8 +476,9 @@ int sum_mgr_create(struct hw *hw, struct sum_mgr **rsum_mgr)
+ 	return err;
+ }
+ 
+-int sum_mgr_destroy(struct sum_mgr *sum_mgr)
++int sum_mgr_destroy(void *ptr)
+ {
++	struct sum_mgr *sum_mgr = ptr;
+ 	rsc_mgr_uninit(&sum_mgr->mgr);
+ 	kfree(sum_mgr);
+ 	return 0;
+diff --git a/sound/pci/ctxfi/ctamixer.h b/sound/pci/ctxfi/ctamixer.h
+index 4498e6139d0e..8fc017da6bda 100644
+--- a/sound/pci/ctxfi/ctamixer.h
++++ b/sound/pci/ctxfi/ctamixer.h
+@@ -43,8 +43,8 @@ struct sum_mgr {
+ };
+ 
+ /* Constructor and destructor of daio resource manager */
+-int sum_mgr_create(struct hw *hw, struct sum_mgr **rsum_mgr);
+-int sum_mgr_destroy(struct sum_mgr *sum_mgr);
++int sum_mgr_create(struct hw *hw, void **ptr);
++int sum_mgr_destroy(void *ptr);
+ 
+ /* Define the descriptor of a amixer resource */
+ struct amixer_rsc_ops;
+@@ -89,7 +89,7 @@ struct amixer_mgr {
+ };
+ 
+ /* Constructor and destructor of amixer resource manager */
+-int amixer_mgr_create(struct hw *hw, struct amixer_mgr **ramixer_mgr);
+-int amixer_mgr_destroy(struct amixer_mgr *amixer_mgr);
++int amixer_mgr_create(struct hw *hw, void **ramixer_mgr);
++int amixer_mgr_destroy(void *amixer_mgr);
+ 
+ #endif /* CTAMIXER_H */
+diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
+index fbdb8a3d5b8e..2a3e9d8ba7db 100644
+--- a/sound/pci/ctxfi/ctatc.c
++++ b/sound/pci/ctxfi/ctatc.c
+@@ -105,23 +105,20 @@ static struct {
+ 			    .public_name = "Mixer"}
+ };
+ 
+-typedef int (*create_t)(struct hw *, void **);
+-typedef int (*destroy_t)(void *);
+-
+ static struct {
+ 	int (*create)(struct hw *hw, void **rmgr);
+ 	int (*destroy)(void *mgr);
+ } rsc_mgr_funcs[NUM_RSCTYP] = {
+-	[SRC] 		= { .create 	= (create_t)src_mgr_create,
+-			    .destroy 	= (destroy_t)src_mgr_destroy	},
+-	[SRCIMP] 	= { .create 	= (create_t)srcimp_mgr_create,
+-			    .destroy 	= (destroy_t)srcimp_mgr_destroy	},
+-	[AMIXER]	= { .create	= (create_t)amixer_mgr_create,
+-			    .destroy	= (destroy_t)amixer_mgr_destroy	},
+-	[SUM]		= { .create	= (create_t)sum_mgr_create,
+-			    .destroy	= (destroy_t)sum_mgr_destroy	},
+-	[DAIO]		= { .create	= (create_t)daio_mgr_create,
+-			    .destroy	= (destroy_t)daio_mgr_destroy	}
++	[SRC] 		= { .create 	= src_mgr_create,
++			    .destroy 	= src_mgr_destroy	},
++	[SRCIMP] 	= { .create 	= srcimp_mgr_create,
++			    .destroy 	= srcimp_mgr_destroy	},
++	[AMIXER]	= { .create	= amixer_mgr_create,
++			    .destroy	= amixer_mgr_destroy	},
++	[SUM]		= { .create	= sum_mgr_create,
++			    .destroy	= sum_mgr_destroy	},
++	[DAIO]		= { .create	= daio_mgr_create,
++			    .destroy	= daio_mgr_destroy	}
+ };
+ 
+ static int
+diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
+index 7fc720046ce2..83aaf9441ef3 100644
+--- a/sound/pci/ctxfi/ctdaio.c
++++ b/sound/pci/ctxfi/ctdaio.c
+@@ -684,7 +684,7 @@ static int daio_mgr_commit_write(struct daio_mgr *mgr)
+ 	return 0;
+ }
+ 
+-int daio_mgr_create(struct hw *hw, struct daio_mgr **rdaio_mgr)
++int daio_mgr_create(struct hw *hw, void **rdaio_mgr)
+ {
+ 	int err, i;
+ 	struct daio_mgr *daio_mgr;
+@@ -738,8 +738,9 @@ int daio_mgr_create(struct hw *hw, struct daio_mgr **rdaio_mgr)
+ 	return err;
+ }
+ 
+-int daio_mgr_destroy(struct daio_mgr *daio_mgr)
++int daio_mgr_destroy(void *ptr)
+ {
++	struct daio_mgr *daio_mgr = ptr;
+ 	unsigned long flags;
+ 
+ 	/* free daio input mapper list */
+diff --git a/sound/pci/ctxfi/ctdaio.h b/sound/pci/ctxfi/ctdaio.h
+index bd6310f48013..15147fe5f74a 100644
+--- a/sound/pci/ctxfi/ctdaio.h
++++ b/sound/pci/ctxfi/ctdaio.h
+@@ -115,7 +115,7 @@ struct daio_mgr {
+ };
+ 
+ /* Constructor and destructor of daio resource manager */
+-int daio_mgr_create(struct hw *hw, struct daio_mgr **rdaio_mgr);
+-int daio_mgr_destroy(struct daio_mgr *daio_mgr);
++int daio_mgr_create(struct hw *hw, void **ptr);
++int daio_mgr_destroy(void *ptr);
+ 
+ #endif /* CTDAIO_H */
+diff --git a/sound/pci/ctxfi/ctsrc.c b/sound/pci/ctxfi/ctsrc.c
+index 4a94b4708a77..159bd4008069 100644
+--- a/sound/pci/ctxfi/ctsrc.c
++++ b/sound/pci/ctxfi/ctsrc.c
+@@ -540,7 +540,7 @@ static int src_mgr_commit_write(struct src_mgr *mgr)
+ 	return 0;
+ }
+ 
+-int src_mgr_create(struct hw *hw, struct src_mgr **rsrc_mgr)
++int src_mgr_create(struct hw *hw, void **rsrc_mgr)
+ {
+ 	int err, i;
+ 	struct src_mgr *src_mgr;
+@@ -580,8 +580,9 @@ int src_mgr_create(struct hw *hw, struct src_mgr **rsrc_mgr)
+ 	return err;
+ }
+ 
+-int src_mgr_destroy(struct src_mgr *src_mgr)
++int src_mgr_destroy(void *ptr)
+ {
++	struct src_mgr *src_mgr = ptr;
+ 	rsc_mgr_uninit(&src_mgr->mgr);
+ 	kfree(src_mgr);
+ 
+@@ -821,7 +822,7 @@ static int srcimp_imap_delete(struct srcimp_mgr *mgr, struct imapper *entry)
+ 	return err;
+ }
+ 
+-int srcimp_mgr_create(struct hw *hw, struct srcimp_mgr **rsrcimp_mgr)
++int srcimp_mgr_create(struct hw *hw, void **rsrcimp_mgr)
+ {
+ 	int err;
+ 	struct srcimp_mgr *srcimp_mgr;
+@@ -866,8 +867,9 @@ int srcimp_mgr_create(struct hw *hw, struct srcimp_mgr **rsrcimp_mgr)
+ 	return err;
+ }
+ 
+-int srcimp_mgr_destroy(struct srcimp_mgr *srcimp_mgr)
++int srcimp_mgr_destroy(void *ptr)
+ {
++	struct srcimp_mgr *srcimp_mgr = ptr;
+ 	unsigned long flags;
+ 
+ 	/* free src input mapper list */
+diff --git a/sound/pci/ctxfi/ctsrc.h b/sound/pci/ctxfi/ctsrc.h
+index 1124daf50c9b..e6366cc6a7ae 100644
+--- a/sound/pci/ctxfi/ctsrc.h
++++ b/sound/pci/ctxfi/ctsrc.h
+@@ -139,10 +139,10 @@ struct srcimp_mgr {
+ };
+ 
+ /* Constructor and destructor of SRC resource manager */
+-int src_mgr_create(struct hw *hw, struct src_mgr **rsrc_mgr);
+-int src_mgr_destroy(struct src_mgr *src_mgr);
++int src_mgr_create(struct hw *hw, void **ptr);
++int src_mgr_destroy(void *ptr);
+ /* Constructor and destructor of SRCIMP resource manager */
+-int srcimp_mgr_create(struct hw *hw, struct srcimp_mgr **rsrc_mgr);
+-int srcimp_mgr_destroy(struct srcimp_mgr *srcimp_mgr);
++int srcimp_mgr_create(struct hw *hw, void **ptr);
++int srcimp_mgr_destroy(void *ptr);
+ 
+ #endif /* CTSRC_H */
 -- 
-2.43.0
+2.39.2
 
