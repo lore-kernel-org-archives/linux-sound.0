@@ -1,172 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FCC381A0;
-	Tue, 13 Feb 2024 12:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B5242062
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 12:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707826685; cv=none; b=IIjZ72OX8lPRvQzVpTx3PPJtVgyyisDbNSNG2I0rOEcbp57gzIvY3lU0IFEKtBQFbyKCEup6FsSBlPcXoDEDRt/IhCq0Lxxjh+3tOzXtEUDgM/ZIeIkhyi0nxJTNzy960EIkscfGk4qmBMj7+Xq2BGlc24Wh6h+zbJsI5hEUvRw=
+	t=1707827401; cv=none; b=r3cNk3myxxjWpNkND45FkBRNmt3xv0o8ZenV4am+2XsSix0uBQpSzvpRu9xeRGbB4wLHI8zga3kwuW0wTO+kxidckN8lmLJ0tm8MGr9jEOY6RtPShlVuo1qQer82im+Lb0g5u3mcZlscpKG1W1kO0BObabKUCsj6E0x/LlMoIeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707826685; c=relaxed/simple;
-	bh=TNsmmxa+6HeFCAOCpipUzX2RGd7pxLJG/+tp3ucMPnc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pm77CD3lwDcWTfEsh1Hj9fjscqXNGySwYk+co/LBACsG++5amED0GEHkY+Og7s1pV1OniRGYeaEcj5WFflmUjm5x6UkMBgL9xjXuzRjL5+8f/kMolOHWJCBdjRZ1p8Q7sRSH7orWIvuTfvBJzCf2cfR+UqkxMCdEQOdNtBKWfmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BgCj2Olw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W8XscNEP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BgCj2Olw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W8XscNEP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1707827401; c=relaxed/simple;
+	bh=GQRB7CwazkvgHZASfvDiqGrue+8jW8tYjZdSiVWQEbM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P98sEaUKpSX6P8c9dT5grjuEkvJqcVFJ6Hjwswqd/rtd9uQsYNZrtzmBO6FvwT9TZUDBf1PnGWHTUC+fbWSh8/U21NhmsFVGFQSJlCUPCyKgMYTHjYbvMEcUHZx7PCYsHiO9bBYi3BkqHW/OMMCyXOrUYJyguOVQ6e7oSkkTu6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLGChETf; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BgCj2Olw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W8XscNEP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BgCj2Olw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W8XscNEP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B656A1FCA1;
-	Tue, 13 Feb 2024 12:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707826681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
-	b=BgCj2Olw566Htu1EG2uF4EUwJZX2KMFBPnMyUuNwpbspUfqPlZCrVcM+5f4d9F1JjJ4zBl
-	KV4iug0fvq/hE34snF6uaTD8kGQOfXEOdncvZ4OAr63p3vPOHonWljidbMGbOxFR+KiArC
-	up6sUx6mW6fZPM1R/pzPK0TGsvBG5bU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707826681;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
-	b=W8XscNEPtOb8qP2wQeAZwA9zewFvjRHHl52AQn5bsIQEvWUltf3QWdCfya5b5TY8A6Mrwd
-	+TWbSDJRKATZNkCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707826681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
-	b=BgCj2Olw566Htu1EG2uF4EUwJZX2KMFBPnMyUuNwpbspUfqPlZCrVcM+5f4d9F1JjJ4zBl
-	KV4iug0fvq/hE34snF6uaTD8kGQOfXEOdncvZ4OAr63p3vPOHonWljidbMGbOxFR+KiArC
-	up6sUx6mW6fZPM1R/pzPK0TGsvBG5bU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707826681;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
-	b=W8XscNEPtOb8qP2wQeAZwA9zewFvjRHHl52AQn5bsIQEvWUltf3QWdCfya5b5TY8A6Mrwd
-	+TWbSDJRKATZNkCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AEFA1370C;
-	Tue, 13 Feb 2024 12:18:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id J4IgGPldy2XVBgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Feb 2024 12:18:01 +0000
-Date: Tue, 13 Feb 2024 13:18:01 +0100
-Message-ID: <87o7cky2va.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh+dt@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v15 46/50] ALSA: usb-audio: Add USB offloading capable kcontrol
-In-Reply-To: <20240213005422.3121-47-quic_wcheng@quicinc.com>
-References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
-	<20240213005422.3121-47-quic_wcheng@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLGChETf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707827400; x=1739363400;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GQRB7CwazkvgHZASfvDiqGrue+8jW8tYjZdSiVWQEbM=;
+  b=ZLGChETfUOJHcA2EbDL4cQ63SJknKp7qBaPhK+r/JgY85TNP80Tzm/sx
+   +YYynma0jaGB4DFfWEZ+jxBg64dsJLFTw1WJzeUalrpMLTKULA2141EyP
+   9DR+RULdxE5ymtmqNLPVXtHzG8S98FDreX15E//S1ZkWxBMVLnjceW3lj
+   TA+X2G/RSsTB7tyMQdYfkKoOoVqsII7nK2Cx7cNA20lVDKHPuxii7MZPI
+   kTzJCtguMk16RmRif6YCkyqBd5kdeyRpQhnmuTCpr1vuKdM2RF5BLy4MO
+   rOlNkvaqYgspaUuXtkPlGPTDbei4JSa7z750X21eaWy0mJWanrZ2XPz2Z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1710447"
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
+   d="scan'208";a="1710447"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 04:29:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
+   d="scan'208";a="7507283"
+Received: from dcoroian-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.42.253])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 04:29:58 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com
+Subject: [PATCH] ASoC: SOF: ipc4-topology: set config_length based on device_count
+Date: Tue, 13 Feb 2024 14:30:07 +0200
+Message-ID: <20240213123007.29956-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [2.18 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-0.22)[72.28%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[dt];
-	 MIME_GOOD(-0.10)[text/plain];
-	 R_RATELIMIT(0.00)[to_ip_from(RLjs3ec4aura4kmsd6wxjjm4hg)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: **
-X-Spam-Score: 2.18
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 13 Feb 2024 01:54:18 +0100,
-Wesley Cheng wrote:
-> 
-> --- a/sound/usb/Makefile
-> +++ b/sound/usb/Makefile
-> @@ -22,6 +22,7 @@ snd-usb-audio-objs := 	card.o \
->  			stream.o \
->  			validate.o
->  
-> +snd-usb-audio-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
->  snd-usb-audio-$(CONFIG_SND_USB_AUDIO_MIDI_V2) += midi2.o
->  snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-This puts the code into snd-usb-audio driver, and that causes a
-dependency mess, since...
+Set ipc4_copier->data.gtw_cfg.config_length dynamically based on
+blob->alh_cfg.device_count to align with the other OS.
 
-> +snd_usb_offload_available_get(struct snd_kcontrol *kcontrol,
-> +		      struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct device *sysdev = snd_kcontrol_chip(kcontrol);
-> +	int ret;
-> +
-> +	ret = snd_soc_usb_device_offload_available(sysdev);
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/soc/sof/ipc4-topology.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-... here you call snd_soc_usb_*() stuff that belongs to snd-soc-usb.
-That is, with this patch, snd-usb-audio driver will depend on
-snd-soc-usb, while snd-soc-usb also depends on snd-usb-audio for its
-helpers again.
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index f779156fe0e6..1dc935d737dd 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -598,7 +598,11 @@ static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
+ 		}
+ 
+ 		ipc4_copier->copier_config = (uint32_t *)blob;
+-		ipc4_copier->data.gtw_cfg.config_length = sizeof(*blob) >> 2;
++		/* set data.gtw_cfg.config_length based on device_count */
++		ipc4_copier->data.gtw_cfg.config_length = (sizeof(blob->gw_attr) +
++							   sizeof(blob->alh_cfg.device_count) +
++							   sizeof(*blob->alh_cfg.mapping) *
++							   blob->alh_cfg.device_count) >> 2;
+ 		break;
+ 	}
+ 	case SOF_DAI_INTEL_SSP:
+-- 
+2.43.0
 
-I believe the better way would be to move this whole miser_usb_offload
-code into sound/usb/qcom/.  You need only usb_device and snd_card
-objects at the creation, and you can get them in qcom driver side,
-too.
-
-
-thanks,
-
-Takashi
