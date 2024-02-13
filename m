@@ -1,116 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0EE37168
-	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 11:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25182374FC
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 11:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707823136; cv=none; b=G+MW9W0W3b/qj75xujHGRLrHprg5+xZm+xm1xtlm89qpYL3HivSb15gEi4o4t1MQUphxPv1WBN6qpZSexo5cNW5L0aEHIF9XBa8cjT7/NTBcLyjCD9RwulRlOYhwu8I6ZlX3MI2Pg7oaqEI4H7NwtMj8P8qNmM1gUQggYmxk95A=
+	t=1707824614; cv=none; b=gAXXZ97lTkYJ8qdxzHtgQsCRyPGav55HekCDPbAczj/UspAYKGTSB9lhYH17zYbnF8UHxzUnROCzo/fi9Sr/bVfw9dXaVBAI5ecyshbArfFdT9YT6J2VnY2sw4LAqIKi5SG0QYbSbaFzNvSlaAQ5gtRBiBxPP21eH05pfo0HxEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707823136; c=relaxed/simple;
-	bh=88RKftrIN6tpj6knXZca5m470my0eZSPxE6E2ZHi6Uk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a1gyensxJnhWZZbKL/ZQ2gl6rBVjnPyH1Hptv/LWhHfMyAFFeUvMrqqpvF6btEIqmMN9uq0NdSpZ4/lIhsPlnoxcIMN5dJoOg+vfKmz7akK3qG1tRn566UgGZz4tMhxRJ01hUkxO99RosjYaQKmigsoNa6T7Q84hM9TDMO3rYOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xy1buK1g; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707824614; c=relaxed/simple;
+	bh=j0EcmW86LVwxDZD8jjvR3IIBsMo9Vd5fN53o5Q4wNco=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=ZqVRiGLElzwS1o7TPcXHSJGEfw4TA/9oDAy5T5gRSB/hYWSz5d0NRsuDzwd1x1QTkWkquS8Yg2BTqSB9Nh9d64bsVOQG2phVhY4Ojaogq+3TNZ7pcYTxREzAXsDnvXa5sMPP2eotLRs3gY3k2bDD7SEEj39/cjWompGEShAekLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=MvhAkUC9; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xy1buK1g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707823134; x=1739359134;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=88RKftrIN6tpj6knXZca5m470my0eZSPxE6E2ZHi6Uk=;
-  b=Xy1buK1giuh28T+xUPvJ4uGB+rfc9MiT2Ac1Lo7EldkiLi16G7eE+7GE
-   z+pQCRfbAn4hIGUBd0ngf6Fq48ovtf8IFFhdUCC0lXwgqgXt/pFTwww7Q
-   HZP6dbCJRGmQP33EMG5X+TXb5Yoprh9q72VxLUPOIM81xGkJMql8cXses
-   e4m7Zz70QxTyJQ8725MUXjV5Q4OFDkVIEtE9paTUmeLo2NbT/7OirrwLp
-   CR/YiX7XuK5RQPUY3WV9gkqac3mrS3NAPOqZMeRZE3ZBRdjDOP/Fir7sd
-   43S4KLDo3cmyaF9WFQk4+XjOciUwynkpSu96nCaT25LVJVUuP28C1rg3y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2180871"
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="2180871"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 03:18:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="33666256"
-Received: from dcoroian-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.42.253])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 03:18:51 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	rander.wang@intel.com
-Subject: [PATCH] ASoC: SOF: mtrace: rework mtrace timestamp setting
-Date: Tue, 13 Feb 2024 13:19:01 +0200
-Message-ID: <20240213111901.20032-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="MvhAkUC9"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3394bec856fso3106409f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 03:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707824610; x=1708429410; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=E9Sow8wf4cLhsoNjPkxy+Vy7mK54b8EsDuIPycqqMjY=;
+        b=MvhAkUC9tng24+xCuIdEMwNnVoqKqTUqsjzOwfRCIUcBsenLYgP3AnbEHrYA+o85u4
+         tqFGfknQAezY3HaXNJL+W2xiWpXr1vsT814jBr5jVxCZnDBubbJJhsiXGGciPAxM2A1b
+         BL131n7PmYd4ypfP0BZKhryTh/1j5RizR9BS1lRllGOwBaDum1LOJE1VLiVMD20edl2H
+         URiNK1t9b3nNGfBpvu1hIqH1O1O6BjzkUeiBHvcsOahvX+mpgRtYL8XowyIPB+4Yy4gR
+         muptTIiHU3464FcEeY3OxWuTCdFV4IccwREG/StJ2tVKMJUxqtk3PZ+rRchb1Ntua7XJ
+         Wc6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707824610; x=1708429410;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E9Sow8wf4cLhsoNjPkxy+Vy7mK54b8EsDuIPycqqMjY=;
+        b=uJB45cA5JYFdMvXWIFaaDso0zP9Gg5kDEbTcelNUgDFP4fmdtgu7ws0C3DCZrxBHhn
+         mXwVffh49nS9MiTt27dFaXFQR7uhZOLQEIwuD91jJXoxzHYG9N/n3tiCrj8HT23VL85O
+         mLLKbROtfOj7EDt6t5T9V3d2O9Fdf6Iz4PutTXaSVsfZMRcGa7S5fBbsI7axewNXKqW+
+         xfzwBbYvZcSl9qUfmWag03/woljk2yHYlWe0bm1uzEu5Xi3/WWdRhLEF+j+IfPVuwMmn
+         3UoNLubGlDBAaRhf6fMrvXDVQQ3FaMWJHsJPYpOk7L+pbRIrX5NsV123q1MEuExsBNMA
+         IxQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkY7POC2nuPI46LXY+XIFJa0zjN+SKPCOZ860WyWTQUQUiTh7AkN7YR/fdS0xDfmpcnuFX6PfxfppggAGVmhNzSazpxrLG7GlOgNk=
+X-Gm-Message-State: AOJu0Yxy8OHdOAqxd0buKGA1iLcTORqWvD/1BAH/zHYI0cVPg6aLA7lX
+	v4NsGd7gEJfys8c7s7zR5if2Ldr/EcCIvGDBI1ES4fyPG2GVBBBIunC9bTqtyc4=
+X-Google-Smtp-Source: AGHT+IG5/46zhd1eOGmh0ra4YTAm6cqkOsrOZ3nHpxyZmRoQkb4L9iG9KRCKL7XD6RvIzjKFdLIpsQ==
+X-Received: by 2002:adf:e501:0:b0:33c:ddf1:4e70 with SMTP id j1-20020adfe501000000b0033cddf14e70mr954874wrm.32.1707824610355;
+        Tue, 13 Feb 2024 03:43:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV7XrcP98bixIaJaWBm55q3RGYgSAE7tBhAYxKCoTsFS3k+4Ze4N9ov5S7jgh/2kJS+irBO7hxgVQEv5sDqQLLxPDbHWC/Gs9TNJlYjDEdufmt8KqWgoLUap5P3RpuWSetm000MWsh8TG+RUnCiXYaeMS5P0KNR3vebzw4AK/Q7JSo2GChThL92QnUXlhhiqm3T+6Rm3bvBKFEBzRlNWsZ+oOtKvz4oZ5nrlk648f3KJ2YpB/AX8hYJ587hDFDHo7r1dZijD51CXUPKlm5Vvhyal5Vcu8pdKF6uRZUApCiCyWoYNna6+r1jeyiDnM+GrXyNfiI2jbQ39aZMPjTPS8Zd3pV6gPE6Q7iU5e+r5dq5ve8rVNhCu75nGRzfJSoMnFhhSRik6L03/9iH7StxCOiMjhlgvJXp0QLxcfnI7mQfyKBVWxmvK2n71BqvpzozyhkCuO8AO5J3tR81TAvxXYjA7ctciW/JxNy+0RD/Pu/DIgB3TrohH6Ieb4EtEjvFx//s0BbxRWmV5YdUNG0mEtgvFkabj7dgVuJmSkIyba37uRJ9Nj4vceMwV61cZXHq4Bloh/1m9MdaDSFr4L6+ysW0lgb2UhEH255fGSjDzoKUuGFhCI24w+H3rJL0zLOVpS/KYYbMSbqL1GxJsA+mmbtlzt0e6TZAQ/d1Iwa3
+Received: from localhost ([2a01:e0a:3c5:5fb1:509b:4241:48a3:e3e0])
+        by smtp.gmail.com with ESMTPSA id m18-20020a5d56d2000000b0033b60bad2fcsm9261852wrw.113.2024.02.13.03.43.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 03:43:29 -0800 (PST)
+References: <20240213101220.459641-1-arnd@kernel.org>
+ <1jbk8kk5pk.fsf@starbuckisacylon.baylibre.com>
+ <c61d7daf-1b13-4ff8-aeae-7dcd8dd02131@app.fastmail.com>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Arnd Bergmann <arnd@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Mark Brown <broonie@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, Kevin
+ Hilman <khilman@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Bill
+ Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] ASoC: meson: add helpers for clk_disable_unprepare
+Date: Tue, 13 Feb 2024 12:09:52 +0100
+In-reply-to: <c61d7daf-1b13-4ff8-aeae-7dcd8dd02131@app.fastmail.com>
+Message-ID: <1j7cj8k2se.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Rander Wang <rander.wang@intel.com>
 
-The original timestamp is built base on windows epoch time which is not
-fit for Linux system and difficult to be used for kernel debugging. This
-patch adopts syslog timestamp so that we can simply use dmesg to check
-the timestamp between fw and kernel.
+On Tue 13 Feb 2024 at 11:52, "Arnd Bergmann" <arnd@arndb.de> wrote:
 
-Signed-off-by: Rander Wang <rander.wang@intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/ipc4-mtrace.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> On Tue, Feb 13, 2024, at 11:36, Jerome Brunet wrote:
+>> On Tue 13 Feb 2024 at 11:11, Arnd Bergmann <arnd@kernel.org> wrote:
+>
+>> This probably pre-dates the introduction of devm_clk_get_enabled()
+>> It would probably be better to use that instead of duplicating helper
+>> functions which do the same thing.
+>
+> Ah, I had not thought of that interface either, so you are probably
+> right that this is the best way to do it.
+> Can you send a replacement patch then and add my Reported-by?
 
-diff --git a/sound/soc/sof/ipc4-mtrace.c b/sound/soc/sof/ipc4-mtrace.c
-index 9f1e33ee8826..0e04bea9432d 100644
---- a/sound/soc/sof/ipc4-mtrace.c
-+++ b/sound/soc/sof/ipc4-mtrace.c
-@@ -4,6 +4,7 @@
- 
- #include <linux/debugfs.h>
- #include <linux/sched/signal.h>
-+#include <linux/sched/clock.h>
- #include <sound/sof/ipc4/header.h>
- #include "sof-priv.h"
- #include "ipc4-priv.h"
-@@ -412,7 +413,6 @@ static int ipc4_mtrace_enable(struct snd_sof_dev *sdev)
- 	const struct sof_ipc_ops *iops = sdev->ipc->ops;
- 	struct sof_ipc4_msg msg;
- 	u64 system_time;
--	ktime_t kt;
- 	int ret;
- 
- 	if (priv->mtrace_state != SOF_MTRACE_DISABLED)
-@@ -424,9 +424,12 @@ static int ipc4_mtrace_enable(struct snd_sof_dev *sdev)
- 	msg.primary |= SOF_IPC4_MOD_INSTANCE(SOF_IPC4_MOD_INIT_BASEFW_INSTANCE_ID);
- 	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(SOF_IPC4_FW_PARAM_SYSTEM_TIME);
- 
--	/* The system time is in usec, UTC, epoch is 1601-01-01 00:00:00 */
--	kt = ktime_add_us(ktime_get_real(), FW_EPOCH_DELTA * USEC_PER_SEC);
--	system_time = ktime_to_us(kt);
-+	/*
-+	 * local_clock() is used to align with dmesg, so both kernel and firmware logs have
-+	 * the same base and a minor delta due to the IPC. system time is in us format but
-+	 * local_clock() returns the time in ns, so convert to ns.
-+	 */
-+	system_time = div64_u64(local_clock(), NSEC_PER_USEC);
- 	msg.data_size = sizeof(system_time);
- 	msg.data_ptr = &system_time;
- 	ret = iops->set_get_data(sdev, &msg, msg.data_size, true);
+Sure.
+
+How may I reproduce the problem ?
+Just tried with 'Debian clang version 16.0.6 (19)', no warning.
+
+I suppose I need to add something ?
+
+>
+> I also sent the same patch for drivers/nvmem/meson-efuse.c, which
+> I guess will also need the same treatment. I also checked and saw
+> that all three files already had this code in linux-6.0 when
+> devm_clk_get_enabled() got added.
+>
+>> If for any reason it is not possible, a common helper in clk.h would
+>> preferable I think.
+>
+> I can't think of anything that prevents us from using
+> devm_clk_get_enabled() here.
+>
+>     Arnd
+
+
 -- 
-2.43.0
-
+Jerome
