@@ -1,48 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FDB5F84B;
-	Tue, 13 Feb 2024 17:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9981C5FDBA
+	for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 17:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707844358; cv=none; b=dNe2mI0k2R3yKtTN9xsVU0yBHqQMc+2rnKGuwwItzcb17n+fi/HeC43BHLx0TUbp3oMy1swi6XP8BJ/rGseZrI3ZTroN4YHX7jt4Im8LORjrGxmCCAtNJzrO1L4GvHC0q6fIwdtv4TN94CcuwroHD2eJzTcoW8mMbqzzxZ/+3Vg=
+	t=1707844359; cv=none; b=tg+9KSZ1e1UUlXYBwbcFsDhLFQ4tvqLghzAQgmIoocakgZoILkFwMTH+bV0HsxilrGgGDHEDKwo5xIftioK8Do7MQGPwMHYExiGukHaOG7Ie43teYJKdC9DBBwBYk+hdcF4tfzbZN93HTWYJymdIgQTSxlNlM7P3t+pHI2mkIok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707844358; c=relaxed/simple;
-	bh=4a+evY0mZO8wIOkZmZjF8xeTorrvG9xu5R33q/440cc=;
+	s=arc-20240116; t=1707844359; c=relaxed/simple;
+	bh=Zk1VVUSPuiMS+puiXACqPjlQNY+t+VUPTl22O448IxU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=U1rQB4GTTsXZv9p8RLmssoa7E+Cp7MUMmf4o0uYP28wAe7b3mrEpkX9aDPpjRPSRWE+1guwzteVTIAgyGM3NNtyT/gdIIckeuyJ3+ewed3L0+Zqbyjb/E1G9ab9gN6tFJwTRLp9+QMo+EPxwRFNXuBfKNrqt/hs6zpoYxGw943o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5gbgqNn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QzBE2ZS2oBEphxcTDBeFzNR8yhn7F9z/S+lT9O3Ie65tlN27OUTau+EKr66oyHx/9tlkCKsNq7fwNT02sjUesFe2GgmO+M/UKK25rmidLRlBOyFAFsNxPIV/nlUxZhw+ant/MkXIv7kR0q9msid+KRYln+5FA/rVHh2zb8E3CFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7QiT871; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5gbgqNn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86985C433C7;
-	Tue, 13 Feb 2024 17:12:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7QiT871"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18991C43394;
+	Tue, 13 Feb 2024 17:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707844357;
-	bh=4a+evY0mZO8wIOkZmZjF8xeTorrvG9xu5R33q/440cc=;
+	s=k20201202; t=1707844359;
+	bh=Zk1VVUSPuiMS+puiXACqPjlQNY+t+VUPTl22O448IxU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=O5gbgqNnELJoOwNQZXjLj0clNFzyt8oKYwWxMOmLctax6JAVNisqhgXmz2FTX/G5T
-	 C2e2OGYqhOrhPHZTACDV+/AdiwkDH98NvVTHqrIy+G6ZZyKBrvxHrrnhudlfCS1grv
-	 v4Gsb1EUoS801fCJn3I5Vmjpke7CYey/j8AFFLmqilW/ioTEaqLxGd5NsNSL+8GGSd
-	 NRAHgdt/xArWE9qiw+ezxKWwlv3tOCuZGuS9H+Z86vmwFDHB87CrTgUlrHm1DN0j1P
-	 SFnFBbFPknXr6lqyU1TfmQNYNQVaZGEwMA8ABm/TMDj1CTsByX8m1yhKi+gJ18zMLn
-	 M9pubAtLB5IGA==
+	b=B7QiT871XeZFeBP+Ja8kTWepVUS8SK1ZNrIukJvMi/TXaSLMsTThyB6k4VHW+EmrN
+	 JmI93n8ob0u/GmAyPIAxLrN/YFy9Sq4edjWb/JV64Px12bhNQP5RceNOHSBRGotc/Y
+	 Bkwz4ZQVf1ZeBWWo7jzBAQpvTzdv1UJvGVdCfGY7igJWgrH9oPDu8Rw0xEi7QNSc1p
+	 MgfsAJiYH6Vap/3sQqoSl5N4FxrrSfrHkE0acOfwxP952qDA+Tr05FgLwa4IdKC9TS
+	 hUGTpb3DVeVmmRxrI2eGDlD9vjXKhVODsHBaz9WXJYPLTaLIS3zk2ys1Gr1f561nNq
+	 P8ba0r1/SZUYA==
 From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Mohammad Rafi Shaik <quic_mohs@quicinc.com>, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev
-In-Reply-To: <20240213101105.459402-1-arnd@kernel.org>
-References: <20240213101105.459402-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: q6dsp: fix event handler prototype
-Message-Id: <170784435426.387832.9390509804321653971.b4-ty@kernel.org>
-Date: Tue, 13 Feb 2024 17:12:34 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com
+In-Reply-To: <20240213115233.15716-1-peter.ujfalusi@linux.intel.com>
+References: <20240213115233.15716-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Workaround for crashed firmware
+ on system suspend
+Message-Id: <170784435783.387832.161975827217906863.b4-ty@kernel.org>
+Date: Tue, 13 Feb 2024 17:12:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,14 +47,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Tue, 13 Feb 2024 11:10:46 +0100, Arnd Bergmann wrote:
-> clang-16 points out a mismatch in function types that was hidden
-> by a typecast:
+On Tue, 13 Feb 2024 13:52:33 +0200, Peter Ujfalusi wrote:
+> When the system is suspended while audio is active, the
+> sof_ipc4_pcm_hw_free() is invoked to reset the pipelines since during
+> suspend the DSP is turned off, streams will be re-started after resume.
 > 
-> sound/soc/qcom/qdsp6/q6apm-dai.c:355:38: error: cast from 'void (*)(uint32_t, uint32_t, uint32_t *, void *)' (aka 'void (*)(unsigned int, unsigned int, unsigned int *, void *)') to 'q6apm_cb' (aka 'void (*)(unsigned int, unsigned int, void *, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
->   355 |         prtd->graph = q6apm_graph_open(dev, (q6apm_cb)event_handler, prtd, graph_id);
-> sound/soc/qcom/qdsp6/q6apm-dai.c:499:38: error: cast from 'void (*)(uint32_t, uint32_t, uint32_t *, void *)' (aka 'void (*)(unsigned int, unsigned int, unsigned int *, void *)') to 'q6apm_cb' (aka 'void (*)(unsigned int, unsigned int, void *, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
->   499 |         prtd->graph = q6apm_graph_open(dev, (q6apm_cb)event_handler_compr, prtd, graph_id);
+> If the firmware crashes during while audio is running (or when we reset
+> the stream before suspend) then the sof_ipc4_set_multi_pipeline_state()
+> will fail with IPC error and the state change is interrupted.
+> This will cause misalignment between the kernel and firmware state on next
+> DSP boot resulting errors returned by firmware for IPC messages, eventually
+> failing the audio resume.
+> On stream close the errors are ignored so the kernel state will be
+> corrected on the next DSP boot, so the second boot after the DSP panic.
 > 
 > [...]
 
@@ -70,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: q6dsp: fix event handler prototype
-      commit: 5b5089e2a1e753ffe9ee2bf101a9e06784ec5e1a
+[1/1] ASoC: SOF: ipc4-pcm: Workaround for crashed firmware on system suspend
+      commit: c40aad7c81e5fba34b70123ed7ce3397fa62a4d2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
