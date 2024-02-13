@@ -1,186 +1,148 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD0759140;
-	Tue, 13 Feb 2024 00:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A1817589;
+	Tue, 13 Feb 2024 07:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707785714; cv=none; b=S4nfHOtXzaAahwJCnK+STvO5koEwAp3UsX32e5LCVTNSL3RQfDd8aG45nMpkCnLadvDqz8pswp0dwK1BANR/0XEaAh+UFtINcAu9QFvrAfOlFF9L1zpUxzpc2GACRZudSxw2CKhAz4ARRgUtbgS5+4ODt83IURqUoPSUkjtHWsw=
+	t=1707808380; cv=none; b=T2dtcOK75/5qbwk6jo8GZFaVo4nz3+hqYmlPIvpvrmuwHZWehjlvFBDnHFtTc1JONDa19DOEmtQLk8LicP2i97AR+q/ugokqn2903okZFPfKZ1JnAYvD2sbcTHGMVzLfCMMrOhXzFexo9e6X9AwpkjUtTuLOdyNo7EvEGGghLu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707785714; c=relaxed/simple;
-	bh=RtmQaj8NkOIBrQYRKvHrCqtxnDMndM5jafzZvCboeCs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kYJBTuZSRWRrP4VqPCoXr9sJdMS8qEYgJ41s4B2c+xBH281K1KOh+A55pLd4+C5zXbsS4f33W4Y9gfxPiUnjY7GtlzohTeY1HDnncX8RcMXo9WWA4ylm5+EAMP4kCkqML3fZMnGvQK1fpMFPTJSU22L9moFWK8nWI9FUB9Wkvmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eEbzHleP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1707808380; c=relaxed/simple;
+	bh=+vzgJHGB21CmFNaPwMTlSN7copnCy4aT9rIMOVIU3rw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lgzh7hZWLeNMOFqjyw2W2tQKKkCDUST+Qg1fWTmTAFRP8Yb4lEIi/7R1RSsG/fEEsqGMA7IYDHoG+UNGEpLMzE4SShS9wl7eS0+6SkuEyEPNT17GZATMnlOyLzw/wCrzZ6I+hYO+Pjgbs25lv/GsZJeu+Y60MS8e0qM7F6LSQi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fHAkAZ0E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uxQoIPVl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fHAkAZ0E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uxQoIPVl; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eEbzHleP"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41D0kqEa002770;
-	Tue, 13 Feb 2024 00:54:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=TP9fyOwkywtfaOI9LqRo
-	kjI/c6lBCTPIOkl0CcpX2Ew=; b=eEbzHleP4IvVKYMAeJNazIeF6Hf8a88A0Bv1
-	+oREfTyjuQnRr3G8NuUuuwHqZi8KGeR+odJq+deUEV1uiYqC3BAa5w7Gfuw1EYjJ
-	r1YUQiDyz53Fx0RSLe2ocvCaIFKdmywKUZWcb7rbAYtxrg3rnjtjqcuKH+96ATKn
-	94GsxDYV+QNDCfvrRpBiMPBAvLEv9jSvIv+lPFZJQtrtzVM3ET9O1Gw+f7DZaGcn
-	Ps6RDrLdMCWSbytC2o47yhEAwuZ8RUgfQEsXhaKKGQYJ48xSU3NvRdgpTL0CDmsh
-	6XAAB1spUG8/KtTRzPwU6GLxICMgTBBmU/+gNecWpjUtZhQIxA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7gse1tuj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 00:54:45 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D0siOH030072
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 00:54:44 GMT
-Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 12 Feb 2024 16:54:44 -0800
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v15 42/50] ASoC: qcom: qdsp6: Add PCM ops to track current state
-Date: Mon, 12 Feb 2024 16:54:14 -0800
-Message-ID: <20240213005422.3121-43-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240213005422.3121-1-quic_wcheng@quicinc.com>
-References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fHAkAZ0E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uxQoIPVl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fHAkAZ0E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uxQoIPVl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C2661F7D4;
+	Tue, 13 Feb 2024 07:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707808376; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V2HMBYlo6MPzo/mOplX1T0/FFqhj2lYh2wTDDLwynds=;
+	b=fHAkAZ0EOM9dLUSBKkYKZfBibV94nUy4Uf5+LlDe8xiZvzoRQeJxqQZXe0XUSDFBo1mFTH
+	ghlC5/TxNAmaviSRxrDaKddEWCvsGfbZDBkKeMaAZ7UDsrIG7/EKAm7masWTfEKt30MQ22
+	CRW/B2Impffmw2Lr/qRKxsfUAQ8KZmw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707808376;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V2HMBYlo6MPzo/mOplX1T0/FFqhj2lYh2wTDDLwynds=;
+	b=uxQoIPVlQVrX9wvqHh6EgUIHqdrDgzmD0HHGmkjn2GlB31nQdTjowE+CBPIbDmdHwKnuuv
+	g29WU73PW9/yJeBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707808376; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V2HMBYlo6MPzo/mOplX1T0/FFqhj2lYh2wTDDLwynds=;
+	b=fHAkAZ0EOM9dLUSBKkYKZfBibV94nUy4Uf5+LlDe8xiZvzoRQeJxqQZXe0XUSDFBo1mFTH
+	ghlC5/TxNAmaviSRxrDaKddEWCvsGfbZDBkKeMaAZ7UDsrIG7/EKAm7masWTfEKt30MQ22
+	CRW/B2Impffmw2Lr/qRKxsfUAQ8KZmw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707808376;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V2HMBYlo6MPzo/mOplX1T0/FFqhj2lYh2wTDDLwynds=;
+	b=uxQoIPVlQVrX9wvqHh6EgUIHqdrDgzmD0HHGmkjn2GlB31nQdTjowE+CBPIbDmdHwKnuuv
+	g29WU73PW9/yJeBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E59E513404;
+	Tue, 13 Feb 2024 07:12:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0bPaNncWy2XLNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Feb 2024 07:12:55 +0000
+Date: Tue, 13 Feb 2024 08:12:55 +0100
+Message-ID: <87il2skfbc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "T. Kudela" <ramzes005@gmail.com>
+Cc: james.schulman@cirrus.com,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Add Lenovo Legion 7i gen7 sound quirk
+In-Reply-To: <20240212193327.59507-1-ramzes005@gmail.com>
+References: <20240212193327.59507-1-ramzes005@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: p9iPdqQ6jTGAzA9IzhGTzHGUP9wlC9mb
-X-Proofpoint-ORIG-GUID: p9iPdqQ6jTGAzA9IzhGTzHGUP9wlC9mb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-12_20,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 adultscore=0 spamscore=0 clxscore=1015 phishscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402130005
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fHAkAZ0E;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uxQoIPVl
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.07 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[17];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_CC(0.00)[cirrus.com,opensource.cirrus.com,perex.cz,suse.com,realtek.com,ljones.dev,canonical.com,ti.com,gmail.com,alsa-project.org,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.56)[98.05%]
+X-Spam-Score: -3.07
+X-Rspamd-Queue-Id: 5C2661F7D4
+X-Spam-Flag: NO
 
-Register PCM callbacks so that the Q6USB DPCM backend dai link can track
-and update the status of the PCM device.  Utilize the SOC USB state APIs to
-ensure that the SND kcontrol for the offload status is updated properly.
+On Mon, 12 Feb 2024 20:33:27 +0100,
+T. Kudela wrote:
+> 
+> Add sound support for the Legion 7i gen7 laptop (16IAX7).
+> 
+> Signed-off-by: T. Kudela <ramzes005@gmail.com>
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
----
- sound/soc/qcom/qdsp6/q6usb.c | 52 +++++++++++++++++++++++++++++++++---
- 1 file changed, 49 insertions(+), 3 deletions(-)
+Use a full real name for your sign-off, as it's a legal requirement.
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index 61d30303a7bb..84543b34f2b7 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -30,6 +30,9 @@
- struct q6usb_status {
- 	struct snd_soc_usb_device *sdev;
- 	unsigned int pcm_index;
-+	bool prepared;
-+	bool running;
-+	int session_id;
- };
- 
- struct q6usb_port_data {
-@@ -81,14 +84,48 @@ static int q6usb_hw_params(struct snd_pcm_substream *substream,
- 		goto out;
- 
- 	data->status[data->sel_card_idx].pcm_index = data->sel_pcm_idx;
-+	data->status[data->sel_card_idx].prepared = true;
-+	data->status[data->sel_card_idx].session_id =
-+		snd_soc_usb_prepare_session(data->usb, data->sel_card_idx,
-+						data->sel_pcm_idx);
- out:
- 	mutex_unlock(&data->mutex);
- 
- 	return ret;
- }
- 
-+static int q6usb_prepare(struct snd_pcm_substream *substream,
-+		struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+
-+	mutex_lock(&data->mutex);
-+	data->status[data->sel_card_idx].running = true;
-+	snd_soc_usb_set_session_state(data->usb,
-+			data->status[data->sel_card_idx].session_id,
-+			SND_SOC_USB_RUNNING);
-+	mutex_unlock(&data->mutex);
-+
-+	return 0;
-+}
-+
-+static void q6usb_shutdown(struct snd_pcm_substream *substream,
-+				struct snd_soc_dai *dai)
-+{
-+	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
-+
-+	mutex_lock(&data->mutex);
-+	data->status[data->sel_card_idx].running = false;
-+	data->status[data->sel_card_idx].prepared = false;
-+	snd_soc_usb_shutdown_session(data->usb,
-+			data->status[data->sel_card_idx].session_id);
-+	mutex_unlock(&data->mutex);
-+}
-+
- static const struct snd_soc_dai_ops q6usb_ops = {
- 	.hw_params = q6usb_hw_params,
-+	.prepare = q6usb_prepare,
-+	.shutdown = q6usb_shutdown,
- };
- 
- static struct snd_soc_dai_driver q6usb_be_dais[] = {
-@@ -149,10 +186,15 @@ static int q6usb_put_offload_dev(struct snd_kcontrol *kcontrol,
- 	int pcmidx;
- 	int cardidx;
- 
-+	mutex_lock(&data->mutex);
-+
-+	/* Don't allow changes to the offloading devices if session is busy */
-+	if (data->sel_card_idx >= 0 && data->status[data->sel_card_idx].prepared)
-+		goto out;
-+
- 	cardidx = ucontrol->value.integer.value[0];
- 	pcmidx = ucontrol->value.integer.value[1];
- 
--	mutex_lock(&data->mutex);
- 	if ((cardidx >= 0 && test_bit(cardidx, &data->available_card_slot))) {
- 		data->sel_card_idx = cardidx;
- 		changed = 1;
-@@ -203,8 +245,12 @@ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
- 
- 	mutex_lock(&data->mutex);
- 	if (connected) {
--		/* We only track the latest USB headset plugged in */
--		if (!data->idx_valid) {
-+		/*
-+		 * Update the latest USB headset plugged in, if session is
-+		 * idle.
-+		 */
-+		if (!data->idx_valid &&
-+			!data->status[data->sel_card_idx].prepared) {
- 			data->sel_card_idx = sdev->card_idx;
- 			data->sel_pcm_idx = 0;
- 		}
+
+thanks,
+
+Takashi
