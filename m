@@ -1,124 +1,154 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C682613DB88;
-	Wed, 14 Feb 2024 19:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D6057872;
+	Wed, 14 Feb 2024 22:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707938884; cv=none; b=J5fPF6p/e6rtkiTKxTi95wlHqZ98Tw2v4JqD56qdDLfT2qBQ0KdiTVjbcqqgVgGzYgjGjTsXSe+AeHGU8fqP5MkVqtG8ojpdokX5BjprCe9JpX+5XoZ2IDff7ssjqKpxKRq8dlN2jTTRENNkdtQv6Gk0MUVFAtkmqposZ5c4lzo=
+	t=1707951498; cv=none; b=EhLKQ3AFOWmfqNF9W+iMZ9FAlRCrjfcKbEC+p7Jv9S5qB9CXG/XRrkJC2QbsmwhZqBg9wFtHr63Jyh6RYT84vHICzPywPdNihAvVMxnNyqzkzFP2x5u3sS4zhsy1WflKmGHKwR7DTnhvy/yaSLefNf/Zyrpj3KZPmS/79/sCgSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707938884; c=relaxed/simple;
-	bh=krKW6FufyrqnEsJjvhkOclRGG5wwZHLlEbv96z5uKcQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Z6dulQ9bdFwaNHFKK0xpM20/ysheqKp5ga5RBYluvOP4JxCcwkEp7jzbh9inB3I+CGhYqfzAw+3dThpxf0BAKHf3FQIupZYb1DPldrkogCu7fMwoH2bBx21Sg473SoJnixpVUVaCb3d6h2B36fioM+MbfLbsJ4voAHkggT+0dqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=ExxGDG4H; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707951498; c=relaxed/simple;
+	bh=gSUvTrZr3rXl9rxa9h+n04kX3glePcNe2dBEl2CvPt4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=hp+7g7h6SbsZIvaxzzznNjUZL49xFkTxqQXf5PwzCOm0gclBd7pmrkFyRFGbMUZwl0L5bljuFbNpSB/yI1ZdRRC158GEUm/Ea1rFaZKFFK+HCHC8+KKaCuW9clj/h7Q1k5nzOl/fTzqDsXlAQAx0lMV4BZC+wj2240soanIQBfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=b0TWz7o/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="ExxGDG4H"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d9b2400910so1152285ad.0;
-        Wed, 14 Feb 2024 11:28:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707938882; x=1708543682;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SW2EVXlkBr3rgXstlJZO0zqxkNTOtfGuPtYbWFp/giM=;
-        b=jzId0Czz46pt0AtXWzTekXEQG+3sbmn1DWYr/k3hZalTC4W9iOHJ+A+sMLZlw/jGfZ
-         xzKGnKvj4qF6EpPs+HakMfUMjMS8H+lfLBoREiXnuxp1mdBUBbB/1FgjXzS5924L3gpT
-         F+jIRQPgvxz0o8NjaLyjGHPfPupix+Ab7nxluJ3z8kaNJkX6P9NmGacIqONGcnpNMkD4
-         pHRnlMGSdLhLEY7pr0ob00FSeyoSi5lcs6SwPOT3lfOG+lTIwvcEfs8ze9sLKUlN0O7C
-         nyrHhhJSDB1XrjOg9adIdpjAL97DYJXAlY3nCVMGMZ3lCuS0TpqGZ3XGhN4VL0JAPxiz
-         tUzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRwrzJVkQRk6bpzcBbg4JqbEQ4QBMMMOHXRlujnd/DnSRh+dp7BfMBU+d4kJIhql1/HwiQiB7dFGjFFnMJu6npOul3bJGZbq993ZtgUs56C7Tm/XQ8DPyopjpVbwfY+3+KTpAXhmmh67A=
-X-Gm-Message-State: AOJu0Yxtfs09o5E11DgWoBG4ZH4iSctzgbO5nf3raTArc6x2CatCUeDn
-	HhBjQ15PXYbBT7xlzgvxa+BmT9k9l3hOvcwMVyBpZB3auTaLfM5h
-X-Google-Smtp-Source: AGHT+IFfGbZuAKSoIipQ/AuSt4XRcAoPLUj2tmOBYt6LOxRikAJhgLvwB5Ih9ElCDzXfq8dY46oA7g==
-X-Received: by 2002:a17:903:32c6:b0:1d9:adc9:2962 with SMTP id i6-20020a17090332c600b001d9adc92962mr4216641plr.20.1707938882014;
-        Wed, 14 Feb 2024 11:28:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVNr2uJ9kjnrGCOQC9BNLwWgg0FTNhR81r3mhUOmcxEJOT46yMDQ2YE9PySMXH9JejYyLfBYad23Xt/qtP4pPO7VaCiW5o6cRBaLbImdxN8Ea1NBJL/n/vkMXS+JbXWFt4TGJQbxO8QSVNbOlI0qMyY8fs9rdBzMpEusKyCRENQa2meTvVnw65ziaJRTjSACAWZOqJbCLVARgAiekH+t3uAQ08tn0XAp8sd9nu7H5VACcHMwU9UDTqQnBR4BeAtg5VErA==
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id kk11-20020a170903070b00b001d8a93fa5b1sm2269628plb.131.2024.02.14.11.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 11:28:01 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1707938880;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SW2EVXlkBr3rgXstlJZO0zqxkNTOtfGuPtYbWFp/giM=;
-	b=ExxGDG4HkIj1oisfc/xBYlb83uf+EJVkHyY++SDgkc95zRxC5dMn62sB0ubUZ9MmGZ//Ve
-	lIF/ReQzCklcu8k5GEkXFg8Et4Oyf8JMeuqB3qJDimH9K+Zjzb6y6TWjvbbln2aQLXkSjo
-	9a82NqA3wef3FOOC/DioCZN13IuEG+DQcl1aHqC1Dmh7BSbeVJz39Nk8PBDTUEXX0elzk2
-	BLpIxKjaxPDeaMxBSmX++g6iWbO5mf0bDTZYMrw76JUkqShALd/iWaiRQpGN2KqbN3moMP
-	Z+jYdDVMOGEbXWEo/bmczCW9woQefjvDnjsUueUdWw9Z0HF0Br0IUu23wasUig==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Wed, 14 Feb 2024 16:28:29 -0300
-Subject: [PATCH 2/2] ALSA: seq: make snd_seq_bus_type const
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="b0TWz7o/"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41ELrHsR010715;
+	Wed, 14 Feb 2024 22:57:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:from:subject:to:cc:references
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=P3WE3lMB3U1jVjyqfIrkGAFwODySyS5IO0j1eUTCPyk=; b=b0
+	TWz7o/x3N8/AZ1opgEr/avUwTe6jB8c4OuL3f6079KX9ut38Qho6sMnDxX0/NXRl
+	HF9luXKQE71ywu7/88LW1oFOxyhL4GgW3w37hUAn8grY5IK6NIxHgxtQkCcIcGvB
+	/ROTjG1H+NIDuw05+h5w8TL+iMduX8yzNMv1Dcxhtf0CGb0n7QzBMnl+V2i2GnTu
+	bGgQGVYb/vt9h8ydnmspVOxAbq5g3dcVhRW/397fx3YS2Cy23oRZvFKIaNBNlAiR
+	XeWUvyRouBn57ifET7HUpot6IpyddxUxOylXbX5DTuwTJKoJ4uDgDZdUuDUV9ccf
+	q4lMtWv3KqmsFRiSHLzQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w92fxghd3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 22:57:52 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EMvpng005245
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 22:57:51 GMT
+Received: from [10.71.114.103] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
+ 2024 14:57:50 -0800
+Message-ID: <f2952acb-4f9e-9283-a5bc-1b62164df9bc@quicinc.com>
+Date: Wed, 14 Feb 2024 14:57:46 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: Re: [PATCH v15 39/50] ASoC: Introduce SND kcontrols to select sound
+ card and PCM device
+To: Takashi Iwai <tiwai@suse.de>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+ <20240213005422.3121-40-quic_wcheng@quicinc.com>
+ <87y1boy6ps.wl-tiwai@suse.de>
+Content-Language: en-US
+In-Reply-To: <87y1boy6ps.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240214-bus_cleanup-alsa-v1-2-8fedbb4afa94@marliere.net>
-References: <20240214-bus_cleanup-alsa-v1-0-8fedbb4afa94@marliere.net>
-In-Reply-To: <20240214-bus_cleanup-alsa-v1-0-8fedbb4afa94@marliere.net>
-To: Johannes Berg <johannes@sipsolutions.net>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1035; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=krKW6FufyrqnEsJjvhkOclRGG5wwZHLlEbv96z5uKcQ=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlzRRhl5Veu7uhBrVI+1uU+rR4q9IbJhifdb9TU
- N+d17t0QdmJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZc0UYQAKCRDJC4p8Y4ZY
- pua5EACuVYFKzDW/TNKVRiEKvBIwgkmSnbmvzLYBd//6zcN/EAmhfhvISk2n9yBPuubxPSZaaxn
- RqRssHLBSRa1iXhKOvZXLcO6w4JAvMSpsQItJWa1JjBhBbiCyGvFqjzT1nMR7UIJ9ygrJxm5sin
- BpR/KI9reM1gxTPJwDCt3TubQKaaH8CkcX9uMDP2bchSDnQ5209TEhdocOZ3NReMxnm2ry5Szce
- 0x63cr2s6aAKiETtlrjTDMYIIcjFmH7ZSArvFGGcjxijIDBfb2sj3yxF9e2xKBL9RyDBY5xS3rW
- B7JHq6CngM/y0FV8xzlF7Dt7SoW5eEZKVFQBdMwRwQFfjA+5hc1eVSHXCyKVYM02dKvYUtKw1Z9
- xf2JfFQicxO2BJlDyGq0XUj3yNxEo0TXIeWjCKsDLOWD/cLS6LsSlZuUkwPFbyZrxQmfuTrwAWu
- 44agkqrnN0TkX8NggIw2mYTOULjDWAFuRups2m4TfBhd+G/Rf3KqRoJzKfqb8XETovkNlHCt/GP
- nouPP+s1xHBga6enpHkwe1geOAkFmtvCPkLM7ZEnGSLRiE/neQExxHJJ9+ZRK4fclXGpADPv2b/
- +LFqX9LvwU2qa5tcINF5yMW6AEOFCheXlE/15rHjKff8s5MkkAz4ZI8mMsDDFoRTTNPuz18gIn9
- IyMwkxY0ce06jZQ==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: iiFOt1LHNH-vK7dJGiW2u-pqhV-t6b_L
+X-Proofpoint-ORIG-GUID: iiFOt1LHNH-vK7dJGiW2u-pqhV-t6b_L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_14,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ mlxscore=0 bulkscore=0 impostorscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402140174
 
-Since commit d492cc2573a0 ("driver core: device.h: make struct
-bus_type a const *"), the driver core can properly handle constant
-struct bus_type, move the snd_seq_bus_type variable to be a constant
-structure as well, placing it into read-only memory which can not be
-modified at runtime.
+Hi Takashi,
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- sound/core/seq_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2/13/2024 2:54 AM, Takashi Iwai wrote:
+> On Tue, 13 Feb 2024 01:54:11 +0100,
+> Wesley Cheng wrote:
+>>
+>> +static int soc_usb_get_offload_dev(struct snd_kcontrol *kcontrol,
+>> +				   struct snd_ctl_elem_value *ucontrol)
+>> +{
+>> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+>> +	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
+>> +	int ret = 0;
+>> +
+>> +	mutex_lock(&ctx_mutex);
+>> +	if (ctx && ctx->get_offload_dev)
+>> +		ret = ctx->get_offload_dev(kcontrol, ucontrol);
+>> +	mutex_unlock(&ctx_mutex);
+> 
+> It might be safer to initialize the values with -1 in case when the
+> callback isn't available?
+> 
 
-diff --git a/sound/core/seq_device.c b/sound/core/seq_device.c
-index 7f3fd8eb016f..654d620d0199 100644
---- a/sound/core/seq_device.c
-+++ b/sound/core/seq_device.c
-@@ -49,7 +49,7 @@ static int snd_seq_bus_match(struct device *dev, struct device_driver *drv)
- 		sdrv->argsize == sdev->argsize;
- }
- 
--static struct bus_type snd_seq_bus_type = {
-+static const struct bus_type snd_seq_bus_type = {
- 	.name = "snd_seq",
- 	.match = snd_seq_bus_match,
- };
+Make sense, will do.
 
--- 
-2.43.0
+>>   /**
+>>    * snd_soc_usb_get_components_tag() - Retrieve SOC USB component tag
+>>    * @playback: direction of audio stream
+>> @@ -157,6 +218,12 @@ EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
+>>    */
+>>   int snd_soc_usb_add_port(struct snd_soc_usb *usb)
+>>   {
+>> +	int ret;
+>> +
+>> +	ret = snd_soc_usb_control_init(usb->component);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>>   	mutex_lock(&ctx_mutex);
+>>   	list_add_tail(&usb->list, &usb_ctx_list);
+>>   	mutex_unlock(&ctx_mutex);
+> 
+> We may need to remove the control element upon the driver removal,
+> too?  In theory, you can unload the offload stuff while snd-usb-audio
+> is still active.
+> 
+
+This is managing the control for the ASoC platform card that supports 
+offloading.  If we compile the different kernel entities as modules, we 
+see that the soc_usb layer has the following users:
+
+soc_usb 16384 3 q6usb,snd_usb_audio_qmi,snd_soc_qcom_offload_utils
+
+So we'd need to remove all these modules before we can unload soc_usb. 
+The entity which would be related to the kcontrols created for the ASoC 
+sound card would be the q6usb module.  Since the q6usb module is tightly 
+coupled with the platform soundcard itself in our design, for the q6usb 
+module to be removed, we have to remove the entire ASoC sound card. (in 
+which the kcontrols will also be removed)
+
+However, that might not always be the case...so its a good idea to just 
+manually remove the kcontrols in soc-usb as you guided.
+
+Thanks
+Wesley Cheng
 
