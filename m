@@ -1,92 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1B012B60;
-	Wed, 14 Feb 2024 09:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4511757A;
+	Wed, 14 Feb 2024 10:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707902575; cv=none; b=RVmyo+hje+3GTDlAGmhwQ3/bcSsiWvBKqDA9hADVUG6HAxMFpqHzmFNCyGTYAtjTTgHkv8WtNQYbPIXWNlgqxwCc6genKZbiANWsfZ7xN5Cj7bRJ9Lk8AWHZZuSmyQPYxTZmSwJU9ITTQVQnK4qYJxalAnLP+ViDBfPXpNPAfNE=
+	t=1707906307; cv=none; b=SSUMNiw0QAOTwotTGVAXycKwrlgc1HLEU9ODbFVnNc3iNOt6JaBLiKR2igcZk/l88S5zu01wF2aziJjLligi0iVcvcYC9/Zde5edxzQiq7E1FphrkDC2+qMxXNx5H837vnm7XyBxq6dnegsXEn9Alb50cyj6WIeobm2DHpFZFxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707902575; c=relaxed/simple;
-	bh=WCHyzEMYsmkXeKhRjOyGsH4SWHf2Zvhc93CpPJCsZ70=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=sb7fNq3ci6+/8x7F3trFoAopuLkFL06uG/rWRjABHGBwNtdf1zTYtdHfHMhuRsHPYdYe0wTSuaeZ4OlPm+NXVlo3b9XWVx/9bX5/7QqsxyNHYgumq8s/BBZHE69P1y2eOedXMnu7tJ8uq1AZbrdOxcJojirC798QVrVbUJgu9hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXREtOAL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707906307; c=relaxed/simple;
+	bh=L815oFbIeIuu/nPLWPfmkBBD824MSDUKPhdjuYMkxoI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMyHAwhaFUodgwotEWdyCEPWXTH8sZIfqxVr1tT1FbXKhFtmtepCsUR3+yaVTrZat9pNF7Ihh9+VEc52I4pUk/f0jOnp+S4vMzIexmCon+mA6i4A8kN65602JZ5kEsLomZk5J7mM9ujckoctWsHYP/7w2esNIi/W3Ng9Meq7/Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=MPX0uB6F; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXREtOAL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B94F1C433C7;
-	Wed, 14 Feb 2024 09:22:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707902575;
-	bh=WCHyzEMYsmkXeKhRjOyGsH4SWHf2Zvhc93CpPJCsZ70=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=sXREtOALLSk9HLU/IAkBc01Hi9HoDS6Or5Sv/JMYpiKFgjkf4xdspqPQGqomiYxx5
-	 sxP35EhvKauE8uaveXi5cS95yAP+lYX9o6/0qZTE+6tJO9q/t+yDkCi/VAluBT2zWV
-	 cCrcJ2ODMKPizw3HZ2OhChXVBvhxP3PpQor4m1akf9gHQ68SftBeCa/1txMmLcx4Uc
-	 FsxTu5hCf/edc1IXOClP9fmCJgRiiCzRhjpvoTgjeuuIShtxgS3/j7nX/nbN1CorHs
-	 VldjhSBRZRuJVzQhmponH0NXjJ8r3p0Km2t4aDMLZ0QigKFVT2JEj4DcpiFLaS6vuG
-	 yR1WPHXGFGKJg==
-Date: Wed, 14 Feb 2024 03:22:53 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="MPX0uB6F"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41E8556f007521;
+	Wed, 14 Feb 2024 04:24:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=C43+mmqH+ywn9It
+	Rt2YS6FoSpdQ9++9eC/aPhwewHIU=; b=MPX0uB6FLeKx3sWOtpEJkE3BiC8DscE
+	3nc2VahgvcSQWAlhvC/cg1R/Hbgfe/KdKRX/jgmqh2aT+qr1+ogANqDWpe4nJwi/
+	SAyHztTQAEPlN80Fmgh9ifiBGQzS6TlQSFkNr9pxdzBq1+zOC7e1qs0utqowSiiJ
+	OKraYH3pwN6n4Xaro73nwALeDXsts/EsjYlYZFKt5llqjg7QNxO+TOAnT1lBUQEH
+	bllzg2MFhC81rYlxh0rE2JsH3L5jh8bi9FZZMrHfGTCNh10tLZPWl6qEPJRdrCMY
+	YyqJV3EU3Gk9xFDr0o1nQvonmCkWjIh14z84f0dOkdjmFgj5eiekqCg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w8sp4g329-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 04:24:46 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
+ 2024 10:24:44 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Wed, 14 Feb 2024 10:24:44 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 7B6B3820242;
+	Wed, 14 Feb 2024 10:24:44 +0000 (UTC)
+Date: Wed, 14 Feb 2024 10:24:43 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+CC: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v7 1/5] firmware: cs_dsp: Add write sequencer interface
+Message-ID: <ZcyU6xgpOvrhX57D@ediswmail9.ad.cirrus.com>
+References: <20240212173111.771107-1-jogletre@opensource.cirrus.com>
+ <20240212173111.771107-2-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, alsa-devel@alsa-project.org, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
- linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Mark Brown <broonie@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com>
-References: <20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com>
-Message-Id: <170790257251.233964.609546720299928474.robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: sound:atmel-at91sam9g20ek: convert
- bindings to json-schema
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240212173111.771107-2-jogletre@opensource.cirrus.com>
+X-Proofpoint-ORIG-GUID: saAm5YBNWf7RG7dsp8C3pW95M6OB6FDH
+X-Proofpoint-GUID: saAm5YBNWf7RG7dsp8C3pW95M6OB6FDH
+X-Proofpoint-Spam-Reason: safe
 
-
-On Wed, 14 Feb 2024 12:10:06 +0530, Balakrishnan Sambath wrote:
-> Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
-> based json-schema.Change file name to match json-scheme naming.
+On Mon, Feb 12, 2024 at 05:31:07PM +0000, James Ogletree wrote:
+> A write sequencer is a sequence of register addresses
+> and values executed by some Cirrus DSPs following
+> power state transitions.
 > 
-> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+> Add support for Cirrus drivers to update or add to a
+> write sequencer present in firmware.
+> 
+> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
 > ---
->  .../bindings/sound/atmel,at91sam9g20ek-wm8731.yaml | 60 ++++++++++++++++++++++
->  .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     | 26 ----------
->  2 files changed, 60 insertions(+), 26 deletions(-)
-> 
+> +	if (!update) {
+> +		if (wseq->ctl->len - op_end->offset < new_op_size) {
+> +			cs_dsp_err(dsp, "Not enough memory in write sequence for entry\n");
+> +			ret = -ENOMEM;
+> +			goto op_new_free;
+> +		}
+> +
+> +		op_end->offset += new_op_size;
+> +
+> +		ret = cs_dsp_coeff_write_ctrl(wseq->ctl, op_end->offset / sizeof(u32),
+> +					      &op_end->data, sizeof(u32));
+> +		if (ret)
+> +			goto op_new_free;
+> +
+> +		list_add_tail(&op_new->list, &wseq->ops);
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+This means the new write will be after the terminator in the
+list. Whilst I think the code will work this way it would be
+much cleaner if we kept the list ordered to match the writes,
+by inserting the new element just before op_end.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml:26:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
-./Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml:27:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks,
+Charles
