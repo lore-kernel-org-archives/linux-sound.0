@@ -1,188 +1,141 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92CA12B6C;
-	Wed, 14 Feb 2024 06:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E55012B6A;
+	Wed, 14 Feb 2024 09:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707892818; cv=none; b=mHxG0wMCFx3ltxNDwgzWkpToYKMi+fnUshpFafqXaKaLzHcxe4FFZ9Ou3/oM4/htwIGkrbT5G86Vus/4ZKWGkIClTp4bN1i5ORL/41RTqa6dgAF8vsVRNjhCzixJfvPN1e48pHpotVyQ1IDqVxBLokpN0SKyrhqLxmxAUlR8bXA=
+	t=1707902207; cv=none; b=iUm6YioW5hrGWZEKPpsMml8g/is8eNFIOA5VmJBDcN5WZhqR9VZpCAG0VZK2sRBfD8kQ99iI9AYs7Z7vZQLa6Xy/pW147DS2dwzAd8EK8E41awYTbe6ykVwYKUNojf0g9hBTOZ7DiaqDTEpbqOSvzITPcsZ7XMuzCZqqxkc5GbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707892818; c=relaxed/simple;
-	bh=wsHVfr8hdZBYZbP2L9EO1WVTmS/EVBmRVwV/3aRh+cQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=auyhQVlpjDI2o0iiPVotAa/HxqOwFw/KnsSKR7QNwTXJCRdVO9EqiwR1I1HegDpnxGyXuMLFCHBrLhVCtoGw9d7GjmZdlH5YMN2Ro3uZkZuxPrNrS2eiZTCgppL3hZoCPCIaVPQICWc/r5aOaqZW6r3LKcs0X/BFkzWMwmOW/sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=FSncoOkU; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1707902207; c=relaxed/simple;
+	bh=9P4kpomF3bNeybAYmZS0y2gY7CRPQWc1UBBH3QsjyRY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=StJ3QZNo2nTlp16eWSmsKEuspCMueEWn6Gamx3RsONRXeaXqZDZOm1UH9xCwQlSrnIlpUkOS1Po93S85NJ0TuONojrjurd5zB7T/9Tzpox1qUUxu0Xjvzj7PgQ9sqVpnMfrIEB1a/6KwxZSkZsUDthReNAhK35UYucMyZ900sUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qz8rLErA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DquwO05s; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qz8rLErA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DquwO05s; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="FSncoOkU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1707892815; x=1739428815;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:to:cc;
-  bh=wsHVfr8hdZBYZbP2L9EO1WVTmS/EVBmRVwV/3aRh+cQ=;
-  b=FSncoOkUqcdbw6ryAhUeDYsgK/U/h7zWOTJxONx7sUlw+VU1rJ3PN4H8
-   tIDvSpBQB2gvlPQtzW1Y9+ZadJyfVIg6qK6A5kFzDdPisLCGVJGrA1tA9
-   EtRcvq0i+IvcuudBQpnzDjx+1MSXeywenmcT3UX0booabf0p2y33WAtnP
-   jlYAw3t1i+xQwxEDIcCsDBdbdRinxXon9pYYiKeIY1yz7pFYQEtDrrpNe
-   KgasEPlLdnp+zg8rfxwDxy3HHWuMsdIcxqlZRA7vK8chh6X28lvUluMQH
-   jhO0/tynSuETTN6sEkW+A7rV9GqPobfSf4wYkNAWd/arWiH2VZLx2znod
-   A==;
-X-CSE-ConnectionGUID: Ym+jSPJASQmf8byUSlOr0w==
-X-CSE-MsgGUID: B+vCBEvPTBmYybQn1ZsH9A==
-X-IronPort-AV: E=Sophos;i="6.06,159,1705388400"; 
-   d="scan'208";a="17663685"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Feb 2024 23:40:14 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 13 Feb 2024 23:40:12 -0700
-Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Tue, 13 Feb 2024 23:40:07 -0700
-From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Date: Wed, 14 Feb 2024 12:10:06 +0530
-Subject: [PATCH] dt-bindings: sound:atmel-at91sam9g20ek: convert bindings
- to json-schema
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qz8rLErA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DquwO05s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qz8rLErA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DquwO05s"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CA5BC221A8;
+	Wed, 14 Feb 2024 09:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707902203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
+	b=Qz8rLErAnBKe3jmCEO8gJXXnlI1GM7TVMOQ24hPfnF4Dz4GUk6hzmIgjS9EttYvycpXOaa
+	i9K9Wf1DuaYSwFHPvT/5Db3eja6N56Eb6PlLGRKZMEOysMWaSKt2P+j2KEN5ipviSEkYKr
+	pqZne8LLyYQ5n4J+E7VTaN+QCobLJgE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707902203;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
+	b=DquwO05sdys7C1CTfjlNWF1q3QBDz9L56M6ln8mwJxCufcPwgmJDzsALbtQL56/I5Chmqh
+	3bpl1dQIy6WM+zBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707902203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
+	b=Qz8rLErAnBKe3jmCEO8gJXXnlI1GM7TVMOQ24hPfnF4Dz4GUk6hzmIgjS9EttYvycpXOaa
+	i9K9Wf1DuaYSwFHPvT/5Db3eja6N56Eb6PlLGRKZMEOysMWaSKt2P+j2KEN5ipviSEkYKr
+	pqZne8LLyYQ5n4J+E7VTaN+QCobLJgE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707902203;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
+	b=DquwO05sdys7C1CTfjlNWF1q3QBDz9L56M6ln8mwJxCufcPwgmJDzsALbtQL56/I5Chmqh
+	3bpl1dQIy6WM+zBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90D5613A6D;
+	Wed, 14 Feb 2024 09:16:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id v1b/IfuEzGV4NwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 14 Feb 2024 09:16:43 +0000
+Date: Wed, 14 Feb 2024 10:16:43 +0100
+Message-ID: <87h6ibiex0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Jean-Lo=EFc?= Charroud <lagiraudiere+linux@free.fr>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	linux-sound <linux-sound@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	patches <patches@opensource.cirrus.com>
+Subject: Re: [PATCH v3 0/3] ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
+In-Reply-To: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
+References: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com>
-X-B4-Tracking: v=1; b=H4sIAEVgzGUC/x2MywqDMBAAf0X23IVsDNj4K8XDqltdaqwk4gPx3
- xs6tznMXJAkqiSoiwuibJr0O2ehRwHdyPMgqH12sMY6Y8khr54SBz9YIx/cw7MqCU8OEzrj+kz
- bemLI/RLlrcf//Wru+wcz//ayawAAAA==
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Balakrishnan Sambath
-	<balakrishnan.s@microchip.com>
-X-Mailer: b4 0.12.4
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: *
+X-Spam-Score: 1.19
+X-Spamd-Result: default: False [1.19 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.01)[51.20%];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[free.fr];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[linux];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 TO_DN_ALL(0.00)[];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FREEMAIL_TO(0.00)[free.fr];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 
-Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
-based json-schema.Change file name to match json-scheme naming.
+On Wed, 14 Feb 2024 00:37:23 +0100,
+Jean-Loïc Charroud wrote:
+> 
+> This patch set adds the missing DSD properties, to make the internal speaker works for the "ASUS UM3402" and does some cleanup. 
+> 
+> Following feedback, I've divided the initial patch into three independent parts and adjusted the explanations: 
+> - Patch 1 : Add internal speaker support for ASUS UM3402 with missing DSD 
+> - Patch 2 : Fix device ID / model name (no functional changes) 
+> - Patch 3 : Fix order and duplicates entry in quirks table (cleanup, no functional changes) 
+> 
+> Thank you Takashi for your guidance 
+> I hope everything is in good shape now. 
 
-Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
----
- .../bindings/sound/atmel,at91sam9g20ek-wm8731.yaml | 60 ++++++++++++++++++++++
- .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     | 26 ----------
- 2 files changed, 60 insertions(+), 26 deletions(-)
+Thanks!  It's almost fine and I corrected minor things in my side
+(e.g. adding Fixes tags), now applied all to for-linus branch.
 
-diff --git a/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml b/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml
-new file mode 100644
-index 000000000000..f6330707fe1b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml
-@@ -0,0 +1,60 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/atmel,at91sam9g20ek-wm8731.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel at91sam9g20ek wm8731 audio complex
-+
-+maintainers:
-+  - Balakrishnan Sambath <balakrishnan.s@microchip.com>
-+
-+properties:
-+  compatible:
-+    const: atmel,at91sam9g20ek-wm8731-audio
-+
-+  atmel,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex.
-+  atmel,audio-routing:
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    description: A list of the connections between audio components.
-+    minItems: 2
-+    items:
-+      enum:
-+        # Board Connectors
-+        - "Ext Spk"
-+        - "Int MIC"
-+
-+        # CODEC Pins
-+        - LHPOUT
-+        - MICIN
-+  atmel,ssc-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the SSC controller
-+  atmel,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of WM8731 audio codec
-+
-+required:
-+  - compatible
-+  - atmel,model
-+  - atmel,audio-routing
-+  - atmel,ssc-controller
-+  - atmel,audio-codec
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "atmel,at91sam9g20ek-wm8731-audio";
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_pck0_as_mck>;
-+        atmel,model = "wm8731 @ AT91SAMG20EK";
-+        atmel,audio-routing =
-+            "Ext Spk", "LHPOUT",
-+            "Int MIC", "MICIN";
-+        atmel,ssc-controller = <&ssc0>;
-+        atmel,audio-codec = <&wm8731>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt b/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
-deleted file mode 100644
-index 9c5a9947b64d..000000000000
---- a/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
-+++ /dev/null
-@@ -1,26 +0,0 @@
--* Atmel at91sam9g20ek wm8731 audio complex
--
--Required properties:
--  - compatible: "atmel,at91sam9g20ek-wm8731-audio"
--  - atmel,model: The user-visible name of this sound complex.
--  - atmel,audio-routing: A list of the connections between audio components.
--  - atmel,ssc-controller: The phandle of the SSC controller
--  - atmel,audio-codec: The phandle of the WM8731 audio codec
--Optional properties:
--  - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
--
--Example:
--sound {
--	compatible = "atmel,at91sam9g20ek-wm8731-audio";
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_pck0_as_mck>;
--
--	atmel,model = "wm8731 @ AT91SAMG20EK";
--
--	atmel,audio-routing =
--		"Ext Spk", "LHPOUT",
--		"Int MIC", "MICIN";
--
--	atmel,ssc-controller = <&ssc0>;
--	atmel,audio-codec = <&wm8731>;
--};
 
----
-base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
-change-id: 20240214-at91sam9g20ek-wm8731-yaml-404ddddbb91a
-
-Best regards,
--- 
-Balakrishnan Sambath <balakrishnan.s@microchip.com>
-
+Takashi
