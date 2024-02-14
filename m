@@ -1,42 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5095466A
-	for <linux-sound@vger.kernel.org>; Wed, 14 Feb 2024 13:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA8854677;
+	Wed, 14 Feb 2024 13:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707916924; cv=none; b=RDtd/tmEbopXT+NbXUBoedlMV6wgVSzJUSb8ybZe/ELwOBX9y7T+ktU456QW1AOLFTzUOTOZVBTFPOHw8n0iBwphLCxgnaEANJowM3Xd2iS6Cyo+SiHCvmLWfKdwEELIizdVArRVCfO3u1AsVlxs5k2JejbmlZHwQHtgRKLs1Bc=
+	t=1707916928; cv=none; b=FxYNFdvb7RVMcvVDQ3P6TNE79wd3lqLWyB9XlCBzOPpvNvn3QNIqkM+oAPR3bta28LVdkblCRWR5+DyoQCxjP8Lfu3aicuaZl+WiMkfQzedxamZvbJITYwACh8sdnJHzevAnZPhK4M5lIOaeWb8LCYwLD+vdEBUlBMZ0tP6KYbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707916924; c=relaxed/simple;
-	bh=8RSK/p334Ojht1v0fGXrHUeA6zKEoTe1KoAcUpjquH8=;
+	s=arc-20240116; t=1707916928; c=relaxed/simple;
+	bh=3BhU0aZnn35CAZKdM6PG56ZetB26JCBoUcsKfsvxGTk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZBngQS8g7V1OIdsT6MusMGEoOHzqQHbF6rfoUdnYiswRVz74y2t9mgUzDbhyBzbCHOwxUZygvtbWUTIwuqqKqneNuZw6PsJi5HFTmgG8sTim5xOc86Qnika6O1X080HJb2WYgSjOWUGskKd4S5V+sUQH4Cy5YuikSr2E7KFwDd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCflwQFL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=En1i5SMv8g7EsX9DZ8/RLxNTgQsDSOQYKM5+Svw6a5izv1iqw81JaAh0zPB2lOqWomgeNJqbLzfkCDm+DhS+pf/Sv/GhhyW/323UV0fr418hkzJKVBPbg7oNK6XAPJx1oRmXkY1Sa+zA7AbbXBkMT+vnNNt+HEeK24qneBjWLlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sX/UcCP3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCflwQFL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BFEC433F1;
-	Wed, 14 Feb 2024 13:22:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sX/UcCP3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF6E5C43390;
+	Wed, 14 Feb 2024 13:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707916924;
-	bh=8RSK/p334Ojht1v0fGXrHUeA6zKEoTe1KoAcUpjquH8=;
+	s=k20201202; t=1707916928;
+	bh=3BhU0aZnn35CAZKdM6PG56ZetB26JCBoUcsKfsvxGTk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZCflwQFLYq3NT9OsNP4IgbkZ0TLWXFcxESJ9arQkO4jE2JKBDhW94RxCua4aSQ/7W
-	 LgiCi4QHg+HF8UnIgjTbrf4B+ySUoQt2w36pIyAG92tz15jfPomCeFUUyJ+Oikunx9
-	 ccN780HzqmIlpLQMbZEbO7dWEmyXtnfWpoPbnMacuPqpyJ4kxMWuyhZMo/qW+1++fc
-	 l0D/SDR7aPnx4KlGaWk5xkGfNirr6Y5Vm7fdQ+2E/8rAnKxBwUiURKg+McowMB4PiZ
-	 KX+aE+bFq4vLkJ+0FUNosLq6Y2uJEWE1Zz7ddCLbFdu9V9jHvUDNXMSEaAV9rw5o0u
-	 wwlPFHAA/7Axg==
+	b=sX/UcCP3s3y2QCF0191UjJyD2CJK84+XSRUiI1nfqhs8x6EgXD4u/hDmD6bigwF0/
+	 j4AjeSgE3JEtXKxEFmPBtkU8LZVYahLjimx/yREgHv32imHWfpSwWWpju+eb1e06kd
+	 0f5MrjyH0sPnMVLVopaWMcRaet7EWXbGXir6Vi4F1W+jyDvOUE7z4uF2BpAN9JxIUe
+	 iux4t/Hw7uSnQzEdn2E37Z0Nf5bJUGDU0uyQb1vVPmQGo/5OW7xy2xejDh9ixeJnrI
+	 U2CE6YqI+unaEX68jDwd/JNsVxnsOHKrkBbcsNSwIGwOkG0xbFae2+1zSCxzB0hXD9
+	 b73jVOR6qSvnA==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- yung-chuan.liao@linux.intel.com
-In-Reply-To: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
-References: <20240213101247.28887-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 00/15] ASoC: SOF: Extend ChainDMA and DSPless mode to
- LNL+ SDW
-Message-Id: <170791692254.143237.14439234788313859156.b4-ty@kernel.org>
-Date: Wed, 14 Feb 2024 13:22:02 +0000
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+In-Reply-To: <20240213215807.3326688-1-jbrunet@baylibre.com>
+References: <20240213215807.3326688-1-jbrunet@baylibre.com>
+Subject: Re: [PATCH v2 0/2] ASoC: meson: aiu: fix function pointer type
+ mismatch
+Message-Id: <170791692451.143237.6316282376548391909.b4-ty@kernel.org>
+Date: Wed, 14 Feb 2024 13:22:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,14 +55,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Tue, 13 Feb 2024 12:12:32 +0200, Peter Ujfalusi wrote:
-> For both ChainDMA and DSPless mode the requirement is that the link must
-> be serviced by HD-DMA.
-> On pre Lunar Lake platforms this was only valid for HDAudio links but with
-> Lunar Lake all link types now serviced by HD-DMA.
+On Tue, 13 Feb 2024 22:58:02 +0100, Jerome Brunet wrote:
+> This patchset fixes 2 -Wcast-function-type-strict warning in amlogic
+> audio drivers with clang 16.
 > 
-> This allows us to enable ChainDMA and DSPless mode for SoundWire links as
-> well.
+> Changes since v1: [0]
+> * use devm_clk_get_enabled() instead of adding a dedicated helper in each
+>   driver.
+> * Split the patch, 1 per fixed commit to make it easier for stable.
 > 
 > [...]
 
@@ -64,36 +72,10 @@ Applied to
 
 Thanks!
 
-[01/15] ASoC: SOF: ipc4-topology: change chain_dma handling in dai_config
-        commit: 3858464de57b77db51f83e3831950cf18a6aff28
-[02/15] ASoC: SOF: ops: add new 'is_chain_dma_supported' callback
-        commit: ba91d0919a78d344d19b02a3899d0921b2f903d1
-[03/15] ASoC: SOF: Intel: hda: add 'is_chain_dma_supported' callback
-        commit: d69f9ecbe1ecfa97b9c8ab7b6332bd73ba2ff4d8
-[04/15] ASoC: SOF: Intel: hda-dai-ops: enable chain_dma for ALH
-        commit: a5b7767723e739c700f5c56841790a85bd7f13ae
-[05/15] ASoC: SOF: ipc4: store number of playback/capture streams
-        commit: 426476344f01096c7dae6c5413cc8a8d9bbdea29
-[06/15] ASoC: SOF: ipc4-pcm: fix dma_id for CHAIN_DMA capture
-        commit: 8722d245a73ff32491bff390136367ec223e2906
-[07/15] ASoC: SOF: ipc4-topology: allow chain_dma for all supported DAIs
-        commit: df82dbb5fb28a762113fc6d98985d36ef7785e32
-[08/15] ASoC: SOF: Intel: hda-dai: remove dspless special case
-        commit: daa09d0615ce9c781777802874cffa4380f883c3
-[09/15] ASoC: SOF: topology: dynamically allocate and store DAI widget->private
-        commit: 743eb6c68d3534e01e73d316ddcaa7334c0e29d3
-[10/15] ASoC: SOF: Intel: start SoundWire links earlier for LNL+ devices
-        commit: 67bde2e8c0e4702911dd614d80127e098521a83c
-[11/15] ASoC: SOF: topology: Parse DAI type token for dspless mode
-        commit: f9618ff105a0f6f5a6beed3edc557ea6a7d26df6
-[12/15] ASoC: SOF: Intel: hda-dai-ops: use dai_type
-        commit: 797b92591a236ac370257c1e742f6fd394993db5
-[13/15] ASoC: SOF: Intel: hda-dai-ops: add SoundWire dspless mode
-        commit: 0c3d57365a03ec920cc90614527ac11ad5a6f323
-[14/15] ASoC: SOF: Intel: lnl: Do not use LNL specific wrappers in DSPless mode
-        commit: 0afce89ff88a85b09201cd23ec272527faf6a480
-[15/15] ASoC: SOF: Intel: hda-dai: add support for dspless mode beyond HDAudio
-        commit: 2065610b5ddd5b58eed1dc3b3c3db27a26ebd4b6
+[1/2] ASoC: meson: aiu: fix function pointer type mismatch
+      commit: 98ac85a00f31d2e9d5452b825a9ed0153d934043
+[2/2] ASoC: meson: t9015: fix function pointer type mismatch
+      commit: 5ad992c71b6a8e8a547954addc7af9fbde6ca10a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
