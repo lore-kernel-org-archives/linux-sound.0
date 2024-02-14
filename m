@@ -1,141 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E55012B6A;
-	Wed, 14 Feb 2024 09:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1B012B60;
+	Wed, 14 Feb 2024 09:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707902207; cv=none; b=iUm6YioW5hrGWZEKPpsMml8g/is8eNFIOA5VmJBDcN5WZhqR9VZpCAG0VZK2sRBfD8kQ99iI9AYs7Z7vZQLa6Xy/pW147DS2dwzAd8EK8E41awYTbe6ykVwYKUNojf0g9hBTOZ7DiaqDTEpbqOSvzITPcsZ7XMuzCZqqxkc5GbM=
+	t=1707902575; cv=none; b=RVmyo+hje+3GTDlAGmhwQ3/bcSsiWvBKqDA9hADVUG6HAxMFpqHzmFNCyGTYAtjTTgHkv8WtNQYbPIXWNlgqxwCc6genKZbiANWsfZ7xN5Cj7bRJ9Lk8AWHZZuSmyQPYxTZmSwJU9ITTQVQnK4qYJxalAnLP+ViDBfPXpNPAfNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707902207; c=relaxed/simple;
-	bh=9P4kpomF3bNeybAYmZS0y2gY7CRPQWc1UBBH3QsjyRY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=StJ3QZNo2nTlp16eWSmsKEuspCMueEWn6Gamx3RsONRXeaXqZDZOm1UH9xCwQlSrnIlpUkOS1Po93S85NJ0TuONojrjurd5zB7T/9Tzpox1qUUxu0Xjvzj7PgQ9sqVpnMfrIEB1a/6KwxZSkZsUDthReNAhK35UYucMyZ900sUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qz8rLErA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DquwO05s; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qz8rLErA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DquwO05s; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1707902575; c=relaxed/simple;
+	bh=WCHyzEMYsmkXeKhRjOyGsH4SWHf2Zvhc93CpPJCsZ70=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=sb7fNq3ci6+/8x7F3trFoAopuLkFL06uG/rWRjABHGBwNtdf1zTYtdHfHMhuRsHPYdYe0wTSuaeZ4OlPm+NXVlo3b9XWVx/9bX5/7QqsxyNHYgumq8s/BBZHE69P1y2eOedXMnu7tJ8uq1AZbrdOxcJojirC798QVrVbUJgu9hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXREtOAL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qz8rLErA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DquwO05s";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qz8rLErA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DquwO05s"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CA5BC221A8;
-	Wed, 14 Feb 2024 09:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707902203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
-	b=Qz8rLErAnBKe3jmCEO8gJXXnlI1GM7TVMOQ24hPfnF4Dz4GUk6hzmIgjS9EttYvycpXOaa
-	i9K9Wf1DuaYSwFHPvT/5Db3eja6N56Eb6PlLGRKZMEOysMWaSKt2P+j2KEN5ipviSEkYKr
-	pqZne8LLyYQ5n4J+E7VTaN+QCobLJgE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707902203;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
-	b=DquwO05sdys7C1CTfjlNWF1q3QBDz9L56M6ln8mwJxCufcPwgmJDzsALbtQL56/I5Chmqh
-	3bpl1dQIy6WM+zBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707902203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
-	b=Qz8rLErAnBKe3jmCEO8gJXXnlI1GM7TVMOQ24hPfnF4Dz4GUk6hzmIgjS9EttYvycpXOaa
-	i9K9Wf1DuaYSwFHPvT/5Db3eja6N56Eb6PlLGRKZMEOysMWaSKt2P+j2KEN5ipviSEkYKr
-	pqZne8LLyYQ5n4J+E7VTaN+QCobLJgE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707902203;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uDY10ZmZhoo5+CijPSkvE0/in3mGhJO9T1cwpM7hddM=;
-	b=DquwO05sdys7C1CTfjlNWF1q3QBDz9L56M6ln8mwJxCufcPwgmJDzsALbtQL56/I5Chmqh
-	3bpl1dQIy6WM+zBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90D5613A6D;
-	Wed, 14 Feb 2024 09:16:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id v1b/IfuEzGV4NwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 14 Feb 2024 09:16:43 +0000
-Date: Wed, 14 Feb 2024 10:16:43 +0100
-Message-ID: <87h6ibiex0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Jean-Lo=EFc?= Charroud <lagiraudiere+linux@free.fr>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	linux-sound <linux-sound@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	patches <patches@opensource.cirrus.com>
-Subject: Re: [PATCH v3 0/3] ALSA: hda/realtek: cs35l41: Fix internal speaker support for ASUS UM3402 with missing DSD
-In-Reply-To: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
-References: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXREtOAL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B94F1C433C7;
+	Wed, 14 Feb 2024 09:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707902575;
+	bh=WCHyzEMYsmkXeKhRjOyGsH4SWHf2Zvhc93CpPJCsZ70=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=sXREtOALLSk9HLU/IAkBc01Hi9HoDS6Or5Sv/JMYpiKFgjkf4xdspqPQGqomiYxx5
+	 sxP35EhvKauE8uaveXi5cS95yAP+lYX9o6/0qZTE+6tJO9q/t+yDkCi/VAluBT2zWV
+	 cCrcJ2ODMKPizw3HZ2OhChXVBvhxP3PpQor4m1akf9gHQ68SftBeCa/1txMmLcx4Uc
+	 FsxTu5hCf/edc1IXOClP9fmCJgRiiCzRhjpvoTgjeuuIShtxgS3/j7nX/nbN1CorHs
+	 VldjhSBRZRuJVzQhmponH0NXjJ8r3p0Km2t4aDMLZ0QigKFVT2JEj4DcpiFLaS6vuG
+	 yR1WPHXGFGKJg==
+Date: Wed, 14 Feb 2024 03:22:53 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: *
-X-Spam-Score: 1.19
-X-Spamd-Result: default: False [1.19 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-0.01)[51.20%];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[free.fr];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[linux];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 TO_DN_ALL(0.00)[];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[free.fr];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, alsa-devel@alsa-project.org, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Mark Brown <broonie@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com>
+References: <20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com>
+Message-Id: <170790257251.233964.609546720299928474.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: sound:atmel-at91sam9g20ek: convert
+ bindings to json-schema
 
-On Wed, 14 Feb 2024 00:37:23 +0100,
-Jean-Loïc Charroud wrote:
+
+On Wed, 14 Feb 2024 12:10:06 +0530, Balakrishnan Sambath wrote:
+> Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
+> based json-schema.Change file name to match json-scheme naming.
 > 
-> This patch set adds the missing DSD properties, to make the internal speaker works for the "ASUS UM3402" and does some cleanup. 
+> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+> ---
+>  .../bindings/sound/atmel,at91sam9g20ek-wm8731.yaml | 60 ++++++++++++++++++++++
+>  .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     | 26 ----------
+>  2 files changed, 60 insertions(+), 26 deletions(-)
 > 
-> Following feedback, I've divided the initial patch into three independent parts and adjusted the explanations: 
-> - Patch 1 : Add internal speaker support for ASUS UM3402 with missing DSD 
-> - Patch 2 : Fix device ID / model name (no functional changes) 
-> - Patch 3 : Fix order and duplicates entry in quirks table (cleanup, no functional changes) 
-> 
-> Thank you Takashi for your guidance 
-> I hope everything is in good shape now. 
 
-Thanks!  It's almost fine and I corrected minor things in my side
-(e.g. adding Fixes tags), now applied all to for-linus branch.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml:26:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml:27:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-Takashi
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
