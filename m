@@ -1,91 +1,166 @@
-Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067F762810;
-	Tue, 13 Feb 2024 23:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D478197
+	for <linux-sound@vger.kernel.org>; Wed, 14 Feb 2024 00:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707868275; cv=none; b=lAMjwslv/JJ9/kGf9VEBilCiqkk/nhWUBBClQvzaG/fMHaVoXKJ9PiPcvl4POabh5VPfbiq2owEooOqcz9ntV+ZbDzj/f7C71XJ1/hV5TdVJ56ubBOkTf+WqthKNouwbMiKqLy+XIrS0DNdElX47w7O/YGfuFZM1NYlKgwuIZ20=
+	t=1707870182; cv=none; b=KKW2ljw//mJFir4thSnPpFzZE4ol168NIa3VltrTmCmaWp06nI2iUeoTxQ3nhaSGXbgWBZZtXENF+6ZWAr2bZ+025bnWLrsSg5H2pbeRVaIvQBOlwAURNc4AxF7GtOgClVc4HURspTC0hN+eby4b8oWAAO00BDZI6crfuEKnPPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707868275; c=relaxed/simple;
-	bh=cLpnxpYC4wwNyrZga77ocn0n0Iy1TqrtB5RbWeVXp4I=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=My2wWtZ6AJtiewgavMD3ESb/zujNqIdoAFZs2TvYR9gK/WY7Cijd4IikZoJqnAkznW55DQo+qjG/8YwDy8evwY7x0w8g1p9233k7z/rVNZRkOulHCOIC6kRV/az1sUL9eBmLsIstZGqWeAqhbfgu4RLyVj5/hebtAO23ke4LEUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from zimbra-e1-03.priv.proxad.net (unknown [172.20.243.151])
-	by smtp4-g21.free.fr (Postfix) with ESMTP id 860F419F57E;
-	Wed, 14 Feb 2024 00:51:11 +0100 (CET)
-Date: Wed, 14 Feb 2024 00:51:11 +0100 (CET)
-From: =?utf-8?Q?Jean-Lo=C3=AFc?= Charroud <lagiraudiere+linux@free.fr>
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: linux-sound <linux-sound@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	patches <patches@opensource.cirrus.com>
-Message-ID: <51410325.650388044.1707868271514.JavaMail.zimbra@free.fr>
-In-Reply-To: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
-References: <644212740.650323792.1707867443153.JavaMail.zimbra@free.fr>
-Subject: [PATCH v3 2/3] ALSA: hda/realtek: cs35l41: Fix device ID / model
- name
+	s=arc-20240116; t=1707870182; c=relaxed/simple;
+	bh=ds1jHombM1rmzITyFT/LkXRFY7v4NO/aeENbS+5oo6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ehzl+ZoowjEUbX33yF+h/XI+QsxUJTcLDCCW5LDkcP5G/ZNexbgLjGy0MHYIDeCs48h74J0foF1Il6yUsoi4FOQVyKFOR7LvkP+6tFSxtuIehZGQI9lerOYxpDsZ+qYb37FdTiQOF8AzxZroH4XqBtlleEwY4VogE1pI4E9wNsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jJimc6gH; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jJimc6gH"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-363bd37434dso14249435ab.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Feb 2024 16:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1707870180; x=1708474980; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/jWP8VrxhP1EJOZNrm4lfKLrk9GA9+9HRFG23gj3nBY=;
+        b=jJimc6gHBAKgrxSZZ05CWOM7i4T2HKO8pFbhNqKPEE50d+6UigKIHUSqcYtadIoQOc
+         fLVfX0o6E/FO+BhWrsv4VuKwDAKKDzWYkUVfyo0tv6t3NbWfs+GbBOkaDrAMAxHPMFLS
+         CD/L+es5Z73GHiZLbrD4s5Jbl8NqvkFw5OXI2EsowDSa8/8FBTAOChYD2n9YGLr3gUNI
+         wlrJJNLRo7aEfCLsD5bVLjmS6xNxzma98f8jf2ZJ48WoXe2q5Tc+VBO+4Zgv3eBu+fy2
+         p1hW2Z/4frDRmr5eoKhNjZH11jDW1pkUVaUSFFkJky1UdEqdy6pusQR7BdY1aXAChiM1
+         YYnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707870180; x=1708474980;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/jWP8VrxhP1EJOZNrm4lfKLrk9GA9+9HRFG23gj3nBY=;
+        b=buX8iwZgXNdSVtAlmJJyHYXJ2MDa8IqrGI2bg/dLmiQzaanYh0rvlj0OmaFvsvKVjY
+         rijimEvP6M8uT0hTC4hx/RYnuGgRy1TiVsnCMEUL+NXTkjwuOQKfI2xOMPLoGjLmTioV
+         +cP3XVlcs3wbqwKK+7UJ+UyxPk22cR7GyCJjsfGW/o3OJw1yBO4dXlbevZV2/EE9E/XQ
+         5JilBG3qLcvKNqF8DG6djZP2PlaPG28QdnE/f2oMbjqBCMJnwoyEoftd5wNZBt99dk8Z
+         juOMLoQM4jf7fLrqCihEKyUtGAMCqnHsm+YQOiw3dnklSnhyZyFU5SuGkmhkKBH1Aqnr
+         SBRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVOJIAebcyoVKDxzvwlVA5kqTod5adgj73tuPsBi/E4xsJ9pgHhInJwGaO98uQPXtaeIqtcAxit8YEHSQU/7QI6bPME4QfNNvG6FPI=
+X-Gm-Message-State: AOJu0Yyba+YmJ6gsUmoC5pVruQyPbo7nxiRyIvS8SMHYU9Avd/K3Y1y0
+	l7ej8vwVRkYOXzuXexLyI56QvPUvkvC+NG8MXiTu7AZxfKk5N9NFIb4o3PULWw==
+X-Google-Smtp-Source: AGHT+IGi6VVf6G6G8U5GGlsAZixQm5utU4tQarB9++MQ9JBSEGLE5FtrB605cWFIAkOkehjJn7O4vg==
+X-Received: by 2002:a05:6e02:dd3:b0:363:9eb7:46ce with SMTP id l19-20020a056e020dd300b003639eb746cemr1293877ilj.11.1707870180370;
+        Tue, 13 Feb 2024 16:23:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVJKMkm18l+fATv5w8BOBEKdFq5seFQbl5h8/yelfPushV4gdBWN7jKSCWpz1BhL0Sti/1SuJTgYJ/fcVNH6XkrSm0NoaHSTSiI/fHwLilNsRJJtzimpBrGCTjtT9d3s2Ax3XegIe224IxqH7rcEwDA/kG7pamQItEMG58Jw4j5Ztxy29vglNeTsEkMdK0qDj8iMdP55M3/SCtxrS7QqjBNmHKuqoD07nm1SOMqL4/+aRObxOrky5V8t79knGogtBK/fly+mKEsz6LWFLZ/wRwleXiVozK6opOE16Q1C7tq1q89SonCNFWA89DU4D2TqFFavCW50sbPG+21GohBloHyGfw0ifOY2bFFrKJpEW3nXIMdIk7lVG+8R/xWdpNr5QXw1S7YliqMm+3mZOK0/P1E6lS9JjXddM/7Krxk56meFswS3dbQgAEWldQtjWJza6FMFw9c/mH20D+fWerx4TZ/afCihkwC1TzV+rBBmcZJRaKcldG2sFu38nMuPrF6aGgtI8dpeqPq8y0bVNRQfBUdTcdcWkCYI2pY3Cm0qX1G3/4M+87FoJzMfaTmNQydVUReHzA5OP8dyUn5MgQ=
+Received: from google.com (20.10.132.34.bc.googleusercontent.com. [34.132.10.20])
+        by smtp.gmail.com with ESMTPSA id s11-20020a056e021a0b00b00363a91effdbsm2807134ild.76.2024.02.13.16.22.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 16:22:59 -0800 (PST)
+Date: Wed, 14 Feb 2024 00:22:57 +0000
+From: Justin Stitt <justinstitt@google.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] ASoC: meson: aiu: fix function pointer type
+ mismatch
+Message-ID: <20240214002257.bfp6wk5j3wsaq6f6@google.com>
+References: <20240213215807.3326688-1-jbrunet@baylibre.com>
+ <20240213215807.3326688-2-jbrunet@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 9.0.0_GA_1337 (ZimbraWebClient - FF122 (Linux)/9.0.0_GA_1337)
-Thread-Topic: ALSA: hda/realtek: cs35l41: Fix device ID / model name
-Thread-Index: b1DHXbQj7eN1w6/I0T0Clij1GRQ0gEsJ3wZX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213215807.3326688-2-jbrunet@baylibre.com>
 
-The patch 51d976079976c800ef19ed1b542602fcf63f0edb ("ALSA: hda/realtek:
-Add quirks for ASUS Zenbook 2022 Models") modified the entry 1043:1e2e
-from "ASUS UM3402" to "ASUS UM6702RA/RC" and added another entry for
-"ASUS UM3402" with 104e:1ee2.
-The first entry was correct, while the new one corresponds to model
-"ASUS UM6702RA/RC"
-Fix the model names for both devices.
+Hi,
 
-Signed-off-by: Jean-Lo=C3=AFc Charroud <lagiraudiere+linux@free.fr>
----
- sound/pci/hda/patch_realtek.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, Feb 13, 2024 at 10:58:03PM +0100, Jerome Brunet wrote:
+> clang-16 warns about casting functions to incompatible types, as is done
+> here to call clk_disable_unprepare:
+>
+> sound/soc/meson/aiu.c:243:12: error: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+>   243 |                                        (void(*)(void *))clk_disable_unprepare,
+>
+> The pattern of getting, enabling and setting a disable callback for a
+> clock can be replaced with devm_clk_get_enabled(), which also fixes
+> this warning.
+>
+> Fixes: 6ae9ca9ce986 ("ASoC: meson: aiu: add i2s and spdif support")
+> Reported-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 7aa88ed04bde..fe81a628d7c8 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9939,11 +9939,11 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
-] =3D {
- =09SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI=
-_2),
- =09SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI=
-_2),
- =09SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA=
-502),
--=09SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_=
-I2C_2),
-+=09SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2=
-),
- =09SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU=
-502_PINS),
- =09SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", ALC294_FIXUP_ASUS_=
-G513_PINS),
- =09SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA=
-401),
--=09SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2=
-),
-+=09SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_=
-I2C_2),
- =09SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_AS=
-US_GA401),
- =09SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA=
-401),
- =09SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2=
-),
---=20
-2.40.1
+Silences the warning and makes the code more readable without adding any
+new helpers. Awesome!
 
+Reviewed-by: Justin Stitt <justinstitt@google.com>
+> ---
+>  sound/soc/meson/aiu.c | 19 ++++---------------
+>  sound/soc/meson/aiu.h |  1 -
+>  2 files changed, 4 insertions(+), 16 deletions(-)
+>
+> diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
+> index 7109b81cc3d0..5d1419ed7a62 100644
+> --- a/sound/soc/meson/aiu.c
+> +++ b/sound/soc/meson/aiu.c
+> @@ -212,11 +212,12 @@ static const char * const aiu_spdif_ids[] = {
+>  static int aiu_clk_get(struct device *dev)
+>  {
+>  	struct aiu *aiu = dev_get_drvdata(dev);
+> +	struct clk *pclk;
+>  	int ret;
+>
+> -	aiu->pclk = devm_clk_get(dev, "pclk");
+> -	if (IS_ERR(aiu->pclk))
+> -		return dev_err_probe(dev, PTR_ERR(aiu->pclk), "Can't get the aiu pclk\n");
+> +	pclk = devm_clk_get_enabled(dev, "pclk");
+> +	if (IS_ERR(pclk))
+> +		return dev_err_probe(dev, PTR_ERR(pclk), "Can't get the aiu pclk\n");
+>
+>  	aiu->spdif_mclk = devm_clk_get(dev, "spdif_mclk");
+>  	if (IS_ERR(aiu->spdif_mclk))
+> @@ -233,18 +234,6 @@ static int aiu_clk_get(struct device *dev)
+>  	if (ret)
+>  		return dev_err_probe(dev, ret, "Can't get the spdif clocks\n");
+>
+> -	ret = clk_prepare_enable(aiu->pclk);
+> -	if (ret) {
+> -		dev_err(dev, "peripheral clock enable failed\n");
+> -		return ret;
+> -	}
+> -
+> -	ret = devm_add_action_or_reset(dev,
+> -				       (void(*)(void *))clk_disable_unprepare,
+> -				       aiu->pclk);
+> -	if (ret)
+> -		dev_err(dev, "failed to add reset action on pclk");
+> -
+>  	return ret;
+>  }
+>
+> diff --git a/sound/soc/meson/aiu.h b/sound/soc/meson/aiu.h
+> index 393b6c2307e4..0f94c8bf6081 100644
+> --- a/sound/soc/meson/aiu.h
+> +++ b/sound/soc/meson/aiu.h
+> @@ -33,7 +33,6 @@ struct aiu_platform_data {
+>  };
+>
+>  struct aiu {
+> -	struct clk *pclk;
+>  	struct clk *spdif_mclk;
+>  	struct aiu_interface i2s;
+>  	struct aiu_interface spdif;
+> --
+> 2.43.0
+>
+Thanks
+Justin
