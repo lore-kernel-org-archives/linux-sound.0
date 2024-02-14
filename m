@@ -1,91 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.133.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552C45D49E;
-	Wed, 14 Feb 2024 15:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD671127B43
+	for <linux-sound@vger.kernel.org>; Wed, 14 Feb 2024 18:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707925462; cv=none; b=SPe29K+NyPXTbReDFmySuZc+mHHgZYzh6NjXogjqUdtrSxGCiGCfheuvbbnHLMpI3B23UpmGV9efy7KF80LMSDoUJIVZX0XLX3VYUaGW2nHLZ4QJuZIQWz3rUrhF80LXTT6sLSTNCO1Gw5OCLFWW1eywxqQN02PFWeI9zmBishU=
+	t=1707936342; cv=none; b=uvbaIokh4b7JJ485XlZ7xEL7RtqQtHgvCzegzEJ7S5pYycROY5tVJwzVEgLQJpjDkEq9Z64QfEm4rZBUF3jb+wKGAtSC8uLVRD+FZq3+5v8ubXfnj89fzH0kIEoNqkUBzwU85/MuobWzPCnDmMly5X0QTwK13NGVWBN0Q95W0WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707925462; c=relaxed/simple;
-	bh=dMNrclhA7uStPGoba5K2BJ7MHHMLO2MgIpz/A5BhoRY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Z+GBSl2ocHhmCNDn9nW2pcjTA4s3z+bhXjDGaELyJIXnNLQSdHQbXSDGwDi9W08LRrteXvewz3EvlVYMNbXvqOPtHWq92Iy8jEZguyHVkMHEmsFp6NaB3oHl+OeULN7ESYT9+0h6t0nW4A1VisbrhB8N4shUTzWUjCPRoDDrHu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T05Rg1GL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707936342; c=relaxed/simple;
+	bh=f+Ss+Vy5U6cHed6RvKSyVpq8OJxkSd2PHhtjh/PmpPk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=MsY1W3hoE/q7d98vWOoR0DffW0ooQapNkX9AeGMVX29qc7l2CHkDF75CtACWT06ylPWGNqdxNLO1javRjB8pLPDTYwj6pyynaJg54GBv2EE+ecBEXLJ6yrNT0X2v1HksPKCLHCr8vGosjpuEfeZW0smmWMsN+JW4mfBGPYzpDsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=HazIUWUD; arc=none smtp.client-ip=170.10.133.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T05Rg1GL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46D6DC433F1;
-	Wed, 14 Feb 2024 15:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707925461;
-	bh=dMNrclhA7uStPGoba5K2BJ7MHHMLO2MgIpz/A5BhoRY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=T05Rg1GLSAp+sVabhLsKjdzy1fP1Pl2BFJTZKoDrtwXS3CIpP4rvkaQYtnR6LJoZs
-	 iWB8tOSqjv7kVZr1LcpWqUV1jr5FTYAkzxwPlUAqT8VcGE81a0DlH1h3QFacVYmgoK
-	 OeZv5G4V5y5h+TjztNgUoGGmOMfFgQDvM3jg0nqugDDVn+Qpz5Ofsca8Twk5Lh7W0X
-	 /FSZ6OaorQkmvfY2gLbuyBKqeQQbHyeQAebpUz6e31eL1wo+Vnq/o+9MZBH8ZkBLz3
-	 e31ulQSxelpSjoVK2RtuY/CwqvrhCCM+9d+drFp99lvayYQrkMfIjdc+Mg4209Mr59
-	 H+tSPKTWR1xfw==
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-In-Reply-To: <5593d147-058c-4de3-a6f5-540ecb96f6f8@moroto.mountain>
-References: <5593d147-058c-4de3-a6f5-540ecb96f6f8@moroto.mountain>
-Subject: Re: [PATCH] ASoC: SOF: Add some bounds checking to firmware data
-Message-Id: <170792545901.151568.1454091420100022542.b4-ty@kernel.org>
-Date: Wed, 14 Feb 2024 15:44:19 +0000
+	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="HazIUWUD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+	t=1707936338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=f+Ss+Vy5U6cHed6RvKSyVpq8OJxkSd2PHhtjh/PmpPk=;
+	b=HazIUWUDqyGqt7E6KTC3CzbsbOCKwRnpLQ21TJSChwD4yhtnmHI/oqjgrzeu9UxfH062nQ
+	mS+HTgQjmiH9Yl3HFXi43tTVnLdAvRA1bUqLkcKJtUIg8d1WtUHaXxLDSJ8JuLHkyIIzXz
+	4LKJStQwBmGJW53POAUOMsu3GV8r9T4=
+Received: from g8t01559s.inc.hp.com (g8t01559s.inc.hp.com [15.72.64.153]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-qdKEUu9zPUieSwWbA3Rg_w-1; Wed, 14 Feb 2024 13:45:37 -0500
+X-MC-Unique: qdKEUu9zPUieSwWbA3Rg_w-1
+Received: from g7t14407g.inc.hpicorp.net (g7t14407g.inc.hpicorp.net [15.63.19.131])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by g8t01559s.inc.hp.com (Postfix) with ESMTPS id E75CF2056B;
+	Wed, 14 Feb 2024 18:45:35 +0000 (UTC)
+Received: from localhost.localdomain (unknown [15.53.255.151])
+	by g7t14407g.inc.hpicorp.net (Postfix) with ESMTP id A5C7917;
+	Wed, 14 Feb 2024 18:45:33 +0000 (UTC)
+From: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+To: linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org,
+	eniac-xw.zhang@hp.com,
+	Eniac Zhang <eniacz@gmail.com>,
+	Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+	Alexandru Gagniuc <alexandru.gagniuc@hp.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LED For HP mt645
+Date: Wed, 14 Feb 2024 18:45:07 +0000
+Message-Id: <20240214184507.777349-1-alexandru.gagniuc@hp.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: hp.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 
-On Fri, 09 Feb 2024 16:02:16 +0300, Dan Carpenter wrote:
-> Smatch complains about "head->full_size - head->header_size" can
-> underflow.  To some extent, we're always going to have to trust the
-> firmware a bit.  However, it's easy enough to add a check for negatives,
-> and let's add a upper bounds check as well.
-> 
-> 
+From: Eniac Zhang <eniacz@gmail.com>
 
-Applied to
+The HP mt645 G7 Thin Client uses an ALC236 codec and needs the
+ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make the mute and
+micmute LEDs work.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+There are two variants of the USB-C PD chip on this device. Each uses
+a different BIOS and board ID, hence the two entries.
 
-Thanks!
+Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+Cc: <stable@vger.kernel.org>
+---
+ sound/pci/hda/patch_realtek.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1/1] ASoC: SOF: Add some bounds checking to firmware data
-      commit: 98f681b0f84cfc3a1d83287b77697679e0398306
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 6994c4c5073c..c837470ef5b8 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9928,6 +9928,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
+=3D {
+ =09SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9", ALC245_FIXUP_CS=
+35L41_SPI_2_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook PC"=
+, ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook PC"=
+, ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
++=09SND_PCI_QUIRK(0x103c, 0x8b0f, "HP Elite mt645 G7 Mobile Thin Client U81=
+", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ =09SND_PCI_QUIRK(0x103c, 0x8b2f, "HP 255 15.6 inch G10 Notebook PC", ALC23=
+6_FIXUP_HP_MUTE_LED_COEFBIT2),
+ =09SND_PCI_QUIRK(0x103c, 0x8b42, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
+LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8b43, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
+LED),
+@@ -9935,6 +9936,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
+=3D {
+ =09SND_PCI_QUIRK(0x103c, 0x8b45, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
+LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8b46, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
+LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8b47, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
+LED),
++=09SND_PCI_QUIRK(0x103c, 0x8b59, "HP Elite mt645 G7 Mobile Thin Client U89=
+", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ =09SND_PCI_QUIRK(0x103c, 0x8b5d, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VR=
+EF),
+ =09SND_PCI_QUIRK(0x103c, 0x8b5e, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VR=
+EF),
+ =09SND_PCI_QUIRK(0x103c, 0x8b63, "HP Elite Dragonfly 13.5 inch G4", ALC245=
+_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+--=20
+2.42.0
 
