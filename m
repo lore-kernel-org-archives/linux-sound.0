@@ -1,98 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07F912B144;
-	Thu, 15 Feb 2024 13:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8B712FF88;
+	Thu, 15 Feb 2024 13:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708004673; cv=none; b=ETABrmof6LTeTG1eow5865zkbFypiSDS4bXvytJpvfBPgdX0lb5lHnoOc5Yvajwx07p++dMALMqzHedVKr/Uyp7slhDL4kObXvj+nhYx+QMHxTjOjxbrv8redoCN32XO9DZ69urOriSJeSv2lII3D8TAUjHhXOlVnaELJd97IWI=
+	t=1708005248; cv=none; b=DucGMEiYa5QVX/HuJbQR/V87LF95oe/iaMxbfEMDRYe7VjrzrOHyrB70cnWzEikuOpMWYZUcYD7jNJcGjFny8prdcaszRWnbhX8ZtKcgT9oXHBKvM/nAMcyG081NfmU/OM4zdXoQZ+5bBseEf7nezGtZwIoKPzmEUBI1LeqSSZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708004673; c=relaxed/simple;
-	bh=HKfR9ylXwCI1xaOSoIMnYxGSAZTtAAZJXYwyP3U/bBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A65bcOlcrf10trIwuuAqBGnvU1gL6/4zRkmt5m71m8oY6O7ZAAEOwDLLvq12K9vRG/ftLHJjpGbMfh1BspW5YHsbhbVJz1i+J2XT9xSF38aeLz85N3KRqe9zJ6LYEoiV1dfDkmu66mfVU3nzzCkbb5i2W9N2W2C73zkrw41WADM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WoFIFb1g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708005248; c=relaxed/simple;
+	bh=n69g760oqJtfdIPmojCNzHW8ipClX64Jsl5E2Nt2zdU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X7C/b1ToZHniz9aqheUYc9ep2gPl1hO7+QJJhIn0mPuQ1i4XtpWxpx8eblt3UPfOgWLhc3zl/fxXBd4KLJ+VEiMyRSyUOd6kysHHC2LtNyL3nlZfQEwJfO2Qx5LjdOurmCBQxv8EL4xi0JgvIh5xfdQJFuOnaux7sKtmyO5E9dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KEwU5uSl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WoFIFb1g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E35D0C433F1;
-	Thu, 15 Feb 2024 13:44:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KEwU5uSl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA683C433F1;
+	Thu, 15 Feb 2024 13:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708004673;
-	bh=HKfR9ylXwCI1xaOSoIMnYxGSAZTtAAZJXYwyP3U/bBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WoFIFb1gfGpzhXLWHgopbqFUm54/XRWvj+EGtSeiX40FqFJ+fAmIP5zwI2aFOKRa/
-	 SQTGvZJ58jU0qgqVV4lw+o/CcaeqUFovii3/As0PrLbnHbttjwnAGDaIS2HsKG+eaf
-	 jrmqgxVFmPGvy0/ANDctHBjdZH+ZptvDDu6r2lnF78l1y8TptIEExgp+gN+hukfdVp
-	 RPAkPrGF873g3oimQhHvhf2LhbRaVeaAKbrdet7lxvTWdcm2+/or9ROpULdFKCcsz+
-	 9J2ZhiiPeRibTs9K9xS/EVi0/1p2TXF3HlHbEoj4Z/+PgTGnAd3dXgx3czILC5zBxr
-	 zI1DuUZx6Tu+g==
-Date: Thu, 15 Feb 2024 07:44:29 -0600
-From: Rob Herring <robh@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	manisha.agrawal@ti.com, hnagalla@ti.com, praneeth@ti.com,
-	lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-	conor+dt@kernel.org, aviel@ti.com, perex@perex.cz, pdjuandi@ti.com,
-	linux-kernel@vger.kernel.org, tiwai@suse.de,
-	devicetree@vger.kernel.org, tiwai@suse.com, mohit.chawla@ti.com,
-	13916275206@139.com, s-hari@ti.com, soyer@irl.hu,
-	broonie@kernel.org, jkhuang3@ti.com
-Subject: Re: [RESEND PATCH v4 4/4] ASoc: dt-bindings: PCM6240: Add initial DT
- binding
-Message-ID: <170800466884.4134047.16156792945843659627.robh@kernel.org>
-References: <20240208114049.1429-1-shenghao-ding@ti.com>
- <20240208114049.1429-4-shenghao-ding@ti.com>
+	s=k20201202; t=1708005248;
+	bh=n69g760oqJtfdIPmojCNzHW8ipClX64Jsl5E2Nt2zdU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KEwU5uSlEvQIwFWbYsV9xqLkAF3SPwgyg6NFYK64S8u0lnJdAox77QPHab9L8f2vb
+	 fRgtKzRzg81HK0LLGjPOL2mhX61w9FAsOIafRTDl7HgxJ7x63mCuI7e9//TKlOBrR4
+	 WcuZokS1qfbqHhPCX638GQEQA5xW67DHZ4VTWEZTpohno32iw0LRXsAV3/dU4V2/Jb
+	 HWBKuPezAPZFET9ag99lUbtiXnZMeGolHBKCsZrzfPUJeondRYlwmv2qjPMnIt2AhX
+	 ZwkabCmTsCOzAEV84beLpuwTHqKOVNRIjzcZTny+GiPQ8iLvrbg3W6mZ4RpUh9VCJb
+	 sBLfOUZNG7mtA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-sound@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: seq: remove redundant 'tristate' for SND_SEQ_UMP_CLIENT
+Date: Thu, 15 Feb 2024 22:53:04 +0900
+Message-Id: <20240215135304.1909431-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240208114049.1429-4-shenghao-ding@ti.com>
+Content-Transfer-Encoding: 8bit
 
+'def_tristate' is a shorthand for 'default' + 'tristate'.
 
-On Thu, 08 Feb 2024 19:40:48 +0800, Shenghao Ding wrote:
-> PCM6240 family chips are popular among audio customers, in spite of only a
-> portion of the functionality of codec, such as ADC or DAC, and so on, for
-> different Specifications, range from Personal Electric to Automotive
-> Electric, even some professional fields.yet their audio performance is far
-> superior to the codec's, and cost is lower than codec, and much easier to
-> program than codec.
-> 
-> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-> 
-> ---
-> Change in v4:
->  - Rewrite the subject to match something similar to other commits.
->  - And none of them are compatible with something.
->  - minItems, then maxItems.
->  - Drop reset-gpios description
->  - Remove the repeated reg descriptions and reg constraints.
->  - Drop redundant spaces.
->  - Add missing line breaks between blocks and additionalProperties.
->  - Correct compatibility issue on adc6120 and pcm6240.
->  - All these chips have only a portion of the functionality of codec,
->    such as ADC or DAC, and so on, but their audio performance is far
->    superior to the codec's, and cost is lower than codec, and much easier
->    to program than codec. Simply one or two register settings can enable
->    them to work. Init for these chips are hardware reset or software reset.
->    As to some audio filter params for internal filters, it is up to the
->    special user cases, which can be saved into the bin file. The default
->    value also can work well.
->  - Add blank line before reg.
->  - remove unneeded items and if branches.
->  - Add missing compatible devices, such as adc6120, etc.
->  - Add necessary people into the list for DTS review
->  - correct misaligned.
->  - Remove dix4192
->  - simplify the compatibility
-> ---
->  .../devicetree/bindings/sound/ti,pcm6240.yaml | 172 ++++++++++++++++++
->  1 file changed, 172 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
-> 
+Another 'tristate' is redundant.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ sound/core/seq/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/sound/core/seq/Kconfig b/sound/core/seq/Kconfig
+index c14981daf943..0374bbf51cd4 100644
+--- a/sound/core/seq/Kconfig
++++ b/sound/core/seq/Kconfig
+@@ -71,7 +71,6 @@ config SND_SEQ_UMP
+ 	  among legacy and UMP clients.
+ 
+ config SND_SEQ_UMP_CLIENT
+-	tristate
+ 	def_tristate SND_UMP
+ 
+ endif # SND_SEQUENCER
+-- 
+2.40.1
 
