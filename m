@@ -1,131 +1,212 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.129.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E335A131E34;
-	Thu, 15 Feb 2024 14:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE9E132483
+	for <linux-sound@vger.kernel.org>; Thu, 15 Feb 2024 15:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708005871; cv=none; b=GlnMbG1BuTrIYmY1D4UMlqbXUCKfBvmrx8V16esevrxOcM4GzXLuVeMIgihFH8pFeEKPgfrbvwqnVaX5FU+TeBlsZhTZbDpFHVT6bYHMn9pSp+V7mEj8Y0ARo2VROc9w7YdPx1wWZ6Xn4KaBwq2yrofscCtTHIZpKrFDT1h+9ts=
+	t=1708010714; cv=none; b=F7w5jz6/25Ki5IK1437M4vdBnH2ADnmGqU0Ea0PAeh/eeuQclEfpcerNdwP/TVI1NUxpd/N7vL4fBcRYp4Z2wULU3kyJTRpZ5xOJ9uVorshPUonmD4P5tcoABZabRBljWl9RAQG1PQ84xhYgM0wg2tegbLsnUe6FDJadxGe56r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708005871; c=relaxed/simple;
-	bh=njQRUvvclzFnE8Ay9P08gRLmVoBlZGDgoIiDWrhUP6g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=psT/+1uhZe1beIem0rfxto4np/6rcPrF1KIHD4JcAIJpU1ZLFTxsPxQKFikZ0KePQfRgvlnJ2nHfB1j3rGVsw323buQ34a8TspWQvXufbVSxLwMkiejMvTC6vz03nKAZNbXImcgGYqcun38uO1r3iABQkhr1XFhjDp7z2xN4vmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HIe8BbWL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LaPvB19g; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HIe8BbWL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LaPvB19g; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708010714; c=relaxed/simple;
+	bh=zfKf6YOFPNClMz/WsPi6+JfTtXDu7Hqrion2Mc0HhnM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=gLa0yxRUE2Q2Nm+CHUrNcckT+zJd/fp493HJS3ndxVy9tAl4e2BrN5ikALsAD3K7iJdrI7CHnUPTpzo9iMdmCreem7dZqC8YNqDu5QdSFMgx/rCNd4bQeyBVj3V3xU6bYkmvJojJyOKMMUIntHoMDO2d4oYyO4raRsFVHRo2hZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=QM+3t+le; arc=none smtp.client-ip=170.10.129.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HIe8BbWL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LaPvB19g";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HIe8BbWL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LaPvB19g"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2988D21F4C;
-	Thu, 15 Feb 2024 14:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708005868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="QM+3t+le"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+	t=1708010710;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MqlIAGsDAmdAOKkcbo+b/U2RCdxvbu7VSb2tSblcO+w=;
-	b=HIe8BbWLrm/S6Er54Rs66rYLIbpKjs36mvsyoLfFJU5vD36/jCk1klhliXwG3nvojs98eF
-	yi3sCbatvDsP0XJF9L/WvMc3i62o1qpnZzkyLzLetnyePyKKV6YauTcJTxvw/1FPxWXhF0
-	eGKfU3CBP6djfy67sR6NfpygrVhSqQw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708005868;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MqlIAGsDAmdAOKkcbo+b/U2RCdxvbu7VSb2tSblcO+w=;
-	b=LaPvB19gIWCPSfKBWtDXPltWhfolOlJLSZrmLU/oWFO92pj0bmOitN5/KYfkOIV+35Vn+w
-	cLb7Oum2sYN6iKDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708005868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MqlIAGsDAmdAOKkcbo+b/U2RCdxvbu7VSb2tSblcO+w=;
-	b=HIe8BbWLrm/S6Er54Rs66rYLIbpKjs36mvsyoLfFJU5vD36/jCk1klhliXwG3nvojs98eF
-	yi3sCbatvDsP0XJF9L/WvMc3i62o1qpnZzkyLzLetnyePyKKV6YauTcJTxvw/1FPxWXhF0
-	eGKfU3CBP6djfy67sR6NfpygrVhSqQw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708005868;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MqlIAGsDAmdAOKkcbo+b/U2RCdxvbu7VSb2tSblcO+w=;
-	b=LaPvB19gIWCPSfKBWtDXPltWhfolOlJLSZrmLU/oWFO92pj0bmOitN5/KYfkOIV+35Vn+w
-	cLb7Oum2sYN6iKDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC7AD13A82;
-	Thu, 15 Feb 2024 14:04:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aW8pOOsZzmUfYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 15 Feb 2024 14:04:27 +0000
-Date: Thu, 15 Feb 2024 15:04:27 +0100
-Message-ID: <87mss1esd0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: seq: remove redundant 'tristate' for SND_SEQ_UMP_CLIENT
-In-Reply-To: <20240215135304.1909431-1-masahiroy@kernel.org>
-References: <20240215135304.1909431-1-masahiroy@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=r9cb4Qe0LxhSaPGrTH0X2PnyMbFVlpVCd61B6q4hYKg=;
+	b=QM+3t+leH8nyyiweAQfGicI0EcnHyNv9QCu+d3Q0Y9BOdfvYeaikBkEvoDSXvjUGwxuAk9
+	DkBgPMJSX2iNui/Ha1048qbBcIVQsiiqvuYMC1yh2Tq5yBS/WrZGmasxMYKvT8WhXFd+Wa
+	xrCE9/ixWDvBlTjaWe/iHdc101jYaQM=
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02lp2041.outbound.protection.outlook.com [104.47.57.41]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-539-3sYCxmiwMxKg90OaZin89A-1; Thu, 15 Feb 2024 10:25:09 -0500
+X-MC-Unique: 3sYCxmiwMxKg90OaZin89A-1
+Received: from DS0PR84MB3417.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:1be::14)
+ by LV3PR84MB3528.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:408:218::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Thu, 15 Feb
+ 2024 15:25:05 +0000
+Received: from DS0PR84MB3417.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::9727:7112:c46a:c619]) by DS0PR84MB3417.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::9727:7112:c46a:c619%7]) with mapi id 15.20.7270.036; Thu, 15 Feb 2024
+ 15:25:05 +0000
+From: "Zhang, Eniac" <eniac-xw.zhang@hp.com>
+To: Takashi Iwai <tiwai@suse.de>, "Gagniuc, Alexandru"
+	<alexandru.gagniuc@hp.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Eniac Zhang
+	<eniacz@gmail.com>, Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH] ALSA: hda/realtek: fix mute/micmute LED For HP mt645
+Thread-Topic: [PATCH] ALSA: hda/realtek: fix mute/micmute LED For HP mt645
+Thread-Index: AQHaX3YE63Fkmi67ykykdCA++KhMzLELXAgAgAAq4lA=
+Date: Thu, 15 Feb 2024 15:25:05 +0000
+Message-ID: <DS0PR84MB341799A29B99290A1FB10F58BB4D2@DS0PR84MB3417.NAMPRD84.PROD.OUTLOOK.COM>
+References: <20240214184507.777349-1-alexandru.gagniuc@hp.com>
+ <87v86pevt7.wl-tiwai@suse.de>
+In-Reply-To: <87v86pevt7.wl-tiwai@suse.de>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR84MB3417:EE_|LV3PR84MB3528:EE_
+x-ms-office365-filtering-correlation-id: 668e171e-9537-4421-51e1-08dc2e3a4931
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0
+x-microsoft-antispam-message-info: n4Q5IkXQYvSaM5UyYpWG1/ItKKAp8g9j6A/BS1NDYvpEpqe/RNp4Frdrw77b1l7UUGULPARwUoPk/Dws2mFu9RbbY6OHUENoS2vSWIECLUy4TBZfBJOJJ8N/nHXe4a6/KtOn3Nz5xMyCGWZP0KtMc43mkn3VdUxfZ+KiciT0cPrah3A9MKsoGvB8D0hy0ivifm8qtY+xlQ0SUUpXn8HKw1aFsnX5W/I5Zc1eMZw+7e9i5z1+jV1nyNw8uJb/CbmPewsgxSKuPTAIY/4x9TmQSIIegf59jFe6wR+2r4HZhXm5tGbtaj/ZGSjnyBUGhq6GT/8LaAVXUe6L8jxOcwi5od0pNhnMgNUCn3jw8l7cJgxtyrBIjJBIXLEEY8VQdlwtgeKaygdUFF5b8acMxxkNMQB4hJZAGB5ue7eJ/NxUrFM+s6lw600+KOePDCEkE2iSF6gIJo+UTCXdg6usZLgdsJwq4SxqIHxoJeMu4mMf6+zAt/q/yGp1USgfWAUmt4JizGohalPStgLTupw/3xO/YE1JlQPXrS5S9R85AHN2ZkRKBw4c3jpe0opePmfpYFbVOsfreCB3lqLGlFK5AuRxTRQ38H79OsaNQyue7ppa0vuiAPDUjAyYAUabgEfc6wPp
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR84MB3417.NAMPRD84.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(376002)(39860400002)(366004)(136003)(230273577357003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(66476007)(4326008)(8676002)(52536014)(64756008)(66556008)(8936002)(66946007)(76116006)(66446008)(2906002)(83380400001)(26005)(38070700009)(33656002)(82960400001)(122000001)(86362001)(71200400001)(38100700002)(110136005)(6636002)(54906003)(316002)(41300700001)(7696005)(9686003)(6506007)(478600001)(53546011)(55016003)(5660300002);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GtlyrLjEOIFx8DDtBzC6E14knlgfMuygGbV8d7rsfey17mJ3m2Kro/Vut0Cp?=
+ =?us-ascii?Q?CC9zxbBUeJe1Oysn9nI++MI/jMimHBnBFIdVVfB/u4oyvr6FXzAEEicASC0W?=
+ =?us-ascii?Q?juEh22tQlKe+EQyHcOwcmFRTJnL8xq9BRvW06qM0TM3tf57sL3yj/n8NaDKP?=
+ =?us-ascii?Q?Y873kyP6iNkIFX8GHyqc2+3wTlGwNIgzNEqlNRBHs+INPIAXiZCJMl/KVkLA?=
+ =?us-ascii?Q?ygmzHAeRtdZnIIqvb1XRTZJLeOWvupdjzO/xKU+O/AQiF3772BFo3jLSrTy6?=
+ =?us-ascii?Q?4WAWX2XvLx8F27CAqloC6CItLKZEaw50nE8eH75jEudVD9W34mojxl3NLd5v?=
+ =?us-ascii?Q?RJMGaaMOLtLZ57YgqeWOPV3HEhzt4q3iU9ig85S53c4nvl8+GkbP+wV7+9I9?=
+ =?us-ascii?Q?BvxjIkU9nqbHkGfMVtaiLjlKqjeViTU4Nwf5V8udGF3NPX+ug5avPi6mhiU9?=
+ =?us-ascii?Q?rTG9BrHZQ9XyN0ypUW0cRaFm38BfMTGOUCoIshNqHlCylqyieCHrYrvWiYJE?=
+ =?us-ascii?Q?UOB7du2QW7wY6ZG8ZKWg33MX0/FxU3yi5nTkmbU0DZZDet5oxZPeB5Ss13jn?=
+ =?us-ascii?Q?xCjkXdxBdzs4CAgR0K7/AQ27BUx9Jlf/6s6UoTjnGWMIF/p4ebAH75kVKoke?=
+ =?us-ascii?Q?fw48SMZC7iZCqpW6HqELicU4rU3q4aPdtsO6yN/PSuwoQJ+CAv4k6c51ADFO?=
+ =?us-ascii?Q?MN+r04MvG0Gjo9lPuxFQjICOTKofCm/neYouqT5UmGxSyv+Z6RFdmDwaIUqb?=
+ =?us-ascii?Q?zLmoQ1RGD+AHUb992PyKgzmFPgUngxrpN2ZnS9qvP2nommP/1O9I2amBm4PM?=
+ =?us-ascii?Q?1iLH4uBqO3+essCeW9Jcni+UYFIDuCL7s6qKkoFuMxEahKogZJC0niFvUpWI?=
+ =?us-ascii?Q?KnPY6I/bjQRLLv8VlpW/S/HFPI2iM0AKC/ZffXbOt/rBM0R/NQR+6l5hzC4A?=
+ =?us-ascii?Q?ChrGj9GnGBUSQD5kqB/kSjviFKswJxrn42pkDCELgTyk4sx+FfuCfKXf2u0W?=
+ =?us-ascii?Q?pl5zfIxB+IpehcDR36plloZeiVUEX/svJ50cS8PhoLD7HA22+uSLEfxDmY/O?=
+ =?us-ascii?Q?/3goxVgEvRXHUEDfH/lS1meiCv4m/h+H2zUR2h+znskjEcV0JnNcUT2TwdnV?=
+ =?us-ascii?Q?IGKx4xZXdX0y+76Gp1xAqYIGj0rZbZzYJgEHPb93RP653hlvTrSab8DskLpR?=
+ =?us-ascii?Q?Kr3NEmRxjEUB9oQ9/HWHeHv27tey51xI7f8+5EasJadTSNkOi4StXpoRY4dW?=
+ =?us-ascii?Q?e0fnZ7UdwLAmZTj9I+MuFzWv0xprwWgAFMrC5Qz3XmqQihTXedNubLz6jbko?=
+ =?us-ascii?Q?OJncHZS2ADV0JjDV8eg7544kMg6OohmlWqLjvgARqK2eUAI0WpOCjYtr0Lwi?=
+ =?us-ascii?Q?hSjuEy14CO3TW0LTTCuHKLjrKbWNjT+lPXEa/LD/rEsS4vpyslwkbl1yqJQJ?=
+ =?us-ascii?Q?Kd/NH4MZeUSRJ+dbvtol8hwvdcOOy18wzDS0O3MVqrCEYnvFyeg1dOALaoUp?=
+ =?us-ascii?Q?LRj4+f1IkduYgBFJcIfQ2EhBlA6M6D+h3zoahHCjC9jfJipY8TVJDqtW3IQ0?=
+ =?us-ascii?Q?dqwICOoQM3du/dyCp8gH0A1DMfYor8fB3R4T6Vsm?=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HIe8BbWL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LaPvB19g
-X-Spamd-Result: default: False [-2.16 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.85)[99.33%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2988D21F4C
-X-Spam-Level: 
-X-Spam-Score: -2.16
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-OriginatorOrg: hp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR84MB3417.NAMPRD84.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 668e171e-9537-4421-51e1-08dc2e3a4931
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2024 15:25:05.0454
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ca7981a2-785a-463d-b82a-3db87dfc3ce6
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: D/5adw/HAqy6XFhnqDnteTNyJj+nOgCSC2Uf9uUzSjVl/Mt3PCMIToDaWtUJ5ESd/1eyQPrppbxXKj8UQt0KOg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR84MB3528
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: hp.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 15 Feb 2024 14:53:04 +0100,
-Masahiro Yamada wrote:
-> 
-> 'def_tristate' is a shorthand for 'default' + 'tristate'.
-> 
-> Another 'tristate' is redundant.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Hi Takashi,
 
-Thanks, applied.
+I can sign off this merge request.  Alex is ThinPro's new kernel maintainer=
+.  He is trying to push all those old HP patches upstream to make our life =
+(and other HP machine user's life) easier.
 
+Let me know if there's anything else I can do.
+
+Regards/Eniac
+
+-----Original Message-----
+From: Takashi Iwai <tiwai@suse.de>=20
+Sent: Thursday, February 15, 2024 5:50 AM
+To: Gagniuc, Alexandru <alexandru.gagniuc@hp.com>
+Cc: linux-sound@vger.kernel.org; perex@perex.cz; tiwai@suse.com; linux-kern=
+el@vger.kernel.org; Zhang, Eniac <eniac-xw.zhang@hp.com>; Eniac Zhang <enia=
+cz@gmail.com>; Alexandru Gagniuc <mr.nuke.me@gmail.com>; stable@vger.kernel=
+.org
+Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LED For HP mt645
+
+CAUTION: External Email
+
+On Wed, 14 Feb 2024 19:45:07 +0100,
+Alexandru Gagniuc wrote:
+>
+> From: Eniac Zhang <eniacz@gmail.com>
+>
+> The HP mt645 G7 Thin Client uses an ALC236 codec and needs the=20
+> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make the mute and=20
+> micmute LEDs work.
+>
+> There are two variants of the USB-C PD chip on this device. Each uses=20
+> a different BIOS and board ID, hence the two entries.
+>
+> Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+> Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+
+Any reason to have two your sign-offs?
+Also, can we get a sign-off from the original author?
+
+
+thanks,
 
 Takashi
+
+> Cc: <stable@vger.kernel.org>
+> ---
+>  sound/pci/hda/patch_realtek.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/sound/pci/hda/patch_realtek.c=20
+> b/sound/pci/hda/patch_realtek.c index 6994c4c5073c..c837470ef5b8=20
+> 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -9928,6 +9928,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
+] =3D {
+>       SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9", ALC245_FIXU=
+P_CS35L41_SPI_2_HP_GPIO_LED),
+>       SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook=
+ PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+>       SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9=20
+> Notebook PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> +     SND_PCI_QUIRK(0x103c, 0x8b0f, "HP Elite mt645 G7 Mobile Thin=20
+> + Client U81", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>       SND_PCI_QUIRK(0x103c, 0x8b2f, "HP 255 15.6 inch G10 Notebook PC", A=
+LC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+>       SND_PCI_QUIRK(0x103c, 0x8b42, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_G=
+PIO_LED),
+>       SND_PCI_QUIRK(0x103c, 0x8b43, "HP",=20
+> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> @@ -9935,6 +9936,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
+] =3D {
+>       SND_PCI_QUIRK(0x103c, 0x8b45, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_G=
+PIO_LED),
+>       SND_PCI_QUIRK(0x103c, 0x8b46, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_G=
+PIO_LED),
+>       SND_PCI_QUIRK(0x103c, 0x8b47, "HP",=20
+> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> +     SND_PCI_QUIRK(0x103c, 0x8b59, "HP Elite mt645 G7 Mobile Thin=20
+> + Client U89", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>       SND_PCI_QUIRK(0x103c, 0x8b5d, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUT=
+E_VREF),
+>       SND_PCI_QUIRK(0x103c, 0x8b5e, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUT=
+E_VREF),
+>       SND_PCI_QUIRK(0x103c, 0x8b63, "HP Elite Dragonfly 13.5 inch G4",=20
+> ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+> --
+> 2.42.0
+>
+
