@@ -1,125 +1,144 @@
-Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.133.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DE213341D
-	for <linux-sound@vger.kernel.org>; Thu, 15 Feb 2024 15:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF87353369;
+	Thu, 15 Feb 2024 15:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708012196; cv=none; b=tX1SZeF0KIrKqyZQptSR4joXBLN5iUJa+Du3ahxGWLUnqCmX2NhVP855OpT7+uplUuijs7gDrFX7WupbfDuenzy9ogYT8uas5gtoScB+R4f9HyArIMD8YFKMCfjQkd4UieZdvNICNgauUIfEIR2CpjvdeERrdmRRTmoDqq99fLc=
+	t=1708012771; cv=none; b=jIRLDV/ovybreA+1H5B3uXnrCQOmmtVmCQq9lrl6hhtx93xSi3mFfWff4tI7/BszK8qpRv0Brh0q4I+Wc1TK4EpwpAQ1XKgr42naGsnUHhUs3lG8jteGWImYDaCBLTsym1I4V7feJKAh4zLTEQJcKMpLlmHMXsuDUuh7/+ZgdRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708012196; c=relaxed/simple;
-	bh=0UxlDs5v98il8Yvx5898jp0zflTPlEd7LBBWGgaz4vE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qthzddX4unHVoVHArXN4PzFSipoa7Jm56Pfw+9q/AQnhUry9+XXtBcX4f2flz1AE3TZxdpY4JhDnWBZG+ps/eLrHfeZYGJ/5LMYM9nscEbwWPrvFMlbNh/RkCWb8lXdbvaa2CLQUsao8HX7F/1QOjTEI8eAJPtwtP6s2VdDySRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=DPdt9LWk; arc=none smtp.client-ip=170.10.133.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
+	s=arc-20240116; t=1708012771; c=relaxed/simple;
+	bh=qD5ZBWGhYIi5J1d+Tg9J/cj0nxcLLO7z0cu37i5BH4w=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K8FvVzrEVDFqNwDll6Q4WTCXYl+dyXBNVwXy3iFvjl11doqGwfJU5s65KM7ASWHuWZcHOOgJ2slAKjI1a6A9c5ilyC5DOzH4Bzk/1+37rnQa9YRuwoKalCE+9P5htrqQAliztEFZsY7FJ3HfEUxAQuE6R9/WqvPQb9roYD6SopY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xriu/gwi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kkXBOJae; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bUhAm7AE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3FY5kUQx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="DPdt9LWk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
-	t=1708012193;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0UxlDs5v98il8Yvx5898jp0zflTPlEd7LBBWGgaz4vE=;
-	b=DPdt9LWkOPjBXUEiNVNUIQMGOD6ZyBi/Qy/zg3jWugvbGgcyYVw3QJFQrVi2d1MB753gat
-	mXtuCHl9R5veWpyLJzRcEB6W6fdnOYp7XVGbu8c2HZMo0bGvUe0tUONJ1C923NP64RiKiH
-	lXbNMzBqGl2L22GhxML7YSBL1luXaGg=
-Received: from g8t01560s.inc.hp.com (g8t01560s.inc.hp.com [15.72.64.154]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-5jmfhb03Pduo__cOpimguQ-1; Thu, 15 Feb 2024 10:49:52 -0500
-X-MC-Unique: 5jmfhb03Pduo__cOpimguQ-1
-Received: from g7t14407g.inc.hpicorp.net (g7t14407g.inc.hpicorp.net [15.63.19.131])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xriu/gwi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kkXBOJae";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bUhAm7AE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3FY5kUQx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by g8t01560s.inc.hp.com (Postfix) with ESMTPS id 06CD720399;
-	Thu, 15 Feb 2024 15:49:50 +0000 (UTC)
-Received: from localhost.localdomain (unknown [15.53.255.151])
-	by g7t14407g.inc.hpicorp.net (Postfix) with ESMTP id C23FF17;
-	Thu, 15 Feb 2024 15:49:48 +0000 (UTC)
-From: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
-To: linux-sound@vger.kernel.org,
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED2051F8BA;
+	Thu, 15 Feb 2024 15:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708012768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XYbT9HGAWfdr7p8j7wtUx16p3Lt7ILfaJCRH7kN3wWA=;
+	b=xriu/gwiZT2kxNs/oQ1w65/t3dTAb78sZbL4DzHkD+RfGIxQDzZ7tQ7+G+r6wbWcTOBptK
+	4v0iRh4lGixYdT13A+djtqUiHeQXNePQM3rJQm+velTfXYbqoU2hlL2vRcsMTZG9CbxKvH
+	xZhR04rkRX65tOffok3Owupa3xuCwFY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708012768;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XYbT9HGAWfdr7p8j7wtUx16p3Lt7ILfaJCRH7kN3wWA=;
+	b=kkXBOJaesWZfSs5r5xDkTRngfUJBsHBnHyhKIEy8Rdkp0p0XW+AUSlW4xlp7HU+UgWnNlE
+	omNsEG3BNR2hBBBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708012767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XYbT9HGAWfdr7p8j7wtUx16p3Lt7ILfaJCRH7kN3wWA=;
+	b=bUhAm7AEVRWoyDSF8yD3RaGghiP0pkHgs+Ij1hKHdYbYL/pFk4N61W8s4dYkJjtjQ0KtXU
+	CFZLVKCCWZ12VcXWa7q3g7uJ5HepewwGgQsx52FlXlicIKtWkJz8rk6IuiRU2USG6QVxwI
+	Q9P741i99LDhuRTEhJOxY0/lQxUdmgU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708012767;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XYbT9HGAWfdr7p8j7wtUx16p3Lt7ILfaJCRH7kN3wWA=;
+	b=3FY5kUQx/ZRaNWdW5qKUMJxHjPcJtUDo2qsMLIHGYxXDOgdJGB2RcIM/bavBakuoCxI2YH
+	295wsqUPw7j6dwCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A95A313A82;
+	Thu, 15 Feb 2024 15:59:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +Rh+J980zmVGfQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Feb 2024 15:59:27 +0000
+Date: Thu, 15 Feb 2024 16:59:27 +0100
+Message-ID: <878r3len1c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+Cc: linux-sound@vger.kernel.org,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
 	eniac-xw.zhang@hp.com,
-	Alexandru Gagniuc <alexandru.gagniuc@hp.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek: fix mute/micmute LED For HP mt645
-Date: Thu, 15 Feb 2024 15:49:22 +0000
-Message-Id: <20240215154922.778394-1-alexandru.gagniuc@hp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <87frxteoil.wl-tiwai@suse.de>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: fix mute/micmute LED For HP mt645
+In-Reply-To: <20240215154922.778394-1-alexandru.gagniuc@hp.com>
 References: <87frxteoil.wl-tiwai@suse.de>
+	<20240215154922.778394-1-alexandru.gagniuc@hp.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: hp.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bUhAm7AE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3FY5kUQx
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.37 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.86)[85.51%]
+X-Spam-Score: -3.37
+X-Rspamd-Queue-Id: ED2051F8BA
+X-Spam-Flag: NO
 
-From: Eniac Zhang <eniac-xw.zhang@hp.com>
+On Thu, 15 Feb 2024 16:49:22 +0100,
+Alexandru Gagniuc wrote:
+> 
+> From: Eniac Zhang <eniac-xw.zhang@hp.com>
+> 
+> The HP mt645 G7 Thin Client uses an ALC236 codec and needs the
+> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make the mute and
+> micmute LEDs work.
+> 
+> There are two variants of the USB-C PD chip on this device. Each uses
+> a different BIOS and board ID, hence the two entries.
+> 
+> Signed-off-by: Eniac Zhang <eniac-xw.zhang@hp.com>
+> Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+> Cc: <stable@vger.kernel.org>
 
-The HP mt645 G7 Thin Client uses an ALC236 codec and needs the
-ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make the mute and
-micmute LEDs work.
+Thanks, applied now.
 
-There are two variants of the USB-C PD chip on this device. Each uses
-a different BIOS and board ID, hence the two entries.
 
-Signed-off-by: Eniac Zhang <eniac-xw.zhang@hp.com>
-Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
-Cc: <stable@vger.kernel.org>
----
-
-Changes since version 1:
- - Adjusted Signed-off-by lines to include original author.
-
- sound/pci/hda/patch_realtek.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 6994c4c5073c..c837470ef5b8 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9928,6 +9928,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
-=3D {
- =09SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9", ALC245_FIXUP_CS=
-35L41_SPI_2_HP_GPIO_LED),
- =09SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook PC"=
-, ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- =09SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook PC"=
-, ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-+=09SND_PCI_QUIRK(0x103c, 0x8b0f, "HP Elite mt645 G7 Mobile Thin Client U81=
-", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- =09SND_PCI_QUIRK(0x103c, 0x8b2f, "HP 255 15.6 inch G10 Notebook PC", ALC23=
-6_FIXUP_HP_MUTE_LED_COEFBIT2),
- =09SND_PCI_QUIRK(0x103c, 0x8b42, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
-LED),
- =09SND_PCI_QUIRK(0x103c, 0x8b43, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
-LED),
-@@ -9935,6 +9936,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
-=3D {
- =09SND_PCI_QUIRK(0x103c, 0x8b45, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
-LED),
- =09SND_PCI_QUIRK(0x103c, 0x8b46, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
-LED),
- =09SND_PCI_QUIRK(0x103c, 0x8b47, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_=
-LED),
-+=09SND_PCI_QUIRK(0x103c, 0x8b59, "HP Elite mt645 G7 Mobile Thin Client U89=
-", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- =09SND_PCI_QUIRK(0x103c, 0x8b5d, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VR=
-EF),
- =09SND_PCI_QUIRK(0x103c, 0x8b5e, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VR=
-EF),
- =09SND_PCI_QUIRK(0x103c, 0x8b63, "HP Elite Dragonfly 13.5 inch G4", ALC245=
-_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
---=20
-2.42.0
-
+Takashi
