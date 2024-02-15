@@ -1,138 +1,137 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADAD65191;
-	Wed, 14 Feb 2024 23:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E4719A
+	for <linux-sound@vger.kernel.org>; Thu, 15 Feb 2024 00:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707951906; cv=none; b=UlZaG5sj/GWeYhWPeDHJdANAiSacKt4WsvHH8W/NN3FZbnzADbaDwzWdgZZkBso65IV81ljsDABTyg/QK5hKSKQkhNpBPNCzVGC9ImZ/W6SkiaNJtyIDtNuI9iBNz309R+oRvQl2Q3wTnXVzjvsKbPhTTIdEGfsP3SpnDHraUhI=
+	t=1707955686; cv=none; b=LJ9unnkFscBbOZ8VVuTC3ZHLUHP6PFT/inYuBsqhm4WfdM0jwSZJjp2F7i1kIGI9OFBAYncdHmCK4yZKqoboeTmtfpfrOo25Chi0rIqp6HMph6J0FzwzU0ZM6j3v61LpmRD7OXtSji7jKfaUZLL7F9TyNU+/ORr2NLMwQPli/8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707951906; c=relaxed/simple;
-	bh=NF5NUr80OtbglWaZRPMW8XuNliEAQsYjfE/zJTAavQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=jn6ML6+dL+wX6qny7cF8GnG0t09035jbx+F3wOAC6MJkzhEkjimjvpHoFsDV0shyGx2KhCvT2w6u3fvUfBTKYpk9H0ZI3EikfKlEm2dYJ2UOhgFovzVxfcktw8gFnXP6gWDw8C7RHwoxAS125QcwupCvLyumqSJjr1vL5+R6Io4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=L4y8Ewfv; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1707955686; c=relaxed/simple;
+	bh=MXm7+NJ1npnE1n0F4jgnhA9YQZg7N1sx7Rye2amVgf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ncOrPcUr6OkHgu/KmzQ+NrM3jgxCt3Vrw1Z07CwXNVU8GrbrlssOjt+Y8YzdJQM7T+Unge3BP3tN9iUK4Y8XSv29A+peS9wwE1nI2joRzzTkoOSpyl/n6X8Q1bKXSvi+3GvuzpwESRgIg6tU2dAaTF5z48OxLGmQWY3BoHxERDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iI5dPF/H; arc=none smtp.client-ip=209.85.167.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="L4y8Ewfv"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41EMWmtR004681;
-	Wed, 14 Feb 2024 23:04:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=y0Uz8mXSkjvYpXhQtlSAFEFG7yr5QWKHlI01ir09dWQ=; b=L4
-	y8EwfvWY/MSIRk9KRaT27rQwH0bU8zFAw2ylQSlnqaMws8FoKxCNU1E7FKG3PKQD
-	U69vxyTl+s7Gq8sA72GkfOvu48EXZeBEjDZfdcq9ITlMY5N+cYcYDwLzy3YUqVtH
-	IZdPC5Rbm9S11S8pq0AQDtbieP1lGuH/EQbtqL6WjI9LDIlylGTs7USbsqfp0qBK
-	ezREmJDaAP92qaGK2mxaocOpjqtToMsu6A9mmbCPFznTtDowSpYyKLNSaH0B+1XY
-	JjzCDd5o6fmx2R453ESMwOpRRySCPeTkBeUB77dcz+ZXbR+nXvmTFjwcNaL46JW+
-	rLbeB4Bi7TF8ZlhRfojg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w9435raed-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 23:04:47 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EN4kmI001141
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 23:04:46 GMT
-Received: from [10.71.114.103] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
- 2024 15:04:45 -0800
-Message-ID: <ecec5590-1a96-9363-1209-342b4735096c@quicinc.com>
-Date: Wed, 14 Feb 2024 15:04:45 -0800
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iI5dPF/H"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3bd4e6a7cb0so261786b6e.3
+        for <linux-sound@vger.kernel.org>; Wed, 14 Feb 2024 16:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1707955684; x=1708560484; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xk1V2GeLZIB0eK1Atb00UHsPHWh3K6myT0Efv9rtx7M=;
+        b=iI5dPF/HSjGS+h0IkgezGQjrujzUJ+FIXkwRZY+4trK7l2UqAWEnkNdgjSnKQivrah
+         AYA/1BIiysMZhUzX4uLmc2WL9VOSJiA/1qpFFFZ40YStdnYq7gb3sYfw1VlQJrq6E/Vo
+         Bpmwb9TiW6gYDCgSZ/wwowYHEAbooHr1ArGVA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707955684; x=1708560484;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xk1V2GeLZIB0eK1Atb00UHsPHWh3K6myT0Efv9rtx7M=;
+        b=cy0uuORJLjZI8zPK9+5Da7sBy3fA6n+w41LT6DIKvFjWfGLB84XBwhkrwIFtZNk4JP
+         Xy1V3p8b1DM62JANmV1NR3NBHY2EW3Q5/Oh+Y/NpoaeD0VS1/+ZhDQeEoi/nfV/c1xJy
+         /GygCKcKXdX/PRRi+7SQe04Oo/n4aS7nyk3ovwI1731aUVgTlPaGwfxOGRneSbpePC8k
+         VAwOItZq+E9asq5BjpQE/B8SWVQNLhwYQ9T5XaCMwYIhl3JLWAKvjHp5mo7H8HcQ4xQ6
+         ZhMa8o4qEk272wBHB3wWULVR8jxgHN66cwvR2OlkrX63JXAQxC8XJUCVUCEr0oh0nxtU
+         /+cw==
+X-Forwarded-Encrypted: i=1; AJvYcCVDlqbRfEzt/OwujrxDbRdYiWhTUv1gwmmgJyDR/qMfg5tdCQd6eZhMI4EgA3l+Lgkmb/HodkvG+tlYrCNgx5VcE/Ghtt6wmtA76os=
+X-Gm-Message-State: AOJu0YzNvUIORaPcRXspgwXZPUJNAhekLXXIgPgB/PDpSEDFaNf09WBe
+	ut7Dp2eTEnEYPt7q6qI4UZOzW2SI1e55SebWk6laSwIKE02SMc4Nkxz4w9rUyg==
+X-Google-Smtp-Source: AGHT+IFEv5AreGUl0qs62KnOYzdEhLJrc3sNJRq5ufUSWwoxqO1SZ1oENLinLTCH2NnrkBM8Gp/2pQ==
+X-Received: by 2002:a05:6808:2182:b0:3c1:3661:d37 with SMTP id be2-20020a056808218200b003c136610d37mr399215oib.38.1707955684095;
+        Wed, 14 Feb 2024 16:08:04 -0800 (PST)
+Received: from kramasub2.cros.corp.google.com ([100.107.108.189])
+        by smtp.gmail.com with ESMTPSA id r6-20020ac85206000000b0042c71ca69b4sm54981qtn.11.2024.02.14.16.08.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 16:08:03 -0800 (PST)
+From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>,
+	Takashi Iwai <tiwai@suse.de>
+Cc: Karthikeyan Ramasubramanian <kramasub@chromium.org>,
+	Sven van Ashbrook <svenva@chromium.org>,
+	Brian Geffon <bgeffon@google.com>,
+	stable@vger.kernel.org,
+	Curtis Malainey <cujomalainey@chromium.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v1] ALSA: memalloc: Fix indefinite hang in non-iommu case
+Date: Wed, 14 Feb 2024 17:07:25 -0700
+Message-ID: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid>
+X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v15 18/50] ASoC: Add SOC USB APIs for adding an USB
- backend
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
- <20240213005422.3121-19-quic_wcheng@quicinc.com>
- <87zfw4y717.wl-tiwai@suse.de>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <87zfw4y717.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: JuSmwtbiiWjb1-tzjemz6pa5NF-cujTB
-X-Proofpoint-ORIG-GUID: JuSmwtbiiWjb1-tzjemz6pa5NF-cujTB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_14,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140174
+Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
+Before 9d8e536 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
+the alsa non-contiguous allocator always called the alsa fallback
+allocator in the non-iommu case. This allocated non-contig memory
+consisting of progressively smaller contiguous chunks. Allocation was
+fast due to the OR-ing in of __GFP_NORETRY.
 
-On 2/13/2024 2:48 AM, Takashi Iwai wrote:
-> On Tue, 13 Feb 2024 01:53:50 +0100,
-> Wesley Cheng wrote:
->>
->> --- a/sound/soc/Kconfig
->> +++ b/sound/soc/Kconfig
->> @@ -76,6 +76,15 @@ config SND_SOC_UTILS_KUNIT_TEST
->>   config SND_SOC_ACPI
->>   	tristate
->>   
->> +config SND_SOC_USB
->> +	bool "SoC based USB audio offloading"
->> +	help
->> +	  Enable this option if an ASoC platform card has support to handle
->> +	  USB audio offloading.  This enables the SoC USB layer, which will
->> +	  notifies the ASoC USB DPCM backend DAI link about available USB audio
->> +	  devices.  Based on the notifications, sequences to enable the audio
->> +	  stream can be taken based on the design.
-> 
-> This should be tristate, and...
-> 
->> --- a/sound/soc/Makefile
->> +++ b/sound/soc/Makefile
->> @@ -31,6 +31,10 @@ endif
->>   
->>   obj-$(CONFIG_SND_SOC_ACPI) += snd-soc-acpi.o
->>   
->> +ifneq ($(CONFIG_SND_SOC_USB),)
->> +snd-soc-core-objs += soc-usb.o
->> +endif
-> 
-> ... split it to an individual module, i.e.:
-> 
-> snd-soc-usb-objs := soc-usb.o
-> obj-$(CONFIG_SND_SOC_USB) += snd-soc-usb.o
-> 
-> Otherwise it'll lead to a hard-dependency to snd-soc-core on
-> snd-usb-audio, which is utterly unnecessary for most of other
-> devices.
-> 
+After 9d8e536 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
+the code tries the dma non-contig allocator first, then falls back to
+the alsa fallback allocator. In the non-iommu case, the former supports
+only a single contiguous chunk.
 
-Got it...getting this to compile as its own separate module also 
-required some changes to the other layers I had.  Anyway, I've reworked 
-some of the dependencies with other drivers and is working fine now.
+We have observed experimentally that under heavy memory fragmentation,
+allocating a large-ish contiguous chunk with __GFP_RETRY_MAYFAIL
+triggers an indefinite hang in the dma non-contig allocator. This has
+high-impact, as an occurrence will trigger a device reboot, resulting in
+loss of user state.
 
-Thanks
-Wesley Cheng
+Fix the non-iommu path by letting dma_alloc_noncontiguous() fail quickly
+so it does not get stuck looking for that elusive large contiguous chunk,
+in which case we will fall back to the alsa fallback allocator.
+
+Note that the iommu dma non-contiguous allocator is not affected. While
+assembling an array of pages, it tries consecutively smaller contiguous
+allocations, and lets higher-order chunk allocations fail quickly.
+
+Suggested-by: Sven van Ashbrook <svenva@chromium.org>
+Suggested-by: Brian Geffon <bgeffon@google.com>
+Fixes: 9d8e536d36e7 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
+Cc: stable@vger.kernel.org
+Cc: Sven van Ashbrook <svenva@chromium.org>
+Cc: Brian Geffon <bgeffon@google.com>
+Cc: Curtis Malainey <cujomalainey@chromium.org>
+Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+---
+
+ sound/core/memalloc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/sound/core/memalloc.c b/sound/core/memalloc.c
+index f901504b5afc1..5f6526a0d731c 100644
+--- a/sound/core/memalloc.c
++++ b/sound/core/memalloc.c
+@@ -540,13 +540,18 @@ static void *snd_dma_noncontig_alloc(struct snd_dma_buffer *dmab, size_t size)
+ {
+ 	struct sg_table *sgt;
+ 	void *p;
++	gfp_t gfp_flags = DEFAULT_GFP;
+ 
+ #ifdef CONFIG_SND_DMA_SGBUF
+ 	if (cpu_feature_enabled(X86_FEATURE_XENPV))
+ 		return snd_dma_sg_fallback_alloc(dmab, size);
++
++	/* Non-IOMMU case: prevent allocator from searching forever */
++	if (!get_dma_ops(dmab->dev.dev))
++		gfp_flags |= __GFP_NORETRY;
+ #endif
+ 	sgt = dma_alloc_noncontiguous(dmab->dev.dev, size, dmab->dev.dir,
+-				      DEFAULT_GFP, 0);
++				      gfp_flags, 0);
+ #ifdef CONFIG_SND_DMA_SGBUF
+ 	if (!sgt && !get_dma_ops(dmab->dev.dev))
+ 		return snd_dma_sg_fallback_alloc(dmab, size);
+-- 
+2.43.0.687.g38aa6559b0-goog
+
