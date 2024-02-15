@@ -1,86 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A039513FE2;
-	Thu, 15 Feb 2024 08:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D544A12C52A;
+	Thu, 15 Feb 2024 12:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707986415; cv=none; b=s7TU/MNeSV5tA2neMiQUiNSXYNaUpd+8LZlforqXNHL0hdykAT5cWDZj4svF/2IuycGhXe231fmLeigLW45wjvrRhskV1ctpH7ZASLxQCFvxZ5Fld675x7UbzWKOu71kyi28X3pySlf7ankXkOBDgiJ2yKpsSpGi6puwCUdY58A=
+	t=1708000170; cv=none; b=kemAninjwR7LY1q+4qKGHJ4FHdkz84LtxqcSlEG5epCpYJPF5S1DGp6pj+SHDFGASvtgrUA7HC1zpBFB0UBt6Ma4bIaFiE6pr7C19WoQqfqwJj9spQakum0e5+AvdqooWH63WTtpgNLkdkk+FsFhN8B/b6QgSUHulnYU20o8k1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707986415; c=relaxed/simple;
-	bh=F7BdL6N3jatKbCbiIQyhxX2cwbuRbqCr7GGsYXgZGxk=;
+	s=arc-20240116; t=1708000170; c=relaxed/simple;
+	bh=pr05/woSUV6TNjaB6fjye3Wd7P0srA1HwHBQB4N5oZE=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UrGyhBz4wXkawBnL2lM1YpjSRAYnsMWbFEAs6Rx75CQCH8MQ8ep91hvKj6DSYx4buPe/ZiNbNCgs0f9bV4BFUyIlbg7rls4BmDhg40S1PcLTqZ99bE/9+DZyx2rIz4EFA8XDqCIDhwtcjlVMstoRVcPEX6gc2ktjDnawgq67vx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AyQAC6EV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yq6j5sac; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SD/LXjnb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W7qfD0w9; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=Uv44RJaFqPEz4Mt/YcM3nd02PhMhqMfLsnMz2yE0WSPgi1HVCUHogdAi9PiQ3j+pqlP0YqdlBNRAle7G5Ia48e+h2ItTo/y2Z01hiiK4gcOjTmJb0BeVd4P52uJhQxvDglpRz7ckeY8o9xbgsAOjpMKf1qt3RSJI6PWlndUqJ4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LklKqVpM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p1DQAUh/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LklKqVpM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p1DQAUh/; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AyQAC6EV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yq6j5sac";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SD/LXjnb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W7qfD0w9"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LklKqVpM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p1DQAUh/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LklKqVpM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p1DQAUh/"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D36A21F86A;
-	Thu, 15 Feb 2024 08:40:09 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1ADC822031;
+	Thu, 15 Feb 2024 12:29:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707986411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1708000167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XULIr3WXpUdEe2Bc55sez6vW2u/ICAnQ7pQCNfnb9mM=;
-	b=AyQAC6EVNdn1/D/oO7mwlKLB0FypMsQ2J7FZl5lIiLuoYSC9A1W1/NJ9jlaeofv++t/8zw
-	LuctbTgtJQpInzym/Yl+7eZkh7YF8PhgREeLfDivSScgJK7Gwt8QGWHxA+k+MDg/KyXY2c
-	n8gD82TT9kpa1iihtgHZlxbGRAyZPqY=
+	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
+	b=LklKqVpMGF5+QPgxbPaKYyrShpRaoeo9KaUC2qBtK9+BVDLZX+UWHK8K77m3NkMbxbmkac
+	GKWM4f6diUNjnOxqKSwCU3aGeVjy8QDSJLEz+YPx9Xnf366bM7yrDIEEKcjqDbLgCz5yzd
+	WwnkzOMJl5wx/BaQrOzb+QrftxITYMY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707986411;
+	s=susede2_ed25519; t=1708000167;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XULIr3WXpUdEe2Bc55sez6vW2u/ICAnQ7pQCNfnb9mM=;
-	b=yq6j5sacooZ6sFmpUGxUM/EbKnJc9nb93otu8oOTaU9WQ6rf7NpXLSnCPgLXVkLaZpaTXX
-	7HnIXjoW5yNziDAA==
+	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
+	b=p1DQAUh/ZdJ+Fr0O8/kq/lYmI7BC3YT+MoVamXbu2jdhQlgR5MbpLL+i9o/d4FU4EieQwj
+	nyinAQzKNNLASBAQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707986409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1708000167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XULIr3WXpUdEe2Bc55sez6vW2u/ICAnQ7pQCNfnb9mM=;
-	b=SD/LXjnbFYNfMpV7sQYcw4PFtOqBIfk6icBjvxzr0Sb9Y5nPm1p8tY0ifD7cicUw1NqjEw
-	fdiCX4S917MqDuSNtGZK+jK8TgbkLmsZ3an5iXfCkondGibPB8/ZQMWJ8tnyyRu29E7/TK
-	biq4GvQfWKNdYxwzX2RifJyMFM++qPI=
+	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
+	b=LklKqVpMGF5+QPgxbPaKYyrShpRaoeo9KaUC2qBtK9+BVDLZX+UWHK8K77m3NkMbxbmkac
+	GKWM4f6diUNjnOxqKSwCU3aGeVjy8QDSJLEz+YPx9Xnf366bM7yrDIEEKcjqDbLgCz5yzd
+	WwnkzOMJl5wx/BaQrOzb+QrftxITYMY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707986409;
+	s=susede2_ed25519; t=1708000167;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XULIr3WXpUdEe2Bc55sez6vW2u/ICAnQ7pQCNfnb9mM=;
-	b=W7qfD0w9YA1iyqPelkUBHtzE1zn8BUMfUkS2T3iTaYg75rUUrcB5pNB80Jd42Z5OntWjwd
-	rW808AI83xJiV9Dw==
+	bh=j5ffrxL5/U5QWmiM5A695uqHTsmp7YVlzVLTiNzpy38=;
+	b=p1DQAUh/ZdJ+Fr0O8/kq/lYmI7BC3YT+MoVamXbu2jdhQlgR5MbpLL+i9o/d4FU4EieQwj
+	nyinAQzKNNLASBAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C3AC13A72;
-	Thu, 15 Feb 2024 08:40:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5D2413A82;
+	Thu, 15 Feb 2024 12:29:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id v391JOnNzWXHDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 15 Feb 2024 08:40:09 +0000
-Date: Thu, 15 Feb 2024 09:40:09 +0100
-Message-ID: <87h6iaf7di.wl-tiwai@suse.de>
+	id +uSdKqYDzmXwRwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Feb 2024 12:29:26 +0000
+Date: Thu, 15 Feb 2024 13:29:26 +0100
+Message-ID: <87zfw1ewrd.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Hillf Danton <hdanton@sina.com>
-Cc: Karthikeyan Ramasubramanian <kramasub@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sven van Ashbrook <svenva@chromium.org>,
-	Brian Geffon <bgeffon@google.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v1] ALSA: memalloc: Fix indefinite hang in non-iommu case
-In-Reply-To: <20240215034528.240-1-hdanton@sina.com>
-References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid>
-	<20240215034528.240-1-hdanton@sina.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of led_trigger_event() and simplify mute audio trigger
+In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,76 +92,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spamd-Result: default: False [2.38 / 50.00];
 	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[sina.com];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-0.02)[52.40%];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[7];
+	 RCPT_COUNT_SEVEN(0.00)[11];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email];
-	 FREEMAIL_TO(0.00)[sina.com];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FREEMAIL_TO(0.00)[gmail.com];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[ucw.cz,kernel.org,perex.cz,suse.com,gmail.com,alpha.franken.de,vger.kernel.org];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Level: **
+X-Spam-Score: 2.38
 X-Spam-Flag: NO
 
-On Thu, 15 Feb 2024 04:45:27 +0100,
-Hillf Danton wrote:
+On Tue, 13 Feb 2024 08:30:30 +0100,
+Heiner Kallweit wrote:
 > 
-> On Wed, 14 Feb 2024 17:07:25 -0700 Karthikeyan Ramasubramanian <kramasub@chromium.org>
-> > Before 9d8e536 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
-> > the alsa non-contiguous allocator always called the alsa fallback
-> > allocator in the non-iommu case. This allocated non-contig memory
-> > consisting of progressively smaller contiguous chunks. Allocation was
-> > fast due to the OR-ing in of __GFP_NORETRY.
-> > 
-> > After 9d8e536 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
-> > the code tries the dma non-contig allocator first, then falls back to
-> > the alsa fallback allocator. In the non-iommu case, the former supports
-> > only a single contiguous chunk.
-> > 
-> > We have observed experimentally that under heavy memory fragmentation,
-> > allocating a large-ish contiguous chunk with __GFP_RETRY_MAYFAIL
-> > triggers an indefinite hang in the dma non-contig allocator. This has
-> > high-impact, as an occurrence will trigger a device reboot, resulting in
-> > loss of user state.
-> > 
-> > Fix the non-iommu path by letting dma_alloc_noncontiguous() fail quickly
-> > so it does not get stuck looking for that elusive large contiguous chunk,
-> > in which case we will fall back to the alsa fallback allocator.
+> If a simple trigger is assigned to a LED, then the LED may be off until
+> the next led_trigger_event() call. This may be an issue for simple
+> triggers with rare led_trigger_event() calls, e.g. power supply
+> charging indicators (drivers/power/supply/power_supply_leds.c).
+> Therefore persist the brightness value of the last led_trigger_event()
+> call and use this value if the trigger is assigned to a LED.
+> This change allows to use simple triggers in more cases.
+> As a first use case simplify handling of the mute audio trigger.
 > 
-> The faster dma_alloc_noncontiguous() fails the more likely the paperover
-> in 9d8e536d36e7 fails to work, so this is another case of bandaid instead
-> of mitigating heavy fragmentation at the first place.
+> This series touches few subsystems. I'd propose to handle it via
+> the LED subsystem.
+> 
+> Heiner Kallweit (4):
+>   leds: trigger: Store brightness set by led_trigger_event()
+>   ALSA: control-led: Integrate mute led trigger
+>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+>   leds: trigger: audio: Remove this trigger
 
-Yes, the main problem is the indefinite hang from
-dma_alloc_noncontiguous().
+LGTM.
 
-So, is the behavior more or less same even if you pass
-__GFP_RETRY_MAYFAIL to dma_alloc_noncontiguous()?  Or is this flag
-already implicitly set somewhere in the middle?  It shouldn't hang
-indefinitely, but the other impact to the system like OOM-killer
-kickoff may be seen.
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-As of now, I'm inclined to take the suggested workaround.  It'll work
-in most cases.  The original issue worked around by the commit
-9d8e536d36e7 still remains, and we need to address differently.
+One thing I'm not 100% sure is the movement from ledtrig:audio-mute
+and ledtrig:audio-micmute alias into snd-ctl-led module.  Who would
+use/process those aliases?  I don't think this would be a problem, but
+it might change the loading order.
 
 
-thanks,
+Thanks!
 
 Takashi
