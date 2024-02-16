@@ -1,133 +1,92 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C708A12EBFE
-	for <linux-sound@vger.kernel.org>; Fri, 16 Feb 2024 14:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E669512F39F
+	for <linux-sound@vger.kernel.org>; Fri, 16 Feb 2024 15:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708095294; cv=none; b=r2eJ3XVQ0CkqXGo88+bafhnFmAafwjd15shDpgzw/T8Jh4gpISAZjRxiddaohsaVI0gXVWG6XOqyrmfjx2QCUYHIb29TnXbVh02bfO0Nzdj8WLmoAUQU/ZxSoZdZF4nGLChn77QbqqCPgp1eb9ttrSDrNLRHvgbds1eboZKRuBI=
+	t=1708095956; cv=none; b=REdA183Y1xkTn6H5NH8w9ZAi4z7m0HbLBCylaCZ29GG2l4wVWlJV/s9KbU71HCCbKcHRUn+QKDHMzwcmxr9gSi0mBKZV1txVDi56QrX4cNpAncRyOTUdMF3Wx1JDpF1FjPdL7qdVTWTPtPir3WbAoCXQGnXhCI7vJN3Cwd5zl04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708095294; c=relaxed/simple;
-	bh=NTmvJCV5gC3HYjn2nSPfPPtdeOyBfz4Q/p7ElTVzivA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bAC87f1AizhLwu6sWu5vWn5QCDkgeLbEgYNmGbOHVYdGJMLnWs/XdpEAEerkp7A0TwWnKpd9O9iPJ4BBE8DVA+XPL7/hyoaF+YzjOHlJd+7GLqeY4aZKBOvGW5r+xosf9WY0TrXnD5YrJ8q32GFA7J0eWVEi2R0L0+HPBzi1lp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M/wTZ8FI; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708095956; c=relaxed/simple;
+	bh=8Vogl89Enj8gkW9kBpiditF38IsYc462P0LNtDM7Tfw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=UOW1zAVQp5NeEiBbRJWonr+ryjOnAW/XkBhhj0upaoiBVA4efofJBzBJ2J1Eckdnr4+lNwirs7l0alQjYOlLrwX6JWO0ZDcaKcyt05gXk1U0hBjKwnka5mBf5RyIF8Kuwte9V1Hgo58PHmUakqPEix939kzwqxQ2xsv9kbCl5Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9Kn8M0i; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M/wTZ8FI"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a26f73732c5so130986866b.3
-        for <linux-sound@vger.kernel.org>; Fri, 16 Feb 2024 06:54:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9Kn8M0i"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-511ac32fe38so3146882e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 16 Feb 2024 07:05:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708095291; x=1708700091; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0e+j2SYzQTA/ghQ6E4pA15zjcyM3Dj9C/Xw4o3gVMAY=;
-        b=M/wTZ8FIyL9HH0MlorCTf6C8ZwmVA9fFJIAly7AXLQRdnL3nKq1sNydGKdbx7pVWF9
-         D3ixfIumFmaaIAMR3TGrqljSJ+ZMZomZK5Yi5tZxiVXj26KK+b8K6KWcJbymdLTr8J7f
-         AvKuF3kgpekLn08GnSBQQtXilx3PF3FNQPmEbDv8H0gW9q5G42lmHMqgDtDeRKvcEaHv
-         RdTB82F/VJsb4AYGYJ4jdshJwohg4Fj9Y3begGbK7hFTjxmK8WPfMY7ONCokiG3gesA1
-         kwTi/jGEJGEFx54sl4hsqeP46AwCV+1TS8xqhxLKMR8jBtbTNbMVISfhWYnA7tqs0xsK
-         eObA==
+        d=gmail.com; s=20230601; t=1708095953; x=1708700753; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wS5vy3aTcgJ+XPpXyGdETBteMacsnTkqt+SfTTGx5PA=;
+        b=j9Kn8M0ioh5pEEWRRg21FgLHi5V81ZvcDR/pcx/UJhN6iPf7u7OV/osqiYGlN1PNpd
+         nxAkKqC1AZk8J4INeRV+jLGP93VDs2Zgn+f9pJjDp5mppd0oSUMwx7Mo6+YsNHG5AqSc
+         8B4Hpxq5ioCmgvK5voC/YmzcwnsKDpxQzfjliCqzOiZnZipe99NCCS75ZVAZeeE8h7sv
+         hc7Pe4rWbiIrTowueL5T012RX0JQSMV/atmhpX5ZABvUofA7gGhoYLeSGDJFNs4iHKxr
+         yAqS+J5zFeMaqncURoDOhnXsApGs5KwRv19Mq6mKEcsh39NMWVmwgiMlPLSCE8UgLMq2
+         skZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708095291; x=1708700091;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0e+j2SYzQTA/ghQ6E4pA15zjcyM3Dj9C/Xw4o3gVMAY=;
-        b=fqytwDFkOixVz1PeeVwMTY2vwza3BG3QHOeoomnxQRhOkqmGMKRRQLkCNrcBwoDygQ
-         iMPbN7ltzITAzX9syB3jby4TaIVJhzqvcUmpXwJdwOILETGkaDwW97rMBO+FP+Ihh6Kv
-         33cG0luxmQcU1q4Wf5BZ4MUsAkmKIw7PBkf4xpCm6iaJ27MZBl2a/qntb4TSfLrIBgEd
-         ddFRe8O9gfHPlv18RxCkYRqAFx9p1BU7JBWfmQgAEBGtorvDHpVwlAZTqmVJ4IzlFfue
-         R7GqSedSAEr8FQXGeBOBemRJH/5Ulxx6i40nRKuBf5vZldseUeGWQQpfYRoddP3RjfvD
-         kYMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFRF8jPEOT3nZg7TIXVCbQFIErf29gZgsgZl2nx4Ki5h4/e3z5xmLGqHHOiSU7V++zEq2ybLTPIkJ2CIQj3epnpFyH0JqBjE17a8g=
-X-Gm-Message-State: AOJu0Yz1wqn0rROiOsHgrTXWm2/w7dhAPrEzyo+70Qsp69VKRQN1qsI4
-	TvBWU3dNymcqfBETHf+7mdimV8mK7pS4q8hunxj5yij20N94PRcPu9F33y7q94o=
-X-Google-Smtp-Source: AGHT+IFf8JSZ5HhC0UVSh9S4N1gciFWzqPKY39dtX4BU6FU7VMActmbecgpzfcW66WONa+qK8VULcA==
-X-Received: by 2002:a17:906:c40c:b0:a3d:568:966e with SMTP id u12-20020a170906c40c00b00a3d0568966emr4255786ejz.6.1708095291026;
-        Fri, 16 Feb 2024 06:54:51 -0800 (PST)
-Received: from krzk-bin.. ([78.10.207.130])
-        by smtp.gmail.com with ESMTPSA id p15-20020a170906140f00b00a3d2f55bc2esm4487ejc.161.2024.02.16.06.54.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 06:54:50 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: Constify pointer to of_phandle_args
-Date: Fri, 16 Feb 2024 15:54:48 +0100
-Message-Id: <20240216145448.224185-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1708095953; x=1708700753;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wS5vy3aTcgJ+XPpXyGdETBteMacsnTkqt+SfTTGx5PA=;
+        b=Ux3VCbt03hAUe+83uzsUR+32UgP85j/a1Y3+OHRqMxK3o8ekzoCND7mz0bGQkiUOm1
+         D/4KeOLYc47ZXEmGv6fHuMN/V+Da6Vt9qXksOjJzmj6qx+u0LWLiDMWNbnXYlJCPjTR7
+         /md3W8Tas4AsV2jQMqjf6XLVhnw83mdOxjM7o2vxOOfAh+1gboD2T9TemwCu0Oa3108s
+         yhvR3P7LDMFYVvNgUtiOnpxr3X8OeX7AVlRHH9Im0hGZh3UmgrvNrBN3X5ZVlQEvbTGK
+         B3LdUHCjKUAx393fF6DcdUaeGP2ESKc2fwaCWYcg1c9g8TFv+KUEQMv6kDfk+bDErqXL
+         si2Q==
+X-Gm-Message-State: AOJu0YwQYEjPFsoLC5+eNkCOMOOiJCDgv0bcZvKw+wpxnHcm7Z0WpN+T
+	SIaDxx1YVxuUfnpnEkJLTtZBnFeCglPLMvHrFmzrWcGPZdliTM8mtQBmmBklPMdXUGBFsU+rIM7
+	mIbddPXU9iM0lqbgJhrwG/3sl37s=
+X-Google-Smtp-Source: AGHT+IHnDJZi/zJ37TRzflmf1gg1J3XYNSYmYkwLHAWI+53kh+gXPSQi4G8IqpzQEDgLqNCImgfQMPLxr2iDq4X+VGQ=
+X-Received: by 2002:ac2:4ecd:0:b0:512:99c2:dfa with SMTP id
+ p13-20020ac24ecd000000b0051299c20dfamr706091lfr.42.1708095952567; Fri, 16 Feb
+ 2024 07:05:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?B?S2VpZ2ggUmltLCDsnoTqsr3rr7w=?= <keigh.rim@gmail.com>
+Date: Fri, 16 Feb 2024 10:05:15 -0500
+Message-ID: <CABRAKeKJg8H0s88yGH96S1d=vZmGjYa3g34XEkR0PmEjhVLA2A@mail.gmail.com>
+Subject: [PATCH] soc/amd/yc: DMI quirk for LENOVO 83BS to fix malfunctioning mic
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Constify pointer to of_phandle_args in few function arguments, for code
-safety and self-documenting code.
+This patch fixes the built-in microphone in Lenovo 83BS
+(US model: Yoga 7 16" Gen 8 16ARP8),
+another recent AMD SoC laptop that needs a quirk mark-up.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Keigh Rim <keigh.rim@gmail.com>
+
 ---
- include/sound/soc.h  | 4 ++--
- sound/soc/soc-core.c | 9 +++++----
- 2 files changed, 7 insertions(+), 6 deletions(-)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 6defc5547ff9..39613b406b1d 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1401,8 +1401,8 @@ void snd_soc_remove_pcm_runtime(struct snd_soc_card *card,
- void snd_soc_dlc_use_cpu_as_platform(struct snd_soc_dai_link_component *platforms,
- 				     struct snd_soc_dai_link_component *cpus);
- struct of_phandle_args *snd_soc_copy_dai_args(struct device *dev,
--					      struct of_phandle_args *args);
--struct snd_soc_dai *snd_soc_get_dai_via_args(struct of_phandle_args *dai_args);
-+					      const struct of_phandle_args *args);
-+struct snd_soc_dai *snd_soc_get_dai_via_args(const struct of_phandle_args *dai_args);
- struct snd_soc_dai *snd_soc_register_dai(struct snd_soc_component *component,
- 					 struct snd_soc_dai_driver *dai_drv,
- 					 bool legacy_dai_naming);
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 516350533e73..b11b2ca5d939 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -238,8 +238,8 @@ static inline void snd_soc_debugfs_exit(void) { }
- 
- #endif
- 
--static int snd_soc_is_match_dai_args(struct of_phandle_args *args1,
--				     struct of_phandle_args *args2)
-+static int snd_soc_is_match_dai_args(const struct of_phandle_args *args1,
-+				     const struct of_phandle_args *args2)
- {
- 	if (!args1 || !args2)
- 		return 0;
-@@ -831,7 +831,8 @@ static struct device_node
- 	return of_node;
- }
- 
--struct of_phandle_args *snd_soc_copy_dai_args(struct device *dev, struct of_phandle_args *args)
-+struct of_phandle_args *snd_soc_copy_dai_args(struct device *dev,
-+					      const struct of_phandle_args *args)
- {
- 	struct of_phandle_args *ret = devm_kzalloc(dev, sizeof(*ret), GFP_KERNEL);
- 
-@@ -3597,7 +3598,7 @@ int snd_soc_of_get_dai_name(struct device_node *of_node,
- }
- EXPORT_SYMBOL_GPL(snd_soc_of_get_dai_name);
- 
--struct snd_soc_dai *snd_soc_get_dai_via_args(struct of_phandle_args *dai_args)
-+struct snd_soc_dai *snd_soc_get_dai_via_args(const struct of_phandle_args *dai_args)
- {
- 	struct snd_soc_dai *dai;
- 	struct snd_soc_component *component;
--- 
-2.34.1
-
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 23d44a50d815..fe1760213ca2 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -248,6 +248,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+                        DMI_MATCH(DMI_PRODUCT_NAME, "82YM"),
+                }
+        },
++       {
++               .driver_data = &acp6x_card,
++               .matches = {
++                       DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++                       DMI_MATCH(DMI_PRODUCT_NAME, "83BS"),
++               }
++       },
+        {
+                .driver_data = &acp6x_card,
+                .matches = {
+--
+2.43.2
