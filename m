@@ -1,169 +1,108 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD64B54F92;
-	Fri, 16 Feb 2024 12:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D868154F92;
+	Fri, 16 Feb 2024 12:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708085944; cv=none; b=Wiw2y9TtI0SMl8+asedt9mp8JPiC/srR0MeEGWuf5NQMfrsAeAn0vu2C56sFYsM3K2Ou8QfyuiBc1CD5T+/ENUn1JVPPUwsj6YQw2RudLzJUhwhMCwz5C8lML7SrQwn+Rc9tbaN393ChYKW212t2KCTELnX4A1ahnXV54OI+WpE=
+	t=1708086012; cv=none; b=Yd5tvanxtlqkO1CRlY70yplaq9f/Eh9lI5vi15XlZYrwCFrScagU82raRCJrV4tMiJtlPLkH/w0HMTBzsT8HVLb+1VBLT0Y6ck1lG2LgEr2A6qB3SvWCg2b9fYiop/+T847W7g0QXA1cYWmeyRK6k6xwbuU+qBYDu6gIqbpUSwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708085944; c=relaxed/simple;
-	bh=nRtBoipuC2lN/FfO4vJ6VZ3ZiVkzzR++4vGwTeteKRM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XAFtYNaZzyiokTIyRgPZFGSupx8AdhHHBIqeAdL5oCQXrPc3gRHLi75/+wasekmewUa/UgWN20wNUunpOZhuCZkqT3SkHR4D9MjfpEZNGonDTQfHke9pEJnqGqf0VH5O8Y9nJx78VsPOWgPSZEDmfKkVossChT3LU0KjAres5SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FG2wadRw; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708086012; c=relaxed/simple;
+	bh=C1oxywUq64oqrzy/WRVZCjsNy7F0xfzOO3QucocTZ+0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=jZXmUuyDsHGpvpXZjK9NZMZGgdYrlgWeIyJW3CvdW4pRH+Ts0iZZlT8KQtJMpIlRyum4xbnEgADDUPY857+eZ/OHOMrrIfgSkEN2ES8UNEWJdQhipjR82DCKJvJo1I5PQiqU6TQsFWUtdFXMwQqAJTxcGJFQ8owJ0uzuLHUo+q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jSIIGRyS; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FG2wadRw"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-563cc707c7cso2293274a12.1;
-        Fri, 16 Feb 2024 04:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708085941; x=1708690741; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=CK1ttpHB+fvv9h0WCx+2J9EaroMX79kz3Ca/aXzuVyk=;
-        b=FG2wadRwVSt+h+B7iGfDCclKrlDHrBtSuEaUkkZCFM4YPqgiiRKvAG+v0a11auG1TR
-         0/ayQmFffDZxv5gbabGD1M94TFnFqD4OUepPKHG0MeEDVwQTJGwpP2EqFNJQUwCM6Ryv
-         tlPhUTS1b+8HavgIguECHzN50+0q07+xot+l5PJ6uTD+b14sEfQUrQ1H/1aL1ff4y1Kq
-         Hn0IBw9fLbWoYbzoyzqvAD4VJwEHFsViqGKNnHZdx036FU67YvhI+DQC8SmoQp+sYEvW
-         nsOuO1nG3ErFKD7435AU6T3KWTWLbBjhhqqSplsdmVgi7GeFcmrQvdmZiUUQXc3fTO5Z
-         bNzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708085941; x=1708690741;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CK1ttpHB+fvv9h0WCx+2J9EaroMX79kz3Ca/aXzuVyk=;
-        b=QX+w8RrRu39Ps4vDR/XnzKBgSXrzC3DCv0sOCUOEVEvojVLbZUjY2QZL9eJmcKgkO0
-         +Uq7vABY0aCdLesAFG9kEUBV1YmXq8INjQB899pf9EcDXjDyLc26PAEgUvtOBvq4cQ0V
-         0vjCp9lUir/0UkbcFy636f+ekUJg4hIw7IjooBIibTnBZlcMD6I/KW5b0pNYxFLzkhHu
-         M2DRIxfy1/G5v1LMqQhfHtBh3Pb/8yJqwcUfQjbLSdgHEcMeuKNaWlv3iFzAJMEVakbA
-         eky/WKlijYtgZgrlwbnWuScurq/42nnRpCC4Tfok4GNptEtZR71kIUkGwojUjPDrGixy
-         O6pA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlQg1dfx+Kyl5NExM+8r6/LXnHqI2wtKyP0unS+xJAk8Zvm/QKqIQbuKEqJuQQoutasfE8AbMk++Tyh1krI8giuDIVEWUuCKJX42SzGJo0DhDPJoEdvSsygS8WH/TM1jtLmLMdU4EORmIXzahR9Zp7RgpKWMoQJpiBrJnXMBw5E3cLo59zZPKPsp4bb7Bwuw30px6Ox/G9cZm10V7RY3mF
-X-Gm-Message-State: AOJu0YwDbMHtu4OcIGIryQpVdiq9ax54/fZFobRFjY0Si3W9q2R3lvo4
-	98TAjpFMtfLiWWmT51iD38lg/eQd/mwDhB6Qae/QhvLwKu5t03rF
-X-Google-Smtp-Source: AGHT+IGoj1qUAyyNrxxXOGBu2/LtRcMVvE9Sa7HjD6iHbil381l457DQVnhG48DBiCF0VygBxcshbA==
-X-Received: by 2002:a05:6402:5384:b0:55f:cc6d:29b5 with SMTP id ew4-20020a056402538400b0055fcc6d29b5mr6281407edb.21.1708085940864;
-        Fri, 16 Feb 2024 04:19:00 -0800 (PST)
-Received: from ?IPV6:2a01:c22:73a8:7a00:dc5a:d3b4:cb75:f027? (dynamic-2a01-0c22-73a8-7a00-dc5a-d3b4-cb75-f027.c22.pool.telefonica.de. [2a01:c22:73a8:7a00:dc5a:d3b4:cb75:f027])
-        by smtp.googlemail.com with ESMTPSA id n21-20020a05640205d500b0056104738371sm1435095edx.65.2024.02.16.04.19.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 04:19:00 -0800 (PST)
-Message-ID: <2f8bc745-bbae-4c3d-b618-2b6a38f21e63@gmail.com>
-Date: Fri, 16 Feb 2024 13:18:59 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSIIGRyS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708086011; x=1739622011;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=C1oxywUq64oqrzy/WRVZCjsNy7F0xfzOO3QucocTZ+0=;
+  b=jSIIGRySa26WcdWlqqwayFX2l3jjwPTEMvqMXu2Zjw961YALGIhiwKSQ
+   mdj1BN0lgBHD77YhL/YPsSSg6qlppyLyHb1g/FY8Dpo00QZnFDbun+4tj
+   k88jUWXq+jk9DLhlQ0VxrjQVE5/pXrN+F/W9vGi2rpvkg/N/r9bwoFzqk
+   MqauntKke4235gAafIo8iaFeTXYPx1VcqEOrpmUYhDTmRmwRiwZuIHlpk
+   HwMtLbCDEoBUHOvswVFMLVDiiSjxKGGD1/bKP8d9STdqW3poTwL0P9Q/f
+   xSONop9HtdYXL0Ehi33UTc5oRlVnAQP2SF+TQpkOc2bUFm0VuKU1W1rFK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2362098"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="2362098"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 04:20:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="4118732"
+Received: from eliteleevi.tm.intel.com ([10.237.54.20])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 04:20:08 -0800
+Date: Fri, 16 Feb 2024 14:19:54 +0200 (EET)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+X-X-Sender: kvehmane@eliteleevi.tm.intel.com
+To: Takashi Iwai <tiwai@suse.de>
+cc: Hillf Danton <hdanton@sina.com>, Sven van Ashbrook <svenva@chromium.org>, 
+    Karthikeyan Ramasubramanian <kramasub@chromium.org>, 
+    LKML <linux-kernel@vger.kernel.org>, Brian Geffon <bgeffon@google.com>, 
+    linux-sound@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+    "Arava, Jairaj" <jairaj.arava@intel.com>
+Subject: Re: [PATCH v1] ALSA: memalloc: Fix indefinite hang in non-iommu
+ case
+In-Reply-To: <87frxsiueo.wl-tiwai@suse.de>
+Message-ID: <alpine.DEB.2.22.394.2402161246520.14041@eliteleevi.tm.intel.com>
+References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid> <20240215034528.240-1-hdanton@sina.com> <87h6iaf7di.wl-tiwai@suse.de> <CAG-rBigFG-U-sKY77CvzghGzs+1Xm3YXzBF6N4ti0+h6UdAb8Q@mail.gmail.com> <875xypk6d6.wl-tiwai@suse.de>
+ <20240216043426.1218-1-hdanton@sina.com> <87plwwiz6z.wl-tiwai@suse.de> <87frxsiueo.wl-tiwai@suse.de>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- linux-sound@vger.kernel.org,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- linux-mips@vger.kernel.org
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <87zfw1ewrd.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <87zfw1ewrd.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 15.02.2024 13:29, Takashi Iwai wrote:
-> On Tue, 13 Feb 2024 08:30:30 +0100,
-> Heiner Kallweit wrote:
->>
->> If a simple trigger is assigned to a LED, then the LED may be off until
->> the next led_trigger_event() call. This may be an issue for simple
->> triggers with rare led_trigger_event() calls, e.g. power supply
->> charging indicators (drivers/power/supply/power_supply_leds.c).
->> Therefore persist the brightness value of the last led_trigger_event()
->> call and use this value if the trigger is assigned to a LED.
->> This change allows to use simple triggers in more cases.
->> As a first use case simplify handling of the mute audio trigger.
->>
->> This series touches few subsystems. I'd propose to handle it via
->> the LED subsystem.
->>
->> Heiner Kallweit (4):
->>   leds: trigger: Store brightness set by led_trigger_event()
->>   ALSA: control-led: Integrate mute led trigger
->>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
->>   leds: trigger: audio: Remove this trigger
-> 
-> LGTM.
-> 
-> Reviewed-by: Takashi Iwai <tiwai@suse.de>
-> 
-> One thing I'm not 100% sure is the movement from ledtrig:audio-mute
-> and ledtrig:audio-micmute alias into snd-ctl-led module.  Who would
-> use/process those aliases?  I don't think this would be a problem, but
-> it might change the loading order.
-> 
-The ledtrig:% aliases are used when a LED device is registered that has
-a default trigger. Like in the case here with the input leds (patch 3).
-There might also be DT-defined LEDs with a audio mute default trigger.
-snd-ctl-led has a dependency on snd, so at least wrt snd the load order
-doesn't change.
+Hi,
 
-> 
-> Thanks!
-> 
-> Takashi
+On Fri, 16 Feb 2024, Takashi Iwai wrote:
 
-Heiner
+> On Fri, 16 Feb 2024 09:35:32 +0100, Takashi Iwai wrote:
+> > The fact that we have to drop __GFP_RETRY_MAYFAIL indicates that the
+> > handling there doesn't suffice -- at least for the audio operation.
+> 
+> Reconsidering on this again, I wonder keeping __GFP_RETRY_MAYFAIL
+> makes sense.  We did have __GFP_NORETRY for avoiding OOM-killer.
+> But it's been over ages, and the memory allocation core became smart
+> enough.
+> 
+> The side-effect of __GFP_RETRY_MAYFAIL is that the page reclaim and
+> compaction happens even for high-order allocations, and that must be
+
+for the original problem that led to "ALSA: memalloc: use 
+__GFP_RETRY_MAYFAIL for DMA mem allocs", reclaim for low-order case
+would be enough. I.e. the case was:
+
+> OTOH, a slight concern with the drop of __GFP_RETRY_MAYFAIL is whether
+> allowing OOM-killer for low order allocations is acceptable or not.
+> 
+> There are two patterns of calling allocators:
+[..]
+> 3. SNDRV_DMA_TYPE_NONCONTIG for large size:
+>    this is called often, once per stream open, since the driver
+>    doesn't keep the buffer.
+
+So with SOF we have additional case where we do an allocation for the DSP 
+firmware (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_SG, ...)) and this is 
+called at system resume. With s/__GPF_RETRY_MAYFAIL/__GFP_NORETRY/, these 
+allocations failed (on a iommu enabled Chromebook) at system resume in a 
+case where system was not really running out of memory (reclaim was 
+possible). A failed allocation means there's no audio in the system after 
+resume, so we want to try harder.
+
+But yeah, I think the proposed handling for (3) category would work. If 
+needed, we can further specialize the DSP firmware case with some hint 
+to snd_dma_alloc_pages().
+
+Br, Kai
