@@ -1,108 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D868154F92;
-	Fri, 16 Feb 2024 12:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A9012883D;
+	Fri, 16 Feb 2024 13:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708086012; cv=none; b=Yd5tvanxtlqkO1CRlY70yplaq9f/Eh9lI5vi15XlZYrwCFrScagU82raRCJrV4tMiJtlPLkH/w0HMTBzsT8HVLb+1VBLT0Y6ck1lG2LgEr2A6qB3SvWCg2b9fYiop/+T847W7g0QXA1cYWmeyRK6k6xwbuU+qBYDu6gIqbpUSwg=
+	t=1708088456; cv=none; b=UWWKLbHzHVIX76og69Hwx/QywNgy/TJ9YmZapaIzHzaxUdVEZrTTSE2FgluSKUMNGk7j8p9SUg96Mc5b/EK5DShaWXE04vzTtsO3j/bm5N6u851WS0GJyFVah1VYRfpQXHqmw9VJM8UfdaNIctZFsup4OxLj0v+iNLJ5d1d5CEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708086012; c=relaxed/simple;
-	bh=C1oxywUq64oqrzy/WRVZCjsNy7F0xfzOO3QucocTZ+0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=jZXmUuyDsHGpvpXZjK9NZMZGgdYrlgWeIyJW3CvdW4pRH+Ts0iZZlT8KQtJMpIlRyum4xbnEgADDUPY857+eZ/OHOMrrIfgSkEN2ES8UNEWJdQhipjR82DCKJvJo1I5PQiqU6TQsFWUtdFXMwQqAJTxcGJFQ8owJ0uzuLHUo+q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jSIIGRyS; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1708088456; c=relaxed/simple;
+	bh=cJk02p6GPEQNgHFZ7cmc8x6CZ4W/98+yT4cisVv1/94=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZSu/kB3YQb7YT4TpgLZSe0fwHatE2QAobhiKzpS/uh92DGTC08kdNUUzsfTNzuz+eTDbSRnIV3aWD5tTtooeuE8UX/mze3LTYpdFOC35zgcs9sxpTqLOadBms3Er6C+NT2THzXFQVU8Sv5n6E6YbL2xNNLZsyQoheIVqrd5LaJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qw9uyJj5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSIIGRyS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708086011; x=1739622011;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=C1oxywUq64oqrzy/WRVZCjsNy7F0xfzOO3QucocTZ+0=;
-  b=jSIIGRySa26WcdWlqqwayFX2l3jjwPTEMvqMXu2Zjw961YALGIhiwKSQ
-   mdj1BN0lgBHD77YhL/YPsSSg6qlppyLyHb1g/FY8Dpo00QZnFDbun+4tj
-   k88jUWXq+jk9DLhlQ0VxrjQVE5/pXrN+F/W9vGi2rpvkg/N/r9bwoFzqk
-   MqauntKke4235gAafIo8iaFeTXYPx1VcqEOrpmUYhDTmRmwRiwZuIHlpk
-   HwMtLbCDEoBUHOvswVFMLVDiiSjxKGGD1/bKP8d9STdqW3poTwL0P9Q/f
-   xSONop9HtdYXL0Ehi33UTc5oRlVnAQP2SF+TQpkOc2bUFm0VuKU1W1rFK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2362098"
-X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2362098"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 04:20:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="4118732"
-Received: from eliteleevi.tm.intel.com ([10.237.54.20])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 04:20:08 -0800
-Date: Fri, 16 Feb 2024 14:19:54 +0200 (EET)
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-X-X-Sender: kvehmane@eliteleevi.tm.intel.com
-To: Takashi Iwai <tiwai@suse.de>
-cc: Hillf Danton <hdanton@sina.com>, Sven van Ashbrook <svenva@chromium.org>, 
-    Karthikeyan Ramasubramanian <kramasub@chromium.org>, 
-    LKML <linux-kernel@vger.kernel.org>, Brian Geffon <bgeffon@google.com>, 
-    linux-sound@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-    "Arava, Jairaj" <jairaj.arava@intel.com>
-Subject: Re: [PATCH v1] ALSA: memalloc: Fix indefinite hang in non-iommu
- case
-In-Reply-To: <87frxsiueo.wl-tiwai@suse.de>
-Message-ID: <alpine.DEB.2.22.394.2402161246520.14041@eliteleevi.tm.intel.com>
-References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid> <20240215034528.240-1-hdanton@sina.com> <87h6iaf7di.wl-tiwai@suse.de> <CAG-rBigFG-U-sKY77CvzghGzs+1Xm3YXzBF6N4ti0+h6UdAb8Q@mail.gmail.com> <875xypk6d6.wl-tiwai@suse.de>
- <20240216043426.1218-1-hdanton@sina.com> <87plwwiz6z.wl-tiwai@suse.de> <87frxsiueo.wl-tiwai@suse.de>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qw9uyJj5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FF1C433C7;
+	Fri, 16 Feb 2024 13:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708088456;
+	bh=cJk02p6GPEQNgHFZ7cmc8x6CZ4W/98+yT4cisVv1/94=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qw9uyJj5rL//tl/+WhqXqS0rS0sB2ZXF8MkSr/3r1VUYaiTzBWD76Oly4f4EIltKa
+	 AVjZfJdCzfNr7k7BYFIhok5cO4Go2c6rD4HrKBykHSlLaj5Dp/YIPRyzsoEiQdSKEx
+	 7KSLzwMPltNIlkxwjXApheXGaxyLEjFG5vmyEV7sCvi3dEyhbCQMMNPxGufOsn89iN
+	 qBNz02XSSo7jHB12IbVFiSzG9gyzHmXssjvhezbcSj2tNKH7TFQQF0jrEY5jCkrFTI
+	 o1xJhxaI4CxOKWCqECdjLS0lgmt8ucFOdi3Z0/kyFWUNVs/yJT8/2FGXC6RxHONk72
+	 /aeXCfhMJChcA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: core: fix buffer overflow in test_format_fill_silence()
+Date: Fri, 16 Feb 2024 14:00:36 +0100
+Message-Id: <20240216130050.3786789-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Fri, 16 Feb 2024, Takashi Iwai wrote:
+KASAN caught a buffer overflow with the hardcoded 2048 byte buffer
+size, when 2080 bytes are written to it:
 
-> On Fri, 16 Feb 2024 09:35:32 +0100, Takashi Iwai wrote:
-> > The fact that we have to drop __GFP_RETRY_MAYFAIL indicates that the
-> > handling there doesn't suffice -- at least for the audio operation.
-> 
-> Reconsidering on this again, I wonder keeping __GFP_RETRY_MAYFAIL
-> makes sense.  We did have __GFP_NORETRY for avoiding OOM-killer.
-> But it's been over ages, and the memory allocation core became smart
-> enough.
-> 
-> The side-effect of __GFP_RETRY_MAYFAIL is that the page reclaim and
-> compaction happens even for high-order allocations, and that must be
+ BUG: KASAN: slab-out-of-bounds in snd_pcm_format_set_silence+0x3bc/0x3e4
+ Write of size 8 at addr ffff0000c8149800 by task kunit_try_catch/1297
 
-for the original problem that led to "ALSA: memalloc: use 
-__GFP_RETRY_MAYFAIL for DMA mem allocs", reclaim for low-order case
-would be enough. I.e. the case was:
+ CPU: 0 PID: 1297 Comm: kunit_try_catch Tainted: G N 6.8.0-rc4-next-20240216 #1
+ Hardware name: linux,dummy-virt (DT)
+ Call trace:
+  kasan_report+0x78/0xc0
+  __asan_report_store_n_noabort+0x1c/0x28
+  snd_pcm_format_set_silence+0x3bc/0x3e4
+  _test_fill_silence+0xdc/0x298
+  test_format_fill_silence+0x110/0x228
+  kunit_try_run_case+0x144/0x3bc
+  kunit_generic_run_threadfn_adapter+0x50/0x94
+  kthread+0x330/0x3e8
+  ret_from_fork+0x10/0x20
 
-> OTOH, a slight concern with the drop of __GFP_RETRY_MAYFAIL is whether
-> allowing OOM-killer for low order allocations is acceptable or not.
-> 
-> There are two patterns of calling allocators:
-[..]
-> 3. SNDRV_DMA_TYPE_NONCONTIG for large size:
->    this is called often, once per stream open, since the driver
->    doesn't keep the buffer.
+ Allocated by task 1297:
+  __kmalloc+0x17c/0x2f0
+  kunit_kmalloc_array+0x2c/0x78
+  test_format_fill_silence+0xcc/0x228
+  kunit_try_run_case+0x144/0x3bc
+  kunit_generic_run_threadfn_adapter+0x50/0x94
+  kthread+0x330/0x3e8
+  ret_from_fork+0x10/0x20
 
-So with SOF we have additional case where we do an allocation for the DSP 
-firmware (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_SG, ...)) and this is 
-called at system resume. With s/__GPF_RETRY_MAYFAIL/__GFP_NORETRY/, these 
-allocations failed (on a iommu enabled Chromebook) at system resume in a 
-case where system was not really running out of memory (reclaim was 
-possible). A failed allocation means there's no audio in the system after 
-resume, so we want to try harder.
+Replace the incorrect size with the correct length of 260 64-bit samples.
 
-But yeah, I think the proposed handling for (3) category would work. If 
-needed, we can further specialize the DSP firmware case with some hint 
-to snd_dma_alloc_pages().
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+Naresh, I slightly changed the patch to make the computation more obvious,
+can you test again to make sure I got this right?
+---
+ sound/core/sound_kunit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Br, Kai
+diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
+index 5d5a7bf88de4..7f16101ece7a 100644
+--- a/sound/core/sound_kunit.c
++++ b/sound/core/sound_kunit.c
+@@ -8,7 +8,7 @@
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+ 
+-#define SILENCE_BUFFER_SIZE 2048
++#define SILENCE_BUFFER_SIZE (sizeof(u64) * 260)
+ #define SILENCE(...) { __VA_ARGS__ }
+ #define DEFINE_FORMAT(fmt, pbits, wd, endianness, signd, silence_arr) {		\
+ 	.format = SNDRV_PCM_FORMAT_##fmt, .physical_bits = pbits,		\
+-- 
+2.39.2
+
