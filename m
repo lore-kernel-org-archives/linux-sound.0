@@ -1,235 +1,133 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4521E481;
-	Fri, 16 Feb 2024 14:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C708A12EBFE
+	for <linux-sound@vger.kernel.org>; Fri, 16 Feb 2024 14:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708094593; cv=none; b=cGH1b4jizvO4D55OuAIH8lcPKGJ1KSAJ9sHKyGjuvtpN5QfGu9kJgHkbeFDxKpYYBwJ2CKUH83uF+8AFosnh5Kg/3WCWzceszSQ7jsxRZEccUedBUmz5jCtlo9hek61br2s2vL8HJLQxJhhvlPMqTuWJeOwMoy3fM+YS0DXGoRo=
+	t=1708095294; cv=none; b=r2eJ3XVQ0CkqXGo88+bafhnFmAafwjd15shDpgzw/T8Jh4gpISAZjRxiddaohsaVI0gXVWG6XOqyrmfjx2QCUYHIb29TnXbVh02bfO0Nzdj8WLmoAUQU/ZxSoZdZF4nGLChn77QbqqCPgp1eb9ttrSDrNLRHvgbds1eboZKRuBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708094593; c=relaxed/simple;
-	bh=gT0oseVynYTafJld86SH4XZLUTBr2p+yx+ySnBnZzZA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fOvDtbxW8MXByTOm6Z1tmalqnD+YxUqVX7yRXDB1rVrTgGisQdmT41w8qPzZTFK4pvRFkfhGBZnv6l12qEfiL7FcRHEqMwDsqJwulsq+SoQMsOszBJahDUIZlfKzuoLkh3tHawPbbsoYPmAf6OmJAO5PRgMr4gQtP1WewlPiSEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T7eUGnnc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Dm8Eo0KK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T7eUGnnc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Dm8Eo0KK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708095294; c=relaxed/simple;
+	bh=NTmvJCV5gC3HYjn2nSPfPPtdeOyBfz4Q/p7ElTVzivA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bAC87f1AizhLwu6sWu5vWn5QCDkgeLbEgYNmGbOHVYdGJMLnWs/XdpEAEerkp7A0TwWnKpd9O9iPJ4BBE8DVA+XPL7/hyoaF+YzjOHlJd+7GLqeY4aZKBOvGW5r+xosf9WY0TrXnD5YrJ8q32GFA7J0eWVEi2R0L0+HPBzi1lp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M/wTZ8FI; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T7eUGnnc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dm8Eo0KK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T7eUGnnc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dm8Eo0KK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 248F921E45;
-	Fri, 16 Feb 2024 14:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708094590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3VS8sfdW/5jDqLrreFlG1Bg57E3+t54+tk8UpEFpKA8=;
-	b=T7eUGnncqvxScKHsEv9VRWckbnxO4280FIN8vQdqbLGGx4uFRDQBCt78Ija771gEfSq3Ni
-	dRf+XCWDmQ/E6DCyVnDtMQXiWB8fMBNm4EWPT20I9ABnnQIkeGXqDiDoD3kL+o5s7Gwfir
-	xt91pf1U37V8Eto4dstakD8524d4eyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708094590;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3VS8sfdW/5jDqLrreFlG1Bg57E3+t54+tk8UpEFpKA8=;
-	b=Dm8Eo0KK8NJSf6EUbW+a4cYyTLPF7prH3sEsr0lHGZZh8gp8ZVB0SdqDvz4jQ11/7AMDwr
-	Ng//kbVLOdYB0iBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708094590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3VS8sfdW/5jDqLrreFlG1Bg57E3+t54+tk8UpEFpKA8=;
-	b=T7eUGnncqvxScKHsEv9VRWckbnxO4280FIN8vQdqbLGGx4uFRDQBCt78Ija771gEfSq3Ni
-	dRf+XCWDmQ/E6DCyVnDtMQXiWB8fMBNm4EWPT20I9ABnnQIkeGXqDiDoD3kL+o5s7Gwfir
-	xt91pf1U37V8Eto4dstakD8524d4eyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708094590;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3VS8sfdW/5jDqLrreFlG1Bg57E3+t54+tk8UpEFpKA8=;
-	b=Dm8Eo0KK8NJSf6EUbW+a4cYyTLPF7prH3sEsr0lHGZZh8gp8ZVB0SdqDvz4jQ11/7AMDwr
-	Ng//kbVLOdYB0iBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D79991398D;
-	Fri, 16 Feb 2024 14:43:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RhRbM310z2WtNwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Feb 2024 14:43:09 +0000
-Date: Fri, 16 Feb 2024 15:43:09 +0100
-Message-ID: <87zfw0h3lu.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Hillf Danton <hdanton@sina.com>,
-	Sven van Ashbrook <svenva@chromium.org>,
-	Karthikeyan Ramasubramanian <kramasub@chromium.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Brian Geffon <bgeffon@google.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M/wTZ8FI"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a26f73732c5so130986866b.3
+        for <linux-sound@vger.kernel.org>; Fri, 16 Feb 2024 06:54:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708095291; x=1708700091; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0e+j2SYzQTA/ghQ6E4pA15zjcyM3Dj9C/Xw4o3gVMAY=;
+        b=M/wTZ8FIyL9HH0MlorCTf6C8ZwmVA9fFJIAly7AXLQRdnL3nKq1sNydGKdbx7pVWF9
+         D3ixfIumFmaaIAMR3TGrqljSJ+ZMZomZK5Yi5tZxiVXj26KK+b8K6KWcJbymdLTr8J7f
+         AvKuF3kgpekLn08GnSBQQtXilx3PF3FNQPmEbDv8H0gW9q5G42lmHMqgDtDeRKvcEaHv
+         RdTB82F/VJsb4AYGYJ4jdshJwohg4Fj9Y3begGbK7hFTjxmK8WPfMY7ONCokiG3gesA1
+         kwTi/jGEJGEFx54sl4hsqeP46AwCV+1TS8xqhxLKMR8jBtbTNbMVISfhWYnA7tqs0xsK
+         eObA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708095291; x=1708700091;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0e+j2SYzQTA/ghQ6E4pA15zjcyM3Dj9C/Xw4o3gVMAY=;
+        b=fqytwDFkOixVz1PeeVwMTY2vwza3BG3QHOeoomnxQRhOkqmGMKRRQLkCNrcBwoDygQ
+         iMPbN7ltzITAzX9syB3jby4TaIVJhzqvcUmpXwJdwOILETGkaDwW97rMBO+FP+Ihh6Kv
+         33cG0luxmQcU1q4Wf5BZ4MUsAkmKIw7PBkf4xpCm6iaJ27MZBl2a/qntb4TSfLrIBgEd
+         ddFRe8O9gfHPlv18RxCkYRqAFx9p1BU7JBWfmQgAEBGtorvDHpVwlAZTqmVJ4IzlFfue
+         R7GqSedSAEr8FQXGeBOBemRJH/5Ulxx6i40nRKuBf5vZldseUeGWQQpfYRoddP3RjfvD
+         kYMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFRF8jPEOT3nZg7TIXVCbQFIErf29gZgsgZl2nx4Ki5h4/e3z5xmLGqHHOiSU7V++zEq2ybLTPIkJ2CIQj3epnpFyH0JqBjE17a8g=
+X-Gm-Message-State: AOJu0Yz1wqn0rROiOsHgrTXWm2/w7dhAPrEzyo+70Qsp69VKRQN1qsI4
+	TvBWU3dNymcqfBETHf+7mdimV8mK7pS4q8hunxj5yij20N94PRcPu9F33y7q94o=
+X-Google-Smtp-Source: AGHT+IFf8JSZ5HhC0UVSh9S4N1gciFWzqPKY39dtX4BU6FU7VMActmbecgpzfcW66WONa+qK8VULcA==
+X-Received: by 2002:a17:906:c40c:b0:a3d:568:966e with SMTP id u12-20020a170906c40c00b00a3d0568966emr4255786ejz.6.1708095291026;
+        Fri, 16 Feb 2024 06:54:51 -0800 (PST)
+Received: from krzk-bin.. ([78.10.207.130])
+        by smtp.gmail.com with ESMTPSA id p15-20020a170906140f00b00a3d2f55bc2esm4487ejc.161.2024.02.16.06.54.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 06:54:50 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	"Arava, Jairaj" <jairaj.arava@intel.com>
-Subject: Re: [PATCH v1] ALSA: memalloc: Fix indefinite hang in non-iommu case
-In-Reply-To: <alpine.DEB.2.22.394.2402161246520.14041@eliteleevi.tm.intel.com>
-References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid>
-	<20240215034528.240-1-hdanton@sina.com>
-	<87h6iaf7di.wl-tiwai@suse.de>
-	<CAG-rBigFG-U-sKY77CvzghGzs+1Xm3YXzBF6N4ti0+h6UdAb8Q@mail.gmail.com>
-	<875xypk6d6.wl-tiwai@suse.de>
-	<20240216043426.1218-1-hdanton@sina.com>
-	<87plwwiz6z.wl-tiwai@suse.de>
-	<87frxsiueo.wl-tiwai@suse.de>
-	<alpine.DEB.2.22.394.2402161246520.14041@eliteleevi.tm.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: Constify pointer to of_phandle_args
+Date: Fri, 16 Feb 2024 15:54:48 +0100
+Message-Id: <20240216145448.224185-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-2.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[sina.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[suse.de,sina.com,chromium.org,vger.kernel.org,google.com,intel.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -2.10
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 16 Feb 2024 13:19:54 +0100,
-Kai Vehmanen wrote:
-> 
-> Hi,
-> 
-> On Fri, 16 Feb 2024, Takashi Iwai wrote:
-> 
-> > On Fri, 16 Feb 2024 09:35:32 +0100, Takashi Iwai wrote:
-> > > The fact that we have to drop __GFP_RETRY_MAYFAIL indicates that the
-> > > handling there doesn't suffice -- at least for the audio operation.
-> > 
-> > Reconsidering on this again, I wonder keeping __GFP_RETRY_MAYFAIL
-> > makes sense.  We did have __GFP_NORETRY for avoiding OOM-killer.
-> > But it's been over ages, and the memory allocation core became smart
-> > enough.
-> > 
-> > The side-effect of __GFP_RETRY_MAYFAIL is that the page reclaim and
-> > compaction happens even for high-order allocations, and that must be
-> 
-> for the original problem that led to "ALSA: memalloc: use 
-> __GFP_RETRY_MAYFAIL for DMA mem allocs", reclaim for low-order case
-> would be enough. I.e. the case was:
-> 
-> > OTOH, a slight concern with the drop of __GFP_RETRY_MAYFAIL is whether
-> > allowing OOM-killer for low order allocations is acceptable or not.
-> > 
-> > There are two patterns of calling allocators:
-> [..]
-> > 3. SNDRV_DMA_TYPE_NONCONTIG for large size:
-> >    this is called often, once per stream open, since the driver
-> >    doesn't keep the buffer.
-> 
-> So with SOF we have additional case where we do an allocation for the DSP 
-> firmware (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_SG, ...)) and this is 
-> called at system resume. With s/__GPF_RETRY_MAYFAIL/__GFP_NORETRY/, these 
-> allocations failed (on a iommu enabled Chromebook) at system resume in a 
-> case where system was not really running out of memory (reclaim was 
-> possible). A failed allocation means there's no audio in the system after 
-> resume, so we want to try harder.
-> 
-> But yeah, I think the proposed handling for (3) category would work. If 
-> needed, we can further specialize the DSP firmware case with some hint 
-> to snd_dma_alloc_pages().
+Constify pointer to of_phandle_args in few function arguments, for code
+safety and self-documenting code.
 
-OK, then how about the one like below?
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ include/sound/soc.h  | 4 ++--
+ sound/soc/soc-core.c | 9 +++++----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-This changes:
-- Back to __GFP_NORETRY as default
-- Use __GFP_RETRY_MAYFAIL for SNDRV_DMA_TYPE_NONCONTIG with IOMMU;
-  this should cover the commit a61c7d88d38c
-- Also use __GFP_RETRY_MAYFAIL for the SG-fallback allocations of the
-  minimal order, just like IOMMU allocator does.
-
-This should be less destructive, while still allowing more aggressive
-allocations for SG buffers.
-
-
-thanks,
-
-Takashi
-
---- a/sound/core/memalloc.c
-+++ b/sound/core/memalloc.c
-@@ -21,9 +21,13 @@
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index 6defc5547ff9..39613b406b1d 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -1401,8 +1401,8 @@ void snd_soc_remove_pcm_runtime(struct snd_soc_card *card,
+ void snd_soc_dlc_use_cpu_as_platform(struct snd_soc_dai_link_component *platforms,
+ 				     struct snd_soc_dai_link_component *cpus);
+ struct of_phandle_args *snd_soc_copy_dai_args(struct device *dev,
+-					      struct of_phandle_args *args);
+-struct snd_soc_dai *snd_soc_get_dai_via_args(struct of_phandle_args *dai_args);
++					      const struct of_phandle_args *args);
++struct snd_soc_dai *snd_soc_get_dai_via_args(const struct of_phandle_args *dai_args);
+ struct snd_soc_dai *snd_soc_register_dai(struct snd_soc_component *component,
+ 					 struct snd_soc_dai_driver *dai_drv,
+ 					 bool legacy_dai_naming);
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 516350533e73..b11b2ca5d939 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -238,8 +238,8 @@ static inline void snd_soc_debugfs_exit(void) { }
  
- #define DEFAULT_GFP \
- 	(GFP_KERNEL | \
--	 __GFP_RETRY_MAYFAIL | /* don't trigger OOM-killer */ \
-+	 __GFP_NORETRY | /* don't trigger OOM-killer */ \
- 	 __GFP_NOWARN)   /* no stack trace print - this call is non-critical */
- 
-+/* GFP flags to be used for low order pages, allowing reclaim and compaction */
-+#define DEFAULT_GFP_RETRY \
-+	(GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
-+
- static const struct snd_malloc_ops *snd_dma_get_ops(struct snd_dma_buffer *dmab);
- 
- #ifdef CONFIG_SND_DMA_SGBUF
-@@ -281,7 +285,11 @@ static void *do_alloc_pages(struct device *dev, size_t size, dma_addr_t *addr,
- 			    bool wc)
- {
- 	void *p;
--	gfp_t gfp = GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN;
-+	gfp_t gfp = DEFAULT_GFP;
-+
-+	/* allow reclaim and compaction for low order pages */
-+	if (size <= PAGE_SIZE)
-+		gfp = DEFAULT_GFP_RETRY;
- 
-  again:
- 	p = alloc_pages_exact(size, gfp);
-@@ -539,14 +547,18 @@ static const struct snd_malloc_ops snd_dma_wc_ops = {
- static void *snd_dma_noncontig_alloc(struct snd_dma_buffer *dmab, size_t size)
- {
- 	struct sg_table *sgt;
-+	gfp_t gfp = DEFAULT_GFP;
- 	void *p;
- 
- #ifdef CONFIG_SND_DMA_SGBUF
- 	if (cpu_feature_enabled(X86_FEATURE_XENPV))
- 		return snd_dma_sg_fallback_alloc(dmab, size);
-+	/* with IOMMU, it's safe to pass __GFP_RETRY_MAYFAIL with high order */
-+	if (get_dma_ops(dmab->dev.dev))
-+		gfp = DEFAULT_GFP_RETRY;
  #endif
- 	sgt = dma_alloc_noncontiguous(dmab->dev.dev, size, dmab->dev.dir,
--				      DEFAULT_GFP, 0);
-+				      gfp, 0);
- #ifdef CONFIG_SND_DMA_SGBUF
- 	if (!sgt && !get_dma_ops(dmab->dev.dev))
- 		return snd_dma_sg_fallback_alloc(dmab, size);
+ 
+-static int snd_soc_is_match_dai_args(struct of_phandle_args *args1,
+-				     struct of_phandle_args *args2)
++static int snd_soc_is_match_dai_args(const struct of_phandle_args *args1,
++				     const struct of_phandle_args *args2)
+ {
+ 	if (!args1 || !args2)
+ 		return 0;
+@@ -831,7 +831,8 @@ static struct device_node
+ 	return of_node;
+ }
+ 
+-struct of_phandle_args *snd_soc_copy_dai_args(struct device *dev, struct of_phandle_args *args)
++struct of_phandle_args *snd_soc_copy_dai_args(struct device *dev,
++					      const struct of_phandle_args *args)
+ {
+ 	struct of_phandle_args *ret = devm_kzalloc(dev, sizeof(*ret), GFP_KERNEL);
+ 
+@@ -3597,7 +3598,7 @@ int snd_soc_of_get_dai_name(struct device_node *of_node,
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_of_get_dai_name);
+ 
+-struct snd_soc_dai *snd_soc_get_dai_via_args(struct of_phandle_args *dai_args)
++struct snd_soc_dai *snd_soc_get_dai_via_args(const struct of_phandle_args *dai_args)
+ {
+ 	struct snd_soc_dai *dai;
+ 	struct snd_soc_component *component;
+-- 
+2.34.1
+
