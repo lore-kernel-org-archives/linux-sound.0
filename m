@@ -1,141 +1,206 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E75145B18;
-	Fri, 16 Feb 2024 23:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0627E13541B;
+	Fri, 16 Feb 2024 23:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708124727; cv=none; b=k2bITC81trSQyzGT5+zZyPn3fcaN/TqBNeOJ/3+E+SCtRsZ1IzFbLzv9RGmORzumllepGYT9go3TicdAP4buRcGfpqseOMirwHiHFW0e1EJU4UTMTfZDb18gPQiputrHOoOrSnloMY+oJWc94COzrM7Su4k+s99wdb6cUkiAYbQ=
+	t=1708126621; cv=none; b=in8ry8XyP2kEVcx5t6ERUMB3R+JahJRyktlcDAB2BU5mehS18PvdF7whX+BEXg2mD+U5ANj5qqNF/0pe+RdAMJSvB7DifbdDmyq/0EwwnJLGmJs66sTWvVKRcOTZK9LU4TjJwOKEAoCoMGc9y6kTlsnhST9gNNS14CArq/AjFAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708124727; c=relaxed/simple;
-	bh=y6lfvpxH3GYADnSDNdchDMMrlL19uzaTYCUIWeYTaU0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tHgXiAF/ytR7y01+MY3TzuHZP+5G/JWrdT36QMcyvi+zIzCQf5thf9G9VOyVwHOBMwUmZmHPbnYqETTjxVxq9LM78c6p+V6FENqPRQQ8cVHaCphIfhKjT7GOZGxXbbyVXPMLxXjWbu7/5V4bXTQZstuil8m3m25VleOe9k7vlT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQlL78fp; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708126621; c=relaxed/simple;
+	bh=zvtJ/goEXl78uXi/CkTnmJLWqFaobtHaj24advs/UyU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SDaXe/pYFD1UrltM2mwhHzNQizi+hCLBWjuTTCh9sv8OEoSlrqzEdBuPvsy7HZGnsWcf31xyiyzOzTBhC+u3xQhk+n9CMp5Syizh3FG0kwUlZ7w4mTInOue7tJzFLpE4ynSvH+rI6wSykqoL/C1Cumv55/faIdsFUck7LZXwHbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IWjmm4Fy; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQlL78fp"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-411baa02bc3so3693775e9.1;
-        Fri, 16 Feb 2024 15:05:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708124724; x=1708729524; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jvvT6riPM/3in09G29ne7DQlQRmcV2/DIw7p3OZyCN0=;
-        b=MQlL78fpGMBMlD6zYS6KrTn0sRKWpdFBCZxTI5LWDGeCAx0OcWiD1lzsI5JsVFuwim
-         kiiym/xnmyX9KvLFQ2durSDqe5Td1Coi6JLWcl9VbPlXkrOW/EZXOn/nSNez9uP/b+Ib
-         C4yWZ0vb5YZDkXwB6+pnirPIWenx1HDu26esOQ2Ie+CJeqFCTccq0ZSgGdLuKZ8pJCLd
-         eYM664xkFBcXeNuRm8dq+2KD/mP2d7rqGY0qTIECh8FYLwJ2ux9+cOwG0hfdU8DnGflH
-         SxGVEnn0iW1c497sm5TEKR7HvF1mm0g/c114W04s87cBiYQLcq14uKWrdo1+AMOT1inC
-         +Y6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708124724; x=1708729524;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvvT6riPM/3in09G29ne7DQlQRmcV2/DIw7p3OZyCN0=;
-        b=rIfZUlFRxr4wspulmEcj4yMrY6Vr/1xORCblUIrsO1bft4S3wew09/3M5QNKEF114/
-         hDS5vKvKHZDyu2pWSYACHbWZyQpaEVIdWFXPIcp82hNbJVakhRZ83JtU9Wdp4Rlt+oiJ
-         t8RJu6HltxdTofg4tMTga7ExN6/dCEiFwNXlZNm1Lqa7DNsEPz6+dPE4cvLo+fPmPMai
-         v2egrdbcWuLvMwsIKr5cq7f5Hjx/AGyZjx2vTl/W1H0OSaOXyrW6VLQbZsVBfgDfMgkX
-         q6wmluZF3CjftMMZRH1q35qHzdePF9x69qaE/Xibxxrvs/MdUxMteVHokHnkEr0Omo5d
-         RhzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXjEf+XeryiDSHxEFAAvGfwLj0zh3BGwh5fQJPQsah8Z8izkKW5PhAy5Xkywg8gXuWFZrQOmbNJSlnjYOy6g7qwlM8RwuVS9U9ircnKJsfG3T2Q/EBCgrmnN+eXDENpnssvrZ39L6NO0Lk=
-X-Gm-Message-State: AOJu0YyTnp/+CZ+YD49gPxOwBt9AtTAh9dG0vveupsQsfh2vcGaJn18c
-	+YLsL9ohVT82gyLGA4BNVl0s8B+bQJGqFnluRGwkpqwudzrrUKNM
-X-Google-Smtp-Source: AGHT+IHnivDGAF/SDANh0ADh6aS6bCLig1UQ3KxB2Sk+HkFVsq5QcUrVccLzOKZX6PmMN2tegulZtg==
-X-Received: by 2002:a05:600c:4446:b0:412:cd2:2ce6 with SMTP id v6-20020a05600c444600b004120cd22ce6mr2453563wmn.3.1708124723767;
-        Fri, 16 Feb 2024 15:05:23 -0800 (PST)
-Received: from ?IPV6:2a01:4b00:d20e:7300:185d:2987:5137:7eb9? ([2a01:4b00:d20e:7300:185d:2987:5137:7eb9])
-        by smtp.gmail.com with ESMTPSA id p17-20020a05600c469100b004120b4c57c9sm3627747wmo.4.2024.02.16.15.05.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 15:05:23 -0800 (PST)
-Message-ID: <90cde49e-072d-4236-bcb9-affb0a1ce6af@gmail.com>
-Date: Fri, 16 Feb 2024 23:05:22 +0000
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IWjmm4Fy"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41GN1RTd028772;
+	Fri, 16 Feb 2024 23:36:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=/Kp/ON2+FVNkC5NRIxIJBRrJsNuKYQMnRLjSnkzi+Oc=; b=IW
+	jmm4FyOKbHvPh61NOvHsMMrtd1HY66gUjRUP/O6xukRSTaHnlf4SKxkRC0dURs+Z
+	L2JrPGMKGmBlbZZ/1hM89XECcMRaYTYQUpI8a8mPE9RKiPo/WYx1SFs9XevK+Ery
+	bimwm4hzXlYjnX6l3jXXUGhlgODN7Q5m0kcZBadF2UayYUmYhXAEGX/+O3q49Ya2
+	jrNki28V2Rkg3UNzOdbAq5UNUSyT0FyAlvtmChAK3CWEQxrGxYbYnQPhW/C100cD
+	UMZwP2E9R2E4WiP/wSozADmY4nsIuR/ZTHxOvgLqfD+eG9FWN02KVb/K2MYg0EJ+
+	4D4BoxCeF8cW3lqejwFw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wabeerqhx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Feb 2024 23:36:36 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GNaYJD020839
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Feb 2024 23:36:34 GMT
+Received: from [10.110.4.141] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 16 Feb
+ 2024 15:36:33 -0800
+Message-ID: <03f71225-5450-a7c7-5f8c-9b275c1a37f1@quicinc.com>
+Date: Fri, 16 Feb 2024 15:36:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: core: fix buffer overflow in
- test_format_fill_silence()
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v16 00/50] Introduce QC USB SND audio offloading support
 Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Naresh Kamboju
- <naresh.kamboju@linaro.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240216130050.3786789-1-arnd@kernel.org>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20240216130050.3786789-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240216035923.23392-1-quic_wcheng@quicinc.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20240216035923.23392-1-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: _EJn_PmWx1C-2tjP_V0vsB4c74ZlKlXO
+X-Proofpoint-GUID: _EJn_PmWx1C-2tjP_V0vsB4c74ZlKlXO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-16_23,2024-02-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402160185
 
-On 2/16/24 13:00, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> KASAN caught a buffer overflow with the hardcoded 2048 byte buffer
-> size, when 2080 bytes are written to it:
-> 
->   BUG: KASAN: slab-out-of-bounds in snd_pcm_format_set_silence+0x3bc/0x3e4
->   Write of size 8 at addr ffff0000c8149800 by task kunit_try_catch/1297
-> 
->   CPU: 0 PID: 1297 Comm: kunit_try_catch Tainted: G N 6.8.0-rc4-next-20240216 #1
->   Hardware name: linux,dummy-virt (DT)
->   Call trace:
->    kasan_report+0x78/0xc0
->    __asan_report_store_n_noabort+0x1c/0x28
->    snd_pcm_format_set_silence+0x3bc/0x3e4
->    _test_fill_silence+0xdc/0x298
->    test_format_fill_silence+0x110/0x228
->    kunit_try_run_case+0x144/0x3bc
->    kunit_generic_run_threadfn_adapter+0x50/0x94
->    kthread+0x330/0x3e8
->    ret_from_fork+0x10/0x20
-> 
->   Allocated by task 1297:
->    __kmalloc+0x17c/0x2f0
->    kunit_kmalloc_array+0x2c/0x78
->    test_format_fill_silence+0xcc/0x228
->    kunit_try_run_case+0x144/0x3bc
->    kunit_generic_run_threadfn_adapter+0x50/0x94
->    kthread+0x330/0x3e8
->    ret_from_fork+0x10/0x20
-> 
-> Replace the incorrect size with the correct length of 260 64-bit samples.
-> 
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> Naresh, I slightly changed the patch to make the computation more obvious,
-> can you test again to make sure I got this right?
-> ---
->   sound/core/sound_kunit.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-> index 5d5a7bf88de4..7f16101ece7a 100644
-> --- a/sound/core/sound_kunit.c
-> +++ b/sound/core/sound_kunit.c
-> @@ -8,7 +8,7 @@
->   #include <sound/core.h>
->   #include <sound/pcm.h>
->   
-> -#define SILENCE_BUFFER_SIZE 2048
-> +#define SILENCE_BUFFER_SIZE (sizeof(u64) * 260)
 
-I believe it would be good to define FILL_SILENCE_MAX_FRAMES to 260, 
-update the 'buf_samples' array correspondingly and define the 
-SILENCE_BUFFER_SIZE as (sizeof(u64) * FILL_SILENCE_MAX_FRAMES), so it 
-would be more clear where '260' came from.
 
-Thank you for fixing this!
--- 
-Kind regards,
-Ivan Orlov
+On 2/15/2024 7:58 PM, Wesley Cheng wrote:
+> Several Qualcomm based chipsets can support USB audio offloading to a
+> dedicated audio DSP, which can take over issuing transfers to the USB
+> host controller.  The intention is to reduce the load on the main
+> processors in the SoC, and allow them to be placed into lower power modes.
+> There are several parts to this design:
+>    1. Adding ASoC binding layer
+>    2. Create a USB backend for Q6DSP
+>    3. Introduce XHCI interrupter support
+>    4. Create vendor ops for the USB SND driver
+> 
+>        USB                          |            ASoC
+> --------------------------------------------------------------------
+>                                     |  _________________________
+>                                     | |sm8250 platform card     |
+>                                     | |_________________________|
+>                                     |         |           |
+>                                     |      ___V____   ____V____
+>                                     |     |Q6USB   | |Q6AFE    |
+>                                     |     |"codec" | |"cpu"    |
+>                                     |     |________| |_________|
+>                                     |         ^  ^        ^
+>                                     |         |  |________|
+>                                     |      ___V____    |
+>                                     |     |SOC-USB |   |
+>     ________       ________               |        |   |
+>    |USB SND |<--->|QC offld|<------------>|________|   |
+>    |(card.c)|     |        |<----------                |
+>    |________|     |________|___     | |                |
+>        ^               ^       |    | |    ____________V_________
+>        |               |       |    | |   |APR/GLINK             |
+>     __ V_______________V_____  |    | |   |______________________|
+>    |USB SND (endpoint.c)     | |    | |              ^
+>    |_________________________| |    | |              |
+>                ^               |    | |   ___________V___________
+>                |               |    | |->|audio DSP              |
+>     ___________V_____________  |    |    |_______________________|
+>    |XHCI HCD                 |<-    |
+>    |_________________________|      |
+> 
+> 
+> Adding ASoC binding layer:
+> soc-usb: Intention is to treat a USB port similar to a headphone jack.
+> The port is always present on the device, but cable/pin status can be
+> enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
+> communicate with USB SND.
+> 
+> Create a USB backend for Q6DSP:
+> q6usb: Basic backend driver that will be responsible for maintaining the
+> resources needed to initiate a playback stream using the Q6DSP.  Will
+> be the entity that checks to make sure the connected USB audio device
+> supports the requested PCM format.  If it does not, the PCM open call will
+> fail, and userpsace ALSA can take action accordingly.
+> 
+> Introduce XHCI interrupter support:
+> XHCI HCD supports multiple interrupters, which allows for events to be routed
+> to different event rings.  This is determined by "Interrupter Target" field
+> specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
+> 
+> Events in the offloading case will be routed to an event ring that is assigned
+> to the audio DSP.
+> 
+> Create vendor ops for the USB SND driver:
+> qc_audio_offload: This particular driver has several components associated
+> with it:
+> - QMI stream request handler
+> - XHCI interrupter and resource management
+> - audio DSP memory management
+> 
+> When the audio DSP wants to enable a playback stream, the request is first
+> received by the ASoC platform sound card.  Depending on the selected route,
+> ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
+> will send an AFE port start command (with enabling the USB playback path), and
+> the audio DSP will handle the request accordingly.
+> 
+> Part of the AFE USB port start handling will have an exchange of control
+> messages using the QMI protocol.  The qc_audio_offload driver will populate the
+> buffer information:
+> - Event ring base address
+> - EP transfer ring base address
+> 
+> and pass it along to the audio DSP.  All endpoint management will now be handed
+> over to the DSP, and the main processor is not involved in transfers.
+> 
+> Overall, implementing this feature will still expose separate sound card and PCM
+> devices for both the platorm card and USB audio device:
+>   0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+>                        SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+>   1 [Audio          ]: USB-Audio - USB Audio
+>                        Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
+> 
+> This is to ensure that userspace ALSA entities can decide which route to take
+> when executing the audio playback.  In the above, if card#1 is selected, then
+> USB audio data will take the legacy path over the USB PCM drivers, etc...
+> 
+> This feature was validated using:
+> - tinymix: set/enable the multimedia path to route to USB backend
+> - tinyplay: issue playback on platform card
+> 
+> Changelog
+> --------------------------------------------
+> Changes in v16:
+> - Modified some code layer dependencies so that soc usb can be split as a separate
+>    module.
+>    - Split the kcontrols from ASoC QCOM common layer into a separate driver
+> - Reworked SOC USB kcontrols for controlling card + pcm offload routing and status
+>    so that there are individual controls for card and pcm devices.
+> - Added a kcontrol remove API in SOC USB to remove the controls on the fly.  This
+>    required to add some kcontrol management to SOC USB.
+> - Removed the disconnect work and workqueue for the QC USB offload as it is not
+>    required, since QMI interface driver ensures events are handled in its own WQ.
+> 
 
+Sorry for sending a bad series.  Please ignore this version, as its 
+missing some changes made.  Will resend as v17.
+
+Thanks
+Wesley Cheng
