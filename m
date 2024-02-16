@@ -1,255 +1,105 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C8712CDAE;
-	Fri, 16 Feb 2024 14:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06CB12CD9D;
+	Fri, 16 Feb 2024 14:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708092672; cv=none; b=pbxGMTRXpoNtqPIyCPnOhAVQQdzwC8DSdywcEvUX0K3iijnaro4X75a9QMPszpOUJJvWrop7q8coV9xSsczskzWZajJ8QQMzMoZYJZvpvw0si9Fr4N5FKQgaEGwkTH6qCsLdedps7TX9VAEwjrlmJnvN5OJJkvRkRG4xhIPjzyA=
+	t=1708093344; cv=none; b=FstLRN13t1o6KxQTJl/zEsB8Jx1x/EGY7U916JKFXxZOT7RiJBDncjgDp5T169a8lZNlzz51kPozDaXHc/AlUr/n0iHny9hu0EcCcKhxsqcuH5wUyFEEe9l5kwOpxCg3OHg0J9WDnIAITpj33RuCtRqyDJ1tr73ZHTPkTfNgO7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708092672; c=relaxed/simple;
-	bh=6Nyr2kbTtr1bWhf81Y2lUy3CqpGOK5m1z3OI16vJqBc=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=M+cku00Z1WE5DLwR23qtsTlhVtKY9GncG1eYclk0uE6Ul2Ny04hnsl6fcqUkJXeOn7dObaAzu2+k50Unvn6QwpZyhay33w7BioZb01KWNbuOKUAGumblMk3cCISC7Y0fuvBe/CTgtMQNzRHzUwHi002vHg5UkpXmTEgXM/Oisbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ndmrASdB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qo7+ion/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ndmrASdB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qo7+ion/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708093344; c=relaxed/simple;
+	bh=Jxj3rEgbRGxw92wdoI8uuWjtJV70UO5s7O6AnHrXyAI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=MvJm7oTfmnwXhAeewEAsZW01QZfDO7pR5WF7q8Z8EjjTHMKNeqXAqVTvEIzqGy1m2DqbrYAFtvdKkHhm08GznEwns6jo4V2ROjZFMquL/KgjBNmcyONrWSLdC7pRX2OCQaRoDsb0/3SujiV+tnBHgO4EpayJT0f/PP6SZMRcAyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnVHDil6; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ndmrASdB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qo7+ion/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ndmrASdB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qo7+ion/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 714442224A;
-	Fri, 16 Feb 2024 14:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708092651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Je0Y3u5LRIHMiq2lpHu5CgF/QTNe6B2n02BcT0xjC3M=;
-	b=ndmrASdB76ewEhbEuUBU0u9Kx9ph53WMwDa+y3dAc18kExjj1K3InQDvw3mzEcCcK2FBM+
-	87isl7XW+cr+FTHETml6JAQ3ubswksRZfUOIbLixIcQioMF/siGP7ZbKtFBRP2im4kBiA/
-	GU29HYCn+oCTxm3Ff/tYrIbT8gnzvA0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708092651;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Je0Y3u5LRIHMiq2lpHu5CgF/QTNe6B2n02BcT0xjC3M=;
-	b=Qo7+ion/zV+GZoHHfz8BXsiyrFRksE1HcSGroLfRMBwAD4kh4C8WqVs6zEFlNUzCYeJ8Ht
-	UM0C0z8A58C9Z0Bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708092651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Je0Y3u5LRIHMiq2lpHu5CgF/QTNe6B2n02BcT0xjC3M=;
-	b=ndmrASdB76ewEhbEuUBU0u9Kx9ph53WMwDa+y3dAc18kExjj1K3InQDvw3mzEcCcK2FBM+
-	87isl7XW+cr+FTHETml6JAQ3ubswksRZfUOIbLixIcQioMF/siGP7ZbKtFBRP2im4kBiA/
-	GU29HYCn+oCTxm3Ff/tYrIbT8gnzvA0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708092651;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Je0Y3u5LRIHMiq2lpHu5CgF/QTNe6B2n02BcT0xjC3M=;
-	b=Qo7+ion/zV+GZoHHfz8BXsiyrFRksE1HcSGroLfRMBwAD4kh4C8WqVs6zEFlNUzCYeJ8Ht
-	UM0C0z8A58C9Z0Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B50D13A39;
-	Fri, 16 Feb 2024 14:10:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Wdl+DOtsz2VdMAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Feb 2024 14:10:51 +0000
-Date: Fri, 16 Feb 2024 15:10:50 +0100
-Message-ID: <875xyoijo5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.8-rc5
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnVHDil6"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4124d8f9915so3440485e9.2;
+        Fri, 16 Feb 2024 06:22:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708093341; x=1708698141; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PkdihLM6sVisVEtGKLuR9LEB3QNDRr4gR8bv8gV+fJ8=;
+        b=JnVHDil6RzrWjiTyd/CYgEkf6v5l/ESlEtVoW1VHN74mQIUtg4KxHW/f6LkicBLrFw
+         q/Dz8pxtVYJFidByzWeph4fRxHIN9PiNXV423OB7opkRQ8lJ4RvSIqIw9HJKafb/NmA+
+         n1jfldhB6V9ocf5+/OIaDrPORGE16gQ7Sd/0gjP18kEnevsLwaAT9pVDjtgDer5lDSpa
+         oMfG/zt4dfDgcMeB/00VynKoNxn/1lhBnV+Y0Xrba76dkk/aQ7krkBT9QL12u6go82II
+         +qhjQJ/GC5ADugWjIYC9S06QSlzzhLZU/dxowZdF2wvBciX4Cpo8eAMDKKgfZ3O/q6U8
+         yu6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708093341; x=1708698141;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PkdihLM6sVisVEtGKLuR9LEB3QNDRr4gR8bv8gV+fJ8=;
+        b=joUR5N7rPk7gQh+4tyY/KpmJUkYgcA3KCbww3WHVFEjYd9QCFKmVePvGgjVkCkfEWA
+         u9B/en8HQqRJMgsNZwtH1xL4ZqFW4GhGuAXLRH7GSvM6pgbi9xVAlooiak2PYW3iQyvr
+         5J6cb0gB7Drkcrkv2cQLe4JpX5qoWKxw7OM+Y+pS8guz+zffgngo35+Jlc5WHoTJNeC5
+         w3VpC26NWtgRy8q4JkPJy59SHG2y2tSK9fflZ1KPbs+XxmRX8nNMoMdf2baOujq/WCaC
+         lJ2PyYyUnllk7COys2sVaqStgfhcYGNqUK47UrtAq+j+79Jy5zkJ90w4iKzE3W4yLgXt
+         sbmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVk6+AR/27LWuDhvrxEbuPAx/uebBq29Lq1lVCAuFjVhiiqgIbSge7igpCvz0WeK2Q+Bq+2WROyw9WnaKgx/K45v+JpPErv4Faqz8ZFUSdO2DKnWcC44hBhGrdeS45Ao+iIeP0Z+4COOLc=
+X-Gm-Message-State: AOJu0Yx4EI61zBNYfZkM2XH51/t1hBSLRkguQi3XgYYLAT8gsMp+I4Q8
+	Vuyle6xlT8EoAIQ/MTYGt2ef98pIDtN74iGZNnZDyTQ/x1PEBlpf
+X-Google-Smtp-Source: AGHT+IHOPnOdjbMecgSAGifiPTVWd6xucSnzV0OTR3oaD+sN5wb2N9fYMluVi1eXv8uJwOW1grT2vw==
+X-Received: by 2002:a05:600c:1f81:b0:410:4a4:6cd0 with SMTP id je1-20020a05600c1f8100b0041004a46cd0mr3825241wmb.33.1708093340832;
+        Fri, 16 Feb 2024 06:22:20 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id j11-20020adff54b000000b0033b43a5f53csm2312969wrp.103.2024.02.16.06.22.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 06:22:20 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ASoC: tas2781: Remove redundant initialization of pointer 'data'
+Date: Fri, 16 Feb 2024 14:22:19 +0000
+Message-Id: <20240216142219.2109050-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ndmrASdB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Qo7+ion/"
-X-Spamd-Result: default: False [-2.31 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 TO_DN_ALL(0.00)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 714442224A
-X-Spam-Level: 
-X-Spam-Score: -2.31
-X-Spam-Flag: NO
 
-Linus,
+The pointer 'data' being initialized with a value that is never read, it
+is being re-assigned inside a while-loop. The initialization is redundant
+and can be removed.
 
-please pull sound fixes for v6.8-rc5 from:
+Cleans up clang scan build warning
+sound/soc/codecs/tas2781-fmwlib.c:1534:17: warning: Value stored to
+'data' during its initialization is never read [deadcode.DeadStores]
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8-rc5
-
-The topmost commit is 41c25e193b2befc22462aa41591d397fab174ca1
-
-----------------------------------------------------------------
-
-sound fixes for 6.8-rc5
-
-A collection of device-specific fixes.  It became a bit bigger
-than wished, but all look reasonably small and safe to apply.
-
-- A few Cirrus Logic CS35L56 and CS42L43 driver fixes
-- ASoC SOF fixes and workarounds
-- Various ASoC Intel fixes
-- Lots of HD-, USB-audio and AMD ACP quirks
-
-----------------------------------------------------------------
-
-Alexey Khoroshilov (1):
-      ASoC: rt5645: Fix deadlock in rt5645_jack_detect_work()
-
-Amadeusz Sławiński (1):
-      ASoC: Intel: avs: Fix dynamic port assignment when TDM is set
-
-Arnd Bergmann (1):
-      ASoC: q6dsp: fix event handler prototype
-
-Attila Tőkés (1):
-      ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-
-Cezary Rojewski (1):
-      ASoC: Intel: avs: Fix pci_probe() error path
-
-Charles Keepax (2):
-      ASoC: cs42l43: Handle error from devm_pm_runtime_enable
-      ASoC: cs42l43: Add system suspend ops to disable IRQ
-
-Cristian Ciocaltea (1):
-      ASoC: SOF: amd: Fix locking in ACP IRQ handler
-
-Curtis Malainey (1):
-      ASoC: SOF: IPC3: fix message bounds on ipc ops
-
-Dan Carpenter (1):
-      ASoC: cs35l56: fix reversed if statement in cs35l56_dspwait_asp1tx_put()
-
-Eniac Zhang (1):
-      ALSA: hda/realtek: fix mute/micmute LED For HP mt645
-
-Gergo Koteles (1):
-      ASoC: tas2781: add module parameter to tascodec_init()
-
-Hans de Goede (4):
-      ASoC: Intel: Boards: Fix NULL pointer deref in BYT/CHT boards
-      ASoC: Intel: cht_bsw_rt5645: Cleanup codec_name handling
-      ASoC: rt5645: Make LattePanda board DMI match more precise
-      ASoC: rt5645: Add DMI quirk for inverted jack-detect on MeeGoPad T8
-
-Jean-Loïc Charroud (3):
-      ALSA: hda/realtek: cs35l41: Add internal speaker support for ASUS UM3402 with missing DSD
-      ALSA: hda/realtek: cs35l41: Fix device ID / model name
-      ALSA: hda/realtek: cs35l41: Fix order and duplicates in quirks table
-
-Jeffrey Hugo (1):
-      ASoC: dt-bindings: google,sc7280-herobrine: Drop bouncing @codeaurora
-
-Lukas Bulwahn (1):
-      ALSA: hda/cs35l56: select intended config FW_CS_DSP
-
-Mario Limonciello (1):
-      ASoC: amd: yc: Add DMI quirk for Lenovo Ideapad Pro 5 16ARP8
-
-Peter Ujfalusi (3):
-      ASoC: SOF: Intel: pci-tgl: Change the default paths and firmware names
-      ASoC: SOF: Intel: pci-lnl: Change the topology path to intel/sof-ipc4-tplg
-      ASoC: SOF: ipc4-pcm: Workaround for crashed firmware on system suspend
-
-Ranjani Sridharan (1):
-      ASoC: SOF: ipc3-topology: Fix pipeline tear down logic
-
-Richard Fitzgerald (3):
-      ASoC: cs35l56: Fix deadlock in ASP1 mixer register initialization
-      ASoC: cs35l56: Remove default from IRQ1_CFG register
-      ASoC: cs35l56: Workaround for ACPI with broken spk-id-gpios property
-
-Shuming Fan (1):
-      ALSA: hda/realtek: add IDs for Dell dual spk platform
-
-Takashi Iwai (1):
-      ALSA: usb-audio: More relaxed check of MIDI jack names
-
-Tomasz Kudela (1):
-      ALSA: hda: Add Lenovo Legion 7i gen7 sound quirk
-
-bo liu (1):
-      ALSA: hda/conexant: Add quirk for SWS JS201D
-
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- .../bindings/sound/google,sc7280-herobrine.yaml    |   1 -
- include/sound/tas2781.h                            |   1 +
- sound/pci/hda/Kconfig                              |   4 +-
- sound/pci/hda/cs35l41_hda_property.c               |   4 +
- sound/pci/hda/patch_conexant.c                     |  18 ++
- sound/pci/hda/patch_realtek.c                      |  12 +-
- sound/pci/hda/tas2781_hda_i2c.c                    |   2 +-
- sound/soc/amd/yc/acp6x-mach.c                      |  14 ++
- sound/soc/codecs/cs35l56-shared.c                  |   1 -
- sound/soc/codecs/cs35l56.c                         | 252 ++++++++++++++-------
- sound/soc/codecs/cs35l56.h                         |   2 +-
- sound/soc/codecs/cs42l43.c                         |  48 +++-
- sound/soc/codecs/rt5645.c                          |  26 +++
- sound/soc/codecs/tas2781-comlib.c                  |   3 +-
- sound/soc/codecs/tas2781-i2c.c                     |   2 +-
- sound/soc/intel/avs/core.c                         |   3 +
- sound/soc/intel/avs/topology.c                     |   2 +-
- sound/soc/intel/boards/bytcht_cx2072x.c            |   3 +-
- sound/soc/intel/boards/bytcht_da7213.c             |   3 +-
- sound/soc/intel/boards/bytcht_es8316.c             |   3 +-
- sound/soc/intel/boards/bytcr_rt5640.c              |   3 +-
- sound/soc/intel/boards/bytcr_rt5651.c              |   3 +-
- sound/soc/intel/boards/bytcr_wm5102.c              |   3 +-
- sound/soc/intel/boards/cht_bsw_rt5645.c            |   7 +-
- sound/soc/intel/boards/cht_bsw_rt5672.c            |   3 +-
- sound/soc/qcom/qdsp6/q6apm-dai.c                   |   8 +-
- sound/soc/sof/amd/acp-ipc.c                        |   2 +
- sound/soc/sof/amd/acp.c                            |  17 +-
- sound/soc/sof/intel/pci-lnl.c                      |   2 +-
- sound/soc/sof/intel/pci-tgl.c                      |  64 +++---
- sound/soc/sof/ipc3-topology.c                      |  69 ++++--
- sound/soc/sof/ipc3.c                               |   2 +-
- sound/soc/sof/ipc4-pcm.c                           |  13 +-
- sound/usb/midi.c                                   |  77 +++----
- 34 files changed, 447 insertions(+), 230 deletions(-)
+ sound/soc/codecs/tas2781-fmwlib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index 85e14ff61769..45760fe19523 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -1531,7 +1531,7 @@ static int tasdev_load_blk(struct tasdevice_priv *tas_priv,
+ 	unsigned int sleep_time;
+ 	unsigned int len;
+ 	unsigned int nr_cmds;
+-	unsigned char *data = block->data;
++	unsigned char *data;
+ 	unsigned char crc_chksum = 0;
+ 	unsigned char offset;
+ 	unsigned char book;
+-- 
+2.39.2
 
