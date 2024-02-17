@@ -1,155 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDCC69DE6;
-	Sat, 17 Feb 2024 15:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B7A7CF08;
+	Sat, 17 Feb 2024 15:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708183557; cv=none; b=ZIPu000IJEo170QBR4IFkklQZll7Fa2zvRhmIpB4rPHFD2lWdN37JGT2pDsa12+OhJq+De32UEldBC3peefpT823jguku6S/avtOhzyoRINd/iOyjf0JKbmr30dVf4gtUQ0mY3bpUhveYCdDLwy39IOx/7CfVmnvIATy3g1xJ9w=
+	t=1708185387; cv=none; b=W9BYdanY7QeEZnC3mFEk91kVlm1zOlq//sds/yImYSZp+TXpt+WgNG2CipX9mYdpA3GE/BFWjaxfq8JiZDw7yTeXwaUdo4QX8T15HefUi+K6pmMJ+PWx362jLcBvRqPWF9QKz04/xCjmemzcppewQ5mzX2orkMTSY512teFHpL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708183557; c=relaxed/simple;
-	bh=bWSYvvO2IqnPnE4jdJtpaD30hy778JveY74K8PjLF/o=;
+	s=arc-20240116; t=1708185387; c=relaxed/simple;
+	bh=J/W77O68aesAwbF/+MNHZ67Vbe47hRGcJRILMJWoA5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P55PKAlOsigFu9qqbuYZZfBOQ4fPu05RQk71hYllZLcP3q5DrNiV5NzQt9QntkXE1dhjPqQXriPeCdbiU43LwfgY5bWtHuujxAG63tD5K3RGhjPq7pENSlT7GuWW/lSoO0w0HZ62CelGnZKsfA8wVlEES8GrJ04ZoJU/EFZl38Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oDOBkAbt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FK6bsscjbeldJO6e+MZ3govYqBS0XrGNrB7V4R4m8sWgIdChLvm3krb0XicxRq9UBlYcg/ol0DyPczcQvQXfj2GE/PQi74VhuO8Jh158IJER2SlMzLptcYebSCcpuPGkyq2gunjyWDuWYaN4Omlsr8+PFGL1zc8or9zcJ0JsOFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ac74+6eX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oDOBkAbt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118DFC433F1;
-	Sat, 17 Feb 2024 15:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708183556;
-	bh=bWSYvvO2IqnPnE4jdJtpaD30hy778JveY74K8PjLF/o=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ac74+6eX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A079DC433F1;
+	Sat, 17 Feb 2024 15:56:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708185387;
+	bh=J/W77O68aesAwbF/+MNHZ67Vbe47hRGcJRILMJWoA5s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oDOBkAbtvGbq7DXCQ0hwEpPoTMxxZHeT3FyxwmkS2Jy5blwcPrVMfUkIQ3bwx/Gus
-	 H3vcCYEB5ZQPuao69WEdC0Ckza5VituxgF8EpfwKFZbuErRxqgskepgd4pMGaQYOLl
-	 2CHJbdAPsQFz7KvSc0mxq6pLIq0cyoj+q4pXMnPc=
-Date: Sat, 17 Feb 2024 16:25:54 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, corbet@lwn.net, lgirdwood@gmail.com,
-	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
-	tiwai@suse.com, robh+dt@kernel.org, konrad.dybcio@linaro.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v17 00/51] Introduce QC USB SND audio offloading support
-Message-ID: <2024021754-unengaged-saggy-6ab1@gregkh>
-References: <20240217001017.29969-1-quic_wcheng@quicinc.com>
+	b=ac74+6eX8BYX+Dhc5pD9bHerYX+LucQy55Ok8Yv9288W36kEIIFwo7rOdcZ9wYXrc
+	 uGyB0npROCKeS4y8eEM8xPsOIQ/kv5ICHN5cYn7082kYOnOsD+cCcCKcOcLymiDGpC
+	 kAa9Uy9b9kqUJnWMafnWiHgWsL2NRxDGGGHXSrR4cZqW4F7hrwLBeIhIFRXbH+hzxF
+	 DL0JPR73Dt3/zkkZ41KyLcgUEJm+3/7qo1CwwOqJL+qPOLCR6lKc9Fu3D15cQCz5jZ
+	 2uGGzMihoqljFxBOdoB7Van/EqW7D+FHhSQjlV+lOhnmJDB2aiSer0QfJe1/8SwQyM
+	 TcC9iKmCmLiag==
+Date: Sat, 17 Feb 2024 15:56:23 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [REGRESSION] Acp5x probing regression introduced between kernel
+ 6.7.2 -> 6.7.4
+Message-ID: <ZdDXJyXiZ++KiNqW@finisterre.sirena.org.uk>
+References: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
+ <7a0cd63f-8a83-4dc5-8763-63dcdae8d68a@leemhuis.info>
+ <878r3qxcyr.wl-tiwai@suse.de>
+ <871q9hwz2w.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EkTQCU0JljxhlDH4"
+Content-Disposition: inline
+In-Reply-To: <871q9hwz2w.wl-tiwai@suse.de>
+X-Cookie: You might have mail.
+
+
+--EkTQCU0JljxhlDH4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240217001017.29969-1-quic_wcheng@quicinc.com>
 
-On Fri, Feb 16, 2024 at 04:09:26PM -0800, Wesley Cheng wrote:
-> Several Qualcomm based chipsets can support USB audio offloading to a
-> dedicated audio DSP, which can take over issuing transfers to the USB
-> host controller.  The intention is to reduce the load on the main
-> processors in the SoC, and allow them to be placed into lower power modes.
-> There are several parts to this design:
->   1. Adding ASoC binding layer
->   2. Create a USB backend for Q6DSP
->   3. Introduce XHCI interrupter support
->   4. Create vendor ops for the USB SND driver
-> 
->       USB                          |            ASoC
-> --------------------------------------------------------------------
->                                    |  _________________________
->                                    | |sm8250 platform card     |
->                                    | |_________________________|
->                                    |         |           |
->                                    |      ___V____   ____V____
->                                    |     |Q6USB   | |Q6AFE    |  
->                                    |     |"codec" | |"cpu"    |
->                                    |     |________| |_________|
->                                    |         ^  ^        ^
->                                    |         |  |________|
->                                    |      ___V____    |
->                                    |     |SOC-USB |   |
->    ________       ________               |        |   |
->   |USB SND |<--->|QC offld|<------------>|________|   |
->   |(card.c)|     |        |<----------                |
->   |________|     |________|___     | |                |
->       ^               ^       |    | |    ____________V_________
->       |               |       |    | |   |APR/GLINK             |
->    __ V_______________V_____  |    | |   |______________________|
->   |USB SND (endpoint.c)     | |    | |              ^
->   |_________________________| |    | |              |
->               ^               |    | |   ___________V___________
->               |               |    | |->|audio DSP              |
->    ___________V_____________  |    |    |_______________________|
->   |XHCI HCD                 |<-    |
->   |_________________________|      |
-> 
-> 
-> Adding ASoC binding layer:
-> soc-usb: Intention is to treat a USB port similar to a headphone jack.
-> The port is always present on the device, but cable/pin status can be
-> enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
-> communicate with USB SND.
-> 
-> Create a USB backend for Q6DSP:
-> q6usb: Basic backend driver that will be responsible for maintaining the
-> resources needed to initiate a playback stream using the Q6DSP.  Will
-> be the entity that checks to make sure the connected USB audio device
-> supports the requested PCM format.  If it does not, the PCM open call will
-> fail, and userpsace ALSA can take action accordingly.
-> 
-> Introduce XHCI interrupter support:
-> XHCI HCD supports multiple interrupters, which allows for events to be routed
-> to different event rings.  This is determined by "Interrupter Target" field
-> specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
-> 
-> Events in the offloading case will be routed to an event ring that is assigned
-> to the audio DSP.
-> 
-> Create vendor ops for the USB SND driver:
-> qc_audio_offload: This particular driver has several components associated
-> with it:
-> - QMI stream request handler
-> - XHCI interrupter and resource management
-> - audio DSP memory management
-> 
-> When the audio DSP wants to enable a playback stream, the request is first
-> received by the ASoC platform sound card.  Depending on the selected route,
-> ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
-> will send an AFE port start command (with enabling the USB playback path), and
-> the audio DSP will handle the request accordingly.
-> 
-> Part of the AFE USB port start handling will have an exchange of control
-> messages using the QMI protocol.  The qc_audio_offload driver will populate the
-> buffer information:
-> - Event ring base address
-> - EP transfer ring base address
-> 
-> and pass it along to the audio DSP.  All endpoint management will now be handed
-> over to the DSP, and the main processor is not involved in transfers.
-> 
-> Overall, implementing this feature will still expose separate sound card and PCM
-> devices for both the platorm card and USB audio device:
->  0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->                       SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->  1 [Audio          ]: USB-Audio - USB Audio
->                       Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
-> 
-> This is to ensure that userspace ALSA entities can decide which route to take
-> when executing the audio playback.  In the above, if card#1 is selected, then
-> USB audio data will take the legacy path over the USB PCM drivers, etc...
-> 
-> This feature was validated using:
-> - tinymix: set/enable the multimedia path to route to USB backend
-> - tinyplay: issue playback on platform card
+On Mon, Feb 12, 2024 at 03:12:55PM +0100, Takashi Iwai wrote:
+> Takashi Iwai wrote:
 
-I've applied patches 1-10 and the 2 dts changes here, as those all had
-acks from the relevant maintainers already.
+> > Interestingly, the system seems working with 6.8-rc3, so some piece
+> > might be missing.  Or simply reverting this patch should fix.
 
-thanks,
+> In the bugzilla entry, the reporter confirmed that the revert of the
+> commit 4b6986b170f2f2 fixed the problem.
 
-greg k-h
+Any news on a patch for this?  Venkata?
+
+--EkTQCU0JljxhlDH4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXQ1yQACgkQJNaLcl1U
+h9BUtQf/ZTV0mTlTBMNEuSC6v8A3J/2uVLXmPGUfRoOBtLanWtBDSdmXXZEDT3Uw
+RGgirO7JuUNcj0tEqF2SODNkXiqEsyNBA/elDDAOxsmuQV9BeziXaVHlBcfFbGDf
+yvx7CEWLCdQKucDV/nuxnD5oYsZ48MAN9B4S2L8ePY38UbTHkawnCae+6ObKoQk6
+DLYcTzd96CxjCnkHJGSDZGW5xxRUk4/rBnnttKdW4isOoNbEykwyVbcr5ZWTDuao
+UEUgX4WdPGWc1XqoLHCRUU+nEA7mgCoAz0QMd8FSpZ8lA8lAG8ziizYS3PY4Btsx
+Y+ngUaN9Ph2VYj+hiGLzhKX3MWlbjg==
+=CGP9
+-----END PGP SIGNATURE-----
+
+--EkTQCU0JljxhlDH4--
