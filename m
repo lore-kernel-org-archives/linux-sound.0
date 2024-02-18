@@ -1,137 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B43141A91;
-	Sat, 17 Feb 2024 18:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0372C36C;
+	Sun, 18 Feb 2024 00:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708194902; cv=none; b=VBBq9l+GL/WPM/AzZXtUX6Hh2pLUmkTdLjTA/j8Y+5jOKe6ea4/yyTRALUiLIUmqT/QgH3xQPvW8lUKiwfhWY1duvrpzyuYGldOsUpYf3b/QKiG1/a8FWQiKPziFtF6HCLiGUmBhukAjU1dDPgfUDB+ujl77dW8S5mD7wYw7amY=
+	t=1708215943; cv=none; b=a6RkD+tbYqICYw5d8UiMEWVGN1Htwpcvejulgo6K48F2GS1XM4moFySK5LaheBWdspu5gF0mEHSPc3ugIK6xzJc2Cw7y09CsVCA6RYFzMoV4Wtbs+fb6f+laBglxyqjGKXuARfZxt4uHU4iu9ZLI1r9KfUNu6XzgexQDjeynOl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708194902; c=relaxed/simple;
-	bh=JZmENFr1/E49tYj8nITnU3QnMwuNKMj08cRzSpfOLcw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=anEh7mSpRP3y04xwXkdwWtU9Odbwr2A4lT0/fckMoWRxEO1b9sl2rjG1XNInkLmaghrkJ0SW973xnEmM14ww47IuM0gu/e7GBLVby6n8ygiS2H/yZZtbsyIrdwaiBg+q8BjLBbClpS/C7jFDsmYHqfD+J+jnwMuJsm51KT3UglY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GqVrhd4n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cYMmScP8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GqVrhd4n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cYMmScP8; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708215943; c=relaxed/simple;
+	bh=f+SJeG/+7SyYuuCxfdve4/s8s1BXOkjgBnXHVRptnmk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qQwH6PPj4GSmVgvg/ng9rHP7GkASbWm0oQtyrXGyfQ+Q0RCfjztmQkWqvSfClvwb6JJjW899ONqAFMjEVsvTWvyCImyB12/Dzw7wGLBog0DaCqErYp1yjlSJ0eQPMptiKc8cpmTT4K2xZIvdNxrlXFyHkatA3J9ckPO0QipMwUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GccW6guv; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GqVrhd4n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cYMmScP8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GqVrhd4n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cYMmScP8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A9A8621FF9;
-	Sat, 17 Feb 2024 18:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708194898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FCpnJvjlWwU46xbEg8kPZwPBFVx75dBdkJOjoJNk6a0=;
-	b=GqVrhd4nJPq080UQ9K4v7hTjmxmyz4IYpjGr3yrugYU+gawsbsQt2O5bl9fNvPvmiyJoxw
-	JHNSd883bNeCP+rWmsIV50G1dbGCcQ+qjc2H8Ax2UYxj+GdAs+aua1Lrh8IOdRyK1y/C1v
-	ynCCVLOruMdUftbD36EaZ3kPFrO6/Rs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708194898;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FCpnJvjlWwU46xbEg8kPZwPBFVx75dBdkJOjoJNk6a0=;
-	b=cYMmScP8qgCxRqPYb9aXx4J/hu042iqRdMikfbW/PjJcGjFxaKTscdD/3HFujo3qpdmM69
-	ExVd+AG07VmJAuBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708194898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FCpnJvjlWwU46xbEg8kPZwPBFVx75dBdkJOjoJNk6a0=;
-	b=GqVrhd4nJPq080UQ9K4v7hTjmxmyz4IYpjGr3yrugYU+gawsbsQt2O5bl9fNvPvmiyJoxw
-	JHNSd883bNeCP+rWmsIV50G1dbGCcQ+qjc2H8Ax2UYxj+GdAs+aua1Lrh8IOdRyK1y/C1v
-	ynCCVLOruMdUftbD36EaZ3kPFrO6/Rs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708194898;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FCpnJvjlWwU46xbEg8kPZwPBFVx75dBdkJOjoJNk6a0=;
-	b=cYMmScP8qgCxRqPYb9aXx4J/hu042iqRdMikfbW/PjJcGjFxaKTscdD/3HFujo3qpdmM69
-	ExVd+AG07VmJAuBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 603BE1370C;
-	Sat, 17 Feb 2024 18:34:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Cw8YFVL80GUadwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 17 Feb 2024 18:34:58 +0000
-Date: Sat, 17 Feb 2024 19:34:57 +0100
-Message-ID: <87msrzos6m.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	stable@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [REGRESSION] Acp5x probing regression introduced between kernel 6.7.2 -> 6.7.4
-In-Reply-To: <ZdDXJyXiZ++KiNqW@finisterre.sirena.org.uk>
-References: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
-	<7a0cd63f-8a83-4dc5-8763-63dcdae8d68a@leemhuis.info>
-	<878r3qxcyr.wl-tiwai@suse.de>
-	<871q9hwz2w.wl-tiwai@suse.de>
-	<ZdDXJyXiZ++KiNqW@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GccW6guv"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33d2746894dso304221f8f.0;
+        Sat, 17 Feb 2024 16:25:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708215940; x=1708820740; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WsTA4mhfd2ENU0rJnRdquWRoV2pddtaVwBTwOhdVEEY=;
+        b=GccW6guv8bgC5dPScnZ++Xk1FY40XX78Itcy8Qig0xLSGXvFTjssrMAQdz/ecFh200
+         VYVsmBQR6Q16PuOC3wePwbmsSIx70Tn7kv+bkYSF4ouzckEYB6vJA6Pdk6wsuuMerw6F
+         fB6nOH912IdhtlR266SL2ZGyT9oLKEAHMxOSSXrlTCesE+lxZ3+CcZ+KzyfFFx1hZhOG
+         MEqDzj9Q1DCbgd2ZbQW0aK0UmCfyEzNo/Vmnw8ffIsFMqRvzfQwllPgm4Ea9/3fS3/A1
+         f4wQYZBFtlO3h2QvDDDsxGi7cfS8PQBCzUPbWq7eYGf50ZXhBaVF2Bd7y+jwKNMO5fpC
+         CigA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708215940; x=1708820740;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WsTA4mhfd2ENU0rJnRdquWRoV2pddtaVwBTwOhdVEEY=;
+        b=S2vBDJXEz/IV9mnv4baV4v2fl7Re/4UZB/NrKFvHbUb76YeIo/spgUzv2HhClwqaag
+         nT8GDVjkLSG8PXL8wrBC8hIc8tOCgFStEb0b9VuuQUkNXP7PQphMQX+7TBHGelVPjI7X
+         Y5yaxw9bMrz7vfGnH8Xp9fx3EjIR9BeXuZRWIKcfgLV+IRuWQVitJzBA8TGEUH8g2U1M
+         6YklgwhsnN6m41PiqfRTn/PXNY1hevJiL7RlQJkRunrH6cnvvbJEgMC7qjZTCU1qalUL
+         eB6r42Br3DCxKDuXYgRnewput2PnhLqaHIpPeZTVZO2KFpb4a85M37X7NkuRmvgVBFNk
+         1HTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSBYvBviUqrx4RWEYk78UeiJoj/27v/jHIR8y2VwbRflzZPDGeyDmfl8yH2l+KB7YQ3Mod94Km4knwPz46OYy0mwK2gcwsYY5+1TUhErsLGQ01WtWfmA9ETVj3m2+cWT8WCch9PCEyGgY=
+X-Gm-Message-State: AOJu0Yxe9/9Rf8UMpzgvwFkDf3ERcsW94cuIymbQH/vOxq8+XOYYRQ2g
+	QAq+mIenkxyPYZ2B7DM6nrsszPEa6/4viVWn6OebYQ/eotBvaf93
+X-Google-Smtp-Source: AGHT+IExt3Q1Ln7cvSElVx8C6cEsFmTP7+4MioMJYfWhyy3lqo+TRH8cPsUHBynESgshCrW/ITLxGQ==
+X-Received: by 2002:a05:600c:3b94:b0:412:5f44:65b0 with SMTP id n20-20020a05600c3b9400b004125f4465b0mr950026wms.4.1708215940004;
+        Sat, 17 Feb 2024 16:25:40 -0800 (PST)
+Received: from ?IPV6:2a01:4b00:d20e:7300:2d36:2287:e6ed:8944? ([2a01:4b00:d20e:7300:2d36:2287:e6ed:8944])
+        by smtp.gmail.com with ESMTPSA id z10-20020a1c4c0a000000b00410794ddfc6sm6546582wmf.35.2024.02.17.16.25.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Feb 2024 16:25:39 -0800 (PST)
+Message-ID: <06fc4dff-938b-46a3-9721-b3de983f27b5@gmail.com>
+Date: Sun, 18 Feb 2024 00:25:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-1.11 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.01)[95.09%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -1.11
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [v2] ALSA: core: fix buffer overflow in
+ test_format_fill_silence()
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Naresh Kamboju
+ <naresh.kamboju@linaro.org>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240217104311.3749655-1-arnd@kernel.org>
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <20240217104311.3749655-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, 17 Feb 2024 16:56:23 +0100,
-Mark Brown wrote:
+On 2/17/24 10:42, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> On Mon, Feb 12, 2024 at 03:12:55PM +0100, Takashi Iwai wrote:
-> > Takashi Iwai wrote:
+> KASAN caught a buffer overflow with the hardcoded 2048 byte buffer
+> size, when 2080 bytes are written to it:
 > 
-> > > Interestingly, the system seems working with 6.8-rc3, so some piece
-> > > might be missing.  Or simply reverting this patch should fix.
+>   BUG: KASAN: slab-out-of-bounds in snd_pcm_format_set_silence+0x3bc/0x3e4
+>   Write of size 8 at addr ffff0000c8149800 by task kunit_try_catch/1297
 > 
-> > In the bugzilla entry, the reporter confirmed that the revert of the
-> > commit 4b6986b170f2f2 fixed the problem.
+>   CPU: 0 PID: 1297 Comm: kunit_try_catch Tainted: G N 6.8.0-rc4-next-20240216 #1
+>   Hardware name: linux,dummy-virt (DT)
+>   Call trace:
+>    kasan_report+0x78/0xc0
+>    __asan_report_store_n_noabort+0x1c/0x28
+>    snd_pcm_format_set_silence+0x3bc/0x3e4
+>    _test_fill_silence+0xdc/0x298
+>    test_format_fill_silence+0x110/0x228
+>    kunit_try_run_case+0x144/0x3bc
+>    kunit_generic_run_threadfn_adapter+0x50/0x94
+>    kthread+0x330/0x3e8
+>    ret_from_fork+0x10/0x20
 > 
-> Any news on a patch for this?  Venkata?
+>   Allocated by task 1297:
+>    __kmalloc+0x17c/0x2f0
+>    kunit_kmalloc_array+0x2c/0x78
+>    test_format_fill_silence+0xcc/0x228
+>    kunit_try_run_case+0x144/0x3bc
+>    kunit_generic_run_threadfn_adapter+0x50/0x94
+>    kthread+0x330/0x3e8
+>    ret_from_fork+0x10/0x20
+> 
+> Replace the incorrect size with the correct length of 260 64-bit samples.
+> 
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Suggested-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: use a named constant as suggested by Ivan Orlov
+> ---
+>   sound/core/sound_kunit.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
+> index 5d5a7bf88de4..4212c4a20697 100644
+> --- a/sound/core/sound_kunit.c
+> +++ b/sound/core/sound_kunit.c
+> @@ -8,7 +8,8 @@
+>   #include <sound/core.h>
+>   #include <sound/pcm.h>
+>   
+> -#define SILENCE_BUFFER_SIZE 2048
+> +#define SILENCE_BUFFER_MAX_FRAMES 260
+> +#define SILENCE_BUFFER_SIZE (sizeof(u64) * SILENCE_BUFFER_MAX_FRAMES)
+>   #define SILENCE(...) { __VA_ARGS__ }
+>   #define DEFINE_FORMAT(fmt, pbits, wd, endianness, signd, silence_arr) {		\
+>   	.format = SNDRV_PCM_FORMAT_##fmt, .physical_bits = pbits,		\
+> @@ -165,7 +166,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
+>   
+>   static void test_format_fill_silence(struct kunit *test)
+>   {
+> -	u32 buf_samples[] = { 10, 20, 32, 64, 129, 260 };
+> +	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
+>   	u8 *buffer;
+>   	u32 i, j;
+>   
 
-It was already reverted in 6.7.5, as there was no further follow up.
+Acked-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+-- 
+Kind regards,
+Ivan Orlov
 
-
-thanks,
-
-Takashi
