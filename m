@@ -1,114 +1,96 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3C24F1F2;
-	Sun, 18 Feb 2024 12:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A53B2B9A7;
+	Sun, 18 Feb 2024 19:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708258569; cv=none; b=TS9A3ZVbPyAlWlCo6ZeKEzh6e5oK3iUFI6k62vXgt3Uu0N90upfBvoeKkvUBUcc1B7b02ZAN+jBirmGoIyH4pdZaHNBqUIwWE6UjpB1vwaRYwyF3Bjr/S1hatSLeGUkLMuw097gliU/8Sn85cnTQveKDp5kZWjUZuBR1EDe14ug=
+	t=1708283423; cv=none; b=M7z4Gwpq1TDgQPA0aaX95CeFzHgcuXAY3KGn4kUMEJYMxSnRF9pI+2wSBdVm0Jnr4P16vkVjZNyfvXF4fvhHiF2aeaIpKfYTOeMAZEPLZBG3PMQyYHGvjrYxoPWz/9GKJf62fq1svJVmzJ1t3G8/WsWdqCuKhvmU3QO4ZZOxOxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708258569; c=relaxed/simple;
-	bh=tvp9s4NI2xT/fRdDh4gNHGAwqzllSAl0NRrc4HGP2m8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=QmxDAuw8as+IWJc2XxJmjBDYS4mJWPc9lXFdQMgnFartCHshXU20AfEfKh23Ng0kP4p3bvHS0LOn/qNOjCS4ci82qT6IkOg1ggKAKr+ModzE8rsZ0P89G7CY7CoyWiamo8kY5T4FCCTlQ92Nstp1fTR/KaSLtnhi11q6hLl+7aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch; spf=pass smtp.mailfrom=gmx.ch; dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b=mYjbRZIs; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.ch
+	s=arc-20240116; t=1708283423; c=relaxed/simple;
+	bh=/H62QMDTLmM1dXDrq6dNaaqlML8aeDxPeyDcHN0WyrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BZWLfAZGGUY6K/k6u0JHoay2YNqo3mOuZgnqTr698854uhsbQsh3CP/3j2cLm58VQmXIXK7GzdW3+qh39sQj0eYMDdd6Se9YJgmDATlHBiciZXMWUxHOLtjkOuEVYDXBCSHLMAr8ABaGuMX3fSiEKm/RtarCMmPds5iMi1cYy90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=ZTiTJ3UV; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b="mYjbRZIs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.ch; s=s31663417;
-	t=1708258563; x=1708863363; i=flurry123@gmx.ch;
-	bh=tvp9s4NI2xT/fRdDh4gNHGAwqzllSAl0NRrc4HGP2m8=;
-	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
-	b=mYjbRZIsBOJret5vmJsRa4EpWuAdI+mdtTUr7KyjQKULAMhZ7TjuFvHRBMf6qi5V
-	 gga6z7W+bWn7I762aEG/5Hn8QEtLlz2VQzOxHpe0sOWLfcf68WIcraZLmnRTV0feq
-	 bXX8SdB/M8qSDazy2YwOpJDBiNv7XWluHmCNS94F06Oz+gIKZNs/iz1Di5geLyTIF
-	 2EIH8c7OVi0nTiE/yt6ZoRP7B8QaRVaqg9p7rjZmtjlYqBcGwRiXc6JLuIzxhm5bz
-	 wyOWtav3iTBWZWKt8yiMBeVPEC4y7hYCdQB6/lXkx19pDkHzhe6tD1fILb4gMCQRE
-	 kPyadxbiz9sqTdmmAw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.0.2.15] ([84.155.142.60]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1r5eBz2BMS-00cimC; Sun, 18
- Feb 2024 13:16:03 +0100
-Message-ID: <a170992c-2acf-42f9-9dcc-b5dae5fffa67@gmx.ch>
-Date: Sun, 18 Feb 2024 13:16:03 +0100
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="ZTiTJ3UV"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 9689F1C006B; Sun, 18 Feb 2024 20:10:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1708283419;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pFAnKsSUhODm3ulUCr0ZKCb5X66vxbSvVEnktFSeTTo=;
+	b=ZTiTJ3UVs4a2Vgx5wJ7z2U/BLAVe3GBOVa9rJSP9pZWfwXid2Ga5YyNEW+qIzF7tKld/vm
+	BMK0qi2rBhgAwQHYI3elObLrsKLrkActviADTxwwPbma3MrCpGOn8hw4OSoD6MhSIR6AXt
+	8wn2nx30JNRD3d9sEyGT05XvxL4TE40=
+Date: Sun, 18 Feb 2024 20:10:18 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mark Brown <broonie@kernel.org>, srinivas.kandagatla@linaro.org,
+	bgoswami@quicinc.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.10 04/16] ASoC: codecs: wcd934x: drop unneeded
+ regulator include
+Message-ID: <ZdJWGgYMRoeLEKWh@duo.ucw.cz>
+References: <20240207212700.4287-1-sashal@kernel.org>
+ <20240207212700.4287-4-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Hans Peter <flurry123@gmx.ch>
-Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8)
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7qa2KFxf9dQT6fA5"
+Content-Disposition: inline
+In-Reply-To: <20240207212700.4287-4-sashal@kernel.org>
+
+
+--7qa2KFxf9dQT6fA5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jHz1QthafGp2Z8K1VzHn6CjPuzIw7Fm8uJlghoQwwNL7kEVzQEy
- QxzTbpdSwZsh7h9hxlh0irTbun3G5figr3Zm1u5pz4HGtyjvfoSqyi6j022kRbnOIa9iCv7
- au+g9HLWhTKQu1PfmoWIw5rfKUuWN6+el9+SlL9tUPjuWJb4eO3N118W8p5bd70d/9YfrXr
- X4p1UGg1o9Uqkemi5gOIw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Bk53n1Br+Z4=;9VKuH8SdWEUInY+RhY3Mjw4JVsi
- 6qy3NqVwCvLupYjwxSW4hR9o9avX0/woW2z/x1+KIBorC0dRl3mvRwC2UU08+RI8hXKmpwyNM
- tMmIEyECE9dusrZR+Rd3bNKom/cRZKl48Lsvl/6heQqZo3lRZ3yxn9wq98rq+q3rU+VXO33NV
- bVGfP+BWgrSWr/ooFJIbPL4um3AnV5FWGp6mrbYcMdU/uIIdLmOLM33Fj7dc46MBraJKGE+0d
- ZBiarux6pxxjQxq/lB2sfa4XCa5WYvMmyL+pG0KawG+Kgb9K93+rDQ/0nzIhLMz1vppp5dR9v
- 6CtGBONDxn0aj524WxeiSW7HwX0udMy+rSYc7vubwVyn1aN/mtGZj08j2wPry1F5PGmEr7fYG
- 44Fqf0nY8QLhu7EJLD0v4/CxO/Cq1uVrnKWVJlFPiCl6N4rB9A2EK1kbU9i6V16Vo3o6zLBgd
- 8uhoeMG4GnTdGWUQLn9OQ1YFhInTlUADAEnfZEuZPWNaBIZhHxE16UCJ36A/e+/R8AvShi8je
- xQOfNyJd71pIAdliyYyGc0OAkatAl3YpLhv/DCJnL+qW12eysNuMREng7zMxQpZrMoGlPOwZV
- /mayipJfGiWCME/6fDjypFhoxVd7TsoY4BKyd/lR7fD5kMCARnCxw5o6PwqQn86ynPi0QLYrF
- IUfXKTTQuUB/Axxm/xs/XihkrmNh674+4I/B60vKgtB9MKapCAhODpBgoi3wGfbapGcukX6t3
- W9ysRjc1QUpNX5BXtFs/pTNxM0WmJT26cAGVS7CWwfXAWQrUmJwX8iRAcWJ0nWmi13lL08ri0
- FRsJIZWigVFNCkecwB8GmkJR4rmc/Ppos9HZOKwOtIw/k=
 
-The HP EliteBook 840 G8 seems to be circulating with different
-subsystem-IDs. alsa-info.sh showed on my box:
+Hi!
 
-!!DMI Information
-!!---------------
+> [ Upstream commit 35314e39dabcfb256832654ad0e856a9fba744bd ]
+>=20
+> Driver does not use any regulator code, so drop redundant include of
+> regulator/consumer.h header.
 
-Manufacturer:      HP
-Product Name:      HP EliteBook 840 G8 Notebook PC
-Product Version:   SBKPF
-Firmware Version:  T37 Ver. 01.15.02
-System SKU:        5S7R6EC#ABD
-Board Vendor:      HP
-Board Name:        8AB8
+This is just a cleanup, we should not have it in stable.
 
-...
+Best regards,
+								Pavel
 
-!!HDA-Intel Codec information
-!!---------------------------
-=2D-startcollapse--
+> +++ b/sound/soc/codecs/wcd934x.c
+> @@ -13,7 +13,6 @@
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+> -#include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+>  #include <linux/slimbus.h>
+>  #include <sound/pcm_params.h>
 
-Codec: Realtek ALC285
-Address: 0
-AFG Function Id: 0x1 (unsol 1)
-Vendor Id: 0x10ec0285
-Subsystem Id: 0x103c8ab9
-Revision Id: 0x100002
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
+--7qa2KFxf9dQT6fA5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So an additional quirk enabled mute led for me:
+-----BEGIN PGP SIGNATURE-----
 
-=2D-- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9752,6 +9752,7 @@
-  	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)",
-ALC236_FIXUP_HP_GPIO_LED),
-  	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)",
-ALC236_FIXUP_HP_GPIO_LED),
-  	SND_PCI_QUIRK(0x103c, 0x8aab, "HP EliteBook 650 G9 (MB 8AA9)",
-ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8ab9, "HP EliteBook 840 G8 (MB 8AB8)",
-ALC285_FIXUP_HP_GPIO_LED),
-  	SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9",
-ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-  	SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook
-PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-  	SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook
-PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZdJWGgAKCRAw5/Bqldv6
+8iOQAJ9inBpQDN+haYqgeqPuxAw4PDFSwwCfVVi8mLYBEMh2CxLJvoxzV8+OUVc=
+=0c1d
+-----END PGP SIGNATURE-----
 
+--7qa2KFxf9dQT6fA5--
