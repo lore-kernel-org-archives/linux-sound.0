@@ -1,147 +1,114 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCB13229
-	for <linux-sound@vger.kernel.org>; Sun, 18 Feb 2024 07:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3C24F1F2;
+	Sun, 18 Feb 2024 12:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708242873; cv=none; b=GwUV2GIEzkg9hrHqQ2x282quuI/kV5/f7zSmO5zyX4u23VYrvxD5zO0i71GHWzD7l2Vpvnl+pBGNQeXiO+ttfyM/eaRbtQhxxa0DdDm/BRfj6GjqScFFE+qiBkjQvTwDHzyZq4hVygDKNJnU2Ep/nqt4wHbMQXTE++lOsQMMUFE=
+	t=1708258569; cv=none; b=TS9A3ZVbPyAlWlCo6ZeKEzh6e5oK3iUFI6k62vXgt3Uu0N90upfBvoeKkvUBUcc1B7b02ZAN+jBirmGoIyH4pdZaHNBqUIwWE6UjpB1vwaRYwyF3Bjr/S1hatSLeGUkLMuw097gliU/8Sn85cnTQveKDp5kZWjUZuBR1EDe14ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708242873; c=relaxed/simple;
-	bh=4cOP/oBQEEDik3LAt/EfJ4cRr19Eors6IRjnRmL/xOY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XHQNtk68RNjilFskj6LGyVD/qwvceaQTzdu3oz6XeVoAFR47zUa6bQuGK7ZoLiVodbCXDUf711Jk2Glf2G2BS+4eeUQzrjxycguyO5aJFR25oxW9jYneJcqb6VoBCo7NhPC/B2QxpNT0mEyuwXNKTI1c4sAp8mCAr3rHQw/wpyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eWzFXJ6e; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708258569; c=relaxed/simple;
+	bh=tvp9s4NI2xT/fRdDh4gNHGAwqzllSAl0NRrc4HGP2m8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=QmxDAuw8as+IWJc2XxJmjBDYS4mJWPc9lXFdQMgnFartCHshXU20AfEfKh23Ng0kP4p3bvHS0LOn/qNOjCS4ci82qT6IkOg1ggKAKr+ModzE8rsZ0P89G7CY7CoyWiamo8kY5T4FCCTlQ92Nstp1fTR/KaSLtnhi11q6hLl+7aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch; spf=pass smtp.mailfrom=gmx.ch; dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b=mYjbRZIs; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eWzFXJ6e"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-7d2e15193bbso1838602241.0
-        for <linux-sound@vger.kernel.org>; Sat, 17 Feb 2024 23:54:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708242869; x=1708847669; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gJ2L9fNJYKMBNrnXV18Ja+6CS5sjhRFPehfcYBs4xrQ=;
-        b=eWzFXJ6eqjPn+kg8Ls5kXsv65z6BtcN+mXyUDDuwnKtP4BWvodRS43MXElATd+0fgZ
-         GupRXfEOYThtIL3OeuuDB6UqHC7dadd0FNpYU1gZd0YlV4+ZoTEKvXpJ3tVbujJ9f7/d
-         z03tyL6r1mLhXoSYGYXelHVHwTUP8Wy68xcJNw1pwFqggD0mtnc5fhseNxud0pPIOp8h
-         D//v6rQCxkGwUrD5hv83fe3vSE8YUUCjO5jtrxL09lfQ0RcFe38zN+oec1QRVOHmqd04
-         glj+yng89YRblcDHBq3XCHhNMr8v/1w4I185xhrD4Yh8ktA4yflYG76QHgO5w8Ahgzo0
-         jI8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708242869; x=1708847669;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gJ2L9fNJYKMBNrnXV18Ja+6CS5sjhRFPehfcYBs4xrQ=;
-        b=iAiU8p4LC0aqeJxZidqnN9YQ9nV/SqwA9ik0I9RSkzgSaNaVIAkRjeGXneGJ2jN0cE
-         Bim20m5TtpeacxQcpdX/re2QLipj0YukOE6NdGA9O6+afWk79VnRy1tlM1SduRaaFDTw
-         dVI4LHJJNBW8OrqPcmoWaItNxkskWjDUxbac4qqyY4UnhplSDEsWTY6ZCOAqX7yrkz2D
-         gOuIelgzZXbtcT5UjuXPFhjj9TLTqsxER+rYcSJdoehOr3VzHxhDSEHLxFv9gxqn/cVJ
-         9UkS6zctpkmvipdhCeAHhipd+Y6mQ0c4kdDDzi8tJt8KwQjZT8yayQWrGWOW42HPjZG1
-         nX5w==
-X-Forwarded-Encrypted: i=1; AJvYcCW5LAMl7teQcMVENHDodhIQiIes6GoDwgS/WzJvLozIBl6vBxMQtF45HRGiZ1hSY+pMRiCMUZaVH07FbN7F65kAq9U/srnvpLFZT5w=
-X-Gm-Message-State: AOJu0YxAuCEVt+m63/jdN8SJAV8AgSxdHMsscfoYl7NCGAVJjv2cCBcE
-	DvKjdxylRLUA0kuFs6b0k1Kt7RBDhr8Umx3j0ud81yHHYcU9n7h0/h3KdPLYCtctoMM1F8tKvVa
-	WnQszrzxksvNIlKecEXbUOgoxq9x/YWxuXmUUJA==
-X-Google-Smtp-Source: AGHT+IE/Xcw/KWaPa1CbbhJ5cctVq226IFNKyz1IX3FmhL9zHqK32U4B2rS1QE4Sc0pJXJoeKyE2lsx2ITjjvfIL3Fk=
-X-Received: by 2002:a67:be06:0:b0:470:3a99:f3c with SMTP id
- x6-20020a67be06000000b004703a990f3cmr2392342vsq.23.1708242869395; Sat, 17 Feb
- 2024 23:54:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b="mYjbRZIs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.ch; s=s31663417;
+	t=1708258563; x=1708863363; i=flurry123@gmx.ch;
+	bh=tvp9s4NI2xT/fRdDh4gNHGAwqzllSAl0NRrc4HGP2m8=;
+	h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
+	b=mYjbRZIsBOJret5vmJsRa4EpWuAdI+mdtTUr7KyjQKULAMhZ7TjuFvHRBMf6qi5V
+	 gga6z7W+bWn7I762aEG/5Hn8QEtLlz2VQzOxHpe0sOWLfcf68WIcraZLmnRTV0feq
+	 bXX8SdB/M8qSDazy2YwOpJDBiNv7XWluHmCNS94F06Oz+gIKZNs/iz1Di5geLyTIF
+	 2EIH8c7OVi0nTiE/yt6ZoRP7B8QaRVaqg9p7rjZmtjlYqBcGwRiXc6JLuIzxhm5bz
+	 wyOWtav3iTBWZWKt8yiMBeVPEC4y7hYCdQB6/lXkx19pDkHzhe6tD1fILb4gMCQRE
+	 kPyadxbiz9sqTdmmAw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.0.2.15] ([84.155.142.60]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1r5eBz2BMS-00cimC; Sun, 18
+ Feb 2024 13:16:03 +0100
+Message-ID: <a170992c-2acf-42f9-9dcc-b5dae5fffa67@gmx.ch>
+Date: Sun, 18 Feb 2024 13:16:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240217104311.3749655-1-arnd@kernel.org>
-In-Reply-To: <20240217104311.3749655-1-arnd@kernel.org>
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Sun, 18 Feb 2024 13:24:18 +0530
-Message-ID: <CA+G9fYt6riy6as7sS=T6iDxvo-pA2JT+N6SVbg8TWx4tOY8u5w@mail.gmail.com>
-Subject: Re: [PATCH] [v2] ALSA: core: fix buffer overflow in test_format_fill_silence()
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Hans Peter <flurry123@gmx.ch>
+Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:jHz1QthafGp2Z8K1VzHn6CjPuzIw7Fm8uJlghoQwwNL7kEVzQEy
+ QxzTbpdSwZsh7h9hxlh0irTbun3G5figr3Zm1u5pz4HGtyjvfoSqyi6j022kRbnOIa9iCv7
+ au+g9HLWhTKQu1PfmoWIw5rfKUuWN6+el9+SlL9tUPjuWJb4eO3N118W8p5bd70d/9YfrXr
+ X4p1UGg1o9Uqkemi5gOIw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Bk53n1Br+Z4=;9VKuH8SdWEUInY+RhY3Mjw4JVsi
+ 6qy3NqVwCvLupYjwxSW4hR9o9avX0/woW2z/x1+KIBorC0dRl3mvRwC2UU08+RI8hXKmpwyNM
+ tMmIEyECE9dusrZR+Rd3bNKom/cRZKl48Lsvl/6heQqZo3lRZ3yxn9wq98rq+q3rU+VXO33NV
+ bVGfP+BWgrSWr/ooFJIbPL4um3AnV5FWGp6mrbYcMdU/uIIdLmOLM33Fj7dc46MBraJKGE+0d
+ ZBiarux6pxxjQxq/lB2sfa4XCa5WYvMmyL+pG0KawG+Kgb9K93+rDQ/0nzIhLMz1vppp5dR9v
+ 6CtGBONDxn0aj524WxeiSW7HwX0udMy+rSYc7vubwVyn1aN/mtGZj08j2wPry1F5PGmEr7fYG
+ 44Fqf0nY8QLhu7EJLD0v4/CxO/Cq1uVrnKWVJlFPiCl6N4rB9A2EK1kbU9i6V16Vo3o6zLBgd
+ 8uhoeMG4GnTdGWUQLn9OQ1YFhInTlUADAEnfZEuZPWNaBIZhHxE16UCJ36A/e+/R8AvShi8je
+ xQOfNyJd71pIAdliyYyGc0OAkatAl3YpLhv/DCJnL+qW12eysNuMREng7zMxQpZrMoGlPOwZV
+ /mayipJfGiWCME/6fDjypFhoxVd7TsoY4BKyd/lR7fD5kMCARnCxw5o6PwqQn86ynPi0QLYrF
+ IUfXKTTQuUB/Axxm/xs/XihkrmNh674+4I/B60vKgtB9MKapCAhODpBgoi3wGfbapGcukX6t3
+ W9ysRjc1QUpNX5BXtFs/pTNxM0WmJT26cAGVS7CWwfXAWQrUmJwX8iRAcWJ0nWmi13lL08ri0
+ FRsJIZWigVFNCkecwB8GmkJR4rmc/Ppos9HZOKwOtIw/k=
 
-On Sat, 17 Feb 2024 at 16:13, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> KASAN caught a buffer overflow with the hardcoded 2048 byte buffer
-> size, when 2080 bytes are written to it:
->
->  BUG: KASAN: slab-out-of-bounds in snd_pcm_format_set_silence+0x3bc/0x3e4
->  Write of size 8 at addr ffff0000c8149800 by task kunit_try_catch/1297
->
->  CPU: 0 PID: 1297 Comm: kunit_try_catch Tainted: G N 6.8.0-rc4-next-20240216 #1
->  Hardware name: linux,dummy-virt (DT)
->  Call trace:
->   kasan_report+0x78/0xc0
->   __asan_report_store_n_noabort+0x1c/0x28
->   snd_pcm_format_set_silence+0x3bc/0x3e4
->   _test_fill_silence+0xdc/0x298
->   test_format_fill_silence+0x110/0x228
->   kunit_try_run_case+0x144/0x3bc
->   kunit_generic_run_threadfn_adapter+0x50/0x94
->   kthread+0x330/0x3e8
->   ret_from_fork+0x10/0x20
->
->  Allocated by task 1297:
->   __kmalloc+0x17c/0x2f0
->   kunit_kmalloc_array+0x2c/0x78
->   test_format_fill_silence+0xcc/0x228
->   kunit_try_run_case+0x144/0x3bc
->   kunit_generic_run_threadfn_adapter+0x50/0x94
->   kthread+0x330/0x3e8
->   ret_from_fork+0x10/0x20
->
-> Replace the incorrect size with the correct length of 260 64-bit samples.
->
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Suggested-by: Ivan Orlov <ivan.orlov0322@gmail.com>
-> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+The HP EliteBook 840 G8 seems to be circulating with different
+subsystem-IDs. alsa-info.sh showed on my box:
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+!!DMI Information
+!!---------------
 
-> ---
-> v2: use a named constant as suggested by Ivan Orlov
-> ---
->  sound/core/sound_kunit.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-> index 5d5a7bf88de4..4212c4a20697 100644
-> --- a/sound/core/sound_kunit.c
-> +++ b/sound/core/sound_kunit.c
-> @@ -8,7 +8,8 @@
->  #include <sound/core.h>
->  #include <sound/pcm.h>
->
-> -#define SILENCE_BUFFER_SIZE 2048
-> +#define SILENCE_BUFFER_MAX_FRAMES 260
-> +#define SILENCE_BUFFER_SIZE (sizeof(u64) * SILENCE_BUFFER_MAX_FRAMES)
->  #define SILENCE(...) { __VA_ARGS__ }
->  #define DEFINE_FORMAT(fmt, pbits, wd, endianness, signd, silence_arr) {                \
->         .format = SNDRV_PCM_FORMAT_##fmt, .physical_bits = pbits,               \
-> @@ -165,7 +166,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
->
->  static void test_format_fill_silence(struct kunit *test)
->  {
-> -       u32 buf_samples[] = { 10, 20, 32, 64, 129, 260 };
-> +       u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
->         u8 *buffer;
->         u32 i, j;
->
-> --
-> 2.39.2
->
+Manufacturer:      HP
+Product Name:      HP EliteBook 840 G8 Notebook PC
+Product Version:   SBKPF
+Firmware Version:  T37 Ver. 01.15.02
+System SKU:        5S7R6EC#ABD
+Board Vendor:      HP
+Board Name:        8AB8
+
+...
+
+!!HDA-Intel Codec information
+!!---------------------------
+=2D-startcollapse--
+
+Codec: Realtek ALC285
+Address: 0
+AFG Function Id: 0x1 (unsol 1)
+Vendor Id: 0x10ec0285
+Subsystem Id: 0x103c8ab9
+Revision Id: 0x100002
 
 
---
-Linaro LKFT
-https://lkft.linaro.org
+So an additional quirk enabled mute led for me:
+
+=2D-- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9752,6 +9752,7 @@
+  	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)",
+ALC236_FIXUP_HP_GPIO_LED),
+  	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)",
+ALC236_FIXUP_HP_GPIO_LED),
+  	SND_PCI_QUIRK(0x103c, 0x8aab, "HP EliteBook 650 G9 (MB 8AA9)",
+ALC236_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8ab9, "HP EliteBook 840 G8 (MB 8AB8)",
+ALC285_FIXUP_HP_GPIO_LED),
+  	SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9",
+ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+  	SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook
+PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+  	SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook
+PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+
