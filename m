@@ -1,88 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B7C1C10;
-	Mon, 19 Feb 2024 11:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0379ABA4D;
+	Mon, 19 Feb 2024 11:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708340521; cv=none; b=HGRPBixG31K7+BlnDrVE8Lg3N3wjMQQ7vH+OwNowV3X0+7FAL1zv0ZdUWMPPzdCYZwpQ51ffQSEEtbgn9D++4f6mJ9omrxedSwiM0EM6Yn1gmHzXFXZlSTTepEI2k+EsMiR8agMRIytkpOGZIn++OJ+sQl8X61p2mvV/GRnz6cU=
+	t=1708340821; cv=none; b=hoh2TWy8zMhlOxkvsw5HHqFvYgAZJJnF8Umg+kiE2w0NrUiweeCON+S9K98zz7FCBRgn25kD+TT11sABEZ+llUm3LNM98vzO9T++lGNeYa8SqBeFJpwAwYlrO0ajQ6WeGX7CpPlmzpLWMTRD4W8ZA1/YvDnd54DfDFpO3Ynhtho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708340521; c=relaxed/simple;
-	bh=FYHwUjv0CBOVE/UvV6qkWI5k+uNh+6/RQIoNRoiJaqg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S+cGZ/rTpG2hCZcaYuT0/KpyxyQSCLGNvnhNccGYYxPBPZC/tBgib1Oni+SAYA/2VRpp8yQi89IiDSzpL8DXeAvS6AVTRPx32MDoVb7Zi5ewnjBJ1ZbRF1t/iPece53la1218c6UrgDMn8A87DG+TgxfzP4uIXhVj6aSeHFmqNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iI3AdxuQ; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1708340821; c=relaxed/simple;
+	bh=mH/z9hy5y1/jEvD4un/BSTP6zQ3aR1t42CU+6SFkCKk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JHTaqNrWrHuIU1u9A0pa2mKsIXPE6RzLjzcrHOHFXQHtM5iHwE2mh3nvvSYErvPzWLE75dWL5ixqS1CIOx1I5j33qBsz9HXhlSuQrMHo8xswi3NKCPxjmFEudE1dALbI5kF3FmG6x8I7iM6Oq1qFCbjRiDb+UcsjjbYGIB/XU74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s86i5twg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UBGlvilk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s86i5twg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UBGlvilk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iI3AdxuQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708340519; x=1739876519;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=FYHwUjv0CBOVE/UvV6qkWI5k+uNh+6/RQIoNRoiJaqg=;
-  b=iI3AdxuQLJ85BdNTv3LccBvTl5WpMvi7xNNIB/S4qC0txlEEhksTTF4t
-   PObXqnZpH7B9civwnocqwQqi7C93tDCK7ntMrdlosEgtv4GHRtZmFZkrR
-   hbPSMYpk0z9IrOc7SQR6DN22A6iklWlgKP08i1akbwVjBrxa435dC7s4x
-   /ZOs19P1TCMAx+2atJl7CfGGimudpfoBiW6s89tAoHFzMM5CkQF7HtsN7
-   bJBRifBbJ+X798YVCRjVfVX+CYt5s7HVfH/oRB8cg1l9HYEvMsSKgdEVY
-   zeHxFy6koLkwkj4IChSaQMcnrJ5v0xh7a4bypUyV8zwLUpOJFFSb9fVMK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2276106"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="2276106"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 03:01:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="936276332"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="936276332"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2024 03:01:53 -0800
-Message-ID: <d82c8955-6793-7544-0013-1033abd9f1e9@linux.intel.com>
-Date: Mon, 19 Feb 2024 13:03:31 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s86i5twg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UBGlvilk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s86i5twg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UBGlvilk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A8D1222F9;
+	Mon, 19 Feb 2024 11:06:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708340818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
+	b=s86i5twgn2MtfLizWr3v+vuGVLzcvSg2Peyh1FBKe0C46J9WSpVN57M0vvk7PW1Xoq/QEl
+	z9bbhf99Z0nt85d3UbQULxdp7NbnGWm52kd4LnJWMWcajaxRuVvn4Q/qmFtoMRk8uEdmPp
+	uvljSRR5m862OU6OV9k0hmj+TTxigaY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708340818;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
+	b=UBGlvilkdOxexvJtL8JZ/pQLZ4r0X/oeFfep7ABRM5KKeSHlczaUTfG3OyLuq5COBK6Nne
+	EmDpEGzvDifdsfBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708340818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
+	b=s86i5twgn2MtfLizWr3v+vuGVLzcvSg2Peyh1FBKe0C46J9WSpVN57M0vvk7PW1Xoq/QEl
+	z9bbhf99Z0nt85d3UbQULxdp7NbnGWm52kd4LnJWMWcajaxRuVvn4Q/qmFtoMRk8uEdmPp
+	uvljSRR5m862OU6OV9k0hmj+TTxigaY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708340818;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
+	b=UBGlvilkdOxexvJtL8JZ/pQLZ4r0X/oeFfep7ABRM5KKeSHlczaUTfG3OyLuq5COBK6Nne
+	EmDpEGzvDifdsfBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B50FF13647;
+	Mon, 19 Feb 2024 11:06:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id viCtKlE202XtLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 11:06:57 +0000
+Date: Mon, 19 Feb 2024 12:06:57 +0100
+Message-ID: <87o7ccogq6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	stable@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	"Mukunda, Vijendar" <Vijendar.Mukunda@amd.com>,
+	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+	"Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
+	Ethan Geller <ethang@valvesoftware.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: [REGRESSION] Acp5x probing regression introduced between kernel 6.7.2 -> 6.7.4
+In-Reply-To: <3e364929-807e-477c-8530-f23db4ae7caf@amd.com>
+References: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
+	<7a0cd63f-8a83-4dc5-8763-63dcdae8d68a@leemhuis.info>
+	<878r3qxcyr.wl-tiwai@suse.de>
+	<871q9hwz2w.wl-tiwai@suse.de>
+	<ZdDXJyXiZ++KiNqW@finisterre.sirena.org.uk>
+	<87msrzos6m.wl-tiwai@suse.de>
+	<3e364929-807e-477c-8530-f23db4ae7caf@amd.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [PATCH v17 00/51] Introduce QC USB SND audio offloading support
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, Thinh.Nguyen@synopsys.com,
- broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
- robh+dt@kernel.org, konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20240217001017.29969-1-quic_wcheng@quicinc.com>
- <2024021754-unengaged-saggy-6ab1@gregkh>
- <96ab6033-2cb9-daa7-ddad-090138896739@linux.intel.com>
- <2024021922-privatize-runt-495e@gregkh>
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <2024021922-privatize-runt-495e@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=s86i5twg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UBGlvilk
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[13];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 2A8D1222F9
+X-Spam-Flag: NO
 
->>
->> Patch 10/10 is based on an old POC patch by me, but it's heavily modified.
->>
->> It looks like it does a few minor things that are not optimal, like extra
->> spinlock/unlock, and wait_for_completion_timeout() with magical timeout value.
->> I haven't tested this version, but I guess any fixes or cleanups can be done
->> later on top of it.
+On Mon, 19 Feb 2024 11:50:46 +0100,
+Venkata Prasad Potturu wrote:
 > 
-> I can revert it now if you want, just let me know.
 > 
+> On 2/18/24 00:04, Takashi Iwai wrote:
+> > On Sat, 17 Feb 2024 16:56:23 +0100,
+> > Mark Brown wrote:
+> >> On Mon, Feb 12, 2024 at 03:12:55PM +0100, Takashi Iwai wrote:
+> >>> Takashi Iwai wrote:
+> >>>> Interestingly, the system seems working with 6.8-rc3, so some piece
+> >>>> might be missing.  Or simply reverting this patch should fix.
+> >>> In the bugzilla entry, the reporter confirmed that the revert of the
+> >>> commit 4b6986b170f2f2 fixed the problem.
+> >> Any news on a patch for this?  Venkata?
+> Hi Mark & Takashi,
+> Sorry for the late reply.
+> 
+> 4b6986b170f2f2 ASoC: amd: Add new dmi entries for acp5x platform
+> 
+> There is no relation with the below error and this reverted patch, this patch is to
+> define is to load Legacy driver for Jupiter Steam deck variant.
+> 
+> We will check on this.
+> 
+> Error logs.
+> [    8.755614] cs35l41 spi-VLV1776:00: supply VA not found, using dummy regulator
+> [    8.760506] cs35l41 spi-VLV1776:00: supply VP not found, using dummy regulator
+> [    8.777148] cs35l41 spi-VLV1776:00: Cirrus Logic CS35L41 (35a40), Revision: B2
+> [    8.777471] cs35l41 spi-VLV1776:01: supply VA not found, using dummy regulator
+> [    8.777532] cs35l41 spi-VLV1776:01: supply VP not found, using dummy regulator
+> [    8.777709] cs35l41 spi-VLV1776:01: Reset line busy, assuming shared reset
+> [    8.788465] cs35l41 spi-VLV1776:01: Cirrus Logic CS35L41 (35a40), Revision: B2
+> [    8.877280] snd_hda_intel 0000:04:00.1: enabling device (0000 -> 0002)
+> [    8.877595] snd_hda_intel 0000:04:00.1: Handle vga_switcheroo audio client
+> [    8.889913] snd_acp_pci 0000:04:00.5: enabling device (0000 -> 0002)
+> [    8.890063] snd_acp_pci 0000:04:00.5: Unsupported device revision:0x50
+> [    8.890129] snd_acp_pci: probe of 0000:04:00.5 failed with error -22
 
-Maybe reverting it would be better yes.
+My understanding is that the fact that snd_acp_pci matches caused the
+problem (without backports of other relevant changes).
+In the working case, it's probed with snd_pci_acp5x driver.
 
-Thanks
-Mathias
+
+thanks,
+
+Takashi
