@@ -1,127 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C95F40BFD;
-	Mon, 19 Feb 2024 16:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8267F3A1CF
+	for <linux-sound@vger.kernel.org>; Mon, 19 Feb 2024 17:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708361912; cv=none; b=gV4804p9v8gwcyDYk+E92n9h+aD71mvDzefdZ9GcJ4Osq+MtG1hjWftB+ze8SI0b3PVVsHlBAopFoU0ZCLnrAV6MLbC8ve8fKLo+sttdjZhX/1ZXriMWqUKGjpBRDWSPGmBNOKlkGo5+9IzDRpEXegdHYr/vYJXazpl+wTrvT1w=
+	t=1708362124; cv=none; b=qNdaa+3/apt6uOs82HaYRcQwiPTpfyxrOcrYPTt0YZmSV15RBpbpO4Tp0snYzyjSzB+4C+fwH7ks/Z/qY16ZzLHKeFoKh1bkdx2mJlp2iT2fOndP0IQcJq73vrR8aOSmv8YBKcF26nCDtv3d6vzv2Qp/Y7SRr1l9IxyfoGUpp8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708361912; c=relaxed/simple;
-	bh=F5pttH007rRprjbJopl130Nu9xt8t2EbXf1y11iVAi4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O/zUdLPh8LjNrq6DVjqMiOVcWj4mu37Xi1pTsEXab8qfmw8aAtwGL5Uyx70DGdGKZ5fvOJeOLGI7OcPDE0URkL/eVLgAGudZ1n4ywc5rsrIEP0Ic8Xfwc+djETcRX2sFOEXJ9pMh+lbXVr9I+F510RKyTxUCcpsKL23wNqsaGu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FHxo0pQz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0It+0grg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FHxo0pQz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0It+0grg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708362124; c=relaxed/simple;
+	bh=bJOPxxCDkM+K/UtyVWDrsBHz+rgVEgeOy580DrBmBs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCqmSdiMo7xVs2mE+cbDzVtBd47zlocY2TtKHSYzgeMBqwAPhtdOQDtPjrd/5HloIzyNQ3mYn++aOHgSVsJp7lbfhtAVuxmMYNlkKGAQW9sUGU2DGqGU3FfMnEvofsmx/RC48jsVvmyuSMm1NfwpPqqeAdqeIxQQ6JjSdLr1dnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=usx3a1T1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FHxo0pQz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0It+0grg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FHxo0pQz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0It+0grg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A92C1F801;
-	Mon, 19 Feb 2024 16:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708361908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Eo2vXtazXt6E0xtz/5zjooIf8WjKmbBwzcUBF6jdpNQ=;
-	b=FHxo0pQzvBeaiaJWwKJIJGG9GMcGIR/C+pwhD3ZxC/+dZHe536v9zNtmdqfXPDLtw2F+eK
-	h7KHufF+Aof12W6ZGqMdTOsemXc49f7QZdDu6hBCEmkHNmTpMsdbwAc3zhMRYuh+/N11+i
-	2j8K/MwdQC1euE4XnJyRHMisgkg8LNc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708361908;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Eo2vXtazXt6E0xtz/5zjooIf8WjKmbBwzcUBF6jdpNQ=;
-	b=0It+0grglmtOJVfOw2Y+f+FFXlZGkxBVADDA6ITd+ik5YDy8q9OSV0npcl6Rmr1+b+WuRR
-	xWDY3Uww4uZjLbBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708361908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Eo2vXtazXt6E0xtz/5zjooIf8WjKmbBwzcUBF6jdpNQ=;
-	b=FHxo0pQzvBeaiaJWwKJIJGG9GMcGIR/C+pwhD3ZxC/+dZHe536v9zNtmdqfXPDLtw2F+eK
-	h7KHufF+Aof12W6ZGqMdTOsemXc49f7QZdDu6hBCEmkHNmTpMsdbwAc3zhMRYuh+/N11+i
-	2j8K/MwdQC1euE4XnJyRHMisgkg8LNc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708361908;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Eo2vXtazXt6E0xtz/5zjooIf8WjKmbBwzcUBF6jdpNQ=;
-	b=0It+0grglmtOJVfOw2Y+f+FFXlZGkxBVADDA6ITd+ik5YDy8q9OSV0npcl6Rmr1+b+WuRR
-	xWDY3Uww4uZjLbBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F100139D0;
-	Mon, 19 Feb 2024 16:58:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UNP3FbSI02WoCQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 16:58:28 +0000
-Date: Mon, 19 Feb 2024 17:58:28 +0100
-Message-ID: <87ttm4mlvv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Hans Peter <flurry123@gmx.ch>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	tiwai@suse.com
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8)
-In-Reply-To: <20240219164518.4099-1-flurry123@gmx.ch>
-References: <20240219164518.4099-1-flurry123@gmx.ch>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="usx3a1T1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CA5C433C7;
+	Mon, 19 Feb 2024 17:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708362124;
+	bh=bJOPxxCDkM+K/UtyVWDrsBHz+rgVEgeOy580DrBmBs4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=usx3a1T1+ZLQ0X1nJph3o4DhJ+e25/W7FcM34hk+WqdODZNO7S5+MpyUy01VrZhXs
+	 JFPC/i4jVDKzbJriHmV4s/dzMOpR+xW9YRAZXvgiNmG4AvyGChrFmDQRl7+lJKJd5m
+	 QKJprB783lUvuesajXSo10Dvd18XKgrT82jlqv16Qc6JV4wfUc/dG8RRKVfz8ySlOo
+	 arB090L11rPVIwGecPm6P3btDAydu0NUTAnz6/JZ4pc4KTfHIQrVovQwAQtQPc2D+9
+	 h5BIFnxG6Tpr+8DXNq7VtNOn4McydOnHVYbOEUeUj/39Zy3QOpH/yEg/t1UJNHrvIV
+	 n1TFK6UIJj3ug==
+Date: Mon, 19 Feb 2024 17:02:00 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Keigh =?utf-8?B?UmltLCDsnoTqsr3rr7w=?= <keigh.rim@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] soc/amd/yc: DMI quirk for LENOVO 83BS to fix
+ malfunctioning mic
+Message-ID: <0819f401-e208-4a69-9ae9-7a7dbf33ee8a@sirena.org.uk>
+References: <CABRAKeKJg8H0s88yGH96S1d=vZmGjYa3g34XEkR0PmEjhVLA2A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-1.13 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmx.ch];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmx.ch];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.03)[95.26%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -1.13
-
-On Mon, 19 Feb 2024 17:38:49 +0100,
-Hans Peter wrote:
-> 
-> On my EliteBook 840 G8 Notebook PC (ProdId 5S7R6EC#ABD; built 2022 for
-> german market) the Mute LED is always on. The mute button itself works
-> as expected. alsa-info.sh shows a different subsystem-id 0x8ab9 for
-> Realtek ALC285 Codec, thus the existing quirks for HP 840 G8 don't work.
-> Therefore, add a new quirk for this type of EliteBook.
-> 
-> Signed-off-by: Hans Peter <flurry123@gmx.ch>
-
-Thanks, applied now.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lW//k3n1HaOJLtl6"
+Content-Disposition: inline
+In-Reply-To: <CABRAKeKJg8H0s88yGH96S1d=vZmGjYa3g34XEkR0PmEjhVLA2A@mail.gmail.com>
+X-Cookie: Kleeneness is next to Godelness.
 
 
-Takashi
+--lW//k3n1HaOJLtl6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Feb 16, 2024 at 10:05:15AM -0500, Keigh Rim, =EC=9E=84=EA=B2=BD=EB=
+=AF=BC wrote:
+> This patch fixes the built-in microphone in Lenovo 83BS
+> (US model: Yoga 7 16" Gen 8 16ARP8),
+> another recent AMD SoC laptop that needs a quirk mark-up.
+
+This doesn't apply against current code, please check and resend.
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--lW//k3n1HaOJLtl6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXTiYcACgkQJNaLcl1U
+h9CMHAf+Mr1UEaRvYR3dBXM6pz/WPbNnIyYOKBf6bZpdhI43U9iHDKb9UaFGawaE
+r38r3EvCpSeKYNEgTnGE0TUK8nr73jV+//2JuRa12HMD1bDKqFHyXO+RMpe+IYoi
+dp46UhFsLNxRIvGf7GA90CSsQqVp0pr9vswazVbgZSMEOwIgkM+cTAdMkeJP7zVy
+n938SYjnYduVyeHJc2ZI4ctFogcD+IJPgFaA+xEeFPHhNnTswynh0aUTi5UtcJbb
+Uq1emMB8UQKHYaWr3d7+6B+sXwjRaP6xaO9PTUrenpTnEQU9vaJTOI6jy4uNiSaZ
+X5q5vr2qRz1zSLxaKnC14p179FqByg==
+=96br
+-----END PGP SIGNATURE-----
+
+--lW//k3n1HaOJLtl6--
