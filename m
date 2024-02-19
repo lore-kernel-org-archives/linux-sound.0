@@ -1,134 +1,101 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42A3D54E;
-	Mon, 19 Feb 2024 16:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC4A23B9;
+	Mon, 19 Feb 2024 16:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708360087; cv=none; b=eQjKMZZUdFRMQ3wPcFuh7jW8nne6+Fjw5Ixk9m54gThAqqXEhM3KhkL0cBHIcOnAMhFgjLWW0Nrrx7FDjTlkQu+7KtyXHkEfufdBcdL0GL07XNT5n34z41WRr3qWY0oyNZrL3VcDSlSFSwJkCUm+2aCcfJX3y06Z7/4yzgXSzvs=
+	t=1708361139; cv=none; b=sEr3+19qZFOQdr/+lrqlvl5jpMbOqU43T7ANWgMQmApUJxNIcz0TpPa3s4091chWCHyqy2nWzaiw71Dli3YOkZKaZ5E7J7hg8zcLc4bojF5Pasib4eRjrn8FgWC1pnEvakNmjvy2K5x8q+jaJGbivSAyPL66vhdRAJpKxiV3rVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708360087; c=relaxed/simple;
-	bh=wenKmRMWCQcXIEBiuJKWht34XyvUOfgSErz+melCPE8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t+BtHDbvDA4oL1ulMgP3ZCjE/YExukHG/OABS6kEYTW84AAJQwkG/eNih5zU1/bf2DZ1eLJx/vob8zmq1ZrGd2FQDcHpVY1ol0v6KIPNVszIG0mPKhFNCaz4ymYw9Hz4Hn8wk1gGqA+f1IqnM/m/2eKTBgEKGpQW5Xff9KVIQck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rzYDlyl2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5sanQCU8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rzYDlyl2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5sanQCU8; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708361139; c=relaxed/simple;
+	bh=RgXJPggqNh6tAcIkHk12m5lmoiPOLzaukfcYgsksZ1A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HfdU+dJgkPwnATDam0VleAmSfvm9Xogi1R08Uby/nORHCxx/74vI++kgTsp1m6HNql/q/uWvbDjCEtqn2UyANyoKm9Or1mZPmmqWpFf2D+2ygJQOkQZd+I4jwGRGDnpMRwK+IRKjbO699M8yfelGWn75flSyYtBBFtvxhqN5yo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch; spf=pass smtp.mailfrom=gmx.ch; dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b=AuWU4DoH; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rzYDlyl2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5sanQCU8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rzYDlyl2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5sanQCU8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4A77A1F806;
-	Mon, 19 Feb 2024 16:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708360083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13HhidbPpoIts7Hq4/4TUjOdAZJMflmnTuIfI0fm7Qw=;
-	b=rzYDlyl2OF28oP51oMd8AJmVnJIxcqqdLJCF8TTBp4gY6p2ZKWtaVS/QgYSblcjQiYYTaQ
-	4btKOc5uT5toqCG4gDNutEJt+YtdcHRPnbR/TxcvHJn58ruVeulM+21Q/46B2G2Y944MCi
-	rHB8+p4iDY6hkM86Wr5BB9j51nycMyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708360083;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13HhidbPpoIts7Hq4/4TUjOdAZJMflmnTuIfI0fm7Qw=;
-	b=5sanQCU8YvYZCdwwcCfedyarzaOWOI5NQPO1FkTG8fvtgZEWH+uJpi/jl6kWgZFg2KVxAE
-	Px/UU7HncS10oVDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708360083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13HhidbPpoIts7Hq4/4TUjOdAZJMflmnTuIfI0fm7Qw=;
-	b=rzYDlyl2OF28oP51oMd8AJmVnJIxcqqdLJCF8TTBp4gY6p2ZKWtaVS/QgYSblcjQiYYTaQ
-	4btKOc5uT5toqCG4gDNutEJt+YtdcHRPnbR/TxcvHJn58ruVeulM+21Q/46B2G2Y944MCi
-	rHB8+p4iDY6hkM86Wr5BB9j51nycMyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708360083;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13HhidbPpoIts7Hq4/4TUjOdAZJMflmnTuIfI0fm7Qw=;
-	b=5sanQCU8YvYZCdwwcCfedyarzaOWOI5NQPO1FkTG8fvtgZEWH+uJpi/jl6kWgZFg2KVxAE
-	Px/UU7HncS10oVDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14B26139D0;
-	Mon, 19 Feb 2024 16:28:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id l0GaA5OB02X4fwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 16:28:03 +0000
-Date: Mon, 19 Feb 2024 17:28:02 +0100
-Message-ID: <871q98o1v1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Hans Peter <flurry123@gmx.ch>
-Cc: tiwai@suse.de,
+	dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b="AuWU4DoH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.ch; s=s31663417;
+	t=1708361133; x=1708965933; i=flurry123@gmx.ch;
+	bh=RgXJPggqNh6tAcIkHk12m5lmoiPOLzaukfcYgsksZ1A=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=AuWU4DoHemp50Dy/ciMHHwaZwxg+v1N7CRVYXsMn9b1tA533ymz5uJI/1pWBbdsU
+	 TE+hdzzi9u3rQU+HWfGs3NXlCYyhYn7XJqm1v/gSOruUnAPe6zE9gYh7I7MExyjWI
+	 7pPwvnc1wNllq78gm2SYdGJdTDbYwFVJDa0XoExabvdCLxN+kT/4vUYwQvu1omFpP
+	 tazQAJV8JCgsxPQnZ9uELN2P0X31pcVl8ObM206x2udtZJ6JTuyAeEeJqv6n6HufV
+	 9k5GxffCFXNzLeNYLsJzsg9TgBzMqFWiowL43CCf2P6tdRJVK9tN7LBADLB1J+n/L
+	 rjnKBvb/DWTi58RLaQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from void.speedport.ip ([84.155.142.60]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYvcA-1rP1tV2sRU-00UtPz; Mon, 19
+ Feb 2024 17:45:33 +0100
+From: Hans Peter <flurry123@gmx.ch>
+To: tiwai@suse.de
+Cc: flurry123@gmx.ch,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8) 
-In-Reply-To: <20240219161240.3840-1-flurry123@gmx.ch>
-References: <874je4q2h0.wl-tiwai@suse.de>
-	<20240219161240.3840-1-flurry123@gmx.ch>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: [PATCH v2] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8)
+Date: Mon, 19 Feb 2024 17:38:49 +0100
+Message-ID: <20240219164518.4099-1-flurry123@gmx.ch>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [1.38 / 50.00];
-	 ARC_NA(0.00)[];
-	 SUBJECT_ENDS_SPACES(0.50)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmx.ch];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[alsa-info.sh:url,gmx.ch:email];
-	 FREEMAIL_TO(0.00)[gmx.ch];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.02)[52.91%]
-X-Spam-Level: *
-X-Spam-Score: 1.38
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Hw3fAqoOe+YqwRJ1TtbtUUbGpRYR+fgp/QJmGoFwBFDjk6LZVf5
+ 2Fi0hqAuNyXveFbYnetm/Wxj5q9iHY34AP3AcOhTvcrde3CinPQmI5xvxjRM+euMNUBr46v
+ I8GGo9251dQE+R/Lc1WT1ltnfHRf4i84FpEImW7sH8p34TqT3zTaQM6od6FA4ogFF4ZlAqR
+ Z1rdr/lUGndKjAp0Nn29g==
 X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Zgx1vwtlwyM=;XYqM1cpTFWtMujCCamFHVUe1FTa
+ x4LF+zNn+G3EDabD//qwWeDeriN0PE7Tqm/RFDKYnwvpsKLnAuueWOV5p8fXJgxwVdstc+p9h
+ pZXwesLZlrZqWfQ+Ns2XmtdzWpPvr34zt1S1OEPPqXkrUwJr6AZpraom56D25Pq0Eqlqxvea3
+ YqDZurGlBm2DeVGR3lf0r7qWSYnVLR0sv+/s3A14IjOCn3tvEZH7RUcWuz2rNlNlIicLUnZxb
+ AeNbLV9xbxdgl6xoAUoUEuWKhPtUQUNy1EY0wRNng4Z5upwTNE8NUxwHLQqxUoO7VbcrvWVg9
+ mFozY4RIeTHKq5wZ5pDIfv9STX2RuBuyLgPVG5PziarSOSwapjRdmhLepLED5djR4rJbiUWsR
+ dUEKTcZ2z9F07TuYYPi3g+xfTm9No7jq1+nq/IVLl5ZNwyG+VWCRdr1eAwM86LhHa2yqEWaU1
+ sYrq6iXW6LAVUJNWFIZ4EvUPX7slglZOn69ZVoHx7nZO4ff/qxuMzLOfl+505CGVs2FDXXVFu
+ KcDyU/HO2wkWur9+cbjYF4t7FxfiBRZekpZTYlJ78LBUtXlLoYDEiXCEpwsJlOGs5Xt75aC3y
+ f5ajppmNrNeKJjwO785nfapJHflp31Vn6MAA203lJBA69Ehs3KHuJeH0uNLJXgOLo77lztzY2
+ gEu9PIdzCNoQWa6EDKsOhGpSli/cLSo2PyNFEF6sX02Db2HupYpg19cTHr6EdXAH1c3sCSeuP
+ Vcj9eXikDzcqu1mA7Wvub8zLDwtDs43fALGWVpiTlpLfm0evkYh+5Kq7fISRAo79yUijyuK5a
+ z0+W97Kxm/7ZHLjLaGEoU0eEmmRSURKd7oqrIABoNe3bk=
 
-On Mon, 19 Feb 2024 17:00:57 +0100,
-Hans Peter wrote:
-> 
-> I apologize, this is my first patch ever.
-> 
-> On my HP EliteBook 840 G8 Notebook PC (ProdId 5S7R6EC#ABD, built 2022 for
-> german market) the Mute LED ist always on. The mute button itself works as
-> expected. alsa-info.sh shows a different subsystem-id 0x8ab9 for Realtek
-> ALC285 Codec, thus the existing quirks for HP 840 G8 don't work.
-> Therefore, add a new quirk for this type of EliteBook.
-> 
-> Signed-off-by: Hans Peter <flurry123@gmx.ch>
+On my EliteBook 840 G8 Notebook PC (ProdId 5S7R6EC#ABD; built 2022 for
+german market) the Mute LED is always on. The mute button itself works
+as expected. alsa-info.sh shows a different subsystem-id 0x8ab9 for
+Realtek ALC285 Codec, thus the existing quirks for HP 840 G8 don't work.
+Therefore, add a new quirk for this type of EliteBook.
 
-Thanks, now it's better, but could you rather resubmit without hanging
-on an existing thread?  Keep the subject without reply prefix (at best
-put "v2" in the patch prefix, e.g. [PATCH v2] ALSA: hda/realtek: ...
+Signed-off-by: Hans Peter <flurry123@gmx.ch>
+=2D--
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 0ec1312bffd5..26a90c92c3b8 100644
+=2D-- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9927,6 +9927,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[]=
+ =3D {
+ 	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIXU=
+P_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)", ALC236_FI=
+XUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8aab, "HP EliteBook 650 G9 (MB 8AA9)", ALC236_FI=
+XUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8ab9, "HP EliteBook 840 G8 (MB 8AB8)", ALC285_FI=
+XUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9", ALC245_FIXUP_CS3=
+5L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook PC",=
+ ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook PC",=
+ ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+=2D-
+2.43.2
 
-Takashi
