@@ -1,222 +1,107 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4972D052;
-	Mon, 19 Feb 2024 11:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFDD38F96;
+	Mon, 19 Feb 2024 16:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708342805; cv=none; b=BiU2N8GmYbU4O9bIsxVjJpDz56GbTkgxoY5ipuYo6qYl7ixPcfUeHZi4iKKWMUhxVrU04eJwUrc4yG+fC2IXCWR/PDdbDpOQggn/fjJarNfFPLtRReJyReDkvkj9WdXT5PgcHQp+mM3S9rMmh4gQN+se2VCpCvVp0cvKE3/oj4Q=
+	t=1708359210; cv=none; b=PpbonuL/ZS4XGnEzDtLjhTxXjTO3EHgT9adGxblgrf4DCISTgg8EQ4P3+VYACb4EVs6O1LBur2m45vU8+UQ0P5yWpAE3ce4LVd69jYtpX9iVMnhGhJhZeLRJhWiC538Gemd2rNIQ4iFOf5wfddC4ciNaayKkUib4j1d5IudI2Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708342805; c=relaxed/simple;
-	bh=8w5CP+AO5f8hWR39DOrpl6lIQYcmtAL6hnFbGEfxNH4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mv85GfyCA1hyXgYwKi3jUMTFsz3zNk3vzePSas6QbUdoV7tDTLmWq+XaKfANtXKh2KGZh/VJhlWjmEKiZXZ9cstPlHM1Rd/QVWipr2FPk+mQZVUQC8CeDkrLVBsKTDDhTtFU4EHy+fxWIE0mCEEh+Tj6vdUZlAb5/+IFSB5Fn7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qyxDsVl2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nTDEHiH1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qyxDsVl2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nTDEHiH1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1708359210; c=relaxed/simple;
+	bh=OH4defjKQkatPG8aw0BIrccIFTqxTSBkv6smamyXyvE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Am4dVbpU3mCumUS8/N0KJq9vdSXrnWPIJxwQ8yrthBaaKwLK46CJCrm0pA13o/qJOiq7JE2gBrAmAcpGQFctLfY6I7BenPn0OclsxyFyK5lZ/iaJKMbm0ALShZkrJ9H+f1UdHsXCWXpTZwMbdRfsA4dUM+iqmEWYUUGbagTtpbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch; spf=pass smtp.mailfrom=gmx.ch; dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b=UgSCrXAR; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qyxDsVl2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nTDEHiH1";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qyxDsVl2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nTDEHiH1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3741E1FD12;
-	Mon, 19 Feb 2024 11:40:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708342802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpNd7pScMzcCua32coUiV3InuIJm0wwq2wM8HmpeqA4=;
-	b=qyxDsVl2nUf/elcWaG06ru0iwhkV3yDVeyszL4wtreYDPp2GliqZBCGCJhtrrsqr8j4cEU
-	9FUpM5nyW3uDaGDQjC/F6gz9D5YSQxsqvFmC+YQYo1LfuB+MLTRJY38d3wm5txQIO3+R+H
-	QjokKUPFJ/HyFhVFStL/1SucI/1Wt4g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708342802;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpNd7pScMzcCua32coUiV3InuIJm0wwq2wM8HmpeqA4=;
-	b=nTDEHiH188LXGOCghi9RFOmdhpIEfrthQIl/Ne7U4pmnEm8boyJrpa2vN4ckwPYguaGbcV
-	6V1jV3BEUoIdpbCw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708342802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpNd7pScMzcCua32coUiV3InuIJm0wwq2wM8HmpeqA4=;
-	b=qyxDsVl2nUf/elcWaG06ru0iwhkV3yDVeyszL4wtreYDPp2GliqZBCGCJhtrrsqr8j4cEU
-	9FUpM5nyW3uDaGDQjC/F6gz9D5YSQxsqvFmC+YQYo1LfuB+MLTRJY38d3wm5txQIO3+R+H
-	QjokKUPFJ/HyFhVFStL/1SucI/1Wt4g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708342802;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpNd7pScMzcCua32coUiV3InuIJm0wwq2wM8HmpeqA4=;
-	b=nTDEHiH188LXGOCghi9RFOmdhpIEfrthQIl/Ne7U4pmnEm8boyJrpa2vN4ckwPYguaGbcV
-	6V1jV3BEUoIdpbCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1EF9D139D0;
-	Mon, 19 Feb 2024 11:40:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bBw4BxI+02W+NgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 19 Feb 2024 11:40:02 +0000
-Message-ID: <235ab5aa-90a4-4dd7-b2c6-70469605bcfb@suse.cz>
-Date: Mon, 19 Feb 2024 12:40:01 +0100
+	dkim=pass (2048-bit key) header.d=gmx.ch header.i=flurry123@gmx.ch header.b="UgSCrXAR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.ch; s=s31663417;
+	t=1708359204; x=1708964004; i=flurry123@gmx.ch;
+	bh=OH4defjKQkatPG8aw0BIrccIFTqxTSBkv6smamyXyvE=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=UgSCrXARyDtCjcLwLOEBCrWLBbuDXfrND6h7YF3K3a7Nsk7GXh9xOcsZN10LGlA0
+	 egp1Qyg5BTUQdEJxvqIgysXdXaVs9uBCUXhofMJL6SyiLS0T9TL4qwoiRyExNAFxM
+	 n28G+IS2tcI29ljqudBSn5X3QRC+gSE3XdxyGfzp7c++qRYUg1l3iCLvYm9IH06Ex
+	 N7ThlKGvdnBgxvNq+QlGGMTdpcLQJuwcDNJxexxAgB/CPuXxkQ3cUwUsfvF+wMeGM
+	 ItZI0SPbvPt4DsFNhQ0ONLM3eF8pVVBQaHgwUFaUhr8LqLMyxmZPGyxaYfz0DZRvL
+	 +Q9DAnyU3JNP6s5ASA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from void.speedport.ip ([84.155.142.60]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MV63g-1rTk142xtu-00S9Jl; Mon, 19
+ Feb 2024 17:13:24 +0100
+From: Hans Peter <flurry123@gmx.ch>
+To: tiwai@suse.de
+Cc: flurry123@gmx.ch,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com
+Subject: RE: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8) 
+Date: Mon, 19 Feb 2024 17:00:57 +0100
+Message-ID: <20240219161240.3840-1-flurry123@gmx.ch>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <874je4q2h0.wl-tiwai@suse.de>
+References: <874je4q2h0.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Stall at page allocations with __GFP_RETRY_MAYFAIL (Re: [PATCH
- v1] ALSA: memalloc: Fix indefinite hang in non-iommu case)
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>,
- Karthikeyan Ramasubramanian <kramasub@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Sven van Ashbrook <svenva@chromium.org>, Brian Geffon <bgeffon@google.com>,
- stable@vger.kernel.org, Curtis Malainey <cujomalainey@chromium.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-mm@kvack.org
-References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid>
- <87jzn0ofdb.wl-tiwai@suse.de>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <87jzn0ofdb.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -4.29
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ui8y0rdL7UK2PJ9aPEMQnaEFvD1Pp1UGVqnNh/NHu2PQ9v/8j/Y
+ HjHV7LjCuWs9WPuHwEdigcjZ7kfYeW9BpEp+rXMUx2ofoaR64uHPXVOVNLmLwlRmex0i5sd
+ YoMhMHAYsKk3k15a1SQYgriictU0eCWAYfItQjFi6/3l+CH72mN3eOWu4ZkXTJn5NlFARNm
+ Shh5n9cYbwshNRZvGP/Ew==
 X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:acXfCcZT+3A=;j1CvMKjM4MMwZq73kt0BvvHvLPA
+ t9iKJA3KV5L0F5LDSM5XqwODh1UfmRbkirRRLyYpY9fXgWc0iv7sVqvZHNtwo+iUt6w1DcUWc
+ lwz10DAW2jkUbjLIi/gHeT1fXOkSu8OghCHhJjMZGdsK84rvW4WYCH7O4xW9BBaBdZ1u3oqP6
+ BeDBAk/W3pylXJFl2xNXr8uRDi16AH7XU9dKDEP/EH8s3ZfLkqtQVtZc3SEYOUyhuKkXK9Ocp
+ QVhuIx0H9wsiVrXbgf1KP/AJbbygn0iX3X3ng4n9RW/L+baem1XhVUhpQLfC2YSJhzRCWqnlj
+ yZL2YgtkPklU99ksgAVYMh99TlYucpPbP8xDLKY+/JZ0yju5r/IeHamid/mUsqurnDbGdnnYW
+ doT+jwWjvnDX+Kku1wjlivdUmT/+Y/FEEoBJfWtjRVT/CF/njyR4VUlWzNlLfzACKYAJUJWDl
+ a0nj14yri/G5E6tYbwM9qxEbnkLokLrU1j8ZjhAI88RA4vfVXC2ic1PHa+YIFtqisLPcB/jWP
+ xdDs6ic6rCetrR1DkHHBfxTrp84inqsna5TYFNjgd0pExPFwMo0ianrBRTyVVQMouMQAit6Fa
+ mLTOjYtPHoCrgXgxhxOv4XYHG+xPscH4oa7C1DmoVjwmOBNcMv95EwdaNhcv8tGdc0Aaw2+2k
+ S0szbt6ppfA/E9EP7h+MwWatK6HKEqVbQfyv6GxV2MxHxkJoT35hf9x70Wp3fDFbOZBgnWd/s
+ mnATF4KBnmz+uELEGyS4GA/HqfreUMO9Veq04FSRwD6gewbjNpHi2H08dIWK4pMRc1tiDk1+q
+ iilxYnIyxuo3Of5eGnNZilwMvK8xMyvgpuQ1lWdoDCoBY=
 
-On 2/19/24 12:36, Takashi Iwai wrote:
-> On Thu, 15 Feb 2024 01:07:25 +0100,
-> Karthikeyan Ramasubramanian wrote:
->> 
->> Before 9d8e536 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
->> the alsa non-contiguous allocator always called the alsa fallback
->> allocator in the non-iommu case. This allocated non-contig memory
->> consisting of progressively smaller contiguous chunks. Allocation was
->> fast due to the OR-ing in of __GFP_NORETRY.
->> 
->> After 9d8e536 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
->> the code tries the dma non-contig allocator first, then falls back to
->> the alsa fallback allocator. In the non-iommu case, the former supports
->> only a single contiguous chunk.
->> 
->> We have observed experimentally that under heavy memory fragmentation,
->> allocating a large-ish contiguous chunk with __GFP_RETRY_MAYFAIL
->> triggers an indefinite hang in the dma non-contig allocator. This has
->> high-impact, as an occurrence will trigger a device reboot, resulting in
->> loss of user state.
->> 
->> Fix the non-iommu path by letting dma_alloc_noncontiguous() fail quickly
->> so it does not get stuck looking for that elusive large contiguous chunk,
->> in which case we will fall back to the alsa fallback allocator.
->> 
->> Note that the iommu dma non-contiguous allocator is not affected. While
->> assembling an array of pages, it tries consecutively smaller contiguous
->> allocations, and lets higher-order chunk allocations fail quickly.
->> 
->> Suggested-by: Sven van Ashbrook <svenva@chromium.org>
->> Suggested-by: Brian Geffon <bgeffon@google.com>
->> Fixes: 9d8e536d36e7 ("ALSA: memalloc: Try dma_alloc_noncontiguous() at first")
->> Cc: stable@vger.kernel.org
->> Cc: Sven van Ashbrook <svenva@chromium.org>
->> Cc: Brian Geffon <bgeffon@google.com>
->> Cc: Curtis Malainey <cujomalainey@chromium.org>
->> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
-> 
-> After chatting with Vlastimil, he recommended to get linux-mm people
-> involved, as basically such a problem shouldn't happen in the page
-> allocator side.  So let's widen the audience.
-> 
-> To recap the thread: the problem is that dma_alloc_contiguous() call
-> with high order pages and __GFP_FAIL_MAYRETRY leads to indefinite
-> stall.  (It was __GFP_NORETRY beforehand.)  This looks like the code
-> path with the direct page allocation where no IOMMU is involved.
-> 
-> Karthikeyan, Sven, and co: could you guys show the stack trace at the
-> stall?  This may give us more clear light.
+I apologize, this is my first patch ever.
 
-Yeah, if the inifinite loop with __GFP_RETRY_MAYFAIL happens in a call to
-__alloc_pages and not in some retry loop around it in an upper layer (I
-tried to check the dma functions but got lost quickly so the exact call
-stack would be useful), we definitely want to know the details. It shouldn't
-happen for costly orders (>3) because the retries are hard limited for those
-despite apparent progress or reclaim or compaction.
+On my HP EliteBook 840 G8 Notebook PC (ProdId 5S7R6EC#ABD, built 2022 for
+german market) the Mute LED ist always on. The mute button itself works as
+expected. alsa-info.sh shows a different subsystem-id 0x8ab9 for Realtek
+ALC285 Codec, thus the existing quirks for HP 840 G8 don't work.
+Therefore, add a new quirk for this type of EliteBook.
 
-> Also, Vlastimil suggested that tracepoints would be helpful if that's
-> really in the page allocator, too.
-> 
-> 
-> Thanks!
-> 
-> Takashi
-> 
->> ---
->> 
->>  sound/core/memalloc.c | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->> 
->> diff --git a/sound/core/memalloc.c b/sound/core/memalloc.c
->> index f901504b5afc1..5f6526a0d731c 100644
->> --- a/sound/core/memalloc.c
->> +++ b/sound/core/memalloc.c
->> @@ -540,13 +540,18 @@ static void *snd_dma_noncontig_alloc(struct snd_dma_buffer *dmab, size_t size)
->>  {
->>  	struct sg_table *sgt;
->>  	void *p;
->> +	gfp_t gfp_flags = DEFAULT_GFP;
->>  
->>  #ifdef CONFIG_SND_DMA_SGBUF
->>  	if (cpu_feature_enabled(X86_FEATURE_XENPV))
->>  		return snd_dma_sg_fallback_alloc(dmab, size);
->> +
->> +	/* Non-IOMMU case: prevent allocator from searching forever */
->> +	if (!get_dma_ops(dmab->dev.dev))
->> +		gfp_flags |= __GFP_NORETRY;
->>  #endif
->>  	sgt = dma_alloc_noncontiguous(dmab->dev.dev, size, dmab->dev.dir,
->> -				      DEFAULT_GFP, 0);
->> +				      gfp_flags, 0);
->>  #ifdef CONFIG_SND_DMA_SGBUF
->>  	if (!sgt && !get_dma_ops(dmab->dev.dev))
->>  		return snd_dma_sg_fallback_alloc(dmab, size);
->> -- 
->> 2.43.0.687.g38aa6559b0-goog
->> 
+Signed-off-by: Hans Peter <flurry123@gmx.ch>
+=2D--
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 0ec1312bffd5..26a90c92c3b8 100644
+=2D-- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9927,6 +9927,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[]=
+ =3D {
+ 	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIXU=
+P_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)", ALC236_FI=
+XUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8aab, "HP EliteBook 650 G9 (MB 8AA9)", ALC236_FI=
+XUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8ab9, "HP EliteBook 840 G8 (MB 8AB8)", ALC285_FI=
+XUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9", ALC245_FIXUP_CS3=
+5L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook PC",=
+ ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook PC",=
+ ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+=2D-
+2.43.2
 
