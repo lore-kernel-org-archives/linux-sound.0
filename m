@@ -1,82 +1,80 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AC4EADB;
-	Mon, 19 Feb 2024 08:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FB423749
+	for <linux-sound@vger.kernel.org>; Mon, 19 Feb 2024 09:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708331521; cv=none; b=uPlqt4zLYAypttjWaz96JhgSBheUFxn37x8HMear/uiswEEVnmpnGVmIPZcfLaDmd7NI+VQd/U1znzR+UjhMftS9wRui50JQDXzZWVyaOvO4ctmbKI34NiR00TO8m3N+mG7kq123kmdOFj3raDTUkUs1rHpCXxVBiXGA5xDlCMM=
+	t=1708333684; cv=none; b=Zc2g6FcLubVI98mjgx0USLEub+d4JiDQDnFGUt8vkUyiq8c7i9peI6acACQ0uSl83RdcuRCyFmnG+rVtbbkXpydno1KlCG+3sVrNOvkbbRjYvD1B7G64Sl+NJPIt3684arCvZXoiWsz1Z5Ny5JnsQkxdqQEoUrQbUjq4J1oRa+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708331521; c=relaxed/simple;
-	bh=AdQtMeJgH2/BHN3sSej+s7w2viE8v0aJWk+2thNs0dg=;
+	s=arc-20240116; t=1708333684; c=relaxed/simple;
+	bh=7hX2xQkXVF6n68yq6qdGeiwEItf0FXlVTbqO/YXnYTU=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kNFB9IbpbEw3fKzvcLtCVAd33wty0obN/XeUbuqS7LPagI7diB4JAmUEaThnS6b2CN4XmNOaClxIv4OI33Nwu9ureWg8BV8/W68Ahljjc2VY+bXsZFdXvFuyxwxeewxtEMYszqW4gj11hg107EjFmpzxLHGh92aP58aZJ0DbzBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UQl//MT4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6niTp9FV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oIl96RWi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X8//vfLG; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=WZJQ/+dzQzvb0zRgWr8RBh5LO6zzTG3kLqnFMG9xfFexVJe2RL9lz3ZX3DsqVzCoQZfTPPZ63o8x0szl5kmV5L7u3X5x2k6Oiz2xWraYK795DPre2dr/7opv8W27fFIKOCiRFu9onOgYg3XKlX5RdNXSbf8H4nq/kPMT+U5STog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qgiZTkMd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/BtNXFTo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KcLYx3dI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5PXnisu6; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UQl//MT4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6niTp9FV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oIl96RWi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X8//vfLG"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qgiZTkMd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/BtNXFTo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KcLYx3dI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5PXnisu6"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CCCC6222FE;
-	Mon, 19 Feb 2024 08:31:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EC3D921CCB;
+	Mon, 19 Feb 2024 09:07:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708331517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1708333680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pGt6MuPRGBnHkBNOq3vW8nHROQlJopdTk2qgvu5Tcx8=;
-	b=UQl//MT4MeIn8g+KFjYTXs/jgi5lvknX/rf2TXWMHY5e0+ZfsHVu6+uZVUxDzbBHgcdfKa
-	50Na0lvfVzv2xHzJ9fIMbvCNI+GTLyVSAbtkxuDD3vrd/BrgcHnCPiWaoXstYWsA34+yET
-	QPGwkMtfFPZdndNv6/LtZEgdgGRtGms=
+	bh=BD4imx/A0a8f4MSfjRK4trejIzTVmEr8X6Km+fhDKqg=;
+	b=qgiZTkMdvLVufMux6XiYSazJweP6A6DMOeZZ+t8UqQFKRZAvryWRdf46Uk6RAoIbaA/rXp
+	BzUjPwy16A3zQ/FlbOJDtc2PEOnnaomdVFK4sWqKyFbKvX87r4NlPs75tLswfSwRmorkzV
+	hgkgYYcMkdIFYVPPHJQsjSIxltBHhfM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708331517;
+	s=susede2_ed25519; t=1708333680;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pGt6MuPRGBnHkBNOq3vW8nHROQlJopdTk2qgvu5Tcx8=;
-	b=6niTp9FVmUhEojZoxtReRiPmN2MAed6Y7pvFdDcdZ7BO+AEEyvPieIpgZjc0kUgBjXFeF6
-	2PvqsmxVeeodMjBQ==
+	bh=BD4imx/A0a8f4MSfjRK4trejIzTVmEr8X6Km+fhDKqg=;
+	b=/BtNXFToYgoOLCMCVK1SNmhA8A15wT0wRJ+iKnY7DTsU01OKnh0WQduKSu8jPDwre1rMTW
+	uFKHAjW0gk95yGDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708331515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1708333679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pGt6MuPRGBnHkBNOq3vW8nHROQlJopdTk2qgvu5Tcx8=;
-	b=oIl96RWixquwOiYjVph9YxMuv22ArILOYFj3N+aHpIvB8nlgmyib0XfXMUtuA7jAdwhCv0
-	wtnS24sskmRH9vKbi3Zz8RYz+DzAK/8bF6/z5bAE6QKYvjKb0j/4JJBJCLZXw9Wr0Wtom9
-	7JCahSHGpJMlMTcHkh6u6wChFJl4drM=
+	bh=BD4imx/A0a8f4MSfjRK4trejIzTVmEr8X6Km+fhDKqg=;
+	b=KcLYx3dIwLoV5HUDeTPiPkcEmmvUIFoDPwO/W+AMFiSNA0MydKgKr5b7bV1w3X3QUPhVZa
+	tEuABcGi94sB4sumIJKnogPDaE7K7WNFB8xFbvQRv+cYMKMif9OZCR7CbV3y2vg/ZtuX/n
+	4KkhOW72VHCEuhsrelUMMC7DVCaadWk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708331515;
+	s=susede2_ed25519; t=1708333679;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pGt6MuPRGBnHkBNOq3vW8nHROQlJopdTk2qgvu5Tcx8=;
-	b=X8//vfLGRwEPtJK2mlj2u0iHdkiZYC1Vzxb55USzEAmYXZkH7+uoD9NPzlM0nnw8/IJysi
-	KlJ09jd4dcDGcUCw==
+	bh=BD4imx/A0a8f4MSfjRK4trejIzTVmEr8X6Km+fhDKqg=;
+	b=5PXnisu6FlTgqc3IK9GT2TtMSP3A7wiVfF0zvBMVMoo4JF61wtYLRLpz0/ZZnQBr3qpZ/v
+	736aiJoBfshkYACw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A191D13647;
-	Mon, 19 Feb 2024 08:31:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA8DF139D0;
+	Mon, 19 Feb 2024 09:07:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mzr0JfsR02UeBwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 08:31:55 +0000
-Date: Mon, 19 Feb 2024 09:31:55 +0100
-Message-ID: <874je4q2h0.wl-tiwai@suse.de>
+	id lIn3L28a02UFEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 09:07:59 +0000
+Date: Mon, 19 Feb 2024 10:07:59 +0100
+Message-ID: <87wmr0om8g.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Hans Peter <flurry123@gmx.ch>
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8)
-In-Reply-To: <a170992c-2acf-42f9-9dcc-b5dae5fffa67@gmx.ch>
-References: <a170992c-2acf-42f9-9dcc-b5dae5fffa67@gmx.ch>
+To: Jay Ajit Mate <jay.mate15@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH] patch_realtek: Fix Dell Inspiron 16 Plus 7630
+In-Reply-To: <20240217042639.12374-1-jay.mate15@gmail.com>
+References: <20240217042639.12374-1-jay.mate15@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -86,98 +84,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oIl96RWi;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="X8//vfLG"
-X-Spamd-Result: default: False [0.69 / 50.00];
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KcLYx3dI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5PXnisu6
+X-Spamd-Result: default: False [-4.31 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmx.ch];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
 	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWO(0.00)[2];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[alsa-info.sh:url,suse.de:dkim];
-	 FREEMAIL_TO(0.00)[gmx.ch];
+	 MX_GOOD(-0.01)[];
+	 FREEMAIL_TO(0.00)[gmail.com];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[35.63%]
+	 BAYES_HAM(-3.00)[100.00%]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 0.69
-X-Rspamd-Queue-Id: CCCC6222FE
+X-Rspamd-Queue-Id: EC3D921CCB
 X-Spam-Level: 
+X-Spam-Score: -4.31
 X-Spam-Flag: NO
-X-Spamd-Bar: /
 
-On Sun, 18 Feb 2024 13:16:03 +0100,
-Hans Peter wrote:
+On Sat, 17 Feb 2024 05:26:39 +0100,
+Jay Ajit Mate wrote:
 > 
-> The HP EliteBook 840 G8 seems to be circulating with different
-> subsystem-IDs. alsa-info.sh showed on my box:
+> The Dell Inspiron 16 Plus 7630, like its predecessors
+> (7620 models), has unconnected top speakers. As the
+> controller remains unchanged, the speakers connected
+> on NID 0X17 should be connected to the DAC on NIC 0x03.
 > 
-> !!DMI Information
-> !!---------------
+> Signed-off-by: Jay Ajit Mate <jay.mate15@gmail.com>
+
+Thanks, it looks like a proper submission now.
+But...
+
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Manufacturer:      HP
-> Product Name:      HP EliteBook 840 G8 Notebook PC
-> Product Version:   SBKPF
-> Firmware Version:  T37 Ver. 01.15.02
-> System SKU:        5S7R6EC#ABD
-> Board Vendor:      HP
-> Board Name:        8AB8
-> 
-> ...
-> 
-> !!HDA-Intel Codec information
-> !!---------------------------
-> --startcollapse--
-> 
-> Codec: Realtek ALC285
-> Address: 0
-> AFG Function Id: 0x1 (unsol 1)
-> Vendor Id: 0x10ec0285
-> Subsystem Id: 0x103c8ab9
-> Revision Id: 0x100002
-> 
-> 
-> So an additional quirk enabled mute led for me:
-> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 0ec1312bffd5..f8dfbf17522b 100644
 > --- a/sound/pci/hda/patch_realtek.c
 > +++ b/sound/pci/hda/patch_realtek.c
-> @@ -9752,6 +9752,7 @@
->  	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)",
-> ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)",
-> ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8aab, "HP EliteBook 650 G9 (MB 8AA9)",
-> ALC236_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8ab9, "HP EliteBook 840 G8 (MB 8AB8)",
-> ALC285_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9",
-> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook
-> PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8ad2, "HP EliteBook 860 16 inch G9 Notebook
-> PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> @@ -9735,6 +9735,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x1028, 0x0b28, "Dell", ALC245_FIXUP_CS35L41_SPI_2),
+>  	SND_PCI_QUIRK(0x1028, 0x0b37, "Dell Inspiron 16 Plus 7620 2-in-1", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+>  	SND_PCI_QUIRK(0x1028, 0x0b71, "Dell Inspiron 16 Plus 7620", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+> +	SND_PCI_QUIRK(0x1028, 0x0c28, "Dell Inspiron 16 Plus 7630", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+>  	SND_PCI_QUIRK(0x1028, 0x0beb, "Dell XPS 15 9530 (2023)", ALC289_FIXUP_DELL_CS35L41_SPI_2),
+>  	SND_PCI_QUIRK(0x1028, 0x0c03, "Dell Precision 5340", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE),
+>  	SND_PCI_QUIRK(0x1028, 0x0c0b, "Dell Oasis 14 RPL-P", ALC289_FIXUP_RTK_AMP_DUAL_SPK),
 
-Could you repost a proper patch with your Signed-off-by tag?  It's a
-legal requirement.  See Documentation/process/submitting-patches.rst
-for details.
+The table is sorted in PCI SSID entry.  Could you try to put your new
+entry at the right position and resubmit?
 
-Also the information of your device could be a bit more concise.
+Also, please use the proper subject prefix.  In your case, it'll be
+like "ALSA: hda/realtek: Fix Dell ..."
 
-Last but not least, the patch doesn't seem cleanly applicable.  Your
-mailer seems breaking the lines.  Please fix your setup, or use
-git-send-email to resubmit.
+And, don't forget to put me to Cc at the next time.
 
 
 thanks,
