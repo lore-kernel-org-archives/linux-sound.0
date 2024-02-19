@@ -1,97 +1,102 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0379ABA4D;
-	Mon, 19 Feb 2024 11:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675E02C197;
+	Mon, 19 Feb 2024 11:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708340821; cv=none; b=hoh2TWy8zMhlOxkvsw5HHqFvYgAZJJnF8Umg+kiE2w0NrUiweeCON+S9K98zz7FCBRgn25kD+TT11sABEZ+llUm3LNM98vzO9T++lGNeYa8SqBeFJpwAwYlrO0ajQ6WeGX7CpPlmzpLWMTRD4W8ZA1/YvDnd54DfDFpO3Ynhtho=
+	t=1708341600; cv=none; b=YAzK/0WBAO7oXVchgZenWbDgpfNWZMaEFYzNF5qjJ3WWH6hJu3fjLpkRraqIK6HXSpVSCVgcPlOVCCsPxgmzFPG67OFTvc59zePSw5/hP1RUR5z57dH3sg/uB5QLa2XYNfHg5T3MG3D9/+WvPO5C4JIN5pLaSQ5v7q7sRclwMcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708340821; c=relaxed/simple;
-	bh=mH/z9hy5y1/jEvD4un/BSTP6zQ3aR1t42CU+6SFkCKk=;
+	s=arc-20240116; t=1708341600; c=relaxed/simple;
+	bh=45rnvUaUPAfCSe5CBydsQQMyQFkW2jw6N87HcpBnmQI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JHTaqNrWrHuIU1u9A0pa2mKsIXPE6RzLjzcrHOHFXQHtM5iHwE2mh3nvvSYErvPzWLE75dWL5ixqS1CIOx1I5j33qBsz9HXhlSuQrMHo8xswi3NKCPxjmFEudE1dALbI5kF3FmG6x8I7iM6Oq1qFCbjRiDb+UcsjjbYGIB/XU74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s86i5twg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UBGlvilk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s86i5twg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UBGlvilk; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=UyYrU5hYw9uEz/G5kdx+1dcjvp91BMLJp4DCFzPZH+FOPsJCer9GqBrcDJn90xJVnUX9cUv3+CDglG9E4uEic7VzqKsW/6toigq2knNO37Dr6N8TlB5AE2/PhDqZIfhAin7iTrh0Vv2ks2QGWNH/dXBVZ2TlzSjQDXMFtWF25zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LKpdmuB3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9KN1w+Tb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LKpdmuB3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9KN1w+Tb; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s86i5twg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UBGlvilk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s86i5twg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UBGlvilk"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LKpdmuB3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9KN1w+Tb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LKpdmuB3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9KN1w+Tb"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A8D1222F9;
-	Mon, 19 Feb 2024 11:06:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7A18F1F7F1;
+	Mon, 19 Feb 2024 11:19:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708340818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1708341596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
-	b=s86i5twgn2MtfLizWr3v+vuGVLzcvSg2Peyh1FBKe0C46J9WSpVN57M0vvk7PW1Xoq/QEl
-	z9bbhf99Z0nt85d3UbQULxdp7NbnGWm52kd4LnJWMWcajaxRuVvn4Q/qmFtoMRk8uEdmPp
-	uvljSRR5m862OU6OV9k0hmj+TTxigaY=
+	bh=1TZFf4FqHXti3cE1EXqChNcXmHSmMIGGoN+xhN0X77Y=;
+	b=LKpdmuB3knKa0mVmFF1ps7CbckcaMwBs0vXN6GF0QogY2GkCsMjGgjb/EolHyOvAPjChvP
+	VZcU1eUWI6MsM8Yd3OX/iwvenxa/ekR0NYMOWrcjPU98mhkBy9TJsaA4WOY53RwTQsVdHw
+	2yu/OOFuVvmAYig4hMxnbHMpNFyX+lo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708340818;
+	s=susede2_ed25519; t=1708341596;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
-	b=UBGlvilkdOxexvJtL8JZ/pQLZ4r0X/oeFfep7ABRM5KKeSHlczaUTfG3OyLuq5COBK6Nne
-	EmDpEGzvDifdsfBw==
+	bh=1TZFf4FqHXti3cE1EXqChNcXmHSmMIGGoN+xhN0X77Y=;
+	b=9KN1w+Tb2IxjJLF3V1vqBnUAzxZC0zj/TWT6nORlzyJ892D8Mo/AFEqcqkh1v8/9eluQRY
+	DNYWtootUqCyCVBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708340818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1708341596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
-	b=s86i5twgn2MtfLizWr3v+vuGVLzcvSg2Peyh1FBKe0C46J9WSpVN57M0vvk7PW1Xoq/QEl
-	z9bbhf99Z0nt85d3UbQULxdp7NbnGWm52kd4LnJWMWcajaxRuVvn4Q/qmFtoMRk8uEdmPp
-	uvljSRR5m862OU6OV9k0hmj+TTxigaY=
+	bh=1TZFf4FqHXti3cE1EXqChNcXmHSmMIGGoN+xhN0X77Y=;
+	b=LKpdmuB3knKa0mVmFF1ps7CbckcaMwBs0vXN6GF0QogY2GkCsMjGgjb/EolHyOvAPjChvP
+	VZcU1eUWI6MsM8Yd3OX/iwvenxa/ekR0NYMOWrcjPU98mhkBy9TJsaA4WOY53RwTQsVdHw
+	2yu/OOFuVvmAYig4hMxnbHMpNFyX+lo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708340818;
+	s=susede2_ed25519; t=1708341596;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2VkQEWzEnd6uPTyGy38QQbhsmDl2BuN3OJaCFvojlto=;
-	b=UBGlvilkdOxexvJtL8JZ/pQLZ4r0X/oeFfep7ABRM5KKeSHlczaUTfG3OyLuq5COBK6Nne
-	EmDpEGzvDifdsfBw==
+	bh=1TZFf4FqHXti3cE1EXqChNcXmHSmMIGGoN+xhN0X77Y=;
+	b=9KN1w+Tb2IxjJLF3V1vqBnUAzxZC0zj/TWT6nORlzyJ892D8Mo/AFEqcqkh1v8/9eluQRY
+	DNYWtootUqCyCVBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B50FF13647;
-	Mon, 19 Feb 2024 11:06:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2CEAA13647;
+	Mon, 19 Feb 2024 11:19:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id viCtKlE202XtLgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 11:06:57 +0000
-Date: Mon, 19 Feb 2024 12:06:57 +0100
-Message-ID: <87o7ccogq6.wl-tiwai@suse.de>
+	id 6QWWCVw502X0MQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 Feb 2024 11:19:56 +0000
+Date: Mon, 19 Feb 2024 12:19:55 +0100
+Message-ID: <87le7gog4k.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	stable@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
+To: Sven van Ashbrook <svenva@chromium.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Hillf Danton <hdanton@sina.com>,
+	Karthikeyan Ramasubramanian <kramasub@chromium.org>,
 	LKML <linux-kernel@vger.kernel.org>,
-	"Mukunda, Vijendar" <Vijendar.Mukunda@amd.com>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
-	"Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
-	Ethan Geller <ethang@valvesoftware.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: Re: [REGRESSION] Acp5x probing regression introduced between kernel 6.7.2 -> 6.7.4
-In-Reply-To: <3e364929-807e-477c-8530-f23db4ae7caf@amd.com>
-References: <CAD_nV8BG0t7US=+C28kQOR==712MPfZ9m-fuKksgoZCgrEByCw@mail.gmail.com>
-	<7a0cd63f-8a83-4dc5-8763-63dcdae8d68a@leemhuis.info>
-	<878r3qxcyr.wl-tiwai@suse.de>
-	<871q9hwz2w.wl-tiwai@suse.de>
-	<ZdDXJyXiZ++KiNqW@finisterre.sirena.org.uk>
-	<87msrzos6m.wl-tiwai@suse.de>
-	<3e364929-807e-477c-8530-f23db4ae7caf@amd.com>
+	Brian Geffon <bgeffon@google.com>,
+	linux-sound@vger.kernel.org,
+	"Arava, Jairaj" <jairaj.arava@intel.com>,
+	Curtis Malainey <cujomalainey@chromium.org>
+Subject: Re: [PATCH v1] ALSA: memalloc: Fix indefinite hang in non-iommu case
+In-Reply-To: <CAG-rBihE31G1q0pXbdR22bHKNboiADTUHx0JMnDKBg_sua+0RA@mail.gmail.com>
+References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid>
+	<20240215034528.240-1-hdanton@sina.com>
+	<87h6iaf7di.wl-tiwai@suse.de>
+	<CAG-rBigFG-U-sKY77CvzghGzs+1Xm3YXzBF6N4ti0+h6UdAb8Q@mail.gmail.com>
+	<875xypk6d6.wl-tiwai@suse.de>
+	<20240216043426.1218-1-hdanton@sina.com>
+	<87plwwiz6z.wl-tiwai@suse.de>
+	<87frxsiueo.wl-tiwai@suse.de>
+	<alpine.DEB.2.22.394.2402161246520.14041@eliteleevi.tm.intel.com>
+	<87zfw0h3lu.wl-tiwai@suse.de>
+	<CAG-rBihE31G1q0pXbdR22bHKNboiADTUHx0JMnDKBg_sua+0RA@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -99,82 +104,61 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
 X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=s86i5twg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UBGlvilk
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Score: -0.36
+X-Spamd-Result: default: False [-0.36 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[sina.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_TWELVE(0.00)[13];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[10];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_CC(0.00)[suse.de,linux.intel.com,sina.com,chromium.org,vger.kernel.org,google.com,intel.com];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 2A8D1222F9
+	 BAYES_HAM(-0.06)[61.43%]
 X-Spam-Flag: NO
 
-On Mon, 19 Feb 2024 11:50:46 +0100,
-Venkata Prasad Potturu wrote:
+On Fri, 16 Feb 2024 17:22:45 +0100,
+Sven van Ashbrook wrote:
 > 
+> On Fri, Feb 16, 2024 at 9:43 AM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > OK, then how about the one like below?
+> >
+> > This changes:
+> > - Back to __GFP_NORETRY as default
+> > - Use __GFP_RETRY_MAYFAIL for SNDRV_DMA_TYPE_NONCONTIG with IOMMU;
+> >   this should cover the commit a61c7d88d38c
+> > - Also use __GFP_RETRY_MAYFAIL for the SG-fallback allocations of the
+> >   minimal order, just like IOMMU allocator does.
+> >
+> > This should be less destructive, while still allowing more aggressive
+> > allocations for SG buffers.
 > 
-> On 2/18/24 00:04, Takashi Iwai wrote:
-> > On Sat, 17 Feb 2024 16:56:23 +0100,
-> > Mark Brown wrote:
-> >> On Mon, Feb 12, 2024 at 03:12:55PM +0100, Takashi Iwai wrote:
-> >>> Takashi Iwai wrote:
-> >>>> Interestingly, the system seems working with 6.8-rc3, so some piece
-> >>>> might be missing.  Or simply reverting this patch should fix.
-> >>> In the bugzilla entry, the reporter confirmed that the revert of the
-> >>> commit 4b6986b170f2f2 fixed the problem.
-> >> Any news on a patch for this?  Venkata?
-> Hi Mark & Takashi,
-> Sorry for the late reply.
+> This one looks like it would keep the SOF firmware allocation issue at bay,
+> in both iommu and non-iommu cases.
 > 
-> 4b6986b170f2f2 ASoC: amd: Add new dmi entries for acp5x platform
-> 
-> There is no relation with the below error and this reverted patch, this patch is to
-> define is to load Legacy driver for Jupiter Steam deck variant.
-> 
-> We will check on this.
-> 
-> Error logs.
-> [    8.755614] cs35l41 spi-VLV1776:00: supply VA not found, using dummy regulator
-> [    8.760506] cs35l41 spi-VLV1776:00: supply VP not found, using dummy regulator
-> [    8.777148] cs35l41 spi-VLV1776:00: Cirrus Logic CS35L41 (35a40), Revision: B2
-> [    8.777471] cs35l41 spi-VLV1776:01: supply VA not found, using dummy regulator
-> [    8.777532] cs35l41 spi-VLV1776:01: supply VP not found, using dummy regulator
-> [    8.777709] cs35l41 spi-VLV1776:01: Reset line busy, assuming shared reset
-> [    8.788465] cs35l41 spi-VLV1776:01: Cirrus Logic CS35L41 (35a40), Revision: B2
-> [    8.877280] snd_hda_intel 0000:04:00.1: enabling device (0000 -> 0002)
-> [    8.877595] snd_hda_intel 0000:04:00.1: Handle vga_switcheroo audio client
-> [    8.889913] snd_acp_pci 0000:04:00.5: enabling device (0000 -> 0002)
-> [    8.890063] snd_acp_pci 0000:04:00.5: Unsupported device revision:0x50
-> [    8.890129] snd_acp_pci: probe of 0000:04:00.5 failed with error -22
+> If there is no further discussion in this thread, we'll stress test this
+> on iommu and non-iommu Chromebooks.
 
-My understanding is that the fact that snd_acp_pci matches caused the
-problem (without backports of other relevant changes).
-In the working case, it's probed with snd_pci_acp5x driver.
+The test with my latest patch would be appreciated in anyway.
 
 
 thanks,
 
 Takashi
+
