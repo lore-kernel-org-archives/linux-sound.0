@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3730679ED
-	for <linux-sound@vger.kernel.org>; Tue, 20 Feb 2024 11:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC296773B
+	for <linux-sound@vger.kernel.org>; Tue, 20 Feb 2024 11:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708429757; cv=none; b=IqlZlA8i5YMz2lm831E+DsiC5geCRxSDtE5bBzBcTnnbezV796wnNF8KzKakAjqYbrLmqlOXIfgvrK2IsYKz7hNzSiltqkspZPUj4ChAflJS29QRxQ7rKjorYiIR/YwJUeafrXGx1vGAhSfktCtk8gHeQfIW4efcM7SIgz+2hjI=
+	t=1708429759; cv=none; b=YAjL9cBOeW+PV+HXibSuLnSfONgU4sYOH3DDiC9utWVSxqiYJnUVXSIvbpxahJay61QsusywlNeD4J+v1E6TgiRO/Kc2uDGR9Y7Uk2LWTbdn9BJZ3+dNUgzmFfDkvrlrsV4wcBexer7nNoP3zenlaII8102QgoHuUiCdxNoLVYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708429757; c=relaxed/simple;
-	bh=PSuwt8gUlDe7NzcuMHOSHhuplX4hK1PW0oy7ABkpxQk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Ac/wUgaeK9BIy6qxN0Q21yucmiKY29glGtUPL++gbSyNjzYDm+wP5CSIYspQ/9ycgIpJBi1z3OzcTZeUINquLxkDUUEZSSQM3HSPPIPOeEobPLtJ5HIt0MZXRNt/6mEw+cyTtDNucFhFn9T+nYahuTNy7tN1Vln5rvqw3o32Y5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gW690COC; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1708429759; c=relaxed/simple;
+	bh=ovZnYDdmAQI7rXlK0aS2n+UC6x/9BooKMiz/Jy6lbxk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TTlCQTtVnvfhl9/amP+8x3NvM9iXp4FxYAFvcMQ/WaAVmmxvnOSb9iuKc94h2s86gOsBe7UqVMLa8Pt2Qg2L1mn01swAFuWbRozSJ4ZUrD1DewoSQ9/H2gawXarjjCpmWP4r2lDInUZZvwc6Ab1byzt/N7XI+zMu2zC/zR8S4qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxLF1LoQ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gW690COC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxLF1LoQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708429756; x=1739965756;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PSuwt8gUlDe7NzcuMHOSHhuplX4hK1PW0oy7ABkpxQk=;
-  b=gW690COCy69Bt5IgfPtbXTrVlGX9mAdo4wErGO0bJLXn3pBZPfF7pROt
-   yAktgrzd1Jp17tDP1eBsy9R0nAYec311FFs+2PVvaKqcMf4xaAxxEtby9
-   QyvuGuMWjgFZcVqR4FlkfnT3vvqFBZ/Ck2kpcNzlTrDLMFaxTmR5ynQDr
-   PJL3wceTE/nidJD8xlmE1vLGVB0qrr2RCNQUsiIZFJPtlSLZgOEzpqta+
-   xWxU5VXA0hwdZrXL5nSguk1VfVbDBbzKNoggWPOMoWkEVymg60ZcXN5qo
-   7XX0mhy3rlCHOIaU8IFzUw7cQQVq0X51VXMAZquAFLWb+cSh/YFqgllY7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2988910"
+  t=1708429758; x=1739965758;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ovZnYDdmAQI7rXlK0aS2n+UC6x/9BooKMiz/Jy6lbxk=;
+  b=hxLF1LoQU6VlXXa42fl5z5ulC4/ld9CeE53FE/hsNz6+9AWM0w1z5R5Y
+   QKzeYVKMeO+U6z/MGLlJbCfwfWOx262B1rPoJ8S6YeYFdR9zI1qXfCEYh
+   DrgLn9f4/Hrg5nkQTPrdW8bpSoZr3jKt42B1fPQo3eaRfwwB/N40rxGNz
+   S916F0ErAc/xq/+qg58Fs/dUYZmAeyFmuZE5XQSYI6OcJ4aQAs+4X7GHg
+   EO33L8BEP18FPn4QbxDKPeb+dUkCrNfoEJ7BeCC0qLrePxtKU7UiZzrN1
+   OlGex13MCtDGIxJeeCe4KO7G/SW2BDUx6VMVZ1BdgyxnXQzwNmZSn9VtS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2988916"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="2988910"
+   d="scan'208";a="2988916"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:49:15 -0800
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:49:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="4750929"
+   d="scan'208";a="4750941"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2024 03:49:13 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2024 03:49:15 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -48,10 +49,12 @@ Cc: alsa-devel@alsa-project.org,
 	pierre-louis.bossart@linux.intel.com,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 00/10] ASoC: Intel: avs: Fixes and new platforms support
-Date: Tue, 20 Feb 2024 12:50:25 +0100
-Message-Id: <20240220115035.770402-1-cezary.rojewski@intel.com>
+Subject: [PATCH 01/10] ASoC: Intel: avs: L1SEN reference counted
+Date: Tue, 20 Feb 2024 12:50:26 +0100
+Message-Id: <20240220115035.770402-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240220115035.770402-1-cezary.rojewski@intel.com>
+References: <20240220115035.770402-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,68 +64,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The avs-driver continues to be utilized on more recent Intel machines.
-As TGL-based (cAVS 2.5) e.g.: RPL, inherit most of the functionality
-from previous platforms:
+Code loading is not the only procedure that manipulates L1SEN. Update
+existing mechanism so the stream starting procedure can interfere with
+L1SEN without causing any trouble to its other users.
 
-SKL <- APL <- CNL <- ICL <- TGL
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ sound/soc/intel/avs/avs.h  |  1 +
+ sound/soc/intel/avs/core.c | 11 ++++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-rather than putting everything into a single file, the platform-specific
-bits are split into cnl/icl/tgl.c files instead. Makes the division clear
-and code easier to maintain.
-
-Layout of the patchset:
-
-First are two changes combined together address the sound-clipping
-problem, present when only one stream is running - specifically one
-CAPTURE stream.
-
-Follow up is naming-scheme adjustment for some of the existing functions
-what improves code incohesiveness. As existing IPC/IRQ code operates
-solely on cAVS 1.5 architecture, it needs no abstraction. The situation
-changes when newer platforms come into the picture. Thus the next two
-patches abstract the existing IPC/IRQ handlers so that majority of the
-common code can be re-used.
-
-The ICCMAX change stands out a bit - the AudioDSP firmware loading
-procedure differs on ICL-based platforms (and onwards) and having a
-separate commit makes the situation clear to the developers who are
-going to support the solution from LTS perspective. For that reason
-I decided not to merge it into the commit introducing the icl.c file.
-
-Cezary Rojewski (10):
-  ASoC: Intel: avs: L1SEN reference counted
-  ASoC: Intel: avs: Fix sound clipping in single capture scenario
-  ASoC: Intel: avs: Prefix SKL/APL-specific members
-  ASoC: Intel: avs: Abstract IPC handling
-  ASoC: Intel: avs: Abstract IRQ handling
-  ASoC: Intel: avs: CNL-based platforms support
-  ASoC: Intel: avs: ICL-based platforms support
-  ASoC: Intel: avs: TGL-based platforms support
-  ASoC: Intel: avs: ICCMAX recommendations for ICL+ platforms
-  ASoC: Intel: avs: Populate board selection with new I2S entries
-
- include/sound/hda_register.h          |   2 +
- sound/soc/intel/avs/Makefile          |   2 +-
- sound/soc/intel/avs/apl.c             |  58 ++++----
- sound/soc/intel/avs/avs.h             |  66 ++++++---
- sound/soc/intel/avs/board_selection.c |  85 +++++++++++
- sound/soc/intel/avs/cnl.c             |  61 ++++++++
- sound/soc/intel/avs/core.c            | 160 ++++++++++++++++++---
- sound/soc/intel/avs/icl.c             | 197 ++++++++++++++++++++++++++
- sound/soc/intel/avs/ipc.c             |  66 +++------
- sound/soc/intel/avs/loader.c          |   2 +-
- sound/soc/intel/avs/messages.c        |   1 +
- sound/soc/intel/avs/messages.h        |  38 ++++-
- sound/soc/intel/avs/pcm.c             |  77 +++++++++-
- sound/soc/intel/avs/registers.h       |  21 ++-
- sound/soc/intel/avs/skl.c             |  59 +++++---
- sound/soc/intel/avs/tgl.c             |  54 +++++++
- 16 files changed, 807 insertions(+), 142 deletions(-)
- create mode 100644 sound/soc/intel/avs/cnl.c
- create mode 100644 sound/soc/intel/avs/icl.c
- create mode 100644 sound/soc/intel/avs/tgl.c
-
+diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
+index 69c912feb8a7..1882b2e640f4 100644
+--- a/sound/soc/intel/avs/avs.h
++++ b/sound/soc/intel/avs/avs.h
+@@ -127,6 +127,7 @@ struct avs_dev {
+ 	int *core_refs;		/* reference count per core */
+ 	char **lib_names;
+ 	int num_lp_paths;
++	atomic_t l1sen_counter;	/* controls whether L1SEN should be disabled */
+ 
+ 	struct completion fw_ready;
+ 	struct work_struct probe_work;
+diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+index 273a90216856..d46f76f8c274 100644
+--- a/sound/soc/intel/avs/core.c
++++ b/sound/soc/intel/avs/core.c
+@@ -69,9 +69,14 @@ void avs_hda_clock_gating_enable(struct avs_dev *adev, bool enable)
+ 
+ void avs_hda_l1sen_enable(struct avs_dev *adev, bool enable)
+ {
+-	u32 value = enable ? AZX_VS_EM2_L1SEN : 0;
+-
+-	snd_hdac_chip_updatel(&adev->base.core, VS_EM2, AZX_VS_EM2_L1SEN, value);
++	if (enable) {
++		if (atomic_inc_and_test(&adev->l1sen_counter))
++			snd_hdac_chip_updatel(&adev->base.core, VS_EM2, AZX_VS_EM2_L1SEN,
++					      AZX_VS_EM2_L1SEN);
++	} else {
++		if (atomic_dec_return(&adev->l1sen_counter) == -1)
++			snd_hdac_chip_updatel(&adev->base.core, VS_EM2, AZX_VS_EM2_L1SEN, 0);
++	}
+ }
+ 
+ static int avs_hdac_bus_init_streams(struct hdac_bus *bus)
 -- 
 2.25.1
 
