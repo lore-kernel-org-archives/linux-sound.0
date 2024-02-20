@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD33664CE
-	for <linux-sound@vger.kernel.org>; Tue, 20 Feb 2024 11:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7F8679ED
+	for <linux-sound@vger.kernel.org>; Tue, 20 Feb 2024 11:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708429767; cv=none; b=XiJqD8lMQ+rOKmar79po57O2qfbRdsOUlrmguxmtrnr2UUZsbQVWTEfJfiozpNAsJXeJ8/dRX0j362wmlWD9AaScSUW51uRi/EE7772FG4QhSk1lM3NWdE7HD5qOmEcKa7jVvyA8LI7ENBpLpxFBl+TIipY10c3G9OUcRaYinBY=
+	t=1708429771; cv=none; b=ItOxoDFbabFIoAvC+14MIPQerFeIcdHYoMJn9MEkQTLfp6fjmpaITeu+IFT6nNzUIiCCf5cOb32VpkkYeCs9O9oq45mSBOkNUnODE2LEEEarqOlRTScsDpbpBvbM8/EgIDYI0qvMGsGbduuRr36GV3hm077mUMkNpb6V2/yv2KU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708429767; c=relaxed/simple;
-	bh=UDXF/Cg/VsBvBHKh+Ni51oB/WcFqkOFpqG5C/RVs8oM=;
+	s=arc-20240116; t=1708429771; c=relaxed/simple;
+	bh=csyouZw8RBz0O87Tqthq8qlDT5GA20abpHjXlv93IGU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DqiUDFw/KOJVEbQSEjUpz3MVmnIKc1xGu1ES1UmtIIxr97xe6oro0tHYyGgASirccjf5n46xyg398dL5zs8FOFLxPOkYhl32Pqo7MXUyok+U+TpFvDhuyjJrhwoClEmvuicw7kXzWVMZA6dxhli6/6B1YZUfL2YjSxA/r2chb8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QveAK/vL; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version:Content-Type; b=fInY1KydU7AQqLD1wI6vUoPBeCO4sbAgTz+10s/ac8wPkuVKgnWqxuu5axm4ZYyaCfi8NPAm31W8/0Q9duPmqhFF4JbCVpF3m8XzsFoI0D0YvvVH7Nu/q0TSuAMHc5gaLgPhq9fxByKzlRs1BOcL0jORtdrhSP0nmALcBIN0C/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+dOCDRa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QveAK/vL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+dOCDRa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708429765; x=1739965765;
+  t=1708429767; x=1739965767;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=UDXF/Cg/VsBvBHKh+Ni51oB/WcFqkOFpqG5C/RVs8oM=;
-  b=QveAK/vLkULUSiAor+ETCP5xH+j9KX2m87kEOcwIYVAtpKYE7bZqKUUm
-   crJzLKc+a7NQEg2Ana1/Dqs54i0N543XgyxSHsN3ToBDxNSemW03mi4IR
-   9MNufyv6s1HEiXR3r6IJZYusAtIaRdhYfwc9ZF1Qe9GaMiCoFXP8nNi07
-   2QfrjSlEIsNjmHFFxnq7lWHor/Ei+k+emqWe99IYRdS7zcArCAu8ijmee
-   XJJBtqkha0a1VnJmmw6gE7/whzdQUWBRrfPiMqnq+c2Q3h/vZrENhy78D
-   Yl6ckKjDzcRbexBPn9EjJhR2GqbIsgS1SbOI17dmWLU39L+ygT2Aujrml
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2988971"
+  bh=csyouZw8RBz0O87Tqthq8qlDT5GA20abpHjXlv93IGU=;
+  b=i+dOCDRavqmwqpu46zgxjrd99Ic6gwdD6FflNNSdDXLO4Co0v8XNBu/6
+   gp0i9uxJrsjl8QsCyjIkEyuO4iH99U8XTvLyvaPm0mKtq9y/AFOlbR//v
+   XirJArQq95bmxozNLRokf5PKm6xi2rEnz+nZhRri0wsffYua0fpv3G42C
+   qqKls2NSdptOIMqsU8kje1ShtFzs5TOUUU4nx7COhuGraA61N4wX/k6ie
+   8G8D1SC4ml9oXkqVFwPFQaDxhp/LflnYb2ICVeNlUoHHeNUivW6mPb0WA
+   /l80b7Oe2AsSc+LmaiKoHv7DVMokDa1kL90mOPTjqBvNAFFlEbSqdEuIF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2988977"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="2988971"
+   d="scan'208";a="2988977"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:49:24 -0800
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:49:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="4750985"
+   d="scan'208";a="4751001"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2024 03:49:22 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2024 03:49:25 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -49,9 +49,9 @@ Cc: alsa-devel@alsa-project.org,
 	pierre-louis.bossart@linux.intel.com,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 04/10] ASoC: Intel: avs: Abstract IPC handling
-Date: Tue, 20 Feb 2024 12:50:29 +0100
-Message-Id: <20240220115035.770402-5-cezary.rojewski@intel.com>
+Subject: [PATCH 05/10] ASoC: Intel: avs: Abstract IRQ handling
+Date: Tue, 20 Feb 2024 12:50:30 +0100
+Message-Id: <20240220115035.770402-6-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240220115035.770402-1-cezary.rojewski@intel.com>
 References: <20240220115035.770402-1-cezary.rojewski@intel.com>
@@ -65,281 +65,189 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Servicing IPCs on CNL platforms and onward differs from the existing
-one. To make room for these, enrich platform descriptor with fields
-representing crucial IPC registers and utilize them throughout the code.
-
-While cleaning up device descriptors, reduce the number of code lines by
-assigning 'min_fw_version' within a single line.
+one. To make room for these, relocate SKL-based platforms specific code
+into the skl.c file leaving only the genering irq_handler in the common
+code.
 
 Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/avs.h       | 22 ++++++++++++---
- sound/soc/intel/avs/core.c      | 47 ++++++++++++++++++++-------------
- sound/soc/intel/avs/ipc.c       | 36 ++++++++++++++-----------
- sound/soc/intel/avs/loader.c    |  2 +-
- sound/soc/intel/avs/registers.h |  6 ++---
- 5 files changed, 72 insertions(+), 41 deletions(-)
+ sound/soc/intel/avs/apl.c  |  4 ++--
+ sound/soc/intel/avs/avs.h  |  8 ++++----
+ sound/soc/intel/avs/core.c | 14 ++++++++++++++
+ sound/soc/intel/avs/ipc.c  | 30 +-----------------------------
+ sound/soc/intel/avs/skl.c  | 29 +++++++++++++++++++++++++++--
+ 5 files changed, 48 insertions(+), 37 deletions(-)
 
+diff --git a/sound/soc/intel/avs/apl.c b/sound/soc/intel/avs/apl.c
+index 24c06568b3e8..6382543a9cdb 100644
+--- a/sound/soc/intel/avs/apl.c
++++ b/sound/soc/intel/avs/apl.c
+@@ -236,8 +236,8 @@ const struct avs_dsp_ops avs_apl_dsp_ops = {
+ 	.power = avs_dsp_core_power,
+ 	.reset = avs_dsp_core_reset,
+ 	.stall = avs_dsp_core_stall,
+-	.irq_handler = avs_dsp_irq_handler,
+-	.irq_thread = avs_dsp_irq_thread,
++	.irq_handler = avs_irq_handler,
++	.irq_thread = avs_skl_irq_thread,
+ 	.int_control = avs_dsp_interrupt_control,
+ 	.load_basefw = avs_hda_load_basefw,
+ 	.load_lib = avs_hda_load_library,
 diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index ca14fcd6550a..b93f38515403 100644
+index b93f38515403..2cd690a78b5c 100644
 --- a/sound/soc/intel/avs/avs.h
 +++ b/sound/soc/intel/avs/avs.h
-@@ -73,6 +73,23 @@ extern const struct avs_dsp_ops avs_apl_dsp_ops;
- #define avs_platattr_test(adev, attr) \
- 	((adev)->spec->attributes & AVS_PLATATTR_##attr)
+@@ -46,8 +46,8 @@ struct avs_dsp_ops {
+ 	int (* const power)(struct avs_dev *, u32, bool);
+ 	int (* const reset)(struct avs_dev *, u32, bool);
+ 	int (* const stall)(struct avs_dev *, u32, bool);
+-	irqreturn_t (* const irq_handler)(int, void *);
+-	irqreturn_t (* const irq_thread)(int, void *);
++	irqreturn_t (* const irq_handler)(struct avs_dev *);
++	irqreturn_t (* const irq_thread)(struct avs_dev *);
+ 	void (* const int_control)(struct avs_dev *, bool);
+ 	int (* const load_basefw)(struct avs_dev *, struct firmware *);
+ 	int (* const load_lib)(struct avs_dev *, struct firmware *, u32);
+@@ -242,8 +242,7 @@ struct avs_ipc {
+ #define AVS_IPC_RET(ret) \
+ 	(((ret) <= 0) ? (ret) : -AVS_EIPC)
  
-+struct avs_sram_spec {
-+	const u32 base_offset;
-+	const u32 window_size;
-+	const u32 rom_status_offset;
-+};
-+
-+struct avs_hipc_spec {
-+	const u32 req_offset;
-+	const u32 req_ext_offset;
-+	const u32 req_busy_mask;
-+	const u32 ack_offset;
-+	const u32 ack_done_mask;
-+	const u32 rsp_offset;
-+	const u32 rsp_busy_mask;
-+	const u32 ctl_offset;
-+};
-+
- /* Platform specific descriptor */
- struct avs_spec {
- 	const char *name;
-@@ -82,9 +99,8 @@ struct avs_spec {
+-irqreturn_t avs_dsp_irq_handler(int irq, void *dev_id);
+-irqreturn_t avs_dsp_irq_thread(int irq, void *dev_id);
++irqreturn_t avs_irq_handler(struct avs_dev *adev);
+ void avs_dsp_process_response(struct avs_dev *adev, u64 header);
+ int avs_dsp_send_msg_timeout(struct avs_dev *adev, struct avs_ipc_msg *request,
+ 			     struct avs_ipc_msg *reply, int timeout, const char *name);
+@@ -265,6 +264,7 @@ void avs_ipc_block(struct avs_ipc *ipc);
+ int avs_dsp_disable_d0ix(struct avs_dev *adev);
+ int avs_dsp_enable_d0ix(struct avs_dev *adev);
  
- 	const u32 core_init_mask;	/* used during DSP boot */
- 	const u64 attributes;		/* bitmask of AVS_PLATATTR_* */
--	const u32 sram_base_offset;
--	const u32 sram_window_size;
--	const u32 rom_status;
-+	const struct avs_sram_spec *sram;
-+	const struct avs_hipc_spec *hipc;
- };
++irqreturn_t avs_skl_irq_thread(struct avs_dev *adev);
+ int avs_skl_log_buffer_offset(struct avs_dev *adev, u32 core);
  
- struct avs_fw_entry {
+ /* Firmware resources management */
 diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 75048a5f00f1..46162d637573 100644
+index 46162d637573..4d1d3445cac1 100644
 --- a/sound/soc/intel/avs/core.c
 +++ b/sound/soc/intel/avs/core.c
-@@ -730,36 +730,47 @@ static const struct dev_pm_ops avs_dev_pm = {
- 	SET_RUNTIME_PM_OPS(avs_runtime_suspend, avs_runtime_resume, NULL)
- };
+@@ -321,6 +321,20 @@ static irqreturn_t hdac_bus_irq_thread(int irq, void *context)
+ 	return IRQ_HANDLED;
+ }
  
-+static const struct avs_sram_spec skl_sram_spec = {
-+	.base_offset = SKL_ADSP_SRAM_BASE_OFFSET,
-+	.window_size = SKL_ADSP_SRAM_WINDOW_SIZE,
-+	.rom_status_offset = SKL_ADSP_SRAM_BASE_OFFSET,
-+};
++static irqreturn_t avs_dsp_irq_handler(int irq, void *dev_id)
++{
++	struct avs_dev *adev = dev_id;
 +
-+static const struct avs_sram_spec apl_sram_spec = {
-+	.base_offset = APL_ADSP_SRAM_BASE_OFFSET,
-+	.window_size = APL_ADSP_SRAM_WINDOW_SIZE,
-+	.rom_status_offset = APL_ADSP_SRAM_BASE_OFFSET,
-+};
++	return avs_dsp_op(adev, irq_handler);
++}
 +
-+static const struct avs_hipc_spec skl_hipc_spec = {
-+	.req_offset = SKL_ADSP_REG_HIPCI,
-+	.req_ext_offset = SKL_ADSP_REG_HIPCIE,
-+	.req_busy_mask = SKL_ADSP_HIPCI_BUSY,
-+	.ack_offset = SKL_ADSP_REG_HIPCIE,
-+	.ack_done_mask = SKL_ADSP_HIPCIE_DONE,
-+	.rsp_offset = SKL_ADSP_REG_HIPCT,
-+	.rsp_busy_mask = SKL_ADSP_HIPCT_BUSY,
-+	.ctl_offset = SKL_ADSP_REG_HIPCCTL,
-+};
++static irqreturn_t avs_dsp_irq_thread(int irq, void *dev_id)
++{
++	struct avs_dev *adev = dev_id;
 +
- static const struct avs_spec skl_desc = {
- 	.name = "skl",
--	.min_fw_version = {
--		.major = 9,
--		.minor = 21,
--		.hotfix = 0,
--		.build = 4732,
--	},
-+	.min_fw_version = { 9, 21, 0, 4732 },
- 	.dsp_ops = &avs_skl_dsp_ops,
- 	.core_init_mask = 1,
- 	.attributes = AVS_PLATATTR_CLDMA,
--	.sram_base_offset = SKL_ADSP_SRAM_BASE_OFFSET,
--	.sram_window_size = SKL_ADSP_SRAM_WINDOW_SIZE,
--	.rom_status = SKL_ADSP_SRAM_BASE_OFFSET,
-+	.sram = &skl_sram_spec,
-+	.hipc = &skl_hipc_spec,
- };
- 
- static const struct avs_spec apl_desc = {
- 	.name = "apl",
--	.min_fw_version = {
--		.major = 9,
--		.minor = 22,
--		.hotfix = 1,
--		.build = 4323,
--	},
-+	.min_fw_version = { 9, 22, 1, 4323 },
- 	.dsp_ops = &avs_apl_dsp_ops,
- 	.core_init_mask = 3,
- 	.attributes = AVS_PLATATTR_IMR,
--	.sram_base_offset = APL_ADSP_SRAM_BASE_OFFSET,
--	.sram_window_size = APL_ADSP_SRAM_WINDOW_SIZE,
--	.rom_status = APL_ADSP_SRAM_BASE_OFFSET,
-+	.sram = &apl_sram_spec,
-+	.hipc = &skl_hipc_spec,
- };
- 
- static const struct pci_device_id avs_ids[] = {
++	return avs_dsp_op(adev, irq_thread);
++}
++
+ static int avs_hdac_acquire_irq(struct avs_dev *adev)
+ {
+ 	struct hdac_bus *bus = &adev->base.core;
 diff --git a/sound/soc/intel/avs/ipc.c b/sound/soc/intel/avs/ipc.c
-index 65bfc83bd1f0..29c7f508a7d6 100644
+index 29c7f508a7d6..ad0e535b3c2e 100644
 --- a/sound/soc/intel/avs/ipc.c
 +++ b/sound/soc/intel/avs/ipc.c
-@@ -305,6 +305,7 @@ irqreturn_t avs_dsp_irq_handler(int irq, void *dev_id)
+@@ -301,9 +301,8 @@ void avs_dsp_process_response(struct avs_dev *adev, u64 header)
+ 	complete(&ipc->busy_completion);
+ }
+ 
+-irqreturn_t avs_dsp_irq_handler(int irq, void *dev_id)
++irqreturn_t avs_irq_handler(struct avs_dev *adev)
  {
- 	struct avs_dev *adev = dev_id;
+-	struct avs_dev *adev = dev_id;
  	struct avs_ipc *ipc = adev->ipc;
-+	const struct avs_spec *const spec = adev->spec;
+ 	const struct avs_spec *const spec = adev->spec;
  	u32 adspis, hipc_rsp, hipc_ack;
- 	irqreturn_t ret = IRQ_NONE;
+@@ -350,33 +349,6 @@ irqreturn_t avs_dsp_irq_handler(int irq, void *dev_id)
+ 	return ret;
+ }
  
-@@ -312,35 +313,35 @@ irqreturn_t avs_dsp_irq_handler(int irq, void *dev_id)
- 	if (adspis == UINT_MAX || !(adspis & AVS_ADSP_ADSPIS_IPC))
- 		return ret;
- 
--	hipc_ack = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCIE);
--	hipc_rsp = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCT);
-+	hipc_ack = snd_hdac_adsp_readl(adev, spec->hipc->ack_offset);
-+	hipc_rsp = snd_hdac_adsp_readl(adev, spec->hipc->rsp_offset);
- 
- 	/* DSP acked host's request */
--	if (hipc_ack & SKL_ADSP_HIPCIE_DONE) {
-+	if (hipc_ack & spec->hipc->ack_done_mask) {
- 		/*
- 		 * As an extra precaution, mask done interrupt. Code executed
- 		 * due to complete() found below does not assume any masking.
- 		 */
--		snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCCTL,
-+		snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
- 				      AVS_ADSP_HIPCCTL_DONE, 0);
- 
- 		complete(&ipc->done_completion);
- 
- 		/* tell DSP it has our attention */
--		snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCIE,
--				      SKL_ADSP_HIPCIE_DONE,
--				      SKL_ADSP_HIPCIE_DONE);
-+		snd_hdac_adsp_updatel(adev, spec->hipc->ack_offset,
-+				      spec->hipc->ack_done_mask,
-+				      spec->hipc->ack_done_mask);
- 		/* unmask done interrupt */
--		snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCCTL,
-+		snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
- 				      AVS_ADSP_HIPCCTL_DONE,
- 				      AVS_ADSP_HIPCCTL_DONE);
- 		ret = IRQ_HANDLED;
- 	}
- 
- 	/* DSP sent new response to process */
--	if (hipc_rsp & SKL_ADSP_HIPCT_BUSY) {
-+	if (hipc_rsp & spec->hipc->rsp_busy_mask) {
- 		/* mask busy interrupt */
--		snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCCTL,
-+		snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset,
- 				      AVS_ADSP_HIPCCTL_BUSY, 0);
- 
- 		ret = IRQ_WAKE_THREAD;
-@@ -379,10 +380,11 @@ irqreturn_t avs_dsp_irq_thread(int irq, void *dev_id)
+-irqreturn_t avs_dsp_irq_thread(int irq, void *dev_id)
+-{
+-	struct avs_dev *adev = dev_id;
+-	union avs_reply_msg msg;
+-	u32 hipct, hipcte;
+-
+-	hipct = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCT);
+-	hipcte = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCTE);
+-
+-	/* ensure DSP sent new response to process */
+-	if (!(hipct & SKL_ADSP_HIPCT_BUSY))
+-		return IRQ_NONE;
+-
+-	msg.primary = hipct;
+-	msg.ext.val = hipcte;
+-	avs_dsp_process_response(adev, msg.val);
+-
+-	/* tell DSP we accepted its message */
+-	snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCT,
+-			      SKL_ADSP_HIPCT_BUSY, SKL_ADSP_HIPCT_BUSY);
+-	/* unmask busy interrupt */
+-	snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCCTL,
+-			      AVS_ADSP_HIPCCTL_BUSY, AVS_ADSP_HIPCCTL_BUSY);
+-
+-	return IRQ_HANDLED;
+-}
+-
  static bool avs_ipc_is_busy(struct avs_ipc *ipc)
  {
  	struct avs_dev *adev = to_avs_dev(ipc->dev);
-+	const struct avs_spec *const spec = adev->spec;
- 	u32 hipc_rsp;
+diff --git a/sound/soc/intel/avs/skl.c b/sound/soc/intel/avs/skl.c
+index 7ea8d91b54d2..d19f8953993f 100644
+--- a/sound/soc/intel/avs/skl.c
++++ b/sound/soc/intel/avs/skl.c
+@@ -12,6 +12,31 @@
+ #include "avs.h"
+ #include "messages.h"
  
--	hipc_rsp = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCT);
--	return hipc_rsp & SKL_ADSP_HIPCT_BUSY;
-+	hipc_rsp = snd_hdac_adsp_readl(adev, spec->hipc->rsp_offset);
-+	return hipc_rsp & spec->hipc->rsp_busy_mask;
- }
- 
- static int avs_ipc_wait_busy_completion(struct avs_ipc *ipc, int timeout)
-@@ -440,9 +442,10 @@ static void avs_ipc_msg_init(struct avs_ipc *ipc, struct avs_ipc_msg *reply)
- 
- static void avs_dsp_send_tx(struct avs_dev *adev, struct avs_ipc_msg *tx, bool read_fwregs)
- {
-+	const struct avs_spec *const spec = adev->spec;
- 	u64 reg = ULONG_MAX;
- 
--	tx->header |= SKL_ADSP_HIPCI_BUSY;
-+	tx->header |= spec->hipc->req_busy_mask;
- 	if (read_fwregs)
- 		reg = readq(avs_sram_addr(adev, AVS_FW_REGS_WINDOW));
- 
-@@ -450,8 +453,8 @@ static void avs_dsp_send_tx(struct avs_dev *adev, struct avs_ipc_msg *tx, bool r
- 
- 	if (tx->size)
- 		memcpy_toio(avs_downlink_addr(adev), tx->data, tx->size);
--	snd_hdac_adsp_writel(adev, SKL_ADSP_REG_HIPCIE, tx->header >> 32);
--	snd_hdac_adsp_writel(adev, SKL_ADSP_REG_HIPCI, tx->header & UINT_MAX);
-+	snd_hdac_adsp_writel(adev, spec->hipc->req_ext_offset, tx->header >> 32);
-+	snd_hdac_adsp_writel(adev, spec->hipc->req_offset, tx->header & UINT_MAX);
- }
- 
- static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request,
-@@ -606,6 +609,7 @@ int avs_dsp_send_rom_msg(struct avs_dev *adev, struct avs_ipc_msg *request, cons
- 
- void avs_dsp_interrupt_control(struct avs_dev *adev, bool enable)
- {
-+	const struct avs_spec *const spec = adev->spec;
- 	u32 value, mask;
- 
- 	/*
-@@ -617,7 +621,7 @@ void avs_dsp_interrupt_control(struct avs_dev *adev, bool enable)
- 
- 	mask = AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY;
- 	value = enable ? mask : 0;
--	snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCCTL, mask, value);
-+	snd_hdac_adsp_updatel(adev, spec->hipc->ctl_offset, mask, value);
- }
- 
- int avs_ipc_init(struct avs_ipc *ipc, struct device *dev)
-diff --git a/sound/soc/intel/avs/loader.c b/sound/soc/intel/avs/loader.c
-index e83ce6a35755..8e34d3536082 100644
---- a/sound/soc/intel/avs/loader.c
-+++ b/sound/soc/intel/avs/loader.c
-@@ -306,7 +306,7 @@ avs_hda_init_rom(struct avs_dev *adev, unsigned int dma_id, bool purge)
- 	}
- 
- 	/* await ROM init */
--	ret = snd_hdac_adsp_readq_poll(adev, spec->rom_status, reg,
-+	ret = snd_hdac_adsp_readq_poll(adev, spec->sram->rom_status_offset, reg,
- 				       (reg & 0xF) == AVS_ROM_INIT_DONE ||
- 				       (reg & 0xF) == APL_ROM_FW_ENTERED,
- 				       AVS_ROM_INIT_POLLING_US, APL_ROM_INIT_TIMEOUT_US);
-diff --git a/sound/soc/intel/avs/registers.h b/sound/soc/intel/avs/registers.h
-index 078a0ebafa42..8468acd15c3d 100644
---- a/sound/soc/intel/avs/registers.h
-+++ b/sound/soc/intel/avs/registers.h
-@@ -57,7 +57,7 @@
- #define APL_ADSP_SRAM_WINDOW_SIZE	0x20000
- 
- /* Constants used when accessing SRAM, space shared with firmware */
--#define AVS_FW_REG_BASE(adev)		((adev)->spec->sram_base_offset)
-+#define AVS_FW_REG_BASE(adev)		((adev)->spec->sram->base_offset)
- #define AVS_FW_REG_STATUS(adev)		(AVS_FW_REG_BASE(adev) + 0x0)
- #define AVS_FW_REG_ERROR_CODE(adev)	(AVS_FW_REG_BASE(adev) + 0x4)
- 
-@@ -72,8 +72,8 @@
- 
- /* registry I/O helpers */
- #define avs_sram_offset(adev, window_idx) \
--	((adev)->spec->sram_base_offset + \
--	 (adev)->spec->sram_window_size * (window_idx))
-+	((adev)->spec->sram->base_offset + \
-+	 (adev)->spec->sram->window_size * (window_idx))
- 
- #define avs_sram_addr(adev, window_idx) \
- 	((adev)->dsp_ba + avs_sram_offset(adev, window_idx))
++irqreturn_t avs_skl_irq_thread(struct avs_dev *adev)
++{
++	union avs_reply_msg msg;
++	u32 hipct, hipcte;
++
++	hipct = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCT);
++	hipcte = snd_hdac_adsp_readl(adev, SKL_ADSP_REG_HIPCTE);
++
++	/* Ensure DSP sent new response to process. */
++	if (!(hipct & SKL_ADSP_HIPCT_BUSY))
++		return IRQ_NONE;
++
++	msg.primary = hipct;
++	msg.ext.val = hipcte;
++	avs_dsp_process_response(adev, msg.val);
++
++	/* Tell DSP we accepted its message. */
++	snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCT, SKL_ADSP_HIPCT_BUSY, SKL_ADSP_HIPCT_BUSY);
++	/* Unmask busy interrupt. */
++	snd_hdac_adsp_updatel(adev, SKL_ADSP_REG_HIPCCTL, AVS_ADSP_HIPCCTL_BUSY,
++			      AVS_ADSP_HIPCCTL_BUSY);
++
++	return IRQ_HANDLED;
++}
++
+ static int __maybe_unused
+ avs_skl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
+ 		    u32 fifo_full_period, unsigned long resource_mask, u32 *priorities)
+@@ -103,8 +128,8 @@ const struct avs_dsp_ops avs_skl_dsp_ops = {
+ 	.power = avs_dsp_core_power,
+ 	.reset = avs_dsp_core_reset,
+ 	.stall = avs_dsp_core_stall,
+-	.irq_handler = avs_dsp_irq_handler,
+-	.irq_thread = avs_dsp_irq_thread,
++	.irq_handler = avs_irq_handler,
++	.irq_thread = avs_skl_irq_thread,
+ 	.int_control = avs_dsp_interrupt_control,
+ 	.load_basefw = avs_cldma_load_basefw,
+ 	.load_lib = avs_cldma_load_library,
 -- 
 2.25.1
 
