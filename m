@@ -1,136 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48883D38E
-	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 09:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D113D3B8;
+	Wed, 21 Feb 2024 09:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708507324; cv=none; b=M1+YW3K6pSLVYT91PCcQV+oaWBq5RSI/USwUe7qdRsfkrSrUDh7I7Po9dXONQl4kFp5FZmJ5Y33lxBIDkHkxKy6pAZx6T6YDC1ruw+pLZ43IXiZ9j3imk9f0tFVTA8CAgiIb6AVLSZAUPzHVdbPHQLuA2YnObulO1I5XLXHSI1o=
+	t=1708507377; cv=none; b=IGq3I0eHCobLdFxEURgYdrZA0RfRdDq98nUyqlENpWyeepOERgTvgIA9bg6XxbQpeuW+45ckdiohonq9o6bcWY02SYy+AEsfWWu7LTS0BZWTi6sOhgCZUlL8tGeO4nHpTjoksalOExfngWUtEkJaLWvTs6QdDqTk7nrgzAaE1BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708507324; c=relaxed/simple;
-	bh=bE/UFac9rALCjOc0BkSb7Oew4RsObAoHk89ortVn8cA=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=phd2Q7SZmip9zj0DTJuVfXTWrvCTeOOAhhmuwuMmmEDddyTYkK26dn5rScPw+8jks8q4L5tx5Ybocyg8ivAFYe2PTLmD3vFidbFL7yHVazsKqfIsc8eDs/B3ZJG4C7jGYYO/719DnclPuGxSKG2LtD7ZFwFIjBa+6woaRlsrCzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ggdxRLw9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=npovCf12; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ggdxRLw9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=npovCf12; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708507377; c=relaxed/simple;
+	bh=xIf/au/9NhubwKmMHmZZdLTDwXFfPoXGSwzESI0C9a4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WRD+OsY0Enj/MUieOGvbFUqBBP1GPgDt29unguNchLYP8jreNAO1NfUEPBdGOQTQ/lp0CPKeX8kMy+qMnJAje2AEUySRiUErUdTrVj6AU44SXhzTSl/yH0OeW6zvjqgswDAQaPq6yZSNX3CiaOw1SVjbAZ1PtZXQ2TRNvUe2VI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OmOdepO6; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ggdxRLw9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="npovCf12";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ggdxRLw9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="npovCf12"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DAB8E2205B;
-	Wed, 21 Feb 2024 09:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708507320; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/QHL2fVbcUQphOJnyb7/qgsQ5PLezMxmc+6SS77UfzY=;
-	b=ggdxRLw96tBwbl5o7SWnEaG1N02wGGyaN+qq1gwNiuPw09CPx6aXHSRgEKp8X809EiVUM7
-	xTcQSZk2KRQoA25YCLU2Y07mMIyQByrlQhuDgeewO4wl9256tEpR593mcFbTeFssHpugTk
-	Q87Xcd98q6ySfdDYA2JdhhWOFU4k8C0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708507320;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/QHL2fVbcUQphOJnyb7/qgsQ5PLezMxmc+6SS77UfzY=;
-	b=npovCf12nsjHa6WuDcFdr+pHtUSDyAnERNrcJnqWXa+v4VT4MF43U5+CjQmE1dI2UMhmtM
-	IM6acK8GgHG3zdCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708507320; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/QHL2fVbcUQphOJnyb7/qgsQ5PLezMxmc+6SS77UfzY=;
-	b=ggdxRLw96tBwbl5o7SWnEaG1N02wGGyaN+qq1gwNiuPw09CPx6aXHSRgEKp8X809EiVUM7
-	xTcQSZk2KRQoA25YCLU2Y07mMIyQByrlQhuDgeewO4wl9256tEpR593mcFbTeFssHpugTk
-	Q87Xcd98q6ySfdDYA2JdhhWOFU4k8C0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708507320;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/QHL2fVbcUQphOJnyb7/qgsQ5PLezMxmc+6SS77UfzY=;
-	b=npovCf12nsjHa6WuDcFdr+pHtUSDyAnERNrcJnqWXa+v4VT4MF43U5+CjQmE1dI2UMhmtM
-	IM6acK8GgHG3zdCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B0EF6139D0;
-	Wed, 21 Feb 2024 09:22:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MwQCKbjA1WW7NAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Feb 2024 09:22:00 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: Drop leftover snd-rtctimer stuff from Makefile
-Date: Wed, 21 Feb 2024 10:21:56 +0100
-Message-Id: <20240221092156.28695-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OmOdepO6"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41L6dxZj023747;
+	Wed, 21 Feb 2024 03:22:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=R6mowYBz3PTNIEc
+	LjqKSH0kC4MBHuU3YHPxD8CCuIdM=; b=OmOdepO6+jJZxuwBNqN+zYI0+GxJmc+
+	V+yLpt3pFeGSndGXHiVGYBmQ9REr+cTwRaTXngrvsfVEE+IfqsHdRL9/Adqwmsij
+	P6chxJLeBUVfOsdNWwfYGyp9e+RtmkY/gMepf9t5aaidWGeuBgK6g1AJRnwq05OQ
+	FyA0Ey2LMKGEpIR7Owlto8yDg+81a1Vhnp/2I7Ery2axIcSZyiSdEIAoHiVUJpS7
+	nnCLczkKtUyNtjEpDoGcEpDq7pxIRf+uqfTfUBbT5d3qsGE8gWN7TuWp5Kb41J7B
+	GOOJxClbXXkmHPj796PR758J1LRYD6p3eiutGxuRl384Kl9x9KmylWw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wd207grsk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Feb 2024 03:22:48 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 21 Feb
+ 2024 09:22:46 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Wed, 21 Feb 2024 09:22:46 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 96F58820246;
+	Wed, 21 Feb 2024 09:22:46 +0000 (UTC)
+Date: Wed, 21 Feb 2024 09:22:45 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+CC: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v8 1/5] firmware: cs_dsp: Add write sequencer interface
+Message-ID: <ZdXA5cNFd+hvw//F@ediswmail9.ad.cirrus.com>
+References: <20240221003630.2535938-1-jogletre@opensource.cirrus.com>
+ <20240221003630.2535938-2-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: ***
-X-Spamd-Bar: +++
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ggdxRLw9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=npovCf12
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [3.49 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_DN_NONE(0.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_ONE(0.00)[1];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[32.40%]
-X-Spam-Score: 3.49
-X-Rspamd-Queue-Id: DAB8E2205B
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240221003630.2535938-2-jogletre@opensource.cirrus.com>
+X-Proofpoint-GUID: 9gIjqvAJ_zbDyiqVeROZ2A_urHKZXvOn
+X-Proofpoint-ORIG-GUID: 9gIjqvAJ_zbDyiqVeROZ2A_urHKZXvOn
+X-Proofpoint-Spam-Reason: safe
 
-We forgot to remove the line for snd-rtctimer from Makefile while
-dropping the functionality.  Get rid of the stale line.
+On Wed, Feb 21, 2024 at 12:36:26AM +0000, James Ogletree wrote:
+> A write sequencer is a sequence of register addresses
+> and values executed by some Cirrus DSPs following
+> power state transitions.
+> 
+> Add support for Cirrus drivers to update or add to a
+> write sequencer present in firmware.
+> 
+> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+> ---
 
-Fixes: 34ce71a96dcb ("ALSA: timer: remove legacy rtctimer")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/Makefile | 1 -
- 1 file changed, 1 deletion(-)
+Think this one looks good to me:
 
-diff --git a/sound/core/Makefile b/sound/core/Makefile
-index a6b444ee2832..f6526b337137 100644
---- a/sound/core/Makefile
-+++ b/sound/core/Makefile
-@@ -32,7 +32,6 @@ snd-ump-objs      := ump.o
- snd-ump-$(CONFIG_SND_UMP_LEGACY_RAWMIDI) += ump_convert.o
- snd-timer-objs    := timer.o
- snd-hrtimer-objs  := hrtimer.o
--snd-rtctimer-objs := rtctimer.o
- snd-hwdep-objs    := hwdep.o
- snd-seq-device-objs := seq_device.o
- 
--- 
-2.35.3
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
+Thanks,
+Charles
