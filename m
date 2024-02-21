@@ -1,59 +1,78 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEEB3D3A8
-	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 09:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963FD3D964;
+	Wed, 21 Feb 2024 09:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708508700; cv=none; b=srsjz0fatBikrR62lbA905Twty6u9xaCAQXf2/UmR6iK/5ftrHRPIF6CwYSiwqMRrSylDAIILlWM8ov03TeI+5vh6SxCsgPIZlmyEy4AFgCARhJi95tHMsJezA2WUbTR4DYax6aGYCeBF+O4KhgfJtkr/EdH73qNN4QRp1iXx/U=
+	t=1708509511; cv=none; b=R2hMk1I9IgePyaZ5pcLCqa+nf7cx84SHTOIAd9p02uFrd6Ki+TbqsvlbTYGCm74Ej4CvpWWIXHVjcy9fXYLSEMznx2sTEcEd/7H0WJsuQZoJg0nl5YFGxjp3IkxKZx3Yw3arOCYTBlHOppumO3W0QP+vv4Y9vEUKpDZq3xuxcSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708508700; c=relaxed/simple;
-	bh=/opIB55MMYKYaC78niYQAuyhzp2B1CswjFKDPDdn5Xk=;
+	s=arc-20240116; t=1708509511; c=relaxed/simple;
+	bh=x+tAsEV3Ej8sASoFgkA+UV5jf5YbQU5Wt1y7ot4Nh/M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t5saw36yzfhI5F8dw+/CmaZKV0Ki9L/IDR7OBtd+mPcjnSEH2QMO72ir1CO8omBcoonhUNKI47BpKXFx4HRzGi6nZhzC6N+A+rI7sBazdc9HalUf1ZF4YZC009z2Q6yqkYp37La3YgvXEb9It+PZXtBtCLNBpzA8JbTmXzdHpek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EB8uQNK6; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=CgLamNvU5gtzFIUineb3zowi9T6fcP3PNz1NS9o6Ps7ilcbZu4x/k+77yFRe+EzN8jZjHHUXV96s63bv4n/BXi+D3Hq+NuFVFSwoYMJA4gx8g+qjmh3r4E4hdKUlY4TgXBJdoCYGmEpMzBR0OweAyPK7zD+HdhBbn/4sPvSf7hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eqoWccbd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uHlzl5Mb; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eqoWccbd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uHlzl5Mb; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EB8uQNK6"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a34c5ca2537so46448666b.0
-        for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 01:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708508696; x=1709113496; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NyBaoVH2N/0Qpdr6Z5VWnZpm4sf6QgnERUX3ACGj03I=;
-        b=EB8uQNK6VFZNe3WYq8CHMy4J44WMAAaiHCqGROumV+EWVQhMQNGZsULAifrsSRUwgE
-         faG/Ze5n6vqAY/giFyBf3/1l9DFRjDtf1B4n87QO40x62e434qQShJKL9QZm9q98gRWd
-         5qfx3QlONdPD6P3pwX9QNCdZlPRsWtzQMJCdNlX0tsv4vRdDioLBc+JnqYjb70fZdos4
-         31IPELlOJMY1b36lVmx1HlFmYjxb3ywkH9xKjJjbZUCW8Db1cIVFTHEBfXfcomOYrUPy
-         Tci+yPSbVQikHaaygoLR9mtYJxxdK/SZb6ADkhYdDfttj5rLcHM503OdN9jsHDysBgQT
-         DeEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708508696; x=1709113496;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NyBaoVH2N/0Qpdr6Z5VWnZpm4sf6QgnERUX3ACGj03I=;
-        b=nK82cJpGuQ/ssd8rHgEP8wEH5R0URcfq/lpQSXPIB7q+pX/Uyw2bfnax3VhOB4JLnT
-         P82aHLbKIkcU+WPVYDlP6WS/fz84OaCOZDqJrs3vHXg3uTAlgOFsvRKgfRgA8RJavJ3J
-         QyStXn4WoyBRKkhV1B46IhotfAwsEmmEwGs+D4kBOY8gxUL4vnTf9m8Qn5jRsRXYzGmr
-         pmeTwAqQKvGj/MwN/Kebi127BErAF8RZQ6vn46/4zXDpGR60YkdYuHyEGFx9dRiDRX9s
-         llMWZT0r1hzp00txIlfSUC9Jm3sEV5DzrYlYb9WONPx0OG/G5BofOstSUxIybq5saMUn
-         oIHg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4YKUB9vVfD8a9w6V3CCGDkkVchGbM1lkj4E2bQutKXiOO25bgleBnzXjckxkHfTKNynQxtKed6vWnuO+8SnKjEvyph1YkjENJZNg=
-X-Gm-Message-State: AOJu0YyL7SL78ZGwBYWzqmQaCqoKe04D3f6cs0rm9dQtWgeFcbLb/ozg
-	BnBRFBB1DZUhIILwU8/gdNJ/HFPYpjUe96y0HW0AQvu7o0j3dPEyb8oskTJsznA=
-X-Google-Smtp-Source: AGHT+IHKAvnXAoTx45vIQ/qJlrbVDVZ7kPxLCVw3sTsnFfwKS3/tPeqcsbS4/Vw6sYV6b+JfjsNYeA==
-X-Received: by 2002:a17:906:2b97:b0:a3f:50ae:52d with SMTP id m23-20020a1709062b9700b00a3f50ae052dmr418708ejg.10.1708508696477;
-        Wed, 21 Feb 2024 01:44:56 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id sn24-20020a170906629800b00a3e1939b23bsm4464478ejc.127.2024.02.21.01.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 01:44:55 -0800 (PST)
-Message-ID: <7ae0567d-e5d3-4e00-98f7-5139d5879f75@linaro.org>
-Date: Wed, 21 Feb 2024 10:44:52 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eqoWccbd";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uHlzl5Mb";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eqoWccbd";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uHlzl5Mb"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 92DB01FB4C;
+	Wed, 21 Feb 2024 09:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708509506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6CZZLxaCjUniAqfUA8XuBol8bY7o8se1WYeJDD69kWY=;
+	b=eqoWccbdoRy5sD7lxgF7mOoSFHp5C6lhXoEJoGUq9zlS3nrMaTLkHS7eJqywHowi9zOuWv
+	uEvWpF1xEcPNduaRxQqwOzE/poPKvGc8galZRHs2kFwgaGNn0Ytp6kZXaW2ilJzGFkJAr2
+	OcWkdhacveMY6FiUe3jkaM6laJ+yUlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708509506;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6CZZLxaCjUniAqfUA8XuBol8bY7o8se1WYeJDD69kWY=;
+	b=uHlzl5MbBIGidM84g/sKNE+UkK+1QMttnvG9eoEGviWkKkZixshbakkWgnUmXJzluiFZwJ
+	XUPLbrrhp99SyzDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708509506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6CZZLxaCjUniAqfUA8XuBol8bY7o8se1WYeJDD69kWY=;
+	b=eqoWccbdoRy5sD7lxgF7mOoSFHp5C6lhXoEJoGUq9zlS3nrMaTLkHS7eJqywHowi9zOuWv
+	uEvWpF1xEcPNduaRxQqwOzE/poPKvGc8galZRHs2kFwgaGNn0Ytp6kZXaW2ilJzGFkJAr2
+	OcWkdhacveMY6FiUe3jkaM6laJ+yUlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708509506;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6CZZLxaCjUniAqfUA8XuBol8bY7o8se1WYeJDD69kWY=;
+	b=uHlzl5MbBIGidM84g/sKNE+UkK+1QMttnvG9eoEGviWkKkZixshbakkWgnUmXJzluiFZwJ
+	XUPLbrrhp99SyzDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7856213A69;
+	Wed, 21 Feb 2024 09:58:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 23v5HELJ1WUYPgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 21 Feb 2024 09:58:26 +0000
+Message-ID: <ea61304a-81a4-402d-9d71-b13b9ac89ed2@suse.cz>
+Date: Wed, 21 Feb 2024 10:58:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,96 +80,118 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/6] reset: gpio: ASoC: shared GPIO resets
+Subject: Re: Stall at page allocations with __GFP_RETRY_MAYFAIL (Re: [PATCH
+ v1] ALSA: memalloc: Fix indefinite hang in non-iommu case)
 Content-Language: en-US
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand
- <frowand.list@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson <sean.anderson@seco.com>
-References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+To: Sven van Ashbrook <svenva@chromium.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+ Karthikeyan Ramasubramanian <kramasub@chromium.org>,
+ LKML <linux-kernel@vger.kernel.org>, Brian Geffon <bgeffon@google.com>,
+ stable@vger.kernel.org, Curtis Malainey <cujomalainey@chromium.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-mm@kvack.org
+References: <20240214170720.v1.1.Ic3de2566a7fd3de8501b2f18afa9f94eadb2df0a@changeid>
+ <87jzn0ofdb.wl-tiwai@suse.de> <235ab5aa-90a4-4dd7-b2c6-70469605bcfb@suse.cz>
+ <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=eqoWccbd;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uHlzl5Mb
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[11];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Score: -4.50
+X-Rspamd-Queue-Id: 92DB01FB4C
+X-Spam-Flag: NO
 
-On 29/01/2024 12:52, Krzysztof Kozlowski wrote:
-> Hi,
+On 2/20/24 16:52, Sven van Ashbrook wrote:
+> Takaski, Vlastimil: thanks so much for the engagement! See below.
 > 
-> Dependencies / Merging
-> ======================
-> 1. Depends on !GPIOLIB stub:
->    https://lore.kernel.org/all/20240125081601.118051-3-krzysztof.kozlowski@linaro.org/
+>> On 2/19/24 12:36, Takashi Iwai wrote:
+>> >
+>> > Karthikeyan, Sven, and co: could you guys show the stack trace at the
+>> > stall?  This may give us more clear light.
+> Here are our notes of the indefinite stall we saw on v5.10 with iommu SoCs.
+> We did not pursue debugging the stall at the time, in favour of a work-around
+> with the gfp flags. Therefore we only have partial confidence in the notes
+> below. Take them with a block of salt, but they may point in a useful direction.
 > 
-> 2. Patch #2 (cpufreq: do not open-code of_phandle_args_equal()) and patch #4
->    (reset: Instantiate reset GPIO controller for shared reset-gpios) depend on OF
->    change (patch #1).
+> 1. try to do a "costly" allocation (order > PAGE_ALLOC_COSTLY_ORDER) with
+>     __GFP_RETRY_MAYFAIL set.
+> 
+> 2. page alloc's __alloc_pages_slowpath [1] tries to get a page from
+> the freelist.
+>     This fails because there is nothing free of that costly order.
+> 
+> 3. page alloc tries to reclaim by calling __alloc_pages_direct_reclaim, which
+>     bails out [2] because a zone is ready to be compacted; it pretends
+> to have made
+>     a single page of progress.
+> 
+> 4. page alloc tries to compact, but this always bails out early [3]
+> because __GFP_IO is not set
+>     (it's not passed by the snd allocator, and even if it were, we are
+> suspending so the
+>     __GFP_IO flag would be cleared anyway).
+> 
+> 5. page alloc believes reclaim progress was made (because of the
+> pretense in item 3) and
+>     so it checks whether it should retry compaction. The compaction
+> retry logic [4] thinks
+>     it should try again, because:
+>     a) reclaim is needed because of the early bail-out in item 4
+>     b) a zonelist is suitable for compaction
+> 
+> 6. goto 2. indefinite stall.
 
+Thanks a lot, seems this can indeed happen even in 6.8-rc5. We're
+mishandling the case where compaction is skipped due to lack of __GFP_IO,
+which is indeed cleared in suspend/resume. I'll create a fix. Please don't
+hesitate to report such issues the next time, even if not fully debugged :)
 
-Hi Philipp,
-
-I got acks from GPIO folks. The also provided stable tag with dependency:
-https://lore.kernel.org/all/20240213101000.16700-1-brgl@bgdev.pl/
-(which BTW already is in mainline, so you could just merge Linus' tree
-into your next branch)
-
-Can you take entire patchset?
-
-Best regards,
-Krzysztof
+>>
+>> > Also, Vlastimil suggested that tracepoints would be helpful if that's
+>> > really in the page allocator, too.
+>> >
+> 
+> We might be able to generate traces by bailing out of the indefinite
+> stall using a timer,
+> which should hopefully give us a device that's "alive enough" to read
+> the traces.
+> 
+> Can you advise which tracepoints you'd like to see? Is trace-cmd [5]
+> suitable to capture
+> this?
+> 
+> [1] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/kernel/v5.10/mm/page_alloc.c;l=4654;drc=a16293af64a1f558dab9a5dd7fb05fdbc2b7c5c0
+> [2] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/kernel/v5.10/mm/vmscan.c;drc=44452e4236561f6e36ec587805a52b683e2804c9;l=6177
+> [3] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/kernel/v5.10/mm/compaction.c;l=2479;drc=d7b105aa1559e6c287f3f372044c21c7400b7784
+> [4] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/kernel/v5.10/mm/page_alloc.c;l=4171;drc=a16293af64a1f558dab9a5dd7fb05fdbc2b7c5c0
+> [5] https://chromium.googlesource.com/chromiumos/docs/+/HEAD/kernel_development.md#ftrace-debugging
 
