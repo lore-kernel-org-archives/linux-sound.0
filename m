@@ -1,108 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114C853816
-	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 12:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6501376C99
+	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 13:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708520280; cv=none; b=X4kj5j+jEv1j6/QX1s7APVugaYbqSbgFuwOoy5YX5R6F1goavkMSPmeD4eIB0rmd0l4td3vgMoUl67jNOsf+9U0oYXqXAnrFYRO1qFQP1ay6BFgJPWWd8v7f6YET+LgoJXvN5HW/FMQ+Jp5Z3KiW3CujWlilkfHy99q2HexVuYk=
+	t=1708521698; cv=none; b=DXu4eoSty5lmzAhKs2Wbz5i2uMBzwDI11JzteKTtA+/jo/fQsX9Bg6gtEuqfJRS6y7Jzb5pqNqlQNINQjzed6cl8UvNn0ej5otvFtZwchmQuCbh90IW1aa9rzP2yu4FPK/mV/JbbNAZNY2NDpXlFuwuSvGE5EJ+76+CRelEudm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708520280; c=relaxed/simple;
-	bh=0l94LClWCS65r5oy7U7YKWgl/b0d8KFwWoVT4NfHAWI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PqirvPciTzDRDTxt+8+0n6f1a6LBmlUUwYX49bqCpcI1TRDE3htBzCQLoIhTrlDYfmkXVCZ6up/HM9aHt1KBm7DDplFl2vyoOhEsvQ7al/YKPKJxMA1G+UUc76LTL/y3mr4ObsQzQM/W/r412NkaZySpWSQI1QWX8FngEWgiNPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ap5NNRvj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ap5NNRvj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E99DC433F1;
-	Wed, 21 Feb 2024 12:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708520279;
-	bh=0l94LClWCS65r5oy7U7YKWgl/b0d8KFwWoVT4NfHAWI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ap5NNRvjrM0zMKqMHhSPK0SHQA4HfvJ7FXDP8s+NDfl/QYpy4BvErlw+FmLAd/E0N
-	 FFcj/wLGzd9k448GiqxLGbPjtoEJyLzvjHWHtBGMPMYDhUDIHDFS0Iny9SgXazgHh0
-	 zAKgqMEHPTLtaivN2ANlgBgsJtaDJs3QcRRQHX9drrZ/Z5zJw5YNwZxA3UZ4ZTeomx
-	 YS8eD61ZItQqiBeufG8PIjurKUbAEiXUJjpt2a8rRO2p0xX3Y7EiJYst3q19DfP85n
-	 toqg1STBMPvxFqbPughiTMyQqIN3xuQQJ440pGAZG7yvtbMYQ9cYuewtB/2C7wfdPs
-	 oQCieRqc0/Pvw==
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
- pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
-In-Reply-To: <20240220115035.770402-1-cezary.rojewski@intel.com>
-References: <20240220115035.770402-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 00/10] ASoC: Intel: avs: Fixes and new platforms
- support
-Message-Id: <170852027811.29200.13690058951183581212.b4-ty@kernel.org>
-Date: Wed, 21 Feb 2024 12:57:58 +0000
+	s=arc-20240116; t=1708521698; c=relaxed/simple;
+	bh=SI3SEn2rXlKhuuBlz7D1YxEpNb6+9jhtk6arFV0Ido8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lEipOPsTcJQpzoBJebab0SIkTbxhy/Ik49tNPhzc4VP4c92ytWQYY/vqO+g9qYvFoZmTEvOxCF+B7odcb7n5nEAbCRVkpprrtEEejxQwL+IMLMDf70jyqNaTyoazj120cvZGh7vgX+GZxWruyouGzDEMwTIB20+IPRZk0bztX20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rcmXM-0002OS-FY; Wed, 21 Feb 2024 14:21:24 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rcmXL-00237x-Gz; Wed, 21 Feb 2024 14:21:23 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rcmXL-0009An-1R;
+	Wed, 21 Feb 2024 14:21:23 +0100
+Message-ID: <09c275d0f0a1bf85f37635d9570514e8fc631e72.camel@pengutronix.de>
+Subject: Re: [PATCH v3 4/7] ASoC: codecs: Add RK3308 internal audio codec
+ driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Nicolas Frattaroli
+ <frattaroli.nicolas@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Date: Wed, 21 Feb 2024 14:21:23 +0100
+In-Reply-To: <20240221-rk3308-audio-codec-v3-4-dfa34abfcef6@bootlin.com>
+References: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
+	 <20240221-rk3308-audio-codec-v3-4-dfa34abfcef6@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Tue, 20 Feb 2024 12:50:25 +0100, Cezary Rojewski wrote:
-> The avs-driver continues to be utilized on more recent Intel machines.
-> As TGL-based (cAVS 2.5) e.g.: RPL, inherit most of the functionality
-> from previous platforms:
-> 
-> SKL <- APL <- CNL <- ICL <- TGL
-> 
-> rather than putting everything into a single file, the platform-specific
-> bits are split into cnl/icl/tgl.c files instead. Makes the division clear
-> and code easier to maintain.
-> 
-> [...]
+On Mi, 2024-02-21 at 11:22 +0100, Luca Ceresoli wrote:
+> Add driver for the internal audio codec of the Rockchip RK3308 SoC.
+>=20
+> Initially based on the vendor kernel driver [0], with lots of cleanups,
+> fixes, improvements, conversion to DAPM and removal of some features.
+>=20
+> [0] https://github.com/rockchip-linux/kernel/blob/develop-4.19/sound/soc/=
+codecs/rk3308_codec.c
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+[...]
+> diff --git a/sound/soc/codecs/rk3308_codec.c b/sound/soc/codecs/rk3308_co=
+dec.c
+> new file mode 100644
+> index 000000000000..61bfb75f92a3
+> --- /dev/null
+> +++ b/sound/soc/codecs/rk3308_codec.c
+> @@ -0,0 +1,993 @@
+[...]
+> +static int rk3308_codec_platform_probe(struct platform_device *pdev)
+> +{
+[...]
+> +	rk3308->reset =3D devm_reset_control_get(&pdev->dev, "codec");
+> +	if (IS_ERR(rk3308->reset)) {
+> +		err =3D PTR_ERR(rk3308->reset);
+> +		if (err !=3D -ENOENT)
+> +			return err;
+> +
+> +		dev_dbg(&pdev->dev, "No reset control found\n");
+> +		rk3308->reset =3D NULL;
+> +	}
 
-Applied to
+Please use devm_reset_control_get_optional_exclusive(). That already
+returns NULL instead of -ENOENT if the reset control is not specified
+in the device tree. Then dev_err_probe() can be used to report errors.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[01/10] ASoC: Intel: avs: L1SEN reference counted
-        commit: 1b72943ab1159ad27c11a302644fabb8bc2881bb
-[02/10] ASoC: Intel: avs: Fix sound clipping in single capture scenario
-        commit: e1a0cbae52d0bf3cb350eba5c95c46c14a5bcda4
-[03/10] ASoC: Intel: avs: Prefix SKL/APL-specific members
-        commit: a8f858d98f016a0209edaf1518fd45a5e5c62d47
-[04/10] ASoC: Intel: avs: Abstract IPC handling
-        commit: 7576e2f4d99df6efabb77f52b9539fd345233aee
-[05/10] ASoC: Intel: avs: Abstract IRQ handling
-        commit: 97bd565ff5a2fc89d302f9919fde37fadf51b645
-[06/10] ASoC: Intel: avs: CNL-based platforms support
-        commit: 8a6502ade116bc4b8293f094f8d74059c67c3f27
-[07/10] ASoC: Intel: avs: ICL-based platforms support
-        commit: 275b583d047a23c48d01b0c45fb5d95618c1da2d
-[08/10] ASoC: Intel: avs: TGL-based platforms support
-        commit: 5acb19ecd1982bd1578912473b33df75a23fefc2
-[09/10] ASoC: Intel: avs: ICCMAX recommendations for ICL+ platforms
-        commit: 36478a74c7ddaf58d80da5cef9c5ddb5beed5a2e
-[10/10] ASoC: Intel: avs: Populate board selection with new I2S entries
-        commit: 5b417fe0cded0b5917683398e6519aae8045cd40
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+regards
+Philipp
