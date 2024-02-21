@@ -1,206 +1,99 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E73141238
-	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 11:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB18481A8;
+	Wed, 21 Feb 2024 11:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708515045; cv=none; b=n8sSZXZG4xImZgToooH1NqxSAt25fUqV90q+EkCq9SHV2jPWzX0Ikw6+QF5Ci7kPnH274RYl7ECIpcBu94Jel+ia9lEP3oLxy19Sqq13ruor03SBxKT855M5KM6vy96099KSd0uhTLx/wrgwlbMXA7I+JufghoMTr8MhWSwbeVw=
+	t=1708515494; cv=none; b=DhnhxlxBqznWkxb0grjdN9ePW+zQTR4K+7o0JfV/fozEvzxqvzmBwhKuxfe0h+01BReQPRuu/sHWxhcRRf9k1Q0zYRQg/PSAEXGkTfOB6got5ZS7FrptTBBTJhhhR/YmZuxLPVeIhPOmf40s4i3ryPo+e1AOkbYhXREVgLkpi5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708515045; c=relaxed/simple;
-	bh=UvCheUVIoFjk4cSiZxMiMgUAjFsOzD0QEdp/BP6hA54=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ctdVR6igxbnConsoNsRQb7h3YejIqg2/JJITYHH7aTgX0jNnfqVlKYs+hrbSM3NdIQbrgMiUnIYT2vF2J98OnsuYt4qceRWNOQX4JKmcGhhUK03N6dqyWloXnbSYkzOorXwAcSBDKsbtdq82xYvPbZW9NWqSLIRO9EOHh6FiMwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NgFExfEB; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708515494; c=relaxed/simple;
+	bh=EhrWngD9RDOax6weTU9Ro/qRRNM2e3wDxLZFUYJCqFk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=groxgjMrHrpRKyVnBW4pO+AYxqLqSUJdpSrVFoXa3sUk6D0nqaFP+1IpbEfmpWgkhZjOWkw1ULxVjJkWn33t1XSfe0XiuLMihc1K0iH+fqlz6YuA8rfMxaNMT5JdEYOASuQQRCNDjlJ2stk5iYdJ6HRjlJnDNbpyYBFTljanCSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZrUP+WxG; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NgFExfEB"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a3ed9cae56fso431326966b.1
-        for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 03:30:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZrUP+WxG"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4127188dd5cso10082685e9.0;
+        Wed, 21 Feb 2024 03:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708515042; x=1709119842; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dMJuotCi10MIEivhgp+/HFVWVuz2YA+wsQ3N0tBEkCQ=;
-        b=NgFExfEBtuPzOq8ifX7JMsESrD2wfANQfoyYYYAWm6BbP1NR1ERpkQrEcJF5rv/mdW
-         L+ct51HifCgTodAllpbLQfI2wglCtnzVFEGHmKTKjuXPxIWRTN0rhG7nYJkgNTJoHQN3
-         DXvt9jRzHN9fldGmzAKUiNRQ3V0xwRfwJhI+M6WpgaMoO4keRfBhjpQIRB9lhLeSSSvu
-         NQhYWOGwAG/N+XocsMgxJ8F0MvTDwwYogMR7e1ZE1z5Lx0m6K06CGCEQy3jlrTLMLY1R
-         f12M1mA78X9Sjaf9mu4Gn0wDSvswabxrSP3WoiaGcz+DJIGkXzdrY1vPw/wwxvSBF7rK
-         V5yQ==
+        d=gmail.com; s=20230601; t=1708515491; x=1709120291; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C/HFIcoSw75hDTLYVUPwa8rzXmjiPlpAtt6qgGaK/RA=;
+        b=ZrUP+WxGt8IhN8QaymqyVGVaNfa/2ay4BRlBwkzOryk3m7iloqecPpcrl4M2wyJsmn
+         pbOymW+JVS7z1JX9HVcow1H6/UHeI47By8SkX5s/ncppbNAS1F8KIMgDRISCDG8cJYJ4
+         WwdFKCC+/8FDoKjVCyoNW53NnWtvwagqyc4vK5Cy+BCnpYUpt/ar80eF6P0tvfUphws0
+         f1eP/shbMV8MHFJ7L8y2R4SRB4Yv+M24sCxS21MtJdT283/Cw5/lrWSCbA0hEUXtz75n
+         jWrF5fN158YRpvFkOzAlb1gwxElu7KK5+v2CK4Er/2AJhKcSvop6bn615Y6yAv29TJmY
+         T55Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708515042; x=1709119842;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dMJuotCi10MIEivhgp+/HFVWVuz2YA+wsQ3N0tBEkCQ=;
-        b=T2SfzPz5jzxxyvdFZKO73Sbk/kDKJqkHFAxz7ZVOOdtJZn9DvDFgsAVJVvzRecRw+g
-         TvbZIjUpbr1BoG9912M2+HWBUnlrTwWN5T/cWXlcgVTSAE8hq0POQPFjvz/oXh94S20F
-         IIfKFOHZES6uD1vpvWSm5Nkk1gXANPlPihO3fu2CXv7ulRUx6A2nbL43PZKqd2WR9jo4
-         BbgBiW721aQ1M+ilUhszPCSmXArrUHcv5tEAni7b3bw2JcndzbDFoWwOKVBFOpWDJcoG
-         sdFY/NkDy3L/tkxKaFlKyWuNvrPK6cp+92QWpqmRx+iTXKLcvgEAS+fLpIPc9/AUrNf/
-         cTbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFv74QFbfmi7zPuFwtCGj1y9KCbKRAdQfao3UyP3rjPOFDE9gOeo/5Ed9DWuLJI4/0PYPHmbPo9a23xNvfUwc26wswBdF+Vv2ACjA=
-X-Gm-Message-State: AOJu0YzgxvfNBogECj8X/IyNWwFunm2Xj27O8KhKgp01GROE2oSbcyBQ
-	tLQX9WRGRKbJ3O58pgdbiJATWPeaRgr6ONsYTNbodTtOnXeR5JyV1bPS452GoM4=
-X-Google-Smtp-Source: AGHT+IGa30Y9sZCSRDuOG9iML0YaKidoEu1++hvS9trF/xcUXTGjRT1+VbSba/xh5BEu6evlsLJz4w==
-X-Received: by 2002:a17:906:e085:b0:a3f:421:26a5 with SMTP id gh5-20020a170906e08500b00a3f042126a5mr4151010ejb.12.1708515041688;
-        Wed, 21 Feb 2024 03:30:41 -0800 (PST)
-Received: from krzk-bin.. ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id g1-20020a170906c18100b00a3e278c4a3fsm4393712ejz.53.2024.02.21.03.30.40
+        d=1e100.net; s=20230601; t=1708515491; x=1709120291;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C/HFIcoSw75hDTLYVUPwa8rzXmjiPlpAtt6qgGaK/RA=;
+        b=W0e81M+pA1LTQzDETxDEqUiw2wELQNeTLovUBHMnHy9+YlOkSakQYyUDIO53irrxfj
+         0oOSBrk2Uo8tU3tjdVZ5LqXSzhKbj2P0NBFLWeam8aWh/UFiTLcgOoYaJhdXY9Cl0p4b
+         fBFvVnJG4dd6Et1GcxiJDxkcebRpZ/vF4hR30P8a4nQtSsNejUCnwvaeSjt4Nkim3LTU
+         Y48t74UgrNcG8J8at93EEi0vTNnwYVSLciQzOjIA7krAZDPlTd79sEfjgJkxw9xv8HKJ
+         D5QtdKeSCiTbSqgBI9hl7N/uqlzvSpNcsc8DkNs9Wi0dz/gwrgvR03cu2GgHB8ur1hpO
+         AzfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXy91V7Qrr8ob+fR4ZwL4epuc8Tu8PWLaxh9wXK1uU+Ge9fhWfWJM9kpudoEvxYSsQUL/VgQ6z9FmhVfPP6DAmIExcusGjRhkp+tQUKcntOO6NPu9Q99A5YiwzQkUiVbhedgS5hoHtZcWk=
+X-Gm-Message-State: AOJu0Ywbv7Lg9TJqETS2Umrd4AURRR4z6gx6y2NA18H9cvq3WRoP3yhL
+	1xuraN2/sLU4PbxuqPPkA9XcFcj3VcBfn2L2Cu8H8k+wC+jOAnh5loim9brC
+X-Google-Smtp-Source: AGHT+IEdSBNCbVnHf3xsKaHEyqKW8117YV+/I23ry7Dd9181w3oMZZfnGyOO2Vg//jXHeha/rb+Otg==
+X-Received: by 2002:a5d:64e9:0:b0:33d:2833:a163 with SMTP id g9-20020a5d64e9000000b0033d2833a163mr10021781wri.29.1708515491151;
+        Wed, 21 Feb 2024 03:38:11 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id k14-20020a5d428e000000b0033ce5b3390esm16657238wrq.38.2024.02.21.03.38.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 03:30:41 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+        Wed, 21 Feb 2024 03:38:10 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Sean Anderson <sean.anderson@seco.com>
-Subject: [RESEND PATCH v6 v6 2/2] ASoC: codecs: wsa884x: Allow sharing reset GPIO
-Date: Wed, 21 Feb 2024 12:30:36 +0100
-Message-Id: <20240221113036.23905-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240221113036.23905-1-krzysztof.kozlowski@linaro.org>
-References: <20240221113036.23905-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH][next] ALSA: echoaudio: remove redundant assignment to variable clock
+Date: Wed, 21 Feb 2024 11:38:09 +0000
+Message-Id: <20240221113809.3410109-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On some boards with multiple WSA8840/WSA8845 speakers, the reset
-(shutdown) GPIO is shared between two speakers.  Use the reset
-controller framework and its "reset-gpio" driver to handle this case.
-This allows bring-up and proper handling of all WSA884x speakers on
-X1E80100-CRD board.
+The variable clock is being assigned a value that is never read,
+it is being re-assigned a new value in every case in the following
+switch statement. The assignment is redundant and can be removed.
 
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Sean Anderson <sean.anderson@seco.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cleans up clang scan build warning:
+sound/pci/echoaudio/echoaudio_3g.c:277:2: warning: Value stored
+to 'clock' is never read [deadcode.DeadStores]
+
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- sound/soc/codecs/wsa884x.c | 53 +++++++++++++++++++++++++++++++-------
- 1 file changed, 43 insertions(+), 10 deletions(-)
+ sound/pci/echoaudio/echoaudio_3g.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index f2653df84e4a..a9767ef0e39d 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -13,6 +13,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
-@@ -699,6 +700,7 @@ struct wsa884x_priv {
- 	struct sdw_stream_runtime *sruntime;
- 	struct sdw_port_config port_config[WSA884X_MAX_SWR_PORTS];
- 	struct gpio_desc *sd_n;
-+	struct reset_control *sd_reset;
- 	bool port_prepared[WSA884X_MAX_SWR_PORTS];
- 	bool port_enable[WSA884X_MAX_SWR_PORTS];
- 	unsigned int variant;
-@@ -1799,9 +1801,22 @@ static struct snd_soc_dai_driver wsa884x_dais[] = {
- 	},
- };
+diff --git a/sound/pci/echoaudio/echoaudio_3g.c b/sound/pci/echoaudio/echoaudio_3g.c
+index cc3c79387194..18b4d4b4d38d 100644
+--- a/sound/pci/echoaudio/echoaudio_3g.c
++++ b/sound/pci/echoaudio/echoaudio_3g.c
+@@ -274,7 +274,6 @@ static int set_sample_rate(struct echoaudio *chip, u32 rate)
+ 		       chip->digital_mode == DIGITAL_MODE_ADAT))
+ 		return -EINVAL;
  
--static void wsa884x_gpio_powerdown(void *data)
-+static void wsa884x_reset_powerdown(void *data)
- {
--	gpiod_direction_output(data, 1);
-+	struct wsa884x_priv *wsa884x = data;
-+
-+	if (wsa884x->sd_reset)
-+		reset_control_assert(wsa884x->sd_reset);
-+	else
-+		gpiod_direction_output(wsa884x->sd_n, 1);
-+}
-+
-+static void wsa884x_reset_deassert(struct wsa884x_priv *wsa884x)
-+{
-+	if (wsa884x->sd_reset)
-+		reset_control_deassert(wsa884x->sd_reset);
-+	else
-+		gpiod_direction_output(wsa884x->sd_n, 0);
- }
- 
- static void wsa884x_regulator_disable(void *data)
-@@ -1809,6 +1824,27 @@ static void wsa884x_regulator_disable(void *data)
- 	regulator_bulk_disable(WSA884X_SUPPLIES_NUM, data);
- }
- 
-+static int wsa884x_get_reset(struct device *dev, struct wsa884x_priv *wsa884x)
-+{
-+	wsa884x->sd_reset = devm_reset_control_get_optional_shared(dev, NULL);
-+	if (IS_ERR(wsa884x->sd_reset))
-+		return dev_err_probe(dev, PTR_ERR(wsa884x->sd_reset),
-+				     "Failed to get reset\n");
-+	else if (wsa884x->sd_reset)
-+		return 0;
-+	/*
-+	 * else: NULL, so use the backwards compatible way for powerdown-gpios,
-+	 * which does not handle sharing GPIO properly.
-+	 */
-+	wsa884x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
-+						GPIOD_OUT_HIGH);
-+	if (IS_ERR(wsa884x->sd_n))
-+		return dev_err_probe(dev, PTR_ERR(wsa884x->sd_n),
-+				     "Shutdown Control GPIO not found\n");
-+
-+	return 0;
-+}
-+
- static int wsa884x_probe(struct sdw_slave *pdev,
- 			 const struct sdw_device_id *id)
- {
-@@ -1838,11 +1874,9 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	if (ret)
- 		return ret;
- 
--	wsa884x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
--						GPIOD_OUT_HIGH);
--	if (IS_ERR(wsa884x->sd_n))
--		return dev_err_probe(dev, PTR_ERR(wsa884x->sd_n),
--				     "Shutdown Control GPIO not found\n");
-+	ret = wsa884x_get_reset(dev, wsa884x);
-+	if (ret)
-+		return ret;
- 
- 	dev_set_drvdata(dev, wsa884x);
- 	wsa884x->slave = pdev;
-@@ -1858,9 +1892,8 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	pdev->prop.sink_dpn_prop = wsa884x_sink_dpn_prop;
- 	pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
- 
--	/* Bring out of reset */
--	gpiod_direction_output(wsa884x->sd_n, 0);
--	ret = devm_add_action_or_reset(dev, wsa884x_gpio_powerdown, wsa884x->sd_n);
-+	wsa884x_reset_deassert(wsa884x);
-+	ret = devm_add_action_or_reset(dev, wsa884x_reset_powerdown, wsa884x);
- 	if (ret)
- 		return ret;
+-	clock = 0;
+ 	control_reg = le32_to_cpu(chip->comm_page->control_register);
+ 	control_reg &= E3G_CLOCK_CLEAR_MASK;
  
 -- 
-2.34.1
+2.39.2
 
