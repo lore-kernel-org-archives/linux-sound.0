@@ -1,77 +1,91 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95D08174E
-	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 15:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B7D8565A;
+	Wed, 21 Feb 2024 16:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708530785; cv=none; b=u1weTyOM9NJsec1Nhsk7NATjmWLsxy3XVyyzUZ6fNyOLayMjPu2T8VA8FfiwlkH5qd6K7h+ZL6L496Jz3O8JwMzNNi5AY3j2ml5Ano7xsuM8e3RZKP/eRcw19qofTrZ/l7ZovI5SsY+4Jj/3GR8E6378mCrmXkTkpg9rHrOWlXU=
+	t=1708531377; cv=none; b=KKHZ8e259TnQbpiB5o5skHCbUvKmdp6sr0gDVoXtbok/3w8+KIPb+bw1pVJjvmfNUcFwcqSPmef4em5mgINGaa577LyLU3E0WAK4kGt9xSaamznOYPcYkx5HeBHy34fJdLwZIfD+3pYZAzfFHBMCKwJjzTtHTuq6kb/nX/0w9zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708530785; c=relaxed/simple;
-	bh=9VgNrg7E3WxzPLbpdW7b+fQZzMzEpRyOCT/6WT2Sf4Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HzdUUKzcSU/QtOUqAazee86C6TQ6J2xi+hrzYz3UU3QQkfHewbrH7yGklB0P/S6rADK0nEDYsamF2+lM7TZH4+mCUlBTFyJReSojt12XlMp+tZuJoMaDGiXUhf5yJniAAB5BdLFdi1AgHvzTusHITrWAv26SWrh9XyKtWF37YG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KPVNGf/J; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1708531377; c=relaxed/simple;
+	bh=9fJX9oO0DGcUweTUdjv0zxo4kkH5IB9QrIr5JPgthHM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ii5yhYcrLoLkANsT5sWNYyykmp6a5p3S1hNS65jgSEuK2By/YTQGRwnNeXt1nOPgQcf4XkkW7KYqCcDzOuVmLIQ+/mqXimZcMPZrdxBbiXFG04vuQpTBXHnM7mxJkM3AmklfClWE4cHBvaf9GYRQg0390Xo38JEZ24mjBooGED4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pXKV4C4/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KPVNGf/J"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-59fb0b5b47eso1958576eaf.3
-        for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 07:53:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1708530783; x=1709135583; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9VgNrg7E3WxzPLbpdW7b+fQZzMzEpRyOCT/6WT2Sf4Y=;
-        b=KPVNGf/JFzGtwRewRMQg5bShOJa0Dgvza0OeCoUI1GWDo3nuIs/PNoWjuu8dwSGmAf
-         SZPCubx3OIjthO+2MmVHtovqUtncme4JxvyCFCCOmhxRsa6LoP9T/D5mw9loiBQBUzeo
-         HdjFsS431y7wY1GXtpOUY9cN0BW3QNQF26OSI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708530783; x=1709135583;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9VgNrg7E3WxzPLbpdW7b+fQZzMzEpRyOCT/6WT2Sf4Y=;
-        b=W3B6+hBmQ4sRlfJrLm5+jkE9lnZSNnXpNRgiHzw2Ukn5aTMPaXpcfHwtbcJC+rtPLG
-         2Kf3tRFS9sNUyHTG+30ljNeHjYrLFvtRxgzIE/wuIapMnVeBJKdNxmLUOUCV+ajsI+Zx
-         sjLjqMMa4RnuXTuC/Ldtmbr5j3syOWyp7SJ1SW10JoPE81JkQZdb8QcpyBTOJ+lIH/Vy
-         iP7v2oDx1O2+BvOptLPSprRP8lF0EiArFKWGhXvjPwq4LpfwXVxRsbAjlDvisOcKhT5n
-         Mw052DXYfmVQusHYa9ISGZXgRYKpjDP0RgkszSmO8mK6d0sfzYGjXGGRgROTaJmBd1Wd
-         UguQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJQyqJS+jfnoIkE3PJbcdzwPlDVPxxDXETnht/5GJKyrTVVa9g7clNaIG45rgqmwCMr29OKPNsia4nM4N2BZp5LdF305ZtlYtjOZs=
-X-Gm-Message-State: AOJu0YysOe8ks5bkDjTj0GzX1xHf0E8iKH+pLHZNZ0zkG35Khk/vjGyO
-	uZgBxCouPM+T00RaJZj7EeQVhEN8Uo00a/gZiOXdFm5bPRcXc7q6GHx/a66wGo1HBqrwWHnAq+r
-	mWZqWGGijA3WDzk/mVif3KMHFsiz+ZACWRRe3
-X-Google-Smtp-Source: AGHT+IHQpFoZXWJNF9xVniu1c31fdFShm2fJtfOtAD0LYOdmrGGoF9j9d5Fv7SW7EM5r/4boF5/8ahxD5g+W+hfI9X4=
-X-Received: by 2002:a4a:355a:0:b0:59f:fc30:d3aa with SMTP id
- w26-20020a4a355a000000b0059ffc30d3aamr5366824oog.3.1708530782898; Wed, 21 Feb
- 2024 07:53:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pXKV4C4/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2C8C43394;
+	Wed, 21 Feb 2024 16:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708531377;
+	bh=9fJX9oO0DGcUweTUdjv0zxo4kkH5IB9QrIr5JPgthHM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=pXKV4C4/Z6bGtoSgNen3zLm43KFCgUokA3jbBRFCTHGJyzEyqu9KsXR6uIPPJS5s4
+	 7WPR+dOTn1cC57QOy9m1vVwn8jTo/NAnlIWbUdMfMZQo4LuiQ5vpOL+QzjOJf7YHHw
+	 hZKHAdgOcZzszBRFQ0utz5PybEg+dQ8PRliweOsQwV/lmJlGkiaj2dRcwDbPAY3TeO
+	 GjjhfvblX9gkBcZXa2mJCrMbojgsCnnzsKrPdH0rOu3FDlFKyzK0/fk/Ff3fj1SnKo
+	 iI+uSV44VCnWMaGhSxzl87b/yS7yZYhamNpMGLQixB9gJJzM9cbWCBhpa9n3uxYVDW
+	 6bHIOctxbhvIQ==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>, 
+ Venkata Prasad Potturu <quic_potturu@quicinc.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ Colin Ian King <colin.i.king@gmail.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240221134804.3475989-1-colin.i.king@gmail.com>
+References: <20240221134804.3475989-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH] ASoC: qcom: Fix uninitialized pointer dmactl
+Message-Id: <170853137427.40410.4918124750403655559.b4-ty@kernel.org>
+Date: Wed, 21 Feb 2024 16:02:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
- <20240221114357.13655-2-vbabka@suse.cz>
-In-Reply-To: <20240221114357.13655-2-vbabka@suse.cz>
-From: Sven van Ashbrook <svenva@chromium.org>
-Date: Wed, 21 Feb 2024 10:52:52 -0500
-Message-ID: <CAG-rBihOr+aAZhO4D2VBwSx-EGg_gbgBYKN3fSBTPKCXdz9AqA@mail.gmail.com>
-Subject: Re: [PATCH] mm, vmscan: prevent infinite loop for costly GFP_NOIO |
- __GFP_RETRY_MAYFAIL allocations
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, bgeffon@google.com, 
-	cujomalainey@chromium.org, kramasub@chromium.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-sound@vger.kernel.org, 
-	perex@perex.cz, stable@vger.kernel.org, tiwai@suse.com, tiwai@suse.de, 
-	Michal Hocko <mhocko@kernel.org>, Mel Gorman <mgorman@techsingularity.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-a684c
 
-Thanks so much ! We will stress test this on our side.
+On Wed, 21 Feb 2024 13:48:04 +0000, Colin Ian King wrote:
+> In the case where __lpass_get_dmactl_handle is called and the driver
+> id dai_id is invalid the pointer dmactl is not being assigned a value,
+> and dmactl contains a garbage value since it has not been initialized
+> and so the null check may not work. Fix this to initialize dmactl to
+> NULL. One could argue that modern compilers will set this to zero, but
+> it is useful to keep this initialized as per the same way in functions
+> __lpass_platform_codec_intf_init and lpass_cdc_dma_daiops_hw_params.
+> 
+> [...]
 
-We do this by exhausting memory and triggering many suspend/resume
-cycles. This reliably reproduces the problem (before this patch).
+Applied to
 
-Of course, as we all know, absence of evidence (no more stalls in stress tests)
-does not equal evidence of absence (stalls are gone in all code paths).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: qcom: Fix uninitialized pointer dmactl
+      commit: 1382d8b55129875b2e07c4d2a7ebc790183769ee
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
