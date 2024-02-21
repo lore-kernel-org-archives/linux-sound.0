@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8AB748E;
-	Wed, 21 Feb 2024 00:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAA8882D;
+	Wed, 21 Feb 2024 00:51:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708476530; cv=none; b=NcbJZSZqwk99HmY/DINFHrjtLWkeHJMjsPKIvyQ/SkRp+upjOZiR17VX4JVlovBQVypIQNjXmyECdHY4yYGyRwP4eH5jFMJhJd3MjFUC3zCfmgnxZzOc/E+wElezpBKps3EJlNsms7mUvo/9fU7s1Y/HymVvbdNQAFUskKTKuV0=
+	t=1708476701; cv=none; b=qgTDQ5fv7zKOicVaf2PjYhXyY3XGuOoUAUyG6x97VR+bNUxSNMpoVdbPhqQ/prZdbL4FWcqTjrlzDQKHqwzMQ2xz7aN8mRc4EdBhOjXRPW5rt6nKQfhCrg9yncQCDixkboNJv1TAlJaaSwHqdgZdCvjzWxQ2h9LgWQeoNjrsGGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708476530; c=relaxed/simple;
-	bh=uTEI+NTvhDwncqaMwK5syIFAygRacLmwOHW8OEB76gA=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PLyMcFkPddBuMe7XIjtNpzGC1XdB8tIulkt16cneRViV4r4C2265i+lFWAAL7Mxy8F06uEG0qg4f4/cWA/ZdN9NqxeMCKGg9HeC975FnDP5+KyQlZTseEfo9ViK2PY5StWrz3nQFYCpM2drv3DUgfYmtwIsHSBIpKT4i+m6rYj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOytaUi+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708476701; c=relaxed/simple;
+	bh=cus2iwaXW84ognaMM49j+z1rlDGkGcW+6/WiXWamahE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TX/xwu5EJKC8hjXGngEMdPRQxHX6EZ6eEXKC3DzDRN78Zh8acdKHBHm3931YqwauOPldNLV4st8ubylyPGOuXyAZf+KKdpLN0ewq8PbnyewQqpyePnI8Xnx3DnqeASCggpVGJGfhOw7NLYzCxJluHbBF3zOXZ9wVOJ8a2Em7PGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzIIh7bf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOytaUi+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB59C433F1;
-	Wed, 21 Feb 2024 00:48:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dzIIh7bf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 782D1C433C7;
+	Wed, 21 Feb 2024 00:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708476529;
-	bh=uTEI+NTvhDwncqaMwK5syIFAygRacLmwOHW8OEB76gA=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=GOytaUi+F1SsYj0KYSHZwIJWUYkCBDl8jVY0sivR4va2mC3e19S7KqHjlnltlCDV4
-	 bnCVjpFJgI++TkIDKO48ze34bK8mRADzsejUaJ8vi9+JXvIO1GmrALOG6x9tcGmebv
-	 MEiYOxJN7UMpS1+739PGNUVhhksaVxD+BAl64p7j/pcIxaY0MLUUpUrSC3J8d1iRm3
-	 K7p1LOAN8rx2EgzsuGC577OkUaJAfv66WLFScI2EBdpzYnRgh/5uXnp25pk0qXi+ge
-	 utCQkiW3qQIvAVXU1I9f8rvMBaL+gSVM22Xwsnv66/a8bJ7vdx1oTd62U9M/oGVuWu
-	 YHNYyyDRmwkFQ==
+	s=k20201202; t=1708476700;
+	bh=cus2iwaXW84ognaMM49j+z1rlDGkGcW+6/WiXWamahE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dzIIh7bfuiptnNznsNXeH5o9LEzfqNAuZ1GtMgqCzwm+qCK0ujePcwDTcEPseDAzc
+	 hRFu8ZfTOIi3gMWB+RBMLu4b/c/TQOT16GUBjE3N7FyqypPQD7xvubFsfji6fbAy73
+	 sR6OgHJriElGDgOsW6akpmfO34tSdgLQnK9A8Dy4u0EPtjJyj94ruKsLq3JQx3nXIG
+	 m1vI8DvDr7wIc4c/F+POFL4cv4t/xM2pVh3k1OWhpKMi3y6YUfCmMoJbGJ+srpmwaF
+	 bUT/q9rwF7kVyNM6Du2wxAqzrEky/8W4LvteznpAeTEYHbB2mgRSxtYys8eI4VYTWk
+	 FXPN6ekcM3xKg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240216145448.224185-1-krzysztof.kozlowski@linaro.org>
-References: <20240216145448.224185-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] ASoC: Constify pointer to of_phandle_args
-Message-Id: <170847652830.70487.585549185790820415.b4-ty@kernel.org>
-Date: Wed, 21 Feb 2024 00:48:48 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20240216140535.1434933-1-rf@opensource.cirrus.com>
+References: <20240216140535.1434933-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56: Must clear HALO_STATE before issuing
+ SYSTEM_RESET
+Message-Id: <170847669920.72316.9216524053259588241.b4-ty@kernel.org>
+Date: Wed, 21 Feb 2024 00:51:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,11 +46,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Fri, 16 Feb 2024 15:54:48 +0100, Krzysztof Kozlowski wrote:
-> Constify pointer to of_phandle_args in few function arguments, for code
-> safety and self-documenting code.
+On Fri, 16 Feb 2024 14:05:35 +0000, Richard Fitzgerald wrote:
+> The driver must write 0 to HALO_STATE before sending the SYSTEM_RESET
+> command to the firmware.
 > 
+> HALO_STATE is in DSP memory, which is preserved across a soft reset.
+> The SYSTEM_RESET command does not change the value of HALO_STATE.
+> There is period of time while the CS35L56 is resetting, before the
+> firmware has started to boot, where a read of HALO_STATE will return
+> the value it had before the SYSTEM_RESET. If the driver does not
+> clear HALO_STATE, this would return BOOT_DONE status even though the
+> firmware has not booted.
 > 
+> [...]
 
 Applied to
 
@@ -58,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Constify pointer to of_phandle_args
-      commit: cf88ab486ab7f000e612e08c517bcd490c7c6289
+[1/1] ASoC: cs35l56: Must clear HALO_STATE before issuing SYSTEM_RESET
+      commit: e33625c84b75e4f078d7f9bf58f01fe71ab99642
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
