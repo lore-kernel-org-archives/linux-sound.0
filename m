@@ -1,79 +1,145 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48277612D7;
-	Tue, 20 Feb 2024 20:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCD7382;
+	Wed, 21 Feb 2024 00:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708460492; cv=none; b=FJz8b118a96Y+us94wzPk1ifRvYIZUp2t2+12/Y+OG8XYOJo3808QR3h1jtUhF2Hcj/cNDk+AUe9iTTmjcaR8H5TnYi/saIYl/3hiRB77BZASis9LtbsnGEyxAPSrbqD3nUH2UQiIWLFEjaAUni+GhVwzKMK+yxIuHJ+EiHJNvg=
+	t=1708475832; cv=none; b=H6PMZoBHs+mlvfFctmE2MJpgfM8O87HfhtNb+mkCy6JCz0r//OgaPQ9TekbAmpTFzFueHVIPzzxtqGsTDhWE4wIzjGbBPF4alT+4hlSDuTrh4bX0xNnDZzOH18FWS1osQTRW3TWa8nPP8cW71JJhjRSbXHGSU1C1Jaz3+m8HZ2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708460492; c=relaxed/simple;
-	bh=WjP7rgPcTEm9YYG+Py1uE4S8Ykt3c58pHGIz2kCgKS8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=c5wOj9faEiJrC/odmDqqdhDz0qDsOrn0/DtLDA+8XU/OcRvRACULGOU9QkPBgltiXxFdIpZKd7ZQvDsvjg/r8h3V1JVEhSxzk/xQ8w1bKlNjn/sdouVQKpiBfQQZRyA7O39tR6m/pNNZXSozIJfE8pF+luzEyTPSt1omTzvhMnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=4uPCKZw6; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1708475832; c=relaxed/simple;
+	bh=91vPJWlnZVDet0XGzSn3DzWM9AvlDm8ttFqMlvsC+Q0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ECLrbyTsW9MfBSVR7ViP+yc6/OozlDmSMhtv8YmG95Kbj5EVphPGE+UgMMtuy61vL6I6wjC61EPOPgEYo3ywMtGBCgTGaAVji0zZGZj/a6W0+GUlQXr/Am/kA0f++lDSUgHoY66CXLf7iOkwQTvjFJ9UF8sNo/hfePtxAms9sQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gbC0Kwna; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="4uPCKZw6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708460488;
-	bh=WjP7rgPcTEm9YYG+Py1uE4S8Ykt3c58pHGIz2kCgKS8=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=4uPCKZw65NZmOP8v/9ch/1si9Gd4+tnvk2HZy44jFkGEHbAPFQcslFDpzCX9FNahQ
-	 lP71bTNZjyurn2nEaCLjpjx0dQLPOFrup7TVh2qBRNazsPbFmXp4aGIiArnSnEopmm
-	 3igJWvwieMhp/VC+OAsDWgY/0DQPirGf2H1VXLFFZ8Bq6PiPnAIg0hdhda63BLU72i
-	 ciLQYMunjYBm12VbXeK21zw+2A3NNyEHZtDho5WiT7L2/bxMuwJlqID3Z2GYwXFs6D
-	 SxkJnM+nI/tV4zWFxgL1BzivuC0e6ABLc+Lvz6/usYOVZFjf3pK1U91Pg6xL0LCDE3
-	 JO0etxz5oDosg==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BD0453780016;
-	Tue, 20 Feb 2024 20:21:27 +0000 (UTC)
-Message-ID: <bc287f7b-2434-4a45-8658-6ac4ccbb860e@collabora.com>
-Date: Tue, 20 Feb 2024 22:21:26 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gbC0Kwna"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41KJ9Z7V019642;
+	Tue, 20 Feb 2024 18:36:51 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=s
+	wGS3tF8r8sCT12JNgqL8wiyDmY5PAOIcOAFyP2CjYA=; b=gbC0KwnaZ9BS6WGi1
+	A83TllxBgMKQsTrgdrcAQqOEFjkwDc2UV8xEr+A14PwZMm+LcechcuawP9zVBlUr
+	O8uv0Xpa+pyipzPvngNR5f1j3Rx03VvEzi1dxXgAHl0WaxPEWOdBNwwVzf+eNJbX
+	/bEA+O9JlzH1J/YqmrZnHvKhVDP/Jjpajzp8MCbrG/gzqe4CTSBgukw4YbLapbRE
+	Wi0xmP9Ka2EOIsMwYi1E/NRjFM3fe6c8WgiZwZIHmUjktKkPDn0YvkfUZ5qXzsRF
+	BLiPgNg6Ww0cJqWlZXW2D51rZZQnAs2CAe9n5yeI4XCbVwSjJO1Lx3LqiYPjS04A
+	JhLEA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wd205gaw1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 Feb 2024 18:36:51 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 21 Feb
+ 2024 00:36:49 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Wed, 21 Feb 2024 00:36:49 +0000
+Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 266EC820246;
+	Wed, 21 Feb 2024 00:36:48 +0000 (UTC)
+From: James Ogletree <jogletre@opensource.cirrus.com>
+To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        James Ogletree
+	<jogletre@opensource.cirrus.com>
+Subject: [PATCH v8 0/5] Add support for CS40L50
+Date: Wed, 21 Feb 2024 00:36:25 +0000
+Message-ID: <20240221003630.2535938-1-jogletre@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: amd: Skip IRAM/DRAM size modification for
- Steam Deck OLED
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20240220200116.438346-1-cristian.ciocaltea@collabora.com>
-In-Reply-To: <20240220200116.438346-1-cristian.ciocaltea@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: oXZOXe1ayXO6JmhtWae58eSKrypIRFrM
+X-Proofpoint-GUID: oXZOXe1ayXO6JmhtWae58eSKrypIRFrM
+X-Proofpoint-Spam-Reason: safe
 
-On 2/20/24 22:01, Cristian Ciocaltea wrote:
-> The recent introduction of the ACP/PSP communication for IRAM/DRAM fence
-> register modification breaks the audio support on Valve's Steam Deck
-> OLED device.
-> 
-> It causes IPC timeout errors when trying to load DSP topology during
-> probing:
+Changes in v8:
+- set_sysclk() -> set_bclk_ratio()
+- Added ID table to codec driver
+- Style improvements
+- Fixed ordering of new write sequence operations
 
-Please ignore this series and use v3 instead:
+Changes in v7:
+- Fixed sparse warning
+- Moved write sequences to private data structure
+- Logical and style improvements in write sequence interface
 
-https://lore.kernel.org/lkml/20240220201623.438944-1-cristian.ciocaltea@collabora.com/
+Changes in v6:
+- Updated write sequencer interface to be control-name based
+- Fixed a race condition and non-handling of repeats in playback callback
+- Stylistic and logical improvements all around
 
-Sorry for the noise,
-Cristian
+Changes in v5:
+- Added a codec sub-device to support I2S streaming
+- Moved write sequencer code from cirrus_haptics to cs_dsp
+- Reverted cirrus_haptics library; future Cirrus input
+  drivers will export and utilize cs40l50_vibra functions
+- Added more comments
+- Many small stylistic and logical improvements
+
+Changes in v4:
+- Moved from Input to MFD
+- Moved common Cirrus haptic functions to a library
+- Incorporated runtime PM framework
+- Many style improvements
+
+Changes in v3:
+- YAML formatting corrections
+- Fixed typo in MAINTAINERS
+- Used generic node name "haptic-driver"
+- Fixed probe error code paths
+- Switched to "sizeof(*)"
+- Removed tree reference in MAINTAINERS
+
+Changes in v2:
+- Fixed checkpatch warnings
+
+James Ogletree (5):
+  firmware: cs_dsp: Add write sequencer interface
+  dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+  mfd: cs40l50: Add support for CS40L50 core driver
+  Input: cs40l50 - Add support for the CS40L50 haptic driver
+  ASoC: cs40l50: Support I2S streaming to CS40L50
+
+ .../bindings/input/cirrus,cs40l50.yaml        |  70 +++
+ MAINTAINERS                                   |  12 +
+ drivers/firmware/cirrus/cs_dsp.c              | 265 ++++++++
+ drivers/input/misc/Kconfig                    |  10 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/cs40l50-vibra.c            | 575 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  30 +
+ drivers/mfd/Makefile                          |   4 +
+ drivers/mfd/cs40l50-core.c                    | 531 ++++++++++++++++
+ drivers/mfd/cs40l50-i2c.c                     |  69 +++
+ drivers/mfd/cs40l50-spi.c                     |  69 +++
+ include/linux/firmware/cirrus/cs_dsp.h        |  28 +
+ include/linux/mfd/cs40l50.h                   | 142 +++++
+ sound/soc/codecs/Kconfig                      |  11 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/cs40l50-codec.c              | 307 ++++++++++
+ 16 files changed, 2126 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+ create mode 100644 drivers/input/misc/cs40l50-vibra.c
+ create mode 100644 drivers/mfd/cs40l50-core.c
+ create mode 100644 drivers/mfd/cs40l50-i2c.c
+ create mode 100644 drivers/mfd/cs40l50-spi.c
+ create mode 100644 include/linux/mfd/cs40l50.h
+ create mode 100644 sound/soc/codecs/cs40l50-codec.c
+
+-- 
+2.25.1
+
