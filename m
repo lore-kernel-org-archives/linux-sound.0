@@ -1,98 +1,59 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336C741740;
-	Wed, 21 Feb 2024 11:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679C66994D;
+	Wed, 21 Feb 2024 12:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708515855; cv=none; b=AiqAwlwo+5G2Kui8alOc5yCibbryMGy9WFEAu9G1CB5LfVfFADBGBkz84GEC4j87TyZq3CCqPQsrS6uzASS2lVoNJm0oC2jrALS4nz5LkCO4FRO1KbpmrtC0knuqInQAu66G75DOurx7b/OVfUhZM1R+kgFqv8ce6AiELQ8OmcE=
+	t=1708519049; cv=none; b=ZriYCc+C2eP/sDIHDqH+OUP1nN1vxGabnRa3nOlABvewh+7v4EFrOK/GDFg6nFhFJeERGv/gPojnRWzDB0t+YAmI0UR/NVST3sSfM0k9ZzpQYCVFktfZ5ezGAY75jLKpR3+/LNyyNqCyYF9Hr1hI7b8JkDnGPbQNSVx3AHeX5xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708515855; c=relaxed/simple;
-	bh=8+P8M51aPGDYhiKhvw3u07B0GeWAdkCEZ4nbhau6AFM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LGERHBjofGvYThfzA8TfqOur0NisxB7402SWBawghPa4SRUHiMovhX5IQhbdaH8iaw2qZ9lSZd2QQ7r0xE47HrUw8Vgd3nBWIBQysdT4kiB56rDf9Sg5GfvZMIjRRyeuNTkqeyb9dKan/L4Zfi1RxnO+IGfl2ZXqoRORPmZ7D8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sp4/C4Ty; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tOERbRIT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sp4/C4Ty; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tOERbRIT; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1708519049; c=relaxed/simple;
+	bh=UDRJNcMfS4oSPBnggypHTrgPtHb2+3yc/hHC3eHVNRA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vjd0YiMaF/VvW8dW3qjVbYsc8r36fweCgwXpeOcrHm8XkYq0Ol9UYeMtIJTke2TJL6CoxPcN+ONFEzUf+25m9Cj5XNCaeLaETHNVIDNK0XMSUxuUPfQnLUDraY7NeTfC1KZJrsLMrU1SQThalyY7T45NV3rfw2DIcp8KLiFBFtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mzF8kEVj; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sp4/C4Ty";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tOERbRIT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sp4/C4Ty";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tOERbRIT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 484421FB55;
-	Wed, 21 Feb 2024 11:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708515851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3PZj5do2Zn1U7eHBDXemVKtNuh921UBQkK1vHaJCPTw=;
-	b=sp4/C4TyFwmJYeTEdjtbwxk30XrvTy+bsqUGVNiMYf6igoxlBuS4nPvBuCpPM+pKWbJ1pO
-	sUMSmfyX32P6pptNWfob7oHrH6nZqN8V73JFsh15rGFk+PD2M20VvKcDBzc60NNX8EG1su
-	rxKR42sO+y13LGRK8Q0ynn18xU207gg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708515851;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3PZj5do2Zn1U7eHBDXemVKtNuh921UBQkK1vHaJCPTw=;
-	b=tOERbRITgvoXRWGR14ROJ7MyMmVg/JlkKY3zxk/5H6MlQp/GKC6ToIjdEJ3DJUC/n/twHh
-	fjXj9OrMRBn5/UBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708515851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3PZj5do2Zn1U7eHBDXemVKtNuh921UBQkK1vHaJCPTw=;
-	b=sp4/C4TyFwmJYeTEdjtbwxk30XrvTy+bsqUGVNiMYf6igoxlBuS4nPvBuCpPM+pKWbJ1pO
-	sUMSmfyX32P6pptNWfob7oHrH6nZqN8V73JFsh15rGFk+PD2M20VvKcDBzc60NNX8EG1su
-	rxKR42sO+y13LGRK8Q0ynn18xU207gg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708515851;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3PZj5do2Zn1U7eHBDXemVKtNuh921UBQkK1vHaJCPTw=;
-	b=tOERbRITgvoXRWGR14ROJ7MyMmVg/JlkKY3zxk/5H6MlQp/GKC6ToIjdEJ3DJUC/n/twHh
-	fjXj9OrMRBn5/UBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F78C13A69;
-	Wed, 21 Feb 2024 11:44:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gL9TBwvi1WUYWQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 21 Feb 2024 11:44:11 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	svenva@chromium.org
-Cc: bgeffon@google.com,
-	cujomalainey@chromium.org,
-	kramasub@chromium.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	stable@vger.kernel.org,
-	tiwai@suse.com,
-	tiwai@suse.de,
-	vbabka@suse.cz,
-	Michal Hocko <mhocko@kernel.org>,
-	Mel Gorman <mgorman@techsingularity.net>
-Subject: [PATCH] mm, vmscan: prevent infinite loop for costly GFP_NOIO | __GFP_RETRY_MAYFAIL allocations
-Date: Wed, 21 Feb 2024 12:43:58 +0100
-Message-ID: <20240221114357.13655-2-vbabka@suse.cz>
-X-Mailer: git-send-email 2.43.1
-In-Reply-To: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
-References: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mzF8kEVj"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41LCULT3002539;
+	Wed, 21 Feb 2024 06:37:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=p
+	8gAJKbo8NE3otTnGNSU2ViudpzVeoRdpYMa/IBxcXg=; b=mzF8kEVjFlYchlsvH
+	CWdHSP3rY9tb2NBYpXekcYSQzzzT1wjqvT92iQnjDby8TCsZ/T2Jd5294DZdcr6S
+	NM32Xi9OLYRHeGQY+L2Xx8JCS/g5+JhqUxuFtfrE0UqTXYriDMhDS7+kMVvmHq44
+	FDantb/WLmTqrjRgofwM6oK+Jokztr7008E7OxKxHm3lLhp4txhBa+rlYuDGES4l
+	1ozSA/FFUlrFKOMS9wqMoiw4XtFnwC4REBNbK3uoDQd/wPZX3PaB5oHb7dN+dJxi
+	UhlOuOk1nDEbYbbMsmC41iNoUQr1QZvHGcrWGHQ8yJdkZV8S8Eqsem5HDlUc3AiK
+	Ke+Bg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wd207gxtx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Feb 2024 06:37:12 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 21 Feb
+ 2024 12:37:10 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Wed, 21 Feb 2024 12:37:10 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 24720820241;
+	Wed, 21 Feb 2024 12:37:10 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>, <shengjiu.wang@gmail.com>, <Xiubo.Lee@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <patches@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>
+Subject: [PATCH] ASoC: soc-card: Fix missing locking in snd_soc_card_get_kcontrol()
+Date: Wed, 21 Feb 2024 12:37:10 +0000
+Message-ID: <20240221123710.690224-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -100,207 +61,226 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [1.90 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[15];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,suse.cz:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Level: *
-X-Spam-Score: 1.90
-X-Spam-Flag: NO
+Content-Type: text/plain
+X-Proofpoint-GUID: i7brLjb8Ucmc36s854s1B2eW7kb5tHjW
+X-Proofpoint-ORIG-GUID: i7brLjb8Ucmc36s854s1B2eW7kb5tHjW
+X-Proofpoint-Spam-Reason: safe
 
-Sven reports an infinite loop in __alloc_pages_slowpath() for costly
-order __GFP_RETRY_MAYFAIL allocations that are also GFP_NOIO. Such
-combination can happen in a suspend/resume context where a GFP_KERNEL
-allocation can have __GFP_IO masked out via gfp_allowed_mask.
+snd_soc_card_get_kcontrol() must be holding a read lock on
+card->controls_rwsem while walking the controls list.
 
-Quoting Sven:
+Compare with snd_ctl_find_numid().
 
-1. try to do a "costly" allocation (order > PAGE_ALLOC_COSTLY_ORDER)
-   with __GFP_RETRY_MAYFAIL set.
+The existing function is renamed snd_soc_card_get_kcontrol_locked()
+so that it can be called from contexts that are already holding
+card->controls_rwsem (for example, control get/put functions).
 
-2. page alloc's __alloc_pages_slowpath tries to get a page from the
-   freelist. This fails because there is nothing free of that costly
-   order.
+There are few direct or indirect callers of
+snd_soc_card_get_kcontrol(), and most are safe. Three require
+changes, which have been included in this patch:
 
-3. page alloc tries to reclaim by calling __alloc_pages_direct_reclaim,
-   which bails out because a zone is ready to be compacted; it pretends
-   to have made a single page of progress.
+codecs/cs35l45.c:
+  cs35l45_activate_ctl() is called from a control put() function so
+  is changed to call snd_soc_card_get_kcontrol_locked().
 
-4. page alloc tries to compact, but this always bails out early because
-   __GFP_IO is not set (it's not passed by the snd allocator, and even
-   if it were, we are suspending so the __GFP_IO flag would be cleared
-   anyway).
+codecs/cs35l56.c:
+  cs35l56_sync_asp1_mixer_widgets_with_firmware() is called from
+  control get()/put() functions so is changed to call
+  snd_soc_card_get_kcontrol_locked().
 
-5. page alloc believes reclaim progress was made (because of the
-   pretense in item 3) and so it checks whether it should retry
-   compaction. The compaction retry logic thinks it should try again,
-   because:
-    a) reclaim is needed because of the early bail-out in item 4
-    b) a zonelist is suitable for compaction
+fsl/fsl_xcvr.c:
+  fsl_xcvr_activate_ctl() is called from three places, one of which
+  already holds card->controls_rwsem:
+  1. fsl_xcvr_mode_put(), a control put function, which will
+     already be holding card->controls_rwsem.
+  2. fsl_xcvr_startup(), a DAI startup function.
+  3. fsl_xcvr_shutdown(), a DAI shutdown function.
 
-6. goto 2. indefinite stall.
+  To fix this, fsl_xcvr_activate_ctl() has been changed to call
+  snd_soc_card_get_kcontrol_locked() so that it is safe to call
+  directly from fsl_xcvr_mode_put().
+  The fsl_xcvr_startup() and fsl_xcvr_shutdown() functions have been
+  changed to take a read lock on card->controls_rsem() around calls
+  to fsl_xcvr_activate_ctl(). While this is not very elegant, it
+  keeps the change small, to avoid this patch creating a large
+  collateral churn in fsl/fsl_xcvr.c.
 
-(end quote)
+Analysis of other callers of snd_soc_card_get_kcontrol() is that
+they do not need any changes, they are not holding card->controls_rwsem
+when they call snd_soc_card_get_kcontrol().
 
-The immediate root cause is confusing the COMPACT_SKIPPED returned from
-__alloc_pages_direct_compact() (step 4) due to lack of __GFP_IO to be
-indicating a lack of order-0 pages, and in step 5 evaluating that in
-should_compact_retry() as a reason to retry, before incrementing and
-limiting the number of retries. There are however other places that
-wrongly assume that compaction can happen while we lack __GFP_IO.
+Direct callers of snd_soc_card_get_kcontrol():
+  fsl/fsl_spdif.c: fsl_spdif_dai_probe() - DAI probe function
+  fsl/fsl_micfil.c: voice_detected_fn() - IRQ handler
 
-To fix this, introduce gfp_compaction_allowed() to abstract the __GFP_IO
-evaluation and switch the open-coded test in try_to_compact_pages() to
-use it.
+Indirect callers via soc_component_notify_control():
+  codecs/cs42l43: cs42l43_mic_shutter() - IRQ handler
+  codecs/cs42l43: cs42l43_spk_shutter() - IRQ handler
+  codecs/ak4118.c: ak4118_irq_handler() - IRQ handler
+  codecs/wm_adsp.c: wm_adsp_write_ctl() - not currently used
 
-Also use the new helper in:
-- compaction_ready(), which will make reclaim not bail out in step 3, so
-  there's at least one attempt to actually reclaim, even if chances are
-  small for a costly order
-- in_reclaim_compaction() which will make should_continue_reclaim()
-  return false and we don't over-reclaim unnecessarily
-- in __alloc_pages_slowpath() to set a local variable can_compact,
-  which is then used to avoid retrying reclaim/compaction for costly
-  allocations (step 5) if we can't compact and also to skip the early
-  compaction attempt that we do in some cases
+Indirect callers via snd_soc_limit_volume():
+  qcom/sc8280xp.c: sc8280xp_snd_init() - DAIlink init function
+  ti/rx51.c: rx51_aic34_init() - DAI init function
 
-Reported-by: Sven van Ashbrook <svenva@chromium.org>
-Closes: https://lore.kernel.org/all/CAG-rBihs_xMKb3wrMO1%2B-%2Bp4fowP9oy1pa_OTkfxBzPUVOZF%2Bg@mail.gmail.com/
-Fixes: 3250845d0526 ("Revert "mm, oom: prevent premature OOM killer invocation for high order request"")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+I don't have hardware to test the fsl/*, qcom/sc828xp.c, ti/rx51.c
+and ak4118.c changes.
+
+Backport note:
+The fsl/, qcom/, cs35l45, cs35l56 and cs42l43 callers were added
+since the Fixes commit so won't all be present on older kernels.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 209c6cdfd283 ("ASoC: soc-card: move snd_soc_card_get_kcontrol() to soc-card")
 ---
- include/linux/gfp.h |  9 +++++++++
- mm/compaction.c     |  7 +------
- mm/page_alloc.c     | 10 ++++++----
- mm/vmscan.c         |  5 ++++-
- 4 files changed, 20 insertions(+), 11 deletions(-)
+It would be great if people could test the fsl/, qcom/, ti/rx51 and ak4418
+drivers.
+---
+ include/sound/soc-card.h   |  2 ++
+ sound/soc/codecs/cs35l45.c |  2 +-
+ sound/soc/codecs/cs35l56.c |  2 +-
+ sound/soc/fsl/fsl_xcvr.c   | 12 +++++++++++-
+ sound/soc/soc-card.c       | 24 ++++++++++++++++++++++--
+ 5 files changed, 37 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index de292a007138..e2a916cf29c4 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -353,6 +353,15 @@ static inline bool gfp_has_io_fs(gfp_t gfp)
- 	return (gfp & (__GFP_IO | __GFP_FS)) == (__GFP_IO | __GFP_FS);
+diff --git a/include/sound/soc-card.h b/include/sound/soc-card.h
+index ecc02e955279..1f4c39922d82 100644
+--- a/include/sound/soc-card.h
++++ b/include/sound/soc-card.h
+@@ -30,6 +30,8 @@ static inline void snd_soc_card_mutex_unlock(struct snd_soc_card *card)
+ 
+ struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
+ 					       const char *name);
++struct snd_kcontrol *snd_soc_card_get_kcontrol_locked(struct snd_soc_card *soc_card,
++						      const char *name);
+ int snd_soc_card_jack_new(struct snd_soc_card *card, const char *id, int type,
+ 			  struct snd_soc_jack *jack);
+ int snd_soc_card_jack_new_pins(struct snd_soc_card *card, const char *id,
+diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
+index 44c221745c3b..2392c6effed8 100644
+--- a/sound/soc/codecs/cs35l45.c
++++ b/sound/soc/codecs/cs35l45.c
+@@ -184,7 +184,7 @@ static int cs35l45_activate_ctl(struct snd_soc_component *component,
+ 	else
+ 		snprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s", ctl_name);
+ 
+-	kcontrol = snd_soc_card_get_kcontrol(component->card, name);
++	kcontrol = snd_soc_card_get_kcontrol_locked(component->card, name);
+ 	if (!kcontrol) {
+ 		dev_err(component->dev, "Can't find kcontrol %s\n", name);
+ 		return -EINVAL;
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 2c1313e34cce..6dd0319bc843 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -114,7 +114,7 @@ static int cs35l56_sync_asp1_mixer_widgets_with_firmware(struct cs35l56_private
+ 			name = full_name;
+ 		}
+ 
+-		kcontrol = snd_soc_card_get_kcontrol(dapm->card, name);
++		kcontrol = snd_soc_card_get_kcontrol_locked(dapm->card, name);
+ 		if (!kcontrol) {
+ 			dev_warn(cs35l56->base.dev, "Could not find control %s\n", name);
+ 			continue;
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index f0fb33d719c2..c46f64557a7f 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -174,7 +174,9 @@ static int fsl_xcvr_activate_ctl(struct snd_soc_dai *dai, const char *name,
+ 	struct snd_kcontrol *kctl;
+ 	bool enabled;
+ 
+-	kctl = snd_soc_card_get_kcontrol(card, name);
++	lockdep_assert_held(&card->snd_card->controls_rwsem);
++
++	kctl = snd_soc_card_get_kcontrol_locked(card, name);
+ 	if (kctl == NULL)
+ 		return -ENOENT;
+ 
+@@ -576,10 +578,14 @@ static int fsl_xcvr_startup(struct snd_pcm_substream *substream,
+ 	xcvr->streams |= BIT(substream->stream);
+ 
+ 	if (!xcvr->soc_data->spdif_only) {
++		struct snd_soc_card *card = dai->component->card;
++
+ 		/* Disable XCVR controls if there is stream started */
++		down_read(&card->snd_card->controls_rwsem);
+ 		fsl_xcvr_activate_ctl(dai, fsl_xcvr_mode_kctl.name, false);
+ 		fsl_xcvr_activate_ctl(dai, fsl_xcvr_arc_mode_kctl.name, false);
+ 		fsl_xcvr_activate_ctl(dai, fsl_xcvr_earc_capds_kctl.name, false);
++		up_read(&card->snd_card->controls_rwsem);
+ 	}
+ 
+ 	return 0;
+@@ -598,11 +604,15 @@ static void fsl_xcvr_shutdown(struct snd_pcm_substream *substream,
+ 	/* Enable XCVR controls if there is no stream started */
+ 	if (!xcvr->streams) {
+ 		if (!xcvr->soc_data->spdif_only) {
++			struct snd_soc_card *card = dai->component->card;
++
++			down_read(&card->snd_card->controls_rwsem);
+ 			fsl_xcvr_activate_ctl(dai, fsl_xcvr_mode_kctl.name, true);
+ 			fsl_xcvr_activate_ctl(dai, fsl_xcvr_arc_mode_kctl.name,
+ 						(xcvr->mode == FSL_XCVR_MODE_ARC));
+ 			fsl_xcvr_activate_ctl(dai, fsl_xcvr_earc_capds_kctl.name,
+ 						(xcvr->mode == FSL_XCVR_MODE_EARC));
++			up_read(&card->snd_card->controls_rwsem);
+ 		}
+ 		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
+ 					 FSL_XCVR_IRQ_EARC_ALL, 0);
+diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
+index 285ab4c9c716..8a2f163da6bc 100644
+--- a/sound/soc/soc-card.c
++++ b/sound/soc/soc-card.c
+@@ -5,6 +5,9 @@
+ // Copyright (C) 2019 Renesas Electronics Corp.
+ // Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+ //
++
++#include <linux/lockdep.h>
++#include <linux/rwsem.h>
+ #include <sound/soc.h>
+ #include <sound/jack.h>
+ 
+@@ -26,12 +29,15 @@ static inline int _soc_card_ret(struct snd_soc_card *card,
+ 	return ret;
  }
  
-+/*
-+ * Check if the gfp flags allow compaction - GFP_NOIO is a really
-+ * tricky context because the migration might require IO.
-+ */
-+static inline bool gfp_compaction_allowed(gfp_t gfp_mask)
+-struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
+-					       const char *name)
++struct snd_kcontrol *snd_soc_card_get_kcontrol_locked(struct snd_soc_card *soc_card,
++						      const char *name)
+ {
+ 	struct snd_card *card = soc_card->snd_card;
+ 	struct snd_kcontrol *kctl;
+ 
++	/* must be held read or write */
++	lockdep_assert_held(&card->controls_rwsem);
++
+ 	if (unlikely(!name))
+ 		return NULL;
+ 
+@@ -40,6 +46,20 @@ struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
+ 			return kctl;
+ 	return NULL;
+ }
++EXPORT_SYMBOL_GPL(snd_soc_card_get_kcontrol_locked);
++
++struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
++					       const char *name)
 +{
-+	return IS_ENABLED(CONFIG_COMPACTION) && (gfp_mask & __GFP_IO);
++	struct snd_card *card = soc_card->snd_card;
++	struct snd_kcontrol *kctl;
++
++	down_read(&card->controls_rwsem);
++	kctl = snd_soc_card_get_kcontrol_locked(soc_card, name);
++	up_read(&card->controls_rwsem);
++
++	return kctl;
 +}
-+
- extern gfp_t vma_thp_gfp_mask(struct vm_area_struct *vma);
+ EXPORT_SYMBOL_GPL(snd_soc_card_get_kcontrol);
  
- #ifdef CONFIG_CONTIG_ALLOC
-diff --git a/mm/compaction.c b/mm/compaction.c
-index 4add68d40e8d..b961db601df4 100644
---- a/mm/compaction.c
-+++ b/mm/compaction.c
-@@ -2723,16 +2723,11 @@ enum compact_result try_to_compact_pages(gfp_t gfp_mask, unsigned int order,
- 		unsigned int alloc_flags, const struct alloc_context *ac,
- 		enum compact_priority prio, struct page **capture)
- {
--	int may_perform_io = (__force int)(gfp_mask & __GFP_IO);
- 	struct zoneref *z;
- 	struct zone *zone;
- 	enum compact_result rc = COMPACT_SKIPPED;
- 
--	/*
--	 * Check if the GFP flags allow compaction - GFP_NOIO is really
--	 * tricky context because the migration might require IO
--	 */
--	if (!may_perform_io)
-+	if (!gfp_compaction_allowed(gfp_mask))
- 		return COMPACT_SKIPPED;
- 
- 	trace_mm_compaction_try_to_compact_pages(order, gfp_mask, prio);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 150d4f23b010..a663202045dc 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4041,6 +4041,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 						struct alloc_context *ac)
- {
- 	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
-+	bool can_compact = gfp_compaction_allowed(gfp_mask);
- 	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
- 	struct page *page = NULL;
- 	unsigned int alloc_flags;
-@@ -4111,7 +4112,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	 * Don't try this for allocations that are allowed to ignore
- 	 * watermarks, as the ALLOC_NO_WATERMARKS attempt didn't yet happen.
- 	 */
--	if (can_direct_reclaim &&
-+	if (can_direct_reclaim && can_compact &&
- 			(costly_order ||
- 			   (order > 0 && ac->migratetype != MIGRATE_MOVABLE))
- 			&& !gfp_pfmemalloc_allowed(gfp_mask)) {
-@@ -4209,9 +4210,10 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 
- 	/*
- 	 * Do not retry costly high order allocations unless they are
--	 * __GFP_RETRY_MAYFAIL
-+	 * __GFP_RETRY_MAYFAIL and we can compact
- 	 */
--	if (costly_order && !(gfp_mask & __GFP_RETRY_MAYFAIL))
-+	if (costly_order && (!can_compact ||
-+			     !(gfp_mask & __GFP_RETRY_MAYFAIL)))
- 		goto nopage;
- 
- 	if (should_reclaim_retry(gfp_mask, order, ac, alloc_flags,
-@@ -4224,7 +4226,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	 * implementation of the compaction depends on the sufficient amount
- 	 * of free memory (see __compaction_suitable)
- 	 */
--	if (did_some_progress > 0 &&
-+	if (did_some_progress > 0 && can_compact &&
- 			should_compact_retry(ac, order, alloc_flags,
- 				compact_result, &compact_priority,
- 				&compaction_retries))
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 4f9c854ce6cc..4255619a1a31 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -5753,7 +5753,7 @@ static void shrink_lruvec(struct lruvec *lruvec, struct scan_control *sc)
- /* Use reclaim/compaction for costly allocs or under memory pressure */
- static bool in_reclaim_compaction(struct scan_control *sc)
- {
--	if (IS_ENABLED(CONFIG_COMPACTION) && sc->order &&
-+	if (gfp_compaction_allowed(sc->gfp_mask) && sc->order &&
- 			(sc->order > PAGE_ALLOC_COSTLY_ORDER ||
- 			 sc->priority < DEF_PRIORITY - 2))
- 		return true;
-@@ -5998,6 +5998,9 @@ static inline bool compaction_ready(struct zone *zone, struct scan_control *sc)
- {
- 	unsigned long watermark;
- 
-+	if (!gfp_compaction_allowed(sc->gfp_mask))
-+		return false;
-+
- 	/* Allocation can already succeed, nothing to do */
- 	if (zone_watermark_ok(zone, sc->order, min_wmark_pages(zone),
- 			      sc->reclaim_idx, 0))
+ static int jack_new(struct snd_soc_card *card, const char *id, int type,
 -- 
-2.43.1
+2.30.2
 
