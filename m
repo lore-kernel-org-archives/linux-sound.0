@@ -1,147 +1,129 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF733C493;
-	Wed, 21 Feb 2024 10:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D26B3C493;
+	Wed, 21 Feb 2024 10:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708510538; cv=none; b=fN2GUONedA1vHNQQecyMlYcjsD2gQp5tMIfyO8yCW7KBUCWHp73tgQE6hKtDPMir7w6AzbTXk3N1tcd0yAbCuJLYd/LNHSNeU7N/DJWdsH6cDmB1qufcn5MLMK74eiHi6wab+BpV6qsOqskmQIYZRH6tb++YyoI7ovWuxzDuGcw=
+	t=1708510992; cv=none; b=tGODcfk9yy+pnb815/p/dMKTINj4bLn/n8Ywpt9M1EJ+AsZ6pZJV9Zi/w+6iCyUdMKLNy1ThKk3rzMf0xf08anzre14TWbegYl7MpEMUHKHajinfRmgtEXFhWkDVd1+vkufkHvfPpCdmv1xhNwTrDWdI/RBv0XkgtTADdiGDxYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708510538; c=relaxed/simple;
-	bh=FFhzB5J0U7oDf1Def7V0K2KK57vojCXFuzsSXD8TFBM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Vm9qNo3+A+lWUJNl9ypB9VOYReCjaXGzBSd0od0RhPY4k5rqqGRYgB57M6INCrFFwbeTpoYtpZxVGgqlDbd8FRIrA/d6aBwjhX4OynUTnTEr26qr5WrOA2CcZFri463PB0+4kMKBMGjS7/5h62YTPwzHLuSNcHbg++VJHh03ivo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=unjQKVka; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y6j3qvVZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=unjQKVka; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y6j3qvVZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708510992; c=relaxed/simple;
+	bh=IytAcFRRXdFL1b3NOGD/mw27EjHnUb9QOtyz0ZGguz8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mIQxnFwkT2HtyhTc6+4sj3dKiXAtxPB367ICRovNOvOXb93SOY6cIYtBokjFBhTSCKi4hpbS68JJb5+KiEqjtFOjQDTe/HnEu01la2KSCdW3j8eEqAC1JEZhSlxFs3f47AS0d5oGU1M8yYdtjCPB58L4IgZokLihDh6CZGAfj0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Z+C7gWTC; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="unjQKVka";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y6j3qvVZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="unjQKVka";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y6j3qvVZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A81731FB4C;
-	Wed, 21 Feb 2024 10:15:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708510534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YnEpfxCF7g+UuoIAlRYfvXg3wCMzx5yNP4QWoEWyTKc=;
-	b=unjQKVkaMfH6X9pDCO/+Q+i5tb6iPxxIGdXg5MpX/quYRXylOl3gFK07m5BrSOYN9qp1rs
-	H43x/7IXDkreY6nf1fw3Fba4fih+jKN9diNc9StoNvKTQ7AtkVmyXtYgHLtaAuMZceczuR
-	5XVjar+lYYTttSJFVQGBoa1MfgwJO0Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708510534;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YnEpfxCF7g+UuoIAlRYfvXg3wCMzx5yNP4QWoEWyTKc=;
-	b=y6j3qvVZNBxZYXlwPRbQ0cvtYXK0pnPnmicK81HuSDyQ61dedLe23K413zxGLCwNG0Kazx
-	xXDPj+E+VzJK6IBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708510534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YnEpfxCF7g+UuoIAlRYfvXg3wCMzx5yNP4QWoEWyTKc=;
-	b=unjQKVkaMfH6X9pDCO/+Q+i5tb6iPxxIGdXg5MpX/quYRXylOl3gFK07m5BrSOYN9qp1rs
-	H43x/7IXDkreY6nf1fw3Fba4fih+jKN9diNc9StoNvKTQ7AtkVmyXtYgHLtaAuMZceczuR
-	5XVjar+lYYTttSJFVQGBoa1MfgwJO0Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708510534;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YnEpfxCF7g+UuoIAlRYfvXg3wCMzx5yNP4QWoEWyTKc=;
-	b=y6j3qvVZNBxZYXlwPRbQ0cvtYXK0pnPnmicK81HuSDyQ61dedLe23K413zxGLCwNG0Kazx
-	xXDPj+E+VzJK6IBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B91513A69;
-	Wed, 21 Feb 2024 10:15:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GCCbGEbN1WXdQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Feb 2024 10:15:34 +0000
-Date: Wed, 21 Feb 2024 11:15:34 +0100
-Message-ID: <87edd66s3d.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
-Cc: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	eniac-xw.zhang@hp.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LED For HP mt440
-In-Reply-To: <20240220175812.782687-1-alexandru.gagniuc@hp.com>
-References: <87frxteoil.wl-tiwai@suse.de>
-	<20240220175812.782687-1-alexandru.gagniuc@hp.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Z+C7gWTC"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 25C7C240007;
+	Wed, 21 Feb 2024 10:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1708510987;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=c7Q53kbT3bjQcV8xVao/3i3dAchySM+PlajClMKqNFk=;
+	b=Z+C7gWTCwj5OYnsG/9n0xIlEKB4Ifk6Fka8R41FN6StbxnGXofHNAlizuI7zZEahLoJGtl
+	HkYdnSkJfREYGwbNBHwqAyHXb212nK7HprNQiGZz9VG3MybFFtdjvY0f5tJ65xnIZErUzn
+	UERW1wX8uGgvDrLZ9ICO0gl0R4F5PaPc6lxwCGkoqMZ/4pakqlw59CLhJ9ymM+5A19LSqb
+	9PdqyFq+mFYBM+ngEEXvfnFcymrdIQK54coO0Sj0hOJQ++wOSv0MJC3cM3XpmTTdIPWQ0n
+	MSuHg3E4LbNKtKP5Vcxy6+yRXIZfTIQsQa/+fZJ9qP84+o25j9u82Rk1ybJMsg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 0/7] Add support for the internal RK3308 audio codec
+Date: Wed, 21 Feb 2024 11:22:44 +0100
+Message-Id: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=unjQKVka;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y6j3qvVZ
-X-Spamd-Result: default: False [-0.02 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.71)[83.51%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -0.02
-X-Rspamd-Queue-Id: A81731FB4C
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Bar: /
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPTO1WUC/32NQQ7CIBBFr9LM2jEU2tq68h6mCwpoJypjoBJNw
+ 93FHsDl+/n//RWiC+QiHKsVgksUiX0BtavAzNpfHZItDFJIVct6wHBTSvSoX5YYDVtnULdt20+
+ 6H5rBQhk+g7vQe5Oex8IzxYXDZ/tI8pf+1SWJAs1BWNGJUmm608S83MnvDT9gzDl/AXuYUoO2A
+ AAA
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.12.4
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Tue, 20 Feb 2024 18:58:12 +0100,
-Alexandru Gagniuc wrote:
-> 
-> From: Eniac Zhang <eniac-xw.zhang@hp.com>
-> 
-> The HP mt440 Thin Client uses an ALC236 codec and needs the
-> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make the mute and
-> micmute LEDs work.
-> 
-> There are two variants of the USB-C PD chip on this device. Each uses
-> a different BIOS and board ID, hence the two entries.
-> 
-> Signed-off-by: Eniac Zhang <eniac-xw.zhang@hp.com>
-> Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
-> Cc: <stable@vger.kernel.org>
+This series adds a driver for the internal audio codec of the Rockchip
+RK3308 SoC, along with some related patches. This codec is internally
+connected to the I2S peripherals on the same chip, and it has some
+peculiarities arising from that interconnection.
 
-Thanks, applied now.
+For proper bidirectional operation with the internal codec at any possible
+combination of sampling rates, the I2S peripheral needs two clock sources
+(tx and rx), while connection with an external codec commonly needs only
+one.
 
-But at the next time, don't hang on the existing thread when
-submitting a new patch.
+Since v5.16 there is a driver for the I2S in
+sound/soc/rockchip/rockchip_i2s_tdm.c, but in some cases it does not
+configure correctly the clocks, resulting in an unnecessarily inaccurate
+rate. Patch 1 fixes this.
 
+Patches 2-4 adds the codec driver along with the bindings and a new helper
+macro.
 
-Takashi
+Patches 5-7 add to the SoC DT file two I2S controllers (those which are
+internally connected to the internal codec) and the codec itself and enable
+the driver in the ARM64 defconfig.
+
+Luca
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+
+Changes in v3:
+ - Add the I2S clock fix patch and remove a previous fix which is now superseded
+ - Codec driver: fix silent playback until a given amplitude of sigital
+   value, seen at >= 96 kHz rate
+ - various other changes, listed per-patch
+ - Link to v2: https://lore.kernel.org/r/20231219-rk3308-audio-codec-v2-0-c70d06021946@bootlin.com
+
+Changes in v2:
+ - largely rewrote the codec driver to use DAPM and lots of improvements
+   and cleanups
+ - removed the RK3308 audio card and related patches
+ - various other changes, listed per-patch
+ - Link to v1: https://lore.kernel.org/all/20220907142124.2532620-1-luca.ceresoli@bootlin.com/
+
+---
+Luca Ceresoli (7):
+      ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates
+      ASoC: dt-bindings: Add Rockchip RK3308 internal audio codec
+      ASoC: core: add SOC_DOUBLE_RANGE_TLV() helper macro
+      ASoC: codecs: Add RK3308 internal audio codec driver
+      arm64: defconfig: enable Rockchip RK3308 internal audio codec driver
+      arm64: dts: rockchip: add i2s_8ch_2 and i2s_8ch_3
+      arm64: dts: rockchip: add the internal audio codec
+
+ .../bindings/sound/rockchip,rk3308-codec.yaml      |  98 ++
+ MAINTAINERS                                        |   7 +
+ arch/arm64/boot/dts/rockchip/rk3308.dtsi           |  56 ++
+ arch/arm64/configs/defconfig                       |   1 +
+ include/sound/soc.h                                |  12 +
+ sound/soc/codecs/Kconfig                           |  11 +
+ sound/soc/codecs/Makefile                          |   2 +
+ sound/soc/codecs/rk3308_codec.c                    | 993 +++++++++++++++++++++
+ sound/soc/codecs/rk3308_codec.h                    | 579 ++++++++++++
+ sound/soc/rockchip/rockchip_i2s_tdm.c              | 352 +-------
+ 10 files changed, 1765 insertions(+), 346 deletions(-)
+---
+base-commit: 20fb305a716356265e9479719502b5a012e0d869
+change-id: 20231219-rk3308-audio-codec-a5558ba8949d
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
