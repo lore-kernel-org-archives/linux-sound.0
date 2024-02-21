@@ -1,103 +1,150 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC44F3F9FD;
-	Wed, 21 Feb 2024 10:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D8D3DB8C;
+	Wed, 21 Feb 2024 10:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708511000; cv=none; b=cG7RQkcXxGBxt8MdixW/OKPHAAu6ZJwCvI8bNGU4iSKlhFuZgLBLchJIB6xK8xmJXrVcHfUAv1DPZxYgZg3K02AQ8DPx8llzqsZQrYwzBDGKY3FEiC74rtnMdwXg5OB+zOVLLrCPuHEPthlvm1c7pdngF9DzDeIhBdMlHCU5OEY=
+	t=1708511357; cv=none; b=IPxlvrUjHY9orKbnt3+eLbdDyzk3jvdvZ9/DNWC7T1vX2s0fsJhKl0ycAaKMO5OjhVs0c66v8sMu6wF7TW/SKX+KrDz1DyNJggangE4BSrPhcDoptRW46ExgkE9RClcM2+LBzwkfzF4KTcW4RPr+tUbcAKmEyHkljp3ORX78ESU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708511000; c=relaxed/simple;
-	bh=le3BALk+Oworr4tEt7cCYiWfOlR3LmiluAhEAP4F2ew=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kCWsprillTI2suZ/1nlAlLPdLJXmwHVI9EhPXknWmdm2cuvC9CF/8A1Ur5nJV4Kjdtk6ilOi3/zYR4SlwcwYviAny3YIcnvLzebuZnoWNUYNlViZat6kvvSmqHhPn8rsFE4+heQfqEJiOJYvKBpIQ6nPggtX+r+9FYUAZoNqwE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oUycE2NW; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1708511357; c=relaxed/simple;
+	bh=b/vayIWLDtsUmI8fXxNGlG6nYPoITUw0CH4bXSObJPw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BX12jvXvcYF/SEeQySr03RpUSe9prVDHnFE5dwxa5/MQCXcLeCLEji1qbMJ2uGO/60b8qxkFcJxobbfMjoQMtuL+kbr7Z12H6MIGW/w0FMobGS3BnaFLbKi8uyZX3+w1PFUVS3l+Vyg4T0rT5HDfTLuu7VdvjmiArRu2Mxb6N+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ngDaHeMX; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oUycE2NW"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D51F240004;
-	Wed, 21 Feb 2024 10:23:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708510997;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rq+wybioC8LqyCl9R5OUbd29VCY4wio0dhlATjVMPPA=;
-	b=oUycE2NWHhr9JKpRhvcQI/qQWVSEfDFzrJhUFpN1vSjWU6AyQn8imRa92hSo3TxEO0kEKx
-	8rz7RIMtA4OqxCLr4Kv2NabqEcl0leme9LfP8D1gdy9lOJg1N5r55IEj/tXQdJkCj7QW5w
-	s4Wi+m8Nw9sPf4+XrNb7w9ptO7eo0MIWpUDYylPlmG0N/aCX2mNsgbr2A3+5+/Ksc/jTAP
-	2X02jS4CIFw+8y0eKzejrzdcTV6EKU5l7IkD5+t4vj3qeK/oT9nr9HGH+l7hV7juqO+VXK
-	SiNNRFp7lKrPzNmt3vIVYHH4x+2Aw3e9fCkkCfZ/aeBusdC+fbyEEzQdLRIuNw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 21 Feb 2024 11:22:51 +0100
-Subject: [PATCH v3 7/7] arm64: dts: rockchip: add the internal audio codec
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ngDaHeMX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1708511354;
+	bh=b/vayIWLDtsUmI8fXxNGlG6nYPoITUw0CH4bXSObJPw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ngDaHeMXU2ybbKxtZzbZtmSibm8ifD7uFaPpAQcwEtJK4YBWIy5fNCr8iq5SVZw2l
+	 2DL3mHWHJnE/SR34ywYw2rylhYIGsDNQRMyT73OkoTwpsqAavlsdjPS+etCKSs2Qwj
+	 H+Ymaky4PyAlfn070DMAbiNnDZzSRHzsohMg0QR+vXmnGEzqYiZq3lyITnmg+xAqSU
+	 NA7brFSDNtqfXeHOHl0O4YjEb+AOcSq/6qhXDRwOpVgQoBYHNq24GoLwJIw3yncWcw
+	 4mnsbGclBfcVZviv5CgJOMyUIw1mQaCWXqfCMqC1DotYUwfSeYD7EFcZWlJbKgqrL/
+	 9vy5V4CGMsjWQ==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3ED1E3781FE6;
+	Wed, 21 Feb 2024 10:29:13 +0000 (UTC)
+Message-ID: <dfea1acd-8cca-4840-b1d2-1891a15c8d5a@collabora.com>
+Date: Wed, 21 Feb 2024 12:29:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240221-rk3308-audio-codec-v3-7-dfa34abfcef6@bootlin.com>
-References: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
-In-Reply-To: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
-To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.12.4
-X-GND-Sasl: luca.ceresoli@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] ASoC: SOF: amd: Move signed_fw_image to struct
+ acp_quirk_entry
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
+ <20240220201623.438944-2-cristian.ciocaltea@collabora.com>
+ <54c35628-9897-4415-86c0-cf81c897840e@collabora.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <54c35628-9897-4415-86c0-cf81c897840e@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The RK3308 has a built-in audio codec that connects internally to i2s_8ch_2
-or i2s_8ch_3.
+On 2/21/24 11:35, AngeloGioacchino Del Regno wrote:
+> Il 20/02/24 21:16, Cristian Ciocaltea ha scritto:
+>> The signed_fw_image member of struct sof_amd_acp_desc is used to enable
+>> signed firmware support in the driver via the acp_sof_quirk_table.
+>>
+>> In preparation to support additional use cases of the quirk table (i.e.
+>> adding new flags), move signed_fw_image to a new struct acp_quirk_entry
+>> and update all references to it accordingly.
+>>
+>> No functional changes intended.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>   sound/soc/sof/amd/acp-loader.c |  2 +-
+>>   sound/soc/sof/amd/acp.c        | 47 ++++++++++++++++++----------------
+>>   sound/soc/sof/amd/acp.h        |  6 ++++-
+>>   sound/soc/sof/amd/vangogh.c    |  9 +++++--
+>>   4 files changed, 38 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/sound/soc/sof/amd/acp-loader.c
+>> b/sound/soc/sof/amd/acp-loader.c
+>> index d2d21478399e..aad904839b81 100644
+>> --- a/sound/soc/sof/amd/acp-loader.c
+>> +++ b/sound/soc/sof/amd/acp-loader.c
+>> @@ -173,7 +173,7 @@ int acp_dsp_pre_fw_run(struct snd_sof_dev *sdev)
+>>         adata = sdev->pdata->hw_pdata;
+>>   -    if (adata->signed_fw_image)
+>> +    if (adata->quirks && adata->quirks->signed_fw_image)
+>>           size_fw = adata->fw_bin_size - ACP_FIRMWARE_SIGNATURE;
+>>       else
+>>           size_fw = adata->fw_bin_size;
+>> diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+>> index 9b3c26210db3..9d9197fa83ed 100644
+>> --- a/sound/soc/sof/amd/acp.c
+>> +++ b/sound/soc/sof/amd/acp.c
+>> @@ -20,12 +20,14 @@
+>>   #include "acp.h"
+>>   #include "acp-dsp-offset.h"
+>>   -#define SECURED_FIRMWARE 1
+>> -
+>>   static bool enable_fw_debug;
+>>   module_param(enable_fw_debug, bool, 0444);
+>>   MODULE_PARM_DESC(enable_fw_debug, "Enable Firmware debug");
+>>   +static struct acp_quirk_entry quirk_valve_galileo = {
+>> +    .signed_fw_image = true,
+> 
+> Hello Cristian,
+> 
+> are you sure that a structure holding "quirks" is the right choice here?
+> 
+> That probably comes as a personal preference, but I would simply pass a
+> `u32 flags`
+> and structure the quirks as bits.
+> 
+> #define ACP_SIGNED_FW_IMAGE    BIT(0)
+> #define ACP_SOMETHING_ELSE    BIT(1)
+> 
+> flags = BIT(SIGNED_FW_IMAGE) | BIT(SOMETHING_ELSE);
+> 
+> if (flags & BIT(SIGNED_FW_IMAGE))
+>    do_something()
+> 
+> What do you think?
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Hi Angelo,
 
----
+The flags approach was actually my first thought and I think that would
+have been the best choice if the quirks usage was limited to a single
+file (acp.c).
 
-Changed in v3: nothing
+Since they need to be exposed externally as well (acp-loader.c,
+vangogh.c) and already using a dedicated member in struct
+sof_amd_acp_desc related to the existing quirk, I found the "quirks"
+struct solution a bit more natural/convenient to follow (I've done a bit
+of research before and noticed other drivers having similar handling).
 
-Changed in v2:
- - use generic node name
----
- arch/arm64/boot/dts/rockchip/rk3308.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+However, as you already pointed out, it may also come down to individual
+preferences, so I'm open to using the flags if there is not enough
+reasoning to stick with the current implementation.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3308.dtsi b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-index 662c55fe9b77..962ea893999b 100644
---- a/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-@@ -803,6 +803,20 @@ cru: clock-controller@ff500000 {
- 		assigned-clock-rates = <32768>;
- 	};
- 
-+	codec: codec@ff560000 {
-+		compatible = "rockchip,rk3308-codec";
-+		reg = <0x0 0xff560000 0x0 0x10000>;
-+		rockchip,grf = <&grf>;
-+		clock-names = "mclk_tx", "mclk_rx", "hclk";
-+		clocks = <&cru SCLK_I2S2_8CH_TX_OUT>,
-+			 <&cru SCLK_I2S2_8CH_RX_OUT>,
-+			 <&cru PCLK_ACODEC>;
-+		reset-names = "codec-reset";
-+		resets = <&cru SRST_ACODEC_P>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
-+
- 	gic: interrupt-controller@ff580000 {
- 		compatible = "arm,gic-400";
- 		reg = <0x0 0xff581000 0x0 0x1000>,
-
--- 
-2.34.1
-
+Thanks,
+Cristian
