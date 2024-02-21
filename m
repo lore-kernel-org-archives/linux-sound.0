@@ -1,40 +1,59 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BEA3D0AF;
-	Wed, 21 Feb 2024 09:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEEB3D3A8
+	for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 09:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708508128; cv=none; b=UYe0EeDWzWo4DIB33Xx4j6WX/iXDmOp42wssl6llEw/WuhOc5jn052+Dq0YMgnKksCaYIMJr2MopbNV6QdXqLPL3HqoD5wsn9pxuE8UOzG+BrvhfyBCoIDtOKyMcjlc116x6BckQlSYe7BqFJK3LerzrtqcLB96mjCAx/IHuk4Q=
+	t=1708508700; cv=none; b=srsjz0fatBikrR62lbA905Twty6u9xaCAQXf2/UmR6iK/5ftrHRPIF6CwYSiwqMRrSylDAIILlWM8ov03TeI+5vh6SxCsgPIZlmyEy4AFgCARhJi95tHMsJezA2WUbTR4DYax6aGYCeBF+O4KhgfJtkr/EdH73qNN4QRp1iXx/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708508128; c=relaxed/simple;
-	bh=ZWJny5hDmVoDsoifGsfG1NwH9fjOr39mDzWHBIT6QrE=;
+	s=arc-20240116; t=1708508700; c=relaxed/simple;
+	bh=/opIB55MMYKYaC78niYQAuyhzp2B1CswjFKDPDdn5Xk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DiC9tA9qBao/UPeOTdRclZN4SBYOqsb6gP8Gn8iiAzWDXJOzK3mc20A0EjWHVfFYUCRkvQfmxPKXnX6D9wgUkBpe0/v48p9U0ZzYBkKtWQKyT6SAGtx4CyRxkxbxHcbVBFDCxXu42Q3pn93J8Pf8UOakBTFivSA60ZICTJ2Lz/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=27eEx0m2; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=t5saw36yzfhI5F8dw+/CmaZKV0Ki9L/IDR7OBtd+mPcjnSEH2QMO72ir1CO8omBcoonhUNKI47BpKXFx4HRzGi6nZhzC6N+A+rI7sBazdc9HalUf1ZF4YZC009z2Q6yqkYp37La3YgvXEb9It+PZXtBtCLNBpzA8JbTmXzdHpek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EB8uQNK6; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="27eEx0m2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708508124;
-	bh=ZWJny5hDmVoDsoifGsfG1NwH9fjOr39mDzWHBIT6QrE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=27eEx0m2Y57RGki5Tg/d8bO98TkHsTUmDx546m5WO9M4Sc1M7jjlxlQZsGWTV8hXq
-	 zECaDhHjP6Mo70MTiOZP0S0wWvNA3TdTEVlx6iLRp0k9wlmBDYYybRGAq5hnWPUWCT
-	 a+T7MX8+S2X6x1gesDLei+jKwSzDasoXgQm5Qf84TP33ks1AIcuATkn3Bzggf8WrPq
-	 XLtHh1GhcCN1/2yDYkvLwkT7wiGR6F9Ot5XsanpZ+xQhF/vvCAbjgb9Mo/3iaWYeeb
-	 giylLJfAv5d/l+zZWOM2YJPk9rnHexCszNYagTw9S1Acd8BBPtc4Je0UdDS5LjKeu8
-	 f9Ud1qPm8XwSA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 03EE8378148F;
-	Wed, 21 Feb 2024 09:35:22 +0000 (UTC)
-Message-ID: <54c35628-9897-4415-86c0-cf81c897840e@collabora.com>
-Date: Wed, 21 Feb 2024 10:35:21 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EB8uQNK6"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a34c5ca2537so46448666b.0
+        for <linux-sound@vger.kernel.org>; Wed, 21 Feb 2024 01:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708508696; x=1709113496; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NyBaoVH2N/0Qpdr6Z5VWnZpm4sf6QgnERUX3ACGj03I=;
+        b=EB8uQNK6VFZNe3WYq8CHMy4J44WMAAaiHCqGROumV+EWVQhMQNGZsULAifrsSRUwgE
+         faG/Ze5n6vqAY/giFyBf3/1l9DFRjDtf1B4n87QO40x62e434qQShJKL9QZm9q98gRWd
+         5qfx3QlONdPD6P3pwX9QNCdZlPRsWtzQMJCdNlX0tsv4vRdDioLBc+JnqYjb70fZdos4
+         31IPELlOJMY1b36lVmx1HlFmYjxb3ywkH9xKjJjbZUCW8Db1cIVFTHEBfXfcomOYrUPy
+         Tci+yPSbVQikHaaygoLR9mtYJxxdK/SZb6ADkhYdDfttj5rLcHM503OdN9jsHDysBgQT
+         DeEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708508696; x=1709113496;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NyBaoVH2N/0Qpdr6Z5VWnZpm4sf6QgnERUX3ACGj03I=;
+        b=nK82cJpGuQ/ssd8rHgEP8wEH5R0URcfq/lpQSXPIB7q+pX/Uyw2bfnax3VhOB4JLnT
+         P82aHLbKIkcU+WPVYDlP6WS/fz84OaCOZDqJrs3vHXg3uTAlgOFsvRKgfRgA8RJavJ3J
+         QyStXn4WoyBRKkhV1B46IhotfAwsEmmEwGs+D4kBOY8gxUL4vnTf9m8Qn5jRsRXYzGmr
+         pmeTwAqQKvGj/MwN/Kebi127BErAF8RZQ6vn46/4zXDpGR60YkdYuHyEGFx9dRiDRX9s
+         llMWZT0r1hzp00txIlfSUC9Jm3sEV5DzrYlYb9WONPx0OG/G5BofOstSUxIybq5saMUn
+         oIHg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4YKUB9vVfD8a9w6V3CCGDkkVchGbM1lkj4E2bQutKXiOO25bgleBnzXjckxkHfTKNynQxtKed6vWnuO+8SnKjEvyph1YkjENJZNg=
+X-Gm-Message-State: AOJu0YyL7SL78ZGwBYWzqmQaCqoKe04D3f6cs0rm9dQtWgeFcbLb/ozg
+	BnBRFBB1DZUhIILwU8/gdNJ/HFPYpjUe96y0HW0AQvu7o0j3dPEyb8oskTJsznA=
+X-Google-Smtp-Source: AGHT+IHKAvnXAoTx45vIQ/qJlrbVDVZ7kPxLCVw3sTsnFfwKS3/tPeqcsbS4/Vw6sYV6b+JfjsNYeA==
+X-Received: by 2002:a17:906:2b97:b0:a3f:50ae:52d with SMTP id m23-20020a1709062b9700b00a3f50ae052dmr418708ejg.10.1708508696477;
+        Wed, 21 Feb 2024 01:44:56 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id sn24-20020a170906629800b00a3e1939b23bsm4464478ejc.127.2024.02.21.01.44.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Feb 2024 01:44:55 -0800 (PST)
+Message-ID: <7ae0567d-e5d3-4e00-98f7-5139d5879f75@linaro.org>
+Date: Wed, 21 Feb 2024 10:44:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,217 +61,96 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] ASoC: SOF: amd: Move signed_fw_image to struct
- acp_quirk_entry
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
- <20240220201623.438944-2-cristian.ciocaltea@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v6 0/6] reset: gpio: ASoC: shared GPIO resets
 Content-Language: en-US
-In-Reply-To: <20240220201623.438944-2-cristian.ciocaltea@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Frank Rowand
+ <frowand.list@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Sean Anderson <sean.anderson@seco.com>
+References: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240129115216.96479-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Il 20/02/24 21:16, Cristian Ciocaltea ha scritto:
-> The signed_fw_image member of struct sof_amd_acp_desc is used to enable
-> signed firmware support in the driver via the acp_sof_quirk_table.
+On 29/01/2024 12:52, Krzysztof Kozlowski wrote:
+> Hi,
 > 
-> In preparation to support additional use cases of the quirk table (i.e.
-> adding new flags), move signed_fw_image to a new struct acp_quirk_entry
-> and update all references to it accordingly.
+> Dependencies / Merging
+> ======================
+> 1. Depends on !GPIOLIB stub:
+>    https://lore.kernel.org/all/20240125081601.118051-3-krzysztof.kozlowski@linaro.org/
 > 
-> No functional changes intended.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->   sound/soc/sof/amd/acp-loader.c |  2 +-
->   sound/soc/sof/amd/acp.c        | 47 ++++++++++++++++++----------------
->   sound/soc/sof/amd/acp.h        |  6 ++++-
->   sound/soc/sof/amd/vangogh.c    |  9 +++++--
->   4 files changed, 38 insertions(+), 26 deletions(-)
-> 
-> diff --git a/sound/soc/sof/amd/acp-loader.c b/sound/soc/sof/amd/acp-loader.c
-> index d2d21478399e..aad904839b81 100644
-> --- a/sound/soc/sof/amd/acp-loader.c
-> +++ b/sound/soc/sof/amd/acp-loader.c
-> @@ -173,7 +173,7 @@ int acp_dsp_pre_fw_run(struct snd_sof_dev *sdev)
->   
->   	adata = sdev->pdata->hw_pdata;
->   
-> -	if (adata->signed_fw_image)
-> +	if (adata->quirks && adata->quirks->signed_fw_image)
->   		size_fw = adata->fw_bin_size - ACP_FIRMWARE_SIGNATURE;
->   	else
->   		size_fw = adata->fw_bin_size;
-> diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-> index 9b3c26210db3..9d9197fa83ed 100644
-> --- a/sound/soc/sof/amd/acp.c
-> +++ b/sound/soc/sof/amd/acp.c
-> @@ -20,12 +20,14 @@
->   #include "acp.h"
->   #include "acp-dsp-offset.h"
->   
-> -#define SECURED_FIRMWARE 1
-> -
->   static bool enable_fw_debug;
->   module_param(enable_fw_debug, bool, 0444);
->   MODULE_PARM_DESC(enable_fw_debug, "Enable Firmware debug");
->   
-> +static struct acp_quirk_entry quirk_valve_galileo = {
-> +	.signed_fw_image = true,
-
-Hello Cristian,
-
-are you sure that a structure holding "quirks" is the right choice here?
-
-That probably comes as a personal preference, but I would simply pass a `u32 flags`
-and structure the quirks as bits.
-
-#define ACP_SIGNED_FW_IMAGE	BIT(0)
-#define ACP_SOMETHING_ELSE	BIT(1)
-
-flags = BIT(SIGNED_FW_IMAGE) | BIT(SOMETHING_ELSE);
-
-if (flags & BIT(SIGNED_FW_IMAGE))
-    do_something()
-
-What do you think?
-
-Cheers,
-Angelo
-
-> +};
-> +
->   const struct dmi_system_id acp_sof_quirk_table[] = {
->   	{
->   		/* Steam Deck OLED device */
-> @@ -33,7 +35,7 @@ const struct dmi_system_id acp_sof_quirk_table[] = {
->   			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
->   			DMI_MATCH(DMI_PRODUCT_NAME, "Galileo"),
->   		},
-> -		.driver_data = (void *)SECURED_FIRMWARE,
-> +		.driver_data = &quirk_valve_galileo,
->   	},
->   	{}
->   };
-> @@ -254,7 +256,7 @@ int configure_and_run_sha_dma(struct acp_dev_data *adata, void *image_addr,
->   		}
->   	}
->   
-> -	if (adata->signed_fw_image)
-> +	if (adata->quirks && adata->quirks->signed_fw_image)
->   		snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SHA_DMA_INCLUDE_HDR, ACP_SHA_HEADER);
->   
->   	snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SHA_DMA_STRT_ADDR, start_addr);
-> @@ -738,26 +740,27 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
->   	sdev->debug_box.offset = sdev->host_box.offset + sdev->host_box.size;
->   	sdev->debug_box.size = BOX_SIZE_1024;
->   
-> -	adata->signed_fw_image = false;
->   	dmi_id = dmi_first_match(acp_sof_quirk_table);
-> -	if (dmi_id && dmi_id->driver_data) {
-> -		adata->fw_code_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
-> -						    "sof-%s-code.bin",
-> -						    chip->name);
-> -		if (!adata->fw_code_bin) {
-> -			ret = -ENOMEM;
-> -			goto free_ipc_irq;
-> +	if (dmi_id) {
-> +		adata->quirks = dmi_id->driver_data;
-> +
-> +		if (adata->quirks->signed_fw_image) {
-> +			adata->fw_code_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
-> +							    "sof-%s-code.bin",
-> +							    chip->name);
-> +			if (!adata->fw_code_bin) {
-> +				ret = -ENOMEM;
-> +				goto free_ipc_irq;
-> +			}
-> +
-> +			adata->fw_data_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
-> +							    "sof-%s-data.bin",
-> +							    chip->name);
-> +			if (!adata->fw_data_bin) {
-> +				ret = -ENOMEM;
-> +				goto free_ipc_irq;
-> +			}
->   		}
-> -
-> -		adata->fw_data_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
-> -						    "sof-%s-data.bin",
-> -						    chip->name);
-> -		if (!adata->fw_data_bin) {
-> -			ret = -ENOMEM;
-> -			goto free_ipc_irq;
-> -		}
-> -
-> -		adata->signed_fw_image = dmi_id->driver_data;
->   	}
->   
->   	adata->enable_fw_debug = enable_fw_debug;
-> diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
-> index 947068da39b5..b648ed194b9f 100644
-> --- a/sound/soc/sof/amd/acp.h
-> +++ b/sound/soc/sof/amd/acp.h
-> @@ -207,6 +207,10 @@ struct sof_amd_acp_desc {
->   	u64 sdw_acpi_dev_addr;
->   };
->   
-> +struct acp_quirk_entry {
-> +	bool signed_fw_image;
-> +};
-> +
->   /* Common device data struct for ACP devices */
->   struct acp_dev_data {
->   	struct snd_sof_dev  *dev;
-> @@ -236,7 +240,7 @@ struct acp_dev_data {
->   	u8 *data_buf;
->   	dma_addr_t sram_dma_addr;
->   	u8 *sram_data_buf;
-> -	bool signed_fw_image;
-> +	struct acp_quirk_entry *quirks;
->   	struct dma_descriptor dscr_info[ACP_MAX_DESC];
->   	struct acp_dsp_stream stream_buf[ACP_MAX_STREAM];
->   	struct acp_dsp_stream *dtrace_stream;
-> diff --git a/sound/soc/sof/amd/vangogh.c b/sound/soc/sof/amd/vangogh.c
-> index de15d21aa6d9..bc6ffdb5471a 100644
-> --- a/sound/soc/sof/amd/vangogh.c
-> +++ b/sound/soc/sof/amd/vangogh.c
-> @@ -143,6 +143,7 @@ EXPORT_SYMBOL_NS(sof_vangogh_ops, SND_SOC_SOF_AMD_COMMON);
->   int sof_vangogh_ops_init(struct snd_sof_dev *sdev)
->   {
->   	const struct dmi_system_id *dmi_id;
-> +	struct acp_quirk_entry *quirks;
->   
->   	/* common defaults */
->   	memcpy(&sof_vangogh_ops, &sof_acp_common_ops, sizeof(struct snd_sof_dsp_ops));
-> @@ -151,8 +152,12 @@ int sof_vangogh_ops_init(struct snd_sof_dev *sdev)
->   	sof_vangogh_ops.num_drv = ARRAY_SIZE(vangogh_sof_dai);
->   
->   	dmi_id = dmi_first_match(acp_sof_quirk_table);
-> -	if (dmi_id && dmi_id->driver_data)
-> -		sof_vangogh_ops.load_firmware = acp_sof_load_signed_firmware;
-> +	if (dmi_id) {
-> +		quirks = dmi_id->driver_data;
-> +
-> +		if (quirks->signed_fw_image)
-> +			sof_vangogh_ops.load_firmware = acp_sof_load_signed_firmware;
-> +	}
->   
->   	return 0;
->   }
+> 2. Patch #2 (cpufreq: do not open-code of_phandle_args_equal()) and patch #4
+>    (reset: Instantiate reset GPIO controller for shared reset-gpios) depend on OF
+>    change (patch #1).
 
 
+Hi Philipp,
+
+I got acks from GPIO folks. The also provided stable tag with dependency:
+https://lore.kernel.org/all/20240213101000.16700-1-brgl@bgdev.pl/
+(which BTW already is in mainline, so you could just merge Linus' tree
+into your next branch)
+
+Can you take entire patchset?
+
+Best regards,
+Krzysztof
 
