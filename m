@@ -1,38 +1,39 @@
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF2F3E470;
-	Wed, 21 Feb 2024 10:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2492E3F8D1;
+	Wed, 21 Feb 2024 10:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708510995; cv=none; b=H4ANatPPscqMNKGh38OpX2eJ0oHSnNeo9TAksqDHY0/RNDvTVfUwmOouiXZ/cyPsDk4WA3elSbK0Ymyu1u5HpENHbnFQ/BipHt5rqDe/VZB04N3Sy43KYPFqRijOZsUum9JSLj4Am/dmmSQo35TiAHqaN79jqbqANE0GbdS6U84=
+	t=1708510998; cv=none; b=ZRX/K2QpygL21x3nVKJfonqssLLsg/J/DfnaFi6GS1WzIqm2giLRzY+ehxqyk2khFaybEmRIIo5yBdgmBL86QCrKwoDcurat96fn0Sq8qxewOSlwejbP6xLpZLp5E5qcfuCFcKvp7tmuSQOqhVTBPjiffm59ViACco7LTmBa0eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708510995; c=relaxed/simple;
-	bh=wSlFXJNr/cmsVO2H+EFpGOVDsAhGPl+1vkHJEhpG3ME=;
+	s=arc-20240116; t=1708510998; c=relaxed/simple;
+	bh=CvoB1gOXxO0MxoxwC7GX+iWku3zqdOaKkxXzEtRJZ8c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=a++UT7n1n6zwe3M08UZ8NHTk9EwWCZu/b2GO1KpcPBijmSF1KK90f6xUAd+FyCnyJYugYvVVvlxJb+tiPagzSsWk2ISGRfbc7xUUoMdTzhrtrJPkvrXNIHRVdyTTyoY3EdJpA8qmu46fstiUBjPNIvGp1RDlTKRZyoJY75BVTT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=T3fUK25O; arc=none smtp.client-ip=217.70.183.193
+	 In-Reply-To:To:Cc; b=nVwNjtKUoAIb4bgFbrKvmQeQWrocmb4w+5SwJytyAhPJZdFRpGF1eKcJ+JImLyw13zb3uou+UMKXgXsWE6+7RNoMBoc0ES8huFQzqqm9svKsS4BcxaO8Jush9/sM3rcS7Unik6iN7qGF3dhuRnBxcW/2d/DjUrzQIGjUY+SuUZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jzlTAhMj; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="T3fUK25O"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 67DCF240003;
-	Wed, 21 Feb 2024 10:23:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jzlTAhMj"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 50BEB240012;
+	Wed, 21 Feb 2024 10:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708510991;
+	t=1708510994;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KUrik2L/XdfT2NBxFB5is5OzPEkx0nf8lGt/JdUz6EE=;
-	b=T3fUK25OtBYlXiQ83D6l9qjN93jlVX6k3Kec8Ptp0EUERId6w8rla6gdrSKst+wK+d/olU
-	Q90Lv7Of5QpOxyCm13N3TOSKhcCgemYWUIx/uYP9rFE/QzC9OgdLVJgWuIu1LWfUEzCxtI
-	MxWSf6AJmLLGKmXMYNzTd9ZOwOhurcXnvMaUtSvLW7itf1dg86CA4BjplAZ5356+HTVSXL
-	X9tbFw2uIU8upxI5cNYFgzweonS5yNewyzMMrIoZuAqW/CY/cAVQaPndAiq1vW8ziB5K66
-	yXbNeWU90Gtw1/WXGJ/xjCQix7HOuYHadzGKov1DxDdIevZs0bwMbDM/ixYCeA==
+	bh=WleTd20PMIj2kUPD+6Y2hedislbfvKaEe57+SXEdJDY=;
+	b=jzlTAhMjJkU6mA3eF9eQGhBxgwYTLPTu1vX/FjGNHbRckkCPa3zCZrvIXddM8L78cBiaY3
+	CTRfstsXevICAOfuZHfPNlf0JqucSA7WoxdnrN6rthTaQV3eON5RewOOwyVMsJZjl4XYIl
+	9a86Y01/LYJICcciA4y910SV6zjGAVNSElGjiZZDbnDc+eW/6ehPaZAWy68TlN7In2Vs9K
+	5WWJrcpUGY6KAjHlAn2B461V+7kSPiXaU/8jAGHPGtiipezVymblQeeyDWUvctVD/NcyS6
+	eQGehhLgJ4uAkrp9g+7VAZ+GXeX9NfejcvVxh37zL7dCp8W1XHw0eYHlypo+uA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 21 Feb 2024 11:22:47 +0100
-Subject: [PATCH v3 3/7] ASoC: core: add SOC_DOUBLE_RANGE_TLV() helper macro
+Date: Wed, 21 Feb 2024 11:22:49 +0100
+Subject: [PATCH v3 5/7] arm64: defconfig: enable Rockchip RK3308 internal
+ audio codec driver
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240221-rk3308-audio-codec-v3-3-dfa34abfcef6@bootlin.com>
+Message-Id: <20240221-rk3308-audio-codec-v3-5-dfa34abfcef6@bootlin.com>
 References: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
 In-Reply-To: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
 To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
@@ -57,49 +58,29 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-No macro currently allows handling a stereo control that has left and right
-in the same register and whose minimum register value is not zero. Add one
-that does that.
-
-Note that even though the snd_soc_*_volsw_range() look more appropriate
-given the _range suffix, they are not suitable because they don't honor the
-two shift values. The snd_soc_*_volsw() look more generic and are suitable
-for the task.
+This codec now has a driver.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Changed in v3: nothing
-
-This patch is new in v2.
+This patch is new in v3.
 ---
- include/sound/soc.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 6defc5547ff9..7492315ce0b8 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -149,6 +149,18 @@
- 		{.reg = xreg, .rreg = xreg, \
- 		.shift = shift_left, .rshift = shift_right, \
- 		.max = xmax, .min = xmin} }
-+#define SOC_DOUBLE_RANGE_TLV(xname, xreg, xshift_left, xshift_right, xmin, xmax, \
-+			     xinvert, tlv_array) \
-+{	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
-+	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
-+		  SNDRV_CTL_ELEM_ACCESS_READWRITE,\
-+	.tlv.p = (tlv_array), \
-+	.info = snd_soc_info_volsw, \
-+	.get = snd_soc_get_volsw, .put = snd_soc_put_volsw, \
-+	.private_value = (unsigned long)&(struct soc_mixer_control) \
-+		{.reg = xreg, .rreg = xreg, \
-+		 .shift = xshift_left, .rshift = xshift_right, \
-+		 .min = xmin, .max = xmax, .invert = xinvert} }
- #define SOC_DOUBLE_R_TLV(xname, reg_left, reg_right, xshift, xmax, xinvert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index e6cf3e5d63c3..20650b03d25c 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -981,6 +981,7 @@ CONFIG_SND_SOC_GTM601=m
+ CONFIG_SND_SOC_MSM8916_WCD_ANALOG=m
+ CONFIG_SND_SOC_MSM8916_WCD_DIGITAL=m
+ CONFIG_SND_SOC_PCM3168A_I2C=m
++CONFIG_SND_SOC_RK3308=m
+ CONFIG_SND_SOC_RK817=m
+ CONFIG_SND_SOC_RT5640=m
+ CONFIG_SND_SOC_RT5659=m
 
 -- 
 2.34.1
