@@ -1,51 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F153FDB;
-	Wed, 21 Feb 2024 00:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C506FBE;
+	Wed, 21 Feb 2024 00:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708476524; cv=none; b=aA0VHpIGnq1QS+uH+daVY+laku9CMBDurjYsLOygF1/5t56yFRyA4kWeZLCQCsAYNI1my7LT+ccPsSAA4wtUP4IR9AmO/Q+qhGL25wtF/D2pVeVLib3PHDgZq5PF1s3BdDeXWN5yfjmChsAZzXVotU+QImjRAwMJEcLo3C2Qz+4=
+	t=1708476528; cv=none; b=iQyAzSveSyKcW01/W168DiqNdKP9r393pku/LYivfExObWgbnCTzWUlfDQnyl+Fu9iPc185+knDXzYiG6NM3ozgPjcj0zKGrhATgc0iKm4TdtDFCGc23eDXnlghV1qepKL2l3asGONkp3a0DPu1ueqaMjEjrRRjgM218QnzD7yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708476524; c=relaxed/simple;
-	bh=f0jG7JZ9oh2O1noEl7FSZJMj5418rIWIIHqWyudoGRk=;
+	s=arc-20240116; t=1708476528; c=relaxed/simple;
+	bh=Z26wBzvMatb73janE/pjbUd/FUwUvp+X7ENzvMeozC0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=g3DXciLnPqki63LV44LKYnSnG+9iDLNkrSuIJoo6aL5O4iEaQLHOsdsBt3/IhQThbgIQcscwS6vggWGDON2PRpPyucu5EcaVT4zwawAn8/ZzV2Gu8nv2sKePIlBBfm/89baLCa2BCpeIRTM5Kgf0CxWKVEEZn+2oYopuiQhyCyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPrYYuCB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=rfgRHiRfsB15XHG8mQkt1QtTHabdbVBSnhQjAaaewAq1Z/9FJWuWdWiaO2yU9fy5Q2NUpkfXrcnlUm5bucbxj2LMJM4pfwUKsO/NsnhqE0DPBv+R27Bn6O1Yf2AtX8Meus7Dz1Yxgo3oH75RUo3ciEtDXKWanRrg+ouzRwevVIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cks+HwHU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPrYYuCB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30ADEC433F1;
-	Wed, 21 Feb 2024 00:48:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cks+HwHU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C64EC433C7;
+	Wed, 21 Feb 2024 00:48:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708476524;
-	bh=f0jG7JZ9oh2O1noEl7FSZJMj5418rIWIIHqWyudoGRk=;
+	s=k20201202; t=1708476528;
+	bh=Z26wBzvMatb73janE/pjbUd/FUwUvp+X7ENzvMeozC0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aPrYYuCBOEeHEvtgSRelFiBVH9qMaD+KPqoooZBez0TvDeo/idezdVyG/a/ZeA7TZ
-	 R6ykl9fL46Hrvgp0COwiog14DB0o9T11hfZmPL7natdSMoGIBGmXuRbp3xCek3jtJp
-	 NWjld4EeunGceUwcWYjnbatJ4bvfVENx3B2X64n4H2l2qq2yfIEm8xIOaq44eTDESj
-	 kTalKSYeB97PYgepODNne24nkHiZqDoirwZBfH3/y1tv5ZhRpXA3mbDiji5TXdiZ5J
-	 h1t6Lat8viEhVL0gxNTyy2CwhXr8R1ZtvnwRals7CWkLSP5KF8q+UZ7hh/INAtT9EA
-	 i/rdPoNJCHHBQ==
+	b=cks+HwHUpf66KkyPRfCtDhk0NzUfRpCREYYcUP/i8K1bjpTPBSuI3mrAm6pb72hau
+	 6JZGfhhZD22Ki/NEDLMx78gDod6ltpH9LqeNWDABaxL+rXUihhuBzDalrKjak3BHfO
+	 NbSZUXjjLmOIz9x/cqFI6XBmAjpGO+oK//F9PEyYdKb+5B/JL3sxUk1VzhFhTPY2fj
+	 yTELobOJYPD2O1TduG/qV4I5Chh/f1J6e40W7vsDr4AnpKZVNYvqRZTyhdd+HCgudR
+	 IRqz28x/23rnv2LwA++sKc0ctrMX+wtPA2XuL4hO2s+whO6/TeZVcmLprSi40qQz55
+	 wU7Y3wn7OL6Qw==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, Mario.Limonciello@amd.com, 
- venkataprasad.potturu@amd.com, Liam Girdwood <lgirdwood@gmail.com>, 
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Lucas Tanure <lucas.tanure@collabora.com>, 
- Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
- Carlos Bilbao <carlos.bilbao@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20240214104014.1144668-1-Vijendar.Mukunda@amd.com>
-References: <20240214104014.1144668-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 1/5] ASoC: amd: ps: refactor acp device configuration
- read logic
-Message-Id: <170847652092.70487.7212581816199412994.b4-ty@kernel.org>
-Date: Wed, 21 Feb 2024 00:48:40 +0000
+ linux-sound@vger.kernel.org, Colin Ian King <colin.i.king@gmail.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240216142219.2109050-1-colin.i.king@gmail.com>
+References: <20240216142219.2109050-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH][next] ASoC: tas2781: Remove redundant initialization
+ of pointer 'data'
+Message-Id: <170847652597.70487.7579277890832174117.b4-ty@kernel.org>
+Date: Wed, 21 Feb 2024 00:48:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,11 +48,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Wed, 14 Feb 2024 16:10:01 +0530, Vijendar Mukunda wrote:
-> Refactor acp device configuration read logic and use common function
-> to scan SoundWire devices.
+On Fri, 16 Feb 2024 14:22:19 +0000, Colin Ian King wrote:
+> The pointer 'data' being initialized with a value that is never read, it
+> is being re-assigned inside a while-loop. The initialization is redundant
+> and can be removed.
 > 
+> Cleans up clang scan build warning
+> sound/soc/codecs/tas2781-fmwlib.c:1534:17: warning: Value stored to
+> 'data' during its initialization is never read [deadcode.DeadStores]
 > 
+> [...]
 
 Applied to
 
@@ -68,16 +65,8 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: amd: ps: refactor acp device configuration read logic
-      commit: 0386d765f27a1fd3ed2ed6388a07e26d9659936d
-[2/5] ASoC: amd: ps: refactor acp child platform device creation code
-      commit: eaf825037d6df89811d43391be920bf6ad731463
-[3/5] ASoC: amd: ps: remove acp_reset flag
-      commit: 3c697ced399cac295c34c9611f05d04f4c951aa9
-[4/5] ASoC: amd: ps: fix for acp pme wake for soundwire configuration
-      commit: c76f3b1f9b9ae20f8c944bb01c395329d525a917
-[5/5] ASoC: amd: ps: add machine select and register code
-      commit: bbf3e6145ea09cf346ce09146b0b98415095f170
+[1/1] ASoC: tas2781: Remove redundant initialization of pointer 'data'
+      commit: e480c0991db00b24b39010bfd56eda5ec2417186
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
