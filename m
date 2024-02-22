@@ -1,128 +1,88 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843A71E488
-	for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 16:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97C58C0B
+	for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 16:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708619851; cv=none; b=WnMljVN67poZRSop8GujWFy2zf7XeP5fN2QQ8mzBI0a5ZeXqcNvO2lLFWKAbgCghgVGaxo8dQ694dTgxHpa5v6JMnInG8/pjv814H7jTCqJ1bFJ74xqhz9t5Dz9IUMOK/xq9tw66qv2/cLRlCq1hfayJtAU7oeBB2c6Gx8SHBMs=
+	t=1708620232; cv=none; b=nCVFhRxTAMlwwtDzb5ueFV6+Te2Oewde9kk3CjGxV8mqbdIvtD7ZApYC0AaDPCHD/keRvkAJtbENKcEDgzLsw7p9kLvtQ3rR3ZBkQJBmY4sxETPddHQ80mhI/iKLldMEn337Mko+u1tPztPVFCkdTvvaQ+SQ1GfwzZzhQLcCF0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708619851; c=relaxed/simple;
-	bh=7TaWjSMnr9SyJaL1rSnUq6UVe3SDZbweU+CU/JSE12o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y8eSuZE0O2W0vWthiFl9qXmQk8Ijg8D20KMviSxVjcIIx+gP9qQImSoAo7GG4hAP+Jf9hE3YyNokb5G0qVjZaYc6dk00BiTDkqReL0J+tPwp9DDcywITxw5kYWwEkuiEUQhO6UsFRTRhTgKXbKDvo7Kq8q1P/UrhcmCfuVijNLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H8OQXrXL; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708620232; c=relaxed/simple;
+	bh=blGXCQWbinQD12tf5lew+OFO7kdmX5WYe1FXNjbh2d4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y0PY+WiSpGXuKDF/WZdSfu9L2KHPQcarRQvsVw729M/HotkjL2Fk7feurAGeCAEtnRg/LFBxRQLfS+TOj8LzRDqGZPemCzPRg4v7DEeqC6NnEcdcj2+w/D6kex0KFWfMREsUW6uCy+1dO/MTEHdwiDM/eSa5JW3uuK/dYdhK7UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iaKY3TNQ; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H8OQXrXL"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-563bb51c36eso9125470a12.2
-        for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 08:37:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iaKY3TNQ"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4128cfb6b6fso3968375e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 08:43:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708619848; x=1709224648; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ythAlB5fOuduCOWoNXa4hv2/pnJOcPq8G9cfPzDgUoI=;
-        b=H8OQXrXLleYyVLeshdY3zehihi+qwT/Nk6N+ArWW1TNbRoUb6v5aJbow9wQcaklDB1
-         /rlt6vftkl6XzIk36t4Ka9C3tDXlm2v3g4Ac6vALE+5v1vEOt+xuUUTNAi/q2FYD/vSM
-         ZCMZ3b9i+myf1lPeAbQzCTCJMTRi+sJcjLHVH3ugrRiNyERuBRASVEHvpii5C91c+oPy
-         IamZL503BYj+lm38EAjmS4Tq+uN4O9mSmXiWtmR3pqftboA+/n9FrbVL5xIdIbSP+lOW
-         K6GoU2vUCQYX3GCMyWBClShmo3wM2T5+PurN6kKpz1JBi3FqNWIOC89H3YyXeO4UFFEo
-         KKUw==
+        d=chromium.org; s=google; t=1708620229; x=1709225029; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=blGXCQWbinQD12tf5lew+OFO7kdmX5WYe1FXNjbh2d4=;
+        b=iaKY3TNQAt1pe8rPYA6dM2vsv1TiNG446InpPbybZoeIcG/pSCkv9mVqN5A6MjViMP
+         UDcZLj5NvHhziGP+ZP0sVljWuEFYRF2st4B2JdxEO8VYj9eEOundVpvPkMmiwPWxfkaC
+         b9NbfuhE34bl3fu0zpuz3nOrNQbb3qjdOErU4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708619848; x=1709224648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ythAlB5fOuduCOWoNXa4hv2/pnJOcPq8G9cfPzDgUoI=;
-        b=YBeMiFm5cNNC2yWFRmdv4eJA7w7n9oEiHY/x8tYkvnRR1xOe9HgXgbmJd8VgmBPGSO
-         KJnvUDDeYgYWqMX0kKMU5J594rhsyrt+K7hB69mcaRgz0g8J5vMuIcxorMeGcSVThopK
-         vqmKC4mNCltYNTN35disgYWiYU/tz5iPv2bm8SpvaBCSvyozKP3vu+uChkjJ+UTLmjTp
-         BF3laAqCq7g0mrmX4VM21nNqI4zpiDiGG/SHDXveQv1qsIoDqDv1tpYiFq/sOcwRAOQK
-         QDs1P2nqPpZjFS/yNIenAv66/4nl2j6bqtfM4/2YfHpSgwwc9JC9sPKRspuxtnYehAfi
-         wzLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUQYBxsutO5waLpih3fhJHapWcx+GfqtmEUhH61LQbARrExhw60AOIFrKgKC7ZsJBCNjLEIfi/uatGYdsCuzxQc7hX4/19n65s9zU=
-X-Gm-Message-State: AOJu0Yzw3M0PzWFiqm3+/VQR5otbavOxIwW+YhxG55EFsYFYecWR+r15
-	Oc8QTegpbwSeE8ma4N1ct7w+QbyBliXPD7IKF0aaeY1D+btOw+u3e2xPqh1+R5Q=
-X-Google-Smtp-Source: AGHT+IEDqRBn3wWYrrFcXKIOrpL73QXc+7HDhyj6TIw4Ua/8t6GPiVQ6GsEbJRHzFBalKuA1vFJmwg==
-X-Received: by 2002:a05:6402:5246:b0:565:2183:d296 with SMTP id t6-20020a056402524600b005652183d296mr2969008edd.27.1708619847900;
-        Thu, 22 Feb 2024 08:37:27 -0800 (PST)
-Received: from krzk-bin.. ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id u19-20020aa7d993000000b005653c441a20sm614191eds.34.2024.02.22.08.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 08:37:27 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH usb next] ASoC: Revert "ASoC: dt-bindings: Update example for enabling USB offload on SM8250"
-Date: Thu, 22 Feb 2024 17:32:04 +0100
-Message-Id: <20240222163204.65468-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1708620229; x=1709225029;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=blGXCQWbinQD12tf5lew+OFO7kdmX5WYe1FXNjbh2d4=;
+        b=VRgekphdzYFiL04T59TNfqr+1dMV77B/GvRnRJIInWQiwfl4v6Ft5Zo9MciQjUM/TF
+         /AVhCo81emYJf3YUEDHa47BFK8T+EVIivhzS1cvQ6DfcRtRG1fO7jF45gmsT3LontfMp
+         CetRjT0y3rm9OJl4SKMJGZO8CgXqM3RT0xbO4sM5xbke2DgsHcpa0Ilu6hcOcU9mEGIW
+         pxeSNp4EyvKh2GX+OAF09d9XyWosujtpagGeMs0PAYvqyj0BwAlWhtNJl0nHdgYH70If
+         6qrTNM5OTO9m/b0qIpF5vvl+Ac/vNyV6P+1eS69mPY8W/dYnnSSUAMi/KnINY2Ze8yDX
+         B7ag==
+X-Forwarded-Encrypted: i=1; AJvYcCV57OONcYPG6WNQIYjuB5A1aZZjQISoAgHu9RXastha5tIx4Pn6MRZrRpGFMTmHP1c1Rc7Wcv2Z8ZsL3itW5LE1rdpg3YiIGp166ic=
+X-Gm-Message-State: AOJu0YwRg1xdIwxucwxE3icTjlRoJaAU1nBoluGTBZDgBrvosXXNkHAc
+	oIkmafolCrGFACvu1I8iKCwq2MbFCdSMQFtRR+lg0ahUuwQPyC22///6Ea0KK4vokVxE7UKE7dD
+	7K/9K0kzu5bS3JipExnhspJ9xarNrTaai2Gqh
+X-Google-Smtp-Source: AGHT+IHPeFbJSDEot8fEBJUOQpHH3P+T2gkvI8J+VDy41RkRYDYg/pUrSO1BaeS0Z3eGGdJvHPDd7UZsn6op8oO0QU4=
+X-Received: by 2002:a05:600c:1391:b0:410:e41a:fc0d with SMTP id
+ u17-20020a05600c139100b00410e41afc0dmr16692583wmf.24.1708620229216; Thu, 22
+ Feb 2024 08:43:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
+ <20240221114357.13655-2-vbabka@suse.cz> <CAG-rBihOr+aAZhO4D2VBwSx-EGg_gbgBYKN3fSBTPKCXdz9AqA@mail.gmail.com>
+In-Reply-To: <CAG-rBihOr+aAZhO4D2VBwSx-EGg_gbgBYKN3fSBTPKCXdz9AqA@mail.gmail.com>
+From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+Date: Thu, 22 Feb 2024 09:43:38 -0700
+Message-ID: <CAJZwx_nLcMjV+4vShx9LqCOVo26Bk_gDPXP6PiTp2UXdQAh2Zg@mail.gmail.com>
+Subject: Re: [PATCH] mm, vmscan: prevent infinite loop for costly GFP_NOIO |
+ __GFP_RETRY_MAYFAIL allocations
+To: Sven van Ashbrook <svenva@chromium.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, bgeffon@google.com, 
+	cujomalainey@chromium.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sound@vger.kernel.org, perex@perex.cz, stable@vger.kernel.org, 
+	tiwai@suse.com, tiwai@suse.de, Michal Hocko <mhocko@kernel.org>, 
+	Mel Gorman <mgorman@techsingularity.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit a9c83252bff616cf3a38d55b7c6a6ad63667f2dd from USB
-tree, because it depends on other DT bindings changes which were not
-applied.  This commit alone causes dt_binding_check failures:
+With this patch, the test results have been promising so far. After 10
+hours of stress testing, we have not hit the reported problem yet. We
+will keep testing and report here if we hit the problem again. Thanks
+for engaging with us.
 
-  Documentation/devicetree/bindings/sound/qcom,sm8250.example.dts:97.44-45 syntax error
-
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
----
-
-Greg,
-
-Please take this revert. Original commit should go via Mark's ASoC.
----
- .../devicetree/bindings/sound/qcom,sm8250.yaml    | 15 ---------------
- 1 file changed, 15 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-index 49e4f5bbe9dd..2ab6871e89e5 100644
---- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-@@ -227,21 +227,6 @@ examples:
-                 sound-dai = <&vamacro 0>;
-             };
-         };
--
--        usb-dai-link {
--            link-name = "USB Playback";
--            cpu {
--                sound-dai = <&q6afedai USB_RX>;
--            };
--
--            codec {
--                sound-dai = <&usbdai USB_RX>;
--            };
--
--            platform {
--                sound-dai = <&q6routing>;
--            };
--        };
-     };
- 
-   - |
--- 
-2.34.1
-
+On Wed, Feb 21, 2024 at 8:53=E2=80=AFAM Sven van Ashbrook <svenva@chromium.=
+org> wrote:
+>
+> Thanks so much ! We will stress test this on our side.
+>
+> We do this by exhausting memory and triggering many suspend/resume
+> cycles. This reliably reproduces the problem (before this patch).
+>
+> Of course, as we all know, absence of evidence (no more stalls in stress =
+tests)
+> does not equal evidence of absence (stalls are gone in all code paths).
