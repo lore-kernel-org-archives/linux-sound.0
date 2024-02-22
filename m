@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6342918657
-	for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 17:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19697153BF8
+	for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 17:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708621562; cv=none; b=sinI22ywlDVTMGTrYemzLyXl1Lyq9YgHhKzwl8QhxKX5DJRB4e77F2WKbmQMBvSbbM3H3HaxziLFHClGv6LhVjAS0c60ZmflOVjh8LYb/1ibZFijk/QLqzibv4qhD3vRMWDLsaet6U0qyaP+ct8VFCo1vV8/j15DaMmmBx7Q0qU=
+	t=1708621564; cv=none; b=qUl6TyQCrzUgzkymwS0lRe2DHtXHcKaQ8R4yGw2aA1vgMG/OWIULLIbLhCAgDvU9cuNEuJrOyUWs0sB1mMGQqaLqd/VXdCOP7BFN74PTzV1mbRmM5j5PrOU0dso0TULdrsSTZ0TL/D2+jBC7EU78sAfkM5GqCkh9ji23RV62RXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708621562; c=relaxed/simple;
-	bh=qOmiPs34pCUiDLhuSNi0Chuyh6/urNG1iNBP3mIBQVU=;
+	s=arc-20240116; t=1708621564; c=relaxed/simple;
+	bh=cewHMOUP9XE8f1iBRQp0XY/AtymJk2wyw8t26geqAWQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YXQKNYUhdF+SA08+7ZilW+yqYB6efIUcGoOWT6X9K4RiMhKO+SoFZjGNZZN97wJgQxs5rKvVbluz7pWgWnNz4hSDdhtw3IP1zm0smBFdyunQZ6ICeQst74tcSxZV5T516p304NFt2tCLYPUpvJJFJdIRTfJw+a6GYzQsdZEHX2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lvIjSAcB; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=MMKtTAkrHn4JL25xP+92RWY3otKdp32pF20R0n4vCi27se3ThoiXHnU0SnAjFIdXzFFG/va+S0SNe/ti/fI4Qx8BCrDFr5gt/aPtQlpGJA5QjRD0MpaDLaoN9VPOwlgEBbC+sZY2ayiHBqv/01z1S/XXhfRIKhMu3dju7tEfWVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G3cNQjlp; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lvIjSAcB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G3cNQjlp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708621561; x=1740157561;
+  t=1708621563; x=1740157563;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qOmiPs34pCUiDLhuSNi0Chuyh6/urNG1iNBP3mIBQVU=;
-  b=lvIjSAcBk4/NOiPGe/gPKxEQh/QIaYHPoQBRihTLHHOWdU5+xddzZy2g
-   zvBr8OZQNqqZt8ebvB74d/WwVNb7Mc6dgql6hQ1rM/sPnng49SQBdeWBZ
-   1G2jvZLP4ui95ck7rY0paameT3Yufxi4Gxuf8kSx/LWsff2jNHHF66rLi
-   U1J8j1/QE0VNx119LVvmIQb0C/K9C9adSHBBw3NPxjL/nVt861kmYerq4
-   gCJ1b34QAgM38xpLQpuwXN4hoXj5EKgtm5rJkuytG4L756RtD59i7pnti
-   F81oExLWYHx2/nQGT+8y5Cs8eHhVjOrAaUFmmDRDLNcW6N8vha9LUSQpC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="20299250"
+  bh=cewHMOUP9XE8f1iBRQp0XY/AtymJk2wyw8t26geqAWQ=;
+  b=G3cNQjlp70Qf9DjjsH+7ivoIhCC+Oh6O6p4NDVR/0OR3jtXqrxsJqZ2k
+   Eb2eYsfVKPDNqAVoegEs2OJnzCulAvli1Fgvar3/s/fCwRtX+1/3CC9yM
+   x4E23gvZ8oEIRSOplAXp7/Zf11O+5QGIPC09tZbt44YjjohDKezNv37HC
+   D27TLTLUQmWHgMHmkbx8JO6q7AXn3ejW598Qbfjy8quKd6sKIlHAaqbEQ
+   7K6BDPX4gMZzmLQ2ge16uHTcO+RWi6zp4SuNmYeB9zwy5RaZx8YrKPrP8
+   eiT/MUkoRZ4Hdh+biYn/kO77yuvImZj+sgN8ZhkRUW4OdEdCWkMtchi9K
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="20299271"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="20299250"
+   d="scan'208";a="20299271"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 09:05:05 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 09:05:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="827575245"
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="827575250"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="827575245"
+   d="scan'208";a="827575250"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by orsmga001.jf.intel.com with ESMTP; 22 Feb 2024 09:05:01 -0800
+  by orsmga001.jf.intel.com with ESMTP; 22 Feb 2024 09:05:04 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -55,9 +55,9 @@ Cc: alsa-devel@alsa-project.org,
 	pierre-louis.bossart@linux.intel.com,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 3/4] ASoC: codecs: hda: Cleanup error messages
-Date: Thu, 22 Feb 2024 18:06:13 +0100
-Message-Id: <20240222170614.884413-4-cezary.rojewski@intel.com>
+Subject: [PATCH 4/4] ALSA: hda: Reuse for_each_pcm_streams()
+Date: Thu, 22 Feb 2024 18:06:14 +0100
+Message-Id: <20240222170614.884413-5-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240222170614.884413-1-cezary.rojewski@intel.com>
 References: <20240222170614.884413-1-cezary.rojewski@intel.com>
@@ -69,56 +69,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Be cohesive and use same pattern in each error message.
+Use the macro to improve readability.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/codecs/hda.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/pci/hda/hda_codec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/hda.c b/sound/soc/codecs/hda.c
-index d9e7cd8aada2..8a9d0674555e 100644
---- a/sound/soc/codecs/hda.c
-+++ b/sound/soc/codecs/hda.c
-@@ -198,19 +198,19 @@ static int hda_codec_probe(struct snd_soc_component *component)
- 	ret = snd_hda_codec_device_new(codec->bus, component->card->snd_card, hdev->addr, codec,
- 				       false);
- 	if (ret < 0) {
--		dev_err(&hdev->dev, "create hda codec failed: %d\n", ret);
-+		dev_err(&hdev->dev, "codec create failed: %d\n", ret);
- 		goto device_new_err;
- 	}
+diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
+index 12f02cdc9659..2cac337f5263 100644
+--- a/sound/pci/hda/hda_codec.c
++++ b/sound/pci/hda/hda_codec.c
+@@ -3313,7 +3313,7 @@ int snd_hda_codec_parse_pcms(struct hda_codec *codec)
+ 	list_for_each_entry(cpcm, &codec->pcm_list_head, list) {
+ 		int stream;
  
- 	ret = snd_hda_codec_set_name(codec, codec->preset->name);
- 	if (ret < 0) {
--		dev_err(&hdev->dev, "name failed %s\n", codec->preset->name);
-+		dev_err(&hdev->dev, "set name: %s failed: %d\n", codec->preset->name, ret);
- 		goto err;
- 	}
+-		for (stream = 0; stream < 2; stream++) {
++		for_each_pcm_streams(stream) {
+ 			struct hda_pcm_stream *info = &cpcm->stream[stream];
  
- 	ret = snd_hdac_regmap_init(&codec->core);
- 	if (ret < 0) {
--		dev_err(&hdev->dev, "regmap init failed\n");
-+		dev_err(&hdev->dev, "regmap init failed: %d\n", ret);
- 		goto err;
- 	}
- 
-@@ -223,13 +223,13 @@ static int hda_codec_probe(struct snd_soc_component *component)
- 
- 	ret = patch(codec);
- 	if (ret < 0) {
--		dev_err(&hdev->dev, "patch failed %d\n", ret);
-+		dev_err(&hdev->dev, "codec init failed: %d\n", ret);
- 		goto err;
- 	}
- 
- 	ret = snd_hda_codec_parse_pcms(codec);
- 	if (ret < 0) {
--		dev_err(&hdev->dev, "unable to map pcms to dai %d\n", ret);
-+		dev_err(&hdev->dev, "unable to map pcms to dai: %d\n", ret);
- 		goto parse_pcms_err;
- 	}
- 
+ 			if (!info->substreams)
 -- 
 2.25.1
 
