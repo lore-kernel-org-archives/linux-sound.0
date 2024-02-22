@@ -1,199 +1,582 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59753131722
-	for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 17:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708624406; cv=fail; b=j18OUfu55Evoh5u24tTjXSTp/suCV3IpYwWX2sLDOCHXvhR0oA5268qy7cYYvUW8NYrFeRj+RIr+nOiEGhKkytMkGWtm7PSkZQZtvBLqhG5B1q7Gz7PtYnslv7H9hemMe51FchfOrUOaIiJlZn0ter3nBvDOCFiPhXN0mYumnzo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708624406; c=relaxed/simple;
-	bh=jCvdxeT1rynLKrfbQ0MoqQi+UtGDlFkhgxXpz/QmzqY=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=M0NVRggwCmQvGSvy4V76nLxsSQwuwtLdiUkIZl8d7uSa0LlnBrUppjMu5ctmudGoV5BtCcvQF1ZMTAQ2Kr3fcc69JIkwcJUrKNYgaUG/hqS1ap1ZVqJKDUVbhX8OhaCRdnj3um8B8IxN3a+1MwLHVGbyVseYgyELNMvfWjpMB14=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSw95FDv; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C1814F99E;
+	Thu, 22 Feb 2024 18:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708625939; cv=none; b=Mjv269JZWz/2u7/adSzQpVXa6X7t05PPp3qSnY+vl4/PulannDGfHNNNgyjiMI99DV6Ksk6C55ESabzwSfFTbaTO6ijyu1eb/iBoeVgKPWM92fEcbQGfz4cOgE7KRjz91B2oq8kPofKHZZroqjbGkQSdSQbYN2cEu8GVT6k0IEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708625939; c=relaxed/simple;
+	bh=zEYEjJpWS/2RpwHzMoVR1JN0VC9wPDX+31y4Z9y8aL8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jCh25dP3wZGBN5nNrsVF5i4bjPT+T3PFa94scg2zbPh1Q6iLLOUw06u+/hwsTfj0x8xEMN8+mkHKjtDn8PwLd2QGkrcYfveQx0HwvlwAq5+5pRv3nZk8HeE82UkgjEDkXzggwvlkogEJzlqXu2qqh6GMkOY18J3/m5ldBSyNlBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=wrkOwpD7; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSw95FDv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708624404; x=1740160404;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=jCvdxeT1rynLKrfbQ0MoqQi+UtGDlFkhgxXpz/QmzqY=;
-  b=CSw95FDv2HQBjpykTXtpQpxp0GLMpnmtGwY7plmCk/hujM7fWjc9lmMu
-   HSrINFNlCSuTHS2KIpE8Ey22+Ei5/lVDg1VDsR6wWIkpJNReAi+bdI5Sk
-   HTz5jo28/QZuGYGKrDFDvT4davpV+IXwh0JISeYTCF9MgyeysSQJV/vrS
-   lAmFIb2DkzhnH2XHIHY9dcD59wNXw9R5bJ6RRB4rNMMkxuXiXbHnKhVQi
-   IraPkT3lQgEbdd+t9uQKS+iXtAU2mmzUvKBPOkEFY9idbGerqbJiFCB3o
-   XeczqvHYNDpMzvJGLkqvaeMQAlKj8dJMWfO5bnmBv9kM2LexxQJ0UQ0qJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="13576885"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="13576885"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 09:53:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="28712407"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Feb 2024 09:53:23 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 22 Feb 2024 09:53:22 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 22 Feb 2024 09:53:22 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 22 Feb 2024 09:53:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CrFMX206duASHImkTu31JHFj3Raqe7HRteY1t1CMbFOMEUtv6/f1HJwGFz7SeHhBDvq8pOnllQKFmDjEoVT2uZddEyQHBG1pOtyFQ6ZG27EZRZtszfNWaUhkRJJNkBVfyRInOj47qyE/vU2CcV/lUb8PYIjnQmU7KAZ25EoZ+AqzEsh50tmFZYvMgHvNeXP1xt9hOC7VbSKrM73PuT7r0PDpKfBagUbNWg9wIe/8wMUENnWe+oOZK2vLj7s40p+T1WYTMeMYhwdbvLXEEwJYp8qQaujIxR0zpJLD/mkKJHY5astIkfaZyM38tbhDUVl1pAG53LCHv68oNFRXX5gkEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rZuQ4lztI2ev50G9anE7yMlCdNuHOBPoCAkMLtxttkQ=;
- b=cQdoe1c2yk7OpB568+tHX0r1lFg0rC+GtRcevdnWgkiGZgoqd6416YO1fb4OuwlifbYrwUYqkQZ3UZvcjiiZfh63JY1Mpya8PgSq4AKjZtJ6CSaoSWWvBahvVITNC9T2rl5iD5cpE3HEyQZii77EWTSuLl90qRWHxoq2tPVJ5hyZuzOHJuxQSJQkvJmoipNe69x22UZ5TDJ+QUzi7K+sA17PyQOtronRAsgOLtOC4prYDm49kBcvJ4/KXJguss5vJio8AYf0Fkin4x7p2hgol49md9cQwdP3u2mTmls+zgTHqQIx4s4eAFbq/uuGD2D3p4PqyxbY5Lf9/YEoUv7uxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- SA2PR11MB5052.namprd11.prod.outlook.com (2603:10b6:806:fa::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.39; Thu, 22 Feb 2024 17:53:20 +0000
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::5d2:537:5261:6713]) by DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::5d2:537:5261:6713%6]) with mapi id 15.20.7292.036; Thu, 22 Feb 2024
- 17:53:19 +0000
-Message-ID: <13fdb738-1a37-47e2-8d06-959bbb85c2b4@intel.com>
-Date: Thu, 22 Feb 2024 18:53:12 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] ALSA: hda: Skip i915 initialization on CNL/LKF-based
- platforms
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
-	<jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
-	<rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
-	<intel-gfx@lists.freedesktop.org>, <amadeuszx.slawinski@linux.intel.com>,
-	<pierre-louis.bossart@linux.intel.com>, <hdegoede@redhat.com>
-References: <20240222170614.884413-1-cezary.rojewski@intel.com>
- <20240222170614.884413-2-cezary.rojewski@intel.com>
- <ZdeDNT5jCgXAP16Z@intel.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <ZdeDNT5jCgXAP16Z@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0050.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::13) To DS0PR11MB6375.namprd11.prod.outlook.com
- (2603:10b6:8:c9::21)
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="wrkOwpD7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708625935; bh=zEYEjJpWS/2RpwHzMoVR1JN0VC9wPDX+31y4Z9y8aL8=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=wrkOwpD7306NTvSBVZO+Sv31n73MjaIUE4haJd6XWoAOxOEzPiis8t/UCzZLjdOKK
+	 MDMWtFMzC38tpNq+PK7EICXCzYG1txOgo0QvStP7qCVIM2GfXXmSP9jAA9re5Et/Zz
+	 bT1JFpb99bXPQ+Ne9itQLaRXx8Xms9B8juSqqqlk=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ondrej Jirman <megi@xff.cz>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 4/4] ASoC: sun8i-codec: Implement jack and accessory detection
+Date: Thu, 22 Feb 2024 19:18:47 +0100
+Message-ID: <20240222181851.3398254-5-megi@xff.cz>
+In-Reply-To: <20240222181851.3398254-1-megi@xff.cz>
+References: <20240222181851.3398254-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|SA2PR11MB5052:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4536f727-a6ba-4cd7-3f68-08dc33cf27b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H06RGRjmEOc5QmLN62kPjPzhx+sz+72JhHnoRkb4BiEU8v7phGBy2VfxcWc1QbFQzd4Wb/wA7BhfmwnD8ywJAYHd/LUQEbObVtdT/863/hluHKYcpPkElZL9NVwjHovzu3uaugGTmzqL2jZR7R2ATqTLsjBS6ajx8Tn5cuo3+oX8izkqHBHW4OxdzWyyPaQYFD+l1HFHLhwuv8sLPoFb/lRioAzbG4DHoRT2SGWF2fEdKfgem7TRNAtvCJYHUn4tNldOU5plDIZ4yLkFzplze7StdiY2s9x18wUBSapeOo6fie6O0D8h4xoPvrDrGiC6Q84vgflZ6/ivtQec709uZVQZEufZdxImvjnmJnIZB5ADbih7xdf/8qejnXVwjauVSpbfiGGBmj4sblytlySuaiOI8dJc69kAfGu0wHNZBgKLI4oyatz0xO5oNXgeYIFS81jj09ZT2DpzB4cRQcTC6dmDjjfowTZtZ9AgALx+Nzc8hRmL47qsc+PmEMkXyYp1gOsI1SVeqjG8oi6AtnCxy7jrOxgMzXBowTv1YYDrXAY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUNoRVZmMTlUbDdLL2FBRXdOM0pLWFVkOWNZNWUxU1JOV3dtMHVjWWdXMjRa?=
- =?utf-8?B?MVk1d0pYNTVSd0xhdXhnbzh4NVVQN3ptQXhXU0E5OFZreTcyWit5NFVwTUVm?=
- =?utf-8?B?aDJGSDZob1pWSmROdUdhWkJjUGNMbUFnWGprcmVsUUJ4T1pRb3RIVyttSGti?=
- =?utf-8?B?ZnJlQ2U3SlN1STJMNEhBVGRYalEvRTROWEZhbytLNWNXWUtIRXFRamh5eXVI?=
- =?utf-8?B?Skl1UUNOMmh6Y0YzbGZoTXlraXEwb3pZQXcvVFhkWmFSMEsrbWN2ZUtjRVpL?=
- =?utf-8?B?T09OOVRreXZ0RHljSEpZNUwzTDVhdExCMGJVS083QnR2aUxKNU8rYTByNFY1?=
- =?utf-8?B?MXp6TDF1V2YveXNHVlIvOXltK0VOM0dic0hGMlZZd0FtT1plMmllZUp3SHNO?=
- =?utf-8?B?eTVNTVV6ZlJ0MmttVm9kSG5JVHBtKzkwSHJyVGYwRVR5aDRPaFcyYWZqaloy?=
- =?utf-8?B?RkpWL1VYYzEycXNTOEg5TmJPZjk1R1JFZFdFZ2VlK1dvL01KMVZqMWJqL3lR?=
- =?utf-8?B?WVpFZVR4QXhkWTRvenk3RVg0aEVTVmlYOXI0OWN6NDZYMTBZUTg3MzA1QlJv?=
- =?utf-8?B?WlR3UVdSQnVlK0pibjJvdkVrU25jekV6TkRiRU80enhqZ0NFNmZPNmw5THcv?=
- =?utf-8?B?ei9nN2dxUFJDTFRYSjVJcWRDN2ErVHhjdmU3cTJvVmc4R1hlSFFxN3RXdFFl?=
- =?utf-8?B?Y2JJSGhVbWV4cmVOK1pOZ1BNQlBteDdTWm81YThDY2t2QjlvNlFFNXMyNnAr?=
- =?utf-8?B?Nlo1UXhyaThKaGdKelBnM0NjVnQxeXpMSGZTODByMVNpL2hZZVJZRzBKQVdl?=
- =?utf-8?B?a2FSYjBNdkd3UitUTTQ3U015c0FQbTdvdzZrSEdiK1VOWDNUWXpaL3kwVlA3?=
- =?utf-8?B?MlRrZEpEUE1hQWhBNW0xK0F6TEJGc0pvM2FmV3owckFadzlIVTZSbmR6SXBU?=
- =?utf-8?B?U3YySVhlZ1kvY1orU3dvcWcrUUtVV0EyNnNyZ29ybm91Y2JvWTdGcmVmbzZY?=
- =?utf-8?B?SmVPVHZCRWF0VkRGUGNCTzJBUnJBUzRtTzNPZTcvM1BOOXNpcmlnazBja3pG?=
- =?utf-8?B?OVVRT084OUgrYmdPV2d0d1dJbitVNTc2Q1o0dG1sdGlZbEIwSkhRczF6R3lm?=
- =?utf-8?B?c3JBSmkxRVJPZjNYaWR2R1hFZnNWbHZMSkZpdmRQNjE5Z25VQmdBc2E1VnVw?=
- =?utf-8?B?RU9nZlN4Ri80eXdrNytJY0dIZU0rM1lGMUpmSk5JeDZhNFF4UTJGSitkdVh5?=
- =?utf-8?B?TEJXL3VsVFFXUFRtT0FtNjlXVmlERjZ4SHUzYVJaMjIyUUpTUG5hL3VRMktO?=
- =?utf-8?B?VWFTc1N0VmlXbkVaMzBSRWhOd1d2cjhTR2VJc0tIeVZ2TkhOeUUwSlJhdDUx?=
- =?utf-8?B?R3dXZ3J1Z2VySlRYL2pRTmVYOGlVQ3E5TTZmN0pwL3g4K3JrTCsrVHZkUUFs?=
- =?utf-8?B?bEhBNWNMdUV0TTZpZi9mRFVwVDg2TVFaeGIvTjRIazNUYzh5SndyM2p6MnRU?=
- =?utf-8?B?NzB2QUM5b05sdzZYNG1EbE81Z3FWQ0ZIcTY5aU0zQitmaVFPeml3TEhybjI3?=
- =?utf-8?B?c1hkMEF3L0xJQkZEN2VRK2hxYmtTWmtCTWhocCt0OVZ0cWI0bEZOdVdKT3VB?=
- =?utf-8?B?R2JpUGt0NnRlTUtJNmhFOHBWL09kYnc5R1ZZUjhVdGNvNGNqQTRaK1k1MU1Z?=
- =?utf-8?B?RWtnWWFaOUJuWFJmM2NWeDkvd1ozeGVZUzYxcy9CSnhoSDRwZFhZZW9uNXh0?=
- =?utf-8?B?TXE3aHhEMlpraE5NeGtiMkhMbG5jVFFxdkxIbDNhVEszaSttejhaTVpWTTVa?=
- =?utf-8?B?UVlkVVdnU3VlSllWRURzclI1Ny9EQUJabTRNa1phenVDeDVJK281angwLys4?=
- =?utf-8?B?VHVTdTMwNHFwcHVlRExDUjIvUmMvYUozc3dxd2tyVUg1RUFRa3lLdkpzM2hl?=
- =?utf-8?B?UFVxYkZNNytFcXY2UjFqVndRZzZiWElTd013TXVsTjZ0bWtDUHgrNDNMUTFD?=
- =?utf-8?B?RkY1NEpjZjYzYVhrblB3UmhEODcybkFVOFNBYnZqMXBraFVFNUoydmIwamxP?=
- =?utf-8?B?STdZYzdob0dYcHgzWEl6VHR2TU12WUZBckY0V3lWTUF5WHJNazJyZi9mS1l4?=
- =?utf-8?B?VUlvSHdsYWViUUFUdERtN3VNd20vTEgxb1BoK1FEWnhTQ0UxU0Z3Q1Z0Ym9n?=
- =?utf-8?B?MlE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4536f727-a6ba-4cd7-3f68-08dc33cf27b3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 17:53:19.9309
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: acGDc071l/6ZWrfJTPt4gxqNaIZBqVXVSmdUf2BNNZXIL5/V017Hf95b4bruvqgTenSmn3qITku4ATfUtm87Ldo8fThUe96mC3Zy6DPrFK4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5052
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 2024-02-22 6:24 PM, Ville Syrjälä wrote:
-> On Thu, Feb 22, 2024 at 06:06:11PM +0100, Cezary Rojewski wrote:
->> Commit 78f613ba1efb ("drm/i915: finish removal of CNL") and its friends
->> removed support for i915 for all CNL-based platforms. HDAudio library,
->> however, still treats such platforms as valid candidates for i915
->> binding. Update query mechanism to reflect changes made in drm tree.
->>
->> At the same time, i915 support for LKF-based platforms has not been
->> provided so remove them from valid binding candidates.
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
 
-...
+Add support for the jack detection functionality in the A64 variant,
+which uses a pair of IRQs; and microphone accessory (button) detection,
+which uses an ADC with an IRQ trigger.
 
->> @@ -127,15 +128,26 @@ static int i915_component_master_match(struct device *dev, int subcomponent,
->>   /* check whether Intel graphics is present and reachable */
->>   static int i915_gfx_present(struct pci_dev *hdac_pci)
->>   {
->> +	/* List of known platforms with no i915 support. */
->> +	static struct pci_device_id denylist[] = {
->> +		INTEL_CNL_IDS(NULL),
->> +		INTEL_LKF_IDS(NULL),
->> +		{ 0 }
->> +	};
-> 
-> I thought these don't actually exist in the wild?
+Since not all users of this component have a headphone or headset jack,
+only enable jack pins where the corresponding widget exists. Similarly,
+only enable microphone accessory detection when the microphone is hooked
+up to a headset jack.
 
-To my knowledge the opposite is true - while LKFs were shipped in 
-limited number, they still were. I did ask few weeks ago my friends from 
-Windows side about the support and they're still running full-scopes on 
-HDMI endpoints on LKF platforms in their CIs. It seems the drm support 
-is there though. Once you re-boot to linux we get -19 during probe().
+IRQs will only be triggered if the JACKDETEN, HMICBIASEN, and MICADCEN
+bits are set appropriately in the analog codec component, but there is
+no direct software dependency between the two components.
 
-In regard to CNL, the commit removing CNL-support left the IDs intact 
-what's very handy to us - we have a lot of spare CNL boards for our 
-validation purposes - CNL-based AudioDSP spans multiple platforms, e.g.: 
-CNL/CFL/WHL/CML. The number of newer boards is lower, unfortunately.
+Setup ADC so that it samples with period of 16ms, disable smoothing
+and enable MDATA threshold (should be below idle voltage/HMIC_DATA
+value). Also enable HMIC_N, which makes sure we get HMIC_N samples
+after HMIC_DATA crosses the threshold.
 
+This allows us to perform steady state detection of HMIC_DATA, by
+comparing current and previous ADC samples, to detect end of the
+transient when the user de-presses the button. Otherwise ADC could
+sample anywhere within the transient, and the driver may mis-issue
+key-press events for other buttons attached to the resistor ladder.
 
-Kind regards,
-Czarek
+Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+[Samuel: Decouple from analog codec, automatic pin detection, fixes]
+Co-developed-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+[Ondrej: Re-work the sampling mechanism to prevent mis-detection of
+button presses due to slow transient change of mic line DC voltage.
+Completely rewritten interrupt handling, to debounce plugin
+plugout interrupt events properly.]
+Co-developed-by: Ondrej Jirman <megi@xff.cz>
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+---
+ sound/soc/sunxi/sun50i-codec-analog.c |  12 +
+ sound/soc/sunxi/sun8i-codec.c         | 351 ++++++++++++++++++++++++++
+ 2 files changed, 363 insertions(+)
+
+diff --git a/sound/soc/sunxi/sun50i-codec-analog.c b/sound/soc/sunxi/sun50i-codec-analog.c
+index 2081721a8ff2..2dcdf113b66e 100644
+--- a/sound/soc/sunxi/sun50i-codec-analog.c
++++ b/sound/soc/sunxi/sun50i-codec-analog.c
+@@ -115,6 +115,11 @@
+ #define SUN50I_ADDA_HS_MBIAS_CTRL	0x0e
+ #define SUN50I_ADDA_HS_MBIAS_CTRL_MMICBIASEN	7
+ 
++#define SUN50I_ADDA_MDET_CTRL		0x1c
++#define SUN50I_ADDA_MDET_CTRL_SELDETADC_FS	4
++#define SUN50I_ADDA_MDET_CTRL_SELDETADC_DB	2
++#define SUN50I_ADDA_MDET_CTRL_SELDETADC_BF	0
++
+ #define SUN50I_ADDA_JACK_MIC_CTRL	0x1d
+ #define SUN50I_ADDA_JACK_MIC_CTRL_JACKDETEN	7
+ #define SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN	6
+@@ -564,6 +569,13 @@ static int sun50i_codec_analog_probe(struct platform_device *pdev)
+ 			   BIT(SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN),
+ 			   enable << SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN);
+ 
++	/* Select sample interval of the ADC sample to 16ms */
++	regmap_update_bits(regmap, SUN50I_ADDA_MDET_CTRL,
++			   0x7 << SUN50I_ADDA_MDET_CTRL_SELDETADC_FS |
++			   0x3 << SUN50I_ADDA_MDET_CTRL_SELDETADC_BF,
++			   0x3 << SUN50I_ADDA_MDET_CTRL_SELDETADC_FS |
++			   0x3 << SUN50I_ADDA_MDET_CTRL_SELDETADC_BF);
++
+ 	return devm_snd_soc_register_component(&pdev->dev,
+ 					       &sun50i_codec_analog_cmpnt_drv,
+ 					       NULL, 0);
+diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
+index 2a46b96b03cc..9b78b6226012 100644
+--- a/sound/soc/sunxi/sun8i-codec.c
++++ b/sound/soc/sunxi/sun8i-codec.c
+@@ -12,12 +12,16 @@
+ #include <linux/module.h>
+ #include <linux/delay.h>
+ #include <linux/clk.h>
++#include <linux/input.h>
+ #include <linux/io.h>
++#include <linux/irq.h>
++#include <linux/mutex.h>
+ #include <linux/of.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/log2.h>
+ 
++#include <sound/jack.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
+@@ -118,6 +122,23 @@
+ #define SUN8I_ADC_VOL_CTRL				0x104
+ #define SUN8I_ADC_VOL_CTRL_ADCL_VOL			8
+ #define SUN8I_ADC_VOL_CTRL_ADCR_VOL			0
++#define SUN8I_HMIC_CTRL1				0x110
++#define SUN8I_HMIC_CTRL1_HMIC_M				12
++#define SUN8I_HMIC_CTRL1_HMIC_N				8
++#define SUN8I_HMIC_CTRL1_MDATA_THRESHOLD_DB		5
++#define SUN8I_HMIC_CTRL1_JACK_OUT_IRQ_EN		4
++#define SUN8I_HMIC_CTRL1_JACK_IN_IRQ_EN			3
++#define SUN8I_HMIC_CTRL1_HMIC_DATA_IRQ_EN		0
++#define SUN8I_HMIC_CTRL2				0x114
++#define SUN8I_HMIC_CTRL2_HMIC_SAMPLE			14
++#define SUN8I_HMIC_CTRL2_HMIC_MDATA_THRESHOLD		8
++#define SUN8I_HMIC_CTRL2_HMIC_SF			6
++#define SUN8I_HMIC_STS					0x118
++#define SUN8I_HMIC_STS_MDATA_DISCARD			13
++#define SUN8I_HMIC_STS_HMIC_DATA			8
++#define SUN8I_HMIC_STS_JACK_OUT_IRQ_ST			4
++#define SUN8I_HMIC_STS_JACK_IN_IRQ_ST			3
++#define SUN8I_HMIC_STS_HMIC_DATA_IRQ_ST			0
+ #define SUN8I_DAC_DIG_CTRL				0x120
+ #define SUN8I_DAC_DIG_CTRL_ENDA				15
+ #define SUN8I_DAC_VOL_CTRL				0x124
+@@ -143,6 +164,17 @@
+ #define SUN8I_AIF_CLK_CTRL_WORD_SIZ_MASK	GENMASK(5, 4)
+ #define SUN8I_AIF_CLK_CTRL_DATA_FMT_MASK	GENMASK(3, 2)
+ #define SUN8I_AIF3_CLK_CTRL_AIF3_CLK_SRC_MASK	GENMASK(1, 0)
++#define SUN8I_HMIC_CTRL1_HMIC_M_MASK		GENMASK(15, 12)
++#define SUN8I_HMIC_CTRL1_HMIC_N_MASK		GENMASK(11, 8)
++#define SUN8I_HMIC_CTRL1_MDATA_THRESHOLD_DB_MASK GENMASK(6, 5)
++#define SUN8I_HMIC_CTRL2_HMIC_SAMPLE_MASK	GENMASK(15, 14)
++#define SUN8I_HMIC_CTRL2_HMIC_SF_MASK		GENMASK(7, 6)
++#define SUN8I_HMIC_STS_HMIC_DATA_MASK		GENMASK(12, 8)
++
++#define SUN8I_CODEC_BUTTONS	(SND_JACK_BTN_0|\
++				 SND_JACK_BTN_1|\
++				 SND_JACK_BTN_2|\
++				 SND_JACK_BTN_3)
+ 
+ #define SUN8I_CODEC_PASSTHROUGH_SAMPLE_RATE 48000
+ 
+@@ -178,16 +210,33 @@ struct sun8i_codec_aif {
+ 
+ struct sun8i_codec_quirks {
+ 	bool	bus_clock	: 1;
++	bool	jack_detection	: 1;
+ 	bool	legacy_widgets	: 1;
+ 	bool	lrck_inversion	: 1;
+ };
+ 
++enum {
++	SUN8I_JACK_STATUS_DISCONNECTED,
++	SUN8I_JACK_STATUS_WAITING_HBIAS,
++	SUN8I_JACK_STATUS_CONNECTED,
++};
++
+ struct sun8i_codec {
+ 	struct regmap			*regmap;
++	struct snd_soc_card		*card;
+ 	struct clk			*clk_bus;
+ 	struct clk			*clk_module;
+ 	const struct sun8i_codec_quirks	*quirks;
+ 	struct sun8i_codec_aif		aifs[SUN8I_CODEC_NAIFS];
++	struct snd_soc_jack		jack;
++	struct delayed_work		jack_work;
++	int				jack_irq;
++	int				jack_status;
++	int				jack_last_sample;
++	ktime_t				jack_hbias_ready;
++	int				jack_type;
++	int				last_hmic_irq;
++	struct mutex			jack_mutex;
+ 	unsigned int			sysclk_rate;
+ 	int				sysclk_refcnt;
+ };
+@@ -1239,12 +1288,79 @@ static const struct snd_soc_dapm_route sun8i_codec_legacy_routes[] = {
+ 	{ "AIF1 Slot 0 Right", NULL, "DACR" },
+ };
+ 
++static struct snd_soc_jack_pin sun8i_codec_jack_pins[] = {
++	{
++		.pin	= "Headphone Jack",
++		.mask	= SND_JACK_HEADPHONE,
++	},
++	{
++		.pin	= "Headset Microphone",
++		.mask	= SND_JACK_MICROPHONE,
++	},
++};
++
++static int sun8i_codec_jack_init(struct sun8i_codec *scodec)
++{
++	int pins = 0;
++	int type = 0;
++	int i, ret;
++
++	for (i = 0; i < ARRAY_SIZE(sun8i_codec_jack_pins); ++i) {
++		struct snd_soc_jack_pin *pin = &sun8i_codec_jack_pins[i];
++		struct snd_soc_dapm_widget *w;
++
++		for_each_card_widgets(scodec->card, w) {
++			if (!strcmp(pin->pin, w->name)) {
++				pins |= BIT(i);
++				type |= pin->mask;
++				break;
++			}
++		}
++	}
++
++	if (!type)
++		return 0;
++
++	if (type & SND_JACK_MICROPHONE)
++		type |= SUN8I_CODEC_BUTTONS;
++
++	ret = snd_soc_card_jack_new(scodec->card, "Headset Jack", type,
++				    &scodec->jack);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < ARRAY_SIZE(sun8i_codec_jack_pins); ++i) {
++		struct snd_soc_jack_pin *pin = &sun8i_codec_jack_pins[i];
++
++		if (pins & BIT(i)) {
++			ret = snd_soc_jack_add_pins(&scodec->jack, 1, pin);
++			if (ret)
++				return ret;
++		}
++	}
++
++	if (type & SND_JACK_MICROPHONE) {
++		struct snd_jack *jack = scodec->jack.jack;
++
++		snd_jack_set_key(jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
++		snd_jack_set_key(jack, SND_JACK_BTN_1, KEY_VOLUMEUP);
++		snd_jack_set_key(jack, SND_JACK_BTN_2, KEY_VOLUMEDOWN);
++		snd_jack_set_key(jack, SND_JACK_BTN_3, KEY_VOICECOMMAND);
++	}
++
++	scodec->jack_type = type;
++
++	return 0;
++}
++
+ static int sun8i_codec_component_probe(struct snd_soc_component *component)
+ {
+ 	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
+ 	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
+ 	int ret;
+ 
++	scodec->card = component->card;
++
+ 	/* Add widgets for backward compatibility with old device trees. */
+ 	if (scodec->quirks->legacy_widgets) {
+ 		ret = snd_soc_dapm_new_controls(dapm, sun8i_codec_legacy_widgets,
+@@ -1278,9 +1394,53 @@ static int sun8i_codec_component_probe(struct snd_soc_component *component)
+ 	/* Program the default sample rate. */
+ 	sun8i_codec_update_sample_rate(scodec);
+ 
++	if (scodec->quirks->jack_detection) {
++		ret = sun8i_codec_jack_init(scodec);
++		if (ret)
++			return ret;
++	}
++
++	if (scodec->jack_type) {
++		/* Reserved value required for jack IRQs to trigger. */
++		regmap_write(scodec->regmap, SUN8I_HMIC_CTRL1,
++				   0xf << SUN8I_HMIC_CTRL1_HMIC_N |
++				   0x0 << SUN8I_HMIC_CTRL1_MDATA_THRESHOLD_DB |
++				   0x4 << SUN8I_HMIC_CTRL1_HMIC_M);
++
++		/* Sample the ADC at 128 Hz; bypass smooth filter. */
++		regmap_write(scodec->regmap, SUN8I_HMIC_CTRL2,
++				   0x0 << SUN8I_HMIC_CTRL2_HMIC_SAMPLE |
++				   0x17 << SUN8I_HMIC_CTRL2_HMIC_MDATA_THRESHOLD |
++				   0x0 << SUN8I_HMIC_CTRL2_HMIC_SF);
++
++		/* Do not discard any MDATA, enable user written MDATA threshold. */
++		regmap_write(scodec->regmap, SUN8I_HMIC_STS, 0);
++
++		regmap_set_bits(scodec->regmap, SUN8I_HMIC_CTRL1,
++				BIT(SUN8I_HMIC_CTRL1_JACK_OUT_IRQ_EN) |
++				BIT(SUN8I_HMIC_CTRL1_JACK_IN_IRQ_EN));
++
++		enable_irq(scodec->jack_irq);
++	}
++
+ 	return 0;
+ }
+ 
++static void sun8i_codec_component_remove(struct snd_soc_component *component)
++{
++	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
++
++	if (scodec->jack_type) {
++		disable_irq(scodec->jack_irq);
++		cancel_delayed_work_sync(&scodec->jack_work);
++
++		regmap_clear_bits(scodec->regmap, SUN8I_HMIC_CTRL1,
++				  BIT(SUN8I_HMIC_CTRL1_JACK_OUT_IRQ_EN) |
++				  BIT(SUN8I_HMIC_CTRL1_JACK_IN_IRQ_EN) |
++				  BIT(SUN8I_HMIC_CTRL1_HMIC_DATA_IRQ_EN));
++	}
++}
++
+ static const struct snd_soc_component_driver sun8i_soc_component = {
+ 	.controls		= sun8i_codec_controls,
+ 	.num_controls		= ARRAY_SIZE(sun8i_codec_controls),
+@@ -1289,20 +1449,194 @@ static const struct snd_soc_component_driver sun8i_soc_component = {
+ 	.dapm_routes		= sun8i_codec_dapm_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(sun8i_codec_dapm_routes),
+ 	.probe			= sun8i_codec_component_probe,
++	.remove			= sun8i_codec_component_remove,
+ 	.idle_bias_on		= 1,
+ 	.suspend_bias_off	= 1,
+ 	.endianness		= 1,
+ };
+ 
++static bool sun8i_codec_volatile_reg(struct device *dev, unsigned int reg)
++{
++	return reg == SUN8I_HMIC_STS;
++}
++
+ static const struct regmap_config sun8i_codec_regmap_config = {
+ 	.reg_bits	= 32,
+ 	.reg_stride	= 4,
+ 	.val_bits	= 32,
++	.volatile_reg	= sun8i_codec_volatile_reg,
+ 	.max_register	= SUN8I_DAC_MXR_SRC,
+ 
+ 	.cache_type	= REGCACHE_FLAT,
+ };
+ 
++static void sun8i_codec_set_hmic_bias(struct sun8i_codec *scodec, bool enable)
++{
++	struct snd_soc_dapm_context *dapm = &scodec->card->dapm;
++	int irq_mask = BIT(SUN8I_HMIC_CTRL1_HMIC_DATA_IRQ_EN);
++
++	if (enable)
++		snd_soc_dapm_force_enable_pin(dapm, "HBIAS");
++	else
++		snd_soc_dapm_disable_pin(dapm, "HBIAS");
++
++	snd_soc_dapm_sync(dapm);
++
++	regmap_update_bits(scodec->regmap, SUN8I_HMIC_CTRL1,
++			   irq_mask, enable ? irq_mask : 0);
++}
++
++static void sun8i_codec_jack_work(struct work_struct *work)
++{
++	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
++						  jack_work.work);
++	unsigned int mdata;
++	int type;
++
++	guard(mutex)(&scodec->jack_mutex);
++
++	if (scodec->jack_status == SUN8I_JACK_STATUS_DISCONNECTED) {
++		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_IN_IRQ_ST)
++			return;
++
++		scodec->jack_last_sample = -1;
++
++		if (scodec->jack_type & SND_JACK_MICROPHONE) {
++			/*
++			 * If we were in disconnected state, we enable HBIAS and
++			 * wait 600ms before reading initial HDATA value.
++			 */
++			scodec->jack_hbias_ready = ktime_add_ms(ktime_get(), 600);
++			sun8i_codec_set_hmic_bias(scodec, true);
++			queue_delayed_work(system_power_efficient_wq,
++					   &scodec->jack_work,
++					   msecs_to_jiffies(610));
++			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
++		} else {
++			snd_soc_jack_report(&scodec->jack, SND_JACK_HEADPHONE,
++					    scodec->jack_type);
++			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
++		}
++	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
++		/*
++		 * If we're waiting for HBIAS to stabilize, and we get plug-out
++		 * interrupt and nothing more for > 100ms, just cancel the
++		 * initialization.
++		 */
++		if (scodec->last_hmic_irq == SUN8I_HMIC_STS_JACK_OUT_IRQ_ST) {
++			scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
++			sun8i_codec_set_hmic_bias(scodec, false);
++			return;
++		}
++
++		/*
++		 * If we're not done waiting for HBIAS to stabilize, wait more.
++		 */
++		if (!ktime_after(ktime_get(), scodec->jack_hbias_ready)) {
++			s64 msecs = ktime_ms_delta(scodec->jack_hbias_ready,
++						   ktime_get());
++
++			queue_delayed_work(system_power_efficient_wq,
++					   &scodec->jack_work,
++					   msecs_to_jiffies(msecs + 10));
++			return;
++		}
++
++		/*
++		 * Everything is stabilized, determine jack type and report it.
++		 */
++		regmap_read(scodec->regmap, SUN8I_HMIC_STS, &mdata);
++		mdata &= SUN8I_HMIC_STS_HMIC_DATA_MASK;
++		mdata >>= SUN8I_HMIC_STS_HMIC_DATA;
++
++		regmap_write(scodec->regmap, SUN8I_HMIC_STS, 0);
++
++		type = mdata < 16 ? SND_JACK_HEADPHONE : SND_JACK_HEADSET;
++		if (type == SND_JACK_HEADPHONE)
++			sun8i_codec_set_hmic_bias(scodec, false);
++
++		snd_soc_jack_report(&scodec->jack, type, scodec->jack_type);
++		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
++	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
++		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
++			return;
++
++		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
++		if (scodec->jack_type & SND_JACK_MICROPHONE)
++			sun8i_codec_set_hmic_bias(scodec, false);
++
++		snd_soc_jack_report(&scodec->jack, 0, scodec->jack_type);
++	}
++}
++
++static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
++{
++	struct sun8i_codec *scodec = dev_id;
++	int type = SND_JACK_HEADSET;
++	unsigned int status, value;
++
++	guard(mutex)(&scodec->jack_mutex);
++
++	regmap_read(scodec->regmap, SUN8I_HMIC_STS, &status);
++	regmap_write(scodec->regmap, SUN8I_HMIC_STS, status);
++
++	/*
++	 * De-bounce in/out interrupts via a delayed work re-scheduling to
++	 * 100ms after each interrupt..
++	 */
++	if (status & BIT(SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)) {
++		/*
++		 * Out interrupt has priority over in interrupt so that if
++		 * we get both, we assume the disconnected state, which is
++		 * safer.
++		 */
++		scodec->last_hmic_irq = SUN8I_HMIC_STS_JACK_OUT_IRQ_ST;
++		mod_delayed_work(system_power_efficient_wq, &scodec->jack_work,
++				 msecs_to_jiffies(100));
++	} else if (status & BIT(SUN8I_HMIC_STS_JACK_IN_IRQ_ST)) {
++		scodec->last_hmic_irq = SUN8I_HMIC_STS_JACK_IN_IRQ_ST;
++		mod_delayed_work(system_power_efficient_wq, &scodec->jack_work,
++				 msecs_to_jiffies(100));
++	} else if (status & BIT(SUN8I_HMIC_STS_HMIC_DATA_IRQ_ST)) {
++		/*
++		 * Ignore data interrupts until jack status turns to connected
++		 * state, which is after HMIC enable stabilization is completed.
++		 * Until then tha data are bogus.
++		 */
++		if (scodec->jack_status != SUN8I_JACK_STATUS_CONNECTED)
++			return IRQ_HANDLED;
++
++		value = (status & SUN8I_HMIC_STS_HMIC_DATA_MASK) >>
++			SUN8I_HMIC_STS_HMIC_DATA;
++
++		/*
++		 * Assumes 60 mV per ADC LSB increment, 2V bias voltage, 2.2kOhm
++		 * bias resistor.
++		 */
++		if (value == 0)
++			type |= SND_JACK_BTN_0;
++		else if (value == 1)
++			type |= SND_JACK_BTN_3;
++		else if (value <= 3)
++			type |= SND_JACK_BTN_1;
++		else if (value <= 8)
++			type |= SND_JACK_BTN_2;
++
++		/*
++		 * De-bounce. Only report button after two consecutive A/D
++		 * samples are identical.
++		 */
++		if (scodec->jack_last_sample >= 0 &&
++		    scodec->jack_last_sample == value)
++			snd_soc_jack_report(&scodec->jack, type,
++					    scodec->jack_type);
++
++		scodec->jack_last_sample = value;
++	}
++
++	return IRQ_HANDLED;
++}
++
+ static int sun8i_codec_probe(struct platform_device *pdev)
+ {
+ 	struct sun8i_codec *scodec;
+@@ -1344,6 +1678,22 @@ static int sun8i_codec_probe(struct platform_device *pdev)
+ 		return PTR_ERR(scodec->regmap);
+ 	}
+ 
++	if (scodec->quirks->jack_detection) {
++		scodec->jack_irq = platform_get_irq(pdev, 0);
++		if (scodec->jack_irq < 0)
++			return scodec->jack_irq;
++
++		ret = devm_request_threaded_irq(&pdev->dev, scodec->jack_irq,
++						NULL, sun8i_codec_jack_irq,
++						IRQF_ONESHOT | IRQF_NO_AUTOEN,
++						dev_name(&pdev->dev), scodec);
++		if (ret)
++			return ret;
++
++		INIT_DELAYED_WORK(&scodec->jack_work, sun8i_codec_jack_work);
++		mutex_init(&scodec->jack_mutex);
++	}
++
+ 	regcache_cache_only(scodec->regmap, true);
+ 	pm_runtime_enable(&pdev->dev);
+ 	if (!pm_runtime_enabled(&pdev->dev)) {
+@@ -1387,6 +1737,7 @@ static const struct sun8i_codec_quirks sun8i_a33_quirks = {
+ 
+ static const struct sun8i_codec_quirks sun50i_a64_quirks = {
+ 	.bus_clock	= true,
++	.jack_detection	= true,
+ };
+ 
+ static const struct of_device_id sun8i_codec_of_match[] = {
+-- 
+2.43.0
+
