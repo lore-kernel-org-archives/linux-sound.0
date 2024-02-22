@@ -1,193 +1,110 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC381EA95
-	for <linux-sound@vger.kernel.org>; Thu, 22 Feb 2024 18:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2125A38FB2;
+	Thu, 22 Feb 2024 18:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708626838; cv=none; b=KycWZLn/CoFyi7DyRd4QHTp4oh9QPO/UALDjFAlbHfCDxAK6SCivtpGdmoHI7kUCC52jhljOQimNZ8Xb0URnBAMyVaq2ywinjdc25cJw7652+5zP591B1MArMAE5QP+GdGXheVRx2hFGtoW7zqkvo8bxdnOYLrvjfzUbWrJn2c8=
+	t=1708627279; cv=none; b=NYdCxObBH8stsClgFE4HybdxEguSUFBQrMkeEJXIxeTHX2xsPG/8P/uqOEPXwgkHceoa1jht/FyBHvfsjxpdQUk/xxoqiwmcIiLMlduCPyL1SQ8+dqICmsbDFBc7i5t+UD1bO36gJXknsSN7KFeT+70LvGgd00rZWFivytOfE7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708626838; c=relaxed/simple;
-	bh=TccGcIR4/J9ndWH9SEcf1+EdZcpEwkbb1zolLgwnaRc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W3DePtJCDds1jNXP5fmsfuDx/nkM6NwAowXddfdvbX5JAbinZY6JNBH2JC1pdglZtMJdZSjz5HdDqBK4DsQZ+r/ajFBeXsRxxyeGReUgSYE2AZqZ/h7VY7y9BRYkItqMZnjiNHL+UvAfuN6kFqhchAL9vjaa+yOKw/vmsafYlXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oq+tFe8L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XmGQ5lFB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oq+tFe8L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XmGQ5lFB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708627279; c=relaxed/simple;
+	bh=6XJwHfKFPsJnbMTE3OuN1fl0JMH2yKdGnKVLUGPt9vE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T0tYy2xm1bix7f3ZWQhfJgnpsj3UsPav4f2/Y7UX59QycVHaYDkbHCY6Um2zp3qtSfi2uJfckmWcp+Hga4MzsFvoNtx9eZzDwFw+F1LCM2aNLLjZmMRGWXSifr1T+jPjkYCuZvIyWu0dGLK1V1D0Qg0rA2fHKQT/OpIyXzKQu3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpLMDOqe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oq+tFe8L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XmGQ5lFB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oq+tFe8L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XmGQ5lFB"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C1D11FBA9;
-	Thu, 22 Feb 2024 18:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708626833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n6K+7ok9mFCUsMHovhem0kenlydmGmqrNUQf5yxahaw=;
-	b=oq+tFe8LfO3xb1UACiK/aYsXX+MJdiNMOELBVEO2o1tY2qbBRaOnH7mf9tkkyqaGg1p8LU
-	Y0DjFtXdMhgBU2CV6JqZNCIBBTJdIpUdY5DnQv2hmOkAYf0YOu2RKB5WO246Wu9i6z87Y9
-	hWE8dd6isHxj7wcCuCnSBiHjD/bn6y4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708626833;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n6K+7ok9mFCUsMHovhem0kenlydmGmqrNUQf5yxahaw=;
-	b=XmGQ5lFB0UHdQ39TahBBR/IQ9LPE5f4z9F8dsIOUt7xzEEr3SlFIjv0jzI2yqG6hopSRps
-	1dhhA3rzhS8XC4CA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708626833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n6K+7ok9mFCUsMHovhem0kenlydmGmqrNUQf5yxahaw=;
-	b=oq+tFe8LfO3xb1UACiK/aYsXX+MJdiNMOELBVEO2o1tY2qbBRaOnH7mf9tkkyqaGg1p8LU
-	Y0DjFtXdMhgBU2CV6JqZNCIBBTJdIpUdY5DnQv2hmOkAYf0YOu2RKB5WO246Wu9i6z87Y9
-	hWE8dd6isHxj7wcCuCnSBiHjD/bn6y4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708626833;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n6K+7ok9mFCUsMHovhem0kenlydmGmqrNUQf5yxahaw=;
-	b=XmGQ5lFB0UHdQ39TahBBR/IQ9LPE5f4z9F8dsIOUt7xzEEr3SlFIjv0jzI2yqG6hopSRps
-	1dhhA3rzhS8XC4CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0E01133DC;
-	Thu, 22 Feb 2024 18:33:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ugFHNZCT12VUBQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 22 Feb 2024 18:33:52 +0000
-Date: Thu, 22 Feb 2024 19:33:52 +0100
-Message-ID: <87jzmw4acv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: <linux-sound@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH] ALSA: pcm: clarify and fix default msbits value for all formats
-In-Reply-To: <20240222173649.1447549-1-perex@perex.cz>
-References: <20240222173649.1447549-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpLMDOqe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51715C433F1;
+	Thu, 22 Feb 2024 18:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708627278;
+	bh=6XJwHfKFPsJnbMTE3OuN1fl0JMH2yKdGnKVLUGPt9vE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tpLMDOqeEdmNC58Uv1I0ZhWdqg93g0Biw/4KKz68M0nSQgul88Y4P6czVnngiS5FF
+	 j9jZA7G/RqafCsvXvlBIScTzdIVWq5n+Lt04dv+Wsh003JHHr8KxaKVQOLlE7RkMdU
+	 sd4MUtnv0dwcYo92qgcUL5W762Yv3kr5sQAWMycB92ouqq4R6R7BvBiucG0kmSPhXW
+	 k1/bwLXSvgnDZptz9XdDH0OcBdZwaxsMyHSXDxJ8LzJXwwZajs2uopS0FJbXyEabgy
+	 4OmPDv0lhyrRv+GeQO+3D7JWvcmxYVra554kvo9pD38WIEZsSO5C1mJxBrdRL3K3rr
+	 cI+RUxYTJBTXg==
+Date: Thu, 22 Feb 2024 18:41:13 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 4/4] ASoC: sun8i-codec: Implement jack and accessory
+ detection
+Message-ID: <0c351386-f1df-443f-a997-261f5c60c852@sirena.org.uk>
+References: <20240222181851.3398254-1-megi@xff.cz>
+ <20240222181851.3398254-5-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-
-On Thu, 22 Feb 2024 18:36:49 +0100,
-Jaroslav Kysela wrote:
-> 
-> Return used most significant bits from sample bit-width rather than the whole
-> physical sample word size. The starting bit offset is defined in the format
-> itself.
-> 
-> The behaviour is not changed for 32-bit formats like S32_LE. But with this
-> change - msbits value 24 instead 32 is returned for 24-bit formats like S24_LE
-> etc.
-> 
-> Also, commit 2112aa034907 ("ALSA: pcm: Introduce MSBITS subformat interface")
-> compares sample bit-width not physical sample bit-width to reset MSBITS_MAX bit
-> from the subformat bitmask.
-> 
-> Probably no applications are using msbits value for other than S32_LE/U32_LE
-> formats, because no drivers are reducing msbits value for other formats (with
-> the msb offset) at the moment.
-> 
-> For sanity, increase PCM protocol version, letting the user space to detect
-> the changed behaviour.
-> 
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-
-Hmm, the idea is nice, but I hesitate to take this as is.
-
-Basically the kernel should keep the backward compatibility, and this
-won't (although the feature is very minor).
-
-IMO, it'd be safer to check user_pversion and applies the new behavior
-only with it being >= 2.0.17, for example.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nDVapEvA1lBavuoE"
+Content-Disposition: inline
+In-Reply-To: <20240222181851.3398254-5-megi@xff.cz>
+X-Cookie: I have accepted Provolone into my life!
 
 
-thanks,
+--nDVapEvA1lBavuoE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Takashi
+On Thu, Feb 22, 2024 at 07:18:47PM +0100, Ond=C5=99ej Jirman wrote:
 
-> ---
->  include/uapi/sound/asound.h | 4 ++--
->  sound/core/pcm_native.c     | 5 +++++
->  2 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> index d5b9cfbd9cea..628d46a0da92 100644
-> --- a/include/uapi/sound/asound.h
-> +++ b/include/uapi/sound/asound.h
-> @@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
->   *                                                                           *
->   *****************************************************************************/
->  
-> -#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 16)
-> +#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
->  
->  typedef unsigned long snd_pcm_uframes_t;
->  typedef signed long snd_pcm_sframes_t;
-> @@ -416,7 +416,7 @@ struct snd_pcm_hw_params {
->  	unsigned int rmask;		/* W: requested masks */
->  	unsigned int cmask;		/* R: changed masks */
->  	unsigned int info;		/* R: Info flags for returned setup */
-> -	unsigned int msbits;		/* R: used most significant bits */
-> +	unsigned int msbits;		/* R: used most significant bits (in sample bit-width) */
->  	unsigned int rate_num;		/* R: rate numerator */
->  	unsigned int rate_den;		/* R: rate denominator */
->  	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index f5ff00f99788..21baf6bf7e25 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -486,6 +486,11 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
->  		i = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_SAMPLE_BITS);
->  		if (snd_interval_single(i))
->  			params->msbits = snd_interval_value(i);
-> +		m = hw_param_mask_c(params, SNDRV_PCM_HW_PARAM_FORMAT);
-> +		if (snd_mask_single(m)) {
-> +			snd_pcm_format_t format = (__force snd_pcm_format_t)snd_mask_min(m);
-> +			params->msbits = snd_pcm_format_width(format);
-> +		}
->  	}
->  
->  	if (params->msbits) {
-> -- 
-> 2.43.0
-> 
+> +static struct snd_soc_jack_pin sun8i_codec_jack_pins[] =3D {
+> +	{
+> +		.pin	=3D "Headphone Jack",
+> +		.mask	=3D SND_JACK_HEADPHONE,
+> +	},
+> +	{
+> +		.pin	=3D "Headset Microphone",
+> +		.mask	=3D SND_JACK_MICROPHONE,
+> +	},
+> +};
+> +
+
+The jack being a headset jack is going to be system specific isn't it?
+Some systems might have separate headphone and microphone jacks.  I'd
+not expect to see any pin handling code at all in a CODEC driver, that
+belongs in the machine driver.
+
+>  static int sun8i_codec_component_probe(struct snd_soc_component *compone=
+nt)
+>  {
+>  	struct snd_soc_dapm_context *dapm =3D snd_soc_component_get_dapm(compon=
+ent);
+>  	struct sun8i_codec *scodec =3D snd_soc_component_get_drvdata(component);
+>  	int ret;
+> =20
+> +	scodec->card =3D component->card;
+> +
+
+The fact that you're needing to look at the card here should be a bit of
+a warning sign there.
+
+--nDVapEvA1lBavuoE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXXlUgACgkQJNaLcl1U
+h9CKKgf/aoS85uaApPM+Hu5AKwDdPhzqPWfBz5tHxcaPCNpEosJgwvW7FkDEJJIs
+7ODH56RBKAhTrzbyUAgg6PIgeOilZSXWzgUi5BkIqsSUJxW7jZJKa1Xk4XusRnOw
+3bMp1wVMh1QlUVIV+0podvqlsDjEvC08l6Rq5hIRf7ZRxztdnsE9a774ZwTFyk2g
+UZeFv6KT7PegfqSNtyIrt9s/ghKpPAoCffRPkNTIc8+ZbGeBReomWijInFrK82gb
+rVHPuJdb5oXz/lH8Zj0LrFjEH511k6OxPwxGwwylruXbDyND/ur+YAhphUxrkTwO
+YIdwQVpj84jPawxlailo/ViT+V7i+A==
+=fWYW
+-----END PGP SIGNATURE-----
+
+--nDVapEvA1lBavuoE--
