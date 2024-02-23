@@ -1,79 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FA414263E;
-	Fri, 23 Feb 2024 18:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81E24C8C;
+	Fri, 23 Feb 2024 18:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708711506; cv=none; b=dqsRPXUhBgflnNQnAJg8h2CQcKaCCgoGoTAKoQs48//AYlFjz7Qs2O+6lhHNnhCBYxuyThH4Hq5hr8rcInzvTo0BpWeiK1uii8wIKsYJ0OaI16TSkUpibTSFXVv2r3hKW5mhUMIuLnkB52NWyI9eE3yR25DZXiLP3NqqFin1TxY=
+	t=1708712146; cv=none; b=dTL+YCqmN0WjDLCZv5Vn0W8D6dTNHCG7/bLzHtadV6UFEWRqGgsmMKZyb+yJ3KXqfLvbnPF7NXb5a/ZNv4/T3OL7xES6ln1yTcQbLUDNMhTQlJe+dYqPOwvGyKRiKmruO3hJg4PFRKHmKKb+NcAIy7/PnNvqv+JSVXHWEKfDJgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708711506; c=relaxed/simple;
-	bh=LnhjvqUeq0CK0kIwGNY2StqDTPb27nbR7qd6jVWv0QA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WMSzBA10+2Z3T90xbs5EiUSeTqNg7jmyGmiZQOxZXuOFM1nATIvRraeF0YyclHdUwGpK8Ggz0K5mWr53bADO5hQ6lcWXK8E/ZBr/Z92x1oO9dVw+5KByebqUx5GQNBVnqbc3fBCHbRlfBDigxw9Ro+tFUroYHpKhqigrVFFAMPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370BEC433C7;
-	Fri, 23 Feb 2024 18:05:01 +0000 (UTC)
-Date: Fri, 23 Feb 2024 13:06:53 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Linus Torvalds
- <torvalds@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, linux-block@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-rdma@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-tegra@vger.kernel.org, netdev@vger.kernel.org,
- linux-hyperv@vger.kernel.org, ath10k@lists.infradead.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- ath12k@lists.infradead.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-usb@vger.kernel.org,
- linux-bcachefs@vger.kernel.org, linux-nfs@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, linux-cifs@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-edac@vger.kernel.org,
- selinux@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-hwmon@vger.kernel.org, io-uring@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-wpan@vger.kernel.org, dev@openvswitch.org,
- linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net, Julia
- Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <20240223130653.2cc317a8@gandalf.local.home>
-In-Reply-To: <20240223125634.2888c973@gandalf.local.home>
-References: <20240223125634.2888c973@gandalf.local.home>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1708712146; c=relaxed/simple;
+	bh=qL3O5yBmHIcp4OFTSD22SaNMNSh4DEFGM7j4NFlupJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WwJIVONfkliFak3NZonqLvqOc6jhR40R/ofjYAfhQGKEOUC7KsKog9DNnTC/m4XzX7igJyp+0VfAbMRk/rK283UKwcdJOdh8JcQZbjQLXdXgPQ6dVvg5jrAI0p4ES/scf/fQug8ed2doZzbAZybfh8AYGXiNJGfPxguqj045/3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EpWDTU88; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EpWDTU88"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4013C433F1;
+	Fri, 23 Feb 2024 18:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708712146;
+	bh=qL3O5yBmHIcp4OFTSD22SaNMNSh4DEFGM7j4NFlupJo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EpWDTU88qgW68ykgUBwVe7363w9Mdx7jdvRfZFA1vFH/HEfhuHnoLOxBhpDxNECdP
+	 ucWnjM54vIGZtblrWKrVvCIdIxBZoj9f5Q8lGm8D590qDUZuVTxNgDQBaUInxGqNxh
+	 L8GcLFhBIxfgkT2GToC8DtPytOS/flph9Zl0PTgf7DX/QRP1RUeI04sOnig/u6iSnR
+	 PkzxhH/Jb93Fb51PCiMfhg1e41GUZL1Tdy/BtcOXOM0Qri0CQrRt7ioN0B0ShIHpcq
+	 +v39nKbb+ofKmmtoJK0uaodk3hcph339l92DDyhw3eiA3xUBr3Yd9ZmA59kfTrd/OM
+	 lsY8/yDLcLKHg==
+Date: Fri, 23 Feb 2024 18:15:42 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 6/6] ASoC: cs-amp-lib: Add KUnit test for calibration
+ helpers
+Message-ID: <ZdjgzqyrNOysFldQ@finisterre.sirena.org.uk>
+References: <20240223153910.2063698-1-rf@opensource.cirrus.com>
+ <20240223153910.2063698-7-rf@opensource.cirrus.com>
+ <ZdjMIVYp7Qb/Tt9d@finisterre.sirena.org.uk>
+ <956f2b88-8b52-45b3-a27d-fa8e75a02642@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="taWa+zNeeuI9vMOx"
+Content-Disposition: inline
+In-Reply-To: <956f2b88-8b52-45b3-a27d-fa8e75a02642@opensource.cirrus.com>
+X-Cookie: You might have mail.
 
-On Fri, 23 Feb 2024 12:56:34 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> Note, the same updates will need to be done for:
-> 
->   __assign_str_len()
->   __assign_rel_str()
->   __assign_rel_str_len()
+--taWa+zNeeuI9vMOx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Correction: The below macros do not pass in their source to the entry
-macros, so they will not need to be updated.
+On Fri, Feb 23, 2024 at 05:02:03PM +0000, Richard Fitzgerald wrote:
 
--- Steve
+> Can you skip this patch and take the others (assuming you are happy with
+> them) and I'll fixup and resubmit this test later.
 
->   __assign_bitmask()
->   __assign_rel_bitmask()
->   __assign_cpumask()
->   __assign_rel_cpumask()
+The series is already in CI without this patch.
 
+--taWa+zNeeuI9vMOx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXY4MsACgkQJNaLcl1U
+h9AlgAf/XjfgmirxL71nShnAv5faVLtI8hjyefwEoWIwfU+iwvUSw1RQaHZtrV+Y
+da0wvY1xm5SKIdWaeXkrHzcvuDaOilA6viztm1+anb/Lbgd7py/07HirJAJvxO4x
+mgmsW4T8gh8f5chQBlTD6di8aQlnCiB2ZoVHNzxX5CpkjY8iLF3x1uJOHCgCZAPM
+wklV2oYIYNrYv65Scq+eLcIKeHf/nn1n9kAQPNSg+ZBxMyJEOnSZp+F7bCPQY79J
+eU4MDMbXXo0TFP4GeuVyOlM1ezHFM453e9P0BRIyBDyOOjYsY7AvKpTczu9q1SiG
+5jFK7bNwnFPzaYC8B8xxp6ObMoJMrQ==
+=vAW4
+-----END PGP SIGNATURE-----
+
+--taWa+zNeeuI9vMOx--
