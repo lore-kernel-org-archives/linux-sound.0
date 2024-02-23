@@ -1,73 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9293513DB8E
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE4913DB9F
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710616; cv=none; b=d2UvTuuBFln4fuDuDIy7H8k3uORbOIH8zm7mz3YYbhZxsR6Hd+ikf8/MI9iCmkKSE/jCrwEd9Go9uzDts/TDVq7JtenfiC1Dt7HkJm62iDEHNMDwj+Z1iAcQQTSjrhy/UIJH7WlgdpLjeWJePaFZRGtqnrE2A9Ksq3FOdE9ckgc=
+	t=1708710617; cv=none; b=p7X/povwbrjugo9+P/MSRoxDo8KKZ3tXI1PeTYTST6Z4ko2SQOGnkae8fRcRD6fldG19kg19eSSWsDTyeFb88qMDLsaXfhqBB4VjPlAAUIrHAuoiYQthsh9JGwtMV2wOZATVz6ZISoih8PilPQgO8UQqeeF4kcVz8HwUIKzDrjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708710616; c=relaxed/simple;
-	bh=qVocd8oST5aBx84bfEVtYO4TEsJpD3lMD+g8OQMtT+w=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=e192lUzKiS9z/zWXyBVFa7gpZAy21bKFGxbaLOA32mNEygEiz1IBL6rxbsMWDbzMGYoJDiVYAxnPl7jAMKBbTQHpjqEKGiG/+ftnw4psJYQO8AzuWsLXqR41P8ic2uNGMGV6F11mPHXDqg0UX1VPPb2D36Xl1vVJfjv511mVcTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=meLs7f/z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gmIuVWWY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=meLs7f/z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gmIuVWWY; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1708710617; c=relaxed/simple;
+	bh=gRmFlEyZXMgFGa6Rcm1rxYy8ggIVQC5wkGlRaS8LRZY=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iZSdkOEZYvaa9E6K+7NL6Qhj0ZZJGz15Ltr9aTEG97+ehrCOUmFRoOpSkpUSJ9FqonSABL0Pmh7dtm7X1g29ZcYOVB0vrdeHZTfz6i7SGBuefLSWqZdJXFWimFgrhlo7G+PDHrkNOutYch0GjL2+QKAhtG0ZGa1DPfGt250ZcR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P49lMSxJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U5nbFWN1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P49lMSxJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U5nbFWN1; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="meLs7f/z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gmIuVWWY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="meLs7f/z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gmIuVWWY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P49lMSxJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U5nbFWN1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P49lMSxJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U5nbFWN1"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A9651FC26;
-	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE296221CC;
+	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
-	b=meLs7f/z5DgXd8T7Lmp5gAzKMT6Nf9PDhAY8n8Guv1cxqPkaXkQvAjBiQig8YXIhK0Aauq
-	t2Layz7rLTuWwqvgXnxigwZZaGNb141FslsDuCAdxeqtOQdvfqJgyaxx15Tn4tbra38CtA
-	jbb8/Juf39qp4AOnrfrnUYtLj9O2YAw=
+	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zJk8cKeMTrv8cduFMH+FaZIGBPuLTJaiuu7+IdCZ4Kg=;
+	b=P49lMSxJ4ZX1jkSeyeNjbgq8x0FBTCaTUB0BTzeNQm2oGyCAlVSiKBtkhXdMeLkbvgXhja
+	9PeadfG1dAQtVeQVS92tvVLG2NYQKrUE9pm+HsnAnKrxX2DXnNRQfioLTj3w121Vt4xgdm
+	3WPfUKlxaBgsGSVXVbvvXtY2Xwheb10=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710610;
+	s=susede2_ed25519; t=1708710611;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
-	b=gmIuVWWY60Ey47wZnd0i+wjluPPVPoTVLWZxOIVXyVSGrQqhqURJfG5BxCDZ2guoKYfu2Y
-	t9MKSno+gaD2rgAw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zJk8cKeMTrv8cduFMH+FaZIGBPuLTJaiuu7+IdCZ4Kg=;
+	b=U5nbFWN15PBrWMOqHpWBFUqO9DVvL5BqXOIeKQeRdIpN+RiClab2EOJmsarU02anrAwRcK
+	lOnw5WGkuN9zWtAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
-	b=meLs7f/z5DgXd8T7Lmp5gAzKMT6Nf9PDhAY8n8Guv1cxqPkaXkQvAjBiQig8YXIhK0Aauq
-	t2Layz7rLTuWwqvgXnxigwZZaGNb141FslsDuCAdxeqtOQdvfqJgyaxx15Tn4tbra38CtA
-	jbb8/Juf39qp4AOnrfrnUYtLj9O2YAw=
+	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zJk8cKeMTrv8cduFMH+FaZIGBPuLTJaiuu7+IdCZ4Kg=;
+	b=P49lMSxJ4ZX1jkSeyeNjbgq8x0FBTCaTUB0BTzeNQm2oGyCAlVSiKBtkhXdMeLkbvgXhja
+	9PeadfG1dAQtVeQVS92tvVLG2NYQKrUE9pm+HsnAnKrxX2DXnNRQfioLTj3w121Vt4xgdm
+	3WPfUKlxaBgsGSVXVbvvXtY2Xwheb10=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710610;
+	s=susede2_ed25519; t=1708710611;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
-	b=gmIuVWWY60Ey47wZnd0i+wjluPPVPoTVLWZxOIVXyVSGrQqhqURJfG5BxCDZ2guoKYfu2Y
-	t9MKSno+gaD2rgAw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zJk8cKeMTrv8cduFMH+FaZIGBPuLTJaiuu7+IdCZ4Kg=;
+	b=U5nbFWN15PBrWMOqHpWBFUqO9DVvL5BqXOIeKQeRdIpN+RiClab2EOJmsarU02anrAwRcK
+	lOnw5WGkuN9zWtAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A62C132C7;
-	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D412132C7;
+	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Del3GNLa2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:10 +0000
+	id KFQXIdPa2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 00/24] Clean up locking with guard() in ALSA core
-Date: Fri, 23 Feb 2024 18:49:37 +0100
-Message-Id: <20240223175001.24375-1-tiwai@suse.de>
+Subject: [PATCH v2 07/24] ALSA: mixer_oss: Use guard() for locking
+Date: Fri, 23 Feb 2024 18:49:44 +0100
+Message-Id: <20240223175001.24375-8-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
+References: <20240223175001.24375-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,17 +86,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Bar: /
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="meLs7f/z";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gmIuVWWY
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [0.49 / 50.00];
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [1.90 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
 	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
@@ -93,116 +98,561 @@ X-Spamd-Result: default: False [0.49 / 50.00];
 	 TO_DN_NONE(0.00)[];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_ONE(0.00)[1];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: 0.49
-X-Rspamd-Queue-Id: 8A9651FC26
+X-Spam-Level: *
+X-Spam-Score: 1.90
 X-Spam-Flag: NO
 
-[ I submitted v1 patches from a wrong old branch; here is the
-  resubmission of the proper patches, sorry for inconvenience ]
+We can simplify the code gracefully with new guard() macro and co for
+automatic cleanup of locks.
 
-Hi,
+Only the code refactoring, and no functional changes.
 
-this is a patch set for cleaning up the locking code in ALSA core with
-the recently introduced guard() macros, i.e. the automatic cleanup
-mechanism.
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/oss/mixer_oss.c | 228 ++++++++++++++-----------------------
+ 1 file changed, 86 insertions(+), 142 deletions(-)
 
-I started poking it in a few days ago, and since then I was very
-impressed by how easily and well it simplifies the code.  It'd help
-for avoiding leaking unbalanced locks, and reduce the LOC.
-
-Most of changes are pretty systematic, just replacing the lock/unlock
-with guard() or scoped_guard().  Some unnecessary variable
-substitutions could be reduced by the reduction of unlock.
-Also, some got slight code refactoring so that guard() macro can be
-applied more cleanly, too.
-
-The remaining lock/unlock are mostly for the cases where temporary
-re-locking happens, for example in read/write or open loops.
-Those could be improved in future.  Let's see.
-
-The patches cover only the ALSA core area.  The other drivers can
-receive benefits in a similar way, I suppose.
-
-
-Takashi
-
-===
-
-Takashi Iwai (24):
-  ALSA: ump: Use guard() for locking
-  ALSA: compress_offload: Use guard() for locking
-  ALSA: timer: Use guard() for locking
-  ALSA: hrtimer: Use guard() for locking
-  ALSA: hwdep: Use guard() for locking
-  ALSA: info: Use guard() for locking
-  ALSA: mixer_oss: Use guard() for locking
-  ALSA: control: Use guard() for locking
-  ALSA: rawmidi: Use guard() for locking
-  ALSA: jack: Use guard() for locking
-  ALSA: core: Use guard() for locking
-  ALSA: seq: fifo: Use guard() for locking
-  ALSA: seq: memory: Use guard() for locking
-  ALSA: seq: ports: Use guard() for locking
-  ALSA: seq: queue: Use guard() for locking
-  ALSA: seq: timer: Use guard() for locking
-  ALSA: seq: midi: Use guard() for locking
-  ALSA: seq: ump: Use guard() for locking
-  ALSA: seq: virmidi: Use guard() for locking
-  ALSA: seq: prioq: Use guard() for locking
-  ALSA: pcm: Use guard() for locking
-  ALSA: pcm: Use guard() for PCM stream locks
-  ALSA: pcm: oss: Use guard() for setup
-  ALSA: control_led: Use guard() for locking
-
- include/sound/pcm.h             |  12 +
- sound/core/compress_offload.c   |  98 +++-----
- sound/core/control.c            | 431 +++++++++++++-------------------
- sound/core/control_compat.c     |  18 +-
- sound/core/control_led.c        | 150 +++++------
- sound/core/hrtimer.c            |  24 +-
- sound/core/hwdep.c              |  49 ++--
- sound/core/info.c               |  93 +++----
- sound/core/info_oss.c           |  10 +-
- sound/core/init.c               | 199 +++++++--------
- sound/core/jack.c               |  25 +-
- sound/core/oss/mixer_oss.c      | 228 +++++++----------
- sound/core/oss/pcm_oss.c        |  41 ++-
- sound/core/pcm.c                |  90 +++----
- sound/core/pcm_compat.c         |  66 +++--
- sound/core/pcm_lib.c            |  10 +-
- sound/core/pcm_memory.c         |  30 +--
- sound/core/pcm_native.c         | 340 +++++++++++--------------
- sound/core/rawmidi.c            | 232 ++++++-----------
- sound/core/seq/seq_fifo.c       |  55 ++--
- sound/core/seq/seq_memory.c     |  28 +--
- sound/core/seq/seq_midi.c       |  16 +-
- sound/core/seq/seq_midi_event.c |  14 +-
- sound/core/seq/seq_ports.c      | 114 ++++-----
- sound/core/seq/seq_prioq.c      |  59 ++---
- sound/core/seq/seq_queue.c      |  78 +++---
- sound/core/seq/seq_timer.c      | 163 +++++-------
- sound/core/seq/seq_ump_client.c |  13 +-
- sound/core/seq/seq_virmidi.c    |  18 +-
- sound/core/sound.c              |  28 +--
- sound/core/sound_oss.c          |  17 +-
- sound/core/timer.c              | 429 +++++++++++++------------------
- sound/core/timer_compat.c       |   7 +-
- sound/core/ump.c                |  35 +--
- 34 files changed, 1275 insertions(+), 1945 deletions(-)
-
+diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
+index e10017a42ed8..6a0508093ea6 100644
+--- a/sound/core/oss/mixer_oss.c
++++ b/sound/core/oss/mixer_oss.c
+@@ -130,13 +130,12 @@ static int snd_mixer_oss_devmask(struct snd_mixer_oss_file *fmixer)
+ 
+ 	if (mixer == NULL)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	for (chn = 0; chn < 31; chn++) {
+ 		pslot = &mixer->slots[chn];
+ 		if (pslot->put_volume || pslot->put_recsrc)
+ 			result |= 1 << chn;
+ 	}
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -148,13 +147,12 @@ static int snd_mixer_oss_stereodevs(struct snd_mixer_oss_file *fmixer)
+ 
+ 	if (mixer == NULL)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	for (chn = 0; chn < 31; chn++) {
+ 		pslot = &mixer->slots[chn];
+ 		if (pslot->put_volume && pslot->stereo)
+ 			result |= 1 << chn;
+ 	}
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -165,7 +163,7 @@ static int snd_mixer_oss_recmask(struct snd_mixer_oss_file *fmixer)
+ 
+ 	if (mixer == NULL)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	if (mixer->put_recsrc && mixer->get_recsrc) {	/* exclusive */
+ 		result = mixer->mask_recsrc;
+ 	} else {
+@@ -177,7 +175,6 @@ static int snd_mixer_oss_recmask(struct snd_mixer_oss_file *fmixer)
+ 				result |= 1 << chn;
+ 		}
+ 	}
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -188,12 +185,12 @@ static int snd_mixer_oss_get_recsrc(struct snd_mixer_oss_file *fmixer)
+ 
+ 	if (mixer == NULL)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	if (mixer->put_recsrc && mixer->get_recsrc) {	/* exclusive */
+ 		unsigned int index;
+ 		result = mixer->get_recsrc(fmixer, &index);
+ 		if (result < 0)
+-			goto unlock;
++			return result;
+ 		result = 1 << index;
+ 	} else {
+ 		struct snd_mixer_oss_slot *pslot;
+@@ -209,8 +206,6 @@ static int snd_mixer_oss_get_recsrc(struct snd_mixer_oss_file *fmixer)
+ 		}
+ 	}
+ 	mixer->oss_recsrc = result;
+- unlock:
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -224,7 +219,7 @@ static int snd_mixer_oss_set_recsrc(struct snd_mixer_oss_file *fmixer, int recsr
+ 
+ 	if (mixer == NULL)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	if (mixer->get_recsrc && mixer->put_recsrc) {	/* exclusive input */
+ 		if (recsrc & ~mixer->oss_recsrc)
+ 			recsrc &= ~mixer->oss_recsrc;
+@@ -250,7 +245,6 @@ static int snd_mixer_oss_set_recsrc(struct snd_mixer_oss_file *fmixer, int recsr
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -262,7 +256,7 @@ static int snd_mixer_oss_get_volume(struct snd_mixer_oss_file *fmixer, int slot)
+ 
+ 	if (mixer == NULL || slot > 30)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	pslot = &mixer->slots[slot];
+ 	left = pslot->volume[0];
+ 	right = pslot->volume[1];
+@@ -270,21 +264,15 @@ static int snd_mixer_oss_get_volume(struct snd_mixer_oss_file *fmixer, int slot)
+ 		result = pslot->get_volume(fmixer, pslot, &left, &right);
+ 	if (!pslot->stereo)
+ 		right = left;
+-	if (snd_BUG_ON(left < 0 || left > 100)) {
+-		result = -EIO;
+-		goto unlock;
+-	}
+-	if (snd_BUG_ON(right < 0 || right > 100)) {
+-		result = -EIO;
+-		goto unlock;
+-	}
++	if (snd_BUG_ON(left < 0 || left > 100))
++		return -EIO;
++	if (snd_BUG_ON(right < 0 || right > 100))
++		return -EIO;
+ 	if (result >= 0) {
+ 		pslot->volume[0] = left;
+ 		pslot->volume[1] = right;
+ 	 	result = (left & 0xff) | ((right & 0xff) << 8);
+ 	}
+- unlock:
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -297,7 +285,7 @@ static int snd_mixer_oss_set_volume(struct snd_mixer_oss_file *fmixer,
+ 
+ 	if (mixer == NULL || slot > 30)
+ 		return -EIO;
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	pslot = &mixer->slots[slot];
+ 	if (left > 100)
+ 		left = 100;
+@@ -308,12 +296,10 @@ static int snd_mixer_oss_set_volume(struct snd_mixer_oss_file *fmixer,
+ 	if (pslot->put_volume)
+ 		result = pslot->put_volume(fmixer, pslot, left, right);
+ 	if (result < 0)
+-		goto unlock;
++		return result;
+ 	pslot->volume[0] = left;
+ 	pslot->volume[1] = right;
+ 	result = (left & 0xff) | ((right & 0xff) << 8);
+- unlock:
+-	mutex_unlock(&mixer->reg_mutex);
+ 	return result;
+ }
+ 
+@@ -539,28 +525,24 @@ static void snd_mixer_oss_get_volume1_vol(struct snd_mixer_oss_file *fmixer,
+ 
+ 	if (numid == ID_UNKNOWN)
+ 		return;
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_numid_locked(card, numid);
+-	if (!kctl) {
+-		up_read(&card->controls_rwsem);
++	if (!kctl)
+ 		return;
+-	}
+ 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+ 	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+ 	if (uinfo == NULL || uctl == NULL)
+-		goto __unalloc;
++		return;
+ 	if (kctl->info(kctl, uinfo))
+-		goto __unalloc;
++		return;
+ 	if (kctl->get(kctl, uctl))
+-		goto __unalloc;
++		return;
+ 	if (uinfo->type == SNDRV_CTL_ELEM_TYPE_BOOLEAN &&
+ 	    uinfo->value.integer.min == 0 && uinfo->value.integer.max == 1)
+-		goto __unalloc;
++		return;
+ 	*left = snd_mixer_oss_conv1(uctl->value.integer.value[0], uinfo->value.integer.min, uinfo->value.integer.max, &pslot->volume[0]);
+ 	if (uinfo->count > 1)
+ 		*right = snd_mixer_oss_conv1(uctl->value.integer.value[1], uinfo->value.integer.min, uinfo->value.integer.max, &pslot->volume[1]);
+-      __unalloc:
+-	up_read(&card->controls_rwsem);
+ }
+ 
+ static void snd_mixer_oss_get_volume1_sw(struct snd_mixer_oss_file *fmixer,
+@@ -576,20 +558,18 @@ static void snd_mixer_oss_get_volume1_sw(struct snd_mixer_oss_file *fmixer,
+ 
+ 	if (numid == ID_UNKNOWN)
+ 		return;
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_numid_locked(card, numid);
+-	if (!kctl) {
+-		up_read(&card->controls_rwsem);
++	if (!kctl)
+ 		return;
+-	}
+ 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+ 	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+ 	if (uinfo == NULL || uctl == NULL)
+-		goto __unalloc;
++		return;
+ 	if (kctl->info(kctl, uinfo))
+-		goto __unalloc;
++		return;
+ 	if (kctl->get(kctl, uctl))
+-		goto __unalloc;
++		return;
+ 	if (!uctl->value.integer.value[0]) {
+ 		*left = 0;
+ 		if (uinfo->count == 1)
+@@ -597,8 +577,6 @@ static void snd_mixer_oss_get_volume1_sw(struct snd_mixer_oss_file *fmixer,
+ 	}
+ 	if (uinfo->count > 1 && !uctl->value.integer.value[route ? 3 : 1])
+ 		*right = 0;
+-      __unalloc:
+-	up_read(&card->controls_rwsem);
+ }
+ 
+ static int snd_mixer_oss_get_volume1(struct snd_mixer_oss_file *fmixer,
+@@ -640,31 +618,27 @@ static void snd_mixer_oss_put_volume1_vol(struct snd_mixer_oss_file *fmixer,
+ 
+ 	if (numid == ID_UNKNOWN)
+ 		return;
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_numid_locked(card, numid);
+-	if (!kctl) {
+-		up_read(&card->controls_rwsem);
++	if (!kctl)
+ 		return;
+-	}
+ 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+ 	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+ 	if (uinfo == NULL || uctl == NULL)
+-		goto __unalloc;
++		return;
+ 	if (kctl->info(kctl, uinfo))
+-		goto __unalloc;
++		return;
+ 	if (uinfo->type == SNDRV_CTL_ELEM_TYPE_BOOLEAN &&
+ 	    uinfo->value.integer.min == 0 && uinfo->value.integer.max == 1)
+-		goto __unalloc;
++		return;
+ 	uctl->value.integer.value[0] = snd_mixer_oss_conv2(left, uinfo->value.integer.min, uinfo->value.integer.max);
+ 	if (uinfo->count > 1)
+ 		uctl->value.integer.value[1] = snd_mixer_oss_conv2(right, uinfo->value.integer.min, uinfo->value.integer.max);
+ 	res = kctl->put(kctl, uctl);
+ 	if (res < 0)
+-		goto __unalloc;
++		return;
+ 	if (res > 0)
+ 		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE, &kctl->id);
+-      __unalloc:
+-	up_read(&card->controls_rwsem);
+ }
+ 
+ static void snd_mixer_oss_put_volume1_sw(struct snd_mixer_oss_file *fmixer,
+@@ -681,18 +655,16 @@ static void snd_mixer_oss_put_volume1_sw(struct snd_mixer_oss_file *fmixer,
+ 
+ 	if (numid == ID_UNKNOWN)
+ 		return;
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_numid_locked(card, numid);
+-	if (!kctl) {
+-		up_read(&card->controls_rwsem);
++	if (!kctl)
+ 		return;
+-	}
+ 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+ 	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+ 	if (uinfo == NULL || uctl == NULL)
+-		goto __unalloc;
++		return;
+ 	if (kctl->info(kctl, uinfo))
+-		goto __unalloc;
++		return;
+ 	if (uinfo->count > 1) {
+ 		uctl->value.integer.value[0] = left > 0 ? 1 : 0;
+ 		uctl->value.integer.value[route ? 3 : 1] = right > 0 ? 1 : 0;
+@@ -705,11 +677,9 @@ static void snd_mixer_oss_put_volume1_sw(struct snd_mixer_oss_file *fmixer,
+ 	}
+ 	res = kctl->put(kctl, uctl);
+ 	if (res < 0)
+-		goto __unalloc;
++		return;
+ 	if (res > 0)
+ 		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE, &kctl->id);
+-      __unalloc:
+-	up_read(&card->controls_rwsem);
+ }
+ 
+ static int snd_mixer_oss_put_volume1(struct snd_mixer_oss_file *fmixer,
+@@ -822,18 +792,16 @@ static int snd_mixer_oss_get_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned
+ 	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+ 	if (uinfo == NULL || uctl == NULL)
+ 		return -ENOMEM;
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_mixer_oss_test_id(mixer, "Capture Source", 0);
+-	if (! kctl) {
+-		err = -ENOENT;
+-		goto __unlock;
+-	}
++	if (!kctl)
++		return -ENOENT;
+ 	err = kctl->info(kctl, uinfo);
+ 	if (err < 0)
+-		goto __unlock;
++		return err;
+ 	err = kctl->get(kctl, uctl);
+ 	if (err < 0)
+-		goto __unlock;
++		return err;
+ 	for (idx = 0; idx < 32; idx++) {
+ 		if (!(mixer->mask_recsrc & (1 << idx)))
+ 			continue;
+@@ -848,10 +816,7 @@ static int snd_mixer_oss_get_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned
+ 			break;
+ 		}
+ 	}
+-	err = 0;
+-      __unlock:
+-     	up_read(&card->controls_rwsem);
+-      	return err;
++	return 0;
+ }
+ 
+ static int snd_mixer_oss_put_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned int active_index)
+@@ -870,15 +835,13 @@ static int snd_mixer_oss_put_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned
+ 	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+ 	if (uinfo == NULL || uctl == NULL)
+ 		return -ENOMEM;
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_mixer_oss_test_id(mixer, "Capture Source", 0);
+-	if (! kctl) {
+-		err = -ENOENT;
+-		goto __unlock;
+-	}
++	if (!kctl)
++		return -ENOENT;
+ 	err = kctl->info(kctl, uinfo);
+ 	if (err < 0)
+-		goto __unlock;
++		return err;
+ 	for (idx = 0; idx < 32; idx++) {
+ 		if (!(mixer->mask_recsrc & (1 << idx)))
+ 			continue;
+@@ -892,17 +855,14 @@ static int snd_mixer_oss_put_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned
+ 			break;
+ 		slot = NULL;
+ 	}
+-	if (! slot)
+-		goto __unlock;
++	if (!slot)
++		return 0;
+ 	for (idx = 0; idx < uinfo->count; idx++)
+ 		uctl->value.enumerated.item[idx] = slot->capture_item;
+ 	err = kctl->put(kctl, uctl);
+ 	if (err > 0)
+ 		snd_ctl_notify(fmixer->card, SNDRV_CTL_EVENT_MASK_VALUE, &kctl->id);
+-	err = 0;
+-      __unlock:
+-	up_read(&card->controls_rwsem);
+-	return err;
++	return 0;
+ }
+ 
+ struct snd_mixer_oss_assign_table {
+@@ -918,24 +878,18 @@ static int snd_mixer_oss_build_test(struct snd_mixer_oss *mixer, struct slot *sl
+ 	struct snd_card *card = mixer->card;
+ 	int err;
+ 
+-	down_read(&card->controls_rwsem);
+-	kcontrol = snd_mixer_oss_test_id(mixer, name, index);
+-	if (kcontrol == NULL) {
+-		up_read(&card->controls_rwsem);
+-		return 0;
++	scoped_guard(rwsem_read, &card->controls_rwsem) {
++		kcontrol = snd_mixer_oss_test_id(mixer, name, index);
++		if (kcontrol == NULL)
++			return 0;
++		info = kmalloc(sizeof(*info), GFP_KERNEL);
++		if (!info)
++			return -ENOMEM;
++		err = kcontrol->info(kcontrol, info);
++		if (err < 0)
++			return err;
++		slot->numid[item] = kcontrol->id.numid;
+ 	}
+-	info = kmalloc(sizeof(*info), GFP_KERNEL);
+-	if (! info) {
+-		up_read(&card->controls_rwsem);
+-		return -ENOMEM;
+-	}
+-	err = kcontrol->info(kcontrol, info);
+-	if (err < 0) {
+-		up_read(&card->controls_rwsem);
+-		return err;
+-	}
+-	slot->numid[item] = kcontrol->id.numid;
+-	up_read(&card->controls_rwsem);
+ 	if (info->count > slot->channels)
+ 		slot->channels = info->count;
+ 	slot->present |= 1 << item;
+@@ -1048,7 +1002,7 @@ static int snd_mixer_oss_build_input(struct snd_mixer_oss *mixer,
+ 	memset(slot.numid, 0xff, sizeof(slot.numid)); /* ID_UNKNOWN */
+ 	if (snd_mixer_oss_build_test_all(mixer, ptr, &slot))
+ 		return 0;
+-	down_read(&mixer->card->controls_rwsem);
++	guard(rwsem_read)(&mixer->card->controls_rwsem);
+ 	kctl = NULL;
+ 	if (!ptr->index)
+ 		kctl = snd_mixer_oss_test_id(mixer, "Capture Source", 0);
+@@ -1056,15 +1010,11 @@ static int snd_mixer_oss_build_input(struct snd_mixer_oss *mixer,
+ 		struct snd_ctl_elem_info *uinfo __free(kfree) = NULL;
+ 
+ 		uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+-		if (! uinfo) {
+-			up_read(&mixer->card->controls_rwsem);
++		if (!uinfo)
+ 			return -ENOMEM;
+-		}
+ 			
+-		if (kctl->info(kctl, uinfo)) {
+-			up_read(&mixer->card->controls_rwsem);
++		if (kctl->info(kctl, uinfo))
+ 			return 0;
+-		}
+ 		strcpy(str, ptr->name);
+ 		if (!strcmp(str, "Master"))
+ 			strcpy(str, "Mix");
+@@ -1076,10 +1026,8 @@ static int snd_mixer_oss_build_input(struct snd_mixer_oss *mixer,
+ 		} else {
+ 			for (slot.capture_item = 1; slot.capture_item < uinfo->value.enumerated.items; slot.capture_item++) {
+ 				uinfo->value.enumerated.item = slot.capture_item;
+-				if (kctl->info(kctl, uinfo)) {
+-					up_read(&mixer->card->controls_rwsem);
++				if (kctl->info(kctl, uinfo))
+ 					return 0;
+-				}
+ 				if (!strcmp(uinfo->value.enumerated.name, str)) {
+ 					slot.present |= SNDRV_MIXER_OSS_PRESENT_CAPTURE;
+ 					break;
+@@ -1087,7 +1035,6 @@ static int snd_mixer_oss_build_input(struct snd_mixer_oss *mixer,
+ 			}
+ 		}
+ 	}
+-	up_read(&mixer->card->controls_rwsem);
+ 	if (slot.present != 0) {
+ 		pslot = kmalloc(sizeof(slot), GFP_KERNEL);
+ 		if (! pslot)
+@@ -1160,7 +1107,7 @@ static void snd_mixer_oss_proc_read(struct snd_info_entry *entry,
+ 	struct snd_mixer_oss *mixer = entry->private_data;
+ 	int i;
+ 
+-	mutex_lock(&mixer->reg_mutex);
++	guard(mutex)(&mixer->reg_mutex);
+ 	for (i = 0; i < SNDRV_OSS_MAX_MIXERS; i++) {
+ 		struct slot *p;
+ 
+@@ -1175,7 +1122,6 @@ static void snd_mixer_oss_proc_read(struct snd_info_entry *entry,
+ 		else
+ 			snd_iprintf(buffer, "\"\" 0\n");
+ 	}
+-	mutex_unlock(&mixer->reg_mutex);
+ }
+ 
+ static void snd_mixer_oss_proc_write(struct snd_info_entry *entry,
+@@ -1202,9 +1148,8 @@ static void snd_mixer_oss_proc_write(struct snd_info_entry *entry,
+ 		cptr = snd_info_get_str(str, cptr, sizeof(str));
+ 		if (! *str) {
+ 			/* remove the entry */
+-			mutex_lock(&mixer->reg_mutex);
+-			mixer_slot_clear(&mixer->slots[ch]);
+-			mutex_unlock(&mixer->reg_mutex);
++			scoped_guard(mutex, &mixer->reg_mutex)
++				mixer_slot_clear(&mixer->slots[ch]);
+ 			continue;
+ 		}
+ 		snd_info_get_str(idxstr, cptr, sizeof(idxstr));
+@@ -1213,28 +1158,27 @@ static void snd_mixer_oss_proc_write(struct snd_info_entry *entry,
+ 			pr_err("ALSA: mixer_oss: invalid index %d\n", idx);
+ 			continue;
+ 		}
+-		mutex_lock(&mixer->reg_mutex);
+-		slot = (struct slot *)mixer->slots[ch].private_data;
+-		if (slot && slot->assigned &&
+-		    slot->assigned->index == idx && ! strcmp(slot->assigned->name, str))
+-			/* not changed */
+-			goto __unlock;
+-		tbl = kmalloc(sizeof(*tbl), GFP_KERNEL);
+-		if (!tbl)
+-			goto __unlock;
+-		tbl->oss_id = ch;
+-		tbl->name = kstrdup(str, GFP_KERNEL);
+-		if (! tbl->name) {
+-			kfree(tbl);
+-			goto __unlock;
++		scoped_guard(mutex, &mixer->reg_mutex) {
++			slot = (struct slot *)mixer->slots[ch].private_data;
++			if (slot && slot->assigned &&
++			    slot->assigned->index == idx && !strcmp(slot->assigned->name, str))
++				/* not changed */
++				break;
++			tbl = kmalloc(sizeof(*tbl), GFP_KERNEL);
++			if (!tbl)
++				break;
++			tbl->oss_id = ch;
++			tbl->name = kstrdup(str, GFP_KERNEL);
++			if (!tbl->name) {
++				kfree(tbl);
++				break;
++			}
++			tbl->index = idx;
++			if (snd_mixer_oss_build_input(mixer, tbl, 1, 1) <= 0) {
++				kfree(tbl->name);
++				kfree(tbl);
++			}
+ 		}
+-		tbl->index = idx;
+-		if (snd_mixer_oss_build_input(mixer, tbl, 1, 1) <= 0) {
+-			kfree(tbl->name);
+-			kfree(tbl);
+-		}
+-	__unlock:
+-		mutex_unlock(&mixer->reg_mutex);
+ 	}
+ }
+ 
 -- 
 2.35.3
 
