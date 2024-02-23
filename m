@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75E98287B
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 16:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5FF84A39
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 16:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708705707; cv=none; b=LuVT5Sz652M2/DIYi8sS9TTHsw/AnLs/jlMLdk0d2qzCIOV2F1Emep/aW4Mzo910+3mt7S5Lhf+HsOVNcjsvS09z4E5s3ySOTksFeubnNQbMtMHi75uXoANHadspnjRjCRuSJ6Jf+5aeWQB8PmOl/DZlknu0RUHxaKNrEeHonl0=
+	t=1708705708; cv=none; b=AVRB1zdmMXewEoK2sRfBDH/1cQggJwjHb7YzLNxhq9lPj/aSLKgYCA8YUlacxqxSJBUcRH449f+lwfh9wA2GifG7NbS19m71Y3XFt7fTiSHqzUKolhmV7I8oH5q3vO88bAFXC6PcZK/AntGdoov5P3HPPPFnoLmhqxrLCzkySy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708705707; c=relaxed/simple;
-	bh=nqF3MgF0quaF7Dwn8to1qdh0v7Y/0Rpa6RoQ/SDyhPs=;
+	s=arc-20240116; t=1708705708; c=relaxed/simple;
+	bh=cwsfvCtEdywavZB2WRDbzqvOOd8oG8Ylx4F6Gom1+z4=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sJIiQOUs9EiPM3EIawTWQ7FYY+Ppp5MkFfZoZfCdNaIP83zNpM2BCuHQ5abQGp03dMzehntLcC/IThZHHNUJNj3JGM8hyymH4eUJjfui1gM9fbW35qQs2+GDQCWWvBUeSz2I9FksOXhsjDuTQt9BgfAh+fhN6YYN0gLFHBeUmxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFPAzX57; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Va8wTOzp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFPAzX57; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Va8wTOzp; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=th4SBprDqOj5KHxKmpp+aYPVnwElBkbi/2iu+Rc1VApBv4HU7LIteZqkII1tjLvSYA8wnol0x+1pHEIC76phV16V3TQZiuFGifGDx4iHktZBzX3eCFl1Pf1fNrLr62lHpeiuL0erwCFISoVEbiUS0zKszduLsoIHTWIpPFUlu0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GGBPn6Dx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hzQKqqwP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GGBPn6Dx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hzQKqqwP; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFPAzX57";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Va8wTOzp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFPAzX57";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Va8wTOzp"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GGBPn6Dx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hzQKqqwP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GGBPn6Dx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hzQKqqwP"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C0CB21FD45;
-	Fri, 23 Feb 2024 16:28:20 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6606E1FD42;
+	Fri, 23 Feb 2024 16:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708705700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708705701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=fFPAzX57mDHkNXCpljKEzwt6A83OZY4w2cX5M3jl6jxSmOrvNYGE5lvmBPHcUlZ0F59TS5
-	1N7nV4uYU0bwK4lTNWBLPC+Swyvna7Ri7N0EmkZMZ2BUy8TXP5lftB2KuK6JKqeDx+uvKy
-	io50/feBkMPs25bA3fQQmeccA9mhpTk=
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=GGBPn6DxYfAXjgn+wCFlXdd041jd7vLnuHhnmCtvVxVfdtdaCFKzHthpcB5zOKOci9QSEk
+	hnjnKc1QOPR9TBYyKAtqnum+7noCgs0WttGYwGTYBLk+wX7tv3hnkrfa9G1URvLjfJgAD8
+	fTdPBJPRitN9E8NOZ8YEH80j7XYCXio=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708705700;
+	s=susede2_ed25519; t=1708705701;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=Va8wTOzpo+zJ/1JtVY0xdbCwGljORIb+oQELS+ZXw+nEji18iuy9xOez6aBAp3EvLLPs1G
-	zrMEkukgZOL/QqBg==
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=hzQKqqwPpITAOD5J1+f840eBmGZyRz78lIaiHXZDSm0sZbcAc3FktNQalmOOQrW5Lqwt0Q
+	KNfY7iG+xAIts2Dw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708705700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708705701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=fFPAzX57mDHkNXCpljKEzwt6A83OZY4w2cX5M3jl6jxSmOrvNYGE5lvmBPHcUlZ0F59TS5
-	1N7nV4uYU0bwK4lTNWBLPC+Swyvna7Ri7N0EmkZMZ2BUy8TXP5lftB2KuK6JKqeDx+uvKy
-	io50/feBkMPs25bA3fQQmeccA9mhpTk=
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=GGBPn6DxYfAXjgn+wCFlXdd041jd7vLnuHhnmCtvVxVfdtdaCFKzHthpcB5zOKOci9QSEk
+	hnjnKc1QOPR9TBYyKAtqnum+7noCgs0WttGYwGTYBLk+wX7tv3hnkrfa9G1URvLjfJgAD8
+	fTdPBJPRitN9E8NOZ8YEH80j7XYCXio=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708705700;
+	s=susede2_ed25519; t=1708705701;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=Va8wTOzpo+zJ/1JtVY0xdbCwGljORIb+oQELS+ZXw+nEji18iuy9xOez6aBAp3EvLLPs1G
-	zrMEkukgZOL/QqBg==
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=hzQKqqwPpITAOD5J1+f840eBmGZyRz78lIaiHXZDSm0sZbcAc3FktNQalmOOQrW5Lqwt0Q
+	KNfY7iG+xAIts2Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A2BEB133DC;
-	Fri, 23 Feb 2024 16:28:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DDF4133DC;
+	Fri, 23 Feb 2024 16:28:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oI5pJqTH2GWaMQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 16:28:20 +0000
+	id IE3BDaXH2GWaMQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 16:28:21 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 16/24] ALSA: seq: timer: Use guard() for locking
-Date: Fri, 23 Feb 2024 17:28:02 +0100
-Message-Id: <20240223162810.32302-17-tiwai@suse.de>
+Subject: [PATCH 20/24] ALSA: seq: prioq: Use guard() for locking
+Date: Fri, 23 Feb 2024 17:28:06 +0100
+Message-Id: <20240223162810.32302-21-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223162810.32302-1-tiwai@suse.de>
 References: <20240223162810.32302-1-tiwai@suse.de>
@@ -87,31 +87,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.71
-X-Spamd-Result: default: False [0.71 / 50.00];
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GGBPn6Dx;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hzQKqqwP
+X-Spamd-Result: default: False [-0.31 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
 	 TO_DN_NONE(0.00)[];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_ONE(0.00)[1];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.19)[-0.965];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -0.31
+X-Rspamd-Queue-Id: 6606E1FD42
+X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spamd-Bar: /
 
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
@@ -120,354 +126,140 @@ Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_timer.c | 163 +++++++++++++------------------------
- 1 file changed, 58 insertions(+), 105 deletions(-)
+ sound/core/seq/seq_prioq.c | 59 +++++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 33 deletions(-)
 
-diff --git a/sound/core/seq/seq_timer.c b/sound/core/seq/seq_timer.c
-index 9863be6fd43e..ad2b97e2762d 100644
---- a/sound/core/seq/seq_timer.c
-+++ b/sound/core/seq/seq_timer.c
-@@ -75,9 +75,7 @@ void snd_seq_timer_delete(struct snd_seq_timer **tmr)
- 
- void snd_seq_timer_defaults(struct snd_seq_timer * tmr)
+diff --git a/sound/core/seq/seq_prioq.c b/sound/core/seq/seq_prioq.c
+index e062df7610e1..e649485a8772 100644
+--- a/sound/core/seq/seq_prioq.c
++++ b/sound/core/seq/seq_prioq.c
+@@ -132,7 +132,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 			  struct snd_seq_event_cell * cell)
  {
+ 	struct snd_seq_event_cell *cur, *prev;
 -	unsigned long flags;
--
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	/* setup defaults */
- 	tmr->ppq = 96;		/* 96 PPQ */
- 	tmr->tempo = 500000;	/* 120 BPM */
-@@ -93,7 +91,6 @@ void snd_seq_timer_defaults(struct snd_seq_timer * tmr)
- 	tmr->preferred_resolution = seq_default_timer_resolution;
+ 	int count;
+ 	int prior;
  
- 	tmr->skew = tmr->skew_base = SKEW_BASE;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- }
+@@ -142,7 +141,7 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 	/* check flags */
+ 	prior = (cell->event.flags & SNDRV_SEQ_PRIORITY_MASK);
  
- static void seq_timer_reset(struct snd_seq_timer *tmr)
-@@ -108,11 +105,8 @@ static void seq_timer_reset(struct snd_seq_timer *tmr)
+-	spin_lock_irqsave(&f->lock, flags);
++	guard(spinlock_irqsave)(&f->lock);
  
- void snd_seq_timer_reset(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	seq_timer_reset(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
- }
- 
- 
-@@ -121,7 +115,6 @@ static void snd_seq_timer_interrupt(struct snd_timer_instance *timeri,
- 				    unsigned long resolution,
- 				    unsigned long ticks)
- {
--	unsigned long flags;
- 	struct snd_seq_queue *q = timeri->callback_data;
- 	struct snd_seq_timer *tmr;
- 
-@@ -130,30 +123,28 @@ static void snd_seq_timer_interrupt(struct snd_timer_instance *timeri,
- 	tmr = q->timer;
- 	if (tmr == NULL)
- 		return;
--	spin_lock_irqsave(&tmr->lock, flags);
--	if (!tmr->running) {
--		spin_unlock_irqrestore(&tmr->lock, flags);
--		return;
-+
-+	scoped_guard(spinlock_irqsave, &tmr->lock) {
-+		if (!tmr->running)
-+			return;
-+
-+		resolution *= ticks;
-+		if (tmr->skew != tmr->skew_base) {
-+			/* FIXME: assuming skew_base = 0x10000 */
-+			resolution = (resolution >> 16) * tmr->skew +
-+				(((resolution & 0xffff) * tmr->skew) >> 16);
-+		}
-+
-+		/* update timer */
-+		snd_seq_inc_time_nsec(&tmr->cur_time, resolution);
-+
-+		/* calculate current tick */
-+		snd_seq_timer_update_tick(&tmr->tick, resolution);
-+
-+		/* register actual time of this timer update */
-+		ktime_get_ts64(&tmr->last_update);
+ 	/* check if this element needs to inserted at the end (ie. ordered 
+ 	   data is inserted) This will be very likeley if a sequencer 
+@@ -154,7 +153,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 			f->tail = cell;
+ 			cell->next = NULL;
+ 			f->cells++;
+-			spin_unlock_irqrestore(&f->lock, flags);
+ 			return 0;
+ 		}
  	}
- 
--	resolution *= ticks;
--	if (tmr->skew != tmr->skew_base) {
--		/* FIXME: assuming skew_base = 0x10000 */
--		resolution = (resolution >> 16) * tmr->skew +
--			(((resolution & 0xffff) * tmr->skew) >> 16);
--	}
--
--	/* update timer */
--	snd_seq_inc_time_nsec(&tmr->cur_time, resolution);
--
--	/* calculate current tick */
--	snd_seq_timer_update_tick(&tmr->tick, resolution);
--
--	/* register actual time of this timer update */
--	ktime_get_ts64(&tmr->last_update);
--
--	spin_unlock_irqrestore(&tmr->lock, flags);
--
- 	/* check queues and dispatch events */
- 	snd_seq_check_queue(q, 1, 0);
- }
-@@ -161,18 +152,15 @@ static void snd_seq_timer_interrupt(struct snd_timer_instance *timeri,
- /* set current tempo */
- int snd_seq_timer_set_tempo(struct snd_seq_timer * tmr, int tempo)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 	if (tempo <= 0)
- 		return -EINVAL;
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	if ((unsigned int)tempo != tmr->tempo) {
- 		tmr->tempo = tempo;
- 		snd_seq_timer_set_tick_resolution(tmr);
- 	}
--	spin_unlock_irqrestore(&tmr->lock, flags);
+@@ -179,7 +177,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 		prev = cur;
+ 		cur = cur->next;
+ 		if (! --count) {
+-			spin_unlock_irqrestore(&f->lock, flags);
+ 			pr_err("ALSA: seq: cannot find a pointer.. infinite loop?\n");
+ 			return -EINVAL;
+ 		}
+@@ -195,7 +192,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 	if (cur == NULL) /* reached end of the list */
+ 		f->tail = cell;
+ 	f->cells++;
+-	spin_unlock_irqrestore(&f->lock, flags);
  	return 0;
  }
  
-@@ -180,17 +168,15 @@ int snd_seq_timer_set_tempo(struct snd_seq_timer * tmr, int tempo)
- int snd_seq_timer_set_tempo_ppq(struct snd_seq_timer *tmr, int tempo, int ppq)
+@@ -213,14 +209,13 @@ struct snd_seq_event_cell *snd_seq_prioq_cell_out(struct snd_seq_prioq *f,
+ 						  void *current_time)
  {
- 	int changed;
+ 	struct snd_seq_event_cell *cell;
 -	unsigned long flags;
  
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 	if (tempo <= 0 || ppq <= 0)
- 		return -EINVAL;
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	if (tmr->running && (ppq != tmr->ppq)) {
- 		/* refuse to change ppq on running timers */
- 		/* because it will upset the song position (ticks) */
--		spin_unlock_irqrestore(&tmr->lock, flags);
- 		pr_debug("ALSA: seq: cannot change ppq of a running timer\n");
- 		return -EBUSY;
+ 	if (f == NULL) {
+ 		pr_debug("ALSA: seq: snd_seq_prioq_cell_in() called with NULL prioq\n");
+ 		return NULL;
  	}
-@@ -199,7 +185,6 @@ int snd_seq_timer_set_tempo_ppq(struct snd_seq_timer *tmr, int tempo, int ppq)
- 	tmr->ppq = ppq;
- 	if (changed)
- 		snd_seq_timer_set_tick_resolution(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
- }
+-	spin_lock_irqsave(&f->lock, flags);
  
-@@ -207,15 +192,12 @@ int snd_seq_timer_set_tempo_ppq(struct snd_seq_timer *tmr, int tempo, int ppq)
- int snd_seq_timer_set_position_tick(struct snd_seq_timer *tmr,
- 				    snd_seq_tick_time_t position)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	tmr->tick.cur_tick = position;
- 	tmr->tick.fraction = 0;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
- }
- 
-@@ -223,15 +205,12 @@ int snd_seq_timer_set_position_tick(struct snd_seq_timer *tmr,
- int snd_seq_timer_set_position_time(struct snd_seq_timer *tmr,
- 				    snd_seq_real_time_t position)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 
- 	snd_seq_sanity_real_time(&position);
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	tmr->cur_time = position;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
- }
- 
-@@ -239,8 +218,6 @@ int snd_seq_timer_set_position_time(struct snd_seq_timer *tmr,
- int snd_seq_timer_set_skew(struct snd_seq_timer *tmr, unsigned int skew,
- 			   unsigned int base)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 
-@@ -249,9 +226,8 @@ int snd_seq_timer_set_skew(struct snd_seq_timer *tmr, unsigned int skew,
- 		pr_debug("ALSA: seq: invalid skew base 0x%x\n", base);
- 		return -EINVAL;
++	guard(spinlock_irqsave)(&f->lock);
+ 	cell = f->head;
+ 	if (cell && current_time && !event_is_ready(&cell->event, current_time))
+ 		cell = NULL;
+@@ -235,7 +230,6 @@ struct snd_seq_event_cell *snd_seq_prioq_cell_out(struct snd_seq_prioq *f,
+ 		f->cells--;
  	}
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	tmr->skew = skew;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
+ 
+-	spin_unlock_irqrestore(&f->lock, flags);
+ 	return cell;
  }
  
-@@ -296,12 +272,12 @@ int snd_seq_timer_open(struct snd_seq_queue *q)
- 		snd_timer_instance_free(t);
- 		return err;
+@@ -256,37 +250,36 @@ static void prioq_remove_cells(struct snd_seq_prioq *f,
+ 			       void *arg)
+ {
+ 	register struct snd_seq_event_cell *cell, *next;
+-	unsigned long flags;
+ 	struct snd_seq_event_cell *prev = NULL;
+ 	struct snd_seq_event_cell *freefirst = NULL, *freeprev = NULL, *freenext;
+ 
+ 	/* collect all removed cells */
+-	spin_lock_irqsave(&f->lock, flags);
+-	for (cell = f->head; cell; cell = next) {
+-		next = cell->next;
+-		if (!match(cell, arg)) {
+-			prev = cell;
+-			continue;
++	scoped_guard(spinlock_irqsave, &f->lock) {
++		for (cell = f->head; cell; cell = next) {
++			next = cell->next;
++			if (!match(cell, arg)) {
++				prev = cell;
++				continue;
++			}
++
++			/* remove cell from prioq */
++			if (cell == f->head)
++				f->head = cell->next;
++			else
++				prev->next = cell->next;
++			if (cell == f->tail)
++				f->tail = cell->next;
++			f->cells--;
++
++			/* add cell to free list */
++			cell->next = NULL;
++			if (freefirst == NULL)
++				freefirst = cell;
++			else
++				freeprev->next = cell;
++			freeprev = cell;
+ 		}
+-
+-		/* remove cell from prioq */
+-		if (cell == f->head)
+-			f->head = cell->next;
+-		else
+-			prev->next = cell->next;
+-		if (cell == f->tail)
+-			f->tail = cell->next;
+-		f->cells--;
+-
+-		/* add cell to free list */
+-		cell->next = NULL;
+-		if (freefirst == NULL)
+-			freefirst = cell;
+-		else
+-			freeprev->next = cell;
+-		freeprev = cell;
  	}
--	spin_lock_irq(&tmr->lock);
--	if (tmr->timeri)
--		err = -EBUSY;
--	else
--		tmr->timeri = t;
--	spin_unlock_irq(&tmr->lock);
-+	scoped_guard(spinlock_irq, &tmr->lock) {
-+		if (tmr->timeri)
-+			err = -EBUSY;
-+		else
-+			tmr->timeri = t;
-+	}
- 	if (err < 0) {
- 		snd_timer_close(t);
- 		snd_timer_instance_free(t);
-@@ -318,10 +294,10 @@ int snd_seq_timer_close(struct snd_seq_queue *q)
- 	tmr = q->timer;
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
--	spin_lock_irq(&tmr->lock);
--	t = tmr->timeri;
--	tmr->timeri = NULL;
--	spin_unlock_irq(&tmr->lock);
-+	scoped_guard(spinlock_irq, &tmr->lock) {
-+		t = tmr->timeri;
-+		tmr->timeri = NULL;
-+	}
- 	if (t) {
- 		snd_timer_close(t);
- 		snd_timer_instance_free(t);
-@@ -342,13 +318,8 @@ static int seq_timer_stop(struct snd_seq_timer *tmr)
+-	spin_unlock_irqrestore(&f->lock, flags);	
  
- int snd_seq_timer_stop(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	err = seq_timer_stop(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return err;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return seq_timer_stop(tmr);
- }
- 
- static int initialize_timer(struct snd_seq_timer *tmr)
-@@ -398,13 +369,8 @@ static int seq_timer_start(struct snd_seq_timer *tmr)
- 
- int snd_seq_timer_start(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	err = seq_timer_start(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return err;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return seq_timer_start(tmr);
- }
- 
- static int seq_timer_continue(struct snd_seq_timer *tmr)
-@@ -426,13 +392,8 @@ static int seq_timer_continue(struct snd_seq_timer *tmr)
- 
- int snd_seq_timer_continue(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	err = seq_timer_continue(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return err;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return seq_timer_continue(tmr);
- }
- 
- /* return current 'real' time. use timeofday() to get better granularity. */
-@@ -440,9 +401,8 @@ snd_seq_real_time_t snd_seq_timer_get_cur_time(struct snd_seq_timer *tmr,
- 					       bool adjust_ktime)
- {
- 	snd_seq_real_time_t cur_time;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	cur_time = tmr->cur_time;
- 	if (adjust_ktime && tmr->running) {
- 		struct timespec64 tm;
-@@ -453,7 +413,6 @@ snd_seq_real_time_t snd_seq_timer_get_cur_time(struct snd_seq_timer *tmr,
- 		cur_time.tv_sec += tm.tv_sec;
- 		snd_seq_sanity_real_time(&cur_time);
- 	}
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return cur_time;	
- }
- 
-@@ -461,13 +420,8 @@ snd_seq_real_time_t snd_seq_timer_get_cur_time(struct snd_seq_timer *tmr,
-  high PPQ values) */
- snd_seq_tick_time_t snd_seq_timer_get_cur_tick(struct snd_seq_timer *tmr)
- {
--	snd_seq_tick_time_t cur_tick;
--	unsigned long flags;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	cur_tick = tmr->tick.cur_tick;
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return cur_tick;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return tmr->tick.cur_tick;
- }
- 
- 
-@@ -486,19 +440,18 @@ void snd_seq_info_timer_read(struct snd_info_entry *entry,
- 		q = queueptr(idx);
- 		if (q == NULL)
- 			continue;
--		mutex_lock(&q->timer_mutex);
--		tmr = q->timer;
--		if (!tmr)
--			goto unlock;
--		ti = tmr->timeri;
--		if (!ti)
--			goto unlock;
--		snd_iprintf(buffer, "Timer for queue %i : %s\n", q->queue, ti->timer->name);
--		resolution = snd_timer_resolution(ti) * tmr->ticks;
--		snd_iprintf(buffer, "  Period time : %lu.%09lu\n", resolution / 1000000000, resolution % 1000000000);
--		snd_iprintf(buffer, "  Skew : %u / %u\n", tmr->skew, tmr->skew_base);
--unlock:
--		mutex_unlock(&q->timer_mutex);
-+		scoped_guard(mutex, &q->timer_mutex) {
-+			tmr = q->timer;
-+			if (!tmr)
-+				break;
-+			ti = tmr->timeri;
-+			if (!ti)
-+				break;
-+			snd_iprintf(buffer, "Timer for queue %i : %s\n", q->queue, ti->timer->name);
-+			resolution = snd_timer_resolution(ti) * tmr->ticks;
-+			snd_iprintf(buffer, "  Period time : %lu.%09lu\n", resolution / 1000000000, resolution % 1000000000);
-+			snd_iprintf(buffer, "  Skew : %u / %u\n", tmr->skew, tmr->skew_base);
-+		}
- 		queuefree(q);
-  	}
- }
+ 	/* remove selected cells */
+ 	while (freefirst) {
 -- 
 2.35.3
 
