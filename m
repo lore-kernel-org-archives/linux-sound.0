@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE32484A4B
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 16:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1950D84FB6
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 16:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708705709; cv=none; b=ZTDpOTyi6r1aItaob8EiKr2rEz6TQUagCRNnljmPLnSeKedxRiMDgWBui4pZLSovHNcajE2rLN2FKOxTnXjJXyXpu/C9ElX6/1o6Ykvjb2zVh/cyx4etXl6oZP/Yb/JofClEQT8DIIHYao5o6IX7J/0URXnuzix72SPOCC8jC/g=
+	t=1708705710; cv=none; b=BImycusrTV8Z8mDMCA1MbI3Mj2CTYDdEMU4T0Ccmd7E3Soug4sZXIZ5cXLcFyVH0EgyPgpvMe7rRO+YsuZMfIhW5IhzTPJqhFfFyanbRlBwZwEwnET8mb66ywUPK2XFu8Y2iAlpQT4QZnEft3XRCGg+kSKjzsYIPflqd1MjKwcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708705709; c=relaxed/simple;
-	bh=YijEA+n3S0OH8K/GiPMEc8H201y2PoCrpslHe9K/RyM=;
+	s=arc-20240116; t=1708705710; c=relaxed/simple;
+	bh=Gm8ES37GC8nY+hXCEZT03EAKNuq4Wo9dwUi+RcISECw=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EVn9E54I1gaQrJThvx0KE7gRk3WgbNbmuMujwWScl+ZxxKIZrkiIZ7yBvRyTx0schD4rE7eO9EOH7k4o8D9jE6VqHt0kdkQ4PIpGPyIqWnuD06FIh9fT07Aa9PRbtNVFJ7tyfYhuy2imJ7q3T0JYyUJPiMg278EJOaCQbfX5YwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2CLsi4uJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XLtsrcQt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2CLsi4uJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XLtsrcQt; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=tHJxc+DAnCH5plw3I7bdeIzpKz2jDXNMIqcUx3Njx1uv8YlGvxg+N9KC/z6sCQnp5Jwl/JtDQltopWWf/PIDwqr7QbyBpT0fgxx4+Hvr1chbs9gW4zmj2QZN4KvYGifnc2pd3apoW3WSvVqZoCgankyXbWNZFRaqv0r6xL+Qta8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QLp8KjNx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FBjGSMCd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QLp8KjNx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FBjGSMCd; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2CLsi4uJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XLtsrcQt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2CLsi4uJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XLtsrcQt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QLp8KjNx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FBjGSMCd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QLp8KjNx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FBjGSMCd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A52371FD4A;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F3A1F1FD41;
 	Fri, 23 Feb 2024 16:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708705701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708705702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Qh0+jwkJYj24CzZL+GAkNCvrJZEWjCYJHLfd0m3X/E0=;
-	b=2CLsi4uJ16donmO6f3hHRuTLyOzTsBDcInpJsxZ95NmOEVfi3tLZn2MeTUPEodvpUWCnbQ
-	aHqABg1E6i9Kw1M05t2KyXsTkJtN2NzaeErPLP1PLFomRrHTOcThD5+7+OIIr4gYdmA7dW
-	QAfXE23DIv6CfnuabaAbMRNP3/YL5v0=
+	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
+	b=QLp8KjNxg4ozQ/GAM14yRvSZ71qvQgkpJgja/W94r2LxFgFPBmTehIoqWW29anVUsrQaQ+
+	/wb53stxcmUmrsd5DzWwAHAMXT3pMVvLfFx2ZtJJZZAAIs/5IGAZegN4PXJBx3Y4OfoZ8U
+	wqNY+t6JFpzbTGYgoyUhh4OEEVYE5GM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708705701;
+	s=susede2_ed25519; t=1708705702;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Qh0+jwkJYj24CzZL+GAkNCvrJZEWjCYJHLfd0m3X/E0=;
-	b=XLtsrcQtc8C4tpAmEsChYSqYhQBPA4UfhzdYqFC5nIexOf9yTt/60ykQyMQJElWNAGUN3o
-	sRK4aTPqd2+sDKAw==
+	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
+	b=FBjGSMCdFHIH0IQFR0AZnFctLzEgKBn3/NPvNyCY6vDNHdGvnnYP12qTGk+J6Y39WYjqHh
+	ERvOcwXut3skvjCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708705701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708705702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Qh0+jwkJYj24CzZL+GAkNCvrJZEWjCYJHLfd0m3X/E0=;
-	b=2CLsi4uJ16donmO6f3hHRuTLyOzTsBDcInpJsxZ95NmOEVfi3tLZn2MeTUPEodvpUWCnbQ
-	aHqABg1E6i9Kw1M05t2KyXsTkJtN2NzaeErPLP1PLFomRrHTOcThD5+7+OIIr4gYdmA7dW
-	QAfXE23DIv6CfnuabaAbMRNP3/YL5v0=
+	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
+	b=QLp8KjNxg4ozQ/GAM14yRvSZ71qvQgkpJgja/W94r2LxFgFPBmTehIoqWW29anVUsrQaQ+
+	/wb53stxcmUmrsd5DzWwAHAMXT3pMVvLfFx2ZtJJZZAAIs/5IGAZegN4PXJBx3Y4OfoZ8U
+	wqNY+t6JFpzbTGYgoyUhh4OEEVYE5GM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708705701;
+	s=susede2_ed25519; t=1708705702;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Qh0+jwkJYj24CzZL+GAkNCvrJZEWjCYJHLfd0m3X/E0=;
-	b=XLtsrcQtc8C4tpAmEsChYSqYhQBPA4UfhzdYqFC5nIexOf9yTt/60ykQyMQJElWNAGUN3o
-	sRK4aTPqd2+sDKAw==
+	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
+	b=FBjGSMCdFHIH0IQFR0AZnFctLzEgKBn3/NPvNyCY6vDNHdGvnnYP12qTGk+J6Y39WYjqHh
+	ERvOcwXut3skvjCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8912D133DC;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF164133DC;
 	Fri, 23 Feb 2024 16:28:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6L0bIKXH2GWaMQAAD6G6ig
+	id QME2MaXH2GWaMQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 16:28:21 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 22/24] ALSA: pcm: Use guard() for PCM stream locks
-Date: Fri, 23 Feb 2024 17:28:08 +0100
-Message-Id: <20240223162810.32302-23-tiwai@suse.de>
+Subject: [PATCH 24/24] ALSA: control_led: Use guard() for locking
+Date: Fri, 23 Feb 2024 17:28:10 +0100
+Message-Id: <20240223162810.32302-25-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223162810.32302-1-tiwai@suse.de>
 References: <20240223162810.32302-1-tiwai@suse.de>
@@ -86,17 +86,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2CLsi4uJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XLtsrcQt
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.51 / 50.00];
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.71
+X-Spamd-Result: default: False [0.71 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
@@ -106,741 +103,278 @@ X-Spamd-Result: default: False [-1.51 / 50.00];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.19)[-0.966];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-0.992];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: -1.51
-X-Rspamd-Queue-Id: A52371FD4A
 X-Spam-Flag: NO
 
-Define guard() usage for PCM stream locking and use it in appropriate
-places.
+We can simplify the code gracefully with new guard() macro and co for
+automatic cleanup of locks.
 
-The pair of snd_pcm_stream_lock() and snd_pcm_stream_unlock() can be
-presented with guard(pcm_stream_lock) now.
+A couple of functions that use snd_card_ref() and *_unref() are also
+cleaned up with a defined class, too.
+
+Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/pcm.h      |  12 ++
- sound/core/oss/pcm_oss.c |  29 ++--
- sound/core/pcm_compat.c  |  66 +++++----
- sound/core/pcm_lib.c     |  10 +-
- sound/core/pcm_native.c  | 292 +++++++++++++++++----------------------
- 5 files changed, 191 insertions(+), 218 deletions(-)
+ sound/core/control_led.c | 150 +++++++++++++++++----------------------
+ 1 file changed, 65 insertions(+), 85 deletions(-)
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index cc175c623dac..210096f124ee 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -659,6 +659,18 @@ void snd_pcm_stream_unlock_irqrestore(struct snd_pcm_substream *substream,
- 		flags = _snd_pcm_stream_lock_irqsave_nested(substream); \
- 	} while (0)
- 
-+/* definitions for guard(); use like guard(pcm_stream_lock) */
-+DEFINE_LOCK_GUARD_1(pcm_stream_lock, struct snd_pcm_substream,
-+		    snd_pcm_stream_lock(_T->lock),
-+		    snd_pcm_stream_unlock(_T->lock))
-+DEFINE_LOCK_GUARD_1(pcm_stream_lock_irq, struct snd_pcm_substream,
-+		    snd_pcm_stream_lock_irq(_T->lock),
-+		    snd_pcm_stream_unlock_irq(_T->lock))
-+DEFINE_LOCK_GUARD_1(pcm_stream_lock_irqsave, struct snd_pcm_substream,
-+		    snd_pcm_stream_lock_irqsave(_T->lock, _T->flags),
-+		    snd_pcm_stream_unlock_irqrestore(_T->lock, _T->flags),
-+		    unsigned long flags)
-+
- /**
-  * snd_pcm_group_for_each_entry - iterate over the linked substreams
-  * @s: the iterator
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index e4e292b2db06..49ea092e90f9 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -1623,9 +1623,8 @@ static int snd_pcm_oss_sync1(struct snd_pcm_substream *substream, size_t size)
- 			break;
- 		result = 0;
- 		set_current_state(TASK_INTERRUPTIBLE);
--		snd_pcm_stream_lock_irq(substream);
--		state = runtime->state;
--		snd_pcm_stream_unlock_irq(substream);
-+		scoped_guard(pcm_stream_lock_irq, substream)
-+			state = runtime->state;
- 		if (state != SNDRV_PCM_STATE_RUNNING) {
- 			set_current_state(TASK_RUNNING);
- 			break;
-@@ -2840,23 +2839,23 @@ static __poll_t snd_pcm_oss_poll(struct file *file, poll_table * wait)
- 	if (psubstream != NULL) {
- 		struct snd_pcm_runtime *runtime = psubstream->runtime;
- 		poll_wait(file, &runtime->sleep, wait);
--		snd_pcm_stream_lock_irq(psubstream);
--		if (runtime->state != SNDRV_PCM_STATE_DRAINING &&
--		    (runtime->state != SNDRV_PCM_STATE_RUNNING ||
--		     snd_pcm_oss_playback_ready(psubstream)))
--			mask |= EPOLLOUT | EPOLLWRNORM;
--		snd_pcm_stream_unlock_irq(psubstream);
-+		scoped_guard(pcm_stream_lock_irq, psubstream) {
-+			if (runtime->state != SNDRV_PCM_STATE_DRAINING &&
-+			    (runtime->state != SNDRV_PCM_STATE_RUNNING ||
-+			     snd_pcm_oss_playback_ready(psubstream)))
-+				mask |= EPOLLOUT | EPOLLWRNORM;
-+		}
- 	}
- 	if (csubstream != NULL) {
- 		struct snd_pcm_runtime *runtime = csubstream->runtime;
- 		snd_pcm_state_t ostate;
- 		poll_wait(file, &runtime->sleep, wait);
--		snd_pcm_stream_lock_irq(csubstream);
--		ostate = runtime->state;
--		if (ostate != SNDRV_PCM_STATE_RUNNING ||
--		    snd_pcm_oss_capture_ready(csubstream))
--			mask |= EPOLLIN | EPOLLRDNORM;
--		snd_pcm_stream_unlock_irq(csubstream);
-+		scoped_guard(pcm_stream_lock_irq, csubstream) {
-+			ostate = runtime->state;
-+			if (ostate != SNDRV_PCM_STATE_RUNNING ||
-+			    snd_pcm_oss_capture_ready(csubstream))
-+				mask |= EPOLLIN | EPOLLRDNORM;
-+		}
- 		if (ostate != SNDRV_PCM_STATE_RUNNING && runtime->oss.trigger) {
- 			struct snd_pcm_oss_file ofile;
- 			memset(&ofile, 0, sizeof(ofile));
-diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
-index ef3c0d177510..a42ec7f5a1da 100644
---- a/sound/core/pcm_compat.c
-+++ b/sound/core/pcm_compat.c
-@@ -432,22 +432,22 @@ static int snd_pcm_ioctl_sync_ptr_x32(struct snd_pcm_substream *substream,
- 	boundary = recalculate_boundary(runtime);
- 	if (!boundary)
- 		boundary = 0x7fffffff;
--	snd_pcm_stream_lock_irq(substream);
--	/* FIXME: we should consider the boundary for the sync from app */
--	if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
--		control->appl_ptr = scontrol.appl_ptr;
--	else
--		scontrol.appl_ptr = control->appl_ptr % boundary;
--	if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
--		control->avail_min = scontrol.avail_min;
--	else
--		scontrol.avail_min = control->avail_min;
--	sstatus.state = status->state;
--	sstatus.hw_ptr = status->hw_ptr % boundary;
--	sstatus.tstamp = status->tstamp;
--	sstatus.suspended_state = status->suspended_state;
--	sstatus.audio_tstamp = status->audio_tstamp;
--	snd_pcm_stream_unlock_irq(substream);
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		/* FIXME: we should consider the boundary for the sync from app */
-+		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
-+			control->appl_ptr = scontrol.appl_ptr;
-+		else
-+			scontrol.appl_ptr = control->appl_ptr % boundary;
-+		if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
-+			control->avail_min = scontrol.avail_min;
-+		else
-+			scontrol.avail_min = control->avail_min;
-+		sstatus.state = status->state;
-+		sstatus.hw_ptr = status->hw_ptr % boundary;
-+		sstatus.tstamp = status->tstamp;
-+		sstatus.suspended_state = status->suspended_state;
-+		sstatus.audio_tstamp = status->audio_tstamp;
-+	}
- 	if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
- 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
- 	if (put_user(sstatus.state, &src->s.status.state) ||
-@@ -510,26 +510,24 @@ static int snd_pcm_ioctl_sync_ptr_buggy(struct snd_pcm_substream *substream,
- 		if (err < 0)
- 			return err;
- 	}
--	snd_pcm_stream_lock_irq(substream);
--	if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_APPL)) {
--		err = pcm_lib_apply_appl_ptr(substream, sync_cp->appl_ptr);
--		if (err < 0) {
--			snd_pcm_stream_unlock_irq(substream);
--			return err;
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_APPL)) {
-+			err = pcm_lib_apply_appl_ptr(substream, sync_cp->appl_ptr);
-+			if (err < 0)
-+				return err;
-+		} else {
-+			sync_cp->appl_ptr = control->appl_ptr;
- 		}
--	} else {
--		sync_cp->appl_ptr = control->appl_ptr;
-+		if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
-+			control->avail_min = sync_cp->avail_min;
-+		else
-+			sync_cp->avail_min = control->avail_min;
-+		sync_ptr.s.status.state = status->state;
-+		sync_ptr.s.status.hw_ptr = status->hw_ptr;
-+		sync_ptr.s.status.tstamp = status->tstamp;
-+		sync_ptr.s.status.suspended_state = status->suspended_state;
-+		sync_ptr.s.status.audio_tstamp = status->audio_tstamp;
- 	}
--	if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
--		control->avail_min = sync_cp->avail_min;
--	else
--		sync_cp->avail_min = control->avail_min;
--	sync_ptr.s.status.state = status->state;
--	sync_ptr.s.status.hw_ptr = status->hw_ptr;
--	sync_ptr.s.status.tstamp = status->tstamp;
--	sync_ptr.s.status.suspended_state = status->suspended_state;
--	sync_ptr.s.status.audio_tstamp = status->audio_tstamp;
--	snd_pcm_stream_unlock_irq(substream);
- 	if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_APPL))
- 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
- 	if (copy_to_user(_sync_ptr, &sync_ptr, sizeof(sync_ptr)))
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index 41103e5c43ce..6f73b3c2c205 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -1744,8 +1744,8 @@ static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
- 				   void *arg)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	unsigned long flags;
--	snd_pcm_stream_lock_irqsave(substream, flags);
-+
-+	guard(pcm_stream_lock_irqsave)(substream);
- 	if (snd_pcm_running(substream) &&
- 	    snd_pcm_update_hw_ptr(substream) >= 0)
- 		runtime->status->hw_ptr %= runtime->buffer_size;
-@@ -1753,7 +1753,6 @@ static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
- 		runtime->status->hw_ptr = 0;
- 		runtime->hw_ptr_wrap = 0;
- 	}
--	snd_pcm_stream_unlock_irqrestore(substream, flags);
- 	return 0;
- }
- 
-@@ -1899,14 +1898,11 @@ EXPORT_SYMBOL(snd_pcm_period_elapsed_under_stream_lock);
-  */
- void snd_pcm_period_elapsed(struct snd_pcm_substream *substream)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!substream))
+diff --git a/sound/core/control_led.c b/sound/core/control_led.c
+index a78eb48927c7..3d37e9fa7b9c 100644
+--- a/sound/core/control_led.c
++++ b/sound/core/control_led.c
+@@ -147,29 +147,27 @@ static void snd_ctl_led_set_state(struct snd_card *card, unsigned int access,
  		return;
- 
--	snd_pcm_stream_lock_irqsave(substream, flags);
-+	guard(pcm_stream_lock_irqsave)(substream);
- 	snd_pcm_period_elapsed_under_stream_lock(substream);
--	snd_pcm_stream_unlock_irqrestore(substream, flags);
- }
- EXPORT_SYMBOL(snd_pcm_period_elapsed);
- 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index f2a0cbb25bb7..c1396c802409 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -604,10 +604,9 @@ static int period_to_usecs(struct snd_pcm_runtime *runtime)
- static void snd_pcm_set_state(struct snd_pcm_substream *substream,
- 			      snd_pcm_state_t state)
- {
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 	if (substream->runtime->state != SNDRV_PCM_STATE_DISCONNECTED)
- 		__snd_pcm_set_state(substream->runtime, state);
--	snd_pcm_stream_unlock_irq(substream);
- }
- 
- static inline void snd_pcm_timer_notify(struct snd_pcm_substream *substream,
-@@ -733,20 +732,20 @@ static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
- 	err = snd_pcm_buffer_access_lock(runtime);
- 	if (err < 0)
- 		return err;
--	snd_pcm_stream_lock_irq(substream);
--	switch (runtime->state) {
--	case SNDRV_PCM_STATE_OPEN:
--	case SNDRV_PCM_STATE_SETUP:
--	case SNDRV_PCM_STATE_PREPARED:
--		if (!is_oss_stream(substream) &&
--		    atomic_read(&substream->mmap_count))
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		switch (runtime->state) {
-+		case SNDRV_PCM_STATE_OPEN:
-+		case SNDRV_PCM_STATE_SETUP:
-+		case SNDRV_PCM_STATE_PREPARED:
-+			if (!is_oss_stream(substream) &&
-+			    atomic_read(&substream->mmap_count))
-+				err = -EBADFD;
-+			break;
-+		default:
- 			err = -EBADFD;
--		break;
--	default:
--		err = -EBADFD;
--		break;
-+			break;
-+		}
- 	}
--	snd_pcm_stream_unlock_irq(substream);
- 	if (err)
- 		goto unlock;
- 
-@@ -896,18 +895,18 @@ static int snd_pcm_hw_free(struct snd_pcm_substream *substream)
- 	result = snd_pcm_buffer_access_lock(runtime);
- 	if (result < 0)
- 		return result;
--	snd_pcm_stream_lock_irq(substream);
--	switch (runtime->state) {
--	case SNDRV_PCM_STATE_SETUP:
--	case SNDRV_PCM_STATE_PREPARED:
--		if (atomic_read(&substream->mmap_count))
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		switch (runtime->state) {
-+		case SNDRV_PCM_STATE_SETUP:
-+		case SNDRV_PCM_STATE_PREPARED:
-+			if (atomic_read(&substream->mmap_count))
-+				result = -EBADFD;
-+			break;
-+		default:
- 			result = -EBADFD;
--		break;
--	default:
--		result = -EBADFD;
--		break;
-+			break;
-+		}
- 	}
--	snd_pcm_stream_unlock_irq(substream);
- 	if (result)
- 		goto unlock;
- 	result = do_hw_free(substream);
-@@ -927,12 +926,10 @@ static int snd_pcm_sw_params(struct snd_pcm_substream *substream,
- 	if (PCM_RUNTIME_CHECK(substream))
- 		return -ENXIO;
- 	runtime = substream->runtime;
--	snd_pcm_stream_lock_irq(substream);
--	if (runtime->state == SNDRV_PCM_STATE_OPEN) {
--		snd_pcm_stream_unlock_irq(substream);
--		return -EBADFD;
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		if (runtime->state == SNDRV_PCM_STATE_OPEN)
-+			return -EBADFD;
- 	}
--	snd_pcm_stream_unlock_irq(substream);
- 
- 	if (params->tstamp_mode < 0 ||
- 	    params->tstamp_mode > SNDRV_PCM_TSTAMP_LAST)
-@@ -952,24 +949,24 @@ static int snd_pcm_sw_params(struct snd_pcm_substream *substream,
- 			return -EINVAL;
- 	}
- 	err = 0;
--	snd_pcm_stream_lock_irq(substream);
--	runtime->tstamp_mode = params->tstamp_mode;
--	if (params->proto >= SNDRV_PROTOCOL_VERSION(2, 0, 12))
--		runtime->tstamp_type = params->tstamp_type;
--	runtime->period_step = params->period_step;
--	runtime->control->avail_min = params->avail_min;
--	runtime->start_threshold = params->start_threshold;
--	runtime->stop_threshold = params->stop_threshold;
--	runtime->silence_threshold = params->silence_threshold;
--	runtime->silence_size = params->silence_size;
--        params->boundary = runtime->boundary;
--	if (snd_pcm_running(substream)) {
--		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
--		    runtime->silence_size > 0)
--			snd_pcm_playback_silence(substream, ULONG_MAX);
--		err = snd_pcm_update_state(substream, runtime);
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		runtime->tstamp_mode = params->tstamp_mode;
-+		if (params->proto >= SNDRV_PROTOCOL_VERSION(2, 0, 12))
-+			runtime->tstamp_type = params->tstamp_type;
-+		runtime->period_step = params->period_step;
-+		runtime->control->avail_min = params->avail_min;
-+		runtime->start_threshold = params->start_threshold;
-+		runtime->stop_threshold = params->stop_threshold;
-+		runtime->silence_threshold = params->silence_threshold;
-+		runtime->silence_size = params->silence_size;
-+		params->boundary = runtime->boundary;
-+		if (snd_pcm_running(substream)) {
-+			if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
-+			    runtime->silence_size > 0)
-+				snd_pcm_playback_silence(substream, ULONG_MAX);
-+			err = snd_pcm_update_state(substream, runtime);
-+		}
- 	}
--	snd_pcm_stream_unlock_irq(substream);
- 	return err;
- }
- 
-@@ -1003,7 +1000,7 @@ int snd_pcm_status64(struct snd_pcm_substream *substream,
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 
- 	snd_pcm_unpack_audio_tstamp_config(status->audio_tstamp_data,
- 					&runtime->audio_tstamp_config);
-@@ -1024,7 +1021,7 @@ int snd_pcm_status64(struct snd_pcm_substream *substream,
- 	status->state = runtime->state;
- 	status->suspended_state = runtime->suspended_state;
- 	if (status->state == SNDRV_PCM_STATE_OPEN)
--		goto _end;
-+		return 0;
- 	status->trigger_tstamp_sec = runtime->trigger_tstamp.tv_sec;
- 	status->trigger_tstamp_nsec = runtime->trigger_tstamp.tv_nsec;
- 	if (snd_pcm_running(substream)) {
-@@ -1069,8 +1066,6 @@ int snd_pcm_status64(struct snd_pcm_substream *substream,
- 	status->overrange = runtime->overrange;
- 	runtime->avail_max = 0;
- 	runtime->overrange = 0;
-- _end:
-- 	snd_pcm_stream_unlock_irq(substream);
- 	return 0;
- }
- 
-@@ -1155,12 +1150,10 @@ static int snd_pcm_channel_info(struct snd_pcm_substream *substream,
- 	
- 	channel = info->channel;
- 	runtime = substream->runtime;
--	snd_pcm_stream_lock_irq(substream);
--	if (runtime->state == SNDRV_PCM_STATE_OPEN) {
--		snd_pcm_stream_unlock_irq(substream);
--		return -EBADFD;
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		if (runtime->state == SNDRV_PCM_STATE_OPEN)
-+			return -EBADFD;
- 	}
--	snd_pcm_stream_unlock_irq(substream);
- 	if (channel >= runtime->channels)
- 		return -EINVAL;
- 	memset(info, 0, sizeof(*info));
-@@ -1381,12 +1374,8 @@ static int snd_pcm_action_lock_irq(const struct action_ops *ops,
- 				   struct snd_pcm_substream *substream,
- 				   snd_pcm_state_t state)
- {
--	int res;
--
--	snd_pcm_stream_lock_irq(substream);
--	res = snd_pcm_action(ops, substream, state);
--	snd_pcm_stream_unlock_irq(substream);
--	return res;
-+	guard(pcm_stream_lock_irq)(substream);
-+	return snd_pcm_action(ops, substream, state);
- }
- 
- /*
-@@ -1576,12 +1565,9 @@ int snd_pcm_drain_done(struct snd_pcm_substream *substream)
-  */
- int snd_pcm_stop_xrun(struct snd_pcm_substream *substream)
- {
--	unsigned long flags;
--
--	snd_pcm_stream_lock_irqsave(substream, flags);
-+	guard(pcm_stream_lock_irqsave)(substream);
- 	if (substream->runtime && snd_pcm_running(substream))
- 		__snd_pcm_xrun(substream);
--	snd_pcm_stream_unlock_irqrestore(substream, flags);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_pcm_stop_xrun);
-@@ -1733,14 +1719,9 @@ static const struct action_ops snd_pcm_action_suspend = {
-  */
- static int snd_pcm_suspend(struct snd_pcm_substream *substream)
- {
--	int err;
--	unsigned long flags;
--
--	snd_pcm_stream_lock_irqsave(substream, flags);
--	err = snd_pcm_action(&snd_pcm_action_suspend, substream,
--			     ACTION_ARG_IGNORE);
--	snd_pcm_stream_unlock_irqrestore(substream, flags);
--	return err;
-+	guard(pcm_stream_lock_irqsave)(substream);
-+	return snd_pcm_action(&snd_pcm_action_suspend, substream,
-+			      ACTION_ARG_IGNORE);
- }
- 
- /**
-@@ -1856,22 +1837,17 @@ static int snd_pcm_resume(struct snd_pcm_substream *substream)
- static int snd_pcm_xrun(struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	int result;
- 
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 	switch (runtime->state) {
- 	case SNDRV_PCM_STATE_XRUN:
--		result = 0;	/* already there */
--		break;
-+		return 0;	/* already there */
- 	case SNDRV_PCM_STATE_RUNNING:
- 		__snd_pcm_xrun(substream);
--		result = 0;
--		break;
-+		return 0;
- 	default:
--		result = -EBADFD;
-+		return -EBADFD;
- 	}
--	snd_pcm_stream_unlock_irq(substream);
--	return result;
- }
- 
- /*
-@@ -1900,13 +1876,12 @@ static int snd_pcm_do_reset(struct snd_pcm_substream *substream,
- 	int err = snd_pcm_ops_ioctl(substream, SNDRV_PCM_IOCTL1_RESET, NULL);
- 	if (err < 0)
- 		return err;
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 	runtime->hw_ptr_base = 0;
- 	runtime->hw_ptr_interrupt = runtime->status->hw_ptr -
- 		runtime->status->hw_ptr % runtime->period_size;
- 	runtime->silence_start = runtime->status->hw_ptr;
- 	runtime->silence_filled = 0;
--	snd_pcm_stream_unlock_irq(substream);
- 	return 0;
- }
- 
-@@ -1914,12 +1889,11 @@ static void snd_pcm_post_reset(struct snd_pcm_substream *substream,
- 			       snd_pcm_state_t state)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 	runtime->control->appl_ptr = runtime->status->hw_ptr;
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
- 	    runtime->silence_size > 0)
- 		snd_pcm_playback_silence(substream, ULONG_MAX);
--	snd_pcm_stream_unlock_irq(substream);
- }
- 
- static const struct action_ops snd_pcm_action_reset = {
-@@ -1995,16 +1969,16 @@ static int snd_pcm_prepare(struct snd_pcm_substream *substream,
- 	else
- 		f_flags = substream->f_flags;
- 
--	snd_pcm_stream_lock_irq(substream);
--	switch (substream->runtime->state) {
--	case SNDRV_PCM_STATE_PAUSED:
--		snd_pcm_pause(substream, false);
--		fallthrough;
--	case SNDRV_PCM_STATE_SUSPENDED:
--		snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
--		break;
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		switch (substream->runtime->state) {
-+		case SNDRV_PCM_STATE_PAUSED:
-+			snd_pcm_pause(substream, false);
-+			fallthrough;
-+		case SNDRV_PCM_STATE_SUSPENDED:
-+			snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
-+			break;
-+		}
- 	}
--	snd_pcm_stream_unlock_irq(substream);
- 
- 	return snd_pcm_action_nonatomic(&snd_pcm_action_prepare,
- 					substream,
-@@ -2221,14 +2195,13 @@ static int snd_pcm_drop(struct snd_pcm_substream *substream)
- 	    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
- 		return -EBADFD;
- 
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 	/* resume pause */
- 	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
- 		snd_pcm_pause(substream, false);
- 
- 	snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
- 	/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
--	snd_pcm_stream_unlock_irq(substream);
- 
- 	return result;
- }
-@@ -2288,13 +2261,13 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
- 	if (snd_pcm_stream_linked(substream1))
- 		return -EALREADY;
- 
--	snd_pcm_stream_lock_irq(substream);
--	if (!snd_pcm_stream_linked(substream)) {
--		snd_pcm_group_assign(substream, group);
--		group = NULL; /* assigned, don't free this one below */
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		if (!snd_pcm_stream_linked(substream)) {
-+			snd_pcm_group_assign(substream, group);
-+			group = NULL; /* assigned, don't free this one below */
-+		}
-+		target_group = substream->group;
- 	}
--	target_group = substream->group;
--	snd_pcm_stream_unlock_irq(substream);
- 
- 	snd_pcm_group_lock_irq(target_group, nonatomic);
- 	snd_pcm_stream_lock_nested(substream1);
-@@ -3000,12 +2973,12 @@ static snd_pcm_sframes_t snd_pcm_rewind(struct snd_pcm_substream *substream,
- 	if (frames == 0)
- 		return 0;
- 
--	snd_pcm_stream_lock_irq(substream);
--	ret = do_pcm_hwsync(substream);
--	if (!ret)
--		ret = rewind_appl_ptr(substream, frames,
--				      snd_pcm_hw_avail(substream));
--	snd_pcm_stream_unlock_irq(substream);
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		ret = do_pcm_hwsync(substream);
-+		if (!ret)
-+			ret = rewind_appl_ptr(substream, frames,
-+					      snd_pcm_hw_avail(substream));
-+	}
- 	if (ret >= 0)
- 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
- 	return ret;
-@@ -3019,12 +2992,12 @@ static snd_pcm_sframes_t snd_pcm_forward(struct snd_pcm_substream *substream,
- 	if (frames == 0)
- 		return 0;
- 
--	snd_pcm_stream_lock_irq(substream);
--	ret = do_pcm_hwsync(substream);
--	if (!ret)
--		ret = forward_appl_ptr(substream, frames,
--				       snd_pcm_avail(substream));
--	snd_pcm_stream_unlock_irq(substream);
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		ret = do_pcm_hwsync(substream);
-+		if (!ret)
-+			ret = forward_appl_ptr(substream, frames,
-+					       snd_pcm_avail(substream));
-+	}
- 	if (ret >= 0)
- 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
- 	return ret;
-@@ -3035,11 +3008,11 @@ static int snd_pcm_delay(struct snd_pcm_substream *substream,
- {
- 	int err;
- 
--	snd_pcm_stream_lock_irq(substream);
--	err = do_pcm_hwsync(substream);
--	if (delay && !err)
--		*delay = snd_pcm_calc_delay(substream);
--	snd_pcm_stream_unlock_irq(substream);
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		err = do_pcm_hwsync(substream);
-+		if (delay && !err)
-+			*delay = snd_pcm_calc_delay(substream);
-+	}
- 	snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
- 
- 	return err;
-@@ -3071,27 +3044,25 @@ static int snd_pcm_sync_ptr(struct snd_pcm_substream *substream,
- 		if (err < 0)
- 			return err;
- 	}
--	snd_pcm_stream_lock_irq(substream);
--	if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_APPL)) {
--		err = pcm_lib_apply_appl_ptr(substream,
--					     sync_ptr.c.control.appl_ptr);
--		if (err < 0) {
--			snd_pcm_stream_unlock_irq(substream);
--			return err;
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_APPL)) {
-+			err = pcm_lib_apply_appl_ptr(substream,
-+						     sync_ptr.c.control.appl_ptr);
-+			if (err < 0)
-+				return err;
-+		} else {
-+			sync_ptr.c.control.appl_ptr = control->appl_ptr;
+ 	route = -1;
+ 	found = false;
+-	mutex_lock(&snd_ctl_led_mutex);
+-	/* the card may not be registered (active) at this point */
+-	if (card && !snd_ctl_led_card_valid[card->number]) {
+-		mutex_unlock(&snd_ctl_led_mutex);
+-		return;
+-	}
+-	list_for_each_entry(lctl, &led->controls, list) {
+-		if (lctl->kctl == kctl && lctl->index_offset == ioff)
+-			found = true;
+-		UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
+-	}
+-	if (!found && kctl && card) {
+-		lctl = kzalloc(sizeof(*lctl), GFP_KERNEL);
+-		if (lctl) {
+-			lctl->card = card;
+-			lctl->access = access;
+-			lctl->kctl = kctl;
+-			lctl->index_offset = ioff;
+-			list_add(&lctl->list, &led->controls);
++	scoped_guard(mutex, &snd_ctl_led_mutex) {
++		/* the card may not be registered (active) at this point */
++		if (card && !snd_ctl_led_card_valid[card->number])
++			return;
++		list_for_each_entry(lctl, &led->controls, list) {
++			if (lctl->kctl == kctl && lctl->index_offset == ioff)
++				found = true;
+ 			UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
  		}
--	} else {
--		sync_ptr.c.control.appl_ptr = control->appl_ptr;
-+		if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
-+			control->avail_min = sync_ptr.c.control.avail_min;
-+		else
-+			sync_ptr.c.control.avail_min = control->avail_min;
-+		sync_ptr.s.status.state = status->state;
-+		sync_ptr.s.status.hw_ptr = status->hw_ptr;
-+		sync_ptr.s.status.tstamp = status->tstamp;
-+		sync_ptr.s.status.suspended_state = status->suspended_state;
-+		sync_ptr.s.status.audio_tstamp = status->audio_tstamp;
++		if (!found && kctl && card) {
++			lctl = kzalloc(sizeof(*lctl), GFP_KERNEL);
++			if (lctl) {
++				lctl->card = card;
++				lctl->access = access;
++				lctl->kctl = kctl;
++				lctl->index_offset = ioff;
++				list_add(&lctl->list, &led->controls);
++				UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
++			}
++		}
  	}
--	if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
--		control->avail_min = sync_ptr.c.control.avail_min;
--	else
--		sync_ptr.c.control.avail_min = control->avail_min;
--	sync_ptr.s.status.state = status->state;
--	sync_ptr.s.status.hw_ptr = status->hw_ptr;
--	sync_ptr.s.status.tstamp = status->tstamp;
--	sync_ptr.s.status.suspended_state = status->suspended_state;
--	sync_ptr.s.status.audio_tstamp = status->audio_tstamp;
--	snd_pcm_stream_unlock_irq(substream);
- 	if (!(sync_ptr.flags & SNDRV_PCM_SYNC_PTR_APPL))
- 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
- 	if (copy_to_user(_sync_ptr, &sync_ptr, sizeof(sync_ptr)))
-@@ -3169,27 +3140,25 @@ static int snd_pcm_ioctl_sync_ptr_compat(struct snd_pcm_substream *substream,
- 	boundary = recalculate_boundary(runtime);
- 	if (! boundary)
- 		boundary = 0x7fffffff;
--	snd_pcm_stream_lock_irq(substream);
--	/* FIXME: we should consider the boundary for the sync from app */
--	if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL)) {
--		err = pcm_lib_apply_appl_ptr(substream,
--				scontrol.appl_ptr);
--		if (err < 0) {
--			snd_pcm_stream_unlock_irq(substream);
--			return err;
--		}
--	} else
--		scontrol.appl_ptr = control->appl_ptr % boundary;
--	if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
--		control->avail_min = scontrol.avail_min;
--	else
--		scontrol.avail_min = control->avail_min;
--	sstatus.state = status->state;
--	sstatus.hw_ptr = status->hw_ptr % boundary;
--	sstatus.tstamp = status->tstamp;
--	sstatus.suspended_state = status->suspended_state;
--	sstatus.audio_tstamp = status->audio_tstamp;
--	snd_pcm_stream_unlock_irq(substream);
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		/* FIXME: we should consider the boundary for the sync from app */
-+		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL)) {
-+			err = pcm_lib_apply_appl_ptr(substream,
-+						     scontrol.appl_ptr);
-+			if (err < 0)
-+				return err;
-+		} else
-+			scontrol.appl_ptr = control->appl_ptr % boundary;
-+		if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
-+			control->avail_min = scontrol.avail_min;
-+		else
-+			scontrol.avail_min = control->avail_min;
-+		sstatus.state = status->state;
-+		sstatus.hw_ptr = status->hw_ptr % boundary;
-+		sstatus.tstamp = status->tstamp;
-+		sstatus.suspended_state = status->suspended_state;
-+		sstatus.audio_tstamp = status->audio_tstamp;
-+	}
- 	if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
- 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
- 	if (put_user(sstatus.state, &src->s.status.state) ||
-@@ -3628,7 +3597,7 @@ static __poll_t snd_pcm_poll(struct file *file, poll_table *wait)
- 	poll_wait(file, &runtime->sleep, wait);
+-	mutex_unlock(&snd_ctl_led_mutex);
+ 	switch (led->mode) {
+ 	case MODE_OFF:		route = 1; break;
+ 	case MODE_ON:		route = 0; break;
+@@ -201,14 +199,13 @@ static unsigned int snd_ctl_led_remove(struct snd_kcontrol *kctl, unsigned int i
+ 	struct snd_ctl_led_ctl *lctl;
+ 	unsigned int ret = 0;
  
- 	mask = 0;
--	snd_pcm_stream_lock_irq(substream);
-+	guard(pcm_stream_lock_irq)(substream);
- 	avail = snd_pcm_avail(substream);
- 	switch (runtime->state) {
- 	case SNDRV_PCM_STATE_RUNNING:
-@@ -3648,7 +3617,6 @@ static __poll_t snd_pcm_poll(struct file *file, poll_table *wait)
- 		mask = ok | EPOLLERR;
- 		break;
+-	mutex_lock(&snd_ctl_led_mutex);
++	guard(mutex)(&snd_ctl_led_mutex);
+ 	lctl = snd_ctl_led_find(kctl, ioff);
+ 	if (lctl && (access == 0 || access != lctl->access)) {
+ 		ret = lctl->access;
+ 		list_del(&lctl->list);
+ 		kfree(lctl);
  	}
--	snd_pcm_stream_unlock_irq(substream);
- 	return mask;
+-	mutex_unlock(&snd_ctl_led_mutex);
+ 	return ret;
+ }
+ 
+@@ -239,44 +236,36 @@ static void snd_ctl_led_notify(struct snd_card *card, unsigned int mask,
+ 	}
+ }
+ 
++DEFINE_FREE(snd_card_unref, struct snd_card *, if (_T) snd_card_unref(_T))
++
+ static int snd_ctl_led_set_id(int card_number, struct snd_ctl_elem_id *id,
+ 			      unsigned int group, bool set)
+ {
+-	struct snd_card *card;
++	struct snd_card *card __free(snd_card_unref) = NULL;
+ 	struct snd_kcontrol *kctl;
+ 	struct snd_kcontrol_volatile *vd;
+ 	unsigned int ioff, access, new_access;
+-	int err = 0;
+ 
+ 	card = snd_card_ref(card_number);
+-	if (card) {
+-		down_write(&card->controls_rwsem);
+-		kctl = snd_ctl_find_id_locked(card, id);
+-		if (kctl) {
+-			ioff = snd_ctl_get_ioff(kctl, id);
+-			vd = &kctl->vd[ioff];
+-			access = vd->access & SNDRV_CTL_ELEM_ACCESS_LED_MASK;
+-			if (access != 0 && access != group_to_access(group)) {
+-				err = -EXDEV;
+-				goto unlock;
+-			}
+-			new_access = vd->access & ~SNDRV_CTL_ELEM_ACCESS_LED_MASK;
+-			if (set)
+-				new_access |= group_to_access(group);
+-			if (new_access != vd->access) {
+-				vd->access = new_access;
+-				snd_ctl_led_notify(card, SNDRV_CTL_EVENT_MASK_INFO, kctl, ioff);
+-			}
+-		} else {
+-			err = -ENOENT;
+-		}
+-unlock:
+-		up_write(&card->controls_rwsem);
+-		snd_card_unref(card);
+-	} else {
+-		err = -ENXIO;
++	if (!card)
++		return -ENXIO;
++	guard(rwsem_write)(&card->controls_rwsem);
++	kctl = snd_ctl_find_id_locked(card, id);
++	if (!kctl)
++		return -ENOENT;
++	ioff = snd_ctl_get_ioff(kctl, id);
++	vd = &kctl->vd[ioff];
++	access = vd->access & SNDRV_CTL_ELEM_ACCESS_LED_MASK;
++	if (access != 0 && access != group_to_access(group))
++		return -EXDEV;
++	new_access = vd->access & ~SNDRV_CTL_ELEM_ACCESS_LED_MASK;
++	if (set)
++		new_access |= group_to_access(group);
++	if (new_access != vd->access) {
++		vd->access = new_access;
++		snd_ctl_led_notify(card, SNDRV_CTL_EVENT_MASK_INFO, kctl, ioff);
+ 	}
+-	return err;
++	return 0;
+ }
+ 
+ static void snd_ctl_led_refresh(void)
+@@ -312,7 +301,7 @@ static void snd_ctl_led_clean(struct snd_card *card)
+ 
+ static int snd_ctl_led_reset(int card_number, unsigned int group)
+ {
+-	struct snd_card *card;
++	struct snd_card *card __free(snd_card_unref) = NULL;
+ 	struct snd_ctl_led *led;
+ 	struct snd_ctl_led_ctl *lctl;
+ 	struct snd_kcontrol_volatile *vd;
+@@ -322,26 +311,22 @@ static int snd_ctl_led_reset(int card_number, unsigned int group)
+ 	if (!card)
+ 		return -ENXIO;
+ 
+-	mutex_lock(&snd_ctl_led_mutex);
+-	if (!snd_ctl_led_card_valid[card_number]) {
+-		mutex_unlock(&snd_ctl_led_mutex);
+-		snd_card_unref(card);
+-		return -ENXIO;
+-	}
+-	led = &snd_ctl_leds[group];
++	scoped_guard(mutex, &snd_ctl_led_mutex) {
++		if (!snd_ctl_led_card_valid[card_number])
++			return -ENXIO;
++		led = &snd_ctl_leds[group];
+ repeat:
+-	list_for_each_entry(lctl, &led->controls, list)
+-		if (lctl->card == card) {
+-			vd = &lctl->kctl->vd[lctl->index_offset];
+-			vd->access &= ~group_to_access(group);
+-			snd_ctl_led_ctl_destroy(lctl);
+-			change = true;
+-			goto repeat;
+-		}
+-	mutex_unlock(&snd_ctl_led_mutex);
++		list_for_each_entry(lctl, &led->controls, list)
++			if (lctl->card == card) {
++				vd = &lctl->kctl->vd[lctl->index_offset];
++				vd->access &= ~group_to_access(group);
++				snd_ctl_led_ctl_destroy(lctl);
++				change = true;
++				goto repeat;
++			}
++	}
+ 	if (change)
+ 		snd_ctl_led_set_state(NULL, group_to_access(group), NULL, 0);
+-	snd_card_unref(card);
+ 	return 0;
+ }
+ 
+@@ -353,9 +338,8 @@ static void snd_ctl_led_register(struct snd_card *card)
+ 	if (snd_BUG_ON(card->number < 0 ||
+ 		       card->number >= ARRAY_SIZE(snd_ctl_led_card_valid)))
+ 		return;
+-	mutex_lock(&snd_ctl_led_mutex);
+-	snd_ctl_led_card_valid[card->number] = true;
+-	mutex_unlock(&snd_ctl_led_mutex);
++	scoped_guard(mutex, &snd_ctl_led_mutex)
++		snd_ctl_led_card_valid[card->number] = true;
+ 	/* the register callback is already called with held card->controls_rwsem */
+ 	list_for_each_entry(kctl, &card->controls, list)
+ 		for (ioff = 0; ioff < kctl->count; ioff++)
+@@ -367,10 +351,10 @@ static void snd_ctl_led_register(struct snd_card *card)
+ static void snd_ctl_led_disconnect(struct snd_card *card)
+ {
+ 	snd_ctl_led_sysfs_remove(card);
+-	mutex_lock(&snd_ctl_led_mutex);
+-	snd_ctl_led_card_valid[card->number] = false;
+-	snd_ctl_led_clean(card);
+-	mutex_unlock(&snd_ctl_led_mutex);
++	scoped_guard(mutex, &snd_ctl_led_mutex) {
++		snd_ctl_led_card_valid[card->number] = false;
++		snd_ctl_led_clean(card);
++	}
+ 	snd_ctl_led_refresh();
+ }
+ 
+@@ -430,9 +414,8 @@ static ssize_t mode_store(struct device *dev,
+ 	else
+ 		return count;
+ 
+-	mutex_lock(&snd_ctl_led_mutex);
+-	led->mode = mode;
+-	mutex_unlock(&snd_ctl_led_mutex);
++	scoped_guard(mutex, &snd_ctl_led_mutex)
++		led->mode = mode;
+ 
+ 	snd_ctl_led_set_state(NULL, group_to_access(led->group), NULL, 0);
+ 	return count;
+@@ -615,15 +598,15 @@ static ssize_t list_show(struct device *dev,
+ 			 struct device_attribute *attr, char *buf)
+ {
+ 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
+-	struct snd_card *card;
++	struct snd_card *card __free(snd_card_unref) = NULL;
+ 	struct snd_ctl_led_ctl *lctl;
+ 	size_t l = 0;
+ 
+ 	card = snd_card_ref(led_card->number);
+ 	if (!card)
+ 		return -ENXIO;
+-	down_read(&card->controls_rwsem);
+-	mutex_lock(&snd_ctl_led_mutex);
++	guard(rwsem_read)(&card->controls_rwsem);
++	guard(mutex)(&snd_ctl_led_mutex);
+ 	if (snd_ctl_led_card_valid[led_card->number]) {
+ 		list_for_each_entry(lctl, &led_card->led->controls, list) {
+ 			if (lctl->card != card)
+@@ -634,9 +617,6 @@ static ssize_t list_show(struct device *dev,
+ 					   lctl->kctl->id.numid + lctl->index_offset);
+ 		}
+ 	}
+-	mutex_unlock(&snd_ctl_led_mutex);
+-	up_read(&card->controls_rwsem);
+-	snd_card_unref(card);
+ 	return l;
  }
  
 -- 
