@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C72B13F00A
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A513313A25E
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710618; cv=none; b=raTdlzqmCb3dbLkHEB9broEk3sgQFD5re1mnUuDrvXYZVCP4+cgTkOh9rrLDeL7EUK2N7QaoSHqzBMdp8NUEmX9h3+bGMnSLr52AlQPO9TkUHDVgEibVq1OyDbBZLmFT0Okzp25eS9N2Bq2A1K/0mleJNR9t7BbXzsQQiLJnHJU=
+	t=1708710619; cv=none; b=kzgrBSAWWP0ie34sE6nrKNc644q/GkiyL95kMF/8ScUXwe/bo7eI/eASFuMWM1CA9Y3Sjf5w3jiWjKTVm7HkmvEbs/rNWrWvI9FPdOln5MQYwz+CX9E/yMUDwrTt8ZTHtyZM6VAoGFsvfcEFR0vA/SQVTm//28NIzYKTmoXCREE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708710618; c=relaxed/simple;
-	bh=IR82NPAL7BQRTnSTuDAhquA7dfoxAafYkT8UgS02f/0=;
+	s=arc-20240116; t=1708710619; c=relaxed/simple;
+	bh=w7hNUNEnY9VrUz+1kDKwGD9biperR+4V99fIctMhK2M=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=r3oprSX1l066w1O/nuPDdRdAEZEvHUkTR1sC4BuVLti7DuygauFrMe+Yat65gNTD1DpY/db3egay2gNfVSUFxf1iMBuhnZ/AjdA0975bWxMpIIrhXNZZb4qrEAxGX/mL37M7TJO+D9gzBDDA1y8KnJZwC9i5+RAP4HfxWquq72w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZNc0Ldx2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QxMqm4GR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZNc0Ldx2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QxMqm4GR; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=bUKVnr3oSAeF/NzOCvYufQJaolloow8GOuPuJDUzlAcBlff33ZdH+90aOdiIXSlfmpA61Wjte5iLYZ4R9VUh6roLon77HsnsZxuRQgrld28HvDsUj5lJe7pxvDEBGVJx72Qv1BUFYrVNKbn5mSRJrykAYTDMkXK1mHg29rmu3FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uBf0Zyg2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ous1wDwc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uBf0Zyg2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ous1wDwc; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZNc0Ldx2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QxMqm4GR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZNc0Ldx2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QxMqm4GR"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uBf0Zyg2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ous1wDwc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uBf0Zyg2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ous1wDwc"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 605CB1FD3C;
-	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DF64C1FCD9;
+	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
-	b=ZNc0Ldx2wnMTjpCd4Fy2cfGtP5t2tGlvTRp+rhJ6LDzyk6a6/+JdbwznyOeePfcU4w5qLf
-	jqiZY7yfZ4y6AxXC2hCk2AipNUSBF7zgUGVkHAACxVNetMWqiyl5/Qd75hsOERX6GVDWSV
-	c7b2Auxp/gmusf3HUQCenlo/zH4nyzU=
+	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
+	b=uBf0Zyg2tfWkN8GC+G2FfHbx+bETOOgcF0Ggkb03tOK/1UtkOf/GnDPyU6Q0iMNdnmGW13
+	nWXYa/T/UOeM8H8y3z7lhwprZbdn54pN4QTsxcAZow0jEB21V8DzrTBjqHm98rL5MKOtig
+	VyRSbspmflr4ym6sfkmjOpGByOfTwgs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710612;
+	s=susede2_ed25519; t=1708710611;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
-	b=QxMqm4GRff1dvVDryNuGEQPjFwAnmLS0Mq9ekqOyKoSr7KlIIsjGei1noF1FA10Ot3dX2j
-	QqQXb7w+JWg4XMCw==
+	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
+	b=ous1wDwc+Rx/xqFpuAfV1KO6H3zsDCixva9x3tP9QGA8nK0TnACzFXFjJB/6o0ClBnIaMT
+	2FsJNekvzTHdvVCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
-	b=ZNc0Ldx2wnMTjpCd4Fy2cfGtP5t2tGlvTRp+rhJ6LDzyk6a6/+JdbwznyOeePfcU4w5qLf
-	jqiZY7yfZ4y6AxXC2hCk2AipNUSBF7zgUGVkHAACxVNetMWqiyl5/Qd75hsOERX6GVDWSV
-	c7b2Auxp/gmusf3HUQCenlo/zH4nyzU=
+	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
+	b=uBf0Zyg2tfWkN8GC+G2FfHbx+bETOOgcF0Ggkb03tOK/1UtkOf/GnDPyU6Q0iMNdnmGW13
+	nWXYa/T/UOeM8H8y3z7lhwprZbdn54pN4QTsxcAZow0jEB21V8DzrTBjqHm98rL5MKOtig
+	VyRSbspmflr4ym6sfkmjOpGByOfTwgs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710612;
+	s=susede2_ed25519; t=1708710611;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
-	b=QxMqm4GRff1dvVDryNuGEQPjFwAnmLS0Mq9ekqOyKoSr7KlIIsjGei1noF1FA10Ot3dX2j
-	QqQXb7w+JWg4XMCw==
+	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
+	b=ous1wDwc+Rx/xqFpuAfV1KO6H3zsDCixva9x3tP9QGA8nK0TnACzFXFjJB/6o0ClBnIaMT
+	2FsJNekvzTHdvVCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A09A13AC1;
-	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5FC013AC1;
+	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yE5aDNTa2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:12 +0000
+	id QE/wKtPa2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 11/24] ALSA: core: Use guard() for locking
-Date: Fri, 23 Feb 2024 18:49:48 +0100
-Message-Id: <20240223175001.24375-12-tiwai@suse.de>
+Subject: [PATCH v2 08/24] ALSA: control: Use guard() for locking
+Date: Fri, 23 Feb 2024 18:49:45 +0100
+Message-Id: <20240223175001.24375-9-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
 References: <20240223175001.24375-1-tiwai@suse.de>
@@ -89,8 +89,8 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spamd-Bar: /
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZNc0Ldx2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QxMqm4GR
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uBf0Zyg2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ous1wDwc
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [0.49 / 50.00];
 	 ARC_NA(0.00)[];
@@ -118,556 +118,914 @@ X-Spamd-Result: default: False [0.49 / 50.00];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
 X-Spam-Score: 0.49
-X-Rspamd-Queue-Id: 605CB1FD3C
+X-Rspamd-Queue-Id: DF64C1FCD9
 X-Spam-Flag: NO
 
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
 
+The lops calls under multiple rwsems are factored out as a simple
+macro, so that it can be called easily from snd_ctl_dev_register()
+and snd_ctl_dev_disconnect().
+
+There are a few remaining explicit rwsem and spinlock calls, and those
+are the places where the lock downgrade happens or where the temporary
+unlock/relocking happens -- which guard() doens't cover well yet.
+
 Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/init.c      | 199 +++++++++++++++++++----------------------
- sound/core/sound.c     |  28 +++---
- sound/core/sound_oss.c |  17 ++--
- 3 files changed, 107 insertions(+), 137 deletions(-)
+ sound/core/control.c        | 431 ++++++++++++++----------------------
+ sound/core/control_compat.c |  18 +-
+ 2 files changed, 176 insertions(+), 273 deletions(-)
 
-diff --git a/sound/core/init.c b/sound/core/init.c
-index 22c0d217b860..4ed5037d8693 100644
---- a/sound/core/init.c
-+++ b/sound/core/init.c
-@@ -284,30 +284,31 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
- 	if (xid)
- 		strscpy(card->id, xid, sizeof(card->id));
- 	err = 0;
--	mutex_lock(&snd_card_mutex);
--	if (idx < 0) /* first check the matching module-name slot */
--		idx = get_slot_from_bitmask(idx, module_slot_match, module);
--	if (idx < 0) /* if not matched, assign an empty slot */
--		idx = get_slot_from_bitmask(idx, check_empty_slot, module);
--	if (idx < 0)
--		err = -ENODEV;
--	else if (idx < snd_ecards_limit) {
--		if (test_bit(idx, snd_cards_lock))
--			err = -EBUSY;	/* invalid */
--	} else if (idx >= SNDRV_CARDS)
--		err = -ENODEV;
-+	scoped_guard(mutex, &snd_card_mutex) {
-+		if (idx < 0) /* first check the matching module-name slot */
-+			idx = get_slot_from_bitmask(idx, module_slot_match, module);
-+		if (idx < 0) /* if not matched, assign an empty slot */
-+			idx = get_slot_from_bitmask(idx, check_empty_slot, module);
-+		if (idx < 0)
-+			err = -ENODEV;
-+		else if (idx < snd_ecards_limit) {
-+			if (test_bit(idx, snd_cards_lock))
-+				err = -EBUSY;	/* invalid */
-+		} else if (idx >= SNDRV_CARDS)
-+			err = -ENODEV;
-+		if (!err) {
-+			set_bit(idx, snd_cards_lock);		/* lock it */
-+			if (idx >= snd_ecards_limit)
-+				snd_ecards_limit = idx + 1; /* increase the limit */
-+		}
+diff --git a/sound/core/control.c b/sound/core/control.c
+index c8cd70aed6af..8367fd485371 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -44,7 +44,6 @@ static int snd_ctl_remove_locked(struct snd_card *card,
+ 
+ static int snd_ctl_open(struct inode *inode, struct file *file)
+ {
+-	unsigned long flags;
+ 	struct snd_card *card;
+ 	struct snd_ctl_file *ctl;
+ 	int i, err;
+@@ -80,9 +79,8 @@ static int snd_ctl_open(struct inode *inode, struct file *file)
+ 		ctl->preferred_subdevice[i] = -1;
+ 	ctl->pid = get_pid(task_pid(current));
+ 	file->private_data = ctl;
+-	write_lock_irqsave(&card->ctl_files_rwlock, flags);
+-	list_add_tail(&ctl->list, &card->ctl_files);
+-	write_unlock_irqrestore(&card->ctl_files_rwlock, flags);
++	scoped_guard(write_lock_irqsave, &card->ctl_files_rwlock)
++		list_add_tail(&ctl->list, &card->ctl_files);
+ 	snd_card_unref(card);
+ 	return 0;
+ 
+@@ -98,21 +96,18 @@ static int snd_ctl_open(struct inode *inode, struct file *file)
+ 
+ static void snd_ctl_empty_read_queue(struct snd_ctl_file * ctl)
+ {
+-	unsigned long flags;
+ 	struct snd_kctl_event *cread;
+ 
+-	spin_lock_irqsave(&ctl->read_lock, flags);
++	guard(spinlock_irqsave)(&ctl->read_lock);
+ 	while (!list_empty(&ctl->events)) {
+ 		cread = snd_kctl_event(ctl->events.next);
+ 		list_del(&cread->list);
+ 		kfree(cread);
+ 	}
+-	spin_unlock_irqrestore(&ctl->read_lock, flags);
+ }
+ 
+ static int snd_ctl_release(struct inode *inode, struct file *file)
+ {
+-	unsigned long flags;
+ 	struct snd_card *card;
+ 	struct snd_ctl_file *ctl;
+ 	struct snd_kcontrol *control;
+@@ -121,15 +116,17 @@ static int snd_ctl_release(struct inode *inode, struct file *file)
+ 	ctl = file->private_data;
+ 	file->private_data = NULL;
+ 	card = ctl->card;
+-	write_lock_irqsave(&card->ctl_files_rwlock, flags);
+-	list_del(&ctl->list);
+-	write_unlock_irqrestore(&card->ctl_files_rwlock, flags);
+-	down_write(&card->controls_rwsem);
+-	list_for_each_entry(control, &card->controls, list)
+-		for (idx = 0; idx < control->count; idx++)
+-			if (control->vd[idx].owner == ctl)
+-				control->vd[idx].owner = NULL;
+-	up_write(&card->controls_rwsem);
++
++	scoped_guard(write_lock_irqsave, &card->ctl_files_rwlock)
++		list_del(&ctl->list);
++
++	scoped_guard(rwsem_write, &card->controls_rwsem) {
++		list_for_each_entry(control, &card->controls, list)
++			for (idx = 0; idx < control->count; idx++)
++				if (control->vd[idx].owner == ctl)
++					control->vd[idx].owner = NULL;
 +	}
- 	if (err < 0) {
--		mutex_unlock(&snd_card_mutex);
- 		dev_err(parent, "cannot find the slot for index %d (range 0-%i), error: %d\n",
--			 idx, snd_ecards_limit - 1, err);
-+			idx, snd_ecards_limit - 1, err);
- 		if (!card->managed)
- 			kfree(card); /* manually free here, as no destructor called */
- 		return err;
- 	}
--	set_bit(idx, snd_cards_lock);		/* lock it */
--	if (idx >= snd_ecards_limit)
--		snd_ecards_limit = idx + 1; /* increase the limit */
--	mutex_unlock(&snd_card_mutex);
- 	card->dev = parent;
- 	card->number = idx;
- #ifdef MODULE
-@@ -386,11 +387,10 @@ struct snd_card *snd_card_ref(int idx)
++
+ 	snd_fasync_free(ctl->fasync);
+ 	snd_ctl_empty_read_queue(ctl);
+ 	put_pid(ctl->pid);
+@@ -152,7 +149,6 @@ static int snd_ctl_release(struct inode *inode, struct file *file)
+ void snd_ctl_notify(struct snd_card *card, unsigned int mask,
+ 		    struct snd_ctl_elem_id *id)
  {
- 	struct snd_card *card;
+-	unsigned long flags;
+ 	struct snd_ctl_file *ctl;
+ 	struct snd_kctl_event *ev;
  
--	mutex_lock(&snd_card_mutex);
-+	guard(mutex)(&snd_card_mutex);
- 	card = snd_cards[idx];
- 	if (card)
- 		get_device(&card->card_dev);
--	mutex_unlock(&snd_card_mutex);
- 	return card;
- }
- EXPORT_SYMBOL_GPL(snd_card_ref);
-@@ -398,12 +398,8 @@ EXPORT_SYMBOL_GPL(snd_card_ref);
- /* return non-zero if a card is already locked */
- int snd_card_locked(int card)
- {
--	int locked;
--
--	mutex_lock(&snd_card_mutex);
--	locked = test_bit(card, snd_cards_lock);
--	mutex_unlock(&snd_card_mutex);
--	return locked;
-+	guard(mutex)(&snd_card_mutex);
-+	return test_bit(card, snd_cards_lock);
- }
- 
- static loff_t snd_disconnect_llseek(struct file *file, loff_t offset, int orig)
-@@ -427,15 +423,15 @@ static int snd_disconnect_release(struct inode *inode, struct file *file)
- {
- 	struct snd_monitor_file *df = NULL, *_df;
- 
--	spin_lock(&shutdown_lock);
--	list_for_each_entry(_df, &shutdown_files, shutdown_list) {
--		if (_df->file == file) {
--			df = _df;
--			list_del_init(&df->shutdown_list);
--			break;
-+	scoped_guard(spinlock, &shutdown_lock) {
-+		list_for_each_entry(_df, &shutdown_files, shutdown_list) {
-+			if (_df->file == file) {
-+				df = _df;
-+				list_del_init(&df->shutdown_list);
-+				break;
-+			}
- 		}
- 	}
--	spin_unlock(&shutdown_lock);
- 
- 	if (likely(df)) {
- 		if ((file->f_flags & FASYNC) && df->disconnected_f_op->fasync)
-@@ -501,27 +497,24 @@ void snd_card_disconnect(struct snd_card *card)
- 	if (!card)
+@@ -160,34 +156,34 @@ void snd_ctl_notify(struct snd_card *card, unsigned int mask,
  		return;
- 
--	spin_lock(&card->files_lock);
--	if (card->shutdown) {
--		spin_unlock(&card->files_lock);
--		return;
-+	scoped_guard(spinlock, &card->files_lock) {
-+		if (card->shutdown)
-+			return;
-+		card->shutdown = 1;
-+
-+		/* replace file->f_op with special dummy operations */
-+		list_for_each_entry(mfile, &card->files_list, list) {
-+			/* it's critical part, use endless loop */
-+			/* we have no room to fail */
-+			mfile->disconnected_f_op = mfile->file->f_op;
-+
-+			scoped_guard(spinlock, &shutdown_lock)
-+				list_add(&mfile->shutdown_list, &shutdown_files);
-+
-+			mfile->file->f_op = &snd_shutdown_f_ops;
-+			fops_get(mfile->file->f_op);
-+		}
- 	}
--	card->shutdown = 1;
--
--	/* replace file->f_op with special dummy operations */
--	list_for_each_entry(mfile, &card->files_list, list) {
--		/* it's critical part, use endless loop */
--		/* we have no room to fail */
--		mfile->disconnected_f_op = mfile->file->f_op;
--
--		spin_lock(&shutdown_lock);
--		list_add(&mfile->shutdown_list, &shutdown_files);
--		spin_unlock(&shutdown_lock);
--
--		mfile->file->f_op = &snd_shutdown_f_ops;
--		fops_get(mfile->file->f_op);
--	}
--	spin_unlock(&card->files_lock);	
- 
- 	/* notify all connected devices about disconnection */
- 	/* at this point, they cannot respond to any calls except release() */
-@@ -544,10 +537,10 @@ void snd_card_disconnect(struct snd_card *card)
- 	}
- 
- 	/* disable fops (user space) operations for ALSA API */
--	mutex_lock(&snd_card_mutex);
--	snd_cards[card->number] = NULL;
--	clear_bit(card->number, snd_cards_lock);
--	mutex_unlock(&snd_card_mutex);
-+	scoped_guard(mutex, &snd_card_mutex) {
-+		snd_cards[card->number] = NULL;
-+		clear_bit(card->number, snd_cards_lock);
-+	}
- 
- #ifdef CONFIG_PM
- 	wake_up(&card->power_sleep);
-@@ -569,11 +562,10 @@ void snd_card_disconnect_sync(struct snd_card *card)
- {
- 	snd_card_disconnect(card);
- 
--	spin_lock_irq(&card->files_lock);
-+	guard(spinlock_irq)(&card->files_lock);
- 	wait_event_lock_irq(card->remove_sleep,
- 			    list_empty(&card->files_list),
- 			    card->files_lock);
--	spin_unlock_irq(&card->files_lock);
- }
- EXPORT_SYMBOL_GPL(snd_card_disconnect_sync);
- 
-@@ -767,9 +759,8 @@ void snd_card_set_id(struct snd_card *card, const char *nid)
- 	/* check if user specified own card->id */
- 	if (card->id[0] != '\0')
+ 	if (card->shutdown)
  		return;
--	mutex_lock(&snd_card_mutex);
-+	guard(mutex)(&snd_card_mutex);
- 	snd_card_set_id_no_lock(card, nid, nid);
--	mutex_unlock(&snd_card_mutex);
- }
- EXPORT_SYMBOL(snd_card_set_id);
- 
-@@ -797,14 +788,11 @@ static ssize_t id_store(struct device *dev, struct device_attribute *attr,
- 	}
- 	memcpy(buf1, buf, copy);
- 	buf1[copy] = '\0';
--	mutex_lock(&snd_card_mutex);
--	if (!card_id_ok(NULL, buf1)) {
--		mutex_unlock(&snd_card_mutex);
-+	guard(mutex)(&snd_card_mutex);
-+	if (!card_id_ok(NULL, buf1))
- 		return -EEXIST;
--	}
- 	strcpy(card->id, buf1);
- 	snd_info_card_id_change(card);
--	mutex_unlock(&snd_card_mutex);
- 
- 	return count;
- }
-@@ -897,26 +885,27 @@ int snd_card_register(struct snd_card *card)
- 	err = snd_device_register_all(card);
- 	if (err < 0)
- 		return err;
--	mutex_lock(&snd_card_mutex);
--	if (snd_cards[card->number]) {
--		/* already registered */
--		mutex_unlock(&snd_card_mutex);
--		return snd_info_card_register(card); /* register pending info */
-+	scoped_guard(mutex, &snd_card_mutex) {
-+		if (snd_cards[card->number]) {
-+			/* already registered */
-+			return snd_info_card_register(card); /* register pending info */
-+		}
-+		if (*card->id) {
-+			/* make a unique id name from the given string */
-+			char tmpid[sizeof(card->id)];
+-	read_lock_irqsave(&card->ctl_files_rwlock, flags);
 +
-+			memcpy(tmpid, card->id, sizeof(card->id));
-+			snd_card_set_id_no_lock(card, tmpid, tmpid);
-+		} else {
-+			/* create an id from either shortname or longname */
-+			const char *src;
-+
-+			src = *card->shortname ? card->shortname : card->longname;
-+			snd_card_set_id_no_lock(card, src,
-+						retrieve_id_from_card_name(src));
-+		}
-+		snd_cards[card->number] = card;
- 	}
--	if (*card->id) {
--		/* make a unique id name from the given string */
--		char tmpid[sizeof(card->id)];
--		memcpy(tmpid, card->id, sizeof(card->id));
--		snd_card_set_id_no_lock(card, tmpid, tmpid);
--	} else {
--		/* create an id from either shortname or longname */
--		const char *src;
--		src = *card->shortname ? card->shortname : card->longname;
--		snd_card_set_id_no_lock(card, src,
--					retrieve_id_from_card_name(src));
--	}
--	snd_cards[card->number] = card;
--	mutex_unlock(&snd_card_mutex);
- 	err = snd_info_card_register(card);
- 	if (err < 0)
- 		return err;
-@@ -937,7 +926,7 @@ static void snd_card_info_read(struct snd_info_entry *entry,
- 	struct snd_card *card;
- 
- 	for (idx = count = 0; idx < SNDRV_CARDS; idx++) {
--		mutex_lock(&snd_card_mutex);
-+		guard(mutex)(&snd_card_mutex);
- 		card = snd_cards[idx];
- 		if (card) {
- 			count++;
-@@ -949,7 +938,6 @@ static void snd_card_info_read(struct snd_info_entry *entry,
- 			snd_iprintf(buffer, "                      %s\n",
- 					card->longname);
- 		}
--		mutex_unlock(&snd_card_mutex);
- 	}
- 	if (!count)
- 		snd_iprintf(buffer, "--- no soundcards ---\n");
-@@ -962,13 +950,12 @@ void snd_card_info_read_oss(struct snd_info_buffer *buffer)
- 	struct snd_card *card;
- 
- 	for (idx = count = 0; idx < SNDRV_CARDS; idx++) {
--		mutex_lock(&snd_card_mutex);
-+		guard(mutex)(&snd_card_mutex);
- 		card = snd_cards[idx];
- 		if (card) {
- 			count++;
- 			snd_iprintf(buffer, "%s\n", card->longname);
- 		}
--		mutex_unlock(&snd_card_mutex);
- 	}
- 	if (!count) {
- 		snd_iprintf(buffer, "--- no soundcards ---\n");
-@@ -985,12 +972,11 @@ static void snd_card_module_info_read(struct snd_info_entry *entry,
- 	struct snd_card *card;
- 
- 	for (idx = 0; idx < SNDRV_CARDS; idx++) {
--		mutex_lock(&snd_card_mutex);
-+		guard(mutex)(&snd_card_mutex);
- 		card = snd_cards[idx];
- 		if (card)
- 			snd_iprintf(buffer, "%2i %s\n",
- 				    idx, card->module->name);
--		mutex_unlock(&snd_card_mutex);
- 	}
- }
++	guard(read_lock_irqsave)(&card->ctl_files_rwlock);
+ #if IS_ENABLED(CONFIG_SND_MIXER_OSS)
+ 	card->mixer_oss_change_count++;
  #endif
-@@ -1072,15 +1058,13 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
- 	mfile->file = file;
- 	mfile->disconnected_f_op = NULL;
- 	INIT_LIST_HEAD(&mfile->shutdown_list);
--	spin_lock(&card->files_lock);
-+	guard(spinlock)(&card->files_lock);
- 	if (card->shutdown) {
--		spin_unlock(&card->files_lock);
- 		kfree(mfile);
- 		return -ENODEV;
- 	}
- 	list_add(&mfile->list, &card->files_list);
- 	get_device(&card->card_dev);
--	spin_unlock(&card->files_lock);
- 	return 0;
- }
- EXPORT_SYMBOL(snd_card_file_add);
-@@ -1102,22 +1086,21 @@ int snd_card_file_remove(struct snd_card *card, struct file *file)
- {
- 	struct snd_monitor_file *mfile, *found = NULL;
- 
--	spin_lock(&card->files_lock);
--	list_for_each_entry(mfile, &card->files_list, list) {
--		if (mfile->file == file) {
--			list_del(&mfile->list);
--			spin_lock(&shutdown_lock);
--			list_del(&mfile->shutdown_list);
--			spin_unlock(&shutdown_lock);
--			if (mfile->disconnected_f_op)
--				fops_put(mfile->disconnected_f_op);
--			found = mfile;
--			break;
-+	scoped_guard(spinlock, &card->files_lock) {
-+		list_for_each_entry(mfile, &card->files_list, list) {
-+			if (mfile->file == file) {
-+				list_del(&mfile->list);
-+				scoped_guard(spinlock, &shutdown_lock)
-+					list_del(&mfile->shutdown_list);
-+				if (mfile->disconnected_f_op)
-+					fops_put(mfile->disconnected_f_op);
-+				found = mfile;
-+				break;
+ 	list_for_each_entry(ctl, &card->ctl_files, list) {
+ 		if (!ctl->subscribed)
+ 			continue;
+-		spin_lock(&ctl->read_lock);
+-		list_for_each_entry(ev, &ctl->events, list) {
+-			if (ev->id.numid == id->numid) {
+-				ev->mask |= mask;
+-				goto _found;
++		scoped_guard(spinlock, &ctl->read_lock) {
++			list_for_each_entry(ev, &ctl->events, list) {
++				if (ev->id.numid == id->numid) {
++					ev->mask |= mask;
++					goto _found;
++				}
+ 			}
++			ev = kzalloc(sizeof(*ev), GFP_ATOMIC);
++			if (ev) {
++				ev->id = *id;
++				ev->mask = mask;
++				list_add_tail(&ev->list, &ctl->events);
++			} else {
++				dev_err(card->dev, "No memory available to allocate event\n");
 +			}
++_found:
++			wake_up(&ctl->change_sleep);
  		}
-+		if (list_empty(&card->files_list))
-+			wake_up_all(&card->remove_sleep);
+-		ev = kzalloc(sizeof(*ev), GFP_ATOMIC);
+-		if (ev) {
+-			ev->id = *id;
+-			ev->mask = mask;
+-			list_add_tail(&ev->list, &ctl->events);
+-		} else {
+-			dev_err(card->dev, "No memory available to allocate event\n");
+-		}
+-	_found:
+-		wake_up(&ctl->change_sleep);
+-		spin_unlock(&ctl->read_lock);
+ 		snd_kill_fasync(ctl->fasync, SIGIO, POLL_IN);
  	}
--	if (list_empty(&card->files_list))
--		wake_up_all(&card->remove_sleep);
--	spin_unlock(&card->files_lock);
- 	if (!found) {
- 		dev_err(card->dev, "card file remove problem (%p)\n", file);
- 		return -ENOENT;
-diff --git a/sound/core/sound.c b/sound/core/sound.c
-index df5571d98629..b9db9aa0bfcb 100644
---- a/sound/core/sound.c
-+++ b/sound/core/sound.c
-@@ -103,7 +103,7 @@ void *snd_lookup_minor_data(unsigned int minor, int type)
- 
- 	if (minor >= ARRAY_SIZE(snd_minors))
- 		return NULL;
--	mutex_lock(&sound_mutex);
-+	guard(mutex)(&sound_mutex);
- 	mreg = snd_minors[minor];
- 	if (mreg && mreg->type == type) {
- 		private_data = mreg->private_data;
-@@ -111,7 +111,6 @@ void *snd_lookup_minor_data(unsigned int minor, int type)
- 			get_device(&mreg->card_ptr->card_dev);
- 	} else
- 		private_data = NULL;
--	mutex_unlock(&sound_mutex);
- 	return private_data;
+-	read_unlock_irqrestore(&card->ctl_files_rwlock, flags);
  }
- EXPORT_SYMBOL(snd_lookup_minor_data);
-@@ -150,17 +149,15 @@ static int snd_open(struct inode *inode, struct file *file)
+ EXPORT_SYMBOL(snd_ctl_notify);
  
- 	if (minor >= ARRAY_SIZE(snd_minors))
- 		return -ENODEV;
--	mutex_lock(&sound_mutex);
--	mptr = snd_minors[minor];
--	if (mptr == NULL) {
--		mptr = autoload_device(minor);
--		if (!mptr) {
--			mutex_unlock(&sound_mutex);
--			return -ENODEV;
-+	scoped_guard(mutex, &sound_mutex) {
-+		mptr = snd_minors[minor];
-+		if (mptr == NULL) {
-+			mptr = autoload_device(minor);
-+			if (!mptr)
-+				return -ENODEV;
- 		}
-+		new_fops = fops_get(mptr->f_ops);
- 	}
--	new_fops = fops_get(mptr->f_ops);
--	mutex_unlock(&sound_mutex);
- 	if (!new_fops)
- 		return -ENODEV;
- 	replace_fops(file, new_fops);
-@@ -269,7 +266,7 @@ int snd_register_device(int type, struct snd_card *card, int dev,
- 	preg->f_ops = f_ops;
- 	preg->private_data = private_data;
- 	preg->card_ptr = card;
--	mutex_lock(&sound_mutex);
-+	guard(mutex)(&sound_mutex);
- 	minor = snd_find_free_minor(type, card, dev);
- 	if (minor < 0) {
- 		err = minor;
-@@ -284,7 +281,6 @@ int snd_register_device(int type, struct snd_card *card, int dev,
+@@ -210,10 +206,9 @@ void snd_ctl_notify_one(struct snd_card *card, unsigned int mask,
+ 	id.index += ioff;
+ 	id.numid += ioff;
+ 	snd_ctl_notify(card, mask, &id);
+-	down_read(&snd_ctl_layer_rwsem);
++	guard(rwsem_read)(&snd_ctl_layer_rwsem);
+ 	for (lops = snd_ctl_layer; lops; lops = lops->next)
+ 		lops->lnotify(card, mask, kctl, ioff);
+-	up_read(&snd_ctl_layer_rwsem);
+ }
+ EXPORT_SYMBOL(snd_ctl_notify_one);
  
- 	snd_minors[minor] = preg;
-  error:
--	mutex_unlock(&sound_mutex);
+@@ -520,9 +515,9 @@ static int snd_ctl_add_replace(struct snd_card *card,
+ 	if (snd_BUG_ON(!card || !kcontrol->info))
+ 		goto error;
+ 
+-	down_write(&card->controls_rwsem);
+-	err = __snd_ctl_add_replace(card, kcontrol, mode);
+-	up_write(&card->controls_rwsem);
++	scoped_guard(rwsem_write, &card->controls_rwsem)
++		err = __snd_ctl_add_replace(card, kcontrol, mode);
++
  	if (err < 0)
- 		kfree(preg);
- 	return err;
-@@ -305,7 +301,7 @@ int snd_unregister_device(struct device *dev)
- 	int minor;
- 	struct snd_minor *preg;
- 
--	mutex_lock(&sound_mutex);
-+	guard(mutex)(&sound_mutex);
- 	for (minor = 0; minor < ARRAY_SIZE(snd_minors); ++minor) {
- 		preg = snd_minors[minor];
- 		if (preg && preg->dev == dev) {
-@@ -315,7 +311,6 @@ int snd_unregister_device(struct device *dev)
- 			break;
- 		}
- 	}
--	mutex_unlock(&sound_mutex);
- 	if (minor >= ARRAY_SIZE(snd_minors))
- 		return -ENOENT;
+ 		goto error;
  	return 0;
-@@ -355,7 +350,7 @@ static void snd_minor_info_read(struct snd_info_entry *entry, struct snd_info_bu
- 	int minor;
- 	struct snd_minor *mptr;
- 
--	mutex_lock(&sound_mutex);
-+	guard(mutex)(&sound_mutex);
- 	for (minor = 0; minor < SNDRV_OS_MINORS; ++minor) {
- 		mptr = snd_minors[minor];
- 		if (!mptr)
-@@ -373,7 +368,6 @@ static void snd_minor_info_read(struct snd_info_entry *entry, struct snd_info_bu
- 			snd_iprintf(buffer, "%3i:        : %s\n", minor,
- 				    snd_device_type_name(mptr->type));
- 	}
--	mutex_unlock(&sound_mutex);
+@@ -616,12 +611,8 @@ static inline int snd_ctl_remove_locked(struct snd_card *card,
+  */
+ int snd_ctl_remove(struct snd_card *card, struct snd_kcontrol *kcontrol)
+ {
+-	int ret;
+-
+-	down_write(&card->controls_rwsem);
+-	ret = snd_ctl_remove_locked(card, kcontrol);
+-	up_write(&card->controls_rwsem);
+-	return ret;
++	guard(rwsem_write)(&card->controls_rwsem);
++	return snd_ctl_remove_locked(card, kcontrol);
  }
+ EXPORT_SYMBOL(snd_ctl_remove);
  
- int __init snd_minor_info_init(void)
-diff --git a/sound/core/sound_oss.c b/sound/core/sound_oss.c
-index 2751bf2ff61b..d65cc6fee2e6 100644
---- a/sound/core/sound_oss.c
-+++ b/sound/core/sound_oss.c
-@@ -29,7 +29,7 @@ void *snd_lookup_oss_minor_data(unsigned int minor, int type)
+@@ -638,17 +629,12 @@ EXPORT_SYMBOL(snd_ctl_remove);
+ int snd_ctl_remove_id(struct snd_card *card, struct snd_ctl_elem_id *id)
+ {
+ 	struct snd_kcontrol *kctl;
+-	int ret;
  
- 	if (minor >= ARRAY_SIZE(snd_oss_minors))
- 		return NULL;
--	mutex_lock(&sound_oss_mutex);
-+	guard(mutex)(&sound_oss_mutex);
- 	mreg = snd_oss_minors[minor];
- 	if (mreg && mreg->type == type) {
- 		private_data = mreg->private_data;
-@@ -37,7 +37,6 @@ void *snd_lookup_oss_minor_data(unsigned int minor, int type)
- 			get_device(&mreg->card_ptr->card_dev);
- 	} else
- 		private_data = NULL;
--	mutex_unlock(&sound_oss_mutex);
- 	return private_data;
- }
- EXPORT_SYMBOL(snd_lookup_oss_minor_data);
-@@ -106,7 +105,7 @@ int snd_register_oss_device(int type, struct snd_card *card, int dev,
- 	preg->f_ops = f_ops;
- 	preg->private_data = private_data;
- 	preg->card_ptr = card;
--	mutex_lock(&sound_oss_mutex);
-+	guard(mutex)(&sound_oss_mutex);
- 	snd_oss_minors[minor] = preg;
- 	minor_unit = SNDRV_MINOR_OSS_DEVICE(minor);
- 	switch (minor_unit) {
-@@ -130,7 +129,6 @@ int snd_register_oss_device(int type, struct snd_card *card, int dev,
- 			goto __end;
- 		snd_oss_minors[track2] = preg;
- 	}
--	mutex_unlock(&sound_oss_mutex);
- 	return 0;
- 
-       __end:
-@@ -139,7 +137,6 @@ int snd_register_oss_device(int type, struct snd_card *card, int dev,
-       	if (register1 >= 0)
-       		unregister_sound_special(register1);
- 	snd_oss_minors[minor] = NULL;
--	mutex_unlock(&sound_oss_mutex);
- 	kfree(preg);
-       	return -EBUSY;
- }
-@@ -156,12 +153,10 @@ int snd_unregister_oss_device(int type, struct snd_card *card, int dev)
- 		return 0;
- 	if (minor < 0)
- 		return minor;
--	mutex_lock(&sound_oss_mutex);
-+	guard(mutex)(&sound_oss_mutex);
- 	mptr = snd_oss_minors[minor];
--	if (mptr == NULL) {
--		mutex_unlock(&sound_oss_mutex);
-+	if (mptr == NULL)
+-	down_write(&card->controls_rwsem);
++	guard(rwsem_write)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, id);
+-	if (kctl == NULL) {
+-		up_write(&card->controls_rwsem);
++	if (kctl == NULL)
  		return -ENOENT;
 -	}
- 	switch (SNDRV_MINOR_OSS_DEVICE(minor)) {
- 	case SNDRV_MINOR_OSS_PCM:
- 		track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_AUDIO);
-@@ -176,7 +171,6 @@ int snd_unregister_oss_device(int type, struct snd_card *card, int dev)
- 	if (track2 >= 0)
- 		snd_oss_minors[track2] = NULL;
- 	snd_oss_minors[minor] = NULL;
--	mutex_unlock(&sound_oss_mutex);
+-	ret = snd_ctl_remove_locked(card, kctl);
+-	up_write(&card->controls_rwsem);
+-	return ret;
++	return snd_ctl_remove_locked(card, kctl);
+ }
+ EXPORT_SYMBOL(snd_ctl_remove_id);
  
- 	/* call unregister_sound_special() outside sound_oss_mutex;
- 	 * otherwise may deadlock, as it can trigger the release of a card
-@@ -220,7 +214,7 @@ static void snd_minor_info_oss_read(struct snd_info_entry *entry,
- 	int minor;
- 	struct snd_minor *mptr;
+@@ -667,27 +653,18 @@ static int snd_ctl_remove_user_ctl(struct snd_ctl_file * file,
+ {
+ 	struct snd_card *card = file->card;
+ 	struct snd_kcontrol *kctl;
+-	int idx, ret;
++	int idx;
  
--	mutex_lock(&sound_oss_mutex);
-+	guard(mutex)(&sound_oss_mutex);
- 	for (minor = 0; minor < SNDRV_OSS_MINORS; ++minor) {
- 		mptr = snd_oss_minors[minor];
- 		if (!mptr)
-@@ -233,7 +227,6 @@ static void snd_minor_info_oss_read(struct snd_info_entry *entry,
- 			snd_iprintf(buffer, "%3i:       : %s\n", minor,
- 				    snd_oss_device_type_name(mptr->type));
- 	}
--	mutex_unlock(&sound_oss_mutex);
+-	down_write(&card->controls_rwsem);
++	guard(rwsem_write)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, id);
+-	if (kctl == NULL) {
+-		ret = -ENOENT;
+-		goto error;
+-	}
+-	if (!(kctl->vd[0].access & SNDRV_CTL_ELEM_ACCESS_USER)) {
+-		ret = -EINVAL;
+-		goto error;
+-	}
++	if (kctl == NULL)
++		return -ENOENT;
++	if (!(kctl->vd[0].access & SNDRV_CTL_ELEM_ACCESS_USER))
++		return -EINVAL;
+ 	for (idx = 0; idx < kctl->count; idx++)
+-		if (kctl->vd[idx].owner != NULL && kctl->vd[idx].owner != file) {
+-			ret = -EBUSY;
+-			goto error;
+-		}
+-	ret = snd_ctl_remove_locked(card, kctl);
+-error:
+-	up_write(&card->controls_rwsem);
+-	return ret;
++		if (kctl->vd[idx].owner != NULL && kctl->vd[idx].owner != file)
++			return -EBUSY;
++	return snd_ctl_remove_locked(card, kctl);
  }
  
+ /**
+@@ -764,18 +741,15 @@ int snd_ctl_rename_id(struct snd_card *card, struct snd_ctl_elem_id *src_id,
+ 	struct snd_kcontrol *kctl;
+ 	int saved_numid;
  
+-	down_write(&card->controls_rwsem);
++	guard(rwsem_write)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, src_id);
+-	if (kctl == NULL) {
+-		up_write(&card->controls_rwsem);
++	if (kctl == NULL)
+ 		return -ENOENT;
+-	}
+ 	saved_numid = kctl->id.numid;
+ 	remove_hash_entries(card, kctl);
+ 	kctl->id = *dst_id;
+ 	kctl->id.numid = saved_numid;
+ 	add_hash_entries(card, kctl);
+-	up_write(&card->controls_rwsem);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(snd_ctl_rename_id);
+@@ -793,7 +767,7 @@ EXPORT_SYMBOL(snd_ctl_rename_id);
+ void snd_ctl_rename(struct snd_card *card, struct snd_kcontrol *kctl,
+ 		    const char *name)
+ {
+-	down_write(&card->controls_rwsem);
++	guard(rwsem_write)(&card->controls_rwsem);
+ 	remove_hash_entries(card, kctl);
+ 
+ 	if (strscpy(kctl->id.name, name, sizeof(kctl->id.name)) < 0)
+@@ -801,7 +775,6 @@ void snd_ctl_rename(struct snd_card *card, struct snd_kcontrol *kctl,
+ 			name, kctl->id.name);
+ 
+ 	add_hash_entries(card, kctl);
+-	up_write(&card->controls_rwsem);
+ }
+ EXPORT_SYMBOL(snd_ctl_rename);
+ 
+@@ -859,12 +832,8 @@ EXPORT_SYMBOL(snd_ctl_find_numid_locked);
+ struct snd_kcontrol *snd_ctl_find_numid(struct snd_card *card,
+ 					unsigned int numid)
+ {
+-	struct snd_kcontrol *kctl;
+-
+-	down_read(&card->controls_rwsem);
+-	kctl = snd_ctl_find_numid_locked(card, numid);
+-	up_read(&card->controls_rwsem);
+-	return kctl;
++	guard(rwsem_read)(&card->controls_rwsem);
++	return snd_ctl_find_numid_locked(card, numid);
+ }
+ EXPORT_SYMBOL(snd_ctl_find_numid);
+ 
+@@ -920,12 +889,8 @@ EXPORT_SYMBOL(snd_ctl_find_id_locked);
+ struct snd_kcontrol *snd_ctl_find_id(struct snd_card *card,
+ 				     const struct snd_ctl_elem_id *id)
+ {
+-	struct snd_kcontrol *kctl;
+-
+-	down_read(&card->controls_rwsem);
+-	kctl = snd_ctl_find_id_locked(card, id);
+-	up_read(&card->controls_rwsem);
+-	return kctl;
++	guard(rwsem_read)(&card->controls_rwsem);
++	return snd_ctl_find_id_locked(card, id);
+ }
+ EXPORT_SYMBOL(snd_ctl_find_id);
+ 
+@@ -937,15 +902,15 @@ static int snd_ctl_card_info(struct snd_card *card, struct snd_ctl_file * ctl,
+ 	info = kzalloc(sizeof(*info), GFP_KERNEL);
+ 	if (! info)
+ 		return -ENOMEM;
+-	down_read(&snd_ioctl_rwsem);
+-	info->card = card->number;
+-	strscpy(info->id, card->id, sizeof(info->id));
+-	strscpy(info->driver, card->driver, sizeof(info->driver));
+-	strscpy(info->name, card->shortname, sizeof(info->name));
+-	strscpy(info->longname, card->longname, sizeof(info->longname));
+-	strscpy(info->mixername, card->mixername, sizeof(info->mixername));
+-	strscpy(info->components, card->components, sizeof(info->components));
+-	up_read(&snd_ioctl_rwsem);
++	scoped_guard(rwsem_read, &snd_ioctl_rwsem) {
++		info->card = card->number;
++		strscpy(info->id, card->id, sizeof(info->id));
++		strscpy(info->driver, card->driver, sizeof(info->driver));
++		strscpy(info->name, card->shortname, sizeof(info->name));
++		strscpy(info->longname, card->longname, sizeof(info->longname));
++		strscpy(info->mixername, card->mixername, sizeof(info->mixername));
++		strscpy(info->components, card->components, sizeof(info->components));
++	}
+ 	if (copy_to_user(arg, info, sizeof(struct snd_ctl_card_info)))
+ 		return -EFAULT;
+ 	return 0;
+@@ -957,37 +922,31 @@ static int snd_ctl_elem_list(struct snd_card *card,
+ 	struct snd_kcontrol *kctl;
+ 	struct snd_ctl_elem_id id;
+ 	unsigned int offset, space, jidx;
+-	int err = 0;
+ 
+ 	offset = list->offset;
+ 	space = list->space;
+ 
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	list->count = card->controls_count;
+ 	list->used = 0;
+-	if (space > 0) {
+-		list_for_each_entry(kctl, &card->controls, list) {
+-			if (offset >= kctl->count) {
+-				offset -= kctl->count;
+-				continue;
+-			}
+-			for (jidx = offset; jidx < kctl->count; jidx++) {
+-				snd_ctl_build_ioff(&id, kctl, jidx);
+-				if (copy_to_user(list->pids + list->used, &id,
+-						 sizeof(id))) {
+-					err = -EFAULT;
+-					goto out;
+-				}
+-				list->used++;
+-				if (!--space)
+-					goto out;
+-			}
+-			offset = 0;
++	if (!space)
++		return 0;
++	list_for_each_entry(kctl, &card->controls, list) {
++		if (offset >= kctl->count) {
++			offset -= kctl->count;
++			continue;
+ 		}
++		for (jidx = offset; jidx < kctl->count; jidx++) {
++			snd_ctl_build_ioff(&id, kctl, jidx);
++			if (copy_to_user(list->pids + list->used, &id, sizeof(id)))
++				return -EFAULT;
++			list->used++;
++			if (!--space)
++				return 0;
++		}
++		offset = 0;
+ 	}
+- out:
+-	up_read(&card->controls_rwsem);
+-	return err;
++	return 0;
+ }
+ 
+ static int snd_ctl_elem_list_user(struct snd_card *card,
+@@ -1235,16 +1194,12 @@ static int snd_ctl_elem_info(struct snd_ctl_file *ctl,
+ {
+ 	struct snd_card *card = ctl->card;
+ 	struct snd_kcontrol *kctl;
+-	int result;
+ 
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, &info->id);
+-	if (kctl == NULL)
+-		result = -ENOENT;
+-	else
+-		result = __snd_ctl_elem_info(card, kctl, info, ctl);
+-	up_read(&card->controls_rwsem);
+-	return result;
++	if (!kctl)
++		return -ENOENT;
++	return __snd_ctl_elem_info(card, kctl, info, ctl);
+ }
+ 
+ static int snd_ctl_elem_info_user(struct snd_ctl_file *ctl,
+@@ -1276,19 +1231,15 @@ static int snd_ctl_elem_read(struct snd_card *card,
+ 	const u32 pattern = 0xdeadbeef;
+ 	int ret;
+ 
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, &control->id);
+-	if (kctl == NULL) {
+-		ret = -ENOENT;
+-		goto unlock;
+-	}
++	if (!kctl)
++		return -ENOENT;
+ 
+ 	index_offset = snd_ctl_get_ioff(kctl, &control->id);
+ 	vd = &kctl->vd[index_offset];
+-	if (!(vd->access & SNDRV_CTL_ELEM_ACCESS_READ) || kctl->get == NULL) {
+-		ret = -EPERM;
+-		goto unlock;
+-	}
++	if (!(vd->access & SNDRV_CTL_ELEM_ACCESS_READ) || !kctl->get)
++		return -EPERM;
+ 
+ 	snd_ctl_build_ioff(&control->id, kctl, index_offset);
+ 
+@@ -1298,7 +1249,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
+ 	info.id = control->id;
+ 	ret = __snd_ctl_elem_info(card, kctl, &info, NULL);
+ 	if (ret < 0)
+-		goto unlock;
++		return ret;
+ #endif
+ 
+ 	if (!snd_ctl_skip_validation(&info))
+@@ -1308,7 +1259,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
+ 		ret = kctl->get(kctl, control);
+ 	snd_power_unref(card);
+ 	if (ret < 0)
+-		goto unlock;
++		return ret;
+ 	if (!snd_ctl_skip_validation(&info) &&
+ 	    sanity_check_elem_value(card, control, &info, pattern) < 0) {
+ 		dev_err(card->dev,
+@@ -1316,12 +1267,9 @@ static int snd_ctl_elem_read(struct snd_card *card,
+ 			control->id.iface, control->id.device,
+ 			control->id.subdevice, control->id.name,
+ 			control->id.index);
+-		ret = -EINVAL;
+-		goto unlock;
++		return -EINVAL;
+ 	}
+-unlock:
+-	up_read(&card->controls_rwsem);
+-	return ret;
++	return 0;
+ }
+ 
+ static int snd_ctl_elem_read_user(struct snd_card *card,
+@@ -1426,25 +1374,18 @@ static int snd_ctl_elem_lock(struct snd_ctl_file *file,
+ 	struct snd_ctl_elem_id id;
+ 	struct snd_kcontrol *kctl;
+ 	struct snd_kcontrol_volatile *vd;
+-	int result;
+ 
+ 	if (copy_from_user(&id, _id, sizeof(id)))
+ 		return -EFAULT;
+-	down_write(&card->controls_rwsem);
++	guard(rwsem_write)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, &id);
+-	if (kctl == NULL) {
+-		result = -ENOENT;
+-	} else {
+-		vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
+-		if (vd->owner != NULL)
+-			result = -EBUSY;
+-		else {
+-			vd->owner = file;
+-			result = 0;
+-		}
+-	}
+-	up_write(&card->controls_rwsem);
+-	return result;
++	if (!kctl)
++		return -ENOENT;
++	vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
++	if (vd->owner)
++		return -EBUSY;
++	vd->owner = file;
++	return 0;
+ }
+ 
+ static int snd_ctl_elem_unlock(struct snd_ctl_file *file,
+@@ -1454,27 +1395,20 @@ static int snd_ctl_elem_unlock(struct snd_ctl_file *file,
+ 	struct snd_ctl_elem_id id;
+ 	struct snd_kcontrol *kctl;
+ 	struct snd_kcontrol_volatile *vd;
+-	int result;
+ 
+ 	if (copy_from_user(&id, _id, sizeof(id)))
+ 		return -EFAULT;
+-	down_write(&card->controls_rwsem);
++	guard(rwsem_write)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, &id);
+-	if (kctl == NULL) {
+-		result = -ENOENT;
+-	} else {
+-		vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
+-		if (vd->owner == NULL)
+-			result = -EINVAL;
+-		else if (vd->owner != file)
+-			result = -EPERM;
+-		else {
+-			vd->owner = NULL;
+-			result = 0;
+-		}
+-	}
+-	up_write(&card->controls_rwsem);
+-	return result;
++	if (!kctl)
++		return -ENOENT;
++	vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
++	if (!vd->owner)
++		return -EINVAL;
++	if (vd->owner != file)
++		return -EPERM;
++	vd->owner = NULL;
++	return 0;
+ }
+ 
+ struct user_element {
+@@ -1756,11 +1690,9 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
+ 	private_size = value_sizes[info->type] * info->count;
+ 	alloc_size = compute_user_elem_size(private_size, count);
+ 
+-	down_write(&card->controls_rwsem);
+-	if (check_user_elem_overflow(card, alloc_size)) {
+-		err = -ENOMEM;
+-		goto unlock;
+-	}
++	guard(rwsem_write)(&card->controls_rwsem);
++	if (check_user_elem_overflow(card, alloc_size))
++		return -ENOMEM;
+ 
+ 	/*
+ 	 * Keep memory object for this userspace control. After passing this
+@@ -1770,13 +1702,12 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
+ 	 */
+ 	err = snd_ctl_new(&kctl, count, access, file);
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 	memcpy(&kctl->id, &info->id, sizeof(kctl->id));
+ 	ue = kzalloc(alloc_size, GFP_KERNEL);
+ 	if (!ue) {
+ 		kfree(kctl);
+-		err = -ENOMEM;
+-		goto unlock;
++		return -ENOMEM;
+ 	}
+ 	kctl->private_data = ue;
+ 	kctl->private_free = snd_ctl_elem_user_free;
+@@ -1794,7 +1725,7 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
+ 		err = snd_ctl_elem_init_enum_names(ue);
+ 		if (err < 0) {
+ 			snd_ctl_free_one(kctl);
+-			goto unlock;
++			return err;
+ 		}
+ 	}
+ 
+@@ -1814,7 +1745,7 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
+ 	err = __snd_ctl_add_replace(card, kctl, CTL_ADD_EXCLUSIVE);
+ 	if (err < 0) {
+ 		snd_ctl_free_one(kctl);
+-		goto unlock;
++		return err;
+ 	}
+ 	offset = snd_ctl_get_ioff(kctl, &info->id);
+ 	snd_ctl_build_ioff(&info->id, kctl, offset);
+@@ -1825,9 +1756,7 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
+ 	 * applications because the field originally means PID of a process
+ 	 * which locks the element.
+ 	 */
+- unlock:
+-	up_write(&card->controls_rwsem);
+-	return err;
++	return 0;
+ }
+ 
+ static int snd_ctl_elem_add_user(struct snd_ctl_file *file,
+@@ -2029,34 +1958,29 @@ static long snd_ctl_ioctl(struct file *file, unsigned int cmd, unsigned long arg
+ 	case SNDRV_CTL_IOCTL_SUBSCRIBE_EVENTS:
+ 		return snd_ctl_subscribe_events(ctl, ip);
+ 	case SNDRV_CTL_IOCTL_TLV_READ:
+-		down_read(&ctl->card->controls_rwsem);
+-		err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_READ);
+-		up_read(&ctl->card->controls_rwsem);
++		scoped_guard(rwsem_read, &ctl->card->controls_rwsem)
++			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_READ);
+ 		return err;
+ 	case SNDRV_CTL_IOCTL_TLV_WRITE:
+-		down_write(&ctl->card->controls_rwsem);
+-		err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_WRITE);
+-		up_write(&ctl->card->controls_rwsem);
++		scoped_guard(rwsem_write, &ctl->card->controls_rwsem)
++			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_WRITE);
+ 		return err;
+ 	case SNDRV_CTL_IOCTL_TLV_COMMAND:
+-		down_write(&ctl->card->controls_rwsem);
+-		err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_CMD);
+-		up_write(&ctl->card->controls_rwsem);
++		scoped_guard(rwsem_write, &ctl->card->controls_rwsem)
++			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_CMD);
+ 		return err;
+ 	case SNDRV_CTL_IOCTL_POWER:
+ 		return -ENOPROTOOPT;
+ 	case SNDRV_CTL_IOCTL_POWER_STATE:
+ 		return put_user(SNDRV_CTL_POWER_D0, ip) ? -EFAULT : 0;
+ 	}
+-	down_read(&snd_ioctl_rwsem);
++
++	guard(rwsem_read)(&snd_ioctl_rwsem);
+ 	list_for_each_entry(p, &snd_control_ioctls, list) {
+ 		err = p->fioctl(card, ctl, cmd, arg);
+-		if (err != -ENOIOCTLCMD) {
+-			up_read(&snd_ioctl_rwsem);
++		if (err != -ENOIOCTLCMD)
+ 			return err;
+-		}
+ 	}
+-	up_read(&snd_ioctl_rwsem);
+ 	dev_dbg(card->dev, "unknown ioctl = 0x%x\n", cmd);
+ 	return -ENOTTY;
+ }
+@@ -2148,9 +2072,8 @@ static int _snd_ctl_register_ioctl(snd_kctl_ioctl_func_t fcn, struct list_head *
+ 	if (pn == NULL)
+ 		return -ENOMEM;
+ 	pn->fioctl = fcn;
+-	down_write(&snd_ioctl_rwsem);
++	guard(rwsem_write)(&snd_ioctl_rwsem);
+ 	list_add_tail(&pn->list, lists);
+-	up_write(&snd_ioctl_rwsem);
+ 	return 0;
+ }
+ 
+@@ -2193,16 +2116,14 @@ static int _snd_ctl_unregister_ioctl(snd_kctl_ioctl_func_t fcn,
+ 
+ 	if (snd_BUG_ON(!fcn))
+ 		return -EINVAL;
+-	down_write(&snd_ioctl_rwsem);
++	guard(rwsem_write)(&snd_ioctl_rwsem);
+ 	list_for_each_entry(p, lists, list) {
+ 		if (p->fioctl == fcn) {
+ 			list_del(&p->list);
+-			up_write(&snd_ioctl_rwsem);
+ 			kfree(p);
+ 			return 0;
+ 		}
+ 	}
+-	up_write(&snd_ioctl_rwsem);
+ 	snd_BUG();
+ 	return -EINVAL;
+ }
+@@ -2249,9 +2170,8 @@ int snd_ctl_get_preferred_subdevice(struct snd_card *card, int type)
+ {
+ 	struct snd_ctl_file *kctl;
+ 	int subdevice = -1;
+-	unsigned long flags;
+ 
+-	read_lock_irqsave(&card->ctl_files_rwlock, flags);
++	guard(read_lock_irqsave)(&card->ctl_files_rwlock);
+ 	list_for_each_entry(kctl, &card->ctl_files, list) {
+ 		if (kctl->pid == task_pid(current)) {
+ 			subdevice = kctl->preferred_subdevice[type];
+@@ -2259,7 +2179,6 @@ int snd_ctl_get_preferred_subdevice(struct snd_card *card, int type)
+ 				break;
+ 		}
+ 	}
+-	read_unlock_irqrestore(&card->ctl_files_rwlock, flags);
+ 	return subdevice;
+ }
+ EXPORT_SYMBOL_GPL(snd_ctl_get_preferred_subdevice);
+@@ -2289,13 +2208,11 @@ int snd_ctl_request_layer(const char *module_name)
+ 
+ 	if (module_name == NULL)
+ 		return 0;
+-	down_read(&snd_ctl_layer_rwsem);
+-	for (lops = snd_ctl_layer; lops; lops = lops->next)
+-		if (strcmp(lops->module_name, module_name) == 0)
+-			break;
+-	up_read(&snd_ctl_layer_rwsem);
+-	if (lops)
+-		return 0;
++	scoped_guard(rwsem_read, &snd_ctl_layer_rwsem) {
++		for (lops = snd_ctl_layer; lops; lops = lops->next)
++			if (strcmp(lops->module_name, module_name) == 0)
++				return 0;
++	}
+ 	return request_module(module_name);
+ }
+ EXPORT_SYMBOL_GPL(snd_ctl_request_layer);
+@@ -2312,16 +2229,15 @@ void snd_ctl_register_layer(struct snd_ctl_layer_ops *lops)
+ 	struct snd_card *card;
+ 	int card_number;
+ 
+-	down_write(&snd_ctl_layer_rwsem);
+-	lops->next = snd_ctl_layer;
+-	snd_ctl_layer = lops;
+-	up_write(&snd_ctl_layer_rwsem);
++	scoped_guard(rwsem_write, &snd_ctl_layer_rwsem) {
++		lops->next = snd_ctl_layer;
++		snd_ctl_layer = lops;
++	}
+ 	for (card_number = 0; card_number < SNDRV_CARDS; card_number++) {
+ 		card = snd_card_ref(card_number);
+ 		if (card) {
+-			down_read(&card->controls_rwsem);
+-			lops->lregister(card);
+-			up_read(&card->controls_rwsem);
++			scoped_guard(rwsem_read, &card->controls_rwsem)
++				lops->lregister(card);
+ 			snd_card_unref(card);
+ 		}
+ 	}
+@@ -2340,7 +2256,7 @@ void snd_ctl_disconnect_layer(struct snd_ctl_layer_ops *lops)
+ {
+ 	struct snd_ctl_layer_ops *lops2, *prev_lops2;
+ 
+-	down_write(&snd_ctl_layer_rwsem);
++	guard(rwsem_write)(&snd_ctl_layer_rwsem);
+ 	for (lops2 = snd_ctl_layer, prev_lops2 = NULL; lops2; lops2 = lops2->next) {
+ 		if (lops2 == lops) {
+ 			if (!prev_lops2)
+@@ -2351,7 +2267,6 @@ void snd_ctl_disconnect_layer(struct snd_ctl_layer_ops *lops)
+ 		}
+ 		prev_lops2 = lops2;
+ 	}
+-	up_write(&snd_ctl_layer_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(snd_ctl_disconnect_layer);
+ 
+@@ -2372,25 +2287,29 @@ static const struct file_operations snd_ctl_f_ops =
+ 	.fasync =	snd_ctl_fasync,
+ };
+ 
++/* call lops under rwsems; called from snd_ctl_dev_*() below() */
++#define call_snd_ctl_lops(_card, _op)				    \
++	do {							    \
++		struct snd_ctl_layer_ops *lops;			    \
++		guard(rwsem_read)(&(_card)->controls_rwsem);	    \
++		guard(rwsem_read)(&snd_ctl_layer_rwsem);	    \
++		for (lops = snd_ctl_layer; lops; lops = lops->next) \
++			lops->_op(_card);			    \
++	} while (0)
++
+ /*
+  * registration of the control device
+  */
+ static int snd_ctl_dev_register(struct snd_device *device)
+ {
+ 	struct snd_card *card = device->device_data;
+-	struct snd_ctl_layer_ops *lops;
+ 	int err;
+ 
+ 	err = snd_register_device(SNDRV_DEVICE_TYPE_CONTROL, card, -1,
+ 				  &snd_ctl_f_ops, card, card->ctl_dev);
+ 	if (err < 0)
+ 		return err;
+-	down_read(&card->controls_rwsem);
+-	down_read(&snd_ctl_layer_rwsem);
+-	for (lops = snd_ctl_layer; lops; lops = lops->next)
+-		lops->lregister(card);
+-	up_read(&snd_ctl_layer_rwsem);
+-	up_read(&card->controls_rwsem);
++	call_snd_ctl_lops(card, lregister);
+ 	return 0;
+ }
+ 
+@@ -2401,23 +2320,15 @@ static int snd_ctl_dev_disconnect(struct snd_device *device)
+ {
+ 	struct snd_card *card = device->device_data;
+ 	struct snd_ctl_file *ctl;
+-	struct snd_ctl_layer_ops *lops;
+-	unsigned long flags;
+ 
+-	read_lock_irqsave(&card->ctl_files_rwlock, flags);
+-	list_for_each_entry(ctl, &card->ctl_files, list) {
+-		wake_up(&ctl->change_sleep);
+-		snd_kill_fasync(ctl->fasync, SIGIO, POLL_ERR);
++	scoped_guard(read_lock_irqsave, &card->ctl_files_rwlock) {
++		list_for_each_entry(ctl, &card->ctl_files, list) {
++			wake_up(&ctl->change_sleep);
++			snd_kill_fasync(ctl->fasync, SIGIO, POLL_ERR);
++		}
+ 	}
+-	read_unlock_irqrestore(&card->ctl_files_rwlock, flags);
+-
+-	down_read(&card->controls_rwsem);
+-	down_read(&snd_ctl_layer_rwsem);
+-	for (lops = snd_ctl_layer; lops; lops = lops->next)
+-		lops->ldisconnect(card);
+-	up_read(&snd_ctl_layer_rwsem);
+-	up_read(&card->controls_rwsem);
+ 
++	call_snd_ctl_lops(card, ldisconnect);
+ 	return snd_unregister_device(card->ctl_dev);
+ }
+ 
+@@ -2429,17 +2340,17 @@ static int snd_ctl_dev_free(struct snd_device *device)
+ 	struct snd_card *card = device->device_data;
+ 	struct snd_kcontrol *control;
+ 
+-	down_write(&card->controls_rwsem);
+-	while (!list_empty(&card->controls)) {
+-		control = snd_kcontrol(card->controls.next);
+-		__snd_ctl_remove(card, control, false);
+-	}
++	scoped_guard(rwsem_write, &card->controls_rwsem) {
++		while (!list_empty(&card->controls)) {
++			control = snd_kcontrol(card->controls.next);
++			__snd_ctl_remove(card, control, false);
++		}
+ 
+ #ifdef CONFIG_SND_CTL_FAST_LOOKUP
+-	xa_destroy(&card->ctl_numids);
+-	xa_destroy(&card->ctl_hash);
++		xa_destroy(&card->ctl_numids);
++		xa_destroy(&card->ctl_hash);
+ #endif
+-	up_write(&card->controls_rwsem);
++	}
+ 	put_device(card->ctl_dev);
+ 	return 0;
+ }
+diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
+index 8392183c77ed..934bb945e702 100644
+--- a/sound/core/control_compat.c
++++ b/sound/core/control_compat.c
+@@ -167,23 +167,18 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
+ 	struct snd_ctl_elem_info *info __free(kfree) = NULL;
+ 	int err;
+ 
+-	down_read(&card->controls_rwsem);
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	kctl = snd_ctl_find_id_locked(card, id);
+-	if (! kctl) {
+-		up_read(&card->controls_rwsem);
++	if (!kctl)
+ 		return -ENOENT;
+-	}
+ 	info = kzalloc(sizeof(*info), GFP_KERNEL);
+-	if (info == NULL) {
+-		up_read(&card->controls_rwsem);
++	if (info == NULL)
+ 		return -ENOMEM;
+-	}
+ 	info->id = *id;
+ 	err = snd_power_ref_and_wait(card);
+ 	if (!err)
+ 		err = kctl->info(kctl, info);
+ 	snd_power_unref(card);
+-	up_read(&card->controls_rwsem);
+ 	if (err >= 0) {
+ 		err = info->type;
+ 		*countp = info->count;
+@@ -451,16 +446,13 @@ static inline long snd_ctl_ioctl_compat(struct file *file, unsigned int cmd, uns
+ #endif /* CONFIG_X86_X32_ABI */
+ 	}
+ 
+-	down_read(&snd_ioctl_rwsem);
++	guard(rwsem_read)(&snd_ioctl_rwsem);
+ 	list_for_each_entry(p, &snd_control_compat_ioctls, list) {
+ 		if (p->fioctl) {
+ 			err = p->fioctl(ctl->card, ctl, cmd, arg);
+-			if (err != -ENOIOCTLCMD) {
+-				up_read(&snd_ioctl_rwsem);
++			if (err != -ENOIOCTLCMD)
+ 				return err;
+-			}
+ 		}
+ 	}
+-	up_read(&snd_ioctl_rwsem);
+ 	return -ENOIOCTLCMD;
+ }
 -- 
 2.35.3
 
