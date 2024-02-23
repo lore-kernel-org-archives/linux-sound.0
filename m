@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D60884A47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3FC84A33
 	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 16:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708705706; cv=none; b=XRK9hs+1hSxqyDqVua1zqlAgvOpuBkPu3DQ0HA8kfHD7y2zN80aXi/K+RzPSbb05VY2H+FJ0HLlBoi6k9164JuwuJr1ryOFmMbt+zK/+unT223EWEstejtsj2fdYLxlpGPAdBxIl3ivvC61xVkibvdl3oHr/vDFyMw+ti1pvrhI=
+	t=1708705707; cv=none; b=eTu+sId91OQhPYv/8z5WilMH4mDYIESUVzyekKcHqim/2Qtw1ctF9NbJPbN3mkY/F+AilamJMOlp9NEG3fjHodcWgnjXxJNDypugvg2OM90h9eDtyuLE2JpoxeaLcoOVFjRzsGY5e2mZNRXpAoYWN468RT3iFkKrgXeWigkekcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708705706; c=relaxed/simple;
-	bh=tbGyeoK7+fVhd1jjUNOkEVdpOD93vHovUKv+xnfZUGs=;
+	s=arc-20240116; t=1708705707; c=relaxed/simple;
+	bh=gygIKwEkavjiWXGvaVa5Qg5Bl5QXflfS78iLi6OECrs=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Wk4hxYSsfySZEsSQex8zUf6b4R3TZ6ZlBoeIyNylYkG4/LIulwGFXKAoJy+OX6JBs8KKEuqQQ0a5/Gg/EBnHHC8Y1e0jwLR+dYZgJlUXjZOsm3uVdt39Lbs7RN+8Q6bEEXcihtWwt89HIaGUOci9iSolslUB7zbGnDcq4tC97h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UkPZInkf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+XWPllyo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UkPZInkf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+XWPllyo; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=iktg+JOgTG+FhE0tTOAcxoZJpsIAfMEuwOLYkZ8fhUv44ftLZz89lnNVL4la/SA0/vGO8ta5oGOruRU6LP1dF8h9ClPYuEJCk5Io/FPrdcKU3Kb6ZQOPDUCk+cGjt3im9rK8HFHernLmFQA7CgWaeo4qCoD266rBqF3G79s2Rfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QP0Kx/Cj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2n6wqxv4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QP0Kx/Cj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2n6wqxv4; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UkPZInkf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+XWPllyo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UkPZInkf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+XWPllyo"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QP0Kx/Cj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2n6wqxv4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QP0Kx/Cj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2n6wqxv4"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 363581FD3D;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5E5AE1FD3A;
 	Fri, 23 Feb 2024 16:28:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1708705700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=UkPZInkfmlE7VJPKWqiQfL4GJTAqlIGW7T8pXlDi7Ogk5xvDlrg0uw4tARfdU3Xb4B9rrJ
-	0I+qMBMc+IRwP7Ntr0RDa7OOF+y3aQZ7woQZEc/xZZrhaOUyyCiV81rbUKViqZMpz1jnGg
-	4kd6HMhiUnJsyM0ftpCpv2dF58/o4PY=
+	bh=rIAwnvxEhV0TY75S5jGiOs3a+A4mAuLIQABMFXch6vw=;
+	b=QP0Kx/CjC8VsXeaZkzNejkId0xKXC7PLOKVDOkgIkCUj2urZ57O5Vcx7fs56PgVJ4hORQt
+	CAdn9pYZmzfk+B5Tpd/mA8IWzkcg4EPKG5BYuKoYd1xxnEdnB5lUagNZy2nR/nyB/kc9vI
+	juKArEpEPuRmiph7DH1ZxpAjDt597EU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1708705700;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=+XWPllyom9FUdztXBml9hQifcPp3gJdF9Ci3gWFW6psuf24CfqhoMH//aZ2FXf/XH4qWFZ
-	5ewL6oBZBo8Y1HBQ==
+	bh=rIAwnvxEhV0TY75S5jGiOs3a+A4mAuLIQABMFXch6vw=;
+	b=2n6wqxv4KEpRPBmyfokWnjqik2iL6yv9vKWcB7UcM4E1aEgRbDWXIs1ozKcc8S9yD7bAOL
+	rPXZNP+NZD8k67Bg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1708705700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=UkPZInkfmlE7VJPKWqiQfL4GJTAqlIGW7T8pXlDi7Ogk5xvDlrg0uw4tARfdU3Xb4B9rrJ
-	0I+qMBMc+IRwP7Ntr0RDa7OOF+y3aQZ7woQZEc/xZZrhaOUyyCiV81rbUKViqZMpz1jnGg
-	4kd6HMhiUnJsyM0ftpCpv2dF58/o4PY=
+	bh=rIAwnvxEhV0TY75S5jGiOs3a+A4mAuLIQABMFXch6vw=;
+	b=QP0Kx/CjC8VsXeaZkzNejkId0xKXC7PLOKVDOkgIkCUj2urZ57O5Vcx7fs56PgVJ4hORQt
+	CAdn9pYZmzfk+B5Tpd/mA8IWzkcg4EPKG5BYuKoYd1xxnEdnB5lUagNZy2nR/nyB/kc9vI
+	juKArEpEPuRmiph7DH1ZxpAjDt597EU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1708705700;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=+XWPllyom9FUdztXBml9hQifcPp3gJdF9Ci3gWFW6psuf24CfqhoMH//aZ2FXf/XH4qWFZ
-	5ewL6oBZBo8Y1HBQ==
+	bh=rIAwnvxEhV0TY75S5jGiOs3a+A4mAuLIQABMFXch6vw=;
+	b=2n6wqxv4KEpRPBmyfokWnjqik2iL6yv9vKWcB7UcM4E1aEgRbDWXIs1ozKcc8S9yD7bAOL
+	rPXZNP+NZD8k67Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11358133DC;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 335F813AC1;
 	Fri, 23 Feb 2024 16:28:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6HXbAqTH2GWaMQAAD6G6ig
+	id SB40C6TH2GWaMQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 16:28:20 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 12/24] ALSA: seq: fifo: Use guard() for locking
-Date: Fri, 23 Feb 2024 17:27:58 +0100
-Message-Id: <20240223162810.32302-13-tiwai@suse.de>
+Subject: [PATCH 13/24] ALSA: seq: memory: Use guard() for locking
+Date: Fri, 23 Feb 2024 17:27:59 +0100
+Message-Id: <20240223162810.32302-14-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223162810.32302-1-tiwai@suse.de>
 References: <20240223162810.32302-1-tiwai@suse.de>
@@ -120,125 +120,96 @@ Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_fifo.c | 55 +++++++++++++++++----------------------
- 1 file changed, 24 insertions(+), 31 deletions(-)
+ sound/core/seq/seq_memory.c | 28 ++++++++++------------------
+ 1 file changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
-index f8e02e98709a..3a10b081f129 100644
---- a/sound/core/seq/seq_fifo.c
-+++ b/sound/core/seq/seq_fifo.c
-@@ -88,12 +88,11 @@ void snd_seq_fifo_clear(struct snd_seq_fifo *f)
- 	atomic_set(&f->overflow, 0);
+diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
+index e705e7538118..20155e3e87c6 100644
+--- a/sound/core/seq/seq_memory.c
++++ b/sound/core/seq/seq_memory.c
+@@ -232,7 +232,6 @@ static inline void free_cell(struct snd_seq_pool *pool,
  
- 	snd_use_lock_sync(&f->use_lock);
--	spin_lock_irq(&f->lock);
-+	guard(spinlock_irq)(&f->lock);
- 	/* drain the fifo */
- 	while ((cell = fifo_cell_out(f)) != NULL) {
- 		snd_seq_cell_free(cell);
+ void snd_seq_cell_free(struct snd_seq_event_cell * cell)
+ {
+-	unsigned long flags;
+ 	struct snd_seq_pool *pool;
+ 
+ 	if (snd_BUG_ON(!cell))
+@@ -241,7 +240,7 @@ void snd_seq_cell_free(struct snd_seq_event_cell * cell)
+ 	if (snd_BUG_ON(!pool))
+ 		return;
+ 
+-	spin_lock_irqsave(&pool->lock, flags);
++	guard(spinlock_irqsave)(&pool->lock);
+ 	free_cell(pool, cell);
+ 	if (snd_seq_ev_is_variable(&cell->event)) {
+ 		if (cell->event.data.ext.len & SNDRV_SEQ_EXT_CHAINED) {
+@@ -259,7 +258,6 @@ void snd_seq_cell_free(struct snd_seq_event_cell * cell)
+ 		if (snd_seq_output_ok(pool))
+ 			wake_up(&pool->output_sleep);
  	}
--	spin_unlock_irq(&f->lock);
+-	spin_unlock_irqrestore(&pool->lock, flags);
  }
  
  
-@@ -102,7 +101,6 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
- 			  struct snd_seq_event *event)
- {
- 	struct snd_seq_event_cell *cell;
--	unsigned long flags;
- 	int err;
+@@ -449,9 +447,8 @@ int snd_seq_pool_init(struct snd_seq_pool *pool)
+ 		return -ENOMEM;
  
- 	if (snd_BUG_ON(!f))
-@@ -118,15 +116,15 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
+ 	/* add new cells to the free cell list */
+-	spin_lock_irq(&pool->lock);
++	guard(spinlock_irq)(&pool->lock);
+ 	if (pool->ptr) {
+-		spin_unlock_irq(&pool->lock);
+ 		kvfree(cellptr);
+ 		return 0;
  	}
- 		
- 	/* append new cells to fifo */
--	spin_lock_irqsave(&f->lock, flags);
--	if (f->tail != NULL)
--		f->tail->next = cell;
--	f->tail = cell;
--	if (f->head == NULL)
--		f->head = cell;
--	cell->next = NULL;
--	f->cells++;
--	spin_unlock_irqrestore(&f->lock, flags);
-+	scoped_guard(spinlock_irqsave, &f->lock) {
-+		if (f->tail != NULL)
-+			f->tail->next = cell;
-+		f->tail = cell;
-+		if (f->head == NULL)
-+			f->head = cell;
-+		cell->next = NULL;
-+		f->cells++;
-+	}
+@@ -470,20 +467,16 @@ int snd_seq_pool_init(struct snd_seq_pool *pool)
+ 	/* init statistics */
+ 	pool->max_used = 0;
+ 	pool->total_elements = pool->size;
+-	spin_unlock_irq(&pool->lock);
+ 	return 0;
+ }
  
- 	/* wakeup client */
- 	if (waitqueue_active(&f->input_sleep))
-@@ -199,16 +197,13 @@ int snd_seq_fifo_cell_out(struct snd_seq_fifo *f,
- void snd_seq_fifo_cell_putback(struct snd_seq_fifo *f,
- 			       struct snd_seq_event_cell *cell)
+ /* refuse the further insertion to the pool */
+ void snd_seq_pool_mark_closing(struct snd_seq_pool *pool)
  {
 -	unsigned long flags;
 -
- 	if (cell) {
--		spin_lock_irqsave(&f->lock, flags);
-+		guard(spinlock_irqsave)(&f->lock);
- 		cell->next = f->head;
- 		f->head = cell;
- 		if (!f->tail)
- 			f->tail = cell;
- 		f->cells++;
--		spin_unlock_irqrestore(&f->lock, flags);
- 	}
+ 	if (snd_BUG_ON(!pool))
+ 		return;
+-	spin_lock_irqsave(&pool->lock, flags);
++	guard(spinlock_irqsave)(&pool->lock);
+ 	pool->closing = 1;
+-	spin_unlock_irqrestore(&pool->lock, flags);
  }
  
-@@ -239,17 +234,17 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
- 		return -ENOMEM;
- 	}
- 
--	spin_lock_irq(&f->lock);
--	/* remember old pool */
--	oldpool = f->pool;
--	oldhead = f->head;
--	/* exchange pools */
--	f->pool = newpool;
--	f->head = NULL;
--	f->tail = NULL;
--	f->cells = 0;
--	/* NOTE: overflow flag is not cleared */
--	spin_unlock_irq(&f->lock);
-+	scoped_guard(spinlock_irq, &f->lock) {
-+		/* remember old pool */
-+		oldpool = f->pool;
-+		oldhead = f->head;
-+		/* exchange pools */
-+		f->pool = newpool;
-+		f->head = NULL;
-+		f->tail = NULL;
-+		f->cells = 0;
-+		/* NOTE: overflow flag is not cleared */
+ /* remove events */
+@@ -502,18 +495,17 @@ int snd_seq_pool_done(struct snd_seq_pool *pool)
+ 		schedule_timeout_uninterruptible(1);
+ 	
+ 	/* release all resources */
+-	spin_lock_irq(&pool->lock);
+-	ptr = pool->ptr;
+-	pool->ptr = NULL;
+-	pool->free = NULL;
+-	pool->total_elements = 0;
+-	spin_unlock_irq(&pool->lock);
++	scoped_guard(spinlock_irq, &pool->lock) {
++		ptr = pool->ptr;
++		pool->ptr = NULL;
++		pool->free = NULL;
++		pool->total_elements = 0;
 +	}
  
- 	/* close the old pool and wait until all users are gone */
- 	snd_seq_pool_mark_closing(oldpool);
-@@ -268,16 +263,14 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
- /* get the number of unused cells safely */
- int snd_seq_fifo_unused_cells(struct snd_seq_fifo *f)
- {
--	unsigned long flags;
- 	int cells;
+ 	kvfree(ptr);
  
- 	if (!f)
- 		return 0;
+-	spin_lock_irq(&pool->lock);
++	guard(spinlock_irq)(&pool->lock);
+ 	pool->closing = 0;
+-	spin_unlock_irq(&pool->lock);
  
- 	snd_use_lock_use(&f->use_lock);
--	spin_lock_irqsave(&f->lock, flags);
--	cells = snd_seq_unused_cells(f->pool);
--	spin_unlock_irqrestore(&f->lock, flags);
-+	scoped_guard(spinlock_irqsave, &f->lock)
-+		cells = snd_seq_unused_cells(f->pool);
- 	snd_use_lock_free(&f->use_lock);
- 	return cells;
+ 	return 0;
  }
 -- 
 2.35.3
