@@ -1,84 +1,73 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5696813DBB8
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9293513DB8E
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710616; cv=none; b=cxGv6IetDsZqQtcZTaCKJJUWggDnbCii/2Ugz1phYx3PBGZZD3tfMmj1f2XJ22jfI+jLkufDukqZF9qCopB/OZMot/V3i+YAPoE+2gM7a24niLimTMe0IaDQ2h8/QokiuhSRE4+e4dk64IpSOvljENZg2Y0l/h1olfBgnHdB1tk=
+	t=1708710616; cv=none; b=d2UvTuuBFln4fuDuDIy7H8k3uORbOIH8zm7mz3YYbhZxsR6Hd+ikf8/MI9iCmkKSE/jCrwEd9Go9uzDts/TDVq7JtenfiC1Dt7HkJm62iDEHNMDwj+Z1iAcQQTSjrhy/UIJH7WlgdpLjeWJePaFZRGtqnrE2A9Ksq3FOdE9ckgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708710616; c=relaxed/simple;
-	bh=tbGyeoK7+fVhd1jjUNOkEVdpOD93vHovUKv+xnfZUGs=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TveefIXq5WYvJjlzSHEpMOrEcVocg2crzKRtRk3LUYAFPbdt7cdMXf+Sbs95lf0jW2RD+N7QoBuYCJ5NGA6ajq6obMFkvvJ9rZ/lktr80s+TOvzIlRan4IyHI2c/E6x6SDzKBb2sOo1txMEvG6ws0MV5vR6Kaoc40kSfAX/Q7tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RUw9qUG5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UKNA8XYW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RUw9qUG5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UKNA8XYW; arc=none smtp.client-ip=195.135.223.130
+	bh=qVocd8oST5aBx84bfEVtYO4TEsJpD3lMD+g8OQMtT+w=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=e192lUzKiS9z/zWXyBVFa7gpZAy21bKFGxbaLOA32mNEygEiz1IBL6rxbsMWDbzMGYoJDiVYAxnPl7jAMKBbTQHpjqEKGiG/+ftnw4psJYQO8AzuWsLXqR41P8ic2uNGMGV6F11mPHXDqg0UX1VPPb2D36Xl1vVJfjv511mVcTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=meLs7f/z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gmIuVWWY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=meLs7f/z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gmIuVWWY; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RUw9qUG5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UKNA8XYW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RUw9qUG5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UKNA8XYW"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="meLs7f/z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gmIuVWWY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="meLs7f/z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gmIuVWWY"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9905C221CD;
-	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A9651FC26;
+	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=RUw9qUG5I9iujMrEXP++wPXWOK9gcwOo8izgUqxZq14NjmwSO52mPSE/JJcnEnGVu3T78K
-	Y4B/YGUHeZZn+Ie6Q3TDiudfwA4dlJsAHIqQ9OK4Rg/JuVENyk/QigDlUTOGO0s2LB1/Vn
-	NBmDJKeIYS9r3doEe4blE4d4fEmzHvA=
+	t=1708710610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
+	b=meLs7f/z5DgXd8T7Lmp5gAzKMT6Nf9PDhAY8n8Guv1cxqPkaXkQvAjBiQig8YXIhK0Aauq
+	t2Layz7rLTuWwqvgXnxigwZZaGNb141FslsDuCAdxeqtOQdvfqJgyaxx15Tn4tbra38CtA
+	jbb8/Juf39qp4AOnrfrnUYtLj9O2YAw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710612;
+	s=susede2_ed25519; t=1708710610;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=UKNA8XYWfFnl+1vUSVAQgW5uvQ710mpXLV2bB8Y4+G1tffxw4RIPGeJJZ5u2ZHtK/O7kV/
-	DWft6U7opMw3vkBg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
+	b=gmIuVWWY60Ey47wZnd0i+wjluPPVPoTVLWZxOIVXyVSGrQqhqURJfG5BxCDZ2guoKYfu2Y
+	t9MKSno+gaD2rgAw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=RUw9qUG5I9iujMrEXP++wPXWOK9gcwOo8izgUqxZq14NjmwSO52mPSE/JJcnEnGVu3T78K
-	Y4B/YGUHeZZn+Ie6Q3TDiudfwA4dlJsAHIqQ9OK4Rg/JuVENyk/QigDlUTOGO0s2LB1/Vn
-	NBmDJKeIYS9r3doEe4blE4d4fEmzHvA=
+	t=1708710610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
+	b=meLs7f/z5DgXd8T7Lmp5gAzKMT6Nf9PDhAY8n8Guv1cxqPkaXkQvAjBiQig8YXIhK0Aauq
+	t2Layz7rLTuWwqvgXnxigwZZaGNb141FslsDuCAdxeqtOQdvfqJgyaxx15Tn4tbra38CtA
+	jbb8/Juf39qp4AOnrfrnUYtLj9O2YAw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710612;
+	s=susede2_ed25519; t=1708710610;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
-	b=UKNA8XYWfFnl+1vUSVAQgW5uvQ710mpXLV2bB8Y4+G1tffxw4RIPGeJJZ5u2ZHtK/O7kV/
-	DWft6U7opMw3vkBg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Okpqs7vmrHR3n5w67TlwOscp4Jdey70ddZ68ykgFtCg=;
+	b=gmIuVWWY60Ey47wZnd0i+wjluPPVPoTVLWZxOIVXyVSGrQqhqURJfG5BxCDZ2guoKYfu2Y
+	t9MKSno+gaD2rgAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67F8B13AC7;
-	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A62C132C7;
+	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aDfaF9Ta2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:12 +0000
+	id Del3GNLa2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:10 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 12/24] ALSA: seq: fifo: Use guard() for locking
-Date: Fri, 23 Feb 2024 18:49:49 +0100
-Message-Id: <20240223175001.24375-13-tiwai@suse.de>
+Subject: [PATCH v2 00/24] Clean up locking with guard() in ALSA core
+Date: Fri, 23 Feb 2024 18:49:37 +0100
+Message-Id: <20240223175001.24375-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
-References: <20240223175001.24375-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,9 +77,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spamd-Bar: /
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RUw9qUG5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UKNA8XYW
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="meLs7f/z";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gmIuVWWY
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [0.49 / 50.00];
 	 ARC_NA(0.00)[];
@@ -110,7 +99,7 @@ X-Spamd-Result: default: False [0.49 / 50.00];
 	 DKIM_TRACE(0.00)[suse.de:+];
 	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
@@ -118,136 +107,102 @@ X-Spamd-Result: default: False [0.49 / 50.00];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
 X-Spam-Score: 0.49
-X-Rspamd-Queue-Id: 9905C221CD
+X-Rspamd-Queue-Id: 8A9651FC26
 X-Spam-Flag: NO
 
-We can simplify the code gracefully with new guard() macro and co for
-automatic cleanup of locks.
+[ I submitted v1 patches from a wrong old branch; here is the
+  resubmission of the proper patches, sorry for inconvenience ]
 
-Only the code refactoring, and no functional changes.
+Hi,
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/seq/seq_fifo.c | 55 +++++++++++++++++----------------------
- 1 file changed, 24 insertions(+), 31 deletions(-)
+this is a patch set for cleaning up the locking code in ALSA core with
+the recently introduced guard() macros, i.e. the automatic cleanup
+mechanism.
 
-diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
-index f8e02e98709a..3a10b081f129 100644
---- a/sound/core/seq/seq_fifo.c
-+++ b/sound/core/seq/seq_fifo.c
-@@ -88,12 +88,11 @@ void snd_seq_fifo_clear(struct snd_seq_fifo *f)
- 	atomic_set(&f->overflow, 0);
- 
- 	snd_use_lock_sync(&f->use_lock);
--	spin_lock_irq(&f->lock);
-+	guard(spinlock_irq)(&f->lock);
- 	/* drain the fifo */
- 	while ((cell = fifo_cell_out(f)) != NULL) {
- 		snd_seq_cell_free(cell);
- 	}
--	spin_unlock_irq(&f->lock);
- }
- 
- 
-@@ -102,7 +101,6 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
- 			  struct snd_seq_event *event)
- {
- 	struct snd_seq_event_cell *cell;
--	unsigned long flags;
- 	int err;
- 
- 	if (snd_BUG_ON(!f))
-@@ -118,15 +116,15 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
- 	}
- 		
- 	/* append new cells to fifo */
--	spin_lock_irqsave(&f->lock, flags);
--	if (f->tail != NULL)
--		f->tail->next = cell;
--	f->tail = cell;
--	if (f->head == NULL)
--		f->head = cell;
--	cell->next = NULL;
--	f->cells++;
--	spin_unlock_irqrestore(&f->lock, flags);
-+	scoped_guard(spinlock_irqsave, &f->lock) {
-+		if (f->tail != NULL)
-+			f->tail->next = cell;
-+		f->tail = cell;
-+		if (f->head == NULL)
-+			f->head = cell;
-+		cell->next = NULL;
-+		f->cells++;
-+	}
- 
- 	/* wakeup client */
- 	if (waitqueue_active(&f->input_sleep))
-@@ -199,16 +197,13 @@ int snd_seq_fifo_cell_out(struct snd_seq_fifo *f,
- void snd_seq_fifo_cell_putback(struct snd_seq_fifo *f,
- 			       struct snd_seq_event_cell *cell)
- {
--	unsigned long flags;
--
- 	if (cell) {
--		spin_lock_irqsave(&f->lock, flags);
-+		guard(spinlock_irqsave)(&f->lock);
- 		cell->next = f->head;
- 		f->head = cell;
- 		if (!f->tail)
- 			f->tail = cell;
- 		f->cells++;
--		spin_unlock_irqrestore(&f->lock, flags);
- 	}
- }
- 
-@@ -239,17 +234,17 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
- 		return -ENOMEM;
- 	}
- 
--	spin_lock_irq(&f->lock);
--	/* remember old pool */
--	oldpool = f->pool;
--	oldhead = f->head;
--	/* exchange pools */
--	f->pool = newpool;
--	f->head = NULL;
--	f->tail = NULL;
--	f->cells = 0;
--	/* NOTE: overflow flag is not cleared */
--	spin_unlock_irq(&f->lock);
-+	scoped_guard(spinlock_irq, &f->lock) {
-+		/* remember old pool */
-+		oldpool = f->pool;
-+		oldhead = f->head;
-+		/* exchange pools */
-+		f->pool = newpool;
-+		f->head = NULL;
-+		f->tail = NULL;
-+		f->cells = 0;
-+		/* NOTE: overflow flag is not cleared */
-+	}
- 
- 	/* close the old pool and wait until all users are gone */
- 	snd_seq_pool_mark_closing(oldpool);
-@@ -268,16 +263,14 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
- /* get the number of unused cells safely */
- int snd_seq_fifo_unused_cells(struct snd_seq_fifo *f)
- {
--	unsigned long flags;
- 	int cells;
- 
- 	if (!f)
- 		return 0;
- 
- 	snd_use_lock_use(&f->use_lock);
--	spin_lock_irqsave(&f->lock, flags);
--	cells = snd_seq_unused_cells(f->pool);
--	spin_unlock_irqrestore(&f->lock, flags);
-+	scoped_guard(spinlock_irqsave, &f->lock)
-+		cells = snd_seq_unused_cells(f->pool);
- 	snd_use_lock_free(&f->use_lock);
- 	return cells;
- }
+I started poking it in a few days ago, and since then I was very
+impressed by how easily and well it simplifies the code.  It'd help
+for avoiding leaking unbalanced locks, and reduce the LOC.
+
+Most of changes are pretty systematic, just replacing the lock/unlock
+with guard() or scoped_guard().  Some unnecessary variable
+substitutions could be reduced by the reduction of unlock.
+Also, some got slight code refactoring so that guard() macro can be
+applied more cleanly, too.
+
+The remaining lock/unlock are mostly for the cases where temporary
+re-locking happens, for example in read/write or open loops.
+Those could be improved in future.  Let's see.
+
+The patches cover only the ALSA core area.  The other drivers can
+receive benefits in a similar way, I suppose.
+
+
+Takashi
+
+===
+
+Takashi Iwai (24):
+  ALSA: ump: Use guard() for locking
+  ALSA: compress_offload: Use guard() for locking
+  ALSA: timer: Use guard() for locking
+  ALSA: hrtimer: Use guard() for locking
+  ALSA: hwdep: Use guard() for locking
+  ALSA: info: Use guard() for locking
+  ALSA: mixer_oss: Use guard() for locking
+  ALSA: control: Use guard() for locking
+  ALSA: rawmidi: Use guard() for locking
+  ALSA: jack: Use guard() for locking
+  ALSA: core: Use guard() for locking
+  ALSA: seq: fifo: Use guard() for locking
+  ALSA: seq: memory: Use guard() for locking
+  ALSA: seq: ports: Use guard() for locking
+  ALSA: seq: queue: Use guard() for locking
+  ALSA: seq: timer: Use guard() for locking
+  ALSA: seq: midi: Use guard() for locking
+  ALSA: seq: ump: Use guard() for locking
+  ALSA: seq: virmidi: Use guard() for locking
+  ALSA: seq: prioq: Use guard() for locking
+  ALSA: pcm: Use guard() for locking
+  ALSA: pcm: Use guard() for PCM stream locks
+  ALSA: pcm: oss: Use guard() for setup
+  ALSA: control_led: Use guard() for locking
+
+ include/sound/pcm.h             |  12 +
+ sound/core/compress_offload.c   |  98 +++-----
+ sound/core/control.c            | 431 +++++++++++++-------------------
+ sound/core/control_compat.c     |  18 +-
+ sound/core/control_led.c        | 150 +++++------
+ sound/core/hrtimer.c            |  24 +-
+ sound/core/hwdep.c              |  49 ++--
+ sound/core/info.c               |  93 +++----
+ sound/core/info_oss.c           |  10 +-
+ sound/core/init.c               | 199 +++++++--------
+ sound/core/jack.c               |  25 +-
+ sound/core/oss/mixer_oss.c      | 228 +++++++----------
+ sound/core/oss/pcm_oss.c        |  41 ++-
+ sound/core/pcm.c                |  90 +++----
+ sound/core/pcm_compat.c         |  66 +++--
+ sound/core/pcm_lib.c            |  10 +-
+ sound/core/pcm_memory.c         |  30 +--
+ sound/core/pcm_native.c         | 340 +++++++++++--------------
+ sound/core/rawmidi.c            | 232 ++++++-----------
+ sound/core/seq/seq_fifo.c       |  55 ++--
+ sound/core/seq/seq_memory.c     |  28 +--
+ sound/core/seq/seq_midi.c       |  16 +-
+ sound/core/seq/seq_midi_event.c |  14 +-
+ sound/core/seq/seq_ports.c      | 114 ++++-----
+ sound/core/seq/seq_prioq.c      |  59 ++---
+ sound/core/seq/seq_queue.c      |  78 +++---
+ sound/core/seq/seq_timer.c      | 163 +++++-------
+ sound/core/seq/seq_ump_client.c |  13 +-
+ sound/core/seq/seq_virmidi.c    |  18 +-
+ sound/core/sound.c              |  28 +--
+ sound/core/sound_oss.c          |  17 +-
+ sound/core/timer.c              | 429 +++++++++++++------------------
+ sound/core/timer_compat.c       |   7 +-
+ sound/core/ump.c                |  35 +--
+ 34 files changed, 1275 insertions(+), 1945 deletions(-)
+
 -- 
 2.35.3
 
